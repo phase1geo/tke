@@ -371,17 +371,6 @@ namespace eval syntax {
         ctext::setIndentation $txt $reindentStarts reindentStart
         ctext::setIndentation $txt $reindents      reindent
 
-        foreach embedded $lang_array(embedded) {
-          lassign $embedded sublang embed_start embed_end
-          if {$embed_start ne ""} {
-            if {$embed_end ne ""} {
-              ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end
-            } else {
-              ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_start
-            }
-          }
-        }
-
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
         ctext::addHighlightKeywords $txt FIXME class fixme
@@ -392,6 +381,15 @@ namespace eval syntax {
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
         [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
+
+        foreach embedded $lang_array(embedded) {
+          lassign $embedded sublang embed_start embed_end
+          if {($embed_start ne "") && ($embed_end ne "")} {
+            ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end
+          } else {
+            add_sublanguage $txt $sublang $cmd_prefix
+          }
+        }
 
       } rc]} {
         [ns gui]::set_error_message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] $rc
@@ -415,6 +413,29 @@ namespace eval syntax {
     if {[info exists [ns gui]::widgets(info_syntax)]} {
       [set [ns gui]::widgets(info_syntax)] configure -text $language
     }
+
+  }
+
+  ######################################################################
+  # Add sublanguage features to current text widget.
+  proc add_sublanguage {txt language cmd_prefix} {
+
+    variable langs
+
+    array set lang_array $langs($language)
+
+    # Add the keywords
+    ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
+
+    # Add the rest of the sections
+    set_language_section $txt symbols        $lang_array(symbols) $cmd_prefix
+    set_language_section $txt punctuation    $lang_array(punctuation)
+    set_language_section $txt miscellaneous1 $lang_array(miscellaneous1)
+    set_language_section $txt miscellaneous2 $lang_array(miscellaneous2)
+    set_language_section $txt miscellaneous3 $lang_array(miscellaneous3)
+    set_language_section $txt highlighter    $lang_array(highlighter)
+    set_language_section $txt meta           $lang_array(meta)
+    set_language_section $txt advanced       $lang_array(advanced) $cmd_prefix
 
   }
 

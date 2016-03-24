@@ -1,0 +1,70 @@
+filepatterns
+{*.c *.h}
+
+vimsyntax
+{c}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent
+{{switch case default} {class public protected private}}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  return break case continue default do else for goto if switch while
+  struct union enum enumdef structdef typedef uniondef sizeof
+  void char double float int long short signed unsigned
+  auto extern register static const volatile
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
+}
+
+precompile
+{
+  HighlightWithOnlyCharStart {#} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    free malloc abort abs acos asctime asin assert atan atan2 atexit atof atoi atol bsearch
+    calloc ceil clearerr clock cos cosh ctime difftime div ecvt exit exp fabs fclose fcvt feof
+    ferror fflush fgetc fgetpos fgets floor fmod fopen fprintf fputc fputchar fputs fread free
+    freopen frexp fscanf fseek fsetpos ftell fwrite gcvt getc getchar getenv gets getw gmtime
+    isalum isalpha iscntrl isdigit isgraph islower isprint ispunct isspace isupper isxdigit itoa
+    labs ldexp ldiv lfind localtime log log10 lsearch ltoa malloc max memchr memcmp memcpy memmove
+    memset min mktime modf offsetof perror pow printf putc putchar putenv puts putw qsort raise rand
+    realloc remove rename rewind scanf setbuf setvbuf signal sin sinh sprintf sqrt srand sscanf
+    strcat strchr strcmp strcoll strcpy strcspn strerror strftime strlen strncat strncmp strncpy
+    strpbrk strrchr strspn strstr strtod strtok strtol strtoul strxfrm swab system tan tanh time
+    tmpfile tmpnam tolower toupper ultoa ungetc va_arg va_end va_start vfprintf vprintf vsprintf
+  }
+}
