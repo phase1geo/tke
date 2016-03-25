@@ -84,12 +84,6 @@ namespace eval lorem {
 
   }
 
-  proc bind_text {ttag} {
-
-    # we just need to bind so that we can insert into text widgets
-
-  }
-
   proc on_save {index} {
 
     variable paras
@@ -110,7 +104,6 @@ namespace eval lorem {
 
 # Register all plugin actions
 api::register lorem {
-  {text_binding posttext lorem all lorem::bind_text}
   {menu cascade {Ipsum Lorem} lorem::add_list}
   {on_reload lorem::on_save lorem::on_restore}
 }

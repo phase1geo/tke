@@ -1062,13 +1062,19 @@ namespace eval plugins {
       pretext  {}
       posttext {}
     }
+    
+    # Allow all plugins to access, query, and modify text widgets
+    foreach entry [find_registry_entries "*"] {
+      lassign $entry index
+      interpreter::add_ctext $registry($index,interp) $registry($index,name) $txt
+    }
 
+    # Bind text widgets to tags
     foreach entry [find_registry_entries "text_binding"] {
       lassign $entry index type name bind_type cmd
       set bt "plugin__$registry($index,name)__$name"
       if {($bind_type eq "all") || ([lsearch $tags $bt] != -1)} {
         set ptags($type) $bt
-        interpreter::add_ctext $registry($index,interp) $registry($index,name) $txt
         if {![info exists bound_tags($bt)]} {
           if {[catch { $registry($index,interp) eval $cmd $bt } status]} {
             handle_status_error "handle_text_bindings" $index $status
