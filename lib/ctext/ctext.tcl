@@ -73,6 +73,8 @@ proc ctext {win args} {
   set ctext::data($win,config,blinkAfterId)            ""
   set ctext::data($win,config,lastUpdate)              0
   set ctext::data($win,config,csl_patterns)            [list]
+  set ctext::data($win,config,csl_char_tags)           [list]
+  set ctext::data($win,config,csl_tags)                [list]
   set ctext::data($win,config,gutters)                 [list]
   set ctext::data($win,config,matchChar,curly)         1
   set ctext::data($win,config,matchChar,square)        1
