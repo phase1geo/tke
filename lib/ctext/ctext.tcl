@@ -12,6 +12,7 @@ namespace eval ctext {
   }
   array set bracket_map {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
   array set data {}
+  variable temporary {}
 }
 
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
@@ -980,6 +981,7 @@ proc ctext::instanceCmd {win cmd args} {
     replace    { return [ctext::command_replace    $win {*}$args] }
     paste      { return [ctext::command_paste      $win {*}$args] }
     peer       { return [ctext::command_peer       $win {*}$args] }
+    tag        { return [ctext::command_tag        $win {*}$args] }
     default    { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
   }
 
@@ -1552,6 +1554,36 @@ proc ctext::command_peer {win args} {
     }
     default {
       return -code error "unknown peer subcommand: [lindex $args 0]"
+    }
+  }
+
+}
+
+# We need to guarantee that embedded language tags are always listed as lowest
+# priority, so if someone calls the lower tag subcommand, we need to make sure
+# that it won't be placed lower than an embedded language tag.
+proc ctext::command_tag {win args} {
+
+  switch [lindex $args 0] {
+    lower {
+      set args [lassign $args subcmd tag]
+      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang:")} {
+        set lowest [lindex [$win._t tag names] 0]
+        if {([string range $lowest 0 5] eq "_Lang:") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
+          $win._t tag raise $tag $lowest
+          return
+        }
+      }
+      $win._t tag lower $tag {*}$args
+    }
+    raise {
+      set args [lassign $args subcmd tag]
+      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang:")} {
+        $win._t tag raise $tag {*}$args
+      }
+    }
+    default {
+      return [$win._t tag {*}$args]
     }
   }
 

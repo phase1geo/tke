@@ -276,14 +276,6 @@ namespace eval interpreter {
               return [$win tag bind {*}$args]
             }
           }
-        } elseif {$subcmd eq "lower"} {
-          set args [lassign $args tag]
-          if {([string range [set lowest [lindex [$win tag names] 0]] 0 5] eq "_Lang:") && \
-              (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
-            $win tag raise $tag $lowest
-          } else {
-            $win tag lower $tag {*}$args
-          }
         } else {
           return [$win tag $subcmd {*}$args]
         }
