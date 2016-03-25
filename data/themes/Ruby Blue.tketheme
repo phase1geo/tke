@@ -112,6 +112,7 @@ syntax,comments {#428bdd}
 syntax,cursor {#336e30}
 syntax,difference_add {#123c31}
 syntax,difference_sub {#301e31}
+syntax,embedded {#0e1625}
 syntax,foreground {#ffffff}
 syntax,highlighter {yellow}
 syntax,keywords {#f8bb00}

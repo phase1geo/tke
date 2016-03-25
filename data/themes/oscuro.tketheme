@@ -104,6 +104,7 @@ syntax,comments {#999999}
 syntax,cursor {#e87e88}
 syntax,difference_add {#346345}
 syntax,difference_sub {#524545}
+syntax,embedded {#273535}
 syntax,foreground {#f1f1f1}
 syntax,highlighter {yellow}
 syntax,keywords {#45b099}

@@ -71,6 +71,7 @@ menus,-foreground {#ffffff}
 menus,-relief {flat}
 menus,-selectcolor {black}
 meta,syntax,difference_sub {#350c0d,v,10}
+meta,syntax,embedded {#22242c,v,0}
 meta,syntax,foreground {#b6c1c1,v,0}
 meta,ttk_style,pressed_color {#1d1f26,v,0}
 sidebar,-background {#333946}
@@ -91,6 +92,7 @@ syntax,comments {#706d5b}
 syntax,cursor {#ff9900}
 syntax,difference_add {#1b2b16}
 syntax,difference_sub {#3f0e0f}
+syntax,embedded {#22242c}
 syntax,foreground {#b6c1c1}
 syntax,highlighter {#ffff00}
 syntax,keywords {#6f89ba}

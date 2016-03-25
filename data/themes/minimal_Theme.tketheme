@@ -102,6 +102,7 @@ syntax,comments {#706d5b}
 syntax,cursor {#ff9900}
 syntax,difference_add {#304b26}
 syntax,difference_sub {#4e2d26}
+syntax,embedded {#24211c}
 syntax,foreground {#fcffe0}
 syntax,highlighter {yellow}
 syntax,keywords {#afc4db}
