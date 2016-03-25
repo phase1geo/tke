@@ -85,6 +85,7 @@ menus,-disabledforeground {grey}
 menus,-foreground {black}
 menus,-relief {flat}
 menus,-selectcolor {black}
+meta,syntax,embedded {#180c0c,v,15}
 meta,ttk_style,active_color {#402020,v,25}
 sidebar,-background {#c3be98}
 sidebar,-foreground {#180c0c}
@@ -104,6 +105,7 @@ syntax,comments {#679d47}
 syntax,cursor {#6c6c6c}
 syntax,difference_add {#182a0c}
 syntax,difference_sub {#360c0c}
+syntax,embedded {#271313}
 syntax,foreground {#c3be98}
 syntax,highlighter {yellow}
 syntax,keywords {#c8a573}

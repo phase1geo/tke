@@ -2152,13 +2152,16 @@ proc ctext::setStringPatterns {win patterns {color "green"}} {
 
 }
 
-proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern} {
+proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} {
 
   variable data
 
   lappend data($win,config,csl_patterns) _LangStart:$lang $start_pattern _LangEnd:$lang $end_pattern
 
-  # $win tag configure _Lang:$lang -background green
+  if {$color ne ""} {
+    $win tag configure _Lang:$lang -background $color
+  }
+  
   lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
   lappend data($win,config,csl_tags)      _Lang:$lang
 

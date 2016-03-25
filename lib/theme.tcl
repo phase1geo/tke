@@ -102,6 +102,7 @@ namespace eval theme {
     syntax,select_foreground      {color {white} {} {0} {msgcat::mc "Foreground text color to use for selected text."}}
     syntax,strings                {color {grey} {} {0} {msgcat::mc "Foreground text color for strings."}}
     syntax,warning_width          {color {grey} {} {0} {msgcat::mc "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."}}
+    syntax,embedded               {color {#141414} {} {0} {msgcat::mc "Background color displayed in embedded language code."}}
     sidebar,-background           {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
     sidebar,-foreground           {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
     sidebar,-selectbackground     {color {1} {} {0} {msgcat::mc "Background color for all sidebar items that are selected."}}
