@@ -103,11 +103,16 @@ namespace eval interpreter {
   ######################################################################
   # Adds a ctext widget to the list of wins (however, destroying the
   # interpreter will not destroy the ctext widgets).
-  proc add_ctext {pname txt} {
+  proc add_ctext {interp pname txt} {
 
     variable interps
 
+    # Remember the text widget
     lappend interps($pname,wins) [list $txt 0] [list $txt.t 0]
+
+    # Create the alias
+    $interp alias $txt   interpreter::widget_win $pname $txt
+    $interp alias $txt.t interpreter::widget_win $pname $txt.t
 
   }
 
@@ -271,6 +276,16 @@ namespace eval interpreter {
               return [$win tag bind {*}$args]
             }
           }
+        } elseif {$subcmd eq "lower"} {
+          set args [lassign $args tag]
+          if {([string range [set lowest [lindex [$win tag names] 0]] 0 5] eq "_Lang:") && \
+              (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
+            $win tag raise $tag $lowest
+          } else {
+            $win tag lower $tag {*}$args
+          }
+        } else {
+          return [$win tag $subcmd {*}$args]
         }
       }
 

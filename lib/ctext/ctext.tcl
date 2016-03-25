@@ -2160,8 +2160,9 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
 
   if {$color ne ""} {
     $win tag configure _Lang:$lang -background $color
+    $win tag lower     _Lang:$lang
   }
-  
+
   lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
   lappend data($win,config,csl_tags)      _Lang:$lang
 
@@ -2172,7 +2173,7 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
 proc ctext::comments_char_in_range {win start end} {
 
   variable data
-  
+
   # Search for line comment starts, block comment start/end, double quote and single quote characters
   foreach char_tag $data($win,config,csl_char_tags) {
     foreach i {0 1} {
@@ -2323,7 +2324,7 @@ proc ctext::comments {win start end do_tag} {
     }
     lappend tags([lindex $match 1]) $curr_char_start end
   }
-  
+
   # Delete old, add new and re-raise tags
   foreach tag [array names tags] {
     $win tag remove $tag 1.0 end
@@ -2484,7 +2485,7 @@ proc ctext::addHighlightKeywords {win keywords type value {lang ""}} {
   if {$type eq "class"} {
     set value _$value
   }
-  
+
   foreach word $keywords {
     set data($win,highlight,keyword,$type,$lang,$word) $value
   }
@@ -2657,23 +2658,21 @@ proc ctext::doHighlight {win start end} {
   foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
     set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
     set word    [$twin get $res $wordEnd]
-    if {[set lang [lsearch -inline -glob [$twin tag names $res] _Lang:*]] ne ""} {
-      set lang [lindex [split $lang :] 1]
-    }
+    set lang    [lindex [split [lindex [$twin tag names $res] 0] :] 1]
     if {!$ctext::data($win,config,-casesensitive)} {
       set word [string tolower $word]
     }
     set firstOfWord [string index $word 0]
     if {[info exists data($win,highlight,keyword,class,$lang,$word)]} {
       $twin tag add $data($win,highlight,keyword,class,$lang,$word) $res $wordEnd
-    } elseif {[info exists data($win,highlight,charstart,class,$firstOfWord)]} {
-      $twin tag add $data($win,highlight,charstart,class,$firstOfWord) $res $wordEnd
+    } elseif {[info exists data($win,highlight,charstart,class,$lang,$firstOfWord)]} {
+      $twin tag add $data($win,highlight,charstart,class,$lang,$firstOfWord) $res $wordEnd
     }
     if {[info exists data($win,highlight,keyword,command,$lang,$word)] && \
         ![catch { {*}$data($win,highlight,keyword,command,$lang,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
-    } elseif {[info exists data($win,highlight,charstart,command,$firstOfWord)] && \
-              ![catch { {*}$data($win,highlight,charstart,command,$firstOfWord) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+    } elseif {[info exists data($win,highlight,charstart,command,$lang,$firstOfWord)] && \
+              ![catch { {*}$data($win,highlight,charstart,command,$lang,$firstOfWord) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
     if {[info exists data($win,highlight,searchword,class,$word)]} {
@@ -2689,12 +2688,11 @@ proc ctext::doHighlight {win start end} {
   if {[info exists data($win,highlight,regexps)]} {
     foreach name $data($win,highlight,regexps) {
       lassign [split $name ,] dummy type lang value
-      set lang [expr {($lang eq "") ? "*" : "_Lang:$lang"}]
       lassign $data($win,highlight,$name) re re_opts
       set i 0
       if {$type eq "class"} {
         foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
-          if {[string match $lang [lsearch -inline -glob [$twin tag names $res] _Lang:*]]} {
+          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] :] 1]} {
             set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
             $twin tag add $value $res $wordEnd
           }
@@ -2706,7 +2704,7 @@ proc ctext::doHighlight {win start end} {
           set indices [lassign $indices res]
           set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
           incr i
-          if {[string match _Lang:$lang [lsearch -inline -glob [$twin tag names $res] _Lang:*]]} {
+          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] :] 1]} {
             if {![catch { {*}$value $win $res $wordEnd } retval] && ([llength $retval] == 2)} {
               foreach sub [lindex $retval 0] {
                 if {[llength $sub] == 4} {
