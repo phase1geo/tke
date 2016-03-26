@@ -2686,6 +2686,7 @@ proc ctext::doHighlight {win start end} {
   }
 
   set twin "$win._t"
+  array set tags [list]
 
   # Handle word-based matching
   set i 0
@@ -2698,9 +2699,9 @@ proc ctext::doHighlight {win start end} {
     }
     set firstOfWord [string index $word 0]
     if {[info exists data($win,highlight,keyword,class,$lang,$word)]} {
-      $twin tag add $data($win,highlight,keyword,class,$lang,$word) $res $wordEnd
+      lappend tags($data($win,highlight,keyword,class,$lang,$word)) $res $wordEnd
     } elseif {[info exists data($win,highlight,charstart,class,$lang,$firstOfWord)]} {
-      $twin tag add $data($win,highlight,charstart,class,$lang,$firstOfWord) $res $wordEnd
+      lappend tags($data($win,highlight,charstart,class,$lang,$firstOfWord)) $res $wordEnd
     }
     if {[info exists data($win,highlight,keyword,command,$lang,$word)] && \
         ![catch { {*}$data($win,highlight,keyword,command,$lang,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
@@ -2728,7 +2729,7 @@ proc ctext::doHighlight {win start end} {
         foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
           if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] :] 1]} {
             set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-            $twin tag add $value $res $wordEnd
+            lappend tags($value) $res $wordEnd
           }
           incr i
         }
@@ -2754,6 +2755,11 @@ proc ctext::doHighlight {win start end} {
         }
       }
     }
+  }
+
+  # Add the tags
+  foreach tag [array names tags] {
+    $twin tag add $tag {*}$tags($tag)
   }
 
 }
