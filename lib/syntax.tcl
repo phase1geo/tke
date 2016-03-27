@@ -298,9 +298,9 @@ namespace eval syntax {
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
       ctext::clearHighlightClasses   $txt
-      ctext::setBlockCommentPatterns $txt {}
-      ctext::setLineCommentPatterns  $txt {}
-      ctext::setStringPatterns       $txt {}
+      ctext::setBlockCommentPatterns $txt {} {}
+      ctext::setLineCommentPatterns  $txt {} {}
+      ctext::setStringPatterns       $txt {} {}
     }
 
     [winfo parent $txt] configure -background $theme(background)
@@ -356,9 +356,9 @@ namespace eval syntax {
 
         # Add the comments, strings and indentations
         ctext::clearCommentStringPatterns $txt
-        ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
-        ctext::setLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
-        ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
+        ctext::setBlockCommentPatterns $txt {} $lang_array(bcomments) $theme(comments)
+        ctext::setLineCommentPatterns  $txt {} $lang_array(lcomments) $theme(comments)
+        ctext::setStringPatterns       $txt {} $lang_array(strings)   $theme(strings)
         ctext::setIndentation          $txt $lang_array(indent)   indent
         ctext::setIndentation          $txt $lang_array(unindent) unindent
 
@@ -439,15 +439,18 @@ namespace eval syntax {
     set_language_section $txt advanced       $lang_array(advanced) $language $cmd_prefix
 
     if {$full} {
-      
+
+      # Get the current syntax theme
+      array set theme [[ns theme]::get_syntax_colors]
+
       # Add the rest of the sections
       set_language_section $txt numbers    $lang_array(numbers) $language
       set_language_section $txt precompile $lang_array(precompile) $language
 
       # Add the comments, strings and indentations
-      # ctext::setBlockCommentPatterns $txt $lang_array(bcomments) $theme(comments)
-      # ctext::setLineCommentPatterns  $txt $lang_array(lcomments) $theme(comments)
-      # ctext::setStringPatterns       $txt $lang_array(strings)   $theme(strings)
+      ctext::setBlockCommentPatterns $txt $language $lang_array(bcomments) $theme(comments)
+      ctext::setLineCommentPatterns  $txt $language $lang_array(lcomments) $theme(comments)
+      ctext::setStringPatterns       $txt $language $lang_array(strings)   $theme(strings)
       # ctext::setIndentation          $txt $lang_array(indent)   indent
       # ctext::setIndentation          $txt $lang_array(unindent) unindent
 
@@ -469,9 +472,9 @@ namespace eval syntax {
       # Set the completer options for the given language
       # ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
       # [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
-      
+
     }
-    
+
   }
 
   ######################################################################
