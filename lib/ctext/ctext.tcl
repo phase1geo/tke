@@ -74,6 +74,7 @@ proc ctext {win args} {
   set ctext::data($win,config,lastUpdate)              0
   set ctext::data($win,config,csl_patterns)            [list]
   set ctext::data($win,config,csl_char_tags)           [list]
+  set ctext::data($win,config,lc_char_tags)            [list]
   set ctext::data($win,config,csl_tags)                [list]
   set ctext::data($win,config,gutters)                 [list]
   set ctext::data($win,config,matchChar,curly)         1
@@ -2123,63 +2124,64 @@ proc ctext::clearCommentStringPatterns {win} {
 
   set data($win,config,csl_patterns)  [list]
   set data($win,config,csl_char_tags) [list]
+  set data($win,config,lc_char_tags)  [list]
   set data($win,config,csl_tags)      [list]
 
 }
 
-proc ctext::setBlockCommentPatterns {win patterns {color "khaki"}} {
+proc ctext::setBlockCommentPatterns {win lang patterns {color "khaki"}} {
 
   variable data
 
   foreach pattern $patterns {
-    lappend data($win,config,csl_patterns) _cCommentStart [lindex $pattern 0] _cCommentEnd [lindex $pattern 1]
+    lappend data($win,config,csl_patterns) _cCommentStart:$lang [lindex $pattern 0] _cCommentEnd:$lang [lindex $pattern 1]
   }
 
   if {[llength $patterns] > 0} {
     $win tag configure _cComment -foreground $color
-    lappend data($win,config,csl_char_tags) _cCommentStart _cCommentEnd
+    lappend data($win,config,csl_char_tags) _cCommentStart:$lang _cCommentEnd:$lang
     lappend data($win,config,csl_tags)      _cComment
   } else {
-    catch { $win tag delete _cComment _cCommentStart _cCommentEnd }
+    catch { $win tag delete _cComment _cCommentStart:$lang _cCommentEnd:$lang }
   }
 
   setCommentRE $win
 
 }
 
-proc ctext::setLineCommentPatterns {win patterns {color "khaki"}} {
+proc ctext::setLineCommentPatterns {win lang patterns {color "khaki"}} {
 
   variable data
 
-  lappend data($win,config,csl_patterns) _lCommentStart [join $patterns |]
+  lappend data($win,config,csl_patterns) _lCommentStart:$lang [join $patterns |]
 
   if {[llength $patterns] > 0} {
     $win tag configure _lComment -foreground $color
-    lappend data($win,config,csl_char_tags) _lCommentStart
-    lappend data($win,config,csl_tags)      _lComment
+    lappend data($win,config,lc_char_tags) _lCommentStart:$lang
+    lappend data($win,config,csl_tags)     _lComment
   } else {
-    catch { $win tag delete _lComment _lCommentStart }
+    catch { $win tag delete _lComment _lCommentStart:$lang }
   }
 
   setCommentRE $win
 
 }
 
-proc ctext::setStringPatterns {win patterns {color "green"}} {
+proc ctext::setStringPatterns {win lang patterns {color "green"}} {
 
   variable data
 
   foreach pattern $patterns {
-    lappend data($win,config,csl_patterns) [expr {($pattern eq "'") ? "_sQuote" : "_dQuote"}] $pattern
+    lappend data($win,config,csl_patterns) [expr {($pattern eq "'") ? "_sQuote:$lang" : "_dQuote:$lang"}] $pattern
   }
 
   if {[llength $patterns] > 0} {
     $win tag configure _sString -foreground $color
     $win tag configure _dString -foreground $color
-    lappend data($win,config,csl_char_tags) _sQuote _dQuote
+    lappend data($win,config,csl_char_tags) _sQuote:$lang _dQuote:$lang
     lappend data($win,config,csl_tags)      _sString _dString
   } else {
-    catch { $win tag delete _sString _sQuote _dString _dQuote }
+    catch { $win tag delete _sString _sQuote:$lang _dString _dQuote:$lang }
   }
 
   setCommentRE $win
@@ -2209,7 +2211,7 @@ proc ctext::comments_char_in_range {win start end} {
   variable data
 
   # Search for line comment starts, block comment start/end, double quote and single quote characters
-  foreach char_tag $data($win,config,csl_char_tags) {
+  foreach char_tag [list {*}$data($win,config,csl_char_tags) {*}$data($win,config,lc_char_tags)] {
     foreach i {0 1} {
       set next_char_start [lindex [$win tag nextrange $char_tag$i $start] 0]
       set prev_char_end   [lindex [$win tag prevrange $char_tag$i $start] 1]
@@ -2293,15 +2295,16 @@ proc ctext::comments {win start end do_tag} {
 
   # Gather the list of comment ranges in the char_tags list
   foreach i {0 1} {
-    foreach {char_start char_end} [$win tag ranges _lCommentStart$i] {
-      set lineend [$win index "$char_start lineend"]
-      lappend char_tags [list $char_start $char_end _lCommentStart] [list $lineend "$lineend+1c" _lCommentEnd]
+    foreach char_tag $data($win,config,lc_char_tags) {
+      set lang [lindex [split $char_tag :] 1]
+      foreach {char_start char_end} [$win tag ranges $char_tag$i] {
+        set lineend [$win index "$char_start lineend"]
+        lappend char_tags [list $char_start $char_end _lCommentStart:$lang] [list $lineend "$lineend+1c" _lCommentEnd:$lang]
+      }
     }
     foreach char_tag $data($win,config,csl_char_tags) {
-      if {$char_tag ne "_lComment"} {
-        foreach {char_start char_end} [$win tag ranges $char_tag$i] {
-          lappend char_tags [list $char_start $char_end $char_tag]
-        }
+      foreach {char_start char_end} [$win tag ranges $char_tag$i] {
+        lappend char_tags [list $char_start $char_end $char_tag]
       }
     }
   }
@@ -2310,45 +2313,46 @@ proc ctext::comments {win start end do_tag} {
   set char_tags [lsort -dictionary -index 0 $char_tags]
 
   # Create the tag lists
-  set curr_char_tag ""
+  set curr_lang       ""
+  set curr_lang_start ""
+  set curr_char_tag   ""
   foreach char_info $char_tags {
     lassign $char_info char_start char_end char_tag
-    switch -glob $curr_char_tag {
-      "" -
-      _*End* {
+    if {($curr_char_tag eq "") || [string match "_*End:$curr_lang" $curr_char_tag]} {
+      if {[string range $char_tag 0 5] eq "_LangS"} {
+        set curr_lang       [lindex [split $char_tag :] 1]
+        set curr_lang_start $char_start
+        set curr_char_tag   ""
+      } elseif {$char_tag eq "_LangEnd:$curr_lang"} {
+        if {$curr_lang_start ne ""} {
+          lappend tags(_Lang:$curr_lang) $curr_lang_start $char_end
+        }
+        set curr_lang       ""
+        set curr_lang_start ""
+        set curr_char_tag   ""
+      } elseif {[string match "*:$curr_lang" $char_tag]} {
         set curr_char_tag   $char_tag
         set curr_char_start $char_start
       }
-      _lCommentStart {
-        if {$char_tag eq "_lCommentEnd"} {
-          lappend tags(_lComment) $curr_char_start $char_end
-          set curr_char_tag ""
-        }
+    } elseif {$curr_char_tag eq "_lCommentStart:$curr_lang"} {
+      if {$char_tag eq "_lCommentEnd:$curr_lang"} {
+        lappend tags(_lComment) $curr_char_start $char_end
+        set curr_char_tag ""
       }
-      _cCommentStart {
-        if {$char_tag eq "_cCommentEnd"} {
-          lappend tags(_cComment) $curr_char_start $char_end
-          set curr_char_tag ""
-        }
+    } elseif {$curr_char_tag eq "_cCommentStart:$curr_lang"} {
+      if {$char_tag eq "_cCommentEnd:$curr_lang"} {
+        lappend tags(_cComment) $curr_char_start $char_end
+        set curr_char_tag ""
       }
-      _dQuote {
-        if {$char_tag eq "_dQuote"} {
-          lappend tags(_dString) $curr_char_start $char_end
-          set curr_char_tag ""
-        }
+    } elseif {$curr_char_tag eq "_dQuote:$curr_lang"} {
+      if {$char_tag eq "_dQuote:$curr_lang"} {
+        lappend tags(_dString) $curr_char_start $char_end
+        set curr_char_tag ""
       }
-      _sQuote {
-        if {$char_tag eq "_sQuote"} {
-          lappend tags(_sString) $curr_char_start $char_end
-          set curr_char_tag ""
-        }
-      }
-      _LangStart:* {
-        set lang [lindex [split $curr_char_tag :] 1]
-        if {$char_tag eq "_LangEnd:$lang"} {
-          lappend tags(_Lang:$lang) $curr_char_start $char_end
-          set curr_char_tag ""
-        }
+    } elseif {$curr_char_tag eq "_sQuote:$curr_lang"} {
+      if {$char_tag eq "_sQuote:$curr_lang"} {
+        lappend tags(_sString) $curr_char_start $char_end
+        set curr_char_tag ""
       }
     }
   }

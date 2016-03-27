@@ -229,7 +229,7 @@ namespace eval interpreter {
             set opt    [lindex $args 0]
             set retval [$win entryconfigure $entry_index $opt]
             if {[lsearch $command_args $opt] != -1} {
-              lset retval 4 [lrange [lindex $retval 4 2 end]
+              lset retval 4 [lrange [lindex $retval 4] 2 end]
             }
             return $retval
           }
