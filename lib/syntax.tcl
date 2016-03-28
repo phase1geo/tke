@@ -379,8 +379,8 @@ namespace eval syntax {
         [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 0
 
         # Set the completer options for the given language
-        ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
-        [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
+        ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
+        [ns completer]::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
 
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_start embed_end
@@ -470,8 +470,8 @@ namespace eval syntax {
       [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 1
 
       # Set the completer options for the given language
-      # ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
-      # [ns completer]::set_auto_match_chars $txt.t $lang_array(matchcharsallowed)
+      ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)
+      [ns completer]::set_auto_match_chars $txt.t $language $lang_array(matchcharsallowed)
 
     }
 

@@ -511,10 +511,11 @@ namespace eval vim {
   proc do_set_matchpairs {tid val mod} {
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
+    set txt  [[ns gui]::current_txt $tid]
+    set lang [ctext::get_lang $txt insert]
 
     # Get the current match characters
-    set match_chars [ctext::getAutoMatchChars $txt]
+    set match_chars [ctext::getAutoMatchChars $txt $lang]
     set new_chars   [list]
 
     # Iterate through the match characters
@@ -535,7 +536,7 @@ namespace eval vim {
     }
 
     # Set the AutoMatchChars to the given set
-    ctext::setAutoMatchChars $txt $match_chars
+    ctext::setAutoMatchChars $txt $lang $match_chars
 
   }
 
