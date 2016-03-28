@@ -1566,9 +1566,9 @@ proc ctext::command_tag {win args} {
   switch [lindex $args 0] {
     lower {
       set args [lassign $args subcmd tag]
-      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang:")} {
+      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang=")} {
         set lowest [lindex [$win._t tag names] 0]
-        if {([string range $lowest 0 5] eq "_Lang:") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
+        if {([string range $lowest 0 5] eq "_Lang=") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
           $win._t tag raise $tag $lowest
           return
         }
@@ -1577,7 +1577,7 @@ proc ctext::command_tag {win args} {
     }
     raise {
       set args [lassign $args subcmd tag]
-      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang:")} {
+      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang=")} {
         $win._t tag raise $tag {*}$args
       }
     }
@@ -2113,8 +2113,8 @@ proc ctext::matchQuote {win} {
 }
 
 proc ctext::get_lang {win index} {
-
-  return [lindex [split [lindex [$win tag names $index] 0] :] 1]
+  
+  return [lindex [split [lindex [$win tag names $index] 0] =] 1]
 
 }
 
@@ -2196,12 +2196,12 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
   lappend data($win,config,langs) $lang
 
   if {$color ne ""} {
-    $win tag configure _Lang:$lang -background $color
-    $win tag lower     _Lang:$lang
+    $win tag configure _Lang=$lang -background $color
+    $win tag lower     _Lang=$lang
   }
 
   lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
-  lappend data($win,config,csl_tags)      _Lang:$lang
+  lappend data($win,config,csl_tags)      _Lang=$lang
 
   setCommentRE $win
 
@@ -2326,7 +2326,7 @@ proc ctext::comments {win start end do_tag} {
         set curr_char_tag   ""
       } elseif {$char_tag eq "_LangEnd:$curr_lang"} {
         if {$curr_lang_start ne ""} {
-          lappend tags(_Lang:$curr_lang) $curr_lang_start $char_end
+          lappend tags(_Lang=$curr_lang) $curr_lang_start $char_end
         }
         set curr_lang       ""
         set curr_lang_start ""
@@ -2359,7 +2359,7 @@ proc ctext::comments {win start end do_tag} {
   }
   if {[set match [lsearch -index 0 -inline -glob {{_cCommentStart _cComment} {_dQuote _dString} {_sQuote _sString} {_LangStart:* _Lang}} $curr_char_tag]] ne ""} {
     if {[lindex $match 1] eq "_Lang"} {
-      lset match 1 "_Lang:[lindex [split $curr_char_start :] 1]"
+      lset match 1 "_Lang=[lindex [split $curr_char_start :] 1]"
     }
     lappend tags([lindex $match 1]) $curr_char_start end
   }
@@ -2500,7 +2500,7 @@ proc ctext::add_font_opt {win class modifiers popts} {
 proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
 
   variable data
-
+  
   set opts [list]
 
   if {$fgcolor ne ""} {
@@ -2558,7 +2558,7 @@ proc ctext::addHighlightWithOnlyCharStart {win char type value {lang ""}} {
   if {$type eq "class"} {
     set value _$value
   }
-
+  
   set data($win,highlight,charstart,$type,$lang,$char) $value
 
 }
@@ -2703,7 +2703,7 @@ proc ctext::doHighlight {win start end} {
   foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
     set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
     set word    [$twin get $res $wordEnd]
-    set lang    [lindex [split [lindex [$twin tag names $res] 0] :] 1]
+    set lang    [lindex [split [lindex [$twin tag names $res] 0] =] 1]
     if {!$ctext::data($win,config,-casesensitive)} {
       set word [string tolower $word]
     }
@@ -2737,7 +2737,7 @@ proc ctext::doHighlight {win start end} {
       set i 0
       if {$type eq "class"} {
         foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
-          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] :] 1]} {
+          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
             set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
             lappend tags($value) $res $wordEnd
           }
@@ -2749,7 +2749,7 @@ proc ctext::doHighlight {win start end} {
           set indices [lassign $indices res]
           set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
           incr i
-          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] :] 1]} {
+          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
             if {![catch { {*}$value $win $res $wordEnd } retval] && ([llength $retval] == 2)} {
               foreach sub [lindex $retval 0] {
                 if {[llength $sub] == 4} {

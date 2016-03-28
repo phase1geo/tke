@@ -422,8 +422,13 @@ namespace eval syntax {
   proc add_sublanguage {txt language cmd_prefix full} {
 
     variable langs
-
+    
     array set lang_array $langs($language)
+    
+    # Adjust the language value if we are not performing a full insertion
+    if {!$full} {
+      set language ""
+    }
 
     # Add the keywords
     ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords $language
@@ -442,7 +447,7 @@ namespace eval syntax {
 
       # Get the current syntax theme
       array set theme [[ns theme]::get_syntax_colors]
-
+      
       # Add the rest of the sections
       set_language_section $txt numbers    $lang_array(numbers) $language
       set_language_section $txt precompile $lang_array(precompile) $language
@@ -486,7 +491,7 @@ namespace eval syntax {
 
     # Get the current syntax theme
     array set theme [[ns theme]::get_syntax_colors]
-
+    
     set meta_tags($txt) "meta"
 
     switch $section {
