@@ -78,11 +78,6 @@ proc ctext {win args} {
   set ctext::data($win,config,csl_tags)                [list]
   set ctext::data($win,config,langs)                   [list {}]
   set ctext::data($win,config,gutters)                 [list]
-  set ctext::data($win,config,matchChar,curly)         1
-  set ctext::data($win,config,matchChar,square)        1
-  set ctext::data($win,config,matchChar,paren)         1
-  set ctext::data($win,config,matchChar,angled)        1
-  set ctext::data($win,config,matchChar,double)        1
   set ctext::data($win,config,undo_hist)               [list]
   set ctext::data($win,config,undo_hist_size)          0
   set ctext::data($win,config,undo_sep_last)           -1
@@ -1384,8 +1379,8 @@ proc ctext::command_insert {win args} {
   ctext::undo_insert $win $insertPos $datlen $cursor
   ctext::handleInsertAt0 $win._t $insertPos $datlen
 
-  set lineEnd   [$win._t index "${insertPos}+${datlen}c lineend"]
-  set lines     [$win._t count -lines $lineStart $lineEnd]
+  set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
+  set lines   [$win._t count -lines $lineStart $lineEnd]
 
   foreach tag [$win._t tag names] {
     if {([string index $tag 0] eq "_") && ([lsearch $data($win,config,csl_tags) $tag] == -1)} {
@@ -1399,29 +1394,31 @@ proc ctext::command_insert {win args} {
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
 
+  set lang [ctext::get_lang $win $insertPos]
+
   switch -- $dat {
     "\}" {
-      if {$data($win,config,matchChar,curly)} {
+      if {[info exists data($win,config,matchChar,$lang,curly)]} {
         ctext::matchPair $win curlyL
       }
     }
     "\]" {
-      if {$data($win,config,matchChar,square)} {
+      if {[info exists data($win,config,matchChar,$lang,square)]} {
         ctext::matchPair $win squareL
       }
     }
     "\)" {
-      if {$data($win,config,matchChar,paren)} {
+      if {[info exists data($win,config,matchChar,$lang,paren)]} {
         ctext::matchPair $win parenL
       }
     }
     "\>" {
-      if {$data($win,config,matchChar,angled)} {
+      if {[info exists data($win,config,matchChar,$lang,angled)]} {
         ctext::matchPair $win angledL
       }
     }
     "\"" {
-      if {$data($win,config,matchChar,double)} {
+      if {[info exists data($win,config,matchChar,$lang,double)]} {
         ctext::matchQuote $win
       }
     }
@@ -1484,29 +1481,31 @@ proc ctext::command_replace {win args} {
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
 
+  set lang [ctext::get_lang $win $startPos]
+
   switch -- $dat {
     "\}" {
-      if {$data($win,config,matchChar,curly)} {
+      if {[info exists data($win,config,matchChar,$lang,curly)]} {
         ctext::matchPair $win curlyL
       }
     }
     "\]" {
-      if {$data($win,config,matchChar,square)} {
+      if {[info exists data($win,config,matchChar,$lang,square)]} {
         ctext::matchPair $win squareL
       }
     }
     "\)" {
-      if {$data($win,config,matchChar,paren)} {
+      if {[info exists data($win,config,matchChar,$lang,paren)]} {
         ctext::matchPair $win parenL
       }
     }
     "\>" {
-      if {$data($win,config,matchChar,angled)} {
+      if {[info exists data($win,config,matchChar,$lang,angled)]} {
         ctext::matchPair $win angledL
       }
     }
     "\"" {
-      if {$data($win,config,matchChar,double)} {
+      if {[info exists data($win,config,matchChar,$lang,double)]} {
         ctext::matchQuote $win
       }
     }
@@ -1917,32 +1916,30 @@ proc ctext::execute_gutter_cmd {win y cmd} {
 
 }
 
-proc ctext::getAutoMatchChars {win} {
+proc ctext::getAutoMatchChars {win lang} {
 
   variable data
 
   set chars [list]
 
-  foreach name [array names data $win,config,matchChar,*] {
-    lappend chars [lindex [split $name ,] 3]
+  foreach name [array names data $win,config,matchChar,$lang,*] {
+    lappend chars [lindex [split $name ,] 4]
   }
 
   return $chars
 
 }
 
-proc ctext::setAutoMatchChars {win matchChars} {
+proc ctext::setAutoMatchChars {win lang matchChars} {
 
   variable data
 
   # Clear the matchChars
-  foreach name [array names data $win,config,matchChar,*] {
-    set data($name) 0
-  }
+  catch { array unset data $win,config,matchChar,$lang,* }
 
   # Set the matchChars
   foreach matchChar $matchChars {
-    set data($win,config,matchChar,$matchChar) 1
+    set data($win,config,matchChar,$lang,$matchChar) 1
   }
 
 }

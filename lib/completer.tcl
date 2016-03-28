@@ -54,37 +54,38 @@ namespace eval completer {
     }
 
     # Update all text widgets
-    foreach txtt [array names lang_match_chars] {
-      set_auto_match_chars $txtt $lang_match_chars($txtt)
+    foreach key [array names lang_match_chars] {
+      lassign [split $key ,] txtt lang
+      set_auto_match_chars $txtt $lang $lang_match_chars($key)
     }
 
   }
 
   ######################################################################
   # Sets the auto-match characters based on the current language.
-  proc set_auto_match_chars {txtt matchchars} {
+  proc set_auto_match_chars {txtt lang matchchars} {
 
     variable lang_match_chars
     variable pref_complete
     variable complete
 
     # Save the language-specific match characters
-    set lang_match_chars($txtt) $matchchars
+    set lang_match_chars($txtt,$lang) $matchchars
 
     # Initialize the complete array for the given text widget
     array set complete [list \
-      $txtt,square 0 \
-      $txtt,curly  0 \
-      $txtt,angled 0 \
-      $txtt,paren  0 \
-      $txtt,double 0 \
-      $txtt,single 0 \
+      $txtt,$lang,square 0 \
+      $txtt,$lang,curly  0 \
+      $txtt,$lang,angled 0 \
+      $txtt,$lang,paren  0 \
+      $txtt,$lang,double 0 \
+      $txtt,$lang,single 0 \
     ]
 
     # Combine the language-specific match chars with preference chars
-    foreach match_char $lang_match_chars($txtt) {
+    foreach match_char $lang_match_chars($txtt,$lang) {
       if {$pref_complete($match_char)} {
-        set complete($txtt,$match_char) 1
+        set complete($txtt,$lang,$match_char) 1
       }
     }
 
@@ -112,7 +113,7 @@ namespace eval completer {
 
     # Make sure that the complete array is initialized for the text widget
     # in case there is no language
-    set_auto_match_chars $txt.t {}
+    set_auto_match_chars $txt.t {} {}
 
   }
 
@@ -147,7 +148,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,square) && ![ctext::inComment $txtt "insert-1c"]} {
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],square) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt square]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -173,7 +174,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,curly) && ![ctext::inComment $txtt "insert-1c"]} {
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],curly) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt curly]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -199,7 +200,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,angled) && ![ctext::inComment $txtt "insert-1c"]} {
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],angled) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt angled]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -225,7 +226,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,paren) && ![ctext::inComment $txtt "insert-1c"]} {
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],paren) && ![ctext::inComment $txtt "insert-1c"]} {
       if {$side eq "right"} {
         if {[skip_closing $txtt paren]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -251,7 +252,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,double)} {
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],double)} {
       if {[ctext::inDoubleQuote $txtt insert]} {
         if {([$txtt get insert] eq "\"") && ![ctext::isEscaped $txtt insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -279,7 +280,7 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,single)} {
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],single)} {
       if {[ctext::inSingleQuote $txtt insert]} {
         if {([$txtt get insert] eq "'") && ![ctext::isEscaped $txtt insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
@@ -307,34 +308,35 @@ namespace eval completer {
     variable complete
 
     if {![ctext::inComment $txtt insert-2c]} {
+      set lang [ctext::get_lang $txtt insert]
       switch [$txtt get insert-1c insert+1c] {
         "\[\]" {
-          if {$complete($txtt,square)} {
+          if {$complete($txtt,$lang,square)} {
             $txtt delete insert
           }
         }
         "\{\}" {
-          if {$complete($txtt,curly)} {
+          if {$complete($txtt,$lang,curly)} {
            $txtt delete insert
           }
         }
         "<>" {
-          if {$complete($txtt,angled)} {
+          if {$complete($txtt,$lang,angled)} {
             $txtt delete insert
           }
         }
         "()" {
-          if {$complete($txtt,paren)} {
+          if {$complete($txtt,$lang,paren)} {
             $txtt delete insert
           }
         }
         "\"\"" {
-          if {$complete($txtt,double)} {
+          if {$complete($txtt,$lang,double)} {
             $txtt delete insert
           }
         }
         "''" {
-          if {$complete($txtt,single)} {
+          if {$complete($txtt,$lang,single)} {
             $txtt delete insert
           }
         }
