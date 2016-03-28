@@ -315,7 +315,7 @@ namespace eval indent {
         set win_type $type
       }
     }
-    
+
     # If we could not find a right bracket, we have found the line that we are looking for
     if {$win_type eq "none"} {
       if {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {
@@ -345,7 +345,7 @@ namespace eval indent {
   proc newline {txtt index} {
 
     variable indent_exprs
-    
+
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
     if {($indent_exprs($txtt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txtt]} {
@@ -362,12 +362,12 @@ namespace eval indent {
 
       # Get the current indentation level
       set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
-      
+
       # If the previous line indicates an indentation is required,
       if {[line_contains_indentation $txtt "$index-1l lineend"]} {
         append indent_space [string repeat " " [get_shiftwidth $txtt]]
       }
-      
+
     }
 
     # Get the current line
@@ -464,22 +464,6 @@ namespace eval indent {
   }
 
   ######################################################################
-  # This procedure is called to get the indentation level of the given
-  # index.
-  proc get_indent_space {txtt index} {
-
-    # Check to see if the previous line requires an indentation
-
-    # Get the current indentation level
-    set indent_count   [get_tag_count $txtt indent   $start $end]
-    set reindent_count [get_tag_count $txtt reindent $start $end]
-    set unindent_count [get_tag_count $txtt unindent $start $end]
-
-    return [string repeat " " [expr ((($indent_count + $reindent_count) - $unindent_count) + $adjust) * [get_shiftwidth $txtt]]]
-
-  }
-
-  ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
   proc format_text {txtt startpos endpos} {
@@ -549,9 +533,16 @@ namespace eval indent {
 
   ######################################################################
   # Sets the indentation expressions for the given text widget.
-  proc set_indent_expressions {txtt indent unindent reindent} {
+  proc set_indent_expressions {txtt indent unindent reindent {add 0}} {
 
     variable indent_exprs
+
+    # If we are adding the given indentation expressions
+    if {$add} {
+      lappend indent   {*}[split $indent_exprs($txtt,indent) |]
+      lappend unindent {*}[split $indent_exprs($txtt,unindent) |]
+      lappend reindent {*}[split $indent_exprs($txtt,reindent) |]
+    }
 
     # Set the indentation expressions
     set indent_exprs($txtt,indent)   [join $indent |]

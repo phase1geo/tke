@@ -359,8 +359,8 @@ namespace eval syntax {
         ctext::setBlockCommentPatterns $txt {} $lang_array(bcomments) $theme(comments)
         ctext::setLineCommentPatterns  $txt {} $lang_array(lcomments) $theme(comments)
         ctext::setStringPatterns       $txt {} $lang_array(strings)   $theme(strings)
-        ctext::setIndentation          $txt $lang_array(indent)   indent
-        ctext::setIndentation          $txt $lang_array(unindent) unindent
+        ctext::setIndentation          $txt {} $lang_array(indent)   indent
+        ctext::setIndentation          $txt {} $lang_array(unindent) unindent
 
         set reindentStarts [list]
         set reindents      [list]
@@ -368,15 +368,15 @@ namespace eval syntax {
           lappend reindentStarts [lindex $reindent 0]
           lappend reindents      {*}[lrange $reindent 1 end]
         }
-        ctext::setIndentation $txt $reindentStarts reindentStart
-        ctext::setIndentation $txt $reindents      reindent
+        ctext::setIndentation $txt {} $reindentStarts reindentStart
+        ctext::setIndentation $txt {} $reindents      reindent
 
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
         ctext::addHighlightKeywords $txt FIXME class fixme
 
         # Set the indent/unindent regular expressions
-        [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
+        [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 0
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
@@ -451,23 +451,23 @@ namespace eval syntax {
       ctext::setBlockCommentPatterns $txt $language $lang_array(bcomments) $theme(comments)
       ctext::setLineCommentPatterns  $txt $language $lang_array(lcomments) $theme(comments)
       ctext::setStringPatterns       $txt $language $lang_array(strings)   $theme(strings)
-      # ctext::setIndentation          $txt $lang_array(indent)   indent
-      # ctext::setIndentation          $txt $lang_array(unindent) unindent
+      ctext::setIndentation          $txt $language $lang_array(indent)   indent
+      ctext::setIndentation          $txt $language $lang_array(unindent) unindent
 
-      # set reindentStarts [list]
-      # set reindents      [list]
-      # foreach reindent $lang_array(reindent) {
-      #   lappend reindentStarts [lindex $reindent 0]
-      #   lappend reindents      {*}[lrange $reindent 1 end]
-      # }
-      # ctext::setIndentation $txt $reindentStarts reindentStart
-      # ctext::setIndentation $txt $reindents      reindent
+      set reindentStarts [list]
+      set reindents      [list]
+      foreach reindent $lang_array(reindent) {
+        lappend reindentStarts [lindex $reindent 0]
+        lappend reindents      {*}[lrange $reindent 1 end]
+      }
+      ctext::setIndentation $txt $language $reindentStarts reindentStart
+      ctext::setIndentation $txt $language $reindents      reindent
 
       # Add the FIXME
       ctext::addHighlightKeywords $txt FIXME class fixme $language
 
       # Set the indent/unindent regular expressions
-      # [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent)
+      [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 1
 
       # Set the completer options for the given language
       # ctext::setAutoMatchChars $txt $lang_array(matchcharsallowed)
