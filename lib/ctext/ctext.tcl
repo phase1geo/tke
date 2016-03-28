@@ -76,6 +76,7 @@ proc ctext {win args} {
   set ctext::data($win,config,csl_char_tags)           [list]
   set ctext::data($win,config,lc_char_tags)            [list]
   set ctext::data($win,config,csl_tags)                [list]
+  set ctext::data($win,config,langs)                   [list {}]
   set ctext::data($win,config,gutters)                 [list]
   set ctext::data($win,config,matchChar,curly)         1
   set ctext::data($win,config,matchChar,square)        1
@@ -88,11 +89,6 @@ proc ctext {win args} {
   set ctext::data($win,config,undo_sep_next)           -1
   set ctext::data($win,config,undo_sep_size)           0
   set ctext::data($win,config,redo_hist)               [list]
-
-  set ctext::data($win,config,indentation,indent)        [list]
-  set ctext::data($win,config,indentation,unindent)      [list]
-  set ctext::data($win,config,indentation,reindent)      [list]
-  set ctext::data($win,config,indentation,reindentStart) [list]
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
@@ -985,6 +981,7 @@ proc ctext::instanceCmd {win cmd args} {
     paste      { return [ctext::command_paste      $win {*}$args] }
     peer       { return [ctext::command_peer       $win {*}$args] }
     tag        { return [ctext::command_tag        $win {*}$args] }
+    language   { return [ctext::command_language   $win {*}$args] }
     default    { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
   }
 
@@ -2118,6 +2115,12 @@ proc ctext::matchQuote {win} {
 
 }
 
+proc ctext::get_lang {win index} {
+
+  return [lindex [split [lindex [$win tag names $index] 0] :] 1]
+
+}
+
 proc ctext::clearCommentStringPatterns {win} {
 
   variable data
@@ -2193,6 +2196,7 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
   variable data
 
   lappend data($win,config,csl_patterns) _LangStart:$lang $start_pattern _LangEnd:$lang $end_pattern
+  lappend data($win,config,langs) $lang
 
   if {$color ne ""} {
     $win tag configure _Lang:$lang -background $color
@@ -2374,11 +2378,15 @@ proc ctext::comments {win start end do_tag} {
 
 }
 
-proc ctext::setIndentation {twin indentations type} {
+proc ctext::setIndentation {twin lang indentations type} {
 
   variable data
 
-  set data($twin,config,indentation,$type) $indentations
+  if {[llength $indentations] > 0} {
+    set data($twin,config,indentation,$lang,$type) [join $indentations |]
+  } else {
+    catch { unset data($twin,config,indentation,$lang,$type) }
+  }
 
 }
 
@@ -2410,15 +2418,16 @@ proc ctext::indentation {twin start end} {
 
   variable data
 
-  foreach type [list indent unindent reindentStart reindent] {
-    if {[llength $data($twin,config,indentation,$type)] > 0} {
-      set i 0
-      foreach res [$twin search -regexp -all -count lengths -- [join $data($twin,config,indentation,$type) |] $start $end] {
-        if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
-          $twin tag add _$type $res "$res+[lindex $lengths $i]c"
-        }
-        incr i
+  foreach key [array names data $twin,config,indentation,*,*] {
+    set elems [split $key ,]
+    set lang  [lindex $elems 3]
+    set type  [lindex $elems 4]
+    set i     0
+    foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
+      if {![inCommentString $twin $res] && ![isEscaped $twin $res] && ([get_lang $twin $res] eq $lang)} {
+        $twin tag add _$type $res "$res+[lindex $lengths $i]c"
       }
+      incr i
     }
   }
 
