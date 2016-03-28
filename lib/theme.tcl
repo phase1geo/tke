@@ -802,7 +802,7 @@ namespace eval theme {
   proc get_syntax_colors {} {
 
     variable syntax
-
+    
     return [array get syntax]
 
   }
@@ -874,10 +874,10 @@ namespace eval theme {
     variable widgets
     variable syntax
     variable colorizers
-
+    
     # Get the given syntax information
     array set syntax [get_category_options syntax 1]
-
+    
     # Remove theme values that aren't in the Appearance/Colorize array
     foreach name [::struct::set difference $colorizers [[ns preferences]::get Appearance/Colorize]] {
       set syntax($name) ""
@@ -1133,7 +1133,7 @@ namespace eval theme {
         lset data($name) $fields(changed) 0
       }
     }
-
+    
     return $opts
 
   }
