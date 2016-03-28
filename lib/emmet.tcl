@@ -105,8 +105,13 @@ namespace eval emmet {
 
     set txt [[ns gui]::current_txt $tid]
 
+    # Get the language of the current insertion cursor
+    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+      set lang [[ns syntax]::get_language $txt]
+    }
+
     # If the current language is CSS, translate the abbreviation as such
-    if {[[ns syntax]::get_language $txt] eq "CSS"} {
+    if {$lang eq "CSS"} {
 
       # Get the abbreviation text, translate it and insert it back into the text
       if {[regexp {(\S+)$} [$txt get "insert linestart" insert] -> abbr]} {
