@@ -68,7 +68,7 @@ namespace eval snippets {
     variable timestamps
 
     # Remove all of the current snippets
-    array unset snippets current,*
+    array unset snippets $language,*
 
     # Remove any launcher commands that would be associated with this file
     [ns launcher]::unregister [msgcat::mc "Snippet: *"]
@@ -85,11 +85,6 @@ namespace eval snippets {
         if {![info exists timestamps($lang)] || ($fstat(mtime) > $timestamps($lang))} {
           set timestamps($lang) $fstat(mtime)
           parse_snippets $lang
-        }
-
-        # Add the files to the current snippets array
-        foreach name [array names snippets $lang,*] {
-          set snippets(current,[lindex [split $name ,] 1]) $snippets($name)
         }
 
       }
@@ -209,10 +204,15 @@ namespace eval snippets {
     
     # Get the last word
     set last_word [string trim [$txtt get "insert-1c wordstart" "insert-1c wordend"]]
+    
+    # Get the current language
+    set lang [[ns utils]::get_current_lang [winfo parent $txtt]]
 
     # If the snippet exists, perform the replacement.
-    if {[info exists snippets(current,$last_word)]} {
-      return [insert_snippet $txtt $snippets(current,$last_word) "insert-1c wordstart" "insert-1c wordend"]
+    foreach type [list $lang user] {
+      if {[info exists snippets($type,$last_word)]} {
+        return [insert_snippet $txtt $snippets($type,$last_word) "insert-1c wordstart" "insert-1c wordend"]
+      }
     }
 
     return 0
@@ -438,7 +438,7 @@ namespace eval snippets {
     variable snippets_dir
 
     # Set the language
-    set language [expr {($type eq "user") ? "user" : [syntax::get_language [gui::current_txt $tid]]}]
+    set language [expr {($type eq "user") ? "user" : [[ns utils]::get_current_lang [gui::current_txt $tid]]}]
 
     # If the snippet file does not exist, create the file
     if {![file exists [set fname [file join $snippets_dir $language.snippets]]]} {
@@ -459,9 +459,12 @@ namespace eval snippets {
     variable snippets
 
     set names [list]
+    set lang  [[ns utils]::get_current_lang [[ns gui]::current_txt {}]]
 
-    foreach name [array names snippets current,*] {
-      lappend names [list [lindex [split $name ,] 1] $snippets($name)]
+    foreach type [list user lang] {
+      foreach name [array names snippets $type,*] {
+        lappend names [list [lindex [split $name ,] 1] $snippets($name)]
+      }
     }
 
     return $names
@@ -554,6 +557,6 @@ namespace eval snippets {
     .snipwin.f.t configure -height [expr {([set lines [.snipwin.f.t count -lines 1.0 end]] < 20) ? $lines : 20}]
 
   }
-
+  
 }
 

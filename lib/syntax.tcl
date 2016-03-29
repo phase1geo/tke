@@ -269,9 +269,6 @@ namespace eval syntax {
     # Set the language of the current buffer
     set_language $txt $language {*}$args
 
-    # Set the snippets for the current text widget
-    [ns snippets]::set_language $language
-
     # Set the focus back to the text editor
     [ns gui]::set_txt_focus [[ns gui]::last_txt_focus {}]
 
@@ -392,6 +389,9 @@ namespace eval syntax {
           }
         }
 
+        # Set the snippets for the current text widget
+        [ns snippets]::set_language $language
+
       } rc]} {
         [ns gui]::set_error_message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] $rc
         puts $::errorInfo
@@ -477,6 +477,9 @@ namespace eval syntax {
       # Set the completer options for the given language
       ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)
       [ns completer]::set_auto_match_chars $txt.t $language $lang_array(matchcharsallowed)
+
+      # Set the snippets for the current text widget
+      [ns snippets]::set_language $language
 
     }
 
