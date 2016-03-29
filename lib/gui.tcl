@@ -433,15 +433,9 @@ namespace eval gui {
   # Handles any preference changes to the Editor/WarningWidth setting.
   proc handle_warning_width_change {name1 name2 op} {
 
-    variable widgets
-
     # Set the warning width to the specified value
-    foreach pane [$widgets(nb_pw) panes] {
-      foreach tab [$pane.tbf.tb tabs] {
-        foreach txt_pane [$tab.pw panes] {
-          $txt_pane.txt configure -warnwidth [[ns preferences]::get Editor/WarningWidth]
-        }
-      }
+    foreach txt [get_all_texts] {
+      $txt configure -warnwidth [[ns preferences]::get Editor/WarningWidth]
     }
 
   }
@@ -450,15 +444,9 @@ namespace eval gui {
   # Handles any preference changes to the Editor/MaxUndo setting.
   proc handle_max_undo {name1 name2 op} {
 
-    variable widgets
-
     # Set the max_undo to the specified value
-    foreach pane [$widgets(nb_pw) panes] {
-      foreach tab [$pane.tbf.tb tabs] {
-        foreach txt_pane [$tab.pw panes] {
-          $txt_pane.txt configure -maxundo [[ns preferences]::get Editor/MaxUndo]
-        }
-      }
+    foreach txt [get_all_texts] {
+      $txt configure -maxundo [[ns preferences]::get Editor/MaxUndo]
     }
 
   }
@@ -468,12 +456,8 @@ namespace eval gui {
   proc handle_matching_char {name1 name2 op} {
 
     # Set the max_undo to the specified value
-    foreach pane [$widgets(nb_pw) panes] {
-      foreach tab [$pane.tbf.tb tabs] {
-        foreach txt_pane [$tab.pw panes] {
-          $txt_pane.txt configure -matchchar [[ns preferences]::get Editor/HighlightMatchingChar]
-        }
-      }
+    foreach txt [get_all_texts] {
+      $txt configure -matchchar [[ns preferences]::get Editor/HighlightMatchingChar]
     }
 
   }
