@@ -67,14 +67,11 @@ namespace eval snippets {
     variable snippets
     variable timestamps
 
-    # Remove all of the current snippets
-    array unset snippets $language,*
-
     # Remove any launcher commands that would be associated with this file
     [ns launcher]::unregister [msgcat::mc "Snippet: *"]
 
     foreach lang [list user $language] {
-
+      
       # Create language-specific snippets filename if it exists
       if {[file exists [set sfile [file join $snippets_dir $lang.snippets]]]} {
 
@@ -460,8 +457,8 @@ namespace eval snippets {
 
     set names [list]
     set lang  [[ns utils]::get_current_lang [[ns gui]::current_txt {}]]
-
-    foreach type [list user lang] {
+    
+    foreach type [list user $lang] {
       foreach name [array names snippets $type,*] {
         lappend names [list [lindex [split $name ,] 1] $snippets($name)]
       }
