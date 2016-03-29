@@ -67,10 +67,12 @@ proc ctext {win args} {
   set ctext::data($win,config,-diffaddbg)              "light green"
   set ctext::data($win,config,-folding)                0
   set ctext::data($win,config,-delimiters)             $ctext::REs(words)
+  set ctext::data($win,config,-matchchar)              0
+  set ctext::data($win,config,-matchchar_bg)           $ctext::data($win,config,-fg)
+  set ctext::data($win,config,-matchchar_fg)           $ctext::data($win,config,-bg)
   set ctext::data($win,config,re_opts)                 ""
   set ctext::data($win,config,win)                     $win
   set ctext::data($win,config,modified)                0
-  set ctext::data($win,config,blinkAfterId)            ""
   set ctext::data($win,config,lastUpdate)              0
   set ctext::data($win,config,csl_patterns)            [list]
   set ctext::data($win,config,csl_char_tags)           [list]
@@ -87,7 +89,7 @@ proc ctext {win args} {
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_cursor -highlightcolor -folding -delimiters \
+  -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
@@ -149,6 +151,11 @@ proc ctext {win args} {
   if {!$ctext::data($win,config,-linemap) && !$ctext::data($win,config,-linemap_markable) && !$ctext::data($win,config,-folding)} {
     grid remove $win.l
     grid remove $win.f
+  }
+  
+  # If -matchchar is set, create the tag
+  if {$ctext::data($win,config,-matchchar)} {
+    $win.t tag configure matchchar -foreground $ctext::data($win,config,-matchchar_fg) -background $ctext::data($win,config,-matchchar_bg)
   }
 
   bind $win.t <Configure>       [list ctext::linemapUpdate $win]
@@ -226,8 +233,6 @@ proc ctext::event:Destroy {win dWin} {
   if {![string equal $win $dWin]} {
     return
   }
-
-  catch {after cancel $data($win,config,blinkAfterId)}
 
   bgproc::killall ctext::*
 
@@ -468,6 +473,7 @@ proc ctext::buildArgParseTable win {
     }
     set data($win,config,-maxundo) $value
     ctext::undo_manage $win
+    break
   }
 
   lappend argTable {0 false no} -autoseparators {
@@ -498,6 +504,30 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {any} -delimiters {
     set data($win,config,-delimiters) $value
+    break
+  }
+  
+  lappend argTable {0 false no} -matchchar {
+    set data($win,config,-matchchar) 0
+    catch { $win tag delete matchchar }
+    break
+  }
+  
+  lappend argTable {1 true yes} -matchchar {
+    set data($win,config,-matchchar) 1
+    $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+    break
+  }
+  
+  lappend argTable {any} -matchchar_fg {
+    set data($win,config,-matchchar_fg) $value
+    $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+    break
+  }
+
+  lappend argTable {any} -matchchar_bg {
+    set data($win,config,-matchchar_bg) $value
+    $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     break
   }
 
@@ -1881,41 +1911,12 @@ proc ctext::setAutoMatchChars {win lang matchChars} {
 
 }
 
-proc ctext::tag:blink {win count {afterTriggered 0}} {
-
-  variable data
-
-  if {$count & 1} {
-    $win tag configure __ctext_blink \
-    -foreground [$win cget -bg] -background [$win cget -fg]
-  } else {
-    $win tag configure __ctext_blink \
-    -foreground [$win cget -fg] -background [$win cget -bg]
-  }
-
-  if {$afterTriggered} {
-    set data($win,config,blinkAfterId) ""
-  }
-
-  if {$count == 2} {
-    $win tag delete __ctext_blink 1.0 end
-    return
-  }
-
-  incr count
-  if {"" eq $data($win,config,blinkAfterId)} {
-    set data($win,config,blinkAfterId) [after 50 \
-    [list ctext::tag:blink $win $count [set afterTriggered 1]]]
-  }
-
-}
-
 proc ctext::matchBracket {win} {
   
   variable data
   
   # Remove the match cursor
-  catch { $win tag remove __ctext_blink 1.0 end }
+  catch { $win tag remove matchchar 1.0 end }
   
   # Get the current language
   set lang [ctext::get_lang $win insert]
@@ -2020,8 +2021,7 @@ proc ctext::matchPair {win lang pos type} {
   }
   
   if {[set pos [get_match_bracket $win $type [$win index $pos]]] ne ""} {
-    $win tag configure __ctext_blink -foreground [$win cget -bg] -background [$win cget -fg]
-    $win tag add       __ctext_blink $pos
+    $win tag add matchchar $pos
   }
 
 }
@@ -2037,13 +2037,11 @@ proc ctext::matchQuote {win lang pos tag type} {
   lassign [$win tag nextrange _$tag $pos] first last
   
   if {$first eq [$win index $pos]} {
-    $win tag configure __ctext_blink -foreground [$win cget -bg] -background [$win cget -fg]
-    $win tag add       __ctext_blink "$last-1c"
+    $win tag add matchchar "$last-1c"
   } else {
     lassign [$win tag prevrange _$tag $pos] first last
     if {$first ne ""} {
-      $win tag configure __ctext_blink -foreground [$win cget -bg] -background [$win cget -fg]
-      $win tag add       __ctext_blink $first
+      $win tag add matchchar $first
     }
   }
 
@@ -2811,7 +2809,9 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
   variable data
   
   # Check to see if the current cursor is on a bracket and match it
-  ctext::matchBracket $win
+  if {$data($win,config,-matchchar)} {
+    ctext::matchBracket $win
+  }
 
   if {![winfo exists $win.l] || \
       (($old_pos ne "") && ([lindex [split [$win._t index insert] .] 0] eq [lindex [split $old_pos .] 0]))} {
