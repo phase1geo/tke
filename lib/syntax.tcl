@@ -309,7 +309,8 @@ namespace eval syntax {
       -linemapbg $theme(background) -linemapfg $theme(line_number) \
       -linemap_select_bg $theme(cursor) -linemap_select_fg $theme(background) \
       -warnwidth_bg $theme(warning_width) -relief flat \
-      -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub)
+      -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
+      -matchchar_fg $theme(background) -matchchar_bg $theme(foreground)
 
     # Set default indent/unindent strings
     [ns indent]::set_indent_expressions $txt.t {\{} {\}} {}

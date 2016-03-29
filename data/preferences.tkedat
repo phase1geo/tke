@@ -132,6 +132,10 @@
 
 {Editor/AutoMatchChars}      {square curly angled paren double single}
 
+# If set to a value of 1, causes the character that matches the current character to be highlighted.
+
+{Editor/HighlightMatchingChar} {0}
+
 # Specifies the number of spaces that will be automatically inserted when an
 # auto-indent event occurs.
 

@@ -381,6 +381,7 @@ namespace eval gui {
     # Trace changes to the Appearance/Theme preference variable
     trace variable [ns preferences]::prefs(Editor/WarningWidth)                w [ns gui]::handle_warning_width_change
     trace variable [ns preferences]::prefs(Editor/MaxUndo)                     w [ns gui]::handle_max_undo
+    trace variable [ns preferences]::prefs(Editor/HighlightMatchingChar)       w [ns gui]::handle_matching_char
     trace variable [ns preferences]::prefs(View/AllowTabScrolling)             w [ns gui]::handle_allow_tab_scrolling
     trace variable [ns preferences]::prefs(Tools/VimMode)                      w [ns gui]::handle_vim_mode
     trace variable [ns preferences]::prefs(Appearance/EditorFontSize)          w [ns gui]::handle_editor_font_size
@@ -456,6 +457,21 @@ namespace eval gui {
       foreach tab [$pane.tbf.tb tabs] {
         foreach txt_pane [$tab.pw panes] {
           $txt_pane.txt configure -maxundo [[ns preferences]::get Editor/MaxUndo]
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Handles any preference changes to the Editor/HighlightMatchingChar setting.
+  proc handle_matching_char {name1 name2 op} {
+
+    # Set the max_undo to the specified value
+    foreach pane [$widgets(nb_pw) panes] {
+      foreach tab [$pane.tbf.tb tabs] {
+        foreach txt_pane [$tab.pw panes] {
+          $txt_pane.txt configure -matchchar [[ns preferences]::get Editor/HighlightMatchingChar]
         }
       }
     }
@@ -3501,13 +3517,11 @@ namespace eval gui {
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
-      -diff_mode $opts(-diff) \
-      -linemap [[ns preferences]::get View/ShowLineNumbers] \
+      -diff_mode $opts(-diff) -matchchar [[ns preferences]::get Editor/HighlightMatchingChar] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[[ns preferences]::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -xscrollcommand "$tab.pw.tf.hb set" -yscrollcommand "$tab.pw.tf.vb set"
-      # -yscrollcommand "[ns utils]::set_yscrollbar $tab.pw.tf.vb"
     scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt xview"
     scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt yview" \
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
@@ -3712,6 +3726,7 @@ namespace eval gui {
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
+      -matchchar [[ns preferences]::get Editor/HighlightMatchingChar] \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "$pw.tf2.hb set" \
