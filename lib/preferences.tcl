@@ -229,7 +229,7 @@ namespace eval preferences {
     variable loaded_prefs
     variable user_preferences_file
     variable prefs
-
+    
     # Get the current buffer
     set txt [[ns gui]::current_txt {}]
 
