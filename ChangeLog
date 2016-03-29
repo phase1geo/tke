@@ -1,129 +1,70 @@
-changeset:   1982:16b1e51c6c6e
-tag:         devel-2.3.6
+changeset:   1997:c45480b42196
+tag:         devel-2.3.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 24 01:41:37 2016 -0500
+date:        Mon Mar 28 08:16:22 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.6 release
+ChangeLog for devel-2.3.7 release
 
 
-changeset:   1983:09e3123ee73f
+changeset:   1998:a1ab19d4f18e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 24 01:41:41 2016 -0500
+date:        Mon Mar 28 08:16:27 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.6 for changeset 16b1e51c6c6e
+Added tag devel-2.3.7 for changeset c45480b42196
 
 
-changeset:   1984:a003e45cf01b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 24 01:55:33 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Removing unnecessary functionality in ctext.
-
-
-changeset:   1985:1329b6d2a833
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 24 02:34:45 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Checkpointing embedded syntax support.
-
-
-changeset:   1986:b33057f34620
+changeset:   1999:28171a19df2e
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Mar 24 17:47:16 2016 -0500
-files:       lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+date:        Mon Mar 28 17:40:27 2016 -0500
+files:       lib/ctext/ctext.tcl lib/syntax.tcl lib/theme.tcl lib/version.tcl
 description:
-* Checkpointing work on embedded languages.
+* Fixing issues with intermixed language syntax.
+* Fixing issues caused by using "_Lang:" (changed colon to equality operator).
 
 
-changeset:   1987:5aa0aa00fb3b
+changeset:   2000:2948d06782dc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 24 21:10:20 2016 -0500
-files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Quiverly.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/default.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/ctext/ctext.tcl lib/syntax.tcl lib/theme.tcl lib/version.tcl
+date:        Mon Mar 28 21:06:36 2016 -0500
+files:       lib/ctext/ctext.tcl lib/snippets.tcl lib/syntax.tcl lib/utils.tcl lib/version.tcl
 description:
-* Adding customizable embedded language background theme color.
-* Updating all built-in themes to set this new color to an appropriate value for the theme.
+* Adding support for snippet insertion in embedded language.
+* Adding support for editing language snippets based on the current language (including embedded languages).
+* Fixing issue with language detection in languages with multiple embedded languages.
 
 
-changeset:   1988:3fbd789a01a0
+changeset:   2001:5138cd8d76a7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 24 23:11:33 2016 -0500
-files:       lib/ctext/ctext.tcl lib/interpreter.tcl lib/plugins.tcl lib/version.tcl plugins/current_line/main.tcl
+date:        Mon Mar 28 21:16:20 2016 -0500
+files:       lib/snippets.tcl lib/version.tcl
 description:
-* Improving performance of language detection based on index.
-* Fixing issue with highlighting syntax that starts with a character.
-* Improving plugin code to better control access of ctext widgets.
+* Fixing syntax errors in snippet namespace.
 
 
-changeset:   1989:82405a6cd30d
+changeset:   2002:56906bfdce49
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 25 00:29:18 2016 -0500
-files:       lib/ctext/ctext.tcl lib/interpreter.tcl lib/version.tcl
+date:        Tue Mar 29 01:06:51 2016 -0500
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding code to guarantee that embedded language tags always have the lowest priority.
+* Changing bracket match algorithm to highlight matching bracket whenever cursor is over an enabled bracket character.
 
 
-changeset:   1990:511de03fdefc
+changeset:   2003:230cfbe5dd56
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 25 10:03:17 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Mar 29 01:55:04 2016 -0500
+files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/gui.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing syntax error in ctext.
+* Adding support for Editor/HighlightMatchingChars preference option (not completely working yet).
 
 
-changeset:   1991:fc01df17a247
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Mar 25 11:11:13 2016 -0500
-files:       lib/plugins.tcl lib/version.tcl plugins/lorem/main.tcl
-description:
-* Allowing all plugins to access text widgets (even if the plugins do not create text bindings).
-* Updating lorem plugin to eliminate call to create unused text binding.
-
-
-changeset:   1992:f2b5e90e2f45
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 26 10:28:33 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Improving doHighlight performance.
-
-
-changeset:   1993:78b900864366
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Mar 26 23:25:34 2016 -0500
-files:       data/syntax/HTML.syntax lib/ctext/ctext.tcl lib/interpreter.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding ability to handle comments/strings in an embedded language.
-* Adding <? and ?> to indent/unindent expressions in HTML syntax, respectively.
-
-
-changeset:   1994:327b480c0406
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Mar 27 22:13:06 2016 -0500
-files:       lib/ctext/ctext.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding support for indentations in embedded languages.
-* Adding support for code folding in embedded languages.
-
-
-changeset:   1995:d265ae65162b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Mar 27 23:10:21 2016 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding support for bracket completions in embedded languages.
-
-
-changeset:   1996:6da82cc83274
+changeset:   2004:9fd06ffe5bb6
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Mar 27 23:31:17 2016 -0500
-files:       data/syntax/HTML.syntax lib/emmet.tcl lib/version.tcl
+date:        Tue Mar 29 08:33:34 2016 -0500
+files:       lib/gui.tcl lib/preferences.tcl lib/version.tcl
 description:
-* Adding support for Emmet in embedded languages.
-* Adding CSS embedded support in HTML syntax.
+* Fixing issue with saving preferences.
+* Shortening code that is called when a preference file is saved.
 
 
