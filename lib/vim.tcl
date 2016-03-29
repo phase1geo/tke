@@ -398,6 +398,10 @@ namespace eval vim {
       nornu            { do_set_relativenumber $tid absolute }
       shiftwidth       -
       sw               { do_set_shiftwidth $tid $val }
+      showmatch        - 
+      sm               { do_set_showmatch $tid 1 }
+      noshowmatch      -
+      nosm             { do_set_showmatch $tid 0 }
       smartindent      -
       si               { do_set_indent_mode $tid IND+ 1 }
       nosmartindent    -
@@ -620,6 +624,14 @@ namespace eval vim {
       [ns gui]::set_info_message [msgcat::mc "Shiftwidth value is not an integer"]
     }
 
+  }
+
+  ######################################################################
+  # Sets the showmatch value in all of the text widgets.
+  proc do_set_showmatch {tid val} {
+    
+    [ns gui]::set_matching_char $val
+    
   }
 
   ######################################################################

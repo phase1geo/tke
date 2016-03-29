@@ -48,6 +48,7 @@ namespace eval gui {
   variable highlightcolor   ""
   variable auto_cwd         0
   variable numberwidth      4
+  variable show_match_char  0
 
   array set widgets         {}
   array set language        {}
@@ -455,11 +456,24 @@ namespace eval gui {
   # Handles any preference changes to the Editor/HighlightMatchingChar setting.
   proc handle_matching_char {name1 name2 op} {
 
-    # Set the max_undo to the specified value
-    foreach txt [get_all_texts] {
-      $txt configure -matchchar [[ns preferences]::get Editor/HighlightMatchingChar]
-    }
+    set_matching_char [[ns preferences]::get Editor/HighlightMatchingChar]
 
+  }
+  
+  ######################################################################
+  # Sets the -matchchar value on all displayed text widgets.
+  proc set_matching_char {value} {
+    
+    variable show_match_char
+    
+    # Save the show_match_char value
+    set show_match_char $value
+    
+    # Update all existing text widgets to the new value
+    foreach txt [get_all_texts] {
+      $txt configure -matchchar $value
+    }
+    
   }
 
   ######################################################################
@@ -3461,6 +3475,7 @@ namespace eval gui {
     variable language
     variable case_sensitive
     variable numberwidth
+    variable show_match_char
 
     array set opts {
       -diff    0
@@ -3501,7 +3516,7 @@ namespace eval gui {
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
-      -diff_mode $opts(-diff) -matchchar [[ns preferences]::get Editor/HighlightMatchingChar] \
+      -diff_mode $opts(-diff) -matchchar $show_match_char \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[[ns preferences]::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
@@ -3696,6 +3711,8 @@ namespace eval gui {
   # TBD - This is missing support for applied gutters!
   proc show_split_pane {tid} {
 
+    variable show_match_char
+    
     # Get the current paned window
     lassign [get_info {} current {tabbar tab txt txt2 diff}] tb tab txt txt2 diff
 
@@ -3709,8 +3726,7 @@ namespace eval gui {
     $pw insert 0 [frame $pw.tf2 -background $sb_opts(-background)]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
-      -maxundo [[ns preferences]::get Editor/MaxUndo] \
-      -matchchar [[ns preferences]::get Editor/HighlightMatchingChar] \
+      -maxundo [[ns preferences]::get Editor/MaxUndo] -matchchar $show_match_char \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "$pw.tf2.hb set" \
