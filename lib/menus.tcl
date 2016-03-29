@@ -2759,9 +2759,9 @@ namespace eval menus {
   proc help_user_guide {} {
 
     if {[preferences::get Help/UserGuideFormat] eq "pdf"} {
-      utils::open_file_externally "[file join $::tke_dir doc UserGuide.pdf]"
+      utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf] 1
     } else {
-      utils::open_file_externally "[file join $::tke_dir doc UserGuide.epub]"
+      utils::open_file_externally [file join $::tke_dir doc UserGuide.epub] 1
     }
 
   }
@@ -2798,7 +2798,7 @@ namespace eval menus {
     set body "Add bug description:\n\n\n\n\n$log_content"
 
     # Send an e-mail with the logfile contents
-    utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Bug Report for TKE&body=$body"
+    utils::open_file_externally "mailto:phase1geo@gmail.com?subject=Bug Report for TKE&body=$body" 1
 
   }
 
