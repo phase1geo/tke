@@ -152,11 +152,11 @@ proc ctext {win args} {
   }
 
   bind $win.t <Configure>       [list ctext::linemapUpdate $win]
+  bind $win.t <<CursorChanged>> [list ctext::linemapUpdate $win %D]
   bind $win.l <ButtonPress-1>   [list ctext::linemapToggleMark $win %y]
   bind $win.l <MouseWheel>      [list event generate $win.t <MouseWheel> -delta %D]
   bind $win.l <4>               [list event generate $win.t <4>]
   bind $win.l <5>               [list event generate $win.t <5>]
-  bind $win.t <<CursorChanged>> [list ctext::linemapUpdate $win %D]
   rename $win __ctextJunk$win
   rename $win.t $win._t
 
@@ -1152,7 +1152,7 @@ proc ctext::command_delete {win args} {
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
   ctext::modified    $win 1 [list delete $deleteStartPos $datalen $lines $moddata]
-
+  
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1302,7 +1302,6 @@ proc ctext::command_fastdelete {win args} {
   }
   $win._t delete {*}$args
   ctext::modified $win 1 [list delete [$win._t index [lindex $args 0]] $chars $lines $moddata]
-  # ctext::linemapUpdate $win
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1322,7 +1321,6 @@ proc ctext::command_fastinsert {win args} {
   ctext::handleInsertAt0 $win._t $startPos $chars
   ctext::modified $win 1 [list insert $startPos $chars $lines $moddata]
   event generate $win.t <<CursorChanged>>
-  # ctext::linemapUpdate $win
 
 }
 
@@ -1394,36 +1392,6 @@ proc ctext::command_insert {win args} {
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
 
-  set lang [ctext::get_lang $win $insertPos]
-
-  switch -- $dat {
-    "\}" {
-      if {[info exists data($win,config,matchChar,$lang,curly)]} {
-        ctext::matchPair $win curlyL
-      }
-    }
-    "\]" {
-      if {[info exists data($win,config,matchChar,$lang,square)]} {
-        ctext::matchPair $win squareL
-      }
-    }
-    "\)" {
-      if {[info exists data($win,config,matchChar,$lang,paren)]} {
-        ctext::matchPair $win parenL
-      }
-    }
-    "\>" {
-      if {[info exists data($win,config,matchChar,$lang,angled)]} {
-        ctext::matchPair $win angledL
-      }
-    }
-    "\"" {
-      if {[info exists data($win,config,matchChar,$lang,double)]} {
-        ctext::matchQuote $win
-      }
-    }
-  }
-
   ctext::modified $win 1 [list insert $insertPos $datlen $lines $moddata]
 
   event generate $win.t <<CursorChanged>>
@@ -1481,39 +1449,9 @@ proc ctext::command_replace {win args} {
   ctext::indentation $win $lineStart $lineEnd
   ctext::highlight   $win $lineStart $lineEnd
 
-  set lang [ctext::get_lang $win $startPos]
-
-  switch -- $dat {
-    "\}" {
-      if {[info exists data($win,config,matchChar,$lang,curly)]} {
-        ctext::matchPair $win curlyL
-      }
-    }
-    "\]" {
-      if {[info exists data($win,config,matchChar,$lang,square)]} {
-        ctext::matchPair $win squareL
-      }
-    }
-    "\)" {
-      if {[info exists data($win,config,matchChar,$lang,paren)]} {
-        ctext::matchPair $win parenL
-      }
-    }
-    "\>" {
-      if {[info exists data($win,config,matchChar,$lang,angled)]} {
-        ctext::matchPair $win angledL
-      }
-    }
-    "\"" {
-      if {[info exists data($win,config,matchChar,$lang,double)]} {
-        ctext::matchQuote $win
-      }
-    }
-  }
-
   ctext::modified $win 1 [list delete $startPos $deleteChars $deleteLines $moddata]
   ctext::modified $win 1 [list insert $startPos $datlen $insertLines $moddata]
-  # ctext::linemapUpdate $win
+  
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1534,7 +1472,6 @@ proc ctext::command_paste {win args} {
   ctext::handleInsertAt0 $win._t $insertPos $datalen
   set lines     [$win._t count -lines $insertPos "$insertPos+${datalen}c"]
   ctext::modified $win 1 [list insert $insertPos $datalen $lines $moddata]
-  # ctext::linemapUpdate $win
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1973,6 +1910,31 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
 
 }
 
+proc ctext::matchBracket {win} {
+  
+  variable data
+  
+  # Remove the match cursor
+  catch { $win tag remove __ctext_blink 1.0 end }
+  
+  # Get the current language
+  set lang [ctext::get_lang $win insert]
+  
+  switch -- [$win get insert] {
+    "\}" { ctext::matchPair  $win $lang insert curlyL }
+    "\{" { ctext::matchPair  $win $lang insert curlyR }
+    "\]" { ctext::matchPair  $win $lang insert squareL }
+    "\[" { ctext::matchPair  $win $lang insert squareR }
+    "\)" { ctext::matchPair  $win $lang insert parenL }
+    "\(" { ctext::matchPair  $win $lang insert parenR }
+    "\>" { ctext::matchPair  $win $lang insert angledL }
+    "\<" { ctext::matchPair  $win $lang insert angledR }
+    "\"" { ctext::matchQuote $win $lang insert dString double }
+    "'"  { ctext::matchQuote $win $lang insert sString single }
+  }
+  
+}
+
 ######################################################################
 # Returns the index of the matching bracket type where 'type' is the
 # type of bracket to find.  For example, if the current bracket is
@@ -1981,7 +1943,7 @@ proc ctext::tag:blink {win count {afterTriggered 0}} {
 proc ctext::get_match_bracket {win stype {index insert}} {
 
   set count 1
-
+  
   if {[string index $stype end] eq "R"} {
 
     set otype [string range $stype 0 end-1]L
@@ -2049,66 +2011,41 @@ proc ctext::get_match_bracket {win stype {index insert}} {
 
 }
 
-proc ctext::matchPair {win type} {
+proc ctext::matchPair {win lang pos type} {
 
-  if {[set pos [get_match_bracket $win $type [$win index "insert-1c"]]] ne ""} {
-    $win tag add __ctext_blink $pos "$pos+1c"
-    ctext::tag:blink $win 0
+  variable data
+  
+  if {![info exists data($win,config,matchChar,$lang,[string range $type 0 end-1])]} {
+    return
+  }
+  
+  if {[set pos [get_match_bracket $win $type [$win index $pos]]] ne ""} {
+    $win tag configure __ctext_blink -foreground [$win cget -bg] -background [$win cget -fg]
+    $win tag add       __ctext_blink $pos
   }
 
 }
 
-proc ctext::matchQuote {win} {
+proc ctext::matchQuote {win lang pos tag type} {
 
-  set end_quote  [$win index insert]
-  set last_found ""
-
-  if {[ctext::isEscaped $win $end_quote] || [ctext::inComment $win "$end_quote-1c"]} {
+  variable data
+  
+  if {![info exists data($win,config,matchChar,$lang,$type)]} {
     return
   }
-
-  # Figure out if we need to search forwards or backwards
-  if {[lsearch [$win tag names $end_quote-2c] _dString] == -1} {
-    set dir   "-forwards"
-    set start $end_quote
+  
+  lassign [$win tag nextrange _$tag $pos] first last
+  
+  if {$first eq [$win index $pos]} {
+    $win tag configure __ctext_blink -foreground [$win cget -bg] -background [$win cget -fg]
+    $win tag add       __ctext_blink "$last-1c"
   } else {
-    set dir   "-backwards"
-    set start [$win index "insert-1c"]
-  }
-
-  while {1} {
-
-    set start_quote [$win search $dir \" $start]
-
-    if {($start_quote eq "") || \
-        (($dir eq "-backwards") && [$win compare $start_quote > $start]) || \
-        (($dir eq "-forwards")  && [$win compare $start_quote < $start]) || \
-        (($last_found ne "") && [$win compare $last_found == $start_quote])} {
-      return
+    lassign [$win tag prevrange _$tag $pos] first last
+    if {$first ne ""} {
+      $win tag configure __ctext_blink -foreground [$win cget -bg] -background [$win cget -fg]
+      $win tag add       __ctext_blink $first
     }
-
-    set last_found $start_quote
-    if {$dir eq "-backwards"} {
-      set start $start_quote
-    } else {
-      set start [$win index "$start_quote+1c"]
-    }
-
-    if {[ctext::isEscaped $win $last_found] || [inComment $win $last_found]} {
-      continue
-    }
-
-    break
-
   }
-
-  # Use last_found
-  if {$dir eq "-backwards"} {
-    $win tag add __ctext_blink $start_quote $end_quote
-  } else {
-    $win tag add __ctext_blink $end_quote $start_quote
-  }
-  ctext::tag:blink $win 0
 
 }
 
@@ -2872,6 +2809,9 @@ proc ctext::linemapClearMark {win line} {
 proc ctext::linemapUpdate {win {old_pos ""}} {
 
   variable data
+  
+  # Check to see if the current cursor is on a bracket and match it
+  ctext::matchBracket $win
 
   if {![winfo exists $win.l] || \
       (($old_pos ne "") && ([lindex [split [$win._t index insert] .] 0] eq [lindex [split $old_pos .] 0]))} {
