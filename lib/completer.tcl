@@ -152,7 +152,6 @@ namespace eval completer {
       if {$side eq "right"} {
         if {[skip_closing $txtt square]} {
           ::tk::TextSetCursor $txtt "insert+1c"
-          ctext::matchPair [winfo parent $txtt] squareL
           return 1
         }
       } else {
@@ -178,7 +177,6 @@ namespace eval completer {
       if {$side eq "right"} {
         if {[skip_closing $txtt curly]} {
           ::tk::TextSetCursor $txtt "insert+1c"
-          ctext::matchPair [winfo parent $txtt] curlyL
           return 1
         }
       } else {
@@ -204,7 +202,6 @@ namespace eval completer {
       if {$side eq "right"} {
         if {[skip_closing $txtt angled]} {
           ::tk::TextSetCursor $txtt "insert+1c"
-          ctext::matchPair [winfo parent $txtt] angledL
           return 1
         }
       } else {
@@ -230,7 +227,6 @@ namespace eval completer {
       if {$side eq "right"} {
         if {[skip_closing $txtt paren]} {
           ::tk::TextSetCursor $txtt "insert+1c"
-          ctext::matchPair [winfo parent $txtt] parenL
           return 1
         }
       } else {
@@ -256,7 +252,6 @@ namespace eval completer {
       if {[ctext::inDoubleQuote $txtt insert]} {
         if {([$txtt get insert] eq "\"") && ![ctext::isEscaped $txtt insert]} {
           ::tk::TextSetCursor $txtt "insert+1c"
-          ctext::matchQuote [winfo parent $txtt]
           return 1
         }
       } elseif {[ctext::inDoubleQuote $txtt end-1c]} {
