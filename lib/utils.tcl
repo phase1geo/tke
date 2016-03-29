@@ -636,4 +636,16 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Returns the full language name at the current insertion index.
+  proc get_current_lang {txt} {
+    
+    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+      set lang [[ns syntax]::get_language $txt]
+    }
+    
+    return $lang
+    
+  }
+  
 }

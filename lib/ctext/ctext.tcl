@@ -1567,8 +1567,8 @@ proc ctext::command_tag {win args} {
     lower {
       set args [lassign $args subcmd tag]
       if {($tag ne "") && ([string range $tag 0 5] ne "_Lang=")} {
-        set lowest [lindex [$win._t tag names] 0]
-        if {([string range $lowest 0 5] eq "_Lang=") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
+        set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang=*] end]
+        if {($lowest ne "") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
           $win._t tag raise $tag $lowest
           return
         }
