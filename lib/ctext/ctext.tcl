@@ -78,6 +78,8 @@ proc ctext {win args} {
   set ctext::data($win,config,csl_char_tags)           [list]
   set ctext::data($win,config,lc_char_tags)            [list]
   set ctext::data($win,config,csl_tags)                [list]
+  set ctext::data($win,config,csl_array)               [list]
+  set ctext::data($win,config,csl_tag_pair)            [list]
   set ctext::data($win,config,langs)                   [list {}]
   set ctext::data($win,config,gutters)                 [list]
   set ctext::data($win,config,undo_hist)               [list]
@@ -152,7 +154,7 @@ proc ctext {win args} {
     grid remove $win.l
     grid remove $win.f
   }
-  
+
   # If -matchchar is set, create the tag
   if {$ctext::data($win,config,-matchchar)} {
     $win.t tag configure matchchar -foreground $ctext::data($win,config,-matchchar_fg) -background $ctext::data($win,config,-matchchar_bg)
@@ -506,19 +508,19 @@ proc ctext::buildArgParseTable win {
     set data($win,config,-delimiters) $value
     break
   }
-  
+
   lappend argTable {0 false no} -matchchar {
     set data($win,config,-matchchar) 0
     catch { $win tag delete matchchar }
     break
   }
-  
+
   lappend argTable {1 true yes} -matchchar {
     set data($win,config,-matchchar) 1
     $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     break
   }
-  
+
   lappend argTable {any} -matchchar_fg {
     set data($win,config,-matchchar_fg) $value
     $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
@@ -1162,27 +1164,14 @@ proc ctext::command_delete {win args} {
   ctext::undo_delete          $win $deleteStartPos $deleteEndPos
   ctext::linemapCheckOnDelete $win $deleteStartPos $deleteEndPos
 
-  # Figure out if a comment/string character is being deleted
-  set char_found [comments_char_in_range $win $deleteStartPos $deleteEndPos]
+  set chars_deleted [ctext::comments_chars_deleted $win $deleteStartPos $deleteEndPos]
 
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  # Delete all tags in the deleted line(s)
-  foreach tag [$win._t tag names] {
-    if {([string index $tag 0] eq "_") && ([lsearch $data($win,config,csl_tags) $tag] == -1)} {
-      $win._t tag remove $tag $lineStart $lineEnd
-    }
-  }
+  ctext::highlightAll $win $lineStart $lineEnd $chars_deleted
+  ctext::modified     $win 1 [list delete $deleteStartPos $datalen $lines $moddata]
 
-  # Perform tagging and syntax highlighting
-  ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd $char_found
-  ctext::brackets    $win $lineStart $lineEnd
-  ctext::indentation $win $lineStart $lineEnd
-  ctext::highlight   $win $lineStart $lineEnd
-  ctext::modified    $win 1 [list delete $deleteStartPos $datalen $lines $moddata]
-  
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1361,17 +1350,7 @@ proc ctext::command_highlight {win args} {
   set lineStart [$win._t index "[lindex $args 0] linestart"]
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
-  foreach tag [$win._t tag names] {
-    if {([string index $tag 0] eq "_") && ([lsearch $data($win,config,csl_tags) $tag] == -1)} {
-      $win._t tag remove $tag $lineStart $lineEnd
-    }
-  }
-
-  ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd 1
-  ctext::brackets    $win $lineStart $lineEnd
-  ctext::indentation $win $lineStart $lineEnd
-  ctext::highlight   $win $lineStart $lineEnd
+  ctext::highlightAll $win $lineStart $lineEnd
 
 }
 
@@ -1410,19 +1389,8 @@ proc ctext::command_insert {win args} {
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
   set lines   [$win._t count -lines $lineStart $lineEnd]
 
-  foreach tag [$win._t tag names] {
-    if {([string index $tag 0] eq "_") && ([lsearch $data($win,config,csl_tags) $tag] == -1)} {
-      $win._t tag remove $tag $lineStart $lineEnd
-    }
-  }
-
-  ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [comments_do_tag $win $insertPos $datlen]
-  ctext::brackets    $win $lineStart $lineEnd
-  ctext::indentation $win $lineStart $lineEnd
-  ctext::highlight   $win $lineStart $lineEnd
-
-  ctext::modified $win 1 [list insert $insertPos $datlen $lines $moddata]
+  ctext::highlightAll $win $lineStart $lineEnd [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
+  ctext::modified     $win 1 [list insert $insertPos $datlen $lines $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1454,8 +1422,7 @@ proc ctext::command_replace {win args} {
 
   ctext::undo_delete $win $startPos $endPos
 
-  # Figure out if a comment character will be deleted
-  set char_deleted [comments_char_in_range $win $startPos $endPos]
+  set chars_deleted [ctext::comments_chars_deleted $win $startPos $endPos]
 
   # Perform the text replacement
   $win._t replace {*}$args
@@ -1466,22 +1433,10 @@ proc ctext::command_replace {win args} {
   set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
-  foreach tag [$win._t tag names] {
-    if {([string index $tag 0] eq "_") && ([lsearch $data($win,config,csl_tags) $tag] == -1)} {
-      $win._t tag remove $tag $lineStart $lineEnd
-    }
-  }
+  ctext::highlightAll $win $lineStart $lineEnd [expr {$chars_deleted || [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
+  ctext::modified     $win 1 [list delete $startPos $deleteChars $deleteLines $moddata]
+  ctext::modified     $win 1 [list insert $startPos $datlen $insertLines $moddata]
 
-  # Perform tagging and syntax highlighting
-  ctext::escapes     $win $lineStart $lineEnd
-  ctext::comments    $win $lineStart $lineEnd [expr $char_deleted || [comments_do_tag $win $startPos $datlen]]
-  ctext::brackets    $win $lineStart $lineEnd
-  ctext::indentation $win $lineStart $lineEnd
-  ctext::highlight   $win $lineStart $lineEnd
-
-  ctext::modified $win 1 [list delete $startPos $deleteChars $deleteLines $moddata]
-  ctext::modified $win 1 [list insert $startPos $datlen $insertLines $moddata]
-  
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1912,15 +1867,15 @@ proc ctext::setAutoMatchChars {win lang matchChars} {
 }
 
 proc ctext::matchBracket {win} {
-  
+
   variable data
-  
+
   # Remove the match cursor
   catch { $win tag remove matchchar 1.0 end }
-  
+
   # Get the current language
   set lang [ctext::get_lang $win insert]
-  
+
   switch -- [$win get insert] {
     "\}" { ctext::matchPair  $win $lang insert curlyL }
     "\{" { ctext::matchPair  $win $lang insert curlyR }
@@ -1933,7 +1888,7 @@ proc ctext::matchBracket {win} {
     "\"" { ctext::matchQuote $win $lang insert dString double }
     "'"  { ctext::matchQuote $win $lang insert sString single }
   }
-  
+
 }
 
 ######################################################################
@@ -1944,7 +1899,7 @@ proc ctext::matchBracket {win} {
 proc ctext::get_match_bracket {win stype {index insert}} {
 
   set count 1
-  
+
   if {[string index $stype end] eq "R"} {
 
     set otype [string range $stype 0 end-1]L
@@ -2015,11 +1970,11 @@ proc ctext::get_match_bracket {win stype {index insert}} {
 proc ctext::matchPair {win lang pos type} {
 
   variable data
-  
+
   if {![info exists data($win,config,matchChar,$lang,[string range $type 0 end-1])]} {
     return
   }
-  
+
   if {[set pos [get_match_bracket $win $type [$win index $pos]]] ne ""} {
     $win tag add matchchar $pos
   }
@@ -2029,13 +1984,13 @@ proc ctext::matchPair {win lang pos type} {
 proc ctext::matchQuote {win lang pos tag type} {
 
   variable data
-  
+
   if {![info exists data($win,config,matchChar,$lang,$type)]} {
     return
   }
-  
+
   lassign [$win tag nextrange _$tag $pos] first last
-  
+
   if {$first eq [$win index $pos]} {
     $win tag add matchchar "$last-1c"
   } else {
@@ -2048,7 +2003,7 @@ proc ctext::matchQuote {win lang pos tag type} {
 }
 
 proc ctext::get_lang {win index} {
-  
+
   return [lindex [split [lindex [$win tag names $index] 0] =] 1]
 
 }
@@ -2061,6 +2016,8 @@ proc ctext::clearCommentStringPatterns {win} {
   set data($win,config,csl_char_tags) [list]
   set data($win,config,lc_char_tags)  [list]
   set data($win,config,csl_tags)      [list]
+  set data($win,config,csl_array)     [list]
+  set data($win,config,csl_tag_pair)  [list]
 
 }
 
@@ -2072,12 +2029,16 @@ proc ctext::setBlockCommentPatterns {win lang patterns {color "khaki"}} {
     lappend data($win,config,csl_patterns) _cCommentStart:$lang [lindex $pattern 0] _cCommentEnd:$lang [lindex $pattern 1]
   }
 
+  array set tags [list _cCommentStart:${lang}0 1 _cCommentStart:${lang}1 1 _cCommentEnd:${lang}0 1 _cCommentEnd:${lang}1 1 _cComment 1]
+
   if {[llength $patterns] > 0} {
     $win tag configure _cComment -foreground $color
     lappend data($win,config,csl_char_tags) _cCommentStart:$lang _cCommentEnd:$lang
     lappend data($win,config,csl_tags)      _cComment
+    lappend data($win,config,csl_array)     {*}[array get tags]
+    lappend data($win,config,csl_tag_pair)  _cCommentStart:$lang _cComment
   } else {
-    catch { $win tag delete _cComment _cCommentStart:$lang _cCommentEnd:$lang }
+    catch { $win tag delete {*}[array names tags] }
   }
 
   setCommentRE $win
@@ -2090,12 +2051,15 @@ proc ctext::setLineCommentPatterns {win lang patterns {color "khaki"}} {
 
   lappend data($win,config,csl_patterns) _lCommentStart:$lang [join $patterns |]
 
+  array set tags [list _lCommentStart:${lang}0 1 _lCommentStart:${lang}1 1 _lComment 1]
+
   if {[llength $patterns] > 0} {
     $win tag configure _lComment -foreground $color
     lappend data($win,config,lc_char_tags) _lCommentStart:$lang
     lappend data($win,config,csl_tags)     _lComment
+    lappend data($win,config,csl_array)    {*}[array get tags]
   } else {
-    catch { $win tag delete _lComment _lCommentStart:$lang }
+    catch { $win tag delete {*}[array names tags] }
   }
 
   setCommentRE $win
@@ -2110,13 +2074,17 @@ proc ctext::setStringPatterns {win lang patterns {color "green"}} {
     lappend data($win,config,csl_patterns) [expr {($pattern eq "'") ? "_sQuote:$lang" : "_dQuote:$lang"}] $pattern
   }
 
+  array set tags [list _sQuote:${lang}0 1 _sQuote:${lang}1 1 _dQuote:${lang}0 1 _dQuote:${lang}1 1 _sString 1 _dString 1]
+
   if {[llength $patterns] > 0} {
     $win tag configure _sString -foreground $color
     $win tag configure _dString -foreground $color
     lappend data($win,config,csl_char_tags) _sQuote:$lang _dQuote:$lang
     lappend data($win,config,csl_tags)      _sString _dString
+    lappend data($win,config,csl_array)     {*}[array get tags]
+    lappend data($win,config,csl_tag_pair)  _sQuote:$lang _sString _dQuote:$lang _dString
   } else {
-    catch { $win tag delete _sString _sQuote:$lang _dString _dQuote:$lang }
+    catch { $win tag delete {*}[array names tags] }
   }
 
   setCommentRE $win
@@ -2137,59 +2105,69 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
 
   lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
   lappend data($win,config,csl_tags)      _Lang=$lang
+  lappend data($win,config,csl_array)     _LangStart:${lang}0 1 _LangStart:${lang}1 1 _LangEnd:${lang}0 1 _LangEnd:${lang}1 1 _Lang=$lang 1
+  lappend data($win,config,csl_tag_pair)  _LangStart:$lang _Lang=$lang
 
   setCommentRE $win
 
 }
 
-proc ctext::comments_char_in_range {win start end} {
+proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
 
   variable data
 
-  # Search for line comment starts, block comment start/end, double quote and single quote characters
-  foreach char_tag [list {*}$data($win,config,csl_char_tags) {*}$data($win,config,lc_char_tags)] {
-    foreach i {0 1} {
-      set next_char_start [lindex [$win tag nextrange $char_tag$i $start] 0]
-      set prev_char_end   [lindex [$win tag prevrange $char_tag$i $start] 1]
-      if {(($next_char_start ne "") && [$win compare $next_char_start < $end]) || \
-          (($prev_char_end   ne "") && [$win compare $prev_char_end   > $start])} {
-        return 1
-      }
+  array set csl_array $data($win,config,csl_array)
+
+  foreach tag [$win._t tag names] {
+    if {([string index $tag 0] eq "_") && ![info exists csl_array($tag)]} {
+      $win._t tag remove $tag $linestart $lineend
     }
   }
 
-  # Search for endlines within line comments
-  set startIndex 0
-  set str        [$win get $start $end]
-  while {[set index [string first \n $str $startIndex]] != -1} {
-    if {[inLineComment $win "$start+${index}c"]} {
+  ctext::escapes     $win $linestart $lineend
+  ctext::comments    $win $linestart $lineend $do_tag
+  ctext::brackets    $win $linestart $lineend
+  ctext::indentation $win $linestart $lineend
+  ctext::highlight   $win $linestart $lineend
+
+}
+
+proc ctext::get_tag_in_range {win tag start end} {
+
+  set indices [list]
+
+  while {1} {
+    lassign [$win tag nextrange $tag $start] tag_start tag_end
+    if {($tag_start ne "") && [$win compare $tag_start < $end]} {
+      lappend indices $tag_start $tag_end
+    } else {
+      break
+    }
+    set start $tag_end
+  }
+
+  return $indices
+
+}
+
+proc ctext::comments_chars_deleted {win start end} {
+
+  variable data
+
+  foreach {tag dummy} $data($win,config,csl_array) {
+    lassign [$win tag nextrange $tag $start] tag_start tag_end
+    if {($tag_start ne "") && [$win compare $tag_start < $end]} {
       return 1
     }
-    set startIndex [expr $index + 1]
   }
 
   return 0
 
 }
 
-proc ctext::comments_do_tag {win insert_pos insert_len} {
+proc ctext::comments_do_tag {win start end} {
 
-  variable data
-
-  if {$insert_len == 1} {
-    set i 0
-    foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $data($win,config,csl_re) "$insert_pos linestart" "$insert_pos lineend"] {
-      if {![isEscaped $win $index] && [$win compare $index <= $insert_pos] && [$win compare $insert_pos < "$index+[lindex $lengths $i]c"]} {
-        return 1
-      }
-      incr i
-    }
-    return [expr {[inLineComment $win $insert_pos] && ([$win get $insert_pos] eq "\n")}]
-  } else {
-    set dat [$win get "$insert_pos linestart" "$insert_pos+${insert_len}c lineend"]
-    return [expr {[regexp -line {*}$data($win,config,re_opts) -- $data($win,config,csl_re) $dat] || \
-                  ([inLineComment $win $insert_pos] && ([string first \n $dat] != -1))}]
-  }
+  return [expr {[inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)}]
 
 }
 
@@ -2203,19 +2181,22 @@ proc ctext::comments {win start end do_tag} {
     array set indices {0 {} 1 {}}
     foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
       if {![isEscaped $win $index]} {
+        set end_index [$win index "$index+[lindex $lengths $i]c"]
         if {[string index $pattern 0] eq "^"} {
-          set match [$win get $index "$index+[lindex $lengths $i]c"]
+          set match [$win get $index $end_index]
           set diff  [expr [string length $match] - [string length [string trimleft $match]]]
-          lappend indices([expr $i & 1]) "$index+${diff}c" "$index+[lindex $lengths $i]c"
+          lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
         } else {
-          lappend indices([expr $i & 1]) $index "$index+[lindex $lengths $i]c"
+          lappend indices([expr $i & 1]) $index $end_index
         }
       }
       incr i
     }
     foreach j {0 1} {
-      if {[llength $indices($j)] > 0} {
-        $win tag add $tag$j {*}$indices($j)
+      if {$indices($j) ne [ctext::get_tag_in_range $win $tag$j $start $end]} {
+        $win tag remove $tag$j $start $end
+        catch { $win tag add $tag$j {*}$indices($j) } rc
+        set do_tag 1
       }
     }
   }
@@ -2292,11 +2273,9 @@ proc ctext::comments {win start end do_tag} {
       }
     }
   }
-  if {[set match [lsearch -index 0 -inline -glob {{_cCommentStart _cComment} {_dQuote _dString} {_sQuote _sString} {_LangStart:* _Lang}} $curr_char_tag]] ne ""} {
-    if {[lindex $match 1] eq "_Lang"} {
-      lset match 1 "_Lang=[lindex [split $curr_char_start :] 1]"
-    }
-    lappend tags([lindex $match 1]) $curr_char_start end
+  array set tag_pairs $data($win,config,csl_tag_pair)
+  if {[info exists tag_pairs($curr_char_tag)]} {
+    lappend tags($tag_pairs($curr_char_tag)) $curr_char_start end
   }
 
   # Delete old, add new and re-raise tags
@@ -2435,7 +2414,7 @@ proc ctext::add_font_opt {win class modifiers popts} {
 proc ctext::addHighlightClass {win class fgcolor {bgcolor ""} {font_opts ""}} {
 
   variable data
-  
+
   set opts [list]
 
   if {$fgcolor ne ""} {
@@ -2493,7 +2472,7 @@ proc ctext::addHighlightWithOnlyCharStart {win char type value {lang ""}} {
   if {$type eq "class"} {
     set value _$value
   }
-  
+
   set data($win,highlight,charstart,$type,$lang,$char) $value
 
 }
@@ -2807,7 +2786,7 @@ proc ctext::linemapClearMark {win line} {
 proc ctext::linemapUpdate {win {old_pos ""}} {
 
   variable data
-  
+
   # Check to see if the current cursor is on a bracket and match it
   if {$data($win,config,-matchchar)} {
     ctext::matchBracket $win
