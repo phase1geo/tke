@@ -2025,9 +2025,16 @@ proc ctext::setBlockCommentPatterns {win lang patterns {color "khaki"}} {
 
   variable data
 
+  set start_patterns [list]
+  set end_patterns   [list]
+
   foreach pattern $patterns {
-    lappend data($win,config,csl_patterns) _cCommentStart:$lang [lindex $pattern 0] _cCommentEnd:$lang [lindex $pattern 1]
+    lappend start_patterns [lindex $pattern 0]
+    lappend end_patterns   [lindex $pattern 1]
   }
+
+  lappend data($win,config,csl_patterns) _cCommentStart:$lang [join $start_patterns |]
+  lappend data($win,config,csl_patterns) _cCommentEnd:$lang   [join $end_patterns   |]
 
   array set tags [list _cCommentStart:${lang}0 1 _cCommentStart:${lang}1 1 _cCommentEnd:${lang}0 1 _cCommentEnd:${lang}1 1 _cComment 1]
 
@@ -2049,7 +2056,9 @@ proc ctext::setLineCommentPatterns {win lang patterns {color "khaki"}} {
 
   variable data
 
-  lappend data($win,config,csl_patterns) _lCommentStart:$lang [join $patterns |]
+  if {[llength $patterns] > 0} {
+    lappend data($win,config,csl_patterns) _lCommentStart:$lang [join $patterns |]
+  }
 
   array set tags [list _lCommentStart:${lang}0 1 _lCommentStart:${lang}1 1 _lComment 1]
 
@@ -2195,7 +2204,7 @@ proc ctext::comments {win start end do_tag} {
     foreach j {0 1} {
       if {$indices($j) ne [ctext::get_tag_in_range $win $tag$j $start $end]} {
         $win tag remove $tag$j $start $end
-        catch { $win tag add $tag$j {*}$indices($j) } rc
+        catch { $win tag add $tag$j {*}$indices($j) }
         set do_tag 1
       }
     }
