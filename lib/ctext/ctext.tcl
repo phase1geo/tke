@@ -2133,11 +2133,22 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
     }
   }
 
-  ctext::escapes     $win $linestart $lineend
-  ctext::comments    $win $linestart $lineend $do_tag
-  ctext::brackets    $win $linestart $lineend
-  ctext::indentation $win $linestart $lineend
-  ctext::highlight   $win $linestart $lineend
+  ctext::escapes $win $linestart $lineend
+  
+  if {[ctext::comments $win $linestart $lineend $do_tag]} {
+    foreach tag [$win._t tag names] {
+      if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
+        $win._t tag remove $tag $lineend end
+      }
+    }
+    ctext::brackets    $win $linestart end
+    ctext::indentation $win $linestart end
+    ctext::highlight   $win $linestart end
+  } else {
+    ctext::brackets    $win $linestart $lineend
+    ctext::indentation $win $linestart $lineend
+    ctext::highlight   $win $linestart $lineend
+  }
 
 }
 
@@ -2183,6 +2194,12 @@ proc ctext::comments_do_tag {win start end} {
 proc ctext::comments {win start end do_tag} {
 
   variable data
+  
+  array set tag_changed [list]
+  
+  if {$do_tag} {
+    set tag_changed(general) 1
+  }
 
   # First, tag all string/comment patterns found between start and end
   foreach {tag pattern} $data($win,config,csl_patterns) {
@@ -2205,13 +2222,13 @@ proc ctext::comments {win start end do_tag} {
       if {$indices($j) ne [ctext::get_tag_in_range $win $tag$j $start $end]} {
         $win tag remove $tag$j $start $end
         catch { $win tag add $tag$j {*}$indices($j) }
-        set do_tag 1
+        set tag_changed($tag) 1
       }
     }
   }
 
-  # If we didn't find any comment/string characters, no need to continue.
-  if {!$do_tag} { return }
+  # If we didn't find any comment/string characters that changed, no need to continue.
+  if {[array size tag_changed] == 0} { return 0 }
 
   # Initialize tags
   foreach tag $data($win,config,csl_tags) {
@@ -2286,6 +2303,9 @@ proc ctext::comments {win start end do_tag} {
   if {[info exists tag_pairs($curr_char_tag)]} {
     lappend tags($tag_pairs($curr_char_tag)) $curr_char_start end
   }
+  if {$curr_lang ne ""} {
+    lappend tags(_Lang=$curr_lang) $curr_lang_start end
+  }
 
   # Delete old, add new and re-raise tags
   foreach tag [array names tags] {
@@ -2295,6 +2315,8 @@ proc ctext::comments {win start end do_tag} {
       $win tag raise $tag
     }
   }
+  
+  return [expr {[llength [array names tag_changed _Lang*]] > 0}]
 
 }
 
