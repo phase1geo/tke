@@ -1,70 +1,80 @@
-changeset:   1997:c45480b42196
-tag:         devel-2.3.7
+changeset:   2005:e2a9591154dd
+tag:         devel-2.3.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 28 08:16:22 2016 -0500
+date:        Tue Mar 29 08:35:59 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.7 release
+ChangeLog for devel-2.3.8 release
 
 
-changeset:   1998:a1ab19d4f18e
+changeset:   2006:df1289deb491
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 28 08:16:27 2016 -0500
+date:        Tue Mar 29 08:36:04 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.7 for changeset c45480b42196
+Added tag devel-2.3.8 for changeset e2a9591154dd
 
 
-changeset:   1999:28171a19df2e
+changeset:   2007:4102f2068674
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Mar 28 17:40:27 2016 -0500
-files:       lib/ctext/ctext.tcl lib/syntax.tcl lib/theme.tcl lib/version.tcl
+date:        Tue Mar 29 16:14:27 2016 -0500
+files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing issues with intermixed language syntax.
-* Fixing issues caused by using "_Lang:" (changed colon to equality operator).
+* Adding showmatch Vim option support.
 
 
-changeset:   2000:2948d06782dc
+changeset:   2008:95c772ab2665
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Mar 29 16:52:08 2016 -0500
+files:       lib/menus.tcl lib/utils.tcl lib/version.tcl
+description:
+* Adding in_background external file opening support in Linux.
+* Changing external file opening in Help menu to run in background.
+
+
+changeset:   2009:0a6d5e8d02bd
+parent:      1996:6da82cc83274
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 28 21:06:36 2016 -0500
-files:       lib/ctext/ctext.tcl lib/snippets.tcl lib/syntax.tcl lib/utils.tcl lib/version.tcl
+date:        Sun Mar 27 23:41:45 2016 -0500
+files:       data/syntax/HTML.syntax lib/version.tcl
 description:
-* Adding support for snippet insertion in embedded language.
-* Adding support for editing language snippets based on the current language (including embedded languages).
-* Fixing issue with language detection in languages with multiple embedded languages.
+* Adding JavaScript embedded language in HTML.
 
 
-changeset:   2001:5138cd8d76a7
+changeset:   2010:0d3cf6ffe946
+parent:      2009:0a6d5e8d02bd
+parent:      1998:a1ab19d4f18e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 28 21:16:20 2016 -0500
-files:       lib/snippets.tcl lib/version.tcl
+date:        Mon Mar 28 08:56:39 2016 -0500
+files:       lib/version.tcl
 description:
-* Fixing syntax errors in snippet namespace.
+Merge
 
 
-changeset:   2002:56906bfdce49
+changeset:   2011:986f9462fea9
+parent:      2010:0d3cf6ffe946
+parent:      2008:95c772ab2665
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 29 01:06:51 2016 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Mar 29 20:25:37 2016 -0500
+files:       lib/version.tcl
 description:
-* Changing bracket match algorithm to highlight matching bracket whenever cursor is over an enabled bracket character.
+Merge
 
 
-changeset:   2003:230cfbe5dd56
+changeset:   2012:cde4b0c97e0e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 29 01:55:04 2016 -0500
-files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/gui.tcl lib/syntax.tcl lib/version.tcl
+date:        Wed Mar 30 01:06:52 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding support for Editor/HighlightMatchingChars preference option (not completely working yet).
+* Fixing issues with string/comment parser.
 
 
-changeset:   2004:9fd06ffe5bb6
+changeset:   2013:76df8a0347f9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 29 08:33:34 2016 -0500
-files:       lib/gui.tcl lib/preferences.tcl lib/version.tcl
+date:        Thu Mar 31 23:31:37 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing issue with saving preferences.
-* Shortening code that is called when a preference file is saved.
+* Fixing a few issues with comment/string parser.
 
 
