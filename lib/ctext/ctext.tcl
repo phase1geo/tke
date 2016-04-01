@@ -2177,11 +2177,11 @@ proc ctext::comments_chars_deleted {win start end} {
   foreach {tag dummy} $data($win,config,csl_array) {
     lassign [$win tag nextrange $tag $start] tag_start tag_end
     if {($tag_start ne "") && [$win compare $tag_start < $end]} {
-      return 1
+      return $tag
     }
   }
 
-  return 0
+  return ""
 
 }
 
@@ -2197,8 +2197,8 @@ proc ctext::comments {win start end do_tag} {
   
   array set tag_changed [list]
   
-  if {$do_tag} {
-    set tag_changed(general) 1
+  if {$do_tag ne ""} {
+    set tag_changed($do_tag) 1
   }
 
   # First, tag all string/comment patterns found between start and end
