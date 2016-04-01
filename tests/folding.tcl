@@ -88,17 +88,17 @@ namespace eval folding {
     $txt insert end "}"
 
     # Enable code folding
-    folding::set_fold_method $txt syntax
+    folding::add_folds $txt 1.0 end
 
     # Check to see that a fold only detected on the correct lines
     set opened_lines [list none open none end none open none end]
 
     for {set i 1} {$i <= 8} {incr i} {
       if {[folding::fold_state $txt $i] ne [lindex $opened_lines [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected ([folding::fold_state $txt $i])"
+        cleanup "Fold state on line $i did not match expected 1 ([folding::fold_state $txt $i])"
       }
     }
-
+    
     # Close one of the opened folds
     folding::close_fold 1 $txt 6
     if {[folding::fold_state $txt 6] ne "close"} {
@@ -118,7 +118,7 @@ namespace eval folding {
 
     for {set i 1} {$i <= 8} {incr i} {
       if {[folding::fold_state $txt $i] ne [lindex $closed_lines [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected ([folding::fold_state $txt $i])"
+        cleanup "Fold state on line $i did not match expected 2 ([folding::fold_state $txt $i])"
       }
     }
 
@@ -127,7 +127,7 @@ namespace eval folding {
 
     for {set i 1} {$i <= 8} {incr i} {
       if {[folding::fold_state $txt $i] ne [lindex $opened_lines [expr $i - 1]]} {
-        cleanup "Fold state on line $i did not match expected ([folding::fold_state $txt $i])"
+        cleanup "Fold state on line $i did not match expected 3 ([folding::fold_state $txt $i])"
       }
     }
 
@@ -151,7 +151,7 @@ namespace eval folding {
     $txt insert end "}\n"
 
     # Make sure that syntax folding is enabled
-    folding::set_fold_method $txt syntax
+    folding::add_folds $txt 1.0 end
 
     # Verify that the code folding states are correct
     set states [list none open open none end end]
@@ -208,7 +208,7 @@ namespace eval folding {
     $txt insert end "}\n"
 
     # Enable code folding
-    folding::set_fold_method $txt syntax
+    folding::add_folds $txt 1.0 end
 
     if {[folding::fold_state $txt 2] ne "open"} {
       cleanup "Folding state of line 2 is not open ([folding::fold_state $txt 2])"

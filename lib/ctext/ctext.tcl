@@ -1433,7 +1433,7 @@ proc ctext::command_replace {win args} {
   set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win $lineStart $lineEnd [expr {$chars_deleted || [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
+  ctext::highlightAll $win $lineStart $lineEnd [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
   ctext::modified     $win 1 [list delete $startPos $deleteChars $deleteLines $moddata]
   ctext::modified     $win 1 [list insert $startPos $datlen $insertLines $moddata]
 
@@ -2187,7 +2187,7 @@ proc ctext::comments_chars_deleted {win start end} {
 
 proc ctext::comments_do_tag {win start end} {
 
-  return [expr {[inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)}]
+  return [expr {([inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)) ? "stuff" : ""}]
 
 }
 
