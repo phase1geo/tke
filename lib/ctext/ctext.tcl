@@ -2033,8 +2033,10 @@ proc ctext::setBlockCommentPatterns {win lang patterns {color "khaki"}} {
     lappend end_patterns   [lindex $pattern 1]
   }
 
-  lappend data($win,config,csl_patterns) _cCommentStart:$lang [join $start_patterns |]
-  lappend data($win,config,csl_patterns) _cCommentEnd:$lang   [join $end_patterns   |]
+  if {[llength $patterns] > 0} {
+    lappend data($win,config,csl_patterns) _cCommentStart:$lang [join $start_patterns |]
+    lappend data($win,config,csl_patterns) _cCommentEnd:$lang   [join $end_patterns   |]
+  }
 
   array set tags [list _cCommentStart:${lang}0 1 _cCommentStart:${lang}1 1 _cCommentEnd:${lang}0 1 _cCommentEnd:${lang}1 1 _cComment 1]
 
@@ -2134,8 +2136,9 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
   }
 
   ctext::escapes $win $linestart $lineend
+  set all [ctext::comments $win $linestart $lineend $do_tag]
 
-  if {[ctext::comments $win $linestart $lineend $do_tag]} {
+  if {$all} {
     foreach tag [$win._t tag names] {
       if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
         $win._t tag remove $tag $lineend end
