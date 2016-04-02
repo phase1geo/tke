@@ -1,80 +1,79 @@
-changeset:   2005:e2a9591154dd
-tag:         devel-2.3.8
+changeset:   2014:75e1e134f9da
+tag:         devel-2.3.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 29 08:35:59 2016 -0500
+date:        Fri Apr 01 08:51:11 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.8 release
+ChangeLog for devel-2.3.9 release
 
 
-changeset:   2006:df1289deb491
+changeset:   2015:a4e51e8d6bb4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 29 08:36:04 2016 -0500
+date:        Fri Apr 01 08:51:19 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.8 for changeset e2a9591154dd
+Added tag devel-2.3.9 for changeset 75e1e134f9da
 
 
-changeset:   2007:4102f2068674
+changeset:   2016:64e79caa8c2a
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Mar 29 16:14:27 2016 -0500
-files:       lib/gui.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding showmatch Vim option support.
-
-
-changeset:   2008:95c772ab2665
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Mar 29 16:52:08 2016 -0500
-files:       lib/menus.tcl lib/utils.tcl lib/version.tcl
-description:
-* Adding in_background external file opening support in Linux.
-* Changing external file opening in Help menu to run in background.
-
-
-changeset:   2009:0a6d5e8d02bd
-parent:      1996:6da82cc83274
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Mar 27 23:41:45 2016 -0500
-files:       data/syntax/HTML.syntax lib/version.tcl
-description:
-* Adding JavaScript embedded language in HTML.
-
-
-changeset:   2010:0d3cf6ffe946
-parent:      2009:0a6d5e8d02bd
-parent:      1998:a1ab19d4f18e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Mar 28 08:56:39 2016 -0500
-files:       lib/version.tcl
-description:
-Merge
-
-
-changeset:   2011:986f9462fea9
-parent:      2010:0d3cf6ffe946
-parent:      2008:95c772ab2665
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Mar 29 20:25:37 2016 -0500
-files:       lib/version.tcl
-description:
-Merge
-
-
-changeset:   2012:cde4b0c97e0e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Mar 30 01:06:52 2016 -0500
+date:        Fri Apr 01 16:00:27 2016 -0500
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing issues with string/comment parser.
+* Fixing issues when embedded language start/end syntax is modified.
 
 
-changeset:   2013:76df8a0347f9
+changeset:   2017:d7b645696770
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Apr 01 16:06:24 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing issue with deleting an entire language start symbol.
+
+
+changeset:   2018:1378f0cc6ee7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Apr 01 16:33:38 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl tests/folding.tcl
+description:
+* Fixing syntax error in text replace procedure.
+* Fixing BIST errors.
+
+
+changeset:   2019:f79f0907be46
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Apr 01 20:17:20 2016 -0500
+files:       data/syntax/C++.syntax data/syntax/C.syntax data/syntax/Objective-C.syntax lib/version.tcl
+description:
+* Fixing separation issues between C and C++.
+* Adding Objective-C syntax.
+
+
+changeset:   2020:2a53fee3b4aa
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Apr 01 21:01:57 2016 -0500
+files:       data/syntax/Eiffel.syntax lib/version.tcl
+description:
+* Adding Eiffel syntax.
+
+
+changeset:   2021:eb1708e86062
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Apr 01 23:10:01 2016 -0500
+files:       data/syntax/Cobol.syntax data/syntax/Eiffel.syntax data/syntax/syntax.syntax lib/version.tcl
+description:
+* Changing Eiffel extension from .eiffel to .e.
+* Adding delimiters section in syntax.syntax.
+* Adding Cobol syntax.
+
+
+changeset:   2022:efc0c8578032
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Mar 31 23:31:37 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Apr 01 23:52:54 2016 -0500
+files:       data/syntax/D.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing a few issues with comment/string parser.
+* Adding D syntax.
+* Fixing issue with single-quote in ctext.
 
 
