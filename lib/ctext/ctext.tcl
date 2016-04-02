@@ -2080,7 +2080,7 @@ proc ctext::setStringPatterns {win lang patterns {color "green"}} {
   variable data
 
   foreach pattern $patterns {
-    lappend data($win,config,csl_patterns) [expr {($pattern eq "'") ? "_sQuote:$lang" : "_dQuote:$lang"}] $pattern
+    lappend data($win,config,csl_patterns) [expr {($pattern ne "\"") ? "_sQuote:$lang" : "_dQuote:$lang"}] $pattern
   }
 
   array set tags [list _sQuote:${lang}0 1 _sQuote:${lang}1 1 _dQuote:${lang}0 1 _dQuote:${lang}1 1 _sString 1 _dString 1]
@@ -2134,7 +2134,7 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
   }
 
   ctext::escapes $win $linestart $lineend
-  
+
   if {[ctext::comments $win $linestart $lineend $do_tag]} {
     foreach tag [$win._t tag names] {
       if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
@@ -2194,9 +2194,9 @@ proc ctext::comments_do_tag {win start end} {
 proc ctext::comments {win start end do_tag} {
 
   variable data
-  
+
   array set tag_changed [list]
-  
+
   if {$do_tag ne ""} {
     set tag_changed($do_tag) 1
   }
@@ -2315,7 +2315,7 @@ proc ctext::comments {win start end do_tag} {
       $win tag raise $tag
     }
   }
-  
+
   return [expr {[llength [array names tag_changed _Lang*]] > 0}]
 
 }
