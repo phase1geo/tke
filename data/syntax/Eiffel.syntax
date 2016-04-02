@@ -1,0 +1,38 @@
+filepatterns
+{*.eiffel}
+
+vimsyntax
+{eiffel}
+
+matchcharsallowed
+{paren curly square}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{--}}
+
+lcomments {{--}}
+
+strings {{"}}
+
+keywords
+{
+  agent alias all and as assign attribute check class convert create Current debug
+  deferred do else elseif end ensure expanded export external False feature from
+  frozen if implies inherit inspect invariant like local loop not note obsolete
+  old once only or Precursor redefine rename require rescue Result retry select
+  separate then True TUPLE undefine until variant Void when xor
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|[0-9]*\.[0-9]*([eE][+-]?[0-9]+)?)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}(),.|:=<>+*/%-]} {}
+}
