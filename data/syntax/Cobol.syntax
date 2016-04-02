@@ -1,0 +1,53 @@
+filepatterns
+{*.cbl *.cob *.cpy}
+
+vimsyntax
+{cobol}
+
+matchcharsallowed
+{curly paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+strings {{"} {'}}
+
+keywords
+{
+  accept access add after all alphabetic alphabetic-lower alphabetic-upper alternate
+  and are ascending assign at
+  before by
+  call characters close comp comp-1 comp-2 comp-3 computational compute content
+  copy corr corresponding
+  data delete delimited depending descending display divide division down dynamic
+  else end end-delete end-exec end-if end-perform end-read end-rewrite end-search end-start
+  end-string end-unstring end-write environment equal evaluate exec exit extend
+  false fd file file-control for from
+  giving go greater
+  i-o identification if indexed initialize input input-output inspect into invalid is
+  key
+  less linkage literal
+  merge mode move multiply
+  negative next not numeric
+  occurs on open or organization other output overflow
+  perform pic pointer positive procedure program-id
+  random read record redefines relative remainder renames replacing rewrite run
+  sd search section select sequential set size sort space sql stop start string subtract
+  tallying test than then thru times to true
+  unstring until up usage using
+  value varying
+  when with working-storage write
+  zero
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|[0-9]*\.[0-9]+)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[\{\}()+*/$,;.<>:'=-]} {}
+}

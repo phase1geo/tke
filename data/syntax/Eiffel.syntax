@@ -1,5 +1,5 @@
 filepatterns
-{*.eiffel}
+{*.e}
 
 vimsyntax
 {eiffel}
