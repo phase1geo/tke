@@ -20,7 +20,7 @@ unindent
 {\}}
 
 reindent
-{{switch case default} {class public protected private}}
+{{switch case default}}
 
 icomment {{//}}
 
