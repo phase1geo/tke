@@ -384,9 +384,9 @@ namespace eval syntax {
           lassign $embedded sublang embed_start embed_end
           if {($embed_start ne "") && ($embed_end ne "")} {
             ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end $theme(embedded)
-            add_sublanguage $txt $sublang $cmd_prefix 1
+            add_sublanguage $txt $sublang $cmd_prefix 1 $embed_start $embed_end
           } else {
-            add_sublanguage $txt $sublang $cmd_prefix 0
+            add_sublanguage $txt $sublang $cmd_prefix 0 {} {}
           }
         }
 
@@ -420,7 +420,7 @@ namespace eval syntax {
 
   ######################################################################
   # Add sublanguage features to current text widget.
-  proc add_sublanguage {txt language cmd_prefix full} {
+  proc add_sublanguage {txt language cmd_prefix full embed_start embed_end} {
 
     variable langs
     
@@ -457,8 +457,8 @@ namespace eval syntax {
       ctext::setBlockCommentPatterns $txt $language $lang_array(bcomments) $theme(comments)
       ctext::setLineCommentPatterns  $txt $language $lang_array(lcomments) $theme(comments)
       ctext::setStringPatterns       $txt $language $lang_array(strings)   $theme(strings)
-      ctext::setIndentation          $txt $language $lang_array(indent)   indent
-      ctext::setIndentation          $txt $language $lang_array(unindent) unindent
+      ctext::setIndentation          $txt $language [list $embed_start {*}$lang_array(indent)]   indent
+      ctext::setIndentation          $txt $language [list $embed_end   {*}$lang_array(unindent)] unindent
 
       set reindentStarts [list]
       set reindents      [list]
