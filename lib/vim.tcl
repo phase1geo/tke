@@ -255,7 +255,25 @@ namespace eval vim {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             [ns multicursor]::search_and_add_cursors $txt $from $to $search
+            
+          # Handle code fold opening in range
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldo(pen)?(!?)$} $value -> from to dummy full_depth]} {
+            set from [lindex [split [get_linenum $txt $from] .] 0]
+            set to   [lindex [split [get_linenum $txt $to] .] 0]
+            [ns folding]::open_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
+            
+          # Handle code fold closing in range
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldc(lose)?(!?)$} $value -> from to dummy full_depth]} {
+            set from [lindex [split [get_linenum $txt $from] .] 0]
+            set to   [lindex [split [get_linenum $txt $to] .] 0]
+            [ns folding]::close_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
 
+          # Handling code folding
+          } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)fo(ld)?$} $value -> from to]} {
+            set from [lindex [split [get_linenum $txt $from] .] 0]
+            set to   [lindex [split [get_linenum $txt $to] .] 0]
+            [ns folding]::close_range $txt $from $to
+            
           # Save/quit a subset of lines as a filename
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
             set from [$txt index "[get_linenum $txt $from] linestart"]
@@ -316,6 +334,7 @@ namespace eval vim {
                 set txt [do_set_command $tid $txt $key $val $mod]
               }
             }
+            
           }
 
         }
@@ -362,6 +381,10 @@ namespace eval vim {
       noet             { do_set_expandtab $tid 0 }
       fileformat       -
       ff               { do_set_fileformat $tid $val }
+      foldenable       -
+      fen              { do_set_foldenable $tid 1 }
+      nofoldenable     -
+      nofen            { do_set_foldenable $tid 0 }
       foldmethod       -
       fdm              { do_set_foldmethod $tid $val }
       matchpairs       -
@@ -488,6 +511,18 @@ namespace eval vim {
       [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File format unrecognized"] $val]
     }
 
+  }
+  
+  ######################################################################
+  # Perform a fold_all or unfold_all command call.
+  proc do_set_foldenable {tid val} {
+    
+    if {$val} {
+      [ns folding]::close_all_folds [[ns gui]::current_txt {}]
+    } else {
+      [ns folding]::open_all_folds [[ns gui]::current_txt {}]
+    }
+    
   }
 
   ######################################################################
@@ -1583,6 +1618,10 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "rshift"} {
       set mode($txtt) "rshiftin"
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::toggle_all_folds [winfo parent $txtt]
+      start_mode $txtt
+      return 1
     } elseif {[in_visual_mode $txtt]} {
       set mode($txtt) [join [list "visualin" [lindex [split $mode($txtt) :] 1]] :]
       return 1
@@ -1954,6 +1993,10 @@ namespace eval vim {
       }
       edit_mode $txtt
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -1971,10 +2014,30 @@ namespace eval vim {
       $txtt delete insert "insert lineend"
       edit_mode $txtt
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      start_mode $txtt
+      return 1
     }
 
     return 0
 
+  }
+  
+  ######################################################################
+  # If we are in "folding" mode, remove all folds in the current text editor.
+  proc handle_E {txtt tid} {
+    
+    variable mode
+    
+    if {$mode($txtt) eq "folding"} {
+      [ns folding]::delete_all_folds [winfo parent $txtt]
+      start_mode $txtt
+      return 1
+    }
+    
+    return 0
+    
   }
 
   ######################################################################
@@ -2101,7 +2164,7 @@ namespace eval vim {
       record_start
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      [ns folding]::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
       start_mode $txtt
       return 1
     }
@@ -2120,6 +2183,10 @@ namespace eval vim {
       ::tk::TextSetCursor $txtt "insert lineend"
       edit_mode $txtt
       record_start
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
+      start_mode $txtt
       return 1
     }
 
@@ -2463,6 +2530,10 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       [ns edit]::insert_line_below_current $txtt
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -2478,6 +2549,10 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       [ns edit]::insert_line_above_current $txtt
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
+      start_mode $txtt
       return 1
     }
 
