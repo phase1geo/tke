@@ -5,10 +5,12 @@ vimsyntax
 {markdown}
 
 embedded
-{{HTML}}
-
-matchcharsallowed
-{}
+{
+  {HTML}
+  {C          {```c$}          {```$}}
+  {Python     {```python$}     {```$}}
+  {JavaScript {```javascript$} {```$}}
+}
 
 tabsallowed
 {1}
