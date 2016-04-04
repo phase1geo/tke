@@ -282,14 +282,13 @@ namespace eval folding {
   ######################################################################
   # Attempts to delete the closed fold marker (if it exists).  This operation
   # is only valid in manual mode.
-  proc delete_fold {txt} {
+  proc delete_fold {txt line} {
 
     variable method
 
     if {$method($txt) eq "manual"} {
 
-      # Get the current line and state
-      set line  [lindex [split [$txt index insert] .] 0]
+      # Get the current line state
       set state [fold_state $txt $line]
 
       # Open the fold if it is closed
@@ -302,10 +301,32 @@ namespace eval folding {
         lassign [get_fold_range $txt $line 1] startpos endpos
         $txt gutter clear folding $line
         $txt gutter clear folding [lindex [split $endpos .] 0]
+        return $endpos
       }
 
     }
 
+  }
+  
+  ######################################################################
+  # Deletes all fold markers found in the given range.
+  proc delete_folds_in_range {txt startline endline} {
+    
+    variable method
+    
+    if {$method($txt) eq "manual"} {
+      
+      # Get all of the open/close folds
+      set all_lines [list {*}[$txt gutter get folding open] {*}[$txt gutter get folding close]]
+      
+      while {$startline <= $endline} {
+        set lines     [lsort -integer [list $startline {*}$all_lines]]
+        set index     [expr [lsearch $lines $startline] + 1]
+        set startline [lindex [split [delete_fold $txt [lindex $lines $index]] .] 0]
+      }
+      
+    }
+    
   }
   
   ######################################################################
