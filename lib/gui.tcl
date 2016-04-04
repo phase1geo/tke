@@ -374,6 +374,9 @@ namespace eval gui {
     } else {
       hide_status_view
     }
+    
+    # Set the matchchar value
+    set_matching_char [[ns preferences]::get Editor/HighlightMatchingChar]
 
     # If the user attempts to close the window via the window manager, treat
     # it as an exit request from the menu system.
@@ -3476,7 +3479,7 @@ namespace eval gui {
     variable case_sensitive
     variable numberwidth
     variable show_match_char
-
+    
     array set opts {
       -diff    0
       -gutters [list]
