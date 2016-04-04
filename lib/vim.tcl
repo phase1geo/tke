@@ -2122,7 +2122,7 @@ namespace eval vim {
       record_stop
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::delete_fold [winfo parent $txtt]
+      [ns folding]::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
