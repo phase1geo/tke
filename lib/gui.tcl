@@ -949,7 +949,7 @@ namespace eval gui {
     # Add the tabs (in order) to each of the panes and set the current tab in each pane
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
       set pw_current $pane
-      set set_tab    ""
+      set tab        ""
       foreach index [lindex $ordered $pane] {
         if {$index ne ""} {
           array set finfo [lindex $content(FileInfo) $index]
@@ -4298,7 +4298,7 @@ namespace eval gui {
       "\>"    { set index [ctext::get_match_bracket $txt angledL] }
       "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] _dString] == -1) ? "-forwards" : "-backwards"}]] }
       "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] _sString] == -1) ? "-forwards" : "-backwards"}]] }
-      default { set index [find_match_pair $txt {*}[[ns syntax]::get_indentation_expressions $txt] -backwards] }
+      default { set index [find_match_pair $txt {*}[lrange [[ns syntax]::get_indentation_expressions $txt] 0 1] -backwards] }
     }
 
     # Change the insertion cursor to the matching character
