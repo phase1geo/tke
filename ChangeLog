@@ -1,79 +1,66 @@
-changeset:   2014:75e1e134f9da
-tag:         devel-2.3.9
+changeset:   2023:41ea2852aadc
+tag:         devel-2.3.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 01 08:51:11 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
+date:        Sat Apr 02 01:16:29 2016 -0500
+files:       ChangeLog doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.9 release
+ChangeLog for devel-2.3.10 release
 
 
-changeset:   2015:a4e51e8d6bb4
+changeset:   2024:b2077cd55cca
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 01 08:51:19 2016 -0500
+date:        Sat Apr 02 01:16:36 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.9 for changeset 75e1e134f9da
+Added tag devel-2.3.10 for changeset 41ea2852aadc
 
 
-changeset:   2016:64e79caa8c2a
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Apr 01 16:00:27 2016 -0500
+changeset:   2025:3c3b2ba8e18d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 02 11:59:16 2016 -0500
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing issues when embedded language start/end syntax is modified.
+* Improving highlighting performance.
 
 
-changeset:   2017:d7b645696770
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Apr 01 16:06:24 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Fixing issue with deleting an entire language start symbol.
-
-
-changeset:   2018:1378f0cc6ee7
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Apr 01 16:33:38 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl tests/folding.tcl
-description:
-* Fixing syntax error in text replace procedure.
-* Fixing BIST errors.
-
-
-changeset:   2019:f79f0907be46
+changeset:   2026:6711ac5e6fe3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 01 20:17:20 2016 -0500
-files:       data/syntax/C++.syntax data/syntax/C.syntax data/syntax/Objective-C.syntax lib/version.tcl
+date:        Sat Apr 02 23:46:23 2016 -0500
+files:       lib/folding.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing separation issues between C and C++.
-* Adding Objective-C syntax.
+* Adding 'zA' Vim command support (toggle all deeply).
+* Adding 'foldenable' Vim option support (folds/unfolds all).
+* Adding 'zi' Vim command support (toggle all folds).
+* Adding 'zc' Vim command to close 1 level of folding at the current insertion cursor.
+* Adding 'zC' Vim command to close all levels of folding at the current insertion cursor.
+* Adding 'zo' Vim command to open 1 level of folding at the current insertion cursor.
+* Adding 'zO' Vim command to open all levels of folding at the current insertion cursor.
+* Adding 'zE' Vim command to delete all folds in the current editor.
 
 
-changeset:   2020:2a53fee3b4aa
+changeset:   2027:4b60cbdb6494
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 01 21:01:57 2016 -0500
-files:       data/syntax/Eiffel.syntax lib/version.tcl
+date:        Sun Apr 03 17:38:50 2016 -0500
+files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
 description:
-* Adding Eiffel syntax.
+* Adding C, Javascript and Python embedded language support to Markdown.
+* Adding automatic code folding for embedded language start/stop symbols.
 
 
-changeset:   2021:eb1708e86062
+changeset:   2028:f49c02dcd9ee
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 01 23:10:01 2016 -0500
-files:       data/syntax/Cobol.syntax data/syntax/Eiffel.syntax data/syntax/syntax.syntax lib/version.tcl
+date:        Sun Apr 03 22:06:11 2016 -0500
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Changing Eiffel extension from .eiffel to .e.
-* Adding delimiters section in syntax.syntax.
-* Adding Cobol syntax.
+* Fixing issue with setting default HighlightMatchingChar preference value in GUI.
 
 
-changeset:   2022:efc0c8578032
+changeset:   2029:df502a6a1324
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 01 23:52:54 2016 -0500
-files:       data/syntax/D.syntax lib/ctext/ctext.tcl lib/version.tcl
+date:        Mon Apr 04 00:26:04 2016 -0500
+files:       lib/folding.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Adding D syntax.
-* Fixing issue with single-quote in ctext.
+* Enhancing folding menu.
 
 
