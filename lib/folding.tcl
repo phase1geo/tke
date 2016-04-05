@@ -217,6 +217,13 @@ namespace eval folding {
     return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
 
   }
+  
+  ######################################################################
+  # Returns the line number of the highest level folding marker that contains
+  # the given line.
+  proc get_fold_start {txt line} {
+    
+  }
 
   ######################################################################
   # Toggles the fold for the given line.
