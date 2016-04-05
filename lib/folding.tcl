@@ -217,12 +217,30 @@ namespace eval folding {
     return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
 
   }
-  
+
   ######################################################################
   # Returns the line number of the highest level folding marker that contains
   # the given line.
-  proc get_fold_start {txt line} {
-    
+  proc show_line {txt line} {
+
+    array set counts [list open -1 close -1 end 1]
+
+    # Find our current position
+    set data  [lsort -integer -index 0 [list [list $line current] {*}[get_gutter_info $txt]]]
+    set index [lsearch $data [list $line current]]
+    set count 1
+
+    for {set i [expr $index - 1]} {$i >= 0} {incr i -1} {
+      lassign [lindex $data $i] line tag
+      if {[incr count $counts($tag)] == 0} {
+        open_fold 1 $txt $line
+        if {[lsearch [$txt tag names $line.0] _folded] == -1} {
+          return
+        }
+        set count 1
+      }
+    }
+
   }
 
   ######################################################################
@@ -235,17 +253,17 @@ namespace eval folding {
     }
 
   }
-  
+
   ######################################################################
   # Toggles all folds.
   proc toggle_all_folds {txt} {
-    
+
     if {[llength [$txt gutter get folding open]] > 0} {
       close_all_folds $txt
     } else {
       open_all_folds $txt
     }
-    
+
   }
 
   ######################################################################
@@ -314,51 +332,51 @@ namespace eval folding {
     }
 
   }
-  
+
   ######################################################################
   # Deletes all fold markers found in the given range.
   proc delete_folds_in_range {txt startline endline} {
-    
+
     variable method
-    
+
     if {$method($txt) eq "manual"} {
-      
+
       # Get all of the open/close folds
       set all_lines [list {*}[$txt gutter get folding open] {*}[$txt gutter get folding close]]
-      
+
       while {$startline <= $endline} {
         set lines     [lsort -integer [list $startline {*}$all_lines]]
         set index     [expr [lsearch $lines $startline] + 1]
         set startline [lindex [split [delete_fold $txt [lindex $lines $index]] .] 0]
       }
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Deletes all fold markers.  This operation is only valid in manual
   # mode.
   proc delete_all_folds {txt} {
-    
+
     variable method
-    
+
     if {$method($txt) eq "manual"} {
-      
+
       # Remove all folded text
       $txt tag remove _folded 1.0 end
 
       # Clear all of fold indicators in the gutter
       $txt gutter clear folding 1 [lindex [split [$txt index end] .] 0]
-      
+
     }
-    
+
   }
 
   ######################################################################
   # Closes a fold, hiding the contents.
   proc close_fold {depth txt line} {
-    
+
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
 
@@ -370,7 +388,7 @@ namespace eval folding {
       $txt gutter clear folding $line
       $txt gutter set folding close $line
     }
-    
+
     return $endpos
 
   }
@@ -378,18 +396,18 @@ namespace eval folding {
   ######################################################################
   # Close all folds in the given range.
   proc close_folds_in_range {txt startline endline depth} {
-    
+
     # Get all of the open folds
     set open_lines [$txt gutter get folding open]
-    
+
     while {$startline <= $endline} {
       set lines     [lsort -integer [list $startline {*}$open_lines]]
       set index     [expr [lsearch $lines $startline] + 1]
       set startline [lindex [split [close_fold $depth $txt [lindex $lines $index]] .] 0]
     }
-    
+
   }
-            
+
   ######################################################################
   # Closes all open folds.
   proc close_all_folds {txt} {
@@ -443,7 +461,7 @@ namespace eval folding {
         }
       }
     }
-    
+
     return $endpos
 
   }
@@ -451,17 +469,17 @@ namespace eval folding {
   ######################################################################
   # Open all folds in the given range.
   proc open_folds_in_range {txt startline endline depth} {
-    
+
     # Get all of the closed folds
     set close_lines [$txt gutter get folding close]
-    
+
     while {$startline <= $endline} {
       set lines     [lsort -integer [list $startline {*}$close_lines]]
       set index     [expr [lsearch $lines $startline] + 1]
       set startline [lindex [split [open_fold $depth $txt [lindex $lines $index]] .] 0]
     }
   }
-  
+
   ######################################################################
   # Opens all closed folds.
   proc open_all_folds {txt} {

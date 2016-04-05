@@ -1426,7 +1426,7 @@ namespace eval menus {
   # Indents the current line or current selection.
   proc indent_command {} {
 
-    [ns indent]::indent [gui::current_txt {}].t
+    indent::indent [gui::current_txt {}].t
 
   }
 
@@ -1434,7 +1434,7 @@ namespace eval menus {
   # Unindents the current line or current selection.
   proc unindent_command {} {
 
-    [ns indent]::unindent [gui::current_txt {}].t
+    indent::unindent [gui::current_txt {}].t
 
   }
 
@@ -1990,20 +1990,20 @@ namespace eval menus {
 
     $mb.foldPopup add command -label [msgcat::mc "Add Fold From Selection"] -command [list menus::add_fold_from_selection]
     launcher::register [make_menu "View" [msgcat::mc "Add fold from selection"]] [list menus::add_fold_from_selection]
-    
+
     $mb.foldPopup add separator
-    
+
     $mb.foldPopup add command -label [msgcat::mc "Delete Current Fold"] -command [list menus::delete_folds current]
     launcher::register [make_menu "View" [msgcat::mc "Delete fold at current line"]] [list menus::delete_folds current]
-    
+
     $mb.foldPopup add command -label [msgcat::mc "Delete Selected Folds"] -command [list menus::delete_folds selected]
     launcher::register [make_menu "View" [msgcat::mc "Delete all selected folds"]] [list menus::delete_folds selected]
-    
+
     $mb.foldPopup add command -label [msgcat::mc "Delete All Folds"] -command [list menus::delete_folds all]
     launcher::register [make_menu "View" [msgcat::mc "Delete all folds"]] [list menus::delete_folds all]
-    
+
     $mb.foldPopup add separator
-    
+
     $mb.foldPopup add command -label [msgcat::mc "Close Current Fold"] -command [list menus::close_folds current]
     launcher::register [make_menu "View" [msgcat::mc "Close fold at current line"]] [list menus::close_folds current]
 
@@ -2012,7 +2012,7 @@ namespace eval menus {
 
     $mb.foldPopup add command -label [msgcat::mc "Close All Folds"] -command [list menus::close_folds all]
     launcher::register [make_menu "View" [msgcat::mc "Close all folds"]] [list menus::close_folds all]
-    
+
     $mb.foldPopup add separator
 
     $mb.foldPopup add command -label [msgcat::mc "Open Current Fold"] -command [list menus::open_folds current]
@@ -2023,7 +2023,12 @@ namespace eval menus {
 
     $mb.foldPopup add command -label [msgcat::mc "Open All Folds"] -command [list menus::open_folds all]
     launcher::register [make_menu "View" [msgcat::mc "Open all folds"]] [list menus::open_folds all]
-    
+
+    $mb.foldPopup add separator
+
+    $mb.foldPopup add command -label [msgcat::mc "Show cursor"] -command [list menus::open_folds show]
+    launcher::register [make_menu "View" [msgcat::mc "Open folds to show cursor"]] [list menus::open_folds show]
+
     # Setup the folding method popup menu
     $mb.fmPopup add radiobutton -label [msgcat::mc "None"]   -variable menus::fold_method -value "none"   -command [list menus::set_fold_method $mb.foldPopup none]
     $mb.fmPopup add radiobutton -label [msgcat::mc "Manual"] -variable menus::fold_method -value "manual" -command [list menus::set_fold_method $mb.foldPopup manual]
@@ -2139,8 +2144,8 @@ namespace eval menus {
     set txt         [gui::current_txt {}]
     set state       [folding::fold_state $txt [lindex [split [$txt index insert] .] 0]]
     set fold_method [folding::get_method $txt]
-    set sel_state   [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}] 
-    
+    set sel_state   [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
+
     if {$fold_method eq "manual"} {
       $mb entryconfigure [msgcat::mc "Add Fold From Selection"] -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Selected Folds"]   -state $sel_state
@@ -2155,7 +2160,7 @@ namespace eval menus {
 
     $mb entryconfigure [msgcat::mc "Close Selected Folds"] -state $sel_state
     $mb entryconfigure [msgcat::mc "Open Selected Folds"]  -state $sel_state
-    
+
   }
 
   ######################################################################
@@ -2340,13 +2345,13 @@ namespace eval menus {
     folding::set_fold_method [gui::current_txt {}] $method
 
   }
-  
+
   ######################################################################
   # Create a fold for the selected code and close the fold.
   proc add_fold_from_selection {} {
-    
-    [ns folding]::close_selected [gui::current_txt {}]
-    
+
+    folding::close_selected [gui::current_txt {}]
+
   }
 
   ######################################################################
@@ -2355,23 +2360,23 @@ namespace eval menus {
   #  - selected (deletes any selected folds)
   #  - all      (deletes all folds)
   proc delete_folds {type} {
-    
+
     set txt [gui::current_txt {}]
-    
+
     switch $type {
-      current  { [ns folding]::delete_fold $txt [lindex [split [$txt index insert] .] 0] }
-      all      { [ns folding]::delete_all_folds $txt }
+      current  { folding::delete_fold $txt [lindex [split [$txt index insert] .] 0] }
+      all      { folding::delete_all_folds $txt }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          [ns folding]::delete_folds_in_range $txt $startline $endline
+          folding::delete_folds_in_range $txt $startline $endline
         }
       }
     }
-    
+
   }
-    
+
   ######################################################################
   # Closes one or more folds based on type and depth.  Valid values for
   # type are:
@@ -2379,23 +2384,23 @@ namespace eval menus {
   #  - selected (closes any selected folds)
   #  - all      (closes all folds)
   proc close_folds {type {depth 0}} {
-    
+
     set txt [gui::current_txt {}]
-    
+
     switch $type {
-      current  { [ns folding]::close_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
-      all      { [ns folding]::close_all_folds $txt }
+      current  { folding::close_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
+      all      { folding::close_all_folds $txt }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          [ns folding]::close_folds_in_range $txt $startline $endline $depth
+          folding::close_folds_in_range $txt $startline $endline $depth
         }
       }
     }
-    
+
   }
-    
+
   ######################################################################
   # Opens one or more folds based on type and depth.  Valid values for
   # type are:
@@ -2403,23 +2408,24 @@ namespace eval menus {
   #  - selected (opens any selected folds)
   #  - all      (opens all folds)
   proc open_folds {type {depth 0}} {
-    
+
     set txt [gui::current_txt {}]
-    
+
     switch $type {
-      current  { [ns folding]::open_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
-      all      { [ns folding]::open_all_folds $txt }
+      current  { folding::open_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
+      all      { folding::open_all_folds $txt }
+      show     { folding::show_line $txt [lindex [split [$txt index insert] .] 0] }
       selected {
         foreach {startpos endpos} [$txt tag ranges sel] {
           set startline [lindex [split $startpos .] 0]
           set endline   [lindex [split $endpos   .] 0]
-          [ns folding]::open_folds_in_range $txt $startline $endline $depth
+          folding::open_folds_in_range $txt $startline $endline $depth
         }
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Adds the tools menu commands.
   proc add_tools {mb} {

@@ -255,13 +255,13 @@ namespace eval vim {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             [ns multicursor]::search_and_add_cursors $txt $from $to $search
-            
+
           # Handle code fold opening in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldo(pen)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
             [ns folding]::open_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
-            
+
           # Handle code fold closing in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldc(lose)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
@@ -273,7 +273,7 @@ namespace eval vim {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
             [ns folding]::close_range $txt $from $to
-            
+
           # Save/quit a subset of lines as a filename
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
             set from [$txt index "[get_linenum $txt $from] linestart"]
@@ -334,7 +334,7 @@ namespace eval vim {
                 set txt [do_set_command $tid $txt $key $val $mod]
               }
             }
-            
+
           }
 
         }
@@ -421,7 +421,7 @@ namespace eval vim {
       nornu            { do_set_relativenumber $tid absolute }
       shiftwidth       -
       sw               { do_set_shiftwidth $tid $val }
-      showmatch        - 
+      showmatch        -
       sm               { do_set_showmatch $tid 1 }
       noshowmatch      -
       nosm             { do_set_showmatch $tid 0 }
@@ -512,17 +512,17 @@ namespace eval vim {
     }
 
   }
-  
+
   ######################################################################
   # Perform a fold_all or unfold_all command call.
   proc do_set_foldenable {tid val} {
-    
+
     if {$val} {
       [ns folding]::close_all_folds [[ns gui]::current_txt {}]
     } else {
       [ns folding]::open_all_folds [[ns gui]::current_txt {}]
     }
-    
+
   }
 
   ######################################################################
@@ -664,9 +664,9 @@ namespace eval vim {
   ######################################################################
   # Sets the showmatch value in all of the text widgets.
   proc do_set_showmatch {tid val} {
-    
+
     [ns gui]::set_matching_char $val
-    
+
   }
 
   ######################################################################
@@ -2023,21 +2023,21 @@ namespace eval vim {
     return 0
 
   }
-  
+
   ######################################################################
   # If we are in "folding" mode, remove all folds in the current text editor.
   proc handle_E {txtt tid} {
-    
+
     variable mode
-    
+
     if {$mode($txtt) eq "folding"} {
       [ns folding]::delete_all_folds [winfo parent $txtt]
       start_mode $txtt
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ######################################################################
@@ -2685,6 +2685,10 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       visual_mode $txtt char
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      [ns folding]::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      start_mode $txtt
       return 1
     }
 
