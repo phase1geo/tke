@@ -1,66 +1,73 @@
-changeset:   2023:41ea2852aadc
-tag:         devel-2.3.10
+changeset:   2030:89352d76d4f1
+tag:         devel-2.3.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 02 01:16:29 2016 -0500
-files:       ChangeLog doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl specl_version.tcl
+date:        Mon Apr 04 01:30:37 2016 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.10 release
+ChangeLog for devel-2.3.11 release
 
 
-changeset:   2024:b2077cd55cca
+changeset:   2031:def21f65b03e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 02 01:16:36 2016 -0500
+date:        Mon Apr 04 01:30:45 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.10 for changeset 41ea2852aadc
+Added tag devel-2.3.11 for changeset 89352d76d4f1
 
 
-changeset:   2025:3c3b2ba8e18d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 02 11:59:16 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Improving highlighting performance.
-
-
-changeset:   2026:6711ac5e6fe3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 02 23:46:23 2016 -0500
-files:       lib/folding.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding 'zA' Vim command support (toggle all deeply).
-* Adding 'foldenable' Vim option support (folds/unfolds all).
-* Adding 'zi' Vim command support (toggle all folds).
-* Adding 'zc' Vim command to close 1 level of folding at the current insertion cursor.
-* Adding 'zC' Vim command to close all levels of folding at the current insertion cursor.
-* Adding 'zo' Vim command to open 1 level of folding at the current insertion cursor.
-* Adding 'zO' Vim command to open all levels of folding at the current insertion cursor.
-* Adding 'zE' Vim command to delete all folds in the current editor.
-
-
-changeset:   2027:4b60cbdb6494
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 03 17:38:50 2016 -0500
-files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Adding C, Javascript and Python embedded language support to Markdown.
-* Adding automatic code folding for embedded language start/stop symbols.
-
-
-changeset:   2028:f49c02dcd9ee
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 03 22:06:11 2016 -0500
+changeset:   2032:835972b5f826
+parent:      2018:1378f0cc6ee7
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Apr 04 17:24:07 2016 -0500
 files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixing issue with setting default HighlightMatchingChar preference value in GUI.
+* Fixing syntax error when no tabs exist in saved configuration.
+* Fixing issue with jumping to starting indentation marker when cursor is not on a bracket/quote.
 
 
-changeset:   2029:df502a6a1324
-tag:         tip
+changeset:   2033:4190c5aa5363
+parent:      2032:835972b5f826
+parent:      2031:def21f65b03e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Apr 04 17:26:28 2016 -0500
+files:       lib/gui.tcl
+description:
+* Merging.
+
+
+changeset:   2034:8c5069badd73
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 04 00:26:04 2016 -0500
+date:        Mon Apr 04 20:32:09 2016 -0500
+files:       lib/folding.tcl lib/version.tcl
+description:
+* Checkpointing.
+
+
+changeset:   2035:bf60ef5f148f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Apr 04 22:59:28 2016 -0500
 files:       lib/folding.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
 description:
-* Enhancing folding menu.
+* Adding support for "vm" Vim command.
+* Adding "Show cursor" Folding menu command.
+* Fixing menu code that called the "ns" command.
+
+
+changeset:   2036:c9b3792f3aba
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Apr 05 01:29:16 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Checkpointing work on fixing issues with text inserted between two strings.
+
+
+changeset:   2037:38aab9a0f9d5
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Apr 05 02:27:08 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+description:
+* Fixing syntax highlighting issue when a non-string/comment character is inserted between two strings/comments.
+* Updating BIST diagnostics to reflect this change.
 
 
