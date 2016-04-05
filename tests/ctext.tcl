@@ -49,15 +49,18 @@ namespace eval ctext {
     $txt insert end "\n\"String 1\"\"String 2\""
 
     # Verify that all characters contain the _dString tag
-    if {[$txt tag ranges _dString] ne [list 2.0 2.20]} {
-      cleanup "Inserted strings are missing _dString tag"
+    if {[$txt tag ranges _dString0] ne [list 2.0 2.10]} {
+      cleanup "Inserted strings are missing _dString0 tag"
+    }
+    if {[$txt tag ranges _dString1] ne [list 2.10 2.20]} {
+      cleanup "Inserted strings are missing _dString1 tag"
     }
 
     # Now insert one character between the two strings
     $txt insert 2.10 "a"
 
     # Verify that the newly inserted character was not tagged with _dString
-    if {[lsearch [$txt tag names 2.10] _dString] != -1} {
+    if {[lsearch -glob [$txt tag names 2.10] _dString*] != -1} {
       cleanup "Inserted character marked with _dString tag"
     }
 
@@ -79,7 +82,7 @@ namespace eval ctext {
     $txt insert end "\n\"This is a string\""
 
     # Verify that the string is tagged
-    if {[$txt tag ranges _dString] ne [list 2.0 2.18]} {
+    if {[$txt tag ranges _dString0] ne [list 2.0 2.18]} {
       cleanup "String was not properly tagged"
     }
 
@@ -149,7 +152,7 @@ namespace eval ctext {
 
     $txt insert end "\nthis \"is a\" string"
 
-    if {[$txt tag ranges _dString] ne [list 2.5 2.11]} {
+    if {[$txt tag ranges _dString0] ne [list 2.5 2.11]} {
       cleanup "tag does not match expected value"
     }
 
@@ -178,7 +181,7 @@ namespace eval ctext {
 
     $txt insert end "\nthis 'is a' string"
 
-    if {[$txt tag ranges _sString] ne [list 2.5 2.11]} {
+    if {[$txt tag ranges _sString0] ne [list 2.5 2.11]} {
       cleanup "tag does not match expected value"
     }
 
@@ -236,8 +239,8 @@ namespace eval ctext {
 
     $txt insert end "\nthis /* is a block */ comment"
 
-    if {[$txt tag ranges _cComment] ne [list 2.5 2.21]} {
-      cleanup "tag does not match expected value ($range)"
+    if {[$txt tag ranges _cComment0] ne [list 2.5 2.21]} {
+      cleanup "cComment0 tag does not match expected value"
     }
 
     foreach procedure [list inBlockComment inComment inCommentString] {
@@ -446,7 +449,7 @@ namespace eval ctext {
     if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
       cleanup "set keyword was not tagged"
     }
-    if {[$txt tag ranges _dString] ne [list 2.11 2.17]} {
+    if {[$txt tag ranges _dString0] ne [list 2.11 2.17]} {
       cleanup "string was not tagged"
     }
     $txt delete 2.0
@@ -457,7 +460,7 @@ namespace eval ctext {
       cleanup "text content not correct after s removal"
     }
     $txt delete 2.10
-    if {[$txt tag ranges _dString] ne [list 2.14 3.0]} {
+    if {[$txt tag ranges _dString0] ne [list 2.14 3.0]} {
       cleanup "string was still tagged after quote deleted"
     }
     if {[$txt get 2.0 2.end] ne "et foobar good\""} {
@@ -467,7 +470,7 @@ namespace eval ctext {
     if {[$txt get 1.0 end-1c] ne ""} {
       cleanup "text not removed"
     }
-    if {[$txt tag ranges _dString] ne [list]} {
+    if {[$txt tag ranges _dString0] ne [list]} {
       cleanup "string still exists after wiping the text"
     }
 
@@ -580,7 +583,8 @@ namespace eval ctext {
 
       if {([$txt tag ranges _keywords] ne [list]) || \
           ([$txt tag ranges _squareL]  ne [list]) || \
-          ([$txt tag ranges _dString]  ne [list]) || \
+          ([$txt tag ranges _dString0] ne [list]) || \
+          ([$txt tag ranges _dString1] ne [list]) || \
           ([$txt tag ranges _escape]   ne [list])} {
         cleanup "fastinsert text contained tags"
       }
@@ -593,8 +597,11 @@ namespace eval ctext {
       if {[$txt tag ranges _squareL] ne [list 2.11 2.12]} {
         cleanup "square bracket not tagged after being highlighted"
       }
-      if {[$txt tag ranges _dString] ne [list 2.17 2.23 2.24 2.28]} {
-        cleanup "double quote not tagged after being highlighted"
+      if {[$txt tag ranges _dString0] ne [list 2.17 2.23]} {
+        cleanup "dquote0 not tagged after being highlighted"
+      }
+      if {[$txt tag ranges _dString1] ne [list 2.24 2.28]} {
+        cleanup "dquote1 not tagged after being highlighted"
       }
       if {[$txt tag ranges _escape] ne [list 2.25 2.26]} {
         cleanup "escape not tagged after being highlighted"
@@ -676,7 +683,7 @@ namespace eval ctext {
     if {[$txt tag ranges _curlyL] ne [list 2.15 2.17 2.32 2.33]} {
       cleanup "curly bracket tags incorrect for replace"
     }
-    if {[$txt tag ranges _dString] ne [list 2.22 2.29]} {
+    if {[$txt tag ranges _dString0] ne [list 2.22 2.29]} {
       cleanup "string tags incorrect for replace"
     }
     if {[$txt get 2.0 2.end] ne "proc something {{parm \"buddy\"}} {}"} {
@@ -706,7 +713,7 @@ namespace eval ctext {
     if {[$txt tag ranges _keywords] ne [list 2.0 2.3]} {
       cleanup "keywords not tagged after a paste operation"
     }
-    if {[$txt tag ranges _dString] ne [list 2.11 2.17]} {
+    if {[$txt tag ranges _dString0] ne [list 2.11 2.17]} {
       cleanup "string not tagged after a paste operation"
     }
 
