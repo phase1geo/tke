@@ -77,8 +77,8 @@ proc ctext {win args} {
   set ctext::data($win,config,csl_patterns)            [list]
   set ctext::data($win,config,csl_char_tags)           [list]
   set ctext::data($win,config,lc_char_tags)            [list]
-  set ctext::data($win,config,csl_tags)                [list]
-  set ctext::data($win,config,csl_array)               [list]
+  set ctext::data($win,config,csl_tags)                [list _Start]
+  set ctext::data($win,config,csl_array)               [list _Start 1]
   set ctext::data($win,config,csl_tag_pair)            [list]
   set ctext::data($win,config,langs)                   [list {}]
   set ctext::data($win,config,gutters)                 [list]
@@ -2190,6 +2190,10 @@ proc ctext::comments_chars_deleted {win start end} {
 
 proc ctext::comments_do_tag {win start end} {
 
+  if {[lsearch [$win tag names $end] _Start] != -1} {
+    return "stuff"
+  }
+
   return [expr {([inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)) ? "stuff" : ""}]
 
 }
@@ -2279,6 +2283,15 @@ proc ctext::comments {win start end do_tag} {
       } elseif {[string match "*:$curr_lang" $char_tag]} {
         set curr_char_tag   $char_tag
         set curr_char_start $char_start
+        if {[string index $char_tag 1] eq "d"} {
+          if {[lindex $tags(_dString) end] eq $char_start} {
+            lappend tags(_Start) $char_start "$char_start+1c"
+          }
+        } elseif {[string index $char_tag 1] eq "s"} {
+          if {[lindex $tags(_sString) end] eq $char_start} {
+            lappend tags(_Start) $char_start "$char_start+1c"
+          }
+        }
       }
     } elseif {$curr_char_tag eq "_lCommentStart:$curr_lang"} {
       if {$char_tag eq "_lCommentEnd:$curr_lang"} {
