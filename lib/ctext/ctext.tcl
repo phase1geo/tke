@@ -1346,7 +1346,7 @@ proc ctext::command_fastinsert {win args} {
 proc ctext::command_highlight {win args} {
 
   variable data
-
+ 
   set lineStart [$win._t index "[lindex $args 0] linestart"]
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
@@ -1374,10 +1374,23 @@ proc ctext::command_insert {win args} {
   } else {
     set lineStart [$win._t index "$insertPos linestart"]
   }
+  
+  # Gather the data
   set dat ""
   foreach {chars taglist} [lrange $args 1 end] {
     append dat $chars
   }
+  
+  # Add the embedded language tag to the arguments if taglists are present
+  if {([llength $args] >= 3) && ([set lang [get_lang $win $insertPos]] ne "")} {
+    set tag_index 2
+    foreach {chars taglist} [lrange $args 1 end] {
+      lappend taglist _Lang=$lang
+      lset args $tag_index $taglist
+      incr tag_index 2
+    }
+  }
+  
   set datlen [string length $dat]
   set cursor [$win._t index insert]
 
