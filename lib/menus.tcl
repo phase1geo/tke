@@ -1988,8 +1988,8 @@ namespace eval menus {
 
     $mb.foldPopup add separator
 
-    $mb.foldPopup add command -label [msgcat::mc "Add Fold From Selection"] -command [list menus::add_fold_from_selection]
-    launcher::register [make_menu "View" [msgcat::mc "Add fold from selection"]] [list menus::add_fold_from_selection]
+    $mb.foldPopup add command -label [msgcat::mc "Create Fold From Selection"] -command [list menus::add_fold_from_selection]
+    launcher::register [make_menu "View" [msgcat::mc "Create fold from selection"]] [list menus::add_fold_from_selection]
 
     $mb.foldPopup add separator
 
@@ -2004,22 +2004,18 @@ namespace eval menus {
 
     $mb.foldPopup add separator
 
-    $mb.foldPopup add command -label [msgcat::mc "Close Current Fold"] -command [list menus::close_folds current]
-    launcher::register [make_menu "View" [msgcat::mc "Close fold at current line"]] [list menus::close_folds current]
+    $mb.foldPopup add cascade -label [msgcat::mc "Close Current Fold"] -menu [menu $mb.fcloseCurrPopup -tearoff 0]
 
-    $mb.foldPopup add command -label [msgcat::mc "Close Selected Folds"] -command [list menus::close_folds selected]
-    launcher::register [make_menu "View" [msgcat::mc "Close all selected folds"]] [list menus::close_folds selected]
+    $mb.foldPopup add cascade -label [msgcat::mc "Close Selected Folds"] -menu [menu $mb.fcloseSelPopup -tearoff 0]
 
     $mb.foldPopup add command -label [msgcat::mc "Close All Folds"] -command [list menus::close_folds all]
     launcher::register [make_menu "View" [msgcat::mc "Close all folds"]] [list menus::close_folds all]
 
     $mb.foldPopup add separator
 
-    $mb.foldPopup add command -label [msgcat::mc "Open Current Fold"] -command [list menus::open_folds current]
-    launcher::register [make_menu "View" [msgcat::mc "Open fold at current line"]] [list menus::open_folds current]
+    $mb.foldPopup add cascade -label [msgcat::mc "Open Current Fold"] -menu [menu $mb.fopenCurrPopup -tearoff 0]
 
-    $mb.foldPopup add command -label [msgcat::mc "Open Selected Folds"] -command [list menus::open_folds selected]
-    launcher::register [make_menu "View" [msgcat::mc "Open all selected folds"]] [list menus::open_folds selected]
+    $mb.foldPopup add cascade -label [msgcat::mc "Open Selected Folds"] -menu [menu $mb.fopenSelPopup -tearoff 0]
 
     $mb.foldPopup add command -label [msgcat::mc "Open All Folds"] -command [list menus::open_folds all]
     launcher::register [make_menu "View" [msgcat::mc "Open all folds"]] [list menus::open_folds all]
@@ -2028,6 +2024,14 @@ namespace eval menus {
 
     $mb.foldPopup add command -label [msgcat::mc "Show cursor"] -command [list menus::open_folds show]
     launcher::register [make_menu "View" [msgcat::mc "Open folds to show cursor"]] [list menus::open_folds show]
+    
+    $mb.foldPopup add separator
+    
+    $mb.foldPopup add command -label [msgcat::mc "Jump to Next Fold Mark"] -command [list menus::jump_to_fold next]
+    launcher::register [make_menu "View" [msgcat::mc "Jump to the next fold indicator"]] [list menus::jump_to_fold next]
+
+    $mb.foldPopup add command -label [msgcat::mc "Jump to Previous Fold Mark"] -command [list menus::jump_to_fold prev]
+    launcher::register [make_menu "View" [msgcat::mc "Jump to the previous fold indicator"]] [list menus::jump_to_fold prev]
 
     # Setup the folding method popup menu
     $mb.fmPopup add radiobutton -label [msgcat::mc "None"]   -variable menus::fold_method -value "none"   -command [list menus::set_fold_method $mb.foldPopup none]
@@ -2037,7 +2041,35 @@ namespace eval menus {
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to none"]]   [list menus::fold_method $mb.foldPopup none]
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to manual"]] [list menus::fold_method $mb.foldPopup manual]
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to syntax"]] [list menus::fold_method $mb.foldPopup syntax]
+    
+    # Setup the folding close current popup menu
+    $mb.fcloseCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds current 1]
+    $mb.fcloseCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds current 0]
 
+    launcher::register [make_menu "View" [msgcat::mc "Close fold at current line - one level"]]  [list menus::close_folds current 1]
+    launcher::register [make_menu "View" [msgcat::mc "Close fold at current line - all levels"]] [list menus::close_folds current 0]
+    
+    # Setup the folding close selected popup menu
+    $mb.fcloseSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds selected 1]
+    $mb.fcloseSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds selected 0]
+
+    launcher::register [make_menu "View" [msgcat::mc "Close selected folds - one level"]]  [list menus::close_folds selected 1]
+    launcher::register [make_menu "View" [msgcat::mc "Close selected folds - all levels"]] [list menus::close_folds selected 0]
+    
+    # Setup the folding open current popup menu
+    $mb.fopenCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds current 1]
+    $mb.fopenCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds current 0]
+
+    launcher::register [make_menu "View" [msgcat::mc "Open fold at current line - one level"]]  [list menus::open_folds current 1]
+    launcher::register [make_menu "View" [msgcat::mc "Open fold at current line - all levels"]] [list menus::open_folds current 0]
+    
+    # Setup the folding open selected popup menu
+    $mb.fopenSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds selected 1]
+    $mb.fopenSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds selected 0]
+
+    launcher::register [make_menu "View" [msgcat::mc "Open selected folds - one level"]]  [list menus::open_folds selected 1]
+    launcher::register [make_menu "View" [msgcat::mc "Open selected folds - all levels"]] [list menus::open_folds selected 0]
+    
   }
 
   ######################################################################
@@ -2147,19 +2179,31 @@ namespace eval menus {
     set sel_state   [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
 
     if {$fold_method eq "manual"} {
-      $mb entryconfigure [msgcat::mc "Add Fold From Selection"] -state $sel_state
-      $mb entryconfigure [msgcat::mc "Delete Selected Folds"]   -state $sel_state
-      $mb entryconfigure [msgcat::mc "Delete Current Fold"]     -state normal
-      $mb entryconfigure [msgcat::mc "Delete All Folds"]        -state normal
+      $mb entryconfigure [msgcat::mc "Create Fold From Selection"] -state $sel_state
+      $mb entryconfigure [msgcat::mc "Delete Selected Folds"]      -state $sel_state
+      $mb entryconfigure [msgcat::mc "Delete Current Fold"]        -state normal
+      $mb entryconfigure [msgcat::mc "Delete All Folds"]           -state normal
     } else {
-      $mb entryconfigure [msgcat::mc "Add Fold From Selection"] -state disabled
-      $mb entryconfigure [msgcat::mc "Delete Selected Folds"]   -state disabled
-      $mb entryconfigure [msgcat::mc "Delete Current Fold"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Delete All Folds"]        -state disabled
+      $mb entryconfigure [msgcat::mc "Create Fold From Selection"] -state disabled
+      $mb entryconfigure [msgcat::mc "Delete Selected Folds"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Delete Current Fold"]        -state disabled
+      $mb entryconfigure [msgcat::mc "Delete All Folds"]           -state disabled
     }
 
     $mb entryconfigure [msgcat::mc "Close Selected Folds"] -state $sel_state
     $mb entryconfigure [msgcat::mc "Open Selected Folds"]  -state $sel_state
+    
+    if {$state eq "open"} {
+      $mb entryconfigure [msgcat::mc "Close Current Fold"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Close Current Fold"] -state disabled
+    }
+    
+    if {$state eq "close"} {
+      $mb entryconfigure [msgcat::mc "Open Current Fold"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Open Current Fold"] -state disabled
+    }
 
   }
 
@@ -2424,6 +2468,15 @@ namespace eval menus {
       }
     }
 
+  }
+  
+  ######################################################################
+  # Jump to the fold indicator in the given direction from the current
+  # cursor position.
+  proc jump_to_fold {dir} {
+    
+    folding::jump_to [gui::current_txt {}] $dir
+    
   }
 
   ######################################################################
