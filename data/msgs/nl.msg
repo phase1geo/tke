@@ -216,6 +216,9 @@ msgcat::mcmset nl {
   "Align cursors"
   "Uitlijnen van cursors"
 
+  "All Levels"
+  "Alle niveaus"
+
   "Append Next Occurrence"
   "Volgende vindplaats toevoegen"
 
@@ -261,8 +264,20 @@ msgcat::mcmset nl {
   "Close All"
   "Alles sluiten"
 
+  "Close All Folds"
+  "Sluit alle plooien"
+
   "Close Current"
   "Huidig tabblad sluiten"
+
+  "Close Current Fold"
+  "Sluiten huidige Fold"
+
+  "Close Selected Folds"
+  "Sluiten geselecteerd plooien"
+
+  "Close all folds"
+  "Sluit alle plooien"
 
   "Close all tabs"
   "Sluit alle lusjes"
@@ -272,6 +287,18 @@ msgcat::mcmset nl {
 
   "Close current tab"
   "Huidig tabblad sluiten"
+
+  "Close fold at current line - all levels"
+  "Nauwe vouwen op de huidige regel - alle niveaus"
+
+  "Close fold at current line - one level"
+  "Nauwe vouwen op de huidige regel - één niveau"
+
+  "Close selected folds - all levels"
+  "Sluiten van geselecteerde plooien - alle niveaus"
+
+  "Close selected folds - one level"
+  "Geselecteerde plooien - gelijkvloerse sluiten"
 
   "Command"
   "besturingssignaal"
@@ -297,8 +324,14 @@ msgcat::mcmset nl {
   "Create"
   "Creëren"
 
+  "Create Fold From Selection"
+  "Selectie opslaan"
+
   "Create at Current Line"
   "Maken op de huidige regel"
+
+  "Create fold from selection"
+  "Selectie opslaan"
 
   "Create marker at current line"
   "Markering op de huidige regel maken"
@@ -330,6 +363,21 @@ msgcat::mcmset nl {
   "Cut text"
   "Tekst knippen"
 
+  "Delete All Folds"
+  "Verwijderen van alle plooien"
+
+  "Delete Current Fold"
+  "Huidige verwijderen"
+
+  "Delete Selected Folds"
+  "Verwijder geselecteerde plooien"
+
+  "Delete all folds"
+  "Verwijderen van alle plooien"
+
+  "Delete all selected folds"
+  "Verwijderen van alle geselecteerde plooien"
+
   "Delete current file"
   "Huidige verwijderen"
 
@@ -338,6 +386,9 @@ msgcat::mcmset nl {
 
   "Delete current word"
   "Huidige verwijderen"
+
+  "Delete fold at current line"
+  "Vouw op de huidige regel verwijderen"
 
   "Delete from cursor to end of line"
   "Verwijderen van cursor tot einde van regel"
@@ -459,20 +510,8 @@ msgcat::mcmset nl {
   "Find previous occurrence"
   "Vorige exemplaar zoeken"
 
-  "Fold All"
-  "Alle fold"
-
   "Fold Method"
   "Vouwen methode"
-
-  "Fold Selected"
-  "Vouw de geselecteerde"
-
-  "Fold all"
-  "Vouw alle"
-
-  "Fold selected code"
-  "Vouw de geselecteerde code"
 
   "Folding"
   "Invouwen"
@@ -627,8 +666,20 @@ msgcat::mcmset nl {
   "Jump forward"
   "Spring vooruit"
 
+  "Jump to Next Fold Mark"
+  "Ga naar volgende Fold Mark"
+
+  "Jump to Previous Fold Mark"
+  "Ga naar vorige Fold Mark"
+
   "Jump to line"
   "Ga naar regel"
+
+  "Jump to the next fold indicator"
+  "Ga naar de volgende vouwen-indicator"
+
+  "Jump to the previous fold indicator"
+  "Ga naar de vorige vouw-indicator"
 
   "Language"
   "Taal"
@@ -789,6 +840,15 @@ msgcat::mcmset nl {
   "Next Difference"
   "Volgend verschil"
 
+  "One Level"
+  "Één niveau"
+
+  "Open All Folds"
+  "Open alle plooien"
+
+  "Open Current Fold"
+  "Open huidige Fold"
+
   "Open Directory"
   "Map openen"
 
@@ -801,11 +861,32 @@ msgcat::mcmset nl {
   "Open Recent"
   "Recent geopend"
 
+  "Open Selected Folds"
+  "Open geselecteerd plooien"
+
+  "Open all folds"
+  "Open alle plooien"
+
   "Open directory"
   "Map openen"
 
   "Open file"
   "Open lijn"
+
+  "Open fold at current line - all levels"
+  "Open vouwen op de huidige regel - alle niveaus"
+
+  "Open fold at current line - one level"
+  "Open vouwen op de huidige regel - één niveau"
+
+  "Open folds to show cursor"
+  "Open plooien naar het weergeven van cursor"
+
+  "Open selected folds - all levels"
+  "Open geselecteerde plooien - alle niveaus"
+
+  "Open selected folds - one level"
+  "Open geselecteerde plooien - één niveau"
 
   "Paste"
   "Pasta"
@@ -867,17 +948,11 @@ msgcat::mcmset nl {
   "Remove All Markers"
   "Alle markeringen verwijderen"
 
-  "Remove Fold"
-  "Vouw verwijderen"
-
   "Remove From Current Line"
   "Verwijderen uit de huidige regel"
 
   "Remove all markers"
   "Alle markeringen verwijderen"
-
-  "Remove fold on current line"
-  "Vouw op de huidige regel verwijderen"
 
   "Remove marker from current line"
   "Markering verwijderen uit de huidige regel"
@@ -1014,6 +1089,9 @@ msgcat::mcmset nl {
   "Show Console"
   "Show Console"
 
+  "Show Cursor"
+  "Toon Cursor"
+
   "Show Diagnostic Logfile"
   "Toon diagnostische Logfile"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset nl {
 
   "Unfavorite file"
   "Unfavorite bestand"
-
-  "Unfold All"
-  "Ontvouwen Alle"
-
-  "Unfold all"
-  "Ontvouwen van alle"
 
   "Unindent"
   "Laten terugspringen"
@@ -1410,6 +1482,9 @@ msgcat::mcmset nl {
 
   "Background (trough) color used in the text scrollbars."
   "Achtergrond (dal) kleur die wordt gebruikt in de tekst schuifbalken."
+
+  "Background color displayed in embedded language code."
+  "De achtergrondkleur wordt weergegeven in de ingesloten taalcode."
 
   "Background color for all sidebar items that are not selected."
   "Achtergrondkleur voor alle sidebar items die niet zijn geselecteerd."

@@ -216,6 +216,9 @@ msgcat::mcmset el {
   "Align cursors"
   "Στοίχιση δρομείς"
 
+  "All Levels"
+  "Όλα τα επίπεδα"
+
   "Append Next Occurrence"
   "Προσάρτηση επόμενη εμφάνιση"
 
@@ -261,8 +264,20 @@ msgcat::mcmset el {
   "Close All"
   "Κλείσιμο όλων"
 
+  "Close All Folds"
+  "Κλείστε όλες πτυχές"
+
   "Close Current"
   "Κλείσιμο τρέχουσας"
+
+  "Close Current Fold"
+  "Κλείστε την τρέχουσα φορές"
+
+  "Close Selected Folds"
+  "Κλείσιμο επιλεγμένο πτυχώσεις"
+
+  "Close all folds"
+  "Κλείστε όλες πτυχές"
 
   "Close all tabs"
   "Κλείσιμο όλων των καρτελών"
@@ -272,6 +287,18 @@ msgcat::mcmset el {
 
   "Close current tab"
   "Κλείσιμο τρέχουσας καρτέλας"
+
+  "Close fold at current line - all levels"
+  "Στενή φορές στην τρέχουσα γραμμή - όλα τα επίπεδα"
+
+  "Close fold at current line - one level"
+  "Στενή φορές στην τρέχουσα γραμμή - ένα επίπεδο"
+
+  "Close selected folds - all levels"
+  "Κλείστε επιλεγμένες πτυχές - όλα τα επίπεδα"
+
+  "Close selected folds - one level"
+  "Κλείστε επιλεγμένες πτυχές - ένα επίπεδο"
 
   "Command"
   "Εντολή"
@@ -297,8 +324,14 @@ msgcat::mcmset el {
   "Create"
   "Δημιουργία"
 
+  "Create Fold From Selection"
+  "Δημιουργία φορές από την επιλογή"
+
   "Create at Current Line"
   "Δημιουργήστε σε τρέχουσα γραμμή"
+
+  "Create fold from selection"
+  "Δημιουργία φορές από την επιλογή"
 
   "Create marker at current line"
   "Δημιουργία δείκτη στην τρέχουσα γραμμή"
@@ -330,6 +363,21 @@ msgcat::mcmset el {
   "Cut text"
   "Αποκόψετε κείμενο"
 
+  "Delete All Folds"
+  "Διαγράψετε όλες πτυχές"
+
+  "Delete Current Fold"
+  "Διαγραφή τρέχουσας φορές"
+
+  "Delete Selected Folds"
+  "Διαγραφή επιλεγμένων πτυχώσεις"
+
+  "Delete all folds"
+  "Διαγράψετε όλες πτυχές"
+
+  "Delete all selected folds"
+  "Διαγράψετε όλες τις επιλεγμένες πτυχές"
+
   "Delete current file"
   "Διαγραφή του τρέχοντος αρχείου"
 
@@ -338,6 +386,9 @@ msgcat::mcmset el {
 
   "Delete current word"
   "Διαγραφή τρέχουσας λέξης"
+
+  "Delete fold at current line"
+  "Διαγραφή φορές στην τρέχουσα γραμμή"
 
   "Delete from cursor to end of line"
   "Διαγραφή του από το δρομέα στο τέλος της γραμμής"
@@ -459,20 +510,8 @@ msgcat::mcmset el {
   "Find previous occurrence"
   "Βρείτε την προηγούμενη εμφάνιση"
 
-  "Fold All"
-  "Διπλώστε Όλα"
-
   "Fold Method"
   "Διπλώστε τη μέθοδο"
-
-  "Fold Selected"
-  "Διπλώστε επιλεγμένο"
-
-  "Fold all"
-  "Διπλώστε όλα"
-
-  "Fold selected code"
-  "Διπλώστε το επιλεγμένο κώδικα"
 
   "Folding"
   "Πτυσσόμενος"
@@ -627,8 +666,20 @@ msgcat::mcmset el {
   "Jump forward"
   "Άλμα προς τα εμπρός"
 
+  "Jump to Next Fold Mark"
+  "Μετάβαση στο επόμενο σήμα Fold"
+
+  "Jump to Previous Fold Mark"
+  "Μετάβαση στο προηγούμενο σημάδι φορές"
+
   "Jump to line"
   "Μεταβείτε σε γραμμής"
+
+  "Jump to the next fold indicator"
+  "Μετάβαση σε το επόμενο δείκτης φορές"
+
+  "Jump to the previous fold indicator"
+  "Άλμα με τον προηγούμενο δείκτη φορές"
 
   "Language"
   "Μητρική Γλώσσα"
@@ -789,6 +840,15 @@ msgcat::mcmset el {
   "Next Difference"
   "επόμενο Διαφορά"
 
+  "One Level"
+  "Ένα επίπεδο"
+
+  "Open All Folds"
+  "Ανοίξτε όλες πτυχές"
+
+  "Open Current Fold"
+  "Ανοικτή τρέχουσα φορές"
+
   "Open Directory"
   "Open Directory"
 
@@ -801,11 +861,32 @@ msgcat::mcmset el {
   "Open Recent"
   "Άνοιγμα πρόσφατου"
 
+  "Open Selected Folds"
+  "Άνοιγμα επιλεγμένου πτυχώσεις"
+
+  "Open all folds"
+  "Ανοίξτε όλες πτυχές"
+
   "Open directory"
   "Άνοιγμα καταλόγου"
 
   "Open file"
   "Άνοιγμα αρχείου"
+
+  "Open fold at current line - all levels"
+  "Άνοιγμα φορές στην τρέχουσα γραμμή - όλα τα επίπεδα"
+
+  "Open fold at current line - one level"
+  "Άνοιγμα φορές στην τρέχουσα γραμμή - ένα επίπεδο"
+
+  "Open folds to show cursor"
+  "Ανοικτή πτυχώσεις να δείτε δρομέα"
+
+  "Open selected folds - all levels"
+  "Άνοιγμα επιλεγμένου πτυχώσεις - όλα τα επίπεδα"
+
+  "Open selected folds - one level"
+  "Άνοιγμα επιλεγμένου πτυχώσεις - ένα επίπεδο"
 
   "Paste"
   "Επικόλληση"
@@ -867,17 +948,11 @@ msgcat::mcmset el {
   "Remove All Markers"
   "Αφαιρέστε όλους τους δείκτες"
 
-  "Remove Fold"
-  "Αφαιρέστε φορές"
-
   "Remove From Current Line"
   "Αφαιρέστε από την τρέχουσα γραμμή"
 
   "Remove all markers"
   "Αφαιρέστε όλους τους δείκτες"
-
-  "Remove fold on current line"
-  "Αφαιρέστε πτυχή στην τρέχουσα γραμμή"
 
   "Remove marker from current line"
   "Κατάργηση δείκτη από τρέχουσα γραμμή"
@@ -1014,6 +1089,9 @@ msgcat::mcmset el {
   "Show Console"
   "Εμφάνιση Console"
 
+  "Show Cursor"
+  "Εμφάνιση δρομέα"
+
   "Show Diagnostic Logfile"
   "Εμφάνιση διαγνωστικό Logfile"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset el {
 
   "Unfavorite file"
   "Unfavorite αρχείο"
-
-  "Unfold All"
-  "Ξεδιπλώστε Όλα"
-
-  "Unfold all"
-  "Όλα ξεδιπλώνονται"
 
   "Unindent"
   "Κατάργηση εσοχής"
@@ -1410,6 +1482,9 @@ msgcat::mcmset el {
 
   "Background (trough) color used in the text scrollbars."
   "Ιστορικό (trough) χρώμα που χρησιμοποιείται στο κείμενο κύλισης."
+
+  "Background color displayed in embedded language code."
+  "Χρώμα φόντου που εμφανίζεται στον κώδικα ενσωματωμένο γλώσσας."
 
   "Background color for all sidebar items that are not selected."
   "Χρώμα φόντου για όλα τα στοιχεία sidebar που δεν έχουν επιλεγεί."

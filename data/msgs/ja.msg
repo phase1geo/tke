@@ -216,6 +216,9 @@ msgcat::mcmset ja {
   "Align cursors"
   "カーソルの位置合わせ"
 
+  "All Levels"
+  "すべてのレベル"
+
   "Append Next Occurrence"
   "次のオカレンスを追加"
 
@@ -261,8 +264,20 @@ msgcat::mcmset ja {
   "Close All"
   "すべて閉じる"
 
+  "Close All Folds"
+  "すべてのフォールドを閉じる"
+
   "Close Current"
   "閉じる現在"
+
+  "Close Current Fold"
+  "現在のフォールドを閉じる"
+
+  "Close Selected Folds"
+  "閉じる選択ひだ"
+
+  "Close all folds"
+  "すべてのフォールドを閉じる"
 
   "Close all tabs"
   "すべてのタブを閉じる"
@@ -272,6 +287,18 @@ msgcat::mcmset ja {
 
   "Close current tab"
   "現在のタブを閉じる"
+
+  "Close fold at current line - all levels"
+  "現在の行のすべてのレベルに近い倍"
+
+  "Close fold at current line - one level"
+  "現在の行の 1 つのレベルに近い倍"
+
+  "Close selected folds - all levels"
+  "閉じる選択した襞 - すべてのレベル"
+
+  "Close selected folds - one level"
+  "閉じる選択した襞 - 1 レベル"
 
   "Command"
   "命令"
@@ -297,8 +324,14 @@ msgcat::mcmset ja {
   "Create"
   "作成"
 
+  "Create Fold From Selection"
+  "倍を選択範囲から作成します。"
+
   "Create at Current Line"
   "現在の行で作成します。"
+
+  "Create fold from selection"
+  "倍を選択範囲から作成します。"
 
   "Create marker at current line"
   "現在の行でのマーカーを作成します。"
@@ -330,6 +363,21 @@ msgcat::mcmset ja {
   "Cut text"
   "テキストを切り取る"
 
+  "Delete All Folds"
+  "すべてのフォールドを削除します。"
+
+  "Delete Current Fold"
+  "現在のフォールドを削除します。"
+
+  "Delete Selected Folds"
+  "選択した襞を削除します。"
+
+  "Delete all folds"
+  "すべてのフォールドを削除します。"
+
+  "Delete all selected folds"
+  "選択したすべてのフォールドを削除します。"
+
   "Delete current file"
   "現在のファイルを削除します。"
 
@@ -338,6 +386,9 @@ msgcat::mcmset ja {
 
   "Delete current word"
   "現在の単語を削除します。"
+
+  "Delete fold at current line"
+  "現在の行に倍を削除します。"
 
   "Delete from cursor to end of line"
   "終わりへのカーソルから削除する行の"
@@ -459,20 +510,8 @@ msgcat::mcmset ja {
   "Find previous occurrence"
   "前の出現箇所を見つける"
 
-  "Fold All"
-  "すべて折りたたみ"
-
   "Fold Method"
   "折り方法"
-
-  "Fold Selected"
-  "選択したフォールドします。"
-
-  "Fold all"
-  "全て閉じる"
-
-  "Fold selected code"
-  "選択されているコードを折る"
 
   "Folding"
   "折り畳み式の"
@@ -627,8 +666,20 @@ msgcat::mcmset ja {
   "Jump forward"
   "前方ジャンプします。"
 
+  "Jump to Next Fold Mark"
+  "次の折りたたみマークにジャンプします。"
+
+  "Jump to Previous Fold Mark"
+  "以前の折りたたみマークにジャンプします。"
+
   "Jump to line"
   "行にジャンプします。"
+
+  "Jump to the next fold indicator"
+  "次の展開インジケーターにジャンプします。"
+
+  "Jump to the previous fold indicator"
+  "以前の倍インジケーターへジャンプします。"
 
   "Language"
   "言語"
@@ -789,6 +840,15 @@ msgcat::mcmset ja {
   "Next Difference"
   "次の違い"
 
+  "One Level"
+  "1 つのレベル"
+
+  "Open All Folds"
+  "すべてのフォールドを開く"
+
+  "Open Current Fold"
+  "現在展開"
+
   "Open Directory"
   "オープン ディレクトリ"
 
@@ -801,11 +861,32 @@ msgcat::mcmset ja {
   "Open Recent"
   "最近のオープン"
 
+  "Open Selected Folds"
+  "選択した襞を開く"
+
+  "Open all folds"
+  "すべてのフォールドを開く"
+
   "Open directory"
   "オープン ディレクトリ"
 
   "Open file"
   "ファイルを開く"
+
+  "Open fold at current line - all levels"
+  "現在の行のすべてのレベルで展開"
+
+  "Open fold at current line - one level"
+  "現在の行の 1 つのレベルで展開"
+
+  "Open folds to show cursor"
+  "カーソルを表示する開いているひだ"
+
+  "Open selected folds - all levels"
+  "開いている選択した襞 - すべてのレベル"
+
+  "Open selected folds - one level"
+  "開いている選択した襞 - 1 レベル"
 
   "Paste"
   "貼り付け"
@@ -867,17 +948,11 @@ msgcat::mcmset ja {
   "Remove All Markers"
   "すべてのマーカーを削除します"
 
-  "Remove Fold"
-  "フォールドを削除します。"
-
   "Remove From Current Line"
   "現在の行から削除"
 
   "Remove all markers"
   "すべてのマーカーを削除します。"
-
-  "Remove fold on current line"
-  "現在の行に折りを削除します。"
 
   "Remove marker from current line"
   "現在の行からマーカーを削除します。"
@@ -1014,6 +1089,9 @@ msgcat::mcmset ja {
   "Show Console"
   "コンソールの表示"
 
+  "Show Cursor"
+  "カーソルを表示します。"
+
   "Show Diagnostic Logfile"
   "診断ログ ファイルを表示します。"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset ja {
 
   "Unfavorite file"
   "Unfavorite ファイル"
-
-  "Unfold All"
-  "すべてを展開"
-
-  "Unfold all"
-  "すべてを展開します。"
 
   "Unindent"
   "インデント解除"
@@ -1410,6 +1482,9 @@ msgcat::mcmset ja {
 
   "Background (trough) color used in the text scrollbars."
   "テキストスクロールバーで使用される背景（トラフ）色。"
+
+  "Background color displayed in embedded language code."
+  "埋め込まれた言語コードで表示する背景色。"
 
   "Background color for all sidebar items that are not selected."
   "選択されていないすべてのサイドバーの項目の背景色です。"

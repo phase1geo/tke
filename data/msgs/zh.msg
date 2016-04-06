@@ -216,6 +216,9 @@ msgcat::mcmset zh {
   "Align cursors"
   "调整光标"
 
+  "All Levels"
+  "所有级别"
+
   "Append Next Occurrence"
   "追加下一個事件"
 
@@ -261,8 +264,20 @@ msgcat::mcmset zh {
   "Close All"
   "全部关闭"
 
+  "Close All Folds"
+  "关闭所有折叠"
+
   "Close Current"
   "關閉電流"
+
+  "Close Current Fold"
+  "关闭当前折叠"
+
+  "Close Selected Folds"
+  "关闭选定的褶皱"
+
+  "Close all folds"
+  "关闭所有折叠"
 
   "Close all tabs"
   "关闭全部标签页"
@@ -272,6 +287,18 @@ msgcat::mcmset zh {
 
   "Close current tab"
   "关闭当前选项卡"
+
+  "Close fold at current line - all levels"
+  "在当前行-各级紧密褶皱"
+
+  "Close fold at current line - one level"
+  "在当前行-一个级别的紧密褶皱"
+
+  "Close selected folds - all levels"
+  "关闭选定的褶皱-所有级别"
+
+  "Close selected folds - one level"
+  "关闭选定的褶皱-一个级别"
 
   "Command"
   "命令"
@@ -297,8 +324,14 @@ msgcat::mcmset zh {
   "Create"
   "创建"
 
+  "Create Fold From Selection"
+  "从选择创建折叠"
+
   "Create at Current Line"
   "創建於當前行"
+
+  "Create fold from selection"
+  "从所选内容创建折叠"
 
   "Create marker at current line"
   "在当前行上创建标记"
@@ -330,6 +363,21 @@ msgcat::mcmset zh {
   "Cut text"
   "剪切文本"
 
+  "Delete All Folds"
+  "删除所有折叠"
+
+  "Delete Current Fold"
+  "删除当前折叠"
+
+  "Delete Selected Folds"
+  "删除选定的褶皱"
+
+  "Delete all folds"
+  "删除所有折叠"
+
+  "Delete all selected folds"
+  "删除所有选定的褶皱"
+
   "Delete current file"
   "删除当前文件"
 
@@ -338,6 +386,9 @@ msgcat::mcmset zh {
 
   "Delete current word"
   "删除当前的单词"
+
+  "Delete fold at current line"
+  "删除当前行折叠"
 
   "Delete from cursor to end of line"
   "删除从光标结束的行"
@@ -459,20 +510,8 @@ msgcat::mcmset zh {
   "Find previous occurrence"
   "查找上一个"
 
-  "Fold All"
-  "全部折疊"
-
   "Fold Method"
   "折叠方法"
-
-  "Fold Selected"
-  "折叠所选"
-
-  "Fold all"
-  "折叠所有"
-
-  "Fold selected code"
-  "折叠选定的代码"
 
   "Folding"
   "摺頁"
@@ -627,8 +666,20 @@ msgcat::mcmset zh {
   "Jump forward"
   "往前跳"
 
+  "Jump to Next Fold Mark"
+  "跳转到下一个摺痕"
+
+  "Jump to Previous Fold Mark"
+  "跳转到以前的摺痕"
+
   "Jump to line"
   "跳转到行"
+
+  "Jump to the next fold indicator"
+  "跳转到下一个折叠指示器"
+
+  "Jump to the previous fold indicator"
+  "跳转到以前的折叠指示器"
 
   "Language"
   "语言"
@@ -789,6 +840,15 @@ msgcat::mcmset zh {
   "Next Difference"
   "接下來差異"
 
+  "One Level"
+  "一个级别"
+
+  "Open All Folds"
+  "打开所有折叠"
+
+  "Open Current Fold"
+  "打开当前折叠"
+
   "Open Directory"
   "打开目录"
 
@@ -801,11 +861,32 @@ msgcat::mcmset zh {
   "Open Recent"
   "打开最近"
 
+  "Open Selected Folds"
+  "打开选择的褶皱"
+
+  "Open all folds"
+  "打开所有折叠"
+
   "Open directory"
   "開啟目錄"
 
   "Open file"
   "打开文件"
+
+  "Open fold at current line - all levels"
+  "在当前行的所有级别打开折叠"
+
+  "Open fold at current line - one level"
+  "在当前行-一个级别打开折叠"
+
+  "Open folds to show cursor"
+  "开放的褶皱，显示光标"
+
+  "Open selected folds - all levels"
+  "打开选定的褶皱-所有级别"
+
+  "Open selected folds - one level"
+  "打开选定的褶皱-一个级别"
 
   "Paste"
   "粘贴"
@@ -867,17 +948,11 @@ msgcat::mcmset zh {
   "Remove All Markers"
   "刪除所有標記"
 
-  "Remove Fold"
-  "删除折叠"
-
   "Remove From Current Line"
   "從當前行中刪除"
 
   "Remove all markers"
   "删除所有标记"
-
-  "Remove fold on current line"
-  "删除当前行上的折叠"
 
   "Remove marker from current line"
   "删除从当前行的标记"
@@ -1014,6 +1089,9 @@ msgcat::mcmset zh {
   "Show Console"
   "显示控制台"
 
+  "Show Cursor"
+  "显示光标"
+
   "Show Diagnostic Logfile"
   "显示诊断日志文件"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset zh {
 
   "Unfavorite file"
   "太罗嗦的文件"
-
-  "Unfold All"
-  "全部展開"
-
-  "Unfold all"
-  "展开所有"
 
   "Unindent"
   "取消缩进"
@@ -1410,6 +1482,9 @@ msgcat::mcmset zh {
 
   "Background (trough) color used in the text scrollbars."
   "用在文本滚动条的背景 (槽) 颜色。"
+
+  "Background color displayed in embedded language code."
+  "在嵌入式的语言代码中显示的背景色。"
 
   "Background color for all sidebar items that are not selected."
   "所有未选中的侧边栏项的背景色。"

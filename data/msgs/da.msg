@@ -216,6 +216,9 @@ msgcat::mcmset da {
   "Align cursors"
   "Juster markører"
 
+  "All Levels"
+  "ALLE NIVEAUER!"
+
   "Append Next Occurrence"
   "Føj næste forekomst"
 
@@ -261,8 +264,20 @@ msgcat::mcmset da {
   "Close All"
   "Luk alle"
 
+  "Close All Folds"
+  "Luk alle folder"
+
   "Close Current"
   "Luk strøm {0}"
+
+  "Close Current Fold"
+  "Lukke aktuelle Fold"
+
+  "Close Selected Folds"
+  "Luk valgt folder"
+
+  "Close all folds"
+  "Luk alle folder"
 
   "Close all tabs"
   "Luk alle faneblade"
@@ -272,6 +287,18 @@ msgcat::mcmset da {
 
   "Close current tab"
   "Luk dette faneblad"
+
+  "Close fold at current line - all levels"
+  "Luk klappen på nuværende linje - alle niveauer"
+
+  "Close fold at current line - one level"
+  "Luk klappen på nuværende linje - et niveau"
+
+  "Close selected folds - all levels"
+  "Luk valgte folder - alle niveauer"
+
+  "Close selected folds - one level"
+  "Luk valgte folder - et niveau"
 
   "Command"
   "Kommando:"
@@ -297,8 +324,14 @@ msgcat::mcmset da {
   "Create"
   "Opret"
 
+  "Create Fold From Selection"
+  "Opret fra markering"
+
   "Create at Current Line"
   "Oprette på nuværende linje"
+
+  "Create fold from selection"
+  "Opret fra markering"
 
   "Create marker at current line"
   "Oprette markør på nuværende linje"
@@ -330,6 +363,21 @@ msgcat::mcmset da {
   "Cut text"
   "Klippe tekst"
 
+  "Delete All Folds"
+  "Slet alle folder"
+
+  "Delete Current Fold"
+  "Slet nuværende"
+
+  "Delete Selected Folds"
+  "Slet de valgte folder"
+
+  "Delete all folds"
+  "Slet alle folder"
+
+  "Delete all selected folds"
+  "Slet alle valgte folder"
+
   "Delete current file"
   "Slet nuværende"
 
@@ -338,6 +386,9 @@ msgcat::mcmset da {
 
   "Delete current word"
   "Slet nuværende"
+
+  "Delete fold at current line"
+  "Slette fold på nuværende linje"
 
   "Delete from cursor to end of line"
   "Slet fra markøren til ende af linjen"
@@ -459,20 +510,8 @@ msgcat::mcmset da {
   "Find previous occurrence"
   "Find forrige forekomst"
 
-  "Fold All"
-  "Fold alle"
-
   "Fold Method"
   "Fold metode"
-
-  "Fold Selected"
-  "Fold valgte"
-
-  "Fold all"
-  "Fold alle"
-
-  "Fold selected code"
-  "Fold valgte kode"
 
   "Folding"
   "Fold"
@@ -627,8 +666,20 @@ msgcat::mcmset da {
   "Jump forward"
   "Spring frem"
 
+  "Jump to Next Fold Mark"
+  "Hoppe til næste Fold Mark"
+
+  "Jump to Previous Fold Mark"
+  "Springe til forrige Fold Mark"
+
   "Jump to line"
   "Gå til linje"
+
+  "Jump to the next fold indicator"
+  "Springe til den næste fold indikator"
+
+  "Jump to the previous fold indicator"
+  "Springe til den forrige fold indikator"
 
   "Language"
   "Sprog"
@@ -789,6 +840,15 @@ msgcat::mcmset da {
   "Next Difference"
   "Næste forskel"
 
+  "One Level"
+  "Ét niveau"
+
+  "Open All Folds"
+  "Åbn alle folderne"
+
+  "Open Current Fold"
+  "Åben nuværende Fold"
+
   "Open Directory"
   "Åbn mappe"
 
@@ -801,11 +861,32 @@ msgcat::mcmset da {
   "Open Recent"
   "Åbn nylige"
 
+  "Open Selected Folds"
+  "Åbn valgt folder"
+
+  "Open all folds"
+  "Åbn alle folderne"
+
   "Open directory"
   "Åbn mappe"
 
   "Open file"
   "Åbn fil"
+
+  "Open fold at current line - all levels"
+  "Åben fold på nuværende linje - alle niveauer"
+
+  "Open fold at current line - one level"
+  "Åben fold på nuværende linje - et niveau"
+
+  "Open folds to show cursor"
+  "Åbne folderne til at vise markøren"
+
+  "Open selected folds - all levels"
+  "Åben udvalgte folder - alle niveauer"
+
+  "Open selected folds - one level"
+  "Åben udvalgte folder - et niveau"
 
   "Paste"
   "Sæt ind"
@@ -867,17 +948,11 @@ msgcat::mcmset da {
   "Remove All Markers"
   "Fjerne alle markører"
 
-  "Remove Fold"
-  "Fjerne Fold"
-
   "Remove From Current Line"
   "Fjern fra aktuel linje"
 
   "Remove all markers"
   "Fjerne alle markører"
-
-  "Remove fold on current line"
-  "Fjerne fold på nuværende linje"
 
   "Remove marker from current line"
   "Fjern markering fra aktuel linje"
@@ -1014,6 +1089,9 @@ msgcat::mcmset da {
   "Show Console"
   "Vis Console"
 
+  "Show Cursor"
+  "Vis markøren"
+
   "Show Diagnostic Logfile"
   "Vis diagnostisk logfil"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset da {
 
   "Unfavorite file"
   "Unfavorite fil"
-
-  "Unfold All"
-  "Udfolde alle"
-
-  "Unfold all"
-  "Udfolde alle"
 
   "Unindent"
   "Afindryk"
@@ -1410,6 +1482,9 @@ msgcat::mcmset da {
 
   "Background (trough) color used in the text scrollbars."
   "Baggrund (trough) farve i teksten scrollbars."
+
+  "Background color displayed in embedded language code."
+  "Baggrundsfarve vises i integrerede sprogkode."
 
   "Background color for all sidebar items that are not selected."
   "Baggrundsfarve for alle sidebar elementer, der ikke er valgt."

@@ -216,6 +216,9 @@ msgcat::mcmset sv {
   "Align cursors"
   "Justera markörer"
 
+  "All Levels"
+  "Alla nivåer"
+
   "Append Next Occurrence"
   "Lägg nästa förekomst"
 
@@ -261,8 +264,20 @@ msgcat::mcmset sv {
   "Close All"
   "Stäng alla"
 
+  "Close All Folds"
+  "Stäng alla veck"
+
   "Close Current"
   "Stäng aktuell flik"
+
+  "Close Current Fold"
+  "Nära nuvarande vik"
+
+  "Close Selected Folds"
+  "Nära valt veck"
+
+  "Close all folds"
+  "Stäng alla veck"
 
   "Close all tabs"
   "Stäng alla flikar"
@@ -272,6 +287,18 @@ msgcat::mcmset sv {
 
   "Close current tab"
   "Stäng aktuell flik"
+
+  "Close fold at current line - all levels"
+  "Stäng luckan på aktuell rad - alla nivåer"
+
+  "Close fold at current line - one level"
+  "Stäng luckan på aktuell rad - en nivå"
+
+  "Close selected folds - all levels"
+  "Nära valda veck - alla nivåer"
+
+  "Close selected folds - one level"
+  "Nära valda veck - en nivå"
 
   "Command"
   "Kommando"
@@ -297,8 +324,14 @@ msgcat::mcmset sv {
   "Create"
   "Skapa"
 
+  "Create Fold From Selection"
+  "Skapa från markerat område"
+
   "Create at Current Line"
   "Skapa på aktuell rad"
+
+  "Create fold from selection"
+  "Skapa från markerat område"
 
   "Create marker at current line"
   "Skapa markör på aktuell rad"
@@ -330,6 +363,21 @@ msgcat::mcmset sv {
   "Cut text"
   "Klipp ut text"
 
+  "Delete All Folds"
+  "Ta bort alla veck"
+
+  "Delete Current Fold"
+  "Radera aktuell"
+
+  "Delete Selected Folds"
+  "Ta bort markerade veck"
+
+  "Delete all folds"
+  "Ta bort alla veck"
+
+  "Delete all selected folds"
+  "Ta bort alla markerade veck"
+
   "Delete current file"
   "Ta bort aktuell fil"
 
@@ -338,6 +386,9 @@ msgcat::mcmset sv {
 
   "Delete current word"
   "Radera aktuellt ord"
+
+  "Delete fold at current line"
+  "Ta bort luckan på aktuell rad"
 
   "Delete from cursor to end of line"
   "Ta bort från markören till slutet av raden"
@@ -459,20 +510,8 @@ msgcat::mcmset sv {
   "Find previous occurrence"
   "Hitta föregående förekomst"
 
-  "Fold All"
-  "Vik alla"
-
   "Fold Method"
   "Vik metod"
-
-  "Fold Selected"
-  "Vika valda"
-
-  "Fold all"
-  "Vik alla"
-
-  "Fold selected code"
-  "Vika markerad kod"
 
   "Folding"
   "tvinning"
@@ -627,8 +666,20 @@ msgcat::mcmset sv {
   "Jump forward"
   "Hoppa framåt"
 
+  "Jump to Next Fold Mark"
+  "Hoppa till nästa vik märke"
+
+  "Jump to Previous Fold Mark"
+  "Hoppa till föregående Fold Mark"
+
   "Jump to line"
   "Hoppa till rad"
+
+  "Jump to the next fold indicator"
+  "Hoppa till nästa vik indikatorn"
+
+  "Jump to the previous fold indicator"
+  "Hoppa till föregående vik indikatorn"
 
   "Language"
   "Språk"
@@ -789,6 +840,15 @@ msgcat::mcmset sv {
   "Next Difference"
   "Nästa skillnad"
 
+  "One Level"
+  "En nivå"
+
+  "Open All Folds"
+  "Öppna alla veck"
+
+  "Open Current Fold"
+  "Öppna aktuell vik"
+
   "Open Directory"
   "Öppna katalog"
 
@@ -801,11 +861,32 @@ msgcat::mcmset sv {
   "Open Recent"
   "Öppna senaste"
 
+  "Open Selected Folds"
+  "Öppna markerade veck"
+
+  "Open all folds"
+  "Öppna alla veck"
+
   "Open directory"
   "Öppna katalog"
 
   "Open file"
   "Öppna fil"
+
+  "Open fold at current line - all levels"
+  "Öppna luckan på aktuell rad - alla nivåer"
+
+  "Open fold at current line - one level"
+  "Öppna luckan på aktuell rad - en nivå"
+
+  "Open folds to show cursor"
+  "Öppna veck att Visa markören"
+
+  "Open selected folds - all levels"
+  "Öppna markerade veck - alla nivåer"
+
+  "Open selected folds - one level"
+  "Öppna markerade veck - en nivå"
 
   "Paste"
   "limma"
@@ -867,17 +948,11 @@ msgcat::mcmset sv {
   "Remove All Markers"
   "Ta bort alla markörer"
 
-  "Remove Fold"
-  "Ta bort luckan"
-
   "Remove From Current Line"
   "Ta bort från aktuell rad"
 
   "Remove all markers"
   "Ta bort alla markörer"
-
-  "Remove fold on current line"
-  "Ta bort luckan på aktuell rad"
 
   "Remove marker from current line"
   "Ta bort markör från aktuell rad"
@@ -1014,6 +1089,9 @@ msgcat::mcmset sv {
   "Show Console"
   "Visa konsol"
 
+  "Show Cursor"
+  "Visa markören"
+
   "Show Diagnostic Logfile"
   "Visa diagnostisk loggfil"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset sv {
 
   "Unfavorite file"
   "Unfavorite fil"
-
-  "Unfold All"
-  "Veckla ut alla"
-
-  "Unfold all"
-  "Veckla ut alla"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset sv {
 
   "Background (trough) color used in the text scrollbars."
   "Bakgrundsfärg (tråg) används i text scrollbars."
+
+  "Background color displayed in embedded language code."
+  "Bakgrundsfärgen visas i inbäddade språkkod."
 
   "Background color for all sidebar items that are not selected."
   "Bakgrundsfärgen för alla sidofältet objekt som inte är markerade."

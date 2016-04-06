@@ -216,6 +216,9 @@ msgcat::mcmset hu {
   "Align cursors"
   "Igazítás kurzorok"
 
+  "All Levels"
+  "Minden szint"
+
   "Append Next Occurrence"
   "Ráakaszt a következ? alkalom emlékeztet?je"
 
@@ -261,8 +264,20 @@ msgcat::mcmset hu {
   "Close All"
   "Az összes ablak bezárása"
 
+  "Close All Folds"
+  "Zárja be az összes redők"
+
   "Close Current"
   "Az aktuális lap bezárása"
+
+  "Close Current Fold"
+  "Zárja be a jelenlegi szeres"
+
+  "Close Selected Folds"
+  "Bezárás kiválasztott redők"
+
+  "Close all folds"
+  "Zárja be az összes redők"
 
   "Close all tabs"
   "Összes fül bezárása"
@@ -272,6 +287,18 @@ msgcat::mcmset hu {
 
   "Close current tab"
   "Az aktuális lap bezárása"
+
+  "Close fold at current line - all levels"
+  "Aktuális sor - minden szinten szoros szeres"
+
+  "Close fold at current line - one level"
+  "Szoros szeres aktuális sor - egy szinttel"
+
+  "Close selected folds - all levels"
+  "Zárja be a kijelölt ráncok - minden szinten"
+
+  "Close selected folds - one level"
+  "Zárja be a kijelölt ráncok - egy szinttel"
 
   "Command"
   "Parancs"
@@ -297,8 +324,14 @@ msgcat::mcmset hu {
   "Create"
   "Létrehozás"
 
+  "Create Fold From Selection"
+  "A kijelölt képrész megtartása"
+
   "Create at Current Line"
   "Az aktuális sor létrehozása"
+
+  "Create fold from selection"
+  "A kijelölt képrész megtartása"
 
   "Create marker at current line"
   "Marker létrehozása az aktuális sorhoz"
@@ -330,6 +363,21 @@ msgcat::mcmset hu {
   "Cut text"
   "Vágott szöveg"
 
+  "Delete All Folds"
+  "Törölje az összes redők"
+
+  "Delete Current Fold"
+  "Az aktuális törlése"
+
+  "Delete Selected Folds"
+  "Törli a kijelölt redők"
+
+  "Delete all folds"
+  "Törölje az összes redők"
+
+  "Delete all selected folds"
+  "Töröl minden kijelölt redők"
+
   "Delete current file"
   "Az aktuális törlése"
 
@@ -338,6 +386,9 @@ msgcat::mcmset hu {
 
   "Delete current word"
   "Az aktuális törlése"
+
+  "Delete fold at current line"
+  "Szeres aktuális sor törlése"
 
   "Delete from cursor to end of line"
   "Törli a kurzor, hogy vessen véget a sor"
@@ -459,20 +510,8 @@ msgcat::mcmset hu {
   "Find previous occurrence"
   "Még a korábbi előfordulása"
 
-  "Fold All"
-  "Fold minden"
-
   "Fold Method"
   "Hajtsa be a módszer"
-
-  "Fold Selected"
-  "Hajtsa be a kiválasztott"
-
-  "Fold all"
-  "Fold minden"
-
-  "Fold selected code"
-  "Hajtsa be a kiválasztott kód"
 
   "Folding"
   "Összecsukható"
@@ -627,8 +666,20 @@ msgcat::mcmset hu {
   "Jump forward"
   "Ugrás elõre"
 
+  "Jump to Next Fold Mark"
+  "Ugrás a következő Fold Mark"
+
+  "Jump to Previous Fold Mark"
+  "Ugrás az előző Fold Mark"
+
   "Jump to line"
   "Ugrás a sor"
+
+  "Jump to the next fold indicator"
+  "Ugrás a következő fold-jelző"
+
+  "Jump to the previous fold indicator"
+  "Ugrás az előző fold-jelző"
 
   "Language"
   "Nyelv"
@@ -789,6 +840,15 @@ msgcat::mcmset hu {
   "Next Difference"
   "A következ? eltérés"
 
+  "One Level"
+  "Egy szinttel"
+
+  "Open All Folds"
+  "Nyissa meg az összes kiszáll"
+
+  "Open Current Fold"
+  "Nyitott aktuális Fold"
+
   "Open Directory"
   "Felső szintű könyvtár"
 
@@ -801,11 +861,32 @@ msgcat::mcmset hu {
   "Open Recent"
   "Legutóbbi megnyitása"
 
+  "Open Selected Folds"
+  "Nyissa meg a kiválasztott redők"
+
+  "Open all folds"
+  "Nyissa meg az összes kiszáll"
+
   "Open directory"
   "Felső szintű könyvtár"
 
   "Open file"
   "Fájl megnyitása"
+
+  "Open fold at current line - all levels"
+  "Aktuális sor - minden szinten nyitott szeres"
+
+  "Open fold at current line - one level"
+  "Nyitott szeres aktuális sor - egy szinttel"
+
+  "Open folds to show cursor"
+  "Nyitott redők kurzor megjelenítése"
+
+  "Open selected folds - all levels"
+  "Nyitott kijelölt ráncok - minden szinten"
+
+  "Open selected folds - one level"
+  "Nyitott kijelölt ráncok - egy szinttel"
 
   "Paste"
   "Beillesztés"
@@ -867,17 +948,11 @@ msgcat::mcmset hu {
   "Remove All Markers"
   "Összes jelöl?jének eltávolítása"
 
-  "Remove Fold"
-  "Távolítsa el a Fold"
-
   "Remove From Current Line"
   "Távolítsa el az aktuális sorból"
 
   "Remove all markers"
   "Összes jelölőjének eltávolítása"
-
-  "Remove fold on current line"
-  "Távolítsa el a fold az aktuális sorban"
 
   "Remove marker from current line"
   "Jelölő eltávolítása az aktuális sorhoz"
@@ -1014,6 +1089,9 @@ msgcat::mcmset hu {
   "Show Console"
   "Megjelenítése Console"
 
+  "Show Cursor"
+  "Kurzor megjelenítése"
+
   "Show Diagnostic Logfile"
   "Diagnosztikai naplófájl megjelenítése"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset hu {
 
   "Unfavorite file"
   "Unfavorite fájl"
-
-  "Unfold All"
-  "Bontakozik ki, minden"
-
-  "Unfold all"
-  "Bontakozik ki, minden"
 
   "Unindent"
   "Behúzásának megszüntetése"
@@ -1410,6 +1482,9 @@ msgcat::mcmset hu {
 
   "Background (trough) color used in the text scrollbars."
   "Háttér (maradék) használt szín a szövegben gördítősávját."
+
+  "Background color displayed in embedded language code."
+  "Háttérszín jelenik meg a beágyazott nyelvkódot."
 
   "Background color for all sidebar items that are not selected."
   "Háttérszíne minden sidebar elem, hogy nem választott."

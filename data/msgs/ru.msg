@@ -216,6 +216,9 @@ msgcat::mcmset ru {
   "Align cursors"
   "Выравнивание курсоры"
 
+  "All Levels"
+  "Все уровни"
+
   "Append Next Occurrence"
   "Добавление следующее вхождение"
 
@@ -261,8 +264,20 @@ msgcat::mcmset ru {
   "Close All"
   "Закрыть все"
 
+  "Close All Folds"
+  "Закройте все складки"
+
   "Close Current"
   "Закрыть Текущий"
+
+  "Close Current Fold"
+  "Закрыть текущий раза"
+
+  "Close Selected Folds"
+  "Закрыть выбранные складки"
+
+  "Close all folds"
+  "Закройте все складки"
 
   "Close all tabs"
   "Закрыть все вкладки"
@@ -272,6 +287,18 @@ msgcat::mcmset ru {
 
   "Close current tab"
   "Закрыть текущую вкладку"
+
+  "Close fold at current line - all levels"
+  "Закрыть складка на текущей строке - все уровни"
+
+  "Close fold at current line - one level"
+  "Закрыть складка на текущей строке - один уровень"
+
+  "Close selected folds - all levels"
+  "Закрыть выбранный складки - все уровни"
+
+  "Close selected folds - one level"
+  "Закрыть выбранный складки - один уровень"
 
   "Command"
   "Команда"
@@ -297,8 +324,14 @@ msgcat::mcmset ru {
   "Create"
   "Создать"
 
+  "Create Fold From Selection"
+  "Создайте сложить из выделения"
+
   "Create at Current Line"
   "Создать в текущей строке"
+
+  "Create fold from selection"
+  "Создайте сложить из выделения"
 
   "Create marker at current line"
   "Создание маркера в текущей строке"
@@ -330,6 +363,21 @@ msgcat::mcmset ru {
   "Cut text"
   "Вырезание текста"
 
+  "Delete All Folds"
+  "Удалить все складки"
+
+  "Delete Current Fold"
+  "Удалить текущий раза"
+
+  "Delete Selected Folds"
+  "Удалить выбранные складки"
+
+  "Delete all folds"
+  "Удалить все складки"
+
+  "Delete all selected folds"
+  "Удалить все выбранные складки"
+
   "Delete current file"
   "Удалить текущий файл"
 
@@ -338,6 +386,9 @@ msgcat::mcmset ru {
 
   "Delete current word"
   "Удаление текущего слова"
+
+  "Delete fold at current line"
+  "Удалять складки на текущую строку"
 
   "Delete from cursor to end of line"
   "Удаление от курсора до конца строки"
@@ -459,20 +510,8 @@ msgcat::mcmset ru {
   "Find previous occurrence"
   "Найти предыдущего вхождения"
 
-  "Fold All"
-  "Сложите все"
-
   "Fold Method"
   "Сложите метод"
-
-  "Fold Selected"
-  "Сбросить выбранные"
-
-  "Fold all"
-  "Сбросить все"
-
-  "Fold selected code"
-  "Сложите выбранный код"
 
   "Folding"
   "складной"
@@ -627,8 +666,20 @@ msgcat::mcmset ru {
   "Jump forward"
   "Перейти вперед"
 
+  "Jump to Next Fold Mark"
+  "Перейти к следующей раз Марк"
+
+  "Jump to Previous Fold Mark"
+  "Перейти в предыдущий раз Марк"
+
   "Jump to line"
   "Перейти к строке"
+
+  "Jump to the next fold indicator"
+  "Перейти в следующий раз индикатор"
+
+  "Jump to the previous fold indicator"
+  "Перейти в предыдущий раз индикатор"
 
   "Language"
   "Язык"
@@ -789,6 +840,15 @@ msgcat::mcmset ru {
   "Next Difference"
   "Следующее отличие"
 
+  "One Level"
+  "Один уровень"
+
+  "Open All Folds"
+  "Открыть все складки"
+
+  "Open Current Fold"
+  "Открыть текущий раза"
+
   "Open Directory"
   "Open Directory"
 
@@ -801,11 +861,32 @@ msgcat::mcmset ru {
   "Open Recent"
   "Недавний"
 
+  "Open Selected Folds"
+  "Открыть выделенную складки"
+
+  "Open all folds"
+  "Открыть все складки"
+
   "Open directory"
   "Открытая директория"
 
   "Open file"
   "Открыть файл"
+
+  "Open fold at current line - all levels"
+  "Открытые складка на текущей строке - все уровни"
+
+  "Open fold at current line - one level"
+  "Открытые складка на текущей строке - один уровень"
+
+  "Open folds to show cursor"
+  "Открытые складок, чтобы показать курсор"
+
+  "Open selected folds - all levels"
+  "Открыть выбранный складки - все уровни"
+
+  "Open selected folds - one level"
+  "Открыть выбранный складки - один уровень"
 
   "Paste"
   "Паста"
@@ -867,17 +948,11 @@ msgcat::mcmset ru {
   "Remove All Markers"
   "Удалить все маркеры"
 
-  "Remove Fold"
-  "Удалять складки"
-
   "Remove From Current Line"
   "Удалить из текущей строки"
 
   "Remove all markers"
   "Удалить маркеры"
-
-  "Remove fold on current line"
-  "Удалять складки на текущей строки"
 
   "Remove marker from current line"
   "Удалить маркер из текущей строки"
@@ -1014,6 +1089,9 @@ msgcat::mcmset ru {
   "Show Console"
   "Показать консоль"
 
+  "Show Cursor"
+  "Показать Курсор"
+
   "Show Diagnostic Logfile"
   "Показать файл журнала диагностики"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset ru {
 
   "Unfavorite file"
   "Unfavorite файла"
-
-  "Unfold All"
-  "Раскрыть все"
-
-  "Unfold all"
-  "Раскрыть все"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset ru {
 
   "Background (trough) color used in the text scrollbars."
   "Цвет фона (корыто), используемый в тексте полосы прокрутки."
+
+  "Background color displayed in embedded language code."
+  "Цвет фона встроенного языка кода."
 
   "Background color for all sidebar items that are not selected."
   "Цвет фона для всех элементов боковой панели, которые не были выбраны."

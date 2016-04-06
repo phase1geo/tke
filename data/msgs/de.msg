@@ -216,6 +216,9 @@ msgcat::mcmset de {
   "Align cursors"
   "Ausrichten von Cursorn"
 
+  "All Levels"
+  "Alle Schwierigkeitsgrade"
+
   "Append Next Occurrence"
   "Suchbegriffes anfügen"
 
@@ -261,8 +264,20 @@ msgcat::mcmset de {
   "Close All"
   "Alle schließen"
 
+  "Close All Folds"
+  "Schließen Sie alle Falten"
+
   "Close Current"
   "Strom zu schließen"
+
+  "Close Current Fold"
+  "Schließen der aktuellen Fold"
+
+  "Close Selected Folds"
+  "Schließen ausgewählt Falten"
+
+  "Close all folds"
+  "Schließen Sie alle Falten"
 
   "Close all tabs"
   "Schließen Sie alle Registerkarten"
@@ -272,6 +287,18 @@ msgcat::mcmset de {
 
   "Close current tab"
   "Aktuelle Registerkarte schließen"
+
+  "Close fold at current line - all levels"
+  "Enge Falte an aktuelle Zeile - alle Stufen"
+
+  "Close fold at current line - one level"
+  "Enge Falte an aktuelle Zeile - eine Ebene"
+
+  "Close selected folds - all levels"
+  "Schließen Sie ausgewählte Folds - alle Stufen"
+
+  "Close selected folds - one level"
+  "Ausgewählte Falten - eine Ebene zu schließen"
 
   "Command"
   "Befehl"
@@ -297,8 +324,14 @@ msgcat::mcmset de {
   "Create"
   "Erstellen"
 
+  "Create Fold From Selection"
+  "Falten aus Auswahl erstellen"
+
   "Create at Current Line"
   "Zur aktuellen Zeile erstellen"
+
+  "Create fold from selection"
+  "Falten aus Auswahl erstellen"
 
   "Create marker at current line"
   "Markierung zur aktuellen Zeile erstellen"
@@ -330,6 +363,21 @@ msgcat::mcmset de {
   "Cut text"
   "Text Ausschneiden"
 
+  "Delete All Folds"
+  "Löschen Sie alle Falten"
+
+  "Delete Current Fold"
+  "Löschen der aktuellen Fold"
+
+  "Delete Selected Folds"
+  "Ausgewählte Löschen Falten"
+
+  "Delete all folds"
+  "Löschen Sie alle Falten"
+
+  "Delete all selected folds"
+  "Löschen Sie alle ausgewählte Aufteilungen"
+
   "Delete current file"
   "Aktuelle Datei löschen"
 
@@ -338,6 +386,9 @@ msgcat::mcmset de {
 
   "Delete current word"
   "Löscht das aktuelle Wort"
+
+  "Delete fold at current line"
+  "Falte an aktuelle Zeile löschen"
 
   "Delete from cursor to end of line"
   "Löschen von Cursorposition bis am Ende der Zeile"
@@ -459,20 +510,8 @@ msgcat::mcmset de {
   "Find previous occurrence"
   "Finden vorherige Vorkommen"
 
-  "Fold All"
-  "Falten Sie alle"
-
   "Fold Method"
   "Falten-Methode"
-
-  "Fold Selected"
-  "Falten Sie ausgewählte"
-
-  "Fold all"
-  "Alle Falten"
-
-  "Fold selected code"
-  "Ausgewählten Code Falten"
 
   "Folding"
   "Folding"
@@ -627,8 +666,20 @@ msgcat::mcmset de {
   "Jump forward"
   "Vorwärts springen"
 
+  "Jump to Next Fold Mark"
+  "Springe zum nächsten Falte Mark"
+
+  "Jump to Previous Fold Mark"
+  "Springe zum vorherigen Fold-Mark"
+
   "Jump to line"
   "Wechseln in Zeile"
+
+  "Jump to the next fold indicator"
+  "Springen Sie zum nächsten Falte Indikator"
+
+  "Jump to the previous fold indicator"
+  "Springen Sie zum vorherigen Falte Indikator"
 
   "Language"
   "Sprache"
@@ -789,6 +840,15 @@ msgcat::mcmset de {
   "Next Difference"
   "Nächster Unterschied"
 
+  "One Level"
+  "Eine Ebene"
+
+  "Open All Folds"
+  "Öffnen Sie alle Falten"
+
+  "Open Current Fold"
+  "Offenen aktuelle Fold"
+
   "Open Directory"
   "Open Directory"
 
@@ -801,11 +861,32 @@ msgcat::mcmset de {
   "Open Recent"
   "Zuletzt geöffnet"
 
+  "Open Selected Folds"
+  "Open ausgewählt Falten"
+
+  "Open all folds"
+  "Öffnen Sie alle Falten"
+
   "Open directory"
   "Open Directory"
 
   "Open file"
   "Datei öffnen"
+
+  "Open fold at current line - all levels"
+  "Offene Klappe an aktuelle Zeile - alle Stufen"
+
+  "Open fold at current line - one level"
+  "Offene Klappe an aktuelle Zeile - eine Ebene"
+
+  "Open folds to show cursor"
+  "Offenen Falten Cursor zeigen"
+
+  "Open selected folds - all levels"
+  "Offenen ausgewählten Folds - alle Stufen"
+
+  "Open selected folds - one level"
+  "Offenen ausgewählten Falten - eine Ebene"
 
   "Paste"
   "Einfügen"
@@ -867,17 +948,11 @@ msgcat::mcmset de {
   "Remove All Markers"
   "Entfernen Sie alle Markierungen"
 
-  "Remove Fold"
-  "Falten entfernen"
-
   "Remove From Current Line"
   "Entfernen Sie aus der aktuellen Zeile"
 
   "Remove all markers"
   "Alle Intervalle entfernen"
-
-  "Remove fold on current line"
-  "Entfernen von Falten auf der aktuellen Zeile"
 
   "Remove marker from current line"
   "Markierung von aktuellen Zeile entfernen"
@@ -1014,6 +1089,9 @@ msgcat::mcmset de {
   "Show Console"
   "Konsole einblenden"
 
+  "Show Cursor"
+  "Cursor &anzeigen"
+
   "Show Diagnostic Logfile"
   "Diagnostische Logfile zeigen"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset de {
 
   "Unfavorite file"
   "Unfavorite Datei"
-
-  "Unfold All"
-  "Alle zu entfalten"
-
-  "Unfold all"
-  "Klappen Sie alle"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset de {
 
   "Background (trough) color used in the text scrollbars."
   "Hintergrund (Trog) Farbe in den Textbildlaufleisten verwendet."
+
+  "Background color displayed in embedded language code."
+  "Hintergrundfarbe in eingebetteten Sprachcode angezeigt."
 
   "Background color for all sidebar items that are not selected."
   "Hintergrundfarbe für alle Sidebar Elemente, die nicht ausgewählt sind."

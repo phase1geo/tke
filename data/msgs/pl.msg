@@ -216,6 +216,9 @@ msgcat::mcmset pl {
   "Align cursors"
   "Wyrównać kursory"
 
+  "All Levels"
+  "Wszystkie poziomy"
+
   "Append Next Occurrence"
   "Dołącz następnego wystąpienia"
 
@@ -261,8 +264,20 @@ msgcat::mcmset pl {
   "Close All"
   "Zamknij wszystkie"
 
+  "Close All Folds"
+  "Zamknij wszystkie fałdy"
+
   "Close Current"
   "Zamknij bieżącą"
+
+  "Close Current Fold"
+  "Zamknięcie bieżącego razy"
+
+  "Close Selected Folds"
+  "Zamknij zaznaczone fałdy"
+
+  "Close all folds"
+  "Zamknij wszystkie fałdy"
 
   "Close all tabs"
   "Zamknij wszystkie karty"
@@ -272,6 +287,18 @@ msgcat::mcmset pl {
 
   "Close current tab"
   "Zamknij bieżącą kartę"
+
+  "Close fold at current line - all levels"
+  "Blisko krotnie w bieżącym wierszu - wszystkie poziomy"
+
+  "Close fold at current line - one level"
+  "Blisko krotnie w bieżącym wierszu - jeden poziom"
+
+  "Close selected folds - all levels"
+  "Zamknij zaznaczone fałdy - wszystkie poziomy"
+
+  "Close selected folds - one level"
+  "Zamknij zaznaczone fałdy - jeden poziom"
 
   "Command"
   "Polecenie"
@@ -297,8 +324,14 @@ msgcat::mcmset pl {
   "Create"
   "Utwórz"
 
+  "Create Fold From Selection"
+  "Utwórz z zaznaczenia"
+
   "Create at Current Line"
   "Utwórz w bie??cym wierszu"
+
+  "Create fold from selection"
+  "Utwórz z zaznaczenia"
 
   "Create marker at current line"
   "Utworzyć znacznik w bieżącym wierszu"
@@ -330,6 +363,21 @@ msgcat::mcmset pl {
   "Cut text"
   "Wycięcie tekstu"
 
+  "Delete All Folds"
+  "Usuń wszystkie fałdy"
+
+  "Delete Current Fold"
+  "Usuń bieżące"
+
+  "Delete Selected Folds"
+  "Usuń zaznaczone fałdy"
+
+  "Delete all folds"
+  "Usuń wszystkie fałdy"
+
+  "Delete all selected folds"
+  "Usuń wszystkie zaznaczone fałdy"
+
   "Delete current file"
   "Usuń bieżący plik"
 
@@ -338,6 +386,9 @@ msgcat::mcmset pl {
 
   "Delete current word"
   "Usuń bieżące słowo"
+
+  "Delete fold at current line"
+  "Usuń krotnie w bieżącym wierszu"
 
   "Delete from cursor to end of line"
   "Usuwanie od kursora do końca linii"
@@ -459,20 +510,8 @@ msgcat::mcmset pl {
   "Find previous occurrence"
   "Znaleźć poprzednie wystąpienie"
 
-  "Fold All"
-  "Fold Wszystko"
-
   "Fold Method"
   "Klapki metody"
-
-  "Fold Selected"
-  "Złóż wybranych"
-
-  "Fold all"
-  "Zwiń wszystko"
-
-  "Fold selected code"
-  "Złóż wybranego kodu"
 
   "Folding"
   "Składanie"
@@ -627,8 +666,20 @@ msgcat::mcmset pl {
   "Jump forward"
   "Skok do przodu"
 
+  "Jump to Next Fold Mark"
+  "Przeskoczyć do następnego znacznik"
+
+  "Jump to Previous Fold Mark"
+  "Przeskoczyć do poprzedniego znacznik"
+
   "Jump to line"
   "Przejdź do wiersza"
+
+  "Jump to the next fold indicator"
+  "Przeskoczyć do następnego wskaźnika razy"
+
+  "Jump to the previous fold indicator"
+  "Przeskoczyć do poprzedniego wskaźnika razy"
 
   "Language"
   "Język"
@@ -789,6 +840,15 @@ msgcat::mcmset pl {
   "Next Difference"
   "Następna różnica"
 
+  "One Level"
+  "jeden poziom"
+
+  "Open All Folds"
+  "Otwórz wszystkie fałdy"
+
+  "Open Current Fold"
+  "Otwierania klapki bieżącego"
+
   "Open Directory"
   "Otwórz katalog"
 
@@ -801,11 +861,32 @@ msgcat::mcmset pl {
   "Open Recent"
   "Otwórz poprzedni"
 
+  "Open Selected Folds"
+  "Otwórz zaznaczone fałdy"
+
+  "Open all folds"
+  "Otwórz wszystkie fałdy"
+
   "Open directory"
   "Otwórz katalog"
 
   "Open file"
   "Otwórz plik"
+
+  "Open fold at current line - all levels"
+  "Otwierania klapki w bieżącym wierszu - wszystkie poziomy"
+
+  "Open fold at current line - one level"
+  "Otwierania klapki w bieżącym wierszu - jeden poziom"
+
+  "Open folds to show cursor"
+  "Otwarte fałdy do Pokaż kursor"
+
+  "Open selected folds - all levels"
+  "Otwórz wybrane fałdy - wszystkie poziomy"
+
+  "Open selected folds - one level"
+  "Otwórz zaznaczone fałdy - jeden poziom"
 
   "Paste"
   "Pasta"
@@ -867,17 +948,11 @@ msgcat::mcmset pl {
   "Remove All Markers"
   "Usuń wszystkie znaczniki"
 
-  "Remove Fold"
-  "Usunąć fałd"
-
   "Remove From Current Line"
   "Usuń z bieżącej linii"
 
   "Remove all markers"
   "Usuń wszystkie markery"
-
-  "Remove fold on current line"
-  "Usunąć fałd na bieżącej linii"
 
   "Remove marker from current line"
   "Usuń znacznik z bieżącego wiersza"
@@ -1014,6 +1089,9 @@ msgcat::mcmset pl {
   "Show Console"
   "Pokaż Console"
 
+  "Show Cursor"
+  "Pokaż kursor"
+
   "Show Diagnostic Logfile"
   "Pokaż diagnostyczne Logfile"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset pl {
 
   "Unfavorite file"
   "Unfavorite pliku"
-
-  "Unfold All"
-  "Rozwiń wszystkieCopy "
-
-  "Unfold all"
-  "Rozwiń wszystko"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset pl {
 
   "Background (trough) color used in the text scrollbars."
   "Kolor tła (koryta), stosowany w paski przewijania tekstu."
+
+  "Background color displayed in embedded language code."
+  "Kolor tła wyświetlane w język osadzony kod."
 
   "Background color for all sidebar items that are not selected."
   "Kolor tła dla wszystkich elementów paska bocznego, które nie są zaznaczone."

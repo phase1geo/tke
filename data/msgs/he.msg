@@ -216,6 +216,9 @@ msgcat::mcmset he {
   "Align cursors"
   "ליישר סמנים"
 
+  "All Levels"
+  "כל הסוגים"
+
   "Append Next Occurrence"
   "צרף המופע הבא"
 
@@ -261,8 +264,20 @@ msgcat::mcmset he {
   "Close All"
   "לסגור את כל"
 
+  "Close All Folds"
+  "סגור את כל הקפלים"
+
   "Close Current"
   "נוכחי Close"
+
+  "Close Current Fold"
+  "סגור את הקיפול הנוכחי"
+
+  "Close Selected Folds"
+  "סגור שנבחרו מתקפל"
+
+  "Close all folds"
+  "סגור את כל הקפלים"
 
   "Close all tabs"
   "סגור הכל"
@@ -272,6 +287,18 @@ msgcat::mcmset he {
 
   "Close current tab"
   "הכרטיסיה הנוכחית קרוב"
+
+  "Close fold at current line - all levels"
+  "קרוב קפל השורה הנוכחית - כל הרמות"
+
+  "Close fold at current line - one level"
+  "קרוב קפל השורה הנוכחית - רמה אחת"
+
+  "Close selected folds - all levels"
+  "סגור את קפלי הנבחר - כל הרמות"
+
+  "Close selected folds - one level"
+  "סגור את קפלי הנבחר - רמה אחת"
 
   "Command"
   "הפקודה"
@@ -297,8 +324,14 @@ msgcat::mcmset he {
   "Create"
   "צור"
 
+  "Create Fold From Selection"
+  "ליצור קיפול מתוך בחירה"
+
   "Create at Current Line"
   "צור ב הנוכחי Line"
+
+  "Create fold from selection"
+  "ליצור קיפול מתוך בחירה"
 
   "Create marker at current line"
   "ליצור סמן בקו הנוכחי"
@@ -330,6 +363,21 @@ msgcat::mcmset he {
   "Cut text"
   "גזור טקסט"
 
+  "Delete All Folds"
+  "מחיקת כל קפלי"
+
+  "Delete Current Fold"
+  "מחיקת קיפול הנוכחי"
+
+  "Delete Selected Folds"
+  "למחוק את קפלי שנבחרו"
+
+  "Delete all folds"
+  "מחיקת כל קפלי"
+
+  "Delete all selected folds"
+  "מחיקת כל קפלי שנבחרו"
+
   "Delete current file"
   "מחיקת הקובץ הנוכחי"
 
@@ -338,6 +386,9 @@ msgcat::mcmset he {
 
   "Delete current word"
   "מחיקת המילה הנוכחית"
+
+  "Delete fold at current line"
+  "מחיקת קפל השורה הנוכחית"
 
   "Delete from cursor to end of line"
   "מחיקת הסמן כדי לסיים קו"
@@ -459,20 +510,8 @@ msgcat::mcmset he {
   "Find previous occurrence"
   "למצוא את המופע הקודם"
 
-  "Fold All"
-  "מקפלים כל"
-
   "Fold Method"
   "שיטת הקיפול"
-
-  "Fold Selected"
-  "מקפלים שנבחרו"
-
-  "Fold all"
-  "מקפלים כל"
-
-  "Fold selected code"
-  "מקפלים את הקוד שנבחר"
 
   "Folding"
   "מִתקַפֵּל"
@@ -627,8 +666,20 @@ msgcat::mcmset he {
   "Jump forward"
   "לקפוץ קדימה"
 
+  "Jump to Next Fold Mark"
+  "לקפוץ לסימון קיפול הבא"
+
+  "Jump to Previous Fold Mark"
+  "לקפוץ לסימון הקיפול הקודם"
+
   "Jump to line"
   "קפוץ לשורה"
+
+  "Jump to the next fold indicator"
+  "לקפוץ על מחוון קיפול הבא"
+
+  "Jump to the previous fold indicator"
+  "לקפוץ על מחוון הקיפול הקודם"
 
   "Language"
   "שפה"
@@ -789,6 +840,15 @@ msgcat::mcmset he {
   "Next Difference"
   "ההבדל הבא"
 
+  "One Level"
+  "רמה אחת"
+
+  "Open All Folds"
+  "לפתוח כל קפלי"
+
+  "Open Current Fold"
+  "קיפול הנוכחי פתוח"
+
   "Open Directory"
   "המדריך הפתוח"
 
@@ -801,11 +861,32 @@ msgcat::mcmset he {
   "Open Recent"
   "פתח לאחרונה"
 
+  "Open Selected Folds"
+  "פתח שנבחרו מתקפל"
+
+  "Open all folds"
+  "לפתוח כל קפלי"
+
   "Open directory"
   "המדריך הפתוח"
 
   "Open file"
   "ת.פ."
+
+  "Open fold at current line - all levels"
+  "פתוח קפל השורה הנוכחית - כל הרמות"
+
+  "Open fold at current line - one level"
+  "פתוח קפל השורה הנוכחית - רמה אחת"
+
+  "Open folds to show cursor"
+  "קפלי פתוח כדי להציג את הסמן"
+
+  "Open selected folds - all levels"
+  "קפלי שנבחר פתוח - כל הרמות"
+
+  "Open selected folds - one level"
+  "קפלי שנבחר פתוח - רמה אחת"
 
   "Paste"
   "הדבק"
@@ -867,17 +948,11 @@ msgcat::mcmset he {
   "Remove All Markers"
   "הסר כל המרקרים"
 
-  "Remove Fold"
-  "להסיר את הקיפול"
-
   "Remove From Current Line"
   "הסר תווי שורה"
 
   "Remove all markers"
   "להסיר את כל הסמנים"
-
-  "Remove fold on current line"
-  "להסיר את הקיפול הוא בצד השורה הנוכחית"
 
   "Remove marker from current line"
   "הסר סמן השורה הנוכחית"
@@ -1014,6 +1089,9 @@ msgcat::mcmset he {
   "Show Console"
   "הצג המסוף"
 
+  "Show Cursor"
+  "הצג את הסמן"
+
   "Show Diagnostic Logfile"
   "הצג יומן האבחון"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset he {
 
   "Unfavorite file"
   "קובץ unfavorite"
-
-  "Unfold All"
-  "הנפרש"
-
-  "Unfold all"
-  "נפרשים הכל"
 
   "Unindent"
   "הקטנת כניסת"
@@ -1410,6 +1482,9 @@ msgcat::mcmset he {
 
   "Background (trough) color used in the text scrollbars."
   "צבע רקע (שוקת) המשמשים את פסי גלילה טקסט."
+
+  "Background color displayed in embedded language code."
+  "צבע הרקע המוצג בקוד מוטבע שפה."
 
   "Background color for all sidebar items that are not selected."
   "צבע רקע עבור כל הפריטים הצידי שאינם נבחרים."

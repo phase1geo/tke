@@ -216,6 +216,9 @@ msgcat::mcmset fr {
   "Align cursors"
   "Aligner les curseurs"
 
+  "All Levels"
+  "Tous les niveaux"
+
   "Append Next Occurrence"
   "Ajouter l'Occurrence suivante"
 
@@ -261,8 +264,20 @@ msgcat::mcmset fr {
   "Close All"
   "Tout fermer"
 
+  "Close All Folds"
+  "Fermez tous les plis"
+
   "Close Current"
   "Fermer la vue en cours"
+
+  "Close Current Fold"
+  "Fermez actuelle Rabat"
+
+  "Close Selected Folds"
+  "Fin sélectionné plis"
+
+  "Close all folds"
+  "Fermez tous les plis"
 
   "Close all tabs"
   "Fermer tous les onglets"
@@ -272,6 +287,18 @@ msgcat::mcmset fr {
 
   "Close current tab"
   "Fermer l'onglet actuel"
+
+  "Close fold at current line - all levels"
+  "Pli étroit à la ligne en cours - tous niveaux"
+
+  "Close fold at current line - one level"
+  "Pli étroit au niveau de la ligne actuelle - plain-pied"
+
+  "Close selected folds - all levels"
+  "Fermer les plis sélectionnés - tous les niveaux"
+
+  "Close selected folds - one level"
+  "Fermez certains plis - plain-pied"
 
   "Command"
   "Commande"
@@ -297,8 +324,14 @@ msgcat::mcmset fr {
   "Create"
   "Créer"
 
+  "Create Fold From Selection"
+  "Créer à partir de la sélection"
+
   "Create at Current Line"
   "Créer à la ligne courante"
+
+  "Create fold from selection"
+  "Créer à partir de la sélection"
 
   "Create marker at current line"
   "Créer marqueur à la ligne courante"
@@ -330,6 +363,21 @@ msgcat::mcmset fr {
   "Cut text"
   "couper le texte"
 
+  "Delete All Folds"
+  "Supprimer tous les plis"
+
+  "Delete Current Fold"
+  "Supprimer l'évènement sélectionné"
+
+  "Delete Selected Folds"
+  "Supprimer les plis sélectionnés"
+
+  "Delete all folds"
+  "Supprimer tous les plis"
+
+  "Delete all selected folds"
+  "Supprimer tous les plis sélectionnés"
+
   "Delete current file"
   "Supprimer le fichier en cours"
 
@@ -338,6 +386,9 @@ msgcat::mcmset fr {
 
   "Delete current word"
   "Supprimer l'évènement sélectionné"
+
+  "Delete fold at current line"
+  "Supprimer le pli à la ligne courante"
 
   "Delete from cursor to end of line"
   "Supprimez du curseur à la fin de ligne"
@@ -459,20 +510,8 @@ msgcat::mcmset fr {
   "Find previous occurrence"
   "Trouver l'occurrence précédente"
 
-  "Fold All"
-  "Plier tous"
-
   "Fold Method"
   "Méthode de pliage"
-
-  "Fold Selected"
-  "Pli sélectionné"
-
-  "Fold all"
-  "Plier tous"
-
-  "Fold selected code"
-  "Plier le code sélectionné"
 
   "Folding"
   "Pliage"
@@ -627,8 +666,20 @@ msgcat::mcmset fr {
   "Jump forward"
   "Aller de l`avant"
 
+  "Jump to Next Fold Mark"
+  "Sauter à la prochaine marque de pli"
+
+  "Jump to Previous Fold Mark"
+  "Sauter à la marque précédente de pli"
+
   "Jump to line"
   "Saut de ligne"
+
+  "Jump to the next fold indicator"
+  "Sauter à la prochaine indicateur de pli"
+
+  "Jump to the previous fold indicator"
+  "Saut à l'indicateur précédent de pli"
 
   "Language"
   "Langue"
@@ -789,6 +840,15 @@ msgcat::mcmset fr {
   "Next Difference"
   "Différence suivante"
 
+  "One Level"
+  "Niveau supérieur"
+
+  "Open All Folds"
+  "Ouvrir tous les plis"
+
+  "Open Current Fold"
+  "Pli actuel ouvert"
+
   "Open Directory"
   "Dossier principal :"
 
@@ -801,11 +861,32 @@ msgcat::mcmset fr {
   "Open Recent"
   "Ouvrez récente"
 
+  "Open Selected Folds"
+  "Ouvrir sélectionné plis"
+
+  "Open all folds"
+  "Ouvrir tous les plis"
+
   "Open directory"
   "Ouvrir le dossier"
 
   "Open file"
   "Ouvrir le fichier"
+
+  "Open fold at current line - all levels"
+  "Pli ouvert à tous les niveaux - ligne en cours"
+
+  "Open fold at current line - one level"
+  "Pli ouvert au niveau de la ligne actuelle - plain-pied"
+
+  "Open folds to show cursor"
+  "Plis ouverts pour montrer le curseur"
+
+  "Open selected folds - all levels"
+  "Plis ouverts sélectionnés - tous les niveaux"
+
+  "Open selected folds - one level"
+  "Plis ouverts sélectionnés - plain-pied"
 
   "Paste"
   "Coller"
@@ -867,17 +948,11 @@ msgcat::mcmset fr {
   "Remove All Markers"
   "Supprimer tous les marqueurs"
 
-  "Remove Fold"
-  "Enlever le pli"
-
   "Remove From Current Line"
   "Retirer de la ligne courante"
 
   "Remove all markers"
   "Supprimer tous les marqueurs"
-
-  "Remove fold on current line"
-  "Enlever le pli sur la ligne courante"
 
   "Remove marker from current line"
   "Supprimer le marqueur de ligne courante"
@@ -1014,6 +1089,9 @@ msgcat::mcmset fr {
   "Show Console"
   "Afficher la console"
 
+  "Show Cursor"
+  "Afficher le curseur"
+
   "Show Diagnostic Logfile"
   "Voir la Diagnostic Logfile"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset fr {
 
   "Unfavorite file"
   "Fichier unfavorite"
-
-  "Unfold All"
-  "Déplier tous"
-
-  "Unfold all"
-  "Déplier tous"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset fr {
 
   "Background (trough) color used in the text scrollbars."
   "Contexte (creux) couleur utilisée dans les barres de défilement de texte."
+
+  "Background color displayed in embedded language code."
+  "Couleur d'arrière-plan affichée dans le code de langue incorporé."
 
   "Background color for all sidebar items that are not selected."
   "La couleur de fond pour tous les éléments de la barre latérale qui ne sont pas sélectionnés."
