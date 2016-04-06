@@ -4272,12 +4272,15 @@ namespace eval gui {
     # Change the current tab, if necessary
     set_current_tab [get_info $txt txt tab]
 
+    # Make sure that the cursor is visible
+    [ns folding]::show_line $txt.t [lindex [split $pos .] 0]
+
     # Make the line viewable
     ::tk::TextSetCursor $txt.t $pos
 
     # Adjust the insert
     [ns vim]::adjust_insert $txt.t
-
+    
   }
 
   ######################################################################
