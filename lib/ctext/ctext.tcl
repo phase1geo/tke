@@ -2227,7 +2227,7 @@ proc ctext::comments {win start end do_tag} {
     foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
       if {![isEscaped $win $index]} {
         set end_index [$win index "$index+[lindex $lengths $i]c"]
-        if {[string index $pattern 0] eq "^"} {
+        if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
           set match [$win get $index $end_index]
           set diff  [expr [string length $match] - [string length [string trimleft $match]]]
           lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
@@ -2279,16 +2279,21 @@ proc ctext::comments {win start end do_tag} {
   set curr_lang_start ""
   set curr_char_tag   ""
   set rb              0
+  array set tag_pairs $data($win,config,csl_tag_pair)
   foreach char_info $char_tags {
     lassign $char_info char_start char_end char_tag
-    if {($curr_char_tag eq "") || [string match "_*End:$curr_lang" $curr_char_tag]} {
+    if {($curr_char_tag eq "") || [string match "_*End:$curr_lang" $curr_char_tag] || ($char_tag eq "_LangEnd:$curr_lang")} {
       if {[string range $char_tag 0 5] eq "_LangS"} {
         set curr_lang       [lindex [split $char_tag :] 1]
-        set curr_lang_start $char_start
+        set curr_lang_start "$char_end+1c"
         set curr_char_tag   ""
       } elseif {$char_tag eq "_LangEnd:$curr_lang"} {
+        if {[info exists tag_pairs($curr_char_tag)]} {
+          lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start $char_start
+          set rb [expr $rb ^ 1]
+        }
         if {$curr_lang_start ne ""} {
-          lappend tags(_Lang=$curr_lang) $curr_lang_start $char_end
+          lappend tags(_Lang=$curr_lang) $curr_lang_start $char_start
         }
         set curr_lang       ""
         set curr_lang_start ""
@@ -2322,7 +2327,6 @@ proc ctext::comments {win start end do_tag} {
       }
     }
   }
-  array set tag_pairs $data($win,config,csl_tag_pair)
   if {[info exists tag_pairs($curr_char_tag)]} {
     lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start end
   }
