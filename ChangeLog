@@ -1,73 +1,42 @@
-changeset:   2030:89352d76d4f1
-tag:         devel-2.3.11
+changeset:   2038:6c3795ad2d13
+tag:         devel-2.3.12
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 04 01:30:37 2016 -0500
+date:        Tue Apr 05 09:12:15 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.11 release
+ChangeLog for devel-2.3.12 release
 
 
-changeset:   2031:def21f65b03e
+changeset:   2039:192209abb8a6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 04 01:30:45 2016 -0500
+date:        Tue Apr 05 09:12:21 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.11 for changeset 89352d76d4f1
+Added tag devel-2.3.12 for changeset 6c3795ad2d13
 
 
-changeset:   2032:835972b5f826
-parent:      2018:1378f0cc6ee7
+changeset:   2040:acd40b4f8b9f
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Apr 04 17:24:07 2016 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Fixing syntax error when no tabs exist in saved configuration.
-* Fixing issue with jumping to starting indentation marker when cursor is not on a bracket/quote.
-
-
-changeset:   2033:4190c5aa5363
-parent:      2032:835972b5f826
-parent:      2031:def21f65b03e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Apr 04 17:26:28 2016 -0500
-files:       lib/gui.tcl
-description:
-* Merging.
-
-
-changeset:   2034:8c5069badd73
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 04 20:32:09 2016 -0500
-files:       lib/folding.tcl lib/version.tcl
-description:
-* Checkpointing.
-
-
-changeset:   2035:bf60ef5f148f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 04 22:59:28 2016 -0500
-files:       lib/folding.tcl lib/menus.tcl lib/version.tcl lib/vim.tcl
-description:
-* Adding support for "vm" Vim command.
-* Adding "Show cursor" Folding menu command.
-* Fixing menu code that called the "ns" command.
-
-
-changeset:   2036:c9b3792f3aba
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 05 01:29:16 2016 -0500
+date:        Tue Apr 05 11:07:35 2016 -0500
 files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Checkpointing work on fixing issues with text inserted between two strings.
+* Fixing issue with properly highlighting snippets text in embedded languages.
 
 
-changeset:   2037:38aab9a0f9d5
+changeset:   2041:04603d7298ff
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Apr 05 13:43:08 2016 -0500
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Completing work on Folding menus.
+
+
+changeset:   2042:4286c4f9d37b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 05 02:27:08 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl tests/ctext.tcl
+date:        Tue Apr 05 20:15:19 2016 -0500
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixing syntax highlighting issue when a non-string/comment character is inserted between two strings/comments.
-* Updating BIST diagnostics to reflect this change.
+* When jumping to a marker, automatically open folds when displaying the cursor.
 
 
