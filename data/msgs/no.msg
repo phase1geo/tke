@@ -216,6 +216,9 @@ msgcat::mcmset no {
   "Align cursors"
   "Justere pekere"
 
+  "All Levels"
+  "Alle Nivåer"
+
   "Append Next Occurrence"
   "Legg til neste forekomst"
 
@@ -261,8 +264,20 @@ msgcat::mcmset no {
   "Close All"
   "Lukk alle"
 
+  "Close All Folds"
+  "Lukk alle kaster"
+
   "Close Current"
   "Lukker gjeldende"
+
+  "Close Current Fold"
+  "Lukker gjeldende Fold"
+
+  "Close Selected Folds"
+  "Lukk valgt folder"
+
+  "Close all folds"
+  "Lukk alle kaster"
 
   "Close all tabs"
   "Lukk alle"
@@ -272,6 +287,18 @@ msgcat::mcmset no {
 
   "Close current tab"
   "Lukk gjeldende fane"
+
+  "Close fold at current line - all levels"
+  "Lukk fold på gjeldende linje - alle nivåer"
+
+  "Close fold at current line - one level"
+  "Lukk fold på gjeldende linje - ett nivå"
+
+  "Close selected folds - all levels"
+  "Lukk valgte folder - alle nivåer"
+
+  "Close selected folds - one level"
+  "Lukk valgte folder - ett nivå"
 
   "Command"
   "Kommando"
@@ -297,8 +324,14 @@ msgcat::mcmset no {
   "Create"
   "Opprett"
 
+  "Create Fold From Selection"
+  "Opprett brett fra utvalg"
+
   "Create at Current Line"
   "Opprette på gjeldende linje"
+
+  "Create fold from selection"
+  "Opprett brett fra utvalg"
 
   "Create marker at current line"
   "Opprett indikator på gjeldende linje"
@@ -330,6 +363,21 @@ msgcat::mcmset no {
   "Cut text"
   "Klippe ut tekst"
 
+  "Delete All Folds"
+  "Slette alle kaster"
+
+  "Delete Current Fold"
+  "Slette gjeldende Fold"
+
+  "Delete Selected Folds"
+  "Slett valgte folder"
+
+  "Delete all folds"
+  "Slette alle kaster"
+
+  "Delete all selected folds"
+  "Slett alle valgte folder"
+
   "Delete current file"
   "Slette gjeldende fil"
 
@@ -338,6 +386,9 @@ msgcat::mcmset no {
 
   "Delete current word"
   "Slett gjeldende ord"
+
+  "Delete fold at current line"
+  "Slette fold på gjeldende linje"
 
   "Delete from cursor to end of line"
   "Slette fra markøren til slutten av linjen"
@@ -459,20 +510,8 @@ msgcat::mcmset no {
   "Find previous occurrence"
   "Finne forrige forekomst"
 
-  "Fold All"
-  "Brett alle"
-
   "Fold Method"
   "Fold metoden"
-
-  "Fold Selected"
-  "Brett valgte"
-
-  "Fold all"
-  "Brett alle"
-
-  "Fold selected code"
-  "Brett valgte koden"
 
   "Folding"
   "Folding"
@@ -627,8 +666,20 @@ msgcat::mcmset no {
   "Jump forward"
   "Hoppe fremover"
 
+  "Jump to Next Fold Mark"
+  "Hoppe til neste brettemerke"
+
+  "Jump to Previous Fold Mark"
+  "Hoppe til forrige brettemerke"
+
   "Jump to line"
   "Linjen hopper til"
+
+  "Jump to the next fold indicator"
+  "Hoppe til neste fold indikatoren"
+
+  "Jump to the previous fold indicator"
+  "Hoppe til forrige fold indikatoren"
 
   "Language"
   "Språk"
@@ -789,6 +840,15 @@ msgcat::mcmset no {
   "Next Difference"
   "Neste forskjellen"
 
+  "One Level"
+  "Ett nivå"
+
+  "Open All Folds"
+  "Åpne alle foldene"
+
+  "Open Current Fold"
+  "Åpne gjeldende Fold"
+
   "Open Directory"
   "Open Directory"
 
@@ -801,11 +861,32 @@ msgcat::mcmset no {
   "Open Recent"
   "Åpne sist"
 
+  "Open Selected Folds"
+  "Åpne valgt(e) folder"
+
+  "Open all folds"
+  "Åpne alle foldene"
+
   "Open directory"
   "Åpne katalogen"
 
   "Open file"
   "Åpne fil"
+
+  "Open fold at current line - all levels"
+  "Åpne fold på gjeldende linje - alle nivåer"
+
+  "Open fold at current line - one level"
+  "Åpne fold på gjeldende linje - ett nivå"
+
+  "Open folds to show cursor"
+  "Åpne folder å vise markøren"
+
+  "Open selected folds - all levels"
+  "Åpne valgte folder - alle nivåer"
+
+  "Open selected folds - one level"
+  "Åpne valgte folder - ett nivå"
 
   "Paste"
   "Lim"
@@ -867,17 +948,11 @@ msgcat::mcmset no {
   "Remove All Markers"
   "Fjerne alle merkene"
 
-  "Remove Fold"
-  "Fjerne brett"
-
   "Remove From Current Line"
   "Fjern fra gjeldende linje"
 
   "Remove all markers"
   "Fjerne alle merkene"
-
-  "Remove fold on current line"
-  "Fjerne brett på gjeldende linje"
 
   "Remove marker from current line"
   "Fjerne merket fra gjeldende linje"
@@ -1014,6 +1089,9 @@ msgcat::mcmset no {
   "Show Console"
   "Vis Console"
 
+  "Show Cursor"
+  "Vis markør"
+
   "Show Diagnostic Logfile"
   "Vise diagnostisk loggfil"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset no {
 
   "Unfavorite file"
   "Unfavorite fil"
-
-  "Unfold All"
-  "Utfolde alle"
-
-  "Unfold all"
-  "Utfolde alle"
 
   "Unindent"
   "Fjern innrykk"
@@ -1410,6 +1482,9 @@ msgcat::mcmset no {
 
   "Background (trough) color used in the text scrollbars."
   "Bakgrunn (trough) fargen som brukes i tekstscrollbars."
+
+  "Background color displayed in embedded language code."
+  "Bakgrunnsfargen som vises i innebygd språkkode."
 
   "Background color for all sidebar items that are not selected."
   "Bakgrunnsfarge for alle sidebar elementer som ikke er valgt."

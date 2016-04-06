@@ -2022,7 +2022,7 @@ namespace eval menus {
 
     $mb.foldPopup add separator
 
-    $mb.foldPopup add command -label [msgcat::mc "Show cursor"] -command [list menus::open_folds show]
+    $mb.foldPopup add command -label [msgcat::mc "Show Cursor"] -command [list menus::open_folds show]
     launcher::register [make_menu "View" [msgcat::mc "Open folds to show cursor"]] [list menus::open_folds show]
     
     $mb.foldPopup add separator

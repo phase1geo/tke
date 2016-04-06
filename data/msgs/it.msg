@@ -216,6 +216,9 @@ msgcat::mcmset it {
   "Align cursors"
   "Allineare i cursori"
 
+  "All Levels"
+  "Tutti i Livelli"
+
   "Append Next Occurrence"
   "Accodare l'occorrenza successiva"
 
@@ -261,8 +264,20 @@ msgcat::mcmset it {
   "Close All"
   "Chiudi tutto"
 
+  "Close All Folds"
+  "Chiudere tutte le pieghe"
+
   "Close Current"
   "Chiudi Attuale:"
+
+  "Close Current Fold"
+  "Chiudi Attuale:"
+
+  "Close Selected Folds"
+  "Vicino selezionata pieghe"
+
+  "Close all folds"
+  "Chiudere tutte le pieghe"
 
   "Close all tabs"
   "Chiudi tutte le schede"
@@ -272,6 +287,18 @@ msgcat::mcmset it {
 
   "Close current tab"
   "Chiudi la scheda attuale"
+
+  "Close fold at current line - all levels"
+  "Vicino piega nella riga corrente - tutti i livelli"
+
+  "Close fold at current line - one level"
+  "Vicino piega nella riga corrente - un livello"
+
+  "Close selected folds - all levels"
+  "Chiudere le pieghe selezionati - tutti i livelli"
+
+  "Close selected folds - one level"
+  "Chiudere le pieghe selezionati - un livello"
 
   "Command"
   "Comando"
@@ -297,8 +324,14 @@ msgcat::mcmset it {
   "Create"
   "Crea"
 
+  "Create Fold From Selection"
+  "Crea dalla selezione"
+
   "Create at Current Line"
   "Creare riga corrente"
+
+  "Create fold from selection"
+  "Crea dalla selezione"
 
   "Create marker at current line"
   "Creare indicatore nella riga corrente"
@@ -330,6 +363,21 @@ msgcat::mcmset it {
   "Cut text"
   "Taglia (CTRL+X)"
 
+  "Delete All Folds"
+  "Eliminare tutte le pieghe"
+
+  "Delete Current Fold"
+  "Cancella corrente"
+
+  "Delete Selected Folds"
+  "Elimina selezionati pieghe"
+
+  "Delete all folds"
+  "Eliminare tutte le pieghe"
+
+  "Delete all selected folds"
+  "Eliminare tutte le pieghe selezionate"
+
   "Delete current file"
   "Cancella corrente"
 
@@ -338,6 +386,9 @@ msgcat::mcmset it {
 
   "Delete current word"
   "Cancella corrente"
+
+  "Delete fold at current line"
+  "Eliminare la piega nella riga corrente"
 
   "Delete from cursor to end of line"
   "Elimina dal cursore alla fine della linea"
@@ -459,20 +510,8 @@ msgcat::mcmset it {
   "Find previous occurrence"
   "Trovare l'occorrenza precedente"
 
-  "Fold All"
-  "Piegare tutto"
-
   "Fold Method"
   "Metodo di piega"
-
-  "Fold Selected"
-  "Piegare selezionato"
-
-  "Fold all"
-  "Piegare tutto"
-
-  "Fold selected code"
-  "Piegare il codice selezionato"
 
   "Folding"
   "Piegatura"
@@ -627,8 +666,20 @@ msgcat::mcmset it {
   "Jump forward"
   "Salto in avanti"
 
+  "Jump to Next Fold Mark"
+  "Saltare al prossimo Fold contrassegno"
+
+  "Jump to Previous Fold Mark"
+  "Passare a marchio piega precedente"
+
   "Jump to line"
   "Passare alla riga"
+
+  "Jump to the next fold indicator"
+  "Saltare il prossimo indicatore di piega"
+
+  "Jump to the previous fold indicator"
+  "Saltare per l'indicatore di piega precedente"
 
   "Language"
   "Lingua"
@@ -789,6 +840,15 @@ msgcat::mcmset it {
   "Next Difference"
   "Differenza successiva"
 
+  "One Level"
+  "Un livello"
+
+  "Open All Folds"
+  "Aprire tutte le pieghe"
+
+  "Open Current Fold"
+  "Aperto corrente Fold"
+
   "Open Directory"
   "Apri cartella"
 
@@ -801,11 +861,32 @@ msgcat::mcmset it {
   "Open Recent"
   "Apri recenti"
 
+  "Open Selected Folds"
+  "Selezionata l'opzione Apri pieghe"
+
+  "Open all folds"
+  "Aprire tutte le pieghe"
+
   "Open directory"
   "Apri cartella"
 
   "Open file"
   "Apri file"
+
+  "Open fold at current line - all levels"
+  "Aperto piega nella riga corrente - tutti i livelli"
+
+  "Open fold at current line - one level"
+  "Aperto piega nella riga corrente - un livello"
+
+  "Open folds to show cursor"
+  "Pieghe aperti per mostrare il cursore"
+
+  "Open selected folds - all levels"
+  "Aperti selezionati pieghe - tutti i livelli"
+
+  "Open selected folds - one level"
+  "Selezionata l'opzione aprire piega - un livello"
 
   "Paste"
   "Pasta"
@@ -867,17 +948,11 @@ msgcat::mcmset it {
   "Remove All Markers"
   "Rimuovere tutti i marcatori"
 
-  "Remove Fold"
-  "Rimuovere la piega"
-
   "Remove From Current Line"
   "Rimuovere dalla riga corrente"
 
   "Remove all markers"
   "Rimuovere tutti i marcatori"
-
-  "Remove fold on current line"
-  "Rimuovere la piega sulla riga corrente"
 
   "Remove marker from current line"
   "Rimuovere il marcatore da riga corrente"
@@ -1014,6 +1089,9 @@ msgcat::mcmset it {
   "Show Console"
   "Mostra console"
 
+  "Show Cursor"
+  "Mostra cursore"
+
   "Show Diagnostic Logfile"
   "File di registro Diagnostica;"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset it {
 
   "Unfavorite file"
   "File sfavorito"
-
-  "Unfold All"
-  "Spiegare tutto"
-
-  "Unfold all"
-  "Aprire tutto"
 
   "Unindent"
   "Annulla Rientro"
@@ -1410,6 +1482,9 @@ msgcat::mcmset it {
 
   "Background (trough) color used in the text scrollbars."
   "Contesto (depressione) colore utilizzato nelle barre di scorrimento del testo."
+
+  "Background color displayed in embedded language code."
+  "Colore di sfondo visualizzato nel codice embedded language."
 
   "Background color for all sidebar items that are not selected."
   "Colore di sfondo per tutte le voci della barra laterale non selezionate."

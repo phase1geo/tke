@@ -216,6 +216,9 @@ msgcat::mcmset es {
   "Align cursors"
   "Alinee los cursores"
 
+  "All Levels"
+  "Todos los niveles de acceso"
+
   "Append Next Occurrence"
   "Anexar la siguiente ocurrencia"
 
@@ -261,8 +264,20 @@ msgcat::mcmset es {
   "Close All"
   "Cerrar todo"
 
+  "Close All Folds"
+  "Cerrar todos los pliegues"
+
   "Close Current"
   "Cerrar vista actual"
+
+  "Close Current Fold"
+  "Cierre tapa corriente"
+
+  "Close Selected Folds"
+  "Cierre seleccionado pliegues"
+
+  "Close all folds"
+  "Cerrar todos los pliegues"
 
   "Close all tabs"
   "¿Cerramos todas las pestañas?"
@@ -272,6 +287,18 @@ msgcat::mcmset es {
 
   "Close current tab"
   "Cerrar la pestaña actual"
+
+  "Close fold at current line - all levels"
+  "Doble cierre en línea actual - todos los niveles"
+
+  "Close fold at current line - one level"
+  "Doble cierre en línea actual - un nivel"
+
+  "Close selected folds - all levels"
+  "Cerrar las dobleces - todos los niveles"
+
+  "Close selected folds - one level"
+  "Cerrar las dobleces - uno nivel"
 
   "Command"
   "Comando"
@@ -297,8 +324,14 @@ msgcat::mcmset es {
   "Create"
   "Crear"
 
+  "Create Fold From Selection"
+  "Crear desde la selección"
+
   "Create at Current Line"
   "Crear en línea actual"
+
+  "Create fold from selection"
+  "Crear desde la selección"
 
   "Create marker at current line"
   "Crear marcador en línea actual"
@@ -330,6 +363,21 @@ msgcat::mcmset es {
   "Cut text"
   "Cortar texto"
 
+  "Delete All Folds"
+  "Eliminar todos los pliegues"
+
+  "Delete Current Fold"
+  "Eliminar la actual"
+
+  "Delete Selected Folds"
+  "Eliminar seleccionado pliegues"
+
+  "Delete all folds"
+  "Eliminar todos los pliegues"
+
+  "Delete all selected folds"
+  "Eliminar todas las dobleces"
+
   "Delete current file"
   "Eliminar la actual"
 
@@ -338,6 +386,9 @@ msgcat::mcmset es {
 
   "Delete current word"
   "Eliminar la actual"
+
+  "Delete fold at current line"
+  "Eliminar el pliegue en la línea actual"
 
   "Delete from cursor to end of line"
   "Borrar desde cursor a fin de línea"
@@ -459,20 +510,8 @@ msgcat::mcmset es {
   "Find previous occurrence"
   "Buscar anterior aparición"
 
-  "Fold All"
-  "Doblar todos los"
-
   "Fold Method"
   "Método de doblez"
-
-  "Fold Selected"
-  "Doblar las"
-
-  "Fold all"
-  "Doblar todos los"
-
-  "Fold selected code"
-  "Pliegue de código seleccionado"
 
   "Folding"
   "reunido"
@@ -627,8 +666,20 @@ msgcat::mcmset es {
   "Jump forward"
   "Saltar hacia adelante"
 
+  "Jump to Next Fold Mark"
+  "Saltar a la siguiente marca de doblez"
+
+  "Jump to Previous Fold Mark"
+  "Saltar a la anterior marca de doblez"
+
   "Jump to line"
   "Saltar a la línea"
+
+  "Jump to the next fold indicator"
+  "Saltar al siguiente indicador doble"
+
+  "Jump to the previous fold indicator"
+  "Salta al anterior indicador doble"
 
   "Language"
   "Idioma"
@@ -789,6 +840,15 @@ msgcat::mcmset es {
   "Next Difference"
   "Siguiente diferencia"
 
+  "One Level"
+  "Subir un nivel"
+
+  "Open All Folds"
+  "Abrir los pliegues"
+
+  "Open Current Fold"
+  "Doble actual abierto"
+
   "Open Directory"
   "Abrir un directorio"
 
@@ -801,11 +861,32 @@ msgcat::mcmset es {
   "Open Recent"
   "Abrir reciente"
 
+  "Open Selected Folds"
+  "Abierto selecciona los pliegues"
+
+  "Open all folds"
+  "Abrir los pliegues"
+
   "Open directory"
   "Abrir un directorio"
 
   "Open file"
   "Abrir archivo"
+
+  "Open fold at current line - all levels"
+  "Doble abierto en línea actual - todos los niveles"
+
+  "Open fold at current line - one level"
+  "Doble abierto en línea actual - un nivel"
+
+  "Open folds to show cursor"
+  "Pliegues abiertos para mostrar cursor"
+
+  "Open selected folds - all levels"
+  "Abierto las dobleces - todos los niveles"
+
+  "Open selected folds - one level"
+  "Abierto las dobleces - un nivel"
 
   "Paste"
   "Pegar"
@@ -867,17 +948,11 @@ msgcat::mcmset es {
   "Remove All Markers"
   "Eliminar todos los marcadores"
 
-  "Remove Fold"
-  "Eliminar la doble"
-
   "Remove From Current Line"
   "Retire de la línea actual"
 
   "Remove all markers"
   "Eliminar todos los marcadores"
-
-  "Remove fold on current line"
-  "Quitar el doblez en la línea actual"
 
   "Remove marker from current line"
   "Eliminar marcador de línea actual"
@@ -1014,6 +1089,9 @@ msgcat::mcmset es {
   "Show Console"
   "Mostrar consola"
 
+  "Show Cursor"
+  "Mostrar cursor"
+
   "Show Diagnostic Logfile"
   "Logfile diagnóstico Mostrar"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset es {
 
   "Unfavorite file"
   "Archivo unfavorite"
-
-  "Unfold All"
-  "Desplegar todos los"
-
-  "Unfold all"
-  "Desplegar todos los"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset es {
 
   "Background (trough) color used in the text scrollbars."
   "Antecedentes (valle) de color utilizado en las barras de desplazamiento de texto."
+
+  "Background color displayed in embedded language code."
+  "Fondo de color que se muestra en el código de lenguaje integrado."
 
   "Background color for all sidebar items that are not selected."
   "Color de fondo para todos los elementos de la barra lateral que no están seleccionados."

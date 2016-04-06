@@ -216,6 +216,9 @@ msgcat::mcmset pt {
   "Align cursors"
   "Alinhar os cursores"
 
+  "All Levels"
+  "﻿Todos as dificuldade"
+
   "Append Next Occurrence"
   "Acrescentar a próxima ocorrência"
 
@@ -261,8 +264,20 @@ msgcat::mcmset pt {
   "Close All"
   "Fechar Tudo"
 
+  "Close All Folds"
+  "Fechar todas as dobras"
+
   "Close Current"
   "Fechar a Vista Actual"
+
+  "Close Current Fold"
+  "Fechar dobra atual"
+
+  "Close Selected Folds"
+  "Fechar selecionado dobras"
+
+  "Close all folds"
+  "Fechar todas as dobras"
 
   "Close all tabs"
   "Fechar todas as guias"
@@ -272,6 +287,18 @@ msgcat::mcmset pt {
 
   "Close current tab"
   "Fechar o separador actual"
+
+  "Close fold at current line - all levels"
+  "Dobra estreita na atual linha - todos os níveis"
+
+  "Close fold at current line - one level"
+  "Dobra estreita na atual linha - um nível"
+
+  "Close selected folds - all levels"
+  "Fechar dobras selecionadas - todos os níveis"
+
+  "Close selected folds - one level"
+  "Feche o selecionado dobras - um nível"
 
   "Command"
   "Comando"
@@ -297,8 +324,14 @@ msgcat::mcmset pt {
   "Create"
   "Criar"
 
+  "Create Fold From Selection"
+  "Criar a Partir da Selecção"
+
   "Create at Current Line"
   "Criar na linha atual"
+
+  "Create fold from selection"
+  "Criar a Partir da Selecção"
 
   "Create marker at current line"
   "Criar marcador na linha atual"
@@ -330,6 +363,21 @@ msgcat::mcmset pt {
   "Cut text"
   "Recorta o texto"
 
+  "Delete All Folds"
+  "Excluir todas as dobras"
+
+  "Delete Current Fold"
+  "Apagar a Actual"
+
+  "Delete Selected Folds"
+  "Excluir selecionadas dobras"
+
+  "Delete all folds"
+  "Excluir todas as dobras"
+
+  "Delete all selected folds"
+  "Excluir todas as dobras selecionadas"
+
   "Delete current file"
   "Apagar a Actual"
 
@@ -338,6 +386,9 @@ msgcat::mcmset pt {
 
   "Delete current word"
   "Apagar a Actual"
+
+  "Delete fold at current line"
+  "Excluir a dobra na linha atual"
 
   "Delete from cursor to end of line"
   "Apagar do cursor ao fim da linha"
@@ -459,20 +510,8 @@ msgcat::mcmset pt {
   "Find previous occurrence"
   "Localizar a ocorrência anterior"
 
-  "Fold All"
-  "Dobre tudo"
-
   "Fold Method"
   "Método de dobra"
-
-  "Fold Selected"
-  "Dobre selecionado"
-
-  "Fold all"
-  "Dobre tudo"
-
-  "Fold selected code"
-  "Dobre o código selecionado"
 
   "Folding"
   "Dobragem"
@@ -627,8 +666,20 @@ msgcat::mcmset pt {
   "Jump forward"
   "Saltar para a frente"
 
+  "Jump to Next Fold Mark"
+  "Saltar para a próxima marca de dobra"
+
+  "Jump to Previous Fold Mark"
+  "Saltar para a marca de dobra anterior"
+
   "Jump to line"
   "Saltar para a linha"
+
+  "Jump to the next fold indicator"
+  "Saltar para o próximo indicador de dobra"
+
+  "Jump to the previous fold indicator"
+  "Saltar para o indicador anterior de dobra"
 
   "Language"
   "Idioma"
@@ -789,6 +840,15 @@ msgcat::mcmset pt {
   "Next Difference"
   "Próxima Diferença"
 
+  "One Level"
+  "Um nível"
+
+  "Open All Folds"
+  "Abrir todas as dobras"
+
+  "Open Current Fold"
+  "Abrir atual"
+
   "Open Directory"
   "Abrir uma Pasta"
 
@@ -801,11 +861,32 @@ msgcat::mcmset pt {
   "Open Recent"
   "Abrir um Recente"
 
+  "Open Selected Folds"
+  "Abrir selecionado dobras"
+
+  "Open all folds"
+  "Abrir todas as dobras"
+
   "Open directory"
   "Abrir diretório..."
 
   "Open file"
   "Abrir um ficheiro"
+
+  "Open fold at current line - all levels"
+  "Abrir na atual linha - todos os níveis"
+
+  "Open fold at current line - one level"
+  "Abrir na atual linha - um nível"
+
+  "Open folds to show cursor"
+  "Dobras abertas para mostrar o cursor"
+
+  "Open selected folds - all levels"
+  "Dobras de selecionado abertas - todos os níveis"
+
+  "Open selected folds - one level"
+  "Dobras de selecionado abertas - um nível"
 
   "Paste"
   "Colar"
@@ -867,17 +948,11 @@ msgcat::mcmset pt {
   "Remove All Markers"
   "Remova todos os marcadores"
 
-  "Remove Fold"
-  "Remova a tampa"
-
   "Remove From Current Line"
   "Remover da linha atual"
 
   "Remove all markers"
   "Remova todos os marcadores"
-
-  "Remove fold on current line"
-  "Remover a dobra na linha atual"
 
   "Remove marker from current line"
   "Remover o marcador de linha atual"
@@ -1014,6 +1089,9 @@ msgcat::mcmset pt {
   "Show Console"
   "Mostrar Console"
 
+  "Show Cursor"
+  "Mostrar o Cursor"
+
   "Show Diagnostic Logfile"
   "Mostrar arquivo de log de diagnóstico"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset pt {
 
   "Unfavorite file"
   "Arquivo favoritas"
-
-  "Unfold All"
-  "Todos se desdobram"
-
-  "Unfold all"
-  "Todos se desdobram"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset pt {
 
   "Background (trough) color used in the text scrollbars."
   "Cor de fundo (calha) utilizado em barras de rolagem de texto."
+
+  "Background color displayed in embedded language code."
+  "Cor de plano de fundo exibida no código incorporado a linguagem."
 
   "Background color for all sidebar items that are not selected."
   "Cor de fundo para todos os itens da barra lateral que não estão selecionados."

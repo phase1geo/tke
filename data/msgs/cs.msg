@@ -216,6 +216,9 @@ msgcat::mcmset cs {
   "Align cursors"
   "Zarovnání kurzorů"
 
+  "All Levels"
+  "Všechny úrovně"
+
   "Append Next Occurrence"
   "P?ipojit dalí výskyt"
 
@@ -261,8 +264,20 @@ msgcat::mcmset cs {
   "Close All"
   "Zavřít vše"
 
+  "Close All Folds"
+  "Zavřete všechny záhyby"
+
   "Close Current"
   "Uzav?ít aktuální"
+
+  "Close Current Fold"
+  "Zavřít aktuální krát"
+
+  "Close Selected Folds"
+  "Zavřít vybrané záhyby"
+
+  "Close all folds"
+  "Zavřete všechny záhyby"
 
   "Close all tabs"
   "Zavřít vše"
@@ -272,6 +287,18 @@ msgcat::mcmset cs {
 
   "Close current tab"
   "Zavřít současnou kartu"
+
+  "Close fold at current line - all levels"
+  "Zavřít záhyb na aktuálním řádku - všechny úrovně"
+
+  "Close fold at current line - one level"
+  "Zavřít záhyb na aktuálním řádku - jedna úroveň"
+
+  "Close selected folds - all levels"
+  "Zavřít vybrané záhyby - všechny úrovně"
+
+  "Close selected folds - one level"
+  "Zavřít vybrané záhyby - jedna úroveň"
 
   "Command"
   "Příkaz"
@@ -297,8 +324,14 @@ msgcat::mcmset cs {
   "Create"
   "Vytvořit"
 
+  "Create Fold From Selection"
+  "Vytvořit z výběru krát"
+
   "Create at Current Line"
   "Vytvo?it v aktuálním ?ádku"
+
+  "Create fold from selection"
+  "Vytvořit z výběru krát"
 
   "Create marker at current line"
   "Vytvoření značky na aktuálním řádku"
@@ -330,6 +363,21 @@ msgcat::mcmset cs {
   "Cut text"
   "Vyjmout text"
 
+  "Delete All Folds"
+  "Odstranit všechny záhyby"
+
+  "Delete Current Fold"
+  "Odstranit aktuální krát"
+
+  "Delete Selected Folds"
+  "Odstranit vybrané záhyby"
+
+  "Delete all folds"
+  "Odstranit všechny záhyby"
+
+  "Delete all selected folds"
+  "Odstranit všechny vybrané záhyby"
+
   "Delete current file"
   "Odstranit aktuální soubor"
 
@@ -338,6 +386,9 @@ msgcat::mcmset cs {
 
   "Delete current word"
   "Odstranit aktuální slovo"
+
+  "Delete fold at current line"
+  "Odstranit řasy v aktuálním řádku"
 
   "Delete from cursor to end of line"
   "Odstranit z kurzoru do konce řádku"
@@ -459,20 +510,8 @@ msgcat::mcmset cs {
   "Find previous occurrence"
   "Najít předchozí výskyt"
 
-  "Fold All"
-  "P?elo?te v?e"
-
   "Fold Method"
   "Přeložte metoda"
-
-  "Fold Selected"
-  "Přeložte vybrané"
-
-  "Fold all"
-  "Přeložte vše"
-
-  "Fold selected code"
-  "Přeložte vybraný kód"
 
   "Folding"
   "p?ehnutí"
@@ -627,8 +666,20 @@ msgcat::mcmset cs {
   "Jump forward"
   "Skok vpřed"
 
+  "Jump to Next Fold Mark"
+  "Přejít na další značky skládání"
+
+  "Jump to Previous Fold Mark"
+  "Přejít na předchozí značka krát"
+
   "Jump to line"
   "Přejít na řádek"
+
+  "Jump to the next fold indicator"
+  "Přejít na další indikátor krát"
+
+  "Jump to the previous fold indicator"
+  "Přejít na předchozí indikátor krát"
 
   "Language"
   "Jazyk"
@@ -789,6 +840,15 @@ msgcat::mcmset cs {
   "Next Difference"
   "Dalí rozdíl"
 
+  "One Level"
+  "Jedna úroveň"
+
+  "Open All Folds"
+  "Otevřít všechny záhyby"
+
+  "Open Current Fold"
+  "Otevřít aktuální krát"
+
   "Open Directory"
   "Otevřít adresář"
 
@@ -801,11 +861,32 @@ msgcat::mcmset cs {
   "Open Recent"
   "Otevřít poslední"
 
+  "Open Selected Folds"
+  "Otevřít vybrané záhyby"
+
+  "Open all folds"
+  "Otevřít všechny záhyby"
+
   "Open directory"
   "Otevřít adresář"
 
   "Open file"
   "Volný sloupec"
+
+  "Open fold at current line - all levels"
+  "Položte na aktuálním řádku - všechny úrovně"
+
+  "Open fold at current line - one level"
+  "Položte na aktuálním řádku - jedna úroveň"
+
+  "Open folds to show cursor"
+  "Ohrad otevřeno zobrazení kurzoru"
+
+  "Open selected folds - all levels"
+  "Otevřít vybrané záhyby - všechny úrovně"
+
+  "Open selected folds - one level"
+  "Otevřít vybrané záhyby - jedna úroveň"
 
   "Paste"
   "Pasta"
@@ -867,17 +948,11 @@ msgcat::mcmset cs {
   "Remove All Markers"
   "Odebrat vechny zna?ky"
 
-  "Remove Fold"
-  "Odebrat krát"
-
   "Remove From Current Line"
   "Odebrat z aktuálního ?ádku"
 
   "Remove all markers"
   "Odebrat všechny značky"
-
-  "Remove fold on current line"
-  "Odstranit řasy na aktuálním řádku"
 
   "Remove marker from current line"
   "Odstranit značku z aktuálního řádku"
@@ -1014,6 +1089,9 @@ msgcat::mcmset cs {
   "Show Console"
   "Zobrazit Console"
 
+  "Show Cursor"
+  "Show Cursor"
+
   "Show Diagnostic Logfile"
   "Zobrazit diagnostického protokolu"
 
@@ -1148,12 +1226,6 @@ msgcat::mcmset cs {
 
   "Unfavorite file"
   "Unfavorite soubor"
-
-  "Unfold All"
-  "Rozbalit v?e"
-
-  "Unfold all"
-  "Rozbalit vše"
 
   "Unindent"
   "Unindent"
@@ -1410,6 +1482,9 @@ msgcat::mcmset cs {
 
   "Background (trough) color used in the text scrollbars."
   "Souvislosti (žlábek), barvy použité v textu posuvníky."
+
+  "Background color displayed in embedded language code."
+  "Barva pozadí zobrazená v embedded jazyka kódu."
 
   "Background color for all sidebar items that are not selected."
   "Barva pozadí pro všechny postranní položky, které nejsou vybrány."
