@@ -5,9 +5,9 @@ vimsyntax
 {html}
 
 embedded {
-  {PHP        {<\?php$}                                 {^\s*\?>}}
-  {CSS        {<style.*?type="text/css".*?>$}           {^\s*</style>}}
-  {JavaScript {<style(.*?type="text/javascript".*?)?>$} {^\s*</style>}}
+  {PHP        {<\?php$}                                 {\?>}}
+  {CSS        {<style.*?type="text/css".*?>$}           {</style>}}
+  {JavaScript {<style(.*?type="text/javascript".*?)?>$} {</style>}}
 }
 
 matchcharsallowed
