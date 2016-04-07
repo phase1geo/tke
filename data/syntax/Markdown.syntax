@@ -7,9 +7,9 @@ vimsyntax
 embedded
 {
   {HTML}
-  {C          {```c$}          {^\s*```$}}
-  {Python     {```python$}     {^\s*```$}}
-  {JavaScript {```javascript$} {^\s*```$}}
+  {C          {```c$}          {```$}}
+  {Python     {```python$}     {```$}}
+  {JavaScript {```javascript$} {```$}}
 }
 
 tabsallowed
