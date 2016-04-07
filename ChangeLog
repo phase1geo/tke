@@ -1,42 +1,45 @@
-changeset:   2038:6c3795ad2d13
-tag:         devel-2.3.12
+changeset:   2043:92a91e87a7ac
+tag:         devel-2.3.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 05 09:12:15 2016 -0500
+date:        Tue Apr 05 23:00:25 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.12 release
+ChangeLog for devel-2.3.13 release
 
 
-changeset:   2039:192209abb8a6
+changeset:   2044:7c0eef075180
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 05 09:12:21 2016 -0500
+date:        Tue Apr 05 23:00:30 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.12 for changeset 6c3795ad2d13
+Added tag devel-2.3.13 for changeset 92a91e87a7ac
 
 
-changeset:   2040:acd40b4f8b9f
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Apr 05 11:07:35 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+changeset:   2045:32602425a335
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Apr 06 00:03:37 2016 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist Win/setup.iss data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg doc/Doxyfile doc/UserGuide.epub doc/UserGuide.pdf lib/menus.tcl lib/version.tcl
 description:
-* Fixing issue with properly highlighting snippets text in embedded languages.
+* Updating all translations.
+* Updating user guide.
+* Preparing files containing version information for upcoming 2.4 stable release.
 
 
-changeset:   2041:04603d7298ff
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Apr 05 13:43:08 2016 -0500
-files:       lib/menus.tcl lib/version.tcl
+changeset:   2046:5a0db4f6a4ca
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Apr 06 09:24:33 2016 -0500
+files:       data/syntax/HTML.syntax data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Completing work on Folding menus.
+* Changing behavior of embedded and uncompleted comments/strings to end at the language block end instead of terminating at the end of the file.
+* Initial pass at improving look of embedded language background color (but this has introduced a few problems).
 
 
-changeset:   2042:4286c4f9d37b
+changeset:   2047:f01b3475a55b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 05 20:15:19 2016 -0500
-files:       lib/gui.tcl lib/version.tcl
+date:        Thu Apr 07 02:51:26 2016 -0500
+files:       data/syntax/HTML.syntax data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* When jumping to a marker, automatically open folds when displaying the cursor.
+* Fixing issues with background coloring of embedded languages.
 
 
