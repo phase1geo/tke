@@ -1385,7 +1385,7 @@ proc ctext::command_insert {win args} {
   if {([llength $args] >= 3) && ([set lang [get_lang $win $insertPos]] ne "")} {
     set tag_index 2
     foreach {chars taglist} [lrange $args 1 end] {
-      lappend taglist _Lang=$lang
+      lappend taglist _Lang:$lang
       lset args $tag_index $taglist
       incr tag_index 2
     }
@@ -1503,26 +1503,28 @@ proc ctext::command_tag {win args} {
       set args [lassign $args subcmd tag]
       if {($tag ne "") && ([string range $tag 0 5] eq "_Lang=")} {
         $win._t tag lower $tag {*}$args
-      } elseif {$tag eq "_LangColor"} {
+      } elseif {[string range $tag 0 5] eq "_Lang:"} {
         if {[set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang=*] end]] ne ""} {
           $win._t tag raise $tag $lowest
         } else {
           $win._t tag lower $tag {*}$args
         }
       } else {
-        set lowest [lsearch -inline [$win._t tag names] _LangColor]
+        set lowest [lindex [lsearch -inline -all -glob [$win._t tag names] _Lang:*] end]
         if {($lowest ne "") && (([llength $args] == 0) || ($lowest eq [lindex $args 0]))} {
           $win._t tag raise $tag $lowest
         } else {
           $win._t tag lower $tag {*}$args
         }
       }
+      return
     }
     raise {
       set args [lassign $args subcmd tag]
       if {($tag ne "") && ([string range $tag 0 5] ne "_Lang=")} {
         $win._t tag raise $tag {*}$args
       }
+      return
     }
     default {
       return [$win._t tag {*}$args]
@@ -2134,15 +2136,15 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
   lappend data($win,config,langs) $lang
 
   if {$color ne ""} {
-    $win tag configure _LangColor -background $color
-    $win tag lower     _LangColor
-    $win tag configure _Lang=$lang -background [$win cget -background]
+    $win tag configure _Lang:$lang
+    $win tag lower     _Lang:$lang
+    $win tag configure _Lang=$lang -background $color
     $win tag lower     _Lang=$lang
   }
 
   lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
-  lappend data($win,config,csl_tags)      _Lang=$lang
-  lappend data($win,config,csl_array)     _LangStart:${lang}0 1 _LangStart:${lang}1 1 _LangEnd:${lang}0 1 _LangEnd:${lang}1 1 _Lang=$lang 1
+  lappend data($win,config,csl_tags)      _Lang:$lang
+  lappend data($win,config,csl_array)     _LangStart:${lang}0 1 _LangStart:${lang}1 1 _LangEnd:${lang}0 1 _LangEnd:${lang}1 1 _Lang:$lang 1
   lappend data($win,config,csl_tag_pair)  _LangStart:$lang _Lang=$lang
 
   setCommentRE $win
@@ -2163,6 +2165,7 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
 
   ctext::escapes $win $linestart $lineend
   set all [ctext::comments $win $linestart $lineend $do_tag]
+  ctext::updateLangBackgrounds $win
 
   if {$all} {
     foreach tag [$win._t tag names] {
@@ -2178,9 +2181,7 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
     ctext::indentation $win $linestart $lineend
     ctext::highlight   $win $linestart $lineend
   }
-
-  ctext::updateLangBackgrounds $win
-    
+  
 }
 
 proc ctext::get_tag_in_range {win tag start end} {
@@ -2305,7 +2306,7 @@ proc ctext::comments {win start end do_tag} {
           set rb [expr $rb ^ 1]
         }
         if {$curr_lang_start ne ""} {
-          lappend tags(_Lang=$curr_lang) $curr_lang_start $char_end
+          lappend tags(_Lang:$curr_lang) $curr_lang_start $char_end
         }
         set curr_lang       ""
         set curr_lang_start ""
@@ -2343,7 +2344,7 @@ proc ctext::comments {win start end do_tag} {
     lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start end
   }
   if {$curr_lang ne ""} {
-    lappend tags(_Lang=$curr_lang) $curr_lang_start end
+    lappend tags(_Lang:$curr_lang) $curr_lang_start end
   }
 
   # Delete old, add new and re-raise tags
@@ -2355,7 +2356,7 @@ proc ctext::comments {win start end do_tag} {
     }
   }
 
-  return [expr {[llength [array names tag_changed _Lang*]] > 0}]
+  return [expr {[llength [array names tag_changed _Lang:*]] > 0}]
 
 }
 
@@ -2363,16 +2364,14 @@ proc ctext::updateLangBackgrounds {win} {
   
   variable data
   
-  set indices [list]
-  
-  foreach tag [lsearch -inline -all -glob $data($win,config,csl_tags) _Lang=*] {
+  foreach tag [lsearch -inline -all -glob $data($win,config,csl_tags) _Lang:*] {
+    set indices [list]
     foreach {start end} [$win tag ranges $tag] {
       lappend indices "$start+1l linestart" "$end linestart"
     }
-  }
-  
-  if {[llength $indices] > 0} {
-    $win tag add _LangColor {*}$indices
+    if {[llength $indices] > 0} {
+      $win tag add [string map {: =} $tag] {*}$indices
+    }
   }
 
 }
