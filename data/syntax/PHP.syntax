@@ -29,7 +29,7 @@ strings {{"} {'}}
 
 keywords
 {
-  array var_dump class public new echo var const static echo foreach for print as unset while
+  array var_dump class public new echo var const static echo foreach for function print as unset while
   extends if return include global and or xor switch case break elseif else instanceof
   implements interface continue declare require require_once include_once goto do endif
   endwhile endfor endforeach endswitch default
