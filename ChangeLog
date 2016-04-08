@@ -1,45 +1,50 @@
-changeset:   2043:92a91e87a7ac
-tag:         devel-2.3.13
+changeset:   2048:1ea7f27f28ad
+tag:         devel-2.3.14
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 05 23:00:25 2016 -0500
+date:        Thu Apr 07 09:43:37 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.13 release
+ChangeLog for devel-2.3.14 release
 
 
-changeset:   2044:7c0eef075180
+changeset:   2049:75923ea2a1f7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 05 23:00:30 2016 -0500
+date:        Thu Apr 07 09:43:42 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.13 for changeset 92a91e87a7ac
+Added tag devel-2.3.14 for changeset 1ea7f27f28ad
 
 
-changeset:   2045:32602425a335
+changeset:   2050:6e4b67e7fdc7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 06 00:03:37 2016 -0500
-files:       MacOSX/Tke.app/Contents/Info.plist Win/setup.iss data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg doc/Doxyfile doc/UserGuide.epub doc/UserGuide.pdf lib/menus.tcl lib/version.tcl
+date:        Fri Apr 08 00:27:51 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Updating all translations.
-* Updating user guide.
-* Preparing files containing version information for upcoming 2.4 stable release.
+* Fixing the last syntax highlighting issues with embedded languages.
 
 
-changeset:   2046:5a0db4f6a4ca
+changeset:   2051:2a3d9a42f66d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 06 09:24:33 2016 -0500
-files:       data/syntax/HTML.syntax data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Apr 08 00:34:08 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Changing behavior of embedded and uncompleted comments/strings to end at the language block end instead of terminating at the end of the file.
-* Initial pass at improving look of embedded language background color (but this has introduced a few problems).
+* Fixing tag ordering issue in ctext.
 
 
-changeset:   2047:f01b3475a55b
+changeset:   2052:f262039644ce
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Apr 08 00:39:28 2016 -0500
+files:       data/syntax/PHP.syntax lib/version.tcl
+description:
+* Fixing issue with highlighting the "function" keyword in PHP.
+
+
+changeset:   2053:7f26630f2b59
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 07 02:51:26 2016 -0500
-files:       data/syntax/HTML.syntax data/syntax/Markdown.syntax lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Apr 08 00:45:22 2016 -0500
+files:       data/syntax/Haml.syntax lib/version.tcl
 description:
-* Fixing issues with background coloring of embedded languages.
+* Fixing symbol highlighting in Haml.
 
 
