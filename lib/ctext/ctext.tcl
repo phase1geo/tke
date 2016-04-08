@@ -1521,7 +1521,7 @@ proc ctext::command_tag {win args} {
     }
     raise {
       set args [lassign $args subcmd tag]
-      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang=")} {
+      if {($tag ne "") && ([string range $tag 0 5] ne "_Lang:")} {
         $win._t tag raise $tag {*}$args
       }
       return
