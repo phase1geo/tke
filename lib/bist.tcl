@@ -84,6 +84,9 @@ namespace eval bist {
         $data(widgets,tbl) cellconfigure $child,selected -image $data(images,checked)
       }
     }
+    
+    # Collapse all tests
+    $data(widgets,tbl) collapseall
 
     # Sets the given selections
     set_selections $selected
@@ -384,7 +387,8 @@ namespace eval bist {
     scroller::scroller $sf.tf.hb -orient horizontal -background white -foreground black -command [list $sf.tf.tl xview]
     scroller::scroller $sf.tf.vb -orient vertical   -background white -foreground black -command [list $sf.tf.tl yview]
 
-    $sf.tf.tl columnconfigure 0 -name selected -editable 0 -resizable 0 -editwindow checkbutton -formatcommand [list bist::format_cell]
+    $sf.tf.tl columnconfigure 0 -name selected -editable 0 -resizable 0 -editwindow checkbutton \
+      -formatcommand [list bist::format_cell] -labelimage $data(images,unchecked) -labelcommand [list bist::label_clicked]
     $sf.tf.tl columnconfigure 1 -name name     -editable 0 -resizable 0 -formatcommand [list bist::format_cell]
     $sf.tf.tl columnconfigure 2 -name count    -editable 0 -resizable 0
     $sf.tf.tl columnconfigure 3 -name pass     -editable 0 -resizable 0
@@ -533,6 +537,8 @@ namespace eval bist {
     menu .bistwin.filePopup -tearoff 0
     .bistwin.filePopup add command -label "New Test File" -command [list bist::create_file]
     .bistwin.filePopup add command -label "New Test"      -command [list bist::create_test]
+    .bistwin.filePopup add separator
+    .bistwin.filePopup add command -label "Edit Test File" -command [list bist::edit_file]
 
     menu .bistwin.testPopup -tearoff 0
     .bistwin.testPopup add command -label "Edit Test"     -command [list bist::edit_test]
@@ -674,6 +680,21 @@ namespace eval bist {
     # Save the file
     gui::save_current {}
 
+  }
+  
+  ######################################################################
+  # Edit the currently selected test file.
+  proc edit_file {} {
+    
+    # Get the selected row
+    set selected [$data(widgets,tbl) curselection]
+    
+    # Get the diagnostic name
+    set fname [$data(widgets,tbl) cellcget $selected,name -text]
+    
+    # Add the file to the editor
+    set tab [add_test_file $fname]
+    
   }
 
   ######################################################################
@@ -928,15 +949,59 @@ namespace eval bist {
   proc set_selections {selected} {
 
     variable data
+    
+    set test_row   -1
+    set tsel_count 0
 
     for {set i 0} {$i < [$data(widgets,tbl) size]} {incr i} {
-      if {[$data(widgets,tbl) parentkey $i] ne "root"} {
+      if {[$data(widgets,tbl) parentkey $i] eq "root"} {
+        if {$test_row != -1} {
+          set sel [expr {[llength [$data(widgets,tbl) childkeys $test_row]] == $sel_count}]
+          $data(widgets,tbl) cellconfigure $test_row,selected -text $sel -image [expr {$sel ? $data(images,checked) : $data(images,unchecked)}]
+          incr tsel_count $sel
+        }
+        set test_row  $i
+        set sel_count 0
+      } else {
         set test [$data(widgets,tbl) cellcget $i,test -text]
         set sel  [expr {[lsearch $selected $test] != -1}]
+        incr sel_count $sel
         $data(widgets,tbl) cellconfigure $i,selected -text $sel -image [expr {$sel ? $data(images,checked) : $data(images,unchecked)}]
       }
     }
-
+    
+    if {$sel_count != -1} {
+      set sel [expr {[llength [$data(widgets,tbl) childkeys $test_row]] == $sel_count}]
+      $data(widgets,tbl) cellconfigure $test_row,selected -text $sel -image [expr {$sel ? $data(images,checked) : $data(images,unchecked)}]
+      incr tsel_count $sel
+    }
+    
+    if {[llength [$data(widgets,tbl) childkeys root]] == $tsel_count} {
+      $data(widgets,tbl) columnconfigure selected -labelimage $data(images,checked)
+    } else {
+      $data(widgets,tbl) columnconfigure selected -labelimage $data(images,unchecked)
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles a left-click on the selected column image.
+  proc label_clicked {tbl col} {
+    
+    variable data
+    
+    # Figure out the value of selected
+    set sel [expr {[$data(widgets,tbl) columncget selected -labelimage] ne $data(images,checked)}]
+    set img [expr {$sel ? $data(images,checked) : $data(images,unchecked)}]
+    
+    # Change the label image
+    $data(widgets,tbl) columnconfigure selected -labelimage $img
+    
+    # Change the row images and values
+    for {set i 0} {$i < [$data(widgets,tbl) size]} {incr i} {
+      $data(widgets,tbl) cellconfigure $i,selected -text $sel -image $img
+    }
+    
   }
 
 
