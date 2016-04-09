@@ -686,6 +686,8 @@ namespace eval bist {
   # Edit the currently selected test file.
   proc edit_file {} {
     
+    variable data
+    
     # Get the selected row
     set selected [$data(widgets,tbl) curselection]
     
