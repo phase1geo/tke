@@ -14,6 +14,23 @@ tabsallowed
 casesensitive
 {1}
 
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{#}}
+
+lcomments {{^[ \t]*#} {;#}}
+
+strings {{"}}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]*|0x[0-9a-fA-F]+)} {}
+}
+
 miscellaneous3
 {
   HighlightWithOnlyCharStart \% {}

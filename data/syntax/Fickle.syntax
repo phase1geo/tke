@@ -1,6 +1,10 @@
 filepatterns
 {*.fcl}
 
+embedded {
+  {Tcl}
+}
+
 matchcharsallowed
 {curly square paren double single}
 
@@ -22,67 +26,8 @@ lcomments {{^[ \t]*#} {;#}}
 
 strings {{"}}
 
-keywords
-{
-  after append apply array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old
-  auto_qualify auto_reset bgerror binary break catch cd chan clock close concat continue
-  dde dict else elseif encoding eof error eval exec exit expr fblocked fconfigure fcopy file fileevent
-  filename flush for foreach format gets glob global history http if incr info interp
-  join lappend lassign lindex linsert list llength load lrange lrepeat lreplace lreverse
-  lsearch lset lsort mathfunc mathop memory msgcat namespace open package parray pid
-  pkg::create pkg_mkIndex platform platform::shell proc puts pwd read refchan regexp
-  registry regsub rename return scan seek set socket source split string subst switch
-  tcl_endOfWord tcl_findLibrary tcl_startOfNextWord tcl_startOfPreviousWord tcl_wordBreakAfter
-  tcl_wordBreakBefore tcltest tell time tm trace unknown unload unset update uplevel upvar
-  variable vwait while bind bindtags
-}
-
-symbols
-{
-  HighlightKeywords {proc} syntax::get_prefixed_symbol
-}
-
 numbers
 {
   HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]*|0x[0-9a-fA-F]+)} {}
 }
 
-punctuation
-{
-  HighlightRegexp {[][\{\}]} {}
-}
-
-miscellaneous1
-{
-  HighlightKeywords {
-    ctext button label text frame toplevel scrollbar checkbutton canvas
-    listbox menu menubar menubutton radiobutton scale entry message
-    tk_chooseDirectory tk_getSaveFile tk_getOpenFile tk_chooseColor tk_optionMenu
-    ttk::button ttk::checkbutton ttk::combobox ttk::entry ttk::frame ttk::label
-    ttk::labelframe ttk::menubutton ttk::notebook ttk::panedwindow
-    ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator
-    ttk::sizegrip ttk::treeview
-  } {}
-}
-
-miscellaneous2
-{
-  HighlightKeywords {
-    -text -command -yscrollcommand -xscrollcommand -background -foreground -fg
-    -bg -highlightbackground -y -x -highlightcolor -relief -width -height -wrap
-    -font -fill -side -outline -style -insertwidth  -textvariable -activebackground
-    -activeforeground -insertbackground -anchor -orient -troughcolor -nonewline
-    -expand -type -message -title -offset -in -after -yscroll -xscroll -forward
-    -regexp -count -exact -padx -ipadx -filetypes -all -from -to -label -value
-    -variable -regexp -backwards -forwards -bd -pady -ipady -state -row -column
-    -highlightthickness -linemap -menu -tearoff -displayof -cursor -underline
-    -tags -tag -weight -sticky -rowspan -columnspan -setgrid -borderwidth -exportselection
-    -selectforeground -selectborderwidth -selectbackground
-  } {}
-}
-
-miscellaneous3
-{
-  HighlightRegexp {\m(\.[a-zA-Z0-9\_\-]+)+} {}
-  HighlightWithOnlyCharStart \$ {}
-}
