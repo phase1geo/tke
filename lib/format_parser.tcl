@@ -1301,14 +1301,14 @@ proc format_parse {} {
               set _ [string toupper $2]
              }
                     22 { 
-               if {[llength [lindex $::format_matches end]] <= $3} {
+               if {([llength $::format_matches] > $3) && ([lindex $::format_matches 0] eq [lindex $::format_matches $3])} {
                  set _ $5
                } else {
                  set _ ""
                }
               }
                     23 { 
-               if {[llength [lindex $::format_matches end]] <= $3} {
+               if {([llength $::format_matches] > $3) && ([lindex $::format_matches 0] eq [lindex $::format_matches $3])} {
                  set _ $5
                } else {
                  set _ $7
