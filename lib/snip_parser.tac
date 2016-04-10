@@ -52,7 +52,7 @@ proc apply_tabstop {ts_val ts_tag} {
 }
 
 proc parse_format {str matches} {
-
+  
   FORMAT__FLUSH_BUFFER
 
   # Insert the string to scan
