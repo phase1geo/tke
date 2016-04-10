@@ -154,7 +154,7 @@ variable: DOLLAR_SIGN varname {
             set _ $2
           }
         | DOLLAR_SIGN OPEN_BRACKET varname ':' value CLOSE_BRACKET {
-            set _ [expr {($3 eq "") ? $5 : $3}]
+            set _ [expr {($3 eq "") ? [lindex $5 0] : $3}]
           }
         | DOLLAR_SIGN OPEN_BRACKET varname '/' pattern '/' format '/' opts CLOSE_BRACKET {
             set regexp_opts [list]

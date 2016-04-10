@@ -3695,7 +3695,7 @@ proc snip_parse {} {
             set _ $2
            }
                     17 { 
-            set _ [expr {($3 eq "") ? $5 : $3}]
+            set _ [expr {($3 eq "") ? [lindex $5 0] : $3}]
            }
                     18 { 
             set regexp_opts [list]
