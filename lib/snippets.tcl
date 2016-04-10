@@ -238,6 +238,12 @@ namespace eval snippets {
 
     # Call the snippet parser
     if {[set result [parse_snippet $txtt $snippet]] ne ""} {
+      
+      # Add a $0 tabstop (if one was not specified)
+      if {[lsearch [$txtt tag names] snippet_mark_0] == -1} {
+        set_tabstop $txtt 0
+        lappend result \$0 snippet_mark_0
+      }
 
       # Insert the text
       $txtt insert insert {*}$result
