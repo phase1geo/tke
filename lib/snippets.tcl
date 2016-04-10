@@ -345,7 +345,9 @@ namespace eval snippets {
 
     # Delete all text that is tagged with a snippet tag
     foreach tabstop [lsearch -inline -all -glob [$txtt tag names] snippet_*] {
-      $txtt delete {*}[$txtt tag ranges $tabstop]
+      foreach {start end} [$txtt tag ranges $tabstop] {
+        $txtt delete $start $end
+      }
       $txtt tag delete $tabstop
     }
 
