@@ -341,7 +341,7 @@ margin: 10em !important;}
 -moz-transform: $1;
 -ms-transform: $1;
 -o-transform: $1;
-transform: $1;}
+transform: $1;$0}
 
     if {$actual ne $expect} {
       cleanup "-trf did not expand properly ($actual)"
@@ -366,7 +366,7 @@ transform: $1;}
     set expect \
 {-webkit-transform: ;
 -moz-transform: $1;
-transform: $1;}
+transform: $1;$0}
 
     if {$actual ne $expect} {
       cleanup "-wm-trf did not expand properly ($actual)"

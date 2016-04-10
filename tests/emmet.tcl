@@ -56,7 +56,7 @@ namespace eval emmet {
   <ul>
     <li></li>
   </ul>
-</nav>}
+</nav>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -81,7 +81,7 @@ namespace eval emmet {
     set expect \
 {<div></div>
 <p>$2</p>
-<blockquote>$3</blockquote>}
+<blockquote>$3</blockquote>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -108,7 +108,7 @@ namespace eval emmet {
 <div>
   <p><span>$2</span><em>$3</em></p>
   <blockquote>$4</blockquote>
-</div>}
+</div>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -135,7 +135,7 @@ namespace eval emmet {
 <div>
   <p><span>$2</span><em>$3</em></p>
 </div>
-<blockquote>$4</blockquote>}
+<blockquote>$4</blockquote>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -168,7 +168,7 @@ namespace eval emmet {
   <footer>
     <p>$5</p>
   </footer>
-</div>}
+</div>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -190,7 +190,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<a href="">Click me</a>}
+    set expect {<a href="">Click me</a>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -212,7 +212,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<div id="header"></div>}
+    set expect {<div id="header"></div>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -234,7 +234,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<div class="title"></div>}
+    set expect {<div class="title"></div>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -256,7 +256,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<p class="class3 class2 class1"></p>}
+    set expect {<p class="class3 class2 class1"></p>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -278,7 +278,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<form id="search" class="wide" action="">$2</form>}
+    set expect {<form id="search" class="wide" action="">$2</form>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -300,7 +300,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<p title="Hello World"></p>}
+    set expect {<p title="Hello World"></p>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -322,7 +322,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<td rowspan="2" title="" colspan="3">$2</td>}
+    set expect {<td rowspan="2" title="" colspan="3">$2</td>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -344,7 +344,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<p>Click <a href="">here</a> to continue</p>}
+    set expect {<p>Click <a href="">here</a> to continue</p>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -366,7 +366,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<link href="" rel="stylesheet" />}
+    set expect {<link href="" rel="stylesheet" />$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -388,7 +388,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<link href="" title="Hello world" rel="prefetch" />}
+    set expect {<link href="" title="Hello world" rel="prefetch" />$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -413,7 +413,7 @@ namespace eval emmet {
     set expect \
 {<div class="wrap">
   <div class="content"></div>
-</div>}
+</div>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -435,7 +435,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<em><span class="info"></span></em>}
+    set expect {<em><span class="info"></span></em>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -460,7 +460,7 @@ namespace eval emmet {
     set expect \
 {<ul>
   <li class="item"></li>
-</ul>}
+</ul>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -487,7 +487,7 @@ namespace eval emmet {
   <tr id="row">
     <td colspan="2"></td>
   </tr>
-</table>}
+</table>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -509,7 +509,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<div a="value" b="value2"></div>}
+    set expect {<div a="value" b="value2"></div>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -538,7 +538,7 @@ namespace eval emmet {
   <li class="b3">$3</li>
   <li class="b4">$4</li>
   <li class="b5">$5</li>
-</ul>}
+</ul>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -567,7 +567,7 @@ namespace eval emmet {
   <li class="b6">$3</li>
   <li class="b7">$4</li>
   <li class="b8">$5</li>
-</ul>}
+</ul>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -596,7 +596,7 @@ namespace eval emmet {
   <li class="b3">$3</li>
   <li class="b2">$4</li>
   <li class="b1">$5</li>
-</ul>}
+</ul>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -625,7 +625,7 @@ namespace eval emmet {
   <li class="class09">$3</li>
   <li class="class08">$4</li>
   <li class="class07">$5</li>
-</ul>}
+</ul>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -647,7 +647,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<a href="">click</a><b>here</b>}
+    set expect {<a href="">click</a><b>here</b>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -669,7 +669,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<a href="">click<b>here</b></a>}
+    set expect {<a href="">click<b>here</b></a>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -704,7 +704,7 @@ namespace eval emmet {
 </div>
 <foobar>
   <p>$7</p>
-</foobar>}
+</foobar>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -734,7 +734,7 @@ namespace eval emmet {
   <li class="item004">$4</li>
   <li class="item005">$5</li>
   <li class="item006">$6</li>
-</ul>}
+</ul>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -810,7 +810,7 @@ namespace eval emmet {
     <title>Document</title>
   </head>
   <body>$2</body>
-</html>}
+</html>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -832,7 +832,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></xsl:stylesheet>}
+    set expect {<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></xsl:stylesheet>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -859,7 +859,7 @@ namespace eval emmet {
   <xsl:when test="">$2</xsl:when>
   <xsl:otherwise>$3</xsl:otherwise>
 </xml:choose>
-<foobar>$4</foobar>}
+<foobar>$4</foobar>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -891,7 +891,7 @@ namespace eval emmet {
     <li><a href="$5">Item 4</a></li>
     <li><a href="$6">Item 5</a></li>
   </ul>
-</div>}
+</div>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -961,7 +961,7 @@ namespace eval emmet {
       </li>
     </ul>
   </div>
-</nav>}
+</nav>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -983,7 +983,7 @@ namespace eval emmet {
     emmet::expand_abbreviation {}
 
     set actual [$txt get 2.0 end-1c]
-    set expect {<a href="">foobar</a>}
+    set expect {<a href="">foobar</a>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -1008,7 +1008,7 @@ namespace eval emmet {
     set expect \
 {<div><ul>
   <li></li>
-</ul></div>}
+</ul>$0</div>}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -1125,7 +1125,7 @@ namespace eval emmet {
     <ul>
       <li></li>
     </ul>
-  </nav>}
+  </nav>$0}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"
@@ -1150,7 +1150,7 @@ namespace eval emmet {
     set expect \
 {  <nav><ul>
     <li></li>
-  </ul></nav>}
+  </ul>$0</nav>}
 
     if {$actual ne $expect} {
       cleanup "$str did not expand properly ($actual)"

@@ -221,7 +221,7 @@ namespace eval snippets {
   proc insert_snippet {txtt snippet {delstart ""} {delend ""}} {
 
     variable tabpoints
-
+    
     # Clear any residual tabstops
     clear_tabstops $txtt
 
@@ -239,12 +239,15 @@ namespace eval snippets {
     # Call the snippet parser
     if {[set result [parse_snippet $txtt $snippet]] ne ""} {
       
+      # Get the snippet marks
+      set marks [lsearch -glob -inline -all [$txtt tag names] snippet_*]
+      
       # Add a $0 tabstop (if one was not specified)
-      if {[lsearch [$txtt tag names] snippet_mark_0] == -1} {
+      if {([llength $marks] > 0) && ([lsearch $marks snippet_mark_0] == -1)} {
         set_tabstop $txtt 0
         lappend result \$0 snippet_mark_0
       }
-
+      
       # Insert the text
       $txtt insert insert {*}$result
 
@@ -252,6 +255,9 @@ namespace eval snippets {
       traverse_snippet $txtt
 
     }
+
+    # Adjust the cursor, if necessary
+    vim::adjust_insert $txtt
 
     # Create a separator
     $txtt edit separator
