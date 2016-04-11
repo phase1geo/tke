@@ -256,6 +256,45 @@ namespace eval syntax {
     cleanup
 
   }
+  
+  # Verify that deleting a character from a language symbol causes a highlight change
+  proc run_test7 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    set str {
+<html>
+  <!-- PHP block -->
+  <?php
+    /* This is a comment
+    if( $a ) {
+      $b = "nice";
+    }
+  ?>
+</html>
+}
+    
+    $txt insert end "\n[string trim $str]"
+    $txt delete 4.4
+    
+    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
+      cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    }
+    if {[$txt tag ranges _cComment0] ne [list 3.2 3.20]} {
+      cleanup "Block comment miscompare ([$txt tag ranges _cComment0])"
+    }
+    if {[$txt tag ranges _lComment] ne [list]} {
+      cleanup "PHP comment miscompare ([$txt tag ranges _lComment])"
+    }
+    if {[$txt tag ranges _Lang=PHP] ne [list]} {
+      cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
 
 }
 
