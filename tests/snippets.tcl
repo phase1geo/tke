@@ -258,4 +258,274 @@ namespace eval snippets {
     
   }
   
+  # Verify that mirroring works
+  proc run_test10 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:very} $1 good}
+    
+    if {[$txt get 1.0 end-1c] ne {This is very $1 good$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    } 
+    if {[$txt index insert] ne 1.12} {
+      cleanup "Initial insertion cursor is not set properly ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is very very good}} {
+      cleanup "First traversal caused inserted text to change ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.22} {
+      cleanup "Second insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
+  # Verify single uppercase transform
+  proc run_test11 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:good}.  ${1/.*/\u$0/}!}
+    
+    if {[$txt get 1.0 end-1c] ne {This is good.  ${1/.*/\u$0/}!$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.12} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is good.  Good!}} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.20} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+  
+  # Verify single lowercase transform
+  proc run_test12 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:GOOD}.  ${1/.*/\l$0/}!}
+    
+    if {[$txt get 1.0 end-1c] ne {This is GOOD.  ${1/.*/\l$0/}!$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.12} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is GOOD.  gOOD!}} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.20} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+  
+  # Verify block uppercase transform
+  proc run_test13 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:good}.  ${1/.*/\U$0 r\Eight?/}}
+    
+    if {[$txt get 1.0 end-1c] ne {This is good.  ${1/.*/\U$0 r\Eight?/}$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.12} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is good.  GOOD Right?}} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.26} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
+  # Verify block lowercase transform
+  proc run_test14 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:GOOD}.  ${1/.*/\L$0 R\EIGHT?/}}
+    
+    if {[$txt get 1.0 end-1c] ne {This is GOOD.  ${1/.*/\L$0 R\EIGHT?/}$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.12} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is GOOD.  good rIGHT?}} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.26} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
+  # Verify conditional insertion with empty value
+  proc run_test15 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+     
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:fine}.  ${1/fine|(bad)/(?1:good)/}}
+    
+    if {[$txt get 1.0 end-1c] ne {This is fine.  ${1/fine|(bad)/(?1:good)/}$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.12} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is fine.  }} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.15} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+
+  }
+  
+  # Verify conditional insertion with non-empty value
+  proc run_test16 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:bad}.  ${1/fine|(bad)/(?1:good)/}}
+    
+    if {[$txt get 1.0 end-1c] ne {This is bad.  ${1/fine|(bad)/(?1:good)/}$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.11} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is bad.  good}} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.18} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
+  # Verify conditional insertion with empty value and false value.
+  proc run_test17 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+     
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:fine}.  ${1/fine|(bad)/(?1:good:empty)/}}
+    
+    if {[$txt get 1.0 end-1c] ne {This is fine.  ${1/fine|(bad)/(?1:good:empty)/}$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.12} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is fine.  empty}} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.20} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+
+  }
+  
+  # Verify conditional insertion with empty value and true value.
+  proc run_test18 {} {
+    
+    # Get the text widget
+    set txt [initialize]
+    
+    # Insert the given snippet
+    snippets::insert_snippet $txt.t {This is ${1:bad}.  ${1/fine|(bad)/(?1:good:empty)/}}
+    
+    if {[$txt get 1.0 end-1c] ne {This is bad.  ${1/fine|(bad)/(?1:good:empty)/}$0}} {
+      cleanup "Snippet did not expand properly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.11} {
+      cleanup "Initial insertion cursor is not correct ([$txt index insert])"
+    }
+    
+    snippets::handle_tab $txt.t
+    
+    if {[$txt get 1.0 end-1c] ne {This is bad.  good}} {
+      cleanup "First traversal is incorrect ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne 1.18} {
+      cleanup "Second insertion cursor is incorrect ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
 }
