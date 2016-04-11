@@ -1346,7 +1346,7 @@ proc ctext::command_fastinsert {win args} {
 proc ctext::command_highlight {win args} {
 
   variable data
- 
+
   set lineStart [$win._t index "[lindex $args 0] linestart"]
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
@@ -1374,13 +1374,13 @@ proc ctext::command_insert {win args} {
   } else {
     set lineStart [$win._t index "$insertPos linestart"]
   }
-  
+
   # Gather the data
   set dat ""
   foreach {chars taglist} [lrange $args 1 end] {
     append dat $chars
   }
-  
+
   # Add the embedded language tag to the arguments if taglists are present
   if {([llength $args] >= 3) && ([set lang [get_lang $win $insertPos]] ne "")} {
     set tag_index 2
@@ -1390,7 +1390,7 @@ proc ctext::command_insert {win args} {
       incr tag_index 2
     }
   }
-  
+
   set datlen [string length $dat]
   set cursor [$win._t index insert]
 
@@ -2181,7 +2181,7 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
     ctext::indentation $win $linestart $lineend
     ctext::highlight   $win $linestart $lineend
   }
-  
+
 }
 
 proc ctext::get_tag_in_range {win tag start end} {
@@ -2356,14 +2356,14 @@ proc ctext::comments {win start end do_tag} {
     }
   }
 
-  return [expr {[llength [array names tag_changed _Lang:*]] > 0}]
+  return [expr {[llength [array names tag_changed _Lang*:*]] > 0}]
 
 }
 
 proc ctext::updateLangBackgrounds {win} {
-  
+
   variable data
-  
+
   foreach tag [lsearch -inline -all -glob $data($win,config,csl_tags) _Lang:*] {
     set indices [list]
     foreach {start end} [$win tag ranges $tag] {
