@@ -1,50 +1,104 @@
-changeset:   2048:1ea7f27f28ad
-tag:         devel-2.3.14
+changeset:   2054:a8bff99d981a
+tag:         devel-2.3.15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 07 09:43:37 2016 -0500
+date:        Fri Apr 08 00:46:59 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.14 release
+ChangeLog for devel-2.3.15 release
 
 
-changeset:   2049:75923ea2a1f7
+changeset:   2055:b5052be899fe
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 07 09:43:42 2016 -0500
+date:        Fri Apr 08 00:47:06 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.14 for changeset 1ea7f27f28ad
+Added tag devel-2.3.15 for changeset a8bff99d981a
 
 
-changeset:   2050:6e4b67e7fdc7
+changeset:   2056:7680e36728a9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 00:27:51 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Apr 08 22:57:40 2016 -0500
+files:       lib/bist.tcl lib/version.tcl
 description:
-* Fixing the last syntax highlighting issues with embedded languages.
+* Adding BIST features for better managing what to run.
 
 
-changeset:   2051:2a3d9a42f66d
+changeset:   2057:2f9023c8105a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 00:34:08 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Apr 08 23:01:29 2016 -0500
+files:       lib/bist.tcl lib/version.tcl
 description:
-* Fixing tag ordering issue in ctext.
+* Fixing ability to edit a test file from the setup table.
 
 
-changeset:   2052:f262039644ce
+changeset:   2058:41c7e7a4ce1d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 00:39:28 2016 -0500
-files:       data/syntax/PHP.syntax lib/version.tcl
+date:        Sat Apr 09 20:37:08 2016 -0500
+files:       data/syntax/Taccle.syntax lib/snippets.tcl lib/version.tcl
 description:
-* Fixing issue with highlighting the "function" keyword in PHP.
+* Fixing snippet tab clearing to call ctext delete procedure correctly.
+* Updating Taccle syntax to use mixed language support with Tcl.
 
 
-changeset:   2053:7f26630f2b59
+changeset:   2059:44a16fd84e71
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 09 20:48:09 2016 -0500
+files:       data/syntax/Fickle.syntax data/syntax/Taccle.syntax lib/version.tcl
+description:
+* Fixing Taccle and Fickle syntax to properly use Tcl as an embedded/mixed syntax.
+
+
+changeset:   2060:ddcb8e977dd1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 09 21:21:20 2016 -0500
+files:       lib/format_parser.tac lib/format_parser.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl
+description:
+* Fixing issue with conditional insertions.
+
+
+changeset:   2061:1f1b52b8778a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 09 22:02:17 2016 -0500
+files:       lib/snippets.tcl lib/version.tcl
+description:
+* Adding implicit $0 tabstop at the end of snippet text if one isn't explicitly set.
+
+
+changeset:   2062:78cc3920792c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 10 00:52:16 2016 -0500
+files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl tests/emmet.tcl tests/emmet_css.tcl tests/snippets.tcl
+description:
+* Fixing snippet syntax issue with ${varname:value} syntax when varname value is empty.
+* Modifying algorithm for adding implicit $0 to inserted snippet to only do so when another tabstop is found.
+* Fixing issue with properly adjusting the cursor after a snippet is inserted.
+* Adding initial snippets BIST test.
+* Updating Emmet and Emmet CSS BIST tests per the above changes.
+
+
+changeset:   2063:4f2945d318b5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 10 19:04:57 2016 -0500
+files:       lib/version.tcl tests/snippets.tcl
+description:
+* Adding more snippets BIST test cases.
+
+
+changeset:   2064:1faa77615e56
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 10 23:49:23 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl tests/syntax.tcl
+description:
+* Fixing issue with re-highlighting when a start/end language symbol is modified.
+* Adding syntax BIST test.
+
+
+changeset:   2065:93adf2026478
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 00:45:22 2016 -0500
-files:       data/syntax/Haml.syntax lib/version.tcl
+date:        Mon Apr 11 00:21:53 2016 -0500
+files:       lib/version.tcl tests/syntax.tcl
 description:
-* Fixing symbol highlighting in Haml.
+* Adding syntax test.
 
 
