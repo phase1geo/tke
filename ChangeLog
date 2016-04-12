@@ -1171,11 +1171,19 @@ ChangeLog for devel-2.3.17 release
 
 
 changeset:   2071:f6b4b02cab49
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Tue Apr 12 00:07:20 2016 -0500
 files:       .hgtags
 description:
 Added tag devel-2.3.17 for changeset 8b886b29fe94
+
+
+changeset:   2072:560976f4dac2
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Apr 12 17:30:13 2016 -0500
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-2.4 release
 
 
