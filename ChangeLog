@@ -1,104 +1,35 @@
-changeset:   2054:a8bff99d981a
-tag:         devel-2.3.15
+changeset:   2066:0ee4bac7602d
+tag:         devel-2.3.16
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 00:46:59 2016 -0500
+date:        Mon Apr 11 00:25:03 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.3.15 release
+ChangeLog for devel-2.3.16 release
 
 
-changeset:   2055:b5052be899fe
+changeset:   2067:fffa259d2833
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 00:47:06 2016 -0500
+date:        Mon Apr 11 00:25:07 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.3.15 for changeset a8bff99d981a
+Added tag devel-2.3.16 for changeset 0ee4bac7602d
 
 
-changeset:   2056:7680e36728a9
+changeset:   2068:fafc1d59e741
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 22:57:40 2016 -0500
-files:       lib/bist.tcl lib/version.tcl
+date:        Tue Apr 12 00:03:05 2016 -0500
+files:       lib/folding.tcl lib/version.tcl tests/folding.tcl
 description:
-* Adding BIST features for better managing what to run.
+* Fixing issues with code folding a selection.
+* Adding new tests to folding BIST test.
 
 
-changeset:   2057:2f9023c8105a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 08 23:01:29 2016 -0500
-files:       lib/bist.tcl lib/version.tcl
-description:
-* Fixing ability to edit a test file from the setup table.
-
-
-changeset:   2058:41c7e7a4ce1d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 09 20:37:08 2016 -0500
-files:       data/syntax/Taccle.syntax lib/snippets.tcl lib/version.tcl
-description:
-* Fixing snippet tab clearing to call ctext delete procedure correctly.
-* Updating Taccle syntax to use mixed language support with Tcl.
-
-
-changeset:   2059:44a16fd84e71
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 09 20:48:09 2016 -0500
-files:       data/syntax/Fickle.syntax data/syntax/Taccle.syntax lib/version.tcl
-description:
-* Fixing Taccle and Fickle syntax to properly use Tcl as an embedded/mixed syntax.
-
-
-changeset:   2060:ddcb8e977dd1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 09 21:21:20 2016 -0500
-files:       lib/format_parser.tac lib/format_parser.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/version.tcl
-description:
-* Fixing issue with conditional insertions.
-
-
-changeset:   2061:1f1b52b8778a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 09 22:02:17 2016 -0500
-files:       lib/snippets.tcl lib/version.tcl
-description:
-* Adding implicit $0 tabstop at the end of snippet text if one isn't explicitly set.
-
-
-changeset:   2062:78cc3920792c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 10 00:52:16 2016 -0500
-files:       lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl tests/emmet.tcl tests/emmet_css.tcl tests/snippets.tcl
-description:
-* Fixing snippet syntax issue with ${varname:value} syntax when varname value is empty.
-* Modifying algorithm for adding implicit $0 to inserted snippet to only do so when another tabstop is found.
-* Fixing issue with properly adjusting the cursor after a snippet is inserted.
-* Adding initial snippets BIST test.
-* Updating Emmet and Emmet CSS BIST tests per the above changes.
-
-
-changeset:   2063:4f2945d318b5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 10 19:04:57 2016 -0500
-files:       lib/version.tcl tests/snippets.tcl
-description:
-* Adding more snippets BIST test cases.
-
-
-changeset:   2064:1faa77615e56
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 10 23:49:23 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl tests/syntax.tcl
-description:
-* Fixing issue with re-highlighting when a start/end language symbol is modified.
-* Adding syntax BIST test.
-
-
-changeset:   2065:93adf2026478
+changeset:   2069:f1ba00ff8017
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 11 00:21:53 2016 -0500
-files:       lib/version.tcl tests/syntax.tcl
+date:        Tue Apr 12 00:05:18 2016 -0500
+files:       doc/html/Info.plist doc/html/Nodes.xml doc/html/Tokens.xml doc/html/api_8tcl.html doc/html/api_8tcl_source.html doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/bist_8tcl.html doc/html/bist_8tcl.js doc/html/bist_8tcl_source.html doc/html/bitmap_8tcl.html doc/html/bitmap_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl.js doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl.js doc/html/ctext_8tcl_source.html doc/html/diff_8tcl.html doc/html/diff_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.js doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/edit_8tcl.html doc/html/edit_8tcl_source.html doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/emmet_8tcl.html doc/html/emmet_8tcl.js doc/html/emmet_8tcl_source.html doc/html/emmet__css_8tcl.html doc/html/emmet__css_8tcl.js doc/html/emmet__css_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/folding_8tcl.html doc/html/folding_8tcl.js doc/html/folding_8tcl_source.html doc/html/fontchooser_8tcl.html doc/html/fontchooser_8tcl_source.html doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl.js doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl.js doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl.js doc/html/interpreter_8tcl_source.html doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl_source.html doc/html/logger_8tcl.html doc/html/logger_8tcl_source.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl.js doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl_source.html doc/html/namespaceapi.html doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespaceapi_1_1sidebar.html doc/html/namespaceapi_1_1utils.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacebist.html doc/html/namespacebitmap.html doc/html/namespacecliphist.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespacediff.html doc/html/namespacediff_1_1custom.html doc/html/namespacediff_1_1cvs.html doc/html/namespacediff_1_1diff.html doc/html/namespacediff_1_1git.html doc/html/namespacediff_1_1mercurial.html doc/html/namespacediff_1_1perforce.html doc/html/namespacediff_1_1subversion.html doc/html/namespaceedit.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespaceemmet.html doc/html/namespaceemmet__css.html doc/html/namespacefavorites.html doc/html/namespacefolding.html doc/html/namespacefontchooser.html doc/html/namespacegui.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacelogger.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespaceplugins_1_1_0Bns.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespaces.js doc/html/namespacescroller.html doc/html/namespacesearch.html doc/html/namespacesessions.html doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetemplates.html doc/html/namespacetheme.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/navtreedata.js doc/html/navtreeindex0.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/navtreeindex4.js doc/html/navtreeindex5.js doc/html/navtreeindex6.js doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/scroller_8tcl.html doc/html/scroller_8tcl_source.html doc/html/search/all_0.js doc/html/search/all_12.js doc/html/search/all_13.js doc/html/search/all_14.js doc/html/search/all_2.js doc/html/search/all_3.js doc/html/search/all_4.js doc/html/search/all_5.js doc/html/search/all_6.js doc/html/search/all_7.js doc/html/search/all_8.js doc/html/search/all_9.js doc/html/search/all_b.js doc/html/search/all_c.js doc/html/search/all_e.js doc/html/search/all_f.js doc/html/search/files_4.js doc/html/search/functions_0.js doc/html/search/functions_12.js doc/html/search/functions_13.js doc/html/search/functions_14.js doc/html/search/functions_2.js doc/html/search/functions_3.js doc/html/search/functions_4.js doc/html/search/functions_5.js doc/html/search/functions_6.js doc/html/search/functions_7.js doc/html/search/functions_8.js doc/html/search/functions_9.js doc/html/search/functions_b.js doc/html/search/functions_c.js doc/html/search/functions_e.js doc/html/search/functions_f.js doc/html/search/namespaces_4.js doc/html/search_8tcl.html doc/html/search_8tcl_source.html doc/html/sessions_8tcl.html doc/html/sessions_8tcl_source.html doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl_source.html doc/html/syntax_8tcl.html doc/html/syntax_8tcl.js doc/html/syntax_8tcl_source.html doc/html/templates_8tcl.html doc/html/templates_8tcl_source.html doc/html/theme_8tcl.html doc/html/theme_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl.js doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl.js doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/version.tcl
 description:
-* Adding syntax test.
+* Updating development documentation.
 
 
