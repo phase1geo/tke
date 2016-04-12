@@ -273,9 +273,17 @@ namespace eval folding {
     variable method
 
     if {$method($txt) eq "manual"} {
-      $txt gutter set folding close [lindex [split [$txt index $startpos] .] 0]
-      $txt gutter set folding end   [expr [lindex [split [$txt index $endpos] .] 0] + 1]
-      $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
+      lassign [split [$txt index $startpos] .] start_line start_col
+      lassign [split [$txt index $endpos]   .] end_line   end_col
+      if {$end_col == 0} {
+        $txt tag add _folded "$startpos+1l linestart" $endpos
+        $txt gutter set folding close $start_line
+        $txt gutter set folding end   $end_line
+      } else {
+        $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
+        $txt gutter set folding close $start_line
+        $txt gutter set folding end   [expr $end_line + 1]
+      }
     }
 
   }
@@ -478,6 +486,7 @@ namespace eval folding {
       set index     [expr [lsearch $lines $startline] + 1]
       set startline [lindex [split [open_fold $depth $txt [lindex $lines $index]] .] 0]
     }
+    
   }
 
   ######################################################################

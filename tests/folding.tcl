@@ -232,5 +232,237 @@ namespace eval folding {
     cleanup
 
   }
-
+  
+  # Verify manual mode
+  proc run_test5 {} {
+    
+    # Create the text widget
+    set txt [initialize]
+    
+    for {set i 0} {$i < 5} {incr i} {
+      $txt insert end "This is line $i\n"
+    }
+    
+    for {set i 0} {$i < 5} {incr i} {
+      if {[folding::fold_state $txt $i] ne "none"} {
+        cleanup "Folding state of line $i is not none ([folding::fold_state $txt $i])"
+      }
+    }
+    
+    # Set the folding mode to manual
+    folding::set_fold_method $txt manual
+    
+    foreach type [list line range all] {
+      
+      # Select and fold some of the text
+      $txt tag add sel 2.0 5.0
+      folding::close_selected $txt
+       
+      if {[$txt tag ranges sel] ne ""} {
+        cleanup "Selection was not removed ([$txt tag ranges sel])"
+      }
+       
+      # Check the fold state of the current lines
+      set states [list none close none none end]
+      for {set i 0} {$i < 5} {incr i} {
+        set line [expr $i + 1]
+        if {[folding::fold_state $txt $line] ne [lindex $states $i]} {
+          cleanup "Folding state of line $i is not [lindex $states $i] ([folding::fold_state $txt $line])"
+        }
+      }
+       
+      # Delete the fold
+      switch $type {
+        line  { folding::delete_fold $txt 2 }
+        range { folding::delete_folds_in_range $txt 1 3 }
+        all   { folding::delete_all_folds $txt }
+      }
+       
+      # Verify that the folding has cleared
+      for {set i 0} {$i < 5} {incr i} {
+        if {[folding::fold_state $txt $i] ne "none"} {
+          cleanup "Folding state of line $i is not none ([folding::fold_state $txt $i])"
+        }
+      }
+      
+      if {[$txt tag ranges _folded] ne [list]} {
+        cleanup "Text is not hidden ([$txt tag ranges _folded])"
+      }
+      
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
+  # Verify open methods
+  proc run_test6 {} {
+    
+    # Create the text widget
+    set txt [initialize]
+    
+    for {set i 0} {$i < 10} {incr i} {
+      $txt insert end "This is line $i\n"
+    }
+    
+    folding::set_fold_method $txt manual
+    folding::close_range $txt 7.0 9.0
+    folding::close_range $txt 2.0 5.0
+    
+    set lines [list none close none none end none close none end none]
+    for {set i 0} {$i < 10} {incr i} {
+      set line [expr $i + 1]
+      if {[folding::fold_state $txt $line] ne [lindex $lines $i]} {
+        cleanup "Folding state of line $line is not expected ([folding::fold_state $txt $line])"
+      }
+    }
+    
+    foreach {index type} [list 0 line 0 line 1 range 1 range 0 all 0 all] {
+      
+      set x [expr ($index == 0) ? 1 : 6]
+      
+      switch $type {
+        line {
+          if {[lindex $lines $x] eq "close"} {
+            folding::open_fold 1 $txt [expr ($index == 0) ? 2 : 7]
+            lset lines $x open
+          } else {
+            folding::close_fold 1 $txt [expr ($index == 0) ? 2 : 7]
+            lset lines $x close
+          }
+        }
+        range {
+          if {[lindex $lines $x] eq "close"} {
+            folding::open_folds_in_range $txt [expr ($index == 0) ? 1 : 6] [expr ($index == 0) ? 3 : 8] 1
+            lset lines $x open
+          } else {
+            folding::close_folds_in_range $txt [expr ($index == 0) ? 1 : 6] [expr ($index == 0) ? 3 : 8] 1
+            lset lines $x close
+          }
+        }
+        all {
+          if {[lindex $lines $x] eq "close"} {
+            folding::open_all_folds $txt
+            lset lines 1 open
+            lset lines 6 open
+          } else {
+            folding::close_all_folds $txt
+            lset lines 1 close
+            lset lines 6 close
+          }
+        }
+      }
+    
+      for {set i 0} {$i < 10} {incr i} {
+        set line [expr $i + 1]
+        if {[folding::fold_state $txt $line] ne [lindex $lines $i]} {
+          cleanup "Folding state of line $line is not expected ([folding::fold_state $txt $line])"
+        }
+      }
+    
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
+  # Verify jump functionality
+  proc run_test7 {} {
+    
+    # Create the text widget
+    set txt [initialize]
+    
+    for {set i 0} {$i < 10} {incr i} {
+      $txt insert end "This is line $i\n"
+    }
+    
+    folding::set_fold_method $txt manual
+    folding::close_range $txt 2.0 5.0
+    folding::close_range $txt 7.0 9.0
+    
+    $txt mark set insert 1.0
+    
+    folding::jump_to $txt next
+    
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect A ([$txt index insert])"
+    }
+    
+    folding::jump_to $txt next
+    
+    if {[$txt index insert] ne 7.0} {
+      cleanup "Insertion cursor incorrect B ([$txt index insert])"
+    }
+    
+    folding::jump_to $txt next
+    
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect C ([$txt index insert])"
+    }
+    
+    folding::jump_to $txt prev
+    
+    if {[$txt index insert] ne 7.0} {
+      cleanup "Insertion cursor incorrect D ([$txt index insert])"
+    }
+    
+    folding::jump_to $txt prev
+    
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect E ([$txt index insert])"
+    }
+    
+    folding::delete_all_folds $txt
+    folding::jump_to $txt next
+    
+    if {[$txt index insert] ne 2.0} {
+      cleanup "Insertion cursor incorrect F ([$txt index insert])"
+    }
+    
+    # Clean things up
+    cleanup
+    
+  }
+  
+  # Verify show cursor functionality
+  proc run_test8 {} {
+    
+    # Create the text widget
+    set txt [initialize]
+    
+    for {set i 0} {$i < 10} {incr i} {
+      $txt insert end "This is line $i\n"
+    }
+    
+    folding::set_fold_method $txt manual
+    
+    $txt mark set insert 5.0
+    folding::close_range $txt 2.0 9.0
+    
+    if {[$txt index insert] ne 5.0} {
+      cleanup "Insertion cursor incorrect ([$txt index insert])"
+    } 
+    if {[folding::fold_state $txt 2] ne "close"} {
+      cleanup "Folding state is not closed ([folding::fold_state $txt 2])"
+    }
+    if {[lsearch [$txt tag names insert] _folded] == -1} {
+      cleanup "Cursor is not hidden when it should be"
+    }
+    
+    folding::show_line $txt 5
+    
+    if {[folding::fold_state $txt 2] ne "open"} {
+      cleanup "Folding state is not opened ([folding::fold_state $txt 2])"
+    }
+    if {[lsearch [$txt tag names insert] _folded] != -1} {
+      cleanup "Cursor is not shown when it should be"
+    }
+        
+    # Clean things up
+    cleanup
+    
+  }
+  
 }
