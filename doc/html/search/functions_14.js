@@ -11,7 +11,6 @@ var searchData=
   ['undoable',['undoable',['../namespacegui.html#aa814045bd71532eeccbccb7fc552f495',1,'gui']]],
   ['unfavorite',['unfavorite',['../namespacesidebar.html#a50844571c817c948ddb59b1eba1ccde6',1,'sidebar']]],
   ['unfavorite_5fcommand',['unfavorite_command',['../namespacemenus.html#a4cadb7eed4ee2ec8f45a13ac7c4acf53',1,'menus']]],
-  ['unfold_5fall',['unfold_all',['../namespacemenus.html#ae34f4aff49b053f8046883fd48f762ad',1,'menus']]],
   ['unhide_5fscrollbar',['unhide_scrollbar',['../namespacesidebar.html#ad60d0050289f769dd9782ec07092ab18',1,'sidebar']]],
   ['unindent',['unindent',['../namespaceedit.html#a66f52c65fe631b1ca8879b4f0eac9cac',1,'edit']]],
   ['unindent_5fcommand',['unindent_command',['../namespacemenus.html#a00185f2e94f96bc4e0e256bc4a7154c1',1,'menus']]],
@@ -49,6 +48,7 @@ var searchData=
   ['update_5fwidget',['update_widget',['../namespacetheme.html#a08dd799c77fc4e5bb7bdf99faae09873',1,'theme']]],
   ['update_5fxlates',['update_xlates',['../namespacelang.html#a21e915f4facce15425b5cf8fd6b384b2',1,'lang']]],
   ['updateable',['updateable',['../namespacediff.html#a81ce83e453f9607ef71da31ede8019cc',1,'diff']]],
+  ['updatelangbackgrounds',['updateLangBackgrounds',['../namespacectext.html#ad809bab78cd484c6f080125029f108f9',1,'ctext']]],
   ['updatewindowmenu',['updateWindowMenu',['../namespacewindowlist.html#ac3a21182c92197f16222788e06d28c50',1,'windowlist']]],
   ['url_5fokay',['url_okay',['../namespacelauncher.html#a6fa944e6ddda4a0f2e0efd8e9cc7b5bd',1,'launcher']]],
   ['usage',['usage',['../lang_8tcl.html#a5684f219761d78b4f98e7b2869dd1726',1,'usage:&#160;lang.tcl'],['../tke_8tcl.html#a5684f219761d78b4f98e7b2869dd1726',1,'usage:&#160;tke.tcl']]]

@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.3</span>
+   &#160;<span id="projectnumber">2.4</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -140,6 +140,10 @@ Functions</h2></td></tr>
 <tr class="separator:a4bb149cee61175385f3eeccc40607700"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20f7e78873095962e7b311b39e1b1133"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a20f7e78873095962e7b311b39e1b1133">gui::handle_max_undo</a> name1 name2 op</td></tr>
 <tr class="separator:a20f7e78873095962e7b311b39e1b1133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6e7aa451984a4d24daf45fbfb2acce9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aa6e7aa451984a4d24daf45fbfb2acce9">gui::handle_matching_char</a> name1 name2 op</td></tr>
+<tr class="separator:aa6e7aa451984a4d24daf45fbfb2acce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae05e752d848fe2be228cc19518825f36"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ae05e752d848fe2be228cc19518825f36">gui::set_matching_char</a> value</td></tr>
+<tr class="separator:ae05e752d848fe2be228cc19518825f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f9c5715434ad5e0b2b53d31bdc3c53d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a5f9c5715434ad5e0b2b53d31bdc3c53d">gui::handle_allow_tab_scrolling</a> name1 name2 op</td></tr>
 <tr class="separator:a5f9c5715434ad5e0b2b53d31bdc3c53d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a205de7c8a9c641873079ae2eadce0280"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a205de7c8a9c641873079ae2eadce0280">gui::handle_vim_mode</a> name1 name2 op</td></tr>
@@ -350,8 +354,8 @@ Functions</h2></td></tr>
 <tr class="separator:a2c62d8eb4a58441213b2892dcbc55163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa4a223585b8996484df77327c98b6b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#aaa4a223585b8996484df77327c98b6b5">gui::adjust_insert_tab_index</a> index title</td></tr>
 <tr class="separator:aaa4a223585b8996484df77327c98b6b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac385aa54907d4cbdcfb6116c4af65871"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ac385aa54907d4cbdcfb6116c4af65871">gui::insert_tab</a> index title args</td></tr>
-<tr class="separator:ac385aa54907d4cbdcfb6116c4af65871"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a801046ce4610918d2df3d1b8d8629a75"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a801046ce4610918d2df3d1b8d8629a75">gui::insert_tab</a> index fname args</td></tr>
+<tr class="separator:a801046ce4610918d2df3d1b8d8629a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2d388c41eb25e44dfe888d24815183a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#ab2d388c41eb25e44dfe888d24815183a">gui::show_split_pane</a> tid</td></tr>
 <tr class="separator:ab2d388c41eb25e44dfe888d24815183a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32f7ad04e9d79c774cbd6a367f6fe85b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegui.html#a32f7ad04e9d79c774cbd6a367f6fe85b">gui::hide_split_pane</a> tid</td></tr>
@@ -437,7 +441,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_97aefd0d527b934f1d99a682da8fe6a9.html">lib</a></li><li class="navelem"><a class="el" href="gui_8tcl.html">gui.tcl</a></li>
-    <li class="footer">Generated on Fri Mar 11 2016 01:14:44 for TKE by
+    <li class="footer">Generated on Tue Apr 12 2016 00:03:53 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

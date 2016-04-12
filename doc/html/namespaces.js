@@ -12,6 +12,7 @@ var namespaces =
     [ "edit", "namespaceedit.html", null ],
     [ "embed_tke", "namespaceembed__tke.html", "namespaceembed__tke" ],
     [ "emmet", "namespaceemmet.html", null ],
+    [ "emmet_css", "namespaceemmet__css.html", null ],
     [ "favorites", "namespacefavorites.html", null ],
     [ "folding", "namespacefolding.html", null ],
     [ "fontchooser", "namespacefontchooser.html", null ],

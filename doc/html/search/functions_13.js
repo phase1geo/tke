@@ -2,7 +2,6 @@ var searchData=
 [
   ['tab_5fclicked',['tab_clicked',['../namespacesnippets.html#aab7800ce47eb411d17a99c03869518d4',1,'snippets']]],
   ['tabs_5fin_5fpane',['tabs_in_pane',['../namespacegui.html#a08ebe24fc2098714ebb462c8b1f49d45',1,'gui']]],
-  ['tag_3ablink',['tag:blink',['../namespacectext.html#a534becf16ab106321239c6c20e70e6dd',1,'ctext']]],
   ['text_5fanchor',['text_anchor',['../namespaceutils.html#ac71da0a72a12bce0a4da53391b3b0786',1,'utils']]],
   ['text_5fchanged',['text_changed',['../namespacegui.html#a7dfd45cc2b4b4fbe49dc7af9a4f1d090',1,'gui']]],
   ['textsetcursor',['TextSetCursor',['../namespacetk.html#a8a018a4867efa0698fbb8f10940d647a',1,'tk']]],
@@ -11,7 +10,8 @@ var searchData=
   ['theme_5fokay',['theme_okay',['../namespacethemes.html#af37e6cedf3e5fd2fa19b2df4ae3d83c5',1,'themes']]],
   ['tkaboutdialog',['tkAboutDialog',['../tke_8tcl.html#a545b2b95d0c259508bd4db1451462691',1,'tke.tcl']]],
   ['tke_5fdevelopment',['tke_development',['../namespaceapi.html#ad92668593904387911fcccb8b9c211a0',1,'api::tke_development()'],['../tke_8tcl.html#a882c494f41d83dd5645eff929e4120de',1,'tke_development():&#160;tke.tcl']]],
-  ['toggle_5ffold',['toggle_fold',['../namespacefolding.html#ae87597ec3f5a6995f642d79cf853b92d',1,'folding']]],
+  ['toggle_5fall_5ffolds',['toggle_all_folds',['../namespacefolding.html#af7a78be4839c146089ed6ff0d2740d48',1,'folding']]],
+  ['toggle_5ffold',['toggle_fold',['../namespacefolding.html#ae1d98f2f0c68571450eeb31a1d1c237d',1,'folding']]],
   ['toggle_5flabelbutton',['toggle_labelbutton',['../namespacegui.html#af3efb3fd89d7b239bfc3b596ae833e2d',1,'gui']]],
   ['toggle_5fsplit_5fpane',['toggle_split_pane',['../namespacegui.html#af1cf4ef650889e0c4fa180e314b8628f',1,'gui']]],
   ['tools_5fposting',['tools_posting',['../namespacemenus.html#abdd6507b3632901a4997833b16420baf',1,'menus']]],
