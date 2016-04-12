@@ -640,6 +640,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>edit_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>bist</Scope>
+    </TokenIdentifier>
+    <Path>namespacebist.html</Path>
+    <Anchor>aa101793c0990146554bd50ebbd07d1e7</Anchor>
+    <DeclaredIn>bist.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>edit_test</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -757,6 +768,17 @@
     </TokenIdentifier>
     <Path>namespacebist.html</Path>
     <Anchor>aeb3bc7550d24c2eda21c8405ea6e1d05</Anchor>
+    <DeclaredIn>bist.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>label_clicked</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>bist</Scope>
+    </TokenIdentifier>
+    <Path>namespacebist.html</Path>
+    <Anchor>a8fa78c8ff73b887648d882d1ebb6b324</Anchor>
     <DeclaredIn>bist.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1042,7 +1064,7 @@
       <Scope>completer</Scope>
     </TokenIdentifier>
     <Path>namespacecompleter.html</Path>
-    <Anchor>a759b5c426786367bacea8968ad03a7a5</Anchor>
+    <Anchor>a9b379aa5014a020cfb9e6e390d9d6983</Anchor>
     <DeclaredIn>completer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1629,6 +1651,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>command_tag</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a361925209dd7c0965409c2fac493ad68</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>command_edit</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -1668,7 +1701,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a3470f927ac67e89cf7a26ca6ad1479cd</Anchor>
+    <Anchor>a0f972511f9bec4f693f698cc6c34d34d</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1679,18 +1712,18 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a46f8a7710399e2d1b5ebc46bcd0ee355</Anchor>
+    <Anchor>a72d2fc402428dc0928178bf904743ea8</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>tag:blink</Name>
+      <Name>matchBracket</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a534becf16ab106321239c6c20e70e6dd</Anchor>
+    <Anchor>a95916eb7c9e34ea8599acf82deea5ebc</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1712,7 +1745,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>aa49e46c045a1fd43058d76e522f8c982</Anchor>
+    <Anchor>a9c35b59f80ac73837183b2444b207bdb</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1723,7 +1756,18 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a4b844e7c27d04950d60a5b9b72a8585f</Anchor>
+    <Anchor>a155217263a85d93aec16bdd3d1e4b8b4</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_lang</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a46c75a0fdb6261d5211d90c84605dcd4</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1745,7 +1789,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a34ca7e5ac7b2132aa8b3659fe928f3a6</Anchor>
+    <Anchor>a0f552af312936c0fa1b2f5cd82700000</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1756,7 +1800,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a1e06dd0d049c9185f1951d1eb5e92012</Anchor>
+    <Anchor>aa68c0462c7540ba9f59fc242b3e3726e</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1767,18 +1811,51 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a7f1a3f09faded6c5c1e58fa0f95c8594</Anchor>
+    <Anchor>acf775a9fd8a3802ad69d6cfe586c12e8</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>comments_char_in_range</Name>
+      <Name>setEmbedLangPattern</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a688f96034519a32e7aa07d6028ad346d</Anchor>
+    <Anchor>a47a89e7ae44a5c334a403abfd52c81aa</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>highlightAll</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a7bf7e8e418748fc2337df1de93c3a39e</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_tag_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a4bc28eb95a550a2d0460019bc31a801b</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>comments_chars_deleted</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>ab4afc8fe20f61b974e225ba09a955009</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1789,7 +1866,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a73494a6a06bb838142abcaf3fab650b7</Anchor>
+    <Anchor>aa8256cd7df5b2e6901ea7f19735eaf5a</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1805,13 +1882,24 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>updateLangBackgrounds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>ad809bab78cd484c6f080125029f108f9</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>setIndentation</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>af2f164cbc5bf2f2fe876240c88d07adb</Anchor>
+    <Anchor>a34605d36b3b6a4dfa16d023df8f54415</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1877,7 +1965,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a746ad4a57a76ec9dc6a7a809aa61c2f6</Anchor>
+    <Anchor>a94bc60c0cc63087e29dfe6dfc93674cf</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1888,7 +1976,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>af07690f8445fbdc2b0b70a97af73d3a6</Anchor>
+    <Anchor>ab4289919955ec7301d1a43844a3dde3f</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1899,7 +1987,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a045dc8e4654685d8798a8e05749f316e</Anchor>
+    <Anchor>aca2f8c4fa867c0b8659e6ceeebe4c46a</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -1944,39 +2032,6 @@
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
     <Anchor>a5c33098a79c9b452a0f534c63db7cc68</Anchor>
-    <DeclaredIn>ctext.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>findNextChar</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>ctext</Scope>
-    </TokenIdentifier>
-    <Path>namespacectext.html</Path>
-    <Anchor>a8117f9361aa84edfac0b9140a16619f2</Anchor>
-    <DeclaredIn>ctext.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>findNextSpace</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>ctext</Scope>
-    </TokenIdentifier>
-    <Path>namespacectext.html</Path>
-    <Anchor>ab9626479b18ba8be9ea488e24ad8e58f</Anchor>
-    <DeclaredIn>ctext.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>findPreviousSpace</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>ctext</Scope>
-    </TokenIdentifier>
-    <Path>namespacectext.html</Path>
-    <Anchor>a48f11218d7058bfb9e2094d9bb0640d5</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3499,6 +3554,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>load</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a3834d40af3e5c0e9e7cb41d4d2b71c6f</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_snippet_text_pos</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -3518,6 +3584,116 @@
     <Path>namespaceemmet.html</Path>
     <Anchor>afb4134ccf918bb6c124f75e851f13578</Anchor>
     <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>edit_abbreviations</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>ac79a615b322356d750e9aae0ae7a229d</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>load_custom_aliases</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a7f6d08ded2106baa644af93a2df5a530</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>lookup_alias_helper</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a21335560483bfa6f61d73847b1fc9cb7</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>lookup_node_alias</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a01d8ba625f12b558d6fd2b3280932ed2</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>lookup_abbr_alias</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>afd151a36f9c985e33235b91465950e1d</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>parse</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>af0f86c297fe8b0d3ebb13d89f6f8a093</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>generate_line</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>a9f97d7c0bea39d64bb4b2b63ea62792d</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>insert_value</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>a2c9efdf843194e15c4d5d26feea47c0e</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_prefix_list</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>aaa4eaf81feff93684341184d44729675</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>shorten_color</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>aba574d3b8eb226bbb4443c0ff73d89a6</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3598,13 +3774,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>enabled</Name>
+      <Name>get_method</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>ac2ff07e90e1174c819aea35247423891</Anchor>
+    <Anchor>acf4c54b677da30b5957b1e0263e0e128</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3620,6 +3796,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>fold_state_exists</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a52f70edff2a6045e90b1547188f0894e</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>initialize</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -3627,6 +3814,17 @@
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
     <Anchor>a3c2fd2cd8399fa5797a67e078bccdbe0</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_fold_method</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a4e4702b37fdf7bf7cbb6e05d42557eb2</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3692,7 +3890,18 @@
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>a1e8796f9731d7b9cadfc85f03288107c</Anchor>
+    <Anchor>afb3f8551fb67b3ae159d1a4c7fbac5f1</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>show_line</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a1b476e3b21ef2b4844b432f07e5fc3fa</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3703,7 +3912,29 @@
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>ae87597ec3f5a6995f642d79cf853b92d</Anchor>
+    <Anchor>ae1d98f2f0c68571450eeb31a1d1c237d</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>toggle_all_folds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>af7a78be4839c146089ed6ff0d2740d48</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a32c35edcda79697ca6f6056a4ff1c1c4</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3719,13 +3950,57 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>delete_fold</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>aad96fd29980385e52caa0ad0fc44ec23</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>delete_folds_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>ab8536d4688629e43e4bbd626535102c4</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>delete_all_folds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a4286acd0be8754adcf2902fbfe97f1a3</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>close_fold</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>aff5251fc0afdfac5f8a91188dc45de33</Anchor>
+    <Anchor>a371dcff6f057409102467b21211d7d7b</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close_folds_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>ac59754b1f40c2d487fea2d97a8d924d4</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3747,7 +4022,18 @@
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>a8985bbcf31121062f2f9d784336ac4bc</Anchor>
+    <Anchor>a40cbbc901f1cc9cdd3d1111bb3924abe</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>open_folds_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a063677a35e3d343fa7180e771b0f2e3a</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3967,6 +4253,28 @@
     </TokenIdentifier>
     <Path>namespacegui.html</Path>
     <Anchor>a20f7e78873095962e7b311b39e1b1133</Anchor>
+    <DeclaredIn>gui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_matching_char</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>gui</Scope>
+    </TokenIdentifier>
+    <Path>namespacegui.html</Path>
+    <Anchor>aa6e7aa451984a4d24daf45fbfb2acce9</Anchor>
+    <DeclaredIn>gui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_matching_char</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>gui</Scope>
+    </TokenIdentifier>
+    <Path>namespacegui.html</Path>
+    <Anchor>ae05e752d848fe2be228cc19518825f36</Anchor>
     <DeclaredIn>gui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -5132,7 +5440,7 @@
       <Scope>gui</Scope>
     </TokenIdentifier>
     <Path>namespacegui.html</Path>
-    <Anchor>ac385aa54907d4cbdcfb6116c4af65871</Anchor>
+    <Anchor>a801046ce4610918d2df3d1b8d8629a75</Anchor>
     <DeclaredIn>gui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -5753,17 +6061,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>get_indent_space</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>indent</Scope>
-    </TokenIdentifier>
-    <Path>namespaceindent.html</Path>
-    <Anchor>a2c82764cd6f03f787fe5755d0c428318</Anchor>
-    <DeclaredIn>indent.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>format_text</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -5781,7 +6078,7 @@
       <Scope>indent</Scope>
     </TokenIdentifier>
     <Path>namespaceindent.html</Path>
-    <Anchor>a3fce3f9ca5a50b8a335adf1aacc034eb</Anchor>
+    <Anchor>aeca43f04f831c18e127c1bac15dcb39c</Anchor>
     <DeclaredIn>indent.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -5858,7 +6155,7 @@
       <Scope>interpreter</Scope>
     </TokenIdentifier>
     <Path>namespaceinterpreter.html</Path>
-    <Anchor>aea84e4dbfc52d3863d34880e8f73909f</Anchor>
+    <Anchor>a053babc6c9d651b5cad5d4295f072e90</Anchor>
     <DeclaredIn>interpreter.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -7907,46 +8204,68 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>disable_folding</Name>
+      <Name>set_fold_method</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a31a8307a0b6253776207d7085469fe6d</Anchor>
+    <Anchor>a0c031c217a590773ec506cb1e114525c</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>enable_folding</Name>
+      <Name>add_fold_from_selection</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a9f55646fdcdde0033d91b33238df3cc9</Anchor>
+    <Anchor>a747e8897bd9913a5dd7f75111d2bbf59</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>fold_all</Name>
+      <Name>delete_folds</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a23d6c3521317d58ac92cc5f47db03e93</Anchor>
+    <Anchor>af78765b98503a6f3388290e1f2ecfd5f</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>unfold_all</Name>
+      <Name>close_folds</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>ae34f4aff49b053f8046883fd48f762ad</Anchor>
+    <Anchor>a9c4750543b7a76db52a1f5b152b88783</Anchor>
+    <DeclaredIn>menus.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>open_folds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>menus</Scope>
+    </TokenIdentifier>
+    <Path>namespacemenus.html</Path>
+    <Anchor>aa312f7c643cdd4a842b897a296000e4d</Anchor>
+    <DeclaredIn>menus.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>jump_to_fold</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>menus</Scope>
+    </TokenIdentifier>
+    <Path>namespacemenus.html</Path>
+    <Anchor>adf155fe9c7148875e48158bfb9910348</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10755,13 +11074,24 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>add_sublanguage</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>syntax</Scope>
+    </TokenIdentifier>
+    <Path>namespacesyntax.html</Path>
+    <Anchor>ad67d54490d008abe570e84e52a7ac514</Anchor>
+    <DeclaredIn>syntax.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>set_language_section</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>aa6a8144f08b069c7b897467e354ebd90</Anchor>
+    <Anchor>a066164add795dfd82fe21104f9e9bce6</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -11048,6 +11378,17 @@
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
     <Anchor>a8392e435882c6f06726d8514a6d22ff0</Anchor>
+    <DeclaredIn>syntax.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>save_language_association</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>syntax</Scope>
+    </TokenIdentifier>
+    <Path>namespacesyntax.html</Path>
+    <Anchor>a6802462012027fd7f12e0097288b8283</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12857,6 +13198,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_lang</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a6369c69fd4d81c8c429d7330129a0d4d</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_vim_modelines</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -13011,6 +13363,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>do_set_foldenable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a405feba85172ca0a38157b732953b443</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_set_foldmethod</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a8192ebb09a449c15d09a6ab39c233618</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>do_set_matchpairs</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -13106,6 +13480,17 @@
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
     <Anchor>a9575141f7dcc35cc953965f8967c8e1b</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_set_showmatch</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a872c6fd54172d84601e422e6a8f9db4c</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -13722,6 +14107,17 @@
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
     <Anchor>a00755c3cfddc90754bdd6ae5ce9761e6</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_E</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a6421f8f40d1bdb33b564ab45ec47cdeb</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -15140,6 +15536,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>edit_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>bist</Scope>
+    </TokenIdentifier>
+    <Path>namespacebist.html</Path>
+    <Anchor>aa101793c0990146554bd50ebbd07d1e7</Anchor>
+    <DeclaredIn>bist.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>edit_test</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -15257,6 +15664,17 @@
     </TokenIdentifier>
     <Path>namespacebist.html</Path>
     <Anchor>aeb3bc7550d24c2eda21c8405ea6e1d05</Anchor>
+    <DeclaredIn>bist.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>label_clicked</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>bist</Scope>
+    </TokenIdentifier>
+    <Path>namespacebist.html</Path>
+    <Anchor>a8fa78c8ff73b887648d882d1ebb6b324</Anchor>
     <DeclaredIn>bist.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -15569,7 +15987,7 @@
       <Scope>completer</Scope>
     </TokenIdentifier>
     <Path>namespacecompleter.html</Path>
-    <Anchor>a759b5c426786367bacea8968ad03a7a5</Anchor>
+    <Anchor>a9b379aa5014a020cfb9e6e390d9d6983</Anchor>
     <DeclaredIn>completer.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16155,6 +16573,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>command_tag</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a361925209dd7c0965409c2fac493ad68</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>command_edit</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16194,7 +16623,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a3470f927ac67e89cf7a26ca6ad1479cd</Anchor>
+    <Anchor>a0f972511f9bec4f693f698cc6c34d34d</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16205,18 +16634,18 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a46f8a7710399e2d1b5ebc46bcd0ee355</Anchor>
+    <Anchor>a72d2fc402428dc0928178bf904743ea8</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>tag:blink</Name>
+      <Name>matchBracket</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a534becf16ab106321239c6c20e70e6dd</Anchor>
+    <Anchor>a95916eb7c9e34ea8599acf82deea5ebc</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16238,7 +16667,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>aa49e46c045a1fd43058d76e522f8c982</Anchor>
+    <Anchor>a9c35b59f80ac73837183b2444b207bdb</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16249,7 +16678,18 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a4b844e7c27d04950d60a5b9b72a8585f</Anchor>
+    <Anchor>a155217263a85d93aec16bdd3d1e4b8b4</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_lang</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a46c75a0fdb6261d5211d90c84605dcd4</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16271,7 +16711,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a34ca7e5ac7b2132aa8b3659fe928f3a6</Anchor>
+    <Anchor>a0f552af312936c0fa1b2f5cd82700000</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16282,7 +16722,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a1e06dd0d049c9185f1951d1eb5e92012</Anchor>
+    <Anchor>aa68c0462c7540ba9f59fc242b3e3726e</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16293,18 +16733,51 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a7f1a3f09faded6c5c1e58fa0f95c8594</Anchor>
+    <Anchor>acf775a9fd8a3802ad69d6cfe586c12e8</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>comments_char_in_range</Name>
+      <Name>setEmbedLangPattern</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a688f96034519a32e7aa07d6028ad346d</Anchor>
+    <Anchor>a47a89e7ae44a5c334a403abfd52c81aa</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>highlightAll</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a7bf7e8e418748fc2337df1de93c3a39e</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_tag_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>a4bc28eb95a550a2d0460019bc31a801b</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>comments_chars_deleted</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>ab4afc8fe20f61b974e225ba09a955009</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16315,7 +16788,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a73494a6a06bb838142abcaf3fab650b7</Anchor>
+    <Anchor>aa8256cd7df5b2e6901ea7f19735eaf5a</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16331,13 +16804,24 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>updateLangBackgrounds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ctext</Scope>
+    </TokenIdentifier>
+    <Path>namespacectext.html</Path>
+    <Anchor>ad809bab78cd484c6f080125029f108f9</Anchor>
+    <DeclaredIn>ctext.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>setIndentation</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>af2f164cbc5bf2f2fe876240c88d07adb</Anchor>
+    <Anchor>a34605d36b3b6a4dfa16d023df8f54415</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16403,7 +16887,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a746ad4a57a76ec9dc6a7a809aa61c2f6</Anchor>
+    <Anchor>a94bc60c0cc63087e29dfe6dfc93674cf</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16414,7 +16898,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>af07690f8445fbdc2b0b70a97af73d3a6</Anchor>
+    <Anchor>ab4289919955ec7301d1a43844a3dde3f</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16425,7 +16909,7 @@
       <Scope>ctext</Scope>
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
-    <Anchor>a045dc8e4654685d8798a8e05749f316e</Anchor>
+    <Anchor>aca2f8c4fa867c0b8659e6ceeebe4c46a</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16470,39 +16954,6 @@
     </TokenIdentifier>
     <Path>namespacectext.html</Path>
     <Anchor>a5c33098a79c9b452a0f534c63db7cc68</Anchor>
-    <DeclaredIn>ctext.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>findNextChar</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>ctext</Scope>
-    </TokenIdentifier>
-    <Path>namespacectext.html</Path>
-    <Anchor>a8117f9361aa84edfac0b9140a16619f2</Anchor>
-    <DeclaredIn>ctext.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>findNextSpace</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>ctext</Scope>
-    </TokenIdentifier>
-    <Path>namespacectext.html</Path>
-    <Anchor>ab9626479b18ba8be9ea488e24ad8e58f</Anchor>
-    <DeclaredIn>ctext.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>findPreviousSpace</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>ctext</Scope>
-    </TokenIdentifier>
-    <Path>namespacectext.html</Path>
-    <Anchor>a48f11218d7058bfb9e2094d9bb0640d5</Anchor>
     <DeclaredIn>ctext.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18131,6 +18582,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>load</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a3834d40af3e5c0e9e7cb41d4d2b71c6f</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_snippet_text_pos</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -18150,6 +18612,125 @@
     <Path>namespaceemmet.html</Path>
     <Anchor>afb4134ccf918bb6c124f75e851f13578</Anchor>
     <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>edit_abbreviations</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>ac79a615b322356d750e9aae0ae7a229d</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>load_custom_aliases</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a7f6d08ded2106baa644af93a2df5a530</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>lookup_alias_helper</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a21335560483bfa6f61d73847b1fc9cb7</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>lookup_node_alias</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>a01d8ba625f12b558d6fd2b3280932ed2</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>lookup_abbr_alias</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet.html</Path>
+    <Anchor>afd151a36f9c985e33235b91465950e1d</Anchor>
+    <DeclaredIn>emmet.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>emmet_css</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>ns</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>parse</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>af0f86c297fe8b0d3ebb13d89f6f8a093</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>generate_line</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>a9f97d7c0bea39d64bb4b2b63ea62792d</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>insert_value</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>a2c9efdf843194e15c4d5d26feea47c0e</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_prefix_list</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>aaa4eaf81feff93684341184d44729675</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>shorten_color</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>emmet_css</Scope>
+    </TokenIdentifier>
+    <Path>namespaceemmet__css.html</Path>
+    <Anchor>aba574d3b8eb226bbb4443c0ff73d89a6</Anchor>
+    <DeclaredIn>emmet_css.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -18248,13 +18829,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>enabled</Name>
+      <Name>get_method</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>ac2ff07e90e1174c819aea35247423891</Anchor>
+    <Anchor>acf4c54b677da30b5957b1e0263e0e128</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18270,6 +18851,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>fold_state_exists</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a52f70edff2a6045e90b1547188f0894e</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>initialize</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -18277,6 +18869,17 @@
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
     <Anchor>a3c2fd2cd8399fa5797a67e078bccdbe0</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_fold_method</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a4e4702b37fdf7bf7cbb6e05d42557eb2</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18342,7 +18945,18 @@
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>a1e8796f9731d7b9cadfc85f03288107c</Anchor>
+    <Anchor>afb3f8551fb67b3ae159d1a4c7fbac5f1</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>show_line</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a1b476e3b21ef2b4844b432f07e5fc3fa</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18353,7 +18967,29 @@
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>ae87597ec3f5a6995f642d79cf853b92d</Anchor>
+    <Anchor>ae1d98f2f0c68571450eeb31a1d1c237d</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>toggle_all_folds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>af7a78be4839c146089ed6ff0d2740d48</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a32c35edcda79697ca6f6056a4ff1c1c4</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18369,13 +19005,57 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>delete_fold</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>aad96fd29980385e52caa0ad0fc44ec23</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>delete_folds_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>ab8536d4688629e43e4bbd626535102c4</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>delete_all_folds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a4286acd0be8754adcf2902fbfe97f1a3</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>close_fold</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>aff5251fc0afdfac5f8a91188dc45de33</Anchor>
+    <Anchor>a371dcff6f057409102467b21211d7d7b</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close_folds_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>ac59754b1f40c2d487fea2d97a8d924d4</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18397,7 +19077,18 @@
       <Scope>folding</Scope>
     </TokenIdentifier>
     <Path>namespacefolding.html</Path>
-    <Anchor>a8985bbcf31121062f2f9d784336ac4bc</Anchor>
+    <Anchor>a40cbbc901f1cc9cdd3d1111bb3924abe</Anchor>
+    <DeclaredIn>folding.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>open_folds_in_range</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>folding</Scope>
+    </TokenIdentifier>
+    <Path>namespacefolding.html</Path>
+    <Anchor>a063677a35e3d343fa7180e771b0f2e3a</Anchor>
     <DeclaredIn>folding.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18625,6 +19316,28 @@
     </TokenIdentifier>
     <Path>namespacegui.html</Path>
     <Anchor>a20f7e78873095962e7b311b39e1b1133</Anchor>
+    <DeclaredIn>gui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_matching_char</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>gui</Scope>
+    </TokenIdentifier>
+    <Path>namespacegui.html</Path>
+    <Anchor>aa6e7aa451984a4d24daf45fbfb2acce9</Anchor>
+    <DeclaredIn>gui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_matching_char</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>gui</Scope>
+    </TokenIdentifier>
+    <Path>namespacegui.html</Path>
+    <Anchor>ae05e752d848fe2be228cc19518825f36</Anchor>
     <DeclaredIn>gui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19790,7 +20503,7 @@
       <Scope>gui</Scope>
     </TokenIdentifier>
     <Path>namespacegui.html</Path>
-    <Anchor>ac385aa54907d4cbdcfb6116c4af65871</Anchor>
+    <Anchor>a801046ce4610918d2df3d1b8d8629a75</Anchor>
     <DeclaredIn>gui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -20420,17 +21133,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>get_indent_space</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>indent</Scope>
-    </TokenIdentifier>
-    <Path>namespaceindent.html</Path>
-    <Anchor>a2c82764cd6f03f787fe5755d0c428318</Anchor>
-    <DeclaredIn>indent.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>format_text</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -20448,7 +21150,7 @@
       <Scope>indent</Scope>
     </TokenIdentifier>
     <Path>namespaceindent.html</Path>
-    <Anchor>a3fce3f9ca5a50b8a335adf1aacc034eb</Anchor>
+    <Anchor>aeca43f04f831c18e127c1bac15dcb39c</Anchor>
     <DeclaredIn>indent.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -20534,7 +21236,7 @@
       <Scope>interpreter</Scope>
     </TokenIdentifier>
     <Path>namespaceinterpreter.html</Path>
-    <Anchor>aea84e4dbfc52d3863d34880e8f73909f</Anchor>
+    <Anchor>a053babc6c9d651b5cad5d4295f072e90</Anchor>
     <DeclaredIn>interpreter.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22608,46 +23310,68 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>disable_folding</Name>
+      <Name>set_fold_method</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a31a8307a0b6253776207d7085469fe6d</Anchor>
+    <Anchor>a0c031c217a590773ec506cb1e114525c</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>enable_folding</Name>
+      <Name>add_fold_from_selection</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a9f55646fdcdde0033d91b33238df3cc9</Anchor>
+    <Anchor>a747e8897bd9913a5dd7f75111d2bbf59</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>fold_all</Name>
+      <Name>delete_folds</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>a23d6c3521317d58ac92cc5f47db03e93</Anchor>
+    <Anchor>af78765b98503a6f3388290e1f2ecfd5f</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>unfold_all</Name>
+      <Name>close_folds</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>menus</Scope>
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
-    <Anchor>ae34f4aff49b053f8046883fd48f762ad</Anchor>
+    <Anchor>a9c4750543b7a76db52a1f5b152b88783</Anchor>
+    <DeclaredIn>menus.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>open_folds</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>menus</Scope>
+    </TokenIdentifier>
+    <Path>namespacemenus.html</Path>
+    <Anchor>aa312f7c643cdd4a842b897a296000e4d</Anchor>
+    <DeclaredIn>menus.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>jump_to_fold</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>menus</Scope>
+    </TokenIdentifier>
+    <Path>namespacemenus.html</Path>
+    <Anchor>adf155fe9c7148875e48158bfb9910348</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -25536,13 +26260,24 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>add_sublanguage</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>syntax</Scope>
+    </TokenIdentifier>
+    <Path>namespacesyntax.html</Path>
+    <Anchor>ad67d54490d008abe570e84e52a7ac514</Anchor>
+    <DeclaredIn>syntax.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>set_language_section</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>syntax</Scope>
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
-    <Anchor>aa6a8144f08b069c7b897467e354ebd90</Anchor>
+    <Anchor>a066164add795dfd82fe21104f9e9bce6</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -25829,6 +26564,17 @@
     </TokenIdentifier>
     <Path>namespacesyntax.html</Path>
     <Anchor>a8392e435882c6f06726d8514a6d22ff0</Anchor>
+    <DeclaredIn>syntax.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>save_language_association</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>syntax</Scope>
+    </TokenIdentifier>
+    <Path>namespacesyntax.html</Path>
+    <Anchor>a6802462012027fd7f12e0097288b8283</Anchor>
     <DeclaredIn>syntax.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -27632,6 +28378,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_lang</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a6369c69fd4d81c8c429d7330129a0d4d</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>vim</Name>
       <APILanguage>tcl</APILanguage>
       <Type>ns</Type>
@@ -27795,6 +28552,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>do_set_foldenable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a405feba85172ca0a38157b732953b443</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_set_foldmethod</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a8192ebb09a449c15d09a6ab39c233618</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>do_set_matchpairs</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -27890,6 +28669,17 @@
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
     <Anchor>a9575141f7dcc35cc953965f8967c8e1b</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_set_showmatch</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a872c6fd54172d84601e422e6a8f9db4c</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -28506,6 +29296,17 @@
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
     <Anchor>a00755c3cfddc90754bdd6ae5ce9761e6</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_E</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a6421f8f40d1bdb33b564ab45ec47cdeb</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>

@@ -7,6 +7,7 @@ var utils_8tcl =
     [ "egrep_file", "utils_8tcl.html#a600cc6dfd9f1072748db7e17f85e72f0", null ],
     [ "get_color_values", "utils_8tcl.html#a13f8549f8e0c8fe9f99fcfaeb6a85926", null ],
     [ "get_complementary_mono_color", "utils_8tcl.html#a1127ebede61cc35585b784ab324822f8", null ],
+    [ "get_current_lang", "utils_8tcl.html#a6369c69fd4d81c8c429d7330129a0d4d", null ],
     [ "get_default_background", "utils_8tcl.html#a175f71dd5ac8ba87e6f926e628b318c8", null ],
     [ "get_default_foreground", "utils_8tcl.html#ac8d1a83a1463da5378b6d7f4259c0e5c", null ],
     [ "get_eol_char", "utils_8tcl.html#a15c242be08bb3e65549f658e311a6997", null ],

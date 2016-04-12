@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['label_5fclicked',['label_clicked',['../namespacebist.html#a8fa78c8ff73b887648d882d1ebb6b324',1,'bist']]],
   ['lang',['lang',['../namespacelang.html',1,'']]],
   ['lang_2etcl',['lang.tcl',['../lang_8tcl.html',1,'']]],
   ['lassign',['lassign',['../tke_8tcl.html#a87a72c8f51e5763f17fa844297d1195c',1,'tke.tcl']]],
@@ -19,10 +20,11 @@ var searchData=
   ['linemaptogglemark',['linemapToggleMark',['../namespacectext.html#a6b481f414eadb3edd15db1a2188b8da6',1,'ctext']]],
   ['linemapupdate',['linemapUpdate',['../namespacectext.html#ad19b7b4f89d7c7fd1dde82648c63f0e3',1,'ctext']]],
   ['linemapupdateoffset',['linemapUpdateOffset',['../namespacectext.html#a994b6d65dca94ec520282c77596e4234',1,'ctext::linemapUpdateOffsetwin first_line last_line'],['../namespacectext.html#afe48732ab8de8b7a8dfe953a34664da3',1,'ctext::linemapUpdateOffsetargs']]],
-  ['load',['load',['../namespacebindings.html#a33bf61456ea9a02d57a5a2e88ac33d41',1,'bindings::load()'],['../namespacecliphist.html#a84342a0b1896b6ea0e09ddc08c1aadab',1,'cliphist::load()'],['../namespacefavorites.html#ae89fef3fc5dbd8de1cacfc4536e05929',1,'favorites::load()'],['../namespacelauncher.html#ab45db1b527689aec9f9ae8ae495aab8d',1,'launcher::load()'],['../namespaceplugins.html#a6cbf50a8f6180f8ee3f167e8a8ba99b9',1,'plugins::load()'],['../namespacepreferences.html#accc53512284d3da2788f88005351d176',1,'preferences::load()'],['../namespacesessions.html#a91d0a67e14c80527d50e478ae51f91a4',1,'sessions::load()'],['../namespacesnippets.html#a853068728f790d9b70c520193eeb4474',1,'snippets::load()'],['../namespacesyntax.html#a83fb401cc11b9050b512abbb907c7720',1,'syntax::load()'],['../namespacetemplates.html#a0edf770eaa9ba811670883be57724222',1,'templates::load()'],['../namespacethemes.html#a60898a48e73cdec87482755a291f904e',1,'themes::load()']]],
+  ['load',['load',['../namespacebindings.html#a33bf61456ea9a02d57a5a2e88ac33d41',1,'bindings::load()'],['../namespacecliphist.html#a84342a0b1896b6ea0e09ddc08c1aadab',1,'cliphist::load()'],['../namespaceemmet.html#a3834d40af3e5c0e9e7cb41d4d2b71c6f',1,'emmet::load()'],['../namespacefavorites.html#ae89fef3fc5dbd8de1cacfc4536e05929',1,'favorites::load()'],['../namespacelauncher.html#ab45db1b527689aec9f9ae8ae495aab8d',1,'launcher::load()'],['../namespaceplugins.html#a6cbf50a8f6180f8ee3f167e8a8ba99b9',1,'plugins::load()'],['../namespacepreferences.html#accc53512284d3da2788f88005351d176',1,'preferences::load()'],['../namespacesessions.html#a91d0a67e14c80527d50e478ae51f91a4',1,'sessions::load()'],['../namespacesnippets.html#a853068728f790d9b70c520193eeb4474',1,'snippets::load()'],['../namespacesyntax.html#a83fb401cc11b9050b512abbb907c7720',1,'syntax::load()'],['../namespacetemplates.html#a0edf770eaa9ba811670883be57724222',1,'templates::load()'],['../namespacethemes.html#a60898a48e73cdec87482755a291f904e',1,'themes::load()']]],
   ['load_5fabs',['load_abs',['../namespacetemplates.html#a2f0dcf6c1869f16a630aaa5a3fcd768e',1,'templates']]],
   ['load_5fand_5fraise_5fwindow',['load_and_raise_window',['../namespacesessions.html#aeace7cb595bcf021fda063f398efdfd0',1,'sessions']]],
   ['load_5fbase_5fprefs',['load_base_prefs',['../namespacepreferences.html#ab1e10cbb046b4808eeb7d44b0917065f',1,'preferences']]],
+  ['load_5fcustom_5faliases',['load_custom_aliases',['../namespaceemmet.html#a7f6d08ded2106baa644af93a2df5a530',1,'emmet']]],
   ['load_5ffile',['load_file',['../namespacebindings.html#a2008626218f70a53fe4f7c2499b7706b',1,'bindings::load_file()'],['../namespacepreferences.html#a2bebf3650407f8a433b92cabfe3d17e0',1,'preferences::load_file()']]],
   ['load_5foptions',['load_options',['../namespacebist.html#a763b0fa958a1f0b4cba89db6e446154b',1,'bist']]],
   ['load_5frel',['load_rel',['../namespacetemplates.html#a785a0d1b407fcb4b74e49deae8a2e7cc',1,'templates']]],
@@ -34,5 +36,8 @@ var searchData=
   ['logger',['logger',['../namespacelogger.html',1,'']]],
   ['logger_2etcl',['logger.tcl',['../logger_8tcl.html',1,'']]],
   ['lookup',['lookup',['../namespacelauncher.html#a8ff9d9ba5b233298aee1f471682803e5',1,'launcher']]],
+  ['lookup_5fabbr_5falias',['lookup_abbr_alias',['../namespaceemmet.html#afd151a36f9c985e33235b91465950e1d',1,'emmet']]],
+  ['lookup_5falias_5fhelper',['lookup_alias_helper',['../namespaceemmet.html#a21335560483bfa6f61d73847b1fc9cb7',1,'emmet']]],
+  ['lookup_5fnode_5falias',['lookup_node_alias',['../namespaceemmet.html#a01d8ba625f12b558d6fd2b3280932ed2',1,'emmet']]],
   ['lshift_5fbetween_5fchar',['lshift_between_char',['../namespaceedit.html#abfb52302b1389f942af8897585056091',1,'edit']]]
 ];

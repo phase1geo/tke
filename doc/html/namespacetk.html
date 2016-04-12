@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.3</span>
+   &#160;<span id="projectnumber">2.4</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -142,8 +142,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="ctext_8tcl_source.html#l00019">19</a> of file <a class="el" href="ctext_8tcl_source.html">ctext.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">proc</span> ::tk::TextSetCursor {w pos args} {</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <span class="keyword">set</span> ins [$w index insert]<span class="comment"></span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"></span>  ::tk::TextSetCursorOrig $w $pos<span class="comment"></span></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"></span>  <span class="keyword">event</span> generate $w &lt;&lt;CursorChanged&gt;&gt; -data [list $ins {*}$args]<span class="comment"></span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"></span>}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="ctext_8tcl_source.html#l00020">20</a> of file <a class="el" href="ctext_8tcl_source.html">ctext.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">proc</span> ::tk::TextSetCursor {w pos args} {</div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <span class="keyword">set</span> ins [$w index insert]<span class="comment"></span></div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"></span>  ::tk::TextSetCursorOrig $w $pos<span class="comment"></span></div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"></span>  <span class="keyword">event</span> generate $w &lt;&lt;CursorChanged&gt;&gt; -data [list $ins {*}$args]<span class="comment"></span></div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"></span>}</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
@@ -152,7 +152,7 @@ Functions</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespacetk.html">tk</a></li>
-    <li class="footer">Generated on Fri Mar 11 2016 01:14:46 for TKE by
+    <li class="footer">Generated on Tue Apr 12 2016 00:03:55 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

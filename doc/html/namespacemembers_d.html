@@ -33,7 +33,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.3</span>
+   &#160;<span id="projectnumber">2.4</span>
    </div>
    <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
   </td>
@@ -146,6 +146,9 @@ $(document).ready(function(){initNavTree('namespacemembers_d.html','');});
 , <a class="el" href="namespacesessions.html#a7d60298c406cbfc3c16725fe0bec23d1">sessions</a>
 , <a class="el" href="namespacetemplates.html#a5166349282d45a822f66a571e79f9ca0">templates</a>
 </li>
+<li>delete_all_folds()
+: <a class="el" href="namespacefolding.html#a4286acd0be8754adcf2902fbfe97f1a3">folding</a>
+</li>
 <li>delete_all_menus()
 : <a class="el" href="namespaceplugins.html#a45d5be043f7f7b55adcbda0d639fc3d0">plugins</a>
 </li>
@@ -185,8 +188,17 @@ $(document).ready(function(){initNavTree('namespacemembers_d.html','');});
 <li>delete_file()
 : <a class="el" href="namespacesidebar.html#a57d5d91a298dbdf84b6c55235d9d8ec1">sidebar</a>
 </li>
+<li>delete_fold()
+: <a class="el" href="namespacefolding.html#aad96fd29980385e52caa0ad0fc44ec23">folding</a>
+</li>
 <li>delete_folder()
 : <a class="el" href="namespacesidebar.html#ad500ff92b33c53ca7544d2d60c577498">sidebar</a>
+</li>
+<li>delete_folds()
+: <a class="el" href="namespacemenus.html#af78765b98503a6f3388290e1f2ecfd5f">menus</a>
+</li>
+<li>delete_folds_in_range()
+: <a class="el" href="namespacefolding.html#ab8536d4688629e43e4bbd626535102c4">folding</a>
 </li>
 <li>delete_from_start()
 : <a class="el" href="namespaceedit.html#ab5a495e227148dee7ea39fa38d631e3b">edit</a>
@@ -246,7 +258,6 @@ $(document).ready(function(){initNavTree('namespacemembers_d.html','');});
 </li>
 <li>disable_folding()
 : <a class="el" href="namespacefolding.html#a87945040163a40cb145aceeb3cfe3266">folding</a>
-, <a class="el" href="namespacemenus.html#a31a8307a0b6253776207d7085469fe6d">menus</a>
 </li>
 <li>display_error()
 : <a class="el" href="namespacesnippets.html#ac920c32f126ee6dfc30cccf1483f2b30">snippets</a>
@@ -281,6 +292,12 @@ $(document).ready(function(){initNavTree('namespacemembers_d.html','');});
 <li>do_set_fileformat()
 : <a class="el" href="namespacevim.html#aa8ea2088974ac4ae17ff98a2a928d2c7">vim</a>
 </li>
+<li>do_set_foldenable()
+: <a class="el" href="namespacevim.html#a405feba85172ca0a38157b732953b443">vim</a>
+</li>
+<li>do_set_foldmethod()
+: <a class="el" href="namespacevim.html#a8192ebb09a449c15d09a6ab39c233618">vim</a>
+</li>
 <li>do_set_indent_mode()
 : <a class="el" href="namespacevim.html#a5be61fb9487e1b6d9f1ca0807c53de69">vim</a>
 </li>
@@ -310,6 +327,9 @@ $(document).ready(function(){initNavTree('namespacemembers_d.html','');});
 </li>
 <li>do_set_shiftwidth()
 : <a class="el" href="namespacevim.html#a9575141f7dcc35cc953965f8967c8e1b">vim</a>
+</li>
+<li>do_set_showmatch()
+: <a class="el" href="namespacevim.html#a872c6fd54172d84601e422e6a8f9db4c">vim</a>
 </li>
 <li>do_set_split()
 : <a class="el" href="namespacevim.html#ad056de1460014fa545bf7dff04e1e0ff">vim</a>
@@ -341,7 +361,7 @@ $(document).ready(function(){initNavTree('namespacemembers_d.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 11 2016 01:14:46 for TKE by
+    <li class="footer">Generated on Tue Apr 12 2016 00:03:55 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
