@@ -1,0 +1,37 @@
+filepatterns
+{*.1 *.2 *.3 *.4 *.5 *.6 *.7 *.8 *.9 *.n}
+
+vimsyntax
+{man}
+
+matchcharsallowed
+{curly square paren}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+icomment {{\.\\"}}
+
+lcomments {{\.\\"}}
+
+strings {{"}}
+
+symbols
+{
+  HighlightRegexp {\.SH} syntax::get_syntax_symbol
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    name synopsis description options examples environment files see also history bugs conforming to
+    author copyright
+  } {}
+}
+
+miscellaneous3 {
+  HighlightRegexp {\.[TSBIPRnf][HRPfiES]?|\\f[BRI]} {}
+}
+
