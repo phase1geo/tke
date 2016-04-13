@@ -22,7 +22,7 @@ lcomments {{#}}
 
 keywords
 {
-  snippet
+  snippet endsnippet
 }
 
 symbols
@@ -32,5 +32,5 @@ symbols
 
 miscellaneous1
 {
-  HighlightRegexp {^\t.*$} {}
+  HighlightRegexp {^(\t.*|(?!snippet|endsnippet).+)$} {}
 }

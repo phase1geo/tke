@@ -120,20 +120,25 @@ namespace eval snippets {
       close $rc
 
       set in_snippet 0
+      set tab_seen   0
 
       # Do a quick parse of the snippets file
       foreach line [concat [split $contents \n] ""] {
         if {$in_snippet} {
           if {[regexp {^\t(.*)$} $line -> txt]} {
             append snippet "[string trimright $txt]\n"
-          } else {
+            set tab_seen 1
+          } elseif {([string trim $line] eq "endsnippet") || (([string trim $line] eq "") && $tab_seen)} {
             set in_snippet 0
             set snippets($language,$name) [string range $snippet 0 end-1]
+          } else {
+            append snippet "[string trimright $line]\n"
           }
         }
         if {[regexp {^snippet\s+(\w+)} $line -> name]} {
           set in_snippet 1
           set snippet    ""
+          set tab_seen   0
         }
 
       }
@@ -248,8 +253,18 @@ namespace eval snippets {
         lappend result \$0 snippet_mark_0
       }
       
+      # Get the insertion cursor
+      set insert [$txtt index insert]
+      
       # Insert the text
       $txtt insert insert {*}$result
+      
+      # Format the text to match indentation
+      set datalen 0
+      foreach {str tags} $result {
+        incr datalen [string length $str]
+      }
+      indent::format_text $txtt $insert "$insert+${datalen}c"
 
       # Traverse the inserted snippet
       traverse_snippet $txtt
