@@ -1,0 +1,37 @@
+filepatterns
+{*.m}
+
+vimsyntax
+{matlab}
+
+matchcharsallowed
+{curly square paren}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{%}}
+
+lcomments {{%[^\{\}]}}
+
+bcomments {{{^%\{} {^%\}}}}
+
+strings {{'}}
+
+keywords
+{
+  break case catch classdef continue else elseif end for function global if otherwise parfor persistent
+  return spmd switch try while
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+[ij]?|[0-9]+\.[0-9]+)} {}
+}
+
+punctuation {
+  HighlightRegexp {[][\{\}();:,=^<>&|~*/+-]} {}
+}
+
