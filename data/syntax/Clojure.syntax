@@ -1,0 +1,55 @@
+filepatterns
+{*.clj *.cljs}
+
+matchcharsallowed
+{curly square paren double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{;}}
+
+lcomments {{;}}
+
+strings {{"}}
+
+keywords
+{
+  agent alter and apply array-map assoc
+  class comp comp complement compile conj cons constantly count
+  dec def defmacro defmethod defmulti defprotocol defn defrecord defstruct deftype deref disj do dorun dosync
+  dotimes doto
+  eval extend extend-type
+  filter first fn
+  gen-class get
+  hash-set
+  identity if if-let import inc into
+  let list loop
+  macroexpand map memfn memoize meta monitor-entry monitor-exit
+  new ns nth
+  partial peek pop pr prn print println newline pr-str prn-str print-str println-str with-out-str
+  quote
+  range rand-int recur reduce re-find re-groups re-matcher re-matches re-seq rseq replace reify rest
+  ref refer require repeat reverse
+  send seq sequence sorted-set subvec
+  take throw time try
+  use
+  var vector vec vector-of
+  when while with-meta
+}
+
+numbers {
+  HighlightRegexp {\m([0-9_]+|0x[0-9a-fA-F_]+|0[0-7]+|0[bB][01_]+|[0-9]*\.[0-9]*)[lL]?} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}():#@^'~%&=><`?*/+-]} {}
+}
+
+miscellaneous3 {
+  HighlightWithOnlyCharStart : {}
+}
