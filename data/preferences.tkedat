@@ -166,6 +166,12 @@
 
 {Editor/SnippetCompleters}   {space tab return}
 
+# If this value is set to 1, causes snippet text to be formatted to fit the current indentation
+# when the snippet is initially inserted.  If this value is set to 0, the snippet text will be
+# inserted as it is found in the snippet file.
+
+{Editor/SnippetFormatAfterInsert} {1}
+
 # Specifies the number of lines at the top of the file that will be parsed for Vim modelines.
 # If the value is set to 0, Vim modeline information will be ignored.
 

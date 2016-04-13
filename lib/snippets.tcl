@@ -260,11 +260,13 @@ namespace eval snippets {
       $txtt insert insert {*}$result
       
       # Format the text to match indentation
-      set datalen 0
-      foreach {str tags} $result {
-        incr datalen [string length $str]
+      if {[[ns preferences]::get Editor/SnippetFormatAfterInsert]} {
+        set datalen 0
+        foreach {str tags} $result {
+          incr datalen [string length $str]
+        }
+        indent::format_text $txtt $insert "$insert+${datalen}c"
       }
-      indent::format_text $txtt $insert "$insert+${datalen}c"
 
       # Traverse the inserted snippet
       traverse_snippet $txtt
