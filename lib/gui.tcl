@@ -1473,7 +1473,9 @@ namespace eval gui {
         [ns vim]::remove_dspace $txt
         
         # Read the file contents and insert them
-        $txt insert end [string range [read $rc] 0 end-1]
+        $txt fastinsert end [string range [read $rc] 0 end-1]
+        $txt highlight 1.0 end
+        $txt see 1.0
 
         # Close the file
         close $rc
