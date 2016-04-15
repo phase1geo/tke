@@ -1,59 +1,36 @@
-changeset:   2073:1107c6b4066e
-tag:         stable-2.4
+changeset:   2080:ebccdb186277
+tag:         devel-2.4.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 17:31:38 2016 -0500
+date:        Tue Apr 12 22:58:46 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.4 release
+ChangeLog for devel-2.4.1 release
 
 
-changeset:   2074:ceff9835ed38
+changeset:   2081:1ca3727b13fd
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 17:31:44 2016 -0500
+date:        Tue Apr 12 22:58:50 2016 -0500
 files:       .hgtags
 description:
-Added tag stable-2.4 for changeset 1107c6b4066e
+Added tag devel-2.4.1 for changeset ebccdb186277
 
 
-changeset:   2075:269a20933ca0
+changeset:   2082:391e052f932f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 21:16:28 2016 -0500
-files:       data/syntax/ManPage.syntax lib/version.tcl
+date:        Wed Apr 13 09:06:43 2016 -0500
+files:       data/syntax/Clojure.syntax lib/version.tcl
 description:
-* Adding ManPage syntax.
+* Adding Clojure syntax.
 
 
-changeset:   2076:fe88ccfd16c0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 21:49:00 2016 -0500
-files:       data/syntax/snippets.syntax lib/snippets.tcl lib/version.tcl
-description:
-* Enhancing snippet syntax to add "endsnippet" keyword (and removing leading tab requirement) while retaining backward compatibility.
-* Formatting snippet text after snippet is initially inserted.
-
-
-changeset:   2077:3f477b69764a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 21:54:01 2016 -0500
-files:       data/preferences.tkedat lib/snippets.tcl lib/version.tcl
-description:
-* Adding Editor/SnippetFormatAfterInsert preference item to control snippet insertion formatting.
-
-
-changeset:   2078:4f588c7e326a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:12:55 2016 -0500
-files:       data/syntax/Groovy.syntax lib/version.tcl
-description:
-* Adding Groovy syntax.
-
-
-changeset:   2079:ee739672070a
+changeset:   2083:9b83b0deca13
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:56:24 2016 -0500
-files:       data/syntax/MATLAB.syntax lib/version.tcl
+date:        Thu Apr 14 00:43:59 2016 -0500
+files:       lib/gui.tcl lib/snippets.tcl lib/version.tcl
 description:
-* Adding MATLAB syntax.
+* Fixing undo issue with snippet text.
+* Improving startup performance and initial file view performance.
+* Fixing issue where the first line of a long file was not completely in view at initial view.
 
 
