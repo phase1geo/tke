@@ -241,9 +241,9 @@ namespace eval indent {
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
     if {([set endpos [lassign [$txtt tag prevrange _unindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]} {
-
+      
       if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
-
+        
         # Get the current indentation level
         set indent_space [get_start_of_line $txtt $index]
 
@@ -315,7 +315,7 @@ namespace eval indent {
         set win_type $type
       }
     }
-
+    
     # If we could not find a right bracket, we have found the line that we are looking for
     if {$win_type eq "none"} {
       if {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {

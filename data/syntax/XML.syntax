@@ -11,7 +11,7 @@ tabsallowed
 {0}
 
 casesensitive
-{0}
+{1}
 
 indent
 {<[^/>](.*?[^/])?>}
