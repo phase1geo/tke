@@ -24,7 +24,6 @@ description:
 
 
 changeset:   2083:9b83b0deca13
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Thu Apr 14 00:43:59 2016 -0500
 files:       lib/gui.tcl lib/snippets.tcl lib/version.tcl
@@ -32,5 +31,15 @@ description:
 * Fixing undo issue with snippet text.
 * Improving startup performance and initial file view performance.
 * Fixing issue where the first line of a long file was not completely in view at initial view.
+
+
+changeset:   2084:acf876a807a5
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Apr 15 09:37:12 2016 -0500
+files:       ChangeLog data/syntax/DocBook.syntax data/syntax/XML.syntax lib/indent.tcl lib/version.tcl
+description:
+* Adding DocBook syntax.
+* Changing XML syntax to be case sensitive.
 
 
