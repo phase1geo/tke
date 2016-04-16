@@ -66,6 +66,6 @@ miscellaneous2 {
     AppWinStyle AudioPlayMode BuiltInRole CallType CompareMethod DateFormat DateInterval DeleteDirectoryOption
     DueDate FieldType FileAttribute FirstDayOfWeek FirstWeekOfYear MsgBoxResult MsgBoxStyle OpenAccess
     OpenMode OpenShare RecycleOption SearchOption TriState UICancelOption UIOption VariantType VbStrConv
-  }
+  } {}
 }
 
