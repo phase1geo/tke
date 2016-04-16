@@ -1,0 +1,68 @@
+filepatterns
+{*.cg *.cgvp *.cpj *.ptx *.nbf}
+
+vimsyntax
+{cuda}
+
+embedded
+{{C}}
+
+matchcharsallowed
+{curly paren square double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent {
+  {{switch case default}}
+}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  template char1 char2 char3 char4 uchar1 uchar2 uchar3 uchar4 short1 short2 short3 short4
+  ushort1 ushort2 ushort3 ushort4 int1 int2 int3 int4 uint1 uint2 uint3 uint4 long1 long2 long3 long4
+  ulong1 ulong2 ulong3 ulong4 float1 float2 float3 float4 ufloat1 ufloat2 ufloat3 ufloat4 dim3
+  texture textureReference cudaError_t cudaDeviceProp cudaMemcpyKind cudaArray cudaChannelFormatKind
+  cudaChannelFormatDesc cudaTextureAddressMode cudaTextureFilterMode cudaTextureReadMode
+}
+
+precompile {
+  HighlightKeywords {
+    __device__ __global__ __host__ __constant__ __shared__ __inline__ __align__ __thread__ __import__
+    __export__ __location__
+  } {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    __DEVICE_EMULATION__ cudaSuccess cudaErrorMemoryAllocation cudaErrorInvalidDevicePointer
+    cudaErrorInvalidSymbol cudaErrorMixedDeviceExecution cudaMemcpyHostToHost cudaMemcpyHostToDevice
+    cudaMemcpyDeviceToHost cudaMemcpyDeviceToDevice cudaReadModeElementType cudaReadModeNormalizedFloat
+    cudaFilterModePoint cudaFilterModeLinear cudaAddressModeClamp cudaAddressModeWrap cudaChannelFormatKindSigned
+    cudaChannelFormatKindUnsigned cudaChannelFormatKindFloat
+  } {}
+}
+
+miscellaneous3 {
+  HighlightKeywords {
+    gridDim blockIdx blockDim threadIdx
+  } {}
+}
+
