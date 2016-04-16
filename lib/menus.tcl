@@ -2844,7 +2844,10 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command [list menus::help_user_guide]
     launcher::register [make_menu "Help" [msgcat::mc "View user guide"]] [list menus::help_user_guide]
-
+    
+    $mb add command -label [msgcat::mc "Tips & Tricks"] -underline 0 -command [list menus::help_tips_tricks]
+    launcher::register [make_menu "Help" [msgcat::mc "View tips & tricks articles"]] [list menus::help_tips_tricks]
+    
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command [list menus::check_for_update]
@@ -2878,6 +2881,14 @@ namespace eval menus {
       utils::open_file_externally [file join $::tke_dir doc UserGuide.epub] 1
     }
 
+  }
+  
+  ######################################################################
+  # Launches the web browser, displaying the Tips & Tricks blog articles.
+  proc help_tips_tricks {} {
+    
+    utils::open_file_externally "http://tkeeditor.wordpress.com"
+    
   }
 
   ######################################################################
