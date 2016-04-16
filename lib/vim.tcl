@@ -375,6 +375,8 @@ namespace eval vim {
       ai               { do_set_indent_mode $tid IND 1 }
       noautoindent     -
       noai             { do_set_indent_mode $tid IND 0 }
+      browsedir        -
+      bsdir            { do_set_browse_dir $tid $val }
       expandtab        -
       et               { do_set_expandtab $tid 1 }
       noexpandtab      -
@@ -483,6 +485,14 @@ namespace eval vim {
       [ns indent]::set_indent_mode $tid $newval($curr,$type,$value)
     }
 
+  }
+  
+  ######################################################################
+  # Sets the file browser directory default pathname.
+  proc do_set_browse_dir {tid val} {
+    
+    [ns gui]::set_browse_directory $val
+    
   }
 
   ######################################################################

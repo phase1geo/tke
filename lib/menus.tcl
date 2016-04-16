@@ -530,7 +530,7 @@ namespace eval menus {
   proc open_command {} {
 
     # Get the directory of the current file
-    set dirname [file dirname [gui::get_info {} current fname]]
+    set dirname [gui::get_browse_directory]
 
     if {[set ofiles [tk_getOpenFile -parent . -initialdir $dirname -filetypes [syntax::get_filetypes] -defaultextension .tcl -multiple 1]] ne ""} {
       foreach ofile $ofiles {
@@ -545,7 +545,7 @@ namespace eval menus {
   proc open_dir_command {} {
 
     # Get the directory of the current file
-    set dirname [file dirname [gui::get_info {} current fname]]
+    set dirname [gui::get_browse_directory]
 
     if {[set odir [tk_chooseDirectory -parent . -initialdir $dirname -mustexist 1]] ne ""} {
       sidebar::add_directory $odir
@@ -557,7 +557,7 @@ namespace eval menus {
   # Change the current working directory to a specified value.
   proc change_working_directory {} {
 
-    if {[set dir [tk_chooseDirectory -parent . -initialdir [pwd] -mustexist 1]] ne ""} {
+    if {[set dir [tk_chooseDirectory -parent . -initialdir [gui::get_browse_directory] -mustexist 1]] ne ""} {
       gui::change_working_directory $dir
     }
 
@@ -1503,7 +1503,7 @@ namespace eval menus {
   # Inserts the contents of the file after the current line.
   proc edit_insert_file_after_current_line {} {
 
-    if {[set fname [tk_getOpenFile -parent . -multiple 1]] ne ""} {
+    if {[set fname [tk_getOpenFile -parent . -initialdir [gui::get_browse_directory] -multiple 1]] ne ""} {
       edit::insert_file [gui::current_txt {}].t $fname
       gui::set_txt_focus [gui::current_txt {}]
     }

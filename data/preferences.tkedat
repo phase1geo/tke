@@ -56,6 +56,15 @@
 
 {General/AutoChangeWorkingDirectory} {0}
 
+# Specifies the initial default directory that will be displayed whenever the Save/Open dialog
+# is displayed.  The legal values are:
+#  - last    = Uses the last directory selected within a Save/Open dialog
+#  - buffer  = Uses the directory containing the current editing buffer file
+#  - current = Uses the current working directory path.
+#  - <path>  = Uses the specified pathname.  If <path> does not exist, we will default to "last".
+
+{General/DefaultFileBrowserDirectory} {last}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following

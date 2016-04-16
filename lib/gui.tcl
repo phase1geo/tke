@@ -49,6 +49,7 @@ namespace eval gui {
   variable auto_cwd         0
   variable numberwidth      4
   variable show_match_char  0
+  variable browse_dir       "last"
 
   array set widgets         {}
   array set language        {}
@@ -149,6 +150,31 @@ namespace eval gui {
       wm title . "$tab_name \[$host:[pwd]\]"
     }
 
+  }
+  
+  ######################################################################
+  # Sets the default file browser directory pathname.
+  proc set_browse_directory {bsdir} {
+    
+    variable browse_dir
+    
+    set browse_dir $bsdir
+    
+  }
+  
+  ######################################################################
+  # Returns the file browser directory path.
+  proc get_browse_directory {} {
+    
+    variable browse_dir
+    
+    switch $browse_dir {
+      last    { return "" }
+      buffer  { return [file dirname [get_info {} current fname]] }
+      current { return FOOBAR }
+      default { return $browse_dir }
+    }
+    
   }
 
   ######################################################################
@@ -383,13 +409,14 @@ namespace eval gui {
     wm protocol . WM_DELETE_WINDOW [list [ns menus]::exit_command]
 
     # Trace changes to the Appearance/Theme preference variable
-    trace variable [ns preferences]::prefs(Editor/WarningWidth)                w [ns gui]::handle_warning_width_change
-    trace variable [ns preferences]::prefs(Editor/MaxUndo)                     w [ns gui]::handle_max_undo
-    trace variable [ns preferences]::prefs(Editor/HighlightMatchingChar)       w [ns gui]::handle_matching_char
-    trace variable [ns preferences]::prefs(View/AllowTabScrolling)             w [ns gui]::handle_allow_tab_scrolling
-    trace variable [ns preferences]::prefs(Tools/VimMode)                      w [ns gui]::handle_vim_mode
-    trace variable [ns preferences]::prefs(Appearance/EditorFontSize)          w [ns gui]::handle_editor_font_size
-    trace variable [ns preferences]::prefs(General/AutoChangeWorkingDirectory) w [ns gui]::handle_auto_cwd
+    trace variable [ns preferences]::prefs(Editor/WarningWidth)                 w [ns gui]::handle_warning_width_change
+    trace variable [ns preferences]::prefs(Editor/MaxUndo)                      w [ns gui]::handle_max_undo
+    trace variable [ns preferences]::prefs(Editor/HighlightMatchingChar)        w [ns gui]::handle_matching_char
+    trace variable [ns preferences]::prefs(View/AllowTabScrolling)              w [ns gui]::handle_allow_tab_scrolling
+    trace variable [ns preferences]::prefs(Tools/VimMode)                       w [ns gui]::handle_vim_mode
+    trace variable [ns preferences]::prefs(Appearance/EditorFontSize)           w [ns gui]::handle_editor_font_size
+    trace variable [ns preferences]::prefs(General/AutoChangeWorkingDirectory)  w [ns gui]::handle_auto_cwd
+    trace variable [ns preferences]::prefs(General/DefaultFileBrowserDirectory) w [ns gui]::handle_browse_directory
 
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
@@ -516,6 +543,24 @@ namespace eval gui {
 
     set_auto_cwd [[ns preferences]::get General/AutoChangeWorkingDirectory]
 
+  }
+  
+  ######################################################################
+  # Changes the value of the browse directory variable to match the value
+  # specified in the preference file.
+  proc handle_browse_directory {name1 name2 op} {
+    
+    variable browse_dir
+    
+    # Set the browse directory to the value
+    set browse_dir [[ns preferences]::get General/DefaultFileBrowserDirectory]
+    
+    # Adjust browse_dir to be last if the browse directory type was an actual pathname and it
+    # does not exist.
+    if {([lsearch [list last buffer current] $browse_dir] == -1) && ![file isdirectory $browse_dir]} {
+      set browse_dir "last"
+    }
+    
   }
 
   ######################################################################
@@ -1652,9 +1697,7 @@ namespace eval gui {
   proc prompt_for_save {tid} {
 
     # Get the directory of the current file
-    if {[set dirname [file dirname [get_info {} current fname]]] eq ""} {
-      set dirname [pwd]
-    }
+    set dirname [gui::get_browse_directory]
 
     # Get the list of save options
     set save_opts [list]
