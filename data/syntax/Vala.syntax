@@ -48,7 +48,7 @@ keywords
   set signal static string struct switch
   throw this throws try
   using
-  virtual void
+  var virtual void
   while
 }
 
