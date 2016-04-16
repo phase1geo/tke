@@ -74,9 +74,12 @@ namespace eval templates {
   ######################################################################
   # Opens a TK save dialog box to specify the filename to save.
   proc load_abs {name args} {
+    
+    # Get the browse directory
+    set dirname [[ns gui]::get_browse_directory]
 
     # Get the filename from the user
-    if {[set fname [tk_getSaveFile -parent . -confirmoverwrite 1 -title "New Filepath"]] ne ""} {
+    if {[set fname [tk_getSaveFile -parent . -initialdir $dirname -confirmoverwrite 1 -title "New Filepath"]] ne ""} {
       load $name $fname
     }
 
