@@ -2439,19 +2439,19 @@ proc ctext::indentation {twin start end} {
       }
     }
     indent {
-      set i 0
+      set i    0
+      set last [list]
       foreach res [$twin search -regexp -all -count lengths -- {^\s*\S} $start $end] {
         set end [$twin index "$res+[lindex $lengths $i]c"]
-        if {![inCommentString $twin $end] && ([get_lang $twin $res] eq $lang)} {
-          if {[set endpos [lassign [$twin tag prevrange _indent $res]] startpos] ne ""} {
-            set mylength      [string length [$twin get $res $end]]
-            set indent_length [string length [$twin get $startpos $endpos]]
-            if {$indent_length < $mylength} {
-              $twin tag add _indent $res $end
-            } elseif {$indent_length > $mylength} {
-              $twin tag add _unindent $res $end
-            }
+        if {![inCommentString $twin $end] && ([get_lang $twin $res] eq $lang) && ([llength $last] > 0)} {
+          set curr_length [string length [$twin get $res $end]]
+          set last_length [lindex $last 2]
+          if {$last_length < $curr_length} {
+            $twin tag add _indent {*}[lrange $last 0 1]
+          } elseif {$last_length > $curr_length} {
+            $twin tag add _unindent $res $end
           }
+          set last [list $res $end $curr_length]
         }
         incr i
       }
