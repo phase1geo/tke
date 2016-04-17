@@ -138,6 +138,8 @@ namespace eval folding {
   ######################################################################
   # Adds any found folds to the gutter
   proc add_folds {txt startpos endpos} {
+    
+    puts "In add_folds, startpos: $startpos, endpos: $endpos"
 
     # Get the starting and ending line
     set startline   [lindex [split [$txt index $startpos] .] 0]
