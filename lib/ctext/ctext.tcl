@@ -70,6 +70,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-matchchar)              0
   set ctext::data($win,config,-matchchar_bg)           $ctext::data($win,config,-fg)
   set ctext::data($win,config,-matchchar_fg)           $ctext::data($win,config,-bg)
+  set ctext::data($win,config,-indent_mode)            "syntax"
   set ctext::data($win,config,re_opts)                 ""
   set ctext::data($win,config,win)                     $win
   set ctext::data($win,config,modified)                0
@@ -93,7 +94,7 @@ proc ctext {win args} {
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
-  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
+  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -indent_mode]
 
   # Set args
   foreach {name value} $args {
@@ -530,6 +531,12 @@ proc ctext::buildArgParseTable win {
   lappend argTable {any} -matchchar_bg {
     set data($win,config,-matchchar_bg) $value
     $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
+    break
+  }
+  
+  lappend argTable {any} -indent_mode {
+    set data($win,config,-indent_mode) $value
+    $win highlight 1.0 end
     break
   }
 
@@ -2416,16 +2423,38 @@ proc ctext::indentation {twin start end} {
 
   variable data
 
-  foreach key [array names data $twin,config,indentation,*,*] {
-    set elems [split $key ,]
-    set lang  [lindex $elems 3]
-    set type  [lindex $elems 4]
-    set i     0
-    foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
-      if {![inCommentString $twin $res] && ![isEscaped $twin $res] && ([get_lang $twin $res] eq $lang)} {
-        $twin tag add _$type $res "$res+[lindex $lengths $i]c"
+  switch $data($twin,config,-indent_mode) {
+    syntax {
+      foreach key [array names data $twin,config,indentation,*,*] {
+        set elems [split $key ,]
+        set lang  [lindex $elems 3]
+        set type  [lindex $elems 4]
+        set i     0
+        foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
+          if {![inCommentString $twin $res] && ![isEscaped $twin $res] && ([get_lang $twin $res] eq $lang)} {
+            $twin tag add _$type $res "$res+[lindex $lengths $i]c"
+          }
+          incr i
+        }
       }
-      incr i
+    }
+    indent {
+      set i 0
+      foreach res [$twin search -regexp -all -count lengths -- {^\s*\S} $start $end] {
+        set end [$twin index "$res+[lindex $lengths $i]c"]
+        if {![inCommentString $twin $end] && ([get_lang $twin $res] eq $lang)} {
+          if {[set endpos [lassign [$twin tag prevrange _indent $res]] startpos] ne ""} {
+            set mylength      [string length [$twin get $res $end]]
+            set indent_length [string length [$twin get $startpos $endpos]]
+            if {$indent_length < $mylength} {
+              $twin tag add _indent $res $end
+            } elseif {$indent_length > $mylength} {
+              $twin tag add _unindent $res $end
+            }
+          }
+        }
+        incr i
+      }
     }
   }
 
