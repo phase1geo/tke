@@ -2036,10 +2036,12 @@ namespace eval menus {
     # Setup the folding method popup menu
     $mb.fmPopup add radiobutton -label [msgcat::mc "None"]   -variable menus::fold_method -value "none"   -command [list menus::set_fold_method $mb.foldPopup none]
     $mb.fmPopup add radiobutton -label [msgcat::mc "Manual"] -variable menus::fold_method -value "manual" -command [list menus::set_fold_method $mb.foldPopup manual]
+    $mb.fmPopup add radiobutton -label [msgcat::mc "Indent"] -variable menus::fold_method -value "indent" -command [list menus::set_fold_method $mb.foldPopup indent]
     $mb.fmPopup add radiobutton -label [msgcat::mc "Syntax"] -variable menus::fold_method -value "syntax" -command [list menus::set_fold_method $mb.foldPopup syntax]
 
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to none"]]   [list menus::fold_method $mb.foldPopup none]
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to manual"]] [list menus::fold_method $mb.foldPopup manual]
+    launcher::register [make_menu "View" [msgcat::mc "Set folding method to indent"]] [list menus::fold_method $mb.foldPopup indent]
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to syntax"]] [list menus::fold_method $mb.foldPopup syntax]
     
     # Setup the folding close current popup menu

@@ -2444,14 +2444,11 @@ proc ctext::indentation {twin start end} {
       foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
         set end         [$twin index "$res+[lindex $lengths $i]c"]
         set curr_length [string length [$twin get $res $end]]
-        puts "res: $res, end: $end, curr_length: $curr_length"
         if {![inCommentString $twin $end]} {
           if {[llength $last] > 0} {
             set last_length [lindex $last 2]
-            puts "  last_length: $last_length"
             if {$last_length < $curr_length} {
               $twin tag add _indent {*}[lrange $last 0 1]
-              puts "indent: [lrange $last 0 1]"
             } elseif {$last_length > $curr_length} {
               $twin tag add _unindent $res $end
             }
@@ -2460,7 +2457,6 @@ proc ctext::indentation {twin start end} {
         }
         incr i
       }
-      puts "indent: [$twin tag ranges _indent]"
     }
   }
 
