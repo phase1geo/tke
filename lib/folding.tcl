@@ -83,6 +83,7 @@ namespace eval folding {
       none,manual {
         enable_folding $txt
       }
+      none,indent -
       none,syntax {
         enable_folding $txt
         add_folds $txt 1.0 end
@@ -90,14 +91,24 @@ namespace eval folding {
       manual,none {
         disable_folding $txt
       }
+      manual,indent -
       manual,syntax {
         $txt tag remove _folded 1.0 end
         add_folds $txt 1.0 end
       }
+      indent,none {
+        disable_folding $txt
+      }
+      indent,manual -
+      indent,syntax {
+        disable_folding $txt
+        enable_folding $txt
+      }
       syntax,none {
         disable_folding $txt
       }
-      syntax,manual {
+      syntax,manual -
+      syntax,indent {
         disable_folding $txt
         enable_folding $txt
       }
@@ -160,11 +171,20 @@ namespace eval folding {
   ######################################################################
   # Returns true if a fold point has been detected at the given index.
   proc check_fold {txt line} {
+  
+    variable method
 
-    set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
-    set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
-    
-    puts "indent_cnt: $indent_cnt, unindent_cnt: $unindent_cnt"
+    set indent_cnt   0
+    set unindent_cnt 0
+
+    if {$method($txt) eq "syntax"} {
+      set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
+      set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
+    } elseif {$method($txt) eq "indent"} {
+      set names        [$txt tag names $line.0]
+      set indent_cnt   [expr [lsearch $names _indent]   != -1]
+      set unindent_cnt [expr [lsearch $names _unindent] != -1]
+    }
     
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
 

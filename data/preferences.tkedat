@@ -293,6 +293,7 @@
 # The legal values are the following:
 #   - none      No code folding will be supported
 #   - manual    Allows code to be folded manually
+#   - indent    Automatically folds code based on code indentation
 #   - syntax    Automatically folds code based on syntax indentation symbols
 
 {View/CodeFoldingMethod} {none}
