@@ -1335,13 +1335,13 @@ proc ctext::command_fastdelete {win args} {
 proc ctext::command_fastinsert {win args} {
 
   variable data
-
+  
   set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
   }
-  $win._t insert {*}$args
   set startPos [$win._t index [lindex $args 0]]
+  $win._t insert {*}$args
   set chars    [string length [lindex $args 1]]
   set lines    [$win._t count -lines $startPos "$startPos+${chars}c"]
   ctext::handleInsertAt0 $win._t $startPos $chars

@@ -3964,7 +3964,7 @@ namespace eval gui {
         }
 
       }
-
+      
       # Update the folding gutter
       [ns folding]::add_folds $txt [lindex $data 1] "[lindex $data 1]+[lindex $data 2]c"
 

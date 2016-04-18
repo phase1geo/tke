@@ -165,6 +165,8 @@ namespace eval folding {
 
     set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
     set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
+    
+    puts "In check_fold, txt: $txt, line: $line, indent: $indent_cnt, unindent: $unindent_cnt"
 
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
 
