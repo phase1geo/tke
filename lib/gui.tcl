@@ -1519,12 +1519,15 @@ namespace eval gui {
         
         # Read the file contents and insert them
         $txt fastinsert end [string range [read $rc] 0 end-1]
-        $txt highlight 1.0 end
-        $txt see 1.0
 
         # Close the file
         close $rc
 
+        # Highlight text and add update code folds
+        $txt highlight 1.0 end
+        $txt see 1.0
+        [ns folding]::add_folds $txt 1.0 end
+        
         # Change the text to unmodified
         $txt edit reset
         lset files $file_index $files_index(modified) 0

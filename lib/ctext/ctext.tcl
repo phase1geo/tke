@@ -70,7 +70,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-matchchar)              0
   set ctext::data($win,config,-matchchar_bg)           $ctext::data($win,config,-fg)
   set ctext::data($win,config,-matchchar_fg)           $ctext::data($win,config,-bg)
-  set ctext::data($win,config,-indent_mode)            "syntax"
+  set ctext::data($win,config,-indent_mode)            "indent"
   set ctext::data($win,config,re_opts)                 ""
   set ctext::data($win,config,win)                     $win
   set ctext::data($win,config,modified)                0
@@ -2441,20 +2441,26 @@ proc ctext::indentation {twin start end} {
     indent {
       set i    0
       set last [list]
-      foreach res [$twin search -regexp -all -count lengths -- {^\s*\S} $start $end] {
-        set end [$twin index "$res+[lindex $lengths $i]c"]
-        if {![inCommentString $twin $end] && ([get_lang $twin $res] eq $lang) && ([llength $last] > 0)} {
-          set curr_length [string length [$twin get $res $end]]
-          set last_length [lindex $last 2]
-          if {$last_length < $curr_length} {
-            $twin tag add _indent {*}[lrange $last 0 1]
-          } elseif {$last_length > $curr_length} {
-            $twin tag add _unindent $res $end
+      foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
+        set end         [$twin index "$res+[lindex $lengths $i]c"]
+        set curr_length [string length [$twin get $res $end]]
+        puts "res: $res, end: $end, curr_length: $curr_length"
+        if {![inCommentString $twin $end]} {
+          if {[llength $last] > 0} {
+            set last_length [lindex $last 2]
+            puts "  last_length: $last_length"
+            if {$last_length < $curr_length} {
+              $twin tag add _indent {*}[lrange $last 0 1]
+              puts "indent: [lrange $last 0 1]"
+            } elseif {$last_length > $curr_length} {
+              $twin tag add _unindent $res $end
+            }
           }
           set last [list $res $end $curr_length]
         }
         incr i
       }
+      puts "indent: [$twin tag ranges _indent]"
     }
   }
 
