@@ -139,8 +139,6 @@ namespace eval folding {
   # Adds any found folds to the gutter
   proc add_folds {txt startpos endpos} {
     
-    puts "In add_folds, startpos: $startpos, endpos: $endpos"
-
     # Get the starting and ending line
     set startline   [lindex [split [$txt index $startpos] .] 0]
     set endline     [lindex [split [$txt index $endpos]   .] 0]
@@ -166,8 +164,8 @@ namespace eval folding {
     set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
     set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
     
-    puts "In check_fold, txt: $txt, line: $line, indent: $indent_cnt, unindent: $unindent_cnt"
-
+    puts "indent_cnt: $indent_cnt, unindent_cnt: $unindent_cnt"
+    
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
 
   }
