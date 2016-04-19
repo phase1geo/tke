@@ -79,6 +79,14 @@ namespace eval folding {
 
     variable method
 
+    # If the new method is not valid, adjust it
+    if {($new_method eq "syntax") && ![ctext::syntaxIndentationAllowed $txt]} {
+      set new_method "indent"
+    }
+
+    # Set the text widget indentation mode
+    $txt configure -indent_mode $new_method
+
     switch $method($txt),$new_method {
       none,manual {
         enable_folding $txt
