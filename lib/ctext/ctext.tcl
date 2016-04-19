@@ -70,7 +70,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-matchchar)              0
   set ctext::data($win,config,-matchchar_bg)           $ctext::data($win,config,-fg)
   set ctext::data($win,config,-matchchar_fg)           $ctext::data($win,config,-bg)
-  set ctext::data($win,config,-indent_mode)            "indent"
+  set ctext::data($win,config,-indent_mode)            "syntax"
   set ctext::data($win,config,re_opts)                 ""
   set ctext::data($win,config,win)                     $win
   set ctext::data($win,config,modified)                0
@@ -533,7 +533,7 @@ proc ctext::buildArgParseTable win {
     $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     break
   }
-  
+
   lappend argTable {any} -indent_mode {
     set data($win,config,-indent_mode) $value
     $win highlight 1.0 end
@@ -1335,7 +1335,7 @@ proc ctext::command_fastdelete {win args} {
 proc ctext::command_fastinsert {win args} {
 
   variable data
-  
+
   set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
@@ -1354,10 +1354,18 @@ proc ctext::command_highlight {win args} {
 
   variable data
 
+  set moddata [list]
+  if {[lindex $args 0] eq "-moddata"} {
+    set args [lassign $args dummy moddata]
+  }
+
   set lineStart [$win._t index "[lindex $args 0] linestart"]
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
+  set datlen    [$win._t count -chars $lineStart $lineEnd]
+  set lines     [$win._t count -lines $lineStart $lineEnd]
 
   ctext::highlightAll $win $lineStart $lineEnd
+  ctext::modified     $win 0 [list highlight $lineStart $datlen $lines $moddata]
 
 }
 
@@ -1546,6 +1554,9 @@ proc ctext::command_edit {win args} {
 
   switch [lindex $args 0] {
     modified {
+
+
+
       switch [llength $args] {
         1 {
           return $data($win,config,modified)
@@ -2392,6 +2403,14 @@ proc ctext::setIndentation {twin lang indentations type} {
   } else {
     catch { unset data($twin,config,indentation,$lang,$type) }
   }
+
+}
+
+proc ctext::syntaxIndentationAllowed {win} {
+
+  variable data
+
+  return [expr [llength [array names data $win,config,indentation,*,*]] > 0]
 
 }
 

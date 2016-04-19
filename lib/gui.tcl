@@ -151,30 +151,30 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Sets the default file browser directory pathname.
   proc set_browse_directory {bsdir} {
-    
+
     variable browse_dir
-    
+
     set browse_dir $bsdir
-    
+
   }
-  
+
   ######################################################################
   # Returns the file browser directory path.
   proc get_browse_directory {} {
-    
+
     variable browse_dir
-    
+
     switch $browse_dir {
       last    { return "" }
       buffer  { return [file dirname [get_info {} current fname]] }
       current { return FOOBAR }
       default { return $browse_dir }
     }
-    
+
   }
 
   ######################################################################
@@ -400,7 +400,7 @@ namespace eval gui {
     } else {
       hide_status_view
     }
-    
+
     # Set the matchchar value
     set_matching_char [[ns preferences]::get Editor/HighlightMatchingChar]
 
@@ -489,21 +489,21 @@ namespace eval gui {
     set_matching_char [[ns preferences]::get Editor/HighlightMatchingChar]
 
   }
-  
+
   ######################################################################
   # Sets the -matchchar value on all displayed text widgets.
   proc set_matching_char {value} {
-    
+
     variable show_match_char
-    
+
     # Save the show_match_char value
     set show_match_char $value
-    
+
     # Update all existing text widgets to the new value
     foreach txt [get_all_texts] {
       $txt configure -matchchar $value
     }
-    
+
   }
 
   ######################################################################
@@ -544,23 +544,23 @@ namespace eval gui {
     set_auto_cwd [[ns preferences]::get General/AutoChangeWorkingDirectory]
 
   }
-  
+
   ######################################################################
   # Changes the value of the browse directory variable to match the value
   # specified in the preference file.
   proc handle_browse_directory {name1 name2 op} {
-    
+
     variable browse_dir
-    
+
     # Set the browse directory to the value
     set browse_dir [[ns preferences]::get General/DefaultFileBrowserDirectory]
-    
+
     # Adjust browse_dir to be last if the browse directory type was an actual pathname and it
     # does not exist.
     if {([lsearch [list last buffer current] $browse_dir] == -1) && ![file isdirectory $browse_dir]} {
       set browse_dir "last"
     }
-    
+
   }
 
   ######################################################################
@@ -1516,7 +1516,7 @@ namespace eval gui {
 
         # Delete any dspace characters
         [ns vim]::remove_dspace $txt
-        
+
         # Read the file contents and insert them
         $txt fastinsert end [string range [read $rc] 0 end-1]
 
@@ -1526,8 +1526,7 @@ namespace eval gui {
         # Highlight text and add update code folds
         $txt highlight 1.0 end
         $txt see 1.0
-        [ns folding]::add_folds $txt 1.0 end
-        
+
         # Change the text to unmodified
         $txt edit reset
         lset files $file_index $files_index(modified) 0
@@ -3527,7 +3526,7 @@ namespace eval gui {
     variable case_sensitive
     variable numberwidth
     variable show_match_char
-    
+
     array set opts {
       -diff    0
       -gutters [list]
@@ -3763,7 +3762,7 @@ namespace eval gui {
   proc show_split_pane {tid} {
 
     variable show_match_char
-    
+
     # Get the current paned window
     lassign [get_info {} current {tabbar tab txt txt2 diff}] tb tab txt txt2 diff
 
@@ -3967,14 +3966,14 @@ namespace eval gui {
         }
 
       }
-      
-      # Update the folding gutter
-      [ns folding]::add_folds $txt [lindex $data 1] "[lindex $data 1]+[lindex $data 2]c"
 
       # Clear the cursor history
       array unset cursor_hist $txt,*
 
     }
+
+    # Update the folding gutter
+    [ns folding]::add_folds $txt [lindex $data 1] "[lindex $data 1]+[lindex $data 2]c"
 
   }
 
@@ -4328,7 +4327,7 @@ namespace eval gui {
 
     # Adjust the insert
     [ns vim]::adjust_insert $txt.t
-    
+
   }
 
   ######################################################################

@@ -1984,7 +1984,7 @@ namespace eval menus {
     launcher::register [make_menu "View" [msgcat::mc "Sort tabs"]] [list gui::sort_tabs]
 
     # Setup the folding popup menu
-    $mb.foldPopup add cascade -label [msgcat::mc "Fold Method"] -menu [menu $mb.fmPopup -tearoff 0]
+    $mb.foldPopup add cascade -label [msgcat::mc "Fold Method"] -menu [menu $mb.fmPopup -tearoff 0 -postcommand [list menus::view_fold_method_posting $mb.fmPopup]]
 
     $mb.foldPopup add separator
 
@@ -2024,9 +2024,9 @@ namespace eval menus {
 
     $mb.foldPopup add command -label [msgcat::mc "Show Cursor"] -command [list menus::open_folds show]
     launcher::register [make_menu "View" [msgcat::mc "Open folds to show cursor"]] [list menus::open_folds show]
-    
+
     $mb.foldPopup add separator
-    
+
     $mb.foldPopup add command -label [msgcat::mc "Jump to Next Fold Mark"] -command [list menus::jump_to_fold next]
     launcher::register [make_menu "View" [msgcat::mc "Jump to the next fold indicator"]] [list menus::jump_to_fold next]
 
@@ -2043,35 +2043,35 @@ namespace eval menus {
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to manual"]] [list menus::fold_method $mb.foldPopup manual]
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to indent"]] [list menus::fold_method $mb.foldPopup indent]
     launcher::register [make_menu "View" [msgcat::mc "Set folding method to syntax"]] [list menus::fold_method $mb.foldPopup syntax]
-    
+
     # Setup the folding close current popup menu
     $mb.fcloseCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds current 1]
     $mb.fcloseCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds current 0]
 
     launcher::register [make_menu "View" [msgcat::mc "Close fold at current line - one level"]]  [list menus::close_folds current 1]
     launcher::register [make_menu "View" [msgcat::mc "Close fold at current line - all levels"]] [list menus::close_folds current 0]
-    
+
     # Setup the folding close selected popup menu
     $mb.fcloseSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds selected 1]
     $mb.fcloseSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds selected 0]
 
     launcher::register [make_menu "View" [msgcat::mc "Close selected folds - one level"]]  [list menus::close_folds selected 1]
     launcher::register [make_menu "View" [msgcat::mc "Close selected folds - all levels"]] [list menus::close_folds selected 0]
-    
+
     # Setup the folding open current popup menu
     $mb.fopenCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds current 1]
     $mb.fopenCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds current 0]
 
     launcher::register [make_menu "View" [msgcat::mc "Open fold at current line - one level"]]  [list menus::open_folds current 1]
     launcher::register [make_menu "View" [msgcat::mc "Open fold at current line - all levels"]] [list menus::open_folds current 0]
-    
+
     # Setup the folding open selected popup menu
     $mb.fopenSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds selected 1]
     $mb.fopenSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds selected 0]
 
     launcher::register [make_menu "View" [msgcat::mc "Open selected folds - one level"]]  [list menus::open_folds selected 1]
     launcher::register [make_menu "View" [msgcat::mc "Open selected folds - all levels"]] [list menus::open_folds selected 0]
-    
+
   }
 
   ######################################################################
@@ -2194,17 +2194,29 @@ namespace eval menus {
 
     $mb entryconfigure [msgcat::mc "Close Selected Folds"] -state $sel_state
     $mb entryconfigure [msgcat::mc "Open Selected Folds"]  -state $sel_state
-    
+
     if {$state eq "open"} {
       $mb entryconfigure [msgcat::mc "Close Current Fold"] -state normal
     } else {
       $mb entryconfigure [msgcat::mc "Close Current Fold"] -state disabled
     }
-    
+
     if {$state eq "close"} {
       $mb entryconfigure [msgcat::mc "Open Current Fold"] -state normal
     } else {
       $mb entryconfigure [msgcat::mc "Open Current Fold"] -state disabled
+    }
+
+  }
+
+  ######################################################################
+  # Called when the fold method submenu is posted.
+  proc view_fold_method_posting {mb} {
+
+    if {[ctext::syntaxIndentationAllowed [gui::current_txt {}]]} {
+      $mb entryconfigure [msgcat::mc "Syntax"] -state normal
+    } else {
+      $mb entryconfigure [msgcat::mc "Syntax"] -state disabled
     }
 
   }
@@ -2471,14 +2483,14 @@ namespace eval menus {
     }
 
   }
-  
+
   ######################################################################
   # Jump to the fold indicator in the given direction from the current
   # cursor position.
   proc jump_to_fold {dir} {
-    
+
     folding::jump_to [gui::current_txt {}] $dir
-    
+
   }
 
   ######################################################################
@@ -2846,10 +2858,10 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command [list menus::help_user_guide]
     launcher::register [make_menu "Help" [msgcat::mc "View user guide"]] [list menus::help_user_guide]
-    
+
     $mb add command -label [msgcat::mc "Tips & Tricks"] -underline 0 -command [list menus::help_tips_tricks]
     launcher::register [make_menu "Help" [msgcat::mc "View tips & tricks articles"]] [list menus::help_tips_tricks]
-    
+
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command [list menus::check_for_update]
@@ -2884,13 +2896,13 @@ namespace eval menus {
     }
 
   }
-  
+
   ######################################################################
   # Launches the web browser, displaying the Tips & Tricks blog articles.
   proc help_tips_tricks {} {
-    
+
     utils::open_file_externally "http://tkeeditor.wordpress.com"
-    
+
   }
 
   ######################################################################
