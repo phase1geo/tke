@@ -1363,7 +1363,7 @@ proc ctext::command_highlight {win args} {
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
   set datlen    [$win._t count -chars $lineStart $lineEnd]
   set lines     [$win._t count -lines $lineStart $lineEnd]
-
+  
   ctext::highlightAll $win $lineStart $lineEnd
   ctext::modified     $win 0 [list highlight $lineStart $datlen $lines $moddata]
 

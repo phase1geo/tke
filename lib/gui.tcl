@@ -3716,14 +3716,14 @@ namespace eval gui {
     [ns plugins]::handle_text_bindings $txt $opts(-tags)
     make_drop_target                   $txt
 
+    # Apply code foldings
+    [ns folding]::initialize $txt
+
     # Apply the appropriate syntax highlighting for the given extension
     [ns syntax]::set_language $txt [expr {($opts(-lang) eq "") ? [[ns syntax]::get_default_language $fname] : $opts(-lang)}]
 
     # Snippet bindings must go after syntax language setting
     [ns snippets]::add_bindings $txt
-
-    # Apply code foldings
-    [ns folding]::initialize $txt
 
     # Add any gutters
     foreach gutter $opts(-gutters) {
@@ -3818,14 +3818,14 @@ namespace eval gui {
     [ns plugins]::handle_text_bindings $txt2 {}  ;# TBD - add tags
     make_drop_target                   $txt2
 
+    # Apply code foldings
+    [ns folding]::initialize $txt2
+
     # Apply the appropriate syntax highlighting for the given extension
     [ns syntax]::set_language $txt2 [[ns syntax]::get_language $txt]
 
     # Snippet bindings must go after syntax language is set
     [ns snippets]::add_bindings $txt2
-
-    # Apply code foldings
-    [ns folding]::initialize $txt2
 
     # Give the text widget the focus
     set_txt_focus $txt2

@@ -64,7 +64,7 @@ namespace eval folding {
   proc initialize {txt} {
 
     variable method
-
+    
     # Set the default method to none so we don't have to handle an unset method
     set method($txt) "none"
 
@@ -181,7 +181,7 @@ namespace eval folding {
   proc check_fold {txt line} {
   
     variable method
-
+    
     set indent_cnt   0
     set unindent_cnt 0
 
