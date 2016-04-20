@@ -1163,8 +1163,6 @@ proc ctext::command_delete {win args} {
     }
   }
 
-  set lines     [$win._t count -lines $deleteStartPos $deleteEndPos]
-  set datalen   [$win._t count -chars $deleteStartPos $deleteEndPos]
   set lineStart [$win._t index "$deleteStartPos linestart"]
   set lineEnd   [$win._t index "$deleteEndPos + 1 chars lineend"]
 
@@ -1176,8 +1174,8 @@ proc ctext::command_delete {win args} {
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  ctext::highlightAll $win $lineStart $lineEnd $chars_deleted
-  ctext::modified     $win 1 [list delete $deleteStartPos $datalen $lines $moddata]
+  set range [ctext::highlightAll $win $lineStart $lineEnd $chars_deleted]
+  ctext::modified $win 1 [list delete {*}$range $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1318,16 +1316,18 @@ proc ctext::command_fastdelete {win args} {
     set args [lassign $args dummy moddata]
   }
   if {[llength $args] == 1} {
-    set chars 1
-    set lines [$win._t count -lines "[lindex $args 0] linestart" "[lindex $args 0]+1c lineend"]
-    ctext::linemapCheckOnDelete $win [$win._t index [lindex $args 0]]
+    set startPos [$win._t index [lindex $args 0]]
+    set endPos   [$win._t index "$startPos+1c"]
+    ctext::linemapCheckOnDelete $win $startPos
   } else {
-    set chars [$win._t count -chars {*}[lrange $args 0 1]]
-    set lines [$win._t count -lines {*}[lrange $args 0 1]]
-    ctext::linemapCheckOnDelete $win [$win._t index [lindex $args 0]] [$win._t index [lindex $args 1]]
+    set startPos [$win._t index [lindex $args 0]]
+    set endPos   [$win._t index [lindex $args 1]]
+    ctext::linemapCheckOnDelete $win $startPos $endPos
   }
+
   $win._t delete {*}$args
-  ctext::modified $win 1 [list delete [$win._t index [lindex $args 0]] $chars $lines $moddata]
+
+  ctext::modified $win 1 [list delete $startPos $endPos $moddata]
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1341,11 +1341,13 @@ proc ctext::command_fastinsert {win args} {
     set args [lassign $args dummy moddata]
   }
   set startPos [$win._t index [lindex $args 0]]
-  $win._t insert {*}$args
   set chars    [string length [lindex $args 1]]
-  set lines    [$win._t count -lines $startPos "$startPos+${chars}c"]
+  set endPos   [$win._t index "$startPos+${chars}c"]
+
+  $win._t insert {*}$args
+
   ctext::handleInsertAt0 $win._t $startPos $chars
-  ctext::modified $win 1 [list insert $startPos $chars $lines $moddata]
+  ctext::modified $win 1 [list insert $startPos $endPos $moddata]
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1361,11 +1363,10 @@ proc ctext::command_highlight {win args} {
 
   set lineStart [$win._t index "[lindex $args 0] linestart"]
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
-  set datlen    [$win._t count -chars $lineStart $lineEnd]
-  set lines     [$win._t count -lines $lineStart $lineEnd]
-  
-  ctext::highlightAll $win $lineStart $lineEnd
-  ctext::modified     $win 0 [list highlight $lineStart $datlen $lines $moddata]
+
+  set range [ctext::highlightAll $win $lineStart $lineEnd]
+
+  ctext::modified $win 0 [list highlight {*}$range $moddata]
 
 }
 
@@ -1417,8 +1418,8 @@ proc ctext::command_insert {win args} {
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
   set lines   [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win $lineStart $lineEnd [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
-  ctext::modified     $win 1 [list insert $insertPos $datlen $lines $moddata]
+  set range [ctext::highlightAll $win $lineStart $lineEnd [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]]
+  ctext::modified $win 1 [list insert {*}$range $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1461,9 +1462,9 @@ proc ctext::command_replace {win args} {
   set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win $lineStart $lineEnd [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
-  ctext::modified     $win 1 [list delete $startPos $deleteChars $deleteLines $moddata]
-  ctext::modified     $win 1 [list insert $startPos $datlen $insertLines $moddata]
+  set range [ctext::highlightAll $win $lineStart $lineEnd [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]]
+  ctext::modified $win 1 [list delete $startPos $endPos $moddata]
+  ctext::modified $win 1 [list insert {*}$range $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1480,11 +1481,13 @@ proc ctext::command_paste {win args} {
 
   set insertPos [$win._t index insert]
   set datalen   [string length [clipboard get]]
+
   ctext::undo_insert $win $insertPos $datalen [$win._t index insert]
+
   tk_textPaste $win
+
   ctext::handleInsertAt0 $win._t $insertPos $datalen
-  set lines     [$win._t count -lines $insertPos "$insertPos+${datalen}c"]
-  ctext::modified $win 1 [list insert $insertPos $datalen $lines $moddata]
+  ctext::modified $win 1 [list insert $insertPos [$twin._t index "$insertPos+${datalen}c"] $moddata]
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1554,9 +1557,6 @@ proc ctext::command_edit {win args} {
 
   switch [lindex $args 0] {
     modified {
-
-
-
       switch [llength $args] {
         1 {
           return $data($win,config,modified)
@@ -2181,6 +2181,8 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
     }
   }
 
+  set range [list]
+
   ctext::escapes $win $linestart $lineend
   set all [ctext::comments $win $linestart $lineend $do_tag]
   ctext::updateLangBackgrounds $win
@@ -2192,13 +2194,15 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
       }
     }
     ctext::brackets    $win $linestart end
-    ctext::indentation $win $linestart end
+    set range [ctext::indentation $win $linestart end]
     ctext::highlight   $win $linestart end
   } else {
     ctext::brackets    $win $linestart $lineend
-    ctext::indentation $win $linestart $lineend
+    set range [ctext::indentation $win $linestart $lineend]
     ctext::highlight   $win $linestart $lineend
   }
+
+  return $range
 
 }
 
@@ -2458,8 +2462,15 @@ proc ctext::indentation {twin start end} {
       }
     }
     indent {
-      set i    0
-      set last [list]
+      set i     0
+      set first [list]
+      if {[set res [$twin search -backwards -regexp -count lengths -- {^[ \t]*\S} $start 1.0]] ne ""} {
+        set length [lindex $lengths 0]
+        if {![inCommentString $twin "$res+${length}c"]} {
+          set first [list $res [$twin index "$res+${length}c"] $length]
+        }
+      }
+      set last $first
       foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
         set end         [$twin index "$res+[lindex $lengths $i]c"]
         set curr_length [string length [$twin get $res $end]]
@@ -2476,8 +2487,13 @@ proc ctext::indentation {twin start end} {
         }
         incr i
       }
+      if {[llength $first] > 0} {
+        return [list [lindex $first 0] $end]
+      }
     }
   }
+
+  return [list $start $end]
 
 }
 
