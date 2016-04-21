@@ -1,45 +1,125 @@
-changeset:   2080:ebccdb186277
-tag:         devel-2.4.1
+changeset:   2085:b287677d6e77
+tag:         devel-2.4.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:58:46 2016 -0500
+date:        Fri Apr 15 09:38:00 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.1 release
+ChangeLog for devel-2.4.2 release
 
 
-changeset:   2081:1ca3727b13fd
+changeset:   2086:8fa59c8fec30
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:58:50 2016 -0500
+date:        Fri Apr 15 09:38:05 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.1 for changeset ebccdb186277
+Added tag devel-2.4.2 for changeset b287677d6e77
 
 
-changeset:   2082:391e052f932f
+changeset:   2087:b98ff06df52f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 13 09:06:43 2016 -0500
-files:       data/syntax/Clojure.syntax lib/version.tcl
+date:        Fri Apr 15 22:27:15 2016 -0500
+files:       data/syntax/C++.syntax data/syntax/Vala.syntax lib/menus.tcl lib/version.tcl
 description:
-* Adding Clojure syntax.
+* Adding reindentation back into C++ since C++ doesn't inherit C reindentation.
+* Adding "var" keyword to Vala syntax.
+* Adding Help menu item to view Tips & Tricks articles.
 
 
-changeset:   2083:9b83b0deca13
+changeset:   2088:f9adfc264456
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 14 00:43:59 2016 -0500
-files:       lib/gui.tcl lib/snippets.tcl lib/version.tcl
+date:        Fri Apr 15 23:47:10 2016 -0500
+files:       data/preferences.tkedat lib/gui.tcl lib/menus.tcl lib/templates.tcl lib/version.tcl lib/vim.tcl
 description:
-* Fixing undo issue with snippet text.
-* Improving startup performance and initial file view performance.
-* Fixing issue where the first line of a long file was not completely in view at initial view.
+* Adding support for Vim option 'browsedir'.
+* Adding `General/DefaultFileBrowserDirectory` preference option.
 
 
-changeset:   2084:acf876a807a5
+changeset:   2089:4ded1aaeded1
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 16 00:30:50 2016 -0500
+files:       data/syntax/VisualBasic.syntax lib/version.tcl
+description:
+* Adding VisualBasic syntax.
+
+
+changeset:   2090:edad537a8ffc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 16 00:40:04 2016 -0500
+files:       data/syntax/VisualBasic.syntax lib/version.tcl
+description:
+* Fixing syntax error in VisualBasic syntax file.
+
+
+changeset:   2091:e26a1ce8762c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Apr 16 08:36:00 2016 -0500
+files:       data/syntax/Cuda.syntax lib/version.tcl
+description:
+* Adding Cuda syntax.
+
+
+changeset:   2092:f85f9c3f04c2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 17 00:08:58 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Adding initial support (untested) for indentation code folding.
+
+
+changeset:   2093:d0d0c89ae866
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Apr 17 07:39:07 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/version.tcl
+description:
+* Checkpointing work on indentation based code folding.
+
+
+changeset:   2094:3446109dc167
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Apr 18 00:28:52 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+description:
+* Fixing problem in fastinsert where starting index sent to modified handler was getting wrong value.
+
+
+changeset:   2095:a1ce2beca1dc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Apr 18 08:09:49 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+description:
+* Checkpointing work on indent-based code folding.
+
+
+changeset:   2096:1d316662e5cd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Apr 18 09:03:59 2016 -0500
+files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/folding.tcl lib/menus.tcl lib/version.tcl
+description:
+* Fixing indentation code folding algorithm (hacked other code to be able to test it).
+
+
+changeset:   2097:fae7c5c7ce76
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Apr 18 23:22:35 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Checkpointing automatic handling of indentation.
+
+
+changeset:   2098:e9ed2f71b81a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Apr 20 00:03:27 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+description:
+* Fixing syntax error due to highlighting causing text_changed to be called prior to the folding namespace being initialized.
+
+
+changeset:   2099:49b72c49f284
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 09:37:12 2016 -0500
-files:       ChangeLog data/syntax/DocBook.syntax data/syntax/XML.syntax lib/indent.tcl lib/version.tcl
+date:        Wed Apr 20 18:50:28 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
 description:
-* Adding DocBook syntax.
-* Changing XML syntax to be case sensitive.
+* Fixing issues with indent-based folding when interactively editing.
 
 
