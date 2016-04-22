@@ -145,9 +145,11 @@ namespace eval folding {
 
     # Add the folding gutter
     $txt gutter create folding \
-      open  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
-      close [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
-      end   [list -symbol \u221f]
+      open   [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
+      close  [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
+      eopen  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
+      eclose [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
+      end    [list -symbol \u221f]
 
     # Create a tag that will cause stuff to hide
     $txt.t tag configure _folded -elide 1
@@ -166,10 +168,11 @@ namespace eval folding {
     }
 
     # Get the starting and ending line
-    set startline   [lindex [split [$txt index $startpos] .] 0]
-    set endline     [lindex [split [$txt index $endpos]   .] 0]
-    set lines(open) [list]
-    set lines(end)  [list]
+    set startline    [lindex [split [$txt index $startpos] .] 0]
+    set endline      [lindex [split [$txt index $endpos]   .] 0]
+    set lines(open)  [list]
+    set lines(end)   [list]
+    set lines(eopen) [list]
 
     # Clear the folding gutter in
     $txt gutter clear folding $startline $endline
@@ -179,7 +182,7 @@ namespace eval folding {
       lappend lines([check_fold $txt $i]) $i
     }
 
-    $txt gutter set folding open $lines(open) end $lines(end)
+    $txt gutter set folding open $lines(open) end $lines(end) eopen $lines(eopen)
 
   }
 
@@ -199,6 +202,9 @@ namespace eval folding {
       set names        [$txt tag names $line.0]
       set indent_cnt   [expr [lsearch $names _indent]   != -1]
       set unindent_cnt [expr [lsearch $names _unindent] != -1]
+      if {$indent_cnt && $unindent_cnt} {
+        return "eopen"
+      }
     }
 
     return [expr {($indent_cnt > $unindent_cnt) ? "open" : ($indent_cnt < $unindent_cnt) ? "end" : ""}]
@@ -211,7 +217,7 @@ namespace eval folding {
 
     set data [list]
 
-    foreach tag [list open close end] {
+    foreach tag [list open close eopen eclose end] {
       foreach tline [$txt gutter get folding $tag] {
         lappend data [list $tline $tag]
       }
@@ -225,7 +231,7 @@ namespace eval folding {
   # Returns the starting and ending positions of the range to fold.
   proc get_fold_range {txt line depth} {
 
-    array set inc [list end -1 open 1 close 1]
+    array set inc [list end -1 open 1 close 1 eopen -1 eclose -1]
 
     set index  [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
     set count  0
@@ -240,7 +246,7 @@ namespace eval folding {
         } else {
           lappend aboves $tline
         }
-        if {$tag eq "close"} {
+        if {($tag eq "close") || ($tag eq "eclose")} {
           lappend closed $tline
         }
       }
@@ -248,6 +254,8 @@ namespace eval folding {
         return [list [expr $line + 1].0 $tline.0 $belows $aboves $closed]
       } elseif {$count < 0} {
         set count 0
+      } elseif {($tag eq "eopen") || ($tag eq "eclose")} {
+        incr count
       }
     }
 
@@ -260,7 +268,7 @@ namespace eval folding {
   # the given line.
   proc show_line {txt line} {
 
-    array set counts [list open -1 close -1 end 1]
+    array set counts [list open -1 close -1 eopen 0 eclose 0 end 1]
 
     # Find our current position
     set data  [lsort -integer -index 0 [list [list $line current] {*}[get_gutter_info $txt]]]
@@ -285,8 +293,10 @@ namespace eval folding {
   proc toggle_fold {txt line {depth 1}} {
 
     switch [$txt gutter get folding $line] {
-      open  { close_fold $depth $txt $line }
-      close { open_fold  $depth $txt $line }
+      open   -
+      eopen  { close_fold $depth $txt $line }
+      close  -
+      eclose { open_fold  $depth $txt $line }
     }
 
   }
@@ -295,7 +305,7 @@ namespace eval folding {
   # Toggles all folds.
   proc toggle_all_folds {txt} {
 
-    if {[llength [$txt gutter get folding open]] > 0} {
+    if {[$txt gutter get folding open] ne [list]} {
       close_all_folds $txt
     } else {
       open_all_folds $txt
@@ -424,6 +434,8 @@ namespace eval folding {
 
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
+    
+    puts "startpos: $startpos, endpos: $endpos"
 
     # Hide the text
     $txt tag add _folded $startpos $endpos
@@ -457,13 +469,13 @@ namespace eval folding {
   # Closes all open folds.
   proc close_all_folds {txt} {
 
-    array set inc [list end -1 open 1 close 1]
+    array set inc [list end -1 open 1 close 1 eopen 0 eclose 0]
 
     # Get ordered gutter list
     set ranges [list]
     set count  0
     foreach {tline tag} [concat {*}[get_gutter_info $txt]] {
-      if {($count == 0) && ($tag eq "open")} {
+      if {($count == 0) && (($tag eq "open") || ($tag eq "eopen")} {
         set oline [expr $tline + 1]
       }
       if {[incr count $inc($tag)] == 0} {
@@ -477,7 +489,8 @@ namespace eval folding {
     $txt tag add _folded {*}$ranges
 
     # Close the folds
-    $txt gutter set folding close [$txt gutter get folding open]
+    $txt gutter set folding close  [$txt gutter get folding open]
+    $txt gutter set folding eclose [$txt gutter get folding eopen]
 
   }
 
@@ -533,7 +546,8 @@ namespace eval folding {
     variable method
 
     $txt tag remove _folded 1.0 end
-    $txt gutter set folding open [$txt gutter get folding close]
+    $txt gutter set folding open  [$txt gutter get folding close]
+    $txt gutter set folding eopen [$txt gutter get folding eclose]
 
   }
 
@@ -543,7 +557,7 @@ namespace eval folding {
 
     # Get a sorted list of open/close tags and locate our current position
     set data [set line [lindex [split [$txt index insert] .] 0]]
-    foreach tag [list open close] {
+    foreach tag [list open close eopen eclose] {
       lappend data {*}[$txt gutter get folding $tag]
     }
 
