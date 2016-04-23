@@ -432,18 +432,24 @@ namespace eval folding {
   # Closes a fold, hiding the contents.
   proc close_fold {depth txt line} {
 
+    array set map {
+      open   close
+      close  close
+      eopen  eclose
+      eclose eclose
+    }
+
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
-    
-    puts "startpos: $startpos, endpos: $endpos"
 
     # Hide the text
     $txt tag add _folded $startpos $endpos
 
-    # Replace the open symbol with the close symbol
+    # Replace the open/eopen symbol with the close/eclose symbol
     foreach line $belows {
+      set type [$txt gutter get folding $line]
       $txt gutter clear folding $line
-      $txt gutter set folding close $line
+      $txt gutter set folding $map($type) $line
     }
 
     return $endpos
@@ -498,7 +504,12 @@ namespace eval folding {
   # Opens a fold, showing the contents.
   proc open_fold {depth txt line} {
 
-    variable method
+    array set map {
+      close  open
+      open   open
+      eclose eopen
+      eopen  eopen
+    }
 
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows aboves closed
@@ -507,8 +518,9 @@ namespace eval folding {
     $txt tag remove _folded $startpos $endpos
 
     foreach tline [concat $belows $aboves] {
+      set type [$txt gutter get folding $line]
       $txt gutter clear folding $tline
-      $txt gutter set folding open $tline
+      $txt gutter set folding $map($type) $tline
     }
 
     # Close all of the previous folds
@@ -542,8 +554,6 @@ namespace eval folding {
   ######################################################################
   # Opens all closed folds.
   proc open_all_folds {txt} {
-
-    variable method
 
     $txt tag remove _folded 1.0 end
     $txt gutter set folding open  [$txt gutter get folding close]
