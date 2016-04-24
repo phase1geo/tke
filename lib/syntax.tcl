@@ -484,6 +484,14 @@ namespace eval syntax {
 
     }
 
+    # Add any mixed languages
+    foreach embedded $lang_array(embedded) {
+      lassign $embedded sublang embed_start embed_end
+      if {$embed_start eq ""} {
+        add_sublanguage $txt $sublang $cmd_prefix 0 {} {}
+      }
+    }
+    
   }
 
   ######################################################################

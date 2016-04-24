@@ -27,7 +27,7 @@ namespace eval folding {
   source [file join $::tke_dir lib ns.tcl]
 
   array set method {}
-
+  
   ######################################################################
   # Returns true if the given text widget has code folding enabled.
   proc get_method {txt} {
@@ -246,8 +246,11 @@ namespace eval folding {
       set all_chars   [list]
 
       foreach {tline tag} [concat {*}[lrange $data $index end]] {
-        set chars [$txt count -chars {*}[$txt tag nextrange _indent $tline.0]]
-        puts "chars: $chars, tline: $tline, tag: $tag"
+        if {$tag ne "end"} {
+          set chars [$txt count -chars {*}[$txt tag nextrange _indent $tline.0]]
+        } else {
+          set chars [$txt count -chars {*}[$txt tag nextrange _unindent $tline.0]]
+        }
         if {($tag eq "close") ||($tag eq "eclose")} {
           lappend closed $tline
         }
@@ -269,7 +272,7 @@ namespace eval folding {
         }
         set last $chars
       }
-
+      
       return [list [expr $line + 1].0 $final $belows $aboves $closed]
 
     } else {
