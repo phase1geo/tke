@@ -231,7 +231,7 @@ namespace eval folding {
   # Returns the starting and ending positions of the range to fold.
   proc get_fold_range {txt line depth} {
 
-    array set inc [list end -1 open 1 close 1 eopen -1 eclose -1]
+    variable method
 
     set index  [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
     set count  0
@@ -239,27 +239,66 @@ namespace eval folding {
     set belows [list]
     set closed [list]
 
-    foreach {tline tag} [concat {*}[lrange $data $index end]] {
-      if {$tag ne "end"} {
+    if {$method($txt) eq "indent"} {
+
+      set start_chars [$txt count -chars {*}[$txt tag nextrange _indent $line.0]]
+      set final       [lindex [split [$txt index end] .] 0].0
+      set all_chars   [list]
+
+      foreach {tline tag} [concat {*}[lrange $data $index end]] {
+        set chars [$txt count -chars {*}[$txt tag nextrange _indent $tline.0]]
+        puts "chars: $chars, tline: $tline, tag: $tag"
+        if {($tag eq "close") ||($tag eq "eclose")} {
+          lappend closed $tline
+        }
+        if {($chars > $start_chars) || ($all_chars eq [list])} {
+          lappend all_chars [list $tline $chars]
+        } else {
+          set final $tline.0
+          break
+        }
+      }
+
+      set last $start_chars
+      foreach {tline chars} [concat {*}[lsort -integer -index 1 $all_chars]] {
+        incr count [expr $chars != $last]
         if {$count < $depth} {
           lappend belows $tline
         } else {
           lappend aboves $tline
         }
-        if {($tag eq "close") || ($tag eq "eclose")} {
-          lappend closed $tline
+        set last $chars
+      }
+
+      return [list [expr $line + 1].0 $final $belows $aboves $closed]
+
+    } else {
+
+      array set inc [list end -1 open 1 close 1 eopen -1 eclose -1]
+
+      foreach {tline tag} [concat {*}[lrange $data $index end]] {
+        if {$tag ne "end"} {
+          if {$count < $depth} {
+            lappend belows $tline
+          } else {
+            lappend aboves $tline
+          }
+          if {($tag eq "close") || ($tag eq "eclose")} {
+            lappend closed $tline
+          }
+        }
+        if {[incr count $inc($tag)] == 0} {
+          return [list [expr $line + 1].0 $tline.0 $belows $aboves $closed]
+        } elseif {$count < 0} {
+          set count 0
+        } elseif {($tag eq "eopen") || ($tag eq "eclose")} {
+          incr count
         }
       }
-      if {[incr count $inc($tag)] == 0} {
-        return [list [expr $line + 1].0 $tline.0 $belows $aboves $closed]
-      } elseif {$count < 0} {
-        set count 0
-      } elseif {($tag eq "eopen") || ($tag eq "eclose")} {
-        incr count
-      }
-    }
 
-    return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
+      return [list [expr $line + 1].0 [lindex [split [$txt index end] .] 0].0 $belows $aboves $closed]
+
+    }
 
   }
 
