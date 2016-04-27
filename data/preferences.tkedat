@@ -289,14 +289,10 @@
 
 {View/OpenTabsAlphabetically} {0}
 
-# Specifies the default code folding method to use when a new tab is opened.
-# The legal values are the following:
-#   - none      No code folding will be supported
-#   - manual    Allows code to be folded manually
-#   - indent    Automatically folds code based on code indentation
-#   - syntax    Automatically folds code based on syntax indentation symbols
+# Specifies the default enable value for code folding when a new file is created or an
+# existing file is opened.
 
-{View/CodeFoldingMethod} {none}
+{View/EnableCodeFolding} {0}
 
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.

@@ -29,7 +29,7 @@ namespace eval menus {
   variable indent_mode     "IND+"
   variable last_devel_mode ""
   variable line_numbering  "absolute"
-  variable fold_method     "none"
+  variable code_folding    0
 
   array set profiling_info {}
 
@@ -1984,7 +1984,9 @@ namespace eval menus {
     launcher::register [make_menu "View" [msgcat::mc "Sort tabs"]] [list gui::sort_tabs]
 
     # Setup the folding popup menu
-    $mb.foldPopup add cascade -label [msgcat::mc "Fold Method"] -menu [menu $mb.fmPopup -tearoff 0 -postcommand [list menus::view_fold_method_posting $mb.fmPopup]]
+    $mb.foldPopup add checkbutton -label [msgcat::mc "Enable Code Folding"] -variable menus::code_folding -command [list menus::set_code_folding]
+    launcher::register [make_menu "View" [msgcat::mc "Enable code folding"]]  [list menus::set_code_folding 1]
+    launcher::register [make_menu "View" [msgcat::mc "Disable code folding"]] [list menus::set_code_folding 0]
 
     $mb.foldPopup add separator
 
@@ -2032,17 +2034,6 @@ namespace eval menus {
 
     $mb.foldPopup add command -label [msgcat::mc "Jump to Previous Fold Mark"] -command [list menus::jump_to_fold prev]
     launcher::register [make_menu "View" [msgcat::mc "Jump to the previous fold indicator"]] [list menus::jump_to_fold prev]
-
-    # Setup the folding method popup menu
-    $mb.fmPopup add radiobutton -label [msgcat::mc "None"]   -variable menus::fold_method -value "none"   -command [list menus::set_fold_method $mb.foldPopup none]
-    $mb.fmPopup add radiobutton -label [msgcat::mc "Manual"] -variable menus::fold_method -value "manual" -command [list menus::set_fold_method $mb.foldPopup manual]
-    $mb.fmPopup add radiobutton -label [msgcat::mc "Indent"] -variable menus::fold_method -value "indent" -command [list menus::set_fold_method $mb.foldPopup indent]
-    $mb.fmPopup add radiobutton -label [msgcat::mc "Syntax"] -variable menus::fold_method -value "syntax" -command [list menus::set_fold_method $mb.foldPopup syntax]
-
-    launcher::register [make_menu "View" [msgcat::mc "Set folding method to none"]]   [list menus::fold_method $mb.foldPopup none]
-    launcher::register [make_menu "View" [msgcat::mc "Set folding method to manual"]] [list menus::fold_method $mb.foldPopup manual]
-    launcher::register [make_menu "View" [msgcat::mc "Set folding method to indent"]] [list menus::fold_method $mb.foldPopup indent]
-    launcher::register [make_menu "View" [msgcat::mc "Set folding method to syntax"]] [list menus::fold_method $mb.foldPopup syntax]
 
     # Setup the folding close current popup menu
     $mb.fcloseCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds current 1]
@@ -2172,15 +2163,15 @@ namespace eval menus {
   # fo the menu options to match the current UI state.
   proc view_fold_posting {mb} {
 
-    variable fold_method
+    variable code_folding
 
     # Get the current text widget
-    set txt         [gui::current_txt {}]
-    set state       [folding::fold_state $txt [lindex [split [$txt index insert] .] 0]]
-    set fold_method [folding::get_method $txt]
-    set sel_state   [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
+    set txt          [gui::current_txt {}]
+    set state        [folding::fold_state $txt [lindex [split [$txt index insert] .] 0]]
+    set code_folding [folding::get_enable $txt]
+    set sel_state    [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
 
-    if {$fold_method eq "manual"} {
+    if {[folding::get_method $txt] eq "manual"} {
       $mb entryconfigure [msgcat::mc "Create Fold From Selection"] -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Selected Folds"]      -state $sel_state
       $mb entryconfigure [msgcat::mc "Delete Current Fold"]        -state normal
@@ -2205,18 +2196,6 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Open Current Fold"] -state normal
     } else {
       $mb entryconfigure [msgcat::mc "Open Current Fold"] -state disabled
-    }
-
-  }
-
-  ######################################################################
-  # Called when the fold method submenu is posted.
-  proc view_fold_method_posting {mb} {
-
-    if {[ctext::syntaxIndentationAllowed [gui::current_txt {}]]} {
-      $mb entryconfigure [msgcat::mc "Syntax"] -state normal
-    } else {
-      $mb entryconfigure [msgcat::mc "Syntax"] -state disabled
     }
 
   }
@@ -2394,13 +2373,19 @@ namespace eval menus {
 
   ######################################################################
   # Disables code folding from being drawn.
-  proc set_fold_method {mb method} {
+  proc set_code_folding {{value ""}} {
 
-    variable fold_method
+    variable code_folding
 
-    set fold_method $method
+    # Get the current text widget
+    set txt [gui::current_txt {}]
 
-    folding::set_fold_method [gui::current_txt {}] $method
+    # Set the fold enable value
+    if {$value eq ""} {
+      folding::set_fold_enable $txt $code_folding
+    } else {
+      folding::set_fold_enable $txt [set code_folding $value]
+    }
 
   }
 

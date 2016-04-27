@@ -165,10 +165,23 @@ namespace eval indent {
     variable indent_mode_map
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt $tid].t
+    set txt [[ns gui]::current_txt $tid]
 
     # Set the current mode
-    set indent_exprs($txt,mode) $indent_mode_map($mode)
+    set indent_exprs($txt.t,mode) $indent_mode_map($mode)
+    
+    # Set the text widget's indent mode
+    switch $mode {
+      IND+    {
+        if {[is_auto_indent_available $txt]} {
+          $txt configure -indent_mode syntax
+        } else {
+          $txt configure -indent_mode indent
+        }
+      }
+      IND     { $txt configure -indent_mode indent }
+      default { $txt configure -indent_mode none }
+    }
 
     # Update the menu button
     [set [ns gui]::widgets(info_indent)] configure -text $mode
@@ -555,7 +568,6 @@ namespace eval indent {
         set indent_exprs($txtt,mode) "IND+"
       } else {
         set indent_exprs($txtt,mode) "IND"
-        [ns folding]::set_fold_method [winfo parent $txtt] "indent"
       }
     } else {
       set indent_exprs($txtt,mode) "OFF"
@@ -613,11 +625,6 @@ namespace eval indent {
     # Configure the menubutton
     if {[info exists indent_exprs($txtt,mode)]} {
       $w configure -text [set current_indent $indent_exprs($txtt,mode)]
-      if {$indent_exprs($txtt,indent) eq ""} {
-        ${w}Menu entryconfigure "Smart Indent" -state disabled
-      } else {
-        ${w}Menu entryconfigure "Smart Indent" -state normal
-      }
     }
 
   }
