@@ -1,0 +1,74 @@
+filepatterns
+{*.rs}
+
+matchcharsallowed
+{curly square paren double}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent {}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  as
+  break
+  const continue crate
+  else enum extern
+  false fn for
+  if impl in
+  let loop
+  match mod move mut
+  pub
+  ref return
+  Self self static struct
+  trait true type
+  unsafe use
+  where while
+}
+
+symbols
+{
+  HighlightKeywords {
+    fn
+  } syntax::get_syntax_symbol
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}:;=<>.,#@&|!%+*/-]} {}
+}
+
+precompile {
+  HighlightRegexp {[a-zA-Z0-9_]!} {}
+}
+
+miscellaneous2 {
+  HighlightWithOnlyCharStart ' {}
+  HighlightWithOnlyCharStart \$ {}
+}
+
+miscellaneous3 {
+  HighlightRegexp {#\[.*?\]} {}
+}
