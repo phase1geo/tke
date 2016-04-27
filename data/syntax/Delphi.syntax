@@ -1,0 +1,51 @@
+filepatterns
+{*.pas}
+
+embedded {
+  {Pascal {} {}}
+}
+
+matchcharsallowed
+{curly square paren single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+indent
+{begin}
+
+unindent
+{end}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+bcomments {{{\{} {\}}} {{\(\*} {\*\)}}}
+
+strings {{'}}
+
+keywords
+{
+  as asm
+  constructor
+  destructor dispinterface
+  except exports
+  finalization finally
+  initialization inline is
+  library
+  object
+  property
+  raise resourcestring
+  shl shr string
+  threadvar try
+  unit uses
+  xor
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]*)} {}
+}
