@@ -70,7 +70,6 @@ proc ctext {win args} {
   set ctext::data($win,config,-matchchar)              0
   set ctext::data($win,config,-matchchar_bg)           $ctext::data($win,config,-fg)
   set ctext::data($win,config,-matchchar_fg)           $ctext::data($win,config,-bg)
-  set ctext::data($win,config,-indent_mode)            "syntax"
   set ctext::data($win,config,re_opts)                 ""
   set ctext::data($win,config,win)                     $win
   set ctext::data($win,config,modified)                0
@@ -94,7 +93,7 @@ proc ctext {win args} {
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
-  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -indent_mode]
+  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
 
   # Set args
   foreach {name value} $args {
@@ -531,12 +530,6 @@ proc ctext::buildArgParseTable win {
   lappend argTable {any} -matchchar_bg {
     set data($win,config,-matchchar_bg) $value
     $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
-    break
-  }
-
-  lappend argTable {any} -indent_mode {
-    set data($win,config,-indent_mode) $value
-    $win highlight 1.0 end
     break
   }
 
@@ -1174,8 +1167,8 @@ proc ctext::command_delete {win args} {
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  set range [ctext::highlightAll $win $lineStart $lineEnd $chars_deleted]
-  ctext::modified $win 1 [list delete {*}$range $moddata]
+  ctext::highlightAll $win $lineStart $lineEnd $chars_deleted
+  ctext::modified     $win 1 [list delete $lineStart $lineEnd $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1364,9 +1357,8 @@ proc ctext::command_highlight {win args} {
   set lineStart [$win._t index "[lindex $args 0] linestart"]
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
-  set range [ctext::highlightAll $win $lineStart $lineEnd]
-
-  ctext::modified $win 0 [list highlight {*}$range $moddata]
+  ctext::highlightAll $win $lineStart $lineEnd
+  ctext::modified     $win 0 [list highlight $lineStart $lineEnd $moddata]
 
 }
 
@@ -1418,8 +1410,8 @@ proc ctext::command_insert {win args} {
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
   set lines   [$win._t count -lines $lineStart $lineEnd]
 
-  set range [ctext::highlightAll $win $lineStart $lineEnd [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]]
-  ctext::modified $win 1 [list insert {*}$range $moddata]
+  ctext::highlightAll $win $lineStart $lineEnd [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
+  ctext::modified     $win 1 [list insert $lineStart $lineEnd $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1462,9 +1454,9 @@ proc ctext::command_replace {win args} {
   set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
-  set range [ctext::highlightAll $win $lineStart $lineEnd [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]]
-  ctext::modified $win 1 [list delete $startPos $endPos $moddata]
-  ctext::modified $win 1 [list insert {*}$range $moddata]
+  ctext::highlightAll $win $lineStart $lineEnd [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
+  ctext::modified     $win 1 [list delete $startPos $endPos $moddata]
+  ctext::modified     $win 1 [list insert $lineStart $lineEnd $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -2194,15 +2186,13 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
       }
     }
     ctext::brackets    $win $linestart end
-    set range [ctext::indentation $win $linestart end]
+    ctext::indentation $win $linestart end
     ctext::highlight   $win $linestart end
   } else {
     ctext::brackets    $win $linestart $lineend
-    set range [ctext::indentation $win $linestart $lineend]
+    ctext::indentation $win $linestart $lineend
     ctext::highlight   $win $linestart $lineend
   }
-
-  return $range
 
 }
 
@@ -2410,14 +2400,6 @@ proc ctext::setIndentation {twin lang indentations type} {
 
 }
 
-proc ctext::syntaxIndentationAllowed {win} {
-
-  variable data
-
-  return [expr [llength [array names data $win,config,indentation,*,*]] > 0]
-
-}
-
 proc ctext::escapes {twin start end} {
 
   foreach res [$twin search -all -- "\\" $start $end] {
@@ -2446,54 +2428,26 @@ proc ctext::indentation {twin start end} {
 
   variable data
 
-  switch $data($twin,config,-indent_mode) {
-    syntax {
-      foreach key [array names data $twin,config,indentation,*,*] {
-        set elems [split $key ,]
-        set lang  [lindex $elems 3]
-        set type  [lindex $elems 4]
-        set i     0
-        foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
-          if {![inCommentString $twin $res] && ![isEscaped $twin $res] && ([get_lang $twin $res] eq $lang)} {
-            $twin tag add _$type $res "$res+[lindex $lengths $i]c"
-          }
-          incr i
-        }
+  # Add prewhite tags
+  set i 0
+  foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
+    $twin tag add _prewhite $res "$res+[lindex $lengths $i]c"
+    incr i
+  }
+  
+  # Add indentation
+  foreach key [array names data $twin,config,indentation,*,*] {
+    set elems [split $key ,]
+    set lang  [lindex $elems 3]
+    set type  [lindex $elems 4]
+    set i     0
+    foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
+      if {![inCommentString $twin $res] && ![isEscaped $twin $res] && ([get_lang $twin $res] eq $lang)} {
+        $twin tag add _$type $res "$res+[lindex $lengths $i]c"
       }
-    }
-    indent {
-      set i     0
-      set first [list]
-      if {[set res [$twin search -backwards -regexp -count lengths -- {^[ \t]*\S} $start 1.0]] ne ""} {
-        set length [lindex $lengths 0]
-        if {![inCommentString $twin "$res+${length}c"]} {
-          set first [list $res [$twin index "$res+${length}c"] $length]
-        }
-      }
-      set last $first
-      foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
-        set end         [$twin index "$res+[lindex $lengths $i]c"]
-        set curr_length [string length [$twin get $res $end]]
-        if {![inCommentString $twin $end]} {
-          if {[llength $last] > 0} {
-            set last_length [lindex $last 2]
-            if {$last_length < $curr_length} {
-              $twin tag add _indent {*}[lrange $last 0 1]
-            } elseif {$last_length > $curr_length} {
-              $twin tag add _unindent $res $end
-            }
-          }
-          set last [list $res $end $curr_length]
-        }
-        incr i
-      }
-      if {[llength $first] > 0} {
-        return [list [lindex $first 0] $end]
-      }
+      incr i
     }
   }
-
-  return [list $start $end]
 
 }
 
