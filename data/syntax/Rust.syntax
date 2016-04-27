@@ -24,7 +24,7 @@ lcomments {{//}}
 
 bcomments {{{/\*} {\*/}}}
 
-strings {{"} {'}}
+strings {{"}}
 
 keywords
 {
@@ -61,7 +61,7 @@ punctuation
 }
 
 precompile {
-  HighlightRegexp {[a-zA-Z0-9_]!} {}
+  HighlightRegexp {[a-zA-Z0-9_]+!} {}
 }
 
 miscellaneous2 {

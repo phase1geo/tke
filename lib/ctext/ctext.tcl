@@ -1487,7 +1487,7 @@ proc ctext::command_paste {win args} {
   tk_textPaste $win
 
   ctext::handleInsertAt0 $win._t $insertPos $datalen
-  ctext::modified $win 1 [list insert $insertPos [$twin._t index "$insertPos+${datalen}c"] $moddata]
+  ctext::modified $win 1 [list insert $insertPos [$win._t index "$insertPos+${datalen}c"] $moddata]
   event generate $win.t <<CursorChanged>>
 
 }
