@@ -26,15 +26,35 @@ namespace eval folding {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  array set method {}
+  array set enable {}
   
   ######################################################################
   # Returns true if the given text widget has code folding enabled.
+  proc get_enable {txt} {
+
+    variable enable
+
+    return $enable($txt)
+
+  }
+
+  ######################################################################
+  # Returns the indentation method based on the values of enable and the
+  # current indentation mode.
   proc get_method {txt} {
 
-    variable method
+    variable enable
 
-    return $method($txt)
+    if {$enable($txt)} {
+      switch [[ns indent]::get_indent_mode $txt] {
+        "OFF"   { return "manual" }
+        "IND"   { return "indent" }
+        "IND+"  { return [expr {[[ns indent]::is_auto_indent_available $txt] ? "syntax" : "indent"}] }
+        default { return "none" }
+      }
+    } else {
+      return "none"
+    }
 
   }
 
@@ -63,67 +83,23 @@ namespace eval folding {
   # Adds the bindings necessary for code folding to work.
   proc initialize {txt} {
 
-    variable method
-
-    # Set the default method to none so we don't have to handle an unset method
-    set method($txt) "none"
-
-    # Set the fold method
-    set_fold_method $txt [[ns preferences]::get View/CodeFoldingMethod]
+    # Set the fold enable
+    set_fold_enable $txt [[ns preferences]::get View/EnableCodeFolding]
 
   }
 
   ######################################################################
-  # Set the fold method to the given type.
-  proc set_fold_method {txt new_method} {
+  # Set the fold enable to the given type.
+  proc set_fold_enable {txt value} {
 
-    variable method
-
-    # If the new method is not valid, adjust it
-    if {($new_method eq "syntax") && ![ctext::syntaxIndentationAllowed $txt]} {
-      set new_method "indent"
+    variable enable
+    
+    if {[set enable($txt) $value]} {
+      enable_folding $txt
+      add_folds $txt 1.0 end
+    } else {
+      disable_folding $txt
     }
-
-    # Set the text widget indentation mode
-    $txt configure -indent_mode $new_method
-
-    switch $method($txt),$new_method {
-      none,manual {
-        enable_folding $txt
-      }
-      none,indent -
-      none,syntax {
-        enable_folding $txt
-        add_folds $txt 1.0 end
-      }
-      manual,none {
-        disable_folding $txt
-      }
-      manual,indent -
-      manual,syntax {
-        $txt tag remove _folded 1.0 end
-        add_folds $txt 1.0 end
-      }
-      indent,none {
-        disable_folding $txt
-      }
-      indent,manual -
-      indent,syntax {
-        disable_folding $txt
-        enable_folding $txt
-      }
-      syntax,none {
-        disable_folding $txt
-      }
-      syntax,manual -
-      syntax,indent {
-        disable_folding $txt
-        enable_folding $txt
-      }
-    }
-
-    # Set the folding method for the specified text widget.
-    set method($txt) $new_method
 
   }
 
@@ -160,13 +136,6 @@ namespace eval folding {
   # Adds any found folds to the gutter
   proc add_folds {txt startpos endpos} {
 
-    variable method
-
-    # If the method has not been set, don't continue
-    if {![info exists method($txt)]} {
-      return
-    }
-
     # Get the starting and ending line
     set startline    [lindex [split [$txt index $startpos] .] 0]
     set endline      [lindex [split [$txt index $endpos]   .] 0]
@@ -190,20 +159,21 @@ namespace eval folding {
   # Returns true if a fold point has been detected at the given index.
   proc check_fold {txt line} {
 
-    variable method
-
     set indent_cnt   0
     set unindent_cnt 0
 
-    if {$method($txt) eq "syntax"} {
-      set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
-      set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
-    } elseif {$method($txt) eq "indent"} {
-      set names        [$txt tag names $line.0]
-      set indent_cnt   [expr [lsearch $names _indent]   != -1]
-      set unindent_cnt [expr [lsearch $names _unindent] != -1]
-      if {$indent_cnt && $unindent_cnt} {
-        return "eopen"
+    switch [get_method $txt] {
+      syntax {
+        set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
+        set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
+      }
+      indent {
+        set names        [$txt tag names $line.0]
+        set indent_cnt   [expr [lsearch $names _indent]   != -1]
+        set unindent_cnt [expr [lsearch $names _unindent] != -1]
+        if {$indent_cnt && $unindent_cnt} {
+          return "eopen"
+        }
       }
     }
 
@@ -231,15 +201,13 @@ namespace eval folding {
   # Returns the starting and ending positions of the range to fold.
   proc get_fold_range {txt line depth} {
 
-    variable method
-
     set index  [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
     set count  0
     set aboves [list]
     set belows [list]
     set closed [list]
 
-    if {$method($txt) eq "indent"} {
+    if {[get_method $txt] eq "indent"} {
 
       set start_chars [$txt count -chars {*}[$txt tag nextrange _indent $line.0]]
       set final       [lindex [split [$txt index end] .] 0].0
@@ -359,9 +327,7 @@ namespace eval folding {
   # Close the selected range.
   proc close_range {txt startpos endpos} {
 
-    variable method
-
-    if {$method($txt) eq "manual"} {
+    if {[get_method $txt] eq "manual"} {
       lassign [split [$txt index $startpos] .] start_line start_col
       lassign [split [$txt index $endpos]   .] end_line   end_col
       if {$end_col == 0} {
@@ -381,11 +347,9 @@ namespace eval folding {
   # Close the selected text.
   proc close_selected {txt} {
 
-    variable method
-
     set retval 0
 
-    if {$method($txt) eq "manual"} {
+    if {[get_method $txt] eq "manual"} {
 
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
         close_range $txt $startpos $endpos
@@ -406,9 +370,7 @@ namespace eval folding {
   # is only valid in manual mode.
   proc delete_fold {txt line} {
 
-    variable method
-
-    if {$method($txt) eq "manual"} {
+    if {[get_method $txt] eq "manual"} {
 
       # Get the current line state
       set state [fold_state $txt $line]
@@ -434,9 +396,7 @@ namespace eval folding {
   # Deletes all fold markers found in the given range.
   proc delete_folds_in_range {txt startline endline} {
 
-    variable method
-
-    if {$method($txt) eq "manual"} {
+    if {[get_method $txt] eq "manual"} {
 
       # Get all of the open/close folds
       set all_lines [list {*}[$txt gutter get folding open] {*}[$txt gutter get folding close]]
@@ -456,9 +416,7 @@ namespace eval folding {
   # mode.
   proc delete_all_folds {txt} {
 
-    variable method
-
-    if {$method($txt) eq "manual"} {
+    if {[get_method $txt] eq "manual"} {
 
       # Remove all folded text
       $txt tag remove _folded 1.0 end
