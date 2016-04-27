@@ -384,9 +384,9 @@ namespace eval syntax {
           lassign $embedded sublang embed_start embed_end
           if {($embed_start ne "") && ($embed_end ne "")} {
             ctext::setEmbedLangPattern $txt $sublang $embed_start $embed_end $theme(embedded)
-            add_sublanguage $txt $sublang $cmd_prefix 1 $embed_start $embed_end
+            add_sublanguage $txt $sublang $cmd_prefix "" $embed_start $embed_end
           } else {
-            add_sublanguage $txt $sublang $cmd_prefix 0 {} {}
+            add_sublanguage $txt $sublang $cmd_prefix "" {} {}
           }
         }
 
@@ -420,15 +420,15 @@ namespace eval syntax {
 
   ######################################################################
   # Add sublanguage features to current text widget.
-  proc add_sublanguage {txt language cmd_prefix full embed_start embed_end} {
+  proc add_sublanguage {txt language cmd_prefix parent embed_start embed_end} {
 
     variable langs
     
     array set lang_array $langs($language)
     
     # Adjust the language value if we are not performing a full insertion
-    if {!$full} {
-      set language ""
+    if {$embed_start eq ""} {
+      set language $parent
     }
 
     # Add the keywords
@@ -444,7 +444,7 @@ namespace eval syntax {
     set_language_section $txt meta           $lang_array(meta) $language
     set_language_section $txt advanced       $lang_array(advanced) $language $cmd_prefix
 
-    if {$full} {
+    if {$embed_start ne ""} {
 
       # Get the current syntax theme
       array set theme [[ns theme]::get_syntax_colors]
@@ -488,7 +488,7 @@ namespace eval syntax {
     foreach embedded $lang_array(embedded) {
       lassign $embedded sublang embed_start embed_end
       if {$embed_start eq ""} {
-        add_sublanguage $txt $sublang $cmd_prefix 0 {} {}
+        add_sublanguage $txt $sublang $cmd_prefix $language {} {}
       }
     }
     
