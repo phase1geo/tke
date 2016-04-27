@@ -44,8 +44,8 @@ namespace eval folding {
   proc get_method {txt} {
 
     variable enable
-
-    if {$enable($txt)} {
+    
+    if {[info exists enable($txt)] && $enable($txt)} {
       switch [[ns indent]::get_indent_mode $txt] {
         "OFF"   { return "manual" }
         "IND"   { return "indent" }

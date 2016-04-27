@@ -171,17 +171,7 @@ namespace eval indent {
     set indent_exprs($txt.t,mode) $indent_mode_map($mode)
     
     # Set the text widget's indent mode
-    switch $mode {
-      IND+    {
-        if {[is_auto_indent_available $txt]} {
-          $txt configure -indent_mode syntax
-        } else {
-          $txt configure -indent_mode indent
-        }
-      }
-      IND     { $txt configure -indent_mode indent }
-      default { $txt configure -indent_mode none }
-    }
+    # TBD - $txt highlight 1.0 end
 
     # Update the menu button
     [set [ns gui]::widgets(info_indent)] configure -text $mode
