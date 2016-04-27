@@ -555,11 +555,15 @@ namespace eval indent {
         set indent_exprs($txtt,mode) "IND+"
       } else {
         set indent_exprs($txtt,mode) "IND"
+        [ns folding]::set_fold_method [winfo parent $txtt] "indent"
       }
     } else {
       set indent_exprs($txtt,mode) "OFF"
     }
-
+    
+    # Update the state of the indentation widget
+    [ns gui]::update_indent_button
+    
   }
 
   ######################################################################
@@ -609,6 +613,11 @@ namespace eval indent {
     # Configure the menubutton
     if {[info exists indent_exprs($txtt,mode)]} {
       $w configure -text [set current_indent $indent_exprs($txtt,mode)]
+      if {$indent_exprs($txtt,indent) eq ""} {
+        ${w}Menu entryconfigure "Smart Indent" -state disabled
+      } else {
+        ${w}Menu entryconfigure "Smart Indent" -state normal
+      }
     }
 
   }

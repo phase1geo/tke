@@ -313,7 +313,7 @@ namespace eval syntax {
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground)
 
     # Set default indent/unindent strings
-    [ns indent]::set_indent_expressions $txt.t {\{} {\}} {}
+    [ns indent]::set_indent_expressions $txt.t {} {} {}
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {

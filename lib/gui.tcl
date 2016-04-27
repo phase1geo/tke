@@ -4515,6 +4515,18 @@ namespace eval gui {
     tk_popup $mnu $x $y
 
   }
+  
+  ######################################################################
+  # This is called by the indent namespace to update the indentation
+  # widget when the indent value changes internally (due to changing
+  # the current language.
+  proc update_indent_button {} {
+    
+    variable widgets
+    
+    [ns indent]::update_button $widgets(info_indent)
+    
+  }
 
   ######################################################################
   # Handles a text FocusIn event from the widget.
