@@ -137,7 +137,14 @@ namespace eval folding {
   proc add_folds {txt startpos endpos} {
 
     # Get the starting and ending line
-    set startline    [lindex [split [$txt index $startpos-1l] .] 0]
+    if {[get_method $txt] eq "indent"} {
+      set startpos 1.0
+      if {[set range [$txt tag prevrange _prewhite "$startpos lineend"]] ne ""} {
+        set startpos [lindex $range 0]
+      }
+    }
+    
+    set startline    [lindex [split [$txt index $startpos] .] 0]
     set endline      [lindex [split [$txt index $endpos]   .] 0]
     set lines(open)  [list]
     set lines(end)   [list]

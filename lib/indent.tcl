@@ -302,10 +302,10 @@ namespace eval indent {
   proc get_start_of_line {txtt index} {
 
     # Ignore whitespace
-    while {[string trim [$txtt get "$index linestart" "$index lineend"]] eq ""} {
-      if {[set index [$txtt index "$index-1l lineend"]] eq "1.0"} {
-        break
-      }
+    if {[set range [$txtt tag prevrange _prewhite "$index lineend"]] ne ""} {
+      set index [lindex $range 1]
+    } else {
+      set index 1.0
     }
 
     # Find an ending bracket on the current line
@@ -321,8 +321,8 @@ namespace eval indent {
 
     # If we could not find a right bracket, we have found the line that we are looking for
     if {$win_type eq "none"} {
-      if {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {
-        return $whitespace
+      if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
+        return [string range [$txtt get {*}[$txtt tag nextrange _prewhite "$index linestart"]] 0 end-1]
       } else {
         return ""
       }
@@ -333,8 +333,8 @@ namespace eval indent {
       array set other_type [list curlyR curlyL parenR parenL squareR squareL angledR angledL]
       if {[set match_index [ctext::get_match_bracket [winfo parent $txtt] $other_type($win_type) $startpos($win_type)]] ne ""} {
         return [get_start_of_line $txtt $match_index]
-      } elseif {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {
-        return $whitespace
+      } elseif {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
+        return [string range [$txtt get {*}[$txtt tag nextrange _prewhite "$index linestart"]] 0 end-1]
       } else {
         return ""
       }
@@ -359,7 +359,7 @@ namespace eval indent {
     if {$indent_exprs($txtt,mode) eq "IND"} {
 
       set indent_space [get_previous_indent_space $txtt $index]
-
+      
     # Otherwise, do smart indentation
     } else {
 
@@ -373,19 +373,18 @@ namespace eval indent {
 
     }
 
-    # Get the current line
-    set line [$txtt get $index "$index lineend"]
-
     # Create an index to restore the insertion cursor, if necessary
     set restore_insert ""
 
     # Remove any leading whitespace and update indentation level
     # (if the first non-whitespace char is a closing bracket)
-    if {[regexp {^( *)(.*)} $line -> whitespace rest] && ($rest ne "")} {
+    if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
+      
+      lassign [$txtt tag nextrange _prewhite "$index linestart"] startpos endpos
 
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
-      if {[regexp "^$indent_exprs($txtt,unindent)" $rest]} {
+      if {[lsearch [$txtt tag names "$endpos-1c"] _unindent] != -1} {
         $txtt insert insert "$indent_space\n"
         set restore_insert [$txtt index insert-1c]
         if {$indent_exprs($txtt,mode) eq "IND+"} {
@@ -397,7 +396,7 @@ namespace eval indent {
       set mcursor [lsearch [$txtt tag names $index] "mcursor"]
 
       # Delete the whitespace
-      $txtt delete $index "$index+[string length $whitespace]c"
+      $txtt delete $startpos "$endpos-1c"
 
       # If the newline was from a multicursor, we need to re-add the tag since we have deleted it
       if {$mcursor != -1} {
@@ -430,15 +429,8 @@ namespace eval indent {
       return 0
     }
 
-    set line_pos [expr [lindex [split [$txtt index $index] .] 0] - 1]
-
-    # Get the last line that was not a blank line
-    while {($line_pos > 0) && ([string trim [set line [$txtt get "$line_pos.0" "$line_pos.end"]]] eq "")} {
-      incr line_pos -1
-    }
-
-    if {($line_pos > 0) && [regexp {^( *)(.*)} $line -> whitespace rest]} {
-      return $whitespace
+    if {[set range [$txtt tag prevrange _prewhite "$index-1l lineend"]] ne ""} {
+      return [string range [$txtt get {*}$range] 0 end-1]
     } else {
       return ""
     }
@@ -514,7 +506,10 @@ namespace eval indent {
 
       # Remove any leading whitespace and update indentation level
       # (if the first non-whitespace char is a closing bracket)
-      regexp {^( *)} [$txtt get $curpos "$curpos lineend"] -> whitespace
+      set whitespace ""
+      if {[lsearch [$txtt tag names $curpos] _prewhite] != -1} {
+        set whitespace [string range [$txtt get {*}[$txtt tag nextrange _prewhite $curpos]] 0 end-1]
+      }
 
       # Replace the leading whitespace with the calculated amount of indentation space
       if {$whitespace ne $indent_space} {
