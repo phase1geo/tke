@@ -302,10 +302,12 @@ namespace eval indent {
   proc get_start_of_line {txtt index} {
 
     # Ignore whitespace
-    if {[set range [$txtt tag prevrange _prewhite "$index lineend"]] ne ""} {
-      set index [lindex $range 1]
-    } else {
-      set index 1.0
+    if {[lsearch [$txtt tag names "$index linestart"] _prewhite] == -1} {
+      if {[set range [$txtt tag prevrange _prewhite "$index lineend"]] ne ""} {
+        set index [$txtt index "[lindex $range 1] lineend"]
+      } else {
+        set index 1.0
+      }
     }
 
     # Find an ending bracket on the current line
@@ -359,7 +361,7 @@ namespace eval indent {
     if {$indent_exprs($txtt,mode) eq "IND"} {
 
       set indent_space [get_previous_indent_space $txtt $index]
-      
+
     # Otherwise, do smart indentation
     } else {
 
@@ -379,7 +381,7 @@ namespace eval indent {
     # Remove any leading whitespace and update indentation level
     # (if the first non-whitespace char is a closing bracket)
     if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-      
+
       lassign [$txtt tag nextrange _prewhite "$index linestart"] startpos endpos
 
       # If the first non-whitespace characters match an unindent pattern,
