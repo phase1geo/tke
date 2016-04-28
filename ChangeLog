@@ -1,125 +1,167 @@
-changeset:   2085:b287677d6e77
-tag:         devel-2.4.2
+changeset:   2100:fb01dc4c74f0
+tag:         devel-2.4.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 09:38:00 2016 -0500
+date:        Thu Apr 21 01:11:37 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.2 release
+ChangeLog for devel-2.4.3 release
 
 
-changeset:   2086:8fa59c8fec30
+changeset:   2101:7d877df0c4f5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 09:38:05 2016 -0500
+date:        Thu Apr 21 01:11:56 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.2 for changeset b287677d6e77
+Added tag devel-2.4.3 for changeset fb01dc4c74f0
 
 
-changeset:   2087:b98ff06df52f
+changeset:   2102:ace73f1b5f71
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 22:27:15 2016 -0500
-files:       data/syntax/C++.syntax data/syntax/Vala.syntax lib/menus.tcl lib/version.tcl
+date:        Fri Apr 22 00:32:53 2016 -0500
+files:       lib/folding.tcl lib/version.tcl
 description:
-* Adding reindentation back into C++ since C++ doesn't inherit C reindentation.
-* Adding "var" keyword to Vala syntax.
-* Adding Help menu item to view Tips & Tricks articles.
+* Checkpointing work on supporting eclose/eopen code folding tags.
 
 
-changeset:   2088:f9adfc264456
+changeset:   2103:4a10661d3e6a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 23:47:10 2016 -0500
-files:       data/preferences.tkedat lib/gui.tcl lib/menus.tcl lib/templates.tcl lib/version.tcl lib/vim.tcl
+date:        Sat Apr 23 00:29:21 2016 -0500
+files:       lib/folding.tcl lib/version.tcl
 description:
-* Adding support for Vim option 'browsedir'.
-* Adding `General/DefaultFileBrowserDirectory` preference option.
+* Checkpointing work on indentation code folding.
 
 
-changeset:   2089:4ded1aaeded1
+changeset:   2104:df911cfdb4b2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 16 00:30:50 2016 -0500
-files:       data/syntax/VisualBasic.syntax lib/version.tcl
+date:        Sat Apr 23 23:48:00 2016 -0500
+files:       lib/folding.tcl lib/version.tcl
 description:
-* Adding VisualBasic syntax.
+* Checkpointing work on indentation code folding.
 
 
-changeset:   2090:edad537a8ffc
+changeset:   2105:c4101e20bcea
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 16 00:40:04 2016 -0500
-files:       data/syntax/VisualBasic.syntax lib/version.tcl
+date:        Sun Apr 24 07:55:30 2016 -0500
+files:       lib/folding.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing syntax error in VisualBasic syntax file.
+* Fixing issues with indentation code folding method.
 
 
-changeset:   2091:e26a1ce8762c
+changeset:   2106:79ba8d344fa8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 16 08:36:00 2016 -0500
-files:       data/syntax/Cuda.syntax lib/version.tcl
+date:        Sun Apr 24 21:14:29 2016 -0500
+files:       data/syntax/SASS.syntax data/syntax/SCSS.syntax lib/version.tcl
 description:
-* Adding Cuda syntax.
+* Adding SASS and SCSS syntax.
 
 
-changeset:   2092:f85f9c3f04c2
+changeset:   2107:66280a42956c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 17 00:08:58 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Tue Apr 26 21:53:34 2016 -0500
+files:       data/syntax/Delphi.syntax lib/version.tcl
 description:
-* Adding initial support (untested) for indentation code folding.
+* Adding Delphi syntax.
 
 
-changeset:   2093:d0d0c89ae866
+changeset:   2108:54ff0250afb3
+parent:      2106:79ba8d344fa8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Apr 25 17:13:29 2016 -0500
+files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
+description:
+* Fixing support for multi-mixed languages.
+* Adding ability to embed C++ language into Markdown.
+
+
+changeset:   2109:4a21166a5acb
+parent:      2107:66280a42956c
+parent:      2108:54ff0250afb3
+user:        Trevor Williams  <phase1geo@gmail.com>
+date:        Tue Apr 26 21:59:08 2016 -0500
+description:
+Merge
+
+
+changeset:   2110:80300094a2a0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 17 07:39:07 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/version.tcl
+date:        Tue Apr 26 22:58:00 2016 -0500
+files:       data/syntax/Rust.syntax lib/version.tcl
 description:
-* Checkpointing work on indentation based code folding.
+* Adding Rust syntax.
 
 
-changeset:   2094:3446109dc167
+changeset:   2111:c675a4de0247
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 00:28:52 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Tue Apr 26 23:04:18 2016 -0500
+files:       data/syntax/Rust.syntax lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Fixing problem in fastinsert where starting index sent to modified handler was getting wrong value.
+* Fixing Rust syntax issues.
+* Fixing syntax error in ctext past command code.
 
 
-changeset:   2095:a1ce2beca1dc
+changeset:   2112:458477abd2d2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 08:09:49 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Wed Apr 27 08:35:46 2016 -0500
+files:       lib/gui.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Checkpointing work on indent-based code folding.
+* Checkpointing improvements in indentation folding.
 
 
-changeset:   2096:1d316662e5cd
+changeset:   2113:1fe928f0c974
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Apr 27 16:50:26 2016 -0500
+files:       data/preferences.tkedat lib/folding.tcl lib/indent.tcl lib/menus.tcl lib/version.tcl
+description:
+* More work on indentation code folding mode.
+
+
+changeset:   2114:5bda7e91357e
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Apr 27 17:25:22 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/indent.tcl lib/version.tcl
+description:
+* Checkpointing work on indentation updates.
+
+
+changeset:   2115:224f79c92145
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 09:03:59 2016 -0500
-files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/folding.tcl lib/menus.tcl lib/version.tcl
+date:        Wed Apr 27 19:23:02 2016 -0500
+files:       lib/folding.tcl lib/version.tcl
 description:
-* Fixing indentation code folding algorithm (hacked other code to be able to test it).
+* Finishing enhance indentation folding mechanism.
 
 
-changeset:   2097:fae7c5c7ce76
+changeset:   2116:667c1093bba6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 23:22:35 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
+date:        Wed Apr 27 19:34:00 2016 -0500
+files:       lib/indent.tcl lib/version.tcl
 description:
-* Checkpointing automatic handling of indentation.
+* Attempting to fix issue with updating code fold properly when indentation mode is changed.
 
 
-changeset:   2098:e9ed2f71b81a
+changeset:   2117:52de79fe5d6f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 20 00:03:27 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Wed Apr 27 21:10:46 2016 -0500
+files:       lib/syntax.tcl lib/version.tcl
 description:
-* Fixing syntax error due to highlighting causing text_changed to be called prior to the folding namespace being initialized.
+* Fixing issue with None language selection.
 
 
-changeset:   2099:49b72c49f284
+changeset:   2118:6573e6e60cd0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Apr 27 22:21:36 2016 -0500
+files:       lib/folding.tcl lib/indent.tcl lib/version.tcl
+description:
+* Adding code optimizations to indentation namespace.
+* Fixing bug in indentation code folding.
+
+
+changeset:   2119:cd37552fe5fe
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 20 18:50:28 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Wed Apr 27 23:10:40 2016 -0500
+files:       lib/indent.tcl lib/version.tcl
 description:
-* Fixing issues with indent-based folding when interactively editing.
+* Fixing issue with recent indentation changes.
 
 
