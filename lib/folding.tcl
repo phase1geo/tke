@@ -27,7 +27,7 @@ namespace eval folding {
   source [file join $::tke_dir lib ns.tcl]
 
   array set enable {}
-  
+
   ######################################################################
   # Returns true if the given text widget has code folding enabled.
   proc get_enable {txt} {
@@ -44,7 +44,7 @@ namespace eval folding {
   proc get_method {txt} {
 
     variable enable
-    
+
     if {[info exists enable($txt)] && $enable($txt)} {
       switch [[ns indent]::get_indent_mode $txt] {
         "OFF"   { return "manual" }
@@ -93,7 +93,7 @@ namespace eval folding {
   proc set_fold_enable {txt value} {
 
     variable enable
-    
+
     if {[set enable($txt) $value]} {
       enable_folding $txt
       add_folds $txt 1.0 end
@@ -137,7 +137,7 @@ namespace eval folding {
   proc add_folds {txt startpos endpos} {
 
     # Get the starting and ending line
-    set startline    [lindex [split [$txt index $startpos] .] 0]
+    set startline    [lindex [split [$txt index $startpos-1l] .] 0]
     set endline      [lindex [split [$txt index $endpos]   .] 0]
     set lines(open)  [list]
     set lines(end)   [list]
@@ -168,11 +168,18 @@ namespace eval folding {
         set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
       }
       indent {
-        set names        [$txt tag names $line.0]
-        set indent_cnt   [expr [lsearch $names _indent]   != -1]
-        set unindent_cnt [expr [lsearch $names _unindent] != -1]
-        if {$indent_cnt && $unindent_cnt} {
-          return "eopen"
+        if {[lsearch [$txt tag names $line.0] _prewhite] != -1} {
+          set prev 0
+          set curr 0
+          set next 0
+          catch { set prev [$txt count -chars {*}[$txt tag prevrange _prewhite $line.0]] }
+          catch { set curr [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]] }
+          catch { set next [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0+1c]] }
+          set indent_cnt   [expr $curr < $next]
+          set unindent_cnt [expr $curr < $prev]
+          if {$indent_cnt && $unindent_cnt} {
+            return "eopen"
+          }
         }
       }
     }
@@ -201,7 +208,6 @@ namespace eval folding {
   # Returns the starting and ending positions of the range to fold.
   proc get_fold_range {txt line depth} {
 
-    set index  [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
     set count  0
     set aboves [list]
     set belows [list]
@@ -209,25 +215,27 @@ namespace eval folding {
 
     if {[get_method $txt] eq "indent"} {
 
-      set start_chars [$txt count -chars {*}[$txt tag nextrange _indent $line.0]]
+      set start_chars [$txt count -chars {*}[$txt tag nextrange _prewhite $line.0]]
+      set next_line   $line.0
       set final       [lindex [split [$txt index end] .] 0].0
       set all_chars   [list]
 
-      foreach {tline tag} [concat {*}[lrange $data $index end]] {
-        if {$tag ne "end"} {
-          set chars [$txt count -chars {*}[$txt tag nextrange _indent $tline.0]]
-        } else {
-          set chars [$txt count -chars {*}[$txt tag nextrange _unindent $tline.0]]
-        }
-        if {($tag eq "close") ||($tag eq "eclose")} {
+      while {[set range [$txt tag nextrange _prewhite $next_line]] ne ""} {
+        set chars [$txt count -chars {*}$range]
+        set tline [lindex [split [lindex $range 0] .] 0]
+        set state [fold_state $txt $tline]
+        if {($state eq "close") || ($state eq "eclose")} {
           lappend closed $tline
         }
         if {($chars > $start_chars) || ($all_chars eq [list])} {
-          lappend all_chars [list $tline $chars]
+          if {($state ne "none") && ($state ne "end")} {
+            lappend all_chars [list $tline $chars]
+          }
         } else {
           set final $tline.0
           break
         }
+        set next_line [lindex $range 1]
       }
 
       set last $start_chars
@@ -240,12 +248,14 @@ namespace eval folding {
         }
         set last $chars
       }
-      
+
       return [list [expr $line + 1].0 $final $belows $aboves $closed]
 
     } else {
 
       array set inc [list end -1 open 1 close 1 eopen -1 eclose -1]
+
+      set index [lsearch -index 0 [set data [get_gutter_info $txt]] $line]
 
       foreach {tline tag} [concat {*}[lrange $data $index end]] {
         if {$tag ne "end"} {
