@@ -624,7 +624,7 @@ namespace eval syntax {
 
     # Populate the menu with the available languages
     $mnu add radiobutton -label [format "<%s>" [msgcat::mc "None"]] -variable [ns syntax]::current_lang \
-      -value [msgcat::mc "None"] -command [list [ns syntax]::set_current_language <None>]
+      -value [msgcat::mc "None"] -command [list [ns syntax]::set_current_language [msgcat::mc "None"]]
     set i 0
     foreach lang [lsort [array names langs]] {
       $mnu add radiobutton -label $lang -variable [ns syntax]::current_lang \
