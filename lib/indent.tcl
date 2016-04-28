@@ -169,9 +169,9 @@ namespace eval indent {
 
     # Set the current mode
     set indent_exprs($txt.t,mode) $indent_mode_map($mode)
-    
+
     # Set the text widget's indent mode
-    # TBD - $txt highlight 1.0 end
+    [ns folding]::add_folds $txt 1.0 end
 
     # Update the menu button
     [set [ns gui]::widgets(info_indent)] configure -text $mode
@@ -244,9 +244,9 @@ namespace eval indent {
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
     if {([set endpos [lassign [$txtt tag prevrange _unindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]} {
-      
+
       if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
-        
+
         # Get the current indentation level
         set indent_space [get_start_of_line $txtt $index]
 
@@ -318,7 +318,7 @@ namespace eval indent {
         set win_type $type
       }
     }
-    
+
     # If we could not find a right bracket, we have found the line that we are looking for
     if {$win_type eq "none"} {
       if {[regexp {^( *)(.*)} [$txtt get "$index linestart" "$index lineend"] -> whitespace rest]} {
@@ -562,10 +562,10 @@ namespace eval indent {
     } else {
       set indent_exprs($txtt,mode) "OFF"
     }
-    
+
     # Update the state of the indentation widget
     [ns gui]::update_indent_button
-    
+
   }
 
   ######################################################################
