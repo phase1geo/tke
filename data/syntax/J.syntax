@@ -1,0 +1,34 @@
+filepatterns
+{*.j}
+
+matchcharsallowed
+{paren single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{NB\.}}
+
+lcomments {{NB\.}}
+
+strings {{'}}
+
+keywords {
+  do
+  else end
+  if
+  while
+}
+
+numbers {
+  HighlightRegexp {\m_?([0-9]+|[0-9]+\.[0-9]+)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}()#$!?@|&:.`"~<>,=^\\/+%*-]} {}
+}
+
