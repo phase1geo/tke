@@ -1,0 +1,91 @@
+filepatterns
+{*.abap}
+
+vimsyntax
+{abap}
+
+embedded
+{}
+
+delimiters
+{}
+
+matchcharsallowed
+{square paren single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+icomment {{\*}}
+
+lcomments {{^\*} {"}}
+
+strings {{'} {`}}
+
+keywords
+{
+  accepting add add-corresponding adjacent all any append appending as ascending assign assigned
+  assigning at attributes authority-check
+  background begin between binary bit buffer by bypassing byte
+  call case casting catch centered character check class class-pool clear cleanup client close code collect
+  commit comparing component compute concatenate condense constants continue convert corresponding country
+  create cursor
+  data database dataset date decimals default definition delete deleting descending describe destination
+  display distinct divide divide-corresponding do dummy duplicate
+  else elseif end endat endcase endcatch endclass enddo endexec endform endif endinterface endloop endmethod
+  endselect endtry endwhile entries escape exception exec execute exists exit export exporting extract
+  fetch field field-groups field-symbols fields find first for form free from function function-pool
+  get giving group
+  hashed having header hold
+  id if implementation import in index inheriting initial inner insert interfaces interface-pool
+  internal into inverted-date is
+  join
+  key kind
+  language last leading leave left left-justified length like line lines local locale loop lower
+  memory message method methods mode modifier modify move move-corresponding multiply multiply-corresponding
+  new next no no-gaps nodes non-unique
+  object occurs occurrence occurrences of on only open order others outer overlay
+  package parameters perform performing places position primary procedure program public
+  raise raising read ref reference refresh reject replace report right right-justified rollback rows
+  search section select select-options separated set shared shift single size skip some sortable sort sorted
+  split specified sql stable standard start-of-selection starting statics stop structure submit subrout
+  subtract subtract-corresponding sum system-exceptions
+  table tables task text then times to trailing transfer translate transporting try type types type-pool
+  uline unassign unique until up update upper using
+  value values
+  wait when while with work write
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+([eE][+-]?[0-9]+)?)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}.,|:<>=+*/-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    and avg
+    bit-and bit-not bit-or bit-xor byte-co byte-cn byte-ca byte-na byte-cs byte-ns
+    ca circular cn co count cp cs
+    div
+    eq
+    ge gt
+    le left lt
+    m max min mod
+    na ne not np ns null
+    o or
+    right
+    sum
+    z
+  } {}
+}
+
+miscellaneous2 {}
+
+miscellaneous3 {}
