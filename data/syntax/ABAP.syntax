@@ -11,7 +11,7 @@ delimiters
 {}
 
 matchcharsallowed
-{square paren single}
+{square paren single btick}
 
 tabsallowed
 {0}

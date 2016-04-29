@@ -47,6 +47,7 @@ namespace eval completer {
       paren  0
       double 0
       single 0
+      btick  0
     }
 
     foreach value [[ns preferences]::get Editor/AutoMatchChars] {
@@ -80,6 +81,7 @@ namespace eval completer {
       $txtt,$lang,paren  0 \
       $txtt,$lang,double 0 \
       $txtt,$lang,single 0 \
+      $txtt,$lang,btick  0 \
     ]
 
     # Combine the language-specific match chars with preference chars
@@ -105,6 +107,7 @@ namespace eval completer {
     bind comp$txt <Key-parenright>   "if {\[[ns completer]::add_paren %W right\]} { break }"
     bind comp$txt <Key-quotedbl>     "if {\[[ns completer]::add_double %W\]} { break }"
     bind comp$txt <Key-quoteright>   "if {\[[ns completer]::add_single %W\]} { break }"
+    bind comp$txt <Key-quoteleft>    "if {\[[ns completer]::add_btick %W\]} { break }"
     bind comp$txt <BackSpace>        "[ns completer]::handle_delete %W"
 
     # Add the bindings
@@ -297,6 +300,33 @@ namespace eval completer {
   }
 
   ######################################################################
+  # Handles a backtick character.
+  proc add_btick {txtt} {
+
+    variable complete
+
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],btick)} {
+      if {[ctext::inBackTick $txtt insert]} {
+        if {([$txtt get insert] eq "`") && ![ctext::isEscaped $txtt insert]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          return 1
+        }
+      } elseif {[ctext::inBackTick $txtt end-1c]} {
+        return 0
+      } else {
+        set ins [$txtt index insert]
+        if {![ctext::inCommentString $txtt "insert-1c"]} {
+          $txtt insert insert "`"
+        }
+        ::tk::TextSetCursor $txtt $ins
+      }
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Handles a deletion.
   proc handle_delete {txtt} {
 
@@ -332,6 +362,11 @@ namespace eval completer {
         }
         "''" {
           if {$complete($txtt,$lang,single)} {
+            $txtt delete insert
+          }
+        }
+        "``" {
+          if {$complete($txtt,$lang,btick)} {
             $txtt delete insert
           }
         }

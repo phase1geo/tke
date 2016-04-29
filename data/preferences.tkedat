@@ -138,8 +138,9 @@
 #   paren  - Inserts a matching parenthesis (())
 #   double - Inserts a matching double-quote (")
 #   single - Inserts a matching single-quote (')
+#   btick  - Inserts a matching backtick (`)
 
-{Editor/AutoMatchChars}      {square curly angled paren double single}
+{Editor/AutoMatchChars}      {square curly angled paren double single btick}
 
 # If set to a value of 1, causes the character that matches the current character to be highlighted.
 
