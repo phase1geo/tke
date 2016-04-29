@@ -13,6 +13,9 @@ delimiters
 matchcharsallowed
 {curly}
 
+escapes
+{1}
+
 tabsallowed
 {0}
 
@@ -39,7 +42,7 @@ keywords
 {
   filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
   reindent keywords symbols icomment lcomments bcomments strings numbers punctuation precompile
-  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta advanced
+  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta advanced escapes
   HighlightClass
   HighlightKeywords
   HighlightRegexp
@@ -51,7 +54,7 @@ symbols
   HighlightKeywords {
     filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
     reindent icomment lcomments bcomments strings symbols numbers punctuation precompile
-    miscellaneous1 miscellaneous2 miscellaneous3 meta advanced
+    miscellaneous1 miscellaneous2 miscellaneous3 meta advanced escapes
   } syntax::get_syntax_symbol
 }
 
