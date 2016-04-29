@@ -1,0 +1,71 @@
+filepatterns
+{*.forth}
+
+vimsyntax
+{forth}
+
+matchcharsallowed
+{curly}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+reindent {}
+
+icomment {{#}}
+
+lcomments {{^[ \t]*#}}
+
+bcomments {}
+
+strings {}
+
+keywords
+{
+  filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
+  reindent keywords symbols icomment lcomments bcomments strings numbers punctuation precompile
+  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta advanced
+  HighlightClass
+  HighlightKeywords
+  HighlightRegexp
+  HighlightWithOnlyCharStart
+}
+
+symbols
+{
+  HighlightKeywords {
+    filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
+    reindent icomment lcomments bcomments strings symbols numbers punctuation precompile
+    miscellaneous1 miscellaneous2 miscellaneous3 meta advanced
+  } syntax::get_syntax_symbol
+}
+
+numbers {}
+
+punctuation
+{
+  HighlightRegexp {[\{\}]} {}
+}
+
+precompile {}
+
+miscellaneous1 {}
+
+miscellaneous2 {}
+
+miscellaneous3 {}
+
+highlighter {}
+
+meta {}
+
+advanced {}
