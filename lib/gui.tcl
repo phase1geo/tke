@@ -4349,8 +4349,9 @@ namespace eval gui {
       "\)"    { set index [ctext::get_match_bracket $txt parenL] }
       "\<"    { set index [ctext::get_match_bracket $txt angledR] }
       "\>"    { set index [ctext::get_match_bracket $txt angledL] }
-      "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] _dString] == -1) ? "-forwards" : "-backwards"}]] }
-      "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] _sString] == -1) ? "-forwards" : "-backwards"}]] }
+      "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] _dString*] == -1) ? "-forwards" : "-backwards"}]] }
+      "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] _sString*] == -1) ? "-forwards" : "-backwards"}]] }
+      "`"     { set index [find_match_char $txt "`"  [expr {([lsearch [$txt tag names insert-1c] _bString*] == -1) ? "-forwards" : "-backwards"}]]}
       default { set index [find_match_pair $txt {*}[lrange [[ns syntax]::get_indentation_expressions $txt] 0 1] -backwards] }
     }
 
@@ -4515,17 +4516,17 @@ namespace eval gui {
     tk_popup $mnu $x $y
 
   }
-  
+
   ######################################################################
   # This is called by the indent namespace to update the indentation
   # widget when the indent value changes internally (due to changing
   # the current language.
   proc update_indent_button {} {
-    
+
     variable widgets
-    
+
     [ns indent]::update_button $widgets(info_indent)
-    
+
   }
 
   ######################################################################
