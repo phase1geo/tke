@@ -58,6 +58,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-warnwidth)              ""
   set ctext::data($win,config,-warnwidth_bg)           red
   set ctext::data($win,config,-casesensitive)          1
+  set ctext::data($win,config,-escapes)                1
   set ctext::data($win,config,-peer)                   ""
   set ctext::data($win,config,-undo)                   0
   set ctext::data($win,config,-maxundo)                0
@@ -93,7 +94,7 @@ proc ctext {win args} {
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
-  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg]
+  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes]
 
   # Set args
   foreach {name value} $args {
@@ -436,6 +437,16 @@ proc ctext::buildArgParseTable win {
   lappend argTable {1 true yes} -casesensitive {
     set data($win,config,-casesensitive) 1
     set data($win,config,re_opts) ""
+    break
+  }
+
+  lappend argTable {0 false no} -escapes {
+    set data($win,config,-escapes) 0
+    break
+  }
+
+  lappend argTable {1 true yes} -escapes {
+    set data($win,config,-escapes) 1
     break
   }
 
@@ -2402,9 +2413,13 @@ proc ctext::setIndentation {twin lang indentations type} {
 
 proc ctext::escapes {twin start end} {
 
-  foreach res [$twin search -all -- "\\" $start $end] {
-    if {[lsearch [$twin tag names $res-1c] _escape] == -1} {
-      $twin tag add _escape $res
+  variable data
+
+  if {$data($twin,config,-escapes)} {
+    foreach res [$twin search -all -- "\\" $start $end] {
+      if {[lsearch [$twin tag names $res-1c] _escape] == -1} {
+        $twin tag add _escape $res
+      }
     }
   }
 
@@ -2434,7 +2449,7 @@ proc ctext::indentation {twin start end} {
     $twin tag add _prewhite $res "$res+[lindex $lengths $i]c"
     incr i
   }
-  
+
   # Add indentation
   foreach key [array names data $twin,config,indentation,*,*] {
     set elems [split $key ,]

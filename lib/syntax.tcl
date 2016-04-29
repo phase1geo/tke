@@ -35,6 +35,7 @@ namespace eval syntax {
     vimsyntax          {}
     embedded           {}
     matchcharsallowed  {}
+    escapes            1
     tabsallowed        0
     casesensitive      0
     delimiters         {}
@@ -331,7 +332,8 @@ namespace eval syntax {
         }
 
         # Set the case sensitivity and delimiter characters
-        $txt configure -casesensitive $lang_array(casesensitive)
+        $txt configure -casesensitive $lang_array(casesensitive) \
+          -escapes $lang_array(escapes)
         if {$lang_array(delimiters) ne ""} {
           $txt configure -delimiters $lang_array(delimiters)
         }
@@ -423,9 +425,9 @@ namespace eval syntax {
   proc add_sublanguage {txt language cmd_prefix parent embed_start embed_end} {
 
     variable langs
-    
+
     array set lang_array $langs($language)
-    
+
     # Adjust the language value if we are not performing a full insertion
     if {$embed_start eq ""} {
       set language $parent
@@ -448,7 +450,7 @@ namespace eval syntax {
 
       # Get the current syntax theme
       array set theme [[ns theme]::get_syntax_colors]
-      
+
       # Add the rest of the sections
       set_language_section $txt numbers    $lang_array(numbers) $language
       set_language_section $txt precompile $lang_array(precompile) $language
@@ -491,7 +493,7 @@ namespace eval syntax {
         add_sublanguage $txt $sublang $cmd_prefix $language {} {}
       }
     }
-    
+
   }
 
   ######################################################################
@@ -503,7 +505,7 @@ namespace eval syntax {
 
     # Get the current syntax theme
     array set theme [[ns theme]::get_syntax_colors]
-    
+
     set meta_tags($txt) "meta"
 
     switch $section {

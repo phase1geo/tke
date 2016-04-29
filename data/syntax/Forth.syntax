@@ -5,67 +5,57 @@ vimsyntax
 {forth}
 
 matchcharsallowed
-{curly}
+{curly square}
 
 tabsallowed
 {0}
 
 casesensitive
-{1}
+{0}
 
-indent
-{\{}
+icomment {{\\}}
 
-unindent
-{\}}
+lcomments {{\\}}
 
-reindent {}
+bcomments {{{\( } { \)}}}
 
-icomment {{#}}
-
-lcomments {{^[ \t]*#}}
-
-bcomments {}
-
-strings {}
+strings {{"}}
 
 keywords
 {
-  filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
-  reindent keywords symbols icomment lcomments bcomments strings numbers punctuation precompile
-  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta advanced
-  HighlightClass
-  HighlightKeywords
-  HighlightRegexp
-  HighlightWithOnlyCharStart
+  2dup 2drop 2over 2swap
+  abort abs accept again align aligned allot also and andif attach
+  beep begin bl block buffer
+  calls case cdata cells chars close-file code compile constant context count cr create
+  create-file current
+  definitions delete-file depth di digit dis do drop dup
+  ei else emit empty-buffers endcase endof execute exit
+  file-size file-position find flush flush-file forth
+  get-context get-current
+  here hex hold
+  idata if immediate include include-file included init-multi invert
+  key keyprim
+  leave literal locate loop lshift
+  max min mod ms
+  negate nip
+  of only open-file operate or order over
+  page pause pick postpone previous process
+  query quit
+  read-file read-line repeat resize-file root rot rshift
+  save-buffers search-wordlist section see set-context set-current source struct swap
+  then thens to tuck type
+  udata unloop until unused update
+  value variable view vocabulary vocs
+  while within word wordlist words write-file write-line
+  xcall xor
 }
 
-symbols
-{
-  HighlightKeywords {
-    filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
-    reindent icomment lcomments bcomments strings symbols numbers punctuation precompile
-    miscellaneous1 miscellaneous2 miscellaneous3 meta advanced
-  } syntax::get_syntax_symbol
+symbols {
+  HighlightRegexp {:} syntax::get_syntax_symbol
 }
-
-numbers {}
 
 punctuation
 {
-  HighlightRegexp {[\{\}]} {}
+  HighlightRegexp {[@!|.,:;'<>=+/*-]} {}
 }
 
-precompile {}
-
-miscellaneous1 {}
-
-miscellaneous2 {}
-
-miscellaneous3 {}
-
-highlighter {}
-
-meta {}
-
-advanced {}
