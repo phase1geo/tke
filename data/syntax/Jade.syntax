@@ -1,0 +1,64 @@
+filepatterns
+{*.jade}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+icomment {{//}}
+
+lcomments {{//}}
+
+strings {{"} {'}}
+
+keywords
+{
+  append
+  block
+  case
+  default doctype
+  each else extends
+  for
+  if in include
+  mixin
+  unless
+  var
+  when while
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}()#!|?&<>.,:;=+*/-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    b i del big small sub sup xmp a span div img br hr ul li ol table tr td th script
+    html head body title code pre abbr acronym address area base bdo blockquote
+    button caption cite col colgroup dfn dl dt em fieldset form h1 h2 h3 h4 h5 h6
+    input ins kbd label legend link map meta noscript object optgroup option p param
+    q samp select small strong style tbody textarea tfoot thead tt var
+  } {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    html xml transitional strict frameset 1.1 basic mobile
+  } {}
+}
+
+advanced
+{
+  HighlightClass attribute miscellaneous2 {}
+
+  HighlightRegexp {\S+=} syntax::get_xml_attribute
+}
