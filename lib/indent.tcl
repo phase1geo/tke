@@ -243,12 +243,16 @@ namespace eval indent {
     # If the current line contains an unindent expression, is not within a comment or string,
     # and is preceded in the line by only whitespace, replace the whitespace with the proper
     # indentation whitespace.
-    if {([set endpos [lassign [$txtt tag prevrange _unindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]} {
+    if {([set endpos [lassign [$txtt tag prevrange _unindent $index] startpos]] ne "") && [$txtt compare $endpos >= $index]} {
 
       if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
 
-        # Get the current indentation level
-        set indent_space [get_start_of_line $txtt $index]
+        # Find the matching indentation index
+        if {[set tindex [get_match_indent $txtt $startpos]] ne ""} {
+          set indent_space [get_start_of_line $txtt $tindex]
+        } else {
+          set indent_space [get_start_of_line $txtt $index]
+        }
 
         # Replace the whitespace with the appropriate amount of indentation space
         if {$indent_space ne $space} {
@@ -293,6 +297,42 @@ namespace eval indent {
 
     # Returns true if we have a reindent symbol in the current line
     return [expr {([lassign [$txtt tag prevrange _reindent $index] ipos] ne "") && [$txtt compare $ipos >= "$index linestart"]}]
+
+  }
+
+  ######################################################################
+  # Get the matching indentation marker.
+  proc get_match_indent {txtt index} {
+
+    set count 1
+
+    lassign [$txtt tag prevrange _indent   $index] sfirst slast
+    lassign [$txtt tag prevrange _unindent $index] ofirst olast
+
+    if {($olast ne "") && [$txtt compare $olast >= $index]} {
+      set olast $index
+    }
+
+    while {($ofirst ne "") && ($sfirst ne "")} {
+      if {[$txtt compare $sfirst > $ofirst]} {
+        if {[incr count -[$txtt count -chars $sfirst $slast]] <= 0} {
+          return "$sfirst+[expr 0 - $count]c"
+        }
+        lassign [$txtt tag prevrange _indent $sfirst] sfirst slast
+      } else {
+        incr count [$txtt count -chars $ofirst $olast]
+        lassign [$txtt tag prevrange _unindent $ofirst] ofirst olast
+      }
+    }
+
+    while {$sfirst ne ""} {
+      if {[incr count -[$txtt count -chars $sfirst $slast]] <= 0} {
+        return "$sfirst+[expr 0 - $count]c"
+      }
+      lassign [$txtt tag prevrange _indent $sfirst] sfirst slast
+    }
+
+    return ""
 
   }
 
