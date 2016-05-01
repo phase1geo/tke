@@ -1,0 +1,61 @@
+filepatterns
+{*.julia}
+
+delimiters
+{}
+
+matchcharsallowed
+{square curly paren}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+bcomments {}
+
+strings {{"} {'}}
+
+keywords
+{
+  abstract
+  baremodule begin bitstype break
+  catch const continue
+  do
+  else elseif end export
+  finally for function
+  global
+  if immutable import importall in
+  let local
+  macro module
+  quote
+  return
+  try type typealias
+  using
+  while
+}
+
+symbols
+{
+  HighlightKeywords {
+    function
+  } syntax::get_syntax_symbol
+}
+
+numbers {
+  HighlightRegexp {\m([0-9_]+|0[bB][01_]+|0[Oo][0-7_]+|0[Xx][0-9a-fA-F_]+|[0-9_]*\.[0-9_]([EeFf][+-][0-9_]+)?)} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}()@$.,:;?!=~&|<>^+*/%-]} {}
+}
+
