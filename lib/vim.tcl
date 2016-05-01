@@ -486,13 +486,13 @@ namespace eval vim {
     }
 
   }
-  
+
   ######################################################################
   # Sets the file browser directory default pathname.
   proc do_set_browse_dir {tid val} {
-    
+
     [ns gui]::set_browse_directory $val
-    
+
   }
 
   ######################################################################
@@ -1441,7 +1441,11 @@ namespace eval vim {
         record_start
       }
       return 1
-    } elseif {($mode($txtt) eq "folding:range")} {
+    } elseif {($mode($txtt) eq "folding:range") || \
+              ([string range $mode($txtt) 0 5] eq "change") || \
+              ([string range $mode($txtt) 0 5] eq "delete") || \
+              ([string range $mode($txtt) 0 3] eq "yank")   || \
+              ([string range $mode($txtt) 0 3] eq "case")} {
       append number($txtt) $num
       return 1
     }
@@ -1802,6 +1806,101 @@ namespace eval vim {
         bell
       }
       return 1
+    } elseif {([string range $mode($txtt) 0 5] eq "change") || \
+              ([string range $mode($txtt) 0 5] eq "delete")} {
+      if {[string index $mode($txtt) end] eq "V"} {
+        $txtt delete "insert linestart" "insert+1l linestart"
+      } else {
+        if {$number($txtt) ne ""} {
+          if {[string index $mode($txtt) end] eq "v"} {
+            set endpos "insert+[expr $number($txtt) + 1]c"
+          } else {
+            set endpos "insert+$number($txtt)c"
+          }
+        } else {
+          if {[string index $mode($txtt) end] eq "v"} {
+            set endpos "insert+1c"
+          } else {
+            set endpos "insert"
+          }
+        }
+        if {[$txtt compare "insert lineend" < $endpos]} {
+          $txtt delete insert "insert lineend"
+        } else {
+          $txtt delete insert $endpos
+        }
+      }
+      adjust_insert $txtt
+      if {[string range $mode($txtt) 0 5] eq "change"} {
+        edit_mode $txtt
+      } else {
+        start_mode $txtt
+      }
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
+      clipboard clear
+      if {[string index $mode($txtt) end] eq "V"} {
+        clipboard append [$txtt get "insert linestart" "insert lineend"]
+      } else {
+        if {$number($txtt) ne ""} {
+          if {[string index $mode($txtt) end] eq "v"} {
+            set endpos "insert+[expr $number($txtt) + 1]c"
+          } else {
+            set endpos "insert+$number($txtt)c"
+          }
+        } else {
+          if {[string index $mode($txtt) end] eq "v"} {
+            set endpos "insert+1c"
+          } else {
+            set endpos "insert"
+          }
+        }
+        if {[$txtt compare "insert lineend" < $endpos]} {
+          clipboard append [$txtt get insert "insert lineend"]
+        } else {
+          clipboard append [$txtt get insert $endpos]
+        }
+      }
+      start_mode $txtt
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "case")} {
+      set type [lindex [split $mode($txtt) :] 1]
+      if {[string index $mode($txtt) end] eq "V"} {
+        switch $type {
+          swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
+          upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+        }
+      } else {
+        if {$number($txtt) ne ""} {
+          if {[string index $mode($txtt) end] eq "v"} {
+            set endpos "insert+[expr $number($txtt) + 1]c"
+          } else {
+            set endpos "insert+$number($txtt)c"
+          }
+        } else {
+          if {[string index $mode($txtt) end] eq "v"} {
+            set endpos "insert+1c"
+          } else {
+            set endpos "insert"
+          }
+        }
+        if {[$txtt compare "insert lineend" < $endpos]} {
+          switch $type {
+            swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) insert "insert lineend" }
+            upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) insert "insert lineend" }
+            lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) insert "insert lineend" }
+          }
+        } else {
+          switch $type {
+            swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) insert $endpos }
+            upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) insert $endpos }
+            lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) insert $endpos }
+          }
+        }
+      }
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -1933,6 +2032,100 @@ namespace eval vim {
       } else {
         bell
       }
+      return 1
+    } elseif {([string range $mode($txtt) 0 5] eq "change") || \
+              ([string range $mode($txtt) 0 5] eq "delete")} {
+      if {[string index $mode($txtt) end] eq "V"} {
+        $txtt delete "insert linestart" "insert+1l linestart"
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+1c"
+        } else {
+          set endpos "insert"
+        }
+        if {$number($txtt) ne ""} {
+          if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
+            $txtt delete "insert linestart" $endpos
+            adjust_insert $txtt
+          } else {
+            $txtt delete "insert-$number($txtt)c" $endpos
+          }
+        } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
+          $txtt delete "insert-1c" $endpos
+        } else {
+          bell
+        }
+      }
+      adjust_insert $txtt
+      if {[string range $mode($txtt) 0 5] eq "change"} {
+        edit_mode $txtt
+      } else {
+        start_mode $txtt
+      }
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
+      clipboard clear
+      if {[string index $mode($txtt) end] eq "V"} {
+        clipboard append [$txtt get "insert linestart" "insert lineend"]
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+1c"
+        } else {
+          set endpos "insert"
+        }
+        if {$number($txtt) ne ""} {
+          if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
+            clipboard append [$txtt get "insert linestart" $endpos]
+          } else {
+            clipboard append [$txtt get "insert-$number($txtt)c" $endpos]
+          }
+        } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
+          clipboard append [$txtt get "insert-1c" $endpos]
+        } else {
+          bell
+        }
+      }
+      start_mode $txtt
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "case")} {
+      set type [lindex [split $mode($txtt) :] 1]
+      if {[string index $mode($txtt) end] eq "V"} {
+        switch $type {
+          swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
+          upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+        }
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+1c"
+        } else {
+          set endpos "insert"
+        }
+        if {$number($txtt) ne ""} {
+          if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
+            switch $type {
+              swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert linestart" $endpos }
+              upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert linestart" $endpos }
+              lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert linestart" $endpos }
+            }
+          } else {
+            switch $type {
+              swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
+              upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
+              lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
+            }
+          }
+        } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
+          switch $type {
+            swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert-1c" $endpos }
+            upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert-1c" $endpos }
+            lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert-1c" $endpos }
+          }
+        } else {
+          bell
+        }
+      }
+      start_mode $txtt
       return 1
     }
 
@@ -2400,6 +2593,24 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       undo $txtt
       return 1
+    } elseif {$mode($txtt) eq "goto"} {
+      set mode($txtt) "case:lower"
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in "goto" mode, convert the mode to uppercase mode.
+  proc handle_U {txtt tid} {
+
+    variable mode
+
+    if {$mode($txtt) eq "goto"} {
+      set mode($txtt) "case:upper"
+      return 1
     }
 
     return 0
@@ -2700,6 +2911,9 @@ namespace eval vim {
       [ns folding]::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
+    } elseif {($mode($txtt) eq "change") || ($mode($txtt) eq "delete")} {
+      set mode($txtt) "$mode($txtt):v"
+      return 1
     }
 
     return 0
@@ -2714,6 +2928,9 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       visual_mode $txtt line
+      return 1
+    } elseif {($mode($txtt) eq "change") || ($mode($txtt) eq "delete")} {
+      set mode($txtt) "$mode($txtt):V"
       return 1
     }
 
@@ -3171,6 +3388,9 @@ namespace eval vim {
         start_mode $txtt
       }
       return 1
+    } elseif {$mode($txtt) eq "goto"} {
+      set mode($txtt) "case:swap"
+      return 1
     }
 
     return 0
@@ -3276,44 +3496,38 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, increments the insertion cursor by number
-  # characters.
+  # This is just a synonym for the 'l' command so we'll just call the
+  # handle_l procedure instead of replicating the code.
   proc handle_space {txtt tid} {
 
-    variable mode
-    variable number
-
-    if {$mode($txtt) eq "start"} {
-      set chars [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
-      ::tk::TextSetCursor $txtt "insert+$chars display char"
-      if {[$txtt index insert] eq [$txtt index "insert lineend"]} {
-        ::tk::TextSetCursor $txtt "insert+1 display char"
-      } else {
-        adjust_insert $txtt
-      }
-      return 1
-    }
-
-    return 0
+    return [handle_l $txtt $tid]
 
   }
 
   ######################################################################
-  # If we are in "start" mode, decrements the insertion cursor by number
-  # characters.
+  # This is just a synonym for the 'l' command so we'll just call the
+  # handle_l procedure instead of replicating the code.
+  proc handle_Right {txtt tid} {
+
+    return [handle_l $txtt $tid]
+
+  }
+
+  ######################################################################
+  # This is just a synonym for the 'h' command so we'll just call the
+  # handle_h procedure instead of replicating the code.
   proc handle_BackSpace {txtt tid} {
 
-    variable mode
-    variable number
+    return [handle_h $txtt $tid]
 
-    if {$mode($txtt) eq "start"} {
-      set chars [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
-      ::tk::TextSetCursor $txtt "insert-$chars display char"
-      adjust_insert $txtt
-      return 1
-    }
+  }
 
-    return 0
+  ######################################################################
+  # This is just a synonym for the 'h' command so we'll just call the
+  # handle_h procedure instead of replicating the code.
+  proc handle_Left {txtt tid} {
+
+    return [handle_h $txtt $tid]
 
   }
 
