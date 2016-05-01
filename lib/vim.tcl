@@ -3530,6 +3530,24 @@ namespace eval vim {
     return [handle_h $txtt $tid]
 
   }
+  
+  ######################################################################
+  # This is just a synonym for the 'k' command so we'll just call the
+  # handle_k procedure instead of replicating the code.
+  proc handle_Up {txtt tid} {
+    
+    return [handle_k $txtt $tid]
+    
+  }
+  
+  ######################################################################
+  # This is just a synonym for the 'j' command so we'll just call the
+  # handle_j procedure instead of replicating the code.
+  proc handle_Down {txtt tid} {
+    
+    return [handle_j $txtt $tid]
+    
+  }
 
   ######################################################################
   # If we are in start mode, transition to the folding mode.
