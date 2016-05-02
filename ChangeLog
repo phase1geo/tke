@@ -1,61 +1,60 @@
-changeset:   2120:577fcf9285e1
-tag:         devel-2.4.4
+changeset:   2127:beda5d28b255
+tag:         devel-2.4.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 01:14:03 2016 -0500
+date:        Fri Apr 29 08:15:57 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.4 release
+ChangeLog for devel-2.4.5 release
 
 
-changeset:   2121:0d751736a0c6
+changeset:   2128:ce314bede9da
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 01:14:07 2016 -0500
+date:        Fri Apr 29 08:16:07 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.4 for changeset 577fcf9285e1
+Added tag devel-2.4.5 for changeset beda5d28b255
 
 
-changeset:   2122:56747e328579
+changeset:   2129:54ef782adac4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 08:45:50 2016 -0500
-files:       data/syntax/J.syntax lib/version.tcl
+date:        Sat Apr 30 00:09:18 2016 -0500
+files:       lib/indent.tcl lib/version.tcl
 description:
-* Adding J syntax.
+* Fixing support for automatically unindenting HTML/XML-like syntax.
 
 
-changeset:   2123:f90d3dc77948
+changeset:   2130:3c96ba2703ba
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 19:15:08 2016 -0500
-files:       data/syntax/ABAP.syntax lib/version.tcl
+date:        Sat Apr 30 01:00:58 2016 -0500
+files:       data/syntax/Jade.syntax lib/version.tcl
 description:
-* Adding ABAP syntax.
+* Adding Jade syntax.
 
 
-changeset:   2124:5aa4184c0466
+changeset:   2131:297dc2b138ae
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 19:20:00 2016 -0500
-files:       data/syntax/Forth.syntax lib/version.tcl
+date:        Sat Apr 30 20:07:24 2016 -0500
+files:       data/syntax/Julia.syntax lib/version.tcl
 description:
-* Initial creation of Forth syntax file (needs work).
+* Adding Julia syntax.
 
 
-changeset:   2125:d64f7d640940
+changeset:   2132:7ff4071af630
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 23:12:46 2016 -0500
-files:       data/syntax/Forth.syntax data/syntax/syntax.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
+date:        Sat Apr 30 23:24:22 2016 -0500
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Adding Forth syntax.
-* Adding escapes syntax file specifier to allow languages that don't contain escapes to work properly.
+* Adding h, backspace, left, l, space and right motion support for change, delete, and yank commands.
+* Adding Left and Right Vim commands.
+* Adding start of gu and gU Vim command support.
 
 
-changeset:   2126:0cb858e6f94c
+changeset:   2133:3464deefb9d6
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 29 00:27:27 2016 -0500
-files:       data/preferences.tkedat data/syntax/ABAP.syntax lib/completer.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
+date:        Sun May 01 07:59:54 2016 -0500
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Adding support for backtick matching character.
-* Adding support for backtick character jumping.
-* Adding backtick support in ABAP syntax.
+* Adding support for Up and Down Vim commands.
 
 
