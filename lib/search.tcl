@@ -400,7 +400,7 @@ namespace eval search {
 
     } else {
 
-      $txt insert -moddata ignore end "ERROR: $result\n\n\n"
+      $txt insert -moddata ignore end "No matches were found for \"$find_expr\"\n\n\n"
 
     }
 
