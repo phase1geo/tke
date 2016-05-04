@@ -3132,33 +3132,38 @@ namespace eval gui {
       -font [font create -family Helvetica -size 30 -weight bold]
 
     ttk::frame .aboutwin.f.if
-    ttk::label .aboutwin.f.if.l0 -text [format "%s:" [msgcat::mc "Developer"]]
-    ttk::label .aboutwin.f.if.v0 -text "Trevor Williams"
-    ttk::label .aboutwin.f.if.l1 -text [format "%s:" [msgcat::mc "Email"]]
-    ttk::label .aboutwin.f.if.v1 -text "phase1geo@gmail.com"
-    ttk::label .aboutwin.f.if.l2 -text "Twitter:"
-    ttk::label .aboutwin.f.if.v2 -text "@TkeTextEditor"
-    ttk::label .aboutwin.f.if.l3 -text [format "%s:" [msgcat::mc "Version"]]
-    ttk::label .aboutwin.f.if.v3 -text $version_str
-    ttk::label .aboutwin.f.if.l4 -text [format "%s:" [msgcat::mc "Release Type"]]
-    ttk::label .aboutwin.f.if.v4 -text $release_type
-    ttk::label .aboutwin.f.if.l5 -text [format "%s:" [msgcat::mc "Tcl/Tk Version"]]
-    ttk::label .aboutwin.f.if.v5 -text [info patchlevel]
-    ttk::label .aboutwin.f.if.l6 -text [format "%s:" [msgcat::mc "License"]]
-    ttk::label .aboutwin.f.if.v6 -text "GPL 2.0"
+    ttk::label .aboutwin.f.if.l0 -text [format "%s:" [msgcat::mc "Version"]]
+    ttk::label .aboutwin.f.if.v0 -text $version_str
+    ttk::label .aboutwin.f.if.l1 -text [format "%s:" [msgcat::mc "Release Type"]]
+    ttk::label .aboutwin.f.if.v1 -text $release_type
+    ttk::label .aboutwin.f.if.l2 -text [format "%s:" [msgcat::mc "License"]]
+    ttk::label .aboutwin.f.if.v2 -text "GPL 2.0"
+    ttk::label .aboutwin.f.if.l3 -text [format "%s:" [msgcat::mc "Tcl/Tk Version"]]
+    ttk::label .aboutwin.f.if.v3 -text [info patchlevel]
+    ttk::label .aboutwin.f.if.l4 -text [format "\n%s:" [msgcat::mc "Developer"]]
+    ttk::label .aboutwin.f.if.v4 -text "\nTrevor Williams"
+    ttk::label .aboutwin.f.if.l5 -text [format "%s:" [msgcat::mc "Email"]]
+    ttk::label .aboutwin.f.if.v5 -text "phase1geo@gmail.com"
+    ttk::label .aboutwin.f.if.l6 -text "Twitter:"
+    ttk::label .aboutwin.f.if.v6 -text "@TkeTextEditor"
+    ttk::label .aboutwin.f.if.l7 -text "Website:"
+    ttk::label .aboutwin.f.if.v7 -text "http://tke.sourceforge.net"
 
-    bind .aboutwin.f.if.v1 <Enter>    "%W configure -cursor [ttk::cursor link]"
-    bind .aboutwin.f.if.v1 <Leave>    "%W configure -cursor [ttk::cursor standard]"
-    bind .aboutwin.f.if.v1 <Button-1> "[ns utils]::open_file_externally {mailto:phase1geo@gmail.com} 1"
     bind .aboutwin.f.if.v2 <Enter>    "%W configure -cursor [ttk::cursor link]"
     bind .aboutwin.f.if.v2 <Leave>    "%W configure -cursor [ttk::cursor standard]"
-    bind .aboutwin.f.if.v2 <Button-1> "[ns utils]::open_file_externally {https://twitter.com/TkeTextEditor} 1"
-    bind .aboutwin.f.if.v6 <Enter>    "%W configure -cursor [ttk::cursor link]"
-    bind .aboutwin.f.if.v6 <Leave>    "%W configure -cursor [ttk::cursor standard]"
-    bind .aboutwin.f.if.v6 <Button-1> {
+    bind .aboutwin.f.if.v2 <Button-1> {
       destroy .aboutwin
       gui::add_file end [file join $::tke_dir LICENSE] -sidebar 0 -readonly 1
     }
+    bind .aboutwin.f.if.v5 <Enter>    "%W configure -cursor [ttk::cursor link]"
+    bind .aboutwin.f.if.v5 <Leave>    "%W configure -cursor [ttk::cursor standard]"
+    bind .aboutwin.f.if.v5 <Button-1> "[ns utils]::open_file_externally {mailto:phase1geo@gmail.com} 1"
+    bind .aboutwin.f.if.v6 <Enter>    "%W configure -cursor [ttk::cursor link]"
+    bind .aboutwin.f.if.v6 <Leave>    "%W configure -cursor [ttk::cursor standard]"
+    bind .aboutwin.f.if.v6 <Button-1> "[ns utils]::open_file_externally {https://twitter.com/TkeTextEditor} 1"
+    bind .aboutwin.f.if.v7 <Enter>    "%W configure -cursor [ttk::cursor link]"
+    bind .aboutwin.f.if.v7 <Leave>    "%W configure -cursor [ttk::cursor standard]"
+    bind .aboutwin.f.if.v7 <Button-1> "[ns utils]::open_file_externally {http://tke.sourceforge.net} 1"
 
     grid .aboutwin.f.if.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v0 -row 0 -column 1 -sticky news -padx 2 -pady 2
@@ -3174,6 +3179,8 @@ namespace eval gui {
     grid .aboutwin.f.if.v5 -row 5 -column 1 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.l6 -row 6 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v6 -row 6 -column 1 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.l7 -row 7 -column 0 -sticky news -padx 2 -pady 2
+    grid .aboutwin.f.if.v7 -row 7 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 16]
 
