@@ -4,6 +4,10 @@ filepatterns
 vimsyntax
 {verilog}
 
+embedded {
+  {Verilog}
+}
+
 matchcharsallowed
 {curly square paren double}
 
@@ -13,11 +17,15 @@ tabsallowed
 casesensitive
 {1}
 
-indent
-{begin task function casex casez module generate}
+indent {
+  begin task function casex casez module generate class clocking group
+  interface package program property sequence
+}
 
-unindent
-{end endtask endfunction endcase endmodule endgenerate}
+unindent {
+  end endtask endfunction endcase endmodule endgenerate endclass endclocking endgroup
+  endinterface endpackage endprogram endproperty endsequence
+}
 
 icomment {{//}}
 
@@ -29,18 +37,6 @@ strings {{"}}
 
 keywords
 {
-  always and assign begin buf bufif0 bufif1 case casex casez cmos deassign default defparam
-  disable edge else end endcase endfunction endmodule endprimitive endspecify endtable endtask
-  event for force forever fork function highz0 highz1 if initial inout input integer join
-  large macromodule medium module nand negedge nmos nor not notif0 notif1 or output parameter
-  pmos posedge primitive pull0 pull1 pulldown pullup rcmos real realtime reg release repeat
-  rnmos rpmos rtran rtranif0 rtranif1 scalered signed small specify specparam strong0 strong1
-  supply0 supply1 table task time tran tranif0 tranif1 tri tri0 tri1 triand trior trireg
-  vectored wait wand weak0 weak1 while wire wor xnor xor
-
-  automatic cell config design endconfig endgenerate generate genvar instance liblist library
-  localparam noshowcancelled pulsestyle_onevent pulsestyle_ondetect showcancelled use
-
   alias always_comb always_ff always_latch assert assume bind bins binsof bit before break byte
   chandle char class clocking const constraint context continue cover covergroup coverpoint
   cross dist do endclass endclocking endgroup endinterface endpackage endprogram endproperty
@@ -49,7 +45,7 @@ keywords
   join_none local logic longint matches modport new null option. package packed priority
   program property protected pure rand randc randcase randomize randsequence ref return scalared
   sequence shortint shortreal solve static struct super tagged this throughout timeprecision
-  timeunit type typedef type_option. union unique unsigned virtual void wait_order wildcard with
+  timeunit type typedef type_option union unique unsigned virtual void wait_order wildcard with
   within
 }
 
@@ -68,12 +64,3 @@ precompile
   HighlightRegexp {#line|`\w+} {}
 }
 
-miscellaneous1
-{
-  HighlightWithOnlyCharStart \$ {}
-}
-
-miscellaneous2
-{
-  HighlightRegexp {#line|`\w+} {}
-}
