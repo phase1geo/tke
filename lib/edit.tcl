@@ -73,7 +73,9 @@ namespace eval edit {
     if {[[ns multicursor]::enabled $txtt]} {
       [ns multicursor]::adjust $txtt "+1l" 1 dspace
     } else {
+      puts "HERE A"
       $txtt insert "insert lineend" "\n"
+      puts "HERE B"
     }
 
     # Perform the insertion

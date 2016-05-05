@@ -449,7 +449,7 @@ namespace eval indent {
 
     # Insert leading whitespace to match current indentation level
     if {$indent_space ne ""} {
-      $txtt insert $index $indent_space
+      $txtt insert "$index linestart" $indent_space
     }
 
     # If we need to restore the insertion cursor, do it now
