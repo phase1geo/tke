@@ -107,8 +107,6 @@ namespace eval folding {
   # Disables code folding in the given text widget.
   proc disable_folding {txt} {
 
-    puts "In disable_folding"
-
     # Remove all folded text
     $txt tag remove _folded 1.0 end
 
@@ -120,8 +118,6 @@ namespace eval folding {
   ######################################################################
   # Enables code folding in the current text widget.
   proc enable_folding {txt} {
-
-    puts "In enable_folding"
 
     # Get the color used to highlight closed folds
     set close_fg [$txt cget -insertbackground]
