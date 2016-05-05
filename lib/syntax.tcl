@@ -990,12 +990,32 @@ namespace eval syntax {
   ######################################################################
   # Checks to see if the previous line contains a list item and inserts
   # a new list item of the same type.
-  proc get_markdown_list {txt startpos endpos} {
+  proc get_markdown_list_check {txt startpos endpos} {
     
-    puts "HERE A"
-    
+    puts "HERE 1, insert: [$txt index insert]"
     if {[lindex [split [$txt index insert] .] 1] == 0} {
-      puts "HERE B"
+      if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
+        set line [$txt get $prevend-1c "$prevend lineend"]
+        if {[lsearch -exact {{+ } {* } {> } {- }} [string range $line 0 1]] != -1} {
+          if {[string trim [string range $line 2 end]] eq ""} {
+            $txt._t delete "insert-1l linestart" insert
+          } else {
+            $txt._t insert insert [string range $line 0 1]
+          }
+        } elseif {[regexp {^(\d+)\. (.*)$} $line -> num rest]} {
+          if {[string trim $rest] eq ""} {
+            $txt._t delete "insert-1l linestart" insert
+          } else {
+            $txt._t insert insert "[expr $num + 1]. "
+          }
+        } elseif {[regexp {^(\[[ xX]\]) (.*)$} $line -> checkbox rest]} {
+          if {[string trim $rest] eq ""} {
+            $txt._t delete "insert-1l linestart" insert
+          } else {
+            $txt._t insert insert "$checkbox "
+          }
+        }
+      }
     }
     
   }

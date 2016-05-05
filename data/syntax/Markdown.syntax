@@ -48,6 +48,6 @@ advanced {
   HighlightRegexp {(~)(?=\S).+?\1}              syntax::get_markdown_subscript
   HighlightRegexp {(\^)(?=\S).+?\1}             syntax::get_markdown_superscript
   HighlightRegexp {(={2})(?=\S).+?\1}           syntax::get_markdown_highlight
-  HighlightRegexp {^\s*[^+*>1-9-]}              syntax::get_markdown_list
+  HighlightRegexp {.*}                          syntax::get_markdown_list_check
 }
 
