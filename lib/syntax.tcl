@@ -986,6 +986,19 @@ namespace eval syntax {
     }
 
   }
+  
+  ######################################################################
+  # Checks to see if the previous line contains a list item and inserts
+  # a new list item of the same type.
+  proc get_markdown_list {txt startpos endpos} {
+    
+    puts "HERE A"
+    
+    if {[lindex [split [$txt index insert] .] 1] == 0} {
+      puts "HERE B"
+    }
+    
+  }
 
   ######################################################################
   # Parses an XML tag.
