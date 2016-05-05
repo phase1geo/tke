@@ -1365,7 +1365,7 @@ proc ctext::command_fastinsert {win args} {
 proc ctext::command_highlight {win args} {
 
   variable data
-
+  
   set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]

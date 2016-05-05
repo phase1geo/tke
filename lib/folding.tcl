@@ -119,20 +119,32 @@ namespace eval folding {
   # Enables code folding in the current text widget.
   proc enable_folding {txt} {
 
-    # Get the color used to highlight closed folds
-    set close_fg [$txt cget -insertbackground]
-
     # Add the folding gutter
     $txt gutter create folding \
       open   [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
-      close  [list -symbol \u25b6 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0] -fg $close_fg] \
+      close  [list -symbol \u25b6 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
       eopen  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
       eclose [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
       end    [list -symbol \u221f]
 
     # Create a tag that will cause stuff to hide
     $txt.t tag configure _folded -elide 1
+    
+    # Update the closed marker color
+    update_closed $txt
 
+  }
+  
+  ######################################################################
+  # Update the closed marker colors.
+  proc update_closed {txt} {
+    
+    # Get the color used to highlight closed folds
+    set close_fg [$txt cget -insertbackground]
+
+    # Update the folding color
+    $txt gutter configure folding close -fg $close_fg
+    
   }
 
   ######################################################################
