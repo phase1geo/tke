@@ -107,6 +107,8 @@ namespace eval folding {
   # Disables code folding in the given text widget.
   proc disable_folding {txt} {
 
+    puts "In disable_folding"
+
     # Remove all folded text
     $txt tag remove _folded 1.0 end
 
@@ -119,10 +121,15 @@ namespace eval folding {
   # Enables code folding in the current text widget.
   proc enable_folding {txt} {
 
+    puts "In enable_folding"
+
+    # Get the color used to highlight closed folds
+    set close_fg [$txt cget -insertbackground]
+
     # Add the folding gutter
     $txt gutter create folding \
       open   [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
-      close  [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
+      close  [list -symbol \u25b6 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0] -fg $close_fg] \
       eopen  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
       eclose [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
       end    [list -symbol \u221f]
@@ -143,7 +150,7 @@ namespace eval folding {
         set startpos [lindex $range 0]
       }
     }
-    
+
     set startline    [lindex [split [$txt index $startpos] .] 0]
     set endline      [lindex [split [$txt index $endpos]   .] 0]
     set lines(open)  [list]
