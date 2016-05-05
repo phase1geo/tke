@@ -1,43 +1,52 @@
-changeset:   2134:31b57334c69b
-tag:         devel-2.4.6
+changeset:   2139:505520c54a58
+tag:         devel-2.4.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 02 01:33:41 2016 -0500
+date:        Wed May 04 00:15:22 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.6 release
+ChangeLog for devel-2.4.7 release
 
 
-changeset:   2135:301ca869fe93
+changeset:   2140:68594ec3e739
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 02 01:33:47 2016 -0500
+date:        Wed May 04 00:16:11 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.6 for changeset 31b57334c69b
+Added tag devel-2.4.7 for changeset 505520c54a58
 
 
-changeset:   2136:0a8a7ad684f0
+changeset:   2141:ed9291d8d2e6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 03 22:35:19 2016 -0500
-files:       data/syntax/SystemVerilog.syntax data/syntax/Verilog.syntax lib/version.tcl
+date:        Wed May 04 18:10:48 2016 -0500
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Adding Verilog syntax.
-* Enhancing SystemVerilog syntax.
+* Adding TKE website information to About window.
+* Re-arranging the About window to place tool-specific information at the top and developer information at the bottom.
 
 
-changeset:   2137:cc50deed52c8
+changeset:   2142:4eff619023bc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 03 23:04:09 2016 -0500
-files:       data/syntax/Go.syntax lib/version.tcl
+date:        Wed May 04 18:25:08 2016 -0500
+files:       lib/search.tcl lib/version.tcl
 description:
-* Adding Go syntax.
+* Improving Find in Files output when no matching text is found.
 
 
-changeset:   2138:8f7f015a80ea
+changeset:   2143:16eaa4232e0b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 04 19:25:56 2016 -0500
+files:       lib/folding.tcl lib/version.tcl
+description:
+* Changing close fold symbol and color to help make closed folds more evident.
+
+
+changeset:   2144:526109da3db6
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 03 23:59:07 2016 -0500
-files:       data/syntax/R.syntax lib/version.tcl
+date:        Thu May 05 00:53:28 2016 -0500
+files:       lib/folding.tcl lib/gui.tcl lib/version.tcl
 description:
-* Adding R syntax.
+* Removing debug output.
+* Increasing the size of the About window.
 
 
