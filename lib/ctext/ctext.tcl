@@ -624,7 +624,7 @@ proc ctext::inCommentString {win index {prange ""}} {
 
 }
 
-proc ctext::highlight {win lineStart lineEnd} {
+proc ctext::highlight {win lineStart lineEnd ins} {
 
   variable data
 
@@ -634,7 +634,7 @@ proc ctext::highlight {win lineStart lineEnd} {
   }
 
   # Perform the highlight in the background
-  ctext::doHighlight $win $lineStart $lineEnd
+  ctext::doHighlight $win $lineStart $lineEnd $ins
 
 }
 
@@ -892,7 +892,7 @@ proc ctext::undo {win} {
         }
       }
 
-      $win highlight "$val1 linestart" "$val2 lineend"
+      $win highlight "$val1 linestart" "$val2 lineend" [expr {$cmd eq "i"}]
 
       set last_cursor $cursor
 
@@ -954,7 +954,7 @@ proc ctext::redo {win} {
         }
       }
 
-      $win highlight "$val1 linestart" "$val2 lineend"
+      $win highlight "$val1 linestart" "$val2 lineend" [expr {$cmd eq "i"}]
 
       incr i
 
@@ -1184,7 +1184,7 @@ proc ctext::command_delete {win args} {
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  ctext::highlightAll $win $lineStart $lineEnd $chars_deleted
+  ctext::highlightAll $win $lineStart $lineEnd $chars_deleted 0
   ctext::modified     $win 1 [list delete $lineStart $lineEnd $moddata]
 
   event generate $win.t <<CursorChanged>>
@@ -1300,7 +1300,7 @@ proc ctext::command_diff {win args} {
 
       # Insert the string and highlight it
       $win._t insert $tline.0 $str
-      $win highlight $tline.0 $pos
+      $win highlight $tline.0 $pos 1
 
       # Add the tags
       $win._t tag add $tagA $start_posA [$win._t index "$end_posA+${count}l linestart"]
@@ -1374,7 +1374,7 @@ proc ctext::command_highlight {win args} {
   set lineStart [$win._t index "[lindex $args 0] linestart"]
   set lineEnd   [$win._t index "[lindex $args 1] lineend"]
 
-  ctext::highlightAll $win $lineStart $lineEnd
+  ctext::highlightAll $win $lineStart $lineEnd 0
   ctext::modified     $win 0 [list highlight $lineStart $lineEnd $moddata]
 
 }
@@ -1427,7 +1427,7 @@ proc ctext::command_insert {win args} {
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
   set lines   [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win $lineStart $lineEnd [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
+  ctext::highlightAll $win $lineStart $lineEnd 1 [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
   ctext::modified     $win 1 [list insert $lineStart $lineEnd $moddata]
 
   event generate $win.t <<CursorChanged>>
@@ -1471,7 +1471,7 @@ proc ctext::command_replace {win args} {
   set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win $lineStart $lineEnd [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
+  ctext::highlightAll $win $lineStart $lineEnd 1 [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
   ctext::modified     $win 1 [list delete $startPos $endPos $moddata]
   ctext::modified     $win 1 [list insert $lineStart $lineEnd $moddata]
 
@@ -2189,7 +2189,7 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
 
 }
 
-proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
+proc ctext::highlightAll {win linestart lineend ins {do_tag 0}} {
 
   variable data
 
@@ -2215,11 +2215,11 @@ proc ctext::highlightAll {win linestart lineend {do_tag 0}} {
     }
     ctext::brackets    $win $linestart end
     ctext::indentation $win $linestart end
-    ctext::highlight   $win $linestart end
+    ctext::highlight   $win $linestart end $ins
   } else {
     ctext::brackets    $win $linestart $lineend
     ctext::indentation $win $linestart $lineend
-    ctext::highlight   $win $linestart $lineend
+    ctext::highlight   $win $linestart $lineend $ins
   }
 
 }
@@ -2740,7 +2740,7 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
 
 }
 
-proc ctext::doHighlight {win start end} {
+proc ctext::doHighlight {win start end ins} {
 
   variable data
   variable REs
@@ -2809,7 +2809,7 @@ proc ctext::doHighlight {win start end} {
           set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
           incr i
           if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
-            if {![catch { {*}$value $win $res $wordEnd } retval] && ([llength $retval] == 2)} {
+            if {![catch { {*}$value $win $res $wordEnd $ins } retval] && ([llength $retval] == 2)} {
               foreach sub [lindex $retval 0] {
                 if {[llength $sub] == 4} {
                   handle_tag $win {*}$sub

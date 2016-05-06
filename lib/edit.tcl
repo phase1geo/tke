@@ -44,12 +44,13 @@ namespace eval edit {
     # Create the new line
     if {[[ns multicursor]::enabled $txtt]} {
       [ns multicursor]::adjust $txtt "-1l" 1 dspace
-    } else {
+    } elseif {[$txtt compare "insert linestart" == 1.0]} {
       $txtt insert "insert linestart" "\n"
+      ::tk::TextSetCursor $txtt "insert-1l"
+    } else {
+      ::tk::TextSetCursor $txtt "insert-1l lineend"
+      $txtt insert "insert lineend" "\n"
     }
-    
-    # Place the insertion cursor
-    ::tk::TextSetCursor $txtt "insert-1l"
     
     # Perform the proper indentation
     [ns indent]::newline $txtt insert
@@ -73,15 +74,14 @@ namespace eval edit {
     if {[[ns multicursor]::enabled $txtt]} {
       [ns multicursor]::adjust $txtt "+1l" 1 dspace
     } else {
-      puts "HERE A"
+      ::tk::TextSetCursor $txtt "insert lineend"
       $txtt insert "insert lineend" "\n"
-      puts "HERE B"
     }
 
     # Perform the insertion
-    if {$insert == [$txtt index insert]} {
-      ::tk::TextSetCursor $txtt "insert+1l"
-    }
+    # if {$insert == [$txtt index insert]} {
+    #   ::tk::TextSetCursor $txtt "insert+1l"
+    # }
     $txtt see insert
 
     # Perform the proper indentation
