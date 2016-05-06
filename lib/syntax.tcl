@@ -758,7 +758,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for syntax-file symbols.
-  proc get_syntax_symbol {txt startpos endpos} {
+  proc get_syntax_symbol {txt startpos endpos ins} {
 
     if {[lindex [split $startpos .] 1] == 0} {
       return [list symbols: $startpos $endpos [list]]
@@ -771,7 +771,7 @@ namespace eval syntax {
   ######################################################################
   # Returns the information for symbols that are preceded by the word
   # specified with startpos/endpos.
-  proc get_prefixed_symbol {txt startpos endpos} {
+  proc get_prefixed_symbol {txt startpos endpos ins} {
 
     set type [$txt get $startpos $endpos]
     if {[set startpos [$txt search -count lengths -regexp -- {\w+} $endpos]] ne ""} {
@@ -784,7 +784,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown code string.
-  proc get_markdown_ccode {txt startpos endpos} {
+  proc get_markdown_ccode {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _code $startpos $endpos
@@ -801,7 +801,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown code string.
-  proc get_markdown_code {txt startpos endpos} {
+  proc get_markdown_code {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
@@ -820,7 +820,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown header string.
-  proc get_markdown_header {txt startpos endpos} {
+  proc get_markdown_header {txt startpos endpos ins} {
 
     if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
       set num [string length $hashes]
@@ -834,7 +834,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown bold string.
-  proc get_markdown_bold {txt startpos endpos} {
+  proc get_markdown_bold {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _italics $startpos $endpos
@@ -851,7 +851,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown italics string.
-  proc get_markdown_italics {txt startpos endpos} {
+  proc get_markdown_italics {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
@@ -870,7 +870,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown overstrike string.
-  proc get_markdown_overstrike {txt startpos endpos} {
+  proc get_markdown_overstrike {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       return [list [list [list strike        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
@@ -886,7 +886,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown highlighter string.
-  proc get_markdown_highlight {txt startpos endpos} {
+  proc get_markdown_highlight {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       return [list [list [list hilite [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
@@ -900,7 +900,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown subscript string.
-  proc get_markdown_subscript {txt startpos endpos} {
+  proc get_markdown_subscript {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _strikemarkers] == -1) && \
@@ -919,7 +919,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown subscript string.
-  proc get_markdown_superscript {txt startpos endpos} {
+  proc get_markdown_superscript {txt startpos endpos ins} {
 
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       return [list [list [list super [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
@@ -933,7 +933,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown link string.
-  proc get_markdown_link {txt startpos endpos} {
+  proc get_markdown_link {txt startpos endpos ins} {
 
     if {[$txt get "$startpos-1c"] ne "\\"} {
       if {[regexp {^\[(.+?)\]((\s*)\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy ref linkref url]} {
@@ -961,7 +961,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the information for the given Markdown link reference.
-  proc get_markdown_linkref {txt startpos endpos} {
+  proc get_markdown_linkref {txt startpos endpos ins} {
 
     variable markdown_linkrefs
 
@@ -990,29 +990,19 @@ namespace eval syntax {
   ######################################################################
   # Checks to see if the previous line contains a list item and inserts
   # a new list item of the same type.
-  proc get_markdown_list_check {txt startpos endpos} {
+  proc get_markdown_list_check {txt startpos endpos ins} {
     
-    puts "HERE 1, insert: [$txt index insert]"
-    if {[lindex [split [$txt index insert] .] 1] == 0} {
+    if {([lindex [split [$txt index insert] .] 1] == 0) && $ins} {
       if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
-        set line [$txt get $prevend-1c "$prevend lineend"]
-        if {[lsearch -exact {{+ } {* } {> } {- }} [string range $line 0 1]] != -1} {
-          if {[string trim [string range $line 2 end]] eq ""} {
-            $txt._t delete "insert-1l linestart" insert
-          } else {
-            $txt._t insert insert [string range $line 0 1]
-          }
-        } elseif {[regexp {^(\d+)\. (.*)$} $line -> num rest]} {
+        if {[regexp {^([+*>-]|(\d+)\.|\[[ xX]\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
             $txt._t delete "insert-1l linestart" insert
-          } else {
-            $txt._t insert insert "[expr $num + 1]. "
-          }
-        } elseif {[regexp {^(\[[ xX]\]) (.*)$} $line -> checkbox rest]} {
-          if {[string trim $rest] eq ""} {
-            $txt._t delete "insert-1l linestart" insert
-          } else {
-            $txt._t insert insert "$checkbox "
+          } elseif {![regexp {^\s*([+*>-]|(\d+)\.|\[[ xX]\])} [$txt get insert "insert lineend"]]} {
+            if {($num ne "")} {
+              $txt._t insert insert "[expr $num + 1]. "
+            } else {
+              $txt._t insert insert "$match "
+            }
           }
         }
       }
@@ -1022,7 +1012,7 @@ namespace eval syntax {
 
   ######################################################################
   # Parses an XML tag.
-  proc get_xml_tag {txt startpos endpos} {
+  proc get_xml_tag {txt startpos endpos ins} {
 
     set str [$txt get $startpos $endpos]
 
@@ -1041,7 +1031,7 @@ namespace eval syntax {
 
   ######################################################################
   # Returns the XML attribute to highlight.
-  proc get_xml_attribute {txt startpos endpos} {
+  proc get_xml_attribute {txt startpos endpos ins} {
 
     return [list [list [list attribute $startpos [$txt index "$endpos-1c"] [list]]] ""]
 
