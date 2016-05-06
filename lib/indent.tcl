@@ -200,7 +200,7 @@ namespace eval indent {
   proc is_auto_indent_available {txt} {
 
     variable indent_exprs
-
+    
     return [expr {$indent_exprs($txt.t,indent) ne ""}]
 
   }
