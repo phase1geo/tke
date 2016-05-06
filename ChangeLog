@@ -1,52 +1,54 @@
-changeset:   2139:505520c54a58
-tag:         devel-2.4.7
+changeset:   2145:a02e1df23242
+tag:         devel-2.4.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 00:15:22 2016 -0500
+date:        Thu May 05 00:55:19 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.7 release
+ChangeLog for devel-2.4.8 release
 
 
-changeset:   2140:68594ec3e739
+changeset:   2146:d4bf6976d76d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 00:16:11 2016 -0500
+date:        Thu May 05 00:55:29 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.7 for changeset 505520c54a58
+Added tag devel-2.4.8 for changeset a02e1df23242
 
 
-changeset:   2141:ed9291d8d2e6
+changeset:   2147:981dc3f7d81d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 18:10:48 2016 -0500
-files:       lib/gui.tcl lib/version.tcl
+date:        Thu May 05 08:32:06 2016 -0500
+files:       lib/ctext/ctext.tcl lib/folding.tcl lib/theme.tcl lib/version.tcl
 description:
-* Adding TKE website information to About window.
-* Re-arranging the About window to place tool-specific information at the top and developer information at the bottom.
+* Fixing issue where closed markers are reset when theme changes.
+* Fixing closed marker coloring when theme changes.
 
 
-changeset:   2142:4eff619023bc
+changeset:   2148:b8a185a2eb29
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 18:25:08 2016 -0500
-files:       lib/search.tcl lib/version.tcl
+date:        Thu May 05 09:01:46 2016 -0500
+files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
 description:
-* Improving Find in Files output when no matching text is found.
+* Checkpointing work on lists in Markdown.
 
 
-changeset:   2143:16eaa4232e0b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 19:25:56 2016 -0500
-files:       lib/folding.tcl lib/version.tcl
+changeset:   2149:20282f106bbd
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu May 05 17:34:34 2016 -0500
+files:       data/syntax/Markdown.syntax lib/edit.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Changing close fold symbol and color to help make closed folds more evident.
+* Checkpointing work on adding support for auto list-style syntax insertion in Markdown.
 
 
-changeset:   2144:526109da3db6
+changeset:   2150:8997bec5a67c
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 00:53:28 2016 -0500
-files:       lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Fri May 06 00:09:43 2016 -0500
+files:       lib/ctext/ctext.tcl lib/edit.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Removing debug output.
-* Increasing the size of the About window.
+* Fixing 'o' Vim command in Markdown list mode.
+* Fixing 'O' Vim command in Markdown list mode.
+* Fixing deletion of characters in Markdown list mode.
+* Adding insertion indication in syntax highlighting callback procedures.
 
 
