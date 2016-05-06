@@ -118,21 +118,29 @@ namespace eval folding {
   ######################################################################
   # Enables code folding in the current text widget.
   proc enable_folding {txt} {
-
+    
     # Add the folding gutter
     $txt gutter create folding \
       open   [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
-      close  [list -symbol \u25b6 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
+      close  [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
       eopen  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
       eclose [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
       end    [list -symbol \u221f]
 
-    # Create a tag that will cause stuff to hide
-    $txt.t tag configure _folded -elide 1
+    # Restart the folding
+    restart $txt
     
     # Update the closed marker color
     update_closed $txt
 
+  }
+  
+  ######################################################################
+  # Restarts the folder after the text widget has had its tags cleared.
+  proc restart {txt} {
+    
+    $txt.t tag configure _folded -elide 1
+    
   }
   
   ######################################################################
@@ -143,7 +151,8 @@ namespace eval folding {
     set close_fg [$txt cget -insertbackground]
 
     # Update the folding color
-    $txt gutter configure folding close -fg $close_fg
+    $txt gutter configure folding close  -fg $close_fg
+    $txt gutter configure folding eclose -fg $close_fg
     
   }
 
@@ -473,7 +482,7 @@ namespace eval folding {
 
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
-
+    
     # Hide the text
     $txt tag add _folded $startpos $endpos
 

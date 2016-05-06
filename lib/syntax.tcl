@@ -408,6 +408,7 @@ namespace eval syntax {
     # Re-highlight
     if {$opts(-highlight)} {
       $txt highlight 1.0 end
+      folding::restart $txt
     }
 
     # Generate a <<ThemeChanged>> event on the text widget
