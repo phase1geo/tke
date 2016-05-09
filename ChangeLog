@@ -1,54 +1,27 @@
-changeset:   2145:a02e1df23242
-tag:         devel-2.4.8
+changeset:   2151:92bc1e46106c
+tag:         devel-2.4.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 00:55:19 2016 -0500
+date:        Fri May 06 00:11:45 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.8 release
+ChangeLog for devel-2.4.9 release
 
 
-changeset:   2146:d4bf6976d76d
+changeset:   2152:f9a75fd5b88e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 00:55:29 2016 -0500
+date:        Fri May 06 00:12:23 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.8 for changeset a02e1df23242
+Added tag devel-2.4.9 for changeset 92bc1e46106c
 
 
-changeset:   2147:981dc3f7d81d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 08:32:06 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/theme.tcl lib/version.tcl
-description:
-* Fixing issue where closed markers are reset when theme changes.
-* Fixing closed marker coloring when theme changes.
-
-
-changeset:   2148:b8a185a2eb29
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 09:01:46 2016 -0500
-files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on lists in Markdown.
-
-
-changeset:   2149:20282f106bbd
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu May 05 17:34:34 2016 -0500
-files:       data/syntax/Markdown.syntax lib/edit.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on adding support for auto list-style syntax insertion in Markdown.
-
-
-changeset:   2150:8997bec5a67c
+changeset:   2153:0916853099fa
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 00:09:43 2016 -0500
-files:       lib/ctext/ctext.tcl lib/edit.tcl lib/syntax.tcl lib/version.tcl
+date:        Fri May 06 08:27:59 2016 -0500
+files:       lib/folding.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing 'o' Vim command in Markdown list mode.
-* Fixing 'O' Vim command in Markdown list mode.
-* Fixing deletion of characters in Markdown list mode.
-* Adding insertion indication in syntax highlighting callback procedures.
+* Fixing issues with code folder when the language is changed.
+* Coloring eclose folded types in addition to close types.
 
 
