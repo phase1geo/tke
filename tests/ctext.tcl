@@ -261,7 +261,7 @@ namespace eval ctext {
   }
 
   # Verify the clipboard append command
-  proc run_test10 {} {
+  proc run_test9 {} {
 
     set txt [initialize]
 
@@ -292,7 +292,7 @@ namespace eval ctext {
   }
 
   # Verify the cget and configure commands
-  proc run_test11 {} {
+  proc run_test10 {} {
 
     set txt [initialize]
 
@@ -327,7 +327,7 @@ namespace eval ctext {
   }
 
   # Verify other flavors of configure
-  proc run_test12 {} {
+  proc run_test11 {} {
 
     set txt  [initialize]
     set opts [$txt configure]
@@ -370,7 +370,7 @@ namespace eval ctext {
   }
 
   # Verify the copy command
-  proc run_test13 {} {
+  proc run_test12 {} {
 
     set txt [initialize]
 
@@ -404,7 +404,7 @@ namespace eval ctext {
   }
 
   # Verify the cut command
-  proc run_test14 {} {
+  proc run_test13 {} {
 
     set txt [initialize]
 
@@ -440,7 +440,7 @@ namespace eval ctext {
   }
 
   # Verify the delete command
-  proc run_test15 {} {
+  proc run_test14 {} {
 
     set txt [initialize]
 
@@ -523,7 +523,7 @@ namespace eval ctext {
   }
 
   # Verify the fastdelete command
-  proc run_test16 {} {
+  proc run_test15 {} {
 
     set txt [initialize]
 
@@ -548,7 +548,7 @@ namespace eval ctext {
   }
 
   # Verify the fastinsert command
-  proc run_test17 {} {
+  proc run_test16 {} {
 
     set txt [initialize]
 
@@ -572,7 +572,7 @@ namespace eval ctext {
   }
 
   # Verify the highlight command
-  proc run_test18 {} {
+  proc run_test17 {} {
 
     set txt [initialize]
 
@@ -614,7 +614,7 @@ namespace eval ctext {
   }
 
   # Verify the insert command
-  proc run_test19 {} {
+  proc run_test18 {} {
 
     set txt [initialize]
 
@@ -638,7 +638,7 @@ namespace eval ctext {
   }
 
   # Verify the replace command
-  proc run_test20 {} {
+  proc run_test19 {} {
 
     set txt [initialize]
 
@@ -694,17 +694,17 @@ namespace eval ctext {
 
   }
 
-  proc run_test21 {} {
+  proc run_test20 {} {
 
     set txt [initialize]
-
+    
     clipboard clear
     clipboard append "\nset foobar \"good\""
 
     vim::remove_dspace $txt
-
+    
     $txt paste
-
+    
     # TBD - The extra space after the sentence is our dspace character (I believe) and should
     #       not be there.
     if {[$txt get 2.0 2.end] ne "set foobar \"good\""} {
