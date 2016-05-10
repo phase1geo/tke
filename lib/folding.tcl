@@ -522,7 +522,7 @@ namespace eval folding {
     set ranges [list]
     set count  0
     foreach {tline tag} [concat {*}[get_gutter_info $txt]] {
-      if {($count == 0) && (($tag eq "open") || ($tag eq "eopen")} {
+      if {($count == 0) && (($tag eq "open") || ($tag eq "eopen"))} {
         set oline [expr $tline + 1]
       }
       if {[incr count $inc($tag)] == 0} {
