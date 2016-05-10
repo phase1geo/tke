@@ -47,21 +47,28 @@ namespace eval folding {
     set txt [initialize]
 
     # Get the preference setting
-    set pref [preferences::get View/CodeFoldingMethod]
+    set pref [expr {[preferences::get View/EnableCodeFolding] ? "syntax" : "none"}]
 
     # Verify that the code folding mode matches the preference setting
     if {[folding::get_method $txt] ne $pref} {
       cleanup "Preference setting does not match text folding status"
     }
     
-    foreach method [list none manual syntax manual none syntax none] {
+    if {$pref eq "syntax"} {
+      
+      foreach method [list manual indent syntax indent manual syntax] {
 
-      # Disable code folding
-      folding::set_fold_method $txt $method
+        switch $method {
+          manual { indent::set_indent_mode {} OFF }
+          indent { indent::set_indent_mode {} IND }
+          syntax { indent::set_indent_mode {} IND+ }
+        }
 
-      # Verify that we are disabled
-      if {[folding::get_method $txt] ne $method} {
-        cleanup "Setting code folding method to $method failed"
+        # Verify that we are disabled
+        if {[folding::get_method $txt] ne $method} {
+          cleanup "Setting code folding method to $method failed"
+        }
+        
       }
 
     }
@@ -250,7 +257,7 @@ namespace eval folding {
     }
     
     # Set the folding mode to manual
-    folding::set_fold_method $txt manual
+    indent::set_indent_mode {} OFF
     
     foreach type [list line range all] {
       
@@ -306,7 +313,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
     
-    folding::set_fold_method $txt manual
+    indent::set_indent_mode {} OFF
     folding::close_range $txt 7.0 9.0
     folding::close_range $txt 2.0 5.0
     
@@ -378,7 +385,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
     
-    folding::set_fold_method $txt manual
+    indent::set_indent_mode {} OFF
     folding::close_range $txt 2.0 5.0
     folding::close_range $txt 7.0 9.0
     
@@ -436,7 +443,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
     
-    folding::set_fold_method $txt manual
+    indent::set_indent_mode {} OFF
     
     $txt mark set insert 5.0
     folding::close_range $txt 2.0 9.0

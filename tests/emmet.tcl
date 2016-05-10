@@ -15,8 +15,8 @@ namespace eval emmet {
     # Get the text widget
     set txt [gui::get_info $current_tab tab txt]
 
-    # Set the current syntax to Tcl
-    syntax::set_language $txt Tcl
+    # Set the current syntax to HTML
+    syntax::set_language $txt HTML
 
     return $txt
 
