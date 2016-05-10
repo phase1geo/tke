@@ -1,27 +1,36 @@
-changeset:   2151:92bc1e46106c
-tag:         devel-2.4.9
+changeset:   2154:06f1b9a48388
+tag:         devel-2.4.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 00:11:45 2016 -0500
+date:        Mon May 09 08:44:40 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.9 release
+ChangeLog for devel-2.4.10 release
 
 
-changeset:   2152:f9a75fd5b88e
+changeset:   2155:65e930012eda
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 00:12:23 2016 -0500
+date:        Mon May 09 08:44:46 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.9 for changeset 92bc1e46106c
+Added tag devel-2.4.10 for changeset 06f1b9a48388
 
 
-changeset:   2153:0916853099fa
+changeset:   2156:5c1cd5217861
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon May 09 23:15:43 2016 -0500
+files:       lib/indent.tcl lib/version.tcl tests/ctext.tcl
+description:
+* Fixing file parsing issue in indent.tcl.
+* Fixing ctext BIST test numbering.
+
+
+changeset:   2157:0c158506c7c7
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 08:27:59 2016 -0500
-files:       lib/folding.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
+date:        Mon May 09 23:51:56 2016 -0500
+files:       lib/folding.tcl lib/version.tcl tests/emmet.tcl tests/folding.tcl
 description:
-* Fixing issues with code folder when the language is changed.
-* Coloring eclose folded types in addition to close types.
+* Fixing syntax error in code folding namespace.
+* Fixing BIST failures.
 
 
