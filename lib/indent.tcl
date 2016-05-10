@@ -284,9 +284,11 @@ namespace eval indent {
   proc line_contains_indentation {txtt index} {
 
     # Ignore whitespace
-    while {[string trim [$txtt get "$index linestart" "$index lineend"]] eq ""} {
-      if {[set index [$txtt index "$index-1l lineend"]] eq "1.0"} {
-        break
+    if {[lsearch [$txtt tag names "$index linestart"] _prewhite] == -1} {
+      if {[set range [$txtt tag prevrange _prewhite "$index lineend"]] ne ""} {
+        set index [$txtt index "[lindex $range 1] lineend"]
+      } else {
+        set index 1.0
       }
     }
 
@@ -340,7 +342,7 @@ namespace eval indent {
   # Returns the whitespace found at the beginning of the specified logical
   # line.
   proc get_start_of_line {txtt index} {
-
+    
     # Ignore whitespace
     if {[lsearch [$txtt tag names "$index linestart"] _prewhite] == -1} {
       if {[set range [$txtt tag prevrange _prewhite "$index lineend"]] ne ""} {
@@ -349,7 +351,7 @@ namespace eval indent {
         set index 1.0
       }
     }
-
+    
     # Find an ending bracket on the current line
     set win_type       "none"
     set startpos(none) "$index linestart"
@@ -360,7 +362,7 @@ namespace eval indent {
         set win_type $type
       }
     }
-
+    
     # If we could not find a right bracket, we have found the line that we are looking for
     if {$win_type eq "none"} {
       if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
@@ -520,7 +522,7 @@ namespace eval indent {
     set endpos       [$txtt index $endpos]
     set indent_space ""
     set shiftwidth   [get_shiftwidth $txtt]
-
+    
     while {[$txtt compare $curpos < $endpos]} {
 
       if {$curpos ne "1.0"} {
@@ -560,7 +562,7 @@ namespace eval indent {
 
       # Adjust the startpos
       set curpos [$txtt index "$curpos+1l linestart"]
-
+      
     }
 
     # Create a separator
