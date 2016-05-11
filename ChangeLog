@@ -1,36 +1,27 @@
-changeset:   2154:06f1b9a48388
-tag:         devel-2.4.10
+changeset:   2158:9582cd51bb4d
+tag:         devel-2.4.11
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 08:44:40 2016 -0500
+date:        Mon May 09 23:54:38 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.10 release
+ChangeLog for devel-2.4.11 release
 
 
-changeset:   2155:65e930012eda
+changeset:   2159:34ae634538c4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 08:44:46 2016 -0500
+date:        Mon May 09 23:54:44 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.10 for changeset 06f1b9a48388
+Added tag devel-2.4.11 for changeset 9582cd51bb4d
 
 
-changeset:   2156:5c1cd5217861
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 23:15:43 2016 -0500
-files:       lib/indent.tcl lib/version.tcl tests/ctext.tcl
-description:
-* Fixing file parsing issue in indent.tcl.
-* Fixing ctext BIST test numbering.
-
-
-changeset:   2157:0c158506c7c7
+changeset:   2160:0eeccefc24dd
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 23:51:56 2016 -0500
-files:       lib/folding.tcl lib/version.tcl tests/emmet.tcl tests/folding.tcl
+date:        Tue May 10 23:56:42 2016 -0500
+files:       lib/ctext/ctext.tcl lib/indent.tcl lib/version.tcl tests/ctext.tcl
 description:
-* Fixing syntax error in code folding namespace.
-* Fixing BIST failures.
+* Fixing issues with HTML indentation.
+* Improving performance of counting indentation tags in a given range.
 
 
