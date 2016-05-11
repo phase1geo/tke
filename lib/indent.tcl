@@ -530,7 +530,12 @@ namespace eval indent {
         # indentation whitespace.
         if {[set epos [lassign [$txtt tag nextrange _unindent $curpos "$curpos lineend"] spos]] ne ""} {
           if {[set tindex [get_match_indent $txtt $spos]] ne ""} {
-            set indent_space [get_start_of_line $txtt $tindex]
+            if {[$txtt compare "$tindex linestart" == "$spos linestart"] && ([lindex [$txtt tag nextrange _prewhite "$tindex linestart"] 1] eq [$txtt index "$tindex+1c"])} {
+              set indent_space [get_start_of_line $txtt "$tindex-1l lineend"]
+              append indent_space [string repeat " " $shiftwidth]
+            } else {
+              set indent_space [get_start_of_line $txtt $tindex]
+            }
           } else {
             set indent_space [get_start_of_line $txtt $epos]
           }
