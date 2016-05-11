@@ -1365,7 +1365,7 @@ proc ctext::command_fastinsert {win args} {
 proc ctext::command_highlight {win args} {
 
   variable data
-  
+
   set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
@@ -1552,6 +1552,39 @@ proc ctext::command_tag {win args} {
         $win._t tag raise $tag {*}$args
       }
       return
+    }
+    nextrange -
+    prevrange {
+      set args [lassign $args subcmd tag]
+      if {($tag eq "_indent") || ($tag eq "_unindent") || ($tag eq "_reindent") || ($tag eq "_reindentStart")} {
+        lassign [$win._t tag $subcmd ${tag}0 {*}$args] s0 e0
+        lassign [$win._t tag $subcmd ${tag}1 {*}$args] s1 e1
+        if {$s0 eq ""} {
+          if {$s1 eq ""} {
+            return ""
+          } else {
+            return [list $s1 $e1]
+          }
+        } else {
+          if {$s1 eq ""} {
+            return [list $s0 $e0]
+          } elseif {$subcmd eq "nextrange"} {
+            if {[$win._t compare $s0 < $s1]} {
+              return [list $s0 $e0]
+            } else {
+              return [list $s1 $e1]
+            }
+          } else {
+            if {[$win._t compare $s0 > $s1]} {
+              return [list $s0 $e0]
+            } else {
+              return [list $s1 $e1]
+            }
+          }
+        }
+      } else {
+        return [$win._t tag $subcmd $tag {*}$args]
+      }
     }
     default {
       return [$win._t tag {*}$args]
@@ -2479,11 +2512,15 @@ proc ctext::indentation {twin start end} {
     set lang  [lindex $elems 3]
     set type  [lindex $elems 4]
     set i     0
+    array set indices {0 {} 1 {}}
     foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
       if {![inCommentString $twin $res] && ![isEscaped $twin $res] && ([get_lang $twin $res] eq $lang)} {
-        $twin tag add _$type $res "$res+[lindex $lengths $i]c"
+        lappend indices([expr $i & 1]) $res "$res+[lindex $lengths $i]c"
       }
       incr i
+    }
+    foreach i {0 1} {
+      catch { $twin tag add _$type$i {*}$indices($i) }
     }
   }
 
