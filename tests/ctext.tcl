@@ -333,7 +333,7 @@ namespace eval ctext {
     set opts [$txt configure]
     set len  [llength $opts]
 
-    if {$len != 71} {
+    if {$len != 73} {
       cleanup "Missing options from configure return with no options ($len)"
     }
 
@@ -697,14 +697,14 @@ namespace eval ctext {
   proc run_test20 {} {
 
     set txt [initialize]
-    
+
     clipboard clear
     clipboard append "\nset foobar \"good\""
 
     vim::remove_dspace $txt
-    
+
     $txt paste
-    
+
     # TBD - The extra space after the sentence is our dspace character (I believe) and should
     #       not be there.
     if {[$txt get 2.0 2.end] ne "set foobar \"good\""} {

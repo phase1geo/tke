@@ -200,7 +200,7 @@ namespace eval indent {
   proc is_auto_indent_available {txt} {
 
     variable indent_exprs
-    
+
     return [expr {$indent_exprs($txt.t,indent) ne ""}]
 
   }
@@ -317,19 +317,19 @@ namespace eval indent {
 
     while {($ofirst ne "") && ($sfirst ne "")} {
       if {[$txtt compare $sfirst > $ofirst]} {
-        if {[incr count -[$txtt count -chars $sfirst $slast]] <= 0} {
-          return "$sfirst+[expr 0 - $count]c"
+        if {[incr count -1] == 0} {
+          return $sfirst
         }
         lassign [$txtt tag prevrange _indent $sfirst] sfirst slast
       } else {
-        incr count [$txtt count -chars $ofirst $olast]
+        incr count
         lassign [$txtt tag prevrange _unindent $ofirst] ofirst olast
       }
     }
 
     while {$sfirst ne ""} {
-      if {[incr count -[$txtt count -chars $sfirst $slast]] <= 0} {
-        return "$sfirst+[expr 0 - $count]c"
+      if {[incr count -1] == 0} {
+        return $sfirst
       }
       lassign [$txtt tag prevrange _indent $sfirst] sfirst slast
     }
@@ -342,7 +342,7 @@ namespace eval indent {
   # Returns the whitespace found at the beginning of the specified logical
   # line.
   proc get_start_of_line {txtt index} {
-    
+
     # Ignore whitespace
     if {[lsearch [$txtt tag names "$index linestart"] _prewhite] == -1} {
       if {[set range [$txtt tag prevrange _prewhite "$index lineend"]] ne ""} {
@@ -351,7 +351,7 @@ namespace eval indent {
         set index 1.0
       }
     }
-    
+
     # Find an ending bracket on the current line
     set win_type       "none"
     set startpos(none) "$index linestart"
@@ -362,7 +362,7 @@ namespace eval indent {
         set win_type $type
       }
     }
-    
+
     # If we could not find a right bracket, we have found the line that we are looking for
     if {$win_type eq "none"} {
       if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
@@ -428,7 +428,7 @@ namespace eval indent {
 
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
-      if {[lsearch [$txtt tag names "$endpos-1c"] _unindent] != -1} {
+      if {[lsearch [$txtt tag names "$endpos-1c"] _unindent*] != -1} {
         $txtt insert insert "$indent_space\n"
         set restore_insert [$txtt index insert-1c]
         if {$indent_exprs($txtt,mode) eq "IND+"} {
@@ -492,10 +492,8 @@ namespace eval indent {
 
     # Count all tags that are not within comments or are escaped
     while {[set range [$txtt tag nextrange _$tag $start $end]] ne ""} {
-      lassign $range index start
-      if {![ctext::inCommentString $txtt $index]} {
-        incr count [expr [regexp -all $indent_exprs($txtt,$tag) [$txtt get $index $start]] - [ctext::isEscaped $txtt $index]]
-      }
+      incr count
+      set start [lindex $range 1]
     }
 
     return $count
@@ -522,7 +520,7 @@ namespace eval indent {
     set endpos       [$txtt index $endpos]
     set indent_space ""
     set shiftwidth   [get_shiftwidth $txtt]
-    
+
     while {[$txtt compare $curpos < $endpos]} {
 
       if {$curpos ne "1.0"} {
@@ -530,10 +528,14 @@ namespace eval indent {
         # If the current line contains an unindent expression, is not within a comment or string,
         # and is preceded in the line by only whitespace, replace the whitespace with the proper
         # indentation whitespace.
-        if {([set epos [lassign [$txtt tag nextrange _unindent $curpos] spos]] ne "") && [$txtt compare "$epos linestart" == $curpos]} {
-          set indent_space [get_start_of_line $txtt $epos]
+        if {[set epos [lassign [$txtt tag nextrange _unindent $curpos "$curpos lineend"] spos]] ne ""} {
+          if {[set tindex [get_match_indent $txtt $spos]] ne ""} {
+            set indent_space [get_start_of_line $txtt $tindex]
+          } else {
+            set indent_space [get_start_of_line $txtt $epos]
+          }
 
-        } elseif {([set epos [lassign [$txtt tag nextrange _reindent $curpos] spos]] ne "") && [$txtt compare "$epos linestart" == $curpos] && [check_reindent_for_unindent $txtt $spos]} {
+        } elseif {([set epos [lassign [$txtt tag nextrange _reindent $curpos "$curpos lineend"] spos]] ne "") && [check_reindent_for_unindent $txtt $spos]} {
           set indent_space [get_start_of_line $txtt [$txtt index "$curpos-1l lineend"]]
           if {[string trim [$txtt get "$curpos linestart" $spos]] eq ""} {
             set indent_space [string range $indent_space $shiftwidth end]
@@ -562,7 +564,7 @@ namespace eval indent {
 
       # Adjust the startpos
       set curpos [$txtt index "$curpos+1l linestart"]
-      
+
     }
 
     # Create a separator
