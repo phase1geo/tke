@@ -293,12 +293,12 @@ namespace eval indent {
     }
 
     # Check to see if the current line contains an indentation symbol towards the end of the line
-    if {([lassign [$txtt tag prevrange _indent $index] ipos] ne "") && [$txtt compare $ipos >= "$index linestart"]} {
+    if {[lassign [$txtt tag prevrange _indent $index "$index linestart"] ipos] ne ""} {
       return [expr {([lassign [$txtt tag prevrange _unindent $index] upos] eq "") || [$txtt compare $ipos > $upos]}]
     }
 
     # Returns true if we have a reindent symbol in the current line
-    return [expr {([lassign [$txtt tag prevrange _reindent $index] ipos] ne "") && [$txtt compare $ipos >= "$index linestart"]}]
+    return [expr {[lassign [$txtt tag prevrange _reindent $index "$index linestart"] ipos] ne ""}]
 
   }
 
