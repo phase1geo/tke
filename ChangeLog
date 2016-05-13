@@ -1,34 +1,70 @@
-changeset:   2161:0914fb1ede63
-tag:         devel-2.4.12
+changeset:   2165:ff59df8be7f7
+tag:         devel-2.4.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 11 08:20:09 2016 -0500
+date:        Thu May 12 08:31:49 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.4.12 release
+ChangeLog for devel-2.4.13 release
 
 
-changeset:   2162:fb2f289d3597
+changeset:   2166:8d7eb94b3210
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 11 08:20:22 2016 -0500
+date:        Thu May 12 08:31:54 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.4.12 for changeset 0914fb1ede63
+Added tag devel-2.4.13 for changeset ff59df8be7f7
 
 
-changeset:   2163:5f1f1308355b
+changeset:   2167:2469c20866fc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 11 18:22:36 2016 -0500
+date:        Thu May 12 08:38:01 2016 -0500
+files:       lib/version.tcl release.tcl
+description:
+* Adding tests directory to MacOSX disk image.
+
+
+changeset:   2168:44854f78212f
+parent:      2163:5f1f1308355b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed May 11 19:30:26 2016 -0500
 files:       lib/indent.tcl lib/version.tcl
 description:
-* Fixing format_text issue found in HTML/XML-like syntax.
+* Minor code optimization in indentation code.
 
 
-changeset:   2164:bbb6d0b6880f
+changeset:   2169:2fc210f6ac3d
+parent:      2168:44854f78212f
+parent:      2167:2469c20866fc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 12 20:57:25 2016 -0500
+files:       lib/indent.tcl lib/version.tcl
+description:
+Merge
+
+
+changeset:   2170:635cfd31f62f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 12 21:33:21 2016 -0500
+files:       lib/indent.tcl lib/version.tcl tests/emmet.tcl
+description:
+* Fixing issues with indentation.
+* Adding Emmet test to verify fix.
+
+
+changeset:   2171:d090ad349b82
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu May 12 23:22:13 2016 -0500
+files:       lib/folding.tcl lib/version.tcl tests/folding.tcl
+description:
+* Adding folding test for indent mode.
+
+
+changeset:   2172:3897757bf6aa
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 08:30:53 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
+date:        Fri May 13 08:38:10 2016 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
 description:
-* Fixing format_text issues (BIST now runs clean again).
+* Updating translations.
 
 
