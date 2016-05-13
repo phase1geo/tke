@@ -245,7 +245,7 @@ proc generate_macosx_dmg {tag} {
 
   set scripts_dir [file join $release_dir MacOSX Tke.app Contents Resources Scripts tke]
 
-  foreach dir [list data doc lib plugins specl_version.tcl specl_customize.xml LICENSE] {
+  foreach dir [list data doc lib plugins specl_version.tcl specl_customize.xml tests LICENSE] {
 
     # Delete the symbolic link
     if {[file exists [file join $scripts_dir $dir]]} {
