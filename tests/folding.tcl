@@ -53,9 +53,9 @@ namespace eval folding {
     if {[folding::get_method $txt] ne $pref} {
       cleanup "Preference setting does not match text folding status"
     }
-    
+
     if {$pref eq "syntax"} {
-      
+
       foreach method [list manual indent syntax indent manual syntax] {
 
         switch $method {
@@ -68,7 +68,7 @@ namespace eval folding {
         if {[folding::get_method $txt] ne $method} {
           cleanup "Setting code folding method to $method failed"
         }
-        
+
       }
 
     }
@@ -105,7 +105,7 @@ namespace eval folding {
         cleanup "Fold state on line $i did not match expected 1 ([folding::fold_state $txt $i])"
       }
     }
-    
+
     # Close one of the opened folds
     folding::close_fold 1 $txt 6
     if {[folding::fold_state $txt 6] ne "close"} {
@@ -239,36 +239,36 @@ namespace eval folding {
     cleanup
 
   }
-  
+
   # Verify manual mode
   proc run_test5 {} {
-    
+
     # Create the text widget
     set txt [initialize]
-    
+
     for {set i 0} {$i < 5} {incr i} {
       $txt insert end "This is line $i\n"
     }
-    
+
     for {set i 0} {$i < 5} {incr i} {
       if {[folding::fold_state $txt $i] ne "none"} {
         cleanup "Folding state of line $i is not none ([folding::fold_state $txt $i])"
       }
     }
-    
+
     # Set the folding mode to manual
     indent::set_indent_mode {} OFF
-    
+
     foreach type [list line range all] {
-      
+
       # Select and fold some of the text
       $txt tag add sel 2.0 5.0
       folding::close_selected $txt
-       
+
       if {[$txt tag ranges sel] ne ""} {
         cleanup "Selection was not removed ([$txt tag ranges sel])"
       }
-       
+
       # Check the fold state of the current lines
       set states [list none close none none end]
       for {set i 0} {$i < 5} {incr i} {
@@ -277,46 +277,46 @@ namespace eval folding {
           cleanup "Folding state of line $i is not [lindex $states $i] ([folding::fold_state $txt $line])"
         }
       }
-       
+
       # Delete the fold
       switch $type {
         line  { folding::delete_fold $txt 2 }
         range { folding::delete_folds_in_range $txt 1 3 }
         all   { folding::delete_all_folds $txt }
       }
-       
+
       # Verify that the folding has cleared
       for {set i 0} {$i < 5} {incr i} {
         if {[folding::fold_state $txt $i] ne "none"} {
           cleanup "Folding state of line $i is not none ([folding::fold_state $txt $i])"
         }
       }
-      
+
       if {[$txt tag ranges _folded] ne [list]} {
         cleanup "Text is not hidden ([$txt tag ranges _folded])"
       }
-      
+
     }
-    
+
     # Clean things up
     cleanup
-    
+
   }
-  
+
   # Verify open methods
   proc run_test6 {} {
-    
+
     # Create the text widget
     set txt [initialize]
-    
+
     for {set i 0} {$i < 10} {incr i} {
       $txt insert end "This is line $i\n"
     }
-    
+
     indent::set_indent_mode {} OFF
     folding::close_range $txt 7.0 9.0
     folding::close_range $txt 2.0 5.0
-    
+
     set lines [list none close none none end none close none end none]
     for {set i 0} {$i < 10} {incr i} {
       set line [expr $i + 1]
@@ -324,11 +324,11 @@ namespace eval folding {
         cleanup "Folding state of line $line is not expected ([folding::fold_state $txt $line])"
       }
     }
-    
+
     foreach {index type} [list 0 line 0 line 1 range 1 range 0 all 0 all] {
-      
+
       set x [expr ($index == 0) ? 1 : 6]
-      
+
       switch $type {
         line {
           if {[lindex $lines $x] eq "close"} {
@@ -360,116 +360,177 @@ namespace eval folding {
           }
         }
       }
-    
+
       for {set i 0} {$i < 10} {incr i} {
         set line [expr $i + 1]
         if {[folding::fold_state $txt $line] ne [lindex $lines $i]} {
           cleanup "Folding state of line $line is not expected ([folding::fold_state $txt $line])"
         }
       }
-    
+
     }
-    
+
     # Clean things up
     cleanup
-    
+
   }
-  
+
   # Verify jump functionality
   proc run_test7 {} {
-    
+
     # Create the text widget
     set txt [initialize]
-    
+
     for {set i 0} {$i < 10} {incr i} {
       $txt insert end "This is line $i\n"
     }
-    
+
     indent::set_indent_mode {} OFF
     folding::close_range $txt 2.0 5.0
     folding::close_range $txt 7.0 9.0
-    
+
     $txt mark set insert 1.0
-    
+
     folding::jump_to $txt next
-    
+
     if {[$txt index insert] ne 2.0} {
       cleanup "Insertion cursor incorrect A ([$txt index insert])"
     }
-    
+
     folding::jump_to $txt next
-    
+
     if {[$txt index insert] ne 7.0} {
       cleanup "Insertion cursor incorrect B ([$txt index insert])"
     }
-    
+
     folding::jump_to $txt next
-    
+
     if {[$txt index insert] ne 2.0} {
       cleanup "Insertion cursor incorrect C ([$txt index insert])"
     }
-    
+
     folding::jump_to $txt prev
-    
+
     if {[$txt index insert] ne 7.0} {
       cleanup "Insertion cursor incorrect D ([$txt index insert])"
     }
-    
+
     folding::jump_to $txt prev
-    
+
     if {[$txt index insert] ne 2.0} {
       cleanup "Insertion cursor incorrect E ([$txt index insert])"
     }
-    
+
     folding::delete_all_folds $txt
     folding::jump_to $txt next
-    
+
     if {[$txt index insert] ne 2.0} {
       cleanup "Insertion cursor incorrect F ([$txt index insert])"
     }
-    
+
     # Clean things up
     cleanup
-    
+
   }
-  
+
   # Verify show cursor functionality
   proc run_test8 {} {
-    
+
     # Create the text widget
     set txt [initialize]
-    
+
     for {set i 0} {$i < 10} {incr i} {
       $txt insert end "This is line $i\n"
     }
-    
+
     indent::set_indent_mode {} OFF
-    
+
     $txt mark set insert 5.0
     folding::close_range $txt 2.0 9.0
-    
+
     if {[$txt index insert] ne 5.0} {
       cleanup "Insertion cursor incorrect ([$txt index insert])"
-    } 
+    }
     if {[folding::fold_state $txt 2] ne "close"} {
       cleanup "Folding state is not closed ([folding::fold_state $txt 2])"
     }
     if {[lsearch [$txt tag names insert] _folded] == -1} {
       cleanup "Cursor is not hidden when it should be"
     }
-    
+
     folding::show_line $txt 5
-    
+
     if {[folding::fold_state $txt 2] ne "open"} {
       cleanup "Folding state is not opened ([folding::fold_state $txt 2])"
     }
     if {[lsearch [$txt tag names insert] _folded] != -1} {
       cleanup "Cursor is not shown when it should be"
     }
-        
+
     # Clean things up
     cleanup
-    
+
   }
-  
+
+  # Verify indentation code folding
+  proc run_test9 {} {
+
+    # Create text widget
+    set txt [initialize]
+
+    # Set the current syntax to Tcl
+    syntax::set_language $txt None
+
+    # Verify that the folding method is indent
+    if {[folding::get_method $txt] ne "indent"} {
+      cleanup "Folding method is not indent when it should be"
+    }
+
+    # Insert text
+    $txt insert end "\n"
+    $txt insert end "This is a line\n"
+    $txt insert end "This is also a line\n"
+    $txt insert end "  Item 1\n"
+    $txt insert end "  Item 2\n"
+    $txt insert end "    Sub-item A\n"
+    $txt insert end "    Sub-item B\n"
+    $txt insert end "  Item 3\n"
+    $txt insert end "\n"
+    $txt insert end "This is another line\n"
+    $txt insert end "  Item 4\n"
+    $txt insert end "This is the last line"
+
+    set states [list none none open none open none none end none eopen none end]
+
+    set i 1
+    foreach state $states {
+      if {[folding::fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
+        cleanup "Fold state on line $i did not match expected 1 ([folding::fold_state $txt $i])"
+      }
+      incr i
+    }
+
+    set j 1
+    foreach {line new_state fn} [list 3 close close 10 eclose close 10 eopen open 3 open open] {
+
+      folding::${fn}_fold 1 $txt $line
+      lset states [expr $line - 1] $new_state
+
+      set i 1
+      foreach state $states {
+        if {[folding::fold_state $txt $i] ne [lindex $states [expr $i - 1]]} {
+          cleanup "Fold state on line $i did not match expected $j ([folding::fold_state $txt $i])"
+        }
+        incr i
+      }
+
+      incr j
+
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
 }
