@@ -118,7 +118,7 @@ namespace eval folding {
   ######################################################################
   # Enables code folding in the current text widget.
   proc enable_folding {txt} {
-    
+
     # Add the folding gutter
     $txt gutter create folding \
       open   [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
@@ -129,31 +129,31 @@ namespace eval folding {
 
     # Restart the folding
     restart $txt
-    
+
     # Update the closed marker color
     update_closed $txt
 
   }
-  
+
   ######################################################################
   # Restarts the folder after the text widget has had its tags cleared.
   proc restart {txt} {
-    
+
     $txt.t tag configure _folded -elide 1
-    
+
   }
-  
+
   ######################################################################
   # Update the closed marker colors.
   proc update_closed {txt} {
-    
+
     # Get the color used to highlight closed folds
     set close_fg [$txt cget -insertbackground]
 
     # Update the folding color
     $txt gutter configure folding close  -fg $close_fg
     $txt gutter configure folding eclose -fg $close_fg
-    
+
   }
 
   ######################################################################
@@ -482,7 +482,7 @@ namespace eval folding {
 
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
-    
+
     # Hide the text
     $txt tag add _folded $startpos $endpos
 
