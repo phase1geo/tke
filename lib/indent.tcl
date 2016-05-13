@@ -511,10 +511,17 @@ namespace eval indent {
     $txtt edit separator
 
     # Check to see if there is only whitespace between the beginning of the line and the start position
-    if {[string trim [$txtt get "$startpos linestart" $startpos]] eq ""} {
-      set curpos [$txtt index "$startpos linestart"]
-    } else {
+    # if {[string trim [$txtt get "$startpos linestart" $startpos]] eq ""} {
+    #   set curpos [$txtt index "$startpos linestart"]
+    # } else {
+    #   set curpos [$txtt index "$startpos+1l linestart"]
+    # }
+    
+    # If we are the first line containing non-whitespace, preserve the indentation
+    if {[$txtt tag prevrange _prewhite "$startpos linestart"] eq ""} {
       set curpos [$txtt index "$startpos+1l linestart"]
+    } else {
+      set curpos [$txtt index "$startpos linestart"]
     }
 
     set endpos       [$txtt index $endpos]
@@ -532,7 +539,9 @@ namespace eval indent {
           if {[set tindex [get_match_indent $txtt $spos]] ne ""} {
             if {[$txtt compare "$tindex linestart" == "$spos linestart"] && ([lindex [$txtt tag nextrange _prewhite "$tindex linestart"] 1] eq [$txtt index "$tindex+1c"])} {
               set indent_space [get_start_of_line $txtt "$tindex-1l lineend"]
-              append indent_space [string repeat " " $shiftwidth]
+              if {[line_contains_indentation $txtt "$tindex-1l lineend"]} {
+                append indent_space [string repeat " " $shiftwidth]
+              }
             } else {
               set indent_space [get_start_of_line $txtt $tindex]
             }
