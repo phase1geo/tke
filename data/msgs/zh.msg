@@ -417,6 +417,9 @@ msgcat::mcmset zh {
   "Disable Vim mode"
   "禁用 Vim 模式"
 
+  "Disable code folding"
+  "禁用代码折叠"
+
   "Display Text Info"
   "显示文字"
 
@@ -468,8 +471,14 @@ msgcat::mcmset zh {
   "Edit user snippets"
   "编辑片段"
 
+  "Enable Code Folding"
+  "启用代码折叠"
+
   "Enable Vim mode"
   "启用 Vim 模式"
+
+  "Enable code folding"
+  "启用代码折叠"
 
   "Enumeration"
   "列举法"
@@ -509,9 +518,6 @@ msgcat::mcmset zh {
 
   "Find previous occurrence"
   "查找上一个"
-
-  "Fold Method"
-  "折叠方法"
 
   "Folding"
   "摺頁"
@@ -710,9 +716,6 @@ msgcat::mcmset zh {
 
   "Lower Case"
   "小写字母"
-
-  "Manual"
-  "手动"
 
   "Markers"
   "标记"
@@ -1068,15 +1071,6 @@ msgcat::mcmset zh {
   "Set current file line ending to LF for Unix"
   "设置当前文件行结束到 LF unix"
 
-  "Set folding method to manual"
-  "设定的折叠方法手册"
-
-  "Set folding method to none"
-  "设定的折叠方法为无"
-
-  "Set folding method to syntax"
-  "设定的折叠方法语法"
-
   "Set indent mode to"
   "将缩进模式设置为"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset zh {
   "Text Between Character"
   "字符之间的文本"
 
+  "Tips & Tricks"
+  "自定义"
+
   "Title Case"
   "词首字母大写"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset zh {
 
   "View global menu bindings"
   "查看全局菜单绑定"
+
+  "View tips & tricks articles"
+  "视图提示与技巧的文章"
 
   "View user guide"
   "用户指南"
@@ -1445,6 +1445,9 @@ msgcat::mcmset zh {
 
 # syntax.tcl
 msgcat::mcmset zh {
+
+  "Syntax"
+  "语法"
 
   "Syntax error in syntax file"
   "在语法文件中的语法错误"
@@ -1929,9 +1932,6 @@ msgcat::mcmset zh {
 
   "Split View"
   "拆分視圖"
-
-  "Syntax"
-  "语法"
 
   "Theme Editor"
   "主题编辑器"

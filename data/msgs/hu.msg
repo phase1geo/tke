@@ -417,6 +417,9 @@ msgcat::mcmset hu {
   "Disable Vim mode"
   "Vim mód letiltása"
 
+  "Disable code folding"
+  "Megbénít kód összecsukható"
+
   "Display Text Info"
   "Szöveg adatainak megjelenítése"
 
@@ -468,8 +471,14 @@ msgcat::mcmset hu {
   "Edit user snippets"
   "Kódrészletek felhasználó szerkesztése"
 
+  "Enable Code Folding"
+  "Engedélyezi a kód összecsukható"
+
   "Enable Vim mode"
   "Vim-üzemmód engedélyezése"
+
+  "Enable code folding"
+  "Engedélyezi a kód összecsukható"
 
   "Enumeration"
   "számláló"
@@ -509,9 +518,6 @@ msgcat::mcmset hu {
 
   "Find previous occurrence"
   "Még a korábbi előfordulása"
-
-  "Fold Method"
-  "Hajtsa be a módszer"
 
   "Folding"
   "Összecsukható"
@@ -710,9 +716,6 @@ msgcat::mcmset hu {
 
   "Lower Case"
   "Alsó-ügy"
-
-  "Manual"
-  "Használati útmutató"
 
   "Markers"
   "Markerek"
@@ -1068,15 +1071,6 @@ msgcat::mcmset hu {
   "Set current file line ending to LF for Unix"
   "Állítsa be az aktuális fájl vonal megszüntetése az LF UNIX"
 
-  "Set folding method to manual"
-  "Kézi módszer összecsukható készlet"
-
-  "Set folding method to none"
-  "Hajtogatás nincs mód beállítása"
-
-  "Set folding method to syntax"
-  "Módszer a mondattan összecsukható készlet"
-
   "Set indent mode to"
   "Rovátka mód beállítása"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset hu {
   "Text Between Character"
   "Karakter közé szöveget helyezünk"
 
+  "Tips & Tricks"
+  "Tippek és trükkök"
+
   "Title Case"
   "Szókezdő nagybetű"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset hu {
 
   "View global menu bindings"
   "Nézd globális menü kötések"
+
+  "View tips & tricks articles"
+  "Kilátás porkoláb & trükkök cikkek"
 
   "View user guide"
   "Használati útmutató"
@@ -1445,6 +1445,9 @@ msgcat::mcmset hu {
 
 # syntax.tcl
 msgcat::mcmset hu {
+
+  "Syntax"
+  "Szintaxis"
 
   "Syntax error in syntax file"
   "Szintaktikai hiba a fájl szintaxisa"
@@ -1929,9 +1932,6 @@ msgcat::mcmset hu {
 
   "Split View"
   "Osztott nézet"
-
-  "Syntax"
-  "Szintaxis"
 
   "Theme Editor"
   "Témaszerkesztő"

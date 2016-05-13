@@ -417,6 +417,9 @@ msgcat::mcmset es {
   "Disable Vim mode"
   "Desactivar el modo de Vim"
 
+  "Disable code folding"
+  "Desactivar código plegable"
+
   "Display Text Info"
   "Visualizar texto"
 
@@ -468,8 +471,14 @@ msgcat::mcmset es {
   "Edit user snippets"
   "Editar fragmentos de código de usuario"
 
+  "Enable Code Folding"
+  "Activar código plegable"
+
   "Enable Vim mode"
   "Activar el modo de Vim"
+
+  "Enable code folding"
+  "Activar código plegable"
 
   "Enumeration"
   "Enumeración"
@@ -509,9 +518,6 @@ msgcat::mcmset es {
 
   "Find previous occurrence"
   "Buscar anterior aparición"
-
-  "Fold Method"
-  "Método de doblez"
 
   "Folding"
   "reunido"
@@ -710,9 +716,6 @@ msgcat::mcmset es {
 
   "Lower Case"
   "Minúsculas"
-
-  "Manual"
-  "Manual"
 
   "Markers"
   "Marcadores"
@@ -1068,15 +1071,6 @@ msgcat::mcmset es {
   "Set current file line ending to LF for Unix"
   "Actual línea de archivo final LF para Unix"
 
-  "Set folding method to manual"
-  "Establecer método manual plegable"
-
-  "Set folding method to none"
-  "Conjunto plegable método a ninguno"
-
-  "Set folding method to syntax"
-  "Establecer método para sintaxis plegable"
-
   "Set indent mode to"
   "Ajuste modo de guión a"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset es {
   "Text Between Character"
   "Texto entre el carácter"
 
+  "Tips & Tricks"
+  "Consells i trucs"
+
   "Title Case"
   "Mayús/minús de título"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset es {
 
   "View global menu bindings"
   "Ver enlaces de menú global"
+
+  "View tips & tricks articles"
+  "Ver consejos y trucos artículos"
 
   "View user guide"
   "Ver Guía del usuario"
@@ -1445,6 +1445,9 @@ msgcat::mcmset es {
 
 # syntax.tcl
 msgcat::mcmset es {
+
+  "Syntax"
+  "Sintaxis"
 
   "Syntax error in syntax file"
   "Error de sintaxis en el archivo de sintaxis"
@@ -1929,9 +1932,6 @@ msgcat::mcmset es {
 
   "Split View"
   "Dividir la vista"
-
-  "Syntax"
-  "Sintaxis"
 
   "Theme Editor"
   "Editor de temas"

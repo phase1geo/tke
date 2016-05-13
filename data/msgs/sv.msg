@@ -417,6 +417,9 @@ msgcat::mcmset sv {
   "Disable Vim mode"
   "Inaktivera Vim läge"
 
+  "Disable code folding"
+  "Inaktivera kod vikning"
+
   "Display Text Info"
   "Displayinformation"
 
@@ -468,8 +471,14 @@ msgcat::mcmset sv {
   "Edit user snippets"
   "Redigera användare snuttar"
 
+  "Enable Code Folding"
+  "Aktivera kod vikning"
+
   "Enable Vim mode"
   "Aktivera Vim-läge"
+
+  "Enable code folding"
+  "Aktivera kod vikning"
 
   "Enumeration"
   "räkning"
@@ -509,9 +518,6 @@ msgcat::mcmset sv {
 
   "Find previous occurrence"
   "Hitta föregående förekomst"
-
-  "Fold Method"
-  "Vik metod"
 
   "Folding"
   "tvinning"
@@ -710,9 +716,6 @@ msgcat::mcmset sv {
 
   "Lower Case"
   "Små bokstäver"
-
-  "Manual"
-  "Manuellt"
 
   "Markers"
   "Marker"
@@ -1068,15 +1071,6 @@ msgcat::mcmset sv {
   "Set current file line ending to LF for Unix"
   "Ange nuvarande fil linje slutar att LF för Unix"
 
-  "Set folding method to manual"
-  "Ställa in vikning metod till manuell"
-
-  "Set folding method to none"
-  "Ställa in vikning metod till ingen"
-
-  "Set folding method to syntax"
-  "Ställa in vikning metod till syntax"
-
   "Set indent mode to"
   "Ställa in strecksatsen läge till"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset sv {
   "Text Between Character"
   "Text mellan karaktär"
 
+  "Tips & Tricks"
+  "Tips och trick"
+
   "Title Case"
   "Alltid stor begynnelsebokstav"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset sv {
 
   "View global menu bindings"
   "Visa globala menyn bindningar"
+
+  "View tips & tricks articles"
+  "Visa tips & tricks artiklar"
 
   "View user guide"
   "Användarhandbok"
@@ -1445,6 +1445,9 @@ msgcat::mcmset sv {
 
 # syntax.tcl
 msgcat::mcmset sv {
+
+  "Syntax"
+  "Syntax"
 
   "Syntax error in syntax file"
   "Syntaxfel i syntax filen"
@@ -1929,9 +1932,6 @@ msgcat::mcmset sv {
 
   "Split View"
   "Dela vy"
-
-  "Syntax"
-  "Syntax"
 
   "Theme Editor"
   "Temaredigeraren"

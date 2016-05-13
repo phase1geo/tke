@@ -417,6 +417,9 @@ msgcat::mcmset ru {
   "Disable Vim mode"
   "Отключить режим Vim"
 
+  "Disable code folding"
+  "Отключить сворачивание кода"
+
   "Display Text Info"
   "Текст на дисплее информация"
 
@@ -468,8 +471,14 @@ msgcat::mcmset ru {
   "Edit user snippets"
   "Редактирование фрагментов пользователя"
 
+  "Enable Code Folding"
+  "Включить сворачивание кода"
+
   "Enable Vim mode"
   "Включить режим Vim"
+
+  "Enable code folding"
+  "Включить сворачивание кода"
 
   "Enumeration"
   "перечисление"
@@ -509,9 +518,6 @@ msgcat::mcmset ru {
 
   "Find previous occurrence"
   "Найти предыдущего вхождения"
-
-  "Fold Method"
-  "Сложите метод"
 
   "Folding"
   "складной"
@@ -710,9 +716,6 @@ msgcat::mcmset ru {
 
   "Lower Case"
   "Минускул"
-
-  "Manual"
-  "Ручное"
 
   "Markers"
   "Указатели"
@@ -1068,15 +1071,6 @@ msgcat::mcmset ru {
   "Set current file line ending to LF for Unix"
   "Установить текущую строку файла, заканчивается в LF для Unix"
 
-  "Set folding method to manual"
-  "Набор складной способ руководства"
-
-  "Set folding method to none"
-  "Набор складной метод none"
-
-  "Set folding method to syntax"
-  "Набор складной метод для синтаксиса"
-
   "Set indent mode to"
   "Установите режим отступ"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset ru {
   "Text Between Character"
   "Текст между персонажа"
 
+  "Tips & Tricks"
+  "Советы и хитрости"
+
   "Title Case"
   "Название дела"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset ru {
 
   "View global menu bindings"
   "Просмотр глобальных меню привязок"
+
+  "View tips & tricks articles"
+  "Просмотр советы & советы статьи"
 
   "View user guide"
   "Руководство пользователя"
@@ -1445,6 +1445,9 @@ msgcat::mcmset ru {
 
 # syntax.tcl
 msgcat::mcmset ru {
+
+  "Syntax"
+  "Синтаксис"
 
   "Syntax error in syntax file"
   "Синтаксическая ошибка в синтаксис файла"
@@ -1929,9 +1932,6 @@ msgcat::mcmset ru {
 
   "Split View"
   "Разделить"
-
-  "Syntax"
-  "Синтаксис"
 
   "Theme Editor"
   "Визуальный редактор темы"
