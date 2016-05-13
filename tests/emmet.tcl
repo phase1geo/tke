@@ -1160,4 +1160,30 @@ namespace eval emmet {
 
   }
 
+  proc run_test44 {} {
+
+    set txt [initialize]
+    set str "<html>\n<nav>ul>li</nav>\n</html>"
+
+    $txt insert end $str
+    $txt mark set insert 2.10
+
+    emmet::expand_abbreviation {}
+
+    set actual [$txt get 1.0 end-1c]
+    set expect \
+{<html>
+<nav><ul>
+  <li></li>
+</ul>$0</nav>
+</html>}
+
+    if {$actual ne $expect} {
+      cleanup "$str did not expand properly ($actual)"
+    }
+
+    cleanup
+
+  }
+
 }

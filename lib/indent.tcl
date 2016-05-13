@@ -510,15 +510,9 @@ namespace eval indent {
     # Create a separator
     $txtt edit separator
 
-    # Check to see if there is only whitespace between the beginning of the line and the start position
-    # if {[string trim [$txtt get "$startpos linestart" $startpos]] eq ""} {
-    #   set curpos [$txtt index "$startpos linestart"]
-    # } else {
-    #   set curpos [$txtt index "$startpos+1l linestart"]
-    # }
-    
     # If we are the first line containing non-whitespace, preserve the indentation
-    if {[$txtt tag prevrange _prewhite "$startpos linestart"] eq ""} {
+    if {([$txtt tag prevrange _prewhite "$startpos linestart"] eq "") || \
+        ([string trim [$txtt get "$startpos linestart" $startpos]] ne "")} {
       set curpos [$txtt index "$startpos+1l linestart"]
     } else {
       set curpos [$txtt index "$startpos linestart"]
