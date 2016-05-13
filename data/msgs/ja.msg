@@ -417,6 +417,9 @@ msgcat::mcmset ja {
   "Disable Vim mode"
   "Vim モードを無効にします。"
 
+  "Disable code folding"
+  "コードの折りたたみを無効にします。"
+
   "Display Text Info"
   "表示テキスト"
 
@@ -468,8 +471,14 @@ msgcat::mcmset ja {
   "Edit user snippets"
   "ユーザーのスニペットを編集します。"
 
+  "Enable Code Folding"
+  "コード折り畳みを有効にします。"
+
   "Enable Vim mode"
   "Vim モードを有効にします。"
+
+  "Enable code folding"
+  "コード折り畳みを有効にします。"
 
   "Enumeration"
   "数え上げ"
@@ -509,9 +518,6 @@ msgcat::mcmset ja {
 
   "Find previous occurrence"
   "前の出現箇所を見つける"
-
-  "Fold Method"
-  "折り方法"
 
   "Folding"
   "折り畳み式の"
@@ -710,9 +716,6 @@ msgcat::mcmset ja {
 
   "Lower Case"
   "小文字"
-
-  "Manual"
-  "管理人による処理"
 
   "Markers"
   "マーカー"
@@ -1068,15 +1071,6 @@ msgcat::mcmset ja {
   "Set current file line ending to LF for Unix"
   "Unix 用 LF に現在ファイル行末を設定します。"
 
-  "Set folding method to manual"
-  "折り畳み方法マニュアルをセット"
-
-  "Set folding method to none"
-  "折り畳み方法を none に設定します。"
-
-  "Set folding method to syntax"
-  "折り畳み式の構文とメソッドを設定します。"
-
   "Set indent mode to"
   "インデント モードに設定します。"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset ja {
   "Text Between Character"
   "文字の間のテキスト"
 
+  "Tips & Tricks"
+  "ヒント＆トリック"
+
   "Title Case"
   "タイトル ケース"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset ja {
 
   "View global menu bindings"
   "グローバル メニューの表示バインド"
+
+  "View tips & tricks articles"
+  "ビューがヒント ・ テクニック記事"
 
   "View user guide"
   "ユーザ ガイドの表示"
@@ -1445,6 +1445,9 @@ msgcat::mcmset ja {
 
 # syntax.tcl
 msgcat::mcmset ja {
+
+  "Syntax"
+  "統語論"
 
   "Syntax error in syntax file"
   "構文ファイルの構文エラー"
@@ -1929,9 +1932,6 @@ msgcat::mcmset ja {
 
   "Split View"
   "分割表示"
-
-  "Syntax"
-  "統語論"
 
   "Theme Editor"
   "テーマエディタ"

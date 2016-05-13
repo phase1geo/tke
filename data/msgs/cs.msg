@@ -417,6 +417,9 @@ msgcat::mcmset cs {
   "Disable Vim mode"
   "Zakázat režim, Vim"
 
+  "Disable code folding"
+  "Zakázat, skládání kódu"
+
   "Display Text Info"
   "Zobrazit informace o textu"
 
@@ -468,8 +471,14 @@ msgcat::mcmset cs {
   "Edit user snippets"
   "Upravit uživatelské fragmenty"
 
+  "Enable Code Folding"
+  "Povolit skládání kódu"
+
   "Enable Vim mode"
   "Povolit režim Vim"
+
+  "Enable code folding"
+  "Povolit skládání kódu"
 
   "Enumeration"
   "Výčet"
@@ -509,9 +518,6 @@ msgcat::mcmset cs {
 
   "Find previous occurrence"
   "Najít předchozí výskyt"
-
-  "Fold Method"
-  "Přeložte metoda"
 
   "Folding"
   "p?ehnutí"
@@ -710,9 +716,6 @@ msgcat::mcmset cs {
 
   "Lower Case"
   "Malá písmena"
-
-  "Manual"
-  "Manuální"
 
   "Markers"
   "Značky"
@@ -1068,15 +1071,6 @@ msgcat::mcmset cs {
   "Set current file line ending to LF for Unix"
   "Nastavit aktuální řádek souboru končí na LF pro Unix"
 
-  "Set folding method to manual"
-  "Nastavte metodu na ruční skládání"
-
-  "Set folding method to none"
-  "Nastavení skládání metodu None"
-
-  "Set folding method to syntax"
-  "Nastavení skládání metoda syntaxe"
-
   "Set indent mode to"
   "Nastavit režim odsazení"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset cs {
   "Text Between Character"
   "Text mezi znaky"
 
+  "Tips & Tricks"
+  "Tipy & triky"
+
   "Title Case"
   "Všechna první velká"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset cs {
 
   "View global menu bindings"
   "Zobrazit globální nabídky vazby"
+
+  "View tips & tricks articles"
+  "Zobrazit tipy & triky článků"
 
   "View user guide"
   "Uživatelská příručka"
@@ -1445,6 +1445,9 @@ msgcat::mcmset cs {
 
 # syntax.tcl
 msgcat::mcmset cs {
+
+  "Syntax"
+  "Syntax"
 
   "Syntax error in syntax file"
   "Syntaktická chyba v syntaxi souboru"
@@ -1929,9 +1932,6 @@ msgcat::mcmset cs {
 
   "Split View"
   "Rozd?lený panel"
-
-  "Syntax"
-  "Syntax"
 
   "Theme Editor"
   "Editor téma"

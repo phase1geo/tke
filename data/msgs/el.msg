@@ -417,6 +417,9 @@ msgcat::mcmset el {
   "Disable Vim mode"
   "Απενεργοποίηση της λειτουργίας Vim"
 
+  "Disable code folding"
+  "Απενεργοποιήσετε την αναδίπλωση του κώδικα"
+
   "Display Text Info"
   "Εμφανίζει τις πληροφορίες κείμενο"
 
@@ -468,8 +471,14 @@ msgcat::mcmset el {
   "Edit user snippets"
   "Επεξεργαστείτε τα τμήματα του χρήστη"
 
+  "Enable Code Folding"
+  "Ενεργοποίηση κώδικα πτυσσόμενα"
+
   "Enable Vim mode"
   "Ενεργοποίηση της λειτουργίας Vim"
+
+  "Enable code folding"
+  "Ενεργοποίηση κώδικα πτυσσόμενα"
 
   "Enumeration"
   "Καταμέτρηση"
@@ -509,9 +518,6 @@ msgcat::mcmset el {
 
   "Find previous occurrence"
   "Βρείτε την προηγούμενη εμφάνιση"
-
-  "Fold Method"
-  "Διπλώστε τη μέθοδο"
 
   "Folding"
   "Πτυσσόμενος"
@@ -710,9 +716,6 @@ msgcat::mcmset el {
 
   "Lower Case"
   "Πεζά"
-
-  "Manual"
-  "«Χειροκίνητα»"
 
   "Markers"
   "Σημεία"
@@ -1068,15 +1071,6 @@ msgcat::mcmset el {
   "Set current file line ending to LF for Unix"
   "Ορίστε την τρέχουσα γραμμή αρχείου που λήγει σε LF για Unix"
 
-  "Set folding method to manual"
-  "Σύνολο πτυσσόμενα μέθοδο εγχειρίδιο"
-
-  "Set folding method to none"
-  "Σύνολο πτυσσόμενα μέθοδος σε κανένα"
-
-  "Set folding method to syntax"
-  "Σύνολο πτυσσόμενα μέθοδος για τη σύνταξη"
-
   "Set indent mode to"
   "Στηντιμή εντομή μοντέλο"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset el {
   "Text Between Character"
   "Κείμενο μεταξύ χαρακτήρα"
 
+  "Tips & Tricks"
+  "& Κόλπα συμβουλές"
+
   "Title Case"
   "Υπόθεση τίτλος"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset el {
 
   "View global menu bindings"
   "Προβολή καθολικό μενού συνδέσεις"
+
+  "View tips & tricks articles"
+  "Δείτε συμβουλές & κόλπα άρθρα"
 
   "View user guide"
   "Οδηγός χρήσης"
@@ -1445,6 +1445,9 @@ msgcat::mcmset el {
 
 # syntax.tcl
 msgcat::mcmset el {
+
+  "Syntax"
+  "Σύνταξη"
 
   "Syntax error in syntax file"
   "Συντακτικό σφάλμα στο αρχείο σύνταξη"
@@ -1929,9 +1932,6 @@ msgcat::mcmset el {
 
   "Split View"
   "Split View"
-
-  "Syntax"
-  "Σύνταξη"
 
   "Theme Editor"
   "Θέμα Εκδότης"

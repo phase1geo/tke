@@ -417,6 +417,9 @@ msgcat::mcmset da {
   "Disable Vim mode"
   "Deaktivere Vim tilstand"
 
+  "Disable code folding"
+  "Deaktivere kode foldning"
+
   "Display Text Info"
   "Vise teksten Info"
 
@@ -468,8 +471,14 @@ msgcat::mcmset da {
   "Edit user snippets"
   "Rediger bruger snippets"
 
+  "Enable Code Folding"
+  "Aktivere kode foldning"
+
   "Enable Vim mode"
   "Aktiver Vim tilstand"
+
+  "Enable code folding"
+  "Aktivere kode foldning"
 
   "Enumeration"
   "tælling af bakterier"
@@ -509,9 +518,6 @@ msgcat::mcmset da {
 
   "Find previous occurrence"
   "Find forrige forekomst"
-
-  "Fold Method"
-  "Fold metode"
 
   "Folding"
   "Fold"
@@ -710,9 +716,6 @@ msgcat::mcmset da {
 
   "Lower Case"
   "Små bogstaver"
-
-  "Manual"
-  "Manuelt"
 
   "Markers"
   "Markører"
@@ -1068,15 +1071,6 @@ msgcat::mcmset da {
   "Set current file line ending to LF for Unix"
   "Angive aktuelle fil linje slutter til LF for Unix"
 
-  "Set folding method to manual"
-  "Sæt folde metode til manuel"
-
-  "Set folding method to none"
-  "Sæt folde metode til ingen"
-
-  "Set folding method to syntax"
-  "Sæt folde metode til syntaks"
-
   "Set indent mode to"
   "Sæt led mode til"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset da {
   "Text Between Character"
   "Tekst mellem karakter"
 
+  "Tips & Tricks"
+  "Tips & Tricks"
+
   "Title Case"
   "Titel versalisering"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset da {
 
   "View global menu bindings"
   "Se global menu bindinger"
+
+  "View tips & tricks articles"
+  "Se tips & tricks artikler"
 
   "View user guide"
   "Brugervejledning"
@@ -1445,6 +1445,9 @@ msgcat::mcmset da {
 
 # syntax.tcl
 msgcat::mcmset da {
+
+  "Syntax"
+  "Syntaks"
 
   "Syntax error in syntax file"
   "Syntaksfejl i syntaks fil"
@@ -1929,9 +1932,6 @@ msgcat::mcmset da {
 
   "Split View"
   "Opdel visning"
-
-  "Syntax"
-  "Syntaks"
 
   "Theme Editor"
   "Tema Editor"

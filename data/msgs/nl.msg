@@ -417,6 +417,9 @@ msgcat::mcmset nl {
   "Disable Vim mode"
   "Vim-modus uitschakelen"
 
+  "Disable code folding"
+  "Uitschakelen code vouwen"
+
   "Display Text Info"
   "Schermtekst"
 
@@ -468,8 +471,14 @@ msgcat::mcmset nl {
   "Edit user snippets"
   "Bewerken gebruiker fragmenten"
 
+  "Enable Code Folding"
+  "Inschakelen Code vouwen"
+
   "Enable Vim mode"
   "Vim-modus inschakelen"
+
+  "Enable code folding"
+  "Inschakelen code vouwen"
 
   "Enumeration"
   "telling"
@@ -509,9 +518,6 @@ msgcat::mcmset nl {
 
   "Find previous occurrence"
   "Vorige exemplaar zoeken"
-
-  "Fold Method"
-  "Vouwen methode"
 
   "Folding"
   "Invouwen"
@@ -710,9 +716,6 @@ msgcat::mcmset nl {
 
   "Lower Case"
   "Kleineletters"
-
-  "Manual"
-  "Handbediend"
 
   "Markers"
   "markeerders"
@@ -1068,15 +1071,6 @@ msgcat::mcmset nl {
   "Set current file line ending to LF for Unix"
   "Instellen van huidige bestand regel die eindigt op LF voor Unix"
 
-  "Set folding method to manual"
-  "Set vouwen methode handleiding"
-
-  "Set folding method to none"
-  "Set vouwen methode op geen"
-
-  "Set folding method to syntax"
-  "Set vouwen methode om syntaxis"
-
   "Set indent mode to"
   "Streepje modus ingesteld op"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset nl {
   "Text Between Character"
   "Tekst tussen karakter"
 
+  "Tips & Tricks"
+  "Tips & trics"
+
   "Title Case"
   "Titel Hoofd/Kleineletters"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset nl {
 
   "View global menu bindings"
   "Bekijk globaal menu bindingen"
+
+  "View tips & tricks articles"
+  "Bekijk tips & trucs artikelen"
 
   "View user guide"
   "Bekijk Gids"
@@ -1445,6 +1445,9 @@ msgcat::mcmset nl {
 
 # syntax.tcl
 msgcat::mcmset nl {
+
+  "Syntax"
+  "Syntaxis"
 
   "Syntax error in syntax file"
   "Syntaxisfout in syntaxis bestand"
@@ -1929,9 +1932,6 @@ msgcat::mcmset nl {
 
   "Split View"
   "Venster opsplitsen"
-
-  "Syntax"
-  "Syntaxis"
 
   "Theme Editor"
   "Thema-editor"

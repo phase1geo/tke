@@ -417,6 +417,9 @@ msgcat::mcmset it {
   "Disable Vim mode"
   "Disattivare la modalità di Vim"
 
+  "Disable code folding"
+  "Disattivare il raggruppamento del codice"
+
   "Display Text Info"
   "Visualizza testo"
 
@@ -468,8 +471,14 @@ msgcat::mcmset it {
   "Edit user snippets"
   "Modificare i frammenti di utente"
 
+  "Enable Code Folding"
+  "Attivare codice pieghevole"
+
   "Enable Vim mode"
   "Attivare la modalità di Vim"
+
+  "Enable code folding"
+  "Attivare codice pieghevole"
 
   "Enumeration"
   "Enumerazione"
@@ -509,9 +518,6 @@ msgcat::mcmset it {
 
   "Find previous occurrence"
   "Trovare l'occorrenza precedente"
-
-  "Fold Method"
-  "Metodo di piega"
 
   "Folding"
   "Piegatura"
@@ -710,9 +716,6 @@ msgcat::mcmset it {
 
   "Lower Case"
   "minuscolo"
-
-  "Manual"
-  "Manuale"
 
   "Markers"
   "marcatori"
@@ -1068,15 +1071,6 @@ msgcat::mcmset it {
   "Set current file line ending to LF for Unix"
   "Impostare la riga corrente del file terminando al LF per Unix"
 
-  "Set folding method to manual"
-  "Set pieghevole metodo manuale"
-
-  "Set folding method to none"
-  "Set pieghevole metodo su none"
-
-  "Set folding method to syntax"
-  "Set pieghevole metodo alla sintassi"
-
   "Set indent mode to"
   "Impostare modalità di rientro"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset it {
   "Text Between Character"
   "Testo tra carattere"
 
+  "Tips & Tricks"
+  "Suggerimenti e trucchi"
+
   "Title Case"
   "Tutte Iniziali Maiuscole"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset it {
 
   "View global menu bindings"
   "Visualizza menu globale associazioni"
+
+  "View tips & tricks articles"
+  "Visualizza suggerimenti & trucchi articoli"
 
   "View user guide"
   "MANUALE D'USO"
@@ -1445,6 +1445,9 @@ msgcat::mcmset it {
 
 # syntax.tcl
 msgcat::mcmset it {
+
+  "Syntax"
+  "Sintassi"
 
   "Syntax error in syntax file"
   "Errore di sintassi nel file di sintassi"
@@ -1929,9 +1932,6 @@ msgcat::mcmset it {
 
   "Split View"
   "Dividi la vista"
-
-  "Syntax"
-  "Sintassi"
 
   "Theme Editor"
   "Editor tema"

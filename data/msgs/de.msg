@@ -417,6 +417,9 @@ msgcat::mcmset de {
   "Disable Vim mode"
   "Vim-Modus deaktivieren"
 
+  "Disable code folding"
+  "Deaktivieren Sie die Code-Faltung"
+
   "Display Text Info"
   "Anzeige-Text-Info"
 
@@ -468,8 +471,14 @@ msgcat::mcmset de {
   "Edit user snippets"
   "Bearbeiten von Benutzer-Ausschnitte"
 
+  "Enable Code Folding"
+  "Aktivieren Code-Faltung"
+
   "Enable Vim mode"
   "Vim-Modus aktivieren"
+
+  "Enable code folding"
+  "Aktivieren Code-Faltung"
 
   "Enumeration"
   "Liste"
@@ -509,9 +518,6 @@ msgcat::mcmset de {
 
   "Find previous occurrence"
   "Finden vorherige Vorkommen"
-
-  "Fold Method"
-  "Falten-Methode"
 
   "Folding"
   "Folding"
@@ -710,9 +716,6 @@ msgcat::mcmset de {
 
   "Lower Case"
   "Kleinb."
-
-  "Manual"
-  "Manuell"
 
   "Markers"
   "Marker"
@@ -1068,15 +1071,6 @@ msgcat::mcmset de {
   "Set current file line ending to LF for Unix"
   "Festlegen der aktuellen Datei Zeilenende zu LF für Unix"
 
-  "Set folding method to manual"
-  "Faltbare Methode auf manuell festgelegt"
-
-  "Set folding method to none"
-  "Faltbare Methode auf none festlegen"
-
-  "Set folding method to syntax"
-  "Legen Sie, Falten Methode zur syntax"
-
   "Set indent mode to"
   "Gedankenstrich Modus"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset de {
   "Text Between Character"
   "Text zwischen Zeichen"
 
+  "Tips & Tricks"
+  "Tipps & Tricks"
+
   "Title Case"
   "Titel-Fall"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset de {
 
   "View global menu bindings"
   "Informieren globales Menü Bindungen"
+
+  "View tips & tricks articles"
+  "Anzeigen Tipps & tricks Artikel"
 
   "View user guide"
   "Benutzerhandbuch"
@@ -1445,6 +1445,9 @@ msgcat::mcmset de {
 
 # syntax.tcl
 msgcat::mcmset de {
+
+  "Syntax"
+  "syntax"
 
   "Syntax error in syntax file"
   "Syntax-Fehler in Syntaxdatei"
@@ -1929,9 +1932,6 @@ msgcat::mcmset de {
 
   "Split View"
   "Split anzeigen"
-
-  "Syntax"
-  "syntax"
 
   "Theme Editor"
   "Motiv-Bearbeitung"

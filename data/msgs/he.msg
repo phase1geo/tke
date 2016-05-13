@@ -417,6 +417,9 @@ msgcat::mcmset he {
   "Disable Vim mode"
   "בטל את מצב Vim"
 
+  "Disable code folding"
+  "בטל את קוד מתקפלים"
+
   "Display Text Info"
   "להציג טקסט מידע"
 
@@ -468,8 +471,14 @@ msgcat::mcmset he {
   "Edit user snippets"
   "ערוך משתמש גזירים"
 
+  "Enable Code Folding"
+  "הפעלת קוד מתקפלים"
+
   "Enable Vim mode"
   "הפעלת מצב Vim"
+
+  "Enable code folding"
+  "הפעלת קוד מתקפלים"
 
   "Enumeration"
   "ספירה"
@@ -509,9 +518,6 @@ msgcat::mcmset he {
 
   "Find previous occurrence"
   "למצוא את המופע הקודם"
-
-  "Fold Method"
-  "שיטת הקיפול"
 
   "Folding"
   "מִתקַפֵּל"
@@ -710,9 +716,6 @@ msgcat::mcmset he {
 
   "Lower Case"
   "באותיות קטנות"
-
-  "Manual"
-  "ידני"
 
   "Markers"
   "סמנים"
@@ -1068,15 +1071,6 @@ msgcat::mcmset he {
   "Set current file line ending to LF for Unix"
   "הגדר את השורה הנוכחית של קובץ. סיום אם עבור Unix"
 
-  "Set folding method to manual"
-  "להגדיר קיפול שיטת לידני"
-
-  "Set folding method to none"
-  "להגדיר קיפול שיטה ל- none"
-
-  "Set folding method to syntax"
-  "להגדיר קיפול שיטת לתחביר"
-
   "Set indent mode to"
   "הגדר מצב כניסה"
 
@@ -1197,6 +1191,9 @@ msgcat::mcmset he {
   "Text Between Character"
   "טקסט בין תו"
 
+  "Tips & Tricks"
+  "טיפים וטריקים &"
+
   "Title Case"
   "כותרת התיק"
 
@@ -1268,6 +1265,9 @@ msgcat::mcmset he {
 
   "View global menu bindings"
   "תצוגת תפריטים כללית איגודי"
+
+  "View tips & tricks articles"
+  "הצג טיפים & טריקים מאמרים"
 
   "View user guide"
   "מדריך למשתמש תצוגה"
@@ -1445,6 +1445,9 @@ msgcat::mcmset he {
 
 # syntax.tcl
 msgcat::mcmset he {
+
+  "Syntax"
+  "תחביר"
 
   "Syntax error in syntax file"
   "שגיאת תחביר בקובץ תחביר"
@@ -1929,9 +1932,6 @@ msgcat::mcmset he {
 
   "Split View"
   "צפו פיצול"
-
-  "Syntax"
-  "תחביר"
 
   "Theme Editor"
   "דירוג העורך"
