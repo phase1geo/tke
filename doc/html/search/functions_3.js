@@ -46,6 +46,7 @@ var searchData=
   ['do_5fpost_5fpaste',['do_post_paste',['../namespacevim.html#a6b3a49c9fb05012d9816086b6557dc8b',1,'vim']]],
   ['do_5fpre_5fpaste',['do_pre_paste',['../namespacevim.html#aa6c231ca03e504af55d0a9024acccd2b',1,'vim']]],
   ['do_5fset_5fautochdir',['do_set_autochdir',['../namespacevim.html#a94ddb5cb3d8f7f728a85b6ed46a08549',1,'vim']]],
+  ['do_5fset_5fbrowse_5fdir',['do_set_browse_dir',['../namespacevim.html#a764559fc4f7a8acf10b5396ae9cddb4f',1,'vim']]],
   ['do_5fset_5fcommand',['do_set_command',['../namespacevim.html#af8c3195a9b2422487c7d223c3d327894',1,'vim']]],
   ['do_5fset_5fexpandtab',['do_set_expandtab',['../namespacevim.html#a3f9bdfc2d13c4e7ad4650b52cca88814',1,'vim']]],
   ['do_5fset_5ffileformat',['do_set_fileformat',['../namespacevim.html#aa8ea2088974ac4ae17ff98a2a928d2c7',1,'vim']]],
@@ -66,7 +67,7 @@ var searchData=
   ['do_5fset_5fsyntax',['do_set_syntax',['../namespacevim.html#ae170be07df1fc0740d92070c2fd8c448',1,'vim']]],
   ['do_5fset_5ftabstop',['do_set_tabstop',['../namespacevim.html#ac2de600f28747803aa307616b2ebb917',1,'vim']]],
   ['do_5funcomment',['do_uncomment',['../namespaceedit.html#adcb58362cb1d4394a488224312b3cd18',1,'edit']]],
-  ['dohighlight',['doHighlight',['../namespacectext.html#a00f9424f33763453c088b8e9f9c2a837',1,'ctext']]],
+  ['dohighlight',['doHighlight',['../namespacectext.html#af11d4f8ec386fcf0b70423d190f89061',1,'ctext']]],
   ['draw_5fgrid',['draw_grid',['../namespacebitmap.html#aee61558584461d39b4772e16b6726a30',1,'bitmap']]],
   ['duplicate_5fcommand',['duplicate_command',['../namespacemenus.html#a122e3d32f21653bdd742bd7dc461e38e',1,'menus']]],
   ['duplicate_5ffile',['duplicate_file',['../namespacesidebar.html#a6ad31fd2c0962b92fbcafa9f0e47e399',1,'sidebar']]]

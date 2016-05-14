@@ -811,7 +811,7 @@ namespace eval syntax {
                            [list grey $startpos [$txt index "$startpos+1c"] [list]] \
                            [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
       } else {
-        return [list [list] [$txt index "$startpos+2c"]
+        return [list [list] [$txt index "$startpos+2c"]]
       }
     }
 

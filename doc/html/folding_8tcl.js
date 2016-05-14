@@ -14,6 +14,7 @@ var folding_8tcl =
     [ "enable_folding", "folding_8tcl.html#a4e9d3ef6ecb8cfc9fa3d2ac8ccd04f70", null ],
     [ "fold_state", "folding_8tcl.html#acb9764b1a7665f42fe967f7fdefea2ae", null ],
     [ "fold_state_exists", "folding_8tcl.html#a52f70edff2a6045e90b1547188f0894e", null ],
+    [ "get_enable", "folding_8tcl.html#a48649fba7e2e4ae85fd58233072a2378", null ],
     [ "get_fold_range", "folding_8tcl.html#afb3f8551fb67b3ae159d1a4c7fbac5f1", null ],
     [ "get_gutter_info", "folding_8tcl.html#a32803476a4c089a69af38452d714a7c0", null ],
     [ "get_method", "folding_8tcl.html#acf4c54b677da30b5957b1e0263e0e128", null ],
@@ -22,8 +23,10 @@ var folding_8tcl =
     [ "open_all_folds", "folding_8tcl.html#a207002c0679e4260430e8e27a5364849", null ],
     [ "open_fold", "folding_8tcl.html#a40cbbc901f1cc9cdd3d1111bb3924abe", null ],
     [ "open_folds_in_range", "folding_8tcl.html#a063677a35e3d343fa7180e771b0f2e3a", null ],
-    [ "set_fold_method", "folding_8tcl.html#a4e4702b37fdf7bf7cbb6e05d42557eb2", null ],
+    [ "restart", "folding_8tcl.html#a838ee04c954a21bf1261b349a0230f67", null ],
+    [ "set_fold_enable", "folding_8tcl.html#a547d4b094213ad6d5f0789ca2be7488a", null ],
     [ "show_line", "folding_8tcl.html#a1b476e3b21ef2b4844b432f07e5fc3fa", null ],
     [ "toggle_all_folds", "folding_8tcl.html#af7a78be4839c146089ed6ff0d2740d48", null ],
-    [ "toggle_fold", "folding_8tcl.html#ae1d98f2f0c68571450eeb31a1d1c237d", null ]
+    [ "toggle_fold", "folding_8tcl.html#ae1d98f2f0c68571450eeb31a1d1c237d", null ],
+    [ "update_closed", "folding_8tcl.html#ad4c93192db329b7e07d131fed1d1b219", null ]
 ];

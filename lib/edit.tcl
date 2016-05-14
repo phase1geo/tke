@@ -479,7 +479,7 @@ namespace eval edit {
         }
         set deleted [expr $deleted || ($lines > 0)]
         if {$lastpos ne ""} {
-          set line    [string trimleft [$txtt get "$lastpos linestart" "$lastpos lineend"]
+          set line    [string trimleft [$txtt get "$lastpos linestart" "$lastpos lineend"]]
           $txtt delete "$lastpos-1l lineend" "$lastpos lineend"
           if {![string is space [$txtt get "$startpos lineend-1c"]]} {
             set line " $line"

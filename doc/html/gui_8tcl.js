@@ -43,6 +43,7 @@ var gui_8tcl =
     [ "format_text", "gui_8tcl.html#ac2f93bc5c7efe7da2d83e2fdcb1db766", null ],
     [ "get_actual_filenames", "gui_8tcl.html#ac9864385502b037706ecd8b403d3fd7e", null ],
     [ "get_all_texts", "gui_8tcl.html#aa6176189133f089eff9fbc0775d95329", null ],
+    [ "get_browse_directory", "gui_8tcl.html#a9790ae888db094d77f59c47695f3715d", null ],
     [ "get_eol_translation", "gui_8tcl.html#a9d8668faf1d420c7bcae927f60918172", null ],
     [ "get_file_info", "gui_8tcl.html#a8b121253da2fa95b8c1fd59f3f1e5d34", null ],
     [ "get_file_num", "gui_8tcl.html#abdfd51a2f4d207fafbf1c00eba9191d9", null ],
@@ -56,6 +57,7 @@ var gui_8tcl =
     [ "get_user_response", "gui_8tcl.html#a5c0544594b31e4523edd68f672b37b7a", null ],
     [ "handle_allow_tab_scrolling", "gui_8tcl.html#a5f9c5715434ad5e0b2b53d31bdc3c53d", null ],
     [ "handle_auto_cwd", "gui_8tcl.html#a8bc68fa1ed1555de42fcf03baaeb087c", null ],
+    [ "handle_browse_directory", "gui_8tcl.html#aa246c141d420d87142a90288e75b730e", null ],
     [ "handle_drop", "gui_8tcl.html#a5da5c9fd94c5c8682262e0bd87f0be31", null ],
     [ "handle_drop_enter_or_pos", "gui_8tcl.html#ac9719419fd8c0a4b059fb0f44d5e1d20", null ],
     [ "handle_drop_leave", "gui_8tcl.html#ac463b688f43dba668eb87bf8c1255144", null ],
@@ -117,6 +119,7 @@ var gui_8tcl =
     [ "selected", "gui_8tcl.html#a75a614bf601df36bece277c6aed46fc9", null ],
     [ "selection_changed", "gui_8tcl.html#ae3d62e73bba63aa892cb35e087a6f638", null ],
     [ "set_auto_cwd", "gui_8tcl.html#a3a034ddebead09aff72ffa1e6eb26a47", null ],
+    [ "set_browse_directory", "gui_8tcl.html#a102b21f2e75723a4ed78a127365a14b2", null ],
     [ "set_current_eol_translation", "gui_8tcl.html#aab10f6d774e45de2e2b8e87332abdef9", null ],
     [ "set_current_file_favorite", "gui_8tcl.html#a7060d3bc6fd40aae7543af3244db87cd", null ],
     [ "set_current_file_favorite_with_current", "gui_8tcl.html#a88225f3a546abfa3ed0064d9a9a7e5c3", null ],
@@ -155,5 +158,6 @@ var gui_8tcl =
     [ "untitled_check", "gui_8tcl.html#a10f86745102fe7e53794198531a72926", null ],
     [ "update_current", "gui_8tcl.html#a24c24c25e52e79bfb9598f3fc16f3ba0", null ],
     [ "update_file", "gui_8tcl.html#a919b49ba49597b16b81b70865666d9d8", null ],
+    [ "update_indent_button", "gui_8tcl.html#a4360b20b3002ee24d2ddc1286ef68712", null ],
     [ "update_position", "gui_8tcl.html#aaa9aa762399174f5f0ec0a9cdc1b3a2f", null ]
 ];
