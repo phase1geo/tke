@@ -78,5 +78,41 @@ namespace eval vim {
     cleanup
 
   }
+  
+  # Verify browsedir Vim option
+  proc run_test2 {} {
+    
+    # Initialize the text
+    set txtt [initialize].t
+    
+    foreach type [list last buffer current directory] {
+      
+      # Set the browse directory
+      if {$type ne "directory"} {
+        gui::set_browse_directory $type
+      } else {
+        gui::set_browse_directory "foobar"
+      }
+      
+      # Verify that the browse directory is correct
+      set dir [gui::get_browse_directory]
+      
+      switch $type {
+        last      { set expect "" }
+        buffer    { set expect "." }
+        current   { set expect [pwd] }
+        directory { set expect "foobar" }
+      }
+      
+      if {$dir ne $expect} {
+        cleanup "Browse directory type: $type, not expected ($dir)"
+      }
+      
+    }
+    
+    # Cleanup
+    cleanup
+    
+  }
 
 }
