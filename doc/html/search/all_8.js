@@ -9,6 +9,7 @@ var searchData=
   ['import_5ftm',['import_tm',['../namespacethemer.html#aa33133e53094e547e4df7349cc9e586d',1,'themer']]],
   ['in_5fvim_5fmode',['in_vim_mode',['../namespacevim.html#a8b8353e1be34ccceba9f0c838687bbe1',1,'vim']]],
   ['in_5fvisual_5fmode',['in_visual_mode',['../namespacevim.html#a04b7c344ae65d382ec41288a6421f9e5',1,'vim']]],
+  ['inbacktick',['inBackTick',['../namespacectext.html#a7341a5c3b7efa02b160f693307465121',1,'ctext']]],
   ['inblockcomment',['inBlockComment',['../namespacectext.html#a0d9ab6867813fb9564b7559501f4fdd4',1,'ctext']]],
   ['incomment',['inComment',['../namespacectext.html#a861c4436b45be82c575c42b0a9962046',1,'ctext']]],
   ['incommentstring',['inCommentString',['../namespacectext.html#ae16e12bab4c4cde8cfb07c60ac16e681',1,'ctext']]],

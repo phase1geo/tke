@@ -140,8 +140,8 @@ namespace eval api {
   ## Displays the given message string in the information bar.  The
   #  message must not contain any newline characters.
   #
-  #  \param msg    Message to display in the information bar
-  #  \param delay  Specifies the amount of time to wait before clearing the message
+  #  \param msg          Message to display in the information bar
+  #  \param clear_delay  Specifies the amount of time to wait before clearing the message
   proc show_info {interp pname msg {clear_delay 3000}} {
 
     # Displays the given message

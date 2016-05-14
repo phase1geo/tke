@@ -42,6 +42,7 @@ var searchData=
   ['replace_5fline_5fwith_5fscript',['replace_line_with_script',['../namespaceedit.html#a86be1cd934d245edc7f2a9c9d57ad785',1,'edit']]],
   ['replace_5fstart',['replace_start',['../namespacesearch.html#a074da3ef9cc5e76d1a34cab3270c575b',1,'search']]],
   ['reset_5ftext_5ffocus',['reset_text_focus',['../namespaceapi.html#a3ad71c189816c2d0a934cdd3545a8ca5',1,'api']]],
+  ['restart',['restart',['../namespacefolding.html#a838ee04c954a21bf1261b349a0230f67',1,'folding']]],
   ['restart_2etcl',['restart.tcl',['../restart_8tcl.html',1,'']]],
   ['restart_5fcommand',['restart_command',['../namespacemenus.html#adf352e2f362cdec4e5dcbedaa84674e8',1,'menus']]],
   ['restore_5fdata',['restore_data',['../namespaceplugins.html#aad3ba626de56b10fe2151ddb1734b6de',1,'plugins']]],

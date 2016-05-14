@@ -2,6 +2,7 @@ var completer_8tcl =
 [
     [ "add_angled", "completer_8tcl.html#a240aadb118b0040f9781d33df1a430bb", null ],
     [ "add_bindings", "completer_8tcl.html#ad33f774ed84ad57375c8d95cf8df495d", null ],
+    [ "add_btick", "completer_8tcl.html#ab9adb35d78ba0ac7cda12943475540e8", null ],
     [ "add_closing", "completer_8tcl.html#a43630beb21471cf4202fd9ee91d86479", null ],
     [ "add_curly", "completer_8tcl.html#a747b2726807f6767aa6d89e521b3c606", null ],
     [ "add_double", "completer_8tcl.html#ad045c5fddf3868a52123524e228717a2", null ],

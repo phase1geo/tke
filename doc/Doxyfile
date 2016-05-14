@@ -38,7 +38,7 @@ PROJECT_NAME           = TKE
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 2.4
+PROJECT_NUMBER         = 2.5
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -51,7 +51,7 @@ PROJECT_BRIEF          = "Advanced editor written in Tcl/Tk"
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = /Users/trevorw/projects/tke-code/lib/images/tke_logo_128.gif
+PROJECT_LOGO           = ../lib/images/tke_logo_128.gif
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
@@ -756,7 +756,7 @@ WARN_FORMAT            = "$file:$line: $text"
 # messages should be written. If left blank the output is written to standard
 # error (stderr).
 
-WARN_LOGFILE           =
+WARN_LOGFILE           = errors.txt
 
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
@@ -768,8 +768,8 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = /Users/trevorw/projects/tke-code/lib \
-                         /Users/trevorw/projects/tke-code/lib/ctext/ctext.tcl
+INPUT                  = ../lib \
+                         ../lib/ctext/ctext.tcl
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses

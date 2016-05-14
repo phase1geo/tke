@@ -645,7 +645,7 @@
                  <Node>
                   <Name>doHighlight</Name>
                   <Path>ctext_8tcl.html</Path>
-                  <Anchor>a00f9424f33763453c088b8e9f9c2a837</Anchor>
+                  <Anchor>af11d4f8ec386fcf0b70423d190f89061</Anchor>
                  </Node>
                  <Node>
                   <Name>escapes</Name>
@@ -720,12 +720,17 @@
                  <Node>
                   <Name>highlight</Name>
                   <Path>ctext_8tcl.html</Path>
-                  <Anchor>a62f054b618ad48d778b91fe640371bd6</Anchor>
+                  <Anchor>a9b3a6b76c0a21dc4db07e145ae4eceea</Anchor>
                  </Node>
                  <Node>
                   <Name>highlightAll</Name>
                   <Path>ctext_8tcl.html</Path>
-                  <Anchor>a7bf7e8e418748fc2337df1de93c3a39e</Anchor>
+                  <Anchor>ae98a3d35d99d7d3bd38fbc04dcdbee6a</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>inBackTick</Name>
+                  <Path>ctext_8tcl.html</Path>
+                  <Anchor>a7341a5c3b7efa02b160f693307465121</Anchor>
                  </Node>
                  <Node>
                   <Name>inBlockComment</Name>
@@ -1479,6 +1484,11 @@
                 <Name>add_bindings</Name>
                 <Path>completer_8tcl.html</Path>
                 <Anchor>ad33f774ed84ad57375c8d95cf8df495d</Anchor>
+               </Node>
+               <Node>
+                <Name>add_btick</Name>
+                <Path>completer_8tcl.html</Path>
+                <Anchor>ab9adb35d78ba0ac7cda12943475540e8</Anchor>
                </Node>
                <Node>
                 <Name>add_closing</Name>
@@ -2353,6 +2363,11 @@
                 <Anchor>a52f70edff2a6045e90b1547188f0894e</Anchor>
                </Node>
                <Node>
+                <Name>get_enable</Name>
+                <Path>folding_8tcl.html</Path>
+                <Anchor>a48649fba7e2e4ae85fd58233072a2378</Anchor>
+               </Node>
+               <Node>
                 <Name>get_fold_range</Name>
                 <Path>folding_8tcl.html</Path>
                 <Anchor>afb3f8551fb67b3ae159d1a4c7fbac5f1</Anchor>
@@ -2393,9 +2408,14 @@
                 <Anchor>a063677a35e3d343fa7180e771b0f2e3a</Anchor>
                </Node>
                <Node>
-                <Name>set_fold_method</Name>
+                <Name>restart</Name>
                 <Path>folding_8tcl.html</Path>
-                <Anchor>a4e4702b37fdf7bf7cbb6e05d42557eb2</Anchor>
+                <Anchor>a838ee04c954a21bf1261b349a0230f67</Anchor>
+               </Node>
+               <Node>
+                <Name>set_fold_enable</Name>
+                <Path>folding_8tcl.html</Path>
+                <Anchor>a547d4b094213ad6d5f0789ca2be7488a</Anchor>
                </Node>
                <Node>
                 <Name>show_line</Name>
@@ -2411,6 +2431,11 @@
                 <Name>toggle_fold</Name>
                 <Path>folding_8tcl.html</Path>
                 <Anchor>ae1d98f2f0c68571450eeb31a1d1c237d</Anchor>
+               </Node>
+               <Node>
+                <Name>update_closed</Name>
+                <Path>folding_8tcl.html</Path>
+                <Anchor>ad4c93192db329b7e07d131fed1d1b219</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -2685,6 +2710,11 @@
                 <Anchor>aa6176189133f089eff9fbc0775d95329</Anchor>
                </Node>
                <Node>
+                <Name>get_browse_directory</Name>
+                <Path>gui_8tcl.html</Path>
+                <Anchor>a9790ae888db094d77f59c47695f3715d</Anchor>
+               </Node>
+               <Node>
                 <Name>get_eol_translation</Name>
                 <Path>gui_8tcl.html</Path>
                 <Anchor>a9d8668faf1d420c7bcae927f60918172</Anchor>
@@ -2748,6 +2778,11 @@
                 <Name>handle_auto_cwd</Name>
                 <Path>gui_8tcl.html</Path>
                 <Anchor>a8bc68fa1ed1555de42fcf03baaeb087c</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_browse_directory</Name>
+                <Path>gui_8tcl.html</Path>
+                <Anchor>aa246c141d420d87142a90288e75b730e</Anchor>
                </Node>
                <Node>
                 <Name>handle_drop</Name>
@@ -3055,6 +3090,11 @@
                 <Anchor>a3a034ddebead09aff72ffa1e6eb26a47</Anchor>
                </Node>
                <Node>
+                <Name>set_browse_directory</Name>
+                <Path>gui_8tcl.html</Path>
+                <Anchor>a102b21f2e75723a4ed78a127365a14b2</Anchor>
+               </Node>
+               <Node>
                 <Name>set_current_eol_translation</Name>
                 <Path>gui_8tcl.html</Path>
                 <Anchor>aab10f6d774e45de2e2b8e87332abdef9</Anchor>
@@ -3245,6 +3285,11 @@
                 <Anchor>a919b49ba49597b16b81b70865666d9d8</Anchor>
                </Node>
                <Node>
+                <Name>update_indent_button</Name>
+                <Path>gui_8tcl.html</Path>
+                <Anchor>a4360b20b3002ee24d2ddc1286ef68712</Anchor>
+               </Node>
+               <Node>
                 <Name>update_position</Name>
                 <Path>gui_8tcl.html</Path>
                 <Anchor>aaa9aa762399174f5f0ec0a9cdc1b3a2f</Anchor>
@@ -3284,6 +3329,11 @@
                 <Name>get_indent_mode</Name>
                 <Path>indent_8tcl.html</Path>
                 <Anchor>a0b60922e735b3ab47224bfb8c834e25d</Anchor>
+               </Node>
+               <Node>
+                <Name>get_match_indent</Name>
+                <Path>indent_8tcl.html</Path>
+                <Anchor>aae1e85703e2ab4bc65c65ef648227d68</Anchor>
                </Node>
                <Node>
                 <Name>get_previous_indent_space</Name>
@@ -4227,6 +4277,11 @@
                 <Anchor>a91c25566a23f4045c404c1005b77b166</Anchor>
                </Node>
                <Node>
+                <Name>help_tips_tricks</Name>
+                <Path>menus_8tcl.html</Path>
+                <Anchor>a9f75e334614b236a97bb47c223d5823f</Anchor>
+               </Node>
+               <Node>
                 <Name>help_user_guide</Name>
                 <Path>menus_8tcl.html</Path>
                 <Anchor>ac58741cc39c6c2973d1bc5e0f64f2013</Anchor>
@@ -4397,9 +4452,9 @@
                 <Anchor>a47ac8db04840588ce9bc070213ac231a</Anchor>
                </Node>
                <Node>
-                <Name>set_fold_method</Name>
+                <Name>set_code_folding</Name>
                 <Path>menus_8tcl.html</Path>
-                <Anchor>a0c031c217a590773ec506cb1e114525c</Anchor>
+                <Anchor>ac6e1ef8f0b70bb6eae6ce6b3374f15ce</Anchor>
                </Node>
                <Node>
                 <Name>set_line_numbering</Name>
@@ -5678,7 +5733,7 @@
                <Node>
                 <Name>add_sublanguage</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>ad67d54490d008abe570e84e52a7ac514</Anchor>
+                <Anchor>af28d43ecbfdb062df720fa2af5f989ac</Anchor>
                </Node>
                <Node>
                 <Name>add_syntax</Name>
@@ -5738,67 +5793,72 @@
                <Node>
                 <Name>get_markdown_bold</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a9cf3d1e6a75e711b028dc83c8312d95a</Anchor>
+                <Anchor>a1a13736d4e7b548b9c5fefa26633aa79</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_ccode</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a93cad12bc5be0c606fdb7d4ecf5d542e</Anchor>
+                <Anchor>aa0c808c54495792634ddb4a345a7417a</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_code</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>aa773f1c11d60dd4d40ffcb6e02358cae</Anchor>
+                <Anchor>adfb47031cc444650a27eef6a4a745f37</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_header</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a1c946e56e34ccadd53df022d9388aa32</Anchor>
+                <Anchor>a9b719f32f1b19197a73af7a96a2f389b</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_highlight</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>aa4db7dc67db4614510568fd87a97ee06</Anchor>
+                <Anchor>a82aeb052e29ec2ded204efba7537126e</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_italics</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>abbcd785132123498fd5d68d75d3be8ef</Anchor>
+                <Anchor>ae219f515815829eacc1643901f2ffb46</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_link</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>af791ae59140e5d378bfa6a94d35ed6d7</Anchor>
+                <Anchor>a0f79c86f15445e9832015d97e482077f</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_linkref</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>ad814d1fe04ebbfa56d705ae03d87e9ab</Anchor>
+                <Anchor>a1835f6e4a65c8b51e6b5ecf40e4baa43</Anchor>
+               </Node>
+               <Node>
+                <Name>get_markdown_list_check</Name>
+                <Path>syntax_8tcl.html</Path>
+                <Anchor>af43d6163d50879da16558bbff4376afc</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_overstrike</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a48809ed0c295df14165c5ab7dd9c5220</Anchor>
+                <Anchor>ae7842c0c8a891e5dc0c64f72092675ab</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_subscript</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>ae2493e4c85ee56a64baad4dc2a6d3fc9</Anchor>
+                <Anchor>a9c7b739d9dd3f67bf9d98b6c8272bcbc</Anchor>
                </Node>
                <Node>
                 <Name>get_markdown_superscript</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>add12b7e8df872ef66cb3fa49b9401ae3</Anchor>
+                <Anchor>adc36cf7064c13b1e66999b97ff957667</Anchor>
                </Node>
                <Node>
                 <Name>get_prefixed_symbol</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a55fad28b61befba7b6f20ad7ba5e1810</Anchor>
+                <Anchor>abd6a83060a9e14426ed4e8fb85740b8b</Anchor>
                </Node>
                <Node>
                 <Name>get_syntax_symbol</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a569e32304fc17272c7e5a02229e99b2e</Anchor>
+                <Anchor>a55c30a96de3ae065ebf2664ae68f4c9d</Anchor>
                </Node>
                <Node>
                 <Name>get_tabs_allowed</Name>
@@ -5813,12 +5873,12 @@
                <Node>
                 <Name>get_xml_attribute</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a8392e435882c6f06726d8514a6d22ff0</Anchor>
+                <Anchor>aa35a5edcf51f42ae6c3037e1c7a027cb</Anchor>
                </Node>
                <Node>
                 <Name>get_xml_tag</Name>
                 <Path>syntax_8tcl.html</Path>
-                <Anchor>a9d1ebeab24f9dd9a10a6874907eba459</Anchor>
+                <Anchor>a41d26fa910e87549545b2358a5f0d47b</Anchor>
                </Node>
                <Node>
                 <Name>handle_markdown_reflink_click</Name>
@@ -6798,6 +6858,11 @@
                 <Anchor>a94ddb5cb3d8f7f728a85b6ed46a08549</Anchor>
                </Node>
                <Node>
+                <Name>do_set_browse_dir</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a764559fc4f7a8acf10b5396ae9cddb4f</Anchor>
+               </Node>
+               <Node>
                 <Name>do_set_command</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>af8c3195a9b2422487c7d223c3d327894</Anchor>
@@ -7073,6 +7138,11 @@
                 <Anchor>a783e1478a3b7d0b31d7b60366749f2e3</Anchor>
                </Node>
                <Node>
+                <Name>handle_Down</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>aea18f9dd9c78f4823959984dd4074539</Anchor>
+               </Node>
+               <Node>
                 <Name>handle_E</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>a6421f8f40d1bdb33b564ab45ec47cdeb</Anchor>
@@ -7156,6 +7226,11 @@
                 <Name>handle_L</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>aa6dd51ed417f2b2a8ad1ade0fbe26af7</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_Left</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>af70558b9676e56fed9e5d3d6963e4a8d</Anchor>
                </Node>
                <Node>
                 <Name>handle_less</Name>
@@ -7278,6 +7353,11 @@
                 <Anchor>ad22f58a44a414d08e53090eaa98a9109</Anchor>
                </Node>
                <Node>
+                <Name>handle_Right</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a826bce1551b2e251815e13a3d91dc53a</Anchor>
+               </Node>
+               <Node>
                 <Name>handle_s</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>a2496e65e00714658ed79c1be6f4d0116</Anchor>
@@ -7301,6 +7381,16 @@
                 <Name>handle_u</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>a43012ba394dbc2fa3c3a73664e5ef047</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_U</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a1f95e3748902064146d815611e1269a4</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_Up</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a620d8eae5e9f6ad6383e8ffe37e979bf</Anchor>
                </Node>
                <Node>
                 <Name>handle_v</Name>
