@@ -5,7 +5,7 @@ namespace eval markdown_color {
   
   ######################################################################
   # Returns the information for the given Markdown code string.
-  proc get_ccode {txt startpos endpos} {
+  proc get_ccode {txt startpos endpos ins} {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _code $startpos $endpos
@@ -20,7 +20,7 @@ namespace eval markdown_color {
   
   ######################################################################
   # Returns the information for the given Markdown code string.
-  proc get_code {txt startpos endpos} {
+  proc get_code {txt startpos endpos ins} {
   
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
@@ -37,7 +37,7 @@ namespace eval markdown_color {
   
   ######################################################################
   # Returns the information for the given Markdown header string.
-  proc get_header {txt startpos endpos} {
+  proc get_header {txt startpos endpos ins} {
     
     if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
       set num [string length $hashes]
@@ -50,7 +50,7 @@ namespace eval markdown_color {
   
   ######################################################################
   # Returns the information for the given Markdown bold string.
-  proc get_bold {txt startpos endpos} {
+  proc get_bold {txt startpos endpos ins} {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
       $txt tag remove _italics $startpos $endpos
@@ -65,7 +65,7 @@ namespace eval markdown_color {
   
   ######################################################################
   # Returns the information for the given Markdown italics string.
-  proc get_italics {txt startpos endpos} {
+  proc get_italics {txt startpos endpos ins} {
     
     if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
@@ -82,7 +82,7 @@ namespace eval markdown_color {
 
   ######################################################################
   # Returns the information for the given Markdown link string.
-  proc get_link {txt startpos endpos} {
+  proc get_link {txt startpos endpos ins} {
     
     if {[$txt get "$startpos-1c"] ne "\\"} {
       if {[regexp {^\[(.+?)\](\s*\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label ref linkref url]} {
@@ -105,7 +105,7 @@ namespace eval markdown_color {
   
   ######################################################################
   # Returns the information for the given Markdown link reference.
-  proc get_linkref {txt startpos endpos} {
+  proc get_linkref {txt startpos endpos ins} {
     
     variable linkrefs
     

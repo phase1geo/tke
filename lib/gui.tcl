@@ -171,7 +171,7 @@ namespace eval gui {
     switch $browse_dir {
       last    { return "" }
       buffer  { return [file dirname [get_info {} current fname]] }
-      current { return FOOBAR }
+      current { return [pwd] }
       default { return $browse_dir }
     }
 
