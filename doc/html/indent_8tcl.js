@@ -6,6 +6,7 @@ var indent_8tcl =
     [ "create_menu", "indent_8tcl.html#aa9b7e522bdf9c6688431e743d0266475", null ],
     [ "format_text", "indent_8tcl.html#a1053af5f2d7e3ab4e150d31558a6546d", null ],
     [ "get_indent_mode", "indent_8tcl.html#a0b60922e735b3ab47224bfb8c834e25d", null ],
+    [ "get_match_indent", "indent_8tcl.html#aae1e85703e2ab4bc65c65ef648227d68", null ],
     [ "get_previous_indent_space", "indent_8tcl.html#a54e5f03831a97fa99d52227ea7bff4b9", null ],
     [ "get_shiftwidth", "indent_8tcl.html#ad8e9e688da1e64ff607297a443e977e1", null ],
     [ "get_start_of_line", "indent_8tcl.html#a0556379d5b69b27f866eae7c391dadc1", null ],
