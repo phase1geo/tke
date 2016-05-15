@@ -49,6 +49,15 @@ namespace eval preferences {
   }
 
   ######################################################################
+  # Returns a reference to the preference variable associated with
+  # the given name.
+  proc ref {name} {
+
+    return "[ns preferences]::prefs($name)"
+
+  }
+
+  ######################################################################
   # Called whenever the current text is changed.  Reloads the preferences
   # based on the given set of preferences.
   proc update_prefs {{session ""}} {
@@ -229,7 +238,7 @@ namespace eval preferences {
     variable loaded_prefs
     variable user_preferences_file
     variable prefs
-    
+
     # Get the current buffer
     set txt [[ns gui]::current_txt {}]
 
