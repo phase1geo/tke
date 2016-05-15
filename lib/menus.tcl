@@ -1653,7 +1653,8 @@ namespace eval menus {
   # Edits the user global preference settings.
   proc edit_user_global {} {
 
-    preferences::edit_global
+    # preferences::edit_global
+    pref_ui::create
 
   }
 
