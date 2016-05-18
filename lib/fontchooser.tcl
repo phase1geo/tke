@@ -295,6 +295,9 @@ proc fontchooser {args} {
     -parent      . \
     -initialfont $fontchooser::default_font \
     -title       "" \
+    -mono        "" \
+    -styles      "" \
+    -effects     1 \
   ]
   array set opts $args
 
@@ -305,7 +308,7 @@ proc fontchooser {args} {
   wm transient .fontwin $opts(-parent)
   wm resizable .fontwin 0 0
 
-  fontchooser::create .fontwin.fc -effects 1 -default $opts(-initialfont) -highlight mono
+  fontchooser::create .fontwin.fc -effects $opts(-effects) -default $opts(-initialfont) -highlight mono -mono $opts(-mono) -styles $opts(-styles)
 
   bind .fontwin.fc <<FontChanged>> {
     set ::fontchooser_value %d

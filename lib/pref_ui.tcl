@@ -29,6 +29,17 @@ namespace eval pref_ui {
   variable current_panel ""
 
   array set widgets {}
+  array set colorizers {
+    keywords       0
+    comments       0
+    strings        0
+    numbers        0
+    punctuation    0
+    precompile     0
+    miscellaneous1 0
+    miscellaneous2 0
+    miscellaneous3 0
+  }
 
   ######################################################################
   # Create the preferences window.
@@ -57,7 +68,7 @@ namespace eval pref_ui {
       grid .prefwin.bf -row 0 -column 0 -sticky news
       grid .prefwin.pf -row 0 -column 1 -sticky news
 
-      foreach pane [list general appearance editor emmet find sidebar tools view] {
+      foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
         $widgets(bar) insert end [string totitle $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
@@ -81,6 +92,10 @@ namespace eval pref_ui {
     }
 
   }
+
+  ###########
+  # GENERAL #
+  ###########
 
   ######################################################################
   # Creates the general panel.
@@ -147,7 +162,26 @@ namespace eval pref_ui {
       $widgets(var_table) insert end $row
     }
 
-    $w.nb add [set c [ttk::frame $w.nb.c]] -text "Language Overrides"
+    $w.nb add [set c [ttk::frame $w.nb.c]] -text "Languages"
+
+    set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
+      -stretch all -exportselection 1 \
+      -editendcommand [list pref_ui::lang_edit_end_command] \
+      -xscrollcommand [list $c.hb set] -yscrollcommand [list $c.vb set]]
+    ttk::scrollbar $c.vb -orient vertical   -command [list $c.tl yview]
+    ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
+
+    $widgets(lang_table) columnconfigure 0 -name enabled -editable 0 -resizable 0 -stretchable 0
+    $widgets(lang_table) columnconfigure 1 -name lang    -editable 0 -resizable 0 -stretchable 0
+    $widgets(lang_table) columnconfigure 2 -name exts    -editable 1 -resizable 1 -stretchable 1
+
+    bind [$widgets(lang_table) bodytag] <Button-1> [list pref_ui::handle_lang_left_click %W %x %y]
+
+    grid rowconfigure    $c 0 -weight 1
+    grid columnconfigure $c 0 -weight 1
+    grid $c.tl -row 0 -column 0 -sticky news
+    grid $c.vb -row 0 -column 1 -sticky ns
+    grid $c.hb -row 1 -column 0 -sticky ew
 
   }
 
@@ -229,14 +263,144 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Handles any left-clicks on the language table.
+  proc handle_lang_left_click {W x y} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Save the contents to the preference file.
+  proc lang_edit_end_command {tbl row col value} {
+
+    set lang [$tbl cellcget $row,lang -text]
+
+    # TBD
+
+    return $value
+
+  }
+
+  ##############
+  # APPEARANCE #
+  ##############
+
+  ######################################################################
   # Creates the appearance panel.
   proc create_appearance {w} {
 
     variable widgets
+    variable colorizers
 
-    pack [ttk::label $w.tbd -text "Appearance"]
+    ttk::frame $w.tf
+    ttk::label $w.tf.l -text [format "%s: " [msgcat::mc "Theme"]]
+    set widgets(lang_theme) [ttk::menubutton $w.tf.mb -text [[ns preferences]::get Appearance/Theme] -menu [menu $w.theme_mnu -tearoff 0]]
+
+    pack $w.tf.l  -side left -padx 2 -pady 2
+    pack $w.tf.mb -side left -padx 2 -pady 2 -fill x
+
+    ttk::labelframe $w.cf -text "Syntax Coloring"
+
+    # Pack the colorizer frame
+    set i 0
+    set colorize [[ns preferences]::get Appearance/Colorize]
+    foreach type [lsort [array names colorizers]] {
+      set colorizers($type) [expr {[lsearch $colorize $type] != -1}]
+      grid [ttk::checkbutton $w.cf.$type -text " $type" -variable pref_ui::colorizers($type) -command [list pref_ui::set_colorizers]] -row [expr $i % 3] -column [expr $i / 3] -sticky news -padx 2 -pady 2
+      incr i
+    }
+
+    # Create fonts frame
+    ttk::labelframe $w.ff -text "Fonts"
+    ttk::label  $w.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
+    ttk::label  $w.ff.f0  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/EditorFont]
+    ttk::button $w.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
+    ttk::label  $w.ff.l1  -text [format "%s: " [msgcat::mc "Command Launcher Entry"]]
+    ttk::label  $w.ff.f1  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/CommandLauncherEntryFont]
+    ttk::button $w.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
+    ttk::label  $w.ff.l2  -text [format "%s: " [msgcat::mc "Command Launcher Preview"]]
+    ttk::label  $w.ff.f2  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/CommandLauncherPreviewFont]
+    ttk::button $w.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
+
+    grid columnconfigure $w.ff 1 -weight 1
+    grid $w.ff.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.ff.f0 -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.ff.b0 -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $w.ff.l1 -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.ff.f1 -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.ff.b1 -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid $w.ff.l2 -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.ff.f2 -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.ff.b2 -row 2 -column 2 -sticky news -padx 2 -pady 2
+
+    ttk::checkbutton $w.cl_pos -text [format " %s" [msgcat::mc "Remember last position of command launcher"]] -variable [[ns preferences]::ref Appearance/CommandLauncherRememberLastPosition]
+
+    pack $w.tf     -fill x -padx 2 -pady 2
+    pack $w.cf     -fill x -padx 2 -pady 2
+    pack $w.ff     -fill x -padx 2 -pady 2
+    pack $w.cl_pos -fill x -padx 2 -pady 2
+
+    # Populate the themes menu
+    foreach theme [themes::get_all_themes] {
+      $w.theme_mnu add command -label $theme -command [list pref_ui::set_theme $theme]
+    }
 
   }
+
+  ######################################################################
+  # Set the theme to the given value and update UI state.
+  proc set_theme {theme} {
+
+    variable widgets
+
+    $widgets(lang_theme) configure -text $theme
+
+    # Save the theme
+    set [[ns preferences]::ref Appearance/Theme] $theme
+
+  }
+
+  ######################################################################
+  # Update the Appearance/Colorize preference value to the selected
+  # colorizer array.
+  proc set_colorizers {} {
+
+    variable colorizers
+
+    # Get the list of selected colorizers
+    set colorize [list]
+    foreach {name value} [array get colorizers] {
+      if {$value} {
+        lappend colorize $name
+      }
+    }
+
+    # Set the preference array
+    set [[ns preferences]::ref Appearance/Colorize] [lsort $colorize]
+
+  }
+
+  ######################################################################
+  # Sets the given font preference.
+  proc set_font {lbl title varname mono} {
+
+    set opts [list]
+    if {$mono} {
+      lappend opts -mono 1 -styles Regular
+    }
+
+    # Select the new font
+    if {[set new_font [fontchooser -parent .prefwin -title $title -initialfont [$lbl cget -font] -effects 0 {*}$opts]] ne ""} {
+      $lbl configure -font $new_font
+      set [[ns preferences]::ref $varname] $new_font
+    }
+
+  }
+
+  ##########
+  # EDITOR #
+  ##########
 
   ######################################################################
   # Creates the editor panel.
@@ -244,9 +408,25 @@ namespace eval pref_ui {
 
     variable widgets
 
-    pack [ttk::label $w.tbd -text "Editor"]
+    # {Editor/WarningWidth}        {80}
+    # {Editor/SpacesPerTab}        {2}
+    # {Editor/EnableAutoIndent}    {1}
+    # {Editor/AutoMatchChars}      {square curly angled paren double single btick}
+    # {Editor/HighlightMatchingChar} {0}
+    # {Editor/IndentSpaces}        {2}
+    # {Editor/RemoveTrailingWhitespace} {1}
+    # {Editor/EndOfLineTranslation}     {auto}
+    # {Editor/MaxUndo}             {0}
+    # {Editor/SnippetCompleters}   {space tab return}
+    # {Editor/SnippetFormatAfterInsert} {1}
+    # {Editor/VimModelines}        {5}
+    # {Editor/RelativeLineNumbers} {0}
 
   }
+
+  #########
+  # EMMET #
+  #########
 
   ######################################################################
   # Creates the Emmet panel.
@@ -254,9 +434,24 @@ namespace eval pref_ui {
 
     variable widgets
 
-    pack [ttk::label $w.tbd -text "Emmet"]
+    # {Emmet/CSSAutoInsertVendorPrefixes} {1}
+    # {Emmet/CSSColorCase} {keep}
+    # {Emmet/CSSColorShort} {1}
+    # {Emmet/CSSIntUnit} {px}
+    # {Emmet/CSSFloatUnit} {em}
+    # {Emmet/CSSFuzzySearch} {1}
+    # {Emmet/CSSMozPropertiesAddon} {}
+    # {Emmet/CSSMSPropertiesAddon} {}
+    # {Emmet/CSSOPropertiesAddon} {}
+    # {Emmet/CSSWebkitPropertiesAddon} {}
+    # {Emmet/CSSValueSeparator} {: }
+    # {Emmet/CSSPropertyEnd} {;}
 
   }
+
+  ########
+  # FIND #
+  ########
 
   ######################################################################
   # Creates the find panel.
@@ -264,9 +459,15 @@ namespace eval pref_ui {
 
     variable widgets
 
-    pack [ttk::label $w.tbd -text "Find"]
+    # {Find/MaxHistory}            {10}
+    # {Find/ContextNum}            {3}
+    # {Find/JumpDistance}          {2}
 
   }
+
+  ###########
+  # SIDEBAR #
+  ###########
 
   ######################################################################
   # Creates the sidebar panel.
@@ -274,9 +475,16 @@ namespace eval pref_ui {
 
     variable widgets
 
-    pack [ttk::label $w.tbd -text "Sidebar"]
+    # {Sidebar/IgnoreFilePatterns} {}
+    # {Sidebar/IgnoreBinaries}  {0}
+    # {Sidebar/RemoveRootAfterLastClose} {0}
+    # {Sidebar/FoldersAtTop} {1}
 
   }
+
+  #########
+  # TOOLS #
+  #########
 
   ######################################################################
   # Creates the tools panel.
@@ -284,9 +492,16 @@ namespace eval pref_ui {
 
     variable widgets
 
-    pack [ttk::label $w.tbd -text "Tools"]
+    # {Tools/VimMode}              {0}
+    # {Tools/ClipboardHistoryDepth} {10}
+    # {Tools/ProfileReportSortby}  {calls}
+    # {Tools/ProfileReportOptions} {}
 
   }
+
+  ########
+  # VIEW #
+  ########
 
   ######################################################################
   # Creates the view panel.
@@ -294,7 +509,38 @@ namespace eval pref_ui {
 
     variable widgets
 
-    pack [ttk::label $w.tbd -text "View"]
+    # {View/ShowMenubar}           {1}
+    # {View/ShowSidebar}           {1}
+    # {View/ShowConsole}           {0}
+    # {View/ShowStatusBar}         {1}
+    # {View/ShowTabBar}            {1}
+    # {View/ShowLineNumbers}       {1}
+    # {View/ShowMarkerMap}         {1}
+    # {View/ShowDifferenceInOtherPane} {0}
+    # {View/ShowDifferenceVersionInfo} {1}
+    # {View/ShowFindInFileResultsInOtherPane} {0}
+    # {View/AllowTabScrolling}     {1}
+    # {View/ShowRecentlyOpened}    {10}
+    # {View/OpenTabsAlphabetically} {0}
+    # {View/EnableCodeFolding} {0}
+
+  }
+
+  ############
+  # ADVANCED #
+  ############
+
+  ######################################################################
+  # Creates the advanced panel.
+  proc create_advanced {w} {
+
+    variable widgets
+
+    # {NFSMounts}                  {}
+    # {Debug/LogDirectory}         {}
+    # {Debug/DevelopmentMode}      {0}
+    # {Debug/ShowDiagnosticLogfileAtStartup} {0}
+    # {Help/UserGuideFormat}       {pdf}
 
   }
 
