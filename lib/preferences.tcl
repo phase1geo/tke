@@ -51,9 +51,13 @@ namespace eval preferences {
   ######################################################################
   # Returns a reference to the preference variable associated with
   # the given name.
-  proc ref {name} {
+  proc ref {{name ""}} {
 
-    return "[ns preferences]::prefs($name)"
+    if {$name eq ""} {
+      return "[ns preferences]::prefs"
+    } else {
+      return "[ns preferences]::prefs($name)"
+    }
 
   }
 
@@ -282,6 +286,17 @@ namespace eval preferences {
     [ns utils]::set_environment $prefs(General/Variables)
 
     return 0
+
+  }
+
+  ######################################################################
+  # Save the preference array to the preferences file.
+  proc save_prefs {} {
+
+    variable user_preferences_file
+    variable prefs
+
+    [ns tkedat]::write $user_preferences_file [array get prefs] 0
 
   }
 
