@@ -105,26 +105,63 @@ namespace eval pref_ui {
 
     set lls  [[ns preferences]::ref General/LoadLastSession]
     set eolc [[ns preferences]::ref General/ExitOnLastClose]
-    set ucos [[ns preferences]::ref General/UpdateCheckOnStart]
     set acwd [[ns preferences]::ref General/AutoChangeWorkingDirectory]
+    set ucos [[ns preferences]::ref General/UpdateCheckOnStart]
 
-    # LoadLastSession - check
-    # ExitOnLastClose - check
-    # UpdateCheckOnStart - check
-    # AutoChangeWorkingDirectory - check
     # UpdateReleaseType  - menubutton {stable devel}
     # DefaultFileBrowsingDirectory - menubutton {last, buffer, current, directory entry}
-    # Variables       - list
-    # LanguagePatternOverrides - list {language +/- overrides}
 
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text "General"
 
-    pack [ttk::checkbutton $a.lls  -text "Automatically load last session on start" -variable $lls] -fill x
-    pack [ttk::checkbutton $a.eolc -text "Exit the application after the last tab is closed" -variable $eolc] -fill x
-    pack [ttk::checkbutton $a.ucos -text "Automatically check for updates on start" -variable $ucos] -fill x
-    pack [ttk::checkbutton $a.acwd -text "Automatically set the current working directory to the current tabs directory" -variable $acwd] -fill x
+    pack [ttk::checkbutton $a.lls  -text [format " %s" [msgcat::mc "Automatically load last session on start"]] -variable $lls] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $a.eolc -text [format " %s" [msgcat::mc "Exit the application after the last tab is closed"]] -variable $eolc] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $a.acwd -text [format " %s" [msgcat::mc "Automatically set the current working directory to the current tabs directory"]] -variable $acwd] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $a.ucos -text [format " %s" [msgcat::mc "Automatically check for updates on start"]] -variable $ucos] -fill x -padx 2 -pady 2
+
+    ttk::frame $a.uf
+    ttk::label $a.uf.l -text [format "%s: " [msgcat::mc "Update using release type"]]
+    set widgets(upd_mb) [ttk::menubutton $a.uf.mb -menu [menu $a.updMnu -tearoff 0]]
+
+    pack $a.uf.l  -side left -padx 2 -pady 2
+    pack $a.uf.mb -side left -padx 2 -pady 2
+    pack $a.uf -fill x
+
+    $a.updMnu add command -label [msgcat::mc "Stable"]      -command [list pref_ui::set_release_type "stable"]
+    $a.updMnu add command -label [msgcat::mc "Development"] -command [list pref_ui::set_release_type "devel"]
+
+    # Set the current update release type value in the menubutton
+    if {[[ns preferences]::get General/UpdateReleaseType] eq "stable"} {
+      $widgets(upd_mb) configure -text "Stable"
+    } else {
+      $widgets(upd_mb) configure -text "Development"
+    }
+
+    ttk::frame $a.df
+    ttk::label $a.df.l -text [format "%s: " [msgcat::mc "Set default open/save browsing directory to"]]
+    set widgets(browse_mb) [ttk::menubutton $a.df.mb -menu [menu $a.browMnu -tearoff 0]]
+
+    pack $a.df.l   -side left -padx 2 -pady 2
+    pack $a.df.mb  -side left -padx 2 -pady 2
+    pack $a.df -fill x
+
+    pack [set widgets(browse_l) [ttk::label $a.dir]] -fill x -padx 2 -pady 2 -fill x
+
+    $a.browMnu add command -label [msgcat::mc "Last accessed"]                    -command [list pref_ui::set_browse_dir "last"]
+    $a.browMnu add command -label [msgcat::mc "Current editing buffer directory"] -command [list pref_ui::set_browse_dir "buffer"]
+    $a.browMnu add command -label [msgcat::mc "Current working directory"]        -command [list pref_ui::set_browse_dir "current"]
+    $a.browMnu add command -label [msgcat::mc "Use directory"]                    -command [list pref_ui::set_browse_dir "dir"]
+
+    switch [[ns preferences]::get General/DefaultFileBrowserDirectory] {
+      "last"    { $widgets(browse_mb) configure -text [msgcat::mc "Last"] }
+      "buffer"  { $widgets(browse_mb) configure -text [msgcat::mc "Buffer"] }
+      "current" { $widgets(browse_mb) configure -text [msgcat::mc "Current"] }
+      default   {
+        $widgets(browse_mb) configure -text [msgcat::mc "Directory"]
+        $widgets(browse_l)  configure -text "     [[ns preferences]::get General/DefaultFileBrowserDirectory]"
+      }
+    }
 
     $w.nb add [set b [ttk::frame $w.nb.b]] -text "Variables"
 
@@ -182,6 +219,59 @@ namespace eval pref_ui {
     grid $c.tl -row 0 -column 0 -sticky news
     grid $c.vb -row 0 -column 1 -sticky ns
     grid $c.hb -row 1 -column 0 -sticky ew
+
+    # Populate the language table
+    populate_lang_table
+
+  }
+
+  ######################################################################
+  # Sets the update release type to the specified value.
+  proc set_release_type {value} {
+
+    variable widgets
+
+    if {$value eq "stable"} {
+      $widgets(upd_mb) configure -text [msgcat::mc "Stable"]
+    } else {
+      $widgets(upd_mb) configure -text [msgcat::mc "Development"]
+    }
+
+    # Set the preference value
+    set [[ns preferences]::ref General/UpdateReleaseType] $value
+
+  }
+
+  ######################################################################
+  # Set the browse directory
+  proc set_browse_dir {value} {
+
+    variable widgets
+
+    # Clear the browser label text
+    $widgets(browse_l) configure -text ""
+
+    switch $value {
+      "last" {
+        $widgets(browse_mb) configure -text [msgcat::mc "Last"]
+      }
+      "buffer" {
+        $widgets(browse_mb) configure -text [msgcat::mc "Buffer"]
+      }
+      "current" {
+        $widgets(browse_mb) configure -text [msgcat::mc "Current"]
+      }
+      default {
+        if {[set dir [tk_chooseDirectory -parent .prefwin -title [msgcat::mc "Select default browsing directory"]]] ne ""} {
+          $widgets(browse_mb) configure -text [msgcat::mc "Directory"]
+          $widgets(browse_l)  configure -text "     $dir"
+          set value $dir
+        }
+      }
+    }
+
+    # Update the preference value
+    set [[ns preferences]::ref General/DefaultFileBrowserDirectory] $value
 
   }
 
@@ -259,6 +349,25 @@ namespace eval pref_ui {
     }
 
     set [[ns preferences]::ref General/Variables] $values
+
+  }
+
+  ######################################################################
+  # Populates the language table with information from syntax and the
+  # preferences file.
+  proc populate_lang_table {} {
+
+    variable widgets
+
+    # Get the list of languages to disable
+    set dis_langs [[ns preferences]::get General/DisabledLanguages]
+
+    # Add all of the languages
+    foreach lang [lsort [[ns syntax]::get_languages]] {
+      set enabled    [expr [lsearch $dis_langs $lang] == -1]
+      set extensions [[ns syntax]::get_extensions {} $lang]
+      $widgets(lang_table) insert end [list $enabled $lang $extensions]
+    }
 
   }
 

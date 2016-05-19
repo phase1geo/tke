@@ -708,13 +708,17 @@ namespace eval syntax {
 
   ######################################################################
   # Retrieves the extensions for the current text widget.
-  proc get_extensions {tid} {
+  proc get_extensions {tid {language ""}} {
 
     variable langs
     variable curr_lang
 
+    if {$language eq ""} {
+      set language $curr_lang([[ns gui]::current_txt $tid])
+    }
+
     # Get the current language
-    if {[set language $curr_lang([[ns gui]::current_txt $tid])] eq [msgcat::mc "None"]} {
+    if {$language eq [msgcat::mc "None"]} {
       return [list]
     } else {
       array set lang_array $langs($language)
@@ -987,12 +991,12 @@ namespace eval syntax {
     }
 
   }
-  
+
   ######################################################################
   # Checks to see if the previous line contains a list item and inserts
   # a new list item of the same type.
   proc get_markdown_list_check {txt startpos endpos ins} {
-    
+
     if {([lindex [split [$txt index insert] .] 1] == 0) && $ins} {
       if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
         if {[regexp {^([+*>-]|(\d+)\.|\[[ xX]\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
@@ -1008,7 +1012,7 @@ namespace eval syntax {
         }
       }
     }
-    
+
   }
 
   ######################################################################
