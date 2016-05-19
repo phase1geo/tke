@@ -650,10 +650,55 @@ namespace eval pref_ui {
 
     variable widgets
 
-    # {Find/MaxHistory}            {10}
-    # {Find/ContextNum}            {3}
-    # {Find/JumpDistance}          {2}
+    ttk::label $w.mhl -text [format "%s: " [msgcat::mc "Set Find History Depth"]]
+    set widgets(find_mh) [ttk::spinbox $w.mh -from 0 -to 100 -width 3 -state readonly -command [list pref_ui::set_max_history]]
+    ttk::label $w.cnl -text [format "%s: " [msgcat::mc "Set Find in Files Line Context"]]
+    set widgets(find_cn) [ttk::spinbox $w.cn -from 0 -to 10  -width 3 -state readonly -command [list pref_ui::set_context_num]]
+    ttk::label $w.jdl -text [format "%s: " [msgcat::mc "Set Jump Distance"]]
+    set widgets(find_jd) [ttk::spinbox $w.jd -from 1 -to 20  -width 3 -state readonly -command [list pref_ui::set_jump_distance]]
+    
+    grid $w.mhl -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.mh  -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.cnl -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.cn  -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.jdl -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.jd  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    
+    # Initialize the widgets
+    $widgets(find_mh) set [[ns preferences]::get Find/MaxHistory]
+    $widgets(find_cn) set [[ns preferences]::get Find/ContextNum]
+    $widgets(find_jd) set [[ns preferences]::get Find/JumpDistance]
 
+  }
+  
+  ######################################################################
+  # Sets the MaxHistory preference value from the spinbox.
+  proc set_max_history {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Find/MaxHistory] [$widgets(find_mh) get]
+    
+  }
+  
+  ######################################################################
+  # Sets the ContextNum preference value from the spinbox.
+  proc set_context_num {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Find/ContextNum] [$widgets(find_cn) get]
+    
+  }
+  
+  ######################################################################
+  # Sets the JumpDistance preference value from the spinbox.
+  proc set_jump_distance {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Find/JumpDistance] [$widgets(find_jd) get]
+    
   }
 
   ###########
@@ -700,6 +745,12 @@ namespace eval pref_ui {
 
     variable widgets
 
+    ttk::labelframe $w.sf -text [msgcat::mc "Window Startup Options"]
+    pack [ttk::checkbutton $w.sf.sm  -text [format " %s" [msgcat::mc "Show Menubar"]]    -variable [[ns preferences]::ref View/ShowMenubar]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w.sf.ss  -text [format " %s" [msgcat::mc "Show Sidebar"]]    -variable [[ns preferences]::ref View/ShowSidebar]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w.sf.sc  -text [format " %s" [msgcat::mc "Show Console"]]    -variable [[ns preferences]::ref View/ShowConsole]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w.sf.ssb -text [format " %s" [msgcat::mc "Show Status Bar"]] -variable [[ns preferences]::ref View/ShowStatusBar]] -fill x -padx 2 -pady 2
+    
     # {View/ShowMenubar}           {1}
     # {View/ShowSidebar}           {1}
     # {View/ShowConsole}           {0}
