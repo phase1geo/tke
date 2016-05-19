@@ -29,6 +29,7 @@ namespace eval pref_ui {
   variable current_panel ""
 
   array set widgets {}
+  array set images {}
   array set colorizers {
     keywords       0
     comments       0
@@ -46,6 +47,7 @@ namespace eval pref_ui {
   proc create {} {
 
     variable widgets
+    variable images
 
     if {![winfo exists .prefwin]} {
 
@@ -53,6 +55,7 @@ namespace eval pref_ui {
       wm title     .prefwin "User Preferences"
       wm transient .prefwin .
       wm minsize   .prefwin 600 400
+      wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
 
       ttk::frame .prefwin.bf
       set widgets(bar) [listbox .prefwin.bf.lb -relief flat]
@@ -68,6 +71,10 @@ namespace eval pref_ui {
       grid .prefwin.bf -row 0 -column 0 -sticky news
       grid .prefwin.pf -row 0 -column 1 -sticky news
 
+      # Create images
+      set images(checked)   [image create photo -file [file join $::tke_dir lib images checked.gif]]
+      set images(unchecked) [image create photo -file [file join $::tke_dir lib images unchecked.gif]]
+
       foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
         $widgets(bar) insert end [string totitle $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
@@ -76,9 +83,26 @@ namespace eval pref_ui {
       $widgets(bar) selection set 0
       show_panel general
 
+      # Trace on any changes to the preferences variable
       trace add variable [[ns preferences]::ref] write [list pref_ui::handle_prefs_change]
 
     }
+
+  }
+
+  ######################################################################
+  # Called when the preference window is destroyed.
+  proc destroy_window {} {
+
+    variable images
+
+    # Destroy the images
+    foreach {name img} [array get images] {
+      image delete $img
+    }
+
+    # Kill the window
+    destroy .prefwin
 
   }
 
@@ -120,13 +144,9 @@ namespace eval pref_ui {
     pack [ttk::checkbutton $a.acwd -text [format " %s" [msgcat::mc "Automatically set the current working directory to the current tabs directory"]] -variable $acwd] -fill x -padx 2 -pady 2
     pack [ttk::checkbutton $a.ucos -text [format " %s" [msgcat::mc "Automatically check for updates on start"]] -variable $ucos] -fill x -padx 2 -pady 2
 
-    ttk::frame $a.uf
-    ttk::label $a.uf.l -text [format "%s: " [msgcat::mc "Update using release type"]]
-    set widgets(upd_mb) [ttk::menubutton $a.uf.mb -menu [menu $a.updMnu -tearoff 0]]
-
-    pack $a.uf.l  -side left -padx 2 -pady 2
-    pack $a.uf.mb -side left -padx 2 -pady 2
-    pack $a.uf -fill x
+    ttk::frame $a.f
+    ttk::label $a.f.ul -text [format "%s: " [msgcat::mc "Update using release type"]]
+    set widgets(upd_mb) [ttk::menubutton $a.f.umb -menu [menu $a.updMnu -tearoff 0]]
 
     $a.updMnu add command -label [msgcat::mc "Stable"]      -command [list pref_ui::set_release_type "stable"]
     $a.updMnu add command -label [msgcat::mc "Development"] -command [list pref_ui::set_release_type "devel"]
@@ -138,15 +158,9 @@ namespace eval pref_ui {
       $widgets(upd_mb) configure -text "Development"
     }
 
-    ttk::frame $a.df
-    ttk::label $a.df.l -text [format "%s: " [msgcat::mc "Set default open/save browsing directory to"]]
-    set widgets(browse_mb) [ttk::menubutton $a.df.mb -menu [menu $a.browMnu -tearoff 0]]
-
-    pack $a.df.l   -side left -padx 2 -pady 2
-    pack $a.df.mb  -side left -padx 2 -pady 2
-    pack $a.df -fill x
-
-    pack [set widgets(browse_l) [ttk::label $a.dir]] -fill x -padx 2 -pady 2 -fill x
+    ttk::label $a.f.dl -text [format "%s: " [msgcat::mc "Set default open/save browsing directory to"]]
+    set widgets(browse_mb) [ttk::menubutton $a.f.dmb -menu [menu $a.browMnu -tearoff 0]]
+    set widgets(browse_l)  [ttk::label $a.f.dir]
 
     $a.browMnu add command -label [msgcat::mc "Last accessed"]                    -command [list pref_ui::set_browse_dir "last"]
     $a.browMnu add command -label [msgcat::mc "Current editing buffer directory"] -command [list pref_ui::set_browse_dir "buffer"]
@@ -163,11 +177,19 @@ namespace eval pref_ui {
       }
     }
 
+    grid $a.f.ul  -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.f.umb -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.f.dl  -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.f.dmb -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.f.dir -row 2 -column 0 -sticky news -columnspan 2
+
+    pack $a.f -fill x -pady 10
+
     $w.nb add [set b [ttk::frame $w.nb.b]] -text "Variables"
 
     ttk::frame $b.f
     set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
-      -stretch all -editselectedonly 1 -exportselection 1 \
+      -stretch all -editselectedonly 1 -exportselection 1 -showseparators 1 \
       -editendcommand [list pref_ui::var_edit_end_command] \
       -xscrollcommand [list $b.f.hb set] -yscrollcommand [list $b.f.vb set]]
     ttk::scrollbar $b.f.vb -orient vertical   -command [list $b.f.tl yview]
@@ -202,13 +224,13 @@ namespace eval pref_ui {
     $w.nb add [set c [ttk::frame $w.nb.c]] -text "Languages"
 
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
-      -stretch all -exportselection 1 \
+      -stretch all -exportselection 1 -showseparators 1 \
       -editendcommand [list pref_ui::lang_edit_end_command] \
       -xscrollcommand [list $c.hb set] -yscrollcommand [list $c.vb set]]
     ttk::scrollbar $c.vb -orient vertical   -command [list $c.tl yview]
     ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
 
-    $widgets(lang_table) columnconfigure 0 -name enabled -editable 0 -resizable 0 -stretchable 0
+    $widgets(lang_table) columnconfigure 0 -name enabled -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::empty_string]
     $widgets(lang_table) columnconfigure 1 -name lang    -editable 0 -resizable 0 -stretchable 0
     $widgets(lang_table) columnconfigure 2 -name exts    -editable 1 -resizable 1 -stretchable 1
 
@@ -222,6 +244,14 @@ namespace eval pref_ui {
 
     # Populate the language table
     populate_lang_table
+
+  }
+
+  ######################################################################
+  # Format command.
+  proc empty_string {value} {
+
+    return ""
 
   }
 
@@ -358,24 +388,60 @@ namespace eval pref_ui {
   proc populate_lang_table {} {
 
     variable widgets
+    variable images
 
     # Get the list of languages to disable
     set dis_langs [[ns preferences]::get General/DisabledLanguages]
 
+    # Get the extension overrides
+    array set orides [[ns preferences]::get General/LanguagePatternOverrides]
+
     # Add all of the languages
-    foreach lang [lsort [[ns syntax]::get_languages]] {
+    foreach lang [lsort [[ns syntax]::get_all_languages]] {
       set enabled    [expr [lsearch $dis_langs $lang] == -1]
       set extensions [[ns syntax]::get_extensions {} $lang]
-      $widgets(lang_table) insert end [list $enabled $lang $extensions]
+      if {[info exists orides($lang)]} {
+        foreach ext $orides($lang) {
+          if {[string index $ext 0] eq "+"} {
+            lappend extensions [string range $ext 1 end]
+          } elseif {[set index [lsearch $extensions [string range $ext 1 end]]] != -1} {
+            set extensions [lreplace $extensions $index $index]
+          }
+        }
+      }
+      set row [$widgets(lang_table) insert end [list $enabled $lang $extensions]]
+      if {$enabled} {
+        $widgets(lang_table) cellconfigure $row,enabled -image $images(checked)
+      } else {
+        $widgets(lang_table) cellconfigure $row,enabled -image $images(unchecked)
+      }
     }
 
   }
 
   ######################################################################
   # Handles any left-clicks on the language table.
-  proc handle_lang_left_click {W x y} {
+  proc handle_lang_left_click {w x y} {
 
-    # TBD
+    variable images
+
+    lassign [tablelist::convEventFields $w $x $y] tbl x y
+    lassign [split [$tbl containingcell $x $y] ,] row col
+
+    if {$row >= 0} {
+      if {$col == 0} {
+        set lang           [$tbl cellcget $row,lang -text]
+        set disabled_langs [[ns preferences]::ref General/DisabledLanguages]
+        if {[$tbl cellcget $row,$col -text]} {
+          $tbl cellconfigure $row,$col -text 0 -image $images(unchecked)
+          lappend $disabled_langs $lang
+        } else {
+          $tbl cellconfigure $row,$col -text 1 -image $images(checked)
+          set index [lsearch [set $disabled_langs] $lang]
+          set $disabled_langs [lreplace [set $disabled_langs] $index $index]
+        }
+      }
+    }
 
   }
 
@@ -384,8 +450,24 @@ namespace eval pref_ui {
   proc lang_edit_end_command {tbl row col value} {
 
     set lang [$tbl cellcget $row,lang -text]
+    set exts [[ns syntax]::get_extensions {} $lang]
 
-    # TBD
+    if {$value ne $exts} {
+      set lang_oride [list]
+      foreach ext $exts {
+        if {[lsearch -exact $value $ext] == -1} {
+          lappend lang_oride "-$ext"
+        }
+      }
+      foreach val $value {
+        if {[lsearch -exact $exts $val] == -1} {
+          lappend lang_oride "+$val"
+        }
+      }
+      array set pref_orides [[ns preferences]::get General/LanguagePatternOverrides]
+      set pref_orides($lang) $lang_oride
+      set [[ns preferences]::ref General/LanguagePatternOverrides] [array get pref_orides]
+    }
 
     return $value
 
