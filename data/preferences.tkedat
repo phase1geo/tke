@@ -51,6 +51,12 @@
 
 {General/LanguagePatternOverrides} {}
 
+# Specifies a list of languages to avoid displaying from the languages
+# menu and menubutton.  The languages names must match exactly to cause
+# them to be properly disabled from view.
+
+{General/DisabledLanguages} {}
+
 # If set to 1, the current working directory will automatically change to be the
 # directory containing the current file.
 

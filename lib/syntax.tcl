@@ -161,12 +161,37 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # Returns a list of supported languages.
-  proc get_languages {} {
+  # Returns a list of all supported languages.
+  proc get_all_languages {} {
 
     variable langs
 
     return [array names langs]
+
+  }
+
+  ######################################################################
+  # Returns a list of all enabled languages.
+  proc get_enabled_languages {} {
+
+    variable langs
+
+    # Get the list of disabled languages
+    set dis_langs [[ns preferences]::get General/DisabledLanguages]
+
+    # If we don't have any disabled languages, just return the full list
+    if {[llength $dis_langs] == 0} {
+      return [get_all_languages]
+    }
+
+    set enabled [list]
+    foreach lang [get_all_languages] {
+      if {[lsearch $dis_langs $lang] == -1} {
+        lappend enabled $lang
+      }
+    }
+
+    return $enabled
 
   }
 
@@ -629,7 +654,7 @@ namespace eval syntax {
     $mnu add radiobutton -label [format "<%s>" [msgcat::mc "None"]] -variable [ns syntax]::current_lang \
       -value [msgcat::mc "None"] -command [list [ns syntax]::set_current_language [msgcat::mc "None"]]
     set i 0
-    foreach lang [lsort [array names langs]] {
+    foreach lang [lsort [get_enabled_languages]] {
       $mnu add radiobutton -label $lang -variable [ns syntax]::current_lang \
         -value $lang -command [list [ns syntax]::set_current_language $lang] -columnbreak [expr (($len / $cols) == $i) && $dobreak]
       set i [expr (($len / $cols) == $i) ? 0 : ($i + 1)]

@@ -332,7 +332,7 @@ namespace eval embed_tke {
 
       # Set the language
       if {$orig_options($w,option,-language) ne $data($w,option,-language)} {
-        if {[lsearch [syntax::get_languages] $data($w,option,-language)] != -1} {
+        if {[lsearch [syntax::get_all_languages] $data($w,option,-language)] != -1} {
           syntax::set_language $w.txt $data($w,option,-language)
         } else {
           return -code error "Unknown language ($data($w,option,-language) specified in embed_tke::configure command"
