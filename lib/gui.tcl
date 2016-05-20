@@ -414,7 +414,7 @@ namespace eval gui {
     trace variable [ns preferences]::prefs(Editor/HighlightMatchingChar)        w [ns gui]::handle_matching_char
     trace variable [ns preferences]::prefs(View/AllowTabScrolling)              w [ns gui]::handle_allow_tab_scrolling
     trace variable [ns preferences]::prefs(Tools/VimMode)                       w [ns gui]::handle_vim_mode
-    trace variable [ns preferences]::prefs(Appearance/EditorFontSize)           w [ns gui]::handle_editor_font_size
+    trace variable [ns preferences]::prefs(Appearance/EditorFont)               w [ns gui]::handle_editor_font
     trace variable [ns preferences]::prefs(General/AutoChangeWorkingDirectory)  w [ns gui]::handle_auto_cwd
     trace variable [ns preferences]::prefs(General/DefaultFileBrowserDirectory) w [ns gui]::handle_browse_directory
 
@@ -527,11 +527,11 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Updates all of the font sizes in the text window to the given.
-  proc handle_editor_font_size {name1 name2 op} {
+  # Updates all of the fonts in the text window to the given.
+  proc handle_editor_font {name1 name2 op} {
 
     # Update the size of the editor_font
-    font configure editor_font -size [[ns preferences]::get Appearance/EditorFontSize]
+    font configure editor_font {*}[font configure TkFixedFont] {*}[[ns preferences]::get Appearance/EditorFont]
 
   }
 
@@ -3590,7 +3590,7 @@ namespace eval gui {
 
     # Create the editor font if it does not currently exist
     if {[lsearch [font names] editor_font] == -1} {
-      font create editor_font -family [font configure [$txt cget -font] -family] -size [[ns preferences]::get Appearance/EditorFontSize]
+      font create editor_font {*}[font configure TkFixedFont] {*}[[ns preferences]::get Appearance/EditorFont]
     }
 
     $txt configure -font editor_font

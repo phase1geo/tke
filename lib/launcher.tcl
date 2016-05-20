@@ -92,8 +92,8 @@ namespace eval launcher {
     }
 
     # Add preferences traces
-    trace variable preferences::prefs(Appearance/CommandLauncherEntryFontSize)        w launcher::handle_entry_font_size
-    trace variable preferences::prefs(Appearance/CommandLauncherPreviewFontSize)      w launcher::handle_preview_font_size
+    trace variable preferences::prefs(Appearance/CommandLauncherEntryFont)            w launcher::handle_entry_font
+    trace variable preferences::prefs(Appearance/CommandLauncherPreviewFont)          w launcher::handle_preview_font
     trace variable preferences::prefs(Appearance/CommandLauncherRememberLastPosition) w launcher::handle_last_position
 
   }
@@ -132,8 +132,7 @@ namespace eval launcher {
         -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
 
       if {[lsearch [font names] launcher_entry] == -1} {
-        font create launcher_entry -family [font configure [$widgets(entry) cget -font] -family] \
-          -size [preferences::get Appearance/CommandLauncherEntryFontSize]
+        font create launcher_entry {*}[preferences::get Appearance/CommandLauncherEntryFont]
       }
 
       $widgets(entry) configure -font launcher_entry
@@ -156,8 +155,7 @@ namespace eval launcher {
                           -fg [utils::get_default_foreground] -bg [utils::get_default_background]]
 
       if {[lsearch [font names] launcher_preview] == -1} {
-        font create launcher_preview -family [font configure [$widgets(txt) cget -font] -family] \
-          -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
+        font create launcher_preview {*}[preferences::get Appearance/CommandLauncherPreviewFont]
       }
 
       $widgets(txt) configure -font launcher_preview
@@ -276,20 +274,20 @@ namespace eval launcher {
 
   ######################################################################
   # Handles any changes to the entry font size preferences variable.
-  proc handle_entry_font_size {name1 name2 op} {
+  proc handle_entry_font {name1 name2 op} {
 
     if {[lsearch [font names] launcher_entry] != -1} {
-      font configure launcher_entry -size [preferences::get Appearance/CommandLauncherEntryFontSize]
+      font configure launcher_entry {*}[preferences::get Appearance/CommandLauncherEntryFont]
     }
 
   }
 
   ######################################################################
   # Handles any changes to the preview font size preferences variable.
-  proc handle_preview_font_size {name1 name2 op} {
+  proc handle_preview_font {name1 name2 op} {
 
     if {[lsearch [font names] launcher_preview] != -1} {
-      font configure launcher_preview -size [preferences::get Appearance/CommandLauncherPreviewFontSize]
+      font configure launcher_preview {*}[preferences::get Appearance/CommandLauncherPreviewFont]
     }
 
   }
