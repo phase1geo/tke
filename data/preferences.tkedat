@@ -104,15 +104,15 @@
 
 # Specifies the point size of the font used in the editor window
 
-{Appearance/EditorFontSize}  {9}
+{Appearance/EditorFont}  {-size 9}
 
 # Specifies the point size of the font used in the command launcher entry field.
 
-{Appearance/CommandLauncherEntryFontSize} {12}
+{Appearance/CommandLauncherEntryFont} {-size 12}
 
 # Specifies the point size of the font used in the command launcher preview field.
 
-{Appearance/CommandLauncherPreviewFontSize} {6}
+{Appearance/CommandLauncherPreviewFont} {-size 6}
 
 # If set to a value of 1, the command launcher will be positioned at the last position the
 # command launcher was moved to.  If this value is 0, the command launcher will always be

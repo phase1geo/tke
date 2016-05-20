@@ -68,11 +68,11 @@ namespace eval pref_ui {
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
 
       ttk::frame .prefwin.bf
-      set widgets(bar) [listbox .prefwin.bf.lb -relief flat]
+      set widgets(bar) [ttk::treeview .prefwin.bf.tv -show tree -selectmode browse -height 0]
 
       pack $widgets(bar) -fill both -expand yes
 
-      bind $widgets(bar) <<ListboxSelect>> [list pref_ui::show_selected_panel]
+      bind $widgets(bar) <<TreeviewSelect>> [list pref_ui::show_selected_panel]
 
       set widgets(frame) [ttk::frame .prefwin.pf]
 
@@ -82,15 +82,20 @@ namespace eval pref_ui {
       grid .prefwin.pf -row 0 -column 1 -sticky news
 
       # Create images
-      set images(checked)   [image create photo -file [file join $::tke_dir lib images checked.gif]]
-      set images(unchecked) [image create photo -file [file join $::tke_dir lib images unchecked.gif]]
+      set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
+      set images(unchecked)  [image create photo -file [file join $::tke_dir lib images unchecked.gif]]
+      set images(appearance) [image create photo -file [file join $::tke_dir lib images appearance.gif]]
 
       foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
-        $widgets(bar) insert end [string totitle $pane]
+        if {[info exists images($pane)]} {
+          puts [$widgets(bar) insert "" end -id $pane -image $images($pane) -text [string totitle $pane]]
+        } else {
+          puts [$widgets(bar) insert "" end -id $pane -text [string totitle $pane]]
+        }
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
 
-      $widgets(bar) selection set 0
+      $widgets(bar) selection set general
       show_panel general
 
       # Trace on any changes to the preferences variable
@@ -100,6 +105,38 @@ namespace eval pref_ui {
 
   }
 
+  ######################################################################
+  # Displays the selected panel in the listbox.
+  proc show_selected_panel {} {
+
+    variable widgets
+
+    set selected [$widgets(bar) selection]
+    set panel    [string tolower [$widgets(bar) item $selected -text]]
+
+    show_panel $panel
+
+  }
+
+  ######################################################################
+  # Shows the given panel in the window.
+  proc show_panel {panel} {
+
+    variable widgets
+    variable current_panel
+
+    # Remove the current panel
+    if {$current_panel ne ""} {
+      pack forget $widgets($current_panel)
+    }
+
+    # Display the given panel
+    pack $widgets($panel) -fill both
+
+    set current_panel $panel
+
+  }
+ 
   ######################################################################
   # Called when the preference window is destroyed.
   proc destroy_window {} {
@@ -832,38 +869,6 @@ namespace eval pref_ui {
     # {Debug/DevelopmentMode}      {0}
     # {Debug/ShowDiagnosticLogfileAtStartup} {0}
     # {Help/UserGuideFormat}       {pdf}
-
-  }
-
-  ######################################################################
-  # Displays the selected panel in the listbox.
-  proc show_selected_panel {} {
-
-    variable widgets
-
-    set selected [$widgets(bar) curselection]
-    set panel    [string tolower [$widgets(bar) get $selected]]
-
-    show_panel $panel
-
-  }
-
-  ######################################################################
-  # Shows the given panel in the window.
-  proc show_panel {panel} {
-
-    variable widgets
-    variable current_panel
-
-    # Remove the current panel
-    if {$current_panel ne ""} {
-      pack forget $widgets($current_panel)
-    }
-
-    # Display the given panel
-    pack $widgets($panel) -fill both
-
-    set current_panel $panel
 
   }
 

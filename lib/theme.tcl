@@ -1088,7 +1088,7 @@ namespace eval theme {
         -background [list disabled  $opts(disabled_background) \
                           pressed   $opts(pressed_color) \
                           active    $opts(active_color)]
-
+        
       # Configure panedwindow sash widgets
       ttk::style configure Sash -sashthickness $opts(grip_thickness) -gripcount $opts(grip_count)
 
@@ -1097,6 +1097,9 @@ namespace eval theme {
 
       # Configure TNotebook widgets
       ttk::style configure TNotebook.Tab -padding {10 3}
+      
+      # Configure Treeview widgets
+      ttk::style configure Treeview.field -border 0
 
     }
 
