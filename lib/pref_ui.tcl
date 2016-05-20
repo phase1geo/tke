@@ -41,6 +41,16 @@ namespace eval pref_ui {
     miscellaneous2 0
     miscellaneous3 0
   }
+  
+  ######################################################################
+  # Make a checkbutton.
+  proc make_cb {w msg varname} {
+    
+    pack [ttk::checkbutton $w -text [format " %s" $msg] -variable [[ns preferences]::ref $varname]] -fill x -padx 2 -pady 2
+    
+    return $w
+    
+  }
 
   ######################################################################
   # Create the preferences window.
@@ -139,10 +149,10 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text "General"
 
-    pack [ttk::checkbutton $a.lls  -text [format " %s" [msgcat::mc "Automatically load last session on start"]] -variable $lls] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $a.eolc -text [format " %s" [msgcat::mc "Exit the application after the last tab is closed"]] -variable $eolc] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $a.acwd -text [format " %s" [msgcat::mc "Automatically set the current working directory to the current tabs directory"]] -variable $acwd] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $a.ucos -text [format " %s" [msgcat::mc "Automatically check for updates on start"]] -variable $ucos] -fill x -padx 2 -pady 2
+    make_cb $a.lls  [msgcat::mc "Automatically load last session on start"]          General/LoadLastSession
+    make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"] General/ExitOnLastClose
+    make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"] General/AutoChangeWorkingDirectory
+    make_cb $a.ucos [msgcat::mc "Automatically check for updates on start"]          General/UpdateCheckOnStart
 
     ttk::frame $a.f
     ttk::label $a.f.ul -text [format "%s: " [msgcat::mc "Update using release type"]]
@@ -507,10 +517,10 @@ namespace eval pref_ui {
     ttk::label  $w.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
     ttk::label  $w.ff.f0  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/EditorFont]
     ttk::button $w.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
-    ttk::label  $w.ff.l1  -text [format "%s: " [msgcat::mc "Command Launcher Entry"]]
+    ttk::label  $w.ff.l1  -text [format "%s: " [msgcat::mc "Command launcher entry"]]
     ttk::label  $w.ff.f1  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/CommandLauncherEntryFont]
     ttk::button $w.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
-    ttk::label  $w.ff.l2  -text [format "%s: " [msgcat::mc "Command Launcher Preview"]]
+    ttk::label  $w.ff.l2  -text [format "%s: " [msgcat::mc "Command launcher preview"]]
     ttk::label  $w.ff.f2  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/CommandLauncherPreviewFont]
     ttk::button $w.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
 
@@ -525,12 +535,11 @@ namespace eval pref_ui {
     grid $w.ff.f2 -row 2 -column 1 -sticky news -padx 2 -pady 2
     grid $w.ff.b2 -row 2 -column 2 -sticky news -padx 2 -pady 2
 
-    ttk::checkbutton $w.cl_pos -text [format " %s" [msgcat::mc "Remember last position of command launcher"]] -variable [[ns preferences]::ref Appearance/CommandLauncherRememberLastPosition]
-
     pack $w.tf     -fill x -padx 2 -pady 2
     pack $w.cf     -fill x -padx 2 -pady 2
     pack $w.ff     -fill x -padx 2 -pady 2
-    pack $w.cl_pos -fill x -padx 2 -pady 2
+
+    make_cb $w.cl_pos [msgcat::mc "Remember last position of command launcher"] Appearance/CommandLauncherRememberLastPosition
 
     # Populate the themes menu
     foreach theme [themes::get_all_themes] {
@@ -710,12 +719,40 @@ namespace eval pref_ui {
   proc create_sidebar {w} {
 
     variable widgets
+    
+    ttk::notebook $w.nb
+    
+    $w.nb add [set a [ttk::frame $w.nb.a]] -text "Behaviors"
+    
+    make_cb $a.rralc [msgcat::mc "Remove root directory after last sub-file is closed"] Sidebar/RemoveRootAfterLastClose
+    make_cb $a.fat   [msgcat::mc "Show folders at top"] Sidebar/FoldersAtTop
+    
+    $w.nb add [set b [ttk::frame $w.nb.b]] -text "Hiding"
 
-    # {Sidebar/IgnoreFilePatterns} {}
-    # {Sidebar/IgnoreBinaries}  {0}
-    # {Sidebar/RemoveRootAfterLastClose} {0}
-    # {Sidebar/FoldersAtTop} {1}
+    make_cb $b.ib [msgcat::mc "Hide binary files"] Sidebar/IgnoreBinaries
+    
+    ttk::labelframe $b.pf -text "Hide Patterns"
+    pack [set widgets(sb_patterns) [tokenentry::tokenentry $b.pf.te -height 6 -tokenshape eased]] -fill both -expand yes
+    
+    bind $widgets(sb_patterns) <<TokenEntryModified>> [list pref_ui::sidebar_pattern_changed]
+    
+    pack $b.pf -fill both -expand yes -padx 2 -pady 10
+    
+    pack $w.nb -fill both -expand yes
+    
+    # Insert the tokens
+    $widgets(sb_patterns) tokeninsert end [[ns preferences]::get Sidebar/IgnoreFilePatterns]
 
+  }
+  
+  ######################################################################
+  # Called whenever the pattern tokenentry widget is modified.
+  proc sidebar_pattern_changed {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Sidebar/IgnoreFilePatterns] [$widgets(sb_patterns) tokenget]
+    
   }
 
   #########
@@ -745,27 +782,39 @@ namespace eval pref_ui {
 
     variable widgets
 
-    ttk::labelframe $w.sf -text [msgcat::mc "Window Startup Options"]
-    pack [ttk::checkbutton $w.sf.sm  -text [format " %s" [msgcat::mc "Show Menubar"]]    -variable [[ns preferences]::ref View/ShowMenubar]] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $w.sf.ss  -text [format " %s" [msgcat::mc "Show Sidebar"]]    -variable [[ns preferences]::ref View/ShowSidebar]] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $w.sf.sc  -text [format " %s" [msgcat::mc "Show Console"]]    -variable [[ns preferences]::ref View/ShowConsole]] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $w.sf.ssb -text [format " %s" [msgcat::mc "Show Status Bar"]] -variable [[ns preferences]::ref View/ShowStatusBar]] -fill x -padx 2 -pady 2
+    make_cb $w.sm   [msgcat::mc "Show menubar"]                                     View/ShowMenubar
+    make_cb $w.ss   [msgcat::mc "Show sidebar"]                                     View/ShowSidebar
+    make_cb $w.sc   [msgcat::mc "Show console"]                                     View/ShowConsole
+    make_cb $w.ssb  [msgcat::mc "Show status bar"]                                  View/ShowStatusBar
+    make_cb $w.stb  [msgcat::mc "Show tab bar"]                                     View/ShowTabBar
+    make_cb $w.sln  [msgcat::mc "Show line numbers"]                                View/ShowLineNumbers
+    make_cb $w.smm  [msgcat::mc "Show marker map"]                                  View/ShowMarkerMap
+    make_cb $w.sdio [msgcat::mc "Show difference file in other pane than original"] View/ShowDifferenceInOtherPane
+    make_cb $w.sdvi [msgcat::mc "Show difference file version information"]         View/ShowDifferenceVersionInfo
+    make_cb $w.sfif [msgcat::mc "Show 'Find in Files' result in other pane"]        View/ShowFindInFileResultsInOtherPane
+    make_cb $w.ats  [msgcat::mc "Allow scrolling in tab bar"]                       View/AllowTabScrolling
+    make_cb $w.ota  [msgcat::mc "Sort tabs alphabetically on open"]                 View/OpenTabsAlphabetically
+    make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
     
-    # {View/ShowMenubar}           {1}
-    # {View/ShowSidebar}           {1}
-    # {View/ShowConsole}           {0}
-    # {View/ShowStatusBar}         {1}
-    # {View/ShowTabBar}            {1}
-    # {View/ShowLineNumbers}       {1}
-    # {View/ShowMarkerMap}         {1}
-    # {View/ShowDifferenceInOtherPane} {0}
-    # {View/ShowDifferenceVersionInfo} {1}
-    # {View/ShowFindInFileResultsInOtherPane} {0}
-    # {View/AllowTabScrolling}     {1}
-    # {View/ShowRecentlyOpened}    {10}
-    # {View/OpenTabsAlphabetically} {0}
-    # {View/EnableCodeFolding} {0}
+    ttk::frame $w.of
+    pack [ttk::label   $w.of.l  -text [format "%s: " [msgcat::mc "Recently opened history depth"]]] -side left -padx 2 -pady 2
+    pack [set widgets(view_sro) [ttk::spinbox $w.of.sb -from 0 -to 20 -width 2 -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
+    
+    pack $w.of -fill x -padx 2 -pady 10
+    
+    # Initialize the spinbox value
+    $widgets(view_sro) set [[ns preferences]::get View/ShowRecentlyOpened]
 
+  }
+  
+  ######################################################################
+  # Sets the View/ShowRecentlyOpened preference value
+  proc set_show_recently_opened {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref View/ShowRecentlyOpened] [$widgets(view_sro) get]
+    
   }
 
   ############
