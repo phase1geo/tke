@@ -41,17 +41,17 @@ namespace eval pref_ui {
     miscellaneous2 0
     miscellaneous3 0
   }
-  
+
   ######################################################################
   # Make a checkbutton.
   proc make_cb {w msg varname} {
-    
+
     pack [ttk::checkbutton $w -text [format " %s" $msg] -variable [[ns preferences]::ref $varname]] -fill x -padx 2 -pady 2
-    
+
     return $w
-    
+
   }
-  
+
   ######################################################################
   # Create the preferences window.
   proc create {} {
@@ -77,7 +77,7 @@ namespace eval pref_ui {
       grid .prefwin.f.bf  -row 0 -column 0 -sticky news
       grid .prefwin.f.sep -row 0 -column 1 -sticky ns   -padx 15
       grid .prefwin.f.pf  -row 0 -column 2 -sticky news
-      
+
       pack .prefwin.f -fill both -expand yes
 
       # Create images
@@ -89,6 +89,7 @@ namespace eval pref_ui {
       set images(emmet)      [image create photo -file [file join $::tke_dir lib images emmet.gif]]
       set images(find)       [image create photo -file [file join $::tke_dir lib images find.gif]]
       set images(view)       [image create photo -file [file join $::tke_dir lib images view.gif]]
+      set images(tools)      [image create photo -file [file join $::tke_dir lib images tools.gif]]
 
       foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
         if {[info exists images($pane)]} {
@@ -110,31 +111,31 @@ namespace eval pref_ui {
 
   }
 
-  
+
   ######################################################################
   # Called whenever the user clicks on a panel label.
   proc pane_clicked {panel} {
-    
+
     variable widgets
-    
+
     set bg [$widgets(panes).$panel cget -background]
     set fg [$widgets(panes).$panel cget -foreground]
-    
+
     # Clear all of the panel selection labels, if necessary
     if {$bg ne "blue"} {
       foreach p [winfo children $widgets(panes)] {
         $p configure -background $bg -foreground $fg
       }
     }
-    
+
     # Set the color of the label to the given color
     $widgets(panes).$panel configure -background blue -foreground white
-    
+
     # Show the panel
     show_panel $panel
-    
+
   }
-  
+
   ######################################################################
   # Displays the selected panel in the listbox.
   proc show_selected_panel {} {
@@ -166,7 +167,7 @@ namespace eval pref_ui {
     set current_panel $panel
 
   }
- 
+
   ######################################################################
   # Called when the preference window is destroyed.
   proc destroy_window {} {
@@ -732,49 +733,49 @@ namespace eval pref_ui {
     set widgets(find_cn) [ttk::spinbox $w.cn -from 0 -to 10  -width 3 -state readonly -command [list pref_ui::set_context_num]]
     ttk::label $w.jdl -text [format "%s: " [msgcat::mc "Set Jump Distance"]]
     set widgets(find_jd) [ttk::spinbox $w.jd -from 1 -to 20  -width 3 -state readonly -command [list pref_ui::set_jump_distance]]
-    
+
     grid $w.mhl -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $w.mh  -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid $w.cnl -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $w.cn  -row 1 -column 1 -sticky news -padx 2 -pady 2
     grid $w.jdl -row 2 -column 0 -sticky news -padx 2 -pady 2
     grid $w.jd  -row 2 -column 1 -sticky news -padx 2 -pady 2
-    
+
     # Initialize the widgets
     $widgets(find_mh) set [[ns preferences]::get Find/MaxHistory]
     $widgets(find_cn) set [[ns preferences]::get Find/ContextNum]
     $widgets(find_jd) set [[ns preferences]::get Find/JumpDistance]
 
   }
-  
+
   ######################################################################
   # Sets the MaxHistory preference value from the spinbox.
   proc set_max_history {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Find/MaxHistory] [$widgets(find_mh) get]
-    
+
   }
-  
+
   ######################################################################
   # Sets the ContextNum preference value from the spinbox.
   proc set_context_num {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Find/ContextNum] [$widgets(find_cn) get]
-    
+
   }
-  
+
   ######################################################################
   # Sets the JumpDistance preference value from the spinbox.
   proc set_jump_distance {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Find/JumpDistance] [$widgets(find_jd) get]
-    
+
   }
 
   ###########
@@ -786,40 +787,40 @@ namespace eval pref_ui {
   proc create_sidebar {w} {
 
     variable widgets
-    
+
     ttk::notebook $w.nb
-    
+
     $w.nb add [set a [ttk::frame $w.nb.a]] -text "Behaviors"
-    
+
     make_cb $a.rralc [msgcat::mc "Remove root directory after last sub-file is closed"] Sidebar/RemoveRootAfterLastClose
     make_cb $a.fat   [msgcat::mc "Show folders at top"] Sidebar/FoldersAtTop
-    
+
     $w.nb add [set b [ttk::frame $w.nb.b]] -text "Hiding"
 
     make_cb $b.ib [msgcat::mc "Hide binary files"] Sidebar/IgnoreBinaries
-    
+
     ttk::labelframe $b.pf -text "Hide Patterns"
     pack [set widgets(sb_patterns) [tokenentry::tokenentry $b.pf.te -height 6 -tokenshape eased]] -fill both -expand yes
-    
+
     bind $widgets(sb_patterns) <<TokenEntryModified>> [list pref_ui::sidebar_pattern_changed]
-    
+
     pack $b.pf -fill both -expand yes -padx 2 -pady 10
-    
+
     pack $w.nb -fill both -expand yes
-    
+
     # Insert the tokens
     $widgets(sb_patterns) tokeninsert end [[ns preferences]::get Sidebar/IgnoreFilePatterns]
 
   }
-  
+
   ######################################################################
   # Called whenever the pattern tokenentry widget is modified.
   proc sidebar_pattern_changed {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Sidebar/IgnoreFilePatterns] [$widgets(sb_patterns) tokenget]
-    
+
   }
 
   #########
@@ -862,26 +863,26 @@ namespace eval pref_ui {
     make_cb $w.ats  [msgcat::mc "Allow scrolling in tab bar"]                       View/AllowTabScrolling
     make_cb $w.ota  [msgcat::mc "Sort tabs alphabetically on open"]                 View/OpenTabsAlphabetically
     make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
-    
+
     ttk::frame $w.of
     pack [ttk::label   $w.of.l  -text [format "%s: " [msgcat::mc "Recently opened history depth"]]] -side left -padx 2 -pady 2
     pack [set widgets(view_sro) [ttk::spinbox $w.of.sb -from 0 -to 20 -width 2 -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
-    
+
     pack $w.of -fill x -padx 2 -pady 10
-    
+
     # Initialize the spinbox value
     $widgets(view_sro) set [[ns preferences]::get View/ShowRecentlyOpened]
 
   }
-  
+
   ######################################################################
   # Sets the View/ShowRecentlyOpened preference value
   proc set_show_recently_opened {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref View/ShowRecentlyOpened] [$widgets(view_sro) get]
-    
+
   }
 
   ############

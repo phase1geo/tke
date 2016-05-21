@@ -59,8 +59,8 @@ namespace eval bitmap {
       -color1     blue
       -color2     green
       -size       10
-      -width      16
-      -height     16
+      -width      32
+      -height     32
       -swatches   {}
     }
 
@@ -82,8 +82,8 @@ namespace eval bitmap {
     ttk::frame $w
 
     # Create the bitmap canvas
-    set width  [expr ($data($w,-size) * 16) + 1]
-    set height [expr ($data($w,-size) * 16) + 1]
+    set width  [expr ($data($w,-size) * 32) + 1]
+    set height [expr ($data($w,-size) * 32) + 1]
     set data($w,grid) [canvas $w.c -background $data(bg) -width $width -height $height]
 
     bind $data($w,grid) <B1-Motion> [list bitmap::change_square_motion $w %x %y]
@@ -218,6 +218,8 @@ namespace eval bitmap {
 
     variable data
 
+    puts "In draw_grid, width: $width, height: $height"
+
     # Calculate the background and foreground colors, if necessary
     set bg [lindex $data($w,colors) 0]
     set fg [expr {($fg eq "") ? $data(fg) : $fg}]
@@ -226,8 +228,8 @@ namespace eval bitmap {
     $data($w,grid) delete all
 
     # Calculate the x and y adjustment
-    set x_adjust [expr ((16 - $width)  * ($data($w,-size) / 2)) + 1]
-    set y_adjust [expr ((16 - $height) * ($data($w,-size) / 2)) + 1]
+    set x_adjust [expr ((32 - $width)  * ($data($w,-size) / 2)) + 1]
+    set y_adjust [expr ((32 - $height) * ($data($w,-size) / 2)) + 1]
 
     for {set row 0} {$row < $height} {incr row} {
 
