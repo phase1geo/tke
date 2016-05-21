@@ -51,7 +51,7 @@ namespace eval pref_ui {
     return $w
     
   }
-
+  
   ######################################################################
   # Create the preferences window.
   proc create {} {
@@ -67,36 +67,41 @@ namespace eval pref_ui {
       wm minsize   .prefwin 600 400
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
 
-      ttk::frame .prefwin.bf
-      set widgets(bar) [ttk::treeview .prefwin.bf.tv -show tree -selectmode browse -height 0]
+      ttk::frame .prefwin.f
+      set widgets(panes) [ttk::frame .prefwin.f.bf]
+      ttk::separator .prefwin.f.sep -orient vertical
+      set widgets(frame) [ttk::frame .prefwin.f.pf]
 
-      pack $widgets(bar) -fill both -expand yes
-
-      bind $widgets(bar) <<TreeviewSelect>> [list pref_ui::show_selected_panel]
-
-      set widgets(frame) [ttk::frame .prefwin.pf]
-
-      grid rowconfigure    .prefwin 0 -weight 1
-      grid columnconfigure .prefwin 1 -weight 1
-      grid .prefwin.bf -row 0 -column 0 -sticky news
-      grid .prefwin.pf -row 0 -column 1 -sticky news
+      grid rowconfigure    .prefwin.f 0 -weight 1
+      grid columnconfigure .prefwin.f 2 -weight 1
+      grid .prefwin.f.bf  -row 0 -column 0 -sticky news
+      grid .prefwin.f.sep -row 0 -column 1 -sticky ns   -padx 15
+      grid .prefwin.f.pf  -row 0 -column 2 -sticky news
+      
+      pack .prefwin.f -fill both -expand yes
 
       # Create images
       set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
       set images(unchecked)  [image create photo -file [file join $::tke_dir lib images unchecked.gif]]
+      set images(general)    [image create photo -file [file join $::tke_dir lib images general.gif]]
       set images(appearance) [image create photo -file [file join $::tke_dir lib images appearance.gif]]
+      set images(editor)     [image create photo -file [file join $::tke_dir lib images editor.gif]]
+      set images(emmet)      [image create photo -file [file join $::tke_dir lib images emmet.gif]]
+      set images(find)       [image create photo -file [file join $::tke_dir lib images find.gif]]
+      set images(view)       [image create photo -file [file join $::tke_dir lib images view.gif]]
 
       foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
         if {[info exists images($pane)]} {
-          puts [$widgets(bar) insert "" end -id $pane -image $images($pane) -text [string totitle $pane]]
+          pack [ttk::label $widgets(panes).$pane -compound left -image $images($pane) -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         } else {
-          puts [$widgets(bar) insert "" end -id $pane -text [string totitle $pane]]
+          pack [ttk::label $widgets(panes).$pane -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         }
+        bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
 
-      $widgets(bar) selection set general
-      show_panel general
+      pane_clicked general
+      # show_panel   general
 
       # Trace on any changes to the preferences variable
       trace add variable [[ns preferences]::ref] write [list pref_ui::handle_prefs_change]
@@ -105,6 +110,31 @@ namespace eval pref_ui {
 
   }
 
+  
+  ######################################################################
+  # Called whenever the user clicks on a panel label.
+  proc pane_clicked {panel} {
+    
+    variable widgets
+    
+    set bg [$widgets(panes).$panel cget -background]
+    set fg [$widgets(panes).$panel cget -foreground]
+    
+    # Clear all of the panel selection labels, if necessary
+    if {$bg ne "blue"} {
+      foreach p [winfo children $widgets(panes)] {
+        $p configure -background $bg -foreground $fg
+      }
+    }
+    
+    # Set the color of the label to the given color
+    $widgets(panes).$panel configure -background blue -foreground white
+    
+    # Show the panel
+    show_panel $panel
+    
+  }
+  
   ######################################################################
   # Displays the selected panel in the listbox.
   proc show_selected_panel {} {
