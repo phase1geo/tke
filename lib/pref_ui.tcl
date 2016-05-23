@@ -28,8 +28,10 @@ namespace eval pref_ui {
 
   variable current_panel ""
 
-  array set widgets {}
-  array set images {}
+  array set widgets     {}
+  array set images      {}
+  array set match_chars {}
+  array set snip_compl  {}
   array set colorizers {
     keywords       0
     comments       0
@@ -88,8 +90,10 @@ namespace eval pref_ui {
       set images(editor)     [image create photo -file [file join $::tke_dir lib images editor.gif]]
       set images(emmet)      [image create photo -file [file join $::tke_dir lib images emmet.gif]]
       set images(find)       [image create photo -file [file join $::tke_dir lib images find.gif]]
+      set images(sidebar)    [image create photo -file [file join $::tke_dir lib images sidebar.gif]]
       set images(view)       [image create photo -file [file join $::tke_dir lib images view.gif]]
       set images(tools)      [image create photo -file [file join $::tke_dir lib images tools.gif]]
+      set images(advanced)   [image create photo -file [file join $::tke_dir lib images advanced.gif]]
 
       foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
         if {[info exists images($pane)]} {
@@ -101,8 +105,8 @@ namespace eval pref_ui {
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
 
+      # Emulate a click on the General panel
       pane_clicked general
-      # show_panel   general
 
       # Trace on any changes to the preferences variable
       trace add variable [[ns preferences]::ref] write [list pref_ui::handle_prefs_change]
@@ -209,9 +213,6 @@ namespace eval pref_ui {
     set eolc [[ns preferences]::ref General/ExitOnLastClose]
     set acwd [[ns preferences]::ref General/AutoChangeWorkingDirectory]
     set ucos [[ns preferences]::ref General/UpdateCheckOnStart]
-
-    # UpdateReleaseType  - menubutton {stable devel}
-    # DefaultFileBrowsingDirectory - menubutton {last, buffer, current, directory entry}
 
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
@@ -675,23 +676,189 @@ namespace eval pref_ui {
   proc create_editor {w} {
 
     variable widgets
+    variable match_chars
+    variable snip_compl
 
-    # {Editor/WarningWidth}        {80}
-    # {Editor/SpacesPerTab}        {2}
-    # {Editor/EnableAutoIndent}    {1}
-    # {Editor/AutoMatchChars}      {square curly angled paren double single btick}
-    # {Editor/HighlightMatchingChar} {0}
-    # {Editor/IndentSpaces}        {2}
-    # {Editor/RemoveTrailingWhitespace} {1}
-    # {Editor/EndOfLineTranslation}     {auto}
-    # {Editor/MaxUndo}             {0}
-    # {Editor/SnippetCompleters}   {space tab return}
-    # {Editor/SnippetFormatAfterInsert} {1}
-    # {Editor/VimModelines}        {5}
-    # {Editor/RelativeLineNumbers} {0}
+    ttk::label $w.wwl -text [format "%s: " [msgcat::mc "Ruler column"]]
+    set widgets(editor_ww) [ttk::spinbox $w.wwsb -from 20 -to 150 -increment 5 -width 3 -state readonly -command [list pref_ui::set_warning_width]]
+    ttk::label $w.sptl -text [format "%s: " [msgcat::mc "Spaces per tab"]]
+    set widgets(editor_spt) [ttk::spinbox $w.sptsb -from 1 -to 20 -width 3 -state readonly -command [list pref_ui::set_spaces_per_tab]]
+    ttk::label $w.isl -text [format "%s: " [msgcat::mc "Indentation Spaces"]]
+    set widgets(editor_is) [ttk::spinbox $w.issb -from 1 -to 20 -width 3 -state readonly -command [list pref_ui::set_indent_spaces]]
+    ttk::label $w.mul -text [format "%s: " [msgcat::mc "Maximum undo history (set to 0 for unlimited)"]]
+    set widgets(editor_mu) [ttk::spinbox $w.musb -from 0 -to 200 -increment 10 -width 3 -state readonly -command [list pref_ui::set_max_undo]]
+    ttk::label $w.vmll -text [format "%s: " [msgcat::mc "Line count to find for Vim modeline information"]]
+    set widgets(editor_vml) [ttk::spinbox $w.vmlsb -from 0 -to 20 -width 3 -state readonly -command [list pref_ui::set_vim_modelines]]
+    ttk::label $w.eoll -text [format "%s: " [msgcat::mc "End-of-line character when saving"]]
+    set widgets(editor_eolmb) [ttk::menubutton $w.eolmb -menu [menu $w.eol -tearoff 0]]
+    
+    foreach {value desc} [list auto [msgcat::mc "Use original EOL character from file"] \
+                               sys  [msgcat::mc "Use appropriate EOL character on system"] \
+                               cr   [msgcat::mc "Use single carriage return character"] \
+                               crlf [msgcat::mc "Use carriate return linefeed sequence"] \
+                               lf   [msgcat::mc "Use linefeed character"]] {
+      $w.eol add radiobutton -label $desc -value $value -variable [[ns preferences]::ref Editor/EndOfLineTranslation] -command [list pref_ui::set_eol_translation]
+    }
+    
+    ttk::labelframe $w.mcf -text [msgcat::mc "Auto-match Characters"]
+    ttk::checkbutton $w.mcf.sr -text [format " %s" [msgcat::mc "Square bracket"]] -variable pref_ui::match_chars(square) -command [list pref_ui::set_match_chars]
+    ttk::checkbutton $w.mcf.cu -text [format " %s" [msgcat::mc "Curly bracket"]]  -variable pref_ui::match_chars(curly)  -command [list pref_ui::set_match_chars]
+    ttk::checkbutton $w.mcf.an -text [format " %s" [msgcat::mc "Angled bracket"]] -variable pref_ui::match_chars(angled) -command [list pref_ui::set_match_chars]
+    ttk::checkbutton $w.mcf.pa -text [format " %s" [msgcat::mc "Parenthesis"]]    -variable pref_ui::match_chars(paren)  -command [list pref_ui::set_match_chars]
+    ttk::checkbutton $w.mcf.dq -text [format " %s" [msgcat::mc "Double-quote"]]   -variable pref_ui::match_chars(double) -command [list pref_ui::set_match_chars]
+    ttk::checkbutton $w.mcf.sq -text [format " %s" [msgcat::mc "Single-quote"]]   -variable pref_ui::match_chars(single) -command [list pref_ui::set_match_chars]
+    ttk::checkbutton $w.mcf.bt -text [format " %s" [msgcat::mc "Backtick"]]       -variable pref_ui::match_chars(btick)  -command [list pref_ui::set_match_chars]
+    
+    grid $w.mcf.sr -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.mcf.cu -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.mcf.an -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.mcf.pa -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.mcf.dq -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.mcf.sq -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $w.mcf.bt -row 1 -column 2 -sticky news -padx 2 -pady 2
+    
+    ttk::labelframe $w.scf -text [msgcat::mc "Snippet Completion Characters"]
+    pack [ttk::checkbutton $w.scf.s -text [format " %s" [msgcat::mc "Space"]]  -variable pref_ui::snip_compl(space)  -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
+    pack [ttk::checkbutton $w.scf.t -text [format " %s" [msgcat::mc "Tab"]]    -variable pref_ui::snip_compl(tab)    -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
+    pack [ttk::checkbutton $w.scf.r -text [format " %s" [msgcat::mc "Return"]] -variable pref_ui::snip_compl(return) -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
+    
+    ttk::frame $w.cf
+    make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                 Editor/EnableAutoIndent
+    make_cb $w.cf.hmc  [msgcat::mc "Highlight matching character"]            Editor/HighlightMatchingChar
+    make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]      Editor/RemoveTrailingWhitespace
+    make_cb $w.cf.sfai [msgcat::mc "Format snippet indentation after insert"] Editor/SnippetFormatAfterInsert
+    make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]          Editor/RelativeLineNumbers
+    
+    grid columnconfigure $w 2 -weight 1
+    grid $w.wwl   -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.wwsb  -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.sptl  -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sptsb -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.isl   -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.issb  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.mul   -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.musb  -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.vmll  -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.vmlsb -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.eoll  -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.eolmb -row 5 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.mcf   -row 6 -column 0 -sticky news -padx 2 -pady 10 -columnspan 3
+    grid $w.scf   -row 7 -column 0 -sticky news -padx 2 -pady 10 -columnspan 3
+    grid $w.cf    -row 8 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
+    
+    # Set the UI state to match preference
+    $widgets(editor_ww)  set [[ns preferences]::get Editor/WarningWidth]
+    $widgets(editor_spt) set [[ns preferences]::get Editor/SpacesPerTab]
+    $widgets(editor_is)  set [[ns preferences]::get Editor/IndentSpaces]
+    $widgets(editor_mu)  set [[ns preferences]::get Editor/MaxUndo]
+    $widgets(editor_vml) set [[ns preferences]::get Editor/VimModelines]
+    
+    foreach char [list square curly angled paren double single btick] {
+      set match_chars($char) [expr {[lsearch [[ns preferences]::get Editor/AutoMatchChars] $char] != -1}]
+    }
+    
+    foreach char [list space tab return] {
+      set snip_compl($char) [expr {[lsearch [[ns preferences]::get Editor/SnippetCompleters] $char] != -1}]
+    }
+    
+    set_eol_translation
 
   }
+  
+  ######################################################################
+  # Sets the Editor/WarningWidth preference value.
+  proc set_warning_width {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Editor/WarningWidth] [$widgets(editor_ww) get]
+  }
+  
+  ######################################################################
+  # Sets the Editor/SpacesPerTab preference value.
+  proc set_spaces_per_tab {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Editor/SpacesPerTab] [$widgets(editor_spt) get]
+    
+  }
+  
+  ######################################################################
+  # Sets the Editor/IndentSpaces preference value.
+  proc set_indent_spaces {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Editor/IndentSpaces] [$widgets(editor_is) get]
+    
+  }
+  
+  ######################################################################
+  # Sets the Editor/MaxUndo preference value.
+  proc set_max_undo {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Editor/MaxUndo] [$widgets(editor_mu) get]
+    
+  }
+  
+  ######################################################################
+  # Sets the Editor/VimModelines preference value.
+  proc set_vim_modelines {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Editor/VimModelines] [$widgets(editor_vml) get]
+    
+  }
+  
+  ######################################################################
+  # Set the matching chars to the Editor/AutoMatchChars preference value.
+  proc set_match_chars {} {
+    
+    variable match_chars
+    
+    set mchars [list]
+    foreach char [list square curly angled paren double single btick] {
+      if {$match_chars($char)} {
+        lappend mchars $char
+      }
+    }
+    
+    set [[ns preferences]::ref Editor/AutoMatchChars] $mchars
+    
+  }
+  
+  ######################################################################
+  # Set the snippet completers to the Editor/SnippetCompleters preference
+  # value.
+  proc set_snip_compl {} {
+    
+    variable snip_compl
+    
+    set schars [list]
+    foreach char [list space tab return] {
+      if {$snip_compl($char)} {
+        lappend schars $char
+      }
+    }
+    
+    set [[ns preferences]::ref Editor/SnippetCompleters] $schars
+    
+  }
 
+  ######################################################################
+  # Sets the EOL translation menubutton text to the given value
+  proc set_eol_translation {} {
+    
+    variable widgets
+    
+    $widgets(editor_eolmb) configure -text [[ns preferences]::get Editor/EndOfLineTranslation]
+    
+  }
+  
   #########
   # EMMET #
   #########
