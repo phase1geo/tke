@@ -1000,11 +1000,28 @@ namespace eval pref_ui {
 
     variable widgets
 
-    # {Tools/VimMode}              {0}
-    # {Tools/ClipboardHistoryDepth} {10}
-    # {Tools/ProfileReportSortby}  {calls}
-    # {Tools/ProfileReportOptions} {}
-
+    ttk::frame $w.cf
+    make_cb $w.cf.vm [msgcat::mc "Enable Vim Mode"] Tools/VimMode
+    
+    ttk::label   $w.chdl -text [format "%s: " [msgcat::mc "Clipboard history depth"]]
+    set widgets(tools_chd) [ttk::spinbox $w.chdsb -from 1 -to 30 -width 3 -state readonly -command [list pref_ui::set_clipboard_history]]
+    
+    grid $w.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
+    grid $w.chdl  -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.chdsb -row 1 -column 1 -sticky news -padx 2 -pady 2
+    
+    $widgets(tools_chd) set [[ns preferences]::get Tools/ClipboardHistoryDepth]
+    
+  }
+  
+  ######################################################################
+  # Sets the Tools/ClipboardHistoryDepth preference value.
+  proc set_clipboard_history {} {
+    
+    variable widgets
+    
+    set [[ns preferences]::ref Tools/ClipboardHistoryDepth] [$widgets(tools_chd) get]
+    
   }
 
   ########
@@ -1067,6 +1084,10 @@ namespace eval pref_ui {
     # {Debug/DevelopmentMode}      {0}
     # {Debug/ShowDiagnosticLogfileAtStartup} {0}
     # {Help/UserGuideFormat}       {pdf}
+
+    ttk::labelframe $w.pf -text [msgcat::mc "Profiler Options"]
+    # {Tools/ProfileReportSortby}  {calls}
+    # {Tools/ProfileReportOptions} {}
 
   }
 
