@@ -869,19 +869,62 @@ namespace eval pref_ui {
 
     variable widgets
 
-    # {Emmet/CSSAutoInsertVendorPrefixes} {1}
-    # {Emmet/CSSColorCase} {keep}
-    # {Emmet/CSSColorShort} {1}
-    # {Emmet/CSSIntUnit} {px}
-    # {Emmet/CSSFloatUnit} {em}
-    # {Emmet/CSSFuzzySearch} {1}
+    ttk::frame $w.cf
+    make_cb $w.cf.aivp [msgcat::mc "Automatically insert vendor prefixes"] Emmet/CSSAutoInsertVendorPrefixes
+    make_cb $w.cf.cs   [msgcat::mc "Use shortened colors"]                 Emmet/CSSColorShort
+    make_cb $w.cf.fs   [msgcat::mc "Enable fuzzy search"]                  Emmet/CSSFuzzySearch   
+    
+    ttk::label $w.ccl -text [format "%s: " [msgcat::mc "Color value case"]]
+    set widgets(emmet_ccmb) [ttk::menubutton $w.ccmb -menu [menu $w.ccmb_mnu -tearoff 0]]
+    
+    foreach {value lbl} [list upper [msgcat::mc "Convert to uppercase"] \
+                              lower [msgcat::mc "Convert to lowercase"] \
+                              keep  [msgcat::mc "Retail case"]] {
+      $w.ccmb_mnu add radiobutton -label $lbl -value $value -variable [[ns preferences]::ref Emmet/CSSColorCase] -command [list pref_ui::set_css_color_case]
+    }
+
+    ttk::label $w.dummy -text ""
+    ttk::label $w.iul -text [format "%s: " [msgcat::mc "Default unit for integer values"]]
+    ttk::entry $w.iue -textvariable [[ns preferences]::ref Emmet/CSSIntUnit]
+    ttk::label $w.ful -text [format "%s: " [msgcat::mc "Default unit for floating point values"]]
+    ttk::entry $w.fue -textvariable [[ns preferences]::ref Emmet/CSSFloatUnit]
+    
     # {Emmet/CSSMozPropertiesAddon} {}
     # {Emmet/CSSMSPropertiesAddon} {}
     # {Emmet/CSSOPropertiesAddon} {}
     # {Emmet/CSSWebkitPropertiesAddon} {}
-    # {Emmet/CSSValueSeparator} {: }
-    # {Emmet/CSSPropertyEnd} {;}
-
+    
+    ttk::label $w.vsl -text [format "%s: " [msgcat::mc "Symbol between CSS property and value"]]
+    ttk::entry $w.vse -textvariable [[ns preferences]::ref Emmet/CSSValueSeparator]
+    ttk::label $w.pel -text [format "%s: " [msgcat::mc "Symbol placed at end of CSS property"]]
+    ttk::entry $w.pee -textvariable [[ns preferences]::ref Emmet/CSSPropertyEnd]
+    
+    grid $w.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
+    grid $w.dummy -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.ccl   -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.ccmb  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.iul   -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.iue   -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.ful   -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.fue   -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.vsl   -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.vse   -row 5 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.pel   -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.pee   -row 6 -column 1 -sticky news -padx 2 -pady 2
+    
+    # Initialize the UI state
+    set_css_color_case
+    
+  }
+  
+  ######################################################################
+  # Update the UI state to match the value of Emmet/CSSColorCase.
+  proc set_css_color_case {} {
+    
+    variable widgets
+    
+    $widgets(emmet_ccmb) configure -text [[ns preferences]::get Emmet/CSSColorCase]
+    
   }
 
   ########
