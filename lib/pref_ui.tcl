@@ -691,7 +691,7 @@ namespace eval pref_ui {
     set widgets(editor_vml) [ttk::spinbox $w.vmlsb -from 0 -to 20 -width 3 -state readonly -command [list pref_ui::set_vim_modelines]]
     ttk::label $w.eoll -text [format "%s: " [msgcat::mc "End-of-line character when saving"]]
     set widgets(editor_eolmb) [ttk::menubutton $w.eolmb -menu [menu $w.eol -tearoff 0]]
-    
+
     foreach {value desc} [list auto [msgcat::mc "Use original EOL character from file"] \
                                sys  [msgcat::mc "Use appropriate EOL character on system"] \
                                cr   [msgcat::mc "Use single carriage return character"] \
@@ -699,7 +699,7 @@ namespace eval pref_ui {
                                lf   [msgcat::mc "Use linefeed character"]] {
       $w.eol add radiobutton -label $desc -value $value -variable [[ns preferences]::ref Editor/EndOfLineTranslation] -command [list pref_ui::set_eol_translation]
     }
-    
+
     ttk::labelframe $w.mcf -text [msgcat::mc "Auto-match Characters"]
     ttk::checkbutton $w.mcf.sr -text [format " %s" [msgcat::mc "Square bracket"]] -variable pref_ui::match_chars(square) -command [list pref_ui::set_match_chars]
     ttk::checkbutton $w.mcf.cu -text [format " %s" [msgcat::mc "Curly bracket"]]  -variable pref_ui::match_chars(curly)  -command [list pref_ui::set_match_chars]
@@ -708,7 +708,7 @@ namespace eval pref_ui {
     ttk::checkbutton $w.mcf.dq -text [format " %s" [msgcat::mc "Double-quote"]]   -variable pref_ui::match_chars(double) -command [list pref_ui::set_match_chars]
     ttk::checkbutton $w.mcf.sq -text [format " %s" [msgcat::mc "Single-quote"]]   -variable pref_ui::match_chars(single) -command [list pref_ui::set_match_chars]
     ttk::checkbutton $w.mcf.bt -text [format " %s" [msgcat::mc "Backtick"]]       -variable pref_ui::match_chars(btick)  -command [list pref_ui::set_match_chars]
-    
+
     grid $w.mcf.sr -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $w.mcf.cu -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $w.mcf.an -row 2 -column 0 -sticky news -padx 2 -pady 2
@@ -716,19 +716,19 @@ namespace eval pref_ui {
     grid $w.mcf.dq -row 1 -column 1 -sticky news -padx 2 -pady 2
     grid $w.mcf.sq -row 0 -column 2 -sticky news -padx 2 -pady 2
     grid $w.mcf.bt -row 1 -column 2 -sticky news -padx 2 -pady 2
-    
+
     ttk::labelframe $w.scf -text [msgcat::mc "Snippet Completion Characters"]
     pack [ttk::checkbutton $w.scf.s -text [format " %s" [msgcat::mc "Space"]]  -variable pref_ui::snip_compl(space)  -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
     pack [ttk::checkbutton $w.scf.t -text [format " %s" [msgcat::mc "Tab"]]    -variable pref_ui::snip_compl(tab)    -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
     pack [ttk::checkbutton $w.scf.r -text [format " %s" [msgcat::mc "Return"]] -variable pref_ui::snip_compl(return) -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
-    
+
     ttk::frame $w.cf
     make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                 Editor/EnableAutoIndent
     make_cb $w.cf.hmc  [msgcat::mc "Highlight matching character"]            Editor/HighlightMatchingChar
     make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]      Editor/RemoveTrailingWhitespace
     make_cb $w.cf.sfai [msgcat::mc "Format snippet indentation after insert"] Editor/SnippetFormatAfterInsert
     make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]          Editor/RelativeLineNumbers
-    
+
     grid columnconfigure $w 2 -weight 1
     grid $w.wwl   -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $w.wwsb  -row 0 -column 1 -sticky news -padx 2 -pady 2
@@ -745,120 +745,120 @@ namespace eval pref_ui {
     grid $w.mcf   -row 6 -column 0 -sticky news -padx 2 -pady 10 -columnspan 3
     grid $w.scf   -row 7 -column 0 -sticky news -padx 2 -pady 10 -columnspan 3
     grid $w.cf    -row 8 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
-    
+
     # Set the UI state to match preference
     $widgets(editor_ww)  set [[ns preferences]::get Editor/WarningWidth]
     $widgets(editor_spt) set [[ns preferences]::get Editor/SpacesPerTab]
     $widgets(editor_is)  set [[ns preferences]::get Editor/IndentSpaces]
     $widgets(editor_mu)  set [[ns preferences]::get Editor/MaxUndo]
     $widgets(editor_vml) set [[ns preferences]::get Editor/VimModelines]
-    
+
     foreach char [list square curly angled paren double single btick] {
       set match_chars($char) [expr {[lsearch [[ns preferences]::get Editor/AutoMatchChars] $char] != -1}]
     }
-    
+
     foreach char [list space tab return] {
       set snip_compl($char) [expr {[lsearch [[ns preferences]::get Editor/SnippetCompleters] $char] != -1}]
     }
-    
+
     set_eol_translation
 
   }
-  
+
   ######################################################################
   # Sets the Editor/WarningWidth preference value.
   proc set_warning_width {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Editor/WarningWidth] [$widgets(editor_ww) get]
   }
-  
+
   ######################################################################
   # Sets the Editor/SpacesPerTab preference value.
   proc set_spaces_per_tab {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Editor/SpacesPerTab] [$widgets(editor_spt) get]
-    
+
   }
-  
+
   ######################################################################
   # Sets the Editor/IndentSpaces preference value.
   proc set_indent_spaces {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Editor/IndentSpaces] [$widgets(editor_is) get]
-    
+
   }
-  
+
   ######################################################################
   # Sets the Editor/MaxUndo preference value.
   proc set_max_undo {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Editor/MaxUndo] [$widgets(editor_mu) get]
-    
+
   }
-  
+
   ######################################################################
   # Sets the Editor/VimModelines preference value.
   proc set_vim_modelines {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Editor/VimModelines] [$widgets(editor_vml) get]
-    
+
   }
-  
+
   ######################################################################
   # Set the matching chars to the Editor/AutoMatchChars preference value.
   proc set_match_chars {} {
-    
+
     variable match_chars
-    
+
     set mchars [list]
     foreach char [list square curly angled paren double single btick] {
       if {$match_chars($char)} {
         lappend mchars $char
       }
     }
-    
+
     set [[ns preferences]::ref Editor/AutoMatchChars] $mchars
-    
+
   }
-  
+
   ######################################################################
   # Set the snippet completers to the Editor/SnippetCompleters preference
   # value.
   proc set_snip_compl {} {
-    
+
     variable snip_compl
-    
+
     set schars [list]
     foreach char [list space tab return] {
       if {$snip_compl($char)} {
         lappend schars $char
       }
     }
-    
+
     set [[ns preferences]::ref Editor/SnippetCompleters] $schars
-    
+
   }
 
   ######################################################################
   # Sets the EOL translation menubutton text to the given value
   proc set_eol_translation {} {
-    
+
     variable widgets
-    
+
     $widgets(editor_eolmb) configure -text [[ns preferences]::get Editor/EndOfLineTranslation]
-    
+
   }
-  
+
   #########
   # EMMET #
   #########
@@ -869,62 +869,85 @@ namespace eval pref_ui {
 
     variable widgets
 
-    ttk::frame $w.cf
-    make_cb $w.cf.aivp [msgcat::mc "Automatically insert vendor prefixes"] Emmet/CSSAutoInsertVendorPrefixes
-    make_cb $w.cf.cs   [msgcat::mc "Use shortened colors"]                 Emmet/CSSColorShort
-    make_cb $w.cf.fs   [msgcat::mc "Enable fuzzy search"]                  Emmet/CSSFuzzySearch   
-    
-    ttk::label $w.ccl -text [format "%s: " [msgcat::mc "Color value case"]]
-    set widgets(emmet_ccmb) [ttk::menubutton $w.ccmb -menu [menu $w.ccmb_mnu -tearoff 0]]
-    
+    ttk::notebook $w.nb
+
+    $w.nb add [set a [ttk::frame $w.nb.gf]] -text [msgcat::mc "General"]
+
+    ttk::frame $a.cf
+    make_cb $a.cf.aivp [msgcat::mc "Automatically insert vendor prefixes"] Emmet/CSSAutoInsertVendorPrefixes
+    make_cb $a.cf.cs   [msgcat::mc "Use shortened colors"]                 Emmet/CSSColorShort
+    make_cb $a.cf.fs   [msgcat::mc "Enable fuzzy search"]                  Emmet/CSSFuzzySearch
+
+    ttk::label $a.ccl -text [format "%s: " [msgcat::mc "Color value case"]]
+    set widgets(emmet_ccmb) [ttk::menubutton $a.ccmb -menu [menu $a.ccmb_mnu -tearoff 0]]
+
     foreach {value lbl} [list upper [msgcat::mc "Convert to uppercase"] \
                               lower [msgcat::mc "Convert to lowercase"] \
                               keep  [msgcat::mc "Retail case"]] {
-      $w.ccmb_mnu add radiobutton -label $lbl -value $value -variable [[ns preferences]::ref Emmet/CSSColorCase] -command [list pref_ui::set_css_color_case]
+      $a.ccmb_mnu add radiobutton -label $lbl -value $value -variable [[ns preferences]::ref Emmet/CSSColorCase] -command [list pref_ui::set_css_color_case]
     }
 
-    ttk::label $w.dummy -text ""
-    ttk::label $w.iul -text [format "%s: " [msgcat::mc "Default unit for integer values"]]
-    ttk::entry $w.iue -textvariable [[ns preferences]::ref Emmet/CSSIntUnit]
-    ttk::label $w.ful -text [format "%s: " [msgcat::mc "Default unit for floating point values"]]
-    ttk::entry $w.fue -textvariable [[ns preferences]::ref Emmet/CSSFloatUnit]
-    
-    # {Emmet/CSSMozPropertiesAddon} {}
-    # {Emmet/CSSMSPropertiesAddon} {}
-    # {Emmet/CSSOPropertiesAddon} {}
-    # {Emmet/CSSWebkitPropertiesAddon} {}
-    
-    ttk::label $w.vsl -text [format "%s: " [msgcat::mc "Symbol between CSS property and value"]]
-    ttk::entry $w.vse -textvariable [[ns preferences]::ref Emmet/CSSValueSeparator]
-    ttk::label $w.pel -text [format "%s: " [msgcat::mc "Symbol placed at end of CSS property"]]
-    ttk::entry $w.pee -textvariable [[ns preferences]::ref Emmet/CSSPropertyEnd]
-    
-    grid $w.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
-    grid $w.dummy -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.ccl   -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.ccmb  -row 2 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.iul   -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.iue   -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.ful   -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.fue   -row 4 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.vsl   -row 5 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.vse   -row 5 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.pel   -row 6 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.pee   -row 6 -column 1 -sticky news -padx 2 -pady 2
-    
+    ttk::label $a.dummy -text ""
+    ttk::label $a.iul -text [format "%s: " [msgcat::mc "Default unit for integer values"]]
+    ttk::entry $a.iue -textvariable [[ns preferences]::ref Emmet/CSSIntUnit]
+    ttk::label $a.ful -text [format "%s: " [msgcat::mc "Default unit for floating point values"]]
+    ttk::entry $a.fue -textvariable [[ns preferences]::ref Emmet/CSSFloatUnit]
+
+    ttk::label $a.vsl -text [format "%s: " [msgcat::mc "Symbol between CSS property and value"]]
+    ttk::entry $a.vse -textvariable [[ns preferences]::ref Emmet/CSSValueSeparator]
+    ttk::label $a.pel -text [format "%s: " [msgcat::mc "Symbol placed at end of CSS property"]]
+    ttk::entry $a.pee -textvariable [[ns preferences]::ref Emmet/CSSPropertyEnd]
+
+    grid $a.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
+    grid $a.dummy -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.ccl   -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.ccmb  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.iul   -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.iue   -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.ful   -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.fue   -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.vsl   -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.vse   -row 5 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.pel   -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.pee   -row 6 -column 1 -sticky news -padx 2 -pady 2
+
+    $w.nb add [set b [ttk::frame $w.af]] -text [msgcat::mc "Addons"]
+
+    foreach {type var} [list Mozilla Emmet/CSSMozPropertiesAddon \
+                             MS      Emmet/CSSMSPropertiesAddon \
+                             Opera   Emmet/CSSOPropertiesAddon \
+                             Webkit  Emmet/CSSWebkitPropertiesAddon] {
+      set ltype [string tolower $type]
+      ttk::labelframe $b.$ltype -text [format "$type %s" [msgcat::mc "Properties"]]
+      pack [tokenentry::tokenentry $b.$ltype.te -height 4 -tokenshape eased] -fill both -expand yes
+      bind $b.$ltype.te <<TokenEntryModified>> [list pref_ui::set_properties_addon %W $var]
+      pack $b.$ltype -fill x -padx 2 -pady 2
+      $b.$ltype.te tokeninsert end [[ns preferences]::get $var]
+    }
+
+    pack $w.nb -fill both -expand yes
+
     # Initialize the UI state
     set_css_color_case
-    
+
   }
-  
+
   ######################################################################
   # Update the UI state to match the value of Emmet/CSSColorCase.
   proc set_css_color_case {} {
-    
+
     variable widgets
-    
+
     $widgets(emmet_ccmb) configure -text [[ns preferences]::get Emmet/CSSColorCase]
-    
+
+  }
+
+  ######################################################################
+  # Updates the properties addon.
+  proc set_properties_addon {w var} {
+
+    set [[ns preferences]::ref $var] [$w tokenget]
+
   }
 
   ########
@@ -1045,26 +1068,26 @@ namespace eval pref_ui {
 
     ttk::frame $w.cf
     make_cb $w.cf.vm [msgcat::mc "Enable Vim Mode"] Tools/VimMode
-    
+
     ttk::label   $w.chdl -text [format "%s: " [msgcat::mc "Clipboard history depth"]]
     set widgets(tools_chd) [ttk::spinbox $w.chdsb -from 1 -to 30 -width 3 -state readonly -command [list pref_ui::set_clipboard_history]]
-    
+
     grid $w.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
     grid $w.chdl  -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $w.chdsb -row 1 -column 1 -sticky news -padx 2 -pady 2
-    
+
     $widgets(tools_chd) set [[ns preferences]::get Tools/ClipboardHistoryDepth]
-    
+
   }
-  
+
   ######################################################################
   # Sets the Tools/ClipboardHistoryDepth preference value.
   proc set_clipboard_history {} {
-    
+
     variable widgets
-    
+
     set [[ns preferences]::ref Tools/ClipboardHistoryDepth] [$widgets(tools_chd) get]
-    
+
   }
 
   ########
@@ -1122,15 +1145,36 @@ namespace eval pref_ui {
 
     variable widgets
 
-    # {NFSMounts}                  {}
-    # {Debug/LogDirectory}         {}
-    # {Debug/DevelopmentMode}      {0}
-    # {Debug/ShowDiagnosticLogfileAtStartup} {0}
-    # {Help/UserGuideFormat}       {pdf}
+    ttk::notebook $w.nb
 
-    ttk::labelframe $w.pf -text [msgcat::mc "Profiler Options"]
+    $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
+
+    ttk::label      $a.ugfl  -text [format "%s: " [msgcat::mc "User Guide format"]]
+    ttk::menubutton $a.ugfmb -menu [menu $a.ugf_mnu -tearoff 0]
+
+    foreach type [list pdf epub] {
+      $a.ugf_mnu add radiobutton -label $type -value $type -variable [[ns preferences]::ref Help/UserGuideFormat]
+    }
+
+    grid $a.ugfl  -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.ugfmb -row 0 -column 1 -sticky news -padx 2 -pady 2
+
+    $w.nb add [set b [ttk::frame $w.nb.b]] -text [msgcat::mc "Development"]
+
+    make_cb $b.dm  [msgcat::mc "Enable development mode"]            Debug/DevelopmentMode
+    make_cb $b.sdl [msgcat::mc "Show diagnostic logfile at startup"] Debug/ShowDiagnosticLogfileAtStartup
+
+    # {Debug/LogDirectory}         {}
+
+    pack [ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]] -fill x -padx 2 -pady 2
     # {Tools/ProfileReportSortby}  {calls}
     # {Tools/ProfileReportOptions} {}
+
+    $w.nb add [set c [ttk::frame $w.nb.c]] -text [format "NFS %s" [msgcat::mc "Mounts"]]
+
+    # {NFSMounts}                  {}
+
+    pack $w.nb -fill both -expand yes
 
   }
 
