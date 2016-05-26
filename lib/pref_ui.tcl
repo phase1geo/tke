@@ -1203,7 +1203,7 @@ namespace eval pref_ui {
     $widgets(advanced_tl) columnconfigure 1 -name nfs    -editable 1 -resizable 1 -stretchable 1
     $widgets(advanced_tl) columnconfigure 2 -name remote -editable 1 -resizable 1 -stretchable 1
 
-    bind $widgets(advanced_tl) <<TablelistSelected>> [list pref_ui::handle_nfs_select]
+    bind $widgets(advanced_tl) <<TablelistSelect>> [list pref_ui::handle_nfs_select]
 
     grid rowconfigure    $c.f 0 -weight 1
     grid columnconfigure $c.f 0 -weight 1
@@ -1292,6 +1292,8 @@ namespace eval pref_ui {
       lassign [$widgets(advanced_tl) get $i] host nfs remote
       if {($host ne "") && ($nfs ne "") && ($remote ne "")} {
         lappend values [list $host [list $nfs $remote]]
+      } else {
+        return
       }
     }
 
@@ -1336,6 +1338,9 @@ namespace eval pref_ui {
 
     # Delete the current selection
     $widgets(advanced_tl) delete [$widgets(advanced_tl) curselection]
+    
+    # Disable the delete button
+    $widgets(advanced_nfs_del) configure -state disabled
 
     # Update the NFSMounts preference value
     set_nfs_mounts
@@ -1347,7 +1352,7 @@ namespace eval pref_ui {
   proc handle_nfs_select {} {
 
     variable widgets
-
+    
     if {[$widgets(advanced_tl) curselection] ne ""} {
       $widgets(advanced_nfs_del) configure -state normal
     } else {
