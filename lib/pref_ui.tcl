@@ -1149,11 +1149,11 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    ttk::label      $a.ugfl  -text [format "%s: " [msgcat::mc "User Guide format"]]
-    ttk::menubutton $a.ugfmb -menu [menu $a.ugf_mnu -tearoff 0]
+    ttk::label $a.ugfl -text [format "%s: " [msgcat::mc "User guide format"]]
+    set widgets(advanced_ugf) [ttk::menubutton $a.ugfmb -menu [menu $a.ugf_mnu -tearoff 0]]
 
     foreach type [list pdf epub] {
-      $a.ugf_mnu add radiobutton -label $type -value $type -variable [[ns preferences]::ref Help/UserGuideFormat]
+      $a.ugf_mnu add radiobutton -label $type -value $type -variable [[ns preferences]::ref Help/UserGuideFormat] -command [list pref_ui::set_user_guide_format]
     }
 
     grid $a.ugfl  -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -1164,17 +1164,195 @@ namespace eval pref_ui {
     make_cb $b.dm  [msgcat::mc "Enable development mode"]            Debug/DevelopmentMode
     make_cb $b.sdl [msgcat::mc "Show diagnostic logfile at startup"] Debug/ShowDiagnosticLogfileAtStartup
 
-    # {Debug/LogDirectory}         {}
+    ttk::labelframe $b.df -text [msgcat::mc "Logfile Directory"]
+    pack [set widgets(advanced_ld) [ttk::label $b.df.l]] -side left -fill x -padx 2 -pady 2
+    pack [ttk::button $b.df.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list pref_ui::get_log_directory]] -side right -padx 2 -pady 2
 
-    pack [ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]] -fill x -padx 2 -pady 2
-    # {Tools/ProfileReportSortby}  {calls}
-    # {Tools/ProfileReportOptions} {}
+    pack $b.df -fill x -padx 2 -pady 10
+
+    ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]
+    ttk::label $b.pf.prsl -text [format "%s: " [msgcat::mc "Sorting Column"]]
+    set widgets(advanced_prs) [ttk::menubutton $b.pf.prsmb -text [[ns preferences]::get Tools/ProfileReportSortby] -menu [menu $b.pf.prs_mnu -tearoff 0]]
+
+    foreach lbl [list calls real cpu real_per_call cpu_per_call] {
+      $b.pf.prs_mnu add radiobutton -label $lbl -value $lbl -variable [[ns preferences]::ref Tools/ProfileReportSortby] -command [list pref_ui::set_profile_report_sortby]
+    }
+
+    ttk::label $b.pf.prol -text [format "%s: " [msgcat::mc "Report Options"]]
+    set widgets(advanced_pro) [ttk::entry $b.pf.proe -validate key -validatecommand [list pref_ui::set_profile_report_options]]
+
+    grid columnconfigure $b.pf 1 -weight 1
+    grid $b.pf.prsl  -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $b.pf.prsmb -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $b.pf.prol  -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $b.pf.proe  -row 1 -column 1 -sticky news -padx 2 -pady 2
+
+    pack $b.pf -fill x -padx 2 -pady 10
 
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [format "NFS %s" [msgcat::mc "Mounts"]]
+
+    ttk::frame $c.f
+    set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
+      -exportselection 0 -stretch all -editselectedonly 1 \
+      -editendcommand [list pref_ui::nfs_edit_end_command] \
+      -xscrollcommand [list $c.f.hb set] -yscrollcommand [list $c.f.vb set]]
+    ttk::scrollbar $c.f.vb -orient vertical   -command [list $c.f.tl yview]
+    ttk::scrollbar $c.f.hb -orient horizontal -command [list $c.f.tl xview]
+
+    $widgets(advanced_tl) columnconfigure 0 -name host   -editable 1 -resizable 1 -stretchable 1
+    $widgets(advanced_tl) columnconfigure 1 -name nfs    -editable 1 -resizable 1 -stretchable 1
+    $widgets(advanced_tl) columnconfigure 2 -name remote -editable 1 -resizable 1 -stretchable 1
+
+    bind $widgets(advanced_tl) <<TablelistSelected>> [list pref_ui::handle_nfs_select]
+
+    grid rowconfigure    $c.f 0 -weight 1
+    grid columnconfigure $c.f 0 -weight 1
+    grid $c.f.tl -row 0 -column 0 -sticky news
+    grid $c.f.vb -row 0 -column 1 -sticky ns
+    grid $c.f.hb -row 1 -column 0 -sticky ew
+
+    ttk::frame $c.bf
+    set widgets(advanced_nfs_add) [ttk::button $c.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::nfs_add]]
+    set widgets(advanced_nfs_del) [ttk::button $c.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::nfs_delete] -state disabled]
+
+    pack $c.bf.add -side left -padx 2 -pady 2
+    pack $c.bf.del -side left -padx 2 -pady 2
+
+    pack $c.f  -fill both -expand yes
+    pack $c.bf -fill x
 
     # {NFSMounts}                  {}
 
     pack $w.nb -fill both -expand yes
+
+    # Initialize the UI state
+    set_user_guide_format
+    set_profile_report_sortby
+
+    $widgets(advanced_ld) configure -text [[ns preferences]::get Debug/LogDirectory]
+    $widgets(advanced_pro) insert end [[ns preferences]::get Tools/ProfileReportOptions]
+
+  }
+
+  ######################################################################
+  # Updates the UI state when the Help/UserGuideFormat preference value
+  # changes.
+  proc set_user_guide_format {} {
+
+    variable widgets
+
+    $widgets(advanced_ugf) configure -text [[ns preferences]::get Help/UserGuideFormat]
+
+  }
+
+  ######################################################################
+  # Gets a logfile directory from the user using a choose directory dialog
+  # box.
+  proc get_log_directory {} {
+
+    variable widgets
+
+    if {[set dname [tk_chooseDirectory -parent .prefwin -title [msgcat::mc "Choose Logfile Directory"]]] ne ""} {
+      $widgets(advanced_ld) configure -text $dname
+      set [[ns preferences]::ref Debug/LogDirectory] $dname
+    }
+
+  }
+
+  ######################################################################
+  # Updates the UI when the Tools/ProfileReportSortby preference item is set.
+  proc set_profile_report_sortby {} {
+
+    variable widgets
+
+    $widgets(advanced_prs) configure -text [[ns preferences]::get Tools/ProfileReportSortby]
+
+  }
+
+  ######################################################################
+  # Sets the profile report options to the value in the advanced_pro entry widget.
+  proc set_profile_report_options {} {
+
+    variable widgets
+
+    set [[ns preferences]::ref Tools/ProfileReportOptions] [$widgets(advanced_pro) get]
+
+  }
+
+  ######################################################################
+  # Sets the NFSMounts preference value to match the current state of the
+  # table.
+  proc set_nfs_mounts {} {
+
+    variable widgets
+
+    set values [list]
+
+    for {set i 0} {$i < [$widgets(advanced_tl) size]} {incr i} {
+      lassign [$widgets(advanced_tl) get $i] host nfs remote
+      if {($host ne "") && ($nfs ne "") && ($remote ne "")} {
+        lappend values [list $host [list $nfs $remote]]
+      }
+    }
+
+    set [[ns preferences]::ref NFSMounts] $values
+
+  }
+
+  ######################################################################
+  # Called when the tablelist cell is done being edited.
+  proc nfs_edit_end_command {tbl row col value} {
+
+    after 1 [list pref_ui::set_nfs_mounts]
+
+    return $value
+
+  }
+
+  ######################################################################
+  # Adds a new line to the NFSMount table, selects it and forces it into
+  # edit mode.
+  proc nfs_add {} {
+
+    variable widgets
+
+    # Insert the blank row into the table
+    set row [$widgets(advanced_tl) insert end [list "" "" ""]]
+
+    # Clear any selections and make the first cell editable
+    $widgets(advanced_tl) selection clear 0 end
+    $widgets(advanced_tl) editcell $row,host
+
+    # Disable the delete button
+    $widgets(advanced_nfs_del) configure -state disabled
+
+  }
+
+  ######################################################################
+  # Deletes the currently selected table row.
+  proc nfs_delete {} {
+
+    variable widgets
+
+    # Delete the current selection
+    $widgets(advanced_tl) delete [$widgets(advanced_tl) curselection]
+
+    # Update the NFSMounts preference value
+    set_nfs_mounts
+
+  }
+
+  ######################################################################
+  # Handles any changes in the selection of the NFSMounts table.
+  proc handle_nfs_select {} {
+
+    variable widgets
+
+    if {[$widgets(advanced_tl) curselection] ne ""} {
+      $widgets(advanced_nfs_del) configure -state normal
+    } else {
+      $widgets(advanced_nfs_del) configure -state disabled
+    }
 
   }
 
