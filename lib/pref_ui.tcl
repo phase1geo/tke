@@ -193,8 +193,8 @@ namespace eval pref_ui {
   proc handle_prefs_change {name1 name2 op} {
 
     if {[winfo exists .prefwin]} {
-      # [ns preferences]::save_prefs
       puts "Saving prefs"
+      [ns preferences]::save_prefs
     }
 
   }
@@ -227,15 +227,11 @@ namespace eval pref_ui {
     ttk::label $a.f.ul -text [format "%s: " [msgcat::mc "Update using release type"]]
     set widgets(upd_mb) [ttk::menubutton $a.f.umb -menu [menu $a.updMnu -tearoff 0]]
 
-    $a.updMnu add command -label [msgcat::mc "Stable"]      -command [list pref_ui::set_release_type "stable"]
-    $a.updMnu add command -label [msgcat::mc "Development"] -command [list pref_ui::set_release_type "devel"]
+    $a.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable [[ns preferences]::ref General/UpdateReleaseType] -command [list pref_ui::set_release_type]
+    $a.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable [[ns preferences]::ref General/UpdateReleaseType] -command [list pref_ui::set_release_type]
 
-    # Set the current update release type value in the menubutton
-    if {[[ns preferences]::get General/UpdateReleaseType] eq "stable"} {
-      $widgets(upd_mb) configure -text "Stable"
-    } else {
-      $widgets(upd_mb) configure -text "Development"
-    }
+    # Initialize the release type menubutton text
+    set_release_type
 
     ttk::label $a.f.dl -text [format "%s: " [msgcat::mc "Set default open/save browsing directory to"]]
     set widgets(browse_mb) [ttk::menubutton $a.f.dmb -menu [menu $a.browMnu -tearoff 0]]
@@ -336,18 +332,15 @@ namespace eval pref_ui {
 
   ######################################################################
   # Sets the update release type to the specified value.
-  proc set_release_type {value} {
+  proc set_release_type {} {
 
     variable widgets
 
-    if {$value eq "stable"} {
+    if {[[ns preferences]::get General/UpdateReleaseType] eq "stable"} {
       $widgets(upd_mb) configure -text [msgcat::mc "Stable"]
     } else {
       $widgets(upd_mb) configure -text [msgcat::mc "Development"]
     }
-
-    # Set the preference value
-    set [[ns preferences]::ref General/UpdateReleaseType] $value
 
   }
 
@@ -436,9 +429,7 @@ namespace eval pref_ui {
   # Called after the user has edited the variable table cell.
   proc var_edit_end_command {tbl row col value} {
 
-    if {([$tbl cellcget $row,var -text] ne "") && ([$tbl cellcget $row,val -text] ne "")} {
-      after 1 [list pref_ui::gather_var_table]
-    }
+    after 1 [list pref_ui::gather_var_table]
 
     return $value
 
@@ -454,7 +445,12 @@ namespace eval pref_ui {
     set values [list]
 
     for {set i 0} {$i < [$widgets(var_table) size]} {incr i} {
-      lappend values [$widgets(var_table) get $i]
+      if {([set var [$widgets(var_table) cellcget $i,var -text]] ne "") && \
+          ([set val [$widgets(var_table) cellcget $i,val -text]] ne "")} {
+        lappend values [list $var $val]
+      } else {
+        return
+      }
     }
 
     set [[ns preferences]::ref General/Variables] $values
@@ -530,6 +526,8 @@ namespace eval pref_ui {
 
     set lang [$tbl cellcget $row,lang -text]
     set exts [[ns syntax]::get_extensions {} $lang]
+
+    puts "value: $value, lang: $lang, exts: $exts"
 
     if {$value ne $exts} {
       set lang_oride [list]
@@ -1221,8 +1219,6 @@ namespace eval pref_ui {
     pack $c.f  -fill both -expand yes
     pack $c.bf -fill x
 
-    # {NFSMounts}                  {}
-
     pack $w.nb -fill both -expand yes
 
     # Initialize the UI state
@@ -1231,6 +1227,11 @@ namespace eval pref_ui {
 
     $widgets(advanced_ld) configure -text [[ns preferences]::get Debug/LogDirectory]
     $widgets(advanced_pro) insert end [[ns preferences]::get Tools/ProfileReportOptions]
+
+    foreach {host values} [[ns preferences]::get NFSMounts] {
+      lassign $values nfs_mount remote_mount
+      $widgets(advanced_tl) insert end [list $host $nfs_mount $remote_mount]
+    }
 
   }
 
@@ -1291,7 +1292,7 @@ namespace eval pref_ui {
     for {set i 0} {$i < [$widgets(advanced_tl) size]} {incr i} {
       lassign [$widgets(advanced_tl) get $i] host nfs remote
       if {($host ne "") && ($nfs ne "") && ($remote ne "")} {
-        lappend values [list $host [list $nfs $remote]]
+        lappend values $host [list $nfs $remote]
       } else {
         return
       }
@@ -1338,7 +1339,7 @@ namespace eval pref_ui {
 
     # Delete the current selection
     $widgets(advanced_tl) delete [$widgets(advanced_tl) curselection]
-    
+
     # Disable the delete button
     $widgets(advanced_nfs_del) configure -state disabled
 
@@ -1352,7 +1353,7 @@ namespace eval pref_ui {
   proc handle_nfs_select {} {
 
     variable widgets
-    
+
     if {[$widgets(advanced_tl) curselection] ne ""} {
       $widgets(advanced_nfs_del) configure -state normal
     } else {
