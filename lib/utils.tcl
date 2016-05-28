@@ -69,6 +69,19 @@ namespace eval utils {
     ~   Key-asciitilde
     \n  Return
   }
+  
+  array set tablelistopts {
+    selectbackground   RoyalBlue1
+    selectforeground   white
+    stretch            all
+    stripebackground   #EDF3FE
+    relief             flat
+    border             0
+    showseparators     yes
+    takefocus          0
+    setfocus           1
+    activestyle        none
+  }
 
   ##########################################################
   # Useful process for debugging.
@@ -101,6 +114,18 @@ namespace eval utils {
 
     return $stack
 
+  }
+  
+  ######################################################################
+  # Configure global tablelist options.
+  proc tablelist_configure {w} {
+    
+    variable tablelistopts
+    
+    foreach {key value} [array get tablelistopts] {
+      $w configure -$key $value
+    }
+    
   }
 
   ###########################################################################
