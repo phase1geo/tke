@@ -68,19 +68,30 @@ namespace eval pref_ui {
       wm transient .prefwin .
       wm minsize   .prefwin 600 400
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
+      
+      ttk::frame .prefwin.sf
+      pack [wmarkentry::wmarkentry .prefwin.sf.e -width 20 -watermark "Search"] -side right -padx 2 -pady 2
+      
+      bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::perform_search %W]
 
-      ttk::frame .prefwin.f
+      ttk::frame     .prefwin.f
+      ttk::separator .prefwin.f.hsep -orient horizontal
       set widgets(panes) [ttk::frame .prefwin.f.bf]
-      ttk::separator .prefwin.f.sep -orient vertical
+      ttk::separator .prefwin.f.vsep -orient vertical
       set widgets(frame) [ttk::frame .prefwin.f.pf]
 
-      grid rowconfigure    .prefwin.f 0 -weight 1
+      grid rowconfigure    .prefwin.f 1 -weight 1
       grid columnconfigure .prefwin.f 2 -weight 1
-      grid .prefwin.f.bf  -row 0 -column 0 -sticky news
-      grid .prefwin.f.sep -row 0 -column 1 -sticky ns   -padx 15
-      grid .prefwin.f.pf  -row 0 -column 2 -sticky news
+      grid .prefwin.f.hsep -row 0 -column 0 -sticky ew -columnspan 3
+      grid .prefwin.f.bf   -row 1 -column 0 -sticky news
+      grid .prefwin.f.vsep -row 1 -column 1 -sticky ns   -padx 15
+      grid .prefwin.f.pf   -row 1 -column 2 -sticky news
 
-      pack .prefwin.f -fill both -expand yes
+      pack .prefwin.sf -fill x
+      pack .prefwin.f  -fill both -expand yes
+
+      # Center the window in the editor window
+      ::tk::PlaceWindow .prefwin widget .
 
       # Create images
       set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
@@ -107,7 +118,10 @@ namespace eval pref_ui {
 
       # Emulate a click on the General panel
       pane_clicked general
-
+      
+      # Give the search panel the focus
+      focus .prefwin.sf.e
+      
       # Trace on any changes to the preferences variable
       trace add variable [[ns preferences]::ref] write [list pref_ui::handle_prefs_change]
 
@@ -193,10 +207,20 @@ namespace eval pref_ui {
   proc handle_prefs_change {name1 name2 op} {
 
     if {[winfo exists .prefwin]} {
-      puts "Saving prefs"
       [ns preferences]::save_prefs
     }
 
+  }
+  
+  ######################################################################
+  # Searches the preference window for the given item.
+  proc perform_search {w} {
+    
+    puts [$w get]
+    
+    # Select the text
+    $w selection range 0 end
+    
   }
 
   ###########
@@ -266,9 +290,12 @@ namespace eval pref_ui {
     set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
       -stretch all -editselectedonly 1 -exportselection 1 -showseparators 1 \
       -editendcommand [list pref_ui::var_edit_end_command] \
-      -xscrollcommand [list $b.f.hb set] -yscrollcommand [list $b.f.vb set]]
+      -xscrollcommand [list [ns utils]::set_xscrollbar $b.f.hb] \
+      -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
     ttk::scrollbar $b.f.vb -orient vertical   -command [list $b.f.tl yview]
     ttk::scrollbar $b.f.hb -orient horizontal -command [list $b.f.tl xview]
+    
+    [ns utils]::tablelist_configure $widgets(var_table)
 
     $widgets(var_table) columnconfigure 0 -name var -editable 1 -stretchable 1
     $widgets(var_table) columnconfigure 1 -name val -editable 1 -stretchable 1
@@ -301,10 +328,13 @@ namespace eval pref_ui {
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
       -stretch all -exportselection 1 -showseparators 1 \
       -editendcommand [list pref_ui::lang_edit_end_command] \
-      -xscrollcommand [list $c.hb set] -yscrollcommand [list $c.vb set]]
+      -xscrollcommand [list [ns utils]::set_xscrollbar $c.hb] \
+      -yscrollcommand [list [ns utils]::set_yscrollbar $c.vb]]
     ttk::scrollbar $c.vb -orient vertical   -command [list $c.tl yview]
     ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
 
+    [ns utils]::tablelist_configure $widgets(lang_table)
+    
     $widgets(lang_table) columnconfigure 0 -name enabled -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::empty_string]
     $widgets(lang_table) columnconfigure 1 -name lang    -editable 0 -resizable 0 -stretchable 0
     $widgets(lang_table) columnconfigure 2 -name exts    -editable 1 -resizable 1 -stretchable 1
@@ -397,6 +427,10 @@ namespace eval pref_ui {
   proc add_variable {} {
 
     variable widgets
+    
+    # Clear the selection and disable the delete button
+    $widgets(var_table) selection clear 0 end
+    $widgets(var_del)   configure -state disabled
 
     # Add the new variable line
     set row [$widgets(var_table) insert end [list "" ""]]
@@ -527,24 +561,24 @@ namespace eval pref_ui {
     set lang [$tbl cellcget $row,lang -text]
     set exts [[ns syntax]::get_extensions {} $lang]
 
-    puts "value: $value, lang: $lang, exts: $exts"
-
-    if {$value ne $exts} {
-      set lang_oride [list]
-      foreach ext $exts {
-        if {[lsearch -exact $value $ext] == -1} {
-          lappend lang_oride "-$ext"
-        }
+    set lang_oride [list]
+    foreach ext $exts {
+      if {[lsearch -exact $value $ext] == -1} {
+        lappend lang_oride "-$ext"
       }
-      foreach val $value {
-        if {[lsearch -exact $exts $val] == -1} {
-          lappend lang_oride "+$val"
-        }
-      }
-      array set pref_orides [[ns preferences]::get General/LanguagePatternOverrides]
-      set pref_orides($lang) $lang_oride
-      set [[ns preferences]::ref General/LanguagePatternOverrides] [array get pref_orides]
     }
+    foreach val $value {
+      if {[lsearch -exact $exts $val] == -1} {
+        lappend lang_oride "+$val"
+      }
+    }
+    array set pref_orides [[ns preferences]::get General/LanguagePatternOverrides]
+    if {[llength $lang_oride] == 0} {
+      unset pref_orides($lang)
+    } else {
+      set pref_orides($lang) $lang_oride
+    }
+    set [[ns preferences]::ref General/LanguagePatternOverrides] [array get pref_orides]
 
     return $value
 
@@ -728,6 +762,7 @@ namespace eval pref_ui {
     make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]          Editor/RelativeLineNumbers
 
     grid columnconfigure $w 2 -weight 1
+    grid columnconfigure $w 3 -weight 1
     grid $w.wwl   -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $w.wwsb  -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid $w.sptl  -row 1 -column 0 -sticky news -padx 2 -pady 2
@@ -739,10 +774,10 @@ namespace eval pref_ui {
     grid $w.vmll  -row 4 -column 0 -sticky news -padx 2 -pady 2
     grid $w.vmlsb -row 4 -column 1 -sticky news -padx 2 -pady 2
     grid $w.eoll  -row 5 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.eolmb -row 5 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.mcf   -row 6 -column 0 -sticky news -padx 2 -pady 10 -columnspan 3
-    grid $w.scf   -row 7 -column 0 -sticky news -padx 2 -pady 10 -columnspan 3
-    grid $w.cf    -row 8 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
+    grid $w.eolmb -row 5 -column 1 -sticky news -padx 2 -pady 2  -columnspan 2
+    grid $w.mcf   -row 6 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
+    grid $w.scf   -row 7 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
+    grid $w.cf    -row 8 -column 0 -sticky news -padx 2 -pady 2  -columnspan 4
 
     # Set the UI state to match preference
     $widgets(editor_ww)  set [[ns preferences]::get Editor/WarningWidth]
@@ -881,7 +916,7 @@ namespace eval pref_ui {
 
     foreach {value lbl} [list upper [msgcat::mc "Convert to uppercase"] \
                               lower [msgcat::mc "Convert to lowercase"] \
-                              keep  [msgcat::mc "Retail case"]] {
+                              keep  [msgcat::mc "Retain case"]] {
       $a.ccmb_mnu add radiobutton -label $lbl -value $value -variable [[ns preferences]::ref Emmet/CSSColorCase] -command [list pref_ui::set_css_color_case]
     }
 
@@ -1191,12 +1226,15 @@ namespace eval pref_ui {
 
     ttk::frame $c.f
     set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
-      -exportselection 0 -stretch all -editselectedonly 1 \
+      -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
       -editendcommand [list pref_ui::nfs_edit_end_command] \
-      -xscrollcommand [list $c.f.hb set] -yscrollcommand [list $c.f.vb set]]
+      -xscrollcommand [list [ns utils]::set_xscrollbar $c.f.hb] \
+      -yscrollcommand [list [ns utils]::set_yscrollbar $c.f.vb]]
     ttk::scrollbar $c.f.vb -orient vertical   -command [list $c.f.tl yview]
     ttk::scrollbar $c.f.hb -orient horizontal -command [list $c.f.tl xview]
 
+    [ns utils]::tablelist_configure $widgets(advanced_tl)
+    
     $widgets(advanced_tl) columnconfigure 0 -name host   -editable 1 -resizable 1 -stretchable 1
     $widgets(advanced_tl) columnconfigure 1 -name nfs    -editable 1 -resizable 1 -stretchable 1
     $widgets(advanced_tl) columnconfigure 2 -name remote -editable 1 -resizable 1 -stretchable 1
