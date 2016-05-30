@@ -157,6 +157,13 @@ namespace eval theme {
     ttk::style configure BButton -anchor center -padding 2 -relief flat
     ttk::style map       BButton [ttk::style map TButton]
     ttk::style layout    BButton [ttk::style layout TButton]
+    
+    # NCFrame
+    foreach {nc t} [list NCFrame TFrame NCLabel TLabel] {
+      ttk::style configure $nc [ttk::style configure $t]
+      ttk::style map       $nc [ttk::style map       $t]
+      ttk::style layout    $nc [ttk::style layout    $t]
+    }
 
   }
 
@@ -859,7 +866,7 @@ namespace eval theme {
   proc update_theme {} {
 
     variable widgets
-
+    
     # Update the widgets
     foreach category [array names widgets] {
       update_$category
@@ -986,6 +993,9 @@ namespace eval theme {
 
     # Configure the theme
     ttk::style theme settings $name {
+      
+      # Create theme information for non-colored components
+      build_uncolored_theme
 
       # Configure the application
       ttk::style configure "." \
@@ -1103,6 +1113,130 @@ namespace eval theme {
 
     }
 
+  }
+  
+  ######################################################################
+  # Creates styles that are both non-colored and dark (for the purposes
+  # of preference windows).
+  proc build_uncolored_theme {} {
+
+    set background #eeeeee
+    set foreground #000000
+  
+    # Get the ttk style option/value pairs
+    array set opts [get_category_options ttk_style 1]
+    
+    # Configure NCFrame widgets
+    ttk::style configure DFrame \
+      -background $background -foreground $foreground
+
+    # Configure NCButton widgets
+    ttk::style configure NCButton \
+      -anchor center -padding 2 -relief $opts(relief)
+  
+    # Configure DButton widgets
+    ttk::style configure DButton \
+      -anchor center -padding 2 -relief $opts(relief) -background $background -foreground $foreground
+    ttk::style map DButton \
+      -background  [list disabled  $opts(disabled_background) \
+                         pressed   $opts(pressed_color) \
+                         active    $opts(active_color)] \
+      -lightcolor  [list pressed   $opts(pressed_color)] \
+      -darkcolor   [list pressed   $opts(pressed_color)] \
+      -bordercolor [list alternate "#000000"]
+  
+    # Configure NCMenubutton widgets
+    ttk::style configure NCMenubutton \
+      -width 0 -padding 0 -relief $opts(relief)
+  
+    # Configure DMenubutton widgets
+    ttk::style configure DMenubutton \
+      -width 0 -padding 0 -relief $opts(relief) -background $background -foreground $foreground
+    ttk::style map DMenubutton \
+      -background  [list disabled  $opts(disabled_background) \
+                         pressed   $opts(pressed_color) \
+                         active    $opts(active_color)] \
+      -lightcolor  [list pressed   $opts(pressed_color)] \
+      -darkcolor   [list pressed   $opts(pressed_color)] \
+      -bordercolor [list alternate "#000000"]
+  
+    # Configure NCRadiobutton widgets
+    ttk::style configure NCRadiobutton \
+      -width 0 -padding 0 -relief $opts(relief)
+  
+    # Configure DRadiobutton widgets
+    ttk::style configure DRadiobutton \
+      -width 0 -padding 0 -relief $opts(relief) -background $background -foreground $foreground
+    ttk::style map DRadiobutton \
+      -background  [list disabled $opts(disabled_background) \
+                         active   $opts(active_color)]
+  
+    # Configure NCEntry widgets
+    ttk::style configure NCEntry -padding 1 -insertwidth 1
+  
+    # Configure DEntry widgets
+    ttk::style configure DEntry -padding 1 -insertwidth 1 -foreground black
+    ttk::style map DEntry \
+      -background  [list readonly $opts(background)] \
+      -foreground  [list readonly $opts(foreground)] \
+      -bordercolor [list focus    $opts(entry_border)] \
+      -lightcolor  [list focus    "#6f9dc6"] \
+      -darkcolor   [list focus    "#6f9dc6"]
+  
+    # Configure NCScrollbar widgets
+    ttk::style configure NCScrollbar \
+      -relief $opts(relief)
+  
+    # Configure DScrollbar widgets
+    ttk::style configure DScrollbar \
+      -relief $opts(relief) -troughcolor $opts(active_color)
+    ttk::style map TScrollbar \
+      -background  [list disabled $opts(disabled_background) \
+                         active   $opts(background)]
+  
+    # Configure NCLabelframe widgets
+    ttk::style configure NCLabelframe \
+      -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
+        
+    # Configure DLabelframe widgets
+    ttk::style configure DLabelframe \
+      -labeloutside true -labelmargins {0 0 0 4} -borderwidth 2 -relief raised
+        
+    # Configure NCSpinbox widgets
+    ttk::style configure NCSpinbox \
+      -relief $opts(relief) -padding 2
+        
+    # Configure DSpinbox widgets
+    ttk::style configure DSpinbox \
+      -relief $opts(relief) -padding 2 -background $background -foreground $foreground -fieldbackground $background
+        
+    # Configure NCCheckbutton widgets
+    ttk::style configure NCCheckbutton \
+      -relief $opts(relief) -padding 2
+        
+    # Configure DCheckbutton widgets
+    ttk::style configure DCheckbutton \
+      -relief $opts(relief) -padding 2 -background $background -foreground $foreground
+    ttk::style map DCheckbutton \
+      -background  [list disabled  $opts(disabled_background) \
+                         pressed   $opts(pressed_color) \
+                         active    $opts(active_color)] \
+      -lightcolor  [list pressed   $opts(pressed_color)] \
+      -darkcolor   [list pressed   $opts(pressed_color)] \
+      -bordercolor [list alternate "#000000"]
+        
+    # Configure NCCombobox widgets
+    ttk::style configure NCCombobox \
+      -relief $opts(relief)
+                
+    # Configure DCombobox widgets
+    ttk::style configure DCombobox \
+      -relief $opts(relief) -background $background -foreground $background
+    ttk::style map DCombobox \
+      -background [list disabled  $opts(disabled_background) \
+                        pressed   $opts(pressed_color) \
+                        active    $opts(active_color)]
+                
   }
 
   ######################################################################

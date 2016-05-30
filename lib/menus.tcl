@@ -1426,7 +1426,7 @@ namespace eval menus {
   # Indents the current line or current selection.
   proc indent_command {} {
 
-    indent::indent [gui::current_txt {}].t
+    edit::indent [gui::current_txt {}].t
 
   }
 
@@ -1434,7 +1434,7 @@ namespace eval menus {
   # Unindents the current line or current selection.
   proc unindent_command {} {
 
-    indent::unindent [gui::current_txt {}].t
+    edit::unindent [gui::current_txt {}].t
 
   }
 
