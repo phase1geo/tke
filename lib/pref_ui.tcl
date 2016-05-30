@@ -69,16 +69,16 @@ namespace eval pref_ui {
       wm minsize   .prefwin 600 400
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
       
-      ttk::frame .prefwin.sf
+      ttk::frame .prefwin.sf -style NCFrame
       pack [wmarkentry::wmarkentry .prefwin.sf.e -width 20 -watermark "Search"] -side right -padx 2 -pady 2
       
       bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::perform_search %W]
 
-      ttk::frame     .prefwin.f
+      ttk::frame     .prefwin.f -style NCFrame
       ttk::separator .prefwin.f.hsep -orient horizontal
-      set widgets(panes) [ttk::frame .prefwin.f.bf]
+      set widgets(panes) [ttk::frame .prefwin.f.bf -style NCFrame]
       ttk::separator .prefwin.f.vsep -orient vertical
-      set widgets(frame) [ttk::frame .prefwin.f.pf]
+      set widgets(frame) [ttk::frame .prefwin.f.pf -style NCFrame]
 
       grid rowconfigure    .prefwin.f 1 -weight 1
       grid columnconfigure .prefwin.f 2 -weight 1
@@ -108,9 +108,9 @@ namespace eval pref_ui {
 
       foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
         if {[info exists images($pane)]} {
-          pack [ttk::label $widgets(panes).$pane -compound left -image $images($pane) -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
+          pack [ttk::label $widgets(panes).$pane -style NCLabel -compound left -image $images($pane) -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         } else {
-          pack [ttk::label $widgets(panes).$pane -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
+          pack [ttk::label $widgets(panes).$pane -style NCLabel -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         }
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
