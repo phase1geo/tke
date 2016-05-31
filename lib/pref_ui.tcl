@@ -224,7 +224,7 @@ namespace eval pref_ui {
     # Get the search request
     set request [$w get]
 
-    foreach match [lsearch -all -inline -nocase -glob [array names search] *$request*] {
+    foreach match [array names search -regexp (?i).*$request.*] {
       puts "match: $match"
       lassign $search($match) win lbl tab1 tab2
       set tabs1($tab1) [list $win $lbl]
