@@ -50,6 +50,9 @@ namespace eval pref_ui {
 
     pack [ttk::checkbutton $w -text [format " %s" $msg] -variable [[ns preferences]::ref $varname]] -fill x -padx 2 -pady 2
 
+    # Register the widget for search
+    register $w $msg $varname
+
     return $w
 
   }
@@ -68,10 +71,10 @@ namespace eval pref_ui {
       wm transient .prefwin .
       wm minsize   .prefwin 600 400
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
-      
+
       ttk::frame .prefwin.sf -style NCFrame
       pack [wmarkentry::wmarkentry .prefwin.sf.e -width 20 -watermark "Search"] -side right -padx 2 -pady 2
-      
+
       bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::perform_search %W]
 
       ttk::frame     .prefwin.f -style NCFrame
@@ -118,10 +121,10 @@ namespace eval pref_ui {
 
       # Emulate a click on the General panel
       pane_clicked general
-      
+
       # Give the search panel the focus
       focus .prefwin.sf.e
-      
+
       # Trace on any changes to the preferences variable
       trace add variable [[ns preferences]::ref] write [list pref_ui::handle_prefs_change]
 
@@ -211,16 +214,71 @@ namespace eval pref_ui {
     }
 
   }
-  
+
   ######################################################################
   # Searches the preference window for the given item.
   proc perform_search {w} {
-    
-    puts [$w get]
-    
+
+    variable search
+
+    # Get the search request
+    set request [$w get]
+
+    foreach match [lsearch -all -inline -nocase -glob [array names search] *$request*] {
+      puts "match: $match"
+      lassign $search($match) win lbl tab1 tab2
+      set tabs1($tab1) [list $win $lbl]
+      if {$tab2 ne ""} {
+        set tabs2($tab2) [list $win $lbl]
+      }
+    }
+
+    # Display the tab if there is only one match
+    if {[array size tabs1] == 1} {
+      set tab [lindex [array names tabs1] 0]
+      pane_clicked [lindex [split $tab .] end]
+      switch [array size tabs2] {
+        0 {
+          focus [lindex $tabs1($tab) 0]
+        }
+        1 {
+          set tab [lindex [array names tabs2] 0]
+          [winfo parent $tab] select $tab
+          focus [lindex $tabs2($tab) 0]
+        }
+      }
+    } else {
+      puts "HERE, matches: [array names tabs1]"
+    }
+
     # Select the text
     $w selection range 0 end
-    
+
+  }
+
+  ######################################################################
+  # Registers a search item
+  proc register {w str var} {
+
+    variable search
+
+    # Figure out which notebooks
+    set insts [split $w .]
+    set tabs  [list]
+    for {set i 3} {$i < [llength $insts]} {incr i} {
+      set hier [join [lrange $insts 0 $i] .]
+      if {($i == 3) || ([winfo class $hier] eq "TNotebook")} {
+        lappend tabs [join [lrange $insts 0 [expr $i + 1]] .]
+      }
+    }
+
+    set var          [lindex [split $var /] end]
+    set search($var) [list $w $str {*}$tabs]
+
+    if {$str ne ""} {
+      set search($str) [list $w $str {*}$tabs]
+    }
+
   }
 
   ###########
@@ -240,7 +298,7 @@ namespace eval pref_ui {
 
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
-    $w.nb add [set a [ttk::frame $w.nb.a]] -text "General"
+    $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
     make_cb $a.lls  [msgcat::mc "Automatically load last session on start"]          General/LoadLastSession
     make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"] General/ExitOnLastClose
@@ -248,16 +306,19 @@ namespace eval pref_ui {
     make_cb $a.ucos [msgcat::mc "Automatically check for updates on start"]          General/UpdateCheckOnStart
 
     ttk::frame $a.f
-    ttk::label $a.f.ul -text [format "%s: " [msgcat::mc "Update using release type"]]
+    ttk::label $a.f.ul -text [format "%s: " [set wstr [msgcat::mc "Update using release type"]]]
     set widgets(upd_mb) [ttk::menubutton $a.f.umb -menu [menu $a.updMnu -tearoff 0]]
 
     $a.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable [[ns preferences]::ref General/UpdateReleaseType] -command [list pref_ui::set_release_type]
     $a.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable [[ns preferences]::ref General/UpdateReleaseType] -command [list pref_ui::set_release_type]
 
+    # Register the widget for search
+    register $widgets(upd_mb) $wstr General/UpdateReleaseType
+
     # Initialize the release type menubutton text
     set_release_type
 
-    ttk::label $a.f.dl -text [format "%s: " [msgcat::mc "Set default open/save browsing directory to"]]
+    ttk::label $a.f.dl -text [format "%s: " [set wstr [msgcat::mc "Set default open/save browsing directory to"]]]
     set widgets(browse_mb) [ttk::menubutton $a.f.dmb -menu [menu $a.browMnu -tearoff 0]]
     set widgets(browse_l)  [ttk::label $a.f.dir]
 
@@ -265,6 +326,9 @@ namespace eval pref_ui {
     $a.browMnu add command -label [msgcat::mc "Current editing buffer directory"] -command [list pref_ui::set_browse_dir "buffer"]
     $a.browMnu add command -label [msgcat::mc "Current working directory"]        -command [list pref_ui::set_browse_dir "current"]
     $a.browMnu add command -label [msgcat::mc "Use directory"]                    -command [list pref_ui::set_browse_dir "dir"]
+
+    # Register the widget for search
+    register $widgets(browse_mb) $wstr General/DefaultFileBrowserDirectory
 
     switch [[ns preferences]::get General/DefaultFileBrowserDirectory] {
       "last"    { $widgets(browse_mb) configure -text [msgcat::mc "Last"] }
@@ -284,7 +348,7 @@ namespace eval pref_ui {
 
     pack $a.f -fill x -pady 10
 
-    $w.nb add [set b [ttk::frame $w.nb.b]] -text "Variables"
+    $w.nb add [set b [ttk::frame $w.nb.b]] -text [set wstr [msgcat::mc "Variables"]]
 
     ttk::frame $b.f
     set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
@@ -294,7 +358,7 @@ namespace eval pref_ui {
       -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
     ttk::scrollbar $b.f.vb -orient vertical   -command [list $b.f.tl yview]
     ttk::scrollbar $b.f.hb -orient horizontal -command [list $b.f.tl xview]
-    
+
     [ns utils]::tablelist_configure $widgets(var_table)
 
     $widgets(var_table) columnconfigure 0 -name var -editable 1 -stretchable 1
@@ -307,6 +371,8 @@ namespace eval pref_ui {
     grid $b.f.tl -row 0 -column 0 -sticky news
     grid $b.f.vb -row 0 -column 1 -sticky ns
     grid $b.f.hb -row 1 -column 0 -sticky ew
+
+    register $widgets(var_table) $wstr General/Variables
 
     ttk::frame $b.bf
     set widgets(var_add) [ttk::button $b.bf.add -style BButton -text "Add"    -command [list pref_ui::add_variable]]
@@ -323,7 +389,7 @@ namespace eval pref_ui {
       $widgets(var_table) insert end $row
     }
 
-    $w.nb add [set c [ttk::frame $w.nb.c]] -text "Languages"
+    $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Languages"]]
 
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
       -stretch all -exportselection 1 -showseparators 1 \
@@ -334,12 +400,16 @@ namespace eval pref_ui {
     ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
 
     [ns utils]::tablelist_configure $widgets(lang_table)
-    
+
     $widgets(lang_table) columnconfigure 0 -name enabled -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::empty_string]
     $widgets(lang_table) columnconfigure 1 -name lang    -editable 0 -resizable 0 -stretchable 0
     $widgets(lang_table) columnconfigure 2 -name exts    -editable 1 -resizable 1 -stretchable 1
 
     bind [$widgets(lang_table) bodytag] <Button-1> [list pref_ui::handle_lang_left_click %W %x %y]
+
+    # Register the widget for search
+    register $widgets(lang_table) $wstr General/DisabledLanguages
+    register $widgets(lang_table) $wstr General/LanguagePatternOverrides
 
     grid rowconfigure    $c 0 -weight 1
     grid columnconfigure $c 0 -weight 1
@@ -427,7 +497,7 @@ namespace eval pref_ui {
   proc add_variable {} {
 
     variable widgets
-    
+
     # Clear the selection and disable the delete button
     $widgets(var_table) selection clear 0 end
     $widgets(var_del)   configure -state disabled
@@ -596,13 +666,16 @@ namespace eval pref_ui {
     variable colorizers
 
     ttk::frame $w.tf
-    ttk::label $w.tf.l -text [format "%s: " [msgcat::mc "Theme"]]
+    ttk::label $w.tf.l -text [format "%s: " [set wstr [msgcat::mc "Theme"]]]
     set widgets(lang_theme) [ttk::menubutton $w.tf.mb -text [[ns preferences]::get Appearance/Theme] -menu [menu $w.theme_mnu -tearoff 0]]
+
+    # Register the widget for search
+    register $widgets(lang_theme) $wstr Appearance/Theme
 
     pack $w.tf.l  -side left -padx 2 -pady 2
     pack $w.tf.mb -side left -padx 2 -pady 2 -fill x
 
-    ttk::labelframe $w.cf -text "Syntax Coloring"
+    ttk::labelframe $w.cf -text [set wstr [msgcat::mc "Syntax Coloring"]]
 
     # Pack the colorizer frame
     set i 0
@@ -612,6 +685,9 @@ namespace eval pref_ui {
       grid [ttk::checkbutton $w.cf.$type -text " $type" -variable pref_ui::colorizers($type) -command [list pref_ui::set_colorizers]] -row [expr $i % 3] -column [expr $i / 3] -sticky news -padx 2 -pady 2
       incr i
     }
+
+    # Register the widget
+    register $w.cf.$type $wstr Appearance/Colorize
 
     # Create fonts frame
     ttk::labelframe $w.ff -text "Fonts"
@@ -624,6 +700,11 @@ namespace eval pref_ui {
     ttk::label  $w.ff.l2  -text [format "%s: " [msgcat::mc "Command launcher preview"]]
     ttk::label  $w.ff.f2  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/CommandLauncherPreviewFont]
     ttk::button $w.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
+
+    # Register the widgets for search
+    register $w.ff.b0 "" Appearance/EditorFont
+    register $w.ff.b1 "" Appearance/CommandLauncherEntryFont
+    register $w.ff.b2 "" Appearance/CommandLauncherPreviewFont
 
     grid columnconfigure $w.ff 1 -weight 1
     grid $w.ff.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -711,17 +792,32 @@ namespace eval pref_ui {
     variable match_chars
     variable snip_compl
 
-    ttk::label $w.wwl -text [format "%s: " [msgcat::mc "Ruler column"]]
+    ttk::label $w.wwl -text [format "%s: " [set wstr [msgcat::mc "Ruler column"]]]
     set widgets(editor_ww) [ttk::spinbox $w.wwsb -from 20 -to 150 -increment 5 -width 3 -state readonly -command [list pref_ui::set_warning_width]]
-    ttk::label $w.sptl -text [format "%s: " [msgcat::mc "Spaces per tab"]]
+
+    register $widgets(editor_ww) $wstr Editor/WarningWidth
+
+    ttk::label $w.sptl -text [format "%s: " [set wstr [msgcat::mc "Spaces per tab"]]]
     set widgets(editor_spt) [ttk::spinbox $w.sptsb -from 1 -to 20 -width 3 -state readonly -command [list pref_ui::set_spaces_per_tab]]
-    ttk::label $w.isl -text [format "%s: " [msgcat::mc "Indentation Spaces"]]
+
+    register $widgets(editor_spt) $wstr Editor/SpacesPerTab
+
+    ttk::label $w.isl -text [format "%s: " [set wstr [msgcat::mc "Indentation Spaces"]]]
     set widgets(editor_is) [ttk::spinbox $w.issb -from 1 -to 20 -width 3 -state readonly -command [list pref_ui::set_indent_spaces]]
-    ttk::label $w.mul -text [format "%s: " [msgcat::mc "Maximum undo history (set to 0 for unlimited)"]]
+
+    register $widgets(editor_is) $wstr Editor/IndentSpaces
+
+    ttk::label $w.mul -text [format "%s: " [set wstr [msgcat::mc "Maximum undo history (set to 0 for unlimited)"]]]
     set widgets(editor_mu) [ttk::spinbox $w.musb -from 0 -to 200 -increment 10 -width 3 -state readonly -command [list pref_ui::set_max_undo]]
-    ttk::label $w.vmll -text [format "%s: " [msgcat::mc "Line count to find for Vim modeline information"]]
+
+    register $widgets(editor_mu) $wstr Editor/MaxUndo
+
+    ttk::label $w.vmll -text [format "%s: " [set wstr [msgcat::mc "Line count to find for Vim modeline information"]]]
     set widgets(editor_vml) [ttk::spinbox $w.vmlsb -from 0 -to 20 -width 3 -state readonly -command [list pref_ui::set_vim_modelines]]
-    ttk::label $w.eoll -text [format "%s: " [msgcat::mc "End-of-line character when saving"]]
+
+    register $widgets(editor_vml) $wstr Editor/VimModelines
+
+    ttk::label $w.eoll -text [format "%s: " [set wstr [msgcat::mc "End-of-line character when saving"]]]
     set widgets(editor_eolmb) [ttk::menubutton $w.eolmb -menu [menu $w.eol -tearoff 0]]
 
     foreach {value desc} [list auto [msgcat::mc "Use original EOL character from file"] \
@@ -732,7 +828,9 @@ namespace eval pref_ui {
       $w.eol add radiobutton -label $desc -value $value -variable [[ns preferences]::ref Editor/EndOfLineTranslation] -command [list pref_ui::set_eol_translation]
     }
 
-    ttk::labelframe $w.mcf -text [msgcat::mc "Auto-match Characters"]
+    register $widgets(editor_eolmb) $wstr Editor/EndOfLineTranslation
+
+    ttk::labelframe $w.mcf -text [set wstr [msgcat::mc "Auto-match Characters"]]
     ttk::checkbutton $w.mcf.sr -text [format " %s" [msgcat::mc "Square bracket"]] -variable pref_ui::match_chars(square) -command [list pref_ui::set_match_chars]
     ttk::checkbutton $w.mcf.cu -text [format " %s" [msgcat::mc "Curly bracket"]]  -variable pref_ui::match_chars(curly)  -command [list pref_ui::set_match_chars]
     ttk::checkbutton $w.mcf.an -text [format " %s" [msgcat::mc "Angled bracket"]] -variable pref_ui::match_chars(angled) -command [list pref_ui::set_match_chars]
@@ -740,6 +838,8 @@ namespace eval pref_ui {
     ttk::checkbutton $w.mcf.dq -text [format " %s" [msgcat::mc "Double-quote"]]   -variable pref_ui::match_chars(double) -command [list pref_ui::set_match_chars]
     ttk::checkbutton $w.mcf.sq -text [format " %s" [msgcat::mc "Single-quote"]]   -variable pref_ui::match_chars(single) -command [list pref_ui::set_match_chars]
     ttk::checkbutton $w.mcf.bt -text [format " %s" [msgcat::mc "Backtick"]]       -variable pref_ui::match_chars(btick)  -command [list pref_ui::set_match_chars]
+
+    register $w.mcf.sr $wstr Editor/AutoMatchChars
 
     grid $w.mcf.sr -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $w.mcf.cu -row 1 -column 0 -sticky news -padx 2 -pady 2
@@ -749,10 +849,12 @@ namespace eval pref_ui {
     grid $w.mcf.sq -row 0 -column 2 -sticky news -padx 2 -pady 2
     grid $w.mcf.bt -row 1 -column 2 -sticky news -padx 2 -pady 2
 
-    ttk::labelframe $w.scf -text [msgcat::mc "Snippet Completion Characters"]
+    ttk::labelframe $w.scf -text [set wstr [msgcat::mc "Snippet Completion Characters"]]
     pack [ttk::checkbutton $w.scf.s -text [format " %s" [msgcat::mc "Space"]]  -variable pref_ui::snip_compl(space)  -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
     pack [ttk::checkbutton $w.scf.t -text [format " %s" [msgcat::mc "Tab"]]    -variable pref_ui::snip_compl(tab)    -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
     pack [ttk::checkbutton $w.scf.r -text [format " %s" [msgcat::mc "Return"]] -variable pref_ui::snip_compl(return) -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
+
+    register $w.scf.s $wstr Editor/SnippetCompleters
 
     ttk::frame $w.cf
     make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                 Editor/EnableAutoIndent
@@ -911,7 +1013,7 @@ namespace eval pref_ui {
     make_cb $a.cf.cs   [msgcat::mc "Use shortened colors"]                 Emmet/CSSColorShort
     make_cb $a.cf.fs   [msgcat::mc "Enable fuzzy search"]                  Emmet/CSSFuzzySearch
 
-    ttk::label $a.ccl -text [format "%s: " [msgcat::mc "Color value case"]]
+    ttk::label $a.ccl -text [format "%s: " [set wstr [msgcat::mc "Color value case"]]]
     set widgets(emmet_ccmb) [ttk::menubutton $a.ccmb -menu [menu $a.ccmb_mnu -tearoff 0]]
 
     foreach {value lbl} [list upper [msgcat::mc "Convert to uppercase"] \
@@ -920,16 +1022,28 @@ namespace eval pref_ui {
       $a.ccmb_mnu add radiobutton -label $lbl -value $value -variable [[ns preferences]::ref Emmet/CSSColorCase] -command [list pref_ui::set_css_color_case]
     }
 
+    register $widgets(emmet_ccmb) $wstr Emmet/CSSColorCase
+
     ttk::label $a.dummy -text ""
-    ttk::label $a.iul -text [format "%s: " [msgcat::mc "Default unit for integer values"]]
+    ttk::label $a.iul -text [format "%s: " [set wstr [msgcat::mc "Default unit for integer values"]]]
     ttk::entry $a.iue -textvariable [[ns preferences]::ref Emmet/CSSIntUnit]
-    ttk::label $a.ful -text [format "%s: " [msgcat::mc "Default unit for floating point values"]]
+
+    register $a.iue $wstr Emmet/CSSIntUnit
+
+    ttk::label $a.ful -text [format "%s: " [set wstr [msgcat::mc "Default unit for floating point values"]]]
     ttk::entry $a.fue -textvariable [[ns preferences]::ref Emmet/CSSFloatUnit]
 
-    ttk::label $a.vsl -text [format "%s: " [msgcat::mc "Symbol between CSS property and value"]]
+    register $a.fue $wstr Emmet/CSSFloatUnit
+
+    ttk::label $a.vsl -text [format "%s: " [set wstr [msgcat::mc "Symbol between CSS property and value"]]]
     ttk::entry $a.vse -textvariable [[ns preferences]::ref Emmet/CSSValueSeparator]
-    ttk::label $a.pel -text [format "%s: " [msgcat::mc "Symbol placed at end of CSS property"]]
+
+    register $a.vse $wstr Emmet/CSSValueSeparator
+
+    ttk::label $a.pel -text [format "%s: " [set wstr [msgcat::mc "Symbol placed at end of CSS property"]]]
     ttk::entry $a.pee -textvariable [[ns preferences]::ref Emmet/CSSPropertyEnd]
+
+    register $a.pee $wstr Emmet/CSSPropertyEnd
 
     grid $a.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
     grid $a.dummy -row 1 -column 0 -sticky news -padx 2 -pady 2
@@ -951,11 +1065,12 @@ namespace eval pref_ui {
                              Opera   Emmet/CSSOPropertiesAddon \
                              Webkit  Emmet/CSSWebkitPropertiesAddon] {
       set ltype [string tolower $type]
-      ttk::labelframe $b.$ltype -text [format "$type %s" [msgcat::mc "Properties"]]
+      ttk::labelframe $b.$ltype -text [set wstr [format "$type %s" [msgcat::mc "Properties"]]]
       pack [tokenentry::tokenentry $b.$ltype.te -height 4 -tokenshape eased] -fill both -expand yes
       bind $b.$ltype.te <<TokenEntryModified>> [list pref_ui::set_properties_addon %W $var]
       pack $b.$ltype -fill x -padx 2 -pady 2
       $b.$ltype.te tokeninsert end [[ns preferences]::get $var]
+      register $b.$ltype.te $wstr $var
     }
 
     pack $w.nb -fill both -expand yes
@@ -993,12 +1108,20 @@ namespace eval pref_ui {
 
     variable widgets
 
-    ttk::label $w.mhl -text [format "%s: " [msgcat::mc "Set Find History Depth"]]
+    ttk::label $w.mhl -text [format "%s: " [set wstr [msgcat::mc "Set Find History Depth"]]]
     set widgets(find_mh) [ttk::spinbox $w.mh -from 0 -to 100 -width 3 -state readonly -command [list pref_ui::set_max_history]]
-    ttk::label $w.cnl -text [format "%s: " [msgcat::mc "Set Find in Files Line Context"]]
+
+    register $widgets(find_mh) $wstr Find/MaxHistory
+
+    ttk::label $w.cnl -text [format "%s: " [set wstr [msgcat::mc "Set Find in Files Line Context"]]]
     set widgets(find_cn) [ttk::spinbox $w.cn -from 0 -to 10  -width 3 -state readonly -command [list pref_ui::set_context_num]]
-    ttk::label $w.jdl -text [format "%s: " [msgcat::mc "Set Jump Distance"]]
+
+    register $widgets(find_cn) $wstr Find/ContextNum
+
+    ttk::label $w.jdl -text [format "%s: " [set wstr [msgcat::mc "Set Jump Distance"]]]
     set widgets(find_jd) [ttk::spinbox $w.jd -from 1 -to 20  -width 3 -state readonly -command [list pref_ui::set_jump_distance]]
+
+    register $widgets(find_jd) $wstr Find/JumpDistance
 
     grid $w.mhl -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $w.mh  -row 0 -column 1 -sticky news -padx 2 -pady 2
@@ -1056,17 +1179,19 @@ namespace eval pref_ui {
 
     ttk::notebook $w.nb
 
-    $w.nb add [set a [ttk::frame $w.nb.a]] -text "Behaviors"
+    $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "Behaviors"]
 
     make_cb $a.rralc [msgcat::mc "Remove root directory after last sub-file is closed"] Sidebar/RemoveRootAfterLastClose
     make_cb $a.fat   [msgcat::mc "Show folders at top"] Sidebar/FoldersAtTop
 
-    $w.nb add [set b [ttk::frame $w.nb.b]] -text "Hiding"
+    $w.nb add [set b [ttk::frame $w.nb.b]] -text [msgcat::mc "Hiding"]
 
     make_cb $b.ib [msgcat::mc "Hide binary files"] Sidebar/IgnoreBinaries
 
-    ttk::labelframe $b.pf -text "Hide Patterns"
+    ttk::labelframe $b.pf -text [set wstr [msgcat::mc "Hide Patterns"]]
     pack [set widgets(sb_patterns) [tokenentry::tokenentry $b.pf.te -height 6 -tokenshape eased]] -fill both -expand yes
+
+    register $widgets(sb_patterns) $wstr Sidebar/IgnoreFilePatterns
 
     bind $widgets(sb_patterns) <<TokenEntryModified>> [list pref_ui::sidebar_pattern_changed]
 
@@ -1102,8 +1227,10 @@ namespace eval pref_ui {
     ttk::frame $w.cf
     make_cb $w.cf.vm [msgcat::mc "Enable Vim Mode"] Tools/VimMode
 
-    ttk::label   $w.chdl -text [format "%s: " [msgcat::mc "Clipboard history depth"]]
+    ttk::label   $w.chdl -text [format "%s: " [set wstr [msgcat::mc "Clipboard history depth"]]]
     set widgets(tools_chd) [ttk::spinbox $w.chdsb -from 1 -to 30 -width 3 -state readonly -command [list pref_ui::set_clipboard_history]]
+
+    register $widgets(tools_chd) $wstr Tools/ClipboardHistoryDepth
 
     grid $w.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
     grid $w.chdl  -row 1 -column 0 -sticky news -padx 2 -pady 2
@@ -1148,8 +1275,10 @@ namespace eval pref_ui {
     make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
 
     ttk::frame $w.of
-    pack [ttk::label   $w.of.l  -text [format "%s: " [msgcat::mc "Recently opened history depth"]]] -side left -padx 2 -pady 2
+    pack [ttk::label   $w.of.l  -text [format "%s: " [set wstr [msgcat::mc "Recently opened history depth"]]]] -side left -padx 2 -pady 2
     pack [set widgets(view_sro) [ttk::spinbox $w.of.sb -from 0 -to 20 -width 2 -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
+
+    register $widgets(view_sro) $wstr View/ShowRecentlyOpened
 
     pack $w.of -fill x -padx 2 -pady 10
 
@@ -1182,8 +1311,10 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    ttk::label $a.ugfl -text [format "%s: " [msgcat::mc "User guide format"]]
+    ttk::label $a.ugfl -text [format "%s: " [set wstr [msgcat::mc "User guide format"]]]
     set widgets(advanced_ugf) [ttk::menubutton $a.ugfmb -menu [menu $a.ugf_mnu -tearoff 0]]
+
+    register $widgets(advanced_ugf) $wstr Help/UserGuideFormat
 
     foreach type [list pdf epub] {
       $a.ugf_mnu add radiobutton -label $type -value $type -variable [[ns preferences]::ref Help/UserGuideFormat] -command [list pref_ui::set_user_guide_format]
@@ -1197,22 +1328,29 @@ namespace eval pref_ui {
     make_cb $b.dm  [msgcat::mc "Enable development mode"]            Debug/DevelopmentMode
     make_cb $b.sdl [msgcat::mc "Show diagnostic logfile at startup"] Debug/ShowDiagnosticLogfileAtStartup
 
-    ttk::labelframe $b.df -text [msgcat::mc "Logfile Directory"]
+    ttk::labelframe $b.df -text [set wstr [msgcat::mc "Logfile Directory"]]
     pack [set widgets(advanced_ld) [ttk::label $b.df.l]] -side left -fill x -padx 2 -pady 2
     pack [ttk::button $b.df.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list pref_ui::get_log_directory]] -side right -padx 2 -pady 2
+
+    # Register the widget for search
+    register $b.df.b $wstr Debug/LogDirectory
 
     pack $b.df -fill x -padx 2 -pady 10
 
     ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]
-    ttk::label $b.pf.prsl -text [format "%s: " [msgcat::mc "Sorting Column"]]
+    ttk::label $b.pf.prsl -text [format "%s: " [set wstr [msgcat::mc "Sorting Column"]]]
     set widgets(advanced_prs) [ttk::menubutton $b.pf.prsmb -text [[ns preferences]::get Tools/ProfileReportSortby] -menu [menu $b.pf.prs_mnu -tearoff 0]]
+
+    register $widgets(advanced_prs) $wstr Tools/ProfileReportSortby
 
     foreach lbl [list calls real cpu real_per_call cpu_per_call] {
       $b.pf.prs_mnu add radiobutton -label $lbl -value $lbl -variable [[ns preferences]::ref Tools/ProfileReportSortby] -command [list pref_ui::set_profile_report_sortby]
     }
 
-    ttk::label $b.pf.prol -text [format "%s: " [msgcat::mc "Report Options"]]
+    ttk::label $b.pf.prol -text [format "%s: " [set wstr [msgcat::mc "Report Options"]]]
     set widgets(advanced_pro) [ttk::entry $b.pf.proe -validate key -validatecommand [list pref_ui::set_profile_report_options]]
+
+    register $widgets(advanced_pro) $wstr Tools/ProfileReportOptions
 
     grid columnconfigure $b.pf 1 -weight 1
     grid $b.pf.prsl  -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -1222,7 +1360,7 @@ namespace eval pref_ui {
 
     pack $b.pf -fill x -padx 2 -pady 10
 
-    $w.nb add [set c [ttk::frame $w.nb.c]] -text [format "NFS %s" [msgcat::mc "Mounts"]]
+    $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [format "NFS %s" [msgcat::mc "Mounts"]]]
 
     ttk::frame $c.f
     set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
@@ -1233,8 +1371,10 @@ namespace eval pref_ui {
     ttk::scrollbar $c.f.vb -orient vertical   -command [list $c.f.tl yview]
     ttk::scrollbar $c.f.hb -orient horizontal -command [list $c.f.tl xview]
 
+    register $widgets(advanced_tl) $wstr NFSMounts
+
     [ns utils]::tablelist_configure $widgets(advanced_tl)
-    
+
     $widgets(advanced_tl) columnconfigure 0 -name host   -editable 1 -resizable 1 -stretchable 1
     $widgets(advanced_tl) columnconfigure 1 -name nfs    -editable 1 -resizable 1 -stretchable 1
     $widgets(advanced_tl) columnconfigure 2 -name remote -editable 1 -resizable 1 -stretchable 1
