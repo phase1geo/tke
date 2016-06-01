@@ -73,15 +73,29 @@ namespace eval pref_ui {
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
 
       ttk::frame .prefwin.sf -style NCFrame
-      pack [wmarkentry::wmarkentry .prefwin.sf.e -width 20 -watermark "Search"] -side right -padx 2 -pady 2
+      set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e -width 20 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
 
-      bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::perform_search %W]
+      pack $widgets(match_e) -side right -padx 2 -pady 2
 
       ttk::frame     .prefwin.f -style NCFrame
       ttk::separator .prefwin.f.hsep -orient horizontal
       set widgets(panes) [ttk::frame .prefwin.f.bf -style NCFrame]
       ttk::separator .prefwin.f.vsep -orient vertical
       set widgets(frame) [ttk::frame .prefwin.f.pf -style NCFrame]
+
+      set widgets(match_f)  [ttk::frame .prefwin.f.mf]
+      set widgets(match_lb) [listbox .prefwin.f.mf.lb -relief flat -height 10 -yscrollcommand [list [ns utils]::set_yscrollbar .prefwin.f.mf.vb]]
+      ttk::scrollbar .prefwin.f.mf.vb -orient vertical -command [list .pref.f.mf.matches yview]
+
+      bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::search_select]
+      bind [.prefwin.sf.e entrytag] <Escape> [list pref_ui::search_clear]
+      bind [.prefwin.sf.e entrytag] <Up>     [list ::tk::ListboxUpDown $widgets(match_lb) -1]
+      bind [.prefwin.sf.e entrytag] <Down>   [list ::tk::ListboxUpDown $widgets(match_lb)  1]
+
+      grid rowconfigure    .prefwin.f.mf 0 -weight 1
+      grid columnconfigure .prefwin.f.mf 0 -weight 1
+      grid .prefwin.f.mf.lb -row 0 -column 0 -sticky news
+      grid .prefwin.f.mf.vb -row 0 -column 1 -sticky ns
 
       grid rowconfigure    .prefwin.f 1 -weight 1
       grid columnconfigure .prefwin.f 2 -weight 1
@@ -139,15 +153,13 @@ namespace eval pref_ui {
 
     variable widgets
 
-    set bg [$widgets(panes).$panel cget -background]
-    set fg [$widgets(panes).$panel cget -foreground]
-
     # Clear all of the panel selection labels, if necessary
-    if {$bg ne "blue"} {
-      foreach p [winfo children $widgets(panes)] {
-        $p configure -background $bg -foreground $fg
-      }
+    foreach p [winfo children $widgets(panes)] {
+      $p configure -background "" -foreground ""
     }
+
+    # Clear the search
+    search_clear
 
     # Set the color of the label to the given color
     $widgets(panes).$panel configure -background blue -foreground white
@@ -216,16 +228,13 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Searches the preference window for the given item.
-  proc perform_search {w} {
+  # Display the list of all matches in the dropdoxn listbox.
+  proc show_matches {value} {
 
+    variable widgets
     variable search
 
-    # Get the search request
-    set request [$w get]
-
     foreach match [array names search -regexp (?i).*$request.*] {
-      puts "match: $match"
       lassign $search($match) win lbl tab1 tab2
       set tabs1($tab1) [list $win $lbl]
       if {$tab2 ne ""} {
@@ -233,26 +242,105 @@ namespace eval pref_ui {
       }
     }
 
-    # Display the tab if there is only one match
-    if {[array size tabs1] == 1} {
-      set tab [lindex [array names tabs1] 0]
-      pane_clicked [lindex [split $tab .] end]
-      switch [array size tabs2] {
-        0 {
-          focus [lindex $tabs1($tab) 0]
-        }
-        1 {
-          set tab [lindex [array names tabs2] 0]
-          [winfo parent $tab] select $tab
-          focus [lindex $tabs2($tab) 0]
+  }
+
+  ######################################################################
+  # Searches the preference window for the given item.
+  proc perform_search {value} {
+
+    variable widgets
+    variable search
+
+    set matches [list]
+
+    array set tabs1 [list]
+
+    # Get the list of matches
+    if {$value ne ""} {
+      foreach match [set matches [array names search -regexp (?i).*$value.*]] {
+        lassign $search($match) win lbl tab1 tab2
+        set tabs1($tab1) [list $win $lbl]
+        if {$tab2 ne ""} {
+          set tabs2($tab2) [list $win $lbl]
         }
       }
-    } else {
-      puts "HERE, matches: [array names tabs1]"
     }
 
-    # Select the text
-    $w selection range 0 end
+    # Display the matches
+    if {[set match_len [llength $matches]] > 0} {
+      $widgets(match_lb) delete 0 end
+      foreach match $matches {
+        $widgets(match_lb) insert end $match
+      }
+      $widgets(match_lb) configure -height [expr (($match_len) > 10) ? 10 : $match_len]
+      place $widgets(match_f) -relx 0.5 -relwidth 0.5 -rely 0.0
+    } else {
+      catch { place forget $widgets(match_f) }
+    }
+
+    # Clear the tabs
+    foreach p [winfo children $widgets(panes)] {
+      $p configure -background "" -foreground ""
+    }
+
+    # Display the tab if there is only one match
+    switch [array size tabs1] {
+      1 {
+        set tab [lindex [array names tabs1] 0]
+        pane_clicked [lindex [split $tab .] end]
+        switch [array size tabs2] {
+          0 {
+            focus [lindex $tabs1($tab) 0]
+          }
+          1 {
+            set tab [lindex [array names tabs2] 0]
+            [winfo parent $tab] select $tab
+            focus [lindex $tabs2($tab) 0]
+          }
+        }
+      }
+      default {
+        foreach tab [array names tabs1] {
+          $tab configure -background "white" -foreground "black"
+        }
+      }
+    }
+
+    # Select the first item in the list
+    $widgets(match_lb) see 0
+    $widgets(match_lb) selection clear 0 end
+    $widgets(match_lb) selection anchor 0
+    $widgets(match_lb) activate 0
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Selects the text in the entry.
+  proc search_select {} {
+
+    variable widgets
+
+    # Select the match text
+    $widgets(match_e) selection range 0 end
+
+    # Remove the results frame
+    catch { place forget $widgets(match_f) }
+
+  }
+
+  ######################################################################
+  # Clear the search text.
+  proc search_clear {} {
+
+    variable widgets
+
+    # Delete the search text
+    $widgets(match_e) delete 0 end
+
+    # Remove the results frame
+    catch { place forget $widgets(match_f) }
 
   }
 
@@ -265,9 +353,10 @@ namespace eval pref_ui {
     # Figure out which notebooks
     set insts [split $w .]
     set tabs  [list]
+    lappend tabs .prefwin.f.bf.[lindex $insts 4]
     for {set i 3} {$i < [llength $insts]} {incr i} {
       set hier [join [lrange $insts 0 $i] .]
-      if {($i == 3) || ([winfo class $hier] eq "TNotebook")} {
+      if {[winfo class $hier] eq "TNotebook"} {
         lappend tabs [join [lrange $insts 0 [expr $i + 1]] .]
       }
     }
