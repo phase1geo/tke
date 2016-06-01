@@ -89,8 +89,8 @@ namespace eval pref_ui {
 
       bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::search_select]
       bind [.prefwin.sf.e entrytag] <Escape> [list pref_ui::search_clear]
-      bind [.prefwin.sf.e entrytag] <Up>     [list ::tk::ListboxUpDown $widgets(match_lb) -1]
-      bind [.prefwin.sf.e entrytag] <Down>   [list ::tk::ListboxUpDown $widgets(match_lb)  1]
+      bind [.prefwin.sf.e entrytag] <Up>     "::tk::ListboxUpDown $widgets(match_lb) -1; break"
+      bind [.prefwin.sf.e entrytag] <Down>   "::tk::ListboxUpDown $widgets(match_lb)  1; break"
 
       grid rowconfigure    .prefwin.f.mf 0 -weight 1
       grid columnconfigure .prefwin.f.mf 0 -weight 1
@@ -155,14 +155,14 @@ namespace eval pref_ui {
 
     # Clear all of the panel selection labels, if necessary
     foreach p [winfo children $widgets(panes)] {
-      $p configure -background "" -foreground ""
+      $p state !active
     }
 
     # Clear the search
     search_clear
 
     # Set the color of the label to the given color
-    $widgets(panes).$panel configure -background blue -foreground white
+    $widgets(panes).$panel state active
 
     # Show the panel
     show_panel $panel
@@ -260,9 +260,6 @@ namespace eval pref_ui {
       foreach match [set matches [array names search -regexp (?i).*$value.*]] {
         lassign $search($match) win lbl tab1 tab2
         set tabs1($tab1) [list $win $lbl]
-        if {$tab2 ne ""} {
-          set tabs2($tab2) [list $win $lbl]
-        }
       }
     }
 
@@ -278,37 +275,19 @@ namespace eval pref_ui {
       catch { place forget $widgets(match_f) }
     }
 
-    # Clear the tabs
     foreach p [winfo children $widgets(panes)] {
-      $p configure -background "" -foreground ""
+      $p state !active
     }
-
+    
     # Display the tab if there is only one match
-    switch [array size tabs1] {
-      1 {
-        set tab [lindex [array names tabs1] 0]
-        pane_clicked [lindex [split $tab .] end]
-        switch [array size tabs2] {
-          0 {
-            focus [lindex $tabs1($tab) 0]
-          }
-          1 {
-            set tab [lindex [array names tabs2] 0]
-            [winfo parent $tab] select $tab
-            focus [lindex $tabs2($tab) 0]
-          }
-        }
-      }
-      default {
-        foreach tab [array names tabs1] {
-          $tab configure -background "white" -foreground "black"
-        }
-      }
+    foreach tab [array names tabs1] {
+      $tab state active
     }
 
     # Select the first item in the list
     $widgets(match_lb) see 0
     $widgets(match_lb) selection clear 0 end
+    $widgets(match_lb) selection set 0
     $widgets(match_lb) selection anchor 0
     $widgets(match_lb) activate 0
 
@@ -321,7 +300,25 @@ namespace eval pref_ui {
   proc search_select {} {
 
     variable widgets
+    variable search
+    
+    # Get the selected item
+    set selected_value [$widgets(match_lb) get active]
+    
+    # Get the information from the matching element
+    lassign $search($selected_value) win lbl tab1 tab2
+    
+    # Select the pane containing the item
+    pane_clicked [lindex [split $tab1 .] end]
+    
+    # If the element exists within a notebook tab, display it
+    if {$tab2 ne ""} {
+      [winfo parent $tab2] select $tab2
+    }
 
+    # Give the focus to the matching element
+    focus $win
+    
     # Select the match text
     $widgets(match_e) selection range 0 end
 
