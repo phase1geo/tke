@@ -1,923 +1,231 @@
-changeset:   2073:1107c6b4066e
-tag:         stable-2.4
+changeset:   2181:fd40e0ebe359
+tag:         stable-2.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 17:31:38 2016 -0500
+date:        Sat May 14 13:18:03 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.4 release
+ChangeLog for stable-2.5 release
 
 
-changeset:   2074:ceff9835ed38
+changeset:   2182:e0c489de54f2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 17:31:44 2016 -0500
+date:        Sat May 14 13:18:10 2016 -0500
 files:       .hgtags
 description:
-Added tag stable-2.4 for changeset 1107c6b4066e
+Added tag stable-2.5 for changeset fd40e0ebe359
 
 
-changeset:   2075:269a20933ca0
+changeset:   2183:d3e0e2901d31
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 21:16:28 2016 -0500
-files:       data/syntax/ManPage.syntax lib/version.tcl
+date:        Sat May 14 23:53:07 2016 -0500
+files:       lib/menus.tcl lib/pref_ui.tcl lib/preferences.tcl lib/tke.tcl lib/version.tcl
 description:
-* Adding ManPage syntax.
+* Starting work on preferences UI.
 
 
-changeset:   2076:fe88ccfd16c0
+changeset:   2184:38e69a61b5b4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 21:49:00 2016 -0500
-files:       data/syntax/snippets.syntax lib/snippets.tcl lib/version.tcl
+date:        Sun May 15 22:35:41 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Enhancing snippet syntax to add "endsnippet" keyword (and removing leading tab requirement) while retaining backward compatibility.
-* Formatting snippet text after snippet is initially inserted.
+* More pref_ui updates.
 
 
-changeset:   2077:3f477b69764a
+changeset:   2185:12c3316905e2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 21:54:01 2016 -0500
-files:       data/preferences.tkedat lib/snippets.tcl lib/version.tcl
+date:        Tue May 17 20:23:58 2016 -0500
+files:       lib/pref_ui.tcl lib/preferences.tcl lib/version.tcl
 description:
-* Adding Editor/SnippetFormatAfterInsert preference item to control snippet insertion formatting.
+* Checkpointing preference UI work.
 
 
-changeset:   2078:4f588c7e326a
+changeset:   2186:2682067ce12b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:12:55 2016 -0500
-files:       data/syntax/Groovy.syntax lib/version.tcl
+date:        Wed May 18 00:38:29 2016 -0500
+files:       lib/fontchooser.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding Groovy syntax.
+* Checkpointing work on preference GUI.
 
 
-changeset:   2079:ee739672070a
+changeset:   2187:ac970dbb9f0a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:56:24 2016 -0500
-files:       data/syntax/MATLAB.syntax lib/version.tcl
+date:        Wed May 18 19:34:43 2016 -0500
+files:       lib/pref_ui.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Adding MATLAB syntax.
+* Checkpoint preference UI changes.
 
 
-changeset:   2080:ebccdb186277
-tag:         devel-2.4.1
+changeset:   2188:294b3f637436
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:58:46 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
+date:        Thu May 19 00:28:30 2016 -0500
+files:       data/preferences.tkedat lib/embed_tke.tcl lib/pref_ui.tcl lib/syntax.tcl lib/version.tcl
 description:
-ChangeLog for devel-2.4.1 release
+* Checkpointing work on preferences UI (General and Appearance are now complete).
 
 
-changeset:   2081:1ca3727b13fd
+changeset:   2189:8e209161cc27
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 12 22:58:50 2016 -0500
-files:       .hgtags
+date:        Thu May 19 08:37:32 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-Added tag devel-2.4.1 for changeset ebccdb186277
+* Checkpointing work on preference UI.
 
 
-changeset:   2082:391e052f932f
+changeset:   2190:1668d32f7723
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 13 09:06:43 2016 -0500
-files:       data/syntax/Clojure.syntax lib/version.tcl
+date:        Fri May 20 00:53:19 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding Clojure syntax.
+* Checkpointing work on View and Sidebar preference UI.
 
 
-changeset:   2083:9b83b0deca13
+changeset:   2191:f0c684dcb80d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 14 00:43:59 2016 -0500
-files:       lib/gui.tcl lib/snippets.tcl lib/version.tcl
+date:        Fri May 20 13:41:48 2016 -0500
+files:       data/preferences.tkedat lib/gui.tcl lib/images/appearance.gif lib/launcher.tcl lib/pref_ui.tcl lib/theme.tcl lib/version.tcl
 description:
-* Fixing undo issue with snippet text.
-* Improving startup performance and initial file view performance.
-* Fixing issue where the first line of a long file was not completely in view at initial view.
+* Checkpointing work on preference updates.
 
 
-changeset:   2084:acf876a807a5
+changeset:   2192:cc9b794862de
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 09:37:12 2016 -0500
-files:       ChangeLog data/syntax/DocBook.syntax data/syntax/XML.syntax lib/indent.tcl lib/version.tcl
+date:        Fri May 20 19:42:51 2016 -0500
+files:       lib/images/editor.gif lib/images/emmet.gif lib/images/find.gif lib/images/general.gif lib/images/view.gif lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding DocBook syntax.
-* Changing XML syntax to be case sensitive.
+* Checkpointing preference UI work.
 
 
-changeset:   2085:b287677d6e77
-tag:         devel-2.4.2
+changeset:   2193:42332cdeea9a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 09:38:00 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
+date:        Fri May 20 19:46:19 2016 -0500
+files:       lib/images/tools.gif lib/version.tcl
 description:
-ChangeLog for devel-2.4.2 release
+* Adding image.
 
 
-changeset:   2086:8fa59c8fec30
+changeset:   2194:630fb104f053
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 09:38:05 2016 -0500
-files:       .hgtags
+date:        Sat May 21 01:49:11 2016 -0500
+files:       lib/bitmap.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-Added tag devel-2.4.2 for changeset b287677d6e77
+* Checkpointing preference changes.
 
 
-changeset:   2087:b98ff06df52f
+changeset:   2195:cca1d8256eb9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 22:27:15 2016 -0500
-files:       data/syntax/C++.syntax data/syntax/Vala.syntax lib/menus.tcl lib/version.tcl
+date:        Mon May 23 00:18:35 2016 -0500
+files:       lib/images/advanced.gif lib/images/sidebar.gif lib/images/tools.gif lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding reindentation back into C++ since C++ doesn't inherit C reindentation.
-* Adding "var" keyword to Vala syntax.
-* Adding Help menu item to view Tips & Tricks articles.
+* Added Editor preferences to preferences UI.
+* Adding missing preferences icons and updating the Tools icon.
 
 
-changeset:   2088:f9adfc264456
+changeset:   2196:4f2b3192441d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 15 23:47:10 2016 -0500
-files:       data/preferences.tkedat lib/gui.tcl lib/menus.tcl lib/templates.tcl lib/version.tcl lib/vim.tcl
+date:        Mon May 23 08:31:09 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding support for Vim option 'browsedir'.
-* Adding `General/DefaultFileBrowserDirectory` preference option.
+* Adding Tools preference pane content.
 
 
-changeset:   2089:4ded1aaeded1
+changeset:   2197:ae5bf6ee47e6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 16 00:30:50 2016 -0500
-files:       data/syntax/VisualBasic.syntax lib/version.tcl
+date:        Tue May 24 01:50:17 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding VisualBasic syntax.
+* Checkpointing work on Emmet preferences UI.
 
 
-changeset:   2090:edad537a8ffc
+changeset:   2198:901689250bf6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 16 00:40:04 2016 -0500
-files:       data/syntax/VisualBasic.syntax lib/version.tcl
+date:        Wed May 25 00:57:01 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Fixing syntax error in VisualBasic syntax file.
+* Finishing Emmet preference panel.
+* Starting work on Advanced preference panel.
 
 
-changeset:   2091:e26a1ce8762c
+changeset:   2199:a6970a38a8f3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 16 08:36:00 2016 -0500
-files:       data/syntax/Cuda.syntax lib/version.tcl
+date:        Wed May 25 19:30:16 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding Cuda syntax.
+* Checkpointing work on advanced preference panel.
 
 
-changeset:   2092:f85f9c3f04c2
+changeset:   2200:471dffaff511
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 17 00:08:58 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Thu May 26 08:54:33 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding initial support (untested) for indentation code folding.
+* Fixing NFSMounts table behaviors.
 
 
-changeset:   2093:d0d0c89ae866
+changeset:   2201:2b7323365b74
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 17 07:39:07 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/version.tcl
+date:        Thu May 26 23:47:41 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Checkpointing work on indentation based code folding.
+* Beginning testing of and fixing issues with preferences UI.
 
 
-changeset:   2094:3446109dc167
+changeset:   2202:375e2b9c0ab4
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 00:28:52 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Sat May 28 12:20:53 2016 -0500
+files:       lib/pref_ui.tcl lib/utils.tcl lib/version.tcl
 description:
-* Fixing problem in fastinsert where starting index sent to modified handler was getting wrong value.
+* Adding ability to configure a tablelist widget to utils namespace.
+* Fixing preference UI behavior.
+* Adding search entry to preferences UI (search function is not implemented yet).
 
 
-changeset:   2095:a1ce2beca1dc
+changeset:   2203:b715096ff265
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 08:09:49 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Sun May 29 23:29:11 2016 -0500
+files:       lib/menus.tcl lib/pref_ui.tcl lib/theme.tcl lib/version.tcl
 description:
-* Checkpointing work on indent-based code folding.
+* Checkpointing work on colorizing preferences window.
 
 
-changeset:   2096:1d316662e5cd
+changeset:   2204:fb8cc662f729
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 09:03:59 2016 -0500
-files:       data/preferences.tkedat lib/ctext/ctext.tcl lib/folding.tcl lib/menus.tcl lib/version.tcl
+date:        Mon May 30 23:42:35 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Fixing indentation code folding algorithm (hacked other code to be able to test it).
+* Adding preference search capability (work in progress).
 
 
-changeset:   2097:fae7c5c7ce76
+changeset:   2205:5cd9cf78b05a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Apr 18 23:22:35 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/menus.tcl lib/version.tcl
+date:        Tue May 31 08:39:23 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Checkpointing automatic handling of indentation.
+* Fixing regular expression in preference search to be case insensitive.
 
 
-changeset:   2098:e9ed2f71b81a
+changeset:   2206:ce461b81b8e2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 20 00:03:27 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Wed Jun 01 00:10:14 2016 -0500
+files:       lib/pref_ui.tcl lib/ptwidgets1.2/library/wmarkentry.tcl lib/version.tcl
 description:
-* Fixing syntax error due to highlighting causing text_changed to be called prior to the folding namespace being initialized.
+* Checkpointing work on preference UI search behavior.
 
 
-changeset:   2099:49b72c49f284
+changeset:   2207:6c457201a4f7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 20 18:50:28 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/gui.tcl lib/version.tcl
+date:        Wed Jun 01 08:54:52 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Fixing issues with indent-based folding when interactively editing.
+* Fixing issues with preference UI search.
 
 
-changeset:   2100:fb01dc4c74f0
-tag:         devel-2.4.3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 21 01:11:37 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.3 release
-
-
-changeset:   2101:7d877df0c4f5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 21 01:11:56 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.3 for changeset fb01dc4c74f0
-
-
-changeset:   2102:ace73f1b5f71
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 22 00:32:53 2016 -0500
-files:       lib/folding.tcl lib/version.tcl
-description:
-* Checkpointing work on supporting eclose/eopen code folding tags.
-
-
-changeset:   2103:4a10661d3e6a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 23 00:29:21 2016 -0500
-files:       lib/folding.tcl lib/version.tcl
-description:
-* Checkpointing work on indentation code folding.
-
-
-changeset:   2104:df911cfdb4b2
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 23 23:48:00 2016 -0500
-files:       lib/folding.tcl lib/version.tcl
-description:
-* Checkpointing work on indentation code folding.
-
-
-changeset:   2105:c4101e20bcea
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 24 07:55:30 2016 -0500
-files:       lib/folding.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Fixing issues with indentation code folding method.
-
-
-changeset:   2106:79ba8d344fa8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Apr 24 21:14:29 2016 -0500
-files:       data/syntax/SASS.syntax data/syntax/SCSS.syntax lib/version.tcl
-description:
-* Adding SASS and SCSS syntax.
-
-
-changeset:   2107:66280a42956c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 26 21:53:34 2016 -0500
-files:       data/syntax/Delphi.syntax lib/version.tcl
-description:
-* Adding Delphi syntax.
-
-
-changeset:   2108:54ff0250afb3
-parent:      2106:79ba8d344fa8
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Apr 25 17:13:29 2016 -0500
-files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Fixing support for multi-mixed languages.
-* Adding ability to embed C++ language into Markdown.
-
-
-changeset:   2109:4a21166a5acb
-parent:      2107:66280a42956c
-parent:      2108:54ff0250afb3
-user:        Trevor Williams  <phase1geo@gmail.com>
-date:        Tue Apr 26 21:59:08 2016 -0500
-description:
-Merge
-
-
-changeset:   2110:80300094a2a0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 26 22:58:00 2016 -0500
-files:       data/syntax/Rust.syntax lib/version.tcl
-description:
-* Adding Rust syntax.
-
-
-changeset:   2111:c675a4de0247
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Apr 26 23:04:18 2016 -0500
-files:       data/syntax/Rust.syntax lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Fixing Rust syntax issues.
-* Fixing syntax error in ctext past command code.
-
-
-changeset:   2112:458477abd2d2
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 27 08:35:46 2016 -0500
-files:       lib/gui.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing improvements in indentation folding.
-
-
-changeset:   2113:1fe928f0c974
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Apr 27 16:50:26 2016 -0500
-files:       data/preferences.tkedat lib/folding.tcl lib/indent.tcl lib/menus.tcl lib/version.tcl
-description:
-* More work on indentation code folding mode.
-
-
-changeset:   2114:5bda7e91357e
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Apr 27 17:25:22 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/indent.tcl lib/version.tcl
-description:
-* Checkpointing work on indentation updates.
-
-
-changeset:   2115:224f79c92145
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 27 19:23:02 2016 -0500
-files:       lib/folding.tcl lib/version.tcl
-description:
-* Finishing enhance indentation folding mechanism.
-
-
-changeset:   2116:667c1093bba6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 27 19:34:00 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Attempting to fix issue with updating code fold properly when indentation mode is changed.
-
-
-changeset:   2117:52de79fe5d6f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 27 21:10:46 2016 -0500
-files:       lib/syntax.tcl lib/version.tcl
-description:
-* Fixing issue with None language selection.
-
-
-changeset:   2118:6573e6e60cd0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 27 22:21:36 2016 -0500
-files:       lib/folding.tcl lib/indent.tcl lib/version.tcl
-description:
-* Adding code optimizations to indentation namespace.
-* Fixing bug in indentation code folding.
-
-
-changeset:   2119:cd37552fe5fe
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Apr 27 23:10:40 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing issue with recent indentation changes.
-
-
-changeset:   2120:577fcf9285e1
-tag:         devel-2.4.4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 01:14:03 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.4 release
-
-
-changeset:   2121:0d751736a0c6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 01:14:07 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.4 for changeset 577fcf9285e1
-
-
-changeset:   2122:56747e328579
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 08:45:50 2016 -0500
-files:       data/syntax/J.syntax lib/version.tcl
-description:
-* Adding J syntax.
-
-
-changeset:   2123:f90d3dc77948
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 19:15:08 2016 -0500
-files:       data/syntax/ABAP.syntax lib/version.tcl
-description:
-* Adding ABAP syntax.
-
-
-changeset:   2124:5aa4184c0466
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 19:20:00 2016 -0500
-files:       data/syntax/Forth.syntax lib/version.tcl
-description:
-* Initial creation of Forth syntax file (needs work).
-
-
-changeset:   2125:d64f7d640940
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Apr 28 23:12:46 2016 -0500
-files:       data/syntax/Forth.syntax data/syntax/syntax.syntax lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Adding Forth syntax.
-* Adding escapes syntax file specifier to allow languages that don't contain escapes to work properly.
-
-
-changeset:   2126:0cb858e6f94c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 29 00:27:27 2016 -0500
-files:       data/preferences.tkedat data/syntax/ABAP.syntax lib/completer.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
-description:
-* Adding support for backtick matching character.
-* Adding support for backtick character jumping.
-* Adding backtick support in ABAP syntax.
-
-
-changeset:   2127:beda5d28b255
-tag:         devel-2.4.5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 29 08:15:57 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.5 release
-
-
-changeset:   2128:ce314bede9da
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Apr 29 08:16:07 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.5 for changeset beda5d28b255
-
-
-changeset:   2129:54ef782adac4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 30 00:09:18 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing support for automatically unindenting HTML/XML-like syntax.
-
-
-changeset:   2130:3c96ba2703ba
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 30 01:00:58 2016 -0500
-files:       data/syntax/Jade.syntax lib/version.tcl
-description:
-* Adding Jade syntax.
-
-
-changeset:   2131:297dc2b138ae
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 30 20:07:24 2016 -0500
-files:       data/syntax/Julia.syntax lib/version.tcl
-description:
-* Adding Julia syntax.
-
-
-changeset:   2132:7ff4071af630
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Apr 30 23:24:22 2016 -0500
-files:       lib/version.tcl lib/vim.tcl
-description:
-* Adding h, backspace, left, l, space and right motion support for change, delete, and yank commands.
-* Adding Left and Right Vim commands.
-* Adding start of gu and gU Vim command support.
-
-
-changeset:   2133:3464deefb9d6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 01 07:59:54 2016 -0500
-files:       lib/version.tcl lib/vim.tcl
-description:
-* Adding support for Up and Down Vim commands.
-
-
-changeset:   2134:31b57334c69b
-tag:         devel-2.4.6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 02 01:33:41 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.6 release
-
-
-changeset:   2135:301ca869fe93
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 02 01:33:47 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.6 for changeset 31b57334c69b
-
-
-changeset:   2136:0a8a7ad684f0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 03 22:35:19 2016 -0500
-files:       data/syntax/SystemVerilog.syntax data/syntax/Verilog.syntax lib/version.tcl
-description:
-* Adding Verilog syntax.
-* Enhancing SystemVerilog syntax.
-
-
-changeset:   2137:cc50deed52c8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 03 23:04:09 2016 -0500
-files:       data/syntax/Go.syntax lib/version.tcl
-description:
-* Adding Go syntax.
-
-
-changeset:   2138:8f7f015a80ea
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 03 23:59:07 2016 -0500
-files:       data/syntax/R.syntax lib/version.tcl
-description:
-* Adding R syntax.
-
-
-changeset:   2139:505520c54a58
-tag:         devel-2.4.7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 00:15:22 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.7 release
-
-
-changeset:   2140:68594ec3e739
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 00:16:11 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.7 for changeset 505520c54a58
-
-
-changeset:   2141:ed9291d8d2e6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 18:10:48 2016 -0500
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Adding TKE website information to About window.
-* Re-arranging the About window to place tool-specific information at the top and developer information at the bottom.
-
-
-changeset:   2142:4eff619023bc
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 18:25:08 2016 -0500
-files:       lib/search.tcl lib/version.tcl
-description:
-* Improving Find in Files output when no matching text is found.
-
-
-changeset:   2143:16eaa4232e0b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 04 19:25:56 2016 -0500
-files:       lib/folding.tcl lib/version.tcl
-description:
-* Changing close fold symbol and color to help make closed folds more evident.
-
-
-changeset:   2144:526109da3db6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 00:53:28 2016 -0500
-files:       lib/folding.tcl lib/gui.tcl lib/version.tcl
-description:
-* Removing debug output.
-* Increasing the size of the About window.
-
-
-changeset:   2145:a02e1df23242
-tag:         devel-2.4.8
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 00:55:19 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.8 release
-
-
-changeset:   2146:d4bf6976d76d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 00:55:29 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.8 for changeset a02e1df23242
-
-
-changeset:   2147:981dc3f7d81d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 08:32:06 2016 -0500
-files:       lib/ctext/ctext.tcl lib/folding.tcl lib/theme.tcl lib/version.tcl
-description:
-* Fixing issue where closed markers are reset when theme changes.
-* Fixing closed marker coloring when theme changes.
-
-
-changeset:   2148:b8a185a2eb29
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 05 09:01:46 2016 -0500
-files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on lists in Markdown.
-
-
-changeset:   2149:20282f106bbd
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu May 05 17:34:34 2016 -0500
-files:       data/syntax/Markdown.syntax lib/edit.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on adding support for auto list-style syntax insertion in Markdown.
-
-
-changeset:   2150:8997bec5a67c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 00:09:43 2016 -0500
-files:       lib/ctext/ctext.tcl lib/edit.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Fixing 'o' Vim command in Markdown list mode.
-* Fixing 'O' Vim command in Markdown list mode.
-* Fixing deletion of characters in Markdown list mode.
-* Adding insertion indication in syntax highlighting callback procedures.
-
-
-changeset:   2151:92bc1e46106c
-tag:         devel-2.4.9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 00:11:45 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.9 release
-
-
-changeset:   2152:f9a75fd5b88e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 00:12:23 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.9 for changeset 92bc1e46106c
-
-
-changeset:   2153:0916853099fa
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 06 08:27:59 2016 -0500
-files:       lib/folding.tcl lib/indent.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Fixing issues with code folder when the language is changed.
-* Coloring eclose folded types in addition to close types.
-
-
-changeset:   2154:06f1b9a48388
-tag:         devel-2.4.10
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 08:44:40 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.10 release
-
-
-changeset:   2155:65e930012eda
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 08:44:46 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.10 for changeset 06f1b9a48388
-
-
-changeset:   2156:5c1cd5217861
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 23:15:43 2016 -0500
-files:       lib/indent.tcl lib/version.tcl tests/ctext.tcl
-description:
-* Fixing file parsing issue in indent.tcl.
-* Fixing ctext BIST test numbering.
-
-
-changeset:   2157:0c158506c7c7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 23:51:56 2016 -0500
-files:       lib/folding.tcl lib/version.tcl tests/emmet.tcl tests/folding.tcl
-description:
-* Fixing syntax error in code folding namespace.
-* Fixing BIST failures.
-
-
-changeset:   2158:9582cd51bb4d
-tag:         devel-2.4.11
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 23:54:38 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.11 release
-
-
-changeset:   2159:34ae634538c4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 09 23:54:44 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.11 for changeset 9582cd51bb4d
-
-
-changeset:   2160:0eeccefc24dd
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 10 23:56:42 2016 -0500
-files:       lib/ctext/ctext.tcl lib/indent.tcl lib/version.tcl tests/ctext.tcl
-description:
-* Fixing issues with HTML indentation.
-* Improving performance of counting indentation tags in a given range.
-
-
-changeset:   2161:0914fb1ede63
-tag:         devel-2.4.12
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 11 08:20:09 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.12 release
-
-
-changeset:   2162:fb2f289d3597
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 11 08:20:22 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.12 for changeset 0914fb1ede63
-
-
-changeset:   2163:5f1f1308355b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 11 18:22:36 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing format_text issue found in HTML/XML-like syntax.
-
-
-changeset:   2164:bbb6d0b6880f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 08:30:53 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing format_text issues (BIST now runs clean again).
-
-
-changeset:   2165:ff59df8be7f7
-tag:         devel-2.4.13
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 08:31:49 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.13 release
-
-
-changeset:   2166:8d7eb94b3210
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 08:31:54 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.13 for changeset ff59df8be7f7
-
-
-changeset:   2167:2469c20866fc
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 08:38:01 2016 -0500
-files:       lib/version.tcl release.tcl
-description:
-* Adding tests directory to MacOSX disk image.
-
-
-changeset:   2168:44854f78212f
-parent:      2163:5f1f1308355b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 11 19:30:26 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Minor code optimization in indentation code.
-
-
-changeset:   2169:2fc210f6ac3d
-parent:      2168:44854f78212f
-parent:      2167:2469c20866fc
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 20:57:25 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-Merge
-
-
-changeset:   2170:635cfd31f62f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 21:33:21 2016 -0500
-files:       lib/indent.tcl lib/version.tcl tests/emmet.tcl
-description:
-* Fixing issues with indentation.
-* Adding Emmet test to verify fix.
-
-
-changeset:   2171:d090ad349b82
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 12 23:22:13 2016 -0500
-files:       lib/folding.tcl lib/version.tcl tests/folding.tcl
-description:
-* Adding folding test for indent mode.
-
-
-changeset:   2172:3897757bf6aa
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 13 08:38:10 2016 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
-description:
-* Updating translations.
-
-
-changeset:   2173:8ad80e752a17
-tag:         devel-2.4.14
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 13 08:39:53 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.14 release
-
-
-changeset:   2174:d255ce4295ba
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 13 08:39:58 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.4.14 for changeset 8ad80e752a17
-
-
-changeset:   2175:c3da60784601
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 11:57:27 2016 -0500
-files:       data/syntax/Tcl.syntax doc/UserGuide.epub doc/UserGuide.pdf lib/gui.tcl lib/version.tcl plugins/markdown_color/main.tcl
-description:
-* Removing single-quote from auto-completion in Tcl syntax.
-* Updating user guide.
-* Fixing issue with "current" browsedir setting.
-* Fixing markdown_color plugin.
-
-
-changeset:   2176:8cfc56542b88
-parent:      2174:d255ce4295ba
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 13 20:18:21 2016 -0500
-files:       MacOSX/Tke.app/Contents/Info.plist Win/setup.iss doc/Doxyfile doc/html/Info.plist doc/html/Makefile doc/html/Nodes.xml doc/html/Tokens.xml doc/html/api_8tcl.html doc/html/api_8tcl_source.html doc/html/bgproc_8tcl.html doc/html/bgproc_8tcl_source.html doc/html/bindings_8tcl.html doc/html/bindings_8tcl_source.html doc/html/bist_8tcl.html doc/html/bist_8tcl_source.html doc/html/bitmap_8tcl.html doc/html/bitmap_8tcl_source.html doc/html/cliphist_8tcl.html doc/html/cliphist_8tcl_source.html doc/html/commit_8tcl.html doc/html/commit_8tcl_source.html doc/html/completer_8tcl.html doc/html/completer_8tcl.js doc/html/completer_8tcl_source.html doc/html/ctext_8tcl.html doc/html/ctext_8tcl.js doc/html/ctext_8tcl_source.html doc/html/diff_8tcl.html doc/html/diff_8tcl_source.html doc/html/dir_97aefd0d527b934f1d99a682da8fe6a9.html doc/html/dir_e196ed0cf7506b8e7c50ce2798d828dd.html doc/html/doxygen.css doc/html/dynsections.js doc/html/edit_8tcl.html doc/html/edit_8tcl_source.html doc/html/embed__tke_8tcl.html doc/html/embed__tke_8tcl_source.html doc/html/emmet_8tcl.html doc/html/emmet_8tcl_source.html doc/html/emmet__css_8tcl.html doc/html/emmet__css_8tcl_source.html doc/html/favorites_8tcl.html doc/html/favorites_8tcl_source.html doc/html/files.html doc/html/folding_8tcl.html doc/html/folding_8tcl.js doc/html/folding_8tcl_source.html doc/html/fontchooser_8tcl.html doc/html/fontchooser_8tcl_source.html doc/html/ftv2blank.png doc/html/ftv2cl.png doc/html/ftv2doc.png doc/html/ftv2folderclosed.png doc/html/ftv2folderopen.png doc/html/ftv2lastnode.png doc/html/ftv2link.png doc/html/ftv2mlastnode.png doc/html/ftv2mnode.png doc/html/ftv2mo.png doc/html/ftv2node.png doc/html/ftv2ns.png doc/html/ftv2plastnode.png doc/html/ftv2pnode.png doc/html/ftv2splitbar.png doc/html/ftv2vertline.png doc/html/globals.html doc/html/globals_func.html doc/html/gui_8tcl.html doc/html/gui_8tcl.js doc/html/gui_8tcl_source.html doc/html/indent_8tcl.html doc/html/indent_8tcl.js doc/html/indent_8tcl_source.html doc/html/index.html doc/html/interpreter_8tcl.html doc/html/interpreter_8tcl_source.html doc/html/jquery.js doc/html/lang_8tcl.html doc/html/lang_8tcl_source.html doc/html/launcher_8tcl.html doc/html/launcher_8tcl_source.html doc/html/logger_8tcl.html doc/html/logger_8tcl_source.html doc/html/markers_8tcl.html doc/html/markers_8tcl_source.html doc/html/menus_8tcl.html doc/html/menus_8tcl.js doc/html/menus_8tcl_source.html doc/html/multicursor_8tcl.html doc/html/multicursor_8tcl_source.html doc/html/namespaceapi.html doc/html/namespaceapi_1_1file.html doc/html/namespaceapi_1_1plugin.html doc/html/namespaceapi_1_1sidebar.html doc/html/namespaceapi_1_1utils.html doc/html/namespacebgproc.html doc/html/namespacebindings.html doc/html/namespacebist.html doc/html/namespacebitmap.html doc/html/namespacecliphist.html doc/html/namespacecompleter.html doc/html/namespacectext.html doc/html/namespacediff.html doc/html/namespacediff_1_1custom.html doc/html/namespacediff_1_1cvs.html doc/html/namespacediff_1_1diff.html doc/html/namespacediff_1_1git.html doc/html/namespacediff_1_1mercurial.html doc/html/namespacediff_1_1perforce.html doc/html/namespacediff_1_1subversion.html doc/html/namespaceedit.html doc/html/namespaceembed__tke.html doc/html/namespaceembed__tke_1_1gui.html doc/html/namespaceembed__tke_1_1launcher.html doc/html/namespaceemmet.html doc/html/namespaceemmet__css.html doc/html/namespacefavorites.html doc/html/namespacefolding.html doc/html/namespacefontchooser.html doc/html/namespacegui.html doc/html/namespaceindent.html doc/html/namespaceinterpreter.html doc/html/namespacelang.html doc/html/namespacelauncher.html doc/html/namespacelogger.html doc/html/namespacemarkers.html doc/html/namespacemembers.html doc/html/namespacemembers_b.html doc/html/namespacemembers_c.html doc/html/namespacemembers_d.html doc/html/namespacemembers_e.html doc/html/namespacemembers_f.html doc/html/namespacemembers_func.html doc/html/namespacemembers_func_b.html doc/html/namespacemembers_func_c.html doc/html/namespacemembers_func_d.html doc/html/namespacemembers_func_e.html doc/html/namespacemembers_func_f.html doc/html/namespacemembers_func_g.html doc/html/namespacemembers_func_h.html doc/html/namespacemembers_func_i.html doc/html/namespacemembers_func_j.html doc/html/namespacemembers_func_k.html doc/html/namespacemembers_func_l.html doc/html/namespacemembers_func_m.html doc/html/namespacemembers_func_n.html doc/html/namespacemembers_func_o.html doc/html/namespacemembers_func_p.html doc/html/namespacemembers_func_q.html doc/html/namespacemembers_func_r.html doc/html/namespacemembers_func_s.html doc/html/namespacemembers_func_t.html doc/html/namespacemembers_func_u.html doc/html/namespacemembers_func_v.html doc/html/namespacemembers_func_w.html doc/html/namespacemembers_g.html doc/html/namespacemembers_h.html doc/html/namespacemembers_i.html doc/html/namespacemembers_j.html doc/html/namespacemembers_k.html doc/html/namespacemembers_l.html doc/html/namespacemembers_m.html doc/html/namespacemembers_n.html doc/html/namespacemembers_o.html doc/html/namespacemembers_p.html doc/html/namespacemembers_q.html doc/html/namespacemembers_r.html doc/html/namespacemembers_s.html doc/html/namespacemembers_t.html doc/html/namespacemembers_u.html doc/html/namespacemembers_v.html doc/html/namespacemembers_w.html doc/html/namespacemenus.html doc/html/namespacemulticursor.html doc/html/namespaceplugins.html doc/html/namespaceplugins_1_1_0Bns.html doc/html/namespacepreferences.html doc/html/namespaces.html doc/html/namespacescroller.html doc/html/namespacesearch.html doc/html/namespacesessions.html doc/html/namespacesidebar.html doc/html/namespacesnippets.html doc/html/namespacesyntax.html doc/html/namespacetemplates.html doc/html/namespacetheme.html doc/html/namespacethemer.html doc/html/namespacethemes.html doc/html/namespacetk.html doc/html/namespacetk_1_1mac.html doc/html/namespacetkedat.html doc/html/namespaceutils.html doc/html/namespacevim.html doc/html/namespacewindowlist.html doc/html/navtree.css doc/html/navtree.js doc/html/navtreeindex0.js doc/html/navtreeindex1.js doc/html/navtreeindex2.js doc/html/navtreeindex3.js doc/html/navtreeindex4.js doc/html/navtreeindex5.js doc/html/navtreeindex6.js doc/html/ns_8tcl.html doc/html/ns_8tcl_source.html doc/html/plugins_8tcl.html doc/html/plugins_8tcl_source.html doc/html/preferences_8tcl.html doc/html/preferences_8tcl_source.html doc/html/resize.js doc/html/restart_8tcl.html doc/html/restart_8tcl_source.html doc/html/scroller_8tcl.html doc/html/scroller_8tcl_source.html doc/html/search/all_0.html doc/html/search/all_0.js doc/html/search/all_1.html doc/html/search/all_10.html doc/html/search/all_11.html doc/html/search/all_11.js doc/html/search/all_12.html doc/html/search/all_12.js doc/html/search/all_13.html doc/html/search/all_14.html doc/html/search/all_14.js doc/html/search/all_15.html doc/html/search/all_16.html doc/html/search/all_2.html doc/html/search/all_3.html doc/html/search/all_3.js doc/html/search/all_4.html doc/html/search/all_5.html doc/html/search/all_6.html doc/html/search/all_6.js doc/html/search/all_7.html doc/html/search/all_7.js doc/html/search/all_8.html doc/html/search/all_8.js doc/html/search/all_9.html doc/html/search/all_a.html doc/html/search/all_b.html doc/html/search/all_c.html doc/html/search/all_d.html doc/html/search/all_e.html doc/html/search/all_f.html doc/html/search/files_0.html doc/html/search/files_1.html doc/html/search/files_10.html doc/html/search/files_11.html doc/html/search/files_2.html doc/html/search/files_3.html doc/html/search/files_4.html doc/html/search/files_5.html doc/html/search/files_6.html doc/html/search/files_7.html doc/html/search/files_8.html doc/html/search/files_9.html doc/html/search/files_a.html doc/html/search/files_b.html doc/html/search/files_c.html doc/html/search/files_d.html doc/html/search/files_e.html doc/html/search/files_f.html doc/html/search/functions_0.html doc/html/search/functions_0.js doc/html/search/functions_1.html doc/html/search/functions_10.html doc/html/search/functions_11.html doc/html/search/functions_11.js doc/html/search/functions_12.html doc/html/search/functions_12.js doc/html/search/functions_13.html doc/html/search/functions_14.html doc/html/search/functions_14.js doc/html/search/functions_15.html doc/html/search/functions_16.html doc/html/search/functions_2.html doc/html/search/functions_3.html doc/html/search/functions_3.js doc/html/search/functions_4.html doc/html/search/functions_5.html doc/html/search/functions_6.html doc/html/search/functions_6.js doc/html/search/functions_7.html doc/html/search/functions_7.js doc/html/search/functions_8.html doc/html/search/functions_8.js doc/html/search/functions_9.html doc/html/search/functions_a.html doc/html/search/functions_b.html doc/html/search/functions_c.html doc/html/search/functions_d.html doc/html/search/functions_e.html doc/html/search/functions_f.html doc/html/search/namespaces_0.html doc/html/search/namespaces_1.html doc/html/search/namespaces_2.html doc/html/search/namespaces_3.html doc/html/search/namespaces_4.html doc/html/search/namespaces_5.html doc/html/search/namespaces_6.html doc/html/search/namespaces_7.html doc/html/search/namespaces_8.html doc/html/search/namespaces_9.html doc/html/search/namespaces_a.html doc/html/search/namespaces_b.html doc/html/search/namespaces_c.html doc/html/search/namespaces_d.html doc/html/search/namespaces_e.html doc/html/search/namespaces_f.html doc/html/search/search.js doc/html/search_8tcl.html doc/html/search_8tcl_source.html doc/html/sessions_8tcl.html doc/html/sessions_8tcl_source.html doc/html/sidebar_8tcl.html doc/html/sidebar_8tcl_source.html doc/html/snippets_8tcl.html doc/html/snippets_8tcl_source.html doc/html/syntax_8tcl.html doc/html/syntax_8tcl.js doc/html/syntax_8tcl_source.html doc/html/templates_8tcl.html doc/html/templates_8tcl_source.html doc/html/theme_8tcl.html doc/html/theme_8tcl_source.html doc/html/themer_8tcl.html doc/html/themer_8tcl_source.html doc/html/themes_8tcl.html doc/html/themes_8tcl_source.html doc/html/tke_8tcl.html doc/html/tke_8tcl_source.html doc/html/tkedat_8tcl.html doc/html/tkedat_8tcl_source.html doc/html/utils_8tcl.html doc/html/utils_8tcl_source.html doc/html/version_8tcl.html doc/html/version_8tcl_source.html doc/html/vim_8tcl.html doc/html/vim_8tcl.js doc/html/vim_8tcl_source.html doc/html/windowlist_8tcl.html doc/html/windowlist_8tcl_source.html lib/api.tcl lib/edit.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Updating version information for upcoming 2.5 stable release.
-* Updating development documentation.
-* Fixing a few syntax errors in syntax.tcl and edit.tcl.
-* Fixing development documentation syntax error.
-* Adding the creation of a warning/error file when generating development documentation.
-* Fixing file paths in Doxyfile to be relative instead of absolute.
-
-
-changeset:   2177:f68d7241fbcd
-parent:      2175:c3da60784601
-parent:      2176:8cfc56542b88
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 12:22:03 2016 -0500
-description:
-Merge
-
-
-changeset:   2178:3ce88be6d36b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 12:45:23 2016 -0500
-files:       lib/version.tcl tests/vim.tcl
-description:
-* Adding Vim test to veify browsedir functionality.
-
-
-changeset:   2179:597974a80dfb
-tag:         devel-2.4.15
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 12:47:20 2016 -0500
-files:       ChangeLog lib/version.tcl specl_version.tcl
-description:
-ChangeLog for devel-2.4.15 release
-
-
-changeset:   2180:081b8187066b
+changeset:   2208:bd133f4e20d9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 12:47:24 2016 -0500
-files:       .hgtags
+date:        Thu Jun 02 08:42:35 2016 -0500
+files:       data/preferences.tkedat lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-Added tag devel-2.4.15 for changeset 597974a80dfb
+* Fixing preference UI behaviors.
+* Adding EditPreferencesUsingGUI preference option.
 
 
