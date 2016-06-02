@@ -1654,7 +1654,11 @@ namespace eval menus {
   proc edit_user_global {} {
 
     # preferences::edit_global
-    pref_ui::create
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      pref_ui::create
+    } else {
+      preferences::edit_global
+    }
 
   }
 

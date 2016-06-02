@@ -1,3 +1,9 @@
+# If this option is set to 1, preference changes with be done using the preference
+# GUI interface; otherwise, if this value is set to 0, preferences will be edited
+# within an editing buffer in a textual manner.
+
+{General/EditPreferencesUsingGUI} {1}
+
 # If this option is set to 1, the interface will be setup to match the
 # last, properly exited session.  If set to 0, an "Untitled" tab will
 # appear in the interface, if no file was specified on the command-line.
