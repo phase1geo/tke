@@ -69,8 +69,9 @@ namespace eval pref_ui {
       toplevel     .prefwin
       wm title     .prefwin "User Preferences"
       wm transient .prefwin .
-      wm minsize   .prefwin 600 400
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
+      
+      wm withdraw .prefwin
 
       ttk::frame .prefwin.sf -style NCFrame
       set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e -width 20 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
@@ -107,9 +108,6 @@ namespace eval pref_ui {
       pack .prefwin.sf -fill x
       pack .prefwin.f  -fill both -expand yes
 
-      # Center the window in the editor window
-      ::tk::PlaceWindow .prefwin widget .
-
       # Create images
       set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
       set images(unchecked)  [image create photo -file [file join $::tke_dir lib images unchecked.gif]]
@@ -122,8 +120,10 @@ namespace eval pref_ui {
       set images(view)       [image create photo -file [file join $::tke_dir lib images view.gif]]
       set images(tools)      [image create photo -file [file join $::tke_dir lib images tools.gif]]
       set images(advanced)   [image create photo -file [file join $::tke_dir lib images advanced.gif]]
+      
+      set panes [list general appearance editor emmet find sidebar tools view advanced]
 
-      foreach pane [list general appearance editor emmet find sidebar tools view advanced] {
+      foreach pane $panes {
         if {[info exists images($pane)]} {
           pack [ttk::label $widgets(panes).$pane -style NCLabel -compound left -image $images($pane) -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         } else {
@@ -132,12 +132,35 @@ namespace eval pref_ui {
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
+      
+      # Allow the panel dimensions to be calculatable
+      update
+      
+      # Get the requested panel dimensions
+      foreach pane $panes {
+        lappend heights [winfo reqheight $widgets($pane)]
+        lappend widths  [winfo reqwidth  $widgets($pane)]
+      }
+      
+      # Calculate the geometry
+      set win_width  [expr [lindex [lsort -integer $widths]  end] + [winfo reqwidth  .prefwin.f.vsep] + [winfo reqwidth  $widgets(panes)]]
+      set win_height [expr [lindex [lsort -integer $heights] end] + [winfo reqheight .prefwin.f.hsep] + [winfo reqheight .prefwin.sf]]
+      
+      # Set the minimum size of the window
+      wm geometry  .prefwin ${win_width}x${win_height}
+      wm resizable .prefwin 0 0
+
+      # Center the window in the editor window
+      ::tk::PlaceWindow .prefwin widget .
 
       # Emulate a click on the General panel
       pane_clicked general
 
       # Give the search panel the focus
       focus .prefwin.sf.e
+      
+      # Show the window
+      wm deiconify .prefwin
 
       # Trace on any changes to the preferences variable
       trace add variable [[ns preferences]::ref] write [list pref_ui::handle_prefs_change]
@@ -153,17 +176,20 @@ namespace eval pref_ui {
 
     variable widgets
 
+    # Delete the search text
+    $widgets(match_e) delete 0 end
+
+    # Remove the results frame
+    catch { place forget $widgets(match_f) }
+    
     # Clear all of the panel selection labels, if necessary
     foreach p [winfo children $widgets(panes)] {
       $p state !active
     }
-
-    # Clear the search
-    search_clear
-
+    
     # Set the color of the label to the given color
     $widgets(panes).$panel state active
-
+    
     # Show the panel
     show_panel $panel
 
@@ -316,15 +342,15 @@ namespace eval pref_ui {
       [winfo parent $tab2] select $tab2
     }
 
-    # Give the focus to the matching element
-    focus $win
-    
     # Select the match text
     $widgets(match_e) selection range 0 end
 
     # Remove the results frame
     catch { place forget $widgets(match_f) }
 
+    # Give the focus to the matching element
+    focus $win
+    
   }
 
   ######################################################################
@@ -332,12 +358,16 @@ namespace eval pref_ui {
   proc search_clear {} {
 
     variable widgets
+    variable current_panel
 
     # Delete the search text
     $widgets(match_e) delete 0 end
 
     # Remove the results frame
     catch { place forget $widgets(match_f) }
+    
+    # Make sure that the current tab is selected
+    pane_clicked $current_panel
 
   }
 
@@ -377,15 +407,11 @@ namespace eval pref_ui {
 
     variable widgets
 
-    set lls  [[ns preferences]::ref General/LoadLastSession]
-    set eolc [[ns preferences]::ref General/ExitOnLastClose]
-    set acwd [[ns preferences]::ref General/AutoChangeWorkingDirectory]
-    set ucos [[ns preferences]::ref General/UpdateCheckOnStart]
-
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
+    make_cb $a.epug [msgcat::mc "Edit preferences using GUI"]                        General/EditPreferencesUsingGUI
     make_cb $a.lls  [msgcat::mc "Automatically load last session on start"]          General/LoadLastSession
     make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"] General/ExitOnLastClose
     make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"] General/AutoChangeWorkingDirectory
