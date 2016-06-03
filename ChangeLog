@@ -1,231 +1,26 @@
-changeset:   2181:fd40e0ebe359
-tag:         stable-2.5
+changeset:   2209:49d7991cbd39
+tag:         devel-2.5.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 13:18:03 2016 -0500
+date:        Thu Jun 02 08:47:13 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.5 release
+ChangeLog for devel-2.5.1 release
 
 
-changeset:   2182:e0c489de54f2
+changeset:   2210:4e56b19fe4b9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 13:18:10 2016 -0500
+date:        Thu Jun 02 08:47:18 2016 -0500
 files:       .hgtags
 description:
-Added tag stable-2.5 for changeset fd40e0ebe359
+Added tag devel-2.5.1 for changeset 49d7991cbd39
 
 
-changeset:   2183:d3e0e2901d31
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 14 23:53:07 2016 -0500
-files:       lib/menus.tcl lib/pref_ui.tcl lib/preferences.tcl lib/tke.tcl lib/version.tcl
-description:
-* Starting work on preferences UI.
-
-
-changeset:   2184:38e69a61b5b4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 15 22:35:41 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* More pref_ui updates.
-
-
-changeset:   2185:12c3316905e2
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 17 20:23:58 2016 -0500
-files:       lib/pref_ui.tcl lib/preferences.tcl lib/version.tcl
-description:
-* Checkpointing preference UI work.
-
-
-changeset:   2186:2682067ce12b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 18 00:38:29 2016 -0500
-files:       lib/fontchooser.tcl lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing work on preference GUI.
-
-
-changeset:   2187:ac970dbb9f0a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 18 19:34:43 2016 -0500
-files:       lib/pref_ui.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpoint preference UI changes.
-
-
-changeset:   2188:294b3f637436
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 19 00:28:30 2016 -0500
-files:       data/preferences.tkedat lib/embed_tke.tcl lib/pref_ui.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on preferences UI (General and Appearance are now complete).
-
-
-changeset:   2189:8e209161cc27
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 19 08:37:32 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing work on preference UI.
-
-
-changeset:   2190:1668d32f7723
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 20 00:53:19 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing work on View and Sidebar preference UI.
-
-
-changeset:   2191:f0c684dcb80d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 20 13:41:48 2016 -0500
-files:       data/preferences.tkedat lib/gui.tcl lib/images/appearance.gif lib/launcher.tcl lib/pref_ui.tcl lib/theme.tcl lib/version.tcl
-description:
-* Checkpointing work on preference updates.
-
-
-changeset:   2192:cc9b794862de
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 20 19:42:51 2016 -0500
-files:       lib/images/editor.gif lib/images/emmet.gif lib/images/find.gif lib/images/general.gif lib/images/view.gif lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing preference UI work.
-
-
-changeset:   2193:42332cdeea9a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri May 20 19:46:19 2016 -0500
-files:       lib/images/tools.gif lib/version.tcl
-description:
-* Adding image.
-
-
-changeset:   2194:630fb104f053
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 21 01:49:11 2016 -0500
-files:       lib/bitmap.tcl lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing preference changes.
-
-
-changeset:   2195:cca1d8256eb9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 23 00:18:35 2016 -0500
-files:       lib/images/advanced.gif lib/images/sidebar.gif lib/images/tools.gif lib/pref_ui.tcl lib/version.tcl
-description:
-* Added Editor preferences to preferences UI.
-* Adding missing preferences icons and updating the Tools icon.
-
-
-changeset:   2196:4f2b3192441d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 23 08:31:09 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Adding Tools preference pane content.
-
-
-changeset:   2197:ae5bf6ee47e6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 24 01:50:17 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing work on Emmet preferences UI.
-
-
-changeset:   2198:901689250bf6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 25 00:57:01 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Finishing Emmet preference panel.
-* Starting work on Advanced preference panel.
-
-
-changeset:   2199:a6970a38a8f3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed May 25 19:30:16 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing work on advanced preference panel.
-
-
-changeset:   2200:471dffaff511
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 26 08:54:33 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Fixing NFSMounts table behaviors.
-
-
-changeset:   2201:2b7323365b74
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu May 26 23:47:41 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Beginning testing of and fixing issues with preferences UI.
-
-
-changeset:   2202:375e2b9c0ab4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat May 28 12:20:53 2016 -0500
-files:       lib/pref_ui.tcl lib/utils.tcl lib/version.tcl
-description:
-* Adding ability to configure a tablelist widget to utils namespace.
-* Fixing preference UI behavior.
-* Adding search entry to preferences UI (search function is not implemented yet).
-
-
-changeset:   2203:b715096ff265
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun May 29 23:29:11 2016 -0500
-files:       lib/menus.tcl lib/pref_ui.tcl lib/theme.tcl lib/version.tcl
-description:
-* Checkpointing work on colorizing preferences window.
-
-
-changeset:   2204:fb8cc662f729
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon May 30 23:42:35 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Adding preference search capability (work in progress).
-
-
-changeset:   2205:5cd9cf78b05a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue May 31 08:39:23 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Fixing regular expression in preference search to be case insensitive.
-
-
-changeset:   2206:ce461b81b8e2
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 01 00:10:14 2016 -0500
-files:       lib/pref_ui.tcl lib/ptwidgets1.2/library/wmarkentry.tcl lib/version.tcl
-description:
-* Checkpointing work on preference UI search behavior.
-
-
-changeset:   2207:6c457201a4f7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Jun 01 08:54:52 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Fixing issues with preference UI search.
-
-
-changeset:   2208:bd133f4e20d9
+changeset:   2211:4c18073afb55
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 02 08:42:35 2016 -0500
-files:       data/preferences.tkedat lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
+date:        Fri Jun 03 11:56:06 2016 -0500
+files:       lib/images/tke_specl.gif lib/version.tcl specl_customize.xml
 description:
-* Fixing preference UI behaviors.
-* Adding EditPreferencesUsingGUI preference option.
+* Changing specl download icon to look different that the TKE logo icon.
 
 
