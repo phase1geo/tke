@@ -451,7 +451,7 @@ namespace eval specl::updater {
     cl_test_type         ""
     cl_release_type      $specl::RTYPE_STABLE
     cl_force             0
-    icon                 ""
+    appicon              ""
     fetch_ncode          ""
     fetch_content        ""
     fetch_error          ""
@@ -460,7 +460,8 @@ namespace eval specl::updater {
     translation_dir      ""
     password_attempts    0
     ui,icon_path         ""
-    ui,icon_side         left
+    ui,appicon_path      ""
+    ui,appicon_side      left
     ui,utd_win_width     400
     ui,utd_win_height    120
     ui,utd_title         "You are up-to-date!"
@@ -1198,9 +1199,9 @@ namespace eval specl::updater {
     array set content $content_list
 
     # Initialize information
-    set title       [transform_text $data(ui,upd_title)   $content_list]
-    set msg         [transform_text $data(ui,upd_message) $content_list]
-    set icon_column [expr {($data(ui,icon_side) eq "right") ? 2 : 0}]
+    set title          [transform_text $data(ui,upd_title)   $content_list]
+    set msg            [transform_text $data(ui,upd_message) $content_list]
+    set appicon_column [expr {($data(ui,appicon_side) eq "right") ? 2 : 0}]
 
     toplevel     .updwin
     wm title     .updwin [transform_text $data(ui,upd_win_title) $content_list]
@@ -1218,20 +1219,20 @@ namespace eval specl::updater {
     wm geometry  .updwin $data(ui,upd_win_width)x$data(ui,upd_win_height)+$wx+$wy
 
     ttk::frame .updwin.if
-    ttk::label .updwin.if.icon
+    ttk::label .updwin.if.appicon
     ttk::label .updwin.if.title -text $title -font [specl::helpers::bold_font]
     ttk::label .updwin.if.info  -text $msg
 
-    # If there is an icon, create it and assign it to the icon label
-    if {$data(ui,icon_path) ne ""} {
-      .updwin.if.icon configure -image [set icon [image create photo -file $data(ui,icon_path)]]
+    # If there is an appicon, create it and assign it to the appicon label
+    if {$data(ui,appicon_path) ne ""} {
+      .updwin.if.appicon configure -image [set appicon [image create photo -file $data(ui,appicon_path)]]
     }
 
     grid rowconfigure    .updwin.if 1 -weight 1
     grid columnconfigure .updwin.if 1 -weight 1
-    grid .updwin.if.icon  -row 0 -column $icon_column -padx 2 -pady 2 -rowspan 2
-    grid .updwin.if.title -row 0 -column 1            -padx 2 -pady 2
-    grid .updwin.if.info  -row 1 -column 1            -padx 2 -pady 2
+    grid .updwin.if.appicon -row 0 -column $appicon_column -padx 2 -pady 2 -rowspan 2
+    grid .updwin.if.title   -row 0 -column 1            -padx 2 -pady 2
+    grid .updwin.if.info    -row 1 -column 1            -padx 2 -pady 2
 
     ttk::frame       .updwin.pf
     ttk::progressbar .updwin.pf.pb -mode determinate -length [expr $data(ui,upd_win_width) - 120]
@@ -1297,9 +1298,9 @@ namespace eval specl::updater {
     # Wait for the window to be closed
     tkwait window .updwin
 
-    # Delete the icon
-    if {[info exists icon]} {
-      image delete $icon
+    # Delete the appicon
+    if {[info exists appicon]} {
+      image delete $appicon
     }
 
   }
@@ -1324,25 +1325,25 @@ namespace eval specl::updater {
     wm geometry .utdwin $data(ui,utd_win_width)x$data(ui,utd_win_height)+$wx+$wy
 
     # Create text
-    set title       [transform_text $data(ui,utd_title)   $content_list]
-    set msg         [transform_text $data(ui,utd_message) $content_list]
-    set icon_column [expr {($data(ui,icon_side) eq "right") ? 2 : 0}]
+    set title          [transform_text $data(ui,utd_title)   $content_list]
+    set msg            [transform_text $data(ui,utd_message) $content_list]
+    set appicon_column [expr {($data(ui,appicon_side) eq "right") ? 2 : 0}]
 
     ttk::frame .utdwin.f
-    ttk::label .utdwin.f.icon
+    ttk::label .utdwin.f.appicon
     ttk::label .utdwin.f.title -text $title -font [specl::helpers::bold_font]
     ttk::label .utdwin.f.msg   -text $msg
 
-    # If there is an icon, create it and assign it to the icon label
-    if {$data(ui,icon_path) ne ""} {
-      .utdwin.f.icon configure -image [set icon [image create photo -file $data(ui,icon_path)]]
+    # If there is an appicon, create it and assign it to the appicon label
+    if {$data(ui,appicon_path) ne ""} {
+      .utdwin.f.appicon configure -image [set appicon [image create photo -file $data(ui,appicon_path)]]
     }
 
     grid rowconfigure    .utdwin.f 1 -weight 1
     grid columnconfigure .utdwin.f 1 -weight 1
-    grid .utdwin.f.icon  -row 0 -column $icon_column -padx 2 -pady 2 -sticky new -rowspan 2
-    grid .utdwin.f.title -row 0 -column 1            -padx 2 -pady 2
-    grid .utdwin.f.msg   -row 1 -column 1            -padx 2 -pady 2 -sticky n
+    grid .utdwin.f.appicon -row 0 -column $appicon_column -padx 2 -pady 2 -sticky new -rowspan 2
+    grid .utdwin.f.title   -row 0 -column 1               -padx 2 -pady 2
+    grid .utdwin.f.msg     -row 1 -column 1               -padx 2 -pady 2 -sticky n
 
     ttk::frame  .utdwin.bf
     ttk::button .utdwin.bf.ok -text [msgcat::mc "OK"] -width 6 -default active -command {
@@ -1363,9 +1364,9 @@ namespace eval specl::updater {
     # Release the grab
     ::tk::RestoreFocusGrab .utdwin .utdwin.b
 
-    # Delete the icon
-    if {[info exists icon]} {
-      image delete $icon
+    # Delete the appicon
+    if {[info exists appicon]} {
+      image delete $appicon
     }
 
   }
@@ -1396,15 +1397,25 @@ namespace eval specl::updater {
             set data(translation_dir) $value
           }
         }
-
+        
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
+          puts "HERE A"
           if {![catch { specl::helpers::get_attr $icon_node "path" } value]} {
+            puts "HERE B, value: $value"
             set data(ui,icon_path) [file join $data(specl_version_dir) $value]
+            wm iconphoto . [image create photo -file $data(ui,icon_path)]
+          }
+        }
+
+        # Get appicon information
+        if {![catch { specl::helpers::get_element $custom_node "appicon" } appicon_node]} {
+          if {![catch { specl::helpers::get_attr $appicon_node "path" } value]} {
+            set data(ui,appicon_path) [file join $data(specl_version_dir) $value]
           }
           foreach attr [list side] {
-            if {![catch { specl::helpers::get_attr $icon_node $attr } value]} {
-              set data(ui,icon_$attr) $value
+            if {![catch { specl::helpers::get_attr $appicon_node $attr } value]} {
+              set data(ui,appicon_$attr) $value
             }
           }
         }
