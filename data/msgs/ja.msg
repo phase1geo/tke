@@ -477,9 +477,6 @@ msgcat::mcmset ja {
   "Enable Vim mode"
   "Vim モードを有効にします。"
 
-  "Enable code folding"
-  "コード折り畳みを有効にします。"
-
   "Enumeration"
   "数え上げ"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset ja {
   "Show Tab Bar"
   "表示タブバー"
 
-  "Show console"
-  "コンソールを表示します。"
-
   "Show diagnostic logfile"
   "診断ログ ファイルを表示します。"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset ja {
   "Show last profiling report"
   "最後のプロファイル レポートを表示します。"
 
-  "Show line numbers"
-  "行番号を表示します。"
-
-  "Show marker map"
-  "地図のマーカー"
-
   "Show meta characters"
   "メタ文字を表示"
 
   "Show selected line change"
   "選択した行の変更を表示します。"
-
-  "Show sidebar"
-  "サイドバーを表示します。"
-
-  "Show status bar"
-  "ステータスバーを表示する(&B)"
-
-  "Show tab bar"
-  "タブ バーを表示します。"
 
   "Smart Indent"
   "スマート インデント"
@@ -1342,6 +1321,311 @@ msgcat::mcmset ja {
 
   "Syntax errors found in selected plugins"
   "構文エラーは、選択したプラグインで発見"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset ja {
+
+  "Add"
+  "追加"
+
+  "Addons"
+  "アドオン"
+
+  "Allow scrolling in tab bar"
+  "タブ ・ バーでスクロール可能します。"
+
+  "Angled bracket"
+  "傾斜ブラケット"
+
+  "Auto-match Characters"
+  "自動一致文字"
+
+  "Automatically check for updates on start"
+  "起動時に更新プログラムを自動的にチェックします。"
+
+  "Automatically insert vendor prefixes"
+  "ベンダー プレフィックスを自動的に挿入します。"
+
+  "Automatically load last session on start"
+  "起動時に前回のセッションを自動的に読み込む"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "自動的に現在のタブのディレクトリに現在の作業ディレクトリを設定します。"
+
+  "Backtick"
+  "バックティック"
+
+  "Base Directory"
+  "ベース ディレクトリ"
+
+  "Behaviors"
+  "行動"
+
+  "Browse"
+  "ブラウズ"
+
+  "Buffer"
+  "バッファー"
+
+  "Choose"
+  "選択"
+
+  "Choose Logfile Directory"
+  "ログ ファイルのディレクトリを選択します。"
+
+  "Clipboard history depth"
+  "クリップボードの履歴の深さ"
+
+  "Color value case"
+  "色の値"
+
+  "Command launcher entry"
+  "ランチャーのコマンド エントリ"
+
+  "Command launcher preview"
+  "コマンド ランチャー プレビュー"
+
+  "Convert to lowercase"
+  "小文字に変換します。"
+
+  "Convert to uppercase"
+  "大文字に変換します。"
+
+  "Curly bracket"
+  "中かっこ"
+
+  "Current"
+  "現在"
+
+  "Current editing buffer directory"
+  "現在の編集バッファーのディレクトリ"
+
+  "Current working directory"
+  "現在の作業ディレクトリ"
+
+  "Default unit for floating point values"
+  "デフォルトの浮動小数点値の単位"
+
+  "Default unit for integer values"
+  "整数値の既定の単位"
+
+  "Development"
+  "開発"
+
+  "Directory"
+  "ディレクトリ"
+
+  "Double-quote"
+  "引用符"
+
+  "Edit preferences using GUI"
+  "GUI を使用して設定を編集します。"
+
+  "Editor"
+  "エディタ"
+
+  "Enable Vim Mode"
+  "Vim モードを有効にします。"
+
+  "Enable auto-indentation"
+  "自動インデントを有効にします。"
+
+  "Enable development mode"
+  "開発モードを有効にします。"
+
+  "Enable fuzzy search"
+  "あいまい検索を有効にします。"
+
+  "Enable relative line numbering"
+  "相対行番号の表示を有効にします。"
+
+  "End-of-line character when saving"
+  "行の最後の文字を保存するとき"
+
+  "Exit the application after the last tab is closed"
+  "最後のタブを閉じた後、アプリケーションを終了します。"
+
+  "Format snippet indentation after insert"
+  "形式スニペット インデント挿入後"
+
+  "General"
+  "総論"
+
+  "Hide Patterns"
+  "パターンを隠す"
+
+  "Hide binary files"
+  "バイナリ ファイルを隠す"
+
+  "Hiding"
+  "非表示"
+
+  "Highlight matching character"
+  "一致する文字を強調します。"
+
+  "Host"
+  "ホスト"
+
+  "Indentation Spaces"
+  "インデント スペース"
+
+  "Languages"
+  "言語"
+
+  "Last"
+  "最後へ"
+
+  "Last accessed"
+  "最後にアクセスされた"
+
+  "Line count to find for Vim modeline information"
+  "Vim modeline について検索する行数"
+
+  "Logfile Directory"
+  "ログ ファイル ディレクトリ"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "最大元に戻す履歴 (0 に設定無制限)"
+
+  "Mounts"
+  "マウント"
+
+  "Parenthesis"
+  "括弧"
+
+  "Profiler Options"
+  "「Profiler オプション"
+
+  "Properties"
+  "プロパティ"
+
+  "Recently opened history depth"
+  "最近の履歴の深さを開いた"
+
+  "Remember last position of command launcher"
+  "コマンド起動ツールの最後の位置を覚えています。"
+
+  "Remote Base Directory"
+  "リモートのベース ディレクトリ"
+
+  "Remove root directory after last sub-file is closed"
+  "最後のサブ ファイルを閉じた後、ルート ディレクトリを削除します。"
+
+  "Remove trailing whitespace on save"
+  "削除の末尾の空白を保存します。"
+
+  "Report Options"
+  "レポート オプション"
+
+  "Retain case"
+  "ケースを保持します。"
+
+  "Return"
+  "戻る"
+
+  "Ruler column"
+  "定規コラム"
+
+  "Select default browsing directory"
+  "デフォルトのディレクトリをブラウズを選択します。"
+
+  "Set Find History Depth"
+  "検索の履歴の深さを設定します。"
+
+  "Set Find in Files Line Context"
+  "ファイルの行コンテキストで検索を設定します。"
+
+  "Set Jump Distance"
+  "設定ジャンプ距離"
+
+  "Set default open/save browsing directory to"
+  "既定開く/保存するディレクトリを設定します。"
+
+  "Show 'Find in Files' result in other pane"
+  "他のウィンドウに 'ファイル内の検索' の結果を表示します。"
+
+  "Show diagnostic logfile at startup"
+  "起動時に診断ログ ファイルを表示します。"
+
+  "Show difference file in other pane than original"
+  "差分ファイルをオリジナルよりも他のウィンドウで表示します。"
+
+  "Show difference file version information"
+  "ファイルのバージョン情報を表示します。"
+
+  "Show folders at top"
+  "上部のフォルダーを表示します。"
+
+  "Show menubar"
+  "メニューバーを表示(&M)"
+
+  "Single-quote"
+  "引用符"
+
+  "Snippet Completion Characters"
+  "スニペット補完文字"
+
+  "Sort tabs alphabetically on open"
+  "開いたときにアルファベット順に並び替えタブ"
+
+  "Sorting Column"
+  "列の並べ替え"
+
+  "Space"
+  "スペース"
+
+  "Spaces per tab"
+  "タブごとのスペース"
+
+  "Square bracket"
+  "括弧"
+
+  "Stable"
+  "安定版"
+
+  "Symbol between CSS property and value"
+  "CSS のプロパティと値をシンボルします。"
+
+  "Symbol placed at end of CSS property"
+  "CSS プロパティの末尾に配置記号"
+
+  "Syntax Coloring"
+  "構文の色指定"
+
+  "Tab"
+  "タブ"
+
+  "Update using release type"
+  "リリースの型を使用して更新します。"
+
+  "Use appropriate EOL character on system"
+  "システムに適切な EOL 文字を使用します。"
+
+  "Use carriate return linefeed sequence"
+  "Carriate と改行シーケンスを使用します。"
+
+  "Use directory"
+  "使用ディレクトリ"
+
+  "Use linefeed character"
+  "改行文字を使用します。"
+
+  "Use original EOL character from file"
+  "ファイルから元の EOL 文字を使用します。"
+
+  "Use shortened colors"
+  "短縮色を使用します。"
+
+  "Use single carriage return character"
+  "単一のキャリッジ リターン文字を使用します。"
+
+  "User guide format"
+  "ユーザー ガイドの形式"
+
+  "Variables"
+  "変数"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset ja {
 # themes.tcl
 msgcat::mcmset ja {
 
-  "Theme"
-  "テーマ"
-
   "Theme:*"
   "テーマ"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset ja {
   "Duplicate"
   "複製"
 
+  "Enable code folding"
+  "コード折り畳みを有効にします。"
+
   "Favorite"
   "お気に入り"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset ja {
   "Save As"
   "名前を付けて保存"
 
+  "Show console"
+  "コンソールを表示します。"
+
+  "Show line numbers"
+  "行番号を表示します。"
+
+  "Show marker map"
+  "地図のマーカー"
+
+  "Show sidebar"
+  "サイドバーを表示します。"
+
+  "Show status bar"
+  "ステータスバーを表示する(&B)"
+
+  "Show tab bar"
+  "タブ バーを表示します。"
+
   "Split View"
   "分割表示"
+
+  "Theme"
+  "テーマ"
 
   "Theme Editor"
   "テーマエディタ"

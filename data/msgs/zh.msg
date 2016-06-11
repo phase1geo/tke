@@ -477,9 +477,6 @@ msgcat::mcmset zh {
   "Enable Vim mode"
   "启用 Vim 模式"
 
-  "Enable code folding"
-  "启用代码折叠"
-
   "Enumeration"
   "列举法"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset zh {
   "Show Tab Bar"
   "显示标签栏"
 
-  "Show console"
-  "显示航行控制台"
-
   "Show diagnostic logfile"
   "显示诊断日志文件"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset zh {
   "Show last profiling report"
   "显示上次分析报告"
 
-  "Show line numbers"
-  "显示行号"
-
-  "Show marker map"
-  "显示标记"
-
   "Show meta characters"
   "显示 meta 字符"
 
   "Show selected line change"
   "显示所选的行的变化"
-
-  "Show sidebar"
-  "显示侧边栏"
-
-  "Show status bar"
-  "显示状态栏"
-
-  "Show tab bar"
-  "显示选项栏"
 
   "Smart Indent"
   "智能缩进"
@@ -1342,6 +1321,311 @@ msgcat::mcmset zh {
 
   "Syntax errors found in selected plugins"
   "在选定的外挂，发现语法错误"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset zh {
+
+  "Add"
+  "添加"
+
+  "Addons"
+  "插件"
+
+  "Allow scrolling in tab bar"
+  "允许在标签栏中滚动"
+
+  "Angled bracket"
+  "直角的支架"
+
+  "Auto-match Characters"
+  "自动匹配字符"
+
+  "Automatically check for updates on start"
+  "自动检查更新开始"
+
+  "Automatically insert vendor prefixes"
+  "自动插入供应商前缀"
+
+  "Automatically load last session on start"
+  "自动加载上一届会议上开始"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "自动将当前的工作目录设置为当前选项卡目录"
+
+  "Backtick"
+  "引号"
+
+  "Base Directory"
+  "基目录"
+
+  "Behaviors"
+  "行为"
+
+  "Browse"
+  "瀏覽"
+
+  "Buffer"
+  "缓冲区"
+
+  "Choose"
+  "選擇"
+
+  "Choose Logfile Directory"
+  "选择日志文件目录"
+
+  "Clipboard history depth"
+  "剪贴板历史深度"
+
+  "Color value case"
+  "颜色值"
+
+  "Command launcher entry"
+  "命令启动程序项"
+
+  "Command launcher preview"
+  "命令启动程序预览"
+
+  "Convert to lowercase"
+  "转换为小写"
+
+  "Convert to uppercase"
+  "轉換為大寫"
+
+  "Curly bracket"
+  "花括号"
+
+  "Current"
+  "现金"
+
+  "Current editing buffer directory"
+  "当前编辑缓冲区目录"
+
+  "Current working directory"
+  "当前工作目录"
+
+  "Default unit for floating point values"
+  "默认单位为浮点值"
+
+  "Default unit for integer values"
+  "默认单位为整数值的"
+
+  "Development"
+  "开发"
+
+  "Directory"
+  "目錄"
+
+  "Double-quote"
+  "\"
+
+  "Edit preferences using GUI"
+  "编辑首选项使用 GUI"
+
+  "Editor"
+  "编辑"
+
+  "Enable Vim Mode"
+  "启用 Vim 模式"
+
+  "Enable auto-indentation"
+  "启用自动缩进"
+
+  "Enable development mode"
+  "使发展模式"
+
+  "Enable fuzzy search"
+  "使模糊搜索"
+
+  "Enable relative line numbering"
+  "启用相对行号"
+
+  "End-of-line character when saving"
+  "行尾字符保存时"
+
+  "Exit the application after the last tab is closed"
+  "最后一个选项卡关闭后退出应用程序"
+
+  "Format snippet indentation after insert"
+  "格式代码段缩进后插入"
+
+  "General"
+  "通用"
+
+  "Hide Patterns"
+  "隐藏模式"
+
+  "Hide binary files"
+  "隐藏的二进制文件"
+
+  "Hiding"
+  "棄保潛逃"
+
+  "Highlight matching character"
+  "突出显示匹配的字符"
+
+  "Host"
+  "主机"
+
+  "Indentation Spaces"
+  "缩进空格"
+
+  "Languages"
+  "语言"
+
+  "Last"
+  "最后"
+
+  "Last accessed"
+  "最后访问："
+
+  "Line count to find for Vim modeline information"
+  "行计数来寻找 Vim modeline 信息"
+
+  "Logfile Directory"
+  "日志文件目录"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "最大撤消历史记录 (设置为 0 表示无限制)"
+
+  "Mounts"
+  "坐骑"
+
+  "Parenthesis"
+  "括号"
+
+  "Profiler Options"
+  "探查器选项"
+
+  "Properties"
+  "房源"
+
+  "Recently opened history depth"
+  "最近打开历史深度"
+
+  "Remember last position of command launcher"
+  "请记住命令启动程序的最后一个位置"
+
+  "Remote Base Directory"
+  "远程的基目录"
+
+  "Remove root directory after last sub-file is closed"
+  "最后一个子文件关闭后删除根目录"
+
+  "Remove trailing whitespace on save"
+  "删除尾随空格上保存"
+
+  "Report Options"
+  "报表选项"
+
+  "Retain case"
+  "保留案例"
+
+  "Return"
+  "返回"
+
+  "Ruler column"
+  "统治者列"
+
+  "Select default browsing directory"
+  "选择默认浏览目录"
+
+  "Set Find History Depth"
+  "设置查找历史深度"
+
+  "Set Find in Files Line Context"
+  "在文件行上下文中设置查找"
+
+  "Set Jump Distance"
+  "设置的跳距离"
+
+  "Set default open/save browsing directory to"
+  "设置默认打开/保存浏览目录"
+
+  "Show 'Find in Files' result in other pane"
+  "在其他窗格中显示在文件中查找结果"
+
+  "Show diagnostic logfile at startup"
+  "启动时显示诊断日志文件"
+
+  "Show difference file in other pane than original"
+  "在其他窗格中比原始显示差异文件"
+
+  "Show difference file version information"
+  "显示差异文件版本信息"
+
+  "Show folders at top"
+  "显示在顶部的文件夹"
+
+  "Show menubar"
+  "显示菜单栏"
+
+  "Single-quote"
+  "单引号"
+
+  "Snippet Completion Characters"
+  "代码段完成字符"
+
+  "Sort tabs alphabetically on open"
+  "排序按字母顺序在打开的标签页"
+
+  "Sorting Column"
+  "列进行排序"
+
+  "Space"
+  "空间"
+
+  "Spaces per tab"
+  "每个制表位"
+
+  "Square bracket"
+  "方括号"
+
+  "Stable"
+  "稳定"
+
+  "Symbol between CSS property and value"
+  "CSS 属性和值之间的符号"
+
+  "Symbol placed at end of CSS property"
+  "将符号放置在 CSS 属性的结尾"
+
+  "Syntax Coloring"
+  "语法着色"
+
+  "Tab"
+  "Tab標籤"
+
+  "Update using release type"
+  "更新使用释放类型"
+
+  "Use appropriate EOL character on system"
+  "在系统上使用适当的 EOL 字符"
+
+  "Use carriate return linefeed sequence"
+  "使用 carriate 返回换行符序列"
+
+  "Use directory"
+  "使用目录"
+
+  "Use linefeed character"
+  "使用换行符的字符"
+
+  "Use original EOL character from file"
+  "使用文件的原始的 EOL 字符"
+
+  "Use shortened colors"
+  "使用缩短的颜色"
+
+  "Use single carriage return character"
+  "使用单个回车符"
+
+  "User guide format"
+  "用户指南格式"
+
+  "Variables"
+  "變量"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset zh {
 # themes.tcl
 msgcat::mcmset zh {
 
-  "Theme"
-  "主题"
-
   "Theme:*"
   "主题"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset zh {
   "Duplicate"
   "复制"
 
+  "Enable code folding"
+  "启用代码折叠"
+
   "Favorite"
   "我的最愛"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset zh {
   "Save As"
   "保存为"
 
+  "Show console"
+  "显示航行控制台"
+
+  "Show line numbers"
+  "显示行号"
+
+  "Show marker map"
+  "显示标记"
+
+  "Show sidebar"
+  "显示侧边栏"
+
+  "Show status bar"
+  "显示状态栏"
+
+  "Show tab bar"
+  "显示选项栏"
+
   "Split View"
   "拆分視圖"
+
+  "Theme"
+  "主题"
 
   "Theme Editor"
   "主题编辑器"

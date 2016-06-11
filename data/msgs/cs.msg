@@ -477,9 +477,6 @@ msgcat::mcmset cs {
   "Enable Vim mode"
   "Povolit režim Vim"
 
-  "Enable code folding"
-  "Povolit skládání kódu"
-
   "Enumeration"
   "Výčet"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset cs {
   "Show Tab Bar"
   "Zobrazit Tab Bar"
 
-  "Show console"
-  "Zobrazit konzole"
-
   "Show diagnostic logfile"
   "Zobrazit diagnostického protokolu"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset cs {
   "Show last profiling report"
   "Zobrazit poslední zprávy o profilování"
 
-  "Show line numbers"
-  "Zobrazovat čísla řádků"
-
-  "Show marker map"
-  "Ukázat značková mapa"
-
   "Show meta characters"
   "Zobrazit znaky meta"
 
   "Show selected line change"
   "Zobrazit vybranou linku změnu"
-
-  "Show sidebar"
-  "Zobrazit postranní panel"
-
-  "Show status bar"
-  "Zobrazit stavový řádek"
-
-  "Show tab bar"
-  "Zobrazovat lištu karet"
 
   "Smart Indent"
   "Chytré odsazení"
@@ -1342,6 +1321,311 @@ msgcat::mcmset cs {
 
   "Syntax errors found in selected plugins"
   "Syntaktické chyby nalezené ve vybraných pluginů"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset cs {
+
+  "Add"
+  "Přidat"
+
+  "Addons"
+  "Addony"
+
+  "Allow scrolling in tab bar"
+  "Povolit přecházení v liště"
+
+  "Angled bracket"
+  "Úhlový držák"
+
+  "Auto-match Characters"
+  "Auto shoda znaků"
+
+  "Automatically check for updates on start"
+  "Automatická kontrola aktualizací při spuštění"
+
+  "Automatically insert vendor prefixes"
+  "Automaticky vložit dodavatele předpony"
+
+  "Automatically load last session on start"
+  "Automaticky načíst poslední sezení na start"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Automaticky nastaví aktuální pracovní adresář do aktuálního adresáře karty"
+
+  "Backtick"
+  "Ve zpětných uvozovkách"
+
+  "Base Directory"
+  "Základní adresář"
+
+  "Behaviors"
+  "Chování"
+
+  "Browse"
+  "Procházet"
+
+  "Buffer"
+  "pufr,"
+
+  "Choose"
+  "Vybrat"
+
+  "Choose Logfile Directory"
+  "Zvolte adresář souboru protokolu"
+
+  "Clipboard history depth"
+  "Hloubka historie schránky"
+
+  "Color value case"
+  "Hodnota barvy"
+
+  "Command launcher entry"
+  "Zadání příkazu spouštěče"
+
+  "Command launcher preview"
+  "Příkaz Náhled spouštěče"
+
+  "Convert to lowercase"
+  "Převést na malá písmena"
+
+  "Convert to uppercase"
+  "Převést na velká písmena"
+
+  "Curly bracket"
+  "Složená závorka"
+
+  "Current"
+  "Aktuální"
+
+  "Current editing buffer directory"
+  "Aktuální úpravy vyrovnávací paměti adresář"
+
+  "Current working directory"
+  "Aktuální pracovní adresář"
+
+  "Default unit for floating point values"
+  "Výchozí jednotka pro hodnoty s plovoucí čárkou"
+
+  "Default unit for integer values"
+  "Výchozí jednotka pro celočíselné hodnoty"
+
+  "Development"
+  "Vývoj"
+
+  "Directory"
+  "Adresář"
+
+  "Double-quote"
+  "Uvozovky"
+
+  "Edit preferences using GUI"
+  "Upravit předvolby pomocí GUI"
+
+  "Editor"
+  "Editor"
+
+  "Enable Vim Mode"
+  "Povolit režim Vim"
+
+  "Enable auto-indentation"
+  "Povolit automatické odsazování"
+
+  "Enable development mode"
+  "Povolit režim vývoje"
+
+  "Enable fuzzy search"
+  "Povolit fuzzy hledání"
+
+  "Enable relative line numbering"
+  "Povolit, číslování řádků relativní"
+
+  "End-of-line character when saving"
+  "Znak konce řádku při ukládání"
+
+  "Exit the application after the last tab is closed"
+  "Ukončení aplikace po zavření poslední karta"
+
+  "Format snippet indentation after insert"
+  "Odsazení fragment formát po vložení"
+
+  "General"
+  "Hlavní"
+
+  "Hide Patterns"
+  "Skrýt vzorce"
+
+  "Hide binary files"
+  "Skrýt binární soubory"
+
+  "Hiding"
+  "Skrytí"
+
+  "Highlight matching character"
+  "Zvýrazňovat odpovídající charakteru"
+
+  "Host"
+  "Hostitel"
+
+  "Indentation Spaces"
+  "Odsazení mezer"
+
+  "Languages"
+  "Jazyky"
+
+  "Last"
+  "Poslední"
+
+  "Last accessed"
+  "Poslední přístup"
+
+  "Line count to find for Vim modeline information"
+  "Počet řádků pro Vim modeline informace"
+
+  "Logfile Directory"
+  "Adresář souboru protokolu"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Maximální zpět historie (nastavte na 0 pro neomezený počet)"
+
+  "Mounts"
+  "Držáky"
+
+  "Parenthesis"
+  "Závorky"
+
+  "Profiler Options"
+  "Profiler možnosti"
+
+  "Properties"
+  "Nemovitosti"
+
+  "Recently opened history depth"
+  "Nedávno otevřeli historie hloubky"
+
+  "Remember last position of command launcher"
+  "Pamatujte si poslední pozici spouštěč příkazů"
+
+  "Remote Base Directory"
+  "Vzdálené základní adresář"
+
+  "Remove root directory after last sub-file is closed"
+  "Po zavření posledního dílčího souboru odebrat kořenový adresář"
+
+  "Remove trailing whitespace on save"
+  "Odstranit mezery na uložení"
+
+  "Report Options"
+  "Možnosti sestav"
+
+  "Retain case"
+  "Zachovat případ"
+
+  "Return"
+  "Zpáteční Cesta."
+
+  "Ruler column"
+  "Vládce sloupec"
+
+  "Select default browsing directory"
+  "Vyberte výchozí procházení adresářů"
+
+  "Set Find History Depth"
+  "Nastavit hloubku historie hledání"
+
+  "Set Find in Files Line Context"
+  "Nastavení hledání v soubory řádku kontextu"
+
+  "Set Jump Distance"
+  "Nastavit skok vzdálenost"
+
+  "Set default open/save browsing directory to"
+  "Nastavit výchozí otevřít/uložit procházení adresáře"
+
+  "Show 'Find in Files' result in other pane"
+  "Ukázat \"
+
+  "Show diagnostic logfile at startup"
+  "Zobrazit diagnostické soubor protokolu při spuštění"
+
+  "Show difference file in other pane than original"
+  "Zobrazit soubor rozdílů v jiné podokno než původní"
+
+  "Show difference file version information"
+  "Zobrazit informace o verzi souboru rozdílu"
+
+  "Show folders at top"
+  "Zobrazit složky na vrcholu"
+
+  "Show menubar"
+  "Zobrazit hlavní nabídku"
+
+  "Single-quote"
+  "Uvozovky"
+
+  "Snippet Completion Characters"
+  "Fragment dokončení postavy"
+
+  "Sort tabs alphabetically on open"
+  "Seřadit záložky abecedně při otevření"
+
+  "Sorting Column"
+  "třídění Column"
+
+  "Space"
+  "Mezera"
+
+  "Spaces per tab"
+  "Prostory na kartu"
+
+  "Square bracket"
+  "Závorky"
+
+  "Stable"
+  "Stabilní"
+
+  "Symbol between CSS property and value"
+  "Symbol mezi CSS vlastnosti a hodnoty"
+
+  "Symbol placed at end of CSS property"
+  "Symbol na konci CSS vlastnosti"
+
+  "Syntax Coloring"
+  "Barevná syntaxe"
+
+  "Tab"
+  "Záložka"
+
+  "Update using release type"
+  "Aktualizovat pomocí verze typu"
+
+  "Use appropriate EOL character on system"
+  "Použít vhodné znaky EOL na systému"
+
+  "Use carriate return linefeed sequence"
+  "Použít carriate návrat odřádkování sekvence"
+
+  "Use directory"
+  "Použít adresář"
+
+  "Use linefeed character"
+  "Použít znak konce řádku"
+
+  "Use original EOL character from file"
+  "Použít původní znaky EOL ze souboru"
+
+  "Use shortened colors"
+  "Použít zkrácené barvy"
+
+  "Use single carriage return character"
+  "Použít jednotné znakem návratu"
+
+  "User guide format"
+  "Formát příručky"
+
+  "Variables"
+  "Proměnné"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset cs {
 # themes.tcl
 msgcat::mcmset cs {
 
-  "Theme"
-  "Šablona"
-
   "Theme:*"
   "Šablona"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset cs {
   "Duplicate"
   "Duplicita"
 
+  "Enable code folding"
+  "Povolit skládání kódu"
+
   "Favorite"
   "oblíbená položka"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset cs {
   "Save As"
   "Uložit jako"
 
+  "Show console"
+  "Zobrazit konzole"
+
+  "Show line numbers"
+  "Zobrazovat čísla řádků"
+
+  "Show marker map"
+  "Ukázat značková mapa"
+
+  "Show sidebar"
+  "Zobrazit postranní panel"
+
+  "Show status bar"
+  "Zobrazit stavový řádek"
+
+  "Show tab bar"
+  "Zobrazovat lištu karet"
+
   "Split View"
   "Rozd?lený panel"
+
+  "Theme"
+  "Šablona"
 
   "Theme Editor"
   "Editor téma"

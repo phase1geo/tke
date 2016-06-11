@@ -477,9 +477,6 @@ msgcat::mcmset sv {
   "Enable Vim mode"
   "Aktivera Vim-läge"
 
-  "Enable code folding"
-  "Aktivera kod vikning"
-
   "Enumeration"
   "räkning"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset sv {
   "Show Tab Bar"
   "Visa Tab Bar"
 
-  "Show console"
-  "Visa konsolen"
-
   "Show diagnostic logfile"
   "Visa diagnostisk loggfil"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset sv {
   "Show last profiling report"
   "Visa senaste profilering rapport"
 
-  "Show line numbers"
-  "Visa radnummer"
-
-  "Show marker map"
-  "Visa markörkarta"
-
   "Show meta characters"
   "Meta tecken visas"
 
   "Show selected line change"
   "Visa markerad rad förändringar"
-
-  "Show sidebar"
-  "Visa sidorad"
-
-  "Show status bar"
-  "Visa statusrad"
-
-  "Show tab bar"
-  "Visa flikfältet"
 
   "Smart Indent"
   "Smart strecksatsen"
@@ -1342,6 +1321,311 @@ msgcat::mcmset sv {
 
   "Syntax errors found in selected plugins"
   "Syntax fel i utvalda plugins"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset sv {
+
+  "Add"
+  "Lägg till"
+
+  "Addons"
+  "Tillägg"
+
+  "Allow scrolling in tab bar"
+  "Tillåta rullning i flikraden"
+
+  "Angled bracket"
+  "Vinklat fäste"
+
+  "Auto-match Characters"
+  "Auto-match tecken"
+
+  "Automatically check for updates on start"
+  "Automatiskt söka efter uppdateringar på start"
+
+  "Automatically insert vendor prefixes"
+  "Infoga automatiskt leverantörens prefix"
+
+  "Automatically load last session on start"
+  "Automatiskt ladda senaste sessionen på start"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Anges automatiskt den aktuella arbetskatalogen till den aktuella katalogen flikar"
+
+  "Backtick"
+  "Baklängescitationstecken"
+
+  "Base Directory"
+  "Baskatalog"
+
+  "Behaviors"
+  "Beteenden"
+
+  "Browse"
+  "Bläddra"
+
+  "Buffer"
+  "Buffert"
+
+  "Choose"
+  "Välj"
+
+  "Choose Logfile Directory"
+  "Välj loggfil katalog"
+
+  "Clipboard history depth"
+  "Klippborden historia djup"
+
+  "Color value case"
+  "Färg värde fall"
+
+  "Command launcher entry"
+  "Kommandot launcher inträde"
+
+  "Command launcher preview"
+  "Kommandot launcher förhandsgranskning"
+
+  "Convert to lowercase"
+  "Konvertera till gemener"
+
+  "Convert to uppercase"
+  "Konvertera till versaler"
+
+  "Curly bracket"
+  "klammer"
+
+  "Current"
+  "Nuvarande"
+
+  "Current editing buffer directory"
+  "Aktuella redigering buffert katalogen"
+
+  "Current working directory"
+  "Aktuell mapp"
+
+  "Default unit for floating point values"
+  "Standardenhet för flytande punkt värden"
+
+  "Default unit for integer values"
+  "Standardenhet för heltalsvärden"
+
+  "Development"
+  "Utveckling"
+
+  "Directory"
+  "Katalog"
+
+  "Double-quote"
+  "Dubbel-offert"
+
+  "Edit preferences using GUI"
+  "Redigera inställningar med hjälp av GUI"
+
+  "Editor"
+  "Utgivare"
+
+  "Enable Vim Mode"
+  "Aktivera Vim-läge"
+
+  "Enable auto-indentation"
+  "Aktivera auto-indrag"
+
+  "Enable development mode"
+  "Aktivera utvecklingsläge"
+
+  "Enable fuzzy search"
+  "Aktivera fuzzy search"
+
+  "Enable relative line numbering"
+  "Aktivera relativ radnumrering"
+
+  "End-of-line character when saving"
+  "End-of-line tecken när du sparar"
+
+  "Exit the application after the last tab is closed"
+  "Avsluta programmet när den sista fliken stängs"
+
+  "Format snippet indentation after insert"
+  "Formatet snutt indrag efter infoga"
+
+  "General"
+  "Allmänt"
+
+  "Hide Patterns"
+  "Dölja mönster"
+
+  "Hide binary files"
+  "Dölja binära filer"
+
+  "Hiding"
+  "Gömmer sig"
+
+  "Highlight matching character"
+  "Markera matchande tecken"
+
+  "Host"
+  "Host"
+
+  "Indentation Spaces"
+  "Indrag utrymmen"
+
+  "Languages"
+  "Språk"
+
+  "Last"
+  "Sista"
+
+  "Last accessed"
+  "Senast använd:"
+
+  "Line count to find for Vim modeline information"
+  "Linje räkna att hitta Vim lägesrader information"
+
+  "Logfile Directory"
+  "Logfile katalog"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Maximal ångringshistoriken (satt till 0 för obegränsad)"
+
+  "Mounts"
+  "fäste"
+
+  "Parenthesis"
+  "Klammer"
+
+  "Profiler Options"
+  "Alternativ för profiler"
+
+  "Properties"
+  "Egenskaper"
+
+  "Recently opened history depth"
+  "Nyligen öppnade historia djup"
+
+  "Remember last position of command launcher"
+  "Kom ihåg sista positionen för kommandot launcher"
+
+  "Remote Base Directory"
+  "Remote baskatalog"
+
+  "Remove root directory after last sub-file is closed"
+  "Tar bort rotkatalogen efter sista underordnade filen stängs"
+
+  "Remove trailing whitespace on save"
+  "Ta bort avslutande blanksteg på Spara"
+
+  "Report Options"
+  "Användaralternativ för rapporter"
+
+  "Retain case"
+  "Behålla fall"
+
+  "Return"
+  "Retur"
+
+  "Ruler column"
+  "Linjalen kolumn"
+
+  "Select default browsing directory"
+  "Välj standard bläddra katalog"
+
+  "Set Find History Depth"
+  "Ställa in hitta historia djup"
+
+  "Set Find in Files Line Context"
+  "Ställa in hitta filer linje bakgrund"
+
+  "Set Jump Distance"
+  "Ställ in hoppa avstånd"
+
+  "Set default open/save browsing directory to"
+  "Ställa in standard öppna/spara bläddra katalog till"
+
+  "Show 'Find in Files' result in other pane"
+  "Visa \"
+
+  "Show diagnostic logfile at startup"
+  "Visa diagnostisk logfile vid start"
+
+  "Show difference file in other pane than original"
+  "Visa differensfil i andra rutan än original"
+
+  "Show difference file version information"
+  "Visa information om en differensfil version"
+
+  "Show folders at top"
+  "Visa mappar längst upp"
+
+  "Show menubar"
+  "Visa menyrad"
+
+  "Single-quote"
+  "Singel-offert"
+
+  "Snippet Completion Characters"
+  "Snutt slutförandet tecken"
+
+  "Sort tabs alphabetically on open"
+  "Sortera flikar i alfabetisk ordning på öppna"
+
+  "Sorting Column"
+  "Sortera kolumn"
+
+  "Space"
+  "Utrymme"
+
+  "Spaces per tab"
+  "Blanksteg per tab"
+
+  "Square bracket"
+  "vänster klammerparantes ["
+
+  "Stable"
+  "Stabil"
+
+  "Symbol between CSS property and value"
+  "Symbol mellan CSS-egenskapen och värdet"
+
+  "Symbol placed at end of CSS property"
+  "Symbol slutet av CSS egendom"
+
+  "Syntax Coloring"
+  "Syntaxfärgning"
+
+  "Tab"
+  "Flik"
+
+  "Update using release type"
+  "Uppdatera med release typ"
+
+  "Use appropriate EOL character on system"
+  "Använda lämpliga EOL-tecken på system"
+
+  "Use carriate return linefeed sequence"
+  "Använda carriate avkastning radmatning sekvens"
+
+  "Use directory"
+  "Använd mapp"
+
+  "Use linefeed character"
+  "Använda radmatning karaktär"
+
+  "Use original EOL character from file"
+  "Använda ursprungliga EOL-tecken från fil"
+
+  "Use shortened colors"
+  "Använda förkortade färger"
+
+  "Use single carriage return character"
+  "Använda enda vagnsretur"
+
+  "User guide format"
+  "Formatet user guide"
+
+  "Variables"
+  "Variabler"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset sv {
 # themes.tcl
 msgcat::mcmset sv {
 
-  "Theme"
-  "Tema"
-
   "Theme:*"
   "Tema:*"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset sv {
   "Duplicate"
   "Duplicera"
 
+  "Enable code folding"
+  "Aktivera kod vikning"
+
   "Favorite"
   "Gunstling"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset sv {
   "Save As"
   "Spara som"
 
+  "Show console"
+  "Visa konsolen"
+
+  "Show line numbers"
+  "Visa radnummer"
+
+  "Show marker map"
+  "Visa markörkarta"
+
+  "Show sidebar"
+  "Visa sidorad"
+
+  "Show status bar"
+  "Visa statusrad"
+
+  "Show tab bar"
+  "Visa flikfältet"
+
   "Split View"
   "Dela vy"
+
+  "Theme"
+  "Tema"
 
   "Theme Editor"
   "Temaredigeraren"

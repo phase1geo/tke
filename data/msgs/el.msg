@@ -477,9 +477,6 @@ msgcat::mcmset el {
   "Enable Vim mode"
   "Ενεργοποίηση της λειτουργίας Vim"
 
-  "Enable code folding"
-  "Ενεργοποίηση κώδικα πτυσσόμενα"
-
   "Enumeration"
   "Καταμέτρηση"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset el {
   "Show Tab Bar"
   "Γραμμή καρτελών"
 
-  "Show console"
-  "Δείχνουν κονσόλα"
-
   "Show diagnostic logfile"
   "Εμφάνιση διαγνωστικών logfile"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset el {
   "Show last profiling report"
   "Εμφάνιση της τελευταίας έκθεσης αποτυπωμάτων"
 
-  "Show line numbers"
-  "Αριθμοί Γραμμής"
-
-  "Show marker map"
-  "Δείκτης Εμφάνιση χάρτη"
-
   "Show meta characters"
   "Εμφάνιση χαρακτήρων"
 
   "Show selected line change"
   "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
-
-  "Show sidebar"
-  "Δείχνω φαβορίτα"
-
-  "Show status bar"
-  "Εμφάνιση γραμμής κατάστασης"
-
-  "Show tab bar"
-  "Εμφάνιση γραμμής καρτελών"
 
   "Smart Indent"
   "Έξυπνες περίπτωση"
@@ -1342,6 +1321,311 @@ msgcat::mcmset el {
 
   "Syntax errors found in selected plugins"
   "Συντακτικά λάθη τα βρείτε σε επιλεγμένα plugins"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset el {
+
+  "Add"
+  "Προσθήκη"
+
+  "Addons"
+  "Addons"
+
+  "Allow scrolling in tab bar"
+  "Επιτρέπουν την κύλιση στο φραγμό ετικεττών"
+
+  "Angled bracket"
+  "ΓΩΝΙΑΚΗ ΕΛΑΣΤΙΚΗ ΒΑΣΗ"
+
+  "Auto-match Characters"
+  "Auto-παιχνίδι χαρακτήρες"
+
+  "Automatically check for updates on start"
+  "Ελέγξουν αυτόματα για ενημερώσεις κατά την εκκίνηση"
+
+  "Automatically insert vendor prefixes"
+  "Αυτόματη εισαγωγή προμηθευτή προθέματα"
+
+  "Automatically load last session on start"
+  "Αυτόματη φόρτωση τελευταία σύνοδο στην έναρξη"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Αυτόματα να ορίσετε τον τρέχοντα κατάλογο εργασίας στον τρέχοντα κατάλογο καρτέλες"
+
+  "Backtick"
+  "Backtick"
+
+  "Base Directory"
+  "Φάκελος βάσης"
+
+  "Behaviors"
+  "Συμπεριφορές"
+
+  "Browse"
+  "Περιήγηση"
+
+  "Buffer"
+  "Ρυθμιστής"
+
+  "Choose"
+  "Επιλέξτε"
+
+  "Choose Logfile Directory"
+  "Επιλέξτε κατάλογο Logfile"
+
+  "Clipboard history depth"
+  "Βάθος ιστορίας Πρόχειρο"
+
+  "Color value case"
+  "Υπόθεση χρώμα τιμή"
+
+  "Command launcher entry"
+  "Καταχώρηση εντολών εκτοξευτή"
+
+  "Command launcher preview"
+  "Εντολή Προεπισκόπηση εκτοξευτή"
+
+  "Convert to lowercase"
+  "Μετατροπή σε πεζά"
+
+  "Convert to uppercase"
+  "Μετατροπή σε κεφαλαία"
+
+  "Curly bracket"
+  "άγκιστρο"
+
+  "Current"
+  "Τρέχον"
+
+  "Current editing buffer directory"
+  "Τρέχοντα επεξεργασίας buffer κατάλογο"
+
+  "Current working directory"
+  "Στον τρέχοντα κατάλογο εργασίας"
+
+  "Default unit for floating point values"
+  "Προεπιλεγμένη μονάδα για τιμές κινητής υποδιαστολής"
+
+  "Default unit for integer values"
+  "Προεπιλεγμένη μονάδα για ακέραιες τιμές"
+
+  "Development"
+  "Ανάπτυξη"
+
+  "Directory"
+  "Φάκελος"
+
+  "Double-quote"
+  "Διπλών"
+
+  "Edit preferences using GUI"
+  "Επεξεργαστείτε τις προτιμήσεις χρησιμοποιώντας το GUI"
+
+  "Editor"
+  "συντάκτης"
+
+  "Enable Vim Mode"
+  "Ενεργοποίηση της λειτουργίας Vim"
+
+  "Enable auto-indentation"
+  "Ενεργοποίηση auto-εσοχή"
+
+  "Enable development mode"
+  "Ενεργοποιήσετε τη λειτουργία ανάπτυξης"
+
+  "Enable fuzzy search"
+  "Ενεργοποίηση ασαφής αναζήτηση"
+
+  "Enable relative line numbering"
+  "Ενεργοποιήσετε την σχετική γραμμή αρίθμηση"
+
+  "End-of-line character when saving"
+  "End-of-line χαρακτήρα κατά την αποθήκευση"
+
+  "Exit the application after the last tab is closed"
+  "Βγείτε από την εφαρμογή μετά το κλείσιμο της τελευταίας καρτέλας"
+
+  "Format snippet indentation after insert"
+  "Εσοχή απόσπασμα μορφή μετά από το ένθετο"
+
+  "General"
+  "Γενικά"
+
+  "Hide Patterns"
+  "Απόκρυψη μοτίβων"
+
+  "Hide binary files"
+  "Απόκρυψη δυαδικά αρχεία"
+
+  "Hiding"
+  "Απόκρυψη"
+
+  "Highlight matching character"
+  "Επισημάνετε που ταιριάζουν χαρακτήρα"
+
+  "Host"
+  "Διακομιστής"
+
+  "Indentation Spaces"
+  "Διαμόρφωση χώρων"
+
+  "Languages"
+  "Γλώσσες"
+
+  "Last"
+  "Τελευταίο"
+
+  "Last accessed"
+  "Τελευταία πρόσβαση"
+
+  "Line count to find for Vim modeline information"
+  "Γραμμή αρίθμηση να βρείτε για πληροφορίες modeline Vim"
+
+  "Logfile Directory"
+  "Logfile καταλόγου"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Ιστορικό αναιρέσεων μέγιστη (ορίζεται στο 0 για απεριόριστο)"
+
+  "Mounts"
+  "Αναρτήσεις"
+
+  "Parenthesis"
+  "Παρένθεση."
+
+  "Profiler Options"
+  "Profiler επιλογές"
+
+  "Properties"
+  "Ιδιότητες"
+
+  "Recently opened history depth"
+  "Άνοιξε πρόσφατα το ιστορικό βάθος"
+
+  "Remember last position of command launcher"
+  "Θυμηθείτε την τελευταία θέση του εκτοξευτή εντολή"
+
+  "Remote Base Directory"
+  "Απομακρυσμένο κατάλογο βάσης"
+
+  "Remove root directory after last sub-file is closed"
+  "Κατάργηση των ριζικό κατάλογο μετά το κλείσιμο τελευταίο υπο-αρχείο"
+
+  "Remove trailing whitespace on save"
+  "Κατάργηση κενό διάστημα για να αποθηκεύσετε"
+
+  "Report Options"
+  "Επιλογές αναφοράς"
+
+  "Retain case"
+  "Διατηρούν την υπόθεση"
+
+  "Return"
+  "Απόδοση"
+
+  "Ruler column"
+  "Στήλη του χάρακα"
+
+  "Select default browsing directory"
+  "Επιλέξτε περιήγηση καταλόγου προεπιλογή"
+
+  "Set Find History Depth"
+  "Εύρεση ιστορικό βάθος"
+
+  "Set Find in Files Line Context"
+  "Που βρίσκουν στο πλαίσιο γραμμή αρχεία"
+
+  "Set Jump Distance"
+  "Ορισμός άλμα απόσταση"
+
+  "Set default open/save browsing directory to"
+  "Ορίστε την προεπιλεγμένη Άνοιγμα/Αποθήκευση περιήγηση κατάλογο για να"
+
+  "Show 'Find in Files' result in other pane"
+  "Εμφάνιση αποτέλεσμα «Βρείτε στα αρχεία» σε άλλο παράθυρο"
+
+  "Show diagnostic logfile at startup"
+  "Εμφάνιση διαγνωστικών logfile κατά την εκκίνηση"
+
+  "Show difference file in other pane than original"
+  "Εμφάνιση αρχείου διαφορά σε άλλο παράθυρο από την αρχική"
+
+  "Show difference file version information"
+  "Εμφάνιση διαφορά πληροφορίες έκδοσης του αρχείου"
+
+  "Show folders at top"
+  "Εμφάνιση φακέλων στην κορυφή"
+
+  "Show menubar"
+  "Εμφάνιση γραμμής μενού"
+
+  "Single-quote"
+  "Μονών εισαγωγικών"
+
+  "Snippet Completion Characters"
+  "Απόσπασμα ολοκλήρωση χαρακτήρες"
+
+  "Sort tabs alphabetically on open"
+  "Καρτέλες Ταξινόμηση αλφαβητικά κατά το άνοιγμα"
+
+  "Sorting Column"
+  "Ταξινόμηση στήλης"
+
+  "Space"
+  "-- κενό ( ) --"
+
+  "Spaces per tab"
+  "Χώροι ανά καρτέλα"
+
+  "Square bracket"
+  "Αγκύλη"
+
+  "Stable"
+  "Σταθερό"
+
+  "Symbol between CSS property and value"
+  "Σύμβολο μεταξύ CSS ιδιότητα και τιμή"
+
+  "Symbol placed at end of CSS property"
+  "Σύμβολο που τοποθετείται στο τέλος της ιδιοκτησίας CSS"
+
+  "Syntax Coloring"
+  "Σύνταξη χρωματισμού"
+
+  "Tab"
+  "Καρτέλα"
+
+  "Update using release type"
+  "Ενημέρωση μέσω τύπος έκδοσης"
+
+  "Use appropriate EOL character on system"
+  "Χρησιμοποιήστε κατάλληλη EOL χαρακτήρα στο σύστημα"
+
+  "Use carriate return linefeed sequence"
+  "Χρησιμοποιήστε carriate ακολουθία αλλαγής γραμμής επιστροφής"
+
+  "Use directory"
+  "Χρήση καταλόγου"
+
+  "Use linefeed character"
+  "Χρήση χαρακτήρα αλλαγής γραμμής"
+
+  "Use original EOL character from file"
+  "Χρησιμοποιήστε το αρχικό EOL χαρακτήρα από αρχείο"
+
+  "Use shortened colors"
+  "Χρησιμοποιήστε συντομευμένη χρώματα"
+
+  "Use single carriage return character"
+  "Χρήση ενιαίου χαρακτήρα"
+
+  "User guide format"
+  "Μορφή Οδηγός χρήστη"
+
+  "Variables"
+  "Μεταβλητές"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset el {
 # themes.tcl
 msgcat::mcmset el {
 
-  "Theme"
-  "Θέμα"
-
   "Theme:*"
   "Θέμα"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset el {
   "Duplicate"
   "Αναπαραγωγή"
 
+  "Enable code folding"
+  "Ενεργοποίηση κώδικα πτυσσόμενα"
+
   "Favorite"
   "Αγαπημένο"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset el {
   "Save As"
   "Αποθήκευση ως"
 
+  "Show console"
+  "Δείχνουν κονσόλα"
+
+  "Show line numbers"
+  "Αριθμοί Γραμμής"
+
+  "Show marker map"
+  "Δείκτης Εμφάνιση χάρτη"
+
+  "Show sidebar"
+  "Δείχνω φαβορίτα"
+
+  "Show status bar"
+  "Εμφάνιση γραμμής κατάστασης"
+
+  "Show tab bar"
+  "Εμφάνιση γραμμής καρτελών"
+
   "Split View"
   "Split View"
+
+  "Theme"
+  "Θέμα"
 
   "Theme Editor"
   "Θέμα Εκδότης"

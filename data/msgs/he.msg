@@ -477,9 +477,6 @@ msgcat::mcmset he {
   "Enable Vim mode"
   "הפעלת מצב Vim"
 
-  "Enable code folding"
-  "הפעלת קוד מתקפלים"
-
   "Enumeration"
   "ספירה"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset he {
   "Show Tab Bar"
   "הצג סרגל הלשוניות"
 
-  "Show console"
-  "הצג המסוף"
-
   "Show diagnostic logfile"
   "הצג יומן האבחון"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset he {
   "Show last profiling report"
   "הצג צג דווח Profiling האחרונהו"
 
-  "Show line numbers"
-  "הצג מספרי שורות"
-
-  "Show marker map"
-  "סמן הצג מפה"
-
   "Show meta characters"
   "הצג מטא-תווים"
 
   "Show selected line change"
   "להראות שינוי הקו הנבחר"
-
-  "Show sidebar"
-  "להציג סרגל צידי?"
-
-  "Show status bar"
-  "הצג את שורת המצב"
-
-  "Show tab bar"
-  "הצג סרגל הלשוניות"
 
   "Smart Indent"
   "כניסה חכמה"
@@ -1342,6 +1321,311 @@ msgcat::mcmset he {
 
   "Syntax errors found in selected plugins"
   "שגיאות תחביר נמצאו הפלאגאינים שנבחרו"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset he {
+
+  "Add"
+  "הוסף"
+
+  "Addons"
+  "הרחבות"
+
+  "Allow scrolling in tab bar"
+  "לאפשר גלילה ברחבי סרגל הלשוניות"
+
+  "Angled bracket"
+  "סוגר זוויתי"
+
+  "Auto-match Characters"
+  "התאם אוטומטית-תווים"
+
+  "Automatically check for updates on start"
+  "יבדוק באופן אוטומטי אם יש עדכונים על התחל"
+
+  "Automatically insert vendor prefixes"
+  "להוסיף קידומות הספק באופן אוטומטי"
+
+  "Automatically load last session on start"
+  "טוענת באופן אוטומטי את הפעלת האחרונה על התחל"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "להגדיר באופן אוטומטי לספריה הנוכחית לספריה הכרטיסיות הנוכחית"
+
+  "Backtick"
+  "Backtick"
+
+  "Base Directory"
+  "מדריך בסיסי"
+
+  "Behaviors"
+  "התנהגויות"
+
+  "Browse"
+  "עיין"
+
+  "Buffer"
+  "Buffer"
+
+  "Choose"
+  "בחר"
+
+  "Choose Logfile Directory"
+  "לבחור מדריך יומן"
+
+  "Clipboard history depth"
+  "הלוח היסטוריה עומק"
+
+  "Color value case"
+  "ערך הצבע"
+
+  "Command launcher entry"
+  "הפקודה משגר כניסה"
+
+  "Command launcher preview"
+  "הפקודה משגר מקדימה"
+
+  "Convert to lowercase"
+  "להמיר לאותיות"
+
+  "Convert to uppercase"
+  "להמיר לאותיות רישיות"
+
+  "Curly bracket"
+  "סוגר מסולסל"
+
+  "Current"
+  "נוכחי"
+
+  "Current editing buffer directory"
+  "הספריה מאגר העריכה הנוכחית"
+
+  "Current working directory"
+  "ספריית עבודה נוכחית"
+
+  "Default unit for floating point values"
+  "ברירת מחדל עבור ערכי הנקודה הצפה"
+
+  "Default unit for integer values"
+  "יחידת ברירת המחדל עבור ערכי המספרים השלמים"
+
+  "Development"
+  "פיתוח"
+
+  "Directory"
+  "אינדקס"
+
+  "Double-quote"
+  "כפולות"
+
+  "Edit preferences using GUI"
+  "עריכת העדפות משתמש GUI"
+
+  "Editor"
+  "עורך"
+
+  "Enable Vim Mode"
+  "הפעלת מצב Vim"
+
+  "Enable auto-indentation"
+  "הפעלת כניסה אוטומטית"
+
+  "Enable development mode"
+  "הפעלת מצב פיתוח"
+
+  "Enable fuzzy search"
+  "לאפשר חיפוש מטושטש"
+
+  "Enable relative line numbering"
+  "לאפשר מספור שורות היחסי"
+
+  "End-of-line character when saving"
+  "תו סוף שורה בעת שמירת"
+
+  "Exit the application after the last tab is closed"
+  "לצאת מהיישום לאחר סגירת הכרטיסיה האחרונה"
+
+  "Format snippet indentation after insert"
+  "כניסת מקטע בתבנית לאחר הוספה"
+
+  "General"
+  "כללי"
+
+  "Hide Patterns"
+  "הסתר תבניות"
+
+  "Hide binary files"
+  "הסתר קבצים בינאריים"
+
+  "Hiding"
+  "מתחבא"
+
+  "Highlight matching character"
+  "גולת הכותרת התאמה הדמויות מהתוכנ"
+
+  "Host"
+  "שרת מארח"
+
+  "Indentation Spaces"
+  "הכניסה רווחים"
+
+  "Languages"
+  "שפות"
+
+  "Last"
+  "אחרון"
+
+  "Last accessed"
+  "הפעם האחרונה שנכנסת"
+
+  "Line count to find for Vim modeline information"
+  "ספירת השורות למצוא למידע modeline Vim"
+
+  "Logfile Directory"
+  "מדריך יומן"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "ביטול מרבית ההיסטוריה (מוגדר כ- 0 עבור ללא הגבלה)"
+
+  "Mounts"
+  "טעינות"
+
+  "Parenthesis"
+  "סוגריים"
+
+  "Profiler Options"
+  "אפשרויות פרופיילר"
+
+  "Properties"
+  "נכסים"
+
+  "Recently opened history depth"
+  "לאחרונה נפתח עומק היסטוריה"
+
+  "Remember last position of command launcher"
+  "זוכר את המיקום האחרון של הפקודה משגר"
+
+  "Remote Base Directory"
+  "מדריך בסיסי מרחוק"
+
+  "Remove root directory after last sub-file is closed"
+  "להסיר את ספריית הבסיס לאחר סגירת הקובץ משנה שעברה"
+
+  "Remove trailing whitespace on save"
+  "הסר רווח נגרר על שמור"
+
+  "Report Options"
+  "אפשרויות הדוח"
+
+  "Retain case"
+  "לשמור על התיק"
+
+  "Return"
+  "כפול"
+
+  "Ruler column"
+  "הסרגל עמודות"
+
+  "Select default browsing directory"
+  "בחר באפשרויות ברירת מחדל גלישה מדריך"
+
+  "Set Find History Depth"
+  "הגדר חיפוש היסטוריה עומק"
+
+  "Set Find in Files Line Context"
+  "להגדיר חיפוש בהקשר קו קבצים"
+
+  "Set Jump Distance"
+  "הגדרת קפיצה למרחק"
+
+  "Set default open/save browsing directory to"
+  "הגדרת ברירת המחדל פתיחה/שמירה גלישה מדריך כדי"
+
+  "Show 'Find in Files' result in other pane"
+  "הצגת התוצאה \"
+
+  "Show diagnostic logfile at startup"
+  "הצג יומן האבחון בעת האתחול"
+
+  "Show difference file in other pane than original"
+  "להראות את ההבדל קובץ בחלונית אחרים מאשר המקורי"
+
+  "Show difference file version information"
+  "הצג את פרטי הגירסה של הקובץ ההבדל"
+
+  "Show folders at top"
+  "הצג תיקיות בחלק העליון"
+
+  "Show menubar"
+  "הצג שורת תפריטים"
+
+  "Single-quote"
+  "הצעת המחיר האלקטרונית יחיד"
+
+  "Snippet Completion Characters"
+  "גזיר השלמת תווים"
+
+  "Sort tabs alphabetically on open"
+  "כרטיסיות מיון אלפביתי על פתח"
+
+  "Sorting Column"
+  "מיון עמודה"
+
+  "Space"
+  "חלל"
+
+  "Spaces per tab"
+  "רווחים לכל כרטיסייה"
+
+  "Square bracket"
+  "סוגריים מרובעים"
+
+  "Stable"
+  "אורווה"
+
+  "Symbol between CSS property and value"
+  "סמל בין מאפיין CSS והערך"
+
+  "Symbol placed at end of CSS property"
+  "סמל ממוקם בקצהו של מאפיין CSS"
+
+  "Syntax Coloring"
+  "צבעי תחביר"
+
+  "Tab"
+  "כרטיסיה"
+
+  "Update using release type"
+  "עדכון באמצעות סוג המהדורה"
+
+  "Use appropriate EOL character on system"
+  "שימוש בתו EOL המתאים במערכת"
+
+  "Use carriate return linefeed sequence"
+  "להשתמש ברצף החזרה הזנת שורה carriate"
+
+  "Use directory"
+  "השתמש בספריה"
+
+  "Use linefeed character"
+  "שימוש בתו הזנת שורה"
+
+  "Use original EOL character from file"
+  "שימוש בתו EOL המקורי מקובץ"
+
+  "Use shortened colors"
+  "שימוש בצבעים מקוצר"
+
+  "Use single carriage return character"
+  "השתמש תו return הכרכרה יחיד"
+
+  "User guide format"
+  "עיצוב מדריך למשתמש"
+
+  "Variables"
+  "משתנים"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset he {
 # themes.tcl
 msgcat::mcmset he {
 
-  "Theme"
-  "ערכת עיצוב"
-
   "Theme:*"
   "ערכת עיצוב"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset he {
   "Duplicate"
   "שכפל"
 
+  "Enable code folding"
+  "הפעלת קוד מתקפלים"
+
   "Favorite"
   "מועדף"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset he {
   "Save As"
   "שמירה בשם"
 
+  "Show console"
+  "הצג המסוף"
+
+  "Show line numbers"
+  "הצג מספרי שורות"
+
+  "Show marker map"
+  "סמן הצג מפה"
+
+  "Show sidebar"
+  "להציג סרגל צידי?"
+
+  "Show status bar"
+  "הצג את שורת המצב"
+
+  "Show tab bar"
+  "הצג סרגל הלשוניות"
+
   "Split View"
   "צפו פיצול"
+
+  "Theme"
+  "ערכת עיצוב"
 
   "Theme Editor"
   "דירוג העורך"

@@ -477,9 +477,6 @@ msgcat::mcmset ru {
   "Enable Vim mode"
   "Включить режим Vim"
 
-  "Enable code folding"
-  "Включить сворачивание кода"
-
   "Enumeration"
   "перечисление"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset ru {
   "Show Tab Bar"
   "Показать Панель вкладок"
 
-  "Show console"
-  "Показать консоль"
-
   "Show diagnostic logfile"
   "Показать диагностический лог"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset ru {
   "Show last profiling report"
   "Показать последний отчет профилирования"
 
-  "Show line numbers"
-  "Показать номера строк"
-
-  "Show marker map"
-  "Показать маркер"
-
   "Show meta characters"
   "Показать символы мета"
 
   "Show selected line change"
   "Показать выбранные линии изменения"
-
-  "Show sidebar"
-  "Показать боковую панель?"
-
-  "Show status bar"
-  "Строка состояния"
-
-  "Show tab bar"
-  "Показать панель вкладок"
 
   "Smart Indent"
   "Смарт отступа"
@@ -1342,6 +1321,311 @@ msgcat::mcmset ru {
 
   "Syntax errors found in selected plugins"
   "Синтаксические ошибки, найденные в выбранных плагинов"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset ru {
+
+  "Add"
+  "Добавьте"
+
+  "Addons"
+  "Аддоны"
+
+  "Allow scrolling in tab bar"
+  "Позволить прокрутки в панели вкладок"
+
+  "Angled bracket"
+  "Угловой кронштейн"
+
+  "Auto-match Characters"
+  "Авто матч символов"
+
+  "Automatically check for updates on start"
+  "Автоматически проверять наличие обновлений при запуске"
+
+  "Automatically insert vendor prefixes"
+  "Автоматически вставлять префиксов поставщиков"
+
+  "Automatically load last session on start"
+  "Автоматически загружать последние сессии на старте"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Автоматически устанавливается текущий рабочий каталог в текущем каталоге вкладки"
+
+  "Backtick"
+  "Обратный апостроф"
+
+  "Base Directory"
+  "Базовый каталог"
+
+  "Behaviors"
+  "Поведение"
+
+  "Browse"
+  "Выберите файл"
+
+  "Buffer"
+  "Буфер"
+
+  "Choose"
+  "Выберите"
+
+  "Choose Logfile Directory"
+  "Выберите каталог файла журнала"
+
+  "Clipboard history depth"
+  "Глубина истории буфера обмена"
+
+  "Color value case"
+  "Значение цвета"
+
+  "Command launcher entry"
+  "Команда запуска запись"
+
+  "Command launcher preview"
+  "Команда запуска просмотра"
+
+  "Convert to lowercase"
+  "Преобразовать в нижний регистр"
+
+  "Convert to uppercase"
+  "Преобразовать в прописные"
+
+  "Curly bracket"
+  "Фигурная скобка"
+
+  "Current"
+  "Текущая"
+
+  "Current editing buffer directory"
+  "Текущий каталог редактирования буфера"
+
+  "Current working directory"
+  "Текущий рабочий каталог"
+
+  "Default unit for floating point values"
+  "По умолчанию устройство для значений с плавающей запятой"
+
+  "Default unit for integer values"
+  "Единица по умолчанию для целочисленных значений"
+
+  "Development"
+  "Разработка"
+
+  "Directory"
+  "Каталог"
+
+  "Double-quote"
+  "Двойные кавычки"
+
+  "Edit preferences using GUI"
+  "Изменить настройки с помощью графического интерфейса пользователя"
+
+  "Editor"
+  "Редактор"
+
+  "Enable Vim Mode"
+  "Включить режим Vim"
+
+  "Enable auto-indentation"
+  "Разрешить авто отступ"
+
+  "Enable development mode"
+  "Включить режим развития"
+
+  "Enable fuzzy search"
+  "Включить нечёткий поиск"
+
+  "Enable relative line numbering"
+  "Включение нумерации строк относительной"
+
+  "End-of-line character when saving"
+  "Символ конца строки при сохранении"
+
+  "Exit the application after the last tab is closed"
+  "Выход из приложения после закрытия последней вкладке"
+
+  "Format snippet indentation after insert"
+  "Формат фрагмент отступа после вставки"
+
+  "General"
+  "Общие"
+
+  "Hide Patterns"
+  "Скрытие структуры"
+
+  "Hide binary files"
+  "Скрыть двоичных файлов"
+
+  "Hiding"
+  "Прячется"
+
+  "Highlight matching character"
+  "Выделите соответствующий символ"
+
+  "Host"
+  "Хост"
+
+  "Indentation Spaces"
+  "Отступы запрещено"
+
+  "Languages"
+  "Языки"
+
+  "Last"
+  "Последний"
+
+  "Last accessed"
+  "Последний доступ"
+
+  "Line count to find for Vim modeline information"
+  "Число строк, чтобы найти сведения modeline Vim"
+
+  "Logfile Directory"
+  "Logfile каталог"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Максимальная отмены истории (установить в 0 для неограниченное)"
+
+  "Mounts"
+  "Кронштейны"
+
+  "Parenthesis"
+  "Скобки"
+
+  "Profiler Options"
+  "Параметры профилировщика"
+
+  "Properties"
+  "Недвижимость"
+
+  "Recently opened history depth"
+  "Недавно открывшийся глубина истории"
+
+  "Remember last position of command launcher"
+  "Запомнить последнюю позицию команды запуска"
+
+  "Remote Base Directory"
+  "Удаленный базовый каталог"
+
+  "Remove root directory after last sub-file is closed"
+  "После последнего подпункта файл закрыт удалить корневой каталог"
+
+  "Remove trailing whitespace on save"
+  "Удалить конечные пробелы на сохранение"
+
+  "Report Options"
+  "Параметры жалоб"
+
+  "Retain case"
+  "Сохранить случае"
+
+  "Return"
+  "Вернуться"
+
+  "Ruler column"
+  "Правитель столбец"
+
+  "Select default browsing directory"
+  "Выберите по умолчанию, просмотр каталога"
+
+  "Set Find History Depth"
+  "Установите глубину истории поиска"
+
+  "Set Find in Files Line Context"
+  "Задать поиск в файлах линии связи"
+
+  "Set Jump Distance"
+  "Установка перехода расстояние"
+
+  "Set default open/save browsing directory to"
+  "Установить по умолчанию открыть/сохранить просмотра каталога"
+
+  "Show 'Find in Files' result in other pane"
+  "Показать результат «Найти в файлах» в другие панели"
+
+  "Show diagnostic logfile at startup"
+  "Показать диагностический лог-файл при запуске"
+
+  "Show difference file in other pane than original"
+  "Показать файл различий в другой области, чем оригинал"
+
+  "Show difference file version information"
+  "Показать сведения о версии файла различий"
+
+  "Show folders at top"
+  "Показать папки в верхней"
+
+  "Show menubar"
+  "Показать меню"
+
+  "Single-quote"
+  "Единая цитата"
+
+  "Snippet Completion Characters"
+  "Фрагмент кода завершения символы"
+
+  "Sort tabs alphabetically on open"
+  "Вкладки Сортировка по алфавиту на открытом"
+
+  "Sorting Column"
+  "Сортировка столбца"
+
+  "Space"
+  "Пробел"
+
+  "Spaces per tab"
+  "Пробелы в табуляции"
+
+  "Square bracket"
+  "Квадратная скобка"
+
+  "Stable"
+  "Стабильный"
+
+  "Symbol between CSS property and value"
+  "Символ между CSS-свойства и значения"
+
+  "Symbol placed at end of CSS property"
+  "Символ в конце CSS свойства"
+
+  "Syntax Coloring"
+  "Подсветка синтаксиса"
+
+  "Tab"
+  "Вкладка"
+
+  "Update using release type"
+  "Обновление с помощью выпуска типа"
+
+  "Use appropriate EOL character on system"
+  "Используйте соответствующий символ EOL на системы"
+
+  "Use carriate return linefeed sequence"
+  "Использовать carriate последовательность возврат каретки"
+
+  "Use directory"
+  "Использовать каталог"
+
+  "Use linefeed character"
+  "Использовать символ перевода строки"
+
+  "Use original EOL character from file"
+  "Использовать оригинальные EOL символ из файла"
+
+  "Use shortened colors"
+  "Использовать сокращенные цвета"
+
+  "Use single carriage return character"
+  "Использовать символ возврата каретки один"
+
+  "User guide format"
+  "Формат руководство пользователя"
+
+  "Variables"
+  "Параметры"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset ru {
 # themes.tcl
 msgcat::mcmset ru {
 
-  "Theme"
-  "Тема"
-
   "Theme:*"
   "Тема:*"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset ru {
   "Duplicate"
   "Удвоить"
 
+  "Enable code folding"
+  "Включить сворачивание кода"
+
   "Favorite"
   "Любимый"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset ru {
   "Save As"
   "Сохранить как"
 
+  "Show console"
+  "Показать консоль"
+
+  "Show line numbers"
+  "Показать номера строк"
+
+  "Show marker map"
+  "Показать маркер"
+
+  "Show sidebar"
+  "Показать боковую панель?"
+
+  "Show status bar"
+  "Строка состояния"
+
+  "Show tab bar"
+  "Показать панель вкладок"
+
   "Split View"
   "Разделить"
+
+  "Theme"
+  "Тема"
 
   "Theme Editor"
   "Визуальный редактор темы"
