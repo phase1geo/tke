@@ -477,9 +477,6 @@ msgcat::mcmset pt {
   "Enable Vim mode"
   "Ativar o modo de Vim"
 
-  "Enable code folding"
-  "Habilitar o dobramento de código"
-
   "Enumeration"
   "Enumeração"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset pt {
   "Show Tab Bar"
   "Barra de Páginas"
 
-  "Show console"
-  "Mostrar o console"
-
   "Show diagnostic logfile"
   "Mostrar arquivo de log de diagnóstico"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset pt {
   "Show last profiling report"
   "Mostrar o último relatório de perfil"
 
-  "Show line numbers"
-  "Mostrar números de linha"
-
-  "Show marker map"
-  "Exibir Marcador"
-
   "Show meta characters"
   "Mostrar os meta caracteres"
 
   "Show selected line change"
   "Mostrar a mudança de linha selecionada"
-
-  "Show sidebar"
-  "Mostrar a barra lateral"
-
-  "Show status bar"
-  "Mostrar barra de Status"
-
-  "Show tab bar"
-  "Barra de Páginas"
 
   "Smart Indent"
   "Travessão inteligente"
@@ -1342,6 +1321,311 @@ msgcat::mcmset pt {
 
   "Syntax errors found in selected plugins"
   "Os erros de sintaxe encontrados em plugins selecionados"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset pt {
+
+  "Add"
+  "Adicionar"
+
+  "Addons"
+  "Módulos"
+
+  "Allow scrolling in tab bar"
+  "Permitir a rolagem na barra de guia"
+
+  "Angled bracket"
+  "Suporte angular"
+
+  "Auto-match Characters"
+  "Selecção automática de caracteres"
+
+  "Automatically check for updates on start"
+  "Verificar automaticamente se há atualizações no início"
+
+  "Automatically insert vendor prefixes"
+  "Inserir automaticamente prefixos de fornecedor"
+
+  "Automatically load last session on start"
+  "Carregar a última sessão ao iniciar"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Definir automaticamente o diretório de trabalho atual para o diretório atual de guias"
+
+  "Backtick"
+  "Crase"
+
+  "Base Directory"
+  "Pasta de base:"
+
+  "Behaviors"
+  "Comportamentos"
+
+  "Browse"
+  "Carregar"
+
+  "Buffer"
+  "Buffer"
+
+  "Choose"
+  "Escolha"
+
+  "Choose Logfile Directory"
+  "Escolha o diretório de arquivo de log"
+
+  "Clipboard history depth"
+  "Profundidade de história de transferência"
+
+  "Color value case"
+  "Caso de valor de cor"
+
+  "Command launcher entry"
+  "Entrada de lançador de comando"
+
+  "Command launcher preview"
+  "Visualização de lançador de comando"
+
+  "Convert to lowercase"
+  "Converter para minúsculo"
+
+  "Convert to uppercase"
+  "Converter para maiúsculo"
+
+  "Curly bracket"
+  "chaveta"
+
+  "Current"
+  "Atual"
+
+  "Current editing buffer directory"
+  "Diretório de buffer de edição atual"
+
+  "Current working directory"
+  "Diretório de trabalho atual"
+
+  "Default unit for floating point values"
+  "Padrão de unidade para os valores de ponto flutuante"
+
+  "Default unit for integer values"
+  "Unidade padrão para valores inteiros"
+
+  "Development"
+  "Desenvolvimento"
+
+  "Directory"
+  "A directoria"
+
+  "Double-quote"
+  "Aspas duplas"
+
+  "Edit preferences using GUI"
+  "Editar preferências usando a GUI"
+
+  "Editor"
+  "Editor"
+
+  "Enable Vim Mode"
+  "Ativar o modo de Vim"
+
+  "Enable auto-indentation"
+  "Habilitar o auto-recuo"
+
+  "Enable development mode"
+  "Ativar o modo de desenvolvimento"
+
+  "Enable fuzzy search"
+  "Habilitar a pesquisa difusa"
+
+  "Enable relative line numbering"
+  "Habilitar a numeração de linha relativa"
+
+  "End-of-line character when saving"
+  "Caractere de final de linha ao salvar"
+
+  "Exit the application after the last tab is closed"
+  "Sair do aplicativo após a última aba é fechada"
+
+  "Format snippet indentation after insert"
+  "Recuo de trecho formato após inserção"
+
+  "General"
+  "Geral"
+
+  "Hide Patterns"
+  "Esconder os padrões"
+
+  "Hide binary files"
+  "Esconder arquivos binários"
+
+  "Hiding"
+  "Esconderijo"
+
+  "Highlight matching character"
+  "Destacar o caractere correspondente"
+
+  "Host"
+  "Host"
+
+  "Indentation Spaces"
+  "Espaços de recuo"
+
+  "Languages"
+  "Linguagens"
+
+  "Last"
+  "Último"
+
+  "Last accessed"
+  "Último acesso:"
+
+  "Line count to find for Vim modeline information"
+  "Contagem de linha para encontrar para obter informações de modeline Vim"
+
+  "Logfile Directory"
+  "Diretório do arquivo de log"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "História de desfazer máxima (definido como 0 para ilimitado)"
+
+  "Mounts"
+  "Montagens"
+
+  "Parenthesis"
+  "Colchete"
+
+  "Profiler Options"
+  "Opções do analisador:"
+
+  "Properties"
+  "Imóveis"
+
+  "Recently opened history depth"
+  "Abriu recentemente a profundidade da história"
+
+  "Remember last position of command launcher"
+  "Lembre-se a última posição do lançador de comando"
+
+  "Remote Base Directory"
+  "Diretório Base remoto"
+
+  "Remove root directory after last sub-file is closed"
+  "Remova o diretório raiz após último arquivo sub está fechado"
+
+  "Remove trailing whitespace on save"
+  "Remover espaço em branco à direita em salvar"
+
+  "Report Options"
+  "Opções de Relatórios"
+
+  "Retain case"
+  "Reter o caso"
+
+  "Return"
+  "Retornar"
+
+  "Ruler column"
+  "Coluna de régua"
+
+  "Select default browsing directory"
+  "Selecione o padrão de navegação de diretório"
+
+  "Set Find History Depth"
+  "História de encontrar de profundidade"
+
+  "Set Find in Files Line Context"
+  "Conjunto de localizar arquivos linha contexto"
+
+  "Set Jump Distance"
+  "Distância de salto conjunto"
+
+  "Set default open/save browsing directory to"
+  "Conjunto padrão abrir/salvar navegação de diretório para"
+
+  "Show 'Find in Files' result in other pane"
+  "Mostrar resultado 'Localizar em arquivos' em outro painel"
+
+  "Show diagnostic logfile at startup"
+  "Mostrar arquivo de log de diagnóstico na inicialização"
+
+  "Show difference file in other pane than original"
+  "Mostrar arquivo de diferença no outro painel do que o original"
+
+  "Show difference file version information"
+  "Mostrar informações de versão do arquivo de diferença"
+
+  "Show folders at top"
+  "Mostrar pastas no topo"
+
+  "Show menubar"
+  "Mostrar o Menu"
+
+  "Single-quote"
+  "Aspas"
+
+  "Snippet Completion Characters"
+  "Caracteres de conclusão de trecho"
+
+  "Sort tabs alphabetically on open"
+  "Guias de classificação em ordem alfabética em aberto"
+
+  "Sorting Column"
+  "Coluna de classificação"
+
+  "Space"
+  "Espaço"
+
+  "Spaces per tab"
+  "Espaços por guia"
+
+  "Square bracket"
+  "Colchete"
+
+  "Stable"
+  "Estável"
+
+  "Symbol between CSS property and value"
+  "Entre a propriedade CSS e o valor do símbolo"
+
+  "Symbol placed at end of CSS property"
+  "Símbolo, colocado no final da propriedade CSS"
+
+  "Syntax Coloring"
+  "Coloração de sintaxe"
+
+  "Tab"
+  "Separador"
+
+  "Update using release type"
+  "Atualizar usando o tipo de lançamento"
+
+  "Use appropriate EOL character on system"
+  "Use o caractere de EOL apropriado no sistema"
+
+  "Use carriate return linefeed sequence"
+  "Use a seqüência de retorno de avanço de linha de carriate"
+
+  "Use directory"
+  "Diretório de uso"
+
+  "Use linefeed character"
+  "Use o caractere de avanço de linha"
+
+  "Use original EOL character from file"
+  "Use o caractere de EOL original do arquivo."
+
+  "Use shortened colors"
+  "Usar cores encurtadas"
+
+  "Use single carriage return character"
+  "Usar o único caractere de retorno"
+
+  "User guide format"
+  "Modelo do guia"
+
+  "Variables"
+  "Variáveis"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset pt {
 # themes.tcl
 msgcat::mcmset pt {
 
-  "Theme"
-  "Tema"
-
   "Theme:*"
   "Tema"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset pt {
   "Duplicate"
   "Duplicação"
 
+  "Enable code folding"
+  "Habilitar o dobramento de código"
+
   "Favorite"
   "Favorito"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset pt {
   "Save As"
   "Salvar como"
 
+  "Show console"
+  "Mostrar o console"
+
+  "Show line numbers"
+  "Mostrar números de linha"
+
+  "Show marker map"
+  "Exibir Marcador"
+
+  "Show sidebar"
+  "Mostrar a barra lateral"
+
+  "Show status bar"
+  "Mostrar barra de Status"
+
+  "Show tab bar"
+  "Barra de Páginas"
+
   "Split View"
   "Dividir a Vista"
+
+  "Theme"
+  "Tema"
 
   "Theme Editor"
   "Editor de temas"

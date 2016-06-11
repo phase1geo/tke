@@ -477,9 +477,6 @@ msgcat::mcmset de {
   "Enable Vim mode"
   "Vim-Modus aktivieren"
 
-  "Enable code folding"
-  "Aktivieren Code-Faltung"
-
   "Enumeration"
   "Liste"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset de {
   "Show Tab Bar"
   "Zeige Tab Bar"
 
-  "Show console"
-  "Karte-Konsole"
-
   "Show diagnostic logfile"
   "Diagnostische Logfile zeigen"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset de {
   "Show last profiling report"
   "Anzeigen der letzten profiling Bericht"
 
-  "Show line numbers"
-  "zeilennummern zeilen nummern"
-
-  "Show marker map"
-  "Marker anzeigen"
-
   "Show meta characters"
   "Meta-Zeichen anzeigen"
 
   "Show selected line change"
   "Anzeigen der markierten Zeile ändern"
-
-  "Show sidebar"
-  "Sidebar anzeigen"
-
-  "Show status bar"
-  "Statusleiste"
-
-  "Show tab bar"
-  "Tab-Leiste anzeigen"
 
   "Smart Indent"
   "Smart Gedankenstrich"
@@ -1342,6 +1321,311 @@ msgcat::mcmset de {
 
   "Syntax errors found in selected plugins"
   "Syntax Fehler in ausgewählten Plugins gefunden"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset de {
+
+  "Add"
+  "Hinzufügen"
+
+  "Addons"
+  "Erweiterungen"
+
+  "Allow scrolling in tab bar"
+  "Scrollen in der Tableiste zu ermöglichen"
+
+  "Angled bracket"
+  "Winkelhalter"
+
+  "Auto-match Characters"
+  "Auto-Spiel-Charaktere"
+
+  "Automatically check for updates on start"
+  "Suchen Sie automatisch nach Updates auf der Startseite"
+
+  "Automatically insert vendor prefixes"
+  "Einfügen Sie automatisch Anbieterpräfixe"
+
+  "Automatically load last session on start"
+  "Letzte Sitzung auf der Startseite automatisch laden"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Legen Sie automatisch das aktuelle Arbeitsverzeichnis in das aktuelle Verzeichnis der Registerkarten"
+
+  "Backtick"
+  "` (Backtick)"
+
+  "Base Directory"
+  "Basis-Verzeichnis"
+
+  "Behaviors"
+  "Verhaltensweisen"
+
+  "Browse"
+  "Durchsuchen"
+
+  "Buffer"
+  "Puffer"
+
+  "Choose"
+  "Wählen Sie"
+
+  "Choose Logfile Directory"
+  "Wählen Sie Log-Datei-Verzeichnis"
+
+  "Clipboard history depth"
+  "Zwischenablage-Geschichte-Tiefe"
+
+  "Color value case"
+  "Farbe Wert Fall"
+
+  "Command launcher entry"
+  "Befehlseingabe launcher"
+
+  "Command launcher preview"
+  "Befehl-Launcher-Vorschau"
+
+  "Convert to lowercase"
+  "Konvertieren Sie in Kleinbuchstaben"
+
+  "Convert to uppercase"
+  "Konvertieren Sie in Großbuchstaben"
+
+  "Curly bracket"
+  "Geschweifte Klammer"
+
+  "Current"
+  "Aktuelle"
+
+  "Current editing buffer directory"
+  "Aktuelle Bearbeitung Puffer-Verzeichnis"
+
+  "Current working directory"
+  "Das aktuelle Arbeitsverzeichnis"
+
+  "Default unit for floating point values"
+  "Standard-Einheit für Gleitkommawerte"
+
+  "Default unit for integer values"
+  "Standardeinheit für Integer-Werte"
+
+  "Development"
+  "Entwicklung"
+
+  "Directory"
+  "Alle Nachrichten"
+
+  "Double-quote"
+  "Doppeltes Anführungszeichen"
+
+  "Edit preferences using GUI"
+  "Bearbeiten Sie Einstellungen mit GUI"
+
+  "Editor"
+  "Editor"
+
+  "Enable Vim Mode"
+  "Vim-Modus aktivieren"
+
+  "Enable auto-indentation"
+  "Aktivieren Sie Auto-Einzug"
+
+  "Enable development mode"
+  "Entwicklungsmodus aktivieren"
+
+  "Enable fuzzy search"
+  "Aktivieren der Fuzzy-Suche"
+
+  "Enable relative line numbering"
+  "Aktivieren Sie relative Zeilennummerierung"
+
+  "End-of-line character when saving"
+  "Zeilenende Zeichen beim Speichern"
+
+  "Exit the application after the last tab is closed"
+  "Beenden Sie die Anwendung nach dem letzten Tab schließen"
+
+  "Format snippet indentation after insert"
+  "Format-Snippet Einzug nach einfügen"
+
+  "General"
+  "Allgemeines"
+
+  "Hide Patterns"
+  "Muster zu verstecken"
+
+  "Hide binary files"
+  "Binäre Dateien ausblenden"
+
+  "Hiding"
+  "Ausblenden"
+
+  "Highlight matching character"
+  "Markieren Sie dazu passenden Charakter"
+
+  "Host"
+  "Serveradresse"
+
+  "Indentation Spaces"
+  "Einrückung Räume"
+
+  "Languages"
+  "Sprachen"
+
+  "Last"
+  "Letzte"
+
+  "Last accessed"
+  "des letzten Zugriffs"
+
+  "Line count to find for Vim modeline information"
+  "Anzahl der Zeilen für Vim Modeline Informationen finden"
+
+  "Logfile Directory"
+  "Logfile-Verzeichnis"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Maximale rückgängig (eingestellt auf 0 für unbegrenzt)"
+
+  "Mounts"
+  "Halterungen"
+
+  "Parenthesis"
+  "Klammer"
+
+  "Profiler Options"
+  "Profiler-Optionen"
+
+  "Properties"
+  "Immobilien"
+
+  "Recently opened history depth"
+  "Vor kurzem eröffnete Geschichte Tiefe"
+
+  "Remember last position of command launcher"
+  "Erinnere mich an letzte Position des Befehls launcher"
+
+  "Remote Base Directory"
+  "Remote-Basis-Verzeichnis"
+
+  "Remove root directory after last sub-file is closed"
+  "Root-Verzeichnis zu entfernen, nachdem letzte Sub-Datei geschlossen wird"
+
+  "Remove trailing whitespace on save"
+  "Nachgestellte Leerzeichen entfernen auf Speichern"
+
+  "Report Options"
+  "Report Optionen für Benutzer"
+
+  "Retain case"
+  "Fall zu behalten"
+
+  "Return"
+  "Zurück"
+
+  "Ruler column"
+  "Lineal-Spalte"
+
+  "Select default browsing directory"
+  "Wählen Sie Standard-Verzeichnis durchsuchen"
+
+  "Set Find History Depth"
+  "Finden Sie Geschichte Tiefe einstellen"
+
+  "Set Find in Files Line Context"
+  "Suchen in Dateien Zeile Kontext gesetzt"
+
+  "Set Jump Distance"
+  "Eingestellten Sprungdistanz"
+
+  "Set default open/save browsing directory to"
+  "Stellen Sie Standard öffnen/speichern-Verzeichnis-browsing ein"
+
+  "Show 'Find in Files' result in other pane"
+  "Zeigen Sie \"
+
+  "Show diagnostic logfile at startup"
+  "Diagnostischen Logfile beim Start anzeigen"
+
+  "Show difference file in other pane than original"
+  "Show-Unterschied-Datei im anderen Bereich als das original"
+
+  "Show difference file version information"
+  "Dateiversionsinformationen Unterschied zeigen"
+
+  "Show folders at top"
+  "Ordner an Spitze anzeigen"
+
+  "Show menubar"
+  "Menüleiste anzeigen"
+
+  "Single-quote"
+  "Einfaches Anführungszeichen"
+
+  "Snippet Completion Characters"
+  "Snippet Abschluss Zeichen"
+
+  "Sort tabs alphabetically on open"
+  "Art Registerkarten alphabetisch auf Öffnen"
+
+  "Sorting Column"
+  "Spalte sortieren"
+
+  "Space"
+  "abstand"
+
+  "Spaces per tab"
+  "Räume pro Registerkarte \"
+
+  "Square bracket"
+  "Eckige Klammer"
+
+  "Stable"
+  "Stabil"
+
+  "Symbol between CSS property and value"
+  "Symbol zwischen CSS-Eigenschaft und Wert"
+
+  "Symbol placed at end of CSS property"
+  "Symbol am Ende der CSS-Eigenschaft"
+
+  "Syntax Coloring"
+  "Syntax-Einfärbung"
+
+  "Tab"
+  "Tab"
+
+  "Update using release type"
+  "Update mit Abrufart"
+
+  "Use appropriate EOL character on system"
+  "Verwenden Sie geeignete EOL Charakter auf system"
+
+  "Use carriate return linefeed sequence"
+  "Verwenden Sie Carriate return Zeilenvorschub-Sequenz"
+
+  "Use directory"
+  "Verzeichnis verwenden"
+
+  "Use linefeed character"
+  "Zeilenvorschub-Zeichen verwenden"
+
+  "Use original EOL character from file"
+  "Verwenden Sie original EOL-Zeichen aus Datei"
+
+  "Use shortened colors"
+  "Verkürzte Farben verwenden"
+
+  "Use single carriage return character"
+  "Verwenden Sie einzelne Wagenrücklaufzeichen"
+
+  "User guide format"
+  "Benutzer-Guide-format"
+
+  "Variables"
+  "Variablen"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset de {
 # themes.tcl
 msgcat::mcmset de {
 
-  "Theme"
-  "﻿Theme"
-
   "Theme:*"
   "﻿Theme"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset de {
   "Duplicate"
   "Duplikation"
 
+  "Enable code folding"
+  "Aktivieren Code-Faltung"
+
   "Favorite"
   "Bevorzugte"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset de {
   "Save As"
   "Speichern unter"
 
+  "Show console"
+  "Karte-Konsole"
+
+  "Show line numbers"
+  "zeilennummern zeilen nummern"
+
+  "Show marker map"
+  "Marker anzeigen"
+
+  "Show sidebar"
+  "Sidebar anzeigen"
+
+  "Show status bar"
+  "Statusleiste"
+
+  "Show tab bar"
+  "Tab-Leiste anzeigen"
+
   "Split View"
   "Split anzeigen"
+
+  "Theme"
+  "﻿Theme"
 
   "Theme Editor"
   "Motiv-Bearbeitung"

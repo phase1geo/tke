@@ -477,9 +477,6 @@ msgcat::mcmset nl {
   "Enable Vim mode"
   "Vim-modus inschakelen"
 
-  "Enable code folding"
-  "Inschakelen code vouwen"
-
   "Enumeration"
   "telling"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset nl {
   "Show Tab Bar"
   "Show Tab Bar"
 
-  "Show console"
-  "Toon console"
-
   "Show diagnostic logfile"
   "Toon diagnostische logfile"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset nl {
   "Show last profiling report"
   "Toon laatste profilering verslag"
 
-  "Show line numbers"
-  "Regelnummering tonen"
-
-  "Show marker map"
-  "Toon markering kaart"
-
   "Show meta characters"
   "Toon metakarakters"
 
   "Show selected line change"
   "Toon geselecteerde regel wijzigen"
-
-  "Show sidebar"
-  "Toon zijbalk"
-
-  "Show status bar"
-  "Statusbalk tonen"
-
-  "Show tab bar"
-  "Toon tabbalk"
 
   "Smart Indent"
   "Slimme streepje"
@@ -1342,6 +1321,311 @@ msgcat::mcmset nl {
 
   "Syntax errors found in selected plugins"
   "Syntax fouten gevonden in geselecteerde plugins"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset nl {
+
+  "Add"
+  "Toevoegen"
+
+  "Addons"
+  "Addons"
+
+  "Allow scrolling in tab bar"
+  "Laten schuiven in de tabbalk"
+
+  "Angled bracket"
+  "Schuine beugel"
+
+  "Auto-match Characters"
+  "Auto-overeenkomen met tekens"
+
+  "Automatically check for updates on start"
+  "Automatisch controleren op updates op start"
+
+  "Automatically insert vendor prefixes"
+  "Automatisch invoegen van leverancier voorvoegsels"
+
+  "Automatically load last session on start"
+  "Automatisch laden van laatste sessie op start"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Automatisch instellen van de huidige het werk folder naar de huidige map van de tabbladen"
+
+  "Backtick"
+  "Backtick"
+
+  "Base Directory"
+  "Basisfolder"
+
+  "Behaviors"
+  "Gedrag"
+
+  "Browse"
+  "Bladeren"
+
+  "Buffer"
+  "Buffer"
+
+  "Choose"
+  "Kies"
+
+  "Choose Logfile Directory"
+  "Kies Logfile Directory"
+
+  "Clipboard history depth"
+  "Klembord geschiedenis diepte"
+
+  "Color value case"
+  "Kleur waarde geval"
+
+  "Command launcher entry"
+  "Command launcher vermelding"
+
+  "Command launcher preview"
+  "Command launcher preview"
+
+  "Convert to lowercase"
+  "Converteren naar kleine letters"
+
+  "Convert to uppercase"
+  "Converteren naar hoofdletters"
+
+  "Curly bracket"
+  "accolade"
+
+  "Current"
+  "Huidig"
+
+  "Current editing buffer directory"
+  "Huidige bewerken buffer map"
+
+  "Current working directory"
+  "Huidige het werk folder"
+
+  "Default unit for floating point values"
+  "Standaard eenheid voor zwevende puntenwaarden"
+
+  "Default unit for integer values"
+  "Standaardeenheid voor integerwaarden"
+
+  "Development"
+  "Development"
+
+  "Directory"
+  "Bedrijvengids"
+
+  "Double-quote"
+  "Aanhalingsteken"
+
+  "Edit preferences using GUI"
+  "Bewerk voorkeuren met behulp van de GUI"
+
+  "Editor"
+  "Editor"
+
+  "Enable Vim Mode"
+  "Vim-modus inschakelen"
+
+  "Enable auto-indentation"
+  "Inschakelen van auto-inspringing"
+
+  "Enable development mode"
+  "Enable ontwikkeling van mode"
+
+  "Enable fuzzy search"
+  "Fuzzy zoekfunctie inschakelen"
+
+  "Enable relative line numbering"
+  "Inschakelen van de relatieve regelnummering"
+
+  "End-of-line character when saving"
+  "End-of-line karakter bij het opslaan"
+
+  "Exit the application after the last tab is closed"
+  "Sluit de toepassing af na het laatste tabblad is gesloten"
+
+  "Format snippet indentation after insert"
+  "Indeling fragment inspringing na invoegen"
+
+  "General"
+  "Algemeen"
+
+  "Hide Patterns"
+  "Verbergen van patronen"
+
+  "Hide binary files"
+  "Binaire bestanden verbergen"
+
+  "Hiding"
+  "Verborgenheid"
+
+  "Highlight matching character"
+  "Overeenkomende teken markeren"
+
+  "Host"
+  "Host"
+
+  "Indentation Spaces"
+  "Spaties voor inspringen"
+
+  "Languages"
+  "Talen"
+
+  "Last"
+  "Laatste"
+
+  "Last accessed"
+  "Laatst geopend:"
+
+  "Line count to find for Vim modeline information"
+  "Regeltelling te vinden voor Vim modeline informatie"
+
+  "Logfile Directory"
+  "Logfile Directory"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Maximale ongedaan maken geschiedenis (ingesteld op 0 voor onbeperkt)"
+
+  "Mounts"
+  "Beugels"
+
+  "Parenthesis"
+  "Haakje"
+
+  "Profiler Options"
+  "Profiler opties"
+
+  "Properties"
+  "Vastgoed"
+
+  "Recently opened history depth"
+  "Onlangs opende geschiedenis diepte"
+
+  "Remember last position of command launcher"
+  "Vergeet niet de laatste positie voor command launcher"
+
+  "Remote Base Directory"
+  "Externe basisfolder"
+
+  "Remove root directory after last sub-file is closed"
+  "Hoofdmap verwijderen na laatste sub bestand is gesloten"
+
+  "Remove trailing whitespace on save"
+  "De afsluitende witruimte verwijderen op opslaan"
+
+  "Report Options"
+  "Rapor Seçenekleri"
+
+  "Retain case"
+  "Geval behouden"
+
+  "Return"
+  "Retours"
+
+  "Ruler column"
+  "Liniaal kolom"
+
+  "Select default browsing directory"
+  "Selecteer standaard directory browsing"
+
+  "Set Find History Depth"
+  "Zoek geschiedenis diepte instellen"
+
+  "Set Find in Files Line Context"
+  "Zoeken in bestanden lijn Context instellen"
+
+  "Set Jump Distance"
+  "Set sprong afstand"
+
+  "Set default open/save browsing directory to"
+  "Instellen van de standaard open/sparen directory browsing"
+
+  "Show 'Find in Files' result in other pane"
+  "'Zoek in bestanden' resultaat in andere deelvenster weergeven"
+
+  "Show diagnostic logfile at startup"
+  "Diagnostische logfile weergeven bij opstarten"
+
+  "Show difference file in other pane than original"
+  "Diff-bestand in het andere deelvenster dan originele weergeven"
+
+  "Show difference file version information"
+  "Verschil bestand versie-informatie weergeven"
+
+  "Show folders at top"
+  "Mappen boven weergeven"
+
+  "Show menubar"
+  "Menubalk tonen"
+
+  "Single-quote"
+  "Aanhalingsteken"
+
+  "Snippet Completion Characters"
+  "Fragment voltooiing tekens"
+
+  "Sort tabs alphabetically on open"
+  "Sort tabs alfabetisch op open"
+
+  "Sorting Column"
+  "Sorteren van de kolom"
+
+  "Space"
+  "Ruimte"
+
+  "Spaces per tab"
+  "Ruimtes per tabblad"
+
+  "Square bracket"
+  "Haakje"
+
+  "Stable"
+  "Stal"
+
+  "Symbol between CSS property and value"
+  "Symbool tussen CSS-eigenschap en waarde"
+
+  "Symbol placed at end of CSS property"
+  "Teken geplaatst aan einde van CSS-eigenschap"
+
+  "Syntax Coloring"
+  "Syntaxiskleuring"
+
+  "Tab"
+  "Tabblad"
+
+  "Update using release type"
+  "Bijwerken met behulp van release type"
+
+  "Use appropriate EOL character on system"
+  "Gebruik van juiste EOL karakter op systeem"
+
+  "Use carriate return linefeed sequence"
+  "Gebruikt u carriate terugkeer regelinvoer reeks"
+
+  "Use directory"
+  "Directory gebruiken"
+
+  "Use linefeed character"
+  "Linefeed karakter gebruiken"
+
+  "Use original EOL character from file"
+  "Oorspronkelijke EOL karakter uit bestand gebruiken"
+
+  "Use shortened colors"
+  "Verkorte kleuren gebruiken"
+
+  "Use single carriage return character"
+  "Gebruik één terugloopteken"
+
+  "User guide format"
+  "Gebruikersformaat gids"
+
+  "Variables"
+  "Variabelen"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset nl {
 # themes.tcl
 msgcat::mcmset nl {
 
-  "Theme"
-  "Thema"
-
   "Theme:*"
   "Thema"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset nl {
   "Duplicate"
   "Dupliceren"
 
+  "Enable code folding"
+  "Inschakelen code vouwen"
+
   "Favorite"
   "Favoriet"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset nl {
   "Save As"
   "Opslaan als"
 
+  "Show console"
+  "Toon console"
+
+  "Show line numbers"
+  "Regelnummering tonen"
+
+  "Show marker map"
+  "Toon markering kaart"
+
+  "Show sidebar"
+  "Toon zijbalk"
+
+  "Show status bar"
+  "Statusbalk tonen"
+
+  "Show tab bar"
+  "Toon tabbalk"
+
   "Split View"
   "Venster opsplitsen"
+
+  "Theme"
+  "Thema"
 
   "Theme Editor"
   "Thema-editor"

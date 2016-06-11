@@ -477,9 +477,6 @@ msgcat::mcmset hu {
   "Enable Vim mode"
   "Vim-üzemmód engedélyezése"
 
-  "Enable code folding"
-  "Engedélyezi a kód összecsukható"
-
   "Enumeration"
   "számláló"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset hu {
   "Show Tab Bar"
   "A fülek megjelenítése"
 
-  "Show console"
-  "Térkép-konzol"
-
   "Show diagnostic logfile"
   "Diagnosztikai naplófájl megjelenítése"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset hu {
   "Show last profiling report"
   "Utolsó profil jelentés megjelenítése"
 
-  "Show line numbers"
-  "A sorszámok megjelenítése"
-
-  "Show marker map"
-  "Jelölős Térkép megjelenítése"
-
   "Show meta characters"
   "Meta-karakterek megjelenítése"
 
   "Show selected line change"
   "Megjelenítése a kijelölt sor módosítása"
-
-  "Show sidebar"
-  "Oldalsáv megjelenítése?"
-
-  "Show status bar"
-  "Az állapotsor megjelenítése"
-
-  "Show tab bar"
-  "A fülek megjelenítése"
 
   "Smart Indent"
   "Intelligens francia"
@@ -1342,6 +1321,311 @@ msgcat::mcmset hu {
 
   "Syntax errors found in selected plugins"
   "Syntax hibát talált a kiválasztott plugins"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset hu {
+
+  "Add"
+  "Hozzáadás"
+
+  "Addons"
+  "Kiegészítők"
+
+  "Allow scrolling in tab bar"
+  "Lehetővé teszi, hogy görgetés a fülsávon"
+
+  "Angled bracket"
+  "Szögletes zárójel"
+
+  "Auto-match Characters"
+  "Auto-mérkőzés karakter"
+
+  "Automatically check for updates on start"
+  "Gépiesen ellenőriz részére korszerűsít-ra elkezd"
+
+  "Automatically insert vendor prefixes"
+  "Automatikusan illessze be a szállító előtagok"
+
+  "Automatically load last session on start"
+  "Automatikusan betölti a legutóbbi ülésén a start"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Automatikusan beállítja az aktuális munkakönyvtár az aktuális fülek könyvtár"
+
+  "Backtick"
+  "Végrehajtó"
+
+  "Base Directory"
+  "Alapkönyvtára"
+
+  "Behaviors"
+  "Viselkedés"
+
+  "Browse"
+  "Böngészés"
+
+  "Buffer"
+  "Buffer"
+
+  "Choose"
+  "Kiválasztás"
+
+  "Choose Logfile Directory"
+  "Válassza ki a Logfile könyvtár"
+
+  "Clipboard history depth"
+  "Csipeszes írótábla történelem mélység"
+
+  "Color value case"
+  "Szín érték esetén"
+
+  "Command launcher entry"
+  "Parancs launcher bejegyzés"
+
+  "Command launcher preview"
+  "Parancs launcher előnézet"
+
+  "Convert to lowercase"
+  "Konvertálása kisbetűs"
+
+  "Convert to uppercase"
+  "Konvertálása nagybetűs"
+
+  "Curly bracket"
+  "Kapcsos zárójel hozzáadása"
+
+  "Current"
+  "Aktuális"
+
+  "Current editing buffer directory"
+  "Aktuális szerkesztési puffer könyvtár"
+
+  "Current working directory"
+  "Időszerű működő címtár"
+
+  "Default unit for floating point values"
+  "Alapértelmezett egység a lebegőpontos értékek"
+
+  "Default unit for integer values"
+  "Alapértelmezett egység egészszám-értékek"
+
+  "Development"
+  "Fejlesztés"
+
+  "Directory"
+  "Cégjegyzék"
+
+  "Double-quote"
+  "Idézőjel"
+
+  "Edit preferences using GUI"
+  "Használ GUI beállítások szerkesztése"
+
+  "Editor"
+  "Szerkesztő"
+
+  "Enable Vim Mode"
+  "Vim-üzemmód engedélyezése"
+
+  "Enable auto-indentation"
+  "Automatikus kiegészítés engedélyezése"
+
+  "Enable development mode"
+  "Fejlesztési-üzemmód engedélyezése"
+
+  "Enable fuzzy search"
+  "Engedélyezi a fuzzy keresési"
+
+  "Enable relative line numbering"
+  "Engedélyezi a relatív sorszámozás"
+
+  "End-of-line character when saving"
+  "A sor végén karakter mentésekor"
+
+  "Exit the application after the last tab is closed"
+  "Az alkalmazás bezárásáig, az utolsó lap bezárása után"
+
+  "Format snippet indentation after insert"
+  "Formátum részlet behúzás után beszúrása"
+
+  "General"
+  "Általános"
+
+  "Hide Patterns"
+  "Mintáinak elrejtéséhez"
+
+  "Hide binary files"
+  "Bináris fájlok elrejtése"
+
+  "Hiding"
+  "Elrejtése"
+
+  "Highlight matching character"
+  "Jelölje ki a megfelelő karakter"
+
+  "Host"
+  "Munkaállomás"
+
+  "Indentation Spaces"
+  "Szóközök behúzása"
+
+  "Languages"
+  "Nyelvek"
+
+  "Last"
+  "Utolsó"
+
+  "Last accessed"
+  "Utolsó hozzáférés:"
+
+  "Line count to find for Vim modeline information"
+  "Sorok száma Vim modeline információk kereséséhez"
+
+  "Logfile Directory"
+  "Logfile-könyvtár"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Maximális visszavonás történelem (készlet-hoz 0 részére határtalan)"
+
+  "Mounts"
+  "Tartók"
+
+  "Parenthesis"
+  "Zárójel"
+
+  "Profiler Options"
+  "A profilozó beállításai:"
+
+  "Properties"
+  "Ingatlanok"
+
+  "Recently opened history depth"
+  "A közelmúltban megnyílt történelem mélység"
+
+  "Remember last position of command launcher"
+  "Ne feledje, utolsó pozícióban parancs Launcher"
+
+  "Remote Base Directory"
+  "Távoli alapkönyvtára"
+
+  "Remove root directory after last sub-file is closed"
+  "Távolítsa el a gyökér könyvtárban, utolsó Al fájl bezárása után"
+
+  "Remove trailing whitespace on save"
+  "Távolítsa el a záró szóköz a Mentés"
+
+  "Report Options"
+  "A jelentés beállításai"
+
+  "Retain case"
+  "Esetben megtartása"
+
+  "Return"
+  "Visszaút"
+
+  "Ruler column"
+  "Vonalzó oszlop"
+
+  "Select default browsing directory"
+  "Válassza ki az alapértelmezett könyvtár böngészés"
+
+  "Set Find History Depth"
+  "Keresés történelem mélység beállítása"
+
+  "Set Find in Files Line Context"
+  "Set talál fájlok vonal összefüggésben"
+
+  "Set Jump Distance"
+  "Állítsa ugrás távolság"
+
+  "Set default open/save browsing directory to"
+  "Állítsa be az alapértelmezett nyit/megment böngészés a könyvtárban"
+
+  "Show 'Find in Files' result in other pane"
+  "\"
+
+  "Show diagnostic logfile at startup"
+  "Diagnosztikai naplófájl megjelenítése indításkor"
+
+  "Show difference file in other pane than original"
+  "Különbség fájlra mutat a másik ablaktábla, mint eredeti"
+
+  "Show difference file version information"
+  "Különbség a fájl verzióadatok megjelenítése"
+
+  "Show folders at top"
+  "Térkép-mappák tetején"
+
+  "Show menubar"
+  "A menüsáv megjelenítése"
+
+  "Single-quote"
+  "Idézőjel"
+
+  "Snippet Completion Characters"
+  "Részlet befejezése karakterek"
+
+  "Sort tabs alphabetically on open"
+  "Rendezés lapok ABC sorrendben a nyílt"
+
+  "Sorting Column"
+  "Rendezési oszlop"
+
+  "Space"
+  "Hely"
+
+  "Spaces per tab"
+  "Laponkénti terek"
+
+  "Square bracket"
+  "Szögletes zárójel hozzáadása"
+
+  "Stable"
+  "Stabil"
+
+  "Symbol between CSS property and value"
+  "CSS-tulajdonság és az érték közötti szimbólum"
+
+  "Symbol placed at end of CSS property"
+  "Jel végére CSS tulajdonság"
+
+  "Syntax Coloring"
+  "Szintaxis színezés"
+
+  "Tab"
+  "Fül"
+
+  "Update using release type"
+  "Frissítse a kiadás típusú"
+
+  "Use appropriate EOL character on system"
+  "Használja a megfelelő EOL karakter a rendszer"
+
+  "Use carriate return linefeed sequence"
+  "Carriate vissza-soremelés sorrendet alkalmazni"
+
+  "Use directory"
+  "Használja directory"
+
+  "Use linefeed character"
+  "Soremelés karaktert"
+
+  "Use original EOL character from file"
+  "Használja az eredeti EOL karakter fájlból"
+
+  "Use shortened colors"
+  "Rövidített színek"
+
+  "Use single carriage return character"
+  "Használ egy kocsivissza karakternek"
+
+  "User guide format"
+  "Az útmutató formátuma"
+
+  "Variables"
+  "Változók"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset hu {
 # themes.tcl
 msgcat::mcmset hu {
 
-  "Theme"
-  "Sablon"
-
   "Theme:*"
   "Sablon*"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset hu {
   "Duplicate"
   "Megkettőzés"
 
+  "Enable code folding"
+  "Engedélyezi a kód összecsukható"
+
   "Favorite"
   "Kedvenc"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset hu {
   "Save As"
   "Mentés másként"
 
+  "Show console"
+  "Térkép-konzol"
+
+  "Show line numbers"
+  "A sorszámok megjelenítése"
+
+  "Show marker map"
+  "Jelölős Térkép megjelenítése"
+
+  "Show sidebar"
+  "Oldalsáv megjelenítése?"
+
+  "Show status bar"
+  "Az állapotsor megjelenítése"
+
+  "Show tab bar"
+  "A fülek megjelenítése"
+
   "Split View"
   "Osztott nézet"
+
+  "Theme"
+  "Sablon"
 
   "Theme Editor"
   "Témaszerkesztő"

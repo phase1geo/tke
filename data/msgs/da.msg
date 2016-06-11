@@ -477,9 +477,6 @@ msgcat::mcmset da {
   "Enable Vim mode"
   "Aktiver Vim tilstand"
 
-  "Enable code folding"
-  "Aktivere kode foldning"
-
   "Enumeration"
   "tælling af bakterier"
 
@@ -1116,9 +1113,6 @@ msgcat::mcmset da {
   "Show Tab Bar"
   "Vis tab-linje"
 
-  "Show console"
-  "Vis konsol"
-
   "Show diagnostic logfile"
   "Vis diagnostisk logfil"
 
@@ -1128,26 +1122,11 @@ msgcat::mcmset da {
   "Show last profiling report"
   "Vis sidste profilering rapport"
 
-  "Show line numbers"
-  "Vis linjenumre"
-
-  "Show marker map"
-  "Vis markør kort"
-
   "Show meta characters"
   "Vis meta tegn"
 
   "Show selected line change"
   "Vis valgte linje ændring"
-
-  "Show sidebar"
-  "Vis sidebjælke"
-
-  "Show status bar"
-  "Vis statuslinje"
-
-  "Show tab bar"
-  "Vis tab-linje"
 
   "Smart Indent"
   "Smart led"
@@ -1342,6 +1321,311 @@ msgcat::mcmset da {
 
   "Syntax errors found in selected plugins"
   "Syntaksfejl fundet i udvalgte plugins"
+
+}
+
+# pref_ui.tcl
+msgcat::mcmset da {
+
+  "Add"
+  "Tilføj"
+
+  "Addons"
+  "Addons"
+
+  "Allow scrolling in tab bar"
+  "Giver mulighed for rulning i fanebjælken"
+
+  "Angled bracket"
+  "Vinklet beslag"
+
+  "Auto-match Characters"
+  "Auto-match tegn"
+
+  "Automatically check for updates on start"
+  "Søg automatisk efter opdateringer på start"
+
+  "Automatically insert vendor prefixes"
+  "Automatisk indsætte kreditor præfikser"
+
+  "Automatically load last session on start"
+  "Automatisk indlæse sidste session på start"
+
+  "Automatically set the current working directory to the current tabs directory"
+  "Automatisk indstille den aktuelle arbejdsmappe til mappen aktuelle faner"
+
+  "Backtick"
+  "Backtick"
+
+  "Base Directory"
+  "Base Register"
+
+  "Behaviors"
+  "Adfærd"
+
+  "Browse"
+  "Gennemse"
+
+  "Buffer"
+  "Buffer"
+
+  "Choose"
+  "Vælg"
+
+  "Choose Logfile Directory"
+  "Vælg logfil bibliotek"
+
+  "Clipboard history depth"
+  "Clipboard historie dybde"
+
+  "Color value case"
+  "Farven værdi sag"
+
+  "Command launcher entry"
+  "Kommandoen launcher post"
+
+  "Command launcher preview"
+  "Kommandoen launcher preview"
+
+  "Convert to lowercase"
+  "Konvertere til små bogstaver"
+
+  "Convert to uppercase"
+  "Konvertere til store bogstaver"
+
+  "Curly bracket"
+  "tuborgklamme"
+
+  "Current"
+  "Nuværende"
+
+  "Current editing buffer directory"
+  "Nuværende redigering buffer Register"
+
+  "Current working directory"
+  "Indeværende i orden bibliotek"
+
+  "Default unit for floating point values"
+  "Standard enhed for flydende punkt værdier"
+
+  "Default unit for integer values"
+  "Standardenheden for integer værdier"
+
+  "Development"
+  "Udvikling"
+
+  "Directory"
+  "Brugere"
+
+  "Double-quote"
+  "Citationstegn"
+
+  "Edit preferences using GUI"
+  "Redigere indstillinger bruger GUI"
+
+  "Editor"
+  "Redaktør"
+
+  "Enable Vim Mode"
+  "Aktiver Vim tilstand"
+
+  "Enable auto-indentation"
+  "Aktivere auto-indrykning"
+
+  "Enable development mode"
+  "Aktiver udvikling mode"
+
+  "Enable fuzzy search"
+  "Aktivere sproglig søgning"
+
+  "Enable relative line numbering"
+  "Aktivere relative linjenummerering"
+
+  "End-of-line character when saving"
+  "End-of-line karakter når du gemmer"
+
+  "Exit the application after the last tab is closed"
+  "Afslut programmet efter den sidste fane er lukket"
+
+  "Format snippet indentation after insert"
+  "Format snippet indrykning efter Indsæt"
+
+  "General"
+  "Generelt"
+
+  "Hide Patterns"
+  "Skjule mønstre"
+
+  "Hide binary files"
+  "Skjule binære filer"
+
+  "Hiding"
+  "Skjule"
+
+  "Highlight matching character"
+  "Fremhæv matching karakter"
+
+  "Host"
+  "Arrangør"
+
+  "Indentation Spaces"
+  "Indrykning rum"
+
+  "Languages"
+  "Sprog"
+
+  "Last"
+  "Sidste"
+
+  "Last accessed"
+  "Sidst brugt:"
+
+  "Line count to find for Vim modeline information"
+  "Linje tæller at finde Vim modeline oplysninger"
+
+  "Logfile Directory"
+  "Logfile Register"
+
+  "Maximum undo history (set to 0 for unlimited)"
+  "Maksimale Fortryd historie (sat til 0 for ubegrænset)"
+
+  "Mounts"
+  "Mounts"
+
+  "Parenthesis"
+  "Parentes"
+
+  "Profiler Options"
+  "Profiler indstillinger"
+
+  "Properties"
+  "Ejendomme"
+
+  "Recently opened history depth"
+  "For nylig åbnede historie dybde"
+
+  "Remember last position of command launcher"
+  "Husk sidste position af kommandoen løfteraket"
+
+  "Remote Base Directory"
+  "Base fjernmappe"
+
+  "Remove root directory after last sub-file is closed"
+  "Fjerne rodmappen efter sidste underordnede fil er lukket"
+
+  "Remove trailing whitespace on save"
+  "Fjern efterstillede mellemrum på Gem"
+
+  "Report Options"
+  "Rapportindstillinger"
+
+  "Retain case"
+  "Beholde sagen"
+
+  "Return"
+  "Retur"
+
+  "Ruler column"
+  "Lineal kolonne"
+
+  "Select default browsing directory"
+  "Vælg standard gennemser Register"
+
+  "Set Find History Depth"
+  "Sæt Find historie dybde"
+
+  "Set Find in Files Line Context"
+  "Indstille Find i filer linje forbindelse"
+
+  "Set Jump Distance"
+  "Sæt hoppe afstand"
+
+  "Set default open/save browsing directory to"
+  "Indstille standard Åbn/Gem browsing register til"
+
+  "Show 'Find in Files' result in other pane"
+  "Vis 'Find i filer' resultat i anden rude"
+
+  "Show diagnostic logfile at startup"
+  "Vis diagnostisk logfil ved opstart"
+
+  "Show difference file in other pane than original"
+  "Vis differencefilen i anden rude end original"
+
+  "Show difference file version information"
+  "Vis forskellen filversionsoplysninger"
+
+  "Show folders at top"
+  "Vis mapper øverst"
+
+  "Show menubar"
+  "Vis menulinje"
+
+  "Single-quote"
+  "Single-tilbud"
+
+  "Snippet Completion Characters"
+  "Kodestykket afslutning tegn"
+
+  "Sort tabs alphabetically on open"
+  "Sortere faneblade alfabetisk på åbne"
+
+  "Sorting Column"
+  "Sortering kolonne"
+
+  "Space"
+  "Plads"
+
+  "Spaces per tab"
+  "Rum pr. fane"
+
+  "Square bracket"
+  "skarp parentes"
+
+  "Stable"
+  "Stabil"
+
+  "Symbol between CSS property and value"
+  "Symbol mellem CSS ejendom og værdi"
+
+  "Symbol placed at end of CSS property"
+  "Symbol placeret i slutningen af CSS ejendom"
+
+  "Syntax Coloring"
+  "Syntaxfarvning"
+
+  "Tab"
+  "Tabulator"
+
+  "Update using release type"
+  "Opdatere bruger release type"
+
+  "Use appropriate EOL character on system"
+  "Brug passende EOL tegn på systemet"
+
+  "Use carriate return linefeed sequence"
+  "Bruge carriate tilbagevenden LineFeed (linjeskift) sekvens"
+
+  "Use directory"
+  "Brug Register"
+
+  "Use linefeed character"
+  "Brug linjeskift karakter"
+
+  "Use original EOL character from file"
+  "Bruge originale EOL tegn fra fil"
+
+  "Use shortened colors"
+  "Bruge forkortede farver"
+
+  "Use single carriage return character"
+  "Bruge enkelt vognreturtegn"
+
+  "User guide format"
+  "Formatet user guide"
+
+  "Variables"
+  "Variabler"
 
 }
 
@@ -1829,9 +2113,6 @@ msgcat::mcmset da {
 # themes.tcl
 msgcat::mcmset da {
 
-  "Theme"
-  "Tema"
-
   "Theme:*"
   "Tema"
 
@@ -1900,6 +2181,9 @@ msgcat::mcmset da {
   "Duplicate"
   "Dupliker"
 
+  "Enable code folding"
+  "Aktivere kode foldning"
+
   "Favorite"
   "foretrukken"
 
@@ -1930,8 +2214,29 @@ msgcat::mcmset da {
   "Save As"
   "Gem som"
 
+  "Show console"
+  "Vis konsol"
+
+  "Show line numbers"
+  "Vis linjenumre"
+
+  "Show marker map"
+  "Vis markør kort"
+
+  "Show sidebar"
+  "Vis sidebjælke"
+
+  "Show status bar"
+  "Vis statuslinje"
+
+  "Show tab bar"
+  "Vis tab-linje"
+
   "Split View"
   "Opdel visning"
+
+  "Theme"
+  "Tema"
 
   "Theme Editor"
   "Tema Editor"
