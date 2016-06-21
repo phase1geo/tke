@@ -1655,7 +1655,7 @@ namespace eval menus {
 
     # preferences::edit_global
     if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create
+      pref_ui::create "" ""
     } else {
       preferences::edit_global
     }
@@ -1666,7 +1666,11 @@ namespace eval menus {
   # Edits the user current language preference settings.
   proc edit_user_language {} {
 
-    preferences::edit_language
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      pref_ui::create "" [syntax::get_language [gui::current_txt {}]]
+    } else {
+      preferences::edit_language
+    }
 
   }
 
@@ -1674,7 +1678,11 @@ namespace eval menus {
   # Edits the session global preference settings.
   proc edit_session_global {} {
 
-    preferences::edit_global [sessions::current]
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      pref_ui::create [sessions::current] ""
+    } else {
+      preferences::edit_global [sessions::current]
+    }
 
   }
 
@@ -1682,7 +1690,11 @@ namespace eval menus {
   # Edits the session current language preference settings.
   proc edit_session_language {} {
 
-    preferences::edit_language [sessions::current]
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      pref_ui::create [sessions::current] [syntax::get_language [gui::current_txt {}]]
+    } else {
+      preferences::edit_language [sessions::current]
+    }
 
   }
 

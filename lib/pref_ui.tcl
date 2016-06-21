@@ -32,6 +32,7 @@ namespace eval pref_ui {
   array set images      {}
   array set match_chars {}
   array set snip_compl  {}
+  array set prefs       {}
   array set colorizers {
     keywords       0
     comments       0
@@ -48,7 +49,7 @@ namespace eval pref_ui {
   # Make a checkbutton.
   proc make_cb {w msg varname} {
 
-    pack [ttk::checkbutton $w -text [format " %s" $msg] -variable [[ns preferences]::ref $varname]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w -text [format " %s" $msg] -variable pref_ui::prefs($varname)] -fill x -padx 2 -pady 2
 
     # Register the widget for search
     register $w $msg $varname
@@ -59,17 +60,36 @@ namespace eval pref_ui {
 
   ######################################################################
   # Create the preferences window.
-  proc create {} {
+  proc create {session language} {
 
     variable widgets
     variable images
+    variable prefs
+    
+    # Get a copy of the preferences array
+    array unset prefs
+    array set prefs [[ns preferences]::get_loaded $session $language]
 
     if {![winfo exists .prefwin]} {
 
       toplevel     .prefwin
-      wm title     .prefwin "User Preferences"
       wm transient .prefwin .
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
+      
+      # Set the window title
+      if {$session eq ""} {
+        if {$language eq ""} {
+          wm title .prefwin "Global User Preferences"
+        } else {
+          wm title .prefwin "$language User Preferences"
+        }
+      } else {
+        if {$language eq ""} {
+          wm title .prefwin "Global Session ($session) Preferences"
+        } else {
+          wm title .prefwin "$language Session ($session) Preferences"
+        }
+      }
       
       wm withdraw .prefwin
 
@@ -163,7 +183,7 @@ namespace eval pref_ui {
       wm deiconify .prefwin
 
       # Trace on any changes to the preferences variable
-      trace add variable [[ns preferences]::ref] write [list pref_ui::handle_prefs_change]
+      trace add variable pref_ui::prefs write [list pref_ui::handle_prefs_change $session $language]
 
     }
 
@@ -245,10 +265,12 @@ namespace eval pref_ui {
 
   ######################################################################
   # Handles any changes to the preference array.
-  proc handle_prefs_change {name1 name2 op} {
+  proc handle_prefs_change {session language name1 name2 op} {
 
+    variable prefs
+    
     if {[winfo exists .prefwin]} {
-      [ns preferences]::save_prefs
+      [ns preferences]::save_prefs $session $language [array get prefs]
     }
 
   }
@@ -406,6 +428,7 @@ namespace eval pref_ui {
   proc create_general {w} {
 
     variable widgets
+    variable prefs
 
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
@@ -421,8 +444,8 @@ namespace eval pref_ui {
     ttk::label $a.f.ul -text [format "%s: " [set wstr [msgcat::mc "Update using release type"]]]
     set widgets(upd_mb) [ttk::menubutton $a.f.umb -menu [menu $a.updMnu -tearoff 0]]
 
-    $a.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable [[ns preferences]::ref General/UpdateReleaseType] -command [list pref_ui::set_release_type]
-    $a.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable [[ns preferences]::ref General/UpdateReleaseType] -command [list pref_ui::set_release_type]
+    $a.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
+    $a.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
 
     # Register the widget for search
     register $widgets(upd_mb) $wstr General/UpdateReleaseType
@@ -442,13 +465,13 @@ namespace eval pref_ui {
     # Register the widget for search
     register $widgets(browse_mb) $wstr General/DefaultFileBrowserDirectory
 
-    switch [[ns preferences]::get General/DefaultFileBrowserDirectory] {
+    switch $prefs(General/DefaultFileBrowserDirectory) {
       "last"    { $widgets(browse_mb) configure -text [msgcat::mc "Last"] }
       "buffer"  { $widgets(browse_mb) configure -text [msgcat::mc "Buffer"] }
       "current" { $widgets(browse_mb) configure -text [msgcat::mc "Current"] }
       default   {
         $widgets(browse_mb) configure -text [msgcat::mc "Directory"]
-        $widgets(browse_l)  configure -text "     [[ns preferences]::get General/DefaultFileBrowserDirectory]"
+        $widgets(browse_l)  configure -text "     $prefs(General/DefaultFileBrowserDirectory)"
       }
     }
 
@@ -497,7 +520,7 @@ namespace eval pref_ui {
     pack $b.bf -fill x
 
     # Populate the variable table
-    foreach row [[ns preferences]::get General/Variables] {
+    foreach row $prefs(General/Variables) {
       $widgets(var_table) insert end $row
     }
 
@@ -547,8 +570,9 @@ namespace eval pref_ui {
   proc set_release_type {} {
 
     variable widgets
+    variable prefs
 
-    if {[[ns preferences]::get General/UpdateReleaseType] eq "stable"} {
+    if {$prefs(General/UpdateReleaseType) eq "stable"} {
       $widgets(upd_mb) configure -text [msgcat::mc "Stable"]
     } else {
       $widgets(upd_mb) configure -text [msgcat::mc "Development"]
@@ -561,6 +585,7 @@ namespace eval pref_ui {
   proc set_browse_dir {value} {
 
     variable widgets
+    variable prefs
 
     # Clear the browser label text
     $widgets(browse_l) configure -text ""
@@ -585,7 +610,7 @@ namespace eval pref_ui {
     }
 
     # Update the preference value
-    set [[ns preferences]::ref General/DefaultFileBrowserDirectory] $value
+    set prefs(General/DefaultFileBrowserDirectory) $value
 
   }
 
@@ -657,6 +682,7 @@ namespace eval pref_ui {
   proc gather_var_table {} {
 
     variable widgets
+    variable prefs
 
     set values [list]
 
@@ -669,7 +695,7 @@ namespace eval pref_ui {
       }
     }
 
-    set [[ns preferences]::ref General/Variables] $values
+    set prefs(General/Variables) $values
 
   }
 
@@ -680,12 +706,13 @@ namespace eval pref_ui {
 
     variable widgets
     variable images
+    variable prefs
 
     # Get the list of languages to disable
-    set dis_langs [[ns preferences]::get General/DisabledLanguages]
+    set dis_langs $prefs(General/DisabledLanguages)
 
     # Get the extension overrides
-    array set orides [[ns preferences]::get General/LanguagePatternOverrides]
+    array set orides $prefs(General/LanguagePatternOverrides)
 
     # Add all of the languages
     foreach lang [lsort [[ns syntax]::get_all_languages]] {
@@ -715,6 +742,7 @@ namespace eval pref_ui {
   proc handle_lang_left_click {w x y} {
 
     variable images
+    variable prefs
 
     lassign [tablelist::convEventFields $w $x $y] tbl x y
     lassign [split [$tbl containingcell $x $y] ,] row col
@@ -722,7 +750,7 @@ namespace eval pref_ui {
     if {$row >= 0} {
       if {$col == 0} {
         set lang           [$tbl cellcget $row,lang -text]
-        set disabled_langs [[ns preferences]::ref General/DisabledLanguages]
+        set disabled_langs $prefs(General/DisabledLanguages)
         if {[$tbl cellcget $row,$col -text]} {
           $tbl cellconfigure $row,$col -text 0 -image $images(unchecked)
           lappend $disabled_langs $lang
@@ -740,6 +768,8 @@ namespace eval pref_ui {
   # Save the contents to the preference file.
   proc lang_edit_end_command {tbl row col value} {
 
+    variable prefs
+    
     set lang [$tbl cellcget $row,lang -text]
     set exts [[ns syntax]::get_extensions {} $lang]
 
@@ -754,13 +784,13 @@ namespace eval pref_ui {
         lappend lang_oride "+$val"
       }
     }
-    array set pref_orides [[ns preferences]::get General/LanguagePatternOverrides]
+    array set pref_orides $prefs(General/LanguagePatternOverrides)
     if {[llength $lang_oride] == 0} {
       unset pref_orides($lang)
     } else {
       set pref_orides($lang) $lang_oride
     }
-    set [[ns preferences]::ref General/LanguagePatternOverrides] [array get pref_orides]
+    set prefs(General/LanguagePatternOverrides) [array get pref_orides]
 
     return $value
 
@@ -776,10 +806,11 @@ namespace eval pref_ui {
 
     variable widgets
     variable colorizers
+    variable prefs
 
     ttk::frame $w.tf
     ttk::label $w.tf.l -text [format "%s: " [set wstr [msgcat::mc "Theme"]]]
-    set widgets(lang_theme) [ttk::menubutton $w.tf.mb -text [[ns preferences]::get Appearance/Theme] -menu [menu $w.theme_mnu -tearoff 0]]
+    set widgets(lang_theme) [ttk::menubutton $w.tf.mb -text $prefs(Appearance/Theme) -menu [menu $w.theme_mnu -tearoff 0]]
 
     # Register the widget for search
     register $widgets(lang_theme) $wstr Appearance/Theme
@@ -791,7 +822,7 @@ namespace eval pref_ui {
 
     # Pack the colorizer frame
     set i 0
-    set colorize [[ns preferences]::get Appearance/Colorize]
+    set colorize $prefs(Appearance/Colorize)
     foreach type [lsort [array names colorizers]] {
       set colorizers($type) [expr {[lsearch $colorize $type] != -1}]
       grid [ttk::checkbutton $w.cf.$type -text " $type" -variable pref_ui::colorizers($type) -command [list pref_ui::set_colorizers]] -row [expr $i % 3] -column [expr $i / 3] -sticky news -padx 2 -pady 2
@@ -804,13 +835,13 @@ namespace eval pref_ui {
     # Create fonts frame
     ttk::labelframe $w.ff -text "Fonts"
     ttk::label  $w.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
-    ttk::label  $w.ff.f0  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/EditorFont]
+    ttk::label  $w.ff.f0  -text "AaBbCc0123" -font $prefs(Appearance/EditorFont)
     ttk::button $w.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
     ttk::label  $w.ff.l1  -text [format "%s: " [msgcat::mc "Command launcher entry"]]
-    ttk::label  $w.ff.f1  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/CommandLauncherEntryFont]
+    ttk::label  $w.ff.f1  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherEntryFont)
     ttk::button $w.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
     ttk::label  $w.ff.l2  -text [format "%s: " [msgcat::mc "Command launcher preview"]]
-    ttk::label  $w.ff.f2  -text "AaBbCc0123" -font [[ns preferences]::get Appearance/CommandLauncherPreviewFont]
+    ttk::label  $w.ff.f2  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherPreviewFont)
     ttk::button $w.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
 
     # Register the widgets for search
@@ -830,14 +861,14 @@ namespace eval pref_ui {
     grid $w.ff.b2 -row 2 -column 2 -sticky news -padx 2 -pady 2
 
     pack $w.tf     -fill x -padx 2 -pady 2
-    pack $w.cf     -fill x -padx 2 -pady 2
-    pack $w.ff     -fill x -padx 2 -pady 2
+    pack $w.cf     -fill x -padx 2 -pady 4
+    pack $w.ff     -fill x -padx 2 -pady 4
 
     make_cb $w.cl_pos [msgcat::mc "Remember last position of command launcher"] Appearance/CommandLauncherRememberLastPosition
 
     # Populate the themes menu
     foreach theme [themes::get_all_themes] {
-      $w.theme_mnu add command -label $theme -command [list pref_ui::set_theme $theme]
+      $w.theme_mnu add radiobutton -label $theme -variable pref_ui::prefs(Appearance/Theme) -value $theme -command [list pref_ui::set_theme $theme]
     }
 
   }
@@ -850,9 +881,6 @@ namespace eval pref_ui {
 
     $widgets(lang_theme) configure -text $theme
 
-    # Save the theme
-    set [[ns preferences]::ref Appearance/Theme] $theme
-
   }
 
   ######################################################################
@@ -861,6 +889,7 @@ namespace eval pref_ui {
   proc set_colorizers {} {
 
     variable colorizers
+    variable prefs
 
     # Get the list of selected colorizers
     set colorize [list]
@@ -871,7 +900,7 @@ namespace eval pref_ui {
     }
 
     # Set the preference array
-    set [[ns preferences]::ref Appearance/Colorize] [lsort $colorize]
+    set prefs(Appearance/Colorize) [lsort $colorize]
 
   }
 
@@ -879,6 +908,8 @@ namespace eval pref_ui {
   # Sets the given font preference.
   proc set_font {lbl title varname mono} {
 
+    variable prefs
+    
     set opts [list]
     if {$mono} {
       lappend opts -mono 1 -styles Regular
@@ -887,7 +918,7 @@ namespace eval pref_ui {
     # Select the new font
     if {[set new_font [fontchooser -parent .prefwin -title $title -initialfont [$lbl cget -font] -effects 0 {*}$opts]] ne ""} {
       $lbl configure -font $new_font
-      set [[ns preferences]::ref $varname] $new_font
+      set prefs($varname) $new_font
     }
 
   }
@@ -903,6 +934,7 @@ namespace eval pref_ui {
     variable widgets
     variable match_chars
     variable snip_compl
+    variable prefs
 
     ttk::label $w.wwl -text [format "%s: " [set wstr [msgcat::mc "Ruler column"]]]
     set widgets(editor_ww) [ttk::spinbox $w.wwsb -from 20 -to 150 -increment 5 -width 3 -state readonly -command [list pref_ui::set_warning_width]]
@@ -937,7 +969,7 @@ namespace eval pref_ui {
                                cr   [msgcat::mc "Use single carriage return character"] \
                                crlf [msgcat::mc "Use carriate return linefeed sequence"] \
                                lf   [msgcat::mc "Use linefeed character"]] {
-      $w.eol add radiobutton -label $desc -value $value -variable [[ns preferences]::ref Editor/EndOfLineTranslation] -command [list pref_ui::set_eol_translation]
+      $w.eol add radiobutton -label $desc -value $value -variable pref_ui::prefs(Editor/EndOfLineTranslation) -command [list pref_ui::set_eol_translation]
     }
 
     register $widgets(editor_eolmb) $wstr Editor/EndOfLineTranslation
@@ -994,18 +1026,18 @@ namespace eval pref_ui {
     grid $w.cf    -row 8 -column 0 -sticky news -padx 2 -pady 2  -columnspan 4
 
     # Set the UI state to match preference
-    $widgets(editor_ww)  set [[ns preferences]::get Editor/WarningWidth]
-    $widgets(editor_spt) set [[ns preferences]::get Editor/SpacesPerTab]
-    $widgets(editor_is)  set [[ns preferences]::get Editor/IndentSpaces]
-    $widgets(editor_mu)  set [[ns preferences]::get Editor/MaxUndo]
-    $widgets(editor_vml) set [[ns preferences]::get Editor/VimModelines]
+    $widgets(editor_ww)  set $prefs(Editor/WarningWidth)
+    $widgets(editor_spt) set $prefs(Editor/SpacesPerTab)
+    $widgets(editor_is)  set $prefs(Editor/IndentSpaces)
+    $widgets(editor_mu)  set $prefs(Editor/MaxUndo)
+    $widgets(editor_vml) set $prefs(Editor/VimModelines)
 
     foreach char [list square curly angled paren double single btick] {
-      set match_chars($char) [expr {[lsearch [[ns preferences]::get Editor/AutoMatchChars] $char] != -1}]
+      set match_chars($char) [expr {[lsearch $prefs(Editor/AutoMatchChars) $char] != -1}]
     }
 
     foreach char [list space tab return] {
-      set snip_compl($char) [expr {[lsearch [[ns preferences]::get Editor/SnippetCompleters] $char] != -1}]
+      set snip_compl($char) [expr {[lsearch $prefs(Editor/SnippetCompleters) $char] != -1}]
     }
 
     set_eol_translation
@@ -1017,8 +1049,10 @@ namespace eval pref_ui {
   proc set_warning_width {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Editor/WarningWidth] [$widgets(editor_ww) get]
+    set prefs(Editor/WarningWidth) [$widgets(editor_ww) get]
+    
   }
 
   ######################################################################
@@ -1026,8 +1060,9 @@ namespace eval pref_ui {
   proc set_spaces_per_tab {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Editor/SpacesPerTab] [$widgets(editor_spt) get]
+    set prefs(Editor/SpacesPerTab) [$widgets(editor_spt) get]
 
   }
 
@@ -1036,8 +1071,9 @@ namespace eval pref_ui {
   proc set_indent_spaces {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Editor/IndentSpaces] [$widgets(editor_is) get]
+    set prefs(Editor/IndentSpaces) [$widgets(editor_is) get]
 
   }
 
@@ -1046,8 +1082,9 @@ namespace eval pref_ui {
   proc set_max_undo {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Editor/MaxUndo] [$widgets(editor_mu) get]
+    set prefs(Editor/MaxUndo) [$widgets(editor_mu) get]
 
   }
 
@@ -1056,8 +1093,9 @@ namespace eval pref_ui {
   proc set_vim_modelines {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Editor/VimModelines] [$widgets(editor_vml) get]
+    set prefs(Editor/VimModelines) [$widgets(editor_vml) get]
 
   }
 
@@ -1066,6 +1104,7 @@ namespace eval pref_ui {
   proc set_match_chars {} {
 
     variable match_chars
+    variable prefs
 
     set mchars [list]
     foreach char [list square curly angled paren double single btick] {
@@ -1074,7 +1113,7 @@ namespace eval pref_ui {
       }
     }
 
-    set [[ns preferences]::ref Editor/AutoMatchChars] $mchars
+    set prefs(Editor/AutoMatchChars) $mchars
 
   }
 
@@ -1084,6 +1123,7 @@ namespace eval pref_ui {
   proc set_snip_compl {} {
 
     variable snip_compl
+    variable prefs
 
     set schars [list]
     foreach char [list space tab return] {
@@ -1092,7 +1132,7 @@ namespace eval pref_ui {
       }
     }
 
-    set [[ns preferences]::ref Editor/SnippetCompleters] $schars
+    set prefs(Editor/SnippetCompleters) $schars
 
   }
 
@@ -1101,8 +1141,9 @@ namespace eval pref_ui {
   proc set_eol_translation {} {
 
     variable widgets
+    variable prefs
 
-    $widgets(editor_eolmb) configure -text [[ns preferences]::get Editor/EndOfLineTranslation]
+    $widgets(editor_eolmb) configure -text $prefs(Editor/EndOfLineTranslation)
 
   }
 
@@ -1115,6 +1156,7 @@ namespace eval pref_ui {
   proc create_emmet {w} {
 
     variable widgets
+    variable prefs
 
     ttk::notebook $w.nb
 
@@ -1131,29 +1173,29 @@ namespace eval pref_ui {
     foreach {value lbl} [list upper [msgcat::mc "Convert to uppercase"] \
                               lower [msgcat::mc "Convert to lowercase"] \
                               keep  [msgcat::mc "Retain case"]] {
-      $a.ccmb_mnu add radiobutton -label $lbl -value $value -variable [[ns preferences]::ref Emmet/CSSColorCase] -command [list pref_ui::set_css_color_case]
+      $a.ccmb_mnu add radiobutton -label $lbl -value $value -variable pref_ui::prefs(Emmet/CSSColorCase) -command [list pref_ui::set_css_color_case]
     }
 
     register $widgets(emmet_ccmb) $wstr Emmet/CSSColorCase
 
     ttk::label $a.dummy -text ""
     ttk::label $a.iul -text [format "%s: " [set wstr [msgcat::mc "Default unit for integer values"]]]
-    ttk::entry $a.iue -textvariable [[ns preferences]::ref Emmet/CSSIntUnit]
+    ttk::entry $a.iue -textvariable pref_ui::prefs(Emmet/CSSIntUnit)
 
     register $a.iue $wstr Emmet/CSSIntUnit
 
     ttk::label $a.ful -text [format "%s: " [set wstr [msgcat::mc "Default unit for floating point values"]]]
-    ttk::entry $a.fue -textvariable [[ns preferences]::ref Emmet/CSSFloatUnit]
+    ttk::entry $a.fue -textvariable pref_ui::prefs(Emmet/CSSFloatUnit)
 
     register $a.fue $wstr Emmet/CSSFloatUnit
 
     ttk::label $a.vsl -text [format "%s: " [set wstr [msgcat::mc "Symbol between CSS property and value"]]]
-    ttk::entry $a.vse -textvariable [[ns preferences]::ref Emmet/CSSValueSeparator]
+    ttk::entry $a.vse -textvariable pref_ui::prefs(Emmet/CSSValueSeparator)
 
     register $a.vse $wstr Emmet/CSSValueSeparator
 
     ttk::label $a.pel -text [format "%s: " [set wstr [msgcat::mc "Symbol placed at end of CSS property"]]]
-    ttk::entry $a.pee -textvariable [[ns preferences]::ref Emmet/CSSPropertyEnd]
+    ttk::entry $a.pee -textvariable pref_ui::prefs(Emmet/CSSPropertyEnd)
 
     register $a.pee $wstr Emmet/CSSPropertyEnd
 
@@ -1181,7 +1223,7 @@ namespace eval pref_ui {
       pack [tokenentry::tokenentry $b.$ltype.te -height 4 -tokenshape eased] -fill both -expand yes
       bind $b.$ltype.te <<TokenEntryModified>> [list pref_ui::set_properties_addon %W $var]
       pack $b.$ltype -fill x -padx 2 -pady 2
-      $b.$ltype.te tokeninsert end [[ns preferences]::get $var]
+      $b.$ltype.te tokeninsert end $prefs($var)
       register $b.$ltype.te $wstr $var
     }
 
@@ -1197,8 +1239,9 @@ namespace eval pref_ui {
   proc set_css_color_case {} {
 
     variable widgets
+    variable prefs
 
-    $widgets(emmet_ccmb) configure -text [[ns preferences]::get Emmet/CSSColorCase]
+    $widgets(emmet_ccmb) configure -text $prefs(Emmet/CSSColorCase)
 
   }
 
@@ -1206,7 +1249,9 @@ namespace eval pref_ui {
   # Updates the properties addon.
   proc set_properties_addon {w var} {
 
-    set [[ns preferences]::ref $var] [$w tokenget]
+    variable prefs
+    
+    set prefs($var) [$w tokenget]
 
   }
 
@@ -1219,6 +1264,7 @@ namespace eval pref_ui {
   proc create_find {w} {
 
     variable widgets
+    variable prefs
 
     ttk::label $w.mhl -text [format "%s: " [set wstr [msgcat::mc "Set Find History Depth"]]]
     set widgets(find_mh) [ttk::spinbox $w.mh -from 0 -to 100 -width 3 -state readonly -command [list pref_ui::set_max_history]]
@@ -1243,9 +1289,9 @@ namespace eval pref_ui {
     grid $w.jd  -row 2 -column 1 -sticky news -padx 2 -pady 2
 
     # Initialize the widgets
-    $widgets(find_mh) set [[ns preferences]::get Find/MaxHistory]
-    $widgets(find_cn) set [[ns preferences]::get Find/ContextNum]
-    $widgets(find_jd) set [[ns preferences]::get Find/JumpDistance]
+    $widgets(find_mh) set $prefs(Find/MaxHistory)
+    $widgets(find_cn) set $prefs(Find/ContextNum)
+    $widgets(find_jd) set $prefs(Find/JumpDistance)
 
   }
 
@@ -1254,8 +1300,9 @@ namespace eval pref_ui {
   proc set_max_history {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Find/MaxHistory] [$widgets(find_mh) get]
+    set prefs(Find/MaxHistory) [$widgets(find_mh) get]
 
   }
 
@@ -1264,8 +1311,9 @@ namespace eval pref_ui {
   proc set_context_num {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Find/ContextNum] [$widgets(find_cn) get]
+    set prefs(Find/ContextNum) [$widgets(find_cn) get]
 
   }
 
@@ -1274,8 +1322,9 @@ namespace eval pref_ui {
   proc set_jump_distance {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Find/JumpDistance] [$widgets(find_jd) get]
+    set prefs(Find/JumpDistance) [$widgets(find_jd) get]
 
   }
 
@@ -1288,6 +1337,7 @@ namespace eval pref_ui {
   proc create_sidebar {w} {
 
     variable widgets
+    variable prefs
 
     ttk::notebook $w.nb
 
@@ -1312,7 +1362,7 @@ namespace eval pref_ui {
     pack $w.nb -fill both -expand yes
 
     # Insert the tokens
-    $widgets(sb_patterns) tokeninsert end [[ns preferences]::get Sidebar/IgnoreFilePatterns]
+    $widgets(sb_patterns) tokeninsert end $prefs(Sidebar/IgnoreFilePatterns)
 
   }
 
@@ -1321,8 +1371,9 @@ namespace eval pref_ui {
   proc sidebar_pattern_changed {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Sidebar/IgnoreFilePatterns] [$widgets(sb_patterns) tokenget]
+    set prefs(Sidebar/IgnoreFilePatterns) [$widgets(sb_patterns) tokenget]
 
   }
 
@@ -1335,6 +1386,7 @@ namespace eval pref_ui {
   proc create_tools {w} {
 
     variable widgets
+    variable prefs
 
     ttk::frame $w.cf
     make_cb $w.cf.vm [msgcat::mc "Enable Vim Mode"] Tools/VimMode
@@ -1348,7 +1400,7 @@ namespace eval pref_ui {
     grid $w.chdl  -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $w.chdsb -row 1 -column 1 -sticky news -padx 2 -pady 2
 
-    $widgets(tools_chd) set [[ns preferences]::get Tools/ClipboardHistoryDepth]
+    $widgets(tools_chd) set $prefs(Tools/ClipboardHistoryDepth)
 
   }
 
@@ -1357,8 +1409,9 @@ namespace eval pref_ui {
   proc set_clipboard_history {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Tools/ClipboardHistoryDepth] [$widgets(tools_chd) get]
+    set prefs(Tools/ClipboardHistoryDepth) [$widgets(tools_chd) get]
 
   }
 
@@ -1371,6 +1424,7 @@ namespace eval pref_ui {
   proc create_view {w} {
 
     variable widgets
+    variable prefs
 
     make_cb $w.sm   [msgcat::mc "Show menubar"]                                     View/ShowMenubar
     make_cb $w.ss   [msgcat::mc "Show sidebar"]                                     View/ShowSidebar
@@ -1395,7 +1449,7 @@ namespace eval pref_ui {
     pack $w.of -fill x -padx 2 -pady 10
 
     # Initialize the spinbox value
-    $widgets(view_sro) set [[ns preferences]::get View/ShowRecentlyOpened]
+    $widgets(view_sro) set $prefs(View/ShowRecentlyOpened)
 
   }
 
@@ -1404,8 +1458,9 @@ namespace eval pref_ui {
   proc set_show_recently_opened {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref View/ShowRecentlyOpened] [$widgets(view_sro) get]
+    set prefs(View/ShowRecentlyOpened) [$widgets(view_sro) get]
 
   }
 
@@ -1418,6 +1473,7 @@ namespace eval pref_ui {
   proc create_advanced {w} {
 
     variable widgets
+    variable prefs
 
     ttk::notebook $w.nb
 
@@ -1429,7 +1485,7 @@ namespace eval pref_ui {
     register $widgets(advanced_ugf) $wstr Help/UserGuideFormat
 
     foreach type [list pdf epub] {
-      $a.ugf_mnu add radiobutton -label $type -value $type -variable [[ns preferences]::ref Help/UserGuideFormat] -command [list pref_ui::set_user_guide_format]
+      $a.ugf_mnu add radiobutton -label $type -value $type -variable pref_ui::prefs(Help/UserGuideFormat) -command [list pref_ui::set_user_guide_format]
     }
 
     grid $a.ugfl  -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -1451,12 +1507,12 @@ namespace eval pref_ui {
 
     ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]
     ttk::label $b.pf.prsl -text [format "%s: " [set wstr [msgcat::mc "Sorting Column"]]]
-    set widgets(advanced_prs) [ttk::menubutton $b.pf.prsmb -text [[ns preferences]::get Tools/ProfileReportSortby] -menu [menu $b.pf.prs_mnu -tearoff 0]]
+    set widgets(advanced_prs) [ttk::menubutton $b.pf.prsmb -text $prefs(Tools/ProfileReportSortby) -menu [menu $b.pf.prs_mnu -tearoff 0]]
 
     register $widgets(advanced_prs) $wstr Tools/ProfileReportSortby
 
     foreach lbl [list calls real cpu real_per_call cpu_per_call] {
-      $b.pf.prs_mnu add radiobutton -label $lbl -value $lbl -variable [[ns preferences]::ref Tools/ProfileReportSortby] -command [list pref_ui::set_profile_report_sortby]
+      $b.pf.prs_mnu add radiobutton -label $lbl -value $lbl -variable pref_ui::prefs(Tools/ProfileReportSortby) -command [list pref_ui::set_profile_report_sortby]
     }
 
     ttk::label $b.pf.prol -text [format "%s: " [set wstr [msgcat::mc "Report Options"]]]
@@ -1515,10 +1571,10 @@ namespace eval pref_ui {
     set_user_guide_format
     set_profile_report_sortby
 
-    $widgets(advanced_ld) configure -text [[ns preferences]::get Debug/LogDirectory]
-    $widgets(advanced_pro) insert end [[ns preferences]::get Tools/ProfileReportOptions]
+    $widgets(advanced_ld) configure -text $prefs(Debug/LogDirectory)
+    $widgets(advanced_pro) insert end $prefs(Tools/ProfileReportOptions)
 
-    foreach {host values} [[ns preferences]::get NFSMounts] {
+    foreach {host values} $prefs(NFSMounts) {
       lassign $values nfs_mount remote_mount
       $widgets(advanced_tl) insert end [list $host $nfs_mount $remote_mount]
     }
@@ -1531,8 +1587,9 @@ namespace eval pref_ui {
   proc set_user_guide_format {} {
 
     variable widgets
+    variable prefs
 
-    $widgets(advanced_ugf) configure -text [[ns preferences]::get Help/UserGuideFormat]
+    $widgets(advanced_ugf) configure -text $prefs(Help/UserGuideFormat)
 
   }
 
@@ -1542,10 +1599,11 @@ namespace eval pref_ui {
   proc get_log_directory {} {
 
     variable widgets
+    variable prefs
 
     if {[set dname [tk_chooseDirectory -parent .prefwin -title [msgcat::mc "Choose Logfile Directory"]]] ne ""} {
       $widgets(advanced_ld) configure -text $dname
-      set [[ns preferences]::ref Debug/LogDirectory] $dname
+      set prefs(Debug/LogDirectory) $dname
     }
 
   }
@@ -1555,8 +1613,9 @@ namespace eval pref_ui {
   proc set_profile_report_sortby {} {
 
     variable widgets
+    variable prefs
 
-    $widgets(advanced_prs) configure -text [[ns preferences]::get Tools/ProfileReportSortby]
+    $widgets(advanced_prs) configure -text $prefs(Tools/ProfileReportSortby)
 
   }
 
@@ -1565,8 +1624,9 @@ namespace eval pref_ui {
   proc set_profile_report_options {} {
 
     variable widgets
+    variable prefs
 
-    set [[ns preferences]::ref Tools/ProfileReportOptions] [$widgets(advanced_pro) get]
+    set prefs(Tools/ProfileReportOptions) [$widgets(advanced_pro) get]
 
   }
 
@@ -1576,6 +1636,7 @@ namespace eval pref_ui {
   proc set_nfs_mounts {} {
 
     variable widgets
+    variable prefs
 
     set values [list]
 
@@ -1588,7 +1649,7 @@ namespace eval pref_ui {
       }
     }
 
-    set [[ns preferences]::ref NFSMounts] $values
+    set prefs(NFSMounts) $values
 
   }
 
