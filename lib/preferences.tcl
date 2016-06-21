@@ -62,6 +62,28 @@ namespace eval preferences {
   }
 
   ######################################################################
+  # Returns the loaded preference values for the given session name and
+  # language.
+  proc get_loaded {{session ""} {language ""}} {
+    
+    variable loaded_prefs
+    
+    # Figure out key prefix
+    if {($session eq "") || ![info exists loaded_prefs(session,$session,global)]} {
+      set prefix "user"
+    } else {
+      set prefix "session,$session"
+    }
+
+    if {($language eq "") || ![info exists loaded_prefs($prefix,$language)]} {
+      return $loaded_prefs($prefix,global)
+    } else {
+      return $loaded_prefs($prefix,$language)
+    }
+    
+  }
+  
+  ######################################################################
   # Called whenever the current text is changed.  Reloads the preferences
   # based on the given set of preferences.
   proc update_prefs {{session ""}} {
@@ -291,12 +313,45 @@ namespace eval preferences {
 
   ######################################################################
   # Save the preference array to the preferences file.
-  proc save_prefs {} {
+  proc save_prefs {session language data} {
 
     variable user_preferences_file
-    variable prefs
 
-    [ns tkedat]::write $user_preferences_file [array get prefs] 0
+    if {$session eq ""} {
+      
+      # Get the filename to write and update the appropriate loaded_prefs array
+      if {$language eq ""} {
+        set pname $user_preferences_file
+        set loaded_prefs(user,global) $data
+      } else {
+        set pname [file join $::tke_home preferences.$language.tkedat]
+        array set content $data
+        set loaded_prefs(user,$language) [array get content Editor/*]
+      }
+      
+      # Save the data to the preference file
+      [ns tkedat]::write $pname [array get prefs] 0
+      
+    } else {
+      
+      # Get the filename to write and update the appropriate loaded_prefs array
+      if {$language eq ""} {
+        set loaded_prefs(session,$session,global) $data
+      } else {
+        array set content $data
+        set loaded_prefs(session,$session,$language) [array get content Editor/*]
+      }
+      
+      # Save the preference information to the sessions file
+      [ns sessions]::save "prefs" $session
+      
+    }
+
+    # Update the UI
+    update_prefs $session
+
+    # Perform environment variable setting from the General/Variables preference option
+    [ns utils]::set_environment $prefs(General/Variables)
 
   }
 
