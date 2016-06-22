@@ -57,6 +57,92 @@ namespace eval pref_ui {
     return $w
 
   }
+  
+  ######################################################################
+  # Sets up a select submenu for the given menu information.
+  proc create_select_submenu {mnu session} {
+    
+    # Create the new submenu
+    set mnu [menu $mnu.${session}menu -tearoff 0]
+    
+    # Add the submenus
+    $mnu add command -label "Global"   -command [list pref_ui::select $session ""]
+    $mnu add cascade -label "Language" -menu [menu $mnu.langMenu -tearoff 0]
+    
+    # Figure out the height of a menu entry
+    menu .__tmpMenu
+    .__tmpMenu add command -label "foobar"
+    .__tmpMenu add command -label "foobar"
+    update
+    set max_entries [expr ([winfo screenheight .] / [set rheight [winfo reqheight .__tmpMenu]]) * 2]
+    destroy .__tmpMenu
+    
+    # Calculate the number of needed columns
+    set len  [expr [array size langs] + 1]
+    set cols 1
+    while {[expr ($len / $cols) > $max_entries]} {
+      incr cols
+    }
+    
+    # If we are running in Aqua, don't perform the column break
+    set dobreak [expr {[tk windowingsystem] ne "aqua"}]
+    
+    # Populate the menu
+    set i 0
+    foreach lang [lsort [[ns syntax]::get_enabled_languages]] {
+      $mnu.langMenu add command -label $lang -columnbreak [expr (($len / $cols) == $i) && $dobreak] -command [list pref_ui::select $session $lang]
+      set i [expr (($len / $cols) == $i) ? 0 : ($i + 1)]
+    }
+    
+    return $mnu
+    
+  }
+  
+  ######################################################################
+  # Selects the given session language.
+  proc select {session language} {
+    
+    variable widgets
+    variable prefs
+    
+    # Disable traces
+    catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] }
+    
+    # Setup the prefs
+    array unset prefs
+    array set prefs [[ns preferences]::get_loaded $session $language]
+    
+    # Update the selection text
+    if {$session eq ""} {
+      if {$language eq ""} {
+        $widgets(select) configure -text "User Global"
+      } else {
+        $widgets(select) configure -text "User Language - $language"
+      }
+    } else {
+      if {$language eq ""} {
+        $widgets(select) configure -text "Session $session Global"
+      } else {
+        $widgets(select) configure -text "Session $session Language - $language"
+      }
+    }
+    
+    # If we are only changing language information, remove the sidebar and just display the editor pane
+    if {$language ne ""} {
+      grid remove .prefwin.f.bf
+      grid remove .prefwin.f.vsep
+      pane_clicked editor
+      
+    # Otherwise, make sure the entire UI is displayed.
+    } else {
+      grid .prefwin.f.bf
+      grid .prefwin.f.vsep
+    }
+    
+    # Trace on any changes to the preferences variable
+    trace add variable pref_ui::prefs write [list pref_ui::handle_prefs_change $session $language]
+
+  }
 
   ######################################################################
   # Create the preferences window.
@@ -66,43 +152,33 @@ namespace eval pref_ui {
     variable images
     variable prefs
     
-    # Get a copy of the preferences array
-    array unset prefs
-    array set prefs [[ns preferences]::get_loaded $session $language]
-
     if {![winfo exists .prefwin]} {
 
       toplevel     .prefwin
+      wm title     .prefwin "Preferences"
       wm transient .prefwin .
       wm protocol  .prefwin WM_DELETE_WINDOW [list pref_ui::destroy_window]
+      wm withdraw  .prefwin
+
+      ttk::frame .prefwin.sf
+      set widgets(select)  [ttk::menubutton        .prefwin.sf.sel -menu [set widgets(selmenu) [menu .prefwin.sf.selectMenu -tearoff 0]]]
+      set widgets(match_e) [wmarkentry::wmarkentry .prefwin.sf.e   -width 20 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
+
+      pack $widgets(select)  -side left  -padx 2 -pady 2
+      pack $widgets(match_e) -side right -padx 2 -pady 2
       
-      # Set the window title
-      if {$session eq ""} {
-        if {$language eq ""} {
-          wm title .prefwin "Global User Preferences"
-        } else {
-          wm title .prefwin "$language User Preferences"
-        }
-      } else {
-        if {$language eq ""} {
-          wm title .prefwin "Global Session ($session) Preferences"
-        } else {
-          wm title .prefwin "$language Session ($session) Preferences"
-        }
+      # Populate the selection menu
+      $widgets(selmenu) add cascade -label "User" -menu [create_select_submenu $widgets(selmenu) ""]
+      $widgets(selmenu) add separator
+      foreach name [sessions::get_names] {
+        $widgets(selmenu) add cascade -label "Session $name" -menu [create_select_submenu $widgets(selmenu) $name]
       }
       
-      wm withdraw .prefwin
-
-      ttk::frame .prefwin.sf -style NCFrame
-      set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e -width 20 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
-
-      pack $widgets(match_e) -side right -padx 2 -pady 2
-
-      ttk::frame     .prefwin.f -style NCFrame
+      ttk::frame     .prefwin.f
       ttk::separator .prefwin.f.hsep -orient horizontal
-      set widgets(panes) [ttk::frame .prefwin.f.bf -style NCFrame]
+      set widgets(panes) [ttk::frame .prefwin.f.bf]
       ttk::separator .prefwin.f.vsep -orient vertical
-      set widgets(frame) [ttk::frame .prefwin.f.pf -style NCFrame]
+      set widgets(frame) [ttk::frame .prefwin.f.pf]
 
       set widgets(match_f)  [ttk::frame .prefwin.f.mf]
       set widgets(match_lb) [listbox .prefwin.f.mf.lb -relief flat -height 10 -yscrollcommand [list [ns utils]::set_yscrollbar .prefwin.f.mf.vb]]
@@ -128,6 +204,9 @@ namespace eval pref_ui {
       pack .prefwin.sf -fill x
       pack .prefwin.f  -fill both -expand yes
 
+      # Select the given session/language information
+      select $session $language
+
       # Create images
       set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
       set images(unchecked)  [image create photo -file [file join $::tke_dir lib images unchecked.gif]]
@@ -145,9 +224,9 @@ namespace eval pref_ui {
 
       foreach pane $panes {
         if {[info exists images($pane)]} {
-          pack [ttk::label $widgets(panes).$pane -style NCLabel -compound left -image $images($pane) -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
+          pack [ttk::label $widgets(panes).$pane -compound left -image $images($pane) -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         } else {
-          pack [ttk::label $widgets(panes).$pane -style NCLabel -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
+          pack [ttk::label $widgets(panes).$pane -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         }
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
@@ -182,11 +261,8 @@ namespace eval pref_ui {
       # Show the window
       wm deiconify .prefwin
 
-      # Trace on any changes to the preferences variable
-      trace add variable pref_ui::prefs write [list pref_ui::handle_prefs_change $session $language]
-
     }
-
+    
   }
 
 
