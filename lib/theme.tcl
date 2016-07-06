@@ -158,13 +158,6 @@ namespace eval theme {
     ttk::style map       BButton [ttk::style map TButton]
     ttk::style layout    BButton [ttk::style layout TButton]
 
-    # NCFrame
-    foreach {nc t} [list NCFrame TFrame NCLabel TLabel] {
-      ttk::style configure $nc [ttk::style configure $t]
-      ttk::style map       $nc [ttk::style map       $t]
-      ttk::style layout    $nc [ttk::style layout    $t]
-    }
-
   }
 
   # Use the clam style by default
