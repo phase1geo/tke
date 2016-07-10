@@ -104,14 +104,14 @@ namespace eval pref_ui {
     
     variable widgets
     variable prefs
-    
+
     # Disable traces
     catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] }
     
     # Setup the prefs
     array unset prefs
     array set prefs [[ns preferences]::get_loaded $session $language]
-    
+
     # Update the selection text
     if {$session eq ""} {
       if {$language eq ""} {
@@ -344,7 +344,7 @@ namespace eval pref_ui {
   proc handle_prefs_change {session language name1 name2 op} {
 
     variable prefs
-    
+
     if {[winfo exists .prefwin]} {
       [ns preferences]::save_prefs $session $language [array get prefs]
     }
