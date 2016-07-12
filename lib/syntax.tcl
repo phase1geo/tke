@@ -625,7 +625,7 @@ namespace eval syntax {
 
   ######################################################################
   # Repopulates the specified syntax selection menu.
-  proc populate_syntax_menu {mnu} {
+  proc populate_syntax_menu {mnu command varname dflt} {
 
     variable langs
 
@@ -651,12 +651,11 @@ namespace eval syntax {
     $mnu delete 0 end
 
     # Populate the menu with the available languages
-    $mnu add radiobutton -label [format "<%s>" [msgcat::mc "None"]] -variable [ns syntax]::current_lang \
-      -value [msgcat::mc "None"] -command [list [ns syntax]::set_current_language [msgcat::mc "None"]]
+    $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]
     set i 0
     foreach lang [lsort [get_enabled_languages]] {
-      $mnu add radiobutton -label $lang -variable [ns syntax]::current_lang \
-        -value $lang -command [list [ns syntax]::set_current_language $lang] -columnbreak [expr (($len / $cols) == $i) && $dobreak]
+      $mnu add radiobutton -label $lang -variable $varname \
+        -value $lang -command [list {*}$command $lang] -columnbreak [expr (($len / $cols) == $i) && $dobreak]
       set i [expr (($len / $cols) == $i) ? 0 : ($i + 1)]
     }
 
@@ -672,7 +671,7 @@ namespace eval syntax {
     set mnu [menu ${w}Menu -tearoff 0]
 
     # Populate the syntax menu
-    populate_syntax_menu $mnu
+    populate_syntax_menu $mnu [ns syntax]::set_current_language [ns syntax]::current_lang [msgcat::mc "None"]
 
     return $mnu
 
