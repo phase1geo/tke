@@ -26,7 +26,9 @@ namespace eval pref_ui {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable current_panel ""
+  variable current_panel     ""
+  variable selected_session  ""
+  variable selected_language ""
 
   array set widgets     {}
   array set images      {}
@@ -57,88 +59,58 @@ namespace eval pref_ui {
     return $w
 
   }
-  
+
   ######################################################################
   # Sets up a select submenu for the given menu information.
-  proc create_select_submenu {mnu session} {
-    
-    # Create the new submenu
-    set mnu [menu $mnu.${session}menu -tearoff 0]
-    
-    # Add the submenus
-    $mnu add command -label "Global"   -command [list pref_ui::select $session ""]
-    $mnu add cascade -label "Language" -menu [menu $mnu.langMenu -tearoff 0]
-    
-    # Figure out the height of a menu entry
-    menu .__tmpMenu
-    .__tmpMenu add command -label "foobar"
-    .__tmpMenu add command -label "foobar"
-    update
-    set max_entries [expr ([winfo screenheight .] / [set rheight [winfo reqheight .__tmpMenu]]) * 2]
-    destroy .__tmpMenu
-    
-    # Calculate the number of needed columns
-    set len  [expr [array size langs] + 1]
-    set cols 1
-    while {[expr ($len / $cols) > $max_entries]} {
-      incr cols
-    }
-    
-    # If we are running in Aqua, don't perform the column break
-    set dobreak [expr {[tk windowingsystem] ne "aqua"}]
-    
-    # Populate the menu
-    set i 0
-    foreach lang [lsort [[ns syntax]::get_enabled_languages]] {
-      $mnu.langMenu add command -label $lang -columnbreak [expr (($len / $cols) == $i) && $dobreak] -command [list pref_ui::select $session $lang]
-      set i [expr (($len / $cols) == $i) ? 0 : ($i + 1)]
-    }
-    
-    return $mnu
-    
+  proc populate_lang_menu {session} {
+
+    variable widgets
+
+    [ns syntax]::populate_syntax_menu $widgets(sellmenu) [list [ns pref_ui]::select $session] [ns pref_ui]::selected_language "All"
+
   }
-  
+
   ######################################################################
   # Selects the given session language.
   proc select {session language} {
-    
+
     variable widgets
     variable prefs
 
     # Disable traces
     catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] }
-    
+
+    # Update the menubuttons text
+    $widgets(select_s) configure -text "Session: $session"
+    $widgets(select_l) configure -text "Language: $language"
+
+    # Update the language menu in case the user changed the session
+    populate_lang_menu $session
+
+    # Translate the session and language values
+    if {$session eq "None"} {
+      set session ""
+    }
+    if {$language eq "All"} {
+      set language ""
+    }
+
     # Setup the prefs
     array unset prefs
     array set prefs [[ns preferences]::get_loaded $session $language]
 
-    # Update the selection text
-    if {$session eq ""} {
-      if {$language eq ""} {
-        $widgets(select) configure -text "User Global"
-      } else {
-        $widgets(select) configure -text "User Language - $language"
-      }
-    } else {
-      if {$language eq ""} {
-        $widgets(select) configure -text "Session $session Global"
-      } else {
-        $widgets(select) configure -text "Session $session Language - $language"
-      }
-    }
-    
     # If we are only changing language information, remove the sidebar and just display the editor pane
     if {$language ne ""} {
       grid remove .prefwin.f.bf
       grid remove .prefwin.f.vsep
       pane_clicked editor
-      
+
     # Otherwise, make sure the entire UI is displayed.
     } else {
       grid .prefwin.f.bf
       grid .prefwin.f.vsep
     }
-    
+
     # Trace on any changes to the preferences variable
     trace add variable pref_ui::prefs write [list pref_ui::handle_prefs_change $session $language]
 
@@ -151,7 +123,9 @@ namespace eval pref_ui {
     variable widgets
     variable images
     variable prefs
-    
+    variable selected_session
+    variable selected_language
+
     if {![winfo exists .prefwin]} {
 
       toplevel     .prefwin
@@ -161,19 +135,26 @@ namespace eval pref_ui {
       wm withdraw  .prefwin
 
       ttk::frame .prefwin.sf
-      set widgets(select)  [ttk::menubutton        .prefwin.sf.sel -menu [set widgets(selmenu) [menu .prefwin.sf.selectMenu -tearoff 0]]]
-      set widgets(match_e) [wmarkentry::wmarkentry .prefwin.sf.e   -width 20 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
+      set widgets(select_s) [ttk::menubutton        .prefwin.sf.sels -menu [set widgets(selsmenu) [menu .prefwin.sf.selectSessionMenu -tearoff 0]]]
+      set widgets(select_l) [ttk::menubutton        .prefwin.sf.sell -menu [set widgets(sellmenu) [menu .prefwin.sf.selectLangMenu    -tearoff 0]]]
+      set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 20 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
 
-      pack $widgets(select)  -side left  -padx 2 -pady 2
+      # Initialize the syntax menu
+      set selected_session  [expr {($session  eq "") ? "None" : $session}]
+      set selected_language [expr {($language eq "") ? "All"  : $language}]
+      populate_lang_menu $selected_session
+
+      pack $widgets(select_s) -side left  -padx 2 -pady 2
+      pack $widgets(select_l) -side left  -padx 2 -pady 2
       pack $widgets(match_e) -side right -padx 2 -pady 2
-      
+
       # Populate the selection menu
-      $widgets(selmenu) add cascade -label "User" -menu [create_select_submenu $widgets(selmenu) ""]
-      $widgets(selmenu) add separator
+      $widgets(selsmenu) add radiobutton -label "None" -variable [ns pref_ui::selected_session] -value "None" -command [list [ns pref_ui]::select "None" $selected_language]
+      $widgets(selsmenu) add separator
       foreach name [sessions::get_names] {
-        $widgets(selmenu) add cascade -label "Session $name" -menu [create_select_submenu $widgets(selmenu) $name]
+        $widgets(selsmenu) add radiobutton -label $name -variable [ns pref_ui::selected_session] -value $name -command [list [ns pref_ui]::select $name $selected_language]
       }
-      
+
       ttk::frame     .prefwin.f
       ttk::separator .prefwin.f.hsep -orient horizontal
       set widgets(panes) [ttk::frame .prefwin.f.bf]
@@ -219,7 +200,7 @@ namespace eval pref_ui {
       set images(view)       [image create photo -file [file join $::tke_dir lib images view.gif]]
       set images(tools)      [image create photo -file [file join $::tke_dir lib images tools.gif]]
       set images(advanced)   [image create photo -file [file join $::tke_dir lib images advanced.gif]]
-      
+
       set panes [list general appearance editor emmet find sidebar tools view advanced]
 
       foreach pane $panes {
@@ -231,20 +212,20 @@ namespace eval pref_ui {
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
-      
+
       # Allow the panel dimensions to be calculatable
       update
-      
+
       # Get the requested panel dimensions
       foreach pane $panes {
         lappend heights [winfo reqheight $widgets($pane)]
         lappend widths  [winfo reqwidth  $widgets($pane)]
       }
-      
+
       # Calculate the geometry
       set win_width  [expr [lindex [lsort -integer $widths]  end] + [winfo reqwidth  .prefwin.f.vsep] + [winfo reqwidth  $widgets(panes)]]
       set win_height [expr [lindex [lsort -integer $heights] end] + [winfo reqheight .prefwin.f.hsep] + [winfo reqheight .prefwin.sf]]
-      
+
       # Set the minimum size of the window
       wm geometry  .prefwin ${win_width}x${win_height}
       wm resizable .prefwin 0 0
@@ -257,12 +238,12 @@ namespace eval pref_ui {
 
       # Give the search panel the focus
       focus .prefwin.sf.e
-      
+
       # Show the window
       wm deiconify .prefwin
 
     }
-    
+
   }
 
 
@@ -277,15 +258,15 @@ namespace eval pref_ui {
 
     # Remove the results frame
     catch { place forget $widgets(match_f) }
-    
+
     # Clear all of the panel selection labels, if necessary
     foreach p [winfo children $widgets(panes)] {
       $p state !active
     }
-    
+
     # Set the color of the label to the given color
     $widgets(panes).$panel state active
-    
+
     # Show the panel
     show_panel $panel
 
@@ -402,7 +383,7 @@ namespace eval pref_ui {
     foreach p [winfo children $widgets(panes)] {
       $p state !active
     }
-    
+
     # Display the tab if there is only one match
     foreach tab [array names tabs1] {
       $tab state active
@@ -425,16 +406,16 @@ namespace eval pref_ui {
 
     variable widgets
     variable search
-    
+
     # Get the selected item
     set selected_value [$widgets(match_lb) get active]
-    
+
     # Get the information from the matching element
     lassign $search($selected_value) win lbl tab1 tab2
-    
+
     # Select the pane containing the item
     pane_clicked [lindex [split $tab1 .] end]
-    
+
     # If the element exists within a notebook tab, display it
     if {$tab2 ne ""} {
       [winfo parent $tab2] select $tab2
@@ -448,7 +429,7 @@ namespace eval pref_ui {
 
     # Give the focus to the matching element
     focus $win
-    
+
   }
 
   ######################################################################
@@ -463,7 +444,7 @@ namespace eval pref_ui {
 
     # Remove the results frame
     catch { place forget $widgets(match_f) }
-    
+
     # Make sure that the current tab is selected
     pane_clicked $current_panel
 
@@ -845,7 +826,7 @@ namespace eval pref_ui {
   proc lang_edit_end_command {tbl row col value} {
 
     variable prefs
-    
+
     set lang [$tbl cellcget $row,lang -text]
     set exts [[ns syntax]::get_extensions {} $lang]
 
@@ -985,7 +966,7 @@ namespace eval pref_ui {
   proc set_font {lbl title varname mono} {
 
     variable prefs
-    
+
     set opts [list]
     if {$mono} {
       lappend opts -mono 1 -styles Regular
@@ -1128,7 +1109,7 @@ namespace eval pref_ui {
     variable prefs
 
     set prefs(Editor/WarningWidth) [$widgets(editor_ww) get]
-    
+
   }
 
   ######################################################################
@@ -1326,7 +1307,7 @@ namespace eval pref_ui {
   proc set_properties_addon {w var} {
 
     variable prefs
-    
+
     set prefs($var) [$w tokenget]
 
   }
