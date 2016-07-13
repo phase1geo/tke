@@ -144,8 +144,8 @@ namespace eval pref_ui {
       set selected_language [expr {($language eq "") ? "All"  : $language}]
       populate_lang_menu $selected_session
 
-      pack $widgets(select_s) -side left  -padx 2 -pady 2
-      pack $widgets(select_l) -side left  -padx 2 -pady 2
+      place $widgets(select_s) -relx 0    -rely 0 -relwidth 0.25
+      place $widgets(select_l) -relx 0.25 -rely 0 -relwidth 0.25
       pack $widgets(match_e) -side right -padx 2 -pady 2
 
       # Populate the selection menu
@@ -186,7 +186,7 @@ namespace eval pref_ui {
       pack .prefwin.f  -fill both -expand yes
 
       # Select the given session/language information
-      select $session $language
+      select $selected_session $selected_language
 
       # Create images
       set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
