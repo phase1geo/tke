@@ -131,7 +131,7 @@ namespace eval sessions {
       [ns gui]::set_info_message "Session \"$current_name\" saved"
 
     } elseif {$type eq "prefs"} {
-      [ns gui]::set_info_message "Session \"$current_name\" preferences saved"
+      [ns gui]::set_info_message "Session \"$name\" preferences saved"
 
     }
 
@@ -214,6 +214,29 @@ namespace eval sessions {
 
     # Update the title
     [ns gui]::set_title
+
+  }
+
+  ######################################################################
+  # Load the preferences information for the given session.
+  proc load_prefs {name} {
+
+    variable sessions_dir
+
+    # Get the path of the session file
+    set session_file [file join $sessions_dir $name.tkedat]
+
+    # Read the information from the session file
+    if {[catch { [ns tkedat]::read $session_file } rc]} {
+      return
+    }
+
+    array set content $rc
+
+    # Load the preference session information (provide backward compatibility)
+    if {[info exists content(prefs)]} {
+      [ns preferences]::load_session $name $content(prefs)
+    }
 
   }
 
