@@ -68,6 +68,11 @@ namespace eval preferences {
 
     variable loaded_prefs
 
+    # If the session has not been previously loaded, attempt to do it now
+    if {($session ne "") && ![info exists loaded_prefs(session,$session,global)]} {
+      [ns sessions]::load_prefs $session
+    }
+
     # Figure out key prefix
     if {($session eq "") || ![info exists loaded_prefs(session,$session,global)]} {
       set prefix "user"
@@ -349,11 +354,16 @@ namespace eval preferences {
 
     }
 
-    # Update the UI
-    update_prefs $session
+    # Update the UI/environment if the session name matches the current one
+    if {$session eq [[ns sessions]::current]} {
 
-    # Perform environment variable setting from the General/Variables preference option
-    [ns utils]::set_environment $prefs(General/Variables)
+      # Update the UI
+      update_prefs $session
+
+      # Perform environment variable setting from the General/Variables preference option
+      [ns utils]::set_environment $prefs(General/Variables)
+
+    }
 
   }
 
@@ -479,7 +489,9 @@ namespace eval preferences {
     array set loaded_prefs $data
 
     # Update the UI
-    update_prefs $name
+    if {$name eq [[ns sessions]::current]} {
+      update_prefs $name
+    }
 
   }
 
