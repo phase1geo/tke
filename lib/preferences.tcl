@@ -68,6 +68,8 @@ namespace eval preferences {
 
     variable loaded_prefs
 
+    puts "In get_loaded, session: $session, exists: [info exists loaded_prefs(session,$session,global)]"
+
     # If the session has not been previously loaded, attempt to do it now
     if {($session ne "") && ![info exists loaded_prefs(session,$session,global)]} {
       [ns sessions]::load_prefs $session
@@ -96,17 +98,16 @@ namespace eval preferences {
     variable loaded_prefs
     variable prefs
 
-    # Figure out key prefix
-    if {($session eq "") || ![info exists loaded_prefs(session,$session,global)]} {
-      set prefix "user"
-    } else {
+    # Calculate the preference prefix
+    if {($session ne "") && [info exists loaded_prefs(session,$session,global)]} {
       set prefix "session,$session"
+    } else {
+      set prefix "user"
     }
 
-    # Load the user global prefs
     array set temp_prefs $loaded_prefs($prefix,global)
 
-    # Load language-specific preferences
+    # Load language-specific preferences, if necessary
     if {([set txt [[ns gui]::current_txt {}]] ne "") && \
         ([set language [[ns syntax]::get_language $txt]] ne "None") && \
         [info exists loaded_prefs($prefix,$language)]} {
@@ -483,10 +484,25 @@ namespace eval preferences {
   # Loads session information.
   proc load_session {name data} {
 
+    variable base_prefs
     variable loaded_prefs
 
+    # Make sure that the base preferences are loaded
+    load_base_prefs
+
+    # Get the session key and data
+    lassign $data key sdata
+
+    puts "Setting loaded_prefs($key)"
+
+    # Initialize with the base preferences (to make sure that we don't allow session preferences to get stale)
+    set loaded_prefs($key) [array get base_prefs]
+
+    # Override base preferences with user preferences
+    set loaded_prefs($key) $loaded_prefs(user,global)
+
     # Set the incoming preference information into the loaded_prefs array
-    array set loaded_prefs $data
+    set loaded_prefs($key) $sdata
 
     # Update the UI
     if {$name eq [[ns sessions]::current]} {
