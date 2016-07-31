@@ -123,7 +123,7 @@ namespace eval themes {
     if {[info exists files($user_theme)]} {
       theme::load_theme $files($user_theme)
     } else {
-      theme::load_theme $files(default)
+      theme::load_theme $files(Default)
     }
 
   }
