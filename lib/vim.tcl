@@ -163,7 +163,7 @@ namespace eval vim {
     variable modeline
     variable modelines
 
-    if {$modelines && $modeline($txt.t)} {
+    if {$modelines && (![info exists modeline($txt.t)] || $modeline($txt.t))} {
 
       foreach line [split [$txt get 1.0 "1.0+${modelines}l"] \n] {
         if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|vim=\d+|ex):\s*(set\s+(.*):|(.*)$)} $line -> dummy1 dummy2 opts1 opts2]} {
