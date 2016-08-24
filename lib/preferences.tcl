@@ -68,10 +68,11 @@ namespace eval preferences {
 
     variable loaded_prefs
 
-    puts "In get_loaded, session: $session, exists: [info exists loaded_prefs(session,$session,global)]"
+    puts "In get_loaded, session: $session, language: $language, exists: [info exists loaded_prefs(session,$session,global)]"
 
     # If the session has not been previously loaded, attempt to do it now
     if {($session ne "") && ![info exists loaded_prefs(session,$session,global)]} {
+      puts "HERE 0"
       [ns sessions]::load_prefs $session
     }
 
@@ -81,6 +82,8 @@ namespace eval preferences {
     } else {
       set prefix "session,$session"
     }
+
+    puts "  prefix: $prefix"
 
     if {($language eq "") || ![info exists loaded_prefs($prefix,$language)]} {
       return $loaded_prefs($prefix,global)

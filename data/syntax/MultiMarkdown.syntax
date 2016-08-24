@@ -1,0 +1,25 @@
+filepatterns
+{*.md}
+
+vimsyntax
+{}
+
+embedded
+{
+  {Markdown}
+}
+
+tabsallowed
+{1}
+
+casesensitive
+{1}
+
+advanced {
+  HighlightClass link miscellaneous1 {underline click}
+  HighlightClass grey meta           {}
+
+  HighlightRegexp {\[\^.+?\]$|\[\^.+?\][^:]} syntax::get_multimarkdown_footnote
+  HighlightRegexp {\[\^.+?\]:\s+\S+}         syntax::get_multimarkdown_footnoteref
+}
+

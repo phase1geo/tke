@@ -1017,6 +1017,40 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Returns the information for the given MultiMarkdown footnote string.
+  proc get_multimarkdown_footnote {txt startpos endpos ins} {
+
+    if {[$txt get "$startpos-1c"] ne "\\"} {
+      if {[regexp {^\[\^(.+?)\]} [$txt get $startpos $endpos] -> label]} {
+        return [list [list [list link [$txt index "$startpos+2c"] [$txt index "$startpos+[expr [string length $label] + 2]c"] [list]] \
+                           [list grey $startpos [$txt index "$startpos+2c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos] [list]]]
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the information for the given Markdown link reference.
+  proc get_multimarkdown_footnoteref {txt startpos endpos ins} {
+
+    variable markdown_linkrefs
+
+    if {[$txt get "$startpos-1c"] ne "\\"} {
+      if {[regexp {^\s*\[\^(.+?)\]:\s+(\S+)} [$txt get $startpos $endpos] -> fnref desc]} {
+        return [list [list [list link [$txt index "$startpos+2c"] [$txt index "$startpos+[expr [string length $fnref] + 2]c"] [list]] \
+                           [list grey $startpos [$txt index "$startpos+2c"] [list]] \
+                           [list grey [$txt index "$startpos+[expr [string length $fnref] + 2]c"] [$txt index "$startpos+[expr [string length $fnref] + 4]c"] [list]]]]
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
   # Checks to see if the previous line contains a list item and inserts
   # a new list item of the same type.
   proc get_markdown_list_check {txt startpos endpos ins} {
