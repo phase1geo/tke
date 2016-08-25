@@ -287,7 +287,12 @@ namespace eval vim {
 
           # Open a new file
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
-            [ns gui]::add_file end [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            set filename [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            if {[file exists $filename]} {
+              [ns gui]::add_file end $filename
+            } else {
+              [ns gui]::add_new_file end -name $filename
+            }
 
           # Save/quit the entire file with a new name
           } elseif {[regexp {^w(q)?(!)?\s+(.*)$} $value -> and_close and_force filename]} {
@@ -3530,23 +3535,23 @@ namespace eval vim {
     return [handle_h $txtt $tid]
 
   }
-  
+
   ######################################################################
   # This is just a synonym for the 'k' command so we'll just call the
   # handle_k procedure instead of replicating the code.
   proc handle_Up {txtt tid} {
-    
+
     return [handle_k $txtt $tid]
-    
+
   }
-  
+
   ######################################################################
   # This is just a synonym for the 'j' command so we'll just call the
   # handle_j procedure instead of replicating the code.
   proc handle_Down {txtt tid} {
-    
+
     return [handle_j $txtt $tid]
-    
+
   }
 
   ######################################################################
