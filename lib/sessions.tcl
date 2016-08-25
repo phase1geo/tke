@@ -264,6 +264,9 @@ namespace eval sessions {
     # Update the window title
     [ns gui]::set_title
 
+    # Load the default preferences
+    [ns preferences]::update_prefs
+
   }
 
   ######################################################################
