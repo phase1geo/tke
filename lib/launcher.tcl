@@ -299,8 +299,8 @@ namespace eval launcher {
     variable move_info
 
     if {[[ns preferences]::get Appearance/CommandLauncherRememberLastPosition] == 0} {
-      unset move_info(save_x)
-      unset move_info(save_y)
+      catch { unset move_info(save_x) }
+      catch { unset move_info(save_y) }
     }
 
   }
