@@ -98,8 +98,10 @@ namespace eval sessions {
       # Get the session information from the UI
       set content(gui) [[ns gui]::save_session]
 
-      # Set the session name
-      set content(session) $current_name
+      # Set the session name if we are saving the last
+      if {$type eq "last"} {
+        set content(session) $current_name
+      }
 
     }
 
@@ -197,16 +199,16 @@ namespace eval sessions {
       [ns search]::load_session $content(find)
     }
 
-    # Load the preference session information (provide backward compatibility)
-    if {[info exists content(prefs)] && ($type ne "last")} {
-      [ns preferences]::load_session $name $content(prefs)
-    }
-
     # Save the current name (provide backward compatibility)
-    if {[info exists content(session)]} {
+    if {[info exists content(session)] && [file exists [file join $sessions_dir $content(session).tkedat]]} {
       set current_name $content(session)
     } else {
       set current_name [expr {($type eq "last") ? "" : $name}]
+    }
+
+    # Load the preference session information (provide backward compatibility)
+    if {[info exists content(prefs)]} {
+      [ns preferences]::load_session $name $content(prefs)
     }
 
     # Save the current content
