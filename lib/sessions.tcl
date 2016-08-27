@@ -92,6 +92,9 @@ namespace eval sessions {
       # Get the current content information
       array set content [array get current_content]
 
+      # Make sure that the content(session) is not set
+      catch { unset content(session) }
+
     # Update and save the UI state on a full/last save
     } else {
 
