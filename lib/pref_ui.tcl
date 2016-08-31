@@ -76,6 +76,7 @@ namespace eval pref_ui {
 
     variable widgets
     variable prefs
+    variable current_panel
 
     # Disable traces
     catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] }
@@ -113,6 +114,10 @@ namespace eval pref_ui {
     } else {
       grid .prefwin.f.bf
       grid .prefwin.f.vsep
+
+      if {!$init} {
+        pane_clicked $current_panel
+      }
     }
 
     # Trace on any changes to the preferences variable
@@ -346,8 +351,15 @@ namespace eval pref_ui {
 
     variable widgets
     variable search
+    variable selected_language
 
-    foreach match [array names search -regexp (?i).*$request.*] {
+    if {$selected_language eq "All"} {
+      set matches [array names search -regexp (?i).*$request.*::.]
+    } else {
+      set matches [array names search -regexp (?i).*$request.*::1]
+    }
+
+    foreach match $matches {
       lassign $search($match) win lbl tab1 tab2
       set tabs1($tab1) [list $win $lbl]
       if {$tab2 ne ""} {
@@ -363,6 +375,7 @@ namespace eval pref_ui {
 
     variable widgets
     variable search
+    variable selected_language
 
     set matches [list]
 
@@ -370,7 +383,12 @@ namespace eval pref_ui {
 
     # Get the list of matches
     if {$value ne ""} {
-      foreach match [set matches [array names search -regexp (?i).*$value.*]] {
+      if {$selected_language eq "All"} {
+        set matches [array names search -regexp (?i).*$value.*::.]
+      } else {
+        set matches [array names search -regexp (?i).*$value.*::1]
+      }
+      foreach match $matches {
         lassign $search($match) win lbl tab1 tab2
         set tabs1($tab1) [list $win $lbl]
       }
@@ -380,7 +398,7 @@ namespace eval pref_ui {
     if {[set match_len [llength $matches]] > 0} {
       $widgets(match_lb) delete 0 end
       foreach match $matches {
-        $widgets(match_lb) insert end $match
+        $widgets(match_lb) insert end [lindex [split $match ::] 0]
       }
       $widgets(match_lb) configure -height [expr (($match_len) > 10) ? 10 : $match_len]
       place $widgets(match_f) -relx 0.5 -relwidth 0.5 -rely 0.0
@@ -419,7 +437,8 @@ namespace eval pref_ui {
     set selected_value [$widgets(match_lb) get active]
 
     # Get the information from the matching element
-    lassign $search($selected_value) win lbl tab1 tab2
+    set key [array names search ${selected_value}::*]
+    lassign $search($key) win lbl tab1 tab2
 
     # Select the pane containing the item
     pane_clicked [lindex [split $tab1 .] end]
@@ -475,11 +494,13 @@ namespace eval pref_ui {
       }
     }
 
-    set var          [lindex [split $var /] end]
-    set search($var) [list $w $str {*}$tabs]
+    lassign [split $var /] category var
+
+    set lang_only    [expr {($category eq "Editor") ? 1 : 0}]
+    set search(${var}::$lang_only) [list $w $str {*}$tabs]
 
     if {$str ne ""} {
-      set search($str) [list $w $str {*}$tabs]
+      set search(${str}::$lang_only) [list $w $str {*}$tabs]
     }
 
   }
