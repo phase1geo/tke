@@ -230,6 +230,41 @@ namespace eval gui {
       -maskfile [file join $::tke_dir lib images diff.bmp] \
       -foreground 1
 
+    # Create preference images
+    theme::register_image pref_checked photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window to indicate that a table item is selected."} \
+      -file [file join $::tke_dir lib images checked.gif]
+    theme::register_image pref_unchecked photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window to indicate that a table item is deselected."} \
+      -file [file join $::tke_dir lib images unchecked.gif]
+    theme::register_image pref_general photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the General tab."} \
+      -file [file join $::tke_dir lib images general.gif]
+    theme::register_image pref_appearance photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Appearance tab."} \
+      -file [file join $::tke_dir lib images appearance.gif]
+    theme::register_image pref_editor photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Editor tab."} \
+      -file [file join $::tke_dir lib images editor.gif]
+    theme::register_image pref_emmet photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Emmet tab."} \
+      -file [file join $::tke_dir lib images emmet.gif]
+    theme::register_image pref_find photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Find tab."} \
+      -file [file join $::tke_dir lib images find.gif]
+    theme::register_image pref_sidebar photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Sidebar tab."} \
+      -file [file join $::tke_dir lib images sidebar.gif]
+    theme::register_image pref_view photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the View tab."} \
+      -file [file join $::tke_dir lib images view.gif]
+    theme::register_image pref_tools photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Tools tab."} \
+      -file [file join $::tke_dir lib images tools.gif]
+    theme::register_image pref_advanced photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Advanced tab."} \
+      -file [file join $::tke_dir lib images advanced.gif]
+
   }
 
   ######################################################################
