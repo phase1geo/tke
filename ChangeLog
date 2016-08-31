@@ -1,26 +1,227 @@
-changeset:   2209:49d7991cbd39
-tag:         devel-2.5.1
+changeset:   2212:ebdd95772409
+tag:         devel-2.5.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 02 08:47:13 2016 -0500
+date:        Fri Jun 03 11:57:29 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.5.1 release
+ChangeLog for devel-2.5.2 release
 
 
-changeset:   2210:4e56b19fe4b9
+changeset:   2213:38321a7fe419
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Jun 02 08:47:18 2016 -0500
+date:        Fri Jun 03 11:57:33 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.5.1 for changeset 49d7991cbd39
+Added tag devel-2.5.2 for changeset ebdd95772409
 
 
-changeset:   2211:4c18073afb55
+changeset:   2214:90cdb2815c4c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 03 14:17:42 2016 -0500
+files:       lib/ptwidgets1.2/library/specl.tcl lib/version.tcl specl_customize.xml
+description:
+* Adding support for appicon in specl customization file.
+
+
+changeset:   2215:f3542f90b5b0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 10 22:07:27 2016 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/version.tcl
+description:
+* Updating translations for Preferences changes.
+
+
+changeset:   2216:705124899b7b
+parent:      2214:90cdb2815c4c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jun 04 20:56:34 2016 -0500
+files:       lib/theme.tcl lib/version.tcl
+description:
+* Removing code that attempted to make uncolored theme styles.
+
+
+changeset:   2217:cf7d918827d9
+parent:      2215:f3542f90b5b0
+parent:      2216:705124899b7b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jun 10 22:08:36 2016 -0500
+files:       lib/version.tcl
+description:
+* Merging.
+
+
+changeset:   2218:264d3791c625
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jun 21 09:00:19 2016 -0500
+files:       lib/menus.tcl lib/pref_ui.tcl lib/preferences.tcl lib/version.tcl
+description:
+* Checkpointing work on preferences to support session/language preference settings.
+
+
+changeset:   2219:f18bf92aebf6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jun 22 01:03:21 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
+description:
+* Checkpointing work on pref_ui to allow switching between preference setups within preference UI window.
+
+
+changeset:   2220:9bd7819ffeb8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 05 22:11:18 2016 -0500
+files:       lib/theme.tcl lib/version.tcl
+description:
+* Removing NC styles.
+
+
+changeset:   2221:ea986649da29
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 10 00:02:04 2016 -0500
+files:       lib/pref_ui.tcl lib/preferences.tcl lib/version.tcl
+description:
+* Fixing issues with latest submission.
+
+
+changeset:   2222:c187fc16ea6f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Jul 12 08:08:25 2016 -0500
+files:       lib/pref_ui.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Checkpointing work on new session/language selection menus in preference window.
+
+
+changeset:   2223:647649392ca4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 13 11:19:41 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
+description:
+* Fixing positioning of session and language widgets
+* Fixing issue with session and language settings on first preference window startup.
+
+
+changeset:   2224:bbe780790893
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Jul 13 23:25:41 2016 -0500
+files:       lib/preferences.tcl lib/sessions.tcl lib/version.tcl
+description:
+* Fixing issues with changing session preferences.
+
+
+changeset:   2225:22de03819745
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jul 16 22:56:50 2016 -0500
+files:       lib/preferences.tcl lib/version.tcl
+description:
+* Checkpointing work to support session preference loading.
+
+
+changeset:   2226:65cb2f9455fb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Jul 29 23:09:14 2016 -0500
+files:       lib/folding.tcl lib/menus.tcl lib/version.tcl
+description:
+* Fixing startup problems when code folding is disabled.
+* Fixing syntax menu issues with recent changes.
+
+
+changeset:   2227:0ef6b009c6cf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Jul 30 23:50:56 2016 -0500
+files:       data/themes/Default.tketheme data/themes/default.tketheme lib/themes.tcl lib/version.tcl
+description:
+* Fixing issue with using "default" as the name of a theme (conflicts with the tk theme of the same name).
+
+
+changeset:   2228:e7e9834c5d5a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Jul 31 00:01:15 2016 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Fixing Vim modeline issue when Vim mode is disabled.
+
+
+changeset:   2229:b6de335919b2
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 23 23:05:22 2016 -0500
+files:       data/syntax/MultiMarkdown.syntax doc/UserGuide.pdf lib/preferences.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Debugging issues with preferences.
+* Updating UserGuide.pdf
+* Adding start of MultiMarkdown syntax support.
+
+
+changeset:   2230:0d29b22dd91e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 24 23:05:10 2016 -0500
+files:       lib/version.tcl lib/vim.tcl
+description:
+* Fixing :e Vim command to work when a name is specified to a file that does not exist.
+
+
+changeset:   2231:aab81a2716f3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Aug 24 23:42:22 2016 -0500
+files:       lib/launcher.tcl lib/version.tcl
+description:
+* Fixing potential issue with command launcher when changing sessions.
+
+
+changeset:   2232:b1e516893587
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Aug 25 18:52:55 2016 -0500
+files:       lib/sessions.tcl lib/version.tcl
+description:
+* Fixing case where session is closed but default preferences were not loaded.
+
+
+changeset:   2233:a07c3361cb9f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 26 21:35:04 2016 -0500
+files:       lib/preferences.tcl lib/sessions.tcl lib/version.tcl
+description:
+* Cleaning up debug output.
+* Fixing a few more issues related to sessions.
+
+
+changeset:   2234:0908adf6aa29
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Aug 26 22:25:06 2016 -0500
+files:       lib/sessions.tcl lib/version.tcl
+description:
+* Removing session information from saved session files.
+
+
+changeset:   2235:657d6e0b622a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 30 20:50:38 2016 -0500
+files:       lib/bitmap.tcl lib/sessions.tcl lib/version.tcl
+description:
+* Fixing issue with session preferences not being used on initial start.
+* Cleaning up debug output.
+
+
+changeset:   2236:92b57876cad7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 30 22:42:38 2016 -0500
+files:       lib/pref_ui.tcl lib/preferences.tcl lib/version.tcl
+description:
+* Fixing issues with language-specific preference handling.
+
+
+changeset:   2237:94f0ff247635
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Aug 30 23:45:33 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
+description:
+* Fixing issues with language-specific preferences.
+
+
+changeset:   2238:84e7077dd20d
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Jun 03 11:56:06 2016 -0500
-files:       lib/images/tke_specl.gif lib/version.tcl specl_customize.xml
+date:        Wed Aug 31 00:35:20 2016 -0500
+files:       lib/gui.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-* Changing specl download icon to look different that the TKE logo icon.
+* Making preference images theme-able.
 
 
