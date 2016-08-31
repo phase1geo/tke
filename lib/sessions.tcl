@@ -212,6 +212,8 @@ namespace eval sessions {
     # Load the preference session information (provide backward compatibility)
     if {[info exists content(prefs)]} {
       [ns preferences]::load_session $name $content(prefs)
+    } elseif {$current_name ne ""} {
+      load_prefs $current_name
     }
 
     # Save the current content

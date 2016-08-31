@@ -218,8 +218,6 @@ namespace eval bitmap {
 
     variable data
 
-    puts "In draw_grid, width: $width, height: $height"
-
     # Calculate the background and foreground colors, if necessary
     set bg [lindex $data($w,colors) 0]
     set fg [expr {($fg eq "") ? $data(fg) : $fg}]
