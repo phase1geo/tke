@@ -80,11 +80,13 @@ namespace eval preferences {
       set prefix "session,$session"
     }
 
-    if {($language eq "") || ![info exists loaded_prefs($prefix,$language)]} {
-      return $loaded_prefs($prefix,global)
-    } else {
-      return $loaded_prefs($prefix,$language)
+    array set lprefs $loaded_prefs($prefix,global)
+
+    if {($language ne "") && [info exists loaded_prefs($prefix,$language)]} {
+      array set lprefs $loaded_prefs($prefix,$language)
     }
+
+    return [array get lprefs]
 
   }
 
@@ -280,16 +282,13 @@ namespace eval preferences {
 
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        set pname $user_preferences_file
         set loaded_prefs(user,global) $data
+        [ns tkedat]::write $user_preferences_file $loaded_prefs(user,global)
       } else {
-        set pname [file join $::tke_home preferences.$language.tkedat]
         array set content $data
         set loaded_prefs(user,$language) [array get content Editor/*]
+        [ns tkedat]::write [file join $::tke_home preferences.$language.tkedat] $loaded_prefs(user,$language)
       }
-
-      # Save the data to the preference file
-      [ns tkedat]::write $pname $data 0
 
     } else {
 
@@ -327,16 +326,13 @@ namespace eval preferences {
 
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        set pname $user_preferences_file
         set loaded_prefs(user,global) $data
+        [ns tkedat]::write $user_preferences_file $loaded_prefs(user,global) 0
       } else {
-        set pname [file join $::tke_home preferences.$language.tkedat]
         array set content $data
         set loaded_prefs(user,$language) [array get content Editor/*]
+        [ns tkedat]::write [file join $::tke_home preferences.$language.tkedat] $loaded_prefs(user,$language) 0
       }
-
-      # Save the data to the preference file
-      [ns tkedat]::write $pname $data 0
 
     } else {
 

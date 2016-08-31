@@ -72,7 +72,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Selects the given session language.
-  proc select {session language} {
+  proc select {session language {init 0}} {
 
     variable widgets
     variable prefs
@@ -103,7 +103,11 @@ namespace eval pref_ui {
     if {$language ne ""} {
       grid remove .prefwin.f.bf
       grid remove .prefwin.f.vsep
-      pane_clicked editor
+
+      # Don't bother to emulate an editor click if we are creating the window
+      if {!$init} {
+        pane_clicked editor
+      }
 
     # Otherwise, make sure the entire UI is displayed.
     } else {
@@ -186,7 +190,7 @@ namespace eval pref_ui {
       pack .prefwin.f  -fill both -expand yes
 
       # Select the given session/language information
-      select $selected_session $selected_language
+      select $selected_session $selected_language 1
 
       # Create images
       set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
@@ -234,7 +238,11 @@ namespace eval pref_ui {
       ::tk::PlaceWindow .prefwin widget .
 
       # Emulate a click on the General panel
-      pane_clicked general
+      if {$language ne ""} {
+        pane_clicked editor
+      } else {
+        pane_clicked general
+      }
 
       # Give the search panel the focus
       focus .prefwin.sf.e
