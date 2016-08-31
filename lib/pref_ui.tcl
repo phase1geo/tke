@@ -31,7 +31,6 @@ namespace eval pref_ui {
   variable selected_language ""
 
   array set widgets     {}
-  array set images      {}
   array set match_chars {}
   array set snip_compl  {}
   array set prefs       {}
@@ -130,7 +129,6 @@ namespace eval pref_ui {
   proc create {session language} {
 
     variable widgets
-    variable images
     variable prefs
     variable selected_session
     variable selected_language
@@ -197,27 +195,10 @@ namespace eval pref_ui {
       # Select the given session/language information
       select $selected_session $selected_language 1
 
-      # Create images
-      set images(checked)    [image create photo -file [file join $::tke_dir lib images checked.gif]]
-      set images(unchecked)  [image create photo -file [file join $::tke_dir lib images unchecked.gif]]
-      set images(general)    [image create photo -file [file join $::tke_dir lib images general.gif]]
-      set images(appearance) [image create photo -file [file join $::tke_dir lib images appearance.gif]]
-      set images(editor)     [image create photo -file [file join $::tke_dir lib images editor.gif]]
-      set images(emmet)      [image create photo -file [file join $::tke_dir lib images emmet.gif]]
-      set images(find)       [image create photo -file [file join $::tke_dir lib images find.gif]]
-      set images(sidebar)    [image create photo -file [file join $::tke_dir lib images sidebar.gif]]
-      set images(view)       [image create photo -file [file join $::tke_dir lib images view.gif]]
-      set images(tools)      [image create photo -file [file join $::tke_dir lib images tools.gif]]
-      set images(advanced)   [image create photo -file [file join $::tke_dir lib images advanced.gif]]
-
       set panes [list general appearance editor emmet find sidebar tools view advanced]
 
       foreach pane $panes {
-        if {[info exists images($pane)]} {
-          pack [ttk::label $widgets(panes).$pane -compound left -image $images($pane) -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
-        } else {
-          pack [ttk::label $widgets(panes).$pane -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
-        }
+        pack [ttk::label $widgets(panes).$pane -compound left -image pref_$pane -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
@@ -320,13 +301,6 @@ namespace eval pref_ui {
   ######################################################################
   # Called when the preference window is destroyed.
   proc destroy_window {} {
-
-    variable images
-
-    # Destroy the images
-    foreach {name img} [array get images] {
-      image delete $img
-    }
 
     # Kill the window
     destroy .prefwin
@@ -791,7 +765,6 @@ namespace eval pref_ui {
   proc populate_lang_table {} {
 
     variable widgets
-    variable images
     variable prefs
 
     # Get the list of languages to disable
@@ -815,9 +788,9 @@ namespace eval pref_ui {
       }
       set row [$widgets(lang_table) insert end [list $enabled $lang $extensions]]
       if {$enabled} {
-        $widgets(lang_table) cellconfigure $row,enabled -image $images(checked)
+        $widgets(lang_table) cellconfigure $row,enabled -image pref_checked
       } else {
-        $widgets(lang_table) cellconfigure $row,enabled -image $images(unchecked)
+        $widgets(lang_table) cellconfigure $row,enabled -image pref_unchecked
       }
     }
 
@@ -827,7 +800,6 @@ namespace eval pref_ui {
   # Handles any left-clicks on the language table.
   proc handle_lang_left_click {w x y} {
 
-    variable images
     variable prefs
 
     lassign [tablelist::convEventFields $w $x $y] tbl x y
@@ -838,10 +810,10 @@ namespace eval pref_ui {
         set lang           [$tbl cellcget $row,lang -text]
         set disabled_langs $prefs(General/DisabledLanguages)
         if {[$tbl cellcget $row,$col -text]} {
-          $tbl cellconfigure $row,$col -text 0 -image $images(unchecked)
+          $tbl cellconfigure $row,$col -text 0 -image pref_unchecked
           lappend $disabled_langs $lang
         } else {
-          $tbl cellconfigure $row,$col -text 1 -image $images(checked)
+          $tbl cellconfigure $row,$col -text 1 -image pref_checked
           set index [lsearch [set $disabled_langs] $lang]
           set $disabled_langs [lreplace [set $disabled_langs] $index $index]
         }
