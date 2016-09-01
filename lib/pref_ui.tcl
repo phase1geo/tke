@@ -95,8 +95,6 @@ namespace eval pref_ui {
     variable prefs
     variable current_panel
 
-    puts "In select, session: $session, language: $language, init: $init"
-
     # Disable traces
     catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] }
 
@@ -222,8 +220,10 @@ namespace eval pref_ui {
       # Select the given session/language information
       select $selected_session $selected_language 1
 
+      # Create the list of panes
       set panes [list general appearance editor emmet find sidebar tools view advanced]
 
+      # Create and pack each of the panes
       foreach pane $panes {
         pack [ttk::label $widgets(panes).$pane -compound left -image pref_$pane -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
@@ -253,6 +253,10 @@ namespace eval pref_ui {
       # Emulate a click on the General panel
       if {$language ne ""} {
         pane_clicked editor
+      } elseif {$session ne ""} {
+        pack forget $widgets(panes).general
+        pack forget $widgets(panes).advanced
+        pane_clicked appearance
       } else {
         pane_clicked general
       }
