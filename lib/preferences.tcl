@@ -78,6 +78,7 @@ namespace eval preferences {
       set prefix "user"
     } else {
       set prefix "session,$session"
+      array set lprefs $loaded_prefs(user,global)
     }
 
     array set lprefs $loaded_prefs($prefix,global)
@@ -180,18 +181,20 @@ namespace eval preferences {
 
     # Figure out the title to use in the tab
     if {$session eq ""} {
-      set title "User Global Preferences"
-      set key   "user,global"
+      set title       "User Global Preferences"
+      set key         "user,global"
+      set for_session 0
     } else {
-      set title "Session Global Preferences"
-      set key   "session,$session,global"
+      set title       "Session Global Preferences"
+      set key         "session,$session,global"
+      set for_session 1
     }
 
     # Create the buffer
     [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session {}] -lang tkeData
 
     # Insert information
-    insert_information $key 0
+    insert_information $key $for_session 0
 
   }
 
@@ -205,25 +208,27 @@ namespace eval preferences {
 
     # Get the title to use in the tabbar
     if {$session eq ""} {
-      set title "User $language Preferences"
-      set key   "user,$language"
+      set title       "User $language Preferences"
+      set key         "user,$language"
+      set for_session 0
     } else {
-      set title "Session $language Preferences"
-      set key   "session,$session,$language"
+      set title       "Session $language Preferences"
+      set key         "session,$session,$language"
+      set for_session 1
     }
 
     # Create the buffer
     [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
 
     # Insert information
-    insert_information $key 1
+    insert_information $key $for_session 1
 
   }
 
   ######################################################################
   # Inserts the loaded preference information into the current text
   # widget.
-  proc insert_information {key for_lang} {
+  proc insert_information {key for_session for_lang} {
 
     variable loaded_prefs
     variable base_comments
@@ -246,6 +251,9 @@ namespace eval preferences {
       set tmp [array get content Editor/*]
       array unset content
       array set content $tmp
+    } elseif {$for_session} {
+      array unset content General/*
+      array unset content Advanced/*
     }
 
     set str ""
@@ -275,28 +283,28 @@ namespace eval preferences {
     set txt [[ns gui]::current_txt {}]
 
     # Get the buffer contents
-    set data [[ns tkedat]::parse [[ns gui]::scrub_text $txt] 0]
+    array set data [[ns tkedat]::parse [[ns gui]::scrub_text $txt] 0]
 
     # Get the buffer contents and store them in the appropriate array
     if {$session eq ""} {
 
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        set loaded_prefs(user,global) $data
+        set loaded_prefs(user,global) [array get data]
         [ns tkedat]::write $user_preferences_file $loaded_prefs(user,global)
       } else {
-        array set content $data
-        set loaded_prefs(user,$language) [array get content Editor/*]
+        set loaded_prefs(user,$language) [array get data Editor/*]
         [ns tkedat]::write [file join $::tke_home preferences.$language.tkedat] $loaded_prefs(user,$language)
       }
 
     } else {
 
       if {$language eq ""} {
-        set loaded_prefs(session,$session,global) $data
+        array unset data General/*
+        array unset data Advanced/*
+        set loaded_prefs(session,$session,global) [array get data]
       } else {
-        array set content $data
-        set loaded_prefs(session,$session,$language) [array get content Editor/*]
+        set loaded_prefs(session,$session,$language) [array get data Editor/*]
       }
 
       # Save the preference information to the sessions file
@@ -338,7 +346,10 @@ namespace eval preferences {
 
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        set loaded_prefs(session,$session,global) $data
+        array set content $data
+        array unset content General/*
+        array unset content Advanced/*
+        set loaded_prefs(session,$session,global) [array get content]
       } else {
         array set content $data
         set loaded_prefs(session,$session,$language) [array get content Editor/*]
