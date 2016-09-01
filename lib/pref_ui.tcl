@@ -60,6 +60,24 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Sets up the session submenu for the given
+  proc populate_session_menu {language} {
+
+    variable widgets
+
+    # Delete the current menu
+    $widgets(selsmenu) delete 0 end
+
+    # Populate the selection menu
+    $widgets(selsmenu) add radiobutton -label "None" -variable [ns pref_ui]::selected_session -value "None" -command [list [ns pref_ui]::select "None" $language]
+    $widgets(selsmenu) add separator
+    foreach name [sessions::get_names] {
+      $widgets(selsmenu) add radiobutton -label $name -variable [ns pref_ui]::selected_session -value $name -command [list [ns pref_ui]::select $name $language]
+    }
+
+  }
+
+  ######################################################################
   # Sets up a select submenu for the given menu information.
   proc populate_lang_menu {session} {
 
@@ -77,6 +95,8 @@ namespace eval pref_ui {
     variable prefs
     variable current_panel
 
+    puts "In select, session: $session, language: $language, init: $init"
+
     # Disable traces
     catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] }
 
@@ -85,7 +105,8 @@ namespace eval pref_ui {
     $widgets(select_l) configure -text "Language: $language"
 
     # Update the language menu in case the user changed the session
-    populate_lang_menu $session
+    populate_session_menu $language
+    populate_lang_menu    $session
 
     # Translate the session and language values
     if {$session eq "None"} {
@@ -115,7 +136,19 @@ namespace eval pref_ui {
       grid .prefwin.f.vsep
 
       if {!$init} {
-        pane_clicked $current_panel
+        if {$session eq ""} {
+          pack $widgets(panes).general  -before $widgets(panes).appearance -fill both -padx 2 -pady 2
+          pack $widgets(panes).advanced -fill both -padx 2 -pady 2
+          pane_clicked $current_panel
+        } else {
+          pack forget $widgets(panes).general
+          pack forget $widgets(panes).advanced
+          if {($current_panel eq "general") || ($current_panel eq "advanced")} {
+            pane_clicked appearance
+          } else {
+            pane_clicked $current_panel
+          }
+        }
       }
     }
 
@@ -149,18 +182,12 @@ namespace eval pref_ui {
       # Initialize the syntax menu
       set selected_session  [expr {($session  eq "") ? "None" : $session}]
       set selected_language [expr {($language eq "") ? "All"  : $language}]
+      populate_session_menu $selected_language
       populate_lang_menu $selected_session
 
       place $widgets(select_s) -relx 0    -rely 0 -relwidth 0.25
       place $widgets(select_l) -relx 0.25 -rely 0 -relwidth 0.25
       pack $widgets(match_e) -side right -padx 2 -pady 2
-
-      # Populate the selection menu
-      $widgets(selsmenu) add radiobutton -label "None" -variable [ns pref_ui::selected_session] -value "None" -command [list [ns pref_ui]::select "None" $selected_language]
-      $widgets(selsmenu) add separator
-      foreach name [sessions::get_names] {
-        $widgets(selsmenu) add radiobutton -label $name -variable [ns pref_ui::selected_session] -value $name -command [list [ns pref_ui]::select $name $selected_language]
-      }
 
       ttk::frame     .prefwin.f
       ttk::separator .prefwin.f.hsep -orient horizontal
@@ -349,6 +376,7 @@ namespace eval pref_ui {
 
     variable widgets
     variable search
+    variable selected_session
     variable selected_language
 
     set matches [list]
@@ -358,9 +386,13 @@ namespace eval pref_ui {
     # Get the list of matches
     if {$value ne ""} {
       if {$selected_language eq "All"} {
-        set matches [array names search -regexp (?i).*$value.*::.]
+        if {$selected_session eq "None"} {
+          set matches [array names search -regexp (?i).*$value.*::a.*]
+        } else {
+          set matches [array names search -regexp (?i).*$value.*::.*b.*]
+        }
       } else {
-        set matches [array names search -regexp (?i).*$value.*::1]
+        set matches [array names search -regexp (?i).*$value.*::.*c]
       }
       foreach match $matches {
         lassign $search($match) win lbl tab1 tab2
@@ -470,11 +502,24 @@ namespace eval pref_ui {
 
     lassign [split $var /] category var
 
+    switch $category {
+      General    { set tag a }
+      Appearance { set tag ab }
+      Editor     { set tag abc }
+      Emmet      { set tag ab }
+      Find       { set tag ab }
+      Sidebar    { set tag ab }
+      Tools      { set tag ab }
+      View       { set tag ab }
+      Advanced   { set tag a }
+      default    { set tag "" }
+    }
+
     set lang_only    [expr {($category eq "Editor") ? 1 : 0}]
-    set search(${var}::$lang_only) [list $w $str {*}$tabs]
+    set search(${var}::$tag) [list $w $str {*}$tabs]
 
     if {$str ne ""} {
-      set search(${str}::$lang_only) [list $w $str {*}$tabs]
+      set search(${str}::$tag) [list $w $str {*}$tabs]
     }
 
   }
