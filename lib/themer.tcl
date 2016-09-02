@@ -28,6 +28,9 @@ namespace eval themer {
 
   array set data {
     max_swatches 8
+    copy_mode    0
+    search       0
+    theme_buffer {}
   }
 
   if {[catch { ttk::spinbox .__tmp }]} {
@@ -221,6 +224,11 @@ namespace eval themer {
 
       # Add the categories panel
       .thmwin.pw add [ttk::labelframe .thmwin.pw.lf -text [msgcat::mc "Categories"]]
+
+      set data(widgets,search) [wmarkentry::wmarkentry .thmwin.pw.lf.search -watermark "Search" -validate key -validatecommand [list themer::perform_search %P]]
+
+      bind [$data(widgets,search) entrytag] <Escape> [list themer::close_search]
+
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
         -columns {0 Options 0 Value 0 {} 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
         -labelcommand [list themer::show_filter_menu] \
@@ -235,10 +243,23 @@ namespace eval themer {
 
       bind $data(widgets,cat) <<TablelistSelect>> [list themer::handle_category_selection]
 
-      grid rowconfigure    .thmwin.pw.lf 0 -weight 1
+      set data(widgets,copy_frame) [ttk::frame .thmwin.pw.lf.cf]
+      ttk::button $data(widgets,copy_frame).copy   -text "Copy"   -width 6 -command [list themer::copy_elements]
+      ttk::button $data(widgets,copy_frame).cancel -text "Cancel" -width 6 -command [list themer::cancel_copy]
+
+      pack $data(widgets,copy_frame).copy   -side left  -padx 2 -pady 2
+      pack $data(widgets,copy_frame).cancel -side right -padx 2 -pady 2
+
+      grid rowconfigure    .thmwin.pw.lf 1 -weight 1
       grid columnconfigure .thmwin.pw.lf 0 -weight 1
-      grid .thmwin.pw.lf.tbl -row 0 -column 0 -sticky news
-      grid .thmwin.pw.lf.vb  -row 0 -column 1 -sticky ns
+      grid .thmwin.pw.lf.search -row 0 -column 0 -sticky ew -columnspan 2
+      grid .thmwin.pw.lf.tbl    -row 1 -column 0 -sticky news
+      grid .thmwin.pw.lf.vb     -row 1 -column 1 -sticky ns
+      grid .thmwin.pw.lf.cf     -row 2 -column 0 -sticky ew -columnspan 2
+
+      # Hide the search and copy frames
+      grid remove $data(widgets,search)
+      grid remove $data(widgets,copy_frame)
 
       # Add the right paned window
       .thmwin.pw add [ttk::frame .thmwin.pw.rf] -weight 1
@@ -329,7 +350,7 @@ namespace eval themer {
       create_detail_treestyle
 
       # Create the filter menu
-      create_filter_menu
+      create_table_menu
 
     }
 
@@ -559,6 +580,18 @@ namespace eval themer {
 
     # Clear the details frame
     catch { pack forget {*}[pack slaves $data(widgets,df)] }
+
+    # If we are currently in copy mode, avoid displaying the details frame
+    if {$data(copy_mode)} {
+      if {[$data(widgets,cat) parentkey active] eq "root"} {
+        if {[$data(widgets,cat) selection includes active]} {
+          $data(widgets,cat) selection set [$data(widgets,cat) childkeys active]
+        } else {
+          $data(widgets,cat) selection clear [$data(widgets,cat) childkeys active]
+        }
+      }
+      return
+    }
 
     # Get the currently selected row
     if {([set row [$data(widgets,cat) curselection]] ne "") && ([set parent [$data(widgets,cat) parentkey $row]] ne "root")} {
@@ -1744,26 +1777,31 @@ namespace eval themer {
   }
 
   ######################################################################
-  # Create the filter menu.
-  proc create_filter_menu {} {
+  # Create the table menu.
+  proc create_table_menu {} {
 
     variable data
 
     # Create the main filter menu
-    set data(widgets,filter) [menu $data(widgets,cat).mnu -tearoff 1 -postcommand [list themer::handle_filter_menu_post]]
+    set data(widgets,tmenu) [menu $data(widgets,cat).mnu -tearoff 1 -postcommand [list themer::handle_filter_menu_post]]
 
-    $data(widgets,filter) add command -label [msgcat::mc "Table Filters"] -state disabled
-    $data(widgets,filter) add separator
-    $data(widgets,filter) add command -label [msgcat::mc "   Show All"] -command [list themer::filter_all]
-    $data(widgets,filter) add cascade -label [msgcat::mc "   Show Category"] -menu [menu $data(widgets,filter).catMenu -tearoff 0]
-    $data(widgets,filter) add cascade -label [msgcat::mc "   Show Color"]    -menu [menu $data(widgets,filter).colorMenu -tearoff 0 -postcommand [list themer::populate_filter_color_menu]]
-    $data(widgets,filter) add command -label [msgcat::mc "   Show Selected Value"]  -command [list themer::filter_selected value]
-    $data(widgets,filter) add command -label [msgcat::mc "   Show Selected Option"] -command [list themer::filter_selected opt]
+    $data(widgets,tmenu) add command -label [msgcat::mc "Table Filters"] -state disabled
+    $data(widgets,tmenu) add separator
+    $data(widgets,tmenu) add command -label [msgcat::mc "   Show All"] -command [list themer::filter_all]
+    $data(widgets,tmenu) add cascade -label [msgcat::mc "   Show Category"] -menu [menu $data(widgets,tmenu).catMenu -tearoff 0]
+    $data(widgets,tmenu) add cascade -label [msgcat::mc "   Show Color"]    -menu [menu $data(widgets,tmenu).colorMenu -tearoff 0 -postcommand [list themer::populate_filter_color_menu]]
+    $data(widgets,tmenu) add command -label [msgcat::mc "   Show Selected Value"]  -command [list themer::filter_selected value]
+    $data(widgets,tmenu) add command -label [msgcat::mc "   Show Selected Option"] -command [list themer::filter_selected opt]
 
     # Populate the category submenu
     foreach title [theme::get_category_titles] {
-      $data(widgets,filter).catMenu add command -label $title -command [list themer::filter_category $title]
+      $data(widgets,tmenu).catMenu add command -label $title -command [list themer::filter_category $title]
     }
+
+    # Add element copy menu items
+    $data(widgets,tmenu) add separator
+    $data(widgets,tmenu) add checkbutton -label [msgcat::mc "Table Copy Mode"] -variable themer::data(copy_mode) -command [list themer::handle_copy_mode]
+    $data(widgets,tmenu) add checkbutton -label [msgcat::mc "Table Search"]    -variable themer::data(search)    -command [list themer::handle_table_search]
 
   }
 
@@ -1774,11 +1812,11 @@ namespace eval themer {
     variable data
 
     if {[$data(widgets,cat) curselection] eq ""} {
-      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Value"]  -state disabled
-      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Option"] -state disabled
+      $data(widgets,tmenu) entryconfigure [msgcat::mc "   Show Selected Value"]  -state disabled
+      $data(widgets,tmenu) entryconfigure [msgcat::mc "   Show Selected Option"] -state disabled
     } else {
-      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Value"]  -state normal
-      $data(widgets,filter) entryconfigure [msgcat::mc "   Show Selected Option"] -state normal
+      $data(widgets,tmenu) entryconfigure [msgcat::mc "   Show Selected Value"]  -state normal
+      $data(widgets,tmenu) entryconfigure [msgcat::mc "   Show Selected Option"] -state normal
     }
 
   }
@@ -1790,16 +1828,16 @@ namespace eval themer {
     variable data
 
     # Clear the menu contents
-    $data(widgets,filter).colorMenu delete 0 end
+    $data(widgets,tmenu).colorMenu delete 0 end
 
     # Gather the colors
     set first 1
     foreach colors [theme::get_all_colors] {
       foreach color $colors {
-        $data(widgets,filter).colorMenu add command -label $color -command [list themer::filter_color $color]
+        $data(widgets,tmenu).colorMenu add command -label $color -command [list themer::filter_color $color]
       }
       if {$first} {
-        $data(widgets,filter).colorMenu add separator
+        $data(widgets,tmenu).colorMenu add separator
         set first 0
       }
     }
@@ -1812,7 +1850,7 @@ namespace eval themer {
 
     variable data
 
-    tk_popup $data(widgets,filter) [winfo rootx $data(widgets,cat)] [winfo rooty $data(widgets,cat)]
+    tk_popup $data(widgets,tmenu) [winfo rootx $data(widgets,cat)] [winfo rooty $data(widgets,cat)]
 
   }
 
@@ -1889,6 +1927,142 @@ namespace eval themer {
       }
       $data(widgets,cat) rowconfigure $cat -hide [expr $one_match ^ 1]
     }
+
+  }
+
+  ######################################################################
+  # Handles a change to the table copy mode variable.
+  proc handle_copy_mode {} {
+
+    variable data
+
+    if {$data(copy_mode)} {
+
+      # Display the copy frame
+      grid $data(widgets,copy_frame)
+
+      # Clear the selection
+      $data(widgets,cat) selection clear 0 end
+
+      # Set the selection mode back to browse
+      $data(widgets,cat) configure -selectmode multiple
+
+    } else {
+
+      # Close the copy mode
+      cancel_copy
+
+    }
+
+  }
+
+  ######################################################################
+  # Handles a change to the table search variable.
+  proc handle_table_search {} {
+
+    variable data
+
+    if {$data(search)} {
+
+      # Display the search bar
+      grid $data(widgets,search)
+
+      # Put the focus on the search entry field
+      focus $data(widgets,search)
+
+    } else {
+
+      # Close the search frame
+      close_search
+
+    }
+
+  }
+
+  ######################################################################
+  # Closes the search panel and returns the category table to normal
+  # view.
+  proc close_search {} {
+
+    variable data
+
+    # Clear the search value
+    set data(search) 0
+
+    # Hide the search frame
+    grid remove $data(widgets,search)
+
+    # Make sure that the table rows are unhidden
+    for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
+      $data(widgets,cat) rowconfigure $i -hide 0
+    }
+
+  }
+
+  ######################################################################
+  # Updates the display of the table elements which match the given
+  # text string.
+  proc perform_search {value} {
+
+    variable data
+
+    if {$value eq ""} {
+      for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
+        $data(widgets,cat) rowconfigure $i -hide 0
+      }
+    } else {
+      set shown 0
+      for {set i [expr [$data(widgets,cat) size] - 1]} {$i >= 0} {incr i -1} {
+        if {[$data(widgets,cat) parentkey $i] eq "root"} {
+          $data(widgets,cat) rowconfigure $i -hide [expr $shown == 0]
+          set shown 0
+        } else {
+          incr shown [set match [string match -nocase *$value* [$data(widgets,cat) cellcget $i,opt -text]]]
+          $data(widgets,cat) rowconfigure $i -hide [expr $match ? 0 : 1]
+        }
+      }
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Add the selected elements to the theme buffer.
+  proc copy_elements {} {
+
+    variable data
+
+    # Add the selected rows to the theme buffer
+    array set elements $data(theme_buffer)
+    foreach [$data(widgets,cat) curselection -nonhidden] {
+      set elements([$data(widgets,cat) cellcget $i,opt -text]) [$data(widgets,cat) cellcget $i,value -text]
+    }
+    set data(theme_buffer) [array get elements]
+
+    # Close the copy buffer
+    cancel_copy
+
+  }
+
+  ######################################################################
+  # Closes the copy frame and switches the table back to displaying
+  # selected information.
+  proc cancel_copy {} {
+
+    variable data
+
+    # Set the copy_mode back to 0
+    set data(copy_mode) 0
+
+    # Removes the copy frame
+    grid remove $data(widgets,copy_frame)
+
+    # Clear the selection
+    $data(widgets,cat) selection clear 0 end
+
+    # Set the selection mode back to browse
+    $data(widgets,cat) configure -selectmode browse
 
   }
 
