@@ -253,7 +253,9 @@ namespace eval preferences {
       array set content $tmp
     } elseif {$for_session} {
       array unset content General/*
-      array unset content Advanced/*
+      array unset content Help/*
+      array unset content Debug/*
+      array unset content Tools/Profile*
     }
 
     set str ""
@@ -301,7 +303,9 @@ namespace eval preferences {
 
       if {$language eq ""} {
         array unset data General/*
-        array unset data Advanced/*
+        array unset data Help/*
+        array unset data Debug/*
+        array unset data Tools/Profile*
         set loaded_prefs(session,$session,global) [array get data]
       } else {
         set loaded_prefs(session,$session,$language) [array get data Editor/*]
@@ -348,7 +352,9 @@ namespace eval preferences {
       if {$language eq ""} {
         array set content $data
         array unset content General/*
-        array unset content Advanced/*
+        array unset content Help/*
+        array unset content Debug/*
+        array unset content Tools/Profile*
         set loaded_prefs(session,$session,global) [array get content]
       } else {
         array set content $data
