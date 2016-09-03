@@ -1924,6 +1924,9 @@ namespace eval themer {
 
     variable data
 
+    # Close the search window
+    close_search
+
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
       $data(widgets,cat) rowconfigure $i -hide 0
     }
@@ -1935,6 +1938,9 @@ namespace eval themer {
   proc filter_category {title} {
 
     variable data
+
+    # Close the search window
+    close_search
 
     foreach cat [$data(widgets,cat) childkeys root] {
       if {[$data(widgets,cat) cellcget $cat,opt -text] eq $title} {
@@ -1951,6 +1957,9 @@ namespace eval themer {
   proc filter_color {color} {
 
     variable data
+
+    # Close the search window
+    close_search
 
     foreach cat [$data(widgets,cat) childkeys root] {
       set one_match 0
@@ -1975,6 +1984,9 @@ namespace eval themer {
   proc filter_selected {col} {
 
     variable data
+
+    # Close the search window
+    close_search
 
     # Get the selected row
     set value [$data(widgets,cat) cellcget [$data(widgets,cat) curselection],$col -text]
@@ -2035,6 +2047,9 @@ namespace eval themer {
 
       # Display the search bar
       grid $data(widgets,search)
+
+      # Clear the search widget
+      $data(widgets,search) delete 0 end
 
       # Put the focus on the search entry field
       focus $data(widgets,search)
