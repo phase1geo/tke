@@ -1755,7 +1755,6 @@ namespace eval themer {
     ttk::entry     .expwin.f.ce  -width 50
     ttk::label     .expwin.f.wl  -text "Website:"
     ttk::entry     .expwin.f.we  -width 50
-    ttk::separator .expwin.f.sep -orient horizontal
     ttk::label     .expwin.f.nl  -text "Theme Name:"
     ttk::entry     .expwin.f.ne  -width 50 -validate key -validatecommand themer::validate_export
     ttk::label     .expwin.f.dl  -text "Output Directory:"
@@ -1769,6 +1768,7 @@ namespace eval themer {
         themer::validate_export
       }
     }
+    ttk::separator .expwin.f.sep -orient horizontal
 
     grid rowconfigure    .expwin.f 2 -weight 1
     grid columnconfigure .expwin.f 1 -weight 1
@@ -1776,12 +1776,12 @@ namespace eval themer {
     grid .expwin.f.ce  -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid .expwin.f.wl  -row 1 -column 0 -sticky e    -padx 2 -pady 2
     grid .expwin.f.we  -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.sep -row 2 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
-    grid .expwin.f.nl  -row 3 -column 0 -sticky e    -padx 2 -pady 2
-    grid .expwin.f.ne  -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.dl  -row 4 -column 0 -sticky e    -padx 2 -pady 2
-    grid .expwin.f.de  -row 4 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.db  -row 4 -column 2 -sticky news -padx 2 -pady 2
+    grid .expwin.f.nl  -row 2 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.ne  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.dl  -row 3 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.de  -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.db  -row 3 -column 2 -sticky news -padx 2 -pady 2
+    grid .expwin.f.sep -row 4 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
 
     ttk::frame .expwin.bf
     ttk::button .expwin.bf.export -style BButton -text "Export" -command {
@@ -1802,8 +1802,8 @@ namespace eval themer {
     pack .expwin.bf.export -side right -padx 2 -pady 2
 
     # Pack the frames
-    pack .expwin.f  -fill x -padx 2 -pady 2
-    pack .expwin.bf -fill x -padx 2 -pady 2
+    pack .expwin.f  -fill x
+    pack .expwin.bf -fill x
 
     # Set the focus on the first entry field
     focus .expwin.f.ce
