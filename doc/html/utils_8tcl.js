@@ -25,5 +25,6 @@ var utils_8tcl =
     [ "set_yscrollbar", "utils_8tcl.html#a613ba50c9cda7df625beea690cfd28cf", null ],
     [ "stacktrace", "utils_8tcl.html#a37bb69c30961eae2ef7cab8c309ee87e", null ],
     [ "string_to_keysym", "utils_8tcl.html#a77efd6dbbcfa19b24e64eba2b74ed0af", null ],
+    [ "tablelist_configure", "utils_8tcl.html#a626b3f5a259e34e4b77ec34256607dee", null ],
     [ "text_anchor", "utils_8tcl.html#ac71da0a72a12bce0a4da53391b3b0786", null ]
 ];

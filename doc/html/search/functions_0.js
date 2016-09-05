@@ -51,6 +51,7 @@ var searchData=
   ['add_5fto_5fclipboard',['add_to_clipboard',['../namespacecliphist.html#a6e37353e24c4617d3f6211536e8113ef',1,'cliphist']]],
   ['add_5fto_5frecently_5fopened',['add_to_recently_opened',['../namespacegui.html#a70fb0bb61413cfb0971e61c9deee5a59',1,'gui::add_to_recently_opened()'],['../namespacesidebar.html#a04a188ea1c143bf792f93f6a14c5655b',1,'sidebar::add_to_recently_opened()']]],
   ['add_5ftools',['add_tools',['../namespacemenus.html#a884afea73b037bf553d24ba1cc4a7e4f',1,'menus']]],
+  ['add_5fvariable',['add_variable',['../namespacepref__ui.html#ac141433ed542e87650b6dffd6e445ee3',1,'pref_ui']]],
   ['add_5fview',['add_view',['../namespacemenus.html#ad13118289863acabc656624d8b0162a6',1,'menus']]],
   ['addhighlightclass',['addHighlightClass',['../namespacectext.html#a803387c3b5ec9f4289f4cf7eaf379abf',1,'ctext']]],
   ['addhighlightkeywords',['addHighlightKeywords',['../namespacectext.html#a94bc60c0cc63087e29dfe6dfc93674cf',1,'ctext']]],

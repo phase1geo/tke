@@ -61,7 +61,7 @@ var gui_8tcl =
     [ "handle_drop", "gui_8tcl.html#a5da5c9fd94c5c8682262e0bd87f0be31", null ],
     [ "handle_drop_enter_or_pos", "gui_8tcl.html#ac9719419fd8c0a4b059fb0f44d5e1d20", null ],
     [ "handle_drop_leave", "gui_8tcl.html#ac463b688f43dba668eb87bf8c1255144", null ],
-    [ "handle_editor_font_size", "gui_8tcl.html#a18cf2a2292558ba38ab9e361a8ad6b7a", null ],
+    [ "handle_editor_font", "gui_8tcl.html#a24f24a8b911e2b80c882f4dc57d5dc75", null ],
     [ "handle_font_change", "gui_8tcl.html#a524decbc3cc73cb273454d2369066773", null ],
     [ "handle_info_menu_popup", "gui_8tcl.html#a0e0a3b65755fad13e905efb669001753", null ],
     [ "handle_matching_char", "gui_8tcl.html#aa6e7aa451984a4d24daf45fbfb2acce9", null ],

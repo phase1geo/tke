@@ -51,6 +51,7 @@ var searchData=
   ['egrep',['egrep',['../namespaceutils.html#adc8fed0a0cf8c683554145fdd6ad5d0b',1,'utils']]],
   ['egrep_5ffile',['egrep_file',['../namespaceutils.html#a600cc6dfd9f1072748db7e17f85e72f0',1,'utils']]],
   ['embed_5ftke',['embed_tke',['../namespaceembed__tke.html#af53ef1ab009256287924cd7e5dd1e6bc',1,'embed_tke']]],
+  ['empty_5fstring',['empty_string',['../namespacepref__ui.html#a2dcad6c1fa1c8dec3a48fdd44f4e420a',1,'pref_ui']]],
   ['enable_5ffolding',['enable_folding',['../namespacefolding.html#a4e9d3ef6ecb8cfc9fa3d2ac8ccd04f70',1,'folding']]],
   ['enabled',['enabled',['../namespacemulticursor.html#a533f28f1d2717a7d76c4d313f9de73bb',1,'multicursor']]],
   ['encode_5ffile',['encode_file',['../namespaceinterpreter.html#a81c0b523bb6dbaf69d84aec8780fd6f6',1,'interpreter']]],

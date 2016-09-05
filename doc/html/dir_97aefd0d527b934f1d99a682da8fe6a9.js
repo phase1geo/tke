@@ -28,6 +28,7 @@ var dir_97aefd0d527b934f1d99a682da8fe6a9 =
     [ "multicursor.tcl", "multicursor_8tcl.html", "multicursor_8tcl" ],
     [ "ns.tcl", "ns_8tcl.html", "ns_8tcl" ],
     [ "plugins.tcl", "plugins_8tcl.html", "plugins_8tcl" ],
+    [ "pref_ui.tcl", "pref__ui_8tcl.html", "pref__ui_8tcl" ],
     [ "preferences.tcl", "preferences_8tcl.html", "preferences_8tcl" ],
     [ "restart.tcl", "restart_8tcl.html", null ],
     [ "scroller.tcl", "scroller_8tcl.html", "scroller_8tcl" ],

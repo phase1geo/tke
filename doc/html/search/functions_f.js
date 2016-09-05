@@ -1,6 +1,7 @@
 var searchData=
 [
   ['page_5fslider',['page_slider',['../namespacescroller.html#a46aecd513d388fc7fbd0498ac14ad120',1,'scroller']]],
+  ['pane_5fclicked',['pane_clicked',['../namespacepref__ui.html#af23ec2e6da7d0a5fecc7b2e0372e3034',1,'pref_ui']]],
   ['panes',['panes',['../namespacegui.html#a589a4a2beb2d4d13a296d423227939f8',1,'gui']]],
   ['parse',['parse',['../namespaceemmet__css.html#af0f86c297fe8b0d3ebb13d89f6f8a093',1,'emmet_css::parse()'],['../namespacetkedat.html#a2c497c50d536bf03673ee049bb7b86d0',1,'tkedat::parse()']]],
   ['parse_5fbmp',['parse_bmp',['../namespacebitmap.html#a62015f15b081719e930cfa6c86997099',1,'bitmap']]],
@@ -12,6 +13,8 @@ var searchData=
   ['pastable',['pastable',['../namespacegui.html#a4f86b6b49958df799d1220b71bfceff0',1,'gui']]],
   ['paste',['paste',['../namespacegui.html#aaf8c04f956be9808e279d9839f23bb89',1,'gui::paste()'],['../namespacemulticursor.html#a2691b79260978ceb9243fc7d96411d47',1,'multicursor::paste()']]],
   ['paste_5fand_5fformat',['paste_and_format',['../namespacegui.html#ae2b7711f45745b171eb25b92d2851b13',1,'gui']]],
+  ['paste_5fbuffer',['paste_buffer',['../namespacethemer.html#af150aaa725c9fc376f0b8332807b1a2a',1,'themer']]],
+  ['perform_5fsearch',['perform_search',['../namespacepref__ui.html#a13ef8a33c38603d8398e867e41f46251',1,'pref_ui::perform_search()'],['../namespacethemer.html#a96e9ac956560eef35d588ee082b10852',1,'themer::perform_search()']]],
   ['perform_5fsubstitutions',['perform_substitutions',['../namespaceutils.html#a1e9a4156cea22ee80d216b5a9977a24a',1,'utils']]],
   ['perform_5ftranslation',['perform_translation',['../namespacelang.html#a90e4278d77eedd66058621c4cdd99335',1,'lang']]],
   ['perform_5ftranslations',['perform_translations',['../namespacelang.html#a15447b90ee37548b3ded311afe9da789',1,'lang']]],
@@ -21,7 +24,10 @@ var searchData=
   ['pop_5fresource',['pop_resource',['../namespacebgproc.html#abb535213908ad2d9dffa71b18528dc1f',1,'bgproc']]],
   ['populate_5ffilter_5fcolor_5fmenu',['populate_filter_color_menu',['../namespacethemer.html#ae388164170006bbfa349d995b0f9dc00',1,'themer']]],
   ['populate_5findent_5fmenu',['populate_indent_menu',['../namespaceindent.html#a6354b33861551e27b6f2ac17c813ba06',1,'indent']]],
-  ['populate_5fsyntax_5fmenu',['populate_syntax_menu',['../namespacesyntax.html#af408da5734cf315789f531e852a6b0dc',1,'syntax']]],
+  ['populate_5flang_5fmenu',['populate_lang_menu',['../namespacepref__ui.html#a97237fd35309ad6f7e07fa36a01b7680',1,'pref_ui']]],
+  ['populate_5flang_5ftable',['populate_lang_table',['../namespacepref__ui.html#aa79cbfae484d5652f57036a971d1ebdc',1,'pref_ui']]],
+  ['populate_5fsession_5fmenu',['populate_session_menu',['../namespacepref__ui.html#ae44e549470187718f873d6925ed69c56',1,'pref_ui']]],
+  ['populate_5fsyntax_5fmenu',['populate_syntax_menu',['../namespacesyntax.html#ac6e59931f5a00bd7dc96d7de660dba18',1,'syntax']]],
   ['populate_5ftheme_5fmenu',['populate_theme_menu',['../namespacethemes.html#ac9a7eb51cdc1baded02403cc5e72113b',1,'themes']]],
   ['populate_5fthemer_5fcategory_5ftable',['populate_themer_category_table',['../namespacetheme.html#ab13a730c1a26261c1e27e80128f4f611',1,'theme']]],
   ['populate_5fui',['populate_ui',['../namespacelang.html#a91cbcf6dbb1a13ae8aadeb38b8afbbf3',1,'lang']]],

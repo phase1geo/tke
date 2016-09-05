@@ -2,6 +2,7 @@ var searchData=
 [
   ['custom',['custom',['../namespacediff_1_1custom.html',1,'diff']]],
   ['cvs',['cvs',['../namespacediff_1_1cvs.html',1,'diff']]],
+  ['del_5fvariable',['del_variable',['../namespacepref__ui.html#a3264ce9ef9111568c59372b508c691a5',1,'pref_ui']]],
   ['delete',['delete',['../namespacemulticursor.html#a7e6e8bd5e7beff17d2ac050e3bf62880',1,'multicursor::delete()'],['../namespacesessions.html#a7d60298c406cbfc3c16725fe0bec23d1',1,'sessions::delete()'],['../namespacetemplates.html#a5166349282d45a822f66a571e79f9ca0',1,'templates::delete()']]],
   ['delete_5fall_5ffolds',['delete_all_folds',['../namespacefolding.html#a4286acd0be8754adcf2902fbfe97f1a3',1,'folding']]],
   ['delete_5fall_5fmenus',['delete_all_menus',['../namespaceplugins.html#a45d5be043f7f7b55adcbda0d639fc3d0',1,'plugins']]],
@@ -30,6 +31,7 @@ var searchData=
   ['deletehighlightclass',['deleteHighlightClass',['../namespacectext.html#ae9b017be622f7d4dcc0a5d147163675d',1,'ctext']]],
   ['destroy',['destroy',['../namespacediff.html#a1dadb268c933b6c0c6463e320243139e',1,'diff::destroy()'],['../namespacefontchooser.html#a0710101070538770f53612511b6b4ff2',1,'fontchooser::destroy()'],['../namespaceinterpreter.html#a0ee6cc542117a4b8c436d59fb3b69208',1,'interpreter::destroy()']]],
   ['destroy_5fcommand',['destroy_command',['../namespaceinterpreter.html#ac9a23ead69586efb57ee989302eb1b76',1,'interpreter']]],
+  ['destroy_5fwindow',['destroy_window',['../namespacepref__ui.html#a958350946abb4f1c1a18f1690732312c',1,'pref_ui']]],
   ['detail_5fscale_5fchange',['detail_scale_change',['../namespacethemer.html#a731948a8a9c90f59610e595099eedc8e',1,'themer']]],
   ['detail_5fshow_5fcolor',['detail_show_color',['../namespacethemer.html#ac4eabd821febb39951b55ac5d791c8f6',1,'themer']]],
   ['detail_5fshow_5fimage',['detail_show_image',['../namespacethemer.html#a261f38a7a9e02306eb6de0fac682e504',1,'themer']]],
