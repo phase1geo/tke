@@ -541,27 +541,16 @@ namespace eval pref_ui {
 
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
+    # GENERAL TAB
+
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
     make_cb $a.epug [msgcat::mc "Edit preferences using GUI"]                        General/EditPreferencesUsingGUI
     make_cb $a.lls  [msgcat::mc "Automatically load last session on start"]          General/LoadLastSession
     make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"] General/ExitOnLastClose
     make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"] General/AutoChangeWorkingDirectory
-    make_cb $a.ucos [msgcat::mc "Automatically check for updates on start"]          General/UpdateCheckOnStart
 
     ttk::frame $a.f
-    ttk::label $a.f.ul -text [format "%s: " [set wstr [msgcat::mc "Update using release type"]]]
-    set widgets(upd_mb) [ttk::menubutton $a.f.umb -menu [menu $a.updMnu -tearoff 0]]
-
-    $a.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
-    $a.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
-
-    # Register the widget for search
-    register $widgets(upd_mb) $wstr General/UpdateReleaseType
-
-    # Initialize the release type menubutton text
-    set_release_type
-
     ttk::label $a.f.dl -text [format "%s: " [set wstr [msgcat::mc "Set default open/save browsing directory to"]]]
     set widgets(browse_mb) [ttk::menubutton $a.f.dmb -menu [menu $a.browMnu -tearoff 0]]
     set widgets(browse_l)  [ttk::label $a.f.dir]
@@ -584,13 +573,15 @@ namespace eval pref_ui {
       }
     }
 
-    grid $a.f.ul  -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.f.umb -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid $a.f.dl  -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $a.f.dmb -row 1 -column 1 -sticky news -padx 2 -pady 2
     grid $a.f.dir -row 2 -column 0 -sticky news -columnspan 2
 
     pack $a.f -fill x -pady 10
+
+    #################
+    # VARIABLES TAB #
+    #################
 
     $w.nb add [set b [ttk::frame $w.nb.b]] -text [set wstr [msgcat::mc "Variables"]]
 
@@ -633,6 +624,10 @@ namespace eval pref_ui {
       $widgets(var_table) insert end $row
     }
 
+    #################
+    # LANGUAGES TAB #
+    #################
+
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Languages"]]
 
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
@@ -663,6 +658,31 @@ namespace eval pref_ui {
 
     # Populate the language table
     populate_lang_table
+
+    ###############
+    # UPDATES TAB #
+    ###############
+
+    $w.nb add [set d [ttk::frame $w.nb.d]] -text [set wstr [msgcat::mc "Updates"]]
+
+    make_cb $d.ucos [msgcat::mc "Automatically check for updates on start"] General/UpdateCheckOnStart
+
+    ttk::frame $d.f
+    ttk::label $d.f.ul -text [format "%s: " [set wstr [msgcat::mc "Update using release type"]]]
+    set widgets(upd_mb) [ttk::menubutton $d.f.umb -menu [menu $d.updMnu -tearoff 0]]
+
+    $d.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
+    $d.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
+
+    pack $d.f.ul  -side left -padx 2 -pady 2
+    pack $d.f.umb -side left -padx 2 -pady 2
+    pack $d.f     -fill x
+
+    # Register the widget for search
+    register $widgets(upd_mb) $wstr General/UpdateReleaseType
+
+    # Initialize the release type menubutton text
+    set_release_type
 
   }
 
