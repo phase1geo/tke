@@ -57,6 +57,7 @@ var searchData=
   ['emmet_2etcl',['emmet.tcl',['../emmet_8tcl.html',1,'']]],
   ['emmet_5fcss',['emmet_css',['../namespaceemmet__css.html',1,'']]],
   ['emmet_5fcss_2etcl',['emmet_css.tcl',['../emmet__css_8tcl.html',1,'']]],
+  ['empty_5fstring',['empty_string',['../namespacepref__ui.html#a2dcad6c1fa1c8dec3a48fdd44f4e420a',1,'pref_ui']]],
   ['enable_5ffolding',['enable_folding',['../namespacefolding.html#a4e9d3ef6ecb8cfc9fa3d2ac8ccd04f70',1,'folding']]],
   ['enabled',['enabled',['../namespacemulticursor.html#a533f28f1d2717a7d76c4d313f9de73bb',1,'multicursor']]],
   ['encode_5ffile',['encode_file',['../namespaceinterpreter.html#a81c0b523bb6dbaf69d84aec8780fd6f6',1,'interpreter']]],

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['make_5fcb',['make_cb',['../namespacepref__ui.html#ae8e7dd4d92b094dee93f64ed389ad708',1,'pref_ui']]],
   ['make_5fdrop_5ftarget',['make_drop_target',['../namespacegui.html#aa82458ece62336bf23efa36c5688d412',1,'gui']]],
   ['make_5fmenu',['make_menu',['../namespacemenus.html#a15adf02fc06c19ca4f3fbd26ef5df8e6',1,'menus']]],
   ['map',['map',['../namespacediff.html#a9e32d5e1139daff397ca2e28b016497b',1,'diff']]],

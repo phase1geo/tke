@@ -24,7 +24,7 @@ var searchData=
   ['insert',['insert',['../namespacemulticursor.html#a8fee64695f88e2bf8e0c2c86a00626e3',1,'multicursor']]],
   ['insert_5fenumeration',['insert_enumeration',['../namespaceedit.html#ab237ca683ea1eb1eec45fc87465354d0',1,'edit']]],
   ['insert_5ffile',['insert_file',['../namespaceedit.html#a643fcf901742843da5a14bd1ec91426e',1,'edit::insert_file()'],['../namespacesidebar.html#aabbe2314a413393b278056e05ce84d86',1,'sidebar::insert_file()']]],
-  ['insert_5finformation',['insert_information',['../namespacepreferences.html#aff518809b37818a9aacfa61316923d35',1,'preferences']]],
+  ['insert_5finformation',['insert_information',['../namespacepreferences.html#a553803e34bd004bf6d0f914a9f9bc493',1,'preferences']]],
   ['insert_5fline_5fabove_5fcurrent',['insert_line_above_current',['../namespaceedit.html#a79757442b91e4f4f08c9bc4875e8d214',1,'edit']]],
   ['insert_5fline_5fbelow_5fcurrent',['insert_line_below_current',['../namespaceedit.html#a8d8d30fcabfc3f513e768a6b3fbacf99',1,'edit']]],
   ['insert_5fnumbers',['insert_numbers',['../namespacegui.html#a325b0252790e917580159a3d11584bc1',1,'gui::insert_numbers()'],['../namespacemulticursor.html#adace8af0bd1658773f5a91a4c63fd3a0',1,'multicursor::insert_numbers()']]],

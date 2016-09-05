@@ -26,6 +26,7 @@ var namespaces =
     [ "menus", "namespacemenus.html", null ],
     [ "multicursor", "namespacemulticursor.html", null ],
     [ "plugins", "namespaceplugins.html", "namespaceplugins" ],
+    [ "pref_ui", "namespacepref__ui.html", null ],
     [ "preferences", "namespacepreferences.html", null ],
     [ "scroller", "namespacescroller.html", null ],
     [ "search", "namespacesearch.html", null ],

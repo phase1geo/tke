@@ -3,6 +3,7 @@ var searchData=
   ['valid',['valid',['../namespacetemplates.html#a26ba31b7c44228669a778e3399b96998',1,'templates']]],
   ['validate_5fexport',['validate_export',['../namespacethemer.html#af82740efd71dd06c842380d0b50340ab',1,'themer']]],
   ['validate_5ffile',['validate_file',['../namespacebist.html#adcadd00925188697ce98faf7bf10d664',1,'bist']]],
+  ['var_5fedit_5fend_5fcommand',['var_edit_end_command',['../namespacepref__ui.html#abb2ea08e67aa0a40c1eaa0c13a78d898',1,'pref_ui']]],
   ['version',['version',['../tke_8tcl.html#a4c7a521b8f1a0769c09bfa4a1fca7dab',1,'tke.tcl']]],
   ['versions',['versions',['../namespacediff_1_1perforce.html#a9843d27ff5e3d9ba2b294fe2faee6812',1,'diff::perforce::versions()'],['../namespacediff_1_1mercurial.html#a8da9cc380d4d7caca595fe68913c7873',1,'diff::mercurial::versions()'],['../namespacediff_1_1git.html#a6afd8c719dcc17c082b95ed52db24fe0',1,'diff::git::versions()'],['../namespacediff_1_1subversion.html#aac78914065e70531f6b7ca74b244bf73',1,'diff::subversion::versions()'],['../namespacediff_1_1cvs.html#a23fabc206544b1c0a099cccb3b29693b',1,'diff::cvs::versions()'],['../namespaceplugins_1_1_0Bns.html#a43341b658609df2f77a3968c9d479865',1,'plugins::$ns::versions()']]],
   ['view_5ffold_5fposting',['view_fold_posting',['../namespacemenus.html#a5682b03d14a6ed1d6291b42706e11ef9',1,'menus']]],
