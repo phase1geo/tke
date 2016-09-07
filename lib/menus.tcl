@@ -438,16 +438,18 @@ namespace eval menus {
 
     # Populate the menu with the directories
     if {[llength [set sdirs [sidebar::get_last_opened]]] > 0} {
+      $mb add command -label [msgcat::mc "Recent Directories"] -state disabled
       foreach sdir [lrange $sdirs 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
-        $mb add command -label $sdir -command [list sidebar::add_directory $sdir]
+        $mb add command -label [format "   %s" $sdir] -command [list sidebar::add_directory $sdir]
       }
       $mb add separator
     }
 
     # Populate the menu with the filenames
     if {[llength [set fnames [gui::get_last_opened]]] > 0} {
+      $mb add command -label [msgcat::mc "Recent Files"] -state disabled
       foreach fname [lrange $fnames 0 [expr [preferences::get View/ShowRecentlyOpened] - 1]] {
-        $mb add command -label $fname -command [list gui::add_file end $fname]
+        $mb add command -label [format "   %s" $fname] -command [list gui::add_file end $fname]
       }
       $mb add separator
     }
