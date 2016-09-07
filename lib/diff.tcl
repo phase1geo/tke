@@ -36,7 +36,7 @@ namespace eval diff {
     set data(sb_opts) "-relief flat -buttondownrelief flat -buttonuprelief flat -background $bg -foreground $fg"
   } else {
     set data(sb)      "ttk::spinbox"
-    set data(sb_opts) ""
+    set data(sb_opts) "-justify center"
     destroy .__tmp
   }
 

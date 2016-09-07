@@ -46,6 +46,17 @@ namespace eval pref_ui {
     miscellaneous3 0
   }
 
+  if {[catch { ttk::spinbox .__tmp }]} {
+    set bg               [utils::get_default_background]
+    set fg               [utils::get_default_foreground]
+    set widgets(sb)      "spinbox"
+    set widgets(sb_opts) "-relief flat -buttondownrelief flat -buttonuprelief flat -background $bg -foreground $fg"
+  } else {
+    set widgets(sb)      "ttk::spinbox"
+    set widgets(sb_opts) "-justify center"
+    destroy .__tmp
+  }
+
   ######################################################################
   # Make a checkbutton.
   proc make_cb {w msg varname} {
@@ -1064,27 +1075,32 @@ namespace eval pref_ui {
     variable prefs
 
     ttk::label $w.wwl -text [format "%s: " [set wstr [msgcat::mc "Ruler column"]]]
-    set widgets(editor_ww) [ttk::spinbox $w.wwsb -from 20 -to 150 -increment 5 -width 3 -state readonly -command [list pref_ui::set_warning_width]]
+    set widgets(editor_ww) [$widgets(sb) $w.wwsb {*}$widgets(sb_opts) -from 20 -to 150 -increment 5 -width 3 \
+      -state readonly -command [list pref_ui::set_warning_width]]
 
     register $widgets(editor_ww) $wstr Editor/WarningWidth
 
     ttk::label $w.sptl -text [format "%s: " [set wstr [msgcat::mc "Spaces per tab"]]]
-    set widgets(editor_spt) [ttk::spinbox $w.sptsb -from 1 -to 20 -width 3 -state readonly -command [list pref_ui::set_spaces_per_tab]]
+    set widgets(editor_spt) [$widgets(sb) $w.sptsb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
+      -state readonly -command [list pref_ui::set_spaces_per_tab]]
 
     register $widgets(editor_spt) $wstr Editor/SpacesPerTab
 
     ttk::label $w.isl -text [format "%s: " [set wstr [msgcat::mc "Indentation Spaces"]]]
-    set widgets(editor_is) [ttk::spinbox $w.issb -from 1 -to 20 -width 3 -state readonly -command [list pref_ui::set_indent_spaces]]
+    set widgets(editor_is) [$widgets(sb) $w.issb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
+      -state readonly -command [list pref_ui::set_indent_spaces]]
 
     register $widgets(editor_is) $wstr Editor/IndentSpaces
 
     ttk::label $w.mul -text [format "%s: " [set wstr [msgcat::mc "Maximum undo history (set to 0 for unlimited)"]]]
-    set widgets(editor_mu) [ttk::spinbox $w.musb -from 0 -to 200 -increment 10 -width 3 -state readonly -command [list pref_ui::set_max_undo]]
+    set widgets(editor_mu) [$widgets(sb) $w.musb {*}$widgets(sb_opts) -from 0 -to 200 -increment 10 -width 3 \
+      -state readonly -command [list pref_ui::set_max_undo]]
 
     register $widgets(editor_mu) $wstr Editor/MaxUndo
 
     ttk::label $w.vmll -text [format "%s: " [set wstr [msgcat::mc "Line count to find for Vim modeline information"]]]
-    set widgets(editor_vml) [ttk::spinbox $w.vmlsb -from 0 -to 20 -width 3 -state readonly -command [list pref_ui::set_vim_modelines]]
+    set widgets(editor_vml) [$widgets(sb) $w.vmlsb {*}$widgets(sb_opts) -from 0 -to 20 -width 3 \
+      -state readonly -command [list pref_ui::set_vim_modelines]]
 
     register $widgets(editor_vml) $wstr Editor/VimModelines
 
@@ -1394,17 +1410,20 @@ namespace eval pref_ui {
     variable prefs
 
     ttk::label $w.mhl -text [format "%s: " [set wstr [msgcat::mc "Set Find History Depth"]]]
-    set widgets(find_mh) [ttk::spinbox $w.mh -from 0 -to 100 -width 3 -state readonly -command [list pref_ui::set_max_history]]
+    set widgets(find_mh) [$widgets(sb) $w.mh {*}$widgets(sb_opts) -from 0 -to 100 -width 3 \
+      -state readonly -command [list pref_ui::set_max_history]]
 
     register $widgets(find_mh) $wstr Find/MaxHistory
 
     ttk::label $w.cnl -text [format "%s: " [set wstr [msgcat::mc "Set Find in Files Line Context"]]]
-    set widgets(find_cn) [ttk::spinbox $w.cn -from 0 -to 10  -width 3 -state readonly -command [list pref_ui::set_context_num]]
+    set widgets(find_cn) [$widgets(sb) $w.cn {*}$widgets(sb_opts) -from 0 -to 10 -width 3 \
+      -state readonly -command [list pref_ui::set_context_num]]
 
     register $widgets(find_cn) $wstr Find/ContextNum
 
     ttk::label $w.jdl -text [format "%s: " [set wstr [msgcat::mc "Set Jump Distance"]]]
-    set widgets(find_jd) [ttk::spinbox $w.jd -from 1 -to 20  -width 3 -state readonly -command [list pref_ui::set_jump_distance]]
+    set widgets(find_jd) [$widgets(sb) $w.jd {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
+      -state readonly -command [list pref_ui::set_jump_distance]]
 
     register $widgets(find_jd) $wstr Find/JumpDistance
 
@@ -1519,7 +1538,8 @@ namespace eval pref_ui {
     make_cb $w.cf.vm [msgcat::mc "Enable Vim Mode"] Tools/VimMode
 
     ttk::label   $w.chdl -text [format "%s: " [set wstr [msgcat::mc "Clipboard history depth"]]]
-    set widgets(tools_chd) [ttk::spinbox $w.chdsb -from 1 -to 30 -width 3 -state readonly -command [list pref_ui::set_clipboard_history]]
+    set widgets(tools_chd) [$widgets(sb) $w.chdsb {*}$widgets(sb_opts) -from 1 -to 30 -width 3 \
+      -state readonly -command [list pref_ui::set_clipboard_history]]
 
     register $widgets(tools_chd) $wstr Tools/ClipboardHistoryDepth
 
@@ -1569,7 +1589,8 @@ namespace eval pref_ui {
 
     ttk::frame $w.of
     pack [ttk::label   $w.of.l  -text [format "%s: " [set wstr [msgcat::mc "Recently opened history depth"]]]] -side left -padx 2 -pady 2
-    pack [set widgets(view_sro) [ttk::spinbox $w.of.sb -from 0 -to 20 -width 2 -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
+    pack [set widgets(view_sro) [$widgets(sb) $w.of.sb {*}$widgets(sb_opts) -from 0 -to 20 -width 2 \
+      -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
 
     register $widgets(view_sro) $wstr View/ShowRecentlyOpened
 

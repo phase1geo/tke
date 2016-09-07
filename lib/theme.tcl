@@ -1068,7 +1068,20 @@ namespace eval theme {
 
       # Configure ttk::spinbox widgets
       ttk::style configure TSpinbox \
-        -relief $opts(relief) -padding 2 -background $opts(background) -foreground $opts(foreground) -fieldbackground $opts(background)
+        -relief $opts(relief) -padding {2 0} -background $opts(active_color) -foreground $opts(foreground) \
+        -fieldbackground $opts(active_color) -darkcolor $opts(active_color) -lightcolor $opts(active_color) \
+        -bordercolor $opts(active_color)
+      ttk::style layout TSpinbox {
+        Entry.field -side top -sticky we -children {
+          Entry.background -sticky nswe -children {
+            Horizontal.Scrollbar.leftarrow -side left -sticky ns
+            Horizontal.Scrollbar.rightarrow -side right -sticky ns
+            Spinbox.padding -sticky nswe -children {
+              Spinbox.textarea -sticky nswe
+            }
+          }
+        }
+      }
 
       # Configure ttk::checkbutton widgets
       ttk::style configure TCheckbutton \

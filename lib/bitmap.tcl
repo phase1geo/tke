@@ -42,7 +42,7 @@ namespace eval bitmap {
     set data(sb_readonly) "configure -state readonly"
   } else {
     set data(sb)          "ttk::spinbox"
-    set data(sb_opts)     ""
+    set data(sb_opts)     "-justify center"
     set data(sb_normal)   "state !disabled"
     set data(sb_disabled) "state disabled"
     set data(sb_readonly) "state readonly"
