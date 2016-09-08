@@ -232,7 +232,7 @@ namespace eval pref_ui {
       select $selected_session $selected_language 1
 
       # Create the list of panes
-      set panes [list general appearance editor emmet find sidebar tools view advanced]
+      set panes [list general appearance editor emmet find sidebar tools view shortcuts advanced]
 
       # Create and pack each of the panes
       foreach pane $panes {
@@ -526,6 +526,7 @@ namespace eval pref_ui {
       Sidebar    { set tag ab }
       Tools      { set tag ab }
       View       { set tag ab }
+      Shortcuts  { set tag a }
       Advanced   { set tag a }
       default    { set tag "" }
     }
@@ -599,6 +600,7 @@ namespace eval pref_ui {
     ttk::frame $b.f
     set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
       -stretch all -editselectedonly 1 -exportselection 1 -showseparators 1 \
+      -height 25 \
       -editendcommand [list pref_ui::var_edit_end_command] \
       -xscrollcommand [list [ns utils]::set_xscrollbar $b.f.hb] \
       -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
@@ -643,6 +645,7 @@ namespace eval pref_ui {
 
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
       -stretch all -exportselection 1 -showseparators 1 \
+      -height 25 \
       -editendcommand [list pref_ui::lang_edit_end_command] \
       -xscrollcommand [list [ns utils]::set_xscrollbar $c.hb] \
       -yscrollcommand [list [ns utils]::set_yscrollbar $c.vb]]
@@ -1612,6 +1615,134 @@ namespace eval pref_ui {
     variable prefs
 
     set prefs(View/ShowRecentlyOpened) [$widgets(view_sro) get]
+
+  }
+
+  #############
+  # SHORTCUTS #
+  #############
+
+  ######################################################################
+  # Create the shortcuts panel.
+  proc create_shortcuts {w} {
+
+    variable widgets
+    variable prefs
+
+    ttk::frame $w.tf
+    set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut}} \
+      -height 25 \
+      -editstartcommand [list pref_ui::shortcut_edit_start_cmd] \
+      -editendcommand   [list pref_ui::shortcut_edit_end_cmd] \
+      -yscrollcommand [list $w.tf.vb set]]
+    ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
+
+    [ns utils]::tablelist_configure $widgets(shortcut_tl)
+
+    $widgets(shortcut_tl) columnconfigure 0 -name label    -editable 0 -resizable 0 -stretchable 1
+    $widgets(shortcut_tl) columnconfigure 1 -name shortcut -editable 1 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::shortcut_format]
+
+    grid rowconfigure    $w.tf 0 -weight 1
+    grid columnconfigure $w.tf 0 -weight 1
+    grid $w.tf.tl -row 0 -column 0 -sticky news
+    grid $w.tf.vb -row 0 -column 1 -sticky ns
+
+    pack $w.tf -fill both -expand yes -padx 2 -pady 2
+
+    # Register the option for search
+    register $widgets(shortcut_tl) [msgcat::mc "Menu bindings"] Shortcuts
+    register $widgets(shortcut_tl) [msgcat::mc "Shortcuts"]     Shortcuts
+
+    # Populate the table
+    populate_shortcut_table .menubar
+
+  }
+
+  ######################################################################
+  # Starts the edit operation when modifying a shortcut value in the
+  # shortcut table.
+  proc shortcut_edit_start_cmd {tbl row col value} {
+
+    # TBD
+
+    return $value
+
+  }
+
+  ######################################################################
+  # Ends the edit operation when modifying a shortcut value in the
+  # shortcut table.
+  proc shortcut_edit_end_cmd {tbl row col value} {
+
+    after 1 [list pref_ui::gather_shortcut_table]
+
+    return $value
+
+  }
+
+  ######################################################################
+  # Writes the current contents of the shortcut table to the menu binding
+  # file.
+  proc gather_shortcut_table {} {
+
+    variable widgets
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Formats the shortcut value in the shortcut table.
+  proc shortcut_format {value} {
+
+    if {[tk windowingsystem] eq "aqua"} {
+      set new_value [list "" "" "" "" ""]
+      foreach elem [split $value -] {
+        switch $elem {
+          Ctrl    { lset new_value 0 "\u2303" }
+          Shift   { lset new_value 1 "\u21e7" }
+          Alt     { lset new_value 2 "\u2325" }
+          Cmd -
+          Command { lset new_value 3 "\u2318" }
+          Up      { lset new_value 4 "\u2191" }
+          Down    { lset new_value 4 "\u2193" }
+          Left    { lset new_value 4 "\u2190" }
+          Right   { lset new_value 4 "\u2192" }
+          default { lset new_value 4 [string toupper $elem] }
+        }
+      }
+      set value [join $new_value ""]
+    }
+
+    return $value
+
+  }
+
+  ######################################################################
+  # Recursively adds all menu commands, checkbuttons and radiobuttons to
+  # the shortcut table.
+  proc populate_shortcut_table {mnu {prefix ""}} {
+
+    variable widgets
+
+    # If there are no elements return
+    if {[set last [$mnu index end]] eq "none"} {
+      return
+    }
+
+    for {set i 0} {$i <= $last} {incr i} {
+      switch [$mnu type $i] {
+        cascade {
+          populate_shortcut_table [$mnu entrycget $i -menu] "${prefix}[$mnu entrycget $i -label]/"
+        }
+        command -
+        checkbutton -
+        radiobutton {
+          $widgets(shortcut_tl) insert end \
+            [list "${prefix}[$mnu entrycget $i -label]" [$mnu entrycget $i -accelerator]]
+        }
+      }
+    }
 
   }
 
