@@ -40,7 +40,40 @@ namespace eval bindings {
   proc load {} {
 
     # Load the menu bindings file
-    load_file
+    load_file 0
+
+  }
+
+  ######################################################################
+  # Saves the given shortcut information to the menu binding file.
+  proc save {max shortcuts} {
+
+    variable user_bindings_file
+
+    if {![catch { open $user_bindings_file w } rc]} {
+
+      set last_mnu ""
+
+      foreach shortcut $shortcuts {
+        set mnu_path [lindex $shortcut 0]
+        set mnu      [lindex [split $mnu_path /] 0]
+        if {$mnu ne $last_mnu} {
+          if {$last_mnu ne ""} {
+            puts $rc ""
+          }
+          puts $rc "# [string totitle $mnu] menu bindings"
+          set last_mnu $mnu
+        }
+        puts $rc "{$mnu_path}[string repeat { } [expr $max - [string length $mnu_path]]]  [lindex $shortcut 1]"
+      }
+
+      # Close the file
+      close $rc
+
+      # Next, load the file
+      load_file 1
+
+    }
 
   }
 
@@ -60,7 +93,7 @@ namespace eval bindings {
 
     variable user_bindings_file
 
-    [ns gui]::add_file end $user_bindings_file -sidebar 0 -savecommand [ns bindings]::load_file
+    [ns gui]::add_file end $user_bindings_file -sidebar 0 -savecommand [list [ns bindings]::load_file 0]
 
   }
 
@@ -72,20 +105,23 @@ namespace eval bindings {
   # Polls on the bindings file in the tke home directory.  Whenever it
   # changes modification time, re-read the file and store it in the
   # menu_bindings array
-  proc load_file {{dummy 0}} {
+  proc load_file {skip_base {dummy 0}} {
 
     variable base_bindings_file
     variable user_bindings_file
     variable menu_bindings
 
-    if {[file exists $user_bindings_file]} {
-      remove_all_bindings
-      if {![catch { [ns tkedat]::read $base_bindings_file 0 } rc]} {
-        array set menu_bindings $rc
+    # Remove the existing bindings
+    remove_all_bindings
+
+    if {!$skip_base} {
+      if {[file exists $user_bindings_file]} {
+        if {![catch { [ns tkedat]::read $base_bindings_file 0 } rc]} {
+          array set menu_bindings $rc
+        }
+      } else {
+        copy_default 0
       }
-    } else {
-      remove_all_bindings
-      copy_default 0
     }
 
     if {![catch { [ns tkedat]::read $user_bindings_file 0 } rc]} {
@@ -106,11 +142,11 @@ namespace eval bindings {
 
     array unset bound_menus
 
-    foreach {mnu binding} [array get menu_bindings] {
-      set menu_list [split $mnu /]
+    foreach {mnu_path binding} [array get menu_bindings] {
+      set menu_list [split $mnu_path /]
       if {![catch { [ns menus]::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
-          set bound_menus($mnu) [list $menu_index $binding]
+          set bound_menus($mnu,$menu_index) $binding
           $mnu entryconfigure $menu_index -accelerator $binding
           bind all [accelerator_to_sequence $binding] "[ns menus]::invoke $mnu $menu_index; break"
         }
@@ -127,9 +163,10 @@ namespace eval bindings {
     variable bound_menus
 
     # Delete all of the accelerators and bindings
-    foreach {mnu data} [array get bound_menus] {
-      $mnu entryconfigure [lindex $data 0] -accelerator ""
-      bind all <[lindex $data 1]> ""
+    foreach {mnu_index binding} [array get bound_menus] {
+      lassign [split $mnu_index ,] mnu index
+      $mnu entryconfigure $index -accelerator ""
+      bind all <$binding> ""
     }
 
     # Delete the menu_bindings array
