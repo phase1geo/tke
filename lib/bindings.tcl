@@ -146,6 +146,11 @@ namespace eval bindings {
       set menu_list [split $mnu_path /]
       if {![catch { [ns menus]::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
+          set value [list * * * * *]
+          foreach elem [split $binding -] {
+            lset value [lindex [accelerator_mapping $elem] 0] $elem
+          }
+          set binding [join [string map {* {}} $value] -]
           set bound_menus($mnu,$menu_index) $binding
           $mnu entryconfigure $menu_index -accelerator $binding
           bind all [accelerator_to_sequence $binding] "[ns menus]::invoke $mnu $menu_index; break"
@@ -243,6 +248,33 @@ namespace eval bindings {
     append sequence ">"
 
     return $sequence
+
+  }
+
+  ######################################################################
+  # Maps the given value to the displayed.
+  proc accelerator_mapping {value} {
+
+    array set map {
+      Ctrl,\u2303    0
+      Alt,\u2325     1
+      Shift,\u21e7   2
+      Cmd,\u2318     3
+      Up,\u2191      4
+      Down,\u2193    4
+      Left,\u2190    4
+      Right,\u2192   4
+    }
+
+    if {[set key [array names map $value,*]] ne ""} {
+      return [list $map($key) [lindex [split $key ,] 1]]
+    } elseif {[set key [array names map *,$value]] ne ""} {
+      return [list $map($key) [lindex [split $key ,] 0]]
+    } elseif {[string length $value] == 2} {
+      return [list 4 [string index $value 1]]
+    } else {
+      return [list 4 $value]
+    }
 
   }
 
