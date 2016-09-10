@@ -29,6 +29,8 @@ namespace eval pref_ui {
   variable current_panel     ""
   variable selected_session  ""
   variable selected_language ""
+  variable mod_dict
+  variable sym_dict
 
   array set widgets     {}
   array set match_chars {}
@@ -1643,10 +1645,10 @@ namespace eval pref_ui {
 
     set widgets(shortcut_frame) [ttk::frame $w.tf.sf]
     ttk::label  $w.tf.sf.l -text [format "%s: " [msgcat::mc "Shortcut"]]
-    set widgets(shortcut_mod) [ttk::combobox $w.tf.sf.mod -width $mod_width -height 5 -state readonly -postcommand [list pref_ui::shortcut_post_modifier]]
-    set widgets(shortcut_sym) [ttk::combobox $w.tf.sf.sym -width 5          -height 5 -state readonly -postcommand [list pref_ui::shortcut_post_symbol]]
-    ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"]  -width 6 -command [list pref_ui::shortcut_clear]
-    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Update"] -width 6 -command [list pref_ui::shortcut_update]]
+    set widgets(shortcut_mod)    [ttk::combobox $w.tf.sf.mod -width $mod_width -height 5 -state readonly]
+    set widgets(shortcut_sym)    [ttk::combobox $w.tf.sf.sym -width 5          -height 5 -state readonly]
+    set widgets(shortcut_clear)  [ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"]  -width 6 -command [list pref_ui::shortcut_clear]]
+    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Update"] -width 6 -state disabled -command [list pref_ui::shortcut_update]]
     ttk::button $w.tf.sf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::shortcut_cancel]
 
     bind $widgets(shortcut_mod) <<ComboboxSelected>> [list pref_ui::shortcut_changed]
@@ -1688,16 +1690,67 @@ namespace eval pref_ui {
 
   ######################################################################
   # Called whenever the modifier or symbol combobox change.  Handles the
-  # state of the Update button.
+  # state of the Update button and update the values available in the
+  # combobox value lists.
   proc shortcut_changed {} {
 
     variable widgets
 
-    if {([$widgets(shortcut_mod) get] eq "") || ([$widgets(shortcut_sym) get] eq "")} {
-      $widgets(shortcut_update) configure -state disabled
-    } else {
+    # Make sure that the Update button is enabled
+    if {([$widgets(shortcut_mod) get] ne "") && ([$widgets(shortcut_sym) get] ne "")} {
       $widgets(shortcut_update) configure -state normal
     }
+
+    # Update the modifier and symbol lists after checking for matches
+    shortcut_check_matches
+
+  }
+
+  ######################################################################
+  # Check the current value in the comboboxes and compares them against
+  # the values in the table.  Updates the combobox value lists with the
+  # available values that will not cause a mismatch to occur.
+  proc shortcut_check_matches {} {
+
+    variable widgets
+    variable mod_dict
+    variable sym_dict
+
+    # Get the current modifier
+    if {[tk windowingsystem] eq "aqua"} {
+      set curr_mod [list]
+      foreach elem [split [$widgets(shortcut_mod) get] ""] {
+        lappend curr_mod [lindex [bindings::accelerator_mapping $elem] 1]
+      }
+    } else {
+      set curr_mod [split [$widgets(shortcut_mod) get] -]
+    }
+
+    # Get the current symbol
+    set curr_sym [$widgets(shortcut_sym) get]
+
+    # Create dictionaries from the mod_dict and sym_dict dictionaries
+    set mods [dict create {*}[dict get $mod_dict]]
+    set syms [dict create {*}[dict get $sym_dict]]
+
+    # Iterate through the table finding partial matches
+    foreach tl_shortcut [$widgets(shortcut_tl) getcolumn shortcut] {
+      if {$tl_shortcut ne ""} {
+        set tl_list [split $tl_shortcut -]
+        set tl_mod  [lrange $tl_list 0 end-1]
+        set tl_sym  [lindex $tl_list end]
+        if {$curr_mod eq $tl_mod} {
+          catch { dict unset syms $tl_sym }
+        }
+        if {$curr_sym eq $tl_sym} {
+          catch { dict unset mods $tl_mod }
+        }
+      }
+    }
+
+    # Set the widgets
+    $widgets(shortcut_mod) configure -values [dict values $mods]
+    $widgets(shortcut_sym) configure -values [dict values $syms]
 
   }
 
@@ -1724,11 +1777,11 @@ namespace eval pref_ui {
       # Setup the value list
       if {[tk windowingsystem] eq "aqua"} {
         foreach elem [split $shortcut -] {
-          lset value {*}[shortcut_mapping $elem]
+          lset value {*}[bindings::accelerator_mapping $elem]
         }
       } else {
         foreach elem [split $shortcut -] {
-          lset value [lindex [shortcut_mapping $elem] 0] $elem
+          lset value [lindex [bindings::accelerator_mapping $elem] 0] $elem
         }
       }
 
@@ -1736,12 +1789,18 @@ namespace eval pref_ui {
       $widgets(shortcut_mod) set [join [lrange $value 0 3] ""]
       $widgets(shortcut_sym) set [lindex $value 4]
 
-      # Make sure the Update button state is set correctly
+      # Make sure the Clear button state is set correctly
       if {$shortcut eq ""} {
-        $widgets(shortcut_update) configure -state disabled
+        $widgets(shortcut_clear) configure -state disabled
       } else {
-        $widgets(shortcut_update) configure -state normal
+        $widgets(shortcut_clear) configure -state normal
       }
+
+      # Disable the Update button
+      $widgets(shortcut_update) configure -state disabled
+
+      # Update the modifier and symbol lists after checking for matches
+      shortcut_check_matches
 
       # Display the shortcut frame
       grid $widgets(shortcut_frame)
@@ -1755,63 +1814,74 @@ namespace eval pref_ui {
 
   ######################################################################
   # Called prior to posting the modifier menu.
-  proc shortcut_post_modifier {} {
+  proc shortcut_create_modifiers {} {
 
     variable widgets
+    variable mod_dict
 
-    set mods   [list Cmd Ctrl Alt Shift \
-                     Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
-                     Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
-                     Ctrl-Alt-Shift-Cmd]
-    set values [list]
+    set mod_dict [dict create]
+    set mods     [list Cmd Ctrl Alt Shift \
+                       Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
+                       Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
+                       Ctrl-Alt-Shift-Cmd]
 
     if {[tk windowingsystem] eq "aqua"} {
-      for {set i 0} {$i < 15} {incr i} {
+      foreach mod $mods {
         set value [list "" "" "" ""]
-        foreach elem [split [lindex $mods $i] -] {
-          lset value {*}[shortcut_mapping $elem]
+        foreach elem [split $mod -] {
+          lset value {*}[bindings::accelerator_mapping $elem]
         }
-        lappend values [join $value ""]
+        dict set mod_dict $mod [join $value ""]
       }
     } else {
-      set values $mods
+      foreach mod $mods {
+        dict set mod_dict $mod $mod
+      }
     }
-
-    $widgets(shortcut_mod) configure -values $values
 
   }
 
   ######################################################################
   # Called prior to posting the symbol menu.
-  proc shortcut_post_symbol {} {
+  proc shortcut_create_symbols {} {
 
     variable widgets
+    variable sym_dict
 
-    set values [list A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 \
-                     4 5 6 7 8 9 ~ ! @ \# \$ % ^ & {\*} ( ) _ + ` - = \{ \} \[ \] | \\ : \
-                     {;} \" \' < , > . {\?} / Up Down Left Right Space]
+    set sym_dict [dict create]
+    set syms     [list A B C D E F G H I J K L M N O P Q R S T U V W X Y Z 0 1 2 3 \
+                       4 5 6 7 8 9 ~ ! @ \# \$ % ^ & {\*} ( ) _ + ` - = \{ \} \[ \] | \\ : \
+                       {;} \" \' < , > . {\?} / Up Down Left Right Space Tab]
 
     if {[tk windowingsystem] eq "aqua"} {
-      for {set i 0} {$i < [llength $values]} {incr i} {
-        lset values $i [lindex [shortcut_mapping [lindex $values $i]] 1]
+      foreach sym $syms {
+        dict set sym_dict $sym [lindex [bindings::accelerator_mapping $sym] 1]
+      }
+    } else {
+      foreach sym $syms {
+        dict set sym_dict $sym $sym
       }
     }
-
-    $widgets(shortcut_sym) configure -values $values
 
   }
 
   ######################################################################
-  # Clears the shortcut values.
+  # Clears the shortcut values and saves the change.
   proc shortcut_clear {} {
 
     variable widgets
 
-    $widgets(shortcut_mod) set ""
-    $widgets(shortcut_sym) set ""
+    # Get the currently selected row
+    set selected [$widgets(shortcut_tl) curselection]
 
-    # Make sure that the Update button state is now disabled
-    $widgets(shortcut_update) configure -state disabled
+    # Set the shortcut cell value
+    $widgets(shortcut_tl) cellconfigure $selected,shortcut -text ""
+
+    # Save the table to the menu binding file
+    shortcut_save
+
+    # Close the shortcut after clearing
+    shortcut_cancel
 
   }
 
@@ -1830,7 +1900,7 @@ namespace eval pref_ui {
         if {[tk windowingsystem] eq "aqua"} {
           set value [list * * * * $sym]
           foreach elem [split $mod ""] {
-            lset value {*}[shortcut_mapping $elem]
+            lset value {*}[bindings::accelerator_mapping $elem]
           }
           set value [join [string map {* {}} $value] -]
         } else {
@@ -1890,40 +1960,13 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Maps the given value to the displayed.
-  proc shortcut_mapping {value} {
-
-    array set map {
-      Ctrl,\u2303    0
-      Alt,\u2325     1
-      Shift,\u21e7   2
-      Cmd,\u2318     3
-      Up,\u2191      4
-      Down,\u2193    4
-      Left,\u2190    4
-      Right,\u2192   4
-    }
-
-    if {[set key [array names map $value,*]] ne ""} {
-      return [list $map($key) [lindex [split $key ,] 1]]
-    } elseif {[set key [array names map *,$value]] ne ""} {
-      return [list $map($key) [lindex [split $key ,] 0]]
-    } elseif {[string length $value] == 2} {
-      return [list 4 [string index $value 1]]
-    } else {
-      return [list 4 $value]
-    }
-
-  }
-
-  ######################################################################
   # Formats the shortcut value in the shortcut table.
   proc shortcut_format {value} {
 
     if {[tk windowingsystem] eq "aqua"} {
       set new_value [list "" "" "" "" ""]
       foreach elem [split $value -] {
-        lset new_value {*}[shortcut_mapping $elem]
+        lset new_value {*}[bindings::accelerator_mapping $elem]
       }
       set value [join $new_value ""]
     }
@@ -2208,5 +2251,9 @@ namespace eval pref_ui {
     }
 
   }
+
+  # Create the modifiers and symbols
+  shortcut_create_modifiers
+  shortcut_create_symbols
 
 }
