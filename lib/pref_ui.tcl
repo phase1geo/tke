@@ -141,7 +141,7 @@ namespace eval pref_ui {
         pane_clicked editor
       }
 
-    # Otherwise, make sure the entire UI is displayed.
+      # Otherwise, make sure the entire UI is displayed.
     } else {
       grid .prefwin.f.bf
       grid .prefwin.f.vsep
@@ -604,11 +604,11 @@ namespace eval pref_ui {
 
     ttk::frame $b.f
     set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
-      -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
-      -height 25 \
-      -editendcommand [list pref_ui::var_edit_end_command] \
-      -xscrollcommand [list [ns utils]::set_xscrollbar $b.f.hb] \
-      -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
+    -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
+    -height 25 \
+    -editendcommand [list pref_ui::var_edit_end_command] \
+    -xscrollcommand [list [ns utils]::set_xscrollbar $b.f.hb] \
+    -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
     ttk::scrollbar $b.f.vb -orient vertical   -command [list $b.f.tl yview]
     ttk::scrollbar $b.f.hb -orient horizontal -command [list $b.f.tl xview]
 
@@ -649,11 +649,11 @@ namespace eval pref_ui {
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Languages"]]
 
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
-      -stretch all -exportselection 1 -showseparators 1 \
-      -height 25 \
-      -editendcommand [list pref_ui::lang_edit_end_command] \
-      -xscrollcommand [list [ns utils]::set_xscrollbar $c.hb] \
-      -yscrollcommand [list [ns utils]::set_yscrollbar $c.vb]]
+    -stretch all -exportselection 1 -showseparators 1 \
+    -height 25 \
+    -editendcommand [list pref_ui::lang_edit_end_command] \
+    -xscrollcommand [list [ns utils]::set_xscrollbar $c.hb] \
+    -yscrollcommand [list [ns utils]::set_yscrollbar $c.vb]]
     ttk::scrollbar $c.vb -orient vertical   -command [list $c.tl yview]
     ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
 
@@ -839,7 +839,7 @@ namespace eval pref_ui {
 
     for {set i 0} {$i < [$widgets(var_table) size]} {incr i} {
       if {([set var [$widgets(var_table) cellcget $i,var -text]] ne "") && \
-          ([set val [$widgets(var_table) cellcget $i,val -text]] ne "")} {
+      ([set val [$widgets(var_table) cellcget $i,val -text]] ne "")} {
         lappend values [list $var $val]
       } else {
         return
@@ -1087,31 +1087,31 @@ namespace eval pref_ui {
 
     ttk::label $w.wwl -text [format "%s: " [set wstr [msgcat::mc "Ruler column"]]]
     set widgets(editor_ww) [$widgets(sb) $w.wwsb {*}$widgets(sb_opts) -from 20 -to 150 -increment 5 -width 3 \
-      -state readonly -command [list pref_ui::set_warning_width]]
+    -state readonly -command [list pref_ui::set_warning_width]]
 
     register $widgets(editor_ww) $wstr Editor/WarningWidth
 
     ttk::label $w.sptl -text [format "%s: " [set wstr [msgcat::mc "Spaces per tab"]]]
     set widgets(editor_spt) [$widgets(sb) $w.sptsb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-      -state readonly -command [list pref_ui::set_spaces_per_tab]]
+    -state readonly -command [list pref_ui::set_spaces_per_tab]]
 
     register $widgets(editor_spt) $wstr Editor/SpacesPerTab
 
     ttk::label $w.isl -text [format "%s: " [set wstr [msgcat::mc "Indentation Spaces"]]]
     set widgets(editor_is) [$widgets(sb) $w.issb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-      -state readonly -command [list pref_ui::set_indent_spaces]]
+    -state readonly -command [list pref_ui::set_indent_spaces]]
 
     register $widgets(editor_is) $wstr Editor/IndentSpaces
 
     ttk::label $w.mul -text [format "%s: " [set wstr [msgcat::mc "Maximum undo history (set to 0 for unlimited)"]]]
     set widgets(editor_mu) [$widgets(sb) $w.musb {*}$widgets(sb_opts) -from 0 -to 200 -increment 10 -width 3 \
-      -state readonly -command [list pref_ui::set_max_undo]]
+    -state readonly -command [list pref_ui::set_max_undo]]
 
     register $widgets(editor_mu) $wstr Editor/MaxUndo
 
     ttk::label $w.vmll -text [format "%s: " [set wstr [msgcat::mc "Line count to find for Vim modeline information"]]]
     set widgets(editor_vml) [$widgets(sb) $w.vmlsb {*}$widgets(sb_opts) -from 0 -to 20 -width 3 \
-      -state readonly -command [list pref_ui::set_vim_modelines]]
+    -state readonly -command [list pref_ui::set_vim_modelines]]
 
     register $widgets(editor_vml) $wstr Editor/VimModelines
 
@@ -1119,10 +1119,10 @@ namespace eval pref_ui {
     set widgets(editor_eolmb) [ttk::menubutton $w.eolmb -menu [menu $w.eol -tearoff 0]]
 
     foreach {value desc} [list auto [msgcat::mc "Use original EOL character from file"] \
-                               sys  [msgcat::mc "Use appropriate EOL character on system"] \
-                               cr   [msgcat::mc "Use single carriage return character"] \
-                               crlf [msgcat::mc "Use carriate return linefeed sequence"] \
-                               lf   [msgcat::mc "Use linefeed character"]] {
+    sys  [msgcat::mc "Use appropriate EOL character on system"] \
+    cr   [msgcat::mc "Use single carriage return character"] \
+    crlf [msgcat::mc "Use carriate return linefeed sequence"] \
+    lf   [msgcat::mc "Use linefeed character"]] {
       $w.eol add radiobutton -label $desc -value $value -variable pref_ui::prefs(Editor/EndOfLineTranslation) -command [list pref_ui::set_eol_translation]
     }
 
@@ -1325,8 +1325,8 @@ namespace eval pref_ui {
     set widgets(emmet_ccmb) [ttk::menubutton $a.ccmb -menu [menu $a.ccmb_mnu -tearoff 0]]
 
     foreach {value lbl} [list upper [msgcat::mc "Convert to uppercase"] \
-                              lower [msgcat::mc "Convert to lowercase"] \
-                              keep  [msgcat::mc "Retain case"]] {
+    lower [msgcat::mc "Convert to lowercase"] \
+    keep  [msgcat::mc "Retain case"]] {
       $a.ccmb_mnu add radiobutton -label $lbl -value $value -variable pref_ui::prefs(Emmet/CSSColorCase) -command [list pref_ui::set_css_color_case]
     }
 
@@ -1369,9 +1369,9 @@ namespace eval pref_ui {
     $w.nb add [set b [ttk::frame $w.af]] -text [msgcat::mc "Addons"]
 
     foreach {type var} [list Mozilla Emmet/CSSMozPropertiesAddon \
-                             MS      Emmet/CSSMSPropertiesAddon \
-                             Opera   Emmet/CSSOPropertiesAddon \
-                             Webkit  Emmet/CSSWebkitPropertiesAddon] {
+    MS      Emmet/CSSMSPropertiesAddon \
+    Opera   Emmet/CSSOPropertiesAddon \
+    Webkit  Emmet/CSSWebkitPropertiesAddon] {
       set ltype [string tolower $type]
       ttk::labelframe $b.$ltype -text [set wstr [format "$type %s" [msgcat::mc "Properties"]]]
       pack [tokenentry::tokenentry $b.$ltype.te -height 4 -tokenshape eased] -fill both -expand yes
@@ -1422,19 +1422,19 @@ namespace eval pref_ui {
 
     ttk::label $w.mhl -text [format "%s: " [set wstr [msgcat::mc "Set Find History Depth"]]]
     set widgets(find_mh) [$widgets(sb) $w.mh {*}$widgets(sb_opts) -from 0 -to 100 -width 3 \
-      -state readonly -command [list pref_ui::set_max_history]]
+    -state readonly -command [list pref_ui::set_max_history]]
 
     register $widgets(find_mh) $wstr Find/MaxHistory
 
     ttk::label $w.cnl -text [format "%s: " [set wstr [msgcat::mc "Set Find in Files Line Context"]]]
     set widgets(find_cn) [$widgets(sb) $w.cn {*}$widgets(sb_opts) -from 0 -to 10 -width 3 \
-      -state readonly -command [list pref_ui::set_context_num]]
+    -state readonly -command [list pref_ui::set_context_num]]
 
     register $widgets(find_cn) $wstr Find/ContextNum
 
     ttk::label $w.jdl -text [format "%s: " [set wstr [msgcat::mc "Set Jump Distance"]]]
     set widgets(find_jd) [$widgets(sb) $w.jd {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-      -state readonly -command [list pref_ui::set_jump_distance]]
+    -state readonly -command [list pref_ui::set_jump_distance]]
 
     register $widgets(find_jd) $wstr Find/JumpDistance
 
@@ -1550,7 +1550,7 @@ namespace eval pref_ui {
 
     ttk::label   $w.chdl -text [format "%s: " [set wstr [msgcat::mc "Clipboard history depth"]]]
     set widgets(tools_chd) [$widgets(sb) $w.chdsb {*}$widgets(sb_opts) -from 1 -to 30 -width 3 \
-      -state readonly -command [list pref_ui::set_clipboard_history]]
+    -state readonly -command [list pref_ui::set_clipboard_history]]
 
     register $widgets(tools_chd) $wstr Tools/ClipboardHistoryDepth
 
@@ -1601,7 +1601,7 @@ namespace eval pref_ui {
     ttk::frame $w.of
     pack [ttk::label   $w.of.l  -text [format "%s: " [set wstr [msgcat::mc "Recently opened history depth"]]]] -side left -padx 2 -pady 2
     pack [set widgets(view_sro) [$widgets(sb) $w.of.sb {*}$widgets(sb_opts) -from 0 -to 20 -width 2 \
-      -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
+    -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
 
     register $widgets(view_sro) $wstr View/ShowRecentlyOpened
 
@@ -1642,8 +1642,8 @@ namespace eval pref_ui {
 
     ttk::frame $w.tf
     set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut}} \
-      -height 20 -exportselection 0 -stretch all \
-      -yscrollcommand [list $w.tf.vb set]]
+    -height 20 -exportselection 0 -stretch all \
+    -yscrollcommand [list $w.tf.vb set]]
     ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
 
     set widgets(shortcut_frame) [ttk::frame $w.tf.sf]
@@ -1763,8 +1763,20 @@ namespace eval pref_ui {
 
     variable widgets
 
+    set mnu_path ""
+    while {$mnu ne ".menubar"} {
+      set parent_mnu [winfo parent $mnu]
+      for {set i 0} {$i <= [$parent_mnu index end]} {incr i} {
+        if {([$parent_mnu type $i] eq "cascade") && ([$parent_mnu entrycget $i -menu] eq $mnu)} {
+          set mnu_path "[$parent_mnu entrycget $i -label]/$mnu_path"
+          break
+        }
+      }
+      set mnu $parent_mnu
+    }
+
     # Create the full label based on the menu and label name
-    set lbl "[string totitle [string map {.menubar {} . /} $mnu]]/$lbl"
+    set lbl "$mnu_path$lbl"
 
     # Search the table for the matching menu item (if none is found return)
     if {[set row [$widgets(shortcut_tl) searchcolumn label $lbl]] == -1} {
@@ -1773,6 +1785,7 @@ namespace eval pref_ui {
 
     # Select the row in the tabl
     $widgets(shortcut_tl) selection set $row
+    $widgets(shortcut_tl) see $row
 
     # Initiate the table selection
     shortcut_table_select
@@ -1846,9 +1859,9 @@ namespace eval pref_ui {
 
     set mod_dict [dict create]
     set mods     [list Cmd Ctrl Alt Shift \
-                       Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
-                       Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
-                       Ctrl-Alt-Shift-Cmd]
+    Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
+    Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
+    Ctrl-Alt-Shift-Cmd]
 
     if {[tk windowingsystem] eq "aqua"} {
       foreach mod $mods {
@@ -2021,7 +2034,7 @@ namespace eval pref_ui {
         checkbutton -
         radiobutton {
           $widgets(shortcut_tl) insert end \
-            [list "${prefix}[$mnu entrycget $i -label]" [$mnu entrycget $i -accelerator]]
+          [list "${prefix}[$mnu entrycget $i -label]" [$mnu entrycget $i -accelerator]]
         }
       }
     }
@@ -2096,10 +2109,10 @@ namespace eval pref_ui {
 
     ttk::frame $c.f
     set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
-      -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
-      -editendcommand [list pref_ui::nfs_edit_end_command] \
-      -xscrollcommand [list [ns utils]::set_xscrollbar $c.f.hb] \
-      -yscrollcommand [list [ns utils]::set_yscrollbar $c.f.vb]]
+    -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
+    -editendcommand [list pref_ui::nfs_edit_end_command] \
+    -xscrollcommand [list [ns utils]::set_xscrollbar $c.f.hb] \
+    -yscrollcommand [list [ns utils]::set_yscrollbar $c.f.vb]]
     ttk::scrollbar $c.f.vb -orient vertical   -command [list $c.f.tl yview]
     ttk::scrollbar $c.f.hb -orient horizontal -command [list $c.f.tl xview]
 

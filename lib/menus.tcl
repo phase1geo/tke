@@ -229,7 +229,8 @@ namespace eval menus {
 
     # Create menu binding that will allow us to Shift click menu items to
     # edit their shortcuts in the preferences window.
-    bind $mnu <Control-Button-1> [list menus::handle_menu_shift_click %W %y]
+    bind $mnu <Control-Button-1>        { menus::handle_menu_shift_click %W %y; break }
+    bind $mnu <Control-ButtonRelease-1> { break }
 
     return $mnu
 
@@ -241,9 +242,12 @@ namespace eval menus {
   # set the selected menu for editing.
   proc handle_menu_shift_click {w y} {
 
-    if {[preferences get General/EditPreferencesUsingGUI]} {
-      pref_ui::create "" "" Shortcuts
-      pref_ui::shortcut_edit_item $w [$w entrycget @$y -label]
+    # Unpost the menu
+    tk::MenuUnpost {}
+
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      pref_ui::create "" "" shortcuts
+      pref_ui::shortcut_edit_item [string map {# .} [lindex [split $w .] end]] [$w entrycget @$y -label]
     } else {
       bindings::edit_user
     }
@@ -2018,7 +2022,7 @@ namespace eval menus {
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 \
-      -menu [make_menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu syntax::set_current_language syntax::current_lang [msgcat::mc None]"]
+    -menu [make_menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu syntax::set_current_language syntax::current_lang [msgcat::mc None]"]
     $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [make_menu $mb.themeMenu  -tearoff 0 -postcommand "themes::populate_theme_menu $mb.themeMenu"]
 
     # Setup the line numbering popup menu
