@@ -170,7 +170,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Create the preferences window.
-  proc create {session language} {
+  proc create {session language {panel ""}} {
 
     variable widgets
     variable prefs
@@ -268,8 +268,11 @@ namespace eval pref_ui {
         pane_clicked editor
       } elseif {$session ne ""} {
         pack forget $widgets(panes).general
+        pack forget $widgets(panes).shortcuts
         pack forget $widgets(panes).advanced
         pane_clicked appearance
+      } elseif {$panel ne ""} {
+        pane_clicked $panel
       } else {
         pane_clicked general
       }
@@ -1751,6 +1754,28 @@ namespace eval pref_ui {
     # Set the widgets
     $widgets(shortcut_mod) configure -values [dict values $mods]
     $widgets(shortcut_sym) configure -values [dict values $syms]
+
+  }
+
+  ######################################################################
+  # Edits the named shortcut item
+  proc shortcut_edit_item {mnu lbl} {
+
+    variable widgets
+
+    # Create the full label based on the menu and label name
+    set lbl "[string totitle [string map {.menubar {} . /} $mnu]]/$lbl"
+
+    # Search the table for the matching menu item (if none is found return)
+    if {[set row [$widgets(shortcut_tl) searchcolumn label $lbl]] == -1} {
+      return
+    }
+
+    # Select the row in the tabl
+    $widgets(shortcut_tl) selection set $row
+
+    # Initiate the table selection
+    shortcut_table_select
 
   }
 

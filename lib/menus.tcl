@@ -103,12 +103,12 @@ namespace eval menus {
         $mb add separator
         $mb add command -label [format "%s %s" [msgcat::mc "Restart"] "TKE"] -underline 0 -command "menus::restart_command"
 
-        launcher::register [make_menu "Tools" [msgcat::mc "Start profiling"]]                [list menus::start_profiling_command $mb]
-        launcher::register [make_menu "Tools" [msgcat::mc "Stop profiling"]]                 [list menus::stop_profiling_command $mb 1]
-        launcher::register [make_menu "Tools" [msgcat::mc "Show last profiling report"]]     [list menus::show_last_profiling_report]
-        launcher::register [make_menu "Tools" [msgcat::mc "Show diagnostic logfile"]]        [list logger::view_log]
-        launcher::register [make_menu "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]]    [list menus::run_bist]
-        launcher::register [make_menu "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] [list menus::restart_command]
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Start profiling"]]                [list menus::start_profiling_command $mb]
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Stop profiling"]]                 [list menus::stop_profiling_command $mb 1]
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show last profiling report"]]     [list menus::show_last_profiling_report]
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show diagnostic logfile"]]        [list logger::view_log]
+        launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]]    [list menus::run_bist]
+        launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] [list menus::restart_command]
 
         # If profiling was enabled at startup, disable start and enable stop
         if {$::cl_profile} {
@@ -120,23 +120,23 @@ namespace eval menus {
         $mb insert 3 separator
         $mb insert 4 command -label [format "%s..." [msgcat::mc "Create"]] -underline 0 -command [list plugins::create_new_plugin]
 
-        launcher::register [make_menu "Plugins" [msgcat::mc "Create new plugin"]] [list plugins::create_new_plugin]
+        launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] [list plugins::create_new_plugin]
 
       } elseif {$last_devel_mode ne ""} {
 
         set mb    ".menubar.tools"
         set index [$mb index [msgcat::mc "Start Profiling"]]
         $mb delete [expr $index - 1] end
-        launcher::unregister [make_menu "Tools" [msgcat::mc "Start profiling"]] * *
-        launcher::unregister [make_menu "Tools" [msgcat::mc "Stop profiling"]] * *
-        launcher::unregister [make_menu "Tools" [msgcat::mc "Show last profiling report"]] * *
-        launcher::unregister [make_menu "Tools" [msgcat::mc "Show diagnostic logfile"]] * *
-        launcher::unregister [make_menu "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]] * *
-        launcher::unregister [make_menu "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Start profiling"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Stop profiling"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Show last profiling report"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Show diagnostic logfile"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] * *
 
         set mb ".menubar.plugins"
         $mb delete 3 4
-        launcher::unregister [make_menu "Plugins" [msgcat::mc "Create new plugin"]] * *
+        launcher::unregister [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] * *
 
       }
 
@@ -157,35 +157,35 @@ namespace eval menus {
     set mb [menu .menubar -foreground $foreground -background $background -relief flat -tearoff false]
 
     # Add the file menu
-    $mb add cascade -label [msgcat::mc "File"] -menu [menu $mb.file -tearoff false -postcommand "menus::file_posting $mb.file"]
+    $mb add cascade -label [msgcat::mc "File"] -menu [make_menu $mb.file -tearoff false -postcommand "menus::file_posting $mb.file"]
     add_file $mb.file
 
     # Add the edit menu
-    $mb add cascade -label [msgcat::mc "Edit"] -menu [menu $mb.edit -tearoff false -postcommand "menus::edit_posting $mb.edit"]
+    $mb add cascade -label [msgcat::mc "Edit"] -menu [make_menu $mb.edit -tearoff false -postcommand "menus::edit_posting $mb.edit"]
     add_edit $mb.edit
 
     # Add the find menu
-    $mb add cascade -label [msgcat::mc "Find"] -menu [menu $mb.find -tearoff false -postcommand "menus::find_posting $mb.find"]
+    $mb add cascade -label [msgcat::mc "Find"] -menu [make_menu $mb.find -tearoff false -postcommand "menus::find_posting $mb.find"]
     add_find $mb.find
 
     # Add the view menu
-    $mb add cascade -label [msgcat::mc "View"] -menu [menu $mb.view -tearoff false -postcommand "menus::view_posting $mb.view"]
+    $mb add cascade -label [msgcat::mc "View"] -menu [make_menu $mb.view -tearoff false -postcommand "menus::view_posting $mb.view"]
     add_view $mb.view
 
     # Add the tools menu
-    $mb add cascade -label [msgcat::mc "Tools"] -menu [menu $mb.tools -tearoff false -postcommand "menus::tools_posting $mb.tools"]
+    $mb add cascade -label [msgcat::mc "Tools"] -menu [make_menu $mb.tools -tearoff false -postcommand "menus::tools_posting $mb.tools"]
     add_tools $mb.tools
 
     # Add the sessions menu
-    $mb add cascade -label [msgcat::mc "Sessions"] -menu [menu $mb.sessions -tearoff false -postcommand "menus::sessions_posting $mb.sessions"]
+    $mb add cascade -label [msgcat::mc "Sessions"] -menu [make_menu $mb.sessions -tearoff false -postcommand "menus::sessions_posting $mb.sessions"]
     add_sessions $mb.sessions
 
     # Add the plugins menu
-    $mb add cascade -label [msgcat::mc "Plugins"] -menu [menu $mb.plugins -tearoff false -postcommand "menus::plugins_posting $mb.plugins"]
+    $mb add cascade -label [msgcat::mc "Plugins"] -menu [make_menu $mb.plugins -tearoff false -postcommand "menus::plugins_posting $mb.plugins"]
     add_plugins $mb.plugins
 
     # Add the help menu
-    $mb add cascade -label [msgcat::mc "Help"] -menu [menu $mb.help -tearoff false]
+    $mb add cascade -label [msgcat::mc "Help"] -menu [make_menu $mb.help -tearoff false]
     add_help $mb.help
 
     # If we are running on Mac OS X, add the window menu with the windowlist package
@@ -195,7 +195,7 @@ namespace eval menus {
       windowlist::windowMenu $mb
 
       # Add the launcher command to show the about window
-      launcher::register [make_menu "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] gui::show_about
+      launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] gui::show_about
 
     }
 
@@ -221,8 +221,38 @@ namespace eval menus {
   ########################
 
   ######################################################################
+  # Returns a menu that will be used in the main menu system.
+  proc make_menu {w args} {
+
+    # Create the menu
+    set mnu [menu $w {*}$args]
+
+    # Create menu binding that will allow us to Shift click menu items to
+    # edit their shortcuts in the preferences window.
+    bind $mnu <Control-Button-1> [list menus::handle_menu_shift_click %W %y]
+
+    return $mnu
+
+  }
+
+  ######################################################################
+  # Handles menu shift click events.  If the preference GUI is enabled,
+  # automatically open preferences, display the Shortcuts panel and
+  # set the selected menu for editing.
+  proc handle_menu_shift_click {w y} {
+
+    if {[preferences get General/EditPreferencesUsingGUI]} {
+      pref_ui::create "" "" Shortcuts
+      pref_ui::shortcut_edit_item $w [$w entrycget @$y -label]
+    } else {
+      bindings::edit_user
+    }
+
+  }
+
+  ######################################################################
   # Returns the menu string with language support.
-  proc make_menu {mnu lbl} {
+  proc make_menu_cmd {mnu lbl} {
 
     return [format "%s %s: %s" [msgcat::mc $mnu] [msgcat::mc "Menu"] $lbl]
 
@@ -235,107 +265,107 @@ namespace eval menus {
     $mb delete 0 end
 
     $mb add command -label [msgcat::mc "New Window"] -underline 4 -command [list menus::new_window_command]
-    launcher::register [make_menu "File" [msgcat::mc "New window"]] [list menus::new_window_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "New window"]] [list menus::new_window_command]
 
     $mb add command -label [msgcat::mc "New File"] -underline 0 -command [list menus::new_file_command]
-    launcher::register [make_menu "File" [msgcat::mc "New file"]] [list menus::new_file_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "New file"]] [list menus::new_file_command]
 
     $mb add command -label [format "%s..." [msgcat::mc "New From Template"]] -underline 9 -command [list templates::show_templates load_abs]
-    launcher::register [make_menu "File" [msgcat::mc "New file from template"]] [list templates::show_templates load_abs]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "New file from template"]] [list templates::show_templates load_abs]
 
     $mb add separator
 
     $mb add command -label [format "%s..." [msgcat::mc "Open File"]] -underline 0 -command [list menus::open_command]
-    launcher::register [make_menu "File" [msgcat::mc "Open file"]] [list menus::open_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open file"]] [list menus::open_command]
 
     $mb add command -label [format "%s..." [msgcat::mc "Open Directory"]] -underline 5 -command [list menus::open_dir_command]
-    launcher::register [make_menu "File" [msgcat::mc "Open directory"]] [list menus::open_dir_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open directory"]] [list menus::open_dir_command]
 
-    $mb add cascade -label [msgcat::mc "Open Recent"] -menu [menu $mb.recent -tearoff false -postcommand [list menus::file_recent_posting $mb.recent]]
-    launcher::register [make_menu "File" [msgcat::mc "Open Recent"]] [list menus::launcher]
+    $mb add cascade -label [msgcat::mc "Open Recent"] -menu [make_menu $mb.recent -tearoff false -postcommand [list menus::file_recent_posting $mb.recent]]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open Recent"]] [list menus::launcher]
 
-    $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [menu $mb.favorites -tearoff false -postcommand [list menus::file_favorites_posting $mb.favorites]]
-    launcher::register [make_menu "File" [msgcat::mc "Open Favorite"]] [list favorites::launcher]
+    $mb add cascade -label [msgcat::mc "Open Favorite"] -menu [make_menu $mb.favorites -tearoff false -postcommand [list menus::file_favorites_posting $mb.favorites]]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open Favorite"]] [list favorites::launcher]
 
     $mb add command -label [msgcat::mc "Reopen File"] -underline 0 -command [list gui::update_current]
-    launcher::register [make_menu "File" [msgcat::mc "Reopen current file"]] [list gui::update_current]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Reopen current file"]] [list gui::update_current]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Change Working Directory"] -underline 0 -command [list menus::change_working_directory]
-    launcher::register [make_menu "File" [msgcat::mc "Change working directory"]] [list menus::change_working_directory]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Change working directory"]] [list menus::change_working_directory]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Show File Difference"] -underline 3 -command [list menus::show_file_diff]
-    launcher::register [make_menu "File" [msgcat::mc "Show file difference"]] [list menus::show_file_diff]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Show file difference"]] [list menus::show_file_diff]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Save"] -underline 0 -command [list menus::save_command]
-    launcher::register [make_menu "File" [msgcat::mc "Save file"]] [list menus::save_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file"]] [list menus::save_command]
 
     $mb add command -label [format "%s..." [msgcat::mc "Save As"]] -underline 5 -command [list menus::save_as_command]
-    launcher::register [make_menu "File" [msgcat::mc "Save file as"]] menus::save_as_command
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as"]] menus::save_as_command
 
     $mb add command -label [format "%s..." [msgcat::mc "Save As Template"]] -command [list templates::save_as]
-    launcher::register [make_menu "File" [msgcat::mc "Save file as template"]] [list templates::save_as]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as template"]] [list templates::save_as]
 
     $mb add command -label [format "%s..." [msgcat::mc "Save Selection As"]] -underline 7 -command [list menus::save_selection_as_command]
-    launcher::register [make_menu "File" [msgcat::mc "Save selected lines"]] [list menus::save_selection_as_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save selected lines"]] [list menus::save_selection_as_command]
 
     $mb add command -label [msgcat::mc "Save All"] -underline 6 -command [list gui::save_all]
-    launcher::register [make_menu "File" [msgcat::mc "Save all files"]] [list gui::save_all]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save all files"]] [list gui::save_all]
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Line Ending"] -menu [menu $mb.eolPopup -tearoff 0 -postcommand [list menus::file_eol_posting $mb.eolPopup]]
+    $mb add cascade -label [msgcat::mc "Line Ending"] -menu [make_menu $mb.eolPopup -tearoff 0 -postcommand [list menus::file_eol_posting $mb.eolPopup]]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Rename"] -underline 4 -command [list menus::rename_command]
-    launcher::register [make_menu "File" [msgcat::mc "Rename current file"]] [list menus::rename_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Rename current file"]] [list menus::rename_command]
 
     $mb add command -label [msgcat::mc "Duplicate"] -underline 1 -command [list menus::duplicate_command]
-    launcher::register [make_menu "File" [msgcat::mc "Duplicate current file"]] [list menus::duplicate_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Duplicate current file"]] [list menus::duplicate_command]
 
     $mb add command -label [msgcat::mc "Delete"] -underline 0 -command [list menus::delete_command]
-    launcher::register [make_menu "File" [msgcat::mc "Delete current file"]] [list menus::delete_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Delete current file"]] [list menus::delete_command]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Lock"] -underline 0 -command [list menus::lock_command $mb]
-    launcher::register [make_menu "File" [msgcat::mc "Lock file"]] [list menus::lock_command $mb]
-    launcher::register [make_menu "File" [msgcat::mc "Unlock file"]] [list menus::unlock_command $mb]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Lock file"]] [list menus::lock_command $mb]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Unlock file"]] [list menus::unlock_command $mb]
 
     $mb add command -label [msgcat::mc "Favorite"] -underline 0 -command [list menus::favorite_command $mb]
-    launcher::register [make_menu "File" [msgcat::mc "Favorite file"]] [list menus::favorite_command $mb]
-    launcher::register [make_menu "File" [msgcat::mc "Unfavorite file"]] [list menus::unfavorite_command $mb]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Favorite file"]] [list menus::favorite_command $mb]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Unfavorite file"]] [list menus::unfavorite_command $mb]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Close"] -underline 0 -command [list menus::close_command]
-    launcher::register [make_menu "File" [msgcat::mc "Close current tab"]] [list menus::close_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Close current tab"]] [list menus::close_command]
 
     $mb add command -label [msgcat::mc "Close All"] -underline 6 -command [list menus::close_all_command]
-    launcher::register [make_menu "File" [msgcat::mc "Close all tabs"]] [list menus::close_all_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Close all tabs"]] [list menus::close_all_command]
 
     # Only add the quit menu to File if we are not running in aqua
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
       $mb add command -label [msgcat::mc "Quit"] -underline 0 -command [list menus::exit_command]
     }
-    launcher::register [make_menu "File" [msgcat::mc "Quit application"]] [list menus::exit_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Quit application"]] [list menus::exit_command]
 
     # Populate the end-of-line menu
     $mb.eolPopup add radiobutton -label [msgcat::mc "Windows"]     -variable menus::line_ending -value "crlf" -command [list gui::set_current_eol_translation crlf]
-    launcher::register [make_menu "File" [msgcat::mc "Set current file line ending to CRLF for Windows"]] [list gui::set_current_eol_translation crlf]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to CRLF for Windows"]] [list gui::set_current_eol_translation crlf]
 
     $mb.eolPopup add radiobutton -label [msgcat::mc "Unix"]        -variable menus::line_ending -value "lf"   -command [list gui::set_current_eol_translation lf]
-    launcher::register [make_menu "File" [msgcat::mc "Set current file line ending to LF for Unix"]] [list gui::set_current_eol_translation lf]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to LF for Unix"]] [list gui::set_current_eol_translation lf]
 
     $mb.eolPopup add radiobutton -label [msgcat::mc "Classic Mac"] -variable menus::line_ending -value "cr"   -command [list gui::set_current_eol_translation cr]
-    launcher::register [make_menu "File" [msgcat::mc "Set current file line ending to CR for Classic Mac"]] [list gui::set_current_eol_translation cr]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Set current file line ending to CR for Classic Mac"]] [list gui::set_current_eol_translation cr]
 
   }
 
@@ -851,321 +881,321 @@ namespace eval menus {
 
     # Add edit menu commands
     $mb add command -label [msgcat::mc "Undo"] -underline 0 -command [list gui::undo {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Undo"]] [list gui::undo {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Undo"]] [list gui::undo {}]
 
     $mb add command -label [msgcat::mc "Redo"] -underline 0 -command [list gui::redo {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Redo"]] [list gui::redo {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Redo"]] [list gui::redo {}]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Cut"] -underline 0 -command [list gui::cut {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Cut text"]] [list gui::cut {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Cut text"]] [list gui::cut {}]
 
     $mb add command -label [msgcat::mc "Copy"] -underline 1 -command [list gui::copy {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Copy text"]] [list gui::copy {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Copy text"]] [list gui::copy {}]
 
     $mb add command -label [msgcat::mc "Paste"] -underline 0 -command [list gui::paste {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Paste text from clipboard"]] [list gui::paste {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste text from clipboard"]] [list gui::paste {}]
 
     $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command [list gui::paste_and_format {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Paste and format text from clipboard"]] [list gui::paste_and_format {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste and format text from clipboard"]] [list gui::paste_and_format {}]
 
     $mb add command -label [msgcat::mc "Select All"] -underline 7 -command [list gui::select_all {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Select all text"]] [list gui::select_all {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list gui::select_all {}]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command [list edit::comment_toggle {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Toggle comment"]] [list edit::comment_toggle {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle comment"]] [list edit::comment_toggle {}]
 
-    $mb add cascade -label [msgcat::mc "Indentation"] -underline 0 -menu [menu $mb.indentPopup -tearoff 0 -postcommand [list menus::edit_indent_posting $mb.indentPopup]]
-    $mb add cascade -label [msgcat::mc "Cursor"]      -underline 1 -menu [menu $mb.cursorPopup -tearoff 0 -postcommand [list menus::edit_cursor_posting $mb.cursorPopup]]
-
-    $mb add separator
-
-    $mb add cascade -label [msgcat::mc "Insert"]    -menu [menu $mb.insertPopup    -tearoff 0 -postcommand [list menus::edit_insert_posting $mb.insertPopup]]
-    $mb add cascade -label [msgcat::mc "Delete"]    -menu [menu $mb.deletePopup    -tearoff 0 -postcommand [list menus::edit_delete_posting $mb.deletePopup]]
-    $mb add cascade -label [msgcat::mc "Transform"] -menu [menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
+    $mb add cascade -label [msgcat::mc "Indentation"] -underline 0 -menu [make_menu $mb.indentPopup -tearoff 0 -postcommand [list menus::edit_indent_posting $mb.indentPopup]]
+    $mb add cascade -label [msgcat::mc "Cursor"]      -underline 1 -menu [make_menu $mb.cursorPopup -tearoff 0 -postcommand [list menus::edit_cursor_posting $mb.cursorPopup]]
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [menu $mb.prefPopup -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
-    $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [menu $mb.bindPopup -tearoff 0]
-    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [menu $mb.snipPopup -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
-    $mb add cascade -label [msgcat::mc "Templates"]     -menu [menu $mb.tempPopup -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
-    $mb add cascade -label "Emmet" -menu [menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
+    $mb add cascade -label [msgcat::mc "Insert"]    -menu [make_menu $mb.insertPopup    -tearoff 0 -postcommand [list menus::edit_insert_posting $mb.insertPopup]]
+    $mb add cascade -label [msgcat::mc "Delete"]    -menu [make_menu $mb.deletePopup    -tearoff 0 -postcommand [list menus::edit_delete_posting $mb.deletePopup]]
+    $mb add cascade -label [msgcat::mc "Transform"] -menu [make_menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
+
+    $mb add separator
+
+    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [make_menu $mb.prefPopup -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
+    $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [make_menu $mb.bindPopup -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [make_menu $mb.snipPopup -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
+    $mb add cascade -label [msgcat::mc "Templates"]     -menu [make_menu $mb.tempPopup -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
+    $mb add cascade -label "Emmet" -menu [make_menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
 
     ###########################
     # Populate indentation menu
     ###########################
 
     $mb.indentPopup add command -label [msgcat::mc "Indent"] -underline 0 -command [list menus::indent_command]
-    launcher::register [make_menu "Edit" [msgcat::mc "Indent selected text"]] [list menus::indent_command]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Indent selected text"]] [list menus::indent_command]
 
     $mb.indentPopup add command -label [msgcat::mc "Unindent"] -underline 1 -command [list menus::unindent_command]
-    launcher::register [make_menu "Edit" [msgcat::mc "Unindent selected text"]] [list menus::unindent_command]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Unindent selected text"]] [list menus::unindent_command]
 
     $mb.indentPopup add separator
 
     $mb.indentPopup add command -label [msgcat::mc "Format Text"] -command [list gui::format_text {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Format indentation for text"]] [list gui::format_text {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Format indentation for text"]] [list gui::format_text {}]
 
     $mb.indentPopup add separator
 
     $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_indent_mode {} OFF]
-    launcher::register [make_menu "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_indent_mode {} OFF]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_indent_mode {} OFF]
 
     $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_indent_mode {} IND]
-    launcher::register [make_menu "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_indent_mode {} IND]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_indent_mode {} IND]
 
     $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_indent_mode {} IND+]
-    launcher::register [make_menu "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_indent_mode {} IND+]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_indent_mode {} IND+]
 
     ######################
     # Populate cursor menu
     ######################
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to First Line"] -command [list menus::edit_cursor_move first]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to first line"]] [list menus::edit_cursor_move first]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to first line"]] [list menus::edit_cursor_move first]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Last Line"] -command [list menus::edit_cursor_move last]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to last line"]] [list menus::edit_cursor_move last]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to last line"]] [list menus::edit_cursor_move last]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Next Page"] -command [list menus::edit_cursor_move_by_page next]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to next page"]] [list menus::edit_cursor_move_by_page next]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to next page"]] [list menus::edit_cursor_move_by_page next]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Page"] -command [list menus::edit_cursor_move_by_page prior]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to previous page"]] [list menus::edit_cursor_move_by_page prior]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to previous page"]] [list menus::edit_cursor_move_by_page prior]
 
     $mb.cursorPopup add separator
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Screen Top"] -command [list menus::edit_cursor_move screentop]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to top of screen"]] [list menus::edit_cursor_move screentop]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to top of screen"]] [list menus::edit_cursor_move screentop]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Screen Middle"] -command [list menus::edit_cursor_move screenmid]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to middle of screen"]] [list menus::edit_cursor_move screenmid]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to middle of screen"]] [list menus::edit_cursor_move screenmid]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Screen Bottom"] -command [list menus::edit_cursor_move screenbot]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to bottom of screen"]] [list menus::edit_cursor_move screenbot]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to bottom of screen"]] [list menus::edit_cursor_move screenbot]
 
     $mb.cursorPopup add separator
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Line Start"] -command [list menus::edit_cursor_move linestart]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to start of current line"]] [list menus::edit_cursor_move linestart]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to start of current line"]] [list menus::edit_cursor_move linestart]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Line End"] -command [list menus::edit_cursor_move lineend]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to end of current line"]] [list menus::edit_cursor_move lineend]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to end of current line"]] [list menus::edit_cursor_move lineend]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Next Word"] -command [list menus::edit_cursor_move nextword]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to next word"]] [list menus::edit_cursor_move nextword]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to next word"]] [list menus::edit_cursor_move nextword]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Word"] -command [list menus::edit_cursor_move prevword]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move cursor to previous word"]] [list menus::edit_cursor_move prevword]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to previous word"]] [list menus::edit_cursor_move prevword]
 
     $mb.cursorPopup add separator
 
     $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Up"] -command [list menus::edit_cursors_move "-1l"]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move multicursors up one line"]] [list menus::edit_cursors_move "-1l"]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move multicursors up one line"]] [list menus::edit_cursors_move "-1l"]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Down"] -command [list menus::edit_cursors_move "+1l"]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move multicursors down one line"]] [list menus::edit_cursors_move "+1l"]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move multicursors down one line"]] [list menus::edit_cursors_move "+1l"]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Left"] -command [list menus::edit_cursors_move "-1c"]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move multicursors left one line"]] [list menus::edit_cursors_move "-1c"]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move multicursors left one line"]] [list menus::edit_cursors_move "-1c"]
 
     $mb.cursorPopup add command -label [msgcat::mc "Move Cursors Right"] -command [list menus::edit_cursors_move "+1c"]
-    launcher::register [make_menu "Edit" [msgcat::mc "Move multicursors right one line"]] [list menus::edit_cursors_move "+1c"]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move multicursors right one line"]] [list menus::edit_cursors_move "+1c"]
 
     $mb.cursorPopup add separator
 
     $mb.cursorPopup add command -label [msgcat::mc "Align Cursors"] -command [list edit::align_cursors {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Align cursors"]] [list edit::align_cursors {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors"]] [list edit::align_cursors {}]
 
     #########################
     # Populate insertion menu
     #########################
 
     $mb.insertPopup add command -label [msgcat::mc "Line Above Current"] -command [list menus::edit_insert_line_above]
-    launcher::register [make_menu "Edit" [msgcat::mc "Insert line above current line"]] [list menus::edit_insert_line_above]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert line above current line"]] [list menus::edit_insert_line_above]
 
     $mb.insertPopup add command -label [msgcat::mc "Line Below Current"] -command [list menus::edit_insert_line_below]
-    launcher::register [make_menu "Edit" [msgcat::mc "Insert line below current line"]] [list menus::edit_insert_line_below]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert line below current line"]] [list menus::edit_insert_line_below]
 
     $mb.insertPopup add separator
 
     $mb.insertPopup add command -label [msgcat::mc "File Contents"] -command [list menus::edit_insert_file_after_current_line]
-    launcher::register [make_menu "Edit" [msgcat::mc "Insert file contents after current line"]] [list menus::edit_insert_file_after_current_line]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert file contents after current line"]] [list menus::edit_insert_file_after_current_line]
 
     $mb.insertPopup add command -label [msgcat::mc "Command Result"] -command [list menus::edit_insert_command_after_current_line]
-    launcher::register [make_menu "Edit" [msgcat::mc "Insert command result after current line"]] [list menus::edit_insert_command_after_current_line]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert command result after current line"]] [list menus::edit_insert_command_after_current_line]
 
     $mb.insertPopup add separator
 
     $mb.insertPopup add command -label [msgcat::mc "From Clipboard"] -command [list cliphist::show_cliphist]
-    launcher::register [make_menu "Edit" [msgcat::mc "Insert from clipboard"]] [list cliphist::show_cliphist]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert from clipboard"]] [list cliphist::show_cliphist]
 
     $mb.insertPopup add command -label [msgcat::mc "Snippet"] -command [list snippets::show_snippets]
-    launcher::register [make_menu "Edit" [msgcat::mc "Insert snippet"]] [list snippets::show_snippets]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert snippet"]] [list snippets::show_snippets]
 
     $mb.insertPopup add separator
 
     $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::insert_enumeration {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Insert enumeration"]] [list edit::insert_enumeration {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::insert_enumeration {}]
 
     ########################
     # Populate deletion menu
     ########################
 
     $mb.deletePopup add command -label [msgcat::mc "Current Line"] -command [list menus::edit_delete_current_line]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete current line"]] [list menus::edit_delete_current_line]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete current line"]] [list menus::edit_delete_current_line]
 
     $mb.deletePopup add command -label [msgcat::mc "Current Word"] -command [list menus::edit_delete_current_word]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete current word"]] [list menus::edit_delete_current_word]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete current word"]] [list menus::edit_delete_current_word]
 
     $mb.deletePopup add command -label [msgcat::mc "Current Number"] -command [list menus::edit_delete_current_number]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete the current number"]] [list menus::edit_delete_current_number]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete the current number"]] [list menus::edit_delete_current_number]
 
     $mb.deletePopup add separator
 
     $mb.deletePopup add command -label [msgcat::mc "Cursor to Line End"] -command [list menus::edit_delete_to_end]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete from cursor to end of line"]] [list menus::edit_delete_to_end]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete from cursor to end of line"]] [list menus::edit_delete_to_end]
 
     $mb.deletePopup add command -label [msgcat::mc "Cursor from Line Start"] -command [list menus::edit_delete_from_start]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete from start of line to cursor"]] [list menus::edit_delete_from_start]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete from start of line to cursor"]] [list menus::edit_delete_from_start]
 
     $mb.deletePopup add separator
 
     $mb.deletePopup add command -label [msgcat::mc "Whitespace Forward"] -command [list menus::edit_delete_next_space]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete the whitespace to right of cursor"]] [list menus::edit_delete_next_space]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete the whitespace to right of cursor"]] [list menus::edit_delete_next_space]
 
     $mb.deletePopup add command -label [msgcat::mc "Whitespace Backward"] -command [list menus::edit_delete_prev_space]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete the whitespace to left of cursor"]] [list menus::edit_delete_prev_space]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete the whitespace to left of cursor"]] [list menus::edit_delete_prev_space]
 
     $mb.deletePopup add separator
 
     $mb.deletePopup add command -label [msgcat::mc "Text Between Character"] -command [list menus::edit_delete_between_char]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete text between character"]] [list menus::edit_delete_between_char]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete text between character"]] [list menus::edit_delete_between_char]
 
     #########################
     # Populate transform menu
     #########################
 
     $mb.transformPopup add command -label [msgcat::mc "Toggle Case"] -command [list menus::edit_transform_toggle_case]
-    launcher::register [make_menu "Edit" [msgcat::mc "Toggle case of current character"]] [list menus::edit_transform_toggle_case]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle case of current character"]] [list menus::edit_transform_toggle_case]
 
     $mb.transformPopup add command -label [msgcat::mc "Lower Case"] -command [list menus::edit_transform_to_lower_case]
-    launcher::register [make_menu "Edit" [msgcat::mc "Convert case to lower"]] [list menus::edit_transform_to_lower_case]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Convert case to lower"]] [list menus::edit_transform_to_lower_case]
 
     $mb.transformPopup add command -label [msgcat::mc "Upper Case"] -command [list menus::edit_transform_to_upper_case]
-    launcher::register [make_menu "Edit" [msgcat::mc "Convert case to upper"]] [list menus::edit_transform_to_upper_case]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Convert case to upper"]] [list menus::edit_transform_to_upper_case]
 
     $mb.transformPopup add command -label [msgcat::mc "Title Case"] -command [list menus::edit_transform_to_title_case]
-    launcher::register [make_menu "Edit" [msgcat::mc "Convert case to title"]] [list menus::edit_transform_to_title_case]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Convert case to title"]] [list menus::edit_transform_to_title_case]
 
     $mb.transformPopup add separator
 
     $mb.transformPopup add command -label [msgcat::mc "Join Lines"] -command [list menus::edit_transform_join_lines]
-    launcher::register [make_menu "Edit" [msgcat::mc "Join lines"]] [list menus::edit_transform_join_lines]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Join lines"]] [list menus::edit_transform_join_lines]
 
     $mb.transformPopup add separator
 
     $mb.transformPopup add command -label [msgcat::mc "Bubble Up"] -command [list menus::edit_transform_bubble_up]
-    launcher::register [make_menu "Edit" [msgcat::mc "Bubble lines up one line"]] [list menus::edit_transform_bubble_up]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Bubble lines up one line"]] [list menus::edit_transform_bubble_up]
 
     $mb.transformPopup add command -label [msgcat::mc "Bubble Down"] -command [list menus::edit_transform_bubble_down]
-    launcher::register [make_menu "Edit" [msgcat::mc "Bubble lines down one line"]] [list menus::edit_transform_bubble_down]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Bubble lines down one line"]] [list menus::edit_transform_bubble_down]
 
     $mb.transformPopup add separator
 
     $mb.transformPopup add command -label [msgcat::mc "Replace Line With Script"] -command [list edit::replace_line_with_script {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Replace line with script"]] [list edit::replace_line_with_script {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Replace line with script"]] [list edit::replace_line_with_script {}]
 
     ###########################
     # Populate preferences menu
     ###########################
 
     $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Edit User"] [msgcat::mc "Global"]] -command [list menus::edit_user_global]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit user global preferences"]] [list menus::edit_user_global]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit user global preferences"]] [list menus::edit_user_global]
 
     $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Edit User"] [msgcat::mc "Language"]] -command [list menus::edit_user_language]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit user current language preferences"]] [list menus::edit_user_language]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit user current language preferences"]] [list menus::edit_user_language]
 
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Global"]] -command [list menus::edit_session_global]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit session global preferences"]] [list menus::edit_session_global]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit session global preferences"]] [list menus::edit_session_global]
 
     $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Language"]] -command [list menus::edit_session_language]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit session current language preferences"]] [list menus::edit_session_language]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit session current language preferences"]] [list menus::edit_session_language]
 
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "View Base"] -command [list preferences::view_global]
-    launcher::register [make_menu "Edit" [msgcat::mc "View base preferences file"]] [list preferences::view_global]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "View base preferences file"]] [list preferences::view_global]
 
     $mb.prefPopup add separator
 
     $mb.prefPopup add command -label [msgcat::mc "Reset User to Base"] -command [list preferences::copy_default]
-    launcher::register [make_menu "Edit" [msgcat::mc "Set user preferences to global preferences"]] [list preferences::copy_default]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Set user preferences to global preferences"]] [list preferences::copy_default]
 
     #############################
     # Populate menu bindings menu
     #############################
 
-    $mb.bindPopup add command -label [msgcat::mc "Edit User"] -command [list bindings::edit_user]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit user menu bindings"]] [list bindings::edit_user]
+    $mb.bindPopup add command -label [msgcat::mc "Edit User"] -command [list menus::bindings_edit_user]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit user menu bindings"]] [list menus::bindings_edit_user]
 
     $mb.bindPopup add separator
 
     $mb.bindPopup add command -label [msgcat::mc "View Global"] -command [list bindings::view_global]
-    launcher::register [make_menu "Edit" [msgcat::mc "View global menu bindings"]] [list bindings::view_global]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "View global menu bindings"]] [list bindings::view_global]
 
     $mb.bindPopup add separator
 
     $mb.bindPopup add command -label [msgcat::mc "Set User to Global"] -command [list bindings::copy_default]
-    launcher::register [make_menu "Edit" [msgcat::mc "Set user bindings to global bindings"]] [list bindings::copy_default]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Set user bindings to global bindings"]] [list bindings::copy_default]
 
     ########################
     # Populate snippets menu
     ########################
 
     $mb.snipPopup add command -label [msgcat::mc "Edit User"] -command [list snippets::add_new_snippet {} user]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit user snippets"]] [list snippets::add_new_snippet {} user]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit user snippets"]] [list snippets::add_new_snippet {} user]
 
     $mb.snipPopup add command -label [msgcat::mc "Edit Language"] -command [list snippets::add_new_snippet {} lang]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit language snippets"]] [list snippets::add_new_snippet {} lang]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit language snippets"]] [list snippets::add_new_snippet {} lang]
 
     $mb.snipPopup add separator
 
     $mb.snipPopup add command -label [msgcat::mc "Reload"] -command [list snippets::reload_snippets {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Reload snippets"]] [list snippets::reload_snippets {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Reload snippets"]] [list snippets::reload_snippets {}]
 
     #########################
     # Populate templates menu
     #########################
 
     $mb.tempPopup add command -label [msgcat::mc "Edit"] -command [list templates::show_templates edit]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit template"]] [list templates::show_templates edit]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit template"]] [list templates::show_templates edit]
 
     $mb.tempPopup add command -label [msgcat::mc "Delete"] -command [list templates::show_templates delete]
-    launcher::register [make_menu "Edit" [msgcat::mc "Delete template"]] [list templates::show_templates delete]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete template"]] [list templates::show_templates delete]
 
     $mb.tempPopup add separator
 
     $mb.tempPopup add command -label [msgcat::mc "Reload"] -command [list templates::preload]
-    launcher::register [make_menu "Edit" [msgcat::mc "Reload template information"]] [list templates::preload]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Reload template information"]] [list templates::preload]
 
     #####################
     # Populate Emmet menu
     #####################
 
     $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list emmet::expand_abbreviation {}]
-    launcher::register [make_menu "Edit" [msgcat::mc "Expand Emmet abbreviation"]] [list emmet::expand_abbreviation {}]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Expand Emmet abbreviation"]] [list emmet::expand_abbreviation {}]
 
     $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
-    launcher::register [make_menu "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
 
   }
 
@@ -1701,72 +1731,85 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Edits the user menu bindings (shortcuts) using either the preference
+  # GUI (if enabled) or the editor.
+  proc bindings_edit_user {} {
+
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      pref_ui::create "" "" shortcuts
+    } else {
+      bindings::edit_user
+    }
+
+  }
+
+  ######################################################################
   # Add the find menu.
   proc add_find {mb} {
 
     # Add find menu commands
     $mb add command -label [msgcat::mc "Find"] -underline 0 -command [list gui::search {}]
-    launcher::register [make_menu "Find" [msgcat::mc "Find"]] [list gui::search {}]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find"]] [list gui::search {}]
 
     $mb add command -label [msgcat::mc "Find and Replace"] -underline 9 -command [list gui::search_and_replace]
-    launcher::register [make_menu "Find" [msgcat::mc "Find and Replace"]] [list gui::search_and_replace]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find and Replace"]] [list gui::search_and_replace]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Select Next Occurrence"] -underline 7 -command [list menus::find_next_command 0]
-    launcher::register [make_menu "Find" [msgcat::mc "Find next occurrence"]] [list menus::find_next_command 0]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find next occurrence"]] [list menus::find_next_command 0]
 
     $mb add command -label [msgcat::mc "Select Previous Occurrence"] -underline 7 -command [list menus::find_prev_command 0]
-    launcher::register [make_menu "Find" [msgcat::mc "Find previous occurrence"]] [list menus::find_prev_command 0]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find previous occurrence"]] [list menus::find_prev_command 0]
 
     $mb add command -label [msgcat::mc "Select All Occurrences"] -underline 7 -command [list menus::find_all_command]
-    launcher::register [make_menu "Find" [msgcat::mc "Select all occurrences"]] [list menus::find_all_command]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Select all occurrences"]] [list menus::find_all_command]
 
     $mb add command -label [msgcat::mc "Append Next Occurrence"] -underline 1 -command [list menus::find_next_command 1]
-    launcher::register [make_menu "Find" [msgcat::mc "Append next occurrence"]] [list menus::find_next_command 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Append next occurrence"]] [list menus::find_next_command 1]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Jump Backward"] -underline 5 -command [list gui::jump_to_cursor {} -1 1]
-    launcher::register [make_menu "Find" [msgcat::mc "Jump backward"]] [list gui::jump_to_cursor {} -1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump backward"]] [list gui::jump_to_cursor {} -1 1]
 
     $mb add command -label [msgcat::mc "Jump Forward"] -underline 5 -command [list gui::jump_to_cursor {} 1 1]
-    launcher::register [make_menu "Find" [msgcat::mc "Jump forward"]] [list gui::jump_to_cursor {} 1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump forward"]] [list gui::jump_to_cursor {} 1 1]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Jump To Line"] -underline 8 -command [list menus::jump_to_line]
-    launcher::register [make_menu "Find" [msgcat::mc "Jump to line"]] [list menus::jump_to_line]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump to line"]] [list menus::jump_to_line]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Next Difference"] -underline 0 -command [list gui::jump_to_difference {} 1 1]
-    launcher::register [make_menu "Find" [msgcat::mc "Goto next difference"]] [list gui::jump_to_difference {} 1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Goto next difference"]] [list gui::jump_to_difference {} 1 1]
 
     $mb add command -label [msgcat::mc "Previous Difference"] -underline 0 -command [list gui::jump_to_difference {} -1 1]
-    launcher::register [make_menu "Find" [msgcat::mc "Goto previous difference"]] [list gui::jump_to_difference {} -1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Goto previous difference"]] [list gui::jump_to_difference {} -1 1]
 
     $mb add command -label [msgcat::mc "Show Selected Line Change"] -underline 19 -command [list gui::show_difference_line_change {} 1]
-    launcher::register [make_menu "Find" [msgcat::mc "Show selected line change"]] [list gui::show_difference_line_change {} 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Show selected line change"]] [list gui::show_difference_line_change {} 1]
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Markers"] -underline 5 -menu [menu $mb.markerPopup -tearoff 0 -postcommand [list menus::find_marker_posting $mb.markerPopup]]
+    $mb add cascade -label [msgcat::mc "Markers"] -underline 5 -menu [make_menu $mb.markerPopup -tearoff 0 -postcommand [list menus::find_marker_posting $mb.markerPopup]]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Find Matching Pair"] -underline 5 -command [list gui::show_match_pair {}]
-    launcher::register [make_menu "Find" [msgcat::mc "Find matching character pair"]] [list gui::show_match_pair {}]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find matching character pair"]] [list gui::show_match_pair {}]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Find In Files"] -underline 5 -command [list search::fif_start]
-    launcher::register [make_menu "Find" [msgcat::mc "Find in files"]] [list search::fif_start]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find in files"]] [list search::fif_start]
 
     # Add marker popup launchers
-    launcher::register [make_menu "Find" [msgcat::mc "Create marker at current line"]]   [list gui::create_current_marker {}]
-    launcher::register [make_menu "Find" [msgcat::mc "Remove marker from current line"]] [list gui::remove_current_marker {}]
-    launcher::register [make_menu "Find" [msgcat::mc "Remove all markers"]]              [list gui::remove_all_markers {}]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Create marker at current line"]]   [list gui::create_current_marker {}]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove marker from current line"]] [list gui::remove_current_marker {}]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove all markers"]]              [list gui::remove_all_markers {}]
 
   }
 
@@ -1896,8 +1939,8 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Sidebar"] -underline 5 -command [list menus::show_sidebar_view $mb]
     }
-    launcher::register [make_menu "View" [msgcat::mc "Show sidebar"]] [list menus::show_sidebar_view $mb]
-    launcher::register [make_menu "View" [msgcat::mc "Hide sidebar"]] [list menus::hide_sidebar_view $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show sidebar"]] [list menus::show_sidebar_view $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide sidebar"]] [list menus::hide_sidebar_view $mb]
 
     if {![catch "console hide"]} {
       if {[preferences::get View/ShowConsole]} {
@@ -1905,8 +1948,8 @@ namespace eval menus {
       } else {
         $mb add command -label [msgcat::mc "Show Console"] -underline 5 -command [list menus::show_console_view $mb]
       }
-      launcher::register [make_menu "View" [msgcat::mc "Show console"]] [list menus::show_console_view $mb]
-      launcher::register [make_menu "View" [msgcat::mc "Hide console"]] [list menus::hide_console_view $mb]
+      launcher::register [make_menu_cmd "View" [msgcat::mc "Show console"]] [list menus::show_console_view $mb]
+      launcher::register [make_menu_cmd "View" [msgcat::mc "Hide console"]] [list menus::hide_console_view $mb]
     }
 
     if {[preferences::get View/ShowTabBar]} {
@@ -1914,16 +1957,16 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Tab Bar"] -underline 5 -command [list menus::show_tab_view $mb]
     }
-    launcher::register [make_menu "View" [msgcat::mc "Show tab bar"]] [list menus::show_tab_view $mb]
-    launcher::register [make_menu "View" [msgcat::mc "Hide tab bar"]] [list menus::hide_tab_view $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show tab bar"]] [list menus::show_tab_view $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide tab bar"]] [list menus::hide_tab_view $mb]
 
     if {[preferences::get View/ShowStatusBar]} {
       $mb add command -label [msgcat::mc "Hide Status Bar"] -underline 12 -command [list menus::hide_status_view $mb]
     } else {
       $mb add command -label [msgcat::mc "Show Status Bar"] -underline 12 -command [list menus::show_status_view $mb]
     }
-    launcher::register [make_menu "View" [msgcat::mc "Show status bar"]] [list menus::show_status_view $mb]
-    launcher::register [make_menu "View" [msgcat::mc "Hide status bar"]] [list menus::hide_status_view $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show status bar"]] [list menus::show_status_view $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide status bar"]] [list menus::hide_status_view $mb]
 
     $mb add separator
 
@@ -1932,10 +1975,10 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Line Numbers"] -underline 5 -command [list menus::show_line_numbers $mb]
     }
-    launcher::register [make_menu "View" [msgcat::mc "Show line numbers"]] [list menus::show_line_numbers $mb]
-    launcher::register [make_menu "View" [msgcat::mc "Hide line numbers"]] [list menus::hide_line_numbers $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show line numbers"]] [list menus::show_line_numbers $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide line numbers"]] [list menus::hide_line_numbers $mb]
 
-    $mb add cascade -label [msgcat::mc "Line Numbering"] -menu [menu $mb.numPopup -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Line Numbering"] -menu [make_menu $mb.numPopup -tearoff 0]
 
     $mb add separator
 
@@ -1944,144 +1987,144 @@ namespace eval menus {
     } else {
       $mb add command -label [msgcat::mc "Show Marker Map"] -underline 8 -command [list menus::show_marker_map $mb]
     }
-    launcher::register [make_menu "View" [msgcat::mc "Show marker map"]] [list menus::show_marker_map $mb]
-    launcher::register [make_menu "View" [msgcat::mc "Hide marker map"]] [list menus::hide_marker_map $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show marker map"]] [list menus::show_marker_map $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide marker map"]] [list menus::hide_marker_map $mb]
 
     $mb add command -label [msgcat::mc "Hide Meta Characters"] -underline 5 -command [list menus::hide_meta_chars $mb]
-    launcher::register [make_menu "View" [msgcat::mc "Show meta characters"]] [list menus::show_meta_chars $mb]
-    launcher::register [make_menu "View" [msgcat::mc "Hide meta characters"]] [list menus::hide_meta_chars $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show meta characters"]] [list menus::show_meta_chars $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide meta characters"]] [list menus::hide_meta_chars $mb]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Display Text Info"] -underline 13 -command [list menus::display_text_info]
-    launcher::register [make_menu "View" [msgcat::mc "Display text information"]] [list menus::display_text_info]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Display text information"]] [list menus::display_text_info]
 
     $mb add separator
 
     $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command [list gui::toggle_split_pane {}]
-    launcher::register [make_menu "View" [msgcat::mc "Toggle split view mode"]] [list gui::toggle_split_pane {}]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle split view mode"]] [list gui::toggle_split_pane {}]
 
     $mb add command -label [msgcat::mc "Move to Other Pane"] -underline 0 -command [list gui::move_to_pane]
-    launcher::register [make_menu "View" [msgcat::mc "Move to other pane"]] [list gui::move_to_pane]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Move to other pane"]] [list gui::move_to_pane]
 
     $mb add command -label [msgcat::mc "Merge Panes"] -underline 3 -command [list gui::merge_panes]
-    launcher::register [make_menu "View" [msgcat::mc "Merge panes"]] [list gui::merge_panes]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Merge panes"]] [list gui::merge_panes]
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Tabs"]    -underline 0 -menu [menu $mb.tabPopup  -tearoff 0 -postcommand "menus::view_tabs_posting $mb.tabPopup"]
-    $mb add cascade -label [msgcat::mc "Folding"] -underline 0 -menu [menu $mb.foldPopup -tearoff 0 -postcommand "menus::view_fold_posting $mb.foldPopup"]
+    $mb add cascade -label [msgcat::mc "Tabs"]    -underline 0 -menu [make_menu $mb.tabPopup  -tearoff 0 -postcommand "menus::view_tabs_posting $mb.tabPopup"]
+    $mb add cascade -label [msgcat::mc "Folding"] -underline 0 -menu [make_menu $mb.foldPopup -tearoff 0 -postcommand "menus::view_fold_posting $mb.foldPopup"]
 
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 \
-      -menu [menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu syntax::set_current_language syntax::current_lang [msgcat::mc None]"]
-    $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [menu $mb.themeMenu  -tearoff 0 -postcommand "themes::populate_theme_menu $mb.themeMenu"]
+      -menu [make_menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu syntax::set_current_language syntax::current_lang [msgcat::mc None]"]
+    $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [make_menu $mb.themeMenu  -tearoff 0 -postcommand "themes::populate_theme_menu $mb.themeMenu"]
 
     # Setup the line numbering popup menu
     $mb.numPopup add radiobutton -label [msgcat::mc "Absolute"] -variable menus::line_numbering -value absolute -command [list menus::set_line_numbering absolute]
-    launcher::register [make_menu "View" [msgcat::mc "Absolute line numbering"]] [list menus::set_line_numbering absolute]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Absolute line numbering"]] [list menus::set_line_numbering absolute]
 
     $mb.numPopup add radiobutton -label [msgcat::mc "Relative"] -variable menus::line_numbering -value relative -command [list menus::set_line_numbering relative]
-    launcher::register [make_menu "View" [msgcat::mc "Relative line numbering"]] [list menus::set_line_numbering relative]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Relative line numbering"]] [list menus::set_line_numbering relative]
 
     # Setup the tab popup menu
     $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command [list gui::next_tab]
-    launcher::register [make_menu "View" [msgcat::mc "Goto next tab"]] [list gui::next_tab]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Goto next tab"]] [list gui::next_tab]
 
     $mb.tabPopup add command -label [msgcat::mc "Goto Previous Tab"] -underline 5 -command [list gui::previous_tab]
-    launcher::register [make_menu "View" [msgcat::mc "Goto previous tab"]] [list gui::previous_tab]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Goto previous tab"]] [list gui::previous_tab]
 
     $mb.tabPopup add command -label [msgcat::mc "Goto Last Tab"] -underline 5 -command [list gui::last_tab]
-    launcher::register [make_menu "View" [msgcat::mc "Goto last tab"]] [list gui::last_tab]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Goto last tab"]] [list gui::last_tab]
 
     $mb.tabPopup add command -label [msgcat::mc "Goto Other Pane"] -underline 11 -command [list gui::next_pane]
-    launcher::register [make_menu "View" [msgcat::mc "Goto other pane"]] [list gui::next_pane]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Goto other pane"]] [list gui::next_pane]
 
     $mb.tabPopup add separator
 
     $mb.tabPopup add command -label [msgcat::mc "Sort Tabs"] -underline 0 -command [list gui::sort_tabs]
-    launcher::register [make_menu "View" [msgcat::mc "Sort tabs"]] [list gui::sort_tabs]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Sort tabs"]] [list gui::sort_tabs]
 
     # Setup the folding popup menu
     $mb.foldPopup add checkbutton -label [msgcat::mc "Enable Code Folding"] -variable menus::code_folding -command [list menus::set_code_folding]
-    launcher::register [make_menu "View" [msgcat::mc "Enable code folding"]]  [list menus::set_code_folding 1]
-    launcher::register [make_menu "View" [msgcat::mc "Disable code folding"]] [list menus::set_code_folding 0]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Enable code folding"]]  [list menus::set_code_folding 1]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Disable code folding"]] [list menus::set_code_folding 0]
 
     $mb.foldPopup add separator
 
     $mb.foldPopup add command -label [msgcat::mc "Create Fold From Selection"] -command [list menus::add_fold_from_selection]
-    launcher::register [make_menu "View" [msgcat::mc "Create fold from selection"]] [list menus::add_fold_from_selection]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Create fold from selection"]] [list menus::add_fold_from_selection]
 
     $mb.foldPopup add separator
 
     $mb.foldPopup add command -label [msgcat::mc "Delete Current Fold"] -command [list menus::delete_folds current]
-    launcher::register [make_menu "View" [msgcat::mc "Delete fold at current line"]] [list menus::delete_folds current]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Delete fold at current line"]] [list menus::delete_folds current]
 
     $mb.foldPopup add command -label [msgcat::mc "Delete Selected Folds"] -command [list menus::delete_folds selected]
-    launcher::register [make_menu "View" [msgcat::mc "Delete all selected folds"]] [list menus::delete_folds selected]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Delete all selected folds"]] [list menus::delete_folds selected]
 
     $mb.foldPopup add command -label [msgcat::mc "Delete All Folds"] -command [list menus::delete_folds all]
-    launcher::register [make_menu "View" [msgcat::mc "Delete all folds"]] [list menus::delete_folds all]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Delete all folds"]] [list menus::delete_folds all]
 
     $mb.foldPopup add separator
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Close Current Fold"] -menu [menu $mb.fcloseCurrPopup -tearoff 0]
+    $mb.foldPopup add cascade -label [msgcat::mc "Close Current Fold"] -menu [make_menu $mb.fcloseCurrPopup -tearoff 0]
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Close Selected Folds"] -menu [menu $mb.fcloseSelPopup -tearoff 0]
+    $mb.foldPopup add cascade -label [msgcat::mc "Close Selected Folds"] -menu [make_menu $mb.fcloseSelPopup -tearoff 0]
 
     $mb.foldPopup add command -label [msgcat::mc "Close All Folds"] -command [list menus::close_folds all]
-    launcher::register [make_menu "View" [msgcat::mc "Close all folds"]] [list menus::close_folds all]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Close all folds"]] [list menus::close_folds all]
 
     $mb.foldPopup add separator
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Open Current Fold"] -menu [menu $mb.fopenCurrPopup -tearoff 0]
+    $mb.foldPopup add cascade -label [msgcat::mc "Open Current Fold"] -menu [make_menu $mb.fopenCurrPopup -tearoff 0]
 
-    $mb.foldPopup add cascade -label [msgcat::mc "Open Selected Folds"] -menu [menu $mb.fopenSelPopup -tearoff 0]
+    $mb.foldPopup add cascade -label [msgcat::mc "Open Selected Folds"] -menu [make_menu $mb.fopenSelPopup -tearoff 0]
 
     $mb.foldPopup add command -label [msgcat::mc "Open All Folds"] -command [list menus::open_folds all]
-    launcher::register [make_menu "View" [msgcat::mc "Open all folds"]] [list menus::open_folds all]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open all folds"]] [list menus::open_folds all]
 
     $mb.foldPopup add separator
 
     $mb.foldPopup add command -label [msgcat::mc "Show Cursor"] -command [list menus::open_folds show]
-    launcher::register [make_menu "View" [msgcat::mc "Open folds to show cursor"]] [list menus::open_folds show]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open folds to show cursor"]] [list menus::open_folds show]
 
     $mb.foldPopup add separator
 
     $mb.foldPopup add command -label [msgcat::mc "Jump to Next Fold Mark"] -command [list menus::jump_to_fold next]
-    launcher::register [make_menu "View" [msgcat::mc "Jump to the next fold indicator"]] [list menus::jump_to_fold next]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Jump to the next fold indicator"]] [list menus::jump_to_fold next]
 
     $mb.foldPopup add command -label [msgcat::mc "Jump to Previous Fold Mark"] -command [list menus::jump_to_fold prev]
-    launcher::register [make_menu "View" [msgcat::mc "Jump to the previous fold indicator"]] [list menus::jump_to_fold prev]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Jump to the previous fold indicator"]] [list menus::jump_to_fold prev]
 
     # Setup the folding close current popup menu
     $mb.fcloseCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds current 1]
     $mb.fcloseCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds current 0]
 
-    launcher::register [make_menu "View" [msgcat::mc "Close fold at current line - one level"]]  [list menus::close_folds current 1]
-    launcher::register [make_menu "View" [msgcat::mc "Close fold at current line - all levels"]] [list menus::close_folds current 0]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Close fold at current line - one level"]]  [list menus::close_folds current 1]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Close fold at current line - all levels"]] [list menus::close_folds current 0]
 
     # Setup the folding close selected popup menu
     $mb.fcloseSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::close_folds selected 1]
     $mb.fcloseSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::close_folds selected 0]
 
-    launcher::register [make_menu "View" [msgcat::mc "Close selected folds - one level"]]  [list menus::close_folds selected 1]
-    launcher::register [make_menu "View" [msgcat::mc "Close selected folds - all levels"]] [list menus::close_folds selected 0]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds - one level"]]  [list menus::close_folds selected 1]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Close selected folds - all levels"]] [list menus::close_folds selected 0]
 
     # Setup the folding open current popup menu
     $mb.fopenCurrPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds current 1]
     $mb.fopenCurrPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds current 0]
 
-    launcher::register [make_menu "View" [msgcat::mc "Open fold at current line - one level"]]  [list menus::open_folds current 1]
-    launcher::register [make_menu "View" [msgcat::mc "Open fold at current line - all levels"]] [list menus::open_folds current 0]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open fold at current line - one level"]]  [list menus::open_folds current 1]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open fold at current line - all levels"]] [list menus::open_folds current 0]
 
     # Setup the folding open selected popup menu
     $mb.fopenSelPopup add command -label [msgcat::mc "One Level"]  -command [list menus::open_folds selected 1]
     $mb.fopenSelPopup add command -label [msgcat::mc "All Levels"] -command [list menus::open_folds selected 0]
 
-    launcher::register [make_menu "View" [msgcat::mc "Open selected folds - one level"]]  [list menus::open_folds selected 1]
-    launcher::register [make_menu "View" [msgcat::mc "Open selected folds - all levels"]] [list menus::open_folds selected 0]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds - one level"]]  [list menus::open_folds selected 1]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Open selected folds - all levels"]] [list menus::open_folds selected 0]
 
   }
 
@@ -2506,13 +2549,13 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Launcher"] -underline 0 -command [list launcher::launch]
 
     $mb add command -label [msgcat::mc "Theme Editor"] -underline 0 -command [list menus::theme_edit_command]
-    launcher::register [make_menu "Tools" [msgcat::mc "Run theme editor"]] [list menus::theme_edit_command]
+    launcher::register [make_menu_cmd "Tools" [msgcat::mc "Run theme editor"]] [list menus::theme_edit_command]
 
     $mb add separator
 
     $mb add checkbutton -label [msgcat::mc "Vim Mode"] -underline 0 -variable preferences::prefs(Tools/VimMode) -command [list vim::set_vim_mode_all]
-    launcher::register [make_menu "Tools" [msgcat::mc "Enable Vim mode"]]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
-    launcher::register [make_menu "Tools" [msgcat::mc "Disable Vim mode"]] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
+    launcher::register [make_menu_cmd "Tools" [msgcat::mc "Enable Vim mode"]]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
+    launcher::register [make_menu_cmd "Tools" [msgcat::mc "Disable Vim mode"]] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
 
   }
 
@@ -2717,26 +2760,26 @@ namespace eval menus {
   proc add_sessions {mb} {
 
     # Add sessions menu commands
-    $mb add cascade -label [msgcat::mc "Switch To"] -menu [menu $mb.switch -tearoff false]
-    launcher::register [make_menu "Sessions" [msgcat::mc "Switch to session"]] [list menus::sessions_switch_launcher]
+    $mb add cascade -label [msgcat::mc "Switch To"] -menu [make_menu $mb.switch -tearoff false]
+    launcher::register [make_menu_cmd "Sessions" [msgcat::mc "Switch to session"]] [list menus::sessions_switch_launcher]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Close Current"] -underline 0 -command [list menus::sessions_close_current]
-    launcher::register [make_menu "Sessions" [msgcat::mc "Close current session"]] [list menus::sessions_close_current]
+    launcher::register [make_menu_cmd "Sessions" [msgcat::mc "Close current session"]] [list menus::sessions_close_current]
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Save Current"] -underline 0 -command [list menus::sessions_save_current]
-    launcher::register [make_menu "Sessions" [msgcat::mc "Save current session"]] [list menus::sessions_save_current]
+    launcher::register [make_menu_cmd "Sessions" [msgcat::mc "Save current session"]] [list menus::sessions_save_current]
 
     $mb add command -label [msgcat::mc "Save As"] -underline 5 -command [list menus::sessions_save_as]
-    launcher::register [make_menu "Sessions" [msgcat::mc "Save sessions as"]] [list menus::sessions_save_as]
+    launcher::register [make_menu_cmd "Sessions" [msgcat::mc "Save sessions as"]] [list menus::sessions_save_as]
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Delete"] -menu [menu $mb.delete -tearoff false]
-    launcher::register [make_menu "Sessions" [msgcat::mc "Delete session"]] [list menus::sessions_delete_launcher]
+    $mb add cascade -label [msgcat::mc "Delete"] -menu [make_menu $mb.delete -tearoff false]
+    launcher::register [make_menu_cmd "Sessions" [msgcat::mc "Delete session"]] [list menus::sessions_delete_launcher]
 
   }
 
@@ -2836,13 +2879,13 @@ namespace eval menus {
 
     # Add plugins menu commands
     $mb add command -label [format "%s..." [msgcat::mc "Install"]] -underline 0 -command [list plugins::install]
-    launcher::register [make_menu "Plugins" [msgcat::mc "Install plugin"]] [list plugins::install]
+    launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Install plugin"]] [list plugins::install]
 
     $mb add command -label [format "%s..." [msgcat::mc "Uninstall"]] -underline 0 -command [list plugins::uninstall]
-    launcher::register [make_menu "Plugins" [msgcat::mc "Uninstall plugin"]] [list plugins::uninstall]
+    launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Uninstall plugin"]] [list plugins::uninstall]
 
     $mb add command -label [msgcat::mc "Reload"] -underline 0 -command [list plugins::reload]
-    launcher::register [make_menu "Plugins" [msgcat::mc "Reload all plugins"]] [list plugins::reload]
+    launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Reload all plugins"]] [list plugins::reload]
 
     # Allow the plugin architecture to add menu items
     plugins::handle_plugin_menu $mb
@@ -2862,29 +2905,29 @@ namespace eval menus {
   proc add_help {mb} {
 
     $mb add command -label [msgcat::mc "User Guide"] -underline 0 -command [list menus::help_user_guide]
-    launcher::register [make_menu "Help" [msgcat::mc "View user guide"]] [list menus::help_user_guide]
+    launcher::register [make_menu_cmd "Help" [msgcat::mc "View user guide"]] [list menus::help_user_guide]
 
     $mb add command -label [msgcat::mc "Tips & Tricks"] -underline 0 -command [list menus::help_tips_tricks]
-    launcher::register [make_menu "Help" [msgcat::mc "View tips & tricks articles"]] [list menus::help_tips_tricks]
+    launcher::register [make_menu_cmd "Help" [msgcat::mc "View tips & tricks articles"]] [list menus::help_tips_tricks]
 
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command [list menus::check_for_update]
-      launcher::register [make_menu "Help" [msgcat::mc "Check for update"]] [list menus::check_for_update]
+      launcher::register [make_menu_cmd "Help" [msgcat::mc "Check for update"]] [list menus::check_for_update]
     }
 
     $mb add separator
 
     $mb add command -label [msgcat::mc "Send Feedback"] -underline 5 -command [list menus::help_feedback_command]
-    launcher::register [make_menu "Help" [msgcat::mc "Send feedback"]] [list menus::help_feedback_command]
+    launcher::register [make_menu_cmd "Help" [msgcat::mc "Send feedback"]] [list menus::help_feedback_command]
 
     $mb add command -label [msgcat::mc "Send Bug Report"] -underline 5 -command [list menus::help_submit_report]
-    launcher::register [make_menu "Help" [msgcat::mc "Send bug report"]] [list menus::help_submit_report]
+    launcher::register [make_menu_cmd "Help" [msgcat::mc "Send bug report"]] [list menus::help_submit_report]
 
     if {[tk windowingsystem] ne "aqua"} {
       $mb add separator
       $mb add command -label [format "%s %s" [msgcat::mc "About"] "TKE"] -underline 0 -command [list gui::show_about]
-      launcher::register [make_menu "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]
+      launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]
     }
 
   }
