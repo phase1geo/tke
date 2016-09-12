@@ -148,13 +148,15 @@ namespace eval pref_ui {
 
       if {!$init} {
         if {$session eq ""} {
-          pack $widgets(panes).general  -before $widgets(panes).appearance -fill both -padx 2 -pady 2
-          pack $widgets(panes).advanced -fill both -padx 2 -pady 2
+          pack $widgets(panes).general   -before $widgets(panes).appearance -fill both -padx 2 -pady 2
+          pack $widgets(panes).shortcuts -fill both -padx 2 -pady 2
+          pack $widgets(panes).advanced  -fill both -padx 2 -pady 2
           pane_clicked $current_panel
         } else {
           pack forget $widgets(panes).general
+          pack forget $widgets(panes).shortcuts
           pack forget $widgets(panes).advanced
-          if {($current_panel eq "general") || ($current_panel eq "advanced")} {
+          if {($current_panel eq "general") || ($current_panel eq "shortcuts") || ($current_panel eq "advanced")} {
             pane_clicked appearance
           } else {
             pane_clicked $current_panel
@@ -604,11 +606,11 @@ namespace eval pref_ui {
 
     ttk::frame $b.f
     set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
-    -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
-    -height 25 \
-    -editendcommand [list pref_ui::var_edit_end_command] \
-    -xscrollcommand [list [ns utils]::set_xscrollbar $b.f.hb] \
-    -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
+      -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
+      -height 25 \
+      -editendcommand [list pref_ui::var_edit_end_command] \
+      -xscrollcommand [list [ns utils]::set_xscrollbar $b.f.hb] \
+      -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
     ttk::scrollbar $b.f.vb -orient vertical   -command [list $b.f.tl yview]
     ttk::scrollbar $b.f.hb -orient horizontal -command [list $b.f.tl xview]
 
@@ -649,11 +651,11 @@ namespace eval pref_ui {
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Languages"]]
 
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
-    -stretch all -exportselection 1 -showseparators 1 \
-    -height 25 \
-    -editendcommand [list pref_ui::lang_edit_end_command] \
-    -xscrollcommand [list [ns utils]::set_xscrollbar $c.hb] \
-    -yscrollcommand [list [ns utils]::set_yscrollbar $c.vb]]
+      -stretch all -exportselection 1 -showseparators 1 \
+      -height 25 \
+      -editendcommand [list pref_ui::lang_edit_end_command] \
+      -xscrollcommand [list [ns utils]::set_xscrollbar $c.hb] \
+      -yscrollcommand [list [ns utils]::set_yscrollbar $c.vb]]
     ttk::scrollbar $c.vb -orient vertical   -command [list $c.tl yview]
     ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
 
@@ -1642,9 +1644,16 @@ namespace eval pref_ui {
 
     ttk::frame $w.tf
     set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut}} \
-    -height 20 -exportselection 0 -stretch all \
-    -yscrollcommand [list $w.tf.vb set]]
+      -height 20 -exportselection 0 -stretch all \
+      -yscrollcommand [list $w.tf.vb set]]
     ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
+
+    [ns utils]::tablelist_configure $widgets(shortcut_tl)
+
+    $widgets(shortcut_tl) columnconfigure 0 -name label    -editable 0 -resizable 0 -stretchable 1
+    $widgets(shortcut_tl) columnconfigure 1 -name shortcut -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::shortcut_format]
+
+    bind $widgets(shortcut_tl) <<TablelistSelect>> [list pref_ui::shortcut_table_select]
 
     set widgets(shortcut_frame) [ttk::frame $w.tf.sf]
     ttk::label  $w.tf.sf.l -text [format "%s: " [msgcat::mc "Shortcut"]]
@@ -1663,13 +1672,6 @@ namespace eval pref_ui {
     pack $w.tf.sf.cancel -side right -padx 2 -pady 2
     pack $w.tf.sf.update -side right -padx 2 -pady 2
     pack $w.tf.sf.clear  -side right -padx 2 -pady 2
-
-    [ns utils]::tablelist_configure $widgets(shortcut_tl)
-
-    $widgets(shortcut_tl) columnconfigure 0 -name label    -editable 0 -resizable 0 -stretchable 1
-    $widgets(shortcut_tl) columnconfigure 1 -name shortcut -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::shortcut_format]
-
-    bind $widgets(shortcut_tl) <<TablelistSelect>> [list pref_ui::shortcut_table_select]
 
     grid rowconfigure    $w.tf 0 -weight 1
     grid columnconfigure $w.tf 0 -weight 1
@@ -2125,10 +2127,10 @@ namespace eval pref_ui {
 
     ttk::frame $c.f
     set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
-    -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
-    -editendcommand [list pref_ui::nfs_edit_end_command] \
-    -xscrollcommand [list [ns utils]::set_xscrollbar $c.f.hb] \
-    -yscrollcommand [list [ns utils]::set_yscrollbar $c.f.vb]]
+      -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
+      -editendcommand [list pref_ui::nfs_edit_end_command] \
+      -xscrollcommand [list [ns utils]::set_xscrollbar $c.f.hb] \
+      -yscrollcommand [list [ns utils]::set_yscrollbar $c.f.vb]]
     ttk::scrollbar $c.f.vb -orient vertical   -command [list $c.f.tl yview]
     ttk::scrollbar $c.f.hb -orient horizontal -command [list $c.f.tl xview]
 
