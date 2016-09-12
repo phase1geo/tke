@@ -1858,10 +1858,26 @@ namespace eval pref_ui {
     variable mod_dict
 
     set mod_dict [dict create]
-    set mods     [list Cmd Ctrl Alt Shift \
-    Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
-    Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
-    Ctrl-Alt-Shift-Cmd]
+
+    switch [tk windowingsystem] {
+      aqua {
+        set mods [list Cmd Ctrl Alt Shift \
+                       Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
+                       Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
+                       Ctrl-Alt-Shift-Cmd]
+      }
+      win32 {
+        set mods [list Ctrl Alt Shift \
+                       Shift-Ctrl Ctrl-Alt Shift-Alt \
+                       Shift-Ctrl-Alt]
+      }
+      x11 {
+        set mods [list Super Ctrl Alt Shift \
+                       Ctrl-Super Alt-Super Shift-Super Ctrl-Shift Ctrl-Alt Shift-Alt \
+                       Ctrl-Alt-Super Ctrl-Alt-Shift Ctrl-Shift-Super Alt-Shift-Super \
+                       Ctrl-Alt-Shift-Super]
+      }
+    }
 
     if {[tk windowingsystem] eq "aqua"} {
       foreach mod $mods {
