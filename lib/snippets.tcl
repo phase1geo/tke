@@ -71,7 +71,7 @@ namespace eval snippets {
     [ns launcher]::unregister [msgcat::mc "Snippet: *"]
 
     foreach lang [list user $language] {
-      
+
       # Create language-specific snippets filename if it exists
       if {[file exists [set sfile [file join $snippets_dir $lang.snippets]]]} {
 
@@ -176,7 +176,7 @@ namespace eval snippets {
   proc handle_tab {txtt} {
 
     variable expandtabs
-    
+
     if {![tab_clicked $txtt]} {
       if {![[ns vim]::in_vim_mode $txtt] && $expandtabs($txtt)} {
         $txtt insert insert [string repeat " " [[ns indent]::get_tabstop $txtt]]
@@ -198,15 +198,15 @@ namespace eval snippets {
 
     variable snippets
     variable tabpoints
-    
+
     # If the given key symbol is not one of the snippet completers, stop now
     if {[lsearch [[ns preferences]::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
       return 0
     }
-    
+
     # Get the last word
     set last_word [string trim [$txtt get "insert-1c wordstart" "insert-1c wordend"]]
-    
+
     # Get the current language
     set lang [[ns utils]::get_current_lang [winfo parent $txtt]]
 
@@ -226,7 +226,7 @@ namespace eval snippets {
   proc insert_snippet {txtt snippet {delstart ""} {delend ""}} {
 
     variable tabpoints
-    
+
     # Clear any residual tabstops
     clear_tabstops $txtt
 
@@ -243,22 +243,22 @@ namespace eval snippets {
 
     # Call the snippet parser
     if {[set result [parse_snippet $txtt $snippet]] ne ""} {
-      
+
       # Get the snippet marks
       set marks [lsearch -glob -inline -all [$txtt tag names] snippet_*]
-      
+
       # Add a $0 tabstop (if one was not specified)
       if {([llength $marks] > 0) && ([lsearch $marks snippet_mark_0] == -1)} {
         set_tabstop $txtt 0
         lappend result \$0 snippet_mark_0
       }
-      
+
       # Get the insertion cursor
       set insert [$txtt index insert]
-      
+
       # Insert the text
       $txtt insert insert {*}$result
-      
+
       # Format the text to match indentation
       if {[[ns preferences]::get Editor/SnippetFormatAfterInsert]} {
         set datalen 0
@@ -371,7 +371,7 @@ namespace eval snippets {
   proc clear_tabstops {txtt} {
 
     variable tabvals
-    
+
     # Delete all text that is tagged with a snippet tag
     foreach tabstop [lsearch -inline -all -glob [$txtt tag names] snippet_*] {
       foreach {start end} [$txtt tag ranges $tabstop] {
@@ -389,7 +389,7 @@ namespace eval snippets {
   proc tab_clicked {txtt} {
 
     variable within
-    
+
     if {$within($txtt)} {
       traverse_snippet $txtt
       return 1
@@ -445,7 +445,7 @@ namespace eval snippets {
 
       # Increment the tabpoint
       incr tabpoints($txtt)
-      
+
       # Clear the within indicator if we are out of tab stops
       if {([$txtt tag ranges snippet_sel_$tabpoints($txtt)]  eq "") && \
           ([$txtt tag ranges snippet_mark_$tabpoints($txtt)] eq "") && \
@@ -488,7 +488,7 @@ namespace eval snippets {
 
     set names [list]
     set lang  [[ns utils]::get_current_lang [[ns gui]::current_txt {}]]
-    
+
     foreach type [list user $lang] {
       foreach name [array names snippets $type,*] {
         lappend names [list [lindex [split $name ,] 1] $snippets($name)]
@@ -585,6 +585,16 @@ namespace eval snippets {
     .snipwin.f.t configure -height [expr {([set lines [.snipwin.f.t count -lines 1.0 end]] < 20) ? $lines : 20}]
 
   }
-  
+
+  ######################################################################
+  # Perform snippet substitutions of the given text string.
+  proc substitute {str} {
+
+    # TBD
+
+    return $str
+
+  }
+
 }
 
