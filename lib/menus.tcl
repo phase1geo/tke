@@ -323,6 +323,12 @@ namespace eval menus {
 
     $mb add separator
 
+    # Populate the export menu
+    $mb add command -label [format "%s..." [msgcat::mc "Export"]] -command [list menus::export_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Export file contents"]] [list menus::export_command]
+
+    $mb add separator
+
     $mb add cascade -label [msgcat::mc "Line Ending"] -menu [make_menu $mb.eolPopup -tearoff 0 -postcommand [list menus::file_eol_posting $mb.eolPopup]]
 
     $mb add separator
@@ -521,6 +527,14 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Called when the export file menu is posted.
+  proc file_export_posting {mb} {
+
+    # TBD
+
+  }
+
+  ######################################################################
   # Called just prior to the EOL menu being posted.
   proc file_eol_posting {mb} {
 
@@ -644,6 +658,56 @@ namespace eval menus {
       edit::save_selection $txt [$txt index sel.first] [$txt index sel.last] 1 $sfile
 
     }
+
+  }
+
+  ######################################################################
+  # If the current editing buffer is using the Markdown language, exports
+  # the contents of the buffer to HTML using the Markdown parser.
+  proc export_command {} {
+
+    # Get the directory of the current file
+    set dirname [gui::get_browse_directory]
+
+    # Get the current editing buffer
+    set txt [gui::current_txt {}]
+
+    # Get the current editing buffer language
+    set lang [syntax::get_language $txt]
+
+    # Get the name of the file to output
+    if {[set fname [tk_getSaveFile -parent . -title [msgcat::mc "Export As"] -initialdir $dirname]] eq ""} {
+      return
+    }
+
+    # Get the export name file extension
+    set ext [file extension $fname]
+
+    # Get the scrubbed contents of the current buffer
+    set contents [gui::scrub_text $txt]
+
+    # Perform any snippet substitutions
+    set contents [snippets::substitute $contents]
+
+    if {$lang eq "Markdown"} {
+      set md [file join $::tke_dir lib ptwidgets1.2 common Markdown_1.0.1 Markdown.pl]
+      if {($ext eq ".html") || ($ext eq ".htm") || ($ext eq ".xhtml")} {
+        set contents [exec echo $contents | $md -]
+      }
+    }
+
+    # Open the file for writing
+    if {[catch { open $fname w } rc]} {
+      gui::set_error_message [msgcat::mc "Unable to write export file"] $rc
+      return
+    }
+
+    # Write and the close the file
+    puts $rc $contents
+    close $rc
+
+    # Let the user know that the operation has completed
+    gui::set_info_message [msgcat::mc "Export complete"]
 
   }
 
