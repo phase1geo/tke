@@ -1,83 +1,60 @@
-changeset:   2263:34a8870487b9
-tag:         devel-2.6.1
+changeset:   2273:18a4230574ad
+tag:         devel-2.6.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 07 09:10:33 2016 -0500
+date:        Mon Sep 12 08:37:23 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.1 release
+ChangeLog for devel-2.6.2 release
 
 
-changeset:   2264:e2da5c68ac18
+changeset:   2274:9397c82db876
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 07 09:10:39 2016 -0500
+date:        Mon Sep 12 08:37:27 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.1 for changeset 34a8870487b9
+Added tag devel-2.6.2 for changeset 18a4230574ad
 
 
-changeset:   2265:9b357b0b1163
+changeset:   2275:aae04622734c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 07 19:49:17 2016 -0500
+date:        Mon Sep 12 18:36:44 2016 -0500
 files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding `Check for Update` button within `Updates` general preference tab.
+* Fixing shortcut modifiers list per major platform.
 
 
-changeset:   2266:6108e32d64a6
+changeset:   2276:c429b41a3f3d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 07 22:34:20 2016 -0500
-files:       lib/gui.tcl lib/images/shortcut.gif lib/pref_ui.tcl lib/version.tcl
-description:
-* Adding menu shortcut panel to preferences window (work in progress).
-
-
-changeset:   2267:ed6bdc51795a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 09 01:31:07 2016 -0500
-files:       lib/bindings.tcl lib/pref_ui.tcl lib/version.tcl lib/windowlist.tcl
-description:
-* Checkpointing work on new shortcut preference tab.
-
-
-changeset:   2268:cac7f2f94d95
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 09 10:23:56 2016 -0500
-files:       lib/tablelist5.16/CHANGES.txt lib/tablelist5.16/COPYRIGHT.txt lib/tablelist5.16/README.txt lib/tablelist5.16/demos/browse.tcl lib/tablelist5.16/demos/browseTree.tcl lib/tablelist5.16/demos/browseTree_tile.tcl lib/tablelist5.16/demos/browse_tile.tcl lib/tablelist5.16/demos/bwidget.tcl lib/tablelist5.16/demos/bwidget_tile.tcl lib/tablelist5.16/demos/checked.gif lib/tablelist5.16/demos/clsdFolder.gif lib/tablelist5.16/demos/comp.xbm lib/tablelist5.16/demos/config.tcl lib/tablelist5.16/demos/config_tile.tcl lib/tablelist5.16/demos/dirViewer.tcl lib/tablelist5.16/demos/dirViewer_tile.tcl lib/tablelist5.16/demos/embeddedWindows.tcl lib/tablelist5.16/demos/embeddedWindows_tile.tcl lib/tablelist5.16/demos/file.gif lib/tablelist5.16/demos/images.tcl lib/tablelist5.16/demos/iwidgets.tcl lib/tablelist5.16/demos/iwidgets_tile.tcl lib/tablelist5.16/demos/leaf.xbm lib/tablelist5.16/demos/miscWidgets.tcl lib/tablelist5.16/demos/miscWidgets_tile.tcl lib/tablelist5.16/demos/open.gif lib/tablelist5.16/demos/openFolder.gif lib/tablelist5.16/demos/option.tcl lib/tablelist5.16/demos/option_tile.tcl lib/tablelist5.16/demos/styles.tcl lib/tablelist5.16/demos/styles_tile.tcl lib/tablelist5.16/demos/tileWidgets.tcl lib/tablelist5.16/demos/unchecked.gif lib/tablelist5.16/doc/adwaita.png lib/tablelist5.16/doc/ambiance.png lib/tablelist5.16/doc/aqua.png lib/tablelist5.16/doc/arrowStyles.png lib/tablelist5.16/doc/arrowStyles_vista.png lib/tablelist5.16/doc/baghira.png lib/tablelist5.16/doc/bicolor1.png lib/tablelist5.16/doc/bicolor2.png lib/tablelist5.16/doc/bicolor3.png lib/tablelist5.16/doc/bicolor4.png lib/tablelist5.16/doc/browse.png lib/tablelist5.16/doc/browseTree.png lib/tablelist5.16/doc/bwidget.png lib/tablelist5.16/doc/classic1.png lib/tablelist5.16/doc/classic2.png lib/tablelist5.16/doc/classic3.png lib/tablelist5.16/doc/classic4.png lib/tablelist5.16/doc/config.png lib/tablelist5.16/doc/dirViewer.png lib/tablelist5.16/doc/dust.png lib/tablelist5.16/doc/dustSand.png lib/tablelist5.16/doc/embeddedWindows.png lib/tablelist5.16/doc/embeddedWindows_tile.png lib/tablelist5.16/doc/gtk.png lib/tablelist5.16/doc/index.html lib/tablelist5.16/doc/klearlooks.png lib/tablelist5.16/doc/mate.png lib/tablelist5.16/doc/mint.png lib/tablelist5.16/doc/mint2.png lib/tablelist5.16/doc/newWave.png lib/tablelist5.16/doc/oxygen1.png lib/tablelist5.16/doc/oxygen2.png lib/tablelist5.16/doc/phase.png lib/tablelist5.16/doc/plain1.png lib/tablelist5.16/doc/plain2.png lib/tablelist5.16/doc/plain3.png lib/tablelist5.16/doc/plain4.png lib/tablelist5.16/doc/plastik.png lib/tablelist5.16/doc/plastique.png lib/tablelist5.16/doc/radiance.png lib/tablelist5.16/doc/styles.png lib/tablelist5.16/doc/stylesheet.css lib/tablelist5.16/doc/tablelist.html lib/tablelist5.16/doc/tablelistBWidget.html lib/tablelist5.16/doc/tablelistBinding.html lib/tablelist5.16/doc/tablelistColSort.html lib/tablelist5.16/doc/tablelistCombobox.html lib/tablelist5.16/doc/tablelistCtext.html lib/tablelist5.16/doc/tablelistIwidgets.html lib/tablelist5.16/doc/tablelistMentry.html lib/tablelist5.16/doc/tablelistThemes.html lib/tablelist5.16/doc/tablelistTile.html lib/tablelist5.16/doc/tablelistTkCore.html lib/tablelist5.16/doc/tablelistWidget.html lib/tablelist5.16/doc/tileWidgets.png lib/tablelist5.16/doc/ubuntu.png lib/tablelist5.16/doc/ubuntu2.png lib/tablelist5.16/doc/vistaAero.png lib/tablelist5.16/doc/vistaClassic.png lib/tablelist5.16/doc/win10.png lib/tablelist5.16/doc/win7Aero.png lib/tablelist5.16/doc/win7Classic.png lib/tablelist5.16/doc/winnative.png lib/tablelist5.16/doc/winxpBlue.png lib/tablelist5.16/doc/winxpOlive.png lib/tablelist5.16/doc/winxpSilver.png lib/tablelist5.16/doc/yuyo.png lib/tablelist5.16/pkgIndex.tcl lib/tablelist5.16/scripts/mwutil.tcl lib/tablelist5.16/scripts/pencil.cur lib/tablelist5.16/scripts/repair.tcl lib/tablelist5.16/scripts/tablelistBind.tcl lib/tablelist5.16/scripts/tablelistConfig.tcl lib/tablelist5.16/scripts/tablelistEdit.tcl lib/tablelist5.16/scripts/tablelistImages.tcl lib/tablelist5.16/scripts/tablelistMove.tcl lib/tablelist5.16/scripts/tablelistSort.tcl lib/tablelist5.16/scripts/tablelistThemes.tcl lib/tablelist5.16/scripts/tablelistUtil.tcl lib/tablelist5.16/scripts/tablelistWidget.tcl lib/tablelist5.16/scripts/tclIndex lib/tablelist5.16/tablelist.tcl lib/tablelist5.16/tablelistPublic.tcl lib/tablelist5.16/tablelist_tile.tcl lib/tke.tcl lib/version.tcl
-description:
-* Upgrading tablelist widget to version 5.16
-
-
-changeset:   2269:3d6ce97f5682
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 09 10:27:44 2016 -0500
-files:       lib/tablelist5.14/CHANGES.txt lib/tablelist5.14/COPYRIGHT.txt lib/tablelist5.14/README.txt lib/tablelist5.14/demos/browse.tcl lib/tablelist5.14/demos/browseTree.tcl lib/tablelist5.14/demos/browseTree_tile.tcl lib/tablelist5.14/demos/browse_tile.tcl lib/tablelist5.14/demos/bwidget.tcl lib/tablelist5.14/demos/bwidget_tile.tcl lib/tablelist5.14/demos/checked.gif lib/tablelist5.14/demos/clsdFolder.gif lib/tablelist5.14/demos/comp.xbm lib/tablelist5.14/demos/config.tcl lib/tablelist5.14/demos/config_tile.tcl lib/tablelist5.14/demos/dirViewer.tcl lib/tablelist5.14/demos/dirViewer_tile.tcl lib/tablelist5.14/demos/embeddedWindows.tcl lib/tablelist5.14/demos/embeddedWindows_tile.tcl lib/tablelist5.14/demos/file.gif lib/tablelist5.14/demos/images.tcl lib/tablelist5.14/demos/iwidgets.tcl lib/tablelist5.14/demos/iwidgets_tile.tcl lib/tablelist5.14/demos/leaf.xbm lib/tablelist5.14/demos/miscWidgets.tcl lib/tablelist5.14/demos/miscWidgets_tile.tcl lib/tablelist5.14/demos/open.gif lib/tablelist5.14/demos/openFolder.gif lib/tablelist5.14/demos/option.tcl lib/tablelist5.14/demos/option_tile.tcl lib/tablelist5.14/demos/styles.tcl lib/tablelist5.14/demos/styles_tile.tcl lib/tablelist5.14/demos/tileWidgets.tcl lib/tablelist5.14/demos/unchecked.gif lib/tablelist5.14/doc/adwaita.png lib/tablelist5.14/doc/ambiance.png lib/tablelist5.14/doc/aqua.png lib/tablelist5.14/doc/arrowStyles.png lib/tablelist5.14/doc/baghira.png lib/tablelist5.14/doc/bicolor1.png lib/tablelist5.14/doc/bicolor2.png lib/tablelist5.14/doc/bicolor3.png lib/tablelist5.14/doc/bicolor4.png lib/tablelist5.14/doc/browse.png lib/tablelist5.14/doc/browseTree.png lib/tablelist5.14/doc/bwidget.png lib/tablelist5.14/doc/classic1.png lib/tablelist5.14/doc/classic2.png lib/tablelist5.14/doc/classic3.png lib/tablelist5.14/doc/classic4.png lib/tablelist5.14/doc/config.png lib/tablelist5.14/doc/dirViewer.png lib/tablelist5.14/doc/dust.png lib/tablelist5.14/doc/dustSand.png lib/tablelist5.14/doc/embeddedWindows.png lib/tablelist5.14/doc/embeddedWindows_tile.png lib/tablelist5.14/doc/gtk.png lib/tablelist5.14/doc/index.html lib/tablelist5.14/doc/klearlooks.png lib/tablelist5.14/doc/mate.png lib/tablelist5.14/doc/mint.png lib/tablelist5.14/doc/newWave.png lib/tablelist5.14/doc/oxygen1.png lib/tablelist5.14/doc/oxygen2.png lib/tablelist5.14/doc/phase.png lib/tablelist5.14/doc/plain1.png lib/tablelist5.14/doc/plain2.png lib/tablelist5.14/doc/plain3.png lib/tablelist5.14/doc/plain4.png lib/tablelist5.14/doc/plastik.png lib/tablelist5.14/doc/plastique.png lib/tablelist5.14/doc/radiance.png lib/tablelist5.14/doc/styles.png lib/tablelist5.14/doc/stylesheet.css lib/tablelist5.14/doc/tablelist.html lib/tablelist5.14/doc/tablelistBWidget.html lib/tablelist5.14/doc/tablelistBinding.html lib/tablelist5.14/doc/tablelistColSort.html lib/tablelist5.14/doc/tablelistCombobox.html lib/tablelist5.14/doc/tablelistCtext.html lib/tablelist5.14/doc/tablelistIwidgets.html lib/tablelist5.14/doc/tablelistMentry.html lib/tablelist5.14/doc/tablelistThemes.html lib/tablelist5.14/doc/tablelistTile.html lib/tablelist5.14/doc/tablelistTkCore.html lib/tablelist5.14/doc/tablelistWidget.html lib/tablelist5.14/doc/tileWidgets.png lib/tablelist5.14/doc/ubuntu.png lib/tablelist5.14/doc/ubuntu2.png lib/tablelist5.14/doc/vistaAero.png lib/tablelist5.14/doc/vistaClassic.png lib/tablelist5.14/doc/win7Aero.png lib/tablelist5.14/doc/win7Classic.png lib/tablelist5.14/doc/winnative.png lib/tablelist5.14/doc/winxpBlue.png lib/tablelist5.14/doc/winxpOlive.png lib/tablelist5.14/doc/winxpSilver.png lib/tablelist5.14/doc/yuyo.png lib/tablelist5.14/pkgIndex.tcl lib/tablelist5.14/scripts/mwutil.tcl lib/tablelist5.14/scripts/pencil.cur lib/tablelist5.14/scripts/repair.tcl lib/tablelist5.14/scripts/tablelistBind.tcl lib/tablelist5.14/scripts/tablelistConfig.tcl lib/tablelist5.14/scripts/tablelistEdit.tcl lib/tablelist5.14/scripts/tablelistImages.tcl lib/tablelist5.14/scripts/tablelistMove.tcl lib/tablelist5.14/scripts/tablelistSort.tcl lib/tablelist5.14/scripts/tablelistThemes.tcl lib/tablelist5.14/scripts/tablelistUtil.tcl lib/tablelist5.14/scripts/tablelistWidget.tcl lib/tablelist5.14/scripts/tclIndex lib/tablelist5.14/tablelist.tcl lib/tablelist5.14/tablelistPublic.tcl lib/tablelist5.14/tablelist_tile.tcl lib/version.tcl
-description:
-* Removing tablelist versin 5.14.
-
-
-changeset:   2270:6c45196e455c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 10 00:54:24 2016 -0500
-files:       lib/bindings.tcl lib/pref_ui.tcl lib/tke.tcl lib/version.tcl
-description:
-* Completing work on shortcut preference pane.
-
-
-changeset:   2271:82ac5be539d0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 11 22:56:41 2016 -0500
+date:        Mon Sep 12 18:52:14 2016 -0500
 files:       lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-* Cause Shortcuts tab to be displayed in preferences GUI when enabled.
-* Adding ability to Control-click on menu items to set their shortcuts in Linux.
+* Attempting to fix menu unposting when menu item is Control clicked.
+* Fixing shortcuts tab hiding when editing session preferences.
 
 
-changeset:   2272:7d46ffc62e67
+changeset:   2277:22e4281fbcc3
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 12 20:40:10 2016 -0500
+files:       lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
+description:
+* Fixing some bugs in the past few submissions.
+
+
+changeset:   2278:948e40baf1bd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Sep 12 20:45:47 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
+description:
+* Changing Update button label to Set in shortcuts tab.
+
+
+changeset:   2279:2aeb54410de8
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 02:33:08 2016 -0500
-files:       lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
+date:        Mon Sep 12 22:50:02 2016 -0500
+files:       lib/menus.tcl lib/snippets.tcl lib/version.tcl
 description:
-* Fixing various issues with Control-Click behavior for menus.
+* Adding support for exporting Markdown as HTML.
+* Creating command flow for performing snippet substitution when exporting a file (work in progress).
 
 
