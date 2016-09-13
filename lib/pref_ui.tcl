@@ -1659,8 +1659,8 @@ namespace eval pref_ui {
     ttk::label  $w.tf.sf.l -text [format "%s: " [msgcat::mc "Shortcut"]]
     set widgets(shortcut_mod)    [ttk::combobox $w.tf.sf.mod -width $mod_width -height 5 -state readonly]
     set widgets(shortcut_sym)    [ttk::combobox $w.tf.sf.sym -width 5          -height 5 -state readonly]
-    set widgets(shortcut_clear)  [ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"]  -width 6 -command [list pref_ui::shortcut_clear]]
-    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Update"] -width 6 -state disabled -command [list pref_ui::shortcut_update]]
+    set widgets(shortcut_clear)  [ttk::button $w.tf.sf.clear  -style BButton -text [msgcat::mc "Clear"] -width 6 -command [list pref_ui::shortcut_clear]]
+    set widgets(shortcut_update) [ttk::button $w.tf.sf.update -style BButton -text [msgcat::mc "Set"]   -width 6 -state disabled -command [list pref_ui::shortcut_update]]
     ttk::button $w.tf.sf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::shortcut_cancel]
 
     bind $widgets(shortcut_mod) <<ComboboxSelected>> [list pref_ui::shortcut_changed]
@@ -1869,16 +1869,11 @@ namespace eval pref_ui {
                        Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
                        Ctrl-Alt-Shift-Cmd]
       }
-      win32 {
+      win32 -
+      x11 {
         set mods [list Ctrl Alt Shift \
                        Shift-Ctrl Ctrl-Alt Shift-Alt \
                        Shift-Ctrl-Alt]
-      }
-      x11 {
-        set mods [list Super Ctrl Alt Shift \
-                       Ctrl-Super Alt-Super Shift-Super Ctrl-Shift Ctrl-Alt Shift-Alt \
-                       Ctrl-Alt-Super Ctrl-Alt-Shift Ctrl-Shift-Super Alt-Shift-Super \
-                       Ctrl-Alt-Shift-Super]
       }
     }
 
