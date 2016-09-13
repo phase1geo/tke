@@ -1786,7 +1786,8 @@ namespace eval pref_ui {
     }
 
     # Select the row in the tabl
-    $widgets(shortcut_tl) selection set $row
+    $widgets(shortcut_tl) selection clear 0 end
+    $widgets(shortcut_tl) selection set   $row
     $widgets(shortcut_tl) see $row
 
     # Initiate the table selection

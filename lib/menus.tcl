@@ -242,8 +242,8 @@ namespace eval menus {
   # set the selected menu for editing.
   proc handle_menu_shift_click {w y} {
 
-    # Unpost the menu
-    .menubar unpost
+    # Unpost the menu (and all of its ancestors)
+    catch { tk::MenuUnpost $w }
 
     if {[preferences::get General/EditPreferencesUsingGUI]} {
       pref_ui::create "" "" shortcuts
