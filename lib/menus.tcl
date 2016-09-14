@@ -423,6 +423,7 @@ namespace eval menus {
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state normal
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save All"]                           -state normal
+      $mb entryconfigure [format "%s..." [msgcat::mc "Export"]]            -state normal
       $mb entryconfigure [msgcat::mc "Line Ending"]                        -state normal
       $mb entryconfigure [msgcat::mc "Rename"]                             -state $buffer_state
       $mb entryconfigure [msgcat::mc "Duplicate"]                          -state $buffer_state
@@ -440,6 +441,7 @@ namespace eval menus {
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state disabled
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state disabled
       $mb entryconfigure [msgcat::mc "Save All"]                           -state disabled
+      $mb entryconfigure [format "%s..." [msgcat::mc "Export"]]            -state disabled
       $mb entryconfigure [msgcat::mc "Line Ending"]                        -state disabled
       $mb entryconfigure [msgcat::mc "Rename"]                             -state disabled
       $mb entryconfigure [msgcat::mc "Duplicate"]                          -state disabled
@@ -674,13 +676,14 @@ namespace eval menus {
 
     # Get the current editing buffer language
     set lang [syntax::get_language $txt]
-    
+
     # Create additional options to the getSaveFile call
     set opts [list]
     if {$lang eq "Markdown"} {
-      lappend opts -defaultextension .html    ;# TBD - This value should come from preferences
-      lappend opts -initialfile      [file rootname [file tail [gui::get_info $txt txt fname]]]
-      lappend opts -filetypes        {{{HTML Files} {.html .htm}} {{XHTML Files} {.xhtml}} {{All Files} *}}
+      if {[set ext [preferences::get General/DefaultMarkdownExportExtension]] ne ""} {
+        set ext ".$ext"
+      }
+      lappend opts -initialfile [file rootname [file tail [gui::get_info $txt txt fname]]]$ext
     }
 
     # Get the name of the file to output
@@ -699,10 +702,10 @@ namespace eval menus {
 
     if {$lang eq "Markdown"} {
       set md [file join $::tke_dir lib ptwidgets1.2 common Markdown_1.0.1 Markdown.pl]
-      if {($ext eq ".html") || ($ext eq ".htm")} {
-        set contents [exec echo $contents | $md --html4tags -]
-      } elseif {$ext eq ".xhtml"} {
+      if {$ext eq ".xhtml"} {
         set contents [exec echo $contents | $md -]
+      } else {
+        set contents [exec echo $contents | $md --html4tags -]
       }
     }
 

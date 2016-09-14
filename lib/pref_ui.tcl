@@ -2068,19 +2068,36 @@ namespace eval pref_ui {
 
     ttk::notebook $w.nb
 
+    ###########
+    # GENERAL #
+    ###########
+
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    ttk::label $a.ugfl -text [format "%s: " [set wstr [msgcat::mc "User guide format"]]]
+    ttk::label $a.ugfl -text [format "%s: " [set wstr1 [msgcat::mc "User guide format"]]]
     set widgets(advanced_ugf) [ttk::menubutton $a.ugfmb -menu [menu $a.ugf_mnu -tearoff 0]]
+    ttk::label $a.dmel -text [format "%s: " [set wstr2 [msgcat::mc "Default Markdown Export Extension"]]]
+    set widgets(advanced_dme) [ttk::menubutton $a.dmemb -menu [menu $a.dme_mnu -tearoff 0]]
 
-    register $widgets(advanced_ugf) $wstr Help/UserGuideFormat
+    register $widgets(advanced_ugf) $wstr1 Help/UserGuideFormat
+    register $widgets(advanced_dme) $wstr2 General/DefaultMarkdownExportExtension
 
     foreach type [list pdf epub] {
       $a.ugf_mnu add radiobutton -label $type -value $type -variable pref_ui::prefs(Help/UserGuideFormat) -command [list pref_ui::set_user_guide_format]
     }
 
+    foreach type [list html htm xhtml] {
+      $a.dme_mnu add radiobutton -label $type -value $type -variable pref_ui::prefs(General/DefaultMarkdownExportExtension) -command [list pref_ui::set_default_markdown_export_ext]
+    }
+
     grid $a.ugfl  -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $a.ugfmb -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.dmel  -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.dmemb -row 1 -column 1 -sticky news -padx 2 -pady 2
+
+    ###############
+    # DEVELOPMENT #
+    ###############
 
     $w.nb add [set b [ttk::frame $w.nb.b]] -text [msgcat::mc "Development"]
 
@@ -2118,6 +2135,10 @@ namespace eval pref_ui {
     grid $b.pf.proe  -row 1 -column 1 -sticky news -padx 2 -pady 2
 
     pack $b.pf -fill x -padx 2 -pady 10
+
+    ##############
+    # NFS MOUNTS #
+    ##############
 
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [format "NFS %s" [msgcat::mc "Mounts"]]]
 
@@ -2160,6 +2181,7 @@ namespace eval pref_ui {
 
     # Initialize the UI state
     set_user_guide_format
+    set_default_markdown_export_ext
     set_profile_report_sortby
 
     $widgets(advanced_ld) configure -text $prefs(Debug/LogDirectory)
@@ -2181,6 +2203,18 @@ namespace eval pref_ui {
     variable prefs
 
     $widgets(advanced_ugf) configure -text $prefs(Help/UserGuideFormat)
+
+  }
+
+  ######################################################################
+  # Updates the UI state when the General/DefaultMarkdownExportExtension
+  # preference value changes.
+  proc set_default_markdown_export_ext {} {
+
+    variable widgets
+    variable prefs
+
+    $widgets(advanced_dme) configure -text $prefs(General/DefaultMarkdownExportExtension)
 
   }
 
