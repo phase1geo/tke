@@ -77,6 +77,14 @@
 
 {General/DefaultFileBrowserDirectory} {last}
 
+# Specifies the default extension to use when exporting Markdown files.  The
+# supported values are the following:
+#  - html
+#  - htm
+#  - xhtml
+
+{General/DefaultMarkdownExportExtension} {html}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following
