@@ -1,60 +1,29 @@
-changeset:   2273:18a4230574ad
-tag:         devel-2.6.2
+changeset:   2280:892ff8ff7f15
+tag:         devel-2.6.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 08:37:23 2016 -0500
+date:        Mon Sep 12 23:52:36 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.2 release
+ChangeLog for devel-2.6.3 release
 
 
-changeset:   2274:9397c82db876
+changeset:   2281:d263052cdef2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 08:37:27 2016 -0500
+date:        Mon Sep 12 23:52:41 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.2 for changeset 18a4230574ad
+Added tag devel-2.6.3 for changeset 892ff8ff7f15
 
 
-changeset:   2275:aae04622734c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 18:36:44 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Fixing shortcut modifiers list per major platform.
-
-
-changeset:   2276:c429b41a3f3d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 18:52:14 2016 -0500
-files:       lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
-description:
-* Attempting to fix menu unposting when menu item is Control clicked.
-* Fixing shortcuts tab hiding when editing session preferences.
-
-
-changeset:   2277:22e4281fbcc3
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 20:40:10 2016 -0500
-files:       lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
-description:
-* Fixing some bugs in the past few submissions.
-
-
-changeset:   2278:948e40baf1bd
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 20:45:47 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Changing Update button label to Set in shortcuts tab.
-
-
-changeset:   2279:2aeb54410de8
+changeset:   2282:ae3658e1466a
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 12 22:50:02 2016 -0500
-files:       lib/menus.tcl lib/snippets.tcl lib/version.tcl
+date:        Wed Sep 14 01:26:11 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/snip_parser.tac lib/snip_parser.tcl lib/snippets.tcl lib/version.tcl
 description:
-* Adding support for exporting Markdown as HTML.
-* Creating command flow for performing snippet substitution when exporting a file (work in progress).
+* Adding ability to add buffer in a background tab.
+* Adding ability to generate HTML vs. XHTML from Markdown.
+* Adding snippet substitution to export facility.
+* Fixing bug with parsing snippet text with variable names.
 
 
