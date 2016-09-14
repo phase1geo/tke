@@ -52,7 +52,7 @@ proc apply_tabstop {ts_val ts_tag} {
 }
 
 proc parse_format {str matches} {
-  
+
   FORMAT__FLUSH_BUFFER
 
   # Insert the string to scan
@@ -337,6 +337,9 @@ text: text CHAR {
     | text CLOSE_BRACKET {
         set _ "$1$2"
       }
+    | text VARNAME {
+        set _ "$1$2"
+      }
     | CHAR {
         set _ $1
       }
@@ -368,6 +371,9 @@ text: text CHAR {
         set _ $1
       }
     | CLOSE_BRACKET {
+        set _ $1
+      }
+    | VARNAME {
         set _ $1
       }
       ;
