@@ -674,9 +674,17 @@ namespace eval menus {
 
     # Get the current editing buffer language
     set lang [syntax::get_language $txt]
+    
+    # Create additional options to the getSaveFile call
+    set opts [list]
+    if {$lang eq "Markdown"} {
+      lappend opts -defaultextension .html    ;# TBD - This value should come from preferences
+      lappend opts -initialfile      [file rootname [file tail [gui::get_info $txt txt fname]]]
+      lappend opts -filetypes        {{{HTML Files} {.html .htm}} {{XHTML Files} {.xhtml}} {{All Files} *}}
+    }
 
     # Get the name of the file to output
-    if {[set fname [tk_getSaveFile -parent . -title [msgcat::mc "Export As"] -initialdir $dirname]] eq ""} {
+    if {[set fname [tk_getSaveFile -parent . -title [msgcat::mc "Export As"] -initialdir $dirname {*}$opts]] eq ""} {
       return
     }
 
