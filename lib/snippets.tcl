@@ -588,9 +588,36 @@ namespace eval snippets {
 
   ######################################################################
   # Perform snippet substitutions of the given text string.
-  proc substitute {str} {
+  proc substitute {str lang} {
 
-    # TBD
+    # Returns the string if there are no snippets to expand
+    if {![regexp {<tke:ExportString>.*</tke:ExportString>} $str]} {
+      return $str
+    }
+
+    # Place an escape character before dollar signs and backticks
+    set str [string map {\$ {\$} ` {\`}} $str]
+
+    # Convert the string
+    while {[regexp {^(.*)<tke:ExportString>(.*?)</tke:ExportString>(.*)$} $str -> pre snip post]} {
+      set snip [string map {{\$} \$ {\`} `} $snip]
+      set str "$pre$snip$post"
+    }
+
+    # Create a temporary editing buffer
+    set tab [[ns gui]::add_buffer end temporary [list] -lang $lang -background 1]
+
+    # Get the current text widget
+    set txt [[ns gui]::get_info $tab tab txt]
+
+    # Insert the content as a snippet
+    [ns snippets]::insert_snippet $txt.t $str
+
+    # Get the text
+    set str [[ns gui]::scrub_text $txt]
+
+    # Close the tab
+    [ns gui]::close_tab {} $tab -keeptab 0 -check 0
 
     return $str
 

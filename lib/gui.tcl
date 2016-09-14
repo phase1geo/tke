@@ -1227,15 +1227,16 @@ namespace eval gui {
   # from files.  Returns the path to the inserted tab.
   #
   # Several options are available:
-  # -lock     <bool>     Initial lock setting.
-  # -readonly <bool>     Set if file should not be saveable.
-  # -gutters  <list>     Creates a gutter in the editor.  The contents of list are as follows:
-  #                        {name {{symbol_name {symbol_tag_options+}}+}}+
-  #                      For a list of valid symbol_tag_options, see the options available for
-  #                      tags in a text widget.
-  # -other    <bool>     If true, adds the file to the other pane.
-  # -tags     <list>     List of plugin btags that will only get applied to this text widget.
-  # -lang     <language> Specifies the language to use for syntax highlighting.
+  # -lock       <bool>     Initial lock setting.
+  # -readonly   <bool>     Set if file should not be saveable.
+  # -gutters    <list>     Creates a gutter in the editor.  The contents of list are as follows:
+  #                          {name {{symbol_name {symbol_tag_options+}}+}}+
+  #                        For a list of valid symbol_tag_options, see the options available for
+  #                        tags in a text widget.
+  # -other      <bool>     If true, adds the file to the other pane.
+  # -tags       <list>     List of plugin btags that will only get applied to this text widget.
+  # -lang       <language> Specifies the language to use for syntax highlighting.
+  # -background <bool>     If true, keeps the current tab displayed.
   proc add_buffer {index name save_command args} {
 
     variable files
@@ -1244,12 +1245,13 @@ namespace eval gui {
 
     # Handle options
     array set opts [list \
-      -lock     0 \
-      -readonly 0 \
-      -gutters  [list] \
-      -other    0 \
-      -tags     [list] \
-      -lang     ""
+      -lock       0 \
+      -readonly   0 \
+      -gutters    [list] \
+      -other      0 \
+      -tags       [list] \
+      -lang       "" \
+      -background 0
     ]
     array set opts $args
 
@@ -1276,7 +1278,9 @@ namespace eval gui {
     # If the file is already loaded, display the tab
     if {$file_index != -1} {
 
-      set_current_tab [set w [get_info $file_index fileindex tab]]
+      if {!$opts(-background)} {
+        set_current_tab [set w [get_info $file_index fileindex tab]]
+      }
 
     } else {
 
@@ -1331,7 +1335,9 @@ namespace eval gui {
       $tb tab $w -text " [file tail $name]"
 
       # Make this tab the currently displayed tab
-      set_current_tab $w
+      if {!$opts(-background)} {
+        set_current_tab $w
+      }
 
     }
 

@@ -687,11 +687,13 @@ namespace eval menus {
     set contents [gui::scrub_text $txt]
 
     # Perform any snippet substitutions
-    set contents [snippets::substitute $contents]
+    set contents [snippets::substitute $contents [syntax::get_language $txt]]
 
     if {$lang eq "Markdown"} {
       set md [file join $::tke_dir lib ptwidgets1.2 common Markdown_1.0.1 Markdown.pl]
-      if {($ext eq ".html") || ($ext eq ".htm") || ($ext eq ".xhtml")} {
+      if {($ext eq ".html") || ($ext eq ".htm")} {
+        set contents [exec echo $contents | $md --html4tags -]
+      } elseif {$ext eq ".xhtml"} {
         set contents [exec echo $contents | $md -]
       }
     }
