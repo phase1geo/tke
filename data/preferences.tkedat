@@ -85,6 +85,25 @@
 
 {General/DefaultMarkdownExportExtension} {html}
 
+# If this option is set to a directory name, TKE will store various settings
+# files/directories in this directory rather than in the default home directory.
+# This will allow a user to share the same TKE settings on multiple computers.
+
+{General/SyncDirectory} {}
+
+# Specifies a whitespace separated list of settings items that will be stored
+# in the directory specified by {General/SyncDirectory}.  The values stored in this
+# setting will only be used if the {General/SyncDirectory} value is set to a valid
+# directory name.  The list of valid values are the following:
+#  - prefs       (User-specific preferences (includes language-specific preferences))
+#  - launcher    (Command launcher data)
+#  - plugins     (All plugin data including installed vs. uninstalled)
+#  - sessions    (All named session data)
+#  - snippets    (Both general and language-specific snippets)
+#  - themes      (All user created and imported theme data)
+
+{General/SyncItems} {prefs launcher plugins sessions snippets themes}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following

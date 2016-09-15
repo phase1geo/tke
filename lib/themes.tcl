@@ -34,7 +34,7 @@ namespace eval themes {
   # Updates the user's home themes directory
   proc update_themes_dir {} {
 
-    foreach fname [glob -nocomplain -directory [file join $::tke_home themes] *.tketheme] {
+    foreach fname [glob -nocomplain -directory [file join [[ns sync]::get_tke_home themes] themes] *.tketheme] {
       file mkdir [file rootname $fname]
       file rename $fname [file rootname $fname]
     }
@@ -64,7 +64,7 @@ namespace eval themes {
     set tfiles [[ns utils]::glob_install [file join $::tke_dir data themes] *.tketheme]
 
     # Load the tke_home theme files
-    foreach item [glob -nocomplain -directory [file join $::tke_home themes] -type d *] {
+    foreach item [glob -nocomplain -directory [file join [[ns sync]::get_tke_home themes] themes] -type d *] {
       if {[file exists [file join $item [file tail $item].tketheme]]} {
         lappend tfiles [file join $item [file tail $item.tketheme]]
       }
@@ -146,7 +146,7 @@ namespace eval themes {
     variable files
 
     # Unzip the file contents
-    if {[catch { exec -ignorestderr unzip -u $fname -d [file join $::tke_home themes] } rc]} {
+    if {[catch { exec -ignorestderr unzip -u $fname -d [file join [[ns sync]::get_tke_home themes] themes] } rc]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to unzip theme file" -detail $rc
       return ""
@@ -217,6 +217,14 @@ namespace eval themes {
     }
 
     return $mnu
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_sync_items {} {
+
+    return [list themes]
 
   }
 

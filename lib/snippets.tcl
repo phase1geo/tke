@@ -26,8 +26,6 @@ namespace eval snippets {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable snippets_dir [file join $::tke_home snippets]
-
   array set widgets    {}
   array set snippets   {}
   array set timestamps {}
@@ -35,14 +33,20 @@ namespace eval snippets {
   array set expandtabs {}
 
   ######################################################################
+  # Returns the pathname to the snippets directory.
+  proc get_snippets_dir {} {
+
+    return [file join [[ns sync]::get_tke_home snippets] snippets]
+
+  }
+
+  ######################################################################
   # Loads the snippet information.
   proc load {} {
 
-    variable snippets_dir
-
     # If the snippets directory does not exist, create it
-    if {![file exists $snippets_dir]} {
-      file mkdir $snippets_dir
+    if {![file exists [get_snippets_dir]]} {
+      file mkdir [get_snippets_dir]
     }
 
   }
@@ -63,7 +67,6 @@ namespace eval snippets {
   # Load the snippets file.
   proc set_language {language {dummy 0}} {
 
-    variable snippets_dir
     variable snippets
     variable timestamps
 
@@ -73,7 +76,7 @@ namespace eval snippets {
     foreach lang [list user $language] {
 
       # Create language-specific snippets filename if it exists
-      if {[file exists [set sfile [file join $snippets_dir $lang.snippets]]]} {
+      if {[file exists [set sfile [file join [get_snippets_dir] $lang.snippets]]]} {
 
         # Get the file status
         file stat $sfile fstat
@@ -104,14 +107,13 @@ namespace eval snippets {
   # Parses snippets for the given language.
   proc parse_snippets {language} {
 
-    variable snippets_dir
     variable snippets
 
     # Clear the snippets for the given file
     array unset snippets $language,*
 
     # Create snippet file name
-    set sfile [file join $snippets_dir $language.snippets]
+    set sfile [file join [get_snippets_dir] $language.snippets]
 
     if {![catch { open $sfile r } rc]} {
 
@@ -463,13 +465,11 @@ namespace eval snippets {
   # the snippet file for editing.
   proc add_new_snippet {tid type} {
 
-    variable snippets_dir
-
     # Set the language
     set language [expr {($type eq "user") ? "user" : [[ns utils]::get_current_lang [gui::current_txt $tid]]}]
 
     # If the snippet file does not exist, create the file
-    if {![file exists [set fname [file join $snippets_dir $language.snippets]]]} {
+    if {![file exists [set fname [file join [get_snippets_dir] $language.snippets]]]} {
       if {![catch { open $fname w } rc]} {
         close $rc
       }
@@ -620,6 +620,14 @@ namespace eval snippets {
     [ns gui]::close_tab {} $tab -keeptab 0 -check 0
 
     return $str
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_sync_items {} {
+
+    return [list snippets]
 
   }
 

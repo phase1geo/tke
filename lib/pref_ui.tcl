@@ -31,6 +31,7 @@ namespace eval pref_ui {
   variable selected_language ""
   variable mod_dict
   variable sym_dict
+  variable enable_sync
 
   array set widgets     {}
   array set match_chars {}
@@ -557,10 +558,13 @@ namespace eval pref_ui {
 
     variable widgets
     variable prefs
+    variable enable_sync
 
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
-    # GENERAL TAB
+    ###############
+    # GENERAL TAB #
+    ###############
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
@@ -679,6 +683,39 @@ namespace eval pref_ui {
 
     # Populate the language table
     populate_lang_table
+
+    ############
+    # SYNC TAB #
+    ############
+
+    $w.nb add [set e [ttk::frame $w.nb.e]] -text [msgcat::mc "Sync"]
+
+    ttk::frame       $e.sf
+    set widgets(sync_enable) [ttk::checkbutton $e.sf.cb -text [format " %s: " [set wstr [msgcat::mc "Sync Directory"]]] -variable pref_ui::enable_sync -command [list pref_ui::handle_sync_directory]]
+    set widgets(sync_entry)  [ttk::entry       $e.sf.e]
+
+    register $widgets(sync_enable) $wstr General/SyncDirectory
+
+    pack $e.sf.cb -side left -padx 2 -pady 2
+    pack $e.sf.e  -side left -padx 2 -pady 2 -fill x -expand yes
+
+    set widgets(sync_items) [ttk::labelframe $e.if -text [set wstr [msgcat::mc "Sync Items"]]]
+    foreach {type nspace name} [sync::get_sync_items] {
+      pack [ttk::checkbutton $e.if.$type -text [format " %s" $name] -variable pref_ui::sync_$type -command [list pref_ui::handle_sync_item]] -fill x -padx 2 -pady 2
+    }
+
+    register $widgets(sync_items) $wstr General/SyncItems
+
+    pack $e.sf -padx 2 -pady 4 -fill x
+    pack $e.if -padx 2 -pady 4 -fill both
+
+    # Initialize the sync UI
+    set enable_sync [expr {$prefs(General/SyncDirectory) ne ""}]
+    foreach {type nspace name} [sync::get_sync_items] {
+      set pref_ui::sync_$type [expr {[lsearch $prefs(General/SyncItems) $type] != -1}]
+    }
+    $widgets(sync_entry) insert end $prefs(General/SyncDirectory)
+    $widgets(sync_entry) configure -state readonly
 
     ###############
     # UPDATES TAB #
@@ -944,6 +981,51 @@ namespace eval pref_ui {
     set prefs(General/LanguagePatternOverrides) [array get pref_orides]
 
     return $value
+
+  }
+
+  ######################################################################
+  # Handles any changes to the sync directory checkbutton.
+  proc handle_sync_directory {} {
+
+    variable widgets
+    variable enable_sync
+    variable prefs
+
+    if {$enable_sync} {
+      set prefs(General/SyncDirectory) [tk_chooseDirectory -parent .prefwin -title [msgcat::mc "Select Settings Sync Directory"]]
+      if {$prefs(General/SyncDirectory) eq ""} {
+        set enable_sync 0
+      } else {
+        $widgets(sync_entry) configure -state normal
+        $widgets(sync_entry) delete 0 end
+        $widgets(sync_entry) insert end $prefs(General/SyncDirectory)
+        $widgets(sync_entry) configure -state readonly
+      }
+    } else {
+      set prefs(General/SyncDirectory) ""
+      $widgets(sync_entry) configure -state normal
+      $widgets(sync_entry) delete 0 end
+      $widgets(sync_entry) configure -state readonly
+    }
+
+  }
+
+  ######################################################################
+  # Handles any changes to the sync item checkbuttons.
+  proc handle_sync_item {} {
+
+    variable prefs
+
+    set items [list]
+
+    foreach {type nspace name} [sync::get_sync_items] {
+      if {[set pref_ui::sync_$type]} {
+        lappend items $type
+      }
+    }
+
+    set prefs(General/SyncItems) $items
 
   }
 

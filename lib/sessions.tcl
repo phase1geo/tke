@@ -26,7 +26,6 @@ namespace eval sessions {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable sessions_dir [file join $::tke_home sessions]
   variable user_name    ""
   variable current_name ""
 
@@ -34,15 +33,22 @@ namespace eval sessions {
   array set current_content {}
 
   ######################################################################
+  # Returns the current directory containing sessions files.
+  proc get_sessions_dir {} {
+
+    return [file join [[ns sync]::get_tke_home sessions] sessions]
+
+  }
+
+  ######################################################################
   # Loads the names of all available sessions.  This should be called
   # before any sessions are loaded.
   proc preload {} {
 
-    variable sessions_dir
     variable names
 
-    if {[file exists $sessions_dir]} {
-      foreach name [glob -nocomplain -directory $sessions_dir -tails *.tkedat] {
+    if {[file exists [get_sessions_dir]]} {
+      foreach name [glob -nocomplain -directory [get_sessions_dir] -tails *.tkedat] {
         set names([file rootname $name]) 1
       }
     }
@@ -58,7 +64,6 @@ namespace eval sessions {
   #   - full  = Save all information
   proc save {type {name ""}} {
 
-    variable sessions_dir
     variable user_name
     variable names
     variable current_name
@@ -81,8 +86,8 @@ namespace eval sessions {
     }
 
     # Create the sessions directory if it does not exist
-    if {![file exists $sessions_dir]} {
-      file mkdir $sessions_dir
+    if {![file exists [get_sessions_dir]]} {
+      file mkdir [get_sessions_dir]
     }
 
     # If we are saving preferences only, set the value of content to match
@@ -119,7 +124,7 @@ namespace eval sessions {
     }
 
     # Create the session file path
-    set session_file [file join $sessions_dir $name.tkedat]
+    set session_file [file join [get_sessions_dir] $name.tkedat]
 
     # Write the content to the save file
     catch { [ns tkedat]::write $session_file [array get content] }
@@ -152,13 +157,15 @@ namespace eval sessions {
   # or a new window (1).
   proc load {type name new_window} {
 
-    variable sessions_dir
     variable current_name
     variable current_content
 
     # If we need to load the last saved session, set the name appropriately
     if {$type eq "last"} {
-      set name [file join .. session]
+      set name         ""
+      set session_file [file join $::tke_home session.tkedat]
+    } else {
+      set session_file [file join [get_sessions_dir] $name.tkedat]
     }
 
     # If we need to open
@@ -174,9 +181,6 @@ namespace eval sessions {
         cancel { return }
       }
     }
-
-    # Get the path of the session file
-    set session_file [file join $sessions_dir $name.tkedat]
 
     # Read the information from the session file
     if {[catch { [ns tkedat]::read $session_file } rc]} {
@@ -203,10 +207,10 @@ namespace eval sessions {
     }
 
     # Save the current name (provide backward compatibility)
-    if {[info exists content(session)] && [file exists [file join $sessions_dir $content(session).tkedat]]} {
+    if {[info exists content(session)] && [file exists [file join [get_sessions_dir] $content(session).tkedat]]} {
       set current_name $content(session)
     } else {
-      set current_name [expr {($type eq "last") ? "" : $name}]
+      set current_name $name
     }
 
     # Load the preference session information (provide backward compatibility)
@@ -228,10 +232,8 @@ namespace eval sessions {
   # Load the preferences information for the given session.
   proc load_prefs {name} {
 
-    variable sessions_dir
-
     # Get the path of the session file
-    set session_file [file join $sessions_dir $name.tkedat]
+    set session_file [file join [get_sessions_dir] $name.tkedat]
 
     # Read the information from the session file
     if {[catch { [ns tkedat]::read $session_file } rc]} {
@@ -280,7 +282,6 @@ namespace eval sessions {
   # Deletes the session with the given name.
   proc delete {name} {
 
-    variable sessions_dir
     variable current_name
     variable names
 
@@ -292,7 +293,7 @@ namespace eval sessions {
       }
 
       # Delete the session file
-      catch { file delete -force [file join $sessions_dir $name.tkedat] }
+      catch { file delete -force [file join [get_sessions_dir] $name.tkedat] }
 
       # Delete the name from the names list
       unset names($name)
@@ -324,6 +325,14 @@ namespace eval sessions {
     variable names
 
     return [lsort [array names names]]
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_sync_items {} {
+
+    return [list sessions]
 
   }
 
