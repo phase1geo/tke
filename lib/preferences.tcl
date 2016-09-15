@@ -26,8 +26,7 @@ namespace eval preferences {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable base_preferences_file [file join $::tke_dir data preferences.tkedat]
-  variable user_preferences_file [file join $::tke_home preferences.tkedat]
+  variable base_preference_file [file join $::tke_dir data preferences.tkedat]
 
   array set loaded_prefs  {}
   array set prefs         {}
@@ -58,6 +57,14 @@ namespace eval preferences {
     } else {
       return "[ns preferences]::prefs($name)"
     }
+
+  }
+
+  ######################################################################
+  # Returns the pathname of the given user preference file.
+  proc get_user_preference_file {} {
+
+    return [file join [[ns sync]::get_tke_home prefs] preferences.tkedat]
 
   }
 
@@ -133,7 +140,7 @@ namespace eval preferences {
   # namespace base_prefs and base_comments arrays.
   proc load_base_prefs {} {
 
-    variable base_preferences_file
+    variable base_preference_file
     variable base_prefs
     variable base_comments
 
@@ -141,7 +148,7 @@ namespace eval preferences {
     if {[array size base_prefs] == 0} {
 
       # Read the base preferences file (sort out comments from preferences)
-      if {![catch { [ns tkedat]::read $base_preferences_file } rc]} {
+      if {![catch { [ns tkedat]::read $base_preference_file } rc]} {
         foreach {key value} $rc {
           if {[lassign [split $key ,] opt] eq "comment"} {
             set base_comments($opt) $value
@@ -168,9 +175,9 @@ namespace eval preferences {
   # Adds the global preferences file as a readonly file.
   proc view_global {} {
 
-    variable base_preferences_file
+    variable base_preference_file
 
-    [ns gui]::add_file end $base_preferences_file -readonly 1 -sidebar 0
+    [ns gui]::add_file end $base_preference_file -readonly 1 -sidebar 0
 
   }
 
@@ -278,7 +285,6 @@ namespace eval preferences {
   proc save_buffer_contents {session language file_index} {
 
     variable loaded_prefs
-    variable user_preferences_file
     variable prefs
 
     # Get the current buffer
@@ -293,10 +299,10 @@ namespace eval preferences {
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
         set loaded_prefs(user,global) [array get data]
-        [ns tkedat]::write $user_preferences_file $loaded_prefs(user,global)
+        [ns tkedat]::write [get_user_preference_file] $loaded_prefs(user,global)
       } else {
         set loaded_prefs(user,$language) [array get data Editor/*]
-        [ns tkedat]::write [file join $::tke_home preferences.$language.tkedat] $loaded_prefs(user,$language)
+        [ns tkedat]::write [file join [[ns sync]::get_tke_home prefs] preferences.$language.tkedat] $loaded_prefs(user,$language)
       }
 
     } else {
@@ -331,7 +337,6 @@ namespace eval preferences {
   proc save_prefs {session language data} {
 
     variable loaded_prefs
-    variable user_preferences_file
     variable prefs
 
     if {$session eq ""} {
@@ -339,11 +344,11 @@ namespace eval preferences {
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
         set loaded_prefs(user,global) $data
-        [ns tkedat]::write $user_preferences_file $loaded_prefs(user,global) 0
+        [ns tkedat]::write [get_user_preference_file] $loaded_prefs(user,global) 0
       } else {
         array set content $data
         set loaded_prefs(user,$language) [array get content Editor/*]
-        [ns tkedat]::write [file join $::tke_home preferences.$language.tkedat] $loaded_prefs(user,$language) 0
+        [ns tkedat]::write [file join [[ns sync]::get_tke_home prefs] preferences.$language.tkedat] $loaded_prefs(user,$language) 0
       }
 
     } else {
@@ -383,23 +388,25 @@ namespace eval preferences {
   # Constantly monitors changes to the tke preferences file.
   proc load_file {{language ""}} {
 
-    variable base_preferences_file
-    variable user_preferences_file
+    variable base_preference_file
     variable loaded_prefs
     variable prefs
     variable menus
     variable base_comments
     variable base_prefs
 
+    # Get the user preferences file
+    set user_preference_file [get_user_preference_file]
+
     # If the preferences file does not exist, add it from the data directory
-    if {[file exists $user_preferences_file]} {
+    if {[file exists $user_preference_file]} {
 
       # Get the file status information for both the base and user files
-      file stat $base_preferences_file base_stat
-      file stat $user_preferences_file user_stat
+      file stat $base_preference_file base_stat
+      file stat $user_preference_file user_stat
 
       # Read the user preferences file
-      if {![catch { [ns tkedat]::read $user_preferences_file 0 } rc]} {
+      if {![catch { [ns tkedat]::read $user_preference_file 0 } rc]} {
         array set user_prefs $rc
       }
 
@@ -422,7 +429,7 @@ namespace eval preferences {
           }
 
           # Write the base_prefs array to the user preferences file
-          if {![catch {[ns tkedat]::write $user_preferences_file [array get base_prefs]} rc]} {
+          if {![catch {[ns tkedat]::write $user_preference_file [array get base_prefs]} rc]} {
             set loaded_prefs(user,global) [array get base_prefs]
           }
 
@@ -442,7 +449,7 @@ namespace eval preferences {
       copy_default 0
 
       # Read the contents of the user file
-      if {![catch { [ns tkedat]::read $user_preferences_file 0 } rc]} {
+      if {![catch { [ns tkedat]::read $user_preference_file 0 } rc]} {
         set loaded_prefs(user,global) $rc
       }
 
@@ -453,7 +460,7 @@ namespace eval preferences {
       set languages $language
     } else {
       set languages [list]
-      foreach lang_file [glob -nocomplain -directory $::tke_home -tails preferences.*.tkedat] {
+      foreach lang_file [glob -nocomplain -directory [[ns sync]::get_tke_home prefs] -tails preferences.*.tkedat] {
         if {[regexp {preferences\.(.*)\.tkedat} $lang_file -> lang]} {
           lappend languages $lang
         }
@@ -462,7 +469,7 @@ namespace eval preferences {
 
     # Save off settings from each language
     foreach lang $languages {
-      if {![catch { [ns tkedat]::read [file join $::tke_home preferences.$lang.tkedat] 0 } rc]} {
+      if {![catch { [ns tkedat]::read [file join [[ns sync]::get_tke_home prefs] preferences.$lang.tkedat] 0 } rc]} {
         set loaded_prefs(user,$lang) $rc
       }
     }
@@ -479,10 +486,10 @@ namespace eval preferences {
   # Copies the default preference settings into the user's tke directory.
   proc copy_default {{load 1}} {
 
-    variable base_preferences_file
+    variable base_preference_file
 
     # Copy the default file to the tke_home directory
-    file copy -force $base_preferences_file $::tke_home
+    file copy -force $base_preference_file [[ns sync]::get_tke_home prefs]
 
     # Load the preferences file
     if {$load} {
@@ -534,6 +541,14 @@ namespace eval preferences {
     }
 
     return [array get loaded_prefs session,$name,*]
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_sync_items {} {
+
+    return [glob -directory $::tke_home -tails preferences*.tkedat]
 
   }
 

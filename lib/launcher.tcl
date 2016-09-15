@@ -26,7 +26,6 @@ namespace eval launcher {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable launcher_file  [file join $::tke_home launcher.dat]
   variable match_commands {}
 
   array set move_info     {}
@@ -80,13 +79,20 @@ namespace eval launcher {
   }
 
   ######################################################################
+  # Returns the pathname of the launcher data file.
+  proc get_launcher_file {} {
+
+    return [file join [[ns sync]::get_tke_home launcher] launcher.dat]
+
+  }
+
+  ######################################################################
   # Loads the launcher functionality.
   proc load {} {
 
-    variable launcher_file
     variable read_commands
 
-    if {![catch { open $launcher_file r } rc]} {
+    if {![catch { open [get_launcher_file] r } rc]} {
       array set read_commands [read $rc]
       close $rc
     }
@@ -102,10 +108,9 @@ namespace eval launcher {
   # Writes the launcher information to the launcher file.
   proc write {} {
 
-    variable launcher_file
     variable commands
 
-    if {![catch { open $launcher_file w } rc]} {
+    if {![catch { open [get_launcher_file] w } rc]} {
       foreach {name value} [array get commands] {
         puts $rc "[list $name] [list $value]"
       }
@@ -926,6 +931,14 @@ namespace eval launcher {
   proc open_uri {uri} {
 
     return [utils::open_file_externally $uri]
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_sync_items {} {
+
+    return [list launcher.dat]
 
   }
 

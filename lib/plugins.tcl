@@ -215,7 +215,7 @@ namespace eval plugins {
     }
 
     # Store the data
-    catch { tkedat::write [file join $::tke_home plugins.tkedat] [array get plugins] }
+    catch { tkedat::write [file join [[ns sync]::get_tke_home plugins] plugins.tkedat] [array get plugins] }
 
   }
 
@@ -231,7 +231,7 @@ namespace eval plugins {
     set bad_sources [list]
 
     # Read the plugins file
-    if {![catch { tkedat::read [file join $::tke_home plugins.tkedat] } rc]} {
+    if {![catch { tkedat::read [file join [[ns sync]::get_tke_home plugins] plugins.tkedat] } rc]} {
 
       array set plugins $rc
 
@@ -1062,7 +1062,7 @@ namespace eval plugins {
       pretext  {}
       posttext {}
     }
-    
+
     # Allow all plugins to access, query, and modify text widgets
     foreach entry [find_registry_entries "*"] {
       lassign $entry index
@@ -1266,6 +1266,14 @@ namespace eval plugins {
     }
 
     return $status
+
+  }
+
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_sync_items {} {
+
+    return [list plugins.tkedat]
 
   }
 
