@@ -74,7 +74,7 @@ namespace eval templates {
   ######################################################################
   # Opens a TK save dialog box to specify the filename to save.
   proc load_abs {name args} {
-    
+
     # Get the browse directory
     set dirname [[ns gui]::get_browse_directory]
 
@@ -157,11 +157,11 @@ namespace eval templates {
   proc delete {name args} {
 
     variable data
-    
+
     # Confirm the deletion
     set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete template?"] \
       -detail [format "%s %s" $name [msgcat::mc "will be permanently deleted"]] -type yesno -default yes]
-    
+
     # If we are told not to delete, exit this procedure now
     if {$answer eq "no"} {
       return
@@ -237,6 +237,15 @@ namespace eval templates {
 
     $txt insert end [read $rc]
     close $rc
+
+  }
+
+  ######################################################################
+  # Returns the list of files/directories used by the template engine
+  # for the purposes of importing/exporting.
+  proc get_sync_items {} {
+
+    return [list templates]
 
   }
 

@@ -729,7 +729,9 @@ namespace eval pref_ui {
     ttk::label $d.f.ul -text [format "%s: " [set wstr [msgcat::mc "Update using release type"]]]
     set widgets(upd_mb) [ttk::menubutton $d.f.umb -menu [menu $d.updMnu -tearoff 0]]
 
-    ttk::button $d.upd -style BButton -text [msgcat::mc "Check for Update"] -command [list menus::check_for_update]
+    if {![string match *Win* $::tcl_platform(os)]} {
+      ttk::button $d.upd -style BButton -text [msgcat::mc "Check for Update"] -command [list menus::check_for_update]
+    }
 
     $d.updMnu add radiobutton -label [msgcat::mc "Stable"]      -value "stable" -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
     $d.updMnu add radiobutton -label [msgcat::mc "Development"] -value "devel"  -variable pref_ui::prefs(General/UpdateReleaseType) -command [list pref_ui::set_release_type]
@@ -737,7 +739,9 @@ namespace eval pref_ui {
     pack $d.f.ul  -side left -padx 2 -pady 2
     pack $d.f.umb -side left -padx 2 -pady 2
     pack $d.f     -fill x
-    pack $d.upd   -padx 2 -pady 2
+    if {![string match *Win* $::tcl_platform(os)]} {
+      pack $d.upd -padx 2 -pady 2
+    }
 
     # Register the widget for search
     register $widgets(upd_mb) $wstr General/UpdateReleaseType

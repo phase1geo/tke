@@ -111,12 +111,14 @@ namespace eval sync {
   proc get_sync_items {} {
 
     return [list \
-      prefs    preferences [msgcat::mc "Preferences"] \
-      launcher launcher    [msgcat::mc "Launcher"] \
-      plugins  plugins     [msgcat::mc "Plugins"] \
-      sessions sessions    [msgcat::mc "Sessions"] \
-      snippets snippets    [msgcat::mc "Snippets"] \
-      themes   themes      [msgcat::mc "Themes"] \
+      favorites favorites   [msgcat::mc "Favorites"] \
+      launcher  launcher    [msgcat::mc "Launcher"] \
+      plugins   plugins     [msgcat::mc "Plugins"] \
+      prefs     preferences [msgcat::mc "Preferences"] \
+      sessions  sessions    [msgcat::mc "Sessions"] \
+      snippets  snippets    [msgcat::mc "Snippets"] \
+      templates templates   [msgcat::mc "Templates"] \
+      themes    themes      [msgcat::mc "Themes"] \
     ]
 
   }

@@ -95,14 +95,16 @@
 # in the directory specified by {General/SyncDirectory}.  The values stored in this
 # setting will only be used if the {General/SyncDirectory} value is set to a valid
 # directory name.  The list of valid values are the following:
-#  - prefs       (User-specific preferences (includes language-specific preferences))
+#  - favorites   (Favorited files/directories)
 #  - launcher    (Command launcher data)
 #  - plugins     (All plugin data including installed vs. uninstalled)
+#  - prefs       (User-specific preferences (includes language-specific preferences))
 #  - sessions    (All named session data)
 #  - snippets    (Both general and language-specific snippets)
+#  - templates   (All user-created file templates)
 #  - themes      (All user created and imported theme data)
 
-{General/SyncItems} {prefs launcher plugins sessions snippets themes}
+{General/SyncItems} {launcher plugins prefs sessions snippets templates themes}
 
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
