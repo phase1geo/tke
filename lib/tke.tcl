@@ -118,6 +118,7 @@ source [file join $tke_dir lib folding.tcl]
 source [file join $tke_dir lib fontchooser.tcl]
 source [file join $tke_dir lib emmet.tcl]
 source [file join $tke_dir lib pref_ui.tcl]
+source [file join $tke_dir lib socksend.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
@@ -179,6 +180,7 @@ proc parse_cmdline {argc argv} {
   set ::cl_new_win       0
   set ::cl_use_session   ""
   set ::cl_profile       0
+  set ::cl_testport      ""
 
   set i 0
   while {$i < $argc} {
@@ -191,6 +193,7 @@ proc parse_cmdline {argc argv} {
       -n    { set ::cl_new_win 1 }
       -s    { incr i; set ::cl_use_session [lindex $argv $i] }
       -p    { set ::cl_profile 1 }
+      -port { incr i; set ::cl_testport [lindex $argv $i] }
       default {
         if {[lindex $argv $i] ne ""} {
           lappend ::cl_files [file normalize [lindex $argv $i]]
@@ -198,6 +201,10 @@ proc parse_cmdline {argc argv} {
       }
     }
     incr i
+  }
+
+  if {$::cl_testport ne ""} {
+    sockappsetup tkreplay.tcl $::cl_testport
   }
 
 }
