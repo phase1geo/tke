@@ -111,6 +111,7 @@ namespace eval sync {
   proc get_sync_items {} {
 
     return [list \
+      emmet     emmet       [msgcat::mc "Emmet"] \
       favorites favorites   [msgcat::mc "Favorites"] \
       launcher  launcher    [msgcat::mc "Launcher"] \
       plugins   plugins     [msgcat::mc "Plugins"] \

@@ -95,6 +95,7 @@
 # in the directory specified by {General/SyncDirectory}.  The values stored in this
 # setting will only be used if the {General/SyncDirectory} value is set to a valid
 # directory name.  The list of valid values are the following:
+#  - emmet       (Custom Emmet aliases)
 #  - favorites   (Favorited files/directories)
 #  - launcher    (Command launcher data)
 #  - plugins     (All plugin data including installed vs. uninstalled)
@@ -104,7 +105,7 @@
 #  - templates   (All user-created file templates)
 #  - themes      (All user created and imported theme data)
 
-{General/SyncItems} {launcher plugins prefs sessions snippets templates themes}
+{General/SyncItems} {emmet launcher plugins prefs sessions snippets templates themes}
 
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background

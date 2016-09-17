@@ -208,5 +208,14 @@ namespace eval emmet {
 
   }
 
+  ######################################################################
+  # Returns a list of files/directories used by the Emmet namespace for
+  # importing/exporting purposes.
+  proc get_sync_items {} {
+
+    return [list emmet.tkedat]
+
+  }
+
 }
 
