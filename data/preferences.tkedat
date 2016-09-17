@@ -243,6 +243,16 @@
 
 {Editor/RelativeLineNumbers} {0}
 
+# If this value is set to a value of 1, the application will start in Vim mode;
+# otherwise, if the value is set to a value of 0, the application will start in
+# normal mode.
+
+{Editor/VimMode}               {0}
+
+# Specifies the number of elements to keep in the clipboard history buffer.
+
+{Editor/ClipboardHistoryDepth} {10}
+
 # Specifies the maximum number of find history items to store in memory.  This value must be a
 # value of 0 (do not record history) or greater.
 
@@ -358,16 +368,6 @@
 # and files will be sorted together in alphabetical order.
 
 {Sidebar/FoldersAtTop} {1}
-
-# If this value is set to a value of 1, the application will start in Vim mode;
-# otherwise, if the value is set to a value of 0, the application will start in
-# normal mode.
-
-{Tools/VimMode}              {0}
-
-# Specifies the number of elements to keep in the clipboard history buffer.
-
-{Tools/ClipboardHistoryDepth} {10}
 
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:

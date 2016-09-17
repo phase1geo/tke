@@ -258,9 +258,6 @@ namespace eval gui {
     theme::register_image pref_view photo ttk_style background \
       {msgcat::mc "Image used in the preferences window in the View tab."} \
       -file [file join $::tke_dir lib images view.gif]
-    theme::register_image pref_tools photo ttk_style background \
-      {msgcat::mc "Image used in the preferences window in the Tools tab."} \
-      -file [file join $::tke_dir lib images tools.gif]
     theme::register_image pref_shortcuts photo ttk_style background \
       {msgcat::mc "Image used in the shortcuts window in the Shortcuts tab."} \
       -file [file join $::tke_dir lib images shortcut.gif]
@@ -451,7 +448,7 @@ namespace eval gui {
     trace variable [ns preferences]::prefs(Editor/MaxUndo)                      w [ns gui]::handle_max_undo
     trace variable [ns preferences]::prefs(Editor/HighlightMatchingChar)        w [ns gui]::handle_matching_char
     trace variable [ns preferences]::prefs(View/AllowTabScrolling)              w [ns gui]::handle_allow_tab_scrolling
-    trace variable [ns preferences]::prefs(Tools/VimMode)                       w [ns gui]::handle_vim_mode
+    trace variable [ns preferences]::prefs(Editor/VimMode)                      w [ns gui]::handle_vim_mode
     trace variable [ns preferences]::prefs(Appearance/EditorFont)               w [ns gui]::handle_editor_font
     trace variable [ns preferences]::prefs(General/AutoChangeWorkingDirectory)  w [ns gui]::handle_auto_cwd
     trace variable [ns preferences]::prefs(General/DefaultFileBrowserDirectory) w [ns gui]::handle_browse_directory
@@ -557,7 +554,7 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Handles any changes to the Tools/VimMode preference variable.
+  # Handles any changes to the Editor/VimMode preference variable.
   proc handle_vim_mode {name1 name2 op} {
 
     [ns vim]::set_vim_mode_all

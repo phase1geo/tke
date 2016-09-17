@@ -237,7 +237,7 @@ namespace eval pref_ui {
       select $selected_session $selected_language 1
 
       # Create the list of panes
-      set panes [list general appearance editor emmet find sidebar tools view shortcuts advanced]
+      set panes [list general appearance editor emmet find sidebar view shortcuts advanced]
 
       # Create and pack each of the panes
       foreach pane $panes {
@@ -466,7 +466,7 @@ namespace eval pref_ui {
     set selected_value [$widgets(match_lb) get active]
 
     # Get the information from the matching element
-    set key [array names search ${selected_value}::*]
+    set key [lindex [array names search ${selected_value}::*] 0]
     lassign $search($key) win lbl tab1 tab2
 
     # Select the pane containing the item
@@ -532,7 +532,6 @@ namespace eval pref_ui {
       Emmet      { set tag ab }
       Find       { set tag ab }
       Sidebar    { set tag ab }
-      Tools      { set tag ab }
       View       { set tag ab }
       Shortcuts  { set tag a }
       Advanced   { set tag a }
@@ -1175,27 +1174,33 @@ namespace eval pref_ui {
 
     ttk::label $w.wwl -text [format "%s: " [set wstr [msgcat::mc "Ruler column"]]]
     set widgets(editor_ww) [$widgets(sb) $w.wwsb {*}$widgets(sb_opts) -from 20 -to 150 -increment 5 -width 3 \
-    -state readonly -command [list pref_ui::set_warning_width]]
+      -state readonly -command [list pref_ui::set_warning_width]]
 
     register $widgets(editor_ww) $wstr Editor/WarningWidth
 
     ttk::label $w.sptl -text [format "%s: " [set wstr [msgcat::mc "Spaces per tab"]]]
     set widgets(editor_spt) [$widgets(sb) $w.sptsb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-    -state readonly -command [list pref_ui::set_spaces_per_tab]]
+      -state readonly -command [list pref_ui::set_spaces_per_tab]]
 
     register $widgets(editor_spt) $wstr Editor/SpacesPerTab
 
     ttk::label $w.isl -text [format "%s: " [set wstr [msgcat::mc "Indentation Spaces"]]]
     set widgets(editor_is) [$widgets(sb) $w.issb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-    -state readonly -command [list pref_ui::set_indent_spaces]]
+      -state readonly -command [list pref_ui::set_indent_spaces]]
 
     register $widgets(editor_is) $wstr Editor/IndentSpaces
 
     ttk::label $w.mul -text [format "%s: " [set wstr [msgcat::mc "Maximum undo history (set to 0 for unlimited)"]]]
     set widgets(editor_mu) [$widgets(sb) $w.musb {*}$widgets(sb_opts) -from 0 -to 200 -increment 10 -width 3 \
-    -state readonly -command [list pref_ui::set_max_undo]]
+      -state readonly -command [list pref_ui::set_max_undo]]
 
     register $widgets(editor_mu) $wstr Editor/MaxUndo
+
+    ttk::label $w.chdl -text [format "%s: " [set wstr [msgcat::mc "Clipboard history depth"]]]
+    set widgets(editor_chd) [$widgets(sb) $w.chdsb {*}$widgets(sb_opts) -from 1 -to 30 -width 3 \
+      -state readonly -command [list pref_ui::set_clipboard_history]]
+
+    register $widgets(editor_chd) $wstr Editor/ClipboardHistoryDepth
 
     ttk::label $w.vmll -text [format "%s: " [set wstr [msgcat::mc "Line count to find for Vim modeline information"]]]
     set widgets(editor_vml) [$widgets(sb) $w.vmlsb {*}$widgets(sb_opts) -from 0 -to 20 -width 3 \
@@ -1206,11 +1211,12 @@ namespace eval pref_ui {
     ttk::label $w.eoll -text [format "%s: " [set wstr [msgcat::mc "End-of-line character when saving"]]]
     set widgets(editor_eolmb) [ttk::menubutton $w.eolmb -menu [menu $w.eol -tearoff 0]]
 
-    foreach {value desc} [list auto [msgcat::mc "Use original EOL character from file"] \
-    sys  [msgcat::mc "Use appropriate EOL character on system"] \
-    cr   [msgcat::mc "Use single carriage return character"] \
-    crlf [msgcat::mc "Use carriate return linefeed sequence"] \
-    lf   [msgcat::mc "Use linefeed character"]] {
+    foreach {value desc} [list \
+      auto [msgcat::mc "Use original EOL character from file"] \
+      sys  [msgcat::mc "Use appropriate EOL character on system"] \
+      cr   [msgcat::mc "Use single carriage return character"] \
+      crlf [msgcat::mc "Use carriate return linefeed sequence"] \
+      lf   [msgcat::mc "Use linefeed character"]] {
       $w.eol add radiobutton -label $desc -value $value -variable pref_ui::prefs(Editor/EndOfLineTranslation) -command [list pref_ui::set_eol_translation]
     }
 
@@ -1243,6 +1249,7 @@ namespace eval pref_ui {
     register $w.scf.s $wstr Editor/SnippetCompleters
 
     ttk::frame $w.cf
+    make_cb $w.cf.vm   [msgcat::mc "Enable Vim Mode"]                         Editor/VimMode
     make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                 Editor/EnableAutoIndent
     make_cb $w.cf.hmc  [msgcat::mc "Highlight matching character"]            Editor/HighlightMatchingChar
     make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]      Editor/RemoveTrailingWhitespace
@@ -1259,19 +1266,22 @@ namespace eval pref_ui {
     grid $w.issb  -row 2 -column 1 -sticky news -padx 2 -pady 2
     grid $w.mul   -row 3 -column 0 -sticky news -padx 2 -pady 2
     grid $w.musb  -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.vmll  -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.vmlsb -row 4 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.eoll  -row 5 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.eolmb -row 5 -column 1 -sticky news -padx 2 -pady 2  -columnspan 2
-    grid $w.mcf   -row 6 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
-    grid $w.scf   -row 7 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
-    grid $w.cf    -row 8 -column 0 -sticky news -padx 2 -pady 2  -columnspan 4
+    grid $w.chdl  -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.chdsb -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.vmll  -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.vmlsb -row 5 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.eoll  -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.eolmb -row 6 -column 1 -sticky news -padx 2 -pady 2  -columnspan 2
+    grid $w.mcf   -row 7 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
+    grid $w.scf   -row 8 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
+    grid $w.cf    -row 9 -column 0 -sticky news -padx 2 -pady 2  -columnspan 4
 
     # Set the UI state to match preference
     $widgets(editor_ww)  set $prefs(Editor/WarningWidth)
     $widgets(editor_spt) set $prefs(Editor/SpacesPerTab)
     $widgets(editor_is)  set $prefs(Editor/IndentSpaces)
     $widgets(editor_mu)  set $prefs(Editor/MaxUndo)
+    $widgets(editor_chd) set $prefs(Editor/ClipboardHistoryDepth)
     $widgets(editor_vml) set $prefs(Editor/VimModelines)
 
     foreach char [list square curly angled paren double single btick] {
@@ -1386,6 +1396,17 @@ namespace eval pref_ui {
     variable prefs
 
     $widgets(editor_eolmb) configure -text $prefs(Editor/EndOfLineTranslation)
+
+  }
+
+  ######################################################################
+  # Sets the Editor/ClipboardHistoryDepth preference value.
+  proc set_clipboard_history {} {
+
+    variable widgets
+    variable prefs
+
+    set prefs(Editor/ClipboardHistoryDepth) [$widgets(editor_chd) get]
 
   }
 
@@ -1619,45 +1640,6 @@ namespace eval pref_ui {
     variable prefs
 
     set prefs(Sidebar/IgnoreFilePatterns) [$widgets(sb_patterns) tokenget]
-
-  }
-
-  #########
-  # TOOLS #
-  #########
-
-  ######################################################################
-  # Creates the tools panel.
-  proc create_tools {w} {
-
-    variable widgets
-    variable prefs
-
-    ttk::frame $w.cf
-    make_cb $w.cf.vm [msgcat::mc "Enable Vim Mode"] Tools/VimMode
-
-    ttk::label   $w.chdl -text [format "%s: " [set wstr [msgcat::mc "Clipboard history depth"]]]
-    set widgets(tools_chd) [$widgets(sb) $w.chdsb {*}$widgets(sb_opts) -from 1 -to 30 -width 3 \
-    -state readonly -command [list pref_ui::set_clipboard_history]]
-
-    register $widgets(tools_chd) $wstr Tools/ClipboardHistoryDepth
-
-    grid $w.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
-    grid $w.chdl  -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.chdsb -row 1 -column 1 -sticky news -padx 2 -pady 2
-
-    $widgets(tools_chd) set $prefs(Tools/ClipboardHistoryDepth)
-
-  }
-
-  ######################################################################
-  # Sets the Tools/ClipboardHistoryDepth preference value.
-  proc set_clipboard_history {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Tools/ClipboardHistoryDepth) [$widgets(tools_chd) get]
 
   }
 
