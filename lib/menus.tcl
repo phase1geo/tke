@@ -986,6 +986,12 @@ namespace eval menus {
 
     $mb add separator
 
+    $mb add checkbutton -label [msgcat::mc "Vim Mode"] -underline 0 -variable preferences::prefs(Editor/VimMode) -command [list vim::set_vim_mode_all]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enable Vim mode"]]  "set preferences::prefs(Editor/VimMode) 1; vim::set_vim_mode_all"
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Disable Vim mode"]] "set preferences::prefs(Editor/VimMode) 0; vim::set_vim_mode_all"
+
+    $mb add separator
+
     $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command [list edit::comment_toggle {}]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle comment"]] [list edit::comment_toggle {}]
 
@@ -2631,12 +2637,6 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Theme Editor"] -underline 0 -command [list menus::theme_edit_command]
     launcher::register [make_menu_cmd "Tools" [msgcat::mc "Run theme editor"]] [list menus::theme_edit_command]
-
-    $mb add separator
-
-    $mb add checkbutton -label [msgcat::mc "Vim Mode"] -underline 0 -variable preferences::prefs(Tools/VimMode) -command [list vim::set_vim_mode_all]
-    launcher::register [make_menu_cmd "Tools" [msgcat::mc "Enable Vim mode"]]  "set preferences::prefs(Tools/VimMode) 1; vim::set_vim_mode_all"
-    launcher::register [make_menu_cmd "Tools" [msgcat::mc "Disable Vim mode"]] "set preferences::prefs(Tools/VimMode) 0; vim::set_vim_mode_all"
 
   }
 

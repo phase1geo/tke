@@ -60,7 +60,7 @@ namespace eval cliphist {
     }
 
     # Handle any changes to the clipboard history depth
-    trace variable preferences::prefs(Tools/ClipboardHistoryDepth) w cliphist::handle_cliphist_depth
+    trace variable preferences::prefs(Editor/ClipboardHistoryDepth) w cliphist::handle_cliphist_depth
 
   }
 
@@ -103,7 +103,7 @@ namespace eval cliphist {
         lappend hist $str
 
         # Trim the history to meet the maxsize requirement, if necessary
-        if {[llength $hist] > [preferences::get Tools/ClipboardHistoryDepth]} {
+        if {[llength $hist] > [preferences::get Editor/ClipboardHistoryDepth]} {
           set hist [lrange $hist 1 end]
         }
 
@@ -199,7 +199,7 @@ namespace eval cliphist {
 
     variable hist
 
-    if {[set diff [expr [llength $hist] - [preferences::get Tools/ClipboardHistoryDepth]]] > 0} {
+    if {[set diff [expr [llength $hist] - [preferences::get Editor/ClipboardHistoryDepth]]] > 0} {
       set hist [lrange $hist $diff end]
     }
 

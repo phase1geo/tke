@@ -81,7 +81,7 @@ namespace eval vim {
   # Enables/disables Vim mode for the specified text widget.
   proc set_vim_mode {txt tid} {
 
-    if {[[ns preferences]::get Tools/VimMode]} {
+    if {[[ns preferences]::get Editor/VimMode]} {
       add_bindings $txt $tid
     } else {
       remove_bindings $txt
@@ -117,7 +117,7 @@ namespace eval vim {
 
     variable mode
 
-    if {[[ns preferences]::get Tools/VimMode] && \
+    if {[[ns preferences]::get Editor/VimMode] && \
         [info exists mode($txtt)] && \
         ($mode($txtt) ne "edit")} {
       return 1
@@ -134,7 +134,7 @@ namespace eval vim {
     variable mode
     variable recording
 
-    if {[[ns preferences]::get Tools/VimMode]} {
+    if {[[ns preferences]::get Editor/VimMode]} {
       set record ""
       set curr_reg $recording(curr_reg)
       if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
@@ -2445,7 +2445,7 @@ namespace eval vim {
 
     variable mode
 
-    if {[[ns preferences]::get Tools/VimMode] && [info exists mode($txt.t)]} {
+    if {[[ns preferences]::get Editor/VimMode] && [info exists mode($txt.t)]} {
 
       # If we are not currently in edit mode, temporarily set ourselves to edit mode
       if {$mode($txt.t) ne "edit"} {
