@@ -1006,11 +1006,12 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [make_menu $mb.prefPopup -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
-    $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [make_menu $mb.bindPopup -tearoff 0]
-    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [make_menu $mb.snipPopup -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
-    $mb add cascade -label [msgcat::mc "Templates"]     -menu [make_menu $mb.tempPopup -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
-    $mb add cascade -label "Emmet" -menu [make_menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
+    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [make_menu $mb.prefPopup  -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
+    $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [make_menu $mb.bindPopup  -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Snippets"]      -menu [make_menu $mb.snipPopup  -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
+    $mb add cascade -label [msgcat::mc "Templates"]     -menu [make_menu $mb.tempPopup  -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
+    $mb add cascade -label "Emmet"                      -menu [make_menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
+    $mb add cascade -label [msgcat::mc "Settings"]      -menu [make_menu $mb.setPopup   -tearoff 0]
 
     ###########################
     # Populate indentation menu
@@ -1283,6 +1284,16 @@ namespace eval menus {
 
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
+
+    ########################
+    # Populate Settings menu
+    ########################
+
+    $mb.setPopup add command -label [msgcat::mc "Import..."] -command [list sync::import_export import]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Import settings data"]] [list sync::import_export import]
+
+    $mb.setPopup add command -label [msgcat::mc "Export..."] -command [list sync::import_export export]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Export settings data"]] [list sync::import_export export]
 
   }
 

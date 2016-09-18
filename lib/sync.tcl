@@ -153,7 +153,7 @@ namespace eval sync {
 
   ######################################################################
   # Displays the import/export window (based on the type argument)
-  proc import_export {type} {
+  proc import_export {win_type} {
 
     variable widgets
     variable data
@@ -165,7 +165,7 @@ namespace eval sync {
     ]
 
     toplevel     .syncwin
-    wm title     .syncwin [format "%s %s" $labels($type) [msgcat::mc "Settings Data"]]
+    wm title     .syncwin [format "%s %s" $labels($win_type) [msgcat::mc "Settings Data"]]
     wm resizable .syncwin 0 0
     wm transient .syncwin .
 
@@ -178,14 +178,17 @@ namespace eval sync {
     pack .syncwin.f.e -side left  -padx 2 -pady 2 -fill x -expand yes
     pack .syncwin.f.b -side right -padx 2 -pady 2
 
-    ttk::labelframe .syncwin.lf -text [format "%s %s" [msgcat::mc "Items to"] $labels($type)]
+    ttk::labelframe .syncwin.lf -text [format "%s %s" [msgcat::mc "Items to"] $labels($win_type)]
+    set i       0
+    set columns 3
     foreach {type nspace name} [get_sync_items] {
-      pack [ttk::checkbutton .syncwin.lf.$item -text $name -variable sync::items($type) -command [list sync::handle_do_state]
+      grid [ttk::checkbutton .syncwin.lf.$type -text $name -variable sync::items($type) -command [list sync::handle_do_state]] -row [expr $i / $columns] -column [expr $i % $columns] -sticky news -padx 2 -pady 2
+      incr i
     }
 
     ttk::frame  .syncwin.bf
-    set widgets(do) [ttk::button .syncwin.bf.do -text $labels($type) -width 6 -command [list sync::do_import_export $type]]
-    ttk::button .syncwin.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command [list sync::do_cancel]
+    set widgets(do) [ttk::button .syncwin.bf.do -style BButton -text $labels($win_type) -width 6 -command [list sync::do_import_export $win_type]]
+    ttk::button .syncwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list sync::do_cancel]
 
     pack .syncwin.bf.cancel -side right -padx 2 -pady 2
     pack .syncwin.bf.do     -side right -padx 2 -pady 2
@@ -203,7 +206,7 @@ namespace eval sync {
       .syncwin.f.e configure -state readonly
     }
 
-    if {$type eq "import"} {
+    if {$win_type eq "import"} {
       foreach {type nspace name} [get_sync_items] {
         set items($type) [expr {[lsearch $data(SyncItems) $type] != -1}]
       }
@@ -218,6 +221,9 @@ namespace eval sync {
 
     # Grab the focus
     ::tk::SetFocusGrab .syncwin .syncwin.f.b
+
+    # Center the window
+    ::tk::PlaceWindow .syncwin widget .
 
     # Wait for the window to close
     tkwait window .syncwin
@@ -237,10 +243,16 @@ namespace eval sync {
 
     # Get the directory from the user
     if {[set dir [tk_chooseDirectory -parent .syncwin -initialdir $data(SyncDirectory)]] ne ""} {
+
+      # Insert the directory
       $widgets(directory) configure -state normal
       $widgets(directory) delete 0 end
       $widgets(directory) insert end $dir
       $widgets(directory) configure -state readonly
+
+      # Update the do button state
+      handle_do_state
+
     }
 
   }
@@ -269,7 +281,7 @@ namespace eval sync {
 
   ######################################################################
   # Perform the import/export operation.
-  proc do_import_export {type} {
+  proc do_import_export {win_type} {
 
     variable widgets
     variable items
@@ -286,7 +298,7 @@ namespace eval sync {
     set sync_dir [$widgets(directory) get]
 
     # Figure out the from and to directories based on type
-    if {$type eq "import"} {
+    if {$win_type eq "import"} {
       set from_dir $sync_dir
       set to_dir   $::tke_home
     } else {
@@ -296,7 +308,7 @@ namespace eval sync {
 
     # Perform the file transfer
     foreach item $item_list {
-      if {[file exists [set fname [file join $from_dir $item]]} {
+      if {[file exists [set fname [file join $from_dir $item]]]} {
         set tname [file join $to_dir $item]
         if {[file exists $tname] && [file isdirectory $tname]} {
           file delete -force $tname
