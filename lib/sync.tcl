@@ -28,6 +28,10 @@ namespace eval sync {
 
   variable sync_local [file join $::tke_home sync_dir]
 
+  array set data    {}
+  array set widgets {}
+  array set items   {}
+
   trace variable [ns preferences]::prefs(General/SyncDirectory) w [list sync::sync_changed]
   trace variable [ns preferences]::prefs(General/SyncItems)     w [list sync::sync_changed]
 
@@ -48,7 +52,7 @@ namespace eval sync {
     }
 
     # We need to restart TKE to have the change take full effect
-    # TBD
+    # [ns menus]::restart_command
 
   }
 
@@ -91,7 +95,7 @@ namespace eval sync {
 
     variable sync_local
 
-    # Copy the relevant files to the sync directory
+    # Copy the relevant files from the sync directory
     foreach {type nspace name} [get_sync_items] {
       foreach item [[ns $nspace]::get_sync_items] {
         set sync_item [file join $sync_dir $item]
@@ -144,6 +148,201 @@ namespace eval sync {
       set sync_items [[ns preferences]::get General/SyncItems]
       return [expr {([file exists $sync_dir] && ([lsearch $sync_items $type] != -1)) ? $sync_dir : $::tke_home}]
     }
+
+  }
+
+  ######################################################################
+  # Displays the import/export window (based on the type argument)
+  proc import_export {type} {
+
+    variable widgets
+    variable data
+    variable items
+
+    array set labels [list \
+      import [msgcat::mc "Import"] \
+      export [msgcat::mc "Export"] \
+    ]
+
+    toplevel     .syncwin
+    wm title     .syncwin [format "%s %s" $labels($type) [msgcat::mc "Settings Data"]]
+    wm resizable .syncwin 0 0
+    wm transient .syncwin .
+
+    ttk::frame  .syncwin.f
+    ttk::label  .syncwin.f.l -text [format "%s: " [msgcat::mc "Directory"]]
+    set widgets(directory) [ttk::entry .syncwin.f.e -state readonly]
+    ttk::button .syncwin.f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list sync::browse_directory]
+
+    pack .syncwin.f.l -side left  -padx 2 -pady 2
+    pack .syncwin.f.e -side left  -padx 2 -pady 2 -fill x -expand yes
+    pack .syncwin.f.b -side right -padx 2 -pady 2
+
+    ttk::labelframe .syncwin.lf -text [format "%s %s" [msgcat::mc "Items to"] $labels($type)]
+    foreach {type nspace name} [get_sync_items] {
+      pack [ttk::checkbutton .syncwin.lf.$item -text $name -variable sync::items($type) -command [list sync::handle_do_state]
+    }
+
+    ttk::frame  .syncwin.bf
+    set widgets(do) [ttk::button .syncwin.bf.do -text $labels($type) -width 6 -command [list sync::do_import_export $type]]
+    ttk::button .syncwin.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command [list sync::do_cancel]
+
+    pack .syncwin.bf.cancel -side right -padx 2 -pady 2
+    pack .syncwin.bf.do     -side right -padx 2 -pady 2
+
+    pack .syncwin.f  -fill x
+    pack .syncwin.lf -fill both -expand yes
+    pack .syncwin.bf -fill x
+
+    # Initialize the UI
+    load_file
+
+    if {$data(SyncDirectory) ne ""} {
+      .syncwin.f.e configure -state normal
+      .syncwin.f.e insert end $data(SyncDirectory)
+      .syncwin.f.e configure -state readonly
+    }
+
+    if {$type eq "import"} {
+      foreach {type nspace name} [get_sync_items] {
+        set items($type) [expr {[lsearch $data(SyncItems) $type] != -1}]
+      }
+    } else {
+      foreach {type nspace name} [get_sync_items] {
+        set items($type) 1
+      }
+    }
+
+    # Handle the state of the do button
+    handle_do_state
+
+    # Grab the focus
+    ::tk::SetFocusGrab .syncwin .syncwin.f.b
+
+    # Wait for the window to close
+    tkwait window .syncwin
+
+    # Restore the grab and focus
+    ::tk::RestoreFocusGrab .syncwin .syncwin.f.b
+
+  }
+
+  ######################################################################
+  # Allows the user to use the file browser to select a directory to
+  # import/export to.
+  proc browse_directory {} {
+
+    variable data
+    variable widgets
+
+    # Get the directory from the user
+    if {[set dir [tk_chooseDirectory -parent .syncwin -initialdir $data(SyncDirectory)]] ne ""} {
+      $widgets(directory) configure -state normal
+      $widgets(directory) delete 0 end
+      $widgets(directory) insert end $dir
+      $widgets(directory) configure -state readonly
+    }
+
+  }
+
+  ######################################################################
+  # Handles the state of the import/export button in the import/export
+  # window.
+  proc handle_do_state {} {
+
+    variable widgets
+    variable items
+
+    # Disable the button by default
+    $widgets(do) configure -state disabled
+
+    if {[$widgets(directory) get] ne ""} {
+      foreach {type nspace name} [get_sync_items] {
+        if {$items($type)} {
+          $widgets(do) configure -state normal
+          return
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Perform the import/export operation.
+  proc do_import_export {type} {
+
+    variable widgets
+    variable items
+
+    # Copy the relevant files to transfer
+    set item_list [list]
+    foreach {type nspace name} [get_sync_items] {
+      if {$items($type)} {
+        lappend item_list {*}[[ns $nspace]::get_sync_items]
+      }
+    }
+
+    # Get the sync directory
+    set sync_dir [$widgets(directory) get]
+
+    # Figure out the from and to directories based on type
+    if {$type eq "import"} {
+      set from_dir $sync_dir
+      set to_dir   $::tke_home
+    } else {
+      set from_dir $::tke_home
+      set to_dir   $sync_dir
+    }
+
+    # Perform the file transfer
+    foreach item $item_list {
+      if {[file exists [set fname [file join $from_dir $item]]} {
+        set tname [file join $to_dir $item]
+        if {[file exists $tname] && [file isdirectory $tname]} {
+          file delete -force $tname
+        }
+        file copy -force $fname $to_dir
+      }
+    }
+
+    # Close the sync window
+    destroy .syncwin
+
+  }
+
+  ######################################################################
+  # Cancels the sync window.
+  proc do_cancel {} {
+
+    # Close the sync window
+    destroy .syncwin
+
+  }
+
+  ######################################################################
+  # Load the synchronization file.
+  proc load_file {} {
+
+    variable data
+
+    # Initialize the sync information
+    set data(SyncDirectory) ""
+    set data(SyncItems)     [list emmet launcher plugins prefs sessions snippets templates themes]
+
+    # Read in the sync data from the file
+    if {![catch { [ns tkedat]::read [file join $::tke_home sync.tkedat] } rc]} {
+      array set data $rc
+    }
+
+  }
+
+  ######################################################################
+  # Writes the synchronization file.
+  proc write_file {} {
+
+    variable data
+
+    [ns tkedat]::write [file join $::tke_home sync.tkedat] [array get data]
 
   }
 
