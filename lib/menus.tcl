@@ -1289,8 +1289,10 @@ namespace eval menus {
     # Populate Settings menu
     ########################
 
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sync Setup"]] -command [list sync::sync_setup]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup sync settings"]] [list sync::sync_setup]
+    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sync Setup"]] -command [list sync::sync_setup] -state disabled
+    # launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup sync settings"]] [list sync::sync_setup]
+
+    $mb.setPopup add separator
 
     $mb.setPopup add command -label [format "%s..." [msgcat::mc "Import"]] -command [list sync::import_export import]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Import settings data"]] [list sync::import_export import]
