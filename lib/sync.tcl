@@ -32,23 +32,22 @@ namespace eval sync {
   array set widgets {}
   array set items   {}
 
-  trace variable [ns preferences]::prefs(General/SyncDirectory) w [list sync::sync_changed]
-  trace variable [ns preferences]::prefs(General/SyncItems)     w [list sync::sync_changed]
-
   ######################################################################
   # Called whenever the General/SyncDirectory value changes.
-  proc sync_changed {name1 name2 op} {
+  proc sync_changed {} {
 
+    variable data
     variable sync_local
+    variable last_directory
 
     # Get the new sync directory value
-    set sync_dir   [[ns preferences]::get General/SyncDirectory]
-    set sync_items [[ns preferences]::get General/SyncItems]
+    set sync_dir   $data(SyncDirectory)
+    set sync_items $data(SyncItems)
 
     if {$sync_dir ne ""} {
-      create_sync_dir $sync_dir $sync_items
+      create_sync_dir $data(SyncDirectory) $data(SyncItems)
     } else {
-      remove_sync_dir $sync_dir
+      remove_sync_dir $last_directory
     }
 
     # We need to restart TKE to have the change take full effect
@@ -355,6 +354,38 @@ namespace eval sync {
     variable data
 
     [ns tkedat]::write [file join $::tke_home sync.tkedat] [array get data]
+
+  }
+
+  ######################################################################
+  # Sets up the sync settings.
+  proc sync_setup {} {
+
+    [ns gui]::add_buffer end [msgcat::mc "Sync Setup"] [list [ns sync]::save_buffer_contents] -lang tkeData
+
+  }
+
+  ######################################################################
+  # Called when the synchronization text file is saved.
+  proc save_buffer_contents {file_index} {
+
+    variable data
+    variable last_directory
+
+    # Save the last directory
+    set last_directory $data(SyncDirectory)
+
+    # Get the current buffer
+    set txt [[ns gui]::current_txt {}]
+
+    # Get the buffer contents
+    array set data [[ns tkedat]::parse [[ns gui]::scrub_text $txt] 0]
+
+    # Write the file
+    write_file
+
+    # Indicate that values may have changed
+    sync_changed
 
   }
 
