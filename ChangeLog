@@ -1,129 +1,34 @@
-changeset:   2283:aad5a0dfbe11
-tag:         devel-2.6.4
+changeset:   2298:69767c24e705
+tag:         devel-2.6.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 14 01:34:01 2016 -0500
+date:        Mon Sep 19 08:56:39 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.4 release
+ChangeLog for devel-2.6.5 release
 
 
-changeset:   2284:9fbd01c15ae6
+changeset:   2299:91ab9ff0e27d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 14 01:34:07 2016 -0500
+date:        Mon Sep 19 08:56:44 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.4 for changeset aad5a0dfbe11
+Added tag devel-2.6.5 for changeset 69767c24e705
 
 
-changeset:   2285:9ae867554e14
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 14 12:50:27 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing bug with indenting reindented lines that follow another reindented line.
-
-
-changeset:   2286:d0a4d1852a64
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 14 13:10:24 2016 -0500
-files:       lib/menus.tcl lib/version.tcl
-description:
-* Checkpointing work on enhanced options to export getSaveFile call.
-
-
-changeset:   2287:1cdd34caad4f
+changeset:   2300:665d83a201ed
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 14 14:06:46 2016 -0500
-files:       data/preferences.tkedat lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
+date:        Mon Sep 19 23:46:30 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
 description:
-* Adding support for General/DefaultMarkdownExportExtension preference value.
-* Fixing Markdown getSaveFile options.
-* Changing Markdown generator to generate HTML if the extension value is any value that is not xhtml.
+* Fixing syntax issue in ctext widget that resulted in slow character deletions when there are many strings/comments in code.
 
 
-changeset:   2288:98fff1ff58f0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 14 23:57:49 2016 -0500
-files:       data/preferences.tkedat lib/launcher.tcl lib/plugins.tcl lib/pref_ui.tcl lib/preferences.tcl lib/sessions.tcl lib/snippets.tcl lib/sync.tcl lib/themes.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding initial support for settings sync (work in progress).
-
-
-changeset:   2289:900723beda90
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 16 00:17:26 2016 -0500
-files:       lib/sync.tcl lib/version.tcl
-description:
-* Checkpointing work on sync namespace.
-
-
-changeset:   2290:9a960bb54c6e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 16 20:32:45 2016 -0500
-files:       lib/socksend.tcl lib/tke.tcl lib/version.tcl
-description:
-* Adding support for attaching the TkTest utility.
-
-
-changeset:   2291:65fdd2f93f09
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 17 12:31:40 2016 -0500
-files:       data/preferences.tkedat lib/favorites.tcl lib/pref_ui.tcl lib/sync.tcl lib/templates.tcl lib/version.tcl
-description:
-* Adding favorites and templates to the list of settings data that will be import/export-able.
-* Removing `Check for Update` button in `General/Updates` preference tab for Windows.
-
-
-changeset:   2292:7387e4daa592
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 17 13:05:26 2016 -0500
-files:       data/preferences.tkedat lib/cliphist.tcl lib/gui.tcl lib/images/tools.gif lib/menus.tcl lib/pref_ui.tcl lib/version.tcl lib/vim.tcl
-description:
-* Removing `Tools` preference category (moved VimMode and ClipboardHistoryDepth to `Editor` category).
-* Moved `Tools/Vim Mode` menu item to `Edit` menu.
-* Fixed issue with searching preferences with matching item containing spaces.
-
-
-changeset:   2293:ad034f2322b0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 17 13:38:52 2016 -0500
-files:       data/preferences.tkedat lib/emmet.tcl lib/sync.tcl lib/version.tcl
-description:
-* Adding Emmet to list of settings data that can be optionally imported/exported.
-
-
-changeset:   2294:aadbd09033bb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 18 00:05:52 2016 -0500
-files:       lib/sync.tcl lib/version.tcl
-description:
-* Checkpointing changes to sync namespace for importing/exporting (untested).
-
-
-changeset:   2295:fd2394bc0b68
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 18 16:07:15 2016 -0500
-files:       lib/menus.tcl lib/sync.tcl lib/version.tcl
-description:
-* Integrating settings import/export functionality into menus.
-* Fixing various bugs in settings import/export procedures.
-
-
-changeset:   2296:146d32226185
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 18 22:48:03 2016 -0500
-files:       lib/menus.tcl lib/sync.tcl lib/version.tcl
-description:
-* Checkpointing work to sync namespace.
-
-
-changeset:   2297:2a70841386b2
+changeset:   2301:97994191eb45
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 19 08:50:18 2016 -0500
-files:       lib/menus.tcl lib/version.tcl
+date:        Tue Sep 20 00:00:31 2016 -0500
+files:       lib/version.tcl lib/vim.tcl
 description:
-* Disabling "Edit / Settings / Sync Setup" menu option for the time being.
-* Improved readability of "Edit / Settings" menu.
+* Fixed syntax error that caused the x and X Vim commands to potentially misbehave.
 
 
