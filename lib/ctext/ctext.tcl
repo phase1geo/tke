@@ -1184,7 +1184,7 @@ proc ctext::command_delete {win args} {
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  ctext::highlightAll $win $lineStart $lineEnd $chars_deleted 0
+  ctext::highlightAll $win $lineStart $lineEnd $chars_deleted
   ctext::modified     $win 1 [list delete $lineStart $lineEnd $moddata]
 
   event generate $win.t <<CursorChanged>>
@@ -2222,7 +2222,7 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
 
 }
 
-proc ctext::highlightAll {win linestart lineend ins {do_tag 0}} {
+proc ctext::highlightAll {win linestart lineend ins {do_tag ""}} {
 
   variable data
 
