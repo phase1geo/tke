@@ -2654,7 +2654,7 @@ namespace eval vim {
     }
 
     # Adjust the cursor
-    adjust_cursor $txtt
+    adjust_insert $txtt
 
     # Create separator
     $txtt edit separator
@@ -2683,7 +2683,7 @@ namespace eval vim {
     }
 
     # Adjust the cursor
-    adjust_cursor $txtt
+    adjust_insert $txtt
 
     # Create separator
     $txtt edit separator
