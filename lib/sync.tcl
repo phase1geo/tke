@@ -114,15 +114,7 @@ namespace eval sync {
   proc get_sync_items {} {
 
     return [list \
-      emmet     emmet       [msgcat::mc "Emmet"] \
-      favorites favorites   [msgcat::mc "Favorites"] \
-      launcher  launcher    [msgcat::mc "Launcher"] \
-      plugins   plugins     [msgcat::mc "Plugins"] \
-      prefs     preferences [msgcat::mc "Preferences"] \
-      sessions  sessions    [msgcat::mc "Sessions"] \
-      snippets  snippets    [msgcat::mc "Snippets"] \
-      templates templates   [msgcat::mc "Templates"] \
-      themes    themes      [msgcat::mc "Themes"] \
+
     ]
 
   }
@@ -177,11 +169,11 @@ namespace eval sync {
     pack .syncwin.f.e -side left  -padx 2 -pady 2 -fill x -expand yes
     pack .syncwin.f.b -side right -padx 2 -pady 2
 
-    ttk::labelframe .syncwin.lf -text [format "%s %s" [msgcat::mc "Items to"] $labels($win_type)]
+    ttk::labelframe .syncwin.lf -text [format "%s %s" [msgcat::mc "Settings to"] $labels($win_type)]
     set i       0
     set columns 3
     foreach {type nspace name} [get_sync_items] {
-      grid [ttk::checkbutton .syncwin.lf.$type -text $name -variable sync::items($type) -command [list sync::handle_do_state]] -row [expr $i / $columns] -column [expr $i % $columns] -sticky news -padx 2 -pady 2
+      grid [ttk::checkbutton .syncwin.lf.$type -text $name -variable sync::items($type) -command [list sync::handle_do_state]] -row [expr $i % $columns] -column [expr $i / $columns] -sticky news -padx 2 -pady 2
       incr i
     }
 
@@ -327,6 +319,79 @@ namespace eval sync {
 
     # Close the sync window
     destroy .syncwin
+
+  }
+
+  ######################################################################
+  # Displays the import/sync wizard which will be displayed if TKE is
+  # started and a sync.tkedat file is not found in the user's home directory.
+  proc import_sync_wizard {} {
+
+    variable items
+
+    toplevel     .swizwin
+    wm title     .swizwin [format "%s / %s %s" [msgcat::mc "Import"] [msgcat::mc "Sync"] [msgcat::mc "Settings"]
+    wm resizable .swizwin 0 0
+    wm transient .swizwin .
+
+    ttk::labelframe .swizwin.f -text [msgcat::mc "Settings to Import/Sync"]
+    foreach {type nspace name} [get_sync_items] {
+      set items($type) 1
+      pack [ttk::checkbutton .swizwin.f.$type -text $name -variable sync::items($type)] -padx 2 -pady 2
+    }
+
+    ttk::frame  .swizwin.bf
+    ttk::button .swizwin.bf.import -text [msgcat::mc "Import"] -command [list sync::wizard_do import]
+    ttk::button .swizwin.bf.sync   -text [msgcat::mc "Sync"]   -command [list sync::wizard_do sync]
+    ttk::button .swizwin.bf.skip   -text [msgcat::mc "Skip"]   -command [list sync::wizard_do skip]
+
+    # Get the user focus and grab
+    ::tk::SetFocusGrab .swizwin .swizwin.bf.sync
+
+    # Wait for the window to be closed
+    tkwait window .swizwin
+
+    # Release the user focus and grab
+    ::tk::ReleaseFocusGrab .swizwin .swizwin.bf.sync
+
+  }
+
+  ######################################################################
+  # Performs wizard action of the specified type.
+  proc wizard_do {type} {
+
+    variable data
+    variable items
+
+    # Destroy the wizard window
+    destroy .swizwin
+
+    if {($type eq "import") || ($type eq "sync")} {
+
+      array get labels [list import [msgcat::mc "Import"] sync [msgcat::mc "Sync"]]
+
+      # Get the directory to import/sync
+      set dir [tk_chooseDirectory -parent . -title [format "%s %s" [msgcat::mc "Choose TKE Settings Directory to"] $labels($type)
+
+      if {$dir ne ""} {
+        set data(SyncDirectory) [expr {($type eq "import") ? "" : $dir}]
+        set data(SyncItems)     [list]
+        foreach {type nspace name} [get_sync_items] {
+          if {$items($type)} {
+            lappend data(SyncItems) $type
+          }
+        }
+      }
+
+    } else {
+
+      set data(SyncDirectory) ""
+      set data(SyncItems)     [list]
+
+    }
+
+    # Create the sync.tkedat file
+    write_file
 
   }
 
