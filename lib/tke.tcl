@@ -39,8 +39,8 @@ proc adjust_fname {fname} {
   return $fname
 
 }
-
 set tke_dir  [adjust_fname [file dirname [file dirname [file normalize [info script]]]]]
+
 set tke_home [file normalize [file join ~ .tke]]
 
 ######################################################################
@@ -80,9 +80,9 @@ catch { package require tkdnd }
 catch { package require registry }
 
 source [file join $tke_dir lib version.tcl]
+source [file join $tke_dir lib sync.tcl]
 source [file join $tke_dir lib utils.tcl]
 source [file join $tke_dir lib preferences.tcl]
-source [file join $tke_dir lib sync.tcl]
 source [file join $tke_dir lib edit.tcl]
 source [file join $tke_dir lib gui.tcl]
 source [file join $tke_dir lib sidebar.tcl]
@@ -353,6 +353,9 @@ if {[catch {
 
   # Set the application name to tke
   tk appname tke
+
+  # Allow the sync settings to be setup prior to doing anything else
+  sync::initialize
 
   # Parse the command-line options
   parse_cmdline $argc $argv
