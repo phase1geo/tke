@@ -115,13 +115,18 @@ namespace eval sync {
   # settings data (use the create_sync_dir) method to perform a file sync.
   proc file_transfer {from_dir to_dir items} {
 
-    foreach item $items {
-      if {[file exists [set fname [file join $from_dir $item]]]} {
-        set tname [file join $to_dir $item]
-        if {[file exists $tname] && [file isdirectory $tname]} {
-          file delete -force $tname
+    # Get the list of files/directories to transfer based on the items
+    foreach {type nspace name} [get_sync_items] {
+      if {[lsearch $items $type] != -1} {
+        foreach item [[ns $nspace]::get_sync_items] {
+          if {[file exists [set fname [file join $from_dir $item]]]} {
+            set tname [file join $to_dir $item]
+            if {[file exists $tname] && [file isdirectory $tname]} {
+              file delete -force $tname
+            }
+            file copy -force $fname $to_dir
+          }
         }
-        file copy -force $fname $to_dir
       }
     }
 
@@ -307,7 +312,7 @@ namespace eval sync {
     set item_list [list]
     foreach {type nspace name} [get_sync_items] {
       if {$items($type)} {
-        lappend item_list {*}[[ns $nspace]::get_sync_items]
+        lappend item_list $type
       }
     }
 
@@ -346,7 +351,9 @@ namespace eval sync {
   # file.
   proc initialize {} {
 
-    if {![file exists [file join $::tke_home sync.tkedat]]} {
+    if {[file exists [file join $::tke_home sync.tkedat]]} {
+      load_file
+    } else {
       import_sync_wizard
     }
 
@@ -398,7 +405,7 @@ namespace eval sync {
     set height       [winfo height       .swizwin]
 
     # Place the window in the middle of the screen
-    wm geometry .swizwin +[expr ($screenwidth / 2) - ($width / 2)]+[expr ($screenheight / 2) - ($width / 2)] 
+    wm geometry .swizwin +[expr ($screenwidth / 2) - ($width / 2)]+[expr ($screenheight / 2) - ($width / 2)]
 
     # Wait for the window to be closed
     tkwait window .swizwin
@@ -435,18 +442,21 @@ namespace eval sync {
         }
       }
 
-      # Create the sync.tkedat file
-      write_file
+      if {$type eq "import"} {
+        file_transfer $dir $::tke_home $data(SyncItems)
+      } else {
+        create_sync_dir $data(SyncDirectory) $data(SyncItems)
+      }
 
     } else {
 
       set data(SyncDirectory) ""
       set data(SyncItems)     [list]
 
-      # Create the sync.tkedat file
-      write_file
-
     }
+
+    # Create the sync.tkedat file
+    write_file
 
   }
 
