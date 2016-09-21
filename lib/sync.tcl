@@ -110,11 +110,37 @@ namespace eval sync {
   }
 
   ######################################################################
+  # Performs a file transfer, removing any items that are in the target
+  # directory that will be moved.  This is used when importing/exporting
+  # settings data (use the create_sync_dir) method to perform a file sync.
+  proc file_transfer {from_dir to_dir items} {
+
+    foreach item $items {
+      if {[file exists [set fname [file join $from_dir $item]]]} {
+        set tname [file join $to_dir $item]
+        if {[file exists $tname] && [file isdirectory $tname]} {
+          file delete -force $tname
+        }
+        file copy -force $fname $to_dir
+      }
+    }
+
+  }
+
+  ######################################################################
   # Returns the list of sync items.
   proc get_sync_items {} {
 
     return [list \
-
+      emmet     emmet       [msgcat::mc "Emmet"] \
+      favorites favorites   [msgcat::mc "Favorites"] \
+      launcher  launcher    [msgcat::mc "Launcher"] \
+      plugins   plugins     [msgcat::mc "Plugins"] \
+      prefs     preferences [msgcat::mc "Preferences"] \
+      sessions  sessions    [msgcat::mc "Sessions"] \
+      snippets  snippets    [msgcat::mc "Snippets"] \
+      templates templates   [msgcat::mc "Templates"] \
+      themes    themes      [msgcat::mc "Themes"] \
     ]
 
   }
@@ -298,15 +324,7 @@ namespace eval sync {
     }
 
     # Perform the file transfer
-    foreach item $item_list {
-      if {[file exists [set fname [file join $from_dir $item]]]} {
-        set tname [file join $to_dir $item]
-        if {[file exists $tname] && [file isdirectory $tname]} {
-          file delete -force $tname
-        }
-        file copy -force $fname $to_dir
-      }
-    }
+    file_transfer $from_dir $to_dir $item_list
 
     # Close the sync window
     destroy .syncwin
@@ -323,36 +341,70 @@ namespace eval sync {
   }
 
   ######################################################################
+  # Called on tool startup.  If the sync file does not exist in the home
+  # directory, call the sync wizard to help the user setup a valid sync
+  # file.
+  proc initialize {} {
+
+    if {![file exists [file join $::tke_home sync.tkedat]]} {
+      import_sync_wizard
+    }
+
+  }
+
+  ######################################################################
   # Displays the import/sync wizard which will be displayed if TKE is
   # started and a sync.tkedat file is not found in the user's home directory.
   proc import_sync_wizard {} {
 
     variable items
 
-    toplevel     .swizwin
-    wm title     .swizwin [format "%s / %s %s" [msgcat::mc "Import"] [msgcat::mc "Sync"] [msgcat::mc "Settings"]
-    wm resizable .swizwin 0 0
-    wm transient .swizwin .
+    toplevel            .swizwin
+    wm title            .swizwin [format "%s / %s %s" [msgcat::mc "Import"] [msgcat::mc "Sync"] [msgcat::mc "Settings"]]
+    wm resizable        .swizwin 0 0
+    wm overrideredirect .swizwin 1
 
-    ttk::labelframe .swizwin.f -text [msgcat::mc "Settings to Import/Sync"]
+    ttk::frame      .swizwin.f
+    ttk::labelframe .swizwin.f.lf -text [msgcat::mc "Settings to Import/Sync"]
+    set i 0
     foreach {type nspace name} [get_sync_items] {
       set items($type) 1
-      pack [ttk::checkbutton .swizwin.f.$type -text $name -variable sync::items($type)] -padx 2 -pady 2
+      grid [ttk::checkbutton .swizwin.f.lf.$type -text $name -variable sync::items($type)] -row $i -column 0 -sticky news -padx 2 -pady 2
+      incr i
     }
+
+    pack .swizwin.f.lf -fill both -expand yes -padx 2 -pady 2
 
     ttk::frame  .swizwin.bf
     ttk::button .swizwin.bf.import -text [msgcat::mc "Import"] -command [list sync::wizard_do import]
     ttk::button .swizwin.bf.sync   -text [msgcat::mc "Sync"]   -command [list sync::wizard_do sync]
     ttk::button .swizwin.bf.skip   -text [msgcat::mc "Skip"]   -command [list sync::wizard_do skip]
 
+    pack .swizwin.bf.skip   -side right -padx 2 -pady 2
+    pack .swizwin.bf.sync   -side right -padx 2 -pady 2
+    pack .swizwin.bf.import -side right -padx 2 -pady 2
+
+    pack .swizwin.f  -fill both -expand yes
+    pack .swizwin.bf -fill x
+
     # Get the user focus and grab
     ::tk::SetFocusGrab .swizwin .swizwin.bf.sync
+
+    update
+
+    set screenwidth  [winfo screenwidth  .swizwin]
+    set screenheight [winfo screenheight .swizwin]
+    set width        [winfo width        .swizwin]
+    set height       [winfo height       .swizwin]
+
+    # Place the window in the middle of the screen
+    wm geometry .swizwin +[expr ($screenwidth / 2) - ($width / 2)]+[expr ($screenheight / 2) - ($width / 2)] 
 
     # Wait for the window to be closed
     tkwait window .swizwin
 
-    # Release the user focus and grab
-    ::tk::ReleaseFocusGrab .swizwin .swizwin.bf.sync
+    # Restore the user focus and grab
+    ::tk::RestoreFocusGrab .swizwin .swizwin.bf.sync
 
   }
 
@@ -383,15 +435,18 @@ namespace eval sync {
         }
       }
 
+      # Create the sync.tkedat file
+      write_file
+
     } else {
 
       set data(SyncDirectory) ""
       set data(SyncItems)     [list]
 
-    }
+      # Create the sync.tkedat file
+      write_file
 
-    # Create the sync.tkedat file
-    write_file
+    }
 
   }
 
@@ -448,8 +503,8 @@ namespace eval sync {
 
     # Write the file
     write_file
-
     # Indicate that values may have changed
+
     sync_changed
 
   }
