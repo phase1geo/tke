@@ -57,6 +57,9 @@ namespace eval sync {
     variable data
     variable last_directory
 
+    # Save the last directory
+    set last_directory $data(SyncDirectory)
+
     # Save the changes
     set data(SyncDirectory) $sync_dir
     set data(SyncItems)     $sync_items
@@ -138,35 +141,13 @@ namespace eval sync {
 
     variable data
 
+    # Gather the sync items
     set items [list]
     foreach {type nspace name} [get_sync_items] {
       lappend items $type [expr [lsearch $data(SyncItems) $type] != -1]
     }
 
-    return [list $data(SyncDirectory) $data(SyncItems)]
-
-  }
-
-  ######################################################################
-  # Returns the home directory pathname of the specified item type.
-  proc get_tke_home {type} {
-
-    variable data
-    variable sync_local
-
-    # We need to special treat the preferences type special as we might not know the
-    # values of sync_dir and sync_items.
-    if {$type eq "prefs"} {
-      set sync_exists [expr {[file exists $sync_local] && [file exists [file link $sync_local]]}]
-      return [expr {$sync_exists ? $sync_local : $::tke_home}]
-
-    # Otherwise, check the state of the type in the sync_items list and look for the
-    # remote or local files based on that value.
-    } else {
-      set sync_dir   $data(SyncDirectory)
-      set sync_items $data(SyncItems)
-      return [expr {([file exists $sync_dir] && ([lsearch $sync_items $type] != -1)) ? $sync_dir : $::tke_home}]
-    }
+    return [list $data(SyncDirectory) $items]
 
   }
 
@@ -191,7 +172,7 @@ namespace eval sync {
     ttk::frame  .syncwin.f
     ttk::label  .syncwin.f.l -text [format "%s: " [msgcat::mc "Directory"]]
     set widgets(directory) [ttk::entry .syncwin.f.e -state readonly]
-    ttk::button .syncwin.f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list sync::browse_directory]
+    ttk::button .syncwin.f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list sync::browse_directory $win_type]
 
     pack .syncwin.f.l -side left  -padx 2 -pady 2
     pack .syncwin.f.e -side left  -padx 2 -pady 2 -fill x -expand yes
@@ -252,13 +233,19 @@ namespace eval sync {
   ######################################################################
   # Allows the user to use the file browser to select a directory to
   # import/export to.
-  proc browse_directory {} {
+  proc browse_directory {win_type} {
 
     variable data
     variable widgets
 
+    # Create additional choose directory options
+    set opts [list]
+    if {$win_type eq "import"} {
+      lappend opts -mustexist 1
+    }
+
     # Get the directory from the user
-    if {[set dir [tk_chooseDirectory -parent .syncwin -initialdir $data(SyncDirectory)]] ne ""} {
+    if {[set dir [tk_chooseDirectory -parent .syncwin -initialdir $data(SyncDirectory) {*}$opts]] ne ""} {
 
       # Insert the directory
       $widgets(directory) configure -state normal
@@ -425,10 +412,16 @@ namespace eval sync {
 
       array get labels [list import [msgcat::mc "Import"] sync [msgcat::mc "Sync"]]
 
-      # Get the directory to import/sync
-      set dir [tk_chooseDirectory -parent . -title [format "%s %s" [msgcat::mc "Choose TKE Settings Directory to"] $labels($type)
+      set opts [list]
+      if {$type eq "import"} {
+        set title [msgcat::mc "Select TKE settings directory to import"]
+        lappend opts -mustexist 1
+      } else {
+        set title [msgcat::mc "Select TKE settings directory for sync"]
+      }
 
-      if {$dir ne ""} {
+      # Get the directory to import/sync
+      if {[set dir [tk_chooseDirectory -parent . -title $title {*}$opts]] ne ""} {
         set data(SyncDirectory) [expr {($type eq "import") ? "" : $dir}]
         set data(SyncItems)     [list]
         foreach {type nspace name} [get_sync_items] {
@@ -482,7 +475,7 @@ namespace eval sync {
 
     variable data
 
-    [ns tkedat]::write [file join $::tke_home sync.tkedat] [array get data]
+    [ns tkedat]::write [file join $::tke_home sync.tkedat] [array get data] 0
 
   }
 
@@ -526,11 +519,6 @@ namespace eval sync {
   # Called when the synchronization text file is saved.
   proc save_buffer_contents {file_index} {
 
-    variable last_directory
-
-    # Save the last directory
-    set last_directory $data(SyncDirectory)
-
     # Get the current buffer
     set txt [[ns gui]::current_txt {}]
 
@@ -539,6 +527,8 @@ namespace eval sync {
 
     # Indicate that values may have changed
     save_changes $data(SyncDirectory) $data(SyncItems)
+
+    return 0
 
   }
 
