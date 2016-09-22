@@ -28,18 +28,16 @@ namespace eval templates {
 
   array set data {}
 
+  set data(templates_dir) [file join $::tke_home templates]
+
   ######################################################################
   # Loads the contents of the templates directory.
   proc preload {} {
 
     variable data
 
-    # Clear the data array
-    catch { array unset data }
-
     # Create the template directory
-    set data(templates_dir) [file join $::tke_home templates]
-    set data(templates)     [glob -nocomplain -tails -directory $data(templates_dir) *]
+    set data(templates) [glob -nocomplain -tails -directory $data(templates_dir) *]
 
   }
 
@@ -246,6 +244,18 @@ namespace eval templates {
   proc get_sync_items {} {
 
     return [list templates]
+
+  }
+
+  ######################################################################
+  # Called when the sync directory has changed.
+  proc sync_changed {dir} {
+
+    variable data
+
+    # Create the template directory
+    set data(templates_dir) [file join $dir templates]
+    set data(templates)     [glob -nocomplain -tails -directory $data(templates_dir) *]
 
   }
 

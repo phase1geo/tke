@@ -217,5 +217,15 @@ namespace eval emmet {
 
   }
 
+  ######################################################################
+  # Called when the sync directory changes.
+  proc sync_changed {dir} {
+
+    variable custom_file
+
+    set custom_file [file join $dir emmet.tkedat]
+
+  }
+
 }
 

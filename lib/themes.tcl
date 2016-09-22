@@ -30,11 +30,15 @@ namespace eval themes {
 
   array set files {}
 
+  set themes_dir [file join $::tke_home themes]
+
   ######################################################################
   # Updates the user's home themes directory
   proc update_themes_dir {} {
 
-    foreach fname [glob -nocomplain -directory [file join [[ns sync]::get_tke_home themes] themes] *.tketheme] {
+    variable themes_dir
+
+    foreach fname [glob -nocomplain -directory $themes_dir *.tketheme] {
       file mkdir [file rootname $fname]
       file rename $fname [file rootname $fname]
     }
@@ -46,6 +50,7 @@ namespace eval themes {
   proc load {} {
 
     variable files
+    variable themes_dir
 
     # Update the user's themes directory
     update_themes_dir
@@ -63,8 +68,8 @@ namespace eval themes {
     # Load the tke_dir theme files
     set tfiles [[ns utils]::glob_install [file join $::tke_dir data themes] *.tketheme]
 
-    # Load the tke_home theme files
-    foreach item [glob -nocomplain -directory [file join [[ns sync]::get_tke_home themes] themes] -type d *] {
+    # Load the theme files
+    foreach item [glob -nocomplain -directory $themes_dir -type d *] {
       if {[file exists [file join $item [file tail $item].tketheme]]} {
         lappend tfiles [file join $item [file tail $item.tketheme]]
       }
@@ -144,9 +149,10 @@ namespace eval themes {
   proc import {parent_win fname} {
 
     variable files
+    variable themes_dir
 
     # Unzip the file contents
-    if {[catch { exec -ignorestderr unzip -u $fname -d [file join [[ns sync]::get_tke_home themes] themes] } rc]} {
+    if {[catch { exec -ignorestderr unzip -u $fname -d $themes_dir } rc]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to unzip theme file" -detail $rc
       return ""
@@ -225,6 +231,16 @@ namespace eval themes {
   proc get_sync_items {} {
 
     return [list themes]
+
+  }
+
+  ######################################################################
+  # Called whenever the sync directory changes.
+  proc sync_changed {dir} {
+
+    variable themes_dir
+
+    set themes_dir [file join $dir themes]
 
   }
 

@@ -33,106 +33,6 @@ namespace eval sync {
   array set items   {}
 
   ######################################################################
-  # Called whenever the General/SyncDirectory value changes.
-  proc sync_changed {} {
-
-    variable data
-    variable sync_local
-    variable last_directory
-
-    # Get the new sync directory value
-    set sync_dir   $data(SyncDirectory)
-    set sync_items $data(SyncItems)
-
-    if {$sync_dir ne ""} {
-      create_sync_dir $data(SyncDirectory) $data(SyncItems)
-    } else {
-      remove_sync_dir $last_directory
-    }
-
-    # We need to restart TKE to have the change take full effect
-    # [ns menus]::restart_command
-
-  }
-
-  ######################################################################
-  # Create the sync directory and copy the current items to it and create
-  # symlinks, if necessary.
-  proc create_sync_dir {sync_dir sync_items} {
-
-    variable sync_local
-
-    # Create the synchronization directory
-    file mkdir $sync_dir
-
-    # Copy the relevant files to the sync directory
-    foreach {type nspace name} [get_sync_items] {
-      foreach item [[ns $nspace]::get_sync_items] {
-        set home_item [file join $::tke_home $item]
-        set sync_item [file join $sync_dir $item]
-        if {[file exists $home_item] && ![file exists $sync_item]]} {
-          file copy -force $home_item $sync_dir
-        }
-      }
-    }
-
-    # Remove the sync directory link, if it exists
-    file delete -force $sync_local
-
-    # Create the sync_local link if we need to get our preferences from the
-    # remote directory
-    if {[lsearch $sync_items prefs] != -1} {
-      file link -symbolic $sync_local $sync_dir
-    }
-
-  }
-
-  ######################################################################
-  # Copies the items from the sync directory to the local home directory
-  # and removes the symlink to the sync directory (if it exists).
-  proc remove_sync_dir {sync_dir} {
-
-    variable sync_local
-
-    # Copy the relevant files from the sync directory
-    foreach {type nspace name} [get_sync_items] {
-      foreach item [[ns $nspace]::get_sync_items] {
-        set sync_item [file join $sync_dir $item]
-        if {[file exists $sync_item]} {
-          file copy -force $sync_item $::tke_home
-        }
-      }
-    }
-
-    # Remove the sync directory link, if it exists
-    file delete -force $sync_local
-
-  }
-
-  ######################################################################
-  # Performs a file transfer, removing any items that are in the target
-  # directory that will be moved.  This is used when importing/exporting
-  # settings data (use the create_sync_dir) method to perform a file sync.
-  proc file_transfer {from_dir to_dir items} {
-
-    # Get the list of files/directories to transfer based on the items
-    foreach {type nspace name} [get_sync_items] {
-      if {[lsearch $items $type] != -1} {
-        foreach item [[ns $nspace]::get_sync_items] {
-          if {[file exists [set fname [file join $from_dir $item]]]} {
-            set tname [file join $to_dir $item]
-            if {[file exists $tname] && [file isdirectory $tname]} {
-              file delete -force $tname
-            }
-            file copy -force $fname $to_dir
-          }
-        }
-      }
-    }
-
-  }
-
-  ######################################################################
   # Returns the list of sync items.
   proc get_sync_items {} {
 
@@ -151,11 +51,108 @@ namespace eval sync {
   }
 
   ######################################################################
+  # Called by the whenever sync items are changed.
+  proc save_changes {sync_dir sync_items} {
+
+    variable data
+    variable last_directory
+
+    # Save the changes
+    set data(SyncDirectory) $sync_dir
+    set data(SyncItems)     $sync_items
+
+    if {$sync_dir ne ""} {
+      create_sync_dir $data(SyncDirectory) $data(SyncItems)
+    } elseif {$last_directory ne ""} {
+      file_transfer $last_directory $::tke_home $data(SyncItems)
+    }
+
+    # Write the file contents
+    write_file
+
+    # Indicate that the sync directories have changed
+    sync_changed
+
+  }
+
+  ######################################################################
+  # Update all namespaces with the updated sync information.
+  proc sync_changed {} {
+
+    variable data
+
+    # Indicate the new directory to all sync items
+    foreach {type nspace name} [get_sync_items] {
+      [ns $nspace]::sync_changed [expr {([lsearch $data(SyncItems) $type] != -1) ? $data(SyncDirectory) : $::tke_home}]
+    }
+
+  }
+
+  ######################################################################
+  # Create the sync directory and copy the current items to it and create
+  # symlinks, if necessary.
+  proc create_sync_dir {sync_dir sync_items} {
+
+    # Create the synchronization directory
+    file mkdir $sync_dir
+
+    # Copy the relevant files to the sync directory
+    foreach {type nspace name} [get_sync_items] {
+      foreach item [[ns $nspace]::get_sync_items] {
+        set home_item [file join $::tke_home $item]
+        set sync_item [file join $sync_dir $item]
+        if {[file exists $home_item] && ![file exists $sync_item]]} {
+          file copy -force $home_item $sync_dir
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Performs a file transfer, removing any items that are in the target
+  # directory that will be moved.  This is used when importing/exporting
+  # settings data (use the create_sync_dir) method to perform a file sync.
+  proc file_transfer {from_dir to_dir sync_items} {
+
+    # Get the list of files/directories to transfer based on the items
+    foreach {type nspace name} [get_sync_items] {
+      if {[lsearch $sync_items $type] != -1} {
+        foreach item [[ns $nspace]::get_sync_items] {
+          if {[file exists [set fname [file join $from_dir $item]]]} {
+            set tname [file join $to_dir $item]
+            if {[file exists $tname] && [file isdirectory $tname]} {
+              file delete -force $tname
+            }
+            file copy -force $fname $to_dir
+          }
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Returns the sync information.
+  proc get_sync_info {} {
+
+    variable data
+
+    set items [list]
+    foreach {type nspace name} [get_sync_items] {
+      lappend items $type [expr [lsearch $data(SyncItems) $type] != -1]
+    }
+
+    return [list $data(SyncDirectory) $data(SyncItems)]
+
+  }
+
+  ######################################################################
   # Returns the home directory pathname of the specified item type.
   proc get_tke_home {type} {
 
+    variable data
     variable sync_local
-    variable use_sync
 
     # We need to special treat the preferences type special as we might not know the
     # values of sync_dir and sync_items.
@@ -166,8 +163,8 @@ namespace eval sync {
     # Otherwise, check the state of the type in the sync_items list and look for the
     # remote or local files based on that value.
     } else {
-      set sync_dir   [[ns preferences]::get General/SyncDirectory]
-      set sync_items [[ns preferences]::get General/SyncItems]
+      set sync_dir   $data(SyncDirectory)
+      set sync_items $data(SyncItems)
       return [expr {([file exists $sync_dir] && ([lsearch $sync_items $type] != -1)) ? $sync_dir : $::tke_home}]
     }
 
@@ -218,9 +215,6 @@ namespace eval sync {
     pack .syncwin.f  -fill x
     pack .syncwin.lf -fill both -expand yes
     pack .syncwin.bf -fill x
-
-    # Initialize the UI
-    load_file
 
     if {$data(SyncDirectory) ne ""} {
       .syncwin.f.e configure -state normal
@@ -366,10 +360,12 @@ namespace eval sync {
 
     variable items
 
-    toplevel            .swizwin
-    wm title            .swizwin [format "%s / %s %s" [msgcat::mc "Import"] [msgcat::mc "Sync"] [msgcat::mc "Settings"]]
-    wm resizable        .swizwin 0 0
-    wm overrideredirect .swizwin 1
+    toplevel     .swizwin
+    wm title     .swizwin [format "TKE %s / %s %s" [msgcat::mc "Import"] [msgcat::mc "Sync"] [msgcat::mc "Settings"]]
+    wm resizable .swizwin 0 0
+    wm protocol  .swizwin WM_DELETE_WINDOW {
+      # Do nothing
+    }
 
     ttk::frame      .swizwin.f
     ttk::labelframe .swizwin.f.lf -text [msgcat::mc "Settings to Import/Sync"]
@@ -475,6 +471,9 @@ namespace eval sync {
       array set data $rc
     }
 
+    # Update all affected namespaces
+    sync_changed
+
   }
 
   ######################################################################
@@ -491,7 +490,35 @@ namespace eval sync {
   # Sets up the sync settings.
   proc sync_setup {} {
 
+    variable data
+
+    # Create the buffer
     [ns gui]::add_buffer end [msgcat::mc "Sync Setup"] [list [ns sync]::save_buffer_contents] -lang tkeData
+
+    # Get the newly added buffer
+    set txt [[ns gui]::current_txt {}]
+
+    # Get the contents from the base sync file
+    if {![catch { [ns tkedat]::read [file join $::tke_dir data sync.tkedat] } rc]} {
+      array set contents $rc
+    }
+
+    foreach opt [list SyncDirectory SyncItems] {
+      set contents($opt) $data($opt)
+    }
+
+    # Formulate the file
+    set str ""
+    foreach key [lsort [array names contents *,comment]] {
+      set opt [lindex [split $key ,] 0]
+      foreach comment $contents($key) {
+        append str "#$comment\n"
+      }
+      append str "\n{$opt} {$contents($opt)}\n\n"
+    }
+
+    # Insert the string
+    $txt insert -moddata ignore end $str
 
   }
 
@@ -499,7 +526,6 @@ namespace eval sync {
   # Called when the synchronization text file is saved.
   proc save_buffer_contents {file_index} {
 
-    variable data
     variable last_directory
 
     # Save the last directory
@@ -511,11 +537,8 @@ namespace eval sync {
     # Get the buffer contents
     array set data [[ns tkedat]::parse [[ns gui]::scrub_text $txt] 0]
 
-    # Write the file
-    write_file
     # Indicate that values may have changed
-
-    sync_changed
+    save_changes $data(SyncDirectory) $data(SyncItems)
 
   }
 

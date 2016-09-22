@@ -59,6 +59,8 @@ namespace eval plugins {
   array set bound_tags   {}
   array set menu_vars    {}
 
+  set plugins_file [file join $::tke_home plugins.tkedat]
+
   ######################################################################
   # Handles any changes to plugin menu variables.
   proc handle_menu_variable {index name1 name2 op} {
@@ -208,6 +210,7 @@ namespace eval plugins {
     variable registry
     variable registry_size
     variable plugins
+    variable plugins_file
 
     # Create the array to store in the plugins.tkedat file
     for {set i 0} {$i < $registry_size} {incr i} {
@@ -215,7 +218,7 @@ namespace eval plugins {
     }
 
     # Store the data
-    catch { tkedat::write [file join [[ns sync]::get_tke_home plugins] plugins.tkedat] [array get plugins] }
+    catch { tkedat::write $plugins_file [array get plugins] }
 
   }
 
@@ -226,12 +229,13 @@ namespace eval plugins {
     variable registry
     variable registry_size
     variable plugins
+    variable plugins_file
     variable prev_sourced
 
     set bad_sources [list]
 
     # Read the plugins file
-    if {![catch { tkedat::read [file join [[ns sync]::get_tke_home plugins] plugins.tkedat] } rc]} {
+    if {![catch { tkedat::read $plugins_file } rc]} {
 
       array set plugins $rc
 
@@ -1274,6 +1278,16 @@ namespace eval plugins {
   proc get_sync_items {} {
 
     return [list plugins.tkedat]
+
+  }
+
+  ######################################################################
+  # Called whenever the sync directory changes.
+  proc sync_changed {dir} {
+
+    variable plugins_file
+
+    set plugins_file [file join $dir plugins.tkedat]
 
   }
 

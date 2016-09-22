@@ -49,6 +49,8 @@ namespace eval launcher {
     detail_command 5
   }
 
+  set launcher_file [file join $::tke_home launcher.dat]
+
   ######################################################################
   # Saves command launcher information to the session file.
   proc save_session {} {
@@ -79,20 +81,13 @@ namespace eval launcher {
   }
 
   ######################################################################
-  # Returns the pathname of the launcher data file.
-  proc get_launcher_file {} {
-
-    return [file join [[ns sync]::get_tke_home launcher] launcher.dat]
-
-  }
-
-  ######################################################################
   # Loads the launcher functionality.
   proc load {} {
 
     variable read_commands
+    variable launcher_file
 
-    if {![catch { open [get_launcher_file] r } rc]} {
+    if {![catch { open $launcher_file r } rc]} {
       array set read_commands [read $rc]
       close $rc
     }
@@ -109,8 +104,9 @@ namespace eval launcher {
   proc write {} {
 
     variable commands
+    variable launcher_file
 
-    if {![catch { open [get_launcher_file] w } rc]} {
+    if {![catch { open $launcher_file w } rc]} {
       foreach {name value} [array get commands] {
         puts $rc "[list $name] [list $value]"
       }
@@ -939,6 +935,16 @@ namespace eval launcher {
   proc get_sync_items {} {
 
     return [list launcher.dat]
+
+  }
+
+  ######################################################################
+  # Called whenever the sync directory changes.
+  proc sync_changed {dir} {
+
+    variable launcher_file
+
+    set launcher_file [file join $dir launcher.dat]
 
   }
 

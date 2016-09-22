@@ -39,8 +39,8 @@ proc adjust_fname {fname} {
   return $fname
 
 }
-set tke_dir  [adjust_fname [file dirname [file dirname [file normalize [info script]]]]]
 
+set tke_dir  [adjust_fname [file dirname [file dirname [file normalize [info script]]]]]
 set tke_home [file normalize [file join ~ .tke]]
 
 ######################################################################
@@ -354,14 +354,11 @@ if {[catch {
   # Set the application name to tke
   tk appname tke
 
-  # Allow the sync settings to be setup prior to doing anything else
-  sync::initialize
-
   # Parse the command-line options
   parse_cmdline $argc $argv
 
   # If we need to start profiling, do it now
-  if {[tke_development] && $::cl_profile} {
+  if {[info exists ::env(TKE_DEVEL)] && $::cl_profile} {
     profile on
   }
 
@@ -398,6 +395,9 @@ if {[catch {
   if {![file exists $tke_home]} {
     file mkdir $tke_home
   }
+
+  # Allow the sync settings to be setup prior to doing anything else
+  sync::initialize
 
   # Preload the session information
   sessions::preload

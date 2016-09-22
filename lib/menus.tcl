@@ -1289,8 +1289,8 @@ namespace eval menus {
     # Populate Settings menu
     ########################
 
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sync Setup"]] -command [list sync::sync_setup] -state disabled
-    # launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup sync settings"]] [list sync::sync_setup]
+    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sync Setup"]] -command [list sync::sync_setup]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup sync settings"]] [list sync::sync_setup]
 
     $mb.setPopup add separator
 
@@ -2712,6 +2712,9 @@ namespace eval menus {
     variable profiling_info
 
     if {[$mb entrycget [msgcat::mc "Stop Profiling"] -state] eq "normal"} {
+
+      puts "Turning profiling off!"
+      puts [utils::stacktrace]
 
       # Turn off procedure profiling
       profile off profiling_info
