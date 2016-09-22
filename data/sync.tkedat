@@ -1,0 +1,22 @@
+# If this option is set to a directory name, TKE will store various settings
+# files/directories in this directory rather than in the default home directory.
+# This will allow a user to share the same TKE settings on multiple computers.
+
+{SyncDirectory} {}
+
+# Specifies a whitespace separated list of settings items that will be stored
+# in the directory specified by {General/SyncDirectory}.  The values stored in this
+# setting will only be used if the {General/SyncDirectory} value is set to a valid
+# directory name.  The list of valid values are the following:
+#  - emmet       (Custom Emmet aliases)
+#  - favorites   (Favorited files/directories)
+#  - launcher    (Command launcher data)
+#  - plugins     (All plugin data including installed vs. uninstalled)
+#  - prefs       (User-specific preferences (includes language-specific preferences))
+#  - sessions    (All named session data)
+#  - snippets    (Both general and language-specific snippets)
+#  - templates   (All user-created file templates)
+#  - themes      (All user created and imported theme data)
+
+{SyncItems} {emmet launcher plugins prefs sessions snippets templates themes}
+

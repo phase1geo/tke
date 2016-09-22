@@ -156,5 +156,15 @@ namespace eval favorites {
 
   }
 
+  ######################################################################
+  # Called when the sync directory changes.
+  proc sync_changed {dir} {
+
+    variable favorites_file
+
+    set favorites_file [file join $dir favorites.dat]
+
+  }
+
 }
 

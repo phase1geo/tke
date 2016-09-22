@@ -142,12 +142,16 @@ namespace eval gui {
     }
 
     # Get the host name
-    set host [lindex [split [info hostname] .] 0]
+    if {($::tcl_platform(os) eq "Darwin") && ([lindex [split $::tcl_platform(osVersion) .] 0] >= 16)} {
+      set host ""
+    } else {
+      set host "[lindex [split [info hostname] .] 0]:"
+    }
 
     if {[set session [[ns sessions]::current]] ne ""} {
-      wm title . "$tab_name ($session) \[$host:[pwd]\]"
+      wm title . "$tab_name ($session) \[${host}[pwd]\]"
     } else {
-      wm title . "$tab_name \[$host:[pwd]\]"
+      wm title . "$tab_name \[${host}[pwd]\]"
     }
 
   }
