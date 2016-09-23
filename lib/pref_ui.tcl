@@ -174,7 +174,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Create the preferences window.
-  proc create {session language {panel ""}} {
+  proc create {session language {panel ""} {tab ""}} {
 
     variable widgets
     variable prefs
@@ -276,7 +276,7 @@ namespace eval pref_ui {
         pack forget $widgets(panes).advanced
         pane_clicked appearance
       } elseif {$panel ne ""} {
-        pane_clicked $panel
+        pane_clicked $panel $tab
       } else {
         pane_clicked general
       }
@@ -294,7 +294,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Called whenever the user clicks on a panel label.
-  proc pane_clicked {panel} {
+  proc pane_clicked {panel {tab ""}} {
 
     variable widgets
 
@@ -313,7 +313,7 @@ namespace eval pref_ui {
     $widgets(panes).$panel state active
 
     # Show the panel
-    show_panel $panel
+    show_panel $panel $tab
 
   }
 
@@ -332,7 +332,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Shows the given panel in the window.
-  proc show_panel {panel} {
+  proc show_panel {panel {tab ""}} {
 
     variable widgets
     variable current_panel
@@ -345,7 +345,18 @@ namespace eval pref_ui {
     # Display the given panel
     pack $widgets($panel) -fill both
 
+    # Save the current panel
     set current_panel $panel
+
+    # If a tab is presented, find the tab and display it
+    if {($tab ne "") && [winfo exists $widgets($panel).nb]} {
+      foreach tab_id [$widgets($panel).nb tabs] {
+        if {[$widgets($panel).nb tab $tab_id -text] eq [string totitle $tab]} {
+          $widgets($panel).nb select $tab_id
+          break
+        }
+      }
+    }
 
   }
 

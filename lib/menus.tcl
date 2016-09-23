@@ -1289,16 +1289,13 @@ namespace eval menus {
     # Populate Settings menu
     ########################
 
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sync Setup"]] -command [list sync::sync_setup]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup sync settings"]] [list sync::sync_setup]
+    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sync Setup"]] -command [list menus::sync_setup]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup sync settings"]] [list menus::sync_setup]
 
     $mb.setPopup add separator
 
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Import"]] -command [list sync::import_export import]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Import settings data"]] [list sync::import_export import]
-
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Export"]] -command [list sync::import_export export]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Export settings data"]] [list sync::import_export export]
+    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Export"]] -command [list sync::create_export]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Export settings data"]] [list sync::create_export]
 
   }
 
@@ -1842,6 +1839,19 @@ namespace eval menus {
       pref_ui::create "" "" shortcuts
     } else {
       bindings::edit_user
+    }
+
+  }
+
+  ######################################################################
+  # Edits the sync setup information using either the preference GUI
+  # (if enabled) or the editor.
+  proc sync_setup {} {
+
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      pref_ui::create "" "" general sync
+    } else {
+      sync::edit_setup
     }
 
   }

@@ -56,9 +56,11 @@ namespace eval sync {
 
     variable data
     variable last_directory
+    variable last_items
 
     # Save the last directory
     set last_directory $data(SyncDirectory)
+    set last_items     $data(SyncItems)
 
     # Save the changes
     set data(SyncDirectory) $sync_dir
@@ -102,18 +104,37 @@ namespace eval sync {
   # symlinks, if necessary.
   proc create_sync_dir {sync_dir sync_items} {
 
+    variable last_items
+
     # Create the synchronization directory
     file mkdir $sync_dir
 
-    # Copy the relevant files to the sync directory
     foreach {type nspace name} [get_sync_items] {
-      foreach item [[ns $nspace]::get_sync_items $::tke_home] {
-        set home_item [file join $::tke_home $item]
-        set sync_item [file join $sync_dir $item]
-        if {[file exists $home_item] && ![file exists $sync_item]} {
-          file copy -force $home_item $sync_dir
+
+      # Copy the relevant files to the sync directory
+      if {[lsearch $sync_items $type] != -1} {
+        foreach item [[ns $nspace]::get_sync_items $::tke_home] {
+          set home_item [file join $::tke_home $item]
+          set sync_item [file join $sync_dir $item]
+          if {[file exists $home_item] && ![file exists $sync_item]} {
+            file copy -force $home_item $sync_dir
+          }
+        }
+
+      # Otherwise, copy relevant items to home directory if we used to get the items from the sync directory
+      } elseif {([lsearch $sync_items $type] == -1) && ([lsearch $last_items $type] != -1)} {
+        foreach item [[ns $nspace]::get_sync_items $sync_dir] {
+          set home_item [file join $::tke_home $item]
+          set sync_item [file join $sync_dir $item]
+          if {[file exists $sync_item]} {
+            if {[file exists $home_item] && [file isdirectory $home_item]} {
+              file delete -force $tname
+            }
+            file copy -force $sync_item $::tke_home
+          }
         }
       }
+
     }
 
   }
@@ -130,7 +151,6 @@ namespace eval sync {
     foreach {type nspace name} [get_sync_items] {
       set fdir [expr {(($from_dir eq "") || (($from_dir eq $data(SyncDirectory)) && ([lsearch $data(SyncItems) $type] == -1))) ? $::tke_home : $from_dir}]
       set tdir [expr {(($to_dir   eq "") || (($to_dir   eq $data(SyncDirectory)) && ([lsearch $data(SyncItems) $type] == -1))) ? $::tke_home : $to_dir}]
-      puts "type: $type, fdir: $fdir, tdir: $tdir"
       if {[lsearch $sync_items $type] != -1} {
         foreach item [[ns $nspace]::get_sync_items $fdir] {
           if {[file exists [set fname [file join $fdir $item]]]} {
@@ -163,37 +183,33 @@ namespace eval sync {
   }
 
   ######################################################################
-  # Displays the import/export window (based on the type argument)
-  proc import_export {win_type} {
+  # Displays the export window
+  proc create_export {} {
 
     variable widgets
     variable data
     variable items
 
-    array set labels [list \
-      import [msgcat::mc "Import"] \
-      export [msgcat::mc "Export"] \
-    ]
-
     toplevel     .syncwin
-    wm title     .syncwin [format "%s %s" $labels($win_type) [msgcat::mc "Settings Data"]]
+    wm title     .syncwin [msgcat::mc "Export Settings Data"]
     wm resizable .syncwin 0 0
     wm transient .syncwin .
 
     ttk::frame  .syncwin.f
     ttk::label  .syncwin.f.l -text [format "%s: " [msgcat::mc "Directory"]]
     set widgets(directory) [ttk::entry .syncwin.f.e -width 40 -state readonly]
-    ttk::button .syncwin.f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list sync::browse_directory $win_type]
+    ttk::button .syncwin.f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list sync::browse_directory]
 
     pack .syncwin.f.l -side left  -padx 2 -pady 2
     pack .syncwin.f.e -side left  -padx 2 -pady 2 -fill x -expand yes
     pack .syncwin.f.b -side right -padx 2 -pady 2
 
     ttk::frame      .syncwin.lf
-    ttk::labelframe .syncwin.lf.f -text [format "%s %s" [msgcat::mc "Settings to"] $labels($win_type)]
+    ttk::labelframe .syncwin.lf.f -text [msgcat::mc "Settings to export"]
     set i       0
     set columns 3
     foreach {type nspace name} [get_sync_items] {
+      set items($type) 1
       grid [ttk::checkbutton .syncwin.lf.f.$type -text $name -variable sync::items($type) -command [list sync::handle_do_state]] -row [expr $i % $columns] -column [expr $i / $columns] -sticky news -padx 2 -pady 2
       incr i
     }
@@ -201,7 +217,7 @@ namespace eval sync {
     pack .syncwin.lf.f -side left -padx 20 -pady 2
 
     ttk::frame  .syncwin.bf
-    set widgets(do) [ttk::button .syncwin.bf.do -style BButton -text $labels($win_type) -width 6 -command [list sync::do_import_export $win_type]]
+    set widgets(do) [ttk::button .syncwin.bf.do -style BButton -text [msgcat::mc "Export"] -width 6 -command [list sync::do_export]]
     ttk::button .syncwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list sync::do_cancel]
 
     pack .syncwin.bf.cancel -side right -padx 2 -pady 2
@@ -210,16 +226,6 @@ namespace eval sync {
     pack .syncwin.f  -fill x
     pack .syncwin.lf -fill both -expand yes
     pack .syncwin.bf -fill x
-
-    if {$win_type eq "import"} {
-      foreach {type nspace name} [get_sync_items] {
-        set items($type) [expr {[lsearch $data(SyncItems) $type] != -1}]
-      }
-    } else {
-      foreach {type nspace name} [get_sync_items] {
-        set items($type) 1
-      }
-    }
 
     # Handle the state of the do button
     handle_do_state
@@ -241,19 +247,13 @@ namespace eval sync {
   ######################################################################
   # Allows the user to use the file browser to select a directory to
   # import/export to.
-  proc browse_directory {win_type} {
+  proc browse_directory {} {
 
     variable data
     variable widgets
 
-    # Create additional choose directory options
-    set opts [list]
-    if {$win_type eq "import"} {
-      lappend opts -mustexist 1
-    }
-
     # Get the directory from the user
-    if {[set dir [tk_chooseDirectory -parent .syncwin -initialdir $data(SyncDirectory) {*}$opts]] ne ""} {
+    if {[set dir [tk_chooseDirectory -parent .syncwin -initialdir [pwd]]] ne ""} {
 
       # Insert the directory
       $widgets(directory) configure -state normal
@@ -292,7 +292,7 @@ namespace eval sync {
 
   ######################################################################
   # Perform the import/export operation.
-  proc do_import_export {win_type} {
+  proc do_export {} {
 
     variable widgets
     variable items
@@ -307,20 +307,11 @@ namespace eval sync {
     }
 
     # Get the sync directory
-    set other_dir [$widgets(directory) get]
-
-    # Figure out the from and to directories based on type
-    if {$win_type eq "import"} {
-      set from_dir $other_dir
-      set to_dir   $data(SyncDirectory)
-    } else {
-      set from_dir $data(SyncDirectory)
-      set to_dir   $other_dir
-    }
+    set to_dir [$widgets(directory) get]
 
     # Perform the file transfer
-    if {$from_dir ne $to_dir} {
-      file_transfer $from_dir $to_dir $item_list
+    if {$data(SyncDirectory) ne $to_dir} {
+      file_transfer $data(SyncDirectory) $to_dir $item_list
     }
 
     # Close the sync window
@@ -502,8 +493,8 @@ namespace eval sync {
   }
 
   ######################################################################
-  # Sets up the sync settings.
-  proc sync_setup {} {
+  # Sets up the sync settings for editing in a buffer.
+  proc edit_setup {} {
 
     variable data
 
