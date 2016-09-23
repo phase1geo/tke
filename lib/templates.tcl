@@ -241,7 +241,7 @@ namespace eval templates {
   ######################################################################
   # Returns the list of files/directories used by the template engine
   # for the purposes of importing/exporting.
-  proc get_sync_items {} {
+  proc get_sync_items {dir} {
 
     return [list templates]
 

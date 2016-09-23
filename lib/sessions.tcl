@@ -67,7 +67,7 @@ namespace eval sessions {
 
     # If we are being told to save the last session, set the name to the session.tkedat file
     if {$type eq "last"} {
-      set name [file join .. session]
+      set name [file join $::tke_home session]
     }
 
     # If the name has not been specified, ask the user for a name
@@ -120,7 +120,11 @@ namespace eval sessions {
     }
 
     # Create the session file path
-    set session_file [file join $sessions_dir $name.tkedat]
+    if {$type eq "last"} {
+      set session_file $name.tkedat
+    } else {
+      set session_file [file join $sessions_dir $name.tkedat]
+    }
 
     # Write the content to the save file
     catch { [ns tkedat]::write $session_file [array get content] }
@@ -330,7 +334,7 @@ namespace eval sessions {
 
   ######################################################################
   # Returns the list of files in the TKE home directory to copy.
-  proc get_sync_items {} {
+  proc get_sync_items {dir} {
 
     return [list sessions]
 
