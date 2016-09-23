@@ -182,20 +182,23 @@ namespace eval sync {
 
     ttk::frame  .syncwin.f
     ttk::label  .syncwin.f.l -text [format "%s: " [msgcat::mc "Directory"]]
-    set widgets(directory) [ttk::entry .syncwin.f.e -state readonly]
+    set widgets(directory) [ttk::entry .syncwin.f.e -width 40 -state readonly]
     ttk::button .syncwin.f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list sync::browse_directory $win_type]
 
     pack .syncwin.f.l -side left  -padx 2 -pady 2
     pack .syncwin.f.e -side left  -padx 2 -pady 2 -fill x -expand yes
     pack .syncwin.f.b -side right -padx 2 -pady 2
 
-    ttk::labelframe .syncwin.lf -text [format "%s %s" [msgcat::mc "Settings to"] $labels($win_type)]
+    ttk::frame      .syncwin.lf
+    ttk::labelframe .syncwin.lf.f -text [format "%s %s" [msgcat::mc "Settings to"] $labels($win_type)]
     set i       0
     set columns 3
     foreach {type nspace name} [get_sync_items] {
-      grid [ttk::checkbutton .syncwin.lf.$type -text $name -variable sync::items($type) -command [list sync::handle_do_state]] -row [expr $i % $columns] -column [expr $i / $columns] -sticky news -padx 2 -pady 2
+      grid [ttk::checkbutton .syncwin.lf.f.$type -text $name -variable sync::items($type) -command [list sync::handle_do_state]] -row [expr $i % $columns] -column [expr $i / $columns] -sticky news -padx 2 -pady 2
       incr i
     }
+
+    pack .syncwin.lf.f -side left -padx 20 -pady 2
 
     ttk::frame  .syncwin.bf
     set widgets(do) [ttk::button .syncwin.bf.do -style BButton -text $labels($win_type) -width 6 -command [list sync::do_import_export $win_type]]
@@ -207,12 +210,6 @@ namespace eval sync {
     pack .syncwin.f  -fill x
     pack .syncwin.lf -fill both -expand yes
     pack .syncwin.bf -fill x
-
-    if {$data(SyncDirectory) ne ""} {
-      .syncwin.f.e configure -state normal
-      .syncwin.f.e insert end $data(SyncDirectory)
-      .syncwin.f.e configure -state readonly
-    }
 
     if {$win_type eq "import"} {
       foreach {type nspace name} [get_sync_items] {
@@ -322,7 +319,9 @@ namespace eval sync {
     }
 
     # Perform the file transfer
-    file_transfer $from_dir $to_dir $item_list
+    if {$from_dir ne $to_dir} {
+      file_transfer $from_dir $to_dir $item_list
+    }
 
     # Close the sync window
     destroy .syncwin
@@ -344,8 +343,14 @@ namespace eval sync {
   # file.
   proc initialize {} {
 
+    variable data
+
     if {[file exists [file join $::tke_home sync.tkedat]]} {
       load_file
+    } elseif {[llength [glob -nocomplain -directory $::tke_home *]] > 0} {
+      set data(SyncDirectory) ""
+      set data(SyncItems)     [list]
+      write_file
     } else {
       import_sync_wizard
     }
@@ -412,7 +417,7 @@ namespace eval sync {
 
   ######################################################################
   # Performs wizard action of the specified type.
-  proc wizard_do {type} {
+  proc wizard_do {action} {
 
     variable data
     variable items
@@ -420,12 +425,12 @@ namespace eval sync {
     # Destroy the wizard window
     destroy .swizwin
 
-    if {($type eq "import") || ($type eq "sync")} {
+    if {($action eq "import") || ($action eq "sync")} {
 
       array get labels [list import [msgcat::mc "Import"] sync [msgcat::mc "Sync"]]
 
       set opts [list]
-      if {$type eq "import"} {
+      if {$action eq "import"} {
         set title [msgcat::mc "Select TKE settings directory to import"]
         lappend opts -mustexist 1
       } else {
@@ -435,7 +440,7 @@ namespace eval sync {
       # Get the directory to import/sync
       if {[set dir [tk_chooseDirectory -parent . -title $title {*}$opts]] ne ""} {
 
-        set data(SyncDirectory) [expr {($type eq "import") ? "" : $dir}]
+        set data(SyncDirectory) [expr {($action eq "import") ? "" : $dir}]
         set data(SyncItems)     [list]
         foreach {type nspace name} [get_sync_items] {
           if {$items($type)} {
@@ -446,7 +451,7 @@ namespace eval sync {
         # Indicate that the sync directories have changed
         sync_changed
 
-        if {$type eq "import"} {
+        if {$action eq "import"} {
           file_transfer $dir $::tke_home $data(SyncItems)
         } else {
           create_sync_dir $data(SyncDirectory) $data(SyncItems)
