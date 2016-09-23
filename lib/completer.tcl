@@ -118,6 +118,9 @@ namespace eval completer {
     # in case there is no language
     set_auto_match_chars $txt.t {} {}
 
+    # Create the tag for missing brackets
+    $txt tag configure missing -foreground red
+
   }
 
   ######################################################################
@@ -176,22 +179,37 @@ namespace eval completer {
 
     variable complete
 
-    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],curly) && ![ctext::inComment $txtt "insert-1c"]} {
-      if {$side eq "right"} {
-        if {[skip_closing $txtt curly]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
-          return 1
+    set retval 0
+
+    if {![ctext::inComment $txtt "insert-1c"]} {
+
+      if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],curly) && ![ctext::inComment $txtt "insert-1c"]} {
+        if {$side eq "right"} {
+          if {[skip_closing $txtt curly]} {
+            ::tk::TextSetCursor $txtt "insert+1c"
+            set retval 1
+          }
+        } else {
+          set ins [$txtt index insert]
+          if {[add_closing $txtt]} {
+            $txtt insert insert "\}"
+          }
+          ::tk::TextSetCursor $txtt $ins
         }
-      } else {
-        set ins [$txtt index insert]
-        if {[add_closing $txtt]} {
-          $txtt insert insert "\}"
-        }
-        ::tk::TextSetCursor $txtt $ins
       }
+
+      # Highlight any curly bracket mismatches
+      if {$retval == 0} {
+        if {$side eq "right"} {
+          check_match $txtt "curlyR" [$txtt index insert]
+        } else {
+          check_match $txtt "curlyL" [$txtt index insert]
+        }
+      }
+
     }
 
-    return 0
+    return $retval
 
   }
 
@@ -368,6 +386,51 @@ namespace eval completer {
         "``" {
           if {$complete($txtt,$lang,btick)} {
             $txtt delete insert
+          }
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # This should be called after a bracket is inserted or deleted.
+  proc check_match {txtt stype index} {
+
+    array set other {
+      curlyL  curlyR
+      curlyR  curlyL
+      squareL squareR
+      squareR squareL
+      parenL  parenR
+      parenR  parenL
+      angledL angledR
+      angledR angledL
+    }
+
+    # Attempt to find the matching index
+    set match_index [ctext::get_match_bracket $txtt $other($stype) $index]
+
+    puts "In check_match, txtt: $txtt, other: $other($stype), index: $index, match_index: $match_index"
+
+    # If we could not find a match, mark the current index
+    while {1} {
+      if {$match_index eq ""} {
+        $txtt tag add missing $index "$index+1c"
+        return
+      } else {
+        if {[lsearch [$txtt tag names $match_index] missing] != -1} {
+          $txtt tag remove missing $match_index
+        }
+        if {[set other_index [ctext::get_match_bracket $txtt $stype $match_index]] eq ""} {
+          $txtt tag add missing $match_index "$match_index+1c"
+          return
+        } else {
+          if {[$txtt compare [set other_index [ctext::get_match_bracket $txtt $stype $match_index]] == $index} {
+            return
+          } else {
+            set index       $match_index
+            set match_index $other_index
           }
         }
       }
