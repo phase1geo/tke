@@ -1275,7 +1275,7 @@ namespace eval plugins {
 
   ######################################################################
   # Returns the list of files in the TKE home directory to copy.
-  proc get_sync_items {} {
+  proc get_sync_items {dir} {
 
     return [list plugins.tkedat]
 

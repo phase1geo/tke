@@ -304,10 +304,10 @@ namespace eval preferences {
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
         set loaded_prefs(user,global) [array get data]
-        [ns tkedat]::write [get_user_preference_file] $loaded_prefs(user,global)
+        [ns tkedat]::write [get_user_preference_file] $loaded_prefs(user,global) 0
       } else {
         set loaded_prefs(user,$language) [array get data Editor/*]
-        [ns tkedat]::write [file join $preferences_dir preferences.$language.tkedat] $loaded_prefs(user,$language)
+        [ns tkedat]::write [file join $preferences_dir preferences.$language.tkedat] $loaded_prefs(user,$language) 0
       }
 
     } else {
@@ -436,7 +436,7 @@ namespace eval preferences {
           }
 
           # Write the base_prefs array to the user preferences file
-          if {![catch {[ns tkedat]::write $user_preference_file [array get base_prefs]} rc]} {
+          if {![catch { [ns tkedat]::write $user_preference_file [array get base_prefs] 0 } rc]} {
             set loaded_prefs(user,global) [array get base_prefs]
           }
 
@@ -554,11 +554,11 @@ namespace eval preferences {
 
   ######################################################################
   # Returns the list of files in the TKE home directory to copy.
-  proc get_sync_items {} {
+  proc get_sync_items {dir} {
 
     variable preferences_dir
 
-    return [glob -directory $preferences_dir -tails preferences*.tkedat]
+    return [glob -nocomplain -directory $dir -tails preferences*.tkedat]
 
   }
 

@@ -64,6 +64,9 @@ namespace eval sync {
     set data(SyncDirectory) $sync_dir
     set data(SyncItems)     $sync_items
 
+    # Indicate that the sync directories have changed
+    sync_changed
+
     if {$sync_dir ne ""} {
       create_sync_dir $data(SyncDirectory) $data(SyncItems)
     } elseif {$last_directory ne ""} {
@@ -72,9 +75,6 @@ namespace eval sync {
 
     # Write the file contents
     write_file
-
-    # Indicate that the sync directories have changed
-    sync_changed
 
   }
 
@@ -85,8 +85,14 @@ namespace eval sync {
     variable data
 
     # Indicate the new directory to all sync items
-    foreach {type nspace name} [get_sync_items] {
-      [ns $nspace]::sync_changed [expr {([lsearch $data(SyncItems) $type] != -1) ? $data(SyncDirectory) : $::tke_home}]
+    if {$data(SyncDirectory) ne ""} {
+      foreach {type nspace name} [get_sync_items] {
+        [ns $nspace]::sync_changed [expr {([lsearch $data(SyncItems) $type] != -1) ? $data(SyncDirectory) : $::tke_home}]
+      }
+    } else {
+      foreach {type nspace name} [get_sync_items] {
+        [ns $nspace]::sync_changed $::tke_home
+      }
     }
 
   }
@@ -101,10 +107,10 @@ namespace eval sync {
 
     # Copy the relevant files to the sync directory
     foreach {type nspace name} [get_sync_items] {
-      foreach item [[ns $nspace]::get_sync_items] {
+      foreach item [[ns $nspace]::get_sync_items $::tke_home] {
         set home_item [file join $::tke_home $item]
         set sync_item [file join $sync_dir $item]
-        if {[file exists $home_item] && ![file exists $sync_item]]} {
+        if {[file exists $home_item] && ![file exists $sync_item]} {
           file copy -force $home_item $sync_dir
         }
       }
@@ -121,7 +127,7 @@ namespace eval sync {
     # Get the list of files/directories to transfer based on the items
     foreach {type nspace name} [get_sync_items] {
       if {[lsearch $sync_items $type] != -1} {
-        foreach item [[ns $nspace]::get_sync_items] {
+        foreach item [[ns $nspace]::get_sync_items $from_dir] {
           if {[file exists [set fname [file join $from_dir $item]]]} {
             set tname [file join $to_dir $item]
             if {[file exists $tname] && [file isdirectory $tname]} {
@@ -422,6 +428,7 @@ namespace eval sync {
 
       # Get the directory to import/sync
       if {[set dir [tk_chooseDirectory -parent . -title $title {*}$opts]] ne ""} {
+
         set data(SyncDirectory) [expr {($type eq "import") ? "" : $dir}]
         set data(SyncItems)     [list]
         foreach {type nspace name} [get_sync_items] {
@@ -429,12 +436,16 @@ namespace eval sync {
             lappend data(SyncItems) $type
           }
         }
-      }
 
-      if {$type eq "import"} {
-        file_transfer $dir $::tke_home $data(SyncItems)
-      } else {
-        create_sync_dir $data(SyncDirectory) $data(SyncItems)
+        # Indicate that the sync directories have changed
+        sync_changed
+
+        if {$type eq "import"} {
+          file_transfer $dir $::tke_home $data(SyncItems)
+        } else {
+          create_sync_dir $data(SyncDirectory) $data(SyncItems)
+        }
+
       }
 
     } else {

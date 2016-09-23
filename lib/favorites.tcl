@@ -150,7 +150,7 @@ namespace eval favorites {
   ######################################################################
   # Returns a list of files/directories associated with the favorites for
   # the purposes of settings synchronization.
-  proc get_sync_items {} {
+  proc get_sync_items {dir} {
 
     return [list favorites.dat]
 
