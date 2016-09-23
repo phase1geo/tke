@@ -124,16 +124,21 @@ namespace eval sync {
   # settings data (use the create_sync_dir) method to perform a file sync.
   proc file_transfer {from_dir to_dir sync_items} {
 
+    variable data
+
     # Get the list of files/directories to transfer based on the items
     foreach {type nspace name} [get_sync_items] {
+      set fdir [expr {(($from_dir eq "") || (($from_dir eq $data(SyncDirectory)) && ([lsearch $data(SyncItems) $type] == -1))) ? $::tke_home : $from_dir}]
+      set tdir [expr {(($to_dir   eq "") || (($to_dir   eq $data(SyncDirectory)) && ([lsearch $data(SyncItems) $type] == -1))) ? $::tke_home : $to_dir}]
+      puts "type: $type, fdir: $fdir, tdir: $tdir"
       if {[lsearch $sync_items $type] != -1} {
-        foreach item [[ns $nspace]::get_sync_items $from_dir] {
-          if {[file exists [set fname [file join $from_dir $item]]]} {
-            set tname [file join $to_dir $item]
+        foreach item [[ns $nspace]::get_sync_items $fdir] {
+          if {[file exists [set fname [file join $fdir $item]]]} {
+            set tname [file join $tdir $item]
             if {[file exists $tname] && [file isdirectory $tname]} {
               file delete -force $tname
             }
-            file copy -force $fname $to_dir
+            file copy -force $fname $tdir
           }
         }
       }
@@ -294,6 +299,7 @@ namespace eval sync {
 
     variable widgets
     variable items
+    variable data
 
     # Copy the relevant files to transfer
     set item_list [list]
@@ -304,15 +310,15 @@ namespace eval sync {
     }
 
     # Get the sync directory
-    set sync_dir [$widgets(directory) get]
+    set other_dir [$widgets(directory) get]
 
     # Figure out the from and to directories based on type
     if {$win_type eq "import"} {
-      set from_dir $sync_dir
-      set to_dir   $::tke_home
+      set from_dir $other_dir
+      set to_dir   $data(SyncDirectory)
     } else {
-      set from_dir $::tke_home
-      set to_dir   $sync_dir
+      set from_dir $data(SyncDirectory)
+      set to_dir   $other_dir
     }
 
     # Perform the file transfer
