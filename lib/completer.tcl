@@ -97,22 +97,28 @@ namespace eval completer {
   # Adds bindings to the given text widget.
   proc add_bindings {txt} {
 
-    bind comp$txt <Key-bracketleft>  "[ns completer]::add_square %W left"
-    bind comp$txt <Key-bracketright> "if {\[[ns completer]::add_square %W right\]} { break }"
-    bind comp$txt <Key-braceleft>    "[ns completer]::add_curly %W left"
-    bind comp$txt <Key-braceright>   "if {\[[ns completer]::add_curly %W right\]} { break }"
-    bind comp$txt <Key-less>         "[ns completer]::add_angled %W left"
-    bind comp$txt <Key-greater>      "if {\[[ns completer]::add_angled %W right\]} { break }"
-    bind comp$txt <Key-parenleft>    "[ns completer]::add_paren %W left"
-    bind comp$txt <Key-parenright>   "if {\[[ns completer]::add_paren %W right\]} { break }"
-    bind comp$txt <Key-quotedbl>     "if {\[[ns completer]::add_double %W\]} { break }"
-    bind comp$txt <Key-quoteright>   "if {\[[ns completer]::add_single %W\]} { break }"
-    bind comp$txt <Key-quoteleft>    "if {\[[ns completer]::add_btick %W\]} { break }"
-    bind comp$txt <BackSpace>        "[ns completer]::handle_delete %W"
+    bind precomp$txt <Key-bracketleft>  "[ns completer]::add_square %W left"
+    bind precomp$txt <Key-bracketright> "if {\[[ns completer]::add_square %W right\]} { break }"
+    bind precomp$txt <Key-braceleft>    "[ns completer]::add_curly %W left"
+    bind precomp$txt <Key-braceright>   "if {\[[ns completer]::add_curly %W right\]} { break }"
+    bind precomp$txt <Key-less>         "[ns completer]::add_angled %W left"
+    bind precomp$txt <Key-greater>      "if {\[[ns completer]::add_angled %W right\]} { break }"
+    bind precomp$txt <Key-parenleft>    "[ns completer]::add_paren %W left"
+    bind precomp$txt <Key-parenright>   "if {\[[ns completer]::add_paren %W right\]} { break }"
+    bind precomp$txt <Key-quotedbl>     "if {\[[ns completer]::add_double %W\]} { break }"
+    bind precomp$txt <Key-quoteright>   "if {\[[ns completer]::add_single %W\]} { break }"
+    bind precomp$txt <Key-quoteleft>    "if {\[[ns completer]::add_btick %W\]} { break }"
+    bind precomp$txt <BackSpace>        "[ns completer]::handle_delete %W"
+
+    bind postcomp$txt <Key-braceleft>    [list [ns completer]::check_match %W curlyL]
+    bind postcomp$txt <Key-braceright>   [list [ns completer]::check_match %W curlyR]
 
     # Add the bindings
     set text_index [lsearch [bindtags $txt.t] Text]
-    bindtags $txt.t [linsert [bindtags $txt.t] $text_index comp$txt]
+    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] postcomp$txt]
+    bindtags $txt.t [linsert [bindtags $txt.t] $text_index precomp$txt]
+
+    puts [bindtags $txt.t]
 
     # Make sure that the complete array is initialized for the text widget
     # in case there is no language
@@ -179,37 +185,22 @@ namespace eval completer {
 
     variable complete
 
-    set retval 0
-
-    if {![ctext::inComment $txtt "insert-1c"]} {
-
-      if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],curly) && ![ctext::inComment $txtt "insert-1c"]} {
-        if {$side eq "right"} {
-          if {[skip_closing $txtt curly]} {
-            ::tk::TextSetCursor $txtt "insert+1c"
-            set retval 1
-          }
-        } else {
-          set ins [$txtt index insert]
-          if {[add_closing $txtt]} {
-            $txtt insert insert "\}"
-          }
-          ::tk::TextSetCursor $txtt $ins
+    if {$complete($txtt,[ctext::get_lang $txtt "insert-1c"],curly) && ![ctext::inComment $txtt "insert-1c"]} {
+      if {$side eq "right"} {
+        if {[skip_closing $txtt curly]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          return 1
         }
-      }
-
-      # Highlight any curly bracket mismatches
-      if {$retval == 0} {
-        if {$side eq "right"} {
-          check_match $txtt "curlyR" [$txtt index insert]
-        } else {
-          check_match $txtt "curlyL" [$txtt index insert]
+      } else {
+        set ins [$txtt index insert]
+        if {[add_closing $txtt]} {
+          $txtt insert insert "\}"
         }
+        ::tk::TextSetCursor $txtt $ins
       }
-
     }
 
-    return $retval
+    return 0
 
   }
 
@@ -356,37 +347,52 @@ namespace eval completer {
         "\[\]" {
           if {$complete($txtt,$lang,square)} {
             $txtt delete insert
+            return
           }
         }
         "\{\}" {
           if {$complete($txtt,$lang,curly)} {
-           $txtt delete insert
+            $txtt delete insert
+            return
           }
         }
         "<>" {
           if {$complete($txtt,$lang,angled)} {
             $txtt delete insert
+            return
           }
         }
         "()" {
           if {$complete($txtt,$lang,paren)} {
             $txtt delete insert
+            return
           }
         }
         "\"\"" {
           if {$complete($txtt,$lang,double)} {
             $txtt delete insert
+            return
           }
         }
         "''" {
           if {$complete($txtt,$lang,single)} {
             $txtt delete insert
+            return
           }
         }
         "``" {
           if {$complete($txtt,$lang,btick)} {
             $txtt delete insert
+            return
           }
+        }
+      }
+      switch [$txtt get insert-1c] {
+        "\{" {
+          check_match $txtt curlyL
+        }
+        "\}" {
+          check_match $txtt curlyR
         }
       }
     }
@@ -395,7 +401,7 @@ namespace eval completer {
 
   ######################################################################
   # This should be called after a bracket is inserted or deleted.
-  proc check_match {txtt stype index} {
+  proc check_match {txtt stype} {
 
     array set other {
       curlyL  curlyR
@@ -407,6 +413,9 @@ namespace eval completer {
       angledL angledR
       angledR angledL
     }
+
+    # Get previous insertion mark
+    set index [$txtt index "insert-1c"]
 
     # Attempt to find the matching index
     set match_index [ctext::get_match_bracket $txtt $other($stype) $index]
