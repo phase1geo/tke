@@ -69,10 +69,17 @@ namespace eval sync {
     # Indicate that the sync directories have changed
     sync_changed
 
+    # If the directory changed but was previously pointing at a remote directory,
+    # transfer all of the information that was being stored in the remote directory
+    # to the home directory
+    if {$last_directory ne ""} {
+      file_transfer $last_directory $::tke_home $last_items
+    }
+
+    # If we are using a remote directory, create the directory and sync the files
+    # to that directory.
     if {$sync_dir ne ""} {
       create_sync_dir $data(SyncDirectory) $data(SyncItems)
-    } elseif {$last_directory ne ""} {
-      file_transfer $last_directory $::tke_home $data(SyncItems)
     }
 
     # Write the file contents
