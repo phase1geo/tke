@@ -1976,6 +1976,37 @@ proc ctext::matchBracket {win} {
 }
 
 ######################################################################
+# Returns the index of the bracket type previous to the given index.
+proc ctext::get_prev_bracket {win stype {index insert}} {
+
+  lassign [$win tag prevrange _$stype $index] first last
+
+  if {$last eq ""} {
+    return ""
+  } elseif {[$win compare $last < $index]} {
+    return [$win index "$last-1c"]
+  } else {
+    return [$win index "$index-1c"]
+  }
+
+}
+
+######################################################################
+# Returns the index of the bracket type after the given index.
+proc ctext::get_next_bracket {win stype {index insert}} {
+
+  lassign [$win tag prevrange _$stype "$index+1c"] first last
+
+  if {($last ne "") && [$win compare $index < $last]} {
+    return [$win index "$index+1c"]
+  } else {
+    lassign [$win tag nextrange _$stype $index] first last
+    return $first
+  }
+
+}
+
+######################################################################
 # Returns the index of the matching bracket type where 'type' is the
 # type of bracket to find.  For example, if the current bracket is
 # a left square bracket, call this procedure as:
