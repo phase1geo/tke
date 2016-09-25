@@ -435,9 +435,9 @@ namespace eval completer {
       set stype $delete_check
       puts "stype: $stype"
       if {[string index $stype end] eq "L"} {
-        set index [lindex [$txtt tag prevrange _$stype insert] 0]
+        set index [ctext::get_prev_bracket $txtt $stype insert]
       } else {
-        set index [lindex [$txtt tag nextrange _$stype insert] 0]
+        set index [ctext::get_next_bracket $txtt $stype insert]
       }
       if {$index eq ""} { return }
       puts "stype: $stype, index: $index"
@@ -449,10 +449,10 @@ namespace eval completer {
 
     # Search for the opposite bracket
     set dir [string index $stype end]
-    set cmd [expr {($dir eq "L") ? "prevrange" : "nextrange"}]
+    set cmd [expr {($dir eq "L") ? "prev" : "next"}]
 
     # Get the other bracket type
-    set other_index [lindex [$txtt tag $cmd _$other($stype) $index] 0]
+    set other_index [ctext::get_${cmd}_bracket $txtt $other($stype) $index]
 
     puts "stype: $stype, dir: $dir, index: $index, other_index: $other_index"
 
@@ -461,11 +461,8 @@ namespace eval completer {
            ([set match_index [ctext::get_match_bracket $txtt $other($stype) $index]] ne "") && \
            (($other_index eq "") || ([$txtt compare $other_index < $index]))} {
       $txtt tag remove missing $match_index
-      set new_index [expr {($dir eq "L") ? $index : "$index+1c"}]
-      puts "  index: $index, new: $new_index, tag: [$txtt tag $cmd _$stype $index], new_tag: [$txtt tag $cmd _$stype $new_index]"
-      set index [lindex [$txtt tag $cmd _$stype [expr {($dir eq "L") ? $index : "$index+1c"}]] 0]
+      set index [ctext::get_${cmd}_bracket $txtt $stype $index]
       puts "  index: $index, cmd: $cmd, match_index: $match_index"
-      return
     }
 
     if {$match_index eq ""} {
