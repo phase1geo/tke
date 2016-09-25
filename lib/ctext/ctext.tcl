@@ -2000,7 +2000,7 @@ proc ctext::get_next_bracket {win stype {index insert}} {
   if {($last ne "") && [$win compare "$index+1c" < $last]} {
     return [$win index "$index+1c"]
   } else {
-    lassign [$win tag nextrange _$stype $index] first last
+    lassign [$win tag nextrange _$stype "$index+1c"] first last
     return $first
   }
 
