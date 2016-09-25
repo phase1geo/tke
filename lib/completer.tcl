@@ -349,10 +349,7 @@ namespace eval completer {
     variable complete
     variable delete_check
 
-    puts "In handle_delete..."
-
     if {![ctext::inComment $txtt insert-2c]} {
-      puts "  HERE A"
       set lang [ctext::get_lang $txtt insert]
       switch [$txtt get insert-1c insert+1c] {
         "\[\]" {
@@ -398,16 +395,15 @@ namespace eval completer {
           }
         }
       }
-      puts "char: [$txtt get insert-1c]"
       switch [$txtt get insert-1c] {
         "\[" { set delete_check squareR }
         "\]" { set delete_check squareL }
-        "\{" { set delete_check curlyR; puts "curlyL found" }
-        "\}" { set delete_check curlyL; puts "curlyR found" }
+        "\{" { set delete_check curlyR  }
+        "\}" { set delete_check curlyL  }
         "<"  { set delete_check angledR }
         ">"  { set delete_check angledL }
-        "("  { set delete_check parenR }
-        ")"  { set delete_check parenL }
+        "("  { set delete_check parenR  }
+        ")"  { set delete_check parenL  }
       }
     }
 
@@ -433,14 +429,12 @@ namespace eval completer {
     # If we deleted a character, set the stype and index
     if {$stype eq "del"} {
       set stype $delete_check
-      puts "stype: $stype"
       if {[string index $stype end] eq "L"} {
         set index [ctext::get_prev_bracket $txtt $stype insert]
       } else {
         set index [ctext::get_next_bracket $txtt $stype insert]
       }
       if {$index eq ""} { return }
-      puts "stype: $stype, index: $index"
 
     # Otherwise, set the index
     } else {
@@ -454,15 +448,12 @@ namespace eval completer {
     # Get the other bracket type
     set other_index [ctext::get_${cmd}_bracket $txtt $other($stype) $index]
 
-    puts "stype: $stype, dir: $dir, index: $index, other_index: $other_index"
-
     # Attempt to find the matching index
     while {($index ne "") && \
            ([set match_index [ctext::get_match_bracket $txtt $other($stype) $index]] ne "") && \
            (($other_index eq "") || ([$txtt compare $other_index < $index]))} {
       $txtt tag remove missing $match_index
       set index [ctext::get_${cmd}_bracket $txtt $stype $index]
-      puts "  index: $index, cmd: $cmd, match_index: $match_index"
     }
 
     if {$match_index eq ""} {
