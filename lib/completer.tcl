@@ -26,6 +26,8 @@ namespace eval completer {
 
   source [file join $::tke_dir lib ns.tcl]
 
+  variable delete_check ""
+
   array set pref_complete    {}
   array set complete         {}
   array set lang_match_chars {}
@@ -110,15 +112,20 @@ namespace eval completer {
     bind precomp$txt <Key-quoteleft>    "if {\[[ns completer]::add_btick %W\]} { break }"
     bind precomp$txt <BackSpace>        "[ns completer]::handle_delete %W"
 
+    bind postcomp$txt <Key-bracketleft>  [list [ns completer]::check_match %W squareL]
+    bind postcomp$txt <Key-bracketright> [list [ns completer]::check_match %W squareR]
     bind postcomp$txt <Key-braceleft>    [list [ns completer]::check_match %W curlyL]
     bind postcomp$txt <Key-braceright>   [list [ns completer]::check_match %W curlyR]
+    bind postcomp$txt <Key-less>         [list [ns completer]::check_match %W angledL]
+    bind postcomp$txt <Key-greater>      [list [ns completer]::check_match %W angledR]
+    bind postcomp$txt <Key-parenleft>    [list [ns completer]::check_match %W parenL]
+    bind postcomp$txt <Key-parenright>   [list [ns completer]::check_match %W parenR]
+    bind postcomp$txt <BackSpace>        [list [ns completer]::check_match %W del]
 
     # Add the bindings
     set text_index [lsearch [bindtags $txt.t] Text]
     bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] postcomp$txt]
     bindtags $txt.t [linsert [bindtags $txt.t] $text_index precomp$txt]
-
-    puts [bindtags $txt.t]
 
     # Make sure that the complete array is initialized for the text widget
     # in case there is no language
@@ -340,8 +347,12 @@ namespace eval completer {
   proc handle_delete {txtt} {
 
     variable complete
+    variable delete_check
+
+    puts "In handle_delete..."
 
     if {![ctext::inComment $txtt insert-2c]} {
+      puts "  HERE A"
       set lang [ctext::get_lang $txtt insert]
       switch [$txtt get insert-1c insert+1c] {
         "\[\]" {
@@ -387,13 +398,16 @@ namespace eval completer {
           }
         }
       }
+      puts "char: [$txtt get insert-1c]"
       switch [$txtt get insert-1c] {
-        "\{" {
-          check_match $txtt curlyL
-        }
-        "\}" {
-          check_match $txtt curlyR
-        }
+        "\[" { set delete_check squareR }
+        "\]" { set delete_check squareL }
+        "\{" { set delete_check curlyR; puts "curlyL found" }
+        "\}" { set delete_check curlyL; puts "curlyR found" }
+        "<"  { set delete_check angledR }
+        ">"  { set delete_check angledL }
+        "("  { set delete_check parenR }
+        ")"  { set delete_check parenL }
       }
     }
 
@@ -402,6 +416,8 @@ namespace eval completer {
   ######################################################################
   # This should be called after a bracket is inserted or deleted.
   proc check_match {txtt stype} {
+
+    variable delete_check
 
     array set other {
       curlyL  curlyR
@@ -414,35 +430,46 @@ namespace eval completer {
       angledR angledL
     }
 
-    # Get previous insertion mark
-    set index [$txtt index "insert-1c"]
+    # If we deleted a character, set the stype and index
+    if {$stype eq "del"} {
+      set stype $delete_check
+      puts "stype: $stype"
+      if {[string index $stype end] eq "L"} {
+        set index [lindex [$txtt tag prevrange _$stype insert] 0]
+      } else {
+        set index [lindex [$txtt tag nextrange _$stype insert] 0]
+      }
+      if {$index eq ""} { return }
+      puts "stype: $stype, index: $index"
+
+    # Otherwise, set the index
+    } else {
+      set index [$txtt index "insert-1c"]
+    }
+
+    # Search for the opposite bracket
+    set dir [string index $stype end]
+    set cmd [expr {($dir eq "L") ? "prevrange" : "nextrange"}]
+
+    # Get the other bracket type
+    set other_index [lindex [$txtt tag $cmd _$other($stype) $index] 0]
+
+    puts "stype: $stype, dir: $dir, index: $index, other_index: $other_index"
 
     # Attempt to find the matching index
-    set match_index [ctext::get_match_bracket $txtt $other($stype) $index]
+    while {($index ne "") && \
+           ([set match_index [ctext::get_match_bracket $txtt $other($stype) $index]] ne "") && \
+           (($other_index eq "") || ([$txtt compare $other_index < $index]))} {
+      $txtt tag remove missing $match_index
+      set new_index [expr {($dir eq "L") ? $index : "$index+1c"}]
+      puts "  index: $index, new: $new_index, tag: [$txtt tag $cmd _$stype $index], new_tag: [$txtt tag $cmd _$stype $new_index]"
+      set index [lindex [$txtt tag $cmd _$stype [expr {($dir eq "L") ? $index : "$index+1c"}]] 0]
+      puts "  index: $index, cmd: $cmd, match_index: $match_index"
+      return
+    }
 
-    puts "In check_match, txtt: $txtt, other: $other($stype), index: $index, match_index: $match_index"
-
-    # If we could not find a match, mark the current index
-    while {1} {
-      if {$match_index eq ""} {
-        $txtt tag add missing $index "$index+1c"
-        return
-      } else {
-        if {[lsearch [$txtt tag names $match_index] missing] != -1} {
-          $txtt tag remove missing $match_index
-        }
-        if {[set other_index [ctext::get_match_bracket $txtt $stype $match_index]] eq ""} {
-          $txtt tag add missing $match_index "$match_index+1c"
-          return
-        } else {
-          if {[$txtt compare [set other_index [ctext::get_match_bracket $txtt $stype $match_index]] == $index} {
-            return
-          } else {
-            set index       $match_index
-            set match_index $other_index
-          }
-        }
-      }
+    if {$match_index eq ""} {
+      $txtt tag add missing $index "$index+1c"
     }
 
   }
