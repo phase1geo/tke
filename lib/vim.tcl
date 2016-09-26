@@ -2498,6 +2498,9 @@ namespace eval vim {
     # Create a separator
     $txtt edit separator
 
+    # Perform bracket auditing
+    [ns completer]::check_all_brackets $txtt
+
   }
 
   ######################################################################
@@ -2545,6 +2548,9 @@ namespace eval vim {
     # Create separator
     $txtt edit separator
 
+    # Perform bracket auditing
+    [ns completer]::check_all_brackets $txtt
+
   }
 
   ######################################################################
@@ -2570,10 +2576,13 @@ namespace eval vim {
   proc undo {txtt} {
 
     # Perform the undo operation
-    $txtt edit undo
+    catch { $txtt edit undo }
 
     # Adjusts the insertion cursor
     adjust_insert $txtt
+
+    # Perform bracket auditing
+    [ns completer]::check_all_brackets $txtt
 
   }
 
@@ -2582,10 +2591,13 @@ namespace eval vim {
   proc redo {txtt} {
 
     # Performs the redo operation
-    $txtt edit redo
+    catch { $txtt edit redo }
 
     # Adjusts the insertion cursor
     adjust_insert $txtt
+
+    # Perform bracket auditing
+    [ns completer]::check_all_brackets $txtt
 
   }
 
@@ -2656,6 +2668,9 @@ namespace eval vim {
     # Adjust the cursor
     adjust_insert $txtt
 
+    # Allow brackets to be highlighted
+    [ns completer]::check_all_brackets $txtt
+
     # Create separator
     $txtt edit separator
 
@@ -2687,6 +2702,9 @@ namespace eval vim {
 
     # Create separator
     $txtt edit separator
+
+    # Allow brackets to be highlighted
+    [ns completer]::check_all_brackets $txtt
 
   }
 
