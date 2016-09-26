@@ -1282,12 +1282,13 @@ namespace eval pref_ui {
     register $w.scf.s $wstr Editor/SnippetCompleters
 
     ttk::frame $w.cf
-    make_cb $w.cf.vm   [msgcat::mc "Enable Vim Mode"]                         Editor/VimMode
-    make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                 Editor/EnableAutoIndent
-    make_cb $w.cf.hmc  [msgcat::mc "Highlight matching character"]            Editor/HighlightMatchingChar
-    make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]      Editor/RemoveTrailingWhitespace
-    make_cb $w.cf.sfai [msgcat::mc "Format snippet indentation after insert"] Editor/SnippetFormatAfterInsert
-    make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]          Editor/RelativeLineNumbers
+    make_cb $w.cf.vm   [msgcat::mc "Enable Vim Mode"]                              Editor/VimMode
+    make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                      Editor/EnableAutoIndent
+    make_cb $w.cf.hmc  [msgcat::mc "Automatically highlight matching bracket"]     Editor/HighlightMatchingChar
+    make_cb $w.cf.hmmb [msgcat::mc "Automatically highlight mismatching brackets"] Editor/HighlightMismatchingChar
+    make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]           Editor/RemoveTrailingWhitespace
+    make_cb $w.cf.sfai [msgcat::mc "Format snippet indentation after insert"]      Editor/SnippetFormatAfterInsert
+    make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]               Editor/RelativeLineNumbers
 
     grid columnconfigure $w 2 -weight 1
     grid columnconfigure $w 3 -weight 1

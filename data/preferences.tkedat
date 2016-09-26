@@ -166,6 +166,11 @@
 
 {Editor/HighlightMatchingChar} {0}
 
+# If set to a value of 1, causes characters that do not have a matching character
+# to be highlighted.
+
+{Editor/HighlightMismatchingChar} {1}
+
 # Specifies the number of spaces that will be automatically inserted when an
 # auto-indent event occurs.
 
