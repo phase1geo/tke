@@ -433,7 +433,8 @@ namespace eval syntax {
     # Re-highlight
     if {$opts(-highlight)} {
       $txt highlight 1.0 end
-      folding::restart $txt
+      [ns folding]::restart $txt
+      [ns completer]::check_all_brackets $txt.t
     }
 
     # Generate a <<ThemeChanged>> event on the text widget

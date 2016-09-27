@@ -10,7 +10,8 @@ namespace eval ctext {
     words    {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
     brackets {[][()\{\}<>]}
   }
-  array set bracket_map {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
+  array set bracket_map  {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
+  array set bracket_map2 {\( paren \) paren \{ curly \} curly \[ square \] square < angled > angled}
   array set data {}
   variable temporary {}
 }
@@ -2514,13 +2515,17 @@ proc ctext::escapes {twin start end} {
 
 proc ctext::brackets {twin start end} {
 
+  variable data
   variable REs
   variable bracket_map
+  variable bracket_map2
 
   # Handle special character matching
   foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-    if {![inCommentString $twin $res] && ![isEscaped $twin $res]} {
-      $twin tag add _$bracket_map([$twin get $res "$res+1c"]) $res "$res+1c"
+    if {![inCommentString $twin $res] && \
+        ![isEscaped $twin $res] && \
+        [info exists data($twin,config,matchChar,[get_lang $twin $res],$bracket_map2([set char [$twin get $res]]))]} {
+      $twin tag add _$bracket_map($char) $res
     }
   }
 
