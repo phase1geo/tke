@@ -1909,8 +1909,16 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Find Matching Pair"] -underline 5 -command [list gui::show_match_pair {}]
+    $mb add command -label [msgcat::mc "Find Matching Bracket"] -underline 5 -command [list gui::show_match_pair {}]
     launcher::register [make_menu_cmd "Find" [msgcat::mc "Find matching character pair"]] [list gui::show_match_pair {}]
+
+    $mb add separator
+
+    $mb add command -label [msgcat::mc "Find Next Bracket Mismatch"] -command [list completer::goto_mismatch next]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find next mismatching bracket"]] [list completer::goto_mismatch next]
+
+    $mb add command -label [msgcat::mc "Find Previous Bracket Mismatch"] -command [list completer::goto_mismatch prev]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find previous mismatching bracket"]] [list completer::goto_mismatch prev]
 
     $mb add separator
 
@@ -1942,7 +1950,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Previous Difference"]        -state disabled
       $mb entryconfigure [msgcat::mc "Show Selected Line Change"]  -state disabled
       $mb entryconfigure [msgcat::mc "Markers"]                    -state disabled
-      $mb entryconfigure [msgcat::mc "Find Matching Pair"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Find Matching Bracket"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Find"]                       -state normal
       $mb entryconfigure [msgcat::mc "Find and Replace"]           -state normal
@@ -1972,7 +1982,9 @@ namespace eval menus {
       } else {
         $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Find Matching Pair"] -state normal
+      $mb entryconfigure [msgcat::mc "Find Matching Bracket"]          -state normal
+      $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"]     -state normal
+      $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state normal
       $mb entryconfigure [msgcat::mc "Markers"] -state normal
     }
 
