@@ -134,6 +134,39 @@ msgcat::mcmset no {
   "Image used in tab which, when clicked, closes the tab."
   "Bildet som brukes i kategorien som når den klikkes, lukker fanen."
 
+  "Image used in the preferences window in the Advanced tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien Avansert."
+
+  "Image used in the preferences window in the Appearance tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien utseende."
+
+  "Image used in the preferences window in the Editor tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien redigering."
+
+  "Image used in the preferences window in the Emmet tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien Emmet."
+
+  "Image used in the preferences window in the Find tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien Søk."
+
+  "Image used in the preferences window in the General tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien Generelt."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien side."
+
+  "Image used in the preferences window in the View tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien visning."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Bildet som brukes i vinduet innstillinger for å angi at en tabell elementet er deaktivert."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Bildet som brukes i vinduet innstillinger for å angi at en tabell element er valgt."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "Bildet som brukes i vinduet snarveier i kategorien Snarvei."
+
   "License"
   "Lisens"
 
@@ -249,9 +282,6 @@ msgcat::mcmset no {
   "Character"
   "Tegn"
 
-  "Check for Update"
-  "Søk etter oppdateringer"
-
   "Check for update"
   "Finne nye oppdateringer"
 
@@ -314,9 +344,6 @@ msgcat::mcmset no {
 
   "Convert case to upper"
   "Konvertere saken til øvre"
-
-  "Copy"
-  "Kopier"
 
   "Copy text"
   "Kopier tekst"
@@ -486,6 +513,18 @@ msgcat::mcmset no {
   "Expand Emmet abbreviation"
   "Utvide Emmet forkortelse"
 
+  "Export As"
+  "Eksporter som..."
+
+  "Export complete"
+  "Eksporten er fullført"
+
+  "Export file contents"
+  "Eksportere innholdet"
+
+  "Export settings data"
+  "Eksportinnstillinger"
+
   "Favorite file"
   "Favoritt-filen"
 
@@ -498,8 +537,14 @@ msgcat::mcmset no {
   "Find In Files"
   "Finn filer"
 
-  "Find Matching Pair"
-  "Finn matchende par"
+  "Find Matching Bracket"
+  "Søk etter samsvarende klammeparentes"
+
+  "Find Next Bracket Mismatch"
+  "Finn neste braketten Mismatch"
+
+  "Find Previous Bracket Mismatch"
+  "Finn forrige braketten Mismatch"
 
   "Find and Replace"
   "Finn og erstatt"
@@ -510,8 +555,14 @@ msgcat::mcmset no {
   "Find matching character pair"
   "Finne samsvarende tegnet pair"
 
+  "Find next mismatching bracket"
+  "Finn neste inkompatible brakett"
+
   "Find next occurrence"
   "Finne neste forekomst"
+
+  "Find previous mismatching bracket"
+  "Finn forrige inkompatible brakett"
 
   "Find previous occurrence"
   "Finne forrige forekomst"
@@ -686,9 +737,6 @@ msgcat::mcmset no {
 
   "Language"
   "Språk"
-
-  "Launcher"
-  "Launcher"
 
   "Line Above Current"
   "Linjen over gjeldende"
@@ -900,12 +948,6 @@ msgcat::mcmset no {
   "Paste text from clipboard"
   "Lime inn tekst fra utklippstavlen"
 
-  "Plugins"
-  "Plugins"
-
-  "Preferences"
-  "Innstillinger"
-
   "Previous Difference"
   "Tidligere forskjellen"
 
@@ -923,6 +965,12 @@ msgcat::mcmset no {
 
   "Quit application"
   "Avslutt program"
+
+  "Recent Directories"
+  "Siste kataloger"
+
+  "Recent Files"
+  "Nylig brukte filer"
 
   "Redo"
   "gjøre om"
@@ -1047,9 +1095,6 @@ msgcat::mcmset no {
   "Send feedback"
   "Send tilbakemelding"
 
-  "Sessions"
-  "Sessions"
-
   "Set Syntax"
   "Sett Syntax"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset no {
 
   "Set user preferences to global preferences"
   "Angi innstillinger globale innstillinger"
+
+  "Setup sync settings"
+  "Innstillinger for synkronisering"
 
   "Show Console"
   "Vis Console"
@@ -1134,9 +1182,6 @@ msgcat::mcmset no {
   "Snippet"
   "Snippet"
 
-  "Snippets"
-  "Tekstutdrag"
-
   "Sort Tabs"
   "Sorter Tabs"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset no {
 
   "Tabs"
   "Tab"
-
-  "Templates"
-  "Maler"
 
   "Text Between Character"
   "Teksten mellom tegn"
@@ -1196,6 +1238,9 @@ msgcat::mcmset no {
 
   "Transform"
   "transformere"
+
+  "Unable to write export file"
+  "Kan ikke skrive eksportfilen"
 
   "Undo"
   "angre"
@@ -1345,6 +1390,12 @@ msgcat::mcmset no {
   "Automatically check for updates on start"
   "Automatisk se etter oppdateringer på start"
 
+  "Automatically highlight matching bracket"
+  "Automatisk markere samsvarende klammeparentes"
+
+  "Automatically highlight mismatching brackets"
+  "Automatisk markere inkompatible hakeparenteser"
+
   "Automatically insert vendor prefixes"
   "Automatisk inn leverandør prefikser"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset no {
   "Behaviors"
   "Atferd"
 
-  "Browse"
-  "Bla gjennom"
-
   "Buffer"
   "Buffer"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset no {
 
   "Choose Logfile Directory"
   "Velg loggfil katalog"
+
+  "Clear"
+  "Fjern"
 
   "Clipboard history depth"
   "Utklippstavle historie dybde"
@@ -1405,6 +1456,9 @@ msgcat::mcmset no {
   "Current working directory"
   "Gjeldende arbeidskatalog"
 
+  "Default Markdown Export Extension"
+  "Standard Markdown eksportutvidelse"
+
   "Default unit for floating point values"
   "Standard enhet for flyttallsverdier"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset no {
 
   "Development"
   "Utvikling"
-
-  "Directory"
-  "Stedskatalog"
 
   "Double-quote"
   "Dobbelt anførselstegn"
@@ -1462,9 +1513,6 @@ msgcat::mcmset no {
   "Hiding"
   "Skjule"
 
-  "Highlight matching character"
-  "Høydepunkt samsvarende tegn"
-
   "Host"
   "Host"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset no {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maksimal angrehistorikk (satt til 0 for ubegrenset)"
+
+  "Menu bindings"
+  "Menyen bindinger"
 
   "Mounts"
   "Monterer"
@@ -1528,8 +1579,14 @@ msgcat::mcmset no {
   "Ruler column"
   "Linjalen kolonne"
 
+  "Select Settings Sync Directory"
+  "Velg innstillinger Sync katalog"
+
   "Select default browsing directory"
   "Velg standard leser katalog"
+
+  "Set"
+  "Sett"
 
   "Set Find History Depth"
   "Angi finne historie dybde"
@@ -1542,6 +1599,12 @@ msgcat::mcmset no {
 
   "Set default open/save browsing directory to"
   "Angi standard åpen/bevare surfing katalogen"
+
+  "Shortcut"
+  "snarvei"
+
+  "Shortcuts"
+  "Snarvei"
 
   "Show 'Find in Files' result in other pane"
   "Vise 'Finn filer' resultat i andre ruten"
@@ -1591,6 +1654,12 @@ msgcat::mcmset no {
   "Symbol placed at end of CSS property"
   "Symbol plassert på slutten av CSS eiendom"
 
+  "Sync Directory"
+  "Synkronisere Directory"
+
+  "Sync Items"
+  "Synkronisere objekter"
+
   "Syntax Coloring"
   "Syntaks koloritt"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset no {
 
   "Update using release type"
   "Oppdatere bruker versjonstypen"
+
+  "Updates"
+  "Oppdateringer"
 
   "Use appropriate EOL character on system"
   "Bruke riktig EOL tegn på system"
@@ -1724,6 +1796,38 @@ msgcat::mcmset no {
 
   "Snippet: *"
   "Tekstutdrag: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset no {
+
+  "Emmet"
+  "maur"
+
+  "Export Settings Data"
+  "Eksportinnstillinger"
+
+  "Favorites"
+  "Favoritter"
+
+  "Select TKE settings directory for sync"
+  "Velg TKE innstillinger katalog for synkronisering"
+
+  "Select TKE settings directory to import"
+  "Velg TKE innstillinger katalog importere"
+
+  "Settings to Import/Sync"
+  "Innstillinger Import/Sync"
+
+  "Settings to export"
+  "For å eksportere"
+
+  "Skip"
+  "Hopp over"
+
+  "Themes"
+  "Temaer"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset no {
 # themer.tcl
 msgcat::mcmset no {
 
-  "   Show All"
-  "Vis alle"
-
-  "   Show Category"
-  "Vis kategori"
-
-  "   Show Color"
-  "Vis båndfarge"
-
   "   Show Selected Option"
   "Vis valgte alternativet"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset no {
   "Done"
   "Fullført"
 
-  "Export"
-  "Eksport"
+  "Enable Copy Mode"
+  "Aktiver kopieringsmodus"
 
   "GIF Photo"
   "GIF Photo"
-
-  "Import"
-  "importere"
 
   "Import BMP Data"
   "Importer data"
@@ -2066,6 +2158,9 @@ msgcat::mcmset no {
   "One-Color Bitmap"
   "One-Color Bitmap"
 
+  "Paste Theme Items"
+  "Lime Theme"
+
   "Preview"
   "Forhåndsvisning"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset no {
   "Save theme changes?"
   "Lagre tema endringer?"
 
+  "Search"
+  "Søk"
+
   "Select Directory"
   "Velg katalog"
+
+  "Show All"
+  "Vis alle"
+
+  "Show Category"
+  "Vis kategorien"
+
+  "Show Color"
+  "Vis båndfarge"
+
+  "Show Selected Option"
+  "Vis valgte alternativet"
+
+  "Show Selected Value"
+  "Valgt verdi"
 
   "Swatch"
   "Swatch"
@@ -2087,8 +2200,14 @@ msgcat::mcmset no {
   "Swatch Colors"
   "Swatch Farger"
 
+  "Table Copy"
+  "Tabellen kopi"
+
   "Table Filters"
   "Tabell Filters"
+
+  "Table Search"
+  "Tabellen søk"
 
   "The current theme has unsaved changes"
   "Den aktuelle temaet har ulagrede endringer"
@@ -2169,20 +2288,35 @@ msgcat::mcmset no {
 # General
 msgcat::mcmset no {
 
+  "Browse"
+  "Bla gjennom"
+
   "Cancel"
   "Avbryt"
+
+  "Check for Update"
+  "Søk etter oppdateringer"
 
   "Close"
   "Lukk"
 
+  "Copy"
+  "Kopier"
+
   "Delete"
   "Slett"
+
+  "Directory"
+  "Stedskatalog"
 
   "Duplicate"
   "Duplikat"
 
   "Enable code folding"
   "Aktivere koden folding"
+
+  "Export"
+  "Eksport"
 
   "Favorite"
   "Favoritt"
@@ -2192,6 +2326,12 @@ msgcat::mcmset no {
 
   "Find"
   "Søk"
+
+  "Import"
+  "importere"
+
+  "Launcher"
+  "Launcher"
 
   "Move to Other Pane"
   "Flytt til Annen Pane"
@@ -2205,6 +2345,12 @@ msgcat::mcmset no {
   "Open"
   "Åpen"
 
+  "Plugins"
+  "Plugins"
+
+  "Preferences"
+  "Innstillinger"
+
   "Rename"
   "Gi nytt navn"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset no {
 
   "Save As"
   "Lagre som"
+
+  "Sessions"
+  "Sessions"
+
+  "Settings"
+  "Innstillinger"
 
   "Show console"
   "Vise konsoll"
@@ -2232,8 +2384,20 @@ msgcat::mcmset no {
   "Show tab bar"
   "Vis fanelinjen"
 
+  "Snippets"
+  "Tekstutdrag"
+
   "Split View"
   "Delt visning"
+
+  "Sync"
+  "Synk"
+
+  "Sync Setup"
+  "Synkroniseringsoppsettet"
+
+  "Templates"
+  "Maler"
 
   "Theme"
   "Tema"

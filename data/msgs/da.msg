@@ -134,6 +134,39 @@ msgcat::mcmset da {
   "Image used in tab which, when clicked, closes the tab."
   "Billede anvendes i fanen, der, når der klikkes, lukker fanen."
 
+  "Image used in the preferences window in the Advanced tab."
+  "Billedet i indstillingsvinduet i fanen Avanceret."
+
+  "Image used in the preferences window in the Appearance tab."
+  "Billedet i indstillingsvinduet på fanen udseende."
+
+  "Image used in the preferences window in the Editor tab."
+  "Billedet i indstillingsvinduet i fanen Editor."
+
+  "Image used in the preferences window in the Emmet tab."
+  "Billedet i indstillingsvinduet i fanen Emmet."
+
+  "Image used in the preferences window in the Find tab."
+  "Billedet i indstillingsvinduet i fanen Søg."
+
+  "Image used in the preferences window in the General tab."
+  "Billedet i indstillingsvinduet på fanen Generelt."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Billedet i indstillingsvinduet i fanen Sidebar."
+
+  "Image used in the preferences window in the View tab."
+  "Billedet i indstillingsvinduet under fanen visning."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Billedet i indstillingsvinduet til at angive, at en tabel element er fravalgt."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Billedet i indstillingsvinduet til at angive, at en tabel element er valgt."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "Billedet i vinduet genveje i fanen genveje."
+
   "License"
   "Licens"
 
@@ -249,9 +282,6 @@ msgcat::mcmset da {
   "Character"
   "Karakter"
 
-  "Check for Update"
-  "Søg efter opdatering"
-
   "Check for update"
   "Kontroller for opdateringer"
 
@@ -314,9 +344,6 @@ msgcat::mcmset da {
 
   "Convert case to upper"
   "Konverter sagen til øverste"
-
-  "Copy"
-  "Kopier"
 
   "Copy text"
   "Kopieret tekst"
@@ -486,6 +513,18 @@ msgcat::mcmset da {
   "Expand Emmet abbreviation"
   "Udvid Emmet forkortelse"
 
+  "Export As"
+  "Eksportér som"
+
+  "Export complete"
+  "Eksport færdig."
+
+  "Export file contents"
+  "Eksport filindhold"
+
+  "Export settings data"
+  "Eksportere indstillinger data"
+
   "Favorite file"
   "Favorit fil"
 
@@ -498,8 +537,14 @@ msgcat::mcmset da {
   "Find In Files"
   "Find i filer..."
 
-  "Find Matching Pair"
-  "Finde matchende par"
+  "Find Matching Bracket"
+  "Finde matchende beslag"
+
+  "Find Next Bracket Mismatch"
+  "Find næste beslag Mismatch"
+
+  "Find Previous Bracket Mismatch"
+  "Find forrige beslag Mismatch"
 
   "Find and Replace"
   "Find og erstat"
@@ -510,8 +555,14 @@ msgcat::mcmset da {
   "Find matching character pair"
   "Finde matchende par, karakter"
 
+  "Find next mismatching bracket"
+  "Find næste forkert beslag"
+
   "Find next occurrence"
   "Finde næste forekomst"
+
+  "Find previous mismatching bracket"
+  "Find forrige forkert beslag"
 
   "Find previous occurrence"
   "Find forrige forekomst"
@@ -686,9 +737,6 @@ msgcat::mcmset da {
 
   "Language"
   "Sprog"
-
-  "Launcher"
-  "Launcher"
 
   "Line Above Current"
   "Linje over nuværende"
@@ -900,12 +948,6 @@ msgcat::mcmset da {
   "Paste text from clipboard"
   "Indsæt tekst fra udklipsholderen"
 
-  "Plugins"
-  "Plug-in"
-
-  "Preferences"
-  "Præferencer"
-
   "Previous Difference"
   "Forrige forskel"
 
@@ -923,6 +965,12 @@ msgcat::mcmset da {
 
   "Quit application"
   "Afslut program"
+
+  "Recent Directories"
+  "Seneste mapper"
+
+  "Recent Files"
+  "Seneste filer"
 
   "Redo"
   "Annuller Fortryd"
@@ -1047,9 +1095,6 @@ msgcat::mcmset da {
   "Send feedback"
   "Send feedback"
 
-  "Sessions"
-  "Sessioner"
-
   "Set Syntax"
   "Set Syntaks"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset da {
 
   "Set user preferences to global preferences"
   "Angive brugerindstillinger for globale indstillinger"
+
+  "Setup sync settings"
+  "Setup synkroniseringsindstillinger"
 
   "Show Console"
   "Vis Console"
@@ -1134,9 +1182,6 @@ msgcat::mcmset da {
   "Snippet"
   "Snippet"
 
-  "Snippets"
-  "Snippets"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset da {
 
   "Tabs"
   "Tab"
-
-  "Templates"
-  "Skabeloner"
 
   "Text Between Character"
   "Tekst mellem karakter"
@@ -1196,6 +1238,9 @@ msgcat::mcmset da {
 
   "Transform"
   "transformere, transformere"
+
+  "Unable to write export file"
+  "Der kan ikke skrives eksportfilen"
 
   "Undo"
   "Fortryd"
@@ -1345,6 +1390,12 @@ msgcat::mcmset da {
   "Automatically check for updates on start"
   "Søg automatisk efter opdateringer på start"
 
+  "Automatically highlight matching bracket"
+  "Automatisk fremhæve matchende beslag"
+
+  "Automatically highlight mismatching brackets"
+  "Automatisk fremhæve forkert parentes"
+
   "Automatically insert vendor prefixes"
   "Automatisk indsætte kreditor præfikser"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset da {
   "Behaviors"
   "Adfærd"
 
-  "Browse"
-  "Gennemse"
-
   "Buffer"
   "Buffer"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset da {
 
   "Choose Logfile Directory"
   "Vælg logfil bibliotek"
+
+  "Clear"
+  "Tøm Felter"
 
   "Clipboard history depth"
   "Clipboard historie dybde"
@@ -1405,6 +1456,9 @@ msgcat::mcmset da {
   "Current working directory"
   "Indeværende i orden bibliotek"
 
+  "Default Markdown Export Extension"
+  "Standard Markdown eksportudvidelse"
+
   "Default unit for floating point values"
   "Standard enhed for flydende punkt værdier"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset da {
 
   "Development"
   "Udvikling"
-
-  "Directory"
-  "Brugere"
 
   "Double-quote"
   "Citationstegn"
@@ -1462,9 +1513,6 @@ msgcat::mcmset da {
   "Hiding"
   "Skjule"
 
-  "Highlight matching character"
-  "Fremhæv matching karakter"
-
   "Host"
   "Arrangør"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset da {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maksimale Fortryd historie (sat til 0 for ubegrænset)"
+
+  "Menu bindings"
+  "Menuen bindinger"
 
   "Mounts"
   "Mounts"
@@ -1528,8 +1579,14 @@ msgcat::mcmset da {
   "Ruler column"
   "Lineal kolonne"
 
+  "Select Settings Sync Directory"
+  "Vælg indstillinger Synkroniser Register"
+
   "Select default browsing directory"
   "Vælg standard gennemser Register"
+
+  "Set"
+  "Sæt af varer"
 
   "Set Find History Depth"
   "Sæt Find historie dybde"
@@ -1542,6 +1599,12 @@ msgcat::mcmset da {
 
   "Set default open/save browsing directory to"
   "Indstille standard Åbn/Gem browsing register til"
+
+  "Shortcut"
+  "Genvej"
+
+  "Shortcuts"
+  "Genvej"
 
   "Show 'Find in Files' result in other pane"
   "Vis 'Find i filer' resultat i anden rude"
@@ -1591,6 +1654,12 @@ msgcat::mcmset da {
   "Symbol placed at end of CSS property"
   "Symbol placeret i slutningen af CSS ejendom"
 
+  "Sync Directory"
+  "Sync Register"
+
+  "Sync Items"
+  "Sync elementer"
+
   "Syntax Coloring"
   "Syntaxfarvning"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset da {
 
   "Update using release type"
   "Opdatere bruger release type"
+
+  "Updates"
+  "Opdateringer"
 
   "Use appropriate EOL character on system"
   "Brug passende EOL tegn på systemet"
@@ -1724,6 +1796,38 @@ msgcat::mcmset da {
 
   "Snippet: *"
   "Uddragsvisning: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset da {
+
+  "Emmet"
+  "myre"
+
+  "Export Settings Data"
+  "Eksportere indstillinger Data"
+
+  "Favorites"
+  "Foretrukne"
+
+  "Select TKE settings directory for sync"
+  "Vælg TKE indstillinger register for synkronisering"
+
+  "Select TKE settings directory to import"
+  "Vælg TKE indstillinger mappe at importere"
+
+  "Settings to Import/Sync"
+  "Indstillinger for Import/Sync"
+
+  "Settings to export"
+  "Indstillinger til at eksportere"
+
+  "Skip"
+  "Spring over"
+
+  "Themes"
+  "Temaer"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset da {
 # themer.tcl
 msgcat::mcmset da {
 
-  "   Show All"
-  "Vis alle"
-
-  "   Show Category"
-  "Vis kategori"
-
-  "   Show Color"
-  "Vis Farve"
-
   "   Show Selected Option"
   "Vis valgte indstilling"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset da {
   "Done"
   "Færdig"
 
-  "Export"
-  "Eksportér"
+  "Enable Copy Mode"
+  "Aktiver Kopieringstilstand"
 
   "GIF Photo"
   "GIF Billeder"
-
-  "Import"
-  "Import"
 
   "Import BMP Data"
   "Import BMP data"
@@ -2066,6 +2158,9 @@ msgcat::mcmset da {
   "One-Color Bitmap"
   "One-farve bitmap"
 
+  "Paste Theme Items"
+  "Indsætte tema elementer"
+
   "Preview"
   "Forhåndsvis"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset da {
   "Save theme changes?"
   "Gem tema ændringer?"
 
+  "Search"
+  "Søg Nu"
+
   "Select Directory"
   "Vælg katalog"
+
+  "Show All"
+  "Vis Alle"
+
+  "Show Category"
+  "Vis kategori"
+
+  "Show Color"
+  "Vis farve"
+
+  "Show Selected Option"
+  "Vis valgte indstilling"
+
+  "Show Selected Value"
+  "Valgte værdi"
 
   "Swatch"
   "finerprøve"
@@ -2087,8 +2200,14 @@ msgcat::mcmset da {
   "Swatch Colors"
   "Swatch Farver"
 
+  "Table Copy"
+  "Tabel kopi"
+
   "Table Filters"
   "Tabel Filtre"
+
+  "Table Search"
+  "Tabel søgning"
 
   "The current theme has unsaved changes"
   "Den aktuelle tema har ikke-gemte ændringer"
@@ -2169,20 +2288,35 @@ msgcat::mcmset da {
 # General
 msgcat::mcmset da {
 
+  "Browse"
+  "Gennemse"
+
   "Cancel"
   "Annuller"
+
+  "Check for Update"
+  "Søg efter opdatering"
 
   "Close"
   "Luk"
 
+  "Copy"
+  "Kopier"
+
   "Delete"
   "Slet"
+
+  "Directory"
+  "Brugere"
 
   "Duplicate"
   "Dupliker"
 
   "Enable code folding"
   "Aktivere kode foldning"
+
+  "Export"
+  "Eksportér"
 
   "Favorite"
   "foretrukken"
@@ -2192,6 +2326,12 @@ msgcat::mcmset da {
 
   "Find"
   "Søg"
+
+  "Import"
+  "Import"
+
+  "Launcher"
+  "Launcher"
 
   "Move to Other Pane"
   "Flytter til andre Pane"
@@ -2205,6 +2345,12 @@ msgcat::mcmset da {
   "Open"
   "Åben"
 
+  "Plugins"
+  "Plug-in"
+
+  "Preferences"
+  "Præferencer"
+
   "Rename"
   "Omdøb"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset da {
 
   "Save As"
   "Gem som"
+
+  "Sessions"
+  "Sessioner"
+
+  "Settings"
+  "Indstillinger"
 
   "Show console"
   "Vis konsol"
@@ -2232,8 +2384,20 @@ msgcat::mcmset da {
   "Show tab bar"
   "Vis tab-linje"
 
+  "Snippets"
+  "Snippets"
+
   "Split View"
   "Opdel visning"
+
+  "Sync"
+  "Synkronisering"
+
+  "Sync Setup"
+  "Sync Setup"
+
+  "Templates"
+  "Skabeloner"
 
   "Theme"
   "Tema"

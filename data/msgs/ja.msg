@@ -134,6 +134,39 @@ msgcat::mcmset ja {
   "Image used in tab which, when clicked, closes the tab."
   "画像は、クリックすると、タブを閉じたタブに使用されます。"
 
+  "Image used in the preferences window in the Advanced tab."
+  "詳細設定タブの設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Appearance tab."
+  "[外観] タブでの基本設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Editor tab."
+  "[エディター] タブ設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Emmet tab."
+  "エメット タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Find tab."
+  "[検索] タブでの基本設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the General tab."
+  "[全般] タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Sidebar tab."
+  "[サイドバー] タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the View tab."
+  "[表示] タブの設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "イメージ設定ウィンドウのテーブルの項目が選択されていないことを示すために使用します。"
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "テーブルの項目が選択されていることを示すに設定ウィンドウで使用するイメージ。"
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "[ショートカット] タブで [ショートカット] ウィンドウで使用するイメージ。"
+
   "License"
   "ナンバープレート"
 
@@ -249,9 +282,6 @@ msgcat::mcmset ja {
   "Character"
   "性格"
 
-  "Check for Update"
-  "アップデートの確認"
-
   "Check for update"
   "アップデートの確認"
 
@@ -314,9 +344,6 @@ msgcat::mcmset ja {
 
   "Convert case to upper"
   "ケースを上部に変換します。"
-
-  "Copy"
-  "コピー"
 
   "Copy text"
   "テキストをコピーします。"
@@ -486,6 +513,18 @@ msgcat::mcmset ja {
   "Expand Emmet abbreviation"
   "エメットの略語を展開します。"
 
+  "Export As"
+  "CSV形式でエクスポート"
+
+  "Export complete"
+  "サイト出力が完了しました。"
+
+  "Export file contents"
+  "エクスポート ファイルの内容"
+
+  "Export settings data"
+  "エクスポートを設定"
+
   "Favorite file"
   "お気に入りファイル"
 
@@ -498,8 +537,14 @@ msgcat::mcmset ja {
   "Find In Files"
   "ファイルから検索"
 
-  "Find Matching Pair"
-  "ペアマッチング探します"
+  "Find Matching Bracket"
+  "一致した括弧を見つける"
+
+  "Find Next Bracket Mismatch"
+  "次の角かっこの不一致を見つける"
+
+  "Find Previous Bracket Mismatch"
+  "前の角かっこの不一致を見つける"
 
   "Find and Replace"
   "検索と置換"
@@ -510,8 +555,14 @@ msgcat::mcmset ja {
   "Find matching character pair"
   "一致する文字のペアを見つける"
 
+  "Find next mismatching bracket"
+  "次の組合わせを誤まるかっこを検索します。"
+
   "Find next occurrence"
   "次の出現を検索します。"
+
+  "Find previous mismatching bracket"
+  "以前の組合わせを誤まるラケットを見つける"
 
   "Find previous occurrence"
   "前の出現箇所を見つける"
@@ -686,9 +737,6 @@ msgcat::mcmset ja {
 
   "Language"
   "言語"
-
-  "Launcher"
-  "ランチャー"
 
   "Line Above Current"
   "現在の上行"
@@ -900,12 +948,6 @@ msgcat::mcmset ja {
   "Paste text from clipboard"
   "クリップボードから貼り付け"
 
-  "Plugins"
-  "プラグイン"
-
-  "Preferences"
-  "選好"
-
   "Previous Difference"
   "前の違い"
 
@@ -923,6 +965,12 @@ msgcat::mcmset ja {
 
   "Quit application"
   "アプリケーションを終了"
+
+  "Recent Directories"
+  "最近使用したディレクトリ"
+
+  "Recent Files"
+  "最近使用したファイル"
 
   "Redo"
   "やり直す"
@@ -1047,9 +1095,6 @@ msgcat::mcmset ja {
   "Send feedback"
   "フィードバックを送信"
 
-  "Sessions"
-  "セッション"
-
   "Set Syntax"
   "構文を設定"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset ja {
 
   "Set user preferences to global preferences"
   "[グローバル設定] に設定されているユーザー設定"
+
+  "Setup sync settings"
+  "同期設定"
 
   "Show Console"
   "コンソールの表示"
@@ -1134,9 +1182,6 @@ msgcat::mcmset ja {
   "Snippet"
   "スニペット"
 
-  "Snippets"
-  "スニペット"
-
   "Sort Tabs"
   "並べタブ"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset ja {
 
   "Tabs"
   "タブ"
-
-  "Templates"
-  "テンプレート"
 
   "Text Between Character"
   "文字の間のテキスト"
@@ -1196,6 +1238,9 @@ msgcat::mcmset ja {
 
   "Transform"
   "トランスフォーム"
+
+  "Unable to write export file"
+  "エクスポート ファイルを書き込めません。"
 
   "Undo"
   "アンドゥ"
@@ -1345,6 +1390,12 @@ msgcat::mcmset ja {
   "Automatically check for updates on start"
   "起動時に更新プログラムを自動的にチェックします。"
 
+  "Automatically highlight matching bracket"
+  "自動的に一致した括弧を強調表示します。"
+
+  "Automatically highlight mismatching brackets"
+  "自動的に一致しないかっこを強調表示します。"
+
   "Automatically insert vendor prefixes"
   "ベンダー プレフィックスを自動的に挿入します。"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset ja {
   "Behaviors"
   "行動"
 
-  "Browse"
-  "ブラウズ"
-
   "Buffer"
   "バッファー"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset ja {
 
   "Choose Logfile Directory"
   "ログ ファイルのディレクトリを選択します。"
+
+  "Clear"
+  "クリア"
 
   "Clipboard history depth"
   "クリップボードの履歴の深さ"
@@ -1405,6 +1456,9 @@ msgcat::mcmset ja {
   "Current working directory"
   "現在の作業ディレクトリ"
 
+  "Default Markdown Export Extension"
+  "既定の値下げのエクスポートの拡張"
+
   "Default unit for floating point values"
   "デフォルトの浮動小数点値の単位"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset ja {
 
   "Development"
   "開発"
-
-  "Directory"
-  "ディレクトリ"
 
   "Double-quote"
   "引用符"
@@ -1462,9 +1513,6 @@ msgcat::mcmset ja {
   "Hiding"
   "非表示"
 
-  "Highlight matching character"
-  "一致する文字を強調します。"
-
   "Host"
   "ホスト"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset ja {
 
   "Maximum undo history (set to 0 for unlimited)"
   "最大元に戻す履歴 (0 に設定無制限)"
+
+  "Menu bindings"
+  "メニューのバインディング"
 
   "Mounts"
   "マウント"
@@ -1528,8 +1579,14 @@ msgcat::mcmset ja {
   "Ruler column"
   "定規コラム"
 
+  "Select Settings Sync Directory"
+  "設定同期ディレクトリを選択します。"
+
   "Select default browsing directory"
   "デフォルトのディレクトリをブラウズを選択します。"
+
+  "Set"
+  "セット"
 
   "Set Find History Depth"
   "検索の履歴の深さを設定します。"
@@ -1542,6 +1599,12 @@ msgcat::mcmset ja {
 
   "Set default open/save browsing directory to"
   "既定開く/保存するディレクトリを設定します。"
+
+  "Shortcut"
+  "ショートカットキー"
+
+  "Shortcuts"
+  "ショートカット"
 
   "Show 'Find in Files' result in other pane"
   "他のウィンドウに 'ファイル内の検索' の結果を表示します。"
@@ -1591,6 +1654,12 @@ msgcat::mcmset ja {
   "Symbol placed at end of CSS property"
   "CSS プロパティの末尾に配置記号"
 
+  "Sync Directory"
+  "同期ディレクトリ"
+
+  "Sync Items"
+  "アイテムを同期します。"
+
   "Syntax Coloring"
   "構文の色指定"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset ja {
 
   "Update using release type"
   "リリースの型を使用して更新します。"
+
+  "Updates"
+  "更新"
 
   "Use appropriate EOL character on system"
   "システムに適切な EOL 文字を使用します。"
@@ -1724,6 +1796,38 @@ msgcat::mcmset ja {
 
   "Snippet: *"
   "スニペット：*"
+
+}
+
+# sync.tcl
+msgcat::mcmset ja {
+
+  "Emmet"
+  "蟻 [あり]"
+
+  "Export Settings Data"
+  "エクスポートを設定"
+
+  "Favorites"
+  "お気に入り"
+
+  "Select TKE settings directory for sync"
+  "同期の TKE の設定ディレクトリを選択します。"
+
+  "Select TKE settings directory to import"
+  "TKE の設定ディレクトリをインポートするを選択します。"
+
+  "Settings to Import/Sync"
+  "インポート/同期の設定"
+
+  "Settings to export"
+  "設定をエクスポートするには"
+
+  "Skip"
+  "スキップ"
+
+  "Themes"
+  "テーマ"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset ja {
 # themer.tcl
 msgcat::mcmset ja {
 
-  "   Show All"
-  "すべて表示"
-
-  "   Show Category"
-  "カテゴリーを表示"
-
-  "   Show Color"
-  "表示色"
-
   "   Show Selected Option"
   "表示選択したオプション"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset ja {
   "Done"
   "決定"
 
-  "Export"
-  "エクスポート"
+  "Enable Copy Mode"
+  "コピー モードを有効にします。"
 
   "GIF Photo"
   "GIF写真"
-
-  "Import"
-  "輸入"
 
   "Import BMP Data"
   "インポートBMPデータ"
@@ -2066,6 +2158,9 @@ msgcat::mcmset ja {
   "One-Color Bitmap"
   "ワンカラービットマップ"
 
+  "Paste Theme Items"
+  "テーマ アイテムを貼り付ける"
+
   "Preview"
   "プレビュー"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset ja {
   "Save theme changes?"
   "テーマの変更を保存しますか？"
 
+  "Search"
+  "検索"
+
   "Select Directory"
   "ディレクトリを選択"
+
+  "Show All"
+  "全て表示"
+
+  "Show Category"
+  "カテゴリーを表示"
+
+  "Show Color"
+  "表示色"
+
+  "Show Selected Option"
+  "選択したオプションを表示します。"
+
+  "Show Selected Value"
+  "選択した値を表示します。"
 
   "Swatch"
   "スウォッチ"
@@ -2087,8 +2200,14 @@ msgcat::mcmset ja {
   "Swatch Colors"
   "スウォッチの色"
 
+  "Table Copy"
+  "テーブルのコピー"
+
   "Table Filters"
   "テーブルのフィルター"
+
+  "Table Search"
+  "テーブル検索"
 
   "The current theme has unsaved changes"
   "現在のテーマは保存されていない変更があります"
@@ -2169,20 +2288,35 @@ msgcat::mcmset ja {
 # General
 msgcat::mcmset ja {
 
+  "Browse"
+  "ブラウズ"
+
   "Cancel"
   "キャンセル"
+
+  "Check for Update"
+  "アップデートの確認"
 
   "Close"
   "閉じる"
 
+  "Copy"
+  "コピー"
+
   "Delete"
   "削除"
+
+  "Directory"
+  "ディレクトリ"
 
   "Duplicate"
   "複製"
 
   "Enable code folding"
   "コード折り畳みを有効にします。"
+
+  "Export"
+  "エクスポート"
 
   "Favorite"
   "お気に入り"
@@ -2192,6 +2326,12 @@ msgcat::mcmset ja {
 
   "Find"
   "見つけます"
+
+  "Import"
+  "輸入"
+
+  "Launcher"
+  "ランチャー"
 
   "Move to Other Pane"
   "他のペインに移動します"
@@ -2205,6 +2345,12 @@ msgcat::mcmset ja {
   "Open"
   "オープン"
 
+  "Plugins"
+  "プラグイン"
+
+  "Preferences"
+  "選好"
+
   "Rename"
   "名前の変更"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset ja {
 
   "Save As"
   "名前を付けて保存"
+
+  "Sessions"
+  "セッション"
+
+  "Settings"
+  "設定"
 
   "Show console"
   "コンソールを表示します。"
@@ -2232,8 +2384,20 @@ msgcat::mcmset ja {
   "Show tab bar"
   "タブ バーを表示します。"
 
+  "Snippets"
+  "スニペット"
+
   "Split View"
   "分割表示"
+
+  "Sync"
+  "同期"
+
+  "Sync Setup"
+  "同期のセットアップ"
+
+  "Templates"
+  "テンプレート"
 
   "Theme"
   "テーマ"

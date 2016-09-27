@@ -134,6 +134,39 @@ msgcat::mcmset hu {
   "Image used in tab which, when clicked, closes the tab."
   "Kép használt lap, amely, ha rákattintunk, bezárja a lapot."
 
+  "Image used in the preferences window in the Advanced tab."
+  "A Speciális lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Appearance tab."
+  "A megjelenés lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Editor tab."
+  "Az Editor fülön a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Emmet tab."
+  "A Emmet lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Find tab."
+  "A keresés lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the General tab."
+  "Az Általános lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "A beállítások ablakban a tálaló lapon használt kép."
+
+  "Image used in the preferences window in the View tab."
+  "A Nézet lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Jelzi, hogy egy elem nincs bejelölve a beállítások ablakban használt kép."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Jelzi, hogy a tábla elem van-e jelölve a beállítások ablakban használt kép."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "A parancsikonok ablakban a hivatkozások lapon használt kép."
+
   "License"
   "Licenc"
 
@@ -249,9 +282,6 @@ msgcat::mcmset hu {
   "Character"
   "Karakter"
 
-  "Check for Update"
-  "Ellenőrizze a Frissítés"
-
   "Check for update"
   "Frissítések keresése most"
 
@@ -314,9 +344,6 @@ msgcat::mcmset hu {
 
   "Convert case to upper"
   "Megtérít eset, felső"
-
-  "Copy"
-  "Másolás"
 
   "Copy text"
   "A szöveg másolása"
@@ -486,6 +513,18 @@ msgcat::mcmset hu {
   "Expand Emmet abbreviation"
   "Bontsa ki a Emmet rövidítése"
 
+  "Export As"
+  "Exportálás mint"
+
+  "Export complete"
+  "Az exportálás befejeződött."
+
+  "Export file contents"
+  "Export fájl tartalma"
+
+  "Export settings data"
+  "BEÁLLÍTÁSOK EXPORTÁLÁSA"
+
   "Favorite file"
   "Kedvenc"
 
@@ -498,8 +537,14 @@ msgcat::mcmset hu {
   "Find In Files"
   "Keresés fájlokban"
 
-  "Find Matching Pair"
-  "Keressük meg a megfelel? pár"
+  "Find Matching Bracket"
+  "Zárójel párjának keresése"
+
+  "Find Next Bracket Mismatch"
+  "Talál a következő zárójeles eltérés"
+
+  "Find Previous Bracket Mismatch"
+  "Még előző zárójel eltérés"
 
   "Find and Replace"
   "Keresés és csere"
@@ -510,8 +555,14 @@ msgcat::mcmset hu {
   "Find matching character pair"
   "Találni párja karakter"
 
+  "Find next mismatching bracket"
+  "Még a következő nem megfelelő zárójel"
+
   "Find next occurrence"
   "Talál a következő alkalom emlékeztetője"
+
+  "Find previous mismatching bracket"
+  "Még a korábbi hibás konzol"
 
   "Find previous occurrence"
   "Még a korábbi előfordulása"
@@ -686,9 +737,6 @@ msgcat::mcmset hu {
 
   "Language"
   "Nyelv"
-
-  "Launcher"
-  "Rakétaindító állvány"
 
   "Line Above Current"
   "Folyó feletti line"
@@ -900,12 +948,6 @@ msgcat::mcmset hu {
   "Paste text from clipboard"
   "Szöveg beillesztése a vágólapról"
 
-  "Plugins"
-  "Pluginek"
-
-  "Preferences"
-  "Preferencia"
-
   "Previous Difference"
   "Előző különbség"
 
@@ -923,6 +965,12 @@ msgcat::mcmset hu {
 
   "Quit application"
   "Kilépés az alkalmazásból"
+
+  "Recent Directories"
+  "Legutóbbi könyvtárak"
+
+  "Recent Files"
+  "Legutóbbi fájlok"
 
   "Redo"
   "Ismét"
@@ -1047,9 +1095,6 @@ msgcat::mcmset hu {
   "Send feedback"
   "Visszajelzés küldése"
 
-  "Sessions"
-  "Ülések"
-
   "Set Syntax"
   "Beállítása Syntax"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset hu {
 
   "Set user preferences to global preferences"
   "Állítsa be a felhasználói beállítások a globális beállítások"
+
+  "Setup sync settings"
+  "A telepítő a szinkronizálási beállítások"
 
   "Show Console"
   "Megjelenítése Console"
@@ -1134,9 +1182,6 @@ msgcat::mcmset hu {
   "Snippet"
   "Töredék"
 
-  "Snippets"
-  "Snippets"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset hu {
 
   "Tabs"
   "Lapfülek"
-
-  "Templates"
-  "Sablonok"
 
   "Text Between Character"
   "Karakter közé szöveget helyezünk"
@@ -1196,6 +1238,9 @@ msgcat::mcmset hu {
 
   "Transform"
   "transzformáció"
+
+  "Unable to write export file"
+  "Nem lehet írni az exportfájl"
 
   "Undo"
   "Visszavonás"
@@ -1345,6 +1390,12 @@ msgcat::mcmset hu {
   "Automatically check for updates on start"
   "Gépiesen ellenőriz részére korszerűsít-ra elkezd"
 
+  "Automatically highlight matching bracket"
+  "Automatikusan kiemelhetők a megfelelő zárójel"
+
+  "Automatically highlight mismatching brackets"
+  "Automatikusan kiemelhetők eldobhatja zárójelben"
+
   "Automatically insert vendor prefixes"
   "Automatikusan illessze be a szállító előtagok"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset hu {
   "Behaviors"
   "Viselkedés"
 
-  "Browse"
-  "Böngészés"
-
   "Buffer"
   "Buffer"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset hu {
 
   "Choose Logfile Directory"
   "Válassza ki a Logfile könyvtár"
+
+  "Clear"
+  "Törlés"
 
   "Clipboard history depth"
   "Csipeszes írótábla történelem mélység"
@@ -1405,6 +1456,9 @@ msgcat::mcmset hu {
   "Current working directory"
   "Időszerű működő címtár"
 
+  "Default Markdown Export Extension"
+  "Markdown Export árbevétel"
+
   "Default unit for floating point values"
   "Alapértelmezett egység a lebegőpontos értékek"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset hu {
 
   "Development"
   "Fejlesztés"
-
-  "Directory"
-  "Cégjegyzék"
 
   "Double-quote"
   "Idézőjel"
@@ -1462,9 +1513,6 @@ msgcat::mcmset hu {
   "Hiding"
   "Elrejtése"
 
-  "Highlight matching character"
-  "Jelölje ki a megfelelő karakter"
-
   "Host"
   "Munkaállomás"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset hu {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximális visszavonás történelem (készlet-hoz 0 részére határtalan)"
+
+  "Menu bindings"
+  "Menü kötések"
 
   "Mounts"
   "Tartók"
@@ -1528,8 +1579,14 @@ msgcat::mcmset hu {
   "Ruler column"
   "Vonalzó oszlop"
 
+  "Select Settings Sync Directory"
+  "Válassza ki a beállítások szinkronizálás könyvtár"
+
   "Select default browsing directory"
   "Válassza ki az alapértelmezett könyvtár böngészés"
+
+  "Set"
+  "Beállítás"
 
   "Set Find History Depth"
   "Keresés történelem mélység beállítása"
@@ -1542,6 +1599,12 @@ msgcat::mcmset hu {
 
   "Set default open/save browsing directory to"
   "Állítsa be az alapértelmezett nyit/megment böngészés a könyvtárban"
+
+  "Shortcut"
+  "Gyorsbillentyű"
+
+  "Shortcuts"
+  "Billentyűparancsok"
 
   "Show 'Find in Files' result in other pane"
   "\"
@@ -1591,6 +1654,12 @@ msgcat::mcmset hu {
   "Symbol placed at end of CSS property"
   "Jel végére CSS tulajdonság"
 
+  "Sync Directory"
+  "Sync Directory"
+
+  "Sync Items"
+  "Elemek szinkronizálása"
+
   "Syntax Coloring"
   "Szintaxis színezés"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset hu {
 
   "Update using release type"
   "Frissítse a kiadás típusú"
+
+  "Updates"
+  "Frissítések"
 
   "Use appropriate EOL character on system"
   "Használja a megfelelő EOL karakter a rendszer"
@@ -1724,6 +1796,38 @@ msgcat::mcmset hu {
 
   "Snippet: *"
   "Töredék: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset hu {
+
+  "Emmet"
+  "hangya"
+
+  "Export Settings Data"
+  "BEÁLLÍTÁSOK EXPORTÁLÁSA"
+
+  "Favorites"
+  "Extrák"
+
+  "Select TKE settings directory for sync"
+  "Válassza ki a TKE beállítások címtár-szinkronizálás"
+
+  "Select TKE settings directory to import"
+  "Válassza ki a TKE settings könyvtárában importálása"
+
+  "Settings to Import/Sync"
+  "Beállítások importálása/szinkron"
+
+  "Settings to export"
+  "Beállítások exportálása"
+
+  "Skip"
+  "Kihagyás"
+
+  "Themes"
+  "Sablonok"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset hu {
 # themer.tcl
 msgcat::mcmset hu {
 
-  "   Show All"
-  "Az összes mutatása"
-
-  "   Show Category"
-  "~Kategória megjelenítése"
-
-  "   Show Color"
-  "Mutass Szín"
-
   "   Show Selected Option"
   "Mutasd a kiválasztott opció"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset hu {
   "Done"
   "Kész"
 
-  "Export"
-  "Exportálás"
+  "Enable Copy Mode"
+  "Másolási üzemmód engedélyezése"
 
   "GIF Photo"
   "GIF Fotó"
-
-  "Import"
-  "Import"
 
   "Import BMP Data"
   "Import BMP adatok"
@@ -2066,6 +2158,9 @@ msgcat::mcmset hu {
   "One-Color Bitmap"
   "Egy-Color Bitmap"
 
+  "Paste Theme Items"
+  "Téma elemek beillesztése"
+
   "Preview"
   "Előnézet"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset hu {
   "Save theme changes?"
   "Mentsd téma változik?"
 
+  "Search"
+  "Keresés"
+
   "Select Directory"
   "Válasszon ki egy könyvtárat"
+
+  "Show All"
+  "Mindent mutat"
+
+  "Show Category"
+  "~Kategória megjelenítése"
+
+  "Show Color"
+  "A következő szálláshely színe"
+
+  "Show Selected Option"
+  "Térkép-beállítást"
+
+  "Show Selected Value"
+  "A kiválasztott érték megjelenítése"
 
   "Swatch"
   "Mintadarab"
@@ -2087,8 +2200,14 @@ msgcat::mcmset hu {
   "Swatch Colors"
   "Swatch színek"
 
+  "Table Copy"
+  "Táblázat másolása"
+
   "Table Filters"
   "Táblázat szűrők"
+
+  "Table Search"
+  "Táblázat-keresés"
 
   "The current theme has unsaved changes"
   "Az aktuális téma nem mentett módosításokat tartalmaz"
@@ -2169,20 +2288,35 @@ msgcat::mcmset hu {
 # General
 msgcat::mcmset hu {
 
+  "Browse"
+  "Böngészés"
+
   "Cancel"
   "Mégsem"
+
+  "Check for Update"
+  "Ellenőrizze a Frissítés"
 
   "Close"
   "Bezárás"
 
+  "Copy"
+  "Másolás"
+
   "Delete"
   "Törlés"
+
+  "Directory"
+  "Cégjegyzék"
 
   "Duplicate"
   "Megkettőzés"
 
   "Enable code folding"
   "Engedélyezi a kód összecsukható"
+
+  "Export"
+  "Exportálás"
 
   "Favorite"
   "Kedvenc"
@@ -2192,6 +2326,12 @@ msgcat::mcmset hu {
 
   "Find"
   "Keresés"
+
+  "Import"
+  "Import"
+
+  "Launcher"
+  "Rakétaindító állvány"
 
   "Move to Other Pane"
   "Áthelyezni más ablak"
@@ -2205,6 +2345,12 @@ msgcat::mcmset hu {
   "Open"
   "Nyissa"
 
+  "Plugins"
+  "Pluginek"
+
+  "Preferences"
+  "Preferencia"
+
   "Rename"
   "Átnevezés"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset hu {
 
   "Save As"
   "Mentés másként"
+
+  "Sessions"
+  "Ülések"
+
+  "Settings"
+  "Beállítások"
 
   "Show console"
   "Térkép-konzol"
@@ -2232,8 +2384,20 @@ msgcat::mcmset hu {
   "Show tab bar"
   "A fülek megjelenítése"
 
+  "Snippets"
+  "Snippets"
+
   "Split View"
   "Osztott nézet"
+
+  "Sync"
+  "Szinkron"
+
+  "Sync Setup"
+  "Szinkronizálás beállítása"
+
+  "Templates"
+  "Sablonok"
 
   "Theme"
   "Sablon"

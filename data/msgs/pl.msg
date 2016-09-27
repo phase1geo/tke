@@ -134,6 +134,39 @@ msgcat::mcmset pl {
   "Image used in tab which, when clicked, closes the tab."
   "Obraz używany w karcie, po kliknięciu, zamknięcie karty."
 
+  "Image used in the preferences window in the Advanced tab."
+  "Obraz używany w oknie Preferencje na zakładce Zaawansowane."
+
+  "Image used in the preferences window in the Appearance tab."
+  "Obraz używany w oknie Preferencje na zakładce wygląd."
+
+  "Image used in the preferences window in the Editor tab."
+  "W oknie Preferencje na zakładce Edytor obrazu."
+
+  "Image used in the preferences window in the Emmet tab."
+  "Obraz używany w oknie Preferencje na zakładce Emmet."
+
+  "Image used in the preferences window in the Find tab."
+  "Obraz używany w oknie Preferencje na karcie Znajdź."
+
+  "Image used in the preferences window in the General tab."
+  "Obraz używany w oknie Preferencje na zakładce Ogólne."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Obraz używany w oknie Preferencje na zakładce pasek boczny."
+
+  "Image used in the preferences window in the View tab."
+  "Obraz używany w oknie Preferencje na zakładce widok."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Obraz używany w oknie Preferencje, aby wskazać, że element tabela jest zaznaczona."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Obraz używany w oknie Preferencje, aby wskazać, że element tabela jest zaznaczona."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "Obraz używany w oknie skróty w karcie skróty."
+
   "License"
   "Licencja"
 
@@ -249,9 +282,6 @@ msgcat::mcmset pl {
   "Character"
   "Charakter"
 
-  "Check for Update"
-  "Sprawdź aktualizacje"
-
   "Check for update"
   "Sprawdź aktualizacje"
 
@@ -314,9 +344,6 @@ msgcat::mcmset pl {
 
   "Convert case to upper"
   "Przekonwertować przypadek do górnej"
-
-  "Copy"
-  "Kopiuj"
 
   "Copy text"
   "Kopiowanie tekstu"
@@ -486,6 +513,18 @@ msgcat::mcmset pl {
   "Expand Emmet abbreviation"
   "Rozwiń skrót Emmet"
 
+  "Export As"
+  "Eksportuj jako"
+
+  "Export complete"
+  "Eksportowanie zakończone."
+
+  "Export file contents"
+  "Zawartość pliku eksportu"
+
+  "Export settings data"
+  "Eksportuj ustawienia"
+
   "Favorite file"
   "Ulubionych plików"
 
@@ -498,8 +537,14 @@ msgcat::mcmset pl {
   "Find In Files"
   "Znajdź w plikach"
 
-  "Find Matching Pair"
-  "Znajdź pasujące pary"
+  "Find Matching Bracket"
+  "Znajdź pasujące wspornik"
+
+  "Find Next Bracket Mismatch"
+  "Znajdź następny uchwyt niezgodność"
+
+  "Find Previous Bracket Mismatch"
+  "Znajdź poprzedni wspornik niezgodność"
 
   "Find and Replace"
   "Znajdź i zamień"
@@ -510,8 +555,14 @@ msgcat::mcmset pl {
   "Find matching character pair"
   "Znaleźć pasujące pary znaków"
 
+  "Find next mismatching bracket"
+  "Znajdź następny uchwyt niezgodność"
+
   "Find next occurrence"
   "Znajdź kolejne wystąpienie"
+
+  "Find previous mismatching bracket"
+  "Znajdź poprzedni niezgodność wspornik"
 
   "Find previous occurrence"
   "Znaleźć poprzednie wystąpienie"
@@ -686,9 +737,6 @@ msgcat::mcmset pl {
 
   "Language"
   "Język"
-
-  "Launcher"
-  "Wyrzutnia"
 
   "Line Above Current"
   "Linii powyżej bieżącego"
@@ -900,12 +948,6 @@ msgcat::mcmset pl {
   "Paste text from clipboard"
   "Wklej tekst ze schowka"
 
-  "Plugins"
-  "Add-on"
-
-  "Preferences"
-  "Preferencje"
-
   "Previous Difference"
   "Poprzedni Różnica"
 
@@ -923,6 +965,12 @@ msgcat::mcmset pl {
 
   "Quit application"
   "Zakończ program"
+
+  "Recent Directories"
+  "Ostatnich katalogów"
+
+  "Recent Files"
+  "Ostatnio otwarte pliki"
 
   "Redo"
   "Ponów"
@@ -1047,9 +1095,6 @@ msgcat::mcmset pl {
   "Send feedback"
   "Prześlij opinię"
 
-  "Sessions"
-  "Sesje"
-
   "Set Syntax"
   "Składnia set"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset pl {
 
   "Set user preferences to global preferences"
   "Ustawić preferencje użytkownika do globalnych preferencji"
+
+  "Setup sync settings"
+  "Ustawienia synchronizacji"
 
   "Show Console"
   "Pokaż Console"
@@ -1134,9 +1182,6 @@ msgcat::mcmset pl {
   "Snippet"
   "Urywek"
 
-  "Snippets"
-  "Urywki"
-
   "Sort Tabs"
   "Sortuj Tabs"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset pl {
 
   "Tabs"
   "Tab"
-
-  "Templates"
-  "Szablony"
 
   "Text Between Character"
   "Tekst pomiędzy znaków"
@@ -1196,6 +1238,9 @@ msgcat::mcmset pl {
 
   "Transform"
   "przekształcać"
+
+  "Unable to write export file"
+  "Nie można zapisać pliku eksportu"
 
   "Undo"
   "Cofnij"
@@ -1345,6 +1390,12 @@ msgcat::mcmset pl {
   "Automatically check for updates on start"
   "Automatycznie sprawdzaj aktualizacje na start"
 
+  "Automatically highlight matching bracket"
+  "Aby automatycznie zazn aczyæ odpowiadającego nawiasu"
+
+  "Automatically highlight mismatching brackets"
+  "Aby automatycznie zazn aczyæ niezgodność nawiasów"
+
   "Automatically insert vendor prefixes"
   "Wstaw automatycznie prefiksy dostawcy"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset pl {
   "Behaviors"
   "Zachowanie"
 
-  "Browse"
-  "Przeglądaj"
-
   "Buffer"
   "Bufor"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset pl {
 
   "Choose Logfile Directory"
   "Wybierz katalog pliku dziennika"
+
+  "Clear"
+  "Wyczyść"
 
   "Clipboard history depth"
   "Schowka historia Głębokość"
@@ -1405,6 +1456,9 @@ msgcat::mcmset pl {
   "Current working directory"
   "Bieżący katalog roboczy"
 
+  "Default Markdown Export Extension"
+  "Domyślne rozszerzenie eksportu Markdown"
+
   "Default unit for floating point values"
   "Domyślne jednostki dla wartości zmiennoprzecinkowe"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset pl {
 
   "Development"
   "Development"
-
-  "Directory"
-  "Katalog"
 
   "Double-quote"
   "Cudzysłów"
@@ -1462,9 +1513,6 @@ msgcat::mcmset pl {
   "Hiding"
   "Ukrywanie"
 
-  "Highlight matching character"
-  "Podświetl dopasowania znaków"
-
   "Host"
   "Host"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset pl {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maksymalne zmiany historii (ustawiona na 0 dla nieograniczony)"
+
+  "Menu bindings"
+  "Powiązania menu"
 
   "Mounts"
   "Mocowania"
@@ -1528,8 +1579,14 @@ msgcat::mcmset pl {
   "Ruler column"
   "Władca kolumna"
 
+  "Select Settings Sync Directory"
+  "Wybierz opcję Ustawienia synchronizacji katalogów"
+
   "Select default browsing directory"
   "Wybierz domyślny, przeglądanie katalogów"
+
+  "Set"
+  "Zestaw"
 
   "Set Find History Depth"
   "Ustawić głębokość historii Znajdź"
@@ -1542,6 +1599,12 @@ msgcat::mcmset pl {
 
   "Set default open/save browsing directory to"
   "Ustaw domyślny Otwórz/Zapisz przeglądania katalogu do"
+
+  "Shortcut"
+  "Skrót"
+
+  "Shortcuts"
+  "Skróty"
 
   "Show 'Find in Files' result in other pane"
   "Pokaż 'Znajdź w plikach' wynik w drugim okienku"
@@ -1591,6 +1654,12 @@ msgcat::mcmset pl {
   "Symbol placed at end of CSS property"
   "Symbol umieszczony na końcu właściwości CSS"
 
+  "Sync Directory"
+  "Synchronizacji katalogów"
+
+  "Sync Items"
+  "Synchronizacja elementów"
+
   "Syntax Coloring"
   "Kolorowanie składni"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset pl {
 
   "Update using release type"
   "Aktualizacja przy użyciu typu zwolnienia"
+
+  "Updates"
+  "Aktualności"
 
   "Use appropriate EOL character on system"
   "Za pomocą odpowiednich znaków EOL na system"
@@ -1724,6 +1796,38 @@ msgcat::mcmset pl {
 
   "Snippet: *"
   "Fragment kodu: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset pl {
+
+  "Emmet"
+  "mrówka"
+
+  "Export Settings Data"
+  "Eksportuj ustawienia"
+
+  "Favorites"
+  "Schowek"
+
+  "Select TKE settings directory for sync"
+  "Wybierz katalog TKE ustawienia synchronizacji"
+
+  "Select TKE settings directory to import"
+  "Wybierz katalog ustawienia TKE do zaimportowania"
+
+  "Settings to Import/Sync"
+  "Ustawienia importu/Sync"
+
+  "Settings to export"
+  "Ustawienia eksportu"
+
+  "Skip"
+  "Pomiń"
+
+  "Themes"
+  "Motywy"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset pl {
 # themer.tcl
 msgcat::mcmset pl {
 
-  "   Show All"
-  "Zobacz wszystko"
-
-  "   Show Category"
-  "Pokaż Kategoria"
-
-  "   Show Color"
-  "Pokaż Kolor"
-
   "   Show Selected Option"
   "Pokaż Wybrana opcja"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset pl {
   "Done"
   "Gotowe"
 
-  "Export"
-  "Exportuj"
+  "Enable Copy Mode"
+  "Włącz tryb kopiowania"
 
   "GIF Photo"
   "GIF zdjęcie"
-
-  "Import"
-  "Import"
 
   "Import BMP Data"
   "Import BMP danych"
@@ -2066,6 +2158,9 @@ msgcat::mcmset pl {
   "One-Color Bitmap"
   "Bitmap jednokolorowa"
 
+  "Paste Theme Items"
+  "Wklej elementy kompozycji"
+
   "Preview"
   "Podgląd"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset pl {
   "Save theme changes?"
   "Zapisz zmiany motywu?"
 
+  "Search"
+  "Szukaj"
+
   "Select Directory"
   "Wybierz katalog"
+
+  "Show All"
+  "Pokaż wszystkio"
+
+  "Show Category"
+  "Pokaż kategorii"
+
+  "Show Color"
+  "Pokaż kolor"
+
+  "Show Selected Option"
+  "Wybrana opcja Pokaż"
+
+  "Show Selected Value"
+  "wybrana wartość"
 
   "Swatch"
   "Swatch Group"
@@ -2087,8 +2200,14 @@ msgcat::mcmset pl {
   "Swatch Colors"
   "Swatch Kolory"
 
+  "Table Copy"
+  "Kopiowanie tabeli"
+
   "Table Filters"
   "Filtry Tabela"
+
+  "Table Search"
+  "Tabela wyszukiwania"
 
   "The current theme has unsaved changes"
   "Obecny temat ma niezapisane zmiany"
@@ -2169,20 +2288,35 @@ msgcat::mcmset pl {
 # General
 msgcat::mcmset pl {
 
+  "Browse"
+  "Przeglądaj"
+
   "Cancel"
   "Anuluj"
+
+  "Check for Update"
+  "Sprawdź aktualizacje"
 
   "Close"
   "Zamknij"
 
+  "Copy"
+  "Kopiuj"
+
   "Delete"
   "Usuń"
+
+  "Directory"
+  "Katalog"
 
   "Duplicate"
   "Duplikuj"
 
   "Enable code folding"
   "Włączyć kod składane"
+
+  "Export"
+  "Exportuj"
 
   "Favorite"
   "Ulubione"
@@ -2192,6 +2326,12 @@ msgcat::mcmset pl {
 
   "Find"
   "Odnaleźć"
+
+  "Import"
+  "Import"
+
+  "Launcher"
+  "Wyrzutnia"
 
   "Move to Other Pane"
   "Przejść do innych okienku"
@@ -2205,6 +2345,12 @@ msgcat::mcmset pl {
   "Open"
   "Otwarte"
 
+  "Plugins"
+  "Add-on"
+
+  "Preferences"
+  "Preferencje"
+
   "Rename"
   "Zmień nazwę"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset pl {
 
   "Save As"
   "Zapisz jako"
+
+  "Sessions"
+  "Sesje"
+
+  "Settings"
+  "Ustawienia"
 
   "Show console"
   "Pokaż konsolę"
@@ -2232,8 +2384,20 @@ msgcat::mcmset pl {
   "Show tab bar"
   "Pasek kart"
 
+  "Snippets"
+  "Urywki"
+
   "Split View"
   "Podziel widok"
+
+  "Sync"
+  "Synchronizacja"
+
+  "Sync Setup"
+  "Ustawienia synchronizacji"
+
+  "Templates"
+  "Szablony"
 
   "Theme"
   "Temat"

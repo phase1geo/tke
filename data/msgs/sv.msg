@@ -134,6 +134,39 @@ msgcat::mcmset sv {
   "Image used in tab which, when clicked, closes the tab."
   "Bilden används i fliken som, när du klickar på stänger fliken."
 
+  "Image used in the preferences window in the Advanced tab."
+  "Bild som används i inställningsfönstret på fliken Avancerat."
+
+  "Image used in the preferences window in the Appearance tab."
+  "Bild som används i inställningsfönstret i fliken utseende."
+
+  "Image used in the preferences window in the Editor tab."
+  "Bild som används i inställningsfönstret i fliken Editor."
+
+  "Image used in the preferences window in the Emmet tab."
+  "Bild som används i inställningsfönstret i fliken Emmet."
+
+  "Image used in the preferences window in the Find tab."
+  "Bild som används i inställningsfönstret i fliken Sök."
+
+  "Image used in the preferences window in the General tab."
+  "Bild som används i inställningsfönstret på fliken Allmänt."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Bild som används i inställningsfönstret i fliken sidofält."
+
+  "Image used in the preferences window in the View tab."
+  "Bild som används i inställningsfönstret i fliken Visa."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Bilden används i inställningsfönstret för att ange att ett tabell-objekt är avmarkerat."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Bilden i inställningsfönstret brukade anger att en tabell-objekt är markerad."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "Bild som används i fönstret genvägar i fliken genvägar."
+
   "License"
   "Licens"
 
@@ -249,9 +282,6 @@ msgcat::mcmset sv {
   "Character"
   "Teckenattribut"
 
-  "Check for Update"
-  "Leta efter uppdatering"
-
   "Check for update"
   "Sök efter uppdateringar"
 
@@ -314,9 +344,6 @@ msgcat::mcmset sv {
 
   "Convert case to upper"
   "Konvertera fallet till övre"
-
-  "Copy"
-  "Kopiera"
 
   "Copy text"
   "Kopiera hela texten"
@@ -486,6 +513,18 @@ msgcat::mcmset sv {
   "Expand Emmet abbreviation"
   "Expandera Emmet förkortning"
 
+  "Export As"
+  "Exportera som"
+
+  "Export complete"
+  "Export klar."
+
+  "Export file contents"
+  "Exportera innehållet i filen"
+
+  "Export settings data"
+  "Exportera inställningar"
+
   "Favorite file"
   "Favorit-fil"
 
@@ -498,8 +537,14 @@ msgcat::mcmset sv {
   "Find In Files"
   "Sök i filer"
 
-  "Find Matching Pair"
-  "Hitta matchande par"
+  "Find Matching Bracket"
+  "Hitta matchande fäste"
+
+  "Find Next Bracket Mismatch"
+  "Hitta nästa fäste Mismatch"
+
+  "Find Previous Bracket Mismatch"
+  "Hitta tidigare fäste Mismatch"
 
   "Find and Replace"
   "Sök och ersätt"
@@ -510,8 +555,14 @@ msgcat::mcmset sv {
   "Find matching character pair"
   "Hitta matchande tecken par"
 
+  "Find next mismatching bracket"
+  "Hitta nästa inte matchar fäste"
+
   "Find next occurrence"
   "Hitta nästa förekomst"
+
+  "Find previous mismatching bracket"
+  "Hitta tidigare inte matchar fäste"
 
   "Find previous occurrence"
   "Hitta föregående förekomst"
@@ -686,9 +737,6 @@ msgcat::mcmset sv {
 
   "Language"
   "Språk"
-
-  "Launcher"
-  "Launcher"
 
   "Line Above Current"
   "Linje ovanför aktuell"
@@ -900,12 +948,6 @@ msgcat::mcmset sv {
   "Paste text from clipboard"
   "Klistra in text från urklipp"
 
-  "Plugins"
-  "Insticksprogram"
-
-  "Preferences"
-  "Favoriter"
-
   "Previous Difference"
   "Föregående skillnad"
 
@@ -923,6 +965,12 @@ msgcat::mcmset sv {
 
   "Quit application"
   "Avsluta programmet"
+
+  "Recent Directories"
+  "Senaste kataloger"
+
+  "Recent Files"
+  "Senaste dokument"
 
   "Redo"
   "Återställ"
@@ -1047,9 +1095,6 @@ msgcat::mcmset sv {
   "Send feedback"
   "Skicka omdöme"
 
-  "Sessions"
-  "Sessioner"
-
   "Set Syntax"
   "Ställ Syntax"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset sv {
 
   "Set user preferences to global preferences"
   "Ange inställningar till globala inställningar"
+
+  "Setup sync settings"
+  "Synkroniseringsinställningar"
 
   "Show Console"
   "Visa konsol"
@@ -1134,9 +1182,6 @@ msgcat::mcmset sv {
   "Snippet"
   "Fragment"
 
-  "Snippets"
-  "Utdrag"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset sv {
 
   "Tabs"
   "Tabbar"
-
-  "Templates"
-  "Mallar"
 
   "Text Between Character"
   "Text mellan karaktär"
@@ -1196,6 +1238,9 @@ msgcat::mcmset sv {
 
   "Transform"
   "transformera"
+
+  "Unable to write export file"
+  "Kan inte skriva exportfil"
 
   "Undo"
   "Ord"
@@ -1345,6 +1390,12 @@ msgcat::mcmset sv {
   "Automatically check for updates on start"
   "Automatiskt söka efter uppdateringar på start"
 
+  "Automatically highlight matching bracket"
+  "Markera automatiskt matchande fäste"
+
+  "Automatically highlight mismatching brackets"
+  "Markera automatiskt inte matchar parentes"
+
   "Automatically insert vendor prefixes"
   "Infoga automatiskt leverantörens prefix"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset sv {
   "Behaviors"
   "Beteenden"
 
-  "Browse"
-  "Bläddra"
-
   "Buffer"
   "Buffert"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset sv {
 
   "Choose Logfile Directory"
   "Välj loggfil katalog"
+
+  "Clear"
+  "Rensa"
 
   "Clipboard history depth"
   "Klippborden historia djup"
@@ -1405,6 +1456,9 @@ msgcat::mcmset sv {
   "Current working directory"
   "Aktuell mapp"
 
+  "Default Markdown Export Extension"
+  "Standardtillägget Markdown Export"
+
   "Default unit for floating point values"
   "Standardenhet för flytande punkt värden"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset sv {
 
   "Development"
   "Utveckling"
-
-  "Directory"
-  "Katalog"
 
   "Double-quote"
   "Dubbel-offert"
@@ -1462,9 +1513,6 @@ msgcat::mcmset sv {
   "Hiding"
   "Gömmer sig"
 
-  "Highlight matching character"
-  "Markera matchande tecken"
-
   "Host"
   "Host"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset sv {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximal ångringshistoriken (satt till 0 för obegränsad)"
+
+  "Menu bindings"
+  "Meny-bindningar"
 
   "Mounts"
   "fäste"
@@ -1528,8 +1579,14 @@ msgcat::mcmset sv {
   "Ruler column"
   "Linjalen kolumn"
 
+  "Select Settings Sync Directory"
+  "Välj inställningar synkronisera katalog"
+
   "Select default browsing directory"
   "Välj standard bläddra katalog"
+
+  "Set"
+  "Ange"
 
   "Set Find History Depth"
   "Ställa in hitta historia djup"
@@ -1542,6 +1599,12 @@ msgcat::mcmset sv {
 
   "Set default open/save browsing directory to"
   "Ställa in standard öppna/spara bläddra katalog till"
+
+  "Shortcut"
+  "Genväg"
+
+  "Shortcuts"
+  "Genvägar"
 
   "Show 'Find in Files' result in other pane"
   "Visa \"
@@ -1591,6 +1654,12 @@ msgcat::mcmset sv {
   "Symbol placed at end of CSS property"
   "Symbol slutet av CSS egendom"
 
+  "Sync Directory"
+  "Synkronisera katalog"
+
+  "Sync Items"
+  "Synkronisera objekt"
+
   "Syntax Coloring"
   "Syntaxfärgning"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset sv {
 
   "Update using release type"
   "Uppdatera med release typ"
+
+  "Updates"
+  "Uppdateringar"
 
   "Use appropriate EOL character on system"
   "Använda lämpliga EOL-tecken på system"
@@ -1724,6 +1796,38 @@ msgcat::mcmset sv {
 
   "Snippet: *"
   "Fragment: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset sv {
+
+  "Emmet"
+  "myra"
+
+  "Export Settings Data"
+  "Exportera inställningar"
+
+  "Favorites"
+  "Favoriter"
+
+  "Select TKE settings directory for sync"
+  "Välj TKE inställningar katalog för synkronisering"
+
+  "Select TKE settings directory to import"
+  "Välj TKE inställningar katalog importera"
+
+  "Settings to Import/Sync"
+  "Inställningar för att importera/synk"
+
+  "Settings to export"
+  "Inställningar för att exportera"
+
+  "Skip"
+  "Hoppa över"
+
+  "Themes"
+  "Teman"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset sv {
 # themer.tcl
 msgcat::mcmset sv {
 
-  "   Show All"
-  "Visa alla"
-
-  "   Show Category"
-  "Show Category"
-
-  "   Show Color"
-  "Visa Color"
-
   "   Show Selected Option"
   "Visa valda alternativet"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset sv {
   "Done"
   "Klar"
 
-  "Export"
-  "Exportera"
+  "Enable Copy Mode"
+  "Aktivera kopieringsläget"
 
   "GIF Photo"
   "GIF-bild"
-
-  "Import"
-  "Importera"
 
   "Import BMP Data"
   "Importera BMP data"
@@ -2066,6 +2158,9 @@ msgcat::mcmset sv {
   "One-Color Bitmap"
   "Enfärgs Bitmap"
 
+  "Paste Theme Items"
+  "Klistra in tema objekt"
+
   "Preview"
   "Förhandsgranska"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset sv {
   "Save theme changes?"
   "Spara tema ändringar?"
 
+  "Search"
+  "Sök"
+
   "Select Directory"
   "Välj katalog"
+
+  "Show All"
+  "Visa alla"
+
+  "Show Category"
+  "Visa Kategori"
+
+  "Show Color"
+  "Visa färg"
+
+  "Show Selected Option"
+  "Visa valda alternativet"
+
+  "Show Selected Value"
+  "Visa valt värde"
 
   "Swatch"
   "Swatch"
@@ -2087,8 +2200,14 @@ msgcat::mcmset sv {
   "Swatch Colors"
   "Swatch Färger"
 
+  "Table Copy"
+  "Tabellen kopiera"
+
   "Table Filters"
   "Tabell Filter"
+
+  "Table Search"
+  "Tabell Sök"
 
   "The current theme has unsaved changes"
   "Det aktuella temat har osparade ändringar"
@@ -2169,20 +2288,35 @@ msgcat::mcmset sv {
 # General
 msgcat::mcmset sv {
 
+  "Browse"
+  "Bläddra"
+
   "Cancel"
   "Avbryt"
+
+  "Check for Update"
+  "Leta efter uppdatering"
 
   "Close"
   "Stäng"
 
+  "Copy"
+  "Kopiera"
+
   "Delete"
   "Radera"
+
+  "Directory"
+  "Katalog"
 
   "Duplicate"
   "Duplicera"
 
   "Enable code folding"
   "Aktivera kod vikning"
+
+  "Export"
+  "Exportera"
 
   "Favorite"
   "Gunstling"
@@ -2192,6 +2326,12 @@ msgcat::mcmset sv {
 
   "Find"
   "Sök i"
+
+  "Import"
+  "Importera"
+
+  "Launcher"
+  "Launcher"
 
   "Move to Other Pane"
   "Flytta till andra Pane"
@@ -2205,6 +2345,12 @@ msgcat::mcmset sv {
   "Open"
   "Öppen"
 
+  "Plugins"
+  "Insticksprogram"
+
+  "Preferences"
+  "Favoriter"
+
   "Rename"
   "Byt namn"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset sv {
 
   "Save As"
   "Spara som"
+
+  "Sessions"
+  "Sessioner"
+
+  "Settings"
+  "Inställningar"
 
   "Show console"
   "Visa konsolen"
@@ -2232,8 +2384,20 @@ msgcat::mcmset sv {
   "Show tab bar"
   "Visa flikfältet"
 
+  "Snippets"
+  "Utdrag"
+
   "Split View"
   "Dela vy"
+
+  "Sync"
+  "Sync"
+
+  "Sync Setup"
+  "Konfigurera synkronisering"
+
+  "Templates"
+  "Mallar"
 
   "Theme"
   "Tema"

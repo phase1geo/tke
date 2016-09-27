@@ -134,6 +134,39 @@ msgcat::mcmset cs {
   "Image used in tab which, when clicked, closes the tab."
   "Image používané v kartě, které po kliknutí, uzavře kartu."
 
+  "Image used in the preferences window in the Advanced tab."
+  "Obrázek v okně Předvolby na kartě Upřesnit."
+
+  "Image used in the preferences window in the Appearance tab."
+  "Obrázek v okně Předvolby na kartě vzhled."
+
+  "Image used in the preferences window in the Editor tab."
+  "Obrázek v okně Předvolby v záložce Editor."
+
+  "Image used in the preferences window in the Emmet tab."
+  "Obrázek v okně Předvolby na kartě Emmet."
+
+  "Image used in the preferences window in the Find tab."
+  "Obrázek v okně Předvolby na kartě najít."
+
+  "Image used in the preferences window in the General tab."
+  "Obrázek v okně předvoleb v kartě Obecné."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Obrázek v okně Předvolby v postranním panelu na kartě."
+
+  "Image used in the preferences window in the View tab."
+  "Obrázek v okně Předvolby na kartě zobrazení."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Obrázek použitý k označení, že není vybraná položka tabulky v okně Předvolby."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Obrázek použitý k označení, že je vybrána položka tabulka v okně Předvolby."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "Obrázek v okně Klávesové zkratky v kartě zástupce."
+
   "License"
   "Licence"
 
@@ -249,9 +282,6 @@ msgcat::mcmset cs {
   "Character"
   "Postava"
 
-  "Check for Update"
-  "Zkontrolujte, zda aktualizaci"
-
   "Check for update"
   "Kontrola aktualizací"
 
@@ -314,9 +344,6 @@ msgcat::mcmset cs {
 
   "Convert case to upper"
   "Převést případ na horní"
-
-  "Copy"
-  "Kopírovat"
 
   "Copy text"
   "Kopírovat text"
@@ -486,6 +513,18 @@ msgcat::mcmset cs {
   "Expand Emmet abbreviation"
   "Rozšířit Emmet zkratka"
 
+  "Export As"
+  "Exportovat jako"
+
+  "Export complete"
+  "Export dokončen"
+
+  "Export file contents"
+  "Obsah souboru exportu"
+
+  "Export settings data"
+  "Exportovat nastavení"
+
   "Favorite file"
   "Oblíbený soubor"
 
@@ -498,8 +537,14 @@ msgcat::mcmset cs {
   "Find In Files"
   "Najít v souborech"
 
-  "Find Matching Pair"
-  "Najít odpovídající dvojice"
+  "Find Matching Bracket"
+  "Najít odpovídající závorku"
+
+  "Find Next Bracket Mismatch"
+  "Najít další neshoda závorky"
+
+  "Find Previous Bracket Mismatch"
+  "Najít předchozí neshoda závorky"
 
   "Find and Replace"
   "Najít a nahradit"
@@ -510,8 +555,14 @@ msgcat::mcmset cs {
   "Find matching character pair"
   "Najít odpovídající dvojice znaků"
 
+  "Find next mismatching bracket"
+  "Najít další neodpovídající závorky"
+
   "Find next occurrence"
   "Najít další výskyt"
+
+  "Find previous mismatching bracket"
+  "Najít předchozí neodpovídající závorky"
 
   "Find previous occurrence"
   "Najít předchozí výskyt"
@@ -686,9 +737,6 @@ msgcat::mcmset cs {
 
   "Language"
   "Jazyk"
-
-  "Launcher"
-  "spouštěč"
 
   "Line Above Current"
   "Linka nad aktuální"
@@ -900,12 +948,6 @@ msgcat::mcmset cs {
   "Paste text from clipboard"
   "Vložit text ze schránky"
 
-  "Plugins"
-  "Plugin"
-
-  "Preferences"
-  "Preference"
-
   "Previous Difference"
   "P?edchozí rozdíl"
 
@@ -923,6 +965,12 @@ msgcat::mcmset cs {
 
   "Quit application"
   "Ukončit aplikaci"
+
+  "Recent Directories"
+  "Nedávné adresáře"
+
+  "Recent Files"
+  "Poslední soubory"
 
   "Redo"
   "Zrušit vrácení akce"
@@ -1047,9 +1095,6 @@ msgcat::mcmset cs {
   "Send feedback"
   "Odeslat názor"
 
-  "Sessions"
-  "Návt?vy"
-
   "Set Syntax"
   "Nastavit syntaxe"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset cs {
 
   "Set user preferences to global preferences"
   "Nastavit uživatelské předvolby na globální nastavení"
+
+  "Setup sync settings"
+  "Nastavení synchronizace nastavení"
 
   "Show Console"
   "Zobrazit Console"
@@ -1134,9 +1182,6 @@ msgcat::mcmset cs {
   "Snippet"
   "úryvek"
 
-  "Snippets"
-  "Snippet"
-
   "Sort Tabs"
   "Seřadit Záložky"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset cs {
 
   "Tabs"
   "Karty"
-
-  "Templates"
-  "Šablony"
 
   "Text Between Character"
   "Text mezi znaky"
@@ -1196,6 +1238,9 @@ msgcat::mcmset cs {
 
   "Transform"
   "Transformovat"
+
+  "Unable to write export file"
+  "Nelze zapsat soubor exportu"
 
   "Undo"
   "Vrátit zpět akci"
@@ -1345,6 +1390,12 @@ msgcat::mcmset cs {
   "Automatically check for updates on start"
   "Automatická kontrola aktualizací při spuštění"
 
+  "Automatically highlight matching bracket"
+  "Automaticky zvýrazňovat odpovídající závorku"
+
+  "Automatically highlight mismatching brackets"
+  "Automaticky zvýrazní neodpovídající závorky"
+
   "Automatically insert vendor prefixes"
   "Automaticky vložit dodavatele předpony"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset cs {
   "Behaviors"
   "Chování"
 
-  "Browse"
-  "Procházet"
-
   "Buffer"
   "pufr,"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset cs {
 
   "Choose Logfile Directory"
   "Zvolte adresář souboru protokolu"
+
+  "Clear"
+  "Vymazat"
 
   "Clipboard history depth"
   "Hloubka historie schránky"
@@ -1405,6 +1456,9 @@ msgcat::mcmset cs {
   "Current working directory"
   "Aktuální pracovní adresář"
 
+  "Default Markdown Export Extension"
+  "Výchozí rozšíření exportu Markdown"
+
   "Default unit for floating point values"
   "Výchozí jednotka pro hodnoty s plovoucí čárkou"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset cs {
 
   "Development"
   "Vývoj"
-
-  "Directory"
-  "Adresář"
 
   "Double-quote"
   "Uvozovky"
@@ -1462,9 +1513,6 @@ msgcat::mcmset cs {
   "Hiding"
   "Skrytí"
 
-  "Highlight matching character"
-  "Zvýrazňovat odpovídající charakteru"
-
   "Host"
   "Hostitel"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset cs {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximální zpět historie (nastavte na 0 pro neomezený počet)"
+
+  "Menu bindings"
+  "Nabídka vazby"
 
   "Mounts"
   "Držáky"
@@ -1528,8 +1579,14 @@ msgcat::mcmset cs {
   "Ruler column"
   "Vládce sloupec"
 
+  "Select Settings Sync Directory"
+  "Vyberte nastavení synchronizace adresáře"
+
   "Select default browsing directory"
   "Vyberte výchozí procházení adresářů"
+
+  "Set"
+  "Nastavit"
 
   "Set Find History Depth"
   "Nastavit hloubku historie hledání"
@@ -1542,6 +1599,12 @@ msgcat::mcmset cs {
 
   "Set default open/save browsing directory to"
   "Nastavit výchozí otevřít/uložit procházení adresáře"
+
+  "Shortcut"
+  "zkratka"
+
+  "Shortcuts"
+  "Klávesové zkratky"
 
   "Show 'Find in Files' result in other pane"
   "Ukázat \"
@@ -1591,6 +1654,12 @@ msgcat::mcmset cs {
   "Symbol placed at end of CSS property"
   "Symbol na konci CSS vlastnosti"
 
+  "Sync Directory"
+  "Synchronizace adresáře"
+
+  "Sync Items"
+  "Synchronizace položek"
+
   "Syntax Coloring"
   "Barevná syntaxe"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset cs {
 
   "Update using release type"
   "Aktualizovat pomocí verze typu"
+
+  "Updates"
+  "Aktualizace"
 
   "Use appropriate EOL character on system"
   "Použít vhodné znaky EOL na systému"
@@ -1724,6 +1796,38 @@ msgcat::mcmset cs {
 
   "Snippet: *"
   "úryvek"
+
+}
+
+# sync.tcl
+msgcat::mcmset cs {
+
+  "Emmet"
+  "mravenec"
+
+  "Export Settings Data"
+  "Exportovat nastavení"
+
+  "Favorites"
+  "Oblíbené"
+
+  "Select TKE settings directory for sync"
+  "Vyberte nastavení adresář synchronizace TKE"
+
+  "Select TKE settings directory to import"
+  "Vyberte TKE nastavení adresář k importu"
+
+  "Settings to Import/Sync"
+  "Nastavení importu/synchronizace"
+
+  "Settings to export"
+  "Nastavení exportu"
+
+  "Skip"
+  "Přeskočit"
+
+  "Themes"
+  "Vzhledy"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset cs {
 # themer.tcl
 msgcat::mcmset cs {
 
-  "   Show All"
-  "Zobrazit vše"
-
-  "   Show Category"
-  "Zobrazit kategorii"
-
-  "   Show Color"
-  "Show Barva"
-
   "   Show Selected Option"
   "Show vybrána možnost"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset cs {
   "Done"
   "Hotovo"
 
-  "Export"
-  "Exportovat"
+  "Enable Copy Mode"
+  "Povolit režim kopírování"
 
   "GIF Photo"
   "GIF foto"
-
-  "Import"
-  "Dovoz"
 
   "Import BMP Data"
   "Importovat data"
@@ -2066,6 +2158,9 @@ msgcat::mcmset cs {
   "One-Color Bitmap"
   "One-Color Bitmap"
 
+  "Paste Theme Items"
+  "Vložit položky"
+
   "Preview"
   "Náhled"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset cs {
   "Save theme changes?"
   "Uložit změny téma?"
 
+  "Search"
+  "Hledat"
+
   "Select Directory"
   "Vybrat adresář"
+
+  "Show All"
+  "Zobrazit vše"
+
+  "Show Category"
+  "Zobrazit kategorii"
+
+  "Show Color"
+  "Zobrazit barvu"
+
+  "Show Selected Option"
+  "Zobrazit vybranou možnost"
+
+  "Show Selected Value"
+  "Vybraná hodnota"
 
   "Swatch"
   "Swatch"
@@ -2087,8 +2200,14 @@ msgcat::mcmset cs {
   "Swatch Colors"
   "Swatch Barvy"
 
+  "Table Copy"
+  "Kopírovat tabulku"
+
   "Table Filters"
   "Tabulka Filtry"
+
+  "Table Search"
+  "Tabulky hledání"
 
   "The current theme has unsaved changes"
   "Aktuální téma má neuložené změny"
@@ -2169,20 +2288,35 @@ msgcat::mcmset cs {
 # General
 msgcat::mcmset cs {
 
+  "Browse"
+  "Procházet"
+
   "Cancel"
   "Storno"
+
+  "Check for Update"
+  "Zkontrolujte, zda aktualizaci"
 
   "Close"
   "Zavřít"
 
+  "Copy"
+  "Kopírovat"
+
   "Delete"
   "Odstranit"
+
+  "Directory"
+  "Adresář"
 
   "Duplicate"
   "Duplicita"
 
   "Enable code folding"
   "Povolit skládání kódu"
+
+  "Export"
+  "Exportovat"
 
   "Favorite"
   "oblíbená položka"
@@ -2192,6 +2326,12 @@ msgcat::mcmset cs {
 
   "Find"
   "Find"
+
+  "Import"
+  "Dovoz"
+
+  "Launcher"
+  "spouštěč"
 
   "Move to Other Pane"
   "Přesunout do jiné tabule"
@@ -2205,6 +2345,12 @@ msgcat::mcmset cs {
   "Open"
   "Open"
 
+  "Plugins"
+  "Plugin"
+
+  "Preferences"
+  "Preference"
+
   "Rename"
   "Odebrat"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset cs {
 
   "Save As"
   "Uložit jako"
+
+  "Sessions"
+  "Návt?vy"
+
+  "Settings"
+  "Nastavení"
 
   "Show console"
   "Zobrazit konzole"
@@ -2232,8 +2384,20 @@ msgcat::mcmset cs {
   "Show tab bar"
   "Zobrazovat lištu karet"
 
+  "Snippets"
+  "Snippet"
+
   "Split View"
   "Rozd?lený panel"
+
+  "Sync"
+  "Synchronizovat"
+
+  "Sync Setup"
+  "Nastavení synchronizace"
+
+  "Templates"
+  "Šablony"
 
   "Theme"
   "Šablona"
