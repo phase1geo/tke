@@ -1,157 +1,54 @@
-changeset:   2302:310a69b4a3e6
-tag:         devel-2.6.6
+changeset:   2320:4d5b90adc8b5
+tag:         devel-2.6.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 20 00:01:41 2016 -0500
+date:        Mon Sep 26 01:01:57 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.6 release
+ChangeLog for devel-2.6.7 release
 
 
-changeset:   2303:1586a0b8b2f4
+changeset:   2321:4ef25183d984
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 20 00:01:47 2016 -0500
+date:        Mon Sep 26 01:02:03 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.6 for changeset 310a69b4a3e6
+Added tag devel-2.6.7 for changeset 4d5b90adc8b5
 
 
-changeset:   2304:b624e7cd1e3b
+changeset:   2322:dd586860d3a0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 20 09:07:30 2016 -0500
-files:       lib/sync.tcl lib/version.tcl
+date:        Mon Sep 26 08:49:19 2016 -0500
+files:       lib/syntax.tcl lib/version.tcl
 description:
-* Checkpointing sync work.
+* Calling check_all_brackets from within syntax language selector.
 
 
-changeset:   2305:d37a0d45007f
+changeset:   2323:94db6ee5c476
+parent:      2319:3a88aa205a66
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 20 23:36:39 2016 -0500
-files:       lib/sync.tcl lib/tke.tcl lib/version.tcl
+date:        Mon Sep 26 22:39:29 2016 -0500
+files:       lib/completer.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Integrating sync wizard into TKE startup.
-* Fixing various issues with sync wizard.
+* Changing bracket highlighting in ctext to be language-specific.
+* Fixing issue with performing bracket checking on file startup.
 
 
-changeset:   2306:71a96440db6d
+changeset:   2324:ac8cb16d8798
+parent:      2323:94db6ee5c476
+parent:      2322:dd586860d3a0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 21 08:34:57 2016 -0500
-files:       lib/sync.tcl lib/version.tcl
+date:        Mon Sep 26 22:43:27 2016 -0500
+files:       lib/version.tcl
 description:
-* More changes to support sync/import.
+* Merging.
 
 
-changeset:   2307:ac8cdf49ef52
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 22 02:41:40 2016 -0500
-files:       data/preferences.tkedat data/sync.tkedat lib/ctext/ctext.tcl lib/emmet.tcl lib/favorites.tcl lib/gui.tcl lib/launcher.tcl lib/menus.tcl lib/plugins.tcl lib/pref_ui.tcl lib/preferences.tcl lib/sessions.tcl lib/snippets.tcl lib/sync.tcl lib/templates.tcl lib/themes.tcl lib/tke.tcl lib/version.tcl
-description:
-* Lots of sync improvements.
-* Working around performance issue with `info hostname` on macOS Sierra.
-* Attempting to fix sync highlighting issue when deleting characters.
-
-
-changeset:   2308:8da906b4a65a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 22 09:04:42 2016 -0500
-files:       lib/sync.tcl lib/version.tcl
-description:
-* Fixing syntax issues in sync code.
-
-
-changeset:   2309:68a1f84df5b2
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 22 23:47:42 2016 -0500
-files:       lib/emmet.tcl lib/favorites.tcl lib/launcher.tcl lib/plugins.tcl lib/preferences.tcl lib/sessions.tcl lib/snippets.tcl lib/sync.tcl lib/templates.tcl lib/themes.tcl lib/version.tcl
-description:
-* Checkpointing sync fixes (getting close now).
-
-
-changeset:   2310:bd6b04ad8769
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 23 00:15:44 2016 -0500
-files:       lib/sync.tcl lib/version.tcl
-description:
-* More fixes to sync namespace.
-
-
-changeset:   2311:2a74c7b7209e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 23 10:13:04 2016 -0500
-files:       lib/sync.tcl lib/version.tcl
-description:
-* Fixing more issues with sync namespace.
-
-
-changeset:   2312:81a5340ea2e6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 23 13:17:16 2016 -0500
-files:       lib/menus.tcl lib/pref_ui.tcl lib/sync.tcl lib/version.tcl
-description:
-* Finishing work on sync namespace.
-* Removing settings import wihin the Edit menu.
-* Changing `Sync Setup` menu to display the settings in the preferences UI if GUI preference editing is enabled.
-
-
-changeset:   2313:acf4084353a6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 23 16:13:51 2016 -0500
-files:       lib/completer.tcl lib/version.tcl
-description:
-* Checkpointing work in progress on bracket checker.
-
-
-changeset:   2314:32e77b159ff5
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Sep 24 12:54:31 2016 -0500
-files:       lib/completer.tcl lib/sync.tcl lib/version.tcl
-description:
-* Checkpointing work on bracket matching.
-* Fixing sync issue when changing sync directories.
-
-
-changeset:   2315:64628e66e722
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 25 00:32:42 2016 -0500
-files:       lib/completer.tcl lib/version.tcl
-description:
-* Checkpointing work on bracket auditing.
-
-
-changeset:   2316:b5c013cd9783
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 25 08:05:12 2016 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Checkpointing work on bracket auditor.
-* Adding get_prev_bracket and get_next_bracket methods to ctext namespace.
-
-
-changeset:   2317:311b8bd3d8c4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 25 08:41:06 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Fixing get_next_bracket method.
-
-
-changeset:   2318:23b6bf6e738c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Sep 25 15:15:44 2016 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/version.tcl
-description:
-* Fixing issues with bracket auditor.
-
-
-changeset:   2319:3a88aa205a66
+changeset:   2325:835aea47147f
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 00:34:35 2016 -0500
-files:       data/preferences.tkedat lib/completer.tcl lib/edit.tcl lib/menus.tcl lib/pref_ui.tcl lib/version.tcl lib/vim.tcl
+date:        Mon Sep 26 23:26:54 2016 -0500
+files:       lib/completer.tcl lib/menus.tcl lib/version.tcl
 description:
-* Adding `Editor/HighlightMismatchingChar` preference item.
-* Adding support for automatic highlighting of mismatching brackets.
-* Removing menu separator between `Jump` menu items in the `Find` menu.
-* Renaming `Highlight matching character` Editor preference pane item to `Automatically highlight mismatching bracket`.
-* Fixing issues with undo/redo when adjusting the insertion cursor in Vim mode.
+* Adding `Find / Find Next Bracket Mismatch` and `Find / Find Previous Bracket Mismatch` menu items.
 
 
