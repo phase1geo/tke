@@ -4665,6 +4665,9 @@ namespace eval gui {
 
     variable trailing_ws_re
 
+    # Clear any snippet tabstops embedded in the text widget
+    [ns snippets]::clear_tabstops $txt.t
+
     # Clean up the text from Vim
     set str [[ns vim]::get_cleaned_content $txt]
 
