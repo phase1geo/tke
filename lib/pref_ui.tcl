@@ -24,8 +24,6 @@
 
 namespace eval pref_ui {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable current_panel     ""
   variable selected_session  ""
   variable selected_language ""
@@ -84,10 +82,10 @@ namespace eval pref_ui {
     $widgets(selsmenu) delete 0 end
 
     # Populate the selection menu
-    $widgets(selsmenu) add radiobutton -label "None" -variable [ns pref_ui]::selected_session -value "None" -command [list [ns pref_ui]::select "None" $language]
+    $widgets(selsmenu) add radiobutton -label "None" -variable pref_ui::selected_session -value "None" -command [list pref_ui::select "None" $language]
     $widgets(selsmenu) add separator
     foreach name [sessions::get_names] {
-      $widgets(selsmenu) add radiobutton -label $name -variable [ns pref_ui]::selected_session -value $name -command [list [ns pref_ui]::select $name $language]
+      $widgets(selsmenu) add radiobutton -label $name -variable pref_ui::selected_session -value $name -command [list pref_ui::select $name $language]
     }
 
   }
@@ -98,7 +96,7 @@ namespace eval pref_ui {
 
     variable widgets
 
-    [ns syntax]::populate_syntax_menu $widgets(sellmenu) [list [ns pref_ui]::select $session] [ns pref_ui]::selected_language "All"
+    syntax::populate_syntax_menu $widgets(sellmenu) [list pref_ui::select $session] pref_ui::selected_language "All"
 
   }
 
@@ -131,7 +129,7 @@ namespace eval pref_ui {
 
     # Setup the prefs
     array unset prefs
-    array set prefs [[ns preferences]::get_loaded $session $language]
+    array set prefs [preferences::get_loaded $session $language]
 
     # If we are only changing language information, remove the sidebar and just display the editor pane
     if {$language ne ""} {
@@ -211,7 +209,7 @@ namespace eval pref_ui {
       set widgets(frame) [ttk::frame .prefwin.f.pf]
 
       set widgets(match_f)  [ttk::frame .prefwin.f.mf]
-      set widgets(match_lb) [listbox .prefwin.f.mf.lb -relief flat -height 10 -yscrollcommand [list [ns utils]::set_yscrollbar .prefwin.f.mf.vb]]
+      set widgets(match_lb) [listbox .prefwin.f.mf.lb -relief flat -height 10 -yscrollcommand [list utils::set_yscrollbar .prefwin.f.mf.vb]]
       ttk::scrollbar .prefwin.f.mf.vb -orient vertical -command [list .pref.f.mf.matches yview]
 
       bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::search_select]
@@ -379,7 +377,7 @@ namespace eval pref_ui {
     variable prefs
 
     if {[winfo exists .prefwin]} {
-      [ns preferences]::save_prefs $session $language [array get prefs]
+      preferences::save_prefs $session $language [array get prefs]
     }
 
   }
@@ -628,12 +626,12 @@ namespace eval pref_ui {
       -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
       -height 25 \
       -editendcommand [list pref_ui::var_edit_end_command] \
-      -xscrollcommand [list [ns utils]::set_xscrollbar $b.f.hb] \
-      -yscrollcommand [list [ns utils]::set_yscrollbar $b.f.vb]]
+      -xscrollcommand [list utils::set_xscrollbar $b.f.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $b.f.vb]]
     ttk::scrollbar $b.f.vb -orient vertical   -command [list $b.f.tl yview]
     ttk::scrollbar $b.f.hb -orient horizontal -command [list $b.f.tl xview]
 
-    [ns utils]::tablelist_configure $widgets(var_table)
+    utils::tablelist_configure $widgets(var_table)
 
     $widgets(var_table) columnconfigure 0 -name var -editable 1 -stretchable 1
     $widgets(var_table) columnconfigure 1 -name val -editable 1 -stretchable 1
@@ -673,12 +671,12 @@ namespace eval pref_ui {
       -stretch all -exportselection 1 -showseparators 1 \
       -height 25 \
       -editendcommand [list pref_ui::lang_edit_end_command] \
-      -xscrollcommand [list [ns utils]::set_xscrollbar $c.hb] \
-      -yscrollcommand [list [ns utils]::set_yscrollbar $c.vb]]
+      -xscrollcommand [list utils::set_xscrollbar $c.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $c.vb]]
     ttk::scrollbar $c.vb -orient vertical   -command [list $c.tl yview]
     ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
 
-    [ns utils]::tablelist_configure $widgets(lang_table)
+    utils::tablelist_configure $widgets(lang_table)
 
     $widgets(lang_table) columnconfigure 0 -name enabled -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::empty_string]
     $widgets(lang_table) columnconfigure 1 -name lang    -editable 0 -resizable 0 -stretchable 0
@@ -925,9 +923,9 @@ namespace eval pref_ui {
     array set orides $prefs(General/LanguagePatternOverrides)
 
     # Add all of the languages
-    foreach lang [lsort [[ns syntax]::get_all_languages]] {
+    foreach lang [lsort [syntax::get_all_languages]] {
       set enabled    [expr [lsearch $dis_langs $lang] == -1]
-      set extensions [[ns syntax]::get_extensions {} $lang]
+      set extensions [syntax::get_extensions {} $lang]
       if {[info exists orides($lang)]} {
         foreach ext $orides($lang) {
           if {[string index $ext 0] eq "+"} {
@@ -980,7 +978,7 @@ namespace eval pref_ui {
     variable prefs
 
     set lang [$tbl cellcget $row,lang -text]
-    set exts [[ns syntax]::get_extensions {} $lang]
+    set exts [syntax::get_extensions {} $lang]
 
     set lang_oride [list]
     foreach ext $exts {
@@ -1750,7 +1748,7 @@ namespace eval pref_ui {
       -yscrollcommand [list $w.tf.vb set]]
     ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
 
-    [ns utils]::tablelist_configure $widgets(shortcut_tl)
+    utils::tablelist_configure $widgets(shortcut_tl)
 
     $widgets(shortcut_tl) columnconfigure 0 -name label    -editable 0 -resizable 0 -stretchable 1
     $widgets(shortcut_tl) columnconfigure 1 -name shortcut -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::shortcut_format]
@@ -2248,14 +2246,14 @@ namespace eval pref_ui {
     set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
       -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
       -editendcommand [list pref_ui::nfs_edit_end_command] \
-      -xscrollcommand [list [ns utils]::set_xscrollbar $c.f.hb] \
-      -yscrollcommand [list [ns utils]::set_yscrollbar $c.f.vb]]
+      -xscrollcommand [list utils::set_xscrollbar $c.f.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $c.f.vb]]
     ttk::scrollbar $c.f.vb -orient vertical   -command [list $c.f.tl yview]
     ttk::scrollbar $c.f.hb -orient horizontal -command [list $c.f.tl xview]
 
     register $widgets(advanced_tl) $wstr NFSMounts
 
-    [ns utils]::tablelist_configure $widgets(advanced_tl)
+    utils::tablelist_configure $widgets(advanced_tl)
 
     $widgets(advanced_tl) columnconfigure 0 -name host   -editable 1 -resizable 1 -stretchable 1
     $widgets(advanced_tl) columnconfigure 1 -name nfs    -editable 1 -resizable 1 -stretchable 1

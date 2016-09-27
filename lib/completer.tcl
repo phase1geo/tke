@@ -69,11 +69,9 @@ namespace eval completer {
   # Handle any changes to the bracket auditing preference value.
   proc handle_bracket_audit {name1 name2 op} {
 
-    variable lang_match_chars
-
     # Update all text widgets
-    foreach key [array names lang_match_chars] {
-      check_all_brackets [lindex [split $key ,] 0]
+    foreach txt [[ns gui]::get_all_texts] {
+      check_all_brackets $txt.t
     }
 
   }
@@ -126,14 +124,14 @@ namespace eval completer {
     bind precomp$txt <Key-quoteleft>    "if {\[[ns completer]::add_btick %W\]} { break }"
     bind precomp$txt <BackSpace>        "[ns completer]::handle_delete %W"
 
-    bind postcomp$txt <Key-bracketleft>  [list [ns completer]::check_brackets %W square]
-    bind postcomp$txt <Key-bracketright> [list [ns completer]::check_brackets %W square]
-    bind postcomp$txt <Key-braceleft>    [list [ns completer]::check_brackets %W curly]
-    bind postcomp$txt <Key-braceright>   [list [ns completer]::check_brackets %W curly]
-    bind postcomp$txt <Key-less>         [list [ns completer]::check_brackets %W angled]
-    bind postcomp$txt <Key-greater>      [list [ns completer]::check_brackets %W angled]
-    bind postcomp$txt <Key-parenleft>    [list [ns completer]::check_brackets %W paren]
-    bind postcomp$txt <Key-parenright>   [list [ns completer]::check_brackets %W paren]
+    bind postcomp$txt <Key-bracketleft>  [list [ns completer]::check_brackets %W square 0]
+    bind postcomp$txt <Key-bracketright> [list [ns completer]::check_brackets %W square 0]
+    bind postcomp$txt <Key-braceleft>    [list [ns completer]::check_brackets %W curly  0]
+    bind postcomp$txt <Key-braceright>   [list [ns completer]::check_brackets %W curly  0]
+    bind postcomp$txt <Key-less>         [list [ns completer]::check_brackets %W angled 0]
+    bind postcomp$txt <Key-greater>      [list [ns completer]::check_brackets %W angled 0]
+    bind postcomp$txt <Key-parenleft>    [list [ns completer]::check_brackets %W paren  0]
+    bind postcomp$txt <Key-parenright>   [list [ns completer]::check_brackets %W paren  0]
     bind postcomp$txt <BackSpace>        [list [ns completer]::check_delete %W]
 
     # Add the bindings
@@ -474,19 +472,25 @@ namespace eval completer {
 
   ######################################################################
   # Checks all of the matches.
-  proc check_all_brackets {txtt {str ""}} {
+  proc check_all_brackets {txtt args} {
+
+    array set opts {
+      -string ""
+      -force  0
+    }
+    array set opts $args
 
     # If a string was supplied, only perform bracket check for brackets found in string
-    if {$str ne ""} {
-      if {[string map {\{ {} \} {}} $str] ne $str} { check_brackets $txtt curly  }
-      if {[string map {\[ {} \] {}} $str] ne $str} { check_brackets $txtt square }
-      if {[string map {( {} ) {}}   $str] ne $str} { check_brackets $txtt paren  }
-      if {[string map {< {} > {}}   $str] ne $str} { check_brackets $txtt angled }
+    if {$opts(-string) ne ""} {
+      if {[string map {\{ {} \} {}} $opts(-string)] ne $opts(-string)} { check_brackets $txtt curly  $opts(-force) }
+      if {[string map {\[ {} \] {}} $opts(-string)] ne $opts(-string)} { check_brackets $txtt square $opts(-force) }
+      if {[string map {( {} ) {}}   $opts(-string)] ne $opts(-string)} { check_brackets $txtt paren  $opts(-force) }
+      if {[string map {< {} > {}}   $opts(-string)] ne $opts(-string)} { check_brackets $txtt angled $opts(-force) }
 
     # Otherwise, check all of the brackets
     } else {
       foreach type [list square curly paren angled] {
-        check_brackets $txtt $type
+        check_brackets $txtt $type $opts(-force)
       }
     }
 
@@ -499,7 +503,7 @@ namespace eval completer {
     variable delete_check
 
     if {$delete_check ne ""} {
-      check_brackets $txtt $delete_check
+      check_brackets $txtt $delete_check 0
       set delete_check ""
     }
 
@@ -507,13 +511,13 @@ namespace eval completer {
 
   ######################################################################
   # Checks all matches in the editing buffer.
-  proc check_brackets {txtt stype} {
+  proc check_brackets {txtt stype force} {
 
     # Clear missing
     $txtt tag remove missing:$stype 1.0 end
 
     # If the mismcatching char option is cleared, don't continue
-    if {![[ns preferences]::get Editor/HighlightMismatchingChar]} {
+    if {!$force && ![[ns preferences]::get Editor/HighlightMismatchingChar]} {
       return
     }
 
@@ -567,7 +571,7 @@ namespace eval completer {
 
     # If the current text buffer was not highlighted, do it now
     if {![[ns preferences]::get Editor/HighlightMismatchingChar]} {
-      check_all_brackets $txtt
+      check_all_brackets $txtt -force 1
     }
 
     # Find the previous/next index
