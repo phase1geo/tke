@@ -1,54 +1,28 @@
-changeset:   2320:4d5b90adc8b5
-tag:         devel-2.6.7
+changeset:   2326:d15636ac4c82
+tag:         devel-2.6.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 01:01:57 2016 -0500
+date:        Mon Sep 26 23:47:56 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.7 release
+ChangeLog for devel-2.6.8 release
 
 
-changeset:   2321:4ef25183d984
+changeset:   2327:09d46a500fcc
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 01:02:03 2016 -0500
+date:        Mon Sep 26 23:48:01 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.7 for changeset 4d5b90adc8b5
+Added tag devel-2.6.8 for changeset d15636ac4c82
 
 
-changeset:   2322:dd586860d3a0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 08:49:19 2016 -0500
-files:       lib/syntax.tcl lib/version.tcl
-description:
-* Calling check_all_brackets from within syntax language selector.
-
-
-changeset:   2323:94db6ee5c476
-parent:      2319:3a88aa205a66
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 22:39:29 2016 -0500
-files:       lib/completer.tcl lib/ctext/ctext.tcl lib/gui.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Changing bracket highlighting in ctext to be language-specific.
-* Fixing issue with performing bracket checking on file startup.
-
-
-changeset:   2324:ac8cb16d8798
-parent:      2323:94db6ee5c476
-parent:      2322:dd586860d3a0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 22:43:27 2016 -0500
-files:       lib/version.tcl
-description:
-* Merging.
-
-
-changeset:   2325:835aea47147f
+changeset:   2328:c14b5f08a403
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 23:26:54 2016 -0500
-files:       lib/completer.tcl lib/menus.tcl lib/version.tcl
+date:        Tue Sep 27 00:32:54 2016 -0500
+files:       data/preferences.tkedat lib/completer.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding `Find / Find Next Bracket Mismatch` and `Find / Find Previous Bracket Mismatch` menu items.
+* Changing default value of `Editor/HighlightMismatchingChar` preference item from 1 to 0.
+* Fixing bug in completer code for Find Next/Previous when `Editor/HighlightMismatchingChar` is disabled.
+* Fixing namespace issue in pref_ui.
 
 
