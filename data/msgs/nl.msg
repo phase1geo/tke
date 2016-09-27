@@ -134,6 +134,39 @@ msgcat::mcmset nl {
   "Image used in tab which, when clicked, closes the tab."
   "Afbeelding gebruikt in de tab die, wanneer geklikt, sluit het tabblad."
 
+  "Image used in the preferences window in the Advanced tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Geavanceerd."
+
+  "Image used in the preferences window in the Appearance tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Weergave."
+
+  "Image used in the preferences window in the Editor tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Editor."
+
+  "Image used in the preferences window in the Emmet tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Emmet."
+
+  "Image used in the preferences window in the Find tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster in het tabblad zoeken."
+
+  "Image used in the preferences window in the General tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Algemeen."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster in de zijbalk tabblad."
+
+  "Image used in the preferences window in the View tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Weergave."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster om aan te geven dat een tabel item is uitgeschakeld."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster om aan te geven dat een tabel item is geselecteerd."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "De afbeelding die wordt gebruikt in het venster snelkoppelingen in het tabblad snelkoppelingen."
+
   "License"
   "Licentie"
 
@@ -249,9 +282,6 @@ msgcat::mcmset nl {
   "Character"
   "Personages"
 
-  "Check for Update"
-  "Zoek naar nieuwe versies"
-
   "Check for update"
   "Controle voor update"
 
@@ -314,9 +344,6 @@ msgcat::mcmset nl {
 
   "Convert case to upper"
   "Geval omzetten in hoofdletters"
-
-  "Copy"
-  "Kopiëren"
 
   "Copy text"
   "Kopieer Tekst"
@@ -486,6 +513,18 @@ msgcat::mcmset nl {
   "Expand Emmet abbreviation"
   "Emmet afkorting uit te breiden"
 
+  "Export As"
+  "Exporteren als"
+
+  "Export complete"
+  "Export voltooid."
+
+  "Export file contents"
+  "De inhoud van het bestand van de uitvoer"
+
+  "Export settings data"
+  "Exporteer Instellingen"
+
   "Favorite file"
   "Favoriete bestand"
 
@@ -498,8 +537,14 @@ msgcat::mcmset nl {
   "Find In Files"
   "Zoeken in bestanden..."
 
-  "Find Matching Pair"
-  "Vinden Matching paar"
+  "Find Matching Bracket"
+  "Vinden Matching beugel"
+
+  "Find Next Bracket Mismatch"
+  "Zoek volgende beugel Mismatch"
+
+  "Find Previous Bracket Mismatch"
+  "Vinden vorige beugel Mismatch"
 
   "Find and Replace"
   "Zoeken en vervangen"
@@ -510,8 +555,14 @@ msgcat::mcmset nl {
   "Find matching character pair"
   "Overeenkomende teken paar vinden"
 
+  "Find next mismatching bracket"
+  "Vinden van de volgende verschillen beugel"
+
   "Find next occurrence"
   "Volgende exemplaar zoeken"
+
+  "Find previous mismatching bracket"
+  "Vinden vorige verschillen beugel"
 
   "Find previous occurrence"
   "Vorige exemplaar zoeken"
@@ -686,9 +737,6 @@ msgcat::mcmset nl {
 
   "Language"
   "Taal"
-
-  "Launcher"
-  "Launcher"
 
   "Line Above Current"
   "Lijn boven de huidige"
@@ -900,12 +948,6 @@ msgcat::mcmset nl {
   "Paste text from clipboard"
   "Tekst plakken vanaf het klembord"
 
-  "Plugins"
-  "Plug-in"
-
-  "Preferences"
-  "Voorkeuren"
-
   "Previous Difference"
   "Vorig verschil"
 
@@ -923,6 +965,12 @@ msgcat::mcmset nl {
 
   "Quit application"
   "Toepassing afsluiten"
+
+  "Recent Directories"
+  "Recente mappen"
+
+  "Recent Files"
+  "Recente bestanden"
 
   "Redo"
   "Opnieuw"
@@ -1047,9 +1095,6 @@ msgcat::mcmset nl {
   "Send feedback"
   "Feedback verzenden"
 
-  "Sessions"
-  "Sessies"
-
   "Set Syntax"
   "Stel Syntax"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset nl {
 
   "Set user preferences to global preferences"
   "Gebruikersvoorkeuren naar algemene voorkeuren instellen"
+
+  "Setup sync settings"
+  "Synchronisatie-instellingen"
 
   "Show Console"
   "Show Console"
@@ -1134,9 +1182,6 @@ msgcat::mcmset nl {
   "Snippet"
   "Snippet"
 
-  "Snippets"
-  "Snippets"
-
   "Sort Tabs"
   "Sorteren Tabs"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset nl {
 
   "Tabs"
   "Tab"
-
-  "Templates"
-  "Templates"
 
   "Text Between Character"
   "Tekst tussen karakter"
@@ -1196,6 +1238,9 @@ msgcat::mcmset nl {
 
   "Transform"
   "Transformeren"
+
+  "Unable to write export file"
+  "Kan niet schrijven exportbestand"
 
   "Undo"
   "Ongedaan maken"
@@ -1345,6 +1390,12 @@ msgcat::mcmset nl {
   "Automatically check for updates on start"
   "Automatisch controleren op updates op start"
 
+  "Automatically highlight matching bracket"
+  "Automatisch markeren overeenkomende beugel"
+
+  "Automatically highlight mismatching brackets"
+  "Automatisch markeren verschillen tussen haakjes"
+
   "Automatically insert vendor prefixes"
   "Automatisch invoegen van leverancier voorvoegsels"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset nl {
   "Behaviors"
   "Gedrag"
 
-  "Browse"
-  "Bladeren"
-
   "Buffer"
   "Buffer"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset nl {
 
   "Choose Logfile Directory"
   "Kies Logfile Directory"
+
+  "Clear"
+  "Wissen"
 
   "Clipboard history depth"
   "Klembord geschiedenis diepte"
@@ -1405,6 +1456,9 @@ msgcat::mcmset nl {
   "Current working directory"
   "Huidige het werk folder"
 
+  "Default Markdown Export Extension"
+  "Standaardextensie Markdown Export"
+
   "Default unit for floating point values"
   "Standaard eenheid voor zwevende puntenwaarden"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset nl {
 
   "Development"
   "Development"
-
-  "Directory"
-  "Bedrijvengids"
 
   "Double-quote"
   "Aanhalingsteken"
@@ -1462,9 +1513,6 @@ msgcat::mcmset nl {
   "Hiding"
   "Verborgenheid"
 
-  "Highlight matching character"
-  "Overeenkomende teken markeren"
-
   "Host"
   "Host"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset nl {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximale ongedaan maken geschiedenis (ingesteld op 0 voor onbeperkt)"
+
+  "Menu bindings"
+  "Menu bindingen"
 
   "Mounts"
   "Beugels"
@@ -1528,8 +1579,14 @@ msgcat::mcmset nl {
   "Ruler column"
   "Liniaal kolom"
 
+  "Select Settings Sync Directory"
+  "Selecteer instellingen Sync Directory"
+
   "Select default browsing directory"
   "Selecteer standaard directory browsing"
+
+  "Set"
+  "Instellen"
 
   "Set Find History Depth"
   "Zoek geschiedenis diepte instellen"
@@ -1542,6 +1599,12 @@ msgcat::mcmset nl {
 
   "Set default open/save browsing directory to"
   "Instellen van de standaard open/sparen directory browsing"
+
+  "Shortcut"
+  "Sneltoets"
+
+  "Shortcuts"
+  "Sneltoetsen"
 
   "Show 'Find in Files' result in other pane"
   "'Zoek in bestanden' resultaat in andere deelvenster weergeven"
@@ -1591,6 +1654,12 @@ msgcat::mcmset nl {
   "Symbol placed at end of CSS property"
   "Teken geplaatst aan einde van CSS-eigenschap"
 
+  "Sync Directory"
+  "Sync Directory"
+
+  "Sync Items"
+  "Sync Items"
+
   "Syntax Coloring"
   "Syntaxiskleuring"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset nl {
 
   "Update using release type"
   "Bijwerken met behulp van release type"
+
+  "Updates"
+  "Updates"
 
   "Use appropriate EOL character on system"
   "Gebruik van juiste EOL karakter op systeem"
@@ -1724,6 +1796,38 @@ msgcat::mcmset nl {
 
   "Snippet: *"
   "Snippet: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset nl {
+
+  "Emmet"
+  "mier"
+
+  "Export Settings Data"
+  "Exporteer Instellingen"
+
+  "Favorites"
+  "Favorieten"
+
+  "Select TKE settings directory for sync"
+  "Selecteer TKE instellingen map voor synchronisatie"
+
+  "Select TKE settings directory to import"
+  "Selecteer TKE instellingen map importeren"
+
+  "Settings to Import/Sync"
+  "Import/Sync instellingen"
+
+  "Settings to export"
+  "Instellingen exporteren"
+
+  "Skip"
+  "Overslaan"
+
+  "Themes"
+  "Thema’s"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset nl {
 # themer.tcl
 msgcat::mcmset nl {
 
-  "   Show All"
-  "Toon alle statussen"
-
-  "   Show Category"
-  "Categorie weergeven"
-
-  "   Show Color"
-  "Toon Kleur"
-
   "   Show Selected Option"
   "Toon geselecteerde optie"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset nl {
   "Done"
   "Klaar"
 
-  "Export"
-  "Exporteer"
+  "Enable Copy Mode"
+  "Inschakelen van de modus kopiëren"
 
   "GIF Photo"
   "GIF Photo"
-
-  "Import"
-  "Invoer"
 
   "Import BMP Data"
   "Gegevens importeren"
@@ -2066,6 +2158,9 @@ msgcat::mcmset nl {
   "One-Color Bitmap"
   "One-Color Bitmap"
 
+  "Paste Theme Items"
+  "Thema Items plakken"
+
   "Preview"
   "Voorvertoning"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset nl {
   "Save theme changes?"
   "Opslaan thema veranderingen?"
 
+  "Search"
+  "Zoeken"
+
   "Select Directory"
   "Kies Directory"
+
+  "Show All"
+  "Toon alles"
+
+  "Show Category"
+  "Categorie weergeven"
+
+  "Show Color"
+  "Toon kleur"
+
+  "Show Selected Option"
+  "Toon geselecteerde optie"
+
+  "Show Selected Value"
+  "Toon geselecteerde waarde"
 
   "Swatch"
   "Staal"
@@ -2087,8 +2200,14 @@ msgcat::mcmset nl {
   "Swatch Colors"
   "Swatch Kleuren"
 
+  "Table Copy"
+  "Tabel kopiëren"
+
   "Table Filters"
   "Tabel Filters"
+
+  "Table Search"
+  "Tabel zoeken"
 
   "The current theme has unsaved changes"
   "De huidige thema heeft opgeslagen wijzigingen"
@@ -2169,20 +2288,35 @@ msgcat::mcmset nl {
 # General
 msgcat::mcmset nl {
 
+  "Browse"
+  "Bladeren"
+
   "Cancel"
   "Annuleren"
+
+  "Check for Update"
+  "Zoek naar nieuwe versies"
 
   "Close"
   "Sluiten"
 
+  "Copy"
+  "Kopiëren"
+
   "Delete"
   "Verwijderen"
+
+  "Directory"
+  "Bedrijvengids"
 
   "Duplicate"
   "Dupliceren"
 
   "Enable code folding"
   "Inschakelen code vouwen"
+
+  "Export"
+  "Exporteer"
 
   "Favorite"
   "Favoriet"
@@ -2192,6 +2326,12 @@ msgcat::mcmset nl {
 
   "Find"
   "Query"
+
+  "Import"
+  "Invoer"
+
+  "Launcher"
+  "Launcher"
 
   "Move to Other Pane"
   "Verplaatsen naar andere Pane"
@@ -2205,6 +2345,12 @@ msgcat::mcmset nl {
   "Open"
   "Openen"
 
+  "Plugins"
+  "Plug-in"
+
+  "Preferences"
+  "Voorkeuren"
+
   "Rename"
   "Hernoem"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset nl {
 
   "Save As"
   "Opslaan als"
+
+  "Sessions"
+  "Sessies"
+
+  "Settings"
+  "Instellingen"
 
   "Show console"
   "Toon console"
@@ -2232,8 +2384,20 @@ msgcat::mcmset nl {
   "Show tab bar"
   "Toon tabbalk"
 
+  "Snippets"
+  "Snippets"
+
   "Split View"
   "Venster opsplitsen"
+
+  "Sync"
+  "Synchroniseren"
+
+  "Sync Setup"
+  "Instelling synchronisatie"
+
+  "Templates"
+  "Templates"
 
   "Theme"
   "Thema"

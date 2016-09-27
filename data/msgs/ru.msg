@@ -134,6 +134,39 @@ msgcat::mcmset ru {
   "Image used in tab which, when clicked, closes the tab."
   "Изображение, используемое в закладке, при нажатии, закрывает вкладку."
 
+  "Image used in the preferences window in the Advanced tab."
+  "Изображение, используемое в окне настройки на вкладке Дополнительно."
+
+  "Image used in the preferences window in the Appearance tab."
+  "Изображение, используемое в окне настройки на вкладке внешний вид."
+
+  "Image used in the preferences window in the Editor tab."
+  "Изображение, используемое в окне настройки на вкладке Редактор."
+
+  "Image used in the preferences window in the Emmet tab."
+  "Изображение, используемое в окне настройки в закладке Эммет."
+
+  "Image used in the preferences window in the Find tab."
+  "Изображение, используемое в окне настройки на вкладке найти."
+
+  "Image used in the preferences window in the General tab."
+  "Изображение, используемое в окне настройки в закладке Общие."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Изображение, используемое в окне настройки на вкладке боковой панели."
+
+  "Image used in the preferences window in the View tab."
+  "Изображение, используемое в окне настройки на вкладке Вид."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Изображение, используемое в окне настройки для указания, что элемент таблицы отменяется."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Изображение, используемое в окне настройки для указания, что элемент таблицы выбран."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "Изображение, используемое в окне ярлыки на вкладке ярлыки."
+
   "License"
   "Лицензия"
 
@@ -249,9 +282,6 @@ msgcat::mcmset ru {
   "Character"
   "Символ"
 
-  "Check for Update"
-  "Проверить обновления"
-
   "Check for update"
   "Проверьте на обновление"
 
@@ -314,9 +344,6 @@ msgcat::mcmset ru {
 
   "Convert case to upper"
   "Преобразовать в верхний случае"
-
-  "Copy"
-  "Копия"
 
   "Copy text"
   "Копирование текста"
@@ -486,6 +513,18 @@ msgcat::mcmset ru {
   "Expand Emmet abbreviation"
   "Разверните узел Emmet аббревиатура"
 
+  "Export As"
+  "Експорт в CSV"
+
+  "Export complete"
+  "Экспорт полной"
+
+  "Export file contents"
+  "Содержимое файла экспорта"
+
+  "Export settings data"
+  "Настройки экспорта"
+
   "Favorite file"
   "Любимый файл"
 
@@ -498,8 +537,14 @@ msgcat::mcmset ru {
   "Find In Files"
   "Найти в файлах"
 
-  "Find Matching Pair"
-  "Найти подходящую пару"
+  "Find Matching Bracket"
+  "Найти соответствующие кронштейн"
+
+  "Find Next Bracket Mismatch"
+  "Найти следующий кронштейн несоответствие"
+
+  "Find Previous Bracket Mismatch"
+  "Найти предыдущий кронштейн несоответствие"
 
   "Find and Replace"
   "Найти и заменить"
@@ -510,8 +555,14 @@ msgcat::mcmset ru {
   "Find matching character pair"
   "Найти совпадающие пары символов"
 
+  "Find next mismatching bracket"
+  "Найти следующий кронштейн"
+
   "Find next occurrence"
   "Найти следующее вхождение"
+
+  "Find previous mismatching bracket"
+  "Найти ранее кронштейн"
 
   "Find previous occurrence"
   "Найти предыдущего вхождения"
@@ -686,9 +737,6 @@ msgcat::mcmset ru {
 
   "Language"
   "Язык"
-
-  "Launcher"
-  "Пусковая установка"
 
   "Line Above Current"
   "Линия выше тока"
@@ -900,12 +948,6 @@ msgcat::mcmset ru {
   "Paste text from clipboard"
   "Вставка текста из буфера обмена"
 
-  "Plugins"
-  "Плагин"
-
-  "Preferences"
-  "Предпочтения"
-
   "Previous Difference"
   "Предыдущая Разница"
 
@@ -923,6 +965,12 @@ msgcat::mcmset ru {
 
   "Quit application"
   "Выход приложения"
+
+  "Recent Directories"
+  "Последние каталоги"
+
+  "Recent Files"
+  "Личные файлы (квитанции):"
 
   "Redo"
   "Вернуть"
@@ -1047,9 +1095,6 @@ msgcat::mcmset ru {
   "Send feedback"
   "Отправить отзыв"
 
-  "Sessions"
-  "сессий"
-
   "Set Syntax"
   "Установите Синтаксис"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset ru {
 
   "Set user preferences to global preferences"
   "Задать параметры пользователя в глобальные настройки"
+
+  "Setup sync settings"
+  "Настройка параметров синхронизации"
 
   "Show Console"
   "Показать консоль"
@@ -1134,9 +1182,6 @@ msgcat::mcmset ru {
   "Snippet"
   "Фрагмента"
 
-  "Snippets"
-  "Обрывки"
-
   "Sort Tabs"
   "Сортировка Вкладки"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset ru {
 
   "Tabs"
   "Флажки"
-
-  "Templates"
-  "Шаблоны"
 
   "Text Between Character"
   "Текст между персонажа"
@@ -1196,6 +1238,9 @@ msgcat::mcmset ru {
 
   "Transform"
   "Преобразовать"
+
+  "Unable to write export file"
+  "Не удается записать файл экспорта"
 
   "Undo"
   "Отменить"
@@ -1345,6 +1390,12 @@ msgcat::mcmset ru {
   "Automatically check for updates on start"
   "Автоматически проверять наличие обновлений при запуске"
 
+  "Automatically highlight matching bracket"
+  "Автоматически выделяет соответствующий кронштейн"
+
+  "Automatically highlight mismatching brackets"
+  "Автоматически выделяет скобки"
+
   "Automatically insert vendor prefixes"
   "Автоматически вставлять префиксов поставщиков"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset ru {
   "Behaviors"
   "Поведение"
 
-  "Browse"
-  "Выберите файл"
-
   "Buffer"
   "Буфер"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset ru {
 
   "Choose Logfile Directory"
   "Выберите каталог файла журнала"
+
+  "Clear"
+  "Очистить"
 
   "Clipboard history depth"
   "Глубина истории буфера обмена"
@@ -1405,6 +1456,9 @@ msgcat::mcmset ru {
   "Current working directory"
   "Текущий рабочий каталог"
 
+  "Default Markdown Export Extension"
+  "Расширение экспорта по умолчанию Markdown"
+
   "Default unit for floating point values"
   "По умолчанию устройство для значений с плавающей запятой"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset ru {
 
   "Development"
   "Разработка"
-
-  "Directory"
-  "Каталог"
 
   "Double-quote"
   "Двойные кавычки"
@@ -1462,9 +1513,6 @@ msgcat::mcmset ru {
   "Hiding"
   "Прячется"
 
-  "Highlight matching character"
-  "Выделите соответствующий символ"
-
   "Host"
   "Хост"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset ru {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Максимальная отмены истории (установить в 0 для неограниченное)"
+
+  "Menu bindings"
+  "Меню привязки"
 
   "Mounts"
   "Кронштейны"
@@ -1528,8 +1579,14 @@ msgcat::mcmset ru {
   "Ruler column"
   "Правитель столбец"
 
+  "Select Settings Sync Directory"
+  "Выберите настройки синхронизации каталога"
+
   "Select default browsing directory"
   "Выберите по умолчанию, просмотр каталога"
+
+  "Set"
+  "Установить"
 
   "Set Find History Depth"
   "Установите глубину истории поиска"
@@ -1542,6 +1599,12 @@ msgcat::mcmset ru {
 
   "Set default open/save browsing directory to"
   "Установить по умолчанию открыть/сохранить просмотра каталога"
+
+  "Shortcut"
+  "Ярлык"
+
+  "Shortcuts"
+  "Страницы"
 
   "Show 'Find in Files' result in other pane"
   "Показать результат «Найти в файлах» в другие панели"
@@ -1591,6 +1654,12 @@ msgcat::mcmset ru {
   "Symbol placed at end of CSS property"
   "Символ в конце CSS свойства"
 
+  "Sync Directory"
+  "Синхронизация каталога"
+
+  "Sync Items"
+  "Синхронизация элементов"
+
   "Syntax Coloring"
   "Подсветка синтаксиса"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset ru {
 
   "Update using release type"
   "Обновление с помощью выпуска типа"
+
+  "Updates"
+  "Обновления"
 
   "Use appropriate EOL character on system"
   "Используйте соответствующий символ EOL на системы"
@@ -1724,6 +1796,38 @@ msgcat::mcmset ru {
 
   "Snippet: *"
   "Фрагмент: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset ru {
+
+  "Emmet"
+  "муравей"
+
+  "Export Settings Data"
+  "Настройки экспорта"
+
+  "Favorites"
+  "Избранное"
+
+  "Select TKE settings directory for sync"
+  "Выберите каталог TKE настройки для синхронизации"
+
+  "Select TKE settings directory to import"
+  "Выберите каталог TKE параметров для импорта"
+
+  "Settings to Import/Sync"
+  "Параметры импорта/синхронизация"
+
+  "Settings to export"
+  "Параметры для экспорта"
+
+  "Skip"
+  "Пропустить"
+
+  "Themes"
+  "Темы"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset ru {
 # themer.tcl
 msgcat::mcmset ru {
 
-  "   Show All"
-  "Показать все"
-
-  "   Show Category"
-  "Показать категорию"
-
-  "   Show Color"
-  "Показать цвет фона"
-
   "   Show Selected Option"
   "Показать выбранные опции"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset ru {
   "Done"
   "Готово"
 
-  "Export"
-  "Экспорт"
+  "Enable Copy Mode"
+  "Включить режим копирования"
 
   "GIF Photo"
   "GIF фото"
-
-  "Import"
-  "Импорт"
 
   "Import BMP Data"
   "Импорт данных"
@@ -2066,6 +2158,9 @@ msgcat::mcmset ru {
   "One-Color Bitmap"
   "Один-битовых цветовых"
 
+  "Paste Theme Items"
+  "Вставить элементы темы"
+
   "Preview"
   "Предварительный просмотр"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset ru {
   "Save theme changes?"
   "Сохранить изменения теме?"
 
+  "Search"
+  "Поиск"
+
   "Select Directory"
   "Выберите папку"
+
+  "Show All"
+  "Посмотреть все"
+
+  "Show Category"
+  "Показать категорию"
+
+  "Show Color"
+  "Показать цвет фона"
+
+  "Show Selected Option"
+  "Показать выбранный параметр"
+
+  "Show Selected Value"
+  "Выберете значение"
 
   "Swatch"
   "Swatch"
@@ -2087,8 +2200,14 @@ msgcat::mcmset ru {
   "Swatch Colors"
   "Swatch цвета"
 
+  "Table Copy"
+  "Копирование таблицы"
+
   "Table Filters"
   "Таблица Фильтры"
+
+  "Table Search"
+  "Поиск таблицы"
 
   "The current theme has unsaved changes"
   "В настоящее время тема имеет несохраненные изменения"
@@ -2169,20 +2288,35 @@ msgcat::mcmset ru {
 # General
 msgcat::mcmset ru {
 
+  "Browse"
+  "Выберите файл"
+
   "Cancel"
   "Отмена"
+
+  "Check for Update"
+  "Проверить обновления"
 
   "Close"
   "Клоуз"
 
+  "Copy"
+  "Копия"
+
   "Delete"
   "Удалить"
+
+  "Directory"
+  "Каталог"
 
   "Duplicate"
   "Удвоить"
 
   "Enable code folding"
   "Включить сворачивание кода"
+
+  "Export"
+  "Экспорт"
 
   "Favorite"
   "Любимый"
@@ -2192,6 +2326,12 @@ msgcat::mcmset ru {
 
   "Find"
   "Находить"
+
+  "Import"
+  "Импорт"
+
+  "Launcher"
+  "Пусковая установка"
 
   "Move to Other Pane"
   "Переехать в другой панели"
@@ -2205,6 +2345,12 @@ msgcat::mcmset ru {
   "Open"
   "Открыть"
 
+  "Plugins"
+  "Плагин"
+
+  "Preferences"
+  "Предпочтения"
+
   "Rename"
   "Переименовать"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset ru {
 
   "Save As"
   "Сохранить как"
+
+  "Sessions"
+  "сессий"
+
+  "Settings"
+  "Настройки"
 
   "Show console"
   "Показать консоль"
@@ -2232,8 +2384,20 @@ msgcat::mcmset ru {
   "Show tab bar"
   "Показать панель вкладок"
 
+  "Snippets"
+  "Обрывки"
+
   "Split View"
   "Разделить"
+
+  "Sync"
+  "Синхронизация"
+
+  "Sync Setup"
+  "Настройка синхронизации"
+
+  "Templates"
+  "Шаблоны"
 
   "Theme"
   "Тема"

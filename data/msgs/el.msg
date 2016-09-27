@@ -134,6 +134,39 @@ msgcat::mcmset el {
   "Image used in tab which, when clicked, closes the tab."
   "Εικόνα που χρησιμοποιούνται στην καρτέλα που, όταν πατηθεί, κλείνει την καρτέλα."
 
+  "Image used in the preferences window in the Advanced tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window in the Appearance tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window in the Editor tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window in the Emmet tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window in the Find tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window in the General tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window in the Sidebar tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Sidebar."
+
+  "Image used in the preferences window in the View tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να υποδείξει ότι ένα στοιχείο πίνακα είναι απενεργοποιημένη."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να υποδείξει ότι ένα στοιχείο του πίνακα επιλέγεται."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο συντομεύσεις στην καρτέλα συντομεύσεις."
+
   "License"
   "Άδεια"
 
@@ -249,9 +282,6 @@ msgcat::mcmset el {
   "Character"
   "Χαρακτήρας"
 
-  "Check for Update"
-  "Έλεγχος για ενημέρωση"
-
   "Check for update"
   "Ελέγχου για την ενημερωμένη έκδοση"
 
@@ -314,9 +344,6 @@ msgcat::mcmset el {
 
   "Convert case to upper"
   "Μετατρέψουν την περίπτωση ανώτερο"
-
-  "Copy"
-  "Αντιγραφή"
 
   "Copy text"
   "Αντιγραφή κειμένου"
@@ -486,6 +513,18 @@ msgcat::mcmset el {
   "Expand Emmet abbreviation"
   "Αναπτύξτε Emmet συντομογραφία"
 
+  "Export As"
+  "Εξαγωγή ως"
+
+  "Export complete"
+  "Η εξαγωγή ολοκληρώθηκε."
+
+  "Export file contents"
+  "Εξαγάγετε τα περιεχόμενα του αρχείου"
+
+  "Export settings data"
+  "Εξαγωγή ρυθμίσεων"
+
   "Favorite file"
   "Αγαπημένο αρχείο"
 
@@ -498,8 +537,14 @@ msgcat::mcmset el {
   "Find In Files"
   "Βρείτε σε αρχεία"
 
-  "Find Matching Pair"
-  "Βρείτε Matching Ζεύγος"
+  "Find Matching Bracket"
+  "Βρείτε ταιριάζουν αγκύλη"
+
+  "Find Next Bracket Mismatch"
+  "Βρείτε επόμενο υποστήριγμα ασυμφωνία"
+
+  "Find Previous Bracket Mismatch"
+  "Βρείτε προηγούμενο στήριγμα ασυμφωνία"
 
   "Find and Replace"
   "Εύρεση και αντικατάσταση"
@@ -510,8 +555,14 @@ msgcat::mcmset el {
   "Find matching character pair"
   "Βρείτε το ταιριαστού ζεύγους χαρακτήρα"
 
+  "Find next mismatching bracket"
+  "Βρείτε επόμενο αμφίδρομα αγκύλη"
+
   "Find next occurrence"
   "Βρείτε την επόμενη εμφάνιση"
+
+  "Find previous mismatching bracket"
+  "Βρείτε προηγούμενο αμφίδρομα αγκύλη"
 
   "Find previous occurrence"
   "Βρείτε την προηγούμενη εμφάνιση"
@@ -686,9 +737,6 @@ msgcat::mcmset el {
 
   "Language"
   "Μητρική Γλώσσα"
-
-  "Launcher"
-  "Προωθητής"
 
   "Line Above Current"
   "Γραμμή πάνω από το ρεύμα"
@@ -900,12 +948,6 @@ msgcat::mcmset el {
   "Paste text from clipboard"
   "Επικόλληση κειμένου από το Πρόχειρο"
 
-  "Plugins"
-  "Plug-in"
-
-  "Preferences"
-  "Προτιμήσεις"
-
   "Previous Difference"
   "Προηγούμενο Διαφορά"
 
@@ -923,6 +965,12 @@ msgcat::mcmset el {
 
   "Quit application"
   "Κλείστε την εφαρμογή"
+
+  "Recent Directories"
+  "Πρόσφατοι Φάκελοι"
+
+  "Recent Files"
+  "Πρόσφατα αρχεία"
 
   "Redo"
   "Επανάληψη"
@@ -1047,9 +1095,6 @@ msgcat::mcmset el {
   "Send feedback"
   "Αποστολή Σχολίων"
 
-  "Sessions"
-  "συνεδρίες"
-
   "Set Syntax"
   "Ορισμός Σύνταξη"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset el {
 
   "Set user preferences to global preferences"
   "Ορίστε τις προτιμήσεις του χρήστη σε σφαιρικές προτιμήσεις"
+
+  "Setup sync settings"
+  "Ρυθμίσετε τις ρυθμίσεις συγχρονισμού"
 
   "Show Console"
   "Εμφάνιση Console"
@@ -1134,9 +1182,6 @@ msgcat::mcmset el {
   "Snippet"
   "Απόσπασμα"
 
-  "Snippets"
-  "Αποσπάσματα"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset el {
 
   "Tabs"
   "Δισκία"
-
-  "Templates"
-  "Πρότυπα"
 
   "Text Between Character"
   "Κείμενο μεταξύ χαρακτήρα"
@@ -1196,6 +1238,9 @@ msgcat::mcmset el {
 
   "Transform"
   "Μετασχηματισμός"
+
+  "Unable to write export file"
+  "Δεν είναι δυνατή η εγγραφή αρχείου εξαγωγής"
 
   "Undo"
   "Αναίρεση"
@@ -1345,6 +1390,12 @@ msgcat::mcmset el {
   "Automatically check for updates on start"
   "Ελέγξουν αυτόματα για ενημερώσεις κατά την εκκίνηση"
 
+  "Automatically highlight matching bracket"
+  "Επισημάνετε αυτόματα στήριγμα που ταιριάζουν"
+
+  "Automatically highlight mismatching brackets"
+  "Επισημάνετε αυτόματα αμφίδρομα αγκύλες"
+
   "Automatically insert vendor prefixes"
   "Αυτόματη εισαγωγή προμηθευτή προθέματα"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset el {
   "Behaviors"
   "Συμπεριφορές"
 
-  "Browse"
-  "Περιήγηση"
-
   "Buffer"
   "Ρυθμιστής"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset el {
 
   "Choose Logfile Directory"
   "Επιλέξτε κατάλογο Logfile"
+
+  "Clear"
+  "Καθαρισμός"
 
   "Clipboard history depth"
   "Βάθος ιστορίας Πρόχειρο"
@@ -1405,6 +1456,9 @@ msgcat::mcmset el {
   "Current working directory"
   "Στον τρέχοντα κατάλογο εργασίας"
 
+  "Default Markdown Export Extension"
+  "Προεπιλεγμένη επέκταση εξαγωγή Markdown"
+
   "Default unit for floating point values"
   "Προεπιλεγμένη μονάδα για τιμές κινητής υποδιαστολής"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset el {
 
   "Development"
   "Ανάπτυξη"
-
-  "Directory"
-  "Φάκελος"
 
   "Double-quote"
   "Διπλών"
@@ -1462,9 +1513,6 @@ msgcat::mcmset el {
   "Hiding"
   "Απόκρυψη"
 
-  "Highlight matching character"
-  "Επισημάνετε που ταιριάζουν χαρακτήρα"
-
   "Host"
   "Διακομιστής"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset el {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Ιστορικό αναιρέσεων μέγιστη (ορίζεται στο 0 για απεριόριστο)"
+
+  "Menu bindings"
+  "Μενού συνδέσεις"
 
   "Mounts"
   "Αναρτήσεις"
@@ -1528,8 +1579,14 @@ msgcat::mcmset el {
   "Ruler column"
   "Στήλη του χάρακα"
 
+  "Select Settings Sync Directory"
+  "Επιλέξτε τις ρυθμίσεις συγχρονισμού καταλόγου"
+
   "Select default browsing directory"
   "Επιλέξτε περιήγηση καταλόγου προεπιλογή"
+
+  "Set"
+  "Σετ"
 
   "Set Find History Depth"
   "Εύρεση ιστορικό βάθος"
@@ -1542,6 +1599,12 @@ msgcat::mcmset el {
 
   "Set default open/save browsing directory to"
   "Ορίστε την προεπιλεγμένη Άνοιγμα/Αποθήκευση περιήγηση κατάλογο για να"
+
+  "Shortcut"
+  "συντόμευση"
+
+  "Shortcuts"
+  "Συντομεύσεις"
 
   "Show 'Find in Files' result in other pane"
   "Εμφάνιση αποτέλεσμα «Βρείτε στα αρχεία» σε άλλο παράθυρο"
@@ -1591,6 +1654,12 @@ msgcat::mcmset el {
   "Symbol placed at end of CSS property"
   "Σύμβολο που τοποθετείται στο τέλος της ιδιοκτησίας CSS"
 
+  "Sync Directory"
+  "Συγχρονισμού καταλόγου"
+
+  "Sync Items"
+  "Αντικείμενα συγχρονισμού"
+
   "Syntax Coloring"
   "Σύνταξη χρωματισμού"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset el {
 
   "Update using release type"
   "Ενημέρωση μέσω τύπος έκδοσης"
+
+  "Updates"
+  "Ενημερώσεις"
 
   "Use appropriate EOL character on system"
   "Χρησιμοποιήστε κατάλληλη EOL χαρακτήρα στο σύστημα"
@@ -1724,6 +1796,38 @@ msgcat::mcmset el {
 
   "Snippet: *"
   "Απόσπασμα: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset el {
+
+  "Emmet"
+  "μυρμήγκι"
+
+  "Export Settings Data"
+  "Εξαγωγή ρυθμίσεων"
+
+  "Favorites"
+  "Αγαπημένα"
+
+  "Select TKE settings directory for sync"
+  "Επιλέξτε TKE ρυθμίσεις καταλόγου για συγχρονισμό"
+
+  "Select TKE settings directory to import"
+  "Επιλέξτε TKE ρυθμίσεις καταλόγου εισαγωγής"
+
+  "Settings to Import/Sync"
+  "Ρυθμίσεις για την εισαγωγή/συγχρονισμό"
+
+  "Settings to export"
+  "Ρυθμίσεις για την εξαγωγή"
+
+  "Skip"
+  "Παράληψη"
+
+  "Themes"
+  "Θέματα"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset el {
 # themer.tcl
 msgcat::mcmset el {
 
-  "   Show All"
-  "   Προβολή όλων"
-
-  "   Show Category"
-  "   Εμφάνιση Κατηγορίας"
-
-  "   Show Color"
-  "   Εμφάνιση Χρώματος Φόντου"
-
   "   Show Selected Option"
   "   Εμφάνιση επιλεγμένων Επιλογή"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset el {
   "Done"
   "Ολοκληρώθηκε"
 
-  "Export"
-  "Εξαγωγή"
+  "Enable Copy Mode"
+  "Ενεργοποιήστε τη λειτουργία αντίγραφο"
 
   "GIF Photo"
   "GIF Φωτογραφία"
-
-  "Import"
-  "Εισαγωγή"
 
   "Import BMP Data"
   "Εισαγωγή BMP Δεδομένων"
@@ -2066,6 +2158,9 @@ msgcat::mcmset el {
   "One-Color Bitmap"
   "Ένα-Color Bitmap"
 
+  "Paste Theme Items"
+  "Επικόλληση στοιχείων θέμα"
+
   "Preview"
   "Προεπισκόπιση"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset el {
   "Save theme changes?"
   "Αποθηκεύστε τις αλλαγές θέμα;"
 
+  "Search"
+  "Αναζήτηση"
+
   "Select Directory"
   "Επιλογή καταλόγου"
+
+  "Show All"
+  "Προβολή Όλων"
+
+  "Show Category"
+  "Εμφάνιση Κατηγορίας"
+
+  "Show Color"
+  "Εμφάνιση Χρώματος Φόντου"
+
+  "Show Selected Option"
+  "Εμφάνιση επιλογής"
+
+  "Show Selected Value"
+  "Εμφάνιση επιλεγμένη τιμή"
 
   "Swatch"
   "Δείγμα υφάσματος"
@@ -2087,8 +2200,14 @@ msgcat::mcmset el {
   "Swatch Colors"
   "Swatch Χρώματα"
 
+  "Table Copy"
+  "Αντίγραφο πίνακα"
+
   "Table Filters"
   "Φίλτρα Πίνακας"
+
+  "Table Search"
+  "Πίνακας αναζήτησης"
 
   "The current theme has unsaved changes"
   "Το σημερινό θέμα έχει μη αποθηκευμένες αλλαγές"
@@ -2169,20 +2288,35 @@ msgcat::mcmset el {
 # General
 msgcat::mcmset el {
 
+  "Browse"
+  "Περιήγηση"
+
   "Cancel"
   "Ακύρωση"
+
+  "Check for Update"
+  "Έλεγχος για ενημέρωση"
 
   "Close"
   "Κλείσιμο"
 
+  "Copy"
+  "Αντιγραφή"
+
   "Delete"
   "Διαγραφή"
+
+  "Directory"
+  "Φάκελος"
 
   "Duplicate"
   "Αναπαραγωγή"
 
   "Enable code folding"
   "Ενεργοποίηση κώδικα πτυσσόμενα"
+
+  "Export"
+  "Εξαγωγή"
 
   "Favorite"
   "Αγαπημένο"
@@ -2192,6 +2326,12 @@ msgcat::mcmset el {
 
   "Find"
   "Find"
+
+  "Import"
+  "Εισαγωγή"
+
+  "Launcher"
+  "Προωθητής"
 
   "Move to Other Pane"
   "Μετακίνηση σε άλλες Παράθυρο"
@@ -2205,6 +2345,12 @@ msgcat::mcmset el {
   "Open"
   "Ανοιχτό"
 
+  "Plugins"
+  "Plug-in"
+
+  "Preferences"
+  "Προτιμήσεις"
+
   "Rename"
   "Μετονομασία"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset el {
 
   "Save As"
   "Αποθήκευση ως"
+
+  "Sessions"
+  "συνεδρίες"
+
+  "Settings"
+  "Ρυθμίσεις"
 
   "Show console"
   "Δείχνουν κονσόλα"
@@ -2232,8 +2384,20 @@ msgcat::mcmset el {
   "Show tab bar"
   "Εμφάνιση γραμμής καρτελών"
 
+  "Snippets"
+  "Αποσπάσματα"
+
   "Split View"
   "Split View"
+
+  "Sync"
+  "Συγχρονισμός"
+
+  "Sync Setup"
+  "Ρύθμιση συγχρονισμού"
+
+  "Templates"
+  "Πρότυπα"
 
   "Theme"
   "Θέμα"

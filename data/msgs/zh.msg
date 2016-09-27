@@ -134,6 +134,39 @@ msgcat::mcmset zh {
   "Image used in tab which, when clicked, closes the tab."
   "用图像的选项卡，单击时，将关闭选项卡。"
 
+  "Image used in the preferences window in the Advanced tab."
+  "在首选项窗口中高级选项卡所用的图像。"
+
+  "Image used in the preferences window in the Appearance tab."
+  "在首选项窗口中外观选项卡中使用的图像。"
+
+  "Image used in the preferences window in the Editor tab."
+  "在首选项窗口中编辑器选项卡中使用的图像。"
+
+  "Image used in the preferences window in the Emmet tab."
+  "在首选项窗口中的埃米特选项卡所用的图像。"
+
+  "Image used in the preferences window in the Find tab."
+  "在首选项窗口中查找选项卡中使用的图像。"
+
+  "Image used in the preferences window in the General tab."
+  "在首选项窗口中的常规选项卡所用的图像。"
+
+  "Image used in the preferences window in the Sidebar tab."
+  "在首选项窗口中的侧边栏选项卡所用的图像。"
+
+  "Image used in the preferences window in the View tab."
+  "在视图选项卡中的首选项窗口中使用的图像。"
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "在首选项窗口用于显示一个表项取消选择图像。"
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "在首选项窗口用于指示表项选中的图像。"
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "在快捷方式窗口中快捷方式选项卡中使用的图像。"
+
   "License"
   "许可证"
 
@@ -249,9 +282,6 @@ msgcat::mcmset zh {
   "Character"
   "字符"
 
-  "Check for Update"
-  "检查更新"
-
   "Check for update"
   "檢查更新"
 
@@ -314,9 +344,6 @@ msgcat::mcmset zh {
 
   "Convert case to upper"
   "转换为上部的案例"
-
-  "Copy"
-  "复制"
 
   "Copy text"
   "复制文本"
@@ -486,6 +513,18 @@ msgcat::mcmset zh {
   "Expand Emmet abbreviation"
   "展开埃米特缩写"
 
+  "Export As"
+  "匯出為："
+
+  "Export complete"
+  "导出完成"
+
+  "Export file contents"
+  "导出文件的内容"
+
+  "Export settings data"
+  "导出设置"
+
   "Favorite file"
   "最喜欢的文件"
 
@@ -498,8 +537,14 @@ msgcat::mcmset zh {
   "Find In Files"
   "在文件中查找"
 
-  "Find Matching Pair"
-  "找對匹配"
+  "Find Matching Bracket"
+  "查找匹配的括号"
+
+  "Find Next Bracket Mismatch"
+  "查找下一个括号不匹配"
+
+  "Find Previous Bracket Mismatch"
+  "找到前括号不匹配"
 
   "Find and Replace"
   "查找和替换"
@@ -510,8 +555,14 @@ msgcat::mcmset zh {
   "Find matching character pair"
   "找到匹配的字符对"
 
+  "Find next mismatching bracket"
+  "查找下一个匹配括号"
+
   "Find next occurrence"
   "查找下一个实例"
+
+  "Find previous mismatching bracket"
+  "发现以前不匹配的括号"
 
   "Find previous occurrence"
   "查找上一个"
@@ -686,9 +737,6 @@ msgcat::mcmset zh {
 
   "Language"
   "语言"
-
-  "Launcher"
-  "发射台"
 
   "Line Above Current"
   "高于当前行"
@@ -900,12 +948,6 @@ msgcat::mcmset zh {
   "Paste text from clipboard"
   "从剪贴板粘贴文本"
 
-  "Plugins"
-  "插件"
-
-  "Preferences"
-  "首选项"
-
   "Previous Difference"
   "上一頁差異"
 
@@ -923,6 +965,12 @@ msgcat::mcmset zh {
 
   "Quit application"
   "退出应用程序"
+
+  "Recent Directories"
+  "最近的目录"
+
+  "Recent Files"
+  "最近的文件"
 
   "Redo"
   "重複"
@@ -1047,9 +1095,6 @@ msgcat::mcmset zh {
   "Send feedback"
   "发送反馈"
 
-  "Sessions"
-  "會議"
-
   "Set Syntax"
   "设置语法"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset zh {
 
   "Set user preferences to global preferences"
   "设置的用户首选项设置为全局首选项"
+
+  "Setup sync settings"
+  "同步设置"
 
   "Show Console"
   "显示控制台"
@@ -1134,9 +1182,6 @@ msgcat::mcmset zh {
   "Snippet"
   "片段"
 
-  "Snippets"
-  "片段"
-
   "Sort Tabs"
   "分类标签"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset zh {
 
   "Tabs"
   "標籤"
-
-  "Templates"
-  "模板"
 
   "Text Between Character"
   "字符之间的文本"
@@ -1196,6 +1238,9 @@ msgcat::mcmset zh {
 
   "Transform"
   "变换"
+
+  "Unable to write export file"
+  "无法写入导出文件"
 
   "Undo"
   "復原"
@@ -1345,6 +1390,12 @@ msgcat::mcmset zh {
   "Automatically check for updates on start"
   "自动检查更新开始"
 
+  "Automatically highlight matching bracket"
+  "自动突出显示匹配的括号"
+
+  "Automatically highlight mismatching brackets"
+  "自动突出显示不匹配的括号"
+
   "Automatically insert vendor prefixes"
   "自动插入供应商前缀"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset zh {
   "Behaviors"
   "行为"
 
-  "Browse"
-  "瀏覽"
-
   "Buffer"
   "缓冲区"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset zh {
 
   "Choose Logfile Directory"
   "选择日志文件目录"
+
+  "Clear"
+  "清空"
 
   "Clipboard history depth"
   "剪贴板历史深度"
@@ -1405,6 +1456,9 @@ msgcat::mcmset zh {
   "Current working directory"
   "当前工作目录"
 
+  "Default Markdown Export Extension"
+  "默认降价出口扩展名"
+
   "Default unit for floating point values"
   "默认单位为浮点值"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset zh {
 
   "Development"
   "开发"
-
-  "Directory"
-  "目錄"
 
   "Double-quote"
   "\"
@@ -1462,9 +1513,6 @@ msgcat::mcmset zh {
   "Hiding"
   "棄保潛逃"
 
-  "Highlight matching character"
-  "突出显示匹配的字符"
-
   "Host"
   "主机"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset zh {
 
   "Maximum undo history (set to 0 for unlimited)"
   "最大撤消历史记录 (设置为 0 表示无限制)"
+
+  "Menu bindings"
+  "菜单绑定"
 
   "Mounts"
   "坐骑"
@@ -1528,8 +1579,14 @@ msgcat::mcmset zh {
   "Ruler column"
   "统治者列"
 
+  "Select Settings Sync Directory"
+  "选择设置同步目录"
+
   "Select default browsing directory"
   "选择默认浏览目录"
+
+  "Set"
+  "设置"
 
   "Set Find History Depth"
   "设置查找历史深度"
@@ -1542,6 +1599,12 @@ msgcat::mcmset zh {
 
   "Set default open/save browsing directory to"
   "设置默认打开/保存浏览目录"
+
+  "Shortcut"
+  "快捷键"
+
+  "Shortcuts"
+  "快捷键"
 
   "Show 'Find in Files' result in other pane"
   "在其他窗格中显示在文件中查找结果"
@@ -1591,6 +1654,12 @@ msgcat::mcmset zh {
   "Symbol placed at end of CSS property"
   "将符号放置在 CSS 属性的结尾"
 
+  "Sync Directory"
+  "同步目录"
+
+  "Sync Items"
+  "同步项目"
+
   "Syntax Coloring"
   "语法着色"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset zh {
 
   "Update using release type"
   "更新使用释放类型"
+
+  "Updates"
+  "更新"
 
   "Use appropriate EOL character on system"
   "在系统上使用适当的 EOL 字符"
@@ -1724,6 +1796,38 @@ msgcat::mcmset zh {
 
   "Snippet: *"
   "片段"
+
+}
+
+# sync.tcl
+msgcat::mcmset zh {
+
+  "Emmet"
+  "蚂蚁"
+
+  "Export Settings Data"
+  "导出设置"
+
+  "Favorites"
+  "收藏"
+
+  "Select TKE settings directory for sync"
+  "将军澳支线设置为选择目录同步"
+
+  "Select TKE settings directory to import"
+  "选择要导入的将军澳支线设置目录"
+
+  "Settings to Import/Sync"
+  "导入/同步设置"
+
+  "Settings to export"
+  "要导出的设置"
+
+  "Skip"
+  "跳过"
+
+  "Themes"
+  "主題"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset zh {
 # themer.tcl
 msgcat::mcmset zh {
 
-  "   Show All"
-  "显示全部"
-
-  "   Show Category"
-  "显示细节"
-
-  "   Show Color"
-  "显示颜色"
-
   "   Show Selected Option"
   "显示当前选项"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset zh {
   "Done"
   "完成"
 
-  "Export"
-  "导出"
+  "Enable Copy Mode"
+  "启用复制模式"
 
   "GIF Photo"
   "GIF图片"
-
-  "Import"
-  "進口"
 
   "Import BMP Data"
   "匯入資料"
@@ -2066,6 +2158,9 @@ msgcat::mcmset zh {
   "One-Color Bitmap"
   "单色位图"
 
+  "Paste Theme Items"
+  "粘贴主题项目"
+
   "Preview"
   "預覽"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset zh {
   "Save theme changes?"
   "保存主题的变化？"
 
+  "Search"
+  "搜索"
+
   "Select Directory"
   "选择目录"
+
+  "Show All"
+  "显示全部"
+
+  "Show Category"
+  "显示类别"
+
+  "Show Color"
+  "显示背景颜色"
+
+  "Show Selected Option"
+  "显示所选的选项"
+
+  "Show Selected Value"
+  "選擇值"
 
   "Swatch"
   "色盘"
@@ -2087,8 +2200,14 @@ msgcat::mcmset zh {
   "Swatch Colors"
   "斯沃琪颜色"
 
+  "Table Copy"
+  "表复制"
+
   "Table Filters"
   "表过滤器"
+
+  "Table Search"
+  "表搜索"
 
   "The current theme has unsaved changes"
   "目前的主题有未保存的更改"
@@ -2169,20 +2288,35 @@ msgcat::mcmset zh {
 # General
 msgcat::mcmset zh {
 
+  "Browse"
+  "瀏覽"
+
   "Cancel"
   "取消"
+
+  "Check for Update"
+  "检查更新"
 
   "Close"
   "关闭"
 
+  "Copy"
+  "复制"
+
   "Delete"
   "刪除"
+
+  "Directory"
+  "目錄"
 
   "Duplicate"
   "复制"
 
   "Enable code folding"
   "启用代码折叠"
+
+  "Export"
+  "导出"
 
   "Favorite"
   "我的最愛"
@@ -2192,6 +2326,12 @@ msgcat::mcmset zh {
 
   "Find"
   "查找"
+
+  "Import"
+  "進口"
+
+  "Launcher"
+  "发射台"
 
   "Move to Other Pane"
   "移动到另一个窗格"
@@ -2205,6 +2345,12 @@ msgcat::mcmset zh {
   "Open"
   "打开"
 
+  "Plugins"
+  "插件"
+
+  "Preferences"
+  "首选项"
+
   "Rename"
   "重命名"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset zh {
 
   "Save As"
   "保存为"
+
+  "Sessions"
+  "會議"
+
+  "Settings"
+  "设置"
 
   "Show console"
   "显示航行控制台"
@@ -2232,8 +2384,20 @@ msgcat::mcmset zh {
   "Show tab bar"
   "显示选项栏"
 
+  "Snippets"
+  "片段"
+
   "Split View"
   "拆分視圖"
+
+  "Sync"
+  "同步"
+
+  "Sync Setup"
+  "同步设置"
+
+  "Templates"
+  "模板"
 
   "Theme"
   "主题"

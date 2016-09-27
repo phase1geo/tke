@@ -134,6 +134,39 @@ msgcat::mcmset he {
   "Image used in tab which, when clicked, closes the tab."
   "התמונה בשימוש ב- tab אשר, בעת לחיצה על הכרטיסיה נסגרת."
 
+  "Image used in the preferences window in the Advanced tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה ' מתקדם '."
+
+  "Image used in the preferences window in the Appearance tab."
+  "תמונת שימוש בחלון העדפות הכרטיסייה ' מראה '."
+
+  "Image used in the preferences window in the Editor tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה ' עורך '."
+
+  "Image used in the preferences window in the Emmet tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה אמט."
+
+  "Image used in the preferences window in the Find tab."
+  "תמונת שימוש בחלון העדפות בהכרטיסיה חיפוש."
+
+  "Image used in the preferences window in the General tab."
+  "תמונת שימוש בחלון העדפות בכרטיסייה ' כללי '."
+
+  "Image used in the preferences window in the Sidebar tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה הצידי."
+
+  "Image used in the preferences window in the View tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה תצוגה."
+
+  "Image used in the preferences window to indicate that a table item is deselected."
+  "התמונה המשמשת בחלון העדפות לציון פריט טבלה אינה מסומנת."
+
+  "Image used in the preferences window to indicate that a table item is selected."
+  "תמונת שימוש בחלון ההעדפות כדי לציין כי פריט הטבלה נבחרה."
+
+  "Image used in the shortcuts window in the Shortcuts tab."
+  "תמונת שימוש בחלון קיצורי דרך הכרטיסייה קיצורי דרך."
+
   "License"
   "רישיון"
 
@@ -249,9 +282,6 @@ msgcat::mcmset he {
   "Character"
   "גרפמה"
 
-  "Check for Update"
-  "הסימון עבור עדכון"
-
   "Check for update"
   "הסימון עבור עדכון"
 
@@ -314,9 +344,6 @@ msgcat::mcmset he {
 
   "Convert case to upper"
   "להמיר את התיק העליון"
-
-  "Copy"
-  "להעתיק"
 
   "Copy text"
   "העתק טקסט"
@@ -486,6 +513,18 @@ msgcat::mcmset he {
   "Expand Emmet abbreviation"
   "הרחב את קיצור אמט"
 
+  "Export As"
+  "לייצא"
+
+  "Export complete"
+  "ייצוא מלאה"
+
+  "Export file contents"
+  "ייצוא תוכן הקובץ"
+
+  "Export settings data"
+  "יצא הגדרות"
+
   "Favorite file"
   "קבצים האהוב עליך"
 
@@ -498,8 +537,14 @@ msgcat::mcmset he {
   "Find In Files"
   "למצוא קבצים"
 
-  "Find Matching Pair"
-  "מצא זוג תואם"
+  "Find Matching Bracket"
+  "למצוא את התאמת מסגרת"
+
+  "Find Next Bracket Mismatch"
+  "למצוא התאמה סוגר הבא"
+
+  "Find Previous Bracket Mismatch"
+  "למצוא התאמה סוגריים קודמים"
 
   "Find and Replace"
   "והחלפה"
@@ -510,8 +555,14 @@ msgcat::mcmset he {
   "Find matching character pair"
   "למצוא זוג תואם תו"
 
+  "Find next mismatching bracket"
+  "למצוא סוגר המאולתר הבא"
+
   "Find next occurrence"
   "למצוא את המופע הבא"
+
+  "Find previous mismatching bracket"
+  "למצוא סוגר המאולתר הקודם"
 
   "Find previous occurrence"
   "למצוא את המופע הקודם"
@@ -686,9 +737,6 @@ msgcat::mcmset he {
 
   "Language"
   "שפה"
-
-  "Launcher"
-  "משגר"
 
   "Line Above Current"
   "קו מעל זרם"
@@ -900,12 +948,6 @@ msgcat::mcmset he {
   "Paste text from clipboard"
   "הדבקת טקסט מהלוח"
 
-  "Plugins"
-  "פלאג אין"
-
-  "Preferences"
-  "אפשרויות קבועות"
-
   "Previous Difference"
   "הבדל קודם"
 
@@ -923,6 +965,12 @@ msgcat::mcmset he {
 
   "Quit application"
   "לצאת מהיישום"
+
+  "Recent Directories"
+  "מדריכים אחרונים"
+
+  "Recent Files"
+  "קבצים אחרונים"
 
   "Redo"
   "בצע שוב"
@@ -1047,9 +1095,6 @@ msgcat::mcmset he {
   "Send feedback"
   "שלח משוב"
 
-  "Sessions"
-  "הפעלות"
-
   "Set Syntax"
   "תחביר קבע"
 
@@ -1076,6 +1121,9 @@ msgcat::mcmset he {
 
   "Set user preferences to global preferences"
   "להגדיר העדפות המשתמש העדפות גלובלית"
+
+  "Setup sync settings"
+  "הגדרת הגדרות סינכרון"
 
   "Show Console"
   "הצג המסוף"
@@ -1134,9 +1182,6 @@ msgcat::mcmset he {
   "Snippet"
   "גזיר"
 
-  "Snippets"
-  "גזירים"
-
   "Sort Tabs"
   "מיון כרטיסיות"
 
@@ -1163,9 +1208,6 @@ msgcat::mcmset he {
 
   "Tabs"
   "טאב"
-
-  "Templates"
-  "תבניות"
 
   "Text Between Character"
   "טקסט בין תו"
@@ -1196,6 +1238,9 @@ msgcat::mcmset he {
 
   "Transform"
   "שינוי צורה"
+
+  "Unable to write export file"
+  "לא ניתן לכתוב בקובץ הייצוא"
 
   "Undo"
   "בטל"
@@ -1345,6 +1390,12 @@ msgcat::mcmset he {
   "Automatically check for updates on start"
   "יבדוק באופן אוטומטי אם יש עדכונים על התחל"
 
+  "Automatically highlight matching bracket"
+  "לסמן באופן אוטומטי סוגריים תואמים"
+
+  "Automatically highlight mismatching brackets"
+  "לסמן באופן אוטומטי סוגריים מרובעים המאולתר"
+
   "Automatically insert vendor prefixes"
   "להוסיף קידומות הספק באופן אוטומטי"
 
@@ -1363,9 +1414,6 @@ msgcat::mcmset he {
   "Behaviors"
   "התנהגויות"
 
-  "Browse"
-  "עיין"
-
   "Buffer"
   "Buffer"
 
@@ -1374,6 +1422,9 @@ msgcat::mcmset he {
 
   "Choose Logfile Directory"
   "לבחור מדריך יומן"
+
+  "Clear"
+  "נקה"
 
   "Clipboard history depth"
   "הלוח היסטוריה עומק"
@@ -1405,6 +1456,9 @@ msgcat::mcmset he {
   "Current working directory"
   "ספריית עבודה נוכחית"
 
+  "Default Markdown Export Extension"
+  "סיומת ברירת המחדל הוזלה ייצוא"
+
   "Default unit for floating point values"
   "ברירת מחדל עבור ערכי הנקודה הצפה"
 
@@ -1413,9 +1467,6 @@ msgcat::mcmset he {
 
   "Development"
   "פיתוח"
-
-  "Directory"
-  "אינדקס"
 
   "Double-quote"
   "כפולות"
@@ -1462,9 +1513,6 @@ msgcat::mcmset he {
   "Hiding"
   "מתחבא"
 
-  "Highlight matching character"
-  "גולת הכותרת התאמה הדמויות מהתוכנ"
-
   "Host"
   "שרת מארח"
 
@@ -1488,6 +1536,9 @@ msgcat::mcmset he {
 
   "Maximum undo history (set to 0 for unlimited)"
   "ביטול מרבית ההיסטוריה (מוגדר כ- 0 עבור ללא הגבלה)"
+
+  "Menu bindings"
+  "תפריט איגודי"
 
   "Mounts"
   "טעינות"
@@ -1528,8 +1579,14 @@ msgcat::mcmset he {
   "Ruler column"
   "הסרגל עמודות"
 
+  "Select Settings Sync Directory"
+  "בחר הגדרות סינכרון הספריה"
+
   "Select default browsing directory"
   "בחר באפשרויות ברירת מחדל גלישה מדריך"
+
+  "Set"
+  "הגדר"
 
   "Set Find History Depth"
   "הגדר חיפוש היסטוריה עומק"
@@ -1542,6 +1599,12 @@ msgcat::mcmset he {
 
   "Set default open/save browsing directory to"
   "הגדרת ברירת המחדל פתיחה/שמירה גלישה מדריך כדי"
+
+  "Shortcut"
+  "קיצור דרך"
+
+  "Shortcuts"
+  "קיצורי דרך"
 
   "Show 'Find in Files' result in other pane"
   "הצגת התוצאה \"
@@ -1591,6 +1654,12 @@ msgcat::mcmset he {
   "Symbol placed at end of CSS property"
   "סמל ממוקם בקצהו של מאפיין CSS"
 
+  "Sync Directory"
+  "סינכרון מדריך"
+
+  "Sync Items"
+  "סינכרון הפריטים"
+
   "Syntax Coloring"
   "צבעי תחביר"
 
@@ -1599,6 +1668,9 @@ msgcat::mcmset he {
 
   "Update using release type"
   "עדכון באמצעות סוג המהדורה"
+
+  "Updates"
+  "עדכונים"
 
   "Use appropriate EOL character on system"
   "שימוש בתו EOL המתאים במערכת"
@@ -1724,6 +1796,38 @@ msgcat::mcmset he {
 
   "Snippet: *"
   "מקטע: *"
+
+}
+
+# sync.tcl
+msgcat::mcmset he {
+
+  "Emmet"
+  "נמליים"
+
+  "Export Settings Data"
+  "יצא הגדרות"
+
+  "Favorites"
+  "מועדפים"
+
+  "Select TKE settings directory for sync"
+  "בחר בבית מדריך הגדרות עבור סינכרון"
+
+  "Select TKE settings directory to import"
+  "בחר ספריית הגדרות בבית לייבוא"
+
+  "Settings to Import/Sync"
+  "הגדרות ייבוא/סינכרון"
+
+  "Settings to export"
+  "הגדרות ייצוא"
+
+  "Skip"
+  "דלג"
+
+  "Themes"
+  "ערכות נושא"
 
 }
 
@@ -1994,15 +2098,6 @@ msgcat::mcmset he {
 # themer.tcl
 msgcat::mcmset he {
 
-  "   Show All"
-  "הצג הכל"
-
-  "   Show Category"
-  "הצג קטגוריה"
-
-  "   Show Color"
-  "להציג צבע"
-
   "   Show Selected Option"
   "הצג את האפשרות שנבחרה"
 
@@ -2036,14 +2131,11 @@ msgcat::mcmset he {
   "Done"
   "סיים"
 
-  "Export"
-  "ייצא"
+  "Enable Copy Mode"
+  "לאפשר מצב העתקה"
 
   "GIF Photo"
   "תמונה GIF"
-
-  "Import"
-  "ייבוא"
 
   "Import BMP Data"
   "ייבוא נתונים BMP"
@@ -2066,6 +2158,9 @@ msgcat::mcmset he {
   "One-Color Bitmap"
   "מפת סיביות צבע אחד"
 
+  "Paste Theme Items"
+  "הדבקת פריטים דירוג"
+
   "Preview"
   "תצוגה מוקדמת"
 
@@ -2078,8 +2173,26 @@ msgcat::mcmset he {
   "Save theme changes?"
   "האם לשמור שינויים בערכות נושא?"
 
+  "Search"
+  "חיפוש"
+
   "Select Directory"
   "בחר סוג אינדקס"
+
+  "Show All"
+  "הצג הכול"
+
+  "Show Category"
+  "להציג קטגוריה"
+
+  "Show Color"
+  "להציג צבע"
+
+  "Show Selected Option"
+  "הצג את האפשרות שנבחרה"
+
+  "Show Selected Value"
+  "ערך נבחר"
 
   "Swatch"
   "סווטש"
@@ -2087,8 +2200,14 @@ msgcat::mcmset he {
   "Swatch Colors"
   "דוגמית צבע צבעים"
 
+  "Table Copy"
+  "העתקת טבלה"
+
   "Table Filters"
   "מסננים טבלה"
+
+  "Table Search"
+  "טבלת חיפוש"
 
   "The current theme has unsaved changes"
   "הנושא הנוכחית שינויים שלא נשמרו"
@@ -2169,20 +2288,35 @@ msgcat::mcmset he {
 # General
 msgcat::mcmset he {
 
+  "Browse"
+  "עיין"
+
   "Cancel"
   "ביטול"
+
+  "Check for Update"
+  "הסימון עבור עדכון"
 
   "Close"
   "סגור"
 
+  "Copy"
+  "להעתיק"
+
   "Delete"
   "מחק"
+
+  "Directory"
+  "אינדקס"
 
   "Duplicate"
   "שכפל"
 
   "Enable code folding"
   "הפעלת קוד מתקפלים"
+
+  "Export"
+  "ייצא"
 
   "Favorite"
   "מועדף"
@@ -2192,6 +2326,12 @@ msgcat::mcmset he {
 
   "Find"
   "לימצו (limtzo)"
+
+  "Import"
+  "ייבוא"
+
+  "Launcher"
+  "משגר"
 
   "Move to Other Pane"
   "לעבור לחלונית אחרת"
@@ -2205,6 +2345,12 @@ msgcat::mcmset he {
   "Open"
   "לִפְתוֹחַ"
 
+  "Plugins"
+  "פלאג אין"
+
+  "Preferences"
+  "אפשרויות קבועות"
+
   "Rename"
   "שינוי שם"
 
@@ -2213,6 +2359,12 @@ msgcat::mcmset he {
 
   "Save As"
   "שמירה בשם"
+
+  "Sessions"
+  "הפעלות"
+
+  "Settings"
+  "הגדרות"
 
   "Show console"
   "הצג המסוף"
@@ -2232,8 +2384,20 @@ msgcat::mcmset he {
   "Show tab bar"
   "הצג סרגל הלשוניות"
 
+  "Snippets"
+  "גזירים"
+
   "Split View"
   "צפו פיצול"
+
+  "Sync"
+  "סינכרון"
+
+  "Sync Setup"
+  "הגדרת סינכרון"
+
+  "Templates"
+  "תבניות"
 
   "Theme"
   "ערכת עיצוב"
