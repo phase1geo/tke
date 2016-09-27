@@ -476,8 +476,6 @@ namespace eval completer {
   # Checks all of the matches.
   proc check_all_brackets {txtt {str ""}} {
 
-    set types [list square curly paren angled]
-
     # If a string was supplied, only perform bracket check for brackets found in string
     if {$str ne ""} {
       if {[string map {\{ {} \} {}} $str] ne $str} { check_brackets $txtt curly  }
@@ -556,9 +554,7 @@ namespace eval completer {
     }
 
     # Highlight all brackets that are missing left stypes
-    if {[llength $missing] > 0} {
-      $txtt tag add missing:$stype {*}$missing
-    }
+    catch { $txtt tag add missing:$stype {*}$missing }
 
   }
 

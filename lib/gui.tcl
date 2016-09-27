@@ -1572,6 +1572,9 @@ namespace eval gui {
         $txt highlight 1.0 end
         $txt see 1.0
 
+        # Check brackets
+        [ns completer]::check_all_brackets $txt.t
+
         # Change the text to unmodified
         $txt edit reset
         lset files $file_index $files_index(modified) 0
