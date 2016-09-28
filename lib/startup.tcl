@@ -58,7 +58,7 @@ namespace eval startup {
     wm withdraw  .wizwin
 
     # Add the tabs
-    foreach window [list welcome share finish] {
+    foreach window [list welcome share advanced directory finish] {
       set widgets($window) [canvas .wizwin.$window -highlightthickness 0 -relief flat -background white -width 640 -height 480]
       $widgets($window) lower [$widgets($window) create image 0 0 -anchor nw -image $images(bg)]
       create_$window
@@ -149,9 +149,39 @@ namespace eval startup {
     make_radiobutton $widgets(share) $locs(left_x) 150 [msgcat::mc "Copy settings from directory"]  startup::type copy  {}
     make_radiobutton $widgets(share) $locs(left_x) 200 [msgcat::mc "Share settings from directory"] startup::type share {}
 
+    # Create a button for the advanced settings
+    make_button $widgets(share) $locs(left_x) 400 [format "%s..." [msgcat::mc "Advanced Settings"]] [list startup::show_panel advanced]
+
     # Create the button bar
     make_button $widgets(share) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel welcome]
-    make_button $widgets(share) 580 $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
+    make_button $widgets(share) 580 $locs(button_y) [msgcat::mc "Next"] \
+      [list if {$startup::type eq "local"} { startup::show_panel finish } else { startup::show_panel directory }]
+
+  }
+
+  ######################################################################
+  # Creates the advanced options for settings.
+  proc create_advanced {} {
+
+    variable widgets
+    variable locs
+
+    # Create the button bar
+    make_button $widgets(advanced) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
+    make_button $widgets(advanced) 580 $locs(button_y) [msgcat::mc "Done"] [list startup::show_panel directory]
+
+  }
+
+  ######################################################################
+  # Creates the directory browse panel.
+  proc create_directory {} {
+
+    variable widgets
+    variable locs
+
+    # Create the button bar
+    make_button $widgets(directory) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
+    make_button $widgets(directory) 580 $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
 
   }
 
@@ -163,8 +193,9 @@ namespace eval startup {
     variable locs
 
     # Create the button bar
-    make_button $widgets(finish) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
-    make_button $widgets(finish) 580 $locs(button_y) [msgcat::mc "Done"] [list destroy .wizwin]
+    make_button $widgets(finish) 500 $locs(button_y) [msgcat::mc "Back"] \
+      [list if {$startup::type eq "local"} { startup::show_panel share } else { startup::show_panel directory }]
+    make_button $widgets(finish) 580 $locs(button_y) [msgcat::mc "Finish"] [list destroy .wizwin]
 
   }
 
