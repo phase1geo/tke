@@ -30,6 +30,7 @@ namespace eval startup {
   array set widgets {}
   array set images  {}
   array set rbs     {}
+  array set items   {}
   array set locs {
     button_y 455
     left_x   300
@@ -45,7 +46,7 @@ namespace eval startup {
     variable type
 
     # Create the images
-    create_images
+    initialize
 
     toplevel     .wizwin
     wm title     .wizwin [msgcat::mc "Welcome"]
@@ -83,6 +84,22 @@ namespace eval startup {
     destroy_images
 
     return [list $type ""]
+
+  }
+
+  ######################################################################
+  # Initializes the startup namespace.
+  proc initialize {} {
+
+    variable items
+
+    # Create the images
+    create_images
+
+    # Initialize the items list
+    foreach {type nspace name} [sync::get_sync_items] {
+      set items($type) 1
+    }
 
   }
 
@@ -150,7 +167,7 @@ namespace eval startup {
     make_radiobutton $widgets(share) $locs(left_x) 200 [msgcat::mc "Share settings from directory"] startup::type share {}
 
     # Create a button for the advanced settings
-    make_button $widgets(share) $locs(left_x) 400 [format "%s..." [msgcat::mc "Advanced Settings"]] [list startup::show_panel advanced]
+    make_button $widgets(share) $locs(left_x) 300 [format "%s..." [msgcat::mc "Advanced Settings"]] [list startup::show_panel advanced]
 
     # Create the button bar
     make_button $widgets(share) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel welcome]
@@ -165,6 +182,13 @@ namespace eval startup {
 
     variable widgets
     variable locs
+
+    # Create the sync item checkbuttons
+    set y 100
+    foreach {type nspace name} [sync::get_sync_items] {
+      make_checkbutton $widgets(advanced) $locs(left_x) $y $name startup::items($type) {}
+      set y [expr $y + 25]
+    }
 
     # Create the button bar
     make_button $widgets(advanced) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
@@ -223,13 +247,11 @@ namespace eval startup {
 
     set csize 10
 
-    # Create the checkbutton
+    # Create the radiobutton
     set cid1 [$c create oval $x $y [expr $x + $csize] [expr $y + $csize] -outline black -fill white]
     set cid  [$c create oval [expr $x + 2] [expr $y + 2] [expr $x + $csize - 2] [expr $y + $csize - 2] -outline white -fill white]
     set tid  [$c create text [expr $x + $csize + 10] [expr $y - 2] -text $txt -anchor nw]
 
-    # $c bind $cid <Enter>    [list $c itemconfigure $cid -fill grey]
-    # $c bind $cid <Leave>    [list $c itemconfigure $cid -fill white]
     $c bind $cid <Button-1> [list startup::toggle_radiobutton $c $cid $var $value $command 1]
 
     set rbs($var,$value) [list $cid $command]
@@ -244,7 +266,7 @@ namespace eval startup {
   }
 
   ######################################################################
-  # Handles any changes to the
+  # Handles any changes to the radiobutton variable.
   proc handle_rb_var_change {c name1 name2 op} {
 
     variable rbs
@@ -273,6 +295,59 @@ namespace eval startup {
     if {$setvar} {
       set $var $value
     }
+
+    # Execute the command
+    if {$command ne ""} {
+      uplevel #0 $command
+    }
+
+  }
+
+  ######################################################################
+  # Create the checkbutton.
+  proc make_checkbutton {c x y txt var command} {
+
+    set ssize 10
+
+    # Create the checkbutton
+    set sid1 [$c create rectangle $x $y [expr $x + $ssize] [expr $y + $ssize] -outline black -fill white]
+    set sid  [$c create rectangle [expr $x + 2] [expr $y + 2] [expr $x + $ssize - 2] [expr $y + $ssize -2] -outline white -fill white]
+    set tid  [$c create text [expr $x + $ssize + 10] [expr $y - 2] -text $txt -anchor nw]
+
+    $c bind $sid <Button-1> [list startup::toggle_checkbutton $c $sid $var $command 1]
+
+    # Make the checkbutton look selected
+    if {[set $var]} {
+      $c itemconfigure $sid -fill black
+    }
+
+    trace add variable $var write [list startup::handle_cb_var_change $c $sid $command]
+
+  }
+
+  ######################################################################
+  # Handles any changes to the checkbutton variable.
+  proc handle_cb_var_change {c sid command name1 name2 op} {
+
+    toggle_checkbutton $c $sid $name1 $command 0
+
+  }
+
+  ######################################################################
+  # Changes the state of the checkbutton.
+  proc toggle_checkbutton {c id var command setvar} {
+
+    puts "In toggle_checkbutton, var: $var, value: [set $var]"
+
+    # Set the state of the widget
+    if {$setvar} {
+      upvar #0 $var v
+      set v [expr $v ^ 1]
+    }
+
+    puts "HERE C"
+    $c itemconfigure $id -fill [expr {[set $var] ? "black" : "white"}]
+    puts "HERE C"
 
     # Execute the command
     if {$command ne ""} {
