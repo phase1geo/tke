@@ -29,6 +29,17 @@ static char img_bits[] = {
 #define img_height 8
 static char img_bits[] = {
 0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
+images,pref_advanced {file advanced.gif dir install}
+images,pref_appearance {file appearance.gif dir install}
+images,pref_checked {file checked.gif dir install}
+images,pref_editor {file editor.gif dir install}
+images,pref_emmet {file emmet.gif dir install}
+images,pref_find {file find.gif dir install}
+images,pref_general {file general.gif dir install}
+images,pref_shortcuts {file shortcut.gif dir install}
+images,pref_sidebar {file sidebar.gif dir install}
+images,pref_unchecked {file unchecked.gif dir install}
+images,pref_view {file view.gif dir install}
 images,sidebar_open {dat {#define bullet_width 5
 #define bullet_height 15
 static char bullet_bits = {
@@ -100,6 +111,7 @@ sidebar,-treestyle {aqua}
 sidebar_scrollbar,-background {#000000}
 sidebar_scrollbar,-foreground {#96907c}
 sidebar_scrollbar,-thickness {15}
+syntax,attention {red}
 syntax,background {#beb69d}
 syntax,border_highlight {gold}
 syntax,comments {#694623}
