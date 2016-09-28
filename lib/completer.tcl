@@ -144,8 +144,18 @@ namespace eval completer {
     set_auto_match_chars $txt.t {} {}
 
     # Create the tag for missing brackets
+    set_bracket_mismatch_color $txt
+
+  }
+
+  ######################################################################
+  # Sets the mismatching bracket color to the attention syntax color.
+  proc set_bracket_mismatch_color {txt} {
+
+    array set theme [[ns theme]::get_syntax_colors]
+
     foreach tag [list square curly paren angled] {
-      $txt tag configure missing:$tag -foreground red
+      $txt tag configure missing:$tag -background $theme(attention)
     }
 
   }

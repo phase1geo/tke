@@ -103,6 +103,7 @@ namespace eval theme {
     syntax,strings                {color {grey} {} {0} {msgcat::mc "Foreground text color for strings."}}
     syntax,warning_width          {color {grey} {} {0} {msgcat::mc "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."}}
     syntax,embedded               {color {#141414} {} {0} {msgcat::mc "Background color displayed in embedded language code."}}
+    syntax,attention              {color {red} {} {0} {msgcat::mc "Foreground color to use for displaying character information that requires the user's attention."}}
     sidebar,-background           {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
     sidebar,-foreground           {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
     sidebar,-selectbackground     {color {1} {} {0} {msgcat::mc "Background color for all sidebar items that are selected."}}
@@ -888,6 +889,7 @@ namespace eval theme {
       [ns syntax]::set_language $txt [[ns syntax]::get_language $txt] -highlight 0
       [ns scroller]::update_markers [winfo parent $txt].vb
       [ns folding]::update_closed $txt
+      [ns completer]::set_bracket_mismatch_color $txt
     }
 
   }
