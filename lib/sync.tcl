@@ -397,13 +397,8 @@ namespace eval sync {
 
     update
 
-    set screenwidth  [winfo screenwidth  .swizwin]
-    set screenheight [winfo screenheight .swizwin]
-    set width        [winfo width        .swizwin]
-    set height       [winfo height       .swizwin]
-
-    # Place the window in the middle of the screen
-    wm geometry .swizwin +[expr ($screenwidth / 2) - ($width / 2)]+[expr ($screenheight / 2) - ($width / 2)]
+    # Center the window on the screen
+    [ns utils]::center_on_screen .swizwin]
 
     # Wait for the window to be closed
     tkwait window .swizwin
