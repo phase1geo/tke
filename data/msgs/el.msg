@@ -1898,6 +1898,9 @@ msgcat::mcmset el {
   "Background color to display when a button-like ttk widget is pressed."
   "Χρώμα φόντου στην οθόνη όταν ένα κουμπί, όπως το widget TTK πιέζεται."
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "Χρώμα φόντου θα χρησιμοποιηθεί για την εμφάνιση πληροφοριών χαρακτήρα που απαιτεί την προσοχή του χρήστη."
+
   "Background color to use for selected text."
   "Χρώμα φόντου που θα χρησιμοποιηθεί για το επιλεγμένο κείμενο."
 

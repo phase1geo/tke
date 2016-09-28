@@ -1898,6 +1898,9 @@ msgcat::mcmset he {
   "Background color to display when a button-like ttk widget is pressed."
   "צבע הרקע כדי להציג בעת וידג'ט ttk כמו הלחצן נלחץ."
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "צבע הרקע לשימוש לשם הצגת מידע תו דורש תשומת לב של המשתמש."
+
   "Background color to use for selected text."
   "צבע הרקע לשימוש עבור הטקסט הנבחר."
 

@@ -1898,6 +1898,9 @@ msgcat::mcmset de {
   "Background color to display when a button-like ttk widget is pressed."
   "Hintergrundfarbe angezeigt, wenn eine knopfartige TTK Widget gedrückt wird."
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "Hintergrundfarbe zu verwenden, zum Anzeigen von Charakterinformationen, die die Aufmerksamkeit des Benutzers erfordert."
+
   "Background color to use for selected text."
   "Hintergrundfarbe für ausgewählten Text zu verwenden."
 

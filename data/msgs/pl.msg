@@ -1898,6 +1898,9 @@ msgcat::mcmset pl {
   "Background color to display when a button-like ttk widget is pressed."
   "Kolor tła do wyświetlenia, gdy widget ttk jak przycisk jest naciśnięty."
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "Kolor tła dla wyświetlanie informacje o postaci, które wymaga użytkownika uwagi."
+
   "Background color to use for selected text."
   "Kolor tła dla zaznaczonego tekstu."
 
