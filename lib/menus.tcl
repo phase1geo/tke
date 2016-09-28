@@ -1971,20 +1971,28 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Jump Forward"] -state disabled
       }
       if {[gui::jump_to_difference {} 1 0]} {
-        $mb entryconfigure [msgcat::mc "Next Difference"]           -state normal
-        $mb entryconfigure [msgcat::mc "Previous Difference"]       -state normal
+        $mb entryconfigure [msgcat::mc "Next Difference"]     -state normal
+        $mb entryconfigure [msgcat::mc "Previous Difference"] -state normal
       } else {
-        $mb entryconfigure [msgcat::mc "Next Difference"]           -state disabled
-        $mb entryconfigure [msgcat::mc "Previous Difference"]       -state disabled
+        $mb entryconfigure [msgcat::mc "Next Difference"]     -state disabled
+        $mb entryconfigure [msgcat::mc "Previous Difference"] -state disabled
       }
       if {[gui::show_difference_line_change {} 0]} {
         $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Find Matching Bracket"]          -state normal
-      $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"]     -state normal
-      $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state normal
+      $mb entryconfigure [msgcat::mc "Find Matching Bracket"] -state normal
+      if {[completer::goto_mismatch next -check 1]} {
+        $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"] -state disabled
+      }
+      if {[completer::goto_mismatch prev -check 1]} {
+        $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state normal
+      } else {
+        $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state disabled
+      }
       $mb entryconfigure [msgcat::mc "Markers"] -state normal
     }
 

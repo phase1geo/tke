@@ -563,41 +563,54 @@ namespace eval completer {
   }
 
   ######################################################################
-  # Highlight the bracket mismatches and make sure that the
-  proc goto_mismatch {dir} {
+  # Places the cursor on the next or previous mismatching bracket and
+  # makes it visible in the editing window.  If the -check option is
+  # set, returns 0 to indicate that the given option is invalid; otherwise,
+  # returns 1.
+  proc goto_mismatch {dir args} {
+
+    array set opts {
+      -check 0
+    }
+    array set opts $args
 
     # Get the current text widget
     set txtt [[ns gui]::current_txt {}].t
 
     # If the current text buffer was not highlighted, do it now
-    if {![[ns preferences]::get Editor/HighlightMismatchingChar]} {
-      check_all_brackets $txtt -force 1
-    }
+    if {[[ns preferences]::get Editor/HighlightMismatchingChar]} {
 
-    # Find the previous/next index
-    if {$dir eq "next"} {
-      set index end
-      foreach type [list square curly paren angled] {
-        lassign [$txtt tag nextrange missing:$type insert] first
-        if {($first ne "") && [$txtt compare $first < $index]} {
-          set index $first
+      # Find the previous/next index
+      if {$dir eq "next"} {
+        set index end
+        foreach type [list square curly paren angled] {
+          lassign [$txtt tag nextrange missing:$type "insert+1c"] first
+          if {($first ne "") && [$txtt compare $first < $index]} {
+            set index $first
+          }
+        }
+      } else {
+        set index 1.0
+        foreach type [list square curly paren angled] {
+          lassign [$txtt tag prevrange missing:$type insert] first
+          if {($first ne "") && [$txtt compare $first > $index]} {
+            set index $first
+          }
         }
       }
-    } else {
-      set index 1.0
-      foreach type [list square curly paren angled] {
-        lassign [$txtt tag prevrange missing:$type insert] first
-        if {($first ne "") && [$txtt compare $first > $index]} {
-          set index $first
+
+      # Make sure that the current bracket is in view
+      if {[lsearch [$txtt tag names $index] missing:*] != -1} {
+        if {!$opts(-check)} {
+          ::tk::TextSetCursor $txtt $index
+          $txtt see $index
         }
+        return 1
       }
+
     }
 
-    # Make sure that the current bracket is in view
-    if {[lsearch [$txtt tag names $index] missing:*] != -1} {
-      ::tk::TextSetCursor $txtt $index
-      $txtt see $index
-    }
+    return 0
 
   }
 
