@@ -69,7 +69,7 @@ namespace eval utils {
     ~   Key-asciitilde
     \n  Return
   }
-  
+
   array set tablelistopts {
     selectbackground   RoyalBlue1
     selectforeground   white
@@ -115,17 +115,17 @@ namespace eval utils {
     return $stack
 
   }
-  
+
   ######################################################################
   # Configure global tablelist options.
   proc tablelist_configure {w} {
-    
+
     variable tablelistopts
-    
+
     foreach {key value} [array get tablelistopts] {
       $w configure -$key $value
     }
-    
+
   }
 
   ###########################################################################
@@ -668,13 +668,27 @@ namespace eval utils {
   ######################################################################
   # Returns the full language name at the current insertion index.
   proc get_current_lang {txt} {
-    
+
     if {[set lang [ctext::get_lang $txt insert]] eq ""} {
       set lang [[ns syntax]::get_language $txt]
     }
-    
+
     return $lang
-    
+
   }
-  
+
+  ######################################################################
+  # Centers the specified window on the screen.
+  proc center_on_screen {win} {
+
+    set screenwidth  [winfo screenwidth  $win]
+    set screenheight [winfo screenheight $win]
+    set width        [winfo width        $win]
+    set height       [winfo height       $win]
+
+    # Place the window in the middle of the screen
+    wm geometry $win +[expr ($screenwidth / 2) - ($width / 2)]+[expr ($screenheight / 2) - ($height / 2)]
+
+  }
+
 }
