@@ -1898,6 +1898,9 @@ msgcat::mcmset ja {
   "Background color to display when a button-like ttk widget is pressed."
   "ボタンのようなTTKウィジェットが押されたときに表示する背景色です。"
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "ユーザーの注意を必要とする文字情報の表示に使用する背景色。"
+
   "Background color to use for selected text."
   "選択したテキストに使用する背景色です。"
 

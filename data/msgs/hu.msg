@@ -1898,6 +1898,9 @@ msgcat::mcmset hu {
   "Background color to display when a button-like ttk widget is pressed."
   "Háttérszínt jelenik meg, amikor egy gomb-szerű TTK widgetet van nyomva."
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "Jellegű információt, a felhasználó a figyelmet igénylő megjelenítésére használt háttérszín."
+
   "Background color to use for selected text."
   "Háttérszínt használja a kiválasztott szöveget."
 

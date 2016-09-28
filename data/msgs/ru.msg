@@ -1898,6 +1898,9 @@ msgcat::mcmset ru {
   "Background color to display when a button-like ttk widget is pressed."
   "Цвет фона для отображения при нажатии кнопка как ТТК виджета."
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "Цвет фона, используемый для отображения символов информации, которая требует внимания пользователя."
+
   "Background color to use for selected text."
   "Цвет фона для выбранного текста."
 

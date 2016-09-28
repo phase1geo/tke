@@ -1898,6 +1898,9 @@ msgcat::mcmset zh {
   "Background color to display when a button-like ttk widget is pressed."
   "要显示按下一个按钮类似 ttk 小部件时的背景颜色。"
 
+  "Background color to use for displaying character information that requires the user's attention."
+  "用来显示字符信息，需要用户注意的背景色。"
+
   "Background color to use for selected text."
   "要用于所选文本的背景色。"
 
