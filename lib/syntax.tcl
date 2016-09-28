@@ -324,6 +324,7 @@ namespace eval syntax {
       ctext::setBlockCommentPatterns $txt {} {}
       ctext::setLineCommentPatterns  $txt {} {}
       ctext::setStringPatterns       $txt {} {}
+      ctext::setAutoMatchChars       $txt {} {}
     }
 
     [winfo parent $txt] configure -background $theme(background)
