@@ -32,8 +32,12 @@ namespace eval startup {
   array set rbs     {}
   array set items   {}
   array set locs {
+    header_y 50
+    first_y  125
     button_y 455
-    left_x   300
+    header_x 240
+    left_x   275
+    right_x  610
   }
 
   ######################################################################
@@ -44,6 +48,7 @@ namespace eval startup {
     variable images
     variable current_panel
     variable type
+    variable items
 
     # Create the images
     initialize
@@ -83,7 +88,7 @@ namespace eval startup {
     # Destroy the images
     destroy_images
 
-    return [list $type ""]
+    return [list $type "" [array get items]]
 
   }
 
@@ -149,6 +154,13 @@ namespace eval startup {
     variable widgets
     variable locs
 
+    # Header
+    make_header $widgets(welcome) $locs(header_x) $locs(header_y) [format "%s TKE!" [msgcat::mc "Welcome To"]]
+    
+    # Add text
+    make_text $widgets(welcome) $locs(header_x) $locs(first_y) \
+      [msgcat::mc "Thanks for using TKE the advanced programmer's editor.  Since this your first time using TKE, let's help you get things set up.  Click 'Next' below to get things going."]
+    
     # Create Next button
     make_button $widgets(welcome) 580 $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel share]
 
@@ -161,10 +173,13 @@ namespace eval startup {
     variable widgets
     variable locs
 
+    # Header
+    make_header $widgets(share) $locs(header_x) $locs(header_y) [msgcat::mc "New Setting Options"]
+    
     # Create the radiobutton
-    make_radiobutton $widgets(share) $locs(left_x) 100 [msgcat::mc "Create settings locally"]       startup::type local {}
-    make_radiobutton $widgets(share) $locs(left_x) 150 [msgcat::mc "Copy settings from directory"]  startup::type copy  {}
-    make_radiobutton $widgets(share) $locs(left_x) 200 [msgcat::mc "Share settings from directory"] startup::type share {}
+    make_radiobutton $widgets(share) $locs(left_x) [expr $locs(first_y) + 0]   [msgcat::mc "Create settings locally"]       startup::type local {}
+    make_radiobutton $widgets(share) $locs(left_x) [expr $locs(first_y) + 50]  [msgcat::mc "Copy settings from directory"]  startup::type copy  {}
+    make_radiobutton $widgets(share) $locs(left_x) [expr $locs(first_y) + 100] [msgcat::mc "Share settings from directory"] startup::type share {}
 
     # Create a button for the advanced settings
     make_button $widgets(share) $locs(left_x) 300 [format "%s..." [msgcat::mc "Advanced Settings"]] [list startup::show_panel advanced]
@@ -183,16 +198,18 @@ namespace eval startup {
     variable widgets
     variable locs
 
+    # Header
+    make_header $widgets(advanced) $locs(header_x) $locs(header_y) [msgcat::mc "Select Settings To Use"]
+    
     # Create the sync item checkbuttons
-    set y 100
+    set y $locs(first_y)
     foreach {type nspace name} [sync::get_sync_items] {
       make_checkbutton $widgets(advanced) $locs(left_x) $y $name startup::items($type) {}
       set y [expr $y + 25]
     }
 
     # Create the button bar
-    make_button $widgets(advanced) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
-    make_button $widgets(advanced) 580 $locs(button_y) [msgcat::mc "Done"] [list startup::show_panel directory]
+    make_button $widgets(advanced) 580 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
 
   }
 
@@ -203,6 +220,9 @@ namespace eval startup {
     variable widgets
     variable locs
 
+    # Header
+    make_header $widgets(directory) $locs(header_x) $locs(header_y) [msgcat::mc "Select Directory"]
+    
     # Create the button bar
     make_button $widgets(directory) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
     make_button $widgets(directory) 580 $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
@@ -215,12 +235,61 @@ namespace eval startup {
 
     variable widgets
     variable locs
+    
+    # Header
+    make_header $widgets(finish) $locs(header_x) $locs(header_y) [format "%s!" [msgcat::mc "Setup done"]]
 
     # Create the button bar
     make_button $widgets(finish) 500 $locs(button_y) [msgcat::mc "Back"] \
       [list if {$startup::type eq "local"} { startup::show_panel share } else { startup::show_panel directory }]
     make_button $widgets(finish) 580 $locs(button_y) [msgcat::mc "Finish"] [list destroy .wizwin]
 
+  }
+  
+  ###########
+  # WIDGETS #
+  ###########
+  
+  ######################################################################
+  # Creates a header
+  proc make_header {c x y txt} {
+    
+    set id [$c create text $x $y -anchor nw -font "-size 24" -text $txt -fill black]
+    
+    return $id
+    
+  }
+  
+  ######################################################################
+  # Creates a text widget that automatically wraps.
+  proc make_text {c x y txt} {
+    
+    variable locs
+    
+    set id [$c create text $x $y -anchor nw -text "" -fill black]
+    
+    # Create wrapped text
+    set lines      [list]
+    set text_width [expr $locs(right_x) - $locs(left_x)]
+    
+    set line ""
+    foreach word $txt {
+      if {[font measure [$c itemcget $id -font] "$line $word"] < $text_width} {
+        append line " $word"
+      } else {
+        lappend lines $line
+        set line ""
+      }
+    }
+    
+    if {$line ne ""} {
+      lappend lines $line
+    }
+    
+    $c itemconfigure $id -text [join $lines "\n"]
+    
+    return $id
+    
   }
 
   ######################################################################
@@ -252,7 +321,9 @@ namespace eval startup {
     set cid  [$c create oval [expr $x + 2] [expr $y + 2] [expr $x + $csize - 2] [expr $y + $csize - 2] -outline white -fill white]
     set tid  [$c create text [expr $x + $csize + 10] [expr $y - 2] -text $txt -anchor nw]
 
-    $c bind $cid <Button-1> [list startup::toggle_radiobutton $c $cid $var $value $command 1]
+    $c bind $cid1 <Button-1> [list set $var $value]
+    $c bind $cid  <Button-1> [list set $var $value]
+    $c bind $tid  <Button-1> [list set $var $value]
 
     set rbs($var,$value) [list $cid $command]
 
@@ -264,7 +335,7 @@ namespace eval startup {
     trace add variable $var write [list startup::handle_rb_var_change $c]
 
   }
-
+  
   ######################################################################
   # Handles any changes to the radiobutton variable.
   proc handle_rb_var_change {c name1 name2 op} {
@@ -273,13 +344,17 @@ namespace eval startup {
 
     lassign $rbs($name1,[set $name1]) cid command
 
-    toggle_radiobutton $c $cid $name1 [set $name1] $command 0
+    if {$name2 ne ""} {
+      toggle_radiobutton $c $cid $name1($name2) [set $name1($name2)] $command
+    } else {
+      toggle_radiobutton $c $cid $name1 [set $name1] $command
+    }
 
   }
 
   ######################################################################
   # Toggles the radiobutton.
-  proc toggle_radiobutton {c id var value command setvar} {
+  proc toggle_radiobutton {c id var value command} {
 
     variable rbs
 
@@ -290,11 +365,6 @@ namespace eval startup {
 
     # Make the item
     $c itemconfigure $id -fill black
-
-    # Update the variable to the given value
-    if {$setvar} {
-      set $var $value
-    }
 
     # Execute the command
     if {$command ne ""} {
@@ -314,7 +384,9 @@ namespace eval startup {
     set sid  [$c create rectangle [expr $x + 2] [expr $y + 2] [expr $x + $ssize - 2] [expr $y + $ssize -2] -outline white -fill white]
     set tid  [$c create text [expr $x + $ssize + 10] [expr $y - 2] -text $txt -anchor nw]
 
-    $c bind $sid <Button-1> [list startup::toggle_checkbutton $c $sid $var $command 1]
+    $c bind $sid1 <Button-1> [list startup::toggle_value $var]
+    $c bind $sid  <Button-1> [list startup::toggle_value $var]
+    $c bind $tid  <Button-1> [list startup::toggle_value $var]
 
     # Make the checkbutton look selected
     if {[set $var]} {
@@ -324,30 +396,32 @@ namespace eval startup {
     trace add variable $var write [list startup::handle_cb_var_change $c $sid $command]
 
   }
+  
+  ######################################################################
+  # Toggles the given value
+  proc toggle_value {var} {
+    
+    set $var [expr [set $var] ^ 1]
+    
+  }
 
   ######################################################################
   # Handles any changes to the checkbutton variable.
   proc handle_cb_var_change {c sid command name1 name2 op} {
 
-    toggle_checkbutton $c $sid $name1 $command 0
+    if {$name2 ne ""} {
+      toggle_checkbutton $c $sid "$name1\($name2\)" $command
+    } else {
+      toggle_checkbutton $c $sid $name1 $command
+    }
 
   }
 
   ######################################################################
   # Changes the state of the checkbutton.
-  proc toggle_checkbutton {c id var command setvar} {
+  proc toggle_checkbutton {c id var command} {
 
-    puts "In toggle_checkbutton, var: $var, value: [set $var]"
-
-    # Set the state of the widget
-    if {$setvar} {
-      upvar #0 $var v
-      set v [expr $v ^ 1]
-    }
-
-    puts "HERE C"
     $c itemconfigure $id -fill [expr {[set $var] ? "black" : "white"}]
-    puts "HERE C"
 
     # Execute the command
     if {$command ne ""} {

@@ -5,8 +5,8 @@ source startup.tcl
 source utils.tcl
 source sync.tcl
 
-lassign [startup::create] type dir
+lassign [startup::create] type dir items
 
-puts "type: $type, dir: $dir"
+puts "type: $type, dir: $dir, items: $items"
 
 destroy .
