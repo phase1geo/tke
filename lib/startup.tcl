@@ -26,6 +26,7 @@ namespace eval startup {
 
   variable current_panel ""
   variable type          "local"
+  variable directory     ""
 
   array set widgets {}
   array set images  {}
@@ -33,11 +34,19 @@ namespace eval startup {
   array set items   {}
   array set locs {
     header_y 50
+    help_y   100
     first_y  125
+    second_y 200
     button_y 455
     header_x 240
-    left_x   275
+    left_x   250
+    help_x   270
     right_x  610
+    back_x   500
+    next_x   570
+  }
+  array set colors {
+    help grey50
   }
 
   ######################################################################
@@ -48,13 +57,14 @@ namespace eval startup {
     variable images
     variable current_panel
     variable type
+    variable directory
     variable items
 
     # Create the images
     initialize
 
     toplevel     .wizwin
-    wm title     .wizwin [msgcat::mc "Welcome"]
+    wm title     .wizwin [format "TKE %s" [msgcat::mc "Welcome"]]
     wm geometry  .wizwin 640x480
     wm resizable .wizwin 0 0
     wm transient .wizwin .
@@ -64,7 +74,7 @@ namespace eval startup {
     wm withdraw  .wizwin
 
     # Add the tabs
-    foreach window [list welcome share advanced directory finish] {
+    foreach window [list welcome settings copy share directory finish] {
       set widgets($window) [canvas .wizwin.$window -highlightthickness 0 -relief flat -background white -width 640 -height 480]
       $widgets($window) lower [$widgets($window) create image 0 0 -anchor nw -image $images(bg)]
       create_$window
@@ -88,7 +98,7 @@ namespace eval startup {
     # Destroy the images
     destroy_images
 
-    return [list $type "" [array get items]]
+    return [list $type $directory [array get items]]
 
   }
 
@@ -156,60 +166,82 @@ namespace eval startup {
 
     # Header
     make_header $widgets(welcome) $locs(header_x) $locs(header_y) [format "%s TKE!" [msgcat::mc "Welcome To"]]
-    
+
     # Add text
     make_text $widgets(welcome) $locs(header_x) $locs(first_y) \
-      [msgcat::mc "Thanks for using TKE the advanced programmer's editor.  Since this your first time using TKE, let's help you get things set up.  Click 'Next' below to get things going."]
-    
+      [msgcat::mc "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."]
+
     # Create Next button
-    make_button $widgets(welcome) 580 $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel share]
+    make_button $widgets(welcome) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel settings]
 
   }
 
   ######################################################################
   # Create the import/share window.
-  proc create_share {} {
+  proc create_settings {} {
 
     variable widgets
     variable locs
+    variable colors
 
     # Header
-    make_header $widgets(share) $locs(header_x) $locs(header_y) [msgcat::mc "New Setting Options"]
-    
-    # Create the radiobutton
-    make_radiobutton $widgets(share) $locs(left_x) [expr $locs(first_y) + 0]   [msgcat::mc "Create settings locally"]       startup::type local {}
-    make_radiobutton $widgets(share) $locs(left_x) [expr $locs(first_y) + 50]  [msgcat::mc "Copy settings from directory"]  startup::type copy  {}
-    make_radiobutton $widgets(share) $locs(left_x) [expr $locs(first_y) + 100] [msgcat::mc "Share settings from directory"] startup::type share {}
+    make_header $widgets(settings) $locs(header_x) $locs(header_y) [msgcat::mc "Settings Options"]
 
     # Create a button for the advanced settings
-    make_button $widgets(share) $locs(left_x) 300 [format "%s..." [msgcat::mc "Advanced Settings"]] [list startup::show_panel advanced]
+    set id [make_button $widgets(settings) $locs(left_x) 400 [msgcat::mc "Customize Settings"] { startup::show_panel $startup::type }]
+    $widgets(settings) itemconfigure $id -state hidden
+
+    # Create the radiobutton
+    make_radiobutton $widgets(settings) $locs(left_x) [expr $locs(first_y) + 0]   [msgcat::mc "Create settings locally"]      startup::type local [list $widgets(settings) itemconfigure $id -state hidden]
+    make_radiobutton $widgets(settings) $locs(left_x) [expr $locs(first_y) + 65]  [msgcat::mc "Copy settings from directory"] startup::type copy  [list $widgets(settings) itemconfigure $id -state normal]
+    make_radiobutton $widgets(settings) $locs(left_x) [expr $locs(first_y) + 145] [msgcat::mc "Use shared settings"]          startup::type share [list $widgets(settings) itemconfigure $id -state normal]
+
+    # Create help text
+    make_text $widgets(settings) $locs(help_x) [expr $locs(first_y) + 20] \
+      [msgcat::mc "Creates new settings information and places it in your home directory"] $colors(help)
+    make_text $widgets(settings) $locs(help_x) [expr $locs(first_y) + 85] \
+      [msgcat::mc "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."] $colors(help)
+    make_text $widgets(settings) $locs(help_x) [expr $locs(first_y) + 165] \
+      [msgcat::mc "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."] $colors(help)
 
     # Create the button bar
-    make_button $widgets(share) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel welcome]
-    make_button $widgets(share) 580 $locs(button_y) [msgcat::mc "Next"] \
-      [list if {$startup::type eq "local"} { startup::show_panel finish } else { startup::show_panel directory }]
+    make_button $widgets(settings) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel welcome]
+    make_button $widgets(settings) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] \
+      [list if {$startup::type eq "local"} { startup::show_panel finish } else { startup::do_directory }]
 
   }
 
-  ######################################################################
-  # Creates the advanced options for settings.
-  proc create_advanced {} {
+  foreach ptype [list copy share] {
 
-    variable widgets
-    variable locs
+    ######################################################################
+    # Creates the advanced options for settings.
+    proc create_$ptype [list [list type $ptype]] {
 
-    # Header
-    make_header $widgets(advanced) $locs(header_x) $locs(header_y) [msgcat::mc "Select Settings To Use"]
-    
-    # Create the sync item checkbuttons
-    set y $locs(first_y)
-    foreach {type nspace name} [sync::get_sync_items] {
-      make_checkbutton $widgets(advanced) $locs(left_x) $y $name startup::items($type) {}
-      set y [expr $y + 25]
+      variable widgets
+      variable locs
+
+      array set labels [list \
+        copy  [list [msgcat::mc "Copy"]  [msgcat::mc "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."]] \
+        share [list [msgcat::mc "Share"] [msgcat::mc "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."]] \
+      ]
+
+      # Header
+      make_header $widgets($type) $locs(header_x) $locs(header_y) [format "%s %s" [msgcat::mc "Settings To"] [lindex $labels($type) 0]]
+
+      # Create help
+      make_text $widgets($type) $locs(header_x) $locs(first_y) [lindex $labels($type) 1]
+
+      # Create the sync item checkbuttons
+      set y $locs(second_y)
+      foreach {itype nspace name} [sync::get_sync_items] {
+        make_checkbutton $widgets($type) $locs(left_x) $y $name startup::items($itype) {}
+        set y [expr $y + 25]
+      }
+
+      # Create the button bar
+      make_button $widgets($type) $locs(next_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel settings]
+
     }
-
-    # Create the button bar
-    make_button $widgets(advanced) 580 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
 
   }
 
@@ -222,10 +254,17 @@ namespace eval startup {
 
     # Header
     make_header $widgets(directory) $locs(header_x) $locs(header_y) [msgcat::mc "Select Directory"]
-    
+
+    # Directory
+    make_text $widgets(directory) $locs(header_x) $locs(first_y) [format "%s:" [msgcat::mc "Directory"]]
+    entry $widgets(directory).dir_entry -width 40 -state readonly -readonlybackground white -foreground black -relief flat
+    $widgets(directory) create window [expr $locs(header_x) + 10] [expr $locs(first_y) + 20] -anchor nw -window $widgets(directory).dir_entry
+
+    make_button $widgets(directory) $locs(header_x) 200 [msgcat::mc "Change Directory"] [list startup::set_directory]
+
     # Create the button bar
-    make_button $widgets(directory) 500 $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel share]
-    make_button $widgets(directory) 580 $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
+    make_button $widgets(directory) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel settings]
+    make_button $widgets(directory) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
 
   }
 
@@ -235,61 +274,112 @@ namespace eval startup {
 
     variable widgets
     variable locs
-    
+
     # Header
-    make_header $widgets(finish) $locs(header_x) $locs(header_y) [format "%s!" [msgcat::mc "Setup done"]]
+    make_header $widgets(finish) $locs(header_x) $locs(header_y) [format "%s!" [msgcat::mc "Setup Complete"]]
+
+    # Display text
+    make_text $widgets(finish) $locs(header_x) $locs(first_y) \
+      [msgcat::mc "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."]
 
     # Create the button bar
-    make_button $widgets(finish) 500 $locs(button_y) [msgcat::mc "Back"] \
-      [list if {$startup::type eq "local"} { startup::show_panel share } else { startup::show_panel directory }]
-    make_button $widgets(finish) 580 $locs(button_y) [msgcat::mc "Finish"] [list destroy .wizwin]
+    make_button $widgets(finish) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] \
+      [list if {$startup::type eq "local"} { startup::show_panel settings } else { startup::show_panel directory }]
+    make_button $widgets(finish) $locs(next_x) $locs(button_y) [msgcat::mc "Finish"] [list destroy .wizwin]
 
   }
-  
+
+  ######################################################################
+  # Sets the directory.
+  proc set_directory {} {
+
+    variable widgets
+    variable directory
+    variable type
+
+    set initialdir [expr {($directory eq "") ? [file normalize ~] : $directory}]
+    set mustexist  [expr {($type eq "copy") ? 1 : 0}]
+    set directory  [tk_chooseDirectory -parent .wizwin -title [msgcat::mc "Select Settings Directory"] -initialdir $initialdir -mustexist $mustexist]
+
+    if {$directory ne ""} {
+      $widgets(directory).dir_entry configure -state normal
+      $widgets(directory).dir_entry delete 0 end
+      $widgets(directory).dir_entry insert end $directory
+      $widgets(directory).dir_entry configure -state readonly
+    }
+
+  }
+
+  ######################################################################
+  # Called when we hit the 'Next' button in the settings panel.  Immediately
+  proc do_directory {} {
+
+    variable widgets
+    variable directory
+    variable type
+
+    show_panel directory
+
+    if {$directory eq ""} {
+
+      # Attempt to set the directory
+      set_directory
+
+      # If the directory was not set, go back to settings
+      if {$directory eq ""} {
+        show_panel settings
+      } else {
+        # show_panel finish
+      }
+    }
+
+  }
+
   ###########
   # WIDGETS #
   ###########
-  
+
   ######################################################################
   # Creates a header
   proc make_header {c x y txt} {
-    
+
     set id [$c create text $x $y -anchor nw -font "-size 24" -text $txt -fill black]
-    
+
     return $id
-    
+
   }
-  
+
   ######################################################################
   # Creates a text widget that automatically wraps.
-  proc make_text {c x y txt} {
-    
+  proc make_text {c x y txt {color black}} {
+
     variable locs
-    
-    set id [$c create text $x $y -anchor nw -text "" -fill black]
-    
+
+    set id [$c create text $x $y -anchor nw -text "" -fill $color]
+
     # Create wrapped text
     set lines      [list]
-    set text_width [expr $locs(right_x) - $locs(left_x)]
-    
+    set text_width [expr $locs(right_x) - $x]
+
     set line ""
     foreach word $txt {
-      if {[font measure [$c itemcget $id -font] "$line $word"] < $text_width} {
+      if {([font measure [$c itemcget $id -font] "$line $word"] < $text_width) && \
+          ($word ne "\n")} {
         append line " $word"
       } else {
-        lappend lines $line
-        set line ""
+        lappend lines [string trim $line]
+        set line $word
       }
     }
-    
+
     if {$line ne ""} {
-      lappend lines $line
+      lappend lines [string trim $line]
     }
-    
+
     $c itemconfigure $id -text [join $lines "\n"]
-    
+
     return $id
-    
+
   }
 
   ######################################################################
@@ -314,7 +404,7 @@ namespace eval startup {
 
     variable rbs
 
-    set csize 10
+    set csize 11
 
     # Create the radiobutton
     set cid1 [$c create oval $x $y [expr $x + $csize] [expr $y + $csize] -outline black -fill white]
@@ -335,7 +425,7 @@ namespace eval startup {
     trace add variable $var write [list startup::handle_rb_var_change $c]
 
   }
-  
+
   ######################################################################
   # Handles any changes to the radiobutton variable.
   proc handle_rb_var_change {c name1 name2 op} {
@@ -377,32 +467,32 @@ namespace eval startup {
   # Create the checkbutton.
   proc make_checkbutton {c x y txt var command} {
 
-    set ssize 10
+    set ssize 11
 
     # Create the checkbutton
     set sid1 [$c create rectangle $x $y [expr $x + $ssize] [expr $y + $ssize] -outline black -fill white]
-    set sid  [$c create rectangle [expr $x + 2] [expr $y + 2] [expr $x + $ssize - 2] [expr $y + $ssize -2] -outline white -fill white]
+    set sid2 [$c create rectangle [expr $x + 2] [expr $y + 2] [expr $x + $ssize - 2] [expr $y + $ssize -2] -outline white -fill white]
     set tid  [$c create text [expr $x + $ssize + 10] [expr $y - 2] -text $txt -anchor nw]
 
     $c bind $sid1 <Button-1> [list startup::toggle_value $var]
-    $c bind $sid  <Button-1> [list startup::toggle_value $var]
+    $c bind $sid2 <Button-1> [list startup::toggle_value $var]
     $c bind $tid  <Button-1> [list startup::toggle_value $var]
 
     # Make the checkbutton look selected
     if {[set $var]} {
-      $c itemconfigure $sid -fill black
+      $c itemconfigure $sid2 -fill black
     }
 
-    trace add variable $var write [list startup::handle_cb_var_change $c $sid $command]
+    trace add variable $var write [list startup::handle_cb_var_change $c $sid2 $command]
 
   }
-  
+
   ######################################################################
   # Toggles the given value
   proc toggle_value {var} {
-    
+
     set $var [expr [set $var] ^ 1]
-    
+
   }
 
   ######################################################################
@@ -421,7 +511,9 @@ namespace eval startup {
   # Changes the state of the checkbutton.
   proc toggle_checkbutton {c id var command} {
 
-    $c itemconfigure $id -fill [expr {[set $var] ? "black" : "white"}]
+    set color [expr {[set $var] ? "black" : "white"}]
+
+    $c itemconfigure $id -fill $color
 
     # Execute the command
     if {$command ne ""} {
