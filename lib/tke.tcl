@@ -81,6 +81,7 @@ catch { package require registry }
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib sync.tcl]
+source [file join $tke_dir lib startup.tcl]
 source [file join $tke_dir lib utils.tcl]
 source [file join $tke_dir lib preferences.tcl]
 source [file join $tke_dir lib edit.tcl]

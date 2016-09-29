@@ -360,51 +360,30 @@ namespace eval sync {
   # started and a sync.tkedat file is not found in the user's home directory.
   proc import_sync_wizard {} {
 
+    variable data
     variable items
 
-    toplevel     .swizwin
-    wm title     .swizwin [format "TKE %s / %s %s" [msgcat::mc "Import"] [msgcat::mc "Sync"] [msgcat::mc "Settings"]]
-    wm resizable .swizwin 0 0
-    wm protocol  .swizwin WM_DELETE_WINDOW {
-      # Do nothing
-    }
+    # Show the user startup
+    lassign [startup::create] action dirname item_list
 
-    ttk::frame      .swizwin.f
-    ttk::labelframe .swizwin.f.lf -text [msgcat::mc "Settings to Import/Sync"]
-    set i 0
+    array set items $item_list
+
+    set data(SyncDirectory) $dirname
+    set data(SyncItems)     [list]
     foreach {type nspace name} [get_sync_items] {
-      set items($type) 1
-      grid [ttk::checkbutton .swizwin.f.lf.$type -text $name -variable sync::items($type)] -row $i -column 0 -sticky news -padx 2 -pady 2
-      incr i
+      if {$items($type)} {
+        lappend data(SyncItems) $type
+      }
     }
 
-    pack .swizwin.f.lf -fill both -expand yes -padx 2 -pady 2
+    # Indicate that the sync directories have changed
+    sync_changed
 
-    ttk::frame  .swizwin.bf
-    ttk::button .swizwin.bf.import -text [msgcat::mc "Import"] -command [list sync::wizard_do import]
-    ttk::button .swizwin.bf.sync   -text [msgcat::mc "Sync"]   -command [list sync::wizard_do sync]
-    ttk::button .swizwin.bf.skip   -text [msgcat::mc "Skip"]   -command [list sync::wizard_do skip]
-
-    pack .swizwin.bf.skip   -side right -padx 2 -pady 2
-    pack .swizwin.bf.sync   -side right -padx 2 -pady 2
-    pack .swizwin.bf.import -side right -padx 2 -pady 2
-
-    pack .swizwin.f  -fill both -expand yes
-    pack .swizwin.bf -fill x
-
-    # Get the user focus and grab
-    ::tk::SetFocusGrab .swizwin .swizwin.bf.sync
-
-    update
-
-    # Center the window on the screen
-    [ns utils]::center_on_screen .swizwin]
-
-    # Wait for the window to be closed
-    tkwait window .swizwin
-
-    # Restore the user focus and grab
-    ::tk::RestoreFocusGrab .swizwin .swizwin.bf.sync
+    # Perform the action
+    switch $action {
+      copy  { file_transfer $dir $::tke_home $data(SyncItems) }
+      share { create_sync_dir $data(SyncDirectory) $data(SyncItems) }
+    }
 
   }
 
