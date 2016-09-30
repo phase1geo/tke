@@ -1957,21 +1957,28 @@ proc ctext::matchBracket {win} {
   # Remove the match cursor
   catch { $win tag remove matchchar 1.0 end }
 
-  # Get the current language
-  set lang [ctext::get_lang $win insert]
+  # If we are in block cursor mode, use the previous character
+  if {![$win cget -blockcursor] && [$win compare insert != "insert linestart"]} {
+    set pos "insert-1c"
+  } else {
+    set pos insert
+  }
 
-  switch -- [$win get insert] {
-    "\}" { ctext::matchPair  $win $lang insert curlyL }
-    "\{" { ctext::matchPair  $win $lang insert curlyR }
-    "\]" { ctext::matchPair  $win $lang insert squareL }
-    "\[" { ctext::matchPair  $win $lang insert squareR }
-    "\)" { ctext::matchPair  $win $lang insert parenL }
-    "\(" { ctext::matchPair  $win $lang insert parenR }
-    "\>" { ctext::matchPair  $win $lang insert angledL }
-    "\<" { ctext::matchPair  $win $lang insert angledR }
-    "\"" { ctext::matchQuote $win $lang insert dString double }
-    "'"  { ctext::matchQuote $win $lang insert sString single }
-    "`"  { ctext::matchQuote $win $lang insert bString btick }
+  # Get the current language
+  set lang [ctext::get_lang $win $pos]
+
+  switch -- [$win get $pos] {
+    "\}" { ctext::matchPair  $win $lang $pos curlyL }
+    "\{" { ctext::matchPair  $win $lang $pos curlyR }
+    "\]" { ctext::matchPair  $win $lang $pos squareL }
+    "\[" { ctext::matchPair  $win $lang $pos squareR }
+    "\)" { ctext::matchPair  $win $lang $pos parenL }
+    "\(" { ctext::matchPair  $win $lang $pos parenR }
+    "\>" { ctext::matchPair  $win $lang $pos angledL }
+    "\<" { ctext::matchPair  $win $lang $pos angledR }
+    "\"" { ctext::matchQuote $win $lang $pos dString double }
+    "'"  { ctext::matchQuote $win $lang $pos sString single }
+    "`"  { ctext::matchQuote $win $lang $pos bString btick }
   }
 
 }
