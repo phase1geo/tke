@@ -1122,8 +1122,11 @@ msgcat::mcmset sv {
   "Set user preferences to global preferences"
   "Ange inställningar till globala inställningar"
 
-  "Setup sync settings"
-  "Synkroniseringsinställningar"
+  "Setup settings sharing preferences"
+  "Inställningar inställningspanelen Fildelning"
+
+  "Sharing Setup"
+  "Dela Setup"
 
   "Show Console"
   "Visa konsol"
@@ -1600,6 +1603,9 @@ msgcat::mcmset sv {
   "Set default open/save browsing directory to"
   "Ställa in standard öppna/spara bläddra katalog till"
 
+  "Sharing"
+  "Delar"
+
   "Shortcut"
   "Genväg"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset sv {
 
   "Symbol placed at end of CSS property"
   "Symbol slutet av CSS egendom"
-
-  "Sync Directory"
-  "Synkronisera katalog"
 
   "Sync Items"
   "Synkronisera objekt"
@@ -1799,6 +1802,71 @@ msgcat::mcmset sv {
 
 }
 
+# startup.tcl
+msgcat::mcmset sv {
+
+  "Back"
+  "Tillbaka"
+
+  "Change Directory"
+  "Ändra katalog"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Kopior inställningsdata från en befintlig katalog till din hemkatalog.  Klicka på 'Anpassa inställningar' nedan om du vill anpassa vilka data som inställningarna ska kopieras."
+
+  "Copy settings from directory"
+  "Kopiera inställningar från katalog"
+
+  "Create settings locally"
+  "Skapa inställningar för lokalt"
+
+  "Creates new settings information and places it in your home directory"
+  "Skapar nya inställningsinformation och placerar den i din hemkatalog"
+
+  "Finish"
+  "Avsluta"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Behöver du vill ändra dina inställningar läge eller data, kan du göra det inom den Redigera/inställningar/Setup... menyn."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Objekt som är markerade kommer att kopieras till din lokala arbetskatalog. Objekt som inte är markerade kommer att skapas i din hemkatalog."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Objekt som är markerade kommer att delas med andra datorer. Objekt som inte är markerade kommer att lagras lokalt och kommer inte att delas."
+
+  "Next"
+  "Nästa"
+
+  "Select Settings Directory"
+  "Välj inställningar katalog"
+
+  "Settings Options"
+  "Inställningar"
+
+  "Setup Complete"
+  "Setup komplett"
+
+  "Share"
+  "Dela"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Aktier inställningsdata från en ny eller befintlig katalog (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Eventuella ändringar i inställningsdata blir tillgängliga för andra delaktiga.  Klicka på 'Anpassa inställningar' nedan om du vill anpassa vilka inställningsdata delas."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Tack för hjälp TKE, avancerade programmerarens editor.  Eftersom detta är en ny installation av TKE, låt oss hjälpa dig att få saker ställa in. \\n \\n klicka 'Nästa' nedan för att få saker och ting."
+
+  "Use shared settings"
+  "Använda delade inställningar"
+
+  "Welcome"
+  "Välkommen"
+
+  "Welcome To"
+  "Välkommen till"
+
+}
+
 # sync.tcl
 msgcat::mcmset sv {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset sv {
   "Favorites"
   "Favoriter"
 
-  "Select TKE settings directory for sync"
-  "Välj TKE inställningar katalog för synkronisering"
-
-  "Select TKE settings directory to import"
-  "Välj TKE inställningar katalog importera"
-
-  "Settings to Import/Sync"
-  "Inställningar för att importera/synk"
-
   "Settings to export"
   "Inställningar för att exportera"
 
-  "Skip"
-  "Hoppa över"
+  "Sync Setup"
+  "Konfigurera synkronisering"
 
   "Themes"
   "Teman"
@@ -2140,6 +2199,9 @@ msgcat::mcmset sv {
   "GIF Photo"
   "GIF-bild"
 
+  "Import"
+  "Importera"
+
   "Import BMP Data"
   "Importera BMP data"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset sv {
   "Find"
   "Sök i"
 
-  "Import"
-  "Importera"
-
   "Launcher"
   "Launcher"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset sv {
 
   "Split View"
   "Dela vy"
-
-  "Sync"
-  "Sync"
-
-  "Sync Setup"
-  "Konfigurera synkronisering"
 
   "Templates"
   "Mallar"

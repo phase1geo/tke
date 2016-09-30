@@ -100,7 +100,7 @@
 #  - idleFingers
 #  - minimal_Theme
 
-{Appearance/Theme}           {default}
+{Appearance/Theme}           {Monokai}
 
 # Specifies which syntax highlighting elements should be colorized.  The following
 # element names are valid:
@@ -118,7 +118,7 @@
 
 # Specifies the point size of the font used in the editor window
 
-{Appearance/EditorFont}  {-size 9}
+{Appearance/EditorFont}  {-size 10}
 
 # Specifies the point size of the font used in the command launcher entry field.
 

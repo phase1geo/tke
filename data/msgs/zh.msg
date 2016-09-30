@@ -1122,8 +1122,11 @@ msgcat::mcmset zh {
   "Set user preferences to global preferences"
   "设置的用户首选项设置为全局首选项"
 
-  "Setup sync settings"
-  "同步设置"
+  "Setup settings sharing preferences"
+  "安装共享首选项的设置"
+
+  "Sharing Setup"
+  "共享设置"
 
   "Show Console"
   "显示控制台"
@@ -1600,6 +1603,9 @@ msgcat::mcmset zh {
   "Set default open/save browsing directory to"
   "设置默认打开/保存浏览目录"
 
+  "Sharing"
+  "分享"
+
   "Shortcut"
   "快捷键"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset zh {
 
   "Symbol placed at end of CSS property"
   "将符号放置在 CSS 属性的结尾"
-
-  "Sync Directory"
-  "同步目录"
 
   "Sync Items"
   "同步项目"
@@ -1799,6 +1802,71 @@ msgcat::mcmset zh {
 
 }
 
+# startup.tcl
+msgcat::mcmset zh {
+
+  "Back"
+  "返回"
+
+  "Change Directory"
+  "切换目录"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "将设置数据从现有的目录复制到您的主目录。 单击自定义设置下面自定义哪些设置数据将被复制。"
+
+  "Copy settings from directory"
+  "从目录复制设置"
+
+  "Create settings locally"
+  "创建本地设置"
+
+  "Creates new settings information and places it in your home directory"
+  "创建新设置信息，并将其放在您的主目录"
+
+  "Finish"
+  "完成"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "如果你需要想要改变你的设置位置和/或数据，你可以在编辑/设置/安装...菜单。"
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "选定的项将复制到您当地的主目录。未选中的项目将在您的主目录中创建。"
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "选定的项将与其他计算机共享。未选中的项目将存储在本地，并不会被共享。"
+
+  "Next"
+  "下一个"
+
+  "Select Settings Directory"
+  "选择设置目录"
+
+  "Settings Options"
+  "設置選項"
+
+  "Setup Complete"
+  "安装完成"
+
+  "Share"
+  "分享"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "共享设置数据从一个新的或现有的目录 (例如，iCloud 谷歌驱动器，Dropbox，等.)。 对设置数据所做的任何更改将提供到其他的共享资源文件。 单击自定义设置下面自定义的设置数据将共享。"
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "感谢您使用将军澳支线，高级的程序员编辑器。 由于这是一个新安装的将军澳支线，让我们帮助你把事情设置。\\n \\n 点击下一步来维持生活。"
+
+  "Use shared settings"
+  "使用共享的设置"
+
+  "Welcome"
+  "歡迎"
+
+  "Welcome To"
+  "欢迎来到"
+
+}
+
 # sync.tcl
 msgcat::mcmset zh {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset zh {
   "Favorites"
   "收藏"
 
-  "Select TKE settings directory for sync"
-  "将军澳支线设置为选择目录同步"
-
-  "Select TKE settings directory to import"
-  "选择要导入的将军澳支线设置目录"
-
-  "Settings to Import/Sync"
-  "导入/同步设置"
-
   "Settings to export"
   "要导出的设置"
 
-  "Skip"
-  "跳过"
+  "Sync Setup"
+  "同步设置"
 
   "Themes"
   "主題"
@@ -2140,6 +2199,9 @@ msgcat::mcmset zh {
   "GIF Photo"
   "GIF图片"
 
+  "Import"
+  "進口"
+
   "Import BMP Data"
   "匯入資料"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset zh {
   "Find"
   "查找"
 
-  "Import"
-  "進口"
-
   "Launcher"
   "发射台"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset zh {
 
   "Split View"
   "拆分視圖"
-
-  "Sync"
-  "同步"
-
-  "Sync Setup"
-  "同步设置"
 
   "Templates"
   "模板"

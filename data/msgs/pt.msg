@@ -1122,8 +1122,11 @@ msgcat::mcmset pt {
   "Set user preferences to global preferences"
   "Definir preferências de usuário para preferências globais"
 
-  "Setup sync settings"
-  "Definições de configuração de sincronização"
+  "Setup settings sharing preferences"
+  "Definições de configuração de preferências Compartilhamento"
+
+  "Sharing Setup"
+  "Configuração de compartilhamento"
 
   "Show Console"
   "Mostrar Console"
@@ -1600,6 +1603,9 @@ msgcat::mcmset pt {
   "Set default open/save browsing directory to"
   "Conjunto padrão abrir/salvar navegação de diretório para"
 
+  "Sharing"
+  "Partilha"
+
   "Shortcut"
   "Atalho"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset pt {
 
   "Symbol placed at end of CSS property"
   "Símbolo, colocado no final da propriedade CSS"
-
-  "Sync Directory"
-  "Sincronização de diretório"
 
   "Sync Items"
   "Itens de sincronização"
@@ -1799,6 +1802,71 @@ msgcat::mcmset pt {
 
 }
 
+# startup.tcl
+msgcat::mcmset pt {
+
+  "Back"
+  "Voltar"
+
+  "Change Directory"
+  "Mudar pasta"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Copia dados de configurações de um diretório existente para seu diretório home.  Clique em 'Personalizar configurações de' abaixo para personalizar quais configurações de dados serão copiadas."
+
+  "Copy settings from directory"
+  "Copiar configurações de diretório"
+
+  "Create settings locally"
+  "Criar configurações localmente"
+
+  "Creates new settings information and places it in your home directory"
+  "Cria novas informações de configurações e coloca-o no seu diretório home"
+
+  "Finish"
+  "Finalizar"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Se você precisa gostaria de mudar o seu local de configurações e/ou dados, você pode fazê-lo dentro o Editar/configurações/Setup... menu."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Itens que estão selecionados serão copiados para o directório local. Itens que não estão selecionados serão criados em seu diretório home."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Itens que estão selecionados serão compartilhados com outros computadores. Itens que não estão selecionados serão armazenados localmente e não serão partilhados."
+
+  "Next"
+  "Próximo"
+
+  "Select Settings Directory"
+  "Selecione o diretório de configurações"
+
+  "Settings Options"
+  "Opções de configurações"
+
+  "Setup Complete"
+  "Configuração Completa"
+
+  "Share"
+  "Compartilhar"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Partilha de dados de configurações de um diretório novo ou já existente (ex., iCloud, Google rígido, Dropbox, etc.).  Quaisquer alterações feitas nos dados de configurações estarão disponíveis para outros participantes.  Clique em 'Personalizar configurações de' abaixo para personalizar quais configurações de dados serão compartilhadas."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Obrigado por usar o TKE, editor do programador avançado.  Pois esta é uma nova instalação da TKE, vamos ajudá-lo obter coisas configurar. \\n \\n clique em 'Avançar' abaixo para obter a coisa vai."
+
+  "Use shared settings"
+  "Usar configurações compartilhadas"
+
+  "Welcome"
+  "Bem Vindo"
+
+  "Welcome To"
+  "Bem-vindo"
+
+}
+
 # sync.tcl
 msgcat::mcmset pt {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset pt {
   "Favorites"
   "Favoritos"
 
-  "Select TKE settings directory for sync"
-  "Selecione o diretório de configurações TKE para sincronização"
-
-  "Select TKE settings directory to import"
-  "Selecione o diretório de configurações TKE para importar"
-
-  "Settings to Import/Sync"
-  "Configurações de importação/Sync"
-
   "Settings to export"
   "Configurações de exportação"
 
-  "Skip"
-  "Pular"
+  "Sync Setup"
+  "Configuração de sincronização"
 
   "Themes"
   "Temas"
@@ -2140,6 +2199,9 @@ msgcat::mcmset pt {
   "GIF Photo"
   "GIF Foto"
 
+  "Import"
+  "Importe"
+
   "Import BMP Data"
   "Importar dados"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset pt {
   "Find"
   "Encontrar"
 
-  "Import"
-  "Importe"
-
   "Launcher"
   "Lançador"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset pt {
 
   "Split View"
   "Dividir a Vista"
-
-  "Sync"
-  "Sincronizar"
-
-  "Sync Setup"
-  "Configuração de sincronização"
 
   "Templates"
   "Templates"

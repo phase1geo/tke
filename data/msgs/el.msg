@@ -1122,8 +1122,11 @@ msgcat::mcmset el {
   "Set user preferences to global preferences"
   "Ορίστε τις προτιμήσεις του χρήστη σε σφαιρικές προτιμήσεις"
 
-  "Setup sync settings"
-  "Ρυθμίσετε τις ρυθμίσεις συγχρονισμού"
+  "Setup settings sharing preferences"
+  "Ρυθμίσεις διαμόρφωσης κοινής χρήσης προτιμήσεις"
+
+  "Sharing Setup"
+  "Κοινή χρήση εγκατάστασης"
 
   "Show Console"
   "Εμφάνιση Console"
@@ -1600,6 +1603,9 @@ msgcat::mcmset el {
   "Set default open/save browsing directory to"
   "Ορίστε την προεπιλεγμένη Άνοιγμα/Αποθήκευση περιήγηση κατάλογο για να"
 
+  "Sharing"
+  "Κοινή Χρήση"
+
   "Shortcut"
   "συντόμευση"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset el {
 
   "Symbol placed at end of CSS property"
   "Σύμβολο που τοποθετείται στο τέλος της ιδιοκτησίας CSS"
-
-  "Sync Directory"
-  "Συγχρονισμού καταλόγου"
 
   "Sync Items"
   "Αντικείμενα συγχρονισμού"
@@ -1799,6 +1802,71 @@ msgcat::mcmset el {
 
 }
 
+# startup.tcl
+msgcat::mcmset el {
+
+  "Back"
+  "Πίσω"
+
+  "Change Directory"
+  "Chdir"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Αντίγραφα δεδομένα ρυθμίσεων από έναν υπάρχοντα κατάλογο στο δικό σου σπίτι Κατάλογος.  Κάντε κλικ στην επιλογή 'Προσαρμογή ρυθμίσεων' παρακάτω να προσαρμόσετε ποια δεδομένα θα αντιγραφούν."
+
+  "Copy settings from directory"
+  "Για να αντιγράψετε τις ρυθμίσεις από τον κατάλογο"
+
+  "Create settings locally"
+  "Δημιουργήστε ρυθμίσεις τοπικά"
+
+  "Creates new settings information and places it in your home directory"
+  "Δημιουργεί νέες πληροφορίες για τις ρυθμίσεις και το τοποθετεί στον εγχώριο κατάλογό σας"
+
+  "Finish"
+  "Λήξη"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Αν χρειαστεί, θα ήθελα να αλλάξει ρυθμίσεις τοποθεσία σας και τα δεδομένα, μπορείτε να το κάνετε μέσα σε επεξεργασία/ρυθμίσεις/εγκατάστασης... μενού."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Στοιχεία που έχουν επιλεγεί θα αντιγραφούν στον home κατάλογο του τοπικού σας. Στοιχεία που δεν έχουν επιλεγεί θα δημιουργηθεί στον εγχώριο κατάλογό σας."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Στοιχεία που έχουν επιλεγεί θα είναι κοινόχρηστο με άλλους υπολογιστές. Αντικείμενα που δεν έχουν επιλεγεί θα πρέπει να αποθηκεύονται τοπικά και δεν θα κοινοποιηθούν."
+
+  "Next"
+  "Επόμενο"
+
+  "Select Settings Directory"
+  "Επιλέξτε Ρυθμίσεις καταλόγου"
+
+  "Settings Options"
+  "Επιλογές ρυθμίσεων"
+
+  "Setup Complete"
+  "Πλήρης παραμετροποίηση"
+
+  "Share"
+  "Κοινοποίηση"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Συμμερίζεται τις ρυθμίσεις δεδομένων από έναν νέο ή υπάρχοντα κατάλογο (π.χ., το iCloud Drive, Google Drive, Dropbox, κλπ.).  Οποιεσδήποτε αλλαγές γίνονται ρυθμίσεις δεδομένων θα είναι διαθέσιμη σε άλλες sharers.  Κάντε κλικ στην επιλογή 'Προσαρμογή ρυθμίσεων' παρακάτω να προσαρμόσετε ποια δεδομένα ρυθμίσεις θα είναι κοινόχρηστος."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Ευχαριστώ για τη χρήση TKE, προχωρημένους προγραμματιστές του επεξεργαστή.  Δεδομένου ότι αυτό είναι μια νέα εγκατάσταση του TKE, ας βοηθήσουμε να πάρετε τα πράγματα που έχει συσταθεί. \\n \\n κάντε κλικ στο κουμπί 'Επόμενο' κάτω από να πάρει τα πράγματα πρόκειται."
+
+  "Use shared settings"
+  "Χρησιμοποιήστε κοινές ρυθμίσεις"
+
+  "Welcome"
+  "Καλώς ήρθατε"
+
+  "Welcome To"
+  "Καλώς ήρθατε"
+
+}
+
 # sync.tcl
 msgcat::mcmset el {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset el {
   "Favorites"
   "Αγαπημένα"
 
-  "Select TKE settings directory for sync"
-  "Επιλέξτε TKE ρυθμίσεις καταλόγου για συγχρονισμό"
-
-  "Select TKE settings directory to import"
-  "Επιλέξτε TKE ρυθμίσεις καταλόγου εισαγωγής"
-
-  "Settings to Import/Sync"
-  "Ρυθμίσεις για την εισαγωγή/συγχρονισμό"
-
   "Settings to export"
   "Ρυθμίσεις για την εξαγωγή"
 
-  "Skip"
-  "Παράληψη"
+  "Sync Setup"
+  "Ρύθμιση συγχρονισμού"
 
   "Themes"
   "Θέματα"
@@ -2140,6 +2199,9 @@ msgcat::mcmset el {
   "GIF Photo"
   "GIF Φωτογραφία"
 
+  "Import"
+  "Εισαγωγή"
+
   "Import BMP Data"
   "Εισαγωγή BMP Δεδομένων"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset el {
   "Find"
   "Find"
 
-  "Import"
-  "Εισαγωγή"
-
   "Launcher"
   "Προωθητής"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset el {
 
   "Split View"
   "Split View"
-
-  "Sync"
-  "Συγχρονισμός"
-
-  "Sync Setup"
-  "Ρύθμιση συγχρονισμού"
 
   "Templates"
   "Πρότυπα"

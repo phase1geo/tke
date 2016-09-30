@@ -1122,8 +1122,11 @@ msgcat::mcmset he {
   "Set user preferences to global preferences"
   "להגדיר העדפות המשתמש העדפות גלובלית"
 
-  "Setup sync settings"
-  "הגדרת הגדרות סינכרון"
+  "Setup settings sharing preferences"
+  "הגדרות של שיתוף העדפות"
+
+  "Sharing Setup"
+  "שיתוף תוכנית ההתקנה"
 
   "Show Console"
   "הצג המסוף"
@@ -1600,6 +1603,9 @@ msgcat::mcmset he {
   "Set default open/save browsing directory to"
   "הגדרת ברירת המחדל פתיחה/שמירה גלישה מדריך כדי"
 
+  "Sharing"
+  "שיתוף"
+
   "Shortcut"
   "קיצור דרך"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset he {
 
   "Symbol placed at end of CSS property"
   "סמל ממוקם בקצהו של מאפיין CSS"
-
-  "Sync Directory"
-  "סינכרון מדריך"
 
   "Sync Items"
   "סינכרון הפריטים"
@@ -1799,6 +1802,71 @@ msgcat::mcmset he {
 
 }
 
+# startup.tcl
+msgcat::mcmset he {
+
+  "Back"
+  "חזרה"
+
+  "Change Directory"
+  "מדריך שינוי"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "עותקים הגדרות נתונים ספריה קיימת כדי ספריית עמוד הבית שלך.  לחץ על 'התאמה אישית של הגדרות' להלן כדי להתאים אישית את הגדרות הנתונים יועתקו."
+
+  "Copy settings from directory"
+  "הגדרות העתקה ממדריך"
+
+  "Create settings locally"
+  "ליצור הגדרות באופן מקומי"
+
+  "Creates new settings information and places it in your home directory"
+  "יוצר מידע הגדרות חדש וממקם אותו ספריית עמוד הבית שלך"
+
+  "Finish"
+  "סיום"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "אם אתה צריך היית רוצה לשנות את הגדרות מיקום או נתונים, באפשרותך לעשות זאת תוך העריכה/ההגדרות/הגדרת. תפריט."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "הפריטים שנבחרו יועתקו אל ספריית עמוד הבית המקומי. הפריטים שנבחרו לא ייווצר ב ספריית עמוד הבית שלך."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "הפריטים שנבחרו ישותפו עם מחשבים אחרים. הפריטים שנבחרו לא יאוחסנו באופן מקומי, לא ישותף."
+
+  "Next"
+  "הבא"
+
+  "Select Settings Directory"
+  "בחר הגדרות מדריך"
+
+  "Settings Options"
+  "אפשרויות הגדרות"
+
+  "Setup Complete"
+  "התקנה מלאה"
+
+  "Share"
+  "שתף"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "מניות הגדרות נתונים ספריה חדשה או קיימת (אקס, iCloud כונן, כונן גוגל, Dropbox, וכו.).  כל השינויים שבוצעו הגדרות הנתונים יהיו זמינים אחרים משתפי.  לחץ על 'התאמה אישית של הגדרות' להלן כדי להתאים אישית את הגדרות הנתונים ישותפו."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "תודה על שימוש בבית, העורך של מתכנת מתקדם.  מאז זה התקנה חדשה של בבית, בואו לעזור לך להשיג דברים לסדר. \\n \\n לחץ על 'הבא' להלן כדי להזיז את הדברים."
+
+  "Use shared settings"
+  "השתמש בהגדרות המשותפות"
+
+  "Welcome"
+  "ברוכים הבאים"
+
+  "Welcome To"
+  "ברוכים הבאים"
+
+}
+
 # sync.tcl
 msgcat::mcmset he {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset he {
   "Favorites"
   "מועדפים"
 
-  "Select TKE settings directory for sync"
-  "בחר בבית מדריך הגדרות עבור סינכרון"
-
-  "Select TKE settings directory to import"
-  "בחר ספריית הגדרות בבית לייבוא"
-
-  "Settings to Import/Sync"
-  "הגדרות ייבוא/סינכרון"
-
   "Settings to export"
   "הגדרות ייצוא"
 
-  "Skip"
-  "דלג"
+  "Sync Setup"
+  "הגדרת סינכרון"
 
   "Themes"
   "ערכות נושא"
@@ -2140,6 +2199,9 @@ msgcat::mcmset he {
   "GIF Photo"
   "תמונה GIF"
 
+  "Import"
+  "ייבוא"
+
   "Import BMP Data"
   "ייבוא נתונים BMP"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset he {
   "Find"
   "לימצו (limtzo)"
 
-  "Import"
-  "ייבוא"
-
   "Launcher"
   "משגר"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset he {
 
   "Split View"
   "צפו פיצול"
-
-  "Sync"
-  "סינכרון"
-
-  "Sync Setup"
-  "הגדרת סינכרון"
 
   "Templates"
   "תבניות"

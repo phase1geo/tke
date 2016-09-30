@@ -1122,8 +1122,11 @@ msgcat::mcmset ja {
   "Set user preferences to global preferences"
   "[グローバル設定] に設定されているユーザー設定"
 
-  "Setup sync settings"
-  "同期設定"
+  "Setup settings sharing preferences"
+  "設定の共有設定"
+
+  "Sharing Setup"
+  "共有のセットアップ"
 
   "Show Console"
   "コンソールの表示"
@@ -1600,6 +1603,9 @@ msgcat::mcmset ja {
   "Set default open/save browsing directory to"
   "既定開く/保存するディレクトリを設定します。"
 
+  "Sharing"
+  "共有中"
+
   "Shortcut"
   "ショートカットキー"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset ja {
 
   "Symbol placed at end of CSS property"
   "CSS プロパティの末尾に配置記号"
-
-  "Sync Directory"
-  "同期ディレクトリ"
 
   "Sync Items"
   "アイテムを同期します。"
@@ -1799,6 +1802,71 @@ msgcat::mcmset ja {
 
 }
 
+# startup.tcl
+msgcat::mcmset ja {
+
+  "Back"
+  "戻る"
+
+  "Change Directory"
+  "Cd"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "あなたのホーム ディレクトリに既存のディレクトリからに設定データをコピーします。 クリックして 'カスタマイズ' 以下をカスタマイズする設定設定データがコピーされます。"
+
+  "Copy settings from directory"
+  "設定ディレクトリからコピーします。"
+
+  "Create settings locally"
+  "ローカル設定を作成します。"
+
+  "Creates new settings information and places it in your home directory"
+  "新しい設定情報を作成し、あなたのホーム ディレクトリに配置"
+
+  "Finish"
+  "フィニッシュ"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "必要な場合はあなたの設定の場所および/またはデータを変更したい編集/設定/セットアップ内でこれを行うことができますメニュー。"
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "選択されている項目は、あなたのローカルのホーム ディレクトリにコピーされます。選択されていないアイテムは、あなたのホーム ディレクトリに作成されます。"
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "選択されている項目は、他のコンピューターと共有されます。選択されていない項目は、ローカルに格納して共有されません。"
+
+  "Next"
+  "次へ"
+
+  "Select Settings Directory"
+  "設定ディレクトリを選択します。"
+
+  "Settings Options"
+  "設定オプション"
+
+  "Setup Complete"
+  "セットアップが完了しました"
+
+  "Share"
+  "共有"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "新規または既存のディレクトリから設定データを共有する (例、iCloud Google ドライブ、Dropbox など。)。 設定データに加えられた変更は、他の共有者になります。 'カスタマイズ' 以下をカスタマイズする設定する設定データを共有するをクリックします。"
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "TKE、先進的なプログラマのエディターを使用していただきありがとうございます。 これは TKE の新しいインストールは、あなたが物事を設定を助けましょう。\\n \\n 行くことに下「次へ」をクリックしてします。"
+
+  "Use shared settings"
+  "共有設定を使用します。"
+
+  "Welcome"
+  "お迎え"
+
+  "Welcome To"
+  "ようこそ"
+
+}
+
 # sync.tcl
 msgcat::mcmset ja {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset ja {
   "Favorites"
   "お気に入り"
 
-  "Select TKE settings directory for sync"
-  "同期の TKE の設定ディレクトリを選択します。"
-
-  "Select TKE settings directory to import"
-  "TKE の設定ディレクトリをインポートするを選択します。"
-
-  "Settings to Import/Sync"
-  "インポート/同期の設定"
-
   "Settings to export"
   "設定をエクスポートするには"
 
-  "Skip"
-  "スキップ"
+  "Sync Setup"
+  "同期のセットアップ"
 
   "Themes"
   "テーマ"
@@ -2140,6 +2199,9 @@ msgcat::mcmset ja {
   "GIF Photo"
   "GIF写真"
 
+  "Import"
+  "輸入"
+
   "Import BMP Data"
   "インポートBMPデータ"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset ja {
   "Find"
   "見つけます"
 
-  "Import"
-  "輸入"
-
   "Launcher"
   "ランチャー"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset ja {
 
   "Split View"
   "分割表示"
-
-  "Sync"
-  "同期"
-
-  "Sync Setup"
-  "同期のセットアップ"
 
   "Templates"
   "テンプレート"
