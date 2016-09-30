@@ -26,7 +26,9 @@ namespace eval sync {
 
   source [file join $::tke_dir lib ns.tcl]
 
-  variable sync_local [file join $::tke_home sync_dir]
+  variable sync_local     [file join $::tke_home sync_dir]
+  variable last_directory ""
+  variable last_items     [list]
 
   array set data    {}
   array set widgets {}
@@ -368,11 +370,16 @@ namespace eval sync {
 
     array set items $item_list
 
-    set data(SyncDirectory) $dirname
-    set data(SyncItems)     [list]
-    foreach {type nspace name} [get_sync_items] {
-      if {$items($type)} {
-        lappend data(SyncItems) $type
+    # Setup the sync directory
+    set data(SyncDirectory) [expr {($action eq "share") ? $dirname : ""}]
+
+    # Setup the sync items list
+    if {$action ne "local"} {
+      set data(SyncItems) [list]
+      foreach {type nspace name} [get_sync_items] {
+        if {$items($type)} {
+          lappend data(SyncItems) $type
+        }
       }
     }
 
@@ -381,61 +388,8 @@ namespace eval sync {
 
     # Perform the action
     switch $action {
-      copy  { file_transfer $dir $::tke_home $data(SyncItems) }
+      copy  { file_transfer $dirname $::tke_home $data(SyncItems) }
       share { create_sync_dir $data(SyncDirectory) $data(SyncItems) }
-    }
-
-  }
-
-  ######################################################################
-  # Performs wizard action of the specified type.
-  proc wizard_do {action} {
-
-    variable data
-    variable items
-
-    # Destroy the wizard window
-    destroy .swizwin
-
-    if {($action eq "import") || ($action eq "sync")} {
-
-      array get labels [list import [msgcat::mc "Import"] sync [msgcat::mc "Sync"]]
-
-      set opts [list]
-      if {$action eq "import"} {
-        set title [msgcat::mc "Select TKE settings directory to import"]
-        lappend opts -mustexist 1
-      } else {
-        set title [msgcat::mc "Select TKE settings directory for sync"]
-      }
-
-      # Get the directory to import/sync
-      if {[set dir [tk_chooseDirectory -parent . -title $title {*}$opts]] ne ""} {
-
-        set data(SyncDirectory) [expr {($action eq "import") ? "" : $dir}]
-        set data(SyncItems)     [list]
-        foreach {type nspace name} [get_sync_items] {
-          if {$items($type)} {
-            lappend data(SyncItems) $type
-          }
-        }
-
-        # Indicate that the sync directories have changed
-        sync_changed
-
-        if {$action eq "import"} {
-          file_transfer $dir $::tke_home $data(SyncItems)
-        } else {
-          create_sync_dir $data(SyncDirectory) $data(SyncItems)
-        }
-
-      }
-
-    } else {
-
-      set data(SyncDirectory) ""
-      set data(SyncItems)     [list]
-
     }
 
     # Create the sync.tkedat file

@@ -1289,8 +1289,8 @@ namespace eval menus {
     # Populate Settings menu
     ########################
 
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sync Setup"]] -command [list menus::sync_setup]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup sync settings"]] [list menus::sync_setup]
+    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sharing Setup"]] -command [list menus::sync_setup]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup settings sharing preferences"]] [list menus::sync_setup]
 
     $mb.setPopup add separator
 
@@ -1849,7 +1849,7 @@ namespace eval menus {
   proc sync_setup {} {
 
     if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create "" "" general sync
+      pref_ui::create "" "" general sharing
     } else {
       sync::edit_setup
     }
