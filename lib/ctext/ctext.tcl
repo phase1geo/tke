@@ -1964,6 +1964,11 @@ proc ctext::matchBracket {win} {
     set pos insert
   }
 
+  # If the current character is escaped, ignore the character
+  if {[isEscaped $win $pos]} {
+    return
+  }
+
   # Get the current language
   set lang [ctext::get_lang $win $pos]
 
@@ -2112,12 +2117,17 @@ proc ctext::matchQuote {win lang pos tag type} {
     return
   }
 
-  lassign [$win tag nextrange _$tag $pos] first last
+  # Get the actual tag to check for
+  set tag [lsearch -inline [$win tag names $pos] _$tag*]
+
+  lassign [$win tag nextrange $tag $pos] first last
 
   if {$first eq [$win index $pos]} {
-    $win tag add matchchar "$last-1c"
+    if {[$win compare $last != end]} {
+      $win tag add matchchar "$last-1c"
+    }
   } else {
-    lassign [$win tag prevrange _$tag $pos] first last
+    lassign [$win tag prevrange $tag $pos] first last
     if {$first ne ""} {
       $win tag add matchchar $first
     }
