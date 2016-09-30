@@ -286,6 +286,21 @@ namespace eval multicursor {
     }
 
   }
+  
+  ######################################################################
+  # Adjusts the view to make sure that previously viewable cursors are
+  # still visible.
+  proc adjust_set_and_view {txt prev next} {
+    
+    # Add the multicursor
+    $txt tag add mcursor $next
+    
+    # If our next cursor is going off screen, make it viewable
+    if {([$txt bbox $prev] ne "") && ([$txt bbox $next] eq "")} {
+      $txt see $next
+    }
+    
+  }
 
   ######################################################################
   # Adjusts the cursors by the given suffix.  The valid values for suffix
@@ -300,7 +315,7 @@ namespace eval multicursor {
   # a line or character will be inserted and the cursor set to that position.
   # The inserted text will be given the tag name of "insert_tag".
   proc adjust {txt suffix {insert 0} {insert_tag ""}} {
-
+    
     if {[string index $suffix 0] eq "+"} {
 
       # If any of the cursors would "fall off the edge", don't modify any of them
@@ -313,34 +328,37 @@ namespace eval multicursor {
       }
 
       # Move the cursors
-      foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-        $txt tag remove mcursor $start
-        switch $suffix {
-          "+1c" {
+      switch $suffix {
+        "+1c" {
+          foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+            $txt tag remove mcursor $start
             if {[$txt compare $start == "$start lineend-1c"]} {
               if {$insert} {
                 $txt insert "$start+1c" " "
                 if {$insert_tag ne ""} {
                   $txt tag add $insert_tag "$start+1 display char"
                 }
-                $txt tag add mcursor "$start+1 display char"
+                adjust_set_and_view $txt $start "$start+1 display char"
               } else {
                 $txt tag add mcursor $start
                 break
               }
             } else {
-              $txt tag add mcursor "$start+1c"
+              adjust_set_and_view $txt $start "$start+1c"
             }
           }
-          "+1l" {
+        }
+        "+1l" {
+          foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+            $txt tag remove mcursor $start
             if {$insert} {
               $txt insert "$start lineend" "\n "
               if {$insert_tag ne ""} {
                 $txt tag add $insert_tag "$start+1 display line linestart"
               }
-              $txt tag add mcursor "$start+1 display line linestart"
+              adjust_set_and_view $txt $start "$start+1 display line linestart"
             } elseif {[$txt compare $start < "end-1l"]} {
-              $txt tag add mcursor "$start+1 display l"
+              adjust_set_and_view $txt $start "$start+1 display l"
             } else {
               $txt tag add mcursor $start
               break
@@ -359,12 +377,12 @@ namespace eval multicursor {
           }
         }
       }
-
+      
       # Adjust the cursors
-      foreach {start end} [$txt tag ranges mcursor] {
-        $txt tag remove mcursor $start
-        switch $suffix {
-          "-1c" {
+      switch $suffix {
+        "-1c" {
+          foreach {start end} [$txt tag ranges mcursor] {
+            $txt tag remove mcursor $start
             if {[$txt compare $start == "$start linestart"]} {
               if {$insert} {
                 $txt insert $start " "
@@ -377,18 +395,21 @@ namespace eval multicursor {
                 break
               }
             } else {
-              $txt tag add mcursor "$start-1c"
+              adjust_set_and_view $txt $start "$start-1c"
             }
           }
-          "-1l" {
+        }
+        "-1l" {
+          foreach {start end} [$txt tag ranges mcursor] {
+            $txt tag remove mcursor $start
             if {$insert} {
               $txt insert "$start linestart" " \n"
               if {$insert_tag ne ""} {
                 $txt tag add $insert_tag "$start linestart"
               }
-              $txt tag add mcursor "$start linestart"
+              adjust_set_and_view $txt $start "$start linestart"
             } elseif {[$txt compare $start >= 2.0]} {
-              $txt tag add mcursor "$start-1 display line"
+              adjust_set_and_view $txt $start "$start-1 display line"
             } else {
               $txt tag add mcursor $start
               break
@@ -398,7 +419,7 @@ namespace eval multicursor {
       }
 
     }
-
+    
   }
 
   ######################################################################
