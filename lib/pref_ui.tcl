@@ -701,10 +701,10 @@ namespace eval pref_ui {
     # SYNC TAB #
     ############
 
-    $w.nb add [set e [ttk::frame $w.nb.e]] -text [msgcat::mc "Sync"]
+    $w.nb add [set e [ttk::frame $w.nb.e]] -text [msgcat::mc "Sharing"]
 
     ttk::frame $e.sf
-    set widgets(sync_enable) [ttk::checkbutton $e.sf.cb -text [format " %s: " [set wstr [msgcat::mc "Sync Directory"]]] -variable pref_ui::enable_sync -command [list pref_ui::handle_sync_directory]]
+    set widgets(sync_enable) [ttk::checkbutton $e.sf.cb -text [format " %s: " [set wstr [msgcat::mc "Directory"]]] -variable pref_ui::enable_sync -command [list pref_ui::handle_sync_directory]]
     set widgets(sync_entry)  [ttk::entry       $e.sf.e]
 
     register $widgets(sync_enable) $wstr General/SyncDirectory

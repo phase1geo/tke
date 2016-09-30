@@ -1051,11 +1051,9 @@ namespace eval theme {
       # Configure ttk::entry widgets
       ttk::style configure TEntry -padding 1 -insertwidth 1 -foreground black
       ttk::style map TEntry \
-        -background  [list readonly $opts(background)] \
-        -foreground  [list readonly $opts(foreground)] \
-        -bordercolor [list focus    $opts(entry_border)] \
-        -lightcolor  [list focus    "#6f9dc6"] \
-        -darkcolor   [list focus    "#6f9dc6"]
+        -bordercolor [list focus $opts(entry_border)] \
+        -lightcolor  [list focus "#6f9dc6"] \
+        -darkcolor   [list focus "#6f9dc6"]
 
       # Configure ttk::scrollbar widgets
       ttk::style configure TScrollbar \

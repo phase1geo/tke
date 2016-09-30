@@ -74,7 +74,7 @@ namespace eval startup {
     wm withdraw  .wizwin
 
     # Add the tabs
-    foreach window [list welcome settings copy share directory finish] {
+    foreach window [list welcome settings copy share finish] {
       set widgets($window) [canvas .wizwin.$window -highlightthickness 0 -relief flat -background white -width 640 -height 480]
       $widgets($window) lower [$widgets($window) create image 0 0 -anchor nw -image $images(bg)]
       create_$window
@@ -184,25 +184,22 @@ namespace eval startup {
     variable locs
     variable colors
 
+    array set labels [list \
+      local [msgcat::mc "Creates new settings information and places it in your home directory"] \
+      copy  [msgcat::mc "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."] \
+      share [msgcat::mc "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."] \
+    ]
+
     # Header
     make_header $widgets(settings) $locs(header_x) $locs(header_y) [msgcat::mc "Settings Options"]
 
-    # Create a button for the advanced settings
-    set id [make_button $widgets(settings) $locs(left_x) 400 [msgcat::mc "Customize Settings"] { startup::show_panel $startup::type }]
-    $widgets(settings) itemconfigure $id -state hidden
-
     # Create the radiobutton
-    make_radiobutton $widgets(settings) $locs(left_x) [expr $locs(first_y) + 0]   [msgcat::mc "Create settings locally"]      startup::type local [list $widgets(settings) itemconfigure $id -state hidden]
-    make_radiobutton $widgets(settings) $locs(left_x) [expr $locs(first_y) + 65]  [msgcat::mc "Copy settings from directory"] startup::type copy  [list $widgets(settings) itemconfigure $id -state normal]
-    make_radiobutton $widgets(settings) $locs(left_x) [expr $locs(first_y) + 145] [msgcat::mc "Use shared settings"]          startup::type share [list $widgets(settings) itemconfigure $id -state normal]
-
-    # Create help text
-    make_text $widgets(settings) $locs(help_x) [expr $locs(first_y) + 20] \
-      [msgcat::mc "Creates new settings information and places it in your home directory"] $colors(help)
-    make_text $widgets(settings) $locs(help_x) [expr $locs(first_y) + 85] \
-      [msgcat::mc "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."] $colors(help)
-    make_text $widgets(settings) $locs(help_x) [expr $locs(first_y) + 165] \
-      [msgcat::mc "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."] $colors(help)
+    set id [make_radiobutton $widgets(settings) $locs(left_x) $locs(first_y) [msgcat::mc "Create settings locally"] startup::type local {}]
+    set id [make_text        $widgets(settings) $locs(help_x) [get_y $widgets(settings) $id 10] $labels(local) $colors(help)]
+    set id [make_radiobutton $widgets(settings) $locs(left_x) [get_y $widgets(settings) $id 15] [msgcat::mc "Copy settings from directory"] startup::type copy {}]
+    set id [make_text        $widgets(settings) $locs(help_x) [get_y $widgets(settings) $id 10] $labels(copy) $colors(help)]
+    set id [make_radiobutton $widgets(settings) $locs(left_x) [get_y $widgets(settings) $id 15] [msgcat::mc "Use shared settings"] startup::type share {}]
+    set id [make_text        $widgets(settings) $locs(help_x) [get_y $widgets(settings) $id 10] $labels(share) $colors(help)]
 
     # Create the button bar
     make_button $widgets(settings) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel welcome]
@@ -214,11 +211,12 @@ namespace eval startup {
   foreach ptype [list copy share] {
 
     ######################################################################
-    # Creates the advanced options for settings.
+    # Creates the directory browse panel.
     proc create_$ptype [list [list type $ptype]] {
 
       variable widgets
       variable locs
+      variable colors
 
       array set labels [list \
         copy  [list [msgcat::mc "Copy"]  [msgcat::mc "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."]] \
@@ -226,45 +224,35 @@ namespace eval startup {
       ]
 
       # Header
-      make_header $widgets($type) $locs(header_x) $locs(header_y) [format "%s %s" [msgcat::mc "Settings To"] [lindex $labels($type) 0]]
+      make_header $widgets($type) $locs(header_x) $locs(header_y) [format "%s / %s" [msgcat::mc "Directory"] [msgcat::mc "Settings"]]
+
+      # Directory
+      set id [make_text $widgets($type) $locs(header_x) $locs(first_y) [format "%s:" [msgcat::mc "Directory"]]]
+      entry $widgets($type).dir_entry -width 40 -state readonly -readonlybackground white -foreground black -relief flat
+      set id [$widgets($type) create window $locs(header_x) [get_y $widgets($type) $id 10] -anchor nw -window $widgets($type).dir_entry]
+
+      set id [make_button $widgets($type) 400 [get_y $widgets($type) $id 10] [msgcat::mc "Change Directory"] [list startup::set_directory]]
 
       # Create help
-      make_text $widgets($type) $locs(header_x) $locs(first_y) [lindex $labels($type) 1]
+      set id [make_text $widgets($type) $locs(header_x) [get_y $widgets($type) $id 40] [lindex $labels($type) 1] $colors(help)]
+
+      # Starting Y position for items
+      set items_y [get_y $widgets($type) $id 20]
 
       # Create the sync item checkbuttons
-      set y $locs(second_y)
+      set i 0
       foreach {itype nspace name} [sync::get_sync_items] {
-        make_checkbutton $widgets($type) $locs(left_x) $y $name startup::items($itype) {}
-        set y [expr $y + 25]
+        set x  [expr $locs(left_x) + (($i < 5) ? 0 : 150)]
+        set y  [expr (($i % 5) == 0) ? $items_y : [get_y $widgets($type) $id 10]]
+        set id [make_checkbutton $widgets($type) $x $y $name startup::items($itype) {}]
+        incr i
       }
 
       # Create the button bar
-      make_button $widgets($type) $locs(next_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel settings]
+      make_button $widgets($type) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel settings]
+      make_button $widgets($type) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
 
     }
-
-  }
-
-  ######################################################################
-  # Creates the directory browse panel.
-  proc create_directory {} {
-
-    variable widgets
-    variable locs
-
-    # Header
-    make_header $widgets(directory) $locs(header_x) $locs(header_y) [msgcat::mc "Select Directory"]
-
-    # Directory
-    make_text $widgets(directory) $locs(header_x) $locs(first_y) [format "%s:" [msgcat::mc "Directory"]]
-    entry $widgets(directory).dir_entry -width 40 -state readonly -readonlybackground white -foreground black -relief flat
-    $widgets(directory) create window [expr $locs(header_x) + 10] [expr $locs(first_y) + 20] -anchor nw -window $widgets(directory).dir_entry
-
-    make_button $widgets(directory) $locs(header_x) 200 [msgcat::mc "Change Directory"] [list startup::set_directory]
-
-    # Create the button bar
-    make_button $widgets(directory) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] [list startup::show_panel settings]
-    make_button $widgets(directory) $locs(next_x) $locs(button_y) [msgcat::mc "Next"] [list startup::show_panel finish]
 
   }
 
@@ -274,6 +262,7 @@ namespace eval startup {
 
     variable widgets
     variable locs
+    variable type
 
     # Header
     make_header $widgets(finish) $locs(header_x) $locs(header_y) [format "%s!" [msgcat::mc "Setup Complete"]]
@@ -284,7 +273,7 @@ namespace eval startup {
 
     # Create the button bar
     make_button $widgets(finish) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] \
-      [list if {$startup::type eq "local"} { startup::show_panel settings } else { startup::show_panel directory }]
+      [list if {$startup::type eq "local"} { startup::show_panel settings } else { startup::show_panel $startup::type }]
     make_button $widgets(finish) $locs(next_x) $locs(button_y) [msgcat::mc "Finish"] [list destroy .wizwin]
 
   }
@@ -302,23 +291,27 @@ namespace eval startup {
     set directory  [tk_chooseDirectory -parent .wizwin -title [msgcat::mc "Select Settings Directory"] -initialdir $initialdir -mustexist $mustexist]
 
     if {$directory ne ""} {
-      $widgets(directory).dir_entry configure -state normal
-      $widgets(directory).dir_entry delete 0 end
-      $widgets(directory).dir_entry insert end $directory
-      $widgets(directory).dir_entry configure -state readonly
+      foreach ptype [list copy share] {
+        $widgets($ptype).dir_entry configure -state normal
+        $widgets($ptype).dir_entry delete 0 end
+        $widgets($ptype).dir_entry insert end $directory
+        $widgets($ptype).dir_entry configure -state readonly
+      }
     }
 
   }
 
   ######################################################################
   # Called when we hit the 'Next' button in the settings panel.  Immediately
+  # display a directory chooser window and display the appropriate panel
+  # based on the user interation with the window.
   proc do_directory {} {
 
     variable widgets
     variable directory
     variable type
 
-    show_panel directory
+    show_panel $type
 
     if {$directory eq ""} {
 
@@ -328,9 +321,8 @@ namespace eval startup {
       # If the directory was not set, go back to settings
       if {$directory eq ""} {
         show_panel settings
-      } else {
-        # show_panel finish
       }
+
     }
 
   }
@@ -338,6 +330,15 @@ namespace eval startup {
   ###########
   # WIDGETS #
   ###########
+
+  ######################################################################
+  # Returns the Y-coordinate value which places the affected item
+  # immediately after the given item with pad pixels between them.
+  proc get_y {c id pad} {
+
+    return [expr [lindex [$c bbox $id] end] + $pad]
+
+  }
 
   ######################################################################
   # Creates a header
@@ -424,6 +425,8 @@ namespace eval startup {
 
     trace add variable $var write [list startup::handle_rb_var_change $c]
 
+    return $cid1
+
   }
 
   ######################################################################
@@ -484,6 +487,8 @@ namespace eval startup {
     }
 
     trace add variable $var write [list startup::handle_cb_var_change $c $sid2 $command]
+
+    return $sid1
 
   }
 
