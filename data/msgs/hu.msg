@@ -1122,8 +1122,11 @@ msgcat::mcmset hu {
   "Set user preferences to global preferences"
   "Állítsa be a felhasználói beállítások a globális beállítások"
 
-  "Setup sync settings"
-  "A telepítő a szinkronizálási beállítások"
+  "Setup settings sharing preferences"
+  "Telepítési beállítások megosztási beállítások"
+
+  "Sharing Setup"
+  "Telepítési megosztás"
 
   "Show Console"
   "Megjelenítése Console"
@@ -1600,6 +1603,9 @@ msgcat::mcmset hu {
   "Set default open/save browsing directory to"
   "Állítsa be az alapértelmezett nyit/megment böngészés a könyvtárban"
 
+  "Sharing"
+  "Megosztás"
+
   "Shortcut"
   "Gyorsbillentyű"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset hu {
 
   "Symbol placed at end of CSS property"
   "Jel végére CSS tulajdonság"
-
-  "Sync Directory"
-  "Sync Directory"
 
   "Sync Items"
   "Elemek szinkronizálása"
@@ -1799,6 +1802,71 @@ msgcat::mcmset hu {
 
 }
 
+# startup.tcl
+msgcat::mcmset hu {
+
+  "Back"
+  "Vissza"
+
+  "Change Directory"
+  "Cd"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Másolatok beállítások adatokat egy létező könyvtár a haza címtár.  Kattintson 'Beállítások testreszabása' az alábbi szabni, hogy mely beállítások adat másolódik."
+
+  "Copy settings from directory"
+  "Beállítások másolása könyvtárba"
+
+  "Create settings locally"
+  "Helyben-beállítások létrehozása"
+
+  "Creates new settings information and places it in your home directory"
+  "Hozza létre az új beállításokra vonatkozó adatok, és elhelyezi a saját könyvtárában"
+
+  "Finish"
+  "Kész"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Ha módosítani szeretné a beállítások helye és/vagy adatok, te belül a Szerkesztés/beállítások/beállítások menüben."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "A kijelölt elem bekerül a helyi kezdőkönyvtárat. Nem kijelölt elem jön létre a saját könyvtáradba."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "A kijelölt elem lesz osztva más számítógépekkel. Nem kijelölt elem helyileg tárolni, és nem lesz megosztva."
+
+  "Next"
+  "Következő"
+
+  "Select Settings Directory"
+  "Válassza ki Settings könyvtárában"
+
+  "Settings Options"
+  "A beállításokhoz"
+
+  "Setup Complete"
+  "TelepφtΘs befejezΘse"
+
+  "Share"
+  "Megosztás"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Megosztja a beállítások adatait új vagy meglévő könyvtárból (ex., iCloud Drive, a Google-meghajtó, Dropbox, stb.).  Adatok beállításainak módosításai más osztozik elérhető lesz.  Kattintson 'Beállítások testreszabása' az alábbi szabni, hogy mely beállítások adatokat meg kell osztani."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Köszönjük, hogy használta a TKE, a speciális programmer's szerkesztő.  Mivel ez egy új bevezetés-ból TKE, segítsünk Önnek a dolgokat létrehozni. \\n \\n Kattintsona 'Next' alatt, hogy mennek a dolgok."
+
+  "Use shared settings"
+  "Megosztott beállításokkal"
+
+  "Welcome"
+  "Üdvözölünk"
+
+  "Welcome To"
+  "Üdvözlet kedves"
+
+}
+
 # sync.tcl
 msgcat::mcmset hu {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset hu {
   "Favorites"
   "Extrák"
 
-  "Select TKE settings directory for sync"
-  "Válassza ki a TKE beállítások címtár-szinkronizálás"
-
-  "Select TKE settings directory to import"
-  "Válassza ki a TKE settings könyvtárában importálása"
-
-  "Settings to Import/Sync"
-  "Beállítások importálása/szinkron"
-
   "Settings to export"
   "Beállítások exportálása"
 
-  "Skip"
-  "Kihagyás"
+  "Sync Setup"
+  "Szinkronizálás beállítása"
 
   "Themes"
   "Sablonok"
@@ -2140,6 +2199,9 @@ msgcat::mcmset hu {
   "GIF Photo"
   "GIF Fotó"
 
+  "Import"
+  "Import"
+
   "Import BMP Data"
   "Import BMP adatok"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset hu {
   "Find"
   "Keresés"
 
-  "Import"
-  "Import"
-
   "Launcher"
   "Rakétaindító állvány"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset hu {
 
   "Split View"
   "Osztott nézet"
-
-  "Sync"
-  "Szinkron"
-
-  "Sync Setup"
-  "Szinkronizálás beállítása"
 
   "Templates"
   "Sablonok"

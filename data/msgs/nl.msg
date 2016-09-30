@@ -1122,8 +1122,11 @@ msgcat::mcmset nl {
   "Set user preferences to global preferences"
   "Gebruikersvoorkeuren naar algemene voorkeuren instellen"
 
-  "Setup sync settings"
-  "Synchronisatie-instellingen"
+  "Setup settings sharing preferences"
+  "Installatie-instellingen delen voorkeuren"
+
+  "Sharing Setup"
+  "Delen van Setup"
 
   "Show Console"
   "Show Console"
@@ -1600,6 +1603,9 @@ msgcat::mcmset nl {
   "Set default open/save browsing directory to"
   "Instellen van de standaard open/sparen directory browsing"
 
+  "Sharing"
+  "Delen"
+
   "Shortcut"
   "Sneltoets"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset nl {
 
   "Symbol placed at end of CSS property"
   "Teken geplaatst aan einde van CSS-eigenschap"
-
-  "Sync Directory"
-  "Sync Directory"
 
   "Sync Items"
   "Sync Items"
@@ -1799,6 +1802,71 @@ msgcat::mcmset nl {
 
 }
 
+# startup.tcl
+msgcat::mcmset nl {
+
+  "Back"
+  "Achterkant"
+
+  "Change Directory"
+  "Map wijzigen"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Kopieën-instellingsgegevens uit een bestaande map naar uw home directory.  Klik op 'Instellingen aanpassen' hieronder als u wilt aanpassen welke instellingsgegevens worden gekopieerd."
+
+  "Copy settings from directory"
+  "Instellingen van map kopiëren"
+
+  "Create settings locally"
+  "Instellingen lokaal maken"
+
+  "Creates new settings information and places it in your home directory"
+  "Nieuwe instellingen informatie maakt en plaatst dit in je home directory"
+
+  "Finish"
+  "Voltooien"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Als u zou willen veranderen van uw locatie van de instellingen en/of gegevens, kunt u dit doen binnen het bewerken/instellingen/Setup... menu."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Items die zijn geselecteerd zal worden gekopieerd naar uw lokale basismap. Items die niet geselecteerd zijn worden aangemaakt in je home directory."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Items die zijn geselecteerd zullen worden gedeeld met andere computers. Items die niet geselecteerd zijn lokaal worden opgeslagen en zullen niet worden gedeeld."
+
+  "Next"
+  "Volgende"
+
+  "Select Settings Directory"
+  "Selecteer instellingen map"
+
+  "Settings Options"
+  "Instelmogelijkheden"
+
+  "Setup Complete"
+  "Installatie is voltooid"
+
+  "Share"
+  "Delen"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "-Instellingsgegevens uit een nieuwe of bestaande map deelt (ex., iCloud Drive, Google Drive, Dropbox, enz.).  Wijzigingen die zijn aangebracht in instellingsgegevens zal voor andere delende bestanden beschikbaar zijn.  Klik op 'Instellingen aanpassen' hieronder als u wilt aanpassen welke instellingsgegevens zal worden gedeeld."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Bedankt voor het gebruiken van TKE, de geavanceerde programmer's editor.  Aangezien dit een nieuwe installatie van TKE, laten we u helpen om dingen opgezet. \\n \\n Klik 'Volgende' hieronder om dingen gaan."
+
+  "Use shared settings"
+  "Gedeelde instellingen gebruiken"
+
+  "Welcome"
+  "Welkom"
+
+  "Welcome To"
+  "Welkom bij"
+
+}
+
 # sync.tcl
 msgcat::mcmset nl {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset nl {
   "Favorites"
   "Favorieten"
 
-  "Select TKE settings directory for sync"
-  "Selecteer TKE instellingen map voor synchronisatie"
-
-  "Select TKE settings directory to import"
-  "Selecteer TKE instellingen map importeren"
-
-  "Settings to Import/Sync"
-  "Import/Sync instellingen"
-
   "Settings to export"
   "Instellingen exporteren"
 
-  "Skip"
-  "Overslaan"
+  "Sync Setup"
+  "Instelling synchronisatie"
 
   "Themes"
   "Thema’s"
@@ -2140,6 +2199,9 @@ msgcat::mcmset nl {
   "GIF Photo"
   "GIF Photo"
 
+  "Import"
+  "Invoer"
+
   "Import BMP Data"
   "Gegevens importeren"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset nl {
   "Find"
   "Query"
 
-  "Import"
-  "Invoer"
-
   "Launcher"
   "Launcher"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset nl {
 
   "Split View"
   "Venster opsplitsen"
-
-  "Sync"
-  "Synchroniseren"
-
-  "Sync Setup"
-  "Instelling synchronisatie"
 
   "Templates"
   "Templates"

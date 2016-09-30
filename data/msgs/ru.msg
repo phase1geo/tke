@@ -1122,8 +1122,11 @@ msgcat::mcmset ru {
   "Set user preferences to global preferences"
   "Задать параметры пользователя в глобальные настройки"
 
-  "Setup sync settings"
-  "Настройка параметров синхронизации"
+  "Setup settings sharing preferences"
+  "Настройка параметров настройки общего доступа"
+
+  "Sharing Setup"
+  "Совместное использование программы установки"
 
   "Show Console"
   "Показать консоль"
@@ -1600,6 +1603,9 @@ msgcat::mcmset ru {
   "Set default open/save browsing directory to"
   "Установить по умолчанию открыть/сохранить просмотра каталога"
 
+  "Sharing"
+  "Делимся"
+
   "Shortcut"
   "Ярлык"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset ru {
 
   "Symbol placed at end of CSS property"
   "Символ в конце CSS свойства"
-
-  "Sync Directory"
-  "Синхронизация каталога"
 
   "Sync Items"
   "Синхронизация элементов"
@@ -1799,6 +1802,71 @@ msgcat::mcmset ru {
 
 }
 
+# startup.tcl
+msgcat::mcmset ru {
+
+  "Back"
+  "Назад"
+
+  "Change Directory"
+  "Chdir"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Копирует данные параметры из существующего каталога в ваш домашний каталог.  Нажмите кнопку «Настроить параметры» ниже для настройки, какие данные параметры будут скопированы."
+
+  "Copy settings from directory"
+  "Копировать параметры из каталога"
+
+  "Create settings locally"
+  "Создать параметры локально"
+
+  "Creates new settings information and places it in your home directory"
+  "Создает новые настройки и помещает его в свой домашний каталог"
+
+  "Finish"
+  "Закончить"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Если вам хотите изменить настройки местоположения и/или данных, вы можете сделать это в «Правка/Параметры/настройки» меню."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Элементы, выбранные будут скопированы на ваш локальный домашний каталог. Элементы, которые не выбраны будут создаваться в вашем домашнем каталоге."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Элементы, выбранные будут совместно с другими компьютерами. Элементы, которые не выбраны будут храниться локально и не будет передаваться."
+
+  "Next"
+  "Следующий"
+
+  "Select Settings Directory"
+  "Выберите настройки каталога"
+
+  "Settings Options"
+  "Опции дизайна"
+
+  "Setup Complete"
+  "Полная установка"
+
+  "Share"
+  "Поделиться"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Передает данные настройки из нового или существующего каталога (напр., iCloud диск, Google Drive, Dropbox, и др.).  Любые изменения, внесенные в данные настройки будут доступны для других удел.  Нажмите кнопку «Настроить параметры» ниже для настройки, какие данные параметры будут переданы."
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Спасибо за использование TKE, расширенный программиста редактор.  Поскольку это новая установка TKE, поможем вам получить вещи. \\n \\n нажмите «Next», чтобы получить вещей продолжается."
+
+  "Use shared settings"
+  "Использовать общие параметры"
+
+  "Welcome"
+  "Добро пожаловать"
+
+  "Welcome To"
+  "Добро пожаловать"
+
+}
+
 # sync.tcl
 msgcat::mcmset ru {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset ru {
   "Favorites"
   "Избранное"
 
-  "Select TKE settings directory for sync"
-  "Выберите каталог TKE настройки для синхронизации"
-
-  "Select TKE settings directory to import"
-  "Выберите каталог TKE параметров для импорта"
-
-  "Settings to Import/Sync"
-  "Параметры импорта/синхронизация"
-
   "Settings to export"
   "Параметры для экспорта"
 
-  "Skip"
-  "Пропустить"
+  "Sync Setup"
+  "Настройка синхронизации"
 
   "Themes"
   "Темы"
@@ -2140,6 +2199,9 @@ msgcat::mcmset ru {
   "GIF Photo"
   "GIF фото"
 
+  "Import"
+  "Импорт"
+
   "Import BMP Data"
   "Импорт данных"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset ru {
   "Find"
   "Находить"
 
-  "Import"
-  "Импорт"
-
   "Launcher"
   "Пусковая установка"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset ru {
 
   "Split View"
   "Разделить"
-
-  "Sync"
-  "Синхронизация"
-
-  "Sync Setup"
-  "Настройка синхронизации"
 
   "Templates"
   "Шаблоны"

@@ -1122,8 +1122,11 @@ msgcat::mcmset no {
   "Set user preferences to global preferences"
   "Angi innstillinger globale innstillinger"
 
-  "Setup sync settings"
-  "Innstillinger for synkronisering"
+  "Setup settings sharing preferences"
+  "Innstillinger for Deling-valgpanelet"
+
+  "Sharing Setup"
+  "Deling oppsett"
 
   "Show Console"
   "Vis Console"
@@ -1600,6 +1603,9 @@ msgcat::mcmset no {
   "Set default open/save browsing directory to"
   "Angi standard åpen/bevare surfing katalogen"
 
+  "Sharing"
+  "Plassering av knapper for sosiale medier."
+
   "Shortcut"
   "snarvei"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset no {
 
   "Symbol placed at end of CSS property"
   "Symbol plassert på slutten av CSS eiendom"
-
-  "Sync Directory"
-  "Synkronisere Directory"
 
   "Sync Items"
   "Synkronisere objekter"
@@ -1799,6 +1802,71 @@ msgcat::mcmset no {
 
 }
 
+# startup.tcl
+msgcat::mcmset no {
+
+  "Back"
+  "Tilbake"
+
+  "Change Directory"
+  "Forandringen adresseliste"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Kopier innstillingene data fra en eksisterende katalog til startmappen.  Klikk \"
+
+  "Copy settings from directory"
+  "Kopier innstillinger fra katalogen"
+
+  "Create settings locally"
+  "Opprette innstillingene lokalt"
+
+  "Creates new settings information and places it in your home directory"
+  "Oppretter nye opplysninger og plasserer den i mappen"
+
+  "Finish"
+  "Finsk"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Hvis du vil endre innstillinger for plassering og/eller data, kan du gjøre det i Rediger/innstillinger/oppsett... menyen."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Elementer som er valgt overføres til lokale startmappen. Elementer som ikke er valgt, opprettes i startmappen."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Elementer som er merket deles med andre datamaskiner. Elementer som ikke er valgt skal lagres lokalt og kan ikke deles."
+
+  "Next"
+  "Neste"
+
+  "Select Settings Directory"
+  "Velg innstillinger katalog"
+
+  "Settings Options"
+  "Innstillingsalternativer"
+
+  "Setup Complete"
+  "Installasjonen er fullført"
+
+  "Share"
+  "Del"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Aksjer innstillinger data fra en ny eller eksisterende mappe (ex., iCloud Google stasjonen, Dropbox, etc.).  Endringer i innstillingene data vil være tilgjengelig for andre brukere.  Klikk \"
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Takk for hjelp TKE, den avanserte programmerer redaktør.  Siden dette er en ny installasjon av TKE, la oss hjelpe deg å få ting satt opp. \\n \\n klikk \"
+
+  "Use shared settings"
+  "Bruke delte innstillinger"
+
+  "Welcome"
+  "velkommen"
+
+  "Welcome To"
+  "Velkommen til"
+
+}
+
 # sync.tcl
 msgcat::mcmset no {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset no {
   "Favorites"
   "Favoritter"
 
-  "Select TKE settings directory for sync"
-  "Velg TKE innstillinger katalog for synkronisering"
-
-  "Select TKE settings directory to import"
-  "Velg TKE innstillinger katalog importere"
-
-  "Settings to Import/Sync"
-  "Innstillinger Import/Sync"
-
   "Settings to export"
   "For å eksportere"
 
-  "Skip"
-  "Hopp over"
+  "Sync Setup"
+  "Synkroniseringsoppsettet"
 
   "Themes"
   "Temaer"
@@ -2140,6 +2199,9 @@ msgcat::mcmset no {
   "GIF Photo"
   "GIF Photo"
 
+  "Import"
+  "importere"
+
   "Import BMP Data"
   "Importer data"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset no {
   "Find"
   "Søk"
 
-  "Import"
-  "importere"
-
   "Launcher"
   "Launcher"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset no {
 
   "Split View"
   "Delt visning"
-
-  "Sync"
-  "Synk"
-
-  "Sync Setup"
-  "Synkroniseringsoppsettet"
 
   "Templates"
   "Maler"

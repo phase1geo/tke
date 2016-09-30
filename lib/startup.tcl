@@ -87,7 +87,7 @@ namespace eval startup {
     update
 
     # Place the window in the middle of the screen
-    wm geometry .wizwin +[expr ([winfo screenwidth .wizwin] / 2) - 320]+[expr ([winfo screenheight .wizwin] / 2) - 240]
+    center_on_screen
 
     # Display the window
     wm deiconify .wizwin
@@ -99,6 +99,23 @@ namespace eval startup {
     destroy_images
 
     return [list $type $directory [array get items]]
+
+  }
+
+  ######################################################################
+  # Center the wizard window on the screen (including dual monitor setups).
+  proc center_on_screen {} {
+
+    set swidth  [winfo screenwidth  .wizwin]
+    set sheight [winfo screenheight .wizwin]
+
+    # If we have a dual monitor setup, center the window on the first window
+    if {[expr ($swidth.0 / $sheight) > 2]} {
+      set swidth [expr $swidth / 2]
+    }
+
+    # Place the window in the middle of the screen
+    wm geometry .wizwin +[expr ($swidth / 2) - 320]+[expr ($sheight / 2) - 240]
 
   }
 

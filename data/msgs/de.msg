@@ -1122,8 +1122,11 @@ msgcat::mcmset de {
   "Set user preferences to global preferences"
   "Benutzereinstellungen für globale Voreinstellungen festlegen"
 
-  "Setup sync settings"
-  "Sync-Setup-Einstellungen"
+  "Setup settings sharing preferences"
+  "Setup-Einstellungen, die Systemeinstellung \"
+
+  "Sharing Setup"
+  "Austausch von Setup"
 
   "Show Console"
   "Konsole einblenden"
@@ -1600,6 +1603,9 @@ msgcat::mcmset de {
   "Set default open/save browsing directory to"
   "Stellen Sie Standard öffnen/speichern-Verzeichnis-browsing ein"
 
+  "Sharing"
+  "Teilen"
+
   "Shortcut"
   "Shortcut"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset de {
 
   "Symbol placed at end of CSS property"
   "Symbol am Ende der CSS-Eigenschaft"
-
-  "Sync Directory"
-  "Sync-Verzeichnis"
 
   "Sync Items"
   "Sync-Elemente"
@@ -1799,6 +1802,71 @@ msgcat::mcmset de {
 
 }
 
+# startup.tcl
+msgcat::mcmset de {
+
+  "Back"
+  "Zurück"
+
+  "Change Directory"
+  "Change Directory"
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Kopiert die Einstellungsdaten aus einem vorhandenen Verzeichnis auf Ihrem home-Verzeichnis.  Klicken Sie auf \"
+
+  "Copy settings from directory"
+  "Kopiereinstellungen aus Verzeichnis"
+
+  "Create settings locally"
+  "Einstellungen vor Ort erstellen"
+
+  "Creates new settings information and places it in your home directory"
+  "Schafft neue Informationen über Einstellungen und legt sie in Ihrem home-Verzeichnis"
+
+  "Finish"
+  "Schlichten"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Benötigen Sie möchten ändern Sie Ihre Einstellungen Standort und/oder zu löschen, können Sie hierzu in das Bearbeiten/Einstellungen/Setup... Menü."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Ausgewählten Elemente werden auf Ihrem lokalen home-Verzeichnis kopiert. Elemente, die nicht ausgewählt sind werden in Ihrem home-Verzeichnis erstellt werden."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Ausgewählten Elemente werden mit anderen Computern geteilt werden. Elemente, die nicht ausgewählt sind werden lokal gespeichert und nicht weitergegeben."
+
+  "Next"
+  "Weiter"
+
+  "Select Settings Directory"
+  "Wählen Sie Einstellungen-Verzeichnis"
+
+  "Settings Options"
+  "Settings Optionen speichern"
+
+  "Setup Complete"
+  "Setup abgeschlossen"
+
+  "Share"
+  "Teilen"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Teilt Einstellungsdaten aus einem neuen oder vorhandenen Verzeichnis (z. B. iCloud Laufwerk, Google, Dropbox, etc..).  Alle vorgenommenen Einstellungsdaten werden zu anderen Quellen.  Klicken Sie auf \"
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Danke fuer die Benutzung TKE, den fortgeschrittenen Programmierer-Editor.  Da dies eine neue Installation von TKE ist, lassen Sie uns Ihnen helfen, Dinge eingerichtet. \\n \\n 'Weiter' klicken Sie unten um Dinge geht."
+
+  "Use shared settings"
+  "Gemeinsam genutzte Einstellungen verwenden"
+
+  "Welcome"
+  "Willkommen"
+
+  "Welcome To"
+  "Willkommen bei"
+
+}
+
 # sync.tcl
 msgcat::mcmset de {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset de {
   "Favorites"
   "Favoriten"
 
-  "Select TKE settings directory for sync"
-  "TKE Einstellungen Verzeichnis für die Synchronisierung auswählen"
-
-  "Select TKE settings directory to import"
-  "Wählen Sie TKE Einstellungen Verzeichnis importieren aus"
-
-  "Settings to Import/Sync"
-  "Einstellungen importieren/Sync"
-
   "Settings to export"
   "Einstellungen exportieren"
 
-  "Skip"
-  "Zurück"
+  "Sync Setup"
+  "Sync Setup"
 
   "Themes"
   "Themes"
@@ -2140,6 +2199,9 @@ msgcat::mcmset de {
   "GIF Photo"
   "GIF Foto"
 
+  "Import"
+  "Import"
+
   "Import BMP Data"
   "Daten importieren"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset de {
   "Find"
   "Finden"
 
-  "Import"
-  "Import"
-
   "Launcher"
   "Launcher"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset de {
 
   "Split View"
   "Split anzeigen"
-
-  "Sync"
-  "Synchronisieren"
-
-  "Sync Setup"
-  "Sync Setup"
 
   "Templates"
   "Templates"

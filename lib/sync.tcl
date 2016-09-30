@@ -374,8 +374,9 @@ namespace eval sync {
     set data(SyncDirectory) [expr {($action eq "share") ? $dirname : ""}]
 
     # Setup the sync items list
+    set data(SyncItems) [list]
+
     if {$action ne "local"} {
-      set data(SyncItems) [list]
       foreach {type nspace name} [get_sync_items] {
         if {$items($type)} {
           lappend data(SyncItems) $type

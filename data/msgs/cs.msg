@@ -1122,8 +1122,11 @@ msgcat::mcmset cs {
   "Set user preferences to global preferences"
   "Nastavit uživatelské předvolby na globální nastavení"
 
-  "Setup sync settings"
-  "Nastavení synchronizace nastavení"
+  "Setup settings sharing preferences"
+  "Nastavení sdílení předvolby"
+
+  "Sharing Setup"
+  "Sdílení nastavení"
 
   "Show Console"
   "Zobrazit Console"
@@ -1600,6 +1603,9 @@ msgcat::mcmset cs {
   "Set default open/save browsing directory to"
   "Nastavit výchozí otevřít/uložit procházení adresáře"
 
+  "Sharing"
+  "Sdílení"
+
   "Shortcut"
   "zkratka"
 
@@ -1653,9 +1659,6 @@ msgcat::mcmset cs {
 
   "Symbol placed at end of CSS property"
   "Symbol na konci CSS vlastnosti"
-
-  "Sync Directory"
-  "Synchronizace adresáře"
 
   "Sync Items"
   "Synchronizace položek"
@@ -1799,6 +1802,71 @@ msgcat::mcmset cs {
 
 }
 
+# startup.tcl
+msgcat::mcmset cs {
+
+  "Back"
+  "Zpět"
+
+  "Change Directory"
+  "Změna složky..."
+
+  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
+  "Zkopíruje nastavení data z existujícího adresáře do svého domovského adresáře.  Klikněte na \"
+
+  "Copy settings from directory"
+  "Kopírovat nastavení z adresáře"
+
+  "Create settings locally"
+  "Vytvořit nastavení místně"
+
+  "Creates new settings information and places it in your home directory"
+  "Vytvoří nové nastavení informace a umístí ji do domovského adresáře"
+
+  "Finish"
+  "Dokončit"
+
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
+  "Potřebujete-li by chtěli změnit nastavení umístění nebo data, můžete tak učinit v rámci úpravy/nastavení/nastavení... menu."
+
+  "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
+  "Položky, které jsou vybrány, budou zkopírovány do domovského adresáře. Položky, které nejsou vybrány, vytvoří se ve vašem domovském adresáři."
+
+  "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
+  "Položky, které jsou vybrány, budou sdíleny s ostatními počítači. Položky, které nejsou vybrány se uloží místně a nebudou sdíleny."
+
+  "Next"
+  "Další"
+
+  "Select Settings Directory"
+  "Vyberte adresář, nastavení"
+
+  "Settings Options"
+  "Možnosti nastavení"
+
+  "Setup Complete"
+  "Instalace byla dokončena."
+
+  "Share"
+  "Sdílet"
+
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
+  "Sdílí nastavení data z nové nebo existující adresáře (ex., iCloud Drive, Google Drive, Dropbox, atd.).  Všechny změny provedené nastavení údajů bude k dispozici pro jiné sdílející.  Klikněte na \"
+
+  "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
+  "Děkujeme vám za používání TKE, pokročilé programátorský editor.  Protože se jedná o novou instalaci TKE, Pomozme si všechno nastavit. \\n \\n klikněte na 'Next' jednotlivé dát věci."
+
+  "Use shared settings"
+  "Použití sdílených nastavení"
+
+  "Welcome"
+  "Vítejte"
+
+  "Welcome To"
+  "Vítáme vás"
+
+}
+
 # sync.tcl
 msgcat::mcmset cs {
 
@@ -1811,20 +1879,11 @@ msgcat::mcmset cs {
   "Favorites"
   "Oblíbené"
 
-  "Select TKE settings directory for sync"
-  "Vyberte nastavení adresář synchronizace TKE"
-
-  "Select TKE settings directory to import"
-  "Vyberte TKE nastavení adresář k importu"
-
-  "Settings to Import/Sync"
-  "Nastavení importu/synchronizace"
-
   "Settings to export"
   "Nastavení exportu"
 
-  "Skip"
-  "Přeskočit"
+  "Sync Setup"
+  "Nastavení synchronizace"
 
   "Themes"
   "Vzhledy"
@@ -2140,6 +2199,9 @@ msgcat::mcmset cs {
   "GIF Photo"
   "GIF foto"
 
+  "Import"
+  "Dovoz"
+
   "Import BMP Data"
   "Importovat data"
 
@@ -2330,9 +2392,6 @@ msgcat::mcmset cs {
   "Find"
   "Find"
 
-  "Import"
-  "Dovoz"
-
   "Launcher"
   "spouštěč"
 
@@ -2392,12 +2451,6 @@ msgcat::mcmset cs {
 
   "Split View"
   "Rozd?lený panel"
-
-  "Sync"
-  "Synchronizovat"
-
-  "Sync Setup"
-  "Nastavení synchronizace"
 
   "Templates"
   "Šablony"
