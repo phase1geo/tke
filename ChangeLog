@@ -1,28 +1,142 @@
-changeset:   2326:d15636ac4c82
-tag:         devel-2.6.8
+changeset:   2329:511c28716e0b
+tag:         devel-2.6.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 23:47:56 2016 -0500
+date:        Tue Sep 27 00:33:38 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.8 release
+ChangeLog for devel-2.6.9 release
 
 
-changeset:   2327:09d46a500fcc
+changeset:   2330:01964d826288
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Sep 26 23:48:01 2016 -0500
+date:        Tue Sep 27 00:33:46 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.8 for changeset d15636ac4c82
+Added tag devel-2.6.9 for changeset 511c28716e0b
 
 
-changeset:   2328:c14b5f08a403
+changeset:   2331:e8018c874f52
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 27 00:57:05 2016 -0500
+files:       lib/gui.tcl lib/templates.tcl lib/version.tcl
+description:
+* Fixing issue where saving a file with snippet tabstops remaining in the text widget caused those characters to be output to the file.
+* Fixing issue where saving a file created from a template did not reveal the file in the sidebar.
+
+
+changeset:   2332:be10dbe39e1c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 27 01:39:57 2016 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/lang.tcl lib/version.tcl
+description:
+* Updating translations.
+* Fixing tablelist version issue in lang.tcl.
+
+
+changeset:   2333:a833ca56f9a9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 27 20:28:08 2016 -0500
+files:       lib/completer.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
+description:
+* Fixing state of the `Find / Find Next Bracket Mismatch` and `Find / Find Previous Bracket Match` menu options.
+* Changing the above menu options to only be valid when mismatched bracket highlighting is enabled.
+* Fixing bug in syntax namespace where the auto-match characters were not being cleared when files have language set to None from a non-None language.
+
+
+changeset:   2334:24c1af854afc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 27 20:56:29 2016 -0500
+files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Default.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Quiverly.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/completer.tcl lib/theme.tcl lib/version.tcl
+description:
+* Adding attention color to the syntax color themer.
+* Updating all themes.
+* Changing mismatch bracket indicator to highlight the background color of the offending character (instead of the foreground color).
+
+
+changeset:   2335:40eda217c798
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Sep 27 21:05:43 2016 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/theme.tcl lib/version.tcl
+description:
+* Fixing documentation for attention syntax color.
+* Updating translations.
+
+
+changeset:   2336:20b015634466
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 28 01:55:46 2016 -0500
+files:       .DS_Store lib/foo.tcl lib/images/startup.gif lib/startup.tcl lib/sync.tcl lib/utils.tcl lib/version.tcl
+description:
+* Checkpointing work on startup window.
+
+
+changeset:   2337:71405cfeceb7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 28 02:48:19 2016 -0500
+files:       lib/startup.tcl lib/version.tcl
+description:
+* More tweaks to startup.
+
+
+changeset:   2338:e78bf034b114
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Sep 28 08:51:01 2016 -0500
+files:       lib/foo.tcl lib/startup.tcl lib/version.tcl
+description:
+* Checkpointing startup work.
+
+
+changeset:   2339:9f8fc938081a
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Wed Sep 28 17:56:51 2016 -0500
+files:       lib/foo.tcl lib/startup.tcl lib/version.tcl
+description:
+* Checkpointing work on startup window.
+
+
+changeset:   2340:ea2504b5aec8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 29 01:12:43 2016 -0500
+files:       lib/startup.tcl lib/sync.tcl lib/tke.tcl lib/version.tcl
+description:
+* Finishing work on startup window (still need to make visual tweaks).
+* Integrating startup window into sync flow (needs some work).
+
+
+changeset:   2341:4f09587ebe18
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 29 20:55:29 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing bracket matching when in editing mode.
+
+
+changeset:   2342:6208e9002a23
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Sep 29 21:24:56 2016 -0500
+files:       lib/ctext/ctext.tcl lib/version.tcl
+description:
+* Fixing issues with automatically matching quote-like characters.
+
+
+changeset:   2343:a2179b4a55ae
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Sep 30 00:27:26 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/pref_ui.tcl lib/startup.tcl lib/sync.tcl lib/theme.tcl lib/version.tcl
+description:
+* Completing work on startup wizard.
+* Fixing sync namespace issues.
+* Changing "Sync" to "Sharing" in UI.
+
+
+changeset:   2344:45e2b91f9e6d
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 00:32:54 2016 -0500
-files:       data/preferences.tkedat lib/completer.tcl lib/pref_ui.tcl lib/version.tcl
+date:        Fri Sep 30 01:15:59 2016 -0500
+files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg data/preferences.tkedat lib/startup.tcl lib/sync.tcl lib/version.tcl
 description:
-* Changing default value of `Editor/HighlightMismatchingChar` preference item from 1 to 0.
-* Fixing bug in completer code for Find Next/Previous when `Editor/HighlightMismatchingChar` is disabled.
-* Fixing namespace issue in pref_ui.
+* Updating translations.
+* Changing default theme to Monokai.
+* Fixing sync saving issue.
 
 
