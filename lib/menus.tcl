@@ -1011,7 +1011,7 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [make_menu $mb.snipPopup  -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
     $mb add cascade -label [msgcat::mc "Templates"]     -menu [make_menu $mb.tempPopup  -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
     $mb add cascade -label "Emmet"                      -menu [make_menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
-    $mb add cascade -label [msgcat::mc "Settings"]      -menu [make_menu $mb.setPopup   -tearoff 0]
+    $mb add cascade -label [msgcat::mc "Sharing"]       -menu [make_menu $mb.sharePopup -tearoff 0]
 
     ###########################
     # Populate indentation menu
@@ -1286,15 +1286,15 @@ namespace eval menus {
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
 
     ########################
-    # Populate Settings menu
+    # Populate Sharing menu
     ########################
 
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Sharing Setup"]] -command [list menus::sync_setup]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Setup settings sharing preferences"]] [list menus::sync_setup]
+    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Edit"]] -command [list menus::sync_setup]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit settings sharing preferences"]] [list menus::sync_setup]
 
-    $mb.setPopup add separator
+    $mb.sharePopup add separator
 
-    $mb.setPopup add command -label [format "%s..." [msgcat::mc "Export"]] -command [list sync::create_export]
+    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Export Settings"]] -command [list sync::create_export]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Export settings data"]] [list sync::create_export]
 
   }
