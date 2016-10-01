@@ -483,6 +483,9 @@ msgcat::mcmset hu {
   "Edit session global preferences"
   "Munkamenet globális beállítások szerkesztése"
 
+  "Edit settings sharing preferences"
+  "Megosztási beállítások-beállítások szerkesztése"
+
   "Edit template"
   "Sablon szerkesztése"
 
@@ -515,6 +518,9 @@ msgcat::mcmset hu {
 
   "Export As"
   "Exportálás mint"
+
+  "Export Settings"
+  "Beállítások exportálása"
 
   "Export complete"
   "Az exportálás befejeződött."
@@ -1122,12 +1128,6 @@ msgcat::mcmset hu {
   "Set user preferences to global preferences"
   "Állítsa be a felhasználói beállítások a globális beállítások"
 
-  "Setup settings sharing preferences"
-  "Telepítési beállítások megosztási beállítások"
-
-  "Sharing Setup"
-  "Telepítési megosztás"
-
   "Show Console"
   "Megjelenítése Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset hu {
   "Ruler column"
   "Vonalzó oszlop"
 
-  "Select Settings Sync Directory"
-  "Válassza ki a beállítások szinkronizálás könyvtár"
+  "Select Settings Sharing Directory"
+  "Válassza a beállítások könyvtár megosztása"
 
   "Select default browsing directory"
   "Válassza ki az alapértelmezett könyvtár böngészés"
@@ -1603,8 +1603,8 @@ msgcat::mcmset hu {
   "Set default open/save browsing directory to"
   "Állítsa be az alapértelmezett nyit/megment böngészés a könyvtárban"
 
-  "Sharing"
-  "Megosztás"
+  "Sharing Items"
+  "Megosztása tételek"
 
   "Shortcut"
   "Gyorsbillentyű"
@@ -1659,9 +1659,6 @@ msgcat::mcmset hu {
 
   "Symbol placed at end of CSS property"
   "Jel végére CSS tulajdonság"
-
-  "Sync Items"
-  "Elemek szinkronizálása"
 
   "Syntax Coloring"
   "Szintaxis színezés"
@@ -1732,6 +1729,29 @@ msgcat::mcmset hu {
 
   "Session state will be lost if not saved"
   "Sessionnel elvész, ha nem mentette"
+
+}
+
+# share.tcl
+msgcat::mcmset hu {
+
+  "Emmet"
+  "hangya"
+
+  "Export Settings Data"
+  "BEÁLLÍTÁSOK EXPORTÁLÁSA"
+
+  "Favorites"
+  "Extrák"
+
+  "Settings to export"
+  "Beállítások exportálása"
+
+  "Sharing Setup"
+  "Telepítési megosztás"
+
+  "Themes"
+  "Sablonok"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset hu {
   "Finish"
   "Kész"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Ha módosítani szeretné a beállítások helye és/vagy adatok, te belül a Szerkesztés/beállítások/beállítások menüben."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Ha módosítani szeretné a beállítások helye és/vagy az adatok, akkor erre belül a Szerkesztés/megosztás/engedélybejegyzések menü."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "A kijelölt elem bekerül a helyi kezdőkönyvtárat. Nem kijelölt elem jön létre a saját könyvtáradba."
@@ -1840,6 +1860,9 @@ msgcat::mcmset hu {
 
   "Select Settings Directory"
   "Válassza ki Settings könyvtárában"
+
+  "Settings"
+  "Beállítások"
 
   "Settings Options"
   "A beállításokhoz"
@@ -1864,29 +1887,6 @@ msgcat::mcmset hu {
 
   "Welcome To"
   "Üdvözlet kedves"
-
-}
-
-# sync.tcl
-msgcat::mcmset hu {
-
-  "Emmet"
-  "hangya"
-
-  "Export Settings Data"
-  "BEÁLLÍTÁSOK EXPORTÁLÁSA"
-
-  "Favorites"
-  "Extrák"
-
-  "Settings to export"
-  "Beállítások exportálása"
-
-  "Sync Setup"
-  "Szinkronizálás beállítása"
-
-  "Themes"
-  "Sablonok"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset hu {
   "Sessions"
   "Ülések"
 
-  "Settings"
-  "Beállítások"
+  "Sharing"
+  "Megosztás"
 
   "Show console"
   "Térkép-konzol"

@@ -483,6 +483,9 @@ msgcat::mcmset pt {
   "Edit session global preferences"
   "Editar preferências de sessão global"
 
+  "Edit settings sharing preferences"
+  "Editar as configurações de preferências Compartilhamento"
+
   "Edit template"
   "Editar"
 
@@ -515,6 +518,9 @@ msgcat::mcmset pt {
 
   "Export As"
   "Exportar Como"
+
+  "Export Settings"
+  "Exportar Configurações"
 
   "Export complete"
   "Exportação completa"
@@ -1122,12 +1128,6 @@ msgcat::mcmset pt {
   "Set user preferences to global preferences"
   "Definir preferências de usuário para preferências globais"
 
-  "Setup settings sharing preferences"
-  "Definições de configuração de preferências Compartilhamento"
-
-  "Sharing Setup"
-  "Configuração de compartilhamento"
-
   "Show Console"
   "Mostrar Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset pt {
   "Ruler column"
   "Coluna de régua"
 
-  "Select Settings Sync Directory"
-  "Selecione configurações sincronização de diretório"
+  "Select Settings Sharing Directory"
+  "Selecione as configurações de compartilhamento de arquivos"
 
   "Select default browsing directory"
   "Selecione o padrão de navegação de diretório"
@@ -1603,8 +1603,8 @@ msgcat::mcmset pt {
   "Set default open/save browsing directory to"
   "Conjunto padrão abrir/salvar navegação de diretório para"
 
-  "Sharing"
-  "Partilha"
+  "Sharing Items"
+  "Compartilhamento de itens"
 
   "Shortcut"
   "Atalho"
@@ -1659,9 +1659,6 @@ msgcat::mcmset pt {
 
   "Symbol placed at end of CSS property"
   "Símbolo, colocado no final da propriedade CSS"
-
-  "Sync Items"
-  "Itens de sincronização"
 
   "Syntax Coloring"
   "Coloração de sintaxe"
@@ -1732,6 +1729,29 @@ msgcat::mcmset pt {
 
   "Session state will be lost if not saved"
   "O estado da sessão será perdido se não for salvo"
+
+}
+
+# share.tcl
+msgcat::mcmset pt {
+
+  "Emmet"
+  "formiga"
+
+  "Export Settings Data"
+  "Exportar Configurações"
+
+  "Favorites"
+  "Favoritos"
+
+  "Settings to export"
+  "Configurações de exportação"
+
+  "Sharing Setup"
+  "Configuração de compartilhamento"
+
+  "Themes"
+  "Temas"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset pt {
   "Finish"
   "Finalizar"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Se você precisa gostaria de mudar o seu local de configurações e/ou dados, você pode fazê-lo dentro o Editar/configurações/Setup... menu."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Se você precisa gostaria de mudar o seu local de configurações e/ou dados, você pode fazê-lo dentro o Edit/compartilhamento/menu de editar...."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Itens que estão selecionados serão copiados para o directório local. Itens que não estão selecionados serão criados em seu diretório home."
@@ -1840,6 +1860,9 @@ msgcat::mcmset pt {
 
   "Select Settings Directory"
   "Selecione o diretório de configurações"
+
+  "Settings"
+  "Opções"
 
   "Settings Options"
   "Opções de configurações"
@@ -1864,29 +1887,6 @@ msgcat::mcmset pt {
 
   "Welcome To"
   "Bem-vindo"
-
-}
-
-# sync.tcl
-msgcat::mcmset pt {
-
-  "Emmet"
-  "formiga"
-
-  "Export Settings Data"
-  "Exportar Configurações"
-
-  "Favorites"
-  "Favoritos"
-
-  "Settings to export"
-  "Configurações de exportação"
-
-  "Sync Setup"
-  "Configuração de sincronização"
-
-  "Themes"
-  "Temas"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset pt {
   "Sessions"
   "Sessões"
 
-  "Settings"
-  "Opções"
+  "Sharing"
+  "Partilha"
 
   "Show console"
   "Mostrar o console"

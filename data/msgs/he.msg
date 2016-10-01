@@ -483,6 +483,9 @@ msgcat::mcmset he {
   "Edit session global preferences"
   "עריכת העדפות הכללית הפעלה"
 
+  "Edit settings sharing preferences"
+  "עריכת הגדרות שיתוף העדפות"
+
   "Edit template"
   "ערוך תבנית"
 
@@ -515,6 +518,9 @@ msgcat::mcmset he {
 
   "Export As"
   "לייצא"
+
+  "Export Settings"
+  "יצא הגדרות"
 
   "Export complete"
   "ייצוא מלאה"
@@ -1122,12 +1128,6 @@ msgcat::mcmset he {
   "Set user preferences to global preferences"
   "להגדיר העדפות המשתמש העדפות גלובלית"
 
-  "Setup settings sharing preferences"
-  "הגדרות של שיתוף העדפות"
-
-  "Sharing Setup"
-  "שיתוף תוכנית ההתקנה"
-
   "Show Console"
   "הצג המסוף"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset he {
   "Ruler column"
   "הסרגל עמודות"
 
-  "Select Settings Sync Directory"
-  "בחר הגדרות סינכרון הספריה"
+  "Select Settings Sharing Directory"
+  "בחר הגדרות שיתוף הספריות"
 
   "Select default browsing directory"
   "בחר באפשרויות ברירת מחדל גלישה מדריך"
@@ -1603,8 +1603,8 @@ msgcat::mcmset he {
   "Set default open/save browsing directory to"
   "הגדרת ברירת המחדל פתיחה/שמירה גלישה מדריך כדי"
 
-  "Sharing"
-  "שיתוף"
+  "Sharing Items"
+  "שיתוף פריטים"
 
   "Shortcut"
   "קיצור דרך"
@@ -1659,9 +1659,6 @@ msgcat::mcmset he {
 
   "Symbol placed at end of CSS property"
   "סמל ממוקם בקצהו של מאפיין CSS"
-
-  "Sync Items"
-  "סינכרון הפריטים"
 
   "Syntax Coloring"
   "צבעי תחביר"
@@ -1732,6 +1729,29 @@ msgcat::mcmset he {
 
   "Session state will be lost if not saved"
   "מצב הפעלה להיות לאיבוד אם לא נשמר"
+
+}
+
+# share.tcl
+msgcat::mcmset he {
+
+  "Emmet"
+  "נמליים"
+
+  "Export Settings Data"
+  "יצא הגדרות"
+
+  "Favorites"
+  "מועדפים"
+
+  "Settings to export"
+  "הגדרות ייצוא"
+
+  "Sharing Setup"
+  "שיתוף תוכנית ההתקנה"
+
+  "Themes"
+  "ערכות נושא"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset he {
   "Finish"
   "סיום"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "אם אתה צריך היית רוצה לשנות את הגדרות מיקום או נתונים, באפשרותך לעשות זאת תוך העריכה/ההגדרות/הגדרת. תפריט."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "אם אתה צריך היית רוצה לשנות את הגדרות מיקום או נתונים, באפשרותך לעשות זאת תוך השיתוף/העריכה/פה תפריט."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "הפריטים שנבחרו יועתקו אל ספריית עמוד הבית המקומי. הפריטים שנבחרו לא ייווצר ב ספריית עמוד הבית שלך."
@@ -1840,6 +1860,9 @@ msgcat::mcmset he {
 
   "Select Settings Directory"
   "בחר הגדרות מדריך"
+
+  "Settings"
+  "הגדרות"
 
   "Settings Options"
   "אפשרויות הגדרות"
@@ -1864,29 +1887,6 @@ msgcat::mcmset he {
 
   "Welcome To"
   "ברוכים הבאים"
-
-}
-
-# sync.tcl
-msgcat::mcmset he {
-
-  "Emmet"
-  "נמליים"
-
-  "Export Settings Data"
-  "יצא הגדרות"
-
-  "Favorites"
-  "מועדפים"
-
-  "Settings to export"
-  "הגדרות ייצוא"
-
-  "Sync Setup"
-  "הגדרת סינכרון"
-
-  "Themes"
-  "ערכות נושא"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset he {
   "Sessions"
   "הפעלות"
 
-  "Settings"
-  "הגדרות"
+  "Sharing"
+  "שיתוף"
 
   "Show console"
   "הצג המסוף"

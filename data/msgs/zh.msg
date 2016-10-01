@@ -483,6 +483,9 @@ msgcat::mcmset zh {
   "Edit session global preferences"
   "编辑会话全球首选项"
 
+  "Edit settings sharing preferences"
+  "编辑共享首选项的设置"
+
   "Edit template"
   "删除模板"
 
@@ -515,6 +518,9 @@ msgcat::mcmset zh {
 
   "Export As"
   "匯出為："
+
+  "Export Settings"
+  "导出设置"
 
   "Export complete"
   "导出完成"
@@ -1122,12 +1128,6 @@ msgcat::mcmset zh {
   "Set user preferences to global preferences"
   "设置的用户首选项设置为全局首选项"
 
-  "Setup settings sharing preferences"
-  "安装共享首选项的设置"
-
-  "Sharing Setup"
-  "共享设置"
-
   "Show Console"
   "显示控制台"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset zh {
   "Ruler column"
   "统治者列"
 
-  "Select Settings Sync Directory"
-  "选择设置同步目录"
+  "Select Settings Sharing Directory"
+  "选择设置共享目录"
 
   "Select default browsing directory"
   "选择默认浏览目录"
@@ -1603,8 +1603,8 @@ msgcat::mcmset zh {
   "Set default open/save browsing directory to"
   "设置默认打开/保存浏览目录"
 
-  "Sharing"
-  "分享"
+  "Sharing Items"
+  "共享项目"
 
   "Shortcut"
   "快捷键"
@@ -1659,9 +1659,6 @@ msgcat::mcmset zh {
 
   "Symbol placed at end of CSS property"
   "将符号放置在 CSS 属性的结尾"
-
-  "Sync Items"
-  "同步项目"
 
   "Syntax Coloring"
   "语法着色"
@@ -1732,6 +1729,29 @@ msgcat::mcmset zh {
 
   "Session state will be lost if not saved"
   "如果不保存会话状态都将丢失"
+
+}
+
+# share.tcl
+msgcat::mcmset zh {
+
+  "Emmet"
+  "蚂蚁"
+
+  "Export Settings Data"
+  "导出设置"
+
+  "Favorites"
+  "收藏"
+
+  "Settings to export"
+  "要导出的设置"
+
+  "Sharing Setup"
+  "共享设置"
+
+  "Themes"
+  "主題"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset zh {
   "Finish"
   "完成"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "如果你需要想要改变你的设置位置和/或数据，你可以在编辑/设置/安装...菜单。"
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "如果你需要想要改变你的设置位置和/或数据，你可以在编辑/共享/菜单编辑...。"
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "选定的项将复制到您当地的主目录。未选中的项目将在您的主目录中创建。"
@@ -1840,6 +1860,9 @@ msgcat::mcmset zh {
 
   "Select Settings Directory"
   "选择设置目录"
+
+  "Settings"
+  "设置"
 
   "Settings Options"
   "設置選項"
@@ -1864,29 +1887,6 @@ msgcat::mcmset zh {
 
   "Welcome To"
   "欢迎来到"
-
-}
-
-# sync.tcl
-msgcat::mcmset zh {
-
-  "Emmet"
-  "蚂蚁"
-
-  "Export Settings Data"
-  "导出设置"
-
-  "Favorites"
-  "收藏"
-
-  "Settings to export"
-  "要导出的设置"
-
-  "Sync Setup"
-  "同步设置"
-
-  "Themes"
-  "主題"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset zh {
   "Sessions"
   "會議"
 
-  "Settings"
-  "设置"
+  "Sharing"
+  "分享"
 
   "Show console"
   "显示航行控制台"
