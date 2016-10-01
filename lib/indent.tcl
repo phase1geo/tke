@@ -264,10 +264,10 @@ namespace eval indent {
     } elseif {(([set endpos [lassign [$txtt tag prevrange _reindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]) && [check_reindent_for_unindent $txtt $startpos]} {
 
       if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
-        
+
         # Get the starting whitespace of the previous line
         set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
-        
+
         # Check to see if the previous line contained a reindent
         if {[$txtt compare "$index-1l linestart" > [lindex [$txtt tag prevrange _reindent "$index linestart"] 0]]} {
           set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
@@ -536,7 +536,7 @@ namespace eval indent {
         # indentation whitespace.
         if {[set epos [lassign [$txtt tag nextrange _unindent $curpos "$curpos lineend"] spos]] ne ""} {
           if {[set tindex [get_match_indent $txtt $spos]] ne ""} {
-            if {[$txtt compare "$tindex linestart" == "$spos linestart"] && ([lindex [$txtt tag nextrange _prewhite "$tindex linestart"] 1] eq [$txtt index "$tindex+1c"])} {
+            if {[$txtt compare "$tindex linestart" == "$spos linestart"]} {
               set indent_space [get_start_of_line $txtt "$tindex-1l lineend"]
               if {[line_contains_indentation $txtt "$tindex-1l lineend"]} {
                 append indent_space [string repeat " " $shiftwidth]
