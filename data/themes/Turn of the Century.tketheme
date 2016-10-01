@@ -1,0 +1,169 @@
+swatch {{#d6c4b6} #ae9f94 #333333}
+images,form_close {dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} fg white msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
+images,menu_diff {dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+} fg white msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+}}
+images,menu_lock {dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} fg white msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+images,menu_readonly {dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} fg white msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+images,pref_advanced {file advanced.gif dir install}
+images,pref_appearance {file appearance.gif dir install}
+images,pref_checked {file checked.gif dir install}
+images,pref_editor {file editor.gif dir install}
+images,pref_emmet {file emmet.gif dir install}
+images,pref_find {file find.gif dir install}
+images,pref_general {file general.gif dir install}
+images,pref_shortcuts {file shortcut.gif dir install}
+images,pref_sidebar {file sidebar.gif dir install}
+images,pref_unchecked {file unchecked.gif dir install}
+images,pref_view {file view.gif dir install}
+images,sidebar_open {dat {#define bullet_width 5
+#define bullet_height 15
+static char bullet_bits = {
+    0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00
+}
+} bg black fg gold msk {#define bullet_width 5
+#define bullet_height 15
+static char bullet_bits = {
+    0x00, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x0e, 0x00
+}
+}}
+images,tab_close {dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} fg white msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
+images,tab_diff {dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+} fg white msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+    0x1f, 0x1f, 0x11, 0xff, 0xdf, 0x88, 0xd8, 0xf8
+}
+}}
+images,tab_lock {dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} fg white msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+images,tab_readonly {dat {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+} fg white msk {#define lock_width 8
+#define lock_height 8
+static unsigned char lock_bits[] = {
+   0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
+}}
+menus,-activebackground {light blue}
+menus,-activeforeground {white}
+menus,-background {white}
+menus,-disabledforeground {grey}
+menus,-foreground {black}
+menus,-relief {flat}
+menus,-selectcolor {black}
+meta,syntax,comments {#c4b9b0,v,25}
+meta,syntax,cursor {#004f00,v,56}
+meta,syntax,keywords {#978e87,v,43}
+sidebar,-background {#333333}
+sidebar,-foreground {#ae9f94}
+sidebar,-highlightbackground {#333333}
+sidebar,-highlightcolor {#333333}
+sidebar,-highlightthickness {1}
+sidebar,-relief {flat}
+sidebar,-selectbackground {#ae9f94}
+sidebar,-selectforeground {#333333}
+sidebar,-treestyle {aqua}
+sidebar_scrollbar,-background {#333333}
+sidebar_scrollbar,-foreground {#ae9f94}
+sidebar_scrollbar,-thickness {15}
+syntax,attention {red}
+syntax,background {#d6c4b6}
+syntax,border_highlight {gold}
+syntax,comments {#aba19a}
+syntax,cursor {#008700}
+syntax,difference_add {#274622}
+syntax,difference_sub {#452822}
+syntax,embedded {#1d1e19}
+syntax,foreground {#333333}
+syntax,highlighter {yellow}
+syntax,keywords {#6c6661}
+syntax,line_number {#4e5044}
+syntax,meta {#ae9f94}
+syntax,miscellaneous1 {#1e1d22}
+syntax,miscellaneous2 {#b0b0b0}
+syntax,miscellaneous3 {#996633}
+syntax,numbers {#555555}
+syntax,precompile {#d0d0ff}
+syntax,punctuation {#555555}
+syntax,select_background {blue}
+syntax,select_foreground {white}
+syntax,strings {#000000}
+syntax,warning_width {#ae9f94}
+tabs,-activebackground {#d6c4b6}
+tabs,-activeforeground {#333333}
+tabs,-background {#ae9f94}
+tabs,-foreground {#333333}
+tabs,-height {25}
+tabs,-inactivebackground {#ae9f94}
+tabs,-inactiveforeground {#333333}
+tabs,-relief {flat}
+text_scrollbar,-background {#d6c4b6}
+text_scrollbar,-foreground {#ae9f94}
+text_scrollbar,-thickness {15}
+ttk_style,active_color {#d6c4b6}
+ttk_style,background {#ae9f94}
+ttk_style,border_color {#9e9a91}
+ttk_style,dark_color {#cfcdc8}
+ttk_style,disabled_background {#ae9f94}
+ttk_style,disabled_foreground {#999999}
+ttk_style,entry_border {#4a6984}
+ttk_style,foreground {#333333}
+ttk_style,grip_count {10}
+ttk_style,grip_thickness {5}
+ttk_style,pressed_color {#bab5ab}
+ttk_style,relief {flat}
+ttk_style,select_background {#4a6984}
+ttk_style,select_foreground {#ffffff}
