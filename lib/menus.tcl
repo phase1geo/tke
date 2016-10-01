@@ -1289,13 +1289,13 @@ namespace eval menus {
     # Populate Sharing menu
     ########################
 
-    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Edit"]] -command [list menus::sync_setup]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit settings sharing preferences"]] [list menus::sync_setup]
+    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Edit"]] -command [list menus::share_setup]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit settings sharing preferences"]] [list menus::share_setup]
 
     $mb.sharePopup add separator
 
-    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Export Settings"]] -command [list sync::create_export]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Export settings data"]] [list sync::create_export]
+    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Export Settings"]] -command [list share::create_export]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Export settings data"]] [list share::create_export]
 
   }
 
@@ -1844,14 +1844,14 @@ namespace eval menus {
   }
 
   ######################################################################
-  # Edits the sync setup information using either the preference GUI
+  # Edits the sharing setup information using either the preference GUI
   # (if enabled) or the editor.
-  proc sync_setup {} {
+  proc share_setup {} {
 
     if {[preferences::get General/EditPreferencesUsingGUI]} {
       pref_ui::create "" "" general sharing
     } else {
-      sync::edit_setup
+      share::edit_setup
     }
 
   }
@@ -2148,8 +2148,11 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 \
-    -menu [make_menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu syntax::set_current_language syntax::current_lang [msgcat::mc None]"]
+    if {[tk windowingsystem] ne "aqua"} {
+      $mb add cascade -label [msgcat::mc "Set Syntax"] -underline 9 \
+        -menu [make_menu $mb.syntaxMenu -tearoff 0 -postcommand "syntax::populate_syntax_menu $mb.syntaxMenu syntax::set_current_language syntax::current_lang [msgcat::mc None]"]
+    }
+
     $mb add cascade -label [msgcat::mc "Set Theme"]  -underline 7 -menu [make_menu $mb.themeMenu  -tearoff 0 -postcommand "themes::populate_theme_menu $mb.themeMenu"]
 
     # Setup the line numbering popup menu
@@ -2290,7 +2293,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Display Text Info"]  -state disabled
       $mb entryconfigure [msgcat::mc "Split View"]         -state disabled
       $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
-      $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
+      if {[tk windowingsystem] ne "aqua"} {
+        $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
+      }
       $mb entryconfigure [msgcat::mc "Folding"]            -state disabled
     } else {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
@@ -2317,7 +2322,9 @@ namespace eval menus {
       } else {
         $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
+      if {[tk windowingsystem] ne "aqua"} {
+        $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
+      }
       $mb entryconfigure [msgcat::mc "Folding"]    -state normal
       set show_split_pane [expr {[llength [[gui::current_txt {}] peer names]] > 0}]
     }

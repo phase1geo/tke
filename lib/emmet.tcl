@@ -211,15 +211,15 @@ namespace eval emmet {
   ######################################################################
   # Returns a list of files/directories used by the Emmet namespace for
   # importing/exporting purposes.
-  proc get_sync_items {dir} {
+  proc get_share_items {dir} {
 
     return [list emmet.tkedat]
 
   }
 
   ######################################################################
-  # Called when the sync directory changes.
-  proc sync_changed {dir} {
+  # Called when the share directory changes.
+  proc share_changed {dir} {
 
     variable custom_file
 

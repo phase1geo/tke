@@ -80,7 +80,7 @@ catch { package require tkdnd }
 catch { package require registry }
 
 source [file join $tke_dir lib version.tcl]
-source [file join $tke_dir lib sync.tcl]
+source [file join $tke_dir lib share.tcl]
 source [file join $tke_dir lib startup.tcl]
 source [file join $tke_dir lib utils.tcl]
 source [file join $tke_dir lib preferences.tcl]
@@ -397,8 +397,8 @@ if {[catch {
     file mkdir $tke_home
   }
 
-  # Allow the sync settings to be setup prior to doing anything else
-  sync::initialize
+  # Allow the share settings to be setup prior to doing anything else
+  share::initialize
 
   # Preload the session information
   sessions::preload

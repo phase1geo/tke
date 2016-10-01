@@ -29,8 +29,8 @@ namespace eval pref_ui {
   variable selected_language ""
   variable mod_dict
   variable sym_dict
-  variable enable_sync
-  variable sync_changed
+  variable enable_share
+  variable share_changed
 
   array set widgets     {}
   array set match_chars {}
@@ -362,8 +362,8 @@ namespace eval pref_ui {
   # Called when the preference window is destroyed.
   proc destroy_window {} {
 
-    # Save any sync changes (if necessary)
-    save_sync_changes
+    # Save any sharing changes (if necessary)
+    save_share_changes
 
     # Kill the window
     destroy .prefwin
@@ -570,8 +570,8 @@ namespace eval pref_ui {
 
     variable widgets
     variable prefs
-    variable enable_sync
-    variable sync_changed
+    variable enable_share
+    variable share_changed
 
     pack [ttk::notebook $w.nb] -fill both -expand yes
 
@@ -697,40 +697,40 @@ namespace eval pref_ui {
     # Populate the language table
     populate_lang_table
 
-    ############
-    # SYNC TAB #
-    ############
+    ###############
+    # SHARING TAB #
+    ###############
 
     $w.nb add [set e [ttk::frame $w.nb.e]] -text [msgcat::mc "Sharing"]
 
     ttk::frame $e.sf
-    set widgets(sync_enable) [ttk::checkbutton $e.sf.cb -text [format " %s: " [set wstr [msgcat::mc "Directory"]]] -variable pref_ui::enable_sync -command [list pref_ui::handle_sync_directory]]
-    set widgets(sync_entry)  [ttk::entry       $e.sf.e]
+    set widgets(share_enable) [ttk::checkbutton $e.sf.cb -text [format " %s: " [set wstr [msgcat::mc "Directory"]]] -variable pref_ui::enable_share -command [list pref_ui::handle_share_directory]]
+    set widgets(share_entry)  [ttk::entry       $e.sf.e]
 
-    register $widgets(sync_enable) $wstr General/SyncDirectory
+    register $widgets(share_enable) $wstr General/ShareDirectory
 
     pack $e.sf.cb -side left -padx 2 -pady 2
     pack $e.sf.e  -side left -padx 2 -pady 2 -fill x -expand yes
 
-    set widgets(sync_items) [ttk::labelframe $e.if -text [set wstr [msgcat::mc "Sync Items"]]]
-    foreach {type nspace name} [sync::get_sync_items] {
-      pack [ttk::checkbutton $e.if.$type -text [format " %s" $name] -variable pref_ui::sync_$type -command [list pref_ui::handle_sync_change]] -fill x -padx 2 -pady 2
+    set widgets(share_items) [ttk::labelframe $e.if -text [set wstr [msgcat::mc "Sharing Items"]]]
+    foreach {type nspace name} [share::get_share_items] {
+      pack [ttk::checkbutton $e.if.$type -text [format " %s" $name] -variable pref_ui::share_$type -command [list pref_ui::handle_share_change]] -fill x -padx 2 -pady 2
     }
 
-    register $widgets(sync_items) $wstr General/SyncItems
+    register $widgets(share_items) $wstr General/ShareItems
 
     pack $e.sf -padx 2 -pady 4 -fill x
     pack $e.if -padx 2 -pady 4 -fill both
 
-    # Initialize the sync UI
-    lassign [sync::get_sync_info] sync_dir sync_items
-    set enable_sync  [expr {$sync_dir ne ""}]
-    set sync_changed 0
-    foreach {type value} $sync_items {
-      set pref_ui::sync_$type $value
+    # Initialize the sharing UI
+    lassign [share::get_share_info] share_dir share_items
+    set enable_share [expr {$share_dir ne ""}]
+    set share_changed 0
+    foreach {type value} $share_items {
+      set pref_ui::share_$type $value
     }
-    $widgets(sync_entry) insert end $sync_dir
-    $widgets(sync_entry) configure -state readonly
+    $widgets(share_entry) insert end $share_dir
+    $widgets(share_entry) configure -state readonly
 
     ###############
     # UPDATES TAB #
@@ -1004,60 +1004,60 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Handles any changes to the sync directory checkbutton.
-  proc handle_sync_directory {} {
+  # Handles any changes to the share directory checkbutton.
+  proc handle_share_directory {} {
 
     variable widgets
-    variable enable_sync
+    variable enable_share
 
-    if {$enable_sync} {
-      if {[set sync_dir [tk_chooseDirectory -parent .prefwin -title [msgcat::mc "Select Settings Sync Directory"]]] eq ""} {
-        set enable_sync 0
+    if {$enable_share} {
+      if {[set share_dir [tk_chooseDirectory -parent .prefwin -title [msgcat::mc "Select Settings Sharing Directory"]]] eq ""} {
+        set enable_share 0
       } else {
-        $widgets(sync_entry) configure -state normal
-        $widgets(sync_entry) delete 0 end
-        $widgets(sync_entry) insert end $sync_dir
-        $widgets(sync_entry) configure -state readonly
-        handle_sync_change
+        $widgets(share_entry) configure -state normal
+        $widgets(share_entry) delete 0 end
+        $widgets(share_entry) insert end $share_dir
+        $widgets(share_entry) configure -state readonly
+        handle_share_change
       }
     } else {
-      $widgets(sync_entry) configure -state normal
-      $widgets(sync_entry) delete 0 end
-      $widgets(sync_entry) configure -state readonly
-      handle_sync_change
+      $widgets(share_entry) configure -state normal
+      $widgets(share_entry) delete 0 end
+      $widgets(share_entry) configure -state readonly
+      handle_share_change
     }
 
   }
 
   ######################################################################
-  # Called whenever a sync value changes.
-  proc handle_sync_change {} {
+  # Called whenever a share value changes.
+  proc handle_share_change {} {
 
-    variable sync_changed
+    variable share_changed
 
-    set sync_changed 1
+    set share_changed 1
 
   }
 
   ######################################################################
-  # Handles any changes to the sync item checkbuttons.
-  proc save_sync_changes {} {
+  # Handles any changes to the sharing item checkbuttons.
+  proc save_share_changes {} {
 
     variable widgets
-    variable sync_changed
+    variable share_changed
 
-    if {$sync_changed} {
+    if {$share_changed} {
 
       # Gather the items
       set items [list]
-      foreach {type nspace name} [sync::get_sync_items] {
-        if {[set pref_ui::sync_$type]} {
+      foreach {type nspace name} [share::get_share_items] {
+        if {[set pref_ui::share_$type]} {
           lappend items $type
         }
       }
 
       # Save the changes
-      sync::save_changes [$widgets(sync_entry) get] $items
+      share::save_changes [$widgets(share_entry) get] $items
 
     }
 

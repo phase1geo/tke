@@ -149,16 +149,16 @@ namespace eval favorites {
 
   ######################################################################
   # Returns a list of files/directories associated with the favorites for
-  # the purposes of settings synchronization.
-  proc get_sync_items {dir} {
+  # the purposes of settings sharing.
+  proc get_share_items {dir} {
 
     return [list favorites.dat]
 
   }
 
   ######################################################################
-  # Called when the sync directory changes.
-  proc sync_changed {dir} {
+  # Called when the share directory changes.
+  proc share_changed {dir} {
 
     variable favorites_file
 
