@@ -1,142 +1,111 @@
-changeset:   2329:511c28716e0b
-tag:         devel-2.6.9
+changeset:   2345:783912c29981
+tag:         devel-2.6.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 00:33:38 2016 -0500
+date:        Fri Sep 30 01:22:54 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.9 release
+ChangeLog for devel-2.6.10 release
 
 
-changeset:   2330:01964d826288
+changeset:   2346:8a2780f70e28
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 00:33:46 2016 -0500
+date:        Fri Sep 30 01:22:58 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.9 for changeset 511c28716e0b
+Added tag devel-2.6.10 for changeset 783912c29981
 
 
-changeset:   2331:e8018c874f52
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 00:57:05 2016 -0500
-files:       lib/gui.tcl lib/templates.tcl lib/version.tcl
-description:
-* Fixing issue where saving a file with snippet tabstops remaining in the text widget caused those characters to be output to the file.
-* Fixing issue where saving a file created from a template did not reveal the file in the sidebar.
-
-
-changeset:   2332:be10dbe39e1c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 01:39:57 2016 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/lang.tcl lib/version.tcl
-description:
-* Updating translations.
-* Fixing tablelist version issue in lang.tcl.
-
-
-changeset:   2333:a833ca56f9a9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 20:28:08 2016 -0500
-files:       lib/completer.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Fixing state of the `Find / Find Next Bracket Mismatch` and `Find / Find Previous Bracket Match` menu options.
-* Changing the above menu options to only be valid when mismatched bracket highlighting is enabled.
-* Fixing bug in syntax namespace where the auto-match characters were not being cleared when files have language set to None from a non-None language.
-
-
-changeset:   2334:24c1af854afc
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 20:56:29 2016 -0500
-files:       data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Default.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Quiverly.tketheme data/themes/Ruby Blue.tketheme data/themes/choco.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/completer.tcl lib/theme.tcl lib/version.tcl
-description:
-* Adding attention color to the syntax color themer.
-* Updating all themes.
-* Changing mismatch bracket indicator to highlight the background color of the offending character (instead of the foreground color).
-
-
-changeset:   2335:40eda217c798
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Sep 27 21:05:43 2016 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg lib/theme.tcl lib/version.tcl
-description:
-* Fixing documentation for attention syntax color.
-* Updating translations.
-
-
-changeset:   2336:20b015634466
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 28 01:55:46 2016 -0500
-files:       .DS_Store lib/foo.tcl lib/images/startup.gif lib/startup.tcl lib/sync.tcl lib/utils.tcl lib/version.tcl
-description:
-* Checkpointing work on startup window.
-
-
-changeset:   2337:71405cfeceb7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 28 02:48:19 2016 -0500
-files:       lib/startup.tcl lib/version.tcl
-description:
-* More tweaks to startup.
-
-
-changeset:   2338:e78bf034b114
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Sep 28 08:51:01 2016 -0500
-files:       lib/foo.tcl lib/startup.tcl lib/version.tcl
-description:
-* Checkpointing startup work.
-
-
-changeset:   2339:9f8fc938081a
+changeset:   2347:878827b925cc
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Sep 28 17:56:51 2016 -0500
-files:       lib/foo.tcl lib/startup.tcl lib/version.tcl
+date:        Fri Sep 30 16:28:42 2016 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist Win/setup.iss doc/Doxyfile lib/multicursor.tcl lib/version.tcl
 description:
-* Checkpointing work on startup window.
+* Updating version files from 2.6 to 2.7 in preparation for upcoming stable release.
+* Fixing bug where visible multicursors could disappear off screen when moving them around the display.
 
 
-changeset:   2340:ea2504b5aec8
+changeset:   2348:2a60837dfbdf
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Fri Sep 30 17:41:39 2016 -0500
+files:       lib/foo.tcl lib/version.tcl
+description:
+* Removing foo.tcl
+
+
+changeset:   2349:d0de9845cac9
+parent:      2346:8a2780f70e28
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 29 01:12:43 2016 -0500
-files:       lib/startup.tcl lib/sync.tcl lib/tke.tcl lib/version.tcl
+date:        Fri Sep 30 09:03:16 2016 -0500
+files:       lib/images/general.gif lib/menus.tcl lib/version.tcl
 description:
-* Finishing work on startup window (still need to make visual tweaks).
-* Integrating startup window into sync flow (needs some work).
+* Changing Settings to Sharing in menus (to help with Preferences confusion).
+* Updating the General icon (work in progress).
 
 
-changeset:   2341:4f09587ebe18
+changeset:   2350:e75a5bc71645
+parent:      2349:d0de9845cac9
+parent:      2348:2a60837dfbdf
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 29 20:55:29 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Sep 30 18:47:24 2016 -0500
+files:       lib/foo.tcl lib/version.tcl
 description:
-* Fixing bracket matching when in editing mode.
+* Merging.
 
 
-changeset:   2342:6208e9002a23
+changeset:   2351:04edcfc615d3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Sep 29 21:24:56 2016 -0500
-files:       lib/ctext/ctext.tcl lib/version.tcl
+date:        Fri Sep 30 21:38:03 2016 -0500
+files:       lib/images/find.gif lib/images/general.gif lib/images/shortcut.gif lib/images/view.gif lib/version.tcl
 description:
-* Fixing issues with automatically matching quote-like characters.
+* Updating preference icons.
 
 
-changeset:   2343:a2179b4a55ae
+changeset:   2352:28b9bb935489
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 30 00:27:26 2016 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/pref_ui.tcl lib/startup.tcl lib/sync.tcl lib/theme.tcl lib/version.tcl
+date:        Fri Sep 30 23:17:08 2016 -0500
+files:       lib/indent.tcl lib/version.tcl
 description:
-* Completing work on startup wizard.
-* Fixing sync namespace issues.
-* Changing "Sync" to "Sharing" in UI.
+* Attempting to fix issue with text formatter in certain situations where proper indentation wasn't occurring.
 
 
-changeset:   2344:45e2b91f9e6d
+changeset:   2353:5a3e64e7564d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 01 00:07:43 2016 -0500
+files:       data/themes/Anatomy of Grey.tketheme data/themes/Starlight.tketheme data/themes/Turn of the Century.tketheme lib/version.tcl
+description:
+* Adding new themes from the Ublime GitHub package (Starlight, Anatomy of Grey, Turn of the Century).
+
+
+changeset:   2354:c560fd313dc4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 01 00:52:52 2016 -0500
+files:       MacOSX/Tke.app/Contents/MacOS/Wish MacOSX/Tke.app/Contents/MacOS/Wish Shell lib/version.tcl
+description:
+* Upgrading Wish to 8.5.19 for macOS.
+
+
+changeset:   2355:138a36aad46e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 01 01:19:31 2016 -0500
+files:       MacOSX/Tke.app/Contents/Info.plist MacOSX/Tke.app/Contents/Resources/TKE.icns MacOSX/Tke.app/Contents/Resources/Tke.icns lib/version.tcl
+description:
+* Renaming Tke to TKE for the MacOSX release.
+
+
+changeset:   2356:7fb9d768ff2a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 01 01:39:07 2016 -0500
+files:       MacOSX/TKE.app/Contents/Info.plist MacOSX/TKE.app/Contents/MacOS/Wish MacOSX/TKE.app/Contents/MacOS/Wish Shell MacOSX/TKE.app/Contents/Resources/Scripts/AppMain.tcl MacOSX/TKE.app/Contents/Resources/Scripts/tke/data MacOSX/TKE.app/Contents/Resources/Scripts/tke/doc MacOSX/TKE.app/Contents/Resources/Scripts/tke/lib MacOSX/TKE.app/Contents/Resources/Scripts/tke/plugins MacOSX/TKE.app/Contents/Resources/Scripts/tke/specl_version.tcl MacOSX/TKE.app/Contents/Resources/TKE.icns MacOSX/TKE.app/Contents/Resources/Wish.icns MacOSX/TKE.app/Contents/Resources/Wish.rsrc MacOSX/TKE.app/Contents/bin/tke MacOSX/TKE.app/Contents/lib/tkdnd2.8/libtkdnd2.8.dylib MacOSX/TKE.app/Contents/lib/tkdnd2.8/pkgIndex.tcl MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd.tcl MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_compat.tcl MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_generic.tcl MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_macosx.tcl MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_unix.tcl MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_windows.tcl MacOSX/Tke.app/Contents/Info.plist MacOSX/Tke.app/Contents/MacOS/Wish MacOSX/Tke.app/Contents/MacOS/Wish Shell MacOSX/Tke.app/Contents/Resources/Scripts/AppMain.tcl MacOSX/Tke.app/Contents/Resources/Scripts/tke/data MacOSX/Tke.app/Contents/Resources/Scripts/tke/doc MacOSX/Tke.app/Contents/Resources/Scripts/tke/lib MacOSX/Tke.app/Contents/Resources/Scripts/tke/plugins MacOSX/Tke.app/Contents/Resources/Scripts/tke/specl_version.tcl MacOSX/Tke.app/Contents/Resources/TKE.icns MacOSX/Tke.app/Contents/Resources/Wish.icns MacOSX/Tke.app/Contents/Resources/Wish.rsrc MacOSX/Tke.app/Contents/bin/tke MacOSX/Tke.app/Contents/lib/tkdnd2.8/libtkdnd2.8.dylib MacOSX/Tke.app/Contents/lib/tkdnd2.8/pkgIndex.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_compat.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_generic.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_macosx.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_unix.tcl MacOSX/Tke.app/Contents/lib/tkdnd2.8/tkdnd_windows.tcl lib/version.tcl
+description:
+* Renaming Tke.app to TKE.app.
+
+
+changeset:   2357:e4173d0fedb8
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Sep 30 01:15:59 2016 -0500
-files:       data/msgs/cs.msg data/msgs/da.msg data/msgs/de.msg data/msgs/el.msg data/msgs/es.msg data/msgs/fr.msg data/msgs/he.msg data/msgs/hu.msg data/msgs/it.msg data/msgs/ja.msg data/msgs/nl.msg data/msgs/no.msg data/msgs/pl.msg data/msgs/pt.msg data/msgs/ru.msg data/msgs/sv.msg data/msgs/zh.msg data/preferences.tkedat lib/startup.tcl lib/sync.tcl lib/version.tcl
+date:        Sat Oct 01 01:39:53 2016 -0500
+files:       lib/version.tcl release.tcl
 description:
-* Updating translations.
-* Changing default theme to Monokai.
-* Fixing sync saving issue.
+* Fixing release script per Tke naming changes.
 
 
