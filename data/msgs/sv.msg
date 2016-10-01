@@ -483,6 +483,9 @@ msgcat::mcmset sv {
   "Edit session global preferences"
   "Redigera globala inställningar för session"
 
+  "Edit settings sharing preferences"
+  "Redigera inställningar för inställningspanelen Fildelning"
+
   "Edit template"
   "Redigera mall"
 
@@ -515,6 +518,9 @@ msgcat::mcmset sv {
 
   "Export As"
   "Exportera som"
+
+  "Export Settings"
+  "Exportera Inställningar"
 
   "Export complete"
   "Export klar."
@@ -1122,12 +1128,6 @@ msgcat::mcmset sv {
   "Set user preferences to global preferences"
   "Ange inställningar till globala inställningar"
 
-  "Setup settings sharing preferences"
-  "Inställningar inställningspanelen Fildelning"
-
-  "Sharing Setup"
-  "Dela Setup"
-
   "Show Console"
   "Visa konsol"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset sv {
   "Ruler column"
   "Linjalen kolumn"
 
-  "Select Settings Sync Directory"
-  "Välj inställningar synkronisera katalog"
+  "Select Settings Sharing Directory"
+  "Välj inställningar delar katalog"
 
   "Select default browsing directory"
   "Välj standard bläddra katalog"
@@ -1603,8 +1603,8 @@ msgcat::mcmset sv {
   "Set default open/save browsing directory to"
   "Ställa in standard öppna/spara bläddra katalog till"
 
-  "Sharing"
-  "Delar"
+  "Sharing Items"
+  "Dela objekt"
 
   "Shortcut"
   "Genväg"
@@ -1659,9 +1659,6 @@ msgcat::mcmset sv {
 
   "Symbol placed at end of CSS property"
   "Symbol slutet av CSS egendom"
-
-  "Sync Items"
-  "Synkronisera objekt"
 
   "Syntax Coloring"
   "Syntaxfärgning"
@@ -1732,6 +1729,29 @@ msgcat::mcmset sv {
 
   "Session state will be lost if not saved"
   "Sessionstillstånd går förlorad om inte sparats"
+
+}
+
+# share.tcl
+msgcat::mcmset sv {
+
+  "Emmet"
+  "myra"
+
+  "Export Settings Data"
+  "Exportera inställningar"
+
+  "Favorites"
+  "Favoriter"
+
+  "Settings to export"
+  "Inställningar för att exportera"
+
+  "Sharing Setup"
+  "Dela Setup"
+
+  "Themes"
+  "Teman"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset sv {
   "Finish"
   "Avsluta"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Behöver du vill ändra dina inställningar läge eller data, kan du göra det inom den Redigera/inställningar/Setup... menyn."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Behöver du vill ändra dina inställningar läge eller data, kan du göra det inom den Redigera/delning/redigera...-menyn."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Objekt som är markerade kommer att kopieras till din lokala arbetskatalog. Objekt som inte är markerade kommer att skapas i din hemkatalog."
@@ -1840,6 +1860,9 @@ msgcat::mcmset sv {
 
   "Select Settings Directory"
   "Välj inställningar katalog"
+
+  "Settings"
+  "Inställningar"
 
   "Settings Options"
   "Inställningar"
@@ -1864,29 +1887,6 @@ msgcat::mcmset sv {
 
   "Welcome To"
   "Välkommen till"
-
-}
-
-# sync.tcl
-msgcat::mcmset sv {
-
-  "Emmet"
-  "myra"
-
-  "Export Settings Data"
-  "Exportera inställningar"
-
-  "Favorites"
-  "Favoriter"
-
-  "Settings to export"
-  "Inställningar för att exportera"
-
-  "Sync Setup"
-  "Konfigurera synkronisering"
-
-  "Themes"
-  "Teman"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset sv {
   "Sessions"
   "Sessioner"
 
-  "Settings"
-  "Inställningar"
+  "Sharing"
+  "Delar"
 
   "Show console"
   "Visa konsolen"

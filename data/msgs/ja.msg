@@ -483,6 +483,9 @@ msgcat::mcmset ja {
   "Edit session global preferences"
   "セッションのグローバル設定を編集します。"
 
+  "Edit settings sharing preferences"
+  "設定の共有設定を編集します。"
+
   "Edit template"
   "テンプレートの編集"
 
@@ -515,6 +518,9 @@ msgcat::mcmset ja {
 
   "Export As"
   "CSV形式でエクスポート"
+
+  "Export Settings"
+  "エクスポートを設定"
 
   "Export complete"
   "サイト出力が完了しました。"
@@ -1122,12 +1128,6 @@ msgcat::mcmset ja {
   "Set user preferences to global preferences"
   "[グローバル設定] に設定されているユーザー設定"
 
-  "Setup settings sharing preferences"
-  "設定の共有設定"
-
-  "Sharing Setup"
-  "共有のセットアップ"
-
   "Show Console"
   "コンソールの表示"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset ja {
   "Ruler column"
   "定規コラム"
 
-  "Select Settings Sync Directory"
-  "設定同期ディレクトリを選択します。"
+  "Select Settings Sharing Directory"
+  "ディレクトリの共有の設定を選択します。"
 
   "Select default browsing directory"
   "デフォルトのディレクトリをブラウズを選択します。"
@@ -1603,8 +1603,8 @@ msgcat::mcmset ja {
   "Set default open/save browsing directory to"
   "既定開く/保存するディレクトリを設定します。"
 
-  "Sharing"
-  "共有中"
+  "Sharing Items"
+  "アイテムの共有"
 
   "Shortcut"
   "ショートカットキー"
@@ -1659,9 +1659,6 @@ msgcat::mcmset ja {
 
   "Symbol placed at end of CSS property"
   "CSS プロパティの末尾に配置記号"
-
-  "Sync Items"
-  "アイテムを同期します。"
 
   "Syntax Coloring"
   "構文の色指定"
@@ -1732,6 +1729,29 @@ msgcat::mcmset ja {
 
   "Session state will be lost if not saved"
   "保存されていない場合は、セッション状態が失われます"
+
+}
+
+# share.tcl
+msgcat::mcmset ja {
+
+  "Emmet"
+  "蟻 [あり]"
+
+  "Export Settings Data"
+  "エクスポートを設定"
+
+  "Favorites"
+  "お気に入り"
+
+  "Settings to export"
+  "設定をエクスポートするには"
+
+  "Sharing Setup"
+  "共有のセットアップ"
+
+  "Themes"
+  "テーマ"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset ja {
   "Finish"
   "フィニッシュ"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "必要な場合はあなたの設定の場所および/またはデータを変更したい編集/設定/セットアップ内でこれを行うことができますメニュー。"
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "必要な場合はあなたの設定の場所および/またはデータを変更したい編集/共有内でこれを行うことができます/編集] メニュー。"
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "選択されている項目は、あなたのローカルのホーム ディレクトリにコピーされます。選択されていないアイテムは、あなたのホーム ディレクトリに作成されます。"
@@ -1840,6 +1860,9 @@ msgcat::mcmset ja {
 
   "Select Settings Directory"
   "設定ディレクトリを選択します。"
+
+  "Settings"
+  "設定"
 
   "Settings Options"
   "設定オプション"
@@ -1864,29 +1887,6 @@ msgcat::mcmset ja {
 
   "Welcome To"
   "ようこそ"
-
-}
-
-# sync.tcl
-msgcat::mcmset ja {
-
-  "Emmet"
-  "蟻 [あり]"
-
-  "Export Settings Data"
-  "エクスポートを設定"
-
-  "Favorites"
-  "お気に入り"
-
-  "Settings to export"
-  "設定をエクスポートするには"
-
-  "Sync Setup"
-  "同期のセットアップ"
-
-  "Themes"
-  "テーマ"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset ja {
   "Sessions"
   "セッション"
 
-  "Settings"
-  "設定"
+  "Sharing"
+  "共有中"
 
   "Show console"
   "コンソールを表示します。"

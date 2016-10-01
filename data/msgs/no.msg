@@ -483,6 +483,9 @@ msgcat::mcmset no {
   "Edit session global preferences"
   "Endre økt global"
 
+  "Edit settings sharing preferences"
+  "Rediger innstillinger for Deling-valgpanelet"
+
   "Edit template"
   "Endre Grid mal"
 
@@ -515,6 +518,9 @@ msgcat::mcmset no {
 
   "Export As"
   "Eksporter som..."
+
+  "Export Settings"
+  "Eksporter innstillinger"
 
   "Export complete"
   "Eksporten er fullført"
@@ -1122,12 +1128,6 @@ msgcat::mcmset no {
   "Set user preferences to global preferences"
   "Angi innstillinger globale innstillinger"
 
-  "Setup settings sharing preferences"
-  "Innstillinger for Deling-valgpanelet"
-
-  "Sharing Setup"
-  "Deling oppsett"
-
   "Show Console"
   "Vis Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset no {
   "Ruler column"
   "Linjalen kolonne"
 
-  "Select Settings Sync Directory"
-  "Velg innstillinger Sync katalog"
+  "Select Settings Sharing Directory"
+  "Velg innstillinger deler katalog"
 
   "Select default browsing directory"
   "Velg standard leser katalog"
@@ -1603,8 +1603,8 @@ msgcat::mcmset no {
   "Set default open/save browsing directory to"
   "Angi standard åpen/bevare surfing katalogen"
 
-  "Sharing"
-  "Plassering av knapper for sosiale medier."
+  "Sharing Items"
+  "Delt elementer"
 
   "Shortcut"
   "snarvei"
@@ -1659,9 +1659,6 @@ msgcat::mcmset no {
 
   "Symbol placed at end of CSS property"
   "Symbol plassert på slutten av CSS eiendom"
-
-  "Sync Items"
-  "Synkronisere objekter"
 
   "Syntax Coloring"
   "Syntaks koloritt"
@@ -1732,6 +1729,29 @@ msgcat::mcmset no {
 
   "Session state will be lost if not saved"
   "Session staten vil gå tapt hvis ikke lagret"
+
+}
+
+# share.tcl
+msgcat::mcmset no {
+
+  "Emmet"
+  "maur"
+
+  "Export Settings Data"
+  "Eksportinnstillinger"
+
+  "Favorites"
+  "Favoritter"
+
+  "Settings to export"
+  "For å eksportere"
+
+  "Sharing Setup"
+  "Deling oppsett"
+
+  "Themes"
+  "Temaer"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset no {
   "Finish"
   "Finsk"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Hvis du vil endre innstillinger for plassering og/eller data, kan du gjøre det i Rediger/innstillinger/oppsett... menyen."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Hvis du vil endre innstillinger for plassering og/eller data, kan du gjøre det i Rediger/deling/Nedlastingsalternativ menyen."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Elementer som er valgt overføres til lokale startmappen. Elementer som ikke er valgt, opprettes i startmappen."
@@ -1840,6 +1860,9 @@ msgcat::mcmset no {
 
   "Select Settings Directory"
   "Velg innstillinger katalog"
+
+  "Settings"
+  "Innstillinger"
 
   "Settings Options"
   "Innstillingsalternativer"
@@ -1864,29 +1887,6 @@ msgcat::mcmset no {
 
   "Welcome To"
   "Velkommen til"
-
-}
-
-# sync.tcl
-msgcat::mcmset no {
-
-  "Emmet"
-  "maur"
-
-  "Export Settings Data"
-  "Eksportinnstillinger"
-
-  "Favorites"
-  "Favoritter"
-
-  "Settings to export"
-  "For å eksportere"
-
-  "Sync Setup"
-  "Synkroniseringsoppsettet"
-
-  "Themes"
-  "Temaer"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset no {
   "Sessions"
   "Sessions"
 
-  "Settings"
-  "Innstillinger"
+  "Sharing"
+  "Plassering av knapper for sosiale medier."
 
   "Show console"
   "Vise konsoll"

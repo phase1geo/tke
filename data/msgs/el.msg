@@ -483,6 +483,9 @@ msgcat::mcmset el {
   "Edit session global preferences"
   "Επεξεργασία προτιμήσεων παγκόσμια σύνοδο"
 
+  "Edit settings sharing preferences"
+  "Επεξεργαστείτε τις ρυθμίσεις κοινής χρήσης προτιμήσεις"
+
   "Edit template"
   "Επεξεργασία Προτύπου"
 
@@ -515,6 +518,9 @@ msgcat::mcmset el {
 
   "Export As"
   "Εξαγωγή ως"
+
+  "Export Settings"
+  "Εξαγωγή ρυθμίσεων"
 
   "Export complete"
   "Η εξαγωγή ολοκληρώθηκε."
@@ -1122,12 +1128,6 @@ msgcat::mcmset el {
   "Set user preferences to global preferences"
   "Ορίστε τις προτιμήσεις του χρήστη σε σφαιρικές προτιμήσεις"
 
-  "Setup settings sharing preferences"
-  "Ρυθμίσεις διαμόρφωσης κοινής χρήσης προτιμήσεις"
-
-  "Sharing Setup"
-  "Κοινή χρήση εγκατάστασης"
-
   "Show Console"
   "Εμφάνιση Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset el {
   "Ruler column"
   "Στήλη του χάρακα"
 
-  "Select Settings Sync Directory"
-  "Επιλέξτε τις ρυθμίσεις συγχρονισμού καταλόγου"
+  "Select Settings Sharing Directory"
+  "Επιλέξτε ρυθμίσεις κοινής χρήσης καταλόγου"
 
   "Select default browsing directory"
   "Επιλέξτε περιήγηση καταλόγου προεπιλογή"
@@ -1603,8 +1603,8 @@ msgcat::mcmset el {
   "Set default open/save browsing directory to"
   "Ορίστε την προεπιλεγμένη Άνοιγμα/Αποθήκευση περιήγηση κατάλογο για να"
 
-  "Sharing"
-  "Κοινή Χρήση"
+  "Sharing Items"
+  "Κοινή χρήση Είδη"
 
   "Shortcut"
   "συντόμευση"
@@ -1659,9 +1659,6 @@ msgcat::mcmset el {
 
   "Symbol placed at end of CSS property"
   "Σύμβολο που τοποθετείται στο τέλος της ιδιοκτησίας CSS"
-
-  "Sync Items"
-  "Αντικείμενα συγχρονισμού"
 
   "Syntax Coloring"
   "Σύνταξη χρωματισμού"
@@ -1732,6 +1729,29 @@ msgcat::mcmset el {
 
   "Session state will be lost if not saved"
   "Κατάσταση περιόδου θα χαθούν αν δεν αποθηκεύονται"
+
+}
+
+# share.tcl
+msgcat::mcmset el {
+
+  "Emmet"
+  "μυρμήγκι"
+
+  "Export Settings Data"
+  "Εξαγωγή ρυθμίσεων"
+
+  "Favorites"
+  "Αγαπημένα"
+
+  "Settings to export"
+  "Ρυθμίσεις για την εξαγωγή"
+
+  "Sharing Setup"
+  "Κοινή χρήση εγκατάστασης"
+
+  "Themes"
+  "Θέματα"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset el {
   "Finish"
   "Λήξη"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Αν χρειαστεί, θα ήθελα να αλλάξει ρυθμίσεις τοποθεσία σας και τα δεδομένα, μπορείτε να το κάνετε μέσα σε επεξεργασία/ρυθμίσεις/εγκατάστασης... μενού."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Αν χρειαστεί, θα ήθελα να αλλάξει ρυθμίσεις τοποθεσία σας και τα δεδομένα, μπορείτε να το κάνετε κατά την επεξεργασία/κοινή χρήση/Επεξεργασία μενού."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Στοιχεία που έχουν επιλεγεί θα αντιγραφούν στον home κατάλογο του τοπικού σας. Στοιχεία που δεν έχουν επιλεγεί θα δημιουργηθεί στον εγχώριο κατάλογό σας."
@@ -1840,6 +1860,9 @@ msgcat::mcmset el {
 
   "Select Settings Directory"
   "Επιλέξτε Ρυθμίσεις καταλόγου"
+
+  "Settings"
+  "Ρυθμίσεις"
 
   "Settings Options"
   "Επιλογές ρυθμίσεων"
@@ -1864,29 +1887,6 @@ msgcat::mcmset el {
 
   "Welcome To"
   "Καλώς ήρθατε"
-
-}
-
-# sync.tcl
-msgcat::mcmset el {
-
-  "Emmet"
-  "μυρμήγκι"
-
-  "Export Settings Data"
-  "Εξαγωγή ρυθμίσεων"
-
-  "Favorites"
-  "Αγαπημένα"
-
-  "Settings to export"
-  "Ρυθμίσεις για την εξαγωγή"
-
-  "Sync Setup"
-  "Ρύθμιση συγχρονισμού"
-
-  "Themes"
-  "Θέματα"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset el {
   "Sessions"
   "συνεδρίες"
 
-  "Settings"
-  "Ρυθμίσεις"
+  "Sharing"
+  "Κοινή Χρήση"
 
   "Show console"
   "Δείχνουν κονσόλα"

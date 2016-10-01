@@ -483,6 +483,9 @@ msgcat::mcmset ru {
   "Edit session global preferences"
   "Изменить глобальные настройки сессии"
 
+  "Edit settings sharing preferences"
+  "Изменение параметров настройки общего доступа"
+
   "Edit template"
   "Правка шаблона"
 
@@ -515,6 +518,9 @@ msgcat::mcmset ru {
 
   "Export As"
   "Експорт в CSV"
+
+  "Export Settings"
+  "Экспорт настроек"
 
   "Export complete"
   "Экспорт полной"
@@ -1122,12 +1128,6 @@ msgcat::mcmset ru {
   "Set user preferences to global preferences"
   "Задать параметры пользователя в глобальные настройки"
 
-  "Setup settings sharing preferences"
-  "Настройка параметров настройки общего доступа"
-
-  "Sharing Setup"
-  "Совместное использование программы установки"
-
   "Show Console"
   "Показать консоль"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset ru {
   "Ruler column"
   "Правитель столбец"
 
-  "Select Settings Sync Directory"
-  "Выберите настройки синхронизации каталога"
+  "Select Settings Sharing Directory"
+  "Выберите общий доступ к каталогу"
 
   "Select default browsing directory"
   "Выберите по умолчанию, просмотр каталога"
@@ -1603,8 +1603,8 @@ msgcat::mcmset ru {
   "Set default open/save browsing directory to"
   "Установить по умолчанию открыть/сохранить просмотра каталога"
 
-  "Sharing"
-  "Делимся"
+  "Sharing Items"
+  "Совместное использование элементов"
 
   "Shortcut"
   "Ярлык"
@@ -1659,9 +1659,6 @@ msgcat::mcmset ru {
 
   "Symbol placed at end of CSS property"
   "Символ в конце CSS свойства"
-
-  "Sync Items"
-  "Синхронизация элементов"
 
   "Syntax Coloring"
   "Подсветка синтаксиса"
@@ -1732,6 +1729,29 @@ msgcat::mcmset ru {
 
   "Session state will be lost if not saved"
   "Состояние сеанса будут потеряны, если не сохраняются"
+
+}
+
+# share.tcl
+msgcat::mcmset ru {
+
+  "Emmet"
+  "муравей"
+
+  "Export Settings Data"
+  "Настройки экспорта"
+
+  "Favorites"
+  "Избранное"
+
+  "Settings to export"
+  "Параметры для экспорта"
+
+  "Sharing Setup"
+  "Совместное использование программы установки"
+
+  "Themes"
+  "Темы"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset ru {
   "Finish"
   "Закончить"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Если вам хотите изменить настройки местоположения и/или данных, вы можете сделать это в «Правка/Параметры/настройки» меню."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Если вам хотите изменить настройки местоположения и/или данных, вы можете сделать это в Edit/общий доступ/изменить меню."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Элементы, выбранные будут скопированы на ваш локальный домашний каталог. Элементы, которые не выбраны будут создаваться в вашем домашнем каталоге."
@@ -1840,6 +1860,9 @@ msgcat::mcmset ru {
 
   "Select Settings Directory"
   "Выберите настройки каталога"
+
+  "Settings"
+  "Настройки"
 
   "Settings Options"
   "Опции дизайна"
@@ -1864,29 +1887,6 @@ msgcat::mcmset ru {
 
   "Welcome To"
   "Добро пожаловать"
-
-}
-
-# sync.tcl
-msgcat::mcmset ru {
-
-  "Emmet"
-  "муравей"
-
-  "Export Settings Data"
-  "Настройки экспорта"
-
-  "Favorites"
-  "Избранное"
-
-  "Settings to export"
-  "Параметры для экспорта"
-
-  "Sync Setup"
-  "Настройка синхронизации"
-
-  "Themes"
-  "Темы"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset ru {
   "Sessions"
   "сессий"
 
-  "Settings"
-  "Настройки"
+  "Sharing"
+  "Делимся"
 
   "Show console"
   "Показать консоль"

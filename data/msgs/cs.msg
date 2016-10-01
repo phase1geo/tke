@@ -483,6 +483,9 @@ msgcat::mcmset cs {
   "Edit session global preferences"
   "Upravit globální nastavení relace"
 
+  "Edit settings sharing preferences"
+  "Upravit nastavení sdílení předvolby"
+
   "Edit template"
   "Upravit šablonu mailu"
 
@@ -515,6 +518,9 @@ msgcat::mcmset cs {
 
   "Export As"
   "Exportovat jako"
+
+  "Export Settings"
+  "Exportovat nastavení"
 
   "Export complete"
   "Export dokončen"
@@ -1122,12 +1128,6 @@ msgcat::mcmset cs {
   "Set user preferences to global preferences"
   "Nastavit uživatelské předvolby na globální nastavení"
 
-  "Setup settings sharing preferences"
-  "Nastavení sdílení předvolby"
-
-  "Sharing Setup"
-  "Sdílení nastavení"
-
   "Show Console"
   "Zobrazit Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset cs {
   "Ruler column"
   "Vládce sloupec"
 
-  "Select Settings Sync Directory"
-  "Vyberte nastavení synchronizace adresáře"
+  "Select Settings Sharing Directory"
+  "Vyberte nastavení sdílení adresáře"
 
   "Select default browsing directory"
   "Vyberte výchozí procházení adresářů"
@@ -1603,8 +1603,8 @@ msgcat::mcmset cs {
   "Set default open/save browsing directory to"
   "Nastavit výchozí otevřít/uložit procházení adresáře"
 
-  "Sharing"
-  "Sdílení"
+  "Sharing Items"
+  "39 Sdílení položek"
 
   "Shortcut"
   "zkratka"
@@ -1659,9 +1659,6 @@ msgcat::mcmset cs {
 
   "Symbol placed at end of CSS property"
   "Symbol na konci CSS vlastnosti"
-
-  "Sync Items"
-  "Synchronizace položek"
 
   "Syntax Coloring"
   "Barevná syntaxe"
@@ -1732,6 +1729,29 @@ msgcat::mcmset cs {
 
   "Session state will be lost if not saved"
   "Stavu relace budou ztraceny, pokud nejsou uloženy"
+
+}
+
+# share.tcl
+msgcat::mcmset cs {
+
+  "Emmet"
+  "mravenec"
+
+  "Export Settings Data"
+  "Exportovat nastavení"
+
+  "Favorites"
+  "Oblíbené"
+
+  "Settings to export"
+  "Nastavení exportu"
+
+  "Sharing Setup"
+  "Sdílení nastavení"
+
+  "Themes"
+  "Vzhledy"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset cs {
   "Finish"
   "Dokončit"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Potřebujete-li by chtěli změnit nastavení umístění nebo data, můžete tak učinit v rámci úpravy/nastavení/nastavení... menu."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Potřebujete-li by chtěli změnit nastavení umístění nebo data, můžete tak učinit v rámci úpravy či sdílení/upravit nabídky."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Položky, které jsou vybrány, budou zkopírovány do domovského adresáře. Položky, které nejsou vybrány, vytvoří se ve vašem domovském adresáři."
@@ -1840,6 +1860,9 @@ msgcat::mcmset cs {
 
   "Select Settings Directory"
   "Vyberte adresář, nastavení"
+
+  "Settings"
+  "Nastavení"
 
   "Settings Options"
   "Možnosti nastavení"
@@ -1864,29 +1887,6 @@ msgcat::mcmset cs {
 
   "Welcome To"
   "Vítáme vás"
-
-}
-
-# sync.tcl
-msgcat::mcmset cs {
-
-  "Emmet"
-  "mravenec"
-
-  "Export Settings Data"
-  "Exportovat nastavení"
-
-  "Favorites"
-  "Oblíbené"
-
-  "Settings to export"
-  "Nastavení exportu"
-
-  "Sync Setup"
-  "Nastavení synchronizace"
-
-  "Themes"
-  "Vzhledy"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset cs {
   "Sessions"
   "Návt?vy"
 
-  "Settings"
-  "Nastavení"
+  "Sharing"
+  "Sdílení"
 
   "Show console"
   "Zobrazit konzole"

@@ -483,6 +483,9 @@ msgcat::mcmset da {
   "Edit session global preferences"
   "Redigere session globale indstillinger"
 
+  "Edit settings sharing preferences"
+  "Redigere indstillinger for deling"
+
   "Edit template"
   "Redigér skabelon"
 
@@ -515,6 +518,9 @@ msgcat::mcmset da {
 
   "Export As"
   "Eksportér som"
+
+  "Export Settings"
+  "Indstillinger for REST-eksport"
 
   "Export complete"
   "Eksport færdig."
@@ -1122,12 +1128,6 @@ msgcat::mcmset da {
   "Set user preferences to global preferences"
   "Angive brugerindstillinger for globale indstillinger"
 
-  "Setup settings sharing preferences"
-  "Indstillinger for printeropsætning deling"
-
-  "Sharing Setup"
-  "Deling Setup"
-
   "Show Console"
   "Vis Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset da {
   "Ruler column"
   "Lineal kolonne"
 
-  "Select Settings Sync Directory"
-  "Vælg indstillinger Synkroniser Register"
+  "Select Settings Sharing Directory"
+  "Vælg indstillinger for deling Register"
 
   "Select default browsing directory"
   "Vælg standard gennemser Register"
@@ -1603,8 +1603,8 @@ msgcat::mcmset da {
   "Set default open/save browsing directory to"
   "Indstille standard Åbn/Gem browsing register til"
 
-  "Sharing"
-  "Deling"
+  "Sharing Items"
+  "Deling af elementer"
 
   "Shortcut"
   "Genvej"
@@ -1659,9 +1659,6 @@ msgcat::mcmset da {
 
   "Symbol placed at end of CSS property"
   "Symbol placeret i slutningen af CSS ejendom"
-
-  "Sync Items"
-  "Sync elementer"
 
   "Syntax Coloring"
   "Syntaxfarvning"
@@ -1732,6 +1729,29 @@ msgcat::mcmset da {
 
   "Session state will be lost if not saved"
   "Session stat vil gå tabt, hvis ikke gemt"
+
+}
+
+# share.tcl
+msgcat::mcmset da {
+
+  "Emmet"
+  "myre"
+
+  "Export Settings Data"
+  "Eksportere indstillinger Data"
+
+  "Favorites"
+  "Foretrukne"
+
+  "Settings to export"
+  "Indstillinger til at eksportere"
+
+  "Sharing Setup"
+  "Deling Setup"
+
+  "Themes"
+  "Temaer"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset da {
   "Finish"
   "Afslut"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Hvis du ønsker at ændre dine indstillinger for placering og/eller data, du kan gøre dette inden for Rediger/indstillinger/Setup... menu."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Hvis du ønsker at ændre dine indstillinger for placering og/eller data, du kan gøre dette inden for Rediger/deling/Rediger... menu."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Elementer der er markeret kopieres til din lokale hjemmemappe. Varer, der ikke er valgt vil blive oprettet i din hjemmemappe."
@@ -1840,6 +1860,9 @@ msgcat::mcmset da {
 
   "Select Settings Directory"
   "Vælg indstillinger for bibliotek"
+
+  "Settings"
+  "Indstillinger"
 
   "Settings Options"
   "Indstillingsmuligheder"
@@ -1864,29 +1887,6 @@ msgcat::mcmset da {
 
   "Welcome To"
   "Velkommen til"
-
-}
-
-# sync.tcl
-msgcat::mcmset da {
-
-  "Emmet"
-  "myre"
-
-  "Export Settings Data"
-  "Eksportere indstillinger Data"
-
-  "Favorites"
-  "Foretrukne"
-
-  "Settings to export"
-  "Indstillinger til at eksportere"
-
-  "Sync Setup"
-  "Sync Setup"
-
-  "Themes"
-  "Temaer"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset da {
   "Sessions"
   "Sessioner"
 
-  "Settings"
-  "Indstillinger"
+  "Sharing"
+  "Deling"
 
   "Show console"
   "Vis konsol"

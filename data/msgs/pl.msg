@@ -483,6 +483,9 @@ msgcat::mcmset pl {
   "Edit session global preferences"
   "Globalne ustawienia sesji"
 
+  "Edit settings sharing preferences"
+  "Edytować ustawienia w preferencjach udostępniania"
+
   "Edit template"
   "Edycja szablonu"
 
@@ -515,6 +518,9 @@ msgcat::mcmset pl {
 
   "Export As"
   "Eksportuj jako"
+
+  "Export Settings"
+  "Eksportuj ustawienia..."
 
   "Export complete"
   "Eksportowanie zakończone."
@@ -1122,12 +1128,6 @@ msgcat::mcmset pl {
   "Set user preferences to global preferences"
   "Ustawić preferencje użytkownika do globalnych preferencji"
 
-  "Setup settings sharing preferences"
-  "Ustawienia udostępniania Preferencje"
-
-  "Sharing Setup"
-  "Konfiguracja udostępniania"
-
   "Show Console"
   "Pokaż Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset pl {
   "Ruler column"
   "Władca kolumna"
 
-  "Select Settings Sync Directory"
-  "Wybierz opcję Ustawienia synchronizacji katalogów"
+  "Select Settings Sharing Directory"
+  "Wybierz ustawienia udostępniania katalogu"
 
   "Select default browsing directory"
   "Wybierz domyślny, przeglądanie katalogów"
@@ -1603,8 +1603,8 @@ msgcat::mcmset pl {
   "Set default open/save browsing directory to"
   "Ustaw domyślny Otwórz/Zapisz przeglądania katalogu do"
 
-  "Sharing"
-  "Udostępnianie"
+  "Sharing Items"
+  "Dzielenie przedmioty"
 
   "Shortcut"
   "Skrót"
@@ -1659,9 +1659,6 @@ msgcat::mcmset pl {
 
   "Symbol placed at end of CSS property"
   "Symbol umieszczony na końcu właściwości CSS"
-
-  "Sync Items"
-  "Synchronizacja elementów"
 
   "Syntax Coloring"
   "Kolorowanie składni"
@@ -1732,6 +1729,29 @@ msgcat::mcmset pl {
 
   "Session state will be lost if not saved"
   "Stan sesji zostaną utracone, jeśli nie został zapisany"
+
+}
+
+# share.tcl
+msgcat::mcmset pl {
+
+  "Emmet"
+  "mrówka"
+
+  "Export Settings Data"
+  "Eksportuj ustawienia"
+
+  "Favorites"
+  "Schowek"
+
+  "Settings to export"
+  "Ustawienia eksportu"
+
+  "Sharing Setup"
+  "Konfiguracja udostępniania"
+
+  "Themes"
+  "Motywy"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset pl {
   "Finish"
   "wykończenia"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Jeśli potrzebujesz chciałbym zmienić ustawienia lokalizacji i/lub danych, możesz to zrobić w ciągu Edycja/ustawienia/ustawienia menu."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Jeśli potrzebujesz chciałbym zmienić ustawienia lokalizacji i/lub danych, możesz to zrobić w ciągu Edycja/udostępnianie/Edytuj menu."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Elementy, które są wybrane zostaną skopiowane do lokalnego katalogu macierzystego. Elementy, które nie zostały wybrane zostanie utworzony w katalogu domowym."
@@ -1840,6 +1860,9 @@ msgcat::mcmset pl {
 
   "Select Settings Directory"
   "Wybierz ustawienia katalogu"
+
+  "Settings"
+  "Ustawienia"
 
   "Settings Options"
   "Ustawienia opcji"
@@ -1864,29 +1887,6 @@ msgcat::mcmset pl {
 
   "Welcome To"
   "Witamy w"
-
-}
-
-# sync.tcl
-msgcat::mcmset pl {
-
-  "Emmet"
-  "mrówka"
-
-  "Export Settings Data"
-  "Eksportuj ustawienia"
-
-  "Favorites"
-  "Schowek"
-
-  "Settings to export"
-  "Ustawienia eksportu"
-
-  "Sync Setup"
-  "Ustawienia synchronizacji"
-
-  "Themes"
-  "Motywy"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset pl {
   "Sessions"
   "Sesje"
 
-  "Settings"
-  "Ustawienia"
+  "Sharing"
+  "Udostępnianie"
 
   "Show console"
   "Pokaż konsolę"

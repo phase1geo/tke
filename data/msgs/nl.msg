@@ -483,6 +483,9 @@ msgcat::mcmset nl {
   "Edit session global preferences"
   "Globale sessie-voorkeuren bewerken"
 
+  "Edit settings sharing preferences"
+  "Instellingen delen voorkeuren bewerken"
+
   "Edit template"
   "Wijzig sjabloon"
 
@@ -515,6 +518,9 @@ msgcat::mcmset nl {
 
   "Export As"
   "Exporteren als"
+
+  "Export Settings"
+  "Import / Export iCalendar feeds"
 
   "Export complete"
   "Export voltooid."
@@ -1122,12 +1128,6 @@ msgcat::mcmset nl {
   "Set user preferences to global preferences"
   "Gebruikersvoorkeuren naar algemene voorkeuren instellen"
 
-  "Setup settings sharing preferences"
-  "Installatie-instellingen delen voorkeuren"
-
-  "Sharing Setup"
-  "Delen van Setup"
-
   "Show Console"
   "Show Console"
 
@@ -1582,8 +1582,8 @@ msgcat::mcmset nl {
   "Ruler column"
   "Liniaal kolom"
 
-  "Select Settings Sync Directory"
-  "Selecteer instellingen Sync Directory"
+  "Select Settings Sharing Directory"
+  "Selecteer instellingen voor het delen van Directory"
 
   "Select default browsing directory"
   "Selecteer standaard directory browsing"
@@ -1603,8 +1603,8 @@ msgcat::mcmset nl {
   "Set default open/save browsing directory to"
   "Instellen van de standaard open/sparen directory browsing"
 
-  "Sharing"
-  "Delen"
+  "Sharing Items"
+  "Delen van Items"
 
   "Shortcut"
   "Sneltoets"
@@ -1659,9 +1659,6 @@ msgcat::mcmset nl {
 
   "Symbol placed at end of CSS property"
   "Teken geplaatst aan einde van CSS-eigenschap"
-
-  "Sync Items"
-  "Sync Items"
 
   "Syntax Coloring"
   "Syntaxiskleuring"
@@ -1732,6 +1729,29 @@ msgcat::mcmset nl {
 
   "Session state will be lost if not saved"
   "Sessie staat zullen verloren gaan als niet opgeslagen"
+
+}
+
+# share.tcl
+msgcat::mcmset nl {
+
+  "Emmet"
+  "mier"
+
+  "Export Settings Data"
+  "Exporteer Instellingen"
+
+  "Favorites"
+  "Favorieten"
+
+  "Settings to export"
+  "Instellingen exporteren"
+
+  "Sharing Setup"
+  "Delen van Setup"
+
+  "Themes"
+  "Thema’s"
 
 }
 
@@ -1826,8 +1846,8 @@ msgcat::mcmset nl {
   "Finish"
   "Voltooien"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."
-  "Als u zou willen veranderen van uw locatie van de instellingen en/of gegevens, kunt u dit doen binnen het bewerken/instellingen/Setup... menu."
+  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
+  "Als u zou willen veranderen van uw locatie van de instellingen en/of gegevens, kunt u dit doen binnen het bewerken/delen/bewerken.. menu."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Items die zijn geselecteerd zal worden gekopieerd naar uw lokale basismap. Items die niet geselecteerd zijn worden aangemaakt in je home directory."
@@ -1840,6 +1860,9 @@ msgcat::mcmset nl {
 
   "Select Settings Directory"
   "Selecteer instellingen map"
+
+  "Settings"
+  "Instellingen"
 
   "Settings Options"
   "Instelmogelijkheden"
@@ -1864,29 +1887,6 @@ msgcat::mcmset nl {
 
   "Welcome To"
   "Welkom bij"
-
-}
-
-# sync.tcl
-msgcat::mcmset nl {
-
-  "Emmet"
-  "mier"
-
-  "Export Settings Data"
-  "Exporteer Instellingen"
-
-  "Favorites"
-  "Favorieten"
-
-  "Settings to export"
-  "Instellingen exporteren"
-
-  "Sync Setup"
-  "Instelling synchronisatie"
-
-  "Themes"
-  "Thema’s"
 
 }
 
@@ -2425,8 +2425,8 @@ msgcat::mcmset nl {
   "Sessions"
   "Sessies"
 
-  "Settings"
-  "Instellingen"
+  "Sharing"
+  "Delen"
 
   "Show console"
   "Toon console"
