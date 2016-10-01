@@ -243,7 +243,7 @@ proc generate_macosx_dmg {tag} {
 
   puts -nonewline "Preparing MacOSX release directory...  "; flush stdout
 
-  set scripts_dir [file join $release_dir MacOSX Tke.app Contents Resources Scripts tke]
+  set scripts_dir [file join $release_dir MacOSX TKE.app Contents Resources Scripts tke]
 
   foreach dir [list data doc lib plugins specl_version.tcl specl_customize.xml tests LICENSE] {
 
