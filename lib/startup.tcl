@@ -129,7 +129,7 @@ namespace eval startup {
     create_images
 
     # Initialize the items list
-    foreach {type nspace name} [sync::get_sync_items] {
+    foreach {type nspace name} [share::get_share_items] {
       set items($type) 1
     }
 
@@ -256,9 +256,9 @@ namespace eval startup {
       # Starting Y position for items
       set items_y [get_y $widgets($type) $id 20]
 
-      # Create the sync item checkbuttons
+      # Create the sharing item checkbuttons
       set i 0
-      foreach {itype nspace name} [sync::get_sync_items] {
+      foreach {itype nspace name} [share::get_share_items] {
         set x  [expr $locs(left_x) + (($i < 5) ? 0 : 150)]
         set y  [expr (($i % 5) == 0) ? $items_y : [get_y $widgets($type) $id 10]]
         set id [make_checkbutton $widgets($type) $x $y $name startup::items($itype) {}]
@@ -286,7 +286,7 @@ namespace eval startup {
 
     # Display text
     make_text $widgets(finish) $locs(header_x) $locs(first_y) \
-      [msgcat::mc "If you need would like to change your settings location and/or data, you can do so within the Edit/Settings/Setup... menu."]
+      [msgcat::mc "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."]
 
     # Create the button bar
     make_button $widgets(finish) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] \

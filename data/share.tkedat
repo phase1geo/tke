@@ -2,11 +2,11 @@
 # files/directories in this directory rather than in the default home directory.
 # This will allow a user to share the same TKE settings on multiple computers.
 
-{SyncDirectory} {}
+{ShareDirectory} {}
 
 # Specifies a whitespace separated list of settings items that will be stored
-# in the directory specified by {General/SyncDirectory}.  The values stored in this
-# setting will only be used if the {General/SyncDirectory} value is set to a valid
+# in the directory specified by {General/ShareDirectory}.  The values stored in this
+# setting will only be used if the {General/ShareDirectory} value is set to a valid
 # directory name.  The list of valid values are the following:
 #  - emmet       (Custom Emmet aliases)
 #  - favorites   (Favorited files/directories)
@@ -18,5 +18,5 @@
 #  - templates   (All user-created file templates)
 #  - themes      (All user created and imported theme data)
 
-{SyncItems} {emmet launcher plugins prefs sessions snippets templates themes}
+{ShareItems} {emmet launcher plugins prefs sessions snippets templates themes}
 

@@ -241,15 +241,15 @@ namespace eval templates {
   ######################################################################
   # Returns the list of files/directories used by the template engine
   # for the purposes of importing/exporting.
-  proc get_sync_items {dir} {
+  proc get_share_items {dir} {
 
     return [list templates]
 
   }
 
   ######################################################################
-  # Called when the sync directory has changed.
-  proc sync_changed {dir} {
+  # Called when the share directory has changed.
+  proc share_changed {dir} {
 
     variable data
 

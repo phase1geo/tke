@@ -228,15 +228,15 @@ namespace eval themes {
 
   ######################################################################
   # Returns the list of files in the TKE home directory to copy.
-  proc get_sync_items {dir} {
+  proc get_share_items {dir} {
 
     return [list themes]
 
   }
 
   ######################################################################
-  # Called whenever the sync directory changes.
-  proc sync_changed {dir} {
+  # Called whenever the share directory changes.
+  proc share_changed {dir} {
 
     variable themes_dir
 
