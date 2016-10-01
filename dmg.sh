@@ -5,8 +5,8 @@ cd `dirname $1`
 
 # Initialize variables
 tke_dir=`basename $1`
-applicationName=Tke
-source=${tke_dir}/MacOSX/Tke.app
+applicationName=TKE
+source=${tke_dir}/MacOSX/TKE.app
 title="TKE"
 size=$(expr `du -s -k ${tke_dir}/MacOSX | cut -f 1` \* 2)
 backgroundImage=background.png
