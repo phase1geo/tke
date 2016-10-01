@@ -66,10 +66,10 @@
 	<key>CFBundleExecutable</key>
 	<string>Wish</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Tke 2.7,
+	<string>TKE 2.7,
 Copyright © 2013-2016 Trevor Williams</string>
 	<key>CFBundleIconFile</key>
-	<string>Tke.icns</string>
+	<string>TKE.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.phase1geo.tke</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -94,7 +94,7 @@ Copyright © 2013-2016 Trevor Williams</string>
 		<string>sv</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>Tke</string>
+	<string>TKE</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
