@@ -434,53 +434,6 @@ namespace eval completer {
   }
 
   ######################################################################
-  # This should be called after a bracket is inserted or deleted.
-  proc check_match {txtt stype} {
-
-    variable delete_check
-
-    # If the mismcatching char option is cleared, don't continue
-    if {![[ns preferences]::get Editor/HighlightMismatchingChar]} {
-      return
-    }
-
-    # If we deleted a character, set the stype and index
-    if {$stype eq "del"} {
-      set stype $delete_check
-      if {[string index $stype end] eq "L"} {
-        set index [ctext::get_prev_bracket $txtt $stype insert]
-      } else {
-        set index [ctext::get_next_bracket $txtt $stype insert]
-      }
-      if {$index eq ""} { return }
-
-    # Otherwise, set the index
-    } else {
-      set index [$txtt index "insert-1c"]
-    }
-
-    # Search for the opposite bracket
-    set dir [string index $stype end]
-    set cmd [expr {($dir eq "L") ? "prev" : "next"}]
-
-    # Get the other bracket type
-    set other_index [ctext::get_${cmd}_bracket $txtt $other($stype) $index]
-
-    # Attempt to find the matching index
-    while {($index ne "") && \
-           ([set match_index [ctext::get_match_bracket $txtt $other($stype) $index]] ne "") && \
-           (($other_index eq "") || ([$txtt compare $other_index < $index]))} {
-      $txtt tag remove missing $match_index
-      set index [ctext::get_${cmd}_bracket $txtt $stype $index]
-    }
-
-    if {$match_index eq ""} {
-      $txtt tag add missing $index "$index+1c"
-    }
-
-  }
-
-  ######################################################################
   # Checks all of the matches.
   proc check_all_brackets {txtt args} {
 
@@ -563,7 +516,7 @@ namespace eval completer {
     # Highlight all brackets that are missing right stypes
     while {$count > 0} {
       lappend missing $start "$start+1c"
-      set start [ctext::get_next_bracket $txtt ${stype}L]
+      set start [ctext::get_next_bracket $txtt ${stype}L $start]
       incr count -1
     }
 
