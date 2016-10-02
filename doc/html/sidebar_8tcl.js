@@ -1,6 +1,6 @@
 var sidebar_8tcl =
 [
-    [ "add_directory", "sidebar_8tcl.html#a94eb8910ca736d6acc06b1e8e7532a6f", null ],
+    [ "add_directory", "sidebar_8tcl.html#a89d28d11600db21096e7c6c99147cd89", null ],
     [ "add_file_from_template", "sidebar_8tcl.html#a054d796e3a5ae13a5af6dc7cab7d9bce", null ],
     [ "add_file_to_folder", "sidebar_8tcl.html#ae8b9c3fe6b06ee41b17ad3c7cc6a176c", null ],
     [ "add_folder_to_folder", "sidebar_8tcl.html#a18ba448d4daa8784b809a812467eecb2", null ],
@@ -36,7 +36,7 @@ var sidebar_8tcl =
     [ "hide_scrollbar", "sidebar_8tcl.html#afe3a88acb83a740469251f6df7903017", null ],
     [ "hide_tooltip", "sidebar_8tcl.html#a57b42b33545330f35d27d460fe424a49", null ],
     [ "highlight_filename", "sidebar_8tcl.html#a873c57e818dfcedb75fd194664145153", null ],
-    [ "ignore_file", "sidebar_8tcl.html#a1d877e8d0b0b9018c32ed3c4d664a0f9", null ],
+    [ "ignore_file", "sidebar_8tcl.html#a2523ee77af923ff6b223b79621445001", null ],
     [ "insert_file", "sidebar_8tcl.html#aabbe2314a413393b278056e05ce84d86", null ],
     [ "load_session", "sidebar_8tcl.html#a0aee38c48342d0dd7b8fb998a1cc912e", null ],
     [ "menu_post", "sidebar_8tcl.html#a2919008ef474f15dc5f21b7326b0b4c5", null ],

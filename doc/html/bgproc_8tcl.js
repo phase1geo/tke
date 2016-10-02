@@ -1,7 +1,7 @@
 var bgproc_8tcl =
 [
     [ "command", "bgproc_8tcl.html#a17e1eed0ace2ad7a20613ba059f691bb", null ],
-    [ "command_helper", "bgproc_8tcl.html#ae632a77a599bb15fd068e544e7e87c78", null ],
+    [ "command_helper", "bgproc_8tcl.html#a10536dfd2292f544d88d5bb5d5ae1f5a", null ],
     [ "get_command_output", "bgproc_8tcl.html#a01c4bab93862bd4aa1286d05263b884d", null ],
     [ "interrupt_pid", "bgproc_8tcl.html#a98428543f2f433fbbf181b73dc661d47", null ],
     [ "kill_pid", "bgproc_8tcl.html#ac68382d43c4002da6099af08b479c0a0", null ],

@@ -55,7 +55,7 @@ var diff_8tcl =
     [ "parse_unified_diff", "diff_8tcl.html#afccefef06e282602276286881657b334", null ],
     [ "set_default_cvs", "diff_8tcl.html#a256cddc373c7835dc4a27d104231d8a3", null ],
     [ "set_session_data", "diff_8tcl.html#af97d91cef6675b8d38041882df25c5db", null ],
-    [ "show", "diff_8tcl.html#af532199654cbe352a01eb13e3505fd96", null ],
+    [ "show", "diff_8tcl.html#a73d46c369df1b80792f78760e9a1847d", null ],
     [ "show_hide_version_log", "diff_8tcl.html#a98038062d1d455c6a3fb2317baa49e6c", null ],
     [ "type", "diff_8tcl.html#a32e0982266865ecf6a578f369d6d129a", null ],
     [ "type", "diff_8tcl.html#af9f90020bfa9bf6347ae55021b12d653", null ],
