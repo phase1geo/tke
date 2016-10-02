@@ -27,6 +27,6 @@ var folding_8tcl =
     [ "set_fold_enable", "folding_8tcl.html#a547d4b094213ad6d5f0789ca2be7488a", null ],
     [ "show_line", "folding_8tcl.html#a1b476e3b21ef2b4844b432f07e5fc3fa", null ],
     [ "toggle_all_folds", "folding_8tcl.html#af7a78be4839c146089ed6ff0d2740d48", null ],
-    [ "toggle_fold", "folding_8tcl.html#ae1d98f2f0c68571450eeb31a1d1c237d", null ],
+    [ "toggle_fold", "folding_8tcl.html#ab2bb7b0a086c2f5b4c4fbdb759e1568f", null ],
     [ "update_closed", "folding_8tcl.html#ad4c93192db329b7e07d131fed1d1b219", null ]
 ];

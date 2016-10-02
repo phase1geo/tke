@@ -1,7 +1,7 @@
 var syntax_8tcl =
 [
     [ "add_sublanguage", "syntax_8tcl.html#af28d43ecbfdb062df720fa2af5f989ac", null ],
-    [ "add_syntax", "syntax_8tcl.html#a383469d6b4e6daa348f15c1a62be9aa0", null ],
+    [ "add_syntax", "syntax_8tcl.html#ab6e37f55f15d2d7f73fc9079d0ca1ce5", null ],
     [ "contains_meta_chars", "syntax_8tcl.html#a3323c3758a8da1a6703c39a3b134b903", null ],
     [ "create_menu", "syntax_8tcl.html#a7acb1603f429c6d3429a4e51d9e7fd6d", null ],
     [ "delete_syntax", "syntax_8tcl.html#a68cab2a9aa3d0dd60c2c0cc431e7e105", null ],
@@ -9,7 +9,7 @@ var syntax_8tcl =
     [ "get_comments", "syntax_8tcl.html#a5e9a9d64eed2c768dd20202128887461", null ],
     [ "get_default_language", "syntax_8tcl.html#aaccedd1dc6422835635e679b3af2f1fa", null ],
     [ "get_enabled_languages", "syntax_8tcl.html#a85109e500968ae70b38559150a86eef5", null ],
-    [ "get_extensions", "syntax_8tcl.html#a270d8b53993a0e143bd21c5dc3e3b611", null ],
+    [ "get_extensions", "syntax_8tcl.html#afc6a1bbda2c11902dfd0633b65cc5300", null ],
     [ "get_filetypes", "syntax_8tcl.html#ac1fab4570b385b273782845f8e8e74e8", null ],
     [ "get_indentation_expressions", "syntax_8tcl.html#ad17be834483a8b000e84611432bd3f6c", null ],
     [ "get_language", "syntax_8tcl.html#af346ad0c2e849796ef9297a6e7e44f48", null ],
@@ -39,7 +39,7 @@ var syntax_8tcl =
     [ "save_language_association", "syntax_8tcl.html#a6802462012027fd7f12e0097288b8283", null ],
     [ "set_current_language", "syntax_8tcl.html#ae74aea8e149f9322e9fb5b2e6397e4d8", null ],
     [ "set_language", "syntax_8tcl.html#a6a71efc5a5bb3f9d5e14fbd60c0458ed", null ],
-    [ "set_language_section", "syntax_8tcl.html#a066164add795dfd82fe21104f9e9bce6", null ],
+    [ "set_language_section", "syntax_8tcl.html#a2f22d2326718891f4bdf7fa5868438c6", null ],
     [ "set_meta_visibility", "syntax_8tcl.html#ae883a37720d7fa2ba2ba0bd5bbdc695a", null ],
     [ "update_button", "syntax_8tcl.html#ac7d9311ea2ccddffa42f9ad7032d0f02", null ]
 ];
