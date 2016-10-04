@@ -1,26 +1,18 @@
-changeset:   2377:44996c03fc5c
-tag:         devel-2.6.14
+changeset:   2380:f6783bf49ad4
+tag:         devel-2.6.15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 22:44:43 2016 -0500
+date:        Tue Oct 04 08:41:52 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.14 release
+ChangeLog for devel-2.6.15 release
 
 
-changeset:   2378:099f3970cd55
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 22:44:47 2016 -0500
-files:       .hgtags
-description:
-Added tag devel-2.6.14 for changeset 44996c03fc5c
-
-
-changeset:   2379:e71a787bff8a
+changeset:   2381:e674ee8e72c1
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 04 08:41:03 2016 -0500
-files:       lib/preferences.tcl lib/version.tcl
+date:        Tue Oct 04 08:42:06 2016 -0500
+files:       .hgtags
 description:
-* Changing mtime to ctime in preference file checking to allow preferences to be updated properly.
+Added tag devel-2.6.15 for changeset f6783bf49ad4
 
 
