@@ -1,46 +1,26 @@
-changeset:   2372:ea7dff54fdbd
-tag:         devel-2.6.13
+changeset:   2377:44996c03fc5c
+tag:         devel-2.6.14
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 02:23:44 2016 -0500
+date:        Mon Oct 03 22:44:43 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.13 release
+ChangeLog for devel-2.6.14 release
 
 
-changeset:   2373:ed753529b206
+changeset:   2378:099f3970cd55
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 02:23:49 2016 -0500
+date:        Mon Oct 03 22:44:47 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.13 for changeset ea7dff54fdbd
+Added tag devel-2.6.14 for changeset 44996c03fc5c
 
 
-changeset:   2374:10bc5be5d445
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 22:10:27 2016 -0500
-files:       lib/completer.tcl lib/edit.tcl lib/version.tcl
-description:
-* Fixing issue with bracket mismatch highlighter when a non-bracket character is inserted between two highlighted brackets.
-* Fixing issue with deleting the last line of a file.
-* Fixing issue with cursor placement when a line is deleted.
-* Improving algorithm for placing the cursor on the first non-whitespace character in a line.
-
-
-changeset:   2375:59f794cd83fb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 22:13:12 2016 -0500
-files:       lib/edit.tcl lib/version.tcl
-description:
-* Fixing cursor placement for a line containing whitespace only.
-
-
-changeset:   2376:b8ac2bc55afb
+changeset:   2379:e71a787bff8a
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 22:39:43 2016 -0500
-files:       lib/ptwidgets1.2/common/htmllib.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
+date:        Tue Oct 04 08:41:03 2016 -0500
+files:       lib/preferences.tcl lib/version.tcl
 description:
-* Removing debug output.
-* Adding light blue background highlight to <code></code> elements in specl.
+* Changing mtime to ctime in preference file checking to allow preferences to be updated properly.
 
 
