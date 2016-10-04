@@ -133,6 +133,7 @@ namespace eval completer {
     bind postcomp$txt <Key-parenleft>    [list [ns completer]::check_brackets %W paren  0]
     bind postcomp$txt <Key-parenright>   [list [ns completer]::check_brackets %W paren  0]
     bind postcomp$txt <BackSpace>        [list [ns completer]::check_delete %W]
+    bind postcomp$txt <Key>              [list [ns completer]::check_any %W]
 
     # Add the bindings
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -468,6 +469,18 @@ namespace eval completer {
     if {$delete_check ne ""} {
       check_brackets $txtt $delete_check 0
       set delete_check ""
+    }
+
+  }
+
+  ######################################################################
+  # Checks the last input character for a missing highlight and deletes
+  # it if found.
+  proc check_any {txtt} {
+
+    if {([set tag [lsearch -inline [$txtt tag names insert-1c] missing:*]] ne "") && \
+        ([lsearch [list \{ \} \[ \] ( ) < >] [$txtt get insert-1c]] == -1)} {
+      $txtt tag remove $tag insert-1c
     }
 
   }
