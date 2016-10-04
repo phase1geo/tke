@@ -1400,9 +1400,7 @@ namespace eval specl::updater {
         
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
-          puts "HERE A"
           if {![catch { specl::helpers::get_attr $icon_node "path" } value]} {
-            puts "HERE B, value: $value"
             set data(ui,icon_path) [file join $data(specl_version_dir) $value]
             wm iconphoto . [image create photo -file $data(ui,icon_path)]
           }
@@ -1553,7 +1551,7 @@ namespace eval specl::updater {
     } else {
 
       set    sample_text "<h2>Version (3.4) Release Notes</h2><br>"
-      append sample_text "This is some sample text describing this release.<br><br>"
+      append sample_text "This is some <code>sample text</code> describing this release.<br><br>"
       append sample_text "<b>New Features</b>"
       append sample_text "<ul>"
       append sample_text "<li>Feature 1</li>"

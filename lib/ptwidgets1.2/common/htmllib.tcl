@@ -100,7 +100,7 @@ array set HMtag_map {
 	blockquote	{style italic indent 1 Trindent rindent}
 	bq		{style italic indent 1 Trindent rindent}
 	cite   {style italic}
-	code   {family courier}
+	code   {family courier Tcode code}
 	dfn    {style italic}	
 	dir    {indent 1}
 	dl     {indent 1}
@@ -200,6 +200,7 @@ proc HMinit_win {win {win2 {} } } {
 	$win tag configure link        -foreground blue -underline 1  ;# hypertext links
         $win tag configure subscript   -offset -3
         $win tag configure superscript -offset 3
+        $win tag configure code        -background "light blue"
 
 	HMset_indent $win $var(S_tab)
 	$win configure -wrap word
