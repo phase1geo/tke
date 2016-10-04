@@ -419,7 +419,7 @@ namespace eval preferences {
 
       # If the base preferences file was changed since the user file has changed, see if the
       # user file needs to be updated and update it if necessary
-      if {$base_stat(mtime) > $user_stat(mtime)} {
+      if {$base_stat(ctime) > $user_stat(ctime)} {
 
         # Read both the base the preferences file (sort out comments from preferences)
         load_base_prefs
