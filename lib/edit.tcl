@@ -129,14 +129,23 @@ namespace eval edit {
     # Clear the clipboard
     clipboard clear
 
+    # Calculate the starting position to delete
+    set start [expr {[$txtt compare insert == "insert-1l"] ? "insert linestart" : "insert-1l lineend"}]
+
     # Add the text to be deleted to the clipboard and delete the text
     if {$num ne ""} {
-      clipboard append [$txtt get "insert linestart" "insert linestart+[expr $num - 1]l lineend"]\n
-      $txtt delete "insert linestart" "insert linestart+${num}l"
+      clipboard append [$txtt get "insert linestart" "insert+[expr $num - 1]l lineend"]\n
+      $txtt delete $start "insert+[expr $num - 1]l lineend"
     } else {
       clipboard append [$txtt get "insert linestart" "insert lineend"]\n
-      $txtt delete "insert linestart" "insert linestart+1l"
+      $txtt delete $start "insert lineend"
     }
+
+    # Move the insertion cursor forward by a character
+    $txtt mark set insert "insert+1c"
+
+    # Position the cursor at the beginning of the first word
+    move_cursor $txtt firstword
 
     # Check the brackets
     [ns completer]::check_all_brackets $txtt
@@ -1051,10 +1060,10 @@ namespace eval edit {
       nextword  { set index [get_word $txtt next [expr {($num eq "") ? 1 : $num}]] }
       prevword  { set index [get_word $txtt prev [expr {($num eq "") ? 1 : $num}]] }
       firstword {
-        if {[string is space [$txtt get [set index "insert linestart"]]]} {
-          if {[$txtt compare [set index [get_word $txtt next 1 $index]] >= "insert lineend"]} {
-            set index "insert lineend"
-          }
+        if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
+          set index "[lindex [$txtt tag nextrange _prewhite {insert linestart}] 1]-1c"
+        } else {
+          set index "insert linestart"
         }
       }
       linestart { set index "insert linestart" }
