@@ -1063,7 +1063,7 @@ namespace eval edit {
         if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
           set index "[lindex [$txtt tag nextrange _prewhite {insert linestart}] 1]-1c"
         } else {
-          set index "insert linestart"
+          set index "insert lineend"
         }
       }
       linestart { set index "insert linestart" }
