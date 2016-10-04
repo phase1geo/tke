@@ -1,45 +1,46 @@
-changeset:   2367:8134b06c543f
-tag:         devel-2.6.12
+changeset:   2372:ea7dff54fdbd
+tag:         devel-2.6.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 02 12:42:06 2016 -0500
+date:        Mon Oct 03 02:23:44 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.6.12 release
+ChangeLog for devel-2.6.13 release
 
 
-changeset:   2368:830634d93c6a
+changeset:   2373:ed753529b206
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 02 12:42:10 2016 -0500
+date:        Mon Oct 03 02:23:49 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.6.12 for changeset 8134b06c543f
+Added tag devel-2.6.13 for changeset ea7dff54fdbd
 
 
-changeset:   2369:9e0245f6e8dd
-parent:      2365:e19abfa5c8e4
+changeset:   2374:10bc5be5d445
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 02 16:15:13 2016 -0500
-files:       MacOSX/TKE.app/Contents/bin/tke lib/version.tcl
+date:        Mon Oct 03 22:10:27 2016 -0500
+files:       lib/completer.tcl lib/edit.tcl lib/version.tcl
 description:
-* Fixing issue with tke command-line script.
+* Fixing issue with bracket mismatch highlighter when a non-bracket character is inserted between two highlighted brackets.
+* Fixing issue with deleting the last line of a file.
+* Fixing issue with cursor placement when a line is deleted.
+* Improving algorithm for placing the cursor on the first non-whitespace character in a line.
 
 
-changeset:   2370:c21447344659
-parent:      2369:9e0245f6e8dd
-parent:      2368:830634d93c6a
+changeset:   2375:59f794cd83fb
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 02 16:17:39 2016 -0500
-files:       lib/version.tcl
+date:        Mon Oct 03 22:13:12 2016 -0500
+files:       lib/edit.tcl lib/version.tcl
 description:
-* Merging.
+* Fixing cursor placement for a line containing whitespace only.
 
 
-changeset:   2371:ee5bac0900bc
+changeset:   2376:b8ac2bc55afb
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 03 00:58:07 2016 -0500
-files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
+date:        Mon Oct 03 22:39:43 2016 -0500
+files:       lib/ptwidgets1.2/common/htmllib.tcl lib/ptwidgets1.2/library/specl.tcl lib/version.tcl
 description:
-* Updating User Guide.
+* Removing debug output.
+* Adding light blue background highlight to <code></code> elements in specl.
 
 
