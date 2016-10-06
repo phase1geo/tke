@@ -67,7 +67,6 @@ namespace eval startup {
     wm title     .wizwin [format "TKE %s" [msgcat::mc "Welcome"]]
     wm geometry  .wizwin 640x480
     wm resizable .wizwin 0 0
-    wm transient .wizwin .
     wm protocol  .wizwin WM_DELETE_WINDOW {
       # Do nothing
     }
