@@ -730,17 +730,22 @@ namespace eval tabbar {
 
     variable data
 
+    # Get the tab options
+    array set opts [tab_opts $w $page_index]
+
     # Delete all of the tab components
     $w.c delete [tab_tag $w $page_index]
 
     # Re-add the tab
-    lset data($w,pages) $page_index 1 [add_tab $w $page_index {*}[tab_opts $w $page_index]]
+    if {$opts(-state) ne "hidden"} {
+      lset data($w,pages) $page_index 1 [add_tab $w $page_index {*}[tab_opts $w $page_index]]
+    }
 
   }
 
   ######################################################################
   # Redraws the specified tab when a tab configuration value changes.
-  proc redraw_all_tabs {w} {
+  proc redraw_all_tabs {w force} {
 
     variable data
 
@@ -750,7 +755,7 @@ namespace eval tabbar {
     }
 
     # Do a final redraw
-    redraw $w
+    redraw $w $force
 
   }
 
@@ -763,7 +768,7 @@ namespace eval tabbar {
 
     # If we are hiding/unhiding a tab, redraw everything
     if {(($orig_opts(-state) eq "hidden") || ($opts(-state) eq "hidden")) && ($orig_opts(-state) ne $opts(-state))} {
-      redraw_all_tabs $w
+      redraw_all_tabs $w 1
       return
     }
 
@@ -805,7 +810,7 @@ namespace eval tabbar {
     foreach opt [list -close -closeimage -closeshow -font -state -padx -pady -height -margin -anchor \
                       -activebackground -activeforeground -inactivebackground -inactiveforeground] {
       if {$orig_opts($w,option,$opt) ne $data($w,option,$opt)} {
-        redraw_all_tabs $w
+        redraw_all_tabs $w 0
         return
       }
     }
@@ -1344,6 +1349,7 @@ namespace eval tabbar {
     }
 
     if {[llength $args] == 2} {
+
       array set opts [lindex $page 1 2]
       if {[info exists opts([lindex $args 1])]} {
         return $opts([lindex $args 1])
@@ -1362,11 +1368,22 @@ namespace eval tabbar {
       }
       lset data($w,pages) $index 1 2 [array get opts]
 
+      # If we are changing the state to hidden, change the current tab
+      array set oopts $orig_opts
+      puts "index: $index, current: $data($w,current), opts: $opts(-state), oopts: $oopts(-state)"
+      if {($index == $data($w,current)) && ($opts(-state) eq "hidden") && ($oopts(-state) ne "hidden")} {
+        puts "Setting current"
+        set_current $w
+      }
+
       # Update the tab order
       update_tab_order $w
 
       # Redraw the tab in the canvas if needed
       check_tab_for_redraw $w $index $orig_opts
+
+      # Make sure that the tab is in view
+      make_current_viewable $w
 
     }
 

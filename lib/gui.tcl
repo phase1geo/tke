@@ -394,6 +394,8 @@ namespace eval gui {
     $widgets(menu) add command -label [msgcat::mc "Close Other Tabs"] -command [ns gui]::close_others
     $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]   -command [ns gui]::close_all
     $widgets(menu) add separator
+    $widgets(menu) add command -label [msgcat::mc "Hide Tab"]         -command [list [ns gui]::hide_current {}]
+    $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Split View"] -onvalue 1 -offvalue 0 \
       -variable [ns menus]::show_split_pane -command [list [ns gui]::toggle_split_pane {}]
     $widgets(menu) add separator
@@ -2294,6 +2296,47 @@ namespace eval gui {
       # Set the current tab
       set_current_tab [get_info {} current tab]
 
+    }
+
+  }
+
+  ######################################################################
+  # Hides the current tab.
+  proc hide_current {tid} {
+
+    variable widgets
+
+    # Get the current tabbar and tab
+    lassign [get_info {} current {tabbar tab}] tb tab
+
+    # Hide the current tab
+    $tb tab $tab -state hidden
+
+    puts "selected: [$tb select]"
+
+    # Display the current pane (if one exists)
+    if {[set tab [$tb select]] ne ""} {
+      puts "Setting current tab..."
+      set_current_tab $tab -changed 1
+    }
+
+    if {0} {
+    # If we have no more tabs and there is another pane, remove this pane
+    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
+      $widgets(nb_pw) forget $pane
+      set pw_current 0
+      set tb         [get_info 0 paneindex tabbar]
+    }
+
+    # Add a new file if we have no more tabs, we are the only pane, and the preference
+    # setting is to not close after the last tab is closed.
+    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$opts(-exiting)} {
+      if {[[ns preferences]::get General/ExitOnLastClose] || $::cl_exit_on_close} {
+        [ns menus]::exit_command
+      } elseif {$opts(-keeptab)} {
+        add_new_file end
+      }
+    }
     }
 
   }
@@ -4550,12 +4593,12 @@ namespace eval gui {
         }
         set shown [lassign $shown tmp]
       }
-      if {[$tb tab $tab -state] ne "hidden"} {
+      # if {[$tb tab $tab -state] ne "hidden"} {
         set tab_image [$tb tab $tab -image]
         set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 4 end]" : ""}]
         $mnu add command -compound left -image $img -label [$tb tab $tab -text] \
           -command [list [ns gui]::set_current_tab $tab]
-      }
+      # }
       incr i
     }
 
