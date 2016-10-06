@@ -1133,9 +1133,15 @@ namespace eval tabbar {
     # If we are storing tab history, get the previously current tab
     if {$data($w,option,-history) && ([llength $data($w,history)] > 0)} {
 
-      # Get the page and remove it from history
-      set page_id          [lindex $data($w,history) end]
-      set data($w,history) [lreplace $data($w,history) end end]
+      for {set i [expr [llength $data($w,history)] - 1]} {$i >= 0} {incr i -1} {
+
+        array set opts [lindex $data($w,pages) $i 1 2]
+        if {$opts(-state) ne "hidden"} {
+          set page_id          [lindex $data($w,history) $i]
+          set data($w,history) [lreplace $data($w,history) $i $i]
+          break
+        }
+      }
 
     # If we were unable to find a tab from history, use the tab previous
     # to the current one
@@ -1176,8 +1182,11 @@ namespace eval tabbar {
           }
         }
       }
+
     } else {
+
       set data($w,current) -1
+
     }
 
   }
@@ -1370,9 +1379,7 @@ namespace eval tabbar {
 
       # If we are changing the state to hidden, change the current tab
       array set oopts $orig_opts
-      puts "index: $index, current: $data($w,current), opts: $opts(-state), oopts: $oopts(-state)"
       if {($index == $data($w,current)) && ($opts(-state) eq "hidden") && ($oopts(-state) ne "hidden")} {
-        puts "Setting current"
         set_current $w
       }
 
