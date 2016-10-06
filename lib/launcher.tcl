@@ -755,7 +755,7 @@ namespace eval launcher {
     variable matches
 
     set results [list]
-    set pattern [subst [string map {{(} {\(} {)} {\)}} [get_command_name $regex_pattern * *]]]
+    set pattern [subst [string map {{(} {\(} {)} {\)}} [get_command_name $regex_pattern .* .*]]]
 
     foreach name [array name commands -regexp $pattern] {
       set value $commands($name)
