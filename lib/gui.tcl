@@ -2301,42 +2301,51 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Hides the current tab.
-  proc hide_current {tid} {
+  # Hides the given tab.
+  proc hide_tab {tab args} {
 
     variable widgets
 
-    # Get the current tabbar and tab
-    lassign [get_info {} current {tabbar tab}] tb tab
+    array set opts {
+      -lazy 0
+    }
+    array set opts $args
 
-    # Hide the current tab
+    # Get the current tabbar
+    set tb [get_info $tab tab tabbar]
+
+    # Hide the tab
     $tb tab $tab -state hidden
 
-    puts "selected: [$tb select]"
-
-    # Display the current pane (if one exists)
-    if {[set tab [$tb select]] ne ""} {
-      puts "Setting current tab..."
-      set_current_tab $tab -changed 1
+    if {!$opts(-lazy)} {
+      set_current_tab [$tb select] -changed 1
     }
 
-    if {0} {
-    # If we have no more tabs and there is another pane, remove this pane
-    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
-      $widgets(nb_pw) forget $pane
-      set pw_current 0
-      set tb         [get_info 0 paneindex tabbar]
-    }
+  }
 
-    # Add a new file if we have no more tabs, we are the only pane, and the preference
-    # setting is to not close after the last tab is closed.
-    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$opts(-exiting)} {
-      if {[[ns preferences]::get General/ExitOnLastClose] || $::cl_exit_on_close} {
-        [ns menus]::exit_command
-      } elseif {$opts(-keeptab)} {
-        add_new_file end
+  ######################################################################
+  # Hides the current tab.
+  proc hide_current {tid} {
+
+    # Get the current tabbar and tab
+    hide_tab [get_info {} current tab]
+
+  }
+
+  ######################################################################
+  # Hides all of the files with the given filenames.
+  proc hide_files {fnames} {
+
+    if {[llength $fnames] > 0} {
+
+      # Perform a lazy close
+      foreach fname $fnames {
+        hide_tab [get_info $fname fname tab] -lazy 1
       }
-    }
+
+      # Set the current tab
+      # set_current_tab [$tb select] -changed 1
+
     }
 
   }
