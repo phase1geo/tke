@@ -2863,16 +2863,16 @@ proc ctext::doHighlight {win start end ins} {
       lappend tags($data($win,highlight,charstart,class,$lang,$firstOfWord)) $res $wordEnd
     }
     if {[info exists data($win,highlight,keyword,command,$lang,$word)] && \
-        ![catch { {*}$data($win,highlight,keyword,command,$lang,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+        ![catch { {*}$data($win,highlight,keyword,command,$lang,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     } elseif {[info exists data($win,highlight,charstart,command,$lang,$firstOfWord)] && \
-              ![catch { {*}$data($win,highlight,charstart,command,$lang,$firstOfWord) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+              ![catch { {*}$data($win,highlight,charstart,command,$lang,$firstOfWord) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
     if {[info exists data($win,highlight,searchword,class,$word)]} {
       $twin tag add $data($win,highlight,searchword,class,$word) $res $wordEnd
     } elseif {[info exists data($win,highlight,searchword,command,$word)] && \
-              ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd } retval] && ([llength $retval] == 4)} {
+              ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
       handle_tag $win {*}$retval
     }
     incr i

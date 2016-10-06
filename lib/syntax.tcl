@@ -805,7 +805,7 @@ namespace eval syntax {
   proc get_prefixed_symbol {txt startpos endpos ins} {
 
     set type [$txt get $startpos $endpos]
-    if {[set startpos [$txt search -count lengths -regexp -- {\w+} $endpos]] ne ""} {
+    if {[set startpos [$txt search -count lengths -regexp -- {[a-zA-Z0-9_:]+} $endpos]] ne ""} {
       return [list symbols:$type $startpos [$txt index "$startpos+[lindex $lengths 0]c"] [list]]
     }
 
