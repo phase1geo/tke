@@ -368,6 +368,10 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows]
     $widgets(menu) add separator
 
+    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows]
+    $widgets(menu) add separator
+
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
@@ -407,8 +411,10 @@ namespace eval sidebar {
 
     # Create file popup
     $widgets(menu) add command -label [msgcat::mc "Open"] -command [list sidebar::open_file $rows]
-    $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Close"] -command [list sidebar::close_file $rows]
+    $widgets(menu) add separator
+
+    $widgets(menu) add command -label [msgcat::mc "Hide"] -command [list sidebar::hide_file $rows]
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command [list sidebar::show_file_diff $first_row] -state $one_state
@@ -1335,6 +1341,26 @@ namespace eval sidebar {
 
     # Close the tab at the current location
     gui::close_files $fnames
+
+  }
+
+  ######################################################################
+  proc hide_file {rows} {
+
+    variable widgets
+    variable images
+
+    set fnames [list]
+
+    # Gather all of the opened filenames
+    foreach row $rows {
+      if {[$widgets(tl) cellcget $row,name -image] eq "sidebar_open"} {
+        lappend fnames [$widgets(tl) cellcget $row,name -text]
+      }
+    }
+
+    # Hide the tab at the current location
+    gui::hide_files $fnames
 
   }
 
