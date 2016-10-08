@@ -320,6 +320,8 @@ namespace eval sidebar {
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows]
+    $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add separator
@@ -1067,6 +1069,27 @@ namespace eval sidebar {
 
     # Hide all of the files
     gui::hide_files $fnames
+
+  }
+
+  ######################################################################
+  # SHow all of the open files in the current directory.
+  proc show_folder_files {rows} {
+
+    variable widgets
+    variable images
+
+    # Gather all of the opened file names
+    foreach row $rows {
+      foreach child [$widgets(tl) childkeys $row] {
+        if {[$widgets(tl) cellcget $child,name -image] eq "sidebar_open"} {
+          lappend fnames [$widgets(tl) cellcget $child,name -text]
+        }
+      }
+    }
+
+    # Show all of the files
+    gui::show_files $fnames
 
   }
 
