@@ -990,6 +990,7 @@ namespace eval tabbar {
       set tabid [lindex $data($w,pages) $page_index 1 0]
       $w.c itemconfigure c$tabid -image $data($w,image,close)
       array set opts [lindex $data($w,pages) $page_index 1 2]
+      puts "page_index: $page_index, current: $data($w,current)"
       if {$page_index == $data($w,current)} {
         $w.c itemconfigure f$tabid -fill $data($w,option,-activebackground) -outline $data($w,option,-activebackground)
         $w.c itemconfigure x$tabid -fill $data($w,option,-activeforeground)
@@ -1128,20 +1129,10 @@ namespace eval tabbar {
 
     variable data
 
-    set page_id ""
-
     # If we are storing tab history, get the previously current tab
     if {$data($w,option,-history) && ([llength $data($w,history)] > 0)} {
 
-      for {set i [expr [llength $data($w,history)] - 1]} {$i >= 0} {incr i -1} {
-
-        array set opts [lindex $data($w,pages) $i 1 2]
-        if {$opts(-state) ne "hidden"} {
-          set page_id          [lindex $data($w,history) $i]
-          set data($w,history) [lreplace $data($w,history) $i $i]
-          break
-        }
-      }
+      set data($w,current) [lsearch -index 0 $data($w,pages) [lindex $data($w,history) end]]
 
     # If we were unable to find a tab from history, use the tab previous
     # to the current one
@@ -1150,40 +1141,18 @@ namespace eval tabbar {
       for {set i [expr $data($w,current) - 1]} {$i >= 0} {incr i -1} {
         array set opts [lindex $data($w,pages) $i 1 2]
         if {$opts(-state) ne "hidden"} {
-          set page_id [lindex $data($w,pages) $i 0]
-          break
-        }
-      }
-
-      if {($page_id eq "") && ($data($w,current) >= 0)} {
-        for {set i $data($w,current)} {$i < [llength $data($w,pages)]} {incr i} {
-          array set opts [lindex $data($w,pages) $i 1 2]
-          if {$opts(-state) ne "hidden"} {
-            set page_id [lindex $data($w,pages) $i 0]
-            break
-          }
-        }
-      }
-
-    }
-
-    # Figure out the viewable tab index based on the page_id
-    if {$page_id ne ""} {
-
-      set tab_index 0
-      foreach page $data($w,pages) {
-        if {[lindex $page 0] eq $page_id} {
-          set data($w,current) $tab_index
+          set data($w,current) $i
           return
-        } else {
-          array set opts [lindex $page 1 2]
-          if {$opts(-state) ne "hidden"} {
-            incr tab_index
-          }
         }
       }
 
-    } else {
+      for {set i $data($w,current)} {$i < [llength $data($w,pages)]} {incr i} {
+        array set opts [lindex $data($w,pages) $i 1 2]
+        if {$opts(-state) ne "hidden"} {
+          set data($w,current) $i
+          return
+        }
+      }
 
       set data($w,current) -1
 
@@ -1377,10 +1346,15 @@ namespace eval tabbar {
       }
       lset data($w,pages) $index 1 2 [array get opts]
 
-      # If we are changing the state to hidden, change the current tab
+      # If we are changing the state to hidden, clean up the history and
+      # change the current tab (if the specified index is the current tab)
       array set oopts $orig_opts
-      if {($index == $data($w,current)) && ($opts(-state) eq "hidden") && ($oopts(-state) ne "hidden")} {
-        set_current $w
+      if {($opts(-state) eq "hidden") && ($oopts(-state) ne "hidden")} {
+        clean_history $w $index $index
+        if {$index == $data($w,current)} {
+          puts "Set current"
+          set_current $w
+        }
       }
 
       # Update the tab order
@@ -1402,16 +1376,29 @@ namespace eval tabbar {
 
     variable data
 
-    if {[llength $args] != 0} {
-      return -code error "Incorrect number of parameters given to the tabbar::tabs command"
-    }
-
     set pages [list]
-    foreach page $data($w,pages) {
-      lappend pages [lindex $page 0]
+
+    switch [llength $args] {
+      0 {
+        foreach page $data($w,pages) {
+          lappend pages [lindex $page 0]
+        }
+        return $pages
+      }
+      1 {
+        if {[lindex $args 0] eq "-shown"} {
+          foreach page $data($w,pages) {
+            array set opts [lindex $page 1 2]
+            if {$opts(-state) ne "hidden"} {
+              lappend pages [lindex $page 0]
+            }
+          }
+          return $pages
+        }
+      }
     }
 
-    return $pages
+    return -code error "Incorrect parameters given to the tabbar::tabs command"
 
   }
 

@@ -673,6 +673,11 @@ namespace eval gui {
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state disabled
     }
+    if {[llength [$tb tabs -shown]] > 1} {
+      $widgets(menu) entryconfigure [msgcat::mc "Hide Tab"] -state normal
+    } else {
+      $widgets(menu) entryconfigure [msgcat::mc "Hide Tab"] -state disabled
+    }
     if {([llength [$tb tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(menu) entryconfigure [format "%s*" [msgcat::mc "Move"]] -state normal
     } else {
@@ -1094,7 +1099,7 @@ namespace eval gui {
     }
 
     # Select the next tab
-    set_current_tab [lindex [$tb tabs] $index]
+    set_current_tab [lindex [$tb tabs -shown] $index]
 
   }
 
@@ -1111,7 +1116,7 @@ namespace eval gui {
     }
 
     # Select the previous tab
-    set_current_tab [lindex [$tb tabs] $index]
+    set_current_tab [lindex [$tb tabs -shown] $index]
 
   }
 
@@ -1123,7 +1128,7 @@ namespace eval gui {
     set tb [get_info {} current tabbar]
 
     # Select the last tab
-    set_current_tab [lindex [$tb tabs] [$tb index last]]
+    set_current_tab [lindex [$tb tabs -shown] [$tb index last]]
 
   }
 
@@ -2324,6 +2329,29 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Shows the given tab.
+  proc show_tab {tab args} {
+
+    variable widgets
+
+    array set opts {
+      -lazy 0
+    }
+    array set opts $args
+
+    # Get the current tabbar
+    set tb [get_info $tab tab tabbar]
+
+    # Show the tab
+    $tb tab $tab -state normal
+
+    if {!$opts(-lazy)} {
+      set_current_tab [$tb select] -changed 1
+    }
+
+  }
+
+  ######################################################################
   # Hides the current tab.
   proc hide_current {tid} {
 
@@ -2344,7 +2372,25 @@ namespace eval gui {
       }
 
       # Set the current tab
-      # set_current_tab [$tb select] -changed 1
+      set_current_tab [$tb select] -changed 1
+
+    }
+
+  }
+
+  ######################################################################
+  # Shows all of the files with the given filenames.
+  proc show_files {fnames} {
+
+    if {[llength $fnames] > 0} {
+
+      # Perform a lazy show
+      foreach fname $fnames {
+        show_tab [get_info $fname fname tab] -lazy 1
+      }
+
+      # Set the current tab
+      set_current_tab [$tb select] -changed 1
 
     }
 
@@ -4210,6 +4256,7 @@ namespace eval gui {
     # tab, just call the tabbar select with the tab.  It will call this proc itself.  This is an
     # optimization that should eliminate running unnecessary code in this procedure.
     if {!$opts(-changed) && ([$tb select] ne $tab)} {
+      show_tab $tab
       $tb select $tab
       return
     }
