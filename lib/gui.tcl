@@ -690,10 +690,10 @@ namespace eval gui {
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state disabled
     }
-    if {[llength [$tb tabs -shown]] > 1} {
-      $widgets(menu) entryconfigure [msgcat::mc "Hide Tab"] -state normal
-    } else {
+    if {$diff_mode} {
       $widgets(menu) entryconfigure [msgcat::mc "Hide Tab"] -state disabled
+    } else {
+      $widgets(menu) entryconfigure [msgcat::mc "Hide Tab"] -state normal
     }
     if {([llength [$tb tabs]] > 1) || ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(menu) entryconfigure [format "%s*" [msgcat::mc "Move"]] -state normal
@@ -2341,7 +2341,7 @@ namespace eval gui {
     array set opts $args
 
     # Get the current tabbar
-    set tb [get_info $tab tab tabbar]
+    lassign [get_info $tab tab {tabbar fname}] tb fname
 
     # Hide the tab
     $tb tab $tab -state hidden
@@ -2349,6 +2349,9 @@ namespace eval gui {
     if {!$opts(-lazy)} {
       set_current_tab $tb [$tb select] -changed 1
     }
+
+    # Make sure the sidebar is updated properly
+    [ns sidebar]::set_hide_state $fname 1
 
     return $tb
 
@@ -2360,13 +2363,15 @@ namespace eval gui {
 
     variable widgets
 
+    puts "In show_tab, tab: $tab, args: $args"
+
     array set opts {
       -lazy 0
     }
     array set opts $args
 
     # Get the current tabbar
-    set tb [get_info $tab tab tabbar]
+    lassign [get_info $tab tab {tabbar fname}] tb fname
 
     # Show the tab
     $tb tab $tab -state normal
@@ -2374,6 +2379,9 @@ namespace eval gui {
     if {!$opts(-lazy)} {
       set_current_tab $tb [$tb select] -changed 1
     }
+
+    # Make sure the sidebar is updated properly
+    [ns sidebar]::set_hide_state $fname 0
 
     return $tb
 
@@ -3032,7 +3040,7 @@ namespace eval gui {
   proc show_current_in_sidebar {} {
 
     # Display the file in the sidebar
-    [ns sidebar]::show_file [get_info {} current fname]
+    [ns sidebar]::view_file [get_info {} current fname]
 
   }
 
