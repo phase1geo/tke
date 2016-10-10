@@ -2180,6 +2180,17 @@ namespace eval menus {
     $mb.tabPopup add command -label [msgcat::mc "Sort Tabs"] -underline 0 -command [list gui::sort_tabs]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Sort tabs"]] [list gui::sort_tabs]
 
+    $mb.tabPopup add separator
+
+    $mb.tabPopup add command -label [msgcat::mc "Hide Current Tab"] -underline 5 -command [list gui::hide_current {}]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide Current Tab"]] [list gui::hide_current {}]
+
+    $mb.tabPopup add command -label [msgcat::mc "Hide All Tabs"] -underline 5 -command [list gui::hide_all]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide All Tabs"]] [list gui::hide_all]
+
+    $mb.tabPopup add command -label [msgcat::mc "Show All Tabs"] -underline 0 -command [list gui::show_all]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show All Tabs"]] [list gui::show_all]
+
     # Setup the folding popup menu
     $mb.foldPopup add checkbutton -label [msgcat::mc "Enable Code Folding"] -variable menus::code_folding -command [list menus::set_code_folding]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Enable code folding"]]  [list menus::set_code_folding 1]

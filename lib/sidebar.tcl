@@ -812,7 +812,7 @@ namespace eval sidebar {
 
       # If the file is currently in the notebook, make it the current tab
       if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] eq "sidebar_open")} {
-        gui::set_current_tab [gui::get_info [$widgets(tl) cellcget $selected,name -text] fname tab]
+        gui::set_current_tab {*}[gui::get_info [$widgets(tl) cellcget $selected,name -text] fname {tabbar tab}]
       }
 
     }
@@ -1029,7 +1029,7 @@ namespace eval sidebar {
 
     # Display the current tab
     if {$tab ne ""} {
-      gui::set_current_tab $tab
+      gui::set_current_tab [gui::get_info $tab tab tabbar] $tab
     }
 
   }
@@ -1307,7 +1307,7 @@ namespace eval sidebar {
 
     # Make the last tab visible
     if {$tab ne ""} {
-      gui::set_current_tab $tab
+      gui::set_current_tab [gui::get_info $tab tab tabbar] $tab
     }
 
   }
