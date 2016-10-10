@@ -1,12 +1,18 @@
 set tke_dir  [file normalize [file join [pwd] ..]]
 set tke_home [file normalize [file join ~ .tke]]
 
+lappend auto_path [pwd]
+
 package require ftp
 package require tablelist
+package require Expect
 
 source ftper.tcl
 source utils.tcl
 
-ftper::create_open
+ttk::style theme use clam
 
-console show
+puts "File to open: [ftper::create_open]"
+
+exit
+

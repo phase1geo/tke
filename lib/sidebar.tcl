@@ -551,8 +551,6 @@ namespace eval sidebar {
 
     variable widgets
 
-    puts [utils::stacktrace]
-
     # Get some needed information
     if {$parent eq "root"} {
       add_to_recently_opened $dir

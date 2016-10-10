@@ -2363,8 +2363,6 @@ namespace eval gui {
 
     variable widgets
 
-    puts "In show_tab, tab: $tab, args: $args"
-
     array set opts {
       -lazy 0
     }

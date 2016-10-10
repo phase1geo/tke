@@ -22,6 +22,18 @@
 # Brief:   Namespace that provides an FTP interface.
 ######################################################################
 
+# Load the chilkat library (provides SFTP support)
+switch -glob $tcl_platform(os) {
+  Darwin { load [file join $::tke_dir lib chilkat macos chilkat.dylib] }
+  Linux* {
+    if {$tcl_platform(pointerSize) == 4} {
+      load [file join $::tke_dir lib chilkat linux32 chilkat.so]
+    } else {
+      load [file join $::tke_dir lib chilkat linux64 chilkat.so]
+    }
+  }
+}
+
 namespace eval ftper {
 
   variable password
@@ -146,7 +158,7 @@ namespace eval ftper {
     }
 
     # Connect to the FTP server
-    connect $server $user $passwd $startdir $widgets(open_tl)
+    connect ftp $server $user $passwd $startdir $widgets(open_tl)
 
   }
 
@@ -164,7 +176,7 @@ namespace eval ftper {
   # Handles a click on the sidebar Edit button.
   proc edit_sidebar {} {
 
-    # TODO - Open preferences to FTP manager
+    pref_ui::create "" "" general ftp
 
   }
 
@@ -201,16 +213,16 @@ namespace eval ftper {
 
     ttk::frame .ftppass.f
     ttk::label .ftppass.f.l -text [msgcat::mc "Password: "]
-    ttk::entry .ftppass.f.e -validate key -validatecmd [list ftper::check_password %P] -textvariable ftper::password -show 0 -width 30
+    ttk::entry .ftppass.f.e -validate key -validatecommand [list ftper::check_password %P] -textvariable ftper::password -show * -width 30
 
     bind .ftppass.f.e <Return> [list .ftppass.bf.ok invoke]
 
     pack .ftppass.f.l -side left -padx 2 -pady 2
     pack .ftppass.f.e -side left -padx 2 -pady 2 -fill x -expand yes
 
-    ttk::frame .ftppass.bf
-    ttk::frame .ftppass.bf.ok     -text [msgcat::mc "OK"]     -width 6 -command [list ftper::password_ok] -state disabled
-    ttk::frame .ftppass.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command [list ftper::password_cancel]
+    ttk::frame  .ftppass.bf
+    ttk::button .ftppass.bf.ok     -text [msgcat::mc "OK"]     -width 6 -command [list ftper::password_ok] -state disabled
+    ttk::button .ftppass.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command [list ftper::password_cancel]
 
     pack .ftppass.bf.cancel -side right -padx 2 -pady 2
     pack .ftppass.bf.ok     -side right -padx 2 -pady 2
@@ -222,13 +234,13 @@ namespace eval ftper {
     ::tk::PlaceWindow .ftppass widget .ftpo
 
     # Get the focus/grab
-    ::tk::SetFocusGrab .ftppass .ftppass.e
+    ::tk::SetFocusGrab .ftppass .ftppass.f.e
 
     # Wait for the window to close
     tkwait window .ftppass
 
     # Restore the focus/grab
-    ::tk::RestoreFocusGrab .ftppass .ftppass.e
+    ::tk::RestoreFocusGrab .ftppass .ftppass.f.e
 
     return $password
 
@@ -306,13 +318,27 @@ namespace eval ftper {
   ######################################################################
   # Connects to the given FTP server and loads the contents of the given
   # start directory into the open dialog table.
-  proc connect {server user passwd startdir tbl} {
+  #
+  # Value of type is either ftp or sftp
+  proc connect {type server user passwd startdir tbl} {
 
     variable data
+    
+    if {$type eq "ftp"} {
 
-    # Open the connection
-    if {[set connection [::ftp::Open $server $user $passwd]] >= 0} {
-      set data($server,$user,connection) $connection
+      # Open the connection
+      if {[set connection [::ftp::Open $server $user $passwd]] >= 0} {
+        set data($server,$user,connection) $connection
+      } else {
+        tk_messageBox -parent .ftpo -icon error -type ok -default ok \
+          -message [msgcat::mc "Unable to connect to FTP server"] -detail "Server: $server\nUser: $user"
+        return
+      }
+      
+    } else {
+      
+      set connection [::new_CkSFtp]
+      
     }
 
     # Clear the table
