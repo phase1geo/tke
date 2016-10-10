@@ -31,10 +31,12 @@ namespace eval ftper {
   proc create_open {} {
 
     variable widgets
+    variable data
 
     toplevel     .ftpo
     wm title     .ftpo [msgcat::mc "Open File via FTP"]
     wm transient .ftpo .
+    wm geometry  .ftpo 600x400
 
     ttk::frame .ftpo.ff
     set widgets(open_tl) [tablelist::tablelist .ftpo.ff.tl \
@@ -43,6 +45,10 @@ namespace eval ftper {
       -yscrollcommand [list utils::set_yscrollbar .ftpo.ff.vb]]
     ttk::scrollbar .ftpo.ff.vb -orient vertical   -command [list .ftpo.ff.tl yview]
     ttk::scrollbar .ftpo.ff.hb -orient horizontal -command [list .ftpo.ff.tl xview]
+
+    $widgets(open_tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0
+
+    bind $widgets(open_tl) <<TablelistSelect>> [list ftper::handle_open_table_select]
 
     grid rowconfigure    .ftpo.ff 0 -weight 1
     grid columnconfigure .ftpo.ff 0 -weight 1
@@ -68,6 +74,53 @@ namespace eval ftper {
 
     # Restore the focus
     ::tk::RestoreFocusGrab .ftpo .ftpo.ff.tl
+
+    return $data(open_fname)
+
+  }
+
+  ######################################################################
+  # Handles a selection of a file in the file viewer.
+  proc handle_open_table_select {} {
+
+    variable widgets
+
+    $widgets(open_open) configure -state normal
+
+  }
+
+  ######################################################################
+  # Opens the given file.
+  proc open {} {
+
+    variable widgets
+    variable data
+
+    # Get the currently selected item
+    set selected [$widgets(open_tl) curselection]
+
+    # Get the filename
+    set data(open_fname) [$widgets(open_tl) cellcget $selected,fname -text]
+
+    # Kill the window
+    destroy .ftpo
+
+  }
+
+  ######################################################################
+  # Cancels the open operation.
+  proc open_cancel {} {
+
+    variable data
+
+    # Indicate that no file was chosen
+    set data(open_fname) ""
+
+    # Disconnect the connection
+    
+
+    # Close the window
+    destroy .ftpo
 
   }
 
@@ -97,13 +150,13 @@ namespace eval ftper {
 
   ######################################################################
   # Disconnects from the given FTP server.
-  proc disconnect {} {
+  proc disconnect {server user} {
 
     variable data
 
-    if {$data(connection) ne ""} {
-      ::ftp::Close $data(connection)
-      set data(connection) ""
+    if {$data($server,$user,connection) ne ""} {
+      ::ftp::Close $data($server,$user,connection)
+      set data($server,$user,connection) ""
     }
 
   }

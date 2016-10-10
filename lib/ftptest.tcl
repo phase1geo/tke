@@ -1,0 +1,9 @@
+set tke_dir [file normalize [file join [pwd] ..]]
+
+package require ftp
+package require tablelist
+
+source ftper.tcl
+source utils.tcl
+
+ftper::create_open
