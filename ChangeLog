@@ -1,78 +1,77 @@
-changeset:   2384:2677deafb8cb
-tag:         stable-2.7
+changeset:   2393:ff90e790a36c
+tag:         devel-2.7.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 04 19:40:20 2016 -0500
+date:        Thu Oct 06 07:43:39 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.7 release
+ChangeLog for devel-2.7.1 release
 
 
-changeset:   2385:8a1b2f16bd4a
+changeset:   2394:e01531cce5e3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 04 19:40:26 2016 -0500
+date:        Thu Oct 06 07:43:45 2016 -0500
 files:       .hgtags
 description:
-Added tag stable-2.7 for changeset 2677deafb8cb
+Added tag devel-2.7.1 for changeset ff90e790a36c
 
 
-changeset:   2386:9b4c560c5c09
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Oct 04 22:21:41 2016 -0500
-files:       lib/tablelist5.16/tablelistPublic.tcl lib/version.tcl
-description:
-* Fixing tablelist widget to work for Windows.
-
-
-changeset:   2387:03766bc56d80
+changeset:   2395:7106a9c17d27
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 05 00:53:29 2016 -0500
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
-description:
-* Checkpointing work on ability to hide a tab (work in progress).
-
-
-changeset:   2388:7fb040a3e8c6
-parent:      2386:9b4c560c5c09
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Oct 05 21:22:23 2016 -0500
-files:       Win/freewrap.files lib/startup.tcl lib/version.tcl
-description:
-* Fixing issue with startup window displaying on Windows.
-* Updating freewrap.files.
-
-
-changeset:   2389:9240433e3fd6
-parent:      2388:7fb040a3e8c6
-parent:      2387:03766bc56d80
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Oct 05 21:26:41 2016 -0500
-description:
-Merge
-
-
-changeset:   2390:8d9996f1f31e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 05 22:47:33 2016 -0500
-files:       lib/ctext/ctext.tcl lib/syntax.tcl lib/version.tcl
-description:
-* Fixing issue with jumping to symbols via the command launcher.
-* Fixing issues with finding symbols with colons in the name.
-
-
-changeset:   2391:0e42778693bd
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 05 23:53:39 2016 -0500
-files:       lib/launcher.tcl lib/version.tcl
-description:
-* Improving command launcher matcher.
-
-
-changeset:   2392:bd4c02e49e84
-tag:         tip
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 06 01:34:19 2016 -0500
+date:        Sat Oct 08 00:52:20 2016 -0500
 files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Checkpointing work for tab hiding (still not there yet).
+* Adding -shown option to tabbar::tabs procedure.
+* Fixing various issues with hiding tabs.
+* Adding tab hiding/showing functionality.
+
+
+changeset:   2396:dc445287f0fb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 08 01:05:08 2016 -0500
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Adding ability to hide a file via the sidebar contextual menu.
+
+
+changeset:   2397:b2de690ef796
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 09 20:39:13 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+description:
+* Checkpointing work on fixing issues with hiding tabs.
+
+
+changeset:   2398:8c6dac923213
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 10 00:31:02 2016 -0500
+files:       data/themes/Anatomy of Grey.tketheme data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Default.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Quiverly.tketheme data/themes/Ruby Blue.tketheme data/themes/Starlight.tketheme data/themes/Turn of the Century.tketheme data/themes/choco.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/sidebar.tcl lib/theme.tcl lib/utils.tcl lib/version.tcl
+description:
+* Completing initial work on tab hiding.
+* Updating themes to support new hiding graphic.
+
+
+changeset:   2399:4519dfc8bcdb
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 10 01:24:45 2016 -0500
+files:       lib/ftper.tcl lib/version.tcl
+description:
+* Starting to work on FTP namespace.
+
+
+changeset:   2400:43e7762f4d0c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 10 01:39:21 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+description:
+* Adding FTP namespace test script.
+
+
+changeset:   2401:93b85e6d8b31
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 10 09:15:23 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+description:
+* Checkpointing some work on the FTP widget.
 
 
