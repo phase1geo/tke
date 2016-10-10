@@ -28,7 +28,6 @@ namespace eval sidebar {
   variable last_opened {}
 
   array set widgets {}
-  array set images  {}
 
   ######################################################################
   # Returns a list containing information that the sidebar will save to the
@@ -113,14 +112,19 @@ namespace eval sidebar {
   proc create {w} {
 
     variable widgets
-    variable images
 
     # Create needed images
     theme::register_image sidebar_open bitmap sidebar -background \
       {msgcat::mc "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."} \
       -file [file join $::tke_dir lib images sopen.bmp] \
       -maskfile [file join $::tke_dir lib images sopen.bmp] \
-      -foreground "gold" -background black
+      -foreground gold -background black
+
+    theme::register_image sidebar_hidden bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar to indicate that a file is currently opened but hidden"} \
+      -file [file join $::tke_dir lib images sopen.bmp] \
+      -maskfile [file join $::tke_dir lib images sopen.bmp] \
+      -foreground white -background black
 
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
@@ -403,8 +407,20 @@ namespace eval sidebar {
 
     variable widgets
 
-    set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set one_state  [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set hide_state "disabled"
+    set show_state "disabled"
     set first_row [lindex $rows 0]
+
+    # Calculate the hide and show menu states
+    set fg [$widgets(tl) cget -foreground]
+    foreach row $rows {
+      if {[$widgets(tl) cellcget $row,name -image] eq "sidebar_hidden"} {
+        set show_state "normal"
+      } else {
+        set hide_state "normal"
+      }
+    }
 
     # Delete the menu contents
     $widgets(menu) delete 0 end
@@ -414,7 +430,8 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Close"] -command [list sidebar::close_file $rows]
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Hide"] -command [list sidebar::hide_file $rows]
+    $widgets(menu) add command -label [msgcat::mc "Hide"] -command [list sidebar::hide_file $rows] -state $hide_state
+    $widgets(menu) add command -label [msgcat::mc "Show"] -command [list sidebar::show_file $rows] -state $show_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command [list sidebar::show_file_diff $first_row] -state $one_state
@@ -478,6 +495,25 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Sets the hide state of the given file to the given value.
+  proc set_hide_state {fname value} {
+
+    variable widgets
+
+    # Get the associated index (return immediately if it is not found)
+    if {[set index [get_index $fname]] == -1} {
+      return
+    }
+
+    if {$value} {
+      $widgets(tl) cellconfigure $index,name -image sidebar_hidden
+    } else {
+      $widgets(tl) cellconfigure $index,name -image sidebar_open
+    }
+
+  }
+
+  ######################################################################
   # Highlights, dehighlights or must modifies the root count for the given
   # filename in the file system sidebar.
   #   highlight_mode:
@@ -488,11 +524,10 @@ namespace eval sidebar {
   proc highlight_filename {fname highlight_mode} {
 
     variable widgets
-    variable images
 
     # Find the main directory containing the file
     if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
-      set highlighted [expr {[$widgets(tl) cellcget $row,name -image] eq "sidebar_open"}]
+      set highlighted [expr {[$widgets(tl) cellcget $row,name -image] ne ""}]
       switch $highlight_mode {
         0 { $widgets(tl) cellconfigure $row,name -image "" }
         1 { $widgets(tl) cellconfigure $row,name -image sidebar_open }
@@ -515,6 +550,8 @@ namespace eval sidebar {
   proc add_directory {dir {parent root}} {
 
     variable widgets
+
+    puts [utils::stacktrace]
 
     # Get some needed information
     if {$parent eq "root"} {
@@ -566,7 +603,6 @@ namespace eval sidebar {
   proc add_subdirectory {parent} {
 
     variable widgets
-    variable images
 
     # Get the folder contents and sort them
     foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text]] {
@@ -653,7 +689,6 @@ namespace eval sidebar {
   proc update_directory {parent} {
 
     variable widgets
-    variable images
 
     # Get the directory contents (removing anything that matches the
     # ignored file patterns)
@@ -739,7 +774,6 @@ namespace eval sidebar {
   proc insert_file {parent fname} {
 
     variable widgets
-    variable images
 
     # Check to see if the file is an ignored file
     if {![ignore_file $fname]} {
@@ -797,7 +831,6 @@ namespace eval sidebar {
   proc handle_selection {} {
 
     variable widgets
-    variable images
 
     # Get the current selection
     if {[llength [set selected [$widgets(tl) curselection]]]} {
@@ -811,7 +844,7 @@ namespace eval sidebar {
       }
 
       # If the file is currently in the notebook, make it the current tab
-      if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] eq "sidebar_open")} {
+      if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] ne "")} {
         gui::set_current_tab {*}[gui::get_info [$widgets(tl) cellcget $selected,name -text] fname {tabbar tab}]
       }
 
@@ -1011,7 +1044,6 @@ namespace eval sidebar {
   proc open_folder_files {rows} {
 
     variable widgets
-    variable images
 
     set tab ""
 
@@ -1020,7 +1052,7 @@ namespace eval sidebar {
       # Open all of the children that are not already opened
       foreach child [$widgets(tl) childkeys $row] {
         set name [$widgets(tl) cellcget $child,name -text]
-        if {([$widgets(tl) cellcget $child,name -image] ne "sidebar_open") && [file isfile $name]} {
+        if {([$widgets(tl) cellcget $child,name -image] eq "") && [file isfile $name]} {
           set tab [gui::add_file end $name -lazy 1]
         }
       }
@@ -1039,14 +1071,13 @@ namespace eval sidebar {
   proc close_folder_files {rows} {
 
     variable widgets
-    variable images
 
     set fnames [list]
 
     # Gather all of the opened file names
     foreach row $rows {
       foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] eq "sidebar_open"} {
+        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
           lappend fnames [$widgets(tl) cellcget $child,name -text]
         }
       }
@@ -1062,12 +1093,11 @@ namespace eval sidebar {
   proc hide_folder_files {rows} {
 
     variable widgets
-    variable images
 
     # Gather all of the opened file names
     foreach row $rows {
       foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] eq "sidebar_open"} {
+        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
           lappend fnames [$widgets(tl) cellcget $child,name -text]
         }
       }
@@ -1083,12 +1113,11 @@ namespace eval sidebar {
   proc show_folder_files {rows} {
 
     variable widgets
-    variable images
 
     # Gather all of the opened file names
     foreach row $rows {
       foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] eq "sidebar_open"} {
+        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
           lappend fnames [$widgets(tl) cellcget $child,name -text]
         }
       }
@@ -1104,7 +1133,6 @@ namespace eval sidebar {
   proc rename_folder {row} {
 
     variable widgets
-    variable images
 
     # Get the current name
     set old_name [set fname [$widgets(tl) cellcget $row,name -text]]
@@ -1328,13 +1356,12 @@ namespace eval sidebar {
   proc close_file {rows} {
 
     variable widgets
-    variable images
 
     set fnames [list]
 
     # Gather all of the opened filenames
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,name -image] eq "sidebar_open"} {
+      if {[$widgets(tl) cellcget $row,name -image] ne ""} {
         lappend fnames [$widgets(tl) cellcget $row,name -text]
       }
     }
@@ -1345,16 +1372,16 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Hides the specified files.
   proc hide_file {rows} {
 
     variable widgets
-    variable images
 
     set fnames [list]
 
     # Gather all of the opened filenames
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,name -image] eq "sidebar_open"} {
+      if {[$widgets(tl) cellcget $row,name -image] ne ""} {
         lappend fnames [$widgets(tl) cellcget $row,name -text]
       }
     }
@@ -1365,12 +1392,31 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Shows the files at the given row.
+  proc show_file {rows} {
+
+    variable widgets
+
+    set fnames [list]
+
+    # Gather all the opened filenames
+    foreach row $rows {
+      if {[$widgets(tl) cellcget $row,name -image] ne ""} {
+        lappend fnames [$widgets(tl) cellcget $row,name -text]
+      }
+    }
+
+    # Show the tabs with the given filenames
+    gui::show_files $fnames
+
+  }
+
+  ######################################################################
   # Allow the user to rename the currently selected file in the file
   # browser.
   proc rename_file {row} {
 
     variable widgets
-    variable images
 
     # Get the current name
     set old_name [set fname [$widgets(tl) cellcget $row,name -text]]
@@ -1444,7 +1490,6 @@ namespace eval sidebar {
   proc delete_file {rows} {
 
     variable widgets
-    variable images
 
     if {[llength $rows] == 1} {
       set question [msgcat::mc "Delete file?"]
@@ -1475,7 +1520,7 @@ namespace eval sidebar {
           $widgets(tl) delete $row
 
           # Close the tab if the file is currently in the notebook
-          if {$bg eq "sidebar_open"} {
+          if {$bg ne ""} {
             lappend fnames $fname
           }
 
@@ -1523,7 +1568,6 @@ namespace eval sidebar {
   proc get_fif_files {} {
 
     variable widgets
-    variable images
 
     set fif_files [list]
     set odirs     [list]
@@ -1538,7 +1582,7 @@ namespace eval sidebar {
         }
         lappend fif_files [list $name $name]
       } else {
-        if {[$widgets(tl) cellcget $i,name -image] eq "sidebar_open"} {
+        if {[$widgets(tl) cellcget $i,name -image] ne ""} {
           lappend ofiles $name
         }
         lappend fif_files [list $name $name]
@@ -1567,7 +1611,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Recursively expands the tablelist to show the given filename.
-  proc show_file_helper {parent fdir} {
+  proc view_file_helper {parent fdir} {
 
     variable widgets
 
@@ -1589,12 +1633,12 @@ namespace eval sidebar {
   ######################################################################
   # Shows the given filename in the sidebar browser.  Adds parent
   # directory if the file does not exist in the sidebar.
-  proc show_file {fname} {
+  proc view_file {fname} {
 
     variable widgets
 
     # Show the file in the sidebar
-    if {![show_file_helper root [file dirname $fname]]} {
+    if {![view_file_helper root [file dirname $fname]]} {
       add_directory [file dirname $fname]
     }
 

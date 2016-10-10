@@ -930,6 +930,8 @@ namespace eval theme {
 
     update_widget sidebar
 
+    # TBD - We may want to call something to cause hidden colors to update
+
   }
 
   ######################################################################

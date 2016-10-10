@@ -527,6 +527,17 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Returns the RGB color which is between the two specified colors.
+  proc color_difference {color1 color2} {
+
+    lassign [color_to_rgb $color1] r1 g1 b1
+    lassign [color_to_rgb $color2] r2 g2 b2
+
+    return [format {#%02x%02x%02x} [expr ($r1 + $r2) / 2] [expr ($g1 + $g2) / 2] [expr ($b1 + $b2) / 2]]
+
+  }
+
+  ######################################################################
   # Converts a character to its associated keysym.  Note:  Only printable
   # string values are supported.
   proc string_to_keysym {str} {
