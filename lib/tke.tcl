@@ -466,7 +466,7 @@ if {[catch {
       }
     }
     if {$tab ne ""} {
-      gui::set_current_tab $tab
+      gui::set_current_tab [gui::get_info $tab tab tabbar] $tab
     }
 
   # Load the session file

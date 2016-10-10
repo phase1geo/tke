@@ -92,6 +92,23 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Returns the list of opened files.
+  proc get_fnames {} {
+
+    variable files
+    variable files_index
+
+    set fnames [list]
+
+    foreach f $files {
+      lappend fnames [lindex $f $files_index(fname)]
+    }
+
+    return $fnames
+
+  }
+
+  ######################################################################
   # Checks to see if the given file is newer than the file within the
   # editor.  If it is newer, prompt the user to update the file.
   proc check_file {index} {
@@ -1078,8 +1095,8 @@ namespace eval gui {
         }
       }
       if {$tab ne ""} {
-        if {[catch { set_current_tab [get_info [lindex $content(CurrentTabs) $pane] tabindex tab] }]} {
-          set_current_tab $tab
+        if {[catch { set_current_tab {*}[get_info [lindex $content(CurrentTabs) $pane] tabindex {tabbar tab}] }]} {
+          set_current_tab [get_info $pane paneindex tabbar] $tab
         }
       }
     }
@@ -1099,7 +1116,7 @@ namespace eval gui {
     }
 
     # Select the next tab
-    set_current_tab [lindex [$tb tabs -shown] $index]
+    set_current_tab $tb [lindex [$tb tabs -shown] $index]
 
   }
 
@@ -1116,7 +1133,7 @@ namespace eval gui {
     }
 
     # Select the previous tab
-    set_current_tab [lindex [$tb tabs -shown] $index]
+    set_current_tab $tb [lindex [$tb tabs -shown] $index]
 
   }
 
@@ -1128,7 +1145,7 @@ namespace eval gui {
     set tb [get_info {} current tabbar]
 
     # Select the last tab
-    set_current_tab [lindex [$tb tabs -shown] [$tb index last]]
+    set_current_tab $tb [lindex [$tb tabs -shown] [$tb index last]]
 
   }
 
@@ -1143,7 +1160,7 @@ namespace eval gui {
     # If we have more than one pane, go to it
     if {[llength [$widgets(nb_pw) panes]] > 1} {
       set pw_current [expr $pw_current ^ 1]
-      set_current_tab [get_info {} current tab]
+      set_current_tab {*}[get_info {} current {tabbar tab}]
     }
 
   }
@@ -1287,7 +1304,8 @@ namespace eval gui {
     if {$file_index != -1} {
 
       if {!$opts(-background)} {
-        set_current_tab [set w [get_info $file_index fileindex tab]]
+        lassign [get_info $file_index fileindex {tabbar tab}] tb w
+        set_current_tab $tb $w
       }
 
     } else {
@@ -1307,8 +1325,11 @@ namespace eval gui {
       # Adjust the index (if necessary)
       set index [adjust_insert_tab_index $index $name]
 
+      # Get the tabbar
+      set tb [get_info $pw_current paneindex tabbar]
+
       # Get the current index
-      set w [insert_tab $index $name -gutters $opts(-gutters) -tags $opts(-tags) -lang $opts(-lang)]
+      set w [insert_tab $tb $index $name -gutters $opts(-gutters) -tags $opts(-tags) -lang $opts(-lang)]
 
       # Create the file info structure
       set file_info [lrepeat [array size files_index] ""]
@@ -1344,7 +1365,7 @@ namespace eval gui {
 
       # Make this tab the currently displayed tab
       if {!$opts(-background)} {
-        set_current_tab $w
+        set_current_tab $tb $w
       }
 
     }
@@ -1478,11 +1499,11 @@ namespace eval gui {
     if {$file_index != -1} {
 
       # Get the tab associated with the given file index
-      set w [get_info $file_index fileindex tab]
+      lassign [get_info $file_index fileindex {tabbar tab}] tb w
 
       # Only display the tab if we are not doing a lazy load
       if {!$opts(-lazy)} {
-        set_current_tab $w
+        set_current_tab $tb $w
       }
 
     # Otherwise, load the file in a new tab
@@ -1503,8 +1524,11 @@ namespace eval gui {
       # Adjust the index (if necessary)
       set index [adjust_insert_tab_index $index [file tail $fname]]
 
+      # Get the tabbar
+      set tb [get_info $pw_current paneindex tabbar]
+
       # Add the tab to the editor frame
-      set w [insert_tab $index $fname -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
+      set w [insert_tab $tb $index $fname -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
 
       # Create the file information
       set file_info [lrepeat [array size files_index] ""]
@@ -1527,7 +1551,7 @@ namespace eval gui {
 
       # Make this tab the currently displayed tab
       if {!$opts(-lazy)} {
-        set_current_tab $w
+        set_current_tab $tb $w
       }
 
       # Run any plugins that should run when a file is opened
@@ -2066,7 +2090,7 @@ namespace eval gui {
           # Save the current
           } else {
 
-            set_current_tab $tab -skip_check 1
+            set_current_tab $tb $tab -skip_check 1
             save_current {} 1
 
           }
@@ -2122,13 +2146,13 @@ namespace eval gui {
     variable files_index
 
     # Get the tab information
-    lassign [get_info $tab tab {fname modified diff}] fname modified diff
+    lassign [get_info $tab tab {tabbar fname modified diff}] tb fname modified diff
 
     # If the file needs to be saved, do it now
     if {$modified && !$diff && !$force} {
       set fname [file tail $fname]
       set msg   [format "%s %s?" [msgcat::mc "Save"] $fname]
-      set_current_tab $tab
+      set_current_tab $tb $tab
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
         return [save_current $tid $force]
       } elseif {$answer eq "cancel"} {
@@ -2229,7 +2253,7 @@ namespace eval gui {
 
     # Display the current pane (if one exists)
     if {!$opts(-lazy) && ([set tab [$tb select]] ne "")} {
-      set_current_tab $tab
+      set_current_tab $tb $tab
     }
 
     # If we have no more tabs and there is another pane, remove this pane
@@ -2269,7 +2293,7 @@ namespace eval gui {
     }
 
     # Set the current tab
-    set_current_tab [get_info {} current tab]
+    set_current_tab {*}[get_info {} current {tabbar tab}]
 
   }
 
@@ -2299,7 +2323,7 @@ namespace eval gui {
       }
 
       # Set the current tab
-      set_current_tab [get_info {} current tab]
+      set_current_tab {*}[get_info {} current {tabbar tab}]
 
     }
 
@@ -2323,8 +2347,10 @@ namespace eval gui {
     $tb tab $tab -state hidden
 
     if {!$opts(-lazy)} {
-      set_current_tab [$tb select] -changed 1
+      set_current_tab $tb [$tb select] -changed 1
     }
+
+    return $tb
 
   }
 
@@ -2346,8 +2372,10 @@ namespace eval gui {
     $tb tab $tab -state normal
 
     if {!$opts(-lazy)} {
-      set_current_tab [$tb select] -changed 1
+      set_current_tab $tb [$tb select] -changed 1
     }
+
+    return $tb
 
   }
 
@@ -2368,13 +2396,23 @@ namespace eval gui {
 
       # Perform a lazy close
       foreach fname $fnames {
-        hide_tab [get_info $fname fname tab] -lazy 1
+        set tbs([hide_tab [get_info $fname fname tab] -lazy 1]) 1
       }
 
       # Set the current tab
-      set_current_tab [$tb select] -changed 1
+      foreach tb [array names tbs] {
+        set_current_tab $tb [$tb select] -changed 1
+      }
 
     }
+
+  }
+
+  ######################################################################
+  # Hides all of the opened files.
+  proc hide_all {} {
+
+    hide_files [get_fnames]
 
   }
 
@@ -2386,13 +2424,23 @@ namespace eval gui {
 
       # Perform a lazy show
       foreach fname $fnames {
-        show_tab [get_info $fname fname tab] -lazy 1
+        set tbs([show_tab [get_info $fname fname tab] -lazy 1]) 1
       }
 
       # Set the current tab
-      set_current_tab [$tb select] -changed 1
+      foreach tb [array names tbs] {
+        set_current_tab $tb [$tb select] -changed 1
+      }
 
     }
+
+  }
+
+  ######################################################################
+  # Shows all of the files.
+  proc show_all {} {
+
+    show_files [get_fnames]
 
   }
 
@@ -2462,7 +2510,7 @@ namespace eval gui {
 
     # Display the current pane (if one exists)
     if {[set tab [$tb select]] ne ""} {
-      set_current_tab $tab
+      set_current_tab $tb $tab
       set pw_current [expr $pw_current ^ 1]
     } else {
       $widgets(nb_pw) forget $pane
@@ -2495,7 +2543,7 @@ namespace eval gui {
     }
 
     # Now move the current tab from the previous current pane to the new current pane
-    set_current_tab $current_tab -skip_focus 1 -skip_check 1
+    set_current_tab $tb $current_tab -skip_focus 1 -skip_check 1
 
     # Set the tab image for the moved file
     set_tab_image $current_tab
@@ -3671,7 +3719,7 @@ namespace eval gui {
   #   -gutters list         Specifies a list of gutters to add to the ctext gutter area
   #   -tags    list         Specifies a list of text binding tags
   #   -lang    language     Specifies initial language parsing of buffer.  Default is to determine based on title.
-  proc insert_tab {index fname args} {
+  proc insert_tab {tb index fname args} {
 
     variable widgets
     variable curr_id
@@ -3698,7 +3746,7 @@ namespace eval gui {
     set title [file tail $fname]
 
     # Get the current notebook
-    lassign [get_info {} current {tabbar pane}] tb nb
+    set nb [get_info $tb tabbar pane]
 
     # Make the tabbar visible and the syntax menubutton enabled
     grid $tb
@@ -4235,7 +4283,7 @@ namespace eval gui {
   #   -skip_focus (0 | 1)
   #        Specifies if we should set the focus on the text widget.
   #        Default is 0
-  proc set_current_tab {tab args} {
+  proc set_current_tab {tb tab args} {
 
     variable widgets
     variable pw_current
@@ -4249,8 +4297,19 @@ namespace eval gui {
     }
     array set opts $args
 
+    # Get the frame containing the text widget
+    set tf [winfo parent [winfo parent $tb]].tf
+
+    # If there is no tab being set, just delete the packed slave
+    if {$tab eq ""} {
+      if {[set slave [pack slaves $tf]] ne ""} {
+        pack forget $slave
+      }
+      return
+    }
+
     # Get the current information
-    lassign [get_info $tab tab {paneindex tabbar tab fileindex}] pw_current tb file_index
+    lassign [get_info $tab tab {paneindex fileindex}] pw_current file_index
 
     # If the proc is not being called by the tabbar and the tab is different than the tabbar's current
     # tab, just call the tabbar select with the tab.  It will call this proc itself.  This is an
@@ -4260,8 +4319,6 @@ namespace eval gui {
       $tb select $tab
       return
     }
-
-    set tf [winfo parent [winfo parent $tb]].tf
 
     if {$opts(-changed) || ([pack slaves $tf] eq "")} {
 
@@ -4293,7 +4350,7 @@ namespace eval gui {
   # Handles a selection made by the user from the tabbar.
   proc handle_tabbar_select {tabbar args} {
 
-    set_current_tab [get_info $tabbar tabbar tab] -changed 1
+    set_current_tab $tabbar [get_info $tabbar tabbar tab] -changed 1
 
   }
 
@@ -4471,7 +4528,7 @@ namespace eval gui {
   proc jump_to_txt {txt pos} {
 
     # Change the current tab, if necessary
-    set_current_tab [get_info $txt txt tab]
+    set_current_tab {*}[get_info $txt txt {tabbar tab}]
 
     # Make sure that the cursor is visible
     [ns folding]::show_line $txt.t [lindex [split $pos .] 0]
@@ -4649,12 +4706,10 @@ namespace eval gui {
         }
         set shown [lassign $shown tmp]
       }
-      # if {[$tb tab $tab -state] ne "hidden"} {
-        set tab_image [$tb tab $tab -image]
-        set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 4 end]" : ""}]
-        $mnu add command -compound left -image $img -label [$tb tab $tab -text] \
-          -command [list [ns gui]::set_current_tab $tab]
-      # }
+      set tab_image [$tb tab $tab -image]
+      set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 4 end]" : ""}]
+      $mnu add command -compound left -image $img -label [$tb tab $tab -text] \
+        -command [list [ns gui]::set_current_tab $tb $tab]
       incr i
     }
 
