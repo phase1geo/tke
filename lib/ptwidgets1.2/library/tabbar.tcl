@@ -1132,7 +1132,6 @@ namespace eval tabbar {
     if {$data($w,option,-history) && ([llength $data($w,history)] > 0)} {
 
       set data($w,current) [lsearch -index 0 $data($w,pages) [lindex $data($w,history) end]]
-      puts "HERE A, current: $data($w,current)"
 
     # If we were unable to find a tab from history, use the tab previous
     # to the current one
@@ -1142,7 +1141,6 @@ namespace eval tabbar {
         array set opts [lindex $data($w,pages) $i 1 2]
         if {$opts(-state) ne "hidden"} {
           set data($w,current) $i
-          puts "HERE B, current: $data($w,current)"
           return
         }
       }
@@ -1151,13 +1149,11 @@ namespace eval tabbar {
         array set opts [lindex $data($w,pages) $i 1 2]
         if {$opts(-state) ne "hidden"} {
           set data($w,current) $i
-          puts "HERE C, current: $data($w,current)"
           return
         }
       }
 
       set data($w,current) -1
-      puts "HERE D, current: -1"
 
     }
 
@@ -1355,7 +1351,6 @@ namespace eval tabbar {
       if {($opts(-state) eq "hidden") && ($oopts(-state) ne "hidden")} {
         clean_history $w $index $index
         if {$index == $data($w,current)} {
-          puts "Set current, index: $index"
           set_current $w
         }
       }
