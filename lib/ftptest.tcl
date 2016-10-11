@@ -1,5 +1,6 @@
-set tke_dir  [file normalize [file join [pwd] ..]]
-set tke_home [file normalize [file join ~ .tke]]
+set tke_dir     [file normalize [file join [pwd] ..]]
+set tke_home    [file normalize [file join ~ .tke]]
+set right_click 2
 
 lappend auto_path [pwd]
 
