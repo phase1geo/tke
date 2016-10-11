@@ -6,10 +6,11 @@ lappend auto_path [pwd]
 
 package require ftp
 package require tablelist
-# package require Expect
+package require wmarkentry
 
 source ftper.tcl
 source utils.tcl
+source tkedat.tcl
 
 ttk::style theme use clam
 

@@ -45,6 +45,7 @@ namespace eval ftper {
   array set widgets     {}
   array set connections {}
   array set data        {}
+  array set groups      {}
 
   ######################################################################
   # Creates an FTP open dialog box and returns the selected file.
@@ -165,17 +166,17 @@ namespace eval ftper {
     ttk::label      .ftpo.pw.rf.ef.sf.l1  -text [format "%s: " [msgcat::mc "Group"]]
     set widgets(edit_group)  [ttk::menubutton .ftpo.pw.rf.ef.sf.mb1 -text ""    -menu [menu .groupPopup -tearoff 0]]
     ttk::label      .ftpo.pw.rf.ef.sf.l2  -text [format "%s: " [msgcat::mc "Name"]]
-    set widgets(edit_name)   [ttk::entry      .ftpo.pw.rf.ef.sf.ne  -validate key -validatecommand [list ftper::check_name %P]]
+    set widgets(edit_name)   [ttk::entry .ftpo.pw.rf.ef.sf.ne  -validate key -validatecommand [list ftper::check_name %P]]
     ttk::label      .ftpo.pw.rf.ef.sf.l3  -text [format "%s: " [msgcat::mc "Server"]]
-    set widgets(edit_server) [ttk::entry      .ftpo.pw.rf.ef.sf.se  -validate key -validatecommand [list ftper::check_server %P]]
+    set widgets(edit_server) [ttk::entry .ftpo.pw.rf.ef.sf.se  -validate key -validatecommand [list ftper::check_server %P]]
     ttk::label      .ftpo.pw.rf.ef.sf.l4  -text [format "%s: " [msgcat::mc "Username"]]
-    set widgets(edit_user)   [ttk::entry      .ftpo.pw.rf.ef.sf.ue  -validate key -validatecommand [list ftper::check_username %P]]
-    ttk::label      .ftpo.pw.rf.ef.sf.l5  -text [format "%s: " [msgcat::mc "Password"]]
-    set widgets(edit_passwd) [ttk::entry      .ftpo.pw.rf.ef.sf.pe  -show *]
+    set widgets(edit_user)   [ttk::entry .ftpo.pw.rf.ef.sf.ue  -validate key -validatecommand [list ftper::check_username %P]]
+    ttk::label      .ftpo.pw.rf.ef.sf.l5  -text [format "%s (%s): " [msgcat::mc "Password"] [msgcat::mc "Optional"]]
+    set widgets(edit_passwd) [ttk::entry .ftpo.pw.rf.ef.sf.pe  -show *]
     ttk::label      .ftpo.pw.rf.ef.sf.l6  -text [format "%s: " [msgcat::mc "Port"]]
-    set widgets(edit_port)   [ttk::entry      .ftpo.pw.rf.ef.sf.poe -validate key -validatecommand [list ftper::check_port %P] -invalidcommand bell]
+    set widgets(edit_port)   [ttk::entry .ftpo.pw.rf.ef.sf.poe -validate key -validatecommand [list ftper::check_port %P] -invalidcommand bell]
     ttk::label      .ftpo.pw.rf.ef.sf.l7  -text [format "%s: " [msgcat::mc "Remote Directory"]]
-    set widgets(edit_dir)    [ttk::entry      .ftpo.pw.rf.ef.sf.re  -validate key -validatecommand [list ftper::check_directory %P]]
+    set widgets(edit_dir)    [ttk::entry .ftpo.pw.rf.ef.sf.re  -validate key -validatecommand [list ftper::check_directory %P]]
 
     grid rowconfigure    .ftpo.pw.rf.ef.sf 8 -weight 1
     grid columnconfigure .ftpo.pw.rf.ef.sf 1 -weight 1
@@ -197,19 +198,8 @@ namespace eval ftper {
     grid .ftpo.pw.rf.ef.sf.re  -row 7 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::frame .ftpo.pw.rf.ef.bf
-    set widgets(edit_create) [ttk::button .ftpo.pw.rf.ef.bf.create -text [msgcat::mc "Create"] -width 6 -command {
-      set group  [.ftpo.pw.rf.ef.sf.mb1 cget -text]
-      set name   [.ftpo.pw.rf.ef.sf.ne  get]
-      set server [.ftpo.pw.rf.ef.sf.se  get]
-      set user   [.ftpo.pw.rf.ef.sf.ue  get]
-      set passwd [.ftpo.pw.rf.ef.sf.pe  get]
-      set port   [.ftpo.pw.rf.ef.sf.poe get]
-      set dir    [.ftpo.pw.rf.ef.sf.re  get]
-      $ftper::widgets(open_sb) insertchild $ftper::groups($group) end $name
-      set ftper::connections($group,$name) [list $server $user $passwd $port $dir]
-      pack forget .ftpo.pw.rf.ef
-      pack .ftpo.pw.rf.vf -fill both -expand yes
-    } -state disabled]
+    set widgets(edit_create) [ttk::button .ftpo.pw.rf.ef.bf.create -text [msgcat::mc "Create"] \
+      -width 6 -command [list ftper::update_connection] -state disabled]
     ttk::button .ftpo.pw.rf.ef.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command {
       pack forget .ftpo.pw.rf.ef
       pack .ftpo.pw.rf.vf -fill both -expand yes
@@ -245,6 +235,47 @@ namespace eval ftper {
   proc format_name {value} {
 
     return [file tail $value]
+
+  }
+
+  ######################################################################
+  # Adds or updates the given connection.
+  proc update_connection {} {
+
+    variable widgets
+    variable groups
+    variable connections
+
+    # Get the field values
+    set group  [$widgets(edit_group)  cget -text]
+    set name   [$widgets(edit_name)   get]
+    set server [$widgets(edit_server) get]
+    set user   [$widgets(edit_user)   get]
+    set passwd [$widgets(edit_passwd) get]
+    set port   [$widgets(edit_port)   get]
+    set dir    [$widgets(edit_dir)    get]
+
+    # Update the sidebar
+    if {[$widgets(edit_create) cget -text] eq "Create"} {
+      $widgets(open_sb) insertchild $groups($group) end $name
+    } else {
+      set selected      [$widgets(open_sb) curselection]
+      set current_group [$widgets(open_sb) cellcget [$widgets(open_sb) parentkey $selected],name -text]
+      if {$group ne $current_group} {
+        $widgets(open_sb) delete $selected
+        $widgets(open_sb) insertchild $groups($group) end $name
+      }
+    }
+
+    # Update the connection information
+    set connections($group,$name) [list $server $user $passwd $port $dir]
+
+    # Write the connection information to file
+    save_connections
+
+    # Make the file table visible
+    pack forget .ftpo.pw.rf.ef
+    pack .ftpo.pw.rf.vf -fill both -expand yes
 
   }
 
@@ -290,7 +321,7 @@ namespace eval ftper {
 
   ######################################################################
   # Checks the connection server and handles the state of the Create button.
-  proc check_user {value} {
+  proc check_username {value} {
 
     variable widgets
 
@@ -335,14 +366,14 @@ namespace eval ftper {
 
   ######################################################################
   # Checks the connection directory and handles the state of the Create button.
-  proc check_dir {value} {
+  proc check_directory {value} {
 
     variable widgets
 
     if {([$widgets(edit_name)   get] ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ([$widgets(edit_user)   get] ne "") && \
-        ([$widgets(edit_port)   get] ne "")} {
+        ([$widgets(edit_port)   get] ne "") && \
         ($value ne "")} {
       $widgets(edit_create) configure -state normal
     } else {
@@ -504,6 +535,23 @@ namespace eval ftper {
   }
 
   ######################################################################
+  # Clears the editor fields.
+  proc clear_editor_fields {} {
+
+    variable widgets
+
+    $widgets(edit_type)   configure -text "FTP"
+    $widgets(edit_name)   delete 0 end
+    $widgets(edit_name)   configure -state normal
+    $widgets(edit_server) delete 0 end
+    $widgets(edit_user)   delete 0 end
+    $widgets(edit_passwd) delete 0 end
+    $widgets(edit_port)   delete 0 end
+    $widgets(edit_dir)    delete 0 end
+
+  }
+
+  ######################################################################
   # Allows the user to create a new connection and inserts it into the sidebar.
   proc new_connection {} {
 
@@ -511,7 +559,7 @@ namespace eval ftper {
 
     # Get the current selection and group name
     if {[set selected [$widgets(open_sb) curselection]] eq ""} {
-      set group_name [$widgets(open_sb) cellcget [lindex [$widgets(open_sb) childkeys root] 0]]
+      set group_name [$widgets(open_sb) cellcget [lindex [$widgets(open_sb) childkeys root] 0],name -text]
     } elseif {[$widgets(open_sb) parentkey $selected] eq "root"} {
       set group_name [$widgets(open_sb) cellcget $selected,name -text]
     } else {
@@ -519,19 +567,85 @@ namespace eval ftper {
     }
 
     # Clear out the editor fields
-    $widgets(edit_type)   configure -text "FTP"
-    $widgets(edit_group)  configure -text $group_name
-    $widgets(edit_name)   delete 0 end
-    $widgets(edit_server) delete 0 end
-    $widgets(edit_user)   delete 0 end
-    $widgets(edit_passwd) delete 0 end
-    $widgets(edit_port)   delete 0 end
-    $widgets(edit_port)   insert end 25
-    $widgets(edit_dir)    delete 0 end
+    clear_editor_fields
+
+    # Setup field names
+    $widgets(edit_type)  configure -text "FTP"
+    $widgets(edit_group) configure -text $group_name
+    $widgets(edit_port)  insert end 21
+
+    # Set the create button text to Create
+    $widgets(edit_create) configure -text "Create"
 
     # Make the editor pane visible
     pack forget $widgets(viewer)
     pack $widgets(editor) -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Edits the currently selected connection information.
+  proc edit_connection {} {
+
+    variable widgets
+    variable connections
+
+    # Get the currently selected connection
+    set selected [$widgets(open_sb) curselection]
+
+    # Get the group name
+    set group_name [$widgets(open_sb) cellcget [$widgets(open_sb) parentkey $selected],name -text]
+
+    # Get the connection name
+    set conn_name [$widgets(open_sb) cellcget $selected,name -text]
+
+    # Clear the editor fields
+    clear_editor_fields
+
+    # Insert field values
+    $widgets(edit_type)   configure -text "FTP"
+    $widgets(edit_group)  configure -text $group_name
+    $widgets(edit_name)   insert end $conn_name
+    $widgets(edit_name)   configure -state disabled
+    $widgets(edit_server) insert end [lindex $connections($group_name,$conn_name) 0]
+    $widgets(edit_user)   insert end [lindex $connections($group_name,$conn_name) 1]
+    $widgets(edit_passwd) insert end [lindex $connections($group_name,$conn_name) 2]
+    $widgets(edit_port)   insert end [lindex $connections($group_name,$conn_name) 3]
+    $widgets(edit_dir)    insert end [lindex $connections($group_name,$conn_name) 4]
+
+    # Set the create button text to Update
+    $widgets(edit_create) configure -text "Update"
+
+    # Make the editor pane visible
+    pack forget $widgets(viewer)
+    pack $widgets(editor) -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Deletes the current connection.
+  proc delete_connection {} {
+
+    variable widgets
+    variable connections
+
+    # Get the currently selected item
+    set selected [$widgets(open_sb) curselection]
+
+    # Get the current group name
+    set group_name [$widgets(open_sb) cellcget [$widgets(open_sb) parentkey $selected],name -text]
+
+    # Get the current connection name
+    set conn_name [$widgets(open_sb) cellcget $selected,name -text]
+
+    # Delete the connection from the table
+    $widgets(open_sb) delete $selected
+
+    # Delete the connection information
+    unset connections($group_name,$conn_name)
+
+    # Save the connections information to file
+    save_connections
 
   }
 
@@ -587,6 +701,10 @@ namespace eval ftper {
 
     variable widgets
     variable connections
+    variable groups
+
+    # Clear variables
+    array unset groups
 
     # Read the contents of the FTP file
     load_connections
@@ -835,7 +953,9 @@ namespace eval ftper {
 
     set fname [file join $::tke_home ftp.tkedat]
 
-    if {![catch { tkedat::read $fname } rc]} {
+    array unset connections
+
+    if {![catch { tkedat::read $fname 0 } rc]} {
       array set connections $rc
     }
 
@@ -849,14 +969,9 @@ namespace eval ftper {
 
     set fname [file join $::tke_home ftp.tkedat]
 
-    catch { tkedat::write $fname [array get connections] }
+    catch { tkedat::write $fname [array get connections] 0 }
 
   }
-
-  # TEMPORARY
-  set connections(Bookmarks,Projects) [list localhost trevorw "" /Users/trevorw/projects]
-  set connections(Bookmarks,Home)     [list localhost trevorw "" /Users/trevorw]
-  set connections(Other,Downloads)    [list localhost trevorw "" /Users/trevorw/Downloads]
 
 }
 
