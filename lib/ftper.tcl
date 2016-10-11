@@ -22,6 +22,7 @@
 # Brief:   Namespace that provides an FTP interface.
 ######################################################################
 
+if {0} {
 # Load the chilkat library (provides SFTP support)
 switch -glob $tcl_platform(os) {
   Darwin { load [file join $::tke_dir lib chilkat macos chilkat.dylib] }
@@ -33,10 +34,13 @@ switch -glob $tcl_platform(os) {
     }
   }
 }
+}
 
 namespace eval ftper {
 
   variable password
+  variable connection
+  variable contents
 
   array set widgets     {}
   array set connections {}
@@ -96,12 +100,13 @@ namespace eval ftper {
     ttk::frame .ftpo.pw.rf.ff
     set widgets(open_tl) [tablelist::tablelist .ftpo.pw.rf.ff.tl \
       -columns {0 {Name}} -treecolumn 0 -exportselection 0 \
+      -expandcommand  [list ftper::handle_table_expand] \
       -xscrollcommand [list utils::set_xscrollbar .ftpo.pw.rf.ff.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftpo.pw.rf.ff.vb]]
     ttk::scrollbar .ftpo.pw.rf.ff.vb -orient vertical   -command [list .ftpo.pw.rf.ff.tl yview]
     ttk::scrollbar .ftpo.pw.rf.ff.hb -orient horizontal -command [list .ftpo.pw.rf.ff.tl xview]
 
-    $widgets(open_tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0
+    $widgets(open_tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list ftper::format_name]
 
     bind $widgets(open_tl) <<TablelistSelect>> [list ftper::handle_open_tl_select]
 
@@ -113,8 +118,9 @@ namespace eval ftper {
 
     ttk::frame  .ftpo.pw.rf.bf
     set widgets(open_open) [ttk::button .ftpo.pw.rf.bf.ok -text [msgcat::mc "Open"] \
-      -width 6 -command [list ftper::open] -state disabled]
-    ttk::button .ftpo.pw.rf.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command [list ftper::open_cancel]
+      -width 6 -command [list ftper::handle_open] -state disabled]
+    ttk::button .ftpo.pw.rf.bf.cancel -text [msgcat::mc "Cancel"] \
+      -width 6 -command [list ftper::handle_open_cancel]
 
     pack .ftpo.pw.rf.bf.cancel -side right -padx 2 -pady 2
     pack .ftpo.pw.rf.bf.ok     -side right -padx 2 -pady 2
@@ -136,7 +142,15 @@ namespace eval ftper {
     # Restore the focus
     ::tk::RestoreFocusGrab .ftpo .ftpo.pw.rf.ff.tl
 
-    return $data(open_fname)
+    return [list $data(open_name) $data(open_fname)]
+
+  }
+
+  ######################################################################
+  # Formats the file/directory name in the table.
+  proc format_name {value} {
+
+    return [file tail $value]
 
   }
 
@@ -145,20 +159,20 @@ namespace eval ftper {
   proc handle_open_lb_select {} {
 
     variable widgets
+    variable data
     variable connections
+    variable connection
 
     # Get the selection
     set selected [$widgets(open_lb) curselection]
 
-    # Get the connection information
-    lassign $connections([$widgets(open_lb) get $selected]) server user passwd startdir
+    # Get the connection name to load
+    set data(open_name) [$widgets(open_lb) get $selected]
 
-    if {$passwd eq ""} {
-      set passwd [get_password]
+    # Connect to the FTP server and add the directory
+    if {[set connection [connect ftp $data(open_name)]] != -1} {
+      add_directory $connection $widgets(open_tl) root [lindex $connections($data(open_name)) 3]
     }
-
-    # Connect to the FTP server
-    connect ftp $server $user $passwd $startdir $widgets(open_tl)
 
   }
 
@@ -169,6 +183,16 @@ namespace eval ftper {
     variable widgets
 
     $widgets(open_open) configure -state normal
+
+  }
+
+  ######################################################################
+  # Handles a table directory expansion.
+  proc handle_table_expand {tbl row} {
+
+    variable connection
+
+    add_directory $connection $tbl $row [$tbl cellcget $row,fname -text]
 
   }
 
@@ -188,7 +212,7 @@ namespace eval ftper {
     variable connections
 
     # Read the contents of the FTP file
-    load_file
+    load_connections
 
     # Set the listbox values
     $widgets(open_lb) delete 0 end
@@ -282,7 +306,7 @@ namespace eval ftper {
 
   ######################################################################
   # Opens the given file.
-  proc open {} {
+  proc handle_open {} {
 
     variable widgets
     variable data
@@ -300,18 +324,42 @@ namespace eval ftper {
 
   ######################################################################
   # Cancels the open operation.
-  proc open_cancel {} {
+  proc handle_open_cancel {} {
 
     variable data
+    variable connection
 
     # Indicate that no file was chosen
     set data(open_fname) ""
 
     # Disconnect the connection
-    # TODO
+    disconnect $connection
 
     # Close the window
     destroy .ftpo
+
+  }
+
+  ######################################################################
+  # Adds a new directory to the given table.
+  proc add_directory {connection tbl parent directory} {
+
+    # Delete the children of the given parent in the table
+    $tbl delete [$tbl childkeys $parent]
+
+    # Add the new directory
+    foreach finfo [::ftp::List $connection $directory] {
+      set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
+      set fname "[lrange $finfo 8 end]"
+      if {[string index $fname 0] eq "."} {
+        continue
+      }
+      set row   [$tbl insertchild $parent end [file join $directory $fname]]
+      if {$dir} {
+        $tbl insertchild $row end [list]
+        $tbl collapse $row
+      }
+    }
 
   }
 
@@ -320,55 +368,84 @@ namespace eval ftper {
   # start directory into the open dialog table.
   #
   # Value of type is either ftp or sftp
-  proc connect {type server user passwd startdir tbl} {
+  proc connect {type name} {
 
-    variable data
-    
+    variable connections
+
+    if {![info exists connections($name)]} {
+      return -code error "Connection does not exist ($name)"
+    }
+
+    lassign $connections($name) server user passwd startdir
+
+    set connection -1
+
+    # Get a password from the user if it is not set
+    if {$passwd eq ""} {
+      if {[set passwd [get_password]] eq ""} {
+        return -1
+      }
+      lset connections($name) 2 $passwd
+    }
+
+    # Open and initialize the connection
     if {$type eq "ftp"} {
-
-      # Open the connection
-      if {[set connection [::ftp::Open $server $user $passwd]] >= 0} {
-        set data($server,$user,connection) $connection
-      } else {
+      if {[set connection [::ftp::Open $server $user $passwd]] == -1} {
         tk_messageBox -parent .ftpo -icon error -type ok -default ok \
           -message [msgcat::mc "Unable to connect to FTP server"] -detail "Server: $server\nUser: $user"
-        return
-      }
-      
-    } else {
-      
-      set connection [::new_CkSFtp]
-      
-    }
-
-    # Clear the table
-    $tbl delete 0 end
-
-    # Get the contents of the start directory
-    if {[::ftp::Cd $data($server,$user,connection) $startdir]} {
-      foreach fname [::ftp::NList $data($server,$user,connection)] {
-        $tbl insert end [list $fname]
+        return -1
       }
     }
+
+    return $connection
 
   }
 
   ######################################################################
   # Disconnects from the given FTP server.
-  proc disconnect {server user} {
+  proc disconnect {connection} {
 
-    variable data
+    if {$connection != -1} {
+      ::ftp::Close $connection
+    }
 
-    if {$data($server,$user,connection) ne ""} {
-      ::ftp::Close $data($server,$user,connection)
-      set data($server,$user,connection) ""
+  }
+
+  ######################################################################
+  # Get the file contents of the given filename using the given connection
+  # name if the remote file is newer than the given modtime.
+  proc get_file {name fname pcontents {modtime 0}} {
+
+    upvar $pcontents contents
+
+    set retval 0
+
+    if {[set connection [connect ftp $name]] != -1} {
+      if {[::ftp::ModTime $connection $fname] > $modtime} {
+        ::ftp::Get $connection $fname -variable $pcontents
+        set retval 1
+      }
+      disconnect $connection
+    }
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Saves the given file contents to the given filename.
+  proc save_file {name fname contents} {
+
+    if {[set connection [connect ftp $name]] != -1} {
+      ::ftp::Put $connection -data $contents $fname
+      disconnect $connection
     }
 
   }
 
   ######################################################################
   # Loads the FTP connections file.
-  proc load_file {} {
+  proc load_connections {} {
 
     variable connections
 
@@ -382,7 +459,7 @@ namespace eval ftper {
 
   ######################################################################
   # Saves the connections to a file
-  proc save_file {} {
+  proc save_connections {} {
 
     variable connections
 
@@ -392,7 +469,10 @@ namespace eval ftper {
 
   }
 
-  set connections(Development) [list frs.sourceforge.net phase1geo,tke "" /home/project-web/tke/htdocs/releases]
+  # TEMPORARY
+  set connections(Projects)  [list localhost trevorw "" /Users/trevorw/projects]
+  set connections(Home)      [list localhost trevorw "" /Users/trevorw]
+  set connections(Downloads) [list localhost trevorw "" /Users/trevorw/Downloads]
 
 }
 
