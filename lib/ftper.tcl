@@ -39,7 +39,7 @@ switch -glob $tcl_platform(os) {
 namespace eval ftper {
 
   variable password
-  variable connection
+  variable connection -1
   variable contents
 
   array set widgets     {}
@@ -67,29 +67,50 @@ namespace eval ftper {
     $widgets(pw) add [ttk::frame .ftpo.pw.lf]
 
     ttk::frame .ftpo.pw.lf.sf
-    set widgets(open_lb) [listbox .ftpo.pw.lf.sf.lb \
-      -relief flat \
+    set widgets(open_sb) [tablelist::tablelist .ftpo.pw.lf.sf.tl \
+      -columns {0 {Connections}} -treecolumn 0 -exportselection 0 -relief flat \
       -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
       -xscrollcommand [list utils::set_xscrollbar .ftpo.pw.lf.sf.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftpo.pw.lf.sf.vb]]
-    ttk::scrollbar .ftpo.pw.lf.sf.vb -orient vertical   -command [list .ftpo.pw.lf.sf.lb yview]
-    ttk::scrollbar .ftpo.pw.lf.sf.hb -orient horizontal -command [list .ftpo.pw.lf.sf.lb xview]
+    ttk::scrollbar .ftpo.pw.lf.sf.vb -orient vertical   -command [list .ftpo.pw.lf.sf.tl yview]
+    ttk::scrollbar .ftpo.pw.lf.sf.hb -orient horizontal -command [list .ftpo.pw.lf.sf.tl xview]
 
-    bind $widgets(open_lb) <<ListboxSelect>> [list ftper::handle_open_lb_select]
+    $widgets(open_sb) columnconfigure 0 -name name -editable 0 -resizable 1 -stretchable 1
 
-    grid rowconfigure     .ftpo.pw.lf.sf 0 -weight 1
+    bind [$widgets(open_sb) bodytag] <Double-Button-1>       [list ftper::handle_open_sb_select]
+    bind [$widgets(open_sb) bodytag] <Button-$::right_click> [list ftper::show_sidebar_menu %W %x %y %X %Y]
+
+    grid rowconfigure    .ftpo.pw.lf.sf 0 -weight 1
     grid columnconfigure .ftpo.pw.lf.sf 0 -weight 1
-    grid .ftpo.pw.lf.sf.lb -row 0 -column 0 -sticky news
+    grid .ftpo.pw.lf.sf.tl -row 0 -column 0 -sticky news
     grid .ftpo.pw.lf.sf.vb -row 0 -column 1 -sticky ns
     grid .ftpo.pw.lf.sf.hb -row 1 -column 0 -sticky ew
 
     ttk::frame  .ftpo.pw.lf.bf
-    ttk::button .ftpo.pw.lf.bf.edit -text [msgcat::mc "Edit"] -command [list ftper::edit_sidebar]
+    set widgets(new_b) [ttk::button .ftpo.pw.lf.bf.edit -text "+" -command [list ftper::show_new_menu]]
 
     pack .ftpo.pw.lf.bf.edit -side left -padx 2 -pady 2
 
     pack .ftpo.pw.lf.sf -fill both -expand yes
     pack .ftpo.pw.lf.bf -fill x
+
+    # Create contextual menus
+    set widgets(new) [menu .ftpo.newPopup -tearoff 0]
+    $widgets(new) add command -label [msgcat::mc "New Group"]      -command [list ftper::new_group]
+    $widgets(new) add command -label [msgcat::mc "New Connection"] -command [list ftper::new_connection]
+
+    set widgets(group) [menu .ftpo.groupPopup -tearoff 0]
+    $widgets(group) add command -label [msgcat::mc "New Connection"] -command [list ftper::new_connection]
+    $widgets(group) add separator
+    $widgets(group) add command -label [msgcat::mc "Rename Group"]   -command [list ftper::rename_group]
+    $widgets(group) add command -label [msgcat::mc "Delete Group"]   -command [list ftper::delete_group]
+
+    set widgets(connection) [menu .ftpo.connPopup -tearoff 0]
+    $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list ftper::handle_open_sb_select]
+    $widgets(connection) add separator
+    $widgets(connection) add command -label [msgcat::mc "Edit Connection"]   -command [list ftper::edit_connection]
+    $widgets(connection) add separator
+    $widgets(connection) add command -label [msgcat::mc "Delete Connection"] -command [list ftper::delete_connection]
 
     ##########
     # VIEWER #
@@ -97,37 +118,110 @@ namespace eval ftper {
 
     $widgets(pw) add [ttk::frame .ftpo.pw.rf] -weight 1
 
-    ttk::frame .ftpo.pw.rf.ff
-    set widgets(open_tl) [tablelist::tablelist .ftpo.pw.rf.ff.tl \
+    set widgets(viewer) [ttk::frame .ftpo.pw.rf.vf]
+
+    ttk::frame .ftpo.pw.rf.vf.ff
+    set widgets(open_tl) [tablelist::tablelist .ftpo.pw.rf.vf.ff.tl \
       -columns {0 {Name}} -treecolumn 0 -exportselection 0 \
       -expandcommand  [list ftper::handle_table_expand] \
-      -xscrollcommand [list utils::set_xscrollbar .ftpo.pw.rf.ff.hb] \
-      -yscrollcommand [list utils::set_yscrollbar .ftpo.pw.rf.ff.vb]]
-    ttk::scrollbar .ftpo.pw.rf.ff.vb -orient vertical   -command [list .ftpo.pw.rf.ff.tl yview]
-    ttk::scrollbar .ftpo.pw.rf.ff.hb -orient horizontal -command [list .ftpo.pw.rf.ff.tl xview]
+      -xscrollcommand [list utils::set_xscrollbar .ftpo.pw.rf.vf.ff.hb] \
+      -yscrollcommand [list utils::set_yscrollbar .ftpo.pw.rf.vf.ff.vb]]
+    ttk::scrollbar .ftpo.pw.rf.vf.ff.vb -orient vertical   -command [list .ftpo.pw.rf.vf.ff.tl yview]
+    ttk::scrollbar .ftpo.pw.rf.vf.ff.hb -orient horizontal -command [list .ftpo.pw.rf.vf.ff.tl xview]
 
     $widgets(open_tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list ftper::format_name]
 
     bind $widgets(open_tl) <<TablelistSelect>> [list ftper::handle_open_tl_select]
 
-    grid rowconfigure    .ftpo.pw.rf.ff 0 -weight 1
-    grid columnconfigure .ftpo.pw.rf.ff 0 -weight 1
-    grid .ftpo.pw.rf.ff.tl -row 0 -column 0 -sticky news
-    grid .ftpo.pw.rf.ff.vb -row 0 -column 1 -sticky ns
-    grid .ftpo.pw.rf.ff.hb -row 1 -column 0 -sticky ew
+    grid rowconfigure    .ftpo.pw.rf.vf.ff 0 -weight 1
+    grid columnconfigure .ftpo.pw.rf.vf.ff 0 -weight 1
+    grid .ftpo.pw.rf.vf.ff.tl -row 0 -column 0 -sticky news
+    grid .ftpo.pw.rf.vf.ff.vb -row 0 -column 1 -sticky ns
+    grid .ftpo.pw.rf.vf.ff.hb -row 1 -column 0 -sticky ew
 
-    ttk::frame  .ftpo.pw.rf.bf
-    set widgets(open_open) [ttk::button .ftpo.pw.rf.bf.ok -text [msgcat::mc "Open"] \
+    ttk::frame  .ftpo.pw.rf.vf.bf
+    set widgets(open_open) [ttk::button .ftpo.pw.rf.vf.bf.ok -text [msgcat::mc "Open"] \
       -width 6 -command [list ftper::handle_open] -state disabled]
-    ttk::button .ftpo.pw.rf.bf.cancel -text [msgcat::mc "Cancel"] \
+    ttk::button .ftpo.pw.rf.vf.bf.cancel -text [msgcat::mc "Cancel"] \
       -width 6 -command [list ftper::handle_open_cancel]
 
-    pack .ftpo.pw.rf.bf.cancel -side right -padx 2 -pady 2
-    pack .ftpo.pw.rf.bf.ok     -side right -padx 2 -pady 2
+    pack .ftpo.pw.rf.vf.bf.cancel -side right -padx 2 -pady 2
+    pack .ftpo.pw.rf.vf.bf.ok     -side right -padx 2 -pady 2
 
-    pack .ftpo.pw.rf.ff -fill both -expand yes
-    pack .ftpo.pw.rf.bf -fill x
+    pack .ftpo.pw.rf.vf.ff -fill both -expand yes
+    pack .ftpo.pw.rf.vf.bf -fill x
 
+    pack .ftpo.pw.rf.vf -fill both -expand yes
+
+    #####################
+    # CONNECTION EDITOR #
+    #####################
+
+    set widgets(editor) [ttk::frame .ftpo.pw.rf.ef]
+
+    ttk::frame      .ftpo.pw.rf.ef.sf
+    ttk::label      .ftpo.pw.rf.ef.sf.l0  -text [format "%s: " [msgcat::mc "Type"]]
+    set widgets(edit_type)   [ttk::menubutton .ftpo.pw.rf.ef.sf.mb0 -text "FTP" -menu [menu .typePopup -tearoff 0]]
+    ttk::label      .ftpo.pw.rf.ef.sf.l1  -text [format "%s: " [msgcat::mc "Group"]]
+    set widgets(edit_group)  [ttk::menubutton .ftpo.pw.rf.ef.sf.mb1 -text ""    -menu [menu .groupPopup -tearoff 0]]
+    ttk::label      .ftpo.pw.rf.ef.sf.l2  -text [format "%s: " [msgcat::mc "Name"]]
+    set widgets(edit_name)   [ttk::entry      .ftpo.pw.rf.ef.sf.ne  -validate key -validatecommand [list ftper::check_name %P]]
+    ttk::label      .ftpo.pw.rf.ef.sf.l3  -text [format "%s: " [msgcat::mc "Server"]]
+    set widgets(edit_server) [ttk::entry      .ftpo.pw.rf.ef.sf.se  -validate key -validatecommand [list ftper::check_server %P]]
+    ttk::label      .ftpo.pw.rf.ef.sf.l4  -text [format "%s: " [msgcat::mc "Username"]]
+    set widgets(edit_user)   [ttk::entry      .ftpo.pw.rf.ef.sf.ue  -validate key -validatecommand [list ftper::check_username %P]]
+    ttk::label      .ftpo.pw.rf.ef.sf.l5  -text [format "%s: " [msgcat::mc "Password"]]
+    set widgets(edit_passwd) [ttk::entry      .ftpo.pw.rf.ef.sf.pe  -show *]
+    ttk::label      .ftpo.pw.rf.ef.sf.l6  -text [format "%s: " [msgcat::mc "Port"]]
+    set widgets(edit_port)   [ttk::entry      .ftpo.pw.rf.ef.sf.poe -validate key -validatecommand [list ftper::check_port %P] -invalidcommand bell]
+    ttk::label      .ftpo.pw.rf.ef.sf.l7  -text [format "%s: " [msgcat::mc "Remote Directory"]]
+    set widgets(edit_dir)    [ttk::entry      .ftpo.pw.rf.ef.sf.re  -validate key -validatecommand [list ftper::check_directory %P]]
+
+    grid rowconfigure    .ftpo.pw.rf.ef.sf 8 -weight 1
+    grid columnconfigure .ftpo.pw.rf.ef.sf 1 -weight 1
+    grid .ftpo.pw.rf.ef.sf.l0  -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.mb0 -row 0 -column 1 -sticky w    -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.l1  -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.mb1 -row 1 -column 1 -sticky w    -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.l2  -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.ne  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.l3  -row 3 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.se  -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.l4  -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.ue  -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.l5  -row 5 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.pe  -row 5 -column 1 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.l6  -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.poe -row 6 -column 1 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.l7  -row 7 -column 0 -sticky news -padx 2 -pady 2
+    grid .ftpo.pw.rf.ef.sf.re  -row 7 -column 1 -sticky news -padx 2 -pady 2
+
+    ttk::frame .ftpo.pw.rf.ef.bf
+    set widgets(edit_create) [ttk::button .ftpo.pw.rf.ef.bf.create -text [msgcat::mc "Create"] -width 6 -command {
+      set group  [.ftpo.pw.rf.ef.sf.mb1 cget -text]
+      set name   [.ftpo.pw.rf.ef.sf.ne  get]
+      set server [.ftpo.pw.rf.ef.sf.se  get]
+      set user   [.ftpo.pw.rf.ef.sf.ue  get]
+      set passwd [.ftpo.pw.rf.ef.sf.pe  get]
+      set port   [.ftpo.pw.rf.ef.sf.poe get]
+      set dir    [.ftpo.pw.rf.ef.sf.re  get]
+      $ftper::widgets(open_sb) insertchild $ftper::groups($group) end $name
+      set ftper::connections($group,$name) [list $server $user $passwd $port $dir]
+      pack forget .ftpo.pw.rf.ef
+      pack .ftpo.pw.rf.vf -fill both -expand yes
+    } -state disabled]
+    ttk::button .ftpo.pw.rf.ef.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command {
+      pack forget .ftpo.pw.rf.ef
+      pack .ftpo.pw.rf.vf -fill both -expand yes
+    }
+
+    pack .ftpo.pw.rf.ef.bf.cancel -side right -padx 2 -pady 2
+    pack .ftpo.pw.rf.ef.bf.create -side right -padx 2 -pady 2
+
+    pack .ftpo.pw.rf.ef.sf -fill both -expand yes
+    pack .ftpo.pw.rf.ef.bf -fill x
+
+    # Pack the main panedwindow
     pack .ftpo.pw -fill both -expand yes
 
     # Populate sidebar
@@ -155,8 +249,113 @@ namespace eval ftper {
   }
 
   ######################################################################
+  # Checks the connection name and handles the state of the Create button.
+  proc check_name {value} {
+
+    variable widgets
+
+    if {($value ne "") && \
+        ([$widgets(edit_server) get] ne "") && \
+        ([$widgets(edit_user)   get] ne "") && \
+        ([$widgets(edit_port)   get] ne "") && \
+        ([$widgets(edit_dir)    get] ne "")} {
+      $widgets(edit_create) configure -state normal
+    } else {
+      $widgets(edit_create) configure -state disabled
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Checks the connection server and handles the state of the Create button.
+  proc check_server {value} {
+
+    variable widgets
+
+    if {([$widgets(edit_name) get] ne "") && \
+        ($value ne "") && \
+        ([$widgets(edit_user) get] ne "") && \
+        ([$widgets(edit_port) get] ne "") && \
+        ([$widgets(edit_dir)  get] ne "")} {
+      $widgets(edit_create) configure -state normal
+    } else {
+      $widgets(edit_create) configure -state disabled
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Checks the connection server and handles the state of the Create button.
+  proc check_user {value} {
+
+    variable widgets
+
+    if {([$widgets(edit_name)   get] ne "") && \
+        ([$widgets(edit_server) get] ne "") && \
+        ($value ne "") && \
+        ([$widgets(edit_port)   get] ne "") && \
+        ([$widgets(edit_dir)    get] ne "")} {
+      $widgets(edit_create) configure -state normal
+    } else {
+      $widgets(edit_create) configure -state disabled
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Checks the connection port and handles the state of the Create button.
+  proc check_port {value} {
+
+    variable widgets
+
+    # If the value is not an integer, complain
+    if {($value ne "") && ![string is integer $value]} {
+      return 0
+    }
+
+    if {([$widgets(edit_name)   get] ne "") && \
+        ([$widgets(edit_server) get] ne "") && \
+        ([$widgets(edit_user)   get] ne "") && \
+        ($value ne "") && \
+        ([$widgets(edit_dir)    get] ne "")} {
+      $widgets(edit_create) configure -state normal
+    } else {
+      $widgets(edit_create) configure -state disabled
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Checks the connection directory and handles the state of the Create button.
+  proc check_dir {value} {
+
+    variable widgets
+
+    if {([$widgets(edit_name)   get] ne "") && \
+        ([$widgets(edit_server) get] ne "") && \
+        ([$widgets(edit_user)   get] ne "") && \
+        ([$widgets(edit_port)   get] ne "")} {
+        ($value ne "")} {
+      $widgets(edit_create) configure -state normal
+    } else {
+      $widgets(edit_create) configure -state disabled
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
   # Handles a selection of a connection.
-  proc handle_open_lb_select {} {
+  proc handle_open_sb_select {} {
 
     variable widgets
     variable data
@@ -164,10 +363,18 @@ namespace eval ftper {
     variable connection
 
     # Get the selection
-    set selected [$widgets(open_lb) curselection]
+    set selected [$widgets(open_sb) curselection]
+
+    # We don't want to do anything when double-clicking a group
+    if {[set parent [$widgets(open_sb) parentkey $selected]] eq "root"} {
+      return
+    }
+
+    # Get the group name
+    set group [$widgets(open_sb) get $parent]
 
     # Get the connection name to load
-    set data(open_name) [$widgets(open_lb) get $selected]
+    set data(open_name) "$group,[$widgets(open_sb) get $selected]"
 
     # Connect to the FTP server and add the directory
     if {[set connection [connect ftp $data(open_name)]] != -1} {
@@ -175,6 +382,176 @@ namespace eval ftper {
     }
 
   }
+
+  ######################################################################
+  # Shows the sidebar menu
+  proc show_sidebar_menu {W x y X Y} {
+
+    variable widgets
+
+    foreach {tbl x y} [tablelist::convEventFields $W $x $y] {}
+    set row [$tbl containing $y]
+
+    if {$row == -1} {
+      return
+    }
+
+    # Set the current selection
+    $widgets(open_sb) selection clear 0 end
+    $widgets(open_sb) selection set $row
+
+    if {[$widgets(open_sb) parentkey $row] eq "root"} {
+      set mnu $widgets(group)
+    } else {
+      set mnu $widgets(connection)
+    }
+
+    tk_popup $mnu $X $Y
+
+  }
+
+  ######################################################################
+  # Displays the new menu.
+  proc show_new_menu {} {
+
+    variable widgets
+
+    set menu_width  [winfo reqwidth  $widgets(new)]
+    set menu_height [winfo reqheight $widgets(new)]
+    set w_width     [winfo width $widgets(new_b)]
+    set w_x         [winfo rootx $widgets(new_b)]
+    set w_y         [winfo rooty $widgets(new_b)]
+
+    set x [expr ($w_x + $w_width) - $menu_width]
+    set y [expr $w_y - ($menu_height + 4)]
+
+    tk_popup $widgets(new) $x $y
+
+  }
+
+  ######################################################################
+  # Allows the user to create a new group and inserts it into the sidebar.
+  proc new_group {} {
+
+    variable widgets
+    variable value
+
+    set value ""
+
+    toplevel     .groupwin
+    wm title     .groupwin [msgcat::mc "New Group"]
+    wm resizable .groupwin 0 0
+    wm transient .groupwin .ftpo
+
+    ttk::frame .groupwin.f
+    ttk::label .groupwin.f.l -text [msgcat::mc "Group Name: "]
+    ttk::entry .groupwin.f.e -validate key -validatecommand [list ftper::validate_group %P]
+
+    bind .groupwin.f.e <Return> [list .groupwin.bf.create invoke]
+
+    pack .groupwin.f.l -side left -padx 2 -pady 2
+    pack .groupwin.f.e -side left -padx 2 -pady 2 -fill x -expand yes
+
+    ttk::frame  .groupwin.bf
+    ttk::button .groupwin.bf.create -text [msgcat::mc "Create"] -width 6 -command {
+      set ftper::value [.groupwin.f.e get]
+      destroy .groupwin
+    } -state disabled
+    ttk::button .groupwin.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command {
+      set ftper::value ""
+      destroy .groupwin
+    }
+
+    pack .groupwin.bf.cancel -side right -padx 2 -pady 2
+    pack .groupwin.bf.create -side right -padx 2 -pady 2
+
+    pack .groupwin.f  -fill x -expand yes
+    pack .groupwin.bf -fill x
+
+    # Place the window in the middle of the FTP window
+    ::tk::PlaceWindow .groupwin widget .ftpo
+
+    # Get the focus/grab
+    ::tk::SetFocusGrab .groupwin .groupwin.f.e
+
+    # Wait for the window to close
+    tkwait window .groupwin
+
+    # Restore the focus/grab
+    ::tk::RestoreFocusGrab .groupwin .groupwin.f.e
+
+    # Add the group to the sidebar table
+    if {$value ne ""} {
+      set row [$widgets(open_sb) insertchild root end $value]
+      $widgets(open_sb) selection clear 0 end
+      $widgets(open_sb) selection set $row
+    }
+
+  }
+
+  ######################################################################
+  # Validates the group name entry value.
+  proc validate_group {value} {
+
+    if {$value eq ""} {
+      .groupwin.bf.create configure -state disabled
+    } else {
+      .groupwin.bf.create configure -state normal
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Allows the user to create a new connection and inserts it into the sidebar.
+  proc new_connection {} {
+
+    variable widgets
+
+    # Get the current selection and group name
+    if {[set selected [$widgets(open_sb) curselection]] eq ""} {
+      set group_name [$widgets(open_sb) cellcget [lindex [$widgets(open_sb) childkeys root] 0]]
+    } elseif {[$widgets(open_sb) parentkey $selected] eq "root"} {
+      set group_name [$widgets(open_sb) cellcget $selected,name -text]
+    } else {
+      set group_name [$widgets(open_sb) cellcget [$widgets(open_sb) parentkey $selected],name -text]
+    }
+
+    # Clear out the editor fields
+    $widgets(edit_type)   configure -text "FTP"
+    $widgets(edit_group)  configure -text $group_name
+    $widgets(edit_name)   delete 0 end
+    $widgets(edit_server) delete 0 end
+    $widgets(edit_user)   delete 0 end
+    $widgets(edit_passwd) delete 0 end
+    $widgets(edit_port)   delete 0 end
+    $widgets(edit_port)   insert end 25
+    $widgets(edit_dir)    delete 0 end
+
+    # Make the editor pane visible
+    pack forget $widgets(viewer)
+    pack $widgets(editor) -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Validates the group name entry value.
+  proc validate_group {value} {
+
+    if {$value eq ""} {
+      .groupwin.bf.create configure -state disabled
+    } else {
+      .groupwin.bf.create configure -state normal
+    }
+
+    return 1
+
+  }
+
+  #####################
+  # VIEWER PROCEDURES #
+  #####################
 
   ######################################################################
   # Handles a selection of a file in the file viewer.
@@ -215,10 +592,14 @@ namespace eval ftper {
     load_connections
 
     # Set the listbox values
-    $widgets(open_lb) delete 0 end
+    $widgets(open_sb) delete 0 end
 
-    foreach name [array names connections] {
-      $widgets(open_lb) insert end $name
+    foreach name [lsort -dictionary [array names connections]] {
+      lassign [split $name ,] group name
+      if {![info exists groups($group)]} {
+        set groups($group) [$widgets(open_sb) insertchild root end $group]
+      }
+      $widgets(open_sb) insertchild $groups($group) end $name
     }
 
   }
@@ -330,10 +711,13 @@ namespace eval ftper {
     variable connection
 
     # Indicate that no file was chosen
+    set data(open_name)  ""
     set data(open_fname) ""
 
     # Disconnect the connection
-    disconnect $connection
+    if {$connection != -1} {
+      disconnect $connection
+    }
 
     # Close the window
     destroy .ftpo
@@ -470,9 +854,9 @@ namespace eval ftper {
   }
 
   # TEMPORARY
-  set connections(Projects)  [list localhost trevorw "" /Users/trevorw/projects]
-  set connections(Home)      [list localhost trevorw "" /Users/trevorw]
-  set connections(Downloads) [list localhost trevorw "" /Users/trevorw/Downloads]
+  set connections(Bookmarks,Projects) [list localhost trevorw "" /Users/trevorw/projects]
+  set connections(Bookmarks,Home)     [list localhost trevorw "" /Users/trevorw]
+  set connections(Other,Downloads)    [list localhost trevorw "" /Users/trevorw/Downloads]
 
 }
 
