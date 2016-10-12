@@ -76,6 +76,7 @@ package require http
 # package require fileutil
 package require struct::set
 package require comm
+package require ftp
 catch { package require tkdnd }
 catch { package require registry }
 
@@ -119,6 +120,7 @@ source [file join $tke_dir lib folding.tcl]
 source [file join $tke_dir lib fontchooser.tcl]
 source [file join $tke_dir lib emmet.tcl]
 source [file join $tke_dir lib pref_ui.tcl]
+source [file join $tke_dir lib ftper.tcl]
 source [file join $tke_dir lib socksend.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {

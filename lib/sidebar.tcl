@@ -134,7 +134,7 @@ namespace eval sidebar {
 
     # Add the file tree elements
     set widgets(tl) \
-      [tablelist::tablelist $w.tl -columns {0 {} 0 {}} -showlabels 0 -exportselection 0 \
+      [tablelist::tablelist $w.tl -columns {0 {} 0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -treestyle aqua -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
         -relief flat -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg \
         -foreground $fg -background $bg -selectmode extended \
@@ -147,6 +147,7 @@ namespace eval sidebar {
 
     $widgets(tl) columnconfigure 0 -name name   -editable 0 -formatcommand "sidebar::format_name"
     $widgets(tl) columnconfigure 1 -name ocount -editable 0 -hide 1
+    $widgets(tl) columnconfigure 2 -name remote -editable 0 -hide 1
 
     bind $widgets(tl)           <<TablelistSelect>>     "sidebar::handle_selection"
     bind [$widgets(tl) bodytag] <Button-$::right_click> "sidebar::handle_right_click %W %x %y"
@@ -547,37 +548,43 @@ namespace eval sidebar {
 
   ######################################################################
   # Adds the given directory which displays within the file browser.
-  proc add_directory {dir {parent root}} {
+  proc add_directory {dir args} {
 
     variable widgets
 
+    array set opts {
+      -parent "root"
+      -remote ""
+    }
+    array set opts $args
+
     # Get some needed information
-    if {$parent eq "root"} {
+    if {$opts(-parent) eq "root"} {
       add_to_recently_opened $dir
       set dir_tail [file tail $dir]
       set dir_path $dir
     } else {
-      set parent_dir [$widgets(tl) cellcget $parent,name -text]
+      set parent_dir [$widgets(tl) cellcget $opts(-parent),name -text]
       set dir_tail   [lindex [file split $dir] [llength [file split $parent_dir]]]
       set dir_path   [file join $parent_dir $dir_tail]
-      if {![$widgets(tl) isexpanded $parent]} {
-        $widgets(tl) expand $parent -partly
+      if {![$widgets(tl) isexpanded $opts(-parent)]} {
+        $widgets(tl) expand $opts(-parent) -partly
       }
     }
 
     # If we have hit the end of the path, return the parent
     if {$dir_tail eq ""} {
-      # expand_directory $widgets(tl) $parent
-      return $parent
+      # expand_directory $widgets(tl) $opts(-parent)
+      return $opts(-parent)
     }
 
     # Search for a match in the parent directory
     set i     0
     set index end
-    foreach child [$widgets(tl) childkeys $parent] {
+    foreach child [$widgets(tl) childkeys $opts(-parent)] {
       set name [$widgets(tl) cellcget $child,name -text]
       if {[string compare -length [string length $name] $dir $name] == 0} {
-        return [add_directory $dir $child]
+        return [add_directory $dir -parent $child]
       }
       if {($index eq "end") && ([string compare $dir_tail [file tail $name]] < 1)} {
         set index $i
@@ -586,10 +593,10 @@ namespace eval sidebar {
     }
 
     # If no match was found, add it at the ordered index
-    set parent [$widgets(tl) insertchild $parent $index [list $dir_path 0]]
+    set parent [$widgets(tl) insertchild $opts(-parent) $index [list $dir_path 0 $opts(-remote)]]
 
     # Add the directory contents
-    add_subdirectory $parent
+    add_subdirectory $parent $opts(-remote)
 
     return $parent
 
@@ -598,7 +605,7 @@ namespace eval sidebar {
   ######################################################################
   # Recursively adds the current directory and all subdirectories and files
   # found within it to the sidebar.
-  proc add_subdirectory {parent} {
+  proc add_subdirectory {parent remote} {
 
     variable widgets
 
@@ -763,7 +770,7 @@ namespace eval sidebar {
     $tbl delete [$tbl childkeys $row]
 
     # Add the missing subdirectory
-    add_subdirectory $row
+    add_subdirectory $row [$tbl cellcget $row,remote -text]
 
   }
 
