@@ -285,6 +285,9 @@ namespace eval menus {
     $mb add command -label [format "%s..." [msgcat::mc "Open Directory"]] -underline 5 -command [list menus::open_dir_command]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Open directory"]] [list menus::open_dir_command]
 
+    $mb add command -label [format "%s..." [msgcat::mc "Open Remote"]] -underline 0 -command [list menus::open_remote_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Open remote file or directory"]] [list menus::open_remote_command]
+
     $mb add cascade -label [msgcat::mc "Open Recent"] -menu [make_menu $mb.recent -tearoff false -postcommand [list menus::file_recent_posting $mb.recent]]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Open Recent"]] [list menus::launcher]
 
@@ -311,6 +314,9 @@ namespace eval menus {
 
     $mb add command -label [format "%s..." [msgcat::mc "Save As"]] -underline 5 -command [list menus::save_as_command]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as"]] menus::save_as_command
+
+    $mb add command -label [format "%s..." [msgcat::mc "Save As Remote"]] -command [list menus::save_as_remote_command]
+    launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as remote file"]] menus::save_as_remote_command
 
     $mb add command -label [format "%s..." [msgcat::mc "Save As Template"]] -command [list templates::save_as]
     launcher::register [make_menu_cmd "File" [msgcat::mc "Save file as template"]] [list templates::save_as]
@@ -420,6 +426,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Show File Difference"]               -state $buffer_state
       $mb entryconfigure [msgcat::mc "Save"]                               -state [expr {$modified ? "normal" : "disabled"}]
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state normal
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Remote"]]    -state normal
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state normal
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save All"]                           -state normal
@@ -438,6 +445,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Show File Difference"]               -state disabled
       $mb entryconfigure [msgcat::mc "Save"]                               -state disabled
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state disabled
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Remote"]]    -state disabled
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state disabled
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state disabled
       $mb entryconfigure [msgcat::mc "Save All"]                           -state disabled
@@ -606,6 +614,20 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Opens one or more remote files in editing buffer(s).
+  proc open_remote_command {} {
+
+    # Get the directory or file
+    lassign [ftper::create open] conn_name ofiles
+
+    # Add the files to the editing area
+    foreach ofile $ofiles {
+      gui::add_file end $ofile -remote $conn_name
+    }
+
+  }
+
+  ######################################################################
   # Change the current working directory to a specified value.
   proc change_working_directory {} {
 
@@ -631,7 +653,7 @@ namespace eval menus {
   # Saves the current tab file.
   proc save_command {} {
 
-    gui::save_current {} 1 ""
+    gui::save_current {} -force 1
 
   }
 
@@ -641,7 +663,19 @@ namespace eval menus {
 
     # Get some of the save options
     if {[set sfile [gui::prompt_for_save {}]] ne ""} {
-      gui::save_current {} 1 $sfile
+      gui::save_current {} -force 1 -save_as $sfile
+    }
+
+  }
+
+  ######################################################################
+  # Saves the current tab file as a new filename on a remote server.
+  proc save_as_remote_command {} {
+
+    lassign [ftper::create save] connection sfile
+
+    if {$sfile ne ""} {
+      gui::save_current {} -force 1 -save_as $sfile -remote $connection
     }
 
   }

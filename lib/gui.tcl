@@ -75,6 +75,7 @@ namespace eval gui {
     loaded   12
     eol      13
     remember 14
+    remote   15
   }
 
   #######################
@@ -1458,6 +1459,7 @@ namespace eval gui {
   # -diff        <bool>     Specifies if we need to do a diff of the file.
   # -other       <bool>     If true, adds the file to the other editing pane.
   # -tags        <list>     List of plugin btags that will only attach to this text widget.
+  # -remote      <name>     Name of remote connection associated with the file.
   proc add_file {index fname args} {
 
     variable widgets
@@ -1478,6 +1480,7 @@ namespace eval gui {
       -tags        {}
       -lazy        0
       -remember    1
+      -remote      ""
     }
     array set opts $args
 
@@ -1547,6 +1550,7 @@ namespace eval gui {
       lset file_info $files_index(loaded)   0
       lset file_info $files_index(eol)      [get_eol_translation $fname]
       lset file_info $files_index(remember) $opts(-remember)
+      lset file_info $files_index(remote)   $opts(-remote)
       lappend files $file_info
 
       # Make this tab the currently displayed tab
@@ -1561,7 +1565,7 @@ namespace eval gui {
 
     # Add the file's directory to the sidebar and highlight it
     if {$opts(-sidebar)} {
-      [ns sidebar]::add_directory [file dirname [file normalize $fname]]
+      [ns sidebar]::add_directory [file dirname [file normalize $fname]] -remote $opts(-remote)
       [ns sidebar]::highlight_filename $fname [expr ($opts(-diff) * 2) + 1]
     }
 
@@ -1580,7 +1584,7 @@ namespace eval gui {
     variable files_index
 
     # Get some of the file information
-    lassign [get_info $tab tab {fileindex txt tabbar fname loaded diff}] file_index txt tb fname loaded diff
+    lassign [get_info $tab tab {fileindex txt tabbar fname loaded diff remote}] file_index txt tb fname loaded diff remote
 
     # Only add the tab content if it has not been done
     if {!$loaded} {
@@ -1588,50 +1592,58 @@ namespace eval gui {
       # Specify that this tab is loaded
       lset files $file_index $files_index(loaded) 1
 
-      if {![catch { open $fname r } rc]} {
-
-        # Delete any dspace characters
-        [ns vim]::remove_dspace $txt
-
-        # Read the file contents and insert them
-        $txt fastinsert end [string range [read $rc] 0 end-1]
-
-        # Close the file
+      # Get the file contents
+      if {$remote ne ""} {
+        if {![[ns ftper]::get_file $remote $fname contents]} {
+          $tb tab $tab -text " [file tail $fname]"
+          return
+        }
+      } else {
+        if {[catch { open $fname r } rc]} {
+          $tb tab $tab -text " [file tail $fname]"
+          return
+        }
+        set contents [read $rc]
         close $rc
+      }
 
-        # Highlight text and add update code folds
-        $txt highlight 1.0 end
-        $txt see 1.0
+      # Delete any dspace characters
+      [ns vim]::remove_dspace $txt
 
-        # Check brackets
-        [ns completer]::check_all_brackets $txt.t
+      # Read the file contents and insert them
+      $txt fastinsert end [string range $contents 0 end-1]
 
-        # Change the text to unmodified
-        $txt edit reset
-        lset files $file_index $files_index(modified) 0
+      # Highlight text and add update code folds
+      $txt highlight 1.0 end
+      $txt see 1.0
 
-        # Set the insertion mark to the first position
-        ::tk::TextSetCursor $txt.t 1.0
+      # Check brackets
+      [ns completer]::check_all_brackets $txt.t
 
-        # Perform an insertion adjust, if necessary
-        if {[[ns vim]::in_vim_mode $txt.t]} {
-          [ns vim]::adjust_insert $txt.t
-        }
+      # Change the text to unmodified
+      $txt edit reset
+      lset files $file_index $files_index(modified) 0
 
-        file stat $fname stat
-        lset files $file_index $files_index(mtime) $stat(mtime)
+      # Set the insertion mark to the first position
+      ::tk::TextSetCursor $txt.t 1.0
 
-        # Add the file to the list of recently opened files
-        add_to_recently_opened $fname
+      # Perform an insertion adjust, if necessary
+      if {[[ns vim]::in_vim_mode $txt.t]} {
+        [ns vim]::adjust_insert $txt.t
+      }
 
-        # Parse Vim modeline information, if needed
-        [ns vim]::parse_modeline $txt
+      file stat $fname stat
+      lset files $file_index $files_index(mtime) $stat(mtime)
 
-        # If a diff command was specified, run and parse it now
-        if {$diff} {
-          [ns diff]::show $txt
-        }
+      # Add the file to the list of recently opened files
+      add_to_recently_opened $fname
 
+      # Parse Vim modeline information, if needed
+      [ns vim]::parse_modeline $txt
+
+      # If a diff command was specified, run and parse it now
+      if {$diff} {
+        [ns diff]::show $txt
       }
 
       # Change the tab text
@@ -1838,27 +1850,19 @@ namespace eval gui {
   ######################################################################
   # Returns the index of the index that matches the given filename.  If
   # no entry matches, returns -1.
-  proc find_matching_file_index {fname} {
+  proc find_matching_file_index {fname remote} {
 
     variable files
     variable files_index
 
     # Get the indices that match the given filename
-    set matching_indices [lsearch -all -index $files_index(fname) $files $fname]
+    set file_indices   [lsearch -all -index $files_index(fname)  $files $fname]
+    set diff_indices   [lsearch -all -index $files_index(diff)   $files 0]
+    set remote_indices [lsearch -all -index $files_index(remote) $files $remote]
 
-    switch [llength $matching_indices] {
-      0 { return -1 }
-      1 {
-        set index [lindex $matching_indices 0]
-        return [expr [lindex $files $index $files_index(diff)] ? -1 : $index]
-      }
-      2 {
-        lassign $matching_indices index1 index2
-        return [expr [lindex $files $index1 $files_index(diff)] ? $index2 : $index1]
-      }
-    }
+    set matching_index [::struct::set intersect $file_indices $diff_indices $remote_indices]
 
-    return -1
+    return [expr ([llength $matching_index] == 0) ? -1 : $matching_index]
 
   }
 
@@ -1922,13 +1926,20 @@ namespace eval gui {
   ######################################################################
   # Saves the current tab contents.  Returns 1 if the save was successful;
   # otherwise, returns a value of 0.
-  proc save_current {tid {force 0} {save_as ""}} {
+  proc save_current {tid args} {
 
     variable files
     variable files_index
 
+    array set opts {
+      -force   0
+      -save_as ""
+      -remote  ""
+    }
+    array set opts $args
+
     # Get current information
-    lassign [get_info {} current {tabbar txt fileindex buffer save_cmd diff buffer}] tb txt file_index buffer save_cmd diff buffer
+    lassign [get_info {} current {tabbar txt fileindex buffer save_cmd diff remote buffer}] tb txt file_index buffer save_cmd diff remote buffer
 
     # If the current file is a buffer and it has a save command, run the save command
     if {$buffer && ($save_cmd ne "")} {
@@ -1958,17 +1969,18 @@ namespace eval gui {
     set matching_index -1
 
     # If a save_as name is specified, change the filename
-    if {$save_as ne ""} {
+    if {$opts(-save_as) ne ""} {
       [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr $diff * 2]
-      set matching_index [find_matching_file_index $save_as]
-      lset files $file_index $files_index(fname) $save_as
+      set matching_index [find_matching_file_index $opts(-save_as) $opts(-remote)]
+      lset files $file_index $files_index(fname)  $opts(-save_as)
+      lset files $file_index $files_index(remote) $opts(-remote)
 
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {[lindex $files $file_index $files_index(buffer)] || $diff} {
       if {[set sfile [prompt_for_save $tid]] eq ""} {
         return 0
       } else {
-        set matching_index [find_matching_file_index $sfile]
+        set matching_index [find_matching_file_index $sfile ""]
         lset files $file_index $files_index(fname) $sfile
       }
     }
@@ -1981,7 +1993,7 @@ namespace eval gui {
 
     # If we need to do a force write, do it now
     set perms ""
-    if {![save_prehandle $fname $save_as $force perms]} {
+    if {![save_prehandle $fname $opts(-save_as) $opts(-force) perms]} {
       return 0
     }
 
@@ -1991,15 +2003,26 @@ namespace eval gui {
     }
 
     # Save the file contents
-    if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
-      set_error_message [msgcat::mc "Unable to write file"] $rc
-      return 0
-    }
+    if {$remote ne ""} {
 
-    # Write the file contents
-    catch { fconfigure $rc -translation [lindex $files $file_index $files_index(eol)] }
-    puts $rc [scrub_text $txt]
-    close $rc
+      if {![[ns ftper]::save_file $remote [lindex $files $file_index $files_index(fname)] [scrub_text $txt]]} {
+        set_error_message [msgcat::mc "Unable to write file"] $rc
+        return 0
+      }
+
+    } else {
+
+      if {[catch { open [lindex $files $file_index $files_index(fname)] w } rc]} {
+        set_error_message [msgcat::mc "Unable to write file"] $rc
+        return 0
+      }
+
+      # Write the file contents
+      catch { fconfigure $rc -translation [lindex $files $file_index $files_index(eol)] }
+      puts $rc [scrub_text $txt]
+      close $rc
+
+    }
 
     # If we need to do a force write, do it now
     if {![save_posthandle $fname $perms]} {
@@ -2007,7 +2030,7 @@ namespace eval gui {
     }
 
     # If the file doesn't have a timestamp, it's a new file so add and highlight it in the sidebar
-    if {([lindex $files $file_index $files_index(mtime)] eq "") || ($save_as ne "")} {
+    if {([lindex $files $file_index $files_index(mtime)] eq "") || ($opts(-save_as) ne "")} {
 
       # Calculate the normalized filename
       set fname [file normalize [lindex $files $file_index $files_index(fname)]]
@@ -2019,7 +2042,7 @@ namespace eval gui {
       if {[lindex $files $file_index $files_index(sidebar)]} {
 
         # Add the file's directory to the sidebar
-        [ns sidebar]::insert_file [[ns sidebar]::add_directory [file dirname $fname]] $fname
+        [ns sidebar]::insert_file [[ns sidebar]::add_directory [file dirname $fname] $opts(-remote)] $fname
 
         # Highlight the file in the sidebar
         [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr ($diff * 2) + 1]
@@ -2091,7 +2114,7 @@ namespace eval gui {
           } else {
 
             set_current_tab $tb $tab -skip_check 1
-            save_current {} 1
+            save_current {} -force 1
 
           }
 
@@ -2154,7 +2177,7 @@ namespace eval gui {
       set msg   [format "%s %s?" [msgcat::mc "Save"] $fname]
       set_current_tab $tb $tab
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
-        return [save_current $tid $force]
+        return [save_current $tid -force $force]
       } elseif {$answer eq "cancel"} {
         return 0
       }

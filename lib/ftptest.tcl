@@ -1,6 +1,11 @@
 set tke_dir     [file normalize [file join [pwd] ..]]
 set tke_home    [file normalize [file join ~ .tke]]
-set right_click 3
+
+if {[tk windowingsystem] eq "aqua"} {
+  set right_click 2
+} else {
+  set right_click 3
+}
 
 lappend auto_path [pwd]
 
@@ -16,15 +21,17 @@ ttk::style theme use clam
 
 wm attributes . -alpha 0.0
 
-lassign [ftper::create_open] name fname
+lassign [ftper::create open] name fnames
 
-puts "name: $name, fname: $fname"
+puts "name: $name, fnames: $fnames"
 
 if {$name ne ""} {
-  if {[ftper::get_file $name $fname ::contents]} {
-    puts $contents
-  } else {
-    puts "No file downloaded"
+  foreach fname $fnames {
+    if {[ftper::get_file $name $fname ::contents]} {
+      puts $contents
+    } else {
+      puts "No file downloaded"
+    }
   }
 }
 
