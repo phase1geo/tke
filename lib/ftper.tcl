@@ -176,9 +176,9 @@ namespace eval ftper {
 
     ttk::frame .ftp.ef.sf
     ttk::label .ftp.ef.sf.l0  -text [format "%s: " [msgcat::mc "Type"]]
-    set widgets(edit_type)   [ttk::menubutton .ftp.ef.sf.mb0 -text "FTP" -menu [menu .typePopup -tearoff 0]]
+    set widgets(edit_type)   [ttk::menubutton .ftp.ef.sf.mb0 -text "FTP" -menu [menu .ftp.typePopup -tearoff 0]]
     ttk::label .ftp.ef.sf.l1  -text [format "%s: " [msgcat::mc "Group"]]
-    set widgets(edit_group)  [ttk::menubutton .ftp.ef.sf.mb1 -text ""    -menu [menu .groupPopup -tearoff 0 -postcommand [list ftper::populate_group_menu]]]
+    set widgets(edit_group)  [ttk::menubutton .ftp.ef.sf.mb1 -text ""    -menu [menu .ftp.egroupPopup -tearoff 0 -postcommand [list ftper::populate_group_menu]]]
     ttk::label .ftp.ef.sf.l2  -text [format "%s: " [msgcat::mc "Name"]]
     set widgets(edit_name)   [ttk::entry .ftp.ef.sf.ne  -validate key -validatecommand [list ftper::check_name %P]]
     ttk::label .ftp.ef.sf.l3  -text [format "%s: " [msgcat::mc "Server"]]
@@ -244,7 +244,7 @@ namespace eval ftper {
     populate_sidebar
 
     # Populate the type menubutton
-    .typePopup add command -label "FTP" -command [list $widgets(edit_type) configure -text "FTP"]
+    .ftp.typePopup add command -label "FTP" -command [list $widgets(edit_type) configure -text "FTP"]
 
     # Get the focus
     ::tk::SetFocusGrab .ftp .ftp.pw.rf.ff.tl
@@ -393,11 +393,11 @@ namespace eval ftper {
     variable widgets
 
     # Remove all items from the group popup menu
-    .groupPopup delete 0 end
+    .ftp.egroupPopup delete 0 end
 
     foreach group_key [$widgets(sb) childkeys root] {
       set group [$widgets(sb) cellcget $group_key,name -text]
-      .groupPopup add command -label $group -command [list ftper::change_group $group]
+      .ftp.egroupPopup add command -label $group -command [list ftper::change_group $group]
     }
 
   }
@@ -1274,14 +1274,15 @@ namespace eval ftper {
   # Get the file contents of the given filename using the given connection
   # name if the remote file is newer than the given modtime.  Returns 1
   # if the file was retrieved without error; otherwise, returns 0.
-  proc get_file {name fname pcontents {modtime 0}} {
+  proc get_file {name fname pcontents pmodtime {mtime 0}} {
 
     upvar $pcontents contents
+    upvar $pmodtime  modtime
 
     set retval 0
 
     if {[set connection [connect $name]] != -1} {
-      if {[::ftp::ModTime $connection $fname] > $modtime} {
+      if {[set modtime [::ftp::ModTime $connection $fname]] > $mtime} {
         ::ftp::Get $connection $fname -variable $pcontents
         set retval 1
       }
@@ -1295,10 +1296,13 @@ namespace eval ftper {
   ######################################################################
   # Saves the given file contents to the given filename.  Returns 1 if
   # the file was saved successfully; otherwise, returns 0.
-  proc save_file {name fname contents} {
+  proc save_file {name fname contents pmodtime} {
+
+    upvar $pmodtime modtime
 
     if {[set connection [connect $name]] != -1} {
       ::ftp::Put $connection -data $contents $fname
+      set modtime [::ftp::ModTime $connection $fname]
       disconnect $connection
       return 1
     }

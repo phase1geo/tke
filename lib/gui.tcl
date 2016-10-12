@@ -118,30 +118,36 @@ namespace eval gui {
     variable files_index
 
     # Get the file information
-    lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
+    lassign [get_info $index fileindex {tab fname mtime modified remote}] tab fname mtime modified remote
 
     if {$fname ne ""} {
-      if {[file exists $fname]} {
-        file stat $fname stat
-        if {$mtime != $stat(mtime)} {
-          if {$modified} {
-            set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
-              -detail $fname -type yesno -default yes]
-            if {$answer eq "yes"} {
+      if {$remote eq ""} {
+        if {[file exists $fname]} {
+          file stat $fname stat
+          if {$mtime != $stat(mtime)} {
+            if {$modified} {
+              set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
+                -detail $fname -type yesno -default yes]
+              if {$answer eq "yes"} {
+                update_file $index
+              }
+            } else {
               update_file $index
             }
-          } else {
-            update_file $index
+            lset files $index $files_index(mtime) $stat(mtime)
           }
-          lset files $index $files_index(mtime) $stat(mtime)
+        } elseif {$mtime ne ""} {
+          set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
+            -detail $fname -type yesno -default yes]
+          if {$answer eq "yes"} {
+            close_tab {} $tab -check 0
+          } else {
+            lset files $index $files_index(mtime) ""
+          }
         }
-      } elseif {$mtime ne ""} {
-        set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
-          -detail $fname -type yesno -default yes]
-        if {$answer eq "yes"} {
-          close_tab {} $tab -check 0
-        } else {
-          lset files $index $files_index(mtime) ""
+      } else {
+        if {[[ns ftper]::get_file $remote $fname contents modtime $mtime]} {
+          # FOOBAR - TBD
         }
       }
     }
@@ -1349,6 +1355,7 @@ namespace eval gui {
       lset file_info $files_index(loaded)   1
       lset file_info $files_index(eol)      [get_eol_translation ""]
       lset file_info $files_index(remember) 0
+      lset file_info $files_index(remote)   ""
 
       # Add the file information to the files list
       lappend files $file_info
@@ -1548,7 +1555,7 @@ namespace eval gui {
       lset file_info $files_index(diff)     $opts(-diff)
       lset file_info $files_index(tags)     $opts(-tags)
       lset file_info $files_index(loaded)   0
-      lset file_info $files_index(eol)      [get_eol_translation $fname]
+      lset file_info $files_index(eol)      [get_eol_translation [expr {($opts(-remote) ne "") ? "" : $fname}]]
       lset file_info $files_index(remember) $opts(-remember)
       lset file_info $files_index(remote)   $opts(-remote)
       lappend files $file_info
@@ -1594,7 +1601,7 @@ namespace eval gui {
 
       # Get the file contents
       if {$remote ne ""} {
-        if {![[ns ftper]::get_file $remote $fname contents]} {
+        if {![[ns ftper]::get_file $remote $fname contents modtime]} {
           $tb tab $tab -text " [file tail $fname]"
           return
         }
@@ -1603,7 +1610,7 @@ namespace eval gui {
           $tb tab $tab -text " [file tail $fname]"
           return
         }
-        set contents [read $rc]
+        set contents [string range [read $rc] 0 end-1]
         close $rc
       }
 
@@ -1611,7 +1618,7 @@ namespace eval gui {
       [ns vim]::remove_dspace $txt
 
       # Read the file contents and insert them
-      $txt fastinsert end [string range $contents 0 end-1]
+      $txt fastinsert end $contents
 
       # Highlight text and add update code folds
       $txt highlight 1.0 end
@@ -1632,8 +1639,12 @@ namespace eval gui {
         [ns vim]::adjust_insert $txt.t
       }
 
-      file stat $fname stat
-      lset files $file_index $files_index(mtime) $stat(mtime)
+      if {[lindex $files $file_index $files_index(remote)] eq ""} {
+        file stat $fname stat
+        lset files $file_index $files_index(mtime) $stat(mtime)
+      } else {
+        lset files $file_index $files_index(mtime) $modtime
+      }
 
       # Add the file to the list of recently opened files
       add_to_recently_opened $fname
@@ -2005,7 +2016,7 @@ namespace eval gui {
     # Save the file contents
     if {$remote ne ""} {
 
-      if {![[ns ftper]::save_file $remote [lindex $files $file_index $files_index(fname)] [scrub_text $txt]]} {
+      if {![[ns ftper]::save_file $remote [lindex $files $file_index $files_index(fname)] [scrub_text $txt] modtime]} {
         set_error_message [msgcat::mc "Unable to write file"] $rc
         return 0
       }
@@ -2042,7 +2053,7 @@ namespace eval gui {
       if {[lindex $files $file_index $files_index(sidebar)]} {
 
         # Add the file's directory to the sidebar
-        [ns sidebar]::insert_file [[ns sidebar]::add_directory [file dirname $fname] $opts(-remote)] $fname
+        [ns sidebar]::insert_file [[ns sidebar]::add_directory [file dirname $fname] -remote $opts(-remote)] $fname
 
         # Highlight the file in the sidebar
         [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr ($diff * 2) + 1]
@@ -2055,8 +2066,12 @@ namespace eval gui {
     }
 
     # Update the timestamp
-    file stat [lindex $files $file_index $files_index(fname)] stat
-    lset files $file_index $files_index(mtime) $stat(mtime)
+    if {[lindex $files $file_index $files_index(remote)] eq ""} {
+      file stat [lindex $files $file_index $files_index(fname)] stat
+      lset files $file_index $files_index(mtime) $stat(mtime)
+    } else {
+      lset files $file_index $files_index(mtime) $modtime
+    }
 
     # Change the tab text
     $tb tab current -text " [file tail [lindex $files $file_index $files_index(fname)]]"
