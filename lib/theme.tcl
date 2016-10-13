@@ -80,6 +80,7 @@ namespace eval theme {
     tabs,-relief                  {{relief {flat raised}} {flat} {} {0} {msgcat::mc "Relief used in drawing the tabs."}}
     text_scrollbar,-background    {color {0} {} {0} {msgcat::mc "Background (trough) color used in the text scrollbars."}}
     text_scrollbar,-foreground    {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars."}}
+    text_scrollbar,-altforeground {color {red} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."}}
     text_scrollbar,-thickness     {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbars when they are active."}}
     syntax,background             {color {black} {} {0} {msgcat::mc "Background color of the editing buffer."}}
     syntax,border_highlight       {color {black} {} {0} {msgcat::mc "Color of border drawn around active editing buffer."}}

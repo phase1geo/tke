@@ -30,6 +30,7 @@ namespace eval menus {
   variable last_devel_mode ""
   variable line_numbering  "absolute"
   variable code_folding    0
+  variable sync_panes      0
 
   array set profiling_info {}
 
@@ -57,6 +58,16 @@ namespace eval menus {
 
     return $parent
 
+  }
+  
+  ######################################################################
+  # Set the pane sync indicator to the given value (0 or 1).
+  proc set_pane_sync_indicator {value} {
+    
+    variable sync_panes
+    
+    set sync_panes $value
+    
   }
 
   ######################################################################
@@ -2174,6 +2185,13 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Merge Panes"] -underline 3 -command [list gui::merge_panes]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Merge panes"]] [list gui::merge_panes]
+    
+    $mb add command -label [msgcat::mc "Align Panes"] -command [list gui::align_panes]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Align current lines in both panes"]] [list gui::align_panes]
+    
+    $mb add checkbutton -label [msgcat::mc "Sync Pane Scrolling"] -variable menus::sync_panes -command [list menus::sync_panes]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Enable two-pane scrolling synchronization"]]  [list gui::set_pane_sync 1]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Disable two-pane scrolling Synchronization"]] [list gui::set_pane_sync 0]
 
     $mb add separator
 
@@ -2617,6 +2635,16 @@ namespace eval menus {
 
   }
 
+  ######################################################################
+  # Enables/disables two-pane scroll synchronization.
+  proc sync_panes {} {
+    
+    variable sync_panes
+    
+    gui::set_pane_sync $sync_panes
+    
+  }
+  
   ######################################################################
   # Disables code folding from being drawn.
   proc set_code_folding {{value ""}} {

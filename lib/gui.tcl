@@ -50,6 +50,9 @@ namespace eval gui {
   variable numberwidth      4
   variable show_match_char  0
   variable browse_dir       "last"
+  variable synced_key       ""
+  variable synced_count     0
+  variable synced_txt       ""
 
   array set widgets         {}
   array set language        {}
@@ -58,6 +61,7 @@ namespace eval gui {
   array set txt_current     {}
   array set tab_current     {}
   array set cursor_hist     {}
+  array set synced          {}
 
   array set files_index {
     fname    0
@@ -913,7 +917,7 @@ namespace eval gui {
 
   ######################################################################
   # Returns 1 if the given file exists in one of the notebooks.
-  proc file_exists {fname} {
+  proc file_exists_in_nb {fname} {
 
     variable files
     variable files_index
@@ -1212,6 +1216,146 @@ namespace eval gui {
 
     return [llength [[get_info {} current tabbar] tabs]]
 
+  }
+  
+  ######################################################################
+  # Aligns the current insertion cursors in both panes to the same Y
+  # pixel value.
+  proc align_panes {} {
+    
+    align_lines [get_info 0 paneindex txt] [get_info 1 paneindex txt] insert insert 1
+    
+  }
+  
+  ######################################################################
+  # Tracks the two displayed text widgets, keeping their views in line
+  # sync with each other.
+  proc set_pane_sync {value} {
+    
+    variable synced
+    variable synced_key
+    
+    # Get the displayed text widgets
+    set txt1 [get_info 0 paneindex txt]
+    set txt2 [get_info 1 paneindex txt]
+    
+    # Set the menu indicator to the given value
+    menus::set_pane_sync_indicator $value
+    
+    if {$value} {
+    
+      # Record the synced_key (if this value is the empty string, we are not currently synced)
+      set synced_key "$txt1 $txt2"
+      
+      # Record the text widgets that we are sync'ing
+      set synced($synced_key) [list [$txt1 index @0,0] [$txt2 index @0,0]] 
+    
+      # Set the scrollbar colors to indicate that we are synced
+      [winfo parent $txt1].vb configure -usealt 1
+      [winfo parent $txt2].vb configure -usealt 1
+      
+    } else {
+      
+      # Delete the synced recording
+      unset synced($synced_key)
+      
+      # Clear the synced key
+      set synced_key ""
+      
+      # Return the scrollbar colors to their normal colors
+      [winfo parent $txt1].vb configure -usealt 0
+      [winfo parent $txt2].vb configure -usealt 0
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Called whenever one of the synced text widgets yview changes.  Causes
+  # the other text widget to stay in sync.
+  proc sync_scroll {txt yscroll} {
+    
+    variable synced
+    variable synced_key
+    variable synced_count
+    variable synced_txt
+    
+    # If we are not currently synced, return now
+    if {($synced_key eq "") || (($synced_txt ne $txt) && ($synced_count == 1))} {
+      set synced_count 0
+      return
+    }
+    
+    set top [$txt index @0,0]
+    lassign $synced_key          txt0 txt1
+    lassign $synced($synced_key) top0 top1 
+    
+    if {$txt eq $txt0} {
+      set line_diff [$txt count -lines $top0 $top]
+      align_lines $txt0 $txt1 $top [$txt1 index "$top1+${line_diff}l"] 0
+    } else {
+      set line_diff [$txt count -lines $top1 $top]
+      align_lines $txt1 $txt0 $top [$txt0 index "$top0+${line_diff}l"] 0
+    }
+    
+    set synced_txt    $txt
+    incr synced_count $yscroll
+    
+  }
+  
+  ######################################################################
+  # Sets the yview of the given text widget (called by the yscrollbar)
+  # and adjusts the scroll of the other pane if sync scrolling is enabled.
+  proc yview {txt args} {
+    
+    # Return the yview information
+    if {[llength $args] == 0} {
+      return [$txt yview]
+
+    # Otherwise, set the yview given the arguments
+    } else {
+      $txt yview {*}$args
+      sync_scroll $txt 0
+    }
+
+  }
+
+  ######################################################################
+  # Implements yscrollcommand for an editing buffer.  Adjusts the scrollbar
+  # position and performs synchronized scrolling, if enabled.
+  proc yscrollcommand {txt vb args} {
+    
+    # Set the vertical scrollbar position
+    $vb set {*}$args
+    
+    # Perform sync scrolling, if necessary
+    sync_scroll $txt 1
+    
+  }
+  
+  ######################################################################
+  # Aligns the given lines.
+  proc align_lines {txt1 txt2 line1 line2 adjust_txt1} {
+    
+    if {[set bbox1 [$txt1 bbox $line1]] eq ""} {
+      $txt1 see $line1
+      set bbox1 [$txt1 bbox $line1]
+    }
+    if {[set bbox2 [$txt2 bbox $line2]] eq ""} {
+      $txt2 see $line2
+      set bbox2 [$txt2 bbox $line2]
+    }
+    
+    # Attempt to line up the right pane to the left pane
+    $txt2 yview scroll [expr [lindex $bbox2 1] - [lindex $bbox1 1]] pixels
+    
+    # Check to see if the two are aligned, if not then attempt to align the left line to the right
+    if {$adjust_txt1} {
+      if {[lindex $bbox1 1] != [lindex [$txt2 bbox $line2] 1]} {
+        $txt1 yview scroll [expr [lindex $bbox1 1] - [lindex $bbox2 1]] pixels
+      }
+    }
+    
   }
 
   ######################################################################
@@ -1622,63 +1766,63 @@ namespace eval gui {
 
       # Specify that this tab is loaded
       lset files $file_index $files_index(loaded) 1
+      
+      set okay 0
 
       # Get the file contents
       if {$remote ne ""} {
-        if {![[ns ftper]::get_file $remote $fname contents modtime]} {
-          $tb tab $tab -text " [file tail $fname]"
-          return
-        }
-      } else {
-        if {[catch { open $fname r } rc]} {
-          $tb tab $tab -text " [file tail $fname]"
-          return
-        }
+        set okay [[ns ftper]::get_file $remote $fname contents modtime]
+      } elseif {![catch { open $fname r } rc]} {
         set contents [string range [read $rc] 0 end-1]
+        set okay     1
         close $rc
       }
+      
+      if {$okay} {
 
-      # Delete any dspace characters
-      [ns vim]::remove_dspace $txt
-
-      # Read the file contents and insert them
-      $txt fastinsert end $contents
-
-      # Highlight text and add update code folds
-      $txt highlight 1.0 end
-      $txt see 1.0
-
-      # Check brackets
-      [ns completer]::check_all_brackets $txt.t
-
-      # Change the text to unmodified
-      $txt edit reset
-      lset files $file_index $files_index(modified) 0
-
-      # Set the insertion mark to the first position
-      ::tk::TextSetCursor $txt.t 1.0
-
-      # Perform an insertion adjust, if necessary
-      if {[[ns vim]::in_vim_mode $txt.t]} {
-        [ns vim]::adjust_insert $txt.t
-      }
-
-      if {[lindex $files $file_index $files_index(remote)] eq ""} {
-        file stat $fname stat
-        lset files $file_index $files_index(mtime) $stat(mtime)
-      } else {
-        lset files $file_index $files_index(mtime) $modtime
-      }
-
-      # Add the file to the list of recently opened files
-      add_to_recently_opened $fname
-
-      # Parse Vim modeline information, if needed
-      [ns vim]::parse_modeline $txt
-
-      # If a diff command was specified, run and parse it now
-      if {$diff} {
-        [ns diff]::show $txt
+        # Delete any dspace characters
+        [ns vim]::remove_dspace $txt
+  
+        # Read the file contents and insert them
+        $txt fastinsert end $contents
+  
+        # Highlight text and add update code folds
+        $txt highlight 1.0 end
+        $txt see 1.0
+  
+        # Check brackets
+        [ns completer]::check_all_brackets $txt.t
+  
+        # Change the text to unmodified
+        $txt edit reset
+        lset files $file_index $files_index(modified) 0
+  
+        # Set the insertion mark to the first position
+        ::tk::TextSetCursor $txt.t 1.0
+  
+        # Perform an insertion adjust, if necessary
+        if {[[ns vim]::in_vim_mode $txt.t]} {
+          [ns vim]::adjust_insert $txt.t
+        }
+  
+        if {[lindex $files $file_index $files_index(remote)] eq ""} {
+          file stat $fname stat
+          lset files $file_index $files_index(mtime) $stat(mtime)
+        } else {
+          lset files $file_index $files_index(mtime) $modtime
+        }
+  
+        # Add the file to the list of recently opened files
+        add_to_recently_opened $fname
+  
+        # Parse Vim modeline information, if needed
+        [ns vim]::parse_modeline $txt
+  
+        # If a diff command was specified, run and parse it now
+        if {$diff} {
+          [ns diff]::show $txt
+        }
+        
       }
 
       # Change the tab text
@@ -1755,7 +1899,7 @@ namespace eval gui {
     variable files_index
 
     # Get the file information
-    lassign [get_info $file_index fileindex {tabbar tab txt fname diff lock}] tb tab txt fname diff lock
+    lassign [get_info $file_index fileindex {tabbar tab txt fname diff lock remote}] tb tab txt fname diff lock remote
 
     # If the editor is a difference view and is not updateable, stop now
     if {$diff && ![[ns diff]::updateable $txt]} {
@@ -1769,13 +1913,21 @@ namespace eval gui {
     $txt configure -state normal
     $txt delete 1.0 end
 
-    if {![catch { open $fname r } rc]} {
-
-      # Read the file contents and insert them
-      $txt insert end [string range [read $rc] 0 end-1]
-
-      # Close the file
+    set okay 0
+    
+    # Read the contents of the file
+    if {$remote ne ""} {
+      set okay [[ns ftper]::get_file $remote $fname contents modtime]
+    } elseif {![catch { open $fname r } rc]} {
+      set contents [string range [read $rc] 0 end-1]
+      set okay     1
       close $rc
+    }
+
+    if {$okay} {
+      
+      # Read the file contents and insert them
+      $txt insert end $contents
 
       # Change the tab text
       $tb tab $tab -text " [file tail $fname]"
@@ -3839,9 +3991,9 @@ namespace eval gui {
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[[ns preferences]::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
-      -xscrollcommand "$tab.pw.tf.hb set" -yscrollcommand "$tab.pw.tf.vb set"
-    scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt xview"
-    scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt yview" \
+      -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list [ns gui]::yscrollcommand $txt $tab.pw.tf.vb]
+    scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command [list $txt xview]
+    scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command [list [ns gui]::yview $txt] \
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$opts(-diff) ? [list [ns diff]::get_marks $txt] : ""}]
 
@@ -4461,7 +4613,7 @@ namespace eval gui {
     } else {
       $widgets(info_state) configure -text [format "%s: %d, %s: %d" [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
     }
-
+    
   }
 
   ######################################################################
