@@ -810,8 +810,7 @@ namespace eval launcher {
     set command_value $commands($command_name)
     lset command_value $command_values(count) \
       [expr [lindex $command_value $command_values(count)] + 1]
-    lset command_value $command_values(search_str) \
-      [$widgets(entry) get]
+    lset command_value $command_values(search_str) [$widgets(entry) get]
 
     # Store the relevance by using the new execution count and the entered search string
     set commands($command_name) $command_value

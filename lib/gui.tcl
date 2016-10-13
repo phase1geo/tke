@@ -110,6 +110,36 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Returns 1 if the given filename exists (either locally or remotely).
+  proc file_exists {fname} {
+
+    set remote [get_info $fname fname remote]
+
+    if {$remote eq ""} {
+      return [file exists $fname]
+    } else {
+      return [[ns ftper]::file_exists $remote $fname]
+    }
+
+  }
+
+  ######################################################################
+  # Returns the modification time of the given file (either locally or
+  # remotely).
+  proc modtime {fname} {
+
+    set remote [get_info $fname fname remote]
+
+    if {$remote eq ""} {
+      file stat $fname stat
+      return $stat(mtime)
+    } else {
+      return [[ns ftper]::get_mtime $name $fname]
+    }
+
+  }
+
+  ######################################################################
   # Checks to see if the given file is newer than the file within the
   # editor.  If it is newer, prompt the user to update the file.
   proc check_file {index} {
@@ -118,36 +148,30 @@ namespace eval gui {
     variable files_index
 
     # Get the file information
-    lassign [get_info $index fileindex {tab fname mtime modified remote}] tab fname mtime modified remote
+    lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
 
     if {$fname ne ""} {
-      if {$remote eq ""} {
-        if {[file exists $fname]} {
-          file stat $fname stat
-          if {$mtime != $stat(mtime)} {
-            if {$modified} {
-              set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
-                -detail $fname -type yesno -default yes]
-              if {$answer eq "yes"} {
-                update_file $index
-              }
-            } else {
+      if {[file_exists $fname]} {
+        set file_mtime [modtime $fname]
+        if {$mtime != $file_mtime} {
+          if {$modified} {
+            set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
+              -detail $fname -type yesno -default yes]
+            if {$answer eq "yes"} {
               update_file $index
             }
-            lset files $index $files_index(mtime) $stat(mtime)
-          }
-        } elseif {$mtime ne ""} {
-          set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
-            -detail $fname -type yesno -default yes]
-          if {$answer eq "yes"} {
-            close_tab {} $tab -check 0
           } else {
-            lset files $index $files_index(mtime) ""
+            update_file $index
           }
+          lset files $index $files_index(mtime) $file_mtime
         }
-      } else {
-        if {[[ns ftper]::get_file $remote $fname contents modtime $mtime]} {
-          # FOOBAR - TBD
+      } elseif {$mtime ne ""} {
+        set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
+          -detail $fname -type yesno -default yes]
+        if {$answer eq "yes"} {
+          close_tab {} $tab -check 0
+        } else {
+          lset files $index $files_index(mtime) ""
         }
       }
     }
