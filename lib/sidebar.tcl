@@ -618,7 +618,7 @@ namespace eval sidebar {
       } else {
         if {![ignore_file $name]} {
           set key [$widgets(tl) insertchild $parent end [list $name 0]]
-          if {[gui::file_exists $name]} {
+          if {[gui::file_exists_in_nb $name]} {
             $widgets(tl) cellconfigure $key,name -image sidebar_open
             update_root_count $key 1
           }
@@ -716,7 +716,7 @@ namespace eval sidebar {
             set node [$widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list $dir_file 0]]
             if {[file isdirectory $dir_file]} {
               $widgets(tl) collapse $node
-            } elseif {[gui::file_exists $dir_file]} {
+            } elseif {[gui::file_exists_in_nb $dir_file]} {
               $widgets(tl) cellconfigure $node,name -image sidebar_open
             }
           }

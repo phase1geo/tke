@@ -33,29 +33,33 @@ namespace eval scroller {
     variable data
 
     array set opts {
-      -background   "black"
-      -foreground   "white"
-      -orient       "vertical"
-      -command      ""
-      -markcommand1 ""
-      -markcommand2 ""
-      -thickness    15
-      -markhide1    0
-      -markhide2    0
-      -autohide     0
+      -background    "black"
+      -foreground    "white"
+      -altforeground "red"
+      -orient        "vertical"
+      -command       ""
+      -markcommand1  ""
+      -markcommand2  ""
+      -thickness     15
+      -markhide1     0
+      -markhide2     0
+      -autohide      0
+      -usealt        0
     }
     array set opts $args
 
-    set data($win,-background)   $opts(-background)
-    set data($win,-foreground)   $opts(-foreground)
-    set data($win,-orient)       $opts(-orient)
-    set data($win,-command)      $opts(-command)
-    set data($win,-markcommand1) $opts(-markcommand1)
-    set data($win,-markcommand2) $opts(-markcommand2)
-    set data($win,-thickness)    $opts(-thickness)
-    set data($win,-markhide1)    $opts(-markhide1)
-    set data($win,-markhide2)    $opts(-markhide2)
-    set data($win,-autohide)     $opts(-autohide)
+    set data($win,-background)    $opts(-background)
+    set data($win,-foreground)    $opts(-foreground)
+    set data($win,-altforeground) $opts(-altforeground)
+    set data($win,-orient)        $opts(-orient)
+    set data($win,-command)       $opts(-command)
+    set data($win,-markcommand1)  $opts(-markcommand1)
+    set data($win,-markcommand2)  $opts(-markcommand2)
+    set data($win,-thickness)     $opts(-thickness)
+    set data($win,-markhide1)     $opts(-markhide1)
+    set data($win,-markhide2)     $opts(-markhide2)
+    set data($win,-autohide)      $opts(-autohide)
+    set data($win,-usealt)        $opts(-usealt)
 
     # Constant values
     set data($win,minwidth)  3
@@ -150,10 +154,19 @@ namespace eval scroller {
           set data($win,-background) $opts(-background)
           $data($win,canvas) configure -bg $data($win,-background)
         }
+        if {[info exists opts(-usealt)]} {
+          set data($win,-usealt) $opts(-usealt)
+        }
         if {[info exists opts(-foreground)]} {
           set data($win,-foreground) $opts(-foreground)
+        }
+        if {[info exists opts(-altforeground)]} {
+          set data($win,-altforeground) $opts(-altforeground)
+        }
+        if {[info exists opts(-usealt)] || [info exists opts(-foreground)] || [info exists opts(-altforeground)]} {
+          set color [expr {$data($win,-usealt) ? $data($win,-altforeground) : $data($win,-foreground)}]
           if {[info exists data($win,slider)]} {
-            $data($win,canvas) itemconfigure $data($win,slider) -outline $data($win,-foreground) -fill $data($win,-foreground)
+            $data($win,canvas) itemconfigure $data($win,slider) -outline $color -fill $color
           }
         }
         if {[info exists opts(-thickness)]} {
@@ -303,9 +316,12 @@ namespace eval scroller {
 
     # Draw the markers
     update_markers $win
+    
+    # Calculate the foreground color
+    set foreground [expr {$data($win,-usealt) ? $data($win,-altforeground) : $data($win,-foreground)}]
 
     # Add the slider
-    set data($win,slider) [$data($win,canvas) create rectangle 0 0 1 1 -outline $data($win,-foreground) -fill $data($win,-foreground) -width 2]
+    set data($win,slider) [$data($win,canvas) create rectangle 0 0 1 1 -outline $foreground -fill $foreground -width 2]
 
     # Set the size and position of the slider
     widget_command $win set {*}[eval $data($win,-command)]
