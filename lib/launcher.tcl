@@ -723,15 +723,15 @@ namespace eval launcher {
       }
     }
 
+    # Sort the results by relevance
+    sort_match_results $results 1
+
     # Make the string regular expression friendly
     set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {[} {\[}} $str]
 
     if {[string index $tmpstr 0] eq ">"} {
       set tmpstr ">.*[string range $tmpstr 1 end]"
     }
-
-    # Sort the results by relevance
-    sort_match_results $results 1
 
     # Get exact matches that match the beginning of the statement
     sort_match_results [get_match_results \{?$mode$tmpstr.*] 0
