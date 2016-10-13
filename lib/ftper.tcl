@@ -73,6 +73,8 @@ namespace eval ftper {
       -selectmode single -movablerows 1 -labelrelief flat \
       -labelactivebackground [utils::get_default_background] \
       -labelbackground [utils::get_default_background] \
+      -labelforeground [utils::get_default_foreground] \
+      -selectbackground [theme::get_value ttk_style active_color] \
       -acceptchildcommand [list ftper::accept_child_command] \
       -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
       -xscrollcommand [list utils::set_xscrollbar .ftp.pw.lf.sf.hb] \
@@ -95,7 +97,7 @@ namespace eval ftper {
     grid .ftp.pw.lf.sf.hb -row 1 -column 0 -sticky ew
 
     ttk::frame  .ftp.pw.lf.bf
-    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -text "+" -width 1 -command [list ftper::show_new_menu]]
+    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "+" -width 1 -command [list ftper::show_new_menu]]
 
     pack .ftp.pw.lf.bf.edit -side left -padx 2 -pady 2
 
@@ -149,11 +151,11 @@ namespace eval ftper {
     grid .ftp.pw.rf.vf.ff.hb -row 1 -column 0 -sticky ew
 
     ttk::frame  .ftp.pw.rf.vf.bf
-    set widgets(folder) [ttk::button .ftp.pw.rf.vf.bf.folder -text [msgcat::mc "New Folder"] \
+    set widgets(folder) [ttk::button .ftp.pw.rf.vf.bf.folder -style BButton -text [msgcat::mc "New Folder"] \
       -command [list ftper::handle_new_folder]]
-    set widgets(open) [ttk::button .ftp.pw.rf.vf.bf.ok -text [msgcat::mc "Open"] \
+    set widgets(open) [ttk::button .ftp.pw.rf.vf.bf.ok -style BButton -text [msgcat::mc "Open"] \
       -width 6 -command [list ftper::handle_open] -state disabled]
-    ttk::button .ftp.pw.rf.vf.bf.cancel -text [msgcat::mc "Cancel"] \
+    ttk::button .ftp.pw.rf.vf.bf.cancel -style BButton -text [msgcat::mc "Cancel"] \
       -width 6 -command [list ftper::handle_cancel]
 
     pack .ftp.pw.rf.vf.bf.cancel -side right -padx 2 -pady 2
@@ -219,12 +221,12 @@ namespace eval ftper {
     grid .ftp.ef.sf.re  -row 7 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::frame .ftp.ef.bf
-    set widgets(edit_test)   [ttk::button .ftp.ef.bf.test   -text [msgcat::mc "Test"] \
+    set widgets(edit_test)   [ttk::button .ftp.ef.bf.test -style BButton -text [msgcat::mc "Test"] \
       -width 6 -command [list ftper::test_connection] -state disabled]
     set widgets(edit_msg)    [ttk::label  .ftp.ef.bf.msg]
-    set widgets(edit_create) [ttk::button .ftp.ef.bf.create -text [msgcat::mc "Create"] \
+    set widgets(edit_create) [ttk::button .ftp.ef.bf.create -style BButton -text [msgcat::mc "Create"] \
       -width 6 -command [list ftper::update_connection] -state disabled]
-    ttk::button .ftp.ef.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command {
+    ttk::button .ftp.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
       pack forget .ftp.ef
       pack .ftp.pw -fill both -expand yes
     }
@@ -326,21 +328,15 @@ namespace eval ftper {
       }
     }
 
-    puts "HERE A"
-
     # Open and initialize the connection
     if {$type eq "FTP"} {
-      if {[set connection [::ftp::Open $server $user $passwd -port $port]] == -1} {
-        puts "HERE B"
+      if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 2]] == -1} {
         $widgets(edit_msg) configure -text "Failed!"
       } else {
-        puts "HERE C"
         ::ftp::Close $connection
         $widgets(edit_msg) configure -text "Passed!"
       }
     }
-
-    puts "HERE D"
 
   }
 
@@ -374,6 +370,8 @@ namespace eval ftper {
       if {$group ne $current_group} {
         $widgets(sb) delete $selected
         $widgets(sb) insertchild $groups($group) end [list $name $settings $passwd]
+      } else {
+        $widgets(sb) rowconfigure $selected -text [list $name $settings $passwd]
       }
     }
 
@@ -659,11 +657,11 @@ namespace eval ftper {
     pack .groupwin.f.e -side left -padx 2 -pady 2 -fill x -expand yes
 
     ttk::frame  .groupwin.bf
-    ttk::button .groupwin.bf.create -text [msgcat::mc "Create"] -width 6 -command {
+    ttk::button .groupwin.bf.create -style BButton -text [msgcat::mc "Create"] -width 6 -command {
       set ftper::value [.groupwin.f.e get]
       destroy .groupwin
     } -state disabled
-    ttk::button .groupwin.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command {
+    ttk::button .groupwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
       set ftper::value ""
       destroy .groupwin
     }
@@ -735,11 +733,11 @@ namespace eval ftper {
     pack .renwin.f.e -side left -padx 2 -pady 2 -fill x -expand yes
 
     ttk::frame .renwin.bf
-    ttk::button .renwin.bf.ok -text [msgcat::mc "Rename"] -width 6 -command {
+    ttk::button .renwin.bf.ok -style BButton -text [msgcat::mc "Rename"] -width 6 -command {
       set ftper::value [.renwin.f.e get]
       destroy .renwin
     } -state disabled
-    ttk::button .renwin.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command {
+    ttk::button .renwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
       set ftper::value ""
       destroy .renwin
     }
@@ -1003,8 +1001,8 @@ namespace eval ftper {
     pack .ftppass.f.e -side left -padx 2 -pady 2 -fill x -expand yes
 
     ttk::frame  .ftppass.bf
-    ttk::button .ftppass.bf.ok     -text [msgcat::mc "OK"]     -width 6 -command [list ftper::password_ok] -state disabled
-    ttk::button .ftppass.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command [list ftper::password_cancel]
+    ttk::button .ftppass.bf.ok     -style BButton -text [msgcat::mc "OK"]     -width 6 -command [list ftper::password_ok] -state disabled
+    ttk::button .ftppass.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list ftper::password_cancel]
 
     pack .ftppass.bf.cancel -side right -padx 2 -pady 2
     pack .ftppass.bf.ok     -side right -padx 2 -pady 2
@@ -1085,11 +1083,11 @@ namespace eval ftper {
     pack .foldwin.f.e -side left -padx 2 -pady 2 -fill x -expand yes
 
     ttk::frame .foldwin.bf
-    ttk::button .foldwin.bf.ok -text [msgcat::mc "Create"] -width 6 -command {
+    ttk::button .foldwin.bf.ok -style BButton -text [msgcat::mc "Create"] -width 6 -command {
       set ftper::value [.foldwin.f.e get]
       destroy .foldwin
     } -state disabled
-    ttk::button .foldwin.bf.cancel -text [msgcat::mc "Cancel"] -width 6 -command {
+    ttk::button .foldwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
       set ftper::value ""
       destroy .foldwin
     }
@@ -1172,7 +1170,7 @@ namespace eval ftper {
 
   ######################################################################
   # Cancels the open operation.
-  proc handle_open_cancel {} {
+  proc handle_cancel {} {
 
     variable data
     variable connection
@@ -1249,7 +1247,7 @@ namespace eval ftper {
 
     # Open and initialize the connection
     if {$type eq "FTP"} {
-      if {[set connection [::ftp::Open $server $user $passwd -port $port]] == -1} {
+      if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 2]] == -1} {
         tk_messageBox -parent .ftp -icon error -type ok -default ok \
           -message [msgcat::mc "Unable to connect to FTP server"] -detail "Server: $server\nUser: $user\nPort: $port"
         return -1
