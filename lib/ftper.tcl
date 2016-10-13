@@ -1269,6 +1269,36 @@ namespace eval ftper {
   }
 
   ######################################################################
+  # Returns 1 if the file exists on the server.
+  proc file_exists {name fname} {
+
+    set retval 0
+
+    if {[set connection [connect $name] != -1]} {
+      set retval [expr [lsearch [::ftp::NList $connection [file dirname $fname]] [file tail $fname]] != -1]
+      disconnect $connection
+    }
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Returns the modification time of the given file on the server.
+  proc get_mtime {name fname} {
+
+    set mtime 0
+
+    if {[set connection [connect $name]] != -1} {
+      set mtime [::ftp::ModTime $connection $fname]
+      disconnect $connection
+    }
+
+    return $mtime
+
+  }
+
+  ######################################################################
   # Get the file contents of the given filename using the given connection
   # name if the remote file is newer than the given modtime.  Returns 1
   # if the file was retrieved without error; otherwise, returns 0.
@@ -1319,9 +1349,94 @@ namespace eval ftper {
     }
 
     # Make the directory remotely
-    ::ftp::MkDir $connection $dirname
+    set retval [::ftp::MkDir $connection $dirname]
 
     # Disconnect from the FTP server
+    disconnect $connection
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Removes one or more directories on the server.
+  proc remove_directories {name dirnames} {
+
+    if {[set connection [connect $name]] == -1} {
+      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
+      return 0
+    }
+
+    # Delete the list of directories
+    foreach dirname $dirnames {
+      ::ftp::RmDir $connection $dirname
+    }
+
+    # Disconnect from the server
+    disconnect $connection
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Rename the given file name.
+  proc rename_file {name curr_fname new_fname} {
+
+    if {[set connection [connect $name]] == -1} {
+      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
+      return 0
+    }
+
+    # Delete the list of directories
+    set retval [::ftp::Rename $connection $curr_fname $new_fname]
+
+    # Disconnect from the server
+    disconnect $connection
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Duplicates a given filename.
+  proc duplicate_file {name fname new_fname} {
+
+    variable contents
+
+    if {[set connection [connect $name]] == -1} {
+      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
+      return 0
+    }
+
+    set retval 0
+
+    if {[::ftp::Get $connection $fname -variable ftper::contents]} {
+      set retval [::ftp::Put $connection -data $contents $new_fname]
+    }
+
+    # Disconnect from the server
+    disconnect $connection
+
+    return $retval
+
+  }
+
+  ######################################################################
+  # Removes one or more files on the server.
+  proc remove_files {name fnames} {
+
+    if {[set connection [connect $name]] == -1} {
+      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
+      return 0
+    }
+
+    # Delete the list of directories
+    foreach fname $fnames {
+      ::ftp::Delete $connection $fname
+    }
+
+    # Disconnect from the server
     disconnect $connection
 
     return 1
