@@ -610,14 +610,14 @@ namespace eval sidebar {
     variable widgets
 
     # Get the folder contents and sort them
-    foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text]] {
+    foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
 
       if {[file isdirectory $name]} {
-        set child [$widgets(tl) insertchild $parent end [list $name 0]]
+        set child [$widgets(tl) insertchild $parent end [list $name 0 $remote]]
         $widgets(tl) collapse $child
       } else {
         if {![ignore_file $name]} {
-          set key [$widgets(tl) insertchild $parent end [list $name 0]]
+          set key [$widgets(tl) insertchild $parent end [list $name 0 $remote]]
           if {[gui::file_exists_in_nb $name]} {
             $widgets(tl) cellconfigure $key,name -image sidebar_open
             update_root_count $key 1
@@ -651,7 +651,9 @@ namespace eval sidebar {
 
   ######################################################################
   # Handles directory/file ordering issues
-  proc order_files_dirs {dir} {
+  proc order_files_dirs {dir remote} {
+
+    # TODO - Use remote indicator to perform FTP request and sort directories/files based on that info
 
     if {[preferences::get Sidebar/FoldersAtTop]} {
       if {[namespace exists ::freewrap]} {
@@ -695,10 +697,13 @@ namespace eval sidebar {
 
     variable widgets
 
+    # Get the remote indicator of the parent
+    set remote [$widgets(tl) cellcget $parent,remote -text]
+
     # Get the directory contents (removing anything that matches the
     # ignored file patterns)
     set dir_files [list]
-    foreach dir_file [order_files_dirs [$widgets(tl) cellcget $parent,name -text]] {
+    foreach dir_file [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
       if {![ignore_file $dir_file]} {
         lappend dir_files $dir_file
       }
@@ -713,7 +718,7 @@ namespace eval sidebar {
       } else {
         while {1} {
           if {$compare == 1} {
-            set node [$widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list $dir_file 0]]
+            set node [$widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list $dir_file 0 $remote]]
             if {[file isdirectory $dir_file]} {
               $widgets(tl) collapse $node
             } elseif {[gui::file_exists_in_nb $dir_file]} {
@@ -776,7 +781,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Inserts the given file into the sidebar under the given parent.
-  proc insert_file {parent fname} {
+  proc insert_file {parent fname remote} {
 
     variable widgets
 
@@ -793,7 +798,7 @@ namespace eval sidebar {
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
-            set node [$widgets(tl) insertchild $parent $i [list $fname 0]]
+            set node [$widgets(tl) insertchild $parent $i [list $fname 0 $remote]]
             $widgets(tl) cellconfigure $node,name -image sidebar_open
             update_root_count $node 1
             return
@@ -803,7 +808,7 @@ namespace eval sidebar {
       }
 
       # Insert the file at the end of the parent
-      set node [$widgets(tl) insertchild $parent end [list $fname 0]]
+      set node [$widgets(tl) insertchild $parent end [list $fname 0 $remote]]
       $widgets(tl) cellconfigure $node,name -image sidebar_open
       update_root_count $node 1
 
@@ -1193,6 +1198,9 @@ namespace eval sidebar {
         # Get the directory pathname
         set dirpath [$widgets(tl) cellcget $row,name -text]
 
+        # Get the remote value
+        set remote [$widgets(tl) cellcget $row,remote -text]
+
         # Allow any plugins to handle the rename
         plugins::handle_on_delete $dirpath
 
@@ -1468,6 +1476,9 @@ namespace eval sidebar {
     # Get the filename of the current selection
     set fname [$widgets(tl) cellcget $row,name -text]
 
+    # Get the remote indicator
+    set remote [$widgets(tl) cellcget $row,remote -text]
+
     # Create the default name of the duplicate file
     set dup_fname "[file rootname $fname] Copy[file extension $fname]"
     set num       1
@@ -1481,7 +1492,7 @@ namespace eval sidebar {
       # Add the file to the sidebar (just below the currently selected line)
       set new_row [$widgets(tl) insertchild \
         [$widgets(tl) parentkey $row] [expr [$widgets(tl) childindex $row] + 1] \
-        [list $dup_fname 0]]
+        [list $dup_fname 0 $remote]]
 
       # Allow any plugins to handle the rename
       plugins::handle_on_duplicate $fname $dup_fname

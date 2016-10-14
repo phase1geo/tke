@@ -2272,7 +2272,7 @@ namespace eval gui {
       if {[lindex $files $file_index $files_index(sidebar)]} {
 
         # Add the file's directory to the sidebar
-        [ns sidebar]::insert_file [[ns sidebar]::add_directory [file dirname $fname] -remote $opts(-remote)] $fname
+        [ns sidebar]::insert_file [[ns sidebar]::add_directory [file dirname $fname] -remote $opts(-remote)] $fname $opts(-remote)
 
         # Highlight the file in the sidebar
         [ns sidebar]::highlight_filename [lindex $files $file_index $files_index(fname)] [expr ($diff * 2) + 1]
