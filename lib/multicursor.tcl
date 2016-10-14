@@ -516,7 +516,7 @@ namespace eval multicursor {
   proc insert {txtt value {indent_cmd ""}} {
 
     variable selected
-
+    
     # Insert the value into the text widget for each of the starting positions
     if {[enabled $txtt]} {
       if {$selected} {
@@ -526,10 +526,14 @@ namespace eval multicursor {
         }
         set selected 0
       }
-      foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
+      set start 1.0
+      while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
+        set start [lindex $range 0]
         $txtt insert $start $value
         if {$indent_cmd ne ""} {
-          $indent_cmd $txtt [$txtt index $start+1c]
+          set start [$indent_cmd $txtt [$txtt index "$start+1c"]]+1c
+        } else {
+          set start "$start+2c"
         }
       }
       return 1
@@ -550,12 +554,16 @@ namespace eval multicursor {
       if {$selected} {
         return [insert $txt $value $indent_cmd]
       } else {
-        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+        set start 1.0
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          set start [lindex $range 0]
           $txt replace $start "$start+1c" $value
           $txt tag add mcursor "$start+1c"
           $txt highlight "$start linestart" "$start lineend"
           if {$indent_cmd ne ""} {
-            $indent_cmd $txt [$txt index "$start+1c"]
+            set start [$indent_cmd $txt [$txt index "$start+1c"]]+1c
+          } else {
+            set start "$start+2c"
           }
         }
         return 1

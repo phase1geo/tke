@@ -237,7 +237,7 @@ namespace eval indent {
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
     if {($indent_exprs($txtt,mode) ne "IND+") || [[ns vim]::in_vim_mode $txtt]} {
-      return
+      return $index
     }
 
     # If the current line contains an unindent expression, is not within a comment or string,
@@ -257,6 +257,8 @@ namespace eval indent {
         # Replace the whitespace with the appropriate amount of indentation space
         if {$indent_space ne $space} {
           $txtt replace "$index linestart" $startpos $indent_space
+          set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
+          return [$txtt index "$index linestart+${offset}c"]
         }
 
       }
@@ -276,11 +278,15 @@ namespace eval indent {
         # Replace the whitespace with the appropriate amount of indentation space
         if {$indent_space ne $space} {
           $txtt replace "$index linestart" $startpos $indent_space
+          set offset [expr [lindex [split $index .] 1] + ([string length $indent_space] - [lindex [split $startpos .] 1])]
+          return [$txtt index "$index linestart+${offset}c"]
         }
 
       }
 
     }
+    
+    return $index
 
   }
 
@@ -401,7 +407,7 @@ namespace eval indent {
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
     if {($indent_exprs($txtt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txtt]} {
-      return
+      return $index
     }
 
     # If we do not need smart indentation, use the previous space
@@ -430,12 +436,21 @@ namespace eval indent {
     if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
 
       lassign [$txtt tag nextrange _prewhite "$index linestart"] startpos endpos
-
+      
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[lsearch [$txtt tag names "$endpos-1c"] _unindent*] != -1} {
         $txtt insert insert "$indent_space\n"
         set restore_insert [$txtt index insert-1c]
+        if {$indent_exprs($txtt,mode) eq "IND+"} {
+          set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
+        }
+        
+      # Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
+      # indentation by one
+      } elseif {([lsearch [$txtt tag names "$endpos-1c"] _reindent*] != -1) && [check_reindent_for_unindent $txtt [lindex [$txtt tag prevrange _reindent $endpos] 0]]} {
+        # $txtt insert insert "$indent_space\n"
+        # set restore_insert [$txtt index insert-1c]
         if {$indent_exprs($txtt,mode) eq "IND+"} {
           set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
         }
@@ -463,7 +478,9 @@ namespace eval indent {
     if {$restore_insert ne ""} {
       ::tk::TextSetCursor $txtt $restore_insert
     }
-
+    
+    return [$txtt index "$index+[string length $indent_space]c"]
+    
   }
 
   ######################################################################
