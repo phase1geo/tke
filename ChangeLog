@@ -1,77 +1,132 @@
-changeset:   2393:ff90e790a36c
-tag:         devel-2.7.1
+changeset:   2402:e027e1291936
+tag:         devel-2.7.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 06 07:43:39 2016 -0500
+date:        Mon Oct 10 09:16:31 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.1 release
+ChangeLog for devel-2.7.2 release
 
 
-changeset:   2394:e01531cce5e3
+changeset:   2403:14e41818eb59
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 06 07:43:45 2016 -0500
+date:        Mon Oct 10 09:16:36 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.7.1 for changeset ff90e790a36c
+Added tag devel-2.7.2 for changeset e027e1291936
 
 
-changeset:   2395:7106a9c17d27
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Oct 08 00:52:20 2016 -0500
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
+changeset:   2404:893f2dbc2bd8
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Oct 10 17:25:01 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Adding -shown option to tabbar::tabs procedure.
-* Fixing various issues with hiding tabs.
-* Adding tab hiding/showing functionality.
+* Removing unnecessary debug output.
+* Few minor adjustments to ftper.
 
 
-changeset:   2396:dc445287f0fb
+changeset:   2405:7080c3f53885
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Oct 08 01:05:08 2016 -0500
-files:       lib/sidebar.tcl lib/version.tcl
+date:        Mon Oct 10 22:51:52 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
 description:
-* Adding ability to hide a file via the sidebar contextual menu.
+* Checkpointing work on ftper namespace (opening, getting and saving are working).
 
 
-changeset:   2397:b2de690ef796
+changeset:   2406:65f82c2e6376
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 09 20:39:13 2016 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+date:        Tue Oct 11 01:50:31 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
 description:
-* Checkpointing work on fixing issues with hiding tabs.
+* Checkpointing work on FTP GUI enhancements.
 
 
-changeset:   2398:8c6dac923213
+changeset:   2407:ef545a330c2e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 10 00:31:02 2016 -0500
-files:       data/themes/Anatomy of Grey.tketheme data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Default.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Quiverly.tketheme data/themes/Ruby Blue.tketheme data/themes/Starlight.tketheme data/themes/Turn of the Century.tketheme data/themes/choco.tketheme data/themes/idleFingers.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/gui.tcl lib/sidebar.tcl lib/theme.tcl lib/utils.tcl lib/version.tcl
+date:        Tue Oct 11 08:46:26 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
 description:
-* Completing initial work on tab hiding.
-* Updating themes to support new hiding graphic.
+* Checkpointing more work on ftper namespace.
 
 
-changeset:   2399:4519dfc8bcdb
+changeset:   2408:d4003110c08f
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Oct 11 17:27:45 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+description:
+* Finishing most of the work on the FTP sidebar.
+
+
+changeset:   2409:6a87db1914bd
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 10 01:24:45 2016 -0500
+date:        Wed Oct 12 00:37:35 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl lib/vim.tcl
+description:
+* Checkpointing work on integrating ftper namespace into main application.
+
+
+changeset:   2410:4963d7b59fbf
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 12 08:40:59 2016 -0500
+files:       lib/ftper.tcl lib/gui.tcl lib/version.tcl
+description:
+* Fixing more integration issues with ftper namespace.
+
+
+changeset:   2411:fc9a971d4401
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 12 20:36:54 2016 -0500
+files:       lib/launcher.tcl lib/version.tcl
+description:
+* Small code adjustment in launcher.
+
+
+changeset:   2412:9f15b767516e
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 12 23:46:29 2016 -0500
 files:       lib/ftper.tcl lib/version.tcl
 description:
-* Starting to work on FTP namespace.
+* More improvements to the ftper namespace.
 
 
-changeset:   2400:43e7762f4d0c
+changeset:   2413:5b0c1c0dc13c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 10 01:39:21 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+date:        Thu Oct 13 08:39:43 2016 -0500
+files:       lib/ftper.tcl lib/gui.tcl lib/launcher.tcl lib/version.tcl
 description:
-* Adding FTP namespace test script.
+* Checkpointing more work on remote file access.
 
 
-changeset:   2401:93b85e6d8b31
+changeset:   2414:5bd34ed32bbd
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 13 17:54:57 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/scroller.tcl lib/sidebar.tcl lib/theme.tcl lib/version.tcl
+description:
+* Adding ability to align the current insertion lines in both panes to each other.
+* Checkpointing work on sychronized pane scrolling.
+
+
+changeset:   2415:90fddcdc5410
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Oct 14 00:37:48 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Finishing work on pane functionality.
+
+
+changeset:   2416:e36e4e5db3ef
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Oct 14 01:16:48 2016 -0500
+files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Checkpointing work on FTP in sidebar.
+
+
+changeset:   2417:a0ecb502eac9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 10 09:15:23 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+date:        Fri Oct 14 08:55:58 2016 -0500
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Checkpointing some work on the FTP widget.
+* Fixing synced scrolling when scrolling files of different length.
 
 
