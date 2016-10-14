@@ -59,15 +59,15 @@ namespace eval menus {
     return $parent
 
   }
-  
+
   ######################################################################
   # Set the pane sync indicator to the given value (0 or 1).
   proc set_pane_sync_indicator {value} {
-    
+
     variable sync_panes
-    
+
     set sync_panes $value
-    
+
   }
 
   ######################################################################
@@ -2183,18 +2183,9 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Move to Other Pane"] -underline 0 -command [list gui::move_to_pane]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Move to other pane"]] [list gui::move_to_pane]
 
-    $mb add command -label [msgcat::mc "Merge Panes"] -underline 3 -command [list gui::merge_panes]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Merge panes"]] [list gui::merge_panes]
-    
-    $mb add command -label [msgcat::mc "Align Panes"] -command [list gui::align_panes]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Align current lines in both panes"]] [list gui::align_panes]
-    
-    $mb add checkbutton -label [msgcat::mc "Sync Pane Scrolling"] -variable menus::sync_panes -command [list menus::sync_panes]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Enable two-pane scrolling synchronization"]]  [list gui::set_pane_sync 1]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Disable two-pane scrolling Synchronization"]] [list gui::set_pane_sync 0]
-
     $mb add separator
 
+    $mb add cascade -label [msgcat::mc "Panes"]   -underline 0 -menu [make_menu $mb.panePopup -tearoff 0]
     $mb add cascade -label [msgcat::mc "Tabs"]    -underline 0 -menu [make_menu $mb.tabPopup  -tearoff 0 -postcommand "menus::view_tabs_posting $mb.tabPopup"]
     $mb add cascade -label [msgcat::mc "Folding"] -underline 0 -menu [make_menu $mb.foldPopup -tearoff 0 -postcommand "menus::view_fold_posting $mb.foldPopup"]
 
@@ -2213,6 +2204,19 @@ namespace eval menus {
 
     $mb.numPopup add radiobutton -label [msgcat::mc "Relative"] -variable menus::line_numbering -value relative -command [list menus::set_line_numbering relative]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Relative line numbering"]] [list menus::set_line_numbering relative]
+
+    # Setup the pane popup menu
+    $mb.panePopup add checkbutton -label [msgcat::mc "Enable Synchronized Scrolling"] -variable menus::sync_panes -command [list menus::sync_panes]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Enable two-pane scrolling synchronization"]]  [list gui::set_pane_sync 1]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Disable two-pane scrolling Synchronization"]] [list gui::set_pane_sync 0]
+
+    $mb.panePopup add command -label [msgcat::mc "Align Panes"] -command [list gui::align_panes]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Align current lines in both panes"]] [list gui::align_panes]
+
+    $mb.panePopup add separator
+
+    $mb.panePopup add command -label [msgcat::mc "Merge Panes"] -underline 3 -command [list gui::merge_panes]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Merge panes"]] [list gui::merge_panes]
 
     # Setup the tab popup menu
     $mb.tabPopup add command -label [msgcat::mc "Goto Next Tab"] -underline 5 -command [list gui::next_tab]
@@ -2340,9 +2344,9 @@ namespace eval menus {
     }
 
     if {[gui::panes] < 2} {
-      $mb entryconfigure [msgcat::mc "Merge Panes"] -state disabled
+      $mb entryconfigure [msgcat::mc "Panes"] -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Merge Panes"] -state normal
+      $mb entryconfigure [msgcat::mc "Panes"] -state normal
     }
 
     if {[gui::current_txt {}] eq ""} {
@@ -2638,13 +2642,13 @@ namespace eval menus {
   ######################################################################
   # Enables/disables two-pane scroll synchronization.
   proc sync_panes {} {
-    
+
     variable sync_panes
-    
+
     gui::set_pane_sync $sync_panes
-    
+
   }
-  
+
   ######################################################################
   # Disables code folding from being drawn.
   proc set_code_folding {{value ""}} {

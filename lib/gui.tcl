@@ -1217,79 +1217,122 @@ namespace eval gui {
     return [llength [[get_info {} current tabbar] tabs]]
 
   }
-  
+
   ######################################################################
   # Aligns the current insertion cursors in both panes to the same Y
   # pixel value.
   proc align_panes {} {
-    
+
     align_lines [get_info 0 paneindex txt] [get_info 1 paneindex txt] insert insert 1
-    
+
   }
-  
+
   ######################################################################
-  # Tracks the two displayed text widgets, keeping their views in line
-  # sync with each other.
-  proc set_pane_sync {value} {
-    
+  # This is called by set_current_tab to update the pane sync state.
+  proc pane_sync_tab_change {} {
+
     variable synced
     variable synced_key
-    
+
+    # Unselect the current key
+    if {$synced_key ne ""} {
+      catch {
+        [winfo parent [lindex $synced_key 0]].vb configure -usealt 0
+        [winfo parent [lindex $synced_key 1]].vb configure -usealt 0
+      }
+      menus::set_pane_sync_indicator 0
+      set synced_key ""
+    }
+
+    # Set the new pair
+    catch {
+
+      # Get the current text widgets
+      set txt1 [get_info 0 paneindex txt]
+      set txt2 [get_info 1 paneindex txt]
+
+      # Create the synced key
+      set key "$txt1 $txt2"
+
+      if {[info exists synced($key)]} {
+
+        menus::set_pane_sync_indicator 1
+
+        set synced_key $key
+
+        [winfo parent $txt1].vb configure -usealt 1
+        [winfo parent $txt2].vb configure -usealt 1
+
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Tracks the two displayed text widgets, keeping their views in line
+  # sync with each other.  If initialize is set, we will capture the
+  # top lines.
+  proc set_pane_sync {value} {
+
+    variable synced
+    variable synced_key
+
     # Get the displayed text widgets
     set txt1 [get_info 0 paneindex txt]
     set txt2 [get_info 1 paneindex txt]
-    
+
     # Set the menu indicator to the given value
     menus::set_pane_sync_indicator $value
-    
+
     if {$value} {
-    
+
       # Record the synced_key (if this value is the empty string, we are not currently synced)
       set synced_key "$txt1 $txt2"
-      
+
       # Record the text widgets that we are sync'ing
-      set synced($synced_key) [list [$txt1 index @0,0] [$txt2 index @0,0]] 
-    
+      set synced($synced_key) [list [$txt1 index @0,0] [$txt2 index @0,0]]
+
       # Set the scrollbar colors to indicate that we are synced
       [winfo parent $txt1].vb configure -usealt 1
       [winfo parent $txt2].vb configure -usealt 1
-      
+
     } else {
-      
+
+      # Return the scrollbar colors to their normal colors
+      [winfo parent [lindex $synced_key 0]].vb configure -usealt 0
+      [winfo parent [lindex $synced_key 1]].vb configure -usealt 0
+
       # Delete the synced recording
       unset synced($synced_key)
-      
+
       # Clear the synced key
       set synced_key ""
-      
-      # Return the scrollbar colors to their normal colors
-      [winfo parent $txt1].vb configure -usealt 0
-      [winfo parent $txt2].vb configure -usealt 0
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Called whenever one of the synced text widgets yview changes.  Causes
   # the other text widget to stay in sync.
   proc sync_scroll {txt yscroll} {
-    
+
     variable synced
     variable synced_key
     variable synced_count
     variable synced_txt
-    
+
     # If we are not currently synced, return now
     if {($synced_key eq "") || (($synced_txt ne $txt) && ($synced_count == 1))} {
       set synced_count 0
       return
     }
-    
+
     set top [$txt index @0,0]
     lassign $synced_key          txt0 txt1
-    lassign $synced($synced_key) top0 top1 
-    
+    lassign $synced($synced_key) top0 top1
+
     if {$txt eq $txt0} {
       set line_diff [$txt count -lines $top0 $top]
       align_lines $txt0 $txt1 $top [$txt1 index "$top1+${line_diff}l"] 0
@@ -1297,17 +1340,17 @@ namespace eval gui {
       set line_diff [$txt count -lines $top1 $top]
       align_lines $txt1 $txt0 $top [$txt0 index "$top0+${line_diff}l"] 0
     }
-    
+
     set synced_txt    $txt
     incr synced_count $yscroll
-    
+
   }
-  
+
   ######################################################################
   # Sets the yview of the given text widget (called by the yscrollbar)
   # and adjusts the scroll of the other pane if sync scrolling is enabled.
   proc yview {txt args} {
-    
+
     # Return the yview information
     if {[llength $args] == 0} {
       return [$txt yview]
@@ -1324,19 +1367,19 @@ namespace eval gui {
   # Implements yscrollcommand for an editing buffer.  Adjusts the scrollbar
   # position and performs synchronized scrolling, if enabled.
   proc yscrollcommand {txt vb args} {
-    
+
     # Set the vertical scrollbar position
     $vb set {*}$args
-    
+
     # Perform sync scrolling, if necessary
     sync_scroll $txt 1
-    
+
   }
-  
+
   ######################################################################
   # Aligns the given lines.
   proc align_lines {txt1 txt2 line1 line2 adjust_txt1} {
-    
+
     if {[set bbox1 [$txt1 bbox $line1]] eq ""} {
       $txt1 see $line1
       set bbox1 [$txt1 bbox $line1]
@@ -1345,17 +1388,17 @@ namespace eval gui {
       $txt2 see $line2
       set bbox2 [$txt2 bbox $line2]
     }
-    
+
     # Attempt to line up the right pane to the left pane
     $txt2 yview scroll [expr [lindex $bbox2 1] - [lindex $bbox1 1]] pixels
-    
+
     # Check to see if the two are aligned, if not then attempt to align the left line to the right
     if {$adjust_txt1} {
       if {[lindex $bbox1 1] != [lindex [$txt2 bbox $line2] 1]} {
         $txt1 yview scroll [expr [lindex $bbox1 1] - [lindex $bbox2 1]] pixels
       }
     }
-    
+
   }
 
   ######################################################################
@@ -1766,7 +1809,7 @@ namespace eval gui {
 
       # Specify that this tab is loaded
       lset files $file_index $files_index(loaded) 1
-      
+
       set okay 0
 
       # Get the file contents
@@ -1777,52 +1820,52 @@ namespace eval gui {
         set okay     1
         close $rc
       }
-      
+
       if {$okay} {
 
         # Delete any dspace characters
         [ns vim]::remove_dspace $txt
-  
+
         # Read the file contents and insert them
         $txt fastinsert end $contents
-  
+
         # Highlight text and add update code folds
         $txt highlight 1.0 end
         $txt see 1.0
-  
+
         # Check brackets
         [ns completer]::check_all_brackets $txt.t
-  
+
         # Change the text to unmodified
         $txt edit reset
         lset files $file_index $files_index(modified) 0
-  
+
         # Set the insertion mark to the first position
         ::tk::TextSetCursor $txt.t 1.0
-  
+
         # Perform an insertion adjust, if necessary
         if {[[ns vim]::in_vim_mode $txt.t]} {
           [ns vim]::adjust_insert $txt.t
         }
-  
+
         if {[lindex $files $file_index $files_index(remote)] eq ""} {
           file stat $fname stat
           lset files $file_index $files_index(mtime) $stat(mtime)
         } else {
           lset files $file_index $files_index(mtime) $modtime
         }
-  
+
         # Add the file to the list of recently opened files
         add_to_recently_opened $fname
-  
+
         # Parse Vim modeline information, if needed
         [ns vim]::parse_modeline $txt
-  
+
         # If a diff command was specified, run and parse it now
         if {$diff} {
           [ns diff]::show $txt
         }
-        
+
       }
 
       # Change the tab text
@@ -1914,7 +1957,7 @@ namespace eval gui {
     $txt delete 1.0 end
 
     set okay 0
-    
+
     # Read the contents of the file
     if {$remote ne ""} {
       set okay [[ns ftper]::get_file $remote $fname contents modtime]
@@ -1925,7 +1968,7 @@ namespace eval gui {
     }
 
     if {$okay} {
-      
+
       # Read the file contents and insert them
       $txt insert end $contents
 
@@ -4551,6 +4594,9 @@ namespace eval gui {
       }
       pack [$tb select] -in $tf -fill both -expand yes
 
+      # Update the pane synchronization status
+      pane_sync_tab_change
+
       # Update the preferences
       [ns preferences]::update_prefs [[ns sessions]::current]
 
@@ -4613,7 +4659,7 @@ namespace eval gui {
     } else {
       $widgets(info_state) configure -text [format "%s: %d, %s: %d" [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
     }
-    
+
   }
 
   ######################################################################
