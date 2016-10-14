@@ -51,7 +51,6 @@ namespace eval gui {
   variable show_match_char  0
   variable browse_dir       "last"
   variable synced_key       ""
-  variable synced_count     0
   variable synced_txt       ""
 
   array set widgets         {}
@@ -1324,8 +1323,8 @@ namespace eval gui {
     variable synced_txt
 
     # If we are not currently synced, return now
-    if {($synced_key eq "") || (($synced_txt ne $txt) && ($synced_count == 1))} {
-      set synced_count 0
+    if {($synced_key eq "") || (($synced_txt ne $txt) && ($synced_txt ne ""))} {
+      set synced_txt ""
       return
     }
 
@@ -1341,8 +1340,7 @@ namespace eval gui {
       align_lines $txt1 $txt0 $top [$txt0 index "$top0+${line_diff}l"] 0
     }
 
-    set synced_txt    $txt
-    incr synced_count $yscroll
+    set synced_txt $txt
 
   }
 
