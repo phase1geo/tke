@@ -1196,13 +1196,13 @@ namespace eval ftper {
     $tbl delete [$tbl childkeys $parent]
 
     # Add the new directory
-    if {[dir_contents $name $directory dirs files]} {
-      foreach fname [lsort $dirs] {
+    if {[dir_contents $name $directory items]} {
+      foreach fname [lsort [lsearch -inline -index 1 $items 1] {
         set row [$tbl insertchild $parent end [list $fname 1]]
         $tbl insertchild $row end [list]
         $tbl collapse $row
       }
-      foreach fname [lsort $files] {
+      foreach fname [lsort [lsearch -inline -index 1 $items 0] {
         $tbl insertchild $parent end [list $fname 0]
       }
     }
@@ -1299,15 +1299,9 @@ namespace eval ftper {
   # Returns a list of two items such that the first list is a listing
   # of directories in the given directory and the second list is a listing
   # of files in the given directory.
-  proc dir_contents {name dirname pdirs pfiles} {
+  proc dir_contents {name dirname pitems} {
 
-    upvar $pdirs  dirs
-    upvar $pfiles files
-
-    array set items {
-      0 {}
-      1 {}
-    }
+    upvar $pitems items
 
     set retval 0
 
@@ -1317,14 +1311,11 @@ namespace eval ftper {
         set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
         set fname "[lrange $finfo 8 end]"
         if {[string index $fname 0] ne "."} {
-          lappend items($dir) [file join $dirname $fname]
+          lappend items [list [file join $dirname $fname] $dir]
         }
       }
       disconnect $connection
     }
-
-    set files $items(0)
-    set dirs  $items(1)
 
     return $retval
 

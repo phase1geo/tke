@@ -916,14 +916,15 @@ namespace eval gui {
 
   ######################################################################
   # Returns 1 if the given file exists in one of the notebooks.
-  proc file_exists_in_nb {fname} {
+  proc file_exists_in_nb {fname remote} {
 
     variable files
     variable files_index
 
     # Attempt to find the file index for the given filename and check the diff bit
     foreach index [lsearch -all -index $files_index(fname) $files $fname] {
-      if {[lindex $files $index $files_index(diff)] == 0} {
+      if {([lindex $files $index $files_index(diff)] == 0) && \
+          ([lindex $files $index $files_index(remote)] eq $remote)} {
         return 1
       }
     }
