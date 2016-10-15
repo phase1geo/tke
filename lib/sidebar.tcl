@@ -147,7 +147,8 @@ namespace eval sidebar {
 
     $widgets(tl) columnconfigure 0 -name name   -editable 0 -formatcommand "sidebar::format_name"
     $widgets(tl) columnconfigure 1 -name ocount -editable 0 -hide 1
-    $widgets(tl) columnconfigure 2 -name remote -editable 0 -hide 1
+    $widgets(tl) columnconfigure 2 -name isdir  -editable 0 -hide 1
+    $widgets(tl) columnconfigure 3 -name remote -editable 0 -hide 1
 
     bind $widgets(tl)           <<TablelistSelect>>     "sidebar::handle_selection"
     bind [$widgets(tl) bodytag] <Button-$::right_click> "sidebar::handle_right_click %W %x %y"
@@ -593,7 +594,7 @@ namespace eval sidebar {
     }
 
     # If no match was found, add it at the ordered index
-    set parent [$widgets(tl) insertchild $opts(-parent) $index [list $dir_path 0 $opts(-remote)]]
+    set parent [$widgets(tl) insertchild $opts(-parent) $index [list $dir_path 0 0 $opts(-remote)]]
 
     # Add the directory contents
     add_subdirectory $parent $opts(-remote)
@@ -613,11 +614,11 @@ namespace eval sidebar {
     foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
 
       if {[file isdirectory $name]} {
-        set child [$widgets(tl) insertchild $parent end [list $name 0 $remote]]
+        set child [$widgets(tl) insertchild $parent end [list $name 0 1 $remote]]
         $widgets(tl) collapse $child
       } else {
         if {![ignore_file $name]} {
-          set key [$widgets(tl) insertchild $parent end [list $name 0 $remote]]
+          set key [$widgets(tl) insertchild $parent end [list $name 0 0 $remote]]
           if {[gui::file_exists_in_nb $name]} {
             $widgets(tl) cellconfigure $key,name -image sidebar_open
             update_root_count $key 1
@@ -653,9 +654,17 @@ namespace eval sidebar {
   # Handles directory/file ordering issues
   proc order_files_dirs {dir remote} {
 
-    # TODO - Use remote indicator to perform FTP request and sort directories/files based on that info
-
-    if {[preferences::get Sidebar/FoldersAtTop]} {
+    if {$remote ne ""} {
+      if {[ftper::dir_contents $remote $dir dirs files]} {
+        if {[preferences::get Sidebar/FoldersAtTop]} {
+          return [concat [lsort $dirs] [lsort $files]]
+        } else {
+          return [lsort -unique [concat $dirs $files]]
+        }
+      } else {
+        return [list]
+      }
+    } elseif {[preferences::get Sidebar/FoldersAtTop]} {
       if {[namespace exists ::freewrap]} {
         set items [lsort -unique [glob -nocomplain -directory $dir *]]
         return [concat [lmap item $items {expr {[file isdirectory $item] ? $item : [continue]}}] \

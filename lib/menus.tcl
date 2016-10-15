@@ -633,7 +633,11 @@ namespace eval menus {
 
     # Add the files to the editing area
     foreach ofile $ofiles {
-      gui::add_file end $ofile -remote $conn_name
+      if {[lassign $ofile fname]} {
+        sidebar::add_directory $fname -remote $conn_name
+      } else {
+        gui::add_file end $fname -remote $conn_name
+      }
     }
 
   }
