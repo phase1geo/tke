@@ -134,7 +134,7 @@ namespace eval sidebar {
 
     # Add the file tree elements
     set widgets(tl) \
-      [tablelist::tablelist $w.tl -columns {0 {} 0 {} 0 {}} -showlabels 0 -exportselection 0 \
+      [tablelist::tablelist $w.tl -columns {0 {} 0 {} 0 {} 0 {}} -showlabels 0 -exportselection 0 \
         -treecolumn 0 -treestyle aqua -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
         -relief flat -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg \
         -foreground $fg -background $bg -selectmode extended \
@@ -613,13 +613,16 @@ namespace eval sidebar {
     # Get the folder contents and sort them
     foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
 
-      if {[file isdirectory $name]} {
-        set child [$widgets(tl) insertchild $parent end [list $name 0 1 $remote]]
+      puts "name: $name"
+      lassign $name fname dir
+
+      if {$dir} {
+        set child [$widgets(tl) insertchild $parent end [list $fname 0 1 $remote]]
         $widgets(tl) collapse $child
       } else {
-        if {![ignore_file $name]} {
-          set key [$widgets(tl) insertchild $parent end [list $name 0 0 $remote]]
-          if {[gui::file_exists_in_nb $name]} {
+        if {![ignore_file $fname]} {
+          set key [$widgets(tl) insertchild $parent end [list $fname 0 0 $remote]]
+          if {[gui::file_exists_in_nb $fname $remote]} {
             $widgets(tl) cellconfigure $key,name -image sidebar_open
             update_root_count $key 1
           }
@@ -651,29 +654,24 @@ namespace eval sidebar {
   }
 
   ######################################################################
-  # Handles directory/file ordering issues
+  # Gathers the given directory's contents and handles directory/file
+  # ordering issues.
   proc order_files_dirs {dir remote} {
 
+    set items [list]
+
     if {$remote ne ""} {
-      if {[ftper::dir_contents $remote $dir dirs files]} {
-        if {[preferences::get Sidebar/FoldersAtTop]} {
-          return [concat [lsort $dirs] [lsort $files]]
-        } else {
-          return [lsort -unique [concat $dirs $files]]
-        }
-      } else {
-        return [list]
-      }
-    } elseif {[preferences::get Sidebar/FoldersAtTop]} {
-      if {[namespace exists ::freewrap]} {
-        set items [lsort -unique [glob -nocomplain -directory $dir *]]
-        return [concat [lmap item $items {expr {[file isdirectory $item] ? $item : [continue]}}] \
-                       [lmap item $items {expr {[file isfile      $item] ? $item : [continue]}}]]
-      } else {
-        return [concat [lsort [glob -nocomplain -directory $dir -types d *]] [lsort [glob -nocomplain -directory $dir -types f *]]]
-      }
+      ftper::dir_contents $remote $dir items
     } else {
-      return [lsort -unique [glob -nocomplain -directory $dir *]]
+      foreach fname [glob -nocomplain -directory $dir *] {
+        lappend items [list $fname [file isdirectory $fname]]
+      }
+    }
+
+    if {[preferences::get Sidebar/FoldersAtTop]} {
+      return [list {*}[lsort -index 0 [lsearch -inline -index 1 $items 1]] {*}[lsort -index 0 [lsearch -inline -index 1 $items 0]]]
+    } else {
+      return [lsort -unique -index 0 $items]
     }
 
   }
@@ -713,7 +711,7 @@ namespace eval sidebar {
     # ignored file patterns)
     set dir_files [list]
     foreach dir_file [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
-      if {![ignore_file $dir_file]} {
+      if {![ignore_file [lindex $dir_file 0]]} {
         lappend dir_files $dir_file
       }
     }
@@ -721,22 +719,22 @@ namespace eval sidebar {
     set dir_files [lassign $dir_files dir_file]
     foreach child [$widgets(tl) childkeys $parent] {
       set tl_file [$widgets(tl) cellcget $child,name -text]
-      set compare [string compare $tl_file $dir_file]
+      set compare [string compare $tl_file [lindex $dir_file 0]]
       if {($compare == -1) || ($dir_file eq "")} {
         $widgets(tl) delete $child
       } else {
         while {1} {
           if {$compare == 1} {
-            set node [$widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list $dir_file 0 $remote]]
-            if {[file isdirectory $dir_file]} {
+            set node [$widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list [lindex $dir_file 0] 0 [lindex $dir_file 1] $remote]]
+            if {[lindex $dir_file 1]} {
               $widgets(tl) collapse $node
-            } elseif {[gui::file_exists_in_nb $dir_file]} {
+            } elseif {[gui::file_exists_in_nb [lindex $dir_file 0] $remote]} {
               $widgets(tl) cellconfigure $node,name -image sidebar_open
             }
           }
           set dir_files [lassign $dir_files dir_file]
           if {($compare == 0) || ($dir_file eq "")} { break }
-          set compare [string compare $tl_file $dir_file]
+          set compare [string compare $tl_file [lindex $dir_file 0]]
         }
       }
     }
@@ -800,14 +798,14 @@ namespace eval sidebar {
       # Compare the children of the parent to the given fname
       set i 0
       foreach child [$widgets(tl) childkeys $parent] {
-        if {[file isfile [set name [$widgets(tl) cellcget $child,name -text]]]} {
+        if {[$widgets(tl) cellcget $child,isdir -text] == 0} {
           set compare [string compare $fname [$widgets(tl) cellcget $child,name -text]]
           if {$compare == 0} {
             $widgets(tl) cellconfigure $child,name -image sidebar_open
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
-            set node [$widgets(tl) insertchild $parent $i [list $fname 0 $remote]]
+            set node [$widgets(tl) insertchild $parent $i [list $fname 0 0 $remote]]
             $widgets(tl) cellconfigure $node,name -image sidebar_open
             update_root_count $node 1
             return
@@ -817,7 +815,7 @@ namespace eval sidebar {
       }
 
       # Insert the file at the end of the parent
-      set node [$widgets(tl) insertchild $parent end [list $fname 0 $remote]]
+      set node [$widgets(tl) insertchild $parent end [list $fname 0 0 $remote]]
       $widgets(tl) cellconfigure $node,name -image sidebar_open
       update_root_count $node 1
 
@@ -1501,7 +1499,7 @@ namespace eval sidebar {
       # Add the file to the sidebar (just below the currently selected line)
       set new_row [$widgets(tl) insertchild \
         [$widgets(tl) parentkey $row] [expr [$widgets(tl) childindex $row] + 1] \
-        [list $dup_fname 0 $remote]]
+        [list $dup_fname 0 0 $remote]]
 
       # Allow any plugins to handle the rename
       plugins::handle_on_duplicate $fname $dup_fname
