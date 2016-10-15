@@ -132,7 +132,7 @@ namespace eval ftper {
 
     ttk::frame .ftp.pw.rf.vf.ff
     set widgets(tl) [tablelist::tablelist .ftp.pw.rf.vf.ff.tl \
-      -columns {0 {File System}} -treecolumn 0 -exportselection 0 \
+      -columns {0 {File System} 0 {}} -treecolumn 0 -exportselection 0 \
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
       -expandcommand  [list ftper::handle_table_expand] \
       -xscrollcommand [list utils::set_xscrollbar .ftp.pw.rf.vf.ff.hb] \
@@ -141,6 +141,7 @@ namespace eval ftper {
     ttk::scrollbar .ftp.pw.rf.vf.ff.hb -orient horizontal -command [list .ftp.pw.rf.vf.ff.tl xview]
 
     $widgets(tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list ftper::format_name]
+    $widgets(tl) columnconfigure 1 -name dir   -hide 1
 
     bind $widgets(tl) <<TablelistSelect>> [list ftper::handle_tl_select]
 
@@ -580,9 +581,7 @@ namespace eval ftper {
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
     # Connect to the FTP server and add the directory
-    if {[set connection [connect $data(name)]] != -1} {
-      add_directory $connection $widgets(tl) root [lindex $settings 5]
-    }
+    add_directory $data(name) $widgets(tl) root [lindex $settings 5]
 
   }
 
@@ -950,9 +949,9 @@ namespace eval ftper {
   # Handles a table directory expansion.
   proc handle_table_expand {tbl row} {
 
-    variable connection
+    variable data
 
-    add_directory $connection $tbl $row [$tbl cellcget $row,fname -text]
+    add_directory $data(name) $tbl $row [$tbl cellcget $row,fname -text]
 
   }
 
@@ -1160,7 +1159,7 @@ namespace eval ftper {
     # Get the filename
     set data(fname) [list]
     foreach select $selected {
-      lappend data(fname) [$widgets(tl) cellcget $select,fname -text]
+      lappend data(fname) [list [$widgets(tl) cellcget $select,fname -text] [$widgets(tl) cellcget $select,dir -text]]
     }
 
     # Kill the window
@@ -1191,22 +1190,20 @@ namespace eval ftper {
 
   ######################################################################
   # Adds a new directory to the given table.
-  proc add_directory {connection tbl parent directory} {
+  proc add_directory {name tbl parent directory} {
 
     # Delete the children of the given parent in the table
     $tbl delete [$tbl childkeys $parent]
 
     # Add the new directory
-    foreach finfo [::ftp::List $connection $directory] {
-      set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
-      set fname "[lrange $finfo 8 end]"
-      if {[string index $fname 0] eq "."} {
-        continue
-      }
-      set row   [$tbl insertchild $parent end [file join $directory $fname]]
-      if {$dir} {
+    if {[dir_contents $name $directory dirs files]} {
+      foreach fname [lsort $dirs] {
+        set row [$tbl insertchild $parent end [list $fname 1]]
         $tbl insertchild $row end [list]
         $tbl collapse $row
+      }
+      foreach fname [lsort $files] {
+        $tbl insertchild $parent end [list $fname 0]
       }
     }
 
@@ -1295,6 +1292,41 @@ namespace eval ftper {
     }
 
     return $mtime
+
+  }
+
+  ######################################################################
+  # Returns a list of two items such that the first list is a listing
+  # of directories in the given directory and the second list is a listing
+  # of files in the given directory.
+  proc dir_contents {name dirname pdirs pfiles} {
+
+    upvar $pdirs  dirs
+    upvar $pfiles files
+
+    array set items {
+      0 {}
+      1 {}
+    }
+
+    set retval 0
+
+    if {[set connection [connect $name]] != -1} {
+      set retval 1
+      foreach finfo [::ftp::List $connection $dirname] {
+        set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
+        set fname "[lrange $finfo 8 end]"
+        if {[string index $fname 0] ne "."} {
+          lappend items($dir) [file join $dirname $fname]
+        }
+      }
+      disconnect $connection
+    }
+
+    set files $items(0)
+    set dirs  $items(1)
+
+    return $retval
 
   }
 
