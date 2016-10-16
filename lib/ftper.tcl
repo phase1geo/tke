@@ -55,7 +55,7 @@ namespace eval ftper {
     variable data
 
     toplevel     .ftp
-    wm title     .ftp [expr {($type eq "open") ? [msgcat::mc "Open File"] : [msgcat::mc "Save File"]}]
+    wm title     .ftp [expr {($type eq "open") ? [msgcat::mc "Open Remote File"] : [msgcat::mc "Save File Remotely"]}]
     wm transient .ftp .
     wm geometry  .ftp 600x400
 
@@ -1197,13 +1197,13 @@ namespace eval ftper {
 
     # Add the new directory
     if {[dir_contents $name $directory items]} {
-      foreach fname [lsort [lsearch -inline -index 1 $items 1] {
-        set row [$tbl insertchild $parent end [list $fname 1]]
+      foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 1]] {
+        set row [$tbl insertchild $parent end $fname]
         $tbl insertchild $row end [list]
         $tbl collapse $row
       }
-      foreach fname [lsort [lsearch -inline -index 1 $items 0] {
-        $tbl insertchild $parent end [list $fname 0]
+      foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 0]] {
+        $tbl insertchild $parent end $fname
       }
     }
 
@@ -1271,7 +1271,7 @@ namespace eval ftper {
 
     set retval 0
 
-    if {[set connection [connect $name] != -1]} {
+    if {[set connection [connect $name]] != -1} {
       set retval [expr [lsearch [::ftp::NList $connection [file dirname $fname]] [file tail $fname]] != -1]
       disconnect $connection
     }
@@ -1411,13 +1411,14 @@ namespace eval ftper {
       return 0
     }
 
-    # Delete the list of directories
-    set retval [::ftp::Rename $connection $curr_fname $new_fname]
+    # Change the current directory
+    if {[::ftp::Cd $connection [file dirname $curr_fname]]} {
+      set retval [::ftp::Rename $connection [file tail $curr_fname] $new_fname]
+      disconnect $connection
+      return $retval
+    }
 
-    # Disconnect from the server
-    disconnect $connection
-
-    return $retval
+    return 0
 
   }
 
@@ -1454,9 +1455,11 @@ namespace eval ftper {
       return 0
     }
 
+    set retval 1
+
     # Delete the list of directories
     foreach fname $fnames {
-      ::ftp::Delete $connection $fname
+      set retval [expr [::ftp::Delete $connection $fname] && $retval]
     }
 
     # Disconnect from the server

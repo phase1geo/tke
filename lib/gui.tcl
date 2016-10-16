@@ -116,11 +116,10 @@ namespace eval gui {
   # Returns 1 if the given filename exists (either locally or remotely).
   proc file_exists {fname} {
 
-    set remote [get_info $fname fname remote]
-
-    if {$remote eq ""} {
+    if {[set remote [get_info $fname fname remote]] eq ""} {
       return [file exists $fname]
     } else {
+      puts "fname: $fname"
       return [[ns ftper]::file_exists $remote $fname]
     }
 
@@ -968,11 +967,12 @@ namespace eval gui {
       foreach tab [$nb.tbf.tb tabs] {
 
         # Get the file tab information
-        lassign [get_info $tab tab {paneindex txt fname save_cmd lock readonly diff sidebar buffer remember}] \
-          finfo(pane) txt finfo(fname) finfo(savecommand) finfo(lock) finfo(readonly) finfo(diff) finfo(sidebar) finfo(buffer) finfo(remember)
+        lassign [get_info $tab tab {paneindex txt fname save_cmd lock readonly diff sidebar buffer remember remote}] \
+          finfo(pane) txt finfo(fname) finfo(savecommand) finfo(lock) finfo(readonly) finfo(diff) finfo(sidebar) \
+          finfo(buffer) finfo(remember) remote
 
         # If we need to forget this file, don't save it to the session
-        if {!$finfo(remember)} {
+        if {!$finfo(remember) || ($remote ne "")} {
           continue
         }
 
