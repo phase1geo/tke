@@ -39,7 +39,9 @@ namespace eval sidebar {
 
     set dirs [list]
     foreach child [$widgets(tl) childkeys root] {
-      lappend dirs [list name [$widgets(tl) cellcget $child,name -text]]
+      if {[$widgets(tl) cellcget $child,remote -text] eq ""} {
+        lappend dirs [list name [$widgets(tl) cellcget $child,name -text]]
+      }
     }
 
     return [list directories $dirs last_opened $last_opened]
@@ -281,7 +283,7 @@ namespace eval sidebar {
 
     if {[$widgets(tl) parentkey $row] eq "root"} {
       return "root"
-    } elseif {[file isdirectory [$widgets(tl) cellcget $row,name -text]]} {
+    } elseif {[$widgets(tl) cellcget $row,isdir -text]} {
       return "dir"
     } else {
       return "file"
@@ -412,7 +414,8 @@ namespace eval sidebar {
     set one_state  [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
     set hide_state "disabled"
     set show_state "disabled"
-    set first_row [lindex $rows 0]
+    set first_row  [lindex $rows 0]
+    set diff_state [expr {([$widgets(tl) cellcget $first_row,remote -text] eq "") ? $one_state : "disabled"}]
 
     # Calculate the hide and show menu states
     set fg [$widgets(tl) cget -foreground]
@@ -436,7 +439,7 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Show"] -command [list sidebar::show_file $rows] -state $show_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command [list sidebar::show_file_diff $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command [list sidebar::show_file_diff $first_row] -state $diff_state
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"]   -command [list sidebar::copy_pathname $first_row]  -state $one_state
     $widgets(menu) add separator
 
@@ -489,6 +492,7 @@ namespace eval sidebar {
     switch $attr {
       fname      { return [$widgets(tl) cellcget $index,name -text] }
       file_index { return [gui::get_info [$widgets(tl) cellcget $index,name -text] fname fileindex] }
+      is_dir     { return [$widgets(tl) cellcget $index,isdir -text] }
       default    {
         return -code error "Illegal sidebar attribute specified ($attr)"
       }
@@ -613,7 +617,6 @@ namespace eval sidebar {
     # Get the folder contents and sort them
     foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
 
-      puts "name: $name"
       lassign $name fname dir
 
       if {$dir} {
@@ -669,7 +672,7 @@ namespace eval sidebar {
     }
 
     if {[preferences::get Sidebar/FoldersAtTop]} {
-      return [list {*}[lsort -index 0 [lsearch -inline -index 1 $items 1]] {*}[lsort -index 0 [lsearch -inline -index 1 $items 0]]]
+      return "[lsort -index 0 [lsearch -inline -all -index 1 $items 1]] [lsort -index 0 [lsearch -inline -all -index 1 $items 0]]"
     } else {
       return [lsort -unique -index 0 $items]
     }
@@ -908,14 +911,14 @@ namespace eval sidebar {
 
     if {$row != -1} {
 
-      if {[file isfile [$widgets(tl) cellcget $row,name -text]]} {
+      if {[$widgets(tl) cellcget $row,isdir -text] == 0} {
 
         # Select the file
         $widgets(tl) selection clear 0 end
         $widgets(tl) selection set $row
 
         # Open the file in the viewer
-        gui::add_file end [$widgets(tl) cellcget $row,name -text]
+        gui::add_file end [$widgets(tl) cellcget $row,name -text] -remote [$widgets(tl) cellcget $row,remote -text]
 
       } else {
 
@@ -940,10 +943,10 @@ namespace eval sidebar {
     # Get the currently selected rows
     foreach row [$widgets(tl) curselection] {
 
-      if {[file isfile [$widgets(tl) cellcget $row,name -text]]} {
+      if {[$widgets(tl) cellcget $row,isdir -text] == 0} {
 
         # Open the file in the viewer
-        gui::add_file end [$widgets(tl) cellcget $row,name -text]
+        gui::add_file end [$widgets(tl) cellcget $row,name -text] -remote [$widgets(tl) cellcget $row,remote -text]
 
       } else {
 
@@ -988,22 +991,29 @@ namespace eval sidebar {
 
     # Normalize the pathname
     if {[file pathtype $fname] eq "relative"} {
-      set fname [file normalize [file join [$widgets(tl) cellcget $row,name -text] $fname]]
+      set fname [file join [$widgets(tl) cellcget $row,name -text] $fname]
     }
+
+    # Get the remote status
+    set remote [$widgets(tl) cellcget $row,remote -text]
 
     # Create the file
-    if {![catch { open $fname w } rc]} {
-
-      # Close the file
+    if {$remote eq ""} {
+      if {[catch { open $fname w } rc]} {
+        return
+      }
       close $rc
-
-      # Expand the directory
-      $widgets(tl) expand $row -partly
-
-      # Create an empty file
-      gui::add_file end $fname
-
+    } else {
+      if {[ftper::save_file $remote $fname "" modtime]} {
+        return
+      }
     }
+
+    # Expand the directory
+    $widgets(tl) expand $row -partly
+
+    # Create an empty file
+    gui::add_file end $fname -remote $remote
 
   }
 
@@ -1040,19 +1050,28 @@ namespace eval sidebar {
 
     # Normalize the pathname
     if {[file pathtype $dname] eq "relative"} {
-      set dname [file normalize [file join [$widgets(tl) cellcget $row,name -text] $dname]]
+      set dname [file join [$widgets(tl) cellcget $row,name -text] $dname]
     }
+
+    # Get the remote status
+    set remote [$widgets(tl) cellcget $row,remote -text]
 
     # Create the directory
-    if {![catch { file mkdir $dname }]} {
-
-      # Expand the directory
-      $widgets(tl) expand $row -partly
-
-      # Update the directory
-      update_directory $row
-
+    if {$remote eq ""} {
+      if {[catch { file mkdir $dname }]} {
+        return
+      }
+    } else {
+      if {![ftper::make_directory $remote $dname]} {
+        return
+      }
     }
+
+    # Expand the directory
+    $widgets(tl) expand $row -partly
+
+    # Update the directory
+    update_directory $row
 
   }
 
@@ -1069,8 +1088,9 @@ namespace eval sidebar {
       # Open all of the children that are not already opened
       foreach child [$widgets(tl) childkeys $row] {
         set name [$widgets(tl) cellcget $child,name -text]
-        if {([$widgets(tl) cellcget $child,name -image] eq "") && [file isfile $name]} {
-          set tab [gui::add_file end $name -lazy 1]
+        if {([$widgets(tl) cellcget $child,name -image] eq "") && \
+            ([$widgets(tl) cellcget $child,isdir -text] == 0)} {
+          set tab [gui::add_file end $name -lazy 1 -remote [$widgets(tl) cellcget $child,remote -text]]
         }
       }
 
@@ -1162,25 +1182,31 @@ namespace eval sidebar {
         return
       }
 
-      # Normalize the folder
-      set fname [file normalize $fname]
-
       # Allow any plugins to handle the rename
       plugins::handle_on_rename $old_name $fname
 
+      # Get the remote status
+      set remote [$widgets(tl) cellcget $row,remote -text]
+
       # Perform the rename operation
-      if {![catch { file rename -force $old_name $fname } rc]} {
-
-        # If this is a displayed file, update the file information
-        gui::change_folder $old_name $fname
-
-        # Delete the old directory
-        $widgets(tl) delete $row
-
-        # Add the file directory
-        update_directory [add_directory $fname]
-
+      if {$remote eq ""} {
+        if {[catch { file rename -force $old_name $fname } rc]} {
+          return
+        }
+      } else {
+        if {![ftper::rename_file $remote $old_name $fname]} {
+          return
+        }
       }
+
+      # If this is a displayed file, update the file information
+      gui::change_folder $old_name $fname
+
+      # Delete the old directory
+      $widgets(tl) delete $row
+
+      # Add the file directory
+      update_directory [add_directory $fname]
 
     }
 
@@ -1211,13 +1237,18 @@ namespace eval sidebar {
         # Allow any plugins to handle the rename
         plugins::handle_on_delete $dirpath
 
-        # Delete the folder
-        if {![catch { file delete -force $dirpath }]} {
-
-          # Remove the directory from the file browser
-          $widgets(tl) delete $row
-
+        if {$remote eq ""} {
+          if {[catch { file delete -force $dirpath }]} {
+            continue
+          }
+        } else {
+          if {![ftper::remove_directories $remote [list $dirpath]]} {
+            continue
+          }
         }
+
+        # Remove the directory from the file browser
+        $widgets(tl) delete $row
 
       }
 
@@ -1350,7 +1381,7 @@ namespace eval sidebar {
 
     # Add the files to the notebook
     foreach row $rows {
-      set tab [gui::add_file end [$widgets(tl) cellcget $row,name -text] -lazy 1]
+      set tab [gui::add_file end [$widgets(tl) cellcget $row,name -text] -lazy 1 -remote [$widgets(tl) cellcget $row,remote -text]]
     }
 
     # Make the last tab visible
@@ -1441,6 +1472,9 @@ namespace eval sidebar {
     # Get the current name
     set old_name [set fname [$widgets(tl) cellcget $row,name -text]]
 
+    # Get the remote status
+    set remote [$widgets(tl) cellcget $row,remote -text]
+
     # Get the new name from the user
     if {[gui::get_user_response [msgcat::mc "File Name:"] fname]} {
 
@@ -1449,25 +1483,38 @@ namespace eval sidebar {
         return
       }
 
-      # Normalize the filename
-      set fname [file normalize $fname]
+      if {$remote eq ""} {
 
-      # Allow any plugins to handle the rename
-      plugins::handle_on_rename $old_name $fname
+        # Normalize the filename
+        set fname [file normalize $fname]
 
-      # Perform the rename operation
-      if {![catch { file rename -force $old_name $fname }]} {
+        # Allow any plugins to handle the rename
+        plugins::handle_on_rename $old_name $fname
 
-        # Update the file information (if necessary)
-        gui::change_filename $old_name $fname
+        # Perform the rename operation
+        if {[catch { file rename -force $old_name $fname }]} {
+          return
+        }
 
-        # Add the file directory
-        update_directory [add_directory [file dirname $fname]]
+      } else {
 
-        # Update the old directory
-        after idle [list sidebar::update_directory [$widgets(tl) parentkey $row]]
+        # Allow any plugins to handle the rename
+        plugins::handle_on_rename $old_name $fname
+
+        if {![ftper::rename_file $remote $old_name $fname]} {
+          return
+        }
 
       }
+
+      # Update the file information (if necessary)
+      gui::change_filename $old_name $fname
+
+      # Add the file directory
+      update_directory [add_directory [file dirname $fname]]
+
+      # Update the old directory
+      after idle [list sidebar::update_directory [$widgets(tl) parentkey $row]]
 
     }
 
@@ -1489,22 +1536,29 @@ namespace eval sidebar {
     # Create the default name of the duplicate file
     set dup_fname "[file rootname $fname] Copy[file extension $fname]"
     set num       1
-    while {[file exists $dup_fname]} {
-      set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
+    if {$remote eq ""} {
+      while {[file exists $dup_fname]} {
+        set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
+      }
+      if {[catch { file copy $fname $dup_fname }]} {
+        return
+      }
+    } else {
+      while {[ftper::file_exists $remote $dup_fname]} {
+        set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
+      }
+      if {![ftper::duplicate_file $remote $fname $dup_fname]} {
+        return
+      }
     }
 
-    # Copy the file to create the duplicate
-    if {![catch { file copy $fname $dup_fname } rc]} {
+    # Add the file to the sidebar (just below the currently selected line)
+    set new_row [$widgets(tl) insertchild \
+      [$widgets(tl) parentkey $row] [expr [$widgets(tl) childindex $row] + 1] \
+      [list $dup_fname 0 0 $remote]]
 
-      # Add the file to the sidebar (just below the currently selected line)
-      set new_row [$widgets(tl) insertchild \
-        [$widgets(tl) parentkey $row] [expr [$widgets(tl) childindex $row] + 1] \
-        [list $dup_fname 0 0 $remote]]
-
-      # Allow any plugins to handle the rename
-      plugins::handle_on_duplicate $fname $dup_fname
-
-    }
+    # Allow any plugins to handle the rename
+    plugins::handle_on_duplicate $fname $dup_fname
 
   }
 
@@ -1530,23 +1584,32 @@ namespace eval sidebar {
         # Get the full pathname
         set fname [$widgets(tl) cellcget $row,name -text]
 
+        # Get the remote status
+        set remote [$widgets(tl) cellcget $row,remote -text]
+
         # Allow any plugins to handle the rename
         plugins::handle_on_delete $fname
 
         # Delete the file
-        if {![catch { file delete -force $fname }]} {
-
-          # Get the background color before we delete the row
-          set bg [$widgets(tl) cellcget $row,name -image]
-
-          # Delete the row in the table
-          $widgets(tl) delete $row
-
-          # Close the tab if the file is currently in the notebook
-          if {$bg ne ""} {
-            lappend fnames $fname
+        if {$remote eq ""} {
+          if {[catch { file delete -force $fname }]} {
+            continue
           }
+        } else {
+          if {![ftper::remove_files $remote [list $fname]]} {
+            continue
+          }
+        }
 
+        # Get the background color before we delete the row
+        set bg [$widgets(tl) cellcget $row,name -image]
+
+        # Delete the row in the table
+        $widgets(tl) delete $row
+
+        # Close the tab if the file is currently in the notebook
+        if {$bg ne ""} {
+          lappend fnames $fname
         }
 
       }
@@ -1576,7 +1639,7 @@ namespace eval sidebar {
     set files [list]
 
     for {set i 0} {$i < [$widgets(tl) size]} {incr i} {
-      if {[file isfile [set name [$widgets(tl) cellcget $i,name -text]]]} {
+      if {[$widgets(tl) cellcget $i,isdir -text] == 0} {
         lappend files [list [$widgets(tl) cellcget $i,name -text] $i]
       }
     }
@@ -1598,17 +1661,19 @@ namespace eval sidebar {
 
     # Gather the lists of files, opened files and opened directories
     for {set i 0} {$i < [$widgets(tl) size]} {incr i} {
-      set name [$widgets(tl) cellcget $i,name -text]
-      if {[file isdirectory $name]} {
-        if {[$widgets(tl) isexpanded $i] || ([$widgets(tl) parentkey $i] eq "root")} {
-          lappend odirs $name
+      if {[$widgets(tl) cellcget $i,remote -text] eq ""} {
+        set name [$widgets(tl) cellcget $i,name -text]
+        if {[$widgets(tl) cellcget $i,isdir -text]} {
+          if {[$widgets(tl) isexpanded $i] || ([$widgets(tl) parentkey $i] eq "root")} {
+            lappend odirs $name
+          }
+          lappend fif_files [list $name $name]
+        } else {
+          if {[$widgets(tl) cellcget $i,name -image] ne ""} {
+            lappend ofiles $name
+          }
+          lappend fif_files [list $name $name]
         }
-        lappend fif_files [list $name $name]
-      } else {
-        if {[$widgets(tl) cellcget $i,name -image] ne ""} {
-          lappend ofiles $name
-        }
-        lappend fif_files [list $name $name]
       }
     }
 
