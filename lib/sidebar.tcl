@@ -1004,9 +1004,14 @@ namespace eval sidebar {
       }
       close $rc
     } else {
+      catch {
+        puts "fname: $fname"
       if {[ftper::save_file $remote $fname "" modtime]} {
+        puts "Failed to save_file"
         return
       }
+      } rc
+      puts "rc: $rc"
     }
 
     # Expand the directory
@@ -1285,6 +1290,13 @@ namespace eval sidebar {
     variable widgets
 
     foreach row [lreverse $rows] {
+
+      # Disconnect the FTP connection if the directory is a root directory
+      if {[$widgets(tl) parentkey $row] eq "root"} {
+        if {[set remote [$widgets(tl) cellcget $row,remote -text]] ne ""} {
+          ftper::disconnect $remote
+        }
+      }
 
       # Delete the row and its children
       $widgets(tl) delete $row

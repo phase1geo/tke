@@ -119,7 +119,6 @@ namespace eval gui {
     if {[set remote [get_info $fname fname remote]] eq ""} {
       return [file exists $fname]
     } else {
-      puts "fname: $fname"
       return [[ns ftper]::file_exists $remote $fname]
     }
 
