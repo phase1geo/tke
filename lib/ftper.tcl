@@ -89,7 +89,8 @@ namespace eval ftper {
     $widgets(sb) columnconfigure 1 -name settings -hide 1
     $widgets(sb) columnconfigure 2 -name passwd   -hide 1
 
-    bind [$widgets(sb) bodytag] <Double-Button-1>       [list ftper::handle_sb_select]
+    bind $widgets(sb)           <<TablelistSelect>>     [list ftper::handle_sb_select]
+    bind [$widgets(sb) bodytag] <Double-Button-1>       [list ftper::handle_sb_double_click]
     bind [$widgets(sb) bodytag] <Button-$::right_click> [list ftper::show_sidebar_menu %W %x %y %X %Y]
     bind $widgets(sb)           <<TablelistRowMoved>>   [list ftper::handle_row_moved %d]
 
@@ -119,7 +120,7 @@ namespace eval ftper {
     $widgets(group) add command -label [msgcat::mc "Delete Group"]   -command [list ftper::delete_group]
 
     set widgets(connection) [menu .ftp.connPopup -tearoff 0]
-    $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list ftper::handle_sb_select]
+    $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list ftper::handle_sb_double_click]
     $widgets(connection) add command -label [msgcat::mc "Close Connection"]  -command [list ftper::close_connection]
     $widgets(connection) add separator
     $widgets(connection) add command -label [msgcat::mc "Edit Connection"]   -command [list ftper::edit_connection]
@@ -561,8 +562,36 @@ namespace eval ftper {
   }
 
   ######################################################################
-  # Handles a selection of a connection.
+  # Handles a single select of the sidebar tablelist.
   proc handle_sb_select {} {
+
+    variable widgets
+    variable opened
+
+    # Get the selection
+    set selected [$widgets(sb) curselection]
+
+    # We don't want to do anything when double-clicking a group
+    if {[set parent [$widgets(sb) parentkey $selected]] eq "root"} {
+      return
+    }
+
+    # Get the group name
+    set group [$widgets(sb) cellcget $parent,name -text]
+
+    # Get the remote name
+    set name "$group,[$widgets(sb) cellcget $selected,name -text]"
+
+    # If the connection is already opened, immediately display the directory contents
+    if {[info exists opened($name)]} {
+      handle_sb_double_click
+    }
+
+  }
+
+  ######################################################################
+  # Handles a selection of a connection.
+  proc handle_sb_double_click {} {
 
     variable widgets
     variable data
@@ -585,12 +614,9 @@ namespace eval ftper {
     # Get settings
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
-    # Open the connection
+    # Connect to the FTP server and add the directory
     if {[connect $data(name)]} {
-
-      # Connect to the FTP server and add the directory
       add_directory $data(name) $widgets(tl) root [lindex $settings 5]
-
     }
 
   }
@@ -1392,13 +1418,17 @@ namespace eval ftper {
 
     if {[set connection [connect $name]] != -1} {
       puts "Connected!"
-      if {[::ftp::Put $connection -data $contents $fname]} {
-        puts "Put worked!"
-        set modtime [::ftp::ModTime $connection $fname]
-        puts "modtime: $modtime"
-        return 1
+      if {[::ftp::Cd $connection [file dirname $fname]]} {
+        if {[::ftp::Put $connection -data $contents [file tail $fname]]} {
+          puts "Put worked!"
+          set modtime [::ftp::ModTime $connection $fname]
+          puts "modtime: $modtime"
+          return 1
+        } else {
+          puts "Put failed!"
+        }
       } else {
-        puts "Put failed!"
+        puts "Put cd failed!"
       }
     }
 
