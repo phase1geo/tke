@@ -207,6 +207,16 @@ namespace eval emmet {
     return [lookup_alias_helper abbreviation_aliases $alias]
 
   }
+  
+  ######################################################################
+  # Get the alias information.
+  proc get_aliases {} {
+    
+    variable customizations
+    
+    return [array get customizations]
+    
+  }
 
   ######################################################################
   # Returns a list of files/directories used by the Emmet namespace for
