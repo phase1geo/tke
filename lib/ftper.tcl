@@ -46,6 +46,9 @@ namespace eval ftper {
   array set data        {}
   array set groups      {}
   array set connections {}
+  array set opened      {}
+
+  set ::ftp::DEBUG 1
 
   ######################################################################
   # Creates an FTP dialog box and returns the selected file.
@@ -117,8 +120,10 @@ namespace eval ftper {
 
     set widgets(connection) [menu .ftp.connPopup -tearoff 0]
     $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list ftper::handle_sb_select]
+    $widgets(connection) add command -label [msgcat::mc "Close Connection"]  -command [list ftper::close_connection]
     $widgets(connection) add separator
     $widgets(connection) add command -label [msgcat::mc "Edit Connection"]   -command [list ftper::edit_connection]
+    $widgets(connection) add command -label [msgcat::mc "Test Connection"]   -command [list ftper::test_connection]
     $widgets(connection) add separator
     $widgets(connection) add command -label [msgcat::mc "Delete Connection"] -command [list ftper::delete_connection]
 
@@ -580,8 +585,13 @@ namespace eval ftper {
     # Get settings
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
-    # Connect to the FTP server and add the directory
-    add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+    # Open the connection
+    if {[connect $data(name)]} {
+
+      # Connect to the FTP server and add the directory
+      add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+
+    }
 
   }
 
@@ -852,6 +862,30 @@ namespace eval ftper {
     # Make the editor pane visible
     pack forget $widgets(pw)
     pack $widgets(editor) -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Closes the currently opened connection
+  proc close_connection {} {
+
+    variable widgets
+    variable opened
+
+    # Get the currently selected connection
+    set selected [$widgets(sb) curselection]
+
+    # Get the group name
+    set group_name [$widgets(sb) cellcget [$widgets(sb) parentkey $selected],name -text]
+
+    # Get the connection name
+    set conn_name [$widgets(sb) cellcget $selected,name -text]
+
+    # Disconnect, if necessary
+    disconnect "$group_name,$conn_name"
+
+    # Clear the table
+    $widgets(tl) delete 0 end
 
   }
 
@@ -1172,16 +1206,13 @@ namespace eval ftper {
   proc handle_cancel {} {
 
     variable data
-    variable connection
+
+    # Disconnect
+    disconnect $data(name)
 
     # Indicate that no file was chosen
     set data(name)  ""
     set data(fname) ""
-
-    # Disconnect the connection
-    if {$connection != -1} {
-      disconnect $connection
-    }
 
     # Close the window
     destroy .ftp
@@ -1222,6 +1253,12 @@ namespace eval ftper {
 
     variable widgets
     variable connections
+    variable opened
+
+    # If we are alreay connected, return the connection
+    if {[info exists opened($name)]} {
+      return $opened($name)
+    }
 
     if {![info exists connections($name)]} {
       return -code error "Connection does not exist ($name)"
@@ -1251,16 +1288,22 @@ namespace eval ftper {
       }
     }
 
+    # Remember the connection
+    set opened($name) $connection
+
     return $connection
 
   }
 
   ######################################################################
   # Disconnects from the given FTP server.
-  proc disconnect {connection} {
+  proc disconnect {name} {
 
-    if {$connection != -1} {
-      ::ftp::Close $connection
+    variable opened
+
+    if {[info exists opened($name)]} {
+      ::ftp::Close $opened($name)
+      unset opened($name)
     }
 
   }
@@ -1269,14 +1312,11 @@ namespace eval ftper {
   # Returns 1 if the file exists on the server.
   proc file_exists {name fname} {
 
-    set retval 0
-
     if {[set connection [connect $name]] != -1} {
-      set retval [expr [lsearch [::ftp::NList $connection [file dirname $fname]] [file tail $fname]] != -1]
-      disconnect $connection
+      return [expr [lsearch [::ftp::NList $connection [file dirname $fname]] [file tail $fname]] != -1]
     }
 
-    return $retval
+    return 0
 
   }
 
@@ -1284,14 +1324,11 @@ namespace eval ftper {
   # Returns the modification time of the given file on the server.
   proc get_mtime {name fname} {
 
-    set mtime 0
-
     if {[set connection [connect $name]] != -1} {
-      set mtime [::ftp::ModTime $connection $fname]
-      disconnect $connection
+      return [::ftp::ModTime $connection $fname]
     }
 
-    return $mtime
+    return 0
 
   }
 
@@ -1303,8 +1340,6 @@ namespace eval ftper {
 
     upvar $pitems items
 
-    set retval 0
-
     if {[set connection [connect $name]] != -1} {
       set retval 1
       foreach finfo [::ftp::List $connection $dirname] {
@@ -1314,10 +1349,10 @@ namespace eval ftper {
           lappend items [list [file join $dirname $fname] $dir]
         }
       }
-      disconnect $connection
+      return 1
     }
 
-    return $retval
+    return 0
 
   }
 
@@ -1330,17 +1365,14 @@ namespace eval ftper {
     upvar $pcontents contents
     upvar $pmodtime  modtime
 
-    set retval 0
-
     if {[set connection [connect $name]] != -1} {
       if {[set modtime [::ftp::ModTime $connection $fname]] > $mtime} {
         ::ftp::Get $connection $fname -variable $pcontents
-        set retval 1
+        return 1
       }
-      disconnect $connection
     }
 
-    return $retval
+    return 0
 
   }
 
@@ -1351,11 +1383,23 @@ namespace eval ftper {
 
     upvar $pmodtime modtime
 
+    set retval 0
+
+    set ::ftp::VERBOSE 1
+    set ::ftp::DEBUG   1
+
+    puts "In save_file, name: $name, fname: $fname, contents: $contents"
+
     if {[set connection [connect $name]] != -1} {
-      ::ftp::Put $connection -data $contents $fname
-      set modtime [::ftp::ModTime $connection $fname]
-      disconnect $connection
-      return 1
+      puts "Connected!"
+      if {[::ftp::Put $connection -data $contents $fname]} {
+        puts "Put worked!"
+        set modtime [::ftp::ModTime $connection $fname]
+        puts "modtime: $modtime"
+        return 1
+      } else {
+        puts "Put failed!"
+      }
     }
 
     return 0
@@ -1372,12 +1416,7 @@ namespace eval ftper {
     }
 
     # Make the directory remotely
-    set retval [::ftp::MkDir $connection $dirname]
-
-    # Disconnect from the FTP server
-    disconnect $connection
-
-    return $retval
+    return [::ftp::MkDir $connection $dirname]
 
   }
 
@@ -1395,9 +1434,6 @@ namespace eval ftper {
       ::ftp::RmDir $connection $dirname
     }
 
-    # Disconnect from the server
-    disconnect $connection
-
     return 1
 
   }
@@ -1413,9 +1449,7 @@ namespace eval ftper {
 
     # Change the current directory
     if {[::ftp::Cd $connection [file dirname $curr_fname]]} {
-      set retval [::ftp::Rename $connection [file tail $curr_fname] $new_fname]
-      disconnect $connection
-      return $retval
+      return [::ftp::Rename $connection [file tail $curr_fname] $new_fname]
     }
 
     return 0
@@ -1433,16 +1467,11 @@ namespace eval ftper {
       return 0
     }
 
-    set retval 0
-
     if {[::ftp::Get $connection $fname -variable ftper::contents]} {
-      set retval [::ftp::Put $connection -data $contents $new_fname]
+      return [::ftp::Put $connection -data $contents $new_fname]
     }
 
-    # Disconnect from the server
-    disconnect $connection
-
-    return $retval
+    return 0
 
   }
 
@@ -1462,10 +1491,7 @@ namespace eval ftper {
       set retval [expr [::ftp::Delete $connection $fname] && $retval]
     }
 
-    # Disconnect from the server
-    disconnect $connection
-
-    return 1
+    return $retval
 
   }
 
