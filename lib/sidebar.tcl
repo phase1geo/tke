@@ -1004,14 +1004,9 @@ namespace eval sidebar {
       }
       close $rc
     } else {
-      catch {
-        puts "fname: $fname"
-      if {[ftper::save_file $remote $fname "" modtime]} {
-        puts "Failed to save_file"
+      if {![ftper::save_file $remote $fname " " modtime]} {
         return
       }
-      } rc
-      puts "rc: $rc"
     }
 
     # Expand the directory
@@ -1032,7 +1027,7 @@ namespace eval sidebar {
     variable widgets
 
     # Add the file
-    if {![catch { templates::show_templates load_rel [$widgets(tl) cellcget $row,name -text] }]} {
+    if {![catch { templates::show_templates load_rel [$widgets(tl) cellcget $row,name -text] -remote [$widgets(tl) cellcget $row,remote -text] }]} {
 
       # Expand the directory
       $widgets(tl) expand $row -partly

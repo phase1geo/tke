@@ -44,7 +44,7 @@ namespace eval templates {
   ######################################################################
   # Loads the contents of the specified template into a new buffer and
   # perform the snippet insertion.
-  proc load {name fname} {
+  proc load {name fname args} {
 
     variable data
 
@@ -58,7 +58,7 @@ namespace eval templates {
     close $rc
 
     # Add the buffer
-    set txt [[ns gui]::get_info [[ns gui]::add_new_file end -name $fname -sidebar 1] tab txt]
+    set txt [[ns gui]::get_info [[ns gui]::add_new_file end -name $fname -sidebar 1 {*}$args] tab txt]
 
     # Insert the content as a snippet
     [ns snippets]::insert_snippet $txt.t $contents
@@ -78,7 +78,7 @@ namespace eval templates {
 
     # Get the filename from the user
     if {[set fname [tk_getSaveFile -parent . -initialdir $dirname -confirmoverwrite 1 -title "New Filepath"]] ne ""} {
-      load $name $fname
+      load $name $fname {*}$args
     }
 
   }
@@ -93,12 +93,10 @@ namespace eval templates {
     if {[[ns gui]::get_user_response "File Name:" fname]} {
 
       # Normalize the pathname
-      if {[file pathtype $fname] eq "relative"} {
-        set fname [file normalize [file join [lindex $args 0] $fname]]
-      }
+      set fname [file join [lindex $args 0] [file tail $fname]]
 
       # Load the template
-      load $name $fname
+      load $name $fname {*}[lrange $args 1 end]
 
     }
 

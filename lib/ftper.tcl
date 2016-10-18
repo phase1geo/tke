@@ -328,6 +328,10 @@ namespace eval ftper {
     set port   [$widgets(edit_port)   get]
     set dir    [$widgets(edit_dir)    get]
 
+    # Clear the message field
+    $widgets(edit_msg) configure -text ""
+    update idletasks
+
     # Get a password from the user if it is not set
     if {$passwd eq ""} {
       if {[set passwd [get_password]] eq ""} {
@@ -1335,6 +1339,18 @@ namespace eval ftper {
   }
 
   ######################################################################
+  # Called on application exit.  Disconnects all opened connections.
+  proc disconnect_all {} {
+
+    variable opened
+
+    foreach name [array names opened] {
+      disconnect $name
+    }
+
+  }
+
+  ######################################################################
   # Returns 1 if the file exists on the server.
   proc file_exists {name fname} {
 
@@ -1409,26 +1425,10 @@ namespace eval ftper {
 
     upvar $pmodtime modtime
 
-    set retval 0
-
-    set ::ftp::VERBOSE 1
-    set ::ftp::DEBUG   1
-
-    puts "In save_file, name: $name, fname: $fname, contents: $contents"
-
     if {[set connection [connect $name]] != -1} {
-      puts "Connected!"
-      if {[::ftp::Cd $connection [file dirname $fname]]} {
-        if {[::ftp::Put $connection -data $contents [file tail $fname]]} {
-          puts "Put worked!"
-          set modtime [::ftp::ModTime $connection $fname]
-          puts "modtime: $modtime"
-          return 1
-        } else {
-          puts "Put failed!"
-        }
-      } else {
-        puts "Put cd failed!"
+      if {[::ftp::Put $connection -data $contents $fname]} {
+        set modtime [::ftp::ModTime $connection $fname]
+        return 1
       }
     }
 
