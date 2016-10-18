@@ -161,7 +161,7 @@ namespace eval emmet {
     variable customizations
 
     # Read in the emmet customizations
-    if {![catch { [ns tkedat]::read $custom_file 0 } rc]} {
+    if {![catch { [ns tkedat]::read $custom_file 1 } rc]} {
 
       array unset customizations
 
@@ -169,6 +169,31 @@ namespace eval emmet {
       array set customizations $rc
 
     }
+
+  }
+
+  ######################################################################
+  # Updates the given alias value.
+  proc update_alias {type curr_alias new_alias value} {
+
+    variable customizations
+    variable custom_file
+
+    # Get the affected aliases and store it in an array
+    array set aliases $customizations($type)
+
+    # Remove the old alias information if the curr_alias value does not match the new_alias value
+    if {$curr_alias ne $new_alias} {
+      unset aliases($curr_alias)
+    }
+
+    set aliases($new_alias) $value
+
+    # Store the aliases list back into the customization array
+    set customizations($type) [array get aliases]
+
+    # Write the customization value to file
+    catch { [ns tkedat]::write $custom_file [array get customizations] 1 }
 
   }
 
@@ -207,15 +232,15 @@ namespace eval emmet {
     return [lookup_alias_helper abbreviation_aliases $alias]
 
   }
-  
+
   ######################################################################
   # Get the alias information.
   proc get_aliases {} {
-    
+
     variable customizations
-    
+
     return [array get customizations]
-    
+
   }
 
   ######################################################################

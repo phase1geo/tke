@@ -1454,7 +1454,7 @@ namespace eval pref_ui {
     variable prefs
 
     ttk::notebook $w.nb
-    
+
     ###########
     # GENERAL #
     ###########
@@ -1510,7 +1510,7 @@ namespace eval pref_ui {
     grid $a.vse   -row 5 -column 1 -sticky news -padx 2 -pady 2
     grid $a.pel   -row 6 -column 0 -sticky news -padx 2 -pady 2
     grid $a.pee   -row 6 -column 1 -sticky news -padx 2 -pady 2
-    
+
     ##########
     # ADDONS #
     ##########
@@ -1529,74 +1529,74 @@ namespace eval pref_ui {
       $b.$ltype.te tokeninsert end $prefs($var)
       register $b.$ltype.te $wstr $var
     }
-    
+
     ################
     # NODE ALIASES #
     ################
-    
+
     $w.nb add [set c [ttk::frame $w.nb.nf]] -text [msgcat::mc "Node Aliases"]
-    
+
     ttk::labelframe $c.lf -text [msgcat::mc "Preview"]
     set widgets(emmet_na_tl) [text $c.lf.t -height 10 \
       -xscrollcommand [list utils::set_xscrollbar $c.lf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $c.lf.vb] -state disabled]
     ttk::scrollbar $c.lf.vb -orient vertical   -command [list $c.lf.t yview]
     ttk::scrollbar $c.lf.hb -orient horizontal -command [list $c.lf.t xview]
-    
+
     grid rowconfigure    $c.lf 0 -weight 1
     grid columnconfigure $c.lf 0 -weight 1
     grid $c.lf.t  -row 0 -column 0 -sticky news
     grid $c.lf.vb -row 0 -column 1 -sticky ns
     grid $c.lf.hb -row 1 -column 0 -sticky ew
-    
+
     pack $c.lf -fill x
-    
+
     ########################
     # ABBREVIATION ALIASES #
     ########################
-    
+
     $w.nb add [set d [ttk::frame $w.nb.vf]] -text [msgcat::mc "Abbreviation Aliases"]
-    
+
     ttk::frame $d.tf
     set widgets(emmet_aa_tl) [tablelist::tablelist $d.tf.tl -columns {0 {Alias} 0 {Value}} \
       -exportselection 0 -stretch all -editselectedonly 1 \
       -editendcommand [list pref_ui::emmet_aa_edit_end_command] \
       -xscrollcommand [list utils::set_xscrollbar $d.tf.hb] \
-      -yscrollcommand [list utils::set_yscrollbar $d.tf.vb] -state disabled]
+      -yscrollcommand [list utils::set_yscrollbar $d.tf.vb]]
     ttk::scrollbar $d.tf.vb -orient vertical   -command [list $d.tf.tl yview]
     ttk::scrollbar $d.tf.hb -orient horizontal -command [list $d.tf.tl xview]
-    
+
     $widgets(emmet_aa_tl) columnconfigure 0 -name alias -editable 1 -resizable 1 -stretchable 0
     $widgets(emmet_aa_tl) columnconfigure 1 -name value -editable 1 -resizable 1 -stretchable 1
-    
+
     bind $widgets(emmet_aa_tl) <<TablelistSelect>> [list pref_ui::handle_emmet_aa_select]
-    
+
     grid rowconfigure    $d.tf 0 -weight 1
     grid columnconfigure $d.tf 0 -weight 1
     grid $d.tf.tl -row 0 -column 0 -sticky news
     grid $d.tf.vb -row 0 -column 1 -sticky ns
     grid $d.tf.hb -row 1 -column 0 -sticky ew
-    
+
     ttk::frame $d.bf
     ttk::button $d.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::emmet_aa_add]
     set widgets(emmet_aa_del) [ttk::button $d.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::emmet_aa_del] -state disabled]
-    
+
     pack $d.bf.add -side left -padx 2 -pady 2
     pack $d.bf.del -side left -padx 2 -pady 2
-    
+
     ttk::labelframe $d.lf -text [msgcat::mc "Preview"]
     set widgets(emmet_aa_preview) [text $d.lf.t -height 10 \
       -xscrollcommand [list utils::set_xscrollbar $d.lf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $d.lf.vb] -state disabled]
     ttk::scrollbar $d.lf.vb -orient vertical   -command [list $d.lf.t yview]
     ttk::scrollbar $d.lf.hb -orient horizontal -command [list $d.lf.t xview]
-    
+
     grid rowconfigure    $d.lf 0 -weight 1
     grid columnconfigure $d.lf 0 -weight 1
     grid $d.lf.t  -row 0 -column 0 -sticky news
     grid $d.lf.vb -row 0 -column 1 -sticky ns
     grid $d.lf.hb -row 1 -column 0 -sticky ew
-    
+
     pack $d.tf -fill both -expand yes
     pack $d.bf -fill x
     pack [ttk::separator $d.sep -orient horizontal] -fill x -expand yes
@@ -1630,124 +1630,126 @@ namespace eval pref_ui {
     set prefs($var) [$w tokenget]
 
   }
-  
+
   ######################################################################
   # Adds the Emmet aliases information to the UI.
   proc set_aliases {} {
-    
+
     variable widgets
-    
+
     # Retrieve the aliases from the Emmet namespace
     array set aliases [emmet::get_aliases]
-    
+
     # Add the node aliases
     array set node_aliases $aliases(node_aliases)
     foreach name [lsort [array names node_aliases]] {
       $widgets(emmet_na_tl) insert end [list $name $node_aliases($name)]
     }
-    
+
     # Add the abbreviation aliases
     array set abbr_aliases $aliases(abbreviation_aliases)
     foreach name [lsort [array names abbr_aliases]] {
       $widgets(emmet_aa_tl) insert end [list $name $abbr_aliases($name)]
     }
-    
+
   }
-  
+
   ######################################################################
   # Show the given string value in the preview text.
   proc emmet_show_preview {str} {
-    
+
     variable widgets
-    
+
     set retval 0
-    
+
     $widgets(emmet_aa_preview) configure -state normal
     $widgets(emmet_aa_preview) delete 1.0 end
-    
+
     if {![catch { ::parse_emmet $str "" } str]} {
       snippets::insert_snippet $widgets(emmet_aa_preview) $str
       set retval 1
     }
-    
+
     $widgets(emmet_aa_preview) configure -state disabled
-    
+
     return $retval
-    
+
   }
-  
+
   ######################################################################
   # Handles any changes to column editing in the Emmet abbreviation table.
   proc emmet_aa_edit_end_command {tbl row col value} {
-    
+
     variable widgets
-    
+
     switch [$tbl columncget $col -name] {
       alias {
-        if {![catch { ::parse_emmet $value "" }]} {
-          # TBD - save
+        set alias_value [$tbl cellcget $row,value -text]
+        if {![catch { ::parse_emmet $alias_value "" }]} {
+          emmet::update_alias abbreviation_aliases [$tbl cellcget $row,$col -text] $value $alias_value
         }
       }
       value {
-        if {[emmet_show_preview $value] && ([$tbl cellcget $row,alias -text] ne "")} {
-          # TBD - save
+        set alias_name [$tbl cellcget $row,alias -text]
+        if {[emmet_show_preview $value] && ($alias_name ne "")} {
+          emmet::update_alias abbreviation_aliases $alias_name $alias_name $value
         }
       }
     }
-    
+
     return $value
-    
+
   }
-  
+
   ######################################################################
   # Handles a change to the abbreviation table selection.
   proc handle_emmet_aa_select {} {
-    
+
     variable widgets
-    
+
     # Get the current selection
     set selected [$widgets(emmet_aa_tl) curselection]
-    
+
     if {$selected ne ""} {
       $widgets(emmet_aa_del) configure -state normal
     } else {
       $widgets(emmet_aa_del) configure -state disabled
     }
-    
+
     # Update the preview
     emmet_show_preview [$widgets(emmet_aa_tl) cellcget $selected,value -text]
-    
+
   }
-    
+
   ######################################################################
   # Adds a new row to the abbreviation alias table.
   proc emmet_aa_add {} {
-    
+
     variable widgets
-    
+
     # Add a new row to the table
     $widgets(emmet_aa_tl) insert end [list "" ""]
-    
+
   }
-  
+
   ######################################################################
   # Deletes the currently selected row
   proc emmet_aa_del {} {
-    
+
     variable widgets
-    
+
     # Get the currently selected row
     set selected [$widgets(emmet_aa_tl) curselection]
-    
+
     # Delete the item
     $widgets(emmet_aa_tl) delete $selected
-    
+
     # Set the state of the delete button to disabled
     $widgets(emmet_aa_del) configure -state disabled
-    
+
     # Save the deletion
     # TBD
-    
+
   }
 
   ########
