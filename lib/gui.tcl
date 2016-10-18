@@ -1478,6 +1478,8 @@ namespace eval gui {
   # -tags       <list>     List of plugin btags that will only get applied to this text widget.
   # -lang       <language> Specifies the language to use for syntax highlighting.
   # -background <bool>     If true, keeps the current tab displayed.
+  # -remote     <name>     If specified, specifies that the buffer should be saved to the given
+  #                        remote server name.
   proc add_buffer {index name save_command args} {
 
     variable files
@@ -1492,7 +1494,8 @@ namespace eval gui {
       -other      0 \
       -tags       [list] \
       -lang       "" \
-      -background 0
+      -background 0 \
+      -remote     ""
     ]
     array set opts $args
 
@@ -1564,7 +1567,7 @@ namespace eval gui {
       lset file_info $files_index(loaded)   1
       lset file_info $files_index(eol)      [get_eol_translation ""]
       lset file_info $files_index(remember) 0
-      lset file_info $files_index(remote)   ""
+      lset file_info $files_index(remote)   $opts(-remote)
 
       # Add the file information to the files list
       lappend files $file_info
@@ -1620,7 +1623,7 @@ namespace eval gui {
     array set opts $args
 
     # Add the buffer
-    set tab [add_buffer $index $opts(-name) {eval [ns gui]::save_new_file $save_as} {*}$args]
+    set tab [add_buffer $index $opts(-name) {eval [ns gui]::save_new_file $opts(-save_as)} {*}$args]
 
     # If the sidebar option was set to 1, set it now
     if {$opts(-sidebar)} {
