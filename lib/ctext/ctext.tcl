@@ -210,11 +210,16 @@ proc ctext::event:xscroll {win clientData args} {
     set missing 0
   }
 
-  # Width is calculated by multiplying the longest line with the length of a single character
-  set newx [expr ($data($win,config,-warnwidth) * 7) - $missing]
-
-  # Move the vertical bar
-  place $win.t.w -x $newx -relheight 1.0
+  # Adjust the warning width line, if one was requested
+  if {$data($win,config,-warnwidth) ne ""} {
+    
+    # Width is calculated by multiplying the longest line with the length of a single character
+    set newx [expr ($data($win,config,-warnwidth) * 7) - $missing]
+  
+    # Move the vertical bar
+    place $win.t.w -x $newx -relheight 1.0
+    
+  }
 
 }
 

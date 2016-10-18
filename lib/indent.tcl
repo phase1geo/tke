@@ -528,7 +528,7 @@ namespace eval indent {
   proc format_text {txtt startpos endpos} {
 
     variable indent_exprs
-
+    
     # Create a separator
     $txtt edit separator
 
