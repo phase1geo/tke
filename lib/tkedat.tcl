@@ -150,11 +150,12 @@ namespace eval tkedat {
   ######################################################################
   # Writes the given array to the given tkedat file, adding the comments
   # back to the file.
-  proc write {fname contents {include_comments 1}} {
+  proc write {fname contents {include_comments 1} {multi {}}} {
 
     if {![catch { open $fname w } rc]} {
 
-      array set content $contents
+      array set content   $contents
+      array set multiline $multi
 
       foreach name [lsort [array names content]] {
         if {![regexp {,comment$} $name]} {
@@ -164,7 +165,21 @@ namespace eval tkedat {
                 puts $rc "#$comment"
               }
             }
-            puts $rc "\n{$name} {$content($name)}\n"
+            if {([llength $content($name)] == 0) || ![info exists multiline($name)]} {
+              puts $rc "\n{$name} {$content($name)}\n"
+            } elseif {$multiline($name) eq "array"} {
+              puts $rc "\n{$name} {"
+              foreach {key value} $content($name) {
+                puts $rc [format "  %s" [list $key $value]]
+              }
+              puts $rc "}\n"
+            } else {
+              puts $rc "\n{$name} {"
+              foreach line $content($name) {
+                puts $rc [format "  %s" [list $line]]
+              }
+              puts $rc "}\n"
+            }
           } else {
             puts $rc "{$name} {$content($name)}"
           }

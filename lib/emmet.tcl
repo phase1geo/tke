@@ -184,16 +184,18 @@ namespace eval emmet {
 
     # Remove the old alias information if the curr_alias value does not match the new_alias value
     if {$curr_alias ne $new_alias} {
-      unset aliases($curr_alias)
+      catch { unset aliases($curr_alias) }
     }
 
-    set aliases($new_alias) $value
+    if {$new_alias ne ""} {
+      set aliases($new_alias) $value
+    }
 
     # Store the aliases list back into the customization array
     set customizations($type) [array get aliases]
 
     # Write the customization value to file
-    catch { [ns tkedat]::write $custom_file [array get customizations] 1 }
+    catch { [ns tkedat]::write $custom_file [array get customizations] 1 [list node_aliases array abbreviation_aliases array] }
 
   }
 
