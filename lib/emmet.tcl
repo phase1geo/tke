@@ -140,16 +140,24 @@ namespace eval emmet {
 
     variable custom_file
 
-    # Copy the Emmet customization file from the TKE installation directory to the
-    # user's home directory.
-    if {![file exists $custom_file]} {
-      file copy [file join $::tke_dir data emmet.tkedat] $custom_file
-    }
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
 
-    # Add the file to the editor
-    [ns gui]::add_file end $custom_file \
-      -savecommand [list [ns emmet]::load_custom_aliases] \
-      -sidebar 0
+      pref_ui::create "" "" emmet "Node Aliases"
+
+    } else {
+
+      # Copy the Emmet customization file from the TKE installation directory to the
+      # user's home directory.
+      if {![file exists $custom_file]} {
+        file copy [file join $::tke_dir data emmet.tkedat] $custom_file
+      }
+
+      # Add the file to the editor
+      [ns gui]::add_file end $custom_file \
+        -savecommand [list [ns emmet]::load_custom_aliases] \
+        -sidebar 0
+
+    }
 
   }
 

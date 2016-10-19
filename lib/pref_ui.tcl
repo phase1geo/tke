@@ -31,7 +31,6 @@ namespace eval pref_ui {
   variable sym_dict
   variable enable_share
   variable share_changed
-  variable emmet_ending
 
   array set widgets     {}
   array set match_chars {}
@@ -150,14 +149,19 @@ namespace eval pref_ui {
       if {!$init} {
         if {$session eq ""} {
           pack $widgets(panes).general   -before $widgets(panes).appearance -fill both -padx 2 -pady 2
+          pack $widgets(panes).emmet     -fill both -padx 2 -pady 2
           pack $widgets(panes).shortcuts -fill both -padx 2 -pady 2
           pack $widgets(panes).advanced  -fill both -padx 2 -pady 2
           pane_clicked $current_panel
         } else {
           pack forget $widgets(panes).general
+          pack forget $widgets(panes).emmet
           pack forget $widgets(panes).shortcuts
           pack forget $widgets(panes).advanced
-          if {($current_panel eq "general") || ($current_panel eq "shortcuts") || ($current_panel eq "advanced")} {
+          if {($current_panel eq "general")   || \
+              ($current_panel eq "emmet")     || \
+              ($current_panel eq "shortcuts") || \
+              ($current_panel eq "advanced")} {
             pane_clicked appearance
           } else {
             pane_clicked $current_panel
@@ -237,7 +241,7 @@ namespace eval pref_ui {
       select $selected_session $selected_language 1
 
       # Create the list of panes
-      set panes [list general appearance editor emmet find sidebar view shortcuts advanced]
+      set panes [list general appearance editor find sidebar view emmet shortcuts advanced]
 
       # Create and pack each of the panes
       foreach pane $panes {
@@ -271,6 +275,7 @@ namespace eval pref_ui {
         pane_clicked editor
       } elseif {$session ne ""} {
         pack forget $widgets(panes).general
+        pack forget $widgets(panes).emmet
         pack forget $widgets(panes).shortcuts
         pack forget $widgets(panes).advanced
         pane_clicked appearance
@@ -350,7 +355,7 @@ namespace eval pref_ui {
     # If a tab is presented, find the tab and display it
     if {($tab ne "") && [winfo exists $widgets($panel).nb]} {
       foreach tab_id [$widgets($panel).nb tabs] {
-        if {[$widgets($panel).nb tab $tab_id -text] eq [string totitle $tab]} {
+        if {[string tolower [$widgets($panel).nb tab $tab_id -text]] eq [string tolower $tab]} {
           $widgets($panel).nb select $tab_id
           break
         }
