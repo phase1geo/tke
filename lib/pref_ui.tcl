@@ -149,17 +149,18 @@ namespace eval pref_ui {
       if {!$init} {
         if {$session eq ""} {
           pack $widgets(panes).general   -before $widgets(panes).appearance -fill both -padx 2 -pady 2
-          pack $widgets(panes).emmet     -fill both -padx 2 -pady 2
           pack $widgets(panes).shortcuts -fill both -padx 2 -pady 2
           pack $widgets(panes).advanced  -fill both -padx 2 -pady 2
+          $widgets(frame).emmet.nb add $widgets(node_aliases)
+          $widgets(frame).emmet.nb add $widgets(abbr_aliases)
           pane_clicked $current_panel
         } else {
           pack forget $widgets(panes).general
-          pack forget $widgets(panes).emmet
           pack forget $widgets(panes).shortcuts
           pack forget $widgets(panes).advanced
+          $widgets(frame).emmet.nb hide $widgets(node_aliases)
+          $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
           if {($current_panel eq "general")   || \
-              ($current_panel eq "emmet")     || \
               ($current_panel eq "shortcuts") || \
               ($current_panel eq "advanced")} {
             pane_clicked appearance
@@ -267,17 +268,15 @@ namespace eval pref_ui {
       wm geometry  .prefwin ${win_width}x${win_height}
       wm resizable .prefwin 0 0
 
-      # Center the window in the editor window
-      ::tk::PlaceWindow .prefwin widget .
-
       # Emulate a click on the General panel
       if {$language ne ""} {
         pane_clicked editor
       } elseif {$session ne ""} {
         pack forget $widgets(panes).general
-        pack forget $widgets(panes).emmet
         pack forget $widgets(panes).shortcuts
         pack forget $widgets(panes).advanced
+        $widgets(frame).emmet.nb hide $widgets(node_aliases)
+        $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
         pane_clicked appearance
       } elseif {$panel ne ""} {
         pane_clicked $panel $tab
@@ -290,6 +289,9 @@ namespace eval pref_ui {
 
       # Show the window
       wm deiconify .prefwin
+
+      # Center the window in the editor window
+      ::tk::PlaceWindow .prefwin widget .
 
     }
 
@@ -1540,7 +1542,7 @@ namespace eval pref_ui {
     # NODE ALIASES #
     ################
 
-    $w.nb add [set c [ttk::frame $w.nb.nf]] -text [msgcat::mc "Node Aliases"]
+    $w.nb add [set widgets(node_aliases) [set c [ttk::frame $w.nb.nf]]] -text [msgcat::mc "Node Aliases"]
 
     ttk::frame $c.tf
     set widgets(emmet_na_tl) [tablelist::tablelist $c.tf.tl \
@@ -1608,7 +1610,7 @@ namespace eval pref_ui {
     # ABBREVIATION ALIASES #
     ########################
 
-    $w.nb add [set d [ttk::frame $w.nb.vf]] -text [msgcat::mc "Abbreviation Aliases"]
+    $w.nb add [set widgets(abbr_aliases) [set d [ttk::frame $w.nb.vf]]] -text [msgcat::mc "Abbreviation Aliases"]
 
     ttk::frame $d.tf
     set widgets(emmet_aa_tl) [tablelist::tablelist $d.tf.tl -columns {0 {Alias} 0 {Value}} \
