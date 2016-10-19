@@ -1536,10 +1536,10 @@ namespace eval pref_ui {
     ################
 
     $w.nb add [set c [ttk::frame $w.nb.nf]] -text [msgcat::mc "Node Aliases"]
-    
+
     ttk::frame $c.tf
     set widgets(emmet_na_tl) [tablelist::tablelist $c.tf.tl \
-      -columns {0 {Alias} 0 {Node} 0 {Ending} 0 {Attributes}} \
+      -columns {0 {Alias} 0 {Node} 0 {Closing} 0 {Attributes}} \
       -exportselection 0 -editselectedonly 1 -stretch all \
       -editstartcommand [list pref_ui::emmet_na_edit_start_command] \
       -editendcommand   [list pref_ui::emmet_na_edit_end_command] \
@@ -1547,25 +1547,25 @@ namespace eval pref_ui {
       -yscrollcommand [list utils::set_yscrollbar $c.tf.vb]]
     ttk::scrollbar $c.tf.vb -orient vertical   -command [list $widgets(emmet_na_tl) yview]
     ttk::scrollbar $c.tf.hb -orient horizontal -command [list $widgets(emmet_na_tl) xview]
-    
+
     $widgets(emmet_na_tl) columnconfigure 0 -name alias  -editable 1 -stretchable 1 -resizable 1
     $widgets(emmet_na_tl) columnconfigure 1 -name name   -editable 1 -stretchable 1 -resizable 1
     $widgets(emmet_na_tl) columnconfigure 2 -name ending -editable 1 -stretchable 0 -resizable 1 \
-      -editwindow ttk::menubutton -formatcommand pref_ui::format_emmet_ending
+      -editwindow ttk::menubutton
     $widgets(emmet_na_tl) columnconfigure 3 -name attrs  -editable 1 -stretchable 1 -resizable 1
-    
+
     bind $widgets(emmet_na_tl) <<TablelistSelect>> [list pref_ui::handle_emmet_na_select]
-    
+
     grid rowconfigure    $c.tf 0 -weight 1
     grid columnconfigure $c.tf 0 -weight 1
     grid $c.tf.tl -row 0 -column 0 -sticky news
     grid $c.tf.vb -row 0 -column 1 -sticky ns
     grid $c.tf.hb -row 1 -column 0 -sticky ew
-    
+
     ttk::frame $c.bf
     ttk::button $c.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::emmet_na_add]
     set widgets(emmet_na_del) [ttk::button $c.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::emmet_na_del] -state disabled]
-    
+
     pack $c.bf.add -side left -padx 2 -pady 2
     pack $c.bf.del -side left -padx 2 -pady 2
 
@@ -1575,14 +1575,14 @@ namespace eval pref_ui {
       -xscrollcommand [list $c.lf.f.hb set] -yscrollcommand [list $c.lf.f.vb set]]
     scroller::scroller $c.lf.f.vb -orient vertical   -autohide 1 -command [list $c.lf.f.t yview]
     scroller::scroller $c.lf.f.hb -orient horizontal -autohide 0 -command [list $c.lf.f.t xview]
-    
+
     theme::register_widget $widgets(emmet_na_preview) syntax
     theme::register_widget $c.lf.f.vb text_scrollbar
     theme::register_widget $c.lf.f.hb text_scrollbar
-    
+
     indent::add_bindings $widgets(emmet_na_preview)
     syntax::set_language $widgets(emmet_na_preview) "HTML"
-    
+
     # This is needed to keep the modified event from being handled by the editing buffers
     bind $widgets(emmet_na_preview) <<Modified>> "break"
 
@@ -1591,7 +1591,7 @@ namespace eval pref_ui {
     grid $c.lf.f.t  -row 0 -column 0 -sticky news
     grid $c.lf.f.vb -row 0 -column 1 -sticky ns
     grid $c.lf.f.hb -row 1 -column 0 -sticky ew
-    
+
     pack $c.lf.f -fill both -expand yes
 
     pack $c.tf -padx 2 -pady 2 -fill both -expand yes
@@ -1638,14 +1638,14 @@ namespace eval pref_ui {
       -xscrollcommand [list $d.lf.f.hb set] -yscrollcommand [list $d.lf.f.vb set]]
     scroller::scroller $d.lf.f.vb -orient vertical   -autohide 1 -command [list $d.lf.f.t yview]
     scroller::scroller $d.lf.f.hb -orient horizontal -autohide 0 -command [list $d.lf.f.t xview]
-    
+
     theme::register_widget $widgets(emmet_aa_preview) syntax
     theme::register_widget $d.lf.f.vb text_scrollbar
     theme::register_widget $d.lf.f.hb text_scrollbar
-    
+
     indent::add_bindings $widgets(emmet_aa_preview)
     syntax::set_language $widgets(emmet_aa_preview) "HTML"
-    
+
     # This is needed to keep the modified event from being handled by the editing buffers
     bind $widgets(emmet_aa_preview) <<Modified>> "break"
 
@@ -1654,7 +1654,7 @@ namespace eval pref_ui {
     grid $d.lf.f.t  -row 0 -column 0 -sticky news
     grid $d.lf.f.vb -row 0 -column 1 -sticky ns
     grid $d.lf.f.hb -row 1 -column 0 -sticky ew
-    
+
     pack $d.lf.f -fill both -expand yes
 
     pack $d.tf -padx 2 -pady 2 -fill both -expand yes
@@ -1700,15 +1700,21 @@ namespace eval pref_ui {
     # Retrieve the aliases from the Emmet namespace
     array set aliases [emmet::get_aliases]
 
+    array set endings {
+      0 <x/>
+      1 <x></x>
+      2 None
+    }
+
     # Add the node aliases
     array set node_aliases $aliases(node_aliases)
     foreach alias [lsort [array names node_aliases]] {
       lassign $node_aliases($alias) name ending attrs
       set attr_value [list]
       foreach {attr value} $attrs {
-        lappend attr_value $attr=$value
+        lappend attr_value "$attr=\"$value\""
       }
-      $widgets(emmet_na_tl) insert end [list $alias $name $ending $attr_value]
+      $widgets(emmet_na_tl) insert end [list $alias $name $endings($ending) [join $attr_value]]
     }
 
     # Add the abbreviation aliases
@@ -1718,78 +1724,59 @@ namespace eval pref_ui {
     }
 
   }
-  
-  ######################################################################
-  # Cell formatting command
-  proc format_emmet_ending {value} {
-    
-    array set endings {
-      0 {<x />}
-      1 {<x></x>}
-      2 {<x>}
-    }
-    
-    puts "value: $value, ending: $endings($value)"
-    
-    return $endings($value)
-    
-  }
-  
+
   ######################################################################
   # Called when a cell is started to be edited.
   proc emmet_na_edit_start_command {tbl row col value} {
-    
+
     if {[$tbl columncget $col -name] eq "ending"} {
       set w   [$tbl editwinpath]
       set mnu [$w cget -menu]
       $mnu delete 0 end
-      foreach {type value} [list {<x />} 0 {<x></x>} 1 {<x>} 2] {
+      foreach type [list <x/> <x></x> None] {
         $mnu add radiobutton -label $type
       }
     }
-    
+
     return $value
-    
+
   }
-  
+
   ######################################################################
   # Called when a cell has completed being edited.
   proc emmet_na_edit_end_command {tbl row col value} {
-    
-    puts "In edit_end_command, tbl: $tbl, row: $row, col: $col, value: $value"
-    
+
     # Get the row contents
     lassign [$tbl rowcget $row -text] alias name ending attrs
-    
+
     set curr_alias $alias
-    
+
     # Replace the equality sign in the attrs list with a space
     set attrs [string map {= { }} $attrs]
-    
+
+    array set endings {
+      <x/>    0
+      <x></x> 1
+      None    2
+    }
+
     switch [$tbl columncget $col -name] {
       alias  { set alias  $value }
       name   { set name   $value }
-      ending {
-        array set endings {
-          {<x />}   0
-          {<x></x>} 1
-          {<x>}     2
-        }
-        set ending $endings($value)
-      }
+      ending { set ending $value }
       attrs  { set attrs  [string map {= { }} $value] }
     }
-    
+
     # Save the alias if it's worth saving
     if {$name ne ""} {
-      emmet::update_alias node_aliases $curr_alias $alias [list $name $ending $attrs]
+      emmet::update_alias node_aliases $curr_alias $alias [list $name $endings($ending) $attrs]
     }
-    
+
     # Display the generated code
     emmet_na_show_preview $alias
-    
+
     return $value
-    
+
   }
 
   ######################################################################
@@ -1800,38 +1787,42 @@ namespace eval pref_ui {
 
     $widgets(emmet_na_preview) configure -state normal
     $widgets(emmet_na_preview) delete 1.0 end
-    
+
     # Get the alias data
     lassign [emmet::lookup_node_alias $alias] name ending attrs
-    
-    # Construct the node
-    set str "<$name"
-    foreach {attr value} $attrs {
-      append str " $attr=\"$value\""
-    }
-    switch $ending {
-      0 { append str " />" }
-      1 { append str "></$name>" }
-      2 { append str ">" }
-    }
-    
-    set index 1
-    while {[regexp {(.*?)\{\|(.*?)\}(.*)$} $str -> before value after]} {
-      if {$value eq ""} {
-        set str "$before\$$index$after"
-      } else {
-        set str "$before\${$index:$value}$after"
+
+    if {$name ne ""} {
+
+      # Construct the node
+      set str "<$name"
+      foreach {attr value} $attrs {
+        append str " $attr=\"$value\""
       }
-      incr index
+      switch $ending {
+        0 { append str " />" }
+        1 { append str "></$name>" }
+        2 { append str ">" }
+      }
+
+      set index 1
+      while {[regexp {(.*?)\{\|(.*?)\}(.*)$} $str -> before value after]} {
+        if {$value eq ""} {
+          set str "$before\$$index$after"
+        } else {
+          set str "$before\${$index:$value}$after"
+        }
+        incr index
+      }
+
+      # Insert the resulting string as a snippet
+      snippets::insert_snippet $widgets(emmet_na_preview).t $str -traverse 0
+
     }
-    
-    # Insert the resulting string as a snippet
-    snippets::insert_snippet $widgets(emmet_na_preview).t $str
 
     $widgets(emmet_na_preview) configure -state disabled
 
   }
-  
+
   ######################################################################
   # Handles a change to the abbreviation table selection.
   proc handle_emmet_na_select {} {
@@ -1851,7 +1842,7 @@ namespace eval pref_ui {
     emmet_na_show_preview [$widgets(emmet_na_tl) cellcget $selected,alias -text]
 
   }
-  
+
   ######################################################################
   # Adds a new row to the abbreviation alias table.
   proc emmet_na_add {} {
@@ -1859,7 +1850,7 @@ namespace eval pref_ui {
     variable widgets
 
     # Add a new row to the table
-    set row [$widgets(emmet_na_tl) insert end [list "" "" 1 ""]]
+    set row [$widgets(emmet_na_tl) insert end [list "" "" <x></x> ""]]
 
     # Make the first entry to be editable
     $widgets(emmet_na_tl) editcell $row,alias
@@ -1888,7 +1879,7 @@ namespace eval pref_ui {
     emmet::update_alias node_aliases $alias_name "" ""
 
   }
-  
+
   ######################################################################
   # Show the given string value in the preview text.
   proc emmet_aa_show_preview {str} {
@@ -1901,7 +1892,7 @@ namespace eval pref_ui {
     $widgets(emmet_aa_preview) delete 1.0 end
 
     if {![catch { ::parse_emmet $str "" } str]} {
-      snippets::insert_snippet $widgets(emmet_aa_preview).t $str
+      snippets::insert_snippet $widgets(emmet_aa_preview).t $str -traverse 0
       set retval 1
     }
 
@@ -1978,7 +1969,7 @@ namespace eval pref_ui {
 
     # Get the currently selected row
     set selected [$widgets(emmet_aa_tl) curselection]
-    
+
     # Get the aliased name
     set alias_name [$widgets(emmet_aa_tl) cellcget $selected,alias -text]
 

@@ -213,7 +213,7 @@ namespace eval snippets {
     # If the snippet exists, perform the replacement.
     foreach type [list $lang user] {
       if {[info exists snippets($type,$last_word)]} {
-        return [insert_snippet $txtt $snippets($type,$last_word) "insert-1c wordstart" "insert-1c wordend"]
+        return [insert_snippet $txtt $snippets($type,$last_word) -delrange [list "insert-1c wordstart" "insert-1c wordend"]]
       }
     }
 
@@ -223,9 +223,15 @@ namespace eval snippets {
 
   ######################################################################
   # Inserts the given snippet contents at the current insertion point.
-  proc insert_snippet {txtt snippet {delstart ""} {delend ""}} {
+  proc insert_snippet {txtt snippet args} {
 
     variable tabpoints
+
+    array set opts {
+      -delrange ""
+      -traverse 1
+    }
+    array set opts $args
 
     # Clear any residual tabstops
     clear_tabstops $txtt
@@ -237,8 +243,8 @@ namespace eval snippets {
     $txtt edit separator
 
     # Delete the last_word, if specified
-    if {$delstart ne ""} {
-      $txtt delete $delstart $delend
+    if {$opts(-delrange) ne ""} {
+      $txtt delete {*}$opts(-delrange)
     }
 
     # Call the snippet parser
@@ -269,7 +275,9 @@ namespace eval snippets {
       }
 
       # Traverse the inserted snippet
-      traverse_snippet $txtt
+      if {$opts(-traverse)} {
+        traverse_snippet $txtt
+      }
 
     }
 
@@ -286,9 +294,9 @@ namespace eval snippets {
   ######################################################################
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
-  proc insert_snippet_into_current {tid snippet {delstart ""} {delend ""}} {
+  proc insert_snippet_into_current {tid snippet {delrange ""}} {
 
-    insert_snippet [gui::current_txt $tid].t $snippet $delstart $delend
+    insert_snippet [gui::current_txt $tid].t $snippet -delrange [list $delstart $delend]
 
   }
 
@@ -611,7 +619,7 @@ namespace eval snippets {
     set txt [[ns gui]::get_info $tab tab txt]
 
     # Insert the content as a snippet
-    [ns snippets]::insert_snippet $txt.t $str
+    [ns snippets]::insert_snippet $txt.t $str -traverse 0
 
     # Get the text
     set str [[ns gui]::scrub_text $txt]
