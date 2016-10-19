@@ -1542,7 +1542,7 @@ namespace eval pref_ui {
     # NODE ALIASES #
     ################
 
-    $w.nb add [set widgets(node_aliases) [set c [ttk::frame $w.nb.nf]]] -text [msgcat::mc "Node Aliases"]
+    $w.nb add [set widgets(node_aliases) [set c [ttk::frame $w.nb.nf]]] -text [set wstr [msgcat::mc "Node Aliases"]]
 
     ttk::frame $c.tf
     set widgets(emmet_na_tl) [tablelist::tablelist $c.tf.tl \
@@ -1606,11 +1606,13 @@ namespace eval pref_ui {
     pack [ttk::separator $c.sep -orient horizontal] -padx 2 -pady 2 -fill x -expand yes
     pack $c.lf -padx 2 -pady 2 -fill x
 
+    register $c.tf.tl $wstr Emmet/NodeAliases
+
     ########################
     # ABBREVIATION ALIASES #
     ########################
 
-    $w.nb add [set widgets(abbr_aliases) [set d [ttk::frame $w.nb.vf]]] -text [msgcat::mc "Abbreviation Aliases"]
+    $w.nb add [set widgets(abbr_aliases) [set d [ttk::frame $w.nb.vf]]] -text [set wstr [msgcat::mc "Abbreviation Aliases"]]
 
     ttk::frame $d.tf
     set widgets(emmet_aa_tl) [tablelist::tablelist $d.tf.tl -columns {0 {Alias} 0 {Value}} \
@@ -1668,6 +1670,8 @@ namespace eval pref_ui {
     pack $d.bf -padx 2 -pady 2 -fill x
     pack [ttk::separator $d.sep -orient horizontal] -padx 2 -pady 2 -fill x -expand yes
     pack $d.lf -padx 2 -pady 2 -fill x
+
+    register $d.tf.tl $wstr Emmet/AbbreviationAliases
 
     pack $w.nb -fill both -expand yes
 

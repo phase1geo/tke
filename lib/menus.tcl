@@ -980,6 +980,9 @@ namespace eval menus {
     # Save the clipboard history
     cliphist::save
 
+    # Close the opened remote connections
+    ftper::disconnect_all
+
     # Handle on_quit plugins
     plugins::handle_on_quit
 
