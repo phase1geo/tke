@@ -119,7 +119,7 @@ namespace eval gui {
     if {[set remote [get_info $fname fname remote]] eq ""} {
       return [file exists $fname]
     } else {
-      return [[ns ftper]::file_exists $remote $fname]
+      return [[ns remote]::file_exists $remote $fname]
     }
 
   }
@@ -135,7 +135,7 @@ namespace eval gui {
       file stat $fname stat
       return $stat(mtime)
     } else {
-      return [[ns ftper]::get_mtime $name $fname]
+      return [[ns remote]::get_mtime $name $fname]
     }
 
   }
@@ -1815,7 +1815,7 @@ namespace eval gui {
 
       # Get the file contents
       if {$remote ne ""} {
-        set okay [[ns ftper]::get_file $remote $fname contents modtime]
+        set okay [[ns remote]::get_file $remote $fname contents modtime]
       } elseif {![catch { open $fname r } rc]} {
         set contents [string range [read $rc] 0 end-1]
         set okay     1
@@ -1961,7 +1961,7 @@ namespace eval gui {
 
     # Read the contents of the file
     if {$remote ne ""} {
-      set okay [[ns ftper]::get_file $remote $fname contents modtime]
+      set okay [[ns remote]::get_file $remote $fname contents modtime]
     } elseif {![catch { open $fname r } rc]} {
       set contents [string range [read $rc] 0 end-1]
       set okay     1
@@ -2236,7 +2236,7 @@ namespace eval gui {
     # Save the file contents
     if {$remote ne ""} {
 
-      if {![[ns ftper]::save_file $remote [lindex $files $file_index $files_index(fname)] [scrub_text $txt] modtime]} {
+      if {![[ns remote]::save_file $remote [lindex $files $file_index $files_index(fname)] [scrub_text $txt] modtime]} {
         set_error_message [msgcat::mc "Unable to write file"] $rc
         return 0
       }

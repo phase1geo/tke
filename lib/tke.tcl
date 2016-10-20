@@ -51,11 +51,6 @@ proc tke_development {} {
 
 }
 
-######################################################################
-# This procedure is called by the sftp.tcl procedures.  We will ignore
-# their parameters.
-proc frputs {args} {}
-
 # Withdraw . to eliminate the "ghost" window
 wm withdraw .
 
@@ -125,9 +120,9 @@ source [file join $tke_dir lib folding.tcl]
 source [file join $tke_dir lib fontchooser.tcl]
 source [file join $tke_dir lib emmet.tcl]
 source [file join $tke_dir lib pref_ui.tcl]
-source [file join $tke_dir lib ftper.tcl]
-source [file join $tke_dir lib sftp.tcl]
+source [file join $tke_dir lib remote.tcl]
 source [file join $tke_dir lib socksend.tcl]
+source [file join $tke_dir lib sftp_wrapper.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]

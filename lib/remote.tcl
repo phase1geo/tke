@@ -16,27 +16,13 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 ######################################################################
-# Name:    ftper.tcl
+# Name:    remote.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    10/10/2016
-# Brief:   Namespace that provides an FTP interface.
+# Brief:   Namespace that provides FTP/SFTP interface support.
 ######################################################################
 
-if {0} {
-# Load the chilkat library (provides SFTP support)
-switch -glob $tcl_platform(os) {
-  Darwin { load [file join $::tke_dir lib chilkat macos chilkat.dylib] }
-  Linux* {
-    if {$tcl_platform(pointerSize) == 4} {
-      load [file join $::tke_dir lib chilkat linux32 chilkat.so]
-    } else {
-      load [file join $::tke_dir lib chilkat linux64 chilkat.so]
-    }
-  }
-}
-}
-
-namespace eval ftper {
+namespace eval remote {
 
   variable password
   variable connection -1
@@ -51,7 +37,7 @@ namespace eval ftper {
   set ::ftp::DEBUG 1
 
   ######################################################################
-  # Creates an FTP dialog box and returns the selected file.
+  # Creates an remote dialog box and returns the selected file.
   proc create {type} {
 
     variable widgets
@@ -78,30 +64,27 @@ namespace eval ftper {
       -labelbackground [utils::get_default_background] \
       -labelforeground [utils::get_default_foreground] \
       -selectbackground [theme::get_value ttk_style active_color] \
-      -acceptchildcommand [list ftper::accept_child_command] \
+      -acceptchildcommand [list remote::accept_child_command] \
       -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
-      -xscrollcommand [list utils::set_xscrollbar .ftp.pw.lf.sf.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.lf.sf.vb]]
     ttk::scrollbar .ftp.pw.lf.sf.vb -orient vertical   -command [list .ftp.pw.lf.sf.tl yview]
-    ttk::scrollbar .ftp.pw.lf.sf.hb -orient horizontal -command [list .ftp.pw.lf.sf.tl xview]
 
     $widgets(sb) columnconfigure 0 -name name     -editable 0 -resizable 1 -stretchable 1
     $widgets(sb) columnconfigure 1 -name settings -hide 1
     $widgets(sb) columnconfigure 2 -name passwd   -hide 1
 
-    bind $widgets(sb)           <<TablelistSelect>>     [list ftper::handle_sb_select]
-    bind [$widgets(sb) bodytag] <Double-Button-1>       [list ftper::handle_sb_double_click]
-    bind [$widgets(sb) bodytag] <Button-$::right_click> [list ftper::show_sidebar_menu %W %x %y %X %Y]
-    bind $widgets(sb)           <<TablelistRowMoved>>   [list ftper::handle_row_moved %d]
+    bind $widgets(sb)           <<TablelistSelect>>     [list remote::handle_sb_select]
+    bind [$widgets(sb) bodytag] <Double-Button-1>       [list remote::handle_sb_double_click]
+    bind [$widgets(sb) bodytag] <Button-$::right_click> [list remote::show_sidebar_menu %W %x %y %X %Y]
+    bind $widgets(sb)           <<TablelistRowMoved>>   [list remote::handle_row_moved %d]
 
     grid rowconfigure    .ftp.pw.lf.sf 0 -weight 1
     grid columnconfigure .ftp.pw.lf.sf 0 -weight 1
     grid .ftp.pw.lf.sf.tl -row 0 -column 0 -sticky news
     grid .ftp.pw.lf.sf.vb -row 0 -column 1 -sticky ns
-    grid .ftp.pw.lf.sf.hb -row 1 -column 0 -sticky ew
 
     ttk::frame  .ftp.pw.lf.bf
-    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "+" -width 1 -command [list ftper::show_new_menu]]
+    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "+" -width 1 -command [list remote::show_new_menu]]
 
     pack .ftp.pw.lf.bf.edit -side left -padx 2 -pady 2
 
@@ -110,23 +93,23 @@ namespace eval ftper {
 
     # Create contextual menus
     set widgets(new) [menu .ftp.newPopup -tearoff 0]
-    $widgets(new) add command -label [msgcat::mc "New Group"]      -command [list ftper::new_group]
-    $widgets(new) add command -label [msgcat::mc "New Connection"] -command [list ftper::new_connection]
+    $widgets(new) add command -label [msgcat::mc "New Group"]      -command [list remote::new_group]
+    $widgets(new) add command -label [msgcat::mc "New Connection"] -command [list remote::new_connection]
 
-    set widgets(group) [menu .ftp.groupPopup -tearoff 0 -postcommand [list ftper::group_post]]
-    $widgets(group) add command -label [msgcat::mc "New Connection"] -command [list ftper::new_connection]
+    set widgets(group) [menu .ftp.groupPopup -tearoff 0 -postcommand [list remote::group_post]]
+    $widgets(group) add command -label [msgcat::mc "New Connection"] -command [list remote::new_connection]
     $widgets(group) add separator
-    $widgets(group) add command -label [msgcat::mc "Rename Group"]   -command [list ftper::rename_group]
-    $widgets(group) add command -label [msgcat::mc "Delete Group"]   -command [list ftper::delete_group]
+    $widgets(group) add command -label [msgcat::mc "Rename Group"]   -command [list remote::rename_group]
+    $widgets(group) add command -label [msgcat::mc "Delete Group"]   -command [list remote::delete_group]
 
     set widgets(connection) [menu .ftp.connPopup -tearoff 0]
-    $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list ftper::handle_sb_double_click]
-    $widgets(connection) add command -label [msgcat::mc "Close Connection"]  -command [list ftper::close_connection]
+    $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list remote::handle_sb_double_click]
+    $widgets(connection) add command -label [msgcat::mc "Close Connection"]  -command [list remote::close_connection]
     $widgets(connection) add separator
-    $widgets(connection) add command -label [msgcat::mc "Edit Connection"]   -command [list ftper::edit_connection]
-    $widgets(connection) add command -label [msgcat::mc "Test Connection"]   -command [list ftper::test_connection]
+    $widgets(connection) add command -label [msgcat::mc "Edit Connection"]   -command [list remote::edit_connection]
+    $widgets(connection) add command -label [msgcat::mc "Test Connection"]   -command [list remote::test_connection]
     $widgets(connection) add separator
-    $widgets(connection) add command -label [msgcat::mc "Delete Connection"] -command [list ftper::delete_connection]
+    $widgets(connection) add command -label [msgcat::mc "Delete Connection"] -command [list remote::delete_connection]
 
     ##########
     # VIEWER #
@@ -140,16 +123,16 @@ namespace eval ftper {
     set widgets(tl) [tablelist::tablelist .ftp.pw.rf.vf.ff.tl \
       -columns {0 {File System} 0 {}} -treecolumn 0 -exportselection 0 \
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
-      -expandcommand  [list ftper::handle_table_expand] \
+      -expandcommand  [list remote::handle_table_expand] \
       -xscrollcommand [list utils::set_xscrollbar .ftp.pw.rf.vf.ff.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.rf.vf.ff.vb]]
     ttk::scrollbar .ftp.pw.rf.vf.ff.vb -orient vertical   -command [list .ftp.pw.rf.vf.ff.tl yview]
     ttk::scrollbar .ftp.pw.rf.vf.ff.hb -orient horizontal -command [list .ftp.pw.rf.vf.ff.tl xview]
 
-    $widgets(tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list ftper::format_name]
+    $widgets(tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list remote::format_name]
     $widgets(tl) columnconfigure 1 -name dir   -hide 1
 
-    bind $widgets(tl) <<TablelistSelect>> [list ftper::handle_tl_select]
+    bind $widgets(tl) <<TablelistSelect>> [list remote::handle_tl_select]
 
     grid rowconfigure    .ftp.pw.rf.vf.ff 0 -weight 1
     grid columnconfigure .ftp.pw.rf.vf.ff 0 -weight 1
@@ -159,11 +142,11 @@ namespace eval ftper {
 
     ttk::frame  .ftp.pw.rf.vf.bf
     set widgets(folder) [ttk::button .ftp.pw.rf.vf.bf.folder -style BButton -text [msgcat::mc "New Folder"] \
-      -command [list ftper::handle_new_folder]]
+      -command [list remote::handle_new_folder]]
     set widgets(open) [ttk::button .ftp.pw.rf.vf.bf.ok -style BButton -text [msgcat::mc "Open"] \
-      -width 6 -command [list ftper::handle_open] -state disabled]
+      -width 6 -command [list remote::handle_open] -state disabled]
     ttk::button .ftp.pw.rf.vf.bf.cancel -style BButton -text [msgcat::mc "Cancel"] \
-      -width 6 -command [list ftper::handle_cancel]
+      -width 6 -command [list remote::handle_cancel]
 
     pack .ftp.pw.rf.vf.bf.cancel -side right -padx 2 -pady 2
     pack .ftp.pw.rf.vf.bf.ok     -side right -padx 2 -pady 2
@@ -187,19 +170,19 @@ namespace eval ftper {
     ttk::label .ftp.ef.sf.l0  -text [format "%s: " [msgcat::mc "Type"]]
     set widgets(edit_type)   [ttk::menubutton .ftp.ef.sf.mb0 -text "FTP" -menu [menu .ftp.typePopup -tearoff 0]]
     ttk::label .ftp.ef.sf.l1  -text [format "%s: " [msgcat::mc "Group"]]
-    set widgets(edit_group)  [ttk::menubutton .ftp.ef.sf.mb1 -text ""    -menu [menu .ftp.egroupPopup -tearoff 0 -postcommand [list ftper::populate_group_menu]]]
+    set widgets(edit_group)  [ttk::menubutton .ftp.ef.sf.mb1 -text ""    -menu [menu .ftp.egroupPopup -tearoff 0 -postcommand [list remote::populate_group_menu]]]
     ttk::label .ftp.ef.sf.l2  -text [format "%s: " [msgcat::mc "Name"]]
-    set widgets(edit_name)   [ttk::entry .ftp.ef.sf.ne  -validate key -validatecommand [list ftper::check_name %P]]
+    set widgets(edit_name)   [ttk::entry .ftp.ef.sf.ne  -validate key -validatecommand [list remote::check_name %P]]
     ttk::label .ftp.ef.sf.l3  -text [format "%s: " [msgcat::mc "Server"]]
-    set widgets(edit_server) [ttk::entry .ftp.ef.sf.se  -validate key -validatecommand [list ftper::check_server %P]]
+    set widgets(edit_server) [ttk::entry .ftp.ef.sf.se  -validate key -validatecommand [list remote::check_server %P]]
     ttk::label .ftp.ef.sf.l4  -text [format "%s: " [msgcat::mc "Username"]]
-    set widgets(edit_user)   [ttk::entry .ftp.ef.sf.ue  -validate key -validatecommand [list ftper::check_username %P]]
+    set widgets(edit_user)   [ttk::entry .ftp.ef.sf.ue  -validate key -validatecommand [list remote::check_username %P]]
     ttk::label .ftp.ef.sf.l5  -text [format "%s (%s): " [msgcat::mc "Password"] [msgcat::mc "Optional"]]
     set widgets(edit_passwd) [ttk::entry .ftp.ef.sf.pe  -show *]
     ttk::label .ftp.ef.sf.l6  -text [format "%s: " [msgcat::mc "Port"]]
-    set widgets(edit_port)   [ttk::entry .ftp.ef.sf.poe -validate key -validatecommand [list ftper::check_port %P] -invalidcommand bell]
+    set widgets(edit_port)   [ttk::entry .ftp.ef.sf.poe -validate key -validatecommand [list remote::check_port %P] -invalidcommand bell]
     ttk::label .ftp.ef.sf.l7  -text [format "%s: " [msgcat::mc "Remote Directory"]]
-    set widgets(edit_dir)    [ttk::entry .ftp.ef.sf.re  -validate key -validatecommand [list ftper::check_directory %P]]
+    set widgets(edit_dir)    [ttk::entry .ftp.ef.sf.re  -validate key -validatecommand [list remote::check_directory %P]]
 
     bind $widgets(edit_name)   <Return> [list .ftp.ef.bf.create invoke]
     bind $widgets(edit_server) <Return> [list .ftp.ef.bf.create invoke]
@@ -229,10 +212,10 @@ namespace eval ftper {
 
     ttk::frame .ftp.ef.bf
     set widgets(edit_test)   [ttk::button .ftp.ef.bf.test -style BButton -text [msgcat::mc "Test"] \
-      -width 6 -command [list ftper::test_connection] -state disabled]
+      -width 6 -command [list remote::test_connection] -state disabled]
     set widgets(edit_msg)    [ttk::label  .ftp.ef.bf.msg]
     set widgets(edit_create) [ttk::button .ftp.ef.bf.create -style BButton -text [msgcat::mc "Create"] \
-      -width 6 -command [list ftper::update_connection] -state disabled]
+      -width 6 -command [list remote::update_connection] -state disabled]
     ttk::button .ftp.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
       pack forget .ftp.ef
       pack .ftp.pw -fill both -expand yes
@@ -253,7 +236,8 @@ namespace eval ftper {
     populate_sidebar
 
     # Populate the type menubutton
-    .ftp.typePopup add command -label "FTP" -command [list $widgets(edit_type) configure -text "FTP"]
+    .ftp.typePopup add command -label "FTP"  -command [list $widgets(edit_type) configure -text "FTP"]
+    .ftp.typePopup add command -label "SFTP" -command [list $widgets(edit_type) configure -text "SFTP"]
 
     # Get the focus
     ::tk::SetFocusGrab .ftp .ftp.pw.rf.ff.tl
@@ -263,6 +247,8 @@ namespace eval ftper {
 
     # Restore the focus
     ::tk::RestoreFocusGrab .ftp .ftp.pw.rf.ff.tl
+
+    puts "name: $data(name), fname: $data(fname)"
 
     return [list $data(name) $data(fname)]
 
@@ -340,12 +326,22 @@ namespace eval ftper {
     }
 
     # Open and initialize the connection
-    if {$type eq "FTP"} {
-      if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 2]] == -1} {
-        $widgets(edit_msg) configure -text "Failed!"
-      } else {
-        ::ftp::Close $connection
-        $widgets(edit_msg) configure -text "Passed!"
+    switch $type {
+      "FTP" {
+        if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 60]] == -1} {
+          $widgets(edit_msg) configure -text "Failed!"
+        } else {
+          ::ftp::Close $connection
+          $widgets(edit_msg) configure -text "Passed!"
+        }
+      }
+      "SFTP" {
+        if {[::sFTPopen test $server $user $passwd $port 60] == -1} {
+          $widgets(edit_msg) configure -text "Failed!"
+        } else {
+          ::sFTPclose test
+          $widgets(edit_msg) configure -text "Passed!"
+        }
       }
     }
 
@@ -406,7 +402,7 @@ namespace eval ftper {
 
     foreach group_key [$widgets(sb) childkeys root] {
       set group [$widgets(sb) cellcget $group_key,name -text]
-      .ftp.egroupPopup add command -label $group -command [list ftper::change_group $group]
+      .ftp.egroupPopup add command -label $group -command [list remote::change_group $group]
     }
 
   }
@@ -601,6 +597,7 @@ namespace eval ftper {
     variable data
     variable connection
 
+    catch {
     # Get the selection
     set selected [$widgets(sb) curselection]
 
@@ -619,9 +616,14 @@ namespace eval ftper {
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
     # Connect to the FTP server and add the directory
-    if {[connect $data(name)]} {
+    if {[connect $data(name)] != -1} {
+      puts "Connected!"
       add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+    } else {
+      puts "Connection failed!"
     }
+    } rc
+    puts "rc: $rc"
 
   }
 
@@ -688,7 +690,7 @@ namespace eval ftper {
 
     ttk::frame .groupwin.f
     ttk::label .groupwin.f.l -text [msgcat::mc "Group Name: "]
-    ttk::entry .groupwin.f.e -validate key -validatecommand [list ftper::validate_group %P]
+    ttk::entry .groupwin.f.e -validate key -validatecommand [list remote::validate_group %P]
 
     bind .groupwin.f.e <Return> [list .groupwin.bf.create invoke]
 
@@ -697,11 +699,11 @@ namespace eval ftper {
 
     ttk::frame  .groupwin.bf
     ttk::button .groupwin.bf.create -style BButton -text [msgcat::mc "Create"] -width 6 -command {
-      set ftper::value [.groupwin.f.e get]
+      set remote::value [.groupwin.f.e get]
       destroy .groupwin
     } -state disabled
     ttk::button .groupwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
-      set ftper::value ""
+      set remote::value ""
       destroy .groupwin
     }
 
@@ -764,7 +766,7 @@ namespace eval ftper {
 
     ttk::frame .renwin.f
     ttk::label .renwin.f.l -text [format "%s: " [msgcat::mc "Group Name"]]
-    ttk::entry .renwin.f.e -validate key -validatecommand [list ftper::validate_rename_group %P]
+    ttk::entry .renwin.f.e -validate key -validatecommand [list remote::validate_rename_group %P]
 
     bind .renwin.f.e <Return> [list .renwin.bf.ok invoke]
 
@@ -773,11 +775,11 @@ namespace eval ftper {
 
     ttk::frame .renwin.bf
     ttk::button .renwin.bf.ok -style BButton -text [msgcat::mc "Rename"] -width 6 -command {
-      set ftper::value [.renwin.f.e get]
+      set remote::value [.renwin.f.e get]
       destroy .renwin
     } -state disabled
     ttk::button .renwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
-      set ftper::value ""
+      set remote::value ""
       destroy .renwin
     }
 
@@ -1056,7 +1058,7 @@ namespace eval ftper {
 
     ttk::frame .ftppass.f
     ttk::label .ftppass.f.l -text [msgcat::mc "Password: "]
-    ttk::entry .ftppass.f.e -validate key -validatecommand [list ftper::check_password %P] -textvariable ftper::password -show * -width 30
+    ttk::entry .ftppass.f.e -validate key -validatecommand [list remote::check_password %P] -textvariable remote::password -show * -width 30
 
     bind .ftppass.f.e <Return> [list .ftppass.bf.ok invoke]
 
@@ -1064,8 +1066,8 @@ namespace eval ftper {
     pack .ftppass.f.e -side left -padx 2 -pady 2 -fill x -expand yes
 
     ttk::frame  .ftppass.bf
-    ttk::button .ftppass.bf.ok     -style BButton -text [msgcat::mc "OK"]     -width 6 -command [list ftper::password_ok] -state disabled
-    ttk::button .ftppass.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list ftper::password_cancel]
+    ttk::button .ftppass.bf.ok     -style BButton -text [msgcat::mc "OK"]     -width 6 -command [list remote::password_ok] -state disabled
+    ttk::button .ftppass.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list remote::password_cancel]
 
     pack .ftppass.bf.cancel -side right -padx 2 -pady 2
     pack .ftppass.bf.ok     -side right -padx 2 -pady 2
@@ -1138,7 +1140,7 @@ namespace eval ftper {
 
     ttk::frame .foldwin.f
     ttk::label .foldwin.f.l -text [format "%s: " [msgcat::mc "Folder Name"]]
-    ttk::entry .foldwin.f.e -validate key -validatecommand [list ftper::check_folder_name %P]
+    ttk::entry .foldwin.f.e -validate key -validatecommand [list remote::check_folder_name %P]
 
     bind .foldwin.f.e <Return> [list .foldwin.bf.ok invoke]
 
@@ -1147,11 +1149,11 @@ namespace eval ftper {
 
     ttk::frame .foldwin.bf
     ttk::button .foldwin.bf.ok -style BButton -text [msgcat::mc "Create"] -width 6 -command {
-      set ftper::value [.foldwin.f.e get]
+      set remote::value [.foldwin.f.e get]
       destroy .foldwin
     } -state disabled
     ttk::button .foldwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
-      set ftper::value ""
+      set remote::value ""
       destroy .foldwin
     }
 
@@ -1310,11 +1312,24 @@ namespace eval ftper {
     }
 
     # Open and initialize the connection
-    if {$type eq "FTP"} {
-      if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 2]] == -1} {
-        tk_messageBox -parent .ftp -icon error -type ok -default ok \
-          -message [msgcat::mc "Unable to connect to FTP server"] -detail "Server: $server\nUser: $user\nPort: $port"
-        return -1
+    switch $type {
+      "FTP" {
+        if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 60]] == -1} {
+          tk_messageBox -parent .ftp -icon error -type ok -default ok \
+            -message [msgcat::mc "Unable to connect to FTP server"] -detail "Server: $server\nUser: $user\nPort: $port"
+          return -1
+        } else {
+          ::ftp::Cd $connection $startdir
+        }
+      }
+      "SFTP" {
+        if {[set connection [::sFTPopen $name $server $user $passwd $port 60]] == -1} {
+          tk_messageBox -parent .ftp -icon error -type ok -default ok \
+            -message [msgcat::mc "Unable to connect to SFTP server"] -defailt "Server: $server\nUser: $user\nPort: $port"
+          return -1
+        } else {
+          ::sFTPcd $name $startdir
+        }
       }
     }
 
@@ -1330,9 +1345,13 @@ namespace eval ftper {
   proc disconnect {name} {
 
     variable opened
+    variable connections
 
     if {[info exists opened($name)]} {
-      ::ftp::Close $opened($name)
+      switch [lindex $connections($name) 1] {
+        "FTP"  { ::ftp::Close $opened($name) }
+        "SFTP" { ::sFTPclose $name }
+      }
       unset opened($name)
     }
 
@@ -1354,8 +1373,21 @@ namespace eval ftper {
   # Returns 1 if the file exists on the server.
   proc file_exists {name fname} {
 
-    if {[set connection [connect $name]] != -1} {
-      return [expr [lsearch [::ftp::NList $connection [file dirname $fname]] [file tail $fname]] != -1]
+    variable connections
+
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        if {[set connection [connect $name]] != -1} {
+          return [expr [lsearch [::ftp::NList $connection [file dirname $fname]] [file tail $fname]] != -1]
+        }
+      }
+      "SFTP" {
+        if {[connect $name] != -1} {
+          if {[::sFTPcd $name [file dirname $fname]]} {
+            return [expr [lsearch -index 8 [::sFTPlist $name -a] [file tail $fname]] != -1]
+          }
+        }
+      }
     }
 
     return 0
@@ -1366,8 +1398,19 @@ namespace eval ftper {
   # Returns the modification time of the given file on the server.
   proc get_mtime {name fname} {
 
-    if {[set connection [connect $name]] != -1} {
-      return [::ftp::ModTime $connection $fname]
+    variable connections
+
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        if {[set connection [connect $name]] != -1} {
+          return [::ftp::ModTime $connection $fname]
+        }
+      }
+      "SFTP" {
+        if {[connect $name] != -1} {
+          return [::sFTPcommand $name "!echo {file stat $fname t; puts \$t(mtime)} | tclsh"]
+        }
+      }
     }
 
     return 0
@@ -1380,18 +1423,35 @@ namespace eval ftper {
   # of files in the given directory.
   proc dir_contents {name dirname pitems} {
 
+    variable connections
+
     upvar $pitems items
 
-    if {[set connection [connect $name]] != -1} {
-      set retval 1
-      foreach finfo [::ftp::List $connection $dirname] {
-        set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
-        set fname "[lrange $finfo 8 end]"
-        if {[string index $fname 0] ne "."} {
-          lappend items [list [file join $dirname $fname] $dir]
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        if {[set connection [connect $name]] != -1} {
+          foreach finfo [::ftp::List $connection $dirname] {
+            set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
+            set fname "[lrange $finfo 8 end]"
+            if {[string index $fname 0] ne "."} {
+              lappend items [list [file join $dirname $fname] $dir]
+            }
+          }
+          return 1
         }
       }
-      return 1
+      "SFTP" {
+        if {[connect $name] != -1} {
+          if {[::sFTPcd $name $dirname]} {
+            foreach finfo [::sFTPlist $name ""] {
+              set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
+              set fname "[lrange $finfo 8 end]"
+              lappend items [list [file join $dirname $fname] $dir]
+            }
+          }
+          return 1
+        }
+      }
     }
 
     return 0
@@ -1404,13 +1464,32 @@ namespace eval ftper {
   # if the file was retrieved without error; otherwise, returns 0.
   proc get_file {name fname pcontents pmodtime {mtime 0}} {
 
+    variable connections
+
     upvar $pcontents contents
     upvar $pmodtime  modtime
 
-    if {[set connection [connect $name]] != -1} {
-      if {[set modtime [::ftp::ModTime $connection $fname]] > $mtime} {
-        ::ftp::Get $connection $fname -variable $pcontents
-        return 1
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        if {[set connection [connect $name]] != -1} {
+          if {[set modtime [::ftp::ModTime $connection $fname]] > $mtime} {
+            ::ftp::Get $connection $fname -variable $pcontents
+            return 1
+          }
+        }
+      }
+      "SFTP" {
+        if {[connect $name] != -1} {
+          set local [file join $::tke_home sftp_get.tmp]
+          if {[::sFTPget $name $fname $local]} {
+            if {![catch { open $local r } rc]} {
+              set contents [read $rc]
+              close $rc
+              file delete -force $local
+              return 1
+            }
+          }
+        }
       }
     }
 
@@ -1423,12 +1502,33 @@ namespace eval ftper {
   # the file was saved successfully; otherwise, returns 0.
   proc save_file {name fname contents pmodtime} {
 
+    variable connections
+
     upvar $pmodtime modtime
 
-    if {[set connection [connect $name]] != -1} {
-      if {[::ftp::Put $connection -data $contents $fname]} {
-        set modtime [::ftp::ModTime $connection $fname]
-        return 1
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        if {[set connection [connect $name]] != -1} {
+          if {[::ftp::Put $connection -data $contents $fname]} {
+            set modtime [::ftp::ModTime $connection $fname]
+            return 1
+          }
+        }
+      }
+      "SFTP" {
+        if {[connect $name] != -1} {
+          set local [file join $::tke_home sftp_put.tmp]
+          if {![catch { open $local w } rc]} {
+            puts $rc $contents
+            close $rc
+            if {[::sFTPput $name $local $fname]} {
+              file delete -force $local
+              set retval 1
+            } else {
+              file delete -force $local
+            }
+          }
+        }
       }
     }
 
@@ -1440,13 +1540,24 @@ namespace eval ftper {
   # Creates the given directory on the remote end.
   proc make_directory {name dirname} {
 
+    variable connections
+
     if {[set connection [connect $name]] == -1} {
       tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
       return 0
     }
 
     # Make the directory remotely
-    return [::ftp::MkDir $connection $dirname]
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        return [::ftp::MkDir $connection $dirname]
+      }
+      "SFTP" {
+        return [::sFTPmkdir $name $dirname]
+      }
+    }
+
+    return 0
 
   }
 
@@ -1454,17 +1565,30 @@ namespace eval ftper {
   # Removes one or more directories on the server.
   proc remove_directories {name dirnames} {
 
+    variable connections
+
     if {[set connection [connect $name]] == -1} {
       tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
       return 0
     }
 
     # Delete the list of directories
-    foreach dirname $dirnames {
-      ::ftp::RmDir $connection $dirname
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        foreach dirname $dirnames {
+          ::ftp::RmDir $connection $dirname
+        }
+        return 1
+      }
+      "SFTP" {
+        foreach dirname $dirnames {
+          ::sFTPrmdir $name $dirname
+        }
+        return 1
+      }
     }
 
-    return 1
+    return 0
 
   }
 
@@ -1472,14 +1596,25 @@ namespace eval ftper {
   # Rename the given file name.
   proc rename_file {name curr_fname new_fname} {
 
+    variable connections
+
     if {[set connection [connect $name]] == -1} {
       tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
       return 0
     }
 
     # Change the current directory
-    if {[::ftp::Cd $connection [file dirname $curr_fname]]} {
-      return [::ftp::Rename $connection [file tail $curr_fname] $new_fname]
+    switch [lindex $connections 0] {
+      "FTP" {
+        if {[::ftp::Cd $connection [file dirname $curr_fname]]} {
+          return [::ftp::Rename $connection [file tail $curr_fname] $new_fname]
+        }
+      }
+      "SFTP" {
+        if {[::sFTPcd $name [file dirname $curr_fname]]} {
+          return [::sFTPrename $name [file tail $curr_fname] $new_fname]
+        }
+      }
     }
 
     return 0
@@ -1490,6 +1625,7 @@ namespace eval ftper {
   # Duplicates a given filename.
   proc duplicate_file {name fname new_fname} {
 
+    variable connections
     variable contents
 
     if {[set connection [connect $name]] == -1} {
@@ -1497,8 +1633,24 @@ namespace eval ftper {
       return 0
     }
 
-    if {[::ftp::Get $connection $fname -variable ftper::contents]} {
-      return [::ftp::Put $connection -data $contents $new_fname]
+    # Duplicate the file
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        if {[::ftp::Get $connection $fname -variable remote::contents]} {
+          return [::ftp::Put $connection -data $contents $new_fname]
+        }
+      }
+      "SFTP" {
+        set local [file join $::tke_home sftp_dup.tmp]
+        if {[::sFTPget $name $fname $local]} {
+          if {[::sFTPput $name $local $new_fname]} {
+            file delete -force $local
+            return 1
+          } else {
+            file delete -force $local
+          }
+        }
+      }
     }
 
     return 0
@@ -1509,6 +1661,8 @@ namespace eval ftper {
   # Removes one or more files on the server.
   proc remove_files {name fnames} {
 
+    variable connections
+
     if {[set connection [connect $name]] == -1} {
       tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
       return 0
@@ -1517,8 +1671,17 @@ namespace eval ftper {
     set retval 1
 
     # Delete the list of directories
-    foreach fname $fnames {
-      set retval [expr [::ftp::Delete $connection $fname] && $retval]
+    switch [lindex $connections($name) 1] {
+      "FTP" {
+        foreach fname $fnames {
+          set retval [expr [::ftp::Delete $connection $fname] && $retval]
+        }
+      }
+      "SFTP" {
+        foreach fname $fnames {
+          set retval [expr [::sFTPdelete $name $fname] && $retval]
+        }
+      }
     }
 
     return $retval

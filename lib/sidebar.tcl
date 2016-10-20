@@ -664,7 +664,7 @@ namespace eval sidebar {
     set items [list]
 
     if {$remote ne ""} {
-      ftper::dir_contents $remote $dir items
+      remote::dir_contents $remote $dir items
     } else {
       foreach fname [glob -nocomplain -directory $dir *] {
         lappend items [list $fname [file isdirectory $fname]]
@@ -1004,7 +1004,7 @@ namespace eval sidebar {
       }
       close $rc
     } else {
-      if {![ftper::save_file $remote $fname " " modtime]} {
+      if {![remote::save_file $remote $fname " " modtime]} {
         return
       }
     }
@@ -1062,7 +1062,7 @@ namespace eval sidebar {
         return
       }
     } else {
-      if {![ftper::make_directory $remote $dname]} {
+      if {![remote::make_directory $remote $dname]} {
         return
       }
     }
@@ -1194,7 +1194,7 @@ namespace eval sidebar {
           return
         }
       } else {
-        if {![ftper::rename_file $remote $old_name $fname]} {
+        if {![remote::rename_file $remote $old_name $fname]} {
           return
         }
       }
@@ -1242,7 +1242,7 @@ namespace eval sidebar {
             continue
           }
         } else {
-          if {![ftper::remove_directories $remote [list $dirpath]]} {
+          if {![remote::remove_directories $remote [list $dirpath]]} {
             continue
           }
         }
@@ -1289,7 +1289,7 @@ namespace eval sidebar {
       # Disconnect the FTP connection if the directory is a root directory
       if {[$widgets(tl) parentkey $row] eq "root"} {
         if {[set remote [$widgets(tl) cellcget $row,remote -text]] ne ""} {
-          ftper::disconnect $remote
+          remote::disconnect $remote
         }
       }
 
@@ -1508,7 +1508,7 @@ namespace eval sidebar {
         # Allow any plugins to handle the rename
         plugins::handle_on_rename $old_name $fname
 
-        if {![ftper::rename_file $remote $old_name $fname]} {
+        if {![remote::rename_file $remote $old_name $fname]} {
           return
         }
 
@@ -1551,10 +1551,10 @@ namespace eval sidebar {
         return
       }
     } else {
-      while {[ftper::file_exists $remote $dup_fname]} {
+      while {[remote::file_exists $remote $dup_fname]} {
         set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
       }
-      if {![ftper::duplicate_file $remote $fname $dup_fname]} {
+      if {![remote::duplicate_file $remote $fname $dup_fname]} {
         return
       }
     }
@@ -1603,7 +1603,7 @@ namespace eval sidebar {
             continue
           }
         } else {
-          if {![ftper::remove_files $remote [list $fname]]} {
+          if {![remote::remove_files $remote [list $fname]]} {
             continue
           }
         }
