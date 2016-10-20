@@ -629,7 +629,7 @@ namespace eval menus {
   proc open_remote_command {} {
 
     # Get the directory or file
-    lassign [ftper::create open] conn_name ofiles
+    lassign [remote::create open] conn_name ofiles
 
     # Add the files to the editing area
     foreach ofile $ofiles {
@@ -687,7 +687,7 @@ namespace eval menus {
   # Saves the current tab file as a new filename on a remote server.
   proc save_as_remote_command {} {
 
-    lassign [ftper::create save] connection sfile
+    lassign [remote::create save] connection sfile
 
     if {$sfile ne ""} {
       gui::save_current {} -force 1 -save_as $sfile -remote $connection
@@ -981,7 +981,7 @@ namespace eval menus {
     cliphist::save
 
     # Close the opened remote connections
-    ftper::disconnect_all
+    remote::disconnect_all
 
     # Handle on_quit plugins
     plugins::handle_on_quit

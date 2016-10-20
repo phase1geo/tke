@@ -13,7 +13,7 @@ package require ftp
 package require tablelist
 package require wmarkentry
 
-source ftper.tcl
+source remote.tcl
 source utils.tcl
 source tkedat.tcl
 
@@ -21,13 +21,13 @@ ttk::style theme use clam
 
 wm attributes . -alpha 0.0
 
-lassign [ftper::create open] name fnames
+lassign [remote::create open] name fnames
 
 puts "name: $name, fnames: $fnames"
 
 if {$name ne ""} {
   foreach fname $fnames {
-    if {[ftper::get_file $name $fname ::contents]} {
+    if {[remote::get_file $name $fname ::contents]} {
       puts $contents
     } else {
       puts "No file downloaded"

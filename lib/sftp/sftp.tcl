@@ -1,15 +1,4 @@
 
-# sftp code for filerunner
-if { [catch "package require Expect" out] != 0 || $out == "0.0.0"} {
-#  source $glob(lib_fr)/Makefiles/expect.tcl
-  Log "Full Expect not found, using pure Tcl expect"
-  PopInfo [_ "Expect not found.  SFTP will likely fail to properly login.\
-          \nPlease down load and install the 'expect' package from your \
-          \nsystem repo."]
-  set myexpect 1
-}
-frputs "found: Expect [package require Expect] "
-
 proc sFTPopen {ftpI host user password port rq_timeout args } {
   global ftp glob env
   upvar #0 ftp($ftpI,handle) spawn_id
@@ -28,18 +17,18 @@ proc sFTPopen {ftpI host user password port rq_timeout args } {
   lassign $password  password idfile passphrase
   if {$idfile != "" } {
     set idfile [file join $env(HOME)/.ssh $idfile]
- 
+
     if {$glob(os) == "Unix" } {
       set r [catch {spawn -noecho sftp -P $port -i $idfile -p $user@$host} out]
     } else {
       set r [catch {spawn -noecho psftp -i $idfile $user@$host} out]
-    } 
+    }
   } else {
     if {$glob(os) == "Unix" } {
        set r [catch {spawn -noecho sftp -P $port  -p $user@$host} out]
     } else {
        set r [catch {spawn -noecho psftp  $user@$host} out]
-    } 
+    }
   }
   if {$r != 0} {return -code error "Really bad error: $out" }
   set timeout $rq_timeout
@@ -67,8 +56,8 @@ proc sFTPopen {ftpI host user password port rq_timeout args } {
 	exp_continue} \
       -re "(.* host key is not .*y/n. |.* authenticity of host .*\(yes/no\)\? )"\
       {
-	set st [regsub -all {\r} $expect_out(1,string) {}] 
-	Log $st 
+	set st [regsub -all {\r} $expect_out(1,string) {}]
+	Log $st
 	incr ignorto
 	if { [smart_dialog .apop . [_ "Accept new host?"] \
 		  [list {} "$st" [_ "\nClick your answer."]] \
@@ -77,11 +66,11 @@ proc sFTPopen {ftpI host user password port rq_timeout args } {
 			       "yes" : "y" } ]
 	  unset ignorto
 	  frputs "back from y/n " an
-	  Log "sending $an" 
+	  Log "sending $an"
 	  exp_send "$an\r"
-	  exp_continue 
+	  exp_continue
 	} else {
-	  Log "sending 'no'" 
+	  Log "sending 'no'"
 	  exp_send "no\r"
 	  Log "Aborting Login"
 	  set re 10
@@ -128,7 +117,7 @@ proc sFTPopen {ftpI host user password port rq_timeout args } {
   if {$re == 10} {
     #We will not ok a host.  It is up to the user to do that,
     PopError "Host not seen before and rejected, login aborted."
-    catch exp_close 
+    catch exp_close
     set spawn_id -1
     return -code error "$expect_out(1,string)"
   }
@@ -141,9 +130,9 @@ proc sFTPcd {ftpI new_wd} {
   upvar #0 ftp($ftpI,handle) spawn_id
   upvar #0 ftp($ftpI,timeout) timeout
   exp_log_user $glob(debug)
-  frputs "try cd to  " ftp($ftpI,new_wd)
-  Log "cd to $ftp($ftpI,new_wd)"
-  exp_send "cd [sftpfixfilename $ftp($ftpI,new_wd)]\r"
+  frputs "try cd to  " $new_wd
+  Log "cd to $new_wd"
+  exp_send "cd [sftpfixfilename $new_wd]\r"
   set x 0
   expect \
       -re "\r?cd \[^\n]*\r?\n.?sftp> " {set x 10}\
@@ -151,10 +140,10 @@ proc sFTPcd {ftpI new_wd} {
       -re ".?Remote .* now \[^\r\n]*\r?\n.?sftp> " {set x 10} \
       -re "\r?(Can't change directory\[^\n]*)\r\n.?sftp> " {set x 3} \
       -re "\r?(Couldn't canonicalise\[^\n]*)\r\n.?sftp> " {set x 2}
- 
+
 #  puts "cd... $x"
   frputs "cd: " x expect_out(1,string)
-  if {$x != 10 } { 
+  if {$x != 10 } {
     return -code error "$expect_out(1,string)"
   }
 #  puts "cd returns $x"
@@ -175,7 +164,7 @@ proc sFTPrename {ftpI  old new} {
       -re ".*\r?\n.?sftp> " {incr re 0}
 
   if {$re} {return -code error "$expect_out(1,string)"}
-  return $re 
+  return $re
 }
 
 proc sFTPdelete {ftpI filename} {
@@ -188,9 +177,9 @@ proc sFTPdelete {ftpI filename} {
   expect -re "(Couldn't delete file: .*)\r?\n.?sftp> " {incr re} \
       -re "(Removing .*)\r?\n.?sftp> " {incr re 0}\
       -re ".*rm .*: OK\r?\n.?sftp> " {incr re 0} \
-      -re "(.*: \[^/\r\n]*)\r?\n.?sftp> " {incr re} 
+      -re "(.*: \[^/\r\n]*)\r?\n.?sftp> " {incr re}
    if {$re} {return -code error "$expect_out(1,string)"}
-  return $re 
+  return $re
 }
 
 proc sFTPmkdir { ftpI dir } {
@@ -207,7 +196,7 @@ proc sFTPmkdir { ftpI dir } {
       -re "(.*: \[^/\r\n]*)\r?\n.?sftp> " {incr re} \
       -re ".*\r?\n.?sftp> " {incr re 0}
   if {$re} {return -code error "$expect_out(1,string)"}
-  return $re 
+  return $re
 }
 
 proc sFTPrmdir { ftpI dir } {
@@ -244,7 +233,7 @@ proc sFTPpwd { ftpI } {
       -re "(.*sftp> )" {
 	frputs "pwd,ignor3  " expect_out(1,string)
 	set re 2}\
-      -re "(\r?\n)" {frputs "pwd,ignor1  " expect_out(1,string) ;exp_continue} 
+      -re "(\r?\n)" {frputs "pwd,ignor1  " expect_out(1,string) ;exp_continue}
 #  Log "pwd returns $expect_out(1,string) & $re"
   frputs "pwd out  " re expect_out(1,string) expect_out(buffer)
   switch $re {
@@ -253,7 +242,7 @@ proc sFTPpwd { ftpI } {
     2 -
     default {return -code error "Unexpected return from pwd:\
                                 $expect_out(1,string)"}
-  } 
+  }
 }
 
 
@@ -289,7 +278,7 @@ proc sFTPlist { ftpI all} {
   set re [regsub -all {\r} $expect_out(1,string) "" ]
   #  puts  [split $re "\n"]
   exp_match_max -d
-  return [split $re "\n"] 
+  return [split $re "\n"]
 }
 
 proc sFTP_DoSearch { ftpI filename } {
@@ -350,7 +339,7 @@ proc sFTPput { ftpI localFileName remoteFileName } {
                    [sftpfixfilename $remoteFileName]\r"
   expect \
       timeout {if {$glob(abortcmd) == 1} {
-	set expect_out(1,string) "User abort" 
+	set expect_out(1,string) "User abort"
 	sFTPclose  $ftpI; set re 1
       } else {
 	exp_continue
@@ -361,7 +350,7 @@ proc sFTPput { ftpI localFileName remoteFileName } {
       -re "\r.*$localname *(\[^ ].*\[0-9]\[0-9])" {
 	LogStatusOnly "Transfer [file tail $localname] $expect_out(1,string) ETA"
 	if {$glob(abortcmd) == 1} {
-	  set expect_out(1,string) "User abort" 
+	  set expect_out(1,string) "User abort"
 	  sFTPclose  $ftpI; set re 1
 	} else {
 	  exp_continue
