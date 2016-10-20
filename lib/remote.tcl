@@ -1384,7 +1384,7 @@ namespace eval remote {
       "SFTP" {
         if {[connect $name] != -1} {
           if {[::sFTPcd $name [file dirname $fname]]} {
-            return [expr [lsearch -index 8 [::sFTPlist $name -a] [file tail $fname]] != -1]
+            return [expr [lsearch -index 8 [::sFTPlist $name ""] [file tail $fname]] != -1]
           }
         }
       }
@@ -1431,8 +1431,12 @@ namespace eval remote {
       "FTP" {
         if {[set connection [connect $name]] != -1} {
           foreach finfo [::ftp::List $connection $dirname] {
-            set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
             set fname "[lrange $finfo 8 end]"
+            switch [string index [lindex $finfo 0] 0] {
+              d       { set dir 1 }
+              l       { set dir [::ftp::Cd $connection [file join $dirname $fname]] }
+              default { set dir 0 }
+            }
             if {[string index $fname 0] ne "."} {
               lappend items [list [file join $dirname $fname] $dir]
             }
@@ -1444,8 +1448,12 @@ namespace eval remote {
         if {[connect $name] != -1} {
           if {[::sFTPcd $name $dirname]} {
             foreach finfo [::sFTPlist $name ""] {
-              set dir   [expr {([string index [lindex $finfo 0] 0] eq "d") ? 1 : 0}]
               set fname "[lrange $finfo 8 end]"
+              switch [string index [lindex $finfo 0] 0] {
+                d       { set dir 1 }
+                l       { set dir [::sFTPcd $name [file join $dirname $fname]] }
+                default { set dir 0 }
+              }
               lappend items [list [file join $dirname $fname] $dir]
             }
           }
