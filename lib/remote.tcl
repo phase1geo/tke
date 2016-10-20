@@ -596,8 +596,8 @@ namespace eval remote {
     variable widgets
     variable data
     variable connection
+    variable images
 
-    catch {
     # Get the selection
     set selected [$widgets(sb) curselection]
 
@@ -615,15 +615,16 @@ namespace eval remote {
     # Get settings
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
+    # Set the image to indicate that we are connecting
+    $widgets(sb) cellcget $selected,name -image $images(connecting)
+
     # Connect to the FTP server and add the directory
     if {[connect $data(name)] != -1} {
-      puts "Connected!"
       add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+      $widgets(sb) cellcget $selected,name -image $images(connected)
     } else {
-      puts "Connection failed!"
+      $widgets(sb) cellcget $selected,name -image ""
     }
-    } rc
-    puts "rc: $rc"
 
   }
 
