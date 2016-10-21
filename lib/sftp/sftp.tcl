@@ -303,29 +303,33 @@ proc sFTPget { ftpI remoteFileName localFileName } {
   set remotename [sftpfixfilename $remoteFileName]
   Log "get $remoteFileName to $localFileName"
   exp_send "get $opt $remotename \
-                   [sftpfixfilename $localFileName]\r"
+  [sftpfixfilename $localFileName]\r"
 
-  expect \
-      timeout {if {$glob(abortcmd) == 1} {
-	set expect_out(1,string) "User abort" ;sFTPclose  $ftpI;set re 1} else \
-		   {exp_continue}}\
-      -re "(Couldn't .*)\r\n.?sftp> " {incr re} \
-      -re "Fetching .*\r\n" {exp_continue} \
-      -re "\r.*$remotename *(\[^ ].*:\[0-9]\[0-9])" {
-	LogStatusOnly \
-	    "Transfer [file tail $remotename] $expect_out(1,string) ETA"
-	if {$glob(abortcmd) == 1} {
-	  set expect_out(1,string) "User abort"
-	  sFTPclose  $ftpI
-	  set re 1
-	} else {
-	  exp_continue
-	}} \
-      -re ".*remote:.* => local:\[^\n\r]*\r?\n.?sftp> " {incr re 0}\
-      -re "(.*: failure)\r?\n.?sftp> " {incr re} \
-      -re ".*\r\n.?sftp> " {incr re 0}
-  if {$re} {return -code error "$expect_out(1,string)"}
-  return $re
+  expect timeout {
+    if {$glob(abortcmd) == 1} {
+      set expect_out(1,string) "User abort" ;sFTPclose  $ftpI;set re 1
+    } else {
+      exp_continue
+    }
+  } \
+  -re "(Couldn't .*)\r\n.?sftp> " {incr re} \
+  -re "Fetching .*\r\n" {exp_continue} \
+  -re "\r.*$remotename *(\[^ ].*:\[0-9]\[0-9])" {
+    LogStatusOnly \
+    "Transfer [file tail $remotename] $expect_out(1,string) ETA"
+    if {$glob(abortcmd) == 1} {
+      set expect_out(1,string) "User abort"
+      sFTPclose  $ftpI
+      set re 1
+    } else {
+      exp_continue
+    }
+  } \
+    -re ".*remote:.* => local:\[^\n\r]*\r?\n.?sftp> " {incr re 0}\
+    -re "(.*: failure)\r?\n.?sftp> " {incr re} \
+    -re ".*\r\n.?sftp> " {incr re 0}
+    if {$re} {return -code error "$expect_out(1,string)"}
+    return $re
 }
 
 proc sFTPput { ftpI localFileName remoteFileName } {
