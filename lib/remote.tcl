@@ -25,8 +25,9 @@
 namespace eval remote {
 
   variable password
-  variable connection -1
+  variable connection  -1
   variable contents
+  variable initialized 0
 
   array set widgets     {}
   array set data        {}
@@ -37,11 +38,40 @@ namespace eval remote {
   set ::ftp::DEBUG 1
 
   ######################################################################
+  # Initialize the remote namespace.
+  proc initialize {} {
+
+    variable initialized
+
+    if {!$initialized} {
+
+      # Create images
+      theme::register_image remote_connecting bitmap ttk_style -background \
+        {msgcat::mc "Image used in remote file selector to indicate that a connection is being opened."} \
+        -file     [file join $::tke_dir lib images connecting.bmp] \
+        -maskfile [file join $::tke_dir lib images connecting.bmp] \
+        -foreground 1
+      theme::register_image remote_connected bitmap ttk_style -background \
+        {msgcat::mc "Image used in remote file selector to indicate that a connection is opened."} \
+        -file     [file join $::tke_dir lib images connected.bmp] \
+        -maskfile [file join $::tke_dir lib images connected.bmp] \
+        -foreground 1
+
+      set initialized 1
+
+    }
+
+  }
+
+  ######################################################################
   # Creates an remote dialog box and returns the selected file.
   proc create {type} {
 
     variable widgets
     variable data
+
+    # Initialize the namespace
+    initialize
 
     toplevel     .ftp
     wm title     .ftp [expr {($type eq "open") ? [msgcat::mc "Open Remote File"] : [msgcat::mc "Save File Remotely"]}]
@@ -102,7 +132,7 @@ namespace eval remote {
     $widgets(group) add command -label [msgcat::mc "Rename Group"]   -command [list remote::rename_group]
     $widgets(group) add command -label [msgcat::mc "Delete Group"]   -command [list remote::delete_group]
 
-    set widgets(connection) [menu .ftp.connPopup -tearoff 0]
+    set widgets(connection) [menu .ftp.connPopup -tearoff 0 -postcommand [list remote::connection_post]]
     $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list remote::handle_sb_double_click]
     $widgets(connection) add command -label [msgcat::mc "Close Connection"]  -command [list remote::close_connection]
     $widgets(connection) add separator
@@ -181,8 +211,8 @@ namespace eval remote {
     set widgets(edit_passwd) [ttk::entry .ftp.ef.sf.pe  -show *]
     ttk::label .ftp.ef.sf.l6  -text [format "%s: " [msgcat::mc "Port"]]
     set widgets(edit_port)   [ttk::entry .ftp.ef.sf.poe -validate key -validatecommand [list remote::check_port %P] -invalidcommand bell]
-    ttk::label .ftp.ef.sf.l7  -text [format "%s: " [msgcat::mc "Remote Directory"]]
-    set widgets(edit_dir)    [ttk::entry .ftp.ef.sf.re  -validate key -validatecommand [list remote::check_directory %P]]
+    ttk::label .ftp.ef.sf.l7  -text [format "%s (%s): " [msgcat::mc "Remote Directory"] [msgcat::mc "Optional"]]
+    set widgets(edit_dir)    [ttk::entry .ftp.ef.sf.re -validate key -validatecommand [list remote::check_dir]]
 
     bind $widgets(edit_name)   <Return> [list .ftp.ef.bf.create invoke]
     bind $widgets(edit_server) <Return> [list .ftp.ef.bf.create invoke]
@@ -301,6 +331,40 @@ namespace eval remote {
       $widgets(group) entryconfigure [msgcat::mc "Delete Group"] -state disabled
     } else {
       $widgets(group) entryconfigure [msgcat::mc "Delete Group"] -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Handles the connection menu post and makes sure that the states are
+  # correct for each of the menu items.
+  proc connection_post {} {
+
+    variable widgets
+    variable opened
+
+    # Get the currently selected item
+    set selected [$widgets(sb) curselection]
+
+    # Get the group name
+    set group_name [$widgets(sb) cellcget [$widgets(sb) parentkey $selected],name -text]
+
+    # Get the connection name
+    set conn_name [$widgets(sb) cellcget $selected,name -text]
+
+    # Adjust the state of the menu items
+    if {[info exists opened($group_name,$conn_name)]} {
+      $widgets(connection) entryconfigure [msgcat::mc "Open Connection"]   -state disabled
+      $widgets(connection) entryconfigure [msgcat::mc "Close Connection"]  -state normal
+      $widgets(connection) entryconfigure [msgcat::mc "Edit Connection"]   -state disabled
+      $widgets(connection) entryconfigure [msgcat::mc "Test Connection"]   -state disabled
+      $widgets(connection) entryconfigure [msgcat::mc "Delete Connection"] -state disabled
+    } else {
+      $widgets(connection) entryconfigure [msgcat::mc "Open Connection"]   -state normal
+      $widgets(connection) entryconfigure [msgcat::mc "Close Connection"]  -state disabled
+      $widgets(connection) entryconfigure [msgcat::mc "Edit Connection"]   -state normal
+      $widgets(connection) entryconfigure [msgcat::mc "Test Connection"]   -state normal
+      $widgets(connection) entryconfigure [msgcat::mc "Delete Connection"] -state normal
     }
 
   }
@@ -430,8 +494,7 @@ namespace eval remote {
           ([$widgets(edit_server) get] ne "") && \
           ([$widgets(edit_user)   get] ne "") && \
           ([$widgets(edit_passwd) get] ne "") && \
-          ([$widgets(edit_port)   get] ne "") && \
-          ([$widgets(edit_dir)    get] ne "")} {
+          ([$widgets(edit_port)   get] ne "")} {
         $widgets(edit_create) configure -state normal
         $widgets(edit_test)   configure -state normal
       } else {
@@ -453,8 +516,7 @@ namespace eval remote {
     if {($value ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ([$widgets(edit_user)   get] ne "") && \
-        ([$widgets(edit_port)   get] ne "") && \
-        ([$widgets(edit_dir)    get] ne "")} {
+        ([$widgets(edit_port)   get] ne "")} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -477,8 +539,7 @@ namespace eval remote {
     if {([$widgets(edit_name) get] ne "") && \
         ($value ne "") && \
         ([$widgets(edit_user) get] ne "") && \
-        ([$widgets(edit_port) get] ne "") && \
-        ([$widgets(edit_dir)  get] ne "")} {
+        ([$widgets(edit_port) get] ne "")} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -501,8 +562,7 @@ namespace eval remote {
     if {([$widgets(edit_name)   get] ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ($value ne "") && \
-        ([$widgets(edit_port)   get] ne "") && \
-        ([$widgets(edit_dir)    get] ne "")} {
+        ([$widgets(edit_port)   get] ne "")} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -530,8 +590,7 @@ namespace eval remote {
     if {([$widgets(edit_name)   get] ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ([$widgets(edit_user)   get] ne "") && \
-        ($value ne "") && \
-        ([$widgets(edit_dir)    get] ne "")} {
+        ($value ne "")} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -546,16 +605,16 @@ namespace eval remote {
   }
 
   ######################################################################
-  # Checks the connection directory and handles the state of the Create button.
-  proc check_directory {value} {
+  # Updates the UI state when the user makes a modification to the
+  # directory field.
+  proc check_dir {} {
 
     variable widgets
 
     if {([$widgets(edit_name)   get] ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ([$widgets(edit_user)   get] ne "") && \
-        ([$widgets(edit_port)   get] ne "") && \
-        ($value ne "")} {
+        ([$widgets(edit_port)   get] ne "")} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -592,7 +651,7 @@ namespace eval remote {
 
     # If the connection is already opened, immediately display the directory contents
     if {[info exists opened($name)]} {
-      handle_sb_double_click
+      # handle_sb_double_click
     }
 
   }
@@ -624,14 +683,14 @@ namespace eval remote {
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
     # Set the image to indicate that we are connecting
-    $widgets(sb) cellcget $selected,name -image $images(connecting)
+    $widgets(sb) cellconfigure $selected,name -image remote_connecting
 
     # Connect to the FTP server and add the directory
     if {[connect $data(name)] != -1} {
       add_directory $data(name) $widgets(tl) root [lindex $settings 5]
-      $widgets(sb) cellcget $selected,name -image $images(connected)
+      $widgets(sb) cellconfigure $selected,name -image remote_connected
     } else {
-      $widgets(sb) cellcget $selected,name -image ""
+      $widgets(sb) cellconfigure $selected,name -image ""
     }
 
   }
@@ -925,8 +984,14 @@ namespace eval remote {
     # Disconnect, if necessary
     disconnect "$group_name,$conn_name"
 
+    # Clear the icon
+    $widgets(sb) cellconfigure $selected,name -image ""
+
     # Clear the table
     $widgets(tl) delete 0 end
+
+    # Make sure that the Open/Save button is disabled
+    $widgets(open) configure -state disabled
 
   }
 
@@ -1274,6 +1339,8 @@ namespace eval remote {
       foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 0]] {
         $tbl insertchild $parent end $fname
       }
+    } else {
+      puts "ERROR:  Unable to find dir_contents for dir: $directory ($name)"
     }
 
   }
@@ -1324,7 +1391,7 @@ namespace eval remote {
           tk_messageBox -parent .ftp -icon error -type ok -default ok \
             -message [msgcat::mc "Unable to connect to FTP server"] -detail "Server: $server\nUser: $user\nPort: $port"
           return -1
-        } else {
+        } elseif {$startdir ne ""} {
           ::ftp::Cd $connection $startdir
         }
       }
@@ -1333,7 +1400,7 @@ namespace eval remote {
           tk_messageBox -parent .ftp -icon error -type ok -default ok \
             -message [msgcat::mc "Unable to connect to SFTP server"] -defailt "Server: $server\nUser: $user\nPort: $port"
           return -1
-        } else {
+        } elseif {$startdir ne ""} {
           ::sFTPcd $name $startdir
         }
       }
@@ -1414,7 +1481,11 @@ namespace eval remote {
       }
       "SFTP" {
         if {[connect $name] != -1} {
-          return [::sFTPcommand $name "!echo {file stat $fname t; puts \$t(mtime)} | tclsh"]
+          if {[::sFTPcd $name [file dirname $fname]]} {
+            set file_out [lsearch -inline -index 8 [::sFTPlist $name ""] [file tail $fname]]
+            set mtime    [clock scan [join [lrange $file_out 5 7]]]
+            return $mtime
+          }
         }
       }
     }
@@ -1462,8 +1533,12 @@ namespace eval remote {
               }
               lappend items [list [file join $dirname $fname] $dir]
             }
+          } else {
+            return "ERROR:  Unable to cd to $dirname"
           }
           return 1
+        } else {
+          puts "ERROR:  Unable to connect"
         }
       }
     }
@@ -1476,7 +1551,7 @@ namespace eval remote {
   # Get the file contents of the given filename using the given connection
   # name if the remote file is newer than the given modtime.  Returns 1
   # if the file was retrieved without error; otherwise, returns 0.
-  proc get_file {name fname pcontents pmodtime {mtime 0}} {
+  proc get_file {name fname pcontents pmodtime} {
 
     variable connections
 
@@ -1486,16 +1561,17 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" {
         if {[set connection [connect $name]] != -1} {
-          if {[set modtime [::ftp::ModTime $connection $fname]] > $mtime} {
-            ::ftp::Get $connection $fname -variable $pcontents
+          if {[::ftp::Get $connection $fname -variable $pcontents]} {
+            set modtime [::ftp::ModTime $connection $fname]
             return 1
           }
         }
       }
       "SFTP" {
         if {[connect $name] != -1} {
-          set local [file join $::tke_home sftp_get.tmp]
-          if {[::sFTPget $name $fname $local]} {
+          set local   [file join $::tke_home sftp_get.tmp]
+          set modtime [get_mtime $name $fname]
+          if {![catch { ::sFTPget $name $fname $local } rc]} {
             if {![catch { open $local r } rc]} {
               set contents [read $rc]
               close $rc
@@ -1535,9 +1611,10 @@ namespace eval remote {
           if {![catch { open $local w } rc]} {
             puts $rc $contents
             close $rc
-            if {[::sFTPput $name $local $fname]} {
+            if {![catch { ::sFTPput $name $local $fname } rc]} {
+              set modtime [get_mtime $name $fname]
               file delete -force $local
-              set retval 1
+              return 1
             } else {
               file delete -force $local
             }

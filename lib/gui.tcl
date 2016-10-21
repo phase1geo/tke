@@ -135,7 +135,7 @@ namespace eval gui {
       file stat $fname stat
       return $stat(mtime)
     } else {
-      return [[ns remote]::get_mtime $name $fname]
+      return [[ns remote]::get_mtime $remote $fname]
     }
 
   }
@@ -2237,7 +2237,7 @@ namespace eval gui {
     if {$remote ne ""} {
 
       if {![[ns remote]::save_file $remote [lindex $files $file_index $files_index(fname)] [scrub_text $txt] modtime]} {
-        set_error_message [msgcat::mc "Unable to write file"] $rc
+        set_error_message [msgcat::mc "Unable to write file"] ""
         return 0
       }
 

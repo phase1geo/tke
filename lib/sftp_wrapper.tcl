@@ -29,11 +29,31 @@ if {![catch { package require Expect }]} {
   ######################################################################
   # This procedure is called by the sftp.tcl procedures.  We will ignore
   # their parameters.
-  proc ::frputs {args} {}
+  proc ::frputs {args} {
+    set m {}
+    foreach ar  $args {
+      if {[string index $ar end] == " " } {
+        set m [set m][string range $ar 0 end-1]
+      } elseif { ! [catch "uplevel \"info exists $ar\" " ro] &&  $ro } {
+        set m "[set m]$ar=[uplevel "set $ar"]< "
+      } else {
+        set m "[set m]$ar=<unset> "
+      }
+    }
+    regsub -all {\n} $m {\\n} m
+    regsub -all {\r} $m {\\r} m
+    regsub -all {\t} $m {\\t} m
+    puts "[set m]"
+    flush stdout
+  }
 
   ######################################################################
   # This procedure is used by the sftp code.
-  proc ::Log {str} {}
+  proc ::Log {str} { puts "Log: $str" }
+
+  ######################################################################
+  # This procedure is used by the sftp code.
+  proc ::LogStatusOnly {str} { puts "LogStatusOnly: $str" }
 
   ######################################################################
   # Required by sftp
@@ -53,8 +73,9 @@ if {![catch { package require Expect }]} {
 
   }
 
-  set ::glob(debug) 0
-  set ::glob(os)    "Unix"  ;# TBD
+  set ::glob(debug)    0
+  set ::glob(os)       "Unix"  ;# TBD
+  set ::glob(abortcmd) 0
 
   # Load the sftp code base
   source [file join $tke_dir lib sftp sftp.tcl]
