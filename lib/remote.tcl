@@ -236,8 +236,18 @@ namespace eval remote {
     populate_sidebar
 
     # Populate the type menubutton
-    .ftp.typePopup add command -label "FTP"  -command [list $widgets(edit_type) configure -text "FTP"]
-    .ftp.typePopup add command -label "SFTP" -command [list $widgets(edit_type) configure -text "SFTP"]
+    .ftp.typePopup add command -label "FTP"  -command {
+      $remote::widgets(edit_type) configure -text "FTP"
+      $remote::widgets(edit_port) delete 0 end
+      $remote::widgets(edit_port) insert end 21
+    }
+    if {[info procs ::sFTPopen] ne ""} {
+      .ftp.typePopup add command -label "SFTP" -command {
+        $remote::widgets(edit_type) configure -text "SFTP"
+        $remote::widgets(edit_port) delete 0 end
+        $remote::widgets(edit_port) insert end 22
+      }
+    }
 
     # Get the focus
     ::tk::SetFocusGrab .ftp .ftp.pw.rf.ff.tl
@@ -247,8 +257,6 @@ namespace eval remote {
 
     # Restore the focus
     ::tk::RestoreFocusGrab .ftp .ftp.pw.rf.ff.tl
-
-    puts "name: $data(name), fname: $data(fname)"
 
     return [list $data(name) $data(fname)]
 
@@ -1240,9 +1248,6 @@ namespace eval remote {
 
     variable data
 
-    # Disconnect
-    disconnect $data(name)
-
     # Indicate that no file was chosen
     set data(name)  ""
     set data(fname) ""
@@ -1708,7 +1713,7 @@ namespace eval remote {
     # Clear the table
     $widgets(sb) delete 0 end
 
-    if {![catch { tkedat::read [file join $::tke_home ftp.tkedat] 0 } rc]} {
+    if {![catch { tkedat::read [file join $::tke_home remote.tkedat] 0 } rc]} {
       array set data $rc
       foreach key [lsort -dictionary [array names data]] {
         lassign [split $key ,] num group name
@@ -1750,7 +1755,7 @@ namespace eval remote {
     }
 
     # Write the information to file
-    catch { tkedat::write [file join $::tke_home ftp.tkedat] $data 0 }
+    catch { tkedat::write [file join $::tke_home remote.tkedat] $data 0 }
 
   }
 
