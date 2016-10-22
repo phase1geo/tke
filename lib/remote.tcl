@@ -35,8 +35,6 @@ namespace eval remote {
   array set connections {}
   array set opened      {}
 
-  set ::ftp::DEBUG 1
-
   ######################################################################
   # Initialize the remote namespace.
   proc initialize {} {
@@ -686,7 +684,7 @@ namespace eval remote {
     $widgets(sb) cellconfigure $selected,name -image remote_connecting
 
     # Connect to the FTP server and add the directory
-    if {[connect $data(name)] != -1} {
+    if {[connect $data(name)]} {
       add_directory $data(name) $widgets(tl) root [lindex $settings 5]
       $widgets(sb) cellconfigure $selected,name -image remote_connected
     } else {
@@ -1360,23 +1358,16 @@ namespace eval remote {
     variable connections
     variable opened
 
-    # If we are alreay connected, return the connection
-    if {[info exists opened($name)]} {
-      return $opened($name)
-    }
-
     if {![info exists connections($name)]} {
       return -code error "Connection does not exist ($name)"
     }
 
     lassign $connections($name) key type server user passwd port startdir
 
-    set connection -1
-
     # Get a password from the user if it is not set
     if {$passwd eq ""} {
       if {[set passwd [get_password]] eq ""} {
-        return -1
+        return 0
       }
       lset connections($name) 3 $passwd
       if {[info exists widgets(sb)] && [winfo exists $widgets(sb)]} {
@@ -1386,30 +1377,20 @@ namespace eval remote {
 
     # Open and initialize the connection
     switch $type {
-      "FTP" {
-        if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 60]] == -1} {
-          tk_messageBox -parent .ftp -icon error -type ok -default ok \
-            -message [msgcat::mc "Unable to connect to FTP server"] -detail "Server: $server\nUser: $user\nPort: $port"
-          return -1
-        } elseif {$startdir ne ""} {
-          ::ftp::Cd $connection $startdir
-        }
-      }
+      "FTP" -
       "SFTP" {
-        if {[set connection [::sFTPopen $name $server $user $passwd $port 60]] == -1} {
-          tk_messageBox -parent .ftp -icon error -type ok -default ok \
-            -message [msgcat::mc "Unable to connect to SFTP server"] -defailt "Server: $server\nUser: $user\nPort: $port"
-          return -1
+        if {[catch { ::FTP_OpenSession $name [expr {($type eq "FTP") ? "" : "s"}] $server:$port $user $passwd $server "" } rc]} {
+          puts "rc: $rc"
+          tk_messageBox -parent .ftp -type ok -default ok -icon error \
+            -message [msgcat::mc "Unable to connect to $type server"] -detail "Server: $server\nUser: $user\nPort: $port"
+          return 0
         } elseif {$startdir ne ""} {
-          ::sFTPcd $name $startdir
+          return [::FTP_CD $name $startdir]
         }
       }
     }
 
-    # Remember the connection
-    set opened($name) $connection
-
-    return $connection
+    return 0
 
   }
 
@@ -1417,15 +1398,11 @@ namespace eval remote {
   # Disconnects from the given FTP server.
   proc disconnect {name} {
 
-    variable opened
     variable connections
 
-    if {[info exists opened($name)]} {
-      switch [lindex $connections($name) 1] {
-        "FTP"  { ::ftp::Close $opened($name) }
-        "SFTP" { ::sFTPclose $name }
-      }
-      unset opened($name)
+    switch [lindex $connections($name) 1] {
+      "FTP" -
+      "SFTP" { ::FTP_CloseSession $name }
     }
 
   }
@@ -1434,9 +1411,9 @@ namespace eval remote {
   # Called on application exit.  Disconnects all opened connections.
   proc disconnect_all {} {
 
-    variable opened
+    variable connections
 
-    foreach name [array names opened] {
+    foreach name [array names connections] {
       disconnect $name
     }
 
@@ -1449,15 +1426,11 @@ namespace eval remote {
     variable connections
 
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        if {[set connection [connect $name]] != -1} {
-          return [expr [lsearch [::ftp::NList $connection [file dirname $fname]] [file tail $fname]] != -1]
-        }
-      }
+      "FTP" -
       "SFTP" {
-        if {[connect $name] != -1} {
-          if {[::sFTPcd $name [file dirname $fname]]} {
-            return [expr [lsearch -index 8 [::sFTPlist $name ""] [file tail $fname]] != -1]
+        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
+          if {![catch { ::FTP_List $name 0 } rc]} {
+            return [expr [lsearch $rc [file tail $fname]] != -1]
           }
         }
       }
@@ -1474,17 +1447,12 @@ namespace eval remote {
     variable connections
 
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        if {[set connection [connect $name]] != -1} {
-          return [::ftp::ModTime $connection $fname]
-        }
-      }
+      "FTP" -
       "SFTP" {
-        if {[connect $name] != -1} {
-          if {[::sFTPcd $name [file dirname $fname]]} {
-            set file_out [lsearch -inline -index 8 [::sFTPlist $name ""] [file tail $fname]]
-            set mtime    [clock scan [join [lrange $file_out 5 7]]]
-            return $mtime
+        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
+          if {![catch { ::FTP_List $name 0 } rc]} {
+          if {[set file_out [lsearch -inline -index 8 $rc [file tail $fname]]] ne ""} {
+            return [clock scan [join [lrange $file_out 5 7]]]
           }
         }
       }
@@ -1505,40 +1473,17 @@ namespace eval remote {
     upvar $pitems items
 
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        if {[set connection [connect $name]] != -1} {
-          foreach finfo [::ftp::List $connection $dirname] {
-            set fname "[lrange $finfo 8 end]"
-            switch [string index [lindex $finfo 0] 0] {
-              d       { set dir 1 }
-              l       { set dir [::ftp::Cd $connection [file join $dirname $fname]] }
-              default { set dir 0 }
-            }
-            if {[string index $fname 0] ne "."} {
-              lappend items [list [file join $dirname $fname] $dir]
-            }
-          }
-          return 1
-        }
-      }
+      "FTP" -
       "SFTP" {
-        if {[connect $name] != -1} {
-          if {[::sFTPcd $name $dirname]} {
-            foreach finfo [::sFTPlist $name ""] {
+        if {![catch { ::FTP_CD $name $dirname }]} {
+          if {![catch { ::FTP_List $name 0 } rc]} {
+            foreach item $rc {
               set fname "[lrange $finfo 8 end]"
-              switch [string index [lindex $finfo 0] 0] {
-                d       { set dir 1 }
-                l       { set dir [::sFTPcd $name [file join $dirname $fname]] }
-                default { set dir 0 }
-              }
+              set dir [::FTP_IsDir $name [file join $dirname $fname]}]
               lappend items [list [file join $dirname $fname] $dir]
             }
-          } else {
-            return "ERROR:  Unable to cd to $dirname"
+            return 1
           }
-          return 1
-        } else {
-          puts "ERROR:  Unable to connect"
         }
       }
     }
@@ -1559,25 +1504,16 @@ namespace eval remote {
     upvar $pmodtime  modtime
 
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        if {[set connection [connect $name]] != -1} {
-          if {[::ftp::Get $connection $fname -variable $pcontents]} {
-            set modtime [::ftp::ModTime $connection $fname]
-            return 1
-          }
-        }
-      }
+      "FTP" -
       "SFTP" {
-        if {[connect $name] != -1} {
-          set local   [file join $::tke_home sftp_get.tmp]
-          set modtime [get_mtime $name $fname]
-          if {![catch { ::sFTPget $name $fname $local } rc]} {
-            if {![catch { open $local r } rc]} {
-              set contents [read $rc]
-              close $rc
-              file delete -force $local
-              return 1
-            }
+        set local   [file join $::tke_home sftp_get.tmp]
+        set modtime [get_mtime $name $fname]
+        if {![catch { ::FTP_GetFile $name $fname $local 0 } rc]} {
+          if {![catch { open $local r } rc]} {
+            set contents [read $rc]
+            close $rc
+            file delete -force $local
+            return 1
           }
         }
       }
@@ -1597,27 +1533,18 @@ namespace eval remote {
     upvar $pmodtime modtime
 
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        if {[set connection [connect $name]] != -1} {
-          if {[::ftp::Put $connection -data $contents $fname]} {
-            set modtime [::ftp::ModTime $connection $fname]
-            return 1
-          }
-        }
-      }
+      "FTP" -
       "SFTP" {
-        if {[connect $name] != -1} {
-          set local [file join $::tke_home sftp_put.tmp]
-          if {![catch { open $local w } rc]} {
-            puts $rc $contents
-            close $rc
-            if {![catch { ::sFTPput $name $local $fname } rc]} {
-              set modtime [get_mtime $name $fname]
-              file delete -force $local
-              return 1
-            } else {
-              file delete -force $local
-            }
+        set local [file join $::tke_home sftp_put.tmp]
+        if {![catch { open $local w } rc]} {
+          puts $rc $contents
+          close $rc
+          if {![catch { ::FTP_PutFile $name $local $fname [file size $fname] } rc]} {
+            set modtime [get_mtime $name $fname]
+            file delete -force $local
+            return 1
+          } else {
+            file delete -force $local
           }
         }
       }
@@ -1633,18 +1560,11 @@ namespace eval remote {
 
     variable connections
 
-    if {[set connection [connect $name]] == -1} {
-      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
-      return 0
-    }
-
     # Make the directory remotely
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        return [::ftp::MkDir $connection $dirname]
-      }
+      "FTP" -
       "SFTP" {
-        return [::sFTPmkdir $name $dirname]
+        return [::FTP_MkDir $name $dirname]
       }
     }
 
@@ -1658,22 +1578,12 @@ namespace eval remote {
 
     variable connections
 
-    if {[set connection [connect $name]] == -1} {
-      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
-      return 0
-    }
-
     # Delete the list of directories
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        foreach dirname $dirnames {
-          ::ftp::RmDir $connection $dirname
-        }
-        return 1
-      }
+      "FTP" -
       "SFTP" {
         foreach dirname $dirnames {
-          ::sFTPrmdir $name $dirname
+          ::FTP_RmDir $name $dirname
         }
         return 1
       }
@@ -1689,22 +1599,11 @@ namespace eval remote {
 
     variable connections
 
-    if {[set connection [connect $name]] == -1} {
-      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
-      return 0
-    }
-
     # Change the current directory
     switch [lindex $connections 0] {
-      "FTP" {
-        if {[::ftp::Cd $connection [file dirname $curr_fname]]} {
-          return [::ftp::Rename $connection [file tail $curr_fname] $new_fname]
-        }
-      }
+      "FTP" -
       "SFTP" {
-        if {[::sFTPcd $name [file dirname $curr_fname]]} {
-          return [::sFTPrename $name [file tail $curr_fname] $new_fname]
-        }
+        return [::FTP_Rename $name $curr_fname $new_fname]
       }
     }
 
@@ -1719,22 +1618,13 @@ namespace eval remote {
     variable connections
     variable contents
 
-    if {[set connection [connect $name]] == -1} {
-      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
-      return 0
-    }
-
     # Duplicate the file
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        if {[::ftp::Get $connection $fname -variable remote::contents]} {
-          return [::ftp::Put $connection -data $contents $new_fname]
-        }
-      }
+      "FTP" -
       "SFTP" {
         set local [file join $::tke_home sftp_dup.tmp]
-        if {[::sFTPget $name $fname $local]} {
-          if {[::sFTPput $name $local $new_fname]} {
+        if {[::FTP_GetFile $name $fname $local 0]} {
+          if {[::FTP_PutFile $name $local $new_fname [file size $local]]} {
             file delete -force $local
             return 1
           } else {
@@ -1754,23 +1644,14 @@ namespace eval remote {
 
     variable connections
 
-    if {[set connection [connect $name]] == -1} {
-      tk_messageBox -parent .ftp -icon error -type ok -default ok -message [msgcat::mc "Unable to create directory remotely"] -detail $dirname
-      return 0
-    }
-
     set retval 1
 
     # Delete the list of directories
     switch [lindex $connections($name) 1] {
-      "FTP" {
-        foreach fname $fnames {
-          set retval [expr [::ftp::Delete $connection $fname] && $retval]
-        }
-      }
+      "FTP" -
       "SFTP" {
         foreach fname $fnames {
-          set retval [expr [::sFTPdelete $name $fname] && $retval]
+          set retval [expr [::FTP_Delete $name $fname] && $retval]
         }
       }
     }
