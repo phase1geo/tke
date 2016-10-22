@@ -73,12 +73,24 @@ if {![catch { package require Expect }]} {
 
   }
 
-  set ::glob(debug)    0
-  set ::glob(os)       "Unix"  ;# TBD
-  set ::glob(abortcmd) 0
+  ######################################################################
+  # Required by ftp_control.
+  proc PopWarn { warn } {
+    puts "warn: $warn"
+    # smart_dialog .apop . [_ "Warning"] [list $warn] 0 1 [_ "OK"]
+    # LogStatusOnly "[lindex [split $warn \n] 0]"
+    # LogSilent [_ "**Warning**\n%s" $warn]
+  }
+
+  set ::glob(debug)         0
+  set ::glob(os)            "Unix"  ;# TBD
+  set ::glob(abortcmd)      0
+  set ::config(ftp,timeout) 60
 
   # Load the sftp code base
-  source [file join $tke_dir lib sftp sftp.tcl]
+  source [file join $tke_dir lib remote ftp.tcl]
+  source [file join $tke_dir lib remote sftp.tcl]
+  source [file join $tke_dir lib remote ftp_control.tcl]
 
 }
 
