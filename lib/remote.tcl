@@ -160,7 +160,8 @@ namespace eval remote {
     $widgets(tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list remote::format_name]
     $widgets(tl) columnconfigure 1 -name dir   -hide 1
 
-    bind $widgets(tl) <<TablelistSelect>> [list remote::handle_tl_select]
+    bind $widgets(tl)           <<TablelistSelect>> [list remote::handle_tl_select]
+    bind [$widgets(tl) bodytag] <Double-Button-1>   [list remote::handle_tl_double_click]
 
     grid rowconfigure    .ftp.pw.rf.vf.ff 0 -weight 1
     grid columnconfigure .ftp.pw.rf.vf.ff 0 -weight 1
@@ -1084,6 +1085,16 @@ namespace eval remote {
   }
 
   ######################################################################
+  # Handles a double-click in the file browser.
+  proc handle_tl_double_click {} {
+
+    # A double-click will be treated the same a single click and a click
+    # on the action button.
+    handle_open
+
+  }
+
+  ######################################################################
   # Handles a table directory expansion.
   proc handle_table_expand {tbl row} {
 
@@ -1380,12 +1391,12 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         if {[catch { ::FTP_OpenSession $name [expr {($type eq "FTP") ? "" : "s"}] $server:$port $user $passwd $server "" } rc]} {
-          puts "rc: $rc"
           tk_messageBox -parent .ftp -type ok -default ok -icon error \
             -message [msgcat::mc "Unable to connect to $type server"] -detail "Server: $server\nUser: $user\nPort: $port"
           return 0
         } elseif {$startdir ne ""} {
-          return [::FTP_CD $name $startdir]
+          set result [::FTP_CD $name $startdir]
+          return $result
         }
       }
     }
@@ -1428,9 +1439,9 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
+        if {[::FTP_CD $name [file dirname $fname]]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
-            return [expr [lsearch $rc [file tail $fname]] != -1]
+            return [expr [lsearch -index 8 $rc [file tail $fname]] != -1]
           }
         }
       }
@@ -1449,10 +1460,11 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
+        if {[::FTP_CD $name [file dirname $fname]]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
-          if {[set file_out [lsearch -inline -index 8 $rc [file tail $fname]]] ne ""} {
-            return [clock scan [join [lrange $file_out 5 7]]]
+            if {[set file_out [lsearch -inline -index 8 $rc [file tail $fname]]] ne ""} {
+              return [clock scan [join [lrange $file_out 5 7]]]
+            }
           }
         }
       }
@@ -1468,6 +1480,8 @@ namespace eval remote {
   # of files in the given directory.
   proc dir_contents {name dirname pitems} {
 
+    puts "In dir_contents: $dirname"
+
     variable connections
 
     upvar $pitems items
@@ -1475,12 +1489,12 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {![catch { ::FTP_CD $name $dirname }]} {
+        if {[::FTP_CD $name $dirname]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
             foreach item $rc {
-              set fname "[lrange $finfo 8 end]"
-              set dir [::FTP_IsDir $name [file join $dirname $fname]}]
-              lappend items [list [file join $dirname $fname] $dir]
+              set fname [file join $dirname {*}[lrange $item 8 end]]
+              set dir   [expr {[::FTP_IsDir $name $fname] eq $fname}]
+              lappend items [list $fname $dir]
             }
             return 1
           }
@@ -1539,7 +1553,7 @@ namespace eval remote {
         if {![catch { open $local w } rc]} {
           puts $rc $contents
           close $rc
-          if {![catch { ::FTP_PutFile $name $local $fname [file size $fname] } rc]} {
+          if {![catch { ::FTP_PutFile $name $local $fname [file size $local] } rc]} {
             set modtime [get_mtime $name $fname]
             file delete -force $local
             return 1
@@ -1564,7 +1578,11 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        return [::FTP_MkDir $name $dirname]
+        ::FTP_MkDir $name $dirname
+        puts "After making directory, dirname: $dirname"
+        ::FTP_CD $name [file dirname $dirname]
+        puts [::FTP_List $name 0]
+        return 1
       }
     }
 
@@ -1600,10 +1618,11 @@ namespace eval remote {
     variable connections
 
     # Change the current directory
-    switch [lindex $connections 0] {
+    switch [lindex $connections($name) 0] {
       "FTP" -
       "SFTP" {
-        return [::FTP_Rename $name $curr_fname $new_fname]
+        ::FTP_Rename $name $curr_fname $new_fname
+        return 1
       }
     }
 
@@ -1623,8 +1642,8 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         set local [file join $::tke_home sftp_dup.tmp]
-        if {[::FTP_GetFile $name $fname $local 0]} {
-          if {[::FTP_PutFile $name $local $new_fname [file size $local]]} {
+        if {![catch { ::FTP_GetFile $name $fname $local 0 }]} {
+          if {![catch { ::FTP_PutFile $name $local $new_fname [file size $local] }]} {
             file delete -force $local
             return 1
           } else {
@@ -1644,19 +1663,18 @@ namespace eval remote {
 
     variable connections
 
-    set retval 1
-
     # Delete the list of directories
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
         foreach fname $fnames {
-          set retval [expr [::FTP_Delete $name $fname] && $retval]
+          ::FTP_Delete $name $fname
         }
+        return 1
       }
     }
 
-    return $retval
+    return 0
 
   }
 

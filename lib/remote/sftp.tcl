@@ -457,3 +457,7 @@ proc sFTPcommand {ftpI command} {
 
   return [regsub -all {\r} $expect_out(1,string) {}]
 }
+
+proc sFTPsite2 {ftpI cmd one two} {
+  return 0
+}

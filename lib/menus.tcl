@@ -631,8 +631,11 @@ namespace eval menus {
     # Get the directory or file
     lassign [remote::create open] conn_name ofiles
 
+    puts "OPEN_REMOTE_COMMAND  conn_name: $conn_name, ofiles: $ofiles"
+
     # Add the files to the editing area
     foreach ofile $ofiles {
+      puts "ofile: $ofile"
       if {[lassign $ofile fname]} {
         sidebar::add_directory $fname -remote $conn_name
       } else {

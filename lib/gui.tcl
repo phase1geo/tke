@@ -1802,8 +1802,12 @@ namespace eval gui {
     variable files
     variable files_index
 
+    puts "In add_tab_content, tab: $tab"
+
     # Get some of the file information
     lassign [get_info $tab tab {fileindex txt tabbar fname loaded diff remote}] file_index txt tb fname loaded diff remote
+
+    puts "  fname: $fname"
 
     # Only add the tab content if it has not been done
     if {!$loaded} {

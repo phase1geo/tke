@@ -433,7 +433,7 @@ proc FTP_MkDir { ftpI dir } {
   frputs "FTP_MKDir  " dir "working dir $ftp($ftpI,pwd)  "
   set ftp($ftpI,state) "mkdir"
   $ftp($ftpI,sftp)FTPmkdir $ftpI $dir
-  FTP_InvalidateCache $ftpI $dir
+  FTP_InvalidateCache $ftpI [file dirname $dir]
 }
 
 proc FTP_RmDir { ftpI dir } {
@@ -442,9 +442,8 @@ proc FTP_RmDir { ftpI dir } {
   set ftp($ftpI,state) "rmdir"
   $ftp($ftpI,sftp)FTPrmdir $ftpI $dir
   # Two dirs need to be removed, the one we did and its parent
-  FTP_InvalidateCache $ftpI $dir/foo
   FTP_InvalidateCache $ftpI $dir
-
+  FTP_InvalidateCache $ftpI [file dirname $dir]
 }
 
 proc FTP_IsDir { ftpI new_wd } {
@@ -627,7 +626,6 @@ proc FTP_CheckError {ftpI {message ""}} {
   error "$message\n\nHost: $ftp($ftpI,realhost)\nCommand: $ftp($ftpI,state)"
 }
 
-
 proc FTP_ShutDown { ftpI } {
   global ftp
   if {$ftp($ftpI,handle) != -1} {
@@ -644,7 +642,6 @@ proc FTP_ShutDown { ftpI } {
   set ftp($ftpI,resume) 0
 }
 
-
 proc FTP_ReadCache { key {del 0}} {
   global ftp
   set i 0
@@ -654,7 +651,7 @@ proc FTP_ReadCache { key {del 0}} {
       set result [lindex $item 1]
       set ftp(cache) [lreplace $ftp(cache) $i $i]
       if { ! $del} {
-	lappend ftp(cache) $item
+        lappend ftp(cache) $item
       }
       return [lindex $item 1]
     }

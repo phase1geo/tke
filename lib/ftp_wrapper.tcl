@@ -30,6 +30,7 @@ if {![catch { package require Expect }]} {
   # This procedure is called by the sftp.tcl procedures.  We will ignore
   # their parameters.
   proc ::frputs {args} {
+    return
     set m {}
     foreach ar  $args {
       if {[string index $ar end] == " " } {
@@ -54,6 +55,10 @@ if {![catch { package require Expect }]} {
   ######################################################################
   # This procedure is used by the sftp code.
   proc ::LogStatusOnly {str} { puts "LogStatusOnly: $str" }
+
+  ######################################################################
+  # This procedure is used by the ftp_control code.
+  proc ::LogSilent {str} { puts "LogSilent: $str" }
 
   ######################################################################
   # Required by sftp
@@ -82,10 +87,21 @@ if {![catch { package require Expect }]} {
     # LogSilent [_ "**Warning**\n%s" $warn]
   }
 
-  set ::glob(debug)         0
-  set ::glob(os)            "Unix"  ;# TBD
-  set ::glob(abortcmd)      0
-  set ::config(ftp,timeout) 60
+  ######################################################################
+  # Returns the current time in milliseconds.  Required by ftp_control.tcl
+  proc ClockMilliSeconds {} {
+
+    return [clock milliseconds]
+
+  }
+
+  set ::glob(debug)                  0
+  set ::glob(ftp,debug)              0
+  set ::glob(os)                     "Unix"  ;# TBD
+  set ::glob(abortcmd)               0
+  set ::config(ftp,timeout)          60
+  set ::config(ftp,cache,maxentries) 1
+  set ::ftp(cache)                   [list]
 
   # Load the sftp code base
   source [file join $tke_dir lib remote ftp.tcl]
