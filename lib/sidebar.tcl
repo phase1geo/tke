@@ -831,7 +831,12 @@ namespace eval sidebar {
   proc show_tooltip {tbl row col} {
 
     if {($row >= 0) && ([$tbl parentkey $row] eq "root")} {
-      tooltip::tooltip $tbl [$tbl cellcget $row,name -text]
+      set dirname [$tbl cellcget $row,name -text]
+      if {[set remote [$tbl cellcget $row,remote -text]] ne ""} {
+        tooltip::tooltip $tbl "$dirname ([lindex [split $remote ,] 1])"
+      } else {
+        tooltip::tooltip $tbl $dirname
+      }
     } else {
       tooltip::tooltip clear
     }

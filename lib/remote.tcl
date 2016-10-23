@@ -686,7 +686,9 @@ namespace eval remote {
 
     # Connect to the FTP server and add the directory
     if {[connect $data(name)]} {
+      puts "CONNECTED!"
       add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+      puts "AFTER add_directory"
       $widgets(sb) cellconfigure $selected,name -image remote_connected
     } else {
       $widgets(sb) cellconfigure $selected,name -image ""
@@ -1100,6 +1102,8 @@ namespace eval remote {
 
     variable data
 
+    puts "fname: [$tbl cellcget $row,fname -text]"
+
     add_directory $data(name) $tbl $row [$tbl cellcget $row,fname -text]
 
   }
@@ -1338,6 +1342,11 @@ namespace eval remote {
     # Delete the children of the given parent in the table
     $tbl delete [$tbl childkeys $parent]
 
+    # If the directory is empty, get the current directory
+    if {$directory eq ""} {
+      set directory [::FTP_PWD $name]
+    }
+
     # Add the new directory
     if {[dir_contents $name $directory items]} {
       foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 1]] {
@@ -1392,11 +1401,22 @@ namespace eval remote {
       "SFTP" {
         if {[catch { ::FTP_OpenSession $name [expr {($type eq "FTP") ? "" : "s"}] $server:$port $user $passwd $server "" } rc]} {
           tk_messageBox -parent .ftp -type ok -default ok -icon error \
-            -message [msgcat::mc "Unable to connect to $type server"] -detail "Server: $server\nUser: $user\nPort: $port"
+            -message [format "%s $type %s $server" [msgcat::mc "Unable to connect to"] [msgcat::mc "server"]] -detail $rc
           return 0
         } elseif {$startdir ne ""} {
-          set result [::FTP_CD $name $startdir]
-          return $result
+          if {[catch { ::FTP_CD $name $startdir } rc]} {
+            tk_messageBox -parent .ftp -type ok -default ok -icon error \
+              -message [format "%s $type %s $server" [msgcat::mc "Unable to connect to"] [msgcat::mc "server"]] -detail $rc
+            disconnect $name
+          } elseif {$rc == 1} {
+            set opened($name) 1
+            return 1
+          } else {
+            return 0
+          }
+        } else {
+          set opened($name) 1
+          return 1
         }
       }
     }
@@ -1410,10 +1430,14 @@ namespace eval remote {
   proc disconnect {name} {
 
     variable connections
+    variable opened
 
     switch [lindex $connections($name) 1] {
       "FTP" -
-      "SFTP" { ::FTP_CloseSession $name }
+      "SFTP" {
+        ::FTP_CloseSession $name
+        catch { unset opened($name) }
+      }
     }
 
   }
@@ -1424,7 +1448,7 @@ namespace eval remote {
 
     variable connections
 
-    foreach name [array names connections] {
+    foreach name [array names opened] {
       disconnect $name
     }
 
@@ -1479,8 +1503,6 @@ namespace eval remote {
   # of directories in the given directory and the second list is a listing
   # of files in the given directory.
   proc dir_contents {name dirname pitems} {
-
-    puts "In dir_contents: $dirname"
 
     variable connections
 
@@ -1579,9 +1601,7 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         ::FTP_MkDir $name $dirname
-        puts "After making directory, dirname: $dirname"
         ::FTP_CD $name [file dirname $dirname]
-        puts [::FTP_List $name 0]
         return 1
       }
     }
@@ -1685,6 +1705,10 @@ namespace eval remote {
     variable widgets
     variable groups
     variable connections
+    variable opened
+
+    # Clear the connections
+    array unset connections
 
     # Clear the table
     $widgets(sb) delete 0 end
@@ -1698,6 +1722,9 @@ namespace eval remote {
         }
         set row [$widgets(sb) insertchild $groups($group) end [list $name $data($key) [lindex $data($key) 3]]]
         set connections($group,$name) [list $row {*}$data($key)]
+        if {[info exists opened($name)]} {
+          $widgets(sb) cellconfigure $row,name -image remote_connected
+        }
       }
     }
 

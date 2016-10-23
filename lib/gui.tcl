@@ -1802,12 +1802,8 @@ namespace eval gui {
     variable files
     variable files_index
 
-    puts "In add_tab_content, tab: $tab"
-
     # Get some of the file information
     lassign [get_info $tab tab {fileindex txt tabbar fname loaded diff remote}] file_index txt tb fname loaded diff remote
-
-    puts "  fname: $fname"
 
     # Only add the tab content if it has not been done
     if {!$loaded} {
@@ -3587,7 +3583,7 @@ namespace eval gui {
     wm title     .aboutwin ""
     wm transient .aboutwin .
     wm resizable .aboutwin 0 0
-    wm geometry  .aboutwin 350x350
+    wm geometry  .aboutwin 370x370
 
     ttk::frame .aboutwin.f
     ttk::label .aboutwin.f.logo -compound left -image logo -text " TKE" \
@@ -3644,16 +3640,49 @@ namespace eval gui {
     grid .aboutwin.f.if.l7 -row 7 -column 0 -sticky news -padx 2 -pady 2
     grid .aboutwin.f.if.v7 -row 7 -column 1 -sticky news -padx 2 -pady 2
 
-    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 16]
+    ttk::labelframe .aboutwin.f.cf -text [msgcat::mc "Credits"] -labelanchor n
+    set txt [text .aboutwin.f.cf.t -wrap word -height 5 -relief flat \
+      -background [utils::get_default_background] \
+      -foreground [utils::get_default_foreground] \
+      -yscrollcommand { utils::set_yscrollbar .aboutwin.f.cf.vb }]
+    ttk::scrollbar .aboutwin.f.cf.vb -orient vertical -command { .aboutwin.f.cf.t yview }
+
+    grid rowconfigure    .aboutwin.f.cf 0 -weight 1
+    grid columnconfigure .aboutwin.f.cf 0 -weight 1
+    grid .aboutwin.f.cf.t  -row 0 -column 0 -sticky news
+    grid .aboutwin.f.cf.vb -row 0 -column 1 -sticky ns
+
+    ttk::button .aboutwin.f.credits -style BButton -text [msgcat::mc "Credits"] -command {
+      if {[.aboutwin.f.credits cget -text] eq [msgcat::mc "Credits"]} {
+        pack forget .aboutwin.f.if
+        pack .aboutwin.f.cf -after .aboutwin.f.logo -padx 2 -pady 2 -fill both -expand yes
+        .aboutwin.f.credits configure -text [msgcat::mc "Back"]
+      } else {
+        pack forget .aboutwin.f.cf
+        pack .aboutwin.f.if -after .aboutwin.f.logo -padx 2 -pady 2
+        .aboutwin.f.credits configure -text [msgcat::mc "Credits"]
+      }
+    }
+    ttk::label  .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 16]
 
     pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.f.if        -padx 2 -pady 2
+    pack .aboutwin.f.credits   -padx 2 -pady 2
     pack .aboutwin.f.copyright -padx 2 -pady 8
 
     pack .aboutwin.f -fill both -expand yes
 
     # Center the window in the editor window
     ::tk::PlaceWindow .aboutwin widget .
+
+    # Add credit information
+    $txt insert end "Special thanks to the following:\n\n"
+    $txt insert end "\uff65 The " {} "filerunner" frlink " project for creating and sharing their FTP and SFTP codebase to make built-in remote file editing possible." {}
+
+    $txt tag configure frlink -underline 1
+    $txt tag bind frlink <Enter>    [list $txt configure -cursor [ttk::cursor link]]
+    $txt tag bind frlink <Leave>    [list $txt configure -cursor [ttk::cursor standard]]
+    $txt tag bind frlink <Button-1> [list utils::open_file_externally "http://filerunner.sourceforge.net"]
 
   }
 
