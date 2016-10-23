@@ -663,6 +663,7 @@ namespace eval remote {
     variable data
     variable connection
     variable images
+    variable opened
 
     # Get the selection
     set selected [$widgets(sb) curselection]
@@ -681,17 +682,24 @@ namespace eval remote {
     # Get settings
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
-    # Set the image to indicate that we are connecting
-    $widgets(sb) cellconfigure $selected,name -image remote_connecting
+    if {[info exists opened($data(name))]} {
 
-    # Connect to the FTP server and add the directory
-    if {[connect $data(name)]} {
-      puts "CONNECTED!"
       add_directory $data(name) $widgets(tl) root [lindex $settings 5]
-      puts "AFTER add_directory"
       $widgets(sb) cellconfigure $selected,name -image remote_connected
+
     } else {
-      $widgets(sb) cellconfigure $selected,name -image ""
+
+      # Set the image to indicate that we are connecting
+      $widgets(sb) cellconfigure $selected,name -image remote_connecting
+
+      # Connect to the FTP server and add the directory
+      if {[connect $data(name)]} {
+        add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+        $widgets(sb) cellconfigure $selected,name -image remote_connected
+      } else {
+        $widgets(sb) cellconfigure $selected,name -image ""
+      }
+
     }
 
   }
@@ -1102,8 +1110,6 @@ namespace eval remote {
 
     variable data
 
-    puts "fname: [$tbl cellcget $row,fname -text]"
-
     add_directory $data(name) $tbl $row [$tbl cellcget $row,fname -text]
 
   }
@@ -1446,7 +1452,7 @@ namespace eval remote {
   # Called on application exit.  Disconnects all opened connections.
   proc disconnect_all {} {
 
-    variable connections
+    variable opened
 
     foreach name [array names opened] {
       disconnect $name
@@ -1722,7 +1728,7 @@ namespace eval remote {
         }
         set row [$widgets(sb) insertchild $groups($group) end [list $name $data($key) [lindex $data($key) 3]]]
         set connections($group,$name) [list $row {*}$data($key)]
-        if {[info exists opened($name)]} {
+        if {[info exists opened($group,$name)]} {
           $widgets(sb) cellconfigure $row,name -image remote_connected
         }
       }
