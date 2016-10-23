@@ -102,7 +102,16 @@ if {[catch "package require tooltip" rc]} {
 puts -nonewline "Checking for tkdnd package...               "
 flush stdout
 if {[catch "package require tkdnd" rc]} {
-  puts "Not Found"
+  puts "Not Found (Drag and drop support will be disabled)"
+} else {
+  puts "Found"
+}
+
+# Check to see if Expect package is available on the system
+puts -nonewline "Checking for Expect package...              "
+flush stdout
+if {[catch "package require Expect" rc]} {
+  puts "Not Found (SFTP support will be disabled)"
 } else {
   puts "Found"
 }
