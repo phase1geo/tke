@@ -1469,7 +1469,7 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {[::FTP_CD $name [file dirname $fname]]} {
+        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
             return [expr [lsearch -index 8 $rc [file tail $fname]] != -1]
           }
@@ -1490,7 +1490,7 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {[::FTP_CD $name [file dirname $fname]]} {
+        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
             if {[set file_out [lsearch -inline -index 8 $rc [file tail $fname]]] ne ""} {
               return [clock scan [join [lrange $file_out 5 7]]]
@@ -1517,7 +1517,7 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {[::FTP_CD $name $dirname]} {
+        if {![catch { ::FTP_CD $name $dirname }]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
             foreach item $rc {
               set fname [file join $dirname {*}[lrange $item 8 end]]
@@ -1607,7 +1607,6 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         ::FTP_MkDir $name $dirname
-        ::FTP_CD $name [file dirname $dirname]
         return 1
       }
     }
