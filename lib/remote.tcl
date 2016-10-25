@@ -1364,7 +1364,7 @@ namespace eval remote {
     # Add the new directory
     if {[dir_contents $name $directory items]} {
       if {$parent eq "root"} {
-        $tbl insertchild $parent end $directory
+        $tbl insertchild $parent end [list $directory 1]
       }
       foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 1]] {
         set row [$tbl insertchild $parent end $fname]
