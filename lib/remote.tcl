@@ -298,7 +298,11 @@ namespace eval remote {
   # Formats the file/directory name in the table.
   proc format_name {value} {
 
-    return [file tail $value]
+    variable widgets
+
+    lassign [$widgets(tl) formatinfo] key row col
+
+    return [expr {($row == 0) ? "." : [file tail $value]}]
 
   }
 
@@ -1359,6 +1363,9 @@ namespace eval remote {
 
     # Add the new directory
     if {[dir_contents $name $directory items]} {
+      if {$parent eq "root"} {
+        $tbl insertchild $parent end $directory
+      }
       foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 1]] {
         set row [$tbl insertchild $parent end $fname]
         $tbl insertchild $row end [list]
