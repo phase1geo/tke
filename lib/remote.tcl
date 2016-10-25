@@ -278,6 +278,9 @@ namespace eval remote {
       }
     }
 
+    # Center the window
+    ::tk::PlaceWindow .ftp widget .
+
     # Get the focus
     ::tk::SetFocusGrab .ftp .ftp.pw.rf.ff.tl
 
@@ -1643,11 +1646,14 @@ namespace eval remote {
     variable connections
 
     # Change the current directory
-    switch [lindex $connections($name) 0] {
+    switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        ::FTP_Rename $name $curr_fname $new_fname
-        return 1
+        if {![catch { ::FTP_Rename $name $curr_fname $new_fname } rc]} {
+          return 1
+        } else {
+          puts "rc: $rc"
+        }
       }
     }
 

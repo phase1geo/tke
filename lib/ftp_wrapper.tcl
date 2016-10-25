@@ -100,7 +100,7 @@ if {![catch { package require Expect }]} {
   set ::glob(os)                     "Unix"  ;# TBD
   set ::glob(abortcmd)               0
   set ::config(ftp,timeout)          60
-  set ::config(ftp,cache,maxentries) 1
+  set ::config(ftp,cache,maxentries) 0  ;# Effectively turn off caching
   set ::ftp(cache)                   [list]
 
   # Load the sftp code base
