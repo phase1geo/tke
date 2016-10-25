@@ -3295,8 +3295,10 @@ namespace eval gui {
   # Shows the current file in the sidebar.
   proc show_current_in_sidebar {} {
 
+    lassign [get_info {} current {fname remote}] fname remote
+
     # Display the file in the sidebar
-    [ns sidebar]::view_file [get_info {} current fname]
+    [ns sidebar]::view_file $fname $remote
 
   }
 

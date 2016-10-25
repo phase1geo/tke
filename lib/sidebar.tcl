@@ -565,7 +565,9 @@ namespace eval sidebar {
 
     # Get some needed information
     if {$opts(-parent) eq "root"} {
-      add_to_recently_opened $dir
+      if {$opts(-remote) eq ""} {
+        add_to_recently_opened $dir
+      }
       set dir_tail [file tail $dir]
       set dir_path $dir
     } else {
@@ -588,8 +590,9 @@ namespace eval sidebar {
     set index end
     foreach child [$widgets(tl) childkeys $opts(-parent)] {
       set name [$widgets(tl) cellcget $child,name -text]
-      if {[string compare -length [string length $name] $dir $name] == 0} {
-        return [add_directory $dir -parent $child]
+      if {([string compare -length [string length $name] $dir $name] == 0) && \
+          ([$widgets(tl) cellcget $child,remote -text] eq $opts(-remote))} {
+        return [add_directory $dir -parent $child -remote $opts(-remote)]
       }
       if {($index eq "end") && ([string compare $dir_tail [file tail $name]] < 1)} {
         set index $i
@@ -1211,7 +1214,7 @@ namespace eval sidebar {
       $widgets(tl) delete $row
 
       # Add the file directory
-      update_directory [add_directory $fname]
+      update_directory [add_directory $fname -remote $remote]
 
     }
 
@@ -1364,13 +1367,16 @@ namespace eval sidebar {
     # Get the list of all root children
     set children [$widgets(tl) childkeys root]
 
+    # Get the remote value of the selected row
+    set remote [$widgets(tl) cellcget $row,remote -text]
+
     # Add the parent directory to the sidebar
-    set parent [add_directory [file dirname [$widgets(tl) cellcget $row,name -text]]]
+    set parent [add_directory [file dirname [$widgets(tl) cellcget $row,name -text]] -remote $remote]
 
     # Find/move children
     set ocount 0
     foreach child $children {
-      if {[set match [$widgets(tl) searchcolumn name [$widgets(tl) cellcget $child,name -text] -parent $parent -exact]] != -1} {
+      if {[set match [$widgets(tl) searchcolumn name [$widgets(tl) cellcget $child,name -text] -parent $parent -exact -check [list sidebar::remote_matches $remote]]] != -1} {
         set index [$widgets(tl) childindex $match]
         $widgets(tl) delete $match
         $widgets(tl) move $child $parent $index
@@ -1514,6 +1520,7 @@ namespace eval sidebar {
         plugins::handle_on_rename $old_name $fname
 
         if {![remote::rename_file $remote $old_name $fname]} {
+          puts "Rename did not work!"
           return
         }
 
@@ -1523,7 +1530,7 @@ namespace eval sidebar {
       gui::change_filename $old_name $fname
 
       # Add the file directory
-      update_directory [add_directory [file dirname $fname]]
+      update_directory [add_directory [file dirname $fname] -remote $remote]
 
       # Update the old directory
       after idle [list sidebar::update_directory [$widgets(tl) parentkey $row]]
@@ -1711,16 +1718,17 @@ namespace eval sidebar {
 
   ######################################################################
   # Recursively expands the tablelist to show the given filename.
-  proc view_file_helper {parent fdir} {
+  proc view_file_helper {parent fdir remote} {
 
     variable widgets
 
     foreach child [$widgets(tl) childkeys $parent] {
       set dir [$widgets(tl) cellcget $child,name -text]
-      if {[string compare -length [string length $dir] $fdir $dir] == 0} {
+      if {([string compare -length [string length $dir] $fdir $dir] == 0) && \
+          ([$widgets(tl) cellcget $child,remote -text] eq $remote)} {
         $widgets(tl) expand $child -partly
         if {$fdir ne $dir} {
-          show_file_helper $child $fdir
+          view_file_helper $child $fdir $remote
         }
         return 1
       }
@@ -1733,21 +1741,30 @@ namespace eval sidebar {
   ######################################################################
   # Shows the given filename in the sidebar browser.  Adds parent
   # directory if the file does not exist in the sidebar.
-  proc view_file {fname} {
+  proc view_file {fname remote} {
 
     variable widgets
 
     # Show the file in the sidebar
-    if {![view_file_helper root [file dirname $fname]]} {
-      add_directory [file dirname $fname]
+    if {![view_file_helper root [file dirname $fname] $remote]} {
+      add_directory [file dirname $fname] -remote $remote
     }
 
     # Put the file into view
-    if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
+    if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact -check [list sidebar::remote_matches $remote]]] != -1} {
       $widgets(tl) selection clear 0 end
       $widgets(tl) selection set $row
       $widgets(tl) see $row
     }
+
+  }
+
+  ######################################################################
+  # Returns true if the given table row's remote value matches the specified
+  # value.
+  proc remote_matches {remote tbl row col value} {
+
+    return [expr {$remote eq [$tbl cellcget $row,remote -text]}]
 
   }
 
