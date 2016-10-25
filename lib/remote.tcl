@@ -794,6 +794,7 @@ namespace eval remote {
     pack .groupwin.bf -fill x
 
     # Place the window in the middle of the FTP window
+    update
     ::tk::PlaceWindow .groupwin widget .ftp
 
     # Get the focus/grab
