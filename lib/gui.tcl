@@ -3965,11 +3965,19 @@ namespace eval gui {
     variable tab_tip
 
     # Get the full pathname to the current file
-    set fname [get_info $tab tab fname]
+    lassign [get_info $tab tab {fname remote}] fname remote
+
+    # Figure out what to display
+    if {$remote eq ""} {
+      set tip $fname
+    } else {
+      set remote [join [lassign [split $remote ,] group] ,]
+      set tip    "$fname ($remote)"
+    }
 
     # Create the tooltip
     set tab_tip($W) $tab
-    tooltip::tooltip $W $fname
+    tooltip::tooltip $W $tip
     event generate $W <Enter>
 
   }
