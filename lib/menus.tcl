@@ -411,7 +411,6 @@ namespace eval menus {
 
       # Get the state for items that are not valid for remote files
       set no_remote_state [expr {($remote eq "") ? $buffer_state : "disabled"}]
-      puts "remote: $remote, no_remote_state: $no_remote_state"
 
       # Get the current favorite status
       set favorite [favorites::is_favorite $fname]
@@ -441,7 +440,6 @@ namespace eval menus {
 
       # Make sure that the file-specific items are enabled
       $mb entryconfigure [msgcat::mc "Reopen File"]                        -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Change Working Directory"]           -state $no_remote_state
       $mb entryconfigure [msgcat::mc "Show File Difference"]               -state $no_remote_state
       $mb entryconfigure [msgcat::mc "Save"]                               -state [expr {$modified ? "normal" : "disabled"}]
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state normal
@@ -461,7 +459,6 @@ namespace eval menus {
 
       # Disable file menu items associated with current tab (since one doesn't currently exist)
       $mb entryconfigure [msgcat::mc "Reopen File"]                        -state disabled
-      $mb entryconfigure [msgcat::mc "Change Working Directory"]           -state disabled
       $mb entryconfigure [msgcat::mc "Show File Difference"]               -state disabled
       $mb entryconfigure [msgcat::mc "Save"]                               -state disabled
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state disabled
@@ -640,11 +637,8 @@ namespace eval menus {
     # Get the directory or file
     lassign [remote::create open] conn_name ofiles
 
-    puts "OPEN_REMOTE_COMMAND  conn_name: $conn_name, ofiles: $ofiles"
-
     # Add the files to the editing area
     foreach ofile $ofiles {
-      puts "ofile: $ofile"
       if {[lassign $ofile fname]} {
         sidebar::add_directory $fname -remote $conn_name
       } else {
