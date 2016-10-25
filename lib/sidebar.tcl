@@ -313,7 +313,15 @@ namespace eval sidebar {
     variable widgets
 
     set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set fav_state $one_state
     set first_row [lindex $rows 0]
+
+    foreach row $rows {
+      if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
+        set fav_state "disabled"
+        break
+      }
+    }
 
     # Clear the menu
     $widgets(menu) delete 0 end
@@ -338,16 +346,16 @@ namespace eval sidebar {
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
-      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_state
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $fav_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_state
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $fav_state
     }
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"]        -command [list sidebar::remove_folder $rows]
     $widgets(menu) add command -label [msgcat::mc "Remove Parent from Sidebar"] -command [list sidebar::remove_parent_folder $first_row] -state $one_state
     $widgets(menu) add separator
-    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $fav_state
     $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"]        -command [list sidebar::refresh_directory_files $rows]
 
     # Add plugins to sidebar directory popup
@@ -361,8 +369,18 @@ namespace eval sidebar {
 
     variable widgets
 
-    set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
-    set first_row [lindex $rows 0]
+    set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set fav_state    $one_state
+    set first_row    [lindex $rows 0]
+    set remote_found 0
+
+    foreach row $rows {
+      if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
+        set fav_state    "disabled"
+        set remote_found 1
+        break
+      }
+    }
 
     # Clear the menu
     $widgets(menu) delete 0 end
@@ -376,6 +394,11 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows]
     $widgets(menu) add separator
 
+    if {$remote_found} {
+      $widgets(menu) add command -label [msgcat::mc "Disconnect From Server"] -command [list sidebar::disconnect $rows]
+      $widgets(menu) add separator
+    }
+
     $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows]
     $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows]
     $widgets(menu) add separator
@@ -387,9 +410,9 @@ namespace eval sidebar {
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
-      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_state
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $fav_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_state
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $fav_state
     }
     $widgets(menu) add separator
 
@@ -397,7 +420,7 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command [list sidebar::add_parent_directory $first_row] -state $one_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $fav_state
     $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"]        -command [list sidebar::refresh_directory_files $rows]
 
     # Add plugins to sidebar root popup
@@ -1134,6 +1157,23 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Closes any opened files within a directory, disconnects from the
+  # server and removes the directory from the sidebar.
+  proc disconnect {rows} {
+
+    variable widgets
+
+    foreach row $rows {
+      if {[set remote [$widgets(tl) cellcget $row,remote -text]] ne ""} {
+        close_folder_files $row
+        remote::disconnect $remote
+        $widgets(tl) delete $row
+      }
+    }
+
+  }
+
+  ######################################################################
   # Hide all of the open files in the current directory.
   proc hide_folder_files {rows} {
 
@@ -1292,19 +1332,8 @@ namespace eval sidebar {
 
     variable widgets
 
-    foreach row [lreverse $rows] {
-
-      # Disconnect the FTP connection if the directory is a root directory
-      if {[$widgets(tl) parentkey $row] eq "root"} {
-        if {[set remote [$widgets(tl) cellcget $row,remote -text]] ne ""} {
-          remote::disconnect $remote
-        }
-      }
-
-      # Delete the row and its children
-      $widgets(tl) delete $row
-
-    }
+    # Delete the row and its children
+    $widgets(tl) delete $rows
 
   }
 
@@ -1520,7 +1549,6 @@ namespace eval sidebar {
         plugins::handle_on_rename $old_name $fname
 
         if {![remote::rename_file $remote $old_name $fname]} {
-          puts "Rename did not work!"
           return
         }
 

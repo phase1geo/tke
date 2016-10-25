@@ -711,7 +711,7 @@ namespace eval gui {
     variable file_favorited
 
     # Get the current information
-    lassign [get_info {} current {fileindex txt fname readonly lock diff tabbar}] file_index txt fname readonly file_locked diff_mode tb
+    lassign [get_info {} current {fileindex txt fname readonly lock diff tabbar remote buffer}] file_index txt fname readonly file_locked diff_mode tb remote buffer
 
     # Set the file_favorited variable
     set file_favorited [[ns favorites]::is_favorite $fname]
@@ -742,7 +742,7 @@ namespace eval gui {
       $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state disabled
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state normal
-      $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state [expr {$diff_mode ? "disabled" : "normal"}]
+      $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state [expr {($diff_mode || $buffer || ($remote ne "")) ? "disabled" : "normal"}]
     }
 
     # Make the split pane indicator look correct
