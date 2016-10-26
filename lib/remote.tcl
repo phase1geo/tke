@@ -1528,11 +1528,8 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        puts "In dir_contents, name: $name, dirname: $dirname"
         if {![catch { ::FTP_CD $name $dirname }]} {
-          puts "  CD worked!"
           if {![catch { ::FTP_List $name 0 } rc]} {
-            puts "  Listing: $rc"
             foreach item $rc {
               set fname [file join $dirname [lrange $item 8 end]]
               set dir   [expr {[::FTP_IsDir $name $fname] eq $fname}]
@@ -1662,8 +1659,6 @@ namespace eval remote {
       "SFTP" {
         if {![catch { ::FTP_Rename $name $curr_fname $new_fname } rc]} {
           return 1
-        } else {
-          puts "rc: $rc"
         }
       }
     }
