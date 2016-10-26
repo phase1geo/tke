@@ -999,6 +999,7 @@ namespace eval remote {
     set conn_name [$widgets(sb) cellcget $selected,name -text]
 
     # Disconnect, if necessary
+    sidebar::disconnect_by_name "$group_name,$conn_name"
     disconnect "$group_name,$conn_name"
 
     # Clear the icon
@@ -1452,8 +1453,10 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        ::FTP_CloseSession $name
-        catch { unset opened($name) }
+        if {[info exists opened($name)]} {
+          ::FTP_CloseSession $name
+          unset opened($name)
+        }
       }
     }
 

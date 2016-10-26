@@ -1174,6 +1174,18 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Disconnects by remote name.
+  proc disconnect_by_name {remote} {
+
+    variable widgets
+
+    if {[set row [$widgets(tl) searchcolumn remote $remote -parent root]] != -1} {
+      disconnect $row
+    }
+
+  }
+
+  ######################################################################
   # Hide all of the open files in the current directory.
   proc hide_folder_files {rows} {
 
