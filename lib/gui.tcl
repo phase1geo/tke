@@ -1723,11 +1723,6 @@ namespace eval gui {
       # Get the tab associated with the given file index
       lassign [get_info $file_index fileindex {tabbar tab}] tb w
 
-      # Only display the tab if we are not doing a lazy load
-      if {!$opts(-lazy)} {
-        set_current_tab $tb $w
-      }
-
     # Otherwise, load the file in a new tab
     } else {
 
@@ -1772,11 +1767,6 @@ namespace eval gui {
       lset file_info $files_index(remote)   $opts(-remote)
       lappend files $file_info
 
-      # Make this tab the currently displayed tab
-      if {!$opts(-lazy)} {
-        set_current_tab $tb $w
-      }
-
       # Run any plugins that should run when a file is opened
       [ns plugins]::handle_on_open [expr [llength $files] - 1]
 
@@ -1786,6 +1776,11 @@ namespace eval gui {
     if {$opts(-sidebar)} {
       [ns sidebar]::add_directory [file dirname [file normalize $fname]] -remote $opts(-remote)
       [ns sidebar]::highlight_filename $fname [expr ($opts(-diff) * 2) + 1]
+    }
+
+    # Make this tab the currently displayed tab
+    if {!$opts(-lazy)} {
+      set_current_tab $tb $w
     }
 
     # Set the tab image for the current file
