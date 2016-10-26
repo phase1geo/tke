@@ -2599,7 +2599,7 @@ namespace eval gui {
     array set opts $args
 
     # Get the current tabbar
-    lassign [get_info $tab tab {tabbar fname}] tb fname
+    lassign [get_info $tab tab {tabbar fname remote}] tb fname remote
 
     # Hide the tab
     $tb tab $tab -state hidden
@@ -2609,7 +2609,7 @@ namespace eval gui {
     }
 
     # Make sure the sidebar is updated properly
-    [ns sidebar]::set_hide_state $fname 1
+    [ns sidebar]::set_hide_state $fname $remote 1
 
     return $tb
 
@@ -2627,7 +2627,7 @@ namespace eval gui {
     array set opts $args
 
     # Get the current tabbar
-    lassign [get_info $tab tab {tabbar fname}] tb fname
+    lassign [get_info $tab tab {tabbar fname remote}] tb fname remote
 
     # Show the tab
     $tb tab $tab -state normal
@@ -2637,7 +2637,7 @@ namespace eval gui {
     }
 
     # Make sure the sidebar is updated properly
-    [ns sidebar]::set_hide_state $fname 0
+    [ns sidebar]::set_hide_state $fname $remote 0
 
     return $tb
 
@@ -3465,11 +3465,11 @@ namespace eval gui {
     }
 
     # Get the current text widget
-    set txt [get_info $index fileindex txt]
+    lassign [get_info $index fileindex {txt remote}] txt remote
 
     switch $attr {
       "sb_index" {
-        return [[ns sidebar]::get_index $index]
+        return [[ns sidebar]::get_index $index $remote]
       }
       "txt" {
         return $txt

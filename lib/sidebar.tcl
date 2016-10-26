@@ -485,11 +485,11 @@ namespace eval sidebar {
   ######################################################################
   # Returns the sidebar index of the given filename.  If the filename
   # was not found in the sidebar, return a value of -1.
-  proc get_index {fname} {
+  proc get_index {fname remote} {
 
     variable widgets
 
-    return [$widgets(tl) searchcolumn name $fname -descend -exact]
+    return [$widgets(tl) searchcolumn name $fname -descend -exact -check [list sidebar::remote_matches $remote]]
 
   }
 
@@ -525,12 +525,12 @@ namespace eval sidebar {
 
   ######################################################################
   # Sets the hide state of the given file to the given value.
-  proc set_hide_state {fname value} {
+  proc set_hide_state {fname remote value} {
 
     variable widgets
 
     # Get the associated index (return immediately if it is not found)
-    if {[set index [get_index $fname]] == -1} {
+    if {[set index [get_index $fname $remote]] == -1} {
       return
     }
 
@@ -586,6 +586,8 @@ namespace eval sidebar {
     }
     array set opts $args
 
+    puts "opts: [array get opts]"
+
     # Get some needed information
     if {$opts(-parent) eq "root"} {
       if {$opts(-remote) eq ""} {
@@ -611,10 +613,13 @@ namespace eval sidebar {
     # Search for a match in the parent directory
     set i     0
     set index end
+    puts "parent: $opts(-parent)"
     foreach child [$widgets(tl) childkeys $opts(-parent)] {
       set name [$widgets(tl) cellcget $child,name -text]
+      puts "name: $name"
       if {([string compare -length [string length $name] $dir $name] == 0) && \
           ([$widgets(tl) cellcget $child,remote -text] eq $opts(-remote))} {
+        puts "Adding directory to child: $child"
         return [add_directory $dir -parent $child -remote $opts(-remote)]
       }
       if {($index eq "end") && ([string compare $dir_tail [file tail $name]] < 1)} {
@@ -622,6 +627,8 @@ namespace eval sidebar {
       }
       incr i
     }
+
+    puts "Adding dir_path: $dir_path"
 
     # If no match was found, add it at the ordered index
     set parent [$widgets(tl) insertchild $opts(-parent) $index [list $dir_path 0 0 $opts(-remote)]]
@@ -639,6 +646,8 @@ namespace eval sidebar {
   proc add_subdirectory {parent remote} {
 
     variable widgets
+
+    puts "In add_subdirectory, parent: $parent, remote: $remote"
 
     # Get the folder contents and sort them
     foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
@@ -691,6 +700,7 @@ namespace eval sidebar {
 
     if {$remote ne ""} {
       remote::dir_contents $remote $dir items
+      puts "items: $items"
     } else {
       foreach fname [glob -nocomplain -directory $dir *] {
         lappend items [list $fname [file isdirectory $fname]]

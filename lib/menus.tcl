@@ -826,7 +826,7 @@ namespace eval menus {
       sidebar::update_directory [sidebar::add_directory [file dirname $fname] -remote $remote]
 
       # Update the old directory
-      if {[set sidebar_index [sidebar::get_index [file dirname $old_name]]] != -1} {
+      if {[set sidebar_index [sidebar::get_index [file dirname $old_name] $remote]] != -1} {
         after idle [list sidebar::update_directory $sidebar_index]
       }
 
@@ -864,7 +864,7 @@ namespace eval menus {
     gui::add_file end $dup_fname -remote $remote
 
     # Update the old directory
-    if {[set sidebar_index [sidebar::get_index [file dirname $dup_fname]]] != -1} {
+    if {[set sidebar_index [sidebar::get_index [file dirname $dup_fname] $remote]] != -1} {
       after idle [list sidebar::update_directory $sidebar_index]
     }
 
@@ -879,7 +879,7 @@ namespace eval menus {
   proc delete_command {} {
 
     # Get the full pathname
-    lassign [gui::get_info {} current fname] fname remote
+    lassign [gui::get_info {} current {fname remote}] fname remote
 
     # Get confirmation from the user
     if {[tk_messageBox -parent . -type yesno -default yes -message [format "%s %s?" [msgcat::mc "Delete"] $fname]] eq "yes"} {
@@ -898,7 +898,7 @@ namespace eval menus {
       }
 
       # Update the old directory
-      if {[set sidebar_index [sidebar::get_index [file dirname $fname]]] != -1} {
+      if {[set sidebar_index [sidebar::get_index [file dirname $fname] $remote]] != -1} {
         after idle [list sidebar::update_directory $sidebar_index]
       }
 

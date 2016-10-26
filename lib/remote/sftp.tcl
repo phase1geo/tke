@@ -245,7 +245,6 @@ proc sFTPpwd { ftpI } {
   }
 }
 
-
 proc sFTPlist { ftpI all} {
   global ftp glob
   upvar #0 ftp($ftpI,handle) spawn_id
@@ -257,21 +256,20 @@ proc sFTPlist { ftpI all} {
   set cmd [expr {$glob(os) == "Unix" ? $cmd : "ls" } ]
   exp_send "$cmd\r"
   expect \
-      -ex "$cmd\r\n" {exp_continue}\
-      timeout {if {$glob(abortcmd) == 1} {
-	sFTPclose  $ftpI
-	set expect_out(1,string) "User Abort";
-	set re 1
-      } else {
-	Log "Large directory, have patience.\
-                      You may abort with Stop button. [incr co]"
-	exp_continue
-      }
-      } \
-      -re ".*: (Permission denied).*\r?\n.?sftp> " {set re 1} \
-      -re "Listing directory \[^\n]*\n" {exp_continue} \
-      -re "(.*)\r?\n.?sftp> " {incr re 0} \
-      -re "sftp> " {incr re 0; set expect_out(1,string) {}}
+    -ex "$cmd\r\n" {exp_continue}\
+    timeout {if {$glob(abortcmd) == 1} {
+      sFTPclose  $ftpI
+      set expect_out(1,string) "User Abort";
+      set re 1
+    } else {
+      Log "Large directory, have patience. You may abort with Stop button. [incr co]"
+      exp_continue
+    }
+  } \
+    -re ".*: (Permission denied).*\r?\n.?sftp> " {set re 1} \
+    -re "Listing directory \[^\n]*\n" {exp_continue} \
+    -re "(.*)\r?\n.?sftp> " {incr re 0} \
+    -re "sftp> " {incr re 0; set expect_out(1,string) {}}
   if {$re}  {return -code error "$expect_out(1,string)"}
   # remove the \r chars
   #  puts "$expect_out(1,string)"
