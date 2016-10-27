@@ -19,6 +19,7 @@ namespace eval tabbar {
     -bordercolor            {borderColor            Color}
     -borderwidth            {borderWidth            BorderWidth}
     -bd                     -borderwidth
+    -busy                   {busy                   Busy}
     -checkcommand           {checkCommand           Command}
     -close                  {close                  Close}
     -closecommand           {closeCommand           Command}
@@ -46,6 +47,7 @@ namespace eval tabbar {
   }
 
   array set tab_options {
+    -busy         0
     -compound     ""
     -emboss       1
     -image        ""
@@ -92,6 +94,7 @@ namespace eval tabbar {
       option add *Tabbar.anchor              center    widgetDefault
       option add *Tabbar.background          grey90    widgetDefault
       option add *Tabbar.borderColor         grey50    widgetDefault
+      option add *Tabbar.busy                "left"    widgetDefault
       option add *Tabbar.close               "right"   widgetDefault
       option add *Tabbar.closeImage          ""        widgetDefault
       option add *Tabbar.closeShow           "enter"   widgetDefault
@@ -116,10 +119,9 @@ namespace eval tabbar {
     set data($w,image,close) [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
     set data($w,image,left)  [image create bitmap -file [file join $imgdir left.bmp]  -maskfile [file join $imgdir left.bmp]  -foreground black]
     set data($w,image,right) [image create bitmap -file [file join $imgdir right.bmp] -maskfile [file join $imgdir right.bmp] -foreground black]
-
-    # Set the scroll button images
-    # $w.sl configure -image $data(image,left)
-    # $w.sr configure -image $data(image,right)
+    for {set i 1} {$i <= 8} {incr i} {
+      set data($w,image,busy$i) [image create bitmap -file [file join $imgdir busy$i.bmp] -maskfile [file join $imgdir busy$i.bmp] -foreground black]
+    }
 
     # Initialize variables
     set data($w,pages)       [list]
@@ -347,6 +349,28 @@ namespace eval tabbar {
   }
 
   ######################################################################
+  # Animates busy for the given tab.
+  proc animate_busy {w tab bid img_list} {
+
+    variable data
+
+    if {([$w.c gettags $bid] ne "") || ([$w.c gettags [set bid [busy_tag $w [index $w $tab]]]] ne "")} {
+      
+      # Get the next image to draw and rotate the image list
+      set img_list [lassign $img_list img]
+      lappend img_list $img
+
+      # Draw the next busy image
+      $w.c itemconfigure $bid -image $data($img)
+
+      # Re-animate after a short time
+      after 100 [list tabbar::animate_busy $w $tab $bid $img_list]
+
+    }
+
+  }
+
+  ######################################################################
   # Returns the tag for the tab at the given page index.
   proc tab_tag {w page_index} {
 
@@ -383,6 +407,16 @@ namespace eval tabbar {
     variable data
 
     return x[lindex $data($w,pages) $page_index 1 0]
+
+  }
+
+  ######################################################################
+  # Returns the busy tag at the given page index.
+  proc busy_tag {w page_index} {
+
+    variable data
+
+    return bu[lindex $data($w,pages) $page_index 1 0]
 
   }
 
@@ -670,7 +704,7 @@ namespace eval tabbar {
     incr x0  $opts(-padx)
     incr x1 -$opts(-padx)
 
-    # If the tab has a close button on the left, create it now
+    # If the tab has a close button, create it now
     set cid ""
     if {$data($w,option,-close) ne ""} {
       if {[set closeimage $data($w,option,-closeimage)] eq ""} {
@@ -685,6 +719,17 @@ namespace eval tabbar {
       }
       if {$data($w,option,-closeshow) eq "enter"} {
         $w.c itemconfigure $cid -state hidden
+      }
+    }
+
+    # If the tab will need to indicate busy, draw it
+    if {$opts(-busy)} {
+      if {$data($w,option,-busy) eq "left"} {
+        $w.c create image $x0 $y0 -anchor w -image $data($w,image,busy1) -tags [list bu$id t$id]
+        incr x0 [expr [image width $data($w,image,busy1)] + $opts(-padx)]
+      } else {
+        lappend resizable [$w.c create image [incr x1 [expr 0 - ([image width $data($w,image,busy1)] + $opts(-padx))]] $y0 -anchor w -image $data($w,image,busy1) -tags [list bu$id t$id]]
+        incr x1 -$opts(-padx)
       }
     }
 
@@ -773,7 +818,7 @@ namespace eval tabbar {
     }
 
     # If there are any options that changed that require us to redraw ourself, do it now
-    foreach opt [list -emboss -compound -image -padx -pady] {
+    foreach opt [list -emboss -compound -image -padx -pady -busy] {
       if {$orig_opts($opt) ne $opts($opt)} {
         redraw_tab $w $page_index
         redraw $w
@@ -807,7 +852,7 @@ namespace eval tabbar {
     array set orig_opts $orig_opts_list
 
     # If any options have changed that will require a complete redraw, do it now
-    foreach opt [list -close -closeimage -closeshow -font -state -padx -pady -height -margin -anchor \
+    foreach opt [list -busy -close -closeimage -closeshow -font -state -padx -pady -height -margin -anchor \
                       -activebackground -activeforeground -inactivebackground -inactiveforeground] {
       if {$orig_opts($w,option,$opt) ne $data($w,option,$opt)} {
         redraw_all_tabs $w 0
@@ -1363,6 +1408,11 @@ namespace eval tabbar {
 
       # Make sure that the tab is in view
       make_current_viewable $w
+
+      # If -busy was set when it previously was not set, start the tab's busy animation
+      if {$opts(-busy) && !$oopts(-busy)} {
+        animate_busy $w [lindex $data($w,pages) $index 0] [busy_tag $w $index] [lsort -dictionary [array names data $w,image,busy*]]
+      }
 
     }
 
