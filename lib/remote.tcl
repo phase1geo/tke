@@ -36,6 +36,7 @@ namespace eval remote {
   array set connections {}
   array set opened      {}
   array set current_dir {}
+  array set dir_hist    {}
 
   ######################################################################
   # Initialize the remote namespace.
@@ -103,11 +104,15 @@ namespace eval remote {
     ttk::frame .ftp.pw.lf.sf
     set widgets(sb) [tablelist::tablelist .ftp.pw.lf.sf.tl \
       -columns {0 {Connections} 0 {} 0 {}} -treecolumn 0 -exportselection 0 -relief flat \
-      -selectmode single -movablerows 1 -labelrelief flat \
+      -selectmode single -movablerows 1 -labelrelief flat -highlightthickness 0 \
       -labelactivebackground [utils::get_default_background] \
       -labelbackground [utils::get_default_background] \
       -labelforeground [utils::get_default_foreground] \
+      -labelactivebackground [utils::get_default_background] \
+      -labelactiveforeground [utils::get_default_foreground] \
       -selectbackground [theme::get_value ttk_style active_color] \
+      -selectforeground [utils::get_default_foreground] \
+      -activestyle none \
       -acceptchildcommand [list remote::accept_child_command] \
       -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.lf.sf.vb]]
@@ -164,9 +169,18 @@ namespace eval remote {
     set widgets(viewer) [ttk::frame .ftp.pw.rf.vf]
 
     ttk::frame .ftp.pw.rf.vf.ff
-    set widgets(dir_mb) [ttk::menubutton .ftp.pw.rf.vf.ff.mb \
+    
+    ttk::frame .ftp.pw.rf.vf.ff.mf
+    set widgets(dir_back)    [ttk::button     .ftp.pw.rf.vf.ff.mf.back    -style BButton -text "\u276e" -command [list remote::handle_dir -1] -state disabled]
+    set widgets(dir_forward) [ttk::button     .ftp.pw.rf.vf.ff.mf.forward -style BButton -text "\u276f" -command [list remote::handle_dir  1] -state disabled]
+    set widgets(dir_mb)      [ttk::menubutton .ftp.pw.rf.vf.ff.mf.mb \
       -menu [set widgets(dir_menu) [menu .ftp.dirPopup -tearoff 0 -postcommand [list remote::handle_dir_mb_post]]] \
       -state disabled]
+    
+    pack $widgets(dir_back)    -side left -padx 2 -pady 2
+    pack $widgets(dir_forward) -side left -padx 2 -pady 2
+    pack $widgets(dir_mb)      -side left -padx 2 -pady 2 -fill x -expand yes
+    
     set widgets(tl) [tablelist::tablelist .ftp.pw.rf.vf.ff.tl \
       -columns {0 {File System} 0 {}} -exportselection 0 \
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
@@ -183,7 +197,7 @@ namespace eval remote {
 
     grid rowconfigure    .ftp.pw.rf.vf.ff 1 -weight 1
     grid columnconfigure .ftp.pw.rf.vf.ff 0 -weight 1
-    grid .ftp.pw.rf.vf.ff.mb -row 0 -column 0 -sticky ew -columnspan 2
+    grid .ftp.pw.rf.vf.ff.mf -row 0 -column 0 -sticky ew -columnspan 2
     grid .ftp.pw.rf.vf.ff.tl -row 1 -column 0 -sticky news
     grid .ftp.pw.rf.vf.ff.vb -row 1 -column 1 -sticky ns
     grid .ftp.pw.rf.vf.ff.hb -row 2 -column 0 -sticky ew
@@ -717,6 +731,8 @@ namespace eval remote {
     variable connection
     variable images
     variable opened
+    variable dir_hist
+    variable dir_hist_index
 
     # Get the selection
     set selected [$widgets(sb) curselection]
@@ -737,7 +753,7 @@ namespace eval remote {
 
     if {[info exists opened($current_server)]} {
 
-      set_current_directory [lindex $settings 5]
+      set_current_directory [lindex $settings 5] 1
       $widgets(sb) cellconfigure $selected,name -image remote_connected
 
     } else {
@@ -747,7 +763,9 @@ namespace eval remote {
 
       # Connect to the FTP server and add the directory
       if {[connect $current_server]} {
-        set_current_directory [lindex $settings 5]
+        set dir_hist($current_server)       [list]
+        set dir_hist_index($current_server) 0
+        set_current_directory [lindex $settings 5] 1
         $widgets(sb) cellconfigure $selected,name -image remote_connected
       } else {
         $widgets(sb) cellconfigure $selected,name -image ""
@@ -1034,6 +1052,9 @@ namespace eval remote {
 
     variable widgets
     variable opened
+    variable dir_hist
+    variable dir_hist_index
+    variable current_server
 
     # Get the currently selected connection
     set selected [$widgets(sb) curselection]
@@ -1053,9 +1074,20 @@ namespace eval remote {
 
     # Clear the table
     $widgets(tl) delete 0 end
+    
+    # Clear the directory history
+    catch { unset dir_hist($current_server) }
+    catch { unset dir_hist_index($current_server) }
+    
+    set current_server ""
 
     # Make sure that the Open/Save button is disabled
     $widgets(open) configure -state disabled
+    
+    # Make sure that the directory widgets are disabled
+    $widgets(dir_back)    configure -state disabled
+    $widgets(dir_forward) configure -state disabled
+    $widgets(dir_mb)      configure -text "" -state disabled
 
   }
 
@@ -1138,6 +1170,34 @@ namespace eval remote {
   #####################
   # VIEWER PROCEDURES #
   #####################
+  
+  ######################################################################
+  # Handles a click on the directory back/forward buttons.
+  proc handle_dir {dir} {
+    
+    variable widgets
+    variable dir_hist
+    variable dir_hist_index
+    variable current_server
+    
+    incr dir_hist_index($current_server) $dir
+    
+    if {$dir_hist_index($current_server) == 0} {
+      $widgets(dir_back) configure -state disabled
+    } else {
+      $widgets(dir_back) configure -state normal
+    }
+    
+    if {[expr ($dir_hist_index($current_server) + 1) == [llength $dir_hist($current_server)]]} {
+      $widgets(dir_forward) configure -state disabled
+    } else {
+      $widgets(dir_forward) configure -state normal
+    }
+    
+    # Set the current directory
+    set_current_directory [lindex $dir_hist($current_server) $dir_hist_index($current_server)] 0
+    
+  }
 
   ######################################################################
   # Handles a post event of the directory popup menu.
@@ -1155,7 +1215,7 @@ namespace eval remote {
 
     for {set i 0} {$i < [llength $dir_list]} {incr i} {
       set dir [file join {*}[lrange $dir_list 0 $i]]
-      $widgets(dir_menu) add command -label $dir -command [list remote::set_current_directory $dir]
+      $widgets(dir_menu) add command -label $dir -command [list remote::set_current_directory $dir 1]
     }
 
   }
@@ -1203,7 +1263,7 @@ namespace eval remote {
 
     } else {
 
-      set_current_directory [$widgets(tl) cellcget $selected,fname -text]
+      set_current_directory [$widgets(tl) cellcget $selected,fname -text] 1
 
     }
 
@@ -1443,11 +1503,13 @@ namespace eval remote {
 
   ######################################################################
   # Adds a new directory to the given table.
-  proc set_current_directory {directory} {
+  proc set_current_directory {directory update_hist} {
 
     variable widgets
     variable current_server
     variable current_dir
+    variable dir_hist
+    variable dir_hist_index
 
     # If the directory is empty, get the current directory
     if {$directory eq ""} {
@@ -1477,6 +1539,19 @@ namespace eval remote {
 
     # Update the state/text of the menubutton
     $widgets(dir_mb) configure -text $directory -state normal
+    
+    # Update the directory history
+    if {$update_hist} {
+      catch { set dir_hist($current_server) [lreplace $dir_hist($current_server) [expr $dir_hist_index($current_server) + 1] end] }
+      lappend dir_hist($current_server) $directory
+      set dir_hist_index($current_server) [expr [llength $dir_hist($current_server)] - 1]
+      if {[llength $dir_hist($current_server)] == 1} {
+        $widgets(dir_back) configure -state disabled
+      } else {
+        $widgets(dir_back) configure -state normal
+      }
+      $widgets(dir_forward) configure -state disabled
+    }
 
   }
 

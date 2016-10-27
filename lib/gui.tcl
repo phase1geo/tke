@@ -1798,7 +1798,7 @@ namespace eval gui {
     variable files_index
 
     # Get some of the file information
-    lassign [get_info $tab tab {fileindex txt tabbar fname loaded diff remote}] file_index txt tb fname loaded diff remote
+    lassign [get_info $tab tab {fileindex txt tabbar tab fname loaded diff remote}] file_index txt tb tab fname loaded diff remote
 
     # Only add the tab content if it has not been done
     if {!$loaded} {
@@ -1810,7 +1810,9 @@ namespace eval gui {
 
       # Get the file contents
       if {$remote ne ""} {
+        $tb tab $tab -busy 1
         set okay [[ns remote]::get_file $remote $fname contents modtime]
+        $tb tab $tab -busy 0
       } elseif {![catch { open $fname r } rc]} {
         set contents [string range [read $rc] 0 end-1]
         set okay     1
