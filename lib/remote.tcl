@@ -25,15 +25,17 @@
 namespace eval remote {
 
   variable password
-  variable connection  -1
+  variable connection     -1
   variable contents
-  variable initialized 0
+  variable initialized    0
+  variable current_server ""
+  variable current_fname  ""
 
   array set widgets     {}
-  array set data        {}
   array set groups      {}
   array set connections {}
   array set opened      {}
+  array set current_dir {}
 
   ######################################################################
   # Initialize the remote namespace.
@@ -44,16 +46,29 @@ namespace eval remote {
     if {!$initialized} {
 
       # Create images
-      theme::register_image remote_connecting bitmap ttk_style -background \
+      theme::register_image remote_connecting bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector to indicate that a connection is being opened."} \
         -file     [file join $::tke_dir lib images connecting.bmp] \
         -maskfile [file join $::tke_dir lib images connecting.bmp] \
         -foreground 1
-      theme::register_image remote_connected bitmap ttk_style -background \
+
+      theme::register_image remote_connected bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector to indicate that a connection is opened."} \
         -file     [file join $::tke_dir lib images connected.bmp] \
         -maskfile [file join $::tke_dir lib images connected.bmp] \
         -foreground 1
+
+      theme::register_image remote_directory bitmap ttk_style background \
+        {msgcat::mc "Image used in remote file selector to indicate a folder."} \
+        -file     [file join $::tke_dir lib images right.bmp] \
+        -maskfile [file join $::tke_dir lib images right.bmp] \
+        -foreground 2
+
+      theme::register_image remote_file bitmap ttk_style background \
+        {msgcat::mc "Image used in remote file selector to indicate a file."} \
+        -file     [file join $::tke_dir lib images blank.bmp] \
+        -maskfile [file join $::tke_dir lib images blank.bmp] \
+        -foreground 2
 
       set initialized 1
 
@@ -63,10 +78,11 @@ namespace eval remote {
 
   ######################################################################
   # Creates an remote dialog box and returns the selected file.
-  proc create {type} {
+  proc create {type {save_as ""}} {
 
     variable widgets
-    variable data
+    variable current_server
+    variable current_fname
 
     # Initialize the namespace
     initialize
@@ -148,10 +164,12 @@ namespace eval remote {
     set widgets(viewer) [ttk::frame .ftp.pw.rf.vf]
 
     ttk::frame .ftp.pw.rf.vf.ff
+    set widgets(dir_mb) [ttk::menubutton .ftp.pw.rf.vf.ff.mb \
+      -menu [set widgets(dir_menu) [menu .ftp.dirPopup -tearoff 0 -postcommand [list remote::handle_dir_mb_post]]] \
+      -state disabled]
     set widgets(tl) [tablelist::tablelist .ftp.pw.rf.vf.ff.tl \
-      -columns {0 {File System} 0 {}} -treecolumn 0 -exportselection 0 \
+      -columns {0 {File System} 0 {}} -exportselection 0 \
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
-      -expandcommand  [list remote::handle_table_expand] \
       -xscrollcommand [list utils::set_xscrollbar .ftp.pw.rf.vf.ff.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.rf.vf.ff.vb]]
     ttk::scrollbar .ftp.pw.rf.vf.ff.vb -orient vertical   -command [list .ftp.pw.rf.vf.ff.tl yview]
@@ -163,11 +181,19 @@ namespace eval remote {
     bind $widgets(tl)           <<TablelistSelect>> [list remote::handle_tl_select]
     bind [$widgets(tl) bodytag] <Double-Button-1>   [list remote::handle_tl_double_click]
 
-    grid rowconfigure    .ftp.pw.rf.vf.ff 0 -weight 1
+    grid rowconfigure    .ftp.pw.rf.vf.ff 1 -weight 1
     grid columnconfigure .ftp.pw.rf.vf.ff 0 -weight 1
-    grid .ftp.pw.rf.vf.ff.tl -row 0 -column 0 -sticky news
-    grid .ftp.pw.rf.vf.ff.vb -row 0 -column 1 -sticky ns
-    grid .ftp.pw.rf.vf.ff.hb -row 1 -column 0 -sticky ew
+    grid .ftp.pw.rf.vf.ff.mb -row 0 -column 0 -sticky ew -columnspan 2
+    grid .ftp.pw.rf.vf.ff.tl -row 1 -column 0 -sticky news
+    grid .ftp.pw.rf.vf.ff.vb -row 1 -column 1 -sticky ns
+    grid .ftp.pw.rf.vf.ff.hb -row 2 -column 0 -sticky ew
+
+    ttk::frame .ftp.pw.rf.vf.sf
+    ttk::label .ftp.pw.rf.vf.sf.l -text [format "%s: " [msgcat::mc "Name"]]
+    set widgets(save_entry) [ttk::entry .ftp.pw.rf.vf.sf.e -validate key -validatecommand [list remote::handle_save_entry %P]]
+
+    pack .ftp.pw.rf.vf.sf.l -side left -padx 2 -pady 2
+    pack .ftp.pw.rf.vf.sf.e -side left -padx 2 -pady 2 -fill x -expand yes
 
     ttk::frame  .ftp.pw.rf.vf.bf
     set widgets(folder) [ttk::button .ftp.pw.rf.vf.bf.folder -style BButton -text [msgcat::mc "New Folder"] \
@@ -182,9 +208,15 @@ namespace eval remote {
 
     if {$type ne "open"} {
       pack .ftp.pw.rf.vf.bf.folder -side left -padx 2 -pady 2
+      $widgets(open) configure -text [msgcat::mc "Save"]
     }
 
     pack .ftp.pw.rf.vf.ff -fill both -expand yes
+    if {$type ne "open"} {
+      pack .ftp.pw.rf.vf.sf -fill x
+      $widgets(save_entry) insert end $save_as
+      $widgets(save_entry) selection range 0 end
+    }
     pack .ftp.pw.rf.vf.bf -fill x
 
     pack .ftp.pw.rf.vf -fill both -expand yes
@@ -290,7 +322,7 @@ namespace eval remote {
     # Restore the focus
     ::tk::RestoreFocusGrab .ftp .ftp.pw.rf.ff.tl
 
-    return [list $data(name) $data(fname)]
+    return [list $current_server $current_fname]
 
   }
 
@@ -298,11 +330,7 @@ namespace eval remote {
   # Formats the file/directory name in the table.
   proc format_name {value} {
 
-    variable widgets
-
-    lassign [$widgets(tl) formatinfo] key row col
-
-    return [expr {($row == 0) ? "." : [file tail $value]}]
+    return [file tail $value]
 
   }
 
@@ -324,6 +352,23 @@ namespace eval remote {
 
     # Just save the current connections
     save_connections
+
+  }
+
+  ######################################################################
+  # Handle any changes to the save entry.  Updates the state of the "Save"
+  # button.
+  proc handle_save_entry {value} {
+
+    variable widgets
+
+    if {$value eq ""} {
+      $widgets(open) configure -state disabled
+    } else {
+      $widgets(open) configure -state normal
+    }
+
+    return 1
 
   }
 
@@ -374,6 +419,7 @@ namespace eval remote {
     }
 
   }
+
 
   ######################################################################
   # Tests the current connection settings and displays the result message
@@ -667,7 +713,7 @@ namespace eval remote {
   proc handle_sb_double_click {} {
 
     variable widgets
-    variable data
+    variable current_server
     variable connection
     variable images
     variable opened
@@ -684,14 +730,14 @@ namespace eval remote {
     set group [$widgets(sb) cellcget $parent,name -text]
 
     # Get the connection name to load
-    set data(name) "$group,[$widgets(sb) cellcget $selected,name -text]"
+    set current_server "$group,[$widgets(sb) cellcget $selected,name -text]"
 
     # Get settings
     set settings [$widgets(sb) cellcget $selected,settings -text]
 
-    if {[info exists opened($data(name))]} {
+    if {[info exists opened($current_server)]} {
 
-      add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+      set_current_directory [lindex $settings 5]
       $widgets(sb) cellconfigure $selected,name -image remote_connected
 
     } else {
@@ -700,8 +746,8 @@ namespace eval remote {
       $widgets(sb) cellconfigure $selected,name -image remote_connecting
 
       # Connect to the FTP server and add the directory
-      if {[connect $data(name)]} {
-        add_directory $data(name) $widgets(tl) root [lindex $settings 5]
+      if {[connect $current_server]} {
+        set_current_directory [lindex $settings 5]
         $widgets(sb) cellconfigure $selected,name -image remote_connected
       } else {
         $widgets(sb) cellconfigure $selected,name -image ""
@@ -718,8 +764,8 @@ namespace eval remote {
     variable widgets
 
     foreach {tbl x y} [tablelist::convEventFields $W $x $y] {}
-    set row [$tbl containing $y]
 
+    set row [$tbl containing $y]
     if {$row == -1} {
       return
     }
@@ -1094,12 +1140,50 @@ namespace eval remote {
   #####################
 
   ######################################################################
+  # Handles a post event of the directory popup menu.
+  proc handle_dir_mb_post {} {
+
+    variable widgets
+    variable current_server
+    variable current_dir
+
+    # Get the directory list
+    set dir_list [file split $current_dir($current_server)]
+
+    # Clear the menu
+    $widgets(dir_menu) delete 0 end
+
+    for {set i 0} {$i < [llength $dir_list]} {incr i} {
+      set dir [file join {*}[lrange $dir_list 0 $i]]
+      $widgets(dir_menu) add command -label $dir -command [list remote::set_current_directory $dir]
+    }
+
+  }
+
+  ######################################################################
   # Handles a selection of a file in the file viewer.
   proc handle_tl_select {} {
 
     variable widgets
 
-    $widgets(open) configure -state normal
+    # Get the currently selected row
+    set selected [$widgets(tl) curselection]
+
+    # If the selected item is a file
+    if {([$widgets(open) cget -text] eq "Open") || \
+        ([$widgets(tl) cellcget $selected,dir -text] == 0)} {
+
+      # Populate the save entry field
+      $widgets(save_entry) delete 0 end
+      $widgets(save_entry) insert end [file tail [$widgets(tl) cellcget $selected,fname -text]]
+
+      if {[$widgets(save_entry) get] ne ""} {
+        $widgets(open) configure -state normal
+      } else {
+        $widgets(open) configure -state disabled
+      }
+
+    }
 
   }
 
@@ -1107,19 +1191,21 @@ namespace eval remote {
   # Handles a double-click in the file browser.
   proc handle_tl_double_click {} {
 
-    # A double-click will be treated the same a single click and a click
-    # on the action button.
-    handle_open
+    variable widgets
 
-  }
+    # Get the current selection
+    set selected [$widgets(tl) curselection]
 
-  ######################################################################
-  # Handles a table directory expansion.
-  proc handle_table_expand {tbl row} {
+    if {[$widgets(tl) cellcget $selected,dir -text] == 0} {
 
-    variable data
+      handle_tl_select
+      handle_open
 
-    add_directory $data(name) $tbl $row [$tbl cellcget $row,fname -text]
+    } else {
+
+      set_current_directory [$widgets(tl) cellcget $selected,fname -text]
+
+    }
 
   }
 
@@ -1319,15 +1405,21 @@ namespace eval remote {
   proc handle_open {} {
 
     variable widgets
-    variable data
+    variable current_server
+    variable current_dir
+    variable current_fname
 
     # Get the currently selected item
     set selected [$widgets(tl) curselection]
 
-    # Get the filename
-    set data(fname) [list]
-    foreach select $selected {
-      lappend data(fname) [list [$widgets(tl) cellcget $select,fname -text] [$widgets(tl) cellcget $select,dir -text]]
+    # Get the filename(s)
+    if {[$widgets(open) cget -text] eq "Open"} {
+      set current_fname [list]
+      foreach select $selected {
+        lappend current_fname [list [$widgets(tl) cellcget $select,fname -text] [$widgets(tl) cellcget $select,dir -text]]
+      }
+    } else {
+      set current_fname [file join $current_dir($current_server) [$widgets(save_entry) get]]
     }
 
     # Kill the window
@@ -1339,11 +1431,10 @@ namespace eval remote {
   # Cancels the open operation.
   proc handle_cancel {} {
 
-    variable data
+    variable current_fname
 
     # Indicate that no file was chosen
-    set data(name)  ""
-    set data(fname) ""
+    set current_fname  ""
 
     # Close the window
     destroy .ftp
@@ -1352,32 +1443,40 @@ namespace eval remote {
 
   ######################################################################
   # Adds a new directory to the given table.
-  proc add_directory {name tbl parent directory} {
+  proc set_current_directory {directory} {
 
-    # Delete the children of the given parent in the table
-    $tbl delete [$tbl childkeys $parent]
+    variable widgets
+    variable current_server
+    variable current_dir
 
     # If the directory is empty, get the current directory
     if {$directory eq ""} {
-      set directory [::FTP_PWD $name]
+      set directory [::FTP_PWD $current_server]
     }
 
+    # Delete the children of the given parent in the table
+    $widgets(tl) delete 0 end
+
     # Add the new directory
-    if {[dir_contents $name $directory items]} {
-      if {$parent eq "root"} {
-        $tbl insertchild $parent end [list $directory 1]
-      }
+    set items [list]
+    if {[dir_contents $current_server $directory items]} {
       foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 1]] {
-        set row [$tbl insertchild $parent end $fname]
-        $tbl insertchild $row end [list]
-        $tbl collapse $row
+        set row [$widgets(tl) insert end $fname]
+        $widgets(tl) cellconfigure $row,fname -image remote_directory
       }
       foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 0]] {
-        $tbl insertchild $parent end $fname
+        set row [$widgets(tl) insert end $fname]
+        $widgets(tl) cellconfigure $row,fname -image remote_file
       }
     } else {
       puts "ERROR:  Unable to find dir_contents for dir: $directory ($name)"
     }
+
+    # Sets the current directory to the provided value
+    set current_dir($current_server) $directory
+
+    # Update the state/text of the menubutton
+    $widgets(dir_mb) configure -text $directory -state normal
 
   }
 

@@ -693,7 +693,9 @@ namespace eval menus {
   # Saves the current tab file as a new filename on a remote server.
   proc save_as_remote_command {} {
 
-    lassign [remote::create save] connection sfile
+    set fname [file tail [gui::get_info {} current fname]]
+
+    lassign [remote::create save $fname] connection sfile
 
     if {$sfile ne ""} {
       gui::save_current {} -force 1 -save_as $sfile -remote $connection
