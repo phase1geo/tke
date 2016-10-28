@@ -144,10 +144,13 @@ namespace eval tabbar {
     # Setup bindings
     if {[llength [bind TabbarTabBar]] == 0} {
 
-      bind TabbarTabBar <Configure> { tabbar::redraw  [winfo parent %W] }
-      bind TabbarTabBar <Destroy>   { tabbar::destroy [winfo parent %W] }
-      bind TabbarTabBar <Leave>     { tabbar::handle_tabbar_leave  [winfo parent %W] %x %y }
-      bind TabbarTabBar <Motion>    { tabbar::handle_tabbar_motion [winfo parent %W] %x %y }
+      bind TabbarTabBar <Configure>  { tabbar::redraw  [winfo parent %W] }
+      bind TabbarTabBar <Destroy>    { tabbar::destroy [winfo parent %W] }
+      bind TabbarTabBar <Leave>      { tabbar::handle_tabbar_leave  [winfo parent %W] %x %y }
+      bind TabbarTabBar <Motion>     { tabbar::handle_tabbar_motion [winfo parent %W] %x %y }
+      bind TabbarTabBar <MouseWheel> { tabbar::handle_tabbar_mousewheel [winfo parent %W] %D }
+      bind TabbarTabBar <4>          { tabbar::handle_tabbar_mousewheel [winfo parent %W]  1 }
+      bind TabbarTabBar <5>          { tabbar::handle_tabbar_mousewheel [winfo parent %W] -1 }
 
     }
 
@@ -184,7 +187,7 @@ namespace eval tabbar {
 
     variable data
 
-    if {[$w.sl cget -state] eq "normal"} {
+    if {[winfo ismapped $w.sl] && ([$w.sl cget -state] eq "normal")} {
 
       # Update the left_tab value
       incr data($w,left_tab) -1
@@ -205,7 +208,7 @@ namespace eval tabbar {
 
     variable data
 
-    if {[$w.sr cget -state] eq "normal"} {
+    if {[winfo ismapped $w.sr] && ([$w.sr cget -state] eq "normal")} {
 
       # Move one unit to the right
       $w.c xview scroll 1 units
@@ -346,6 +349,22 @@ namespace eval tabbar {
 
     }
 
+  }
+  
+  ######################################################################
+  # Handles mousewheel events occurring within the tabbar.
+  proc handle_tabbar_mousewheel {w d} {
+    
+    if {[tk windowingsystem] eq "win32"} {
+      set d [expr int( pow( %d / -120, 3))]
+    }
+    
+    if {$d == -1} {
+      scroll_right $w
+    } else {
+      scroll_left $w
+    }
+    
   }
 
   ######################################################################
