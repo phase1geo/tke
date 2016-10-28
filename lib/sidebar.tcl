@@ -307,29 +307,31 @@ namespace eval sidebar {
   }
 
   ######################################################################
-  # Return 1 if at least one opened files exist in the given directory
-  # rows.
-  proc get_opened_closed {rows} {
-    
+  # Return a list of menu states to use for directories.  The returned
+  # list is:  <open_state> <close_state> <hide_state> <show_state>
+  proc get_menu_states {rows} {
+
     variable widgets
-    
-    set opened 0
-    set closed 0
-    
+
+    set opened "disabled"
+    set closed "disabled"
+    set hide   "disabled"
+    set show   "disabled"
+
     foreach row $rows {
       foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
-          set opened 1
-        } else {
-          set closed 1
+        switch [$widgets(tl) cellcget $child,name -image] {
+          "sidebar_hidden" { set closed "normal"; set show "normal" }
+          "sidebar_open"   { set closed "normal"; set hide "normal" }
+          default          { set opened "normal" }
         }
       }
     }
-    
-    return [list $opened $closed]
- 
+
+    return [list $opened $closed $hide $show]
+
   }
-  
+
   ######################################################################
   # Sets up the popup menu to be suitable for the given directory.
   proc setup_dir_menu {rows} {
@@ -339,8 +341,8 @@ namespace eval sidebar {
     set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
     set fav_state $one_state
     set first_row [lindex $rows 0]
-    
-    lassign [get_opened_closed $rows] opened closed
+
+    lassign [get_menu_states $rows] open_state close_state hide_state show_state
 
     foreach row $rows {
       if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
@@ -348,7 +350,7 @@ namespace eval sidebar {
         break
       }
     }
-    
+
     # Clear the menu
     $widgets(menu) delete 0 end
 
@@ -357,12 +359,12 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state [expr {$closed ? "normal" : "disabled"}]
-    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state $open_state
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows] -state $close_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
-    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows] -state $hide_state
+    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows] -state $show_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
@@ -400,7 +402,7 @@ namespace eval sidebar {
     set first_row    [lindex $rows 0]
     set remote_found 0
 
-    lassign [get_opened_closed $rows] opened closed
+    lassign [get_menu_states $rows] open_state close_state hide_state show_state
 
     foreach row $rows {
       if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
@@ -418,8 +420,8 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state [expr {$closed ? "normal" : "disabled"}]
-    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state $open_state
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows] -state $close_state
     $widgets(menu) add separator
 
     if {$remote_found} {
@@ -427,8 +429,8 @@ namespace eval sidebar {
       $widgets(menu) add separator
     }
 
-    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
-    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows] -state $hide_state
+    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows] -state $show_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
@@ -473,15 +475,10 @@ namespace eval sidebar {
     # Calculate the hide and show menu states
     set fg [$widgets(tl) cget -foreground]
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,name -image] eq "sidebar_hidden"} {
-        set show_state "normal"
-      } else {
-        set hide_state "normal"
-      }
-      if {[$widgets(tl) cellcget $row,name -image] eq ""} {
-        set open_state "normal"
-      } else {
-        set close_state "normal"
+      switch [$widgets(tl) cellcget $row,name -image] {
+        "sidebar_hidden" { set close_state "normal"; set show_state "normal" }
+        "sidebar_open"   { set close_state "normal"; set hide_state "normal" }
+        default          { set open_state  "normal" }
       }
     }
 
