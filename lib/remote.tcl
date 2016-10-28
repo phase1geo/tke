@@ -36,6 +36,8 @@ namespace eval remote {
   array set opened      {}
   array set current_dir {}
   array set dir_hist    {}
+  
+  set remote_file [file join $::tke_home remote.tkedat]
 
   ######################################################################
   # Initialize the remote namespace.
@@ -1996,6 +1998,7 @@ namespace eval remote {
 
     variable widgets
     variable connections
+    variable remote_file
 
     array unset connections
 
@@ -2013,7 +2016,25 @@ namespace eval remote {
     }
 
     # Write the information to file
-    catch { tkedat::write [file join $::tke_home remote.tkedat] $data 0 }
+    catch { tkedat::write $remote_file $data 0 }
+
+  }
+  
+  ######################################################################
+  # Returns the list of files in the TKE home directory to copy.
+  proc get_share_items {dir} {
+
+    return [list remote.tkedat]
+
+  }
+
+  ######################################################################
+  # Called whenever the share directory changes.
+  proc share_changed {dir} {
+
+    variable remote_file
+
+    set remote_file [file join $dir remote.tkedat]
 
   }
 

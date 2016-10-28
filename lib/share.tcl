@@ -34,7 +34,11 @@ namespace eval share {
   array set items   {}
 
   ######################################################################
-  # Returns the list of sharing items.
+  # Returns the list of sharing items.  The following is a description
+  # of each item.
+  #   - Referred nickname
+  #   - Namespace
+  #   - Displayed name in GUI
   proc get_share_items {} {
 
     return [list \
@@ -43,6 +47,7 @@ namespace eval share {
       launcher  launcher    [msgcat::mc "Launcher"] \
       plugins   plugins     [msgcat::mc "Plugins"] \
       prefs     preferences [msgcat::mc "Preferences"] \
+      remote    remote      [msgcat::mc "Remote Connections"] \
       sessions  sessions    [msgcat::mc "Sessions"] \
       snippets  snippets    [msgcat::mc "Snippets"] \
       templates templates   [msgcat::mc "Templates"] \
@@ -405,7 +410,7 @@ namespace eval share {
 
     # Initialize the share information
     set data(ShareDirectory) ""
-    set data(ShareItems)     [list emmet launcher plugins prefs sessions snippets templates themes]
+    set data(ShareItems)     [list emmet launcher plugins prefs remote sessions snippets templates themes]
 
     # Read in the share data from the file
     if {![catch { [ns tkedat]::read [file join $::tke_home share.tkedat] } rc]} {
