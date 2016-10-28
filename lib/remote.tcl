@@ -36,7 +36,7 @@ namespace eval remote {
   array set opened      {}
   array set current_dir {}
   array set dir_hist    {}
-  
+
   set remote_file [file join $::tke_home remote.tkedat]
 
   ######################################################################
@@ -136,7 +136,7 @@ namespace eval remote {
     grid .ftp.pw.lf.sf.vb -row 0 -column 1 -sticky ns
 
     ttk::frame  .ftp.pw.lf.bf
-    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "\u2795" -width 2 -command [list remote::show_new_menu]]
+    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "+" -width 2 -command [list remote::show_new_menu]]
 
     pack .ftp.pw.lf.bf.edit -side left -padx 2 -pady 2
 
@@ -338,20 +338,20 @@ namespace eval remote {
 
     # Display the window
     wm deiconify .ftp
-    
+
     # Figure out which widget should get focus
     if {$current_server eq ""} {
-      
+
       set focus_widget $widgets(sb)
       $widgets(sb) selection set 0
-      
+
     } else {
-      
+
       # Select the current server in the sidebar
       set server_name [join [lassign [split $current_server ,] server_group] ,]
       set group_row [$widgets(sb) searchcolumn name $server_group -parent root]
       $widgets(sb) selection set [$widgets(sb) searchcolumn name $server_name -parent $group_row]
-      
+
       if {$type eq "open"} {
         set focus_widget $widgets(tl)
       } else {
@@ -359,7 +359,7 @@ namespace eval remote {
         $widgets(save_entry) insert end $save_as
         $widgets(save_entry) selection range 0 end
       }
-      
+
     }
 
     # Get the focus
@@ -430,13 +430,13 @@ namespace eval remote {
 
     variable widgets
     variable opened
-    
+
     # Get the selected group
     set selected [$widgets(sb) curselection]
-    
+
     # Get the group name
     set group [$widgets(sb) cellcget $selected,name -text]
-    
+
     # Figure out if any connections are currently opened in this group
     set contains_opened [expr {[llength [array names opened $group,*]] > 0}]
 
@@ -447,7 +447,7 @@ namespace eval remote {
     } else {
       $widgets(group) entryconfigure [msgcat::mc "Delete Group"] -state normal
     }
-    
+
     # We cannot rename the group if it has at least one opened connection
     if {$contains_opened} {
       $widgets(group) entryconfigure [msgcat::mc "Rename Group"] -state disabled
@@ -1736,16 +1736,16 @@ namespace eval remote {
     }
 
   }
-  
+
   ######################################################################
   # Returns the matching filename line in the given listing of files within
   # a directory.
   proc find_fname {listing fname} {
-    
+
     set match_expr [string repeat {\S+\s+} 8]
-    
+
     return [lsearch -inline -regexp $listing "^\s*$match_expr$fname\$"]
-    
+
   }
 
   ######################################################################
@@ -2088,7 +2088,7 @@ namespace eval remote {
     catch { tkedat::write $remote_file $data 0 }
 
   }
-  
+
   ######################################################################
   # Returns the list of files in the TKE home directory to copy.
   proc get_share_items {dir} {
