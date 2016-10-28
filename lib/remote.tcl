@@ -231,8 +231,6 @@ namespace eval remote {
     pack .ftp.pw.rf.vf.ff -fill both -expand yes
     if {$type ne "open"} {
       pack .ftp.pw.rf.vf.sf -fill x
-      $widgets(save_entry) insert end $save_as
-      $widgets(save_entry) selection range 0 end
     }
     pack .ftp.pw.rf.vf.bf -fill x
 
@@ -340,15 +338,38 @@ namespace eval remote {
 
     # Display the window
     wm deiconify .ftp
+    
+    # Figure out which widget should get focus
+    if {$current_server eq ""} {
+      
+      set focus_widget $widgets(sb)
+      $widgets(sb) selection set 0
+      
+    } else {
+      
+      # Select the current server in the sidebar
+      set server_name [join [lassign [split $current_server ,] server_group] ,]
+      set group_row [$widgets(sb) searchcolumn name $server_group -parent root]
+      $widgets(sb) selection set [$widgets(sb) searchcolumn name $server_name -parent $group_row]
+      
+      if {$type eq "open"} {
+        set focus_widget $widgets(tl)
+      } else {
+        set focus_widget $widgets(save_entry)
+        $widgets(save_entry) insert end $save_as
+        $widgets(save_entry) selection range 0 end
+      }
+      
+    }
 
     # Get the focus
-    ::tk::SetFocusGrab .ftp $widgets(sb)
+    ::tk::SetFocusGrab .ftp $focus_widget
 
     # Wait for the window to close
     tkwait window .ftp
 
     # Restore the focus
-    ::tk::RestoreFocusGrab .ftp $widgets(sb)
+    ::tk::RestoreFocusGrab .ftp $focus_widget
 
     return [list $current_server $current_fname]
 
@@ -1086,9 +1107,6 @@ namespace eval remote {
         $widgets(open) configure -state normal
       }
 
-      # Enable the New Folder button
-      $widgets(folder) configure -state normal
-
     } else {
 
       # Set the image to indicate that we are connecting
@@ -1112,9 +1130,6 @@ namespace eval remote {
             ([$widgets(save_entry) get] ne "")} {
           $widgets(open) configure -state normal
         }
-
-        # Enable the New Folder button
-        $widgets(folder) configure -state normal
 
       # If we fail to connect, clear the connecting icon
       } else {
@@ -1365,15 +1380,13 @@ namespace eval remote {
 
     variable widgets
     variable groups
+    variable current_server
 
     # Clear variables
     array unset groups
 
     # Read the contents of the FTP file and load them into the sidebar table
     load_connections
-
-    # Select the first item in the table
-    $widgets(sb) selection set 0
 
   }
 
@@ -1625,6 +1638,9 @@ namespace eval remote {
       }
       $widgets(dir_forward) configure -state disabled
     }
+
+    # Enable the New Folder button
+    $widgets(folder) configure -state normal
 
   }
 
