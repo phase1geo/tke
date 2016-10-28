@@ -44,21 +44,39 @@ if {![catch { package require Expect }]} {
     regsub -all {\n} $m {\\n} m
     regsub -all {\r} $m {\\r} m
     regsub -all {\t} $m {\\t} m
-    puts "[set m]"
+    puts "frputs: [set m]"
     flush stdout
   }
 
   ######################################################################
   # This procedure is used by the sftp code.
-  proc ::Log {str} { puts "Log: $str" }
+  proc ::Log {str} {
+    # puts "Log: $str"
+  }
 
   ######################################################################
   # This procedure is used by the sftp code.
-  proc ::LogStatusOnly {str} { puts "LogStatusOnly: $str" }
+  proc ::LogStatusOnly {str} {
+    if {[::tke_development]} {
+      puts "LogStatusOnly: $str"
+    }
+  }
 
   ######################################################################
   # This procedure is used by the ftp_control code.
-  proc ::LogSilent {str} { puts "LogSilent: $str" }
+  proc ::LogSilent {str} {
+    # puts "LogSilent: $str"
+  }
+
+  ######################################################################
+  # Required by ftp_control.
+  proc PopWarn { warn } {
+    logger::log $warn
+    # puts "warn: $warn"
+    # smart_dialog .apop . [_ "Warning"] [list $warn] 0 1 [_ "OK"]
+    # LogStatusOnly "[lindex [split $warn \n] 0]"
+    # LogSilent [_ "**Warning**\n%s" $warn]
+  }
 
   ######################################################################
   # Required by sftp
@@ -76,15 +94,6 @@ if {![catch { package require Expect }]} {
 
     return [expr {($ans eq "yes") ? 1 : 2}]
 
-  }
-
-  ######################################################################
-  # Required by ftp_control.
-  proc PopWarn { warn } {
-    puts "warn: $warn"
-    # smart_dialog .apop . [_ "Warning"] [list $warn] 0 1 [_ "OK"]
-    # LogStatusOnly "[lindex [split $warn \n] 0]"
-    # LogSilent [_ "**Warning**\n%s" $warn]
   }
 
   ######################################################################
