@@ -2090,7 +2090,11 @@ namespace eval gui {
 
     set matching_index [::struct::set intersect $file_indices $diff_indices $remote_indices]
 
-    return [expr ([llength $matching_index] == 0) ? -1 : $matching_index]
+    if {[llength $matching_index] == 0} {
+      return -1
+    } else {
+      return $matching_index
+    }
 
   }
 
@@ -2167,7 +2171,7 @@ namespace eval gui {
     array set opts $args
 
     # Get current information
-    lassign [get_info {} current {tabbar txt fileindex buffer save_cmd diff remote buffer}] tb txt file_index buffer save_cmd diff remote buffer
+    lassign [get_info {} current {tabbar txt fileindex buffer save_cmd diff buffer}] tb txt file_index buffer save_cmd diff buffer
 
     # If the current file is a buffer and it has a save command, run the save command
     if {$buffer && ($save_cmd ne "")} {
@@ -2231,10 +2235,10 @@ namespace eval gui {
     }
 
     # Save the file contents
-    if {$remote ne ""} {
+    if {[lindex $files $file_index $files_index(remote)] ne ""} {
 
-      if {![[ns remote]::save_file $remote [lindex $files $file_index $files_index(fname)] [scrub_text $txt] modtime]} {
-        set_error_message [msgcat::mc "Unable to write file"] ""
+      if {![[ns remote]::save_file [lindex $files $file_index $files_index(remote)] [lindex $files $file_index $files_index(fname)] [scrub_text $txt] modtime]} {
+        set_error_message [msgcat::mc "Unable to write remote file"] ""
         return 0
       }
 

@@ -697,6 +697,8 @@ namespace eval menus {
 
     lassign [remote::create save $fname] connection sfile
 
+    puts "connection: $connection, sfile: $sfile"
+
     if {$sfile ne ""} {
       gui::save_current {} -force 1 -save_as $sfile -remote $connection
     }
