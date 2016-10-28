@@ -1296,7 +1296,7 @@ namespace eval tabbar {
       # If the foreground has changed, update the images
       if {$orig_options($w,option,-foreground) ne $data($w,option,-foreground)} {
         foreach name [array names data $w,image,*] {
-          $data($w,image,$name) configure -foreground $data($w,option,-foreground)
+          $data($name) configure -foreground $data($w,option,-foreground)
         }
       }
 
