@@ -462,11 +462,13 @@ namespace eval sidebar {
 
     variable widgets
 
-    set one_state  [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
-    set hide_state "disabled"
-    set show_state "disabled"
-    set first_row  [lindex $rows 0]
-    set diff_state [expr {([$widgets(tl) cellcget $first_row,remote -text] eq "") ? $one_state : "disabled"}]
+    set one_state   [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set hide_state  "disabled"
+    set show_state  "disabled"
+    set open_state  "disabled"
+    set close_state "disabled"
+    set first_row   [lindex $rows 0]
+    set diff_state  [expr {([$widgets(tl) cellcget $first_row,remote -text] eq "") ? $one_state : "disabled"}]
 
     # Calculate the hide and show menu states
     set fg [$widgets(tl) cget -foreground]
@@ -476,14 +478,19 @@ namespace eval sidebar {
       } else {
         set hide_state "normal"
       }
+      if {[$widgets(tl) cellcget $row,name -image] eq ""} {
+        set open_state "normal"
+      } else {
+        set close_state "normal"
+      }
     }
 
     # Delete the menu contents
     $widgets(menu) delete 0 end
 
     # Create file popup
-    $widgets(menu) add command -label [msgcat::mc "Open"] -command [list sidebar::open_file $rows]
-    $widgets(menu) add command -label [msgcat::mc "Close"] -command [list sidebar::close_file $rows]
+    $widgets(menu) add command -label [msgcat::mc "Open"]  -command [list sidebar::open_file $rows]  -state $open_state
+    $widgets(menu) add command -label [msgcat::mc "Close"] -command [list sidebar::close_file $rows] -state $close_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Hide"] -command [list sidebar::hide_file $rows] -state $hide_state
