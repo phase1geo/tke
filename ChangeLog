@@ -1,132 +1,364 @@
-changeset:   2402:e027e1291936
-tag:         devel-2.7.2
+changeset:   2418:ec7177dfd77b
+tag:         devel-2.7.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 10 09:16:31 2016 -0500
+date:        Fri Oct 14 09:01:17 2016 -0500
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.2 release
+ChangeLog for devel-2.7.3 release
 
 
-changeset:   2403:14e41818eb59
+changeset:   2419:0df95e5b01e5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 10 09:16:36 2016 -0500
+date:        Fri Oct 14 09:01:22 2016 -0500
 files:       .hgtags
 description:
-Added tag devel-2.7.2 for changeset e027e1291936
+Added tag devel-2.7.3 for changeset ec7177dfd77b
 
 
-changeset:   2404:893f2dbc2bd8
+changeset:   2420:196b71ad5419
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Oct 10 17:25:01 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
+date:        Fri Oct 14 17:35:56 2016 -0500
+files:       lib/indent.tcl lib/multicursor.tcl lib/version.tcl
 description:
-* Removing unnecessary debug output.
-* Few minor adjustments to ftper.
+* Fixing indentation issues with multi-cursor mode.
+* Fixing indentation issue with inserting a newline just before a reindentation keyword.
 
 
-changeset:   2405:7080c3f53885
+changeset:   2421:fe4ccdddb6d5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 10 22:51:52 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+date:        Sat Oct 15 00:23:38 2016 -0500
+files:       lib/ftper.tcl lib/menus.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Checkpointing work on ftper namespace (opening, getting and saving are working).
+* Checkpointing work on FTP support within the sidebar.
 
 
-changeset:   2406:65f82c2e6376
+changeset:   2422:a96aedbca8a7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 11 01:50:31 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+date:        Sat Oct 15 13:05:33 2016 -0500
+files:       lib/ftper.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Checkpointing work on FTP GUI enhancements.
+* Checkpointing FTP work in sidebar.
 
 
-changeset:   2407:ef545a330c2e
+changeset:   2423:021e702b2c0b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Oct 11 08:46:26 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
+date:        Sat Oct 15 22:53:05 2016 -0500
+files:       lib/ftper.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Checkpointing more work on ftper namespace.
+* Checkpointing work on FTP sidebar support.
 
 
-changeset:   2408:d4003110c08f
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Oct 11 17:27:45 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/version.tcl
-description:
-* Finishing most of the work on the FTP sidebar.
-
-
-changeset:   2409:6a87db1914bd
+changeset:   2424:23719c5e9495
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 12 00:37:35 2016 -0500
-files:       lib/ftper.tcl lib/ftptest.tcl lib/gui.tcl lib/menus.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl lib/vim.tcl
+date:        Sun Oct 16 23:58:20 2016 -0500
+files:       lib/ftper.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
 description:
-* Checkpointing work on integrating ftper namespace into main application.
+* Checkpointing work on FTP interface.
 
 
-changeset:   2410:4963d7b59fbf
+changeset:   2425:a6039f312c6d
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 12 08:40:59 2016 -0500
-files:       lib/ftper.tcl lib/gui.tcl lib/version.tcl
-description:
-* Fixing more integration issues with ftper namespace.
-
-
-changeset:   2411:fc9a971d4401
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 12 20:36:54 2016 -0500
-files:       lib/launcher.tcl lib/version.tcl
-description:
-* Small code adjustment in launcher.
-
-
-changeset:   2412:9f15b767516e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Oct 12 23:46:29 2016 -0500
+date:        Mon Oct 17 09:07:37 2016 -0500
 files:       lib/ftper.tcl lib/version.tcl
 description:
-* More improvements to the ftper namespace.
+* Minor changes.
 
 
-changeset:   2413:5b0c1c0dc13c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Oct 13 08:39:43 2016 -0500
-files:       lib/ftper.tcl lib/gui.tcl lib/launcher.tcl lib/version.tcl
-description:
-* Checkpointing more work on remote file access.
-
-
-changeset:   2414:5bd34ed32bbd
+changeset:   2426:a7b564a83c13
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Oct 13 17:54:57 2016 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/scroller.tcl lib/sidebar.tcl lib/theme.tcl lib/version.tcl
+date:        Mon Oct 17 17:47:41 2016 -0500
+files:       lib/emmet.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding ability to align the current insertion lines in both panes to each other.
-* Checkpointing work on sychronized pane scrolling.
+* Checkpointing work on Emmet aliases to preferences GUI.
 
 
-changeset:   2415:90fddcdc5410
+changeset:   2427:036226f43502
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 14 00:37:48 2016 -0500
-files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
+date:        Mon Oct 17 20:17:11 2016 -0500
+files:       lib/emmet.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-* Finishing work on pane functionality.
+* Checkpointing work on Emmet alias handling within the preferences GUI.
 
 
-changeset:   2416:e36e4e5db3ef
+changeset:   2428:3b32a059151a
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 14 01:16:48 2016 -0500
-files:       lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+date:        Tue Oct 18 00:20:22 2016 -0500
+files:       lib/ftper.tcl lib/gui.tcl lib/sidebar.tcl lib/templates.tcl lib/version.tcl
 description:
-* Checkpointing work on FTP in sidebar.
+* Fixing some of the directory menu options for remote files.
 
 
-changeset:   2417:a0ecb502eac9
-tag:         tip
+changeset:   2429:1c7e50f0f2c4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Oct 18 17:21:18 2016 -0500
+files:       lib/ctext/ctext.tcl lib/emmet.tcl lib/indent.tcl lib/pref_ui.tcl lib/tkedat.tcl lib/version.tcl
+description:
+* Checkpointing work on adding Emmet alias editing support in preferences GUI.
+
+
+changeset:   2430:8ae8dd550a20
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 14 08:55:58 2016 -0500
+date:        Tue Oct 18 19:40:28 2016 -0500
+files:       lib/emmet.tcl lib/pref_ui.tcl lib/snippets.tcl lib/version.tcl
+description:
+* Completing work on node/abbreviation alias support in preference GUI.
+
+
+changeset:   2431:179ef93524ea
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 18 19:59:35 2016 -0500
+files:       lib/emmet.tcl lib/pref_ui.tcl lib/version.tcl
+description:
+* If EditPreferencesUsingGUI preference option is set, cause the Edit Emmet Aliases menu option to display the preferences window.
+
+
+changeset:   2432:9e5deb514ac6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 18 21:12:36 2016 -0500
+files:       lib/pref_ui.tcl lib/version.tcl
+description:
+* Changing behavior of Node/Abbreviation Aliases tabs to hide when we are editing session preferences.
+* Fixing issue with centering preferences window on application.
+
+
+changeset:   2433:0544b1adc97b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 19 00:04:34 2016 -0500
+files:       lib/sftp.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding sftp library from filerunner (not hooked up yet).
+
+
+changeset:   2434:a80ad49386f9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 19 18:36:24 2016 -0500
+files:       lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
+description:
+* Adding registrations to preference UI to search for Emmet node/abbreviation aliases.
+* Adding remote disconnections when the application is exited.
+
+
+changeset:   2435:76af36cd63a6
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 19 18:47:39 2016 -0500
+files:       lib/emmet.tcl lib/version.tcl
+description:
+* Fixing Emmet loading.
+
+
+changeset:   2436:5d6809b465e4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 20 00:18:22 2016 -0500
+files:       lib/ftper.tcl lib/ftptest.tcl lib/gui.tcl lib/menus.tcl lib/remote.tcl lib/sftp.tcl lib/sftp/README lib/sftp/sftp.tcl lib/sftp_wrapper.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+description:
+* Working on integrating the SFTP package.
+
+
+changeset:   2437:4069f6763fba
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 20 00:34:13 2016 -0500
+files:       lib/remote.tcl lib/version.tcl
+description:
+* Improving algorithm for determining directory status when the file information specifies that it is a link.
+
+
+changeset:   2438:cb1a73be2896
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 20 01:09:37 2016 -0500
+files:       lib/images/connected.bmp lib/images/connecting.bmp lib/remote.tcl lib/version.tcl
+description:
+* Adding connecting and connected images for the remote file viewer.
+
+
+changeset:   2439:729815562ece
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 20 20:46:52 2016 -0500
+files:       lib/remote.tcl lib/version.tcl
+description:
+* Fixing small issues in remote.tcl
+
+
+changeset:   2440:e70628c649b4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Oct 21 01:07:32 2016 -0500
+files:       lib/gui.tcl lib/remote.tcl lib/sftp/sftp.tcl lib/sftp_wrapper.tcl lib/version.tcl
+description:
+* Checkpointing work on SFTP support.
+
+
+changeset:   2441:cabdc0338c44
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Oct 22 13:25:43 2016 -0500
+files:       lib/ftp_wrapper.tcl lib/remote.tcl lib/remote/README lib/remote/ftp.tcl lib/remote/ftp_control.tcl lib/remote/sftp.tcl lib/sftp_wrapper.tcl lib/tke.tcl lib/version.tcl
+description:
+* Changing remote namespace to use the ftp_control procs instead of calling sftp and ftp directly.
+
+
+changeset:   2442:a42e118f2c0c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 23 00:17:22 2016 -0500
+files:       lib/ftp_wrapper.tcl lib/gui.tcl lib/menus.tcl lib/remote.tcl lib/remote/ftp_control.tcl lib/remote/sftp.tcl lib/version.tcl
+description:
+* Checkpointing work on ftp_control integration.
+
+
+changeset:   2443:be11f95dfb2f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 23 08:08:14 2016 -0500
+files:       install.tcl lib/version.tcl
+description:
+* Adding installer check for Expect package.
+
+
+changeset:   2444:7064d7aac583
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 23 17:45:50 2016 -0500
+files:       lib/gui.tcl lib/remote.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Adding credits to About window.
+* Fixing more issues with FTP support.
+
+
+changeset:   2445:964138a8cb8f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 23 17:55:35 2016 -0500
+files:       lib/remote.tcl lib/version.tcl
+description:
+* More fixes to the remote namespace.
+
+
+changeset:   2446:4f45a0df10e7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Oct 23 21:57:41 2016 -0500
+files:       lib/remote.tcl lib/version.tcl
+description:
+* More remote namespace fixes.
+
+
+changeset:   2447:023b3a0b8168
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Oct 24 22:38:21 2016 -0500
+files:       lib/ftp_wrapper.tcl lib/gui.tcl lib/remote.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Finishing initial work on FTP/SFTP support.
+* Fixing issue with showing a file in the sidebar if it is hidden.
+
+
+changeset:   2448:85e4c9cbd2fc
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 25 00:22:27 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/remote.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Checkpointing work on menu support for remote connections.
+* Fixing menu state issues in menubar and tab menus.
+
+
+changeset:   2449:56b3f8b12908
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 25 00:29:09 2016 -0500
+files:       lib/menus.tcl lib/version.tcl
+description:
+* Fixing state of File / Change Working Directory.
+* Removing unnecessary debug output from menus namespace.
+
+
+changeset:   2450:f48d5a6f90f0
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 25 08:39:09 2016 -0500
+files:       lib/remote.tcl lib/version.tcl
+description:
+* Adding "." directory to top of remote file selector.
+
+
+changeset:   2451:93d63f21e3ef
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 25 08:44:23 2016 -0500
+files:       lib/remote.tcl lib/version.tcl
+description:
+* Fixing issue made in last checkin.
+
+
+changeset:   2452:d38bc0cb4bc8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 25 08:52:21 2016 -0500
 files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixing synced scrolling when scrolling files of different length.
+* Adding server information to tab tooltip when the associated file is a remote file.
+
+
+changeset:   2453:da9ff4b0a20a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Oct 25 23:59:27 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/remote.tcl lib/remote/sftp.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Checkpointing SFTP work.
+
+
+changeset:   2454:f2b4c70415f5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 26 00:09:43 2016 -0500
+files:       lib/remote.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Removing unnecessary debug output.
+
+
+changeset:   2455:be1fb198d050
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 26 00:27:02 2016 -0500
+files:       lib/remote.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing issues with disconnecting from file dialog.
+
+
+changeset:   2456:1a30579391ff
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Oct 26 08:34:42 2016 -0500
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Changing order of text focus and sidebar loading to eliminate a race condition that caused SFTP transfers to hang.
+
+
+changeset:   2457:6ca1c19fbb28
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 27 00:28:15 2016 -0500
+files:       lib/images/right.bmp lib/menus.tcl lib/remote.tcl lib/version.tcl
+description:
+* Checkpointing rework on remote open/save dialog window UI.
+
+
+changeset:   2458:e0842e7bdd64
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 27 07:48:55 2016 -0500
+files:       lib/ptwidgets1.2/library/anim.tcl lib/ptwidgets1.2/library/images/busy1.bmp lib/ptwidgets1.2/library/images/busy2.bmp lib/ptwidgets1.2/library/images/busy3.bmp lib/ptwidgets1.2/library/images/busy4.bmp lib/ptwidgets1.2/library/images/busy5.bmp lib/ptwidgets1.2/library/images/busy6.bmp lib/ptwidgets1.2/library/images/busy7.bmp lib/ptwidgets1.2/library/images/busy8.bmp lib/ptwidgets1.2/library/images/full.bmp lib/version.tcl
+description:
+* Preparing for busy animation.
+
+
+changeset:   2459:bccefdb1727c
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Oct 27 16:21:20 2016 -0500
+files:       lib/gui.tcl lib/ptwidgets1.2/library/anim.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/remote.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding support for a new -busy tab option to tabbar.
+* Adding support for back/forward directory history buttons in remote file selector.
+* Fixing minor UI issues with remote file selector.
+
+
+changeset:   2460:201b82c78da8
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Oct 27 23:38:48 2016 -0500
+files:       lib/remote.tcl lib/version.tcl
+description:
+* More refinements to the remote file selection window.
+
+
+changeset:   2461:54bbccfd9adf
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Oct 28 01:01:05 2016 -0500
+files:       lib/gui.tcl lib/menus.tcl lib/remote.tcl lib/version.tcl
+description:
+* Fixing issues with Save As Remote functionality.
+* More refinements to remote file selection window.
 
 
