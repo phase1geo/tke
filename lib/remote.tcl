@@ -134,7 +134,7 @@ namespace eval remote {
     grid .ftp.pw.lf.sf.vb -row 0 -column 1 -sticky ns
 
     ttk::frame  .ftp.pw.lf.bf
-    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "+" -width 1 -command [list remote::show_new_menu]]
+    set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "\u2795" -width 2 -command [list remote::show_new_menu]]
 
     pack .ftp.pw.lf.bf.edit -side left -padx 2 -pady 2
 
@@ -1697,6 +1697,17 @@ namespace eval remote {
     }
 
   }
+  
+  ######################################################################
+  # Returns the matching filename line in the given listing of files within
+  # a directory.
+  proc find_fname {listing fname} {
+    
+    set match_expr [string repeat {\S+\s+} 8]
+    
+    return [lsearch -inline -regexp $listing "^\s*$match_expr$fname\$"]
+    
+  }
 
   ######################################################################
   # Returns 1 if the file exists on the server.
@@ -1709,7 +1720,7 @@ namespace eval remote {
       "SFTP" {
         if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
-            return [expr [lsearch -index 8 $rc [file tail $fname]] != -1]
+            return [expr {[find_fname $rc [file tail $fname]] ne ""}]
           }
         }
       }
@@ -1730,7 +1741,7 @@ namespace eval remote {
       "SFTP" {
         if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
-            if {[set file_out [lsearch -inline -index 8 $rc [file tail $fname]]] ne ""} {
+            if {[set file_out [find_fname $rc [file tail $fname]]] ne ""} {
               return [clock scan [join [lrange $file_out 5 7]]]
             }
           }
