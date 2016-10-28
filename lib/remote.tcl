@@ -25,7 +25,6 @@
 namespace eval remote {
 
   variable password
-  variable connection     -1
   variable contents
   variable initialized    0
   variable current_server ""
@@ -311,7 +310,6 @@ namespace eval remote {
 
     # Update the UI
     update
-    wm deiconify .ftp
 
     # Populate sidebar
     populate_sidebar
@@ -338,14 +336,17 @@ namespace eval remote {
     # Center the window
     ::tk::PlaceWindow .ftp widget .
 
+    # Display the window
+    wm deiconify .ftp
+
     # Get the focus
-    ::tk::SetFocusGrab .ftp [$widgets(sb) bodypath]
+    ::tk::SetFocusGrab .ftp $widgets(sb)
 
     # Wait for the window to close
     tkwait window .ftp
 
     # Restore the focus
-    ::tk::RestoreFocusGrab .ftp [$widgets(sb) bodypath]
+    ::tk::RestoreFocusGrab .ftp $widgets(sb)
 
     return [list $current_server $current_fname]
 
@@ -386,8 +387,9 @@ namespace eval remote {
   proc handle_save_entry {value} {
 
     variable widgets
+    variable current_server
 
-    if {$value eq ""} {
+    if {($value eq "") || ($current_server eq "")} {
       $widgets(open) configure -state disabled
     } else {
       $widgets(open) configure -state normal
@@ -1029,7 +1031,6 @@ namespace eval remote {
 
     variable widgets
     variable current_server
-    variable connection
     variable images
     variable opened
     variable dir_hist
@@ -1056,6 +1057,15 @@ namespace eval remote {
       # Indicate that the we are connected
       $widgets(sb) cellconfigure $selected,name -image remote_connected
 
+      # Make sure that the Open/Save button is enabled
+      if {([$widgets(open) configure -text] eq [msgcat::mc "Open"]) || \
+          ([$widgets(save_entry) get] ne "")} {
+        $widgets(open) configure -state normal
+      }
+
+      # Enable the New Folder button
+      $widgets(folder) configure -state normal
+
     } else {
 
       # Set the image to indicate that we are connecting
@@ -1063,10 +1073,25 @@ namespace eval remote {
 
       # Connect to the FTP server and add the directory
       if {[connect $current_server]} {
+
+        # Clear the directory history
         set dir_hist($current_server)       [list]
         set dir_hist_index($current_server) 0
+
+        # Display the current directory
         set_current_directory [lindex $settings 5] 1
+
+        # Indicate that we have successfully connected to the server
         $widgets(sb) cellconfigure $selected,name -image remote_connected
+
+        # Make sure that the Open/Save button is enabled
+        if {([$widgets(open) configure -text] eq [msgcat::mc "Open"]) || \
+            ([$widgets(save_entry) get] ne "")} {
+          $widgets(open) configure -state normal
+        }
+
+        # Enable the New Folder button
+        $widgets(folder) configure -state normal
 
       # If we fail to connect, clear the connecting icon
       } else {
@@ -1114,6 +1139,9 @@ namespace eval remote {
 
     # Make sure that the Open/Save button is disabled
     $widgets(open) configure -state disabled
+
+    # Disable the New Folder button
+    $widgets(folder) configure -state disabled
 
     # Make sure that the directory widgets are disabled
     $widgets(dir_back)    configure -state disabled
@@ -1413,7 +1441,8 @@ namespace eval remote {
 
     variable widgets
     variable value
-    variable connection
+    variable current_dir
+    variable current_server
 
     toplevel     .foldwin
     wm title     .foldwin [msgcat::mc "Create New Folder"]
@@ -1457,25 +1486,12 @@ namespace eval remote {
     # Restore the grab/focus
     ::tk::RestoreFocusGrab .foldwin .foldwin.f.e
 
-    # Get the currently selected item
-    set selected [$widgets(tl) curselection]
+    # Get the name of the folder to create
+    set new_folder [file join $current_dir($current_server) $value]
 
     # Insert the new directory, if it is successfully made within FTP
-    if {$selected eq ""} {
-      set new_folder [file join [lindex $connections($connection) 5] $value]
-      if {[make_directory $connection $new_folder]} {
-        $widgets(tl) insert root end $new_folder
-      }
-    } elseif {[llength [$widgets(tl) childkeys $selected]] > 0} {
-      set new_folder [file join [$widgets(tl) cellcget $selected,fname -text] $value]
-      if {[make_directory $connection $new_folder]} {
-        $widgets(tl) insert $selected end $new_folder
-      }
-    } else {
-      set new_folder [file join [file dirname [$widgets(tl) cellcget $selected,fname -text]] $value]
-      if {[make_directory $connection $new_folder]} {
-        $widgets(tl) insert [$widgets(tl) parentkey $selected] end $new_folder
-      }
+    if {[make_directory $current_server $new_folder]} {
+      set_current_directory $new_folder 1
     }
 
   }
