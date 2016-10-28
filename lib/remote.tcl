@@ -84,6 +84,7 @@ namespace eval remote {
     variable widgets
     variable current_server
     variable current_fname
+    variable connections
 
     # Initialize the namespace
     initialize
@@ -92,6 +93,7 @@ namespace eval remote {
     wm title     .ftp [expr {($type eq "open") ? [msgcat::mc "Open Remote File"] : [msgcat::mc "Save File Remotely"]}]
     wm transient .ftp .
     wm geometry  .ftp 600x400
+    wm withdraw  .ftp
 
     set widgets(pw) [ttk::panedwindow .ftp.pw -orient horizontal]
 
@@ -152,7 +154,7 @@ namespace eval remote {
     $widgets(group) add command -label [msgcat::mc "Delete Group"]   -command [list remote::delete_group]
 
     set widgets(connection) [menu .ftp.connPopup -tearoff 0 -postcommand [list remote::connection_post]]
-    $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list remote::handle_sb_double_click]
+    $widgets(connection) add command -label [msgcat::mc "Open Connection"]   -command [list remote::open_connection]
     $widgets(connection) add command -label [msgcat::mc "Close Connection"]  -command [list remote::close_connection]
     $widgets(connection) add separator
     $widgets(connection) add command -label [msgcat::mc "Edit Connection"]   -command [list remote::edit_connection]
@@ -169,18 +171,18 @@ namespace eval remote {
     set widgets(viewer) [ttk::frame .ftp.pw.rf.vf]
 
     ttk::frame .ftp.pw.rf.vf.ff
-    
+
     ttk::frame .ftp.pw.rf.vf.ff.mf
     set widgets(dir_back)    [ttk::button     .ftp.pw.rf.vf.ff.mf.back    -style BButton -text "\u276e" -command [list remote::handle_dir -1] -state disabled]
     set widgets(dir_forward) [ttk::button     .ftp.pw.rf.vf.ff.mf.forward -style BButton -text "\u276f" -command [list remote::handle_dir  1] -state disabled]
     set widgets(dir_mb)      [ttk::menubutton .ftp.pw.rf.vf.ff.mf.mb \
       -menu [set widgets(dir_menu) [menu .ftp.dirPopup -tearoff 0 -postcommand [list remote::handle_dir_mb_post]]] \
       -state disabled]
-    
+
     pack $widgets(dir_back)    -side left -padx 2 -pady 2
     pack $widgets(dir_forward) -side left -padx 2 -pady 2
     pack $widgets(dir_mb)      -side left -padx 2 -pady 2 -fill x -expand yes
-    
+
     set widgets(tl) [tablelist::tablelist .ftp.pw.rf.vf.ff.tl \
       -columns {0 {File System} 0 {}} -exportselection 0 \
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
@@ -211,7 +213,7 @@ namespace eval remote {
 
     ttk::frame  .ftp.pw.rf.vf.bf
     set widgets(folder) [ttk::button .ftp.pw.rf.vf.bf.folder -style BButton -text [msgcat::mc "New Folder"] \
-      -command [list remote::handle_new_folder]]
+      -command [list remote::handle_new_folder] -state disabled]
     set widgets(open) [ttk::button .ftp.pw.rf.vf.bf.ok -style BButton -text [msgcat::mc "Open"] \
       -width 6 -command [list remote::handle_open] -state disabled]
     ttk::button .ftp.pw.rf.vf.bf.cancel -style BButton -text [msgcat::mc "Cancel"] \
@@ -307,8 +309,17 @@ namespace eval remote {
     # Pack the main panedwindow
     pack .ftp.pw -fill both -expand yes
 
+    # Update the UI
+    update
+    wm deiconify .ftp
+
     # Populate sidebar
     populate_sidebar
+
+    # Set the current directory (if one exists)
+    if {$current_server ne ""} {
+      set_current_directory [lindex $connections($current_server) 1 5] 1
+    }
 
     # Populate the type menubutton
     .ftp.typePopup add command -label "FTP"  -command {
@@ -328,13 +339,13 @@ namespace eval remote {
     ::tk::PlaceWindow .ftp widget .
 
     # Get the focus
-    ::tk::SetFocusGrab .ftp .ftp.pw.rf.ff.tl
+    ::tk::SetFocusGrab .ftp [$widgets(sb) bodypath]
 
     # Wait for the window to close
     tkwait window .ftp
 
     # Restore the focus
-    ::tk::RestoreFocusGrab .ftp .ftp.pw.rf.ff.tl
+    ::tk::RestoreFocusGrab .ftp [$widgets(sb) bodypath]
 
     return [list $current_server $current_fname]
 
@@ -717,7 +728,7 @@ namespace eval remote {
 
     # If the connection is already opened, immediately display the directory contents
     if {[info exists opened($name)]} {
-      # handle_sb_double_click
+      # open_connection
     }
 
   }
@@ -727,12 +738,6 @@ namespace eval remote {
   proc handle_sb_double_click {} {
 
     variable widgets
-    variable current_server
-    variable connection
-    variable images
-    variable opened
-    variable dir_hist
-    variable dir_hist_index
 
     # Get the selection
     set selected [$widgets(sb) curselection]
@@ -742,36 +747,8 @@ namespace eval remote {
       return
     }
 
-    # Get the group name
-    set group [$widgets(sb) cellcget $parent,name -text]
-
-    # Get the connection name to load
-    set current_server "$group,[$widgets(sb) cellcget $selected,name -text]"
-
-    # Get settings
-    set settings [$widgets(sb) cellcget $selected,settings -text]
-
-    if {[info exists opened($current_server)]} {
-
-      set_current_directory [lindex $settings 5] 1
-      $widgets(sb) cellconfigure $selected,name -image remote_connected
-
-    } else {
-
-      # Set the image to indicate that we are connecting
-      $widgets(sb) cellconfigure $selected,name -image remote_connecting
-
-      # Connect to the FTP server and add the directory
-      if {[connect $current_server]} {
-        set dir_hist($current_server)       [list]
-        set dir_hist_index($current_server) 0
-        set_current_directory [lindex $settings 5] 1
-        $widgets(sb) cellconfigure $selected,name -image remote_connected
-      } else {
-        $widgets(sb) cellconfigure $selected,name -image ""
-      }
-
-    }
+    # Open the connection of the selected row
+    open_connection
 
   }
 
@@ -1047,6 +1024,60 @@ namespace eval remote {
   }
 
   ######################################################################
+  # Open connection for the currently selected row in the sidebar.
+  proc open_connection {} {
+
+    variable widgets
+    variable current_server
+    variable connection
+    variable images
+    variable opened
+    variable dir_hist
+    variable dir_hist_index
+
+    # Get the selection
+    set selected [$widgets(sb) curselection]
+
+    # Get the group name
+    set parent [$widgets(sb) parentkey $selected]
+    set group  [$widgets(sb) cellcget $parent,name -text]
+
+    # Get the connection name to load
+    set current_server "$group,[$widgets(sb) cellcget $selected,name -text]"
+
+    # Get settings
+    set settings [$widgets(sb) cellcget $selected,settings -text]
+
+    if {[info exists opened($current_server)]} {
+
+      # Set the current directory
+      set_current_directory [lindex $settings 5] 1
+
+      # Indicate that the we are connected
+      $widgets(sb) cellconfigure $selected,name -image remote_connected
+
+    } else {
+
+      # Set the image to indicate that we are connecting
+      $widgets(sb) cellconfigure $selected,name -image remote_connecting
+
+      # Connect to the FTP server and add the directory
+      if {[connect $current_server]} {
+        set dir_hist($current_server)       [list]
+        set dir_hist_index($current_server) 0
+        set_current_directory [lindex $settings 5] 1
+        $widgets(sb) cellconfigure $selected,name -image remote_connected
+
+      # If we fail to connect, clear the connecting icon
+      } else {
+        $widgets(sb) cellconfigure $selected,name -image ""
+      }
+
+    }
+
+  }
+
+  ######################################################################
   # Closes the currently opened connection
   proc close_connection {} {
 
@@ -1074,16 +1105,16 @@ namespace eval remote {
 
     # Clear the table
     $widgets(tl) delete 0 end
-    
+
     # Clear the directory history
     catch { unset dir_hist($current_server) }
     catch { unset dir_hist_index($current_server) }
-    
+
     set current_server ""
 
     # Make sure that the Open/Save button is disabled
     $widgets(open) configure -state disabled
-    
+
     # Make sure that the directory widgets are disabled
     $widgets(dir_back)    configure -state disabled
     $widgets(dir_forward) configure -state disabled
@@ -1170,33 +1201,33 @@ namespace eval remote {
   #####################
   # VIEWER PROCEDURES #
   #####################
-  
+
   ######################################################################
   # Handles a click on the directory back/forward buttons.
   proc handle_dir {dir} {
-    
+
     variable widgets
     variable dir_hist
     variable dir_hist_index
     variable current_server
-    
+
     incr dir_hist_index($current_server) $dir
-    
+
     if {$dir_hist_index($current_server) == 0} {
       $widgets(dir_back) configure -state disabled
     } else {
       $widgets(dir_back) configure -state normal
     }
-    
+
     if {[expr ($dir_hist_index($current_server) + 1) == [llength $dir_hist($current_server)]]} {
       $widgets(dir_forward) configure -state disabled
     } else {
       $widgets(dir_forward) configure -state normal
     }
-    
+
     # Set the current directory
     set_current_directory [lindex $dir_hist($current_server) $dir_hist_index($current_server)] 0
-    
+
   }
 
   ######################################################################
@@ -1289,6 +1320,9 @@ namespace eval remote {
 
     # Read the contents of the FTP file and load them into the sidebar table
     load_connections
+
+    # Select the first item in the table
+    $widgets(sb) selection set 0
 
   }
 
@@ -1539,7 +1573,7 @@ namespace eval remote {
 
     # Update the state/text of the menubutton
     $widgets(dir_mb) configure -text $directory -state normal
-    
+
     # Update the directory history
     if {$update_hist} {
       catch { set dir_hist($current_server) [lreplace $dir_hist($current_server) [expr $dir_hist_index($current_server) + 1] end] }
