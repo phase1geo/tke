@@ -368,8 +368,10 @@ namespace eval remote {
 
     if {[$tbl parentkey $src] eq "root"} {
       return [expr {$target_parent eq "root"}]
-    } else {
+    } elseif {[$tbl cellcget $src,name -image] eq ""} {
       return [expr {[$tbl parentkey $target_parent] eq "root"}]
+    } else {
+      return 0
     }
 
   }
@@ -406,11 +408,30 @@ namespace eval remote {
   proc group_post {} {
 
     variable widgets
+    variable opened
+    
+    # Get the selected group
+    set selected [$widgets(sb) curselection]
+    
+    # Get the group name
+    set group [$widgets(sb) cellcget $selected,name -text]
+    
+    # Figure out if any connections are currently opened in this group
+    set contains_opened [expr {[llength [array names opened $group,*]] > 0}]
 
-    if {[llength [$widgets(sb) childkeys root]] == 1} {
+    # We cannot delete the group if it is the only group or if there is at least one
+    # opened connection in the group.
+    if {([llength [$widgets(sb) childkeys root]] == 1) || $contains_opened} {
       $widgets(group) entryconfigure [msgcat::mc "Delete Group"] -state disabled
     } else {
       $widgets(group) entryconfigure [msgcat::mc "Delete Group"] -state normal
+    }
+    
+    # We cannot rename the group if it has at least one opened connection
+    if {$contains_opened} {
+      $widgets(group) entryconfigure [msgcat::mc "Rename Group"] -state disabled
+    } else {
+      $widgets(group) entryconfigure [msgcat::mc "Rename Group"] -state normal
     }
 
   }
@@ -1720,10 +1741,14 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
-          if {![catch { ::FTP_List $name 0 } rc]} {
+        if {![catch { ::FTP_CD $name [file dirname $fname] } rc]} {
+          if {![catch { ::FTP_List $name 0 } rc] rc} {
             return [expr {[find_fname $rc [file tail $fname]] ne ""}]
+          } else {
+            logger::log $rc
           }
+        } else {
+          logger::log $rc
         }
       }
     }
@@ -1741,12 +1766,16 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {![catch { ::FTP_CD $name [file dirname $fname] }]} {
+        if {![catch { ::FTP_CD $name [file dirname $fname] } rc]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
             if {[set file_out [find_fname $rc [file tail $fname]]] ne ""} {
               return [clock scan [join [lrange $file_out 5 7]]]
             }
+          } else {
+            logger::log $rc
           }
+        } else {
+          logger::log $rc
         }
       }
     }
@@ -1768,7 +1797,7 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        if {![catch { ::FTP_CD $name $dirname }]} {
+        if {![catch { ::FTP_CD $name $dirname } rc]} {
           if {![catch { ::FTP_List $name 0 } rc]} {
             foreach item $rc {
               set fname [file join $dirname [lrange $item 8 end]]
@@ -1776,7 +1805,11 @@ namespace eval remote {
               lappend items [list $fname $dir]
             }
             return 1
+          } else {
+            logger::log $rc
           }
+        } else {
+          logger::log $rc
         }
       }
     }
@@ -1807,7 +1840,11 @@ namespace eval remote {
             close $rc
             file delete -force $local
             return 1
+          } else {
+            logger::log $rc
           }
+        } else {
+          logger::log $rc
         }
       }
     }
@@ -1837,8 +1874,11 @@ namespace eval remote {
             file delete -force $local
             return 1
           } else {
+            logger::log $rc
             file delete -force $local
           }
+        } else {
+          logger::log $rc
         }
       }
     }
@@ -1857,8 +1897,11 @@ namespace eval remote {
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        ::FTP_MkDir $name $dirname
-        return 1
+        if {![catch { ::FTP_MkDir $name $dirname } rc]} {
+          return 1
+        } else {
+          logger::log $rc
+        }
       }
     }
 
@@ -1877,7 +1920,9 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         foreach dirname $dirnames {
-          ::FTP_RmDir $name $dirname
+          if {[catch { ::FTP_RmDir $name $dirname } rc]} {
+            logger::log $rc
+          }
         }
         return 1
       }
@@ -1899,6 +1944,8 @@ namespace eval remote {
       "SFTP" {
         if {![catch { ::FTP_Rename $name $curr_fname $new_fname } rc]} {
           return 1
+        } else {
+          logger::log $rc
         }
       }
     }
@@ -1919,13 +1966,16 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         set local [file join $::tke_home sftp_dup.tmp]
-        if {![catch { ::FTP_GetFile $name $fname $local 0 }]} {
-          if {![catch { ::FTP_PutFile $name $local $new_fname [file size $local] }]} {
+        if {![catch { ::FTP_GetFile $name $fname $local 0 } rc]} {
+          if {![catch { ::FTP_PutFile $name $local $new_fname [file size $local] } rc]} {
             file delete -force $local
             return 1
           } else {
+            logger::log $rc
             file delete -force $local
           }
+        } else {
+          logger::log $rc
         }
       }
     }
@@ -1945,7 +1995,9 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         foreach fname $fnames {
-          ::FTP_Delete $name $fname
+          if {[catch { ::FTP_Delete $name $fname } rc]} {
+            logger::log $rc
+          }
         }
         return 1
       }
@@ -1963,6 +2015,7 @@ namespace eval remote {
     variable groups
     variable connections
     variable opened
+    variable remote_file
 
     # Clear the connections
     array unset connections
@@ -1970,7 +2023,7 @@ namespace eval remote {
     # Clear the table
     $widgets(sb) delete 0 end
 
-    if {![catch { tkedat::read [file join $::tke_home remote.tkedat] 0 } rc]} {
+    if {![catch { tkedat::read $remote_file 0 } rc]} {
       array set data $rc
       foreach key [lsort -dictionary [array names data]] {
         lassign [split $key ,] num group name
