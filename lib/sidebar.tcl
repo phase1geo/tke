@@ -307,6 +307,30 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Return 1 if at least one opened files exist in the given directory
+  # rows.
+  proc get_opened_closed {rows} {
+    
+    variable widgets
+    
+    set opened 0
+    set closed 0
+    
+    foreach row $rows {
+      foreach child [$widgets(tl) childkeys $row] {
+        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
+          set opened 1
+        } else {
+          set closed 1
+        }
+      }
+    }
+    
+    return [list $opened $closed]
+ 
+  }
+  
+  ######################################################################
   # Sets up the popup menu to be suitable for the given directory.
   proc setup_dir_menu {rows} {
 
@@ -315,6 +339,8 @@ namespace eval sidebar {
     set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
     set fav_state $one_state
     set first_row [lindex $rows 0]
+    
+    lassign [get_opened_closed $rows] opened closed
 
     foreach row $rows {
       if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
@@ -322,7 +348,7 @@ namespace eval sidebar {
         break
       }
     }
-
+    
     # Clear the menu
     $widgets(menu) delete 0 end
 
@@ -331,12 +357,12 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]
-    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state [expr {$closed ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows]
-    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
@@ -374,6 +400,8 @@ namespace eval sidebar {
     set first_row    [lindex $rows 0]
     set remote_found 0
 
+    lassign [get_opened_closed $rows] opened closed
+
     foreach row $rows {
       if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
         set fav_state    "disabled"
@@ -390,8 +418,8 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]
-    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state [expr {$closed ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Close Directory Files"] -command [list sidebar::close_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
     $widgets(menu) add separator
 
     if {$remote_found} {
@@ -399,8 +427,8 @@ namespace eval sidebar {
       $widgets(menu) add separator
     }
 
-    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows]
-    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows]
+    $widgets(menu) add command -label [msgcat::mc "Hide Directory Files"]  -command [list sidebar::hide_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
+    $widgets(menu) add command -label [msgcat::mc "Show Directory Files"]  -command [list sidebar::show_folder_files $rows] -state [expr {$opened ? "normal" : "disabled"}]
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
