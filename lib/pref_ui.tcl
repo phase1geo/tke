@@ -35,6 +35,7 @@ namespace eval pref_ui {
   array set widgets     {}
   array set match_chars {}
   array set snip_compl  {}
+  array set snip_data   {}
   array set prefs       {}
   array set colorizers {
     keywords       0
@@ -1738,8 +1739,8 @@ namespace eval pref_ui {
       $widgets(emmet_aa_tl) insert end [list $alias $abbr_aliases($alias)]
     }
 
-  }
 
+  }
   ######################################################################
   # Called when a cell is started to be edited.
   proc emmet_na_edit_start_command {tbl row col value} {
@@ -2181,6 +2182,319 @@ namespace eval pref_ui {
   ######################################################################
   # Create the snippets panel.
   proc create_snippets {w} {
+
+    variable widgets
+
+    ###############
+    # TABLE FRAME #
+    ###############
+
+    set widgets(snippets_tf) [ttk::frame $w.tf]
+
+    ttk::frame $w.tf.sf
+    wmarkentry::wmarkentry $w.tf.sf.e -width 20 -watermark [msgcat::mc "Search Snippets"] -validate key -validatecommand [list pref_ui::snippets_search %P]
+    set widgets(snippets_lang) [ttk::menubutton $w.tf.sf.mb -text [msgcat::mc "Language"] -menu [set widgets(snippets_menu) [syntax::create_menu $w.langPopup]]]
+
+    pack $w.tf.sf.e  -side left  -padx 2 -pady 2
+    pack $w.tf.sf.mb -side right -padx 2 -pady 2
+
+    ttk::frame $w.tf.tf
+    set widgets(snippets_tl) [tablelist::tablelist $w.tf.tf.tl -columns {0 {Keyword} 0 {Snippet}} \
+      -exportselection 0 -stretch all -height 0 \
+      -xscrollcommand [list utils::set_xscrollbar $w.tf.tf.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $w.tf.tf.vb]]
+    ttk::scrollbar $w.tf.tf.vb -orient vertical   -command [list $w.tf.tf.tl yview]
+    ttk::scrollbar $w.tf.tf.hb -orient horizontal -command [list $w.tf.tf.tl xview]
+
+    $widgets(snippets_tl) columnconfigure 0 -name keyword -editable 0 -resizable 0 -stretchable 0
+    $widgets(snippets_tl) columnconfigure 1 -name snippet -editable 0 -resizable 1 -stretchable 1 -wrap 0
+
+    bind $widgets(snippets_tl)           <<TablelistSelect>> [list pref_ui::snippets_select]
+    bind [$widgets(snippets_tl) bodytag] <Double-Button-1>   [list pref_ui::snippets_edit]
+
+    grid rowconfigure    $w.tf.tf 0 -weight 1
+    grid columnconfigure $w.tf.tf 0 -weight 1
+    grid $w.tf.tf.tl -row 0 -column 0 -sticky news
+    grid $w.tf.tf.vb -row 0 -column 1 -sticky ns
+    grid $w.tf.tf.hb -row 1 -column 0 -sticky ew
+
+    ttk::frame  $w.tf.bf
+    ttk::button $w.tf.bf.add -style BButton -text [msgcat::mc "+"] -width 2 -command [list pref_ui::snippets_add]
+    set widgets(snippet_del) [ttk::button $w.tf.bf.del -style BButton -text [msgcat::mc "-"] \
+      -width 2 -command [list pref_ui::snippets_del] -state disabled]
+
+    pack $w.tf.bf.add -side left -padx 2 -pady 2
+    pack $w.tf.bf.del -side left -padx 2 -pady 2
+
+    pack $w.tf.sf -fill x
+    pack $w.tf.tf -fill both -expand yes
+    pack $w.tf.bf -fill x
+
+    ##############
+    # EDIT FRAME #
+    ##############
+
+    set widgets(snippets_ef) [ttk::frame $w.ef]
+
+    ttk::frame $w.ef.kf
+    ttk::label $w.ef.kf.l -text [format "%s: " [msgcat::mc "Keyword"]]
+    set widgets(snippets_keyword) [ttk::entry $w.ef.kf.e -validate key -validatecommand [list pref_ui::snippets_keyword_changed %P]]
+
+    pack $w.ef.kf.l -side left -padx 2 -pady 2
+    pack $w.ef.kf.e -side left -padx 2 -pady 2 -fill x -expand yes
+
+    ttk::labelframe $w.ef.tf -text [msgcat::mc "Snippet Text"]
+    frame $w.ef.tf.tf
+    set widgets(snippets_text) [ctext $w.ef.tf.tf.t -height 0 \
+      -xscrollcommand [list $w.ef.tf.tf.hb set] -yscrollcommand [list $w.ef.tf.tf.vb set]]
+    scroller::scroller $w.ef.tf.tf.vb -orient vertical   -autohide 1 -command [list $w.ef.tf.tf.t yview]
+    scroller::scroller $w.ef.tf.tf.hb -orient horizontal -autohide 0 -command [list $w.ef.tf.tf.t xview]
+
+    bind $widgets(snippets_text) <<Modified>> [list pref_ui::snippets_text_changed]
+
+    theme::register_widget $widgets(snippets_text) syntax
+    theme::register_widget $w.ef.tf.tf.vb text_scrollbar
+    theme::register_widget $w.ef.tf.tf.hb text_scrollbar
+
+    indent::add_bindings $widgets(snippets_text)
+
+    grid rowconfigure    $w.ef.tf.tf 0 -weight 1
+    grid columnconfigure $w.ef.tf.tf 0 -weight 1
+    grid $w.ef.tf.tf.t  -row 0 -column 0 -sticky news
+    grid $w.ef.tf.tf.vb -row 0 -column 1 -sticky ns
+    grid $w.ef.tf.tf.hb -row 1 -column 0 -sticky ew
+
+    pack $w.ef.tf.tf -fill both -expand yes
+
+    ttk::frame  $w.ef.bf
+    ttk::button $w.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width 6 -command [list pref_ui::snippets_insert]
+    set widgets(snippets_save) [ttk::button $w.ef.bf.save -style BButton -text [msgcat::mc "Save"] \
+      -width 6 -command [list pref_ui::snippets_save] -state disabled]
+    ttk::button $w.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::snippets_cancel]
+
+    pack $w.ef.bf.insert -side left  -padx 2 -pady 2
+    pack $w.ef.bf.cancel -side right -padx 2 -pady 2
+    pack $w.ef.bf.save   -side right -padx 2 -pady 2
+
+    pack $w.ef.kf -fill x
+    pack $w.ef.tf -fill both -expand yes
+    pack $w.ef.bf -fill x
+
+    # Display the table frame
+    pack $w.tf -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Performs real-time search of the snippet table.
+  proc snippets_search {value} {
+
+    variable widgets
+
+    if {$value eq ""} {
+      for {set i 0} {$i < [$widgets(snippets_tl) size]} {incr i} {
+        $widgets(snippets_tl) rowconfigure $i -hide 0
+      }
+    } else {
+      for {set i 0} {$i < [$widgets(snippets_tl) size]} {incr i} {
+        if {[string match -nocase "*$value*" [$widgets(snippets_tl) cellcget $i,keyword -text]] || \
+            [string match -nocase "*$value*" [$widgets(snippets_tl) cellcget $i,snippet -text]]} {
+          $widgets(snippets_tl) rowconfigure $i -hide 0
+        } else {
+          $widgets(snippets_tl) rowconfigure $i -hide 1
+        }
+      }
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Handles a change of selection in the snippets table.  Basically, this
+  # just causes the delete button to be enabled.
+  proc snippets_select {} {
+
+    variable widgets
+
+    if {[$widgets(snippets_tl) curselection] eq ""} {
+      $widgets(snippets_del) configure -state disabled
+    } else {
+      $widgets(snippets_del) configure -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Adds a new snippet.
+  proc snippets_add {} {
+
+    variable widgets
+    variable snip_data
+
+    # Indicate that the current type of snippet editing is an add
+    set snip_data(edit_type) "add"
+
+    # Set the selected syntax
+    syntax::set_language $widgets(snippets_text) "HTML"
+
+    # Display the editing frame
+    pack forget $widgets(snippets_tf)
+    pack $widgets(snippets_ef) -fill both -expand yes
+
+    # Place the focus on the keyword entry field
+    focus $widgets(snippets_keyword)
+
+  }
+
+  ######################################################################
+  # Edits the currently selected snippet in the table.
+  proc snippets_edit {} {
+
+    variable widgets
+    variable snip_data
+
+    # Get the currently selected row
+    set selected [$widgets(snippets_tl) curselection]
+
+    # Indicate that the current type of snippet editing is an edit
+    set snip_data(edit_type) "edit"
+    set snip_data(edit_row)  $selected
+
+    # Display the editing frame
+    pack forget $widgets(snippets_tf)
+    pack $widgets(snippets_ef) -fill both -expand yes
+
+    # Insert the widget information in the entry and text fields
+    $widgets(snippets_keyword) insert end [$widgets(snippets_tl) cellcget $selected,keyword -text]
+    $widgets(snippets_text)    insert end [$widgets(snippets_tl) cellcget $selected,snippet -text]
+
+    # Disable the save button
+    $widgets(snippets_save) configure -state disabled
+
+    # Place the focus on the text widget
+    focus $widgets(snippets_text)
+
+  }
+
+  ######################################################################
+  # Deletes the currently selected row in the table and performs a save
+  # operation.
+  proc snippets_del {} {
+
+    variable widgets
+
+    # Get the currently selected row
+    set selected [$widgets(snippets_tl) curselection]
+
+    # Get the snippet keyword
+    set keyword [$widgets(snippets_tl) cellcget $selected,keyword -text]
+
+    # Ask the user if they really want to delete the entry
+    set ans [tk_messageBox -parent .prefwin -type okcancel -default cancel -icon question \
+      -message [format "%s %s" [msgcat::mc "Delete snippet"] $keyword]]
+
+    if {$ans eq "ok"} {
+      $widgets(snippets_tl) delete $selected
+      snippets_save_table
+    }
+
+  }
+
+  ######################################################################
+  # Saves the current snippets table to file.
+  proc snippets_save_table {} {
+
+    variable widgets
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Called when the snippet keyword entry value changes.
+  proc snippets_keyword_changed {value} {
+
+    variable widgets
+
+    if {([$widgets(snippets_text) get 1.0 end-1c] ne "") && ($value ne "")} {
+      $widgets(snippets_save) configure -state normal
+    } else {
+      $widgets(snippets_save) configure -state disabled
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Called when the snippet text widget changed.
+  proc snippets_text_changed {} {
+
+    variable widgets
+
+    if {([$widgets(snippets_text) get 1.0 end-1c] ne "") &&
+        ([$widgets(snippets_keyword) get] ne "")} {
+      $widgets(snippets_save) configure -state normal
+    } else {
+      $widgets(snippets_save) configure -state disabled
+    }
+
+  }
+
+  ######################################################################
+  # Displays the insert menu.
+  proc snippets_insert {} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Save the snippet information to the table and then perform a table save.
+  proc snippets_save {} {
+
+    variable widgets
+    variable snip_data
+
+    # Get the frame contents
+    set keyword [$widgets(snippets_keyword) get]
+    set content [gui::scrub_text $widgets(snippets_text)]
+
+    # Add/modify to the table
+    switch $snip_data(edit_type) {
+      "add"  { $widgets(snippets_tl) insert end [list $keyword $content] }
+      "edit" { $widgets(snippets_tl) rowconfigure $snip_data(edit_row) [list $keyword $content] }
+    }
+
+    # Save the table
+    snippets_save_table
+
+    # Clear the fields
+    $widgets(snippets_keyword) delete 0 end
+    $widgets(snippets_text)    delete 1.0 end
+    $widgets(snippets_save)    configure -state disabled
+
+    # Display the table frame
+    pack forget $widgets(snippets_ef)
+    pack $widgets(snippets_tf) -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Cancels the snippet editing process and displays the snippet table.
+  proc snippets_cancel {} {
+
+    variable widgets
+
+    # Clear the fields
+    $widgets(snippets_keyword) delete 0 end
+    $widgets(snippets_text)    delete 1.0 end
+    $widgets(snippets_save)    configure -state disabled
+
+    # Display the table frame
+    pack forget $widgets(snippets_ef)
+    pack $widgets(snippets_tf) -fill both -expand yes
 
   }
 
