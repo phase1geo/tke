@@ -149,6 +149,7 @@ namespace eval pref_ui {
       if {!$init} {
         if {$session eq ""} {
           pack $widgets(panes).general   -before $widgets(panes).appearance -fill both -padx 2 -pady 2
+          pack $widgets(panes).snippets  -after $widgets(panes).view -fill both -padx 2 -pady 2
           pack $widgets(panes).shortcuts -fill both -padx 2 -pady 2
           pack $widgets(panes).advanced  -fill both -padx 2 -pady 2
           $widgets(frame).emmet.nb add $widgets(node_aliases)
@@ -156,11 +157,13 @@ namespace eval pref_ui {
           pane_clicked $current_panel
         } else {
           pack forget $widgets(panes).general
+          pack forget $widgets(panes).snippets
           pack forget $widgets(panes).shortcuts
           pack forget $widgets(panes).advanced
           $widgets(frame).emmet.nb hide $widgets(node_aliases)
           $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
           if {($current_panel eq "general")   || \
+              ($current_panel eq "snippets")  || \
               ($current_panel eq "shortcuts") || \
               ($current_panel eq "advanced")} {
             pane_clicked appearance
@@ -242,7 +245,7 @@ namespace eval pref_ui {
       select $selected_session $selected_language 1
 
       # Create the list of panes
-      set panes [list general appearance editor find sidebar view emmet shortcuts advanced]
+      set panes [list general appearance editor find sidebar view snippets emmet shortcuts advanced]
 
       # Create and pack each of the panes
       foreach pane $panes {
@@ -274,6 +277,7 @@ namespace eval pref_ui {
       } elseif {$session ne ""} {
         pack forget $widgets(panes).general
         pack forget $widgets(panes).shortcuts
+        pack forget $widgets(panes).snippets
         pack forget $widgets(panes).advanced
         $widgets(frame).emmet.nb hide $widgets(node_aliases)
         $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
@@ -2167,6 +2171,16 @@ namespace eval pref_ui {
     variable prefs
 
     set prefs(View/ShowRecentlyOpened) [$widgets(view_sro) get]
+
+  }
+
+  ############
+  # SNIPPETS #
+  ############
+
+  ######################################################################
+  # Create the snippets panel.
+  proc create_snippets {w} {
 
   }
 
