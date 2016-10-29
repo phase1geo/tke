@@ -354,7 +354,7 @@ namespace eval pref_ui {
     }
 
     # Display the given panel
-    pack $widgets($panel) -fill both
+    pack $widgets($panel) -fill both -expand yes
 
     # Save the current panel
     set current_panel $panel
@@ -2200,7 +2200,7 @@ namespace eval pref_ui {
 
     ttk::frame $w.tf.tf
     set widgets(snippets_tl) [tablelist::tablelist $w.tf.tf.tl -columns {0 {Keyword} 0 {Snippet}} \
-      -exportselection 0 -stretch all -height 0 \
+      -exportselection 0 -stretch all \
       -xscrollcommand [list utils::set_xscrollbar $w.tf.tf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $w.tf.tf.vb]]
     ttk::scrollbar $w.tf.tf.vb -orient vertical   -command [list $w.tf.tf.tl yview]
@@ -2245,7 +2245,7 @@ namespace eval pref_ui {
 
     ttk::labelframe $w.ef.tf -text [msgcat::mc "Snippet Text"]
     frame $w.ef.tf.tf
-    set widgets(snippets_text) [ctext $w.ef.tf.tf.t -height 0 \
+    set widgets(snippets_text) [ctext $w.ef.tf.tf.t \
       -xscrollcommand [list $w.ef.tf.tf.hb set] -yscrollcommand [list $w.ef.tf.tf.vb set]]
     scroller::scroller $w.ef.tf.tf.vb -orient vertical   -autohide 1 -command [list $w.ef.tf.tf.t yview]
     scroller::scroller $w.ef.tf.tf.hb -orient horizontal -autohide 0 -command [list $w.ef.tf.tf.t xview]
@@ -2464,7 +2464,7 @@ namespace eval pref_ui {
     # Add/modify to the table
     switch $snip_data(edit_type) {
       "add"  { $widgets(snippets_tl) insert end [list $keyword $content] }
-      "edit" { $widgets(snippets_tl) rowconfigure $snip_data(edit_row) [list $keyword $content] }
+      "edit" { $widgets(snippets_tl) rowconfigure $snip_data(edit_row) -text [list $keyword $content] }
     }
 
     # Save the table
