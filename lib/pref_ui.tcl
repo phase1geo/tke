@@ -2192,8 +2192,10 @@ namespace eval pref_ui {
     set widgets(snippets_tf) [ttk::frame $w.tf]
 
     ttk::frame $w.tf.sf
-    wmarkentry::wmarkentry $w.tf.sf.e -width 20 -watermark [msgcat::mc "Search Snippets"] -validate key -validatecommand [list pref_ui::snippets_search %P]
-    set widgets(snippets_lang) [ttk::menubutton $w.tf.sf.mb -text [msgcat::mc "Language"] -menu [set widgets(snippets_menu) [syntax::create_menu $w.langPopup]]]
+    wmarkentry::wmarkentry $w.tf.sf.e -width 20 -watermark [msgcat::mc "Search Snippets"] \
+      -validate key -validatecommand [list pref_ui::snippets_search %P]
+    set widgets(snippets_lang) [ttk::menubutton $w.tf.sf.mb -text [msgcat::mc "Language"] \
+      -menu [pref_ui::snippets_create_menu]]
 
     pack $w.tf.sf.e  -side left  -padx 2 -pady 2
     pack $w.tf.sf.mb -side right -padx 2 -pady 2
@@ -2402,12 +2404,43 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Create the language menu.
+  proc snippets_create_menu {w} {
+
+    variable widgets
+
+    # Create the menu
+    set widgets(snippets_lang_menu) [menu $w.langPopup -tearoff 0]
+
+    # Populate the menu
+    FOOBAR
+
+    return $widgets(snippets_lang_menu)
+
+  }
+
+  ######################################################################
+  # Loads the current language into the snippets table.
+  proc snippets_load_table {} {
+
+    variable widgets
+
+    # Clear the table
+    $widgets(tl) delete 0 end
+
+    foreach item [snippets::load_list LANGUAGE] {
+      $widgets(tl) insert end $item
+    }
+
+  }
+
+  ######################################################################
   # Saves the current snippets table to file.
   proc snippets_save_table {} {
 
     variable widgets
 
-    # TBD
+    snippets::save_list [$widgets(snippets_tl) get 0 end] LANGUAGE
 
   }
 

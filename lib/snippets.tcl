@@ -632,6 +632,51 @@ namespace eval snippets {
   }
 
   ######################################################################
+  # Returns a list of snippet information from the given file.
+  proc load_list {language} {
+
+    variable snippets_dir
+    variable snippets
+
+    if {$language eq "Any"} {
+      set language "user"
+    }
+
+    # Parse the snippets file
+    parse_snippets $language
+
+    # Configure the snippets into a list
+    foreach {key value} [array get snippets] {
+      lappend items [list [lindex [split $key ,] 1] $value]
+    }
+
+    return $items
+
+  }
+
+  ######################################################################
+  # Saves the given snippet items to the appropriate snippet file.
+  proc save_list {items language} {
+
+    variable snippets_dir
+
+    if {$language eq "Any"} {
+      set language "user"
+    }
+
+    if {![catch { open [file join $snippets_dir $language.snippets] w } rc]} {
+      foreach item $items {
+        lassign $item keyword snippet
+        puts $rc "snippet $item"
+        puts $rc $snippet
+        puts $rc "endsnippet\n"
+      }
+      close $rc
+    }
+
+  }
+
+  ######################################################################
   # Returns the list of files in the TKE home directory to copy.
   proc get_share_items {dir} {
 
