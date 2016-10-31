@@ -285,7 +285,7 @@ namespace eval indent {
       }
 
     }
-    
+
     return $index
 
   }
@@ -436,16 +436,18 @@ namespace eval indent {
     if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
 
       lassign [$txtt tag nextrange _prewhite "$index linestart"] startpos endpos
-      
+
       # If the first non-whitespace characters match an unindent pattern,
       # lessen the indentation by one
       if {[lsearch [$txtt tag names "$endpos-1c"] _unindent*] != -1} {
         $txtt insert insert "$indent_space\n"
+        set startpos [$txtt index $startpos+1l]
+        set endpos   [$txtt index $endpos+1l]
         set restore_insert [$txtt index insert-1c]
         if {$indent_exprs($txtt,mode) eq "IND+"} {
           set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
         }
-        
+
       # Otherwise, if the first non-whitepace characters match a reindent pattern, lessen the
       # indentation by one
       } elseif {([lsearch [$txtt tag names "$endpos-1c"] _reindent*] != -1) && [check_reindent_for_unindent $txtt [lindex [$txtt tag prevrange _reindent $endpos] 0]]} {
@@ -478,9 +480,9 @@ namespace eval indent {
     if {$restore_insert ne ""} {
       ::tk::TextSetCursor $txtt $restore_insert
     }
-    
+
     return [$txtt index "$index+[string length $indent_space]c"]
-    
+
   }
 
   ######################################################################
@@ -528,7 +530,7 @@ namespace eval indent {
   proc format_text {txtt startpos endpos} {
 
     variable indent_exprs
-    
+
     # Create a separator
     $txtt edit separator
 
