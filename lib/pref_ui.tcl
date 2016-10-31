@@ -2195,7 +2195,7 @@ namespace eval pref_ui {
     wmarkentry::wmarkentry $w.tf.sf.e -width 20 -watermark [msgcat::mc "Search Snippets"] \
       -validate key -validatecommand [list pref_ui::snippets_search %P]
     set widgets(snippets_lang) [ttk::menubutton $w.tf.sf.mb -text [msgcat::mc "Language"] \
-      -menu [pref_ui::snippets_create_menu]]
+      -menu [pref_ui::snippets_create_menu $w]]
 
     pack $w.tf.sf.e  -side left  -padx 2 -pady 2
     pack $w.tf.sf.mb -side right -padx 2 -pady 2
@@ -2208,8 +2208,11 @@ namespace eval pref_ui {
     ttk::scrollbar $w.tf.tf.vb -orient vertical   -command [list $w.tf.tf.tl yview]
     ttk::scrollbar $w.tf.tf.hb -orient horizontal -command [list $w.tf.tf.tl xview]
 
+    utils::tablelist_configure $widgets(snippets_tl)
+
     $widgets(snippets_tl) columnconfigure 0 -name keyword -editable 0 -resizable 0 -stretchable 0
-    $widgets(snippets_tl) columnconfigure 1 -name snippet -editable 0 -resizable 1 -stretchable 1 -wrap 0
+    $widgets(snippets_tl) columnconfigure 1 -name snippet -editable 0 -resizable 1 -stretchable 1 \
+      -wrap 0 -maxwidth 50 -formatcommand pref_ui::snippets_format_snippet
 
     bind $widgets(snippets_tl)           <<TablelistSelect>> [list pref_ui::snippets_select]
     bind [$widgets(snippets_tl) bodytag] <Double-Button-1>   [list pref_ui::snippets_edit]
@@ -2222,7 +2225,7 @@ namespace eval pref_ui {
 
     ttk::frame  $w.tf.bf
     ttk::button $w.tf.bf.add -style BButton -text [msgcat::mc "+"] -width 2 -command [list pref_ui::snippets_add]
-    set widgets(snippet_del) [ttk::button $w.tf.bf.del -style BButton -text [msgcat::mc "-"] \
+    set widgets(snippets_del) [ttk::button $w.tf.bf.del -style BButton -text [msgcat::mc "-"] \
       -width 2 -command [list pref_ui::snippets_del] -state disabled]
 
     pack $w.tf.bf.add -side left -padx 2 -pady 2
@@ -2247,12 +2250,12 @@ namespace eval pref_ui {
 
     ttk::labelframe $w.ef.tf -text [msgcat::mc "Snippet Text"]
     frame $w.ef.tf.tf
-    set widgets(snippets_text) [ctext $w.ef.tf.tf.t \
+    set widgets(snippets_text) [ctext $w.ef.tf.tf.t -wrap none \
       -xscrollcommand [list $w.ef.tf.tf.hb set] -yscrollcommand [list $w.ef.tf.tf.vb set]]
     scroller::scroller $w.ef.tf.tf.vb -orient vertical   -autohide 1 -command [list $w.ef.tf.tf.t yview]
     scroller::scroller $w.ef.tf.tf.hb -orient horizontal -autohide 0 -command [list $w.ef.tf.tf.t xview]
 
-    bind $widgets(snippets_text) <<Modified>> [list pref_ui::snippets_text_changed]
+    bind $widgets(snippets_text) <<Modified>> [list if {[pref_ui::snippets_text_changed]} break]
 
     theme::register_widget $widgets(snippets_text) syntax
     theme::register_widget $w.ef.tf.tf.vb text_scrollbar
@@ -2269,7 +2272,7 @@ namespace eval pref_ui {
     pack $w.ef.tf.tf -fill both -expand yes
 
     ttk::frame  $w.ef.bf
-    ttk::button $w.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width 6 -command [list pref_ui::snippets_insert]
+    set widgets(snippets_ins)  [ttk::button $w.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width 6 -command [list pref_ui::snippets_insert]]
     set widgets(snippets_save) [ttk::button $w.ef.bf.save -style BButton -text [msgcat::mc "Save"] \
       -width 6 -command [list pref_ui::snippets_save] -state disabled]
     ttk::button $w.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::snippets_cancel]
@@ -2284,6 +2287,59 @@ namespace eval pref_ui {
 
     # Display the table frame
     pack $w.tf -fill both -expand yes
+
+    # Setup the snippet insert menu
+    set widgets(snippets_ins_menu) [menu $w.insPopup -tearoff 0]
+    $widgets(snippets_ins_menu) add cascade -label [format "%s / %s" [msgcat::mc "Date"] [msgcat::mc "Time"]] -menu [menu $w.datePopup -tearoff 0]
+    $widgets(snippets_ins_menu) add cascade -label [msgcat::mc "File"] -menu [menu $w.filePopup -tearoff 0]
+    $widgets(snippets_ins_menu) add separator
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Selected Text"] -command [list pref_ui::snippets_insert_str "\$SELECTED_TEXT"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Clipboard"]     -command [list pref_ui::snippets_insert_str "\$CLIPBOARD"]
+    $widgets(snippets_ins_menu) add separator
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Tab Stop"]      -command [list pref_ui::snippets_insert_str "\${1}"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Cursor"]        -command [list pref_ui::snippets_insert_str "\${0}"]
+
+    # Setup the date/time submenu
+    $w.datePopup add command -label "01/01/2001" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE"]
+    $w.datePopup add command -label "01:01 PM"   -command [list pref_ui::snippets_insert_str "\$CURRENT_TIME"]
+    $w.datePopup add separator
+    $w.datePopup add command -label "Jan"        -command [list pref_ui::snippets_insert_str "\$CURRENT_MON"]
+    $w.datePopup add command -label "January"    -command [list pref_ui::snippets_insert_str "\$CURRENT_MONTH"]
+    $w.datePopup add command -label " 1"         -command [list pref_ui::snippets_insert_str "\$CURRENT_MON1"]
+    $w.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_MON2"]
+    $w.datePopup add separator
+    $w.datePopup add command -label "Mon"        -command [list pref_ui::snippets_insert_str "\$CURRENT_DAYN"]
+    $w.datePopup add command -label "Monday"     -command [list pref_ui::snippets_insert_str "\$CURRENT_DAYNAME"]
+    $w.datePopup add command -label "1"          -command [list pref_ui::snippets_insert_str "\$CURRENT_DAY1"]
+    $w.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_DAY2"]
+    $w.datePopup add separator
+    $w.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_YEAR2"]
+    $w.datePopup add command -label "2001"       -command [list pref_ui::snippets_insert_str "\$CURRENT_YEAR"]
+
+    # Setup the file submenu
+    $w.filePopup add command -label [msgcat::mc "Current Directory"]     -command [list pref_ui::snippets_insert_str "\$DIRECTORY"]
+    $w.filePopup add command -label [msgcat::mc "Current File Pathname"] -command [list pref_ui::snippets_insert_str "\$FILEPATH"]
+    $w.filePopup add command -label [msgcat::mc "Current Filename"]      -command [list pref_ui::snippets_insert_str "\$FILENAME"]
+    $w.filePopup add separator
+    $w.filePopup add command -label [msgcat::mc "Current Line"]          -command [list pref_ui::snippets_insert_str "\$CURRENT_LINE"]
+    $w.filePopup add command -label [msgcat::mc "Current Word"]          -command [list pref_ui::snippets_insert_str "\$CURRENT_WORD"]
+    $w.filePopup add separator
+    $w.filePopup add command -label [msgcat::mc "Current Line Number"]   -command [list pref_ui::snippets_insert_str "\$LINE_NUMBER"]
+    $w.filePopup add command -label [msgcat::mc "Current Line Column"]   -command [list pref_ui::snippets_insert_str "\$LINE_INDEX"]
+
+  }
+
+  ######################################################################
+  # Format the given snippet
+  proc snippets_format_snippet {value} {
+
+    set lines [split $value \n]
+
+    if {[llength $lines] <= 4} {
+      return [join $lines \n]
+    } else {
+      return [join [concat [lrange $lines 0 2] ...] \n]
+    }
 
   }
 
@@ -2375,7 +2431,7 @@ namespace eval pref_ui {
     $widgets(snippets_save) configure -state disabled
 
     # Place the focus on the text widget
-    focus $widgets(snippets_text)
+    focus $widgets(snippets_text).t
 
   }
 
@@ -2413,23 +2469,45 @@ namespace eval pref_ui {
     set widgets(snippets_lang_menu) [menu $w.langPopup -tearoff 0]
 
     # Populate the menu
-    FOOBAR
+    syntax::populate_syntax_menu $widgets(snippets_lang_menu) pref_ui::snippets_set_language pref_ui::snip_data(lang) "All"
 
     return $widgets(snippets_lang_menu)
 
   }
 
   ######################################################################
-  # Loads the current language into the snippets table.
-  proc snippets_load_table {} {
+  # Sets the current language.
+  proc snippets_set_language {lang} {
 
     variable widgets
 
-    # Clear the table
-    $widgets(tl) delete 0 end
+    # Save the snippets data
+    set snip_data(lang) $lang
 
-    foreach item [snippets::load_list LANGUAGE] {
-      $widgets(tl) insert end $item
+    # Update the language menubutton text
+    $widgets(snippets_lang) configure -text $lang
+
+    # Set language of text widget
+    syntax::set_language $widgets(snippets_text) $lang
+
+    # Loads the snippet tabl
+    snippets_load_table $lang
+
+  }
+
+  ######################################################################
+  # Loads the current language into the snippets table.
+  proc snippets_load_table {lang} {
+
+    variable widgets
+    variable snip_data
+
+    # Clear the table
+    $widgets(snippets_tl) delete 0 end
+
+    # Get the snippets list and add it to the table.
+    foreach item [snippets::load_list $snip_data(lang)] {
+      $widgets(snippets_tl) insert end $item
     }
 
   }
@@ -2439,8 +2517,9 @@ namespace eval pref_ui {
   proc snippets_save_table {} {
 
     variable widgets
+    variable snip_data
 
-    snippets::save_list [$widgets(snippets_tl) get 0 end] LANGUAGE
+    snippets::save_list [$widgets(snippets_tl) get 0 end] $snip_data(lang)
 
   }
 
@@ -2473,13 +2552,40 @@ namespace eval pref_ui {
       $widgets(snippets_save) configure -state disabled
     }
 
+    return 1
+
   }
 
   ######################################################################
   # Displays the insert menu.
   proc snippets_insert {} {
 
-    # TBD
+    variable widgets
+
+    set menu_width  [winfo reqwidth  $widgets(snippets_ins_menu)]
+    set menu_height [winfo reqheight $widgets(snippets_ins_menu)]
+    set w_width     [winfo width $widgets(snippets_ins)]
+    set w_x         [winfo rootx $widgets(snippets_ins)]
+    set w_y         [winfo rooty $widgets(snippets_ins)]
+
+    set x $w_x
+    set y [expr $w_y - ($menu_height + 4)]
+
+    tk_popup $widgets(snippets_ins_menu) $x $y
+
+  }
+
+  ######################################################################
+  # Inserts the given string into the snippets text widget.
+  proc snippets_insert_str {str} {
+
+    variable widgets
+
+    # Insert the string
+    $widgets(snippets_text) insert insert $str
+
+    # Give the text widget focus.
+    focus $widgets(snippets_text).t
 
   }
 
@@ -2548,6 +2654,12 @@ namespace eval pref_ui {
       set mod_width 20
     }
 
+    ttk::frame $w.sf
+    wmarkentry::wmarkentry $w.sf.search -width 20 -watermark [msgcat::mc "Search Shortcuts"] \
+      -validate key -validatecommand [list pref_ui::shortcut_search %P]
+
+    pack $w.sf.search -side left -padx 2 -pady 2
+
     ttk::frame $w.tf
     set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut}} \
       -height 20 -exportselection 0 -stretch all \
@@ -2588,6 +2700,7 @@ namespace eval pref_ui {
     # Hide the shortcut frame
     grid remove $w.tf.sf
 
+    pack $w.sf -fill x
     pack $w.tf -fill both -expand yes -padx 2 -pady 2
 
     # Register the option for search
@@ -2596,6 +2709,30 @@ namespace eval pref_ui {
 
     # Populate the table
     populate_shortcut_table .menubar
+
+  }
+
+  ######################################################################
+  # Performs a real-time search of the given value.
+  proc shortcut_search {value} {
+
+    variable widgets
+
+    if {$value eq ""} {
+      for {set i 0} {$i < [$widgets(shortcut_tl) size]} {incr i} {
+        $widgets(shortcut_tl) rowconfigure $i -hide 0
+      }
+    } else {
+      for {set i 0} {$i < [$widgets(shortcut_tl) size]} {incr i} {
+        if {[string match -nocase *$value* [$widgets(shortcut_tl) cellcget $i,label -text]]} {
+          $widgets(shortcut_tl) rowconfigure $i -hide 0
+        } else {
+          $widgets(shortcut_tl) rowconfigure $i -hide 1
+        }
+      }
+    }
+
+    return 1
 
   }
 
