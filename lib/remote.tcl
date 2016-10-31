@@ -899,7 +899,7 @@ namespace eval remote {
 
     # Add the group to the sidebar table
     if {$value ne ""} {
-      set groups($value) [$widgets(sb) insertchild root end $value]
+      set groups($value) [$widgets(sb) insertchild root end [list $value "" ""]]
       $widgets(sb) selection clear 0 end
       $widgets(sb) selection set $groups($value)
     }
