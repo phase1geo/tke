@@ -120,6 +120,11 @@ namespace eval pref_ui {
     populate_session_menu $language
     populate_lang_menu    $session
 
+    # Update the snippets table
+    if {!$init} {
+      snippets_set_language $language
+    }
+
     # Translate the session and language values
     if {$session eq "None"} {
       set session ""
@@ -132,35 +137,45 @@ namespace eval pref_ui {
     array unset prefs
     array set prefs [preferences::get_loaded $session $language]
 
+    # Remove all listed panels
+    foreach panel [pack slaves $widgets(panes)] {
+      pack forget $panel
+    }
+
     # If we are only changing language information, remove the sidebar and just display the editor pane
     if {$language ne ""} {
-      grid remove .prefwin.f.bf
-      grid remove .prefwin.f.vsep
 
-      # Don't bother to emulate an editor click if we are creating the window
+      # Display the editor and snippets panes
       if {!$init} {
-        pane_clicked editor
+        if {$session eq ""} {
+          foreach panel [list editor snippets] {
+            pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+          }
+          if {($current_panel ne "editor") && ($current_panel ne "snippets")} {
+            pane_clicked editor
+          }
+        } else {
+          pack $widgets(panes).editor -fill both -padx 2 -pady 2
+          pane_clicked editor
+        }
+        pack forget $widgets(snippets_lang_frame)
       }
 
       # Otherwise, make sure the entire UI is displayed.
     } else {
-      grid .prefwin.f.bf
-      grid .prefwin.f.vsep
 
       if {!$init} {
         if {$session eq ""} {
-          pack $widgets(panes).general   -before $widgets(panes).appearance -fill both -padx 2 -pady 2
-          pack $widgets(panes).snippets  -after $widgets(panes).view -fill both -padx 2 -pady 2
-          pack $widgets(panes).shortcuts -fill both -padx 2 -pady 2
-          pack $widgets(panes).advanced  -fill both -padx 2 -pady 2
+          foreach panel [list general appearance editor find sidebar view snippets emmet shortcuts advanced] {
+            pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+          }
           $widgets(frame).emmet.nb add $widgets(node_aliases)
           $widgets(frame).emmet.nb add $widgets(abbr_aliases)
           pane_clicked $current_panel
         } else {
-          pack forget $widgets(panes).general
-          pack forget $widgets(panes).snippets
-          pack forget $widgets(panes).shortcuts
-          pack forget $widgets(panes).advanced
+          foreach panel [list appearance editor find sidebar view emmet] {
+            pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+          }
           $widgets(frame).emmet.nb hide $widgets(node_aliases)
           $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
           if {($current_panel eq "general")   || \
@@ -172,7 +187,9 @@ namespace eval pref_ui {
             pane_clicked $current_panel
           }
         }
+        pack $widgets(snippets_lang_frame) -side right -padx 2 -pady 2
       }
+
     }
 
     # Trace on any changes to the preferences variable
@@ -250,7 +267,7 @@ namespace eval pref_ui {
 
       # Create and pack each of the panes
       foreach pane $panes {
-        pack [ttk::label $widgets(panes).$pane -compound left -image pref_$pane -text [string totitle $pane] -font {-size 14}] -fill x -padx 2 -pady 2
+        ttk::label $widgets(panes).$pane -compound left -image pref_$pane -text [string totitle $pane] -font {-size 14}
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
@@ -260,33 +277,51 @@ namespace eval pref_ui {
 
       # Get the requested panel dimensions
       foreach pane $panes {
-        lappend heights [winfo reqheight $widgets($pane)]
-        lappend widths  [winfo reqwidth  $widgets($pane)]
+        lappend pheights [winfo reqheight $widgets($pane)]
+        lappend pwidths  [winfo reqwidth  $widgets($pane)]
+        lappend lwidths  [winfo reqwidth  $widgets(panes).$pane]
       }
 
       # Calculate the geometry
-      set win_width  [expr [lindex [lsort -integer $widths]  end] + [winfo reqwidth  .prefwin.f.vsep] + [winfo reqwidth  $widgets(panes)]]
-      set win_height [expr [lindex [lsort -integer $heights] end] + [winfo reqheight .prefwin.f.hsep] + [winfo reqheight .prefwin.sf]]
+      set win_width  [expr [lindex [lsort -integer $pwidths]  end] + [winfo reqwidth  .prefwin.f.vsep] + [lindex [lsort -integer $lwidths] end]]
+      set win_height [expr [lindex [lsort -integer $pheights] end] + [winfo reqheight .prefwin.f.hsep] + [winfo reqheight .prefwin.sf]]
+      set win_x      [expr [winfo rootx .] + (([winfo width  .] - $win_width) / 2)]
+      set win_y      [expr [winfo rooty .] + (([winfo height .] - $win_height) / 2)]
 
-      # Set the minimum size of the window
-      wm geometry  .prefwin ${win_width}x${win_height}
+      # Set the minimum size of the window and center it on the main window
+      wm geometry  .prefwin ${win_width}x${win_height}+${win_x}+${win_y}
       wm resizable .prefwin 0 0
 
       # Emulate a click on the General panel
       if {$language ne ""} {
-        pane_clicked editor
+        if {$session eq ""} {
+          foreach panel [list editor snippets] {
+            pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+          }
+        } else {
+          pack $widgets(panes).editor -fill both -padx 2 -pady 2
+        }
+        if {$panel ne ""} {
+          pane_clicked $panel $tab
+        } else {
+          pane_clicked editor
+        }
       } elseif {$session ne ""} {
-        pack forget $widgets(panes).general
-        pack forget $widgets(panes).shortcuts
-        pack forget $widgets(panes).snippets
-        pack forget $widgets(panes).advanced
+        foreach panel [list appearance editor find sidebar view emmet] {
+          pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+        }
         $widgets(frame).emmet.nb hide $widgets(node_aliases)
         $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
         pane_clicked appearance
-      } elseif {$panel ne ""} {
-        pane_clicked $panel $tab
       } else {
-        pane_clicked general
+        foreach panel [list general appearance editor find sidebar view snippets emmet shortcuts advanced] {
+          pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+        }
+        if {$panel ne ""} {
+          pane_clicked $panel $tab
+        } else {
+          pane_clicked general
+        }
       }
 
       # Give the search panel the focus
@@ -294,9 +329,6 @@ namespace eval pref_ui {
 
       # Show the window
       wm deiconify .prefwin
-
-      # Center the window in the editor window
-      ::tk::PlaceWindow .prefwin widget .
 
     }
 
@@ -2184,6 +2216,7 @@ namespace eval pref_ui {
   proc create_snippets {w} {
 
     variable widgets
+    variable selected_language
 
     ###############
     # TABLE FRAME #
@@ -2194,11 +2227,17 @@ namespace eval pref_ui {
     ttk::frame $w.tf.sf
     wmarkentry::wmarkentry $w.tf.sf.e -width 20 -watermark [msgcat::mc "Search Snippets"] \
       -validate key -validatecommand [list pref_ui::snippets_search %P]
-    set widgets(snippets_lang) [ttk::menubutton $w.tf.sf.mb -text [msgcat::mc "Language"] \
+
+    set widgets(snippets_lang_frame) [ttk::frame $w.tf.sf.lf]
+    ttk::label $w.tf.sf.lf.l -text [msgcat::mc "Language"]
+    set widgets(snippets_lang) [ttk::menubutton $w.tf.sf.lf.mb -text [msgcat::mc "Language"] \
       -menu [pref_ui::snippets_create_menu $w]]
 
+    pack $w.tf.sf.lf.l  -side left -padx 2 -pady 2
+    pack $w.tf.sf.lf.mb -side left -padx 2 -pady 2
+
     pack $w.tf.sf.e  -side left  -padx 2 -pady 2
-    pack $w.tf.sf.mb -side right -padx 2 -pady 2
+    pack $w.tf.sf.lf -side right -padx 2 -pady 2
 
     ttk::frame $w.tf.tf
     set widgets(snippets_tl) [tablelist::tablelist $w.tf.tf.tl -columns {0 {Keyword} 0 {Snippet}} \
@@ -2224,9 +2263,9 @@ namespace eval pref_ui {
     grid $w.tf.tf.hb -row 1 -column 0 -sticky ew
 
     ttk::frame  $w.tf.bf
-    ttk::button $w.tf.bf.add -style BButton -text [msgcat::mc "+"] -width 2 -command [list pref_ui::snippets_add]
-    set widgets(snippets_del) [ttk::button $w.tf.bf.del -style BButton -text [msgcat::mc "-"] \
-      -width 2 -command [list pref_ui::snippets_del] -state disabled]
+    ttk::button $w.tf.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::snippets_add]
+    set widgets(snippets_del) [ttk::button $w.tf.bf.del -style BButton -text [msgcat::mc "Delete"] \
+      -command [list pref_ui::snippets_del] -state disabled]
 
     pack $w.tf.bf.add -side left -padx 2 -pady 2
     pack $w.tf.bf.del -side left -padx 2 -pady 2
@@ -2327,6 +2366,9 @@ namespace eval pref_ui {
     $w.filePopup add command -label [msgcat::mc "Current Line Number"]   -command [list pref_ui::snippets_insert_str "\$LINE_NUMBER"]
     $w.filePopup add command -label [msgcat::mc "Current Line Column"]   -command [list pref_ui::snippets_insert_str "\$LINE_INDEX"]
 
+    # Populate the snippets table
+    snippets_set_language $selected_language
+
   }
 
   ######################################################################
@@ -2394,7 +2436,7 @@ namespace eval pref_ui {
     set snip_data(edit_type) "add"
 
     # Set the selected syntax
-    syntax::set_language $widgets(snippets_text) "HTML"
+    syntax::set_language $widgets(snippets_text) $snip_data(lang)
 
     # Display the editing frame
     pack forget $widgets(snippets_tf)
@@ -2506,7 +2548,7 @@ namespace eval pref_ui {
     $widgets(snippets_tl) delete 0 end
 
     # Get the snippets list and add it to the table.
-    foreach item [snippets::load_list $snip_data(lang)] {
+    foreach item [snippets::load_list $lang] {
       $widgets(snippets_tl) insert end $item
     }
 

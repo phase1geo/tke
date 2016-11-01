@@ -1333,11 +1333,11 @@ namespace eval menus {
     # Populate snippets menu
     ########################
 
-    $mb.snipPopup add command -label [msgcat::mc "Edit User"] -command [list snippets::add_new_snippet {} user]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit user snippets"]] [list snippets::add_new_snippet {} user]
+    $mb.snipPopup add command -label [msgcat::mc "Edit User"] -command [list menus::add_new_snippet user]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit user snippets"]] [list menus::add_new_snippet user]
 
-    $mb.snipPopup add command -label [msgcat::mc "Edit Language"] -command [list snippets::add_new_snippet {} lang]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit language snippets"]] [list snippets::add_new_snippet {} lang]
+    $mb.snipPopup add command -label [msgcat::mc "Edit Language"] -command [list menus::add_new_snippet lang]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit language snippets"]] [list menus::add_new_snippet lang]
 
     $mb.snipPopup add separator
 
@@ -1925,6 +1925,22 @@ namespace eval menus {
       pref_ui::create "" "" shortcuts
     } else {
       bindings::edit_user
+    }
+
+  }
+
+  ######################################################################
+  # Adds a new snippet via the preferences GUI or text editor.
+  proc add_new_snippet {language} {
+
+    if {[preferences::get General/EditPreferencesUsingGUI]} {
+      if {$language eq "user"} {
+        pref_ui::create "" "" snippets
+      } else {
+        pref_ui::create "" [syntax::get_language [gui::current_txt {}]] snippets
+      }
+    } else {
+      snippets::add_new_snippet {} $language
     }
 
   }

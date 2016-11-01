@@ -14,7 +14,7 @@ icomment {{--}}
 
 lcomments {{--} {#}}
 
-bcomments {{{(\*} {\*)}}}
+bcomments {{{\(\*} {\*\)}}}
 
 strings {{"}}
 
