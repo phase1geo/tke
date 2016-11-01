@@ -4466,7 +4466,7 @@ namespace eval gui {
       # Get file information
       lassign [get_info $txt txt {tabbar tab fileindex readonly}] tb tab file_index readonly
 
-      if {!$readonly && ([lindex $data 3] ne "ignore")} {
+      if {!$readonly && ([lindex $data 2] ne "ignore")} {
 
         # Save the modified state to the files list
         lset files $file_index $files_index(modified) 1
@@ -4485,7 +4485,7 @@ namespace eval gui {
     }
 
     # Update the folding gutter
-    [ns folding]::add_folds $txt {*}[lrange $data 1 2]
+    [ns folding]::add_folds $txt {*}[lrange [lindex $data 1] 0 1]
 
   }
 
