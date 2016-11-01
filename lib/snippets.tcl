@@ -646,8 +646,9 @@ namespace eval snippets {
     parse_snippets $language
 
     # Configure the snippets into a list
-    foreach {key value} [array get snippets] {
-      lappend items [list [lindex [split $key ,] 1] $value]
+    set items [list]
+    foreach key [array names snippets $language,*] {
+      lappend items [list [lindex [split $key ,] 1] $snippets($key)]
     }
 
     return $items
