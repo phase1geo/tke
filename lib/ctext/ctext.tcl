@@ -212,13 +212,13 @@ proc ctext::event:xscroll {win clientData args} {
 
   # Adjust the warning width line, if one was requested
   if {$data($win,config,-warnwidth) ne ""} {
-    
+
     # Width is calculated by multiplying the longest line with the length of a single character
     set newx [expr ($data($win,config,-warnwidth) * 7) - $missing]
-  
+
     # Move the vertical bar
     place $win.t.w -x $newx -relheight 1.0
-    
+
   }
 
 }
@@ -1190,8 +1190,8 @@ proc ctext::command_delete {win args} {
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  ctext::highlightAll $win $lineStart $lineEnd 0 $chars_deleted
-  ctext::modified     $win 1 [list delete $lineStart $lineEnd $moddata]
+  ctext::highlightAll $win [list $lineStart $lineEnd] 0 $chars_deleted
+  ctext::modified     $win 1 [list delete [list $lineStart $lineEnd] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1343,7 +1343,7 @@ proc ctext::command_fastdelete {win args} {
 
   $win._t delete {*}$args
 
-  ctext::modified $win 1 [list delete $startPos $endPos $moddata]
+  ctext::modified $win 1 [list delete [list $startPos $endPos] $moddata]
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1363,7 +1363,7 @@ proc ctext::command_fastinsert {win args} {
   $win._t insert {*}$args
 
   ctext::handleInsertAt0 $win._t $startPos $chars
-  ctext::modified $win 1 [list insert $startPos $endPos $moddata]
+  ctext::modified $win 1 [list insert [list $startPos $endPos] $moddata]
   event generate $win.t <<CursorChanged>>
 
 }
@@ -1377,11 +1377,12 @@ proc ctext::command_highlight {win args} {
     set args [lassign $args dummy moddata]
   }
 
-  set lineStart [$win._t index "[lindex $args 0] linestart"]
-  set lineEnd   [$win._t index "[lindex $args 1] lineend"]
+  foreach {start end} $args {
+    lappend lineranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
+  }
 
-  ctext::highlightAll $win $lineStart $lineEnd 0
-  ctext::modified     $win 0 [list highlight $lineStart $lineEnd $moddata]
+  ctext::highlightAll $win $lineranges 0
+  ctext::modified     $win 0 [list highlight $lineranges $moddata]
 
 }
 
@@ -1433,8 +1434,8 @@ proc ctext::command_insert {win args} {
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
   set lines   [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win $lineStart $lineEnd 1 [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
-  ctext::modified     $win 1 [list insert $lineStart $lineEnd $moddata]
+  ctext::highlightAll $win [list $lineStart $lineEnd] 1 [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
+  ctext::modified     $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1477,9 +1478,9 @@ proc ctext::command_replace {win args} {
   set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win $lineStart $lineEnd 1 [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
-  ctext::modified     $win 1 [list delete $startPos $endPos $moddata]
-  ctext::modified     $win 1 [list insert $lineStart $lineEnd $moddata]
+  ctext::highlightAll $win [list $lineStart $lineEnd] 1 [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
+  ctext::modified     $win 1 [list delete [list $startPos $endPos] $moddata]
+  ctext::modified     $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1502,7 +1503,7 @@ proc ctext::command_paste {win args} {
   tk_textPaste $win
 
   ctext::handleInsertAt0 $win._t $insertPos $datalen
-  ctext::modified $win 1 [list insert $insertPos [$win._t index "$insertPos+${datalen}c"] $moddata]
+  ctext::modified $win 1 [list insert [list $insertPos [$win._t index "$insertPos+${datalen}c"]] $moddata]
   event generate $win.t <<CursorChanged>>
 
 }
@@ -2276,7 +2277,7 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
 
 }
 
-proc ctext::highlightAll {win linestart lineend ins {do_tag ""}} {
+proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
 
   variable data
 
@@ -2284,29 +2285,33 @@ proc ctext::highlightAll {win linestart lineend ins {do_tag ""}} {
 
   foreach tag [$win._t tag names] {
     if {([string index $tag 0] eq "_") && ![info exists csl_array($tag)]} {
-      $win._t tag remove $tag $linestart $lineend
+      $win._t tag remove $tag {*}$lineranges
     }
   }
 
   set range [list]
 
-  ctext::escapes $win $linestart $lineend
-  set all [ctext::comments $win $linestart $lineend $do_tag]
+  foreach {linestart lineend} $lineranges {
+    ctext::escapes $win $linestart $lineend
+  }
+  set all [ctext::comments $win $lineranges $do_tag]
   ctext::updateLangBackgrounds $win
 
   if {$all} {
     foreach tag [$win._t tag names] {
       if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
-        $win._t tag remove $tag $lineend end
+        $win._t tag remove $tag [lindex $lineranges 1] end
       }
     }
-    ctext::brackets    $win $linestart end
-    ctext::indentation $win $linestart end
-    ctext::highlight   $win $linestart end $ins
+    ctext::brackets    $win [lindex $lineranges 0] end
+    ctext::indentation $win [lindex $lineranges 0] end
+    ctext::highlight   $win [lindex $lineranges 0] end $ins
   } else {
-    ctext::brackets    $win $linestart $lineend
-    ctext::indentation $win $linestart $lineend
-    ctext::highlight   $win $linestart $lineend $ins
+    foreach {linestart lineend} $lineranges {
+      ctext::brackets    $win $linestart $lineend
+      ctext::indentation $win $linestart $lineend
+      ctext::highlight   $win $linestart $lineend $ins
+    }
   }
 
 }
@@ -2350,7 +2355,7 @@ proc ctext::comments_do_tag {win start end} {
 
 }
 
-proc ctext::comments {win start end do_tag} {
+proc ctext::comments {win ranges do_tag} {
 
   variable data
 
@@ -2364,24 +2369,26 @@ proc ctext::comments {win start end do_tag} {
   foreach {tag pattern} $data($win,config,csl_patterns) {
     set i 0
     array set indices {0 {} 1 {}}
-    foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
-      if {![isEscaped $win $index]} {
-        set end_index [$win index "$index+[lindex $lengths $i]c"]
-        if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
-          set match [$win get $index $end_index]
-          set diff  [expr [string length $match] - [string length [string trimleft $match]]]
-          lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
-        } else {
-          lappend indices([expr $i & 1]) $index $end_index
+    foreach {start end} $ranges {
+      foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
+        if {![isEscaped $win $index]} {
+          set end_index [$win index "$index+[lindex $lengths $i]c"]
+          if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
+            set match [$win get $index $end_index]
+            set diff  [expr [string length $match] - [string length [string trimleft $match]]]
+            lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
+          } else {
+            lappend indices([expr $i & 1]) $index $end_index
+          }
         }
+        incr i
       }
-      incr i
-    }
-    foreach j {0 1} {
-      if {$indices($j) ne [ctext::get_tag_in_range $win $tag$j $start $end]} {
-        $win tag remove $tag$j $start $end
-        catch { $win tag add $tag$j {*}$indices($j) }
-        set tag_changed($tag) 1
+      foreach j {0 1} {
+        if {$indices($j) ne [ctext::get_tag_in_range $win $tag$j $start $end]} {
+          $win tag remove $tag$j $start $end
+          catch { $win tag add $tag$j {*}$indices($j) }
+          set tag_changed($tag) 1
+        }
       }
     }
   }
