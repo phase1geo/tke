@@ -286,20 +286,20 @@ namespace eval multicursor {
     }
 
   }
-  
+
   ######################################################################
   # Adjusts the view to make sure that previously viewable cursors are
   # still visible.
   proc adjust_set_and_view {txt prev next} {
-    
+
     # Add the multicursor
     $txt tag add mcursor $next
-    
+
     # If our next cursor is going off screen, make it viewable
     if {([$txt bbox $prev] ne "") && ([$txt bbox $next] eq "")} {
       $txt see $next
     }
-    
+
   }
 
   ######################################################################
@@ -315,7 +315,7 @@ namespace eval multicursor {
   # a line or character will be inserted and the cursor set to that position.
   # The inserted text will be given the tag name of "insert_tag".
   proc adjust {txt suffix {insert 0} {insert_tag ""}} {
-    
+
     if {[string index $suffix 0] eq "+"} {
 
       # If any of the cursors would "fall off the edge", don't modify any of them
@@ -377,7 +377,7 @@ namespace eval multicursor {
           }
         }
       }
-      
+
       # Adjust the cursors
       switch $suffix {
         "-1c" {
@@ -419,7 +419,7 @@ namespace eval multicursor {
       }
 
     }
-    
+
   }
 
   ######################################################################
@@ -516,24 +516,31 @@ namespace eval multicursor {
   proc insert {txtt value {indent_cmd ""}} {
 
     variable selected
-    
+
     # Insert the value into the text widget for each of the starting positions
     if {[enabled $txtt]} {
+      set do_tags [list]
       if {$selected} {
         foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
-          $txtt delete $start $end
+          ctext::comments_chars_deleted $txtt $start $end do_tags
+          $txtt fastdelete $start $end
           $txtt tag add mcursor $start
         }
         set selected 0
       }
-      set start 1.0
+      set start  1.0
+      set ranges [list]
       while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
         set start [lindex $range 0]
-        $txtt insert $start $value
-        if {$indent_cmd ne ""} {
+        $txtt fastinsert $start $value
+        ctext::comments_do_tag $txtt $start "$start+[string length $value]c" do_tags
+        set start "$start+2c"
+        lappend ranges {*}$range
+      }
+      $txtt highlight -insert 1 -do_tags $do_tags $ranges
+      if {$indent_cmd ne ""} {
+        foreach {start end} $ranges {
           set start [$indent_cmd $txtt [$txtt index "$start+1c"]]+1c
-        } else {
-          set start "$start+2c"
         }
       }
       return 1
