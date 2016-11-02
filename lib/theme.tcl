@@ -159,6 +159,11 @@ namespace eval theme {
     ttk::style configure BButton -anchor center -padding 2 -relief flat
     ttk::style map       BButton [ttk::style map TButton]
     ttk::style layout    BButton [ttk::style layout TButton]
+    
+    # Sidebar
+    ttk::style configure SBTreeview [ttk::style configure Treeview]
+    ttk::style map       SBTreeview [ttk::style map Treeview]
+    ttk::style layout    SBTreeview [ttk::style layout Treeview]
 
   }
 
@@ -929,9 +934,14 @@ namespace eval theme {
   # Updates the sidebar with the given theme settings.
   proc update_sidebar {} {
 
-    # update_widget sidebar
+    variable widgets
 
-    # TBD - We may want to call something to cause hidden colors to update
+    # Get the options
+    array set opts [get_category_options sidebar 1]
+
+    foreach w $widgets(sidebar) {
+      $w tag configure sel -background $opts(-selectbackground) -foreground $opts(-selectforeground)
+    }
 
   }
 
@@ -988,6 +998,9 @@ namespace eval theme {
 
     # Get the ttk style option/value pairs
     array set opts [get_category_options ttk_style 1]
+    
+    # Get the sidebar option/value pairs
+    array set sb_opts [get_category_options sidebar 1]
 
     # Configure the theme
     ttk::style theme settings $name {
@@ -1115,8 +1128,18 @@ namespace eval theme {
       ttk::style configure TNotebook.Tab -padding {10 3}
 
       # Configure Treeview widgets
-      ttk::style configure Treeview -fieldbackground $opts(background) -padding 0
-      ttk::style configure Treeview.field -border 0
+      ttk::style configure Treeview -fieldbackground $opts(background)
+      ttk::style layout Treeview {
+        Treeview.treearea -sticky news
+      }
+        
+      # Configure Sidebar tree widget
+      ttk::style configure SBTreeview -fieldbackground $sb_opts(-background) \
+        -background $sb_opts(-background) -foreground $sb_opts(-foreground) ;# -indicatorsize 4
+      ttk::style layout SBTreeview {
+        Treeview.treearea -sticky news
+      }
+      # TBD - Allow the SBTreeitem.indicator element to have its image configured via the theme engine
 
     }
 
