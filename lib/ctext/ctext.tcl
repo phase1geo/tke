@@ -2364,7 +2364,7 @@ proc ctext::comments_chars_deleted {win start end pdo_tags} {
 
 }
 
-proc ctext::comments_do_tag {win start end pdo_togs} {
+proc ctext::comments_do_tag {win start end pdo_tags} {
 
   upvar $pdo_tags do_tags
 

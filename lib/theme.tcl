@@ -1115,6 +1115,7 @@ namespace eval theme {
       ttk::style configure TNotebook.Tab -padding {10 3}
 
       # Configure Treeview widgets
+      ttk::style configure Treeview -fieldbackground $opts(background) -padding 0
       ttk::style configure Treeview.field -border 0
 
     }
