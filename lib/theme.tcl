@@ -929,7 +929,7 @@ namespace eval theme {
   # Updates the sidebar with the given theme settings.
   proc update_sidebar {} {
 
-    update_widget sidebar
+    # update_widget sidebar
 
     # TBD - We may want to call something to cause hidden colors to update
 

@@ -898,7 +898,7 @@ proc ctext::undo {win} {
         }
       }
 
-      $win highlight "$val1 linestart" "$val2 lineend" [expr {$cmd eq "i"}]
+      $win highlight -insert [expr {$cmd eq "i"}] "$val1 linestart" "$val2 lineend"
 
       set last_cursor $cursor
 
@@ -960,7 +960,7 @@ proc ctext::redo {win} {
         }
       }
 
-      $win highlight "$val1 linestart" "$val2 lineend" [expr {$cmd eq "i"}]
+      $win highlight -insert [expr {$cmd eq "i"}] "$val1 linestart" "$val2 lineend"
 
       incr i
 
@@ -1181,16 +1181,16 @@ proc ctext::command_delete {win args} {
 
   set lineStart [$win._t index "$deleteStartPos linestart"]
   set lineEnd   [$win._t index "$deleteEndPos + 1 chars lineend"]
+  set do_tags   [list]
 
-  ctext::undo_delete          $win $deleteStartPos $deleteEndPos
-  ctext::linemapCheckOnDelete $win $deleteStartPos $deleteEndPos
-
-  set chars_deleted [ctext::comments_chars_deleted $win $deleteStartPos $deleteEndPos]
+  ctext::undo_delete            $win $deleteStartPos $deleteEndPos
+  ctext::linemapCheckOnDelete   $win $deleteStartPos $deleteEndPos
+  ctext::comments_chars_deleted $win $deleteStartPos $deleteEndPos do_tags
 
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  ctext::highlightAll $win [list $lineStart $lineEnd] 0 $chars_deleted
+  ctext::highlightAll $win [list $lineStart $lineEnd] 0 $do_tags
   ctext::modified     $win 1 [list delete [list $lineStart $lineEnd] $moddata]
 
   event generate $win.t <<CursorChanged>>
@@ -1306,7 +1306,7 @@ proc ctext::command_diff {win args} {
 
       # Insert the string and highlight it
       $win._t insert $tline.0 $str
-      $win highlight $tline.0 $pos 1
+      $win highlight -insert 1 $tline.0 $pos
 
       # Add the tags
       $win._t tag add $tagA $start_posA [$win._t index "$end_posA+${count}l linestart"]
@@ -1373,15 +1373,22 @@ proc ctext::command_highlight {win args} {
   variable data
 
   set moddata [list]
-  if {[lindex $args 0] eq "-moddata"} {
-    set args [lassign $args dummy moddata]
+  set insert  0
+  set dotags  ""
+
+  while {[string index [lindex $args 0] 0] eq "-"} {
+    switch [lindex $args 0] {
+      "-moddata" { set args [lassign $args dummy moddata] }
+      "-insert"  { set args [lassign $args dummy insert] }
+      "-dotags"  { set args [lassign $args dummy dotags] }
+    }
   }
 
   foreach {start end} $args {
     lappend lineranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
   }
 
-  ctext::highlightAll $win $lineranges 0
+  ctext::highlightAll $win $lineranges $insert $dotags
   ctext::modified     $win 0 [list highlight $lineranges $moddata]
 
 }
@@ -1433,9 +1440,11 @@ proc ctext::command_insert {win args} {
 
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
   set lines   [$win._t count -lines $lineStart $lineEnd]
+  set do_tags [list]
 
-  ctext::highlightAll $win [list $lineStart $lineEnd] 1 [ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c"]
-  ctext::modified     $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+  ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
+  ctext::highlightAll    $win [list $lineStart $lineEnd] 1 $do_tags
+  ctext::modified        $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1464,10 +1473,11 @@ proc ctext::command_replace {win args} {
   set cursor      [$win._t index insert]
   set deleteChars [$win._t count -chars $startPos $endPos]
   set deleteLines [$win._t count -lines $startPos $endPos]
+  set do_tags     [list]
 
   ctext::undo_delete $win $startPos $endPos
 
-  set chars_deleted [ctext::comments_chars_deleted $win $startPos $endPos]
+  ctext::comments_chars_deleted $win $startPos $endPos do_tags
 
   # Perform the text replacement
   $win._t replace {*}$args
@@ -1478,7 +1488,11 @@ proc ctext::command_replace {win args} {
   set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
   set insertLines [$win._t count -lines $lineStart $lineEnd]
 
-  ctext::highlightAll $win [list $lineStart $lineEnd] 1 [expr {($chars_deleted ne "") ? $chars_deleted : [ctext::comments_do_tag $win $startPos "$startPos+${datlen}c"]}]
+  if {[llength $do_tags] == 0} {
+    ctext::comments_do_tag $win $startPos "$startPos+${datlen}c" do_tags
+  }
+
+  ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags
   ctext::modified     $win 1 [list delete [list $startPos $endPos] $moddata]
   ctext::modified     $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
@@ -2334,34 +2348,39 @@ proc ctext::get_tag_in_range {win tag start end} {
 
 }
 
-proc ctext::comments_chars_deleted {win start end} {
+proc ctext::comments_chars_deleted {win start end pdo_tags} {
 
   variable data
+
+  upvar $pdo_tags do_tags
 
   foreach {tag dummy} $data($win,config,csl_array) {
     lassign [$win tag nextrange $tag $start] tag_start tag_end
     if {($tag_start ne "") && [$win compare $tag_start < $end]} {
-      return $tag
+      lappend do_tags $tag
+      return
     }
   }
 
-  return ""
+}
+
+proc ctext::comments_do_tag {win start end pdo_togs} {
+
+  upvar $pdo_tags do_tags
+
+  if {($do_tags eq "") && [inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)} {
+    lappend do_tags "stuff"
+  }
 
 }
 
-proc ctext::comments_do_tag {win start end} {
-
-  return [expr {([inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)) ? "stuff" : ""}]
-
-}
-
-proc ctext::comments {win ranges do_tag} {
+proc ctext::comments {win ranges do_tags} {
 
   variable data
 
   array set tag_changed [list]
 
-  if {$do_tag ne ""} {
+  foreach do_tag $do_tags {
     set tag_changed($do_tag) 1
   }
 
