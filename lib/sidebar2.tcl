@@ -128,6 +128,18 @@ namespace eval sidebar {
       -file [file join $::tke_dir lib images sopen.bmp] \
       -maskfile [file join $::tke_dir lib images sopen.bmp] \
       -foreground white -background black
+      
+    theme::register_image sidebar_expanded bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar to indicate a directory that is showing its contents"} \
+      -file [file join $::tke_dir lib image down.bmp] \
+      -maskfile [file join $::tke_dir lib image down.bmp] \
+      -foreground white -background black
+      
+    theme::register_image sidebar_collapsed bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar to indicate a directory that is collapsed"} \
+      -file [file join $::tke_dir lib image right.bmp] \
+      -maskfile [file join $::tke_dir lib image right.bmp] \
+      -foreground white -background black
 
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
@@ -137,10 +149,10 @@ namespace eval sidebar {
 
     # Add the file tree elements
     set widgets(tl) \
-      [ttk::treeview $w.tl -columns {name ocount remote} -displaycolumns {} \
+      [ttk::treeview $w.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
         -show tree -padding 0 -yscrollcommand "utils::set_yscrollbar $w.vb"]
     set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command "$widgets(tl) yview"]
-
+    
     bind $widgets(tl)    <<TreeviewSelect>>      [list sidebar::handle_selection]
     bind $widgets(tl)    <<TreeviewOpen>>        [list sidebar::expand_directory]
     bind $widgets(tl)    <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
@@ -610,8 +622,6 @@ namespace eval sidebar {
 
     variable widgets
 
-    puts "In add_directory, dir: $dir, args: $args"
-
     array set opts {
       -parent ""
       -remote ""
@@ -653,7 +663,6 @@ namespace eval sidebar {
     }
 
     # If no match was found, add it at the ordered index
-    puts "Adding directory [file tail $dir_path]"
     set parent [$widgets(tl) insert $opts(-parent) $index -text [file tail $dir_path] -values [list $dir_path 0 $opts(-remote)] -tags d]
 
     # Add the directory contents
@@ -677,7 +686,7 @@ namespace eval sidebar {
 
       if {$dir} {
         set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 0 -tags d]
-        # $widgets(tl) insert $child end -text ""
+        $widgets(tl) insert $child end -text "foobar" -values [list "foobar" 0 ""] -tags f
       } else {
         if {![ignore_file $fname]} {
           set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -tags f]
@@ -912,6 +921,9 @@ namespace eval sidebar {
     variable widgets
     variable selection_anchor
 
+    # Clear the selection
+    $widgets(tl) tag remove sel
+
     # Get the current selection
     if {[llength [set selected [$widgets(tl) selection]]]} {
 
@@ -919,7 +931,7 @@ namespace eval sidebar {
       if {[llength $selected] == 1} {
         set selection_anchor [lindex $selected 0]
       }
-
+      
       # Make sure that all of the selections matches the same type (root, dir, file)
       set anchor_type [row_type $selection_anchor]
       foreach row $selected {
@@ -927,6 +939,9 @@ namespace eval sidebar {
           $widgets(tl) selection remove $row
         }
       }
+
+      # Colorize the selected items to be selected
+      $widgets(tl) tag add sel [$widgets(tl) selection]
 
       # If the file is currently in the notebook, make it the current tab
       if {([llength $selected] == 1) && ([$widgets(tl) item $selected -image] ne "")} {
@@ -1821,10 +1836,11 @@ namespace eval sidebar {
     }
 
     # Put the file into view
-    if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact -check [list sidebar::remote_matches $remote]]] != -1} {
-      $widgets(tl) selection clear 0 end
-      $widgets(tl) selection set $row
-      $widgets(tl) see $row
+    foreach row [$widgets(tl) tag has f] {
+      if {([$widgets(tl) set $row name] eq $fname) && ([$widgets(tl) set $row remote] eq $remote)} {
+        $widgets(tl) selection set $row
+        $widgets(tl) see $row
+      }
     }
 
   }
