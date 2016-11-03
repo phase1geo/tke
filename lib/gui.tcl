@@ -5022,7 +5022,8 @@ namespace eval gui {
       }
       set tab_image [$tb tab $tab -image]
       set img       [expr {($tab_image ne "") ? "menu_[string range $tab_image 4 end]" : ""}]
-      $mnu add command -compound left -image $img -label [$tb tab $tab -text] \
+      set sel_img   [expr {($tab_image ne "") ? "menu_[string range $tag_image 4 end]_selected" : ""}]
+      $mnu add command -compound left -image $img -selectimage $sel_img -label [$tb tab $tab -text] \
         -command [list [ns gui]::set_current_tab $tb $tab]
       incr i
     }
