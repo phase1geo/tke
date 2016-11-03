@@ -159,11 +159,13 @@ namespace eval theme {
     ttk::style configure BButton -anchor center -padding 2 -relief flat
     ttk::style map       BButton [ttk::style map TButton]
     ttk::style layout    BButton [ttk::style layout TButton]
-    
+
     # Sidebar
-    ttk::style configure SBTreeview [ttk::style configure Treeview]
-    ttk::style map       SBTreeview [ttk::style map Treeview]
-    ttk::style layout    SBTreeview [ttk::style layout Treeview]
+    foreach {old new} [list Treeview SBTreeview Treeview.Item SBTreeview.Item] {
+      ttk::style configure $new [ttk::style configure $old]
+      ttk::style map       $new [ttk::style map $old]
+      ttk::style layout    $new [ttk::style layout $old]
+    }
 
   }
 
@@ -998,7 +1000,7 @@ namespace eval theme {
 
     # Get the ttk style option/value pairs
     array set opts [get_category_options ttk_style 1]
-    
+
     # Get the sidebar option/value pairs
     array set sb_opts [get_category_options sidebar 1]
 
@@ -1132,14 +1134,28 @@ namespace eval theme {
       ttk::style layout Treeview {
         Treeview.treearea -sticky news
       }
-        
+
       # Configure Sidebar tree widget
       ttk::style configure SBTreeview -fieldbackground $sb_opts(-background) \
-        -background $sb_opts(-background) -foreground $sb_opts(-foreground) ;# -indicatorsize 4
+        -background $sb_opts(-background) -foreground $sb_opts(-foreground)
       ttk::style layout SBTreeview {
         Treeview.treearea -sticky news
       }
-      # TBD - Allow the SBTreeitem.indicator element to have its image configured via the theme engine
+      ttk::style element create SBTreeitem.indicator image {
+        sidebar_file
+        {!user1 !user2 !selected} sidebar_collapsed
+        { user1 !user2 !selected} sidebar_expanded
+        {!user1 !user2  selected} sidebar_collapsed_sel
+        { user1 !user2  selected} sidebar_expanded_sel
+        {user2} sidebar_file
+      } -width 15 -sticky w
+      ttk::style layout SBTreeview.Item {
+        Treeitem.padding -sticky nswe -children {
+          SBTreeitem.indicator -side left -sticky {}
+          Treeitem.image -side left -sticky {}
+          Treeitem.text -side left -sticky {}
+        }
+      }
 
     }
 

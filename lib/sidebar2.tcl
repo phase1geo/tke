@@ -27,6 +27,8 @@ namespace eval sidebar {
 
   variable last_opened      {}
   variable selection_anchor ""
+  variable last_id          ""
+  variable after_id         ""
 
   array set widgets {}
 
@@ -128,18 +130,36 @@ namespace eval sidebar {
       -file [file join $::tke_dir lib images sopen.bmp] \
       -maskfile [file join $::tke_dir lib images sopen.bmp] \
       -foreground white -background black
-      
+
+    theme::register_image sidebar_file bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar to indicate a file"} \
+      -file [file join $::tke_dir lib images blank10.bmp] \
+      -maskfile [file join $::tke_dir lib images blank10.bmp] \
+      -foreground 1
+
     theme::register_image sidebar_expanded bitmap sidebar -background \
       {msgcat::mc "Image displayed in sidebar to indicate a directory that is showing its contents"} \
-      -file [file join $::tke_dir lib image down.bmp] \
-      -maskfile [file join $::tke_dir lib image down.bmp] \
-      -foreground white -background black
-      
+      -file [file join $::tke_dir lib images down10.bmp] \
+      -maskfile [file join $::tke_dir lib images down10.bmp] \
+      -foreground 1
+
     theme::register_image sidebar_collapsed bitmap sidebar -background \
       {msgcat::mc "Image displayed in sidebar to indicate a directory that is collapsed"} \
-      -file [file join $::tke_dir lib image right.bmp] \
-      -maskfile [file join $::tke_dir lib image right.bmp] \
-      -foreground white -background black
+      -file [file join $::tke_dir lib images right10.bmp] \
+      -maskfile [file join $::tke_dir lib images right10.bmp] \
+      -foreground 1
+
+    theme::register_image sidebar_expanded_sel bitmap sidebar -selectbackground \
+      {msgcat::mc "Image displayed in sidebar to indicate a selected directory that is expanded"} \
+      -file [file join $::tke_dir lib images down10.bmp] \
+      -maskfile [file join $::tke_dir lib images down10.bmp] \
+      -foreground 0
+
+    theme::register_image sidebar_collapsed_sel bitmap sidebar -selectbackground \
+      {msgcat::mc "Image displayed in sidebar to indicate a selected directory that is collapsed"} \
+      -file [file join $::tke_dir lib images right10.bmp] \
+      -maskfile [file join $::tke_dir lib images right10.bmp] \
+      -foreground 0
 
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
@@ -152,16 +172,19 @@ namespace eval sidebar {
       [ttk::treeview $w.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
         -show tree -padding 0 -yscrollcommand "utils::set_yscrollbar $w.vb"]
     set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command "$widgets(tl) yview"]
-    
+
+    $widgets(tl) column #0 -width 300
+
     bind $widgets(tl)    <<TreeviewSelect>>      [list sidebar::handle_selection]
     bind $widgets(tl)    <<TreeviewOpen>>        [list sidebar::expand_directory]
     bind $widgets(tl)    <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl)    <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
     bind $widgets(tl)    <Return>                [list sidebar::handle_return %W]
-    bind $widgets(tl)    <FocusIn>               [list sidebar::unhide_scrollbar]
-    bind $widgets(tl)    <FocusOut>              [list sidebar::hide_scrollbar]
-    bind $widgets(frame) <Enter>                 [list sidebar::unhide_scrollbar]
-    bind $widgets(frame) <Leave>                 [list sidebar::hide_scrollbar]
+    bind $widgets(tl)    <Motion>                [list sidebar::handle_motion %W %x %y]
+    # bind $widgets(tl)    <FocusIn>               [list sidebar::unhide_scrollbar]
+    # bind $widgets(tl)    <FocusOut>              [list sidebar::hide_scrollbar]
+    # bind $widgets(frame) <Enter>                 [list sidebar::unhide_scrollbar]
+    # bind $widgets(frame) <Leave>                 [list sidebar::hide_scrollbar]
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
@@ -169,7 +192,7 @@ namespace eval sidebar {
     grid $w.vb -row 0 -column 1 -sticky ns
 
     # On application start, hide the scrollbar
-    hide_scrollbar
+    # hide_scrollbar
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -195,6 +218,24 @@ namespace eval sidebar {
     trace variable preferences::prefs(Sidebar/IgnoreBinaries)     w sidebar::handle_ignore_files
 
     return $w
+
+  }
+
+  ######################################################################
+  # Sets the row's image and adjusts the text to provide a gap between
+  # the image and the text.
+  proc set_image {row img} {
+
+    variable widgets
+
+    # Get the item's name
+    set name [string trim [$widgets(tl) item $row -text]]
+
+    if {$img eq ""} {
+      $widgets(tl) item $row -image $img -text $name
+    } else {
+      $widgets(tl) item $row -image $img -text " $name"
+    }
 
   }
 
@@ -522,7 +563,7 @@ namespace eval sidebar {
   proc get_index {fname remote} {
 
     variable widgets
-    
+
     foreach child [$widgets(tl) tag has f] {
       if {([$widgets(tl) set $child name] eq $fname) && ([$widgets(tl) set $child remote] eq $remote)} {
         return $child
@@ -575,9 +616,9 @@ namespace eval sidebar {
     }
 
     if {$value} {
-      $widgets(tl) item $index -image sidebar_hidden
+      set_image $index sidebar_hidden
     } else {
-      $widgets(tl) item $index -image sidebar_open
+      set_image $index sidebar_open
     }
 
   }
@@ -598,8 +639,8 @@ namespace eval sidebar {
       if {[$widgets(tl) set $row name] eq $fname} {
         set highlighted [expr {[$widgets(tl) item $row -image] ne ""}]
         switch $highlight_mode {
-          0 { $widgets(tl) item $row -image "" }
-          1 { $widgets(tl) item $row -image sidebar_open }
+          0 { set_image $row "" }
+          1 { set_image $row sidebar_open }
         }
         if {[expr ($highlight_mode % 2) == 0]} {
           if {$highlighted || ($highlight_mode == 2)} {
@@ -622,6 +663,10 @@ namespace eval sidebar {
 
     variable widgets
 
+    update
+    after 2000
+    puts [utils::stacktrace]
+
     array set opts {
       -parent ""
       -remote ""
@@ -640,6 +685,10 @@ namespace eval sidebar {
       set dir_tail   [lindex [file split $dir] [llength [file split $parent_dir]]]
       set dir_path   [file join $parent_dir $dir_tail]
       $widgets(tl) item $opts(-parent) -open 1
+      if {([llength [set children [$widgets(tl) children $opts(-parent)]]] == 1) && \
+          ([$widgets(tl) set [lindex $children 0] name] eq "foobar")} {
+        $widgets(tl) delete $children
+      }
     }
 
     # If we have hit the end of the path, return the parent
@@ -691,7 +740,7 @@ namespace eval sidebar {
         if {![ignore_file $fname]} {
           set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -tags f]
           if {[gui::file_exists_in_nb $fname $remote]} {
-            $widgets(tl) item $key -image sidebar_open
+            set_image $key sidebar_open
             update_root_count $key 1
           }
         }
@@ -756,7 +805,7 @@ namespace eval sidebar {
       update_directory $parent
     }
 
-    # Update the child directories that are not expanded
+    # Update the child directories that are expanded
     foreach child [$widgets(tl) children $parent] {
       if {[$widgets(tl) item $child -open]} {
         update_directory_recursively $child
@@ -774,6 +823,12 @@ namespace eval sidebar {
 
     # Get the remote indicator of the parent
     set remote [$widgets(tl) set $parent remote]
+
+    # If the parent has a placeholder, remove it
+    if {([llength [set children [$widgets(tl) children $parent]]] == 1) && \
+        ([$widgets(tl) set [lindex $children 0] name] eq "foobar")} {
+      $widgets(tl) delete $children
+    }
 
     # Get the directory contents (removing anything that matches the
     # ignored file patterns)
@@ -799,7 +854,7 @@ namespace eval sidebar {
             if {$isdir} {
               $widgets(tl) item $node -open 0
             } elseif {[gui::file_exists_in_nb [lindex $dir_file 0] $remote]} {
-              $widgets(tl) item $node -image sidebar_open
+              set_image $node sidebar_open
             }
           }
           set dir_files [lassign $dir_files dir_file]
@@ -869,7 +924,7 @@ namespace eval sidebar {
         if {[$widgets(tl) tag has f $child]} {
           set compare [string compare $fname [$widgets(tl) set $child name]]
           if {$compare == 0} {
-            $widgets(tl) item $child -image sidebar_open
+            set_image $child sidebar_open
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
@@ -891,15 +946,18 @@ namespace eval sidebar {
 
   ######################################################################
   # Displays a tooltip for each root row.
-  proc show_tooltip {tbl row col} {
+  proc show_tooltip {row} {
 
-    if {($row >= 0) && ([$tbl parent $row] eq "")} {
-      set dirname [$tbl set $row name]
-      if {[set remote [$tbl set $row remote]] ne ""} {
-        tooltip::tooltip $tbl "$dirname ([lindex [split $remote ,] 1])"
+    variable widgets
+
+    if {($row ne "") && ([$widgets(tl) parent $row] eq "")} {
+      set dirname [$widgets(tl) set $row name]
+      if {[set remote [$widgets(tl) set $row remote]] ne ""} {
+        tooltip::tooltip $widgets(tl) "$dirname ([lindex [split $remote ,] 1])"
       } else {
-        tooltip::tooltip $tbl $dirname
+        tooltip::tooltip $widgets(tl) $dirname
       }
+      event generate $widgets(tl) <Enter>
     } else {
       tooltip::tooltip clear
     }
@@ -908,7 +966,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Hides the tooltip associated with the root row.
-  proc hide_tooltip {tbl} {
+  proc hide_tooltip {} {
 
     tooltip::tooltip clear
 
@@ -931,7 +989,7 @@ namespace eval sidebar {
       if {[llength $selected] == 1} {
         set selection_anchor [lindex $selected 0]
       }
-      
+
       # Make sure that all of the selections matches the same type (root, dir, file)
       set anchor_type [row_type $selection_anchor]
       foreach row $selected {
@@ -988,15 +1046,15 @@ namespace eval sidebar {
     }
 
     if {[$widgets(tl) tag has f $row]} {
- 
+
       # Select the file
       $widgets(tl) selection set $row
- 
+
       # Open the file in the viewer
       gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
     } else {
- 
+
       if {[$widgets(tl) item $row -open]} {
         $widgets(tl) item $row -open 0
       } else {
@@ -1030,6 +1088,32 @@ namespace eval sidebar {
         }
       }
 
+    }
+
+  }
+
+  ######################################################################
+  # Handles mouse motion in the sidebar, displaying tooltips over the
+  # root directories to display the full pathname (and possibly remote
+  # information as well).
+  proc handle_motion {W x y} {
+
+    variable widgets
+    variable last_id
+    variable after_id
+
+    set id      [$W identify row $x $y]
+    set lastId  $last_id
+    set last_id $id
+
+    if {$id ne $lastId} {
+      after cancel $after_id
+      if {$lastId ne ""} {
+        hide_tooltip
+      }
+      if {$id ne ""} {
+        set after_id [after 300 sidebar::show_tooltip $id]
+      }
     }
 
   }
