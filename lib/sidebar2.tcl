@@ -170,7 +170,7 @@ namespace eval sidebar {
     # Add the file tree elements
     set widgets(tl) \
       [ttk::treeview $w.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
-        -show tree -padding 0 -yscrollcommand "utils::set_yscrollbar $w.vb"]
+        -show tree -padding {4 4 4 4} -yscrollcommand "utils::set_yscrollbar $w.vb"]
     set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command "$widgets(tl) yview"]
 
     $widgets(tl) column #0 -width 300
@@ -663,58 +663,36 @@ namespace eval sidebar {
 
     variable widgets
 
-    update
-    after 2000
-    puts [utils::stacktrace]
-
     array set opts {
-      -parent ""
       -remote ""
     }
     array set opts $args
 
-    # Get some needed information
-    if {$opts(-parent) eq ""} {
-      if {$opts(-remote) eq ""} {
-        add_to_recently_opened $dir
-      }
-      set dir_tail [file tail $dir]
-      set dir_path $dir
+    if {$opts(-remote) eq ""} {
+      add_to_recently_opened $dir
+    }
+
+    # Variable preparation
+    set dirs [list]
+    set tdir $dir
+    foreach item [$widgets(tl) tag has d] {
+      lappend dirs [list "[$widgets(tl) set $item name],[$widgets(tl) set $item remote]" $item]
+    }
+
+    while {([set index [lsearch -index 0 $dirs "$tdir,$opts(-remote)"]] == -1) && ($tdir ne "/")} {
+      set tdir [file dirname $tdir]
+    }
+
+    if {$dir eq "/"} {
+      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags d]
     } else {
-      set parent_dir [$widgets(tl) set $opts(-parent) name]
-      set dir_tail   [lindex [file split $dir] [llength [file split $parent_dir]]]
-      set dir_path   [file join $parent_dir $dir_tail]
-      $widgets(tl) item $opts(-parent) -open 1
-      if {([llength [set children [$widgets(tl) children $opts(-parent)]]] == 1) && \
-          ([$widgets(tl) set [lindex $children 0] name] eq "foobar")} {
-        $widgets(tl) delete $children
+      set parent [lindex $dirs $index 1]
+      foreach tdir [file split [string range $dir [string length $tdir] end]] {
+        set parent [add_subdirectory $parent $opts(-remote) $tdir]
       }
     }
 
-    # If we have hit the end of the path, return the parent
-    if {$dir_tail eq ""} {
-      return $opts(-parent)
-    }
-
-    # Search for a match in the parent directory
-    set i     0
-    set index end
-    foreach child [$widgets(tl) children $opts(-parent)] {
-      set name [$widgets(tl) set $child name]
-      if {([string compare -length [string length $name] $dir $name] == 0) && \
-          ([$widgets(tl) set $child remote] eq $opts(-remote))} {
-        return [add_directory $dir -parent $child -remote $opts(-remote)]
-      }
-      if {($index eq "end") && ([string compare $dir_tail [file tail $name]] < 1)} {
-        set index $i
-      }
-      incr i
-    }
-
-    # If no match was found, add it at the ordered index
-    set parent [$widgets(tl) insert $opts(-parent) $index -text [file tail $dir_path] -values [list $dir_path 0 $opts(-remote)] -tags d]
-
-    # Add the directory contents
+    # Add subdirectory
     add_subdirectory $parent $opts(-remote)
 
     return $parent
@@ -724,7 +702,7 @@ namespace eval sidebar {
   ######################################################################
   # Recursively adds the current directory and all subdirectories and files
   # found within it to the sidebar.
-  proc add_subdirectory {parent remote} {
+  proc add_subdirectory {parent remote dir} {
 
     variable widgets
 
@@ -735,7 +713,9 @@ namespace eval sidebar {
 
       if {$dir} {
         set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 0 -tags d]
-        $widgets(tl) insert $child end -text "foobar" -values [list "foobar" 0 ""] -tags f
+        if {$depth == 1} {
+          add_subdirectory $child $remote 0
+        }
       } else {
         if {![ignore_file $fname]} {
           set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -tags f]
@@ -823,12 +803,6 @@ namespace eval sidebar {
 
     # Get the remote indicator of the parent
     set remote [$widgets(tl) set $parent remote]
-
-    # If the parent has a placeholder, remove it
-    if {([llength [set children [$widgets(tl) children $parent]]] == 1) && \
-        ([$widgets(tl) set [lindex $children 0] name] eq "foobar")} {
-      $widgets(tl) delete $children
-    }
 
     # Get the directory contents (removing anything that matches the
     # ignored file patterns)
