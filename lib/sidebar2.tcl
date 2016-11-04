@@ -177,9 +177,17 @@ namespace eval sidebar {
 
     bind $widgets(tl)    <<TreeviewSelect>>      [list sidebar::handle_selection]
     bind $widgets(tl)    <<TreeviewOpen>>        [list sidebar::expand_directory]
+    bind $widgets(tl)    <<TreeviewClose>>       [list sidebar::collapse]
     bind $widgets(tl)    <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl)    <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
-    bind $widgets(tl)    <Return>                [list sidebar::handle_return %W]
+    bind $widgets(tl)    <Return> {
+      sidebar::handle_return_space %W
+      break
+    }
+    bind $widgets(tl)    <Key-space> {
+      sidebar::handle_return_space %W
+      break
+    }
     bind $widgets(tl)    <Motion>                [list sidebar::handle_motion %W %x %y]
     # bind $widgets(tl)    <FocusIn>               [list sidebar::unhide_scrollbar]
     # bind $widgets(tl)    <FocusOut>              [list sidebar::hide_scrollbar]
@@ -668,6 +676,7 @@ namespace eval sidebar {
     }
     array set opts $args
 
+    # If the directory is not remote, add it to the recently opened menu list
     if {$opts(-remote) eq ""} {
       add_to_recently_opened $dir
     }
@@ -679,11 +688,12 @@ namespace eval sidebar {
       lappend dirs [list "[$widgets(tl) set $item name],[$widgets(tl) set $item remote]" $item]
     }
 
+    # Search for the directory
     while {([set index [lsearch -index 0 $dirs "$tdir,$opts(-remote)"]] == -1) && ($tdir ne "/")} {
       set tdir [file dirname $tdir]
     }
 
-    if {$dir eq "/"} {
+    if {$tdir eq "/"} {
       set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags d]
     } else {
       set parent [lindex $dirs $index 1]
@@ -693,7 +703,10 @@ namespace eval sidebar {
     }
 
     # Add subdirectory
-    add_subdirectory $parent $opts(-remote)
+    if {[$widgets(tl) item $parent -open] == 0} {
+      add_subdirectory $parent $opts(-remote)
+      $widgets(tl) item $parent -open 1
+    }
 
     return $parent
 
@@ -702,9 +715,11 @@ namespace eval sidebar {
   ######################################################################
   # Recursively adds the current directory and all subdirectories and files
   # found within it to the sidebar.
-  proc add_subdirectory {parent remote dir} {
+  proc add_subdirectory {parent remote {fdir ""}} {
 
     variable widgets
+
+    set frow ""
 
     # Get the folder contents and sort them
     foreach name [order_files_dirs [$widgets(tl) set $parent name] $remote] {
@@ -713,12 +728,12 @@ namespace eval sidebar {
 
       if {$dir} {
         set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 0 -tags d]
-        if {$depth == 1} {
-          add_subdirectory $child $remote 0
+        if {[file tail $fname] eq $fdir} {
+          set frow $child
         }
       } else {
         if {![ignore_file $fname]} {
-          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -tags f]
+          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 1 -tags f]
           if {[gui::file_exists_in_nb $fname $remote]} {
             set_image $key sidebar_open
             update_root_count $key 1
@@ -727,6 +742,8 @@ namespace eval sidebar {
       }
 
     }
+
+    return $frow
 
   }
 
@@ -870,7 +887,7 @@ namespace eval sidebar {
   proc expand_directory {{row ""}} {
 
     variable widgets
-
+    
     if {$row eq ""} {
       set row [$widgets(tl) focus]
     }
@@ -880,6 +897,25 @@ namespace eval sidebar {
 
     # Add the missing subdirectory
     add_subdirectory $row [$widgets(tl) set $row remote]
+    
+    # Make sure that the row is opened
+    $widgets(tl) item $row -open 1
+    
+  }
+
+  ######################################################################
+  # Called when a row is collapsed in the table.
+  proc collapse {} {
+
+    variable widgets
+
+    # Get the row
+    set row [$widgets(tl) focus]
+
+    # If the row contains a file, make sure that the state remains open
+    if {[$widgets(tl) tag has f $row]} {
+      $widgets(tl) item $row -open 1
+    }
 
   }
 
@@ -1018,7 +1054,7 @@ namespace eval sidebar {
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-
+    
     if {[$widgets(tl) tag has f $row]} {
 
       # Select the file
@@ -1027,38 +1063,29 @@ namespace eval sidebar {
       # Open the file in the viewer
       gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
-    } else {
-
-      if {[$widgets(tl) item $row -open]} {
-        $widgets(tl) item $row -open 0
-      } else {
-        $widgets(tl) item $row -open 1
-      }
-
     }
 
   }
 
   ######################################################################
   # Handles a press of the return key when the sidebar has the focus.
-  proc handle_return {W} {
+  proc handle_return_space {W} {
 
     variable widgets
 
     # Get the currently selected rows
     foreach row [$widgets(tl) selection] {
 
+      # Open the file in the viewer
       if {[$widgets(tl) tag has f $row]} {
-
-        # Open the file in the viewer
         gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
+      # Otherwise, toggle the open status
       } else {
-
         if {[$widgets(tl) item $row -open]} {
           $widgets(tl) item $row -open 0
         } else {
-          $widgets(tl) item $row -open 1
+          expand_directory $row
         }
       }
 
@@ -1140,7 +1167,7 @@ namespace eval sidebar {
     }
 
     # Expand the directory
-    $widgets(tl) item $row -open 1
+    expand_directory $row
 
     # Create an empty file
     gui::add_file end $fname -remote $remote
@@ -1160,7 +1187,7 @@ namespace eval sidebar {
     if {![catch { templates::show_templates load_rel [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote] }]} {
 
       # Expand the directory
-      $widgets(tl) item $row -open 1
+      expand_directory $row
 
     }
 
@@ -1198,7 +1225,7 @@ namespace eval sidebar {
     }
 
     # Expand the directory
-    $widgets(tl) item $row -open 1
+    expand_directory $row
 
     # Update the directory
     update_directory $row
@@ -1869,7 +1896,7 @@ namespace eval sidebar {
       set dir [$widgets(tl) set $child name]
       if {([string compare -length [string length $dir] $fdir $dir] == 0) && \
           ([$widgets(tl) set $child remote] eq $remote)} {
-        $widgets(tl) item $child -open 1
+        expand_directory $child
         if {$fdir ne $dir} {
           view_file_helper $child $fdir $remote
         }

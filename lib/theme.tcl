@@ -1143,12 +1143,13 @@ namespace eval theme {
       }
       catch {
         ttk::style element create SBTreeitem.indicator image {
-          sidebar_file
+          sidebar_collapsed
           {!user1 !user2 !selected} sidebar_collapsed
           { user1 !user2 !selected} sidebar_expanded
           {!user1 !user2  selected} sidebar_collapsed_sel
           { user1 !user2  selected} sidebar_expanded_sel
-          {user2} sidebar_file
+          {!user1  user2  selected} sidebar_collapsed_sel
+          { user1  user2} sidebar_file
         } -width 15 -sticky w
       }
       ttk::style layout SBTreeview.Item {
