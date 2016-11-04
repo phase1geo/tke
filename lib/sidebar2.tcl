@@ -841,7 +841,7 @@ namespace eval sidebar {
         while {1} {
           if {$compare == 1} {
             set node [$widgets(tl) insert $parent [$widgets(tl) index $child] -text [file tail $fname] \
-              -values [list $fname 0 $remote] -tags [expr {$isdir ? "d" : "f"}]]
+              -values [list $fname 0 $remote] -open 1 -tags [expr {$isdir ? "d" : "f"}]]
             if {$isdir} {
               $widgets(tl) item $node -open 0
             } elseif {[gui::file_exists_in_nb [lindex $dir_file 0] $remote]} {
@@ -938,7 +938,7 @@ namespace eval sidebar {
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
-            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -values [list $fname 0 $remote] -tags f]
+            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags f]
             update_root_count $node 1
             return
           }
@@ -947,7 +947,7 @@ namespace eval sidebar {
       }
 
       # Insert the file at the end of the parent
-      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -values [list $fname 0 $remote] -tags f]
+      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags f]
       update_root_count $node 1
 
     }
@@ -1744,7 +1744,7 @@ namespace eval sidebar {
 
     # Add the file to the sidebar (just below the currently selected line)
     set new_row [$widgets(tl) insert [$widgets(tl) parent $row] [expr [$widgets(tl) index $row] + 1] \
-      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote] -tags f]
+      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote] -open 1 -tags f]
 
     # Allow any plugins to handle the rename
     plugins::handle_on_duplicate $fname $dup_fname
