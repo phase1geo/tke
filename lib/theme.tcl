@@ -167,6 +167,11 @@ namespace eval theme {
       ttk::style layout    $new [ttk::style layout $old]
     }
 
+    # Sidebar frame
+    ttk::style configure SBFrame [ttk::style configure TFrame]
+    ttk::style map       SBFrame [ttk::style map TFrame]
+    ttk::style layout    SBFrame [ttk::style layout TFrame]
+
   }
 
   # Use the clam style by default
@@ -943,6 +948,8 @@ namespace eval theme {
 
     foreach w $widgets(sidebar) {
       $w tag configure sel -background $opts(-selectbackground) -foreground $opts(-selectforeground)
+      [winfo parent [winfo parent $w]] configure -highlightthickness $opts(-highlightthickness) \
+        -highlightbackground $opts(-highlightbackground) -highlightcolor $opts(-highlightcolor)
     }
 
   }
@@ -1138,6 +1145,7 @@ namespace eval theme {
       # Configure Sidebar tree widget
       ttk::style configure SBTreeview -fieldbackground $sb_opts(-background) \
         -background $sb_opts(-background) -foreground $sb_opts(-foreground)
+      ttk::style configure SBFrame -background $sb_opts(-background)
       ttk::style layout SBTreeview {
         Treeview.treearea -sticky news
       }
