@@ -113,7 +113,6 @@ namespace eval theme {
     sidebar,-highlightcolor       {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar has the focus."}}
     sidebar,-highlightthickness   {{number {1 5}} {1} {} {0} {msgcat::mc "Specifies the pixel thickness of the highlight line."}}
     sidebar,-relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Relief value of the sidebar area."}}
-    sidebar,-treestyle            {treestyle {aqua} {} {0} {msgcat::mc "Specifies the disclosure image style to use in the sidebar."}}
     sidebar_scrollbar,-background {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-foreground {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbar when it is active."}}
@@ -948,7 +947,8 @@ namespace eval theme {
 
     foreach w $widgets(sidebar) {
       $w tag configure sel -background $opts(-selectbackground) -foreground $opts(-selectforeground)
-      [winfo parent [winfo parent $w]] configure -highlightthickness $opts(-highlightthickness) \
+      [winfo parent [winfo parent $w]] configure \
+        -relief $opts(-relief) -highlightthickness $opts(-highlightthickness) \
         -highlightbackground $opts(-highlightbackground) -highlightcolor $opts(-highlightcolor)
     }
 
