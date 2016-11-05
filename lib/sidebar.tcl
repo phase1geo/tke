@@ -25,7 +25,10 @@
 
 namespace eval sidebar {
 
-  variable last_opened {}
+  variable last_opened      {}
+  variable selection_anchor ""
+  variable last_id          ""
+  variable after_id         ""
 
   array set widgets {}
 
@@ -38,9 +41,9 @@ namespace eval sidebar {
     variable last_opened
 
     set dirs [list]
-    foreach child [$widgets(tl) childkeys root] {
-      if {[$widgets(tl) cellcget $child,remote -text] eq ""} {
-        lappend dirs [list name [$widgets(tl) cellcget $child,name -text]]
+    foreach child [$widgets(tl) children ""] {
+      if {[$widgets(tl) set $child remote] eq ""} {
+        lappend dirs [list name [$widgets(tl) set $child name]]
       }
     }
 
@@ -66,7 +69,7 @@ namespace eval sidebar {
     set last_opened $content(last_opened)
 
     # Add the session directories (if the sidebar is currently empty)
-    if {[llength [$widgets(tl) childkeys root]] == 0} {
+    if {[llength [$widgets(tl) children ""]] == 0} {
       foreach dir_list $content(directories) {
         array set dir $dir_list
         add_directory $dir(name)
@@ -128,46 +131,70 @@ namespace eval sidebar {
       -maskfile [file join $::tke_dir lib images sopen.bmp] \
       -foreground white -background black
 
+    theme::register_image sidebar_file bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar to indicate a file"} \
+      -file [file join $::tke_dir lib images blank10.bmp] \
+      -maskfile [file join $::tke_dir lib images blank10.bmp] \
+      -foreground 1
+
+    theme::register_image sidebar_expanded bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar to indicate a directory that is showing its contents"} \
+      -file [file join $::tke_dir lib images down10.bmp] \
+      -maskfile [file join $::tke_dir lib images down10.bmp] \
+      -foreground 1
+
+    theme::register_image sidebar_collapsed bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar to indicate a directory that is collapsed"} \
+      -file [file join $::tke_dir lib images right10.bmp] \
+      -maskfile [file join $::tke_dir lib images right10.bmp] \
+      -foreground 1
+
+    theme::register_image sidebar_expanded_sel bitmap sidebar -selectbackground \
+      {msgcat::mc "Image displayed in sidebar to indicate a selected directory that is expanded"} \
+      -file [file join $::tke_dir lib images down10.bmp] \
+      -maskfile [file join $::tke_dir lib images down10.bmp] \
+      -foreground 0
+
+    theme::register_image sidebar_collapsed_sel bitmap sidebar -selectbackground \
+      {msgcat::mc "Image displayed in sidebar to indicate a selected directory that is collapsed"} \
+      -file [file join $::tke_dir lib images right10.bmp] \
+      -maskfile [file join $::tke_dir lib images right10.bmp] \
+      -foreground 0
+
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
 
     # Create the top-level frame
-    set widgets(frame) [ttk::frame $w]
+    set widgets(frame) [frame $w -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg]
 
     # Add the file tree elements
-    set widgets(tl) \
-      [tablelist::tablelist $w.tl -columns {0 {} 0 {} 0 {} 0 {}} -showlabels 0 -exportselection 0 \
-        -treecolumn 0 -treestyle aqua -forceeditendcommand 1 -expandcommand sidebar::expand_directory \
-        -relief flat -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg \
-        -foreground $fg -background $bg -selectmode extended \
-        -selectforeground $bg -selectbackground $fg \
-        -selectborderwidth 0 -activestyle none -width 30 \
-        -tooltipaddcommand "sidebar::show_tooltip" \
-        -tooltipdelcommand "sidebar::hide_tooltip" \
-        -yscrollcommand    "utils::set_yscrollbar $w.vb"]
-    set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command "$widgets(tl) yview"]
+    ttk::frame $w.tf -style SBFrame -padding {3 3 0 0}
+    pack [set widgets(tl) \
+      [ttk::treeview $w.tf.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
+        -show tree -yscrollcommand "utils::set_yscrollbar $w.vb"]] -fill both -expand yes
+    set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
 
-    $widgets(tl) columnconfigure 0 -name name   -editable 0 -formatcommand "sidebar::format_name"
-    $widgets(tl) columnconfigure 1 -name ocount -editable 0 -hide 1
-    $widgets(tl) columnconfigure 2 -name isdir  -editable 0 -hide 1
-    $widgets(tl) columnconfigure 3 -name remote -editable 0 -hide 1
+    $widgets(tl) column #0 -width 300
 
-    bind $widgets(tl)           <<TablelistSelect>>     "sidebar::handle_selection"
-    bind [$widgets(tl) bodytag] <Button-$::right_click> "sidebar::handle_right_click %W %x %y"
-    bind [$widgets(tl) bodytag] <Double-Button-1>       "sidebar::handle_double_click %W %x %y"
-    bind [$widgets(tl) bodytag] <Return>                "sidebar::handle_return %W"
-    bind [$widgets(tl) bodytag] <FocusIn>               "sidebar::unhide_scrollbar"
-    bind [$widgets(tl) bodytag] <FocusOut>              "sidebar::hide_scrollbar"
-    bind $widgets(frame)        <Enter>                 "sidebar::unhide_scrollbar"
-    bind $widgets(frame)        <Leave>                 "sidebar::hide_scrollbar"
+    bind $widgets(tl)    <<TreeviewSelect>>      [list sidebar::handle_selection]
+    bind $widgets(tl)    <<TreeviewOpen>>        [list sidebar::expand_directory]
+    bind $widgets(tl)    <<TreeviewClose>>       [list sidebar::collapse]
+    bind $widgets(tl)    <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
+    bind $widgets(tl)    <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
+    bind $widgets(tl)    <Return> {
+      sidebar::handle_return_space %W
+      break
+    }
+    bind $widgets(tl)    <Key-space> {
+      sidebar::handle_return_space %W
+      break
+    }
+    bind $widgets(tl)    <Motion>                [list sidebar::handle_motion %W %x %y]
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
-    grid $w.tl -row 0 -column 0 -sticky news
+    grid $w.tf -row 0 -column 0 -sticky news
     grid $w.vb -row 0 -column 1 -sticky ns
-
-    # On application start, hide the scrollbar
-    hide_scrollbar
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -197,13 +224,31 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Sets the row's image and adjusts the text to provide a gap between
+  # the image and the text.
+  proc set_image {row img} {
+
+    variable widgets
+
+    # Get the item's name
+    set name [string trim [$widgets(tl) item $row -text]]
+
+    if {$img eq ""} {
+      $widgets(tl) item $row -image $img -text $name
+    } else {
+      $widgets(tl) item $row -image $img -text " $name"
+    }
+
+  }
+
+  ######################################################################
   # Clears the sidebar of all content.  This is primarily called when
   # we are switching sessions.
   proc clear {} {
 
     variable widgets
 
-    $widgets(tl) delete 0 end
+    $widgets(tl) delete [$widgets(tl) children {}]
 
   }
 
@@ -212,7 +257,7 @@ namespace eval sidebar {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
 
-    $tbl configure -highlightbackground green
+    [winfo parent [winfo parent $tbl]] configure -highlightbackground green
 
     return "link"
 
@@ -222,7 +267,9 @@ namespace eval sidebar {
   # Handles a drop leave event.
   proc handle_drop_leave {tbl} {
 
-    $tbl configure -highlightbackground [utils::get_default_background]
+    array set opts [theme::get_category_options sidebar 1]
+
+    [winfo parent [winfo parent $tbl]] configure -highlightbackground $opts(-highlightbackground)
 
   }
 
@@ -281,9 +328,9 @@ namespace eval sidebar {
 
     variable widgets
 
-    if {[$widgets(tl) parentkey $row] eq "root"} {
+    if {[$widgets(tl) parent $row] eq ""} {
       return "root"
-    } elseif {[$widgets(tl) cellcget $row,isdir -text]} {
+    } elseif {[$widgets(tl) tag has d $row]} {
       return "dir"
     } else {
       return "file"
@@ -296,12 +343,13 @@ namespace eval sidebar {
   proc menu_post {} {
 
     variable widgets
+    variable selection_anchor
 
     # Get the current index
-    switch [row_type anchor] {
-      "root" { setup_root_menu [$widgets(tl) curselection] }
-      "dir"  { setup_dir_menu  [$widgets(tl) curselection] }
-      "file" { setup_file_menu [$widgets(tl) curselection] }
+    switch [row_type $selection_anchor] {
+      "root" { setup_root_menu [$widgets(tl) selection] }
+      "dir"  { setup_dir_menu  [$widgets(tl) selection] }
+      "file" { setup_file_menu [$widgets(tl) selection] }
     }
 
   }
@@ -319,8 +367,8 @@ namespace eval sidebar {
     set show   "disabled"
 
     foreach row $rows {
-      foreach child [$widgets(tl) childkeys $row] {
-        switch [$widgets(tl) cellcget $child,name -image] {
+      foreach child [$widgets(tl) children $row] {
+        switch [$widgets(tl) item $child -image] {
           "sidebar_hidden" { set closed "normal"; set show "normal" }
           "sidebar_open"   { set closed "normal"; set hide "normal" }
           default          { set opened "normal" }
@@ -345,7 +393,7 @@ namespace eval sidebar {
     lassign [get_menu_states $rows] open_state close_state hide_state show_state
 
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
+      if {[$widgets(tl) set $row remote] ne ""} {
         set fav_state "disabled"
         break
       }
@@ -373,7 +421,7 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
     $widgets(menu) add separator
 
-    if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
+    if {[favorites::is_favorite [$widgets(tl) set $first_row name]]} {
       $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $fav_state
     } else {
       $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $fav_state
@@ -399,15 +447,22 @@ namespace eval sidebar {
 
     set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
     set fav_state    $one_state
+    set parent_state $one_state
     set first_row    [lindex $rows 0]
     set remote_found 0
 
     lassign [get_menu_states $rows] open_state close_state hide_state show_state
 
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,remote -text] ne ""} {
+      if {[$widgets(tl) set $row remote] ne ""} {
         set fav_state    "disabled"
         set remote_found 1
+        break
+      }
+    }
+    foreach row $rows {
+      if {[file tail [$widgets(tl) set $row name]] eq ""} {
+        set parent_state "disabled"
         break
       }
     }
@@ -439,7 +494,7 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
     $widgets(menu) add separator
 
-    if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
+    if {[favorites::is_favorite [$widgets(tl) set $first_row name]]} {
       $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $fav_state
     } else {
       $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $fav_state
@@ -447,7 +502,7 @@ namespace eval sidebar {
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"]  -command [list sidebar::remove_folder $rows]
-    $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command [list sidebar::add_parent_directory $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command [list sidebar::add_parent_directory $first_row] -state $parent_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $fav_state
@@ -470,12 +525,11 @@ namespace eval sidebar {
     set open_state  "disabled"
     set close_state "disabled"
     set first_row   [lindex $rows 0]
-    set diff_state  [expr {([$widgets(tl) cellcget $first_row,remote -text] eq "") ? $one_state : "disabled"}]
+    set diff_state  [expr {([$widgets(tl) set $first_row remote] eq "") ? $one_state : "disabled"}]
 
     # Calculate the hide and show menu states
-    set fg [$widgets(tl) cget -foreground]
     foreach row $rows {
-      switch [$widgets(tl) cellcget $row,name -image] {
+      switch [$widgets(tl) item $row -image] {
         "sidebar_hidden" { set close_state "normal"; set show_state "normal" }
         "sidebar_open"   { set close_state "normal"; set hide_state "normal" }
         default          { set open_state  "normal" }
@@ -503,7 +557,7 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Delete"]    -command [list sidebar::delete_file $rows]
     $widgets(menu) add separator
 
-    if {[favorites::is_favorite [$widgets(tl) cellcget $first_row,name -text]]} {
+    if {[favorites::is_favorite [$widgets(tl) set $first_row name]]} {
       $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_state
     } else {
       $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_state
@@ -516,12 +570,18 @@ namespace eval sidebar {
 
   ######################################################################
   # Returns the sidebar index of the given filename.  If the filename
-  # was not found in the sidebar, return a value of -1.
+  # was not found in the sidebar, return the empty string.
   proc get_index {fname remote} {
 
     variable widgets
 
-    return [$widgets(tl) searchcolumn name $fname -descend -exact -check [list sidebar::remote_matches $remote]]
+    foreach child [$widgets(tl) tag has f] {
+      if {([$widgets(tl) set $child name] eq $fname) && ([$widgets(tl) set $child remote] eq $remote)} {
+        return $child
+      }
+    }
+
+    return ""
 
   }
 
@@ -533,7 +593,7 @@ namespace eval sidebar {
     variable widgets
 
     # Get the current selection
-    return [$widgets(tl) curselection]
+    return [$widgets(tl) selection]
 
   }
 
@@ -545,9 +605,9 @@ namespace eval sidebar {
     variable widgets
 
     switch $attr {
-      fname      { return [$widgets(tl) cellcget $index,name -text] }
-      file_index { return [gui::get_info [$widgets(tl) cellcget $index,name -text] fname fileindex] }
-      is_dir     { return [$widgets(tl) cellcget $index,isdir -text] }
+      fname      { return [$widgets(tl) set $index name] }
+      file_index { return [gui::get_info [$widgets(tl) set $index name] fname fileindex] }
+      is_dir     { return [$widgets(tl) tag has d $index] }
       default    {
         return -code error "Illegal sidebar attribute specified ($attr)"
       }
@@ -567,9 +627,9 @@ namespace eval sidebar {
     }
 
     if {$value} {
-      $widgets(tl) cellconfigure $index,name -image sidebar_hidden
+      set_image $index sidebar_hidden
     } else {
-      $widgets(tl) cellconfigure $index,name -image sidebar_open
+      set_image $index sidebar_open
     }
 
   }
@@ -586,21 +646,23 @@ namespace eval sidebar {
 
     variable widgets
 
-    # Find the main directory containing the file
-    if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact]] != -1} {
-      set highlighted [expr {[$widgets(tl) cellcget $row,name -image] ne ""}]
-      switch $highlight_mode {
-        0 { $widgets(tl) cellconfigure $row,name -image "" }
-        1 { $widgets(tl) cellconfigure $row,name -image sidebar_open }
-      }
-      if {[expr ($highlight_mode % 2) == 0]} {
-        if {$highlighted || ($highlight_mode == 2)} {
-          update_root_count $row -1
+    foreach row [$widgets(tl) tag has f] {
+      if {[$widgets(tl) set $row name] eq $fname} {
+        set highlighted [expr {[$widgets(tl) item $row -image] ne ""}]
+        switch $highlight_mode {
+          0 { set_image $row "" }
+          1 { set_image $row sidebar_open }
         }
-      } else {
-        if {!$highlighted || ($highlight_mode == 3)} {
-          update_root_count $row 1
+        if {[expr ($highlight_mode % 2) == 0]} {
+          if {$highlighted || ($highlight_mode == 2)} {
+            update_root_count $row -1
+          }
+        } else {
+          if {!$highlighted || ($highlight_mode == 3)} {
+            update_root_count $row 1
+          }
         }
+        return
       }
     }
 
@@ -613,53 +675,41 @@ namespace eval sidebar {
     variable widgets
 
     array set opts {
-      -parent "root"
       -remote ""
     }
     array set opts $args
 
-    # Get some needed information
-    if {$opts(-parent) eq "root"} {
-      if {$opts(-remote) eq ""} {
-        add_to_recently_opened $dir
-      }
-      set dir_tail [file tail $dir]
-      set dir_path $dir
+    # If the directory is not remote, add it to the recently opened menu list
+    if {$opts(-remote) eq ""} {
+      add_to_recently_opened $dir
+    }
+
+    # Variable preparation
+    set dirs [list]
+    set tdir $dir
+    foreach item [$widgets(tl) tag has d] {
+      lappend dirs [list "[$widgets(tl) set $item name],[$widgets(tl) set $item remote]" $item]
+    }
+
+    # Search for the directory
+    while {([set index [lsearch -index 0 $dirs "$tdir,$opts(-remote)"]] == -1) && ($tdir ne "/")} {
+      set tdir [file dirname $tdir]
+    }
+
+    if {$tdir eq "/"} {
+      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags d]
     } else {
-      set parent_dir [$widgets(tl) cellcget $opts(-parent),name -text]
-      set dir_tail   [lindex [file split $dir] [llength [file split $parent_dir]]]
-      set dir_path   [file join $parent_dir $dir_tail]
-      if {![$widgets(tl) isexpanded $opts(-parent)]} {
-        $widgets(tl) expand $opts(-parent) -partly
+      set parent [lindex $dirs $index 1]
+      foreach tdir [lrange [file split $dir] [llength [file split $tdir]] end] {
+        set parent [add_subdirectory $parent $opts(-remote) $tdir]
       }
     }
 
-    # If we have hit the end of the path, return the parent
-    if {$dir_tail eq ""} {
-      # expand_directory $widgets(tl) $opts(-parent)
-      return $opts(-parent)
+    # Add subdirectory
+    if {[$widgets(tl) item $parent -open] == 0} {
+      add_subdirectory $parent $opts(-remote)
+      $widgets(tl) item $parent -open 1
     }
-
-    # Search for a match in the parent directory
-    set i     0
-    set index end
-    foreach child [$widgets(tl) childkeys $opts(-parent)] {
-      set name [$widgets(tl) cellcget $child,name -text]
-      if {([string compare -length [string length $name] $dir $name] == 0) && \
-          ([$widgets(tl) cellcget $child,remote -text] eq $opts(-remote))} {
-        return [add_directory $dir -parent $child -remote $opts(-remote)]
-      }
-      if {($index eq "end") && ([string compare $dir_tail [file tail $name]] < 1)} {
-        set index $i
-      }
-      incr i
-    }
-
-    # If no match was found, add it at the ordered index
-    set parent [$widgets(tl) insertchild $opts(-parent) $index [list $dir_path 0 0 $opts(-remote)]]
-
-    # Add the directory contents
-    add_subdirectory $parent $opts(-remote)
 
     return $parent
 
@@ -668,29 +718,38 @@ namespace eval sidebar {
   ######################################################################
   # Recursively adds the current directory and all subdirectories and files
   # found within it to the sidebar.
-  proc add_subdirectory {parent remote} {
+  proc add_subdirectory {parent remote {fdir ""}} {
 
     variable widgets
 
+    set frow ""
+
+    # Clean the subdirectory
+    $widgets(tl) delete [$widgets(tl) children $parent]
+
     # Get the folder contents and sort them
-    foreach name [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
+    foreach name [order_files_dirs [$widgets(tl) set $parent name] $remote] {
 
       lassign $name fname dir
 
       if {$dir} {
-        set child [$widgets(tl) insertchild $parent end [list $fname 0 1 $remote]]
-        $widgets(tl) collapse $child
+        set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 0 -tags d]
+        if {[file tail $fname] eq $fdir} {
+          set frow $child
+        }
       } else {
         if {![ignore_file $fname]} {
-          set key [$widgets(tl) insertchild $parent end [list $fname 0 0 $remote]]
+          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 1 -tags f]
           if {[gui::file_exists_in_nb $fname $remote]} {
-            $widgets(tl) cellconfigure $key,name -image sidebar_open
+            set_image $key sidebar_open
             update_root_count $key 1
           }
         }
       }
 
     }
+
+    return $frow
 
   }
 
@@ -745,13 +804,13 @@ namespace eval sidebar {
     variable widgets
 
     # If the parent is not root, update the directory
-    if {$parent ne "root"} {
+    if {$parent ne ""} {
       update_directory $parent
     }
 
-    # Update the child directories that are not expanded
-    foreach child [$widgets(tl) childkeys $parent] {
-      if {[$widgets(tl) isexpanded $child]} {
+    # Update the child directories that are expanded
+    foreach child [$widgets(tl) children $parent] {
+      if {[$widgets(tl) item $child -open]} {
         update_directory_recursively $child
       }
     }
@@ -766,48 +825,42 @@ namespace eval sidebar {
     variable widgets
 
     # Get the remote indicator of the parent
-    set remote [$widgets(tl) cellcget $parent,remote -text]
+    set remote [$widgets(tl) set $parent remote]
 
     # Get the directory contents (removing anything that matches the
     # ignored file patterns)
     set dir_files [list]
-    foreach dir_file [order_files_dirs [$widgets(tl) cellcget $parent,name -text] $remote] {
+    foreach dir_file [order_files_dirs [$widgets(tl) set $parent name] $remote] {
       if {![ignore_file [lindex $dir_file 0]]} {
         lappend dir_files $dir_file
       }
     }
 
     set dir_files [lassign $dir_files dir_file]
-    foreach child [$widgets(tl) childkeys $parent] {
-      set tl_file [$widgets(tl) cellcget $child,name -text]
-      set compare [string compare $tl_file [lindex $dir_file 0]]
+    lassign $dir_file fname isdir
+    foreach child [$widgets(tl) children $parent] {
+      set tl_file [$widgets(tl) set $child name]
+      set compare [string compare $tl_file $fname]
       if {($compare == -1) || ($dir_file eq "")} {
         $widgets(tl) delete $child
       } else {
         while {1} {
           if {$compare == 1} {
-            set node [$widgets(tl) insertchild $parent [$widgets(tl) childindex $child] [list [lindex $dir_file 0] 0 [lindex $dir_file 1] $remote]]
-            if {[lindex $dir_file 1]} {
-              $widgets(tl) collapse $node
+            set node [$widgets(tl) insert $parent [$widgets(tl) index $child] -text [file tail $fname] \
+              -values [list $fname 0 $remote] -open 1 -tags [expr {$isdir ? "d" : "f"}]]
+            if {$isdir} {
+              $widgets(tl) item $node -open 0
             } elseif {[gui::file_exists_in_nb [lindex $dir_file 0] $remote]} {
-              $widgets(tl) cellconfigure $node,name -image sidebar_open
+              set_image $node sidebar_open
             }
           }
           set dir_files [lassign $dir_files dir_file]
+          lassign $dir_file fname isdir
           if {($compare == 0) || ($dir_file eq "")} { break }
-          set compare [string compare $tl_file [lindex $dir_file 0]]
+          set compare [string compare $tl_file $fname]
         }
       }
     }
-
-  }
-
-  ######################################################################
-  # Formats the name such that the full pathname is reduced to the tail
-  # of the pathname.
-  proc format_name {value} {
-
-    return [file tail $value]
 
   }
 
@@ -819,13 +872,13 @@ namespace eval sidebar {
     variable widgets
 
     # Get the root directory in the table
-    while {[set parent [$widgets(tl) parentkey $descendant]] ne "root"} {
+    while {[set parent [$widgets(tl) parent $descendant]] ne ""} {
       set descendant $parent
     }
 
     # Increment/decrement the descendant row by the given value
-    set ocount [expr [$widgets(tl) cellcget $descendant,ocount -text] + $value]
-    $widgets(tl) cellconfigure $descendant,ocount -text $ocount
+    set ocount [expr [$widgets(tl) set $descendant ocount] + $value]
+    $widgets(tl) set $descendant ocount $ocount
 
     # If the user wants us to auto-remove when the open file count reaches 0,
     # remove it from the sidebar
@@ -837,13 +890,35 @@ namespace eval sidebar {
 
   ######################################################################
   # Expands the currently selected directory.
-  proc expand_directory {tbl row} {
+  proc expand_directory {{row ""}} {
 
-    # Clean the subdirectory
-    $tbl delete [$tbl childkeys $row]
+    variable widgets
+
+    if {$row eq ""} {
+      set row [$widgets(tl) focus]
+    }
 
     # Add the missing subdirectory
-    add_subdirectory $row [$tbl cellcget $row,remote -text]
+    add_subdirectory $row [$widgets(tl) set $row remote]
+
+    # Make sure that the row is opened
+    $widgets(tl) item $row -open 1
+
+  }
+
+  ######################################################################
+  # Called when a row is collapsed in the table.
+  proc collapse {} {
+
+    variable widgets
+
+    # Get the row
+    set row [$widgets(tl) focus]
+
+    # If the row contains a file, make sure that the state remains open
+    if {[$widgets(tl) tag has f $row]} {
+      $widgets(tl) item $row -open 1
+    }
 
   }
 
@@ -858,16 +933,15 @@ namespace eval sidebar {
 
       # Compare the children of the parent to the given fname
       set i 0
-      foreach child [$widgets(tl) childkeys $parent] {
-        if {[$widgets(tl) cellcget $child,isdir -text] == 0} {
-          set compare [string compare $fname [$widgets(tl) cellcget $child,name -text]]
+      foreach child [$widgets(tl) children $parent] {
+        if {[$widgets(tl) tag has f $child]} {
+          set compare [string compare $fname [$widgets(tl) set $child name]]
           if {$compare == 0} {
-            $widgets(tl) cellconfigure $child,name -image sidebar_open
+            set_image $child sidebar_open
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
-            set node [$widgets(tl) insertchild $parent $i [list $fname 0 0 $remote]]
-            $widgets(tl) cellconfigure $node,name -image sidebar_open
+            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags f]
             update_root_count $node 1
             return
           }
@@ -876,8 +950,7 @@ namespace eval sidebar {
       }
 
       # Insert the file at the end of the parent
-      set node [$widgets(tl) insertchild $parent end [list $fname 0 0 $remote]]
-      $widgets(tl) cellconfigure $node,name -image sidebar_open
+      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags f]
       update_root_count $node 1
 
     }
@@ -886,15 +959,18 @@ namespace eval sidebar {
 
   ######################################################################
   # Displays a tooltip for each root row.
-  proc show_tooltip {tbl row col} {
+  proc show_tooltip {row} {
 
-    if {($row >= 0) && ([$tbl parentkey $row] eq "root")} {
-      set dirname [$tbl cellcget $row,name -text]
-      if {[set remote [$tbl cellcget $row,remote -text]] ne ""} {
-        tooltip::tooltip $tbl "$dirname ([lindex [split $remote ,] 1])"
+    variable widgets
+
+    if {($row ne "") && ([$widgets(tl) parent $row] eq "")} {
+      set dirname [$widgets(tl) set $row name]
+      if {[set remote [$widgets(tl) set $row remote]] ne ""} {
+        tooltip::tooltip $widgets(tl) "$dirname ([lindex [split $remote ,] 1])"
       } else {
-        tooltip::tooltip $tbl $dirname
+        tooltip::tooltip $widgets(tl) $dirname
       }
+      event generate $widgets(tl) <Enter>
     } else {
       tooltip::tooltip clear
     }
@@ -903,7 +979,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Hides the tooltip associated with the root row.
-  proc hide_tooltip {tbl} {
+  proc hide_tooltip {} {
 
     tooltip::tooltip clear
 
@@ -914,21 +990,33 @@ namespace eval sidebar {
   proc handle_selection {} {
 
     variable widgets
+    variable selection_anchor
+
+    # Clear the selection
+    $widgets(tl) tag remove sel
 
     # Get the current selection
-    if {[llength [set selected [$widgets(tl) curselection]]]} {
+    if {[llength [set selected [$widgets(tl) selection]]]} {
+
+      # If we have only one thing selected, set the selection anchor to be it
+      if {[llength $selected] == 1} {
+        set selection_anchor [lindex $selected 0]
+      }
 
       # Make sure that all of the selections matches the same type (root, dir, file)
-      set anchor_type [row_type anchor]
+      set anchor_type [row_type $selection_anchor]
       foreach row $selected {
         if {[row_type $row] ne $anchor_type} {
-          $widgets(tl) selection clear $row
+          $widgets(tl) selection remove $row
         }
       }
 
+      # Colorize the selected items to be selected
+      $widgets(tl) tag add sel [$widgets(tl) selection]
+
       # If the file is currently in the notebook, make it the current tab
-      if {([llength $selected] == 1) && ([$widgets(tl) cellcget $selected,name -image] ne "")} {
-        gui::set_current_tab {*}[gui::get_info [$widgets(tl) cellcget $selected,name -text] fname {tabbar tab}]
+      if {([llength $selected] == 1) && ([$widgets(tl) item $selected -image] ne "")} {
+        gui::set_current_tab {*}[gui::get_info [$widgets(tl) set $selected name] fname {tabbar tab}]
       }
 
     }
@@ -940,19 +1028,16 @@ namespace eval sidebar {
   proc handle_right_click {W x y} {
 
     variable widgets
+    variable selection_anchor
 
     # If nothing is currently selected, select the row under the cursor
-    if {[llength [$widgets(tl) curselection]] == 0} {
+    if {[llength [$widgets(tl) selection]] == 0} {
 
-      lassign [tablelist::convEventFields $W $x $y] W x y
-      lassign [split [$widgets(tl) containingcell $x $y] ,] row col
-
-      if {$row == -1} {
+      if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
         return
       }
 
       # Set the selection to the right-clicked element
-      $widgets(tl) selection clear 0 end
       $widgets(tl) selection set $row
       handle_selection
 
@@ -969,29 +1054,17 @@ namespace eval sidebar {
 
     variable widgets
 
-    lassign [tablelist::convEventFields $W $x $y] W x y
-    lassign [split [$widgets(tl) containingcell $x $y] ,] row col
+    if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
+      return
+    }
 
-    if {$row != -1} {
+    if {[$widgets(tl) tag has f $row]} {
 
-      if {[$widgets(tl) cellcget $row,isdir -text] == 0} {
+      # Select the file
+      $widgets(tl) selection set $row
 
-        # Select the file
-        $widgets(tl) selection clear 0 end
-        $widgets(tl) selection set $row
-
-        # Open the file in the viewer
-        gui::add_file end [$widgets(tl) cellcget $row,name -text] -remote [$widgets(tl) cellcget $row,remote -text]
-
-      } else {
-
-        if {[$widgets(tl) isexpanded $row]} {
-          $widgets(tl) collapse $row
-        } else {
-          $widgets(tl) expand $row
-        }
-
-      }
+      # Open the file in the viewer
+      gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
     }
 
@@ -999,24 +1072,23 @@ namespace eval sidebar {
 
   ######################################################################
   # Handles a press of the return key when the sidebar has the focus.
-  proc handle_return {W} {
+  proc handle_return_space {W} {
 
     variable widgets
 
     # Get the currently selected rows
-    foreach row [$widgets(tl) curselection] {
+    foreach row [$widgets(tl) selection] {
 
-      if {[$widgets(tl) cellcget $row,isdir -text] == 0} {
+      # Open the file in the viewer
+      if {[$widgets(tl) tag has f $row]} {
+        gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
-        # Open the file in the viewer
-        gui::add_file end [$widgets(tl) cellcget $row,name -text] -remote [$widgets(tl) cellcget $row,remote -text]
-
+      # Otherwise, toggle the open status
       } else {
-
-        if {[$widgets(tl) isexpanded $row]} {
-          $widgets(tl) collapse $row
+        if {[$widgets(tl) item $row -open]} {
+          $widgets(tl) item $row -open 0
         } else {
-          $widgets(tl) expand $row
+          expand_directory $row
         }
       }
 
@@ -1024,6 +1096,31 @@ namespace eval sidebar {
 
   }
 
+  ######################################################################
+  # Handles mouse motion in the sidebar, displaying tooltips over the
+  # root directories to display the full pathname (and possibly remote
+  # information as well).
+  proc handle_motion {W x y} {
+
+    variable widgets
+    variable last_id
+    variable after_id
+
+    set id      [$W identify row $x $y]
+    set lastId  $last_id
+    set last_id $id
+
+    if {$id ne $lastId} {
+      after cancel $after_id
+      if {$lastId ne ""} {
+        hide_tooltip
+      }
+      if {$id ne ""} {
+        set after_id [after 300 sidebar::show_tooltip $id]
+      }
+    }
+
+  }
 
   ######################################################################
   # Copies the given row's file/folder pathname to the clipboard.
@@ -1033,7 +1130,7 @@ namespace eval sidebar {
 
     # Set the clipboard to the currentl selection
     clipboard clear
-    clipboard append [$widgets(tl) cellcget $row,name -text]
+    clipboard append [$widgets(tl) set $row name]
 
     # Add the clipboard contents to history
     cliphist::add_from_clipboard
@@ -1054,11 +1151,11 @@ namespace eval sidebar {
 
     # Normalize the pathname
     if {[file pathtype $fname] eq "relative"} {
-      set fname [file join [$widgets(tl) cellcget $row,name -text] $fname]
+      set fname [file join [$widgets(tl) set $row name] $fname]
     }
 
     # Get the remote status
-    set remote [$widgets(tl) cellcget $row,remote -text]
+    set remote [$widgets(tl) set $row remote]
 
     # Create the file
     if {$remote eq ""} {
@@ -1073,7 +1170,7 @@ namespace eval sidebar {
     }
 
     # Expand the directory
-    $widgets(tl) expand $row -partly
+    expand_directory $row
 
     # Create an empty file
     gui::add_file end $fname -remote $remote
@@ -1090,10 +1187,10 @@ namespace eval sidebar {
     variable widgets
 
     # Add the file
-    if {![catch { templates::show_templates load_rel [$widgets(tl) cellcget $row,name -text] -remote [$widgets(tl) cellcget $row,remote -text] }]} {
+    if {![catch { templates::show_templates load_rel [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote] }]} {
 
       # Expand the directory
-      $widgets(tl) expand $row -partly
+      expand_directory $row
 
     }
 
@@ -1113,11 +1210,11 @@ namespace eval sidebar {
 
     # Normalize the pathname
     if {[file pathtype $dname] eq "relative"} {
-      set dname [file join [$widgets(tl) cellcget $row,name -text] $dname]
+      set dname [file join [$widgets(tl) set $row name] $dname]
     }
 
     # Get the remote status
-    set remote [$widgets(tl) cellcget $row,remote -text]
+    set remote [$widgets(tl) set $row remote]
 
     # Create the directory
     if {$remote eq ""} {
@@ -1131,7 +1228,7 @@ namespace eval sidebar {
     }
 
     # Expand the directory
-    $widgets(tl) expand $row -partly
+    expand_directory $row
 
     # Update the directory
     update_directory $row
@@ -1149,11 +1246,10 @@ namespace eval sidebar {
     foreach row $rows {
 
       # Open all of the children that are not already opened
-      foreach child [$widgets(tl) childkeys $row] {
-        set name [$widgets(tl) cellcget $child,name -text]
-        if {([$widgets(tl) cellcget $child,name -image] eq "") && \
-            ([$widgets(tl) cellcget $child,isdir -text] == 0)} {
-          set tab [gui::add_file end $name -lazy 1 -remote [$widgets(tl) cellcget $child,remote -text]]
+      foreach child [$widgets(tl) children $row] {
+        set name [$widgets(tl) set $child name]
+        if {([$widgets(tl) item $child -image] eq "") && [$widgets(tl) tag has f $child]} {
+          set tab [gui::add_file end $name -lazy 1 -remote [$widgets(tl) set $child remote]]
         }
       }
 
@@ -1176,9 +1272,9 @@ namespace eval sidebar {
 
     # Gather all of the opened file names
     foreach row $rows {
-      foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
-          lappend fnames [$widgets(tl) cellcget $child,name -text]
+      foreach child [$widgets(tl) children $row] {
+        if {[$widgets(tl) item $child -image] ne ""} {
+          lappend fnames [$widgets(tl) set $child name]
         }
       }
     }
@@ -1196,7 +1292,7 @@ namespace eval sidebar {
     variable widgets
 
     foreach row $rows {
-      if {[set remote [$widgets(tl) cellcget $row,remote -text]] ne ""} {
+      if {[set remote [$widgets(tl) set $row remote]] ne ""} {
         close_folder_files $row
         remote::disconnect $remote
         $widgets(tl) delete $row
@@ -1211,8 +1307,11 @@ namespace eval sidebar {
 
     variable widgets
 
-    if {[set row [$widgets(tl) searchcolumn remote $remote -parent root]] != -1} {
-      disconnect $row
+    foreach child [$widgets(tl) children ""] {
+      if {[$widgets(tl) set $child remote] eq $remote} {
+        disconnect $child
+        return
+      }
     }
 
   }
@@ -1225,9 +1324,9 @@ namespace eval sidebar {
 
     # Gather all of the opened file names
     foreach row $rows {
-      foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
-          lappend fnames [$widgets(tl) cellcget $child,name -text]
+      foreach child [$widgets(tl) children $row] {
+        if {[$widgets(tl) item $child -image] ne ""} {
+          lappend fnames [$widgets(tl) set $child name]
         }
       }
     }
@@ -1245,9 +1344,9 @@ namespace eval sidebar {
 
     # Gather all of the opened file names
     foreach row $rows {
-      foreach child [$widgets(tl) childkeys $row] {
-        if {[$widgets(tl) cellcget $child,name -image] ne ""} {
-          lappend fnames [$widgets(tl) cellcget $child,name -text]
+      foreach child [$widgets(tl) children $row] {
+        if {[$widgets(tl) item $child -image] ne ""} {
+          lappend fnames [$widgets(tl) set $child name]
         }
       }
     }
@@ -1264,7 +1363,7 @@ namespace eval sidebar {
     variable widgets
 
     # Get the current name
-    set old_name [set fname [$widgets(tl) cellcget $row,name -text]]
+    set old_name [set fname [$widgets(tl) set $row name]]
 
     # Get the new name from the user
     if {[gui::get_user_response [msgcat::mc "Folder Name:"] fname]} {
@@ -1278,7 +1377,7 @@ namespace eval sidebar {
       plugins::handle_on_rename $old_name $fname
 
       # Get the remote status
-      set remote [$widgets(tl) cellcget $row,remote -text]
+      set remote [$widgets(tl) set $row remote]
 
       # Perform the rename operation
       if {$remote eq ""} {
@@ -1298,7 +1397,7 @@ namespace eval sidebar {
       $widgets(tl) delete $row
 
       # Add the file directory
-      update_directory [add_directory $fname -remote $remote]
+      update_directory [add_directory [file dirname $fname] -remote $remote]
 
     }
 
@@ -1321,10 +1420,10 @@ namespace eval sidebar {
       foreach row [lreverse $rows] {
 
         # Get the directory pathname
-        set dirpath [$widgets(tl) cellcget $row,name -text]
+        set dirpath [$widgets(tl) set $row name]
 
         # Get the remote value
-        set remote [$widgets(tl) cellcget $row,remote -text]
+        set remote [$widgets(tl) set $row remote]
 
         # Allow any plugins to handle the rename
         plugins::handle_on_delete $dirpath
@@ -1355,7 +1454,7 @@ namespace eval sidebar {
     variable widgets
 
     # Set the folder to be a favorite
-    favorites::add [$widgets(tl) cellcget $row,name -text]
+    favorites::add [$widgets(tl) set $row name]
 
   }
 
@@ -1366,7 +1465,7 @@ namespace eval sidebar {
     variable widgets
 
     # Remove the folder from the favorites list
-    favorites::remove [$widgets(tl) cellcget $row,name -text]
+    favorites::remove [$widgets(tl) set $row name]
 
   }
 
@@ -1389,12 +1488,12 @@ namespace eval sidebar {
 
     # Find the child index of the ancestor of the root
     set child $row
-    while {[set parent [$widgets(tl) parentkey $child]] ne "root"} {
+    while {[set parent [$widgets(tl) parent $child]] ne ""} {
       set child $parent
     }
 
     # Move the row to root
-    $widgets(tl) move $row root [$widgets(tl) childindex $child]
+    $widgets(tl) move $row "" [$widgets(tl) index $child]
 
     # Delete the child tree
     $widgets(tl) delete $child
@@ -1408,7 +1507,7 @@ namespace eval sidebar {
     variable widgets
 
     # Set the current working directory to the selected pathname
-    cd [$widgets(tl) cellcget $row,name -text]
+    cd [$widgets(tl) set $row name]
 
     # Update the UI
     gui::set_title
@@ -1424,7 +1523,7 @@ namespace eval sidebar {
     foreach row [lreverse $rows] {
 
       # Do a directory expansion
-      expand_directory $widgets(tl) $row
+      expand_directory $row
 
     }
 
@@ -1438,27 +1537,30 @@ namespace eval sidebar {
     variable widgets
 
     # Get the list of all root children
-    set children [$widgets(tl) childkeys root]
+    set children [$widgets(tl) children ""]
 
     # Get the remote value of the selected row
-    set remote [$widgets(tl) cellcget $row,remote -text]
+    set remote [$widgets(tl) set $row remote]
 
     # Add the parent directory to the sidebar
-    set parent [add_directory [file dirname [$widgets(tl) cellcget $row,name -text]] -remote $remote]
+    set parent [add_directory [file dirname [$widgets(tl) set $row name]] -remote $remote]
 
     # Find/move children
     set ocount 0
     foreach child $children {
-      if {[set match [$widgets(tl) searchcolumn name [$widgets(tl) cellcget $child,name -text] -parent $parent -exact -check [list sidebar::remote_matches $remote]]] != -1} {
-        set index [$widgets(tl) childindex $match]
-        $widgets(tl) delete $match
-        $widgets(tl) move $child $parent $index
-        incr ocount [$widgets(tl) cellcget $child,ocount -text]
+      foreach row [$widgets(tl) children $parent] {
+        if {([$widgets(tl) set $row name] eq [$widgets(tl) set $child name]) && \
+            ([$widgets(tl) set $row remote] eq $remote)} {
+          set index [$widgets(tl) index $row]
+          $widgets(tl) delete $row
+          $widgets(tl) move $child $parent $index
+          incr ocount [$widgets(tl) set $child ocount]
+        }
       }
     }
 
     # Set the ocount value of the new parent directory
-    $widgets(tl) cellconfigure $parent,ocount -text $ocount
+    $widgets(tl) set $parent ocount $ocount
 
   }
 
@@ -1472,7 +1574,7 @@ namespace eval sidebar {
 
     # Add the files to the notebook
     foreach row $rows {
-      set tab [gui::add_file end [$widgets(tl) cellcget $row,name -text] -lazy 1 -remote [$widgets(tl) cellcget $row,remote -text]]
+      set tab [gui::add_file end [$widgets(tl) set $row name] -lazy 1 -remote [$widgets(tl) set $row remote]]
     }
 
     # Make the last tab visible
@@ -1489,7 +1591,7 @@ namespace eval sidebar {
     variable widgets
 
     # Add the file to the notebook in difference view
-    gui::add_file end [$widgets(tl) cellcget $row,name -text] -diff 1 -other [preferences::get View/ShowDifferenceInOtherPane]
+    gui::add_file end [$widgets(tl) set $row name] -diff 1 -other [preferences::get View/ShowDifferenceInOtherPane]
 
   }
 
@@ -1503,8 +1605,8 @@ namespace eval sidebar {
 
     # Gather all of the opened filenames
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,name -image] ne ""} {
-        lappend fnames [$widgets(tl) cellcget $row,name -text]
+      if {[$widgets(tl) item $row -image] ne ""} {
+        lappend fnames [$widgets(tl) set $row name]
       }
     }
 
@@ -1523,8 +1625,8 @@ namespace eval sidebar {
 
     # Gather all of the opened filenames
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,name -image] ne ""} {
-        lappend fnames [$widgets(tl) cellcget $row,name -text]
+      if {[$widgets(tl) item $row -image] ne ""} {
+        lappend fnames [$widgets(tl) set $row name]
       }
     }
 
@@ -1543,8 +1645,8 @@ namespace eval sidebar {
 
     # Gather all the opened filenames
     foreach row $rows {
-      if {[$widgets(tl) cellcget $row,name -image] ne ""} {
-        lappend fnames [$widgets(tl) cellcget $row,name -text]
+      if {[$widgets(tl) item $row -image] ne ""} {
+        lappend fnames [$widgets(tl) set $row name]
       }
     }
 
@@ -1561,10 +1663,10 @@ namespace eval sidebar {
     variable widgets
 
     # Get the current name
-    set old_name [set fname [$widgets(tl) cellcget $row,name -text]]
+    set old_name [set fname [$widgets(tl) set $row name]]
 
     # Get the remote status
-    set remote [$widgets(tl) cellcget $row,remote -text]
+    set remote [$widgets(tl) set $row remote]
 
     # Get the new name from the user
     if {[gui::get_user_response [msgcat::mc "File Name:"] fname]} {
@@ -1605,7 +1707,7 @@ namespace eval sidebar {
       update_directory [add_directory [file dirname $fname] -remote $remote]
 
       # Update the old directory
-      after idle [list sidebar::update_directory [$widgets(tl) parentkey $row]]
+      after idle [list sidebar::update_directory [$widgets(tl) parent $row]]
 
     }
 
@@ -1619,10 +1721,10 @@ namespace eval sidebar {
     variable widgets
 
     # Get the filename of the current selection
-    set fname [$widgets(tl) cellcget $row,name -text]
+    set fname [$widgets(tl) set $row name]
 
     # Get the remote indicator
-    set remote [$widgets(tl) cellcget $row,remote -text]
+    set remote [$widgets(tl) set $row remote]
 
     # Create the default name of the duplicate file
     set dup_fname "[file rootname $fname] Copy[file extension $fname]"
@@ -1644,9 +1746,8 @@ namespace eval sidebar {
     }
 
     # Add the file to the sidebar (just below the currently selected line)
-    set new_row [$widgets(tl) insertchild \
-      [$widgets(tl) parentkey $row] [expr [$widgets(tl) childindex $row] + 1] \
-      [list $dup_fname 0 0 $remote]]
+    set new_row [$widgets(tl) insert [$widgets(tl) parent $row] [expr [$widgets(tl) index $row] + 1] \
+      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote] -open 1 -tags f]
 
     # Allow any plugins to handle the rename
     plugins::handle_on_duplicate $fname $dup_fname
@@ -1673,10 +1774,10 @@ namespace eval sidebar {
       foreach row [lreverse $rows] {
 
         # Get the full pathname
-        set fname [$widgets(tl) cellcget $row,name -text]
+        set fname [$widgets(tl) set $row name]
 
         # Get the remote status
-        set remote [$widgets(tl) cellcget $row,remote -text]
+        set remote [$widgets(tl) set $row remote]
 
         # Allow any plugins to handle the rename
         plugins::handle_on_delete $fname
@@ -1693,7 +1794,7 @@ namespace eval sidebar {
         }
 
         # Get the background color before we delete the row
-        set bg [$widgets(tl) cellcget $row,name -image]
+        set bg [$widgets(tl) item $row -image]
 
         # Delete the row in the table
         $widgets(tl) delete $row
@@ -1717,7 +1818,7 @@ namespace eval sidebar {
   proc handle_ignore_files {name1 name2 op} {
 
     # Update all of the top-level directories
-    update_directory_recursively root
+    update_directory_recursively ""
 
   }
 
@@ -1729,10 +1830,8 @@ namespace eval sidebar {
 
     set files [list]
 
-    for {set i 0} {$i < [$widgets(tl) size]} {incr i} {
-      if {[$widgets(tl) cellcget $i,isdir -text] == 0} {
-        lappend files [list [$widgets(tl) cellcget $i,name -text] $i]
-      }
+    foreach row [$widgets(tl) tag has f] {
+      lappend files [list [$widgets(tl) set $row name] $row]
     }
 
     return $files
@@ -1751,20 +1850,22 @@ namespace eval sidebar {
     set ofiles    [list]
 
     # Gather the lists of files, opened files and opened directories
-    for {set i 0} {$i < [$widgets(tl) size]} {incr i} {
-      if {[$widgets(tl) cellcget $i,remote -text] eq ""} {
-        set name [$widgets(tl) cellcget $i,name -text]
-        if {[$widgets(tl) cellcget $i,isdir -text]} {
-          if {[$widgets(tl) isexpanded $i] || ([$widgets(tl) parentkey $i] eq "root")} {
-            lappend odirs $name
-          }
-          lappend fif_files [list $name $name]
-        } else {
-          if {[$widgets(tl) cellcget $i,name -image] ne ""} {
-            lappend ofiles $name
-          }
-          lappend fif_files [list $name $name]
+    foreach row [$widgets(tl) tag has d] {
+      if {[$widgets(tl) set $row remote] eq ""} {
+        set name [$widgets(tl) set $row name]
+        if {[$widgets(tl) item $row -open] || ([$widgets(tl) parent $row] eq "")} {
+          lappend odirs $name
         }
+        lappend fif_files [list $name $name]
+      }
+    }
+    foreach row [$widgets(tl) tag has f] {
+      if {[$widgets(tl) set $row remote] eq ""} {
+        set name [$widgets(tl) set $row name]
+        if {[$widgets(tl) item $i -image] ne ""} {
+          lappend ofiles $name
+        }
+        lappend fif_files [list $name $name]
       }
     }
 
@@ -1794,11 +1895,11 @@ namespace eval sidebar {
 
     variable widgets
 
-    foreach child [$widgets(tl) childkeys $parent] {
-      set dir [$widgets(tl) cellcget $child,name -text]
+    foreach child [$widgets(tl) children $parent] {
+      set dir [$widgets(tl) set $child name]
       if {([string compare -length [string length $dir] $fdir $dir] == 0) && \
-          ([$widgets(tl) cellcget $child,remote -text] eq $remote)} {
-        $widgets(tl) expand $child -partly
+          ([$widgets(tl) set $child remote] eq $remote)} {
+        expand_directory $child
         if {$fdir ne $dir} {
           view_file_helper $child $fdir $remote
         }
@@ -1818,25 +1919,17 @@ namespace eval sidebar {
     variable widgets
 
     # Show the file in the sidebar
-    if {![view_file_helper root [file dirname $fname] $remote]} {
+    if {![view_file_helper "" [file dirname $fname] $remote]} {
       add_directory [file dirname $fname] -remote $remote
     }
 
     # Put the file into view
-    if {[set row [$widgets(tl) searchcolumn name $fname -descend -exact -check [list sidebar::remote_matches $remote]]] != -1} {
-      $widgets(tl) selection clear 0 end
-      $widgets(tl) selection set $row
-      $widgets(tl) see $row
+    foreach row [$widgets(tl) tag has f] {
+      if {([$widgets(tl) set $row name] eq $fname) && ([$widgets(tl) set $row remote] eq $remote)} {
+        $widgets(tl) selection set $row
+        $widgets(tl) see $row
+      }
     }
-
-  }
-
-  ######################################################################
-  # Returns true if the given table row's remote value matches the specified
-  # value.
-  proc remote_matches {remote tbl row col value} {
-
-    return [expr {$remote eq [$tbl cellcget $row,remote -text]}]
 
   }
 
