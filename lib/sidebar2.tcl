@@ -165,13 +165,14 @@ namespace eval sidebar {
     set bg [utils::get_default_background]
 
     # Create the top-level frame
-    set widgets(frame) [ttk::frame $w]
+    set widgets(frame) [frame $w -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg]
 
     # Add the file tree elements
-    set widgets(tl) \
-      [ttk::treeview $w.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
-        -show tree -padding {4 4 4 4} -yscrollcommand "utils::set_yscrollbar $w.vb"]
-    set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command "$widgets(tl) yview"]
+    ttk::frame $w.tf -style SBFrame -padding {3 3 0 0}
+    pack [set widgets(tl) \
+      [ttk::treeview $w.tf.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
+        -show tree -yscrollcommand "utils::set_yscrollbar $w.vb"]] -fill both -expand yes
+    set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
 
     $widgets(tl) column #0 -width 300
 
@@ -196,7 +197,7 @@ namespace eval sidebar {
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
-    grid $w.tl -row 0 -column 0 -sticky news
+    grid $w.tf -row 0 -column 0 -sticky news
     grid $w.vb -row 0 -column 1 -sticky ns
 
     # On application start, hide the scrollbar
@@ -263,7 +264,7 @@ namespace eval sidebar {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
 
-    # TBD - $tbl configure -highlightbackground green
+    [winfo parent [winfo parent $tbl]] configure -highlightbackground green
 
     return "link"
 
@@ -273,7 +274,9 @@ namespace eval sidebar {
   # Handles a drop leave event.
   proc handle_drop_leave {tbl} {
 
-    # TBD - $tbl configure -highlightbackground [utils::get_default_background]
+    array set opts [theme::get_category_options sidebar 1]
+
+    [winfo parent [winfo parent $tbl]] configure -highlightbackground $opts(-highlightbackground)
 
   }
 
@@ -451,6 +454,7 @@ namespace eval sidebar {
 
     set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
     set fav_state    $one_state
+    set parent_state $one_state
     set first_row    [lindex $rows 0]
     set remote_found 0
 
@@ -460,6 +464,12 @@ namespace eval sidebar {
       if {[$widgets(tl) set $row remote] ne ""} {
         set fav_state    "disabled"
         set remote_found 1
+        break
+      }
+    }
+    foreach row $rows {
+      if {[file tail [$widgets(tl) set $row name]] eq ""} {
+        set parent_state "disabled"
         break
       }
     }
@@ -499,7 +509,7 @@ namespace eval sidebar {
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Remove from Sidebar"]  -command [list sidebar::remove_folder $rows]
-    $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command [list sidebar::add_parent_directory $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Add Parent Directory"] -command [list sidebar::add_parent_directory $first_row] -state $parent_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $fav_state
@@ -697,7 +707,7 @@ namespace eval sidebar {
       set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags d]
     } else {
       set parent [lindex $dirs $index 1]
-      foreach tdir [file split [string range $dir [string length $tdir] end]] {
+      foreach tdir [lrange [file split $dir] [llength [file split $tdir]] end] {
         set parent [add_subdirectory $parent $opts(-remote) $tdir]
       }
     }
@@ -720,6 +730,9 @@ namespace eval sidebar {
     variable widgets
 
     set frow ""
+
+    # Clean the subdirectory
+    $widgets(tl) delete [$widgets(tl) children $parent]
 
     # Get the folder contents and sort them
     foreach name [order_files_dirs [$widgets(tl) set $parent name] $remote] {
@@ -887,20 +900,17 @@ namespace eval sidebar {
   proc expand_directory {{row ""}} {
 
     variable widgets
-    
+
     if {$row eq ""} {
       set row [$widgets(tl) focus]
     }
 
-    # Clean the subdirectory
-    $widgets(tl) delete [$widgets(tl) children $row]
-
     # Add the missing subdirectory
     add_subdirectory $row [$widgets(tl) set $row remote]
-    
+
     # Make sure that the row is opened
     $widgets(tl) item $row -open 1
-    
+
   }
 
   ######################################################################
@@ -1054,7 +1064,7 @@ namespace eval sidebar {
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-    
+
     if {[$widgets(tl) tag has f $row]} {
 
       # Select the file
@@ -1394,7 +1404,7 @@ namespace eval sidebar {
       $widgets(tl) delete $row
 
       # Add the file directory
-      update_directory [add_directory $fname -remote $remote]
+      update_directory [add_directory [file dirname $fname] -remote $remote]
 
     }
 

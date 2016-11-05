@@ -72,6 +72,7 @@ namespace eval scroller {
     set data($win,first)        0.0
     set data($win,last)         1.0
     set data($win,marks)        0
+    set data($win,after_id)     ""
 
     # Create the canvas
     if {$data($win,-orient) eq "vertical"} {
@@ -86,8 +87,8 @@ namespace eval scroller {
     bind $data($win,canvas) <ButtonRelease-1>            [list scroller::release_slider  %W]
     bind $data($win,canvas) <ButtonPress-$::right_click> [list scroller::page_slider     %W %x %y]
     bind $data($win,canvas) <B1-Motion>                  [list scroller::position_slider %W %x %y 1]
-    bind $data($win,canvas) <Enter>                      [list scroller::expand_slider   %W]
-    bind $data($win,canvas) <Leave>                      [list scroller::collapse_slider %W]
+    bind $data($win,canvas) <Enter>                      [list scroller::enter %W]
+    bind $data($win,canvas) <Leave>                      [list scroller::leave %W]
     bind $data($win,canvas) <MouseWheel>                 [list scroller::wheel_slider    %W %D]
     bind $data($win,canvas) <4>                          [list scroller::wheel_slider    %W 1]
     bind $data($win,canvas) <5>                          [list scroller::wheel_slider    %W -1]
@@ -239,6 +240,30 @@ namespace eval scroller {
   }
 
   ######################################################################
+  # Handles a mouse enter event.
+  proc enter {W} {
+
+    variable data
+
+    set data(after_id) [after 300 scroller::expand_slider $W]
+
+  }
+
+  ######################################################################
+  # Handles a mouse leave event.
+  proc leave {W} {
+
+    variable data
+
+    # Cancel the enter ID
+    after cancel $data(after_id)
+
+    # Collapse the slider (if necessary)
+    collapse_slider $W
+
+  }
+
+  ######################################################################
   # Expands the slider to make it easier to grab.
   proc expand_slider {W} {
 
@@ -316,7 +341,7 @@ namespace eval scroller {
 
     # Draw the markers
     update_markers $win
-    
+
     # Calculate the foreground color
     set foreground [expr {$data($win,-usealt) ? $data($win,-altforeground) : $data($win,-foreground)}]
 
