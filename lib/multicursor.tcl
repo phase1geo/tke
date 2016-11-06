@@ -437,8 +437,9 @@ namespace eval multicursor {
 
     variable selected
 
-    set start  1.0
-    set ranges [list]
+    set start   1.0
+    set ranges  [list]
+    set do_tags [list]
 
     # Only perform this if multiple cursors
     if {[enabled $txt]} {
@@ -476,6 +477,7 @@ namespace eval multicursor {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           set start "[lindex $range 0] linestart"
           set end   [lindex $range 0]
+          ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           $txt tag add mcursor $start
           lappend ranges $start $end
@@ -485,6 +487,7 @@ namespace eval multicursor {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           set start [lindex $range 0]
           set end   "[lindex $range 0] lineend"
+          ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           if {[$txt compare $start > "$start linestart"]} {
             $txt tag add mcursor "$start-1c"
@@ -498,6 +501,7 @@ namespace eval multicursor {
             set start [lindex $range 0]
             if {[regexp $data [$txt get $start "$start lineend"] match]} {
               set end "$start+[string length $match]c"
+              ctext::comments_chars_deleted $txt $start $end do_tags
               $txt fastdelete -update 0 $start $end
               $txt tag add mcursor $start
               lappend ranges $start $end
@@ -510,6 +514,7 @@ namespace eval multicursor {
             if {[regexp $data [$txt get "$start linestart" $start] match]} {
               set start "[lindex $range 0]-[string length $match]c"
               set end   [lindex $range 0]
+              ctext::comments_chars_deleted $txt $start $end do_tags
               $txt fastdelete -update 0 $start $end
               $txt tag add mcursor $start
               lappend ranges $start $end
@@ -526,6 +531,7 @@ namespace eval multicursor {
             set start "[lindex $range 0]$suffix"
           }
           set end [lindex $range 0]
+          ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           $txt tag add mcursor "[lindex $range 0]$suffix"
           lappend ranges $start $end
@@ -536,12 +542,14 @@ namespace eval multicursor {
           set start [lindex $range 0]
           if {[$txt compare "$start$suffix" >= "$start lineend"]} {
             set end "$start lineend"
+            ctext::comments_chars_deleted $txt $start $end do_tags
             $txt fastdelete -update 0 $start $end
             $txt tag add mcursor "$start-1c"
             lappend ranges $start $end
             set start "$start+1c"
           } else {
             set end "$start$suffix"
+            ctext::comments_chars_deleted $txt $start $end do_tags
             $txt fastdelete -update 0 $start $end
             $txt tag add mcursor $start
             lappend ranges $start $end
@@ -598,7 +606,7 @@ namespace eval multicursor {
         set start 1.0
         while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
           set start [lindex $range 0]
-          $indent_cmd $txtt [$txtt index "$start+1c"]
+          $indent_cmd $txtt [$txtt index "$start+1c"] 0
           set start "$start+2c"
         }
       } else {
@@ -643,7 +651,7 @@ namespace eval multicursor {
           set start 1.0
           while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
             set start [lindex $range 0]
-            $indent_cmd $txt [$txt index "$start+1c"]
+            $indent_cmd $txt [$txt index "$start+1c"] 0
             set start "$start+2c"
           }
         } else {

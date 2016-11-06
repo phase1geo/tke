@@ -53,7 +53,7 @@ namespace eval edit {
     }
 
     # Perform the proper indentation
-    [ns indent]::newline $txtt insert
+    [ns indent]::newline $txtt insert 1
 
     # Start recording
     [ns vim]::record_start
@@ -88,7 +88,7 @@ namespace eval edit {
     $txtt see insert
 
     # Perform the proper indentation
-    [ns indent]::newline $txtt insert
+    [ns indent]::newline $txtt insert 1
 
     # Start recording
     [ns vim]::record_start
