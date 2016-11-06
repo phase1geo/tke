@@ -1014,25 +1014,26 @@ proc ctext::instanceCmd {win cmd args} {
   variable data
 
   switch -glob -- $cmd {
-    append     { return [ctext::command_append     $win {*}$args] }
-    cget       { return [ctext::command_cget       $win {*}$args] }
-    conf*      { return [ctext::command_configure  $win {*}$args] }
-    copy       { return [ctext::command_copy       $win {*}$args] }
-    cut        { return [ctext::command_cut        $win {*}$args] }
-    delete     { return [ctext::command_delete     $win {*}$args] }
-    diff       { return [ctext::command_diff       $win {*}$args] }
-    edit       { return [ctext::command_edit       $win {*}$args] }
-    fastdelete { return [ctext::command_fastdelete $win {*}$args] }
-    fastinsert { return [ctext::command_fastinsert $win {*}$args] }
-    gutter     { return [ctext::command_gutter     $win {*}$args] }
-    highlight  { return [ctext::command_highlight  $win {*}$args] }
-    insert     { return [ctext::command_insert     $win {*}$args] }
-    replace    { return [ctext::command_replace    $win {*}$args] }
-    paste      { return [ctext::command_paste      $win {*}$args] }
-    peer       { return [ctext::command_peer       $win {*}$args] }
-    tag        { return [ctext::command_tag        $win {*}$args] }
-    language   { return [ctext::command_language   $win {*}$args] }
-    default    { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
+    append      { return [ctext::command_append      $win {*}$args] }
+    cget        { return [ctext::command_cget        $win {*}$args] }
+    conf*       { return [ctext::command_configure   $win {*}$args] }
+    copy        { return [ctext::command_copy        $win {*}$args] }
+    cut         { return [ctext::command_cut         $win {*}$args] }
+    delete      { return [ctext::command_delete      $win {*}$args] }
+    diff        { return [ctext::command_diff        $win {*}$args] }
+    edit        { return [ctext::command_edit        $win {*}$args] }
+    fastdelete  { return [ctext::command_fastdelete  $win {*}$args] }
+    fastinsert  { return [ctext::command_fastinsert  $win {*}$args] }
+    fastreplace { return [ctext::command_fastreplace $win {*}$args] }
+    gutter      { return [ctext::command_gutter      $win {*}$args] }
+    highlight   { return [ctext::command_highlight   $win {*}$args] }
+    insert      { return [ctext::command_insert      $win {*}$args] }
+    replace     { return [ctext::command_replace     $win {*}$args] }
+    paste       { return [ctext::command_paste       $win {*}$args] }
+    peer        { return [ctext::command_peer        $win {*}$args] }
+    tag         { return [ctext::command_tag         $win {*}$args] }
+    language    { return [ctext::command_language    $win {*}$args] }
+    default     { return [uplevel 1 [linsert $args 0 $win._t $cmd]] }
   }
 
 }
@@ -1327,10 +1328,15 @@ proc ctext::command_fastdelete {win args} {
 
   variable data
 
-  set moddata [list]
-  if {[lindex $args 0] eq "-moddata"} {
-    set args [lassign $args dummy moddata]
+  set moddata   [list]
+  set do_update 1
+  while {[string index [lindex $args 0] 0] eq "-"} {
+    switch [lindex $args 0] {
+      "-moddata" { set args [lassign $args dummy moddata] }
+      "-update"  { set args [lassign $args dummy do_update] }
+    }
   }
+
   if {[llength $args] == 1} {
     set startPos [$win._t index [lindex $args 0]]
     set endPos   [$win._t index "$startPos+1c"]
@@ -1343,8 +1349,10 @@ proc ctext::command_fastdelete {win args} {
 
   $win._t delete {*}$args
 
-  ctext::modified $win 1 [list delete [list $startPos $endPos] $moddata]
-  event generate $win.t <<CursorChanged>>
+  if {$do_update} {
+    ctext::modified $win 1 [list delete [list $startPos $endPos] $moddata]
+    event generate $win.t <<CursorChanged>>
+  }
 
 }
 
@@ -1352,10 +1360,15 @@ proc ctext::command_fastinsert {win args} {
 
   variable data
 
-  set moddata [list]
-  if {[lindex $args 0] eq "-moddata"} {
-    set args [lassign $args dummy moddata]
+  set moddata   [list]
+  set do_update 1
+  while {[string index [lindex $args 0] 0] eq "-"} {
+    switch [lindex $args 0] {
+      "-moddata" { set args [lassign $args dummy moddata] }
+      "-update"  { set args [lassign $args dummy do_update] }
+    }
   }
+
   set startPos [$win._t index [lindex $args 0]]
   set chars    [string length [lindex $args 1]]
   set endPos   [$win._t index "$startPos+${chars}c"]
@@ -1363,8 +1376,45 @@ proc ctext::command_fastinsert {win args} {
   $win._t insert {*}$args
 
   ctext::handleInsertAt0 $win._t $startPos $chars
-  ctext::modified $win 1 [list insert [list $startPos $endPos] $moddata]
-  event generate $win.t <<CursorChanged>>
+
+  if {$do_update} {
+    ctext::modified $win 1 [list insert [list $startPos $endPos] $moddata]
+    event generate $win.t <<CursorChanged>>
+  }
+
+}
+
+proc ctext::command_fastreplace {win args} {
+
+  variable data
+
+  if {[llength $args] < 3} {
+    return -code error "please use at least 3 arguments to $win replace"
+  }
+
+  set moddata   [list]
+  set do_update 1
+  while {[string index [lindex $args 0] 0] eq "-"} {
+    switch [lindex $args 0] {
+      "-moddata" { set args [lassign $args dummy moddata] }
+      "-update"  { set args [lassign $args dummy do_update] }
+    }
+  }
+
+  set startPos  [$win._t index [lindex $args 0]]
+  set endPos    [$win._t index [lindex $args 1]]
+  set datlen    [string length $dat]
+  set lineStart [$win._t index "$startPos linestart"]
+  set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
+
+  # Perform the text replacement
+  $win._t replace {*}$args
+
+  if {$do_update} {
+    ctext::modified $win 1 [list delete [list $startPos $endPos] $moddata]
+    ctext::modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+    event generate $win.t <<CursorChanged>>
+  }
 
 }
 
@@ -1381,6 +1431,9 @@ proc ctext::command_highlight {win args} {
       "-moddata" { set args [lassign $args dummy moddata] }
       "-insert"  { set args [lassign $args dummy insert] }
       "-dotags"  { set args [lassign $args dummy dotags] }
+      default    {
+        return -code error "Unknown option specified ([lindex $args 0])"
+      }
     }
   }
 
@@ -2303,12 +2356,25 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
     }
   }
 
-  set range [list]
+  # Group the ranges to remove as much regular expression text searching as possible
+  set ranges    [list]
+  set laststart [lindex $lineranges 0]
+  set lastend   [lindex $lineranges 1]
+  foreach {linestart lineend} [lrange $lineranges 2 end] {
+    if {[$win count -lines $lastend $linestart] > 1} {
+      lappend ranges $laststart $lastend
+      set laststart $linestart
+    }
+    set lastend $lineend
+  }
+  lappend ranges $laststart $lastend
 
-  foreach {linestart lineend} $lineranges {
+  # puts "ranges: $ranges"
+
+  foreach {linestart lineend} $ranges {
     ctext::escapes $win $linestart $lineend
   }
-  set all [ctext::comments $win $lineranges $do_tag]
+  set all [ctext::comments $win $ranges $do_tag]
   ctext::updateLangBackgrounds $win
 
   if {$all} {
@@ -2321,7 +2387,7 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
     ctext::indentation $win [lindex $lineranges 0] end
     ctext::highlight   $win [lindex $lineranges 0] end $ins
   } else {
-    foreach {linestart lineend} $lineranges {
+    foreach {linestart lineend} $ranges {
       ctext::brackets    $win $linestart $lineend
       ctext::indentation $win $linestart $lineend
       ctext::highlight   $win $linestart $lineend $ins
@@ -2386,9 +2452,9 @@ proc ctext::comments {win ranges do_tags} {
 
   # First, tag all string/comment patterns found between start and end
   foreach {tag pattern} $data($win,config,csl_patterns) {
-    set i 0
-    array set indices {0 {} 1 {}}
     foreach {start end} $ranges {
+      array set indices {0 {} 1 {}}
+      set i 0
       foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
         if {![isEscaped $win $index]} {
           set end_index [$win index "$index+[lindex $lengths $i]c"]
