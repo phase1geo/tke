@@ -1862,7 +1862,7 @@ namespace eval sidebar {
     foreach row [$widgets(tl) tag has f] {
       if {[$widgets(tl) set $row remote] eq ""} {
         set name [$widgets(tl) set $row name]
-        if {[$widgets(tl) item $i -image] ne ""} {
+        if {[$widgets(tl) item $row -image] ne ""} {
           lappend ofiles $name
         }
         lappend fif_files [list $name $name]
