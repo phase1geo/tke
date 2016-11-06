@@ -1347,6 +1347,8 @@ proc ctext::command_fastdelete {win args} {
     ctext::linemapCheckOnDelete $win $startPos $endPos
   }
 
+  ctext::undo_delete $win $startPos $endPos
+
   $win._t delete {*}$args
 
   if {$do_update} {
@@ -1375,6 +1377,7 @@ proc ctext::command_fastinsert {win args} {
 
   $win._t insert {*}$args
 
+  ctext::undo_insert     $win $startPos $chars [$win._t index insert]
   ctext::handleInsertAt0 $win._t $startPos $chars
 
   if {$do_update} {
@@ -1407,8 +1410,12 @@ proc ctext::command_fastreplace {win args} {
   set lineStart [$win._t index "$startPos linestart"]
   set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
 
+  ctext::undo_delete $win $startPos $endPos
+
   # Perform the text replacement
   $win._t replace {*}$args
+
+  ctext::undo_insert $win $startPos $datlen [$win._t index insert]
 
   if {$do_update} {
     ctext::modified $win 1 [list delete [list $startPos $endPos] $moddata]
@@ -1528,8 +1535,7 @@ proc ctext::command_replace {win args} {
   set deleteLines [$win._t count -lines $startPos $endPos]
   set do_tags     [list]
 
-  ctext::undo_delete $win $startPos $endPos
-
+  ctext::undo_delete            $win $startPos $endPos
   ctext::comments_chars_deleted $win $startPos $endPos do_tags
 
   # Perform the text replacement
@@ -2361,7 +2367,7 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   set laststart [lindex $lineranges 0]
   set lastend   [lindex $lineranges 1]
   foreach {linestart lineend} [lrange $lineranges 2 end] {
-    if {[$win count -lines $lastend $linestart] > 1} {
+    if {[$win count -lines $lastend $linestart] > 10} {
       lappend ranges $laststart $lastend
       set laststart $linestart
     }
