@@ -437,87 +437,125 @@ namespace eval multicursor {
 
     variable selected
 
+    set start  1.0
+    set ranges [list]
+
     # Only perform this if multiple cursors
     if {[enabled $txt]} {
       if {$selected || ($suffix eq "selected")} {
-        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-          ctext::comments_chars_deleted $win $deleteStartPos $deleteEndPos do_tags
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          lassign $range start end
+          ctext::comments_chars_deleted $win $start $end do_tags
           $txt fastdelete -update 0 $start $end
           $txt tag add mcursor $start
-        }
-        set selected 0
-
-  # Delete the text
-  $win._t delete $deleteStartPos $deleteEndPos
-
-  ctext::highlightAll $win [list $lineStart $lineEnd] 0 $do_tags
-  ctext::modified     $win 1 [list delete [list $lineStart $lineEnd] $moddata]
-
-  event generate $win.t <<CursorChanged>>
-
-          $txt fastdelete -update $start $end
-          $txt tag add mcursor $start
+          lappend ranges $start $end
+          set start "$start+2c"
         }
         set selected 0
       } elseif {$suffix eq "line"} {
-        foreach {start end} [$txt tag ranges mcursor] {
-          $txt delete "$start linestart" "$start lineend"
-          $txt tag add mcursor "$start linestart"
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          set start "[lindex $range 0] linestart"
+          set end   "[lindex $range 1] lineend"
+          ctext::comments_chars_deleted $txt $start $end do_tags
+          $txt fastdelete -update 0 $start $end
+          $txt tag add mcursor $start
+          lappend ranges $start $end
+          set start "$start+2c"
         }
       } elseif {$suffix eq "word"} {
-        foreach {start end} [$txt tag ranges mcursor] {
-          $txt delete $start "[[ns vim]::get_word $txt next [expr $data - 1] $start] wordend"
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          set start [lindex $range 0]
+          set end   "[[ns vim]::get_word $txt next [expr $data - 1] $start] wordend"
+          ctext::comments_chars_deleted $txt $start $end do_tags
+          $txt fastdelete -update 0 $start $end
           $txt tag add mcursor $start
+          lappend ranges $start $end
+          set start "$start+2c"
         }
       } elseif {$suffix eq "linestart"} {
-        foreach {start end} [$txt tag ranges mcursor] {
-          $txt delete "$start linestart" $start
-          $txt tag add mcursor "$start linestart"
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          set start "[lindex $range 0] linestart"
+          set end   [lindex $range 0]
+          $txt fastdelete -update 0 $start $end
+          $txt tag add mcursor $start
+          lappend ranges $start $end
+          set start "$start+2c"
         }
       } elseif {$suffix eq "lineend"} {
-        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
-          $txt delete $start "$start lineend"
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          set start [lindex $range 0]
+          set end   "[lindex $range 0] lineend"
+          $txt fastdelete -update 0 $start $end
           if {[$txt compare $start > "$start linestart"]} {
             $txt tag add mcursor "$start-1c"
           }
+          lappend ranges $start $end
+          set start "$start+1c"
         }
       } elseif {$suffix eq "pattern"} {
         if {[string index $data 0] eq "^"} {
-          foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+          while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+            set start [lindex $range 0]
             if {[regexp $data [$txt get $start "$start lineend"] match]} {
-              $txt delete $start "$start+[string length $match]c"
+              set end "$start+[string length $match]c"
+              $txt fastdelete -update 0 $start $end
               $txt tag add mcursor $start
+              lappend ranges $start $end
             }
+            set start "$start+2c"
           }
         } else {
-          foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+          while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+            set start [lindex $range 0]
             if {[regexp $data [$txt get "$start linestart" $start] match]} {
-              $txt delete "$start-[string length $match]c" $start
-              $txt tag add mcursor "$start-[string length $match]c"
+              set start "[lindex $range 0]-[string length $match]c"
+              set end   [lindex $range 0]
+              $txt fastdelete -update 0 $start $end
+              $txt tag add mcursor $start
+              lappend ranges $start $end
             }
+            set start "$start+2c"
           }
         }
       } elseif {[string index $suffix 0] eq "-"} {
-        foreach {start end} [$txt tag ranges mcursor] {
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          set start [lindex $range 0]
           if {[$txt compare "$start$suffix" < "$start linestart"]} {
-            $txt delete "$start linestart" $start
-            $txt tag add mcursor "$start$suffix"
+            set start "[lindex $range 0] linestart"
           } else {
-            $txt delete "$start$suffix" $start
-            $txt tag add mcursor "$start$suffix"
+            set start "[lindex $range 0]$suffix"
           }
+          set end [lindex $range 0]
+          $txt fastdelete -update 0 $start $end
+          $txt tag add mcursor "[lindex $range 0]$suffix"
+          lappend ranges $start $end
+          set start "[lindex $range 0]$suffix+2c"
         }
       } else {
-        foreach {end start} [lreverse [$txt tag ranges mcursor]] {
+        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+          set start [lindex $range 0]
           if {[$txt compare "$start$suffix" >= "$start lineend"]} {
-            $txt delete $start "$start lineend"
+            set end "$start lineend"
+            $txt fastdelete -update 0 $start $end
             $txt tag add mcursor "$start-1c"
+            lappend ranges $start $end
+            set start "$start+1c"
           } else {
-            $txt delete $start "$start$suffix"
+            set end "$start$suffix"
+            $txt fastdelete -update 0 $start $end
             $txt tag add mcursor $start
+            lappend ranges $start $end
+            set start "$start+2c"
           }
         }
       }
+      $txt highlight -dotags $do_tags {*}$ranges
+      foreach {start end} $ranges {
+        set linestart [$txt._t index "$start linestart"]
+        set lineend   [$txt._t index "$end+1c lineend"]
+        ctext::modified $txt 1 [list delete [list $linestart $lineend] [list]]
+      }
+      event generate $txt.t <<CursorChanged>>
       return 1
     }
 
