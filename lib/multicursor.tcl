@@ -433,20 +433,21 @@ namespace eval multicursor {
   # - pattern   = Delete if the start of the text matches the given pattern.
   # - -#type    = Delete # of types prior to the cursor to the cursor.
   # - +#type    = Delete from the cursor to # of types after the cursor.
-  proc delete {txt suffix {data ""}} {
+  proc delete {txtt suffix {data ""}} {
 
     variable selected
 
     set start   1.0
     set ranges  [list]
     set do_tags [list]
+    set txt     [winfo parent $txtt]
 
     # Only perform this if multiple cursors
-    if {[enabled $txt]} {
+    if {[enabled $txtt]} {
       if {$selected || ($suffix eq "selected")} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           lassign $range start end
-          ctext::comments_chars_deleted $win $start $end do_tags
+          ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           $txt tag add mcursor $start
           lappend ranges $start $end
@@ -580,9 +581,10 @@ namespace eval multicursor {
     # Insert the value into the text widget for each of the starting positions
     if {[enabled $txtt]} {
       set do_tags [list]
+      set txt     [winfo parent $txtt]
       if {$selected} {
         foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
-          ctext::comments_chars_deleted $txtt $start $end do_tags
+          ctext::comments_chars_deleted $txt $start $end do_tags
           $txtt fastdelete $start $end
           $txtt tag add mcursor $start
         }
@@ -594,13 +596,13 @@ namespace eval multicursor {
       while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
         set start [lindex $range 0]
         $txtt fastinsert -update 0 $start $value
-        ctext::comments_do_tag $txtt $start "$start+${valuelen}c" do_tags
+        ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
         set start "$start+2c"
         lappend ranges {*}$range
       }
       $txtt highlight -insert 1 -dotags $do_tags {*}$ranges
       foreach {start end} $ranges {
-        ctext::modified $txtt 1 [list insert [list $start $end] [list]]
+        ctext::modified $txt 1 [list insert [list $start $end] [list]]
       }
       if {$indent_cmd ne ""} {
         set start 1.0
@@ -621,9 +623,11 @@ namespace eval multicursor {
 
   ######################################################################
   # Handle the replacement of a given character.
-  proc replace {txt value {indent_cmd ""}} {
+  proc replace {txtt value {indent_cmd ""}} {
 
     variable selected
+
+    set txt [winfo parent $txtt]
 
     # Replace the current insertion cursor with the given value
     if {[enabled $txt]} {
@@ -635,9 +639,9 @@ namespace eval multicursor {
         set valuelen [string length $value]
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           lassign $range start end
-          ctext::comments_chars_deleted $txtt $start $end do_tags
+          ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastreplace -update 0 $start "$start+1c" $value
-          ctext::comments_do_tag $txtt $start "$start+${valuelen}c" do_tags
+          ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
           $txt tag add mcursor "$start+1c"
           set start "$start+2c"
           lappend ranges {*}$range
@@ -649,7 +653,7 @@ namespace eval multicursor {
         }
         if {$indent_cmd ne ""} {
           set start 1.0
-          while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
+          while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
             set start [lindex $range 0]
             $indent_cmd $txt [$txt index "$start+1c"] 0
             set start "$start+2c"

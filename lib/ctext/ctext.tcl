@@ -876,6 +876,9 @@ proc ctext::undo {win} {
 
     set i           0
     set last_cursor 1.0
+    set insert      0
+    set ranges      [list]
+    set do_tags     [list]
 
     foreach element [lreverse $data($win,config,undo_hist)] {
 
@@ -888,23 +891,29 @@ proc ctext::undo {win} {
       switch $cmd {
         i {
           $win._t insert $val1 $val2
+          comments_do_tag $win $val1 "$val1+[string length val2]c" do_tags
           set val2 [$win index "$val1+[string length $val2]c"]
           lappend data($win,config,redo_hist) [list d $val1 $val2 $cursor $sep]
+          set insert 1
         }
         d {
           set str [$win get $val1 $val2]
+          comments_chars_deleted $win $val1 $val2 do_tags
           $win._t delete $val1 $val2
           lappend data($win,config,redo_hist) [list i $val1 $str $cursor $sep]
         }
       }
 
-      $win highlight -insert [expr {$cmd eq "i"}] "$val1 linestart" "$val2 lineend"
+      lappend ranges [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
 
       set last_cursor $cursor
 
       incr i
 
     }
+
+    # Perform the highlight
+    $win highlight -insert $insert -dotags $do_tags {*}$ranges
 
     set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
     incr data($win,config,undo_hist_size) [expr 0 - $i]
@@ -935,7 +944,10 @@ proc ctext::redo {win} {
 
   if {[llength $data($win,config,redo_hist)] > 0} {
 
-    set i 0
+    set i       0
+    set insert  0
+    set do_tags [list]
+    set ranges  [list]
 
     foreach element [lreverse $data($win,config,redo_hist)] {
 
@@ -944,14 +956,17 @@ proc ctext::redo {win} {
       switch $cmd {
         i {
           $win._t insert $val1 $val2
+          comments_do_tag $win.t $val1 "$val1+[string length val2]c" do_tags
           set val2 [$win index "$val1+[string length $val2]c"]
           lappend data($win,config,undo_hist) [list d $val1 $val2 $cursor $sep]
           if {$cursor != $val2} {
             set cursor $val2
           }
+          set insert 1
         }
         d {
           set str [$win get $val1 $val2]
+          comments_chars_deleted $win.t $val1 $val2 do_tags
           $win._t delete $val1 $val2
           lappend data($win,config,undo_hist) [list i $val1 $str $cursor $sep]
           if {$cursor != $val1} {
@@ -960,7 +975,7 @@ proc ctext::redo {win} {
         }
       }
 
-      $win highlight -insert [expr {$cmd eq "i"}] "$val1 linestart" "$val2 lineend"
+      lappend ranges [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
 
       incr i
 
@@ -969,6 +984,9 @@ proc ctext::redo {win} {
       }
 
     }
+
+    # Highlight the code
+    $win highlight -insert $insert -dotag $do_tags {*}$ranges
 
     set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
 
