@@ -1424,7 +1424,7 @@ proc ctext::command_fastreplace {win args} {
 
   set startPos  [$win._t index [lindex $args 0]]
   set endPos    [$win._t index [lindex $args 1]]
-  set datlen    [string length $dat]
+  set datlen    [string length [lindex $args 2]]
   set lineStart [$win._t index "$startPos linestart"]
   set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
 

@@ -607,7 +607,7 @@ namespace eval multicursor {
       if {$indent_cmd ne ""} {
         set start 1.0
         while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
-          set start [$indent_cmd $txtt [$txtt index "[lindex $range 0]+1c"] 0]+2c
+          set start [$indent_cmd $txtt [lindex $range 0] 0]+2c
         }
       } else {
         event generate $txtt <<CursorChanged>>
@@ -652,7 +652,7 @@ namespace eval multicursor {
         if {$indent_cmd ne ""} {
           set start 1.0
           while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-            set start [$indent_cmd $txt [$txt index "[lindex $range 0]+1c"] 0]+2c
+            set start [$indent_cmd $txt [lindex $range 0] 0]+2c
           }
         } else {
           event generate $txt.t <<CursorChanged>>
