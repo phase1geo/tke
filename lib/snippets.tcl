@@ -296,7 +296,7 @@ namespace eval snippets {
   # indentation rules.
   proc insert_snippet_into_current {tid snippet {delrange ""}} {
 
-    insert_snippet [gui::current_txt $tid].t $snippet -delrange [list $delstart $delend]
+    insert_snippet [gui::current_txt $tid].t $snippet -delrange $delrange
 
   }
 
