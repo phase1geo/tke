@@ -1,229 +1,36 @@
-changeset:   2473:a3db0eacb9ca
-tag:         devel-2.7.5
+changeset:   2500:d2192ece726f
+tag:         devel-2.7.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 28 18:59:54 2016 -0500
+date:        Mon Nov 07 09:01:25 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.5 release
+ChangeLog for devel-2.7.6 release
 
 
-changeset:   2474:4aee1007598f
+changeset:   2501:df6c7f8878ce
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 28 18:59:59 2016 -0500
+date:        Mon Nov 07 09:02:06 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.5 for changeset a3db0eacb9ca
+Added tag devel-2.7.6 for changeset d2192ece726f
 
 
-changeset:   2475:c4442cced895
+changeset:   2502:34ebed7074c3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Oct 28 20:46:16 2016 -0500
-files:       lib/gui.tcl lib/images/snippets.gif lib/pref_ui.tcl lib/version.tcl
+date:        Tue Nov 08 00:43:33 2016 -0600
+files:       lib/bist.tcl lib/multicursor.tcl lib/version.tcl tests/multicursor.tcl
 description:
-* Starting work on new Snippets preference pane.
+* Fixing syntax error in BIST refresh code.
+* Fixing issues with multicursor support.
+* Adding start of multicursor BIST test.
 
 
-changeset:   2476:fed4d3cb0ab6
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Oct 29 00:19:02 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Checkpointing work on snippet editor within the preferences GUI.
-
-
-changeset:   2477:138afd596fbf
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Oct 29 17:13:58 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Fixing issue with preference panes not using up their full space.
-
-
-changeset:   2478:927b8f9307bd
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 30 17:55:19 2016 -0500
-files:       lib/pref_ui.tcl lib/snippets.tcl lib/version.tcl
-description:
-* Checkpointing work on snippet support in preference GUI.
-
-
-changeset:   2479:f9fb1bd68579
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 30 23:36:32 2016 -0500
-files:       lib/pref_ui.tcl lib/version.tcl
-description:
-* Adding search capability to shortcuts table.
-* Checkpointing work on snippets preference pane.
-
-
-changeset:   2480:473db850d883
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Oct 30 23:42:34 2016 -0500
-files:       lib/remote.tcl lib/version.tcl
-description:
-* Fixing issue with group names containing spaces.
-
-
-changeset:   2481:6e74110eec90
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Oct 31 00:07:20 2016 -0500
-files:       lib/indent.tcl lib/version.tcl
-description:
-* Fixing indentation issue when a newline is entered and the next non-whitespace character is a closing bracket.
-
-
-changeset:   2482:b9c2d0770e8d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 01 01:17:54 2016 -0500
-files:       data/syntax/AppleScript.syntax lib/menus.tcl lib/pref_ui.tcl lib/snippets.tcl lib/version.tcl
-description:
-* Completing initial work on snippets in preferences GUI.
-* Fixing preference window centering on application window.
-* Fixing error in AppleScript syntax.
-
-
-changeset:   2483:a2ab3c77d223
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 01 02:11:40 2016 -0500
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/version.tcl
-description:
-* Making updates to ctext to support fast non-sequential line highlighting.
-
-
-changeset:   2484:11dba7e6fb60
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 01 21:29:24 2016 -0500
-files:       lib/ctext/ctext.tcl lib/multicursor.tcl lib/sidebar2.tcl lib/theme.tcl lib/tke.tcl lib/version.tcl
-description:
-* Checkpointing work on new sidebar.
-* Checkpointing work on improved multicursor work.
-
-
-changeset:   2485:24123f52189f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 02 00:54:45 2016 -0500
-files:       lib/ctext/ctext.tcl lib/sidebar2.tcl lib/theme.tcl lib/version.tcl
-description:
-* Checkpointing work on new sidebar (which is starting to look viable).
-* Fixing syntax error in ctext.
-
-
-changeset:   2486:635a8e3c1a7f
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Nov 02 18:01:11 2016 -0500
-files:       lib/sidebar2.tcl lib/theme.tcl lib/version.tcl
-description:
-* Checkpointing sidebar changes.
-
-
-changeset:   2487:1d75b670e82a
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 03 01:47:04 2016 -0500
-files:       data/themes/idleFingers.tketheme lib/gui.tcl lib/images/blank10.bmp lib/images/down10.bmp lib/images/down12.bmp lib/images/right10.bmp lib/images/right12.bmp lib/sidebar2.tcl lib/theme.tcl lib/version.tcl
-description:
-* Checkpointing work on new sidebar.
-
-
-changeset:   2488:2c1ce0934a60
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Nov 03 17:42:03 2016 -0500
-files:       data/themes/Anatomy of Grey.tketheme data/themes/Aurora.tketheme data/themes/Cool Glow.tketheme data/themes/Default.tketheme data/themes/Fluidvision.tketheme data/themes/Juicy.tketheme data/themes/Made of Code.tketheme data/themes/Monokai.tketheme data/themes/Notebook.tketheme data/themes/Quiverly.tketheme data/themes/Ruby Blue.tketheme data/themes/Starlight.tketheme data/themes/Turn of the Century.tketheme data/themes/choco.tketheme data/themes/minimal_Theme.tketheme data/themes/oscuro.tketheme data/themes/yellowStone.tketheme lib/theme.tcl lib/version.tcl
-description:
-* Updating themes.
-* Fixing syntax error in themer.
-
-
-changeset:   2489:3811f6600c18
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Nov 04 02:41:06 2016 -0500
-files:       lib/sidebar2.tcl lib/version.tcl
-description:
-* Modifying add_directory proc (work in progress).
-
-
-changeset:   2490:8e70e568c9dd
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Nov 04 16:50:36 2016 -0500
-files:       lib/sidebar2.tcl lib/theme.tcl lib/version.tcl
-description:
-* Fixing last issues with sidebar display.
-* Adding support for hitting space bar in sidebar when items are selected to open files or toggle directory disclosure.
-
-
-changeset:   2491:96c303fbc853
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Fri Nov 04 17:13:02 2016 -0500
-files:       lib/sidebar2.tcl lib/version.tcl
-description:
-* More fixes to sidebar.
-
-
-changeset:   2492:7654e9a6aa5b
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Nov 04 22:50:44 2016 -0500
-files:       lib/scroller.tcl lib/sidebar2.tcl lib/theme.tcl lib/version.tcl
-description:
-* Completing work on sidebar.
-* Improving scrollbars to expand after 300 milliseconds after the cursor enters the scrollarea (to avoid flashing when cursor passes over scrollbar).
-
-
-changeset:   2493:a41952cfbd95
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Nov 04 23:01:40 2016 -0500
-files:       lib/sidebar.tcl lib/sidebar2.tcl lib/theme.tcl lib/tke.tcl lib/version.tcl
-description:
-* Making sidebar2 the only sidebar.
-* Updating theme settings for sidebar.
-
-
-changeset:   2494:e05f63fa904e
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Nov 05 21:43:08 2016 -0500
-files:       lib/ctext/ctext.tcl lib/gui.tcl lib/indent.tcl lib/multicursor.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Checkpointing work on optimized multicursor performance (insert works, replace has been coded and delete is being worked on).
-
-
-changeset:   2495:efbefea575d4
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Sun Nov 06 00:07:44 2016 -0500
-files:       lib/multicursor.tcl lib/version.tcl
-description:
-* Checkpointing work on multicursor deletion optimizations.
-
-
-changeset:   2496:624db6b71e64
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Nov 06 15:56:00 2016 -0600
-files:       lib/ctext/ctext.tcl lib/edit.tcl lib/multicursor.tcl lib/version.tcl
-description:
-* Checkpointing work on improved multicursor performance.
-
-
-changeset:   2497:84ab71fcaaaf
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 07 01:15:10 2016 -0600
-files:       lib/ctext/ctext.tcl lib/multicursor.tcl lib/version.tcl
-description:
-* Optimizations made to undo/redo support.
-* Fixing bugs with multicursor optimizations.
-
-
-changeset:   2498:d4691cf69755
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 07 08:34:38 2016 -0600
-files:       lib/multicursor.tcl lib/version.tcl
-description:
-* Fixing issue with newlines in multicursor mode.
-
-
-changeset:   2499:1ce40d29572b
+changeset:   2503:a5ff6a846d50
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 07 08:50:28 2016 -0600
-files:       lib/ctext/ctext.tcl lib/multicursor.tcl lib/version.tcl
+date:        Tue Nov 08 00:59:09 2016 -0600
+files:       lib/emmet.tcl lib/gui.tcl lib/snippets.tcl lib/version.tcl
 description:
-* Fixing issues with unindentation in multicursor mode.
-* Fixing issue in fastreplace proc in ctext.
+* Fixing various syntax errors.
 
 
