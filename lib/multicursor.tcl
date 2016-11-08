@@ -597,7 +597,7 @@ namespace eval multicursor {
         set start [lindex $range 0]
         $txtt fastinsert -update 0 $start $value
         ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
-        set start "$start+2c"
+        set start "$start+[expr $valuelen + 1]c"
         lappend ranges {*}$range
       }
       $txtt highlight -insert 1 -dotags $do_tags {*}$ranges
@@ -640,8 +640,8 @@ namespace eval multicursor {
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastreplace -update 0 $start "$start+1c" $value
           ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
-          $txt tag add mcursor "$start+1c"
-          set start "$start+2c"
+          $txt tag add mcursor "$start+${valuelen}c"
+          set start "$start+[expr $valuelen + 1]c"
           lappend ranges {*}$range
         }
         $txt highlight -insert 1 -dotags $do_tags {*}$ranges
@@ -652,7 +652,7 @@ namespace eval multicursor {
         if {$indent_cmd ne ""} {
           set start 1.0
           while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-            set start [$indent_cmd $txt [lindex $range 0] 0]+2c
+            set start [$indent_cmd $txtt [lindex $range 0] 0]+2c
           }
         } else {
           event generate $txt.t <<CursorChanged>>
