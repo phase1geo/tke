@@ -120,7 +120,7 @@ namespace eval emmet {
       # Get the abbreviation text, translate it and insert it back into the text
       if {[regexp {(\S+)$} [$txt get "insert linestart" insert] -> abbr]} {
         if {![catch { [ns emmet_css]::parse $abbr } str]} {
-          [ns snippets]::insert_snippet_into_current $tid $str -delrange [list "insert-[string length $abbr]c" insert]
+          [ns snippets]::insert_snippet_into_current $tid $str [list "insert-[string length $abbr]c" insert]
         }
       }
 
@@ -131,7 +131,7 @@ namespace eval emmet {
 
       # Parse the snippet and if no error, insert the resulting string
       if {![catch { ::parse_emmet $str $prespace } str]} {
-        [ns snippets]::insert_snippet_into_current $tid $str -delrange [list $startpos $endpos]
+        [ns snippets]::insert_snippet_into_current $tid $str [list $startpos $endpos]
       }
 
     }
