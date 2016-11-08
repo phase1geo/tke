@@ -54,7 +54,6 @@ namespace eval bist {
     # Load all of the BIST files
     foreach bfile [glob -directory [file join $::tke_dir tests] *.tcl] {
       if {[catch { source $bfile } rc]} {
-        puts "file: $file, rc: $rc"
         puts $::errorInfo
       }
     }
