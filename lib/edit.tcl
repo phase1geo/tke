@@ -129,20 +129,20 @@ namespace eval edit {
     # Clear the clipboard
     clipboard clear
 
-    # Calculate the starting position to delete
-    set start [expr {[$txtt compare insert == "insert-1l"] ? "insert linestart" : "insert-1l lineend"}]
-
     # Add the text to be deleted to the clipboard and delete the text
     if {$num ne ""} {
-      clipboard append [$txtt get "insert linestart" "insert+[expr $num - 1]l lineend"]\n
-      $txtt delete $start "insert+[expr $num - 1]l lineend"
+      clipboard append [$txtt get "insert linestart" "insert+${num}l linestart"]
+      $txtt delete "insert linestart" "insert+${num}l linestart"
     } else {
-      clipboard append [$txtt get "insert linestart" "insert lineend"]\n
-      $txtt delete $start "insert lineend"
+      clipboard append [$txtt get "insert linestart" "insert+1l linestart"]
+      $txtt delete "insert linestart" "insert+1l linestart"
     }
 
-    # Move the insertion cursor forward by a character
-    $txtt mark set insert "insert+1c"
+    if {[$txtt compare insert == end-1c]} {
+      $txtt delete insert-1c insert
+    } else {
+      [ns vim]::adjust_insert $txt
+    }
 
     # Position the cursor at the beginning of the first word
     move_cursor $txtt firstword
@@ -1002,6 +1002,11 @@ namespace eval edit {
       # Get the end of the current word (this will be the beginning of the next word)
       set curr_index [$txt index "$start display wordend"]
 
+      # If num is 0, do not continue
+      if {$num <= 0} {
+        return $curr_index
+      }
+
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
         if {![string is space [$txt get $curr_index]]} {
@@ -1018,6 +1023,11 @@ namespace eval edit {
 
       # Get the index of the current word
       set curr_index [$txt index "$start display wordstart"]
+
+      # If num is 0, do not continue
+      if {$num <= 0} {
+        return $curr_index
+      }
 
       while {[$txt compare $curr_index > 1.0]} {
         if {![string is space [$txt get $curr_index]] && \

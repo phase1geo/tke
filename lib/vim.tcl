@@ -1446,6 +1446,12 @@ namespace eval vim {
         record_start
       }
       return 1
+    } elseif {($mode($txtt) eq "delete") && ($num eq "0") && ($number($txtt) eq "")} {
+      if {![[ns multicursor]::delete $txtt linestart]} {
+        [ns edit]::delete_from_start $txtt
+      }
+      start_mode $txtt
+      return 1
     } elseif {($mode($txtt) eq "folding:range") || \
               ([string range $mode($txtt) 0 5] eq "change") || \
               ([string range $mode($txtt) 0 5] eq "delete") || \
@@ -1504,7 +1510,9 @@ namespace eval vim {
       ::tk::TextSetCursor $txtt "insert lineend-1c"
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      [ns edit]::delete_to_end $txtt
+      if {![[ns multicursor]::delete $txtt lineend]} {
+        [ns edit]::delete_to_end $txtt
+      }
       start_mode $txtt
       record_add "Key-dollar"
       record_stop
@@ -1528,7 +1536,9 @@ namespace eval vim {
       ::tk::TextSetCursor $txtt "insert linestart"
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      [ns edit]::delete_from_start $txtt
+      if {![[ns multicursor]::delete $txtt linestart]} {
+        [ns edit]::delete_from_start $txtt
+      }
       start_mode $txtt
       record_add "Key-asciicircum"
       record_stop
@@ -2281,7 +2291,9 @@ namespace eval vim {
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      [ns edit]::delete_current_word $txtt $number($txtt)
+      if {![[ns multicursor]::delete $txtt word $number($txtt)]} {
+        [ns edit]::delete_current_word $txtt $number($txtt)
+      }
       start_mode $txtt
       return 1
     }
@@ -2324,7 +2336,9 @@ namespace eval vim {
       $txtt edit separator
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      [ns edit]::delete_current_line $txtt $number($txtt)
+      if {![[ns multicursor]::delete $txtt line]} {
+        [ns edit]::delete_current_line $txtt $number($txtt)
+      }
       start_mode $txtt
       record_add "Key-d"
       record_stop
