@@ -228,7 +228,7 @@ namespace eval multicursor {
 
     variable cursor_anchor
 
-    if {[$txtt index "$index lineend"] eq $index} {
+    if {[$txtt compare "$index lineend" == $index]} {
       $txtt insert $index " "
     }
 
@@ -444,128 +444,166 @@ namespace eval multicursor {
 
     # Only perform this if multiple cursors
     if {[enabled $txtt]} {
+
       if {$selected || ($suffix eq "selected")} {
-        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+        while {[set range [$txt tag nextrange sel $start]] ne [list]} {
           lassign $range start end
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          $txt tag add mcursor $start
           lappend ranges $start $end
-          set start "$start+2c"
+          if {([$txtt compare $start == "$start linestart"]) || \
+              ([$txtt compare $start != "$start lineend"])} {
+            add_cursor $txtt $start
+            set start "$start+2c"
+          } else {
+            add_cursor $txtt "$start-1c"
+            set start "$start+1c"
+          }
         }
         set selected 0
+
       } elseif {$suffix eq "line"} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start "[lindex $range 0] linestart"
-          set end   "[lindex $range 1] lineend"
+          set start [$txt index "[lindex $range 0] linestart"]
+          set end   [$txt index "[lindex $range 1] lineend"]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          $txt tag add mcursor $start
+          add_cursor $txt.t $start
           lappend ranges $start $end
           set start "$start+2c"
         }
+
       } elseif {$suffix eq "word"} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start [lindex $range 0]
-          set end   "[[ns vim]::get_word $txt next [expr $data - 1] $start] wordend"
+          set start [$txt index "[lindex $range 0] wordstart"]
+          set end   [[ns edit]::get_word $txtt next [expr $data - 1] $start]
+          if {[$txt compare $end > "$start lineend"]} {
+            set end [$txt index "$start lineend"]
+          }
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          $txt tag add mcursor $start
           lappend ranges $start $end
-          set start "$start+2c"
+          if {([$txtt compare $start == "$start linestart"]) || \
+              ([$txtt compare $start != "$start lineend"])} {
+            add_cursor $txtt $start
+            set start "$start+2c"
+          } else {
+            add_cursor $txtt "$start-1c"
+            set start "$start+1c"
+          }
         }
+
       } elseif {$suffix eq "linestart"} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start "[lindex $range 0] linestart"
+          set start [$txt index "[lindex $range 0] linestart"]
           set end   [lindex $range 0]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          $txt tag add mcursor $start
           lappend ranges $start $end
           set start "$start+2c"
         }
+
       } elseif {$suffix eq "lineend"} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           set start [lindex $range 0]
-          set end   "[lindex $range 0] lineend"
+          set end   [$txt index "[lindex $range 0] lineend"]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          if {[$txt compare $start > "$start linestart"]} {
-            $txt tag add mcursor "$start-1c"
-          }
           lappend ranges $start $end
-          set start "$start+1c"
+          if {([$txtt compare $start == "$start linestart"]) || \
+              ([$txtt compare $start != "$start lineend"])} {
+            add_cursor $txtt $start
+            set start "$start+2c"
+          } else {
+            add_cursor $txtt "$start-1c"
+            set start "$start+1c"
+          }
         }
+
       } elseif {$suffix eq "pattern"} {
         if {[string index $data 0] eq "^"} {
           while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
             set start [lindex $range 0]
             if {[regexp $data [$txt get $start "$start lineend"] match]} {
-              set end "$start+[string length $match]c"
+              set end [$txt index "$start+[string length $match]c"]
               ctext::comments_chars_deleted $txt $start $end do_tags
               $txt fastdelete -update 0 $start $end
-              $txt tag add mcursor $start
               lappend ranges $start $end
+              if {([$txtt compare $start == "$start linestart"]) || \
+                  ([$txtt compare $start != "$start lineend"])} {
+                add_cursor $txtt $start
+                set start "$start+2c"
+              } else {
+                add_cursor $txtt "$start-1c"
+                set start "$start+1c"
+              }
+            } else {
+              set start "$start+2c"
             }
-            set start "$start+2c"
           }
         } else {
           while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
             set start [lindex $range 0]
             if {[regexp $data [$txt get "$start linestart" $start] match]} {
-              set start "[lindex $range 0]-[string length $match]c"
+              set start [$txt index "[lindex $range 0]-[string length $match]c"]
               set end   [lindex $range 0]
               ctext::comments_chars_deleted $txt $start $end do_tags
               $txt fastdelete -update 0 $start $end
-              $txt tag add mcursor $start
               lappend ranges $start $end
             }
             set start "$start+2c"
           }
         }
+
       } elseif {[string index $suffix 0] eq "-"} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           set start [lindex $range 0]
           if {[$txt compare "$start$suffix" < "$start linestart"]} {
-            set start "[lindex $range 0] linestart"
+            set start [$txt index "[lindex $range 0] linestart"]
           } else {
-            set start "[lindex $range 0]$suffix"
+            set start [$txt index "[lindex $range 0]$suffix"]
           }
           set end [lindex $range 0]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          $txt tag add mcursor "[lindex $range 0]$suffix"
           lappend ranges $start $end
           set start "[lindex $range 0]$suffix+2c"
         }
+
       } else {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           set start [lindex $range 0]
           if {[$txt compare "$start$suffix" >= "$start lineend"]} {
-            set end "$start lineend"
-            ctext::comments_chars_deleted $txt $start $end do_tags
-            $txt fastdelete -update 0 $start $end
-            $txt tag add mcursor "$start-1c"
-            lappend ranges $start $end
-            set start "$start+1c"
+            set end [$txt index "$start lineend"]
           } else {
-            set end "$start$suffix"
-            ctext::comments_chars_deleted $txt $start $end do_tags
-            $txt fastdelete -update 0 $start $end
-            $txt tag add mcursor $start
-            lappend ranges $start $end
+            set end [$txt index "$start$suffix"]
+          }
+          ctext::comments_chars_deleted $txt $start $end do_tags
+          $txt fastdelete -update 0 $start $end
+          lappend ranges $start $end
+          if {([$txtt compare $start == "$start linestart"]) || \
+              ([$txtt compare $start != "$start lineend"])} {
+            add_cursor $txtt $start
             set start "$start+2c"
+          } else {
+            add_cursor $txtt "$start-1c"
+            set start "$start+1c"
           }
         }
       }
+
       $txt highlight -dotags $do_tags {*}$ranges
+
       foreach {start end} $ranges {
         set linestart [$txt._t index "$start linestart"]
         set lineend   [$txt._t index "$end+1c lineend"]
         ctext::modified $txt 1 [list delete [list $linestart $lineend] [list]]
       }
+
       event generate $txt.t <<CursorChanged>>
+
       return 1
+
     }
 
     return 0

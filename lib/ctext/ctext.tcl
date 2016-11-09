@@ -1447,9 +1447,10 @@ proc ctext::command_highlight {win args} {
 
   variable data
 
-  set moddata [list]
-  set insert  0
-  set dotags  ""
+  set moddata    [list]
+  set insert     0
+  set dotags     ""
+  set lineranges [list]
 
   while {[string index [lindex $args 0] 0] eq "-"} {
     switch [lindex $args 0] {
