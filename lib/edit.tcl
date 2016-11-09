@@ -130,22 +130,33 @@ namespace eval edit {
     clipboard clear
 
     # Add the text to be deleted to the clipboard and delete the text
-    if {$num ne ""} {
-      clipboard append [$txtt get "insert linestart" "insert+${num}l linestart"]
-      $txtt delete "insert linestart" "insert+${num}l linestart"
-    } else {
-      clipboard append [$txtt get "insert linestart" "insert+1l linestart"]
-      $txtt delete "insert linestart" "insert+1l linestart"
+    if {$num eq ""} {
+      set num 1
     }
 
-    if {[$txtt compare insert == end-1c]} {
-      $txtt delete insert-1c insert
+    # If we are deleting the last line, take note of it
+    set deleting_last [$txtt compare "insert+${num}l linestart" == end]
+
+    # Copy the lines that will be deleted to the clipboard
+    clipboard append [$txtt get "insert linestart" "insert+${num}l linestart"]
+
+    # If we are deleting the last line, move the cursor up one line
+    if {[$txtt compare "insert+${num}l linestart" == end]} {
+      if {[$txtt compare "insert linestart" == 1.0]} {
+        $txtt delete "insert linestart" "insert lineend"
+      } else {
+        $txtt mark set insert insert-1l
+        $txtt delete "insert lineend" "insert+${num}l lineend"
+      }
     } else {
-      [ns vim]::adjust_insert $txt
+      $txtt delete "insert linestart" "insert+${num}l linestart"
     }
 
     # Position the cursor at the beginning of the first word
     move_cursor $txtt firstword
+
+    # Adjust the insertion cursor
+    [ns vim]::adjust_insert $txtt
 
     # Check the brackets
     [ns completer]::check_all_brackets $txtt
