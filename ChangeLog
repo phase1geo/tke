@@ -1,36 +1,38 @@
-changeset:   2500:d2192ece726f
-tag:         devel-2.7.6
+changeset:   2504:9d46829148e9
+tag:         devel-2.7.7
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 07 09:01:25 2016 -0600
+date:        Tue Nov 08 08:27:07 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.6 release
+ChangeLog for devel-2.7.7 release
 
 
-changeset:   2501:df6c7f8878ce
+changeset:   2505:d34d1d498bec
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 07 09:02:06 2016 -0600
+date:        Tue Nov 08 08:27:12 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.6 for changeset d2192ece726f
+Added tag devel-2.7.7 for changeset 9d46829148e9
 
 
-changeset:   2502:34ebed7074c3
+changeset:   2506:f82945c9929f
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 08 00:43:33 2016 -0600
-files:       lib/bist.tcl lib/multicursor.tcl lib/version.tcl tests/multicursor.tcl
+date:        Wed Nov 09 01:57:33 2016 -0600
+files:       lib/ctext/ctext.tcl lib/edit.tcl lib/multicursor.tcl lib/version.tcl lib/vim.tcl tests/multicursor.tcl
 description:
-* Fixing syntax error in BIST refresh code.
-* Fixing issues with multicursor support.
-* Adding start of multicursor BIST test.
+* Fixing issues with multicursor deletions.
+* Improving multicursor.
+* Fixing syntax error in ctext.
+* Adding support for d^ and d0 Vim commands.
+* Adding multicursor support for dd, dw, d^ and d0 Vim commands.
 
 
-changeset:   2503:a5ff6a846d50
+changeset:   2507:fc68a03467a7
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 08 00:59:09 2016 -0600
-files:       lib/emmet.tcl lib/gui.tcl lib/snippets.tcl lib/version.tcl
+date:        Wed Nov 09 09:03:19 2016 -0600
+files:       lib/edit.tcl lib/version.tcl
 description:
-* Fixing various syntax errors.
+* Fixing issues with line deletion.
 
 
