@@ -1139,14 +1139,25 @@ namespace eval sidebar {
 
   ######################################################################
   # Adds a new file to the given folder.
-  proc add_file_to_folder {row} {
+  proc add_file_to_folder {row args} {
 
     variable widgets
 
-    # Get the new filename from the user
-    set fname ""
-    if {![gui::get_user_response [msgcat::mc "File Name:"] fname]} {
-      return
+    array set opts {
+      -testname ""
+    }
+    array set opts $args
+
+    if {$opts(-testname) eq ""} {
+
+      # Get the new filename from the user
+      set fname ""
+      if {![gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+        return
+      }
+
+    } else {
+      set fname $opts(-testname)
     }
 
     # Normalize the pathname
@@ -1198,14 +1209,25 @@ namespace eval sidebar {
 
   ######################################################################
   # Adds a new folder to the specified folder.
-  proc add_folder_to_folder {row} {
+  proc add_folder_to_folder {row args} {
 
     variable widgets
 
-    # Get the directory name from the user
-    set dname ""
-    if {![gui::get_user_response [msgcat::mc "Directory Name:"] dname]} {
-      return
+    array set opts {
+      -testname ""
+    }
+    array set opts $args
+
+    if {$opts(-testname) eq ""} {
+
+      # Get the directory name from the user
+      set dname ""
+      if {![gui::get_user_response [msgcat::mc "Directory Name:"] dname]} {
+        return
+      }
+
+    } else {
+      set dname $opts(-testname)
     }
 
     # Normalize the pathname
@@ -1405,9 +1427,14 @@ namespace eval sidebar {
 
   ######################################################################
   # Allows the user to delete the folder at the given row.
-  proc delete_folder {rows} {
+  proc delete_folder {rows args} {
 
     variable widgets
+
+    array set opts {
+      -test 0
+    }
+    array set opts $args
 
     if {[llength $rows] == 1} {
       set question [msgcat::mc "Delete directory?"]
@@ -1415,7 +1442,7 @@ namespace eval sidebar {
       set question [msgcat::mc "Delete directories?"]
     }
 
-    if {[tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes"} {
+    if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {
 
       foreach row [lreverse $rows] {
 
@@ -1756,9 +1783,14 @@ namespace eval sidebar {
 
   ######################################################################
   # Deletes the specified file.
-  proc delete_file {rows} {
+  proc delete_file {rows args} {
 
     variable widgets
+
+    array set opts {
+      -test 0
+    }
+    array set opts $args
 
     if {[llength $rows] == 1} {
       set question [msgcat::mc "Delete file?"]
@@ -1766,8 +1798,10 @@ namespace eval sidebar {
       set question [msgcat::mc "Delete files?"]
     }
 
+    puts "opts(-test): $opts(-test)"
+
     # Get confirmation from the user
-    if {[tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes"} {
+    if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {
 
       set fnames [list]
 
