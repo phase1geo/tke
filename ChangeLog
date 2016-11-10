@@ -1,38 +1,27 @@
-changeset:   2504:9d46829148e9
-tag:         devel-2.7.7
+changeset:   2508:1e719e851363
+tag:         devel-2.7.8
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 08 08:27:07 2016 -0600
+date:        Wed Nov 09 09:05:02 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.7 release
+ChangeLog for devel-2.7.8 release
 
 
-changeset:   2505:d34d1d498bec
+changeset:   2509:d2dc86bb037b
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 08 08:27:12 2016 -0600
+date:        Wed Nov 09 09:05:07 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.7 for changeset 9d46829148e9
+Added tag devel-2.7.8 for changeset 1e719e851363
 
 
-changeset:   2506:f82945c9929f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 09 01:57:33 2016 -0600
-files:       lib/ctext/ctext.tcl lib/edit.tcl lib/multicursor.tcl lib/version.tcl lib/vim.tcl tests/multicursor.tcl
-description:
-* Fixing issues with multicursor deletions.
-* Improving multicursor.
-* Fixing syntax error in ctext.
-* Adding support for d^ and d0 Vim commands.
-* Adding multicursor support for dd, dw, d^ and d0 Vim commands.
-
-
-changeset:   2507:fc68a03467a7
+changeset:   2510:def5a43e9add
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 09 09:03:19 2016 -0600
-files:       lib/edit.tcl lib/version.tcl
+date:        Thu Nov 10 00:20:20 2016 -0600
+files:       lib/bist.tcl lib/sidebar.tcl lib/version.tcl tests/sidebar.tcl
 description:
-* Fixing issues with line deletion.
+* Adding initial version of sidebar BIST file.
+* Adding hooks into sidebar procs to allow non-interactive testing of sidebar functionality.
 
 
