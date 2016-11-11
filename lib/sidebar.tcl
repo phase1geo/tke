@@ -1380,46 +1380,56 @@ namespace eval sidebar {
 
   ######################################################################
   # Allows the user to rename the currently selected folder.
-  proc rename_folder {row} {
+  proc rename_folder {row args} {
 
     variable widgets
 
+    array set opts {
+      -testname ""
+    }
+    array set opts $args
+
     # Get the current name
-    set old_name [set fname [$widgets(tl) set $row name]]
+    set old_dname [set dname [$widgets(tl) set $row name]]
 
     # Get the new name from the user
-    if {[gui::get_user_response [msgcat::mc "Folder Name:"] fname]} {
+    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "Folder Name:"] dname]} {
+
+      # Make the fname match the testname option if it was set
+      if {$opts(-testname) ne ""} {
+        set dname $opts(-testname)
+      }
 
       # If the value of the cell hasn't changed or is empty, do nothing else.
-      if {($old_name eq $fname) || ($fname eq "")} {
+      if {($old_dname eq $dname) || ($dname eq "")} {
         return
       }
 
       # Allow any plugins to handle the rename
-      plugins::handle_on_rename $old_name $fname
+      plugins::handle_on_rename $old_dname $dname
 
       # Get the remote status
       set remote [$widgets(tl) set $row remote]
 
       # Perform the rename operation
       if {$remote eq ""} {
-        if {[catch { file rename -force $old_name $fname } rc]} {
+        if {[catch { file rename -force $old_dname $dname } rc]} {
           return
         }
       } else {
-        if {![remote::rename_file $remote $old_name $fname]} {
+        if {![remote::rename_file $remote $old_dname $dname]} {
           return
         }
       }
 
       # If this is a displayed file, update the file information
-      gui::change_folder $old_name $fname
+      gui::change_folder $old_dname $dname
 
       # Delete the old directory
       $widgets(tl) delete $row
 
       # Add the file directory
-      update_directory [add_directory [file dirname $fname] -remote $remote]
+      update_directory [add_directory $dname -remote $remote]
 
     }
 
@@ -1797,8 +1807,6 @@ namespace eval sidebar {
     } else {
       set question [msgcat::mc "Delete files?"]
     }
-
-    puts "opts(-test): $opts(-test)"
 
     # Get confirmation from the user
     if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {

@@ -244,4 +244,250 @@ namespace eval sidebar {
 
   }
 
+  proc run_test5 {} {
+
+    # Initialize for test
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+
+    # Copy the pathname of the current row
+    sidebar::copy_pathname $parent
+
+    if {[clipboard get] ne [file join $::tke_home sidebar_test]} {
+      cleanup "Pathname was incorrect ([clipboard get])"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
+  proc run_test6 {} {
+
+    # Initialize for test
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+
+    if {[$sidebar::widgets(tl) item $parent -text] ne "sidebar_test"} {
+      cleanup "Original tree node does not exist ([$sidebar::widgets(tl) item $parent -text])"
+    }
+
+    # Perform the folder rename
+    sidebar::rename_folder $parent -testname [file join $::tke_home sidebar_test2]
+
+    if {[file exists [file join $::tke_home sidebar_test]]} {
+      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      cleanup "The sidebar_test directory still exists after the rename"
+    }
+
+    if {![file exists [file join $::tke_home sidebar_test2]]} {
+      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      cleanup "The sidebar_test2 directory was not created"
+    }
+
+    # Make sure that sidebar_test2 was moved and not just created
+    if {![file exists [file join $::tke_home sidebar_test2 glad.tcl]]} {
+      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      cleanup "The sidebar_test2 directory was not moved"
+    }
+
+    # Make sure the directory was removed
+    if {[$sidebar::widgets(tl) exists $parent]} {
+      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      cleanup "Original tree node still exists"
+    }
+
+    set parent [$sidebar::widgets(tl) children {}]
+
+    # Make sure that only one new node exists in root
+    if {[llength $parent] != 1} {
+      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      cleanup "More than one node exists in the root ([llength $parent])"
+    }
+
+    if {[$sidebar::widgets(tl) item [lindex $parent 0] -text] ne "sidebar_test2"} {
+      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      cleanup "Tree node does not exist ([$sidebar::widgets(tl) item [lindex $parent 0] -text]"
+    }
+
+    file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+
+    # Clean things up
+    cleanup
+
+  }
+
+  proc run_test7 {} {
+
+    # Initialize for test
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+
+    sidebar::remove_folder $parent
+
+    if {[llength [$sidebar::widgets(tl) children {}]] != 0} {
+      cleanup "Folder was not removed ([llength [$sidebar::widgets(tl) children {}]])"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
+  proc run_test8 {} {
+
+    # Initialize for test
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+
+    sidebar::add_parent_directory $parent
+
+    set children [$sidebar::widgets(tl) children {}]
+
+    if {[llength $children] != 1} {
+      cleanup "More than one child belongs to root ([llength $children])"
+    }
+
+    if {[$sidebar::widgets(tl) item [lindex $children 0] -text] ne [file tail $::tke_home]} {
+      cleanup "Parent directory is not displayed in root ([$sidebar::widgets(tl) item [lindex $children 0] -text])"
+    }
+
+    set children [$sidebar::widgets(tl) children [lindex $children 0]]
+    set items    [glob -directory $::tke_home *]
+
+    if {[llength $children] != [llength $items]} {
+      cleanup "Parent directory contains incorrect number of items ([llength $children])"
+    }
+
+    set found 0
+    foreach child $children {
+      if {[$sidebar::widgets(tl) item $child -text] eq "sidebar_test"} {
+        set found 1
+        break
+      }
+    }
+
+    if {!$found} {
+      cleanup "Unable to find child directory"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
+  proc run_test9 {} {
+
+    variable base_dir
+
+    # Initialize
+    initialize
+
+    set parent [$sidebar::widgets(tl) children {}]
+
+    # Create a new directory
+    file mkdir [file join $base_dir blah]
+
+    if {[llength [$sidebar::widgets(tl) children $parent]] != 3} {
+      cleanup "Sidebar contains the incorrect number of children ([llength [$sidebar::widgets(tl) children $parent]])"
+    }
+
+    sidebar::refresh_directory_files $parent
+
+    if {[llength [$sidebar::widgets(tl) children $parent]] != 4} {
+      cleanup "Sidebar does not contain the correct number of children after refresh ([llength [$sidebar::widgets(tl) children $parent]])"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
+  proc run_test10 {} {
+
+    variable base_dir
+
+    # Initialize
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+
+    set found ""
+    foreach child [$sidebar::widgets(tl) children $parent] {
+      if {[$sidebar::widgets(tl) set $child name] eq [file join $base_dir moo]} {
+        set found $child
+        break
+      }
+    }
+
+    # Make sure that the child is correct
+    if {$found eq ""} {
+      cleanup "Value returned from get_index is empty"
+    }
+
+    sidebar::remove_parent_folder $found
+
+    set children [$sidebar::widgets(tl) children {}]
+
+    if {[llength $children] != 1} {
+      cleanup "The child directory did not become the only parent ([llength $children])"
+    }
+
+    if {[$sidebar::widgets(tl) item [lindex $children 0] -text] ne "moo"} {
+      cleanup "Child directory did not become the parent ([$sidebar::widgets(tl) item [lindex $children 0] -text])"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
+  # Verify that two children directories are merged when parent is added
+  proc run_test11 {} {
+
+    variable base_dir
+
+    # Initialize
+    initialize
+
+    sidebar::clear
+
+    if {[llength [$sidebar::widgets(tl) children {}]] != 0} {
+      cleanup "Sidebar was not cleared properly ([llength [$sidebar::widgets(tl) children {}]])"
+    }
+
+    # Add two child directories
+    sidebar::add_directory [file join $base_dir moo]
+    sidebar::add_directory [file join $base_dir bar]
+
+    if {[llength [$sidebar::widgets(tl) children {}]] != 2} {
+      cleanup "Child directories were not added properly ([llength [$sidebar::widget(tl) children {}]])"
+    }
+
+    # Add the parent directory
+    sidebar::add_directory $base_dir
+
+    set children [$sidebar::widgets(tl) children {}]
+
+    if {[llength $children] != 1} {
+      cleanup "Child directories were not merged into one ([llength $children])"
+    }
+
+    if {[$sidebar::widgets(tl) item [lindex $children 0] -text] ne "sidebar_test"} {
+      cleanup "Top-level directory was incorrect ([$sidebar::widgets(tl) item [lindex $children 0] -text])"
+    }
+
+    if {[llength [$sidebar::widgets(tl) children [lindex $children 0]]] != 3} {
+      cleanup "Incorrect number of children ([llength [$sidebar::widgets(tl) children [lindex $children 0]]])"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
 }
