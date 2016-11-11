@@ -711,6 +711,16 @@ namespace eval sidebar {
       $widgets(tl) item $parent -open 1
     }
 
+    # Finally, remove any rooted directories that exist within this directory
+    foreach child [$widgets(tl) children {}] {
+      puts "dir: $dir, child: [$widgets(tl) set $child name]"
+      if {($child ne $parent) && \
+          ([$widgets(tl) set $child remote] eq $opts(-remote)) && \
+          ([string compare -length [string length $dir] [$widgets(tl) set $child name] $dir] == 0)} {
+        $widgets(tl) delete $child
+      }
+    }
+
     return $parent
 
   }
