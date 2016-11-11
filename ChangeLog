@@ -1,27 +1,36 @@
-changeset:   2508:1e719e851363
-tag:         devel-2.7.8
+changeset:   2511:c511ccf97adb
+tag:         devel-2.7.9
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 09 09:05:02 2016 -0600
+date:        Thu Nov 10 07:38:35 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.8 release
+ChangeLog for devel-2.7.9 release
 
 
-changeset:   2509:d2dc86bb037b
+changeset:   2512:aea178e2c5a5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 09 09:05:07 2016 -0600
+date:        Thu Nov 10 07:38:40 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.8 for changeset 1e719e851363
+Added tag devel-2.7.9 for changeset c511ccf97adb
 
 
-changeset:   2510:def5a43e9add
+changeset:   2513:c5bd54ba619b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Nov 11 01:34:33 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl tests/sidebar.tcl
+description:
+* Fixing bug in sidebar folder rename function.
+* Checkpointing work on sidebar BIST.
+
+
+changeset:   2514:21f77975900d
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 10 00:20:20 2016 -0600
-files:       lib/bist.tcl lib/sidebar.tcl lib/version.tcl tests/sidebar.tcl
+date:        Fri Nov 11 02:21:54 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl tests/sidebar.tcl
 description:
-* Adding initial version of sidebar BIST file.
-* Adding hooks into sidebar procs to allow non-interactive testing of sidebar functionality.
+* Fixing file rename function in sidebar.
+* More updates to sidebar BIST.
 
 
