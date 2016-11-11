@@ -517,4 +517,69 @@ namespace eval sidebar {
 
   }
 
+  proc run_test13 {} {
+
+    variable base_dir
+
+    # Initialize
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+    set row    [sidebar::get_index [file join $base_dir glad.tcl] ""]
+
+    sidebar::duplicate_file $row
+
+    if {[llength [$sidebar::widgets(tl) children $parent]] != 4} {
+      cleanup "Duplicated file was not created ([llength [$sidebar::widgets(tl) children $parent]])"
+    }
+
+    if {[set first [sidebar::get_index [file join $base_dir "glad Copy.tcl"] ""]] eq ""} {
+      cleanup "glad Copy.tcl was not created in sidebar"
+    }
+
+    if {![file exists [file join $base_dir "glad Copy.tcl"]]} {
+      cleanup "glad Copy.tcl was not created in file system"
+    }
+
+    sidebar::duplicate_file $row
+
+    if {[llength [$sidebar::widgets(tl) children $parent]] != 5} {
+      cleanup "Second duplicate file was not created ([llength [$sidebar::widgets(tl) children $parent]])"
+    }
+
+    if {[set second [sidebar::get_index [file join $base_dir "glad Copy 2.tcl"] ""]] eq ""} {
+      cleanup "glad Copy 2.tcl was not created in sidebar"
+    }
+
+    if {![file exists [file join $base_dir "glad Copy 2.tcl"]]} {
+      cleanup "glad Copy 2.tcl was not created in file system"
+    }
+
+    sidebar::delete_file [list $first $second] -test 1
+
+    if {[llength [$sidebar::widgets(tl) children $parent]] != 3} {
+      cleanup "Copied files were not deleted ([llength [$sidebar::widgets(tl) children $parent]])"
+    }
+
+    if {[sidebar::get_index [file join $base_dir "glad Copy.tcl"] ""] ne ""} {
+      cleanup "glad Copy.tcl was not deleted in sidebar"
+    }
+
+    if {[file exists [file join $base_dir "glad Copy.tcl"]]} {
+      cleanup "glad Copy.tcl was not deleted in file system"
+    }
+
+    if {[sidebar::get_index [file join $base_dir "glad Copy.tcl 2"] ""] ne ""} {
+      cleanup "glad Copy 2.tcl was not deleted in sidebar"
+    }
+
+    if {[file exists [file join $base_dir "glad Copy 2.tcl"]]} {
+      cleanup "glad Copy 2.tcl was not deleted in file system"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
 }
