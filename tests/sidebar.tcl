@@ -446,7 +446,7 @@ namespace eval sidebar {
 
   }
 
-  # Verify that two children directories are merged when parent is added
+  # Verify file open/close
   proc run_test11 {} {
 
     variable base_dir
@@ -454,35 +454,62 @@ namespace eval sidebar {
     # Initialize
     initialize
 
-    sidebar::clear
+    set row [sidebar::get_index [file join $base_dir glad.tcl] ""]
 
-    if {[llength [$sidebar::widgets(tl) children {}]] != 0} {
-      cleanup "Sidebar was not cleared properly ([llength [$sidebar::widgets(tl) children {}]])"
+    if {$row eq ""} {
+      cleanup "File was not found"
     }
 
-    # Add two child directories
-    sidebar::add_directory [file join $base_dir moo]
-    sidebar::add_directory [file join $base_dir bar]
+    sidebar::open_file $row
 
-    if {[llength [$sidebar::widgets(tl) children {}]] != 2} {
-      cleanup "Child directories were not added properly ([llength [$sidebar::widget(tl) children {}]])"
+    if {[$sidebar::widgets(tl) item $row -image] ne "sidebar_open"} {
+      cleanup "File was not opened in sidebar ([$sidebar::widgets(tl) item $row -image])"
     }
 
-    # Add the parent directory
-    sidebar::add_directory $base_dir
-
-    set children [$sidebar::widgets(tl) children {}]
-
-    if {[llength $children] != 1} {
-      cleanup "Child directories were not merged into one ([llength $children])"
+    if {[sidebar::get_info $row file_index] == -1} {
+      cleanup "File was not opened in editor"
     }
 
-    if {[$sidebar::widgets(tl) item [lindex $children 0] -text] ne "sidebar_test"} {
-      cleanup "Top-level directory was incorrect ([$sidebar::widgets(tl) item [lindex $children 0] -text])"
+    sidebar::close_file $row
+
+    if {[$sidebar::widgets(tl) item $row -image] ne ""} {
+      cleanup "File was not closed in sidebar ([$sidebar::widgets(tl) item $row -image])"
     }
 
-    if {[llength [$sidebar::widgets(tl) children [lindex $children 0]]] != 3} {
-      cleanup "Incorrect number of children ([llength [$sidebar::widgets(tl) children [lindex $children 0]]])"
+    if {[sidebar::get_info $row file_index] != -1} {
+      cleanup "File was not closed in editor"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
+  proc run_test12 {} {
+
+    variable base_dir
+
+    # Initialize
+    initialize
+
+    set row [sidebar::get_index [file join $base_dir glad.tcl] ""]
+
+    sidebar::rename_file $row -testname [file join $base_dir bald.tcl]
+
+    if {[sidebar::get_index [file join $base_dir glad.tcl] ""] ne ""} {
+      cleanup "glad.tcl was not removed from sidebar"
+    }
+
+    if {[sidebar::get_index [file join $base_dir bald.tcl] ""] eq ""} {
+      cleanup "bald.tcl was not found in sidebar"
+    }
+
+    if {[file exists [file join $base_dir glad.tcl]]} {
+      cleanup "glad.tcl was found in the directory"
+    }
+
+    if {![file exists [file join $base_dir bald.tcl]]} {
+      cleanup "bald.tcl was not found in the directory"
     }
 
     # Clean things up

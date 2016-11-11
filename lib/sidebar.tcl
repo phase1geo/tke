@@ -1695,9 +1695,14 @@ namespace eval sidebar {
   ######################################################################
   # Allow the user to rename the currently selected file in the file
   # browser.
-  proc rename_file {row} {
+  proc rename_file {row args} {
 
     variable widgets
+
+    array set opts {
+      -testname ""
+    }
+    array set opts $args
 
     # Get the current name
     set old_name [set fname [$widgets(tl) set $row name]]
@@ -1706,7 +1711,11 @@ namespace eval sidebar {
     set remote [$widgets(tl) set $row remote]
 
     # Get the new name from the user
-    if {[gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+
+      if {$opts(-testname) ne ""} {
+        set fname $opts(-testname)
+      }
 
       # If the value of the cell hasn't changed or is empty, do nothing else.
       if {($old_name eq $fname) || ($fname eq "")} {
@@ -1744,7 +1753,9 @@ namespace eval sidebar {
       update_directory [add_directory [file dirname $fname] -remote $remote]
 
       # Update the old directory
-      after idle [list sidebar::update_directory [$widgets(tl) parent $row]]
+      if {[$widgets(tl) exists $row]} {
+        sidebar::update_directory [$widgets(tl) parent $row]
+      }
 
     }
 
