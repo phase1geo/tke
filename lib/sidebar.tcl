@@ -699,8 +699,10 @@ namespace eval sidebar {
     if {$tdir eq "/"} {
       set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags d]
     } else {
+      puts "tdir: $tdir, dir: $dir"
       set parent [lindex $dirs $index 1]
       foreach tdir [lrange [file split $dir] [llength [file split $tdir]] end] {
+        puts "Adding subdirectory, parent: [lindex $dirs $index 0], tdir: $tdir"
         set parent [add_subdirectory $parent $opts(-remote) $tdir]
       }
     }
@@ -711,18 +713,54 @@ namespace eval sidebar {
       $widgets(tl) item $parent -open 1
     }
 
-    # Finally, remove any rooted directories that exist within this directory
-    foreach child [$widgets(tl) children {}] {
-      puts "dir: $dir, child: [$widgets(tl) set $child name]"
-      if {($child ne $parent) && \
-          ([$widgets(tl) set $child remote] eq $opts(-remote)) && \
-          ([string compare -length [string length $dir] [$widgets(tl) set $child name] $dir] == 0)} {
-        $widgets(tl) delete $child
+    # If we just inserted a root directory, check for other rooted directories
+    # that may be children of this directory and merge them.
+    if {[$widgets(tl) parent $parent] eq ""} {
+
+      # Remove any rooted directories that exist within this directory
+      set dirlen [string length $dir]
+      set ocount 0
+      foreach root [$widgets(tl) children {}] {
+        set remote [$widgets(tl) set $root remote]
+        set name   [$widgets(tl) set $root name]
+        if {($root ne $parent) && \
+            ($remote eq $opts(-remote)) && \
+            ([string compare -length $dirlen $name $dir] == 0)} {
+          puts "Merging $name into parent $dir"
+          $widgets(tl) detach $root
+          set row   [add_directory $name -remote $remote]
+          break
+          set prow  [$widgets(tl) parent $row]
+          set index [$widgets(tl) index $row]
+          $widgets(tl) delete $row
+          puts "root: $root, root name: $name, row: $row, prow: $prow, index: $index, root exists: [$widgets(tl) exists $root], prow exists: [$widgets(tl) exists $prow]"
+          $widgets(tl) move $root $prow $index
+          incr ocount [$widgets(tl) set $root ocount]
+        }
       }
+
+      # Set the ocount
+      $widgets(tl) set $parent ocount $ocount
+
     }
 
     return $parent
 
+  }
+
+  ######################################################################
+  proc merge_root_dirs {target} {
+
+    variable widgets
+
+    foreach child [$widgets(tl) children {}] {
+      if {($child ne $target) && \
+          ([$widgets(tl) set $child remote] eq $opts(-remote)) && \
+          ([string compare -length $dirlen [$widgets(tl) set $child name] $dir] == 0)} {
+        $widgets(tl) delete $child
+        FOOBAR
+      }
+    }
   }
 
   ######################################################################
@@ -1583,31 +1621,31 @@ namespace eval sidebar {
 
     variable widgets
 
-    # Get the list of all root children
-    set children [$widgets(tl) children ""]
-
     # Get the remote value of the selected row
+    set dname  [file dirname [$widgets(tl) set $row name]]
     set remote [$widgets(tl) set $row remote]
 
     # Add the parent directory to the sidebar
-    set parent [add_directory [file dirname [$widgets(tl) set $row name]] -remote $remote]
+    add_directory $dname -remote $remote
 
-    # Find/move children
-    set ocount 0
-    foreach child $children {
-      foreach row [$widgets(tl) children $parent] {
-        if {([$widgets(tl) set $row name] eq [$widgets(tl) set $child name]) && \
-            ([$widgets(tl) set $row remote] eq $remote)} {
-          set index [$widgets(tl) index $row]
-          $widgets(tl) delete $row
-          $widgets(tl) move $child $parent $index
-          incr ocount [$widgets(tl) set $child ocount]
+    if {0} {
+      # Find/move children
+      set ocount 0
+      foreach child $children {
+        foreach row [$widgets(tl) children $parent] {
+          if {([$widgets(tl) set $row name] eq [$widgets(tl) set $child name]) && \
+              ([$widgets(tl) set $row remote] eq $remote)} {
+            set index [$widgets(tl) index $row]
+            $widgets(tl) delete $row
+            $widgets(tl) move $child $parent $index
+            incr ocount [$widgets(tl) set $child ocount]
+          }
         }
       }
-    }
 
-    # Set the ocount value of the new parent directory
-    $widgets(tl) set $parent ocount $ocount
+      # Set the ocount value of the new parent directory
+      $widgets(tl) set $parent ocount $ocount
+    }
 
   }
 
