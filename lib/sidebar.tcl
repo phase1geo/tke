@@ -676,38 +676,35 @@ namespace eval sidebar {
 
     array set opts {
       -remote ""
+      -record 1
     }
     array set opts $args
 
     # If the directory is not remote, add it to the recently opened menu list
-    if {$opts(-remote) eq ""} {
+    if {$opts(-record) && ($opts(-remote) eq "")} {
       add_to_recently_opened $dir
     }
 
-    # Variable preparation
-    set dirs [list]
+    # Search for the directory or an ancestor
     set tdir $dir
-    foreach item [$widgets(tl) tag has d] {
-      lappend dirs [list "[$widgets(tl) set $item name],[$widgets(tl) set $item remote]" $item]
-    }
-
-    # Search for the directory
-    while {([set index [lsearch -index 0 $dirs "$tdir,$opts(-remote)"]] == -1) && ($tdir ne "/")} {
+    while {([set found [$widgets(tl) tag has "$tdir,$opts(-remote)"]] eq "") && ($tdir ne "/")} {
       set tdir [file dirname $tdir]
     }
 
-    if {$tdir eq "/"} {
-      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags d]
+    # If the directory was not found, insert the directory as a root directory
+    if {$found eq ""} {
+      set roots  [$widgets(tl) children {}]
+      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags [list d $dir,$opts(-remote)]]
+
+    # Otherwise, add missing hierarchy to make directory visible
     } else {
-      puts "tdir: $tdir, dir: $dir"
-      set parent [lindex $dirs $index 1]
+      set parent $found
       foreach tdir [lrange [file split $dir] [llength [file split $tdir]] end] {
-        puts "Adding subdirectory, parent: [lindex $dirs $index 0], tdir: $tdir"
         set parent [add_subdirectory $parent $opts(-remote) $tdir]
       }
     }
 
-    # Add subdirectory
+    # Show the directory's contents (if they are not already displayed)
     if {[$widgets(tl) item $parent -open] == 0} {
       add_subdirectory $parent $opts(-remote)
       $widgets(tl) item $parent -open 1
@@ -715,25 +712,20 @@ namespace eval sidebar {
 
     # If we just inserted a root directory, check for other rooted directories
     # that may be children of this directory and merge them.
-    if {[$widgets(tl) parent $parent] eq ""} {
+    if {$found eq ""} {
 
       # Remove any rooted directories that exist within this directory
       set dirlen [string length $dir]
-      set ocount 0
-      foreach root [$widgets(tl) children {}] {
+      set ocount [$widgets(tl) set $parent ocount]
+      foreach root $roots {
         set remote [$widgets(tl) set $root remote]
         set name   [$widgets(tl) set $root name]
-        if {($root ne $parent) && \
-            ($remote eq $opts(-remote)) && \
-            ([string compare -length $dirlen $name $dir] == 0)} {
-          puts "Merging $name into parent $dir"
+        if {($remote eq $opts(-remote)) && ([string compare -length $dirlen $name $dir] == 0)} {
           $widgets(tl) detach $root
-          set row   [add_directory $name -remote $remote]
-          break
+          set row   [add_directory $name -remote $remote -record 0]
           set prow  [$widgets(tl) parent $row]
           set index [$widgets(tl) index $row]
           $widgets(tl) delete $row
-          puts "root: $root, root name: $name, row: $row, prow: $prow, index: $index, root exists: [$widgets(tl) exists $root], prow exists: [$widgets(tl) exists $prow]"
           $widgets(tl) move $root $prow $index
           incr ocount [$widgets(tl) set $root ocount]
         }
@@ -744,23 +736,11 @@ namespace eval sidebar {
 
     }
 
+    # Make sure that the directory is visible
+    $widgets(tl) see $parent
+
     return $parent
 
-  }
-
-  ######################################################################
-  proc merge_root_dirs {target} {
-
-    variable widgets
-
-    foreach child [$widgets(tl) children {}] {
-      if {($child ne $target) && \
-          ([$widgets(tl) set $child remote] eq $opts(-remote)) && \
-          ([string compare -length $dirlen [$widgets(tl) set $child name] $dir] == 0)} {
-        $widgets(tl) delete $child
-        FOOBAR
-      }
-    }
   }
 
   ######################################################################
@@ -781,13 +761,13 @@ namespace eval sidebar {
       lassign $name fname dir
 
       if {$dir} {
-        set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 0 -tags d]
+        set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 0 -tags [list d $fname,$remote]]
         if {[file tail $fname] eq $fdir} {
           set frow $child
         }
       } else {
         if {![ignore_file $fname]} {
-          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 1 -tags f]
+          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 1 -tags [list f $fname,$remote]]
           if {[gui::file_exists_in_nb $fname $remote]} {
             set_image $key sidebar_open
             update_root_count $key 1
@@ -895,7 +875,7 @@ namespace eval sidebar {
         while {1} {
           if {$compare == 1} {
             set node [$widgets(tl) insert $parent [$widgets(tl) index $child] -text [file tail $fname] \
-              -values [list $fname 0 $remote] -open 1 -tags [expr {$isdir ? "d" : "f"}]]
+              -values [list $fname 0 $remote] -open 1 -tags [list [expr {$isdir ? "d" : "f"}] $fname,$remote]]
             if {$isdir} {
               $widgets(tl) item $node -open 0
             } elseif {[gui::file_exists_in_nb [lindex $dir_file 0] $remote]} {
@@ -989,7 +969,7 @@ namespace eval sidebar {
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
-            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags f]
+            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags [list f $fname,$remote]]
             update_root_count $node 1
             return
           }
@@ -998,7 +978,7 @@ namespace eval sidebar {
       }
 
       # Insert the file at the end of the parent
-      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags f]
+      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags [list f $fname,$remote]]
       update_root_count $node 1
 
     }
@@ -1407,7 +1387,7 @@ namespace eval sidebar {
   }
 
   ######################################################################
-  # SHow all of the open files in the current directory.
+  # Show all of the open files in the current directory.
   proc show_folder_files {rows} {
 
     variable widgets
@@ -1606,10 +1586,7 @@ namespace eval sidebar {
     variable widgets
 
     foreach row [lreverse $rows] {
-
-      # Do a directory expansion
       expand_directory $row
-
     }
 
   }
@@ -1627,25 +1604,6 @@ namespace eval sidebar {
 
     # Add the parent directory to the sidebar
     add_directory $dname -remote $remote
-
-    if {0} {
-      # Find/move children
-      set ocount 0
-      foreach child $children {
-        foreach row [$widgets(tl) children $parent] {
-          if {([$widgets(tl) set $row name] eq [$widgets(tl) set $child name]) && \
-              ([$widgets(tl) set $row remote] eq $remote)} {
-            set index [$widgets(tl) index $row]
-            $widgets(tl) delete $row
-            $widgets(tl) move $child $parent $index
-            incr ocount [$widgets(tl) set $child ocount]
-          }
-        }
-      }
-
-      # Set the ocount value of the new parent directory
-      $widgets(tl) set $parent ocount $ocount
-    }
 
   }
 
@@ -1843,7 +1801,7 @@ namespace eval sidebar {
 
     # Add the file to the sidebar (just below the currently selected line)
     set new_row [$widgets(tl) insert [$widgets(tl) parent $row] [expr [$widgets(tl) index $row] + 1] \
-      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote] -open 1 -tags f]
+      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote] -open 1 -tags [list f $dup_fname,$remote]]
 
     # Allow any plugins to handle the rename
     plugins::handle_on_duplicate $fname $dup_fname
@@ -1991,46 +1949,21 @@ namespace eval sidebar {
   }
 
   ######################################################################
-  # Recursively expands the tablelist to show the given filename.
-  proc view_file_helper {parent fdir remote} {
-
-    variable widgets
-
-    foreach child [$widgets(tl) children $parent] {
-      set dir [$widgets(tl) set $child name]
-      if {([string compare -length [string length $dir] $fdir $dir] == 0) && \
-          ([$widgets(tl) set $child remote] eq $remote)} {
-        expand_directory $child
-        if {$fdir ne $dir} {
-          view_file_helper $child $fdir $remote
-        }
-        return 1
-      }
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
   # Shows the given filename in the sidebar browser.  Adds parent
   # directory if the file does not exist in the sidebar.
   proc view_file {fname remote} {
 
     variable widgets
 
-    # Show the file in the sidebar
-    if {![view_file_helper "" [file dirname $fname] $remote]} {
+    # Find the item.  If it is not found, add its directory.
+    if {[set found [$widgets(tl) tag has $fname,$remote]] eq ""} {
       add_directory [file dirname $fname] -remote $remote
+      set found [$widgets(tl) tag has $fname,$remote]
     }
 
     # Put the file into view
-    foreach row [$widgets(tl) tag has f] {
-      if {([$widgets(tl) set $row name] eq $fname) && ([$widgets(tl) set $row remote] eq $remote)} {
-        $widgets(tl) selection set $row
-        $widgets(tl) see $row
-      }
-    }
+    $widgets(tl) selection set $found
+    $widgets(tl) see $found
 
   }
 
