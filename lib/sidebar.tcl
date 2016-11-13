@@ -707,7 +707,6 @@ namespace eval sidebar {
     # Show the directory's contents (if they are not already displayed)
     if {[$widgets(tl) item $parent -open] == 0} {
       add_subdirectory $parent $opts(-remote)
-      $widgets(tl) item $parent -open 1
     }
 
     # If we just inserted a root directory, check for other rooted directories
@@ -737,7 +736,11 @@ namespace eval sidebar {
     }
 
     # Make sure that the directory is visible
-    $widgets(tl) see $parent
+    set row $parent
+    while {$row ne ""} {
+      $widgets(tl) item $row -open 1
+      set row [$widgets(tl) parent $row]
+    }
 
     return $parent
 
