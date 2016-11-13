@@ -360,7 +360,7 @@ namespace eval gui {
     set widgets(fif_find)  [ttk::entry $widgets(fif).ef]
     set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable [ns gui]::case_sensitive]
     ttk::label $widgets(fif).li -text "In: "
-    set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font]]
+    set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font] -tokenshape square]
     set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text [msgcat::mc "Save"] \
       -variable [ns gui]::saved -command "[ns search]::update_save fif"]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image form_close]
