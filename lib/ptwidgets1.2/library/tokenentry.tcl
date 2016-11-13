@@ -55,7 +55,7 @@ namespace eval tokenentry {
     -yscrollcommand      1
     -autoseparators      1
   }
-  
+
   array set widget_options {
     -autoseparators         {autoSeparators         AutoSeparators}
     -background             {background             Background}
@@ -129,21 +129,21 @@ namespace eval tokenentry {
     variable dropdown_token
     variable state
     variable tags
-    
+
     # The widget will be a frame
     frame $w -class TokenEntry -takefocus 0
-    
+
     # Initially, we pack the frame with a text widget
     text $w.txt -highlightthickness 0 -relief flat -bg white -spacing1 2 -spacing2 2 -spacing3 2 -takefocus 1
 
     # Pack the text widget
     pack $w.txt -side left -fill both -expand yes
-    
+
     # Create the popup window that might be used by this widget
     toplevel  $w.top
     listbox   $w.top.list -selectmode browse -background white -yscrollcommand "$w.top.vsb set" -exportselection 0 -borderwidth 0 -cursor top_left_arrow
     ttk::scrollbar $w.top.vsb -command "$w.top.list yview"
-    
+
     pack $w.top.list -side left -fill both -expand y
 
     # Handle the popup
@@ -203,7 +203,7 @@ namespace eval tokenentry {
     set state($w)          "unknown"
     set tags($w,entry)     "entry$w"
     set tags($w,list)      "list$w"
-    
+
     # Initialize the options array
     foreach opt [array names widget_options] {
       set options($w,$opt) [option get $w [lindex $widget_options($opt) 0] [lindex $widget_options($opt) 1]]
@@ -212,10 +212,10 @@ namespace eval tokenentry {
     # Set the bindtags for the text and listbox widgets
     bindtags $w.txt      [linsert [bindtags $w.txt]      1 $tags($w,entry) TokenEntryEntry]
     bindtags $w.top.list [linsert [bindtags $w.top.list] 1 $tags($w,list)  TokenEntryList]
-    
+
     # Setup bindings
     if {[llength [bind TokenEntryEntry]] == 0} {
-    
+
       bind $w <FocusIn>       {
         tokenentry::focus_in %W
       }
@@ -330,7 +330,7 @@ namespace eval tokenentry {
       }
 
     }
-    
+
     # Configure the widget
     eval "configure 1 $w $args"
 
@@ -341,7 +341,7 @@ namespace eval tokenentry {
     return $w
 
   }
-  
+
   ###########################################################################
   # This procedure is called when the widget is destroyed.
   proc handle_destroy {w} {
@@ -360,7 +360,7 @@ namespace eval tokenentry {
     foreach {key value} [array get images $w,*] {
       image delete $value
     }
-    
+
     # Delete the array values, themselves
     array unset images $w,*
 
@@ -380,20 +380,20 @@ namespace eval tokenentry {
   ###########################################################################
   # Handles focus in event to this widget.
   proc focus_in {w} {
-  
+
     variable options
     variable state
-    
+
     # If the widget is disabled, don't continue
     if {$state($w) eq "disabled"} {
       return
     }
-    
+
     # Set the focus to the text field
     focus $w.txt
-  
+
   }
-  
+
   ###########################################################################
   # Changes focus to the next window after w.
   proc focus_next {w} {
@@ -407,16 +407,16 @@ namespace eval tokenentry {
   # Handles a keypress that would normally cause an immediate tokenization
   # of the text.
   proc handle_tokenize_key {w} {
-  
+
     variable options
-    
+
     if {($options($w,-listvar) eq "") || !$options($w,-listvaronly)} {
       set tokenentry::dont_tokenize($w) 0;
       tokenentry::tokenize $w
     }
-  
+
   }
-  
+
   ###########################################################################
   # This procedure is called when the text widget is modified.
   proc modified {w} {
@@ -456,31 +456,31 @@ namespace eval tokenentry {
   # If the selection of the text box changes, make sure that any selected
   # tokens are updated appropriately.
   proc handle_selection_change {w} {
-    
+
     # Don't allow the selection to contain tokens
     foreach token [$w.txt window names] {
       if {[lsearch [$w.txt tag names $token] sel] != -1} {
         $w.txt tag remove sel $token
       }
     }
-    
+
   }
-  
+
   ###########################################################################
   # This procedure is called whenever the user performs a paste selection event
   # on the widget.
   proc paste_selection {w} {
-    
+
     if {[catch "tk::GetSelection $w PRIMARY"]} {
       return 1
     } else {
-      handle_state $w 1      
+      handle_state $w 1
     }
-    
+
     return 0
-    
+
   }
-  
+
   ###########################################################################
   # Validation command.
   proc validate {w str} {
@@ -500,23 +500,23 @@ namespace eval tokenentry {
   ###########################################################################
   # Handles a left or right arrow key event.
   proc key_left_right {w dir {token ""}} {
-  
+
     variable options
     variable active_token
-    
+
     if {$token eq ""} {
-    
+
       # Don't do anything if the current insertion cursor is the beginning or end
       if {(([$w.txt index insert] ne "1.0") || ($dir eq "right")) && \
           (([$w.txt index insert] ne [$w.txt index end]) || ($dir eq "left"))} {
-    
+
         # Get the current insertion index
         if {$dir eq "left"} {
           set index [$w.txt index "insert - 1 chars"]
         } else {
           set index [$w.txt index insert]
         }
-      
+
         # If a token exists at the given index, select it.
         foreach token [$w.txt window names] {
           if {[$w.txt index $token] eq $index} {
@@ -526,41 +526,41 @@ namespace eval tokenentry {
             return
           }
         }
-        
+
       }
-      
+
     } else {
-    
+
       # Clear the active token
       set active_token($w) ""
-      
+
       # Deselect the token
       reverse_token $w $token
-      
+
       # Close the dropdown listbox if it is opened
       if {($options($w,-listvar) eq "") || !$options($w,-listvaronly)} {
         close_dropdown $w
       }
-      
+
       # If the direction was a positive direction, increase the insertion cursor by one character
       if {($dir eq "right") && ([$w.txt index $token] eq [$w.txt index insert])} {
         $w.txt mark set insert "insert + 1 chars"
       }
-      
+
       # Get the text entry field the focus
       focus $w.txt
-      
+
     }
-    
+
   }
-  
+
   ###########################################################################
   # This procedure is invoked when the user hits the down key when the text
   # has the focus.
   proc key_down {w {token ""}} {
 
     variable options
-    
+
     if {[winfo ismapped $w.top]} {
       tk::ListboxUpDown $w.top.list 1
       return -code break
@@ -601,10 +601,10 @@ namespace eval tokenentry {
     if {[winfo ismapped $w.top]} {
 
       upvar #0 $options($w,-listvar) listvar
-      
+
       # Handle the state
       handle_state $w 1
-      
+
       # Get the currently selected value
       set value [lindex $listvar [lindex $current_matches($w) [$w.top.list curselection]] $options($w,-matchdisplayindex)]
 
@@ -614,7 +614,7 @@ namespace eval tokenentry {
       while {($curr_index != $end_index) && ([$w.txt get $curr_index] eq "")} {
         set curr_index [$w.txt index "$curr_index + 1 chars"]
       }
-      
+
       # If the result is associated with a token, change the token text
       if {$dropdown_token($w) ne ""} {
         $dropdown_token($w).l1 configure -text $value
@@ -634,14 +634,14 @@ namespace eval tokenentry {
 
       # Close the dropbox
       close_dropdown $w
-      
+
     # If this return was hit for a token, detokenize the current token to make it editable
     } elseif {$token ne ""} {
 
       detokenize $w $token
-      
+
     } else {
-    
+
       # Tokenize the text
       tokenize $w
 
@@ -654,23 +654,23 @@ namespace eval tokenentry {
   # has the focus.  This will cause the dropdown listbox to be closed if
   # it is currently opened.
   proc key_escape {w} {
-  
+
     variable options
-    
+
     # Just close the dropdown listbox
     if {($options($w,-listvar) eq "") || !$options($w,-listvaronly)} {
       close_dropdown $w
     }
-    
+
   }
-  
+
   ###########################################################################
   # This procedure is called whenever the user presses a key in the text box.
   proc keypress {w} {
 
     # Update the current state
     handle_state $w 1
-    
+
     after idle [list tokenentry::handle_entry_key $w]
 
     # Clear the listbox selection so that it's obvious what will happen if the user
@@ -691,7 +691,7 @@ namespace eval tokenentry {
     variable current_matches
     variable dont_tokenize
     variable state
-    
+
     # Handle the current state
     handle_state $w 1
 
@@ -747,7 +747,7 @@ namespace eval tokenentry {
     } elseif {$options($w,-listvaronly) && ([$w.txt get 1.0 "end - 1 chars"] ne "") && ($state($w) ne "empty")} {
       $w.txt delete "insert - 1 chars"
       handle_entry_key $w
-      
+
     # Otherwise, close the dropdown list
     } else {
       close_dropdown $w
@@ -759,9 +759,9 @@ namespace eval tokenentry {
   # Handles any sort of movement of the insertion cursor or selection within
   # the text widget.
   proc handle_text_movement {w} {
-  
+
     variable state
-    
+
     # If we are empty, always set the insertion cursor to 1.0
     if {$state($w) eq "empty"} {
       $w.txt mark set insert 1.0
@@ -769,9 +769,9 @@ namespace eval tokenentry {
       focus $w.txt
       return 1
     }
-    
+
     return 0
-    
+
   }
 
   ###########################################################################
@@ -803,7 +803,7 @@ namespace eval tokenentry {
   ###########################################################################
   # Handles a Control-c binding on the given widget.
   proc handle_copy {w} {
-  
+
     if {[focus] eq $w} {
       set select [$w.txt tag ranges sel]
       if {[llength $select] == 0} {
@@ -817,16 +817,16 @@ namespace eval tokenentry {
       clipboard clear
       clipboard append [[focus].l1 cget -text]
     }
-  
+
   }
-  
+
   ###########################################################################
   # Handles a Control-v binding on the given widget.
   proc handle_paste {w} {
-  
+
     # Handle the current state
     handle_state $w 1
-  
+
     # Insert the clipboard text
     $w.txt insert insert [clipboard get]
 
@@ -853,11 +853,11 @@ namespace eval tokenentry {
     }
     set l1_width  [winfo reqwidth  $token.l1]
     set l1_height [winfo reqheight $token.l1]
-    
+
     # Get the needed shapes
     set shape_left  [lindex $token_shapes($token) 0]
     set shape_right [lindex $token_shapes($token) end]
-       
+
     # Create the token images, if necessary
     if {![info exists images($w,left,$l1_height,$usebc,$txt_bg,$shape_left)]} {
       set images($w,left,$l1_height,$usebc,$txt_bg,$shape_left) [image create bitmap -data [eval "tokenframe::create_left $shape_left $l1_height"] -maskdata [eval "tokenframe::create_left_mask $shape_left $l1_height"] -foreground $usebc -background $txt_bg]
@@ -931,9 +931,9 @@ namespace eval tokenentry {
     redraw_token $w $token 1
 
     # Pack the labels
-    pack $token.l2.top -anchor n
+    # pack $token.l2.top -anchor n
     pack $token.l2.mid -fill y -expand yes
-    pack $token.l2.bot -anchor s
+    # pack $token.l2.bot -anchor s
 
     pack $token.ll -side left
     pack $token.l1 -side left
@@ -1011,7 +1011,7 @@ namespace eval tokenentry {
       set dont_tokenize($w) 0
       return
     }
-    
+
     # If our current state is empty, be done
     if {$state($w) eq "empty"} {
       return
@@ -1052,7 +1052,7 @@ namespace eval tokenentry {
 
     variable dont_tokenize
     variable active_token
-    
+
     # Change the focus to the textbox prior to deleting the token to avoid
     # having the token be tokenized immediately
     focus $w.txt
@@ -1075,7 +1075,7 @@ namespace eval tokenentry {
 
     # Make sure that we don't tokenize this string
     set dont_tokenize($w) 1
-    
+
     # Clear the active token
     set active_token($w) ""
 
@@ -1102,7 +1102,7 @@ namespace eval tokenentry {
     if {$last_pos ne ""} {
       $w.txt mark set insert $last_pos
     }
-    
+
     # Clear the active token
     set active_token($w) ""
 
@@ -1129,7 +1129,7 @@ namespace eval tokenentry {
     if {[is_selected $token]} {
       reverse_token $w $token
     }
-    
+
     # Clear the active token
     set active_token($w) ""
 
@@ -1139,7 +1139,7 @@ namespace eval tokenentry {
   }
 
   ###########################################################################
-  # This procedure is called whenever a token is left-pressed.  It allows a 
+  # This procedure is called whenever a token is left-pressed.  It allows a
   # drag and drop option to move the token.
   proc handle_token_press {w token x y} {
 
@@ -1213,16 +1213,16 @@ namespace eval tokenentry {
 
       # If the token is currently selected, detokenize the selection
       if {$active_token($w) == [$w.txt index $token]} {
-        
+
         detokenize $w $token
-        
+
         # Clear the pressed token
         set pressed_token($w) ""
-        
+
         return
-        
+
       } else {
-        
+
         # Reverse the color scheme
         reverse_token $w $token
 
@@ -1231,10 +1231,10 @@ namespace eval tokenentry {
 
         # Make sure that the current token keeps the focus
         focus $token
-        
+
         # Generate the TokenEntrySelected event
         event generate $w <<TokenEntrySelected>>
-        
+
       }
 
     # Otherwise, the token has been dragged to a new position -- delete it and recreate it in the new position
@@ -1275,17 +1275,17 @@ namespace eval tokenentry {
   # Populates the dropdown listbox with the items from the -listvar list
   # and displays the listbox.
   proc display_dropdown_items {w token} {
-  
+
     variable options
     variable current_matches
-    
+
     if {[info exists options($w,-listvar)] && ($options($w,-listvar) ne "")} {
-    
+
       upvar #0 $options($w,-listvar) listvar
-    
+
       # Remove all of the items from the dropdown list
       $w.top.list delete 0 end
-    
+
       # Populate the dropdown list with the list of items from listvar
       set current_matches($w) [list]
       foreach value $listvar {
@@ -1295,18 +1295,18 @@ namespace eval tokenentry {
         }
         $w.top.list insert end [eval "format {$options($w,-dropdownformatstring)} $value"]
       }
-    
+
       # Activate and select the first item in the list
       $w.top.list activate 0
       $w.top.list selection set 0
-    
+
       # Show the dropdown list
       open_dropdown $w $token
-      
+
     }
-      
+
   }
-  
+
   ###########################################################################
   # This procedure is called whenever an arrow token is left-clicked.  It changes
   # the state of the token.
@@ -1556,7 +1556,7 @@ namespace eval tokenentry {
     variable old_focus
     variable old_grab
     variable dropdown_token
-    
+
     # If the window is already unmapped, stop
     if {![winfo ismapped $w.top]} {
       return 0
@@ -1590,7 +1590,7 @@ namespace eval tokenentry {
   ###########################################################################
   # This is called whenever the cursor moves over the listbox.
   proc motion_dropdown {w x y} {
-    
+
     # Set the cursor
     $w.top.list configure -cursor ""
 
@@ -1601,20 +1601,20 @@ namespace eval tokenentry {
     $w.top.list selection set @$x,$y
 
   }
-  
+
   ###########################################################################
   # Handles the current state of the widget (empty/non-empty) and handles
   # any watermark display (or removal of the display).
   proc handle_state {w keyed} {
-  
+
     variable state
     variable options
-    
+
     # If we are in the empty state
     if {$state($w) eq "empty"} {
-    
+
       $w.txt delete 1.0 end
-      
+
       if {$keyed} {
         set state($w) "non-empty"
         $w.txt configure -foreground $options($w,-foreground)
@@ -1623,10 +1623,10 @@ namespace eval tokenentry {
         $w.txt insert end $options($w,-watermark)
         $w.txt mark set insert 1.0
       }
-    
+
     # Otherwise, we are in the not-empty state
     } elseif {$state($w) eq "non-empty"} {
-    
+
       # If the widget is empty, set the state to empty and fill it with the
       # empty string.
       if {([$w.txt get 1.0 {end - 1 chars}] eq "") && ([llength [$w.txt window names]] == 0)} {
@@ -1635,9 +1635,9 @@ namespace eval tokenentry {
         $w.txt insert end $options($w,-watermark)
         $w.txt mark set insert 1.0
       }
-      
+
     }
-  
+
   }
 
   ###########################################################################
@@ -1689,7 +1689,7 @@ namespace eval tokenentry {
   ###########################################################################
   # Handles all commands.
   proc widget_cmd {w args} {
-    
+
     if {[llength $args] == 0} {
       return -code error "tokenentry widget called without a command"
     }
@@ -1740,9 +1740,9 @@ namespace eval tokenentry {
     variable state
 
     if {([llength $args] == 0) && !$initialize} {
-    
+
       set results [list]
-      
+
       foreach opt [lsort [array names widget_options]] {
         if {[llength $widget_options($opt)] == 2} {
           set opt_name    [lindex $widget_options($opt) 0]
@@ -1757,13 +1757,13 @@ namespace eval tokenentry {
 		  }
 	    }
       }
-      
+
       return $results
-      
+
     } elseif {([llength $args] == 1) && !$initialize} {
-    
+
       set opt [lindex $args 0]
-      
+
       if {[info exists widget_options($opt)]} {
         if {[llength $widget_options($opt)] == 1} {
           set opt [lindex $widget_options($opt) 0]
@@ -1779,11 +1779,11 @@ namespace eval tokenentry {
           return [list $opt $opt_name $opt_class $opt_default ""]
         }
       }
-      
+
       return -code error "TokenEntry configuration option [lindex $args 0] does not exist"
-    
+
     } else {
-    
+
       # Save the original contents
       array set orig_options [array get options]
 
@@ -1818,7 +1818,7 @@ namespace eval tokenentry {
         set options($w,-wrap) $orig_options($w,-wrap)
         return -code error "Value for -wrap option is not a boolean value ($options($w,-wrap))"
       }
-      
+
       # If the textbox is empty, configure it for the watermark
       if {$options($w,-watermark) ne ""} {
         set state($w) "empty"
@@ -1829,11 +1829,11 @@ namespace eval tokenentry {
           ($orig_options($w,-dropdownmaxheight) ne $options($w,-dropdownmaxheight))} {
         handle_scrollbar $w
       }
-    
+
       # Update the tokens, if necessary
       if {($orig_options($w,-tokenbg)        ne $options($w,-tokenbg))        || ($orig_options($w,-tokenfg)         ne $options($w,-tokenfg)) || \
           ($orig_options($w,-tokenselectbg)  ne $options($w,-tokenselectbg))  || ($orig_options($w,-tokenselectfg)   ne $options($w,-tokenselectfg)) || \
-          ($orig_options($w,-tokenshape)     ne $options($w,-tokenshape))} {      
+          ($orig_options($w,-tokenshape)     ne $options($w,-tokenshape))} {
         set token_num [llength [$w.txt window names]]
         for {set i 0} {$i < $token_num} {incr i} {
           tokenconfigure $w $i -bg $options($w,-tokenbg) -fg $options($w,-tokenfg) \
@@ -1841,7 +1841,7 @@ namespace eval tokenentry {
                                -shape $options($w,-tokenshape)
         }
       }
-      
+
     }
 
   }
@@ -1870,29 +1870,29 @@ namespace eval tokenentry {
   ###########################################################################
   # Returns the name of the entry bind tag to use for the specified widget.
   proc entrytag {w} {
-  
+
     variable tags
-    
+
     if {[info exists tags($w,entry)]} {
       return $tags($w,entry)
     } else {
       return -code error "Bad widget pathname given to the entrytag command ($w)"
     }
-    
+
   }
-  
+
   ###########################################################################
   # Returns the name of the list bind tag to use for the specified widget.
   proc listtag {w} {
-  
+
     variable tags
-    
+
     if {[info exists tags($w,entry)]} {
       return $tags($w,list)
     } else {
       return -code error "Bad widget pathname given to the listtag command ($w)"
     }
-    
+
   }
 
   ###########################################################################
@@ -1900,7 +1900,7 @@ namespace eval tokenentry {
   proc tokenconfigure {w args} {
 
     variable token_shapes
-    
+
     if {[expr [llength $args] % 2] == 0} {
       return -code error "Incorrect number of parameters given to the tokenconfigure command"
     }
@@ -2022,7 +2022,7 @@ namespace eval tokenentry {
   proc tokencget {w args} {
 
     variable token_shapes
-    
+
     if {[llength $args] != 2} {
       return -code error "Incorrect number of options given to the tokencget command"
     }
@@ -2182,7 +2182,7 @@ namespace eval tokenentry {
     if {$index eq ""} {
       set index [$w.txt index "1.[lindex $args 0]"]
     }
-    
+
     # Make sure that all inserted text is tokenized
     set dont_tokenize($w) 0
 
@@ -2192,7 +2192,7 @@ namespace eval tokenentry {
 
       # Handle the current state
       handle_state $w 1
-      
+
       # Insert the text into the widget
       $w.txt insert $index $value
 
@@ -2234,7 +2234,7 @@ namespace eval tokenentry {
     }
 
   }
- 
+
   ###########################################################################
   # Converts tokenentry bbox command to a text bbox command.
   proc bbox {w args} {
@@ -2297,7 +2297,7 @@ namespace eval tokenentry {
     if {[llength $args] != 1} {
       return -code error "tokenentry::icursor called with wrong arguments"
     }
-    
+
     if {$state($w) eq "empty"} {
       return [$w.txt mark set insert 1.0]
     } else {
@@ -2327,7 +2327,7 @@ namespace eval tokenentry {
   ###########################################################################
   # Overrides the text insert command to handle watermarks.
   proc insert {w args} {
-  
+
     if {([llength $args] != 1) && ([llength $args] != 2)} {
       return -code error "tokenentry::insert called with wrong arguments"
     }
@@ -2339,9 +2339,9 @@ namespace eval tokenentry {
     } else {
       handle_state $w 0
     }
-  
+
     return [eval "$w.txt insert [entry_to_text_index $w [lindex $args 0]] [lindex $args 1]"]
-    
+
   }
 
   ###########################################################################
@@ -2380,7 +2380,7 @@ namespace eval tokenentry {
 
     return ""
 
-  } 
+  }
 
   namespace export *
 
