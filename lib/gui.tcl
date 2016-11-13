@@ -3423,15 +3423,15 @@ namespace eval gui {
     focus $widgets(ursp_entry)
 
     # Wait for the ursp_entry widget to be visible and then grab it
-    tkwait visibility $widgets(ursp_entry)
-    grab $widgets(ursp_entry)
+    tkwait visibility $widgets(ursp)
+    grab $widgets(ursp)
 
     # Wait for the widget to be closed
     vwait [ns gui]::user_exit_status
 
     # Reset the original focus and grab
     catch { focus $old_focus }
-    catch { grab release $widgets(ursp_entry) }
+    catch { grab release $widgets(ursp) }
     if {$old_grab ne ""} {
       if {$grab_status ne "global"} {
         grab $old_grab
