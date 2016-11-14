@@ -8,6 +8,9 @@ namespace eval remote {
     variable base_dir
     variable remote
 
+    # Load the connection information
+    remote::quick_load_connections
+
     # Create connection name
     set remote "Home,localhost"
 
@@ -49,8 +52,6 @@ namespace eval remote {
     # Add the base directory into the sidebar
     sidebar::add_directory $base_dir -remote $remote
 
-    return $remote
-
   }
 
   ######################################################################
@@ -80,7 +81,7 @@ namespace eval remote {
   proc run_test1 {} {
 
     # Initialize the GUI
-    set remote [initialize]
+    initialize
 
     set children [$sidebar::widgets(tl) children {}]
 
