@@ -1758,7 +1758,7 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         if {![catch { ::FTP_CD $name [file dirname $fname] } rc]} {
-          if {![catch { ::FTP_List $name 0 } rc] rc} {
+          if {![catch { ::FTP_List $name 0 } rc]} {
             return [expr {[find_fname $rc [file tail $fname]] ne ""}]
           } else {
             logger::log $rc
