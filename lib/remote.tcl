@@ -1927,17 +1927,38 @@ namespace eval remote {
 
   ######################################################################
   # Removes one or more directories on the server.
-  proc remove_directories {name dirnames} {
+  proc remove_directories {name dirnames args} {
 
     variable connections
+
+    array set opts {
+      -force 0
+    }
+    array set opts $args
 
     # Delete the list of directories
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
-        foreach dirname $dirnames {
-          if {[catch { ::FTP_RmDir $name $dirname } rc]} {
-            logger::log $rc
+        if {$opts(-force)} {
+          foreach dirname $dirnames {
+            set items [list]
+            if {[dir_contents $name $dirname items]} {
+              foreach item $items {
+                lassign $item fname isdir
+                if {$isdir} {
+                  remove_directories $name $fname -force 1
+                } else {
+                  remove_files $name $fname
+                }
+              }
+            }
+          }
+        } else {
+          foreach dirname $dirnames {
+            if {[catch { ::FTP_RmDir $name $dirname } rc]} {
+              logger::log $rc
+            }
           }
         }
         return 1
