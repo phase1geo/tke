@@ -17,7 +17,7 @@ namespace eval remote {
     }
 
     # Create base directory
-    if {![remote::make_directory $remote [set base_dir [file join $::tke_home sidebar_test]]]} {
+    if {![remote::make_directory $remote [set base_dir [file join $::tke_home remote_test]]]} {
       return -code error "Unable to create base directory on remote server"
     }
 
@@ -98,7 +98,7 @@ namespace eval remote {
       cleanup "Loaded directory is not a root directory ([sidebar::row_type $parent])"
     }
 
-    if {[$sidebar::widgets(tl) item $parent -text] ne "sidebar_test"} {
+    if {[$sidebar::widgets(tl) item $parent -text] ne "remote_test"} {
       cleanup "Root directory name is incorrect ([$sidebar::widgets(tl) item $parent -text])"
     }
 
@@ -273,7 +273,7 @@ namespace eval remote {
     # Copy the pathname of the current row
     sidebar::copy_pathname $parent
 
-    if {[clipboard get] ne [file join $::tke_home sidebar_test]} {
+    if {[clipboard get] ne [file join $::tke_home remote_test]} {
       cleanup "Pathname was incorrect ([clipboard get])"
     }
 
@@ -289,32 +289,32 @@ namespace eval remote {
 
     set parent [lindex [$sidebar::widgets(tl) children {}] 0]
 
-    if {[$sidebar::widgets(tl) item $parent -text] ne "sidebar_test"} {
+    if {[$sidebar::widgets(tl) item $parent -text] ne "remote_test"} {
       cleanup "Original tree node does not exist ([$sidebar::widgets(tl) item $parent -text])"
     }
 
     # Perform the folder rename
-    sidebar::rename_folder $parent -testname [file join $::tke_home sidebar_test2]
+    sidebar::rename_folder $parent -testname [file join $::tke_home remote_test2]
 
-    if {[file exists [file join $::tke_home sidebar_test]]} {
-      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
-      cleanup "The sidebar_test directory still exists after the rename"
+    if {[file exists [file join $::tke_home remote_test]]} {
+      file rename -force [file join $::tke_home remote_test2] [file join $::tke_home remote_test]
+      cleanup "The remote_test directory still exists after the rename"
     }
 
-    if {![file exists [file join $::tke_home sidebar_test2]]} {
-      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
-      cleanup "The sidebar_test2 directory was not created"
+    if {![file exists [file join $::tke_home remote_test2]]} {
+      file rename -force [file join $::tke_home remote_test2] [file join $::tke_home remote_test]
+      cleanup "The remote_test2 directory was not created"
     }
 
-    # Make sure that sidebar_test2 was moved and not just created
-    if {![file exists [file join $::tke_home sidebar_test2 glad.tcl]]} {
-      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
-      cleanup "The sidebar_test2 directory was not moved"
+    # Make sure that remote_test2 was moved and not just created
+    if {![file exists [file join $::tke_home remote_test2 glad.tcl]]} {
+      file rename -force [file join $::tke_home remote_test2] [file join $::tke_home remote_test]
+      cleanup "The remote_test2 directory was not moved"
     }
 
     # Make sure the directory was removed
     if {[$sidebar::widgets(tl) exists $parent]} {
-      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      file rename -force [file join $::tke_home remote_test2] [file join $::tke_home remote_test]
       cleanup "Original tree node still exists"
     }
 
@@ -322,16 +322,16 @@ namespace eval remote {
 
     # Make sure that only one new node exists in root
     if {[llength $parent] != 1} {
-      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+      file rename -force [file join $::tke_home remote_test2] [file join $::tke_home remote_test]
       cleanup "More than one node exists in the root ([llength $parent])"
     }
 
-    if {[$sidebar::widgets(tl) item [lindex $parent 0] -text] ne "sidebar_test2"} {
-      file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+    if {[$sidebar::widgets(tl) item [lindex $parent 0] -text] ne "remote_test2"} {
+      file rename -force [file join $::tke_home remote_test2] [file join $::tke_home remote_test]
       cleanup "Tree node does not exist ([$sidebar::widgets(tl) item [lindex $parent 0] -text]"
     }
 
-    file rename -force [file join $::tke_home sidebar_test2] [file join $::tke_home sidebar_test]
+    file rename -force [file join $::tke_home remote_test2] [file join $::tke_home remote_test]
 
     # Clean things up
     cleanup
@@ -358,6 +358,8 @@ namespace eval remote {
 
   proc run_test8 {} {
 
+    variable remote
+
     # Initialize for test
     initialize
 
@@ -376,7 +378,9 @@ namespace eval remote {
     }
 
     set children [$sidebar::widgets(tl) children [lindex $children 0]]
-    set items    [glob -directory $::tke_home *]
+
+    set items [list]
+    remote::dir_contents $remote $::tke_home items
 
     if {[llength $children] != [llength $items]} {
       cleanup "Parent directory contains incorrect number of items ([llength $children])"
@@ -384,7 +388,7 @@ namespace eval remote {
 
     set found 0
     foreach child $children {
-      if {[$sidebar::widgets(tl) item $child -text] eq "sidebar_test"} {
+      if {[$sidebar::widgets(tl) item $child -text] eq "remote_test"} {
         set found 1
         break
       }
@@ -469,11 +473,12 @@ namespace eval remote {
   proc run_test11 {} {
 
     variable base_dir
+    variable remote
 
     # Initialize
     initialize
 
-    set row [sidebar::get_index [file join $base_dir glad.tcl] ""]
+    set row [sidebar::get_index [file join $base_dir glad.tcl] $remote]
 
     if {$row eq ""} {
       cleanup "File was not found"
@@ -507,19 +512,20 @@ namespace eval remote {
   proc run_test12 {} {
 
     variable base_dir
+    variable remote
 
     # Initialize
     initialize
 
-    set row [sidebar::get_index [file join $base_dir glad.tcl] ""]
+    set row [sidebar::get_index [file join $base_dir glad.tcl] $remote]
 
     sidebar::rename_file $row -testname [file join $base_dir bald.tcl]
 
-    if {[sidebar::get_index [file join $base_dir glad.tcl] ""] ne ""} {
+    if {[sidebar::get_index [file join $base_dir glad.tcl] $remote] ne ""} {
       cleanup "glad.tcl was not removed from sidebar"
     }
 
-    if {[sidebar::get_index [file join $base_dir bald.tcl] ""] eq ""} {
+    if {[sidebar::get_index [file join $base_dir bald.tcl] $remote] eq ""} {
       cleanup "bald.tcl was not found in sidebar"
     }
 
@@ -539,12 +545,13 @@ namespace eval remote {
   proc run_test13 {} {
 
     variable base_dir
+    variable remote
 
     # Initialize
     initialize
 
     set parent [lindex [$sidebar::widgets(tl) children {}] 0]
-    set row    [sidebar::get_index [file join $base_dir glad.tcl] ""]
+    set row    [sidebar::get_index [file join $base_dir glad.tcl] $remote]
 
     sidebar::duplicate_file $row
 
@@ -552,7 +559,7 @@ namespace eval remote {
       cleanup "Duplicated file was not created ([llength [$sidebar::widgets(tl) children $parent]])"
     }
 
-    if {[set first [sidebar::get_index [file join $base_dir "glad Copy.tcl"] ""]] eq ""} {
+    if {[set first [sidebar::get_index [file join $base_dir "glad Copy.tcl"] $remote]] eq ""} {
       cleanup "glad Copy.tcl was not created in sidebar"
     }
 
@@ -566,7 +573,7 @@ namespace eval remote {
       cleanup "Second duplicate file was not created ([llength [$sidebar::widgets(tl) children $parent]])"
     }
 
-    if {[set second [sidebar::get_index [file join $base_dir "glad Copy 2.tcl"] ""]] eq ""} {
+    if {[set second [sidebar::get_index [file join $base_dir "glad Copy 2.tcl"] $remote]] eq ""} {
       cleanup "glad Copy 2.tcl was not created in sidebar"
     }
 
@@ -580,7 +587,7 @@ namespace eval remote {
       cleanup "Copied files were not deleted ([llength [$sidebar::widgets(tl) children $parent]])"
     }
 
-    if {[sidebar::get_index [file join $base_dir "glad Copy.tcl"] ""] ne ""} {
+    if {[sidebar::get_index [file join $base_dir "glad Copy.tcl"] $remote] ne ""} {
       cleanup "glad Copy.tcl was not deleted in sidebar"
     }
 
@@ -588,7 +595,7 @@ namespace eval remote {
       cleanup "glad Copy.tcl was not deleted in file system"
     }
 
-    if {[sidebar::get_index [file join $base_dir "glad Copy.tcl 2"] ""] ne ""} {
+    if {[sidebar::get_index [file join $base_dir "glad Copy.tcl 2"] $remote] ne ""} {
       cleanup "glad Copy 2.tcl was not deleted in sidebar"
     }
 
