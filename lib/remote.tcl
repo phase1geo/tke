@@ -1952,6 +1952,9 @@ namespace eval remote {
                   remove_files $name $fname
                 }
               }
+              if {[catch { ::FTP_RmDir $name $dirname } rc]} {
+                logger::log $rc
+              }
             }
           }
         } else {
