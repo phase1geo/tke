@@ -9,10 +9,7 @@ namespace eval remote {
     variable remote
 
     # Create connection name
-    set remote "foobar,test"
-
-    # Add the connection
-    set remote::connections($remote) [list "" "FTP" "localhost" "trevorw" "computerman" 21 $::tke_home]
+    set remote "Home,localhost"
 
     # Set base directory
     if {[remote::connect $remote] == 0} {
@@ -68,7 +65,7 @@ namespace eval remote {
     sidebar::clear
 
     # Delete the base directory
-    remote::remove_directories $remote $base_dir
+    remote::remove_directories $remote $base_dir -force 1
 
     # Disconnect
     remote::disconnect $remote
@@ -366,32 +363,25 @@ namespace eval remote {
 
     set parent [lindex [$sidebar::widgets(tl) children {}] 0]
 
-    puts "HERE A"
     sidebar::add_parent_directory $parent
 
-    puts "HERE B"
     set children [$sidebar::widgets(tl) children {}]
 
-    puts "HERE C"
     if {[llength $children] != 1} {
       cleanup "More than one child belongs to root ([llength $children])"
     }
 
-    puts "HERE D"
     if {[$sidebar::widgets(tl) item [lindex $children 0] -text] ne [file tail $::tke_home]} {
       cleanup "Parent directory is not displayed in root ([$sidebar::widgets(tl) item [lindex $children 0] -text])"
     }
 
-    puts "HERE E"
     set children [$sidebar::widgets(tl) children [lindex $children 0]]
     set items    [glob -directory $::tke_home *]
 
-    puts "HERE F"
     if {[llength $children] != [llength $items]} {
       cleanup "Parent directory contains incorrect number of items ([llength $children])"
     }
 
-    puts "HERE G"
     set found 0
     foreach child $children {
       if {[$sidebar::widgets(tl) item $child -text] eq "sidebar_test"} {
@@ -400,7 +390,6 @@ namespace eval remote {
       }
     }
 
-    puts "HERE H"
     if {!$found} {
       cleanup "Unable to find child directory"
     }
