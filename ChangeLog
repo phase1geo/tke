@@ -1,36 +1,102 @@
-changeset:   2511:c511ccf97adb
-tag:         devel-2.7.9
+changeset:   2515:511ea4394a71
+tag:         devel-2.7.10
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 10 07:38:35 2016 -0600
+date:        Fri Nov 11 07:49:24 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.9 release
+ChangeLog for devel-2.7.10 release
 
 
-changeset:   2512:aea178e2c5a5
+changeset:   2516:92f2b8ce7284
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 10 07:38:40 2016 -0600
+date:        Fri Nov 11 07:49:29 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.9 for changeset c511ccf97adb
+Added tag devel-2.7.10 for changeset 511ea4394a71
 
 
-changeset:   2513:c5bd54ba619b
+changeset:   2517:718422898787
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Nov 11 01:34:33 2016 -0600
+date:        Fri Nov 11 08:31:04 2016 -0600
 files:       lib/sidebar.tcl lib/version.tcl tests/sidebar.tcl
 description:
-* Fixing bug in sidebar folder rename function.
-* Checkpointing work on sidebar BIST.
+* Fixing issue when a directory is added which is a parent directory to a shown directory such that the child directory is not removed from the sidebar.
+* Completing sidebar BIST.
 
 
-changeset:   2514:21f77975900d
+changeset:   2518:749c5b714d4a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 12 10:05:15 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl tests/sidebar.tcl
+description:
+* Checkpointing work on root directory merging (not working yet).
+
+
+changeset:   2519:a9b7874e1f50
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 12 12:41:18 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing issue of merging directories in sidebar.
+* Other sidebar optimizations.
+
+
+changeset:   2520:349caebe61fd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 12 22:04:16 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Completing work on add_directory improvements.
+
+
+changeset:   2521:c67887f15449
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 12 22:45:52 2016 -0600
+files:       lib/version.tcl tests/remote.tcl
+description:
+* Starting to work on remote BIST.
+
+
+changeset:   2522:ae0e1cd0570b
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sat Nov 12 23:54:41 2016 -0600
+files:       lib/gui.tcl lib/ptwidgets1.2/library/tokenentry.tcl lib/version.tcl
+description:
+* Attempt to correct look of tokens in tokenentry widget.
+
+
+changeset:   2523:cd1a09cb7fd4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 13 00:08:00 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing issue with clicking on X button in general input field.
+
+
+changeset:   2524:4d9119cc1e40
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 13 23:57:57 2016 -0600
+files:       lib/remote.tcl lib/version.tcl tests/remote.tcl tests/sidebar.tcl
+description:
+* Adding -force option to remote::remove_directories.
+* Removing unnecessary debug output in sidebar BIST.
+
+
+changeset:   2525:4565a34dd170
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 14 00:15:10 2016 -0600
+files:       lib/remote.tcl lib/version.tcl
+description:
+* Fixing issue with use of -force option to remote::remove_directories.
+
+
+changeset:   2526:636df90efcf9
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Nov 11 02:21:54 2016 -0600
-files:       lib/sidebar.tcl lib/version.tcl tests/sidebar.tcl
+date:        Mon Nov 14 08:56:43 2016 -0600
+files:       lib/remote.tcl lib/version.tcl tests/remote.tcl
 description:
-* Fixing file rename function in sidebar.
-* More updates to sidebar BIST.
+* Fixing rest of remote regression failures.
+* Fixing syntax error in remote::file_exists.
 
 
