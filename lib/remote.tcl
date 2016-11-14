@@ -2086,6 +2086,26 @@ namespace eval remote {
   }
 
   ######################################################################
+  # This is used for BIST purposes only.  Loads the stored connections
+  # into the connections array but does not attempt to store the connection
+  # information into the UI.
+  proc quick_load_connections {} {
+
+    variable connections
+
+    array unset connections
+
+    if {![catch { tkedat::read $remote_file 0 } rc]} {
+      array set data $rc
+      foreach key [array names data] {
+        lassign [split $key ,] num group name
+        set connections($group,$name) [list "" {*}$data($key)]
+      }
+    }
+
+  }
+
+  ######################################################################
   # Saves the connections to a file
   proc save_connections {} {
 
