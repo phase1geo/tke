@@ -86,6 +86,9 @@ msgcat::mcmset hu {
   "Copyright"
   "Szerzői jogok"
 
+  "Credits"
+  "Jóváírások"
+
   "Delete tab?"
   "Törlés lap?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset hu {
 
   "File index is out of range"
   "Fájl index tartományon kívül"
+
+  "Hide Tab"
+  "Fül elrejtése"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "A kép megjelenik a nyomtatványok, amely lezárja a formában UI. Használt formák, mint a keresés, keresés / csere, és megtalálni a fájlokat."
@@ -154,6 +160,9 @@ msgcat::mcmset hu {
 
   "Image used in the preferences window in the Sidebar tab."
   "A beállítások ablakban a tálaló lapon használt kép."
+
+  "Image used in the preferences window in the Snippets tab."
+  "A kódtöredékek fülre a beállítások ablakban használt kép."
 
   "Image used in the preferences window in the View tab."
   "A Nézet lapon a beállítások ablakban használt kép."
@@ -218,6 +227,9 @@ msgcat::mcmset hu {
   "Unable to write file"
   "Nem lehet írni a fájlt"
 
+  "Unable to write remote file"
+  "Nem lehet írni a távoli fájl"
+
   "Version"
   "Verzió"
 
@@ -245,6 +257,12 @@ msgcat::mcmset hu {
 
   "Align Cursors"
   "Igazítás kurzorok"
+
+  "Align Panes"
+  "Összehangolják az üvegtáblák"
+
+  "Align current lines in both panes"
+  "Mindkét aktuális sorok igazítása"
 
   "Align cursors"
   "Igazítás kurzorok"
@@ -348,9 +366,6 @@ msgcat::mcmset hu {
   "Copy text"
   "A szöveg másolása"
 
-  "Create"
-  "Létrehozás"
-
   "Create Fold From Selection"
   "A kijelölt képrész megtartása"
 
@@ -366,17 +381,8 @@ msgcat::mcmset hu {
   "Create new plugin"
   "Hozzon létre új plugin"
 
-  "Current Line"
-  "Az aktuális sor:"
-
   "Current Number"
   "Az aktuális sor száma"
-
-  "Current Word"
-  "Aktuális szó"
-
-  "Cursor"
-  "Kurzor"
 
   "Cursor from Line Start"
   "A kurzort az elejétől sor"
@@ -447,6 +453,9 @@ msgcat::mcmset hu {
   "Disable code folding"
   "Megbénít kód összecsukható"
 
+  "Disable two-pane scrolling Synchronization"
+  "Két ablaktáblából tekerő-szinkronizálás"
+
   "Display Text Info"
   "Szöveg adatainak megjelenítése"
 
@@ -504,8 +513,14 @@ msgcat::mcmset hu {
   "Enable Code Folding"
   "Engedélyezi a kód összecsukható"
 
+  "Enable Synchronized Scrolling"
+  "Engedélyezi a szinkronizált görgetés"
+
   "Enable Vim mode"
   "Vim-üzemmód engedélyezése"
+
+  "Enable two-pane scrolling synchronization"
+  "Két ablaktáblából görgetés szinkronizálásának engedélyezése"
 
   "Enumeration"
   "számláló"
@@ -533,9 +548,6 @@ msgcat::mcmset hu {
 
   "Favorite file"
   "Kedvenc"
-
-  "File"
-  "Fájl"
 
   "File Contents"
   "Fájl tartalma"
@@ -621,8 +633,14 @@ msgcat::mcmset hu {
   "Help"
   "Segítség"
 
+  "Hide All Tabs"
+  "Minden fül elrejtése"
+
   "Hide Console"
   "Elrejtése Console"
+
+  "Hide Current Tab"
+  "Aktuális fül"
 
   "Hide Line Numbers"
   "Sorszámok elrejtése"
@@ -674,9 +692,6 @@ msgcat::mcmset hu {
 
   "Indentation"
   "benyomódás"
-
-  "Insert"
-  "Beillesztés"
 
   "Insert command result after current line"
   "Aktuális sor után helyezze be a parancs eredménye"
@@ -740,9 +755,6 @@ msgcat::mcmset hu {
 
   "Jump to the previous fold indicator"
   "Ugrás az előző fold-jelző"
-
-  "Language"
-  "Nyelv"
 
   "Line Above Current"
   "Folyó feletti line"
@@ -915,6 +927,9 @@ msgcat::mcmset hu {
   "Open Recent"
   "Legutóbbi megnyitása"
 
+  "Open Remote"
+  "Nyissa meg a távoli"
+
   "Open Selected Folds"
   "Nyissa meg a kiválasztott redők"
 
@@ -936,11 +951,17 @@ msgcat::mcmset hu {
   "Open folds to show cursor"
   "Nyitott redők kurzor megjelenítése"
 
+  "Open remote file or directory"
+  "Nyissa meg a távoli fájl vagy könyvtár"
+
   "Open selected folds - all levels"
   "Nyitott kijelölt ráncok - minden szinten"
 
   "Open selected folds - one level"
   "Nyitott kijelölt ráncok - egy szinttel"
+
+  "Panes"
+  "Panelek"
 
   "Paste"
   "Beillesztés"
@@ -1041,6 +1062,9 @@ msgcat::mcmset hu {
   "Save All"
   "Az összes dokumentum mentése"
 
+  "Save As Remote"
+  "Távoli mentése"
+
   "Save As Template"
   "A sablon mentése"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset hu {
 
   "Save file as"
   "Mentés másként"
+
+  "Save file as remote file"
+  "Fájl mentése a távoli fájl"
 
   "Save file as template"
   "A fájl mentése sablonként"
@@ -1127,6 +1154,9 @@ msgcat::mcmset hu {
 
   "Set user preferences to global preferences"
   "Állítsa be a felhasználói beállítások a globális beállítások"
+
+  "Show All Tabs"
+  "Minden lapfülek megjelenítése"
 
   "Show Console"
   "Megjelenítése Console"
@@ -1343,9 +1373,6 @@ msgcat::mcmset hu {
   "Grant permission?"
   "Engedélyt adhat?"
 
-  "OK"
-  "OK"
-
   "Plugin Errors"
   "Plugin hibák"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset hu {
 
 # pref_ui.tcl
 msgcat::mcmset hu {
+
+  "Abbreviation Aliases"
+  "Aliasok rövidítése"
 
   "Add"
   "Hozzáadás"
@@ -1429,6 +1459,9 @@ msgcat::mcmset hu {
   "Clear"
   "Törlés"
 
+  "Clipboard"
+  "Vágólap"
+
   "Clipboard history depth"
   "Csipeszes írótábla történelem mélység"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset hu {
   "Current"
   "Aktuális"
 
+  "Current Directory"
+  "aktuális könyvtár"
+
+  "Current File Pathname"
+  "Aktuális fájl útneve"
+
+  "Current Filename"
+  "Jelenlegi fájlnév"
+
+  "Current Line Column"
+  "Aktuális sor-oszlop"
+
+  "Current Line Number"
+  "Aktuális sor száma"
+
   "Current editing buffer directory"
   "Aktuális szerkesztési puffer könyvtár"
 
   "Current working directory"
   "Időszerű működő címtár"
+
+  "Date"
+  "Dátum"
 
   "Default Markdown Export Extension"
   "Markdown Export árbevétel"
@@ -1467,6 +1518,9 @@ msgcat::mcmset hu {
 
   "Default unit for integer values"
   "Alapértelmezett egység egészszám-értékek"
+
+  "Delete snippet"
+  "Részlet törlése"
 
   "Development"
   "Fejlesztés"
@@ -1522,6 +1576,9 @@ msgcat::mcmset hu {
   "Indentation Spaces"
   "Szóközök behúzása"
 
+  "Keyword"
+  "Kulcsszó"
+
   "Languages"
   "Nyelvek"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset hu {
 
   "Mounts"
   "Tartók"
+
+  "Node Aliases"
+  "Csomópont-aliasok"
 
   "Parenthesis"
   "Zárójel"
@@ -1582,11 +1642,20 @@ msgcat::mcmset hu {
   "Ruler column"
   "Vonalzó oszlop"
 
+  "Search Shortcuts"
+  "Keresés parancsikonok"
+
+  "Search Snippets"
+  "Keresés töredék"
+
   "Select Settings Sharing Directory"
   "Válassza a beállítások könyvtár megosztása"
 
   "Select default browsing directory"
   "Válassza ki az alapértelmezett könyvtár böngészés"
+
+  "Selected Text"
+  "A kijelölt szöveg"
 
   "Set"
   "Beállítás"
@@ -1636,6 +1705,9 @@ msgcat::mcmset hu {
   "Snippet Completion Characters"
   "Részlet befejezése karakterek"
 
+  "Snippet Text"
+  "Kódtöredék szövege"
+
   "Sort tabs alphabetically on open"
   "Rendezés lapok ABC sorrendben a nyílt"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset hu {
 
   "Tab"
   "Fül"
+
+  "Tab Stop"
+  "Tabulátor"
+
+  "Time"
+  "Idő"
 
   "Update using release type"
   "Frissítse a kiadás típusú"
@@ -1698,6 +1776,119 @@ msgcat::mcmset hu {
 
   "Variables"
   "Változók"
+
+}
+
+# remote.tcl
+msgcat::mcmset hu {
+
+  "Close Connection"
+  "A kapcsolat bezárása"
+
+  "Create New Folder"
+  "Új könyvtár létrehozása"
+
+  "Delete Connection"
+  "Csatlakozás törlése"
+
+  "Delete Group"
+  "Csoport törlése"
+
+  "Delete connection?"
+  "Csatlakozás törlése"
+
+  "Delete group?"
+  "Csoport törlése"
+
+  "Edit Connection"
+  "Kapcsolat szerkesztése"
+
+  "Enter Password"
+  "Adja meg a jelszót"
+
+  "Folder Name"
+  "Mappa"
+
+  "Group"
+  "Csoport"
+
+  "Group Name"
+  "Csoport neve"
+
+  "Group Name: "
+  "Csoport neve"
+
+  "Image used in remote file selector to indicate a file."
+  "A kép a távoli fájl választóval hozzászokott jelez egy fájl."
+
+  "Image used in remote file selector to indicate a folder."
+  "A kép a távoli fájl kiválasztó egy mappában jelzésére használható."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Kép használt távoli fájl választóval annak jelzésére, hogy egy kapcsolat nyitotta meg."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Megjelenítéséhez használt kép a távoli fájl kiválasztó jelezze, hogy a kapcsolat meg van nyitva."
+
+  "Name"
+  "Név"
+
+  "New Connection"
+  "Új kapcsolat"
+
+  "New Folder"
+  "gyöngyike"
+
+  "New Group"
+  "Új csoport"
+
+  "Open Connection"
+  "Kapcsolat"
+
+  "Open Remote File"
+  "Távoli fájl megnyitása"
+
+  "Optional"
+  "Nem kötelező."
+
+  "Password"
+  "Jelszó"
+
+  "Password: "
+  "Jelszó:"
+
+  "Port"
+  "Port"
+
+  "Remote Directory"
+  "Távoli könyvtár"
+
+  "Rename Group"
+  "Csoport átnevezése"
+
+  "Save File Remotely"
+  "Mentse a fájlt távolról"
+
+  "Server"
+  "Szerver"
+
+  "Test"
+  "Teszt"
+
+  "Test Connection"
+  "Kapcsolat ellenőrzése"
+
+  "Type"
+  "Típus"
+
+  "Unable to connect to"
+  "Nem lehet csatlakozni"
+
+  "Username"
+  "Felhasználónév"
+
+  "server"
+  "szerver"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset hu {
   "Favorites"
   "Extrák"
 
+  "Remote Connections"
+  "Távoli kapcsolatok"
+
   "Settings to export"
   "Beállítások exportálása"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset hu {
   "Directory Name:"
   "Könyvtár neve:"
 
+  "Disconnect From Server"
+  "Bontása a szerver"
+
   "Folder Name:"
   "Mappa"
+
+  "Hide"
+  "Elrejt"
+
+  "Hide Directory Files"
+  "Elrejteni fájlokat címtár"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Kép bemutatás-ban tálaló jelzi, egy könyvtár, amely össze van csukva"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Kép bemutatás-ban tálaló-hoz egy címtár amit van bemutatás a tartalom jelzésére"
+
+  "Image displayed in sidebar to indicate a file"
+  "Kép bemutatás-ban tálaló jelzi, a fájl"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Kép bemutatás-ban tálaló jelzi a kijelölt könyvtár, hogy összeomlott"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Kép bemutatás-ban tálaló jelzi a kijelölt könyvtár van bontva"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Jelzi, hogy a fájl jelenleg nyitott, de rejtett tálaló megjelenő kép"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "A kép megjelenik a sidebar, jelezve, hogy a fájl jelenleg megnyitott egy szerkesztési puffer."
@@ -1809,8 +2030,14 @@ msgcat::mcmset hu {
   "Remove from Sidebar"
   "Eltávolítás a Sidebar"
 
+  "Show"
+  "Mutasd"
+
   "Show Difference"
   "Különbség Térkép"
+
+  "Show Directory Files"
+  "Könyvtár-fájlok megjelenítése"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset hu {
 
 # startup.tcl
 msgcat::mcmset hu {
-
-  "Back"
-  "Vissza"
 
   "Change Directory"
   "Cd"
@@ -2026,6 +2250,9 @@ msgcat::mcmset hu {
   "Foreground (slider) color used in the sidebar scrollbar."
   "Előtér (slider) használt szín a tálaló görgetősáv."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "(Csúszka) előtérszíne használt a szöveg scrollbars, ha engedélyezve van a szinkronizálási ablaktáblán."
+
   "Foreground (slider) color used in the text scrollbars."
   "Előtér (slider) használt szín a szövegben gördítősávját."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset hu {
   "Specifies the default relief to use when drawing ttk widgets."
   "Megadja az alapértelmezett megkönnyebbülés használni, ha rajz TTK kütyü."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Megadja a nyilvánosságra hozatal kép stílust használni az oldalsávon."
-
   "Specifies the pixel thickness of the highlight line."
   "Meghatározza a pixel vastagságú fénypontja sor."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset hu {
 
   "Paste Theme Items"
   "Téma elemek beillesztése"
-
-  "Preview"
-  "Előnézet"
 
   "Relief: "
   "Megkönnyebbülés"
@@ -2353,6 +2574,9 @@ msgcat::mcmset hu {
 # General
 msgcat::mcmset hu {
 
+  "Back"
+  "Vissza"
+
   "Browse"
   "Böngészés"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset hu {
 
   "Copy"
   "Másolás"
+
+  "Create"
+  "Létrehozás"
+
+  "Current Line"
+  "Az aktuális sor:"
+
+  "Current Word"
+  "Aktuális szó"
+
+  "Cursor"
+  "Kurzor"
 
   "Delete"
   "Törlés"
@@ -2386,11 +2622,20 @@ msgcat::mcmset hu {
   "Favorite"
   "Kedvenc"
 
+  "File"
+  "Fájl"
+
   "File Name:"
   "A fájlnév"
 
   "Find"
   "Keresés"
+
+  "Insert"
+  "Beillesztés"
+
+  "Language"
+  "Nyelv"
 
   "Launcher"
   "Rakétaindító állvány"
@@ -2404,6 +2649,9 @@ msgcat::mcmset hu {
   "None"
   "Egysem"
 
+  "OK"
+  "OK"
+
   "Open"
   "Nyissa"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset hu {
 
   "Preferences"
   "Preferencia"
+
+  "Preview"
+  "Előnézet"
 
   "Rename"
   "Átnevezés"

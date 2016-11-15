@@ -86,6 +86,9 @@ msgcat::mcmset ru {
   "Copyright"
   "Авторские права"
 
+  "Credits"
+  "Авторы"
+
   "Delete tab?"
   "Удалить вкладку?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset ru {
 
   "File index is out of range"
   "Индекс файла находится вне диапазона"
+
+  "Hide Tab"
+  "Скрыть вкладку"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Изображение, отображаемое в заполнения форм, которая закрывает форму пользовательского интерфейса.  Используется в формах, таких как поиск, поиск/замена и найти в файлах."
@@ -154,6 +160,9 @@ msgcat::mcmset ru {
 
   "Image used in the preferences window in the Sidebar tab."
   "Изображение, используемое в окне настройки на вкладке боковой панели."
+
+  "Image used in the preferences window in the Snippets tab."
+  "Изображение, используемое в окне настройки на вкладке фрагменты."
 
   "Image used in the preferences window in the View tab."
   "Изображение, используемое в окне настройки на вкладке Вид."
@@ -218,6 +227,9 @@ msgcat::mcmset ru {
   "Unable to write file"
   "Не удается записать файл"
 
+  "Unable to write remote file"
+  "Не удается записать удаленный файл"
+
   "Version"
   "Версия"
 
@@ -245,6 +257,12 @@ msgcat::mcmset ru {
 
   "Align Cursors"
   "Выравнивание курсоры"
+
+  "Align Panes"
+  "Выравнивание панелей"
+
+  "Align current lines in both panes"
+  "Выравнивание текущей строки в обеих областях"
 
   "Align cursors"
   "Выравнивание курсоры"
@@ -348,9 +366,6 @@ msgcat::mcmset ru {
   "Copy text"
   "Копирование текста"
 
-  "Create"
-  "Создать"
-
   "Create Fold From Selection"
   "Создайте сложить из выделения"
 
@@ -366,17 +381,8 @@ msgcat::mcmset ru {
   "Create new plugin"
   "Создать новый плагин"
 
-  "Current Line"
-  "Текущая строка"
-
   "Current Number"
   "Номер текущей строки"
-
-  "Current Word"
-  "Текущее слово"
-
-  "Cursor"
-  "Кусок"
 
   "Cursor from Line Start"
   "Курсор из начала строки"
@@ -447,6 +453,9 @@ msgcat::mcmset ru {
   "Disable code folding"
   "Отключить сворачивание кода"
 
+  "Disable two-pane scrolling Synchronization"
+  "Отключить две области прокрутки синхронизации"
+
   "Display Text Info"
   "Текст на дисплее информация"
 
@@ -504,8 +513,14 @@ msgcat::mcmset ru {
   "Enable Code Folding"
   "Включить сворачивание кода"
 
+  "Enable Synchronized Scrolling"
+  "Включить синхронизацию прокрутки"
+
   "Enable Vim mode"
   "Включить режим Vim"
+
+  "Enable two-pane scrolling synchronization"
+  "Включить две области прокрутки синхронизации"
 
   "Enumeration"
   "перечисление"
@@ -533,9 +548,6 @@ msgcat::mcmset ru {
 
   "Favorite file"
   "Любимый файл"
-
-  "File"
-  "Файл"
 
   "File Contents"
   "Содержимое файла"
@@ -621,8 +633,14 @@ msgcat::mcmset ru {
   "Help"
   "Помощь"
 
+  "Hide All Tabs"
+  "Скрыть всё"
+
   "Hide Console"
   "Скрыть Console"
+
+  "Hide Current Tab"
+  "Текущая вкладка"
 
   "Hide Line Numbers"
   "Скрыть числа"
@@ -674,9 +692,6 @@ msgcat::mcmset ru {
 
   "Indentation"
   "Отступ (абзац)"
-
-  "Insert"
-  "Вставить"
 
   "Insert command result after current line"
   "Вставить команду результат после текущей строки"
@@ -740,9 +755,6 @@ msgcat::mcmset ru {
 
   "Jump to the previous fold indicator"
   "Перейти в предыдущий раз индикатор"
-
-  "Language"
-  "Язык"
 
   "Line Above Current"
   "Линия выше тока"
@@ -915,6 +927,9 @@ msgcat::mcmset ru {
   "Open Recent"
   "Недавний"
 
+  "Open Remote"
+  "Дистанционно"
+
   "Open Selected Folds"
   "Открыть выделенную складки"
 
@@ -936,11 +951,17 @@ msgcat::mcmset ru {
   "Open folds to show cursor"
   "Открытые складок, чтобы показать курсор"
 
+  "Open remote file or directory"
+  "Открыть удаленный файл или каталог"
+
   "Open selected folds - all levels"
   "Открыть выбранный складки - все уровни"
 
   "Open selected folds - one level"
   "Открыть выбранный складки - один уровень"
+
+  "Panes"
+  "Области"
 
   "Paste"
   "Паста"
@@ -1041,6 +1062,9 @@ msgcat::mcmset ru {
   "Save All"
   "Сохранить все"
 
+  "Save As Remote"
+  "Сохранить как дистанционное"
+
   "Save As Template"
   "Сохранить как Шаблон"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset ru {
 
   "Save file as"
   "Сохранить файл"
+
+  "Save file as remote file"
+  "Сохраните файл как удаленный файл"
 
   "Save file as template"
   "Сохранить как Шаблон"
@@ -1127,6 +1154,9 @@ msgcat::mcmset ru {
 
   "Set user preferences to global preferences"
   "Задать параметры пользователя в глобальные настройки"
+
+  "Show All Tabs"
+  "Показать все вкладки"
 
   "Show Console"
   "Показать консоль"
@@ -1343,9 +1373,6 @@ msgcat::mcmset ru {
   "Grant permission?"
   "Грант permission?"
 
-  "OK"
-  "OK"
-
   "Plugin Errors"
   "Плагин ошибки"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset ru {
 
 # pref_ui.tcl
 msgcat::mcmset ru {
+
+  "Abbreviation Aliases"
+  "Аббревиатура псевдонимы"
 
   "Add"
   "Добавьте"
@@ -1429,6 +1459,9 @@ msgcat::mcmset ru {
   "Clear"
   "Очистить"
 
+  "Clipboard"
+  "Буфер"
+
   "Clipboard history depth"
   "Глубина истории буфера обмена"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset ru {
   "Current"
   "Текущая"
 
+  "Current Directory"
+  "Текущий каталог:"
+
+  "Current File Pathname"
+  "Текущий файл путь к файлу"
+
+  "Current Filename"
+  "Текущее имя файла"
+
+  "Current Line Column"
+  "Текущий столбец строки"
+
+  "Current Line Number"
+  "Номер текущей строки"
+
   "Current editing buffer directory"
   "Текущий каталог редактирования буфера"
 
   "Current working directory"
   "Текущий рабочий каталог"
+
+  "Date"
+  "Дата"
 
   "Default Markdown Export Extension"
   "Расширение экспорта по умолчанию Markdown"
@@ -1467,6 +1518,9 @@ msgcat::mcmset ru {
 
   "Default unit for integer values"
   "Единица по умолчанию для целочисленных значений"
+
+  "Delete snippet"
+  "Удалить Сниппет"
 
   "Development"
   "Разработка"
@@ -1522,6 +1576,9 @@ msgcat::mcmset ru {
   "Indentation Spaces"
   "Отступы запрещено"
 
+  "Keyword"
+  "Ключевое слово"
+
   "Languages"
   "Языки"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset ru {
 
   "Mounts"
   "Кронштейны"
+
+  "Node Aliases"
+  "Правила"
 
   "Parenthesis"
   "Скобки"
@@ -1582,11 +1642,20 @@ msgcat::mcmset ru {
   "Ruler column"
   "Правитель столбец"
 
+  "Search Shortcuts"
+  "Ярлыки поиска"
+
+  "Search Snippets"
+  "Поиск фрагментов"
+
   "Select Settings Sharing Directory"
   "Выберите общий доступ к каталогу"
 
   "Select default browsing directory"
   "Выберите по умолчанию, просмотр каталога"
+
+  "Selected Text"
+  "Выделенный текст"
 
   "Set"
   "Установить"
@@ -1636,6 +1705,9 @@ msgcat::mcmset ru {
   "Snippet Completion Characters"
   "Фрагмент кода завершения символы"
 
+  "Snippet Text"
+  "Код"
+
   "Sort tabs alphabetically on open"
   "Вкладки Сортировка по алфавиту на открытом"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset ru {
 
   "Tab"
   "Вкладка"
+
+  "Tab Stop"
+  "Табуляция"
+
+  "Time"
+  "Время:"
 
   "Update using release type"
   "Обновление с помощью выпуска типа"
@@ -1698,6 +1776,119 @@ msgcat::mcmset ru {
 
   "Variables"
   "Параметры"
+
+}
+
+# remote.tcl
+msgcat::mcmset ru {
+
+  "Close Connection"
+  "Закрыть соединение"
+
+  "Create New Folder"
+  "Создать новую папку"
+
+  "Delete Connection"
+  "Удалить связь"
+
+  "Delete Group"
+  "Удалить группу"
+
+  "Delete connection?"
+  "Удалить связь"
+
+  "Delete group?"
+  "Hapus grup"
+
+  "Edit Connection"
+  "Редактирование подключения"
+
+  "Enter Password"
+  "Введите пароль"
+
+  "Folder Name"
+  "Название папки"
+
+  "Group"
+  "Группа"
+
+  "Group Name"
+  "Имя группы"
+
+  "Group Name: "
+  "Имя группы"
+
+  "Image used in remote file selector to indicate a file."
+  "Изображение, используемое в селектор удаленных файлов для указания файла."
+
+  "Image used in remote file selector to indicate a folder."
+  "Изображение, используемое в селектор удаленных файлов папки."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Изображение, используемое в селектор удаленных файлов, чтобы указать, что соединение установлено."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Изображение, используемое в селектор удаленных файлов, чтобы указать, что подключение будет открыто."
+
+  "Name"
+  "Имя"
+
+  "New Connection"
+  "Новое подключение"
+
+  "New Folder"
+  "Новая папка"
+
+  "New Group"
+  "Новая группа"
+
+  "Open Connection"
+  "Открытое соединение"
+
+  "Open Remote File"
+  "Удаленный файл"
+
+  "Optional"
+  "Необязательно"
+
+  "Password"
+  "Пароль"
+
+  "Password: "
+  "Ваш Пароль:"
+
+  "Port"
+  "Порт"
+
+  "Remote Directory"
+  "Удаленный каталог"
+
+  "Rename Group"
+  "Переименовать группу"
+
+  "Save File Remotely"
+  "Сохранить файл удаленно"
+
+  "Server"
+  "Сервер"
+
+  "Test"
+  "Тест"
+
+  "Test Connection"
+  "Тест подключения"
+
+  "Type"
+  "Тип"
+
+  "Unable to connect to"
+  "\"
+
+  "Username"
+  "Логин"
+
+  "server"
+  "сервер"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset ru {
   "Favorites"
   "Избранное"
 
+  "Remote Connections"
+  "Удаленные соединения"
+
   "Settings to export"
   "Параметры для экспорта"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset ru {
   "Directory Name:"
   "Имя файла"
 
+  "Disconnect From Server"
+  "Отключение от сервера"
+
   "Folder Name:"
   "Имя папки:"
+
+  "Hide"
+  "Скрыть"
+
+  "Hide Directory Files"
+  "Скрыть файлы каталога"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Изображение, отображаемое в боковой панели, чтобы указать каталог, который рухнул"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Изображение, отображаемое в боковой панели, чтобы указать каталог, который показывает его содержимое"
+
+  "Image displayed in sidebar to indicate a file"
+  "Изображение, отображаемое в боковой панели, чтобы указать файл"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Изображение, отображаемое в боковой панели, чтобы указать выбранный каталог, который рухнул"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Изображение, отображаемое в боковой панели, чтобы указать выбранный каталог, который будет расширен"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Изображение, отображаемое в боковой панели, чтобы указать, что файл в настоящее время открыт, но скрытые"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Изображение, отображаемое в боковой панели, чтобы указать, что файл открыт в настоящее время в буфер редактирования."
@@ -1809,8 +2030,14 @@ msgcat::mcmset ru {
   "Remove from Sidebar"
   "Удалить из боковой панели"
 
+  "Show"
+  "Показывать"
+
   "Show Difference"
   "Показать разницу"
+
+  "Show Directory Files"
+  "Показать файлы каталога"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset ru {
 
 # startup.tcl
 msgcat::mcmset ru {
-
-  "Back"
-  "Назад"
 
   "Change Directory"
   "Chdir"
@@ -2026,6 +2250,9 @@ msgcat::mcmset ru {
   "Foreground (slider) color used in the sidebar scrollbar."
   "Цвет переднего плана (ползунок) в боковой панели прокрутки."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "Цвет переднего плана (slider) используется в полосы прокрутки текста при включенной панели синхронизации."
+
   "Foreground (slider) color used in the text scrollbars."
   "Цвет переднего плана (ползунок), используемый в тексте полосы прокрутки."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset ru {
   "Specifies the default relief to use when drawing ttk widgets."
   "Определяет рельеф по умолчанию для использования при рисовании ТТК виджеты."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Задает стиль раскрытия изображения для использования в боковой панели."
-
   "Specifies the pixel thickness of the highlight line."
   "Определяет толщину линии выделения пикселей."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset ru {
 
   "Paste Theme Items"
   "Вставить элементы темы"
-
-  "Preview"
-  "Предварительный просмотр"
 
   "Relief: "
   "Предохранительный:"
@@ -2353,6 +2574,9 @@ msgcat::mcmset ru {
 # General
 msgcat::mcmset ru {
 
+  "Back"
+  "Назад"
+
   "Browse"
   "Выберите файл"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset ru {
 
   "Copy"
   "Копия"
+
+  "Create"
+  "Создать"
+
+  "Current Line"
+  "Текущая строка"
+
+  "Current Word"
+  "Текущее слово"
+
+  "Cursor"
+  "Кусок"
 
   "Delete"
   "Удалить"
@@ -2386,11 +2622,20 @@ msgcat::mcmset ru {
   "Favorite"
   "Любимый"
 
+  "File"
+  "Файл"
+
   "File Name:"
   "&Имя файла:"
 
   "Find"
   "Находить"
+
+  "Insert"
+  "Вставить"
+
+  "Language"
+  "Язык"
 
   "Launcher"
   "Пусковая установка"
@@ -2404,6 +2649,9 @@ msgcat::mcmset ru {
   "None"
   "Нет"
 
+  "OK"
+  "OK"
+
   "Open"
   "Открыть"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset ru {
 
   "Preferences"
   "Предпочтения"
+
+  "Preview"
+  "Предварительный просмотр"
 
   "Rename"
   "Переименовать"

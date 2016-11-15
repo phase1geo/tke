@@ -86,6 +86,9 @@ msgcat::mcmset el {
   "Copyright"
   "Πνευματικά Δικαιώματα"
 
+  "Credits"
+  "Συντελεστές"
+
   "Delete tab?"
   "Διαγραφή καρτέλας;"
 
@@ -109,6 +112,9 @@ msgcat::mcmset el {
 
   "File index is out of range"
   "Δείκτης αρχείου είναι εκτός ορίων"
+
+  "Hide Tab"
+  "Απόκρυψη της καρτέλας"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Εικόνα εμφανίζεται σε μορφές γεμίσματος που κλείνει τη φόρμα UI. Χρησιμοποιείται σε μορφές όπως η αναζήτηση, αναζήτηση / αντικατάσταση, και να βρείτε στα αρχεία."
@@ -154,6 +160,9 @@ msgcat::mcmset el {
 
   "Image used in the preferences window in the Sidebar tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Sidebar."
+
+  "Image used in the preferences window in the Snippets tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
 
   "Image used in the preferences window in the View tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο \"
@@ -218,6 +227,9 @@ msgcat::mcmset el {
   "Unable to write file"
   "Δεν είναι δυνατή η εγγραφή αρχείου"
 
+  "Unable to write remote file"
+  "Ανίκανος να γράψει το απομακρυσμένο αρχείο"
+
   "Version"
   "Έκδοση"
 
@@ -245,6 +257,12 @@ msgcat::mcmset el {
 
   "Align Cursors"
   "Ευθυγράμμιση Δρομείς"
+
+  "Align Panes"
+  "Στοίχιση υαλοπίνακες"
+
+  "Align current lines in both panes"
+  "Ευθυγραμμίστε την τρέχουσα γραμμές σε δύο παράθυρα"
 
   "Align cursors"
   "Στοίχιση δρομείς"
@@ -348,9 +366,6 @@ msgcat::mcmset el {
   "Copy text"
   "Αντιγραφή κειμένου"
 
-  "Create"
-  "Δημιουργία"
-
   "Create Fold From Selection"
   "Δημιουργία φορές από την επιλογή"
 
@@ -366,17 +381,8 @@ msgcat::mcmset el {
   "Create new plugin"
   "Δημιουργήστε νέο plugin"
 
-  "Current Line"
-  "Τρέχουσα γραμμή"
-
   "Current Number"
   "Τρέχων αριθμός"
-
-  "Current Word"
-  "Τρέχουσας λέξης"
-
-  "Cursor"
-  "Δρομέα"
 
   "Cursor from Line Start"
   "Δρομέα από την αρχή γραμμής"
@@ -447,6 +453,9 @@ msgcat::mcmset el {
   "Disable code folding"
   "Απενεργοποιήσετε την αναδίπλωση του κώδικα"
 
+  "Disable two-pane scrolling Synchronization"
+  "Απενεργοποίηση συγχρονισμού τυλίξει δύο παράθυρο"
+
   "Display Text Info"
   "Εμφανίζει τις πληροφορίες κείμενο"
 
@@ -504,8 +513,14 @@ msgcat::mcmset el {
   "Enable Code Folding"
   "Ενεργοποίηση κώδικα πτυσσόμενα"
 
+  "Enable Synchronized Scrolling"
+  "Ενεργοποίηση συγχρονισμένη κύλισης"
+
   "Enable Vim mode"
   "Ενεργοποίηση της λειτουργίας Vim"
+
+  "Enable two-pane scrolling synchronization"
+  "Ενεργοποιήσετε δύο παράθυρο κύλιση συγχρονισμού"
 
   "Enumeration"
   "Καταμέτρηση"
@@ -533,9 +548,6 @@ msgcat::mcmset el {
 
   "Favorite file"
   "Αγαπημένο αρχείο"
-
-  "File"
-  "Αρχείο"
 
   "File Contents"
   "Περιεχόμενα του αρχείου"
@@ -621,8 +633,14 @@ msgcat::mcmset el {
   "Help"
   "Βοήθεια"
 
+  "Hide All Tabs"
+  "Απόκρυψη όλων"
+
   "Hide Console"
   "Απόκρυψη Console"
+
+  "Hide Current Tab"
+  "Απόκρυψη της τρέχουσας καρτέλας"
 
   "Hide Line Numbers"
   "Απόκρυψη αριθμών γραμμών"
@@ -674,9 +692,6 @@ msgcat::mcmset el {
 
   "Indentation"
   "κόλπωση"
-
-  "Insert"
-  "Εισαγωγή"
 
   "Insert command result after current line"
   "Εισάγετε την εντολή αποτέλεσμα μετά από την τρέχουσα γραμμή"
@@ -740,9 +755,6 @@ msgcat::mcmset el {
 
   "Jump to the previous fold indicator"
   "Άλμα με τον προηγούμενο δείκτη φορές"
-
-  "Language"
-  "Μητρική Γλώσσα"
 
   "Line Above Current"
   "Γραμμή πάνω από το ρεύμα"
@@ -915,6 +927,9 @@ msgcat::mcmset el {
   "Open Recent"
   "Άνοιγμα πρόσφατου"
 
+  "Open Remote"
+  "Ανοίξτε την απομακρυσμένη"
+
   "Open Selected Folds"
   "Άνοιγμα επιλεγμένου πτυχώσεις"
 
@@ -936,11 +951,17 @@ msgcat::mcmset el {
   "Open folds to show cursor"
   "Ανοικτή πτυχώσεις να δείτε δρομέα"
 
+  "Open remote file or directory"
+  "Άνοιγμα απομακρυσμένο αρχείο ή κατάλογος"
+
   "Open selected folds - all levels"
   "Άνοιγμα επιλεγμένου πτυχώσεις - όλα τα επίπεδα"
 
   "Open selected folds - one level"
   "Άνοιγμα επιλεγμένου πτυχώσεις - ένα επίπεδο"
+
+  "Panes"
+  "τμήματα παραθύρων"
 
   "Paste"
   "Επικόλληση"
@@ -1041,6 +1062,9 @@ msgcat::mcmset el {
   "Save All"
   "Αποθήκευση όλων"
 
+  "Save As Remote"
+  "Αποθήκευση ως τηλεχειριστήριο"
+
   "Save As Template"
   "Αποθήκευση Προτύπου"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset el {
 
   "Save file as"
   "Αποθηκεύστε το αρχείο ως"
+
+  "Save file as remote file"
+  "Αποθηκεύστε το αρχείο ως αρχείο απομακρυσμένης"
 
   "Save file as template"
   "Αποθηκεύστε το αρχείο ως πρότυπο"
@@ -1127,6 +1154,9 @@ msgcat::mcmset el {
 
   "Set user preferences to global preferences"
   "Ορίστε τις προτιμήσεις του χρήστη σε σφαιρικές προτιμήσεις"
+
+  "Show All Tabs"
+  "Εμφάνιση όλων των καρτελών"
 
   "Show Console"
   "Εμφάνιση Console"
@@ -1343,9 +1373,6 @@ msgcat::mcmset el {
   "Grant permission?"
   "Επιχορήγηση permssion;"
 
-  "OK"
-  "ΟΚ"
-
   "Plugin Errors"
   "Plugin Λάθη"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset el {
 
 # pref_ui.tcl
 msgcat::mcmset el {
+
+  "Abbreviation Aliases"
+  "Συντομογραφία ψευδώνυμα"
 
   "Add"
   "Προσθήκη"
@@ -1429,6 +1459,9 @@ msgcat::mcmset el {
   "Clear"
   "Καθαρισμός"
 
+  "Clipboard"
+  "Πρόχειρο"
+
   "Clipboard history depth"
   "Βάθος ιστορίας Πρόχειρο"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset el {
   "Current"
   "Τρέχον"
 
+  "Current Directory"
+  "τρέχων κατάλογος"
+
+  "Current File Pathname"
+  "Τρέχουσα διαδρομή αρχείου"
+
+  "Current Filename"
+  "Τρέχον όνομα αρχείου"
+
+  "Current Line Column"
+  "Τρέχουσα γραμμή στήλη"
+
+  "Current Line Number"
+  "Τρέχων αριθμός γραμμής"
+
   "Current editing buffer directory"
   "Τρέχοντα επεξεργασίας buffer κατάλογο"
 
   "Current working directory"
   "Στον τρέχοντα κατάλογο εργασίας"
+
+  "Date"
+  "Ημερομηνία"
 
   "Default Markdown Export Extension"
   "Προεπιλεγμένη επέκταση εξαγωγή Markdown"
@@ -1467,6 +1518,9 @@ msgcat::mcmset el {
 
   "Default unit for integer values"
   "Προεπιλεγμένη μονάδα για ακέραιες τιμές"
+
+  "Delete snippet"
+  "Διαγραφή του αποκόμματος"
 
   "Development"
   "Ανάπτυξη"
@@ -1522,6 +1576,9 @@ msgcat::mcmset el {
   "Indentation Spaces"
   "Διαμόρφωση χώρων"
 
+  "Keyword"
+  "ΛΕΞΕΙΣ-ΚΛΕΙΔΙΑ"
+
   "Languages"
   "Γλώσσες"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset el {
 
   "Mounts"
   "Αναρτήσεις"
+
+  "Node Aliases"
+  "Κόμβος ψευδώνυμα"
 
   "Parenthesis"
   "Παρένθεση."
@@ -1582,11 +1642,20 @@ msgcat::mcmset el {
   "Ruler column"
   "Στήλη του χάρακα"
 
+  "Search Shortcuts"
+  "Αναζήτηση συντομεύσεις"
+
+  "Search Snippets"
+  "Αναζήτηση αποσπάσματα"
+
   "Select Settings Sharing Directory"
   "Επιλέξτε ρυθμίσεις κοινής χρήσης καταλόγου"
 
   "Select default browsing directory"
   "Επιλέξτε περιήγηση καταλόγου προεπιλογή"
+
+  "Selected Text"
+  "Επιλεγμένο κείμενο"
 
   "Set"
   "Σετ"
@@ -1636,6 +1705,9 @@ msgcat::mcmset el {
   "Snippet Completion Characters"
   "Απόσπασμα ολοκλήρωση χαρακτήρες"
 
+  "Snippet Text"
+  "Απόσπασμα κειμένου"
+
   "Sort tabs alphabetically on open"
   "Καρτέλες Ταξινόμηση αλφαβητικά κατά το άνοιγμα"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset el {
 
   "Tab"
   "Καρτέλα"
+
+  "Tab Stop"
+  "θέση στηλοθέτησης"
+
+  "Time"
+  "Ώρα"
 
   "Update using release type"
   "Ενημέρωση μέσω τύπος έκδοσης"
@@ -1698,6 +1776,119 @@ msgcat::mcmset el {
 
   "Variables"
   "Μεταβλητές"
+
+}
+
+# remote.tcl
+msgcat::mcmset el {
+
+  "Close Connection"
+  "Κλείσιμο σύνδεσης"
+
+  "Create New Folder"
+  "Δημιουργία Νέου Φακέλου"
+
+  "Delete Connection"
+  "Διαγραφή σύνδεσης"
+
+  "Delete Group"
+  "Διαγραφή Ομάδας"
+
+  "Delete connection?"
+  "Διαγραφή σύνδεσης"
+
+  "Delete group?"
+  "Διαγραφή Ομάδας"
+
+  "Edit Connection"
+  "Επεξεργασία σύνδεσης"
+
+  "Enter Password"
+  "Κωδικός πρόσβασης"
+
+  "Folder Name"
+  "Κατάλογος"
+
+  "Group"
+  "Όμάδα"
+
+  "Group Name"
+  "Όνομα ομάδας"
+
+  "Group Name: "
+  "Όνομα ομάδας"
+
+  "Image used in remote file selector to indicate a file."
+  "Εικόνα χρησιμοποιείται σε απομακρυσμένο αρχείο επιλογέα για να υποδείξει ένα αρχείο."
+
+  "Image used in remote file selector to indicate a folder."
+  "Εικόνα χρησιμοποιείται σε απομακρυσμένο αρχείο επιλογέα για να υποδείξει ένα φάκελο."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Εικόνα χρησιμοποιείται σε απομακρυσμένο αρχείο επιλογέα για να υποδείξει ότι ανοίγεται μια σύνδεση."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Εικόνα χρησιμοποιείται σε απομακρυσμένο αρχείο επιλογέα για να υποδείξει ότι ανοίγει μια σύνδεση."
+
+  "Name"
+  "Όνομα"
+
+  "New Connection"
+  "Νέα σύνδεση"
+
+  "New Folder"
+  "Αγαπημένοι φάκελοι"
+
+  "New Group"
+  "Νέα Oμάδα"
+
+  "Open Connection"
+  "Σύνδεση"
+
+  "Open Remote File"
+  "Άνοιγμα απομακρυσμένο αρχείο"
+
+  "Optional"
+  "Προαιρετικό"
+
+  "Password"
+  "Κωδικός πρόσβασης"
+
+  "Password: "
+  "Κωδικός:"
+
+  "Port"
+  "Θύρα"
+
+  "Remote Directory"
+  "Απομακρυσμένο κατάλογο"
+
+  "Rename Group"
+  "Μετονομασία ομάδας"
+
+  "Save File Remotely"
+  "Αποθηκεύστε το αρχείο εξ αποστάσεως"
+
+  "Server"
+  "Διακομιστής"
+
+  "Test"
+  "Δοκιμή"
+
+  "Test Connection"
+  "Δοκιμή σύνδεσης"
+
+  "Type"
+  "Τύπος"
+
+  "Unable to connect to"
+  "Δεν είναι δυνατή η σύνδεση στο δίκτυο"
+
+  "Username"
+  "Όνομα χρήστη"
+
+  "server"
+  "παροχέας"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset el {
   "Favorites"
   "Αγαπημένα"
 
+  "Remote Connections"
+  "Απομακρυσμένες συνδέσεις"
+
   "Settings to export"
   "Ρυθμίσεις για την εξαγωγή"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset el {
   "Directory Name:"
   "Όνομα καταλόγου:"
 
+  "Disconnect From Server"
+  "Αποσύνδεση από το διακομιστή"
+
   "Folder Name:"
   "Όνομα φακέλου:"
+
+  "Hide"
+  "Απόκρυψη"
+
+  "Hide Directory Files"
+  "Κρύψει τα αρχεία καταλόγου"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Εικόνα που εμφανίζεται στο sidebar να υποδείξει έναν κατάλογο που έχει συμπτυχθεί"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Εικόνα που εμφανίζεται στο sidebar να υποδείξει έναν κατάλογο που δείχνει το περιεχόμενό"
+
+  "Image displayed in sidebar to indicate a file"
+  "Εικόνα που εμφανίζεται στο sidebar για να υποδείξει ένα αρχείο"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Εικόνα που εμφανίζεται στο sidebar για να υποδείξει ένα επιλεγμένο κατάλογο που έχει συμπτυχθεί"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Εικόνα που εμφανίζεται στο sidebar για να υποδείξει ένα επιλεγμένο κατάλογο που επεκτείνεται"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Εικόνα που εμφανίζεται στην πλαϊνή μπάρα να αναφέρει ότι ένα αρχείο είναι επί του παρόντος, άνοιξε αλλά κρυφό"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Εικόνα που εμφανίζεται στην πλαϊνή γραμμή για να δείξει ότι ένα αρχείο που έχετε ανοίξει σε ένα ρυθμιστικό μοντάζ."
@@ -1809,8 +2030,14 @@ msgcat::mcmset el {
   "Remove from Sidebar"
   "Αφαιρέστε από το Sidebar"
 
+  "Show"
+  "Εμφάνιση"
+
   "Show Difference"
   "Εμφάνιση διαφορά"
+
+  "Show Directory Files"
+  "Εμφάνιση κατάλογος αρχείων"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset el {
 
 # startup.tcl
 msgcat::mcmset el {
-
-  "Back"
-  "Πίσω"
 
   "Change Directory"
   "Chdir"
@@ -2026,6 +2250,9 @@ msgcat::mcmset el {
   "Foreground (slider) color used in the sidebar scrollbar."
   "Προσκήνιο (slider) χρωμάτων που χρησιμοποιείται στην πλαϊνή μπάρα κύλισης."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "Χρώμα προσκηνίου (slider) που χρησιμοποιούνται για τις γραμμές κύλισης κειμένου όταν είναι ενεργοποιημένη η συγχρονισμού παράθυρο."
+
   "Foreground (slider) color used in the text scrollbars."
   "Προσκήνιο (slider) χρώμα που χρησιμοποιείται στο κείμενο κύλισης."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset el {
   "Specifies the default relief to use when drawing ttk widgets."
   "Καθορίζει την προεπιλεγμένη ανακούφιση που θα χρησιμοποιηθεί κατά την κατάρτιση TTK widgets."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Καθορίζει το στυλ εικόνα δημοσιοποίησης, να χρησιμοποιούν στην πλαϊνή γραμμή."
-
   "Specifies the pixel thickness of the highlight line."
   "Καθορίζει το πάχος pixel της γραμμής αποκορύφωμα."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset el {
 
   "Paste Theme Items"
   "Επικόλληση στοιχείων θέμα"
-
-  "Preview"
-  "Προεπισκόπιση"
 
   "Relief: "
   "συναισθηματικη εκτονωση"
@@ -2353,6 +2574,9 @@ msgcat::mcmset el {
 # General
 msgcat::mcmset el {
 
+  "Back"
+  "Πίσω"
+
   "Browse"
   "Περιήγηση"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset el {
 
   "Copy"
   "Αντιγραφή"
+
+  "Create"
+  "Δημιουργία"
+
+  "Current Line"
+  "Τρέχουσα γραμμή"
+
+  "Current Word"
+  "Τρέχουσας λέξης"
+
+  "Cursor"
+  "Δρομέα"
 
   "Delete"
   "Διαγραφή"
@@ -2386,11 +2622,20 @@ msgcat::mcmset el {
   "Favorite"
   "Αγαπημένο"
 
+  "File"
+  "Αρχείο"
+
   "File Name:"
   "Όνομα αρχείου:"
 
   "Find"
   "Find"
+
+  "Insert"
+  "Εισαγωγή"
+
+  "Language"
+  "Μητρική Γλώσσα"
 
   "Launcher"
   "Προωθητής"
@@ -2404,6 +2649,9 @@ msgcat::mcmset el {
   "None"
   "Κανένα"
 
+  "OK"
+  "ΟΚ"
+
   "Open"
   "Ανοιχτό"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset el {
 
   "Preferences"
   "Προτιμήσεις"
+
+  "Preview"
+  "Προεπισκόπιση"
 
   "Rename"
   "Μετονομασία"

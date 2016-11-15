@@ -86,6 +86,9 @@ msgcat::mcmset he {
   "Copyright"
   "זכויות יוצרים"
 
+  "Credits"
+  "קרדיט"
+
   "Delete tab?"
   "למחוק טאב?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset he {
 
   "File index is out of range"
   "קובץ אינדקס נמצא מחוץ לטווח"
+
+  "Hide Tab"
+  "הסתר את הכרטיסייה"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "התמונה מוצגים במילוי טפסים אשר סוגר את הטופס UI.  שימוש בצורות כגון חיפוש, חיפוש/החלפה, למצוא קבצים."
@@ -154,6 +160,9 @@ msgcat::mcmset he {
 
   "Image used in the preferences window in the Sidebar tab."
   "תמונת שימוש בחלון העדפות בכרטיסיה הצידי."
+
+  "Image used in the preferences window in the Snippets tab."
+  "תמונת שימוש בחלון העדפות בהכרטיסיה מקטעי."
 
   "Image used in the preferences window in the View tab."
   "תמונת שימוש בחלון העדפות בכרטיסיה תצוגה."
@@ -218,6 +227,9 @@ msgcat::mcmset he {
   "Unable to write file"
   "אין אפשרות לכתוב את הקובץ"
 
+  "Unable to write remote file"
+  "אין אפשרות לכתוב קובץ מרוחק"
+
   "Version"
   "גרסה"
 
@@ -245,6 +257,12 @@ msgcat::mcmset he {
 
   "Align Cursors"
   "יישר Cursors"
+
+  "Align Panes"
+  "ליישר חלוניות"
+
+  "Align current lines in both panes"
+  "ליישר קווים הנוכחי שתי החלוניות"
 
   "Align cursors"
   "ליישר סמנים"
@@ -348,9 +366,6 @@ msgcat::mcmset he {
   "Copy text"
   "העתק טקסט"
 
-  "Create"
-  "צור"
-
   "Create Fold From Selection"
   "ליצור קיפול מתוך בחירה"
 
@@ -366,17 +381,8 @@ msgcat::mcmset he {
   "Create new plugin"
   "ליצור תוסף חדש"
 
-  "Current Line"
-  "השורה הנוכחית"
-
   "Current Number"
   "מספר נוכחי"
-
-  "Current Word"
-  "המילה הנוכחית"
-
-  "Cursor"
-  "סמן"
 
   "Cursor from Line Start"
   "סמן קו ההתחלה"
@@ -447,6 +453,9 @@ msgcat::mcmset he {
   "Disable code folding"
   "בטל את קוד מתקפלים"
 
+  "Disable two-pane scrolling Synchronization"
+  "לבטל את סינכרון גלילה שתי חלוניות"
+
   "Display Text Info"
   "להציג טקסט מידע"
 
@@ -504,8 +513,14 @@ msgcat::mcmset he {
   "Enable Code Folding"
   "הפעלת קוד מתקפלים"
 
+  "Enable Synchronized Scrolling"
+  "לאפשר גלילה מסונכרן"
+
   "Enable Vim mode"
   "הפעלת מצב Vim"
+
+  "Enable two-pane scrolling synchronization"
+  "לאפשר סנכרון גלילה שתי חלוניות"
 
   "Enumeration"
   "ספירה"
@@ -533,9 +548,6 @@ msgcat::mcmset he {
 
   "Favorite file"
   "קבצים האהוב עליך"
-
-  "File"
-  "קובץ"
 
   "File Contents"
   "תוכן הקובץ"
@@ -621,8 +633,14 @@ msgcat::mcmset he {
   "Help"
   "עזרה"
 
+  "Hide All Tabs"
+  "להסתיר את כל הכרטיסיות"
+
   "Hide Console"
   "להסתיר את המסוף"
+
+  "Hide Current Tab"
+  "כרטיסיה הנוכחית"
 
   "Hide Line Numbers"
   "הסתר מספרי שורות"
@@ -674,9 +692,6 @@ msgcat::mcmset he {
 
   "Indentation"
   "הזחה"
-
-  "Insert"
-  "הוסף"
 
   "Insert command result after current line"
   "הוספת הפקודה התוצאה לאחר השורה הנוכחית"
@@ -740,9 +755,6 @@ msgcat::mcmset he {
 
   "Jump to the previous fold indicator"
   "לקפוץ על מחוון הקיפול הקודם"
-
-  "Language"
-  "שפה"
 
   "Line Above Current"
   "קו מעל זרם"
@@ -915,6 +927,9 @@ msgcat::mcmset he {
   "Open Recent"
   "פתח לאחרונה"
 
+  "Open Remote"
+  "שלט"
+
   "Open Selected Folds"
   "פתח שנבחרו מתקפל"
 
@@ -936,11 +951,17 @@ msgcat::mcmset he {
   "Open folds to show cursor"
   "קפלי פתוח כדי להציג את הסמן"
 
+  "Open remote file or directory"
+  "פתח קובץ מרוחק או מדריך"
+
   "Open selected folds - all levels"
   "קפלי שנבחר פתוח - כל הרמות"
 
   "Open selected folds - one level"
   "קפלי שנבחר פתוח - רמה אחת"
+
+  "Panes"
+  "חלוניות"
 
   "Paste"
   "הדבק"
@@ -1041,6 +1062,9 @@ msgcat::mcmset he {
   "Save All"
   "להציל את כולם"
 
+  "Save As Remote"
+  "שמירת מרחוק"
+
   "Save As Template"
   "שמור תבנית"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset he {
 
   "Save file as"
   "שמור את הקובץ כקובץ"
+
+  "Save file as remote file"
+  "שמור כקובץ מרחוק"
 
   "Save file as template"
   "שמור את הקובץ כתבנית"
@@ -1127,6 +1154,9 @@ msgcat::mcmset he {
 
   "Set user preferences to global preferences"
   "להגדיר העדפות המשתמש העדפות גלובלית"
+
+  "Show All Tabs"
+  "הצג הכול"
 
   "Show Console"
   "הצג המסוף"
@@ -1343,9 +1373,6 @@ msgcat::mcmset he {
   "Grant permission?"
   "Permssion גרנט?"
 
-  "OK"
-  "אשר"
-
   "Plugin Errors"
   "תוסף שגיאות"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset he {
 
 # pref_ui.tcl
 msgcat::mcmset he {
+
+  "Abbreviation Aliases"
+  "קיצור כינויים"
 
   "Add"
   "הוסף"
@@ -1429,6 +1459,9 @@ msgcat::mcmset he {
   "Clear"
   "נקה"
 
+  "Clipboard"
+  "הלוח"
+
   "Clipboard history depth"
   "הלוח היסטוריה עומק"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset he {
   "Current"
   "נוכחי"
 
+  "Current Directory"
+  "הספריה הנוכחית"
+
+  "Current File Pathname"
+  "נתיב הקובץ הנוכחי"
+
+  "Current Filename"
+  "שם הקובץ הנוכחי"
+
+  "Current Line Column"
+  "עמודה בשורה הנוכחית"
+
+  "Current Line Number"
+  "מספר הקו הנוכחי"
+
   "Current editing buffer directory"
   "הספריה מאגר העריכה הנוכחית"
 
   "Current working directory"
   "ספריית עבודה נוכחית"
+
+  "Date"
+  "תאריך"
 
   "Default Markdown Export Extension"
   "סיומת ברירת המחדל הוזלה ייצוא"
@@ -1467,6 +1518,9 @@ msgcat::mcmset he {
 
   "Default unit for integer values"
   "יחידת ברירת המחדל עבור ערכי המספרים השלמים"
+
+  "Delete snippet"
+  "מחק מקטע"
 
   "Development"
   "פיתוח"
@@ -1522,6 +1576,9 @@ msgcat::mcmset he {
   "Indentation Spaces"
   "הכניסה רווחים"
 
+  "Keyword"
+  "מילות מפתח"
+
   "Languages"
   "שפות"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset he {
 
   "Mounts"
   "טעינות"
+
+  "Node Aliases"
+  "צומת כינויים"
 
   "Parenthesis"
   "סוגריים"
@@ -1582,11 +1642,20 @@ msgcat::mcmset he {
   "Ruler column"
   "הסרגל עמודות"
 
+  "Search Shortcuts"
+  "חפש קיצורי דרך"
+
+  "Search Snippets"
+  "חיפוש קטעי"
+
   "Select Settings Sharing Directory"
   "בחר הגדרות שיתוף הספריות"
 
   "Select default browsing directory"
   "בחר באפשרויות ברירת מחדל גלישה מדריך"
+
+  "Selected Text"
+  "הטקסט שנבחר ללשונית"
 
   "Set"
   "הגדר"
@@ -1636,6 +1705,9 @@ msgcat::mcmset he {
   "Snippet Completion Characters"
   "גזיר השלמת תווים"
 
+  "Snippet Text"
+  "גזיר טקסט"
+
   "Sort tabs alphabetically on open"
   "כרטיסיות מיון אלפביתי על פתח"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset he {
 
   "Tab"
   "כרטיסיה"
+
+  "Tab Stop"
+  "עצירת טאב"
+
+  "Time"
+  "זמן"
 
   "Update using release type"
   "עדכון באמצעות סוג המהדורה"
@@ -1698,6 +1776,119 @@ msgcat::mcmset he {
 
   "Variables"
   "משתנים"
+
+}
+
+# remote.tcl
+msgcat::mcmset he {
+
+  "Close Connection"
+  "לסגור את החיבור"
+
+  "Create New Folder"
+  "ליצור תיקייה קיימת"
+
+  "Delete Connection"
+  "למחוק התקשרות"
+
+  "Delete Group"
+  "מחיקת קבוצה"
+
+  "Delete connection?"
+  "האם למחוק את החיבור?"
+
+  "Delete group?"
+  "משתמש חסר."
+
+  "Edit Connection"
+  "עריכת חיבור"
+
+  "Enter Password"
+  "להזין סיסמא"
+
+  "Folder Name"
+  "שם תיקיה"
+
+  "Group"
+  "קבוצה"
+
+  "Group Name"
+  "שם"
+
+  "Group Name: "
+  "שם"
+
+  "Image used in remote file selector to indicate a file."
+  "תמונת שימוש בבורר קובץ מרוחק כדי לציין קובץ."
+
+  "Image used in remote file selector to indicate a folder."
+  "תמונת שימוש בבורר קובץ מרוחק כדי לציין תיקיה."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "תמונת שימוש בבורר קובץ מרוחק כדי לציין כי חיבור נפתחת."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "תמונת שימוש בבורר קובץ מרוחק כדי לציין כי חיבור זה נפתח."
+
+  "Name"
+  "שם"
+
+  "New Connection"
+  "חיבור חדש"
+
+  "New Folder"
+  "תיקייה חדשה"
+
+  "New Group"
+  "קבוצה חדשה"
+
+  "Open Connection"
+  "חיבור פתוח"
+
+  "Open Remote File"
+  "פתח קובץ מרוחק"
+
+  "Optional"
+  "אופציונלי"
+
+  "Password"
+  "סיסמא"
+
+  "Password: "
+  "סיסמא:"
+
+  "Port"
+  "נמל"
+
+  "Remote Directory"
+  "מדריך מרחוק"
+
+  "Rename Group"
+  "שינוי שם קבוצה"
+
+  "Save File Remotely"
+  "שמור את הקובץ מרחוק"
+
+  "Server"
+  "שרת"
+
+  "Test"
+  "בדיקה"
+
+  "Test Connection"
+  "בדיקת חיבור"
+
+  "Type"
+  "סוג"
+
+  "Unable to connect to"
+  "לא ניתן להתחבר לשרת"
+
+  "Username"
+  "שם משתמש"
+
+  "server"
+  "שרת"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset he {
   "Favorites"
   "מועדפים"
 
+  "Remote Connections"
+  "חיבורים מרוחקים"
+
   "Settings to export"
   "הגדרות ייצוא"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset he {
   "Directory Name:"
   "שם הספריה:"
 
+  "Disconnect From Server"
+  "התנתקות מהשרת"
+
   "Folder Name:"
   "שם תיקייה:"
+
+  "Hide"
+  "להסתיר"
+
+  "Hide Directory Files"
+  "להסתיר את קבצי הספריה"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "התמונה המוצגת בסרגל הצידי להצביע ספרייה מכווצת"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "התמונה המוצגת בסרגל הצידי להצביע ספרייה מראה את תוכנו"
+
+  "Image displayed in sidebar to indicate a file"
+  "התמונה המוצגת בסרגל הצידי כדי לציין קובץ"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "התמונה המוצגת בסרגל הצידי להצביע ספרייה שנבחרה היא מכווצת"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "התמונה המוצגת בסרגל הצידי להצביע ספרייה הנבחר מורחב"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "התמונה המוצגת בסרגל הצידי כדי לציין כי קובץ כעת נפתח אך מוסתר"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "התמונה המוצגת בסרגל הצידי כדי לציין כי קובץ כעת נפתח מאגר העריכה."
@@ -1809,8 +2030,14 @@ msgcat::mcmset he {
   "Remove from Sidebar"
   "להסיר את הסרגל הצידי"
 
+  "Show"
+  "הצג"
+
   "Show Difference"
   "להראות ההבדל"
+
+  "Show Directory Files"
+  "הצג ספריית קבצים"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset he {
 
 # startup.tcl
 msgcat::mcmset he {
-
-  "Back"
-  "חזרה"
 
   "Change Directory"
   "מדריך שינוי"
@@ -2026,6 +2250,9 @@ msgcat::mcmset he {
   "Foreground (slider) color used in the sidebar scrollbar."
   "צבע הקידמה (המחוון) להשתמש בפס הגלילה הצידי."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "צבע הקידמה (המחוון) המשמשים את פסי גלילה טקסט בעת סינכרון חלונית מופעלת."
+
   "Foreground (slider) color used in the text scrollbars."
   "צבע הקידמה (המחוון) המשמשים את פסי גלילה טקסט."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset he {
   "Specifies the default relief to use when drawing ttk widgets."
   "ציון ההקלה ברירת המחדל לשימוש בעת ציור ttk ווידג'טים."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "ציון הסגנון תמונת גילוי להשתמש בתיבה הצידית."
-
   "Specifies the pixel thickness of the highlight line."
   "ציון פיקסל עובי הקו האר."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset he {
 
   "Paste Theme Items"
   "הדבקת פריטים דירוג"
-
-  "Preview"
-  "תצוגה מוקדמת"
 
   "Relief: "
   "תבליט"
@@ -2353,6 +2574,9 @@ msgcat::mcmset he {
 # General
 msgcat::mcmset he {
 
+  "Back"
+  "חזרה"
+
   "Browse"
   "עיין"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset he {
 
   "Copy"
   "להעתיק"
+
+  "Create"
+  "צור"
+
+  "Current Line"
+  "השורה הנוכחית"
+
+  "Current Word"
+  "המילה הנוכחית"
+
+  "Cursor"
+  "סמן"
 
   "Delete"
   "מחק"
@@ -2386,11 +2622,20 @@ msgcat::mcmset he {
   "Favorite"
   "מועדף"
 
+  "File"
+  "קובץ"
+
   "File Name:"
   "שם קובץ"
 
   "Find"
   "לימצו (limtzo)"
+
+  "Insert"
+  "הוסף"
+
+  "Language"
+  "שפה"
 
   "Launcher"
   "משגר"
@@ -2404,6 +2649,9 @@ msgcat::mcmset he {
   "None"
   "ללא"
 
+  "OK"
+  "אשר"
+
   "Open"
   "לִפְתוֹחַ"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset he {
 
   "Preferences"
   "אפשרויות קבועות"
+
+  "Preview"
+  "תצוגה מוקדמת"
 
   "Rename"
   "שינוי שם"

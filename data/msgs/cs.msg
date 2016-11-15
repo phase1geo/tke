@@ -86,6 +86,9 @@ msgcat::mcmset cs {
   "Copyright"
   "Copyright"
 
+  "Credits"
+  "Autoři"
+
   "Delete tab?"
   "Kartu smazat?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset cs {
 
   "File index is out of range"
   "Obsah souboru je mimo rozsah"
+
+  "Hide Tab"
+  "Skrýt kartu"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Obrazy zobrazené v fill-in formách, které uzavírá formuláře UI. Používá se ve formách, jako je vyhledávání, hledání / nahrazování, a najít v souborech."
@@ -154,6 +160,9 @@ msgcat::mcmset cs {
 
   "Image used in the preferences window in the Sidebar tab."
   "Obrázek v okně Předvolby v postranním panelu na kartě."
+
+  "Image used in the preferences window in the Snippets tab."
+  "Obrázek v okně Předvolby v záložce výstřižky."
 
   "Image used in the preferences window in the View tab."
   "Obrázek v okně Předvolby na kartě zobrazení."
@@ -218,6 +227,9 @@ msgcat::mcmset cs {
   "Unable to write file"
   "Nelze zapsat soubor"
 
+  "Unable to write remote file"
+  "Nelze zapsat vzdálený soubor"
+
   "Version"
   "Verze"
 
@@ -245,6 +257,12 @@ msgcat::mcmset cs {
 
   "Align Cursors"
   "Zarovnání kurzor?"
+
+  "Align Panes"
+  "Zarovnání podokna"
+
+  "Align current lines in both panes"
+  "Zarovnat proudu v obou podoknech"
 
   "Align cursors"
   "Zarovnání kurzorů"
@@ -348,9 +366,6 @@ msgcat::mcmset cs {
   "Copy text"
   "Kopírovat text"
 
-  "Create"
-  "Vytvořit"
-
   "Create Fold From Selection"
   "Vytvořit z výběru krát"
 
@@ -366,17 +381,8 @@ msgcat::mcmset cs {
   "Create new plugin"
   "Vytvořit nový plugin"
 
-  "Current Line"
-  "Aktuální řádek"
-
   "Current Number"
   "Aktuální číslo"
-
-  "Current Word"
-  "Aktuální slovo"
-
-  "Cursor"
-  "Kurzor"
 
   "Cursor from Line Start"
   "Kurzor od začátku řádku"
@@ -447,6 +453,9 @@ msgcat::mcmset cs {
   "Disable code folding"
   "Zakázat, skládání kódu"
 
+  "Disable two-pane scrolling Synchronization"
+  "Zakázat posouvání synchronizaci dvou panelový"
+
   "Display Text Info"
   "Zobrazit informace o textu"
 
@@ -504,8 +513,14 @@ msgcat::mcmset cs {
   "Enable Code Folding"
   "Povolit skládání kódu"
 
+  "Enable Synchronized Scrolling"
+  "Povolit synchronizované posouvání"
+
   "Enable Vim mode"
   "Povolit režim Vim"
+
+  "Enable two-pane scrolling synchronization"
+  "Zapnout posouvání synchronizaci dvou panelový"
 
   "Enumeration"
   "Výčet"
@@ -533,9 +548,6 @@ msgcat::mcmset cs {
 
   "Favorite file"
   "Oblíbený soubor"
-
-  "File"
-  "Soubor"
 
   "File Contents"
   "Obsah souboru"
@@ -621,8 +633,14 @@ msgcat::mcmset cs {
   "Help"
   "Nápověda"
 
+  "Hide All Tabs"
+  "Skrýt všechny karty"
+
   "Hide Console"
   "Skrýt konzole"
+
+  "Hide Current Tab"
+  "Skrýt aktuální kartu"
 
   "Hide Line Numbers"
   "Skrýt čísla řádek"
@@ -674,9 +692,6 @@ msgcat::mcmset cs {
 
   "Indentation"
   "Odsazení"
-
-  "Insert"
-  "Vložit"
 
   "Insert command result after current line"
   "Vložit výsledek příkazu za aktuálním řádkem"
@@ -740,9 +755,6 @@ msgcat::mcmset cs {
 
   "Jump to the previous fold indicator"
   "Přejít na předchozí indikátor krát"
-
-  "Language"
-  "Jazyk"
 
   "Line Above Current"
   "Linka nad aktuální"
@@ -915,6 +927,9 @@ msgcat::mcmset cs {
   "Open Recent"
   "Otevřít poslední"
 
+  "Open Remote"
+  "Vzdálený"
+
   "Open Selected Folds"
   "Otevřít vybrané záhyby"
 
@@ -936,11 +951,17 @@ msgcat::mcmset cs {
   "Open folds to show cursor"
   "Ohrad otevřeno zobrazení kurzoru"
 
+  "Open remote file or directory"
+  "Otevřít vzdálený soubor nebo adresář"
+
   "Open selected folds - all levels"
   "Otevřít vybrané záhyby - všechny úrovně"
 
   "Open selected folds - one level"
   "Otevřít vybrané záhyby - jedna úroveň"
+
+  "Panes"
+  "Panely"
 
   "Paste"
   "Pasta"
@@ -1041,6 +1062,9 @@ msgcat::mcmset cs {
   "Save All"
   "Uložit všechny"
 
+  "Save As Remote"
+  "Uložit jako dálkové"
+
   "Save As Template"
   "Uložit jako šablonu"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset cs {
 
   "Save file as"
   "Uložit soubor 2 jako"
+
+  "Save file as remote file"
+  "Uložte soubor jako vzdálený soubor"
 
   "Save file as template"
   "Uložit jako šablonu"
@@ -1127,6 +1154,9 @@ msgcat::mcmset cs {
 
   "Set user preferences to global preferences"
   "Nastavit uživatelské předvolby na globální nastavení"
+
+  "Show All Tabs"
+  "Zobrazit všechny karty"
 
   "Show Console"
   "Zobrazit Console"
@@ -1343,9 +1373,6 @@ msgcat::mcmset cs {
   "Grant permission?"
   "Grant permission?"
 
-  "OK"
-  "OK"
-
   "Plugin Errors"
   "Plugin chyby"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset cs {
 
 # pref_ui.tcl
 msgcat::mcmset cs {
+
+  "Abbreviation Aliases"
+  "Zkratka aliasy"
 
   "Add"
   "Přidat"
@@ -1429,6 +1459,9 @@ msgcat::mcmset cs {
   "Clear"
   "Vymazat"
 
+  "Clipboard"
+  "Schránka"
+
   "Clipboard history depth"
   "Hloubka historie schránky"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset cs {
   "Current"
   "Aktuální"
 
+  "Current Directory"
+  "aktuální adresář"
+
+  "Current File Pathname"
+  "Aktuální cesta souboru"
+
+  "Current Filename"
+  "Aktuální název souboru"
+
+  "Current Line Column"
+  "Aktuální řádek sloupec"
+
+  "Current Line Number"
+  "Číslo aktuálního řádku"
+
   "Current editing buffer directory"
   "Aktuální úpravy vyrovnávací paměti adresář"
 
   "Current working directory"
   "Aktuální pracovní adresář"
+
+  "Date"
+  "Datum"
 
   "Default Markdown Export Extension"
   "Výchozí rozšíření exportu Markdown"
@@ -1467,6 +1518,9 @@ msgcat::mcmset cs {
 
   "Default unit for integer values"
   "Výchozí jednotka pro celočíselné hodnoty"
+
+  "Delete snippet"
+  "Odstranit výstřižek"
 
   "Development"
   "Vývoj"
@@ -1522,6 +1576,9 @@ msgcat::mcmset cs {
   "Indentation Spaces"
   "Odsazení mezer"
 
+  "Keyword"
+  "Klíčové slovo"
+
   "Languages"
   "Jazyky"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset cs {
 
   "Mounts"
   "Držáky"
+
+  "Node Aliases"
+  "Uzel aliasy"
 
   "Parenthesis"
   "Závorky"
@@ -1582,11 +1642,20 @@ msgcat::mcmset cs {
   "Ruler column"
   "Vládce sloupec"
 
+  "Search Shortcuts"
+  "Hledání zkratek"
+
+  "Search Snippets"
+  "Hledat fragmenty"
+
   "Select Settings Sharing Directory"
   "Vyberte nastavení sdílení adresáře"
 
   "Select default browsing directory"
   "Vyberte výchozí procházení adresářů"
+
+  "Selected Text"
+  "Vybraný text záložky"
 
   "Set"
   "Nastavit"
@@ -1636,6 +1705,9 @@ msgcat::mcmset cs {
   "Snippet Completion Characters"
   "Fragment dokončení postavy"
 
+  "Snippet Text"
+  "Úryvek textu"
+
   "Sort tabs alphabetically on open"
   "Seřadit záložky abecedně při otevření"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset cs {
 
   "Tab"
   "Záložka"
+
+  "Tab Stop"
+  "Zarážku tabulátoru"
+
+  "Time"
+  "Čas"
 
   "Update using release type"
   "Aktualizovat pomocí verze typu"
@@ -1698,6 +1776,119 @@ msgcat::mcmset cs {
 
   "Variables"
   "Proměnné"
+
+}
+
+# remote.tcl
+msgcat::mcmset cs {
+
+  "Close Connection"
+  "Zavření připojení"
+
+  "Create New Folder"
+  "Vytvořit novou složku"
+
+  "Delete Connection"
+  "Smazat připojení"
+
+  "Delete Group"
+  "Smazat skupinu"
+
+  "Delete connection?"
+  "Smazat připojení"
+
+  "Delete group?"
+  "Vymazat skupinu"
+
+  "Edit Connection"
+  "Upravit propojení"
+
+  "Enter Password"
+  "Zadejte heslo"
+
+  "Folder Name"
+  "Název složky:"
+
+  "Group"
+  "Skupina"
+
+  "Group Name"
+  "Název skupiny"
+
+  "Group Name: "
+  "Název skupiny"
+
+  "Image used in remote file selector to indicate a file."
+  "Obrázek použitý v vzdálených souborů pro výběr k označení souboru."
+
+  "Image used in remote file selector to indicate a folder."
+  "Obrázek použitý v vzdálených souborů pro výběr k označení složky."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Obrázek použitý v vzdálených souborů pro výběr tohoto políčka označíte, že připojení je otevřena."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Obrázek použitý v vzdálených souborů pro výběr tohoto políčka označíte, že připojení je otevřen."
+
+  "Name"
+  "Jméno"
+
+  "New Connection"
+  "Přidat nové připojení"
+
+  "New Folder"
+  "Nová složka"
+
+  "New Group"
+  "Nová skupina"
+
+  "Open Connection"
+  "Připojení"
+
+  "Open Remote File"
+  "Otevřít vzdálený soubor"
+
+  "Optional"
+  "Volitelný"
+
+  "Password"
+  "Heslo"
+
+  "Password: "
+  "Heslo:"
+
+  "Port"
+  "Port"
+
+  "Remote Directory"
+  "Vzdálený adresář"
+
+  "Rename Group"
+  "Přejmenovat skupinu"
+
+  "Save File Remotely"
+  "Uložte soubor vzdáleně"
+
+  "Server"
+  "<strong>ERROR:</strong> There was an error storing <strong>robots.txt</strong> to the server, the file could not be written."
+
+  "Test"
+  "Test"
+
+  "Test Connection"
+  "Připojení"
+
+  "Type"
+  "Typ"
+
+  "Unable to connect to"
+  "Nelze se připojit k"
+
+  "Username"
+  "Uživatelské jméno"
+
+  "server"
+  "<strong>ERROR:</strong> There was an error storing <strong>robots.txt</strong> to the server, the file could not be written."
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset cs {
   "Favorites"
   "Oblíbené"
 
+  "Remote Connections"
+  "Vzdálená připojení"
+
   "Settings to export"
   "Nastavení exportu"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset cs {
   "Directory Name:"
   "Název adresáře:"
 
+  "Disconnect From Server"
+  "Odpojit od serveru"
+
   "Folder Name:"
   "Název sloky:"
+
+  "Hide"
+  "Skrýt"
+
+  "Hide Directory Files"
+  "Skrýt soubory adresáře"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Obrázek zobrazený v postranním panelu označuje adresář, který je sbaleno"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Obrázek zobrazený v postranním panelu označuje adresář, který je zobrazen jeho obsah"
+
+  "Image displayed in sidebar to indicate a file"
+  "Obrázek zobrazený v postranním panelu k označení souboru"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Obrázek zobrazený v postranním panelu označíte vybraný adresář, který je sbaleno"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Obrázek zobrazený v postranním panelu označíte vybraný adresář, který je vyplněn"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Obrázek zobrazený v postranním panelu označuje, že soubor je aktuálně otevřen ale skryté"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Obrazy zobrazené v bočním panelu, čímž naznačují, že soubor je aktuálně otevřen v editačním vyrovnávací paměti."
@@ -1809,8 +2030,14 @@ msgcat::mcmset cs {
   "Remove from Sidebar"
   "Odebrat z postranního panelu"
 
+  "Show"
+  "Zobrazit"
+
   "Show Difference"
   "Zobrazit rozdíl"
+
+  "Show Directory Files"
+  "Zobrazit soubory adresáře"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset cs {
 
 # startup.tcl
 msgcat::mcmset cs {
-
-  "Back"
-  "Zpět"
 
   "Change Directory"
   "Změna složky..."
@@ -2026,6 +2250,9 @@ msgcat::mcmset cs {
   "Foreground (slider) color used in the sidebar scrollbar."
   "Popředí (slider), barvy použité v postranním panelu posuvníku."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "Barva popředí (posuvník) používané v textu posuvníky, když je povolena synchronizace podokno."
+
   "Foreground (slider) color used in the text scrollbars."
   "Popředí (slider), barvy použité v textu posuvníky."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset cs {
   "Specifies the default relief to use when drawing ttk widgets."
   "Určuje výchozí úlevu pro použití při kreslení TTK widgety."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Určuje styl zveřejňování obrazu pro použití v postranním panelu."
-
   "Specifies the pixel thickness of the highlight line."
   "Určuje tloušťku pixelů zvýraznění linie."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset cs {
 
   "Paste Theme Items"
   "Vložit položky"
-
-  "Preview"
-  "Náhled"
 
   "Relief: "
   "Reliéf"
@@ -2353,6 +2574,9 @@ msgcat::mcmset cs {
 # General
 msgcat::mcmset cs {
 
+  "Back"
+  "Zpět"
+
   "Browse"
   "Procházet"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset cs {
 
   "Copy"
   "Kopírovat"
+
+  "Create"
+  "Vytvořit"
+
+  "Current Line"
+  "Aktuální řádek"
+
+  "Current Word"
+  "Aktuální slovo"
+
+  "Cursor"
+  "Kurzor"
 
   "Delete"
   "Odstranit"
@@ -2386,11 +2622,20 @@ msgcat::mcmset cs {
   "Favorite"
   "oblíbená položka"
 
+  "File"
+  "Soubor"
+
   "File Name:"
   "&Jméno souboru:"
 
   "Find"
   "Find"
+
+  "Insert"
+  "Vložit"
+
+  "Language"
+  "Jazyk"
 
   "Launcher"
   "spouštěč"
@@ -2404,6 +2649,9 @@ msgcat::mcmset cs {
   "None"
   "Žádné"
 
+  "OK"
+  "OK"
+
   "Open"
   "Open"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset cs {
 
   "Preferences"
   "Preference"
+
+  "Preview"
+  "Náhled"
 
   "Rename"
   "Odebrat"

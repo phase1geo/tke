@@ -86,6 +86,9 @@ msgcat::mcmset zh {
   "Copyright"
   "Copyright"
 
+  "Credits"
+  "贡献"
+
   "Delete tab?"
   "删除标签？"
 
@@ -109,6 +112,9 @@ msgcat::mcmset zh {
 
   "File index is out of range"
   "文件索引超出范围"
+
+  "Hide Tab"
+  "隐藏选项卡"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "图像显示在填充窗体关闭窗体的用户界面。 用于形式，如搜索，搜索/替换，并在文件中查找。"
@@ -154,6 +160,9 @@ msgcat::mcmset zh {
 
   "Image used in the preferences window in the Sidebar tab."
   "在首选项窗口中的侧边栏选项卡所用的图像。"
+
+  "Image used in the preferences window in the Snippets tab."
+  "在首选项窗口中代码段选项卡中使用的图像。"
 
   "Image used in the preferences window in the View tab."
   "在视图选项卡中的首选项窗口中使用的图像。"
@@ -218,6 +227,9 @@ msgcat::mcmset zh {
   "Unable to write file"
   "无法写入文件"
 
+  "Unable to write remote file"
+  "无法写入远程文件"
+
   "Version"
   "版本"
 
@@ -245,6 +257,12 @@ msgcat::mcmset zh {
 
   "Align Cursors"
   "對齊光標"
+
+  "Align Panes"
+  "对齐窗格"
+
+  "Align current lines in both panes"
+  "对齐两个窗格中的当前行"
 
   "Align cursors"
   "调整光标"
@@ -348,9 +366,6 @@ msgcat::mcmset zh {
   "Copy text"
   "复制文本"
 
-  "Create"
-  "创建"
-
   "Create Fold From Selection"
   "从选择创建折叠"
 
@@ -366,17 +381,8 @@ msgcat::mcmset zh {
   "Create new plugin"
   "创建新的插件"
 
-  "Current Line"
-  "当前行"
-
   "Current Number"
   "当前数量"
-
-  "Current Word"
-  "当前的单词"
-
-  "Cursor"
-  "光标"
 
   "Cursor from Line Start"
   "光标从行开始"
@@ -447,6 +453,9 @@ msgcat::mcmset zh {
   "Disable code folding"
   "禁用代码折叠"
 
+  "Disable two-pane scrolling Synchronization"
+  "禁用两个窗格滚动同步"
+
   "Display Text Info"
   "显示文字"
 
@@ -504,8 +513,14 @@ msgcat::mcmset zh {
   "Enable Code Folding"
   "启用代码折叠"
 
+  "Enable Synchronized Scrolling"
+  "启用同步滚动"
+
   "Enable Vim mode"
   "启用 Vim 模式"
+
+  "Enable two-pane scrolling synchronization"
+  "使两个窗格滚动同步"
 
   "Enumeration"
   "列举法"
@@ -533,9 +548,6 @@ msgcat::mcmset zh {
 
   "Favorite file"
   "最喜欢的文件"
-
-  "File"
-  "文件"
 
   "File Contents"
   "強製文件獲取內容"
@@ -621,8 +633,14 @@ msgcat::mcmset zh {
   "Help"
   "帮助"
 
+  "Hide All Tabs"
+  "隐藏所有"
+
   "Hide Console"
   "隐藏控制台"
+
+  "Hide Current Tab"
+  "当前标签页"
 
   "Hide Line Numbers"
   "隐藏行号"
@@ -674,9 +692,6 @@ msgcat::mcmset zh {
 
   "Indentation"
   "缩进"
-
-  "Insert"
-  "插入"
 
   "Insert command result after current line"
   "在当前行之后插入命令结果"
@@ -740,9 +755,6 @@ msgcat::mcmset zh {
 
   "Jump to the previous fold indicator"
   "跳转到以前的折叠指示器"
-
-  "Language"
-  "语言"
 
   "Line Above Current"
   "高于当前行"
@@ -915,6 +927,9 @@ msgcat::mcmset zh {
   "Open Recent"
   "打开最近"
 
+  "Open Remote"
+  "远程"
+
   "Open Selected Folds"
   "打开选择的褶皱"
 
@@ -936,11 +951,17 @@ msgcat::mcmset zh {
   "Open folds to show cursor"
   "开放的褶皱，显示光标"
 
+  "Open remote file or directory"
+  "打开远程文件或目录"
+
   "Open selected folds - all levels"
   "打开选定的褶皱-所有级别"
 
   "Open selected folds - one level"
   "打开选定的褶皱-一个级别"
+
+  "Panes"
+  "窗格"
 
   "Paste"
   "粘贴"
@@ -1041,6 +1062,9 @@ msgcat::mcmset zh {
   "Save All"
   "全部儲存"
 
+  "Save As Remote"
+  "另存为远程"
+
   "Save As Template"
   "另保存模板"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset zh {
 
   "Save file as"
   "保存文件为..."
+
+  "Save file as remote file"
+  "将文件另存为远程文件"
 
   "Save file as template"
   "保存模板"
@@ -1127,6 +1154,9 @@ msgcat::mcmset zh {
 
   "Set user preferences to global preferences"
   "设置的用户首选项设置为全局首选项"
+
+  "Show All Tabs"
+  "显示所有选项卡"
 
   "Show Console"
   "显示控制台"
@@ -1343,9 +1373,6 @@ msgcat::mcmset zh {
   "Grant permission?"
   "格兰特PERMSSION？"
 
-  "OK"
-  "確定"
-
   "Plugin Errors"
   "插件错误"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset zh {
 
 # pref_ui.tcl
 msgcat::mcmset zh {
+
+  "Abbreviation Aliases"
+  "缩写别名"
 
   "Add"
   "添加"
@@ -1429,6 +1459,9 @@ msgcat::mcmset zh {
   "Clear"
   "清空"
 
+  "Clipboard"
+  "剪贴板"
+
   "Clipboard history depth"
   "剪贴板历史深度"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset zh {
   "Current"
   "现金"
 
+  "Current Directory"
+  "目前的目錄"
+
+  "Current File Pathname"
+  "当前的文件路径名"
+
+  "Current Filename"
+  "当前文件名"
+
+  "Current Line Column"
+  "当前列"
+
+  "Current Line Number"
+  "当前行号"
+
   "Current editing buffer directory"
   "当前编辑缓冲区目录"
 
   "Current working directory"
   "当前工作目录"
+
+  "Date"
+  "日期"
 
   "Default Markdown Export Extension"
   "默认降价出口扩展名"
@@ -1467,6 +1518,9 @@ msgcat::mcmset zh {
 
   "Default unit for integer values"
   "默认单位为整数值的"
+
+  "Delete snippet"
+  "删除代码段"
 
   "Development"
   "开发"
@@ -1522,6 +1576,9 @@ msgcat::mcmset zh {
   "Indentation Spaces"
   "缩进空格"
 
+  "Keyword"
+  "关键词"
+
   "Languages"
   "语言"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset zh {
 
   "Mounts"
   "坐骑"
+
+  "Node Aliases"
+  "别名"
 
   "Parenthesis"
   "括号"
@@ -1582,11 +1642,20 @@ msgcat::mcmset zh {
   "Ruler column"
   "统治者列"
 
+  "Search Shortcuts"
+  "搜尋捷徑鍵"
+
+  "Search Snippets"
+  "搜索代码段"
+
   "Select Settings Sharing Directory"
   "选择设置共享目录"
 
   "Select default browsing directory"
   "选择默认浏览目录"
+
+  "Selected Text"
+  "所选文字"
 
   "Set"
   "设置"
@@ -1636,6 +1705,9 @@ msgcat::mcmset zh {
   "Snippet Completion Characters"
   "代码段完成字符"
 
+  "Snippet Text"
+  "文字片段"
+
   "Sort tabs alphabetically on open"
   "排序按字母顺序在打开的标签页"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset zh {
 
   "Tab"
   "Tab標籤"
+
+  "Tab Stop"
+  "制表符"
+
+  "Time"
+  "时间"
 
   "Update using release type"
   "更新使用释放类型"
@@ -1698,6 +1776,119 @@ msgcat::mcmset zh {
 
   "Variables"
   "變量"
+
+}
+
+# remote.tcl
+msgcat::mcmset zh {
+
+  "Close Connection"
+  "关闭连接？"
+
+  "Create New Folder"
+  "创建新文件夹"
+
+  "Delete Connection"
+  "删除连接"
+
+  "Delete Group"
+  "删除群组"
+
+  "Delete connection?"
+  "删除连接吗？"
+
+  "Delete group?"
+  "删除群组"
+
+  "Edit Connection"
+  "编辑连接"
+
+  "Enter Password"
+  "输入密码"
+
+  "Folder Name"
+  "文件夹名"
+
+  "Group"
+  "群组"
+
+  "Group Name"
+  "群组名称"
+
+  "Group Name: "
+  "分组名称："
+
+  "Image used in remote file selector to indicate a file."
+  "在远程文件选择器中用于指示文件的图像。"
+
+  "Image used in remote file selector to indicate a folder."
+  "在远程文件选择器中用于指示文件夹中的图像。"
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "在远程文件选择器中用于指示连接被打开的图像。"
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "在远程文件选择器中用于指示连接打开的图像。"
+
+  "Name"
+  "您的姓名"
+
+  "New Connection"
+  "新建连接"
+
+  "New Folder"
+  "新文件夹"
+
+  "New Group"
+  "新集团"
+
+  "Open Connection"
+  "打开连接"
+
+  "Open Remote File"
+  "远程文件"
+
+  "Optional"
+  "選擇性"
+
+  "Password"
+  "密码"
+
+  "Password: "
+  "密码："
+
+  "Port"
+  "端口号"
+
+  "Remote Directory"
+  "远程目录"
+
+  "Rename Group"
+  "重新命名群組"
+
+  "Save File Remotely"
+  "将文件保存到远程"
+
+  "Server"
+  "服务器"
+
+  "Test"
+  "测试"
+
+  "Test Connection"
+  "测试连接"
+
+  "Type"
+  "类型"
+
+  "Unable to connect to"
+  "无法连接"
+
+  "Username"
+  "用户名"
+
+  "server"
+  "服务器"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset zh {
   "Favorites"
   "收藏"
 
+  "Remote Connections"
+  "远程连接"
+
   "Settings to export"
   "要导出的设置"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset zh {
   "Directory Name:"
   "目录名称:"
 
+  "Disconnect From Server"
+  "从服务器断开连接"
+
   "Folder Name:"
   "文件夾名稱:"
+
+  "Hide"
+  "隐藏"
+
+  "Hide Directory Files"
+  "隐藏目录文件"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "在侧边栏来指示折叠目录中显示图像"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "在侧边栏来指示显示其内容的目录中显示图像"
+
+  "Image displayed in sidebar to indicate a file"
+  "在侧边栏来指示文件中显示图像"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "在侧边栏来指示折叠所选的目录中显示图像"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "在侧边栏来指示扩展所选的目录中显示图像"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "图像显示在侧栏以指示文件当前是打开，但隐藏"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "在侧边栏来指示在编辑缓冲区中当前打开文件中显示的图像。"
@@ -1809,8 +2030,14 @@ msgcat::mcmset zh {
   "Remove from Sidebar"
   "从边栏移除"
 
+  "Show"
+  "显示"
+
   "Show Difference"
   "显示不同"
+
+  "Show Directory Files"
+  "显示目录文件"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset zh {
 
 # startup.tcl
 msgcat::mcmset zh {
-
-  "Back"
-  "返回"
 
   "Change Directory"
   "切换目录"
@@ -2026,6 +2250,9 @@ msgcat::mcmset zh {
   "Foreground (slider) color used in the sidebar scrollbar."
   "(滑块) 使用前景色在侧边栏滚动条。"
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "（滑块） 使用前景色在文本滚动条时启用窗格同步。"
+
   "Foreground (slider) color used in the text scrollbars."
   "(滑块) 使用前景色在文本滚动条。"
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset zh {
   "Specifies the default relief to use when drawing ttk widgets."
   "指定绘制 ttk 部件时要使用的默认救济。"
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "指定要在边栏中使用的披露图像样式。"
-
   "Specifies the pixel thickness of the highlight line."
   "指定像素的突出显示线的粗细。"
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset zh {
 
   "Paste Theme Items"
   "粘贴主题项目"
-
-  "Preview"
-  "預覽"
 
   "Relief: "
   "救济"
@@ -2353,6 +2574,9 @@ msgcat::mcmset zh {
 # General
 msgcat::mcmset zh {
 
+  "Back"
+  "返回"
+
   "Browse"
   "瀏覽"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset zh {
 
   "Copy"
   "复制"
+
+  "Create"
+  "创建"
+
+  "Current Line"
+  "当前行"
+
+  "Current Word"
+  "当前的单词"
+
+  "Cursor"
+  "光标"
 
   "Delete"
   "刪除"
@@ -2386,11 +2622,20 @@ msgcat::mcmset zh {
   "Favorite"
   "我的最愛"
 
+  "File"
+  "文件"
+
   "File Name:"
   "文件名："
 
   "Find"
   "查找"
+
+  "Insert"
+  "插入"
+
+  "Language"
+  "语言"
 
   "Launcher"
   "发射台"
@@ -2404,6 +2649,9 @@ msgcat::mcmset zh {
   "None"
   "无"
 
+  "OK"
+  "確定"
+
   "Open"
   "打开"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset zh {
 
   "Preferences"
   "首选项"
+
+  "Preview"
+  "預覽"
 
   "Rename"
   "重命名"

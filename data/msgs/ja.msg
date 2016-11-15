@@ -86,6 +86,9 @@ msgcat::mcmset ja {
   "Copyright"
   "著作権"
 
+  "Credits"
+  "クレジット"
+
   "Delete tab?"
   "タブを削除しますか？"
 
@@ -109,6 +112,9 @@ msgcat::mcmset ja {
 
   "File index is out of range"
   "ファイルインデックスが範囲外である"
+
+  "Hide Tab"
+  "タブを非表示します。"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "フォームUIを閉じフィルインの形で表示された画像。検索などの形で使用され、検索/置換、およびファイルで見つけます。"
@@ -154,6 +160,9 @@ msgcat::mcmset ja {
 
   "Image used in the preferences window in the Sidebar tab."
   "[サイドバー] タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Snippets tab."
+  "イメージ設定ウィンドウの [スニペット] タブで使用します。"
 
   "Image used in the preferences window in the View tab."
   "[表示] タブの設定ウィンドウで使用するイメージ。"
@@ -245,6 +254,12 @@ msgcat::mcmset ja {
 
   "Align Cursors"
   "カーソルを合わせます"
+
+  "Align Panes"
+  "ウィンドウを整列します。"
+
+  "Align current lines in both panes"
+  "両方のペインの現在のラインを揃える"
 
   "Align cursors"
   "カーソルの位置合わせ"
@@ -348,9 +363,6 @@ msgcat::mcmset ja {
   "Copy text"
   "テキストをコピーします。"
 
-  "Create"
-  "作成"
-
   "Create Fold From Selection"
   "倍を選択範囲から作成します。"
 
@@ -366,17 +378,8 @@ msgcat::mcmset ja {
   "Create new plugin"
   "新しいプラグインを作成します。"
 
-  "Current Line"
-  "現在の行"
-
   "Current Number"
   "現在の番号"
-
-  "Current Word"
-  "現在の単語"
-
-  "Cursor"
-  "カーソル"
 
   "Cursor from Line Start"
   "カーソルを行の先頭から"
@@ -447,6 +450,9 @@ msgcat::mcmset ja {
   "Disable code folding"
   "コードの折りたたみを無効にします。"
 
+  "Disable two-pane scrolling Synchronization"
+  "2 つのペインのスクロールの同期を無効にします。"
+
   "Display Text Info"
   "表示テキスト"
 
@@ -504,8 +510,14 @@ msgcat::mcmset ja {
   "Enable Code Folding"
   "コード折り畳みを有効にします。"
 
+  "Enable Synchronized Scrolling"
+  "同期されたスクロールを有効にします。"
+
   "Enable Vim mode"
   "Vim モードを有効にします。"
+
+  "Enable two-pane scrolling synchronization"
+  "2 つのペインのスクロールの同期を有効にします。"
 
   "Enumeration"
   "数え上げ"
@@ -533,9 +545,6 @@ msgcat::mcmset ja {
 
   "Favorite file"
   "お気に入りファイル"
-
-  "File"
-  "ファイル"
 
   "File Contents"
   "ファイルの内容"
@@ -621,8 +630,14 @@ msgcat::mcmset ja {
   "Help"
   "ヘルプ"
 
+  "Hide All Tabs"
+  "すべて表示しない"
+
   "Hide Console"
   "コンソールを隠す"
+
+  "Hide Current Tab"
+  "現在のタブを非表示します。"
 
   "Hide Line Numbers"
   "行番号を非表示します。"
@@ -674,9 +689,6 @@ msgcat::mcmset ja {
 
   "Indentation"
   "字下げ"
-
-  "Insert"
-  "挿入"
 
   "Insert command result after current line"
   "現在の行の後にコマンドの結果を挿入します。"
@@ -740,9 +752,6 @@ msgcat::mcmset ja {
 
   "Jump to the previous fold indicator"
   "以前の倍インジケーターへジャンプします。"
-
-  "Language"
-  "言語"
 
   "Line Above Current"
   "現在の上行"
@@ -915,6 +924,9 @@ msgcat::mcmset ja {
   "Open Recent"
   "最近のオープン"
 
+  "Open Remote"
+  "リモート"
+
   "Open Selected Folds"
   "選択した襞を開く"
 
@@ -936,11 +948,17 @@ msgcat::mcmset ja {
   "Open folds to show cursor"
   "カーソルを表示する開いているひだ"
 
+  "Open remote file or directory"
+  "リモート ファイルを開くまたはディレクトリ"
+
   "Open selected folds - all levels"
   "開いている選択した襞 - すべてのレベル"
 
   "Open selected folds - one level"
   "開いている選択した襞 - 1 レベル"
+
+  "Panes"
+  "パネル"
 
   "Paste"
   "貼り付け"
@@ -1343,9 +1361,6 @@ msgcat::mcmset ja {
   "Grant permission?"
   "許可を与えますか？"
 
-  "OK"
-  "OK"
-
   "Plugin Errors"
   "プラグインエラー"
 
@@ -1374,6 +1389,9 @@ msgcat::mcmset ja {
 
 # pref_ui.tcl
 msgcat::mcmset ja {
+
+  "Abbreviation Aliases"
+  "略語の別名"
 
   "Add"
   "追加"
@@ -1429,6 +1447,9 @@ msgcat::mcmset ja {
   "Clear"
   "クリア"
 
+  "Clipboard"
+  "クリップボード"
+
   "Clipboard history depth"
   "クリップボードの履歴の深さ"
 
@@ -1453,11 +1474,29 @@ msgcat::mcmset ja {
   "Current"
   "現在"
 
+  "Current Directory"
+  "カレントディレクトリ"
+
+  "Current File Pathname"
+  "現在のファイルのパス名"
+
+  "Current Filename"
+  "現在のファイル名"
+
+  "Current Line Column"
+  "現在の行の列"
+
+  "Current Line Number"
+  "現在の行番号"
+
   "Current editing buffer directory"
   "現在の編集バッファーのディレクトリ"
 
   "Current working directory"
   "現在の作業ディレクトリ"
+
+  "Date"
+  "日付"
 
   "Default Markdown Export Extension"
   "既定の値下げのエクスポートの拡張"
@@ -1467,6 +1506,9 @@ msgcat::mcmset ja {
 
   "Default unit for integer values"
   "整数値の既定の単位"
+
+  "Delete snippet"
+  "スニペットを削除します。"
 
   "Development"
   "開発"
@@ -1522,6 +1564,9 @@ msgcat::mcmset ja {
   "Indentation Spaces"
   "インデント スペース"
 
+  "Keyword"
+  "キーワード"
+
   "Languages"
   "言語"
 
@@ -1545,6 +1590,9 @@ msgcat::mcmset ja {
 
   "Mounts"
   "マウント"
+
+  "Node Aliases"
+  "仮名"
 
   "Parenthesis"
   "括弧"
@@ -1701,6 +1749,89 @@ msgcat::mcmset ja {
 
 }
 
+# remote.tcl
+msgcat::mcmset ja {
+
+  "Close Connection"
+  "接続を閉じる"
+
+  "Create New Folder"
+  "新しいフォルダの作成"
+
+  "Delete Connection"
+  "連携を削除"
+
+  "Delete Group"
+  "グループを削除"
+
+  "Delete connection?"
+  "連携を削除"
+
+  "Delete group?"
+  "グループを削除"
+
+  "Edit Connection"
+  "接続を編集します。"
+
+  "Enter Password"
+  "パスワードの入力"
+
+  "Folder Name"
+  "フォルダー名"
+
+  "Group"
+  "グループ"
+
+  "Group Name"
+  "グループ名"
+
+  "Group Name: "
+  "グループ名"
+
+  "Image used in remote file selector to indicate a file."
+  "イメージ ファイルを指定するリモート ファイル セレクターで使用されます。"
+
+  "Image used in remote file selector to indicate a folder."
+  "画像フォルダーを指すリモート ファイル セレクターで使用します。"
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "接続が開かれていることを示すリモート ファイル セレクターで使用するイメージ。"
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "接続が開かれることを示すリモート ファイル セレクターで使用する画像。"
+
+  "Name"
+  "名"
+
+  "New Connection"
+  "接続"
+
+  "New Folder"
+  "新規フォルダー"
+
+  "New Group"
+  "新規グループ"
+
+  "Open Connection"
+  "接続を開く"
+
+  "Open Remote File"
+  "リモート ファイルを開く"
+
+  "Optional"
+  "オプショナル"
+
+  "Password"
+  "パスワード"
+
+  "Password: "
+  "パスワード:"
+
+  "Port"
+  "ポート"
+
+}
+
 # search.tcl
 msgcat::mcmset ja {
 
@@ -1744,6 +1875,9 @@ msgcat::mcmset ja {
   "Favorites"
   "お気に入り"
 
+  "Remote Connections"
+  "リモート接続"
+
   "Settings to export"
   "設定をエクスポートするには"
 
@@ -1782,8 +1916,35 @@ msgcat::mcmset ja {
   "Directory Name:"
   "ディレクトリ名:"
 
+  "Disconnect From Server"
+  "サーバーから切断します。"
+
   "Folder Name:"
   "フォルダ名:"
+
+  "Hide"
+  "非表示"
+
+  "Hide Directory Files"
+  "ディレクトリのファイルを隠す"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "折りたたまれているディレクトリを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "その内容を表示しているディレクトリを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a file"
+  "ファイルを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "サイドバーが折りたたまれている選択したディレクトリを示すために表示されるイメージ"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "展開は、選択したディレクトリを指定するためにサイドバーに表示されるイメージ"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "ファイルは、開いた現在ですが、非表示を指定するためにサイドバーに表示されるイメージ"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "サイドバーに表示される画像はファイルが現在編集バッファで開かれることを示します。"
@@ -1824,9 +1985,6 @@ msgcat::mcmset ja {
 
 # startup.tcl
 msgcat::mcmset ja {
-
-  "Back"
-  "戻る"
 
   "Change Directory"
   "Cd"
@@ -2026,6 +2184,9 @@ msgcat::mcmset ja {
   "Foreground (slider) color used in the sidebar scrollbar."
   "サイドバーのスクロールバーで使用される前景（スライダー）カラー。"
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "ウィンドウの同期が有効になっているときにテキスト スクロール バー内使用前景 (スライダー) 色。"
+
   "Foreground (slider) color used in the text scrollbars."
   "テキストスクロールバーで使用される前景（スライダー）カラー。"
 
@@ -2131,9 +2292,6 @@ msgcat::mcmset ja {
   "Specifies the default relief to use when drawing ttk widgets."
   "TTKのウィジェットを描画するときに使用するデフォルトの救済を指定します。"
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "サイドバーで使用する開示された画像スタイルを指定します。"
-
   "Specifies the pixel thickness of the highlight line."
   "ハイライト線のピクセルの太さを指定します。"
 
@@ -2225,9 +2383,6 @@ msgcat::mcmset ja {
 
   "Paste Theme Items"
   "テーマ アイテムを貼り付ける"
-
-  "Preview"
-  "プレビュー"
 
   "Relief: "
   "救援"
@@ -2353,6 +2508,9 @@ msgcat::mcmset ja {
 # General
 msgcat::mcmset ja {
 
+  "Back"
+  "戻る"
+
   "Browse"
   "ブラウズ"
 
@@ -2367,6 +2525,18 @@ msgcat::mcmset ja {
 
   "Copy"
   "コピー"
+
+  "Create"
+  "作成"
+
+  "Current Line"
+  "現在の行"
+
+  "Current Word"
+  "現在の単語"
+
+  "Cursor"
+  "カーソル"
 
   "Delete"
   "削除"
@@ -2386,11 +2556,20 @@ msgcat::mcmset ja {
   "Favorite"
   "お気に入り"
 
+  "File"
+  "ファイル"
+
   "File Name:"
   "ファイル名"
 
   "Find"
   "見つけます"
+
+  "Insert"
+  "挿入"
+
+  "Language"
+  "言語"
 
   "Launcher"
   "ランチャー"
@@ -2404,6 +2583,9 @@ msgcat::mcmset ja {
   "None"
   "なし"
 
+  "OK"
+  "OK"
+
   "Open"
   "オープン"
 
@@ -2412,6 +2594,9 @@ msgcat::mcmset ja {
 
   "Preferences"
   "選好"
+
+  "Preview"
+  "プレビュー"
 
   "Rename"
   "名前の変更"

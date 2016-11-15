@@ -86,6 +86,9 @@ msgcat::mcmset da {
   "Copyright"
   "Copyright"
 
+  "Credits"
+  "Krediteringer"
+
   "Delete tab?"
   "Slet fane?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset da {
 
   "File index is out of range"
   "File indeks er uden for rækkevidde"
+
+  "Hide Tab"
+  "Skjul fanen"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Billede, der vises i fill-in former, som lukker formularen UI. Bruges i former som søgning, søg / erstat, og finde i filer."
@@ -154,6 +160,9 @@ msgcat::mcmset da {
 
   "Image used in the preferences window in the Sidebar tab."
   "Billedet i indstillingsvinduet i fanen Sidebar."
+
+  "Image used in the preferences window in the Snippets tab."
+  "Billedet i indstillingsvinduet på fanen kodestykker."
 
   "Image used in the preferences window in the View tab."
   "Billedet i indstillingsvinduet under fanen visning."
@@ -218,6 +227,9 @@ msgcat::mcmset da {
   "Unable to write file"
   "Kunne ikke skrive filen"
 
+  "Unable to write remote file"
+  "Der kan ikke skrives fjernfil"
+
   "Version"
   "Version"
 
@@ -245,6 +257,12 @@ msgcat::mcmset da {
 
   "Align Cursors"
   "Juster markører"
+
+  "Align Panes"
+  "Juster ruder"
+
+  "Align current lines in both panes"
+  "Juster nuværende linjer i to ruder"
 
   "Align cursors"
   "Juster markører"
@@ -348,9 +366,6 @@ msgcat::mcmset da {
   "Copy text"
   "Kopieret tekst"
 
-  "Create"
-  "Opret"
-
   "Create Fold From Selection"
   "Opret fra markering"
 
@@ -366,17 +381,8 @@ msgcat::mcmset da {
   "Create new plugin"
   "Oprette nye plugin"
 
-  "Current Line"
-  "Aktuel linje:"
-
   "Current Number"
   "Dette rækkenummer"
-
-  "Current Word"
-  "Aktuelle ord"
-
-  "Cursor"
-  "Markør"
 
   "Cursor from Line Start"
   "Markøren fra linje Start"
@@ -447,6 +453,9 @@ msgcat::mcmset da {
   "Disable code folding"
   "Deaktivere kode foldning"
 
+  "Disable two-pane scrolling Synchronization"
+  "Deaktivere to ruder rulning synkronisering"
+
   "Display Text Info"
   "Vise teksten Info"
 
@@ -504,8 +513,14 @@ msgcat::mcmset da {
   "Enable Code Folding"
   "Aktivere kode foldning"
 
+  "Enable Synchronized Scrolling"
+  "Aktivere synkroniserede rulning"
+
   "Enable Vim mode"
   "Aktiver Vim tilstand"
+
+  "Enable two-pane scrolling synchronization"
+  "Aktivere rulning synkronisering af to ruder"
 
   "Enumeration"
   "tælling af bakterier"
@@ -533,9 +548,6 @@ msgcat::mcmset da {
 
   "Favorite file"
   "Favorit fil"
-
-  "File"
-  "Filer"
 
   "File Contents"
   "filindhold"
@@ -621,8 +633,14 @@ msgcat::mcmset da {
   "Help"
   "Hjælp"
 
+  "Hide All Tabs"
+  "Skjule alle faner"
+
   "Hide Console"
   "Skjul Console"
+
+  "Hide Current Tab"
+  "Skjul aktuelle fane"
 
   "Hide Line Numbers"
   "Skjul linjenumre"
@@ -674,9 +692,6 @@ msgcat::mcmset da {
 
   "Indentation"
   "gennemtryk"
-
-  "Insert"
-  "Indsæt"
 
   "Insert command result after current line"
   "Indsæt kommando resultatet efter den aktuelle linje"
@@ -740,9 +755,6 @@ msgcat::mcmset da {
 
   "Jump to the previous fold indicator"
   "Springe til den forrige fold indikator"
-
-  "Language"
-  "Sprog"
 
   "Line Above Current"
   "Linje over nuværende"
@@ -915,6 +927,9 @@ msgcat::mcmset da {
   "Open Recent"
   "Åbn nylige"
 
+  "Open Remote"
+  "Remote"
+
   "Open Selected Folds"
   "Åbn valgt folder"
 
@@ -936,11 +951,17 @@ msgcat::mcmset da {
   "Open folds to show cursor"
   "Åbne folderne til at vise markøren"
 
+  "Open remote file or directory"
+  "Åben sen fil eller mappe"
+
   "Open selected folds - all levels"
   "Åben udvalgte folder - alle niveauer"
 
   "Open selected folds - one level"
   "Åben udvalgte folder - et niveau"
+
+  "Panes"
+  "Ruder"
 
   "Paste"
   "Sæt ind"
@@ -1041,6 +1062,9 @@ msgcat::mcmset da {
   "Save All"
   "Gem alle"
 
+  "Save As Remote"
+  "Gemme som fjernbetjening"
+
   "Save As Template"
   "Gem som skabelon"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset da {
 
   "Save file as"
   "Gem fil som..."
+
+  "Save file as remote file"
+  "Gemme som ekstern fil"
 
   "Save file as template"
   "Gem som skabelon"
@@ -1127,6 +1154,9 @@ msgcat::mcmset da {
 
   "Set user preferences to global preferences"
   "Angive brugerindstillinger for globale indstillinger"
+
+  "Show All Tabs"
+  "Vis alle faner"
 
   "Show Console"
   "Vis Console"
@@ -1343,9 +1373,6 @@ msgcat::mcmset da {
   "Grant permission?"
   "Grant permission?"
 
-  "OK"
-  "OK"
-
   "Plugin Errors"
   "Plugin fejl"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset da {
 
 # pref_ui.tcl
 msgcat::mcmset da {
+
+  "Abbreviation Aliases"
+  "Forkortelsen aliaser"
 
   "Add"
   "Tilføj"
@@ -1429,6 +1459,9 @@ msgcat::mcmset da {
   "Clear"
   "Tøm Felter"
 
+  "Clipboard"
+  "Udklipsholder"
+
   "Clipboard history depth"
   "Clipboard historie dybde"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset da {
   "Current"
   "Nuværende"
 
+  "Current Directory"
+  "aktuel mappe"
+
+  "Current File Pathname"
+  "Nuværende File stinavn"
+
+  "Current Filename"
+  "Nuværende filnavn"
+
+  "Current Line Column"
+  "Nuværende linje kolonne"
+
+  "Current Line Number"
+  "Aktuelle linjenummer"
+
   "Current editing buffer directory"
   "Nuværende redigering buffer Register"
 
   "Current working directory"
   "Indeværende i orden bibliotek"
+
+  "Date"
+  "Dato"
 
   "Default Markdown Export Extension"
   "Standard Markdown eksportudvidelse"
@@ -1467,6 +1518,9 @@ msgcat::mcmset da {
 
   "Default unit for integer values"
   "Standardenheden for integer værdier"
+
+  "Delete snippet"
+  "Slette kodestykke"
 
   "Development"
   "Udvikling"
@@ -1522,6 +1576,9 @@ msgcat::mcmset da {
   "Indentation Spaces"
   "Indrykning rum"
 
+  "Keyword"
+  "Nøgleord"
+
   "Languages"
   "Sprog"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset da {
 
   "Mounts"
   "Mounts"
+
+  "Node Aliases"
+  "Node aliaser"
 
   "Parenthesis"
   "Parentes"
@@ -1582,11 +1642,20 @@ msgcat::mcmset da {
   "Ruler column"
   "Lineal kolonne"
 
+  "Search Shortcuts"
+  "Søg genveje"
+
+  "Search Snippets"
+  "Søg Snippets"
+
   "Select Settings Sharing Directory"
   "Vælg indstillinger for deling Register"
 
   "Select default browsing directory"
   "Vælg standard gennemser Register"
+
+  "Selected Text"
+  "Markeret tekst"
 
   "Set"
   "Sæt af varer"
@@ -1636,6 +1705,9 @@ msgcat::mcmset da {
   "Snippet Completion Characters"
   "Kodestykket afslutning tegn"
 
+  "Snippet Text"
+  "Uddrag tekst"
+
   "Sort tabs alphabetically on open"
   "Sortere faneblade alfabetisk på åbne"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset da {
 
   "Tab"
   "Tabulator"
+
+  "Tab Stop"
+  "tabulatorstop"
+
+  "Time"
+  "Tid"
 
   "Update using release type"
   "Opdatere bruger release type"
@@ -1698,6 +1776,119 @@ msgcat::mcmset da {
 
   "Variables"
   "Variabler"
+
+}
+
+# remote.tcl
+msgcat::mcmset da {
+
+  "Close Connection"
+  "Luk forbindelse"
+
+  "Create New Folder"
+  "Opret ny mappe"
+
+  "Delete Connection"
+  "Slet forbindelse"
+
+  "Delete Group"
+  "Slet gruppe"
+
+  "Delete connection?"
+  "Slet forbindelse"
+
+  "Delete group?"
+  "Slet gruppe"
+
+  "Edit Connection"
+  "Rediger forbindelse"
+
+  "Enter Password"
+  "Adgangskode"
+
+  "Folder Name"
+  "Mappe Navn"
+
+  "Group"
+  "Aktiver gruppefora"
+
+  "Group Name"
+  "Gruppenavn"
+
+  "Group Name: "
+  "Gruppenavn:"
+
+  "Image used in remote file selector to indicate a file."
+  "Billedet i fjernfil vælger for at angive en fil."
+
+  "Image used in remote file selector to indicate a folder."
+  "Billedet i fjernfil vælger for at angive en mappe."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Billedet i remote arkivvælgeren til at angive, at en forbindelse åbnes."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Billedet i remote arkivvælgeren til at angive, at en forbindelse åbnes."
+
+  "Name"
+  "Navn"
+
+  "New Connection"
+  "Ny forbindelse"
+
+  "New Folder"
+  "Ny mappe"
+
+  "New Group"
+  "Ny gruppe"
+
+  "Open Connection"
+  "Åben forbindelse"
+
+  "Open Remote File"
+  "Åben sen fil"
+
+  "Optional"
+  "Tilvalg"
+
+  "Password"
+  "Adgangskode"
+
+  "Password: "
+  "Kodeord"
+
+  "Port"
+  "Port"
+
+  "Remote Directory"
+  "Remote Directory"
+
+  "Rename Group"
+  "Omdøb gruppe"
+
+  "Save File Remotely"
+  "Gem filen fjernt"
+
+  "Server"
+  "Server"
+
+  "Test"
+  "Test"
+
+  "Test Connection"
+  "Test forbindelse"
+
+  "Type"
+  "Type"
+
+  "Unable to connect to"
+  "\"
+
+  "Username"
+  "Brugernavn"
+
+  "server"
+  "Server"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset da {
   "Favorites"
   "Foretrukne"
 
+  "Remote Connections"
+  "Fjernforbindelser"
+
   "Settings to export"
   "Indstillinger til at eksportere"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset da {
   "Directory Name:"
   "vejvisernavn"
 
+  "Disconnect From Server"
+  "Afbryde forbindelsen til serveren"
+
   "Folder Name:"
   "Mappenavn:"
+
+  "Hide"
+  "Vis / skjul adminbar på frontend"
+
+  "Hide Directory Files"
+  "Skjule register filer"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Billedet vises i indholdsoversigten for at angive en mappe, der er skjult"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Billedet vises i indholdsoversigten for at angive en mappe, der viser dens indhold"
+
+  "Image displayed in sidebar to indicate a file"
+  "Billedet vises i indholdsoversigten for at angive en fil"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Billedet vises i indholdsoversigten for at angive en valgt mappe, der er skjult"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Billedet vises i indholdsoversigten for at angive en valgt mappe, der er udvidet"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Billedet vises i indholdsoversigten for at angive, at en fil i øjeblikket er åbnet men skjult"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Billede, der vises i indholdsoversigten for at indikere, at en fil i øjeblikket er åbnet i en redigering buffer."
@@ -1809,8 +2030,14 @@ msgcat::mcmset da {
   "Remove from Sidebar"
   "Fjern fra Sidebar"
 
+  "Show"
+  "\"
+
   "Show Difference"
   "Vis forskellen"
+
+  "Show Directory Files"
+  "Vis register filer"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset da {
 
 # startup.tcl
 msgcat::mcmset da {
-
-  "Back"
-  "Tillbage"
 
   "Change Directory"
   "Lave om på bibliotek"
@@ -2026,6 +2250,9 @@ msgcat::mcmset da {
   "Foreground (slider) color used in the sidebar scrollbar."
   "Forgrund (skyder) farve, der anvendes i indholdsoversigten rullebjælken."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "(Slider) forgrundsfarven bruges i tekst scrollbars når ruden synkronisering er aktiveret."
+
   "Foreground (slider) color used in the text scrollbars."
   "Forgrund (skyder) farve i teksten scrollbars."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset da {
   "Specifies the default relief to use when drawing ttk widgets."
   "Angiver standardindstillingen lettelse at bruge ved udarbejdelsen TTK widgets."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Angiver videregivelse billedet stil at bruge i indholdsoversigten."
-
   "Specifies the pixel thickness of the highlight line."
   "Angiver pixel tykkelse højdepunktet linje."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset da {
 
   "Paste Theme Items"
   "Indsætte tema elementer"
-
-  "Preview"
-  "Forhåndsvis"
 
   "Relief: "
   "nødhjælp"
@@ -2353,6 +2574,9 @@ msgcat::mcmset da {
 # General
 msgcat::mcmset da {
 
+  "Back"
+  "Tillbage"
+
   "Browse"
   "Gennemse"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset da {
 
   "Copy"
   "Kopier"
+
+  "Create"
+  "Opret"
+
+  "Current Line"
+  "Aktuel linje:"
+
+  "Current Word"
+  "Aktuelle ord"
+
+  "Cursor"
+  "Markør"
 
   "Delete"
   "Slet"
@@ -2386,11 +2622,20 @@ msgcat::mcmset da {
   "Favorite"
   "foretrukken"
 
+  "File"
+  "Filer"
+
   "File Name:"
   "Filnavn"
 
   "Find"
   "Søg"
+
+  "Insert"
+  "Indsæt"
+
+  "Language"
+  "Sprog"
 
   "Launcher"
   "Launcher"
@@ -2404,6 +2649,9 @@ msgcat::mcmset da {
   "None"
   "Ingen"
 
+  "OK"
+  "OK"
+
   "Open"
   "Åben"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset da {
 
   "Preferences"
   "Præferencer"
+
+  "Preview"
+  "Forhåndsvis"
 
   "Rename"
   "Omdøb"

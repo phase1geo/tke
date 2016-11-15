@@ -218,6 +218,9 @@ msgcat::mcmset nl {
   "Unable to write file"
   "Kan niet schrijven bestand"
 
+  "Unable to write remote file"
+  "Kan niet extern bestand schrijven"
+
   "Version"
   "Versie"
 
@@ -348,9 +351,6 @@ msgcat::mcmset nl {
   "Copy text"
   "Kopieer Tekst"
 
-  "Create"
-  "Creëren"
-
   "Create Fold From Selection"
   "Selectie opslaan"
 
@@ -366,17 +366,8 @@ msgcat::mcmset nl {
   "Create new plugin"
   "Nieuwe plugin maken"
 
-  "Current Line"
-  "Huidige regel:"
-
   "Current Number"
   "Huidige rijnummer"
-
-  "Current Word"
-  "Huidige woord"
-
-  "Cursor"
-  "Muiscursor"
 
   "Cursor from Line Start"
   "Cursor vanaf begin van de lijn"
@@ -534,9 +525,6 @@ msgcat::mcmset nl {
   "Favorite file"
   "Favoriete bestand"
 
-  "File"
-  "Bestand"
-
   "File Contents"
   "file-inhoud"
 
@@ -675,9 +663,6 @@ msgcat::mcmset nl {
   "Indentation"
   "inkerving"
 
-  "Insert"
-  "Invoegen"
-
   "Insert command result after current line"
   "Resultaat van de opdracht invoegen na de huidige regel"
 
@@ -740,9 +725,6 @@ msgcat::mcmset nl {
 
   "Jump to the previous fold indicator"
   "Ga naar de vorige vouw-indicator"
-
-  "Language"
-  "Taal"
 
   "Line Above Current"
   "Lijn boven de huidige"
@@ -942,6 +924,9 @@ msgcat::mcmset nl {
   "Open selected folds - one level"
   "Open geselecteerde plooien - één niveau"
 
+  "Panes"
+  "Deelvensters"
+
   "Paste"
   "Pasta"
 
@@ -1041,6 +1026,9 @@ msgcat::mcmset nl {
   "Save All"
   "Alles opslaan"
 
+  "Save As Remote"
+  "Opslaan als afstandsbediening"
+
   "Save As Template"
   "opslaan als sjabloon"
 
@@ -1061,6 +1049,9 @@ msgcat::mcmset nl {
 
   "Save file as"
   "Bestand opslaan als..."
+
+  "Save file as remote file"
+  "Bestand opslaan als extern bestand"
 
   "Save file as template"
   "Opslaan als template"
@@ -1127,6 +1118,9 @@ msgcat::mcmset nl {
 
   "Set user preferences to global preferences"
   "Gebruikersvoorkeuren naar algemene voorkeuren instellen"
+
+  "Show All Tabs"
+  "Alle tabbladen weergeven"
 
   "Show Console"
   "Show Console"
@@ -1342,9 +1336,6 @@ msgcat::mcmset nl {
 
   "Grant permission?"
   "Grant permission?"
-
-  "OK"
-  "OK"
 
   "Plugin Errors"
   "Plugin fouten"
@@ -1582,11 +1573,20 @@ msgcat::mcmset nl {
   "Ruler column"
   "Liniaal kolom"
 
+  "Search Shortcuts"
+  "Zoeken snelkoppelingen"
+
+  "Search Snippets"
+  "Zoek snippets"
+
   "Select Settings Sharing Directory"
   "Selecteer instellingen voor het delen van Directory"
 
   "Select default browsing directory"
   "Selecteer standaard directory browsing"
+
+  "Selected Text"
+  "Geselecteerde tekst"
 
   "Set"
   "Instellen"
@@ -1636,6 +1636,9 @@ msgcat::mcmset nl {
   "Snippet Completion Characters"
   "Fragment voltooiing tekens"
 
+  "Snippet Text"
+  "Fragment tekst"
+
   "Sort tabs alphabetically on open"
   "Sort tabs alfabetisch op open"
 
@@ -1665,6 +1668,12 @@ msgcat::mcmset nl {
 
   "Tab"
   "Tabblad"
+
+  "Tab Stop"
+  "tabstop"
+
+  "Time"
+  "Tijd"
 
   "Update using release type"
   "Bijwerken met behulp van release type"
@@ -1698,6 +1707,50 @@ msgcat::mcmset nl {
 
   "Variables"
   "Variabelen"
+
+}
+
+# remote.tcl
+msgcat::mcmset nl {
+
+  "Password"
+  "Wachtwoord"
+
+  "Password: "
+  "Wachtwoord:"
+
+  "Port"
+  "Port"
+
+  "Remote Directory"
+  "Verre folder"
+
+  "Rename Group"
+  "Nw.groepsnaam"
+
+  "Save File Remotely"
+  "Extern bestand opslaan"
+
+  "Server"
+  "Server"
+
+  "Test"
+  "Test"
+
+  "Test Connection"
+  "Test verbinding"
+
+  "Type"
+  "Type"
+
+  "Unable to connect to"
+  "Kan geen verbinding maken met de site"
+
+  "Username"
+  "Gebruikersnaam"
+
+  "server"
+  "server"
 
 }
 
@@ -1743,6 +1796,9 @@ msgcat::mcmset nl {
 
   "Favorites"
   "Favorieten"
+
+  "Remote Connections"
+  "Externe verbindingen"
 
   "Settings to export"
   "Instellingen exporteren"
@@ -1809,8 +1865,14 @@ msgcat::mcmset nl {
   "Remove from Sidebar"
   "Verwijderen uit Sidebar"
 
+  "Show"
+  "Weergeven"
+
   "Show Difference"
   "Toon verschil"
+
+  "Show Directory Files"
+  "Bestanden van de map weergeven"
 
 }
 
@@ -1824,9 +1886,6 @@ msgcat::mcmset nl {
 
 # startup.tcl
 msgcat::mcmset nl {
-
-  "Back"
-  "Achterkant"
 
   "Change Directory"
   "Map wijzigen"
@@ -2131,9 +2190,6 @@ msgcat::mcmset nl {
   "Specifies the default relief to use when drawing ttk widgets."
   "Hiermee wordt de standaard verlichting te gebruiken bij het opstellen TTK widgets."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Specificeert de openbaarmaking stijl beeld te gebruiken in de zijbalk."
-
   "Specifies the pixel thickness of the highlight line."
   "Specificeert de pixel dikte van het hoogtepunt lijn."
 
@@ -2225,9 +2281,6 @@ msgcat::mcmset nl {
 
   "Paste Theme Items"
   "Thema Items plakken"
-
-  "Preview"
-  "Voorvertoning"
 
   "Relief: "
   "Relief"
@@ -2353,6 +2406,9 @@ msgcat::mcmset nl {
 # General
 msgcat::mcmset nl {
 
+  "Back"
+  "Achterkant"
+
   "Browse"
   "Bladeren"
 
@@ -2367,6 +2423,18 @@ msgcat::mcmset nl {
 
   "Copy"
   "Kopiëren"
+
+  "Create"
+  "Creëren"
+
+  "Current Line"
+  "Huidige regel:"
+
+  "Current Word"
+  "Huidige woord"
+
+  "Cursor"
+  "Muiscursor"
 
   "Delete"
   "Verwijderen"
@@ -2386,11 +2454,20 @@ msgcat::mcmset nl {
   "Favorite"
   "Favoriet"
 
+  "File"
+  "Bestand"
+
   "File Name:"
   "Bestandsnaam:"
 
   "Find"
   "Query"
+
+  "Insert"
+  "Invoegen"
+
+  "Language"
+  "Taal"
 
   "Launcher"
   "Launcher"
@@ -2404,6 +2481,9 @@ msgcat::mcmset nl {
   "None"
   "Geen"
 
+  "OK"
+  "OK"
+
   "Open"
   "Openen"
 
@@ -2412,6 +2492,9 @@ msgcat::mcmset nl {
 
   "Preferences"
   "Voorkeuren"
+
+  "Preview"
+  "Voorvertoning"
 
   "Rename"
   "Hernoem"
