@@ -86,6 +86,9 @@ msgcat::mcmset de {
   "Copyright"
   "Copyright"
 
+  "Credits"
+  "Kredite"
+
   "Delete tab?"
   "Löschen Registerkarte?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset de {
 
   "File index is out of range"
   "Datei-Index liegt außerhalb des Bereichs"
+
+  "Hide Tab"
+  "Registerkarte \"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Bild gefunden in Fill-in-Formulare, die die Form UI schließt. In Formen wie Suche verwendet, Suchen / Ersetzen, und finden in Dateien."
@@ -153,6 +159,9 @@ msgcat::mcmset de {
   "Bild im Fenster \"
 
   "Image used in the preferences window in the Sidebar tab."
+  "Bild im Einstellungsfenster auf der Registerkarte \"
+
+  "Image used in the preferences window in the Snippets tab."
   "Bild im Einstellungsfenster auf der Registerkarte \"
 
   "Image used in the preferences window in the View tab."
@@ -218,6 +227,9 @@ msgcat::mcmset de {
   "Unable to write file"
   "Datei konnte nicht geschrieben werden"
 
+  "Unable to write remote file"
+  "Datei konnte nicht geschrieben werden"
+
   "Version"
   "Neue Font-Awesome-Version aktivieren"
 
@@ -245,6 +257,12 @@ msgcat::mcmset de {
 
   "Align Cursors"
   "Ausrichten von Cursorn"
+
+  "Align Panes"
+  "Ausrichten der Scheiben"
+
+  "Align current lines in both panes"
+  "Stromleitungen in beide Bereiche ausrichten"
 
   "Align cursors"
   "Ausrichten von Cursorn"
@@ -348,9 +366,6 @@ msgcat::mcmset de {
   "Copy text"
   "Text kopieren"
 
-  "Create"
-  "Erstellen"
-
   "Create Fold From Selection"
   "Falten aus Auswahl erstellen"
 
@@ -366,17 +381,8 @@ msgcat::mcmset de {
   "Create new plugin"
   "Neues Plugin erstellen"
 
-  "Current Line"
-  "Aktuelle Zeile"
-
   "Current Number"
   "laufende Nummer"
-
-  "Current Word"
-  "Aktuelle Wort"
-
-  "Cursor"
-  "Kursor"
 
   "Cursor from Line Start"
   "Cursors aus Zeilenanfang"
@@ -447,6 +453,9 @@ msgcat::mcmset de {
   "Disable code folding"
   "Deaktivieren Sie die Code-Faltung"
 
+  "Disable two-pane scrolling Synchronization"
+  "Zwei-Fenster scrollen Synchronisation deaktivieren"
+
   "Display Text Info"
   "Anzeige-Text-Info"
 
@@ -504,8 +513,14 @@ msgcat::mcmset de {
   "Enable Code Folding"
   "Aktivieren Code-Faltung"
 
+  "Enable Synchronized Scrolling"
+  "Synchrone Bildlauf aktivieren"
+
   "Enable Vim mode"
   "Vim-Modus aktivieren"
+
+  "Enable two-pane scrolling synchronization"
+  "Zwei-Fenster scrollen Synchronisierung aktivieren"
 
   "Enumeration"
   "Liste"
@@ -533,9 +548,6 @@ msgcat::mcmset de {
 
   "Favorite file"
   "Lieblings-file"
-
-  "File"
-  "Feile"
 
   "File Contents"
   "Inhalt der Datei"
@@ -621,8 +633,14 @@ msgcat::mcmset de {
   "Help"
   "Hilfe"
 
+  "Hide All Tabs"
+  "Alle ausblenden"
+
   "Hide Console"
   "Ausblenden Console"
+
+  "Hide Current Tab"
+  "Aktuelle Registerkarte ausblenden"
 
   "Hide Line Numbers"
   "Ausblenden von Zeilennummern"
@@ -674,9 +692,6 @@ msgcat::mcmset de {
 
   "Indentation"
   "Einrückung"
-
-  "Insert"
-  "Einfügen"
 
   "Insert command result after current line"
   "Befehl nach der aktuellen Zeile einfügen"
@@ -740,9 +755,6 @@ msgcat::mcmset de {
 
   "Jump to the previous fold indicator"
   "Springen Sie zum vorherigen Falte Indikator"
-
-  "Language"
-  "Sprache"
 
   "Line Above Current"
   "Linie über Strom"
@@ -915,6 +927,9 @@ msgcat::mcmset de {
   "Open Recent"
   "Zuletzt geöffnet"
 
+  "Open Remote"
+  "Remote"
+
   "Open Selected Folds"
   "Open ausgewählt Falten"
 
@@ -936,11 +951,17 @@ msgcat::mcmset de {
   "Open folds to show cursor"
   "Offenen Falten Cursor zeigen"
 
+  "Open remote file or directory"
+  "Offenen remote-Datei oder ein Verzeichnis"
+
   "Open selected folds - all levels"
   "Offenen ausgewählten Folds - alle Stufen"
 
   "Open selected folds - one level"
   "Offenen ausgewählten Falten - eine Ebene"
+
+  "Panes"
+  "Bereiche"
 
   "Paste"
   "Einfügen"
@@ -1041,6 +1062,9 @@ msgcat::mcmset de {
   "Save All"
   "Alle speichern"
 
+  "Save As Remote"
+  "Speichern als Fernbedienung"
+
   "Save As Template"
   "Vorlage speichern"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset de {
 
   "Save file as"
   "Parzellendatei speichern als"
+
+  "Save file as remote file"
+  "Speichern Sie die Datei als remote-Datei"
 
   "Save file as template"
   "Vorlage als speichern"
@@ -1127,6 +1154,9 @@ msgcat::mcmset de {
 
   "Set user preferences to global preferences"
   "Benutzereinstellungen für globale Voreinstellungen festlegen"
+
+  "Show All Tabs"
+  "Tabs anzeigen"
 
   "Show Console"
   "Konsole einblenden"
@@ -1343,9 +1373,6 @@ msgcat::mcmset de {
   "Grant permission?"
   "Gewähre prmission?"
 
-  "OK"
-  "OK"
-
   "Plugin Errors"
   "Plugin Fehler"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset de {
 
 # pref_ui.tcl
 msgcat::mcmset de {
+
+  "Abbreviation Aliases"
+  "Abkürzung-Aliase"
 
   "Add"
   "Hinzufügen"
@@ -1429,6 +1459,9 @@ msgcat::mcmset de {
   "Clear"
   "Löschen"
 
+  "Clipboard"
+  "Zwischenablage"
+
   "Clipboard history depth"
   "Zwischenablage-Geschichte-Tiefe"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset de {
   "Current"
   "Aktuelle"
 
+  "Current Directory"
+  "aktuelles Verzeichnis"
+
+  "Current File Pathname"
+  "Aktuelle Datei-Pfad"
+
+  "Current Filename"
+  "Aktuellen Dateinamen"
+
+  "Current Line Column"
+  "Spalte der aktuellen Zeile"
+
+  "Current Line Number"
+  "Aktuelle Anzahl"
+
   "Current editing buffer directory"
   "Aktuelle Bearbeitung Puffer-Verzeichnis"
 
   "Current working directory"
   "Das aktuelle Arbeitsverzeichnis"
+
+  "Date"
+  "Datum"
 
   "Default Markdown Export Extension"
   "Markdown Export Standarderweiterung"
@@ -1467,6 +1518,9 @@ msgcat::mcmset de {
 
   "Default unit for integer values"
   "Standardeinheit für Integer-Werte"
+
+  "Delete snippet"
+  "Auszug (snippet) löschen"
 
   "Development"
   "Entwicklung"
@@ -1522,6 +1576,9 @@ msgcat::mcmset de {
   "Indentation Spaces"
   "Einrückung Räume"
 
+  "Keyword"
+  "Suchbegriff"
+
   "Languages"
   "Sprachen"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset de {
 
   "Mounts"
   "Halterungen"
+
+  "Node Aliases"
+  "Aliase"
 
   "Parenthesis"
   "Klammer"
@@ -1582,11 +1642,20 @@ msgcat::mcmset de {
   "Ruler column"
   "Lineal-Spalte"
 
+  "Search Shortcuts"
+  "Nach Tastenkürzeln suchen"
+
+  "Search Snippets"
+  "Suche Auszüge (snippets)"
+
   "Select Settings Sharing Directory"
   "Wählen Sie Einstellungen teilen Verzeichnis"
 
   "Select default browsing directory"
   "Wählen Sie Standard-Verzeichnis durchsuchen"
+
+  "Selected Text"
+  "Ausgewählter Text"
 
   "Set"
   "Set"
@@ -1636,6 +1705,9 @@ msgcat::mcmset de {
   "Snippet Completion Characters"
   "Snippet Abschluss Zeichen"
 
+  "Snippet Text"
+  "Snippet"
+
   "Sort tabs alphabetically on open"
   "Art Registerkarten alphabetisch auf Öffnen"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset de {
 
   "Tab"
   "Tab"
+
+  "Tab Stop"
+  "Tabstopp"
+
+  "Time"
+  "Zeit"
 
   "Update using release type"
   "Update mit Abrufart"
@@ -1698,6 +1776,119 @@ msgcat::mcmset de {
 
   "Variables"
   "Variablen"
+
+}
+
+# remote.tcl
+msgcat::mcmset de {
+
+  "Close Connection"
+  "Verbindung schließen"
+
+  "Create New Folder"
+  "Neuen Artikel erstellen"
+
+  "Delete Connection"
+  "Verbindungen löschen"
+
+  "Delete Group"
+  "Gruppe Löschen"
+
+  "Delete connection?"
+  "Verbindungen löschen"
+
+  "Delete group?"
+  "Gruppe löschen"
+
+  "Edit Connection"
+  "Verbindung bearbeiten"
+
+  "Enter Password"
+  "Passwort eingeben"
+
+  "Folder Name"
+  "Ordnername"
+
+  "Group"
+  "Gruppe"
+
+  "Group Name"
+  "Gruppenname"
+
+  "Group Name: "
+  "Gruppenname:"
+
+  "Image used in remote file selector to indicate a file."
+  "Bild in abgelegenen Dateiauswahl verwendet, um eine Datei anzugeben."
+
+  "Image used in remote file selector to indicate a folder."
+  "Bild in abgelegenen Dateiauswahl verwendet, um einen Ordner angeben."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Bild in abgelegenen Dateiauswahl verwendet, um anzugeben, dass eine Verbindung geöffnet wird."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Bild in Remotedatei Selektor verwendet, um anzugeben, dass eine Verbindung hergestellt wird."
+
+  "Name"
+  "Name"
+
+  "New Connection"
+  "Neue Verbindung"
+
+  "New Folder"
+  "Neuer Ordner"
+
+  "New Group"
+  "Neue Gruppe"
+
+  "Open Connection"
+  "Offene Verbindung"
+
+  "Open Remote File"
+  "Remote Datei"
+
+  "Optional"
+  "Optional"
+
+  "Password"
+  "Passwort"
+
+  "Password: "
+  "Passwort:"
+
+  "Port"
+  "Port"
+
+  "Remote Directory"
+  "Remote-Site Verzeichnis"
+
+  "Rename Group"
+  "Gruppe umbenennen"
+
+  "Save File Remotely"
+  "Speichern Sie die Datei aus der Ferne"
+
+  "Server"
+  "服务器"
+
+  "Test"
+  "Prüfung"
+
+  "Test Connection"
+  "Verbindung testen"
+
+  "Type"
+  "Tip"
+
+  "Unable to connect to"
+  "Verbindungsaufbau zu dieser Seite nicht möglich"
+
+  "Username"
+  "Benutzername"
+
+  "server"
+  "Server"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset de {
   "Favorites"
   "Favoriten"
 
+  "Remote Connections"
+  "Remote-Verbindungen"
+
   "Settings to export"
   "Einstellungen exportieren"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset de {
   "Directory Name:"
   "Verzeichnisnamen:"
 
+  "Disconnect From Server"
+  "Trennen Sie vom Server"
+
   "Folder Name:"
   "Ordnername"
+
+  "Hide"
+  "Verbergen"
+
+  "Hide Directory Files"
+  "Verzeichnisdateien ausblenden"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Bild in der Seitenleiste auf ein Verzeichnis zeigen, die ausgeblendet ist"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Bild im Sidebar, um ein Verzeichnis angeben, das seinen Inhalt angezeigt wird angezeigt"
+
+  "Image displayed in sidebar to indicate a file"
+  "In der Seitenleiste, um eine Datei angezeigten Bild"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Bild in der Seitenleiste auf ein ausgewählten Verzeichnis anzugeben, das ausgeblendet ist"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Bild im Sidebar an einem ausgewählten Verzeichnis, das erweitert wird angezeigt"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Bild in der Sidebar, um anzugeben, dass eine Datei gerade geöffnet aber versteckt ist"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Bild in der Seitenleiste angezeigt, um anzugeben, dass eine Datei zur Zeit in einem Editierpuffer eröffnet."
@@ -1809,8 +2030,14 @@ msgcat::mcmset de {
   "Remove from Sidebar"
   "Entfernen Sidebar"
 
+  "Show"
+  "Zeige"
+
   "Show Difference"
   "Unterschied zu zeigen"
+
+  "Show Directory Files"
+  "Verzeichnisdateien anzeigen"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset de {
 
 # startup.tcl
 msgcat::mcmset de {
-
-  "Back"
-  "Zurück"
 
   "Change Directory"
   "Change Directory"
@@ -2026,6 +2250,9 @@ msgcat::mcmset de {
   "Foreground (slider) color used in the sidebar scrollbar."
   "Vordergrund (Schieberegler) Farbe in der Seitenleiste Bildlaufleiste verwendet wird."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "(Schieberegler) Vordergrundfarbe in den Text Scrollbalken verwendet, wenn Bereich Synchronisierung aktiviert ist."
+
   "Foreground (slider) color used in the text scrollbars."
   "Vordergrund (Schieberegler) Farbe in den Textbildlaufleisten verwendet."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset de {
   "Specifies the default relief to use when drawing ttk widgets."
   "Gibt die standardmäßige Entlastung beim Zeichnen TTK-Widgets zu bedienen."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Gibt die Weitergabe-Stil Bild, um in der Seitenleiste zu verwenden."
-
   "Specifies the pixel thickness of the highlight line."
   "Gibt das Pixeldicke der Highlight Linie."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset de {
 
   "Paste Theme Items"
   "Einfügen von Design-Elementen"
-
-  "Preview"
-  "Vorschau"
 
   "Relief: "
   "Entlastung:"
@@ -2353,6 +2574,9 @@ msgcat::mcmset de {
 # General
 msgcat::mcmset de {
 
+  "Back"
+  "Zurück"
+
   "Browse"
   "Durchsuchen"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset de {
 
   "Copy"
   "Kopieren"
+
+  "Create"
+  "Erstellen"
+
+  "Current Line"
+  "Aktuelle Zeile"
+
+  "Current Word"
+  "Aktuelle Wort"
+
+  "Cursor"
+  "Kursor"
 
   "Delete"
   "Löschen"
@@ -2386,11 +2622,20 @@ msgcat::mcmset de {
   "Favorite"
   "Bevorzugte"
 
+  "File"
+  "Feile"
+
   "File Name:"
   "Dateiname:"
 
   "Find"
   "Finden"
+
+  "Insert"
+  "Einfügen"
+
+  "Language"
+  "Sprache"
 
   "Launcher"
   "Launcher"
@@ -2404,6 +2649,9 @@ msgcat::mcmset de {
   "None"
   "Ohne"
 
+  "OK"
+  "OK"
+
   "Open"
   "Geöffnet"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset de {
 
   "Preferences"
   "Präferenzen"
+
+  "Preview"
+  "Vorschau"
 
   "Rename"
   "Benennen"

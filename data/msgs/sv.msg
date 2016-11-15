@@ -86,6 +86,9 @@ msgcat::mcmset sv {
   "Copyright"
   "Copyright"
 
+  "Credits"
+  "Kediter"
+
   "Delete tab?"
   "Radera flik?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset sv {
 
   "File index is out of range"
   "File index är utanför intervallet"
+
+  "Hide Tab"
+  "Dölj fliken"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Bilden visas i fylla former som stänger formuläret UI.  Används i former som Sök, Sök/Ersätt och hitta i filer."
@@ -154,6 +160,9 @@ msgcat::mcmset sv {
 
   "Image used in the preferences window in the Sidebar tab."
   "Bild som används i inställningsfönstret i fliken sidofält."
+
+  "Image used in the preferences window in the Snippets tab."
+  "Bild som används i inställningsfönstret i fliken kodstycken."
 
   "Image used in the preferences window in the View tab."
   "Bild som används i inställningsfönstret i fliken Visa."
@@ -218,6 +227,9 @@ msgcat::mcmset sv {
   "Unable to write file"
   "Kan inte skriva filen"
 
+  "Unable to write remote file"
+  "Kan inte skriva fjärrfil"
+
   "Version"
   "Version"
 
@@ -245,6 +257,12 @@ msgcat::mcmset sv {
 
   "Align Cursors"
   "Justera markörer"
+
+  "Align Panes"
+  "Justera fönster"
+
+  "Align current lines in both panes"
+  "Justera aktuella rader i båda fönsterrutorna"
 
   "Align cursors"
   "Justera markörer"
@@ -348,9 +366,6 @@ msgcat::mcmset sv {
   "Copy text"
   "Kopiera hela texten"
 
-  "Create"
-  "Skapa"
-
   "Create Fold From Selection"
   "Skapa från markerat område"
 
@@ -366,17 +381,8 @@ msgcat::mcmset sv {
   "Create new plugin"
   "Skapa nya plugin"
 
-  "Current Line"
-  "Aktuell rad:"
-
   "Current Number"
   "Aktuellt radnummer"
-
-  "Current Word"
-  "Aktuella ord"
-
-  "Cursor"
-  "markör"
 
   "Cursor from Line Start"
   "Markören från linje Start"
@@ -447,6 +453,9 @@ msgcat::mcmset sv {
   "Disable code folding"
   "Inaktivera kod vikning"
 
+  "Disable two-pane scrolling Synchronization"
+  "Inaktivera två-rutan rullning synkronisering"
+
   "Display Text Info"
   "Displayinformation"
 
@@ -504,8 +513,14 @@ msgcat::mcmset sv {
   "Enable Code Folding"
   "Aktivera kod vikning"
 
+  "Enable Synchronized Scrolling"
+  "Aktivera synkroniserad rullning"
+
   "Enable Vim mode"
   "Aktivera Vim-läge"
+
+  "Enable two-pane scrolling synchronization"
+  "Aktivera rullning synkronisering av två-rutan"
 
   "Enumeration"
   "räkning"
@@ -533,9 +548,6 @@ msgcat::mcmset sv {
 
   "Favorite file"
   "Favorit-fil"
-
-  "File"
-  "File"
 
   "File Contents"
   "filinnehåll"
@@ -621,8 +633,14 @@ msgcat::mcmset sv {
   "Help"
   "Hjälp"
 
+  "Hide All Tabs"
+  "Dölj alla flikar"
+
   "Hide Console"
   "Dölj konsol"
+
+  "Hide Current Tab"
+  "Dölja den aktuella fliken"
 
   "Hide Line Numbers"
   "Dölja radnummer"
@@ -674,9 +692,6 @@ msgcat::mcmset sv {
 
   "Indentation"
   "Indentering"
-
-  "Insert"
-  "Infoga"
 
   "Insert command result after current line"
   "Infoga kommandot resultatet efter aktuell rad"
@@ -740,9 +755,6 @@ msgcat::mcmset sv {
 
   "Jump to the previous fold indicator"
   "Hoppa till föregående vik indikatorn"
-
-  "Language"
-  "Språk"
 
   "Line Above Current"
   "Linje ovanför aktuell"
@@ -915,6 +927,9 @@ msgcat::mcmset sv {
   "Open Recent"
   "Öppna senaste"
 
+  "Open Remote"
+  "Fjärr"
+
   "Open Selected Folds"
   "Öppna markerade veck"
 
@@ -936,11 +951,17 @@ msgcat::mcmset sv {
   "Open folds to show cursor"
   "Öppna veck att Visa markören"
 
+  "Open remote file or directory"
+  "Fjärröppna fil eller katalog"
+
   "Open selected folds - all levels"
   "Öppna markerade veck - alla nivåer"
 
   "Open selected folds - one level"
   "Öppna markerade veck - en nivå"
+
+  "Panes"
+  "Rutor"
 
   "Paste"
   "limma"
@@ -1041,6 +1062,9 @@ msgcat::mcmset sv {
   "Save All"
   "Spara allt"
 
+  "Save As Remote"
+  "Spara som fjärrkontroll"
+
   "Save As Template"
   "Spara som mall"
 
@@ -1061,6 +1085,9 @@ msgcat::mcmset sv {
 
   "Save file as"
   "Spara fil som"
+
+  "Save file as remote file"
+  "Spara filen som fjärrfil"
 
   "Save file as template"
   "Spara filen som mall"
@@ -1127,6 +1154,9 @@ msgcat::mcmset sv {
 
   "Set user preferences to global preferences"
   "Ange inställningar till globala inställningar"
+
+  "Show All Tabs"
+  "Visa alla flikar"
 
   "Show Console"
   "Visa konsol"
@@ -1343,9 +1373,6 @@ msgcat::mcmset sv {
   "Grant permission?"
   "Grant tillstånd?"
 
-  "OK"
-  "OK"
-
   "Plugin Errors"
   "Plugin fel"
 
@@ -1374,6 +1401,9 @@ msgcat::mcmset sv {
 
 # pref_ui.tcl
 msgcat::mcmset sv {
+
+  "Abbreviation Aliases"
+  "Förkortningen alias"
 
   "Add"
   "Lägg till"
@@ -1429,6 +1459,9 @@ msgcat::mcmset sv {
   "Clear"
   "Rensa"
 
+  "Clipboard"
+  "Urklipp"
+
   "Clipboard history depth"
   "Klippborden historia djup"
 
@@ -1453,11 +1486,29 @@ msgcat::mcmset sv {
   "Current"
   "Nuvarande"
 
+  "Current Directory"
+  "aktuell katalog"
+
+  "Current File Pathname"
+  "Nuvarande sökväg"
+
+  "Current Filename"
+  "Nuvarande filnamn"
+
+  "Current Line Column"
+  "Aktuell rad kolumn"
+
+  "Current Line Number"
+  "Aktuella radnumret"
+
   "Current editing buffer directory"
   "Aktuella redigering buffert katalogen"
 
   "Current working directory"
   "Aktuell mapp"
+
+  "Date"
+  "Datum"
 
   "Default Markdown Export Extension"
   "Standardtillägget Markdown Export"
@@ -1467,6 +1518,9 @@ msgcat::mcmset sv {
 
   "Default unit for integer values"
   "Standardenhet för heltalsvärden"
+
+  "Delete snippet"
+  "Ta bort snutt"
 
   "Development"
   "Utveckling"
@@ -1522,6 +1576,9 @@ msgcat::mcmset sv {
   "Indentation Spaces"
   "Indrag utrymmen"
 
+  "Keyword"
+  "Nyckelord"
+
   "Languages"
   "Språk"
 
@@ -1545,6 +1602,9 @@ msgcat::mcmset sv {
 
   "Mounts"
   "fäste"
+
+  "Node Aliases"
+  "Alias"
 
   "Parenthesis"
   "Klammer"
@@ -1582,11 +1642,20 @@ msgcat::mcmset sv {
   "Ruler column"
   "Linjalen kolumn"
 
+  "Search Shortcuts"
+  "Sök kortkommandon"
+
+  "Search Snippets"
+  "Sök snuttar"
+
   "Select Settings Sharing Directory"
   "Välj inställningar delar katalog"
 
   "Select default browsing directory"
   "Välj standard bläddra katalog"
+
+  "Selected Text"
+  "Markerad text"
 
   "Set"
   "Ange"
@@ -1636,6 +1705,9 @@ msgcat::mcmset sv {
   "Snippet Completion Characters"
   "Snutt slutförandet tecken"
 
+  "Snippet Text"
+  "Snutt Text"
+
   "Sort tabs alphabetically on open"
   "Sortera flikar i alfabetisk ordning på öppna"
 
@@ -1665,6 +1737,12 @@ msgcat::mcmset sv {
 
   "Tab"
   "Flik"
+
+  "Tab Stop"
+  "tabbstopp"
+
+  "Time"
+  "Tid"
 
   "Update using release type"
   "Uppdatera med release typ"
@@ -1698,6 +1776,119 @@ msgcat::mcmset sv {
 
   "Variables"
   "Variabler"
+
+}
+
+# remote.tcl
+msgcat::mcmset sv {
+
+  "Close Connection"
+  "Stäng förbindelsen"
+
+  "Create New Folder"
+  "Skapa ny katalog"
+
+  "Delete Connection"
+  "Ta bort anslutning"
+
+  "Delete Group"
+  "Radera Grupp"
+
+  "Delete connection?"
+  "Ta bort anslutning"
+
+  "Delete group?"
+  "Radera grupp?"
+
+  "Edit Connection"
+  "Redigera anslutning"
+
+  "Enter Password"
+  "ange lösenord"
+
+  "Folder Name"
+  "Mappnamn"
+
+  "Group"
+  "Grupp"
+
+  "Group Name"
+  "Gruppnamn"
+
+  "Group Name: "
+  "Gruppnamn:"
+
+  "Image used in remote file selector to indicate a file."
+  "Bilden används i fjärrfilen selector för att ange en fil."
+
+  "Image used in remote file selector to indicate a folder."
+  "Bilden används i fjärrfilen selector för att ange en mapp."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "Bilden används i fjärrfilen selector för att indikera att en anslutning öppnas."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "Bilden används i fjärrfilen selector för att indikera att en anslutning öppnas."
+
+  "Name"
+  "Namn"
+
+  "New Connection"
+  "Ny anslutning"
+
+  "New Folder"
+  "Lägg till favoritkorg"
+
+  "New Group"
+  "Ny grupp"
+
+  "Open Connection"
+  "Anslutning"
+
+  "Open Remote File"
+  "Öppna fjärrfil"
+
+  "Optional"
+  "Valfri"
+
+  "Password"
+  "Lösenord"
+
+  "Password: "
+  "Lösenord:"
+
+  "Port"
+  "Port"
+
+  "Remote Directory"
+  "Avlägsen katalog"
+
+  "Rename Group"
+  "Döpa om grupp"
+
+  "Save File Remotely"
+  "Spara filen distans"
+
+  "Server"
+  "Server"
+
+  "Test"
+  "Test"
+
+  "Test Connection"
+  "Testa anslutning"
+
+  "Type"
+  "Typ"
+
+  "Unable to connect to"
+  "Det går inte att ansluta"
+
+  "Username"
+  "Användarnamn"
+
+  "server"
+  "Server"
 
 }
 
@@ -1744,6 +1935,9 @@ msgcat::mcmset sv {
   "Favorites"
   "Favoriter"
 
+  "Remote Connections"
+  "Fjärranslutningar"
+
   "Settings to export"
   "Inställningar för att exportera"
 
@@ -1782,8 +1976,35 @@ msgcat::mcmset sv {
   "Directory Name:"
   "Namn i katalog:"
 
+  "Disconnect From Server"
+  "Koppla från Server"
+
   "Folder Name:"
   "Mappnamnet:"
+
+  "Hide"
+  "Dölj"
+
+  "Hide Directory Files"
+  "Dölja katalogfiler"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Bilden som visas i sidofältet för att ange en katalog som är komprimerad"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Bilden som visas i sidofältet för att ange en katalog som visar dess innehåll"
+
+  "Image displayed in sidebar to indicate a file"
+  "Bilden som visas i sidofältet för att ange en fil"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Bilden som visas i sidofältet för att indikera en vald katalog som är komprimerad"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Bilden som visas i sidofältet för att indikera en vald katalog som är expanderad"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Bilden som visas i sidofältet för att indikera att en fil är för närvarande öppnas men dolda"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Bild som visas i sidofältet som anger att en fil för närvarande öppnas i en redigering buffert."
@@ -1809,8 +2030,14 @@ msgcat::mcmset sv {
   "Remove from Sidebar"
   "Ta bort från sidofältet"
 
+  "Show"
+  "Visa"
+
   "Show Difference"
   "Visa skillnaden"
+
+  "Show Directory Files"
+  "Visa katalogfiler"
 
 }
 
@@ -1824,9 +2051,6 @@ msgcat::mcmset sv {
 
 # startup.tcl
 msgcat::mcmset sv {
-
-  "Back"
-  "Tillbaka"
 
   "Change Directory"
   "Ändra katalog"
@@ -2026,6 +2250,9 @@ msgcat::mcmset sv {
   "Foreground (slider) color used in the sidebar scrollbar."
   "Förgrundsfärgen (reglaget) används i sidofältet rullningslisten."
 
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "Förgrundsfärgen (skjutreglage) används i text scrollbars när fönstret synkronisering är aktiverad."
+
   "Foreground (slider) color used in the text scrollbars."
   "Förgrundsfärgen (reglaget) används i text scrollbars."
 
@@ -2131,9 +2358,6 @@ msgcat::mcmset sv {
   "Specifies the default relief to use when drawing ttk widgets."
   "Anger befrielsen som standard att använda när du ritar ttk widgets."
 
-  "Specifies the disclosure image style to use in the sidebar."
-  "Anger den avslöjande bild stilen att använda i sidofältet."
-
   "Specifies the pixel thickness of the highlight line."
   "Anger pixel tjocklek Markera raden."
 
@@ -2225,9 +2449,6 @@ msgcat::mcmset sv {
 
   "Paste Theme Items"
   "Klistra in tema objekt"
-
-  "Preview"
-  "Förhandsgranska"
 
   "Relief: "
   "understöd:"
@@ -2353,6 +2574,9 @@ msgcat::mcmset sv {
 # General
 msgcat::mcmset sv {
 
+  "Back"
+  "Tillbaka"
+
   "Browse"
   "Bläddra"
 
@@ -2367,6 +2591,18 @@ msgcat::mcmset sv {
 
   "Copy"
   "Kopiera"
+
+  "Create"
+  "Skapa"
+
+  "Current Line"
+  "Aktuell rad:"
+
+  "Current Word"
+  "Aktuella ord"
+
+  "Cursor"
+  "markör"
 
   "Delete"
   "Radera"
@@ -2386,11 +2622,20 @@ msgcat::mcmset sv {
   "Favorite"
   "Gunstling"
 
+  "File"
+  "File"
+
   "File Name:"
   "Filnamn:"
 
   "Find"
   "Sök i"
+
+  "Insert"
+  "Infoga"
+
+  "Language"
+  "Språk"
 
   "Launcher"
   "Launcher"
@@ -2404,6 +2649,9 @@ msgcat::mcmset sv {
   "None"
   "Ingen"
 
+  "OK"
+  "OK"
+
   "Open"
   "Öppen"
 
@@ -2412,6 +2660,9 @@ msgcat::mcmset sv {
 
   "Preferences"
   "Favoriter"
+
+  "Preview"
+  "Förhandsgranska"
 
   "Rename"
   "Byt namn"
