@@ -1681,13 +1681,21 @@ namespace eval remote {
       "FTP" -
       "SFTP" {
         if {[catch { ::FTP_OpenSession $name [expr {($type eq "FTP") ? "" : "s"}] $server:$port $user $passwd $server "" } rc]} {
-          tk_messageBox -parent .ftp -type ok -default ok -icon error \
-            -message [format "%s $type %s $server" [msgcat::mc "Unable to connect to"] [msgcat::mc "server"]] -detail $rc
+          if {[winfo exists .ftp]} {
+            tk_messageBox -parent .ftp -type ok -default ok -icon error \
+              -message [format "%s $type %s $server" [msgcat::mc "Unable to connect to"] [msgcat::mc "server"]] -detail $rc
+          } else {
+            logger::log $rc
+          }
           return 0
         } elseif {$startdir ne ""} {
           if {[catch { ::FTP_CD $name $startdir } rc]} {
-            tk_messageBox -parent .ftp -type ok -default ok -icon error \
-              -message [format "%s $type %s $server" [msgcat::mc "Unable to connect to"] [msgcat::mc "server"]] -detail $rc
+            if {[winfo exists .ftp]} {
+              tk_messageBox -parent .ftp -type ok -default ok -icon error \
+                -message [format "%s $type %s $server" [msgcat::mc "Unable to connect to"] [msgcat::mc "server"]] -detail $rc
+            } else {
+              logger::log $rc
+            }
             disconnect $name
           } elseif {$rc == 1} {
             set opened($name) 1
@@ -2092,6 +2100,7 @@ namespace eval remote {
   proc quick_load_connections {} {
 
     variable connections
+    variable remote_file
 
     array unset connections
 

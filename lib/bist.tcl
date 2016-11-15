@@ -241,6 +241,7 @@ namespace eval bist {
     if {[catch { $test } rc]} {
       incr fail
       output "  FAILED ($rc)\n"
+      logger::log $::errorInfo
       $data(widgets,fail) configure -text $fail
       $data(widgets,tbl)  cellconfigure $row,fail -text [expr [$data(widgets,tbl) cellcget $row,fail -text] + 1]
       $data(widgets,tbl)  cellconfigure $par,fail -text [expr [$data(widgets,tbl) cellcget $par,fail -text] + 1]

@@ -22,7 +22,7 @@ proc FTPcd { ftpI new_wd} {
   global ftp
   return [::ftp::Cd $ftp($ftpI,handle) $new_wd]
 }
-		       
+		
 proc FTPrename { ftpI old new} {
   global ftp
   ::ftp::Rename $ftp($ftpI,handle)  $old $new
@@ -96,7 +96,7 @@ proc FTPchmod {ftpI mode file} {
 
 proc FTPclose {ftpI} {
   global ftp
-  ::ftp::ftpClose $ftp($ftpI,handle)
+  ::ftp::Close $ftp($ftpI,handle)
 }
 
 proc FTP_DoSearch { ftpI filename} {
@@ -112,5 +112,5 @@ proc FTPcommand {ftpI command} {
   global ftp
   return [eval ::ftp::Quote $ftp($ftpI,handle) $command]
 }
-			 
-			     
+			
+			
