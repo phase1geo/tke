@@ -3,6 +3,7 @@ var utils_8tcl =
     [ "auto_adjust_color", "utils_8tcl.html#ae67b92ab7f8d7401b82a5ee5e211cc5d", null ],
     [ "auto_mix_colors", "utils_8tcl.html#a8c3b435ab26715ea69ffd020a52be918", null ],
     [ "center_on_screen", "utils_8tcl.html#a52195c97d90390224e74900292d122e2", null ],
+    [ "color_difference", "utils_8tcl.html#a397ee0ebc76bb4ca28317e8b978e560e", null ],
     [ "color_to_rgb", "utils_8tcl.html#a8c959c74cd7de75f85b289b0be625b5a", null ],
     [ "egrep", "utils_8tcl.html#adc8fed0a0cf8c683554145fdd6ad5d0b", null ],
     [ "egrep_file", "utils_8tcl.html#a600cc6dfd9f1072748db7e17f85e72f0", null ],

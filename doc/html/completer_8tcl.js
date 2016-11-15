@@ -10,6 +10,7 @@ var completer_8tcl =
     [ "add_single", "completer_8tcl.html#a6e20f803299f3a650bf12c22c406ca04", null ],
     [ "add_square", "completer_8tcl.html#a2324b9eafd98eea0ea4642ec568b795b", null ],
     [ "check_all_brackets", "completer_8tcl.html#a2a29e1c5f4a490fab184a4961ad250ee", null ],
+    [ "check_any", "completer_8tcl.html#ade80e469115b90d8f61d04f63713a6f8", null ],
     [ "check_brackets", "completer_8tcl.html#afa1c05ec4b2e3a115879df5e337b89ae", null ],
     [ "check_delete", "completer_8tcl.html#a6fb8939d812f341f63e3f4bea5c55c41", null ],
     [ "goto_mismatch", "completer_8tcl.html#a91c64c00ab63f73995ebd60cc9280902", null ],

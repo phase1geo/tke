@@ -33,9 +33,9 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.6</span>
+   &#160;<span id="projectnumber">2.8</span>
    </div>
-   <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
+   <div id="projectbrief">Advanced code editor for programmers</div>
   </td>
  </tr>
  </tbody>
@@ -106,6 +106,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="namespacemembers_func_u.html#index_u"><span>u</span></a></li>
       <li><a href="namespacemembers_func_v.html#index_v"><span>v</span></a></li>
       <li><a href="namespacemembers_func_w.html#index_w"><span>w</span></a></li>
+      <li><a href="namespacemembers_func_y.html#index_y"><span>y</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -198,6 +199,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_braceleft()
 : <a class="el" href="namespacevim.html#aae1d12318c7fa640676954440b298242">vim</a>
 </li>
+<li>handle_bracket_audit()
+: <a class="el" href="namespacecompleter.html#ae3c13e10bdb69b9376ef7c6d1848d254">completer</a>
+</li>
 <li>handle_bracketleft()
 : <a class="el" href="namespacevim.html#a0c08ca2aab9d80f4af6a28a28e29640d">vim</a>
 </li>
@@ -216,8 +220,14 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_calculation()
 : <a class="el" href="namespacelauncher.html#a9a2ee8a65127c82e8c0bc4f58b9fc2aa">launcher</a>
 </li>
+<li>handle_cancel()
+: <a class="el" href="namespaceremote.html#a3d7eb900ffb197cfb5465a297e199a25">remote</a>
+</li>
 <li>handle_category_selection()
 : <a class="el" href="namespacethemer.html#aadfe8b9d612ce67228b3d740bcdef6b4">themer</a>
+</li>
+<li>handle_cb_var_change()
+: <a class="el" href="namespacestartup.html#a06e7b3193316ead1a77d3d9d94d94df9">startup</a>
 </li>
 <li>handle_cliphist_depth()
 : <a class="el" href="namespacecliphist.html#a06c394f119641b89a55f3aa7bc1db620">cliphist</a>
@@ -258,11 +268,11 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_copy_selection()
 : <a class="el" href="namespacethemer.html#a19641c46f7dd943fa2c9a16ce559d344">themer</a>
 </li>
-<li>handle_d()
-: <a class="el" href="namespacevim.html#ac32fc72a62eb2c0ccce1f03174f031f4">vim</a>
-</li>
 <li>handle_D()
 : <a class="el" href="namespacevim.html#a5f6e207d95af511657173d43b2a4aa40">vim</a>
+</li>
+<li>handle_d()
+: <a class="el" href="namespacevim.html#ac32fc72a62eb2c0ccce1f03174f031f4">vim</a>
 </li>
 <li>handle_delete()
 : <a class="el" href="namespacecompleter.html#a8cb16fbb7a825da274cd37201455f106">completer</a>
@@ -274,8 +284,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_development_mode()
 : <a class="el" href="namespacemenus.html#a6269cf5e88e7196f6c1b268613b2627e">menus</a>
 </li>
+<li>handle_dir()
+: <a class="el" href="namespaceremote.html#acb5c93e1ead1b9054899d15613ca7bf5">remote</a>
+</li>
+<li>handle_dir_mb_post()
+: <a class="el" href="namespaceremote.html#ad23fbf1eb932565d9af0c61cf50f098e">remote</a>
+</li>
 <li>handle_dir_popup()
 : <a class="el" href="namespaceplugins.html#ac54d95deebc0496606f3f296d60cb34e">plugins</a>
+</li>
+<li>handle_do_state()
+: <a class="el" href="namespaceshare.html#a44bd545b0476e2230843bf49dd545b9e">share</a>
 </li>
 <li>handle_dollar()
 : <a class="el" href="namespacevim.html#af64b5b504c615f5174e9e7deacc84664">vim</a>
@@ -307,6 +326,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_editor_font()
 : <a class="el" href="namespacegui.html#a24f24a8b911e2b80c882f4dc57d5dc75">gui</a>
 </li>
+<li>handle_emmet_aa_select()
+: <a class="el" href="namespacepref__ui.html#a3591b0b3330eac35da10ea6f3ce54316">pref_ui</a>
+</li>
+<li>handle_emmet_na_select()
+: <a class="el" href="namespacepref__ui.html#a9cff48963e125cd73f4653698d5b3a67">pref_ui</a>
+</li>
 <li>handle_entry_font()
 : <a class="el" href="namespacelauncher.html#a16cfa0a02ab52d27b813a7b214d6554b">launcher</a>
 </li>
@@ -335,20 +360,20 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_font_change()
 : <a class="el" href="namespacegui.html#a524decbc3cc73cb273454d2369066773">gui</a>
 </li>
-<li>handle_g()
-: <a class="el" href="namespacevim.html#a3795d3232454d104b7e11aad7c886677">vim</a>
-</li>
 <li>handle_G()
 : <a class="el" href="namespacevim.html#a897c8be9f8015d0096fad04cb10a4ae6">vim</a>
+</li>
+<li>handle_g()
+: <a class="el" href="namespacevim.html#a3795d3232454d104b7e11aad7c886677">vim</a>
 </li>
 <li>handle_greater()
 : <a class="el" href="namespacevim.html#ae937d5fb3f2de1b768ffcef990d7655c">vim</a>
 </li>
-<li>handle_h()
-: <a class="el" href="namespacevim.html#a76d2b37e2289256865a616e48f12107a">vim</a>
-</li>
 <li>handle_H()
 : <a class="el" href="namespacevim.html#a0a2a5dc495f6d08903a6c161baa8ad25">vim</a>
+</li>
+<li>handle_h()
+: <a class="el" href="namespacevim.html#a76d2b37e2289256865a616e48f12107a">vim</a>
 </li>
 <li>handle_i()
 : <a class="el" href="namespacevim.html#aa0f5e506b3e09c66659f317c42421921">vim</a>
@@ -368,11 +393,11 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_info_menu_popup()
 : <a class="el" href="namespacegui.html#a0e0a3b65755fad13e905efb669001753">gui</a>
 </li>
-<li>handle_j()
-: <a class="el" href="namespacevim.html#a240ed2e2d5141722adb840c9caa979ea">vim</a>
-</li>
 <li>handle_J()
 : <a class="el" href="namespacevim.html#ad80fa76db6e0b9ac2ecc00d93649ed84">vim</a>
+</li>
+<li>handle_j()
+: <a class="el" href="namespacevim.html#a240ed2e2d5141722adb840c9caa979ea">vim</a>
 </li>
 <li>handle_k()
 : <a class="el" href="namespacevim.html#a379f407cd93ea88aed1b914fe2ca475b">vim</a>
@@ -416,6 +441,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_max_undo()
 : <a class="el" href="namespacegui.html#a20f7e78873095962e7b311b39e1b1133">gui</a>
 </li>
+<li>handle_menu_shift_click()
+: <a class="el" href="namespacemenus.html#a8372f1b868e5bdb8104731a9eb4473d4">menus</a>
+</li>
 <li>handle_menu_variable()
 : <a class="el" href="namespaceplugins.html#a69fa980b17b80d00cef04467c0c90d4d">plugins</a>
 </li>
@@ -426,13 +454,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 : <a class="el" href="namespacevim.html#a0ce895b8372f6f443f234777fcf3a291">vim</a>
 </li>
 <li>handle_motion()
-: <a class="el" href="namespacevim.html#ab448168520c66d5f7660bb81b855966c">vim</a>
+: <a class="el" href="namespacesidebar.html#a467011cb9e793a9b412767548cb4c25e">sidebar</a>
+, <a class="el" href="namespacevim.html#ab448168520c66d5f7660bb81b855966c">vim</a>
 </li>
 <li>handle_n()
 : <a class="el" href="namespacevim.html#aee03260f8197a235f26f1497c4183e2e">vim</a>
 </li>
 <li>handle_N()
 : <a class="el" href="namespacevim.html#a322f1122bec6736344feb73ebb3228a9">vim</a>
+</li>
+<li>handle_new_folder()
+: <a class="el" href="namespaceremote.html#af868e3f7915f3c77cc3541052a82ddb9">remote</a>
 </li>
 <li>handle_nfs_select()
 : <a class="el" href="namespacepref__ui.html#af8324140d759e01b8d4f826457f0d5b5">pref_ui</a>
@@ -488,11 +520,14 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_on_update()
 : <a class="el" href="namespaceplugins.html#a1dc1c9606a5cfd5f2b5af8bf6423105f">plugins</a>
 </li>
-<li>handle_P()
-: <a class="el" href="namespacevim.html#ab74e528a1394e0b88fba7e79c58a5c0e">vim</a>
+<li>handle_open()
+: <a class="el" href="namespaceremote.html#a655a917f673ff8ddc26773b03c1989ad">remote</a>
 </li>
 <li>handle_p()
 : <a class="el" href="namespacevim.html#a32051feb93815108a3833b35451b791c">vim</a>
+</li>
+<li>handle_P()
+: <a class="el" href="namespacevim.html#ab74e528a1394e0b88fba7e79c58a5c0e">vim</a>
 </li>
 <li>handle_parenleft()
 : <a class="el" href="namespacevim.html#a9b51e5ff16845f5925c004c18f2256eb">vim</a>
@@ -527,11 +562,14 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_quotedbl()
 : <a class="el" href="namespacevim.html#adaac56f88b9438732d6dd507cdbc5a91">vim</a>
 </li>
+<li>handle_R()
+: <a class="el" href="namespacevim.html#aabaa7f7acc6d3e17ab8323076ad2f761">vim</a>
+</li>
 <li>handle_r()
 : <a class="el" href="namespacevim.html#afcba4e94dfc29f7da2330b06cfd77714">vim</a>
 </li>
-<li>handle_R()
-: <a class="el" href="namespacevim.html#aabaa7f7acc6d3e17ab8323076ad2f761">vim</a>
+<li>handle_rb_var_change()
+: <a class="el" href="namespacestartup.html#a12cf014605a89e83f73f6186e90b802b">startup</a>
 </li>
 <li>handle_relief_change()
 : <a class="el" href="namespacethemer.html#aa0b84893cd606f791b4ad2effe2bc8be">themer</a>
@@ -544,10 +582,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 </li>
 <li>handle_return()
 : <a class="el" href="namespacemulticursor.html#abf4732bbc32df18fb594c9aa8e7fb7b3">multicursor</a>
-, <a class="el" href="namespacesidebar.html#a61e489caec9684d94c6da445d60133e0">sidebar</a>
 </li>
 <li>handle_Return()
 : <a class="el" href="namespacevim.html#ad22f58a44a414d08e53090eaa98a9109">vim</a>
+</li>
+<li>handle_return_space()
+: <a class="el" href="namespacesidebar.html#a1718eecaec4d3bb0d1e03db6e547b1a0">sidebar</a>
 </li>
 <li>handle_Right()
 : <a class="el" href="namespacevim.html#a826bce1551b2e251815e13a3d91dc53a">vim</a>
@@ -559,15 +599,33 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_root_popup()
 : <a class="el" href="namespaceplugins.html#a957f31e0bc95cdfdeeb8924d3baa7719">plugins</a>
 </li>
+<li>handle_row_moved()
+: <a class="el" href="namespaceremote.html#ad0b4a5e9c46956ff207cabda91d06fd1">remote</a>
+</li>
 <li>handle_s()
 : <a class="el" href="namespacevim.html#a2496e65e00714658ed79c1be6f4d0116">vim</a>
 </li>
 <li>handle_S()
 : <a class="el" href="namespacevim.html#adce379cfa97d088601a2cf807282d201">vim</a>
 </li>
+<li>handle_save_entry()
+: <a class="el" href="namespaceremote.html#a85ccce3adb891632ccf50b554679e270">remote</a>
+</li>
+<li>handle_sb_double_click()
+: <a class="el" href="namespaceremote.html#a6193f88d477be368747d6d523b57feb7">remote</a>
+</li>
+<li>handle_sb_select()
+: <a class="el" href="namespaceremote.html#a1a1b1ce9ce8f93a3469464ac143e5cbf">remote</a>
+</li>
 <li>handle_selection()
 : <a class="el" href="namespacemulticursor.html#a2ea412780af897bcebccc9ec29d5da4e">multicursor</a>
 , <a class="el" href="namespacesidebar.html#a850aad123127ed3eb7240d525140461b">sidebar</a>
+</li>
+<li>handle_share_change()
+: <a class="el" href="namespacepref__ui.html#a0e8c6b5adf10a45d880bcd74912f95a3">pref_ui</a>
+</li>
+<li>handle_share_directory()
+: <a class="el" href="namespacepref__ui.html#acb099add68da8b4864104975c974cd44">pref_ui</a>
 </li>
 <li>handle_shift_alt_buttonpress1()
 : <a class="el" href="namespacemulticursor.html#a0cb1eda4651722433a8f5cd11fb5ab08">multicursor</a>
@@ -612,6 +670,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 : <a class="el" href="namespacediff.html#a22bdb26ec9bba8320eb01e28b4670502">diff</a>
 , <a class="el" href="namespacethemes.html#a0beb48cbe7fbd0c0a2b8944429fe1118">themes</a>
 </li>
+<li>handle_tl_double_click()
+: <a class="el" href="namespaceremote.html#a018550ed87e6b6bbbc9559aa5a250767">remote</a>
+</li>
+<li>handle_tl_select()
+: <a class="el" href="namespaceremote.html#a445f451ad7a85a99f00fc57a922e32dc">remote</a>
+</li>
 <li>handle_txt_focus()
 : <a class="el" href="namespacegui.html#ad3a94793d877c6221259573e8016b149">gui</a>
 </li>
@@ -624,11 +688,11 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>handle_Up()
 : <a class="el" href="namespacevim.html#a620d8eae5e9f6ad6383e8ffe37e979bf">vim</a>
 </li>
-<li>handle_V()
-: <a class="el" href="namespacevim.html#a9ea883236ad760f346494cb8cb6d5618">vim</a>
-</li>
 <li>handle_v()
 : <a class="el" href="namespacevim.html#a6943672d23916600a4d42b25a9e999b7">vim</a>
+</li>
+<li>handle_V()
+: <a class="el" href="namespacevim.html#a9ea883236ad760f346494cb8cb6d5618">vim</a>
 </li>
 <li>handle_v1()
 : <a class="el" href="namespacediff.html#af95d9be2fa6f5a79c9c6731c07dc4b5c">diff</a>
@@ -709,9 +773,24 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <li>help_user_guide()
 : <a class="el" href="namespacemenus.html#ac58741cc39c6c2973d1bc5e0f64f2013">menus</a>
 </li>
+<li>hide_all()
+: <a class="el" href="namespacegui.html#a742939a5707dcb49231201f1dc3e456f">gui</a>
+</li>
 <li>hide_console_view()
 : <a class="el" href="namespacegui.html#ae9158f2b7dba2d6788db8939dfc17bc8">gui</a>
 , <a class="el" href="namespacemenus.html#ab73e4c357f9950068bb1259ed11b54d7">menus</a>
+</li>
+<li>hide_current()
+: <a class="el" href="namespacegui.html#a3be682160a2078951980e617b7090e59">gui</a>
+</li>
+<li>hide_file()
+: <a class="el" href="namespacesidebar.html#a4c363d64f3e8a829700fcf0d8d3bca4e">sidebar</a>
+</li>
+<li>hide_files()
+: <a class="el" href="namespacegui.html#a9078816157e351c6634002e849cb4067">gui</a>
+</li>
+<li>hide_folder_files()
+: <a class="el" href="namespacesidebar.html#a6e4f120e77133ae67b035a5945a7422d">sidebar</a>
 </li>
 <li>hide_line_numbers()
 : <a class="el" href="namespacemenus.html#a301ddf360a1ca70367d59324ba6dca03">menus</a>
@@ -736,12 +815,15 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 : <a class="el" href="namespacegui.html#a1c4dd9a8be40baa679db9b3267db0c96">gui</a>
 , <a class="el" href="namespacemenus.html#ab60a8a13c5f3d96df0cc94b6cb0fd011">menus</a>
 </li>
+<li>hide_tab()
+: <a class="el" href="namespacegui.html#a741606915a4e86bf88c84bdbc3c6f7b0">gui</a>
+</li>
 <li>hide_tab_view()
 : <a class="el" href="namespacegui.html#a37cca89fea3e17f77d90a16422174e79">gui</a>
 , <a class="el" href="namespacemenus.html#a9b4234f80cdeda49ac35aa69cc512523">menus</a>
 </li>
 <li>hide_tooltip()
-: <a class="el" href="namespacesidebar.html#a57b42b33545330f35d27d460fe424a49">sidebar</a>
+: <a class="el" href="namespacesidebar.html#acf48d8a4299c639cf2569b2729ee9ea2">sidebar</a>
 </li>
 <li>highlight()
 : <a class="el" href="namespacectext.html#a9b3a6b76c0a21dc4db07e145ae4eceea">ctext</a>
@@ -751,7 +833,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 : <a class="el" href="namespacesidebar.html#a873c57e818dfcedb75fd194664145153">sidebar</a>
 </li>
 <li>highlightAll()
-: <a class="el" href="namespacectext.html#ae98a3d35d99d7d3bd38fbc04dcdbee6a">ctext</a>
+: <a class="el" href="namespacectext.html#a592a12bc5378ec6bab440767b94dcc8a">ctext</a>
 </li>
 <li>hsl_to_rgb()
 : <a class="el" href="namespaceutils.html#abd4b1a5bb2dfc7df51db5eeeb3b20f7e">utils</a>
@@ -765,7 +847,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_h.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Sep 4 2016 21:43:45 for TKE by
+    <li class="footer">Generated on Mon Nov 14 2016 22:56:54 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

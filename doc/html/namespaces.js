@@ -28,6 +28,7 @@ var namespaces =
     [ "plugins", "namespaceplugins.html", "namespaceplugins" ],
     [ "pref_ui", "namespacepref__ui.html", null ],
     [ "preferences", "namespacepreferences.html", null ],
+    [ "remote", "namespaceremote.html", null ],
     [ "scroller", "namespacescroller.html", null ],
     [ "search", "namespacesearch.html", null ],
     [ "sessions", "namespacesessions.html", null ],

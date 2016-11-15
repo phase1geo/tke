@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['windowlist',['windowlist',['../namespacewindowlist.html',1,'']]]
+  ['vim',['vim',['../namespacevim.html',1,'']]]
 ];
