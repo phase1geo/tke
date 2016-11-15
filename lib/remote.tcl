@@ -926,13 +926,15 @@ namespace eval remote {
 
     variable widgets
     variable value
+    variable groups
 
     # Get the currently selected group
-    set selected [$widgets(sb) curselection]
-    set value    ""
+    set selected  [$widgets(sb) curselection]
+    set old_value [$widgets(sb) cellcget $selected,name -text]
+    set value     ""
 
     toplevel     .renwin
-    wm title     .renwin [format "%s %s" [msgcat::mc "Rename Group"] [$widgets(sb) cellcget $selected,name -text]]
+    wm title     .renwin [format "%s %s" [msgcat::mc "Rename Group"] $old_value]
     wm resizable .renwin 0 0
     wm transient .renwin .ftp
 
@@ -976,6 +978,8 @@ namespace eval remote {
     # Add the group to the sidebar table
     if {$value ne ""} {
       $widgets(sb) cellconfigure $selected,name -text $value
+      unset groups($old_value)
+      set groups($value) $selected
       save_connections
     }
 
