@@ -609,4 +609,38 @@ namespace eval remote {
 
   }
 
+  proc run_test14 {} {
+
+    variable base_dir
+    variable remote
+
+    # Initialize the environment
+    initialize
+
+    # Get the contents of the glad.tcl file
+    if {![remote::get_file $remote [file join $base_dir glad.tcl] contents modtime]} {
+      cleanup "Unable to retrieve glad.tcl"
+    }
+
+    if {$contents ne "\n"} {
+      cleanup "glad.tcl file contents do not match ($contents)"
+    }
+
+    if {![remote::save_file $remote [file join $base_dir glad.tcl] "New file" modtime]} {
+      cleanup "Unable to write glad.tcl to remove server"
+    }
+
+    if {![remote::get_file $remote [file join $base_dir glad.tcl] contents modtime]} {
+      cleanup "Unable to get glad.tcl after write"
+    }
+
+    if {$contents ne "New file\n"} {
+      cleanup "File content mismatch ($contents)"
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
 }
