@@ -5,7 +5,7 @@ var templates_8tcl =
     [ "edit", "templates_8tcl.html#a867301997da63ad45a243943a94896e5", null ],
     [ "get_pathname", "templates_8tcl.html#a6880a26e13233c42ae4c379db9e0cd68", null ],
     [ "get_share_items", "templates_8tcl.html#a09821498abc1f7c016a9639c8b8dae02", null ],
-    [ "load", "templates_8tcl.html#a0edf770eaa9ba811670883be57724222", null ],
+    [ "load", "templates_8tcl.html#ae1881f299e152aeb5d17c2298311a387", null ],
     [ "load_abs", "templates_8tcl.html#a2f0dcf6c1869f16a630aaa5a3fcd768e", null ],
     [ "load_rel", "templates_8tcl.html#a785a0d1b407fcb4b74e49deae8a2e7cc", null ],
     [ "preload", "templates_8tcl.html#a2ec4960860499c6b970cd10b7220e474", null ],

@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['mac',['mac',['../namespacetk_1_1mac.html',1,'tk']]],
-  ['templates',['templates',['../namespacetemplates.html',1,'']]],
-  ['theme',['theme',['../namespacetheme.html',1,'']]],
-  ['themer',['themer',['../namespacethemer.html',1,'']]],
-  ['themes',['themes',['../namespacethemes.html',1,'']]],
-  ['tk',['tk',['../namespacetk.html',1,'']]],
-  ['tkedat',['tkedat',['../namespacetkedat.html',1,'']]]
+  ['scroller',['scroller',['../namespacescroller.html',1,'']]],
+  ['search',['search',['../namespacesearch.html',1,'']]],
+  ['sessions',['sessions',['../namespacesessions.html',1,'']]],
+  ['share',['share',['../namespaceshare.html',1,'']]],
+  ['sidebar',['sidebar',['../namespacesidebar.html',1,'']]],
+  ['snippets',['snippets',['../namespacesnippets.html',1,'']]],
+  ['startup',['startup',['../namespacestartup.html',1,'']]],
+  ['syntax',['syntax',['../namespacesyntax.html',1,'']]]
 ];

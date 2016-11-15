@@ -1,0 +1,32 @@
+/Users/trevorw/projects/tke-code/lib/remote.tcl:1255: warning: documented symbol `remote::validate_groupvalue' was not declared or defined.
+/Users/trevorw/projects/tke-code/lib/tke.tcl:257: warning: documented symbol `window_geometry w' was not declared or defined.
+/Users/trevorw/projects/tke-code/lib/api.tcl:179: warning: The following parameters of api::get_user_input(interp, pname, msg, pvar, allow_vars=1) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:115: warning: The following parameters of api::invoke_menu(interp, pname, menu_path) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:133: warning: The following parameters of api::log(interp, pname, msg) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:88: warning: The following parameters of api::normalize_filename(interp, pname, host, fname) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:158: warning: The following parameters of api::show_error(interp, pname, msg, detail=) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:145: warning: The following parameters of api::show_info(interp, pname, msg, clear_delay=3000) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:227: warning: The following parameters of api::file::get_info(interp, pname, file_index, attr) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:507: warning: The following parameters of api::plugin::load_variable(interp, pname, index, name) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:494: warning: The following parameters of api::plugin::save_variable(interp, pname, index, name, value) are not documented:
+  parameter 'interp'
+  parameter 'pname'
+/Users/trevorw/projects/tke-code/lib/api.tcl:477: warning: The following parameters of api::sidebar::get_info(interp, pname, sb_index, attr) are not documented:
+  parameter 'interp'
+  parameter 'pname'

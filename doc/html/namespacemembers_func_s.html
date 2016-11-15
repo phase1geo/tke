@@ -33,9 +33,9 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">2.6</span>
+   &#160;<span id="projectnumber">2.8</span>
    </div>
-   <div id="projectbrief">Advanced editor written in Tcl/Tk</div>
+   <div id="projectbrief">Advanced code editor for programmers</div>
   </td>
  </tr>
  </tbody>
@@ -106,6 +106,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="namespacemembers_func_u.html#index_u"><span>u</span></a></li>
       <li><a href="namespacemembers_func_v.html#index_v"><span>v</span></a></li>
       <li><a href="namespacemembers_func_w.html#index_w"><span>w</span></a></li>
+      <li><a href="namespacemembers_func_y.html#index_y"><span>y</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -142,7 +143,8 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>save()
-: <a class="el" href="namespacecliphist.html#a166e45eee43a6763c5699bcad754879c">cliphist</a>
+: <a class="el" href="namespacebindings.html#a07c856029419caf37f72d98fa15a721f">bindings</a>
+, <a class="el" href="namespacecliphist.html#a166e45eee43a6763c5699bcad754879c">cliphist</a>
 , <a class="el" href="namespacesessions.html#aa8291377af3b18dd888657bac2fdeb07">sessions</a>
 </li>
 <li>save_all()
@@ -154,15 +156,25 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>save_as_command()
 : <a class="el" href="namespacemenus.html#a7754c0157eea5c06a86825d929fbeade">menus</a>
 </li>
+<li>save_as_remote_command()
+: <a class="el" href="namespacemenus.html#aaa967d1515e655f524b84dcfce21c586">menus</a>
+</li>
 <li>save_buffer_contents()
 : <a class="el" href="namespacepreferences.html#a6c8bfc16062c216bb06eef8a53c3192b">preferences</a>
+, <a class="el" href="namespaceshare.html#acc4f33465fb7ef142abe52fdae41582c">share</a>
+</li>
+<li>save_changes()
+: <a class="el" href="namespaceshare.html#ac54344a16402a8f26dcae2597444ac22">share</a>
 </li>
 <li>save_command()
 : <a class="el" href="namespacemenus.html#aba702d0a437daa6842702efc08fe2a98">menus</a>
 </li>
+<li>save_connections()
+: <a class="el" href="namespaceremote.html#a659217d26fd7fb0c79cef62971974bbd">remote</a>
+</li>
 <li>save_current()
 : <a class="el" href="namespaceembed__tke_1_1gui.html#a04260d1fa7d22a799e1265aa7abd5095">embed_tke::gui</a>
-, <a class="el" href="namespacegui.html#a12a52459bed19d3188743234b1b0d1dd">gui</a>
+, <a class="el" href="namespacegui.html#a43ef23e2960498bf9883f6b18baf9044">gui</a>
 </li>
 <li>save_current_theme()
 : <a class="el" href="namespacethemer.html#ad5830fff98057d50cae03f100bfe8a4f">themer</a>
@@ -170,8 +182,14 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>save_data()
 : <a class="el" href="namespaceplugins.html#a1925055f56e1c2a74bbef4b01f748726">plugins</a>
 </li>
+<li>save_file()
+: <a class="el" href="namespaceremote.html#a4625f296fe6ed9fd4eddbd23b820bc29">remote</a>
+</li>
 <li>save_language_association()
 : <a class="el" href="namespacesyntax.html#a6802462012027fd7f12e0097288b8283">syntax</a>
+</li>
+<li>save_list()
+: <a class="el" href="namespacesnippets.html#a837d34b50d254a8139ce52251cc208cf">snippets</a>
 </li>
 <li>save_new_file()
 : <a class="el" href="namespacegui.html#a68a26c59d454be5b3441ab4132d0cdf5">gui</a>
@@ -200,6 +218,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 , <a class="el" href="namespacepreferences.html#a0baabe35fbf9d8acd958f9c123d8025b">preferences</a>
 , <a class="el" href="namespacesearch.html#a553f3bb72d8f203989cc4e7b9cc1b510">search</a>
 , <a class="el" href="namespacesidebar.html#aafd19d85d602c0950e83745924184a87">sidebar</a>
+</li>
+<li>save_share_changes()
+: <a class="el" href="namespacepref__ui.html#aac52fafe4ec14ff54af61bff139b455e">pref_ui</a>
 </li>
 <li>save_theme()
 : <a class="el" href="namespacethemer.html#a465d7bcdc8cf06732ffc0d33a429f61a">themer</a>
@@ -277,6 +298,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>sessions_switch_launcher()
 : <a class="el" href="namespacemenus.html#a47ac8db04840588ce9bc070213ac231a">menus</a>
 </li>
+<li>set_aliases()
+: <a class="el" href="namespacepref__ui.html#a2554d4b8b16254b90a7230eb62b65ede">pref_ui</a>
+</li>
 <li>set_auto_cwd()
 : <a class="el" href="namespacegui.html#a3a034ddebead09aff72ffa1e6eb26a47">gui</a>
 </li>
@@ -288,6 +312,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>set_border_color()
 : <a class="el" href="namespacectext.html#afda2ae2f5c39f41848ab05b3daee25e2">ctext</a>
+</li>
+<li>set_bracket_mismatch_color()
+: <a class="el" href="namespacecompleter.html#a50dce66687f20ca4eec4a0bf2cb71b55">completer</a>
 </li>
 <li>set_browse_dir()
 : <a class="el" href="namespacepref__ui.html#a42167577f4830ac9caeba298a20396ab">pref_ui</a>
@@ -316,6 +343,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>set_css_color_case()
 : <a class="el" href="namespacepref__ui.html#afacf980a97a6024fa450d1b56bc2f28f">pref_ui</a>
 </li>
+<li>set_current_directory()
+: <a class="el" href="namespaceremote.html#a1b971ef9e5d4bc605f9bf7a79de3926d">remote</a>
+</li>
 <li>set_current_eol_translation()
 : <a class="el" href="namespacegui.html#aab10f6d774e45de2e2b8e87332abdef9">gui</a>
 </li>
@@ -338,7 +368,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespacegui.html#a9da64554f552da470e810a642dd217b0">gui</a>
 </li>
 <li>set_current_tab()
-: <a class="el" href="namespacegui.html#a3bbb059a62b7ba4983aa014317f8af04">gui</a>
+: <a class="el" href="namespacegui.html#a14b11c3ca7b2a60be943d20b5c7eeb85">gui</a>
 </li>
 <li>set_current_theme_to()
 : <a class="el" href="namespacethemer.html#a7061c50c84100664d2351fdba38dbcbd">themer</a>
@@ -351,6 +381,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>set_default_cvs()
 : <a class="el" href="namespacediff.html#a256cddc373c7835dc4a27d104231d8a3">diff</a>
+</li>
+<li>set_default_markdown_export_ext()
+: <a class="el" href="namespacepref__ui.html#a90fefb8ab629ff92524278f4c8771209">pref_ui</a>
+</li>
+<li>set_directory()
+: <a class="el" href="namespacestartup.html#a9df3fb686133e7c51ac0139be2aff2eb">startup</a>
 </li>
 <li>set_draggable()
 : <a class="el" href="namespacesidebar.html#a1f7e7f7a688cbfdec7eb2dee2b923a17">sidebar</a>
@@ -378,6 +414,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>set_grid_size()
 : <a class="el" href="namespacebitmap.html#a26cd2e1d3887f18a42a24967bbf471f3">bitmap</a>
+</li>
+<li>set_hide_state()
+: <a class="el" href="namespacesidebar.html#acfda357d0638fe756fb6d35632ea4ea6">sidebar</a>
+</li>
+<li>set_image()
+: <a class="el" href="namespacesidebar.html#af1e90a03298298619dae13481ba07b84">sidebar</a>
 </li>
 <li>set_indent_expressions()
 : <a class="el" href="namespaceindent.html#aeca43f04f831c18e127c1bac15dcb39c">indent</a>
@@ -430,6 +472,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>set_nfs_mounts()
 : <a class="el" href="namespacepref__ui.html#a52ac56ea79e2b939e3ccfea3ff8a4906">pref_ui</a>
+</li>
+<li>set_pane_sync()
+: <a class="el" href="namespacegui.html#a1bb621345e8bdfb4620d1243c0f3fc78">gui</a>
+</li>
+<li>set_pane_sync_indicator()
+: <a class="el" href="namespacemenus.html#aa52fac073f713b53c8040fe24e394526">menus</a>
 </li>
 <li>set_profile_report_options()
 : <a class="el" href="namespacepref__ui.html#a1f822748a3606eab193830fe20c54e43">pref_ui</a>
@@ -556,6 +604,58 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>setup_tab_popup_menu()
 : <a class="el" href="namespacegui.html#ac557ee17940366a50001b3c1991163f2">gui</a>
 </li>
+<li>share_changed()
+: <a class="el" href="namespaceemmet.html#aaadd29fc6b5bc0767365127c7d26e382">emmet</a>
+, <a class="el" href="namespacefavorites.html#a426e07755867623ac879a05688da195a">favorites</a>
+, <a class="el" href="namespacelauncher.html#afbb26f55bbbf42b8e8c67c4afd1653c2">launcher</a>
+, <a class="el" href="namespaceplugins.html#a3342f6f095a4815ebb3d86e10239a4bb">plugins</a>
+, <a class="el" href="namespacepreferences.html#aa88af192ffa8e21b65b033dc70979fcd">preferences</a>
+, <a class="el" href="namespaceremote.html#a3809ffecf237a59c9089b98be55ff05a">remote</a>
+, <a class="el" href="namespacesessions.html#aeacf26b47686e062a21cdeb298b7883b">sessions</a>
+, <a class="el" href="namespaceshare.html#a086bc67b89bd66aab0a7bf85641262ae">share</a>
+, <a class="el" href="namespacesnippets.html#a8e2faee4c8269b5278766be01cbfa36c">snippets</a>
+, <a class="el" href="namespacetemplates.html#a461deb9f3adaa4e5b351285fed2d1565">templates</a>
+, <a class="el" href="namespacethemes.html#a1d1b4545b355ab661342291d069ee5e7">themes</a>
+</li>
+<li>share_setup()
+: <a class="el" href="namespacemenus.html#ab03d2563b4ceb4badd63cd9dd0ab1828">menus</a>
+</li>
+<li>shortcut_cancel()
+: <a class="el" href="namespacepref__ui.html#a19da2578195cc2c3b08524a692a01104">pref_ui</a>
+</li>
+<li>shortcut_changed()
+: <a class="el" href="namespacepref__ui.html#af9276fd239f6835f50372b6bfb005dc5">pref_ui</a>
+</li>
+<li>shortcut_check_matches()
+: <a class="el" href="namespacepref__ui.html#a53feb41a2bdd0e6621ef002e68e9a1b4">pref_ui</a>
+</li>
+<li>shortcut_clear()
+: <a class="el" href="namespacepref__ui.html#a370e6a9c89ac7c03e166b06e1288b77f">pref_ui</a>
+</li>
+<li>shortcut_create_modifiers()
+: <a class="el" href="namespacepref__ui.html#a153feebff8b531c574253d4c38eb4649">pref_ui</a>
+</li>
+<li>shortcut_create_symbols()
+: <a class="el" href="namespacepref__ui.html#a9324301ddedadc4a5c5a5d8835ecd982">pref_ui</a>
+</li>
+<li>shortcut_edit_item()
+: <a class="el" href="namespacepref__ui.html#a8cacf032215b2797b59bc2bbfdfab9e1">pref_ui</a>
+</li>
+<li>shortcut_format()
+: <a class="el" href="namespacepref__ui.html#a705aea58921769649bc864efd34e1f95">pref_ui</a>
+</li>
+<li>shortcut_save()
+: <a class="el" href="namespacepref__ui.html#a266dc73632bda7cc05d5047f4322a1b4">pref_ui</a>
+</li>
+<li>shortcut_search()
+: <a class="el" href="namespacepref__ui.html#a32ed73cdcc2b7b6cdce7b21ee7321734">pref_ui</a>
+</li>
+<li>shortcut_table_select()
+: <a class="el" href="namespacepref__ui.html#ac4cdf426ff0532160eb95f7c90f830cb">pref_ui</a>
+</li>
+<li>shortcut_update()
+: <a class="el" href="namespacepref__ui.html#ae1ae615b5ebb0c91eebf54f5b32332a8">pref_ui</a>
+</li>
 <li>shorten_color()
 : <a class="el" href="namespaceemmet__css.html#aba574d3b8eb226bbb4443c0ff73d89a6">emmet_css</a>
 </li>
@@ -565,6 +665,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>show_about()
 : <a class="el" href="namespacegui.html#afa12601b1ba4b10b2c2a37b097f7c119">gui</a>
+</li>
+<li>show_all()
+: <a class="el" href="namespacegui.html#a863bfe8f0f73fa5da1714999537997db">gui</a>
 </li>
 <li>show_cliphist()
 : <a class="el" href="namespacecliphist.html#ac305b6a8c5f0817e063ffca34fa719bb">cliphist</a>
@@ -586,17 +689,20 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespaceapi.html#af86365b4bffc6aac3899a20bcf382a6c">api</a>
 </li>
 <li>show_file()
-: <a class="el" href="namespacesidebar.html#a72ce45b34acf44f87a305b444c772b83">sidebar</a>
+: <a class="el" href="namespacesidebar.html#a03c7193544a212298a01b77a44bb8006">sidebar</a>
 </li>
 <li>show_file_diff()
 : <a class="el" href="namespacemenus.html#ac5802ebe3a9a55037935c7bc9564c66e">menus</a>
 , <a class="el" href="namespacesidebar.html#a801c5954731bb4dbedabdad16aca8dab">sidebar</a>
 </li>
-<li>show_file_helper()
-: <a class="el" href="namespacesidebar.html#a5f52d1b4086e38e84f70b390a364886c">sidebar</a>
+<li>show_files()
+: <a class="el" href="namespacegui.html#a428a6bdce30a5813df6809e6e8fa18ba">gui</a>
 </li>
 <li>show_filter_menu()
 : <a class="el" href="namespacethemer.html#a6aebb2b319084cfc0295735fe5bf317a">themer</a>
+</li>
+<li>show_folder_files()
+: <a class="el" href="namespacesidebar.html#a92c85f5bb45855af7c509d273c7186bd">sidebar</a>
 </li>
 <li>show_hide_version_log()
 : <a class="el" href="namespacediff.html#a98038062d1d455c6a3fb2317baa49e6c">diff</a>
@@ -634,11 +740,18 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>show_meta_chars()
 : <a class="el" href="namespacemenus.html#ad4aa8abf11648aa60b5e90427ef21fcd">menus</a>
 </li>
+<li>show_new_menu()
+: <a class="el" href="namespaceremote.html#a75d927c0c0720d87d85008b9ea676be3">remote</a>
+</li>
 <li>show_panel()
-: <a class="el" href="namespacepref__ui.html#ae1a330929b7795f2aa90aa08a6f8b4eb">pref_ui</a>
+: <a class="el" href="namespacepref__ui.html#aafb7d9da2e3605a94682ad691d6b24de">pref_ui</a>
+, <a class="el" href="namespacestartup.html#af40d23b031aa5b5b0016ba380d6c21cd">startup</a>
 </li>
 <li>show_selected_panel()
 : <a class="el" href="namespacepref__ui.html#a93f0d295c53c7cc3c4359c4e43d6d3ae">pref_ui</a>
+</li>
+<li>show_sidebar_menu()
+: <a class="el" href="namespaceremote.html#a883ae23c7f1c64392a0c7b8bdd9e2734">remote</a>
 </li>
 <li>show_sidebar_view()
 : <a class="el" href="namespacegui.html#a319ee5c4489c5c91eae8416fe31acae7">gui</a>
@@ -654,6 +767,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespacegui.html#ac6fc4c114b35f7cc9d11241a7b686068">gui</a>
 , <a class="el" href="namespacemenus.html#afd029aeae436ffd8d7e0f8032565d377">menus</a>
 </li>
+<li>show_tab()
+: <a class="el" href="namespacegui.html#a24526442096a64c9727b8679b80076c8">gui</a>
+</li>
 <li>show_tab_view()
 : <a class="el" href="namespacegui.html#afbc5c747ba05a84642308bfc634c9c0e">gui</a>
 , <a class="el" href="namespacemenus.html#abcf2cac539a172eeffb0495b9ff58951">menus</a>
@@ -665,7 +781,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespacetemplates.html#a1fcf69546bb4005722a36548ac82e33d">templates</a>
 </li>
 <li>show_tooltip()
-: <a class="el" href="namespacesidebar.html#a06730681de2ba8865a8b50ac7def1c31">sidebar</a>
+: <a class="el" href="namespacesidebar.html#aed189782919e789a2c61f8166c9f8332">sidebar</a>
 </li>
 <li>sidebar_pattern_changed()
 : <a class="el" href="namespacepref__ui.html#ac7c955a338159d7b5dcb36dfaa9f075e">pref_ui</a>
@@ -675,6 +791,54 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>snip_okay()
 : <a class="el" href="namespacelauncher.html#ae8525c031d60f8d3ed022f9ee4081086">launcher</a>
+</li>
+<li>snippets_add()
+: <a class="el" href="namespacepref__ui.html#a5f57fd02ac3422a98ce4e4d074661b89">pref_ui</a>
+</li>
+<li>snippets_cancel()
+: <a class="el" href="namespacepref__ui.html#ac8c9facf844ed463470613b36b9648a7">pref_ui</a>
+</li>
+<li>snippets_create_menu()
+: <a class="el" href="namespacepref__ui.html#aed136175916dc0b68f89de9e57ea7c3c">pref_ui</a>
+</li>
+<li>snippets_del()
+: <a class="el" href="namespacepref__ui.html#a6c5033772ac6569b8422b2b30ea3b079">pref_ui</a>
+</li>
+<li>snippets_edit()
+: <a class="el" href="namespacepref__ui.html#ad539ca0f1c68cd3faa425d6a5a5bd412">pref_ui</a>
+</li>
+<li>snippets_format_snippet()
+: <a class="el" href="namespacepref__ui.html#a6a211012bdc011ed15ff94e42d430c0e">pref_ui</a>
+</li>
+<li>snippets_insert()
+: <a class="el" href="namespacepref__ui.html#a209ef79db42eb3aeb8e0dc2277ef2702">pref_ui</a>
+</li>
+<li>snippets_insert_str()
+: <a class="el" href="namespacepref__ui.html#afb6cea3433ffc23768a8ea5cf4e5195f">pref_ui</a>
+</li>
+<li>snippets_keyword_changed()
+: <a class="el" href="namespacepref__ui.html#a214ea4600967610c5dd57afe0588e35f">pref_ui</a>
+</li>
+<li>snippets_load_table()
+: <a class="el" href="namespacepref__ui.html#a0466c4d9be9b3e5f1040c0888a8e3276">pref_ui</a>
+</li>
+<li>snippets_save()
+: <a class="el" href="namespacepref__ui.html#a58f5e8e2eb20e5bf034fd80c9fb2a11f">pref_ui</a>
+</li>
+<li>snippets_save_table()
+: <a class="el" href="namespacepref__ui.html#a0cc3d38c3586ba8b7721e0042decf2da">pref_ui</a>
+</li>
+<li>snippets_search()
+: <a class="el" href="namespacepref__ui.html#aac90b0e7b1ea7d659ebd322a8894a128">pref_ui</a>
+</li>
+<li>snippets_select()
+: <a class="el" href="namespacepref__ui.html#afb6f3147a3b6ceac7268b37b41bddf8a">pref_ui</a>
+</li>
+<li>snippets_set_language()
+: <a class="el" href="namespacepref__ui.html#a30f3c3ae385e6620010c30fca0d64488">pref_ui</a>
+</li>
+<li>snippets_text_changed()
+: <a class="el" href="namespacepref__ui.html#a4dd31b74b11119c940d452c74fb8ed13">pref_ui</a>
 </li>
 <li>sort_match_results()
 : <a class="el" href="namespacelauncher.html#ade6abc28dfc8fe8bf08f98ae40ad7a90">launcher</a>
@@ -706,11 +870,20 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>string_to_keysym()
 : <a class="el" href="namespaceutils.html#a77efd6dbbcfa19b24e64eba2b74ed0af">utils</a>
 </li>
+<li>substitute()
+: <a class="el" href="namespacesnippets.html#a286d247485e33acc6187e107e34113df">snippets</a>
+</li>
 <li>swatch_do()
 : <a class="el" href="namespacetheme.html#a336d6a034d0f18e725c6b3340e496ad6">theme</a>
 </li>
 <li>symbol_okay()
 : <a class="el" href="namespacelauncher.html#a5590602976fbb0553d7060879c18ab39">launcher</a>
+</li>
+<li>sync_panes()
+: <a class="el" href="namespacemenus.html#aeb0d30b4eeb5e61b1ff5bfcd0cc6caee">menus</a>
+</li>
+<li>sync_scroll()
+: <a class="el" href="namespacegui.html#ade5e5b3f6e58cf0b271a8d9dce09175c">gui</a>
 </li>
 <li>synchronize()
 : <a class="el" href="namespacebgproc.html#a1f7fee71c6a92175e4218f9ffd56516e">bgproc</a>
@@ -727,7 +900,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Sep 4 2016 21:43:45 for TKE by
+    <li class="footer">Generated on Mon Nov 14 2016 22:56:54 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>
