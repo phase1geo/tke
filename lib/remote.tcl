@@ -1138,10 +1138,6 @@ namespace eval remote {
   proc close_connection {} {
 
     variable widgets
-    variable opened
-    variable dir_hist
-    variable dir_hist_index
-    variable current_server
 
     # Get the currently selected connection
     set selected [$widgets(sb) curselection]
@@ -1161,12 +1157,6 @@ namespace eval remote {
 
     # Clear the table
     $widgets(tl) delete 0 end
-
-    # Clear the directory history
-    catch { unset dir_hist($current_server) }
-    catch { unset dir_hist_index($current_server) }
-
-    set current_server ""
 
     # Make sure that the Open/Save button is disabled
     $widgets(open) configure -state disabled
@@ -1713,6 +1703,9 @@ namespace eval remote {
 
     variable connections
     variable opened
+    variable dir_hist
+    variable dir_hist_index
+    variable current_server
 
     switch [lindex $connections($name) 1] {
       "FTP" -
@@ -1720,6 +1713,11 @@ namespace eval remote {
         if {[info exists opened($name)]} {
           ::FTP_CloseSession $name
           unset opened($name)
+          if {$name eq $current_server} {
+            catch { unset dir_hist($current_server) }
+            catch { unset dir_hist_index($current_server) }
+            set current_server ""
+          }
         }
       }
     }
