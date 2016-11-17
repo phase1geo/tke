@@ -159,7 +159,7 @@ namespace eval remote {
     $widgets(connection) add command -label [msgcat::mc "Close Connection"]  -command [list remote::close_connection]
     $widgets(connection) add separator
     $widgets(connection) add command -label [msgcat::mc "Edit Connection"]   -command [list remote::edit_connection]
-    $widgets(connection) add command -label [msgcat::mc "Test Connection"]   -command [list remote::test_connection]
+    $widgets(connection) add command -label [msgcat::mc "Test Connection"]   -command [list remote::test_connection 0]
     $widgets(connection) add separator
     $widgets(connection) add command -label [msgcat::mc "Delete Connection"] -command [list remote::delete_connection]
 
@@ -288,8 +288,7 @@ namespace eval remote {
 
     ttk::frame .ftp.ef.bf
     set widgets(edit_test)   [ttk::button .ftp.ef.bf.test -style BButton -text [msgcat::mc "Test"] \
-      -width 6 -command [list remote::test_connection] -state disabled]
-    set widgets(edit_msg)    [ttk::label  .ftp.ef.bf.msg]
+      -width 6 -command [list remote::test_connection 1] -state disabled]
     set widgets(edit_create) [ttk::button .ftp.ef.bf.create -style BButton -text [msgcat::mc "Create"] \
       -width 6 -command [list remote::update_connection] -state disabled]
     ttk::button .ftp.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
@@ -298,7 +297,6 @@ namespace eval remote {
     }
 
     pack .ftp.ef.bf.test   -side left  -padx 2 -pady 2
-    pack .ftp.ef.bf.msg    -side left  -padx 2 -pady 2
     pack .ftp.ef.bf.cancel -side right -padx 2 -pady 2
     pack .ftp.ef.bf.create -side right -padx 2 -pady 2
 
@@ -494,24 +492,28 @@ namespace eval remote {
 
   ######################################################################
   # Tests the current connection settings and displays the result message
-  # in the edit_msg label widget.
-  proc test_connection {} {
+  # in a messageBox.
+  proc test_connection {edit_mode} {
 
     variable widgets
+    variable connections
 
     # Get the field values
-    set type   [$widgets(edit_type)   cget -text]
-    set group  [$widgets(edit_group)  cget -text]
-    set name   [$widgets(edit_name)   get]
-    set server [$widgets(edit_server) get]
-    set user   [$widgets(edit_user)   get]
-    set passwd [$widgets(edit_passwd) get]
-    set port   [$widgets(edit_port)   get]
-    set dir    [$widgets(edit_dir)    get]
-
-    # Clear the message field
-    $widgets(edit_msg) configure -text ""
-    update idletasks
+    if {$edit_mode} {
+      set type   [$widgets(edit_type)   cget -text]
+      set group  [$widgets(edit_group)  cget -text]
+      set name   [$widgets(edit_name)   get]
+      set server [$widgets(edit_server) get]
+      set user   [$widgets(edit_user)   get]
+      set passwd [$widgets(edit_passwd) get]
+      set port   [$widgets(edit_port)   get]
+      set dir    [$widgets(edit_dir)    get]
+    } else {
+      set selected [$widgets(sb) curselection]
+      set group    [$widgets(sb) cellcget [$widgets(sb) parentkey $selected],name -text]
+      set name     [$widgets(sb) cellcget $selected,name -text]
+      lassign $connections($group,$name) key type server user passwd port dir
+    }
 
     # Get a password from the user if it is not set
     if {$passwd eq ""} {
@@ -524,18 +526,18 @@ namespace eval remote {
     switch $type {
       "FTP" {
         if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 60]] == -1} {
-          $widgets(edit_msg) configure -text "Failed!"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection failed"
         } else {
           ::ftp::Close $connection
-          $widgets(edit_msg) configure -text "Passed!"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection passed"
         }
       }
       "SFTP" {
         if {[::sFTPopen test $server $user $passwd $port 60] == -1} {
-          $widgets(edit_msg) configure -text "Failed!"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection failed"
         } else {
           ::sFTPclose test
-          $widgets(edit_msg) configure -text "Passed!"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection passed"
         }
       }
     }
@@ -626,8 +628,6 @@ namespace eval remote {
       }
     }
 
-    $widgets(edit_msg) configure -text ""
-
   }
 
   ######################################################################
@@ -646,8 +646,6 @@ namespace eval remote {
       $widgets(edit_create) configure -state disabled
       $widgets(edit_test)   configure -state disabled
     }
-
-    $widgets(edit_msg) configure -text ""
 
     return 1
 
@@ -670,8 +668,6 @@ namespace eval remote {
       $widgets(edit_test)   configure -state disabled
     }
 
-    $widgets(edit_msg) configure -text ""
-
     return 1
 
   }
@@ -692,8 +688,6 @@ namespace eval remote {
       $widgets(edit_create) configure -state disabled
       $widgets(edit_test)   configure -state disabled
     }
-
-    $widgets(edit_msg) configure -text ""
 
     return 1
 
@@ -721,8 +715,6 @@ namespace eval remote {
       $widgets(edit_test)   configure -state disabled
     }
 
-    $widgets(edit_msg) configure -text ""
-
     return 1
 
   }
@@ -744,8 +736,6 @@ namespace eval remote {
       $widgets(edit_create) configure -state disabled
       $widgets(edit_test)   configure -state disabled
     }
-
-    $widgets(edit_msg) configure -text ""
 
     return 1
 
@@ -1037,7 +1027,6 @@ namespace eval remote {
     $widgets(edit_passwd) delete 0 end
     $widgets(edit_port)   delete 0 end
     $widgets(edit_dir)    delete 0 end
-    $widgets(edit_msg)    configure -text ""
 
   }
 
@@ -1149,10 +1138,6 @@ namespace eval remote {
   proc close_connection {} {
 
     variable widgets
-    variable opened
-    variable dir_hist
-    variable dir_hist_index
-    variable current_server
 
     # Get the currently selected connection
     set selected [$widgets(sb) curselection]
@@ -1172,12 +1157,6 @@ namespace eval remote {
 
     # Clear the table
     $widgets(tl) delete 0 end
-
-    # Clear the directory history
-    catch { unset dir_hist($current_server) }
-    catch { unset dir_hist_index($current_server) }
-
-    set current_server ""
 
     # Make sure that the Open/Save button is disabled
     $widgets(open) configure -state disabled
@@ -1724,6 +1703,9 @@ namespace eval remote {
 
     variable connections
     variable opened
+    variable dir_hist
+    variable dir_hist_index
+    variable current_server
 
     switch [lindex $connections($name) 1] {
       "FTP" -
@@ -1731,6 +1713,11 @@ namespace eval remote {
         if {[info exists opened($name)]} {
           ::FTP_CloseSession $name
           unset opened($name)
+          if {$name eq $current_server} {
+            catch { unset dir_hist($current_server) }
+            catch { unset dir_hist_index($current_server) }
+            set current_server ""
+          }
         }
       }
     }
