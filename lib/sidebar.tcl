@@ -686,9 +686,11 @@ namespace eval sidebar {
     }
 
     # Search for the directory or an ancestor
-    set tdir $dir
-    while {([set found [$widgets(tl) tag has "$tdir,$opts(-remote)"]] eq "") && ($tdir ne "/")} {
-      set tdir [file dirname $tdir]
+    set last_tdir ""
+    set tdir      $dir
+    while {($tdir ne $last_tdir) && ([set found [$widgets(tl) tag has "$tdir,$opts(-remote)"]] eq "")} {
+      set last_tdir $tdir
+      set tdir      [file dirname $tdir]
     }
 
     # If the directory was not found, insert the directory as a root directory
