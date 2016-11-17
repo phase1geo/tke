@@ -132,6 +132,9 @@ namespace eval completer {
     bind postcomp$txt <Key-greater>      [list [ns completer]::check_brackets %W angled 0]
     bind postcomp$txt <Key-parenleft>    [list [ns completer]::check_brackets %W paren  0]
     bind postcomp$txt <Key-parenright>   [list [ns completer]::check_brackets %W paren  0]
+    bind postcomp$txt <Key-quotedbl>     [list [ns completer]::check_all_brackets %W]
+    bind postcomp$txt <Key-quoteright>   [list [ns completer]::check_all_brackets %W]
+    bind postcomp$txt <Key-quoteleft>    [list [ns completer]::check_all_brackets %W]
     bind postcomp$txt <BackSpace>        [list [ns completer]::check_delete %W]
     bind postcomp$txt <Key>              [list [ns completer]::check_any %W]
 
