@@ -60,7 +60,7 @@ set auto_path [list [file join $tke_dir lib ctext] \
                     {*}$auto_path]
 
 if {$tcl_platform(platform) eq "windows"} {
-  set auto_path [list [file join $tke_dir Win tkdnd2.8] {*}$auto_path]
+  set auto_path [list [file join $tke_dir Win tkdnd2.8] [file join $tke_dir Win expect] {*}$auto_path]
 } else {
   package require Tclx
 }
