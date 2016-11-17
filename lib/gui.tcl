@@ -1777,7 +1777,7 @@ namespace eval gui {
 
     # Add the file's directory to the sidebar and highlight it
     if {$opts(-sidebar)} {
-      [ns sidebar]::add_directory [file dirname [file normalize $fname]] -remote $opts(-remote)
+      [ns sidebar]::add_directory [file dirname $fname] -remote $opts(-remote)
       [ns sidebar]::highlight_filename $fname [expr ($opts(-diff) * 2) + 1]
     }
 
