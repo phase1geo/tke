@@ -1,73 +1,45 @@
-changeset:   2536:65dee63eec82
-tag:         devel-2.7.12
+changeset:   2544:97d8b9df2a29
+tag:         devel-2.7.13
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 15 00:47:06 2016 -0600
+date:        Wed Nov 16 18:16:37 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.12 release
+ChangeLog for devel-2.7.13 release
 
 
-changeset:   2537:620d5a489486
+changeset:   2545:9694c7d459b1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 15 00:47:12 2016 -0600
+date:        Wed Nov 16 18:16:42 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.12 for changeset 65dee63eec82
+Added tag devel-2.7.13 for changeset 97d8b9df2a29
 
 
-changeset:   2538:5c3feb441815
+changeset:   2546:7cf3099171f3
+parent:      2543:9c56bf61b914
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 15 22:09:50 2016 -0600
-files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
+date:        Wed Nov 16 22:38:37 2016 -0600
+files:       lib/completer.tcl lib/version.tcl
 description:
-* Updating user guide.
+* Fixing issue with bracket match and strings.
 
 
-changeset:   2539:8ac6ee14ed56
-parent:      2537:620d5a489486
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Tue Nov 15 12:32:58 2016 -0600
-files:       lib/ftp_wrapper.tcl lib/sftp/README lib/sftp/sftp.tcl lib/version.tcl
-description:
-* Removing obsolete sftp directory.
-* Fixing ftp_wrapper to still allow FTP support if Expect is not found.
-
-
-changeset:   2540:b6931ad1f5cb
-parent:      2538:5c3feb441815
-parent:      2539:8ac6ee14ed56
+changeset:   2547:74dbefd7febb
+parent:      2546:7cf3099171f3
+parent:      2545:9694c7d459b1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 16 01:43:17 2016 -0600
-files:       lib/sftp/README lib/sftp/sftp.tcl lib/version.tcl
-description:
-* Merging.
-
-
-changeset:   2541:078b62847935
-parent:      2539:8ac6ee14ed56
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 15 23:20:31 2016 -0600
-files:       lib/remote.tcl lib/version.tcl
-description:
-* Cause output of test connection to be displayed in a popup dialog window.
-
-
-changeset:   2542:61259122ccf4
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 16 01:00:29 2016 -0600
-files:       lib/remote.tcl lib/version.tcl
-description:
-* Fixing issue with disconnecting remote and then opening another remote connection.
-
-
-changeset:   2543:9c56bf61b914
-tag:         tip
-parent:      2542:61259122ccf4
-parent:      2540:b6931ad1f5cb
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 16 18:12:55 2016 -0600
+date:        Wed Nov 16 22:40:36 2016 -0600
 files:       lib/version.tcl
 description:
 * Merging.
+
+
+changeset:   2548:cc722cc51784
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 17 00:31:41 2016 -0600
+files:       MacOSX/TKE.app/Contents/lib/expect/libexpect5.45.dylib MacOSX/TKE.app/Contents/lib/expect/license.terms MacOSX/TKE.app/Contents/lib/expect/pkgIndex.tcl lib/tke.tcl lib/version.tcl
+description:
+* Adding Expect support to MacOSX app bundle.
 
 
