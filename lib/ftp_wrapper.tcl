@@ -101,7 +101,7 @@ proc ClockMilliSeconds {} {
 
 set ::glob(debug)                  0
 set ::glob(ftp,debug)              0
-set ::glob(os)                     "Unix"  ;# TBD
+set ::glob(os)                     [expr {($::tcl_platform(platform) eq "unix") ? "Unix" : "Windows"}]
 set ::glob(abortcmd)               0
 set ::config(ftp,timeout)          60
 set ::config(ftp,cache,maxentries) 0  ;# Effectively turn off caching
