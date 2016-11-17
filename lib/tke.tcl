@@ -57,7 +57,6 @@ wm withdraw .
 set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib tablelist5.16] \
                     [file join $tke_dir lib ptwidgets1.2] \
-                    [file join $tke_dir lib expect] \
                     {*}$auto_path]
 
 if {$tcl_platform(platform) eq "windows"} {
