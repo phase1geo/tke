@@ -1503,7 +1503,7 @@ namespace eval sidebar {
             continue
           }
         } else {
-          if {![remote::remove_directories $remote [list $dirpath]]} {
+          if {![remote::remove_directories $remote [list $dirpath] -force 1]} {
             continue
           }
         }
