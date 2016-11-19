@@ -1,45 +1,84 @@
-changeset:   2544:97d8b9df2a29
-tag:         devel-2.7.13
+changeset:   2549:d1463680b5c9
+tag:         devel-2.7.14
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 16 18:16:37 2016 -0600
-files:       ChangeLog lib/version.tcl specl_version.tcl
+date:        Thu Nov 17 01:37:50 2016 -0600
+files:       .DS_Store ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.13 release
+ChangeLog for devel-2.7.14 release
 
 
-changeset:   2545:9694c7d459b1
+changeset:   2550:abefd1c2515e
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 16 18:16:42 2016 -0600
+date:        Thu Nov 17 01:37:55 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.13 for changeset 97d8b9df2a29
+Added tag devel-2.7.14 for changeset d1463680b5c9
 
 
-changeset:   2546:7cf3099171f3
-parent:      2543:9c56bf61b914
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 16 22:38:37 2016 -0600
-files:       lib/completer.tcl lib/version.tcl
+changeset:   2551:3a231f4bec64
+user:        Trevor Williams (phase1geo@gmail.com)
+date:        Thu Nov 17 01:53:33 2016 -0600
+files:       Win/expect/expect.tcl Win/expect/expect543.dll Win/expect/injector.dll Win/expect/pkgIndex.tcl Win/expect/teapot.txt
 description:
-* Fixing issue with bracket match and strings.
+* Adding expect library for Windows.
 
 
-changeset:   2547:74dbefd7febb
-parent:      2546:7cf3099171f3
-parent:      2545:9694c7d459b1
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 16 22:40:36 2016 -0600
-files:       lib/version.tcl
+changeset:   2552:29c7d1be8e46
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Nov 17 10:11:21 2016 -0600
+files:       Win/freewrap.files Win/freewrap.tcl lib/tke.tcl lib/version.tcl
 description:
-* Merging.
+* Integrating expect library into Window build.
 
 
-changeset:   2548:cc722cc51784
+changeset:   2553:7ad560ae2657
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Nov 17 13:59:22 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Attempting to fix issue with add_directory call that shows up in Windows.
+
+
+changeset:   2554:b155771aa984
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Nov 17 14:39:54 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Removing filename normalization when adding a directory to the sidebar.
+
+
+changeset:   2555:9c13d2e960b9
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Thu Nov 17 15:10:32 2016 -0600
+files:       lib/ftp_wrapper.tcl lib/version.tcl
+description:
+* Attempting to fix issue with telling sftp which OS we are using.
+
+
+changeset:   2556:94853011f919
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Thu Nov 17 19:57:42 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Changing remote folder deletion from sidebar to use -force 1.
+
+
+changeset:   2557:f78bd69af22a
+user:        Trevor Williams (phase1geo@gmail.com)
+date:        Sat Nov 19 00:22:49 2016 -0600
+files:       lib/ftp_wrapper.tcl lib/remote.tcl lib/remote/sftp.tcl
+description:
+* Fixing sftp issues on Windows.
+* Enabling code so that sftp debugging can take place (if needed).
+
+
+changeset:   2558:191ac78f63bf
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 17 00:31:41 2016 -0600
-files:       MacOSX/TKE.app/Contents/lib/expect/libexpect5.45.dylib MacOSX/TKE.app/Contents/lib/expect/license.terms MacOSX/TKE.app/Contents/lib/expect/pkgIndex.tcl lib/tke.tcl lib/version.tcl
+date:        Sat Nov 19 00:38:48 2016 -0600
+files:       lib/remote.tcl lib/version.tcl
 description:
-* Adding Expect support to MacOSX app bundle.
+* Displaying busy cursor when moving around a hierachy in the remote open/save dialog box.
+* Displaying set_current_directory error in a dialog window (instead of generating error to console).
 
 
