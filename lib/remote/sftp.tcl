@@ -11,7 +11,7 @@ proc sFTPopen {ftpI host user password port rq_timeout args } {
       # only my expect can handle a Log procedure.
       exp_log_file -a -proc Log
     } else {
-    exp_log_file  -a -noappend $glob(tmpdir)/Log
+    catch { exp_log_file  -a -noappend $glob(tmpdir)/Log }
     }
   }
   lassign $password  password idfile passphrase
@@ -227,14 +227,12 @@ proc sFTPpwd { ftpI } {
       -re "(pwd ?\[^\n]*\r?\n)" {
 	frputs "found echo  " expect_out(1,string)
 	exp_continue}\
-      -re ".*Remote working directory: (\[^\r]*)\r?\n.?sftp> " {incr re 0} \
-      -re ".*Remote working directory is (\[^\r]*)\r?\n.?sftp> " {incr re 0} \
-      -re ".*Remote directory is (\[^\r]*)\r?\n.?sftp> " {incr re 0} \
+      -re ".*Remote working directory: (\[^\r\n]+)\r?\n.?sftp> " {incr re 0} \
+      -re ".*Remote working directory is (\[^\r\n]+)\r?\n.?sftp> " {incr re 0} \
+      -re ".*Remote directory is (\[^\r\n]+)\r?\n.?sftp> " {incr re 0} \
       -re "(.*sftp> )" {
 	frputs "pwd,ignor3  " expect_out(1,string)
-	set re 2}\
-      -re "(\r?\n)" {frputs "pwd,ignor1  " expect_out(1,string) ;exp_continue}
-#  Log "pwd returns $expect_out(1,string) & $re"
+	set re 2}
   frputs "pwd out  " re expect_out(1,string) expect_out(buffer)
   switch $re {
     0 {return $expect_out(1,string)}
