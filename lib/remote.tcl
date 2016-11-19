@@ -1816,6 +1816,9 @@ namespace eval remote {
           if {![catch { ::FTP_List $name 0 } rc]} {
             foreach item $rc {
               set fname [file join $dirname [lrange $item 8 end]]
+              if {[string index [file tail $fname] 0] eq "."} {
+                continue
+              }
               set dir   [expr {[::FTP_IsDir $name $fname] eq $fname}]
               lappend items [list $fname $dir]
             }

@@ -100,6 +100,7 @@ proc ClockMilliSeconds {} {
 }
 
 set ::glob(debug)                  0
+set ::glob(tmpdir)                 $::tke_home
 set ::glob(ftp,debug)              0
 set ::glob(os)                     [expr {($::tcl_platform(platform) eq "unix") ? "Unix" : "Windows"}]
 set ::glob(abortcmd)               0
