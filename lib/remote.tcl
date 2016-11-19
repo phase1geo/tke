@@ -1580,28 +1580,41 @@ namespace eval remote {
     variable dir_hist
     variable dir_hist_index
 
+    # Get the current tablelist cursor
+    set orig_cursor [$widgets(tl) cget -cursor]
+
+    # Set the tablelist cursor to be busy cursor
+    $widgets(tl) configure -cursor [ttk::cursor busy]
+
     # If the directory is empty, get the current directory
     if {$directory eq ""} {
       set directory [::FTP_PWD $current_server]
     }
 
+    # Add the new directory
+    set items [list]
+    if {![dir_contents $current_server $directory items]} {
+      tk_messageBox -parent .ftp -icon error -type ok -default ok -message "Unable to read remote directory contents" -detail $directory
+      return
+    }
+
     # Delete the children of the given parent in the table
     $widgets(tl) delete 0 end
 
-    # Add the new directory
-    set items [list]
-    if {[dir_contents $current_server $directory items]} {
-      foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 1]] {
-        set row [$widgets(tl) insert end $fname]
-        $widgets(tl) cellconfigure $row,fname -image remote_directory
-      }
-      foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 0]] {
-        set row [$widgets(tl) insert end $fname]
-        $widgets(tl) cellconfigure $row,fname -image remote_file
-      }
-    } else {
-      puts "ERROR:  Unable to find dir_contents for dir: $directory ($name)"
+    # Add the directories first
+    foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 1]] {
+      set row [$widgets(tl) insert end $fname]
+      $widgets(tl) cellconfigure $row,fname -image remote_directory
     }
+
+    # Add the files second
+    foreach fname [lsort -index 0 [lsearch -all -inline -index 1 $items 0]] {
+      set row [$widgets(tl) insert end $fname]
+      $widgets(tl) cellconfigure $row,fname -image remote_file
+    }
+
+    # Reset the tablelist cursor to be busy cursor
+    $widgets(tl) configure -cursor $orig_cursor
 
     # Sets the current directory to the provided value
     set current_dir($current_server) $directory
