@@ -224,6 +224,7 @@ namespace eval api {
     #                     - \b current  : Returns 1 if the file is the current file being edited
     #                     - \b vimmode  : Returns 1 if the editor is not in edit mode; otherwise,
     #                                     returns 0.
+    #                     - \b lang     : Returns the syntax language.
     proc get_info {interp pname file_index attr} {
 
       return [gui::get_file_info $file_index $attr]

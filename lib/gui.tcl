@@ -3484,6 +3484,9 @@ namespace eval gui {
       "vimmode" {
         return [[ns vim]::in_vim_mode $txt.t]
       }
+      "lang" {
+        return [[ns syntax]::get_language $txt]
+      }
       default {
         if {![info exists files_index($attr)]} {
           return -code error [format "%s (%s)" [msgcat::mc "File attribute does not exist"] $attr]
@@ -3773,6 +3776,7 @@ namespace eval gui {
   #   - txt
   #   - txt2
   #   - fname
+  #   - lang
   #   - any key from files_index (for to_types only)
   #
   # Throws an error if there were conversion issues.
@@ -3862,6 +3866,12 @@ namespace eval gui {
             return -code error "Unable to get txt2 information"
           }
           lappend tos "$tab.pw.tf2.txt"
+        }
+        lang {
+          if {$tab eq ""} {
+            return -code error "Unable to get lang information"
+          }
+          lappend tos [syntax::get_language "$tab.pw.tf.txt"]
         }
         default {
           if {$tab eq ""} {

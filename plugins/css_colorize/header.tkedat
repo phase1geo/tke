@@ -1,0 +1,8 @@
+name           {css_colorize}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {Colorizes the background color of CSS syntax that describes color
+                with the value of that color.}
