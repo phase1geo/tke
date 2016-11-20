@@ -437,7 +437,7 @@ namespace eval utils {
   }
 
   ######################################################################
-  # Converts an HSV value into an RGB value.
+  # Converts an HSL value into an RGB value.
   proc hsl_to_rgb {h s l} {
 
     set c [expr (1 - abs( (2 * $l) - 1 )) * $s]

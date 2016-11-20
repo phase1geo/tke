@@ -257,6 +257,18 @@ namespace eval interpreter {
         return [$win add {*}$retval]
       }
 
+      search {
+        if {[set index [lsearch $args -count]] != -1} {
+          set count_name [lindex $args [expr $index + 1]]
+          lset args [expr $index + 1] search_lengths
+          set retval [$win search {*}$args]
+          $interps($pname,interp) eval set $count_name $search_lengths
+          return $retval
+        } else {
+          return [$win search {*}$args]
+        }
+      }
+
       tag {
         # Handle adding bindings to text/ctext widgets
         set args [lassign $args subcmd]
@@ -777,8 +789,19 @@ namespace eval interpreter {
     }
 
     # Create TKE command aliases
-    $interp alias api::register          plugins::register
-    $interp alias api::auto_adjust_color utils::auto_adjust_color  ;# TEMPORARY
+    $interp alias api::register                     plugins::register
+    $interp alias api::get_default_foreground       utils::get_default_foreground
+    $interp alias api::get_default_background       utils::get_default_background
+    $interp alias api::color_to_rgb                 utils::color_to_rgb
+    $interp alias api::get_complementary_mono_color utils::get_complementary_mono_color
+    $interp alias api::rgb_to_hsv                   utils::rgb_to_hsv
+    $interp alias api::hsv_to_rgb                   utils::hsv_to_rgb
+    $interp alias api::rgb_to_hsl                   utils::rgb_to_hsl
+    $interp alias api::hsl_to_rgb                   utils::hsl_to_rgb
+    $interp alias api::get_color_values             utils::get_color_values
+    $interp alias api::auto_adjust_color            utils::auto_adjust_color
+    $interp alias api::auto_mix_colors              utils::auto_mix_colors
+    $interp alias api::color_differences            utils::color_differences
 
     return $interp
 
