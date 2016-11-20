@@ -441,15 +441,22 @@ namespace eval utils {
   proc hsl_to_rgb {h s l} {
 
     set c [expr (1 - abs( (2 * $l) - 1 )) * $s]
-    set m [expr $l - ($C / 2)]
+    set m [expr $l - ($c / 2)]
     set x [expr $c * (1 - abs( fmod( ($h / 60.0), 2 ) ) - 1)]
 
-        if {$h <  60} { lassign [list $c $x  0] r g b }
-    elseif {$h < 120} { lassign [list $x $c  0] r g b }
-    elseif {$h < 180} { lassign [list 0  $c $x] r g b }
-    elseif {$h < 240} { lassign [list 0  $x $c] r g b }
-    elseif {$h < 300} { lassign [list $x  0 $c] r g b }
-    else              { lassign [list $c  0 $x] r g b }
+    if {$h <  60} {
+      lassign [list $c $x  0] r g b
+    } elseif {$h < 120} {
+      lassign [list $x $c  0] r g b
+    } elseif {$h < 180} {
+      lassign [list 0  $c $x] r g b
+    } elseif {$h < 240} {
+      lassign [list 0  $x $c] r g b
+    } elseif {$h < 300} {
+      lassign [list $x  0 $c] r g b
+    } else {
+      lassign [list $c  0 $x] r g b
+    }
 
     return [list [expr round( ($r + $m) * 255 )] [expr round( ($g + $m) * 255 )] [expr round( ($b + $m) * 255 )]]
 

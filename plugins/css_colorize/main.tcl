@@ -5,9 +5,9 @@ namespace eval css_colorize {
   variable res {
     {#([0-9a-fA-F]{3,6})}
     {rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)}
-    {rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+.\d+)\s*)}
-    {hsl\(\s*(\d+)\s*,\s*(\d+)\s*%\s*,\s*(\d+)\s*%\s*)}
-    {hsla\(\s*(\d+)\s*,\s*(\d+)\s*%\s*,\s*(\d+)\s*%\s*,\s*(\d+.\d+)\s*)}
+    {rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+\.\d+)\s*\)}
+    {hsl\(\s*(\d+)\s*,\s*(\d+)\s*%\s*,\s*(\d+)\s*%\s*\)}
+    {hsla\(\s*(\d+)\s*,\s*(\d+)\s*%\s*,\s*(\d+)\s*%\s*,\s*(\d+\.\d+)\s*\)}
   }
 
   ######################################################################
@@ -31,9 +31,9 @@ namespace eval css_colorize {
       lassign [api::color_to_rgb [format "#%02x%02x%02x" $r $g $b]] mr mg mb
       lassign [api::color_to_rgb [$txt cget -background]] or og ob
       return [format "#%02x%02x%02x" \
-        [expr int( (($mr * $a) + ($or * (1.0 - $a))) / 2 )] \
-        [expr int( (($mg * $a) + ($og * (1.0 - $a))) / 2 )] \
-        [expr int( (($mb * $a) + ($ob * (1.0 - $a))) / 2 )] \
+        [expr int( ($mr * $a) + ($or * (1.0 - $a)) )] \
+        [expr int( ($mg * $a) + ($og * (1.0 - $a)) )] \
+        [expr int( ($mb * $a) + ($ob * (1.0 - $a)) )] \
       ]
 
     } elseif {[regexp [lindex $res 3] $value -> h s l]} {
@@ -43,9 +43,9 @@ namespace eval css_colorize {
       lassign [api::hsl_to_rgb $h $s $l] mr mg mb
       lassign [api::color_to_rgb [$txt cget -background]] or og ob
       return [format "#%02x%02x%02x" \
-        [expr int( (($mr * $a) + ($or * (1.0 - $a))) / 2 )] \
-        [expr int( (($mg * $a) + ($og * (1.0 - $a))) / 2 )] \
-        [expr int( (($mb * $a) + ($ob * (1.0 - $a))) / 2 )] \
+        [expr int( ($mr * $a) + ($or * (1.0 - $a)) )] \
+        [expr int( ($mg * $a) + ($og * (1.0 - $a)) )] \
+        [expr int( ($mb * $a) + ($ob * (1.0 - $a)) )] \
       ]
     }
 

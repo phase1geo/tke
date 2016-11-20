@@ -260,9 +260,10 @@ namespace eval interpreter {
       search {
         if {[set index [lsearch $args -count]] != -1} {
           set count_name [lindex $args [expr $index + 1]]
+          set search_lengths [list]
           lset args [expr $index + 1] search_lengths
           set retval [$win search {*}$args]
-          $interps($pname,interp) eval set $count_name $search_lengths
+          $interps($pname,interp) eval [list set $count_name $search_lengths]
           return $retval
         } else {
           return [$win search {*}$args]
