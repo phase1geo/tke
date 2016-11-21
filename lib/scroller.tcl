@@ -88,7 +88,7 @@ namespace eval scroller {
     bind $data($win,canvas) <ButtonPress-$::right_click> [list scroller::page_slider     %W %x %y]
     bind $data($win,canvas) <B1-Motion>                  [list scroller::position_slider %W %x %y 1]
     bind $data($win,canvas) <Enter>                      [list scroller::enter %W]
-    bind $data($win,canvas) <Leave>                      [list scroller::leave %W]
+    bind $data($win,canvas) <Leave>                      [list scroller::leave %W %x %y]
     bind $data($win,canvas) <MouseWheel>                 [list scroller::wheel_slider    %W %D]
     bind $data($win,canvas) <4>                          [list scroller::wheel_slider    %W 1]
     bind $data($win,canvas) <5>                          [list scroller::wheel_slider    %W -1]
@@ -202,7 +202,7 @@ namespace eval scroller {
   proc position_slider {W x y motion} {
 
     variable data
-
+    
     if {$data($W,-command) ne ""} {
 
       # Indicate that we are pressed
@@ -244,16 +244,21 @@ namespace eval scroller {
   proc enter {W} {
 
     variable data
-
+    
     set data(after_id) [after 300 scroller::expand_slider $W]
 
   }
 
   ######################################################################
   # Handles a mouse leave event.
-  proc leave {W} {
+  proc leave {W x y} {
 
     variable data
+    
+    # If this isn't a real leave event (i.e., due to mouse clicking), don't collpase the slider
+    if {($x >= 0) && ($x < [winfo width $W]) && ($y >= 0) && ($y < [winfo height $W])} {
+      return
+    }
 
     # Cancel the enter ID
     after cancel $data(after_id)
@@ -269,7 +274,7 @@ namespace eval scroller {
 
     variable data
 
-    if {!$data($W,pressed)} {
+    if {!$data($W,pressed) && ($data($W,slider_width) != $data($W,-thickness))} {
 
       set data($W,slider_width) $data($W,-thickness)
 
@@ -335,7 +340,7 @@ namespace eval scroller {
   proc configure {win} {
 
     variable data
-
+    
     # Remove all canvas items
     $data($win,canvas) delete all
 
@@ -346,7 +351,7 @@ namespace eval scroller {
     set foreground [expr {$data($win,-usealt) ? $data($win,-altforeground) : $data($win,-foreground)}]
 
     # Add the slider
-    set data($win,slider) [$data($win,canvas) create rectangle 0 0 1 1 -outline $foreground -fill $foreground -width 2]
+    set data($win,slider) [$data($win,canvas) create rectangle 0 0 1 1 -outline $foreground -fill $foreground -width 2 -state disabled]
 
     # Set the size and position of the slider
     widget_command $win set {*}[eval $data($win,-command)]
@@ -381,7 +386,7 @@ namespace eval scroller {
         set y1 [expr int( $height * $startpos)]
         set x2 [expr $data($win,-thickness) + $data($win,extra_width)]
         set y2 [expr int( $height * $endpos)]
-        set marker [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark]
+        set marker [$data($win,canvas) create rectangle $x1 $y1 $x2 $y2 -fill $color -width 0 -tags mark -state disabled]
         incr data($win,marks)
       }
 
