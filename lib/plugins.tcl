@@ -1078,7 +1078,7 @@ namespace eval plugins {
       lassign $entry index type name bind_type cmd
       set bt "plugin__$registry($index,name)__$name"
       if {($bind_type eq "all") || ([lsearch $tags $bt] != -1)} {
-        set ptags($type) $bt
+        lappend ptags($type) $bt
         if {![info exists bound_tags($bt)]} {
           if {[catch { $registry($index,interp) eval $cmd $bt } status]} {
             handle_status_error "handle_text_bindings" $index $status

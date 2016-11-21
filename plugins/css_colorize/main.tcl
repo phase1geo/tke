@@ -10,6 +10,8 @@ namespace eval css_colorize {
     {hsla\(\s*(\d+)\s*,\s*(\d+)\s*%\s*,\s*(\d+)\s*%\s*,\s*(\d+\.\d+)\s*\)}
   }
 
+  array set colorized {}
+
   ######################################################################
   # Returns the RGB color associated with the given value
   # string
@@ -67,27 +69,40 @@ namespace eval css_colorize {
   # Parses and colorizes the current editing buffer.
   proc colorize_do {} {
 
-    variable res
+    variable colorized
 
     # Get the current editing buffer index.
     set index [api::file::current_file_index]
     set txt   [api::file::get_info $index txt]
 
-    puts "txt: $txt"
+    # Indicate that this editing buffer has been colorized
+    set colorized($txt) 1
+
+    # Perform colorization
+    colorize $txt
+
+  }
+
+  ######################################################################
+  # Perform colorization.
+  proc colorize {txt {val 0}} {
+
+    variable res
+    variable colorized
+
+    # If we weren't manually colorized, stop now
+    if {![info exists colorized($txt)]} {
+      return
+    }
 
     # Remove the current colorx
     remove_colors $txt
 
-    puts "Colors has been removed"
-
     # Colorize
-    catch {
     foreach re $res {
-      puts "re: $re"
       set lengths [list]
       set i       0
       foreach start [$txt search -all -count lengths -regexp -- $re 1.0 end] {
-        puts "  HERE, start: $start, lengths: $lengths"
         set end   [$txt index "$start+[lindex $lengths $i]c"]
         set color [get_color $txt [$txt get $start $end]]
         $txt tag configure css_colorize:$color -background $color -foreground [api::get_complementary_mono_color $color]
@@ -95,8 +110,9 @@ namespace eval css_colorize {
         incr i
       }
     }
-    } rc
-    puts "rc: $rc"
+
+    # Track that we have colorized this text widget
+    set colorized($txt) 1
 
   }
 
@@ -120,7 +136,7 @@ namespace eval css_colorize {
   # widget.  We are not going to do anything right now.
   proc do_binding {tag} {
 
-    # Do nothing
+    bind $tag <<ThemeChanged>> [list css_colorize::colorize %W 1]
 
   }
 
