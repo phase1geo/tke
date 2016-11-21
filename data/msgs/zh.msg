@@ -1818,6 +1818,12 @@ msgcat::mcmset zh {
   "Group Name: "
   "分组名称："
 
+  "Image used in remote file selector for the history back button."
+  "在历史上的后退按钮的远程文件选择器中使用的图像。"
+
+  "Image used in remote file selector for the history forward button."
+  "在远程文件选择器历史前进按钮使用的图像。"
+
   "Image used in remote file selector to indicate a file."
   "在远程文件选择器中用于指示文件的图像。"
 

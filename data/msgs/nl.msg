@@ -86,6 +86,9 @@ msgcat::mcmset nl {
   "Copyright"
   "Auteursrecht"
 
+  "Credits"
+  "Credits"
+
   "Delete tab?"
   "Delete tab?"
 
@@ -109,6 +112,9 @@ msgcat::mcmset nl {
 
   "File index is out of range"
   "File index valt buiten het bereik"
+
+  "Hide Tab"
+  "Hide Tab"
 
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Afbeelding in fill-in vormen die de vorm UI sluit. Gebruikt in de vorm zoals zoeken, zoeken / vervangen, en vinden van bestanden."
@@ -154,6 +160,9 @@ msgcat::mcmset nl {
 
   "Image used in the preferences window in the Sidebar tab."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster in de zijbalk tabblad."
+
+  "Image used in the preferences window in the Snippets tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Codefragmenten."
 
   "Image used in the preferences window in the View tab."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Weergave."
@@ -248,6 +257,12 @@ msgcat::mcmset nl {
 
   "Align Cursors"
   "Uitlijnen van Cursors"
+
+  "Align Panes"
+  "Deelvensters Uitlijnen"
+
+  "Align current lines in both panes"
+  "Huidige regels in beide deelvensters Uitlijnen"
 
   "Align cursors"
   "Uitlijnen van cursors"
@@ -438,6 +453,9 @@ msgcat::mcmset nl {
   "Disable code folding"
   "Uitschakelen code vouwen"
 
+  "Disable two-pane scrolling Synchronization"
+  "Twee deelvensters scrollen synchronisatie uitschakelen"
+
   "Display Text Info"
   "Schermtekst"
 
@@ -495,8 +513,14 @@ msgcat::mcmset nl {
   "Enable Code Folding"
   "Inschakelen Code vouwen"
 
+  "Enable Synchronized Scrolling"
+  "Inschakelen gesynchroniseerd scrollen"
+
   "Enable Vim mode"
   "Vim-modus inschakelen"
+
+  "Enable two-pane scrolling synchronization"
+  "Twee deelvensters scrollen synchronisatie inschakelen"
 
   "Enumeration"
   "telling"
@@ -609,8 +633,14 @@ msgcat::mcmset nl {
   "Help"
   "Help"
 
+  "Hide All Tabs"
+  "Alles verbergen"
+
   "Hide Console"
   "Verbergen Console"
+
+  "Hide Current Tab"
+  "Huidig tabblad"
 
   "Hide Line Numbers"
   "Regelnummers verbergen"
@@ -897,6 +927,9 @@ msgcat::mcmset nl {
   "Open Recent"
   "Recent geopend"
 
+  "Open Remote"
+  "Open Remote"
+
   "Open Selected Folds"
   "Open geselecteerd plooien"
 
@@ -917,6 +950,9 @@ msgcat::mcmset nl {
 
   "Open folds to show cursor"
   "Open plooien naar het weergeven van cursor"
+
+  "Open remote file or directory"
+  "Open extern bestand of map"
 
   "Open selected folds - all levels"
   "Open geselecteerde plooien - alle niveaus"
@@ -1366,6 +1402,9 @@ msgcat::mcmset nl {
 # pref_ui.tcl
 msgcat::mcmset nl {
 
+  "Abbreviation Aliases"
+  "Afkorting aliassen"
+
   "Add"
   "Toevoegen"
 
@@ -1420,6 +1459,9 @@ msgcat::mcmset nl {
   "Clear"
   "Wissen"
 
+  "Clipboard"
+  "Klembord"
+
   "Clipboard history depth"
   "Klembord geschiedenis diepte"
 
@@ -1444,11 +1486,29 @@ msgcat::mcmset nl {
   "Current"
   "Huidig"
 
+  "Current Directory"
+  "huidige map"
+
+  "Current File Pathname"
+  "Huidige bestandspad"
+
+  "Current Filename"
+  "Huidige bestandsnaam"
+
+  "Current Line Column"
+  "Huidige lijn kolom"
+
+  "Current Line Number"
+  "Huidige regelnummer"
+
   "Current editing buffer directory"
   "Huidige bewerken buffer map"
 
   "Current working directory"
   "Huidige het werk folder"
+
+  "Date"
+  "Datum"
 
   "Default Markdown Export Extension"
   "Standaardextensie Markdown Export"
@@ -1458,6 +1518,9 @@ msgcat::mcmset nl {
 
   "Default unit for integer values"
   "Standaardeenheid voor integerwaarden"
+
+  "Delete snippet"
+  "Fragment verwijderen"
 
   "Development"
   "Development"
@@ -1513,6 +1576,9 @@ msgcat::mcmset nl {
   "Indentation Spaces"
   "Spaties voor inspringen"
 
+  "Keyword"
+  "Zoekwoord"
+
   "Languages"
   "Talen"
 
@@ -1536,6 +1602,9 @@ msgcat::mcmset nl {
 
   "Mounts"
   "Beugels"
+
+  "Node Aliases"
+  "Aliassen"
 
   "Parenthesis"
   "Haakje"
@@ -1713,6 +1782,81 @@ msgcat::mcmset nl {
 # remote.tcl
 msgcat::mcmset nl {
 
+  "Close Connection"
+  "Verbinding verbreken"
+
+  "Create New Folder"
+  "Nieuwe map aanmaken"
+
+  "Delete Connection"
+  "Verbinding verwijderen"
+
+  "Delete Group"
+  "Groep verwijderen"
+
+  "Delete connection?"
+  "Verbinding verwijderen"
+
+  "Delete group?"
+  "Verwijder groep"
+
+  "Edit Connection"
+  "Bewerk de aansluiting"
+
+  "Enter Password"
+  "Voer wachtwoord in"
+
+  "Folder Name"
+  "Folder Naam"
+
+  "Group"
+  "Groep"
+
+  "Group Name"
+  "Groepsnaam"
+
+  "Group Name: "
+  "Groep Naam:"
+
+  "Image used in remote file selector for the history back button."
+  "De afbeelding die wordt gebruikt in een extern bestand keuzeschakelaar voor de back-knop van de geschiedenis."
+
+  "Image used in remote file selector for the history forward button."
+  "De afbeelding die wordt gebruikt in een extern bestand keuzeschakelaar voor de knop voor het doorsturen van geschiedenis."
+
+  "Image used in remote file selector to indicate a file."
+  "De afbeelding die wordt gebruikt in een extern bestand selector om aan te geven van een bestand."
+
+  "Image used in remote file selector to indicate a folder."
+  "De afbeelding die wordt gebruikt in een extern bestand selector om aan te geven van een map."
+
+  "Image used in remote file selector to indicate that a connection is being opened."
+  "De afbeelding die wordt gebruikt in een extern bestand selector om aan te geven dat een verbinding wordt geopend."
+
+  "Image used in remote file selector to indicate that a connection is opened."
+  "De afbeelding die wordt gebruikt in een extern bestand selector om aan te geven dat er een verbinding is geopend."
+
+  "Name"
+  "Naam"
+
+  "New Connection"
+  "Nieuwe verbinding"
+
+  "New Folder"
+  "Nieuwe map"
+
+  "New Group"
+  "Nieuwe groep"
+
+  "Open Connection"
+  "Aansluiting"
+
+  "Open Remote File"
+  "Bestand op afstand openen"
+
+  "Optional"
+  "Optioneel"
+
   "Password"
   "Wachtwoord"
 
@@ -1838,8 +1982,35 @@ msgcat::mcmset nl {
   "Directory Name:"
   "directory-naam"
 
+  "Disconnect From Server"
+  "Server verbreken"
+
   "Folder Name:"
   "Mapnaam:"
+
+  "Hide"
+  "Verberg"
+
+  "Hide Directory Files"
+  "Map bestanden verbergen"
+
+  "Image displayed in sidebar to indicate a directory that is collapsed"
+  "Afbeelding die wordt weergegeven in de zijbalk om aan te geven van een map die is samengevouwen"
+
+  "Image displayed in sidebar to indicate a directory that is showing its contents"
+  "Afbeelding die wordt weergegeven in de zijbalk om aan te geven van een map waarin de inhoud wordt weergegeven"
+
+  "Image displayed in sidebar to indicate a file"
+  "Afbeelding die wordt weergegeven in de zijbalk om aan te geven van een bestand"
+
+  "Image displayed in sidebar to indicate a selected directory that is collapsed"
+  "Afbeelding die wordt weergegeven in de zijbalk om aan te geven van een geselecteerde map die is samengevouwen"
+
+  "Image displayed in sidebar to indicate a selected directory that is expanded"
+  "Afbeelding die wordt weergegeven in de zijbalk om aan te geven van een geselecteerde map die is uitgevouwen"
+
+  "Image displayed in sidebar to indicate that a file is currently opened but hidden"
+  "Afbeelding die wordt weergegeven in de zijbalk om aan te geven dat er momenteel een bestand is geopend maar verborgen"
 
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Afbeelding in zijbalk geven dat actueel in een editing buffer wordt geopend."
@@ -2084,6 +2255,9 @@ msgcat::mcmset nl {
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Voorgrond (schuif) kleur gebruikt in de zijbalk scrollbar."
+
+  "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."
+  "(Schuif) voorgrondkleur gebruikt in de tekst schuifbalken als deelvenster synchronisatie is ingeschakeld."
 
   "Foreground (slider) color used in the text scrollbars."
   "Voorgrond (schuif) kleur die wordt gebruikt in de tekst schuifbalken."

@@ -1818,6 +1818,12 @@ msgcat::mcmset no {
   "Group Name: "
   "Gruppenavn"
 
+  "Image used in remote file selector for the history back button."
+  "Bildet som brukes i eksterne velgeren for historie tilbake-knappen."
+
+  "Image used in remote file selector for the history forward button."
+  "Bildet som brukes i eksterne velgeren for historie frem-knappen."
+
   "Image used in remote file selector to indicate a file."
   "Bildet som brukes i eksterne filutvalgsboks for å angi filtypen."
 
