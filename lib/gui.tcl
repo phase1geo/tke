@@ -3476,7 +3476,7 @@ namespace eval gui {
         return [[ns sidebar]::get_index $index $remote]
       }
       "txt" {
-        return $txt
+        return $txt.t
       }
       "current" {
         return [expr {$txt eq [current_txt {}]}]

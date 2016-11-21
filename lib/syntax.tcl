@@ -439,7 +439,7 @@ namespace eval syntax {
     }
 
     # Generate a <<ThemeChanged>> event on the text widget
-    event generate $txt <<ThemeChanged>>
+    event generate $txt.t <<ThemeChanged>>
 
     # Set the menubutton text
     if {[info exists [ns gui]::widgets(info_syntax)]} {
