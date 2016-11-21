@@ -71,8 +71,8 @@ namespace eval tabbar {
 
     # The tab bar will be a canvas
     canvas $w.c  -bg grey90 -takefocus 1 -bd 0 -highlightthickness 0 -relief flat -confine 0
-    label  $w.sl -text "\u276e" -bg grey80 -fg black -disabledforeground grey50 -padx 8 -state disabled -relief flat
-    label  $w.sr -text "\u276f" -bg grey80 -fg black -disabledforeground grey50 -padx 8 -relief flat
+    label  $w.sl -bg grey80 -fg black -padx 8 -relief flat
+    label  $w.sr -bg grey80 -fg black -padx 8 -relief flat
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 1 -weight 1
@@ -122,6 +122,10 @@ namespace eval tabbar {
     for {set i 1} {$i <= 8} {incr i} {
       set data($w,image,busy$i) [image create bitmap -file [file join $imgdir busy$i.bmp] -maskfile [file join $imgdir busy$i.bmp] -foreground black]
     }
+
+    # Set the images on the scroll left/right buttons
+    $w.sl configure -image $data($w,image,left)
+    $w.sr configure -image $data($w,image,right)
 
     # Initialize variables
     set data($w,pages)       [list]
@@ -187,7 +191,7 @@ namespace eval tabbar {
 
     variable data
 
-    if {[winfo ismapped $w.sl] && ([$w.sl cget -state] eq "normal")} {
+    if {[winfo ismapped $w.sl] && ([$data($w,image,left) cget -foreground] eq $data($w,option,-foreground))} {
 
       # Update the left_tab value
       incr data($w,left_tab) -1
@@ -208,7 +212,7 @@ namespace eval tabbar {
 
     variable data
 
-    if {[winfo ismapped $w.sr] && ([$w.sr cget -state] eq "normal")} {
+    if {[winfo ismapped $w.sr] && ([$data($w,image,right) cget -foreground] eq $data($w,option,-foreground))} {
 
       # Move one unit to the right
       $w.c xview scroll 1 units
@@ -350,21 +354,21 @@ namespace eval tabbar {
     }
 
   }
-  
+
   ######################################################################
   # Handles mousewheel events occurring within the tabbar.
   proc handle_tabbar_mousewheel {w d} {
-    
+
     if {[tk windowingsystem] eq "win32"} {
       set d [expr int( pow( %d / -120, 3))]
     }
-    
+
     if {$d == -1} {
       scroll_right $w
     } else {
       scroll_left $w
     }
-    
+
   }
 
   ######################################################################
@@ -374,7 +378,7 @@ namespace eval tabbar {
     variable data
 
     if {([$w.c gettags $bid] ne "") || ([$w.c gettags [set bid [busy_tag $w [index $w $tab]]]] ne "")} {
-      
+
       # Get the next image to draw and rotate the image list
       set img_list [lassign $img_list img]
       lappend img_list $img
@@ -968,16 +972,20 @@ namespace eval tabbar {
 
     # Set the left-most tab and if it set to 0, disable this button
     if {[leftmost_tab $w] == 0} {
-      $w.sl configure -state disabled
+      $data($w,image,left) configure -foreground $data($w,option,-disabledforeground)
+      # $w.sl configure -state disabled
     } else {
-      $w.sl configure -state normal
+      $data($w,image,left) configure -foreground $data($w,option,-foreground)
+      # $w.sl configure -state normal
     }
 
     # If the number of tabs shown in the current view
     if {[rightmost_tab $w] >= [expr [llength $data($w,tab_order)] - 1]} {
-      $w.sr configure -state disabled
+      $data($w,image,right) configure -foreground $data($w,option,-disabledforeground)
+      # $w.sr configure -state disabled
     } else {
-      $w.sr configure -state normal
+      $data($w,image,right) configure -foreground $data($w,option,-foreground)
+      # $w.sr configure -state normal
     }
 
   }
