@@ -1818,6 +1818,12 @@ msgcat::mcmset hu {
   "Group Name: "
   "Csoport neve"
 
+  "Image used in remote file selector for the history back button."
+  "Kép használt távoli fájl választóval a történelem vissza gombot."
+
+  "Image used in remote file selector for the history forward button."
+  "Kép használt távoli fájl választóval a történelem továbbít gomb."
+
   "Image used in remote file selector to indicate a file."
   "A kép a távoli fájl választóval hozzászokott jelez egy fájl."
 

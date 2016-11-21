@@ -1818,6 +1818,12 @@ msgcat::mcmset ru {
   "Group Name: "
   "Имя группы"
 
+  "Image used in remote file selector for the history back button."
+  "Изображение, используемое в селектор удаленных файлов для кнопки назад история."
+
+  "Image used in remote file selector for the history forward button."
+  "Изображение, используемое в селектор удаленных файлов для истории вперед."
+
   "Image used in remote file selector to indicate a file."
   "Изображение, используемое в селектор удаленных файлов для указания файла."
 

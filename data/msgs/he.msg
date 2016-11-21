@@ -1818,6 +1818,12 @@ msgcat::mcmset he {
   "Group Name: "
   "שם"
 
+  "Image used in remote file selector for the history back button."
+  "תמונת שימוש בבורר קובץ מרוחק עבור לחצן חזור היסטוריה."
+
+  "Image used in remote file selector for the history forward button."
+  "תמונת שימוש בבורר קובץ מרוחק עבור לחצן היסטוריה קדימה."
+
   "Image used in remote file selector to indicate a file."
   "תמונת שימוש בבורר קובץ מרוחק כדי לציין קובץ."
 

@@ -1818,6 +1818,12 @@ msgcat::mcmset de {
   "Group Name: "
   "Gruppenname:"
 
+  "Image used in remote file selector for the history back button."
+  "Bild im remote-Datei-Selektor für die Geschichte zurück-Schaltfläche verwendet."
+
+  "Image used in remote file selector for the history forward button."
+  "Bild im remote-Datei-Selektor für die Geschichte vorwärts-Taste verwendet."
+
   "Image used in remote file selector to indicate a file."
   "Bild in abgelegenen Dateiauswahl verwendet, um eine Datei anzugeben."
 

@@ -1818,6 +1818,12 @@ msgcat::mcmset el {
   "Group Name: "
   "Όνομα ομάδας"
 
+  "Image used in remote file selector for the history back button."
+  "Εικόνας χρησιμοποιούνται σε απομακρυσμένο αρχείο επιλογέα για την ιστορία πίσω κουμπί."
+
+  "Image used in remote file selector for the history forward button."
+  "Εικόνας χρησιμοποιούνται σε απομακρυσμένο αρχείο επιλογέα για ιστορία τοForwardτο κουμπί."
+
   "Image used in remote file selector to indicate a file."
   "Εικόνα χρησιμοποιείται σε απομακρυσμένο αρχείο επιλογέα για να υποδείξει ένα αρχείο."
 

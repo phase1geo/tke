@@ -227,6 +227,9 @@ msgcat::mcmset ja {
   "Unable to write file"
   "ファイルを書き込めません。"
 
+  "Unable to write remote file"
+  "リモート ファイルを書き込めません。"
+
   "Version"
   "バージョン"
 
@@ -1059,6 +1062,9 @@ msgcat::mcmset ja {
   "Save All"
   "すべて保存"
 
+  "Save As Remote"
+  "リモートとして保存します。"
+
   "Save As Template"
   "テンプレートの保存"
 
@@ -1079,6 +1085,9 @@ msgcat::mcmset ja {
 
   "Save file as"
   "ファイルを保存します。"
+
+  "Save file as remote file"
+  "リモート ファイルとしてファイルを保存します。"
 
   "Save file as template"
   "テンプレートの保存"
@@ -1145,6 +1154,9 @@ msgcat::mcmset ja {
 
   "Set user preferences to global preferences"
   "[グローバル設定] に設定されているユーザー設定"
+
+  "Show All Tabs"
+  "すべて表示"
 
   "Show Console"
   "コンソールの表示"
@@ -1630,11 +1642,20 @@ msgcat::mcmset ja {
   "Ruler column"
   "定規コラム"
 
+  "Search Shortcuts"
+  "検索ショートカット"
+
+  "Search Snippets"
+  "検索のスニペット"
+
   "Select Settings Sharing Directory"
   "ディレクトリの共有の設定を選択します。"
 
   "Select default browsing directory"
   "デフォルトのディレクトリをブラウズを選択します。"
+
+  "Selected Text"
+  "選択したテキスト"
 
   "Set"
   "セット"
@@ -1684,6 +1705,9 @@ msgcat::mcmset ja {
   "Snippet Completion Characters"
   "スニペット補完文字"
 
+  "Snippet Text"
+  "スニペットのテキスト"
+
   "Sort tabs alphabetically on open"
   "開いたときにアルファベット順に並び替えタブ"
 
@@ -1713,6 +1737,12 @@ msgcat::mcmset ja {
 
   "Tab"
   "タブ"
+
+  "Tab Stop"
+  "タブ"
+
+  "Time"
+  "時間"
 
   "Update using release type"
   "リリースの型を使用して更新します。"
@@ -1788,6 +1818,12 @@ msgcat::mcmset ja {
   "Group Name: "
   "グループ名"
 
+  "Image used in remote file selector for the history back button."
+  "履歴のバックボタンのリモート ファイル セレクターで使用する画像。"
+
+  "Image used in remote file selector for the history forward button."
+  "歴史 [進む] ボタンのリモート ファイル セレクターで使用する画像。"
+
   "Image used in remote file selector to indicate a file."
   "イメージ ファイルを指定するリモート ファイル セレクターで使用されます。"
 
@@ -1829,6 +1865,36 @@ msgcat::mcmset ja {
 
   "Port"
   "ポート"
+
+  "Remote Directory"
+  "リモート ディレクトリ"
+
+  "Rename Group"
+  "グループ名の変更"
+
+  "Save File Remotely"
+  "リモートからファイルを保存します。"
+
+  "Server"
+  "サーバー"
+
+  "Test"
+  "テスト"
+
+  "Test Connection"
+  "テスト接続"
+
+  "Type"
+  "種類"
+
+  "Unable to connect to"
+  "連携できません"
+
+  "Username"
+  "ユーザーネーム"
+
+  "server"
+  "server"
 
 }
 
@@ -1970,8 +2036,14 @@ msgcat::mcmset ja {
   "Remove from Sidebar"
   "サイドバーから削除"
 
+  "Show"
+  "表示"
+
   "Show Difference"
   "違いを示す"
+
+  "Show Directory Files"
+  "ディレクトリのファイルを表示します。"
 
 }
 
