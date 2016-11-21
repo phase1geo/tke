@@ -1,84 +1,82 @@
-changeset:   2549:d1463680b5c9
-tag:         devel-2.7.14
+changeset:   2559:b6c7743e584d
+tag:         devel-2.7.15
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 17 01:37:50 2016 -0600
-files:       .DS_Store ChangeLog lib/version.tcl specl_version.tcl
+date:        Sat Nov 19 00:51:22 2016 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.7.14 release
+ChangeLog for devel-2.7.15 release
 
 
-changeset:   2550:abefd1c2515e
+changeset:   2560:b7f2fbbb5b05
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 17 01:37:55 2016 -0600
+date:        Sat Nov 19 00:51:28 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.7.14 for changeset d1463680b5c9
+Added tag devel-2.7.15 for changeset b6c7743e584d
 
 
-changeset:   2551:3a231f4bec64
-user:        Trevor Williams (phase1geo@gmail.com)
-date:        Thu Nov 17 01:53:33 2016 -0600
-files:       Win/expect/expect.tcl Win/expect/expect543.dll Win/expect/injector.dll Win/expect/pkgIndex.tcl Win/expect/teapot.txt
-description:
-* Adding expect library for Windows.
-
-
-changeset:   2552:29c7d1be8e46
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Nov 17 10:11:21 2016 -0600
-files:       Win/freewrap.files Win/freewrap.tcl lib/tke.tcl lib/version.tcl
-description:
-* Integrating expect library into Window build.
-
-
-changeset:   2553:7ad560ae2657
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Nov 17 13:59:22 2016 -0600
-files:       lib/sidebar.tcl lib/version.tcl
-description:
-* Attempting to fix issue with add_directory call that shows up in Windows.
-
-
-changeset:   2554:b155771aa984
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Nov 17 14:39:54 2016 -0600
-files:       lib/gui.tcl lib/version.tcl
-description:
-* Removing filename normalization when adding a directory to the sidebar.
-
-
-changeset:   2555:9c13d2e960b9
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Nov 17 15:10:32 2016 -0600
-files:       lib/ftp_wrapper.tcl lib/version.tcl
-description:
-* Attempting to fix issue with telling sftp which OS we are using.
-
-
-changeset:   2556:94853011f919
+changeset:   2561:ffcb090cf1ef
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Nov 17 19:57:42 2016 -0600
-files:       lib/sidebar.tcl lib/version.tcl
+date:        Sat Nov 19 23:44:38 2016 -0600
+files:       lib/api.tcl lib/gui.tcl lib/interpreter.tcl lib/utils.tcl lib/version.tcl plugins/css_colorize/header.tkedat plugins/css_colorize/main.tcl
 description:
-* Changing remote folder deletion from sidebar to use -force 1.
+* Adding CSS colorizer plugin.
+* Adding enhancements to API (adding all color utils procs, adding 'lang' value to get_info, and performing text search with a -count variable).
 
 
-changeset:   2557:f78bd69af22a
-user:        Trevor Williams (phase1geo@gmail.com)
-date:        Sat Nov 19 00:22:49 2016 -0600
-files:       lib/ftp_wrapper.tcl lib/remote.tcl lib/remote/sftp.tcl
+changeset:   2562:7ac1bbd97777
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 20 15:37:45 2016 -0600
+files:       lib/interpreter.tcl lib/utils.tcl lib/version.tcl plugins/css_colorize/main.tcl
 description:
-* Fixing sftp issues on Windows.
-* Enabling code so that sftp debugging can take place (if needed).
+* Fixing issues with css_colorize plugin.
 
 
-changeset:   2558:191ac78f63bf
+changeset:   2563:59de20b06b11
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 20 18:38:20 2016 -0600
+files:       lib/gui.tcl lib/plugins.tcl lib/syntax.tcl lib/utils.tcl lib/version.tcl plugins/css_colorize/main.tcl
+description:
+* Fixing pathname returned wih `api::get_info _fileindex_ txt`.
+* Fixing plugin text_binding action (only one plugin would see these events at a time).
+* Fixing ThemeChanged event that plugins can see.
+* Fixing `utils::hsl_to_rgb` issues.
+* Fixing issues with css_colorize plugin.
+
+
+changeset:   2564:98b91ed632b4
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 20 20:13:02 2016 -0600
+files:       lib/plugins.tcl lib/version.tcl plugins/css_colorize/main.tcl
+description:
+* Fixing bug in plugins text_bindings to avoid deleting bound tags in text widgets that do not exist.
+* Fixing various issues in css_colorize plugin.
+
+
+changeset:   2565:0c8499e18491
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Sun Nov 20 21:19:37 2016 -0600
+files:       lib/images/left10.bmp lib/ptwidgets1.2/library/images/left.bmp lib/ptwidgets1.2/library/images/right.bmp lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+description:
+* Switching out scroll text in tabbar with images.
+
+
+changeset:   2566:042e85dc6442
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 20 22:28:48 2016 -0600
+files:       lib/images/left.bmp lib/images/right.bmp lib/ptwidgets1.2/library/images/left.bmp lib/ptwidgets1.2/library/images/right.bmp lib/ptwidgets1.2/library/tabbar.tcl lib/remote.tcl lib/version.tcl
+description:
+* Changing UI to use images in left/right buttons in GUI (instead of unicode characters).
+
+
+changeset:   2567:50fcb2bd3c5b
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sat Nov 19 00:38:48 2016 -0600
-files:       lib/remote.tcl lib/version.tcl
+date:        Mon Nov 21 00:25:18 2016 -0600
+files:       Win/freewrap.tcl doc/UserGuide.epub doc/UserGuide.pdf lib/interpreter.tcl lib/version.tcl
 description:
-* Displaying busy cursor when moving around a hierachy in the remote open/save dialog box.
-* Displaying set_current_directory error in a dialog window (instead of generating error to console).
+* Removing Expect built-in support in Windows builds.
+* Updating user guide with API changes.
+* Fixing syntax error in interpreter from previous checkin.
 
 
