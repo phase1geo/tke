@@ -85,7 +85,7 @@ namespace eval css_colorize {
 
   ######################################################################
   # Perform colorization.
-  proc colorize {txt {val 0}} {
+  proc colorize {txt} {
 
     variable res
     variable colorized
@@ -136,7 +136,38 @@ namespace eval css_colorize {
   # widget.  We are not going to do anything right now.
   proc do_binding {tag} {
 
-    bind $tag <<ThemeChanged>> [list css_colorize::colorize %W 1]
+    bind $tag <<ThemeChanged>> [list css_colorize::colorize %W]
+
+  }
+
+  ######################################################################
+  # Called on buffer save.  Re-colorizes the current editing buffer if
+  # colorizing was enabled.
+  proc save_do {file_index} {
+
+    # Perform the colorizing
+    colorize [api::file::get_info $file_index txt]
+
+  }
+
+  ######################################################################
+  # Called just prior to the plugin being reloaded.
+  proc store_do {index} {
+
+    variable colorized
+ 
+    # Save the value of some_data to non-corruptible memory
+    api::plugin::save_variable $index "colorized" [array get colorized]
+
+  }
+
+  ######################################################################
+  # Called just after the plugin is reloaded.
+  proc restore_do {index} {
+
+    variable colorized
+
+    array set colorized [api::plugin::load_variable $index "colorized"]
 
   }
 
@@ -146,4 +177,6 @@ namespace eval css_colorize {
 api::register css_colorize {
   {text_binding pretext attach all css_colorize::do_binding}
   {menu command "CSS Colorize/Colorize" css_colorize::colorize_do css_colorize::colorize_handle_state}
+  {on_save css_colorize::save_do}
+  {on_reload css_colorize::store_do css_colorize::restore_do}
 }

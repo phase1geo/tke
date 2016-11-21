@@ -964,6 +964,7 @@ namespace eval plugins {
 
     foreach {bt txts} [array get bound_tags] {
       foreach txt $txts {
+        if {![winfo exists $txt]} continue
         if {[set index [lsearch -exact [set btags [bindtags $txt]] $bt]] != -1} {
           bindtags $txt [lreplace $btags $index $index]
         }
