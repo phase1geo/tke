@@ -72,6 +72,18 @@ namespace eval remote {
         -maskfile [file join $::tke_dir lib images blank.bmp] \
         -foreground 2
 
+      theme::register_image remote_back bitmap ttk_style background \
+        {msgcat::mc "Image used in remote file selector for the history back button."} \
+        -file     [file join $::tke_dir lib images left.bmp] \
+        -maskfile [file join $::tke_dir lib images left.bmp] \
+        -foreground 1
+
+      theme::register_image remote_next bitmap ttk_style background \
+        {msgcat::mc "Image used in remote file selector for the history forward button."} \
+        -file     [file join $::tke_dir lib images right.bmp] \
+        -maskfile [file join $::tke_dir lib images right.bmp] \
+        -foreground 1
+
       set initialized 1
 
     }
@@ -174,8 +186,8 @@ namespace eval remote {
     ttk::frame .ftp.pw.rf.vf.ff
 
     ttk::frame .ftp.pw.rf.vf.ff.mf
-    set widgets(dir_back)    [ttk::button     .ftp.pw.rf.vf.ff.mf.back    -style BButton -text "\u276e" -command [list remote::handle_dir -1] -state disabled]
-    set widgets(dir_forward) [ttk::button     .ftp.pw.rf.vf.ff.mf.forward -style BButton -text "\u276f" -command [list remote::handle_dir  1] -state disabled]
+    set widgets(dir_back)    [ttk::button     .ftp.pw.rf.vf.ff.mf.back    -style BButton -image remote_back -command [list remote::handle_dir -1] -state disabled]
+    set widgets(dir_forward) [ttk::button     .ftp.pw.rf.vf.ff.mf.forward -style BButton -image remote_next -command [list remote::handle_dir  1] -state disabled]
     set widgets(dir_mb)      [ttk::menubutton .ftp.pw.rf.vf.ff.mf.mb \
       -menu [set widgets(dir_menu) [menu .ftp.dirPopup -tearoff 0 -postcommand [list remote::handle_dir_mb_post]]] \
       -state disabled]
