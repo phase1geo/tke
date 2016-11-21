@@ -71,8 +71,8 @@ namespace eval tabbar {
 
     # The tab bar will be a canvas
     canvas $w.c  -bg grey90 -takefocus 1 -bd 0 -highlightthickness 0 -relief flat -confine 0
-    label  $w.sl -bg grey80 -fg black -padx 8 -relief flat
-    label  $w.sr -bg grey80 -fg black -padx 8 -relief flat
+    label  $w.sl -bg grey80 -fg black -relief flat
+    label  $w.sr -bg grey80 -fg black -relief flat
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 1 -weight 1
