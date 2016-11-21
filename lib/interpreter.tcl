@@ -802,7 +802,7 @@ namespace eval interpreter {
     $interp alias api::get_color_values             utils::get_color_values
     $interp alias api::auto_adjust_color            utils::auto_adjust_color
     $interp alias api::auto_mix_colors              utils::auto_mix_colors
-    $interp alias api::color_differences            utils::color_differences
+    $interp alias api::color_difference             utils::color_difference
 
     return $interp
 
