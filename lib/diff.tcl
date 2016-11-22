@@ -874,6 +874,72 @@ namespace eval diff {
   }
 
   ######################################################################
+  # Handles Bazaar commands
+  namespace eval bazaar {
+
+    proc name {} {
+      return "Bazaar"
+    }
+
+    proc type {} {
+      return "cvs"
+    }
+
+    proc handles {fname} {
+      return [expr {![catch { exec bzr status $fname }]}]
+    }
+
+    proc versions {fname} {
+      set versions [list]
+      if {![catch { exec bzr log $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {revno:\s+(\d+)} $line -> version]} {
+            lappend versions $version
+          }
+        }
+      }
+      return $versions
+    }
+
+    proc get_file_cmd {version fname} {
+      return "|bzr cat -r $version $fname"
+    }
+
+    proc get_diff_cmd {v1 v2 fname} {
+      if {$v2 eq "Current"} {
+        return "bzr diff -r$v1 $fname"
+      } else {
+        return "bzr diff -r$v1..$v2 $fname"
+      }
+    }
+
+    proc find_version {fname v2 lnum} {
+      if {$v2 eq "Current"} {
+        if {![catch { exec bzr annotate $fname } rc]} {
+          if {[regexp {^(\d+)} [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      } else {
+        if {![catch { exec bzr annotate -r $v2 $fname } rc]} {
+          if {[regexp {^(\d+)} [lindex [split $rc \n] [expr $lnum - 1]] -> version]} {
+            return $version
+          }
+        }
+      }
+      return ""
+    }
+
+    proc get_version_log {fname version} {
+      if {![catch { exec bzr log -r $version $fname } rc]} {
+        return $rc
+      }
+      return ""
+    }
+
+  }
+
+  ######################################################################
   # Handles Subversion commands
   namespace eval subversion {
 
