@@ -2522,6 +2522,7 @@ namespace eval pref_ui {
   proc snippets_set_language {lang} {
 
     variable widgets
+    variable snip_data
 
     # Save the snippets data
     set snip_data(lang) $lang
