@@ -1592,11 +1592,52 @@ description:
 
 
 changeset:   2572:6e39afb37863
-tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
 date:        Mon Nov 21 20:38:18 2016 -0600
 files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
 description:
 * Final modifications to User Guide before 2.8 stable release.
+
+
+changeset:   2573:6912ee297c92
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 21 20:53:31 2016 -0600
+files:       ChangeLog lib/version.tcl specl_version.tcl
+description:
+ChangeLog for stable-2.8 release
+
+
+changeset:   2574:a91f47010174
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 21 20:53:36 2016 -0600
+files:       .hgtags
+description:
+Added tag stable-2.8 for changeset 6912ee297c92
+
+
+changeset:   2575:f73101575470
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Nov 21 22:47:36 2016 -0600
+files:       lib/diff.tcl lib/pref_ui.tcl lib/version.tcl
+description:
+* Adding Bazaar support.
+* Fixing issue with saving snippets.
+
+
+changeset:   2576:6e1c82681f03
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 21 23:56:30 2016 -0600
+files:       doc/UserGuide.epub doc/UserGuide.pdf lib/version.tcl
+description:
+* Updating User Guide to include support for Bazaar differences.
+
+
+changeset:   2577:c8c9c5c15fad
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 22 00:05:50 2016 -0600
+files:       .hgtags
+description:
+Removed tag stable-2.8
 
 
