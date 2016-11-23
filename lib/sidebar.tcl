@@ -386,15 +386,17 @@ namespace eval sidebar {
 
     variable widgets
 
-    set one_state [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
-    set fav_state $one_state
-    set first_row [lindex $rows 0]
+    set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set fav_state    $one_state
+    set first_row    [lindex $rows 0]
+    set remote_found 0
 
     lassign [get_menu_states $rows] open_state close_state hide_state show_state
 
     foreach row $rows {
       if {[$widgets(tl) set $row remote] ne ""} {
-        set fav_state "disabled"
+        set fav_state    "disabled"
+        set remote_found 1
         break
       }
     }
@@ -418,7 +420,11 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
+    if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
+      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows]
+    } else {
+      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
+    }
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) set $first_row name]]} {
@@ -491,7 +497,11 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
+    if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
+      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows]
+    } else {
+      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
+    }
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) set $first_row name]]} {
@@ -519,13 +529,14 @@ namespace eval sidebar {
 
     variable widgets
 
-    set one_state   [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
-    set hide_state  "disabled"
-    set show_state  "disabled"
-    set open_state  "disabled"
-    set close_state "disabled"
-    set first_row   [lindex $rows 0]
-    set diff_state  [expr {([$widgets(tl) set $first_row remote] eq "") ? $one_state : "disabled"}]
+    set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set hide_state   "disabled"
+    set show_state   "disabled"
+    set open_state   "disabled"
+    set close_state  "disabled"
+    set first_row    [lindex $rows 0]
+    set diff_state   [expr {([$widgets(tl) set $first_row remote] eq "") ? $one_state : "disabled"}]
+    set remote_found 0
 
     # Calculate the hide and show menu states
     foreach row $rows {
@@ -533,6 +544,13 @@ namespace eval sidebar {
         "sidebar_hidden" { set close_state "normal"; set show_state "normal" }
         "sidebar_open"   { set close_state "normal"; set hide_state "normal" }
         default          { set open_state  "normal" }
+      }
+    }
+
+    foreach row $rows {
+      if {[$widgets(tl) set $row remote] ne ""} {
+        set remote_found 1
+        break
       }
     }
 
@@ -554,7 +572,11 @@ namespace eval sidebar {
 
     $widgets(menu) add command -label [msgcat::mc "Rename"]    -command [list sidebar::rename_file $first_row]    -state $one_state
     $widgets(menu) add command -label [msgcat::mc "Duplicate"] -command [list sidebar::duplicate_file $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "Delete"]    -command [list sidebar::delete_file $rows]
+    if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
+      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows]
+    } else {
+      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_file $rows]
+    }
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) set $first_row name]]} {
@@ -575,13 +597,7 @@ namespace eval sidebar {
 
     variable widgets
 
-    foreach child [$widgets(tl) tag has f] {
-      if {([$widgets(tl) set $child name] eq $fname) && ([$widgets(tl) set $child remote] eq $remote)} {
-        return $child
-      }
-    }
-
-    return ""
+    return [$widgets(tl) tag has $fname,$remote]
 
   }
 
@@ -622,7 +638,7 @@ namespace eval sidebar {
     variable widgets
 
     # Get the associated index (return immediately if it is not found)
-    if {[set index [get_index $fname $remote]] == -1} {
+    if {[set index [get_index $fname $remote]] eq ""} {
       return
     }
 
@@ -860,38 +876,23 @@ namespace eval sidebar {
     # Get the remote indicator of the parent
     set remote [$widgets(tl) set $parent remote]
 
-    # Get the directory contents (removing anything that matches the
-    # ignored file patterns)
-    set dir_files [list]
-    foreach dir_file [order_files_dirs [$widgets(tl) set $parent name] $remote] {
-      if {![ignore_file [lindex $dir_file 0]]} {
-        lappend dir_files $dir_file
+    # Get the list of opened subdirectories
+    set opened [list]
+    foreach child [$widgets(tl) children $parent] {
+      if {[$widgets(tl) item $child -open]} {
+        lappend opened $child [$widgets(tl) set $child name]
+        $widgets(tl) detach $child
       }
     }
 
-    set dir_files [lassign $dir_files dir_file]
-    lassign $dir_file fname isdir
-    foreach child [$widgets(tl) children $parent] {
-      set tl_file [$widgets(tl) set $child name]
-      set compare [string compare $tl_file $fname]
-      if {($compare == -1) || ($dir_file eq "")} {
-        $widgets(tl) delete $child
-      } else {
-        while {1} {
-          if {$compare == 1} {
-            set node [$widgets(tl) insert $parent [$widgets(tl) index $child] -text [file tail $fname] \
-              -values [list $fname 0 $remote] -open 1 -tags [list [expr {$isdir ? "d" : "f"}] $fname,$remote]]
-            if {$isdir} {
-              $widgets(tl) item $node -open 0
-            } elseif {[gui::file_exists_in_nb [lindex $dir_file 0] $remote]} {
-              set_image $node sidebar_open
-            }
-          }
-          set dir_files [lassign $dir_files dir_file]
-          lassign $dir_file fname isdir
-          if {($compare == 0) || ($dir_file eq "")} { break }
-          set compare [string compare $tl_file $fname]
-        }
+    # Update the parent directory contents
+    add_subdirectory $parent $remote
+
+    # Replace any exist directories in the update directory with the opened
+    foreach {item dname} $opened {
+      if {[set old_item [$widgets(tl) tag has $dname,$remote]] ne ""} {
+        $widgets(tl) move $item $parent [$widgets(tl) index $old_item]
+        $widgets(tl) delete $old_item
       }
     }
 
@@ -1716,52 +1717,30 @@ namespace eval sidebar {
     array set opts $args
 
     # Get the current name
-    set old_name [set fname [$widgets(tl) set $row name]]
+    set old_name [set new_name [$widgets(tl) set $row name]]
 
     # Get the remote status
     set remote [$widgets(tl) set $row remote]
 
     # Get the new name from the user
-    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "File Name:"] new_name]} {
 
       if {$opts(-testname) ne ""} {
         set fname $opts(-testname)
       }
 
       # If the value of the cell hasn't changed or is empty, do nothing else.
-      if {($old_name eq $fname) || ($fname eq "")} {
+      if {($old_name eq $new_name) || ($new_name eq "")} {
         return
       }
 
-      if {$remote eq ""} {
-
-        # Normalize the filename
-        set fname [file normalize $fname]
-
-        # Allow any plugins to handle the rename
-        plugins::handle_on_rename $old_name $fname
-
-        # Perform the rename operation
-        if {[catch { file rename -force $old_name $fname }]} {
-          return
-        }
-
-      } else {
-
-        # Allow any plugins to handle the rename
-        plugins::handle_on_rename $old_name $fname
-
-        if {![remote::rename_file $remote $old_name $fname]} {
-          return
-        }
-
+      if {[catch { files::rename_file $old_name $new_name $remote } new_name]} {
+        gui::set_error_message [msgcat::mc "Unable to rename file"] $new_name
+        return
       }
 
-      # Update the file information (if necessary)
-      gui::change_filename $old_name $fname
-
       # Add the file directory
-      update_directory [add_directory [file dirname $fname] -remote $remote]
+      update_directory [add_directory [file dirname $new_name] -remote $remote]
 
       # Update the old directory
       if {[$widgets(tl) exists $row]} {
@@ -1786,30 +1765,48 @@ namespace eval sidebar {
     set remote [$widgets(tl) set $row remote]
 
     # Create the default name of the duplicate file
-    set dup_fname "[file rootname $fname] Copy[file extension $fname]"
-    set num       1
-    if {$remote eq ""} {
-      while {[file exists $dup_fname]} {
-        set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
-      }
-      if {[catch { file copy $fname $dup_fname }]} {
-        return
-      }
-    } else {
-      while {[remote::file_exists $remote $dup_fname]} {
-        set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
-      }
-      if {![remote::duplicate_file $remote $fname $dup_fname]} {
-        return
-      }
+    if {[catch { files::duplicate_file $fname $remote } dup_fname]} {
+      gui::set_error_message [msgcat::mc "Unable to duplicate file"] $dup_fname
+      return
     }
 
-    # Add the file to the sidebar (just below the currently selected line)
+    # Add the file to the sidebar just below the row
     set new_row [$widgets(tl) insert [$widgets(tl) parent $row] [expr [$widgets(tl) index $row] + 1] \
       -text [file tail $dup_fname] -values [list $dup_fname 0 $remote] -open 1 -tags [list f $dup_fname,$remote]]
 
-    # Allow any plugins to handle the rename
-    plugins::handle_on_duplicate $fname $dup_fname
+  }
+
+  ######################################################################
+  # Moves the given files/folders to the trash.
+  proc move_to_trash {rows} {
+
+    variable widgets
+
+    set status 1
+    set fnames [list]
+
+    foreach row [lreverse $rows] {
+
+      # Get the full pathname
+      set fname [$widgets(tl) set $row name]
+
+      # Move the file to the trash
+      if {[catch { files::move_to_trash $fname } rc]} {
+        continue
+      }
+
+      # Close the tab if the file is currently in the notebook
+      if {[$widgets(tl) item $row -image] ne ""} {
+        lappend fnames $fname
+      }
+
+      # Delete the row in the table
+      $widgets(tl) delete $row
+
+    }
+
+    # Close all of the deleted files from the UI
+    gui::close_files $fnames
 
   }
 
@@ -1843,30 +1840,18 @@ namespace eval sidebar {
         # Get the remote status
         set remote [$widgets(tl) set $row remote]
 
-        # Allow any plugins to handle the rename
-        plugins::handle_on_delete $fname
-
         # Delete the file
-        if {$remote eq ""} {
-          if {[catch { file delete -force $fname }]} {
-            continue
-          }
-        } else {
-          if {![remote::remove_files $remote [list $fname]]} {
-            continue
-          }
+        if {[catch { files::delete_file $fname $remote } rc]} {
+          continue
         }
 
-        # Get the background color before we delete the row
-        set bg [$widgets(tl) item $row -image]
+        # Check to see if we need to close this file
+        if {[$widgets(tl) item $row -image] ne ""} {
+          lappend fnames $fname
+        }
 
         # Delete the row in the table
         $widgets(tl) delete $row
-
-        # Close the tab if the file is currently in the notebook
-        if {$bg ne ""} {
-          lappend fnames $fname
-        }
 
       }
 
