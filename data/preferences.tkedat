@@ -85,6 +85,12 @@
 
 {General/DefaultMarkdownExportExtension} {html}
 
+# If set to 1, displays the "Move to Trash" sidebar and menu option for local
+# files/directories instead of the "Delete" option.  This allows the user to
+# undelete the file by restoring the file from the trash.
+
+{General/UseMoveToTrash}     {1}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following

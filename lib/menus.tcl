@@ -416,26 +416,37 @@ namespace eval menus {
       set favorite [favorites::is_favorite $fname]
 
       # Configure the Lock/Unlock menu item
-      if {$file_lock && ![catch "$mb index Lock" index]} {
+      if {$file_lock && ![catch { $mb index [msgcat::mc "Lock"] } index]} {
         $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state normal -command "menus::unlock_command $mb"
         if {$readonly} {
           $mb entryconfigure $index -state disabled
         }
-      } elseif {!$file_lock && ![catch "$mb index Unlock" index]} {
+      } elseif {!$file_lock && ![catch { $mb index [msgcat::mc "Unlock"] } index]} {
         $mb entryconfigure $index -label [msgcat::mc "Lock"] -state normal -command "menus::lock_command $mb"
       }
 
       # Configure the Favorite/Unfavorite menu item
       if {$favorite} {
-        if {![catch "$mb index Favorite" index]} {
+        if {![catch { $mb index [msgcat::mc "Favorite"] } index]} {
           $mb entryconfigure $index -label [msgcat::mc "Unfavorite"] -command "menus::unfavorite_command $mb"
         }
         $mb entryconfigure [msgcat::mc "Unfavorite"] -state [expr {(($fname ne "") && !$diff_mode) ? $no_remote_state : "disabled"}]
       } else {
-        if {![catch "$mb index Unfavorite" index]} {
+        if {![catch { $mb index [msgcat::mc "Unfavorite"] } index]} {
           $mb entryconfigure $index -label [msgcat::mc "Favorite"] -command "menus::favorite_command $mb"
         }
         $mb entryconfigure [msgcat::mc "Favorite"] -state [expr {(($fname ne "") && !$diff_mode) ? $no_remote_state : "disabled"}]
+      }
+
+      # Configure the Delete/Move To Trash
+      if {($remote eq "") && [preferences::get General/UseMoveToTrash]} {
+        if {![catch { $mb index [msgcat::mc "Delete"] } index]} {
+          $mb entryconfigure $index -label [msgcat::mc "Move To Trash"] -command [list menus::move_to_trash_command] -state $buffer_state
+        }
+      } else {
+        if {![catch { $mb index [msgcat::mc "Move To Trash"] } index]} {
+          $mb entryconfigure $index -label [msgcat::mc "Delete"] -command [list menus::delete_command] -state $buffer_state
+        }
       }
 
       # Make sure that the file-specific items are enabled
@@ -451,7 +462,6 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Line Ending"]                        -state normal
       $mb entryconfigure [msgcat::mc "Rename"]                             -state $buffer_state
       $mb entryconfigure [msgcat::mc "Duplicate"]                          -state $buffer_state
-      $mb entryconfigure [msgcat::mc "Delete"]                             -state $buffer_state
       $mb entryconfigure [msgcat::mc "Close"]                              -state normal
       $mb entryconfigure [msgcat::mc "Close All"]                          -state normal
 
@@ -786,50 +796,29 @@ namespace eval menus {
   proc rename_command {} {
 
     # Get the current name
-    lassign [gui::get_info {} current {fname remote}] fname remote
-    set old_name $fname
+    lassign [gui::get_info {} current {fname remote}] new_name remote
+
+    set old_name $new_name
 
     # Get the new name from the user
-    if {[gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+    if {[gui::get_user_response [msgcat::mc "File Name:"] new_name]} {
 
       # If the value of the cell hasn't changed or is empty, do nothing else.
-      if {($old_name eq $fname) || ($fname eq "")} {
+      if {($old_name eq $new_name) || ($new_name eq "")} {
         return
       }
 
-      if {$remote eq ""} {
-
-        # Normalize the filename
-        set fname [file normalize $fname]
-
-        # Allow any plugins to handle the rename
-        plugins::handle_on_rename $old_name $fname
-
-        # Perform the rename operation
-        if {[catch { file rename -force $old_name $fname }]} {
-          return
-        }
-
-      } else {
-
-        # Allow any plugins to handle the rename
-        plugins::handle_on_rename $old_name $fname
-
-        if {![remote::rename_file $remote $old_name $fname]} {
-          return
-        }
-
+      if {[catch { files::rename_file $old_name $new_name $remote } new_name]} {
+        gui::set_error_message [msgcat::mc "Unable to rename file"] $new_name
+        return
       }
 
-      # Update the file information (if necessary)
-      gui::change_filename $old_name $fname
-
       # Add the file directory
-      sidebar::update_directory [sidebar::add_directory [file dirname $fname] -remote $remote]
+      sidebar::update_directory [sidebar::add_directory [file dirname $new_name] -remote $remote]
 
       # Update the old directory
-      if {[set sidebar_index [sidebar::get_index [file dirname $old_name] $remote]] != -1} {
-        after idle [list sidebar::update_directory $sidebar_index]
+      if {[set sidebar_index [sidebar::get_index [file dirname $old_name] $remote]] ne ""} {
+        sidebar::update_directory $sidebar_index
       }
 
     }
@@ -844,34 +833,18 @@ namespace eval menus {
     lassign [gui::get_info {} current {fname remote}] fname remote
 
     # Create the default name of the duplicate file
-    set dup_fname "[file rootname $fname] Copy[file extension $fname]"
-    set num       1
-    if {$remote eq ""} {
-      while {[file exists $dup_fname]} {
-        set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
-      }
-      if {[catch { file copy $fname $dup_fname }]} {
-        return
-      }
-    } else {
-      while {[remote::file_exists $remote $dup_fname]} {
-        set dup_fname "[file rootname $fname] Copy [incr num][file extension $fname]"
-      }
-      if {![remote::duplicate_file $remote $fname $dup_fname]} {
-        return
-      }
+    if {[catch { files::duplicate_file $fname $remote } dup_fname]} {
+      gui::set_error_message "Unable to duplicate file" $dup_fname
+      return
     }
 
     # Add the file to the editor
     gui::add_file end $dup_fname -remote $remote
 
     # Update the old directory
-    if {[set sidebar_index [sidebar::get_index [file dirname $dup_fname] $remote]] != -1} {
-      after idle [list sidebar::update_directory $sidebar_index]
+    if {[set sidebar_index [sidebar::get_index [file dirname $dup_fname] $remote]] ne ""} {
+      sidebar::update_directory $sidebar_index
     }
-
-    # Allow any plugins to handle the rename
-    plugins::handle_on_duplicate $fname $dup_fname
 
   }
 
@@ -886,28 +859,43 @@ namespace eval menus {
     # Get confirmation from the user
     if {[tk_messageBox -parent . -type yesno -default yes -message [format "%s %s?" [msgcat::mc "Delete"] $fname]] eq "yes"} {
 
-      # Allow any plugins to handle the rename
-      plugins::handle_on_delete $fname
-
-      if {$remote eq ""} {
-        if {[catch { file delete -force $fname }]} {
-          return
-        }
-      } else {
-        if {![remote::remove_files $remote [list $fname]]} {
-          return
-        }
+      # Delete the file
+      if {[catch { files::delete_file $fname $remote } rc]} {
+        gui::set_error_message [msgcat::mc "Unable to delete file"] $rc
+        return
       }
 
       # Update the old directory
-      if {[set sidebar_index [sidebar::get_index [file dirname $fname] $remote]] != -1} {
-        after idle [list sidebar::update_directory $sidebar_index]
+      if {[set sidebar_index [sidebar::get_index [file dirname $fname] $remote]] ne ""} {
+        sidebar::update_directory $sidebar_index
       }
 
       # Remove the tab
       gui::close_files $fname
 
     }
+
+  }
+
+  ######################################################################
+  # Moves the current file to the trash.
+  proc move_to_trash_command {} {
+
+    # Get the full pathname
+    set fname [gui::get_info {} current fname]
+
+    # Move the file to the trash
+    if {[catch { files::move_to_trash $fname }]} {
+      return
+    }
+
+    # Update the old directory
+    if {[set sidebar_index [sidebar::get_index [file dirname $fname] ""]] ne ""} {
+      sidebar::update_directory $sidebar_index
+    }
+
+    # Remove the tab
+    gui::close_files $fname
 
   }
 
