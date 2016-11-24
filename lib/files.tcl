@@ -124,7 +124,11 @@ namespace eval files {
     switch -glob $::tcl_platform(os) {
 
       Darwin {
-        set trash_path [get_unique_path [file join ~ .Trash] [file tail $fname]]
+        set cmd "tell app \"Finder\" to move the POSIX file \"$fname\" to trash"
+        if {[catch { exec -ignorestderr osascript -e $cmd } rc]} {
+          return -code error $rc
+        }
+        return
       }
 
       Linux* {

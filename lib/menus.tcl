@@ -882,7 +882,7 @@ namespace eval menus {
   proc move_to_trash_command {} {
 
     # Get the full pathname
-    set fname [gui::get_info {} current fname]
+    set fname [lindex [gui::get_info {} current fname] 0]
 
     # Move the file to the trash
     if {[catch { files::move_to_trash $fname }]} {
@@ -895,7 +895,7 @@ namespace eval menus {
     }
 
     # Remove the tab
-    gui::close_files $fname
+    gui::close_files [list $fname]
 
   }
 
