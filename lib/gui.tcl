@@ -902,15 +902,9 @@ namespace eval gui {
     variable files
     variable files_index
 
-    set old_list [file split $old_name]
-    set old_len  [llength $old_list]
-    set max      [expr $old_len - 1]
-
-    for {set i 0} {$i < [llength $files]} {incr i} {
-      set file_list [file split [lindex $files $i $files_index(fname)]]
-      if {[lrange $file_list 0 $max] eq $old_list} {
-        lset files $i $files_index(fname) [file join $new_name {*}[lrange $file_list $old_len end]]
-      }
+    foreach index [lsearch -all -index $files_index(fname) $old_name*] {
+      set old_fname [lindex $files $index $files_index(fname)]
+      lset files $index $files_index(fname) "$new_name[string range $old_fname [string length $old_name] end]"
     }
 
   }
@@ -2587,6 +2581,29 @@ namespace eval gui {
       # Set the current tab
       set_current_tab {*}[get_info {} current {tabbar tab}]
 
+    }
+
+  }
+
+  ######################################################################
+  # Closes all of the opened files that exist within the given directories
+  proc close_dir_files {dirs} {
+
+    variable files
+    variable files_index
+
+    set set_current 0
+
+    foreach dir $dirs {
+      foreach index [lreverse [lsearch -all -index $files_index(fname) $files $dir*]] {
+        close_tab {} [get_info $index fileindex tab] -lazy 1
+        set set_current 1
+      }
+    }
+
+    # Set the current tab if we have lost it
+    if {$set_current} {
+      set_current_tab {*}[get_info {} current {tabbar tab}]
     }
 
   }

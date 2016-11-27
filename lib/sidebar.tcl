@@ -176,20 +176,20 @@ namespace eval sidebar {
 
     $widgets(tl) column #0 -width 300
 
-    bind $widgets(tl)    <<TreeviewSelect>>      [list sidebar::handle_selection]
-    bind $widgets(tl)    <<TreeviewOpen>>        [list sidebar::expand_directory]
-    bind $widgets(tl)    <<TreeviewClose>>       [list sidebar::collapse]
-    bind $widgets(tl)    <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
-    bind $widgets(tl)    <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
-    bind $widgets(tl)    <Return> {
+    bind $widgets(tl) <<TreeviewSelect>>      [list sidebar::handle_selection]
+    bind $widgets(tl) <<TreeviewOpen>>        [list sidebar::expand_directory]
+    bind $widgets(tl) <<TreeviewClose>>       [list sidebar::collapse]
+    bind $widgets(tl) <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
+    bind $widgets(tl) <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
+    bind $widgets(tl) <Motion>                [list sidebar::handle_motion %W %x %y]
+    bind $widgets(tl) <Return> {
       sidebar::handle_return_space %W
       break
     }
-    bind $widgets(tl)    <Key-space> {
+    bind $widgets(tl) <Key-space> {
       sidebar::handle_return_space %W
       break
     }
-    bind $widgets(tl)    <Motion>                [list sidebar::handle_motion %W %x %y]
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
@@ -1488,10 +1488,12 @@ namespace eval sidebar {
 
     if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {
 
+      set dirs [list]
+
       foreach row [lreverse $rows] {
 
         # Get the directory pathname
-        set dirpath [$widgets(tl) set $row name]
+        lappend dirs [set dirpath [$widgets(tl) set $row name]]
 
         # Get the remote value
         set remote [$widgets(tl) set $row remote]
@@ -1513,6 +1515,9 @@ namespace eval sidebar {
         $widgets(tl) delete $row
 
       }
+
+      # Close any opened files within one of the deleted directories
+      close_dir_files $dirs
 
     }
 
@@ -1784,11 +1789,13 @@ namespace eval sidebar {
 
     set status 1
     set fnames [list]
+    set isdir  0
 
     foreach row [lreverse $rows] {
 
       # Get the full pathname
       set fname [$widgets(tl) set $row name]
+      set isdir [file isdirectory $fname]
 
       # Move the file to the trash
       if {[catch { files::move_to_trash $fname } rc]} {
@@ -1796,7 +1803,7 @@ namespace eval sidebar {
       }
 
       # Close the tab if the file is currently in the notebook
-      if {[$widgets(tl) item $row -image] ne ""} {
+      if {([$widgets(tl) item $row -image] ne "") || $isdir} {
         lappend fnames $fname
       }
 
@@ -1806,7 +1813,11 @@ namespace eval sidebar {
     }
 
     # Close all of the deleted files from the UI
-    gui::close_files $fnames
+    if {$isdir} {
+      gui::close_dir_files $fnames
+    } else {
+      gui::close_files $fnames
+    }
 
   }
 
