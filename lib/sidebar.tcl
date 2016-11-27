@@ -1517,7 +1517,7 @@ namespace eval sidebar {
       }
 
       # Close any opened files within one of the deleted directories
-      close_dir_files $dirs
+      gui::close_dir_files $dirs
 
     }
 
