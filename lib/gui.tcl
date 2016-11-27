@@ -902,7 +902,7 @@ namespace eval gui {
     variable files
     variable files_index
 
-    foreach index [lsearch -all -index $files_index(fname) $old_name*] {
+    foreach index [lsearch -all -index $files_index(fname) $files $old_name*] {
       set old_fname [lindex $files $index $files_index(fname)]
       lset files $index $files_index(fname) "$new_name[string range $old_fname [string length $old_name] end]"
     }

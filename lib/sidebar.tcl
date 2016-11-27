@@ -1439,25 +1439,11 @@ namespace eval sidebar {
         return
       }
 
-      # Allow any plugins to handle the rename
-      plugins::handle_on_rename $old_dname $dname
-
       # Get the remote status
       set remote [$widgets(tl) set $row remote]
 
-      # Perform the rename operation
-      if {$remote eq ""} {
-        if {[catch { file rename -force $old_dname $dname } rc]} {
-          return
-        }
-      } else {
-        if {![remote::rename_file $remote $old_dname $dname]} {
-          return
-        }
-      }
-
-      # If this is a displayed file, update the file information
-      gui::change_folder $old_dname $dname
+      # Rename the folder
+      set dname [files::rename_folder $old_dname $dname $remote]
 
       # Delete the old directory
       $widgets(tl) delete $row
@@ -1488,36 +1474,21 @@ namespace eval sidebar {
 
     if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {
 
-      set dirs [list]
-
       foreach row [lreverse $rows] {
 
         # Get the directory pathname
-        lappend dirs [set dirpath [$widgets(tl) set $row name]]
+        set dirpath [$widgets(tl) set $row name]
 
         # Get the remote value
         set remote [$widgets(tl) set $row remote]
 
-        # Allow any plugins to handle the rename
-        plugins::handle_on_delete $dirpath
-
-        if {$remote eq ""} {
-          if {[catch { file delete -force $dirpath }]} {
-            continue
-          }
-        } else {
-          if {![remote::remove_directories $remote [list $dirpath] -force 1]} {
-            continue
-          }
-        }
+        # Delete the folder
+        files::delete_folder $dirpath $remote
 
         # Remove the directory from the file browser
         $widgets(tl) delete $row
 
       }
-
-      # Close any opened files within one of the deleted directories
-      gui::close_dir_files $dirs
 
     }
 

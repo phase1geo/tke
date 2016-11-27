@@ -29,6 +29,62 @@ namespace eval files {
   ######################################################################
 
   ######################################################################
+  # Renames the given folder to the new name.
+  proc rename_folder {old_name new_name remote} {
+
+    if {$remote eq ""} {
+
+      # Normalize the filename
+      set new_name [file normalize $new_name]
+
+      # Allow any plugins to handle the rename
+      plugins::handle_on_rename $old_name $new_name
+
+      if {[catch { file rename -force $old_name $new_name } rc]} {
+        return
+      }
+
+    } else {
+
+      # Allow any plugins to handle the rename
+      plugins::handle_on_rename $old_name $new_name
+
+      if {![remote::rename_file $remote $old_name $new_name]} {
+        return
+      }
+
+    }
+
+    # If this is a displayed file, update the file information
+    gui::change_folder $old_name $new_name
+
+    return $new_name
+
+  }
+
+  ######################################################################
+  # Deletes the given folder from the file system.
+  proc delete_folder {dir remote} {
+
+    # Allow any plugins to handle the rename
+    plugins::handle_on_delete $dir
+
+    if {$remote eq ""} {
+      if {[catch { file delete -force $dir }]} {
+        continue
+      }
+    } else {
+      if {![remote::remove_directories $remote [list $dir] -force 1]} {
+        continue
+      }
+    }
+
+    # Close any opened files within one of the deleted directories
+    gui::close_dir_files [list $dir]
+
+  }
+
+  ######################################################################
   # Performs a file rename.
   proc rename_file {old_name new_name remote} {
 
