@@ -1,29 +1,62 @@
-changeset:   2578:bf9bf508e084
-tag:         stable-2.8
+changeset:   2581:83464fbfb466
+tag:         devel-2.8.1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 22 00:11:47 2016 -0600
+date:        Wed Nov 23 09:14:48 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for stable-2.8 release
+ChangeLog for devel-2.8.1 release
 
 
-changeset:   2579:771949b46e9f
+changeset:   2582:98d0096a0095
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 22 00:11:51 2016 -0600
+date:        Wed Nov 23 09:14:52 2016 -0600
 files:       .hgtags
 description:
-Added tag stable-2.8 for changeset bf9bf508e084
+Added tag devel-2.8.1 for changeset 83464fbfb466
 
 
-changeset:   2580:53e3ea423bb2
-tag:         tip
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Nov 23 01:20:05 2016 -0600
-files:       data/preferences.tkedat lib/files.tcl lib/menus.tcl lib/pref_ui.tcl lib/sidebar.tcl lib/tke.tcl lib/version.tcl
+changeset:   2583:4933522e7777
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 23 22:55:17 2016 -0600
+files:       lib/files.tcl lib/menus.tcl lib/version.tcl
 description:
-* Adding support for `Move To Trash` menu item.
-* Adding new General/UseMoveToTrash preference value.
-* Fixing various sidebar issues.
-* Moving file related functionality to a new files namespace.
+* Fixing `Move To Trash` for macOS.
+
+
+changeset:   2584:8ed7fd707658
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 27 14:13:51 2016 -0600
+files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing issue with removing tabs within a directory that is deleted/moved to trash.
+* Adding debugging output for tab hidding issues.
+
+
+changeset:   2585:e8d377d86338
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 27 16:32:25 2016 -0600
+files:       .DS_Store lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing issue with removing opened files when ancestor directory is deleted.
+
+
+changeset:   2586:c9ab72915f2f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Sun Nov 27 17:04:26 2016 -0600
+files:       lib/files.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Moving rename/delete folder functionality to files namespace.
+* Fixing syntax error in gui::change_folder.
+
+
+changeset:   2587:aaa862765e1a
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Nov 28 09:01:42 2016 -0600
+files:       lib/files.tcl lib/gui.tcl lib/menus.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
+description:
+* Adding tab closing calls to files namespace for move_to_trash and delete_file procs.
+* Removing debug output from tabbar widget.
+* Changing gui::get_info to throw an exception if the specified filename was not found.
 
 
