@@ -2575,7 +2575,7 @@ namespace eval gui {
 
       # Perform a lazy close
       foreach fname $fnames {
-        close_tab {} [get_info $fname fname tab] -lazy 1
+        catch { close_tab {} [get_info $fname fname tab] -lazy 1 }
       }
 
       # Set the current tab
@@ -3832,7 +3832,11 @@ namespace eval gui {
         set tab [winfo parent [winfo parent [winfo parent $from]]]
       }
       fname {
-        set tab [lindex $files [lsearch -index $files_index(fname) $files $from] $files_index(tab)]
+        if {[set index [lsearch -index $files_index(fname) $files $from]] == -1} {
+          puts [utils::stacktrace]
+          return -code error "Unable to find filename"
+        }
+        set tab [lindex $files $index $files_index(tab)]
       }
     }
 

@@ -1020,7 +1020,7 @@ namespace eval tabbar {
     # If the tab widths changed, resize all of the tabs
     if {($tab_width != $data($w,tab_width)) || $force} {
 
-      puts "In redraw"
+      # puts "In redraw"
 
       for {set i [expr [llength $data($w,tab_order)] - 1]} {$i >= 0} {incr i -1} {
 
@@ -1046,7 +1046,7 @@ namespace eval tabbar {
 
         # Move the resizable components of the tab
         foreach resizable [lindex $page 1 1] {
-          puts "  resizable: $resizable"
+          # puts "  resizable: $resizable"
           $w.c move $resizable $xamount 0
         }
 
@@ -1054,9 +1054,9 @@ namespace eval tabbar {
         resize_text $w $tabid [lindex $page 1 2]
 
         # Move the tab to its proper position
-        puts -nonewline "  w: $w, i: $i, tab_width: $data($w,tab_width), margin: $data($w,option,-margin), tx0: $tx0"
-        puts -nonewline ", x: [expr ($i * ($data($w,tab_width) + $data($w,option,-margin))) - $tx0]"
-        puts ", item: t$tabid, coords: [$w.c coords t$tabid]"
+        # puts -nonewline "  w: $w, i: $i, tab_width: $data($w,tab_width), margin: $data($w,option,-margin), tx0: $tx0"
+        # puts -nonewline ", x: [expr ($i * ($data($w,tab_width) + $data($w,option,-margin))) - $tx0]"
+        # puts ", item: t$tabid, coords: [$w.c coords t$tabid]"
         $w.c move t$tabid [expr ($i * ($data($w,tab_width) + $data($w,option,-margin))) - $tx0] 0
 
       }

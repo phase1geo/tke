@@ -870,9 +870,6 @@ namespace eval menus {
         sidebar::update_directory $sidebar_index
       }
 
-      # Remove the tab
-      gui::close_files $fname
-
     }
 
   }
@@ -885,7 +882,7 @@ namespace eval menus {
     set fname [lindex [gui::get_info {} current fname] 0]
 
     # Move the file to the trash
-    if {[catch { files::move_to_trash $fname }]} {
+    if {[catch { files::move_to_trash $fname 0 }]} {
       return
     }
 
@@ -893,9 +890,6 @@ namespace eval menus {
     if {[set sidebar_index [sidebar::get_index [file dirname $fname] ""]] ne ""} {
       sidebar::update_directory $sidebar_index
     }
-
-    # Remove the tab
-    gui::close_files [list $fname]
 
   }
 
