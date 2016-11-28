@@ -166,12 +166,15 @@ namespace eval files {
       }
     }
 
+    # Close the tab associated with this filename
+    catch { gui::close_files [list $fname] }
+
   }
 
   ######################################################################
   # Moves the given file/folder to the trash.  If there are any issues,
   # we will throw an exception.
-  proc move_to_trash {fname} {
+  proc move_to_trash {fname isdir} {
 
     # Allow any plugins to handle the deletion
     plugins::handle_on_delete $fname
@@ -184,6 +187,7 @@ namespace eval files {
         if {[catch { exec -ignorestderr osascript -e $cmd } rc]} {
           return -code error $rc
         }
+        close_tabs $fname $isdir
         return
       }
 
@@ -192,11 +196,13 @@ namespace eval files {
           if {[catch { exec -ignorestderr gvfs-trash $fname } rc]} {
             return -code error $rc
           }
+          close_tabs $fname $isdir
           return
         } elseif {![catch { exec -ignorestderr which kioclient 2>@1 }]} {
           if {[catch { exec -ignorestderr kioclient move $fname trash:/ } rc]} {
             return -code error $rc
           }
+          close_tabs $fname $isdir
           return
         } elseif {[file exists [set trash [file join ~ .local share Trash]]]} {
           if {[info exists ::env(XDG_DATA_HOME)] && ($::env(XDG_DATA_HOME) ne "") && [file exists $::env(XDG_DATA_HOME)]} {
@@ -239,6 +245,9 @@ namespace eval files {
       return -code error $rc
     }
 
+    # Close the opened tabs
+    close_tabs $fname $isdir
+
   }
 
   ######################################################################
@@ -256,6 +265,19 @@ namespace eval files {
     }
 
     return [file normalize $path]
+
+  }
+
+  ######################################################################
+  # Closes any tabs associated with the directory/file.
+  proc close_tabs {fname isdir} {
+
+    # Close all of the deleted files from the UI
+    if {$isdir} {
+      gui::close_dir_files $fname
+    } else {
+      gui::close_files $fname
+    }
 
   }
 

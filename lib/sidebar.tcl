@@ -622,7 +622,12 @@ namespace eval sidebar {
 
     switch $attr {
       fname      { return [$widgets(tl) set $index name] }
-      file_index { return [gui::get_info [$widgets(tl) set $index name] fname fileindex] }
+      file_index {
+        if {[catch { gui::get_info [$widgets(tl) set $index name] fname } fileindex]} {
+          return -1
+        }
+        return $fileindex
+      }
       is_dir     { return [$widgets(tl) tag has d $index] }
       default    {
         return -code error "Illegal sidebar attribute specified ($attr)"
@@ -1769,25 +1774,13 @@ namespace eval sidebar {
       set isdir [file isdirectory $fname]
 
       # Move the file to the trash
-      if {[catch { files::move_to_trash $fname } rc]} {
+      if {[catch { files::move_to_trash $fname $isdir } rc]} {
         continue
-      }
-
-      # Close the tab if the file is currently in the notebook
-      if {([$widgets(tl) item $row -image] ne "") || $isdir} {
-        lappend fnames $fname
       }
 
       # Delete the row in the table
       $widgets(tl) delete $row
 
-    }
-
-    # Close all of the deleted files from the UI
-    if {$isdir} {
-      gui::close_dir_files $fnames
-    } else {
-      gui::close_files $fnames
     }
 
   }
@@ -1812,14 +1805,10 @@ namespace eval sidebar {
     # Get confirmation from the user
     if {$opts(-test) || ([tk_messageBox -parent . -type yesno -default yes -message $question] eq "yes")} {
 
-      set fnames [list]
-
       foreach row [lreverse $rows] {
 
-        # Get the full pathname
-        set fname [$widgets(tl) set $row name]
-
-        # Get the remote status
+        # Get the full pathname and remote status
+        set fname  [$widgets(tl) set $row name]
         set remote [$widgets(tl) set $row remote]
 
         # Delete the file
@@ -1827,18 +1816,10 @@ namespace eval sidebar {
           continue
         }
 
-        # Check to see if we need to close this file
-        if {[$widgets(tl) item $row -image] ne ""} {
-          lappend fnames $fname
-        }
-
         # Delete the row in the table
         $widgets(tl) delete $row
 
       }
-
-      # Close all of the deleted files from the UI
-      gui::close_files $fnames
 
     }
 
