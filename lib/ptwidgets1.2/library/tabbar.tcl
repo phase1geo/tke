@@ -258,7 +258,7 @@ namespace eval tabbar {
         set data($w,tab_order)    [lreplace $data($w,tab_order) $other_index $other_index]
         set data($w,tab_order)    [linsert  $data($w,tab_order) $data($w,moveto_index) $tmp]
         set data($w,moveto_index) $other_index
-
+        
       # Otherwise, indicate that we are done scrolling
       } else {
         set data($w,scroll) 0
@@ -302,7 +302,7 @@ namespace eval tabbar {
         set data($w,tab_order)    [lreplace $data($w,tab_order) $other_index $other_index]
         set data($w,tab_order)    [linsert  $data($w,tab_order) $data($w,moveto_index) $tmp]
         set data($w,moveto_index) $other_index
-
+        
       # Otherwise, indicate that we are done scrolling
       } else {
         set data($w,scroll) 0
@@ -520,14 +520,14 @@ namespace eval tabbar {
     if {[lsearch [$w.c itemcget current -tags] $close_id] == -1} {
 
       # Start the move operation
-      set data($w,moveto_index) $tab_index
-      set data($w,last_x)       $x
-      set data($w,moveto_stop)  0
+      set data($w,moveto_index)   $tab_index
+      set data($w,last_x)         $x
+      set data($w,moveto_stop)    0
       $w.c raise [tab_tag $w $page_index]
 
       # Make the current tab look current
-      set data($w,last_current) $data($w,current)
-      set data($w,current)      $page_index
+      set data($w,last_current)   $data($w,current)
+      set data($w,current)        $page_index
       redraw $w
 
     } else {
@@ -661,28 +661,29 @@ namespace eval tabbar {
 
       # Get the page index from the moveto_index
       set page_index [page_index $w $data($w,moveto_index)]
+      
+      if {$page_index != $data($w,current)} {
 
-      # Set the current tag
-      set data($w,current) $data($w,moveto_index)
+        # Get the tab tag
+        set tab_tag [tab_tag $w $page_index]
 
-      # Get the tab tag
-      set tab_tag [tab_tag $w $page_index]
+        # Move tab to the current position
+        lassign [$w.c coords [string range $tab_tag 1 end]] x0
+        $w.c move $tab_tag [expr ($data($w,tab_width) * $data($w,moveto_index)) - $x0] 0
 
-      # Move tab to the current position
-      lassign [$w.c coords [string range $tab_tag 1 end]] x0
-      $w.c move $tab_tag [expr ($data($w,tab_width) * $data($w,moveto_index)) - $x0] 0
+        # Move the page in the pages index
+        set page           [lindex   $data($w,pages) $data($w,current)]
+        set data($w,pages) [lreplace $data($w,pages) $data($w,current) $data($w,current)]
+        set data($w,pages) [linsert  $data($w,pages) $page_index $page]
 
-      # Move the page in the pages index
-      set page           [lindex   $data($w,pages) $page_index]
-      set data($w,pages) [lreplace $data($w,pages) $page_index $page_index]
-      set data($w,pages) [linsert  $data($w,pages) $data($w,moveto_index) $page]
-
-      # Update the tab order to match
-      update_tab_order $w
+        # Update the tab order to match
+        update_tab_order $w
+        
+      }
 
       # Select the current tab
       set data($w,current) $data($w,last_current)
-      select $w $data($w,moveto_index)
+      select $w $page_index
 
       # Clear the moveto_index
       set data($w,moveto_index) ""
@@ -782,7 +783,7 @@ namespace eval tabbar {
 
     # Resize the text (if it exists)
     resize_text $w $id [array get opts]
-
+    
     # Add bindings
     $w.c bind t$id <ButtonPress-1>   "tabbar::handle_tab_left_click_press   $w %x %y"
     $w.c bind t$id <ButtonRelease-1> "tabbar::handle_tab_left_click_release $w %x %y"
@@ -844,7 +845,7 @@ namespace eval tabbar {
     foreach opt [list -emboss -compound -image -padx -pady -busy] {
       if {$orig_opts($opt) ne $opts($opt)} {
         redraw_tab $w $page_index
-        redraw $w
+        redraw $w 1
         return
       }
     }
@@ -1020,12 +1021,10 @@ namespace eval tabbar {
     # If the tab widths changed, resize all of the tabs
     if {($tab_width != $data($w,tab_width)) || $force} {
 
-      # puts "In redraw"
-
       for {set i [expr [llength $data($w,tab_order)] - 1]} {$i >= 0} {incr i -1} {
 
         # Get the current page
-        set page [lindex $data($w,pages) [lindex $data($w,tab_order) $i]]
+        set page [lindex $data($w,pages) [page_index $w $i]]
 
         # Adjust the size of the tab box
         set tabid [lindex $page 1 0]
@@ -1046,7 +1045,6 @@ namespace eval tabbar {
 
         # Move the resizable components of the tab
         foreach resizable [lindex $page 1 1] {
-          # puts "  resizable: $resizable"
           $w.c move $resizable $xamount 0
         }
 
@@ -1054,13 +1052,10 @@ namespace eval tabbar {
         resize_text $w $tabid [lindex $page 1 2]
 
         # Move the tab to its proper position
-        # puts -nonewline "  w: $w, i: $i, tab_width: $data($w,tab_width), margin: $data($w,option,-margin), tx0: $tx0"
-        # puts -nonewline ", x: [expr ($i * ($data($w,tab_width) + $data($w,option,-margin))) - $tx0]"
-        # puts ", item: t$tabid, coords: [$w.c coords t$tabid]"
         $w.c move t$tabid [expr ($i * ($data($w,tab_width) + $data($w,option,-margin))) - $tx0] 0
-
+        
       }
-
+      
     }
 
     # Display the tabs so that they represent the current state (if the current state has changed)
@@ -1150,13 +1145,16 @@ namespace eval tabbar {
     if {$data($w,current) == -1} {
       return
     }
+    
+    # Get the current tab
+    set current_tab [lsearch $data($w,tab_order) $data($w,current)]
 
     # If the current tab is to the left of the left-most tab, scroll
     # the canvas to the right until the current tab is in view.
-    if {$data($w,current) < [set left_tab [leftmost_tab $w]]} {
+    if {$current_tab < [set left_tab [leftmost_tab $w]]} {
 
       # Scroll to the new position
-      $w.c xview scroll [set shift [expr $data($w,current) - $left_tab]] units
+      $w.c xview scroll [set shift [expr $current_tab - $left_tab]] units
 
       # Adjust the left tab
       incr data($w,left_tab) $shift
@@ -1166,10 +1164,10 @@ namespace eval tabbar {
 
     # If the current tab is to the right of the right-most tab, scroll
     # the canvas to the left until the current tab is in view.
-    } elseif {$data($w,current) > [set right_tab [rightmost_tab $w]]} {
-
+    } elseif {$current_tab > [set right_tab [rightmost_tab $w]]} {
+      
       # Scroll to the new position
-      $w.c xview scroll [set shift [expr $data($w,current) - $right_tab]] units
+      $w.c xview scroll [set shift [expr $current_tab - $right_tab]] units
 
       # Adjust the left tab
       incr data($w,left_tab) $shift
@@ -1537,7 +1535,7 @@ namespace eval tabbar {
     } else {
       set index [index $w $index]
     }
-
+    
     # Figure out if the tab will become the current tab or not
     set make_current [expr [llength $data($w,pages)] == 0]
 
@@ -1553,15 +1551,13 @@ namespace eval tabbar {
 
     # Update the tab order
     update_tab_order $w
-
+    
     # Draw the tab in the canvas
     redraw $w 1
-
+    
+    # Make sure that the tab is in view
     if {$make_current} {
-
-      # Make sure that the tab is in view
       make_current_viewable $w
-
     }
 
   }
@@ -1797,6 +1793,38 @@ namespace eval tabbar {
 
     return -code error "Bad argument value sent to tabbar::scrollpath command ($type)"
 
+  }
+  
+  ######################################################################
+  # Temporary method used for tabbar debugging.
+  proc dump_tab_info {} {
+    
+    variable data
+    
+    puts [utils::stacktrace]
+    
+    puts "DATA:"
+    foreach {key value} [array get data] {
+      puts "  $key $value"
+    }
+    
+    puts "COORDS:"
+    foreach tb [array names data *,pages] {
+      lassign [split $tb ,] w pages
+      foreach item [$w.c find all] {
+        puts "  w: $w, item: $item, type: [$w.c type $item], tags: [$w.c gettags $item], coords: [$w.c coords $item]"
+        if {[$w.c type $item] eq "text"} {
+          puts "    text: [$w.c itemcget $item -text]"
+        }
+      }
+    }
+    
+    puts "VIEW:"
+    foreach tb [array names data *,pages] {
+      lassign [split $tb ,] w pages
+      puts "  w: $w, xview: [$w.c xview], yview: [$w.c yview]"
+    }
+    
   }
 
 }
