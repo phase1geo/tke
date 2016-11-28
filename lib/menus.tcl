@@ -2804,7 +2804,7 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Theme Editor"] -underline 0 -command [list menus::theme_edit_command]
     launcher::register [make_menu_cmd "Tools" [msgcat::mc "Run theme editor"]] [list menus::theme_edit_command]
-
+    
   }
 
   ######################################################################
