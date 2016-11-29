@@ -309,6 +309,7 @@ namespace eval syntax {
     variable langs
     variable curr_lang
     variable current_lang
+    variable meta_tags
 
     array set opts {
       -highlight 1
@@ -356,6 +357,9 @@ namespace eval syntax {
         } else {
           set cmd_prefix ""
         }
+
+        # Initialize the meta tags
+        set meta_tags($txt) "meta"
 
         # Set the case sensitivity and delimiter characters
         $txt configure -casesensitive $lang_array(casesensitive) \
@@ -533,8 +537,6 @@ namespace eval syntax {
 
     # Get the current syntax theme
     array set theme [[ns theme]::get_syntax_colors]
-
-    set meta_tags($txt) "meta"
 
     switch $section {
       "advanced" -
