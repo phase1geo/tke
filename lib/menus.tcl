@@ -26,6 +26,7 @@ namespace eval menus {
 
   variable profile_report  [file join $::tke_home profiling_report.log]
   variable show_split_pane 0
+  variable show_birdseye   0
   variable indent_mode     "IND+"
   variable last_devel_mode ""
   variable line_numbering  "absolute"
@@ -2218,6 +2219,9 @@ namespace eval menus {
 
     $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command [list gui::toggle_split_pane {}]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle split view mode"]] [list gui::toggle_split_pane {}]
+    
+    $mb add checkbutton -label [msgcat::mc "Bird's Eye View"] -underline 0 -variable menus::show_birdseye -command [list gui::toggle_birdseye {}]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle bird's eye view mode"]] [list gui::toggle_birdseye {}]
 
     $mb add command -label [msgcat::mc "Move to Other Pane"] -underline 0 -command [list gui::move_to_pane]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Move to other pane"]] [list gui::move_to_pane]
@@ -2374,6 +2378,7 @@ namespace eval menus {
   proc view_posting {mb} {
 
     variable show_split_pane
+    variable show_birdseye
     variable line_numbering
 
     if {([gui::tabs_in_pane] < 2) && ([gui::panes] < 2)} {
@@ -2398,6 +2403,7 @@ namespace eval menus {
       catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state disabled }
       $mb entryconfigure [msgcat::mc "Display Text Info"]  -state disabled
       $mb entryconfigure [msgcat::mc "Split View"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Bird's Eye View"]    -state disabled
       $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state disabled
       if {[tk windowingsystem] ne "aqua"} {
         $mb entryconfigure [msgcat::mc "Set Syntax"]         -state disabled
@@ -2423,6 +2429,7 @@ namespace eval menus {
       }
       $mb entryconfigure [msgcat::mc "Display Text Info"] -state normal
       $mb entryconfigure [msgcat::mc "Split View"]        -state normal
+      $mb entryconfigure [msgcat::mc "Bird's Eye View"]   -state normal
       if {[gui::movable_to_other_pane]} {
         $mb entryconfigure [msgcat::mc "Move to Other Pane"] -state normal
       } else {
@@ -2432,7 +2439,25 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
       }
       $mb entryconfigure [msgcat::mc "Folding"]    -state normal
-      set show_split_pane [expr {[lsearch [[gui::current_txt {}] peer names] *tf2*] != -1}]
+      switch [llength [$txt peer names]] {
+        0 {
+          set [ns menus]::show_split_pane 0
+          set [ns menus]::show_birdseye   0
+        }
+        1 {
+          if {[lsearch [$txt peer names] *tf2*] != -1} {
+            set [ns menus]::show_split_pane 1
+            set [ns menus]::show_birdseye   0
+          } else {
+            set [ns menus]::show_split_pane 0
+            set [ns menus]::show_birdseye   1
+          }
+        }
+        default {
+          set [ns menus]::show_split_pane 1
+          set [ns menus]::show_birdseye   1
+        }
+      }
     }
 
     # Get the current line numbering

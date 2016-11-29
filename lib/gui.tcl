@@ -450,6 +450,8 @@ namespace eval gui {
     $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Split View"] -onvalue 1 -offvalue 0 \
       -variable [ns menus]::show_split_pane -command [list [ns gui]::toggle_split_pane {}]
+    $widgets(menu) add checkbutton -label [msgcat::mc "Bird's Eye View"] -onvalue 1 -offvalue 0 \
+      -variable [ns menus]::show_birdseye -command [list [ns gui]::toggle_birdseye {}]
     $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 \
       -variable [ns gui]::file_locked    -command [list [ns gui]::set_current_file_lock_with_current {}]
@@ -510,6 +512,9 @@ namespace eval gui {
     trace variable [ns preferences]::prefs(Appearance/EditorFont)               w [ns gui]::handle_editor_font
     trace variable [ns preferences]::prefs(General/AutoChangeWorkingDirectory)  w [ns gui]::handle_auto_cwd
     trace variable [ns preferences]::prefs(General/DefaultFileBrowserDirectory) w [ns gui]::handle_browse_directory
+    trace variable [ns preferences]::prefs(View/ShowBirdsEyeView)               w [ns gui]::handle_show_birdseye
+    trace variable [ns preferences]::prefs(View/BirdsEyeViewFontSize)           w [ns gui]::handle_birdseye_font_size
+    trace variable [ns preferences]::prefs(View/BirdsEyeViewWidth)              w [ns gui]::handle_birdseye_width
 
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
@@ -657,6 +662,60 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Handle any preference changes to the birdseye view status.
+  proc handle_show_birdseye {name1 name2 op} {
+    
+    if {[[ns preferences]::get View/ShowBirdsEyeView]} {
+      foreach txt [get_all_texts] {
+        if {[string first "tf2" $txt] == -1} {
+          show_birdseye $txt
+        }
+      }  
+    } else {
+      foreach txt [get_all_texts] {
+        if {[string first "tf2" $txt] == -1} {
+          hide_birdseye $txt
+        }
+      }  
+    }
+    
+  }
+  
+  ######################################################################
+  # Handle any preference changes to the birdseye font size.
+  proc handle_birdseye_font_size {name1 name2 op} {
+    
+    set font_size [[ns preferences]::get View/BirdsEyeViewFontSize]
+    
+    foreach txt [get_all_texts] {
+      if {[string first "tf2" $txt] == -1} {
+        set tab [get_info $txt txt tab]
+        if {[winfo exists $tab.be]} {
+          $tab.be configure -font "-size $font_size"
+        }
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Handle any preference changes to the birdseye width.
+  proc handle_birdseye_width {name1 name2 op} {
+    
+    set width [[ns preferences]::get View/BirdsEyeViewWidth]
+    
+    foreach txt [get_all_texts] {
+      if {[string first "tf2" $txt] == -1} {
+        set tab [get_info $txt txt tab]
+        if {[winfo exists $tab.be]} {
+          $tab.be configure -width $width
+        }
+      }
+    }
+    
+  }
+  
+  ######################################################################
   # Sets the auto_cwd variable to the given boolean value.
   proc set_auto_cwd {value} {
 
@@ -748,8 +807,26 @@ namespace eval gui {
       $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state [expr {($diff_mode || $buffer || ($remote ne "")) ? "disabled" : "normal"}]
     }
 
-    # Make the split pane indicator look correct
-    set [ns menus]::show_split_pane [expr {[lsearch [$txt peer names] *tf2*] != -1}]
+    # Make the split pane and bird's eye indicators look correct
+    switch [llength [$txt peer names]] {
+      0 {
+        set [ns menus]::show_split_pane 0
+        set [ns menus]::show_birdseye   0
+      }
+      1 {
+        if {[lsearch [$txt peer names] *tf2*] != -1} {
+          set [ns menus]::show_split_pane 1
+          set [ns menus]::show_birdseye   0
+        } else {
+          set [ns menus]::show_split_pane 0
+          set [ns menus]::show_birdseye   1
+        }
+      }
+      default {
+        set [ns menus]::show_split_pane 1
+        set [ns menus]::show_birdseye   1
+      }
+    }
 
     # Handle plugin states
     [ns plugins]::menu_state $widgets(menu) tab_popup
@@ -3749,6 +3826,21 @@ namespace eval gui {
     }
 
   }
+  
+  ######################################################################
+  # Toggles the bird's eye view panel for the current tab.
+  proc toggle_birdseye {tid} {
+    
+    set txt   [current_txt $tid]
+    set peers [$txt peer names]
+    
+    if {([llength $peers] == 2) || (([llength $peers] == 1) && ([lsearch $peers *tf2*] == -1))} {
+      hide_birdseye $txt
+    } else {
+      show_birdseye $txt
+    }
+    
+  }
 
   ######################################################################
   # Returns a list of all of the text widgets in the tool.
@@ -4119,9 +4211,6 @@ namespace eval gui {
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$opts(-diff) ? [list [ns diff]::get_marks $txt] : ""}]
 
-    # Create the bird's eye viewer
-    $txt._t peer create $tab.be -width 30 -bd 0 -highlightthickness 0 -font "-size 2" -wrap none -cursor [ttk::cursor standard] -state disabled
-
     # Register the widgets
     [ns theme]::register_widget $txt          syntax
     [ns theme]::register_widget $tab.pw.tf.vb text_scrollbar
@@ -4236,7 +4325,6 @@ namespace eval gui {
     grid rowconfigure    $tab 0 -weight 1
     grid columnconfigure $tab 0 -weight 1
     grid $tab.pw   -row 0 -column 0 -sticky news
-    grid $tab.be   -row 0 -column 1 -sticky ns
     grid $tab.ve   -row 1 -column 0 -sticky ew -columnspan 2
     grid $tab.sf   -row 2 -column 0 -sticky ew -columnspan 2
     grid $tab.rf   -row 3 -column 0 -sticky ew -columnspan 2
@@ -4297,6 +4385,11 @@ namespace eval gui {
       $tb insert $index $tab -text " $title" -emboss 0
     }
 
+    # Display the bird's eye viewer
+    if {[[ns preferences]::get View/ShowBirdsEyeView]} {
+      show_birdseye $txt
+    }
+      
     return $tab
 
   }
@@ -4380,11 +4473,6 @@ namespace eval gui {
   }
 
   ######################################################################
-  proc show_birdseye {} {
-
-  }
-
-  ######################################################################
   # Removes the split pane
   proc hide_split_pane {tid} {
 
@@ -4401,6 +4489,136 @@ namespace eval gui {
     # Set the focus back on the tf text widget
     set_txt_focus $pw.tf.txt
 
+  }
+  
+  ######################################################################
+  # Creates and displays the bird's eye viewer in the same editing buffer
+  # as the specified text widget.
+  proc show_birdseye {txt} {
+    
+    # Get the tab that contains the text widget
+    set tab [get_info $txt txt tab]
+    
+    if {![winfo exists $tab.be]} {
+
+      # Create the bird's eye viewer
+      $txt._t peer create $tab.be -width [[ns preferences]::get View/BirdsEyeViewWidth] -bd 0 \
+        -highlightthickness 0 -font "-size [[ns preferences]::get View/BirdsEyeViewFontSize]" \
+        -wrap none -cursor [ttk::cursor standard] -state disabled \
+        -background [$txt cget -background] -foreground [$txt cget -foreground] \
+        -inactiveselectbackground [[ns utils]::auto_adjust_color [$txt cget -background] 25]
+       
+      # Add the bird's eye viewer to the tab's grid manager
+      grid $tab.be -row 0 -column 1 -sticky ns
+   
+      # Setup bindings
+      bind $tab.be <Enter>         [list [ns gui]::handle_birdseye_enter %W $txt]
+      bind $tab.be <Leave>         [list [ns gui]::handle_birdseye_leave %W]
+      bind $tab.be <ButtonPress-1> "if {\[[ns gui]::handle_birdseye_left_press %W %x %y $txt\]} { break }"
+      bind $tab.be <B1-Motion>     "if {\[[ns gui]::handle_birdseye_motion     %W %x %y $txt\]} { break }"
+      
+    }
+
+  }
+  
+  ######################################################################
+  # Highlights the currently displayed area in the text widget.
+  proc highlight_birdseye {be txt} {
+    
+    # Get the start and end shown lines of the given text widget
+    set startline [$txt index @0,0]
+    set endline   [$txt index @0,[winfo height $txt]]
+    
+    # Set the selection
+    $be tag remove sel 1.0 end
+    $be tag add sel $startline $endline
+    
+  }
+  
+  ######################################################################
+  # Handles the mouse entering the bird's eye view.  This will cause the
+  # currently displayed text region to be selected in the bird's eye viewer.
+  proc handle_birdseye_enter {be txt} {
+    
+    highlight_birdseye $be $txt
+    
+  }
+  
+  ######################################################################
+  # Handles the mouse leaving the bird's eye viewer.
+  proc handle_birdseye_leave {be} {
+    
+    # Clear the selection
+    $be tag remove sel 1.0 end
+    
+  }
+  
+  ######################################################################
+  # Handles a left button press event inside the bird's eye viewer.
+  proc handle_birdseye_left_press {W x y txt} {
+    
+    variable be_last_y
+    
+    set cursor [$W index @$x,$y]
+    
+    lassign [$W tag ranges sel] selstart selend
+    
+    # If we clicked on the selection, start a motion event
+    if {[$W compare $selstart <= $cursor] && [$W compare $selend >= $cursor]} {
+      set be_last_y $y
+      
+    # Otherwise, jump the view to the given location
+    } else {
+      set be_last_y ""
+      
+      # TBD - We will want to make sure that the cursor line is centered vertically
+      $txt see $cursor
+      
+      # Highlight the bird's eye viewer
+      highlight_birdseye $W $txt
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Handles a left button motion event inside the bird's eye viewer.
+  proc handle_birdseye_motion {W x y txt} {
+    
+    variable be_last_y
+    
+    if {($be_last_y ne "") && ($y != $be_last_y)} {
+      
+      # Get the current cursor
+      set cursor [$W index @$x,$y]
+      
+      # TBD - We will want to make sure that the cursor line is centered vertically
+      $txt see $cursor
+      
+      # Highlight the bird's eye viewer to match the text widget
+      highlight_birdseye $W $txt
+      
+    }
+    
+  }
+  
+  ######################################################################
+  # Hides the bird's eye viewer associated with the given text widget.
+  proc hide_birdseye {txt} {
+    
+    # Get the tab that contains the bird's eye viewer
+    set tab [get_info $txt txt tab]
+
+    if {[winfo exists $tab.be]} {
+      
+      # Remove the widget from the grid
+      grid forget $tab.be
+       
+      # Destroy the bird's eye viewer
+      destroy $tab.be
+      
+    }
+    
   }
 
   ######################################################################
