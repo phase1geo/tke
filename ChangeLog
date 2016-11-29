@@ -1,62 +1,55 @@
-changeset:   2581:83464fbfb466
-tag:         devel-2.8.1
+changeset:   2588:018f1c49ba2f
+tag:         devel-2.8.2
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 23 09:14:48 2016 -0600
+date:        Mon Nov 28 09:03:16 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.8.1 release
+ChangeLog for devel-2.8.2 release
 
 
-changeset:   2582:98d0096a0095
+changeset:   2589:d9361b2adac1
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 23 09:14:52 2016 -0600
+date:        Mon Nov 28 09:03:20 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.8.1 for changeset 83464fbfb466
+Added tag devel-2.8.2 for changeset 018f1c49ba2f
 
 
-changeset:   2583:4933522e7777
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 23 22:55:17 2016 -0600
-files:       lib/files.tcl lib/menus.tcl lib/version.tcl
+changeset:   2590:b05df5b1eea4
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Nov 28 16:21:05 2016 -0600
+files:       lib/menus.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
 description:
-* Fixing `Move To Trash` for macOS.
+* Fixing tabbar issues when tabs are hidden.
 
 
-changeset:   2584:8ed7fd707658
+changeset:   2591:6668880f1dd0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Nov 27 14:13:51 2016 -0600
-files:       lib/gui.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
+date:        Mon Nov 28 23:08:43 2016 -0600
+files:       lib/.DS_Store lib/menus.tcl lib/plugins.tcl lib/syntax.tcl lib/version.tcl plugins/css_colorize/README.md
 description:
-* Fixing issue with removing tabs within a directory that is deleted/moved to trash.
-* Adding debugging output for tab hidding issues.
+* Fixed state of the `View/Hide Meta Characters` menu option for related languages.
+* Adding new `Plugins/Show Installed...` menu option to show installed plugins and allow their details to be displayed in an editing buffer.
+* Adding author name and e-mail in plugin description output.
+* Adding ability to create a README.md file in a plugin directory that will be displayed when showing the descriptive contents of a plugin.
+* Adding README.md file to CSS Colorize plugin directory.
 
 
-changeset:   2585:e8d377d86338
+changeset:   2592:70aea4a393ac
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Nov 27 16:32:25 2016 -0600
-files:       .DS_Store lib/sidebar.tcl lib/version.tcl
+date:        Tue Nov 29 01:20:44 2016 -0600
+files:       lib/gui.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing issue with removing opened files when ancestor directory is deleted.
+* Initial work on adding bird's eye viewer in editing buffer area.
 
 
-changeset:   2586:c9ab72915f2f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Sun Nov 27 17:04:26 2016 -0600
-files:       lib/files.tcl lib/gui.tcl lib/sidebar.tcl lib/version.tcl
-description:
-* Moving rename/delete folder functionality to files namespace.
-* Fixing syntax error in gui::change_folder.
-
-
-changeset:   2587:aaa862765e1a
+changeset:   2593:ec27fa113547
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 28 09:01:42 2016 -0600
-files:       lib/files.tcl lib/gui.tcl lib/menus.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/sidebar.tcl lib/version.tcl
+date:        Tue Nov 29 08:50:58 2016 -0600
+files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Adding tab closing calls to files namespace for move_to_trash and delete_file procs.
-* Removing debug output from tabbar widget.
-* Changing gui::get_info to throw an exception if the specified filename was not found.
+* Fixing issue with preference window due to inclusion of bird's eye view.
+* Setting bird's eye view cursor to the standard TTK cursor.
 
 
