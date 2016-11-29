@@ -2176,6 +2176,7 @@ namespace eval pref_ui {
     make_cb $w.stb  [msgcat::mc "Show tab bar"]                                     View/ShowTabBar
     make_cb $w.sln  [msgcat::mc "Show line numbers"]                                View/ShowLineNumbers
     make_cb $w.smm  [msgcat::mc "Show marker map"]                                  View/ShowMarkerMap
+    make_cb $w.sbe  [msgcat::mc "Show bird's eye view"]                             View/ShowBirdsEyeView
     make_cb $w.sdio [msgcat::mc "Show difference file in other pane than original"] View/ShowDifferenceInOtherPane
     make_cb $w.sdvi [msgcat::mc "Show difference file version information"]         View/ShowDifferenceVersionInfo
     make_cb $w.sfif [msgcat::mc "Show 'Find in Files' result in other pane"]        View/ShowFindInFileResultsInOtherPane
@@ -2183,17 +2184,34 @@ namespace eval pref_ui {
     make_cb $w.ota  [msgcat::mc "Sort tabs alphabetically on open"]                 View/OpenTabsAlphabetically
     make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
 
-    ttk::frame $w.of
-    pack [ttk::label   $w.of.l  -text [format "%s: " [set wstr [msgcat::mc "Recently opened history depth"]]]] -side left -padx 2 -pady 2
-    pack [set widgets(view_sro) [$widgets(sb) $w.of.sb {*}$widgets(sb_opts) -from 0 -to 20 -width 2 \
-    -state readonly -command [list pref_ui::set_show_recently_opened]]] -side left -padx 2 -pady 2
-
+    ttk::frame $w.sf
+    ttk::label $w.sf.srol -text [format "%s: " [set wstr [msgcat::mc "Recently opened history depth"]]]
+    set widgets(view_sro) [$widgets(sb) $w.sf.srosb {*}$widgets(sb_opts) -from 0 -to 20 -width 2 \
+      -state readonly -command [list pref_ui::set_show_recently_opened]]
+    ttk::label $w.sf.befsl -text [format "%s: " [set wstr [msgcat::mc "Bird's Eye View Font Size"]]]
+    set widgets(view_befs) [$widgets(sb) $w.sf.befssb {*}$widgets(sb_opts) -from 1 -to 2 -width 1 \
+      -state readonly -command [list pref_ui::set_birdseye_font_size]]
+    ttk::label $w.sf.bewl -text [format "%s: " [set wstr [msgcat::mc "Bird's Eye View Width"]]]
+    set widgets(view_bew) [$widgets(sb) $w.sf.bewsb {*}$widgets(sb_opts) -from 30 -to 80 -width 2 \
+      -state readonly -command [list pref_ui::set_birdseye_width]]
+      
+    grid $w.sf.srol   -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.srosb  -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.sf.befsl  -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.befssb -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.sf.bewl   -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.bewsb  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    
     register $widgets(view_sro) $wstr View/ShowRecentlyOpened
-
-    pack $w.of -fill x -padx 2 -pady 10
+    register $widgets(view_befs) $wstr View/BirdsEyeViewFontSize
+    register $widgets(view_bew) $wstr View/BirdsEyeViewWidth
+    
+    pack $w.sf -fill x -pady 8 
 
     # Initialize the spinbox value
-    $widgets(view_sro) set $prefs(View/ShowRecentlyOpened)
+    $widgets(view_sro)  set $prefs(View/ShowRecentlyOpened)
+    $widgets(view_befs) set $prefs(View/BirdsEyeViewFontSize)
+    $widgets(view_bew)  set $prefs(View/BirdsEyeViewWidth)
 
   }
 
@@ -2206,6 +2224,28 @@ namespace eval pref_ui {
 
     set prefs(View/ShowRecentlyOpened) [$widgets(view_sro) get]
 
+  }
+  
+  ######################################################################
+  # Sets the View/BirdsEyeViewFontSize preference value.
+  proc set_birdseye_font_size {} {
+    
+    variable widgets
+    variable prefs
+    
+    set prefs(View/BirdsEyeViewFontSize) [$widgets(view_befs) get]
+    
+  }
+
+  ######################################################################
+  # Sets the View/BirdsEyeViewWidth preference value.
+  proc set_birdseye_width {} {
+    
+    variable widgets
+    variable prefs
+    
+    set prefs(View/BirdsEyeViewWidth) [$widgets(view_bew) get]
+    
   }
 
   ############

@@ -295,6 +295,25 @@
 
 {View/ShowMarkerMap}         {1}
 
+# If this value is set to 1, the bird's eye view will be displayed in all editing
+# buffers.  If this value is set to 0, the bird's eye view will be removed from all
+# editing buffers.
+#
+# Note:  You may show/hide the bird's eye view panel per editing buffer using either the
+# View menu or the contextual tab menu.
+
+{View/ShowBirdsEyeView}      {0}
+
+# Specifies the size of the bird's eye view font.  It is recommended that this value only be
+# set to values of 1 or 2 to allow the bird's eye viewer to display as much text as possible.
+
+{View/BirdsEyeViewFontSize}  {1}
+
+# Specifies the width of the bird's eye view in terms of characters as specified by the
+# View/BirdsEyeViewFontSize.
+
+{View/BirdsEyeViewWidth}     {70}
+
 # If this value is set to 1, displaying a difference view of a file will automatically
 # display it in the other editor pane.
 
