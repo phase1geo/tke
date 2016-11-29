@@ -4120,7 +4120,7 @@ namespace eval gui {
       -markcommand2 [expr {$opts(-diff) ? [list [ns diff]::get_marks $txt] : ""}]
 
     # Create the bird's eye viewer
-    $txt._t peer create $tab.be -width 30 -bd 0 -highlightthickness 0 -font "-size 2" -wrap none -state disabled
+    $txt._t peer create $tab.be -width 30 -bd 0 -highlightthickness 0 -font "-size 2" -wrap none -cursor [ttk::cursor standard] -state disabled
 
     # Register the widgets
     [ns theme]::register_widget $txt          syntax
