@@ -1395,7 +1395,7 @@ namespace eval gui {
     variable synced_key
     variable synced_count
     variable synced_txt
-
+    
     # If we are not currently synced, return now
     if {($synced_key eq "") || (($synced_txt ne $txt) && ($synced_txt ne ""))} {
       set synced_txt ""
@@ -1419,10 +1419,23 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Sync the birdseye text widget.
+  proc sync_birdseye {txt args} {
+    
+    # Get the current tab
+    set tab [get_info $txt txt tab]
+    
+    if {[winfo exists $tab.be]} {
+      $tab.be yview {*}$args
+    }
+    
+  }
+
+  ######################################################################
   # Sets the yview of the given text widget (called by the yscrollbar)
   # and adjusts the scroll of the other pane if sync scrolling is enabled.
   proc yview {txt args} {
-
+    
     # Return the yview information
     if {[llength $args] == 0} {
       return [$txt yview]
@@ -1430,7 +1443,8 @@ namespace eval gui {
     # Otherwise, set the yview given the arguments
     } else {
       $txt yview {*}$args
-      sync_scroll $txt 0
+      sync_birdseye $txt {*}$args
+      sync_scroll   $txt 0
     }
 
   }
@@ -1445,7 +1459,7 @@ namespace eval gui {
 
     # Perform sync scrolling, if necessary
     sync_scroll $txt 1
-
+    
   }
 
   ######################################################################
@@ -4512,10 +4526,12 @@ namespace eval gui {
       grid $tab.be -row 0 -column 1 -sticky ns
    
       # Setup bindings
-      bind $tab.be <Enter>         [list [ns gui]::handle_birdseye_enter %W $txt]
-      bind $tab.be <Leave>         [list [ns gui]::handle_birdseye_leave %W]
-      bind $tab.be <ButtonPress-1> "if {\[[ns gui]::handle_birdseye_left_press %W %x %y $txt\]} { break }"
-      bind $tab.be <B1-Motion>     "if {\[[ns gui]::handle_birdseye_motion     %W %x %y $txt\]} { break }"
+      bind $tab.be <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt]
+      bind $tab.be <Leave>                         [list [ns gui]::handle_birdseye_leave %W]
+      bind $tab.be <ButtonPress-1>                 "if {\[[ns gui]::handle_birdseye_left_press %W %x %y $txt\]} { break }"
+      bind $tab.be <B1-Motion>                     "if {\[[ns gui]::handle_birdseye_motion     %W %x %y $txt\]} { break }"
+      bind $tab.be <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
+      bind $tab.be <Control-Button-$::right_click> [list [ns gui]::handle_birdseye_control_right %W]
       
     }
 
@@ -4569,10 +4585,13 @@ namespace eval gui {
       
     # Otherwise, jump the view to the given location
     } else {
+      
       set be_last_y ""
+      set height    [winfo height $txt]
       
       # TBD - We will want to make sure that the cursor line is centered vertically
       $txt see $cursor
+      $txt yview scroll [expr [lindex [$txt bbox $cursor] 1] - ($height / 2)] pixels
       
       # Highlight the bird's eye viewer
       highlight_birdseye $W $txt
@@ -4591,14 +4610,32 @@ namespace eval gui {
       
       # Get the current cursor
       set cursor [$W index @$x,$y]
+      set height [winfo height $txt]
       
       # TBD - We will want to make sure that the cursor line is centered vertically
       $txt see $cursor
+      $txt yview scroll [expr [lindex [$txt bbox $cursor] 1] - ($height / 2)] pixels
       
       # Highlight the bird's eye viewer to match the text widget
       highlight_birdseye $W $txt
       
     }
+    
+  }
+  
+  ######################################################################
+  # Handles a control left-click event in the birdseye.
+  proc handle_birdseye_control_left {W} {
+    
+    $W yview scroll -1 pages
+    
+  }
+  
+  ######################################################################
+  # Handles a control right-click event in the birdseye.
+  proc handle_birdseye_control_right {W} {
+    
+    $W yview scroll 1 pages
     
   }
   
