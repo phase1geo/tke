@@ -617,6 +617,65 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Displays the installed plugins and their information (if specified).
+  proc show_installed {} {
+
+    variable registry
+    variable registry_size
+
+    for {set i 0} {$i < $registry_size} {incr i} {
+      if {$registry($i,selected)} {
+        set name $registry($i,name)
+        launcher::register_temp "`PLUGIN:$name" [list plugins::show_installed_item $i] $name 0 [list plugins::show_detail $i]
+      }
+    }
+
+    # Display the launcher in PLUGIN: mode
+    launcher::launch "`PLUGIN:" 1
+
+  }
+
+  ######################################################################
+  # Displays the installed item's detail and README information (if specified).
+  proc show_installed_item {index} {
+
+    variable registry
+
+    set name $registry($index,name)
+
+    # Create a buffer
+    gui::add_buffer end [format "%s: %s" [msgcat::mc "Plugin"] $name] "" -readonly 1 -lang "Markdown"
+
+    # Get the newly added buffer
+    set txt [gui::get_info {} current txt]
+
+    # Allow the text buffer to be edited
+    $txt configure -state normal
+
+    # Display the plugin detail
+    $txt insert end "__Version:__\n\n"
+    $txt insert end "$registry($index,version)\n\n\n"
+    $txt insert end "__Author:__\n\n"
+    $txt insert end "$registry($index,author)  ($registry($index,email))\n\n\n"
+    $txt insert end "__Description:__\n\n"
+    $txt insert end $registry($index,description)
+
+    # Add the README contents (if it exists)
+    if {![catch { open [file join [file dirname $registry($index,file)] README.md] r } rc]} {
+      $txt insert end "\n\n\n__README Content:__\n\n" bold
+      $txt insert end [read $rc]
+      close $rc
+    }
+
+    # Hide the meta characters
+    menus::hide_meta_chars .menubar.view
+
+    # Disallow the text buffer to be edited
+    $txt configure -state disabled
+
+  }
+
+  ######################################################################
   # Displays plugin information into the given text widget.
   proc show_detail {index txt} {
 
@@ -626,6 +685,8 @@ namespace eval plugins {
 
     $txt insert end "Version:\n\n" bold
     $txt insert end "$registry($index,version)\n\n\n"
+    $txt insert end "Author:\n\n" bold
+    $txt insert end "$registry($index,author)  ($registry($index,email))\n\n\n"
     $txt insert end "Description:\n\n" bold
     $txt insert end $registry($index,description)
 

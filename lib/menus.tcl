@@ -2804,7 +2804,7 @@ namespace eval menus {
 
     $mb add command -label [msgcat::mc "Theme Editor"] -underline 0 -command [list menus::theme_edit_command]
     launcher::register [make_menu_cmd "Tools" [msgcat::mc "Run theme editor"]] [list menus::theme_edit_command]
-    
+
   }
 
   ######################################################################
@@ -3134,6 +3134,9 @@ namespace eval menus {
 
     $mb add command -label [format "%s..." [msgcat::mc "Uninstall"]] -underline 0 -command [list plugins::uninstall]
     launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Uninstall plugin"]] [list plugins::uninstall]
+
+    $mb add command -label [format "%s..." [msgcat::mc "Show Installed"]] -underline 0 -command [list plugins::show_installed]
+    launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Show installed plugins"]] [list plugins::show_installed]
 
     $mb add command -label [msgcat::mc "Reload"] -underline 0 -command [list plugins::reload]
     launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Reload all plugins"]] [list plugins::reload]
