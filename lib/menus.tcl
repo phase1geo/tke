@@ -2432,7 +2432,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
       }
       $mb entryconfigure [msgcat::mc "Folding"]    -state normal
-      set show_split_pane [expr {[llength [[gui::current_txt {}] peer names]] > 0}]
+      set show_split_pane [expr {[lsearch [[gui::current_txt {}] peer names] *tf2*] != -1}]
     }
 
     # Get the current line numbering

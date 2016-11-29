@@ -340,6 +340,10 @@ namespace eval syntax {
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground)
 
+    # Set the bird's eye text widget
+    [winfo parent [winfo parent [winfo parent $txt]]].be configure -background $theme(background) \
+      -foreground $theme(foreground)
+
     # Set default indent/unindent strings
     [ns indent]::set_indent_expressions $txt.t {} {} {}
 

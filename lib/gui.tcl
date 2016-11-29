@@ -749,7 +749,7 @@ namespace eval gui {
     }
 
     # Make the split pane indicator look correct
-    set [ns menus]::show_split_pane [expr {[llength [$txt peer names]] > 0}]
+    set [ns menus]::show_split_pane [expr {[lsearch [$txt peer names] *tf2*] != -1}]
 
     # Handle plugin states
     [ns plugins]::menu_state $widgets(menu) tab_popup
@@ -3742,7 +3742,7 @@ namespace eval gui {
   # Toggles the split pane for the current tab.
   proc toggle_split_pane {tid} {
 
-    if {[llength [[current_txt $tid] peer names]] > 0} {
+    if {[lsearch [[current_txt $tid] peer names] *tf2*] != -1} {
       hide_split_pane $tid
     } else {
       show_split_pane $tid
@@ -4119,8 +4119,11 @@ namespace eval gui {
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$opts(-diff) ? [list [ns diff]::get_marks $txt] : ""}]
 
+    # Create the bird's eye viewer
+    $txt._t peer create $tab.be -width 30 -bd 0 -highlightthickness 0 -font "-size 2" -wrap none -state disabled
+
     # Register the widgets
-    [ns theme]::register_widget $txt syntax
+    [ns theme]::register_widget $txt          syntax
     [ns theme]::register_widget $tab.pw.tf.vb text_scrollbar
     [ns theme]::register_widget $tab.pw.tf.hb text_scrollbar
 
@@ -4233,13 +4236,14 @@ namespace eval gui {
     grid rowconfigure    $tab 0 -weight 1
     grid columnconfigure $tab 0 -weight 1
     grid $tab.pw   -row 0 -column 0 -sticky news
-    grid $tab.ve   -row 1 -column 0 -sticky ew
-    grid $tab.sf   -row 2 -column 0 -sticky ew
-    grid $tab.rf   -row 3 -column 0 -sticky ew
-    grid $tab.sep1 -row 4 -column 0 -sticky ew
+    grid $tab.be   -row 0 -column 1 -sticky ns
+    grid $tab.ve   -row 1 -column 0 -sticky ew -columnspan 2
+    grid $tab.sf   -row 2 -column 0 -sticky ew -columnspan 2
+    grid $tab.rf   -row 3 -column 0 -sticky ew -columnspan 2
+    grid $tab.sep1 -row 4 -column 0 -sticky ew -columnspan 2
     if {$opts(-diff)} {
-      grid $tab.df   -row 5 -column 0 -sticky ew
-      grid $tab.sep2 -row 6 -column 0 -sticky ew
+      grid $tab.df   -row 5 -column 0 -sticky ew -columnspan 2
+      grid $tab.sep2 -row 6 -column 0 -sticky ew -columnspan 2
     }
 
     # Hide the vim command entry, search bar, search/replace bar and search separator
@@ -4346,9 +4350,9 @@ namespace eval gui {
 
     grid rowconfigure    $pw.tf2 0 -weight 1
     grid columnconfigure $pw.tf2 0 -weight 1
-    grid $pw.tf2.txt   -row 0 -column 0 -sticky news
-    grid $pw.tf2.vb    -row 0 -column 1 -sticky ns
-    grid $pw.tf2.hb    -row 1 -column 0 -sticky ew
+    grid $pw.tf2.txt -row 0 -column 0 -sticky news
+    grid $pw.tf2.vb  -row 0 -column 1 -sticky ns
+    grid $pw.tf2.hb  -row 1 -column 0 -sticky ew
 
     # Associate the existing command entry field with this text widget
     [ns vim]::bind_command_entry $txt2 $tab.ve {}
@@ -4372,6 +4376,11 @@ namespace eval gui {
 
     # Give the text widget the focus
     set_txt_focus $txt2
+
+  }
+
+  ######################################################################
+  proc show_birdseye {} {
 
   }
 
