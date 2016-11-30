@@ -4563,6 +4563,12 @@ namespace eval gui {
       bind $tab.be <B1-Motion>                     "if {\[[ns gui]::handle_birdseye_motion     %W %x %y $txt\]} { break }"
       bind $tab.be <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
       bind $tab.be <Control-Button-$::right_click> [list [ns gui]::handle_birdseye_control_right %W]
+      bind $tab.be <MouseWheel>                    [bind Text <MouseWheel>]
+      bind $tab.be <Button-4>                      [bind Text <Button-4>]
+      bind $tab.be <Button-5>                      [bind Text <Button-5>]
+
+      set index [lsearch [bindtags $tab.be] "Text"]
+      bindtags $tab.be [lreplace [bindtags $tab.be] $index $index]
 
       set be_after_id($txt) ""
       set be_ignore($txt)   0
