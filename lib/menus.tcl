@@ -2219,7 +2219,7 @@ namespace eval menus {
 
     $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command [list gui::toggle_split_pane {}]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle split view mode"]] [list gui::toggle_split_pane {}]
-    
+
     $mb add checkbutton -label [msgcat::mc "Bird's Eye View"] -underline 0 -variable menus::show_birdseye -command [list gui::toggle_birdseye {}]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle bird's eye view mode"]] [list gui::toggle_birdseye {}]
 
@@ -2439,25 +2439,9 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
       }
       $mb entryconfigure [msgcat::mc "Folding"]    -state normal
-      switch [llength [$txt peer names]] {
-        0 {
-          set [ns menus]::show_split_pane 0
-          set [ns menus]::show_birdseye   0
-        }
-        1 {
-          if {[lsearch [$txt peer names] *tf2*] != -1} {
-            set [ns menus]::show_split_pane 1
-            set [ns menus]::show_birdseye   0
-          } else {
-            set [ns menus]::show_split_pane 0
-            set [ns menus]::show_birdseye   1
-          }
-        }
-        default {
-          set [ns menus]::show_split_pane 1
-          set [ns menus]::show_birdseye   1
-        }
-      }
+      lassign [gui::get_info {} current {txt2 beye}] txt2 be
+      set show_split_pane [winfo exists $txt2]
+      set show_birdseye   [winfo exists $be]
     }
 
     # Get the current line numbering

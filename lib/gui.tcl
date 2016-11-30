@@ -775,7 +775,7 @@ namespace eval gui {
     variable file_favorited
 
     # Get the current information
-    lassign [get_info {} current {fileindex txt fname readonly lock diff tabbar remote buffer}] file_index txt fname readonly file_locked diff_mode tb remote buffer
+    lassign [get_info {} current {fileindex txt fname readonly lock diff tabbar remote buffer txt2 beye}] file_index txt fname readonly file_locked diff_mode tb remote buffer txt2 be
 
     # Set the file_favorited variable
     set file_favorited [[ns favorites]::is_favorite $fname]
@@ -810,25 +810,8 @@ namespace eval gui {
     }
 
     # Make the split pane and bird's eye indicators look correct
-    switch [llength [$txt peer names]] {
-      0 {
-        set [ns menus]::show_split_pane 0
-        set [ns menus]::show_birdseye   0
-      }
-      1 {
-        if {[lsearch [$txt peer names] *tf2*] != -1} {
-          set [ns menus]::show_split_pane 1
-          set [ns menus]::show_birdseye   0
-        } else {
-          set [ns menus]::show_split_pane 0
-          set [ns menus]::show_birdseye   1
-        }
-      }
-      default {
-        set [ns menus]::show_split_pane 1
-        set [ns menus]::show_birdseye   1
-      }
-    }
+    set [ns menus]::show_split_pane [winfo exists $txt2]
+    set [ns menus]::show_birdseye   [winfo exists $be]
 
     # Handle plugin states
     [ns plugins]::menu_state $widgets(menu) tab_popup
@@ -3866,7 +3849,7 @@ namespace eval gui {
   # Toggles the split pane for the current tab.
   proc toggle_split_pane {tid} {
 
-    if {[lsearch [[current_txt $tid] peer names] *tf2*] != -1} {
+    if {[winfo exists [get_info $tid current txt2]]} {
       hide_split_pane $tid
     } else {
       show_split_pane $tid
@@ -3878,10 +3861,9 @@ namespace eval gui {
   # Toggles the bird's eye view panel for the current tab.
   proc toggle_birdseye {tid} {
 
-    set txt   [current_txt $tid]
-    set peers [$txt peer names]
+    lassign [get_info $tid current {txt beye}] txt be
 
-    if {([llength $peers] == 2) || (([llength $peers] == 1) && ([lsearch $peers *tf2*] == -1))} {
+    if {[winfo exists $be]} {
       hide_birdseye $txt
     } else {
       show_birdseye $txt
