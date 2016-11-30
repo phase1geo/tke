@@ -1139,7 +1139,7 @@ proc ctext::command_configure {win args} {
 proc ctext::command_copy {win args} {
 
   variable data
-
+  
   # Get the start and end indices
   if {![catch {$win.t index sel.first} start_index]} {
     set end_index [$win.t index sel.last]
@@ -2393,8 +2393,6 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
     set lastend $lineend
   }
   lappend ranges $laststart $lastend
-
-  # puts "ranges: $ranges"
 
   foreach {linestart lineend} $ranges {
     ctext::escapes $win $linestart $lineend
