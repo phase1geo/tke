@@ -691,9 +691,9 @@ namespace eval gui {
 
     foreach txt [get_all_texts] {
       if {[string first "tf2" $txt] == -1} {
-        set tab [get_info $txt txt tab]
-        if {[winfo exists $tab.be]} {
-          $tab.be configure -font "-size $font_size"
+        set be [get_info $txt txt beye]
+        if {[winfo exists $be]} {
+          $be configure -font "-size $font_size"
         }
       }
     }
@@ -708,9 +708,9 @@ namespace eval gui {
 
     foreach txt [get_all_texts] {
       if {[string first "tf2" $txt] == -1} {
-        set tab [get_info $txt txt tab]
-        if {[winfo exists $tab.be]} {
-          $tab.be configure -width $width
+        set be [get_info $txt txt beye]
+        if {[winfo exists $be]} {
+          $be configure -width $width
         }
       }
     }
@@ -1427,10 +1427,10 @@ namespace eval gui {
     variable be_after_id
 
     # Get the current tab
-    set tab [get_info $txt txt tab]
+    set be [get_info $txt txt beye]
 
-    if {[winfo exists $tab.be]} {
-      $tab.be yview moveto $top
+    if {[winfo exists $be]} {
+      $be yview moveto $top
     }
 
     set be_after_id($txt) ""
@@ -3926,6 +3926,7 @@ namespace eval gui {
   #   - fileindex
   #   - txt
   #   - txt2
+  #   - beye
   #   - fname
   #   - lang
   #   - any key from files_index (for to_types only)
@@ -3965,9 +3966,11 @@ namespace eval gui {
       txt2 {
         set tab [winfo parent [winfo parent [winfo parent $from]]]
       }
+      beye {
+        set tab [winfo parent $from]
+      }
       fname {
         if {[set index [lsearch -index $files_index(fname) $files $from]] == -1} {
-          puts [utils::stacktrace]
           return -code error "Unable to find filename"
         }
         set tab [lindex $files $index $files_index(tab)]
@@ -4021,6 +4024,12 @@ namespace eval gui {
             return -code error "Unable to get txt2 information"
           }
           lappend tos "$tab.pw.tf2.txt"
+        }
+        beye {
+          if {$tab eq ""} {
+            return -code error "Unable to get beye information"
+          }
+          lappend tos "$tab.be"
         }
         lang {
           if {$tab eq ""} {
@@ -4542,33 +4551,33 @@ namespace eval gui {
     variable be_ignore
 
     # Get the tab that contains the text widget
-    set tab [get_info $txt txt tab]
+    lassign [get_info $txt txt {tab beye}] tab be
 
-    if {![winfo exists $tab.be]} {
+    if {![winfo exists $be]} {
 
       # Create the bird's eye viewer
-      $txt._t peer create $tab.be -width [[ns preferences]::get View/BirdsEyeViewWidth] -bd 0 \
+      $txt._t peer create $be -width [[ns preferences]::get View/BirdsEyeViewWidth] -bd 0 \
         -highlightthickness 0 -font "-size [[ns preferences]::get View/BirdsEyeViewFontSize]" \
         -wrap none -cursor [ttk::cursor standard] -state disabled \
         -background [$txt cget -background] -foreground [$txt cget -foreground] \
         -inactiveselectbackground [[ns utils]::auto_adjust_color [$txt cget -background] 25]
 
       # Add the bird's eye viewer to the tab's grid manager
-      grid $tab.be -row 0 -column 1 -sticky ns
+      grid $be -row 0 -column 1 -sticky ns
 
       # Setup bindings
-      bind $tab.be <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt]
-      bind $tab.be <Leave>                         [list [ns gui]::handle_birdseye_leave %W]
-      bind $tab.be <ButtonPress-1>                 "if {\[[ns gui]::handle_birdseye_left_press %W %x %y $txt\]} { break }"
-      bind $tab.be <B1-Motion>                     "if {\[[ns gui]::handle_birdseye_motion     %W %x %y $txt\]} { break }"
-      bind $tab.be <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
-      bind $tab.be <Control-Button-$::right_click> [list [ns gui]::handle_birdseye_control_right %W]
-      bind $tab.be <MouseWheel>                    [bind Text <MouseWheel>]
-      bind $tab.be <Button-4>                      [bind Text <Button-4>]
-      bind $tab.be <Button-5>                      [bind Text <Button-5>]
+      bind $be <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt]
+      bind $be <Leave>                         [list [ns gui]::handle_birdseye_leave %W]
+      bind $be <ButtonPress-1>                 [list [ns gui]::handle_birdseye_left_press %W %x %y $txt]
+      bind $be <B1-Motion>                     [list [ns gui]::handle_birdseye_motion     %W %x %y $txt]
+      bind $be <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
+      bind $be <Control-Button-$::right_click> [list [ns gui]::handle_birdseye_control_right %W]
+      bind $be <MouseWheel>                    [bind Text <MouseWheel>]
+      bind $be <Button-4>                      [bind Text <Button-4>]
+      bind $be <Button-5>                      [bind Text <Button-5>]
 
-      set index [lsearch [bindtags $tab.be] "Text"]
-      bindtags $tab.be [lreplace [bindtags $tab.be] $index $index]
+      set index [lsearch [bindtags $be] "Text"]
+      bindtags $be [lreplace [bindtags $be] $index $index]
 
       set be_after_id($txt) ""
       set be_ignore($txt)   0
@@ -4581,13 +4590,9 @@ namespace eval gui {
   # Highlights the currently displayed area in the text widget.
   proc highlight_birdseye {be txt} {
 
-    puts "In highlight_birdseye, be: $be, txt: $txt"
-
     # Get the start and end shown lines of the given text widget
     set startline [$txt index @0,0]
     set endline   [$txt index @0,[winfo height $txt]]
-
-    puts "  startline: $startline, endline: $endline"
 
     # Set the selection
     $be tag remove sel 1.0 end
@@ -4699,9 +4704,9 @@ namespace eval gui {
     variable be_ignore
 
     # Get the tab that contains the bird's eye viewer
-    set tab [get_info $txt txt tab]
+    set be [get_info $txt txt beye]
 
-    if {[winfo exists $tab.be]} {
+    if {[winfo exists $be]} {
 
       # Cancel the scroll event if one is still set
       if {$be_after_id($txt) ne ""} {
@@ -4713,10 +4718,10 @@ namespace eval gui {
       unset be_ignore($txt)
 
       # Remove the widget from the grid
-      grid forget $tab.be
+      grid forget $be
 
       # Destroy the bird's eye viewer
-      destroy $tab.be
+      destroy $be
 
     }
 
