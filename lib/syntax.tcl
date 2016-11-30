@@ -341,9 +341,10 @@ namespace eval syntax {
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground)
 
     # Set the bird's eye text widget
-    set be [winfo parent [winfo parent [winfo parent $txt]]].be
+    set be [[ns gui]::get_info $txt txt beye]
     if {[winfo exists $be]} {
-      $be configure -background $theme(background) -foreground $theme(foreground)
+      $be configure -background $theme(background) -foreground $theme(foreground) \
+        -inactiveselectbackground [[ns utils]::auto_adjust_color $theme(background) 25]
     }
 
     # Set default indent/unindent strings

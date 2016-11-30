@@ -1444,6 +1444,11 @@ namespace eval gui {
     variable be_after_id
     variable be_ignore
 
+    # If bird's eye view is not enabled, exit immediately
+    if {![info exists be_after_id($txt)]} {
+      return
+    }
+
     if {$be_after_id($txt) ne ""} {
       after cancel $be_after_id($txt)
     }
@@ -4561,7 +4566,7 @@ namespace eval gui {
       # Create the bird's eye viewer
       $txt._t peer create $be -width [[ns preferences]::get View/BirdsEyeViewWidth] -bd 0 \
         -highlightthickness 0 -font "-size [[ns preferences]::get View/BirdsEyeViewFontSize]" \
-        -wrap none -cursor [ttk::cursor standard] -state disabled \
+        -wrap none -cursor [ttk::cursor standard] \
         -background [$txt cget -background] -foreground [$txt cget -foreground] \
         -inactiveselectbackground $background -selectbackground $background
 
