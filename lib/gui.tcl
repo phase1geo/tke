@@ -4555,12 +4555,15 @@ namespace eval gui {
 
     if {![winfo exists $be]} {
 
+      # Calculate the background color
+      set background [[ns utils]::auto_adjust_color [$txt cget -background] 25]
+
       # Create the bird's eye viewer
       $txt._t peer create $be -width [[ns preferences]::get View/BirdsEyeViewWidth] -bd 0 \
         -highlightthickness 0 -font "-size [[ns preferences]::get View/BirdsEyeViewFontSize]" \
         -wrap none -cursor [ttk::cursor standard] -state disabled \
         -background [$txt cget -background] -foreground [$txt cget -foreground] \
-        -inactiveselectbackground [[ns utils]::auto_adjust_color [$txt cget -background] 25]
+        -inactiveselectbackground $background -selectbackground $background
 
       # Add the bird's eye viewer to the tab's grid manager
       grid $be -row 0 -column 1 -sticky ns
