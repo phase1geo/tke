@@ -2342,6 +2342,21 @@ namespace eval pref_ui {
     theme::register_widget $w.ef.tf.tf.hb text_scrollbar
 
     indent::add_bindings $widgets(snippets_text)
+    
+    set modifier [expr {([tk windowingsystem] eq "aqua") ? "Command" : "Control"}]
+    
+    bind $widgets(snippets_text) <$modifier-c> {
+      %W copy
+      break
+    }
+    bind $widgets(snippets_text) <$modifier-x> {
+      %W cut
+      break
+    }
+    bind $widgets(snippets_text) <$modifier-v> {
+      %W paste
+      break
+    }
 
     grid rowconfigure    $w.ef.tf.tf 0 -weight 1
     grid columnconfigure $w.ef.tf.tf 0 -weight 1
