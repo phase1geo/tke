@@ -1,55 +1,83 @@
-changeset:   2588:018f1c49ba2f
-tag:         devel-2.8.2
+changeset:   2594:d740e3880562
+tag:         devel-2.8.3
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 28 09:03:16 2016 -0600
+date:        Tue Nov 29 08:53:23 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.8.2 release
+ChangeLog for devel-2.8.3 release
 
 
-changeset:   2589:d9361b2adac1
+changeset:   2595:6cfee6617ec6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 28 09:03:20 2016 -0600
+date:        Tue Nov 29 08:53:28 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.8.2 for changeset 018f1c49ba2f
+Added tag devel-2.8.3 for changeset d740e3880562
 
 
-changeset:   2590:b05df5b1eea4
+changeset:   2596:9273aff4ebc8
 user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Nov 28 16:21:05 2016 -0600
-files:       lib/menus.tcl lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+date:        Tue Nov 29 13:04:34 2016 -0600
+files:       data/preferences.tkedat lib/gui.tcl lib/menus.tcl lib/pref_ui.tcl lib/version.tcl
 description:
-* Fixing tabbar issues when tabs are hidden.
+* Adding preference support for bird's eye view.
+* Adding mousebutton support to bird's eye view (needs some tweaking).
 
 
-changeset:   2591:6668880f1dd0
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Nov 28 23:08:43 2016 -0600
-files:       lib/.DS_Store lib/menus.tcl lib/plugins.tcl lib/syntax.tcl lib/version.tcl plugins/css_colorize/README.md
+changeset:   2597:4693728dff76
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Tue Nov 29 17:28:08 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Fixed state of the `View/Hide Meta Characters` menu option for related languages.
-* Adding new `Plugins/Show Installed...` menu option to show installed plugins and allow their details to be displayed in an editing buffer.
-* Adding author name and e-mail in plugin description output.
-* Adding ability to create a README.md file in a plugin directory that will be displayed when showing the descriptive contents of a plugin.
-* Adding README.md file to CSS Colorize plugin directory.
+* Enhancing scrolling behavior with bird's eye view.
 
 
-changeset:   2592:70aea4a393ac
+changeset:   2598:62250bdb279c
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 29 01:20:44 2016 -0600
-files:       lib/gui.tcl lib/menus.tcl lib/syntax.tcl lib/version.tcl
+date:        Tue Nov 29 21:28:22 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
 description:
-* Initial work on adding bird's eye viewer in editing buffer area.
+* Adjusting scrolling behavior for the birdseye viewer.
 
 
-changeset:   2593:ec27fa113547
-tag:         tip
+changeset:   2599:31daef6f55be
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Nov 29 08:50:58 2016 -0600
+date:        Tue Nov 29 22:04:29 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Removing unnecessary Text bindings.
+
+
+changeset:   2600:779e4d88ba54
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 29 22:14:03 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Adding bird's eye pathname to gui::get_info.
+
+
+changeset:   2601:bb103f592ad5
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Tue Nov 29 23:42:51 2016 -0600
+files:       lib/gui.tcl lib/version.tcl
+description:
+* Fixing a few errors.
+
+
+changeset:   2602:d80d2130fe6a
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 30 08:33:34 2016 -0600
 files:       lib/gui.tcl lib/syntax.tcl lib/version.tcl
 description:
-* Fixing issue with preference window due to inclusion of bird's eye view.
-* Setting bird's eye view cursor to the standard TTK cursor.
+* Fixing bird's eye position display issues on macOS.
+
+
+changeset:   2603:625bf593110a
+tag:         tip
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Wed Nov 30 08:43:33 2016 -0600
+files:       lib/gui.tcl lib/menus.tcl lib/version.tcl
+description:
+* Fixing calculations of show_split_pane and show_birdseye in gui and menus namespaces.
 
 
