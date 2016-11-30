@@ -61,6 +61,8 @@ namespace eval gui {
   array set tab_current     {}
   array set cursor_hist     {}
   array set synced          {}
+  array set be_after_id     {}
+  array set be_ignore       {}
 
   array set files_index {
     fname    0
@@ -664,29 +666,29 @@ namespace eval gui {
   ######################################################################
   # Handle any preference changes to the birdseye view status.
   proc handle_show_birdseye {name1 name2 op} {
-    
+
     if {[[ns preferences]::get View/ShowBirdsEyeView]} {
       foreach txt [get_all_texts] {
         if {[string first "tf2" $txt] == -1} {
           show_birdseye $txt
         }
-      }  
+      }
     } else {
       foreach txt [get_all_texts] {
         if {[string first "tf2" $txt] == -1} {
           hide_birdseye $txt
         }
-      }  
+      }
     }
-    
+
   }
-  
+
   ######################################################################
   # Handle any preference changes to the birdseye font size.
   proc handle_birdseye_font_size {name1 name2 op} {
-    
+
     set font_size [[ns preferences]::get View/BirdsEyeViewFontSize]
-    
+
     foreach txt [get_all_texts] {
       if {[string first "tf2" $txt] == -1} {
         set tab [get_info $txt txt tab]
@@ -695,15 +697,15 @@ namespace eval gui {
         }
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Handle any preference changes to the birdseye width.
   proc handle_birdseye_width {name1 name2 op} {
-    
+
     set width [[ns preferences]::get View/BirdsEyeViewWidth]
-    
+
     foreach txt [get_all_texts] {
       if {[string first "tf2" $txt] == -1} {
         set tab [get_info $txt txt tab]
@@ -712,9 +714,9 @@ namespace eval gui {
         }
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Sets the auto_cwd variable to the given boolean value.
   proc set_auto_cwd {value} {
@@ -1395,7 +1397,7 @@ namespace eval gui {
     variable synced_key
     variable synced_count
     variable synced_txt
-    
+
     # If we are not currently synced, return now
     if {($synced_key eq "") || (($synced_txt ne $txt) && ($synced_txt ne ""))} {
       set synced_txt ""
@@ -1420,22 +1422,45 @@ namespace eval gui {
 
   ######################################################################
   # Sync the birdseye text widget.
-  proc sync_birdseye {txt args} {
-    
+  proc sync_birdseye_helper {txt top} {
+
+    variable be_after_id
+
     # Get the current tab
     set tab [get_info $txt txt tab]
-    
+
     if {[winfo exists $tab.be]} {
-      $tab.be yview {*}$args
+      $tab.be yview moveto $top
     }
-    
+
+    set be_after_id($txt) ""
+
+  }
+
+  ######################################################################
+  # Sync the birdseye text widget.
+  proc sync_birdseye {txt top} {
+
+    variable be_after_id
+    variable be_ignore
+
+    if {$be_after_id($txt) ne ""} {
+      after cancel $be_after_id($txt)
+    }
+
+    if {$be_ignore($txt) == 0} {
+      set be_after_id($txt) [after 50 [list [ns gui]::sync_birdseye_helper $txt $top]]
+    }
+
+    set be_ignore($txt) 0
+
   }
 
   ######################################################################
   # Sets the yview of the given text widget (called by the yscrollbar)
   # and adjusts the scroll of the other pane if sync scrolling is enabled.
   proc yview {txt args} {
-    
+
     # Return the yview information
     if {[llength $args] == 0} {
       return [$txt yview]
@@ -1443,7 +1468,7 @@ namespace eval gui {
     # Otherwise, set the yview given the arguments
     } else {
       $txt yview {*}$args
-      sync_birdseye $txt {*}$args
+      sync_birdseye $txt [lindex $args 1]
       sync_scroll   $txt 0
     }
 
@@ -1457,9 +1482,12 @@ namespace eval gui {
     # Set the vertical scrollbar position
     $vb set {*}$args
 
+    # Set birdseye view
+    sync_birdseye $txt [lindex $args 0]
+
     # Perform sync scrolling, if necessary
     sync_scroll $txt 1
-    
+
   }
 
   ######################################################################
@@ -3840,20 +3868,20 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Toggles the bird's eye view panel for the current tab.
   proc toggle_birdseye {tid} {
-    
+
     set txt   [current_txt $tid]
     set peers [$txt peer names]
-    
+
     if {([llength $peers] == 2) || (([llength $peers] == 1) && ([lsearch $peers *tf2*] == -1))} {
       hide_birdseye $txt
     } else {
       show_birdseye $txt
     }
-    
+
   }
 
   ######################################################################
@@ -4403,7 +4431,7 @@ namespace eval gui {
     if {[[ns preferences]::get View/ShowBirdsEyeView]} {
       show_birdseye $txt
     }
-      
+
     return $tab
 
   }
@@ -4504,15 +4532,18 @@ namespace eval gui {
     set_txt_focus $pw.tf.txt
 
   }
-  
+
   ######################################################################
   # Creates and displays the bird's eye viewer in the same editing buffer
   # as the specified text widget.
   proc show_birdseye {txt} {
-    
+
+    variable be_after_id
+    variable be_ignore
+
     # Get the tab that contains the text widget
     set tab [get_info $txt txt tab]
-    
+
     if {![winfo exists $tab.be]} {
 
       # Create the bird's eye viewer
@@ -4521,10 +4552,10 @@ namespace eval gui {
         -wrap none -cursor [ttk::cursor standard] -state disabled \
         -background [$txt cget -background] -foreground [$txt cget -foreground] \
         -inactiveselectbackground [[ns utils]::auto_adjust_color [$txt cget -background] 25]
-       
+
       # Add the bird's eye viewer to the tab's grid manager
       grid $tab.be -row 0 -column 1 -sticky ns
-   
+
       # Setup bindings
       bind $tab.be <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt]
       bind $tab.be <Leave>                         [list [ns gui]::handle_birdseye_leave %W]
@@ -4532,130 +4563,157 @@ namespace eval gui {
       bind $tab.be <B1-Motion>                     "if {\[[ns gui]::handle_birdseye_motion     %W %x %y $txt\]} { break }"
       bind $tab.be <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
       bind $tab.be <Control-Button-$::right_click> [list [ns gui]::handle_birdseye_control_right %W]
-      
+
+      set be_after_id($txt) ""
+      set be_ignore($txt)   0
+
     }
 
   }
-  
+
   ######################################################################
   # Highlights the currently displayed area in the text widget.
   proc highlight_birdseye {be txt} {
-    
+
+    puts "In highlight_birdseye, be: $be, txt: $txt"
+
     # Get the start and end shown lines of the given text widget
     set startline [$txt index @0,0]
     set endline   [$txt index @0,[winfo height $txt]]
-    
+
+    puts "  startline: $startline, endline: $endline"
+
     # Set the selection
     $be tag remove sel 1.0 end
     $be tag add sel $startline $endline
-    
+
   }
-  
+
   ######################################################################
   # Handles the mouse entering the bird's eye view.  This will cause the
   # currently displayed text region to be selected in the bird's eye viewer.
   proc handle_birdseye_enter {be txt} {
-    
+
     highlight_birdseye $be $txt
-    
+
   }
-  
+
   ######################################################################
   # Handles the mouse leaving the bird's eye viewer.
   proc handle_birdseye_leave {be} {
-    
+
     # Clear the selection
     $be tag remove sel 1.0 end
-    
+
   }
-  
+
   ######################################################################
   # Handles a left button press event inside the bird's eye viewer.
   proc handle_birdseye_left_press {W x y txt} {
-    
+
     variable be_last_y
-    
+    variable be_ignore
+
     set cursor [$W index @$x,$y]
-    
+
     lassign [$W tag ranges sel] selstart selend
-    
+
     # If we clicked on the selection, start a motion event
     if {[$W compare $selstart <= $cursor] && [$W compare $selend >= $cursor]} {
       set be_last_y $y
-      
+
     # Otherwise, jump the view to the given location
     } else {
-      
-      set be_last_y ""
-      set height    [winfo height $txt]
-      
+
+      set be_last_y       ""
+      set height          [winfo height $txt]
+      set be_ignore($txt) 1
+
       # TBD - We will want to make sure that the cursor line is centered vertically
       $txt see $cursor
       $txt yview scroll [expr [lindex [$txt bbox $cursor] 1] - ($height / 2)] pixels
-      
+
       # Highlight the bird's eye viewer
       highlight_birdseye $W $txt
-      
+
     }
-    
+
+    return 1
+
   }
-  
+
   ######################################################################
   # Handles a left button motion event inside the bird's eye viewer.
   proc handle_birdseye_motion {W x y txt} {
-    
+
     variable be_last_y
-    
+    variable be_ignore
+
     if {($be_last_y ne "") && ($y != $be_last_y)} {
-      
+
       # Get the current cursor
-      set cursor [$W index @$x,$y]
-      set height [winfo height $txt]
-      
+      set cursor          [$W index @$x,$y]
+      set height          [winfo height $txt]
+      set be_ignore($txt) 1
+
       # TBD - We will want to make sure that the cursor line is centered vertically
       $txt see $cursor
       $txt yview scroll [expr [lindex [$txt bbox $cursor] 1] - ($height / 2)] pixels
-      
+
       # Highlight the bird's eye viewer to match the text widget
       highlight_birdseye $W $txt
-      
+
     }
-    
+
+    return 1
+
   }
-  
+
   ######################################################################
   # Handles a control left-click event in the birdseye.
   proc handle_birdseye_control_left {W} {
-    
+
     $W yview scroll -1 pages
-    
+
   }
-  
+
   ######################################################################
   # Handles a control right-click event in the birdseye.
   proc handle_birdseye_control_right {W} {
-    
+
     $W yview scroll 1 pages
-    
+
   }
-  
+
   ######################################################################
   # Hides the bird's eye viewer associated with the given text widget.
   proc hide_birdseye {txt} {
-    
+
+    variable be_after_id
+    variable be_ignore
+
     # Get the tab that contains the bird's eye viewer
     set tab [get_info $txt txt tab]
 
     if {[winfo exists $tab.be]} {
-      
+
+      # Cancel the scroll event if one is still set
+      if {$be_after_id($txt) ne ""} {
+        after cancel $be_after_id($txt)
+      }
+
+      # Remove the be_after_id
+      unset be_after_id($txt)
+      unset be_ignore($txt)
+
       # Remove the widget from the grid
       grid forget $tab.be
-       
+
       # Destroy the bird's eye viewer
       destroy $tab.be
-      
+
     }
-    
+
   }
 
   ######################################################################
