@@ -47,6 +47,7 @@ keywords
   HighlightKeywords
   HighlightRegexp
   HighlightWithOnlyCharStart
+  HighlightProc
 }
 
 symbols

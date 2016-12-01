@@ -550,24 +550,39 @@ namespace eval syntax {
       "symbols" {
         while {[llength $section_list]} {
           set section_list [lassign $section_list type]
-          if {$type eq "HighlightClass"} {
-            if {$section eq "advanced"} {
-              set section_list [lassign $section_list name color modifiers]
-              switch $color {
-                none        { ctext::addHighlightClass $txt $name $theme(foreground) "" $modifiers }
-                highlighter { ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers }
-                default     { ctext::addHighlightClass $txt $name $theme($color) "" $modifiers }
-              }
-              if {$color eq "meta"} {
-                lappend meta_tags($txt) $name
+          switch $type {
+            "HighlightClass" {
+              if {$section eq "advanced"} {
+                set section_list [lassign $section_list name color modifiers]
+                switch $color {
+                  none        { ctext::addHighlightClass $txt $name $theme(foreground) "" $modifiers }
+                  highlighter { ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers }
+                  default     { ctext::addHighlightClass $txt $name $theme($color) "" $modifiers }
+                }
+                if {$color eq "meta"} {
+                  lappend meta_tags($txt) $name
+                }
               }
             }
-          } else {
-            set section_list [lassign $section_list syntax command]
-            if {$command ne ""} {
-              ctext::add$type $txt $syntax command [string trim "$cmd_prefix $command"] $lang
-            } else {
-              ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}] $lang
+            "HighlightProc" {
+              if {$section eq "advanced"} {
+                set section_list [lassign $section_list name body]
+                if {$body eq ""} {
+                  set params       $body
+                  set section_list [lassign $section_list body]
+                } else {
+                  set params [list txt startpos endpos ins]
+                }
+                
+              } 
+            }
+            default {
+              set section_list [lassign $section_list syntax command]
+              if {$command ne ""} {
+                ctext::add$type $txt $syntax command [string trim "$cmd_prefix $command"] $lang
+              } else {
+                ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}] $lang
+              }
             }
           }
         }
