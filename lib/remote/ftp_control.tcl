@@ -338,8 +338,8 @@ proc FTP_MakeSureLinkIsUp { ftpI } {
   # the ftp code hangs (like after an attempt to get to a
   # write protected file)
   frputs "Deploying the after code "
-  set afterId [after 10000 "set ::ftpVwait 10"]
-  set afterId2 [after 1 FTP_recover $ftpI]
+  set afterId  [after 10000 [list set ::ftpVwait 10]]
+  set afterId2 [after 1 [list FTP_recover $ftpI]]
 
   vwait ::ftpVwait
   after cancel $afterId
