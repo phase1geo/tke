@@ -4556,8 +4556,8 @@ namespace eval gui {
       grid $be -row 0 -column 1 -sticky ns
 
       # Setup bindings
-      bind $be <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt]
-      bind $be <Leave>                         [list [ns gui]::handle_birdseye_leave %W]
+      bind $be <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt %m]
+      bind $be <Leave>                         [list [ns gui]::handle_birdseye_leave %W %m]
       bind $be <ButtonPress-1>                 [list [ns gui]::handle_birdseye_left_press %W %x %y $txt]
       bind $be <B1-Motion>                     [list [ns gui]::handle_birdseye_motion     %W %x %y $txt]
       bind $be <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
@@ -4593,19 +4593,35 @@ namespace eval gui {
   ######################################################################
   # Handles the mouse entering the bird's eye view.  This will cause the
   # currently displayed text region to be selected in the bird's eye viewer.
-  proc handle_birdseye_enter {be txt} {
+  proc handle_birdseye_enter {be txt m} {
 
-    highlight_birdseye $be $txt
+    variable be_show_after_id
+    
+    if {$m eq "NotifyNormal"} {
+      
+      # Highlight the shown text
+      set be_show_after_id [after 300 [list [ns gui]::highlight_birdseye $be $txt]]
+      
+    }
 
   }
 
   ######################################################################
   # Handles the mouse leaving the bird's eye viewer.
-  proc handle_birdseye_leave {be} {
-
-    # Clear the selection
-    $be tag remove sel 1.0 end
-
+  proc handle_birdseye_leave {be m} {
+    
+    variable be_show_after_id
+    
+    if {$m eq "NotifyNormal"} {
+    
+      # Cancel the bird's eye show activity if it is valid
+      after cancel $be_show_after_id
+   
+      # Clear the selection
+      $be tag remove sel 1.0 end
+      
+    }
+    
   }
 
   ######################################################################

@@ -1459,8 +1459,12 @@ namespace eval themer {
       set data(swatch_index) 0
     }
 
+    # Get the swatches and clear the list
+    set colors [theme::swatch_do get]
+    theme::swatch_do clear
+    
     # Insert the swatches
-    foreach color [theme::swatch_do get] {
+    foreach color $colors {
       add_swatch $color
     }
 
@@ -1519,9 +1523,11 @@ namespace eval themer {
     # Add binding to delete swatch
     bind $frm.b <ButtonRelease-$::right_click> [list themer::delete_swatch $index]
 
+    # Add the swatch
+    theme::swatch_do append $color
+    
     # Insert the value into the swatch list
     if {$orig_color eq ""} {
-      theme::swatch_do append $color
       set_theme_modified
     }
 

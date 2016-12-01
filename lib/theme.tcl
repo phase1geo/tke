@@ -121,6 +121,8 @@ namespace eval theme {
     launcher,-foreground          {color {black} {} {0} {msgcat::mc "Specifies foreground color of command launcher entry and list"}}
     launcher,-selectbackground    {color {light blue} {} {0} {msgcat::mc "Background color of selection in command launcher"}}
     launcher,-selectforeground    {color {black} {} {0} {msgcat::mc "Foreground color of selection in command launcher"}}
+    launcher,-listbackground      {color {white} {} {0} {msgcat::mc "Background color of list items when not selected"}}
+    launcher,-listforeground      {color {black} {} {0} {msgcat::mc "Foreground color of list items when not selected"}}
     launcher,-textbackground      {color {0} {} {0} {msgcat::mc "Background color of textual display in command launcher"}}
     launcher,-textforeground      {color {2} {} {0} {msgcat::mc "Foreground color of textual display in command launcher"}}
     launcher,-bordercolor         {color {grey90} {} {0} {msgcat::mc "Color of border around command launcher"}}
@@ -1239,12 +1241,13 @@ namespace eval theme {
   proc swatch_do {action args} {
 
     variable data
-
+    
     switch $action {
       get     { return $data(swatch) }
       set     { lset data(swatch) [lindex $args 0] [lindex $args 1] }
       append  { lappend data(swatch) {*}$args }
       delete  { set data(swatch) [lreplace $data(swatch) [lindex $args 0] [lindex $args 0]] }
+      clear   { set data(swatch) [list] }
       length  { return [llength $data(swatch)] }
       index   { return [lindex $data(swatch) [lindex $args 0]] }
       default { return -code error "Unknown swatch action" }
