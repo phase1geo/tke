@@ -126,11 +126,15 @@ namespace eval launcher {
 
       set widgets(win) .lwin
 
-      frame $widgets(win) -borderwidth 2 -bg grey90 -padx 5 -pady 5
+      # Get information from theme
+      array set theme [[ns theme]::get_category_options launcher 1]
 
-      set widgets(entry) [entry $widgets(win).entry -bg white -width 50 -validate key \
-        -highlightthickness 0 -relief flat \
-        -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
+      frame $widgets(win) -borderwidth 2 -bg $theme(-bordercolor) \
+        -padx $theme(-borderwidth) -pady $theme(-borderwidth)
+
+      set widgets(entry) [entry $widgets(win).entry -bg $theme(-background) -fg $theme(-foreground) \
+        -width 50 -highlightthickness 0 -relief flat \
+        -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
 
       if {[lsearch [font names] launcher_entry] == -1} {
         font create launcher_entry {*}[preferences::get Appearance/CommandLauncherEntryFont]
@@ -139,11 +143,18 @@ namespace eval launcher {
       $widgets(entry) configure -font launcher_entry
 
       set widgets(mf) [ttk::frame $widgets(win).mf]
-      frame $widgets(mf).spcr -height 5 -bg white -borderwidth 0
+      frame $widgets(mf).spcr -height $theme(-spacerheight) -bg $theme(-spacercolor) -borderwidth 0
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
-      set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 -bg white -height 0 -width 35 -borderwidth 0 \
+      set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 \
+        -background $theme(-background) -foreground $theme(-foreground) \
+        -selectbackground $theme(-selectbackground) -selectforeground $theme(-selectforeground) \
+        -height 0 -width 35 -borderwidth 0 -highlightthickness 2 \
+        -highlightcolor $theme(-background) -highlightbackground $theme(-background) \
         -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
-      ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
+      scroller::scroller $widgets(lf).vb -orient vertical \
+        -background $theme(-background) -foreground $theme(-scrollcolor) \
+        -thickness $theme(-scrollwidth) -command [list $widgets(lb) yview]
+      # ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
 
       grid rowconfigure    $widgets(lf) 0 -weight 1
       grid columnconfigure $widgets(lf) 0 -weight 1
@@ -151,9 +162,11 @@ namespace eval launcher {
       grid $widgets(lf).vb -row 0 -column 1 -sticky ns
 
       # Create a special font for the text widget
-      set widgets(txt) [text $widgets(win).mf.txt -font [font create -size 7] -width 60 -height 15 \
-                          -relief flat -wrap word -state disabled \
-                          -fg [utils::get_default_foreground] -bg [utils::get_default_background]]
+      set widgets(txt) [text $widgets(win).mf.txt -bd 0 -font [font create -size 7] \
+        -highlightthickness 2 -highlightbackground $theme(-background) \
+        -highlightcolor $theme(-background) \
+        -width 60 -height 15 -relief flat -wrap word -state disabled \
+        -fg $theme(-textforeground) -bg $theme(-textbackground)]
 
       if {[lsearch [font names] launcher_preview] == -1} {
         font create launcher_preview {*}[preferences::get Appearance/CommandLauncherPreviewFont]
@@ -196,6 +209,22 @@ namespace eval launcher {
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Allows the themer to configure our look.
+  proc configure {w args} {
+
+    array set opts {
+      -background     "white"
+      -foreground     "black"
+      -bordercolor    "grey90"
+      -borderwidth    10
+      -textbackground "black"
+      -textforeground "white"
+    }
+    array set opts $args
 
   }
 
