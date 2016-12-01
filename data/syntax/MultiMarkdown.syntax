@@ -1,0 +1,321 @@
+filepatterns
+{*.md}
+
+vimsyntax
+{markdown}
+
+embedded
+{
+  {HTML}
+  {C          {```c$}          {```$}}
+  {C++        {```cpp$}        {```$}}
+  {Python     {```python$}     {```$}}
+  {JavaScript {```javascript$} {```$}}
+}
+
+tabsallowed
+{1}
+
+casesensitive
+{1}
+
+advanced {
+  HighlightClass bold    none           {bold}
+  HighlightClass italics none           {italics}
+  HighlightClass super   none           {superscript}
+  HighlightClass sub     none           {subscript}
+  HighlightClass h1      miscellaneous2 {h1}
+  HighlightClass h2      miscellaneous2 {h2}
+  HighlightClass h3      miscellaneous2 {h3}
+  HighlightClass h4      miscellaneous2 {h4}
+  HighlightClass h5      miscellaneous2 {h5}
+  HighlightClass h6      miscellaneous2 {h6}
+  HighlightClass link    miscellaneous1 {underline click}
+  HighlightClass code    precompile     {code}
+  HighlightClass ccode   precompile     {code}
+  HighlightClass strike  none           {overstrike}
+  HighlightClass hilite  highlighter    {}
+  HighlightClass grey    meta           {}
+  HighlightClass math    miscellaneous3 {}
+
+  HighlightRegexp {(`{3}).+?\1}                  ccode
+  HighlightRegexp {`.+?`}                        code
+  HighlightRegexp {^#.*$}                        header
+  HighlightRegexp {([*_]{2})(?=\S).+?\1}         bold
+  HighlightRegexp {([*_])(?=\S).+?\1}            italics
+  HighlightRegexp {!\[.+?\](\s*\[.*?\]|\(.*?\))} image
+  HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))}  link
+  HighlightRegexp {<(.+?)>}                      link2
+  HighlightRegexp {^\s*\[.+?\]:\s+\S+}           linkref
+  HighlightRegexp {\{(\-{2}))(?=\S).+?\1\}}      overstrike
+  HighlightRegexp {\{(+{2})(?=\S).+?\1\}}        underline
+  HighlightRegexp {\{(~{2}).+?~>.+?\1\}}         correction
+  HighlightRegexp {\{(={2})(?=\S).+?\1\}}        highlight
+  HighlightRegexp {\{(>{2}).+?\1\}}              ignore
+  HighlightRegexp {(~)(?=\S).+?\1}               subscript
+  HighlightRegexp {(\^)(?=\S).+?\1}              superscript
+  HighlightRegexp {\\\[\s+.+?\s+\\\]}            math1
+  HighlightRegexp {\\\(\s+.+?\s+\\\)}            math2
+  HighlightRegexp {(\$\$).+?\1}                  math3
+  HighlightRegexp {\$.+?\$ }                     math4
+  HighlightRegexp {.*}                           list_check
+  
+  HighlightProc ccode {txt startpos endpos ins} {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+      $txt tag remove _code $startpos $endpos
+      return [list [list [list ccode       [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
+                         [list codemarkers $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list codemarkers [$txt index "$endpos-3c"] $endpos [list]]] ""]
+                         [list grey        $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list grey        [$txt index "$endpos-3c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+
+  HighlightProc code {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
+          ([lsearch [$txt tag names "$endpos-1c"] _codemarkers] == -1)} {
+        return [list [list [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+      } else {
+        return [list [list] [$txt index "$startpos+2c"]]
+      }
+    }
+    return ""
+  }
+
+  HighlightProc header {
+    if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
+      set num [string length $hashes]
+      return [list [list [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]] \
+                         [list grey  $startpos [$txt index "$startpos+${num}c"] [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc bold {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      $txt tag remove _italics $startpos $endpos
+      return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+                         [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list boldmarkers [$txt index "$endpos-2c"] $endpos [list]] \
+                         [list grey        $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+
+  HighlightProc italics {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
+          ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
+        return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                           [list grey    $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey    [$txt index "$endpos-1c"] $endpos [list]]] ""]
+      } else {
+        return [list [list] [$txt index "$startpos+2c"]]
+      }
+    }
+    return ""
+  }
+  
+  HighlightProc image {
+    
+  }
+
+  HighlightProc overstrike {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+      return [list [list [list strike        [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
+                         [list strikemarkers $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list strikemarkers [$txt index "$endpos-3c"] $endpos [list]] \
+                         [list grey          $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list grey          [$txt index "$endpos-3c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc underline {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+      return [list [list [list link [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc correction {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+      if {[regexp {^(.+?)~>(.+?)$} [$txt get "$startpos+3c" "$endpos-3c"] -> ostrike uline]} {
+        set ostrike_end [expr [string length $ostrike] + 3]
+        set uline_start [expr $ostrike_end + 2]
+        set uline_end   [expr $uline_start + [string length $uline]]
+        return [list [list [list strike [$txt index "$startpos+3c"] [$txt index "$startpos+${ostrike_end}c"] [list]] \
+                           [list link   [$txt index "$startpos+${uline_start}c"] [$txt index "$startpos+${uline_end}c"] [list]] \
+                           [list grey   $startpos [$txt index "$startpos+3c"] [list]] \
+                           [list grey   [$txt index "$startpos+${ostrike_end}c"] [$txt index "$startpos+${uline_start}c"] [list]] \
+                           [list grey   [$txt index "$endpos-3c"] $endpos [list]]] ""]
+      }
+    }
+    return ""
+  }
+
+  HighlightProc highlight {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+      return [list [list [list hilite [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
+                         [list grey   $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list grey   [$txt index "$endpos-3c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc ignore {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+      return [list [list [list grey $startpos $endpos [list]]] ""]
+    }
+  }
+  
+  HighlightProc subscript {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      if {([lsearch [$txt tag names $startpos]    _strikemarkers] == -1) && \
+          ([lsearch [$txt tag names "$endpos-1c"] _strikemarkers] == -1)} {
+        return [list [list [list sub  [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+      } else {
+        return [list [list] [$txt index "$startpos+2c"]]
+      }
+    }
+    return ""
+  }
+
+  HighlightProc superscript {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      return [list [list [list super [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
+                         [list grey  $startpos [$txt index "$startpos+1c"] [list]] \
+                         [list grey  [$txt index "$endpos-1c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc image {
+    if {[$txt get "$startpos-1c"] ne "\\"} {
+      if {[regexp {^!\[(.+?)\]((\s*)\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy ref linkref url]} {
+        set start2a [expr [string length $label] + 2]
+        set start2b [expr [string length $label] + [string length $dummy] + 3]
+        return [list [list [list link [$txt index "$startpos+2c"] [$txt index "$startpos+[expr [string length $label] + 2]c"] $cmd] \
+                           [list grey $startpos [$txt index "$startpos+2c"] [list]] \
+                           [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+      }
+    }
+    return ""
+  }
+
+  HighlightProc link {
+    if {[$txt get "$startpos-1c"] ne "\\"} {
+      if {[regexp {^\[(.+?)\]((\s*)\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy ref linkref url]} {
+        if {[string index [string trim $ref] 0] eq "\["} {
+          if {$linkref eq ""} {
+            set cmd "syntax::handle_reflink_click $txt [string tolower $label]"
+          } else {
+            set cmd "syntax::handle_reflink_click $txt [string tolower $linkref]"
+          }
+        } else {
+          set cmd "utils::open_file_externally [lindex $url 0]"
+        }
+        set start2a [expr [string length $label] + 1]
+        set start2b [expr [string length $label] + [string length $dummy] + 2]
+        return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd] \
+                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                           [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
+                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+      }
+    }
+    return ""
+  }
+  
+  HighlightProc link2 {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+      set cmd [list utils::open_file_externally [$txt get "$startpos+1c" "$endpos-1c"]]
+      return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] $cmd] \
+                         [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                         [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlighProc linkref {
+    variable linkrefs
+    if {[$txt get "$startpos-1c"] ne "\\"} {
+      if {[regexp {^\s*\[(.+?)\]:\s+(\S+)} [$txt get $startpos $endpos] -> linkref url]} {
+        set markdown_linkrefs($txt,[string tolower $linkref]) $url
+      }
+    }
+    return ""
+  }
+
+  HighlightProc handle_reflink_click {txt ref} {
+    variable linkrefs
+    if {[info exists markdown_linkrefs($txt,$ref)]} {
+      utils::open_file_externally $markdown_linkrefs($txt,$ref)
+    }
+  }
+  
+  HighlightProc math1 {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-5c"] ne "\\")} {
+      return [list [list [list math [$txt index "$startpos+4c"] [$txt index "$endpos-4c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+4c"] [list]] \
+                         [list grey [$txt index "$endpos-4c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc math2 {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-5c"] ne "\\")} {
+      return [list [list [list math [$txt index "$startpos+4c"] [$txt index "$endpos-4c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+4c"] [list]] \
+                         [list grey [$txt index "$endpos-4c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc math3 {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      return [list [list [list math [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+2c"] [list]] \
+                         [list grey [$txt index "$endpos-2c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc math4 {
+    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+      return [list [list [list math [$txt index "$startpos+1c"] [$txt index "$endpos-2c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+                         [list grey [$txt index "$endpos-2c"] $endpos [list]]] ""]
+    }
+    return ""
+  }
+  
+  HighlightProc list_check {
+    if {([lindex [split [$txt index insert] .] 1] == 0) && $ins} {
+      if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
+        if {[regexp {^([+*>-]|(\d+)\.|\[[ xX]\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
+          if {[string trim $rest] eq ""} {
+            $txt._t delete "insert-1l linestart" insert
+          } elseif {![regexp {^\s*([+*>-]|(\d+)\.|\[[ xX]\])} [$txt get insert "insert lineend"]]} {
+            if {($num ne "")} {
+              $txt._t insert insert "[expr $num + 1]. "
+            } else {
+              $txt._t insert insert "$match "
+            }
+          }
+        }
+      }
+    }
+  }
+  
+}
+
