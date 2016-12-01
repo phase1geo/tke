@@ -45,6 +45,7 @@ namespace eval theme {
     text_scrollbar    [msgcat::mc "Text Scrollbar Options"] \
     sidebar           [msgcat::mc "Sidebar Options"] \
     sidebar_scrollbar [msgcat::mc "Sidebar Scrollbar Options"] \
+    launcher          [msgcat::mc "Command Launcher Options"] \
     images            [msgcat::mc "Images"] \
   ]
 
@@ -116,6 +117,18 @@ namespace eval theme {
     sidebar_scrollbar,-background {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-foreground {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbar when it is active."}}
+    launcher,-background          {color {white} {} {0} {msgcat::mc "Specifies background color of command launcher entry and list"}}
+    launcher,-foreground          {color {black} {} {0} {msgcat::mc "Specifies foreground color of command launcher entry and list"}}
+    launcher,-selectbackground    {color {light blue} {} {0} {msgcat::mc "Background color of selection in command launcher"}}
+    launcher,-selectforeground    {color {black} {} {0} {msgcat::mc "Foreground color of selection in command launcher"}}
+    launcher,-textbackground      {color {0} {} {0} {msgcat::mc "Background color of textual display in command launcher"}}
+    launcher,-textforeground      {color {2} {} {0} {msgcat::mc "Foreground color of textual display in command launcher"}}
+    launcher,-bordercolor         {color {grey90} {} {0} {msgcat::mc "Color of border around command launcher"}}
+    launcher,-borderwidth         {{number {0 20}} {5} {} {0} {msgcat::mc "Amount of border to display around command launcher in pixels"}}
+    launcher,-spacercolor         {color {white} {} {0} {msgcat::mc "Color of the spacer between the command launcher entry field and the result list"}}
+    launcher,-spacerheight        {{number {0 20}} {5} {} {0} {msgcat::mc "Pixel height of the spacer between the command launcher entry field and the result list"}}
+    launcher,-scrollcolor         {color {grey90} {} {0} {msgcat::mc "Scrollbar slider color used in the command launcher results list"}}
+    launcher,-scrollwidth         {{number {5 20}} {10} {} {0} {msgcat::mc "Maximum thickness of the command launcher scrollbar when it is active."}}
   }
 
   array set tm_scope_map {
@@ -820,6 +833,10 @@ namespace eval theme {
 
   }
 
+  proc get_launcher_theme {} {
+
+  }
+
   ######################################################################
   # Returns the name of the current theme.
   proc get_current_theme {} {
@@ -959,6 +976,14 @@ namespace eval theme {
   proc update_sidebar_scrollbar {} {
 
     update_widget sidebar_scrollbar
+
+  }
+
+  ######################################################################
+  # Updates the command launcher.
+  proc update_launcher {} {
+
+    # Do nothing
 
   }
 
