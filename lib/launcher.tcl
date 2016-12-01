@@ -133,7 +133,7 @@ namespace eval launcher {
         -padx $theme(-borderwidth) -pady $theme(-borderwidth)
 
       set widgets(entry) [entry $widgets(win).entry -bg $theme(-background) -fg $theme(-foreground) \
-        -width 50 -highlightthickness 0 -relief flat \
+        -width 50 -highlightthickness 0 -relief flat -insertbackground $theme(-foreground) \
         -validate key -validatecommand "launcher::lookup %P {$mode} $show_detail" -invalidcommand {bell}]
 
       if {[lsearch [font names] launcher_entry] == -1} {
@@ -146,15 +146,14 @@ namespace eval launcher {
       frame $widgets(mf).spcr -height $theme(-spacerheight) -bg $theme(-spacercolor) -borderwidth 0
       set widgets(lf) [ttk::frame $widgets(win).mf.lf]
       set widgets(lb) [listbox $widgets(lf).lb -exportselection 0 \
-        -background $theme(-background) -foreground $theme(-foreground) \
+        -background $theme(-listbackground) -foreground $theme(-listforeground) \
         -selectbackground $theme(-selectbackground) -selectforeground $theme(-selectforeground) \
         -height 0 -width 35 -borderwidth 0 -highlightthickness 2 \
-        -highlightcolor $theme(-background) -highlightbackground $theme(-background) \
+        -highlightcolor $theme(-listbackground) -highlightbackground $theme(-listbackground) \
         -yscrollcommand "utils::set_yscrollbar $widgets(lf).vb" -listvariable launcher::match_commands]
       scroller::scroller $widgets(lf).vb -orient vertical \
-        -background $theme(-background) -foreground $theme(-scrollcolor) \
+        -background $theme(-listbackground) -foreground $theme(-scrollcolor) \
         -thickness $theme(-scrollwidth) -command [list $widgets(lb) yview]
-      # ttk::scrollbar $widgets(lf).vb -orient vertical -command "$widgets(lb) yview"
 
       grid rowconfigure    $widgets(lf) 0 -weight 1
       grid columnconfigure $widgets(lf) 0 -weight 1
@@ -163,7 +162,7 @@ namespace eval launcher {
 
       # Create a special font for the text widget
       set widgets(txt) [text $widgets(win).mf.txt -bd 0 -font [font create -size 7] \
-        -highlightthickness 2 -highlightbackground $theme(-background) \
+        -highlightthickness 2 -highlightbackground $theme(-listbackground) \
         -highlightcolor $theme(-background) \
         -width 60 -height 15 -relief flat -wrap word -state disabled \
         -fg $theme(-textforeground) -bg $theme(-textbackground)]

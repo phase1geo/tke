@@ -1,4 +1,4 @@
-swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7 #395472 #0000ff}
+swatch {{#2b303b} #333946 #878671 #b6c1c1 #fbffd7 #395472 #0000ff #5a5a5a}
 creator {Trevor Williams}
 images,form_close {dat {#define img_width 8
 #define img_height 8
@@ -119,6 +119,20 @@ static char img_bits[] = {
 #define img_height 8
 static char img_bits[] = {
 0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #b6c1c1}
+launcher,-background {#2b303b}
+launcher,-bordercolor {#5a5a5a}
+launcher,-borderwidth {5}
+launcher,-foreground {#ffffff}
+launcher,-listbackground {#333946}
+launcher,-listforeground {#878671}
+launcher,-scrollcolor {#878671}
+launcher,-scrollwidth {10}
+launcher,-selectbackground {#2b303b}
+launcher,-selectforeground {#fbffd7}
+launcher,-spacercolor {#333946}
+launcher,-spacerheight {0}
+launcher,-textbackground {#2b303b}
+launcher,-textforeground {#b6c1c1}
 menus,-activebackground {light blue}
 menus,-activeforeground {black}
 menus,-background {#5a5a5a}
@@ -138,7 +152,6 @@ sidebar,-highlightthickness {1}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#2b303b}
 sidebar,-selectforeground {#fbffd7}
-sidebar,-treestyle {aqua}
 sidebar_scrollbar,-background {#333946}
 sidebar_scrollbar,-foreground {#878671}
 sidebar_scrollbar,-thickness {11}

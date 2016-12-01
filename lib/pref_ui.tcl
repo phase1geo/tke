@@ -2192,7 +2192,7 @@ namespace eval pref_ui {
     set widgets(view_befs) [$widgets(sb) $w.sf.befssb {*}$widgets(sb_opts) -from 1 -to 2 -width 1 \
       -state readonly -command [list pref_ui::set_birdseye_font_size]]
     ttk::label $w.sf.bewl -text [format "%s: " [set wstr [msgcat::mc "Bird's Eye View Width"]]]
-    set widgets(view_bew) [$widgets(sb) $w.sf.bewsb {*}$widgets(sb_opts) -from 30 -to 80 -width 2 \
+    set widgets(view_bew) [$widgets(sb) $w.sf.bewsb {*}$widgets(sb_opts) -from 30 -to 80 -increment 5 -width 2 \
       -state readonly -command [list pref_ui::set_birdseye_width]]
       
     grid $w.sf.srol   -row 0 -column 0 -sticky news -padx 2 -pady 2
