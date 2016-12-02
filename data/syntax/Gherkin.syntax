@@ -1,0 +1,43 @@
+filepatterns
+{*.feature}
+
+matchcharsallowed
+{angled}
+
+tabsallowed
+{0}
+
+casesensitive
+{0}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+strings {{"}}
+
+keywords
+{
+  feature scenario given and when then but background examples outline
+}
+
+numbers
+{
+  HighlightRegexp {\m[0-9]+} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[:@\|]} {}
+}
+
+miscellaneous1
+{
+  HighlightRegexp {<.+?>} {}
+}
+
+miscellaneous2
+{
+  HighlightRegexp {/.+?/} {}
+}
+
