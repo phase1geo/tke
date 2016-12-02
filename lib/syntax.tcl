@@ -357,12 +357,14 @@ namespace eval syntax {
 
         array set lang_array $langs($language)
 
-        # Get the command prefix
+        # Get the command prefix and create a namespace for the language, if necessary
         if {$lang_array(interp) ne ""} {
-          set cmd_prefix "$lang_array(interp) eval"
+          set cmd_prefix "$lang_array(interp) eval "
+          set lang_ns    ""
           $lang_array(interp) alias $txt $txt
         } else {
           set cmd_prefix ""
+          set lang_ns    [string tolower $language]
         }
 
         # Initialize the meta tags
@@ -380,7 +382,7 @@ namespace eval syntax {
         ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords
 
         # Add the rest of the sections
-        set_language_section $txt symbols        $lang_array(symbols) "" $cmd_prefix
+        set_language_section $txt symbols        $lang_array(symbols) "" $cmd_prefix $lang_ns
         set_language_section $txt punctuation    $lang_array(punctuation) ""
         set_language_section $txt numbers        $lang_array(numbers) ""
         set_language_section $txt precompile     $lang_array(precompile) ""
@@ -389,7 +391,7 @@ namespace eval syntax {
         set_language_section $txt miscellaneous3 $lang_array(miscellaneous3) ""
         set_language_section $txt highlighter    $lang_array(highlighter) ""
         set_language_section $txt meta           $lang_array(meta) ""
-        set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix
+        set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix $lang_ns
 
         # Add the comments, strings and indentations
         ctext::clearCommentStringPatterns $txt
@@ -470,20 +472,25 @@ namespace eval syntax {
     # Adjust the language value if we are not performing a full insertion
     if {$embed_start eq ""} {
       set language $parent
+      set lang_ns ""
+    } elseif {$cmd_prefix ne ""} {
+      set lang_ns ""
+    } else {
+      set lang_ns [string tolower $language]
     }
 
     # Add the keywords
     ctext::addHighlightKeywords $txt $lang_array(keywords) class keywords $language
 
     # Add the rest of the sections
-    set_language_section $txt symbols        $lang_array(symbols) $language $cmd_prefix
+    set_language_section $txt symbols        $lang_array(symbols) $language $cmd_prefix $lang_ns
     set_language_section $txt punctuation    $lang_array(punctuation) $language
     set_language_section $txt miscellaneous1 $lang_array(miscellaneous1) $language
     set_language_section $txt miscellaneous2 $lang_array(miscellaneous2) $language
     set_language_section $txt miscellaneous3 $lang_array(miscellaneous3) $language
     set_language_section $txt highlighter    $lang_array(highlighter) $language
     set_language_section $txt meta           $lang_array(meta) $language
-    set_language_section $txt advanced       $lang_array(advanced) $language $cmd_prefix
+    set_language_section $txt advanced       $lang_array(advanced) $language $cmd_prefix $lang_ns
 
     if {$embed_start ne ""} {
 
@@ -537,7 +544,7 @@ namespace eval syntax {
 
   ######################################################################
   # Adds syntax highlighting for a given type
-  proc set_language_section {txt section section_list lang {cmd_prefix ""}} {
+  proc set_language_section {txt section section_list lang {cmd_prefix ""} {lang_ns ""}} {
 
     variable theme
     variable meta_tags
@@ -550,7 +557,7 @@ namespace eval syntax {
       "symbols" {
         while {[llength $section_list]} {
           set section_list [lassign $section_list type]
-          switch $type {
+          switch -glob $type {
             "HighlightClass" {
               if {$section eq "advanced"} {
                 set section_list [lassign $section_list name color modifiers]
@@ -567,22 +574,33 @@ namespace eval syntax {
             "HighlightProc" {
               if {$section eq "advanced"} {
                 set section_list [lassign $section_list name body]
-                if {$body eq ""} {
+                if {([llength $section_list] > 0) && ![string match Highlight* [lindex $section_list 0]]} {
                   set params       $body
                   set section_list [lassign $section_list body]
                 } else {
                   set params [list txt startpos endpos ins]
                 }
-                
-              } 
+                if {$lang_ns ne ""} {
+                  namespace eval $lang_ns [list proc $name $params [subst -nocommands -novariables $body]]
+                }
+              }
             }
-            default {
+            "Highlight*" {
               set section_list [lassign $section_list syntax command]
               if {$command ne ""} {
-                ctext::add$type $txt $syntax command [string trim "$cmd_prefix $command"] $lang
+                if {$cmd_prefix ne ""} {
+                  ctext::add$type $txt $syntax command "$cmd_prefix $command" $lang
+                } elseif {[string first :: $command] != -1} {
+                  ctext::add$type $txt $syntax command $command $lang
+                } else {
+                  ctext::add$type $txt $syntax command syntax::${lang_ns}::$command $lang
+                }
               } else {
                 ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}] $lang
               }
+            }
+            default {
+              return -code error "Syntax error found in $section section -- bad type $type"
             }
           }
         }
