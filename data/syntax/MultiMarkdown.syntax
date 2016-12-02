@@ -1,5 +1,5 @@
 filepatterns
-{*.md}
+{*.md *.mmd}
 
 vimsyntax
 {markdown}
@@ -45,27 +45,27 @@ advanced {
   HighlightRegexp {([*_])(?=\S).+?\1}            italics
   HighlightRegexp {!\[.+?\](\s*\[.*?\]|\(.*?\))} image
   HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))}  link
-  HighlightRegexp {<(.+?)>}                      link2
+  HighlightRegexp {<.+?>}                        link2
   HighlightRegexp {^\s*\[.+?\]:\s+\S+}           linkref
-  HighlightRegexp {\{(\-{2}))(?=\S).+?\1\}}      overstrike
-  HighlightRegexp {\{(+{2})(?=\S).+?\1\}}        underline
+  HighlightRegexp {\{(\-{2})(?=\S).+?\1\}}       overstrike
+  HighlightRegexp {\{(\+{2})(?=\S).+?\1\}}       underline
   HighlightRegexp {\{(~{2}).+?~>.+?\1\}}         correction
   HighlightRegexp {\{(={2})(?=\S).+?\1\}}        highlight
-  HighlightRegexp {\{(>{2}).+?\1\}}              ignore
+  HighlightRegexp {\{>{2}.+?<{2}\}}              ignore
   HighlightRegexp {(~)(?=\S).+?\1}               subscript
   HighlightRegexp {(\^)(?=\S).+?\1}              superscript
-  HighlightRegexp {\\\[\s+.+?\s+\\\]}            math1
-  HighlightRegexp {\\\(\s+.+?\s+\\\)}            math2
+  HighlightRegexp {\\\\\[\s+.+?\s+\\\\\]}        math1
+  HighlightRegexp {\\\\\(\s+.+?\s+\\\\\)}        math2
   HighlightRegexp {(\$\$).+?\1}                  math3
   HighlightRegexp {\$.+?\$ }                     math4
   HighlightRegexp {.*}                           list_check
-  
-  HighlightProc ccode {txt startpos endpos ins} {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+
+  HighlightProc ccode {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
       $txt tag remove _code $startpos $endpos
       return [list [list [list ccode       [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
                          [list codemarkers $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list codemarkers [$txt index "$endpos-3c"] $endpos [list]]] ""]
+                         [list codemarkers [$txt index "$endpos-3c"] $endpos [list]] \
                          [list grey        $startpos [$txt index "$startpos+3c"] [list]] \
                          [list grey        [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
@@ -73,7 +73,7 @@ advanced {
   }
 
   HighlightProc code {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
       if {([lsearch [$txt tag names $startpos]    _codemarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _codemarkers] == -1)} {
         return [list [list [list code [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
@@ -94,9 +94,9 @@ advanced {
     }
     return ""
   }
-  
+
   HighlightProc bold {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
       $txt tag remove _italics $startpos $endpos
       return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
                          [list boldmarkers $startpos [$txt index "$startpos+2c"] [list]] \
@@ -108,7 +108,7 @@ advanced {
   }
 
   HighlightProc italics {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
       if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _boldmarkers] == -1)} {
         return [list [list [list italics [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
@@ -120,13 +120,9 @@ advanced {
     }
     return ""
   }
-  
-  HighlightProc image {
-    
-  }
 
   HighlightProc overstrike {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
       return [list [list [list strike        [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
                          [list strikemarkers $startpos [$txt index "$startpos+3c"] [list]] \
                          [list strikemarkers [$txt index "$endpos-3c"] $endpos [list]] \
@@ -135,49 +131,51 @@ advanced {
     }
     return ""
   }
-  
+
   HighlightProc underline {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
       return [list [list [list link [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
                          [list grey $startpos [$txt index "$startpos+3c"] [list]] \
                          [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
   }
-  
+
   HighlightProc correction {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
       if {[regexp {^(.+?)~>(.+?)$} [$txt get "$startpos+3c" "$endpos-3c"] -> ostrike uline]} {
         set ostrike_end [expr [string length $ostrike] + 3]
         set uline_start [expr $ostrike_end + 2]
         set uline_end   [expr $uline_start + [string length $uline]]
-        return [list [list [list strike [$txt index "$startpos+3c"] [$txt index "$startpos+${ostrike_end}c"] [list]] \
-                           [list link   [$txt index "$startpos+${uline_start}c"] [$txt index "$startpos+${uline_end}c"] [list]] \
-                           [list grey   $startpos [$txt index "$startpos+3c"] [list]] \
-                           [list grey   [$txt index "$startpos+${ostrike_end}c"] [$txt index "$startpos+${uline_start}c"] [list]] \
-                           [list grey   [$txt index "$endpos-3c"] $endpos [list]]] ""]
+        return [list [list [list strike        [$txt index "$startpos+3c"] [$txt index "$startpos+${ostrike_end}c"] [list]] \
+                           [list strikemarkers $startpos [$txt index "$startpos+3c"] [list]] \
+                           [list strikemarkers [$txt index "$endpos-3c"] $endpos [list]] \
+                           [list link          [$txt index "$startpos+${uline_start}c"] [$txt index "$startpos+${uline_end}c"] [list]] \
+                           [list grey          $startpos [$txt index "$startpos+3c"] [list]] \
+                           [list grey          [$txt index "$startpos+${ostrike_end}c"] [$txt index "$startpos+${uline_start}c"] [list]] \
+                           [list grey          [$txt index "$endpos-3c"] $endpos [list]]] ""]
       }
     }
     return ""
   }
 
   HighlightProc highlight {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
       return [list [list [list hilite [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
                          [list grey   $startpos [$txt index "$startpos+3c"] [list]] \
                          [list grey   [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
   }
-  
+
   HighlightProc ignore {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-4c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
       return [list [list [list grey $startpos $endpos [list]]] ""]
     }
   }
-  
+
   HighlightProc subscript {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
       if {([lsearch [$txt tag names $startpos]    _strikemarkers] == -1) && \
           ([lsearch [$txt tag names "$endpos-1c"] _strikemarkers] == -1)} {
         return [list [list [list sub  [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
@@ -191,19 +189,29 @@ advanced {
   }
 
   HighlightProc superscript {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
       return [list [list [list super [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
                          [list grey  $startpos [$txt index "$startpos+1c"] [list]] \
                          [list grey  [$txt index "$endpos-1c"] $endpos [list]]] ""]
     }
     return ""
   }
-  
+
   HighlightProc image {
-    if {[$txt get "$startpos-1c"] ne "\\"} {
-      if {[regexp {^!\[(.+?)\]((\s*)\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy ref linkref url]} {
+    if {![ctext::isEscaped $txt $startpos]} {
+      set str [$txt get $startpos $endpos]
+      if {[regexp {!\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> label ref space linkref url]} {
         set start2a [expr [string length $label] + 2]
-        set start2b [expr [string length $label] + [string length $dummy] + 3]
+        set start2b [expr [string length $label] + [string length $space] + 4]
+        if {[string index [string trim $ref] 0] eq "\\["} {
+          if {$linkref eq ""} {
+            set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $label]"
+          } else {
+            set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $linkref]"
+          }
+        } else {
+          set cmd ""
+        }
         return [list [list [list link [$txt index "$startpos+2c"] [$txt index "$startpos+[expr [string length $label] + 2]c"] $cmd] \
                            [list grey $startpos [$txt index "$startpos+2c"] [list]] \
                            [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
@@ -214,19 +222,19 @@ advanced {
   }
 
   HighlightProc link {
-    if {[$txt get "$startpos-1c"] ne "\\"} {
-      if {[regexp {^\[(.+?)\]((\s*)\[(.*?)\]|\((.*?)\))} [$txt get $startpos $endpos] -> label dummy ref linkref url]} {
-        if {[string index [string trim $ref] 0] eq "\["} {
+    if {![ctext::isEscaped $txt $startpos]} {
+      if {[regexp {^\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> label ref space linkref url]} {
+        if {[string index [string trim $ref] 0] eq "\\["} {
           if {$linkref eq ""} {
-            set cmd "syntax::handle_reflink_click $txt [string tolower $label]"
+            set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $label]"
           } else {
-            set cmd "syntax::handle_reflink_click $txt [string tolower $linkref]"
+            set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $linkref]"
           }
         } else {
           set cmd "utils::open_file_externally [lindex $url 0]"
         }
         set start2a [expr [string length $label] + 1]
-        set start2b [expr [string length $label] + [string length $dummy] + 2]
+        set start2b [expr [string length $label] + [string length $space] + 3]
         return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd] \
                            [list grey $startpos [$txt index "$startpos+1c"] [list]] \
                            [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
@@ -235,9 +243,9 @@ advanced {
     }
     return ""
   }
-  
+
   HighlightProc link2 {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-2c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
       set cmd [list utils::open_file_externally [$txt get "$startpos+1c" "$endpos-1c"]]
       return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] $cmd] \
                          [list grey $startpos [$txt index "$startpos+1c"] [list]] \
@@ -245,12 +253,12 @@ advanced {
     }
     return ""
   }
-  
-  HighlighProc linkref {
+
+  HighlightProc linkref {
     variable linkrefs
-    if {[$txt get "$startpos-1c"] ne "\\"} {
-      if {[regexp {^\s*\[(.+?)\]:\s+(\S+)} [$txt get $startpos $endpos] -> linkref url]} {
-        set markdown_linkrefs($txt,[string tolower $linkref]) $url
+    if {![ctext::isEscaped $txt $startpos]} {
+      if {[regexp {^\\s*\\[(.+?)\\]:\\s+(\\S+)} [$txt get $startpos $endpos] -> linkref url]} {
+        set linkrefs($txt,[string tolower $linkref]) $url
       }
     }
     return ""
@@ -258,54 +266,54 @@ advanced {
 
   HighlightProc handle_reflink_click {txt ref} {
     variable linkrefs
-    if {[info exists markdown_linkrefs($txt,$ref)]} {
-      utils::open_file_externally $markdown_linkrefs($txt,$ref)
+    if {[info exists linkrefs($txt,$ref)]} {
+      utils::open_file_externally $linkrefs($txt,$ref)
     }
   }
-  
+
   HighlightProc math1 {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-5c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-4c"]} {
       return [list [list [list math [$txt index "$startpos+4c"] [$txt index "$endpos-4c"] [list]] \
                          [list grey $startpos [$txt index "$startpos+4c"] [list]] \
                          [list grey [$txt index "$endpos-4c"] $endpos [list]]] ""]
     }
     return ""
   }
-  
+
   HighlightProc math2 {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-5c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-4c"]} {
       return [list [list [list math [$txt index "$startpos+4c"] [$txt index "$endpos-4c"] [list]] \
                          [list grey $startpos [$txt index "$startpos+4c"] [list]] \
                          [list grey [$txt index "$endpos-4c"] $endpos [list]]] ""]
     }
     return ""
   }
-  
+
   HighlightProc math3 {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
       return [list [list [list math [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
                          [list grey $startpos [$txt index "$startpos+2c"] [list]] \
                          [list grey [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     return ""
   }
-  
+
   HighlightProc math4 {
-    if {([$txt get "$startpos-1c"] ne "\\") && ([$txt get "$endpos-3c"] ne "\\")} {
+    if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
       return [list [list [list math [$txt index "$startpos+1c"] [$txt index "$endpos-2c"] [list]] \
                          [list grey $startpos [$txt index "$startpos+1c"] [list]] \
                          [list grey [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     return ""
   }
-  
+
   HighlightProc list_check {
     if {([lindex [split [$txt index insert] .] 1] == 0) && $ins} {
       if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
-        if {[regexp {^([+*>-]|(\d+)\.|\[[ xX]\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
+        if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
             $txt._t delete "insert-1l linestart" insert
-          } elseif {![regexp {^\s*([+*>-]|(\d+)\.|\[[ xX]\])} [$txt get insert "insert lineend"]]} {
+          } elseif {![regexp {^\\s*([+*>-]|(\\d+)\\.|\\[[ xX]\\])} [$txt get insert "insert lineend"]]} {
             if {($num ne "")} {
               $txt._t insert insert "[expr $num + 1]. "
             } else {
@@ -316,6 +324,6 @@ advanced {
       }
     }
   }
-  
+
 }
 
