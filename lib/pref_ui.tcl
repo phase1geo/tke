@@ -295,8 +295,8 @@ namespace eval pref_ui {
       # Emulate a click on the General panel
       if {$language ne ""} {
         if {$session eq ""} {
-          foreach panel [list editor snippets] {
-            pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+          foreach item [list editor snippets] {
+            pack $widgets(panes).$item -fill both -padx 2 -pady 2
           }
         } else {
           pack $widgets(panes).editor -fill both -padx 2 -pady 2
@@ -307,15 +307,15 @@ namespace eval pref_ui {
           pane_clicked editor
         }
       } elseif {$session ne ""} {
-        foreach panel [list appearance editor find sidebar view emmet] {
-          pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+        foreach item [list appearance editor find sidebar view emmet] {
+          pack $widgets(panes).$item -fill both -padx 2 -pady 2
         }
         $widgets(frame).emmet.nb hide $widgets(node_aliases)
         $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
         pane_clicked appearance
       } else {
-        foreach panel [list general appearance editor find sidebar view snippets emmet shortcuts advanced] {
-          pack $widgets(panes).$panel -fill both -padx 2 -pady 2
+        foreach item [list general appearance editor find sidebar view snippets emmet shortcuts advanced] {
+          pack $widgets(panes).$item -fill both -padx 2 -pady 2
         }
         if {$panel ne ""} {
           pane_clicked $panel $tab
@@ -2194,19 +2194,19 @@ namespace eval pref_ui {
     ttk::label $w.sf.bewl -text [format "%s: " [set wstr [msgcat::mc "Bird's Eye View Width"]]]
     set widgets(view_bew) [$widgets(sb) $w.sf.bewsb {*}$widgets(sb_opts) -from 30 -to 80 -increment 5 -width 2 \
       -state readonly -command [list pref_ui::set_birdseye_width]]
-      
+
     grid $w.sf.srol   -row 0 -column 0 -sticky news -padx 2 -pady 2
     grid $w.sf.srosb  -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid $w.sf.befsl  -row 1 -column 0 -sticky news -padx 2 -pady 2
     grid $w.sf.befssb -row 1 -column 1 -sticky news -padx 2 -pady 2
     grid $w.sf.bewl   -row 2 -column 0 -sticky news -padx 2 -pady 2
     grid $w.sf.bewsb  -row 2 -column 1 -sticky news -padx 2 -pady 2
-    
+
     register $widgets(view_sro) $wstr View/ShowRecentlyOpened
     register $widgets(view_befs) $wstr View/BirdsEyeViewFontSize
     register $widgets(view_bew) $wstr View/BirdsEyeViewWidth
-    
-    pack $w.sf -fill x -pady 8 
+
+    pack $w.sf -fill x -pady 8
 
     # Initialize the spinbox value
     $widgets(view_sro)  set $prefs(View/ShowRecentlyOpened)
@@ -2225,27 +2225,27 @@ namespace eval pref_ui {
     set prefs(View/ShowRecentlyOpened) [$widgets(view_sro) get]
 
   }
-  
+
   ######################################################################
   # Sets the View/BirdsEyeViewFontSize preference value.
   proc set_birdseye_font_size {} {
-    
+
     variable widgets
     variable prefs
-    
+
     set prefs(View/BirdsEyeViewFontSize) [$widgets(view_befs) get]
-    
+
   }
 
   ######################################################################
   # Sets the View/BirdsEyeViewWidth preference value.
   proc set_birdseye_width {} {
-    
+
     variable widgets
     variable prefs
-    
+
     set prefs(View/BirdsEyeViewWidth) [$widgets(view_bew) get]
-    
+
   }
 
   ############
@@ -2342,9 +2342,9 @@ namespace eval pref_ui {
     theme::register_widget $w.ef.tf.tf.hb text_scrollbar
 
     indent::add_bindings $widgets(snippets_text)
-    
+
     set modifier [expr {([tk windowingsystem] eq "aqua") ? "Command" : "Control"}]
-    
+
     bind $widgets(snippets_text) <$modifier-c> {
       %W copy
       break
