@@ -1,5 +1,5 @@
 filepatterns
-{*.md *.mmd}
+{*.md *.markdown *.mmd *.txt}
 
 vimsyntax
 {markdown}
