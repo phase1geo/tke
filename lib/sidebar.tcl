@@ -1723,9 +1723,9 @@ namespace eval sidebar {
       # Add the file directory
       update_directory [add_directory [file dirname $new_name] -remote $remote]
 
-      # Update the old directory
-      if {[$widgets(tl) exists $row]} {
-        sidebar::update_directory [$widgets(tl) parent $row]
+      # Update the old directory, if necessary
+      if {[$widgets(tl) exists $row] && ([file dirname $old_name] ne [file dirname $new_name])} {
+        update_directory [$widgets(tl) parent $row]
       }
 
     }
