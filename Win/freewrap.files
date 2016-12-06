@@ -20,6 +20,7 @@
 /home/trevorw/projects/tke-code/data/preferences.tkedat
 /home/trevorw/projects/tke-code/data/share.tkedat
 /home/trevorw/projects/tke-code/data/syntax/syntax.syntax
+/home/trevorw/projects/tke-code/data/syntax/Gherkin.syntax
 /home/trevorw/projects/tke-code/data/syntax/JSON.syntax
 /home/trevorw/projects/tke-code/data/syntax/J.syntax
 /home/trevorw/projects/tke-code/data/syntax/tkeTheme.syntax
@@ -56,6 +57,7 @@
 /home/trevorw/projects/tke-code/data/syntax/Erlang.syntax
 /home/trevorw/projects/tke-code/data/syntax/Lua.syntax
 /home/trevorw/projects/tke-code/data/syntax/Lex.syntax
+/home/trevorw/projects/tke-code/data/syntax/MultiMarkdown.syntax
 /home/trevorw/projects/tke-code/data/syntax/Go.syntax
 /home/trevorw/projects/tke-code/data/syntax/D.syntax
 /home/trevorw/projects/tke-code/data/syntax/Objective-C.syntax
@@ -64,6 +66,7 @@
 /home/trevorw/projects/tke-code/data/syntax/Neko.syntax
 /home/trevorw/projects/tke-code/data/syntax/SASS.syntax
 /home/trevorw/projects/tke-code/data/syntax/Fickle.syntax
+/home/trevorw/projects/tke-code/data/syntax/Assembly.syntax
 /home/trevorw/projects/tke-code/data/syntax/Cuda.syntax
 /home/trevorw/projects/tke-code/data/syntax/Clojure.syntax
 /home/trevorw/projects/tke-code/data/syntax/Haml.syntax
@@ -74,6 +77,7 @@
 /home/trevorw/projects/tke-code/data/syntax/Ruby.syntax
 /home/trevorw/projects/tke-code/data/syntax/C.syntax
 /home/trevorw/projects/tke-code/data/syntax/Java.syntax
+/home/trevorw/projects/tke-code/data/syntax/Awk.syntax
 /home/trevorw/projects/tke-code/data/syntax/Rust.syntax
 /home/trevorw/projects/tke-code/data/syntax/R.syntax
 /home/trevorw/projects/tke-code/data/syntax/HelpSystem.syntax
@@ -411,6 +415,7 @@
 /home/trevorw/projects/tke-code/lib/images/plus.bmp
 /home/trevorw/projects/tke-code/lib/images/unchecked.gif
 /home/trevorw/projects/tke-code/lib/images/connected.bmp
+/home/trevorw/projects/tke-code/lib/images/left10.bmp
 /home/trevorw/projects/tke-code/lib/images/color.bmp
 /home/trevorw/projects/tke-code/lib/images/diff.bmp
 /home/trevorw/projects/tke-code/lib/themes.tcl
@@ -421,6 +426,7 @@
 /home/trevorw/projects/tke-code/lib/bgproc.tcl
 /home/trevorw/projects/tke-code/lib/snip_parser.tcl
 /home/trevorw/projects/tke-code/lib/folding.tcl
+/home/trevorw/projects/tke-code/lib/files.tcl
 /home/trevorw/projects/tke-code/lib/search.tcl
 /home/trevorw/projects/tke-code/lib/format_lexer.fcl
 /home/trevorw/projects/tke-code/lib/bitmap.tcl
@@ -453,6 +459,9 @@
 /home/trevorw/projects/tke-code/plugins/terminal/main.tcl
 /home/trevorw/projects/tke-code/plugins/code_view/header.tkedat
 /home/trevorw/projects/tke-code/plugins/code_view/main.tcl
+/home/trevorw/projects/tke-code/plugins/css_colorize/header.tkedat
+/home/trevorw/projects/tke-code/plugins/css_colorize/README.md
+/home/trevorw/projects/tke-code/plugins/css_colorize/main.tcl
 /home/trevorw/projects/tke-code/plugins/vcs_example/header.tkedat
 /home/trevorw/projects/tke-code/plugins/vcs_example/main.tcl
 /home/trevorw/projects/tke-code/plugins/images/checked.gif
@@ -471,8 +480,4 @@
 /home/trevorw/projects/tke-code/Win/tkdnd2.8/tkdnd.tcl
 /home/trevorw/projects/tke-code/Win/tkdnd2.8/tkdnd_compat.tcl
 /home/trevorw/projects/tke-code/Win/tkdnd2.8/pkgIndex.tcl
-/home/trevorw/projects/tke-code/Win/expect/teapot.txt
-/home/trevorw/projects/tke-code/Win/expect/expect543.dll
-/home/trevorw/projects/tke-code/Win/expect/injector.dll
-/home/trevorw/projects/tke-code/Win/expect/expect.tcl
-/home/trevorw/projects/tke-code/Win/expect/pkgIndex.tcl
+/home/trevorw/projects/tke-code/Win/binit/binit.exe

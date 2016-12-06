@@ -225,10 +225,26 @@ namespace eval files {
       }
 
       *Win*  {
-        if {[catch { exec -ignorestderr cmd -c [file join $::tke_dir Win binit binit.exe] $fname } rc]} {
-          return -code error $rc
+        set binit [file join $::tke_dir Win binit binit.exe]
+        if {[namespace exists ::freewrap] && [zvfs::exists $binit]} {
+          if {[catch { exec -ignorestderr [freewrap::unpack $binit] $fname } rc]} {
+            return -code error $rc
+          }
+          close_tabs $fname $isdir
+          return
+        } elseif {[file exists $binit]} {
+          if {[catch { exec -ignorestderr $binit $fname } rc]} {
+            return -code error $rc
+          }
+          close_tabs $fname $isdir
+          return
+        } elseif {[file exists [file join C: RECYCLER]]} {
+          set trash_path [file join C: RECYCLER]
+        } elseif {[file exists [file join C: {$Recycle.bin}]]} {
+          set trash_path [file join C: {$Recycle.bin}]
+        } else {
+          return -code error [msgcat::mc "Unable to determine how to move to trash"]
         }
-        return
       }
 
       default {
@@ -271,9 +287,9 @@ namespace eval files {
 
     # Close all of the deleted files from the UI
     if {$isdir} {
-      gui::close_dir_files $fname
+      gui::close_dir_files [list $fname]
     } else {
-      gui::close_files $fname
+      gui::close_files [list $fname]
     }
 
   }
