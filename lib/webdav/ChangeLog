@@ -1,0 +1,8 @@
+2004-11-18  Jean-Claude Wippler  <jcw@equi4.com>
+
+	* davvfs.tcl: First pre-release.
+	* davvfs.test:
+	* webdav.tcl:
+	* webdav.test:
+	* webdav.man:
+
