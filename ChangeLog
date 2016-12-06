@@ -1,80 +1,127 @@
-changeset:   2604:09ab17aa9a2f
-tag:         devel-2.8.4
+changeset:   2613:fea33a66fcce
+tag:         devel-2.8.5
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 30 08:53:45 2016 -0600
+date:        Fri Dec 02 00:29:56 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.8.4 release
+ChangeLog for devel-2.8.5 release
 
 
-changeset:   2605:a952e5cb5d06
+changeset:   2614:4e735e1230f0
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 30 08:53:50 2016 -0600
+date:        Fri Dec 02 00:30:01 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.8.4 for changeset 09ab17aa9a2f
+Added tag devel-2.8.5 for changeset fea33a66fcce
 
 
-changeset:   2606:bcd0508bffb8
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Wed Nov 30 14:01:32 2016 -0600
-files:       lib/ctext/ctext.tcl lib/pref_ui.tcl lib/version.tcl
-description:
-* Adding cut, copy and paste support to snippets editor.
-
-
-changeset:   2607:2054ab5cdcc7
+changeset:   2615:dd038de24948
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Wed Nov 30 23:02:54 2016 -0600
-files:       lib/launcher.tcl lib/theme.tcl lib/version.tcl
+date:        Fri Dec 02 00:49:16 2016 -0600
+files:       lib/pref_ui.tcl lib/version.tcl
 description:
-* Adding theming support to command launcher.
-* Modifying default look of command launcher.
+* Fixing preference GUI issue that kept the proper panel to be displayed when starting the preference window.
 
 
-changeset:   2608:174ea7583d1e
+changeset:   2616:6512fd3c7654
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Thu Dec 01 00:34:42 2016 -0600
-files:       lib/remote/ftp_control.tcl lib/version.tcl
+date:        Fri Dec 02 21:18:22 2016 -0600
+files:       data/syntax/Markdown.syntax data/syntax/MultiMarkdown.syntax lib/version.tcl
 description:
-* Fixing syntax error in ftp_control.
+* Enhancing the file extension list for Markdown and MultiMarkdown.
 
 
-changeset:   2609:37b1b900a221
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Dec 01 12:34:49 2016 -0600
-files:       data/themes/Quiverly.tketheme lib/gui.tcl lib/launcher.tcl lib/pref_ui.tcl lib/theme.tcl lib/themer.tcl lib/version.tcl
-description:
-* Fixing theme editor issue when eight swatch colors are stored in a theme.
-* Allowing command launcher result list background/foreground colors to be themed separately from the main entry field.
-* Fixing small command launcher theme issues.
-* Changing bird's eye width preference item to be incremented by increments of 5 (instead of 1).
-* Fixing bird's eye enter/leave bindings to keep false enter events from being triggered.
-
-
-changeset:   2610:f9e58730f6f6
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Thu Dec 01 17:34:10 2016 -0600
-files:       data/syntax/MultiMarkdown.syntax data/syntax/syntax.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Checkpointing work on MultiMarkdown.
-
-
-changeset:   2611:daff62da0a0a
+changeset:   2617:63f6ebc785a8
+parent:      2615:dd038de24948
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 00:05:13 2016 -0600
-files:       data/syntax/MultiMarkdown.syntax lib/syntax.tcl lib/version.tcl
+date:        Fri Dec 02 14:32:16 2016 -0600
+files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
 description:
-* Adding MultiMarkdown syntax support.
-* Adding new HighlightProc syntax item in the advanced section.
+* Moving Markdown syntax procedures from syntax namespace to the Markdown.syntax file.
 
 
-changeset:   2612:4b15956f7a30
+changeset:   2618:f1da3e64e12d
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Dec 02 15:51:05 2016 -0600
+files:       data/syntax/Awk.syntax lib/version.tcl
+description:
+* Adding Awk syntax support.
+
+
+changeset:   2619:38e04fa2e86c
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Dec 02 16:59:30 2016 -0600
+files:       data/syntax/Assembly.syntax lib/version.tcl
+description:
+* Adding Assembly syntax support.
+
+
+changeset:   2620:4ff18961169f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Dec 02 17:33:27 2016 -0600
+files:       data/syntax/Gherkin.syntax lib/version.tcl
+description:
+* Adding Gherkin syntax support.
+
+
+changeset:   2621:d6cfb79e27d9
+parent:      2616:6512fd3c7654
+parent:      2620:4ff18961169f
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Dec 02 21:19:42 2016 -0600
+files:       data/syntax/Markdown.syntax
+description:
+* Merging.
+
+
+changeset:   2622:ba1bce359293
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 05 11:41:53 2016 -0600
+files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
+description:
+* Fixing tab drag issues.
+
+
+changeset:   2623:3cd2aac559c7
+parent:      2621:d6cfb79e27d9
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Fri Dec 02 23:32:02 2016 -0600
+files:       lib/sidebar.tcl lib/version.tcl
+description:
+* Fixing issue with sidebar file renaming when filename doesn't change directories.
+
+
+changeset:   2624:760b0bb8f601
+parent:      2622:ba1bce359293
+parent:      2623:3cd2aac559c7
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 05 11:42:46 2016 -0600
+description:
+* Merging.
+
+
+changeset:   2625:a8dfee44dbbd
+user:        Trevor Williams <phase1geo@users.sourceforge.net>
+date:        Mon Dec 05 19:16:01 2016 -0600
+files:       Win/binit/binit.exe Win/freewrap.tcl lib/files.tcl lib/version.tcl
+description:
+* First attempt to add proper Move to Trash support for Windows.
+
+
+changeset:   2626:0046d2664745
+user:        Trevor Williams <phase1geo@gmail.com>
+date:        Mon Dec 05 22:56:30 2016 -0600
+files:       Win/freewrap.files lib/files.tcl lib/version.tcl
+description:
+* Correcting support for Move To Trash in Windows.
+
+
+changeset:   2627:26d9777b3a37
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 00:25:59 2016 -0600
-files:       lib/remote.tcl lib/version.tcl
+date:        Tue Dec 06 01:37:20 2016 -0600
+files:       lib/remote.tcl lib/tke.tcl lib/version.tcl lib/webdav/ChangeLog lib/webdav/README lib/webdav/davdata.tgz lib/webdav/davvfs.tcl lib/webdav/davvfs.test lib/webdav/pkgIndex.tcl lib/webdav/vfsUrl.tcl lib/webdav/webdav.html lib/webdav/webdav.man lib/webdav/webdav.tcl lib/webdav/webdav.test
 description:
-* Fix grab issue with remote connection `New Group` window.
+* Initial checkin of WebDAV support in remote namespace.
 
 
