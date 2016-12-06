@@ -79,6 +79,9 @@ proc create_freewrap_files {} {
   # Add expect package files
   # DISABLING - lappend files {*}[get_files [file join $::tke_dir Win expect]]
 
+  # Add binit executable
+  lappend files {*}[get_files [file join $::tke_dir Win binit]]
+
   # Remove excluded directories
   foreach exclude [list doc/html lib/tke.tcl] {
     set files [lsearch -inline -not -all $files [file join $::tke_dir $exclude]*]
