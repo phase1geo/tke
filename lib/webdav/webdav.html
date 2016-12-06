@@ -1,0 +1,256 @@
+<html><head>
+<title>webdav - webdav </title>
+</head>
+<! -- Generated from file 'webdav.man' by tcllib/doctools with format 'html'
+   -->
+<! -- Copyright &copy; 2004, Jean-Claude Wippler &lt;jcw@equi4.com&gt;
+   -->
+<! -- CVS: $Id$ webdav.n
+   -->
+
+<body>
+<h1> webdav(n) 0.2  &quot;webdav&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> webdav - WebDAV client
+
+
+
+
+
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+package require <b>Tcl 8.4</b><br>
+package require <b>webdav ?0.2?</b><br>
+<br><table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>::webdav::open</b> <i class='arg'>url</i> ?<i class='arg'>options</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>::webdav::close</b> <i class='arg'>conn</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>::webdav::enumerate</b> <i class='arg'>conn</i> <i class='arg'>path</i> <i class='arg'>depth</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'>::webdav::getstat</b> <i class='arg'>conn</i> <i class='arg'>path</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'>::webdav::getlist</b> <i class='arg'>conn</i> ?<i class='arg'>path</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'>::webdav::get</b> <i class='arg'>conn</i> <i class='arg'>path</i></a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'>::webdav::put</b> <i class='arg'>conn</i> <i class='arg'>path</i> <i class='arg'>data</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'>::webdav::copy</b> <i class='arg'>conn</i> <i class='arg'>srcpath</i> <i class='arg'>destpath</i></a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'>::webdav::mkdir</b> <i class='arg'>conn</i> <i class='arg'>path</i></a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'>::webdav::delete</b> <i class='arg'>conn</i> <i class='arg'>path</i></a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'>::webdav::connect</b> <i class='arg'>url</i> ?<i class='arg'>options</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+<p>
+
+This package implements a client for the WebDAV protocol.  DAV stands for
+&quot;Distributed Authoring and Versioning&quot; - it can be used to browse and modify
+remote sites such as webservers, treating the hierarchy like a filesystem.
+See <a href="http://www.webdav.org">http://www.webdav.org</a> for specifications and details.
+
+<p>
+
+Since one of the uses of this package is to support a VFS handler, the
+terminology used in this package corresponds to that of file systems, i.e.
+&quot;files&quot; and &quot;directories&quot; (the WebDAV standard uses the terms &quot;resource&quot; and 
+&quot;collection&quot; for these same terms, respectively).
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'>::webdav::open</b> <i class='arg'>url</i> ?<i class='arg'>options</i>?</a><dd>
+
+
+Set up a new connection to the webdav server identified by <i class='arg'>url</i>.
+This webdav package operates conceptually in terms of &quot;connections&quot;,
+although connections are in fact stateless, so this is not entirely accurate.
+In reality, the open call just verifies that the url is valid and sets
+things up for all other calls to use the same path and options.
+
+<br><br>
+<dl>
+
+Additional options:
+
+<br><br>
+<dt><strong>-username</strong> <i class='arg'>name</i><dd>
+
+Username to use for authorization.
+Must be used in combination with the <i class='arg'>-password</i> option.
+
+<br><br>
+<dt><strong>-password</strong> <i class='arg'>pass</i><dd>
+
+Password to use for authorization.
+Must be used in combination with the <i class='arg'>-username</i> option.
+
+</dl>
+
+The return value is a descriptor which can be used for all other functions.
+The descriptor should be released at the end by calling <b class='cmd'>::webdav::close</b>.
+
+<br><br>
+<dt><a name="2"><b class='cmd'>::webdav::close</b> <i class='arg'>conn</i></a><dd>
+
+
+Closes a previously opened wevdab connection.
+Since connections are stateless, this only cleans up internal state:
+no network actions take place, servers are not aware of this closing step.
+
+<br><br>
+<dt><a name="3"><b class='cmd'>::webdav::enumerate</b> <i class='arg'>conn</i> <i class='arg'>path</i> <i class='arg'>depth</i></a><dd>
+
+
+Returns a pairwise list of all entries in a directory as well as filestat
+details.  The first pair in the list describes the directory itself.
+<br><br>
+
+The <i class='arg'>path</i> argument can be a file or a directory.
+It can also be &quot;.&quot; or &quot;&quot; or absent to use the root of the tree.
+Use <i class='arg'>depth</i> 1 to list all items in the directory, or 0 to only return
+status info about the directory or file itself.
+This command is mostly for use by <b class='cmd'>::webdav::getstat</b> and
+<b class='cmd'>::webdav::getlist</b>.
+<br><br>
+
+See below for a description of the status details.
+
+<br><br>
+<dt><a name="4"><b class='cmd'>::webdav::getstat</b> <i class='arg'>conn</i> <i class='arg'>path</i></a><dd>
+
+
+Returns some information about the specified file or directory.
+
+<br><br>
+<dl>
+
+The return value is a list of key/value pairs, suitable for &quot;array get&quot;:
+
+<br><br>
+<dt><strong>type</strong> <i class='arg'>type</i><dd>
+
+Type of resource, either &quot;file&quot; or &quot;directory&quot;.
+
+<br><br>
+<dt><strong>ctime</strong> <i class='arg'>secs</i><dd>
+
+Creation time of resource.
+
+<br><br>
+<dt><strong>mtime</strong> <i class='arg'>secs</i><dd>
+
+Modification time of resource.
+
+<br><br>
+<dt><strong>size</strong> <i class='arg'>bytes</i><dd>
+
+Size of resource (files only).
+
+</dl>
+
+<dt><a name="5"><b class='cmd'>::webdav::getlist</b> <i class='arg'>conn</i> ?<i class='arg'>path</i>?</a><dd>
+
+
+Returns a list of all entries in a directory.
+
+<i class='arg'>Path</i> should be a subdirectory of the location specified as url during the
+open call, it can also be &quot;.&quot; or &quot;&quot; or absent to use the root of the tree.
+
+<br><br>
+<dt><a name="6"><b class='cmd'>::webdav::get</b> <i class='arg'>conn</i> <i class='arg'>path</i></a><dd>
+
+
+Return the contents of the specified file.  Not meaningul for directories.
+
+<br><br>
+<dt><a name="7"><b class='cmd'>::webdav::put</b> <i class='arg'>conn</i> <i class='arg'>path</i> <i class='arg'>data</i></a><dd>
+
+
+Store new data in the specified file.
+The file is either created or overwritten.
+
+<br><br>
+<dt><a name="8"><b class='cmd'>::webdav::copy</b> <i class='arg'>conn</i> <i class='arg'>srcpath</i> <i class='arg'>destpath</i></a><dd>
+
+
+Copy the specified file or directory to a new location.
+Directories are copied recursively, i.e. including all contents.
+
+<br><br>
+<dt><a name="9"><b class='cmd'>::webdav::mkdir</b> <i class='arg'>conn</i> <i class='arg'>path</i></a><dd>
+
+
+Create a directory in the specified location.
+Fails if the parent directory does not exist,
+or if the directory itself already exists.
+
+<br><br>
+<dt><a name="10"><b class='cmd'>::webdav::delete</b> <i class='arg'>conn</i> <i class='arg'>path</i></a><dd>
+
+
+Delete the specified file or directory.
+Directories are deleted recursively, i.e. including all contents.
+Fails if the file or directory does not exist.
+
+<br><br>
+<dt><a name="11"><b class='cmd'>::webdav::connect</b> <i class='arg'>url</i> ?<i class='arg'>options</i>?</a><dd>
+
+
+This is an OO variant of the <b class='cmd'>::webdav::open</b> command.
+See below for an example of use.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+The following example expects a server with an empty home directory:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>% set dav [::webdav::open http://some.site/some/dir]
+dav1
+% ::webdav::put $dav myfile &quot;here is some data&quot;
+% ::webdav::getlist $dav
+myfile
+% puts [::webdav::get $dav myfile]
+here is some data
+% ::webdav::delete $dav myfile
+% ::webdav::close $dav
+%
+</pre></td></tr></table></p>
+
+There is also an object-oriented interface in the webdav package.
+It works by using <b class='cmd'>::webdav::connect</b> instead of <b class='cmd'>::webdav::open</b>.
+The above example can be re-written to do exactly the same in OO style:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>% set dav [::webdav::connect http://some.site/some/dir]
+::webdav::obj::dav1
+% $dav put myfile &quot;here is some data&quot;
+% $dav getlist
+myfile
+% puts [$dav get myfile]
+here is some data
+% $dav delete myfile
+% $dav close
+%
+</pre></td></tr></table></p>
+
+The choice between commands and OO is a matter of preference.
+Both calls can be mixed, the OO style is just a thin wrapper.
+
+<h2><a name="references">REFERENCES</a></h2>
+<p>
+
+<ol>
+
+<li>
+    RFC 2518 - HTTP Extensions for Distributed Authoring -- WEBDAV
+    (<a href="http://www.webdav.org/specs/rfc2518.html">http://www.webdav.org/specs/rfc2518.html</a>)
+
+</ol>
+
+
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+DAV, WebDAV
+<h2><a name="copyright">COPYRIGHT</a></h2>
+<p>
+Copyright &copy; 2004, Jean-Claude Wippler &lt;jcw@equi4.com&gt;<br>
+</body></html>
+

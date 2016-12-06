@@ -57,6 +57,7 @@ wm withdraw .
 set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib tablelist5.16] \
                     [file join $tke_dir lib ptwidgets1.2] \
+                    [file join $tke_dir lib webdav] \
                     {*}$auto_path]
 
 if {$tcl_platform(platform) eq "windows"} {
@@ -77,6 +78,7 @@ package require http
 package require struct::set
 package require comm
 package require ftp
+package require webdav
 catch { package require tkdnd }
 catch { package require registry }
 

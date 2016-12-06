@@ -19,7 +19,7 @@
 # Name:    remote.tcl
 # Author:  Trevor Williams  (phase1geo@gmail.com)
 # Date:    10/10/2016
-# Brief:   Namespace that provides FTP/SFTP interface support.
+# Brief:   Namespace that provides FTP/SFTP/WebDAV interface support.
 ######################################################################
 
 namespace eval remote {
@@ -342,6 +342,10 @@ namespace eval remote {
         $remote::widgets(edit_port) insert end 22
       }
     }
+    .ftp.typePopup add command -label "WebDAV" -command {
+      $remote::widgets(edit_type) configure -text "WebDAV"
+      $remote::widgets(edit_port) delete 0 end
+    }
 
     # Center the window
     ::tk::PlaceWindow .ftp widget .
@@ -538,18 +542,26 @@ namespace eval remote {
     switch $type {
       "FTP" {
         if {[set connection [::ftp::Open $server $user $passwd -port $port -timeout 60]] == -1} {
-          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection failed"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message [msgcat::mc "Connection failed"]
         } else {
           ::ftp::Close $connection
-          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection passed"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message [msgcat::mc "Connection passed"]
         }
       }
       "SFTP" {
         if {[::sFTPopen test $server $user $passwd $port 60] == -1} {
-          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection failed"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message [msgcat::mc "Connection failed"]
         } else {
           ::sFTPclose test
-          tk_messageBox -parent .ftp -icon info -type ok -default ok -message "Connection passed"
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message [msgcat::mc "Connection passed"]
+        }
+      }
+      "WebDAV" {
+        if {[catch { webdav::connect $server -username $user -password $passwd } w]} {
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message [msgcat::mc "Connection failed"]
+        } else {
+          $w close
+          tk_messageBox -parent .ftp -icon info -type ok -default ok -message [msgcat::mc "Connection passed"]
         }
       }
     }
@@ -1590,6 +1602,7 @@ namespace eval remote {
     variable current_dir
     variable dir_hist
     variable dir_hist_index
+    variable connections
 
     # Get the current tablelist cursor
     set orig_cursor [$widgets(tl) cget -cursor]
@@ -1599,7 +1612,15 @@ namespace eval remote {
 
     # If the directory is empty, get the current directory
     if {$directory eq ""} {
-      set directory [::FTP_PWD $current_server]
+      switch [lindex $connections($current_server) 1] {
+        "FTP" -
+        "SFTP" {
+          set directory [::FTP_PWD $current_server]
+        }
+        "WebDAV" {
+          set directory "."
+        }
+      }
     }
 
     # Add the new directory
@@ -1715,6 +1736,20 @@ namespace eval remote {
           return 1
         }
       }
+      "WebDAV" {
+        if {[catch { webdav::connect $server -username $user -password $passwd } rc]} {
+          if {[winfo exists .ftp]} {
+            tk_messageBox -parent .ftp -type ok -default ok -icon error \
+              -message [format "%s $type %s $server" [msgcat::mc "Unable to connect to"] [msgcat::mc "server"]] -default $rc
+          } else {
+            logger::log $rc
+          }
+          return 0
+        } else {
+          set opened($name) $rc
+          return 1
+        }
+      }
     }
 
     return 0
@@ -1737,13 +1772,21 @@ namespace eval remote {
         if {[info exists opened($name)]} {
           ::FTP_CloseSession $name
           unset opened($name)
-          if {$name eq $current_server} {
-            catch { unset dir_hist($current_server) }
-            catch { unset dir_hist_index($current_server) }
-            set current_server ""
-          }
         }
       }
+      "WebDAV" {
+        if {[info exists opened($name)]} {
+          $opened($name) close
+          unset opened($name)
+        }
+      }
+    }
+
+    # Update directory history
+    if {$name eq $current_server} {
+      catch { unset dir_hist($current_server) }
+      catch { unset dir_hist_index($current_server) }
+      set current_server ""
     }
 
   }
@@ -1776,6 +1819,7 @@ namespace eval remote {
   proc file_exists {name fname} {
 
     variable connections
+    variable opened
 
     switch [lindex $connections($name) 1] {
       "FTP" -
@@ -1786,6 +1830,13 @@ namespace eval remote {
           } else {
             logger::log $rc
           }
+        } else {
+          logger::log $rc
+        }
+      }
+      "WebDAV" {
+        if {![catch { $opened($name) getstat $fname } rc]} {
+          return 1
         } else {
           logger::log $rc
         }
@@ -1801,6 +1852,7 @@ namespace eval remote {
   proc get_mtime {name fname} {
 
     variable connections
+    variable opened
 
     switch [lindex $connections($name) 1] {
       "FTP" -
@@ -1813,6 +1865,14 @@ namespace eval remote {
           } else {
             logger::log $rc
           }
+        } else {
+          logger::log $rc
+        }
+      }
+      "WebDAV" {
+        if {![catch { $opened($name) getstat $fname } rc]} {
+          array set status $rc
+          return $status(mtime)
         } else {
           logger::log $rc
         }
@@ -1830,6 +1890,7 @@ namespace eval remote {
   proc dir_contents {name dirname pitems} {
 
     variable connections
+    variable opened
 
     upvar $pitems items
 
@@ -1854,6 +1915,21 @@ namespace eval remote {
           logger::log $rc
         }
       }
+      "WebDAV" {
+        if {![catch { $opened($name) enumerate $dirname 1 } rc]} {
+          puts "rc: $rc"
+          foreach {name status} [lrange $rc 2 end] {
+            array set stat $status
+            if {[string index $name 0] eq "."} {
+              continue
+            }
+            lappend items [list [file join $dirname $name] [expr {$stat(type) eq "directory"}]]
+          }
+          return 1
+        } else {
+          logger::log $rc
+        }
+      }
     }
 
     return 0
@@ -1867,6 +1943,7 @@ namespace eval remote {
   proc get_file {name fname pcontents pmodtime} {
 
     variable connections
+    variable opened
 
     upvar $pcontents contents
     upvar $pmodtime  modtime
@@ -1889,6 +1966,15 @@ namespace eval remote {
           logger::log $rc
         }
       }
+      "WebDAV" {
+        set modtime [get_mtime $name $fname]
+        if {![catch { $opened($name) get $fname } rc]} {
+          set contents $rc
+          return 1
+        } else {
+          logger::log $rc
+        }
+      }
     }
 
     return 0
@@ -1901,6 +1987,7 @@ namespace eval remote {
   proc save_file {name fname contents pmodtime} {
 
     variable connections
+    variable opened
 
     upvar $pmodtime modtime
 
@@ -1923,6 +2010,14 @@ namespace eval remote {
           logger::log $rc
         }
       }
+      "WebDAV" {
+        if {![catch { $opened($name) put $fname $contents } rc]} {
+          set modtime [get_mtime $name $fname]
+          return 1
+        } else {
+          logger::log $rc
+        }
+      }
     }
 
     return 0
@@ -1934,12 +2029,20 @@ namespace eval remote {
   proc make_directory {name dirname} {
 
     variable connections
+    variable opened
 
     # Make the directory remotely
     switch [lindex $connections($name) 1] {
       "FTP" -
       "SFTP" {
         if {![catch { ::FTP_MkDir $name $dirname } rc]} {
+          return 1
+        } else {
+          logger::log $rc
+        }
+      }
+      "WebDAV" {
+        if {![catch { $opened($name) mkdir $dirname } rc]} {
           return 1
         } else {
           logger::log $rc
@@ -1956,6 +2059,7 @@ namespace eval remote {
   proc remove_directories {name dirnames args} {
 
     variable connections
+    variable opened
 
     array set opts {
       -force 0
@@ -1992,6 +2096,13 @@ namespace eval remote {
         }
         return 1
       }
+      "WebDAV" {
+        if {![catch { $opened($name) delete $dirname } rc]} {
+          return 1
+        } else {
+          logger::log $rc
+        }
+      }
     }
 
     return 0
@@ -2003,6 +2114,7 @@ namespace eval remote {
   proc rename_file {name curr_fname new_fname} {
 
     variable connections
+    variable opened
 
     # Change the current directory
     switch [lindex $connections($name) 1] {
@@ -2010,6 +2122,17 @@ namespace eval remote {
       "SFTP" {
         if {![catch { ::FTP_Rename $name $curr_fname $new_fname } rc]} {
           return 1
+        } else {
+          logger::log $rc
+        }
+      }
+      "WebDAV" {
+        if {![catch { $opened($name) copy $fname $new_fname } rc]} {
+          if {![catch { $opened($name) delete $fname } rc]} {
+            return 1
+          } else {
+            logger::log $rc
+          }
         } else {
           logger::log $rc
         }
@@ -2026,6 +2149,7 @@ namespace eval remote {
 
     variable connections
     variable contents
+    variable opened
 
     # Duplicate the file
     switch [lindex $connections($name) 1] {
@@ -2044,6 +2168,13 @@ namespace eval remote {
           logger::log $rc
         }
       }
+      "WebDAV" {
+        if {![catch { $opened($name) copy $fname $new_fname } rc]} {
+          return 1
+        } else {
+          logger::log $rc
+        }
+      }
     }
 
     return 0
@@ -2055,6 +2186,7 @@ namespace eval remote {
   proc remove_files {name fnames} {
 
     variable connections
+    variable opened
 
     # Delete the list of directories
     switch [lindex $connections($name) 1] {
@@ -2062,6 +2194,14 @@ namespace eval remote {
       "SFTP" {
         foreach fname $fnames {
           if {[catch { ::FTP_Delete $name $fname } rc]} {
+            logger::log $rc
+          }
+        }
+        return 1
+      }
+      "WebDAV" {
+        foreach fname $fnames {
+          if {[catch { $opened($name) delete $fname } rc]} {
             logger::log $rc
           }
         }
