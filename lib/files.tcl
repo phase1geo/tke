@@ -225,13 +225,10 @@ namespace eval files {
       }
 
       *Win*  {
-        if {[file exists [file join C: RECYCLER]]} {
-          set trash_path [file join C: RECYCLER]
-        } elseif {[file exists [file join C: {$Recycle.bin}]]} {
-          set trash_path [file join C: {$Recycle.bin}]
-        } else {
-          return -code error [msgcat::mc "Unable to determine how to move to trash"]
+        if {[catch { exec -ignorestderr cmd -c [file join $::tke_dir Win binit binit.exe] $fname } rc]} {
+          return -code error $rc
         }
+        return
       }
 
       default {
