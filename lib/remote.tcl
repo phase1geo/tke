@@ -1835,7 +1835,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) getstat $fname } rc]} {
+        if {![catch { $opened($name) getstat [string map {{ } {%20}} $fname] } rc]} {
           return 1
         } else {
           logger::log $rc
@@ -1870,7 +1870,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) getstat $fname } rc]} {
+        if {![catch { $opened($name) getstat [string map {{ } {%20}} $fname] } rc]} {
           array set status $rc
           return $status(mtime)
         } else {
@@ -1916,14 +1916,13 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) enumerate $dirname 1 } rc]} {
-          puts "rc: $rc"
+        if {![catch { $opened($name) enumerate [string map {{ } {%20}} $dirname] 1 } rc]} {
           foreach {name status} [lrange $rc 2 end] {
             array set stat $status
             if {[string index $name 0] eq "."} {
               continue
             }
-            lappend items [list [file join $dirname $name] [expr {$stat(type) eq "directory"}]]
+            lappend items [list [file join $dirname [string map {{%20} { }} $name]] [expr {$stat(type) eq "directory"}]]
           }
           return 1
         } else {
@@ -1968,7 +1967,7 @@ namespace eval remote {
       }
       "WebDAV" {
         set modtime [get_mtime $name $fname]
-        if {![catch { $opened($name) get $fname } rc]} {
+        if {![catch { $opened($name) get [string map {{ } {%20}} $fname] } rc]} {
           set contents $rc
           return 1
         } else {
@@ -2011,7 +2010,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) put $fname $contents } rc]} {
+        if {![catch { $opened($name) put [string map {{ } {%20}} $fname] $contents } rc]} {
           set modtime [get_mtime $name $fname]
           return 1
         } else {
@@ -2042,7 +2041,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) mkdir $dirname } rc]} {
+        if {![catch { $opened($name) mkdir [string map {{ } {%20}} $dirname] } rc]} {
           return 1
         } else {
           logger::log $rc
@@ -2097,7 +2096,7 @@ namespace eval remote {
         return 1
       }
       "WebDAV" {
-        if {![catch { $opened($name) delete $dirname } rc]} {
+        if {![catch { $opened($name) delete [string map {{ } {%20}} $dirname] } rc]} {
           return 1
         } else {
           logger::log $rc
@@ -2127,8 +2126,8 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) copy $fname $new_fname } rc]} {
-          if {![catch { $opened($name) delete $fname } rc]} {
+        if {![catch { $opened($name) copy [string map {{ } {%20}} $curr_fname] [string map {{ } {%20}} $new_fname] } rc]} {
+          if {![catch { $opened($name) delete [string map {{ } {%20}} $curr_fname] } rc]} {
             return 1
           } else {
             logger::log $rc
@@ -2169,7 +2168,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) copy $fname $new_fname } rc]} {
+        if {![catch { $opened($name) copy [string map {{ } {%20}} $fname] [string map {{ } {%20}} $new_fname] } rc]} {
           return 1
         } else {
           logger::log $rc
@@ -2201,7 +2200,7 @@ namespace eval remote {
       }
       "WebDAV" {
         foreach fname $fnames {
-          if {[catch { $opened($name) delete $fname } rc]} {
+          if {[catch { $opened($name) delete [string map {{ } {%20}} $fname] } rc]} {
             logger::log $rc
           }
         }
