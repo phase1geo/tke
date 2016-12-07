@@ -1,4 +1,4 @@
 set version_major "2"
 set version_minor "8"
 set version_point "6"
-set version_hgid  "2627"
+set version_hgid  "2629"
