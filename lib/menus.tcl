@@ -408,7 +408,10 @@ namespace eval menus {
     if {$file_index != -1} {
 
       # Get state if the file is a buffer
-      set buffer_state [expr {$buffer ? "disabled" : "normal"}]
+      set buffer_state [expr {($buffer || $diff_mode) ? "disabled" : "normal"}]
+      
+      # Get the state if the current editing buffer is a difference buffer
+      set diff_state [expr {$diff_mode ? "disabled" : "normal"}]
 
       # Get the state for items that are not valid for remote files
       set no_remote_state [expr {($remote eq "") ? $buffer_state : "disabled"}]
@@ -417,13 +420,16 @@ namespace eval menus {
       set favorite [favorites::is_favorite $fname]
 
       # Configure the Lock/Unlock menu item
-      if {$file_lock && ![catch { $mb index [msgcat::mc "Lock"] } index]} {
-        $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state normal -command "menus::unlock_command $mb"
-        if {$readonly} {
-          $mb entryconfigure $index -state disabled
+      if {$file_lock} {
+        if {![catch { $mb index [msgcat::mc "Lock"] } index]} {
+          $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state $diff_mode -command "menus::unlock_command $mb"
         }
-      } elseif {!$file_lock && ![catch { $mb index [msgcat::mc "Unlock"] } index]} {
-        $mb entryconfigure $index -label [msgcat::mc "Lock"] -state normal -command "menus::lock_command $mb"
+        $mb entryconfigure [msgcat::mc "Unlock"] -state [expr {$readonly ? "disabled" : $diff_state}]
+      } else {
+        if {![catch { $mb index [msgcat::mc "Unlock"] } index]} {
+          $mb entryconfigure $index -label [msgcat::mc "Lock"] -state $diff_mode -command "menus::lock_command $mb"
+        }
+        $mb entryconfigure [msgcat::mc "Lock"] -state [expr {$readonly ? "disabled" : $diff_state}]
       }
 
       # Configure the Favorite/Unfavorite menu item
@@ -442,25 +448,27 @@ namespace eval menus {
       # Configure the Delete/Move To Trash
       if {($remote eq "") && [preferences::get General/UseMoveToTrash]} {
         if {![catch { $mb index [msgcat::mc "Delete"] } index]} {
-          $mb entryconfigure $index -label [msgcat::mc "Move To Trash"] -command [list menus::move_to_trash_command] -state $buffer_state
+          $mb entryconfigure $index -label [msgcat::mc "Move To Trash"] -command [list menus::move_to_trash_command]
         }
+        $mb entryconfigure [msgcat::mc "Move To Trash"] -state $buffer_state
       } else {
         if {![catch { $mb index [msgcat::mc "Move To Trash"] } index]} {
-          $mb entryconfigure $index -label [msgcat::mc "Delete"] -command [list menus::delete_command] -state $buffer_state
+          $mb entryconfigure $index -label [msgcat::mc "Delete"] -command [list menus::delete_command]
         }
+        $mb entryconfigure [msgcat::mc "Delete"] -state $buffer_state
       }
 
       # Make sure that the file-specific items are enabled
       $mb entryconfigure [msgcat::mc "Reopen File"]                        -state $buffer_state
       $mb entryconfigure [msgcat::mc "Show File Difference"]               -state $no_remote_state
-      $mb entryconfigure [msgcat::mc "Save"]                               -state [expr {$modified ? "normal" : "disabled"}]
-      $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state normal
-      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Remote"]]    -state normal
-      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state normal
+      $mb entryconfigure [msgcat::mc "Save"]                               -state [expr {$modified ? $diff_state : "disabled"}]
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state $diff_state
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Remote"]]    -state $diff_state
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state $diff_state
       $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save All"]                           -state normal
-      $mb entryconfigure [format "%s..." [msgcat::mc "Export"]]            -state normal
-      $mb entryconfigure [msgcat::mc "Line Ending"]                        -state normal
+      $mb entryconfigure [format "%s..." [msgcat::mc "Export"]]            -state $diff_state
+      $mb entryconfigure [msgcat::mc "Line Ending"]                        -state $diff_state
       $mb entryconfigure [msgcat::mc "Rename"]                             -state $buffer_state
       $mb entryconfigure [msgcat::mc "Duplicate"]                          -state $buffer_state
       $mb entryconfigure [msgcat::mc "Close"]                              -state normal
@@ -1372,8 +1380,12 @@ namespace eval menus {
   # Called just prior to posting the edit menu.  Sets the state of all
   # menu items to match the proper state of the UI.
   proc edit_posting {mb} {
+    
+    lassign [gui::get_info {} current {txt readonly diff}] txt readonly diff
+    
+    set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
 
-    if {[gui::current_txt {}] eq ""} {
+    if {$txt eq ""} {
       $mb entryconfigure [msgcat::mc "Undo"]             -state disabled
       $mb entryconfigure [msgcat::mc "Redo"]             -state disabled
       $mb entryconfigure [msgcat::mc "Cut"]              -state disabled
@@ -1381,40 +1393,46 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Vim Mode"]         -state disabled
       $mb entryconfigure [msgcat::mc "Toggle Comment"]   -state disabled
       $mb entryconfigure [msgcat::mc "Indentation"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Cursor"]           -state disabled
       $mb entryconfigure [msgcat::mc "Insert"]           -state disabled
+      $mb entryconfigure [msgcat::mc "Delete"]           -state disabled
+      $mb entryconfigure [msgcat::mc "Transform"]        -state disabled
     } else {
       if {[gui::undoable {}]} {
-        $mb entryconfigure [msgcat::mc "Undo"] -state normal
+        $mb entryconfigure [msgcat::mc "Undo"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Undo"] -state disabled
       }
       if {[gui::redoable {}]} {
-        $mb entryconfigure [msgcat::mc "Redo"] -state normal
+        $mb entryconfigure [msgcat::mc "Redo"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Redo"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Cut"]  -state normal
+      $mb entryconfigure [msgcat::mc "Cut"]  -state $readonly_state
       $mb entryconfigure [msgcat::mc "Copy"] -state normal
       if {[gui::pastable {}]} {
-        $mb entryconfigure [msgcat::mc "Paste"]            -state normal
-        $mb entryconfigure [msgcat::mc "Paste and Format"] -state normal
+        $mb entryconfigure [msgcat::mc "Paste"]            -state $readonly_state
+        $mb entryconfigure [msgcat::mc "Paste and Format"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
+      $mb entryconfigure [msgcat::mc "Vim Mode"]    -state $readonly_state
       if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
         $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
       } else {
-        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state normal
+        $mb entryconfigure [msgcat::mc "Toggle Comment"] -state $readonly_state
       }
-      $mb entryconfigure [msgcat::mc "Indentation"] -state normal
+      $mb entryconfigure [msgcat::mc "Indentation"] -state $readonly_state
+      $mb entryconfigure [msgcat::mc "Cursor"]      -state $readonly_state
       if {[gui::editable {}]} {
-        $mb entryconfigure [msgcat::mc "Insert"]    -state normal
-        $mb entryconfigure [msgcat::mc "Delete"]    -state normal
-        $mb entryconfigure [msgcat::mc "Transform"] -state normal
+        $mb entryconfigure [msgcat::mc "Insert"]    -state $readonly_state
+        $mb entryconfigure [msgcat::mc "Delete"]    -state $readonly_state
+        $mb entryconfigure [msgcat::mc "Transform"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Insert"]    -state disabled
         $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
@@ -2021,26 +2039,30 @@ namespace eval menus {
   # Called just prior to posting the find menu.  Sets the state of the menu
   # items to match the current UI state.
   proc find_posting {mb} {
-
-    if {[set txt [gui::current_txt {}]] eq ""} {
-      $mb entryconfigure [msgcat::mc "Find"]                       -state disabled
-      $mb entryconfigure [msgcat::mc "Find and Replace"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Select Next Occurrence"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Select Previous Occurrence"] -state disabled
-      $mb entryconfigure [msgcat::mc "Append Next Occurrence"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Select All Occurrences"]     -state disabled
-      $mb entryconfigure [msgcat::mc "Jump Backward"]              -state disabled
-      $mb entryconfigure [msgcat::mc "Jump Forward"]               -state disabled
-      $mb entryconfigure [msgcat::mc "Next Difference"]            -state disabled
-      $mb entryconfigure [msgcat::mc "Previous Difference"]        -state disabled
-      $mb entryconfigure [msgcat::mc "Show Selected Line Change"]  -state disabled
-      $mb entryconfigure [msgcat::mc "Markers"]                    -state disabled
-      $mb entryconfigure [msgcat::mc "Find Matching Bracket"]      -state disabled
+    
+    lassign [gui::get_info {} current {txt readonly diff}] txt readonly diff
+    
+    set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
+    
+    if {$txt eq ""} {
+      $mb entryconfigure [msgcat::mc "Find"]                           -state disabled
+      $mb entryconfigure [msgcat::mc "Find and Replace"]               -state disabled
+      $mb entryconfigure [msgcat::mc "Select Next Occurrence"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Select Previous Occurrence"]     -state disabled
+      $mb entryconfigure [msgcat::mc "Append Next Occurrence"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Select All Occurrences"]         -state disabled
+      $mb entryconfigure [msgcat::mc "Jump Backward"]                  -state disabled
+      $mb entryconfigure [msgcat::mc "Jump Forward"]                   -state disabled
+      $mb entryconfigure [msgcat::mc "Next Difference"]                -state disabled
+      $mb entryconfigure [msgcat::mc "Previous Difference"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Show Selected Line Change"]      -state disabled
+      $mb entryconfigure [msgcat::mc "Markers"]                        -state disabled
+      $mb entryconfigure [msgcat::mc "Find Matching Bracket"]          -state disabled
       $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"]     -state disabled
       $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Find"]                       -state normal
-      $mb entryconfigure [msgcat::mc "Find and Replace"]           -state normal
+      $mb entryconfigure [msgcat::mc "Find and Replace"]           -state $readonly_state
       $mb entryconfigure [msgcat::mc "Select Next Occurrence"]     -state normal
       $mb entryconfigure [msgcat::mc "Select Previous Occurrence"] -state normal
       $mb entryconfigure [msgcat::mc "Append Next Occurrence"]     -state normal
@@ -2067,7 +2089,7 @@ namespace eval menus {
       } else {
         $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Find Matching Bracket"] -state normal
+      $mb entryconfigure [msgcat::mc "Find Matching Bracket"] -state $readonly_state
       if {[completer::goto_mismatch next -check 1]} {
         $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"] -state normal
       } else {

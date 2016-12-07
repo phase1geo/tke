@@ -4382,10 +4382,12 @@ namespace eval gui {
     set adjusted_index [$tb index $index]
 
     # Add the text bindings
-    [ns indent]::add_bindings          $txt
-    [ns multicursor]::add_bindings     $txt
-    [ns vim]::set_vim_mode             $txt {}
-    [ns completer]::add_bindings       $txt
+    if {!$opts(-diff)} {
+      [ns indent]::add_bindings          $txt
+      [ns multicursor]::add_bindings     $txt
+      [ns vim]::set_vim_mode             $txt {}
+      [ns completer]::add_bindings       $txt
+    }
     [ns plugins]::handle_text_bindings $txt $opts(-tags)
     make_drop_target                   $txt
 
@@ -4393,10 +4395,10 @@ namespace eval gui {
     [ns syntax]::set_language $txt [expr {($opts(-lang) eq "") ? [[ns syntax]::get_default_language $fname] : $opts(-lang)}]
 
     # Snippet bindings must go after syntax language setting
-    [ns snippets]::add_bindings $txt
-
-    # Apply code foldings
-    [ns folding]::initialize $txt
+    if {!$opts(-diff)} {
+      [ns snippets]::add_bindings $txt
+      [ns folding]::initialize $txt
+    }
 
     # Add any gutters
     foreach gutter $opts(-gutters) {
