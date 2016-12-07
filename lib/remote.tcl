@@ -1835,10 +1835,8 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) getstat [string map {{ } {%20}} $fname] } rc]} {
+        if {![catch { $opened($name) getstat [webdav_fname $fname] } rc]} {
           return 1
-        } else {
-          logger::log $rc
         }
       }
     }
@@ -1870,7 +1868,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) getstat [string map {{ } {%20}} $fname] } rc]} {
+        if {![catch { $opened($name) getstat [webdav_fname $fname] } rc]} {
           array set status $rc
           return $status(mtime)
         } else {
@@ -1917,12 +1915,12 @@ namespace eval remote {
       }
       "WebDAV" {
         if {![catch { $opened($name) enumerate [string map {{ } {%20}} $dirname] 1 } rc]} {
-          foreach {name status} [lrange $rc 2 end] {
+          foreach {fname status} [lrange $rc 2 end] {
             array set stat $status
-            if {[string index $name 0] eq "."} {
+            if {[string index $fname 0] eq "."} {
               continue
             }
-            lappend items [list [file join $dirname [string map {{%20} { }} $name]] [expr {$stat(type) eq "directory"}]]
+            lappend items [list [file join $dirname [string map {{%20} { }} $fname]] [expr {$stat(type) eq "directory"}]]
           }
           return 1
         } else {
@@ -1967,7 +1965,7 @@ namespace eval remote {
       }
       "WebDAV" {
         set modtime [get_mtime $name $fname]
-        if {![catch { $opened($name) get [string map {{ } {%20}} $fname] } rc]} {
+        if {![catch { $opened($name) get [webdav_fname $fname] } rc]} {
           set contents $rc
           return 1
         } else {
@@ -2010,7 +2008,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) put [string map {{ } {%20}} $fname] $contents } rc]} {
+        if {![catch { $opened($name) put [webdav_fname $fname] $contents } rc]} {
           set modtime [get_mtime $name $fname]
           return 1
         } else {
@@ -2041,7 +2039,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) mkdir [string map {{ } {%20}} $dirname] } rc]} {
+        if {![catch { $opened($name) mkdir [webdav_fname $dirname] } rc]} {
           return 1
         } else {
           logger::log $rc
@@ -2065,6 +2063,8 @@ namespace eval remote {
     }
     array set opts $args
 
+    set retval 1
+
     # Delete the list of directories
     switch [lindex $connections($name) 1] {
       "FTP" -
@@ -2076,13 +2076,18 @@ namespace eval remote {
               foreach item $items {
                 lassign $item fname isdir
                 if {$isdir} {
-                  remove_directories $name $fname -force 1
+                  if {![remove_directories $name $fname -force 1]} {
+                    set retval 0
+                  }
                 } else {
-                  remove_files $name $fname
+                  if {![remove_files $name $fname]} {
+                    set retval 0
+                  }
                 }
               }
               if {[catch { ::FTP_RmDir $name $dirname } rc]} {
                 logger::log $rc
+                set retval 0
               }
             }
           }
@@ -2090,21 +2095,25 @@ namespace eval remote {
           foreach dirname $dirnames {
             if {[catch { ::FTP_RmDir $name $dirname } rc]} {
               logger::log $rc
+              set retval 0
             }
           }
         }
-        return 1
       }
       "WebDAV" {
-        if {![catch { $opened($name) delete [string map {{ } {%20}} $dirname] } rc]} {
-          return 1
-        } else {
-          logger::log $rc
+        foreach dirname $dirnames {
+          if {[catch { $opened($name) delete [webdav_fname $dirname] } rc]} {
+            logger::log $rc
+            set retval 0
+          }
         }
+      }
+      default {
+        set retval 0
       }
     }
 
-    return 0
+    return $retval
 
   }
 
@@ -2126,8 +2135,8 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) copy [string map {{ } {%20}} $curr_fname] [string map {{ } {%20}} $new_fname] } rc]} {
-          if {![catch { $opened($name) delete [string map {{ } {%20}} $curr_fname] } rc]} {
+        if {![catch { $opened($name) copy [webdav_fname $curr_fname] [webdav_fname $new_fname] } rc]} {
+          if {![catch { $opened($name) delete [webdav_fname $curr_fname] } rc]} {
             return 1
           } else {
             logger::log $rc
@@ -2168,7 +2177,7 @@ namespace eval remote {
         }
       }
       "WebDAV" {
-        if {![catch { $opened($name) copy [string map {{ } {%20}} $fname] [string map {{ } {%20}} $new_fname] } rc]} {
+        if {![catch { $opened($name) copy [webdav_fname $fname] [webdav_fname $new_fname] } rc]} {
           return 1
         } else {
           logger::log $rc
@@ -2187,6 +2196,8 @@ namespace eval remote {
     variable connections
     variable opened
 
+    set retval 1
+
     # Delete the list of directories
     switch [lindex $connections($name) 1] {
       "FTP" -
@@ -2194,21 +2205,24 @@ namespace eval remote {
         foreach fname $fnames {
           if {[catch { ::FTP_Delete $name $fname } rc]} {
             logger::log $rc
+            set retval 0
           }
         }
-        return 1
       }
       "WebDAV" {
         foreach fname $fnames {
-          if {[catch { $opened($name) delete [string map {{ } {%20}} $fname] } rc]} {
+          if {[catch { $opened($name) delete [webdav_fname $fname] } rc]} {
             logger::log $rc
+            set retval 0
           }
         }
-        return 1
+      }
+      default {
+        set retval 0
       }
     }
 
-    return 0
+    return $retval
 
   }
 
@@ -2314,6 +2328,20 @@ namespace eval remote {
     variable remote_file
 
     set remote_file [file join $dir remote.tkedat]
+
+  }
+
+  ######################################################################
+  # Returns the filename to use for various webdav commands.
+  proc webdav_fname {fname} {
+
+    set file_list [file split $fname]
+
+    if {[lindex $file_list 0] eq "."} {
+      set file_list [lrange $file_list 1 end]
+    }
+
+    return [string map {{ } {%20}} [file join {*}$file_list]]
 
   }
 

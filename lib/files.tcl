@@ -41,7 +41,7 @@ namespace eval files {
       plugins::handle_on_rename $old_name $new_name
 
       if {[catch { file rename -force $old_name $new_name } rc]} {
-        return
+        return -code error $rc
       }
 
     } else {
@@ -50,7 +50,7 @@ namespace eval files {
       plugins::handle_on_rename $old_name $new_name
 
       if {![remote::rename_file $remote $old_name $new_name]} {
-        return
+        return -code error ""
       }
 
     }
@@ -70,12 +70,12 @@ namespace eval files {
     plugins::handle_on_delete $dir
 
     if {$remote eq ""} {
-      if {[catch { file delete -force $dir }]} {
-        continue
+      if {[catch { file delete -force $dir } rc]} {
+        return -code error $rc
       }
     } else {
       if {![remote::remove_directories $remote [list $dir] -force 1]} {
-        continue
+        return -code error ""
       }
     }
 
