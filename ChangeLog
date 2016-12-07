@@ -1,127 +1,42 @@
-changeset:   2613:fea33a66fcce
-tag:         devel-2.8.5
+changeset:   2628:c49aa7d7275b
+tag:         devel-2.8.6
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 00:29:56 2016 -0600
+date:        Tue Dec 06 01:49:37 2016 -0600
 files:       ChangeLog lib/version.tcl specl_version.tcl
 description:
-ChangeLog for devel-2.8.5 release
+ChangeLog for devel-2.8.6 release
 
 
-changeset:   2614:4e735e1230f0
+changeset:   2629:01809f4b9963
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 00:30:01 2016 -0600
+date:        Tue Dec 06 01:49:43 2016 -0600
 files:       .hgtags
 description:
-Added tag devel-2.8.5 for changeset fea33a66fcce
+Added tag devel-2.8.6 for changeset c49aa7d7275b
 
 
-changeset:   2615:dd038de24948
+changeset:   2630:30a91167ee96
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 00:49:16 2016 -0600
-files:       lib/pref_ui.tcl lib/version.tcl
+date:        Tue Dec 06 21:12:46 2016 -0600
+files:       lib/remote.tcl lib/version.tcl lib/webdav/webdav.tcl
 description:
-* Fixing preference GUI issue that kept the proper panel to be displayed when starting the preference window.
+* Fixing WebDAV issues.
 
 
-changeset:   2616:6512fd3c7654
+changeset:   2631:b2a52b35da87
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 21:18:22 2016 -0600
-files:       data/syntax/Markdown.syntax data/syntax/MultiMarkdown.syntax lib/version.tcl
+date:        Wed Dec 07 01:04:04 2016 -0600
+files:       lib/files.tcl lib/remote.tcl lib/version.tcl
 description:
-* Enhancing the file extension list for Markdown and MultiMarkdown.
+* Fixing various issues with WebDAV.
 
 
-changeset:   2617:63f6ebc785a8
-parent:      2615:dd038de24948
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 14:32:16 2016 -0600
-files:       data/syntax/Markdown.syntax lib/syntax.tcl lib/version.tcl
-description:
-* Moving Markdown syntax procedures from syntax namespace to the Markdown.syntax file.
-
-
-changeset:   2618:f1da3e64e12d
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 15:51:05 2016 -0600
-files:       data/syntax/Awk.syntax lib/version.tcl
-description:
-* Adding Awk syntax support.
-
-
-changeset:   2619:38e04fa2e86c
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 16:59:30 2016 -0600
-files:       data/syntax/Assembly.syntax lib/version.tcl
-description:
-* Adding Assembly syntax support.
-
-
-changeset:   2620:4ff18961169f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 17:33:27 2016 -0600
-files:       data/syntax/Gherkin.syntax lib/version.tcl
-description:
-* Adding Gherkin syntax support.
-
-
-changeset:   2621:d6cfb79e27d9
-parent:      2616:6512fd3c7654
-parent:      2620:4ff18961169f
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 21:19:42 2016 -0600
-files:       data/syntax/Markdown.syntax
-description:
-* Merging.
-
-
-changeset:   2622:ba1bce359293
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 05 11:41:53 2016 -0600
-files:       lib/ptwidgets1.2/library/tabbar.tcl lib/version.tcl
-description:
-* Fixing tab drag issues.
-
-
-changeset:   2623:3cd2aac559c7
-parent:      2621:d6cfb79e27d9
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Fri Dec 02 23:32:02 2016 -0600
-files:       lib/sidebar.tcl lib/version.tcl
-description:
-* Fixing issue with sidebar file renaming when filename doesn't change directories.
-
-
-changeset:   2624:760b0bb8f601
-parent:      2622:ba1bce359293
-parent:      2623:3cd2aac559c7
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 05 11:42:46 2016 -0600
-description:
-* Merging.
-
-
-changeset:   2625:a8dfee44dbbd
-user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Mon Dec 05 19:16:01 2016 -0600
-files:       Win/binit/binit.exe Win/freewrap.tcl lib/files.tcl lib/version.tcl
-description:
-* First attempt to add proper Move to Trash support for Windows.
-
-
-changeset:   2626:0046d2664745
-user:        Trevor Williams <phase1geo@gmail.com>
-date:        Mon Dec 05 22:56:30 2016 -0600
-files:       Win/freewrap.files lib/files.tcl lib/version.tcl
-description:
-* Correcting support for Move To Trash in Windows.
-
-
-changeset:   2627:26d9777b3a37
+changeset:   2632:7eeeb09b99a0
 tag:         tip
 user:        Trevor Williams <phase1geo@users.sourceforge.net>
-date:        Tue Dec 06 01:37:20 2016 -0600
-files:       lib/remote.tcl lib/tke.tcl lib/version.tcl lib/webdav/ChangeLog lib/webdav/README lib/webdav/davdata.tgz lib/webdav/davvfs.tcl lib/webdav/davvfs.test lib/webdav/pkgIndex.tcl lib/webdav/vfsUrl.tcl lib/webdav/webdav.html lib/webdav/webdav.man lib/webdav/webdav.tcl lib/webdav/webdav.test
+date:        Wed Dec 07 01:39:21 2016 -0600
+files:       lib/remote.tcl lib/version.tcl
 description:
-* Initial checkin of WebDAV support in remote namespace.
+* Fixing remote file dialog UI handling for WebDAV.
 
 
