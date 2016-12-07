@@ -261,13 +261,13 @@ namespace eval remote {
     set widgets(edit_group)  [ttk::menubutton .ftp.ef.sf.mb1 -text ""    -menu [menu .ftp.egroupPopup -tearoff 0 -postcommand [list remote::populate_group_menu]]]
     ttk::label .ftp.ef.sf.l2  -text [format "%s: " [msgcat::mc "Name"]]
     set widgets(edit_name)   [ttk::entry .ftp.ef.sf.ne  -validate key -validatecommand [list remote::check_name %P]]
-    ttk::label .ftp.ef.sf.l3  -text [format "%s: " [msgcat::mc "Server"]]
+    set widgets(edit_serverl) [ttk::label .ftp.ef.sf.l3 -text [format "%s: " [msgcat::mc "Server"]]]
     set widgets(edit_server) [ttk::entry .ftp.ef.sf.se  -validate key -validatecommand [list remote::check_server %P]]
     ttk::label .ftp.ef.sf.l4  -text [format "%s: " [msgcat::mc "Username"]]
     set widgets(edit_user)   [ttk::entry .ftp.ef.sf.ue  -validate key -validatecommand [list remote::check_username %P]]
     ttk::label .ftp.ef.sf.l5  -text [format "%s (%s): " [msgcat::mc "Password"] [msgcat::mc "Optional"]]
     set widgets(edit_passwd) [ttk::entry .ftp.ef.sf.pe  -show *]
-    ttk::label .ftp.ef.sf.l6  -text [format "%s: " [msgcat::mc "Port"]]
+    set widgets(edit_portl)  [ttk::label .ftp.ef.sf.l6  -text [format "%s: " [msgcat::mc "Port"]]]
     set widgets(edit_port)   [ttk::entry .ftp.ef.sf.poe -validate key -validatecommand [list remote::check_port %P] -invalidcommand bell]
     ttk::label .ftp.ef.sf.l7  -text [format "%s (%s): " [msgcat::mc "Remote Directory"] [msgcat::mc "Optional"]]
     set widgets(edit_dir)    [ttk::entry .ftp.ef.sf.re -validate key -validatecommand [list remote::check_dir]]
@@ -331,20 +331,29 @@ namespace eval remote {
 
     # Populate the type menubutton
     .ftp.typePopup add command -label "FTP"  -command {
-      $remote::widgets(edit_type) configure -text "FTP"
-      $remote::widgets(edit_port) delete 0 end
-      $remote::widgets(edit_port) insert end 21
+      $remote::widgets(edit_type)    configure -text "FTP"
+      $remote::widgets(edit_serverl) configure -text [format "%s: " [msgcat::mc "Server"]]
+      $remote::widgets(edit_port)    delete 0 end
+      $remote::widgets(edit_port)    insert end 21
+      grid $remote::widgets(edit_portl)
+      grid $remote::widgets(edit_port)
     }
     if {[info procs ::sFTPopen] ne ""} {
       .ftp.typePopup add command -label "SFTP" -command {
-        $remote::widgets(edit_type) configure -text "SFTP"
-        $remote::widgets(edit_port) delete 0 end
-        $remote::widgets(edit_port) insert end 22
+        $remote::widgets(edit_type)    configure -text "SFTP"
+        $remote::widgets(edit_serverl) configure -text [format "%s: " [msgcat::mc "Server"]]
+        $remote::widgets(edit_port)    delete 0 end
+        $remote::widgets(edit_port)    insert end 22
+        grid $remote::widgets(edit_portl)
+        grid $remote::widgets(edit_port)
       }
     }
     .ftp.typePopup add command -label "WebDAV" -command {
-      $remote::widgets(edit_type) configure -text "WebDAV"
-      $remote::widgets(edit_port) delete 0 end
+      $remote::widgets(edit_type)    configure -text "WebDAV"
+      $remote::widgets(edit_serverl) configure -text "URL: "
+      $remote::widgets(edit_port)    delete 0 end
+      grid remove $remote::widgets(edit_portl)
+      grid remove $remote::widgets(edit_port)
     }
 
     # Center the window
@@ -639,7 +648,7 @@ namespace eval remote {
 
     # If the create button is Update, potentially update the button state
     if {[$widgets(edit_create) cget -text] eq "Update"} {
-      if {([$widgets(edit_name) get] ne "") && \
+      if {([$widgets(edit_name)   get] ne "") && \
           ([$widgets(edit_server) get] ne "") && \
           ([$widgets(edit_user)   get] ne "") && \
           ([$widgets(edit_passwd) get] ne "") && \
@@ -660,10 +669,12 @@ namespace eval remote {
 
     variable widgets
 
+    set type [$widgets(edit_type) cget -text]
+
     if {($value ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ([$widgets(edit_user)   get] ne "") && \
-        ([$widgets(edit_port)   get] ne "")} {
+        (([$widgets(edit_port)  get] ne "") || ($type eq "WebDAV"))} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -681,10 +692,12 @@ namespace eval remote {
 
     variable widgets
 
+    set type [$widgets(edit_type) cget -text]
+
     if {([$widgets(edit_name) get] ne "") && \
         ($value ne "") && \
         ([$widgets(edit_user) get] ne "") && \
-        ([$widgets(edit_port) get] ne "")} {
+        (([$widgets(edit_port) get] ne "") || ($type eq "WebDAV"))} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -702,10 +715,12 @@ namespace eval remote {
 
     variable widgets
 
+    set type [$widgets(edit_type) cget -text]
+
     if {([$widgets(edit_name)   get] ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ($value ne "") && \
-        ([$widgets(edit_port)   get] ne "")} {
+        (([$widgets(edit_port)  get] ne "") || ($type eq "WebDAV"))} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -728,10 +743,12 @@ namespace eval remote {
       return 0
     }
 
+    set type [$widgets(edit_type) cget -text]
+
     if {([$widgets(edit_name)   get] ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ([$widgets(edit_user)   get] ne "") && \
-        ($value ne "")} {
+        (($value ne "") || ($type eq "WebDAV"))} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
@@ -750,10 +767,12 @@ namespace eval remote {
 
     variable widgets
 
+    set type [$widgets(edit_type) cget -text]
+
     if {([$widgets(edit_name)   get] ne "") && \
         ([$widgets(edit_server) get] ne "") && \
         ([$widgets(edit_user)   get] ne "") && \
-        ([$widgets(edit_port)   get] ne "")} {
+        (([$widgets(edit_port)  get] ne "") || ($type eq "WebDAV"))} {
       $widgets(edit_create) configure -state normal
       $widgets(edit_test)   configure -state normal
     } else {
