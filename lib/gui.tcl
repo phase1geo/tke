@@ -153,6 +153,8 @@ namespace eval gui {
     # Get the file information
     lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
 
+    puts "In check_file, index: $index, fname: $fname, exists: [file exists $fname], modtime: [modtime $fname], mtime: $mtime, modified: $modified"
+
     if {$fname ne ""} {
       if {[file_exists $fname]} {
         set file_mtime [modtime $fname]
@@ -164,6 +166,7 @@ namespace eval gui {
               update_file $index
             }
           } else {
+            puts "  Updating file!"
             update_file $index
           }
           lset files $index $files_index(mtime) $file_mtime
@@ -4598,12 +4601,12 @@ namespace eval gui {
   proc handle_birdseye_enter {be txt m} {
 
     variable be_show_after_id
-    
+
     if {$m eq "NotifyNormal"} {
-      
+
       # Highlight the shown text
       set be_show_after_id [after 300 [list [ns gui]::highlight_birdseye $be $txt]]
-      
+
     }
 
   }
@@ -4611,19 +4614,19 @@ namespace eval gui {
   ######################################################################
   # Handles the mouse leaving the bird's eye viewer.
   proc handle_birdseye_leave {be m} {
-    
+
     variable be_show_after_id
-    
+
     if {$m eq "NotifyNormal"} {
-    
+
       # Cancel the bird's eye show activity if it is valid
       after cancel $be_show_after_id
-   
+
       # Clear the selection
       $be tag remove sel 1.0 end
-      
+
     }
-    
+
   }
 
   ######################################################################
