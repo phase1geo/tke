@@ -162,6 +162,9 @@ namespace eval preferences {
         }
       }
 
+      # Add plugin preferences
+      array set base_prefs [[ns plugins]::handle_on_pref_load]
+
     }
 
   }
@@ -503,6 +506,33 @@ namespace eval preferences {
     if {$load} {
       load_file
     }
+
+  }
+
+  ######################################################################
+  # Adds the plugin preferences to the existing preference information,
+  # taking care to not overwrite an existing preference value.
+  proc add_plugin_prefs {prefs} {
+
+    variable loaded_prefs
+
+    array set plugin_prefs $prefs
+    array set global_prefs $loaded_prefs(user,global)
+
+    # Clean up the global_prefs array
+    foreach name [array names global_prefs Plugins/*] {
+      if {![info exists plugin_prefs($name)]} {
+        unset global_prefs($name)
+      } else {
+        unset plugin_prefs($name)
+      }
+    }
+
+    # Add any new plugin preference values
+    array set global_prefs [array get plugin_prefs]
+
+    # Replace the global user preferences
+    set loaded_prefs(user,global) [array get global_prefs]
 
   }
 

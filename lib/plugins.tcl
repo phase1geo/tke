@@ -198,6 +198,9 @@ namespace eval plugins {
     # Add all of the VCS commands
     add_all_vcs_commands
 
+    # Update the preferences
+    handle_on_pref_load
+
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
 
@@ -497,6 +500,7 @@ namespace eval plugins {
             add_all_text_bindings
             add_all_syntax
             add_all_vcs_commands
+            handle_on_pref_load
             return
           }
         }
@@ -532,6 +536,9 @@ namespace eval plugins {
 
     # Add all VCS commands
     add_all_vcs_commands
+
+    # Add all loaded preferences
+    handle_on_pref_load
 
   }
 
@@ -1260,6 +1267,29 @@ namespace eval plugins {
   proc handle_on_update {file_index} {
 
     handle_event "on_update" $file_index
+
+  }
+
+  ######################################################################
+  # Called when the preferences file is loaded.  This plugin should return
+  # a list
+  proc handle_on_pref_load {} {
+
+    variable registry
+
+    set prefs [list]
+
+    foreach entry [find_registry_entries "on_pref_load"] {
+      if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] } status]} {
+        handle_status_error "handle_on_pref_load" [lindex $entry 0] $status
+      }
+      foreach {name value} $status {
+        lappend prefs "Plugins/$registry([lindex $entry 0],name)/$name" $value
+      }
+    }
+
+    # Update the preferences namespace
+    preferences::add_plugin_prefs $prefs
 
   }
 
