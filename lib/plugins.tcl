@@ -1294,6 +1294,22 @@ namespace eval plugins {
   }
 
   ######################################################################
+  # Get the list of plugins that contain preferences.
+  proc get_pref_list {} {
+
+    variable registry
+
+    set names [list]
+
+    foreach entry [find_registry_entries "on_pref_load"] {
+      lappend names $registry([lindex $entry 0],name)
+    }
+
+    return $names
+
+  }
+
+  ######################################################################
   # Called when the application is exiting.
   proc handle_on_quit {} {
 
