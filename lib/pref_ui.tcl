@@ -166,7 +166,7 @@ namespace eval pref_ui {
 
       if {!$init} {
         if {$session eq ""} {
-          foreach panel [list general appearance editor find sidebar view snippets emmet shortcuts advanced] {
+          foreach panel [list general appearance editor find sidebar view snippets emmet shortcuts plugins advanced] {
             pack $widgets(panes).$panel -fill both -padx 2 -pady 2
           }
           $widgets(frame).emmet.nb add $widgets(node_aliases)
@@ -263,7 +263,7 @@ namespace eval pref_ui {
       select $selected_session $selected_language 1
 
       # Create the list of panes
-      set panes [list general appearance editor find sidebar view snippets emmet shortcuts advanced]
+      set panes [list general appearance editor find sidebar view snippets emmet shortcuts plugins advanced]
 
       # Create and pack each of the panes
       foreach pane $panes {
@@ -314,7 +314,7 @@ namespace eval pref_ui {
         $widgets(frame).emmet.nb hide $widgets(abbr_aliases)
         pane_clicked appearance
       } else {
-        foreach item [list general appearance editor find sidebar view snippets emmet shortcuts advanced] {
+        foreach item [list general appearance editor find sidebar view snippets emmet shortcuts plugins advanced] {
           pack $widgets(panes).$item -fill both -padx 2 -pady 2
         }
         if {$panel ne ""} {
@@ -592,6 +592,7 @@ namespace eval pref_ui {
       Sidebar    { set tag ab }
       View       { set tag ab }
       Shortcuts  { set tag a }
+      Plugins    { set tag a }
       Advanced   { set tag a }
       default    { set tag "" }
     }
@@ -3194,6 +3195,51 @@ namespace eval pref_ui {
         }
       }
     }
+
+  }
+
+  ###########
+  # PLUGINS #
+  ###########
+
+  ######################################################################
+  # Creates the plugins panel.
+  proc create_plugins {w} {
+
+    variable widgets
+    variable prefs
+
+    set widgets(plugins_mb)    [ttk::menubutton $w.mb -text [msgcat::mc "Select a plugin"] -menu [menu $w.pluginsMenu -tearoff 0]]
+    set widgets(plugins_frame) [ttk::frame $w.pf]
+
+    pack $widgets(plugins_mb)    -padx 2 -pady 2
+    pack $widgets(plugins_frame) -fill both -expand yes -padx 2 -pady 2
+
+    # Populate the menu with the currently loaded plugins
+    foreach plugin [plugins::get_pref_list] {
+      # plugins::handle_on_pref_ui $widgets(plugins_frame).$plugin
+      $w.pluginsMenu add command -label $plugin -command [list pref_ui::handle_plugins_change $plugin]
+    }
+
+  }
+
+  ######################################################################
+  # Handles a change to the currently selected plugin.  Changes the text
+  # in the menubutton and displays the plugin's preference frame.
+  proc handle_plugins_change {plugin} {
+
+    variable widgets
+
+    # Change the menubutton text
+    $widgets(plugins_mb) configure -text $plugin
+
+    # Remove any packed slaves in the plugins frame
+    foreach child [pack slaves $widgets(plugins_frame)] {
+      pack forget $widgets(plugins_frame)
+    }
+
+    # Pack the selected frame
+    pack $widgets(plugins_frame).$plugin -fill both -expand
 
   }
 

@@ -320,8 +320,11 @@ namespace eval gui {
       {msgcat::mc "Image used in the preferences window in the Snippets tab."} \
       -file [file join $::tke_dir lib images snippets.gif]
     theme::register_image pref_shortcuts photo ttk_style background \
-      {msgcat::mc "Image used in the shortcuts window in the Shortcuts tab."} \
+      {msgcat::mc "Image used in the preferences window in the Shortcuts tab."} \
       -file [file join $::tke_dir lib images shortcut.gif]
+    theme::register_image pref_plugins photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window in the Plugins tab."} \
+      -file [file join $::tke_dir lib images plugins.gif]
     theme::register_image pref_advanced photo ttk_style background \
       {msgcat::mc "Image used in the preferences window in the Advanced tab."} \
       -file [file join $::tke_dir lib images advanced.gif]
