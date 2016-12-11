@@ -162,9 +162,6 @@ namespace eval preferences {
         }
       }
 
-      # Add plugin preferences
-      array set base_prefs [[ns plugins]::handle_on_pref_load]
-
     }
 
   }
