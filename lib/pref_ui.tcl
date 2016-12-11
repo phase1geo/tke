@@ -604,7 +604,6 @@ namespace eval pref_ui {
     variable prefs
 
     if {[winfo exists .prefwin]} {
-      puts "Saving preferences, session: $session, language: $language"
       preferences::save_prefs $session $language [array get prefs]
     }
 
