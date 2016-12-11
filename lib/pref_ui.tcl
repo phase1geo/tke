@@ -610,7 +610,7 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Display the list of all matches in the dropdoxn listbox.
+  # Display the list of all matches in the dropdown listbox.
   proc show_matches {value} {
 
     variable widgets
@@ -624,7 +624,7 @@ namespace eval pref_ui {
     }
 
     foreach match $matches {
-      lassign $search($match) win lbl tab1 tab2
+      lassign $search($match) win lbl plugin tab1 tab2
       set tabs1($tab1) [list $win $lbl]
       if {$tab2 ne ""} {
         set tabs2($tab2) [list $win $lbl]
@@ -658,7 +658,7 @@ namespace eval pref_ui {
         set matches [array names search -regexp (?i).*$value.*::.*c]
       }
       foreach match $matches {
-        lassign $search($match) win lbl tab1 tab2
+        lassign $search($match) win lbl plugin tab1 tab2
         set tabs1($tab1) [list $win $lbl]
       }
     }
@@ -707,10 +707,15 @@ namespace eval pref_ui {
 
     # Get the information from the matching element
     set key [lindex [array names search ${selected_value}::*] 0]
-    lassign $search($key) win lbl tab1 tab2
+    lassign $search($key) win lbl plugin tab1 tab2
 
     # Select the pane containing the item
     pane_clicked [lindex [split $tab1 .] end]
+
+    # If the matched item is within a plugin preference pane, put the pane into view
+    if {$plugin ne ""} {
+      handle_plugins_change $plugin
+    }
 
     # If the element exists within a notebook tab, display it
     if {$tab2 ne ""} {
@@ -753,8 +758,9 @@ namespace eval pref_ui {
     variable search
 
     # Figure out which notebooks
-    set insts [split $w .]
-    set tabs  [list]
+    set insts  [split $w .]
+    set tabs   [list]
+    set plugin [expr {([lindex $insts 4] eq "plugins") ? [lindex $insts 6] : ""}]
     lappend tabs .prefwin.f.bf.[lindex $insts 4]
     for {set i 3} {$i < [llength $insts]} {incr i} {
       set hier [join [lrange $insts 0 $i] .]
@@ -780,10 +786,10 @@ namespace eval pref_ui {
     }
 
     set lang_only    [expr {($category eq "Editor") ? 1 : 0}]
-    set search(${var}::$tag) [list $w $str {*}$tabs]
+    set search(${var}::$tag) [list $w $str $plugin {*}$tabs]
 
     if {$str ne ""} {
-      set search(${str}::$tag) [list $w $str {*}$tabs]
+      set search(${str}::$tag) [list $w $str $plugin {*}$tabs]
     }
 
   }
