@@ -529,29 +529,55 @@ namespace eval api {
     #             searchable.
     # \param args Depending on the value of type, provides additional information
     #             required by the widget.
-
     proc widget {interp pname type win pref msg args} {
 
+      array set opts {
+        -value     ""
+        -values    ""
+        -watermark ""
+        -grid      0
+        -from      ""
+        -to        ""
+        -increment 1
+      }
+      array set opts $args
+
+      # Figure out a unique identifier for the widget within the parent frame
       set index [llength [winfo children $win]]
 
       switch $type {
         checkbutton {
-          return [pref_ui::make_cb $win.cb$index $msg Plugins/$pname/$pref]
+          return [pref_ui::make_cb $win.cb$index $msg Plugins/$pname/$pref $opts(-grid)]
         }
         radiobutton {
-          return [pref_ui::make_rb $win.rb$index $msg Plugins/$pname/$pref [lindex $args 0]]
+          if {$opts(-value) eq ""} {
+            return -code error "Radiobutton widget must have -value option set"
+          }
+          return [pref_ui::make_rb $win.rb$index $msg Plugins/$pname/$pref $opts(-value) $opts(-grid)]
         }
         menubutton {
-          return [pref_ui::make_mb $win.mb$index $msg Plugins/$pname/$pref [lindex $args 0]]
+          if {$opts(-values) eq ""} {
+            return -code error "Menubutton widget must have -values option set"
+          }
+          return [pref_ui::make_mb $win.mb$index $msg Plugins/$pname/$pref $opts(-values) $opts(-grid)]
         }
         entry {
-          return [pref_ui::make_entry $win.e$index $msg Plugins/$pname/$pref]
+          return [pref_ui::make_entry $win.e$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid)]
+        }
+        token {
+          return [pref_ui::make_token $win.te$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid)]
         }
         text {
-          return [pref_ui::make_text $win.t$index $msg Plugins/$pname/$pref]
+          return [pref_ui::make_text $win.t$index $msg Plugins/$pname/$pref $opts(-grid)]
         }
         spinbox {
-          return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref [lindex $args 0] [lindex $args 1] [lindex $args 2]]
+          if {$opts(-from) eq ""} {
+            return -code error "Spinbox widget must have -from option set"
+          }
+          if {$opts(-to) eq ""} {
+            return -code error "Spinbox widget must have -to option set"
+          }
+          return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref $opts(-from) $opts(-to) $opts(-increment) $opts(-grid)]
         }
         default {
           return -error code "Unsupported preference widget type ($type)"

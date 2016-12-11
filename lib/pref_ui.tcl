@@ -62,9 +62,18 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make a checkbutton.
-  proc make_cb {w msg varname} {
+  proc make_cb {w msg varname {grid 0}} {
 
-    pack [ttk::checkbutton $w -text [format " %s" $msg] -variable pref_ui::prefs($varname)] -fill x -padx 2 -pady 2
+    # Create the widget
+    ttk::checkbutton $w -text [format " %s" $msg] -variable pref_ui::prefs($varname)
+
+    # Pack the widget
+    if {$grid} {
+      set row [llength [grid slaves [winfo parent $w] -column 0]]
+      grid $w -row $row -column 0 -sticky ew -columnspan 2 -padx 2 -pady 2
+    } else {
+      pack $w -fill x -padx 2 -pady 2
+    }
 
     # Register the widget for search
     register $w $msg $varname
@@ -75,9 +84,18 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make a radiobutton.
-  proc make_rb {w msg varname value} {
+  proc make_rb {w msg varname value {grid 0}} {
 
-    pack [ttk::radiobutton $w -text [format " %s" $msg] -variable pref_ui::prefs($varname) -value $value] -fill x -padx 2 -pady 2
+    # Create the widget
+    ttk::radiobutton $w -text [format " %s" $msg] -variable pref_ui::prefs($varname) -value $value
+
+    # Pack the widget
+    if {$grid} {
+      set row [llength [grid slaves [winfo parent $w] -column 0]]
+      grid $w -row $row -column 0 -sticky ew -columnspan 2 -padx 2 -pady 2
+    } else {
+      pack $w -fill x -padx 2 -pady 2
+    }
 
     # Register the widget for search
     register $w $msg $varname
@@ -87,44 +105,91 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Make a menubutton
-  proc make_mb {w msg varname values} {
+  # Make a menubutton.
+  proc make_mb {w msg varname values {grid 0}} {
 
-    pack [ttk::frame $w] -fill x
-    pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
-    pack [ttk::menubutton $w.mb -textvariable pref_ui::prefs($varname) -menu [menu $w.mbMenu -tearoff 0]] -side left -padx 2 -pady 2
+    # Create and pack the widget
+    if {$grid} {
+      ttk::label ${w}l -text $msg
+      set win [ttk::menubutton ${w}mb -textvariable pref_ui::prefs($varname) \
+        -menu [set mnu [menu ${w}mbMenu -tearoff 0]]]
+      set row [llength [grid slaves [winfo parent ${w}l] -column 0]]
+      grid ${w}l  -row $row -column 0 -sticky news -padx 2 -pady 2
+      grid ${w}mb -row $row -column 1 -sticky news -padx 2 -pady 2
+    } else {
+      pack [ttk::frame $w] -fill x
+      pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
+      pack [set win [ttk::menubutton $w.mb -textvariable pref_ui::prefs($varname) \
+        -menu [set mnu [menu $w.mbMenu -tearoff 0]]]] -side left -padx 2 -pady 2
+    }
 
     # Populate the menu
     foreach value $values {
-      $w.mbMenu add radiobutton -label $value -variable pref_ui::prefs($varname) -value $value
+      $mnu add radiobutton -label $value -variable pref_ui::prefs($varname) -value $value
     }
 
-    # Register the widget for search
-    register $w.mb $msg $varname
+    # Register the widget
+    register $win $msg $varname
 
-    return $w
+    return $win
 
   }
 
   ######################################################################
   # Make an entry.
-  proc make_entry {w msg varname} {
+  proc make_entry {w msg varname watermark {grid 0}} {
 
-    pack [ttk::labelframe $w -text $msg] -fill x -padx 2 -pady 2
-    pack [ttk::entry $w.e -textvariable pref_ui::prefs($varname)] -fill x -padx 2 -pady 2
+    # Create the widget
+    ttk::labelframe $w -text $msg
+    pack [wmarkentry::wmarkentry $w.e -textvariable pref_ui::prefs($varname) -watermark $watermark] -fill x
+
+    # Pack the widget
+    if {$grid} {
+      set row [llength [grid slaves [winfo parent $w] -column 0]]
+      grid $w -row $row -column 0 -sticky news -columnspan 2 -padx 2 -pady 2
+    } else {
+      pack $w -fill x -padx 2 -pady 2
+    }
 
     # Register the widget for search
     register $w.e $msg $varname
 
-    return $w
+    return $w.e
+
+  }
+
+  ######################################################################
+  # Make a tokenentry field.
+  proc make_token {w msg varname watermark {grid 0}} {
+
+    # Create the widget
+    ttk::labelframe $w -text $msg
+    pack [tokenentry::tokenentry $w.te -tokenvar pref_ui::prefs($varname) \
+      -watermark $watermark -tokenshape square] -fill x
+
+    # Pack the widget
+    if {$grid} {
+      set row [llength [grid slaves [winfo parent $w] -column 0]]
+      grid $w -row $row -column 0 -sticky news -columnspan 2 -padx 2 -pady 2
+    } else {
+      pack $w -fill x -padx 2 -pady 2
+    }
+
+    # Initialize the widget
+    $w.te tokeninsert end $pref_ui::prefs($varname)
+
+    # Register the widget for search
+    register $w.te $msg $varname
+
+    return $w.te
 
   }
 
   ######################################################################
   # Make a text field.
-  proc make_text {w msg varname} {
+  proc make_text {w msg varname {grid 0}} {
 
-    pack [ttk::labelframe $w -text $msg] -fill both -expand yes
+    ttk::labelframe $w -text $msg
     text            $w.t  -xscrollcommand [list utils::set_xscrollbar $w.hb] -yscrollcommand [list utils::set_yscrollbar $w.vb]
     ttk::scrollbar  $w.vb -orient vertical   -command [list $w.t yview]
     ttk::scrollbar  $w.hb -orient horizontal -command [list $w.t xview]
@@ -138,31 +203,47 @@ namespace eval pref_ui {
     # Insert the preference value
     $w.t insert end $pref_ui::prefs($varname)
 
+    if {$grid} {
+      set row [llength [grid slaves [winfo parent $w] -column 0]]
+      grid $w -row $row -column 0 -sticky news -columnspan 2 -padx 2 -pady 2
+    } else {
+      pack $w -fill both -expand yes -padx 2 -pady 2
+    }
+
     # Register the widget for search
     register $w.t $msg $varname
 
-    return $w
+    return $w.t
 
   }
 
   ######################################################################
   # Make a spinbox.
-  proc make_sb {w msg varname from to inc} {
+  proc make_sb {w msg varname from to inc {grid 0}} {
 
     variable widgets
 
-    pack [ttk::frame $w] -fill x -expand yes
-    pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
-    pack [$widgets(sb) $w.sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
-      -state readonly -command [list pref_ui::handle_sb_change $w.sb $varname]] -side left -padx 2 -pady 2
-
-    # Register the widget for search
-    register $w.sb $msg $varname
+    if {$grid} {
+      ttk::label ${w}l -text $msg
+      set win [$widgets(sb) ${w}sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
+        -width [string length $to] -state readonly -command [list pref_ui::handle_sb_change ${w}sb $varname]]
+      set row [llength [grid slaves [winfo parent ${w}l] -column 0]]
+      grid ${w}l  -row $row -column 0 -sticky news -padx 2 -pady 2
+      grid ${w}sb -row $row -column 1 -sticky news -padx 2 -pady 2
+    } else {
+      pack [ttk::frame $w] -fill x -expand yes
+      pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
+      pack [set win [$widgets(sb) $w.sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
+        -width [string length $to] -state readonly -command [list pref_ui::handle_sb_change $w.sb $varname]]] -side left -padx 2 -pady 2
+    }
 
     # Initialize the widget
-    $w.sb set $pref_ui::prefs($varname)
+    $win set $pref_ui::prefs($varname)
 
-    return $w
+    # Register the widget
+    register $win $msg $varname
+
+    return $win
 
   }
 
@@ -523,6 +604,7 @@ namespace eval pref_ui {
     variable prefs
 
     if {[winfo exists .prefwin]} {
+      puts "Saving preferences, session: $session, language: $language"
       preferences::save_prefs $session $language [array get prefs]
     }
 

@@ -439,11 +439,11 @@ namespace eval tokenentry {
 
       # Generate the TokenEntryModified event if our token count has changed
       set tokens [llength [$w.txt window names]]
+      puts "modified! tokens: $tokens, token_count: $token_count($w)"
       if {$token_count($w) != $tokens} {
         set token_count($w) $tokens
         if {$options($w,-tokenvar) ne ""} {
-          upvar #0 $options($w,-tokenvar) var
-          set var [get_tokens $w]
+          set $options($w,-tokenvar) [get_tokens $w]
         }
         event generate $w <<TokenEntryModified>>
       }
@@ -620,8 +620,7 @@ namespace eval tokenentry {
         $dropdown_token($w).l1 configure -text $value
         redraw_token $w $dropdown_token($w) 1
         if {$options($w,-tokenvar) ne ""} {
-          upvar #0 $options($w,-tokenvar) var
-          set var [get_tokens $w]
+          set $options($w,-tokenvar) [get_tokens $w]
         }
         event generate $w <<TokenEntryModified>>
 
@@ -1254,8 +1253,7 @@ namespace eval tokenentry {
 
       # Update the tokenvar variable, if it has been set
       if {$options($w,-tokenvar) ne ""} {
-        upvar #0 $options($w,-tokenvar) var
-        set var [get_tokens $w]
+        set $options($w,-tokenvar) [get_tokens $w]
       }
 
       # Generate a TokenEntryModified event
@@ -2182,6 +2180,8 @@ namespace eval tokenentry {
     if {$index eq ""} {
       set index [$w.txt index "1.[lindex $args 0]"]
     }
+
+    puts "index: $index"
 
     # Make sure that all inserted text is tokenized
     set dont_tokenize($w) 0

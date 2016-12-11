@@ -40,6 +40,8 @@
 #  on_duplicate - Runs when a file is being duplicated
 #  on_delete    - Runs when a file/folder is being deleted
 #  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
+#  on_pref_load - Runs when the plugin preference items need to be added.
+#  on_pref_ui   - Runs when the plugin preference panel needs to be displayed in the preferences window.
 #  syntax       - Adds the given syntax file to the list of available syntaxes
 #  vcs          - Adds support for a version control system to the difference viewer
 ######################################################################
@@ -278,6 +280,9 @@ namespace eval plugins {
 
     # Add all of the available VCS commands
     add_all_vcs_commands
+
+    # Add preference items
+    handle_on_pref_load
 
   }
 
