@@ -74,6 +74,107 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Make a radiobutton.
+  proc make_rb {w msg varname value} {
+
+    pack [ttk::radiobutton $w -text [format " %s" $msg] -variable pref_ui::prefs($varname) -value $value] -fill x -padx 2 -pady 2
+
+    # Register the widget for search
+    register $w $msg $varname
+
+    return $w
+
+  }
+
+  ######################################################################
+  # Make a menubutton
+  proc make_mb {w msg varname values} {
+
+    pack [ttk::frame $w] -fill x
+    pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
+    pack [ttk::menubutton $w.mb -textvariable pref_ui::prefs($varname) -menu [menu $w.mbMenu -tearoff 0]] -side left -padx 2 -pady 2
+
+    # Populate the menu
+    foreach value $values {
+      $w.mbMenu add radiobutton -label $value -variable pref_ui::prefs($varname) -value $value
+    }
+
+    # Register the widget for search
+    register $w.mb $msg $varname
+
+    return $w
+
+  }
+
+  ######################################################################
+  # Make an entry.
+  proc make_entry {w msg varname} {
+
+    pack [ttk::labelframe $w -text $msg] -fill x -padx 2 -pady 2
+    pack [ttk::entry $w.e -textvariable pref_ui::prefs($varname)] -fill x -padx 2 -pady 2
+
+    # Register the widget for search
+    register $w.e $msg $varname
+
+    return $w
+
+  }
+
+  ######################################################################
+  # Make a text field.
+  proc make_text {w msg varname} {
+
+    pack [ttk::labelframe $w -text $msg] -fill both -expand yes
+    text            $w.t  -xscrollcommand [list utils::set_xscrollbar $w.hb] -yscrollcommand [list utils::set_yscrollbar $w.vb]
+    ttk::scrollbar  $w.vb -orient vertical   -command [list $w.t yview]
+    ttk::scrollbar  $w.hb -orient horizontal -command [list $w.t xview]
+
+    grid rowconfigure    $w 0 -weight 1
+    grid columnconfigure $w 0 -weight 1
+    grid $w.t  -row 0 -column 0 -sticky news
+    grid $w.vb -row 0 -column 1 -sticky ns
+    grid $w.hb -row 1 -column 0 -sticky ew
+
+    # Insert the preference value
+    $w.t insert end $pref_ui::prefs($varname)
+
+    # Register the widget for search
+    register $w.t $msg $varname
+
+    return $w
+
+  }
+
+  ######################################################################
+  # Make a spinbox.
+  proc make_sb {w msg varname from to inc} {
+
+    variable widgets
+
+    pack [ttk::frame $w] -fill x -expand yes
+    pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
+    pack [$widgets(sb) $w.sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
+      -state readonly -command [list pref_ui::handle_sb_change $w.sb $varname]] -side left -padx 2 -pady 2
+
+    # Register the widget for search
+    register $w.sb $msg $varname
+
+    # Initialize the widget
+    $w.sb set $pref_ui::prefs($varname)
+
+    return $w
+
+  }
+
+  ######################################################################
+  # Sets the current spinbox value.
+  proc handle_sb_change {w varname} {
+
+    set pref_ui::prefs($varname) [$w get]
+
+  }
+
+  ######################################################################
   # Sets up the session submenu for the given
   proc populate_session_menu {language} {
 
@@ -3215,9 +3316,8 @@ namespace eval pref_ui {
     pack $widgets(plugins_mb)    -padx 2 -pady 2
     pack $widgets(plugins_frame) -fill both -expand yes -padx 2 -pady 2
 
-    # Populate the menu with the currently loaded plugins
-    foreach plugin [plugins::get_pref_list] {
-      # plugins::handle_on_pref_ui $widgets(plugins_frame).$plugin
+    # Create the plugin frames
+    foreach plugin [plugins::handle_on_pref_ui $widgets(plugins_frame)] {
       $w.pluginsMenu add command -label $plugin -command [list pref_ui::handle_plugins_change $plugin]
     }
 
@@ -3234,12 +3334,10 @@ namespace eval pref_ui {
     $widgets(plugins_mb) configure -text $plugin
 
     # Remove any packed slaves in the plugins frame
-    foreach child [pack slaves $widgets(plugins_frame)] {
-      pack forget $widgets(plugins_frame)
-    }
+    catch { pack forget {*}[pack slaves $widgets(plugins_frame)] }
 
     # Pack the selected frame
-    pack $widgets(plugins_frame).$plugin -fill both -expand
+    pack $widgets(plugins_frame).$plugin -fill both -expand yes
 
   }
 

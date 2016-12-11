@@ -513,6 +513,65 @@ namespace eval api {
 
   }
 
+  namespace eval preferences {
+
+    ######################################################################
+    ## Returns a references to a widget created for the preferences window.
+    #
+    # \return Returns the pathname of the widget to pack.
+    #
+    # \param type Specifies the type of widget to create.
+    #             (Legal values are: checkbutton, radiobutton, menubutton,
+    #                emtry, text, spinbox)
+    # \param win  Pathname of parent window to add widgets to.
+    # \param pref Name of preference value associated with the widget.
+    # \param msg  Label text to associate with the widget (this text is
+    #             searchable.
+    # \param args Depending on the value of type, provides additional information
+    #             required by the widget.
+
+    proc widget {interp pname type win pref msg args} {
+
+      set index [llength [winfo children $win]]
+
+      switch $type {
+        checkbutton {
+          return [pref_ui::make_cb $win.cb$index $msg Plugins/$pname/$pref]
+        }
+        radiobutton {
+          return [pref_ui::make_rb $win.rb$index $msg Plugins/$pname/$pref [lindex $args 0]]
+        }
+        menubutton {
+          return [pref_ui::make_mb $win.mb$index $msg Plugins/$pname/$pref [lindex $args 0]]
+        }
+        entry {
+          return [pref_ui::make_entry $win.e$index $msg Plugins/$pname/$pref]
+        }
+        text {
+          return [pref_ui::make_text $win.t$index $msg Plugins/$pname/$pref]
+        }
+        spinbox {
+          return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref [lindex $args 0] [lindex $args 1] [lindex $args 2]]
+        }
+        default {
+          return -error code "Unsupported preference widget type ($type)"
+        }
+      }
+
+    }
+
+    ######################################################################
+    # Returns the current specified preference value.
+    #
+    # \param varname Name of the preference value to retrieve
+    proc get_value {interp pname varname} {
+
+      return $preferences::prefs($varname)
+
+    }
+
+  }
+
   namespace eval utils {
 
     ######################################################################
