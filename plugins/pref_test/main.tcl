@@ -14,6 +14,7 @@ namespace eval pref_test {
       "Message" "Something"
       "Integer" 5
       "Google"  9
+      "Goober"  1
     }
 
   }
@@ -32,6 +33,7 @@ namespace eval pref_test {
     pack [ttk::labelframe $w.sf -text "Spinboxes"] -fill x
     api::preferences::widget spinbox    $w.sf "Integer" "Just an integer value" -from 0 -to 10 -grid 1
     api::preferences::widget spinbox    $w.sf "Google"  "A lot of stuff"        -from 0 -to 20 -grid 1
+    api::preferences::widget spinbox    $w.sf "Goober"  "Hardly anything"       -from 0 -to 2  -grid 1
     api::preferences::widget menubutton $w "Status"  "Status of this plugin" -values [list slow medium fast]
     api::preferences::widget entry      $w "Value"   "Enter a value here" -watermark "Optional"
     api::preferences::widget token      $w "Tokens"  "Enter some tokens" -watermark "Non-optional"
