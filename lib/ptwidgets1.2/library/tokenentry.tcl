@@ -439,7 +439,6 @@ namespace eval tokenentry {
 
       # Generate the TokenEntryModified event if our token count has changed
       set tokens [llength [$w.txt window names]]
-      puts "modified! tokens: $tokens, token_count: $token_count($w)"
       if {$token_count($w) != $tokens} {
         set token_count($w) $tokens
         if {$options($w,-tokenvar) ne ""} {
@@ -2180,8 +2179,6 @@ namespace eval tokenentry {
     if {$index eq ""} {
       set index [$w.txt index "1.[lindex $args 0]"]
     }
-
-    puts "index: $index"
 
     # Make sure that all inserted text is tokenized
     set dont_tokenize($w) 0
