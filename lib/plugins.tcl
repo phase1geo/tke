@@ -1294,18 +1294,24 @@ namespace eval plugins {
   }
 
   ######################################################################
-  # Get the list of plugins that contain preferences.
-  proc get_pref_list {} {
+  # Called when the preferences window is created.  This procedure is
+  # responsible for creating the plugin preference frames.
+  proc handle_on_pref_ui {w} {
 
     variable registry
 
-    set names [list]
+    set plugins [list]
 
-    foreach entry [find_registry_entries "on_pref_load"] {
-      lappend names $registry([lindex $entry 0],name)
+    foreach entry [find_registry_entries "on_pref_ui"] {
+      ttk::frame [set w $w.$registry([lindex $entry 0],name)]
+      if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] $w } status]} {
+        handle_status_error "handle_on_pref_ui" [lindex $entry 0] $status
+      } else {
+        lappend plugins $registry([lindex $entry 0],name)
+      }
     }
 
-    return $names
+    return $plugins
 
   }
 
