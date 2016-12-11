@@ -545,6 +545,14 @@ namespace eval api {
       # Figure out a unique identifier for the widget within the parent frame
       set index [llength [winfo children $win]]
 
+      # Calculate the full preference pathname
+      set pref_path "Plugins/$pname/$pref"
+
+      # Make sure that the preference was loaded prior to creating the UI
+      if {![info exists [preferences::ref $pref_path]]} {
+        return -code error "Plugin preference $pref for $pname not previously loaded"
+      }
+
       switch $type {
         checkbutton {
           return [pref_ui::make_cb $win.cb$index $msg Plugins/$pname/$pref $opts(-grid)]
