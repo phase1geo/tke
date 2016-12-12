@@ -145,6 +145,10 @@
 
 {Appearance/CursorWidth}     {1}
 
+# Specifies the amount of space (in pixels) that will be added between two lines.
+
+{Appearance/ExtraLineSpacing}     {0}
+
 # Specifies the number of characters to allow on a line before additional characters
 # are flagged with a warning character.
 

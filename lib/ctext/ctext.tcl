@@ -95,7 +95,7 @@ proc ctext {win args} {
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
-  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes]
+  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3]
 
   # Set args
   foreach {name value} $args {
@@ -327,6 +327,15 @@ proc ctext::buildArgParseTable win {
     }
     set data($win,config,-yscrollcommand) $value
     break
+  }
+
+  lappend argTable any -spacing3 {
+    if {[catch { $win._t config -spacing3 $value } res]} {
+      return $res
+    }
+    if {[catch { $win.l config -spacing3 $value } res]} {
+      return $res
+    }
   }
 
   lappend argTable any -linemapfg {

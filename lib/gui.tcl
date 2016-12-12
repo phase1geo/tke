@@ -524,6 +524,7 @@ namespace eval gui {
     trace variable [ns preferences]::prefs(View/BirdsEyeViewFontSize)           w [ns gui]::handle_birdseye_font_size
     trace variable [ns preferences]::prefs(View/BirdsEyeViewWidth)              w [ns gui]::handle_birdseye_width
     trace variable [ns preferences]::prefs(Appearance/CursorWidth)              w [ns gui]::handle_cursor_width
+    trace variable [ns preferences]::prefs(Appearance/ExtraLineSpacing)         w [ns gui]::handle_extra_line_spacing
 
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
@@ -734,6 +735,19 @@ namespace eval gui {
       if {![$txt cget -blockcursor]} {
         $txt configure -insertwidth $width
       }
+    }
+
+  }
+
+  ######################################################################
+  # Handles any changes to the Appearance/ExtraLineSpacing preference
+  # value.
+  proc handle_extra_line_spacing {name1 name2 op} {
+
+    set spacing [[ns preferences]::get Appearance/ExtraLineSpacing]
+
+    foreach txt [get_all_texts] {
+      $txt configure -spacing3 $spacing
     }
 
   }
@@ -4260,7 +4274,8 @@ namespace eval gui {
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
-      -insertwidth [[ns preferences]::get Editor/CursorWidth] \
+      -insertwidth [[ns preferences]::get Appearance/CursorWidth] \
+      -spacing3 [[ns preferences]::get Appearance/ExtraLineSpacing] \
       -diff_mode $opts(-diff) -matchchar $show_match_char \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
@@ -4477,7 +4492,8 @@ namespace eval gui {
     # Create the editor frame
     $pw insert 0 [frame $pw.tf2 -background $sb_opts(-background)]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
-      -insertwidth [[ns preferences]::get Editor/CursorWidth] \
+      -insertwidth [[ns preferences]::get Appearance/CursorWidth] \
+      -spacing3 [[ns preferences]::get Appearance/ExtraLineSpacing] \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] -matchchar $show_match_char \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \
