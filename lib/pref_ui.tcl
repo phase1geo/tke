@@ -224,7 +224,7 @@ namespace eval pref_ui {
     variable widgets
 
     if {$grid} {
-      ttk::label ${w}l -text $msg
+      ttk::label ${w}l -text [format "%s: " $msg]
       set win [$widgets(sb) ${w}sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
         -width [string length $to] -state readonly -command [list pref_ui::handle_sb_change ${w}sb $varname]]
       set row [llength [grid slaves [winfo parent ${w}l] -column 0]]
@@ -232,7 +232,7 @@ namespace eval pref_ui {
       grid ${w}sb -row $row -column 1 -sticky news -padx 2 -pady 2
     } else {
       pack [ttk::frame $w] -fill x -expand yes
-      pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
+      pack [ttk::label $w.l -text [format "%s: " $msg]] -side left -padx 2 -pady 2
       pack [set win [$widgets(sb) $w.sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
         -width [string length $to] -state readonly -command [list pref_ui::handle_sb_change $w.sb $varname]]] -side left -padx 2 -pady 2
     }
@@ -1438,44 +1438,17 @@ namespace eval pref_ui {
     variable snip_compl
     variable prefs
 
-    ttk::label $w.wwl -text [format "%s: " [set wstr [msgcat::mc "Ruler column"]]]
-    set widgets(editor_ww) [$widgets(sb) $w.wwsb {*}$widgets(sb_opts) -from 20 -to 150 -increment 5 -width 3 \
-      -state readonly -command [list pref_ui::set_warning_width]]
+    ttk::frame $w.sf
+    make_sb $w.sf.ww  [msgcat::mc "Ruler column"]                                  Editor/WarningWidth          20 150  5 1
+    make_sb $w.sf.spt [msgcat::mc "Spaces per tab"]                                Editor/SpacesPerTab           1  20  1 1
+    make_sb $w.sf.is  [msgcat::mc "Indentation spaces"]                            Editor/IndentSpaces           1  20  1 1
+    make_sb $w.sf.mu  [msgcat::mc "Maximum undo history (set to 0 for unlimited)"] Editor/MaxUndo                0 200 10 1
+    make_sb $w.sf.chd [msgcat::mc "Clipboard history depth"]                       Editor/ClipboardHistoryDepth  1  30  1 1
+    make_sb $w.sf.vml [msgcat::mc "Line count to find Vim modeline information"]   Editor/VimModelines           0  20  1 1
+    make_sb $w.sf.icw [msgcat::mc "Insertion cursor width"]                        Editor/CursorWidth            1   5  1 1
 
-    register $widgets(editor_ww) $wstr Editor/WarningWidth
-
-    ttk::label $w.sptl -text [format "%s: " [set wstr [msgcat::mc "Spaces per tab"]]]
-    set widgets(editor_spt) [$widgets(sb) $w.sptsb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-      -state readonly -command [list pref_ui::set_spaces_per_tab]]
-
-    register $widgets(editor_spt) $wstr Editor/SpacesPerTab
-
-    ttk::label $w.isl -text [format "%s: " [set wstr [msgcat::mc "Indentation Spaces"]]]
-    set widgets(editor_is) [$widgets(sb) $w.issb {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-      -state readonly -command [list pref_ui::set_indent_spaces]]
-
-    register $widgets(editor_is) $wstr Editor/IndentSpaces
-
-    ttk::label $w.mul -text [format "%s: " [set wstr [msgcat::mc "Maximum undo history (set to 0 for unlimited)"]]]
-    set widgets(editor_mu) [$widgets(sb) $w.musb {*}$widgets(sb_opts) -from 0 -to 200 -increment 10 -width 3 \
-      -state readonly -command [list pref_ui::set_max_undo]]
-
-    register $widgets(editor_mu) $wstr Editor/MaxUndo
-
-    ttk::label $w.chdl -text [format "%s: " [set wstr [msgcat::mc "Clipboard history depth"]]]
-    set widgets(editor_chd) [$widgets(sb) $w.chdsb {*}$widgets(sb_opts) -from 1 -to 30 -width 3 \
-      -state readonly -command [list pref_ui::set_clipboard_history]]
-
-    register $widgets(editor_chd) $wstr Editor/ClipboardHistoryDepth
-
-    ttk::label $w.vmll -text [format "%s: " [set wstr [msgcat::mc "Line count to find for Vim modeline information"]]]
-    set widgets(editor_vml) [$widgets(sb) $w.vmlsb {*}$widgets(sb_opts) -from 0 -to 20 -width 3 \
-    -state readonly -command [list pref_ui::set_vim_modelines]]
-
-    register $widgets(editor_vml) $wstr Editor/VimModelines
-
-    ttk::label $w.eoll -text [format "%s: " [set wstr [msgcat::mc "End-of-line character when saving"]]]
-    set widgets(editor_eolmb) [ttk::menubutton $w.eolmb -menu [menu $w.eol -tearoff 0]]
+    ttk::label $w.sf.eoll -text [format "%s: " [set wstr [msgcat::mc "End-of-line character when saving"]]]
+    set widgets(editor_eolmb) [ttk::menubutton $w.sf.eolmb -menu [menu $w.sf.eol -tearoff 0]]
 
     foreach {value desc} [list \
       auto [msgcat::mc "Use original EOL character from file"] \
@@ -1483,10 +1456,13 @@ namespace eval pref_ui {
       cr   [msgcat::mc "Use single carriage return character"] \
       crlf [msgcat::mc "Use carriate return linefeed sequence"] \
       lf   [msgcat::mc "Use linefeed character"]] {
-      $w.eol add radiobutton -label $desc -value $value -variable pref_ui::prefs(Editor/EndOfLineTranslation) -command [list pref_ui::set_eol_translation]
+      $w.sf.eol add radiobutton -label $desc -value $value -variable pref_ui::prefs(Editor/EndOfLineTranslation) -command [list pref_ui::set_eol_translation]
     }
 
     register $widgets(editor_eolmb) $wstr Editor/EndOfLineTranslation
+
+    grid $w.sf.eoll  -row 7 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.eolmb -row 7 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::labelframe $w.mcf -text [set wstr [msgcat::mc "Auto-match Characters"]]
     ttk::checkbutton $w.mcf.sr -text [format " %s" [msgcat::mc "Square bracket"]] -variable pref_ui::match_chars(square) -command [list pref_ui::set_match_chars]
@@ -1507,13 +1483,6 @@ namespace eval pref_ui {
     grid $w.mcf.sq -row 0 -column 2 -sticky news -padx 2 -pady 2
     grid $w.mcf.bt -row 1 -column 2 -sticky news -padx 2 -pady 2
 
-    ttk::labelframe $w.scf -text [set wstr [msgcat::mc "Snippet Completion Characters"]]
-    pack [ttk::checkbutton $w.scf.s -text [format " %s" [msgcat::mc "Space"]]  -variable pref_ui::snip_compl(space)  -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
-    pack [ttk::checkbutton $w.scf.t -text [format " %s" [msgcat::mc "Tab"]]    -variable pref_ui::snip_compl(tab)    -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
-    pack [ttk::checkbutton $w.scf.r -text [format " %s" [msgcat::mc "Return"]] -variable pref_ui::snip_compl(return) -command [list pref_ui::set_snip_compl]] -side left -padx 2 -pady 2
-
-    register $w.scf.s $wstr Editor/SnippetCompleters
-
     ttk::frame $w.cf
     make_cb $w.cf.vm   [msgcat::mc "Enable Vim Mode"]                              Editor/VimMode
     make_cb $w.cf.eai  [msgcat::mc "Enable auto-indentation"]                      Editor/EnableAutoIndent
@@ -1523,34 +1492,11 @@ namespace eval pref_ui {
     make_cb $w.cf.sfai [msgcat::mc "Format snippet indentation after insert"]      Editor/SnippetFormatAfterInsert
     make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]               Editor/RelativeLineNumbers
 
-    grid columnconfigure $w 2 -weight 1
-    grid columnconfigure $w 3 -weight 1
-    grid $w.wwl   -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.wwsb  -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.sptl  -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sptsb -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.isl   -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.issb  -row 2 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.mul   -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.musb  -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.chdl  -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.chdsb -row 4 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.vmll  -row 5 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.vmlsb -row 5 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.eoll  -row 6 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.eolmb -row 6 -column 1 -sticky news -padx 2 -pady 2  -columnspan 2
-    grid $w.mcf   -row 7 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
-    grid $w.scf   -row 8 -column 0 -sticky news -padx 2 -pady 10 -columnspan 4
-    grid $w.cf    -row 9 -column 0 -sticky news -padx 2 -pady 2  -columnspan 4
+    pack $w.sf  -fill x -padx 2 -pady 2
+    pack $w.mcf -fill x -padx 2 -pady 2
+    pack $w.cf  -fill x -padx 2 -pady 2
 
     # Set the UI state to match preference
-    $widgets(editor_ww)  set $prefs(Editor/WarningWidth)
-    $widgets(editor_spt) set $prefs(Editor/SpacesPerTab)
-    $widgets(editor_is)  set $prefs(Editor/IndentSpaces)
-    $widgets(editor_mu)  set $prefs(Editor/MaxUndo)
-    $widgets(editor_chd) set $prefs(Editor/ClipboardHistoryDepth)
-    $widgets(editor_vml) set $prefs(Editor/VimModelines)
-
     foreach char [list square curly angled paren double single btick] {
       set match_chars($char) [expr {[lsearch $prefs(Editor/AutoMatchChars) $char] != -1}]
     }
@@ -2448,34 +2394,38 @@ namespace eval pref_ui {
     variable widgets
     variable selected_language
 
+    ttk::notebook $w.nb
+
     ###############
     # TABLE FRAME #
     ###############
 
-    set widgets(snippets_tf) [ttk::frame $w.tf]
+    $w.nb add [ttk::frame $w.sf] -text [msgcat::mc "Snippets"]
 
-    ttk::frame $w.tf.sf
-    wmarkentry::wmarkentry $w.tf.sf.e -width 20 -watermark [msgcat::mc "Search Snippets"] \
+    set widgets(snippets_tf) [ttk::frame $w.sf.tf]
+
+    ttk::frame $w.sf.tf.sf
+    wmarkentry::wmarkentry $w.sf.tf.sf.e -width 20 -watermark [msgcat::mc "Search Snippets"] \
       -validate key -validatecommand [list pref_ui::snippets_search %P]
 
-    set widgets(snippets_lang_frame) [ttk::frame $w.tf.sf.lf]
-    ttk::label $w.tf.sf.lf.l -text [msgcat::mc "Language"]
-    set widgets(snippets_lang) [ttk::menubutton $w.tf.sf.lf.mb -text [msgcat::mc "Language"] \
+    set widgets(snippets_lang_frame) [ttk::frame $w.sf.tf.sf.lf]
+    ttk::label $w.sf.tf.sf.lf.l -text [msgcat::mc "Language"]
+    set widgets(snippets_lang) [ttk::menubutton $w.sf.tf.sf.lf.mb -text [msgcat::mc "Language"] \
       -menu [pref_ui::snippets_create_menu $w]]
 
-    pack $w.tf.sf.lf.l  -side left -padx 2 -pady 2
-    pack $w.tf.sf.lf.mb -side left -padx 2 -pady 2
+    pack $w.sf.tf.sf.lf.l  -side left -padx 2 -pady 2
+    pack $w.sf.tf.sf.lf.mb -side left -padx 2 -pady 2
 
-    pack $w.tf.sf.e  -side left  -padx 2 -pady 2
-    pack $w.tf.sf.lf -side right -padx 2 -pady 2
+    pack $w.sf.tf.sf.e  -side left  -padx 2 -pady 2
+    pack $w.sf.tf.sf.lf -side right -padx 2 -pady 2
 
-    ttk::frame $w.tf.tf
-    set widgets(snippets_tl) [tablelist::tablelist $w.tf.tf.tl -columns {0 {Keyword} 0 {Snippet}} \
+    ttk::frame $w.sf.tf.tf
+    set widgets(snippets_tl) [tablelist::tablelist $w.sf.tf.tf.tl -columns {0 {Keyword} 0 {Snippet}} \
       -exportselection 0 -stretch all \
-      -xscrollcommand [list utils::set_xscrollbar $w.tf.tf.hb] \
-      -yscrollcommand [list utils::set_yscrollbar $w.tf.tf.vb]]
-    ttk::scrollbar $w.tf.tf.vb -orient vertical   -command [list $w.tf.tf.tl yview]
-    ttk::scrollbar $w.tf.tf.hb -orient horizontal -command [list $w.tf.tf.tl xview]
+      -xscrollcommand [list utils::set_xscrollbar $w.sf.tf.tf.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $w.sf.tf.tf.vb]]
+    ttk::scrollbar $w.sf.tf.tf.vb -orient vertical   -command [list $w.sf.tf.tf.tl yview]
+    ttk::scrollbar $w.sf.tf.tf.hb -orient horizontal -command [list $w.sf.tf.tf.tl xview]
 
     utils::tablelist_configure $widgets(snippets_tl)
 
@@ -2486,49 +2436,49 @@ namespace eval pref_ui {
     bind $widgets(snippets_tl)           <<TablelistSelect>> [list pref_ui::snippets_select]
     bind [$widgets(snippets_tl) bodytag] <Double-Button-1>   [list pref_ui::snippets_edit]
 
-    grid rowconfigure    $w.tf.tf 0 -weight 1
-    grid columnconfigure $w.tf.tf 0 -weight 1
-    grid $w.tf.tf.tl -row 0 -column 0 -sticky news
-    grid $w.tf.tf.vb -row 0 -column 1 -sticky ns
-    grid $w.tf.tf.hb -row 1 -column 0 -sticky ew
+    grid rowconfigure    $w.sf.tf.tf 0 -weight 1
+    grid columnconfigure $w.sf.tf.tf 0 -weight 1
+    grid $w.sf.tf.tf.tl -row 0 -column 0 -sticky news
+    grid $w.sf.tf.tf.vb -row 0 -column 1 -sticky ns
+    grid $w.sf.tf.tf.hb -row 1 -column 0 -sticky ew
 
-    ttk::frame  $w.tf.bf
-    ttk::button $w.tf.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::snippets_add]
-    set widgets(snippets_del) [ttk::button $w.tf.bf.del -style BButton -text [msgcat::mc "Delete"] \
+    ttk::frame  $w.sf.tf.bf
+    ttk::button $w.sf.tf.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::snippets_add]
+    set widgets(snippets_del) [ttk::button $w.sf.tf.bf.del -style BButton -text [msgcat::mc "Delete"] \
       -command [list pref_ui::snippets_del] -state disabled]
 
-    pack $w.tf.bf.add -side left -padx 2 -pady 2
-    pack $w.tf.bf.del -side left -padx 2 -pady 2
+    pack $w.sf.tf.bf.add -side left -padx 2 -pady 2
+    pack $w.sf.tf.bf.del -side left -padx 2 -pady 2
 
-    pack $w.tf.sf -fill x
-    pack $w.tf.tf -fill both -expand yes
-    pack $w.tf.bf -fill x
+    pack $w.sf.tf.sf -fill x
+    pack $w.sf.tf.tf -fill both -expand yes
+    pack $w.sf.tf.bf -fill x
 
     ##############
     # EDIT FRAME #
     ##############
 
-    set widgets(snippets_ef) [ttk::frame $w.ef]
+    set widgets(snippets_ef) [ttk::frame $w.sf.ef]
 
-    ttk::frame $w.ef.kf
-    ttk::label $w.ef.kf.l -text [format "%s: " [msgcat::mc "Keyword"]]
-    set widgets(snippets_keyword) [ttk::entry $w.ef.kf.e -validate key -validatecommand [list pref_ui::snippets_keyword_changed %P]]
+    ttk::frame $w.sf.ef.kf
+    ttk::label $w.sf.ef.kf.l -text [format "%s: " [msgcat::mc "Keyword"]]
+    set widgets(snippets_keyword) [ttk::entry $w.sf.ef.kf.e -validate key -validatecommand [list pref_ui::snippets_keyword_changed %P]]
 
-    pack $w.ef.kf.l -side left -padx 2 -pady 2
-    pack $w.ef.kf.e -side left -padx 2 -pady 2 -fill x -expand yes
+    pack $w.sf.ef.kf.l -side left -padx 2 -pady 2
+    pack $w.sf.ef.kf.e -side left -padx 2 -pady 2 -fill x -expand yes
 
-    ttk::labelframe $w.ef.tf -text [msgcat::mc "Snippet Text"]
-    frame $w.ef.tf.tf
-    set widgets(snippets_text) [ctext $w.ef.tf.tf.t -wrap none \
-      -xscrollcommand [list $w.ef.tf.tf.hb set] -yscrollcommand [list $w.ef.tf.tf.vb set]]
-    scroller::scroller $w.ef.tf.tf.vb -orient vertical   -autohide 1 -command [list $w.ef.tf.tf.t yview]
-    scroller::scroller $w.ef.tf.tf.hb -orient horizontal -autohide 0 -command [list $w.ef.tf.tf.t xview]
+    ttk::labelframe $w.sf.ef.tf -text [msgcat::mc "Snippet Text"]
+    frame $w.sf.ef.tf.tf
+    set widgets(snippets_text) [ctext $w.sf.ef.tf.tf.t -wrap none \
+      -xscrollcommand [list $w.sf.ef.tf.tf.hb set] -yscrollcommand [list $w.sf.ef.tf.tf.vb set]]
+    scroller::scroller $w.sf.ef.tf.tf.vb -orient vertical   -autohide 1 -command [list $w.sf.ef.tf.tf.t yview]
+    scroller::scroller $w.sf.ef.tf.tf.hb -orient horizontal -autohide 0 -command [list $w.sf.ef.tf.tf.t xview]
 
     bind $widgets(snippets_text) <<Modified>> [list if {[pref_ui::snippets_text_changed]} break]
 
     theme::register_widget $widgets(snippets_text) syntax
-    theme::register_widget $w.ef.tf.tf.vb text_scrollbar
-    theme::register_widget $w.ef.tf.tf.hb text_scrollbar
+    theme::register_widget $w.sf.ef.tf.tf.vb text_scrollbar
+    theme::register_widget $w.sf.ef.tf.tf.hb text_scrollbar
 
     indent::add_bindings $widgets(snippets_text)
 
@@ -2547,35 +2497,35 @@ namespace eval pref_ui {
       break
     }
 
-    grid rowconfigure    $w.ef.tf.tf 0 -weight 1
-    grid columnconfigure $w.ef.tf.tf 0 -weight 1
-    grid $w.ef.tf.tf.t  -row 0 -column 0 -sticky news
-    grid $w.ef.tf.tf.vb -row 0 -column 1 -sticky ns
-    grid $w.ef.tf.tf.hb -row 1 -column 0 -sticky ew
+    grid rowconfigure    $w.sf.ef.tf.tf 0 -weight 1
+    grid columnconfigure $w.sf.ef.tf.tf 0 -weight 1
+    grid $w.sf.ef.tf.tf.t  -row 0 -column 0 -sticky news
+    grid $w.sf.ef.tf.tf.vb -row 0 -column 1 -sticky ns
+    grid $w.sf.ef.tf.tf.hb -row 1 -column 0 -sticky ew
 
-    pack $w.ef.tf.tf -fill both -expand yes
+    pack $w.sf.ef.tf.tf -fill both -expand yes
 
-    ttk::frame  $w.ef.bf
-    set widgets(snippets_ins)  [ttk::button $w.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width 6 -command [list pref_ui::snippets_insert]]
-    set widgets(snippets_save) [ttk::button $w.ef.bf.save -style BButton -text [msgcat::mc "Save"] \
+    ttk::frame  $w.sf.ef.bf
+    set widgets(snippets_ins)  [ttk::button $w.sf.ef.bf.insert -style BButton -text [msgcat::mc "Insert"] -width 6 -command [list pref_ui::snippets_insert]]
+    set widgets(snippets_save) [ttk::button $w.sf.ef.bf.save -style BButton -text [msgcat::mc "Save"] \
       -width 6 -command [list pref_ui::snippets_save] -state disabled]
-    ttk::button $w.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::snippets_cancel]
+    ttk::button $w.sf.ef.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command [list pref_ui::snippets_cancel]
 
-    pack $w.ef.bf.insert -side left  -padx 2 -pady 2
-    pack $w.ef.bf.cancel -side right -padx 2 -pady 2
-    pack $w.ef.bf.save   -side right -padx 2 -pady 2
+    pack $w.sf.ef.bf.insert -side left  -padx 2 -pady 2
+    pack $w.sf.ef.bf.cancel -side right -padx 2 -pady 2
+    pack $w.sf.ef.bf.save   -side right -padx 2 -pady 2
 
-    pack $w.ef.kf -fill x
-    pack $w.ef.tf -fill both -expand yes
-    pack $w.ef.bf -fill x
+    pack $w.sf.ef.kf -fill x
+    pack $w.sf.ef.tf -fill both -expand yes
+    pack $w.sf.ef.bf -fill x
 
     # Display the table frame
-    pack $w.tf -fill both -expand yes
+    pack $w.sf.tf -fill both -expand yes
 
     # Setup the snippet insert menu
-    set widgets(snippets_ins_menu) [menu $w.insPopup -tearoff 0]
-    $widgets(snippets_ins_menu) add cascade -label [format "%s / %s" [msgcat::mc "Date"] [msgcat::mc "Time"]] -menu [menu $w.datePopup -tearoff 0]
-    $widgets(snippets_ins_menu) add cascade -label [msgcat::mc "File"] -menu [menu $w.filePopup -tearoff 0]
+    set widgets(snippets_ins_menu) [menu $w.sf.insPopup -tearoff 0]
+    $widgets(snippets_ins_menu) add cascade -label [format "%s / %s" [msgcat::mc "Date"] [msgcat::mc "Time"]] -menu [menu $w.sf.datePopup -tearoff 0]
+    $widgets(snippets_ins_menu) add cascade -label [msgcat::mc "File"] -menu [menu $w.sf.filePopup -tearoff 0]
     $widgets(snippets_ins_menu) add separator
     $widgets(snippets_ins_menu) add command -label [msgcat::mc "Selected Text"] -command [list pref_ui::snippets_insert_str "\$SELECTED_TEXT"]
     $widgets(snippets_ins_menu) add command -label [msgcat::mc "Clipboard"]     -command [list pref_ui::snippets_insert_str "\$CLIPBOARD"]
@@ -2584,35 +2534,49 @@ namespace eval pref_ui {
     $widgets(snippets_ins_menu) add command -label [msgcat::mc "Cursor"]        -command [list pref_ui::snippets_insert_str "\${0}"]
 
     # Setup the date/time submenu
-    $w.datePopup add command -label "01/01/2001" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE"]
-    $w.datePopup add command -label "01:01 PM"   -command [list pref_ui::snippets_insert_str "\$CURRENT_TIME"]
-    $w.datePopup add separator
-    $w.datePopup add command -label "Jan"        -command [list pref_ui::snippets_insert_str "\$CURRENT_MON"]
-    $w.datePopup add command -label "January"    -command [list pref_ui::snippets_insert_str "\$CURRENT_MONTH"]
-    $w.datePopup add command -label " 1"         -command [list pref_ui::snippets_insert_str "\$CURRENT_MON1"]
-    $w.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_MON2"]
-    $w.datePopup add separator
-    $w.datePopup add command -label "Mon"        -command [list pref_ui::snippets_insert_str "\$CURRENT_DAYN"]
-    $w.datePopup add command -label "Monday"     -command [list pref_ui::snippets_insert_str "\$CURRENT_DAYNAME"]
-    $w.datePopup add command -label "1"          -command [list pref_ui::snippets_insert_str "\$CURRENT_DAY1"]
-    $w.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_DAY2"]
-    $w.datePopup add separator
-    $w.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_YEAR2"]
-    $w.datePopup add command -label "2001"       -command [list pref_ui::snippets_insert_str "\$CURRENT_YEAR"]
+    $w.sf.datePopup add command -label "01/01/2001" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE"]
+    $w.sf.datePopup add command -label "01:01 PM"   -command [list pref_ui::snippets_insert_str "\$CURRENT_TIME"]
+    $w.sf.datePopup add separator
+    $w.sf.datePopup add command -label "Jan"        -command [list pref_ui::snippets_insert_str "\$CURRENT_MON"]
+    $w.sf.datePopup add command -label "January"    -command [list pref_ui::snippets_insert_str "\$CURRENT_MONTH"]
+    $w.sf.datePopup add command -label " 1"         -command [list pref_ui::snippets_insert_str "\$CURRENT_MON1"]
+    $w.sf.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_MON2"]
+    $w.sf.datePopup add separator
+    $w.sf.datePopup add command -label "Mon"        -command [list pref_ui::snippets_insert_str "\$CURRENT_DAYN"]
+    $w.sf.datePopup add command -label "Monday"     -command [list pref_ui::snippets_insert_str "\$CURRENT_DAYNAME"]
+    $w.sf.datePopup add command -label "1"          -command [list pref_ui::snippets_insert_str "\$CURRENT_DAY1"]
+    $w.sf.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_DAY2"]
+    $w.sf.datePopup add separator
+    $w.sf.datePopup add command -label "01"         -command [list pref_ui::snippets_insert_str "\$CURRENT_YEAR2"]
+    $w.sf.datePopup add command -label "2001"       -command [list pref_ui::snippets_insert_str "\$CURRENT_YEAR"]
 
     # Setup the file submenu
-    $w.filePopup add command -label [msgcat::mc "Current Directory"]     -command [list pref_ui::snippets_insert_str "\$DIRECTORY"]
-    $w.filePopup add command -label [msgcat::mc "Current File Pathname"] -command [list pref_ui::snippets_insert_str "\$FILEPATH"]
-    $w.filePopup add command -label [msgcat::mc "Current Filename"]      -command [list pref_ui::snippets_insert_str "\$FILENAME"]
-    $w.filePopup add separator
-    $w.filePopup add command -label [msgcat::mc "Current Line"]          -command [list pref_ui::snippets_insert_str "\$CURRENT_LINE"]
-    $w.filePopup add command -label [msgcat::mc "Current Word"]          -command [list pref_ui::snippets_insert_str "\$CURRENT_WORD"]
-    $w.filePopup add separator
-    $w.filePopup add command -label [msgcat::mc "Current Line Number"]   -command [list pref_ui::snippets_insert_str "\$LINE_NUMBER"]
-    $w.filePopup add command -label [msgcat::mc "Current Line Column"]   -command [list pref_ui::snippets_insert_str "\$LINE_INDEX"]
+    $w.sf.filePopup add command -label [msgcat::mc "Current Directory"]     -command [list pref_ui::snippets_insert_str "\$DIRECTORY"]
+    $w.sf.filePopup add command -label [msgcat::mc "Current File Pathname"] -command [list pref_ui::snippets_insert_str "\$FILEPATH"]
+    $w.sf.filePopup add command -label [msgcat::mc "Current Filename"]      -command [list pref_ui::snippets_insert_str "\$FILENAME"]
+    $w.sf.filePopup add separator
+    $w.sf.filePopup add command -label [msgcat::mc "Current Line"]          -command [list pref_ui::snippets_insert_str "\$CURRENT_LINE"]
+    $w.sf.filePopup add command -label [msgcat::mc "Current Word"]          -command [list pref_ui::snippets_insert_str "\$CURRENT_WORD"]
+    $w.sf.filePopup add separator
+    $w.sf.filePopup add command -label [msgcat::mc "Current Line Number"]   -command [list pref_ui::snippets_insert_str "\$LINE_NUMBER"]
+    $w.sf.filePopup add command -label [msgcat::mc "Current Line Column"]   -command [list pref_ui::snippets_insert_str "\$LINE_INDEX"]
 
     # Populate the snippets table
     snippets_set_language $selected_language
+
+    ##################
+    # COMPLETERS TAB #
+    ##################
+
+    $w.nb add [ttk::frame $w.nb.scf] -text [set wstr [msgcat::mc "Completers"]]
+
+    pack [ttk::checkbutton $w.nb.scf.s -text [format " %s" [msgcat::mc "Space"]]  -variable pref_ui::snip_compl(space)  -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w.nb.scf.t -text [format " %s" [msgcat::mc "Tab"]]    -variable pref_ui::snip_compl(tab)    -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w.nb.scf.r -text [format " %s" [msgcat::mc "Return"]] -variable pref_ui::snip_compl(return) -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
+
+    register $w.nb.scf.s $wstr Editor/SnippetCompleters
+
+    pack $w.nb -fill both -expand yes
 
   }
 
