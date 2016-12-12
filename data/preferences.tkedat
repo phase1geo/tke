@@ -243,6 +243,10 @@
 
 {Editor/ClipboardHistoryDepth} {10}
 
+# Specifies the amount of width (in pixels) to draw the insertion cursor.
+
+{Editor/CursorWidth}           {1}
+
 # Specifies the maximum number of find history items to store in memory.  This value must be a
 # value of 0 (do not record history) or greater.
 

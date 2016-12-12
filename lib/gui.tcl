@@ -4245,6 +4245,7 @@ namespace eval gui {
     ctext $txt -wrap none -undo 1 -autoseparators 1 -insertofftime 0 \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] \
+      -insertwidth [[ns preferences]::get Editor/CursorWidth] \
       -diff_mode $opts(-diff) -matchchar $show_match_char \
       -linemap_mark_command [ns gui]::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
@@ -4461,6 +4462,7 @@ namespace eval gui {
     # Create the editor frame
     $pw insert 0 [frame $pw.tf2 -background $sb_opts(-background)]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
+      -insertwidth [[ns preferences]::get Editor/CursorWidth] \
       -highlightcolor orange -warnwidth [[ns preferences]::get Editor/WarningWidth] \
       -maxundo [[ns preferences]::get Editor/MaxUndo] -matchchar $show_match_char \
       -linemap [[ns preferences]::get View/ShowLineNumbers] \

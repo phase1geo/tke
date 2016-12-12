@@ -312,9 +312,7 @@ proc ctext::buildArgParseTable win {
   }
 
   lappend argTable any -xscrollcommand {
-    set cmd [list $win._t config -xscrollcommand \
-    [list ctext::event:xscroll $win $value]]
-
+    set cmd [list $win._t config -xscrollcommand [list ctext::event:xscroll $win $value]]
     if {[catch $cmd res]} {
       return $res
     }
@@ -323,9 +321,7 @@ proc ctext::buildArgParseTable win {
   }
 
   lappend argTable any -yscrollcommand {
-    set cmd [list $win._t config -yscrollcommand \
-    [list ctext::event:yscroll $win $value]]
-
+    set cmd [list $win._t config -yscrollcommand [list ctext::event:yscroll $win $value]]
     if {[catch $cmd res]} {
       return $res
     }
@@ -1139,7 +1135,7 @@ proc ctext::command_configure {win args} {
 proc ctext::command_copy {win args} {
 
   variable data
-  
+
   # Get the start and end indices
   if {![catch {$win.t index sel.first} start_index]} {
     set end_index [$win.t index sel.last]
