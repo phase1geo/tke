@@ -61,6 +61,23 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Make a horizontal spacer.
+  proc make_spacer {w {grid 0}} {
+
+    set win [ttk::label $w.spacer[llength [lsearch -all [winfo children $w] $w.spacer*]]]
+
+    if {$grid} {
+      set row [llength [grid slaves $w -column 0]]
+      grid $win -row $row -column 0 -sticky ew -columnspan 3
+    } else {
+      pack $win -fill x
+    }
+
+    return $win
+
+  }
+
+  ######################################################################
   # Make a checkbutton.
   proc make_cb {w msg varname {grid 0}} {
 
@@ -115,7 +132,7 @@ namespace eval pref_ui {
         -menu [set mnu [menu ${w}mbMenu -tearoff 0]]]
       set row [llength [grid slaves [winfo parent ${w}l] -column 0]]
       grid ${w}l  -row $row -column 0 -sticky news -padx 2 -pady 2
-      grid ${w}mb -row $row -column 1 -sticky news -padx 2 -pady 2
+      grid ${w}mb -row $row -column 1 -sticky news -columnspan 2 -padx 2 -pady 2
     } else {
       pack [ttk::frame $w] -fill x
       pack [ttk::label $w.l -text $msg] -side left -padx 2 -pady 2
@@ -146,7 +163,7 @@ namespace eval pref_ui {
     # Pack the widget
     if {$grid} {
       set row [llength [grid slaves [winfo parent $w] -column 0]]
-      grid $w -row $row -column 0 -sticky news -columnspan 2 -padx 2 -pady 2
+      grid $w -row $row -column 0 -sticky news -columnspan 3 -padx 2 -pady 2
     } else {
       pack $w -fill x -padx 2 -pady 2
     }
@@ -821,6 +838,8 @@ namespace eval pref_ui {
     make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"] General/AutoChangeWorkingDirectory
     make_cb $a.umtt [msgcat::mc "Show Move To Trash for local files/directories instead of Delete"]              General/UseMoveToTrash
 
+    make_spacer $a
+
     ttk::frame $a.f
     ttk::label $a.f.dl -text [format "%s: " [set wstr [msgcat::mc "Set default open/save browsing directory to"]]]
     set widgets(browse_mb) [ttk::menubutton $a.f.dmb -menu [menu $a.browMnu -tearoff 0]]
@@ -848,7 +867,7 @@ namespace eval pref_ui {
     grid $a.f.dmb -row 1 -column 1 -sticky news -padx 2 -pady 2
     grid $a.f.dir -row 2 -column 0 -sticky news -columnspan 2
 
-    pack $a.f -fill x -pady 10
+    pack $a.f -fill x -padx 2 -pady 2
 
     #################
     # VARIABLES TAB #
@@ -955,6 +974,7 @@ namespace eval pref_ui {
     register $widgets(share_items) $wstr General/ShareItems
 
     pack $e.sf -padx 2 -pady 4 -fill x
+    make_spacer $e
     pack $e.if -padx 2 -pady 4 -fill both
 
     # Initialize the sharing UI
@@ -1310,11 +1330,10 @@ namespace eval pref_ui {
     variable colorizers
     variable prefs
 
-    set themes FOOBAR
-
     ttk::frame $w.f
-    make_mb $w.f.th  [msgcat::mc "Theme"]                  Appearance/Theme       $themes 1
-    make_sb $w.f.icw [msgcat::mc "Insertion cursor width"] Appearance/CursorWidth 1 5 1   1
+    make_mb $w.f.th  [msgcat::mc "Theme"]                          Appearance/Theme            [themes::get_all_themes] 1
+    make_sb $w.f.icw [msgcat::mc "Insertion cursor width"]         Appearance/CursorWidth      1  5 1 1
+    make_sb $w.f.els [msgcat::mc "Additional space between lines"] Appearance/ExtraLineSpacing 0 10 1 1
 
     ttk::labelframe $w.cf -text [set wstr [msgcat::mc "Syntax Coloring"]]
 
@@ -1358,16 +1377,14 @@ namespace eval pref_ui {
     grid $w.ff.f2 -row 2 -column 1 -sticky news -padx 2 -pady 2
     grid $w.ff.b2 -row 2 -column 2 -sticky news -padx 2 -pady 2
 
-    pack $w.tf     -fill x -padx 2 -pady 2
-    pack $w.cf     -fill x -padx 2 -pady 4
-    pack $w.ff     -fill x -padx 2 -pady 4
+    pack $w.f  -fill x -padx 2 -pady 2
+    make_spacer $w
+    pack $w.cf -fill x -padx 2 -pady 4
+    make_spacer $w
+    pack $w.ff -fill x -padx 2 -pady 4
 
+    make_spacer $w
     make_cb $w.cl_pos [msgcat::mc "Remember last position of command launcher"] Appearance/CommandLauncherRememberLastPosition
-
-    # Populate the themes menu
-    foreach theme [themes::get_all_themes] {
-      $w.theme_mnu add radiobutton -label $theme -variable pref_ui::prefs(Appearance/Theme) -value $theme -command [list pref_ui::set_theme $theme]
-    }
 
   }
 
@@ -1487,7 +1504,9 @@ namespace eval pref_ui {
     make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]               Editor/RelativeLineNumbers
 
     pack $w.sf  -fill x -padx 2 -pady 2
+    make_spacer $w
     pack $w.mcf -fill x -padx 2 -pady 2
+    make_spacer $w
     pack $w.cf  -fill x -padx 2 -pady 2
 
     # Set the UI state to match preference
@@ -1636,55 +1655,33 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.gf]] -text [msgcat::mc "General"]
 
-    ttk::frame $a.cf
-    make_cb $a.cf.aivp [msgcat::mc "Automatically insert vendor prefixes"] Emmet/CSSAutoInsertVendorPrefixes
-    make_cb $a.cf.cs   [msgcat::mc "Use shortened colors"]                 Emmet/CSSColorShort
-    make_cb $a.cf.fs   [msgcat::mc "Enable fuzzy search"]                  Emmet/CSSFuzzySearch
+    make_cb $a.aivp [msgcat::mc "Automatically insert vendor prefixes"] Emmet/CSSAutoInsertVendorPrefixes
+    make_cb $a.cs   [msgcat::mc "Use shortened colors"]                 Emmet/CSSColorShort
+    make_cb $a.fs   [msgcat::mc "Enable fuzzy search"]                  Emmet/CSSFuzzySearch
 
-    ttk::label $a.ccl -text [format "%s: " [set wstr [msgcat::mc "Color value case"]]]
-    set widgets(emmet_ccmb) [ttk::menubutton $a.ccmb -menu [menu $a.ccmb_mnu -tearoff 0]]
+    make_spacer $a
+
+    ttk::frame $a.of
+    ttk::label $a.of.ccl -text [format "%s: " [set wstr [msgcat::mc "Color value case"]]]
+    set widgets(emmet_ccmb) [ttk::menubutton $a.of.ccmb -menu [menu $a.of.ccmb_mnu -tearoff 0]]
 
     foreach {value lbl} [list upper [msgcat::mc "Convert to uppercase"] \
-    lower [msgcat::mc "Convert to lowercase"] \
-    keep  [msgcat::mc "Retain case"]] {
-      $a.ccmb_mnu add radiobutton -label $lbl -value $value -variable pref_ui::prefs(Emmet/CSSColorCase) -command [list pref_ui::set_css_color_case]
+                              lower [msgcat::mc "Convert to lowercase"] \
+                              keep  [msgcat::mc "Retain case"]] {
+      $a.of.ccmb_mnu add radiobutton -label $lbl -value $value -variable pref_ui::prefs(Emmet/CSSColorCase) -command [list pref_ui::set_css_color_case]
     }
 
     register $widgets(emmet_ccmb) $wstr Emmet/CSSColorCase
 
-    ttk::label $a.dummy -text ""
-    ttk::label $a.iul -text [format "%s: " [set wstr [msgcat::mc "Default unit for integer values"]]]
-    ttk::entry $a.iue -textvariable pref_ui::prefs(Emmet/CSSIntUnit)
+    pack $a.of.ccl  -side left -padx 2 -pady 2
+    pack $a.of.ccmb -side left -padx 2 -pady 2
+    pack $a.of      -fill x
 
-    register $a.iue $wstr Emmet/CSSIntUnit
-
-    ttk::label $a.ful -text [format "%s: " [set wstr [msgcat::mc "Default unit for floating point values"]]]
-    ttk::entry $a.fue -textvariable pref_ui::prefs(Emmet/CSSFloatUnit)
-
-    register $a.fue $wstr Emmet/CSSFloatUnit
-
-    ttk::label $a.vsl -text [format "%s: " [set wstr [msgcat::mc "Symbol between CSS property and value"]]]
-    ttk::entry $a.vse -textvariable pref_ui::prefs(Emmet/CSSValueSeparator)
-
-    register $a.vse $wstr Emmet/CSSValueSeparator
-
-    ttk::label $a.pel -text [format "%s: " [set wstr [msgcat::mc "Symbol placed at end of CSS property"]]]
-    ttk::entry $a.pee -textvariable pref_ui::prefs(Emmet/CSSPropertyEnd)
-
-    register $a.pee $wstr Emmet/CSSPropertyEnd
-
-    grid $a.cf    -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
-    grid $a.dummy -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.ccl   -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.ccmb  -row 2 -column 1 -sticky news -padx 2 -pady 2
-    grid $a.iul   -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.iue   -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid $a.ful   -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.fue   -row 4 -column 1 -sticky news -padx 2 -pady 2
-    grid $a.vsl   -row 5 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.vse   -row 5 -column 1 -sticky news -padx 2 -pady 2
-    grid $a.pel   -row 6 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.pee   -row 6 -column 1 -sticky news -padx 2 -pady 2
+    make_spacer $a
+    make_entry $a.iu [msgcat::mc "Default unit for integer values"]        Emmet/CSSIntUnit        ""
+    make_entry $a.fu [msgcat::mc "Default unit for floating point values"] Emmet/CSSFloatUnit      ""
+    make_entry $a.vs [msgcat::mc "Symbol between CSS property and value"]  Emmet/CSSValueSeparator ""
+    make_entry $a.pe [msgcat::mc "Symbol placed at end of CSS property"]   Emmet/CSSPropertyEnd    ""
 
     ##########
     # ADDONS #
@@ -2313,34 +2310,13 @@ namespace eval pref_ui {
     make_cb $w.ota  [msgcat::mc "Sort tabs alphabetically on open"]                 View/OpenTabsAlphabetically
     make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
 
+    make_spacer $w
+
     ttk::frame $w.sf
-    ttk::label $w.sf.srol -text [format "%s: " [set wstr [msgcat::mc "Recently opened history depth"]]]
-    set widgets(view_sro) [$widgets(sb) $w.sf.srosb {*}$widgets(sb_opts) -from 0 -to 20 -width 2 \
-      -state readonly -command [list pref_ui::set_show_recently_opened]]
-    ttk::label $w.sf.befsl -text [format "%s: " [set wstr [msgcat::mc "Bird's Eye View Font Size"]]]
-    set widgets(view_befs) [$widgets(sb) $w.sf.befssb {*}$widgets(sb_opts) -from 1 -to 2 -width 1 \
-      -state readonly -command [list pref_ui::set_birdseye_font_size]]
-    ttk::label $w.sf.bewl -text [format "%s: " [set wstr [msgcat::mc "Bird's Eye View Width"]]]
-    set widgets(view_bew) [$widgets(sb) $w.sf.bewsb {*}$widgets(sb_opts) -from 30 -to 80 -increment 5 -width 2 \
-      -state readonly -command [list pref_ui::set_birdseye_width]]
-
-    grid $w.sf.srol   -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sf.srosb  -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.sf.befsl  -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sf.befssb -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.sf.bewl   -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sf.bewsb  -row 2 -column 1 -sticky news -padx 2 -pady 2
-
-    register $widgets(view_sro) $wstr View/ShowRecentlyOpened
-    register $widgets(view_befs) $wstr View/BirdsEyeViewFontSize
-    register $widgets(view_bew) $wstr View/BirdsEyeViewWidth
-
+    make_sb $w.sf.sro  [msgcat::mc "Recently opened history depth"] View/ShowRecentlyOpened    0 20 1 1
+    make_sb $w.sf.befs [msgcat::mc "Bird's Eye View Font Size"]     View/BirdsEyeViewFontSize  1  2 1 1
+    make_sb $w.sf.bew  [msgcat::mc "Bird's Eye View Width"]         View/BirdsEyeViewWidth    30 80 5 1
     pack $w.sf -fill x -pady 8
-
-    # Initialize the spinbox value
-    $widgets(view_sro)  set $prefs(View/ShowRecentlyOpened)
-    $widgets(view_befs) set $prefs(View/BirdsEyeViewFontSize)
-    $widgets(view_bew)  set $prefs(View/BirdsEyeViewWidth)
 
   }
 
@@ -2573,6 +2549,7 @@ namespace eval pref_ui {
 
     pack $w.nb.opt.scf -fill x -padx 2 -pady 2
 
+    make_spacer $w.nb.opt
     make_cb $w.nb.opt.sfai [msgcat::mc "Format snippet indentation after insert"] Editor/SnippetFormatAfterInsert
 
     pack $w.nb -fill both -expand yes
@@ -3410,26 +3387,10 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    ttk::label $a.ugfl -text [format "%s: " [set wstr1 [msgcat::mc "User guide format"]]]
-    set widgets(advanced_ugf) [ttk::menubutton $a.ugfmb -menu [menu $a.ugf_mnu -tearoff 0]]
-    ttk::label $a.dmel -text [format "%s: " [set wstr2 [msgcat::mc "Default Markdown Export Extension"]]]
-    set widgets(advanced_dme) [ttk::menubutton $a.dmemb -menu [menu $a.dme_mnu -tearoff 0]]
-
-    register $widgets(advanced_ugf) $wstr1 Help/UserGuideFormat
-    register $widgets(advanced_dme) $wstr2 General/DefaultMarkdownExportExtension
-
-    foreach type [list pdf epub] {
-      $a.ugf_mnu add radiobutton -label $type -value $type -variable pref_ui::prefs(Help/UserGuideFormat) -command [list pref_ui::set_user_guide_format]
-    }
-
-    foreach type [list html htm xhtml] {
-      $a.dme_mnu add radiobutton -label $type -value $type -variable pref_ui::prefs(General/DefaultMarkdownExportExtension) -command [list pref_ui::set_default_markdown_export_ext]
-    }
-
-    grid $a.ugfl  -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.ugfmb -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $a.dmel  -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $a.dmemb -row 1 -column 1 -sticky news -padx 2 -pady 2
+    ttk::frame $a.f
+    make_mb $a.f.ugf [msgcat::mc "User guide format"] Help/UserGuideFormat [list pdf epub] 1
+    make_mb $a.f.dme [msgcat::mc "Default Markdown Export Extension"] General/DefaultMarkdownExportExtension [list html htm xhtml] 1
+    pack $a.f -fill x
 
     ###############
     # DEVELOPMENT #
@@ -3439,6 +3400,7 @@ namespace eval pref_ui {
 
     make_cb $b.dm  [msgcat::mc "Enable development mode"]            Debug/DevelopmentMode
     make_cb $b.sdl [msgcat::mc "Show diagnostic logfile at startup"] Debug/ShowDiagnosticLogfileAtStartup
+    make_spacer $b
 
     ttk::labelframe $b.df -text [set wstr [msgcat::mc "Logfile Directory"]]
     pack [set widgets(advanced_ld) [ttk::label $b.df.l]] -side left -fill x -padx 2 -pady 2
@@ -3448,6 +3410,8 @@ namespace eval pref_ui {
     register $b.df.b $wstr Debug/LogDirectory
 
     pack $b.df -fill x -padx 2 -pady 10
+
+    make_spacer $b
 
     ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]
     ttk::label $b.pf.prsl -text [format "%s: " [set wstr [msgcat::mc "Sorting Column"]]]
@@ -3516,8 +3480,6 @@ namespace eval pref_ui {
     pack $w.nb -fill both -expand yes
 
     # Initialize the UI state
-    set_user_guide_format
-    set_default_markdown_export_ext
     set_profile_report_sortby
 
     $widgets(advanced_ld) configure -text $prefs(Debug/LogDirectory)
@@ -3527,30 +3489,6 @@ namespace eval pref_ui {
       lassign $values nfs_mount remote_mount
       $widgets(advanced_tl) insert end [list $host $nfs_mount $remote_mount]
     }
-
-  }
-
-  ######################################################################
-  # Updates the UI state when the Help/UserGuideFormat preference value
-  # changes.
-  proc set_user_guide_format {} {
-
-    variable widgets
-    variable prefs
-
-    $widgets(advanced_ugf) configure -text $prefs(Help/UserGuideFormat)
-
-  }
-
-  ######################################################################
-  # Updates the UI state when the General/DefaultMarkdownExportExtension
-  # preference value changes.
-  proc set_default_markdown_export_ext {} {
-
-    variable widgets
-    variable prefs
-
-    $widgets(advanced_dme) configure -text $prefs(General/DefaultMarkdownExportExtension)
 
   }
 

@@ -147,7 +147,7 @@ namespace eval folding {
   # Update the closed marker colors.
   proc update_closed {txt} {
 
-    if {[[ns preferences]::get View/EnableCodeFolding]} {
+    if {[lsearch [$txt gutter names] folding] != -1} {
 
       # Get the color used to highlight closed folds
       set close_fg [$txt cget -insertbackground]
