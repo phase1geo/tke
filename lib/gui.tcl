@@ -118,7 +118,9 @@ namespace eval gui {
   # Returns 1 if the given filename exists (either locally or remotely).
   proc file_exists {fname} {
 
-    if {[set remote [get_info $fname fname remote]] eq ""} {
+    lassign [get_info $fname fname remote] remote
+
+    if {$remote eq ""} {
       return [file exists $fname]
     } else {
       return [[ns remote]::file_exists $remote $fname]
@@ -131,7 +133,7 @@ namespace eval gui {
   # remotely).
   proc modtime {fname} {
 
-    set remote [get_info $fname fname remote]
+    lassign [get_info $fname fname remote] remote
 
     if {$remote eq ""} {
       file stat $fname stat
@@ -153,8 +155,6 @@ namespace eval gui {
     # Get the file information
     lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
 
-    puts "In check_file, index: $index, fname: $fname, exists: [file exists $fname], modtime: [modtime $fname], mtime: $mtime, modified: $modified"
-
     if {$fname ne ""} {
       if {[file_exists $fname]} {
         set file_mtime [modtime $fname]
@@ -166,7 +166,6 @@ namespace eval gui {
               update_file $index
             }
           } else {
-            puts "  Updating file!"
             update_file $index
           }
           lset files $index $files_index(mtime) $file_mtime
