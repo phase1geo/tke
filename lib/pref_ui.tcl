@@ -1310,15 +1310,11 @@ namespace eval pref_ui {
     variable colorizers
     variable prefs
 
-    ttk::frame $w.tf
-    ttk::label $w.tf.l -text [format "%s: " [set wstr [msgcat::mc "Theme"]]]
-    set widgets(lang_theme) [ttk::menubutton $w.tf.mb -text $prefs(Appearance/Theme) -menu [menu $w.theme_mnu -tearoff 0]]
+    set themes FOOBAR
 
-    # Register the widget for search
-    register $widgets(lang_theme) $wstr Appearance/Theme
-
-    pack $w.tf.l  -side left -padx 2 -pady 2
-    pack $w.tf.mb -side left -padx 2 -pady 2 -fill x
+    ttk::frame $w.f
+    make_mb $w.f.th  [msgcat::mc "Theme"]                  Appearance/Theme       $themes 1
+    make_sb $w.f.icw [msgcat::mc "Insertion cursor width"] Appearance/CursorWidth 1 5 1   1
 
     ttk::labelframe $w.cf -text [set wstr [msgcat::mc "Syntax Coloring"]]
 
@@ -1445,7 +1441,6 @@ namespace eval pref_ui {
     make_sb $w.sf.mu  [msgcat::mc "Maximum undo history (set to 0 for unlimited)"] Editor/MaxUndo                0 200 10 1
     make_sb $w.sf.chd [msgcat::mc "Clipboard history depth"]                       Editor/ClipboardHistoryDepth  1  30  1 1
     make_sb $w.sf.vml [msgcat::mc "Line count to find Vim modeline information"]   Editor/VimModelines           0  20  1 1
-    make_sb $w.sf.icw [msgcat::mc "Insertion cursor width"]                        Editor/CursorWidth            1   5  1 1
 
     ttk::label $w.sf.eoll -text [format "%s: " [set wstr [msgcat::mc "End-of-line character when saving"]]]
     set widgets(editor_eolmb) [ttk::menubutton $w.sf.eolmb -menu [menu $w.sf.eol -tearoff 0]]
@@ -1489,7 +1484,6 @@ namespace eval pref_ui {
     make_cb $w.cf.hmc  [msgcat::mc "Automatically highlight matching bracket"]     Editor/HighlightMatchingChar
     make_cb $w.cf.hmmb [msgcat::mc "Automatically highlight mismatching brackets"] Editor/HighlightMismatchingChar
     make_cb $w.cf.rtw  [msgcat::mc "Remove trailing whitespace on save"]           Editor/RemoveTrailingWhitespace
-    make_cb $w.cf.sfai [msgcat::mc "Format snippet indentation after insert"]      Editor/SnippetFormatAfterInsert
     make_cb $w.cf.rln  [msgcat::mc "Enable relative line numbering"]               Editor/RelativeLineNumbers
 
     pack $w.sf  -fill x -padx 2 -pady 2
@@ -2568,13 +2562,18 @@ namespace eval pref_ui {
     # COMPLETERS TAB #
     ##################
 
-    $w.nb add [ttk::frame $w.nb.scf] -text [set wstr [msgcat::mc "Completers"]]
+    $w.nb add [ttk::frame $w.nb.opt] -text [msgcat::mc "Options"]
 
-    pack [ttk::checkbutton $w.nb.scf.s -text [format " %s" [msgcat::mc "Space"]]  -variable pref_ui::snip_compl(space)  -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $w.nb.scf.t -text [format " %s" [msgcat::mc "Tab"]]    -variable pref_ui::snip_compl(tab)    -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
-    pack [ttk::checkbutton $w.nb.scf.r -text [format " %s" [msgcat::mc "Return"]] -variable pref_ui::snip_compl(return) -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
+    ttk::labelframe $w.nb.opt.scf -text [set wstr [msgcat::mc "Snippet Completion Characters"]]
+    pack [ttk::checkbutton $w.nb.opt.scf.s -text [format " %s" [msgcat::mc "Space"]]  -variable pref_ui::snip_compl(space)  -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w.nb.opt.scf.t -text [format " %s" [msgcat::mc "Tab"]]    -variable pref_ui::snip_compl(tab)    -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
+    pack [ttk::checkbutton $w.nb.opt.scf.r -text [format " %s" [msgcat::mc "Return"]] -variable pref_ui::snip_compl(return) -command [list pref_ui::set_snip_compl]] -fill x -padx 2 -pady 2
 
-    register $w.nb.scf.s $wstr Editor/SnippetCompleters
+    register $w.nb.opt.scf.s $wstr Editor/SnippetCompleters
+
+    pack $w.nb.opt.scf -fill x -padx 2 -pady 2
+
+    make_cb $w.nb.opt.sfai [msgcat::mc "Format snippet indentation after insert"] Editor/SnippetFormatAfterInsert
 
     pack $w.nb -fill both -expand yes
 

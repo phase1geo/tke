@@ -523,6 +523,7 @@ namespace eval gui {
     trace variable [ns preferences]::prefs(View/ShowBirdsEyeView)               w [ns gui]::handle_show_birdseye
     trace variable [ns preferences]::prefs(View/BirdsEyeViewFontSize)           w [ns gui]::handle_birdseye_font_size
     trace variable [ns preferences]::prefs(View/BirdsEyeViewWidth)              w [ns gui]::handle_birdseye_width
+    trace variable [ns preferences]::prefs(Appearance/CursorWidth)              w [ns gui]::handle_cursor_width
 
     # Create general UI bindings
     bind all <Control-plus>  "[ns gui]::handle_font_change 1"
@@ -718,6 +719,20 @@ namespace eval gui {
         if {[winfo exists $be]} {
           $be configure -width $width
         }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Handles any changes to the Appearance/CursorWidth preference value.
+  proc handle_cursor_width {name1 name2 op} {
+
+    set width [[ns preferences]::get Appearance/CursorWidth]
+
+    foreach txt [get_all_texts] {
+      if {![$txt cget -blockcursor]} {
+        $txt configure -insertwidth $width
       }
     }
 

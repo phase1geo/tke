@@ -984,7 +984,7 @@ namespace eval vim {
     bind $txt <<Modified>> ""
 
     # Change the cursor to the insertion cursor and turn autoseparators on
-    $txt configure -blockcursor false -autoseparators 1 -insertwidth [[ns preferences]::get Editor/CursorWidth]
+    $txt configure -blockcursor false -autoseparators 1 -insertwidth [[ns preferences]::get Appearance/CursorWidth]
 
   }
 
@@ -1001,7 +1001,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Set the blockcursor to false
-    $txtt configure -blockcursor false -insertwidth [[ns preferences]::get Editor/CursorWidth]
+    $txtt configure -blockcursor false -insertwidth [[ns preferences]::get Appearance/CursorWidth]
 
     # If the current cursor is on a dummy space, remove it
     set tags [$txtt tag names insert]
