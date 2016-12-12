@@ -587,6 +587,10 @@ namespace eval api {
           }
           return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref $opts(-from) $opts(-to) $opts(-increment) $opts(-grid)]
         }
+        spacer {
+          pref_ui::make_spacer $win
+          return ""
+        }
         default {
           return -error code "Unsupported preference widget type ($type)"
         }
