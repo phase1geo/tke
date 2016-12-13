@@ -1389,16 +1389,6 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Set the theme to the given value and update UI state.
-  proc set_theme {theme} {
-
-    variable widgets
-
-    $widgets(lang_theme) configure -text $theme
-
-  }
-
-  ######################################################################
   # Update the Appearance/Colorize preference value to the selected
   # colorizer array.
   proc set_colorizers {} {
@@ -1523,61 +1513,6 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Sets the Editor/WarningWidth preference value.
-  proc set_warning_width {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Editor/WarningWidth) [$widgets(editor_ww) get]
-
-  }
-
-  ######################################################################
-  # Sets the Editor/SpacesPerTab preference value.
-  proc set_spaces_per_tab {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Editor/SpacesPerTab) [$widgets(editor_spt) get]
-
-  }
-
-  ######################################################################
-  # Sets the Editor/IndentSpaces preference value.
-  proc set_indent_spaces {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Editor/IndentSpaces) [$widgets(editor_is) get]
-
-  }
-
-  ######################################################################
-  # Sets the Editor/MaxUndo preference value.
-  proc set_max_undo {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Editor/MaxUndo) [$widgets(editor_mu) get]
-
-  }
-
-  ######################################################################
-  # Sets the Editor/VimModelines preference value.
-  proc set_vim_modelines {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Editor/VimModelines) [$widgets(editor_vml) get]
-
-  }
-
-  ######################################################################
   # Set the matching chars to the Editor/AutoMatchChars preference value.
   proc set_match_chars {} {
 
@@ -1622,17 +1557,6 @@ namespace eval pref_ui {
     variable prefs
 
     $widgets(editor_eolmb) configure -text $prefs(Editor/EndOfLineTranslation)
-
-  }
-
-  ######################################################################
-  # Sets the Editor/ClipboardHistoryDepth preference value.
-  proc set_clipboard_history {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Editor/ClipboardHistoryDepth) [$widgets(editor_chd) get]
 
   }
 
@@ -1689,17 +1613,12 @@ namespace eval pref_ui {
 
     $w.nb add [set b [ttk::frame $w.nb.af]] -text [msgcat::mc "Addons"]
 
-    foreach {type var} [list Mozilla Emmet/CSSMozPropertiesAddon \
-    MS      Emmet/CSSMSPropertiesAddon \
-    Opera   Emmet/CSSOPropertiesAddon \
-    Webkit  Emmet/CSSWebkitPropertiesAddon] {
-      set ltype [string tolower $type]
-      ttk::labelframe $b.$ltype -text [set wstr [format "$type %s" [msgcat::mc "Properties"]]]
-      pack [tokenentry::tokenentry $b.$ltype.te -height 4 -tokenshape eased] -fill both -expand yes
-      bind $b.$ltype.te <<TokenEntryModified>> [list pref_ui::set_properties_addon %W $var]
-      pack $b.$ltype -fill x -padx 2 -pady 2
-      $b.$ltype.te tokeninsert end $prefs($var)
-      register $b.$ltype.te $wstr $var
+    foreach {type var} {
+      Mozilla Emmet/CSSMozPropertiesAddon \
+      MS      Emmet/CSSMSPropertiesAddon \
+      Opera   Emmet/CSSOPropertiesAddon \
+      Webkit  Emmet/CSSWebkitPropertiesAddon} {
+      make_token $b.[string tolower $type] [format "$type %s" [msgcat::mc "Properties"]] $var ""
     }
 
     ################
@@ -1853,16 +1772,6 @@ namespace eval pref_ui {
     variable prefs
 
     $widgets(emmet_ccmb) configure -text $prefs(Emmet/CSSColorCase)
-
-  }
-
-  ######################################################################
-  # Updates the properties addon.
-  proc set_properties_addon {w var} {
-
-    variable prefs
-
-    set prefs($var) [$w tokenget]
 
   }
 
@@ -2170,68 +2079,9 @@ namespace eval pref_ui {
     variable widgets
     variable prefs
 
-    ttk::label $w.mhl -text [format "%s: " [set wstr [msgcat::mc "Set Find History Depth"]]]
-    set widgets(find_mh) [$widgets(sb) $w.mh {*}$widgets(sb_opts) -from 0 -to 100 -width 3 \
-    -state readonly -command [list pref_ui::set_max_history]]
-
-    register $widgets(find_mh) $wstr Find/MaxHistory
-
-    ttk::label $w.cnl -text [format "%s: " [set wstr [msgcat::mc "Set Find in Files Line Context"]]]
-    set widgets(find_cn) [$widgets(sb) $w.cn {*}$widgets(sb_opts) -from 0 -to 10 -width 3 \
-    -state readonly -command [list pref_ui::set_context_num]]
-
-    register $widgets(find_cn) $wstr Find/ContextNum
-
-    ttk::label $w.jdl -text [format "%s: " [set wstr [msgcat::mc "Set Jump Distance"]]]
-    set widgets(find_jd) [$widgets(sb) $w.jd {*}$widgets(sb_opts) -from 1 -to 20 -width 3 \
-    -state readonly -command [list pref_ui::set_jump_distance]]
-
-    register $widgets(find_jd) $wstr Find/JumpDistance
-
-    grid $w.mhl -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.mh  -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.cnl -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.cn  -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.jdl -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.jd  -row 2 -column 1 -sticky news -padx 2 -pady 2
-
-    # Initialize the widgets
-    $widgets(find_mh) set $prefs(Find/MaxHistory)
-    $widgets(find_cn) set $prefs(Find/ContextNum)
-    $widgets(find_jd) set $prefs(Find/JumpDistance)
-
-  }
-
-  ######################################################################
-  # Sets the MaxHistory preference value from the spinbox.
-  proc set_max_history {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Find/MaxHistory) [$widgets(find_mh) get]
-
-  }
-
-  ######################################################################
-  # Sets the ContextNum preference value from the spinbox.
-  proc set_context_num {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Find/ContextNum) [$widgets(find_cn) get]
-
-  }
-
-  ######################################################################
-  # Sets the JumpDistance preference value from the spinbox.
-  proc set_jump_distance {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Find/JumpDistance) [$widgets(find_jd) get]
+    make_sb $w.mh [msgcat::mc "Set find history depth"]         Find/MaxHistory   0 100 10 1
+    make_sb $w.cn [msgcat::mc "Set Find in Files line context"] Find/ContextNum   0  10  1 1
+    make_sb $w.jd [msgcat::mc "Set jump distance"]              Find/JumpDistance 1  20  1 1
 
   }
 
@@ -2248,39 +2098,27 @@ namespace eval pref_ui {
 
     ttk::notebook $w.nb
 
+    #################
+    # BEHAVIORS TAB #
+    #################
+
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "Behaviors"]
 
     make_cb $a.rralc [msgcat::mc "Remove root directory after last sub-file is closed"] Sidebar/RemoveRootAfterLastClose
     make_cb $a.fat   [msgcat::mc "Show folders at top"] Sidebar/FoldersAtTop
 
+    ##############
+    # HIDING TAB #
+    ##############
+
     $w.nb add [set b [ttk::frame $w.nb.b]] -text [msgcat::mc "Hiding"]
 
-    make_cb $b.ib [msgcat::mc "Hide binary files"] Sidebar/IgnoreBinaries
-
-    ttk::labelframe $b.pf -text [set wstr [msgcat::mc "Hide Patterns"]]
-    pack [set widgets(sb_patterns) [tokenentry::tokenentry $b.pf.te -height 6 -tokenshape eased]] -fill both -expand yes
-
-    register $widgets(sb_patterns) $wstr Sidebar/IgnoreFilePatterns
-
-    bind $widgets(sb_patterns) <<TokenEntryModified>> [list pref_ui::sidebar_pattern_changed]
-
-    pack $b.pf -fill both -expand yes -padx 2 -pady 10
+    make_cb     $b.ib [msgcat::mc "Hide binary files"] Sidebar/IgnoreBinaries
+    make_spacer $b
+    set win [make_token $b.hp [msgcat::mc "Hide Patterns"] Sidebar/IgnoreFilePatterns ""]
+    $win configure -height 6
 
     pack $w.nb -fill both -expand yes
-
-    # Insert the tokens
-    $widgets(sb_patterns) tokeninsert end $prefs(Sidebar/IgnoreFilePatterns)
-
-  }
-
-  ######################################################################
-  # Called whenever the pattern tokenentry widget is modified.
-  proc sidebar_pattern_changed {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Sidebar/IgnoreFilePatterns) [$widgets(sb_patterns) tokenget]
 
   }
 
@@ -2291,9 +2129,6 @@ namespace eval pref_ui {
   ######################################################################
   # Creates the view panel.
   proc create_view {w} {
-
-    variable widgets
-    variable prefs
 
     make_cb $w.sm   [msgcat::mc "Show menubar"]                                     View/ShowMenubar
     make_cb $w.ss   [msgcat::mc "Show sidebar"]                                     View/ShowSidebar
@@ -2317,39 +2152,6 @@ namespace eval pref_ui {
     make_sb $w.sf.befs [msgcat::mc "Bird's Eye View Font Size"]     View/BirdsEyeViewFontSize  1  2 1 1
     make_sb $w.sf.bew  [msgcat::mc "Bird's Eye View Width"]         View/BirdsEyeViewWidth    30 80 5 1
     pack $w.sf -fill x -pady 8
-
-  }
-
-  ######################################################################
-  # Sets the View/ShowRecentlyOpened preference value
-  proc set_show_recently_opened {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(View/ShowRecentlyOpened) [$widgets(view_sro) get]
-
-  }
-
-  ######################################################################
-  # Sets the View/BirdsEyeViewFontSize preference value.
-  proc set_birdseye_font_size {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(View/BirdsEyeViewFontSize) [$widgets(view_befs) get]
-
-  }
-
-  ######################################################################
-  # Sets the View/BirdsEyeViewWidth preference value.
-  proc set_birdseye_width {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(View/BirdsEyeViewWidth) [$widgets(view_bew) get]
 
   }
 
@@ -3414,26 +3216,9 @@ namespace eval pref_ui {
     make_spacer $b
 
     ttk::labelframe $b.pf -text [msgcat::mc "Profiler Options"]
-    ttk::label $b.pf.prsl -text [format "%s: " [set wstr [msgcat::mc "Sorting Column"]]]
-    set widgets(advanced_prs) [ttk::menubutton $b.pf.prsmb -text $prefs(Tools/ProfileReportSortby) -menu [menu $b.pf.prs_mnu -tearoff 0]]
-
-    register $widgets(advanced_prs) $wstr Tools/ProfileReportSortby
-
-    foreach lbl [list calls real cpu real_per_call cpu_per_call] {
-      $b.pf.prs_mnu add radiobutton -label $lbl -value $lbl -variable pref_ui::prefs(Tools/ProfileReportSortby) -command [list pref_ui::set_profile_report_sortby]
-    }
-
-    ttk::label $b.pf.prol -text [format "%s: " [set wstr [msgcat::mc "Report Options"]]]
-    set widgets(advanced_pro) [ttk::entry $b.pf.proe -validate key -validatecommand [list pref_ui::set_profile_report_options]]
-
-    register $widgets(advanced_pro) $wstr Tools/ProfileReportOptions
-
-    grid columnconfigure $b.pf 1 -weight 1
-    grid $b.pf.prsl  -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $b.pf.prsmb -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $b.pf.prol  -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $b.pf.proe  -row 1 -column 1 -sticky news -padx 2 -pady 2
-
+    make_mb     $b.pf.prs [msgcat::mc "Sorting Column"] Tools/ProfileReportSortby [list calls real cpu real_per_call cpu_per_call]
+    make_spacer $b.pf
+    make_entry  $b.pf.pro [msgcat::mc "Report Options"] Tools/ProfileReportOptions ""
     pack $b.pf -fill x -padx 2 -pady 10
 
     ##############
@@ -3479,11 +3264,8 @@ namespace eval pref_ui {
 
     pack $w.nb -fill both -expand yes
 
-    # Initialize the UI state
-    set_profile_report_sortby
-
+    # Initialize widget values
     $widgets(advanced_ld) configure -text $prefs(Debug/LogDirectory)
-    $widgets(advanced_pro) insert end $prefs(Tools/ProfileReportOptions)
 
     foreach {host values} $prefs(NFSMounts) {
       lassign $values nfs_mount remote_mount
@@ -3504,28 +3286,6 @@ namespace eval pref_ui {
       $widgets(advanced_ld) configure -text $dname
       set prefs(Debug/LogDirectory) $dname
     }
-
-  }
-
-  ######################################################################
-  # Updates the UI when the Tools/ProfileReportSortby preference item is set.
-  proc set_profile_report_sortby {} {
-
-    variable widgets
-    variable prefs
-
-    $widgets(advanced_prs) configure -text $prefs(Tools/ProfileReportSortby)
-
-  }
-
-  ######################################################################
-  # Sets the profile report options to the value in the advanced_pro entry widget.
-  proc set_profile_report_options {} {
-
-    variable widgets
-    variable prefs
-
-    set prefs(Tools/ProfileReportOptions) [$widgets(advanced_pro) get]
 
   }
 
