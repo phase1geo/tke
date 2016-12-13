@@ -1075,8 +1075,11 @@ namespace eval specl::updater {
       # Move the original directory to the trash
       switch -glob $::tcl_platform(os) {
         Darwin {
-          set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
-          set download   [file join / tmp [file tail $install_dir]]
+          set cmd "tell app \"Finder\" to move the POSIX file \"$install_dir\" to trash"
+          if {[catch { exec -ignorestderr osascript -e $cmd }]} {
+            set trash_path [specl::helpers::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
+            set download   [file join / tmp [file tail $install_dir]]
+          }
         }
         Linux* {
           if {![catch { exec -ignorestderr which gvfs-trash 2>@1 }]} {
@@ -1098,7 +1101,18 @@ namespace eval specl::updater {
           }
         }
         *Win*  {
-          if {[file exists [file join C: RECYCLER]]} {
+          set binit [file join $::tke_dir Win binit binit.exe]
+          if {[namespace exists ::freewrap] && [zvfs::exists $binit]} {
+            if {[catch { exec -ignorestderr [freewrap::unpack $binit] $fname }]} {
+              tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
+              exit 1
+            }
+          } elseif {[file exists $binit]} {
+            if {[catch { exec -ignorestderr $binit $fname } rc]} {
+              tk_messageBox -parent . -default ok -type ok -message [msgcat::mc "Unable to install"] -detail $rc
+              exit 1
+            }
+          } elseif {[file exists [file join C: RECYCLER]]} {
             set trash_path [file join C: RECYCLER]
           } elseif {[file exists [file join C: {$Recycle.bin}]]} {
             set trash_path [file join C: {$Recycle.bin}]
@@ -1397,7 +1411,7 @@ namespace eval specl::updater {
             set data(translation_dir) $value
           }
         }
-        
+
         # Get icon information
         if {![catch { specl::helpers::get_element $custom_node "icon" } icon_node]} {
           if {![catch { specl::helpers::get_attr $icon_node "path" } value]} {
