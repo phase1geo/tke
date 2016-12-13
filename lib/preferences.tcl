@@ -176,168 +176,6 @@ namespace eval preferences {
   }
 
   ######################################################################
-  # Adds the global preferences file as a readonly file.
-  proc view_global {} {
-
-    variable base_preference_file
-
-    [ns gui]::add_file end $base_preference_file -readonly 1 -sidebar 0
-
-  }
-
-  ######################################################################
-  # Adds the user preferences file to the editor, auto-reloading the
-  # file when it is saved.
-  proc edit_global {{session ""}} {
-
-    # Figure out the title to use in the tab
-    if {$session eq ""} {
-      set title       "User Global Preferences"
-      set key         "user,global"
-      set for_session 0
-    } else {
-      set title       "Session Global Preferences"
-      set key         "session,$session,global"
-      set for_session 1
-    }
-
-    # Create the buffer
-    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session {}] -lang tkeData
-
-    # Insert information
-    insert_information $key $for_session 0
-
-  }
-
-  ######################################################################
-  # Adds the specified language preferences file to the editor, auto-reloading
-  # the file when it is saved.
-  proc edit_language {{session ""}} {
-
-    # Get the language of the current buffer
-    set language [[ns syntax]::get_language [[ns gui]::current_txt {}]]
-
-    # Get the title to use in the tabbar
-    if {$session eq ""} {
-      set title       "User $language Preferences"
-      set key         "user,$language"
-      set for_session 0
-    } else {
-      set title       "Session $language Preferences"
-      set key         "session,$session,$language"
-      set for_session 1
-    }
-
-    # Create the buffer
-    [ns gui]::add_buffer end $title [list [ns preferences]::save_buffer_contents $session $language] -lang tkeData
-
-    # Insert information
-    insert_information $key $for_session 1
-
-  }
-
-  ######################################################################
-  # Inserts the loaded preference information into the current text
-  # widget.
-  proc insert_information {key for_session for_lang} {
-
-    variable loaded_prefs
-    variable base_comments
-
-    # Get the curren text widget
-    set txt [[ns gui]::current_txt {}]
-
-    # Make sure the base preference information is loaded
-    load_base_prefs
-
-    # Get the preference content
-    if {[info exists loaded_prefs($key)]} {
-      array set content $loaded_prefs($key)
-    } else {
-      array set content $loaded_prefs(user,global)
-    }
-
-    # If the data is for a language, only allow Editor/* preferences
-    if {$for_lang} {
-      set tmp [array get content Editor/*]
-      array unset content
-      array set content $tmp
-    } elseif {$for_session} {
-      array unset content General/*
-      array unset content Help/*
-      array unset content Debug/*
-      array unset content Tools/Profile*
-    }
-
-    set str ""
-    foreach name [lsort [array names content]] {
-      if {[info exists base_comments($name)]} {
-        foreach comment $base_comments($name) {
-          append str "#$comment\n"
-        }
-        append str "\n{$name} {$content($name)}\n\n"
-      }
-    }
-
-    # Insert the string
-    $txt insert -moddata ignore end $str
-
-  }
-
-  ######################################################################
-  # Gathers the buffer contents and updates the preference data.
-  proc save_buffer_contents {session language file_index} {
-
-    variable loaded_prefs
-    variable prefs
-    variable preferences_dir
-
-    # Get the current buffer
-    set txt [[ns gui]::current_txt {}]
-
-    # Get the buffer contents
-    array set data [[ns tkedat]::parse [[ns gui]::scrub_text $txt] 0]
-
-    # Get the buffer contents and store them in the appropriate array
-    if {$session eq ""} {
-
-      # Get the filename to write and update the appropriate loaded_prefs array
-      if {$language eq ""} {
-        set loaded_prefs(user,global) [array get data]
-        [ns tkedat]::write [get_user_preference_file] $loaded_prefs(user,global) 0
-      } else {
-        set loaded_prefs(user,$language) [array get data Editor/*]
-        [ns tkedat]::write [file join $preferences_dir preferences.$language.tkedat] $loaded_prefs(user,$language) 0
-      }
-
-    } else {
-
-      if {$language eq ""} {
-        array unset data General/*
-        array unset data Help/*
-        array unset data Debug/*
-        array unset data Tools/Profile*
-        set loaded_prefs(session,$session,global) [array get data]
-      } else {
-        set loaded_prefs(session,$session,$language) [array get data Editor/*]
-      }
-
-      # Save the preference information to the sessions file
-      [ns sessions]::save "prefs" $session
-
-    }
-
-    # Update the UI
-    update_prefs $session
-
-    # Perform environment variable setting from the General/Variables preference option
-    [ns utils]::set_environment $prefs(General/Variables)
-
-    return 0
-
-  }
-
-  ######################################################################
   # Save the preference array to the preferences file.
   proc save_prefs {session language data} {
 
@@ -453,7 +291,7 @@ namespace eval preferences {
     } else {
 
       # Copy the base preferences to the user preferences file
-      copy_default 0
+      file copy -force $base_preference_file $preferences_dir
 
       # Read the contents of the user file
       if {![catch { [ns tkedat]::read $user_preference_file 0 } rc]} {
@@ -486,23 +324,6 @@ namespace eval preferences {
 
     # Perform environment variable setting from the General/Variables preference option
     [ns utils]::set_environment $prefs(General/Variables)
-
-  }
-
-  ######################################################################
-  # Copies the default preference settings into the user's tke directory.
-  proc copy_default {{load 1}} {
-
-    variable base_preference_file
-    variable preferences_dir
-
-    # Copy the default file to the home directory
-    file copy -force $base_preference_file $preferences_dir
-
-    # Load the preferences file
-    if {$load} {
-      load_file
-    }
 
   }
 

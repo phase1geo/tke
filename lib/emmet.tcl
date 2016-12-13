@@ -142,20 +142,7 @@ namespace eval emmet {
   # Display the custom abbreviation file in an editing buffer.
   proc edit_abbreviations {} {
 
-    variable custom_file
-
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-
-      pref_ui::create "" "" emmet "Node Aliases"
-
-    } else {
-
-      # Add the file to the editor
-      [ns gui]::add_file end $custom_file \
-        -savecommand [list [ns emmet]::load_custom_aliases] \
-        -sidebar 0
-
-    }
+    pref_ui::create "" "" emmet "Node Aliases"
 
   }
 
