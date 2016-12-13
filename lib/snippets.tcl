@@ -466,29 +466,6 @@ namespace eval snippets {
   }
 
   ######################################################################
-  # If a snippet file does not exist for the current language, creates
-  # an empty snippet file in the user's local snippet directory.  Opens
-  # the snippet file for editing.
-  proc add_new_snippet {tid type} {
-
-    variable snippets_dir
-
-    # Set the language
-    set language [expr {($type eq "user") ? "user" : [[ns utils]::get_current_lang [gui::current_txt $tid]]}]
-
-    # If the snippet file does not exist, create the file
-    if {![file exists [set fname [file join $snippets_dir $language.snippets]]]} {
-      if {![catch { open $fname w } rc]} {
-        close $rc
-      }
-    }
-
-    # Add the snippet file to the editor
-    gui::add_file end $fname -sidebar 0 -savecommand [list snippets::set_language $language]
-
-  }
-
-  ######################################################################
   # Returns the list of snippets
   proc get_current_snippets {} {
 

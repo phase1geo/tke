@@ -77,26 +77,6 @@ namespace eval bindings {
 
   }
 
-  ######################################################################
-  # Adds the global menu bindings file to the editor as a read-only file.
-  proc view_global {} {
-
-    variable base_bindings_file
-
-    [ns gui]::add_file end $base_bindings_file -sidebar 0 -readonly 1
-
-  }
-
-  ######################################################################
-  # Adds the user menu bindings file to the editor.
-  proc edit_user {} {
-
-    variable user_bindings_file
-
-    [ns gui]::add_file end $user_bindings_file -sidebar 0 -savecommand [list [ns bindings]::load_file 0]
-
-  }
-
   ########################
   #  PRIVATE PROCEDURES  #
   ########################
@@ -120,7 +100,7 @@ namespace eval bindings {
           array set menu_bindings $rc
         }
       } else {
-        copy_default 0
+        file copy -force $base_bindings_file $::tke_home
       }
     }
 
@@ -278,23 +258,5 @@ namespace eval bindings {
 
   }
 
-  ######################################################################
-  # Copies the default settings to the user's .tke directory.
-  proc copy_default {{load 1}} {
-
-    variable base_bindings_file
-
-    # Copy the default bindings to the tke home directory
-    file copy -force $base_bindings_file $::tke_home
-
-    # Load the file
-    if {$load} {
-      load_file
-    }
-
-  }
-
 }
-
-
 

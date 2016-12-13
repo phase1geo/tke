@@ -257,12 +257,8 @@ namespace eval menus {
     # Unpost the menu (and all of its ancestors)
     catch { tk::MenuUnpost $w }
 
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create "" "" shortcuts
-      pref_ui::shortcut_edit_item [string map {# .} [lindex [split $w .] end]] [$w entrycget @$y -label]
-    } else {
-      bindings::edit_user
-    }
+    pref_ui::create "" "" shortcuts
+    pref_ui::shortcut_edit_item [string map {# .} [lindex [split $w .] end]] [$w entrycget @$y -label]
 
   }
 
@@ -409,7 +405,7 @@ namespace eval menus {
 
       # Get state if the file is a buffer
       set buffer_state [expr {($buffer || $diff_mode) ? "disabled" : "normal"}]
-      
+
       # Get the state if the current editing buffer is a difference buffer
       set diff_state [expr {$diff_mode ? "disabled" : "normal"}]
 
@@ -1084,7 +1080,6 @@ namespace eval menus {
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Preferences"]   -menu [make_menu $mb.prefPopup  -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
-    $mb add cascade -label [msgcat::mc "Menu Bindings"] -menu [make_menu $mb.bindPopup  -tearoff 0]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [make_menu $mb.snipPopup  -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
     $mb add cascade -label [msgcat::mc "Templates"]     -menu [make_menu $mb.tempPopup  -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
     $mb add cascade -label "Emmet"                      -menu [make_menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
@@ -1293,33 +1288,6 @@ namespace eval menus {
     $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Language"]] -command [list menus::edit_session_language]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit session current language preferences"]] [list menus::edit_session_language]
 
-    $mb.prefPopup add separator
-
-    $mb.prefPopup add command -label [msgcat::mc "View Base"] -command [list preferences::view_global]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "View base preferences file"]] [list preferences::view_global]
-
-    $mb.prefPopup add separator
-
-    $mb.prefPopup add command -label [msgcat::mc "Reset User to Base"] -command [list preferences::copy_default]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Set user preferences to global preferences"]] [list preferences::copy_default]
-
-    #############################
-    # Populate menu bindings menu
-    #############################
-
-    $mb.bindPopup add command -label [msgcat::mc "Edit User"] -command [list menus::bindings_edit_user]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit user menu bindings"]] [list menus::bindings_edit_user]
-
-    $mb.bindPopup add separator
-
-    $mb.bindPopup add command -label [msgcat::mc "View Global"] -command [list bindings::view_global]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "View global menu bindings"]] [list bindings::view_global]
-
-    $mb.bindPopup add separator
-
-    $mb.bindPopup add command -label [msgcat::mc "Set User to Global"] -command [list bindings::copy_default]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Set user bindings to global bindings"]] [list bindings::copy_default]
-
     ########################
     # Populate snippets menu
     ########################
@@ -1380,9 +1348,9 @@ namespace eval menus {
   # Called just prior to posting the edit menu.  Sets the state of all
   # menu items to match the proper state of the UI.
   proc edit_posting {mb} {
-    
+
     lassign [gui::get_info {} current {txt readonly diff}] txt readonly diff
-    
+
     set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
 
     if {$txt eq ""} {
@@ -1873,11 +1841,7 @@ namespace eval menus {
   proc edit_user_global {} {
 
     # preferences::edit_global
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create "" ""
-    } else {
-      preferences::edit_global
-    }
+    pref_ui::create "" ""
 
   }
 
@@ -1885,11 +1849,7 @@ namespace eval menus {
   # Edits the user current language preference settings.
   proc edit_user_language {} {
 
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create "" [syntax::get_language [gui::current_txt {}]]
-    } else {
-      preferences::edit_language
-    }
+    pref_ui::create "" [syntax::get_language [gui::current_txt {}]]
 
   }
 
@@ -1897,11 +1857,7 @@ namespace eval menus {
   # Edits the session global preference settings.
   proc edit_session_global {} {
 
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create [sessions::current] ""
-    } else {
-      preferences::edit_global [sessions::current]
-    }
+    pref_ui::create [sessions::current] ""
 
   }
 
@@ -1909,24 +1865,7 @@ namespace eval menus {
   # Edits the session current language preference settings.
   proc edit_session_language {} {
 
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create [sessions::current] [syntax::get_language [gui::current_txt {}]]
-    } else {
-      preferences::edit_language [sessions::current]
-    }
-
-  }
-
-  ######################################################################
-  # Edits the user menu bindings (shortcuts) using either the preference
-  # GUI (if enabled) or the editor.
-  proc bindings_edit_user {} {
-
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create "" "" shortcuts
-    } else {
-      bindings::edit_user
-    }
+    pref_ui::create [sessions::current] [syntax::get_language [gui::current_txt {}]]
 
   }
 
@@ -1934,14 +1873,10 @@ namespace eval menus {
   # Adds a new snippet via the preferences GUI or text editor.
   proc add_new_snippet {language} {
 
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      if {$language eq "user"} {
-        pref_ui::create "" "" snippets
-      } else {
-        pref_ui::create "" [syntax::get_language [gui::current_txt {}]] snippets
-      }
+    if {$language eq "user"} {
+      pref_ui::create "" "" snippets
     } else {
-      snippets::add_new_snippet {} $language
+      pref_ui::create "" [syntax::get_language [gui::current_txt {}]] snippets
     }
 
   }
@@ -1951,11 +1886,7 @@ namespace eval menus {
   # (if enabled) or the editor.
   proc share_setup {} {
 
-    if {[preferences::get General/EditPreferencesUsingGUI]} {
-      pref_ui::create "" "" general sharing
-    } else {
-      share::edit_setup
-    }
+    pref_ui::create "" "" general sharing
 
   }
 
@@ -2039,11 +1970,11 @@ namespace eval menus {
   # Called just prior to posting the find menu.  Sets the state of the menu
   # items to match the current UI state.
   proc find_posting {mb} {
-    
+
     lassign [gui::get_info {} current {txt readonly diff}] txt readonly diff
-    
+
     set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
-    
+
     if {$txt eq ""} {
       $mb entryconfigure [msgcat::mc "Find"]                           -state disabled
       $mb entryconfigure [msgcat::mc "Find and Replace"]               -state disabled

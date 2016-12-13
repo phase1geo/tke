@@ -832,7 +832,6 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    make_cb $a.epug [msgcat::mc "Edit preferences using GUI"]                                                    General/EditPreferencesUsingGUI
     make_cb $a.lls  [msgcat::mc "Automatically load last session on start"]                                      General/LoadLastSession
     make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"]                             General/ExitOnLastClose
     make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"] General/AutoChangeWorkingDirectory
