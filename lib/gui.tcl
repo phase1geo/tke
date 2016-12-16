@@ -3844,12 +3844,19 @@ namespace eval gui {
 
     # Add credit information
     $txt insert end "Special thanks to the following:\n\n"
-    $txt insert end "\uff65 The " {} "filerunner" frlink " project for creating and sharing their FTP and SFTP codebase to make built-in remote file editing possible." {}
+    $txt insert end "\uff65 The " {} "filerunner" frlink " project for creating and sharing their FTP and SFTP codebase to make built-in remote file editing possible.\n\n" {}
+    $txt insert end "\uff65 Dr. Casaba Nemethi for his full-featured " {} "tablelist" tllink " project.\n\n" {}
+    $txt insert end "\uff65 Jean-Claude Wippler for his excellent webdav package.\n\n" {}
 
     $txt tag configure frlink -underline 1
     $txt tag bind frlink <Enter>    [list $txt configure -cursor [ttk::cursor link]]
     $txt tag bind frlink <Leave>    [list $txt configure -cursor [ttk::cursor standard]]
     $txt tag bind frlink <Button-1> [list utils::open_file_externally "http://filerunner.sourceforge.net"]
+
+    $txt tag configure tllink -underline 1
+    $txt tag bind tllink <Enter>    [list $txt configure -cursor [ttk::cursor link]]
+    $txt tag bind tllink <Leave>    [list $txt configure -cursor [ttk::cursor standard]]
+    $txt tag bind tllink <Button-1> [list utils::open_file_externally "http://www.nemethi.de"]
 
   }
 

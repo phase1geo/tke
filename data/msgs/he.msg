@@ -4,9 +4,6 @@ msgcat::mcmset he {
   "Argument list to api::add_file was not an even key/value pair"
   "רשימת כדי api::add_file לא היה זוג ואפילו מפתח/ערך"
 
-  "Plugin"
-  "תוסף"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset he {
 
   "Replace:"
   "חיפוש והחלפה:"
+
+}
+
+# files.tcl
+msgcat::mcmset he {
+
+  "Unable to determine how to move to trash"
+  "אין אפשרות לקבוע כיצד להעביר זבל"
+
+  "Unable to determine platform"
+  "אין אפשרות לקבוע את הפלטפורמה"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset he {
   "Image used in the preferences window in the General tab."
   "תמונת שימוש בחלון העדפות בכרטיסייה ' כללי '."
 
+  "Image used in the preferences window in the Plugins tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה תוספים."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה ' קיצורי דרך '."
+
   "Image used in the preferences window in the Sidebar tab."
   "תמונת שימוש בחלון העדפות בכרטיסיה הצידי."
 
@@ -172,9 +186,6 @@ msgcat::mcmset he {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "תמונת שימוש בחלון ההעדפות כדי לציין כי פריט הטבלה נבחרה."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "תמונת שימוש בחלון קיצורי דרך הכרטיסייה קיצורי דרך."
 
   "License"
   "רישיון"
@@ -504,9 +515,6 @@ msgcat::mcmset he {
   "Edit user global preferences"
   "עריכת העדפות משתמש גלובלי"
 
-  "Edit user menu bindings"
-  "עריכת האיגודים תפריט משתמש"
-
   "Edit user snippets"
   "ערוך משתמש גזירים"
 
@@ -786,9 +794,6 @@ msgcat::mcmset he {
   "Menu"
   "תפריט"
 
-  "Menu Bindings"
-  "תפריט איגודי"
-
   "Merge Panes"
   "מיזוג חלוניות"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset he {
   "Replace line with script"
   "להחליף שורת תסריט"
 
-  "Reset User to Base"
-  "איפוס משתמש לבסיס"
-
   "Restart"
   "הפעלה מחדש"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset he {
   "Set Theme"
   "ערכת נושא"
 
-  "Set User to Global"
-  "הגדרת משתמש גלובלי"
-
   "Set current file line ending to CR for Classic Mac"
   "הגדר הנוכחי בשורה המסתיימת ההתר עבור Mac קלאסי"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset he {
 
   "Set indent mode to"
   "הגדר מצב כניסה"
-
-  "Set user bindings to global bindings"
-  "מוגדר משתמש איגודי איגודי גלובלית"
-
-  "Set user preferences to global preferences"
-  "להגדיר העדפות המשתמש העדפות גלובלית"
 
   "Show All Tabs"
   "הצג הכול"
@@ -1169,6 +1162,9 @@ msgcat::mcmset he {
 
   "Show File Difference"
   "הצג קובץ ההבדל"
+
+  "Show Installed"
+  "מותקן"
 
   "Show Last Profiling Report"
   "צג דווח Profiling האחרונהו"
@@ -1199,6 +1195,9 @@ msgcat::mcmset he {
 
   "Show file difference"
   "הצג קובץ ההבדל"
+
+  "Show installed plugins"
+  "הצג תוספים מותקנים"
 
   "Show last profiling report"
   "הצג צג דווח Profiling האחרונהו"
@@ -1257,6 +1256,9 @@ msgcat::mcmset he {
   "Toggle Comment"
   "חלף תגובה"
 
+  "Toggle bird's eye view mode"
+  "החלפה בין מצב תצוגה של עין הציפור"
+
   "Toggle case of current character"
   "היפוך רישיות של התו הנוכחי"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset he {
 
   "Transform"
   "שינוי צורה"
+
+  "Unable to delete file"
+  "אין אפשרות למחוק את הקובץ"
 
   "Unable to write export file"
   "לא ניתן לכתוב בקובץ הייצוא"
@@ -1310,18 +1315,6 @@ msgcat::mcmset he {
 
   "View"
   "תצוגה"
-
-  "View Base"
-  "תצוגת הבסיס"
-
-  "View Global"
-  "תצוגה גלובלית"
-
-  "View base preferences file"
-  "קובץ בסיס העדפות תצוגה"
-
-  "View global menu bindings"
-  "תצוגת תפריטים כללית איגודי"
 
   "View tips & tricks articles"
   "הצג טיפים & טריקים מאמרים"
@@ -1408,6 +1401,9 @@ msgcat::mcmset he {
   "Add"
   "הוסף"
 
+  "Additional space between lines"
+  "שטח נוסף בין השורות"
+
   "Addons"
   "הרחבות"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset he {
 
   "Behaviors"
   "התנהגויות"
+
+  "Bird's Eye View Font Size"
+  "גודל הגופן תצוגה של עין הציפור"
+
+  "Bird's Eye View Width"
+  "רוחב התצוגה עין הציפור"
 
   "Buffer"
   "Buffer"
@@ -1528,9 +1530,6 @@ msgcat::mcmset he {
   "Double-quote"
   "כפולות"
 
-  "Edit preferences using GUI"
-  "עריכת העדפות משתמש GUI"
-
   "Editor"
   "עורך"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset he {
   "Host"
   "שרת מארח"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "הכניסה רווחים"
+
+  "Insertion cursor width"
+  "רוחב הסמן ההכנסה"
 
   "Keyword"
   "מילות מפתח"
@@ -1588,8 +1590,8 @@ msgcat::mcmset he {
   "Last accessed"
   "הפעם האחרונה שנכנסת"
 
-  "Line count to find for Vim modeline information"
-  "ספירת השורות למצוא למידע modeline Vim"
+  "Line count to find Vim modeline information"
+  "ספירת השורות כדי למצוא מידע modeline Vim"
 
   "Logfile Directory"
   "מדריך יומן"
@@ -1605,6 +1607,9 @@ msgcat::mcmset he {
 
   "Node Aliases"
   "צומת כינויים"
+
+  "Options"
+  "אפשרויות"
 
   "Parenthesis"
   "סוגריים"
@@ -1651,6 +1656,9 @@ msgcat::mcmset he {
   "Select Settings Sharing Directory"
   "בחר הגדרות שיתוף הספריות"
 
+  "Select a plugin"
+  "בחר תוסף"
+
   "Select default browsing directory"
   "בחר באפשרויות ברירת מחדל גלישה מדריך"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset he {
   "Set"
   "הגדר"
 
-  "Set Find History Depth"
-  "הגדר חיפוש היסטוריה עומק"
-
-  "Set Find in Files Line Context"
+  "Set Find in Files line context"
   "להגדיר חיפוש בהקשר קו קבצים"
-
-  "Set Jump Distance"
-  "הגדרת קפיצה למרחק"
 
   "Set default open/save browsing directory to"
   "הגדרת ברירת המחדל פתיחה/שמירה גלישה מדריך כדי"
+
+  "Set find history depth"
+  "סט למצוא עומק היסטוריה"
+
+  "Set jump distance"
+  "הגדרת קפיצה למרחק"
 
   "Sharing Items"
   "שיתוף פריטים"
@@ -1683,6 +1691,12 @@ msgcat::mcmset he {
 
   "Show 'Find in Files' result in other pane"
   "הצגת התוצאה \"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "הצג להזיז את האשפה עבור הקבצים/הספריות המקומי במקום למחוק"
+
+  "Show bird's eye view"
+  "הצג ממעוף הציפור"
 
   "Show diagnostic logfile at startup"
   "הצג יומן האבחון בעת האתחול"
@@ -1784,6 +1798,12 @@ msgcat::mcmset he {
 
   "Close Connection"
   "לסגור את החיבור"
+
+  "Connection failed"
+  "החיבור נכשל"
+
+  "Connection passed"
+  "חיבור עבר"
 
   "Create New Folder"
   "ליצור תיקייה קיימת"
@@ -1947,9 +1967,6 @@ msgcat::mcmset he {
   "Settings to export"
   "הגדרות ייצוא"
 
-  "Sharing Setup"
-  "שיתוף תוכנית ההתקנה"
-
   "Themes"
   "ערכות נושא"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset he {
 
   "Show Directory Files"
   "הצג ספריית קבצים"
+
+  "Unable to duplicate file"
+  "קובץ כפולים לא הצליחה"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset he {
 # theme.tcl
 msgcat::mcmset he {
 
+  "Amount of border to display around command launcher in pixels"
+  "כמות הגבול כדי להציג סביב הפקודה משגר בפיקסלים"
+
   "Background (trough) color used in the sidebar scrollbar."
   "צבע רקע (שוקת) להשתמש בפס הגלילה הצידי."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset he {
 
   "Background color of insertion cursor and background marker colors."
   "צבע הרקע של ההכנסה הסמן סמן והרקע."
+
+  "Background color of list items when not selected"
+  "צבע הרקע של פריטי רשימה כאשר לא נבחר"
+
+  "Background color of selection in command launcher"
+  "צבע הרקע של בחירה ב הפקודה משגר"
+
+  "Background color of textual display in command launcher"
+  "צבע הרקע של טקסטואליים בתצוגת הפקודה משגר"
 
   "Background color of the editing buffer."
   "צבע הרקע של המאגר העריכה."
@@ -2211,14 +2243,23 @@ msgcat::mcmset he {
   "Background color used in the tabbar area."
   "צבע הרקע השתמשו באזור tabbar."
 
+  "Color of border around command launcher"
+  "צבע גבול סביב הפקודה משגר"
+
   "Color of border drawn around active editing buffer."
   "צבע לצייר גבול סביב מאגר העריכה פעיל."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "צבע מרווח בין השדה ערך הפקודה משגר ורשימת תוצאות"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "הצבע של ttk כניסה יישומון גבול הטקסט כאשר הערך יש מוקד לוח מקשים."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "הצבע המשמש כדי לצייר קו רוחב אזהרה המאגר העריכה (כמו גם על הקו המפריד בין המרזב מתוך המאגר העריכה)."
+
+  "Command Launcher Options"
+  "אפשרויות מפעיל פקודה"
 
   "Default 'darkcolor' for all ttk widgets."
   "ברירת מחדל 'darkcolor' עבור כל ttk ווידג'טים."
@@ -2261,6 +2302,15 @@ msgcat::mcmset he {
 
   "Foreground (slider) color used in the text scrollbars."
   "צבע הקידמה (המחוון) המשמשים את פסי גלילה טקסט."
+
+  "Foreground color of list items when not selected"
+  "צבע הקידמה של פריטי רשימה כאשר לא נבחר"
+
+  "Foreground color of selection in command launcher"
+  "צבע הקידמה של בחירה ב הפקודה משגר"
+
+  "Foreground color of textual display in command launcher"
+  "צבע הקידמה של טקסטואליים בתצוגת הפקודה משגר"
 
   "Foreground color used in menu items with checks or buttons."
   "צבע הקידמה בשימוש פריטי תפריט עם צ'קים או לחצנים."
@@ -2322,6 +2372,9 @@ msgcat::mcmset he {
   "Images"
   "תמונות"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "עובי מרבי של הגלילה משגר הפקודה כאשר הוא פעיל."
+
   "Maximum thickness of the text scrollbar when it is active."
   "עובי מרבי של הגלילה טקסט כאשר הוא פעיל."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset he {
   "Menu relief value."
   "תפריט הקלה ערך."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "פיקסל גובה מרווח בין השדה ערך הפקודה משגר ורשימת תוצאות"
+
   "Pixel height of the tabbar widget."
   "פיקסל גובה של יישומון tabbar."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset he {
   "Relief value of the sidebar area."
   "ערך הקלה של האזור הצידי."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "פס גלילה מחוון הצבע המשמש ברשימת התוצאות מפעיל פקודה"
+
   "Sidebar Options"
   "אפשרויות סרגל צידי"
 
   "Sidebar Scrollbar Options"
   "הסרגל הצידי של פס גלילה אפשרויות"
+
+  "Specifies background color of command launcher entry and list"
+  "מציין את צבע הרקע של הפקודה משגר כניסה ורשימת"
+
+  "Specifies foreground color of command launcher entry and list"
+  "מציין את צבע הקידמה הפקודה משגר הכניסה של הרשימה"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "מציין את צבע כדי להציג סביב הצידי כאשר הסרגל הצידי אינו חייב המוקד."
@@ -2583,6 +2648,9 @@ msgcat::mcmset he {
   "Back"
   "חזרה"
 
+  "Bird's Eye View"
+  "ממעוף הציפור"
+
   "Browse"
   "עיין"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset he {
   "Launcher"
   "משגר"
 
+  "Move To Trash"
+  "להעביר לפח"
+
   "Move to Other Pane"
   "לעבור לחלונית אחרת"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset he {
 
   "Open"
   "לִפְתוֹחַ"
+
+  "Plugin"
+  "תוסף"
 
   "Plugins"
   "פלאג אין"
@@ -2717,6 +2791,9 @@ msgcat::mcmset he {
 
   "Theme Editor"
   "דירוג העורך"
+
+  "Unable to rename file"
+  "אין אפשרות לשנות שם קובץ"
 
   "Unable to write"
   "אין אפשרות לכתוב"

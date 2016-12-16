@@ -4,9 +4,6 @@ msgcat::mcmset cs {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument seznam API :: add_file nebyl ani klíč / hodnota pár"
 
-  "Plugin"
-  "Plugin"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset cs {
 
   "Replace:"
   "slova"
+
+}
+
+# files.tcl
+msgcat::mcmset cs {
+
+  "Unable to determine how to move to trash"
+  "Nelze určit, jak se přesunout do koše"
+
+  "Unable to determine platform"
+  "Nelze určit platformy"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset cs {
   "Image used in the preferences window in the General tab."
   "Obrázek v okně předvoleb v kartě Obecné."
 
+  "Image used in the preferences window in the Plugins tab."
+  "Obrázek v okně Předvolby v záložce pluginy."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "Obrázek v okně Předvolby na kartě zástupce."
+
   "Image used in the preferences window in the Sidebar tab."
   "Obrázek v okně Předvolby v postranním panelu na kartě."
 
@@ -172,9 +186,6 @@ msgcat::mcmset cs {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Obrázek použitý k označení, že je vybrána položka tabulka v okně Předvolby."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "Obrázek v okně Klávesové zkratky v kartě zástupce."
 
   "License"
   "Licence"
@@ -504,9 +515,6 @@ msgcat::mcmset cs {
   "Edit user global preferences"
   "Upravit globální nastavení uživatele"
 
-  "Edit user menu bindings"
-  "Upravit uživatelské menu vazby"
-
   "Edit user snippets"
   "Upravit uživatelské fragmenty"
 
@@ -786,9 +794,6 @@ msgcat::mcmset cs {
   "Menu"
   "Nabídka"
 
-  "Menu Bindings"
-  "Vázání Menu"
-
   "Merge Panes"
   "Slou?it podokna"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset cs {
   "Replace line with script"
   "Nahradit řádek skriptu"
 
-  "Reset User to Base"
-  "Obnovit uživatelské základny"
-
   "Restart"
   "Restart"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset cs {
   "Set Theme"
   "Set Theme"
 
-  "Set User to Global"
-  "Nastavit uživatele do globální"
-
   "Set current file line ending to CR for Classic Mac"
   "Nastavit aktuální řádek souboru končí na CR pro klasický Mac"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset cs {
 
   "Set indent mode to"
   "Nastavit režim odsazení"
-
-  "Set user bindings to global bindings"
-  "Nastavit uživatelské vazby na globální vazby"
-
-  "Set user preferences to global preferences"
-  "Nastavit uživatelské předvolby na globální nastavení"
 
   "Show All Tabs"
   "Zobrazit všechny karty"
@@ -1169,6 +1162,9 @@ msgcat::mcmset cs {
 
   "Show File Difference"
   "Zobrazit soubor rozdíl"
+
+  "Show Installed"
+  "Nainstalováno"
 
   "Show Last Profiling Report"
   "Zobrazit poslední profilování zprávu"
@@ -1199,6 +1195,9 @@ msgcat::mcmset cs {
 
   "Show file difference"
   "Zobrazit soubor rozdíl"
+
+  "Show installed plugins"
+  "Nainstalované moduly"
 
   "Show last profiling report"
   "Zobrazit poslední zprávy o profilování"
@@ -1257,6 +1256,9 @@ msgcat::mcmset cs {
   "Toggle Comment"
   "P?epnout komentá?"
 
+  "Toggle bird's eye view mode"
+  "Přepnout režim zobrazení ptačí oko"
+
   "Toggle case of current character"
   "Velká písmena aktuálního znaku"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset cs {
 
   "Transform"
   "Transformovat"
+
+  "Unable to delete file"
+  "Nelze odstranit soubor"
 
   "Unable to write export file"
   "Nelze zapsat soubor exportu"
@@ -1310,18 +1315,6 @@ msgcat::mcmset cs {
 
   "View"
   "Náhled"
-
-  "View Base"
-  "Zobrazit základnu"
-
-  "View Global"
-  "Zobrazit globální"
-
-  "View base preferences file"
-  "Zobrazit základní nastavení soubor"
-
-  "View global menu bindings"
-  "Zobrazit globální nabídky vazby"
 
   "View tips & tricks articles"
   "Zobrazit tipy & triky článků"
@@ -1408,6 +1401,9 @@ msgcat::mcmset cs {
   "Add"
   "Přidat"
 
+  "Additional space between lines"
+  "Další mezery mezi řádky"
+
   "Addons"
   "Addony"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset cs {
 
   "Behaviors"
   "Chování"
+
+  "Bird's Eye View Font Size"
+  "Bird's Eye pohled velikost písma"
+
+  "Bird's Eye View Width"
+  "Bird's Eye View Šířka"
 
   "Buffer"
   "pufr,"
@@ -1528,9 +1530,6 @@ msgcat::mcmset cs {
   "Double-quote"
   "Uvozovky"
 
-  "Edit preferences using GUI"
-  "Upravit předvolby pomocí GUI"
-
   "Editor"
   "Editor"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset cs {
   "Host"
   "Hostitel"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "Odsazení mezer"
+
+  "Insertion cursor width"
+  "Šířka kurzoru kurzor"
 
   "Keyword"
   "Klíčové slovo"
@@ -1588,8 +1590,8 @@ msgcat::mcmset cs {
   "Last accessed"
   "Poslední přístup"
 
-  "Line count to find for Vim modeline information"
-  "Počet řádků pro Vim modeline informace"
+  "Line count to find Vim modeline information"
+  "Počet řádků Vim modeline informace"
 
   "Logfile Directory"
   "Adresář souboru protokolu"
@@ -1605,6 +1607,9 @@ msgcat::mcmset cs {
 
   "Node Aliases"
   "Uzel aliasy"
+
+  "Options"
+  "Možnosti"
 
   "Parenthesis"
   "Závorky"
@@ -1651,6 +1656,9 @@ msgcat::mcmset cs {
   "Select Settings Sharing Directory"
   "Vyberte nastavení sdílení adresáře"
 
+  "Select a plugin"
+  "Vyberte zásuvný modul"
+
   "Select default browsing directory"
   "Vyberte výchozí procházení adresářů"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset cs {
   "Set"
   "Nastavit"
 
-  "Set Find History Depth"
-  "Nastavit hloubku historie hledání"
-
-  "Set Find in Files Line Context"
+  "Set Find in Files line context"
   "Nastavení hledání v soubory řádku kontextu"
-
-  "Set Jump Distance"
-  "Nastavit skok vzdálenost"
 
   "Set default open/save browsing directory to"
   "Nastavit výchozí otevřít/uložit procházení adresáře"
+
+  "Set find history depth"
+  "Nastavení hledání historie Hloubka"
+
+  "Set jump distance"
+  "Nastavit skok vzdálenosti"
 
   "Sharing Items"
   "39 Sdílení položek"
@@ -1683,6 +1691,12 @@ msgcat::mcmset cs {
 
   "Show 'Find in Files' result in other pane"
   "Ukázat \"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Zobrazit pro místní soubory/adresáře namísto odstranění přesunout do koše"
+
+  "Show bird's eye view"
+  "Nadhled"
 
   "Show diagnostic logfile at startup"
   "Zobrazit diagnostické soubor protokolu při spuštění"
@@ -1784,6 +1798,12 @@ msgcat::mcmset cs {
 
   "Close Connection"
   "Zavření připojení"
+
+  "Connection failed"
+  "připojení selhalo"
+
+  "Connection passed"
+  "Připojení předané"
 
   "Create New Folder"
   "Vytvořit novou složku"
@@ -1947,9 +1967,6 @@ msgcat::mcmset cs {
   "Settings to export"
   "Nastavení exportu"
 
-  "Sharing Setup"
-  "Sdílení nastavení"
-
   "Themes"
   "Vzhledy"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset cs {
 
   "Show Directory Files"
   "Zobrazit soubory adresáře"
+
+  "Unable to duplicate file"
+  "Duplicitní soubor nelze"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset cs {
 # theme.tcl
 msgcat::mcmset cs {
 
+  "Amount of border to display around command launcher in pixels"
+  "Velikost okraje zobrazení kolem příkaz spouštěč v pixelech"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Souvislosti (žlábek), barvy použité v postranním panelu posuvníku."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset cs {
 
   "Background color of insertion cursor and background marker colors."
   "Barva pozadí vložení kurzoru a zázemí značkovacích barev."
+
+  "Background color of list items when not selected"
+  "Barva pozadí položek seznamu, když není vybrán"
+
+  "Background color of selection in command launcher"
+  "Barva pozadí výběru příkazu spouštěč"
+
+  "Background color of textual display in command launcher"
+  "Barva pozadí textový displej v příkaz spouštěč"
 
   "Background color of the editing buffer."
   "Barva pozadí pro úpravy vyrovnávací paměti."
@@ -2211,14 +2243,23 @@ msgcat::mcmset cs {
   "Background color used in the tabbar area."
   "Barva pozadí používané v tabbar oblasti."
 
+  "Color of border around command launcher"
+  "Barva ohraničení kolem příkaz spouštěč"
+
   "Color of border drawn around active editing buffer."
   "Barva rámu okolo aktivní pro úpravy vyrovnávací paměti."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Barva rozpěrku mezi polem pro zadání spouštěče příkazu a seznam výsledků"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Barva zadávání TTK widgetu textu okraje, když záznam má fokus klávesnice."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Barva slouží ke kreslení šířky varování řádek v editační vyrovnávací paměti (stejně jako čáru oddělující okap z vyrovnávací paměti pro úpravy)."
+
+  "Command Launcher Options"
+  "Možnosti spouštění příkazů"
 
   "Default 'darkcolor' for all ttk widgets."
   "Default &quot;darkcolor&quot; pro všechny TTK widgetů."
@@ -2261,6 +2302,15 @@ msgcat::mcmset cs {
 
   "Foreground (slider) color used in the text scrollbars."
   "Popředí (slider), barvy použité v textu posuvníky."
+
+  "Foreground color of list items when not selected"
+  "Barva popředí seznamu položek, pokud není vybrána"
+
+  "Foreground color of selection in command launcher"
+  "Barva popředí výběru v příkaz spouštěč"
+
+  "Foreground color of textual display in command launcher"
+  "Barva popředí textový displej v příkaz spouštěč"
 
   "Foreground color used in menu items with checks or buttons."
   "Barva popředí používaná v položkách nabídky s šeky nebo tlačítka."
@@ -2322,6 +2372,9 @@ msgcat::mcmset cs {
   "Images"
   "Obrázky"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Maximální tloušťka příkaz spouštěč posuvníku, pokud je aktivní."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Maximální tloušťka textu posuvníku, kdy je aktivní."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset cs {
   "Menu relief value."
   "Úleva hodnota Menu."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Pixel výška rozpěrky mezi polem pro zadání spouštěče příkazu a seznam výsledků"
+
   "Pixel height of the tabbar widget."
   "Výška pixelu tabbar widgetu."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset cs {
   "Relief value of the sidebar area."
   "Reliéf hodnota sidebar oblasti."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "Barva jezdec posuvníku v seznamu výsledků spouštěč příkazů"
+
   "Sidebar Options"
   "Nastavení sidebaru"
 
   "Sidebar Scrollbar Options"
   "Sidebar Možnosti scrollbar"
+
+  "Specifies background color of command launcher entry and list"
+  "Určuje barvu pozadí při zadávání spouštěč příkazů a seznam"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Určuje barvu popředí při zadávání spouštěč příkazů a seznam"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Určuje barvu, která se zobrazí po postranním panelu, když postranní panel nemá fokus."
@@ -2583,6 +2648,9 @@ msgcat::mcmset cs {
   "Back"
   "Zpět"
 
+  "Bird's Eye View"
+  "Nadhled"
+
   "Browse"
   "Procházet"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset cs {
   "Launcher"
   "spouštěč"
 
+  "Move To Trash"
+  "Přesunout do koše"
+
   "Move to Other Pane"
   "Přesunout do jiné tabule"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset cs {
 
   "Open"
   "Open"
+
+  "Plugin"
+  "Plugin"
 
   "Plugins"
   "Plugin"
@@ -2717,6 +2791,9 @@ msgcat::mcmset cs {
 
   "Theme Editor"
   "Editor téma"
+
+  "Unable to rename file"
+  "Soubor nelze přejmenovat"
 
   "Unable to write"
   "Nelze zapisovat"

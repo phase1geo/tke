@@ -4,9 +4,6 @@ msgcat::mcmset nl {
   "Argument list to api::add_file was not an even key/value pair"
   "Lijst met argumenten om api :: add_file was niet een even sleutel / waarde paar"
 
-  "Plugin"
-  "Plugin"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset nl {
 
   "Replace:"
   "Vervangen:"
+
+}
+
+# files.tcl
+msgcat::mcmset nl {
+
+  "Unable to determine how to move to trash"
+  "Niet in staat om te bepalen hoe naar Prullenbak verplaatsen"
+
+  "Unable to determine platform"
+  "Niet in staat om te bepalen van platform"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset nl {
   "Image used in the preferences window in the General tab."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Algemeen."
 
+  "Image used in the preferences window in the Plugins tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Plugins."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad snelkoppelingen."
+
   "Image used in the preferences window in the Sidebar tab."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster in de zijbalk tabblad."
 
@@ -172,9 +186,6 @@ msgcat::mcmset nl {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster om aan te geven dat een tabel item is geselecteerd."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "De afbeelding die wordt gebruikt in het venster snelkoppelingen in het tabblad snelkoppelingen."
 
   "License"
   "Licentie"
@@ -504,9 +515,6 @@ msgcat::mcmset nl {
   "Edit user global preferences"
   "Global Gebruikersvoorkeuren bewerken"
 
-  "Edit user menu bindings"
-  "Gebruiker menu bindingen bewerken"
-
   "Edit user snippets"
   "Bewerken gebruiker fragmenten"
 
@@ -786,9 +794,6 @@ msgcat::mcmset nl {
   "Menu"
   "Menu"
 
-  "Menu Bindings"
-  "Menu Bindingen"
-
   "Merge Panes"
   "Samenvoegen van deelvensters"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset nl {
   "Replace line with script"
   "Regel vervangen door script"
 
-  "Reset User to Base"
-  "Reset gebruiker naar Base"
-
   "Restart"
   "Herstart"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset nl {
   "Set Theme"
   "Serie Thema"
 
-  "Set User to Global"
-  "Gebruiker instellen naar globaal"
-
   "Set current file line ending to CR for Classic Mac"
   "Huidige bestand regel die eindigt CR voor klassieke Mac instellen"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset nl {
 
   "Set indent mode to"
   "Streepje modus ingesteld op"
-
-  "Set user bindings to global bindings"
-  "Gebruiker instellen bindingen aan globale bindings"
-
-  "Set user preferences to global preferences"
-  "Gebruikersvoorkeuren naar algemene voorkeuren instellen"
 
   "Show All Tabs"
   "Alle tabbladen weergeven"
@@ -1169,6 +1162,9 @@ msgcat::mcmset nl {
 
   "Show File Difference"
   "Toon bestand verschil"
+
+  "Show Installed"
+  "Geïnstalleerd"
 
   "Show Last Profiling Report"
   "Toon Laatste Profiling Report"
@@ -1199,6 +1195,9 @@ msgcat::mcmset nl {
 
   "Show file difference"
   "Toon bestand verschil"
+
+  "Show installed plugins"
+  "geïnstalleerde Plugins"
 
   "Show last profiling report"
   "Toon laatste profilering verslag"
@@ -1257,6 +1256,9 @@ msgcat::mcmset nl {
   "Toggle Comment"
   "Knevel commentaar"
 
+  "Toggle bird's eye view mode"
+  "Bird's eye weergavemodus schakelen"
+
   "Toggle case of current character"
   "Toggle zaak van huidige karakter"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset nl {
 
   "Transform"
   "Transformeren"
+
+  "Unable to delete file"
+  "Niet in staat om te verwijderen"
 
   "Unable to write export file"
   "Kan niet schrijven exportbestand"
@@ -1310,18 +1315,6 @@ msgcat::mcmset nl {
 
   "View"
   "Bekijken"
-
-  "View Base"
-  "Weergave Base"
-
-  "View Global"
-  "Weergave Global"
-
-  "View base preferences file"
-  "Weergave basis voorkeurenbestand"
-
-  "View global menu bindings"
-  "Bekijk globaal menu bindingen"
 
   "View tips & tricks articles"
   "Bekijk tips & trucs artikelen"
@@ -1408,6 +1401,9 @@ msgcat::mcmset nl {
   "Add"
   "Toevoegen"
 
+  "Additional space between lines"
+  "Extra ruimte tussen regels"
+
   "Addons"
   "Addons"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset nl {
 
   "Behaviors"
   "Gedrag"
+
+  "Bird's Eye View Font Size"
+  "Bird's Eye View tekengrootte"
+
+  "Bird's Eye View Width"
+  "Bird's Eye View breedte"
 
   "Buffer"
   "Buffer"
@@ -1528,9 +1530,6 @@ msgcat::mcmset nl {
   "Double-quote"
   "Aanhalingsteken"
 
-  "Edit preferences using GUI"
-  "Bewerk voorkeuren met behulp van de GUI"
-
   "Editor"
   "Editor"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset nl {
   "Host"
   "Host"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "Spaties voor inspringen"
+
+  "Insertion cursor width"
+  "Invoeging cursor breedte"
 
   "Keyword"
   "Zoekwoord"
@@ -1588,8 +1590,8 @@ msgcat::mcmset nl {
   "Last accessed"
   "Laatst geopend:"
 
-  "Line count to find for Vim modeline information"
-  "Regeltelling te vinden voor Vim modeline informatie"
+  "Line count to find Vim modeline information"
+  "Regeltelling Vim modeline informatie zoeken"
 
   "Logfile Directory"
   "Logfile Directory"
@@ -1605,6 +1607,9 @@ msgcat::mcmset nl {
 
   "Node Aliases"
   "Aliassen"
+
+  "Options"
+  "Opties"
 
   "Parenthesis"
   "Haakje"
@@ -1651,6 +1656,9 @@ msgcat::mcmset nl {
   "Select Settings Sharing Directory"
   "Selecteer instellingen voor het delen van Directory"
 
+  "Select a plugin"
+  "Selecteer een plugin"
+
   "Select default browsing directory"
   "Selecteer standaard directory browsing"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset nl {
   "Set"
   "Instellen"
 
-  "Set Find History Depth"
-  "Zoek geschiedenis diepte instellen"
-
-  "Set Find in Files Line Context"
-  "Zoeken in bestanden lijn Context instellen"
-
-  "Set Jump Distance"
-  "Set sprong afstand"
+  "Set Find in Files line context"
+  "Zoeken in bestanden lijn kader instellen"
 
   "Set default open/save browsing directory to"
   "Instellen van de standaard open/sparen directory browsing"
+
+  "Set find history depth"
+  "Set vinden geschiedenis diepte"
+
+  "Set jump distance"
+  "Set springen afstand"
 
   "Sharing Items"
   "Delen van Items"
@@ -1683,6 +1691,12 @@ msgcat::mcmset nl {
 
   "Show 'Find in Files' result in other pane"
   "'Zoek in bestanden' resultaat in andere deelvenster weergeven"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Verplaatsen naar Prullenbak weergeven voor lokale bestanden/mappen in plaats van verwijderen"
+
+  "Show bird's eye view"
+  "Luchtfoto"
 
   "Show diagnostic logfile at startup"
   "Diagnostische logfile weergeven bij opstarten"
@@ -1784,6 +1798,12 @@ msgcat::mcmset nl {
 
   "Close Connection"
   "Verbinding verbreken"
+
+  "Connection failed"
+  "Verbinden mislukt"
+
+  "Connection passed"
+  "Verbinding doorgegeven"
 
   "Create New Folder"
   "Nieuwe map aanmaken"
@@ -1947,9 +1967,6 @@ msgcat::mcmset nl {
   "Settings to export"
   "Instellingen exporteren"
 
-  "Sharing Setup"
-  "Delen van Setup"
-
   "Themes"
   "Thema’s"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset nl {
 
   "Show Directory Files"
   "Bestanden van de map weergeven"
+
+  "Unable to duplicate file"
+  "Geen kopie vijl"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset nl {
 # theme.tcl
 msgcat::mcmset nl {
 
+  "Amount of border to display around command launcher in pixels"
+  "Bedrag van de rand wilt weergeven rondom command launcher in pixels"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Achtergrond (dal) kleur gebruikt in de zijbalk scrollbar."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset nl {
 
   "Background color of insertion cursor and background marker colors."
   "Achtergrondkleur van het inbrengen cursor en achtergrond marker kleuren."
+
+  "Background color of list items when not selected"
+  "Achtergrondkleur van lijstitems als niet geselecteerd"
+
+  "Background color of selection in command launcher"
+  "Achtergrondkleur van de selectie in opdracht starten"
+
+  "Background color of textual display in command launcher"
+  "Achtergrondkleur van tekstuele weergave in opdracht starten"
 
   "Background color of the editing buffer."
   "Achtergrondkleur van de editing buffer."
@@ -2211,14 +2243,23 @@ msgcat::mcmset nl {
   "Background color used in the tabbar area."
   "Achtergrondkleur gebruikt in de tabbalk omgeving."
 
+  "Color of border around command launcher"
+  "Kleur van de rand rond command launcher"
+
   "Color of border drawn around active editing buffer."
   "Kleur van de grens getrokken rond actieve bewerking buffer."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Kleur van de spacer tussen het invoerveld in command launcher en de resultatenlijst"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Kleur van TTK binnenkomst widget tekst grens wanneer de invoer heeft toetsenbord focus."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Kleur gebruikt om de waarschuwing breedte regel in de editing buffer (evenals de lijn tussen de goot van de redactie buffer) te trekken."
+
+  "Command Launcher Options"
+  "Opdrachtopties Launcher"
 
   "Default 'darkcolor' for all ttk widgets."
   "Default &#39;darkcolor&#39; voor alle TTK widgets."
@@ -2261,6 +2302,15 @@ msgcat::mcmset nl {
 
   "Foreground (slider) color used in the text scrollbars."
   "Voorgrond (schuif) kleur die wordt gebruikt in de tekst schuifbalken."
+
+  "Foreground color of list items when not selected"
+  "Voorgrondkleur van lijstitems als niet geselecteerd"
+
+  "Foreground color of selection in command launcher"
+  "Voorgrondkleur van de selectie in opdracht starten"
+
+  "Foreground color of textual display in command launcher"
+  "Voorgrondkleur van tekstuele weergave in opdracht starten"
 
   "Foreground color used in menu items with checks or buttons."
   "Voorgrondkleur die wordt gebruikt in menu-items met cheques of knoppen."
@@ -2322,6 +2372,9 @@ msgcat::mcmset nl {
   "Images"
   "Afbeeldingen"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Maximale dikte van de command launcher scrollbar wanneer het actief is."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Maximale dikte van de tekst schuifbalk wanneer deze actief is."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset nl {
   "Menu relief value."
   "Menu opluchting waarde."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Pixel hoogte van de spacer tussen het invoerveld in command launcher en de resultatenlijst"
+
   "Pixel height of the tabbar widget."
   "Pixel hoogte van de tabbalk widget."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset nl {
   "Relief value of the sidebar area."
   "Reliëf waarde van de zijbalk gebied."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "ScrollBar schuifregelaar kleur die wordt gebruikt in de resultatenlijst van command launcher"
+
   "Sidebar Options"
   "Opslaan"
 
   "Sidebar Scrollbar Options"
   "Zijbalk Scrollbar Opties"
+
+  "Specifies background color of command launcher entry and list"
+  "Hiermee geeft u de achtergrondkleur van command launcher ingang en lijst"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Voorgrondkleur van command launcher ingang en lijst aangeeft"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Geeft de kleur weer te geven rond de zijbalk wanneer de zijbalk niet de focus hebben."
@@ -2583,6 +2648,9 @@ msgcat::mcmset nl {
   "Back"
   "Achterkant"
 
+  "Bird's Eye View"
+  "Luchtfoto"
+
   "Browse"
   "Bladeren"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset nl {
   "Launcher"
   "Launcher"
 
+  "Move To Trash"
+  "In de Prullenbak"
+
   "Move to Other Pane"
   "Verplaatsen naar andere Pane"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset nl {
 
   "Open"
   "Openen"
+
+  "Plugin"
+  "Plugin"
 
   "Plugins"
   "Plug-in"
@@ -2717,6 +2791,9 @@ msgcat::mcmset nl {
 
   "Theme Editor"
   "Thema-editor"
+
+  "Unable to rename file"
+  "Niet in staat om bestand te hernoemen"
 
   "Unable to write"
   "Niet in staat om te schrijven"

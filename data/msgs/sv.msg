@@ -4,9 +4,6 @@ msgcat::mcmset sv {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument listan till api :: add_file var inte en ens nyckel / värde-par"
 
-  "Plugin"
-  "Tillägg"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset sv {
 
   "Replace:"
   "Ersätt:"
+
+}
+
+# files.tcl
+msgcat::mcmset sv {
+
+  "Unable to determine how to move to trash"
+  "Inte kan avgöra hur du flyttar till papperskorgen"
+
+  "Unable to determine platform"
+  "Det går inte att avgöra plattform"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset sv {
   "Image used in the preferences window in the General tab."
   "Bild som används i inställningsfönstret på fliken Allmänt."
 
+  "Image used in the preferences window in the Plugins tab."
+  "Bild som används i inställningsfönstret i fliken Plugins."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "Bild som används i inställningsfönstret i fliken genvägar."
+
   "Image used in the preferences window in the Sidebar tab."
   "Bild som används i inställningsfönstret i fliken sidofält."
 
@@ -172,9 +186,6 @@ msgcat::mcmset sv {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Bilden i inställningsfönstret brukade anger att en tabell-objekt är markerad."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "Bild som används i fönstret genvägar i fliken genvägar."
 
   "License"
   "Licens"
@@ -504,9 +515,6 @@ msgcat::mcmset sv {
   "Edit user global preferences"
   "Redigera globala användarinställningar"
 
-  "Edit user menu bindings"
-  "Redigera användare menyn bindningar"
-
   "Edit user snippets"
   "Redigera användare snuttar"
 
@@ -786,9 +794,6 @@ msgcat::mcmset sv {
   "Menu"
   "Meny"
 
-  "Menu Bindings"
-  "Meny Bindningar"
-
   "Merge Panes"
   "Slå ihop fönsterrutorna"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset sv {
   "Replace line with script"
   "Ersätta line med skriptet"
 
-  "Reset User to Base"
-  "Återställa användare till Base"
-
   "Restart"
   "Omstart"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset sv {
   "Set Theme"
   "Ställ tema"
 
-  "Set User to Global"
-  "Ställa in användare till Global"
-
   "Set current file line ending to CR for Classic Mac"
   "Ange nuvarande fil linje slutar till CR för klassiska Mac"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset sv {
 
   "Set indent mode to"
   "Ställa in strecksatsen läge till"
-
-  "Set user bindings to global bindings"
-  "Ange användare bindningar till globala bindningar"
-
-  "Set user preferences to global preferences"
-  "Ange inställningar till globala inställningar"
 
   "Show All Tabs"
   "Visa alla flikar"
@@ -1169,6 +1162,9 @@ msgcat::mcmset sv {
 
   "Show File Difference"
   "Visa filen skillnaden"
+
+  "Show Installed"
+  "installerad"
 
   "Show Last Profiling Report"
   "Visa Senaste Profilering Rapport"
@@ -1199,6 +1195,9 @@ msgcat::mcmset sv {
 
   "Show file difference"
   "Visa filen skillnaden"
+
+  "Show installed plugins"
+  "Installerade Tillägg"
 
   "Show last profiling report"
   "Visa senaste profilering rapport"
@@ -1257,6 +1256,9 @@ msgcat::mcmset sv {
   "Toggle Comment"
   "Toggle kommentar"
 
+  "Toggle bird's eye view mode"
+  "Växla Bird's eye view-läget"
+
   "Toggle case of current character"
   "Växla om nuvarande karaktär"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset sv {
 
   "Transform"
   "transformera"
+
+  "Unable to delete file"
+  "Det går inte att ta bort filen."
 
   "Unable to write export file"
   "Kan inte skriva exportfil"
@@ -1310,18 +1315,6 @@ msgcat::mcmset sv {
 
   "View"
   "Visa"
-
-  "View Base"
-  "Visa Base"
-
-  "View Global"
-  "Visa globala"
-
-  "View base preferences file"
-  "Visa bas inställningsfilen"
-
-  "View global menu bindings"
-  "Visa globala menyn bindningar"
 
   "View tips & tricks articles"
   "Visa tips & tricks artiklar"
@@ -1408,6 +1401,9 @@ msgcat::mcmset sv {
   "Add"
   "Lägg till"
 
+  "Additional space between lines"
+  "Extra utrymme mellan raderna"
+
   "Addons"
   "Tillägg"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset sv {
 
   "Behaviors"
   "Beteenden"
+
+  "Bird's Eye View Font Size"
+  "Bird's Eye View teckenstorlek"
+
+  "Bird's Eye View Width"
+  "Bird's Eye View bredd"
 
   "Buffer"
   "Buffert"
@@ -1528,9 +1530,6 @@ msgcat::mcmset sv {
   "Double-quote"
   "Dubbel-offert"
 
-  "Edit preferences using GUI"
-  "Redigera inställningar med hjälp av GUI"
-
   "Editor"
   "Utgivare"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset sv {
   "Host"
   "Host"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "Indrag utrymmen"
+
+  "Insertion cursor width"
+  "Insättningspunkten markören bredd"
 
   "Keyword"
   "Nyckelord"
@@ -1588,8 +1590,8 @@ msgcat::mcmset sv {
   "Last accessed"
   "Senast använd:"
 
-  "Line count to find for Vim modeline information"
-  "Linje räkna att hitta Vim lägesrader information"
+  "Line count to find Vim modeline information"
+  "Antal rader att hitta Vim lägesrader information"
 
   "Logfile Directory"
   "Logfile katalog"
@@ -1605,6 +1607,9 @@ msgcat::mcmset sv {
 
   "Node Aliases"
   "Alias"
+
+  "Options"
+  "Alternativ"
 
   "Parenthesis"
   "Klammer"
@@ -1651,6 +1656,9 @@ msgcat::mcmset sv {
   "Select Settings Sharing Directory"
   "Välj inställningar delar katalog"
 
+  "Select a plugin"
+  "Välj en plugin"
+
   "Select default browsing directory"
   "Välj standard bläddra katalog"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset sv {
   "Set"
   "Ange"
 
-  "Set Find History Depth"
-  "Ställa in hitta historia djup"
-
-  "Set Find in Files Line Context"
-  "Ställa in hitta filer linje bakgrund"
-
-  "Set Jump Distance"
-  "Ställ in hoppa avstånd"
+  "Set Find in Files line context"
+  "Ställ in hitta filer linje bakgrund"
 
   "Set default open/save browsing directory to"
   "Ställa in standard öppna/spara bläddra katalog till"
+
+  "Set find history depth"
+  "Ställ hitta historia djup"
+
+  "Set jump distance"
+  "Uppsättning hoppa avstånd"
 
   "Sharing Items"
   "Dela objekt"
@@ -1683,6 +1691,12 @@ msgcat::mcmset sv {
 
   "Show 'Find in Files' result in other pane"
   "Visa \"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Visa flytta till papperskorgen för lokala filer/kataloger istället för radera"
+
+  "Show bird's eye view"
+  "Visa fågelperspektiv"
 
   "Show diagnostic logfile at startup"
   "Visa diagnostisk logfile vid start"
@@ -1784,6 +1798,12 @@ msgcat::mcmset sv {
 
   "Close Connection"
   "Stäng förbindelsen"
+
+  "Connection failed"
+  "Uppkoppling avbruten"
+
+  "Connection passed"
+  "Anslutning som passerade"
 
   "Create New Folder"
   "Skapa ny katalog"
@@ -1947,9 +1967,6 @@ msgcat::mcmset sv {
   "Settings to export"
   "Inställningar för att exportera"
 
-  "Sharing Setup"
-  "Dela Setup"
-
   "Themes"
   "Teman"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset sv {
 
   "Show Directory Files"
   "Visa katalogfiler"
+
+  "Unable to duplicate file"
+  "Det gick inte att duplicera arkivera"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset sv {
 # theme.tcl
 msgcat::mcmset sv {
 
+  "Amount of border to display around command launcher in pixels"
+  "Mängden kantlinje visas runt kommandot launcher i pixlar"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Bakgrundsfärg (tråg) används i sidofältet rullningslisten."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset sv {
 
   "Background color of insertion cursor and background marker colors."
   "Bakgrundsfärg på insättningspunkten och bakgrundsmarkeringsfärger."
+
+  "Background color of list items when not selected"
+  "Bakgrundsfärgen för listobjekt när inte markerad"
+
+  "Background color of selection in command launcher"
+  "Bakgrundsfärgen för urval i kommandot launcher"
+
+  "Background color of textual display in command launcher"
+  "Bakgrundsfärgen för textbaserade display i kommandot launcher"
 
   "Background color of the editing buffer."
   "Bakgrundsfärgen på redigering bufferten."
@@ -2211,14 +2243,23 @@ msgcat::mcmset sv {
   "Background color used in the tabbar area."
   "Bakgrundsfärgen används i området tabbar."
 
+  "Color of border around command launcher"
+  "Färg på kantlinjen runt kommandot launcher"
+
   "Color of border drawn around active editing buffer."
   "Färgen på gränsen dras runt aktiv redigering buffert."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Färgen på distansen mellan fältet kommando launcher och resultatlistan"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Färgen på ttk posten widget text kantlinje när transaktionen har tangentbordsfokus."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Färgen används för att rita linjen varning bredd i redigering bufferten (liksom linjen som skiljer rännstenen från redigering bufferten)."
+
+  "Command Launcher Options"
+  "Kommandoalternativ för Launcher"
 
   "Default 'darkcolor' for all ttk widgets."
   "Default 'darkcolor' för alla TTK widgets."
@@ -2261,6 +2302,15 @@ msgcat::mcmset sv {
 
   "Foreground (slider) color used in the text scrollbars."
   "Förgrundsfärgen (reglaget) används i text scrollbars."
+
+  "Foreground color of list items when not selected"
+  "Förgrundsfärgen för listobjekt när inte markerad"
+
+  "Foreground color of selection in command launcher"
+  "Förgrundsfärgen för urval i kommandot launcher"
+
+  "Foreground color of textual display in command launcher"
+  "Förgrundsfärgen för textbaserade display i kommandot launcher"
 
   "Foreground color used in menu items with checks or buttons."
   "Förgrundsfärgen används i menypunkterna med kontroller eller knappar."
@@ -2322,6 +2372,9 @@ msgcat::mcmset sv {
   "Images"
   "Bilder"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Maximal tjocklek på kommando launcher rullningslisten när den är aktiv."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Maximal tjocklek text rullningslisten när det är aktivt."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset sv {
   "Menu relief value."
   "Menyn lättnad värde."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Pixelhöjd för distansen mellan fältet kommando launcher och resultatlistan"
+
   "Pixel height of the tabbar widget."
   "Pixelhöjd för widgeten tabbar."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset sv {
   "Relief value of the sidebar area."
   "Lättnad värdet av sidofältet området."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "Rullningslist slider färg används i kommandot launcher resultatlistan"
+
   "Sidebar Options"
   "Sidopanelens alternativ"
 
   "Sidebar Scrollbar Options"
   "Sidebar Scrollbar Alternativ"
+
+  "Specifies background color of command launcher entry and list"
+  "Anger bakgrundsfärg för kommandot launcher inresa och lista"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Anger förgrundsfärgen för kommandot launcher intrade och lista"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Anger färgen ska visas runt bufferten när sidofältet inte har fokus."
@@ -2583,6 +2648,9 @@ msgcat::mcmset sv {
   "Back"
   "Tillbaka"
 
+  "Bird's Eye View"
+  "fågelperspektiv"
+
   "Browse"
   "Bläddra"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset sv {
   "Launcher"
   "Launcher"
 
+  "Move To Trash"
+  "Flytta till papperskorgen"
+
   "Move to Other Pane"
   "Flytta till andra Pane"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset sv {
 
   "Open"
   "Öppen"
+
+  "Plugin"
+  "Tillägg"
 
   "Plugins"
   "Insticksprogram"
@@ -2717,6 +2791,9 @@ msgcat::mcmset sv {
 
   "Theme Editor"
   "Temaredigeraren"
+
+  "Unable to rename file"
+  "Det går inte att byta namn på filen."
 
   "Unable to write"
   "Kan inte skriva"
