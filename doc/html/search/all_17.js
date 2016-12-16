@@ -1,6 +1,8 @@
 var searchData=
 [
+  ['webdav_5ffname',['webdav_fname',['../namespaceremote.html#a0b6956743403f47a0337a72140b2685c',1,'remote']]],
   ['wheel_5fslider',['wheel_slider',['../namespacescroller.html#aab0e89f71d60351d9ba6e51d0b32faf1',1,'scroller']]],
+  ['widget',['widget',['../namespaceapi_1_1preferences.html#a560a4298e97b9c687970e0e64b11d0e9',1,'api::preferences']]],
   ['widget_5fcmd',['widget_cmd',['../namespacebitmap.html#a0205297d6e67ff23fde46b9254680a79',1,'bitmap::widget_cmd()'],['../namespaceembed__tke.html#aba9e99854032195b248d5cf295ab4676',1,'embed_tke::widget_cmd()']]],
   ['widget_5fcommand',['widget_command',['../namespaceinterpreter.html#a3af5906f1038a93e00bf56118325eb4f',1,'interpreter::widget_command()'],['../namespacescroller.html#acf3e053e319add70fe593323b1261bac',1,'scroller::widget_command()']]],
   ['widget_5fwin',['widget_win',['../namespaceinterpreter.html#a63d53241af4b5e27861e9011859ddecc',1,'interpreter']]],

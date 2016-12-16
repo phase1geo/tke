@@ -16,9 +16,9 @@ var searchData=
   ['delete_5fcurrent_5fline',['delete_current_line',['../namespaceedit.html#ad00ba502eef55e1e27e2b4c08baaee4b',1,'edit']]],
   ['delete_5fcurrent_5fnumber',['delete_current_number',['../namespaceedit.html#a46fac403c439845ecb75b6ea075800d9',1,'edit']]],
   ['delete_5fcurrent_5fword',['delete_current_word',['../namespaceedit.html#a93eb2df07f2772f96b7b5aa04e87595e',1,'edit']]],
-  ['delete_5ffile',['delete_file',['../namespacesidebar.html#aceb0e987c21063d76a6d9cbf12a73a4a',1,'sidebar']]],
+  ['delete_5ffile',['delete_file',['../namespacefiles.html#a30d80d25d81fde61ff2960d09ca9606f',1,'files::delete_file()'],['../namespacesidebar.html#aceb0e987c21063d76a6d9cbf12a73a4a',1,'sidebar::delete_file()']]],
   ['delete_5ffold',['delete_fold',['../namespacefolding.html#aad96fd29980385e52caa0ad0fc44ec23',1,'folding']]],
-  ['delete_5ffolder',['delete_folder',['../namespacesidebar.html#a93897c811821c2af52e351915abf965f',1,'sidebar']]],
+  ['delete_5ffolder',['delete_folder',['../namespacefiles.html#ad18ad5ba7a479662f0735f3138396c16',1,'files::delete_folder()'],['../namespacesidebar.html#a93897c811821c2af52e351915abf965f',1,'sidebar::delete_folder()']]],
   ['delete_5ffolds',['delete_folds',['../namespacemenus.html#af78765b98503a6f3388290e1f2ecfd5f',1,'menus']]],
   ['delete_5ffolds_5fin_5frange',['delete_folds_in_range',['../namespacefolding.html#ab8536d4688629e43e4bbd626535102c4',1,'folding']]],
   ['delete_5ffrom_5fstart',['delete_from_start',['../namespaceedit.html#ab5a495e227148dee7ea39fa38d631e3b',1,'edit']]],
@@ -82,5 +82,5 @@ var searchData=
   ['dohighlight',['doHighlight',['../namespacectext.html#af11d4f8ec386fcf0b70423d190f89061',1,'ctext']]],
   ['draw_5fgrid',['draw_grid',['../namespacebitmap.html#ae728a5666188614d76e710d32d424b68',1,'bitmap']]],
   ['duplicate_5fcommand',['duplicate_command',['../namespacemenus.html#a122e3d32f21653bdd742bd7dc461e38e',1,'menus']]],
-  ['duplicate_5ffile',['duplicate_file',['../namespaceremote.html#acbfc7686fd60430e5ee2ec8c5870ed6a',1,'remote::duplicate_file()'],['../namespacesidebar.html#a6ad31fd2c0962b92fbcafa9f0e47e399',1,'sidebar::duplicate_file()']]]
+  ['duplicate_5ffile',['duplicate_file',['../namespacefiles.html#a9b019da067f5f5012dddde5fafe20343',1,'files::duplicate_file()'],['../namespaceremote.html#acbfc7686fd60430e5ee2ec8c5870ed6a',1,'remote::duplicate_file()'],['../namespacesidebar.html#a6ad31fd2c0962b92fbcafa9f0e47e399',1,'sidebar::duplicate_file()']]]
 ];

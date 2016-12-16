@@ -1,5 +1,6 @@
 var namespacediff =
 [
+    [ "bazaar", "namespacediff_1_1bazaar.html", null ],
     [ "custom", "namespacediff_1_1custom.html", null ],
     [ "cvs", "namespacediff_1_1cvs.html", null ],
     [ "diff", "namespacediff_1_1diff.html", null ],

@@ -21,13 +21,13 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "api_8tcl.html",
-"diff_8tcl.html#a2e5686fa12ad8e51d9743dbf194e6050",
-"gui_8tcl.html#a4e0de3ffde2b315045f1887fc2a5c52c",
-"markers_8tcl.html#a22b0b9afb9b805df4476a89ce436d51d",
-"namespacemembers_func.html",
-"remote_8tcl.html#a2d1937a304f6a42a357fb55d72d5ddb7",
-"startup_8tcl.html#a1f8fd179b7bb2d171e2ae21b6d7bcfc2",
-"utils_8tcl.html#a8c3b435ab26715ea69ffd020a52be918"
+"diff_8tcl.html#a32e0982266865ecf6a578f369d6d129a",
+"gui_8tcl.html#a2c62d8eb4a58441213b2892dcbc55163",
+"launcher_8tcl.html#a920669acdb65523a1d50b6852f222b84",
+"namespacelang.html",
+"pref__ui_8tcl.html#af9276fd239f6835f50372b6bfb005dc5",
+"snippets_8tcl.html#a853068728f790d9b70c520193eeb4474",
+"utils_8tcl.html#a03829114571e0ed074acd9274f0c5b90"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

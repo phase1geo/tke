@@ -10,6 +10,7 @@ var api_8tcl =
     [ "get_plugin_directory", "api_8tcl.html#a4fbe246f90ab18aeca4abaa5f9f51350", null ],
     [ "get_selected_indices", "api_8tcl.html#abdc3d3cd4b4e2047e1a8fb38d1817ee7", null ],
     [ "get_user_input", "api_8tcl.html#a27ab4c1890f1671c03994c892e966d35", null ],
+    [ "get_value", "api_8tcl.html#a008374d89b14c4e559bb58b0f1630820", null ],
     [ "invoke_menu", "api_8tcl.html#abaf2e15fda1463ac72225e2d8af92455", null ],
     [ "load_variable", "api_8tcl.html#a7a4564142ddc0d3f912be67c0b59ff59", null ],
     [ "log", "api_8tcl.html#a7175b052a0145793dd4e16f3a09f875a", null ],
@@ -21,5 +22,6 @@ var api_8tcl =
     [ "show_error", "api_8tcl.html#af986a4bee016402e7118a63d9d15d999", null ],
     [ "show_info", "api_8tcl.html#a14afda708b0389cd13906216203a4bf1", null ],
     [ "tke_development", "api_8tcl.html#ad92668593904387911fcccb8b9c211a0", null ],
-    [ "unregister_launcher", "api_8tcl.html#aaaeb165f38a12a750f55389bc59979ae", null ]
+    [ "unregister_launcher", "api_8tcl.html#aaaeb165f38a12a750f55389bc59979ae", null ],
+    [ "widget", "api_8tcl.html#a560a4298e97b9c687970e0e64b11d0e9", null ]
 ];

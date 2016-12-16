@@ -62,8 +62,9 @@ var remote_8tcl =
     [ "share_changed", "remote_8tcl.html#a3809ffecf237a59c9089b98be55ff05a", null ],
     [ "show_new_menu", "remote_8tcl.html#a75d927c0c0720d87d85008b9ea676be3", null ],
     [ "show_sidebar_menu", "remote_8tcl.html#a883ae23c7f1c64392a0c7b8bdd9e2734", null ],
-    [ "test_connection", "remote_8tcl.html#abfd45a426f5895e042288565f7cbdce8", null ],
+    [ "test_connection", "remote_8tcl.html#ad7309a21966dc276d76cdef2f4be910d", null ],
     [ "update_connection", "remote_8tcl.html#a1453fa099a095f3191d1e45d8196e0b2", null ],
     [ "validate_group", "remote_8tcl.html#af85c8cb500035e6837c9492750ab6d25", null ],
-    [ "validate_rename_group", "remote_8tcl.html#adb18328e445768afe703044aa5fb11e8", null ]
+    [ "validate_rename_group", "remote_8tcl.html#adb18328e445768afe703044aa5fb11e8", null ],
+    [ "webdav_fname", "remote_8tcl.html#a0b6956743403f47a0337a72140b2685c", null ]
 ];

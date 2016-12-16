@@ -46,6 +46,7 @@ var sidebar_8tcl =
     [ "insert_file", "sidebar_8tcl.html#a351d6e5fe91a5e1869c92c9dfeb42c50", null ],
     [ "load_session", "sidebar_8tcl.html#a0aee38c48342d0dd7b8fb998a1cc912e", null ],
     [ "menu_post", "sidebar_8tcl.html#a2919008ef474f15dc5f21b7326b0b4c5", null ],
+    [ "move_to_trash", "sidebar_8tcl.html#a85d9a862cb65c330eb9f3b007b29c07b", null ],
     [ "open_file", "sidebar_8tcl.html#a772d3e7d86c3d8ae50e08ea0845fe18e", null ],
     [ "open_folder_files", "sidebar_8tcl.html#a9ddd640be16cea8afc23ef57a5ec1911", null ],
     [ "order_files_dirs", "sidebar_8tcl.html#ac6014f42285dea6448e8e606c9904437", null ],

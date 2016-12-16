@@ -6,7 +6,7 @@ var searchData=
   ['tabs_5fin_5fpane',['tabs_in_pane',['../namespacegui.html#a08ebe24fc2098714ebb462c8b1f49d45',1,'gui']]],
   ['templates',['templates',['../namespacetemplates.html',1,'']]],
   ['templates_2etcl',['templates.tcl',['../templates_8tcl.html',1,'']]],
-  ['test_5fconnection',['test_connection',['../namespaceremote.html#abfd45a426f5895e042288565f7cbdce8',1,'remote']]],
+  ['test_5fconnection',['test_connection',['../namespaceremote.html#ad7309a21966dc276d76cdef2f4be910d',1,'remote']]],
   ['text_5fanchor',['text_anchor',['../namespaceutils.html#ac71da0a72a12bce0a4da53391b3b0786',1,'utils']]],
   ['text_5fchanged',['text_changed',['../namespacegui.html#a7dfd45cc2b4b4fbe49dc7af9a4f1d090',1,'gui']]],
   ['textsetcursor',['TextSetCursor',['../namespacetk.html#a8a018a4867efa0698fbb8f10940d647a',1,'tk']]],
@@ -28,6 +28,7 @@ var searchData=
   ['tkerror',['tkerror',['../socksend_8tcl.html#a473afe5b9bf329ddbf291aad966a5bd3',1,'socksend.tcl']]],
   ['tkrsend',['tkrsend',['../socksend_8tcl.html#a4404ed8ef40d5d869ff6aee797fc1e19',1,'socksend.tcl']]],
   ['toggle_5fall_5ffolds',['toggle_all_folds',['../namespacefolding.html#af7a78be4839c146089ed6ff0d2740d48',1,'folding']]],
+  ['toggle_5fbirdseye',['toggle_birdseye',['../namespacegui.html#ae6dfcdc3e2ad885a816324d8de62b7ea',1,'gui']]],
   ['toggle_5fcheckbutton',['toggle_checkbutton',['../namespacestartup.html#a78171b4316a833b80b340b68f11b4a24',1,'startup']]],
   ['toggle_5ffold',['toggle_fold',['../namespacefolding.html#ab2bb7b0a086c2f5b4c4fbdb759e1568f',1,'folding']]],
   ['toggle_5flabelbutton',['toggle_labelbutton',['../namespacegui.html#af3efb3fd89d7b239bfc3b596ae833e2d',1,'gui']]],
@@ -45,5 +46,5 @@ var searchData=
   ['transform_5ftoggle_5fcase',['transform_toggle_case',['../namespaceedit.html#a99950d8f05ce4acee37b6194a9498ba8',1,'edit']]],
   ['traverse_5fhistory',['traverse_history',['../namespacesearch.html#a0cd53b4ac73e2cfefdbb6fc6817334dc',1,'search']]],
   ['traverse_5fsnippet',['traverse_snippet',['../namespacesnippets.html#a437f8012141b194235bd33e93cbbbbd2',1,'snippets']]],
-  ['type',['type',['../namespacediff_1_1perforce.html#a32e0982266865ecf6a578f369d6d129a',1,'diff::perforce::type()'],['../namespacediff_1_1mercurial.html#af9f90020bfa9bf6347ae55021b12d653',1,'diff::mercurial::type()'],['../namespacediff_1_1git.html#a40d61b0943cc566f546be60acee31bd4',1,'diff::git::type()'],['../namespacediff_1_1subversion.html#a6ae2540d0d1b4d1126d9288eba5ebeab',1,'diff::subversion::type()'],['../namespacediff_1_1cvs.html#a343cb9607592e5413b6706b0ff325581',1,'diff::cvs::type()'],['../namespacediff_1_1diff.html#aab1b253c6bff7166c28d8e1c171affea',1,'diff::diff::type()'],['../namespacediff_1_1custom.html#a673a786286ccbc313e111e3c664274d3',1,'diff::custom::type()'],['../namespaceplugins_1_1_0Bns.html#a4c2bc14c65a6620013b72370ee21751d',1,'plugins::$ns::type()']]]
+  ['type',['type',['../namespacediff_1_1perforce.html#a32e0982266865ecf6a578f369d6d129a',1,'diff::perforce::type()'],['../namespacediff_1_1mercurial.html#af9f90020bfa9bf6347ae55021b12d653',1,'diff::mercurial::type()'],['../namespacediff_1_1git.html#a40d61b0943cc566f546be60acee31bd4',1,'diff::git::type()'],['../namespacediff_1_1bazaar.html#a5b61e2e3c1f848ee8a471c777ee9be96',1,'diff::bazaar::type()'],['../namespacediff_1_1subversion.html#a6ae2540d0d1b4d1126d9288eba5ebeab',1,'diff::subversion::type()'],['../namespacediff_1_1cvs.html#a343cb9607592e5413b6706b0ff325581',1,'diff::cvs::type()'],['../namespacediff_1_1diff.html#aab1b253c6bff7166c28d8e1c171affea',1,'diff::diff::type()'],['../namespacediff_1_1custom.html#a673a786286ccbc313e111e3c664274d3',1,'diff::custom::type()'],['../namespaceplugins_1_1_0Bns.html#a4c2bc14c65a6620013b72370ee21751d',1,'plugins::$ns::type()']]]
 ];

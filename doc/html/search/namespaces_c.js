@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['_24lang_5fns',['$lang_ns',['../namespacesyntax_1_1_0Blang__ns.html',1,'syntax']]],
   ['scroller',['scroller',['../namespacescroller.html',1,'']]],
   ['search',['search',['../namespacesearch.html',1,'']]],
   ['sessions',['sessions',['../namespacesessions.html',1,'']]],

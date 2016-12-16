@@ -15,6 +15,7 @@ var dir_97aefd0d527b934f1d99a682da8fe6a9 =
     [ "emmet.tcl", "emmet_8tcl.html", "emmet_8tcl" ],
     [ "emmet_css.tcl", "emmet__css_8tcl.html", "emmet__css_8tcl" ],
     [ "favorites.tcl", "favorites_8tcl.html", "favorites_8tcl" ],
+    [ "files.tcl", "files_8tcl.html", "files_8tcl" ],
     [ "folding.tcl", "folding_8tcl.html", "folding_8tcl" ],
     [ "fontchooser.tcl", "fontchooser_8tcl.html", "fontchooser_8tcl" ],
     [ "ftp_wrapper.tcl", "ftp__wrapper_8tcl.html", "ftp__wrapper_8tcl" ],

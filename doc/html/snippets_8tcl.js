@@ -2,7 +2,6 @@ var snippets_8tcl =
 [
     [ "add_bindings", "snippets_8tcl.html#aedd28c288319689198a920c2aa399c84", null ],
     [ "add_detail", "snippets_8tcl.html#a10d16eca0e35c8ea4163e47038ad9504", null ],
-    [ "add_new_snippet", "snippets_8tcl.html#a54d9c580c77a16a7447357a9cbc3f31c", null ],
     [ "check_snippet", "snippets_8tcl.html#a262b918e8ad4932bc171449a7612f9b6", null ],
     [ "clear_tabstops", "snippets_8tcl.html#afc33fb435644a2954990dbb25615d9f9", null ],
     [ "display_error", "snippets_8tcl.html#ac920c32f126ee6dfc30cccf1483f2b30", null ],
