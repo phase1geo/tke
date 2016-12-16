@@ -7,7 +7,6 @@ var searchData=
   ['bind_5fcommand_5fentry',['bind_command_entry',['../namespacevim.html#abf0beb855dbd66aac7fa232325c528c7',1,'vim']]],
   ['bindings',['bindings',['../namespacebindings.html',1,'']]],
   ['bindings_2etcl',['bindings.tcl',['../bindings_8tcl.html',1,'']]],
-  ['bindings_5fedit_5fuser',['bindings_edit_user',['../namespacemenus.html#acd2cfe16380d4d37b70f84aef074c278',1,'menus']]],
   ['bist',['bist',['../namespacebist.html',1,'']]],
   ['bist_2etcl',['bist.tcl',['../bist_8tcl.html',1,'']]],
   ['bitmap',['bitmap',['../namespacebitmap.html',1,'']]],

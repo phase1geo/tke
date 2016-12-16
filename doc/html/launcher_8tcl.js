@@ -2,6 +2,7 @@ var launcher_8tcl =
 [
     [ "calc_okay", "launcher_8tcl.html#a67e72bbe606795f8544e924e53651839", null ],
     [ "clip_okay", "launcher_8tcl.html#a2392a29efb1043ccc7280d20e3cfd7c4", null ],
+    [ "configure", "launcher_8tcl.html#aaea80fe0950eac552fa97eaa5377623e", null ],
     [ "copy_calculation", "launcher_8tcl.html#aefc0b84d50267b99ac8e3b4a9968e8fa", null ],
     [ "execute", "launcher_8tcl.html#affde9be087a56735f18ce769753aa277", null ],
     [ "execute_helper", "launcher_8tcl.html#a0c86a0de26b15596bd6866babafc0dc5", null ],

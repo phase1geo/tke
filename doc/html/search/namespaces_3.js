@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['bazaar',['bazaar',['../namespacediff_1_1bazaar.html',1,'diff']]],
   ['custom',['custom',['../namespacediff_1_1custom.html',1,'diff']]],
   ['cvs',['cvs',['../namespacediff_1_1cvs.html',1,'diff']]],
   ['diff',['diff',['../namespacediff.html',1,'']]],
