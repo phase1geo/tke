@@ -4,9 +4,6 @@ msgcat::mcmset zh {
   "Argument list to api::add_file was not an even key/value pair"
   "参数列表API :: ADD_FILE是不是连键/值对"
 
-  "Plugin"
-  "插件"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset zh {
 
   "Replace:"
   "替换:"
+
+}
+
+# files.tcl
+msgcat::mcmset zh {
+
+  "Unable to determine how to move to trash"
+  "无法确定如何将移动到垃圾"
+
+  "Unable to determine platform"
+  "无法确定平台"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset zh {
   "Image used in the preferences window in the General tab."
   "在首选项窗口中的常规选项卡所用的图像。"
 
+  "Image used in the preferences window in the Plugins tab."
+  "在首选项窗口中插件选项卡中使用的图像。"
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "在首选项窗口中快捷方式选项卡中使用的图像。"
+
   "Image used in the preferences window in the Sidebar tab."
   "在首选项窗口中的侧边栏选项卡所用的图像。"
 
@@ -172,9 +186,6 @@ msgcat::mcmset zh {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "在首选项窗口用于指示表项选中的图像。"
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "在快捷方式窗口中快捷方式选项卡中使用的图像。"
 
   "License"
   "许可证"
@@ -504,9 +515,6 @@ msgcat::mcmset zh {
   "Edit user global preferences"
   "编辑用户全球首选项"
 
-  "Edit user menu bindings"
-  "编辑用户菜单绑定"
-
   "Edit user snippets"
   "编辑片段"
 
@@ -786,9 +794,6 @@ msgcat::mcmset zh {
   "Menu"
   "菜单"
 
-  "Menu Bindings"
-  "菜单绑定"
-
   "Merge Panes"
   "合併窗格"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset zh {
   "Replace line with script"
   "用脚本替换行"
 
-  "Reset User to Base"
-  "将用户重置为基地"
-
   "Restart"
   "重新启动"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset zh {
   "Set Theme"
   "设置主题"
 
-  "Set User to Global"
-  "设置的用户到全球"
-
   "Set current file line ending to CR for Classic Mac"
   "设置当前文件行 CR 为经典 Mac 的结局"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset zh {
 
   "Set indent mode to"
   "将缩进模式设置为"
-
-  "Set user bindings to global bindings"
-  "设置用户绑定到全局绑定"
-
-  "Set user preferences to global preferences"
-  "设置的用户首选项设置为全局首选项"
 
   "Show All Tabs"
   "显示所有选项卡"
@@ -1169,6 +1162,9 @@ msgcat::mcmset zh {
 
   "Show File Difference"
   "显示不同"
+
+  "Show Installed"
+  "已安装"
 
   "Show Last Profiling Report"
   "显示最后剖析报告"
@@ -1199,6 +1195,9 @@ msgcat::mcmset zh {
 
   "Show file difference"
   "显示不同"
+
+  "Show installed plugins"
+  "已安装的插件"
 
   "Show last profiling report"
   "显示上次分析报告"
@@ -1257,6 +1256,9 @@ msgcat::mcmset zh {
   "Toggle Comment"
   "切換註釋"
 
+  "Toggle bird's eye view mode"
+  "切换鸟眼视图模式"
+
   "Toggle case of current character"
   "切换大小写的当前字符"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset zh {
 
   "Transform"
   "变换"
+
+  "Unable to delete file"
+  "无法删除"
 
   "Unable to write export file"
   "无法写入导出文件"
@@ -1310,18 +1315,6 @@ msgcat::mcmset zh {
 
   "View"
   "查看"
-
-  "View Base"
-  "视图基础"
-
-  "View Global"
-  "查看全球"
-
-  "View base preferences file"
-  "查看基地首选项文件"
-
-  "View global menu bindings"
-  "查看全局菜单绑定"
 
   "View tips & tricks articles"
   "视图提示与技巧的文章"
@@ -1408,6 +1401,9 @@ msgcat::mcmset zh {
   "Add"
   "添加"
 
+  "Additional space between lines"
+  "字里行间的额外空间"
+
   "Addons"
   "插件"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset zh {
 
   "Behaviors"
   "行为"
+
+  "Bird's Eye View Font Size"
+  "鸟的眼睛查看字体大小"
+
+  "Bird's Eye View Width"
+  "鸟的眼睛视图宽度"
 
   "Buffer"
   "缓冲区"
@@ -1528,9 +1530,6 @@ msgcat::mcmset zh {
   "Double-quote"
   "\"
 
-  "Edit preferences using GUI"
-  "编辑首选项使用 GUI"
-
   "Editor"
   "编辑"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset zh {
   "Host"
   "主机"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "缩进空格"
+
+  "Insertion cursor width"
+  "插入光标宽度"
 
   "Keyword"
   "关键词"
@@ -1588,8 +1590,8 @@ msgcat::mcmset zh {
   "Last accessed"
   "最后访问："
 
-  "Line count to find for Vim modeline information"
-  "行计数来寻找 Vim modeline 信息"
+  "Line count to find Vim modeline information"
+  "要找到 Vim modeline 信息的行计数"
 
   "Logfile Directory"
   "日志文件目录"
@@ -1605,6 +1607,9 @@ msgcat::mcmset zh {
 
   "Node Aliases"
   "别名"
+
+  "Options"
+  "选项"
 
   "Parenthesis"
   "括号"
@@ -1651,6 +1656,9 @@ msgcat::mcmset zh {
   "Select Settings Sharing Directory"
   "选择设置共享目录"
 
+  "Select a plugin"
+  "选择某个插件"
+
   "Select default browsing directory"
   "选择默认浏览目录"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset zh {
   "Set"
   "设置"
 
-  "Set Find History Depth"
-  "设置查找历史深度"
-
-  "Set Find in Files Line Context"
+  "Set Find in Files line context"
   "在文件行上下文中设置查找"
-
-  "Set Jump Distance"
-  "设置的跳距离"
 
   "Set default open/save browsing directory to"
   "设置默认打开/保存浏览目录"
+
+  "Set find history depth"
+  "设置的查找历史深度"
+
+  "Set jump distance"
+  "设置的跳距离"
 
   "Sharing Items"
   "共享项目"
@@ -1683,6 +1691,12 @@ msgcat::mcmset zh {
 
   "Show 'Find in Files' result in other pane"
   "在其他窗格中显示在文件中查找结果"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "显示本地文件/目录而不是删除移到废纸篓"
+
+  "Show bird's eye view"
+  "俯视图"
 
   "Show diagnostic logfile at startup"
   "启动时显示诊断日志文件"
@@ -1784,6 +1798,12 @@ msgcat::mcmset zh {
 
   "Close Connection"
   "关闭连接？"
+
+  "Connection failed"
+  "连接失败"
+
+  "Connection passed"
+  "通过连接"
 
   "Create New Folder"
   "创建新文件夹"
@@ -1947,9 +1967,6 @@ msgcat::mcmset zh {
   "Settings to export"
   "要导出的设置"
 
-  "Sharing Setup"
-  "共享设置"
-
   "Themes"
   "主題"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset zh {
 
   "Show Directory Files"
   "显示目录文件"
+
+  "Unable to duplicate file"
+  "无法复制文件"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset zh {
 # theme.tcl
 msgcat::mcmset zh {
 
+  "Amount of border to display around command launcher in pixels"
+  "量的边界周围命令发射器以像素为单位显示"
+
   "Background (trough) color used in the sidebar scrollbar."
   "用在侧边栏滚动条的背景 (槽) 颜色。"
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset zh {
 
   "Background color of insertion cursor and background marker colors."
   "插入光标和背景颜色标记背景颜色。"
+
+  "Background color of list items when not selected"
+  "当未选中的列表项的背景色"
+
+  "Background color of selection in command launcher"
+  "背景色选择的命令启动程序"
+
+  "Background color of textual display in command launcher"
+  "背景颜色的文本显示在命令启动程序"
 
   "Background color of the editing buffer."
   "编辑缓冲区的背景色。"
@@ -2211,14 +2243,23 @@ msgcat::mcmset zh {
   "Background color used in the tabbar area."
   "在 tabbar 地区所用的背景颜色。"
 
+  "Color of border around command launcher"
+  "命令发射器周围边框的颜色"
+
   "Color of border drawn around active editing buffer."
   "在活跃的编辑缓冲区周围绘制的边框的颜色。"
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "命令启动程序输入字段和结果列表之间间隔的颜色"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "当该条目具有键盘焦点时 ttk 条目构件文本边框的颜色。"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "用来绘制中编辑缓冲区 (以及线装订线分离编辑缓冲区) 的警告宽度线的颜色。"
+
+  "Command Launcher Options"
+  "命令启动程序选项"
 
   "Default 'darkcolor' for all ttk widgets."
   "默认为所有 ttk 部件 ' 灯光'。"
@@ -2261,6 +2302,15 @@ msgcat::mcmset zh {
 
   "Foreground (slider) color used in the text scrollbars."
   "(滑块) 使用前景色在文本滚动条。"
+
+  "Foreground color of list items when not selected"
+  "当未选中的列表项的前景色"
+
+  "Foreground color of selection in command launcher"
+  "命令启动程序选择前景色"
+
+  "Foreground color of textual display in command launcher"
+  "前景颜色的文本显示在命令启动程序"
 
   "Foreground color used in menu items with checks or buttons."
   "在用支票或按钮的菜单项所用的前景颜色。"
@@ -2322,6 +2372,9 @@ msgcat::mcmset zh {
   "Images"
   "图像"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "当它处于活动状态的命令发射器滚动条的最大厚度。"
+
   "Maximum thickness of the text scrollbar when it is active."
   "文本滚动条时处于活动状态的最大厚度。"
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset zh {
   "Menu relief value."
   "菜单救济值。"
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "命令启动程序输入字段和结果列表之间间隔像素高度"
+
   "Pixel height of the tabbar widget."
   "Tabbar 小部件的像素高度。"
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset zh {
   "Relief value of the sidebar area."
   "救济的侧栏区域的值。"
 
+  "Scrollbar slider color used in the command launcher results list"
+  "使用命令启动程序结果列表中的滚动条滑块颜色"
+
   "Sidebar Options"
   "侧边栏选项"
 
   "Sidebar Scrollbar Options"
   "侧边栏滚动条选项"
+
+  "Specifies background color of command launcher entry and list"
+  "指定命令发射器项和列表的背景的色"
+
+  "Specifies foreground color of command launcher entry and list"
+  "指定命令发射器项和列表中的前景色"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "指定要显示在侧边栏时侧边栏没有焦点的颜色。"
@@ -2583,6 +2648,9 @@ msgcat::mcmset zh {
   "Back"
   "返回"
 
+  "Bird's Eye View"
+  "俯视图"
+
   "Browse"
   "瀏覽"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset zh {
   "Launcher"
   "发射台"
 
+  "Move To Trash"
+  "移动到回收站"
+
   "Move to Other Pane"
   "移动到另一个窗格"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset zh {
 
   "Open"
   "打开"
+
+  "Plugin"
+  "插件"
 
   "Plugins"
   "插件"
@@ -2717,6 +2791,9 @@ msgcat::mcmset zh {
 
   "Theme Editor"
   "主题编辑器"
+
+  "Unable to rename file"
+  "無法重新命名檔案 ..."
 
   "Unable to write"
   "无法写入<％s>"

@@ -4,9 +4,6 @@ msgcat::mcmset hu {
   "Argument list to api::add_file was not an even key/value pair"
   "Argumentumlista API :: add_file nem volt még kulcs / érték párt"
 
-  "Plugin"
-  "Bővítmény"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset hu {
 
   "Replace:"
   "Csere:"
+
+}
+
+# files.tcl
+msgcat::mcmset hu {
+
+  "Unable to determine how to move to trash"
+  "Nem határozható meg, hogyan kell mozgatni a szemét"
+
+  "Unable to determine platform"
+  "Nem lehet meghatározni a platform"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset hu {
   "Image used in the preferences window in the General tab."
   "Az Általános lapon a beállítások ablakban használt kép."
 
+  "Image used in the preferences window in the Plugins tab."
+  "A Bővítmények lapon a beállítások ablakban használt kép."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "A beállítások ablakban a parancsikon lapon használt kép."
+
   "Image used in the preferences window in the Sidebar tab."
   "A beállítások ablakban a tálaló lapon használt kép."
 
@@ -172,9 +186,6 @@ msgcat::mcmset hu {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Jelzi, hogy a tábla elem van-e jelölve a beállítások ablakban használt kép."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "A parancsikonok ablakban a hivatkozások lapon használt kép."
 
   "License"
   "Licenc"
@@ -504,9 +515,6 @@ msgcat::mcmset hu {
   "Edit user global preferences"
   "Felhasználói globális beállítások szerkesztése"
 
-  "Edit user menu bindings"
-  "Felhasználó menü kötések szerkesztése"
-
   "Edit user snippets"
   "Kódrészletek felhasználó szerkesztése"
 
@@ -786,9 +794,6 @@ msgcat::mcmset hu {
   "Menu"
   "Menü"
 
-  "Menu Bindings"
-  "Menü Bindings"
-
   "Merge Panes"
   "Összeolvad ablaktáblát"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset hu {
   "Replace line with script"
   "Helyettesít a vonal kézírás"
 
-  "Reset User to Base"
-  "Reset a felhasználói bázis"
-
   "Restart"
   "Újraindítás"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset hu {
   "Set Theme"
   "Állítsa téma"
 
-  "Set User to Global"
-  "Állítsa be a felhasználó, a globális"
-
   "Set current file line ending to CR for Classic Mac"
   "Állítsa be az aktuális fájl vonal megszüntetése a CR klasszikus Mac"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset hu {
 
   "Set indent mode to"
   "Rovátka mód beállítása"
-
-  "Set user bindings to global bindings"
-  "Állítsa be a felhasználó kötések globális kötések"
-
-  "Set user preferences to global preferences"
-  "Állítsa be a felhasználói beállítások a globális beállítások"
 
   "Show All Tabs"
   "Minden lapfülek megjelenítése"
@@ -1169,6 +1162,9 @@ msgcat::mcmset hu {
 
   "Show File Difference"
   "Térkép fájl különbség"
+
+  "Show Installed"
+  "telepítve"
 
   "Show Last Profiling Report"
   "Az utolsó Profiling jelentés"
@@ -1199,6 +1195,9 @@ msgcat::mcmset hu {
 
   "Show file difference"
   "Térkép fájl különbség"
+
+  "Show installed plugins"
+  "Telepített bővítmények"
 
   "Show last profiling report"
   "Utolsó profil jelentés megjelenítése"
@@ -1257,6 +1256,9 @@ msgcat::mcmset hu {
   "Toggle Comment"
   "Toggle megjegyzés"
 
+  "Toggle bird's eye view mode"
+  "Bird's eye view mód váltása"
+
   "Toggle case of current character"
   "Váltás az aktuális karakter"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset hu {
 
   "Transform"
   "transzformáció"
+
+  "Unable to delete file"
+  "Nem sikerült törölni ezt a fájlt: %1"
 
   "Unable to write export file"
   "Nem lehet írni az exportfájl"
@@ -1310,18 +1315,6 @@ msgcat::mcmset hu {
 
   "View"
   "Megjelenítés"
-
-  "View Base"
-  "Alap nézet"
-
-  "View Global"
-  "Globális nézet"
-
-  "View base preferences file"
-  "Nézetfájl alap beállítások"
-
-  "View global menu bindings"
-  "Nézd globális menü kötések"
 
   "View tips & tricks articles"
   "Kilátás porkoláb & trükkök cikkek"
@@ -1408,6 +1401,9 @@ msgcat::mcmset hu {
   "Add"
   "Hozzáadás"
 
+  "Additional space between lines"
+  "További sorok közötti térköz"
+
   "Addons"
   "Kiegészítők"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset hu {
 
   "Behaviors"
   "Viselkedés"
+
+  "Bird's Eye View Font Size"
+  "Bird's Eye View betűméret"
+
+  "Bird's Eye View Width"
+  "Bird's Eye View szélessége"
 
   "Buffer"
   "Buffer"
@@ -1528,9 +1530,6 @@ msgcat::mcmset hu {
   "Double-quote"
   "Idézőjel"
 
-  "Edit preferences using GUI"
-  "Használ GUI beállítások szerkesztése"
-
   "Editor"
   "Szerkesztő"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset hu {
   "Host"
   "Munkaállomás"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "Szóközök behúzása"
+
+  "Insertion cursor width"
+  "Beszúrási kurzor szélessége"
 
   "Keyword"
   "Kulcsszó"
@@ -1588,8 +1590,8 @@ msgcat::mcmset hu {
   "Last accessed"
   "Utolsó hozzáférés:"
 
-  "Line count to find for Vim modeline information"
-  "Sorok száma Vim modeline információk kereséséhez"
+  "Line count to find Vim modeline information"
+  "Sorok száma Vim modeline talál?"
 
   "Logfile Directory"
   "Logfile-könyvtár"
@@ -1605,6 +1607,9 @@ msgcat::mcmset hu {
 
   "Node Aliases"
   "Csomópont-aliasok"
+
+  "Options"
+  "Beállítások"
 
   "Parenthesis"
   "Zárójel"
@@ -1651,6 +1656,9 @@ msgcat::mcmset hu {
   "Select Settings Sharing Directory"
   "Válassza a beállítások könyvtár megosztása"
 
+  "Select a plugin"
+  "Válassza ki a plugin"
+
   "Select default browsing directory"
   "Válassza ki az alapértelmezett könyvtár böngészés"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset hu {
   "Set"
   "Beállítás"
 
-  "Set Find History Depth"
-  "Keresés történelem mélység beállítása"
-
-  "Set Find in Files Line Context"
+  "Set Find in Files line context"
   "Set talál fájlok vonal összefüggésben"
-
-  "Set Jump Distance"
-  "Állítsa ugrás távolság"
 
   "Set default open/save browsing directory to"
   "Állítsa be az alapértelmezett nyit/megment böngészés a könyvtárban"
+
+  "Set find history depth"
+  "Beállított keresési előzmények mélység"
+
+  "Set jump distance"
+  "Állítsa ugrás távolság"
 
   "Sharing Items"
   "Megosztása tételek"
@@ -1683,6 +1691,12 @@ msgcat::mcmset hu {
 
   "Show 'Find in Files' result in other pane"
   "\"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Mutatják, mozog-hoz szemét helyett Delete helyi fájlok/könyvtárak"
+
+  "Show bird's eye view"
+  "Térkép madártávlatból"
 
   "Show diagnostic logfile at startup"
   "Diagnosztikai naplófájl megjelenítése indításkor"
@@ -1784,6 +1798,12 @@ msgcat::mcmset hu {
 
   "Close Connection"
   "A kapcsolat bezárása"
+
+  "Connection failed"
+  "Sikertelen csatlakozás"
+
+  "Connection passed"
+  "Kapcsolat telt el"
 
   "Create New Folder"
   "Új könyvtár létrehozása"
@@ -1947,9 +1967,6 @@ msgcat::mcmset hu {
   "Settings to export"
   "Beállítások exportálása"
 
-  "Sharing Setup"
-  "Telepítési megosztás"
-
   "Themes"
   "Sablonok"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset hu {
 
   "Show Directory Files"
   "Könyvtár-fájlok megjelenítése"
+
+  "Unable to duplicate file"
+  "Nem lehet másolat reszelő"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset hu {
 # theme.tcl
 msgcat::mcmset hu {
 
+  "Amount of border to display around command launcher in pixels"
+  "Összeg szegély megjelenítéséhez, ezen a környéken: parancs launcher pixelben"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Háttér (maradék) használt szín a tálaló görgetősáv."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset hu {
 
   "Background color of insertion cursor and background marker colors."
   "Háttérszíne behelyezés kurzor és a háttér marker színek."
+
+  "Background color of list items when not selected"
+  "Háttérszín lista elem, ha nincs kijelölve"
+
+  "Background color of selection in command launcher"
+  "Háttérszínt a kijelölés parancs launcher"
+
+  "Background color of textual display in command launcher"
+  "Háttér színét szöveges kijelző az indító parancs"
 
   "Background color of the editing buffer."
   "Háttérszíne szerkesztési puffer."
@@ -2211,14 +2243,23 @@ msgcat::mcmset hu {
   "Background color used in the tabbar area."
   "Háttérszínt használt tabbar területen."
 
+  "Color of border around command launcher"
+  "A következő reptér környékén: indító parancs szegély színét"
+
   "Color of border drawn around active editing buffer."
   "Színe határ köré rajzolt aktív szerkesztési puffer."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Színe a távtartó között a parancs launcher mező, és a találati lista"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Színe TTK beviteli dobozon szöveget határt, amikor a bejegyzésnek a fókuszt."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Színes hívják fel a figyelmeztető széles vonal a szerkesztési puffer (valamint az elválasztó vonal az ereszcsatorna a szerkesztési puffer)."
+
+  "Command Launcher Options"
+  "Parancs Launcher beállításai"
 
   "Default 'darkcolor' for all ttk widgets."
   "Alapértelmezett &quot;darkcolor&quot; minden TTK kütyü."
@@ -2261,6 +2302,15 @@ msgcat::mcmset hu {
 
   "Foreground (slider) color used in the text scrollbars."
   "Előtér (slider) használt szín a szövegben gördítősávját."
+
+  "Foreground color of list items when not selected"
+  "Listaelemek, ha nincs kijelölve előtérszíne"
+
+  "Foreground color of selection in command launcher"
+  "Festőszín kiválasztása az indító parancs"
+
+  "Foreground color of textual display in command launcher"
+  "Előtér színét szöveges kijelző az indító parancs"
 
   "Foreground color used in menu items with checks or buttons."
   "A festőszín használt menüpontok ellenőrzéseket és a gombok."
@@ -2322,6 +2372,9 @@ msgcat::mcmset hu {
   "Images"
   "Képek"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Maximális vastagsága a parancs launcher görgetősáv, ha az aktív."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Maximális vastagsága a szöveg görgetősávot amikor aktív."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset hu {
   "Menu relief value."
   "Menü megkönnyebbülés értéket."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Pixel magassága a távtartó között a parancs launcher mező, és a találati lista"
+
   "Pixel height of the tabbar widget."
   "Pixel magassága tabbar widget."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset hu {
   "Relief value of the sidebar area."
   "Relief értéke az oldalsáv terület."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "Görgetősáv csúszka színe indító parancs eredménylistájában"
+
   "Sidebar Options"
   "Oldalsáv beállítások"
 
   "Sidebar Scrollbar Options"
   "Sidebar Scrollbar opciók"
+
+  "Specifies background color of command launcher entry and list"
+  "Megadja a háttérszín parancs launcher és lista"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Adja meg a parancs launcher belépés és lista előtérszíne"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Meghatározza a színt megjeleníteni körül a tálaló, amikor a oldalsáv nem rendelkezik a hangsúly."
@@ -2583,6 +2648,9 @@ msgcat::mcmset hu {
   "Back"
   "Vissza"
 
+  "Bird's Eye View"
+  "Bird's Eye View"
+
   "Browse"
   "Böngészés"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset hu {
   "Launcher"
   "Rakétaindító állvány"
 
+  "Move To Trash"
+  "Kukába mozgatás"
+
   "Move to Other Pane"
   "Áthelyezni más ablak"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset hu {
 
   "Open"
   "Nyissa"
+
+  "Plugin"
+  "Bővítmény"
 
   "Plugins"
   "Pluginek"
@@ -2717,6 +2791,9 @@ msgcat::mcmset hu {
 
   "Theme Editor"
   "Témaszerkesztő"
+
+  "Unable to rename file"
+  "Képtelen-hoz átnevez reszelő"
 
   "Unable to write"
   "Nem lehet írni"

@@ -4,9 +4,6 @@ msgcat::mcmset it {
   "Argument list to api::add_file was not an even key/value pair"
   "Elenco di argomenti di api :: add_file non era una coppia ancor chiave / valore"
 
-  "Plugin"
-  "Plugin"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset it {
 
   "Replace:"
   "Sostituisci"
+
+}
+
+# files.tcl
+msgcat::mcmset it {
+
+  "Unable to determine how to move to trash"
+  "Impossibile determinare come spostare nel cestino"
+
+  "Unable to determine platform"
+  "Impossibile determinare la piattaforma"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset it {
   "Image used in the preferences window in the General tab."
   "Immagine utilizzata nella finestra Preferenze nella scheda generale."
 
+  "Image used in the preferences window in the Plugins tab."
+  "Immagine utilizzata nella finestra Preferenze nella scheda plugin."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "Immagine utilizzata nella finestra Preferenze nella scheda collegamenti."
+
   "Image used in the preferences window in the Sidebar tab."
   "Immagine utilizzata nella finestra Preferenze nella scheda Sidebar."
 
@@ -172,9 +186,6 @@ msgcat::mcmset it {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Immagine utilizzata nella finestra Preferenze per indicare che è selezionato un elemento della tabella."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "Immagine utilizzata nella finestra di scelta rapida nella scheda collegamenti."
 
   "License"
   "Lidcenza"
@@ -504,9 +515,6 @@ msgcat::mcmset it {
   "Edit user global preferences"
   "Modificare le preferenze dell'utente globale"
 
-  "Edit user menu bindings"
-  "Modificare le associazioni di menu utente"
-
   "Edit user snippets"
   "Modificare i frammenti di utente"
 
@@ -786,9 +794,6 @@ msgcat::mcmset it {
   "Menu"
   "Menu"
 
-  "Menu Bindings"
-  "Associazioni al menu"
-
   "Merge Panes"
   "Unire i riquadri"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset it {
   "Replace line with script"
   "Sostituire la riga con script"
 
-  "Reset User to Base"
-  "Reimpostare l'utente alla Base"
-
   "Restart"
   "Riavviare"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset it {
   "Set Theme"
   "Set Theme"
 
-  "Set User to Global"
-  "Utente impostato a livello mondiale"
-
   "Set current file line ending to CR for Classic Mac"
   "Impostare la riga corrente di file che termina a CR per Mac Classic"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset it {
 
   "Set indent mode to"
   "Impostare modalità di rientro"
-
-  "Set user bindings to global bindings"
-  "Impostare utente Binding binding globale"
-
-  "Set user preferences to global preferences"
-  "Impostare le preferenze utente per le preferenze globali"
 
   "Show All Tabs"
   "Mostra tutte le schede"
@@ -1169,6 +1162,9 @@ msgcat::mcmset it {
 
   "Show File Difference"
   "Visualizza File differenza"
+
+  "Show Installed"
+  "Installato"
 
   "Show Last Profiling Report"
   "Mostra ultimo rapporto Profiling"
@@ -1199,6 +1195,9 @@ msgcat::mcmset it {
 
   "Show file difference"
   "Visualizza file differenza"
+
+  "Show installed plugins"
+  "Plugin installati"
 
   "Show last profiling report"
   "Visualizza ultimo rapporto di profilatura"
@@ -1257,6 +1256,9 @@ msgcat::mcmset it {
   "Toggle Comment"
   "Commento di Toggle"
 
+  "Toggle bird's eye view mode"
+  "Attivare o disattivare la modalità di visualizzazione dell'occhio dell'uccello"
+
   "Toggle case of current character"
   "Attiva/disattiva caso del carattere corrente"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset it {
 
   "Transform"
   "Trasforma"
+
+  "Unable to delete file"
+  "Impossibile eliminare il file."
 
   "Unable to write export file"
   "Impossibile scrivere il file di esportazione"
@@ -1310,18 +1315,6 @@ msgcat::mcmset it {
 
   "View"
   "Visualizza"
-
-  "View Base"
-  "Vista Base"
-
-  "View Global"
-  "Vista globale"
-
-  "View base preferences file"
-  "Visualizza file di preferenze di base"
-
-  "View global menu bindings"
-  "Visualizza menu globale associazioni"
 
   "View tips & tricks articles"
   "Visualizza suggerimenti & trucchi articoli"
@@ -1408,6 +1401,9 @@ msgcat::mcmset it {
   "Add"
   "Aggiungi"
 
+  "Additional space between lines"
+  "Spazio aggiuntivo tra le linee"
+
   "Addons"
   "Componenti aggiuntivi"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset it {
 
   "Behaviors"
   "Comportamento"
+
+  "Bird's Eye View Font Size"
+  "Occhio Visualizza dimensione carattere dell'uccello"
+
+  "Bird's Eye View Width"
+  "Larghezza di vista dell'occhio dell'uccello"
 
   "Buffer"
   "Buffer"
@@ -1528,9 +1530,6 @@ msgcat::mcmset it {
   "Double-quote"
   "Virgolette"
 
-  "Edit preferences using GUI"
-  "Modificare le preferenze utilizzando GUI"
-
   "Editor"
   "Editore"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset it {
   "Host"
   "Host"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "Indentazione con spazi"
+
+  "Insertion cursor width"
+  "Larghezza del cursore di inserimento"
 
   "Keyword"
   "Parola chiave"
@@ -1588,8 +1590,8 @@ msgcat::mcmset it {
   "Last accessed"
   "Data ultimo accesso"
 
-  "Line count to find for Vim modeline information"
-  "Conteggio delle righe per trovare informativo modeline Vim"
+  "Line count to find Vim modeline information"
+  "Conteggio delle righe per trovare informazioni modeline Vim"
 
   "Logfile Directory"
   "Directory del file di log"
@@ -1605,6 +1607,9 @@ msgcat::mcmset it {
 
   "Node Aliases"
   "Alias"
+
+  "Options"
+  "Opzioni"
 
   "Parenthesis"
   "Parentesi"
@@ -1651,6 +1656,9 @@ msgcat::mcmset it {
   "Select Settings Sharing Directory"
   "Selezionare Impostazioni condivisione Directory"
 
+  "Select a plugin"
+  "Selezionare un plugin"
+
   "Select default browsing directory"
   "Selezionare predefinito, esplorazione directory"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset it {
   "Set"
   "Imposta"
 
-  "Set Find History Depth"
-  "Impostare la profondità della cronologia di ricerca"
-
-  "Set Find in Files Line Context"
+  "Set Find in Files line context"
   "Set di trovare nel file linea contesto"
-
-  "Set Jump Distance"
-  "Distanza di salto set"
 
   "Set default open/save browsing directory to"
   "Impostare predefinito Apri/Salva esplorazione directory per"
+
+  "Set find history depth"
+  "Insieme trovare profondità di storia"
+
+  "Set jump distance"
+  "Set di saltare distanza"
 
   "Sharing Items"
   "Condivisione elementi"
@@ -1683,6 +1691,12 @@ msgcat::mcmset it {
 
   "Show 'Find in Files' result in other pane"
   "Visualizza risultato 'Cerca nei file' in altro riquadro"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Visualizza sposta nel cestino per file/directory locali anziché Elimina"
+
+  "Show bird's eye view"
+  "angolazione a volo d'uccello; angolazione dall'alto"
 
   "Show diagnostic logfile at startup"
   "Visualizza file di log diagnostici all'avvio"
@@ -1784,6 +1798,12 @@ msgcat::mcmset it {
 
   "Close Connection"
   "Chiudi connessione"
+
+  "Connection failed"
+  "Connessione non riuscita"
+
+  "Connection passed"
+  "Connessione passato"
 
   "Create New Folder"
   "Crea nuova cartella"
@@ -1947,9 +1967,6 @@ msgcat::mcmset it {
   "Settings to export"
   "Impostazioni da esportare"
 
-  "Sharing Setup"
-  "Installazione di condivisione"
-
   "Themes"
   "temi"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset it {
 
   "Show Directory Files"
   "File indirizzario"
+
+  "Unable to duplicate file"
+  "Grado di file duplicati"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset it {
 # theme.tcl
 msgcat::mcmset it {
 
+  "Amount of border to display around command launcher in pixels"
+  "Spessore del bordo da visualizzare intorno lanciatore di comandi in pixel"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Contesto (depressione) colore utilizzato nella barra di scorrimento barra laterale."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset it {
 
   "Background color of insertion cursor and background marker colors."
   "Il colore di sfondo di inserimento del cursore e lo sfondo marcatori colori."
+
+  "Background color of list items when not selected"
+  "Colore di sfondo degli elementi di elenco quando non selezionata"
+
+  "Background color of selection in command launcher"
+  "Colore di sfondo della selezione nella schermata di avvio comando"
+
+  "Background color of textual display in command launcher"
+  "Colore di sfondo del display testuale nel lanciatore di comandi"
 
   "Background color of the editing buffer."
   "Colore di sfondo del buffer di modifica."
@@ -2211,14 +2243,23 @@ msgcat::mcmset it {
   "Background color used in the tabbar area."
   "Colore di sfondo utilizzato nella zona barra delle linguette."
 
+  "Color of border around command launcher"
+  "Colore del bordo intorno lanciatore di comandi"
+
   "Color of border drawn around active editing buffer."
   "Colore del bordo disegnato intorno a tampone editing attiva."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Colore del distanziatore tra il campo di immissione del lanciatore di comando e l'elenco dei risultati"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Colore di entrata ttk confine widget di testo quando la voce viene attivato mediante tastiera."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Colore usato per disegnare la linea larghezza avviso nel buffer di modifica (come pure la linea che separa la grondaia dal buffer di modifica)."
+
+  "Command Launcher Options"
+  "Opzioni di comando di avvio"
 
   "Default 'darkcolor' for all ttk widgets."
   "Default &#39;darkcolor&#39; per tutti i widget TTK."
@@ -2261,6 +2302,15 @@ msgcat::mcmset it {
 
   "Foreground (slider) color used in the text scrollbars."
   "Primo piano (slider) colore utilizzato nelle barre di scorrimento del testo."
+
+  "Foreground color of list items when not selected"
+  "Colore di primo piano degli elementi di elenco quando non selezionata"
+
+  "Foreground color of selection in command launcher"
+  "Colore di primo piano della selezione nella schermata di avvio comando"
+
+  "Foreground color of textual display in command launcher"
+  "Colore di primo piano del display testuale nel lanciatore di comandi"
 
   "Foreground color used in menu items with checks or buttons."
   "Colore di primo piano utilizzato nelle voci di menu con pulsanti o controlli."
@@ -2322,6 +2372,9 @@ msgcat::mcmset it {
   "Images"
   "Immagini"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Spessore massimo della barra di scorrimento di lanciatore di comando quando è attivo."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Spessore massimo della barra di scorrimento del testo quando è attivo."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset it {
   "Menu relief value."
   "Valore sollievo menu."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Altezza in pixel del distanziatore tra il campo di immissione del lanciatore di comando e l'elenco dei risultati"
+
   "Pixel height of the tabbar widget."
   "Altezza Pixel del widget barra delle linguette."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset it {
   "Relief value of the sidebar area."
   "Valore rilievo della zona barra laterale."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "Colore del dispositivo di scorrimento ScrollBar utilizzato nell'elenco dei risultati di comando di avvio"
+
   "Sidebar Options"
   "Opzioni Sidebar"
 
   "Sidebar Scrollbar Options"
   "Sidebar Opzioni Scrollbar"
+
+  "Specifies background color of command launcher entry and list"
+  "Specifica il colore di sfondo della voce di avvio di command ed elenco"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Specifica il colore di primo piano della voce di avvio di command ed elenco"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Specifica il colore per visualizzare tutto il sidebar quando la barra laterale non ha la messa a fuoco."
@@ -2583,6 +2648,9 @@ msgcat::mcmset it {
   "Back"
   "Indietro"
 
+  "Bird's Eye View"
+  "angolazione a volo d'uccello; angolazione dall'alto"
+
   "Browse"
   "Naviga"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset it {
   "Launcher"
   "Utilità di avvio"
 
+  "Move To Trash"
+  "Sposta nel cestino@action:inmenu"
+
   "Move to Other Pane"
   "Spostarsi Altro Pane"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset it {
 
   "Open"
   "Aprire il regalo"
+
+  "Plugin"
+  "Plugin"
 
   "Plugins"
   "Plugin"
@@ -2717,6 +2791,9 @@ msgcat::mcmset it {
 
   "Theme Editor"
   "Editor tema"
+
+  "Unable to rename file"
+  "Impossibile rinominare"
 
   "Unable to write"
   "Impossibile scrivereQNativeSocketEngine"

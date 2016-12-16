@@ -4,9 +4,6 @@ msgcat::mcmset el {
   "Argument list to api::add_file was not an even key/value pair"
   "Κατάλογος των argument στο api :: add_file δεν ήταν ακόμη ζεύγος κλειδιού / τιμής"
 
-  "Plugin"
-  "Πρόσθετο"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset el {
 
   "Replace:"
   "Το κάτωθι:"
+
+}
+
+# files.tcl
+msgcat::mcmset el {
+
+  "Unable to determine how to move to trash"
+  "Δεν μπορείτε να προσδιορίσετε πώς να μετακινήσετε στα απορρίμματα"
+
+  "Unable to determine platform"
+  "Δεν μπορείτε να προσδιορίσετε πλατφόρμα"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset el {
   "Image used in the preferences window in the General tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο \"
 
+  "Image used in the preferences window in the Plugins tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
   "Image used in the preferences window in the Sidebar tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων στην καρτέλα Sidebar."
 
@@ -172,9 +186,6 @@ msgcat::mcmset el {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να υποδείξει ότι ένα στοιχείο του πίνακα επιλέγεται."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "Εικόνα που χρησιμοποιείται στο παράθυρο συντομεύσεις στην καρτέλα συντομεύσεις."
 
   "License"
   "Άδεια"
@@ -504,9 +515,6 @@ msgcat::mcmset el {
   "Edit user global preferences"
   "Επεξεργαστείτε σφαιρικές προτιμήσεις χρήστη"
 
-  "Edit user menu bindings"
-  "Επεξεργαστείτε τις συνδέσεις μενού χρήστη"
-
   "Edit user snippets"
   "Επεξεργαστείτε τα τμήματα του χρήστη"
 
@@ -786,9 +794,6 @@ msgcat::mcmset el {
   "Menu"
   "ΜΕΝΟΥ"
 
-  "Menu Bindings"
-  "Δέστρες Μενού"
-
   "Merge Panes"
   "Συγχώνευση Panes"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset el {
   "Replace line with script"
   "Αντικαταστήστε την γραμμή με δέσμη ενεργειών"
 
-  "Reset User to Base"
-  "Ξαναρυθμίζω χρήστη στη βάση"
-
   "Restart"
   "Επανεκκίνηση"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset el {
   "Set Theme"
   "Ορισμός Θέμα"
 
-  "Set User to Global"
-  "Χρήστη που ορίζεται στην παγκόσμια"
-
   "Set current file line ending to CR for Classic Mac"
   "Ορίστε την τρέχουσα γραμμή αρχείου που λήγει σε CR για Classic Mac"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset el {
 
   "Set indent mode to"
   "Στηντιμή εντομή μοντέλο"
-
-  "Set user bindings to global bindings"
-  "Ορισμός χρήστη παγιοποιήσεις σε παγκόσμιες συνδέσεις"
-
-  "Set user preferences to global preferences"
-  "Ορίστε τις προτιμήσεις του χρήστη σε σφαιρικές προτιμήσεις"
 
   "Show All Tabs"
   "Εμφάνιση όλων των καρτελών"
@@ -1169,6 +1162,9 @@ msgcat::mcmset el {
 
   "Show File Difference"
   "Εμφάνιση αρχείου διαφορά"
+
+  "Show Installed"
+  "Εγκαταστάθηκε"
 
   "Show Last Profiling Report"
   "Εμφάνιση Τελευταία Έκθεση Profiling"
@@ -1199,6 +1195,9 @@ msgcat::mcmset el {
 
   "Show file difference"
   "Εμφάνιση αρχείου διαφορά"
+
+  "Show installed plugins"
+  "Εγκατεστημένα πρόσθετα"
 
   "Show last profiling report"
   "Εμφάνιση της τελευταίας έκθεσης αποτυπωμάτων"
@@ -1257,6 +1256,9 @@ msgcat::mcmset el {
   "Toggle Comment"
   "Εναλλαγή σχόλιο"
 
+  "Toggle bird's eye view mode"
+  "Εναλλάσσει την κατάσταση λειτουργίας προβολής μάτι πουλιού"
+
   "Toggle case of current character"
   "ΕΝΑΛΛΑΓΗ πεζών-ΚΕΦΑΛΑΙΩΝ του τρέχοντος χαρακτήρα"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset el {
 
   "Transform"
   "Μετασχηματισμός"
+
+  "Unable to delete file"
+  "Δεν είναι δυνατή η διαγραφή του αρχείου"
 
   "Unable to write export file"
   "Δεν είναι δυνατή η εγγραφή αρχείου εξαγωγής"
@@ -1310,18 +1315,6 @@ msgcat::mcmset el {
 
   "View"
   "Προβολή"
-
-  "View Base"
-  "Προβολή βάσης"
-
-  "View Global"
-  "Παγκόσμια προβολή"
-
-  "View base preferences file"
-  "Αρχείο βάσης Προτιμήσεις προβολής"
-
-  "View global menu bindings"
-  "Προβολή καθολικό μενού συνδέσεις"
 
   "View tips & tricks articles"
   "Δείτε συμβουλές & κόλπα άρθρα"
@@ -1408,6 +1401,9 @@ msgcat::mcmset el {
   "Add"
   "Προσθήκη"
 
+  "Additional space between lines"
+  "Επιπλέον χώρο μεταξύ των γραμμών"
+
   "Addons"
   "Addons"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset el {
 
   "Behaviors"
   "Συμπεριφορές"
+
+  "Bird's Eye View Font Size"
+  "Μέγεθος γραμματοσειράς Προβολή μάτι πουλιού"
+
+  "Bird's Eye View Width"
+  "Πτηνών μάτι θέα πλάτος"
 
   "Buffer"
   "Ρυθμιστής"
@@ -1528,9 +1530,6 @@ msgcat::mcmset el {
   "Double-quote"
   "Διπλών"
 
-  "Edit preferences using GUI"
-  "Επεξεργαστείτε τις προτιμήσεις χρησιμοποιώντας το GUI"
-
   "Editor"
   "συντάκτης"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset el {
   "Host"
   "Διακομιστής"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "Διαμόρφωση χώρων"
+
+  "Insertion cursor width"
+  "Πλάτος δρομέα εισαγωγής"
 
   "Keyword"
   "ΛΕΞΕΙΣ-ΚΛΕΙΔΙΑ"
@@ -1588,8 +1590,8 @@ msgcat::mcmset el {
   "Last accessed"
   "Τελευταία πρόσβαση"
 
-  "Line count to find for Vim modeline information"
-  "Γραμμή αρίθμηση να βρείτε για πληροφορίες modeline Vim"
+  "Line count to find Vim modeline information"
+  "Γραμμή αρίθμηση για να βρείτε πληροφορίες modeline Vim"
 
   "Logfile Directory"
   "Logfile καταλόγου"
@@ -1605,6 +1607,9 @@ msgcat::mcmset el {
 
   "Node Aliases"
   "Κόμβος ψευδώνυμα"
+
+  "Options"
+  "Eπιλογές"
 
   "Parenthesis"
   "Παρένθεση."
@@ -1651,6 +1656,9 @@ msgcat::mcmset el {
   "Select Settings Sharing Directory"
   "Επιλέξτε ρυθμίσεις κοινής χρήσης καταλόγου"
 
+  "Select a plugin"
+  "Επιλέξτε ένα plugin"
+
   "Select default browsing directory"
   "Επιλέξτε περιήγηση καταλόγου προεπιλογή"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset el {
   "Set"
   "Σετ"
 
-  "Set Find History Depth"
-  "Εύρεση ιστορικό βάθος"
-
-  "Set Find in Files Line Context"
-  "Που βρίσκουν στο πλαίσιο γραμμή αρχεία"
-
-  "Set Jump Distance"
-  "Ορισμός άλμα απόσταση"
+  "Set Find in Files line context"
+  "Που βρίσκουν στο πλαίσιο γραμμή τα αρχεία"
 
   "Set default open/save browsing directory to"
   "Ορίστε την προεπιλεγμένη Άνοιγμα/Αποθήκευση περιήγηση κατάλογο για να"
+
+  "Set find history depth"
+  "Σετ βρείτε ιστορικό βάθος"
+
+  "Set jump distance"
+  "Σετ άλμα απόσταση"
 
   "Sharing Items"
   "Κοινή χρήση Είδη"
@@ -1683,6 +1691,12 @@ msgcat::mcmset el {
 
   "Show 'Find in Files' result in other pane"
   "Εμφάνιση αποτέλεσμα «Βρείτε στα αρχεία» σε άλλο παράθυρο"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Εμφάνιση μετακίνηση να απορριμμάτων για τοπικά αρχεία/καταλόγους αντί για διαγράψετε"
+
+  "Show bird's eye view"
+  "Εμφάνιση πανοραμική θέα"
 
   "Show diagnostic logfile at startup"
   "Εμφάνιση διαγνωστικών logfile κατά την εκκίνηση"
@@ -1784,6 +1798,12 @@ msgcat::mcmset el {
 
   "Close Connection"
   "Κλείσιμο σύνδεσης"
+
+  "Connection failed"
+  "Αποτυχία σύνδεσης"
+
+  "Connection passed"
+  "Σύνδεση που πέρασε"
 
   "Create New Folder"
   "Δημιουργία Νέου Φακέλου"
@@ -1947,9 +1967,6 @@ msgcat::mcmset el {
   "Settings to export"
   "Ρυθμίσεις για την εξαγωγή"
 
-  "Sharing Setup"
-  "Κοινή χρήση εγκατάστασης"
-
   "Themes"
   "Θέματα"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset el {
 
   "Show Directory Files"
   "Εμφάνιση κατάλογος αρχείων"
+
+  "Unable to duplicate file"
+  "Δεν είναι δυνατή η διπλότυπων αρχείων"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset el {
 # theme.tcl
 msgcat::mcmset el {
 
+  "Amount of border to display around command launcher in pixels"
+  "Ποσό των συνόρων να εμφανίσει γύρω από την εντολή εκκίνησης σε εικονοστοιχεία"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Ιστορικό (trough) χρωμάτων που χρησιμοποιείται στην πλαϊνή μπάρα κύλισης."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset el {
 
   "Background color of insertion cursor and background marker colors."
   "Χρώμα φόντου του δείκτη και του δείκτη εισαγωγής χρώματα φόντου."
+
+  "Background color of list items when not selected"
+  "Χρώμα φόντου των στοιχείων λίστας όταν δεν είναι επιλεγμένο"
+
+  "Background color of selection in command launcher"
+  "Χρώμα φόντου της επιλογής στην εντολή εκκίνησης"
+
+  "Background color of textual display in command launcher"
+  "Χρώμα φόντου του κειμένου οθόνης στην εντολή εκκίνησης"
 
   "Background color of the editing buffer."
   "Χρώμα φόντου του ρυθμιστικού μοντάζ."
@@ -2211,14 +2243,23 @@ msgcat::mcmset el {
   "Background color used in the tabbar area."
   "Χρώμα φόντου που χρησιμοποιείται στην περιοχή tabbar."
 
+  "Color of border around command launcher"
+  "Χρώμα του περιγράμματος γύρω από την εντολή εκκίνησης"
+
   "Color of border drawn around active editing buffer."
   "Χρώμα των συνοριακών που γύρω ενεργό ρυθμιστικό μοντάζ."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Χρώμα του το διαχωριστικό μεταξύ πεδίο εντολή εκτοξευτή εγγραφή και λίστα αποτελεσμάτων"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Χρώμα εισόδου TTK συνόρων κειμένου του widget όταν η είσοδος έχει εστίαση πληκτρολογίου."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Χρώμα που χρησιμοποιείται για να επιστήσει την γραμμή πλάτους προειδοποίηση στο ρυθμιστικό μοντάζ (καθώς και η γραμμή που χωρίζει την υδρορροή από το ρυθμιστικό μοντάζ)."
+
+  "Command Launcher Options"
+  "Εντολή Επιλογές εκκίνησης"
 
   "Default 'darkcolor' for all ttk widgets."
   "Προεπιλογή «darkcolor» για όλες τις TTK widgets."
@@ -2261,6 +2302,15 @@ msgcat::mcmset el {
 
   "Foreground (slider) color used in the text scrollbars."
   "Προσκήνιο (slider) χρώμα που χρησιμοποιείται στο κείμενο κύλισης."
+
+  "Foreground color of list items when not selected"
+  "Χρώμα προσκηνίου στοιχείων λίστας όταν δεν είναι επιλεγμένο"
+
+  "Foreground color of selection in command launcher"
+  "Το χρώμα προσκηνίου της επιλογής στην εντολή εκκίνησης"
+
+  "Foreground color of textual display in command launcher"
+  "Το χρώμα προσκηνίου της κειμενικής επίδειξης στην εντολή εκκίνησης"
 
   "Foreground color used in menu items with checks or buttons."
   "Χρώμα προσκηνίου που χρησιμοποιείται σε αντικείμενα μενού με ελέγχους ή κουμπιά."
@@ -2322,6 +2372,9 @@ msgcat::mcmset el {
   "Images"
   "Εικόνες"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Μέγιστο πάχος της γραμμής κύλισης εκτοξευτή εντολή όταν είναι ενεργό."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Μέγιστο πάχος της γραμμής κύλισης κειμένου όταν είναι ενεργός."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset el {
   "Menu relief value."
   "Μενού αξία ανακούφιση."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Ύψος εικονοστοιχείου από το διαχωριστικό μεταξύ πεδίο εντολή εκτοξευτή εγγραφή και λίστα αποτελεσμάτων"
+
   "Pixel height of the tabbar widget."
   "Pixel ύψος του widget tabbar."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset el {
   "Relief value of the sidebar area."
   "Αξία ανάγλυφο της περιοχής sidebar."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "Γραμμή κύλισης ρυθμιστικό χρώμα που χρησιμοποιείται στη εντολή εκκίνησης λίστα αποτελεσμάτων"
+
   "Sidebar Options"
   "Sidebar Επιλογές"
 
   "Sidebar Scrollbar Options"
   "Sidebar Επιλογές κύλισης"
+
+  "Specifies background color of command launcher entry and list"
+  "Καθορίζει το χρώμα φόντου του εκτοξευτή καταχώρηση εντολών και λίστα"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Καθορίζει το χρώμα προσκηνίου εντολή εκτοξευτή εισόδου και Κατάλογος"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Καθορίζει το χρώμα για να εμφανιστεί γύρω από την πλαϊνή μπάρα, όταν η πλαϊνή γραμμή δεν έχει την εστίαση."
@@ -2583,6 +2648,9 @@ msgcat::mcmset el {
   "Back"
   "Πίσω"
 
+  "Bird's Eye View"
+  "υπερευρυγώνια όραση"
+
   "Browse"
   "Περιήγηση"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset el {
   "Launcher"
   "Προωθητής"
 
+  "Move To Trash"
+  "Μετακίνηση στο καλάθι αχρήστων"
+
   "Move to Other Pane"
   "Μετακίνηση σε άλλες Παράθυρο"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset el {
 
   "Open"
   "Ανοιχτό"
+
+  "Plugin"
+  "Πρόσθετο"
 
   "Plugins"
   "Plug-in"
@@ -2717,6 +2791,9 @@ msgcat::mcmset el {
 
   "Theme Editor"
   "Θέμα Εκδότης"
+
+  "Unable to rename file"
+  "Δεν είναι δυνατή η μετονομασία αρχείου"
 
   "Unable to write"
   "Αδύνατη η εγγραφή"

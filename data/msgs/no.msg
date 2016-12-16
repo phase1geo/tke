@@ -4,9 +4,6 @@ msgcat::mcmset no {
   "Argument list to api::add_file was not an even key/value pair"
   "Argument liste til api :: add_file var ikke en enda nøkkel / verdi-par"
 
-  "Plugin"
-  "Utvidelse"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset no {
 
   "Replace:"
   "bytt"
+
+}
+
+# files.tcl
+msgcat::mcmset no {
+
+  "Unable to determine how to move to trash"
+  "Kan ikke fastslå hvordan du flytter til papirkurven"
+
+  "Unable to determine platform"
+  "Kan ikke bestemme plattform"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset no {
   "Image used in the preferences window in the General tab."
   "Bildet som brukes i vinduet innstillinger i kategorien Generelt."
 
+  "Image used in the preferences window in the Plugins tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien Plugins."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "Bildet som brukes i vinduet innstillinger i kategorien Snarvei."
+
   "Image used in the preferences window in the Sidebar tab."
   "Bildet som brukes i vinduet innstillinger i kategorien side."
 
@@ -172,9 +186,6 @@ msgcat::mcmset no {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Bildet som brukes i vinduet innstillinger for å angi at en tabell element er valgt."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "Bildet som brukes i vinduet snarveier i kategorien Snarvei."
 
   "License"
   "Lisens"
@@ -504,9 +515,6 @@ msgcat::mcmset no {
   "Edit user global preferences"
   "Redigere globale brukerinnstillinger"
 
-  "Edit user menu bindings"
-  "Rediger bruker menyen bindinger"
-
   "Edit user snippets"
   "Redigere brukeren tekstutdrag"
 
@@ -786,9 +794,6 @@ msgcat::mcmset no {
   "Menu"
   "Meny"
 
-  "Menu Bindings"
-  "Meny Bindinger"
-
   "Merge Panes"
   "Flette ruter"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset no {
   "Replace line with script"
   "Erstatte linje med skript"
 
-  "Reset User to Base"
-  "Tilbakestille bruker til Base"
-
   "Restart"
   "Omstart"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset no {
   "Set Theme"
   "Sett Tema"
 
-  "Set User to Global"
-  "Angi brukeren globale"
-
   "Set current file line ending to CR for Classic Mac"
   "Angi gjeldende fil linjeslutt CR for klassiske Mac"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset no {
 
   "Set indent mode to"
   "Angi innrykk-modusen"
-
-  "Set user bindings to global bindings"
-  "Angi bindinger til globale bindinger"
-
-  "Set user preferences to global preferences"
-  "Angi innstillinger globale innstillinger"
 
   "Show All Tabs"
   "Vis alle faner"
@@ -1169,6 +1162,9 @@ msgcat::mcmset no {
 
   "Show File Difference"
   "Vise filen forskjellen"
+
+  "Show Installed"
+  "Installert"
 
   "Show Last Profiling Report"
   "Vis Siste Profiling Rapporter"
@@ -1199,6 +1195,9 @@ msgcat::mcmset no {
 
   "Show file difference"
   "Vise filen forskjellen"
+
+  "Show installed plugins"
+  "Installerte utvidelser"
 
   "Show last profiling report"
   "Vis siste profilering rapport"
@@ -1257,6 +1256,9 @@ msgcat::mcmset no {
   "Toggle Comment"
   "Vis/Skjul merknad"
 
+  "Toggle bird's eye view mode"
+  "Veksle bird's eye view-modus"
+
   "Toggle case of current character"
   "Omvendt av gjeldende karakter"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset no {
 
   "Transform"
   "transformere"
+
+  "Unable to delete file"
+  "Klarte ikke slette"
 
   "Unable to write export file"
   "Kan ikke skrive eksportfilen"
@@ -1310,18 +1315,6 @@ msgcat::mcmset no {
 
   "View"
   "Vis"
-
-  "View Base"
-  "Vis Base"
-
-  "View Global"
-  "Vis globale"
-
-  "View base preferences file"
-  "Vis base innstillingsfilen"
-
-  "View global menu bindings"
-  "Vis global meny bindinger"
 
   "View tips & tricks articles"
   "Vis tips & triks artikler"
@@ -1408,6 +1401,9 @@ msgcat::mcmset no {
   "Add"
   "Legg til"
 
+  "Additional space between lines"
+  "Ekstra avstand mellom linjer"
+
   "Addons"
   "Utvidelser"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset no {
 
   "Behaviors"
   "Atferd"
+
+  "Bird's Eye View Font Size"
+  "Bird's Eye View skriftstørrelse"
+
+  "Bird's Eye View Width"
+  "Bird's Eye View bredde"
 
   "Buffer"
   "Buffer"
@@ -1528,9 +1530,6 @@ msgcat::mcmset no {
   "Double-quote"
   "Dobbelt anførselstegn"
 
-  "Edit preferences using GUI"
-  "Endre bruker GUI"
-
   "Editor"
   "Redaktør"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset no {
   "Host"
   "Host"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "Innrykk mellomrom"
+
+  "Insertion cursor width"
+  "Innsetting markøren bredde"
 
   "Keyword"
   "Søkeord"
@@ -1588,7 +1590,7 @@ msgcat::mcmset no {
   "Last accessed"
   "Sist åpnet"
 
-  "Line count to find for Vim modeline information"
+  "Line count to find Vim modeline information"
   "Linjetelling finne Vim modeline informasjon"
 
   "Logfile Directory"
@@ -1605,6 +1607,9 @@ msgcat::mcmset no {
 
   "Node Aliases"
   "Aliaser"
+
+  "Options"
+  "Valg"
 
   "Parenthesis"
   "Parentes"
@@ -1651,6 +1656,9 @@ msgcat::mcmset no {
   "Select Settings Sharing Directory"
   "Velg innstillinger deler katalog"
 
+  "Select a plugin"
+  "Velg en plugin"
+
   "Select default browsing directory"
   "Velg standard leser katalog"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset no {
   "Set"
   "Sett"
 
-  "Set Find History Depth"
-  "Angi finne historie dybde"
-
-  "Set Find in Files Line Context"
+  "Set Find in Files line context"
   "Angi søk i filer linje sammenheng"
-
-  "Set Jump Distance"
-  "Angi hoppe avstand"
 
   "Set default open/save browsing directory to"
   "Angi standard åpen/bevare surfing katalogen"
+
+  "Set find history depth"
+  "Sett finne historie dybde"
+
+  "Set jump distance"
+  "Sett hoppe avstand"
 
   "Sharing Items"
   "Delt elementer"
@@ -1683,6 +1691,12 @@ msgcat::mcmset no {
 
   "Show 'Find in Files' result in other pane"
   "Vise 'Finn filer' resultat i andre ruten"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Vis gå til papirkurven for lokale filer/mapper i stedet for å slette"
+
+  "Show bird's eye view"
+  "Vis fugleperspektiv"
 
   "Show diagnostic logfile at startup"
   "Vis Diskdiagnose logfile ved oppstart"
@@ -1784,6 +1798,12 @@ msgcat::mcmset no {
 
   "Close Connection"
   "Lukke tilkoblingen"
+
+  "Connection failed"
+  "Tilkobling feilet"
+
+  "Connection passed"
+  "Tilkoblingen gikk"
 
   "Create New Folder"
   "Opprett ny mappe"
@@ -1947,9 +1967,6 @@ msgcat::mcmset no {
   "Settings to export"
   "For å eksportere"
 
-  "Sharing Setup"
-  "Deling oppsett"
-
   "Themes"
   "Temaer"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset no {
 
   "Show Directory Files"
   "Vis katalog-filer"
+
+  "Unable to duplicate file"
+  "Kan ikke kopiere arkiv"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset no {
 # theme.tcl
 msgcat::mcmset no {
 
+  "Amount of border to display around command launcher in pixels"
+  "Mengden kantlinje vises rundt kommandoen bærerakett i piksler"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Bakgrunn (trough) fargen som brukes i sidepanelet scrollbar."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset no {
 
   "Background color of insertion cursor and background marker colors."
   "Bakgrunnsfarge på innsetting markøren og bakgrunn markør farger."
+
+  "Background color of list items when not selected"
+  "Bakgrunnsfargen for listeelementer når ikke"
+
+  "Background color of selection in command launcher"
+  "Bakgrunnsfargen for valget i kommandoen bærerakett"
+
+  "Background color of textual display in command launcher"
+  "Bakgrunnsfargen for tekstlig vises i kommandoen bærerakett"
 
   "Background color of the editing buffer."
   "Bakgrunnsfargen på redigering buffer."
@@ -2211,14 +2243,23 @@ msgcat::mcmset no {
   "Background color used in the tabbar area."
   "Bakgrunnsfargen brukes i tabbar området."
 
+  "Color of border around command launcher"
+  "Fargen på kantlinjen rundt kommandoen bærerakett"
+
   "Color of border drawn around active editing buffer."
   "Fargen på kantlinjen tegnet rundt aktiv redigering buffer."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Fargen på avstand mellom kommandoen bærerakett feltet og listen"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Fargen på ttk oppføring widget tekst grensen når posten har tastaturfokus."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Fargen som brukes til å trekke advarsel bredde linjen redigering bufferen (samt linjen skille gutter fra redigering bufferen)."
+
+  "Command Launcher Options"
+  "Bærerakett kommandoalternativer"
 
   "Default 'darkcolor' for all ttk widgets."
   "Standard 'darkcolor' for alle ttk widgets."
@@ -2261,6 +2302,15 @@ msgcat::mcmset no {
 
   "Foreground (slider) color used in the text scrollbars."
   "(Skyveknappen) forgrunnsfargen brukes i tekst rullefeltene."
+
+  "Foreground color of list items when not selected"
+  "Forgrunnsfargen for listeelementer når ikke"
+
+  "Foreground color of selection in command launcher"
+  "Forgrunnsfargen for valget i kommandoen bærerakett"
+
+  "Foreground color of textual display in command launcher"
+  "Forgrunnsfargen for tekstlig vises i kommandoen bærerakett"
 
   "Foreground color used in menu items with checks or buttons."
   "Forgrunnsfargen som brukes i menypunktene med kontrollene eller knapper."
@@ -2322,6 +2372,9 @@ msgcat::mcmset no {
   "Images"
   "Bilder"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Maksimal tykkelsen på kommandoen bærerakett rullefeltet når den er aktiv."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Maksimal tykkelsen på tekst rullefeltet når den er aktiv."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset no {
   "Menu relief value."
   "Menyen lettelse verdi."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Pixel høyde avstand mellom kommandoen bærerakett feltet og listen"
+
   "Pixel height of the tabbar widget."
   "Pixel høyde tabbar widgeten."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset no {
   "Relief value of the sidebar area."
   "Lettelse verdien i sidepanelet området."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "Rullefelt glidebryteren fargen som brukes i kommandoen bærerakett resultatlisten"
+
   "Sidebar Options"
   "Sidepanel alternativer"
 
   "Sidebar Scrollbar Options"
   "Sidebar scrollbar Alternativer"
+
+  "Specifies background color of command launcher entry and list"
+  "Angir bakgrunnsfargen for kommandoen bærerakett oppføringen og liste"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Angir forgrunnsfargen for kommandoen bærerakett oppføringen og liste"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Angir fargen som vises rundt sidepanelet når sidepanelet ikke har fokus."
@@ -2583,6 +2648,9 @@ msgcat::mcmset no {
   "Back"
   "Tilbake"
 
+  "Bird's Eye View"
+  "Fugleperspektiv"
+
   "Browse"
   "Bla gjennom"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset no {
   "Launcher"
   "Launcher"
 
+  "Move To Trash"
+  "Flytt til papirkurven"
+
   "Move to Other Pane"
   "Flytt til Annen Pane"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset no {
 
   "Open"
   "Åpen"
+
+  "Plugin"
+  "Utvidelse"
 
   "Plugins"
   "Plugins"
@@ -2717,6 +2791,9 @@ msgcat::mcmset no {
 
   "Theme Editor"
   "Theme Editor"
+
+  "Unable to rename file"
+  "Kan ikke endre"
 
   "Unable to write"
   "Kan ikke skrive"

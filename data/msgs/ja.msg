@@ -4,9 +4,6 @@ msgcat::mcmset ja {
   "Argument list to api::add_file was not an even key/value pair"
   "APIへの引数リスト:: ADD_FILEもキー/値のペアではなかった"
 
-  "Plugin"
-  "プラグイン"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset ja {
 
   "Replace:"
   "置換："
+
+}
+
+# files.tcl
+msgcat::mcmset ja {
+
+  "Unable to determine how to move to trash"
+  "ゴミ箱に移動する方法を決定できません。"
+
+  "Unable to determine platform"
+  "プラットフォームを決定できません。"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset ja {
   "Image used in the preferences window in the General tab."
   "[全般] タブで設定ウィンドウで使用するイメージ。"
 
+  "Image used in the preferences window in the Plugins tab."
+  "プラグイン」タブで設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "[ショートカット] タブでの基本設定ウィンドウで使用するイメージ。"
+
   "Image used in the preferences window in the Sidebar tab."
   "[サイドバー] タブで設定ウィンドウで使用するイメージ。"
 
@@ -172,9 +186,6 @@ msgcat::mcmset ja {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "テーブルの項目が選択されていることを示すに設定ウィンドウで使用するイメージ。"
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "[ショートカット] タブで [ショートカット] ウィンドウで使用するイメージ。"
 
   "License"
   "ナンバープレート"
@@ -504,9 +515,6 @@ msgcat::mcmset ja {
   "Edit user global preferences"
   "ユーザーのグローバル設定を編集します。"
 
-  "Edit user menu bindings"
-  "ユーザー メニューのバインディングを編集します。"
-
   "Edit user snippets"
   "ユーザーのスニペットを編集します。"
 
@@ -786,9 +794,6 @@ msgcat::mcmset ja {
   "Menu"
   "MENU"
 
-  "Menu Bindings"
-  "メニューバインディング"
-
   "Merge Panes"
   "ペインのマージ"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset ja {
   "Replace line with script"
   "スクリプト行を置き換えます"
 
-  "Reset User to Base"
-  "ユーザー ベースにリセットします。"
-
   "Restart"
   "再試行"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset ja {
   "Set Theme"
   "設定テーマ"
 
-  "Set User to Global"
-  "グローバルに設定されているユーザー"
-
   "Set current file line ending to CR for Classic Mac"
   "古典的な Mac 用 CR に現在ファイル行末を設定します。"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset ja {
 
   "Set indent mode to"
   "インデント モードに設定します。"
-
-  "Set user bindings to global bindings"
-  "グローバル バインドするユーザー バインドを設定します。"
-
-  "Set user preferences to global preferences"
-  "[グローバル設定] に設定されているユーザー設定"
 
   "Show All Tabs"
   "すべて表示"
@@ -1169,6 +1162,9 @@ msgcat::mcmset ja {
 
   "Show File Difference"
   "ファイルの相違点を表示します。"
+
+  "Show Installed"
+  "インストール済み"
 
   "Show Last Profiling Report"
   "最後のプロファイリングレポートを表示"
@@ -1199,6 +1195,9 @@ msgcat::mcmset ja {
 
   "Show file difference"
   "ファイルの相違点を表示します。"
+
+  "Show installed plugins"
+  "インストール済みのプラグイン"
 
   "Show last profiling report"
   "最後のプロファイル レポートを表示します。"
@@ -1257,6 +1256,9 @@ msgcat::mcmset ja {
   "Toggle Comment"
   "トグルコメント"
 
+  "Toggle bird's eye view mode"
+  "鳥の目のビュー モードを切り替える"
+
   "Toggle case of current character"
   "現在の文字の切り替えの場合"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset ja {
 
   "Transform"
   "トランスフォーム"
+
+  "Unable to delete file"
+  "ファイルを削除できません："
 
   "Unable to write export file"
   "エクスポート ファイルを書き込めません。"
@@ -1310,18 +1315,6 @@ msgcat::mcmset ja {
 
   "View"
   "表示"
-
-  "View Base"
-  "ビュー ベース"
-
-  "View Global"
-  "グローバル ビュー"
-
-  "View base preferences file"
-  "基本設定ファイルの表示"
-
-  "View global menu bindings"
-  "グローバル メニューの表示バインド"
 
   "View tips & tricks articles"
   "ビューがヒント ・ テクニック記事"
@@ -1408,6 +1401,9 @@ msgcat::mcmset ja {
   "Add"
   "追加"
 
+  "Additional space between lines"
+  "行の間にスペース"
+
   "Addons"
   "アドオン"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset ja {
 
   "Behaviors"
   "行動"
+
+  "Bird's Eye View Font Size"
+  "鳥の目のビューのフォント サイズ"
+
+  "Bird's Eye View Width"
+  "鳥の目のビューの幅"
 
   "Buffer"
   "バッファー"
@@ -1528,9 +1530,6 @@ msgcat::mcmset ja {
   "Double-quote"
   "引用符"
 
-  "Edit preferences using GUI"
-  "GUI を使用して設定を編集します。"
-
   "Editor"
   "エディタ"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset ja {
   "Host"
   "ホスト"
 
-  "Indentation Spaces"
+  "Indentation spaces"
   "インデント スペース"
+
+  "Insertion cursor width"
+  "挿入カーソルの幅"
 
   "Keyword"
   "キーワード"
@@ -1588,8 +1590,8 @@ msgcat::mcmset ja {
   "Last accessed"
   "最後にアクセスされた"
 
-  "Line count to find for Vim modeline information"
-  "Vim modeline について検索する行数"
+  "Line count to find Vim modeline information"
+  "行カウントを Vim modeline 情報を検索するには"
 
   "Logfile Directory"
   "ログ ファイル ディレクトリ"
@@ -1605,6 +1607,9 @@ msgcat::mcmset ja {
 
   "Node Aliases"
   "仮名"
+
+  "Options"
+  "オプション"
 
   "Parenthesis"
   "括弧"
@@ -1651,6 +1656,9 @@ msgcat::mcmset ja {
   "Select Settings Sharing Directory"
   "ディレクトリの共有の設定を選択します。"
 
+  "Select a plugin"
+  "プラグインを選択します。"
+
   "Select default browsing directory"
   "デフォルトのディレクトリをブラウズを選択します。"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset ja {
   "Set"
   "セット"
 
-  "Set Find History Depth"
-  "検索の履歴の深さを設定します。"
-
-  "Set Find in Files Line Context"
+  "Set Find in Files line context"
   "ファイルの行コンテキストで検索を設定します。"
-
-  "Set Jump Distance"
-  "設定ジャンプ距離"
 
   "Set default open/save browsing directory to"
   "既定開く/保存するディレクトリを設定します。"
+
+  "Set find history depth"
+  "セットの履歴の深さを見つける"
+
+  "Set jump distance"
+  "セット移動距離"
 
   "Sharing Items"
   "アイテムの共有"
@@ -1683,6 +1691,12 @@ msgcat::mcmset ja {
 
   "Show 'Find in Files' result in other pane"
   "他のウィンドウに 'ファイル内の検索' の結果を表示します。"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "ゴミ箱に移動を削除ではなくローカルのファイル/ディレクトリの表示します。"
+
+  "Show bird's eye view"
+  "鳥瞰図"
 
   "Show diagnostic logfile at startup"
   "起動時に診断ログ ファイルを表示します。"
@@ -1784,6 +1798,12 @@ msgcat::mcmset ja {
 
   "Close Connection"
   "接続を閉じる"
+
+  "Connection failed"
+  "連携に失敗しました"
+
+  "Connection passed"
+  "渡された接続"
 
   "Create New Folder"
   "新しいフォルダの作成"
@@ -1947,9 +1967,6 @@ msgcat::mcmset ja {
   "Settings to export"
   "設定をエクスポートするには"
 
-  "Sharing Setup"
-  "共有のセットアップ"
-
   "Themes"
   "テーマ"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset ja {
 
   "Show Directory Files"
   "ディレクトリのファイルを表示します。"
+
+  "Unable to duplicate file"
+  "重複するファイルを開けません"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset ja {
 # theme.tcl
 msgcat::mcmset ja {
 
+  "Amount of border to display around command launcher in pixels"
+  "コマンドランチャー ピクセルの周囲に表示する境界線の量"
+
   "Background (trough) color used in the sidebar scrollbar."
   "サイドバーのスクロールバーで使用される背景（トラフ）色。"
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset ja {
 
   "Background color of insertion cursor and background marker colors."
   "挿入カーソルと背景マーカ色の背景色です。"
+
+  "Background color of list items when not selected"
+  "選択されていない場合、リスト アイテムの背景色"
+
+  "Background color of selection in command launcher"
+  "コマンド起動ツールの選択の背景色"
+
+  "Background color of textual display in command launcher"
+  "コマンド ランチャーでテキスト表示の背景色"
 
   "Background color of the editing buffer."
   "編集バッファの背景色です。"
@@ -2211,14 +2243,23 @@ msgcat::mcmset ja {
   "Background color used in the tabbar area."
   "タブバーのエリアで使用される背景色。"
 
+  "Color of border around command launcher"
+  "コマンド ランチャーの境界線の色"
+
   "Color of border drawn around active editing buffer."
   "アクティブな編集バッファ周りに描か境界線の色です。"
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "コマンド起動入力フィールドと、結果の一覧の間のスペーサーの色"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "エントリにキーボードフォーカスがTTKエントリウィジェットのテキストの境界線の色です。"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "色は、編集バッファに警告幅ライン（並びに編集バッファから樋を分離線）を描画するために使用されます。"
+
+  "Command Launcher Options"
+  "ランチャーのコマンド オプション"
 
   "Default 'darkcolor' for all ttk widgets."
   "すべてのTTKのウィジェットのデフォルトの「darkcolor」。"
@@ -2261,6 +2302,15 @@ msgcat::mcmset ja {
 
   "Foreground (slider) color used in the text scrollbars."
   "テキストスクロールバーで使用される前景（スライダー）カラー。"
+
+  "Foreground color of list items when not selected"
+  "選択されていない場合、リスト アイテムの前景の色"
+
+  "Foreground color of selection in command launcher"
+  "コマンド起動ツールの選択の前景色"
+
+  "Foreground color of textual display in command launcher"
+  "コマンド ランチャーでテキスト表示の背景色"
 
   "Foreground color used in menu items with checks or buttons."
   "チェックやボタンとメニュー項目で使用される前景色です。"
@@ -2322,6 +2372,9 @@ msgcat::mcmset ja {
   "Images"
   "画像"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "コマンド ランチャーのスクロール バーがアクティブなときの最大厚さは。"
+
   "Maximum thickness of the text scrollbar when it is active."
   "それがアクティブになっているテキストスクロールバーの最大厚さ。"
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset ja {
   "Menu relief value."
   "メニューリリーフ値。"
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "コマンド起動入力フィールドと、結果の一覧の間のスペーサーのピクセルの高さ"
+
   "Pixel height of the tabbar widget."
   "タブバーウィジェットのピクセルの高さ。"
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset ja {
   "Relief value of the sidebar area."
   "サイドバー領域の救済値。"
 
+  "Scrollbar slider color used in the command launcher results list"
+  "コマンド起動プログラムの結果一覧で使用されるスクロール バー スライダーの色"
+
   "Sidebar Options"
   "﻿サイドバーオプション"
 
   "Sidebar Scrollbar Options"
   "サイドバースクロールバーのオプション"
+
+  "Specifies background color of command launcher entry and list"
+  "ランチャーのコマンド エントリと一覧の背景色を指定します"
+
+  "Specifies foreground color of command launcher entry and list"
+  "ランチャーのコマンド エントリと一覧の背景色を指定します"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "サイドバーにフォーカスがないときに、サイドバーの周りに表示する色を指定します。"
@@ -2583,6 +2648,9 @@ msgcat::mcmset ja {
   "Back"
   "戻る"
 
+  "Bird's Eye View"
+  "鳥瞰図"
+
   "Browse"
   "ブラウズ"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset ja {
   "Launcher"
   "ランチャー"
 
+  "Move To Trash"
+  "ゴミ箱に移動"
+
   "Move to Other Pane"
   "他のペインに移動します"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset ja {
 
   "Open"
   "オープン"
+
+  "Plugin"
+  "プラグイン"
 
   "Plugins"
   "プラグイン"
@@ -2717,6 +2791,9 @@ msgcat::mcmset ja {
 
   "Theme Editor"
   "テーマエディタ"
+
+  "Unable to rename file"
+  "ファイルを改名できません"
 
   "Unable to write"
   "書き込めません。"

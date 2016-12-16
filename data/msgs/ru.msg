@@ -4,9 +4,6 @@ msgcat::mcmset ru {
   "Argument list to api::add_file was not an even key/value pair"
   "Список параметров АНИ :: add_file не было даже пары ключ / значение"
 
-  "Plugin"
-  "Плагин"
-
 }
 
 # bgproc.tcl
@@ -56,6 +53,17 @@ msgcat::mcmset ru {
 
   "Replace:"
   "Заменить:"
+
+}
+
+# files.tcl
+msgcat::mcmset ru {
+
+  "Unable to determine how to move to trash"
+  "Не удалось определить, как переместить в корзину"
+
+  "Unable to determine platform"
+  "Не удается определить платформу"
 
 }
 
@@ -158,6 +166,12 @@ msgcat::mcmset ru {
   "Image used in the preferences window in the General tab."
   "Изображение, используемое в окне настройки в закладке Общие."
 
+  "Image used in the preferences window in the Plugins tab."
+  "Изображение, используемое в окне настройки на вкладке плагины."
+
+  "Image used in the preferences window in the Shortcuts tab."
+  "Изображение, используемое в окне настройки на вкладке ярлыки."
+
   "Image used in the preferences window in the Sidebar tab."
   "Изображение, используемое в окне настройки на вкладке боковой панели."
 
@@ -172,9 +186,6 @@ msgcat::mcmset ru {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Изображение, используемое в окне настройки для указания, что элемент таблицы выбран."
-
-  "Image used in the shortcuts window in the Shortcuts tab."
-  "Изображение, используемое в окне ярлыки на вкладке ярлыки."
 
   "License"
   "Лицензия"
@@ -504,9 +515,6 @@ msgcat::mcmset ru {
   "Edit user global preferences"
   "Изменить глобальные настройки пользователя"
 
-  "Edit user menu bindings"
-  "Изменение привязки меню пользователя"
-
   "Edit user snippets"
   "Редактирование фрагментов пользователя"
 
@@ -786,9 +794,6 @@ msgcat::mcmset ru {
   "Menu"
   "תפריט"
 
-  "Menu Bindings"
-  "Меню Наручники"
-
   "Merge Panes"
   "Слияние Panes"
 
@@ -1047,9 +1052,6 @@ msgcat::mcmset ru {
   "Replace line with script"
   "Замените строку скрипта"
 
-  "Reset User to Base"
-  "Восстановить базу пользователя"
-
   "Restart"
   "Перезагрузка"
 
@@ -1134,9 +1136,6 @@ msgcat::mcmset ru {
   "Set Theme"
   "Заданную тему"
 
-  "Set User to Global"
-  "Задать пользователя для глобальной"
-
   "Set current file line ending to CR for Classic Mac"
   "Установить текущую строку файла, окончание CR для классический Mac"
 
@@ -1148,12 +1147,6 @@ msgcat::mcmset ru {
 
   "Set indent mode to"
   "Установите режим отступ"
-
-  "Set user bindings to global bindings"
-  "Задать пользователя для привязки в глобальные привязки"
-
-  "Set user preferences to global preferences"
-  "Задать параметры пользователя в глобальные настройки"
 
   "Show All Tabs"
   "Показать все вкладки"
@@ -1169,6 +1162,9 @@ msgcat::mcmset ru {
 
   "Show File Difference"
   "Показать файл разницы"
+
+  "Show Installed"
+  "Установлено"
 
   "Show Last Profiling Report"
   "Показать Последний профилирования отчет"
@@ -1199,6 +1195,9 @@ msgcat::mcmset ru {
 
   "Show file difference"
   "Показать файл разница"
+
+  "Show installed plugins"
+  "Установленные плагины"
 
   "Show last profiling report"
   "Показать последний отчет профилирования"
@@ -1257,6 +1256,9 @@ msgcat::mcmset ru {
   "Toggle Comment"
   "Переключить комментарий"
 
+  "Toggle bird's eye view mode"
+  "Переключить режим просмотра глаз птичьего"
+
   "Toggle case of current character"
   "Случай переключения текущего символа"
 
@@ -1271,6 +1273,9 @@ msgcat::mcmset ru {
 
   "Transform"
   "Преобразовать"
+
+  "Unable to delete file"
+  "не удалось удалить"
 
   "Unable to write export file"
   "Не удается записать файл экспорта"
@@ -1310,18 +1315,6 @@ msgcat::mcmset ru {
 
   "View"
   "Просмотр"
-
-  "View Base"
-  "Просмотр базы"
-
-  "View Global"
-  "Вид глобальной"
-
-  "View base preferences file"
-  "Просмотр базовой настройки файла"
-
-  "View global menu bindings"
-  "Просмотр глобальных меню привязок"
 
   "View tips & tricks articles"
   "Просмотр советы & советы статьи"
@@ -1408,6 +1401,9 @@ msgcat::mcmset ru {
   "Add"
   "Добавьте"
 
+  "Additional space between lines"
+  "Дополнительное пространство между линиями"
+
   "Addons"
   "Аддоны"
 
@@ -1446,6 +1442,12 @@ msgcat::mcmset ru {
 
   "Behaviors"
   "Поведение"
+
+  "Bird's Eye View Font Size"
+  "Птичий глаз вид шрифта размер"
+
+  "Bird's Eye View Width"
+  "Птичий глаз вид ширины"
 
   "Buffer"
   "Буфер"
@@ -1528,9 +1530,6 @@ msgcat::mcmset ru {
   "Double-quote"
   "Двойные кавычки"
 
-  "Edit preferences using GUI"
-  "Изменить настройки с помощью графического интерфейса пользователя"
-
   "Editor"
   "Редактор"
 
@@ -1573,8 +1572,11 @@ msgcat::mcmset ru {
   "Host"
   "Хост"
 
-  "Indentation Spaces"
-  "Отступы запрещено"
+  "Indentation spaces"
+  "Отступ пространств"
+
+  "Insertion cursor width"
+  "Ширина курсора вставки"
 
   "Keyword"
   "Ключевое слово"
@@ -1588,8 +1590,8 @@ msgcat::mcmset ru {
   "Last accessed"
   "Последний доступ"
 
-  "Line count to find for Vim modeline information"
-  "Число строк, чтобы найти сведения modeline Vim"
+  "Line count to find Vim modeline information"
+  "Число строк для поиска информации modeline Vim"
 
   "Logfile Directory"
   "Logfile каталог"
@@ -1605,6 +1607,9 @@ msgcat::mcmset ru {
 
   "Node Aliases"
   "Правила"
+
+  "Options"
+  "Опции"
 
   "Parenthesis"
   "Скобки"
@@ -1651,6 +1656,9 @@ msgcat::mcmset ru {
   "Select Settings Sharing Directory"
   "Выберите общий доступ к каталогу"
 
+  "Select a plugin"
+  "Выберите плагин"
+
   "Select default browsing directory"
   "Выберите по умолчанию, просмотр каталога"
 
@@ -1660,17 +1668,17 @@ msgcat::mcmset ru {
   "Set"
   "Установить"
 
-  "Set Find History Depth"
-  "Установите глубину истории поиска"
-
-  "Set Find in Files Line Context"
-  "Задать поиск в файлах линии связи"
-
-  "Set Jump Distance"
-  "Установка перехода расстояние"
+  "Set Find in Files line context"
+  "Задайте поиск в файлах линии связи"
 
   "Set default open/save browsing directory to"
   "Установить по умолчанию открыть/сохранить просмотра каталога"
+
+  "Set find history depth"
+  "Набор найти глубину истории"
+
+  "Set jump distance"
+  "Установка перехода расстояние"
 
   "Sharing Items"
   "Совместное использование элементов"
@@ -1683,6 +1691,12 @@ msgcat::mcmset ru {
 
   "Show 'Find in Files' result in other pane"
   "Показать результат «Найти в файлах» в другие панели"
+
+  "Show Move To Trash for local files/directories instead of Delete"
+  "Показать переместить в корзину для локальных файлов/каталогов вместо удаления"
+
+  "Show bird's eye view"
+  "Показать птичьего"
 
   "Show diagnostic logfile at startup"
   "Показать диагностический лог-файл при запуске"
@@ -1784,6 +1798,12 @@ msgcat::mcmset ru {
 
   "Close Connection"
   "Закрыть соединение"
+
+  "Connection failed"
+  "Sambungan gagal."
+
+  "Connection passed"
+  "Подключение прошло"
 
   "Create New Folder"
   "Создать новую папку"
@@ -1947,9 +1967,6 @@ msgcat::mcmset ru {
   "Settings to export"
   "Параметры для экспорта"
 
-  "Sharing Setup"
-  "Совместное использование программы установки"
-
   "Themes"
   "Темы"
 
@@ -2044,6 +2061,9 @@ msgcat::mcmset ru {
 
   "Show Directory Files"
   "Показать файлы каталога"
+
+  "Unable to duplicate file"
+  "Не удается дублировать файл"
 
 }
 
@@ -2157,6 +2177,9 @@ msgcat::mcmset ru {
 # theme.tcl
 msgcat::mcmset ru {
 
+  "Amount of border to display around command launcher in pixels"
+  "Размер границы для отображения вокруг команды запуска в пикселях"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Цвет фона (корыто) в боковой панели прокрутки."
 
@@ -2180,6 +2203,15 @@ msgcat::mcmset ru {
 
   "Background color of insertion cursor and background marker colors."
   "Цвет фона курсора вставки и предпосылки маркеров цвета."
+
+  "Background color of list items when not selected"
+  "Цвет фона элементов списка, если не выбран"
+
+  "Background color of selection in command launcher"
+  "Цвет фона для выбора команды запуска"
+
+  "Background color of textual display in command launcher"
+  "Цвет фона текстового дисплея в команде запуска"
 
   "Background color of the editing buffer."
   "Цвет фона редактирования буфера."
@@ -2211,14 +2243,23 @@ msgcat::mcmset ru {
   "Background color used in the tabbar area."
   "Цвет фона, используемый в районе tabbar."
 
+  "Color of border around command launcher"
+  "Цвет границы вокруг команды запуска"
+
   "Color of border drawn around active editing buffer."
   "Цвет границы, нарисованной вокруг активной буфера редактирования."
+
+  "Color of the spacer between the command launcher entry field and the result list"
+  "Цвет спейсера между поле ввода команды запуска и список результатов"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Цвет границы текста виджет входа ТТК когда элемент имеет фокус клавиатуры."
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Цвет, используемый для рисования линии ширина предупреждение в буфере редактирования (а также линия, разделяющая желоба от редактирования буфера)."
+
+  "Command Launcher Options"
+  "Параметры запуска команд"
 
   "Default 'darkcolor' for all ttk widgets."
   "По умолчанию 'darkcolor' для всех виджетов ТТК."
@@ -2261,6 +2302,15 @@ msgcat::mcmset ru {
 
   "Foreground (slider) color used in the text scrollbars."
   "Цвет переднего плана (ползунок), используемый в тексте полосы прокрутки."
+
+  "Foreground color of list items when not selected"
+  "Цвет переднего плана для элементов списка, если не выбран"
+
+  "Foreground color of selection in command launcher"
+  "Основной цвет выделения в команде запуска"
+
+  "Foreground color of textual display in command launcher"
+  "Цвет переднего плана для текстового дисплея в команде запуска"
 
   "Foreground color used in menu items with checks or buttons."
   "Цвет, используемый в меню кнопок или проверки."
@@ -2322,6 +2372,9 @@ msgcat::mcmset ru {
   "Images"
   "Изображения"
 
+  "Maximum thickness of the command launcher scrollbar when it is active."
+  "Максимальная толщина команды запуска scrollbar когда он активен."
+
   "Maximum thickness of the text scrollbar when it is active."
   "Максимальная толщина полосы прокрутки текста, когда он активен."
 
@@ -2334,6 +2387,9 @@ msgcat::mcmset ru {
   "Menu relief value."
   "Меню помощи значение."
 
+  "Pixel height of the spacer between the command launcher entry field and the result list"
+  "Пиксель высота спейсера между поле ввода команды запуска и список результатов"
+
   "Pixel height of the tabbar widget."
   "Высота в точках tabbar виджета."
 
@@ -2343,11 +2399,20 @@ msgcat::mcmset ru {
   "Relief value of the sidebar area."
   "Рельеф значение области боковой панели."
 
+  "Scrollbar slider color used in the command launcher results list"
+  "Цвет ползунок полосы прокрутки, используемый в списке результатов запуска команды"
+
   "Sidebar Options"
   "Параметры боковой панели"
 
   "Sidebar Scrollbar Options"
   "Sidebar Опции полоса прокрутки"
+
+  "Specifies background color of command launcher entry and list"
+  "Задает цвет фона команды запуска записи и список"
+
+  "Specifies foreground color of command launcher entry and list"
+  "Задает основной цвет команды запуска записи и список"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Указывает цвет для отображения вокруг боковой панели при боковой панели не имеет фокус."
@@ -2583,6 +2648,9 @@ msgcat::mcmset ru {
   "Back"
   "Назад"
 
+  "Bird's Eye View"
+  "Птичьего полета"
+
   "Browse"
   "Выберите файл"
 
@@ -2646,6 +2714,9 @@ msgcat::mcmset ru {
   "Launcher"
   "Пусковая установка"
 
+  "Move To Trash"
+  "Удалить"
+
   "Move to Other Pane"
   "Переехать в другой панели"
 
@@ -2660,6 +2731,9 @@ msgcat::mcmset ru {
 
   "Open"
   "Открыть"
+
+  "Plugin"
+  "Плагин"
 
   "Plugins"
   "Плагин"
@@ -2717,6 +2791,9 @@ msgcat::mcmset ru {
 
   "Theme Editor"
   "Визуальный редактор темы"
+
+  "Unable to rename file"
+  "Не удается переименовать файл"
 
   "Unable to write"
   "Не удается записать"
