@@ -39,6 +39,7 @@
 #  on_rename    - Runs when a file/folder is being renamed
 #  on_duplicate - Runs when a file is being duplicated
 #  on_delete    - Runs when a file/folder is being deleted
+#  on_trash     - Runs when a file/folder is moved to the trash
 #  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
 #  on_pref_load - Runs when the plugin preference items need to be added.
 #  on_pref_ui   - Runs when the plugin preference panel needs to be displayed in the preferences window.
@@ -1235,6 +1236,14 @@ namespace eval plugins {
   proc handle_on_delete {fname} {
 
     handle_event "on_delete" $fname
+
+  }
+
+  ######################################################################
+  # Called whenever a file/folder is moved to the trash.
+  proc handle_on_trash {fname} {
+
+    handle_event "on_trash" $fname
 
   }
 
