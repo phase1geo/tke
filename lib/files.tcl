@@ -177,7 +177,7 @@ namespace eval files {
   proc move_to_trash {fname isdir} {
 
     # Allow any plugins to handle the deletion
-    plugins::handle_on_delete $fname
+    plugins::handle_on_trash $fname
 
     # Move the original directory to the trash
     switch -glob $::tcl_platform(os) {
