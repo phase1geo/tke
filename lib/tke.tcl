@@ -78,6 +78,7 @@ package require http
 package require struct::set
 package require comm
 package require ftp
+package require base64
 package require webdav
 catch { package require tkdnd }
 catch { package require registry }

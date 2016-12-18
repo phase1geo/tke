@@ -2268,6 +2268,10 @@ namespace eval remote {
         if {![info exists groups($group)]} {
           set groups($group) [$widgets(sb) insertchild root end $group]
         }
+        if {[llength $data($key)] >= 7} {
+          set data($key) [lreplace $data($key) 3 3 [base64::decode [lindex $data($key) 3]]]
+          set data($key) [lreplace $data($key) 6 6]
+        }
         set row [$widgets(sb) insertchild $groups($group) end [list $name $data($key) [lindex $data($key) 3]]]
         set connections($group,$name) [list $row {*}$data($key)]
         if {[info exists opened($group,$name)]} {
@@ -2298,6 +2302,10 @@ namespace eval remote {
       array set data $rc
       foreach key [array names data] {
         lassign [split $key ,] num group name
+        if {[llength $data($key)] >= 7} {
+          set data($key) [lreplace $data($key) 3 3 [base64::decode [lindex $data($key) 3]]]
+          set data($key) [lreplace $data($key) 6 6]
+        }
         set connections($group,$name) [list "" {*}$data($key)]
       }
     }
@@ -2321,7 +2329,7 @@ namespace eval remote {
       foreach conn_key [$widgets(sb) childkeys $group_key] {
         set name     [$widgets(sb) cellcget $conn_key,name     -text]
         set settings [$widgets(sb) cellcget $conn_key,settings -text]
-        lappend data "$num,$group,$name" $settings
+        lappend data "$num,$group,$name" [list {*}[lreplace $settings 3 3 [base64::encode [lindex $settings 3]]] 1]
         set connections($group,$name) [list $conn_key {*}[lreplace $settings 3 3 [$widgets(sb) cellcget $conn_key,passwd -text]]]
         incr num
       }
