@@ -5282,6 +5282,11 @@ namespace eval gui {
     # Get the current widget
     set txt [current_txt $tid]
 
+    # If we are escaped or in a comment/string, we should not match
+    if {[ctext::isEscaped $txt insert] || [ctext::inCommentString $txt insert]} {
+      return
+    }
+
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
     switch -- [$txt get insert] {
@@ -5311,7 +5316,7 @@ namespace eval gui {
   # otherwise, returns -1.
   proc find_match_pair {txt str1 str2 dir {startpos insert}} {
 
-    if {[ctext::isEscaped $txt $startpos]} {
+    if {[ctext::isEscaped $txt $startpos] || [ctext::inCommentString $txt $startpos]} {
       return -1
     }
 

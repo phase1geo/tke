@@ -2202,7 +2202,8 @@ proc ctext::matchPair {win lang pos type} {
 
   variable data
 
-  if {![info exists data($win,config,matchChar,$lang,[string range $type 0 end-1])]} {
+  if {![info exists data($win,config,matchChar,$lang,[string range $type 0 end-1])] || \
+       [inCommentString $win $pos]} {
     return
   }
 
