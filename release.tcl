@@ -105,13 +105,13 @@ proc generate_changelog {tag} {
   puts -nonewline "Generating ChangeLog...  "; flush stdout
 
   if {$tag eq ""} {
-    if {[catch { exec -ignorestderr hg log -v -r "branch(default)" > ChangeLog } rc]} {
+    if {[catch { exec -ignorestderr hg log -v --style changelog -r "branch(default)" > ChangeLog } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to generate ChangeLog"
     }
   } else {
-    if {[catch { exec -ignorestderr hg log -v -r "tag('$tag'):" > ChangeLog } rc]} {
+    if {[catch { exec -ignorestderr hg log -v --style changelog -r "tag('$tag'):" > ChangeLog } rc]} {
       puts "failed!"
       puts "  $rc"
       return -code error "Unable to generate ChangeLog"
