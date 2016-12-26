@@ -51,7 +51,6 @@ advanced {
   HighlightRegexp {.*}                          list_check
 
   HighlightProc ccode {
-    puts "In ccode"
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
       $txt tag remove _code $startpos $endpos
       return [list [list [list ccode       [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
