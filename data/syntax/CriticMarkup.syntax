@@ -5,19 +5,9 @@ casesensitive
 {1}
 
 advanced {
-  HighlightClass bold    none           {bold}
-  HighlightClass italics none           {italics}
-  HighlightClass super   none           {superscript}
-  HighlightClass sub     none           {subscript}
-  HighlightClass h1      miscellaneous2 {h1}
-  HighlightClass h2      miscellaneous2 {h2}
-  HighlightClass h3      miscellaneous2 {h3}
-  HighlightClass h4      miscellaneous2 {h4}
-  HighlightClass h5      miscellaneous2 {h5}
-  HighlightClass h6      miscellaneous2 {h6}
-  HighlightClass link    miscellaneous1 {underline click}
-  HighlightClass code    precompile     {code}
-  HighlightClass ccode   precompile     {code}
+  HighlightClass add     miscellaneous1 {}
+  HighlightClass del     miscellaneous2 {}
+  HighlightClass comm    comments       {}
   HighlightClass strike  none           {overstrike}
   HighlightClass hilite  highlighter    {}
   HighlightClass grey    meta           {}
@@ -30,33 +20,32 @@ advanced {
 
   HighlightProc addition {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      return [list [list [list miscellaneous1 [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
-                         [list grey           $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list grey           [$txt index "$endpos-3c"] $endpos [list]]] ""]
+      return [list [list [list add  [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
   }
 
   HighlightProc deletion {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      return [list [list [list miscellaneous2 [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
-                         [list grey           $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list grey           [$txt index "$endpos-3c"] $endpos [list]]] ""]
+      return [list [list [list del  [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
   }
 
   HighlightProc substitution {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      puts "HERE A"
       if {[regexp {^(.+?)~>(.*)$} [$txt get "$startpos+3c" "$endpos-3c"] -> del add]} {
         set delend   [$txt index "$startpos+[expr [string length $del] + 3]c"]
-        set addstart [$txt index "$startpos+[expr $delend + 2]c"]
-        return [list [list [list miscellaneous2 $startpos $delend [list]] \
-                           [list miscellaneous1 $addstart [$txt index $endpos-3c] [list]] \
-                           [list meta           $startpos [$txt index "startpos+3c"] [list]] \
-                           [list meta           $delend $addstart [list]] \
-                           [list meta           [$txt index "$endpos-3c"] $endpos [list]]] ""]
+        set addstart [$txt index "$delend+2c"]
+        return [list [list [list del  [$txt index "$startpos+3c"] $delend [list]] \
+                           [list add  $addstart [$txt index "$endpos-3c"] [list]] \
+                           [list grey $startpos [$txt index "$startpos+3c"] [list]] \
+                           [list grey $delend $addstart [list]] \
+                           [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
       }
     }
     return ""
@@ -64,9 +53,9 @@ advanced {
 
   HighlightProc comment {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
-      return [list [list [list comment [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
-                         [list grey    $startpos [$txt index "$startpos+3c"] [list]] \
-                         [list grey    [$txt index "$endpos-3c"] $endpos [list]]] ""]
+      return [list [list [list comm [$txt index "$startpos+3c"] [$txt index "$endpos-3c"] [list]] \
+                         [list grey $startpos [$txt index "$startpos+3c"] [list]] \
+                         [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
   }
