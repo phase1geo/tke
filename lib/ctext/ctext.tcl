@@ -2714,6 +2714,7 @@ proc ctext::add_font_opt {win class modifiers popts} {
   if {[llength $modifiers] > 0} {
 
     array set font_opts [font configure [$win cget -font]]
+    array set line_opts [list]
     array set tag_opts  [list]
 
     set lsize       ""
@@ -2724,10 +2725,10 @@ proc ctext::add_font_opt {win class modifiers popts} {
 
     foreach modifier $modifiers {
       switch $modifier {
-        "bold"        { set font_opts(-weight)     "bold";   lset name_list 0 1 }
-        "italics"     { set font_opts(-slant)      "italic"; lset name_list 1 1 }
-        "underline"   { set font_opts(-underline)  1;        lset name_list 2 1 }
-        "overstrike"  { set font_opts(-overstrike) 1;        lset name_list 3 1 }
+        "bold"        { set font_opts(-weight)    "bold";   lset name_list 0 1 }
+        "italics"     { set font_opts(-slant)     "italic"; lset name_list 1 1 }
+        "underline"   { set font_opts(-underline) 1;        lset name_list 2 1 }
+        "overstrike"  { set tag_opts(-overstrike) 1;        lset name_list 3 1 }
         "h6"          { set font_opts(-size) [expr $font_opts(-size) + 1]; set lsize "6" }
         "h5"          { set font_opts(-size) [expr $font_opts(-size) + 2]; set lsize "5" }
         "h4"          { set font_opts(-size) [expr $font_opts(-size) + 3]; set lsize "4" }
@@ -2736,17 +2737,17 @@ proc ctext::add_font_opt {win class modifiers popts} {
         "h1"          { set font_opts(-size) [expr $font_opts(-size) + 6]; set lsize "1" }
         "click"       { set click 1 }
         "superscript" {
-          set lsize             "super"
-          set size              [expr $font_opts(-size) - 2]
-          set font_opts(-size)  $size
-          set tag_opts(-offset) [expr $size / 2]
+          set lsize              "super"
+          set size               [expr $font_opts(-size) - 2]
+          set font_opts(-size)   $size
+          set line_opts(-offset) [expr $size / 2]
           lset name_list 4 1
         }
         "subscript"   {
-          set lsize             "sub"
-          set size              [expr $font_opts(-size) - 2]
-          set font_opts(-size)  $size
-          set tag_opts(-offset) [expr 0 - ($size / 2)]
+          set lsize              "sub"
+          set size               [expr $font_opts(-size) - 2]
+          set font_opts(-size)   $size
+          set line_opts(-offset) [expr 0 - ($size / 2)]
           lset name_list 5 1
         }
       }
@@ -2759,10 +2760,10 @@ proc ctext::add_font_opt {win class modifiers popts} {
 
     if {$lsize ne ""} {
       set data($win,highlight,lsize,$class) "lsize$lsize"
-      $win.l tag configure $data($win,highlight,lsize,$class) {*}[array get tag_opts] -font $fontname
+      $win.l tag configure $data($win,highlight,lsize,$class) {*}[array get line_opts] -font $fontname
     }
 
-    lappend opts -font $fontname {*}[array get tag_opts]
+    lappend opts -font $fontname {*}[array get tag_opts] {*}[array get line_opts]
 
     if {$click} {
       set data($win,highlight,click,$class) $opts
@@ -2937,9 +2938,9 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
   # Add the tag and possible binding
   if {[info exists data($win,highlight,click,$class)]} {
     set tag _$class[incr data($win,highlight,click_index)]
-    $win tag add       $tag $startpos $endpos
+    $win tag add      $tag $startpos $endpos
     $win tag configure $tag {*}$data($win,highlight,click,$class)
-    $win tag bind      $tag <Button-3> $cmd
+    $win tag bind     $tag <Button-3> $cmd
   } else {
     $win tag add _$class $startpos $endpos
   }

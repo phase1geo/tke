@@ -6,9 +6,8 @@ casesensitive
 
 advanced {
   HighlightClass add     miscellaneous1 {}
-  HighlightClass del     miscellaneous2 {}
+  HighlightClass del     miscellaneous2 {overstrike}
   HighlightClass comm    comments       {}
-  HighlightClass strike  none           {overstrike}
   HighlightClass hilite  highlighter    {}
   HighlightClass grey    meta           {}
 
