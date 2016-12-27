@@ -308,7 +308,7 @@ advanced {
   }
 
   HighlightProc list_check {
-    if {([lindex [split [$txt index insert] .] 1] == 0) && $ins} {
+    if {[$txt compare $endpos < insert] && $ins} {
       if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
         if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
