@@ -197,7 +197,7 @@ namespace eval share {
 
   ######################################################################
   # Displays the export window
-  proc create_export {} {
+  proc create_export {{parent .}} {
 
     variable widgets
     variable data
@@ -206,7 +206,7 @@ namespace eval share {
     toplevel     .sharewin
     wm title     .sharewin [msgcat::mc "Export Settings Data"]
     wm resizable .sharewin 0 0
-    wm transient .sharewin .
+    wm transient .sharewin $parent
 
     ttk::frame  .sharewin.f
     ttk::label  .sharewin.f.l -text [format "%s: " [msgcat::mc "Directory"]]

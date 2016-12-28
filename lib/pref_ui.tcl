@@ -972,9 +972,13 @@ namespace eval pref_ui {
 
     register $widgets(share_items) $wstr General/ShareItems
 
+    ttk::button $e.export -text [msgcat::mc "Export Settings"] -command [list share::create_export .prefwin]
+
     pack $e.sf -padx 2 -pady 4 -fill x
     make_spacer $e
     pack $e.if -padx 2 -pady 4 -fill both
+    make_spacer $e
+    pack $e.export
 
     # Initialize the sharing UI
     lassign [share::get_share_info] share_dir share_items
