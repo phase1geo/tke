@@ -132,11 +132,9 @@ namespace eval completer {
     bind postcomp$txt <Key-greater>      [list [ns completer]::check_brackets %W angled 0]
     bind postcomp$txt <Key-parenleft>    [list [ns completer]::check_brackets %W paren  0]
     bind postcomp$txt <Key-parenright>   [list [ns completer]::check_brackets %W paren  0]
-    bind postcomp$txt <Key-quotedbl>     [list [ns completer]::check_all_brackets %W]
-    bind postcomp$txt <Key-quoteright>   [list [ns completer]::check_all_brackets %W]
-    bind postcomp$txt <Key-quoteleft>    [list [ns completer]::check_all_brackets %W]
     bind postcomp$txt <BackSpace>        [list [ns completer]::check_delete %W]
-    bind postcomp$txt <Key>              [list [ns completer]::check_any %W]
+    # bind postcomp$txt <Key>              [list [ns completer]::check_any %W]
+    bind postcomp$txt <<StringCommentChanged>> [list [ns completer]::check_all_brackets %W]
 
     # Add the bindings
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -440,7 +438,7 @@ namespace eval completer {
   ######################################################################
   # Checks all of the matches.
   proc check_all_brackets {txtt args} {
-
+    
     array set opts {
       -string ""
       -force  0
@@ -504,7 +502,7 @@ namespace eval completer {
     set other   ${stype}R
     set olist   [lassign [$txtt tag ranges _$other] ofirst olast]
     set missing [list]
-
+    
     # Perform count for all code containing left stypes
     foreach {sfirst slast} [$txtt tag ranges _${stype}L] {
       while {($ofirst ne "") && [$txtt compare $sfirst > $ofirst]} {
@@ -535,7 +533,7 @@ namespace eval completer {
       set start [ctext::get_next_bracket $txtt ${stype}L $start]
       incr count -1
     }
-
+    
     # Highlight all brackets that are missing left stypes
     catch { $txtt tag add missing:$stype {*}$missing }
 
