@@ -76,9 +76,9 @@ namespace eval scroller {
 
     # Create the canvas
     if {$data($win,-orient) eq "vertical"} {
-      set data($win,canvas) [canvas $win -width  [expr $data($win,-thickness) + $data($win,extra_width)] -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
+      set data($win,canvas) [canvas $win -height 1 -width  [expr $data($win,-thickness) + $data($win,extra_width)] -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
     } else {
-      set data($win,canvas) [canvas $win -height $data($win,-thickness) -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
+      set data($win,canvas) [canvas $win -width  1 -height $data($win,-thickness) -relief flat -bd 1 -highlightthickness 0 -bg $data($win,-background)]
     }
 
     # Create canvas bindings
@@ -363,7 +363,7 @@ namespace eval scroller {
   proc update_markers {win} {
 
     variable data
-
+    
     # Get the lines
     set height [winfo height $win]
 
