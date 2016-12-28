@@ -1083,7 +1083,6 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [make_menu $mb.snipPopup  -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
     $mb add cascade -label [msgcat::mc "Templates"]     -menu [make_menu $mb.tempPopup  -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
     $mb add cascade -label "Emmet"                      -menu [make_menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
-    $mb add cascade -label [msgcat::mc "Sharing"]       -menu [make_menu $mb.sharePopup -tearoff 0]
 
     ###########################
     # Populate indentation menu
@@ -1329,18 +1328,6 @@ namespace eval menus {
 
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
-
-    ########################
-    # Populate Sharing menu
-    ########################
-
-    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Edit"]] -command [list menus::share_setup]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit settings sharing preferences"]] [list menus::share_setup]
-
-    $mb.sharePopup add separator
-
-    $mb.sharePopup add command -label [format "%s..." [msgcat::mc "Export Settings"]] -command [list share::create_export]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Export settings data"]] [list share::create_export]
 
   }
 
@@ -1878,15 +1865,6 @@ namespace eval menus {
     } else {
       pref_ui::create "" [syntax::get_language [gui::current_txt {}]] snippets
     }
-
-  }
-
-  ######################################################################
-  # Edits the sharing setup information using either the preference GUI
-  # (if enabled) or the editor.
-  proc share_setup {} {
-
-    pref_ui::create "" "" general sharing
 
   }
 

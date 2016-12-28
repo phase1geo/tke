@@ -138,7 +138,7 @@ namespace eval fontchooser {
     }
 
     array set F [font actual $defaultFont]
-
+    
     set data($w,font)   $F(-family)
     set data($w,size)   $F(-size)
     set data($w,strike) $F(-overstrike)
@@ -216,29 +216,29 @@ namespace eval fontchooser {
     variable data
 
     lassign [split $var2 ,] w var
-
-    set bad 0
-
-    # Make selection in each listbox
-    set value [string tolower $data($w,$var)]
+    
+    # Clear the selection
     $w.l${var}s selection clear 0 end
-    set n [lsearch -exact $data($w,${var}s,lcase) $value]
-    $w.l${var}s selection set $n
-    if {$n != -1} {
-      set data($w,$var) [lindex $data($w,${var}s) $n]
-      $w.e$var icursor end
-      $w.e$var selection clear
-    } else {                                ;# No match, try prefix
-      # Size is weird: valid numbers are legal but don't display
-      # unless in the font size list
-      set n   [lsearch -glob $data($w,${var}s,lcase) "$value*"]
-      set bad 1
+
+    # Find the exact (or closest) font match and get its index
+    set value [string tolower $data($w,$var)]
+    if {[set n [lsearch -exact $data($w,${var}s,lcase) $value]] == -1} {
+      if {[set n [lsearch -glob $data($w,${var}s,lcase) "$value*"]] == -1} {
+        return
+      }
     }
+    
+    # Set the value
+    set data($w,$var) [lindex $data($w,${var}s) $n]
+    
+    # Update the UI
+    $w.e$var icursor end
+    $w.e$var selection clear
+    $w.l${var}s selection set $n
     $w.l${var}s see $n
 
-    if {!$bad} {
-      show $w
-    }
+    # Display the font
+    show $w
 
   }
 
