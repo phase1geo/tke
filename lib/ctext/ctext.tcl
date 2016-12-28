@@ -2409,6 +2409,7 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   if {$all} {
     foreach tag [$win._t tag names] {
       if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
+        puts "Removing tag $tag [lindex $lineranges 1] to end"
         $win._t tag remove $tag [lindex $lineranges 1] end
       }
     }
@@ -2509,7 +2510,7 @@ proc ctext::comments {win ranges do_tags} {
 
   # If we didn't find any comment/string characters that changed, no need to continue.
   if {[array size tag_changed] == 0} { return 0 }
-
+  
   # Initialize tags
   foreach tag $data($win,config,csl_tags) {
     set tags($tag) [list]
@@ -2531,7 +2532,7 @@ proc ctext::comments {win ranges do_tags} {
       }
     }
   }
-
+  
   # Sort the char tags
   set char_tags [lsort -dictionary -index 0 $char_tags]
 
@@ -2609,6 +2610,9 @@ proc ctext::comments {win ranges do_tags} {
       $win tag raise $tag
     }
   }
+  
+  # Indicate the the string/comment status may have changed for anyone interested
+  event generate $win.t <<StringCommentChanged>>
 
   return [expr {[llength [array names tag_changed _Lang*:*]] > 0}]
 
