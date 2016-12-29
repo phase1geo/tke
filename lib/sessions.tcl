@@ -149,9 +149,10 @@ namespace eval sessions {
 
   ######################################################################
   # Loads the given session.  The legal values for type are the following:
-  #   - last  = Save information useful for the next time TKE is started.
-  #   - prefs = Only save preference information to the session file, leaving the rest intact.
-  #   - full  = Save all information
+  #   - last   = Save information useful for the next time TKE is started.
+  #   - prefs  = Only save preference information to the session file, leaving the rest intact.
+  #   - full   = Save all information
+  #   - nosave = Only read the given session name without worrying about saving.
   # Name specifies the base name of the session to load while new_window
   # specifies whether the session should be loaded in the current window (0)
   # or a new window (1).
