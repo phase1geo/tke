@@ -481,7 +481,7 @@ if {[catch {
 
   # Load the session file
   } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "")} {
-    sessions::load [expr {($cl_use_session eq "") ? "last" : "full"}] $cl_use_session 0
+    sessions::load [expr {($cl_use_session eq "") ? "last" : "nosave"}] $cl_use_session 0
   }
 
   # If we are in development mode and preferences are telling us to open the
