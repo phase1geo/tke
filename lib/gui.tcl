@@ -522,6 +522,7 @@ namespace eval gui {
     trace variable [ns preferences]::prefs(View/ShowBirdsEyeView)               w [ns gui]::handle_show_birdseye
     trace variable [ns preferences]::prefs(View/BirdsEyeViewFontSize)           w [ns gui]::handle_birdseye_font_size
     trace variable [ns preferences]::prefs(View/BirdsEyeViewWidth)              w [ns gui]::handle_birdseye_width
+    trace variable [ns preferences]::prefs(View/EnableCodeFolding)              w [ns gui]::handle_code_folding
     trace variable [ns preferences]::prefs(Appearance/CursorWidth)              w [ns gui]::handle_cursor_width
     trace variable [ns preferences]::prefs(Appearance/ExtraLineSpacing)         w [ns gui]::handle_extra_line_spacing
 
@@ -720,6 +721,18 @@ namespace eval gui {
           $be configure -width $width
         }
       }
+    }
+
+  }
+
+  ######################################################################
+  # Handle any changes to the View/EnableCodeFolding preference value.
+  proc handle_code_folding {name1 name2 op} {
+
+    set enable [[ns preferences]::get View/EnableCodeFolding]
+
+    foreach txt [get_all_texts] {
+      [ns folding]::set_fold_enable $txt $enable
     }
 
   }
