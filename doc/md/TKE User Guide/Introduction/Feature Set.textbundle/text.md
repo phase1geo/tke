@@ -1,0 +1,118 @@
+## Feature Set
+
+The following is a high-level list of built-in features.
+
+- **Syntax highlighting**
+	- Over 75 languages currently supported, including:
+		- ABAP, ActionScript, Ada, AppleScript, Assembly, Awk
+		- Bash
+		- C#, C, C\+\+, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
+		- D, Delphi, DocBook
+		- Eiffel, Erlang
+		- Fickle, Forth, Fortran
+		- Gherkin, Go, Groovy
+		- HTML, Haml, Haskell, Haxe, HelpSystem
+		- J, JSON, Jade, Java, JavaScript, Julia
+		- Lex, Lisp, Lua
+		- MATLAB, Makefile, ManPage, Markdown, MultiMarkdown, MySQL
+		- Neko
+		- Objective-C, OCaml
+		- PHP, Pascal, Perl, Prolog, Python
+		- R, RSS, Ruby, Rust
+		- SASS, SCSS, Scala, Scheme, ShellScript, SQL, Swift, SystemVerilog
+		- Taccle, Tcl
+		- Vala, Verilog, VisualBasic, VHDL
+		- XML, XSLT
+		- YAML, Yacc
+	- Syntax description files can be easily added
+	- Preference control can select syntax types to highlight/not highlight
+	- Built-in and customizable color themes
+	- Support for mixed and embedded language syntax
+- **Multi-cursor support**
+	- Cursor alignment
+	- Enumeration insertion
+- **Built-in file difference viewer**
+	- Built-in support for Perforce, Git, Mercurial, Bazaar, Subversion and file diff. Also supports a custom difference command. Includes ability to jump to the file version where a given line was last changed.
+- **Internationalization support**
+	- 17 languages currently supported
+- **Customizable menu bindings**
+- **Clipboard history**
+- **Unlimited undo/redo**
+- **Language-specific snippet support**
+	- Support for tab stops, variable substitution, and special value substitutions.
+- **Built-in Emmet abbreviation support**
+	- HTML, XML, XSL and CSS abbreviation syntax supported.
+	- Support for custom Emmet commands.
+- **Auto and smart indentation features**
+	- Selected code can have indentation policies applied
+	- Pasted code can have indentation policies applied
+- **Code line marking support**	
+- **Line number display**
+	- Includes support for both absolute and relative line numbering
+- **Code folding**
+	- Based on indentation syntax markers found in the code or manually added (modal).
+- **Customizable tab and shift/indentation stops**
+- **Dozens of text transformation tools**
+- **Built-in Vim support**
+- **Expanded Vim functionality**
+	- Vim commands for setting/clearing multiple cursors
+	- Auto-numbering functionality
+	- Line bubbling
+- **Regular expression in-file search (and optional replace)**
+	- Find and replace
+	- Includes ability to quickly save and recall search input
+- **Regular expression multi-directory file search**
+	- Includes ability to quickly save and recall search input
+- **Symbol search function**
+	- Jump to a named procedure or function call
+- **Auto refresh**
+	- Files modified outside of editor will be automatically updated (unless file is in a modified state)
+- **File locking support**
+	- File can be set to be read-only within the editor (regardless of actual file permissions)
+- **Command launcher**	
+- **File system sidebar**
+	- Contains functionality for creating, renaming, deleting, and trashing files/directories
+- **Multiple files can be opened at once**
+	- Sidebar and tabs used to switch between opened files
+- **Dual editor panel support**
+	- Useful for viewing two files side-by-side
+	- Line alignment
+	- Synchronized pane scrolling support
+- **Split view support**
+	- Create two independent editable views into the same file.
+- **Bird’s Eye text viewer**
+	- See your file’s code at a glance and quickly navigate to other points in your code.
+- **Maximum column width display**	
+- **Support for NFS mounted file systems**
+- **Plugin support**
+	- Full plugin development documentation available.
+- **Customizable theme and built-in theme editor**
+	- Edit existing themes
+	- Create new themes
+	- Import TKE and TextMate themes
+	- Export TKE themes that can be shared with others"
+- **Favorite file/directory support**	
+- **Automatic matching character insertion**
+	- Curly bracket, square bracket, angled bracket, parenthesis, double and single string character matches are inserted as you type.
+	- Preference item to enable/disable any of the above character types.
+	- Each language syntax file specifies which characters are valid for auto-insertion.
+- **Multi-platform EOL character support**
+	- Supports CR, CRLF and LF characters for end-of-line indicators.  Also supports an ‘orig’ option which automatically infers the original EOL character when the file is read and an ‘auto’ option which infers the correct EOL character for the current platform.  This setting is available through the preference system.
+- **Session support**
+	- Allows for the creation and switching of customized TKE sessions.
+	- Saves the following reloadable information:
+		- Opened files/directories
+		- UI state information
+		- Custom preferences
+		- Saved search items
+- **Templates**
+	- Special snippet-like files that can be used for quickly generating new files.  TKE allows for saving, using and managing template files.
+- **Automatic session save**	
+- **In-app update mechanism**
+	- Preference option to follow stable or development release track (not available for Windows).
+- **Remote file editing**
+	- FTP/SFTP/WebDAV supported
+	- View and edit remote files
+	- Duplicate, rename and delete remote files/folders via the sidebar
+- **Tab hiding**
+	- Temporary hide tabs in the tab bar for improved workflow.

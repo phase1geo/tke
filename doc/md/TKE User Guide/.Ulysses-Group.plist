@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>childOrder</key>
+	<array>
+		<string>Prefix</string>
+		<string>Introduction</string>
+		<string>Installation</string>
+		<string>Starting the Application</string>
+		<string>Application Settings</string>
+		<string>User Interface</string>
+		<string>Difference Map</string>
+		<string>Remote File Editing</string>
+		<string>Sessions</string>
+		<string>Command Launcher</string>
+		<string>Vim Commands</string>
+		<string>Snippets</string>
+		<string>Preferences</string>
+		<string>Menu Bindings</string>
+		<string>Theme Editor</string>
+		<string>Plugins</string>
+	</array>
+	<key>resolutionData</key>
+	<dict>
+		<key>childOrder</key>
+		<dict>
+			<key>Application Settings</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.60629398</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>6</integer>
+				</dict>
+			</dict>
+			<key>Command Launcher</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.19131601</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>11</integer>
+				</dict>
+			</dict>
+			<key>Difference Map</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.73945802</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>8</integer>
+				</dict>
+			</dict>
+			<key>Installation</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.39289701</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>4</integer>
+				</dict>
+			</dict>
+			<key>Introduction</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.13682503</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>3</integer>
+				</dict>
+			</dict>
+			<key>Menu Bindings</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.755041</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>15</integer>
+				</dict>
+			</dict>
+			<key>Plugins</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779854.18038702</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>17</integer>
+				</dict>
+			</dict>
+			<key>Preferences</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.63380402</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>13</integer>
+				</dict>
+			</dict>
+			<key>Prefix</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.13672101</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>2</integer>
+				</dict>
+			</dict>
+			<key>Remote File Editing</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.84212703</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>9</integer>
+				</dict>
+			</dict>
+			<key>Sessions</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.13742602</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>10</integer>
+				</dict>
+			</dict>
+			<key>Snippets</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.634238</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>14</integer>
+				</dict>
+			</dict>
+			<key>Starting the Application</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.39309198</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>5</integer>
+				</dict>
+			</dict>
+			<key>Theme Editor</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.81920999</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>16</integer>
+				</dict>
+			</dict>
+			<key>User Interface</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.73929203</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>7</integer>
+				</dict>
+			</dict>
+			<key>Vim Commands</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.25147003</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>12</integer>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+	<key>storeFormatVersion</key>
+	<integer>1</integer>
+	<key>versioning</key>
+	<dict>
+		<key>childOrder</key>
+		<dict>
+			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+			<integer>17</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>
