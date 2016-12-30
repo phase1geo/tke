@@ -58,10 +58,6 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Transform / Bubble Up | If multiple lines are selected, all selected lines are moved up by one line (the line above will be moved below the bubbled line(s)); otherwise, the current line is bubbled up one line. |
 | Transform / Bubble Down | If multiple lines are selected, all selected lines are moved down by one line (the line below will be moved above the bubbled line(s)); otherwise, the current line is bubbled down by one line. |
 | Transform / Replace Line With Script | If the current line contains an executable shell command, the command is executed and the resulting output replaces the current line. |
-| Preferences / Edit User - Global | Displays the user’s global (cross-language) preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
-| Preferences / Edit User - Language | Displays the user’s current language preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
-| Preferences / Edit Session - Global | Displays the current session’s global (cross-language) preferences in an editor tab.  This option will only be available if a named session is currently opened (see Session menu for details).  Saving changes made to this tab will immediately update the environment without restarting. |
-| Preferences / Edit Session - Language | Displays the current session's current language preferences in an editor tab.  This option will only be available if a named session is currently opened.  Saving changes made to this tab will immediately update the environment without restarting. |
 | Snippets / Edit User | Adds the user's global snippet file into the editor. |
 | Snippets / Edit Language | Adds the user’s snippet file into the editor for the current language. |
 | Snippets / Reload | Reloads the contents of the snippets for the current language and user.  Useful if the snippet file contents are not usable within the editor. |
@@ -70,3 +66,7 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Templates / Reload | Reloads the names of the existing templates. |
 | Emmet / Expand Abbreviation | Expands the Emmet abbreviation syntax that is found to the left of the cursor (i.e., cursor must be placed on the right side of the abbreviation for proper expansion to occur). |
 | Emmet / Edit Custom Abbreviations | Displays the custom Emmet abbreviation file in a new editing buffer allowing the user to change, remove or add custom Emmet syntax to their liking. Saving the editing buffer will cause the file changes to go into effect immediately. |
+| Preferences / Edit User - Global | Displays the user’s global (cross-language) preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
+| Preferences / Edit User - Language | Displays the user’s current language preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
+| Preferences / Edit Session - Global | Displays the current session’s global (cross-language) preferences in an editor tab.  This option will only be available if a named session is currently opened (see Session menu for details).  Saving changes made to this tab will immediately update the environment without restarting. |
+| Preferences / Edit Session - Language | Displays the current session's current language preferences in an editor tab.  This option will only be available if a named session is currently opened.  Saving changes made to this tab will immediately update the environment without restarting. |

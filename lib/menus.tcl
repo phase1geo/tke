@@ -135,7 +135,8 @@ namespace eval menus {
         launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] [list plugins::create_new_plugin]
 
         set mb ".menubar.help"
-        $mb insert 1 command -label [msgcat::mc "Plugin Developer Guide"] -underline 0 -command [list menus::help_devel_guide]
+        $mb insert 2 separator
+        $mb insert 3 command -label [msgcat::mc "Plugin Developer Guide"] -underline 0 -command [list menus::help_devel_guide]
 
         launcher::register [make_menu_cmd "Help" [msgcat::mc "Show plugin developer guide"]] [list menus::help_devel_guide]
 
@@ -156,7 +157,7 @@ namespace eval menus {
         launcher::unregister [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] * *
 
         set mb ".menubar.help"
-        $mb delete 1
+        $mb delete 2 3
         launcher::unregister [make_menu_cmd "Help" [msgcat::mc "Show plugin developer guide"]] * *
 
       }
@@ -1088,10 +1089,13 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [make_menu $mb.prefPopup  -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
     $mb add cascade -label [msgcat::mc "Snippets"]      -menu [make_menu $mb.snipPopup  -tearoff 0 -postcommand [list menus::edit_snippets_posting $mb.snipPopup]]
     $mb add cascade -label [msgcat::mc "Templates"]     -menu [make_menu $mb.tempPopup  -tearoff 0 -postcommand [list menus::edit_templates_posting $mb.tempPopup]]
     $mb add cascade -label "Emmet"                      -menu [make_menu $mb.emmetPopup -tearoff 0 -postcommand [list menus::edit_emmet_posting $mb.emmetPopup]]
+
+    $mb add separator
+
+    $mb add cascade -label [msgcat::mc "Preferences"]   -menu [make_menu $mb.prefPopup  -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
 
     ###########################
     # Populate indentation menu
@@ -3139,7 +3143,7 @@ namespace eval menus {
   # Displays the User Guide.
   proc help_user_guide {} {
 
-    utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf] 1
+    utils::open_file_externally [file join $::tke_dir doc UserGuide.html] 1
 
   }
 
@@ -3147,7 +3151,7 @@ namespace eval menus {
   # Displays the Developer Guide.
   proc help_devel_guide {} {
 
-    utils::open_file_externally [file join $::tke_dir doc DeveloperGuide.pdf] 1
+    utils::open_file_externally [file join $::tke_dir doc DeveloperGuide.html] 1
 
   }
 
