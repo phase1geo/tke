@@ -503,9 +503,6 @@ msgcat::mcmset ja {
   "Edit session global preferences"
   "セッションのグローバル設定を編集します。"
 
-  "Edit settings sharing preferences"
-  "設定の共有設定を編集します。"
-
   "Edit template"
   "テンプレートの編集"
 
@@ -542,17 +539,11 @@ msgcat::mcmset ja {
   "Export As"
   "CSV形式でエクスポート"
 
-  "Export Settings"
-  "エクスポートを設定"
-
   "Export complete"
   "サイト出力が完了しました。"
 
   "Export file contents"
   "エクスポート ファイルの内容"
-
-  "Export settings data"
-  "エクスポートを設定"
 
   "Favorite file"
   "お気に入りファイル"
@@ -980,6 +971,9 @@ msgcat::mcmset ja {
   "Paste text from clipboard"
   "クリップボードから貼り付け"
 
+  "Plugin Developer Guide"
+  "プラグイン開発者ガイド"
+
   "Previous Difference"
   "前の違い"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset ja {
 
   "Show meta characters"
   "メタ文字を表示"
+
+  "Show plugin developer guide"
+  "プラグイン開発者ガイドを表示します。"
 
   "Show selected line change"
   "選択した行の変更を表示します。"
@@ -1554,6 +1551,9 @@ msgcat::mcmset ja {
   "Exit the application after the last tab is closed"
   "最後のタブを閉じた後、アプリケーションを終了します。"
 
+  "Export Settings"
+  "エクスポートを設定"
+
   "Format snippet indentation after insert"
   "形式スニペット インデント挿入後"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset ja {
   "Set jump distance"
   "セット移動距離"
 
+  "Sharing"
+  "共有中"
+
   "Sharing Items"
   "アイテムの共有"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset ja {
 
   "Use single carriage return character"
   "単一のキャリッジ リターン文字を使用します。"
-
-  "User guide format"
-  "ユーザー ガイドの形式"
 
   "Variables"
   "変数"
@@ -2755,9 +2755,6 @@ msgcat::mcmset ja {
 
   "Sessions"
   "セッション"
-
-  "Sharing"
-  "共有中"
 
   "Show console"
   "コンソールを表示します。"

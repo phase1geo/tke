@@ -503,9 +503,6 @@ msgcat::mcmset zh {
   "Edit session global preferences"
   "编辑会话全球首选项"
 
-  "Edit settings sharing preferences"
-  "编辑共享首选项的设置"
-
   "Edit template"
   "删除模板"
 
@@ -542,17 +539,11 @@ msgcat::mcmset zh {
   "Export As"
   "匯出為："
 
-  "Export Settings"
-  "导出设置"
-
   "Export complete"
   "导出完成"
 
   "Export file contents"
   "导出文件的内容"
-
-  "Export settings data"
-  "导出设置"
 
   "Favorite file"
   "最喜欢的文件"
@@ -980,6 +971,9 @@ msgcat::mcmset zh {
   "Paste text from clipboard"
   "从剪贴板粘贴文本"
 
+  "Plugin Developer Guide"
+  "插件开发者指南"
+
   "Previous Difference"
   "上一頁差異"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset zh {
 
   "Show meta characters"
   "显示 meta 字符"
+
+  "Show plugin developer guide"
+  "显示插件开发人员指南"
 
   "Show selected line change"
   "显示所选的行的变化"
@@ -1554,6 +1551,9 @@ msgcat::mcmset zh {
   "Exit the application after the last tab is closed"
   "最后一个选项卡关闭后退出应用程序"
 
+  "Export Settings"
+  "导出设置"
+
   "Format snippet indentation after insert"
   "格式代码段缩进后插入"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset zh {
   "Set jump distance"
   "设置的跳距离"
 
+  "Sharing"
+  "分享"
+
   "Sharing Items"
   "共享项目"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset zh {
 
   "Use single carriage return character"
   "使用单个回车符"
-
-  "User guide format"
-  "用户指南格式"
 
   "Variables"
   "變量"
@@ -2755,9 +2755,6 @@ msgcat::mcmset zh {
 
   "Sessions"
   "會議"
-
-  "Sharing"
-  "分享"
 
   "Show console"
   "显示航行控制台"

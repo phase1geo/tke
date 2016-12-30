@@ -503,9 +503,6 @@ msgcat::mcmset it {
   "Edit session global preferences"
   "Modificare le preferenze di sessione globale"
 
-  "Edit settings sharing preferences"
-  "Modificare le impostazioni di preferenze condivisione"
-
   "Edit template"
   "Modifica modello"
 
@@ -542,17 +539,11 @@ msgcat::mcmset it {
   "Export As"
   "Esporta come"
 
-  "Export Settings"
-  "Impostazioni d’esportazione"
-
   "Export complete"
   "Esportazione completata."
 
   "Export file contents"
   "Contenuto del file di esportazione"
-
-  "Export settings data"
-  "Esportare i dati delle impostazioni"
 
   "Favorite file"
   "File Preferiti"
@@ -980,6 +971,9 @@ msgcat::mcmset it {
   "Paste text from clipboard"
   "Incolla il testo dagli appunti"
 
+  "Plugin Developer Guide"
+  "Guida per sviluppatori di plugin"
+
   "Previous Difference"
   "Differenza precedente"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset it {
 
   "Show meta characters"
   "Visualizza caratteri meta"
+
+  "Show plugin developer guide"
+  "Visualizza la guida per sviluppatori di plugin"
 
   "Show selected line change"
   "Mostrare il cambiamento di linea selezionata"
@@ -1554,6 +1551,9 @@ msgcat::mcmset it {
   "Exit the application after the last tab is closed"
   "Uscire dall'applicazione dopo aver chiuso l'ultima scheda"
 
+  "Export Settings"
+  "Impostazioni d’esportazione"
+
   "Format snippet indentation after insert"
   "Formato frammento rientro dopo insert"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset it {
   "Set jump distance"
   "Set di saltare distanza"
 
+  "Sharing"
+  "Condivisione"
+
   "Sharing Items"
   "Condivisione elementi"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset it {
 
   "Use single carriage return character"
   "Utilizzare il carattere singolo di ritorno"
-
-  "User guide format"
-  "Configurazione della guida"
 
   "Variables"
   "Variabili"
@@ -2755,9 +2755,6 @@ msgcat::mcmset it {
 
   "Sessions"
   "Sessioni"
-
-  "Sharing"
-  "Condivisione"
 
   "Show console"
   "Mostra console"

@@ -503,9 +503,6 @@ msgcat::mcmset da {
   "Edit session global preferences"
   "Redigere session globale indstillinger"
 
-  "Edit settings sharing preferences"
-  "Redigere indstillinger for deling"
-
   "Edit template"
   "Redigér skabelon"
 
@@ -542,17 +539,11 @@ msgcat::mcmset da {
   "Export As"
   "Eksportér som"
 
-  "Export Settings"
-  "Indstillinger for REST-eksport"
-
   "Export complete"
   "Eksport færdig."
 
   "Export file contents"
   "Eksport filindhold"
-
-  "Export settings data"
-  "Eksportere indstillinger data"
 
   "Favorite file"
   "Favorit fil"
@@ -980,6 +971,9 @@ msgcat::mcmset da {
   "Paste text from clipboard"
   "Indsæt tekst fra udklipsholderen"
 
+  "Plugin Developer Guide"
+  "Plugin Developer Guide"
+
   "Previous Difference"
   "Forrige forskel"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset da {
 
   "Show meta characters"
   "Vis meta tegn"
+
+  "Show plugin developer guide"
+  "Vis plugin developer guide"
 
   "Show selected line change"
   "Vis valgte linje ændring"
@@ -1554,6 +1551,9 @@ msgcat::mcmset da {
   "Exit the application after the last tab is closed"
   "Afslut programmet efter den sidste fane er lukket"
 
+  "Export Settings"
+  "Indstillinger for REST-eksport"
+
   "Format snippet indentation after insert"
   "Format snippet indrykning efter Indsæt"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset da {
   "Set jump distance"
   "Sæt hoppe afstand"
 
+  "Sharing"
+  "Deling"
+
   "Sharing Items"
   "Deling af elementer"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset da {
 
   "Use single carriage return character"
   "Bruge enkelt vognreturtegn"
-
-  "User guide format"
-  "Formatet user guide"
 
   "Variables"
   "Variabler"
@@ -2755,9 +2755,6 @@ msgcat::mcmset da {
 
   "Sessions"
   "Sessioner"
-
-  "Sharing"
-  "Deling"
 
   "Show console"
   "Vis konsol"

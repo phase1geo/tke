@@ -503,9 +503,6 @@ msgcat::mcmset he {
   "Edit session global preferences"
   "עריכת העדפות הכללית הפעלה"
 
-  "Edit settings sharing preferences"
-  "עריכת הגדרות שיתוף העדפות"
-
   "Edit template"
   "ערוך תבנית"
 
@@ -542,17 +539,11 @@ msgcat::mcmset he {
   "Export As"
   "לייצא"
 
-  "Export Settings"
-  "יצא הגדרות"
-
   "Export complete"
   "ייצוא מלאה"
 
   "Export file contents"
   "ייצוא תוכן הקובץ"
-
-  "Export settings data"
-  "יצא הגדרות"
 
   "Favorite file"
   "קבצים האהוב עליך"
@@ -980,6 +971,9 @@ msgcat::mcmset he {
   "Paste text from clipboard"
   "הדבקת טקסט מהלוח"
 
+  "Plugin Developer Guide"
+  "מדריך מפתחים תוסף"
+
   "Previous Difference"
   "הבדל קודם"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset he {
 
   "Show meta characters"
   "הצג מטא-תווים"
+
+  "Show plugin developer guide"
+  "מדריך מפתחים תוסף"
 
   "Show selected line change"
   "להראות שינוי הקו הנבחר"
@@ -1554,6 +1551,9 @@ msgcat::mcmset he {
   "Exit the application after the last tab is closed"
   "לצאת מהיישום לאחר סגירת הכרטיסיה האחרונה"
 
+  "Export Settings"
+  "יצא הגדרות"
+
   "Format snippet indentation after insert"
   "כניסת מקטע בתבנית לאחר הוספה"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset he {
   "Set jump distance"
   "הגדרת קפיצה למרחק"
 
+  "Sharing"
+  "שיתוף"
+
   "Sharing Items"
   "שיתוף פריטים"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset he {
 
   "Use single carriage return character"
   "השתמש תו return הכרכרה יחיד"
-
-  "User guide format"
-  "עיצוב מדריך למשתמש"
 
   "Variables"
   "משתנים"
@@ -2755,9 +2755,6 @@ msgcat::mcmset he {
 
   "Sessions"
   "הפעלות"
-
-  "Sharing"
-  "שיתוף"
 
   "Show console"
   "הצג המסוף"

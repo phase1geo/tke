@@ -503,9 +503,6 @@ msgcat::mcmset de {
   "Edit session global preferences"
   "Sitzung-globale Einstellungen bearbeiten"
 
-  "Edit settings sharing preferences"
-  "Bearbeiten Sie die Einstellungen, die Systemeinstellung \"
-
   "Edit template"
   "Vorlage bearbeiten"
 
@@ -542,17 +539,11 @@ msgcat::mcmset de {
   "Export As"
   "Exportieren als"
 
-  "Export Settings"
-  "Einstellungen exportieren"
-
   "Export complete"
   "Export abgeschlossen."
 
   "Export file contents"
   "Inhalt der Datei exportieren"
-
-  "Export settings data"
-  "Einstellungen exportieren"
 
   "Favorite file"
   "Lieblings-file"
@@ -980,6 +971,9 @@ msgcat::mcmset de {
   "Paste text from clipboard"
   "Einfügen von Text aus der Zwischenablage"
 
+  "Plugin Developer Guide"
+  "Handbuch für Plugin-Entwickler"
+
   "Previous Difference"
   "Vorheriger Unterschied"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset de {
 
   "Show meta characters"
   "Meta-Zeichen anzeigen"
+
+  "Show plugin developer guide"
+  "Plugin-Entwickler Messeführer"
 
   "Show selected line change"
   "Anzeigen der markierten Zeile ändern"
@@ -1554,6 +1551,9 @@ msgcat::mcmset de {
   "Exit the application after the last tab is closed"
   "Beenden Sie die Anwendung nach dem letzten Tab schließen"
 
+  "Export Settings"
+  "Einstellungen exportieren"
+
   "Format snippet indentation after insert"
   "Format-Snippet Einzug nach einfügen"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset de {
   "Set jump distance"
   "Eingestellten Sprungdistanz"
 
+  "Sharing"
+  "Teilen"
+
   "Sharing Items"
   "Freigabe von Elementen"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset de {
 
   "Use single carriage return character"
   "Verwenden Sie einzelne Wagenrücklaufzeichen"
-
-  "User guide format"
-  "Benutzer-Guide-format"
 
   "Variables"
   "Variablen"
@@ -2755,9 +2755,6 @@ msgcat::mcmset de {
 
   "Sessions"
   "zur Verfügung steht."
-
-  "Sharing"
-  "Teilen"
 
   "Show console"
   "Karte-Konsole"

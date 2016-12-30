@@ -503,9 +503,6 @@ msgcat::mcmset fr {
   "Edit session global preferences"
   "Modifier les préférences globales de session"
 
-  "Edit settings sharing preferences"
-  "Modifier les paramètres de préférences partage"
-
   "Edit template"
   "Modifier la mise en page"
 
@@ -542,17 +539,11 @@ msgcat::mcmset fr {
   "Export As"
   "Exporter comme"
 
-  "Export Settings"
-  "Paramètres d'exportation"
-
   "Export complete"
   "Exportation terminée."
 
   "Export file contents"
   "Exporter le contenu du fichier"
-
-  "Export settings data"
-  "Exporter des données de paramètres"
 
   "Favorite file"
   "Fichier de favori"
@@ -980,6 +971,9 @@ msgcat::mcmset fr {
   "Paste text from clipboard"
   "Coller le texte contenu dans le presse-papier"
 
+  "Plugin Developer Guide"
+  "Guide du développeur du plugin"
+
   "Previous Difference"
   "Différence précédente"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset fr {
 
   "Show meta characters"
   "Afficher les caractères de meta"
+
+  "Show plugin developer guide"
+  "Voir la guide du développeur plugin"
 
   "Show selected line change"
   "Montrer le changement de la ligne sélectionnée"
@@ -1554,6 +1551,9 @@ msgcat::mcmset fr {
   "Exit the application after the last tab is closed"
   "Quittez l’application après que le dernier onglet est fermé"
 
+  "Export Settings"
+  "Paramètres d'exportation"
+
   "Format snippet indentation after insert"
   "Indentation extrait format après insertion"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset fr {
   "Set jump distance"
   "Jeu de saut de distance"
 
+  "Sharing"
+  "Partager"
+
   "Sharing Items"
   "Partager des Articles"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset fr {
 
   "Use single carriage return character"
   "Utilisez le caractère de retour chariot seul"
-
-  "User guide format"
-  "Format du guide"
 
   "Variables"
   "Variables"
@@ -2755,9 +2755,6 @@ msgcat::mcmset fr {
 
   "Sessions"
   "Sessions"
-
-  "Sharing"
-  "Partager"
 
   "Show console"
   "Voir la console"
