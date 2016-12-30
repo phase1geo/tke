@@ -58,7 +58,7 @@ html,body,#wrapper{font-size:10pt!important;}
 
 
 </head>
-<body class="normal poetry firstload">
+<body class="normal poetry">
   <div id="wrapper">
       <h1 id="tkeuserguide">TKE User Guide</h1>
 
@@ -4040,33 +4040,16 @@ to look like the following:</p>
 	<td style="text-align:left;"><strong>$CURRENT_YEAR</strong></td>
 	<td style="text-align:left;">Four digit representation of the current year.</td>
 </tr>
-</tbody>
-</table>
-
-<table>
-<colgroup>
-<col style="text-align:left;"/>
-<col style="text-align:left;"/>
-</colgroup>
-
-<thead>
 <tr>
-	<th style="text-align:left;">Variable</th>
-	<th style="text-align:left;">Description</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-	<td style="text-align:left;">DOLLARSIGN<strong>0</strong></td>
+	<td style="text-align:left;"><b>$0</b></td>
 	<td style="text-align:left;">Places the cursor at this variable’s location after the entire snippet has been expanded.</td>
 </tr>
 <tr>
-	<td style="text-align:left;"><strong>$</strong><em>number</em></td>
+	<td style="text-align:left;"><b>$</b><em>number</em></td>
 	<td style="text-align:left;">Places the cursor at this variable&#8217;s location in the order of number. Hitting the TAB key will jump the cursor to the next cursor stop. For example, if a snippet uses the variables “$1 … $2”, the cursor will first be placed at location “$1” and when the TAB key is pressed, the cursor will jump to the location of “$2”. If more than one “$1” is use within the same snippet, the text that is entered in the first occurrence of this variable will also be entered in all other places within the snippet that share the same number.</td>
 </tr>
 <tr>
-	<td style="text-align:left;"><strong>${</strong><em>number</em><strong>:</strong><em>value</em><strong>}</strong></td>
+	<td style="text-align:left;"><b>${<b><em>number</em><strong>:</strong><em>value</em><strong>}</strong></td>
 	<td style="text-align:left;">Places the cursor at this variable&#8217;s location in the order of number, placing the string value at the cursor’s location. The string value can be used as a placeholder to remind the user what information to insert at that location. The value string will be automatically selected when the snippet is inserted so that immediately typing text will delete the value string with the user’s entered string.</td>
 </tr>
 <tr>
@@ -4074,11 +4057,11 @@ to look like the following:</p>
 	<td style="text-align:left;">Executes the specified command between the back tick characters.</td>
 </tr>
 <tr>
-	<td style="text-align:left;"><strong>${</strong><em>number</em><strong>/</strong><em>pattern</em><strong>/</strong><em>format</em><strong>/</strong><em>opts</em><strong>}</strong></td>
+	<td style="text-align:left;"><b>${</b><em>number</em><strong>/</strong><em>pattern</em><strong>/</strong><em>format</em><strong>/</strong><em>opts</em><strong>}</strong></td>
 	<td style="text-align:left;">The value of number must be a tabstop previously specified in the snippet. Its value is run through a regular expression match against pattern (the specified options are passed to the regular expression parser (values of g, i and I are supported; see the Vim command for search/replace for a description of these flags). The resulting matches are used with format and the resulting value is inserted. See the following table for a description of format strings.</td>
 </tr>
 <tr>
-	<td style="text-align:left;"><strong>${</strong><em>variable</em><strong>/</strong><em>pattern</em><strong>/</strong><em>format</em><strong>/</strong><em>opts</em><strong>}</strong></td>
+	<td style="text-align:left;"><b>${</b><em>variable</em><strong>/</strong><em>pattern</em><strong>/</strong><em>format</em><strong>/</strong><em>opts</em><strong>}</strong></td>
 	<td style="text-align:left;">The value of variable must be one of the above variables (minus the starting dollar sign). Its value is run through a regular expression match against pattern (the specified options are passed to the regular expression parser (values of g, i and I are supported — see the Vim command for search/replace for a description of these flags). The resulting matches are used with format and the resulting value is inserted. See the following table for a description of format strings.</td>
 </tr>
 </tbody>
