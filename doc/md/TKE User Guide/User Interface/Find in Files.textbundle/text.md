@@ -1,0 +1,3 @@
+### Find in Files
+
+When the user performs a “Find in Files”, a special tab will be added to the editing pane.  This file will contain snippets of lines of text from all files that have matches to the search text.  Within the window, all matching text will be highlighted the same yellow that is used for normal searching.  If the user left clicks or hits the space bar when the insertion cursor is within on any matching text within this tab, the corresponding file will automatically be added to the editing pane as a new tab and the insertion cursor will be placed at the beginning of the matching text in the file.  This allows you to quickly find and get to the matches within the editor.

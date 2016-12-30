@@ -1,0 +1,5 @@
+## Remote File Viewer
+
+The remote file viewer area of the window displays the currently selected and opened connection directory contents.  To open a remote directory or file, navigate to the file/directory, select it and click on the “Open” button in the toolbar.  If a directory is selected, the directory will be added to the sidebar in the TKE main window where you can interact with it just like a local filesystem.  If a file is selected, an editing buffer will be created displaying the current contents of the remote file and the file’s directory will be loaded into the sidebar of the main TKE window.  Any modifications and consequent saves made to this file will automatically be pushed back to the remote server.
+
+To navigate the remote file viewer, double-click on any directory to view the contents of that directory in the viewer.  To move up the file system, use the menu button at the top of the viewer area and select an ancestor directory to view.  To move backward and forward through the directory history, use the back/forward buttons at the top left of the file viewer.

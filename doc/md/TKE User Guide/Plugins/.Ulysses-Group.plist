@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>resolutionData</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>Installing a Plugin.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779854.21527201</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>3</integer>
+				</dict>
+			</dict>
+			<key>Plugins.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779854.19518697</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>2</integer>
+				</dict>
+			</dict>
+			<key>Reloading Plugins.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779854.29930198</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>6</integer>
+				</dict>
+			</dict>
+			<key>Showing Installed Plugin Usage Information.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779854.27258998</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>5</integer>
+				</dict>
+			</dict>
+			<key>Uninstalling a Plugin.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779854.24657702</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>4</integer>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+	<key>sheetClusters</key>
+	<array>
+		<array>
+			<string>Plugins.textbundle</string>
+		</array>
+		<array>
+			<string>Installing a Plugin.textbundle</string>
+		</array>
+		<array>
+			<string>Uninstalling a Plugin.textbundle</string>
+		</array>
+		<array>
+			<string>Showing Installed Plugin Usage Information.textbundle</string>
+		</array>
+		<array>
+			<string>Reloading Plugins.textbundle</string>
+		</array>
+	</array>
+	<key>storeFormatVersion</key>
+	<integer>1</integer>
+	<key>versioning</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+			<integer>6</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>resolutionData</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>Creating Launcher Commands.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.82788199</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>9</integer>
+				</dict>
+			</dict>
+			<key>Creating a New Plugin Template.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.92464399</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>11</integer>
+				</dict>
+			</dict>
+			<key>Interpreter Creation.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.71062899</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>6</integer>
+				</dict>
+			</dict>
+			<key>Plugin Bundle Structure.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.86773902</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>10</integer>
+				</dict>
+			</dict>
+			<key>Plugin Development.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.58513999</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>2</integer>
+				</dict>
+			</dict>
+			<key>Plugin Framework.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.62739497</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>3</integer>
+				</dict>
+			</dict>
+			<key>Plugin GUI Element Creation.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.757052</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>8</integer>
+				</dict>
+			</dict>
+			<key>Plugin management.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.709885</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>5</integer>
+				</dict>
+			</dict>
+			<key>Safe (Untrusted) Interpreter Description.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.75578398</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>7</integer>
+				</dict>
+			</dict>
+			<key>Starting up.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779712.66473299</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>4</integer>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+	<key>sheetClusters</key>
+	<array>
+		<array>
+			<string>Plugin Development.textbundle</string>
+		</array>
+		<array>
+			<string>Plugin Framework.textbundle</string>
+		</array>
+		<array>
+			<string>Starting up.textbundle</string>
+		</array>
+		<array>
+			<string>Plugin management.textbundle</string>
+		</array>
+		<array>
+			<string>Interpreter Creation.textbundle</string>
+		</array>
+		<array>
+			<string>Safe (Untrusted) Interpreter Description.textbundle</string>
+		</array>
+		<array>
+			<string>Plugin GUI Element Creation.textbundle</string>
+		</array>
+		<array>
+			<string>Creating Launcher Commands.textbundle</string>
+		</array>
+		<array>
+			<string>Plugin Bundle Structure.textbundle</string>
+		</array>
+		<array>
+			<string>Creating a New Plugin Template.textbundle</string>
+		</array>
+	</array>
+	<key>storeFormatVersion</key>
+	<integer>1</integer>
+	<key>versioning</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+			<integer>11</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

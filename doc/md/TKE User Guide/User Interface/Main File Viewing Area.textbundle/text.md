@@ -1,0 +1,3 @@
+## Main File Viewing Area
+
+The main viewing area displays both of the files that are a part of the difference.  Lines that are in common are displayed as a file normally when being edited.  Lines that are a part of the first file, but not the second are displayed in a reddish color.  Lines that are a part of the second file, but not the first are displayed in a green color.  Text that is displayed in the main file viewing area are not editable; however, text may be selected and copied to the clipboard.  You can also save the contents of the viewer under a supplied name (i.e., saving the buffer contents will not automatically overwrite the original file).

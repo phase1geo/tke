@@ -1,0 +1,3 @@
+# Syntax Handling
+
+TKE comes equipped with syntax highlighting support for several popular languages.  However, adding support for other languages is supported through the application’s syntax description files.  All syntax files exist in the installation directory under the data/syntax directory and have a special “.snippet” extension.  The base name of the file is the name of the language being supported (ex., the language file to support C\++ is called “C\++.syntax”).

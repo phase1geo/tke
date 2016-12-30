@@ -1,0 +1,3 @@
+### Auto-Indent Indicator
+
+Near the right side of the status bar is an indicator of the auto-indent mode.  A value of “OFF” indicates that indentation mode is off.  A value of “IND” indicates that auto-insertion mode is enabled.  A value of “IND+” indicates that smart indentation mode is enabled.  To change the indentation mode, you may either change it via the “Edit/Insert Mode” menu or simply click on the indentation indicator to display a popup menu where you can change the mode.

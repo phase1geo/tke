@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>resolutionData</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>Connection Bookmark Sidebar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.90304899</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>3</integer>
+				</dict>
+			</dict>
+			<key>Connection Editor.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.04252499</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>5</integer>
+				</dict>
+			</dict>
+			<key>Main Sidebar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.11809599</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>7</integer>
+				</dict>
+			</dict>
+			<key>Remote File Editing.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.85701698</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>2</integer>
+				</dict>
+			</dict>
+			<key>Remote File Viewer.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.95088398</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>4</integer>
+				</dict>
+			</dict>
+			<key>Remote Save File Dialog.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.06759202</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>6</integer>
+				</dict>
+			</dict>
+		</dict>
+	</dict>
+	<key>sheetClusters</key>
+	<array>
+		<array>
+			<string>Remote File Editing.textbundle</string>
+		</array>
+		<array>
+			<string>Connection Bookmark Sidebar.textbundle</string>
+		</array>
+		<array>
+			<string>Remote File Viewer.textbundle</string>
+		</array>
+		<array>
+			<string>Connection Editor.textbundle</string>
+		</array>
+		<array>
+			<string>Remote Save File Dialog.textbundle</string>
+		</array>
+		<array>
+			<string>Main Sidebar.textbundle</string>
+		</array>
+	</array>
+	<key>storeFormatVersion</key>
+	<integer>1</integer>
+	<key>versioning</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+			<integer>7</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>resolutionData</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>Auto-Indent Indicator.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.29360098</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>30</integer>
+				</dict>
+			</dict>
+			<key>Bird’s Eye View.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.893336</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>22</integer>
+				</dict>
+			</dict>
+			<key>Cursor Position Status.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.18502003</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>28</integer>
+				</dict>
+			</dict>
+			<key>Difference Viewer.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.35525298</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>32</integer>
+				</dict>
+			</dict>
+			<key>Directory.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.53328401</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>15</integer>
+				</dict>
+			</dict>
+			<key>Edit Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.01015699</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>6</integer>
+				</dict>
+			</dict>
+			<key>Editing Buffer.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.82852799</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>20</integer>
+				</dict>
+			</dict>
+			<key>Editing Pane.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.65091902</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>17</integer>
+				</dict>
+			</dict>
+			<key>File Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.94246</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>5</integer>
+				</dict>
+			</dict>
+			<key>Files.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.60361803</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>16</integer>
+				</dict>
+			</dict>
+			<key>Find Highlighting.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.91907799</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>23</integer>
+				</dict>
+			</dict>
+			<key>Find Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.05158401</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>7</integer>
+				</dict>
+			</dict>
+			<key>Find in Files.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.00283301</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>24</integer>
+				</dict>
+			</dict>
+			<key>Help Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.33732402</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>12</integer>
+				</dict>
+			</dict>
+			<key>Line Number Bar - 2.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.39879298</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>33</integer>
+				</dict>
+			</dict>
+			<key>Line Number Bar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.75558501</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>19</integer>
+				</dict>
+			</dict>
+			<key>Main File Viewing Area.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.44992602</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>34</integer>
+				</dict>
+			</dict>
+			<key>Menu Bar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.87978399</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>4</integer>
+				</dict>
+			</dict>
+			<key>Message Display.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.26324803</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>29</integer>
+				</dict>
+			</dict>
+			<key>Plugins Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.28303498</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>11</integer>
+				</dict>
+			</dict>
+			<key>Root Directory.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.45290899</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>14</integer>
+				</dict>
+			</dict>
+			<key>Scrollbars.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.86756098</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>21</integer>
+				</dict>
+			</dict>
+			<key>Sessions Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.23226899</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>10</integer>
+				</dict>
+			</dict>
+			<key>Sidebar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.38911599</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>13</integer>
+				</dict>
+			</dict>
+			<key>Status Bar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.06231302</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>25</integer>
+				</dict>
+			</dict>
+			<key>Syntax Display.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.31630301</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>31</integer>
+				</dict>
+			</dict>
+			<key>Tab Bar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.71143103</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>18</integer>
+				</dict>
+			</dict>
+			<key>Title Bar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.82214397</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>3</integer>
+				</dict>
+			</dict>
+			<key>Tools Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.17816299</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>9</integer>
+				</dict>
+			</dict>
+			<key>User Interface.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779851.75347698</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>2</integer>
+				</dict>
+			</dict>
+			<key>View Menu.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779852.12018102</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>8</integer>
+				</dict>
+			</dict>
+			<key>Vim Macro Recording Status.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.159015</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>27</integer>
+				</dict>
+			</dict>
+			<key>Vim Mode.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>504779853.10642701</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>26</integer>
+				</dict>
+			</dict>
+		</dict>
+		<key>userIconName</key>
+		<real>504488631.34876901</real>
+	</dict>
+	<key>sheetClusters</key>
+	<array>
+		<array>
+			<string>User Interface.textbundle</string>
+		</array>
+		<array>
+			<string>Title Bar.textbundle</string>
+		</array>
+		<array>
+			<string>Menu Bar.textbundle</string>
+		</array>
+		<array>
+			<string>File Menu.textbundle</string>
+		</array>
+		<array>
+			<string>Edit Menu.textbundle</string>
+		</array>
+		<array>
+			<string>Find Menu.textbundle</string>
+		</array>
+		<array>
+			<string>View Menu.textbundle</string>
+		</array>
+		<array>
+			<string>Tools Menu.textbundle</string>
+		</array>
+		<array>
+			<string>Sessions Menu.textbundle</string>
+		</array>
+		<array>
+			<string>Plugins Menu.textbundle</string>
+		</array>
+		<array>
+			<string>Help Menu.textbundle</string>
+		</array>
+		<array>
+			<string>Sidebar.textbundle</string>
+		</array>
+		<array>
+			<string>Root Directory.textbundle</string>
+		</array>
+		<array>
+			<string>Directory.textbundle</string>
+		</array>
+		<array>
+			<string>Files.textbundle</string>
+		</array>
+		<array>
+			<string>Editing Pane.textbundle</string>
+		</array>
+		<array>
+			<string>Tab Bar.textbundle</string>
+		</array>
+		<array>
+			<string>Line Number Bar.textbundle</string>
+		</array>
+		<array>
+			<string>Editing Buffer.textbundle</string>
+		</array>
+		<array>
+			<string>Scrollbars.textbundle</string>
+		</array>
+		<array>
+			<string>Bird’s Eye View.textbundle</string>
+		</array>
+		<array>
+			<string>Find Highlighting.textbundle</string>
+		</array>
+		<array>
+			<string>Find in Files.textbundle</string>
+		</array>
+		<array>
+			<string>Status Bar.textbundle</string>
+		</array>
+		<array>
+			<string>Vim Mode.textbundle</string>
+		</array>
+		<array>
+			<string>Vim Macro Recording Status.textbundle</string>
+		</array>
+		<array>
+			<string>Cursor Position Status.textbundle</string>
+		</array>
+		<array>
+			<string>Message Display.textbundle</string>
+		</array>
+		<array>
+			<string>Auto-Indent Indicator.textbundle</string>
+		</array>
+		<array>
+			<string>Syntax Display.textbundle</string>
+		</array>
+		<array>
+			<string>Difference Viewer.textbundle</string>
+		</array>
+		<array>
+			<string>Line Number Bar - 2.textbundle</string>
+		</array>
+		<array>
+			<string>Main File Viewing Area.textbundle</string>
+		</array>
+	</array>
+	<key>storeFormatVersion</key>
+	<integer>1</integer>
+	<key>userIconName</key>
+	<string>Controls</string>
+	<key>versioning</key>
+	<dict>
+		<key>sheetClusters</key>
+		<dict>
+			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+			<integer>34</integer>
+		</dict>
+		<key>userIconName</key>
+		<dict>
+			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+			<integer>15</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

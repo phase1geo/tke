@@ -1,0 +1,3 @@
+### Syntax Display
+
+On the right side of the status bar is the syntax display area.  If a file is currently being edited, the current syntax highlighting language is displayed.  To change the current language, simply left-click on the language name and select a different language from the list.  If the current file cannot be automatically discerned by TKE, a value of “\<None\>” will be displayed in the status bar.

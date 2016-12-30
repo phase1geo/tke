@@ -1,0 +1,3 @@
+# Vim Commands
+
+The editor supports a subset of the classic Vim functionality as well as some useful extensions while operating in Vim mode.  To edit documentation in Vim mode, go to the "Tools" menu and click on the "Vim mode" option.  When the mode is selected in the menu, the editor will respond to Vim input.  To place the editor back into standard editing mode, click on the "Vim mode" menu option again.  To set the default editing mode, go to the preferences file and set the "Editing/VimMode" value to a value of 1 (for Vim mode) or 0 (for standard mode).

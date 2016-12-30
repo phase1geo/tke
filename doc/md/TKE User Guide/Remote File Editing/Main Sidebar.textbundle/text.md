@@ -1,0 +1,5 @@
+## Main Sidebar
+
+Once a remote directory is specified in the main window sidebar, you can perform most of the same operations to that remote directory and its related files as you can any local directory.  You can open files directly, close files from editing, rename directories/files, duplicate files, delete directories/files, change the directory display, etc.  The only operations that you cannot perform is a file difference (since running the file difference would require interacting with a file to perform the difference on the remote server, which is not supported via FTP/SFTP/WebDAV) and making a remote file/directory be a favorite.
+
+In addition, TKE will not save remote directories/files states in-between TKE sessions.  This means that if you have opened remote connections and quit TKE, restarting TKE will not automatically reconnect and display previous sidebar and file state.
