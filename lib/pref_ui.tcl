@@ -3195,7 +3195,6 @@ namespace eval pref_ui {
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
     ttk::frame $a.f
-    make_mb $a.f.ugf [msgcat::mc "User guide format"] Help/UserGuideFormat [list pdf epub] 1
     make_mb $a.f.dme [msgcat::mc "Default Markdown Export Extension"] General/DefaultMarkdownExportExtension [list html htm xhtml] 1
     pack $a.f -fill x
 

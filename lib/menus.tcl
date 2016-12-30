@@ -134,6 +134,11 @@ namespace eval menus {
 
         launcher::register [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] [list plugins::create_new_plugin]
 
+        set mb ".menubar.help"
+        $mb insert 1 command -label [msgcat::mc "Plugin Developer Guide"] -underline 0 -command [list menus::help_devel_guide]
+
+        launcher::register [make_menu_cmd "Help" [msgcat::mc "Show plugin developer guide"]] [list menus::help_devel_guide]
+
       } elseif {$last_devel_mode ne ""} {
 
         set mb    ".menubar.tools"
@@ -149,6 +154,10 @@ namespace eval menus {
         set mb ".menubar.plugins"
         $mb delete 3 4
         launcher::unregister [make_menu_cmd "Plugins" [msgcat::mc "Create new plugin"]] * *
+
+        set mb ".menubar.help"
+        $mb delete 1
+        launcher::unregister [make_menu_cmd "Help" [msgcat::mc "Show plugin developer guide"]] * *
 
       }
 
@@ -3127,15 +3136,18 @@ namespace eval menus {
   }
 
   ######################################################################
-  # Displays the User Guide.  First, attempts to show the epub version.
-  # If that fails, display the pdf version.
+  # Displays the User Guide.
   proc help_user_guide {} {
 
-    if {[preferences::get Help/UserGuideFormat] eq "pdf"} {
-      utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf] 1
-    } else {
-      utils::open_file_externally [file join $::tke_dir doc UserGuide.epub] 1
-    }
+    utils::open_file_externally [file join $::tke_dir doc UserGuide.pdf] 1
+
+  }
+
+  ######################################################################
+  # Displays the Developer Guide.
+  proc help_devel_guide {} {
+
+    utils::open_file_externally [file join $::tke_dir doc DeveloperGuide.pdf] 1
 
   }
 
