@@ -425,15 +425,6 @@
 
 {Debug/ShowDiagnosticLogfileAtStartup} {0}
 
-# Specifies the format of the User Guide documentation that will be shown when launching the
-# Help/User Guide menu option.
-#
-# The available format types are:
-#   epub
-#   pdf
-
-{Help/UserGuideFormat}       {pdf}
-
 # Automatically generate vendor-prefixed copies of expanded CSS property.  By default,
 # Emmet will generate vendor-prefixed properties only when you put dash before
 # abbreviation (e.g. -bxsh).  With this option enabled, you don’t need dashes before

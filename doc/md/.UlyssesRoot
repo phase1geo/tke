@@ -7,6 +7,6 @@
 	<key>textFileType</key>
 	<string>Markdown</string>
 	<key>useInlineLinks</key>
-	<false/>
+	<true/>
 </dict>
 </plist>
