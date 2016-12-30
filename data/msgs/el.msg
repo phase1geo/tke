@@ -503,9 +503,6 @@ msgcat::mcmset el {
   "Edit session global preferences"
   "Επεξεργασία προτιμήσεων παγκόσμια σύνοδο"
 
-  "Edit settings sharing preferences"
-  "Επεξεργαστείτε τις ρυθμίσεις κοινής χρήσης προτιμήσεις"
-
   "Edit template"
   "Επεξεργασία Προτύπου"
 
@@ -542,17 +539,11 @@ msgcat::mcmset el {
   "Export As"
   "Εξαγωγή ως"
 
-  "Export Settings"
-  "Εξαγωγή ρυθμίσεων"
-
   "Export complete"
   "Η εξαγωγή ολοκληρώθηκε."
 
   "Export file contents"
   "Εξαγάγετε τα περιεχόμενα του αρχείου"
-
-  "Export settings data"
-  "Εξαγωγή ρυθμίσεων"
 
   "Favorite file"
   "Αγαπημένο αρχείο"
@@ -980,6 +971,9 @@ msgcat::mcmset el {
   "Paste text from clipboard"
   "Επικόλληση κειμένου από το Πρόχειρο"
 
+  "Plugin Developer Guide"
+  "Στον οδηγό για προγραμματιστές plugin"
+
   "Previous Difference"
   "Προηγούμενο Διαφορά"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset el {
 
   "Show meta characters"
   "Εμφάνιση χαρακτήρων"
+
+  "Show plugin developer guide"
+  "Προβολή στον οδηγό για προγραμματιστές plugin"
 
   "Show selected line change"
   "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
@@ -1554,6 +1551,9 @@ msgcat::mcmset el {
   "Exit the application after the last tab is closed"
   "Βγείτε από την εφαρμογή μετά το κλείσιμο της τελευταίας καρτέλας"
 
+  "Export Settings"
+  "Εξαγωγή ρυθμίσεων"
+
   "Format snippet indentation after insert"
   "Εσοχή απόσπασμα μορφή μετά από το ένθετο"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset el {
   "Set jump distance"
   "Σετ άλμα απόσταση"
 
+  "Sharing"
+  "Κοινή Χρήση"
+
   "Sharing Items"
   "Κοινή χρήση Είδη"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset el {
 
   "Use single carriage return character"
   "Χρήση ενιαίου χαρακτήρα"
-
-  "User guide format"
-  "Μορφή Οδηγός χρήστη"
 
   "Variables"
   "Μεταβλητές"
@@ -2755,9 +2755,6 @@ msgcat::mcmset el {
 
   "Sessions"
   "συνεδρίες"
-
-  "Sharing"
-  "Κοινή Χρήση"
 
   "Show console"
   "Δείχνουν κονσόλα"

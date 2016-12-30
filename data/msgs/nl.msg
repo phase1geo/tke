@@ -503,9 +503,6 @@ msgcat::mcmset nl {
   "Edit session global preferences"
   "Globale sessie-voorkeuren bewerken"
 
-  "Edit settings sharing preferences"
-  "Instellingen delen voorkeuren bewerken"
-
   "Edit template"
   "Wijzig sjabloon"
 
@@ -542,17 +539,11 @@ msgcat::mcmset nl {
   "Export As"
   "Exporteren als"
 
-  "Export Settings"
-  "Import / Export iCalendar feeds"
-
   "Export complete"
   "Export voltooid."
 
   "Export file contents"
   "De inhoud van het bestand van de uitvoer"
-
-  "Export settings data"
-  "Exporteer Instellingen"
 
   "Favorite file"
   "Favoriete bestand"
@@ -980,6 +971,9 @@ msgcat::mcmset nl {
   "Paste text from clipboard"
   "Tekst plakken vanaf het klembord"
 
+  "Plugin Developer Guide"
+  "Plugin Developer Guide"
+
   "Previous Difference"
   "Vorig verschil"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset nl {
 
   "Show meta characters"
   "Toon metakarakters"
+
+  "Show plugin developer guide"
+  "Toon de gids van de ontwikkelaar van de plugin"
 
   "Show selected line change"
   "Toon geselecteerde regel wijzigen"
@@ -1554,6 +1551,9 @@ msgcat::mcmset nl {
   "Exit the application after the last tab is closed"
   "Sluit de toepassing af na het laatste tabblad is gesloten"
 
+  "Export Settings"
+  "Import / Export iCalendar feeds"
+
   "Format snippet indentation after insert"
   "Indeling fragment inspringing na invoegen"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset nl {
   "Set jump distance"
   "Set springen afstand"
 
+  "Sharing"
+  "Delen"
+
   "Sharing Items"
   "Delen van Items"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset nl {
 
   "Use single carriage return character"
   "Gebruik één terugloopteken"
-
-  "User guide format"
-  "Gebruikersformaat gids"
 
   "Variables"
   "Variabelen"
@@ -2755,9 +2755,6 @@ msgcat::mcmset nl {
 
   "Sessions"
   "Sessies"
-
-  "Sharing"
-  "Delen"
 
   "Show console"
   "Toon console"

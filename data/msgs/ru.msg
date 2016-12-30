@@ -503,9 +503,6 @@ msgcat::mcmset ru {
   "Edit session global preferences"
   "Изменить глобальные настройки сессии"
 
-  "Edit settings sharing preferences"
-  "Изменение параметров настройки общего доступа"
-
   "Edit template"
   "Правка шаблона"
 
@@ -542,17 +539,11 @@ msgcat::mcmset ru {
   "Export As"
   "Експорт в CSV"
 
-  "Export Settings"
-  "Экспорт настроек"
-
   "Export complete"
   "Экспорт полной"
 
   "Export file contents"
   "Содержимое файла экспорта"
-
-  "Export settings data"
-  "Настройки экспорта"
 
   "Favorite file"
   "Любимый файл"
@@ -980,6 +971,9 @@ msgcat::mcmset ru {
   "Paste text from clipboard"
   "Вставка текста из буфера обмена"
 
+  "Plugin Developer Guide"
+  "Руководство разработчика плагина"
+
   "Previous Difference"
   "Предыдущая Разница"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset ru {
 
   "Show meta characters"
   "Показать символы мета"
+
+  "Show plugin developer guide"
+  "Показать руководство разработчика плагина"
 
   "Show selected line change"
   "Показать выбранные линии изменения"
@@ -1554,6 +1551,9 @@ msgcat::mcmset ru {
   "Exit the application after the last tab is closed"
   "Выход из приложения после закрытия последней вкладке"
 
+  "Export Settings"
+  "Экспорт настроек"
+
   "Format snippet indentation after insert"
   "Формат фрагмент отступа после вставки"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset ru {
   "Set jump distance"
   "Установка перехода расстояние"
 
+  "Sharing"
+  "Делимся"
+
   "Sharing Items"
   "Совместное использование элементов"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset ru {
 
   "Use single carriage return character"
   "Использовать символ возврата каретки один"
-
-  "User guide format"
-  "Формат руководство пользователя"
 
   "Variables"
   "Параметры"
@@ -2755,9 +2755,6 @@ msgcat::mcmset ru {
 
   "Sessions"
   "сессий"
-
-  "Sharing"
-  "Делимся"
 
   "Show console"
   "Показать консоль"

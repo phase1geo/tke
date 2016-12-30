@@ -503,9 +503,6 @@ msgcat::mcmset pt {
   "Edit session global preferences"
   "Editar preferências de sessão global"
 
-  "Edit settings sharing preferences"
-  "Editar as configurações de preferências Compartilhamento"
-
   "Edit template"
   "Editar"
 
@@ -542,17 +539,11 @@ msgcat::mcmset pt {
   "Export As"
   "Exportar Como"
 
-  "Export Settings"
-  "Exportar Configurações"
-
   "Export complete"
   "Exportação completa"
 
   "Export file contents"
   "Conteúdo do arquivo de exportação"
-
-  "Export settings data"
-  "Exportar Configurações"
 
   "Favorite file"
   "Arquivo favorito"
@@ -980,6 +971,9 @@ msgcat::mcmset pt {
   "Paste text from clipboard"
   "Colar da área de transferência"
 
+  "Plugin Developer Guide"
+  "Guia do desenvolvedor do plugin"
+
   "Previous Difference"
   "Diferença Anterior"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset pt {
 
   "Show meta characters"
   "Mostrar os meta caracteres"
+
+  "Show plugin developer guide"
+  "Mostrar a guia desenvolvedor de plugin"
 
   "Show selected line change"
   "Mostrar a mudança de linha selecionada"
@@ -1554,6 +1551,9 @@ msgcat::mcmset pt {
   "Exit the application after the last tab is closed"
   "Sair do aplicativo após a última aba é fechada"
 
+  "Export Settings"
+  "Exportar Configurações"
+
   "Format snippet indentation after insert"
   "Recuo de trecho formato após inserção"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset pt {
   "Set jump distance"
   "Conjunto de saltar a distância"
 
+  "Sharing"
+  "Partilha"
+
   "Sharing Items"
   "Compartilhamento de itens"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset pt {
 
   "Use single carriage return character"
   "Usar o único caractere de retorno"
-
-  "User guide format"
-  "Modelo do guia"
 
   "Variables"
   "Variáveis"
@@ -2755,9 +2755,6 @@ msgcat::mcmset pt {
 
   "Sessions"
   "Sessões"
-
-  "Sharing"
-  "Partilha"
 
   "Show console"
   "Mostrar o console"

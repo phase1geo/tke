@@ -503,9 +503,6 @@ msgcat::mcmset sv {
   "Edit session global preferences"
   "Redigera globala inställningar för session"
 
-  "Edit settings sharing preferences"
-  "Redigera inställningar för inställningspanelen Fildelning"
-
   "Edit template"
   "Redigera mall"
 
@@ -542,17 +539,11 @@ msgcat::mcmset sv {
   "Export As"
   "Exportera som"
 
-  "Export Settings"
-  "Exportera Inställningar"
-
   "Export complete"
   "Export klar."
 
   "Export file contents"
   "Exportera innehållet i filen"
-
-  "Export settings data"
-  "Exportera inställningar"
 
   "Favorite file"
   "Favorit-fil"
@@ -980,6 +971,9 @@ msgcat::mcmset sv {
   "Paste text from clipboard"
   "Klistra in text från urklipp"
 
+  "Plugin Developer Guide"
+  "Plugin utvecklare Guide"
+
   "Previous Difference"
   "Föregående skillnad"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset sv {
 
   "Show meta characters"
   "Meta tecken visas"
+
+  "Show plugin developer guide"
+  "Visa plugin Utvecklarguide"
 
   "Show selected line change"
   "Visa markerad rad förändringar"
@@ -1554,6 +1551,9 @@ msgcat::mcmset sv {
   "Exit the application after the last tab is closed"
   "Avsluta programmet när den sista fliken stängs"
 
+  "Export Settings"
+  "Exportera Inställningar"
+
   "Format snippet indentation after insert"
   "Formatet snutt indrag efter infoga"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset sv {
   "Set jump distance"
   "Uppsättning hoppa avstånd"
 
+  "Sharing"
+  "Delar"
+
   "Sharing Items"
   "Dela objekt"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset sv {
 
   "Use single carriage return character"
   "Använda enda vagnsretur"
-
-  "User guide format"
-  "Formatet user guide"
 
   "Variables"
   "Variabler"
@@ -2755,9 +2755,6 @@ msgcat::mcmset sv {
 
   "Sessions"
   "Sessioner"
-
-  "Sharing"
-  "Delar"
 
   "Show console"
   "Visa konsolen"

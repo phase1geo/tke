@@ -503,9 +503,6 @@ msgcat::mcmset hu {
   "Edit session global preferences"
   "Munkamenet globális beállítások szerkesztése"
 
-  "Edit settings sharing preferences"
-  "Megosztási beállítások-beállítások szerkesztése"
-
   "Edit template"
   "Sablon szerkesztése"
 
@@ -542,17 +539,11 @@ msgcat::mcmset hu {
   "Export As"
   "Exportálás mint"
 
-  "Export Settings"
-  "Beállítások exportálása"
-
   "Export complete"
   "Az exportálás befejeződött."
 
   "Export file contents"
   "Export fájl tartalma"
-
-  "Export settings data"
-  "BEÁLLÍTÁSOK EXPORTÁLÁSA"
 
   "Favorite file"
   "Kedvenc"
@@ -980,6 +971,9 @@ msgcat::mcmset hu {
   "Paste text from clipboard"
   "Szöveg beillesztése a vágólapról"
 
+  "Plugin Developer Guide"
+  "A plugin fejlesztő útmutató"
+
   "Previous Difference"
   "Előző különbség"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset hu {
 
   "Show meta characters"
   "Meta-karakterek megjelenítése"
+
+  "Show plugin developer guide"
+  "Térkép a plugin fejlesztő útmutató"
 
   "Show selected line change"
   "Megjelenítése a kijelölt sor módosítása"
@@ -1554,6 +1551,9 @@ msgcat::mcmset hu {
   "Exit the application after the last tab is closed"
   "Az alkalmazás bezárásáig, az utolsó lap bezárása után"
 
+  "Export Settings"
+  "Beállítások exportálása"
+
   "Format snippet indentation after insert"
   "Formátum részlet behúzás után beszúrása"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset hu {
   "Set jump distance"
   "Állítsa ugrás távolság"
 
+  "Sharing"
+  "Megosztás"
+
   "Sharing Items"
   "Megosztása tételek"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset hu {
 
   "Use single carriage return character"
   "Használ egy kocsivissza karakternek"
-
-  "User guide format"
-  "Az útmutató formátuma"
 
   "Variables"
   "Változók"
@@ -2755,9 +2755,6 @@ msgcat::mcmset hu {
 
   "Sessions"
   "Ülések"
-
-  "Sharing"
-  "Megosztás"
 
   "Show console"
   "Térkép-konzol"

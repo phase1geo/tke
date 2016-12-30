@@ -503,9 +503,6 @@ msgcat::mcmset cs {
   "Edit session global preferences"
   "Upravit globální nastavení relace"
 
-  "Edit settings sharing preferences"
-  "Upravit nastavení sdílení předvolby"
-
   "Edit template"
   "Upravit šablonu mailu"
 
@@ -542,17 +539,11 @@ msgcat::mcmset cs {
   "Export As"
   "Exportovat jako"
 
-  "Export Settings"
-  "Exportovat nastavení"
-
   "Export complete"
   "Export dokončen"
 
   "Export file contents"
   "Obsah souboru exportu"
-
-  "Export settings data"
-  "Exportovat nastavení"
 
   "Favorite file"
   "Oblíbený soubor"
@@ -980,6 +971,9 @@ msgcat::mcmset cs {
   "Paste text from clipboard"
   "Vložit text ze schránky"
 
+  "Plugin Developer Guide"
+  "Příručka pro vývojáře pluginu"
+
   "Previous Difference"
   "P?edchozí rozdíl"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset cs {
 
   "Show meta characters"
   "Zobrazit znaky meta"
+
+  "Show plugin developer guide"
+  "Zobrazit Průvodce vývojáře pluginu"
 
   "Show selected line change"
   "Zobrazit vybranou linku změnu"
@@ -1554,6 +1551,9 @@ msgcat::mcmset cs {
   "Exit the application after the last tab is closed"
   "Ukončení aplikace po zavření poslední karta"
 
+  "Export Settings"
+  "Exportovat nastavení"
+
   "Format snippet indentation after insert"
   "Odsazení fragment formát po vložení"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset cs {
   "Set jump distance"
   "Nastavit skok vzdálenosti"
 
+  "Sharing"
+  "Sdílení"
+
   "Sharing Items"
   "39 Sdílení položek"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset cs {
 
   "Use single carriage return character"
   "Použít jednotné znakem návratu"
-
-  "User guide format"
-  "Formát příručky"
 
   "Variables"
   "Proměnné"
@@ -2755,9 +2755,6 @@ msgcat::mcmset cs {
 
   "Sessions"
   "Návt?vy"
-
-  "Sharing"
-  "Sdílení"
 
   "Show console"
   "Zobrazit konzole"

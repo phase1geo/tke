@@ -503,9 +503,6 @@ msgcat::mcmset no {
   "Edit session global preferences"
   "Endre økt global"
 
-  "Edit settings sharing preferences"
-  "Rediger innstillinger for Deling-valgpanelet"
-
   "Edit template"
   "Endre Grid mal"
 
@@ -542,17 +539,11 @@ msgcat::mcmset no {
   "Export As"
   "Eksporter som..."
 
-  "Export Settings"
-  "Eksporter innstillinger"
-
   "Export complete"
   "Eksporten er fullført"
 
   "Export file contents"
   "Eksportere innholdet"
-
-  "Export settings data"
-  "Eksportinnstillinger"
 
   "Favorite file"
   "Favoritt-filen"
@@ -980,6 +971,9 @@ msgcat::mcmset no {
   "Paste text from clipboard"
   "Lime inn tekst fra utklippstavlen"
 
+  "Plugin Developer Guide"
+  "Plugin utvikler Guide"
+
   "Previous Difference"
   "Tidligere forskjellen"
 
@@ -1204,6 +1198,9 @@ msgcat::mcmset no {
 
   "Show meta characters"
   "Viser meta tegn"
+
+  "Show plugin developer guide"
+  "Vis plugin utvikler guide"
 
   "Show selected line change"
   "Vis valgte linjen endring"
@@ -1554,6 +1551,9 @@ msgcat::mcmset no {
   "Exit the application after the last tab is closed"
   "Avslutt programmet etter den siste fanen er lukket"
 
+  "Export Settings"
+  "Eksporter innstillinger"
+
   "Format snippet indentation after insert"
   "Formatet tekstutdrag innrykk etter sett inn"
 
@@ -1680,6 +1680,9 @@ msgcat::mcmset no {
   "Set jump distance"
   "Sett hoppe avstand"
 
+  "Sharing"
+  "Plassering av knapper for sosiale medier."
+
   "Sharing Items"
   "Delt elementer"
 
@@ -1784,9 +1787,6 @@ msgcat::mcmset no {
 
   "Use single carriage return character"
   "Bruk enkelt returtegn"
-
-  "User guide format"
-  "Brukeren vifteformat"
 
   "Variables"
   "Variabler"
@@ -2755,9 +2755,6 @@ msgcat::mcmset no {
 
   "Sessions"
   "Sessions"
-
-  "Sharing"
-  "Plassering av knapper for sosiale medier."
 
   "Show console"
   "Vise konsoll"
