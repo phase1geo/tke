@@ -272,7 +272,7 @@ proc generate_macosx_dmg {tag} {
   puts -nonewline "Generating MacOSX disk image...  "; flush stdout
 
   # Create the disk image using the hdiutil command-line utility
-  if {[catch { exec -ignorestderr ./dmg.sh $release_dir } rc]} {
+  if {[catch { exec -ignorestderr dmgcanvas [file join $release_dir MacOSX TKE.dmgCanvas] $release_dir.dmg } rc]} {
     puts "failed!"
     puts "  $rc"
     file delete -force $release_dir
