@@ -138,7 +138,7 @@ namespace eval fontchooser {
     }
 
     array set F [font actual $defaultFont]
-    
+
     set data($w,font)   $F(-family)
     set data($w,size)   $F(-size)
     set data($w,strike) $F(-overstrike)
@@ -216,7 +216,7 @@ namespace eval fontchooser {
     variable data
 
     lassign [split $var2 ,] w var
-    
+
     # Clear the selection
     $w.l${var}s selection clear 0 end
 
@@ -227,10 +227,10 @@ namespace eval fontchooser {
         return
       }
     }
-    
+
     # Set the value
     set data($w,$var) [lindex $data($w,${var}s) $n]
-    
+
     # Update the UI
     $w.e$var icursor end
     $w.e$var selection clear

@@ -47,12 +47,12 @@ proc sockreceive {channel} {
     socksendDebug "READ: $line"
     append SockData($channel,Command) $line\n
     if {[info complete $SockData($channel,Command)]} {
-      # processData might not return quickly - if 
+      # processData might not return quickly - if
       # there is a vwait in the command invoked, for instance.
       #  Must clear that data buffer before invoking this to avoid
       # multiple copies of the command being invoked.
 
-      set data $SockData($channel,Command) 
+      set data $SockData($channel,Command)
       set SockData($channel,Command) ""
       processData $data
     }
@@ -66,7 +66,7 @@ proc processData {data} {
       #  code in a low level function, but there's no good way
       #  to pass the error condition back up to application code
       #  from a function invoked from the event loop.
-      socksendDebug "ERROR: $data \n  Rtn: $rtn" 
+      socksendDebug "ERROR: $data \n  Rtn: $rtn"
       # RemoteMsgToUser "ERROR: $data \n  Rtn: $rtn" high
   }
 }
@@ -107,7 +107,7 @@ proc socksendopen {id port {host localhost}} {
 
 proc socksend {args} {
 
-    global ReplayData 
+    global ReplayData
     global SockData
 
     if {[info exists ReplayData(RecordingOn)] &&
@@ -121,7 +121,7 @@ proc socksend {args} {
     lassign $args key val
     set key [concat {*}$key]
     socksendDebug "SOCKSEND: $args -- $key -- $val"
-    if {([string first Destroy $val]  > 0) && 
+    if {([string first Destroy $val]  > 0) &&
         ([string first "MsgToU" $val] < 0)} {
         if {![string equal "" [info procs whereAmI-Client]]} {
 	  whereAmI-Client
@@ -129,7 +129,7 @@ proc socksend {args} {
     }
     socksendDebug "SOCKSEND: puts $SockData($key,channel) '$val'"
     puts $SockData($key,channel) $val
-    flush $SockData($key,channel) 
+    flush $SockData($key,channel)
 }
 
 proc GetUniqueSocketId {} {

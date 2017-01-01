@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1462,7 +1462,7 @@ namespace eval themer {
     # Get the swatches and clear the list
     set colors [theme::swatch_do get]
     theme::swatch_do clear
-    
+
     # Insert the swatches
     foreach color $colors {
       add_swatch $color
@@ -1525,7 +1525,7 @@ namespace eval themer {
 
     # Add the swatch
     theme::swatch_do append $color
-    
+
     # Insert the value into the swatch list
     if {$orig_color eq ""} {
       set_theme_modified

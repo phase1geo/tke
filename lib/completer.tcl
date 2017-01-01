@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -438,7 +438,7 @@ namespace eval completer {
   ######################################################################
   # Checks all of the matches.
   proc check_all_brackets {txtt args} {
-    
+
     array set opts {
       -string ""
       -force  0
@@ -502,7 +502,7 @@ namespace eval completer {
     set other   ${stype}R
     set olist   [lassign [$txtt tag ranges _$other] ofirst olast]
     set missing [list]
-    
+
     # Perform count for all code containing left stypes
     foreach {sfirst slast} [$txtt tag ranges _${stype}L] {
       while {($ofirst ne "") && [$txtt compare $sfirst > $ofirst]} {
@@ -533,7 +533,7 @@ namespace eval completer {
       set start [ctext::get_next_bracket $txtt ${stype}L $start]
       incr count -1
     }
-    
+
     # Highlight all brackets that are missing left stypes
     catch { $txtt tag add missing:$stype {*}$missing }
 
