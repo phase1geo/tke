@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -1241,7 +1241,7 @@ namespace eval theme {
   proc swatch_do {action args} {
 
     variable data
-    
+
     switch $action {
       get     { return $data(swatch) }
       set     { lset data(swatch) [lindex $args 0] [lindex $args 1] }

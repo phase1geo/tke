@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -202,7 +202,7 @@ namespace eval scroller {
   proc position_slider {W x y motion} {
 
     variable data
-    
+
     if {$data($W,-command) ne ""} {
 
       # Indicate that we are pressed
@@ -244,7 +244,7 @@ namespace eval scroller {
   proc enter {W} {
 
     variable data
-    
+
     set data(after_id) [after 300 scroller::expand_slider $W]
 
   }
@@ -254,7 +254,7 @@ namespace eval scroller {
   proc leave {W x y} {
 
     variable data
-    
+
     # If this isn't a real leave event (i.e., due to mouse clicking), don't collpase the slider
     if {($x >= 0) && ($x < [winfo width $W]) && ($y >= 0) && ($y < [winfo height $W])} {
       return
@@ -340,7 +340,7 @@ namespace eval scroller {
   proc configure {win} {
 
     variable data
-    
+
     # Remove all canvas items
     $data($win,canvas) delete all
 
@@ -363,7 +363,7 @@ namespace eval scroller {
   proc update_markers {win} {
 
     variable data
-    
+
     # Get the lines
     set height [winfo height $win]
 
