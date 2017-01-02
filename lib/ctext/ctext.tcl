@@ -627,7 +627,7 @@ proc ctext::inCommentString {win index} {
 
 }
 
-proc ctext::inCommentStringPrangeHelper {win index pattern prange} {
+proc ctext::inCommentStringRangeHelper {win index pattern prange} {
 
   if {[set curr_tag [lsearch -inline -glob [$win tag names $index] $pattern]] ne ""} {
     upvar 2 $prange range
@@ -639,51 +639,51 @@ proc ctext::inCommentStringPrangeHelper {win index pattern prange} {
 
 }
 
-proc ctext::inLineCommentPrange {win index prange} {
+proc ctext::inLineCommentRange {win index prange} {
 
-  return [inCommentStringPrangeHelper $win $index _comstr1l $prange]
-
-}
-
-proc ctext::inBlockCommentPrange {win index prange} {
-
-  return [inCommentStringPrangeHelper $win $index _comstr1c* $prange]
+  return [inCommentStringRangeHelper $win $index _comstr1l $prange]
 
 }
 
-proc ctext::inCommentPrange {win index prange} {
+proc ctext::inBlockCommentRange {win index prange} {
 
-  return [inCommentStringPrangeHelper $win $index _comstr1* $prange]
-
-}
-
-proc ctext::inBackTickPrange {win index prange} {
-
-  return [inCommentStringPrangeHelper $win $index _comstr0b* $prange]
+  return [inCommentStringRangeHelper $win $index _comstr1c* $prange]
 
 }
 
-proc ctext::inSingleQuotePrange {win index prange} {
+proc ctext::inCommentRange {win index prange} {
 
-  return [inCommentStringPrangeHelper $win $index _comstr0s* $prange]
-
-}
-
-proc ctext::inDoubleQuotePrange {win index prange} {
-
-  return [inCommentStringPrangeHelper $win $index _comstr0d* $prange]
+  return [inCommentStringRangeHelper $win $index _comstr1* $prange]
 
 }
 
-proc ctext::inStringPrange {win index prange} {
+proc ctext::inBackTickRange {win index prange} {
 
-  return [inCommentStringPrangeHelper $win $index _comstr0* $prange]
+  return [inCommentStringRangeHelper $win $index _comstr0b* $prange]
 
 }
 
-proc ctext::inCommentStringPrange {win index prange} {
+proc ctext::inSingleQuoteRange {win index prange} {
 
-  return [inCommentStringPrangeHelper $win $index _comstr* $prange]
+  return [inCommentStringRangeHelper $win $index _comstr0s* $prange]
+
+}
+
+proc ctext::inDoubleQuoteRange {win index prange} {
+
+  return [inCommentStringRangeHelper $win $index _comstr0d* $prange]
+
+}
+
+proc ctext::inStringRange {win index prange} {
+
+  return [inCommentStringRangeHelper $win $index _comstr0* $prange]
+
+}
+
+proc ctext::inCommentStringRange {win index prange} {
+
+  return [inCommentStringRangeHelper $win $index _comstr* $prange]
 
 }
 

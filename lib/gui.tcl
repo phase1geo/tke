@@ -5338,7 +5338,7 @@ namespace eval gui {
     set pos       [$txt index [expr {($dir eq "-forwards") ? "$startpos+1c" : $startpos}]]
 
     # Calculate the endpos
-    if {[set incomstr [ctext::inCommentString $txt $pos srange]]} {
+    if {[set incomstr [ctext::inCommentStringRange $txt $pos srange]]} {
       if {$dir eq "-forwards"} {
         set endpos [lindex $srange 1]
       } else {
