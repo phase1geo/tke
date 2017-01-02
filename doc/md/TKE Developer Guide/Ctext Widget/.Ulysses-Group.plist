@@ -256,84 +256,84 @@
 					<integer>14</integer>
 				</dict>
 			</dict>
-			<key>inBlockComment.textbundle</key>
+			<key>inBackTick - inBackTickRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779714.72393602</real>
+				<real>505031751.94289899</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>16</integer>
+					<integer>55</integer>
 				</dict>
 			</dict>
-			<key>inComment.textbundle</key>
+			<key>inBlockComment - inBlockCommentRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779714.75431198</real>
+				<real>505031250.26626199</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>17</integer>
+					<integer>38</integer>
 				</dict>
 			</dict>
-			<key>inCommentString.textbundle</key>
+			<key>inComment - inCommentRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779714.80361301</real>
+				<real>505031314.04740798</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>18</integer>
+					<integer>40</integer>
 				</dict>
 			</dict>
-			<key>inDoubleQuote.textbundle</key>
+			<key>inCommentString - inCommentStringRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779714.85565299</real>
+				<real>505031369.08487099</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>19</integer>
+					<integer>42</integer>
 				</dict>
 			</dict>
-			<key>inLineComment.textbundle</key>
+			<key>inDoubleQuote - inDoubleQuoteRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779714.90883398</real>
+				<real>505031421.221699</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>20</integer>
+					<integer>44</integer>
 				</dict>
 			</dict>
-			<key>inSingleQuote.textbundle</key>
+			<key>inLineComment - inLineCommentRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779714.96052003</real>
+				<real>505031499.32758802</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>21</integer>
+					<integer>46</integer>
 				</dict>
 			</dict>
-			<key>inString.textbundle</key>
+			<key>inSingleQuote - inSingleQuoteRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779715.01264602</real>
+				<real>505031560.82220298</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>22</integer>
+					<integer>48</integer>
 				</dict>
 			</dict>
-			<key>inTripleQuote.textbundle</key>
+			<key>inString - inStringRange.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779715.06607902</real>
+				<real>505031614.22619802</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>23</integer>
+					<integer>50</integer>
 				</dict>
 			</dict>
 			<key>insert.textbundle</key>
@@ -413,28 +413,28 @@
 			<string>insert.textbundle</string>
 		</array>
 		<array>
-			<string>inBlockComment.textbundle</string>
+			<string>inBackTick - inBackTickRange.textbundle</string>
 		</array>
 		<array>
-			<string>inComment.textbundle</string>
+			<string>inBlockComment - inBlockCommentRange.textbundle</string>
 		</array>
 		<array>
-			<string>inCommentString.textbundle</string>
+			<string>inComment - inCommentRange.textbundle</string>
 		</array>
 		<array>
-			<string>inDoubleQuote.textbundle</string>
+			<string>inCommentString - inCommentStringRange.textbundle</string>
 		</array>
 		<array>
-			<string>inLineComment.textbundle</string>
+			<string>inDoubleQuote - inDoubleQuoteRange.textbundle</string>
 		</array>
 		<array>
-			<string>inSingleQuote.textbundle</string>
+			<string>inLineComment - inLineCommentRange.textbundle</string>
 		</array>
 		<array>
-			<string>inString.textbundle</string>
+			<string>inSingleQuote - inSingleQuoteRange.textbundle</string>
 		</array>
 		<array>
-			<string>inTripleQuote.textbundle</string>
+			<string>inString - inStringRange.textbundle</string>
 		</array>
 		<array>
 			<string>isEscaped.textbundle</string>
@@ -486,7 +486,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>37</integer>
+			<integer>55</integer>
 		</dict>
 	</dict>
 </dict>
