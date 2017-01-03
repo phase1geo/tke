@@ -27,8 +27,7 @@ proc ::tk::TextSetCursor {w pos args} {
 proc ctext {win args} {
 
   if {[llength $args] & 1} {
-    return -code error \
-    "invalid number of arguments given to ctext (uneven number after window) : $args"
+    return -code error "Invalid number of arguments given to ctext (uneven number after window) : $args"
   }
 
   frame $win -class Ctext ;# -padx 1 -pady 1
@@ -575,7 +574,9 @@ proc ctext::setCommentRE {win} {
 
 proc ctext::inCommentStringHelper {win index pattern} {
 
-  return [expr [lsearch -glob [$win tag names $index] $pattern] != -1]
+  set names [$win tag names $index]
+  return [expr {[string map [list $pattern {}] $names] ne $names}]
+  # return [expr [lsearch -glob [$win tag names $index] $pattern] != -1]
 
 }
 
@@ -593,37 +594,37 @@ proc ctext::inBlockComment {win index} {
 
 proc ctext::inComment {win index} {
 
-  return [inCommentStringHelper $win $index _comstr1*]
+  return [inCommentStringHelper $win $index _comstr1]
 
 }
 
 proc ctext::inBackTick {win index} {
 
-  return [inCommentStringHelper $win $index _comstr0b*]
+  return [inCommentStringHelper $win $index _comstr0b]
 
 }
 
 proc ctext::inSingleQuote {win index} {
 
-  return [inCommentStringHelper $win $index _comstr0s*]
+  return [inCommentStringHelper $win $index _comstr0s]
 
 }
 
 proc ctext::inDoubleQuote {win index} {
 
-  return [inCommentStringHelper $win $index _comstr0d*]
+  return [inCommentStringHelper $win $index _comstr0d]
 
 }
 
 proc ctext::inString {win index} {
 
-  return [inCommentStringHelper $win $index _comstr0*]
+  return [inCommentStringHelper $win $index _comstr0]
 
 }
 
 proc ctext::inCommentString {win index} {
 
-  return [inCommentStringHelper $win $index _comstr*]
+  return [inCommentStringHelper $win $index _comstr]
 
 }
 
@@ -726,7 +727,9 @@ proc ctext::set_border_color {win color} {
 # Returns 1 if the character at the given index is escaped; otherwise, returns 0.
 proc ctext::isEscaped {win index} {
 
-  return [expr {[lsearch [$win tag names $index-1c] _escape] != -1}]
+  set names [$win tag names $index-1c]
+
+  return [expr {[string map {_escape {}} $names] ne $names}]
 
 }
 
@@ -2433,6 +2436,7 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
 
   array set csl_array $data($win,config,csl_array)
 
+  # Delete all of the tags not associated with comments and strings that we created
   foreach tag [$win._t tag names] {
     if {([string index $tag 0] eq "_") && ![info exists csl_array($tag)]} {
       $win._t tag remove $tag {*}$lineranges
@@ -2452,26 +2456,35 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   }
   lappend ranges $laststart $lastend
 
+  # Tag escapes and prewhite characters
   foreach {linestart lineend} $ranges {
-    ctext::escapes $win $linestart $lineend
+    ctext::escapes  $win $linestart $lineend
+    ctext::prewhite $win $linestart $lineend
   }
+
+  # Tag comments and strings
   set all [ctext::comments $win $ranges $do_tag]
+
+  # Update the language backgrounds for embedded languages
   ctext::updateLangBackgrounds $win
 
+  # Highlight ranges - we don't care about comments/strings
+  foreach {linestart lineend} $ranges {
+    ctext::highlight $win $linestart $lineend $ins
+  }
+
+  # Create brackets and indentation tags
   if {$all} {
-    foreach tag [$win._t tag names] {
-      if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
-        $win._t tag remove $tag [lindex $lineranges 1] end
-      }
+    foreach tag [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR _indent0 _indent1 _unindent0 _unindent1 _reindent0 _reindent1 _reindentStart0 _reindentStart1] {
+      $win._t tag remove $tag [lindex $lineranges 1] end
     }
     ctext::brackets    $win [lindex $lineranges 0] end
     ctext::indentation $win [lindex $lineranges 0] end
-    ctext::highlight   $win [lindex $lineranges 0] end $ins
+    event generate $win.t <<StringCommentChanged>>
   } else {
     foreach {linestart lineend} $ranges {
       ctext::brackets    $win $linestart $lineend
       ctext::indentation $win $linestart $lineend
-      ctext::highlight   $win $linestart $lineend $ins
     }
   }
 
@@ -2663,9 +2676,10 @@ proc ctext::comments {win ranges do_tags} {
   }
 
   # Indicate the the string/comment status may have changed for anyone interested
-  event generate $win.t <<StringCommentChanged>>
+  # event generate $win.t <<StringCommentChanged>>
 
-  return [expr {[llength [array names tag_changed _Lang*:*]] > 0}]
+  # return [expr {[llength [array names tag_changed _Lang*:*]] > 0}]
+  return 1
 
 }
 
@@ -2720,25 +2734,37 @@ proc ctext::brackets {twin start end} {
 
   # Handle special character matching
   foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-    if {![inCommentString $twin $res] && \
-        ![isEscaped $twin $res] && \
-        [info exists data($twin,config,matchChar,[get_lang $twin $res],$bracket_map2([set char [$twin get $res]]))]} {
-      $twin tag add _$bracket_map($char) $res
+    lappend indices(_$bracket_map([$twin get $res]),[get_lang $twin $res],[expr [inCommentString $twin $res] || [isEscaped $twin $res]]) $res "$res+1c"
+  }
+
+  foreach key [array names indices *,*,0] {
+    lassign [split $key ,] tag lang
+    if {[info exists data($twin,config,matchChar,$lang,[string range $tag 1 end-1])]} {
+      $twin tag add $tag {*}$indices($key)
     }
   }
+
+}
+
+# This procedure tags all of the whitespace from the beginning of a line.  This
+# must be called prior to invoking the ctext::indentation procedure.
+proc ctext::prewhite {twin start end} {
+
+  # Add prewhite tags
+  set i       0
+  set indices [list]
+  foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
+    lappend indices $res "$res+[lindex $lengths $i]c"
+    incr i
+  }
+
+  catch { $twin tag add _prewhite {*}$indices }
 
 }
 
 proc ctext::indentation {twin start end} {
 
   variable data
-
-  # Add prewhite tags
-  set i 0
-  foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
-    $twin tag add _prewhite $res "$res+[lindex $lengths $i]c"
-    incr i
-  }
 
   # Add indentation
   foreach key [array names data $twin,config,indentation,*,*] {
