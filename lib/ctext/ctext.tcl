@@ -1684,6 +1684,8 @@ proc ctext::command_peer {win args} {
 # that it won't be placed lower than an embedded language tag.
 proc ctext::command_tag {win args} {
 
+  variable range_cache
+
   switch [lindex $args 0] {
     lower {
       set args [lassign $args subcmd tag]
@@ -1769,13 +1771,13 @@ proc ctext::command_tag {win args} {
           lassign [$win._t tag nextrange $tag {*}$args] s e
           while {($s ne "") && ([inCommentString $win $s] || [isEscaped $win $s])} {
             lset args 0 $e
-            lassign [$win._t tag nextrange $tag $s] s e
+            lassign [$win._t tag nextrange $tag {*}$args] s e
           }
         } else {
           lassign [$win._t tag prevrange $tag {*}$args] s e
           while {($s ne "") && ([inCommentString $win $s] || [isEscaped $win $s])} {
             lset args 0 $s
-            lassign [$win._t tag prevrange $tag $s] s e
+            lassign [$win._t tag prevrange $tag {*}$args] s e
           }
         }
         if {$s eq ""} {
@@ -1791,13 +1793,15 @@ proc ctext::command_tag {win args} {
       set tag          [lindex $args 1]
       set bracket_tags [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR]
       if {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
-        set indices [list]
-        foreach {s e} [$win._t tag ranges $tag] {
-          if {![inCommentString $win $s] && ![isEscaped $win $s]} {
-            lappend indices $s $e
+        if {![info exists range_cache($win,$tag)]} {
+          set range_cache($win,$tag) [list]
+          foreach {s e} [$win._t tag ranges $tag] {
+            if {![inCommentString $win $s] && ![isEscaped $win $s]} {
+              lappend range_cache($win,$tag) $s $e
+            }
           }
         }
-        return $indices
+        return $range_cache($win,$tag)
       } else {
         return [$win._t tag ranges $tag]
       }
@@ -2490,6 +2494,7 @@ proc ctext::setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} 
 proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
 
   variable data
+  variable range_cache
 
   array set csl_array $data($win,config,csl_array)
 
@@ -2499,6 +2504,9 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
       $win._t tag remove $tag {*}$lineranges
     }
   }
+
+  # Clear the caches
+  array unset range_cache $win,*
 
   # Group the ranges to remove as much regular expression text searching as possible
   set ranges    [list]
