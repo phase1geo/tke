@@ -1714,10 +1714,33 @@ proc ctext::command_tag {win args} {
     }
     nextrange -
     prevrange {
-      set args [lassign $args subcmd tag]
-      if {($tag eq "_indent") || ($tag eq "_unindent") || ($tag eq "_reindent") || ($tag eq "_reindentStart")} {
-        lassign [$win._t tag $subcmd ${tag}0 {*}$args] s0 e0
-        lassign [$win._t tag $subcmd ${tag}1 {*}$args] s1 e1
+      set args         [lassign $args subcmd tag]
+      set indent_tags  [list _indent _unindent _reindent _reindentStart]
+      set bracket_tags [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR]
+      if {[string map [list $tag {}] $indent_tags] ne $indent_tags} {
+        if {$subcmd eq "nextrange"} {
+          lassign [$win._t tag nextrange ${tag}0 {*}$args] s0 e0
+          while {($s0 ne "") && ([inCommentString $win $s0] || [isEscaped $win $s0])} {
+            lset args 0 $e0
+            lassign [$win._t tag nextrange ${tag}0 {*}$args] s0 e0
+          }
+          lassign [$win._t tag nextrange ${tag}1 {*}$args] s1 e1
+          while {($s1 ne "") && ([inCommentString $win $s1] || [isEscaped $win $s1])} {
+            lset args 0 $e1
+            lassign [$win._t tag nextrange ${tag}0 {*}$args] s1 e1
+          }
+        } else {
+          lassign [$win._t tag prevrange ${tag}0 {*}$args] s0 e0
+          while {($s0 ne "") && ([inCommentString $win $s0] || [isEscaped $win $s0])} {
+            lset args 0 $s0
+            lassign [$win._t tag prevrange ${tag}0 {*}$args] s0 e0
+          }
+          lassign [$win._t tag prevrange ${tag}1 {*}$args] s1 e1
+          while {($s1 ne "") && ([inCommentString $win $s1] || [isEscaped $win $s1])} {
+            lset args 0 $s1
+            lassign [$win._t tag prevrange ${tag}0 {*}$args] s1 e1
+          }
+        }
         if {$s0 eq ""} {
           if {$s1 eq ""} {
             return ""
@@ -1741,8 +1764,42 @@ proc ctext::command_tag {win args} {
             }
           }
         }
+      } elseif {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
+        if {$subcmd eq "nextrange"} {
+          lassign [$win._t tag nextrange $tag {*}$args] s e
+          while {($s ne "") && ([inCommentString $win $s] || [isEscaped $win $s])} {
+            lset args 0 $e
+            lassign [$win._t tag nextrange $tag $s] s e
+          }
+        } else {
+          lassign [$win._t tag prevrange $tag {*}$args] s e
+          while {($s ne "") && ([inCommentString $win $s] || [isEscaped $win $s])} {
+            lset args 0 $s
+            lassign [$win._t tag prevrange $tag $s] s e
+          }
+        }
+        if {$s eq ""} {
+          return ""
+        } else {
+          return [list $s $e]
+        }
       } else {
         return [$win._t tag $subcmd $tag {*}$args]
+      }
+    }
+    ranges {
+      set tag          [lindex $args 1]
+      set bracket_tags [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR]
+      if {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
+        set indices [list]
+        foreach {s e} [$win._t tag ranges $tag] {
+          if {![inCommentString $win $s] && ![isEscaped $win $s]} {
+            lappend indices $s $e
+          }
+        }
+        return $indices
+      } else {
+        return [$win._t tag ranges $tag]
       }
     }
     default {
@@ -2468,24 +2525,14 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   # Update the language backgrounds for embedded languages
   ctext::updateLangBackgrounds $win
 
-  # Highlight ranges - we don't care about comments/strings
   foreach {linestart lineend} $ranges {
-    ctext::highlight $win $linestart $lineend $ins
+    ctext::brackets    $win $linestart $lineend
+    ctext::indentation $win $linestart $lineend
+    ctext::highlight   $win $linestart $lineend $ins
   }
 
-  # Create brackets and indentation tags
   if {$all} {
-    foreach tag [list _curlyL _curlyR _squareL _squareR _parenL _parenR _angledL _angledR _indent0 _indent1 _unindent0 _unindent1 _reindent0 _reindent1 _reindentStart0 _reindentStart1] {
-      $win._t tag remove $tag [lindex $lineranges 1] end
-    }
-    ctext::brackets    $win [lindex $lineranges 0] end
-    ctext::indentation $win [lindex $lineranges 0] end
     event generate $win.t <<StringCommentChanged>>
-  } else {
-    foreach {linestart lineend} $ranges {
-      ctext::brackets    $win $linestart $lineend
-      ctext::indentation $win $linestart $lineend
-    }
   }
 
 }
@@ -2734,10 +2781,10 @@ proc ctext::brackets {twin start end} {
 
   # Handle special character matching
   foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-    lappend indices(_$bracket_map([$twin get $res]),[get_lang $twin $res],[expr [inCommentString $twin $res] || [isEscaped $twin $res]]) $res "$res+1c"
+    lappend indices(_$bracket_map([$twin get $res]),[get_lang $twin $res]) $res "$res+1c"
   }
 
-  foreach key [array names indices *,*,0] {
+  foreach key [array names indices] {
     lassign [split $key ,] tag lang
     if {[info exists data($twin,config,matchChar,$lang,[string range $tag 1 end-1])]} {
       $twin tag add $tag {*}$indices($key)
@@ -2772,15 +2819,13 @@ proc ctext::indentation {twin start end} {
     set lang  [lindex $elems 3]
     set type  [lindex $elems 4]
     set i     0
-    array set indices {0 {} 1 {}}
+    array unset indices
     foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
-      if {![inCommentString $twin $res] && ![isEscaped $twin $res] && ([get_lang $twin $res] eq $lang)} {
-        lappend indices([expr $i & 1]) $res "$res+[lindex $lengths $i]c"
-      }
+      lappend indices([expr $i & 1],[get_lang $twin $res]) $res "$res+[lindex $lengths $i]c"
       incr i
     }
     foreach i {0 1} {
-      catch { $twin tag add _$type$i {*}$indices($i) }
+      catch { $twin tag add _$type$i {*}$indices($i,$lang) }
     }
   }
 
