@@ -304,6 +304,7 @@ proc run_specl {type major minor point release_notes release_type} {
 
   # Setup specl arguments
   append specl_cmd " -n $version -r $release_type -d [file normalize [file join ~ projects releases]]"
+  append specl_cmd " -u t1738912rw -p YFXrYWmEb6CitRkm"
 
   if {$type eq "edit"} {
 
