@@ -57,6 +57,7 @@ wm withdraw .
 set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib tablelist5.16] \
                     [file join $tke_dir lib ptwidgets1.2] \
+                    [file join $tke_dir lib specl] \
                     [file join $tke_dir lib webdav] \
                     {*}$auto_path]
 
@@ -425,9 +426,9 @@ if {[catch {
   # If we need to check for updates on start, do that now
   if {[preferences::get General/UpdateCheckOnStart]} {
     if {[preferences::get General/UpdateReleaseType] eq "devel"} {
-      specl::check_for_update 1 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL]
+      specl::check_for_update 1 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL] -title [msgcat::mc "TKE Updater"]
     } else {
-      specl::check_for_update 1 $specl::RTYPE_STABLE
+      specl::check_for_update 1 $specl::RTYPE_STABLE -title [msgcat::mc "TKE Updater"]
     }
   }
 

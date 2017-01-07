@@ -3168,9 +3168,9 @@ namespace eval menus {
   proc check_for_update {} {
 
     if {[preferences::get General/UpdateReleaseType] eq "devel"} {
-      specl::check_for_update 0 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL] {} menus::exit_cleanup
+      specl::check_for_update 0 [expr $specl::RTYPE_STABLE | $specl::RTYPE_DEVEL] -title [msgcat::mc "TKE Updater"] -cleanup_script menus::exit_cleanup
     } else {
-      specl::check_for_update 0 $specl::RTYPE_STABLE {} menus::exit_cleanup
+      specl::check_for_update 0 $specl::RTYPE_STABLE -title [msgcat::mc "TKE Updater"] -cleanup_script menus::exit_cleanup
     }
 
   }
