@@ -1,176 +1,73 @@
-2016-12-31 00:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (207626eda163 [devel-2.8.12])
+2017-01-02 23:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d021be656921 [devel-2.8.13])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.8.12 release
+	ChangeLog for devel-2.8.13 release
 
-2016-12-31 00:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4c6a1cdf63ab)
+2017-01-02 23:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (71ed5782bbb6)
 
 	* .hgtags:
-	Added tag devel-2.8.12 for changeset 207626eda163
+	Added tag devel-2.8.13 for changeset d021be656921
 
-2017-01-01 13:33 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (13215d340c16)
+2017-01-05 20:38 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (022f28fdff6f)
 
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Removing debug output.
+	* lib/version.tcl, release.tcl:
+	* Checkpointing work on release script.
 
-2017-01-01 13:44 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (28084c74f476)
+2017-01-07 01:14 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4b6bfbe18d65 [tip])
 
-	* install.tcl, lib/api.tcl, lib/bgproc.tcl, lib/bindings.tcl,
-	lib/bist.tcl, lib/bitmap.tcl, lib/cliphist.tcl, lib/commit.tcl,
-	lib/completer.tcl, lib/diff.tcl, lib/edit.tcl, lib/embed_tke.tcl,
-	lib/emmet.tcl, lib/emmet_css.tcl, lib/emmet_lexer.fcl,
-	lib/emmet_parser.tac, lib/favorites.tcl, lib/files.tcl,
-	lib/folding.tcl, lib/fontchooser.tcl, lib/format_lexer.fcl,
-	lib/format_parser.tac, lib/ftp_wrapper.tcl, lib/gui.tcl,
-	lib/indent.tcl, lib/interpreter.tcl, lib/lang.tcl, lib/launcher.tcl,
-	lib/logger.tcl, lib/markers.tcl, lib/menus.tcl, lib/multicursor.tcl,
-	lib/ns.tcl, lib/plugins.tcl, lib/pref_ui.tcl, lib/preferences.tcl,
-	lib/remote.tcl, lib/restart.tcl, lib/scroller.tcl, lib/search.tcl,
-	lib/sessions.tcl, lib/share.tcl, lib/sidebar.tcl,
-	lib/snip_lexer.fcl, lib/snip_parser.tac, lib/snippets.tcl,
-	lib/socksend.tcl, lib/startup.tcl, lib/syntax.tcl,
-	lib/templates.tcl, lib/theme.tcl, lib/themer.tcl, lib/themes.tcl,
-	lib/tke.tcl, lib/tkedat.tcl, lib/utils.tcl, lib/version.tcl,
-	lib/vim.tcl, release.tcl:
-	* Updating Copyright information.
-
-2017-01-01 22:52 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7a94e56bc216)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Optimizing comment/string checking.
-
-2017-01-02 00:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c9c55173b308)
-
-	* lib/ctext/ctext.tcl, lib/gui.tcl, lib/version.tcl:
-	* Changing names of some ctext procedures.
-	* Fixing issue with call to inCommentString when it should be
-	inCommentStringRange.
-
-2017-01-02 00:37 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (14ac7b8e5a3d)
-
-	* doc/md/.Ulysses-favorites.plist, doc/md/TKE Developer Guide/Ctext
-	Widget/.Ulysses-Group.plist, lib/version.tcl:
-	* Updating development guide.
-
-2017-01-02 00:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d98d01e2ab78)
-
-	* doc/md/TKE Developer Guide/Ctext Widget/inBackTick -
-	inBackTickRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inBackTick - inBackTickRange.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext Widget/inBlockComment -
-	inBlockCommentRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inBlockComment -
-	inBlockCommentRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inComment - inCommentRange.textbundle/info.json,
-	doc/md/TKE Developer Guide/Ctext Widget/inComment -
-	inCommentRange.textbundle/text.md, doc/md/TKE Developer Guide/Ctext
-	Widget/inCommentString - inCommentStringRange.textbundle/info.json,
-	doc/md/TKE Developer Guide/Ctext Widget/inCommentString -
-	inCommentStringRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inDoubleQuote -
-	inDoubleQuoteRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inDoubleQuote -
-	inDoubleQuoteRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inLineComment -
-	inLineCommentRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inLineComment -
-	inLineCommentRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inSingleQuote -
-	inSingleQuoteRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inSingleQuote -
-	inSingleQuoteRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inString - inStringRange.textbundle/info.json,
-	doc/md/TKE Developer Guide/Ctext Widget/inString -
-	inStringRange.textbundle/text.md: new file.
-	* doc/md/TKE Developer Guide/Ctext
-	Widget/inBlockComment.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inBlockComment.textbundle/text.md, doc/md/TKE
-	Developer Guide/Ctext Widget/inComment.textbundle/info.json,
-	doc/md/TKE Developer Guide/Ctext
-	Widget/inComment.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inCommentString.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inCommentString.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext
-	Widget/inDoubleQuote.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inDoubleQuote.textbundle/text.md, doc/md/TKE
-	Developer Guide/Ctext Widget/inLineComment.textbundle/info.json,
-	doc/md/TKE Developer Guide/Ctext
-	Widget/inLineComment.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inSingleQuote.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inSingleQuote.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext
-	Widget/inString.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inString.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inTripleQuote.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inTripleQuote.textbundle/text.md:
-	deleted file.
-	* doc/md/TKE Developer Guide/Ctext Widget/inBackTick -
-	inBackTickRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inBackTick - inBackTickRange.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext Widget/inBlockComment -
-	inBlockCommentRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inBlockComment -
-	inBlockCommentRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inBlockComment.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inBlockComment.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext Widget/inComment -
-	inCommentRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inComment - inCommentRange.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext
-	Widget/inComment.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inComment.textbundle/text.md, doc/md/TKE
-	Developer Guide/Ctext Widget/inCommentString -
-	inCommentStringRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inCommentString -
-	inCommentStringRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inCommentString.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inCommentString.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext Widget/inDoubleQuote -
-	inDoubleQuoteRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inDoubleQuote -
-	inDoubleQuoteRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inDoubleQuote.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inDoubleQuote.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext Widget/inLineComment -
-	inLineCommentRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inLineComment -
-	inLineCommentRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inLineComment.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inLineComment.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext Widget/inSingleQuote -
-	inSingleQuoteRange.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inSingleQuote -
-	inSingleQuoteRange.textbundle/text.md, doc/md/TKE Developer
-	Guide/Ctext Widget/inSingleQuote.textbundle/info.json, doc/md/TKE
-	Developer Guide/Ctext Widget/inSingleQuote.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext Widget/inString -
-	inStringRange.textbundle/info.json, doc/md/TKE Developer Guide/Ctext
-	Widget/inString - inStringRange.textbundle/text.md, doc/md/TKE
-	Developer Guide/Ctext Widget/inString.textbundle/info.json,
-	doc/md/TKE Developer Guide/Ctext Widget/inString.textbundle/text.md,
-	doc/md/TKE Developer Guide/Ctext
-	Widget/inTripleQuote.textbundle/info.json, doc/md/TKE Developer
-	Guide/Ctext Widget/inTripleQuote.textbundle/text.md,
-	lib/version.tcl:
-	* Updating developer guide.
-
-2017-01-02 21:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0f724436dc1f)
-
-	* doc/DeveloperGuide.html, lib/ctext/ctext.tcl, lib/version.tcl:
-	* Updating developer guide.
-	* Optimizing bracket, isEscaped, inCommentString and highlightAll
-	ctext procedures and completing fix for bracket auditing issues.
-
-2017-01-02 22:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1b64f8f8c4ad)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Implementing syntax highlighting in a different way to help
-	improve performance when comments/strings are changed.
-
-2017-01-02 23:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ce5ebef56ef5 [tip])
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Adding range cache for command_tag to help improve performance of
-	tag range calls in ctext widget.
-	* Fixing syntax bug in command_tag.
+	* lib/specl/.DS_Store, lib/specl/bin/binit.exe,
+	lib/specl/doc/specl.html, lib/specl/lib/Markdown_1.0.1/License.text,
+	lib/specl/lib/Markdown_1.0.1/Markdown Readme.text,
+	lib/specl/lib/Markdown_1.0.1/Markdown.pl,
+	lib/specl/lib/Tclxml3.2/dom.tcl, lib/specl/lib/Tclxml3.2/dommap.tcl,
+	lib/specl/lib/Tclxml3.2/pkgIndex.tcl,
+	lib/specl/lib/Tclxml3.2/process.tcl,
+	lib/specl/lib/Tclxml3.2/resources.tcl,
+	lib/specl/lib/Tclxml3.2/sgml-8.0.tcl,
+	lib/specl/lib/Tclxml3.2/sgml-8.1.tcl,
+	lib/specl/lib/Tclxml3.2/sgmlparser.tcl, lib/specl/lib/Tclxml3.2
+	/tcldom-libxml2.tcl, lib/specl/lib/Tclxml3.2/tclparser-8.0.tcl,
+	lib/specl/lib/Tclxml3.2/tclparser-8.1.tcl, lib/specl/lib/Tclxml3.2
+	/tclxslt-libxslt.tcl, lib/specl/lib/Tclxml3.2/utilities.tcl,
+	lib/specl/lib/Tclxml3.2/xml-8.0.tcl,
+	lib/specl/lib/Tclxml3.2/xml-8.1.tcl,
+	lib/specl/lib/Tclxml3.2/xml__tcl.tcl,
+	lib/specl/lib/Tclxml3.2/xmldep.tcl,
+	lib/specl/lib/Tclxml3.2/xmlswitch.tcl,
+	lib/specl/lib/Tclxml3.2/xpath.tcl,
+	lib/specl/lib/Tclxml3.2/xsltcache.tcl, lib/specl/lib/bgproc.tcl,
+	lib/specl/lib/gifblock.tcl, lib/specl/lib/htmllib.tcl,
+	lib/specl/lib/releaser.tcl, lib/specl/lib/resize.tcl,
+	lib/specl/lib/specl.tcl, lib/specl/lib/updater.tcl,
+	lib/specl/lib/utils.tcl, lib/specl/pkgIndex.tcl: new file.
+	* lib/ptwidgets1.2/library/specl.tcl: deleted file.
+	* lib/menus.tcl, lib/ptwidgets1.2/library/specl.tcl,
+	lib/ptwidgets1.2/pkgIndex.tcl, lib/specl/.DS_Store,
+	lib/specl/bin/binit.exe, lib/specl/doc/specl.html,
+	lib/specl/lib/Markdown_1.0.1/License.text,
+	lib/specl/lib/Markdown_1.0.1/Markdown Readme.text,
+	lib/specl/lib/Markdown_1.0.1/Markdown.pl,
+	lib/specl/lib/Tclxml3.2/dom.tcl, lib/specl/lib/Tclxml3.2/dommap.tcl,
+	lib/specl/lib/Tclxml3.2/pkgIndex.tcl,
+	lib/specl/lib/Tclxml3.2/process.tcl,
+	lib/specl/lib/Tclxml3.2/resources.tcl,
+	lib/specl/lib/Tclxml3.2/sgml-8.0.tcl,
+	lib/specl/lib/Tclxml3.2/sgml-8.1.tcl,
+	lib/specl/lib/Tclxml3.2/sgmlparser.tcl, lib/specl/lib/Tclxml3.2
+	/tcldom-libxml2.tcl, lib/specl/lib/Tclxml3.2/tclparser-8.0.tcl,
+	lib/specl/lib/Tclxml3.2/tclparser-8.1.tcl, lib/specl/lib/Tclxml3.2
+	/tclxslt-libxslt.tcl, lib/specl/lib/Tclxml3.2/utilities.tcl,
+	lib/specl/lib/Tclxml3.2/xml-8.0.tcl,
+	lib/specl/lib/Tclxml3.2/xml-8.1.tcl,
+	lib/specl/lib/Tclxml3.2/xml__tcl.tcl,
+	lib/specl/lib/Tclxml3.2/xmldep.tcl,
+	lib/specl/lib/Tclxml3.2/xmlswitch.tcl,
+	lib/specl/lib/Tclxml3.2/xpath.tcl,
+	lib/specl/lib/Tclxml3.2/xsltcache.tcl, lib/specl/lib/bgproc.tcl,
+	lib/specl/lib/gifblock.tcl, lib/specl/lib/htmllib.tcl,
+	lib/specl/lib/releaser.tcl, lib/specl/lib/resize.tcl,
+	lib/specl/lib/specl.tcl, lib/specl/lib/updater.tcl,
+	lib/specl/lib/utils.tcl, lib/specl/pkgIndex.tcl, lib/tke.tcl,
+	lib/version.tcl, release.tcl:
+	* Adding new specl library.
 
