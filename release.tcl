@@ -293,7 +293,7 @@ proc generate_macosx_dmg {tag} {
 proc run_specl {type major minor point release_notes release_type} {
 
   # Create a new release via specl
-  set specl_cmd "[info nameofexecutable] [file join lib ptwidgets1.2 library specl.tcl] -- release $type"
+  set specl_cmd "[info nameofexecutable] [file join lib specl lib releaser.tcl] -- $type"
 
   # Create version name
   if {$release_type eq "stable"} {
@@ -303,8 +303,7 @@ proc run_specl {type major minor point release_notes release_type} {
   }
 
   # Setup specl arguments
-  append specl_cmd " -n $version -r $release_type -d [file normalize [file join ~ projects releases]]"
-  append specl_cmd " -u t1738912rw -p YFXrYWmEb6CitRkm"
+  append specl_cmd " -n $version -r $release_type -u t1738912rw -p YFXrYWmEb6CitRkm"
 
   if {$type eq "edit"} {
 
