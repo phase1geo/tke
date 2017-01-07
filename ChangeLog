@@ -1,73 +1,10 @@
-2017-01-02 23:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d021be656921 [devel-2.8.13])
+2017-01-07 13:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (089fbe3346c1 [devel-2.8.14])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.8.13 release
+	ChangeLog for devel-2.8.14 release
 
-2017-01-02 23:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (71ed5782bbb6)
+2017-01-07 13:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (bbf4024d2e04 [tip])
 
 	* .hgtags:
-	Added tag devel-2.8.13 for changeset d021be656921
-
-2017-01-05 20:38 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (022f28fdff6f)
-
-	* lib/version.tcl, release.tcl:
-	* Checkpointing work on release script.
-
-2017-01-07 01:14 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4b6bfbe18d65 [tip])
-
-	* lib/specl/.DS_Store, lib/specl/bin/binit.exe,
-	lib/specl/doc/specl.html, lib/specl/lib/Markdown_1.0.1/License.text,
-	lib/specl/lib/Markdown_1.0.1/Markdown Readme.text,
-	lib/specl/lib/Markdown_1.0.1/Markdown.pl,
-	lib/specl/lib/Tclxml3.2/dom.tcl, lib/specl/lib/Tclxml3.2/dommap.tcl,
-	lib/specl/lib/Tclxml3.2/pkgIndex.tcl,
-	lib/specl/lib/Tclxml3.2/process.tcl,
-	lib/specl/lib/Tclxml3.2/resources.tcl,
-	lib/specl/lib/Tclxml3.2/sgml-8.0.tcl,
-	lib/specl/lib/Tclxml3.2/sgml-8.1.tcl,
-	lib/specl/lib/Tclxml3.2/sgmlparser.tcl, lib/specl/lib/Tclxml3.2
-	/tcldom-libxml2.tcl, lib/specl/lib/Tclxml3.2/tclparser-8.0.tcl,
-	lib/specl/lib/Tclxml3.2/tclparser-8.1.tcl, lib/specl/lib/Tclxml3.2
-	/tclxslt-libxslt.tcl, lib/specl/lib/Tclxml3.2/utilities.tcl,
-	lib/specl/lib/Tclxml3.2/xml-8.0.tcl,
-	lib/specl/lib/Tclxml3.2/xml-8.1.tcl,
-	lib/specl/lib/Tclxml3.2/xml__tcl.tcl,
-	lib/specl/lib/Tclxml3.2/xmldep.tcl,
-	lib/specl/lib/Tclxml3.2/xmlswitch.tcl,
-	lib/specl/lib/Tclxml3.2/xpath.tcl,
-	lib/specl/lib/Tclxml3.2/xsltcache.tcl, lib/specl/lib/bgproc.tcl,
-	lib/specl/lib/gifblock.tcl, lib/specl/lib/htmllib.tcl,
-	lib/specl/lib/releaser.tcl, lib/specl/lib/resize.tcl,
-	lib/specl/lib/specl.tcl, lib/specl/lib/updater.tcl,
-	lib/specl/lib/utils.tcl, lib/specl/pkgIndex.tcl: new file.
-	* lib/ptwidgets1.2/library/specl.tcl: deleted file.
-	* lib/menus.tcl, lib/ptwidgets1.2/library/specl.tcl,
-	lib/ptwidgets1.2/pkgIndex.tcl, lib/specl/.DS_Store,
-	lib/specl/bin/binit.exe, lib/specl/doc/specl.html,
-	lib/specl/lib/Markdown_1.0.1/License.text,
-	lib/specl/lib/Markdown_1.0.1/Markdown Readme.text,
-	lib/specl/lib/Markdown_1.0.1/Markdown.pl,
-	lib/specl/lib/Tclxml3.2/dom.tcl, lib/specl/lib/Tclxml3.2/dommap.tcl,
-	lib/specl/lib/Tclxml3.2/pkgIndex.tcl,
-	lib/specl/lib/Tclxml3.2/process.tcl,
-	lib/specl/lib/Tclxml3.2/resources.tcl,
-	lib/specl/lib/Tclxml3.2/sgml-8.0.tcl,
-	lib/specl/lib/Tclxml3.2/sgml-8.1.tcl,
-	lib/specl/lib/Tclxml3.2/sgmlparser.tcl, lib/specl/lib/Tclxml3.2
-	/tcldom-libxml2.tcl, lib/specl/lib/Tclxml3.2/tclparser-8.0.tcl,
-	lib/specl/lib/Tclxml3.2/tclparser-8.1.tcl, lib/specl/lib/Tclxml3.2
-	/tclxslt-libxslt.tcl, lib/specl/lib/Tclxml3.2/utilities.tcl,
-	lib/specl/lib/Tclxml3.2/xml-8.0.tcl,
-	lib/specl/lib/Tclxml3.2/xml-8.1.tcl,
-	lib/specl/lib/Tclxml3.2/xml__tcl.tcl,
-	lib/specl/lib/Tclxml3.2/xmldep.tcl,
-	lib/specl/lib/Tclxml3.2/xmlswitch.tcl,
-	lib/specl/lib/Tclxml3.2/xpath.tcl,
-	lib/specl/lib/Tclxml3.2/xsltcache.tcl, lib/specl/lib/bgproc.tcl,
-	lib/specl/lib/gifblock.tcl, lib/specl/lib/htmllib.tcl,
-	lib/specl/lib/releaser.tcl, lib/specl/lib/resize.tcl,
-	lib/specl/lib/specl.tcl, lib/specl/lib/updater.tcl,
-	lib/specl/lib/utils.tcl, lib/specl/pkgIndex.tcl, lib/tke.tcl,
-	lib/version.tcl, release.tcl:
-	* Adding new specl library.
+	Added tag devel-2.8.14 for changeset 089fbe3346c1
 
