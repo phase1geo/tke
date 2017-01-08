@@ -1,10 +1,10 @@
-2017-01-07 13:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (089fbe3346c1 [devel-2.8.14])
+2017-01-07 13:37 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4a66fab27853 [devel-2.8.15])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.8.14 release
+	ChangeLog for devel-2.8.15 release
 
-2017-01-07 13:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (bbf4024d2e04 [tip])
+2017-01-07 13:37 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (20cb56bb8882 [tip])
 
 	* .hgtags:
-	Added tag devel-2.8.14 for changeset 089fbe3346c1
+	Added tag devel-2.8.15 for changeset 4a66fab27853
 
