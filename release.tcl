@@ -469,12 +469,6 @@ catch {
   run_specl edit $major $minor $point $release_notes $release_type
   puts "done."
 
-  puts "Done!"
-  puts ""
-  puts "Releases are available in: [file normalize [file join ~ projects releases]]"
-  puts "Upload appcast.xml file to $specl::rss_url"
-  puts ""
-
   exit
 
 } rc

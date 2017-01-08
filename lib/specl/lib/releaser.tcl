@@ -622,6 +622,8 @@ namespace eval specl::releaser {
     unset ha(Content-Type)
     set headers [array get ha]
 
+    puts "Uploading file $fname"
+
     # POST it
     set token [http::geturl "$specl::rss_url/index.php" -type $content_type -binary true -headers $headers -query $body]
 
