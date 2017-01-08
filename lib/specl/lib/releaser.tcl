@@ -647,12 +647,12 @@ namespace eval specl::releaser {
 
     # Create SQL query
     set query [http::formatQuery \
-      command     addrelease \
-      version     $data(item_version) \
-      type        $data(item_release_type) \
-      description $data(item_description) \
-      user        $data(cl_user) \
-      passwd      $data(cl_password) \
+      command addrelease \
+      version $data(item_version) \
+      type    $data(item_release_type) \
+      desc    $data(item_description) \
+      user    $data(cl_user) \
+      passwd  $data(cl_password) \
     ]
 
     # Create the release
