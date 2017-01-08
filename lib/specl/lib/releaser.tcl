@@ -1,4 +1,4 @@
-#!wish8.5
+#]!wish8.5
 
 ######################################################################
 # Name:    specl.tcl
@@ -572,7 +572,7 @@ namespace eval specl::releaser {
 
   ######################################################################
   # Uploads the given file to the download server.
-  proc upload_file {fname} {
+  proc upload_file {os fname} {
 
     variable data
 
@@ -586,6 +586,7 @@ namespace eval specl::releaser {
       passwd   $data(cl_password) \
       size     $size \
       checksum $checksum \
+      os       $os \
       version  $data(item_version) \
     ]
     set headers  [list]
@@ -676,7 +677,7 @@ namespace eval specl::releaser {
     # Upload files
     foreach os $specl::oses {
       if {$data(item_val,$os) || ($data(item_prev,$os) && ($data(item_file,$os) ne ""))} {
-        upload_file $data(item_file,$os)
+        upload_file $os $data(item_file,$os)
       }
     }
 
