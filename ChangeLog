@@ -1,10 +1,15 @@
-2017-01-07 13:37 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4a66fab27853 [devel-2.8.15])
+2017-01-07 19:29 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (fad125c069a5 [devel-2.8.16])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.8.15 release
+	ChangeLog for devel-2.8.16 release
 
-2017-01-07 13:37 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (20cb56bb8882 [tip])
+2017-01-07 19:29 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f981c7fa729a)
 
 	* .hgtags:
-	Added tag devel-2.8.15 for changeset 4a66fab27853
+	Added tag devel-2.8.16 for changeset fad125c069a5
+
+2017-01-07 19:49 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (9a1399a2f651 [tip])
+
+	* lib/specl/lib/releaser.tcl, lib/version.tcl:
+	* Fixing issue with file upload.
 
