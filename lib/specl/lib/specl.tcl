@@ -78,7 +78,7 @@ namespace eval specl {
     lappend update_args -t [ttk::style theme use] -r $release_type
     lappend update_args $specl_version_dir
 
-    puts "[info nameofexecutable] [file join [specl::DIR] lib updater.tcl] -- $update_args"
+    # puts "[info nameofexecutable] [file join [specl::DIR] lib updater.tcl] -- $update_args"
 
     # Execute this script
     bgproc::system updater [list [info nameofexecutable] [file join [specl::DIR] lib updater.tcl] -name $opts(-title) -- {*}$update_args] \
