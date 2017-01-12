@@ -58,7 +58,7 @@ html,body,#wrapper{font-size:10pt!important;}
 
 
 </head>
-<body class="normal poetry">
+<body class="normal poetry firstload">
   <div id="wrapper">
       <h1 id="tkeuserguide">TKE User Guide</h1>
 
@@ -347,6 +347,10 @@ html,body,#wrapper{font-size:10pt!important;}
 	<td style="text-align:left;">PuTTY PSFTP client (Windows only, optional - used for SFTP support)</td>
 	<td style="text-align:left;">http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html</td>
 </tr>
+<tr>
+	<td style="text-align:left;">TLS</td>
+	<td style="text-align:left;">https://sourceforge.net/projects/tls/files/</td>
+</tr>
 </tbody>
 </table>
 
@@ -358,9 +362,9 @@ html,body,#wrapper{font-size:10pt!important;}
 
 <p>Prior to downloading/installing the TKE package, you will need to make sure that you have all of the required packages installed on your system. Because various Linux distributions have different package managers, I will leave the exact details of how to accomplish this up to you. However, if you have an Ubuntu-based distribution, you can get the needed packages by performing the following command:</p>
 
-<p><code>sudo apt-get install tcl8.5 tk8.5 tclx8.4 tcllib tklib tkdnd expect</code><br/>
+<p><code>sudo apt-get install tcl8.5 tk8.5 tclx8.4 tcllib tklib tkdnd expect tcl-tls</code><br/>
 OR<br/>
-<code>sudo apt-get install tcl8.6 tk8.6 tclx8.4 tcllib tklib tkdnd expect</code></p>
+<code>sudo apt-get install tcl8.6 tk8.6 tclx8.4 tcllib tklib tkdnd expect tcl-tls</code></p>
 
 <p>The TKE installation package is downloaded in a gzipped tarball. You can get the latest version of this tarball from the following URL: <a href="http://sourceforge.net/projects/tke/files/">TKE Download</a>.</p>
 
@@ -3957,99 +3961,30 @@ to look like the following:</p>
 
 <tbody>
 <tr>
-	<td style="text-align:left;"><strong>$SELECTED_TEXT</strong></td>
-	<td style="text-align:left;">Inserts the currently selected text at this variable’s location. If no text is currently selected, an empty string is inserted in its place.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CLIPBOARD</strong></td>
-	<td style="text-align:left;">Places the contents that are currently in the clipboard at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_LINE</strong></td>
-	<td style="text-align:left;">Places the current line contents (minus the abbreviation) at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_WORD</strong></td>
-	<td style="text-align:left;">Places the current word at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$DIRECTORY</strong></td>
-	<td style="text-align:left;">Places the current directory at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$FILEPATH</strong></td>
-	<td style="text-align:left;">Places the current file pathname at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$FILENAME</strong></td>
-	<td style="text-align:left;">Places the root file name at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$LINE_INDEX</strong></td>
-	<td style="text-align:left;">Places the position of the current insertion cursor (specified as <em>line.column</em>) at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$LINE_NUMBER</strong></td>
-	<td style="text-align:left;">Places the line position of the current insertion cursor at this variable’s location.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_DATE</strong></td>
-	<td style="text-align:left;">Places the current date at this variable’s location. The date is specified as MM/DD/YYYY.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_TIME</strong></td>
-	<td style="text-align:left;">Places the current time at this variable’s location. The time is specified as HH:MM AM/PM.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_MON</strong></td>
-	<td style="text-align:left;">Shortened name of the current month (ex., Jan, Feb).</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_MONTH</strong></td>
-	<td style="text-align:left;">Long name of the current month (ex., January, February).</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_MON1</strong></td>
-	<td style="text-align:left;">Numerical value for the current month expressed as either a one or two digit value.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_MON2</strong></td>
-	<td style="text-align:left;">Numerical value for the current month expressed as a two digit value where the first digit will be a zero, if needed.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_DAYN</strong></td>
-	<td style="text-align:left;">Shortened name of the current day of the week (ex., Mon, Tue).</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_DAYNAME</strong></td>
-	<td style="text-align:left;">Long name of the current day of the week (ex., Monday, Tuesday).</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_DAY1</strong></td>
-	<td style="text-align:left;">Numerical day of the current month expressed as either a one or two digit number.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_DAY2</strong></td>
-	<td style="text-align:left;">Numerical day of the current month expressed as a two digit number where the first digit will be zero, if needed.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_YEAR2</strong></td>
-	<td style="text-align:left;">Two digit representation of the current year where the first digit will be zero, if needed.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><strong>$CURRENT_YEAR</strong></td>
-	<td style="text-align:left;">Four digit representation of the current year.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><b>$0</b></td>
-	<td style="text-align:left;">Places the cursor at this variable’s location after the entire snippet has been expanded.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><b>$</b><em>number</em></td>
-	<td style="text-align:left;">Places the cursor at this variable&#8217;s location in the order of number. Hitting the TAB key will jump the cursor to the next cursor stop. For example, if a snippet uses the variables “$1 … $2”, the cursor will first be placed at location “$1” and when the TAB key is pressed, the cursor will jump to the location of “$2”. If more than one “$1” is use within the same snippet, the text that is entered in the first occurrence of this variable will also be entered in all other places within the snippet that share the same number.</td>
-</tr>
-<tr>
-	<td style="text-align:left;"><b>${<b><em>number</em><strong>:</strong><em>value</em><strong>}</strong></td>
+	<td style="text-align:left;"><strong><span class="math">\(SELECTED\_TEXT** | Inserts the currently selected text at this variable’s location. If no text is currently selected, an empty string is inserted in its place. |  
+| **$CLIPBOARD** | Places the contents that are currently in the clipboard at this variable’s location. |  
+| **$CURRENT\_LINE** | Places the current line contents (minus the abbreviation) at this variable’s location. |  
+| **$CURRENT\_WORD** | Places the current word at this variable’s location. |  
+| **$DIRECTORY** | Places the current directory at this variable’s location. |  
+| **$FILEPATH** | Places the current file pathname at this variable’s location. |  
+| **$FILENAME** | Places the root file name at this variable’s location. |  
+| **$LINE\_INDEX** | Places the position of the current insertion cursor (specified as _line.column_) at this variable’s location. |  
+| **$LINE\_NUMBER** | Places the line position of the current insertion cursor at this variable’s location. |  
+| **$CURRENT\_DATE** | Places the current date at this variable’s location. The date is specified as MM/DD/YYYY. |  
+| **$CURRENT\_TIME** | Places the current time at this variable’s location. The time is specified as HH:MM AM/PM. |  
+| **$CURRENT\_MON** | Shortened name of the current month (ex., Jan, Feb). |  
+| **$CURRENT\_MONTH** | Long name of the current month (ex., January, February). |  
+| **$CURRENT\_MON1** | Numerical value for the current month expressed as either a one or two digit value. |  
+| **$CURRENT\_MON2** | Numerical value for the current month expressed as a two digit value where the first digit will be a zero, if needed. |  
+| **$CURRENT\_DAYN** | Shortened name of the current day of the week (ex., Mon, Tue). |  
+| **$CURRENT\_DAYNAME** | Long name of the current day of the week (ex., Monday, Tuesday). |  
+| **$CURRENT\_DAY1** | Numerical day of the current month expressed as either a one or two digit number. |  
+| **$CURRENT\_DAY2** | Numerical day of the current month expressed as a two digit number where the first digit will be zero, if needed. |  
+| **$CURRENT\_YEAR2** | Two digit representation of the current year where the first digit will be zero, if needed. |  
+| **$CURRENT\_YEAR** | Four digit representation of the current year. |  
+| <b>$0</b> | Places the cursor at this variable’s location after the entire snippet has been expanded. |  
+| <b>\)</span></b><em>number</em> | Places the cursor at this variable&#8217;s location in the order of number. Hitting the TAB key will jump the cursor to the next cursor stop. For example, if a snippet uses the variables “$1 … $2”, the cursor will first be placed at location “$1” and when the TAB key is pressed, the cursor will jump to the location of “$2”. If more than one “$1” is use within the same snippet, the text that is entered in the first occurrence of this variable will also be entered in all other places within the snippet that share the same number. |<br/>
+| <b>${<b><em>number</em></strong>:<strong><em>value</em></strong>}**</td>
 	<td style="text-align:left;">Places the cursor at this variable&#8217;s location in the order of number, placing the string value at the cursor’s location. The string value can be used as a placeholder to remind the user what information to insert at that location. The value string will be automatically selected when the snippet is inserted so that immediately typing text will delete the value string with the user’s entered string.</td>
 </tr>
 <tr>

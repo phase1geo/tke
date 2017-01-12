@@ -12,6 +12,7 @@ The installation of TKE has a few dependencies that will need to be preinstalled
 | Tkdnd (optional) | https://sourceforge.net/projects/tkdnd/files/?source=navbar |
 | Expect (optional - used to help provide SFTP support - not necessary for macOS) | https://sourceforge.net/projects/expect/files/ |
 | PuTTY PSFTP client (Windows only, optional - used for SFTP support) | http://www.chiark.greenend.org.uk/\~sgtatham/putty/download.html |
+| TLS | https://sourceforge.net/projects/tls/files/ |
 
 **Important Note:** Tcl/Tk version 8.5.19 or later is recommended to avoid application crashes during editing.
 
