@@ -104,8 +104,6 @@ namespace eval specl::updater {
 
     variable data
 
-    puts "cl_args: $cl_args"
-
     # Parse the release arguments
     while {[llength $cl_args] > 0} {
       set cl_args [lassign $cl_args arg]
@@ -179,7 +177,6 @@ namespace eval specl::updater {
     # Get the data
     if {([http::status $token] eq "ok") && ($data(fetch_ncode) == 200)} {
       set data(fetch_content) [http::data $token]
-      puts "fetch_content: $data(fetch_content)"
     } else {
       set data(fetch_error) [http::error $token]
     }
@@ -698,10 +695,10 @@ namespace eval specl::updater {
       # Move the original directory to the trash
       switch -glob $::tcl_platform(os) {
         Darwin {
-          set cmd "tell app \"Finder\" to move the POSIX file \"$install_dir\" to trash"
+          set download [file join / tmp [file tail $install_dir]]
+          set cmd      "tell app \"Finder\" to move the POSIX file \"$install_dir\" to trash"
           if {[catch { exec -ignorestderr osascript -e $cmd }]} {
             set trash_path [specl::utils::get_unique_path [file join ~ .Trash] [file tail $install_dir]]
-            set download   [file join / tmp [file tail $install_dir]]
           }
         }
         Linux* {
