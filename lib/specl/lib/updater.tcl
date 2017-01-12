@@ -16,7 +16,7 @@ lappend auto_path [file dirname $::argv0]
 
 package require Tk
 package require http
-package require tls
+catch { package require tls }
 package require msgcat
 package require -exact xml 3.2
 
@@ -1140,7 +1140,7 @@ namespace eval specl::updater {
 
     # Enable HTTPS transfer, if necessary
     if {[string range $specl::rss_url 0 4] eq "https"} {
-      ::http::register https 443 ::tls::socket
+      catch { ::http::register https 443 ::tls::socket }
     }
 
     # If we are running in live mode, fetch the appcast data and parse it
