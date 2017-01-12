@@ -19,6 +19,9 @@ indent
 unindent
 {\}}
 
+reindent
+{{switch case default}}
+
 icomment {{//}}
 
 lcomments {{#} {//}}
