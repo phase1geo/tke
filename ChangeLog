@@ -1,15 +1,25 @@
-2017-01-07 20:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (8fb1b69f8b72 [devel-2.8.18])
+2017-01-07 23:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a509db77b9bc [devel-2.8.19])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.8.18 release
+	ChangeLog for devel-2.8.19 release
 
-2017-01-07 20:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b0b8044dd429)
+2017-01-07 23:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c7697f469f63)
 
 	* .hgtags:
-	Added tag devel-2.8.18 for changeset 8fb1b69f8b72
+	Added tag devel-2.8.19 for changeset a509db77b9bc
 
-2017-01-07 23:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1b74f6e4a7db [tip])
+2017-01-11 23:40 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7c44754f606b)
 
-	* ChangeLog, lib/specl/lib/releaser.tcl, lib/version.tcl:
-	* Fixing issue with release descriptions.
+	* lib/specl/lib/updater.tcl, lib/version.tcl:
+	* Fixing issues with updater on macOS.
+
+2017-01-11 23:50 -0600  Trevor Williams  <phase1geo@gmail.com>  (69785f927330)
+
+	* data/syntax/PHP.syntax, lib/version.tcl:
+	* Enhancing PHP syntax description.
+
+2017-01-12 00:32 -0600  Trevor Williams  <phase1geo@gmail.com>  (e2cb17f27b07 [tip])
+
+	* lib/specl/lib/updater.tcl, lib/version.tcl:
+	* Fixing issues with specl on systems that don't have tls installed.
 
