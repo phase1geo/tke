@@ -623,7 +623,7 @@ namespace eval sidebar {
     switch $attr {
       fname      { return [$widgets(tl) set $index name] }
       file_index {
-        if {[catch { gui::get_info [$widgets(tl) set $index name] fname } fileindex]} {
+        if {[catch { gui::get_info [$widgets(tl) set $index name] fname fileindex } fileindex]} {
           return -1
         }
         return $fileindex
@@ -1707,7 +1707,7 @@ namespace eval sidebar {
     if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "File Name:"] new_name]} {
 
       if {$opts(-testname) ne ""} {
-        set fname $opts(-testname)
+        set new_name $opts(-testname)
       }
 
       # If the value of the cell hasn't changed or is empty, do nothing else.
