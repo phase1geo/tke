@@ -575,8 +575,8 @@ proc ctext::setCommentRE {win} {
 proc ctext::inCommentStringHelper {win index pattern} {
 
   set names [$win tag names $index]
+
   return [expr {[string map [list $pattern {}] $names] ne $names}]
-  # return [expr [lsearch -glob [$win tag names $index] $pattern] != -1]
 
 }
 

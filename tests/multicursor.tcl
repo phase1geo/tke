@@ -79,11 +79,11 @@ namespace eval multicursor {
     if {[$txt tag ranges _keywords] ne [list 2.0 2.2 4.0 4.2]} {
       cleanup "keyword mismatched after newline ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _dString0] ne [list]} {
-      cleanup "dstring0 mismatched after newline ([$txt tag ranges _dString0])"
+    if {[$txt tag ranges _comstr0d0] ne [list]} {
+      cleanup "dstring0 mismatched after newline ([$txt tag ranges _comstr0d0])"
     }
-    if {[$txt tag ranges _dString1] ne [list]} {
-      cleanup "dstring1 mismatched after newline ([$txt tag ranges _dString1])"
+    if {[$txt tag ranges _comstr0d1] ne [list]} {
+      cleanup "dstring1 mismatched after newline ([$txt tag ranges _comstr0d1])"
     }
 
     multicursor::insert $txt.t "puts \"b\"" indent::check_indent
@@ -94,11 +94,11 @@ namespace eval multicursor {
     if {[$txt tag ranges _keywords] ne [list 2.0 2.2 3.2 3.6 4.0 4.2 5.2 5.6]} {
       cleanup "keyword mismatched after string ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _dString0] ne [list 3.7 3.10]} {
-      cleanup "dstring0 mismatched after string ([$txt tag ranges _dString0])"
+    if {[$txt tag ranges _comstr0d0] ne [list 3.7 3.10]} {
+      cleanup "dstring0 mismatched after string ([$txt tag ranges _comstr0d0])"
     }
-    if {[$txt tag ranges _dString1] ne [list 5.7 5.10]} {
-      cleanup "dstring1 mismatched after string ([$txt tag ranges _dString1])"
+    if {[$txt tag ranges _comstr0d1] ne [list 5.7 5.10]} {
+      cleanup "dstring1 mismatched after string ([$txt tag ranges _comstr0d1])"
     }
 
     multicursor::insert $txt.t "\n" indent::newline
@@ -109,11 +109,11 @@ namespace eval multicursor {
     if {[$txt tag ranges _keywords] ne [list 2.0 2.2 3.2 3.6 5.0 5.2 6.2 6.6]} {
       cleanup "keyword mismatched after 2nd newline ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _dString0] ne [list 3.7 3.10]} {
-      cleanup "dstring0 mismatched after string ([$txt tag ranges _dString0])"
+    if {[$txt tag ranges _comstr0d0] ne [list 3.7 3.10]} {
+      cleanup "dstring0 mismatched after string ([$txt tag ranges _comstr0d0])"
     }
-    if {[$txt tag ranges _dString1] ne [list 6.7 6.10]} {
-      cleanup "dstring1 mismatched after string ([$txt tag ranges _dString1])"
+    if {[$txt tag ranges _comstr0d1] ne [list 6.7 6.10]} {
+      cleanup "dstring1 mismatched after string ([$txt tag ranges _comstr0d1])"
     }
 
     multicursor::insert $txt.t "\}" indent::check_indent
