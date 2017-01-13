@@ -1,15 +1,10 @@
-2017-01-13 00:03 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f0816eef6e09 [devel-2.8.21])
+2017-01-13 00:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7823a8ba4803 [devel-2.8.22])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.8.21 release
+	ChangeLog for devel-2.8.22 release
 
-2017-01-13 00:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a95196f360f3)
+2017-01-13 00:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (652b5d7c7d12 [tip])
 
 	* .hgtags:
-	Added tag devel-2.8.21 for changeset f0816eef6e09
-
-2017-01-13 00:15 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (29ea3a76b855 [tip])
-
-	* lib/version.tcl, specl_version.tcl:
-	* Updating specl_version.tcl index value.
+	Added tag devel-2.8.22 for changeset 7823a8ba4803
 
