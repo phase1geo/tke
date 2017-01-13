@@ -2307,7 +2307,6 @@ namespace eval remote {
           set data($key) [lreplace $data($key) 6 6]
         }
         set connections($group,$name) [list "" {*}$data($key)]
-        puts "connections($group,$name): $connections($group,$name)"
       }
     }
 
