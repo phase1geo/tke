@@ -65,7 +65,7 @@ namespace eval ::xml {
 	    package provide xslt::libxslt 3.2
 
 	    set pkginit 1
-	}} $dir]
+	}} $dir $binary]
     }
 }
 
