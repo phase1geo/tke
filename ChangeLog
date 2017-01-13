@@ -1,107 +1,15 @@
-2017-01-12 00:39 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (e2b7403500c3 [devel-2.8.20])
+2017-01-13 00:03 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f0816eef6e09 [devel-2.8.21])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.8.20 release
+	ChangeLog for devel-2.8.21 release
 
-2017-01-12 00:39 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4f33652fc074)
+2017-01-13 00:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a95196f360f3)
 
 	* .hgtags:
-	Added tag devel-2.8.20 for changeset e2b7403500c3
+	Added tag devel-2.8.21 for changeset f0816eef6e09
 
-2017-01-12 01:11 -0600  Trevor Williams  <phase1geo@gmail.com>  (00a963012a8b)
+2017-01-13 00:15 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (29ea3a76b855 [tip])
 
-	* lib/specl/lib/releaser.tcl, lib/specl/lib/specl.tcl,
-	lib/version.tcl:
-	* Code cleanup.
-
-2017-01-12 01:22 -0600  Trevor Williams  <phase1geo@gmail.com>  (fad993902ce9)
-
-	* lib/version.tcl:
-	* Merging.
-
-2017-01-12 01:25 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (81a984334cd7)
-
-	* lib/version.tcl:
-	* Merging.
-
-2017-01-12 08:15 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b214ca551655)
-
-	* doc/UserGuide.html, doc/md/TKE User
-	Guide/Installation/Dependencies.textbundle/text.md, doc/md/TKE User
-	Guide/Installation/Installing for Linux.textbundle/text.md,
-	lib/version.tcl:
-	* Adding tcl-tls package to Linux installation information in user
-	guide.
-	* Adding TLS package to dependencies section in user guide.
-
-2017-01-12 15:34 -0600  Trevor Williams  <phase1geo@gmail.com>  (d0e0ac19b259)
-
-	* lib/specl/lib/updater.tcl, lib/version.tcl:
-	* Fixing specl icon display on Linux.
-
-2017-01-12 19:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4ffe5dc0527a)
-
-	* lib/specl/pkgIndex.tcl, lib/version.tcl:
-	* Attempting to fix issue with specl package when specl directory
-	contains spaces.
-
-2017-01-12 19:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b07e0bea7456)
-
-	* lib/specl/pkgIndex.tcl, lib/version.tcl:
-	* Second attempt to fix specl package.
-
-2017-01-12 19:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (f7dd58ffcc24)
-
-	* lib/ptwidgets1.2/common/Tclxml3.2/pkgIndex.tcl, lib/version.tcl:
-	* Attempting to fix Tclxml package syntax.
-
-2017-01-12 19:15 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (eb01ab313f27)
-
-	* lib/ptwidgets1.2/common/Tclxml3.2/pkgIndex.tcl, lib/version.tcl:
-	* Second attempt to fix Tclxml package syntax.
-
-2017-01-12 19:19 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5155a905afa2)
-
-	* lib/ptwidgets1.2/common/Tclxml3.2/pkgIndex.tcl, lib/version.tcl:
-	* Third attempt at the same.
-
-2017-01-12 19:24 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2b6fa42bf24d)
-
-	* lib/ptwidgets1.2/common/Tclxml3.2/sgmlparser.tcl, lib/version.tcl:
-	* Attempting to fix sgmlparser syntax issue with URI package.
-
-2017-01-12 19:51 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (474d7e1ebf6c)
-
-	* lib/ptwidgets1.2/common/Tclxml3.2/sgmlparser.tcl, lib/tke.tcl,
-	lib/version.tcl:
-	* Reverting last change to sgmlparser.tcl
-	* Catching any errors from requiring the webdav package.
-
-2017-01-12 20:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (9ed5b019a07f)
-
-	* lib/gui.tcl, lib/version.tcl:
-	* Fixing About window copyright information.
-	* Fixing version number.
-
-2017-01-12 20:44 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (af176af0bdd9)
-
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
-	* Updating translations.
-
-2017-01-12 23:17 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (70e04d90fb56)
-
-	* lib/ctext/ctext.tcl, lib/remote.tcl, lib/sidebar.tcl,
-	lib/version.tcl, tests/ctext.tcl, tests/multicursor.tcl,
-	tests/syntax.tcl:
-	* Fixing issues found with BIST testing.
-
-2017-01-12 23:19 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (49c353f60d63 [tip])
-
-	* lib/remote.tcl, lib/version.tcl:
-	* Removing debug output.
+	* lib/version.tcl, specl_version.tcl:
+	* Updating specl_version.tcl index value.
 
