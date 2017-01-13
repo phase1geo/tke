@@ -2780,6 +2780,9 @@ msgcat::mcmset sv {
   "Split View"
   "Dela vy"
 
+  "TKE Updater"
+  "Update Basket"
+
   "Templates"
   "Mallar"
 

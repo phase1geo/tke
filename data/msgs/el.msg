@@ -2780,6 +2780,9 @@ msgcat::mcmset el {
   "Split View"
   "Split View"
 
+  "TKE Updater"
+  "ΤΚΕ Updater"
+
   "Templates"
   "Πρότυπα"
 

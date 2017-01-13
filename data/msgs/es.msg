@@ -2780,6 +2780,9 @@ msgcat::mcmset es {
   "Split View"
   "Dividir la vista"
 
+  "TKE Updater"
+  "Módulo de actualización"
+
   "Templates"
   "Plantillas"
 
