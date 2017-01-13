@@ -2780,6 +2780,9 @@ msgcat::mcmset pl {
   "Split View"
   "Podziel widok"
 
+  "TKE Updater"
+  "TKE Updater"
+
   "Templates"
   "Szablony"
 

@@ -2780,6 +2780,9 @@ msgcat::mcmset fr {
   "Split View"
   "Scinder la vue"
 
+  "TKE Updater"
+  "TKE Updater"
+
   "Templates"
   "Modèles HTML"
 

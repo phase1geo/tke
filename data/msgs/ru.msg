@@ -2780,6 +2780,9 @@ msgcat::mcmset ru {
   "Split View"
   "Разделить"
 
+  "TKE Updater"
+  "Обновление"
+
   "Templates"
   "Шаблоны"
 

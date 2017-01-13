@@ -2780,6 +2780,9 @@ msgcat::mcmset it {
   "Split View"
   "Dividi la vista"
 
+  "TKE Updater"
+  "Aggiorna Cestino"
+
   "Templates"
   "Modelli"
 

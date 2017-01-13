@@ -2780,6 +2780,9 @@ msgcat::mcmset nl {
   "Split View"
   "Venster opsplitsen"
 
+  "TKE Updater"
+  "TKE Updater"
+
   "Templates"
   "Templates"
 
