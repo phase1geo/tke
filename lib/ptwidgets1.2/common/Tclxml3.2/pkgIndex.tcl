@@ -30,7 +30,7 @@ namespace eval ::xml {
 
 	if {$pkginit} {return {}}
 
-	namespace eval :: [list apply { dir {
+	namespace eval :: [list apply { {dir binary} {
 	    package require xmldefs 3.2
 	    package require xml::tcl 3.2
 	    if {[catch {load [file join $dir libTclxml3.2.so] Tclxml}]} {
