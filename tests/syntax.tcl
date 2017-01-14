@@ -239,7 +239,7 @@ namespace eval syntax {
     $txt insert end "\n[string trim $str]"
     $txt insert 4.4 a
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6 10.1 10.6]} {
+    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
@@ -278,7 +278,7 @@ namespace eval syntax {
     $txt insert end "\n[string trim $str]"
     $txt delete 4.4
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6 10.1 10.6]} {
+    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {

@@ -2533,10 +2533,21 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   # Update the language backgrounds for embedded languages
   ctext::updateLangBackgrounds $win
 
-  foreach {linestart lineend} $ranges {
-    ctext::brackets    $win $linestart $lineend
-    ctext::indentation $win $linestart $lineend
-    ctext::highlight   $win $linestart $lineend $ins
+  if {$all == 2} {
+    foreach tag [$win._t tag names] {
+      if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
+        $win._t tag remove $tag [lindex $lineranges 1] end
+      }
+    }
+    ctext::brackets    $win [lindex $lineranges 0] end
+    ctext::indentation $win [lindex $lineranges 0] end
+    ctext::highlight   $win [lindex $lineranges 0] end $ins
+  } else {
+    foreach {linestart lineend} $ranges {
+      ctext::brackets    $win $linestart $lineend
+      ctext::indentation $win $linestart $lineend
+      ctext::highlight   $win $linestart $lineend $ins
+    }
   }
 
   if {$all} {
@@ -2730,11 +2741,7 @@ proc ctext::comments {win ranges do_tags} {
     }
   }
 
-  # Indicate the the string/comment status may have changed for anyone interested
-  # event generate $win.t <<StringCommentChanged>>
-
-  # return [expr {[llength [array names tag_changed _Lang*:*]] > 0}]
-  return 1
+  return [expr ([llength [array names tag_changed _Lang*:*]] > 0) ? 2 : 1]
 
 }
 
