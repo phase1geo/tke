@@ -2780,6 +2780,9 @@ msgcat::mcmset cs {
   "Split View"
   "Rozd?lený panel"
 
+  "TKE Updater"
+  "TKE Updater"
+
   "Templates"
   "Šablony"
 

@@ -2780,6 +2780,9 @@ msgcat::mcmset ja {
   "Split View"
   "分割表示"
 
+  "TKE Updater"
+  "TKE のアップデーター"
+
   "Templates"
   "テンプレート"
 
