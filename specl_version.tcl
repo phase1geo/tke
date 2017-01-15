@@ -1,5 +1,5 @@
 set specl::appname      "tke"
-set specl::version      "2.8.23"
-set specl::release      "320"
+set specl::version      "2.9"
+set specl::release      "Unable to insert into database: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Show console" preference checkbox on Linux platforms where consoles are not supp' at line 1"
 set specl::rss_url      "http://tke.sourceforge.net/releases"
 set specl::download_url "http://tke.sourceforge.net/releases"
