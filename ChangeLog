@@ -2638,8 +2638,28 @@
 	* .hgtags:
 	Added tag devel-2.8.23 for changeset fbef835ea282
 
-2017-01-14 12:17 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (aa29c427787c [tip])
+2017-01-14 12:17 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (aa29c427787c)
 
 	* lib/ctext/ctext.tcl, lib/version.tcl, tests/syntax.tcl:
 	* Fixing BIST errors with changing embedded language indicators.
+
+2017-01-14 20:16 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c207e76ff9f1)
+
+	* ChangeLog, lib/version.tcl, specl_version.tcl:
+	ChangeLog for stable-2.9 release
+
+2017-01-14 20:16 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (8596437d77a9)
+
+	* .hgtags:
+	Added tag stable-2.9 for changeset c207e76ff9f1
+
+2017-01-14 20:25 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (e846a073d68c)
+
+	* .hgtags:
+	Removed tag stable-2.9
+
+2017-01-14 20:27 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d54e99e1fb07 [tip])
+
+	* lib/version.tcl, specl_version.tcl:
+	* Fixing specl_version.
 
