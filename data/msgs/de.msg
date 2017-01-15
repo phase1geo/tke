@@ -2780,6 +2780,9 @@ msgcat::mcmset de {
   "Split View"
   "Split anzeigen"
 
+  "TKE Updater"
+  "TKE Updater"
+
   "Templates"
   "Templates"
 

@@ -2780,6 +2780,9 @@ msgcat::mcmset he {
   "Split View"
   "צפו פיצול"
 
+  "TKE Updater"
+  "מעדכן"
+
   "Templates"
   "תבניות"
 

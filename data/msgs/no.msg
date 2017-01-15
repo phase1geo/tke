@@ -2780,6 +2780,9 @@ msgcat::mcmset no {
   "Split View"
   "Delt visning"
 
+  "TKE Updater"
+  "Oppdaterer"
+
   "Templates"
   "Maler"
 

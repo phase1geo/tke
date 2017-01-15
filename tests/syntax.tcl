@@ -86,11 +86,11 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6 10.1 10.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _cComment0] ne [list 3.2 3.20]} {
-      cleanup "Block comment miscompare ([$txt tag ranges _cComment0])"
+    if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
+      cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
     }
-    if {[$txt tag ranges _lComment] ne [list 5.4 6.0]} {
-      cleanup "PHP comment miscompare ([$txt tag ranges _lComment:PHP])"
+    if {[$txt tag ranges _comstr1l] ne [list 5.4 6.0]} {
+      cleanup "PHP comment miscompare ([$txt tag ranges _comstr1l:PHP])"
     }
     if {[$txt tag ranges _Lang=PHP] ne [list 5.0 9.0]} {
       cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
@@ -124,11 +124,11 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _cComment0] ne [list 3.2 3.20]} {
-      cleanup "Block comment miscompare ([$txt tag ranges _cComment0])"
+    if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
+      cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
     }
-    if {[$txt tag ranges _lComment] ne [list]} {
-      cleanup "PHP comment miscompare ([$txt tag ranges _lComment])"
+    if {[$txt tag ranges _comstr1l] ne [list]} {
+      cleanup "PHP comment miscompare ([$txt tag ranges _comstr1l])"
     }
     if {[$txt tag ranges _Lang=PHP] ne [list]} {
       cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
@@ -162,11 +162,11 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _cComment0] ne [list 3.2 3.20]} {
-      cleanup "Block comment miscompare ([$txt tag ranges _cComment0])"
+    if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
+      cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
     }
-    if {[$txt tag ranges _lComment] ne [list 5.4 6.0]} {
-      cleanup "Line comment miscompare ([$txt tag ranges _lComment])"
+    if {[$txt tag ranges _comstr1l] ne [list 5.4 6.0]} {
+      cleanup "Line comment miscompare ([$txt tag ranges _comstr1l])"
     }
     if {[$txt tag ranges _Lang=PHP] ne [list 5.0 11.0]} {
       cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
@@ -200,14 +200,14 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6 10.1 10.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _cComment0] ne [list 3.2 3.20]} {
-      cleanup "Block comment0 miscompare ([$txt tag ranges _cComment0])"
+    if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
+      cleanup "Block comment0 miscompare ([$txt tag ranges _comstr1c0])"
     }
-    if {[$txt tag ranges _cComment1] ne [list 5.4 9.2]} {
-      cleanup "Block comment1 miscompare ([$txt tag ranges _cComment1])"
+    if {[$txt tag ranges _comstr1c1] ne [list 5.4 9.2]} {
+      cleanup "Block comment1 miscompare ([$txt tag ranges _comstr1c1])"
     }
-    if {[$txt tag ranges _dString] ne [list]} {
-      cleanup "String miscompare ([$txt tag ranges _dString0])"
+    if {[$txt tag ranges _comstr0d0] ne [list]} {
+      cleanup "String miscompare ([$txt tag ranges _comstr0d0])"
     }
     if {[$txt tag ranges _Lang=PHP] ne [list 5.0 9.0]} {
       cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
@@ -242,11 +242,11 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _cComment0] ne [list 3.2 3.20]} {
-      cleanup "Block comment miscompare ([$txt tag ranges _cComment0])"
+    if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
+      cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
     }
-    if {[$txt tag ranges _lComment] ne [list]} {
-      cleanup "PHP comment miscompare ([$txt tag ranges _lComment])"
+    if {[$txt tag ranges _comstr1l] ne [list]} {
+      cleanup "PHP comment miscompare ([$txt tag ranges _comstr1l])"
     }
     if {[$txt tag ranges _Lang=PHP] ne [list]} {
       cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
@@ -256,13 +256,13 @@ namespace eval syntax {
     cleanup
 
   }
-  
+
   # Verify that deleting a character from a language symbol causes a highlight change
   proc run_test7 {} {
-    
+
     # Get the text widget
     set txt [initialize]
-    
+
     set str {
 <html>
   <!-- PHP block -->
@@ -274,26 +274,26 @@ namespace eval syntax {
   ?>
 </html>
 }
-    
+
     $txt insert end "\n[string trim $str]"
     $txt delete 4.4
-    
+
     if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _cComment0] ne [list 3.2 3.20]} {
-      cleanup "Block comment miscompare ([$txt tag ranges _cComment0])"
+    if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
+      cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
     }
-    if {[$txt tag ranges _lComment] ne [list]} {
-      cleanup "PHP comment miscompare ([$txt tag ranges _lComment])"
+    if {[$txt tag ranges _comstr1l] ne [list]} {
+      cleanup "PHP comment miscompare ([$txt tag ranges _comstr1l])"
     }
     if {[$txt tag ranges _Lang=PHP] ne [list]} {
       cleanup "PHP language miscompare ([$txt tag ranges _Lang=PHP])"
     }
-    
+
     # Clean things up
     cleanup
-    
+
   }
 
 }

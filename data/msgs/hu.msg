@@ -2780,6 +2780,9 @@ msgcat::mcmset hu {
   "Split View"
   "Osztott nézet"
 
+  "TKE Updater"
+  "TKE Updater"
+
   "Templates"
   "Sablonok"
 

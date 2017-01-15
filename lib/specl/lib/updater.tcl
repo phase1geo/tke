@@ -1036,7 +1036,7 @@ namespace eval specl::updater {
         if {![catch { specl::utils::get_element $custom_node "icon" } icon_node]} {
           if {![catch { specl::utils::get_attr $icon_node "path" } value]} {
             set data(ui,icon_path) [file join $data(specl_version_dir) $value]
-            wm iconphoto . [image create photo -file $data(ui,icon_path)]
+            wm iconphoto . -default [image create photo -file $data(ui,icon_path)]
           }
         }
 
@@ -1274,7 +1274,6 @@ ttk::style theme use clam
 
 # Withdraw the top-level window so that it isn't visible
 wm withdraw .
-
 
 # If no options were supplied, display the usage information
 if {[llength $argv] == 0} {

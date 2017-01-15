@@ -19,8 +19,7 @@
 # $Id: //sn4/tools/lib/tkdv2/Tclxml3.2/sgmlparser.tcl#1 $
 
 package require sgml 1.9
-
-package require uri 1.1
+package require uri  1.1
 
 package provide sgmlparser 1.1
 

@@ -2780,6 +2780,9 @@ msgcat::mcmset zh {
   "Split View"
   "拆分視圖"
 
+  "TKE Updater"
+  "更新器"
+
   "Templates"
   "模板"
 

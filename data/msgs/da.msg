@@ -2780,6 +2780,9 @@ msgcat::mcmset da {
   "Split View"
   "Opdel visning"
 
+  "TKE Updater"
+  "TKE Updater"
+
   "Templates"
   "Skabeloner"
 
