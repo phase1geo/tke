@@ -492,7 +492,7 @@ if {[catch {
   }
 
   # If the number of loaded files is still zero, add a new blank file
-  if {[gui::get_file_num] == 0} {
+  if {[files::get_file_num] == 0} {
     gui::add_new_file end -sidebar $::cl_sidebar
   }
 
