@@ -88,37 +88,6 @@ namespace eval gui {
   #######################
 
   ######################################################################
-  # Returns the list of opened files.
-  proc get_fnames {} {
-
-    variable files
-    variable files_index
-
-    set fnames [list]
-
-    foreach f $files {
-      lappend fnames [lindex $f $files_index(fname)]
-    }
-
-    return $fnames
-
-  }
-
-  ######################################################################
-  # Returns 1 if the given filename exists (either locally or remotely).
-  proc file_exists {fname} {
-
-    lassign [get_info $fname fname remote] remote
-
-    if {$remote eq ""} {
-      return [file exists $fname]
-    } else {
-      return [[ns remote]::file_exists $remote $fname]
-    }
-
-  }
-
-  ######################################################################
   # Returns the modification time of the given file (either locally or
   # remotely).
   proc modtime {fname} {
@@ -146,7 +115,7 @@ namespace eval gui {
     lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
 
     if {$fname ne ""} {
-      if {[file_exists $fname]} {
+      if {[files::exists $fname]} {
         set file_mtime [modtime $fname]
         if {$mtime != $file_mtime} {
           if {$modified} {
@@ -2841,7 +2810,7 @@ namespace eval gui {
   # Hides all of the opened files.
   proc hide_all {} {
 
-    hide_files [get_fnames]
+    hide_files [files::get_names]
 
   }
 
@@ -2869,7 +2838,7 @@ namespace eval gui {
   # Shows all of the files.
   proc show_all {} {
 
-    show_files [get_fnames]
+    show_files [files::get_names]
 
   }
 

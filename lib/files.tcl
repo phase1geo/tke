@@ -99,7 +99,7 @@ namespace eval files {
 
   ######################################################################
   # Returns the list of opened files.
-  proc get_fnames {} {
+  proc get_names {} {
 
     variable files
     variable fields
@@ -110,7 +110,7 @@ namespace eval files {
 
   ######################################################################
   # Returns 1 if the given filename exists (either locally or remotely).
-  proc file_exists {fname} {
+  proc exists {fname} {
 
     set remote [get_info $fname fname remote]
 
