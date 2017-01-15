@@ -24,9 +24,103 @@
 
 namespace eval files {
 
+  variable files {}
+
+  array set fields {
+    fname    0
+    mtime    1
+    save_cmd 2
+    tab      3
+    lock     4
+    readonly 5
+    sidebar  6
+    modified 7
+    buffer   8
+    gutters  9
+    diff     10
+    tags     11
+    loaded   12
+    eol      13
+    remember 14
+    remote   15
+  }
+
   ######################################################################
   # PUBLIC PROCEDURES
   ######################################################################
+
+  ######################################################################
+  # Returns a list of information based on the types of data requested
+  # in the parameters for the given file.
+  proc get_info {from from_type to_types} {
+
+    variable files
+    variable fields
+
+    switch $from_type {
+      tab {
+        set index [lsearch -index $fields(tab) $files $from]
+      }
+      fileindex {
+        set index $from
+      }
+      fname {
+        set index [lsearch -index $fields(fname) $files $from]
+      }
+    }
+
+    # Verify that we found a matching file
+    if {$index == -1} {
+      return -code error "files::get_info, Unable to find file with attribute ($from_type) and value ($from)"
+    }
+
+    set tos [list]
+
+    foreach to_type $to_types {
+      if {![info exists fields($to_type)]} {
+        return -code error "files::get_info, Unsupported to_type ($to_type)"
+      }
+      lappend tos [lindex $files $index $fields($to_type)]
+    }
+
+    return $tos
+
+  }
+
+  ######################################################################
+  # Returns the number of opened files.
+  proc get_file_num {} {
+
+    variable files
+
+    return [llength $files]
+
+  }
+
+  ######################################################################
+  # Returns the list of opened files.
+  proc get_fnames {} {
+
+    variable files
+    variable fields
+
+    return [lsearch -all -index $fields(fname) $files *]
+
+  }
+
+  ######################################################################
+  # Returns 1 if the given filename exists (either locally or remotely).
+  proc file_exists {fname} {
+
+    set remote [get_info $fname fname remote]
+
+    if {$remote eq ""} {
+      return [file exists $fname]
+    } else {
+      return [[ns remote]::file_exists $remote $fname]
+    }
+
+  }
 
   ######################################################################
   # Renames the given folder to the new name.

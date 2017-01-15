@@ -88,16 +88,6 @@ namespace eval gui {
   #######################
 
   ######################################################################
-  # Returns the number of opened files.
-  proc get_file_num {} {
-
-    variable files
-
-    return [llength $files]
-
-  }
-
-  ######################################################################
   # Returns the list of opened files.
   proc get_fnames {} {
 
@@ -3976,8 +3966,6 @@ namespace eval gui {
   proc get_info {from from_type to_types} {
 
     variable widgets
-    variable files
-    variable files_index
     variable pw_current
 
     # Convert from to a tab
@@ -4001,7 +3989,7 @@ namespace eval gui {
         set tab [lindex [[lindex [$widgets(nb_pw) panes] $pw_current].tbf.tb tabs] $from]
       }
       fileindex {
-        set tab [lindex $files $from $files_index(tab)]
+        set tab [files::get_info $from fileindex tab]
       }
       txt -
       txt2 {
@@ -4011,10 +3999,7 @@ namespace eval gui {
         set tab [winfo parent $from]
       }
       fname {
-        if {[set index [lsearch -index $files_index(fname) $files $from]] == -1} {
-          return -code error "Unable to find filename"
-        }
-        set tab [lindex $files $index $files_index(tab)]
+        set tab [files::get_info $from fname tab]
       }
     }
 
@@ -4025,8 +4010,7 @@ namespace eval gui {
       set paneindex [expr {(([llength $panes] == 1) || ([lsearch [[lindex $panes 0].tbf.tb tabs] $tab] != -1)) ? 0 : 1}]
     }
 
-    set fileindex [lsearch -index $files_index(tab) $files $tab]
-    set tos       [list]
+    set tos [list]
 
     foreach to_type $to_types {
       switch $to_type {
@@ -4082,7 +4066,7 @@ namespace eval gui {
           if {$tab eq ""} {
             return -code error "Unable to get $to_type information"
           }
-          lappend tos [lindex $files $fileindex $files_index($to_type)]
+          lappend tos [files::get_info $tab tab $to_type]
         }
       }
     }
@@ -4817,9 +4801,6 @@ namespace eval gui {
   # Handles a drag-and-drop enter/position event.  Draws UI to show that
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {txt rootx rooty actions buttons} {
-
-    variable files
-    variable files_index
 
     lassign [get_info {} current {readonly lock diff}] readonly lock diff
 
