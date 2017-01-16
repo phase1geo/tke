@@ -28,7 +28,6 @@ namespace eval gui {
   source [file join $::tke_dir lib ns.tcl]
 
   variable curr_id          0
-  variable files            {}
   variable pw_index         0
   variable pw_current       0
   variable nb_index         0
@@ -64,83 +63,9 @@ namespace eval gui {
   array set be_after_id     {}
   array set be_ignore       {}
 
-  array set files_index {
-    fname    0
-    mtime    1
-    save_cmd 2
-    tab      3
-    lock     4
-    readonly 5
-    sidebar  6
-    modified 7
-    buffer   8
-    gutters  9
-    diff     10
-    tags     11
-    loaded   12
-    eol      13
-    remember 14
-    remote   15
-  }
-
   #######################
   #  PUBLIC PROCEDURES  #
   #######################
-
-  ######################################################################
-  # Returns the modification time of the given file (either locally or
-  # remotely).
-  proc modtime {fname} {
-
-    lassign [get_info $fname fname remote] remote
-
-    if {$remote eq ""} {
-      file stat $fname stat
-      return $stat(mtime)
-    } else {
-      return [[ns remote]::get_mtime $remote $fname]
-    }
-
-  }
-
-  ######################################################################
-  # Checks to see if the given file is newer than the file within the
-  # editor.  If it is newer, prompt the user to update the file.
-  proc check_file {index} {
-
-    variable files
-    variable files_index
-
-    # Get the file information
-    lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
-
-    if {$fname ne ""} {
-      if {[files::exists $fname]} {
-        set file_mtime [modtime $fname]
-        if {$mtime != $file_mtime} {
-          if {$modified} {
-            set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
-              -detail $fname -type yesno -default yes]
-            if {$answer eq "yes"} {
-              update_file $index
-            }
-          } else {
-            update_file $index
-          }
-          lset files $index $files_index(mtime) $file_mtime
-        }
-      } elseif {$mtime ne ""} {
-        set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
-          -detail $fname -type yesno -default yes]
-        if {$answer eq "yes"} {
-          close_tab {} $tab -check 0
-        } else {
-          lset files $index $files_index(mtime) ""
-        }
-      }
-    }
-
-  }
 
   ######################################################################
   # Sets the title of the window to match the current file.
@@ -728,11 +653,10 @@ namespace eval gui {
   proc set_auto_cwd {value} {
 
     variable auto_cwd
-    variable files
 
     # Update the auto_cwd variable and if a file exists, update the current
     # working directory if auto_cwd is true.
-    if {[set auto_cwd $value] && [llength $files]} {
+    if {[set auto_cwd $value] && [[ns files]::get_file_num]} {
 
       # Get the current file information
       lassign [get_info {} current {fname buffer diff}] fname buffer diff
@@ -775,8 +699,6 @@ namespace eval gui {
   proc setup_tab_popup_menu {} {
 
     variable widgets
-    variable files
-    variable files_index
     variable file_locked
     variable file_favorited
 
@@ -926,14 +848,12 @@ namespace eval gui {
   # value.
   proc set_line_number_width {tid val} {
 
-    variable files
-    variable files_index
     variable numberwidth
 
     set numberwidth $val
 
-    for {set i 0} {$i < [llength $files]} {incr i} {
-      [get_info [lindex $files $i $files_index(tab)] tab txt] configure -linemap_minwidth $val
+    for {set i 0} {$i < [[ns files]::get_file_num]} {incr i} {
+      [get_info $i fileindex txt] configure -linemap_minwidth $val
     }
 
   }
@@ -941,58 +861,16 @@ namespace eval gui {
   ######################################################################
   # Changes the given filename to the new filename in the file list and
   # updates the tab name to match the new name.
-  proc change_filename {old_name new_name} {
-
-    variable files
-    variable files_index
+  proc update_tab {tab} {
 
     # Get information from old_name and if it exists, update it and update the tab name.
-    if {![catch { lassign [get_info $old_name fname {tabbar tab fileindex}] tb tab index }] && ($index != -1)} {
+    lassign [get_info $tab tab {tabbar fname}] tb fname
 
-      # Update the file information
-      lset files $index $files_index(fname) $new_name
+    # Update the tab name
+    $tb tab $tab -text [file tail $fname]
 
-      # Update the tab name
-      $tb tab $tab -text [file tail $new_name]
-
-      # Update the title if necessary
-      set_title
-
-    }
-
-  }
-
-  ######################################################################
-  # Changes all files that exist in the old directory and renames them
-  # to the new directory.
-  proc change_folder {old_name new_name} {
-
-    variable files
-    variable files_index
-
-    foreach index [lsearch -all -index $files_index(fname) $files $old_name*] {
-      set old_fname [lindex $files $index $files_index(fname)]
-      lset files $index $files_index(fname) "$new_name[string range $old_fname [string length $old_name] end]"
-    }
-
-  }
-
-  ######################################################################
-  # Returns 1 if the given file exists in one of the notebooks.
-  proc file_exists_in_nb {fname remote} {
-
-    variable files
-    variable files_index
-
-    # Attempt to find the file index for the given filename and check the diff bit
-    foreach index [lsearch -all -index $files_index(fname) $files $fname] {
-      if {([lindex $files $index $files_index(diff)] == 0) && \
-          ([lindex $files $index $files_index(remote)] eq $remote)} {
-        return 1
-      }
-    }
-
-    return 0
+    # Update the title if necessary
+    set_title
 
   }
 
@@ -1002,8 +880,6 @@ namespace eval gui {
 
     variable widgets
     variable last_opened
-    variable files
-    variable files_index
 
     # Gather content to save
     set content(Geometry)                [::window_geometry .]
@@ -1093,8 +969,6 @@ namespace eval gui {
 
     variable widgets
     variable last_opened
-    variable files
-    variable files_index
     variable pw_current
 
     array set content [list \
@@ -1561,14 +1435,15 @@ namespace eval gui {
   proc untitled_check {} {
 
     variable widgets
-    variable files
-    variable files_index
 
-    # If we have no more tabs and there is another pane, remove this pane
-    return [expr {([llength $files] == 1) && \
-                  ([lindex $files 0 $files_index(fname)] eq "Untitled") && \
-                  [lindex $files 0 $files_index(buffer)] && \
-                  ([[ns vim]::get_cleaned_content [get_txt_from_tab [lindex [[lindex [$widgets(nb_pw) panes] 0].tbf.tb tabs] 0]]] eq "")}]
+    if {[[ns files]::get_file_num] == 1} {
+      lassign [get_info {} current {fname buffer txt}] fname buffer txt
+      if {($fname eq "Untitled") && $buffer && ([[ns vim]::get_cleaned_content $txt] eq "")} {
+        return 1
+      }
+    }
+
+    return 0
 
   }
 
@@ -1592,14 +1467,13 @@ namespace eval gui {
   #                        remote server name.
   proc add_buffer {index name save_command args} {
 
-    variable files
-    variable files_index
     variable pw_current
 
     # Handle options
     array set opts [list \
       -lock       0 \
       -readonly   0 \
+      -sidebar    0 \
       -gutters    [list] \
       -other      0 \
       -tags       [list] \
@@ -1618,19 +1492,8 @@ namespace eval gui {
       }
     }
 
-    # Check to see if the file is already loaded
-    set file_index -1
-    if {$name ne "Untitled"} {
-      foreach findex [lsearch -all -index $files_index(fname) $files $name] {
-        if {[lindex $files $findex $files_index(buffer)]} {
-          set file_index $findex
-          break
-        }
-      }
-    }
-
     # If the file is already loaded, display the tab
-    if {$file_index != -1} {
+    if {[set file_index [[ns files]::get_index $name $opts(-remote) -buffer 1]] != -1} {
 
       if {!$opts(-background)} {
         lassign [get_info $file_index fileindex {tabbar tab}] tb w
@@ -1661,26 +1524,15 @@ namespace eval gui {
       set w [insert_tab $tb $index $name -gutters $opts(-gutters) -tags $opts(-tags) -lang $opts(-lang)]
 
       # Create the file info structure
-      set file_info [lrepeat [array size files_index] ""]
-      lset file_info $files_index(fname)    $name
-      lset file_info $files_index(mtime)    ""
-      lset file_info $files_index(save_cmd) $save_command
-      lset file_info $files_index(tab)      $w
-      lset file_info $files_index(lock)     $opts(-lock)
-      lset file_info $files_index(readonly) $opts(-readonly)
-      lset file_info $files_index(sidebar)  0
-      lset file_info $files_index(buffer)   1
-      lset file_info $files_index(modified) 0
-      lset file_info $files_index(gutters)  $opts(-gutters)
-      lset file_info $files_index(diff)     0
-      lset file_info $files_index(tags)     $opts(-tags)
-      lset file_info $files_index(loaded)   1
-      lset file_info $files_index(eol)      [get_eol_translation ""]
-      lset file_info $files_index(remember) 0
-      lset file_info $files_index(remote)   $opts(-remote)
-
-      # Add the file information to the files list
-      lappend files $file_info
+      [ns files]::add $name $w \
+        -save_cmd $save_command \
+        -lock     $opts(-lock) \
+        -readonly $opts(-readonly) \
+        -sidebar  $opts(-sidebar) \
+        -buffer   1 \
+        -gutters  $opts(-gutters) \
+        -tags     $opts(-tags) \
+        -remote   $opts(-remote)
 
       # Get the current text widget
       lassign [get_info $w tab {txt tabbar}] txt tb
@@ -1723,52 +1575,14 @@ namespace eval gui {
   # -name        <path>     Starting name of file (the file doesn't currently exist).
   proc add_new_file {index args} {
 
-    variable files
-    variable files_index
-
     array set opts {
-      -sidebar 0
       -name    "Untitled"
+      -save_as ""
     }
     array set opts $args
 
     # Add the buffer
-    set tab [add_buffer $index $opts(-name) {eval [ns gui]::save_new_file $opts(-save_as)} {*}$args]
-
-    # If the sidebar option was set to 1, set it now
-    if {$opts(-sidebar)} {
-      if {[set index [lsearch -index $files_index(tab) $files $tab]] != -1} {
-        lset files $index $files_index(sidebar) 1
-      }
-    }
-
-    return $tab
-
-  }
-
-  ######################################################################
-  # Save command for new files.  Changes buffer into a normal file
-  # if the file was actually saved.
-  proc save_new_file {save_as file_index} {
-
-    variable files
-    variable files_index
-
-    # Set the buffer state to 0 and clear the save command
-    if {($save_as ne "") || ([lindex $files $file_index $files_index(fname)] ne "Untitled")} {
-      lset files $file_index $files_index(buffer)   0
-      lset files $file_index $files_index(save_cmd) ""
-      lset files $file_index $files_index(remember) 1
-      return 1
-    } elseif {[set save_as [prompt_for_save {}]] ne ""} {
-      lset files $file_index $files_index(buffer)   0
-      lset files $file_index $files_index(save_cmd) ""
-      lset files $file_index $files_index(fname)    $save_as
-      lset files $file_index $files_index(remember) 1
-      return 1
-    }
-
-    return -code error "New file was not saved"
+    return [add_buffer $index $opts(-name) {eval [ns files]::save_new_file $opts(-save_as)} {*}$args]
 
   }
 
@@ -1792,8 +1606,6 @@ namespace eval gui {
   proc add_file {index fname args} {
 
     variable widgets
-    variable files
-    variable files_index
     variable pw_current
     variable last_opened
 
@@ -1818,17 +1630,8 @@ namespace eval gui {
       close_tab {} [get_info {} current tab] -keeptab 0
     }
 
-    # Check to see if the file is already loaded
-    set file_index -1
-    foreach findex [lsearch -all -index $files_index(fname) $files $fname] {
-      if {[lindex $files $findex $files_index(diff)] == $opts(-diff)} {
-        set file_index $findex
-        break
-      }
-    }
-
     # If the file is already loaded, display the tab
-    if {$file_index != -1} {
+    if {[set file_index [[ns files]::get_index $fname $remote -diff $opts(-diff)]] != -1} {
 
       # Get the tab associated with the given file index
       lassign [get_info $file_index fileindex {tabbar tab}] tb w
@@ -1858,27 +1661,21 @@ namespace eval gui {
       set w [insert_tab $tb $index $fname -diff $opts(-diff) -gutters $opts(-gutters) -tags $opts(-tags)]
 
       # Create the file information
-      set file_info [lrepeat [array size files_index] ""]
-      lset file_info $files_index(fname)    $fname
-      lset file_info $files_index(mtime)    ""
-      lset file_info $files_index(save_cmd) $opts(-savecommand)
-      lset file_info $files_index(tab)      $w
-      lset file_info $files_index(lock)     $opts(-lock)
-      lset file_info $files_index(readonly) [expr $opts(-readonly) || $opts(-diff)]
-      lset file_info $files_index(sidebar)  $opts(-sidebar)
-      lset file_info $files_index(buffer)   0
-      lset file_info $files_index(modified) 0
-      lset file_info $files_index(gutters)  $opts(-gutters)
-      lset file_info $files_index(diff)     $opts(-diff)
-      lset file_info $files_index(tags)     $opts(-tags)
-      lset file_info $files_index(loaded)   0
-      lset file_info $files_index(eol)      [get_eol_translation [expr {($opts(-remote) ne "") ? "" : $fname}]]
-      lset file_info $files_index(remember) $opts(-remember)
-      lset file_info $files_index(remote)   $opts(-remote)
-      lappend files $file_info
+      [ns files]::add $fname $w \
+        -save_cmd $opts(-savecommand) \
+        -lock     $opts(-lock) \
+        -readonly $opts(-readonly) \
+        -sidebar  $opts(-sidebar) \
+        -buffer   0 \
+        -gutters  $opts(-gutters) \
+        -diff     $opts(-diff) \
+        -tags     $opts(-tag) \
+        -loaded   0 \
+        -remember $opts(-remember) \
+        -remote   $opts(-remote)
 
       # Run any plugins that should run when a file is opened
-      [ns plugins]::handle_on_open [expr [llength $files] - 1]
+      [ns plugins]::handle_on_open [expr [[ns files]::get_file_num] - 1]
 
     }
 
@@ -1904,106 +1701,54 @@ namespace eval gui {
   # Inserts the file information and sets the
   proc add_tab_content {tab} {
 
-    variable files
-    variable files_index
-
     # Get some of the file information
-    lassign [get_info $tab tab {fileindex txt tabbar tab fname loaded diff remote}] file_index txt tb tab fname loaded diff remote
+    lappend [get_info $tab tab {tabbar txt diff}] tb txt diff
 
-    # Only add the tab content if it has not been done
-    if {!$loaded} {
+    # Indicate that we are loading the tab
+    $tb tab $tab -busy 1
 
-      # Specify that this tab is loaded
-      lset files $file_index $files_index(loaded) 1
+    if {[[ns files]::get_file $tab contents]} {
 
-      set okay 0
+      # Delete any dspace characters
+      [ns vim]::remove_dspace $txt
 
-      # Get the file contents
-      if {$remote ne ""} {
-        $tb tab $tab -busy 1
-        set okay [[ns remote]::get_file $remote $fname contents modtime]
-        $tb tab $tab -busy 0
-      } elseif {![catch { open $fname r } rc]} {
-        set contents [string range [read $rc] 0 end-1]
-        set okay     1
-        close $rc
+      # Insert the file contents
+      $txt fastinsert end $contents
+
+      # Highlight text and add update code folds
+      $txt highlight 1.0 end
+      $txt see 1.0
+
+      # Check brackets
+      [ns completer]::check_all_brackets $txt.t
+
+      # Change the text to unmodified
+      $txt edit reset
+      lset files $file_index $files_index(modified) 0
+
+      # Set the insertion mark to the first position
+      ::tk::TextSetCursor $txt.t 1.0
+
+      # Perform an insertion adjust, if necessary
+      if {[[ns vim]::in_vim_mode $txt.t]} {
+        [ns vim]::adjust_insert $txt.t
       }
 
-      if {$okay} {
+      # Add the file to the list of recently opened files
+      add_to_recently_opened $fname
 
-        # Delete any dspace characters
-        [ns vim]::remove_dspace $txt
+      # Parse Vim modeline information, if needed
+      [ns vim]::parse_modeline $txt
 
-        # Read the file contents and insert them
-        $txt fastinsert end $contents
-
-        # Highlight text and add update code folds
-        $txt highlight 1.0 end
-        $txt see 1.0
-
-        # Check brackets
-        [ns completer]::check_all_brackets $txt.t
-
-        # Change the text to unmodified
-        $txt edit reset
-        lset files $file_index $files_index(modified) 0
-
-        # Set the insertion mark to the first position
-        ::tk::TextSetCursor $txt.t 1.0
-
-        # Perform an insertion adjust, if necessary
-        if {[[ns vim]::in_vim_mode $txt.t]} {
-          [ns vim]::adjust_insert $txt.t
-        }
-
-        if {[lindex $files $file_index $files_index(remote)] eq ""} {
-          file stat $fname stat
-          lset files $file_index $files_index(mtime) $stat(mtime)
-        } else {
-          lset files $file_index $files_index(mtime) $modtime
-        }
-
-        # Add the file to the list of recently opened files
-        add_to_recently_opened $fname
-
-        # Parse Vim modeline information, if needed
-        [ns vim]::parse_modeline $txt
-
-        # If a diff command was specified, run and parse it now
-        if {$diff} {
-          [ns diff]::show $txt
-        }
-
+      # If a diff command was specified, run and parse it now
+      if {$diff} {
+        [ns diff]::show $txt
       }
 
-      # Change the tab text
-      $tb tab $tab -text " [file tail $fname]"
+      # Update tab
+      update_tab $tab
 
     }
-
-  }
-
-  ######################################################################
-  # Normalizes the given filename and resolves any NFS mount information if
-  # the specified host is not the current host.
-  proc normalize {host fname} {
-
-    # Perform a normalization of the file
-    set fname [file normalize $fname]
-
-    # If the host does not match our host, handle the NFS mount normalization
-    if {$host ne [info hostname]} {
-      array set nfs_mounts [[ns preferences]::get NFSMounts]
-      if {[info exists nfs_mounts($host)]} {
-        lassign $nfs_mounts($host) mount_dir shortcut
-        set shortcut_len [string length $shortcut]
-        if {[string equal -length $shortcut_len $shortcut $fname]} {
-          set fname [string replace $fname 0 [expr $shortcut_len - 1] $mount_dir]
-        }
-      }
-    }
-
-    return $fname
 
   }
 
@@ -2204,23 +1949,6 @@ namespace eval gui {
       return -1
     } else {
       return $matching_index
-    }
-
-  }
-
-  ######################################################################
-  # Returns the EOL translation to use for the given file.
-  proc get_eol_translation {fname} {
-
-    variable files
-    variable files_index
-
-    set type [expr {($fname eq "") ? "sys" : [[ns preferences]::get Editor/EndOfLineTranslation]}]
-
-    switch $type {
-      auto    { return [utils::get_eol_char $fname] }
-      sys     { return [expr {($::tcl_platform(platform) eq "windows") ? "crlf" : "lf"}] }
-      default { return $type }
     }
 
   }
@@ -2810,7 +2538,7 @@ namespace eval gui {
   # Hides all of the opened files.
   proc hide_all {} {
 
-    hide_files [files::get_names]
+    hide_files [[ns files]::get_names]
 
   }
 
@@ -2838,7 +2566,7 @@ namespace eval gui {
   # Shows all of the files.
   proc show_all {} {
 
-    show_files [files::get_names]
+    show_files [[ns files]::get_names]
 
   }
 
@@ -3958,7 +3686,7 @@ namespace eval gui {
         set tab [lindex [[lindex [$widgets(nb_pw) panes] $pw_current].tbf.tb tabs] $from]
       }
       fileindex {
-        set tab [files::get_info $from fileindex tab]
+        set tab [[ns files]::get_info $from fileindex tab]
       }
       txt -
       txt2 {
@@ -3968,7 +3696,7 @@ namespace eval gui {
         set tab [winfo parent $from]
       }
       fname {
-        set tab [files::get_info $from fname tab]
+        set tab [[ns files]::get_info $from fname tab]
       }
     }
 
@@ -4035,7 +3763,7 @@ namespace eval gui {
           if {$tab eq ""} {
             return -code error "Unable to get $to_type information"
           }
-          lappend tos [files::get_info $tab tab $to_type]
+          lappend tos [[ns files]::get_info $tab tab $to_type]
         }
       }
     }
@@ -5469,7 +5197,7 @@ namespace eval gui {
     set_title
 
     # Check to see if the file has changed
-    catch { check_file $file_index }
+    catch { [ns files]::check_file $file_index }
 
     # Save the text widget
     set txt_current($tab) [winfo parent $txtt]
