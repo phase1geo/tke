@@ -123,8 +123,264 @@ namespace eval files {
   }
 
   ######################################################################
+  # Returns true if the file is currently opened within an editing buffer.
+  proc is_opened {fname remote} {
+
+    return [expr [get_index $fname $remote] != -1]
+
+  }
+
+  ######################################################################
+  # Returns the index of the matching filename.
+  proc get_index {fname remote args} {
+
+    variable files
+    variable fields
+
+    array set opts {
+      -diff   0
+      -buffer 0
+    }
+    array set opts $args
+
+    foreach index [lsearch -all -index $fields(fname) $files $fname] {
+      if {([lindex $files $index $fields(remote)] eq $remote) && \
+          ([lindex $files $index $fields(diff)]   eq $opts(-diff)) && \
+          ([lindex $files $index $fields(buffer)] eq $opts(-buffer))} {
+        return $index
+      }
+    }
+
+    return -1
+
+  }
+
+  ######################################################################
+  # Returns the modification time of the given file (either locally or
+  # remotely).
+  proc modtime {fname} {
+
+    lassign [get_info $fname fname remote] remote
+
+    if {$remote eq ""} {
+      file stat $fname stat
+      return $stat(mtime)
+    } else {
+      return [[ns remote]::get_mtime $remote $fname]
+    }
+
+  }
+
+  ######################################################################
+  # Normalizes the given filename and resolves any NFS mount information if
+  # the specified host is not the current host.
+  proc normalize {host fname} {
+
+    # Perform a normalization of the file
+    set fname [file normalize $fname]
+
+    # If the host does not match our host, handle the NFS mount normalization
+    if {$host ne [info hostname]} {
+      array set nfs_mounts [[ns preferences]::get NFSMounts]
+      if {[info exists nfs_mounts($host)]} {
+        lassign $nfs_mounts($host) mount_dir shortcut
+        set shortcut_len [string length $shortcut]
+        if {[string equal -length $shortcut_len $shortcut $fname]} {
+          set fname [string replace $fname 0 [expr $shortcut_len - 1] $mount_dir]
+        }
+      }
+    }
+
+    return $fname
+
+  }
+
+  ######################################################################
+  # Checks to see if the given file is newer than the file within the
+  # editor.  If it is newer, prompt the user to update the file.
+  proc check_file {index} {
+
+    variable files
+    variable files_index
+
+    # Get the file information
+    lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
+
+    if {$fname ne ""} {
+      if {[exists $fname]} {
+        set file_mtime [modtime $fname]
+        if {$mtime != $file_mtime} {
+          if {$modified} {
+            set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
+              -detail $fname -type yesno -default yes]
+            if {$answer eq "yes"} {
+              update_file $index
+            }
+          } else {
+            update_file $index
+          }
+          lset files $index $files_index(mtime) $file_mtime
+        }
+      } elseif {$mtime ne ""} {
+        set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
+          -detail $fname -type yesno -default yes]
+        if {$answer eq "yes"} {
+          close_tab {} $tab -check 0
+        } else {
+          lset files $index $files_index(mtime) ""
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Adds a new file to the list of opened files.
+  proc add {fname tab args} {
+
+    variable files
+    variable fields
+
+    array set opts {
+      -save_cmd ""
+      -lock     0
+      -readonly 0
+      -sidebar  0
+      -buffer   0
+      -gutters  [list]
+      -diff     0
+      -tags     [list]
+      -loaded   0
+      -eol      ""
+      -remember 0
+      -remote   ""
+    }
+    array set opts $args
+
+    set file_info [lrepeat [array size fields] ""]
+
+    lset file_info $files_index(fname)    $fname
+    lset file_info $files_index(mtime)    ""
+    lset file_info $files_index(save_cmd) $opts(-save_cmd)
+    lset file_info $files_index(tab)      $tab
+    lset file_info $files_index(lock)     $opts(-lock)
+    lset file_info $files_index(readonly) [expr $opts(-readonly) || $opts(-diff)]
+    lset file_info $files_index(sidebar)  $opts(-sidebar)
+    lset file_info $files_index(buffer)   $opts(-buffer)
+    lset file_info $files_index(modified) 0
+    lset file_info $files_index(gutters)  $opts(-gutters)
+    lset file_info $files_index(diff)     $opts(-diff)
+    lset file_info $files_index(tags)     $opts(-tags)
+    lset file_info $files_index(loaded)   $opts(-loaded)
+    lset file_info $files_index(remember) $opts(-remember)
+    lset file_info $files_index(remote)   $opts(-remote)
+
+    if {$opts(-remote) eq ""} {
+      lset file_info $fields(eol) [get_eol_translation $fname]
+    } else {
+      lset file_info $fields(eol) [get_eol_translation ""]
+    }
+
+    # Add the file information to the files list
+    lappend files $file_info
+
+  }
+
+  ######################################################################
+  # Returns the contents of the file located at the given tab.  Returns
+  # a value of 1 if the file was successfully loaded; otherwise, returns
+  # 0.
+  proc get_file {tab pcontents} {
+
+    variable files
+    variable fields
+
+    lassign [get_info $tab tab {index fname loaded diff remote}] index fname loaded diff remote
+
+    # If the file is already loaded, return now
+    if {$loaded} {
+      return 0
+    }
+
+    # Set the loaded indicator
+    lset files $index $fields(loaded) 1
+
+    upvar $pcontents contents
+
+    # Get the file contents
+    if {$remote ne ""} {
+      [ns remote]::get_file $remote $fname contents modtime
+      lset files $index $fields(mtime) $modtime
+    } elseif {![catch { open $fname r } rc]} {
+      set contents [string range [read $rc] 0 end-1]
+      close $rc
+      lset files $index $fields(mtime) [file mtime $fname]
+    } else {
+      return 0
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Save command for new files.  Changes buffer into a normal file
+  # if the file was actually saved.
+  proc save_new_file {save_as index} {
+
+    variable files
+    variable fields
+
+    # Set the buffer state to 0 and clear the save command
+    if {($save_as ne "") || ([lindex $files $index $fields(fname)] ne "Untitled")} {
+      lset files $index $fields(buffer)   0
+      lset files $index $fields(save_cmd) ""
+      lset files $index $fields(remember) 1
+      return 1
+    } elseif {[set save_as [[ns gui]::prompt_for_save {}]] ne ""} {
+      lset files $index $fields(buffer)   0
+      lset files $index $fields(save_cmd) ""
+      lset files $index $fields(fname)    $save_as
+      lset files $index $fields(remember) 1
+      return 1
+    }
+
+    return -code error "New file was not saved"
+
+  }
+
+  ######################################################################
+  # Returns the EOL translation to use for the given file.
+  proc get_eol_translation {fname} {
+
+    set type [expr {($fname eq "") ? "sys" : [[ns preferences]::get Editor/EndOfLineTranslation]}]
+
+    switch $type {
+      auto    { return [utils::get_eol_char $fname] }
+      sys     { return [expr {($::tcl_platform(platform) eq "windows") ? "crlf" : "lf"}] }
+      default { return $type }
+    }
+
+  }
+
+  ######################################################################
+  # Sets the EOL translation setting for the current file to the given value.
+  proc set_eol_translation {index value} {
+
+    variable files
+    variable fields
+
+    # Set the EOL translation setting
+    lset files $index $fields(eol) $value
+
+  }
+
+  ######################################################################
   # Renames the given folder to the new name.
   proc rename_folder {old_name new_name remote} {
+
+    variable files
+    variable fields
 
     if {$remote eq ""} {
 
@@ -150,7 +406,10 @@ namespace eval files {
     }
 
     # If this is a displayed file, update the file information
-    gui::change_folder $old_name $new_name
+    foreach index [lsearch -all -index $fields(fname) $files $old_name*] {
+      set old_fname [lindex $files $index $fields(fname)]
+      lset files $index $fields(fname) "$new_name[string range $old_fname [string length $old_name] end]"
+    }
 
     return $new_name
 
@@ -182,6 +441,9 @@ namespace eval files {
   # Performs a file rename.
   proc rename_file {old_name new_name remote} {
 
+    variable files
+    variable fields
+
     if {$remote eq ""} {
 
       # Normalize the filename
@@ -195,6 +457,8 @@ namespace eval files {
         return -code error $rc
       }
 
+      if {[lindex $files $fields(fname)] }
+
     } else {
 
       # Allow any plugins to handle the rename
@@ -206,8 +470,11 @@ namespace eval files {
 
     }
 
-    # Update the file information (if necessary)
-    gui::change_filename $old_name $new_name
+    # Find the matching file in the files list and change its filename to the new name
+    if {[set index [get_index $old_fname $remote]] != -1} {
+      lset files $index $fields(fname) $new_name
+      gui::update_tab [lindex $files $index $fields(tab)]
+    }
 
     return $new_name
 

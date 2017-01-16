@@ -794,7 +794,7 @@ namespace eval sidebar {
       } else {
         if {![ignore_file $fname]} {
           set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 1 -tags [list f $fname,$remote]]
-          if {[gui::file_exists_in_nb $fname $remote]} {
+          if {[files::is_opened $fname $remote]} {
             set_image $key sidebar_open
             update_root_count $key 1
           }
