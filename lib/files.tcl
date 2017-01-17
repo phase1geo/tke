@@ -315,6 +315,20 @@ namespace eval files {
   }
 
   ######################################################################
+  # Close the file associated with the given tab.
+  proc remove {tab} {
+
+    variable files
+    variable fields
+
+    # Get the file index
+    if {[get_info $tab tab fileindex] != -1} {
+      set files [lreplace $files $fileindex $fileindex]
+    }
+
+  }
+
+  ######################################################################
   # Returns the contents of the file located at the given tab.  Returns
   # a value of 1 if the file was successfully loaded; otherwise, returns
   # 0.
