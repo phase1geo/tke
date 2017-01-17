@@ -52,7 +52,7 @@ namespace eval files {
   ######################################################################
   # Returns a list of information based on the types of data requested
   # in the parameters for the given file.
-  proc get_info {from from_type to_types} {
+  proc get_info {from from_type args} {
 
     variable files
     variable fields
@@ -64,9 +64,6 @@ namespace eval files {
       fileindex {
         set index $from
       }
-      fname {
-        set index [lsearch -index $fields(fname) $files $from]
-      }
     }
 
     # Verify that we found a matching file
@@ -76,14 +73,45 @@ namespace eval files {
 
     set tos [list]
 
-    foreach to_type $to_types {
+    foreach to_type $args {
       if {![info exists fields($to_type)]} {
         return -code error "files::get_info, Unsupported to_type ($to_type)"
       }
-      lappend tos [lindex $files $index $fields($to_type)]
+      upvar $to_type type
+      set retval [set type [lindex $files $index $fields($to_type)]]
     }
 
-    return $tos
+    return $retval
+
+  }
+
+  ######################################################################
+  # Sets one or more file fields for the given file.
+  proc set_info {from from_type args} {
+
+    variable files
+    variable fields
+
+    switch $from_type {
+      tab {
+        set index [lsearch -index $fields(tab) $files $from]
+      }
+      fileindex {
+        set index $from
+      }
+    }
+
+    # Verify that we found a matching file
+    if {$index == -1} {
+      return -code error "files::get_info, Unable to find file with attribute ($from_type) and value ($from)"
+    }
+
+    foreach {type value} $args {
+      if {![info exists fields($type)]} {
+        return -code error "files::set_info, Unsupported to_type ($type)"
+      }
+      lset files $index $fields($type) $value
+    }
 
   }
 
@@ -112,7 +140,7 @@ namespace eval files {
   # Returns 1 if the given filename exists (either locally or remotely).
   proc exists {fname} {
 
-    set remote [get_info $fname fname remote]
+    get_info $fname fname remote
 
     if {$remote eq ""} {
       return [file exists $fname]
@@ -160,7 +188,7 @@ namespace eval files {
   # remotely).
   proc modtime {fname} {
 
-    lassign [get_info $fname fname remote] remote
+    get_info $fname fname remote
 
     if {$remote eq ""} {
       file stat $fname stat
@@ -204,7 +232,7 @@ namespace eval files {
     variable files_index
 
     # Get the file information
-    lassign [get_info $index fileindex {tab fname mtime modified}] tab fname mtime modified
+    get_info $index fileindex tab fname mtime modified
 
     if {$fname ne ""} {
       if {[exists $fname]} {
@@ -295,7 +323,7 @@ namespace eval files {
     variable files
     variable fields
 
-    lassign [get_info $tab tab {index fname loaded diff remote}] index fname loaded diff remote
+    get_info $tab tab index fname loaded diff remote
 
     # If the file is already loaded, return now
     if {$loaded} {
@@ -317,6 +345,45 @@ namespace eval files {
       lset files $index $fields(mtime) [file mtime $fname]
     } else {
       return 0
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Saves the contents of the given file contents.
+  proc set_file {tab contents} {
+
+    variable files
+    variable fields
+
+    get_info $tab tab fileindex fname remote eol
+
+    if {$remote ne ""} {
+
+      # Save the file contents to the remote file
+      if {![[ns remote]::save_file $remote $fname $contents modtime]} {
+        set_error_message [msgcat::mc "Unable to write remote file"] ""
+        return 0
+      }
+
+      lset files $fileindex $fields(mtime) $modtime
+
+    } elseif {![catch { open $fname w } rc]} {
+
+      # Write the file contents
+      catch { fconfigure $rc -translation $eol }
+      puts $rc $contents
+      close $rc
+
+      lset files $fileindex $fields(mtime) [file mtime $fname]
+
+    } else {
+
+      set_error_message [msgcat::mc "Unable to write file"] $rc
+      return 0
+
     }
 
     return 1
@@ -360,18 +427,6 @@ namespace eval files {
       sys     { return [expr {($::tcl_platform(platform) eq "windows") ? "crlf" : "lf"}] }
       default { return $type }
     }
-
-  }
-
-  ######################################################################
-  # Sets the EOL translation setting for the current file to the given value.
-  proc set_eol_translation {index value} {
-
-    variable files
-    variable fields
-
-    # Set the EOL translation setting
-    lset files $index $fields(eol) $value
 
   }
 
