@@ -2198,7 +2198,6 @@ namespace eval gui {
   proc close_tab {tid tab args} {
 
     variable widgets
-    variable files
     variable pw_current
 
     array set opts {
@@ -2207,18 +2206,12 @@ namespace eval gui {
       -lazy    0
       -force   0
       -check   1
-      -tabbar  ""
+      -tabbar  0
     }
     array set opts $args
 
-    # Get the tab information (we need to get the pane and tabbar information
-    if {$opts(-tabbar) ne ""} {
-      set pane [winfo parent [winfo parent $opts(-tabbar)]]
-      set tb   $opts(-tabbar)
-      lassign [get_info $tab tab {fileindex fname diff}] index fname diff
-    } else {
-      lassign [get_info $tab tab {pane tabbar tabindex fileindex fname diff}] pane tb tab_index index fname diff
-    }
+    # Get information
+    get_info $tab tab pane tabbar tabindex fileindex fname diff
 
     # Perform save check on close
     if {$opts(-check)} {
@@ -2229,14 +2222,14 @@ namespace eval gui {
     [ns sidebar]::highlight_filename $fname [expr $diff * 2]
 
     # Run the close event for this file
-    [ns plugins]::handle_on_close $index
+    [ns plugins]::handle_on_close $fileindex
 
     # Delete the file from files
-    set files [lreplace $files $index $index]
+    [ns files]::remove $tab
 
     # Remove the tab from the tabbar (unless this has already been done by the tabbar)
-    if {$opts(-tabbar) eq ""} {
-      $tb delete $tab_index
+    if {!$opts(-tabbar)} {
+      $tabbar delete $tab_index
     }
 
     # Delete the text frame
@@ -2246,12 +2239,12 @@ namespace eval gui {
     destroy $tab
 
     # Display the current pane (if one exists)
-    if {!$opts(-lazy) && ([set tab [$tb select]] ne "")} {
-      set_current_tab $tb $tab
+    if {!$opts(-lazy) && ([set tab [$tabbar select]] ne "")} {
+      set_current_tab $tabbar $tab
     }
 
     # If we have no more tabs and there is another pane, remove this pane
-    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
+    if {([llength [$tabbar tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pane
       set pw_current 0
       set tb         [get_info 0 paneindex tabbar]
@@ -2287,19 +2280,26 @@ namespace eval gui {
     }
 
     # Set the current tab
-    set_current_tab {*}[get_info {} current {tabbar tab}]
+    get_info {} current tabbar tab
+    set_current_tab $tabbar $tab
 
   }
 
   ######################################################################
   # Close all of the tabs.
-  proc close_all {{force 0} {exiting 0}} {
+  proc close_all {args} {
 
     variable widgets
 
+    array set opts {
+      -force   0
+      -exiting 0
+    }
+    array set opts $args
+
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
-        close_tab {} $tab -force $force -exiting $exiting -lazy 1
+        close_tab {} $tab -lazy 1 {*}$args
       }
     }
 
@@ -2317,7 +2317,8 @@ namespace eval gui {
       }
 
       # Set the current tab
-      set_current_tab {*}[get_info {} current {tabbar tab}]
+      get_info {} current tabbar tab
+      set_current_tab $tabbar $tab
 
     }
 

@@ -991,7 +991,7 @@ namespace eval menus {
   # Closes all opened tabs.
   proc close_all_command {} {
 
-    gui::close_all 1
+    gui::close_all -force 1
 
   }
 
@@ -1006,7 +1006,7 @@ namespace eval menus {
     sessions::save "last"
 
     # Close all of the tabs
-    gui::close_all 1 1
+    gui::close_all -force 1 -exiting 1
 
     # Save the clipboard history
     cliphist::save

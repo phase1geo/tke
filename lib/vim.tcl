@@ -217,7 +217,7 @@ namespace eval vim {
       wq! { if {[[ns gui]::save_current $tid -force 1]} { [ns gui]::close_current $tid 0; set txt "" } }
       q   { [ns gui]::close_current $tid 0; set txt "" }
       q!  { [ns gui]::close_current $tid 1; set txt "" }
-      cq  { [ns gui]::close_all 1 1; [ns menus]::exit_command }
+      cq  { [ns gui]::close_all -force 1 -exiting 1; [ns menus]::exit_command }
       e!  { [ns gui]::update_current }
       n   { [ns gui]::next_tab }
       N   { [ns gui]::previous_tab }
