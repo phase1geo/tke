@@ -974,6 +974,7 @@ namespace eval gui {
   # window geometry to match the read value.
   proc load_session {tid info} {
 
+    catch {
     variable widgets
     variable last_opened
     variable pw_current
@@ -990,6 +991,8 @@ namespace eval gui {
 
     array set content $info
 
+    puts "HERE AA"
+
     # Put the state information into the rest of the GUI
     if {[info exists content(Fullscreen)] && $content(Fullscreen)} {
       wm attributes . -fullscreen 1
@@ -1003,14 +1006,20 @@ namespace eval gui {
       }
     }
 
+    puts "HERE BB"
+
     # Restore the "last_opened" list
     set last_opened $content(LastOpened)
 
     # Load the session information into the sidebar
     [ns sidebar]::load_session $content(Sidebar)
 
+    puts "HERE CC"
+
     # Load the session information into the launcher
     [ns launcher]::load_session $content(Launcher)
+
+    puts "HERE DD"
 
     # Set the current working directory to the saved value
     if {[file exists $content(CurrentWorkingDirectory)]} {
@@ -1032,38 +1041,48 @@ namespace eval gui {
       set ordered [list "" ""]
     }
 
+    puts "HERE EE"
+
     # If the second pane is necessary, create it now
     if {[llength $content(CurrentTabs)] == 2} {
       add_notebook
     }
+
+    puts "HERE FF"
 
     # Add the tabs (in order) to each of the panes and set the current tab in each pane
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
       set pw_current $pane
       set tab        ""
       foreach index [lindex $ordered $pane] {
+        puts "index: $index"
         if {$index ne ""} {
           array set finfo [lindex $content(FileInfo) $index]
           if {[file exists $finfo(fname)]} {
+            puts "HERE GG"
             set tab [add_file end $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1]
-            set txt [get_txt_from_tab $tab]
+            puts "HERE HH"
+            get_info $tab tab txt
             if {[[ns syntax]::get_language $txt] ne $finfo(language)} {
               [ns syntax]::set_language $txt $finfo(language)
             }
+            puts "HERE II"
             if {[info exists finfo(indent)]} {
               [ns indent]::set_indent_mode $tid $finfo(indent)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               [ns diff]::set_session_data $txt $finfo(diffdata)
             }
+            puts "HERE JJ"
             if {[info exists finfo(cursor)]} {
               ::tk::TextSetCursor $txt.t $finfo(cursor)
             }
             if {[info exists finfo(yview)]} {
               $txt yview $finfo(yview)
             }
+            puts "HERE KK"
             if {[info exists finfo(markers)]} {
               foreach {mname line} $finfo(markers) {
                 if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
@@ -1071,16 +1090,24 @@ namespace eval gui {
                 }
               }
             }
+            puts "HERE LL"
           }
         }
       }
+      puts "HERE MM"
       if {$tab ne ""} {
         get_info [lindex $content(CurrentTabs) $pane] tabindex tabbar tab
+        puts "HERE MM1"
         if {[catch { set_current_tab $tabbar $tab }]} {
+          puts "HERE MM2"
           set_current_tab [get_info $pane paneindex tabbar] $tab
+          puts "HERE MM3"
         }
       }
+      puts "HERE NN"
     }
+    } rc
+    puts "rc: $rc"
 
   }
 
@@ -1638,7 +1665,7 @@ namespace eval gui {
     }
 
     # If the file is already loaded, display the tab
-    if {[set file_index [[ns files]::get_index $fname $remote -diff $opts(-diff)]] != -1} {
+    if {[set file_index [[ns files]::get_index $fname $opts(-remote) -diff $opts(-diff)]] != -1} {
 
       # Get the tab associated with the given file index
       get_info $file_index fileindex tabbar tab
@@ -1676,7 +1703,7 @@ namespace eval gui {
         -buffer   0 \
         -gutters  $opts(-gutters) \
         -diff     $opts(-diff) \
-        -tags     $opts(-tag) \
+        -tags     $opts(-tags) \
         -loaded   0 \
         -remember $opts(-remember) \
         -remote   $opts(-remote)
@@ -1947,7 +1974,9 @@ namespace eval gui {
     [ns files]::set_info $tab tab modified $value
 
     # Set the text widget status
-    $txt edit modified $value
+    if {$value == 0} {
+      $txt edit modified $value
+    }
 
     # Update the current tab text
     $tabbar tab $tab -text [format "%s %s" [expr {$value ? " *" : ""}] [file tail $fname]]
@@ -2307,6 +2336,8 @@ namespace eval gui {
 
   ######################################################################
   # Closes the tab with the identified name (if it exists).
+  # FIXME - I think that we need to include remote information to this
+  # to properly close files by name.
   proc close_files {fnames} {
 
     if {[llength $fnames] > 0} {
@@ -2328,13 +2359,10 @@ namespace eval gui {
   # Closes all of the opened files that exist within the given directories
   proc close_dir_files {dirs} {
 
-    variable files
-    variable files_index
-
     set set_current 0
 
     foreach dir $dirs {
-      foreach index [lreverse [lsearch -all -index $files_index(fname) $files $dir*]] {
+      foreach index [lreverse [[ns files]::get_names $dir*]] {
         close_tab {} [get_info $index fileindex tab] -lazy 1
         set set_current 1
       }
@@ -2342,7 +2370,8 @@ namespace eval gui {
 
     # Set the current tab if we have lost it
     if {$set_current} {
-      set_current_tab {*}[get_info {} current {tabbar tab}]
+      get_info {} current tabbar tab
+      set_current_tab $tabbar $tab
     }
 
   }
@@ -2359,19 +2388,19 @@ namespace eval gui {
     array set opts $args
 
     # Get the current tabbar
-    lassign [get_info $tab tab {tabbar fname remote}] tb fname remote
+    get_info $tab tab tabbar fname remote
 
     # Hide the tab
-    $tb tab $tab -state hidden
+    $tabbar tab $tab -state hidden
 
     if {!$opts(-lazy)} {
-      set_current_tab $tb [$tb select] -changed 1
+      set_current_tab $tabbar [$tabbar select] -changed 1
     }
 
     # Make sure the sidebar is updated properly
     [ns sidebar]::set_hide_state $fname $remote 1
 
-    return $tb
+    return $tabbar
 
   }
 
@@ -2387,19 +2416,19 @@ namespace eval gui {
     array set opts $args
 
     # Get the current tabbar
-    lassign [get_info $tab tab {tabbar fname remote}] tb fname remote
+    get_info $tab tab tabbar fname remote
 
     # Show the tab
-    $tb tab $tab -state normal
+    $tabbar tab $tab -state normal
 
     if {!$opts(-lazy)} {
-      set_current_tab $tb [$tb select] -changed 1
+      set_current_tab $tabbar [$tabbar select] -changed 1
     }
 
     # Make sure the sidebar is updated properly
     [ns sidebar]::set_hide_state $fname $remote 0
 
-    return $tb
+    return $tabbar
 
   }
 
@@ -2414,6 +2443,7 @@ namespace eval gui {
 
   ######################################################################
   # Hides all of the files with the given filenames.
+  # FIXME - Add remote parameters to hone in on correct name.
   proc hide_files {fnames} {
 
     if {[llength $fnames] > 0} {
@@ -2474,30 +2504,28 @@ namespace eval gui {
   proc sort_tabs {} {
 
     variable widgets
-    variable files
-    variable files_index
 
     foreach nb [$widgets(nb_pw) panes] {
 
-      lassign [get_info $nb pane {tabbar tab}] tb current_tab
+      get_info $nb pane tabbar tab
 
       # Get the list of opened tabs
       set tabs [list]
-      foreach tab [$tb tabs] {
-        set fullname [$tb tab $tab -text]
+      foreach atab [$tabbar tabs] {
+        set fullname [$tabbar tab $atab -text]
         regexp {(\S+)$} $fullname -> name
-        lappend tabs [list $name $fullname $tab [lsearch -index $files_index(tab) $files $tab]]
-        $tb delete $tab
+        lappend tabs [list $name $fullname $atab]
+        $tabbar delete $atab
       }
 
       # Sort the tabs by alphabetical order and move them
-      foreach tab [lsort -index 0 $tabs] {
-        lassign $tab name fullname tabid index
-        $tb insert end $tabid -text $fullname -emboss 0
+      foreach atab [lsort -index 0 $tabs] {
+        lassign $atab name fullname tabid
+        $tabbar insert end $tabid -text $fullname -emboss 0
       }
 
       # Reset the current tab
-      $tb select $current_tab
+      $tabbar select $tab
 
     }
 
@@ -2521,20 +2549,20 @@ namespace eval gui {
     }
 
     # Get information
-    lassign [get_info {} current {pane tabbar tab tabindex}] pane tb current_tab tab_index
+    get_info {} current pane tabbar tab tabindex
 
     # Get the current title
-    set title [$tb tab $tab_index -text]
+    set title [$tabbar tab $tabindex -text]
 
     # Remove the tab from the tabbar
-    $tb delete $tab_index
+    $tabbar delete $tabindex
 
     # Remove the tab from the current pane
-    catch { pack forget $current_tab }
+    catch { pack forget $tab }
 
     # Display the current pane (if one exists)
-    if {[set tab [$tb select]] ne ""} {
-      set_current_tab $tb $tab
+    if {[set ctab [$tabbar select]] ne ""} {
+      set_current_tab $tabbar $ctab
       set pw_current [expr $pw_current ^ 1]
     } else {
       $widgets(nb_pw) forget $pane
@@ -2542,35 +2570,35 @@ namespace eval gui {
     }
 
     # Get the other tabbar
-    set tb [get_info {} current tabbar]
+    get_info {} current tabbar
 
     # Make sure that tabbar is visible
-    grid $tb
+    grid $tabbar
 
     # Add the new tab to the notebook in alphabetical order (if specified)
     if {[[ns preferences]::get View/OpenTabsAlphabetically]} {
       set added 0
-      foreach t [$tb tabs] {
-        if {[string compare $title [$tb tab $t -text]] == -1} {
-          $tb insert $t $current_tab -text $title -emboss 0
+      foreach t [$tabbar tabs] {
+        if {[string compare $title [$tabbar tab $t -text]] == -1} {
+          $tabbar insert $t $tab -text $title -emboss 0
           set added 1
           break
         }
       }
       if {$added == 0} {
-        $tb insert end $current_tab -text $title -emboss 0
+        $tabbar insert end $tab -text $title -emboss 0
       }
 
     # Otherwise, add the tab in the specified location
     } else {
-      $tb insert end $current_tab -text $title -emboss 0
+      $tabbar insert end $tab -text $title -emboss 0
     }
 
     # Now move the current tab from the previous current pane to the new current pane
-    set_current_tab $tb $current_tab -skip_focus 1 -skip_check 1
+    set_current_tab $tabbar $tab -skip_focus 1 -skip_check 1
 
     # Set the tab image for the moved file
-    set_tab_image $current_tab
+    set_tab_image $tab
 
   }
 
@@ -2749,11 +2777,8 @@ namespace eval gui {
   # file contents (if type is "all").
   proc format_text {tid} {
 
-    variable files
-    variable files_index
-
     # Get the file information
-    lassign [get_info {} current {tabbar txt fileindex fname lock readonly}] tb txt file_index fname lock readonly
+    get_info {} current txt fname lock readonly
 
     # Get the locked/readonly status
     set readonly [expr $lock || $readonly]
@@ -2778,16 +2803,11 @@ namespace eval gui {
     # back to disabled
     if {$readonly} {
 
-      # Clear the modified state and reset the state
-      $txt edit modified false
+      # Clear the modified state
+      set_current_modified 0
+
+      # Reset the state
       $txt configure -state disabled
-
-      # Change the tab text
-      $tb tab current -text " [file tail $fname]"
-      set_title
-
-      # Change the text to unmodified
-      lset files $file_index $files_index(modified) 0
 
     }
 
@@ -2800,7 +2820,7 @@ namespace eval gui {
     variable saved
 
     # Get the tab information
-    lassign [get_info {} current {tab txt}] tab txt
+    get_info {} current tab txt
 
     # Display the search bar and separator
     grid $tab.sf
@@ -2833,7 +2853,7 @@ namespace eval gui {
   proc close_search {} {
 
     # Get the current text frame
-    set tab [get_info {} current tab]
+    get_info {} current tab
 
     # Hide the search frame
     grid remove $tab.sf
@@ -2851,7 +2871,7 @@ namespace eval gui {
     variable saved
 
     # Get the tab information
-    lassign [get_info {} current {tab txt}] tab txt
+    get_info {} current tab txt
 
     # Display the search bar and separator
     grid $tab.rf
@@ -2879,7 +2899,7 @@ namespace eval gui {
   proc close_search_and_replace {} {
 
     # Get the current tab
-    set tab [get_info {} current tab]
+    get_info {} current tab
 
     # Hide the search and replace bar
     grid remove $tab.rf
@@ -2900,7 +2920,7 @@ namespace eval gui {
     variable saved
 
     # Get the current tab
-    set tab [get_info {} current tab]
+    get_info {} current tab
 
     switch $type {
       "find"    { return [list [$tab.sf.e get] $case_sensitive $saved] }
@@ -2921,7 +2941,7 @@ namespace eval gui {
     variable saved
 
     # Get the current tab
-    set tab [get_info {} current tab]
+    get_info {} current tab
 
     switch $type {
       "find" {
@@ -2948,46 +2968,24 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Returns the list of stored filenames.
-  proc get_actual_filenames {} {
-
-    variable files
-    variable files_index
-
-    set actual_filenames [list]
-
-    foreach finfo $files {
-      if {[set fname [lindex $finfo $files_index(fname)]] ne ""} {
-        lappend actual_filenames $fname
-      }
-    }
-
-    return $actual_filenames
-
-  }
-
-  ######################################################################
   # Sets the file lock to the specified value for the current file.
   proc set_tab_image {tab} {
 
-    variable files
-    variable files_index
-
     # Get the tab information
-    lassign [get_info $tab tab {tabbar txt diff readonly lock}] tb txt diff readonly lock
+    get_info $tab tab tabbar txt diff readonly lock
 
     # Change the state of the text widget to match the lock value
     if {$diff} {
-      $tb  tab $tab -compound left -image tab_diff
+      $tabbar tab $tab -compound left -image tab_diff
       $txt configure -state disabled
     } elseif {$readonly} {
-      $tb  tab $tab -compound left -image tab_readonly
+      $tabbar tab $tab -compound left -image tab_readonly
       $txt configure -state disabled
     } elseif {$lock} {
-      $tb  tab $tab -compound left -image tab_lock
+      $tabbar tab $tab -compound left -image tab_lock
       $txt configure -state disabled
     } else {
-      $tb  tab $tab -image ""
+      $tabbar tab $tab -image ""
       $txt configure -state normal
     }
 
@@ -2999,14 +2997,11 @@ namespace eval gui {
   # Sets the file lock to the specified value for the current file.
   proc set_current_file_lock {tid lock} {
 
-    variable files
-    variable files_index
-
     # Get the current tab information
-    lassign [get_info {} current {tab fileindex}] tab file_index
+    get_info {} current tab
 
     # Set the current lock status
-    lset files $file_index $files_index(lock) $lock
+    [ns files]::set_info $tab tab lock $lock
 
     # Set the tab image to match
     set_tab_image $tab
@@ -3029,7 +3024,7 @@ namespace eval gui {
   proc set_current_file_favorite {tid favorite} {
 
     # Get the current file name
-    set fname [get_info {} current fname]
+    get_info {} current fname
 
     # Add or remove the file from the favorites list
     if {$favorite} {
@@ -3055,7 +3050,7 @@ namespace eval gui {
   # Shows the current file in the sidebar.
   proc show_current_in_sidebar {} {
 
-    lassign [get_info {} current {fname remote}] fname remote
+    get_info {} current fname remote
 
     # Display the file in the sidebar
     [ns sidebar]::view_file $fname $remote
@@ -3216,16 +3211,13 @@ namespace eval gui {
   # This is called by the get_file_info API command.
   proc get_file_info {index attr} {
 
-    variable files
-    variable files_index
-
     # Perform error detections
-    if {($index < 0) || ($index >= [llength $files])} {
+    if {($index < 0) || ($index >= [[ns files]::get_file_num])} {
       return -code error [msgcat::mc "File index is out of range"]
     }
 
     # Get the current text widget
-    lassign [get_info $index fileindex {txt remote}] txt remote
+    get_info $index fileindex txt remote
 
     switch $attr {
       "sb_index" {
@@ -3244,13 +3236,9 @@ namespace eval gui {
         return [[ns syntax]::get_language $txt]
       }
       default {
-        if {![info exists files_index($attr)]} {
-          return -code error [format "%s (%s)" [msgcat::mc "File attribute does not exist"] $attr]
-        }
+        return [[ns files]::get_info $index fileindex $attr]
       }
     }
-
-    return [lindex $files $index $files_index($attr)]
 
   }
 
@@ -3500,9 +3488,9 @@ namespace eval gui {
   # Toggles the bird's eye view panel for the current tab.
   proc toggle_birdseye {tid} {
 
-    lassign [get_info $tid current {txt beye}] txt be
+    get_info $tid current txt beye
 
-    if {[winfo exists $be]} {
+    if {[winfo exists $beye]} {
       hide_birdseye $txt
     } else {
       show_birdseye $txt
@@ -3514,21 +3502,14 @@ namespace eval gui {
   # Returns a list of all of the text widgets in the tool.
   proc get_all_texts {} {
 
-    variable widgets
-
     set txts [list]
 
-    if {[info exists widgets(nb_pw)]} {
-
-      foreach nb [$widgets(nb_pw) panes] {
-        foreach tab [$nb.tbf.tb tabs] {
-          lappend txts [get_txt_from_tab $tab]
-          if {[winfo exists [get_txt2_from_tab $tab]]} {
-            lappend txts [get_txt2_from_tab $tab] {}
-          }
-        }
+    foreach tab [[ns files]::get_tabs] {
+      get_info $tab tab txt txt2
+      lappend txts $txt
+      if {[winfo exists $txt2]} {
+        lappend txts $txt2
       }
-
     }
 
     return $txts
@@ -3555,7 +3536,7 @@ namespace eval gui {
   #   - beye
   #   - fname
   #   - lang
-  #   - any key from files_index (for to_types only)
+  #   - any key from file information (for to_types only)
   #
   # Throws an error if there were conversion issues.
   proc get_info {from from_type args} {
@@ -3605,68 +3586,70 @@ namespace eval gui {
       set paneindex [expr {(([llength $panes] == 1) || ([lsearch [[lindex $panes 0].tbf.tb tabs] $tab] != -1)) ? 0 : 1}]
     }
 
-    set tos [list]
-
+    set i 0
     foreach to_type $args {
-      upvar $to_type type
+      upvar $to_type type$i
       switch $to_type {
         pane {
-          set type [lindex [$widgets(nb_pw) panes] $paneindex]
+          set type$i [lindex [$widgets(nb_pw) panes] $paneindex]
         }
         paneindex {
-          set type $paneindex
+          set type$i $paneindex
         }
         tabbar {
-          set type [lindex [$widgets(nb_pw) panes] $paneindex].tbf.tb
+          set type$i [lindex [$widgets(nb_pw) panes] $paneindex].tbf.tb
         }
         tab {
           if {$tab eq ""} {
             return -code error "Unable to get tab information"
           }
-          set type $tab
+          set type$i $tab
         }
         tabindex {
           if {$tab eq ""} {
             return -code error "Unable to get tab index information"
           }
-          set type [lsearch [[lindex [$widgets(nb_pw) panes] $paneindex].tbf.tb tabs] $tab]
+          set type$i [lsearch [[lindex [$widgets(nb_pw) panes] $paneindex].tbf.tb tabs] $tab]
         }
         fileindex {
-          set type $fileindex
+          set type$i $fileindex
         }
         txt {
           if {$tab eq ""} {
             return -code error "Unable to get txt information"
           }
-          set type "$tab.pw.tf.txt"
+          set type$i "$tab.pw.tf.txt"
         }
         txt2 {
           if {$tab eq ""} {
             return -code error "Unable to get txt2 information"
           }
-          set type "$tab.pw.tf2.txt"
+          set type$i "$tab.pw.tf2.txt"
         }
         beye {
           if {$tab eq ""} {
             return -code error "Unable to get beye information"
           }
-          set type "$tab.be"
+          set type$i "$tab.be"
         }
         lang {
           if {$tab eq ""} {
             return -code error "Unable to get lang information"
           }
-          set type [syntax::get_language "$tab.pw.tf.txt"]
+          set type$i [syntax::get_language "$tab.pw.tf.txt"]
         }
         default {
           if {$tab eq ""} {
             return -code error "Unable to get $to_type information"
           }
-          set type [[ns files]::get_info $tab tab $to_type]
+          set type$i [[ns files]::get_info $tab tab $to_type]
         }
       }
-      set retval $type
+      set retval [set type$i]
+      incr i
     }
+
+    puts "DONE!"
 
     return $retval
 
@@ -3803,9 +3786,9 @@ namespace eval gui {
 
       set sorted_index 0
 
-      if {![catch { get_info {} current tabbar } tb]} {
-        foreach tab [$tb tabs] {
-          regexp {(\S+)$} [$tb tab $tab -text] -> curr_title
+      if {![catch { get_info {} current tabbar }]} {
+        foreach tab [$tabbar tabs] {
+          regexp {(\S+)$} [$tabbar tab $tab -text] -> curr_title
           if {[string compare $title $curr_title] == -1} {
             return $sorted_index
           }
@@ -3851,9 +3834,6 @@ namespace eval gui {
 
     # Calculate the title name
     set title [file tail $fname]
-
-    # Get the current notebook
-    set nb [get_info $tb tabbar pane]
 
     # Make the tabbar visible and the syntax menubutton enabled
     grid $tb
@@ -4081,7 +4061,7 @@ namespace eval gui {
     variable show_match_char
 
     # Get the current paned window
-    lassign [get_info {} current {tabbar tab txt txt2 diff}] tb tab txt txt2 diff
+    get_info {} current tabbar tab txt txt2 diff
 
     # Get the paned window of the text widget
     set pw [winfo parent [winfo parent $txt]]
@@ -4112,7 +4092,7 @@ namespace eval gui {
     bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %x %y"
     bind $txt2.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %x %y"
     bind $txt2   <<Selection>>                "[ns gui]::selection_changed $txt2"
-    bind $txt2   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
+    bind $txt2   <Motion>                     "[ns gui]::clear_tab_tooltip $tabbar"
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt2.t] Text]
@@ -4179,36 +4159,36 @@ namespace eval gui {
     variable be_ignore
 
     # Get the tab that contains the text widget
-    lassign [get_info $txt txt {tab beye}] tab be
+    get_info $txt txt tab beye
 
-    if {![winfo exists $be]} {
+    if {![winfo exists $beye]} {
 
       # Calculate the background color
       set background [[ns utils]::auto_adjust_color [$txt cget -background] 25]
 
       # Create the bird's eye viewer
-      $txt._t peer create $be -width [[ns preferences]::get View/BirdsEyeViewWidth] -bd 0 \
+      $txt._t peer create $beye -width [[ns preferences]::get View/BirdsEyeViewWidth] -bd 0 \
         -highlightthickness 0 -font "-size [[ns preferences]::get View/BirdsEyeViewFontSize]" \
         -wrap none -cursor [ttk::cursor standard] \
         -background [$txt cget -background] -foreground [$txt cget -foreground] \
         -inactiveselectbackground $background -selectbackground $background
 
       # Add the bird's eye viewer to the tab's grid manager
-      grid $be -row 0 -column 1 -sticky ns
+      grid $beye -row 0 -column 1 -sticky ns
 
       # Setup bindings
-      bind $be <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt %m]
-      bind $be <Leave>                         [list [ns gui]::handle_birdseye_leave %W %m]
-      bind $be <ButtonPress-1>                 [list [ns gui]::handle_birdseye_left_press %W %x %y $txt]
-      bind $be <B1-Motion>                     [list [ns gui]::handle_birdseye_motion     %W %x %y $txt]
-      bind $be <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
-      bind $be <Control-Button-$::right_click> [list [ns gui]::handle_birdseye_control_right %W]
-      bind $be <MouseWheel>                    [bind Text <MouseWheel>]
-      bind $be <Button-4>                      [bind Text <Button-4>]
-      bind $be <Button-5>                      [bind Text <Button-5>]
+      bind $beye <Enter>                         [list [ns gui]::handle_birdseye_enter %W $txt %m]
+      bind $beye <Leave>                         [list [ns gui]::handle_birdseye_leave %W %m]
+      bind $beye <ButtonPress-1>                 [list [ns gui]::handle_birdseye_left_press %W %x %y $txt]
+      bind $beye <B1-Motion>                     [list [ns gui]::handle_birdseye_motion     %W %x %y $txt]
+      bind $beye <Control-Button-1>              [list [ns gui]::handle_birdseye_control_left %W]
+      bind $beye <Control-Button-$::right_click> [list [ns gui]::handle_birdseye_control_right %W]
+      bind $beye <MouseWheel>                    [bind Text <MouseWheel>]
+      bind $beye <Button-4>                      [bind Text <Button-4>]
+      bind $beye <Button-5>                      [bind Text <Button-5>]
 
       set index [lsearch [bindtags $be] "Text"]
-      bindtags $be [lreplace [bindtags $be] $index $index]
+      bindtags $beye [lreplace [bindtags $beye] $index $index]
 
       set be_after_id($txt) ""
       set be_ignore($txt)   0
@@ -4351,9 +4331,9 @@ namespace eval gui {
     variable be_ignore
 
     # Get the tab that contains the bird's eye viewer
-    set be [get_info $txt txt beye]
+    get_info $txt txt beye
 
-    if {[winfo exists $be]} {
+    if {[winfo exists $beye]} {
 
       # Cancel the scroll event if one is still set
       if {$be_after_id($txt) ne ""} {
@@ -4365,10 +4345,10 @@ namespace eval gui {
       unset be_ignore($txt)
 
       # Remove the widget from the grid
-      grid forget $be
+      grid forget $beye
 
       # Destroy the bird's eye viewer
-      destroy $be
+      destroy $beye
 
     }
 
@@ -4399,7 +4379,7 @@ namespace eval gui {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {txt rootx rooty actions buttons} {
 
-    lassign [get_info {} current {readonly lock diff}] readonly lock diff
+    get_info {} current readonly lock diff
 
     # If the file is readonly, refuse the drop
     if {$readonly || $lock || $diff} {
@@ -4465,26 +4445,15 @@ namespace eval gui {
   # Handles a change to the current text widget.
   proc text_changed {txt data} {
 
-    variable files
-    variable files_index
     variable cursor_hist
 
     if {[$txt edit modified]} {
 
       # Get file information
-      lassign [get_info $txt txt {tabbar tab fileindex readonly}] tb tab file_index readonly
+      get_info $txt txt tabbar tab fileindex readonly
 
       if {!$readonly && ([lindex $data 2] ne "ignore")} {
-
-        # Save the modified state to the files list
-        lset files $file_index $files_index(modified) 1
-
-        # Change the look of the tab
-        if {[string index [set name [string trimleft [$tb tab $tab -text]]] 0] ne "*"} {
-          $tb tab $tab -text " * $name"
-          set_title
-        }
-
+        set_current_modified 1
       }
 
       # Clear the cursor history
@@ -4579,22 +4548,6 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Returns the main text widget from the given tab.
-  proc get_txt_from_tab {tab} {
-
-    return "$tab.pw.tf.txt"
-
-  }
-
-  ######################################################################
-  # Returns the secondary text widget from the given tab.
-  proc get_txt2_from_tab {tab} {
-
-    return "$tab.pw.tf2.txt"
-
-  }
-
-  ######################################################################
   # Make the specified tab the current tab.
   # Options:
   #   w
@@ -4609,8 +4562,6 @@ namespace eval gui {
     variable widgets
     variable pw_current
     variable tab_current
-    variable files
-    variable files_index
 
     array set opts {
       -changed    0
@@ -4630,7 +4581,8 @@ namespace eval gui {
     }
 
     # Get the current information
-    lassign [get_info $tab tab {paneindex fileindex}] pw_current file_index
+    get_info $tab tab paneindex
+    set pw_current $paneindex
 
     # If the proc is not being called by the tabbar and the tab is different than the tabbar's current
     # tab, just call the tabbar select with the tab.  It will call this proc itself.  This is an
@@ -4695,7 +4647,7 @@ namespace eval gui {
   # Returns the current search entry pathname.
   proc current_search {} {
 
-    set tab [get_info {} current tab]
+    get_info {} current tab
 
     return $tab.sf.e
 
@@ -4825,13 +4777,10 @@ namespace eval gui {
   # Returns the list of markers in the current text widget.
   proc get_marker_list {} {
 
-    variable files
-    variable files_index
-
     # Create a list of marker names and index
     set markers [list]
     foreach {name txt line} [[ns markers]::get_markers] {
-      set fname [get_info $txt txt fname]
+      get_info $txt txt fname
       lappend markers [list "[file tail $fname] - $name" $txt $line]
     }
 
@@ -4852,7 +4801,8 @@ namespace eval gui {
   proc jump_to_txt {txt pos} {
 
     # Change the current tab, if necessary
-    set_current_tab {*}[get_info $txt txt {tabbar tab}]
+    get_info $txt txt tabbar tab
+    set_current_tab $tabbar $tab
 
     # Make sure that the cursor is visible
     [ns folding]::show_line $txt.t [lindex [split $pos .] 0]
@@ -5077,7 +5027,8 @@ namespace eval gui {
     variable auto_cwd
 
     # Get the text information
-    lassign [get_info [winfo parent $txtt] txt {paneindex tab txt fileindex fname buffer diff}] pw_current tab txt file_index fname buffer diff
+    get_info [winfo parent $txtt] txt tab txt fileindex fname buffer diff
+    set pw_current $paneindex
 
     # Set the line and row information
     update_position $txt
@@ -5097,7 +5048,7 @@ namespace eval gui {
     set_title
 
     # Check to see if the file has changed
-    catch { [ns files]::check_file $file_index }
+    catch { [ns files]::check_file $fileindex }
 
     # Save the text widget
     set txt_current($tab) [winfo parent $txtt]
@@ -5259,7 +5210,7 @@ namespace eval gui {
   proc show_difference_line_change {tid show} {
 
     # Get the current information
-    lassign [get_info {} current {txt fname}] txt fname
+    get_info {} current txt fname
 
     if {[$txt cget -diff_mode] && ![catch { $txt index sel.first } rc]} {
       if {$show} {

@@ -58,7 +58,7 @@ namespace eval templates {
     close $rc
 
     # Add the buffer
-    set txt [[ns gui]::get_info [[ns gui]::add_new_file end -name $fname -sidebar 1 {*}$args] tab txt]
+    [ns gui]::get_info [[ns gui]::add_new_file end -name $fname -sidebar 1 {*}$args] tab txt
 
     # Insert the content as a snippet
     [ns snippets]::insert_snippet $txt.t $contents

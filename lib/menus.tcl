@@ -408,16 +408,16 @@ namespace eval menus {
   proc file_posting {mb} {
 
     # Get information for current file
-    lassign [gui::get_info {} current {fileindex fname readonly lock diff buffer modified remote}] file_index fname readonly file_lock diff_mode buffer modified remote
+    gui::get_info {} current fileindex fname readonly lock diff buffer modified remote
 
     # Get the current file index (if one exists)
-    if {$file_index != -1} {
+    if {$fileindex != -1} {
 
       # Get state if the file is a buffer
-      set buffer_state [expr {($buffer || $diff_mode) ? "disabled" : "normal"}]
+      set buffer_state [expr {($buffer || $diff) ? "disabled" : "normal"}]
 
       # Get the state if the current editing buffer is a difference buffer
-      set diff_state [expr {$diff_mode ? "disabled" : "normal"}]
+      set diff_state [expr {$diff ? "disabled" : "normal"}]
 
       # Get the state for items that are not valid for remote files
       set no_remote_state [expr {($remote eq "") ? $buffer_state : "disabled"}]
@@ -426,14 +426,14 @@ namespace eval menus {
       set favorite [favorites::is_favorite $fname]
 
       # Configure the Lock/Unlock menu item
-      if {$file_lock} {
+      if {$lock} {
         if {![catch { $mb index [msgcat::mc "Lock"] } index]} {
-          $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state $diff_mode -command "menus::unlock_command $mb"
+          $mb entryconfigure $index -label [msgcat::mc "Unlock"] -state $diff_state -command "menus::unlock_command $mb"
         }
         $mb entryconfigure [msgcat::mc "Unlock"] -state [expr {$readonly ? "disabled" : $diff_state}]
       } else {
         if {![catch { $mb index [msgcat::mc "Unlock"] } index]} {
-          $mb entryconfigure $index -label [msgcat::mc "Lock"] -state $diff_mode -command "menus::lock_command $mb"
+          $mb entryconfigure $index -label [msgcat::mc "Lock"] -state $diff_state -command "menus::lock_command $mb"
         }
         $mb entryconfigure [msgcat::mc "Lock"] -state [expr {$readonly ? "disabled" : $diff_state}]
       }
@@ -443,12 +443,12 @@ namespace eval menus {
         if {![catch { $mb index [msgcat::mc "Favorite"] } index]} {
           $mb entryconfigure $index -label [msgcat::mc "Unfavorite"] -command "menus::unfavorite_command $mb"
         }
-        $mb entryconfigure [msgcat::mc "Unfavorite"] -state [expr {(($fname ne "") && !$diff_mode) ? $no_remote_state : "disabled"}]
+        $mb entryconfigure [msgcat::mc "Unfavorite"] -state [expr {(($fname ne "") && !$diff) ? $no_remote_state : "disabled"}]
       } else {
         if {![catch { $mb index [msgcat::mc "Unfavorite"] } index]} {
           $mb entryconfigure $index -label [msgcat::mc "Favorite"] -command "menus::favorite_command $mb"
         }
-        $mb entryconfigure [msgcat::mc "Favorite"] -state [expr {(($fname ne "") && !$diff_mode) ? $no_remote_state : "disabled"}]
+        $mb entryconfigure [msgcat::mc "Favorite"] -state [expr {(($fname ne "") && !$diff) ? $no_remote_state : "disabled"}]
       }
 
       # Configure the Delete/Move To Trash
@@ -688,7 +688,7 @@ namespace eval menus {
   proc show_file_diff {} {
 
     # Get the current filename
-    set fname [gui::get_info {} current fname]
+    gui::get_info {} current fname
 
     # Display the current file as a difference
     gui::add_file end $fname -diff 1 -other [preferences::get View/ShowDifferenceInOtherPane]
@@ -811,9 +811,9 @@ namespace eval menus {
   proc rename_command {} {
 
     # Get the current name
-    lassign [gui::get_info {} current {fname remote}] new_name remote
+    gui::get_info {} current fname remote
 
-    set old_name $new_name
+    set old_name $fname
 
     # Get the new name from the user
     if {[gui::get_user_response [msgcat::mc "File Name:"] new_name]} {
@@ -845,7 +845,7 @@ namespace eval menus {
   proc duplicate_command {} {
 
     # Get the filename of the current selection
-    lassign [gui::get_info {} current {fname remote}] fname remote
+    gui::get_info {} current fname remote
 
     # Create the default name of the duplicate file
     if {[catch { files::duplicate_file $fname $remote } dup_fname]} {
@@ -869,7 +869,7 @@ namespace eval menus {
   proc delete_command {} {
 
     # Get the full pathname
-    lassign [gui::get_info {} current {fname remote}] fname remote
+    gui::get_info {} current fname remote
 
     # Get confirmation from the user
     if {[tk_messageBox -parent . -type yesno -default yes -message [format "%s %s?" [msgcat::mc "Delete"] $fname]] eq "yes"} {
@@ -894,7 +894,7 @@ namespace eval menus {
   proc move_to_trash_command {} {
 
     # Get the full pathname
-    set fname [lindex [gui::get_info {} current fname] 0]
+    gui::get_info {} current fname
 
     # Move the file to the trash
     if {[catch { files::move_to_trash $fname 0 }]} {
@@ -941,10 +941,10 @@ namespace eval menus {
   proc favorite_command {mb} {
 
     # Get current file information
-    lassign [gui::get_info {} current {fileindex fname}] file_index fname
+    gui::get_info {} current fileindex fname
 
     # Get the current file index (if one exists)
-    if {$file_index != -1} {
+    if {$fileindex != -1} {
 
       # Add the file as a favorite
       if {[favorites::add $fname]} {
@@ -963,10 +963,10 @@ namespace eval menus {
   proc unfavorite_command {mb} {
 
     # Get current file information
-    lassign [gui::get_info {} current {fileindex fname}] file_index fname
+    gui::get_info {} current fileindex fname
 
     # Get the current file index (if one exists)
-    if {$file_index != -1} {
+    if {$fileindex != -1} {
 
       # Remove the file as a favorite
       if {[favorites::remove $fname]} {
@@ -1349,7 +1349,7 @@ namespace eval menus {
   # menu items to match the proper state of the UI.
   proc edit_posting {mb} {
 
-    lassign [gui::get_info {} current {txt readonly diff}] txt readonly diff
+    gui::get_info {} current txt readonly diff
 
     set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
 
@@ -1962,7 +1962,7 @@ namespace eval menus {
   # items to match the current UI state.
   proc find_posting {mb} {
 
-    lassign [gui::get_info {} current {txt readonly diff}] txt readonly diff
+    gui::get_info {} current txt readonly diff
 
     set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
 
@@ -2383,9 +2383,9 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Set Syntax"] -state normal
       }
       $mb entryconfigure [msgcat::mc "Folding"]    -state normal
-      lassign [gui::get_info {} current {txt2 beye}] txt2 be
+      gui::get_info {} current txt2 beye
       set show_split_pane [winfo exists $txt2]
-      set show_birdseye   [winfo exists $be]
+      set show_birdseye   [winfo exists $beye]
     }
 
     # Get the current line numbering

@@ -197,7 +197,7 @@ namespace eval diff {
     set cwd [pwd]
 
     # Get the filename
-    set fname [[ns gui]::get_info $txt txt fname]
+    [ns gui]::get_info $txt txt fname
 
     # Set the current working directory to the directory of the file
     cd [file dirname $fname]
@@ -533,7 +533,7 @@ namespace eval diff {
          ($data($txt,logmode) && ($mode eq "update")))} {
 
       # Get the filename
-      set fname [[ns gui]::get_info $txt txt fname]
+      [ns gui]::get_info $txt txt fname
 
       # Get the current working directory
       set cwd [pwd]
