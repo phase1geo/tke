@@ -71,14 +71,17 @@ namespace eval files {
       return -code error "files::get_info, Unable to find file with attribute ($from_type) and value ($from)"
     }
 
-    set tos [list]
-
+    set i 0
     foreach to_type $args {
-      if {![info exists fields($to_type)]} {
+      if {$to_type eq "fileindex"} {
+        set retval [set type $index]
+      } elseif {[info exists fields($to_type)]} {
+        upvar $to_type type$i
+        set retval [set type$i [lindex $files $index $fields($to_type)]]
+      } else {
         return -code error "files::get_info, Unsupported to_type ($to_type)"
       }
-      upvar $to_type type
-      set retval [set type [lindex $files $index $fields($to_type)]]
+      incr i
     }
 
     return $retval
@@ -127,12 +130,23 @@ namespace eval files {
 
   ######################################################################
   # Returns the list of opened files.
-  proc get_names {} {
+  proc get_names {{pattern *}} {
 
     variable files
     variable fields
 
-    return [lsearch -all -index $fields(fname) $files *]
+    return [lsearch -all -index $fields(fname) $files $pattern]
+
+  }
+
+  ######################################################################
+  # Returns the list of all opened tabs.
+  proc get_tabs {} {
+
+    variable files
+    variable fields
+
+    return [lsearch -all -index $fields(tab) $files *]
 
   }
 
@@ -145,7 +159,7 @@ namespace eval files {
     if {$remote eq ""} {
       return [file exists $fname]
     } else {
-      return [[ns remote]::file_exists $remote $fname]
+      return [remote::file_exists $remote $fname]
     }
 
   }
@@ -194,7 +208,7 @@ namespace eval files {
       file stat $fname stat
       return $stat(mtime)
     } else {
-      return [[ns remote]::get_mtime $remote $fname]
+      return [remote::get_mtime $remote $fname]
     }
 
   }
@@ -209,7 +223,7 @@ namespace eval files {
 
     # If the host does not match our host, handle the NFS mount normalization
     if {$host ne [info hostname]} {
-      array set nfs_mounts [[ns preferences]::get NFSMounts]
+      array set nfs_mounts [preferences::get NFSMounts]
       if {[info exists nfs_mounts($host)]} {
         lassign $nfs_mounts($host) mount_dir shortcut
         set shortcut_len [string length $shortcut]
@@ -229,7 +243,7 @@ namespace eval files {
   proc check_file {index} {
 
     variable files
-    variable files_index
+    variable fields
 
     # Get the file information
     get_info $index fileindex tab fname mtime modified
@@ -247,7 +261,7 @@ namespace eval files {
           } else {
             update_file $index
           }
-          lset files $index $files_index(mtime) $file_mtime
+          lset files $index $fields(mtime) $file_mtime
         }
       } elseif {$mtime ne ""} {
         set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
@@ -255,7 +269,7 @@ namespace eval files {
         if {$answer eq "yes"} {
           close_tab {} $tab -check 0
         } else {
-          lset files $index $files_index(mtime) ""
+          lset files $index $fields(mtime) ""
         }
       }
     }
@@ -287,21 +301,21 @@ namespace eval files {
 
     set file_info [lrepeat [array size fields] ""]
 
-    lset file_info $files_index(fname)    $fname
-    lset file_info $files_index(mtime)    ""
-    lset file_info $files_index(save_cmd) $opts(-save_cmd)
-    lset file_info $files_index(tab)      $tab
-    lset file_info $files_index(lock)     $opts(-lock)
-    lset file_info $files_index(readonly) [expr $opts(-readonly) || $opts(-diff)]
-    lset file_info $files_index(sidebar)  $opts(-sidebar)
-    lset file_info $files_index(buffer)   $opts(-buffer)
-    lset file_info $files_index(modified) 0
-    lset file_info $files_index(gutters)  $opts(-gutters)
-    lset file_info $files_index(diff)     $opts(-diff)
-    lset file_info $files_index(tags)     $opts(-tags)
-    lset file_info $files_index(loaded)   $opts(-loaded)
-    lset file_info $files_index(remember) $opts(-remember)
-    lset file_info $files_index(remote)   $opts(-remote)
+    lset file_info $fields(fname)    $fname
+    lset file_info $fields(mtime)    ""
+    lset file_info $fields(save_cmd) $opts(-save_cmd)
+    lset file_info $fields(tab)      $tab
+    lset file_info $fields(lock)     $opts(-lock)
+    lset file_info $fields(readonly) [expr $opts(-readonly) || $opts(-diff)]
+    lset file_info $fields(sidebar)  $opts(-sidebar)
+    lset file_info $fields(buffer)   $opts(-buffer)
+    lset file_info $fields(modified) 0
+    lset file_info $fields(gutters)  $opts(-gutters)
+    lset file_info $fields(diff)     $opts(-diff)
+    lset file_info $fields(tags)     $opts(-tags)
+    lset file_info $fields(loaded)   $opts(-loaded)
+    lset file_info $fields(remember) $opts(-remember)
+    lset file_info $fields(remote)   $opts(-remote)
 
     if {$opts(-remote) eq ""} {
       lset file_info $fields(eol) [get_eol_translation $fname]
@@ -337,7 +351,7 @@ namespace eval files {
     variable files
     variable fields
 
-    get_info $tab tab index fname loaded diff remote
+    get_info $tab tab fileindex fname loaded diff remote
 
     # If the file is already loaded, return now
     if {$loaded} {
@@ -351,7 +365,7 @@ namespace eval files {
 
     # Get the file contents
     if {$remote ne ""} {
-      [ns remote]::get_file $remote $fname contents modtime
+      remote::get_file $remote $fname contents modtime
       lset files $index $fields(mtime) $modtime
     } elseif {![catch { open $fname r } rc]} {
       set contents [string range [read $rc] 0 end-1]
@@ -377,7 +391,7 @@ namespace eval files {
     if {$remote ne ""} {
 
       # Save the file contents to the remote file
-      if {![[ns remote]::save_file $remote $fname $contents modtime]} {
+      if {![remote::save_file $remote $fname $contents modtime]} {
         set_error_message [msgcat::mc "Unable to write remote file"] ""
         return 0
       }
@@ -418,7 +432,7 @@ namespace eval files {
       lset files $index $fields(save_cmd) ""
       lset files $index $fields(remember) 1
       return 1
-    } elseif {[set save_as [[ns gui]::prompt_for_save {}]] ne ""} {
+    } elseif {[set save_as [gui::prompt_for_save {}]] ne ""} {
       lset files $index $fields(buffer)   0
       lset files $index $fields(save_cmd) ""
       lset files $index $fields(fname)    $save_as
@@ -434,7 +448,7 @@ namespace eval files {
   # Returns the EOL translation to use for the given file.
   proc get_eol_translation {fname} {
 
-    set type [expr {($fname eq "") ? "sys" : [[ns preferences]::get Editor/EndOfLineTranslation]}]
+    set type [expr {($fname eq "") ? "sys" : [preferences::get Editor/EndOfLineTranslation]}]
 
     switch $type {
       auto    { return [utils::get_eol_char $fname] }

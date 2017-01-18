@@ -593,7 +593,7 @@ namespace eval snippets {
     set tab [[ns gui]::add_buffer end temporary [list] -lang $lang -background 1]
 
     # Get the current text widget
-    set txt [[ns gui]::get_info $tab tab txt]
+    [ns gui]::get_info $tab tab txt
 
     # Insert the content as a snippet
     [ns snippets]::insert_snippet $txt.t $str -traverse 0

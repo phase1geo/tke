@@ -285,7 +285,7 @@ namespace eval syntax {
   proc set_current_language {language args} {
 
     # Get information about the current tab
-    lassign [[ns gui]::get_info {} current {txt fname}] txt fname
+    [ns gui]::get_info {} current txt fname
 
     # Save the directory, extension and selected language
     if {$fname ne "Untitled"} {
@@ -341,8 +341,8 @@ namespace eval syntax {
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground)
 
     # Set the bird's eye text widget
-    set be [[ns gui]::get_info $txt txt beye]
-    if {[winfo exists $be]} {
+    [ns gui]::get_info $txt txt beye
+    if {[winfo exists $beye]} {
       $be configure -background $theme(background) -foreground $theme(foreground) \
         -inactiveselectbackground [[ns utils]::auto_adjust_color $theme(background) 25]
     }

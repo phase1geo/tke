@@ -623,7 +623,7 @@ namespace eval sidebar {
     switch $attr {
       fname      { return [$widgets(tl) set $index name] }
       file_index {
-        if {[catch { gui::get_info [$widgets(tl) set $index name] fname fileindex } fileindex]} {
+        if {[catch { gui::get_info [$widgets(tl) set $index name] fname fileindex }]} {
           return -1
         }
         return $fileindex
@@ -1055,7 +1055,8 @@ namespace eval sidebar {
 
       # If the file is currently in the notebook, make it the current tab
       if {([llength $selected] == 1) && ([$widgets(tl) item $selected -image] ne "")} {
-        gui::set_current_tab {*}[gui::get_info [$widgets(tl) set $selected name] fname {tabbar tab}]
+        gui::get_info [$widgets(tl) set $selected name] fname tabbar tab
+        gui::set_current_tab $tabbar $tab
       }
 
     }

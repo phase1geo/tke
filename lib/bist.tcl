@@ -671,7 +671,7 @@ namespace eval bist {
     set tab [add_test_file $test]
 
     # Get the text widget from the tab
-    set txt [gui::get_info $tab tab txt]
+    gui::get_info $tab tab txt
 
     # Get the position of the second to last right curly bracket
     lassign [lrange [$txt tag ranges _curlyR] end-3 end-2] startpos endpos
@@ -723,7 +723,7 @@ namespace eval bist {
     set tab [add_test_file $fname]
 
     # Get the text widget from the tab
-    set txt [gui::get_info $tab tab txt]
+    gui::get_info $tab tab txt
 
     # Find the test in the file
     if {[set index [$txt search -regexp -- "proc\\s+$tname\\M" 1.0]] ne ""} {

@@ -660,7 +660,7 @@ namespace eval plugins {
     gui::add_buffer end [format "%s: %s" [msgcat::mc "Plugin"] $name] "" -readonly 1 -lang "Markdown"
 
     # Get the newly added buffer
-    set txt [gui::get_info {} current txt]
+    gui::get_info {} current txt
 
     # Allow the text buffer to be edited
     $txt configure -state normal
