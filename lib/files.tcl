@@ -73,10 +73,10 @@ namespace eval files {
 
     set i 0
     foreach to_type $args {
+      upvar $to_type type$i
       if {$to_type eq "fileindex"} {
-        set retval [set type $index]
+        set retval [set type$i $index]
       } elseif {[info exists fields($to_type)]} {
-        upvar $to_type type$i
         set retval [set type$i [lindex $files $index $fields($to_type)]]
       } else {
         return -code error "files::get_info, Unsupported to_type ($to_type)"
@@ -130,23 +130,32 @@ namespace eval files {
 
   ######################################################################
   # Returns the list of opened files.
-  proc get_names {{pattern *}} {
+  proc get_indices {field {pattern *}} {
 
     variable files
     variable fields
 
-    return [lsearch -all -index $fields(fname) $files $pattern]
+    if {![info exists fields($field)]} {
+      return -code error "Unknown file field ($field)"
+    }
+
+    return [lsearch -all -index $fields($field) $files $pattern]
 
   }
 
   ######################################################################
   # Returns the list of all opened tabs.
-  proc get_tabs {} {
+  proc get_tabs {{pattern *}} {
 
     variable files
     variable fields
 
-    return [lsearch -all -index $fields(tab) $files *]
+    set tabs [list]
+    foreach t [lsearch -all -index $fields(tab) -inline $files $pattern] {
+      lappend tabs [lindex $t $fields(tab)]
+    }
+
+    return $tabs
 
   }
 
@@ -317,7 +326,7 @@ namespace eval files {
     lset file_info $fields(remember) $opts(-remember)
     lset file_info $fields(remote)   $opts(-remote)
 
-    if {$opts(-remote) eq ""} {
+    if {($opts(-remote) eq "") && !$opts(-buffer)} {
       lset file_info $fields(eol) [get_eol_translation $fname]
     } else {
       lset file_info $fields(eol) [get_eol_translation ""]
@@ -359,18 +368,18 @@ namespace eval files {
     }
 
     # Set the loaded indicator
-    lset files $index $fields(loaded) 1
+    lset files $fileindex $fields(loaded) 1
 
     upvar $pcontents contents
 
     # Get the file contents
     if {$remote ne ""} {
       remote::get_file $remote $fname contents modtime
-      lset files $index $fields(mtime) $modtime
+      lset files $fileindex $fields(mtime) $modtime
     } elseif {![catch { open $fname r } rc]} {
       set contents [string range [read $rc] 0 end-1]
       close $rc
-      lset files $index $fields(mtime) [file mtime $fname]
+      lset files $fileindex $fields(mtime) [file mtime $fname]
     } else {
       return 0
     }

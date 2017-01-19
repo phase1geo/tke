@@ -974,7 +974,6 @@ namespace eval gui {
   # window geometry to match the read value.
   proc load_session {tid info} {
 
-    catch {
     variable widgets
     variable last_opened
     variable pw_current
@@ -991,8 +990,6 @@ namespace eval gui {
 
     array set content $info
 
-    puts "HERE AA"
-
     # Put the state information into the rest of the GUI
     if {[info exists content(Fullscreen)] && $content(Fullscreen)} {
       wm attributes . -fullscreen 1
@@ -1006,20 +1003,14 @@ namespace eval gui {
       }
     }
 
-    puts "HERE BB"
-
     # Restore the "last_opened" list
     set last_opened $content(LastOpened)
 
     # Load the session information into the sidebar
     [ns sidebar]::load_session $content(Sidebar)
 
-    puts "HERE CC"
-
     # Load the session information into the launcher
     [ns launcher]::load_session $content(Launcher)
-
-    puts "HERE DD"
 
     # Set the current working directory to the saved value
     if {[file exists $content(CurrentWorkingDirectory)]} {
@@ -1041,48 +1032,38 @@ namespace eval gui {
       set ordered [list "" ""]
     }
 
-    puts "HERE EE"
-
     # If the second pane is necessary, create it now
     if {[llength $content(CurrentTabs)] == 2} {
       add_notebook
     }
-
-    puts "HERE FF"
 
     # Add the tabs (in order) to each of the panes and set the current tab in each pane
     for {set pane 0} {$pane < [llength $content(CurrentTabs)]} {incr pane} {
       set pw_current $pane
       set tab        ""
       foreach index [lindex $ordered $pane] {
-        puts "index: $index"
         if {$index ne ""} {
           array set finfo [lindex $content(FileInfo) $index]
           if {[file exists $finfo(fname)]} {
-            puts "HERE GG"
             set tab [add_file end $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1]
-            puts "HERE HH"
             get_info $tab tab txt
             if {[[ns syntax]::get_language $txt] ne $finfo(language)} {
               [ns syntax]::set_language $txt $finfo(language)
             }
-            puts "HERE II"
             if {[info exists finfo(indent)]} {
               [ns indent]::set_indent_mode $tid $finfo(indent)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               [ns diff]::set_session_data $txt $finfo(diffdata)
             }
-            puts "HERE JJ"
             if {[info exists finfo(cursor)]} {
               ::tk::TextSetCursor $txt.t $finfo(cursor)
             }
             if {[info exists finfo(yview)]} {
               $txt yview $finfo(yview)
             }
-            puts "HERE KK"
             if {[info exists finfo(markers)]} {
               foreach {mname line} $finfo(markers) {
                 if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
@@ -1090,24 +1071,16 @@ namespace eval gui {
                 }
               }
             }
-            puts "HERE LL"
           }
         }
       }
-      puts "HERE MM"
       if {$tab ne ""} {
         get_info [lindex $content(CurrentTabs) $pane] tabindex tabbar tab
-        puts "HERE MM1"
         if {[catch { set_current_tab $tabbar $tab }]} {
-          puts "HERE MM2"
           set_current_tab [get_info $pane paneindex tabbar] $tab
-          puts "HERE MM3"
         }
       }
-      puts "HERE NN"
     }
-    } rc
-    puts "rc: $rc"
 
   }
 
@@ -1736,7 +1709,7 @@ namespace eval gui {
   proc add_tab_content {tab} {
 
     # Get some of the file information
-    get_info $tab tab tabbar txt diff
+    get_info $tab tab tabbar txt fname diff
 
     # Indicate that we are loading the tab
     $tabbar tab $tab -busy 1
@@ -1758,7 +1731,7 @@ namespace eval gui {
 
       # Change the text to unmodified
       $txt edit reset
-      [ns files]::set_info $file_index fileindex modified 0
+      [ns files]::set_info $tab tab modified 0
 
       # Set the insertion mark to the first position
       ::tk::TextSetCursor $txt.t 1.0
@@ -2335,16 +2308,14 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Closes the tab with the identified name (if it exists).
-  # FIXME - I think that we need to include remote information to this
-  # to properly close files by name.
-  proc close_files {fnames} {
+  # Closes the tabs with the given file indices.
+  proc close_files {indices} {
 
-    if {[llength $fnames] > 0} {
+    if {[llength $indices] > 0} {
 
       # Perform a lazy close
-      foreach fname $fnames {
-        catch { close_tab {} [get_info $fname fname tab] -lazy 1 }
+      foreach index $indices {
+        catch { close_tab {} [get_info $index fileindex tab] -lazy 1 }
       }
 
       # Set the current tab
@@ -2362,7 +2333,7 @@ namespace eval gui {
     set set_current 0
 
     foreach dir $dirs {
-      foreach index [lreverse [[ns files]::get_names $dir*]] {
+      foreach index [lreverse [[ns files]::get_indices fname $dir*]] {
         close_tab {} [get_info $index fileindex tab] -lazy 1
         set set_current 1
       }
@@ -2466,7 +2437,7 @@ namespace eval gui {
   # Hides all of the opened files.
   proc hide_all {} {
 
-    hide_files [[ns files]::get_names]
+    hide_files [[ns files]::get_indices fname]
 
   }
 
@@ -2494,7 +2465,7 @@ namespace eval gui {
   # Shows all of the files.
   proc show_all {} {
 
-    show_files [[ns files]::get_names]
+    show_files [[ns files]::get_indices fname]
 
   }
 
@@ -3611,9 +3582,6 @@ namespace eval gui {
           }
           set type$i [lsearch [[lindex [$widgets(nb_pw) panes] $paneindex].tbf.tb tabs] $tab]
         }
-        fileindex {
-          set type$i $fileindex
-        }
         txt {
           if {$tab eq ""} {
             return -code error "Unable to get txt information"
@@ -3648,8 +3616,6 @@ namespace eval gui {
       set retval [set type$i]
       incr i
     }
-
-    puts "DONE!"
 
     return $retval
 
@@ -4187,7 +4153,7 @@ namespace eval gui {
       bind $beye <Button-4>                      [bind Text <Button-4>]
       bind $beye <Button-5>                      [bind Text <Button-5>]
 
-      set index [lsearch [bindtags $be] "Text"]
+      set index [lsearch [bindtags $beye] "Text"]
       bindtags $beye [lreplace [bindtags $beye] $index $index]
 
       set be_after_id($txt) ""
@@ -5027,7 +4993,7 @@ namespace eval gui {
     variable auto_cwd
 
     # Get the text information
-    get_info [winfo parent $txtt] txt tab txt fileindex fname buffer diff
+    get_info [winfo parent $txtt] txt paneindex tab txt fileindex fname buffer diff
     set pw_current $paneindex
 
     # Set the line and row information
