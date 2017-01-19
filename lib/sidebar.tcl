@@ -622,12 +622,7 @@ namespace eval sidebar {
 
     switch $attr {
       fname      { return [$widgets(tl) set $index name] }
-      file_index {
-        if {[catch { gui::get_info [$widgets(tl) set $index name] fname fileindex }]} {
-          return -1
-        }
-        return $fileindex
-      }
+      file_index { return [[ns files]::get_index [$widgets(tl) set $index name] [$widgets(tl) set $index remote]] }
       is_dir     { return [$widgets(tl) tag has d $index] }
       default    {
         return -code error "Illegal sidebar attribute specified ($attr)"
@@ -1055,7 +1050,8 @@ namespace eval sidebar {
 
       # If the file is currently in the notebook, make it the current tab
       if {([llength $selected] == 1) && ([$widgets(tl) item $selected -image] ne "")} {
-        gui::get_info [$widgets(tl) set $selected name] fname tabbar tab
+        set fileindex [files::get_index [$widgets(tl) set $selected name] [$widgets(tl) set $selected remote]]
+        gui::get_info $fileindex fileindex tabbar tab
         gui::set_current_tab $tabbar $tab
       }
 
@@ -1330,19 +1326,19 @@ namespace eval sidebar {
 
     variable widgets
 
-    set fnames [list]
+    set indices [list]
 
     # Gather all of the opened file names
     foreach row $rows {
       foreach child [$widgets(tl) children $row] {
         if {[$widgets(tl) item $child -image] ne ""} {
-          lappend fnames [$widgets(tl) set $child name]
+          lappend indices [files::get_index [$widgets(tl) set $child name] [$widgets(tl) set $child remote]]
         }
       }
     }
 
     # Close all of the files
-    gui::close_files $fnames
+    gui::close_files $indices
 
   }
 
@@ -1632,17 +1628,17 @@ namespace eval sidebar {
 
     variable widgets
 
-    set fnames [list]
+    set indices [list]
 
     # Gather all of the opened filenames
     foreach row $rows {
       if {[$widgets(tl) item $row -image] ne ""} {
-        lappend fnames [$widgets(tl) set $row name]
+        lappend indices [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       }
     }
 
     # Close the tab at the current location
-    gui::close_files $fnames
+    gui::close_files $indices
 
   }
 

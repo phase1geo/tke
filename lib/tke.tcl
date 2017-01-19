@@ -366,12 +366,8 @@ if {[catch {
   # Set the application name to tke
   tk appname tke
 
-  puts "HERE A"
-
   # Parse the command-line options
   parse_cmdline $argc $argv
-
-  puts "HERE B"
 
   # If we need to start profiling, do it now
   if {[info exists ::env(TKE_DEVEL)] && $::cl_profile} {
@@ -407,8 +403,6 @@ if {[catch {
 
   }
 
-  puts "HERE C"
-
   # Create the ~/.tke directory if it doesn't already exist
   if {![file exists $tke_home]} {
     file mkdir $tke_home
@@ -417,27 +411,17 @@ if {[catch {
   # Allow the share settings to be setup prior to doing anything else
   share::initialize
 
-  puts "HERE D"
-
   # Preload the session information
   sessions::preload
-
-  puts "HERE E"
 
   # Load the preferences
   preferences::load
 
-  puts "HERE F"
-
   # Initialize the themes
   themes::load
 
-  puts "HERE G"
-
   # Initialize the diagnostic logger
   logger::initialize
-
-  puts "HERE H"
 
   # If we need to check for updates on start, do that now
   if {[preferences::get General/UpdateCheckOnStart]} {
@@ -448,42 +432,26 @@ if {[catch {
     }
   }
 
-  puts "HERE I"
-
   # Load the plugins
   plugins::load
-
-  puts "HERE J"
 
   # Load the snippets
   snippets::load
 
-  puts "HERE K"
-
   # Load the clipboard history
   cliphist::load
-
-  puts "HERE L"
 
   # Load the syntax highlighting information
   syntax::load
 
-  puts "HERE M"
-
   # Load the favorites information
   favorites::load
-
-  puts "HERE N"
 
   # Load the template information
   templates::preload
 
-  puts "HERE O"
-
   # Load Emmet customizations
   emmet::load
-
-  puts "HERE P"
 
   # Set the delay to 1 second
   tooltip::tooltip delay 1000
@@ -491,19 +459,14 @@ if {[catch {
   # Create GUI
   gui::create
 
-  puts "HERE Q"
-
   # Update the UI
   themes::handle_theme_change
 
   # Run any plugins that are required at application start
   plugins::handle_on_start
 
-  puts "HERE R"
-
   # Populate the GUI with the command-line filelist (if specified)
   if {[llength $cl_files] > 0} {
-    puts "HERE R1"
     set tab ""
     foreach cl_file $cl_files {
       set name [file normalize $cl_file]
@@ -519,11 +482,8 @@ if {[catch {
 
   # Load the session file
   } elseif {[preferences::get General/LoadLastSession] || ($cl_use_session ne "")} {
-    puts "HERE R2"
     sessions::load [expr {($cl_use_session eq "") ? "last" : "nosave"}] $cl_use_session 0
   }
-
-  puts "HERE S"
 
   # If we are in development mode and preferences are telling us to open the
   # diagnostic logfile, do it now.
@@ -531,14 +491,10 @@ if {[catch {
     logger::view_log -lazy 1
   }
 
-  puts "HERE T"
-
   # If the number of loaded files is still zero, add a new blank file
   if {[files::get_file_num] == 0} {
     gui::add_new_file end -sidebar $::cl_sidebar
   }
-
-  puts "HERE U"
 
   # This will hide hidden files/directories but provide a button in the dialog boxes to show/hide theme
   catch {
@@ -551,6 +507,5 @@ if {[catch {
   wm deiconify .
 
 } rc]} {
-  puts "HERE!"
   bgerror $rc
 }

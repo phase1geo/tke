@@ -196,8 +196,6 @@ namespace eval sessions {
     [ns gui]::close_all
     [ns sidebar]::clear
 
-    puts "HERE 1"
-
     # Load the GUI session information (provide backward compatibility)
     if {[info exists content(gui)]} {
       [ns gui]::load_session {} $content(gui)
@@ -205,14 +203,10 @@ namespace eval sessions {
       [ns gui]::load_session {} $rc
     }
 
-    puts "HERE 2"
-
     # Load the find session information
     if {[info exists content(find)]} {
       [ns search]::load_session $content(find)
     }
-
-    puts "HERE 3"
 
     # Save the current name (provide backward compatibility)
     if {[info exists content(session)] && [file exists [file join $sessions_dir $content(session).tkedat]]} {
@@ -227,8 +221,6 @@ namespace eval sessions {
     } elseif {$current_name ne ""} {
       load_prefs $current_name
     }
-
-    puts "HERE 4"
 
     # Save the current content
     array set current_content [array get content]

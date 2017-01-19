@@ -240,6 +240,7 @@ proc bgerror {str} {
 
   # Log the error
   if {[logger::log $str]} {
+    puts stderr $::errorInfo
     logger::log $::errorInfo
   } else {
     puts stderr $str
