@@ -2208,7 +2208,7 @@ namespace eval gui {
       -lazy    0
       -force   0
       -check   1
-      -tabbar  0
+      -tabbar  ""
     }
     array set opts $args
 
@@ -2230,8 +2230,8 @@ namespace eval gui {
     [ns files]::remove $tab
 
     # Remove the tab from the tabbar (unless this has already been done by the tabbar)
-    if {!$opts(-tabbar)} {
-      $tabbar delete $tab_index
+    if {$opts(-tabbar) ne ""} {
+      $tabbar delete $tabindex
     }
 
     # Delete the text frame
@@ -2249,12 +2249,12 @@ namespace eval gui {
     if {([llength [$tabbar tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] > 1)} {
       $widgets(nb_pw) forget $pane
       set pw_current 0
-      set tb         [get_info 0 paneindex tabbar]
+      set tabbar     [get_info 0 paneindex tabbar]
     }
 
     # Add a new file if we have no more tabs, we are the only pane, and the preference
     # setting is to not close after the last tab is closed.
-    if {([llength [$tb tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$opts(-exiting)} {
+    if {([llength [$tabbar tabs]] == 0) && ([llength [$widgets(nb_pw) panes]] == 1) && !$opts(-exiting)} {
       if {[[ns preferences]::get General/ExitOnLastClose] || $::cl_exit_on_close} {
         [ns menus]::exit_command
       } elseif {$opts(-keeptab)} {
