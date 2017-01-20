@@ -4,19 +4,21 @@ namespace eval general {
   proc run_test1 {} {
 
     # Get the current tabbar
-    lassign [gui::get_info {} current {tabbar tab}] tb orig_tab
-    set tf [winfo parent [winfo parent $tb]].tf
+    gui::get_info {} current tabbar tab
+    set orig_tabbar $tabbar
+    set orig_tab    $tab
+    set tf          [winfo parent [winfo parent $tabbar]].tf
 
     # Add a new file to the tab bar
     set tab [gui::add_new_file end]
 
     # Make sure the tab was added to the current tabbar
-    if {[gui::get_info $tab tab tabbar] ne $tb} {
+    if {[gui::get_info $tab tab tabbar] ne $orig_tabbar} {
       return -code error "New tab was added to the wrong tabbar"
     }
 
     # Check to make sure that the tab was added to the tabbar
-    if {[lsearch [$tb tabs] $tab] == -1} {
+    if {[lsearch [$tabbar tabs] $tab] == -1} {
       return -code error "New tab was not created"
     }
 
@@ -29,7 +31,7 @@ namespace eval general {
     gui::close_tab {} $tab
 
     # Check to make sure that the tab was removed from the tabbar
-    if {[lsearch [$tb tabs] $tab] != -1} {
+    if {[lsearch [$tabbar tabs] $tab] != -1} {
       return -code error "New tab was not closed"
     }
 
@@ -46,19 +48,21 @@ namespace eval general {
   proc run_test2 {} {
 
     # Get the current tabbar
-    lassign [gui::get_info {} current {tabbar tab}] tb orig_tab
-    set tf [winfo parent [winfo parent $tb]].tf
+    gui::get_info {} current tabbar tab
+    set orig_tabbar $tabbar
+    set orig_tab    $tab
+    set tf          [winfo parent [winfo parent $tabbar]].tf
 
     # Add a new file to the tab bar
     set tab [gui::add_file end [file join $bist::testdir test1.txt]]
 
     # Make sure the tab was added to the current tabbar
-    if {[gui::get_info $tab tab tabbar] ne $tb} {
+    if {[gui::get_info $tab tab tabbar] ne $orig_tabbar} {
       return -code error "New tab was added to the wrong tabbar"
     }
 
     # Check to make sure that the tab was added to the tabbar
-    if {[lsearch [$tb tabs] $tab] == -1} {
+    if {[lsearch [$tabbar tabs] $tab] == -1} {
       return -code error "New tab was not created"
     }
 
@@ -71,7 +75,7 @@ namespace eval general {
     gui::close_tab {} $tab
 
     # Check to make sure that the tab was removed from the tabbar
-    if {[lsearch [$tb tabs] $tab] != -1} {
+    if {[lsearch [$tabbar tabs] $tab] != -1} {
       return -code error "New tab was not closed"
     }
 
@@ -88,19 +92,21 @@ namespace eval general {
   proc run_test3 {} {
 
     # Get the current tabbar
-    lassign [gui::get_info {} current {tabbar tab}] tb orig_tab
-    set tf [winfo parent [winfo parent $tb]].tf
+    gui::get_info {} current tabbar tab
+    set orig_tabbar $tabbar
+    set orig_tab    $tab
+    set tf          [winfo parent [winfo parent $tabbar]].tf
 
     # Add a new file to the tab bar
     set tab [gui::add_file end [file join $bist::testdir test1.txt] -lazy 1]
 
     # Make sure the tab was added to the current tabbar
-    if {[gui::get_info $tab tab tabbar] ne $tb} {
+    if {[gui::get_info $tab tab tabbar] ne $orig_tabbar} {
       return -code error "New tab was added to the wrong tabbar"
     }
 
     # Check to make sure that the tab was added to the tabbar
-    if {[lsearch [$tb tabs] $tab] == -1} {
+    if {[lsearch [$tabbar tabs] $tab] == -1} {
       return -code error "New tab was not created"
     }
 
@@ -118,7 +124,7 @@ namespace eval general {
     gui::close_tab {} $tab
 
     # Check to make sure that the tab was removed from the tabbar
-    if {[lsearch [$tb tabs] $tab] != -1} {
+    if {[lsearch [$tabbar tabs] $tab] != -1} {
       return -code error "New tab was not closed"
     }
 
