@@ -549,8 +549,6 @@ namespace eval files {
         return -code error $rc
       }
 
-      if {[lindex $files $fields(fname)] }
-
     } else {
 
       # Allow any plugins to handle the rename
@@ -563,7 +561,7 @@ namespace eval files {
     }
 
     # Find the matching file in the files list and change its filename to the new name
-    if {[set index [get_index $old_fname $remote]] != -1} {
+    if {[set index [get_index $old_name $remote]] != -1} {
       lset files $index $fields(fname) $new_name
       gui::update_tab [lindex $files $index $fields(tab)]
     }

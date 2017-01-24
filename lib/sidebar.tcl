@@ -622,7 +622,7 @@ namespace eval sidebar {
 
     switch $attr {
       fname      { return [$widgets(tl) set $index name] }
-      file_index { return [[ns files]::get_index [$widgets(tl) set $index name] [$widgets(tl) set $index remote]] }
+      file_index { return [files::get_index [$widgets(tl) set $index name] [$widgets(tl) set $index remote]] }
       is_dir     { return [$widgets(tl) tag has d $index] }
       default    {
         return -code error "Illegal sidebar attribute specified ($attr)"
