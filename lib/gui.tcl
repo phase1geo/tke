@@ -2230,7 +2230,7 @@ namespace eval gui {
     [ns files]::remove $tab
 
     # Remove the tab from the tabbar (unless this has already been done by the tabbar)
-    if {$opts(-tabbar) ne ""} {
+    if {$opts(-tabbar) eq ""} {
       $tabbar delete $tabindex
     }
 

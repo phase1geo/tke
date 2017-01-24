@@ -527,7 +527,8 @@ namespace eval tabbar {
       $w.c raise [tab_tag $w $page_index]
 
       # Make the current tab look current
-      set data($w,current) $page_index
+      set data($w,last_current) $data($w,current)
+      set data($w,current)      $page_index
       redraw $w
 
     } else {
@@ -678,7 +679,7 @@ namespace eval tabbar {
       }
 
       # Select the current tab
-      set data($w,current) -1
+      set data($w,current) $data($w,last_current)
       select $w [page_index $w $data($w,moveto_index)]
 
       # Clear the moveto_index
@@ -1200,13 +1201,8 @@ namespace eval tabbar {
 
     variable data
 
-    puts "In set_current, w: $w, current: $data($w,current), history opt: $data($w,option,-history), history: $data($w,history)"
-    puts [utils::stacktrace]
-
     # If we are storing tab history, get the previously current tab
     if {$data($w,option,-history) && ([llength $data($w,history)] > 0)} {
-
-      puts "  HERE A"
 
       set data($w,current) [lsearch -index 0 $data($w,pages) [lindex $data($w,history) end]]
 
@@ -1214,28 +1210,22 @@ namespace eval tabbar {
     # to the current one
     } else {
 
-      puts "  HERE B"
-
       for {set i [expr $data($w,current) - 1]} {$i >= 0} {incr i -1} {
         array set opts [lindex $data($w,pages) $i 1 2]
         if {$opts(-state) ne "hidden"} {
           set data($w,current) $i
-          puts "    Found 1"
           return
         }
       }
 
       for {set i $data($w,current)} {$i < [llength $data($w,pages)]} {incr i} {
-        puts "i: $i, pages: $data($w,pages)"
         array set opts [lindex $data($w,pages) $i 1 2]
         if {$opts(-state) ne "hidden"} {
           set data($w,current) $i
-          puts "    Found 2, current: $data($w,current)"
           return
         }
       }
 
-      puts "    Not found"
       set data($w,current) -1
 
     }
@@ -1579,8 +1569,6 @@ namespace eval tabbar {
 
       1 {
 
-        puts [utils::stacktrace]
-
         # Get the index of the tab to remove
         set index [index $w [lindex $args 0]]
 
@@ -1603,7 +1591,6 @@ namespace eval tabbar {
         # If current was deleted, reassign current
         if {$index == $data($w,current)} {
           set_current $w
-          puts "HERE X, current: $data($w,current)"
 
         # Otherwise, if we deleted tabs before current, decrement current
         } elseif {$index < $data($w,current)} {
@@ -1612,15 +1599,12 @@ namespace eval tabbar {
 
         # Update the tab order
         update_tab_order $w
-        puts "HERE y, current: $data($w,current)"
 
         # Redraw the tabbar
         redraw $w 1
-        puts "HERE z, current: $data($w,current)"
 
         # Make sure that the tab is in view
         make_current_viewable $w
-        puts "HERE z0, current: $data($w,current)"
 
       }
 
@@ -1697,7 +1681,6 @@ namespace eval tabbar {
     switch [llength $args] {
 
       0 {
-        puts "In select, current: $data($w,current)"
         return [expr {($data($w,current) == -1) ? "" : [lindex $data($w,pages) $data($w,current) 0]}]
       }
 
