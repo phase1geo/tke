@@ -16,6 +16,9 @@ embedded
 tabsallowed
 {1}
 
+linewrap
+{1}
+
 casesensitive
 {1}
 

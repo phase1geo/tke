@@ -19,6 +19,9 @@ escapes
 tabsallowed
 {0}
 
+linewrap
+{0}
+
 casesensitive
 {1}
 
@@ -40,7 +43,7 @@ strings {}
 
 keywords
 {
-  filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
+  filepatterns vimsyntax embedded matchcharsallowed tabsallowed linewrap casesensitive delimiters indent unindent
   reindent keywords symbols icomment lcomments bcomments strings numbers punctuation precompile
   miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta advanced escapes
   HighlightClass
@@ -53,7 +56,7 @@ keywords
 symbols
 {
   HighlightKeywords {
-    filepatterns vimsyntax embedded matchcharsallowed tabsallowed casesensitive delimiters indent unindent
+    filepatterns vimsyntax embedded matchcharsallowed tabsallowed linewrap casesensitive delimiters indent unindent
     reindent icomment lcomments bcomments strings symbols numbers punctuation precompile
     miscellaneous1 miscellaneous2 miscellaneous3 meta advanced escapes
   } syntax::get_syntax_symbol
