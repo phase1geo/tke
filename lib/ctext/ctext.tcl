@@ -3396,12 +3396,14 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags        [$win.t tag names $line.0]
     set linenum      [expr $abs ? $line : abs( $line - $curr )]
+    set blanks       [$win._t count -displaylines $line.0 $line.end]
+    set largest      [list]
     set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
     }
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
-      lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
+      lset line_content $lsize_pos [set largest [lindex [lsort $lsizes] 0]]
     }
     foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
       lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
@@ -3412,6 +3414,9 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
       }
     }
     $win.l insert end {*}$line_content
+    for {set i 0} {$i < $blanks} {incr i} {
+      $win.l insert end [format "%-*s" $linenum_width ""] [list] {*}$gutter_items "0" $largest "\n"
+    }
   }
 
 }

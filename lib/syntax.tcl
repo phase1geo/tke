@@ -37,6 +37,7 @@ namespace eval syntax {
     matchcharsallowed  {}
     escapes            1
     tabsallowed        0
+    linewrap           0
     casesensitive      0
     delimiters         {}
     indent             {}
@@ -370,9 +371,9 @@ namespace eval syntax {
         # Initialize the meta tags
         set meta_tags($txt) "meta"
 
-        # Set the case sensitivity and delimiter characters
+        # Set the case sensitivity, delimiter characters and wrap mode
         $txt configure -casesensitive $lang_array(casesensitive) \
-          -escapes $lang_array(escapes)
+          -escapes $lang_array(escapes) -wrap [expr {$lang_array(linewrap) ? "word" : "none"}]
         if {$lang_array(delimiters) ne ""} {
           $txt configure -delimiters $lang_array(delimiters)
         }
