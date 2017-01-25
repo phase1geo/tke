@@ -1686,11 +1686,8 @@ namespace eval vim {
     variable number
     variable column
 
-    puts "in handle_j, mode: $mode($txtt)"
-
     # Move the insertion cursor down one line
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      catch {
       $txtt tag remove sel 1.0 end
       lassign [split [$txtt index insert] .] row col
       if {$column($txtt) ne ""} {
@@ -1700,13 +1697,10 @@ namespace eval vim {
       }
       set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
       set row  [lindex [split [$txtt index "$row.0+$rows display lines"] .] 0]
-      puts "row: $row, col: $col, compare: [$txtt compare $row.$col < end]"
       if {[$txtt compare "$row.$col" < end]} {
         ::tk::TextSetCursor $txtt "$row.$col"
         adjust_insert $txtt
       }
-      } rc
-      puts "rc: $rc"
       return 1
     } elseif {$mode($txtt) eq "folding"} {
       [ns folding]::jump_to [winfo parent $txtt] next
