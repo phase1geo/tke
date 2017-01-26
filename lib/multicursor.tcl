@@ -351,17 +351,23 @@ namespace eval multicursor {
         "+1l" {
           foreach {end start} [lreverse [$txt tag ranges mcursor]] {
             $txt tag remove mcursor $start
-            if {$insert} {
-              $txt insert "$start lineend" "\n "
-              if {$insert_tag ne ""} {
-                $txt tag add $insert_tag "$start+1 display line linestart"
-              }
-              adjust_set_and_view $txt $start "$start+1 display line linestart"
-            } elseif {[$txt compare $start < "end-1l"]} {
-              adjust_set_and_view $txt $start "$start+1 display l"
-            } else {
+            lassign [split $start .] row col
+            set pos $row.end
+            set pos [$txt search \n "$pos+1c" end]
+            if {$pos eq ""} {
               $txt tag add mcursor $start
               break
+            } else {
+              set row [lindex [split $pos .] 0]
+              if {$insert} {
+                $txt insert "$start lineend" "\n "
+                if {$insert_tag ne ""} {
+                  $txt tag add $insert_tag $row.0
+                }
+                adjust_set_and_view $txt $start $row.0
+              } else {
+                adjust_set_and_view $txt $start $row.$col
+              }
             }
           }
         }
