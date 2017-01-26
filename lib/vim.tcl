@@ -1696,7 +1696,7 @@ namespace eval vim {
         set column($txtt) $col
       }
       set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
-      set row  [lindex [split [$txtt index "$row.0+$rows display lines"] .] 0]
+      set row  [lindex [split [$txtt search -- \n "$row.0+$rows lines" end] .] 0]
       if {[$txtt compare "$row.$col" < end]} {
         ::tk::TextSetCursor $txtt "$row.$col"
         adjust_insert $txtt
