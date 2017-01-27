@@ -803,6 +803,8 @@ namespace eval interpreter {
     $interp alias api::auto_adjust_color            utils::auto_adjust_color
     $interp alias api::auto_mix_colors              utils::auto_mix_colors
     $interp alias api::color_difference             utils::color_difference
+    $interp alias api::set_xscrollbar               utils::set_xscrollbar
+    $interp alias api::set_yscrollbar               utils::set_yscrollbar
 
     return $interp
 

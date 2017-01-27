@@ -3391,12 +3391,12 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
   set abs       [expr {$data($win,config,-linemap_type) eq "absolute"}]
   set curr      [lindex [split [$win.t index insert] .] 0]
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
+  set wrapped   [expr {[$win._t cget -wrap] ne "none"}]
 
   for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags        [$win.t tag names $line.0]
     set linenum      [expr $abs ? $line : abs( $line - $curr )]
-    set blanks       [$win._t count -displaylines $line.0 $line.end]
     set largest      [list]
     set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items "0" [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
@@ -3414,8 +3414,11 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
       }
     }
     $win.l insert end {*}$line_content
-    for {set i 0} {$i < $blanks} {incr i} {
-      $win.l insert end [format "%-*s" $linenum_width ""] [list] {*}$gutter_items "0" $largest "\n"
+    if {$wrapped && ([set blanks [$win._t count -displaylines $line.0 $line.end]] > 0)} {
+      set linenum [format "%-*s" $linenum_width ""]
+      for {set i 0} {$i < $blanks} {incr i} {
+        $win.l insert end $linenum [list] {*}$gutter_items "0" $largest "\n"
+      }
     }
   }
 

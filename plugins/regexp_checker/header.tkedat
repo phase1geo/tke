@@ -1,0 +1,9 @@
+name           {regexp_checker}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {
+  Specify regular expression syntax and verify it against a piece of text.
+}
