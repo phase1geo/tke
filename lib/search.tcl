@@ -41,7 +41,7 @@ namespace eval search {
   }
 
   ######################################################################
-  # Performs a search of the curren text widget in the given direction
+  # Performs a search of the current text widget in the given direction
   # with the text specified in the specified entry widget.
   proc find_start {tid direction} {
 
