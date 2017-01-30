@@ -1444,9 +1444,13 @@ namespace eval vim {
 
     lassign [split $mode($txtt) :] command type dir
 
+    # If the current mode does not pertain to us, return now
+    if {($type ne "t") && ($type ne "f")} {
+      return 0
+    }
+    
+    # Calculate the number
     set num [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
-
-    puts "In handle_find_motion, command: $command, type: $type, dir: $dir, num: $num"
 
     # Handle any find motions
     switch $command {
@@ -1456,26 +1460,17 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        if {($type ne "t") && ($type ne "f")} {
-          return 0
-        }
         [ns edit]::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
         start_mode $txtt
         return 1
       }
       "change" {
-        if {($type ne "t") && ($type ne "f")} {
-          return 0
-        }
         [ns edit]::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
         edit_mode $txtt
         return 1
       }
       "yank" {
-        if {($type ne "t") && ($type ne "f")} {
-          return 0
-        }
-        if {[set index [[ns edit]::find_char $txtt $dir $num $char]] ne "insert"} {
+        if {[set index [[ns edit]::find_char $txtt $dir $char $num]] ne "insert"} {
           clipboard clear
           if {$dir eq "next"} {
             if {$type eq "f"} {
@@ -1485,10 +1480,13 @@ namespace eval vim {
             }
           } else {
             if {$type eq "f"} {
-              clipboard append [$txtt get $index insert+1c]
+              clipboard append [$txtt get $index insert]
+              ::tk::TextSetCursor $txtt $index
             } else {
-              clipboard append [$txtt get $index+1c insert+1c]
+              clipboard append [$txtt get $index+1c insert]
+              ::tk::TextSetCursor $txtt $index+1c
             }
+            [ns vim]::adjust_insert $txtt
           }
         }
         start_mode $txtt
