@@ -297,9 +297,12 @@ namespace eval edit {
   proc delete_to_next_char {txtt char {num 1} {inclusive 1}} {
 
     if {[set index [find_char $txtt next $char $num]] ne "insert"} {
+      clipboard clear
       if {$inclusive} {
+        clipboard append [$txtt get insert "$index+1c"]
         $txtt delete insert "$index+1c"
       } else {
+        clipboard append [$txtt get insert $index]
         $txtt delete insert $index
       }
     }
@@ -312,9 +315,12 @@ namespace eval edit {
   proc delete_to_prev_char {txtt char {num 1} {inclusive 1}} {
 
     if {[set index [find_char $txtt prev $char $num]] ne "insert"} {
+      clipboard clear
       if {$inclusive} {
+        clipboard append [$txtt get $index insert]
         $txtt delete $index insert
       } else {
+        clipboard append [$txtt get $index+1c insert]
         $txtt delete $index+1c insert
       }
     }
