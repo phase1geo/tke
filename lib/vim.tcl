@@ -1444,10 +1444,14 @@ namespace eval vim {
 
     lassign [split $mode($txtt) :] command type dir
 
+    set num [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
+
+    puts "In handle_find_motion, command: $command, type: $type, dir: $dir, num: $num"
+
     # Handle any find motions
     switch $command {
       "find" {
-        [ns edit]::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char
+        [ns edit]::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
         start_mode $txtt
         return 1
       }
@@ -1455,7 +1459,7 @@ namespace eval vim {
         if {($type ne "t") && ($type ne "f")} {
           return 0
         }
-        [ns edit]::delete_to_${dir}_char $txtt $char [expr {($number($txtt) ne "") ? $number($txtt) : 1}] [expr {$type eq "f"}]
+        [ns edit]::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
         start_mode $txtt
         return 1
       }
@@ -1463,7 +1467,7 @@ namespace eval vim {
         if {($type ne "t") && ($type ne "f")} {
           return 0
         }
-        [ns edit]::delete_to_${dir}_char $txtt $char [expr {($number($txtt) ne "") ? $number($txtt) : 1}] [expr {$type eq "f"}]
+        [ns edit]::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
         edit_mode $txtt
         return 1
       }
@@ -1471,18 +1475,20 @@ namespace eval vim {
         if {($type ne "t") && ($type ne "f")} {
           return 0
         }
-        clipboard clear
-        if {$dir eq "next"} {
-          if {$type eq "f"} {
-            clipboard append [$txtt get insert [[ns edit]::find_char $txtt next [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char]+1c]
+        if {[set index [[ns edit]::find_char $txtt $dir $num $char]] ne "insert"} {
+          clipboard clear
+          if {$dir eq "next"} {
+            if {$type eq "f"} {
+              clipboard append [$txtt get insert $index+1c]
+            } else {
+              clipboard append [$txtt get insert $index]
+            }
           } else {
-            clipboard append [$txtt get insert [[ns edit]::find_char $txtt next [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char]]
-          }
-        } else {
-          if {$type eq "f"} {
-            clipboard append [$txtt get [[ns edit]::find_char $txtt prev [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char] insert+1c]
-          } else {
-            clipboard append [$txtt get [[ns edit]::find_char $txtt prev [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char]+1c insert+1c]
+            if {$type eq "f"} {
+              clipboard append [$txtt get $index insert+1c]
+            } else {
+              clipboard append [$txtt get $index+1c insert+1c]
+            }
           }
         }
         start_mode $txtt
