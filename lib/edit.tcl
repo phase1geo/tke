@@ -292,6 +292,36 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Deletes from the current insert postion to (and including) the next
+  # character on the current line.
+  proc delete_to_next_char {txtt char {num 1} {inclusive 1}} {
+
+    if {[set index [find_char $txtt next $char $num]] ne "insert"} {
+      if {$inclusive} {
+        $txtt delete insert "$index+1c"
+      } else {
+        $txtt delete insert $index
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Deletes from the current insert position to (and including) the
+  # previous character on the current line.
+  proc delete_to_prev_char {txtt char {num 1} {inclusive 1}} {
+
+    if {[set index [find_char $txtt prev $char $num]] ne "insert"} {
+      if {$inclusive} {
+        $txtt delete $index insert
+      } else {
+        $txtt delete $index+1c insert
+      }
+    }
+
+  }
+
+  ######################################################################
   # Get the start and end positions for the pair defined by char.
   proc get_char_positions {txtt endchar} {
 
@@ -1057,6 +1087,26 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Returns the starting index of the given character.
+  proc find_char {txtt dir char {num 1}} {
+
+    # Perform the character search
+    if {$dir eq "next"} {
+      set indices [$txtt search -all -forward -- $char "insert+1c" "insert lineend"]
+    } else {
+      set indices [$txtt search -all -backward -- $char insert "insert linestart"]
+    }
+
+    # If we could not find the character, return the insertion index
+    if {[set index [lindex $indices [expr $num - 1]]] eq ""} {
+      set index "insert"
+    }
+
+    return $index
+
+  }
+
+  ######################################################################
   # Moves the cursor to a position that is specified by position and num.
   # Valid values for position are:
   # - first      First line in file
@@ -1069,30 +1119,42 @@ namespace eval edit {
   # - screentop  Top of current screen
   # - screenmid  Middle of current screen
   # - screenbot  Bottom of current screen
-  proc move_cursor {txtt position {num ""}} {
+  proc move_cursor {txtt position {num ""} {char ""}} {
 
     # Clear the selection
     $txtt tag remove sel 1.0 end
 
     # Get the new cursor position
     switch $position {
-      first     { set index "1.0" }
-      last      { set index "end" }
-      nextword  { set index [get_word $txtt next [expr {($num eq "") ? 1 : $num}]] }
-      prevword  { set index [get_word $txtt prev [expr {($num eq "") ? 1 : $num}]] }
-      firstword {
+      first       { set index "1.0" }
+      last        { set index "end" }
+      nextword    { set index [get_word $txtt next [expr {($num eq "") ? 1 : $num}]] }
+      prevword    { set index [get_word $txtt prev [expr {($num eq "") ? 1 : $num}]] }
+      firstword   {
         if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
           set index "[lindex [$txtt tag nextrange _prewhite {insert linestart}] 1]-1c"
         } else {
           set index "insert lineend"
         }
       }
-      linestart { set index "insert linestart" }
-      lineend   { set index "insert lineend-1c" }
-      screentop { set index "@0,0" }
-      screenmid { set index "@0,[expr [winfo height $txtt] / 2]" }
-      screenbot { set index "@0,[winfo height $txtt]" }
-      default   { set index insert }
+      linestart   { set index "insert linestart" }
+      lineend     { set index "insert lineend-1c" }
+      screentop   { set index "@0,0" }
+      screenmid   { set index "@0,[expr [winfo height $txtt] / 2]" }
+      screenbot   { set index "@0,[winfo height $txtt]" }
+      nextfind    {
+        if {[set index [find_char $txtt next $char $num]] ne "insert"} {
+          set index [$txtt index $index-1c]
+        }
+      }
+      prevfind    {
+        if {[set index [find_char $txtt prev $char $num]] ne "insert"} {
+          set index [$txtt index $index+1c]
+        }
+      }
+      nextfindinc { set index [find_char $txtt next $char $num] }
+      prevfindinc { set index [find_char $txtt prev $char $num] }
+      default     { set index insert }
     }
 
     # Set the insertion position and make it visible

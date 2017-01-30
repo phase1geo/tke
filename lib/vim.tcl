@@ -1330,6 +1330,11 @@ namespace eval vim {
       }
     }
 
+    if {[handle_find_motion $txtt $char]} {
+      set number($txtt) ""
+      return 1
+    }
+
     # If the keysym is neither j or k, clear the column
     if {($keysym ne "j") && ($keysym ne "k")} {
       set column($txtt) ""
@@ -1424,6 +1429,66 @@ namespace eval vim {
 
     # Record the keysym
     record_add "Key-$keysym"
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Checks the current mode and if we are in a find character motion,
+  # handle the action.
+  proc handle_find_motion {txtt char} {
+
+    variable mode
+    variable number
+
+    lassign [split $mode($txtt) :] command type dir
+
+    # Handle any find motions
+    switch $command {
+      "find" {
+        [ns edit]::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char
+        start_mode $txtt
+        return 1
+      }
+      "delete" {
+        if {($type ne "t") && ($type ne "f")} {
+          return 0
+        }
+        [ns edit]::delete_to_${dir}_char $txtt $char [expr {($number($txtt) ne "") ? $number($txtt) : 1}] [expr {$type eq "f"}]
+        start_mode $txtt
+        return 1
+      }
+      "change" {
+        if {($type ne "t") && ($type ne "f")} {
+          return 0
+        }
+        [ns edit]::delete_to_${dir}_char $txtt $char [expr {($number($txtt) ne "") ? $number($txtt) : 1}] [expr {$type eq "f"}]
+        edit_mode $txtt
+        return 1
+      }
+      "yank" {
+        if {($type ne "t") && ($type ne "f")} {
+          return 0
+        }
+        clipboard clear
+        if {$dir eq "next"} {
+          if {$type eq "f"} {
+            clipboard append [$txtt get insert [[ns edit]::find_char $txtt next [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char]+1c]
+          } else {
+            clipboard append [$txtt get insert [[ns edit]::find_char $txtt next [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char]]
+          }
+        } else {
+          if {$type eq "f"} {
+            clipboard append [$txtt get [[ns edit]::find_char $txtt prev [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char] insert+1c]
+          } else {
+            clipboard append [$txtt get [[ns edit]::find_char $txtt prev [expr {($number($txtt) ne "") ? $number($txtt) : 1}] $char]+1c insert+1c]
+          }
+        }
+        start_mode $txtt
+        return 1
+      }
+    }
 
     return 0
 
@@ -1978,6 +2043,16 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
+      set mode($txtt) "find:f:next"
+      return 1
+    } elseif {$mode($txtt) eq "delete"} {
+      set mode($txtt) "delete:f:next"
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      set mode($txtt) "change:f:next"
+      return 1
+    } elseif {$mode($txtt) eq "yank"} {
+      set mode($txtt) "yank:f:next"
       return 1
     } elseif {$mode($txtt) eq "goto"} {
       if {[[ns multicursor]::enabled $txtt]} {
@@ -1999,6 +2074,78 @@ namespace eval vim {
       } else {
         set mode($txtt) "folding:range"
       }
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Handles any previous find character motions.
+  proc handle_F {txtt tid} {
+
+    variable mode
+
+    if {$mode($txtt) eq "start"} {
+      set mode($txtt) "find:f:prev"
+      return 1
+    } elseif {$mode($txtt) eq "delete"} {
+      set mode($txtt) "delete:f:prev"
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      set mode($txtt) "change:f:prev"
+      return 1
+    } elseif {$mode($txtt) eq "yank"} {
+      set mode($txtt) "yank:f:prev"
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Handles any next find character (non-inclusive) motions.
+  proc handle_t {txtt tid} {
+
+    variable mode
+
+    if {$mode($txtt) eq "start"} {
+      set mode($txtt) "find:t:next"
+      return 1
+    } elseif {$mode($txtt) eq "delete"} {
+      set mode($txtt) "delete:t:next"
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      set mode($txtt) "change:t:next"
+      return 1
+    } elseif {$mode($txtt) eq "yank"} {
+      set mode($txtt) "yank:t:next"
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Handles any next find character (non-inclusive) motions.
+  proc handle_T {txtt tid} {
+
+    variable mode
+
+    if {$mode($txtt) eq "start"} {
+      set mode($txtt) "find:t:prev"
+      return 1
+    } elseif {$mode($txtt) eq "delete"} {
+      set mode($txtt) "delete:t:prev"
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      set mode($txtt) "change:t:prev"
+      return 1
+    } elseif {$mode($txtt) eq "yank"} {
+      set mode($txtt) "yank:t:prev"
       return 1
     }
 
