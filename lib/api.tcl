@@ -87,7 +87,7 @@ namespace eval api {
   #  \param fname  Name of the file to normalize
   proc normalize_filename {interp pname host fname} {
 
-    return [gui::normalize $host $fname]
+    return [files::normalize $host $fname]
 
   }
 

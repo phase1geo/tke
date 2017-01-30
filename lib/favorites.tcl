@@ -43,7 +43,7 @@ namespace eval favorites {
 
     # Add a normalized
     for {set i 0} {$i < [llength $items]} {incr i} {
-      lset items $i 2 [gui::normalize {*}[lrange [lindex $items $i] 0 1]]
+      lset items $i 2 [files::normalize {*}[lrange [lindex $items $i] 0 1]]
     }
 
   }
@@ -72,7 +72,7 @@ namespace eval favorites {
 
     # Only add the file if it currently does not exist
     if {[lsearch -index 2 $items $fname] == -1} {
-      lappend items [list [info hostname] $fname [gui::normalize [info hostname] $fname]]
+      lappend items [list [info hostname] $fname [files::normalize [info hostname] $fname]]
       store
       return 1
     }
