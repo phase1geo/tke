@@ -1,106 +1,67 @@
-2017-01-14 20:28 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3a7df1277232 [stable-2.9])
+2017-01-26 21:12 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0e3ad01c861e [devel-2.9.1])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for stable-2.9 release
+	ChangeLog for devel-2.9.1 release
 
-2017-01-14 20:28 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (63ae841a4be6)
+2017-01-26 21:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5660bc437833)
 
 	* .hgtags:
-	Added tag stable-2.9 for changeset 3a7df1277232
+	Added tag devel-2.9.1 for changeset 0e3ad01c861e
 
-2017-01-15 00:08 -0600  Trevor Williams  <phase1geo@gmail.com>  (ae03de7d1202)
+2017-01-26 23:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (8cd278d3e4a8)
 
-	* lib/files.tcl, lib/gui.tcl, lib/tke.tcl, lib/version.tcl:
-	* Starting to split files and gui namespaces apart.
+	* plugins/regexp_checker/header.tkedat,
+	plugins/regexp_checker/main.tcl: new file.
+	* lib/ctext/ctext.tcl, lib/interpreter.tcl, lib/version.tcl,
+	plugins/regexp_checker/header.tkedat,
+	plugins/regexp_checker/main.tcl:
+	* Attempting to improve performance of line update in ctext widget
+	when line wrapping is disabled.
+	* Initial add of regexp_checker plugin.
 
-2017-01-15 00:14 -0600  Trevor Williams  <phase1geo@gmail.com>  (9e113974db71)
+2017-01-28 02:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (caf510e6a277)
 
-	* lib/gui.tcl, lib/tke.tcl, lib/version.tcl:
-	Merge
+	* lib/version.tcl, plugins/regexp_checker/main.tcl:
+	* Checkpointing work on regular expression checker.
 
-2017-01-15 00:34 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d3bd1826aedb)
+2017-01-28 02:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a5ae741b0179)
 
-	* lib/files.tcl, lib/gui.tcl, lib/version.tcl:
-	* Checkpointing.
+	* lib/search.tcl, lib/version.tcl:
+	* Fixing comment.
 
-2017-01-16 00:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (730de85110fb)
+2017-01-30 01:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (429f9b2461e7)
 
-	* lib/files.tcl, lib/gui.tcl, lib/sidebar.tcl, lib/version.tcl:
-	* Checkpointing.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl,
+	plugins/regexp_checker/main.tcl:
+	* Checkpointing work on regular expression checker.
+	* Adding initial support for f, F, t and T Vim motions (work in
+	progress).
 
-2017-01-16 20:48 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2096fcc38621)
+2017-01-30 09:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2274eb6e1d76)
 
-	* lib/files.tcl, lib/gui.tcl, lib/test.tcl, lib/version.tcl:
-	* Checkpointing.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
+	* Checkpointing work on find motion command.
 
-2017-01-17 00:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d74be1d55535)
+2017-01-30 16:49 -0600  Trevor Williams  <phase1geo@gmail.com>  (3696521ad281)
 
-	* lib/files.tcl, lib/gui.tcl, lib/menus.tcl, lib/version.tcl,
+	* lib/api.tcl, lib/favorites.tcl, lib/gui.tcl, lib/version.tcl,
 	lib/vim.tcl:
-	* Checkpointing.
+	* Fixing syntax errors when calling the old gui::normalize
+	procedure.
+	* More fixes to Vim find motion command.
 
-2017-01-18 01:40 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6f9cb9bd73ed)
-
-	* lib/bist.tcl, lib/diff.tcl, lib/files.tcl, lib/gui.tcl,
-	lib/menus.tcl, lib/plugins.tcl, lib/sessions.tcl, lib/sidebar.tcl,
-	lib/snippets.tcl, lib/syntax.tcl, lib/templates.tcl, lib/tke.tcl,
-	lib/version.tcl:
-	* Checkpointing.
-
-2017-01-18 22:57 -0600  Trevor Williams  <phase1geo@gmail.com>  (0509790930b1)
-
-	* lib/files.tcl, lib/gui.tcl, lib/logger.tcl, lib/sessions.tcl,
-	lib/sidebar.tcl, lib/tke.tcl, lib/version.tcl:
-	* Checkpointing.
-
-2017-01-20 00:00 -0600  Trevor Williams  <phase1geo@gmail.com>  (3138c5b13aca)
-
-	* lib/gui.tcl, lib/version.tcl, tests/general.tcl:
-	* Checkpointing.
-
-2017-01-21 23:55 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d6a22aa0f629)
-
-	* data/syntax/PropertyList.syntax: new file.
-	* data/syntax/PropertyList.syntax,
-	lib/ptwidgets1.2/library/tabbar.tcl, lib/version.tcl:
-	* Checkpointing.
-	* Adding PropertyList syntax.
-
-2017-01-24 07:47 -0600  Trevor Williams  <phase1geo@gmail.com>  (1e907e0d2d58)
-
-	* lib/gui.tcl, lib/ptwidgets1.2/library/tabbar.tcl, lib/version.tcl:
-	* Fixing tab history issues.
-
-2017-01-24 08:08 -0600  Trevor Williams  <phase1geo@gmail.com>  (6fd0605c2efa)
-
-	* lib/files.tcl, lib/sidebar.tcl, lib/version.tcl:
-	* Fixing syntax errors found with BIST.
-
-2017-01-24 23:37 -0700  Trevor Williams  <phase1geo@gmail.com>  (ea23ed8f7ad3)
-
-	* data/syntax/Markdown.syntax, data/syntax/syntax.syntax,
-	lib/ctext/ctext.tcl, lib/syntax.tcl, lib/version.tcl, lib/vim.tcl:
-	* Checkpointing work on adding line wrapping support.
-
-2017-01-24 23:38 -0700  Trevor Williams  <phase1geo@gmail.com>  (55dc2e2883ff)
+2017-01-30 22:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (bf53693d3b4d)
 
 	* lib/version.tcl, lib/vim.tcl:
-	* Removing debug output.
+	* Fixing issues with Vim find motion.
+	* Adding support for character toggle and visual character with find
+	motion.
 
-2017-01-26 00:32 -0700  Trevor Williams  <phase1geo@gmail.com>  (f0519ae4b9ac)
+2017-01-31 00:20 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (48bc6f48f3d1 [tip])
 
-	* lib/version.tcl, lib/vim.tcl:
-	* Fixing issues with moving the cursor down X number of lines with
-	Vim.
-
-2017-01-26 07:04 -0700  Trevor Williams  <phase1geo@gmail.com>  (c2bd331641a2)
-
-	* lib/version.tcl, lib/vim.tcl:
-	* Fixing Vim j command work.
-
-2017-01-26 14:52 -0700  Trevor Williams  <phase1geo@gmail.com>  (5b47a29778f1 [tip])
-
-	* lib/multicursor.tcl, lib/version.tcl:
-	* Fixing issues with multicursor moving down a line when line
-	wrapping is enabled.
+	* plugins/regexp_checker/README.md: new file.
+	* lib/version.tcl, plugins/regexp_checker/README.md,
+	plugins/regexp_checker/main.tcl:
+	* Adding readme for regular expression checker.
+	* Adding variable support to regular expression checker plugin.
 
