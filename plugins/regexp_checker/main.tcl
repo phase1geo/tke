@@ -27,16 +27,6 @@ namespace eval regexp_checker {
       grid $widgets(case)  -row 1 -column 0 -sticky w -padx 2 -pady 2
       grid $widgets(copy)  -row 1 -column 2 -sticky e -padx 2 -pady 2
 
-      ttk::labelframe $w.vf -text "Variables"
-      set widgets(table) [tablelist::tablelist $w.vf.tl -columns {0 {Variable} 0 {Value}}]
-
-      $widgets(table) columnconfigure 0 -name var -editable 0
-      $widgets(table) columnconfigure 1 -name val -editable 0
-
-      grid rowconfigure    $w.vf 0 -weight 1
-      grid columnconfigure $w.vf 0 -weight 1
-      grid $w.vf.tl -row 0 -column 0 -sticky news
-
       ttk::labelframe $w.tf -text "Text"
       set widgets(text) [text $w.tf.t -xscrollcommand [list api::set_xscrollbar $w.tf.hb] -yscrollcommand [list api::set_yscrollbar $w.tf.vb]]
       ttk::scrollbar $w.tf.vb -orient vertical   -command [list $w.tf.t yview]
@@ -48,8 +38,25 @@ namespace eval regexp_checker {
       grid $w.tf.vb -row 0 -column 1 -sticky ns
       grid $w.tf.hb -row 1 -column 0 -sticky ew
 
-      pack $w.ef -fill x    -padx 2 -pady 2
-      pack $w.tf -fill both -padx 2 -pady 2
+      ttk::labelframe $w.vf -text "Variables"
+      set widgets(vars) [ttk::treeview $w.vf.tl -columns {value} -displaycolumns #all \
+        -yscrollcommand [list $w.vf.vb set]]
+      ttk::scrollbar $w.vf.vb -orient vertical -command [list $w.vf.tl yview]
+
+      $widgets(vars) heading #0    -text "Variable" -anchor center
+      $widgets(vars) heading value -text "Value"    -anchor center
+
+      $widgets(vars) column  #0    -anchor center
+      $widgets(vars) column  value -anchor center
+
+      grid rowconfigure    $w.vf 0 -weight 1
+      grid columnconfigure $w.vf 0 -weight 1
+      grid $w.vf.tl -row 0 -column 0 -sticky news
+      grid $w.vf.vb -row 0 -column 1 -sticky ns
+
+      pack $w.ef -fill x
+      pack $w.tf -fill both -expand yes
+      pack $w.vf -fill x
 
       # Create the matched color
       $widgets(text) tag configure matched -background green
@@ -67,9 +74,11 @@ namespace eval regexp_checker {
     # If text was selected in the file, put it into the text widget automatically
     if {[set file_index [api::file::current_file_index]] != -1} {
       set txt [api::file::get_info $file_index txt]
-      if {[llength [set sel [$txt tag ranges sel]]] > 0} {
-        $widgets(text) delete 1.0 end
-        $widgets(text) insert end [$txt get {*}$sel]
+      catch {
+        if {[llength [set sel [$txt tag ranges sel]]] > 0} {
+          $widgets(text) delete 1.0 end
+          $widgets(text) insert end [$txt get {*}$sel]
+        }
       }
     }
 
@@ -105,16 +114,17 @@ namespace eval regexp_checker {
       lappend opts "-nocase"
     }
 
+    # Clear the variable table
+    $widgets(vars) delete [$widgets(vars) children {}]
+
     # Perform the match
     catch {
       if {[regexp -indices {*}$opts $value [$widgets(text) get 1.0 end-1c] all v(1) v(2) v(3) v(4) v(5) v(6) v(7) v(8) v(9)]} {
         $widgets(text) tag add matched "1.0+[lindex $all 0]c" "1.0+[expr [lindex $all 1] + 1]c"
-        $widgets(vars) delete 0 end
         foreach index [list 1 2 3 4 5 6 7 8 9] {
-          if {$v($index) ne ""} {
-            $widgets(vars) insert 0 [list $index [$widgets(text) get {*}$v($index)]]
-          } else {
-            break
+          lassign $v($index) off1 off2
+          if {$off1 != -1} {
+            $widgets(vars) insert {} end -text $index -values [list [$widgets(text) get "1.0+${off1}c" "1.0+[expr $off2 + 1]c"]]
           }
         }
       }
