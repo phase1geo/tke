@@ -758,16 +758,16 @@ namespace eval vim {
     set anchor [lindex $select_anchors($txtt) $index]
 
     if {[$txtt compare $anchor < insert]} {
-      if {$type eq "char"} {
-        $txtt tag add sel $anchor insert
-      } else {
+      if {$type eq "line"} {
         $txtt tag add sel "$anchor linestart" "insert lineend"
+      } else {
+        $txtt tag add sel $anchor insert
       }
     } else {
-      if {$type eq "char"} {
-        $txtt tag add sel insert $anchor
-      } else {
+      if {$type eq "line"} {
         $txtt tag add sel "insert linestart" "$anchor lineend"
+      } else {
+        $txtt tag add sel insert $anchor
       }
     }
 
@@ -1442,13 +1442,13 @@ namespace eval vim {
     variable mode
     variable number
 
-    lassign [split $mode($txtt) :] command type dir
+    lassign [split $mode($txtt) :] command type dir subcmd
 
     # If the current mode does not pertain to us, return now
     if {($type ne "t") && ($type ne "f")} {
       return 0
     }
-    
+
     # Calculate the number
     set num [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
 
@@ -1457,6 +1457,11 @@ namespace eval vim {
       "find" {
         [ns edit]::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
         start_mode $txtt
+        return 1
+      }
+      "visual" {
+        [ns edit]::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
+        set mode($txtt) "visual:char"
         return 1
       }
       "delete" {
@@ -1490,6 +1495,26 @@ namespace eval vim {
           }
         }
         start_mode $txtt
+        return 1
+      }
+      "case" {
+        if {[set index [[ns edit]::find_char $txtt $dir $char $num]] ne "insert"} {
+          if {$dir eq "next"} {
+            set startpos [$txtt index insert]
+            set endpos   [expr {($type eq "f") ? "$index+1c" : $index}]
+          } else {
+            set startpos [expr {($type eq "f") ? $index : "$index+1c"}]
+            set endpos   "insert"
+          }
+          switch $subcmd {
+            swap  { [ns edit]::convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos] }
+            upper { [ns edit]::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] upper }
+            lower { [ns edit]::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] lower }
+          }
+          ::tk::TextSetCursor $txtt $startpos
+          [ns vim]::adjust_insert $txtt
+          start_mode $txtt
+        }
         return 1
       }
     }
@@ -2049,6 +2074,9 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       set mode($txtt) "find:f:next"
       return 1
+    } elseif {$mode($txtt) eq "visual:char"} {
+      set mode($txtt) "visual:f:next"
+      return 1
     } elseif {$mode($txtt) eq "delete"} {
       set mode($txtt) "delete:f:next"
       return 1
@@ -2057,6 +2085,15 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "yank"} {
       set mode($txtt) "yank:f:next"
+      return 1
+    } elseif {$mode($txtt) eq "case:swap"} {
+      set mode($txtt) "case:f:next:swap"
+      return 1
+    } elseif {$mode($txtt) eq "case:upper"} {
+      set mode($txtt) "case:f:next:upper"
+      return 1
+    } elseif {$mode($txtt) eq "case:lower"} {
+      set mode($txtt) "case:f:next:lower"
       return 1
     } elseif {$mode($txtt) eq "goto"} {
       if {[[ns multicursor]::enabled $txtt]} {
@@ -2094,6 +2131,9 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       set mode($txtt) "find:f:prev"
       return 1
+    } elseif {$mode($txtt) eq "visual:char"} {
+      set mode($txtt) "visual:f:prev"
+      return 1
     } elseif {$mode($txtt) eq "delete"} {
       set mode($txtt) "delete:f:prev"
       return 1
@@ -2102,6 +2142,15 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "yank"} {
       set mode($txtt) "yank:f:prev"
+      return 1
+    } elseif {$mode($txtt) eq "case:swap"} {
+      set mode($txtt) "case:f:prev:swap"
+      return 1
+    } elseif {$mode($txtt) eq "case:upper"} {
+      set mode($txtt) "case:f:prev:upper"
+      return 1
+    } elseif {$mode($txtt) eq "case:lower"} {
+      set mode($txtt) "case:f:prev:lower"
       return 1
     }
 
@@ -2118,6 +2167,9 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       set mode($txtt) "find:t:next"
       return 1
+    } elseif {$mode($txtt) eq "visual:char"} {
+      set mode($txtt) "visual:t:next"
+      return 1
     } elseif {$mode($txtt) eq "delete"} {
       set mode($txtt) "delete:t:next"
       return 1
@@ -2126,6 +2178,15 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "yank"} {
       set mode($txtt) "yank:t:next"
+      return 1
+    } elseif {$mode($txtt) eq "case:swap"} {
+      set mode($txtt) "case:t:next:swap"
+      return 1
+    } elseif {$mode($txtt) eq "case:upper"} {
+      set mode($txtt) "case:t:next:upper"
+      return 1
+    } elseif {$mode($txtt) eq "case:lower"} {
+      set mode($txtt) "case:t:next:lower"
       return 1
     }
 
@@ -2142,6 +2203,9 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       set mode($txtt) "find:t:prev"
       return 1
+    } elseif {$mode($txtt) eq "visual:char"} {
+      set mode($txtt) "visual:t:prev"
+      return 1
     } elseif {$mode($txtt) eq "delete"} {
       set mode($txtt) "delete:t:prev"
       return 1
@@ -2150,6 +2214,15 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "yank"} {
       set mode($txtt) "yank:t:prev"
+      return 1
+    } elseif {$mode($txtt) eq "case:swap"} {
+      set mode($txtt) "case:t:prev:swap"
+      return 1
+    } elseif {$mode($txtt) eq "case:upper"} {
+      set mode($txtt) "case:t:prev:upper"
+      return 1
+    } elseif {$mode($txtt) eq "case:lower"} {
+      set mode($txtt) "case:t:prev:lower"
       return 1
     }
 
