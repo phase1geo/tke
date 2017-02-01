@@ -320,7 +320,7 @@ proc FTP_Package_Error {ftpI id mess state} {
 
 proc FTP_recover {ftpI} {
   global ftp
-  set r [catch "$ftp($ftpI,sftp)FTPpwd $ftpI" result]
+  set r [catch { $ftp($ftpI,sftp)FTPpwd $ftpI } result]
   set ::ftpVwait [list $r $result]
   frputs "recover  " r result
   return
@@ -394,7 +394,7 @@ proc FTP_CD { ftpI new_wd } {
   }
   set ftp($ftpI,state) "cd"
   set ftp($ftpI,new_wd) $new_wd
-  set r [catch "$ftp($ftpI,sftp)FTPcd $ftpI \"$new_wd\"" result]
+  set r [catch { $ftp($ftpI,sftp)FTPcd $ftpI $new_wd } result]
   if { $r != 0 && [string match -nocase "*closed*" $result] } {
     FTP_OpenLink $ftpI
     set result [$ftp($ftpI,sftp)FTPcd $ftpI $new_wd]
@@ -453,7 +453,7 @@ proc FTP_IsDir { ftpI new_wd } {
   set ftp($ftpI,new_wd) $new_wd
   set ftp($ftpI,ignorError) 1
   set ftp($ftpI,state) "cd"
-  if { [catch "$ftp($ftpI,sftp)FTPcd $ftpI $new_wd" out] || $out == 0} {
+  if {[catch { $ftp($ftpI,sftp)FTPcd $ftpI $new_wd } out] || $out == 0} {
     if {[string match {*timed out*} $out] } {
       return -code error $out
     }
@@ -582,7 +582,7 @@ proc FTP_LinkFile {ftpI exist new } {
 proc FTP_command {ftpI command} {
   global ftp
   FTP_MakeSureLinkIsUp $ftpI
-  set r [catch "$ftp($ftpI,sftp)FTPcommand $ftpI \"$command\"" result]
+  set r [catch { $ftp($ftpI,sftp)FTPcommand $ftpI $command } result]
   if {$r != 0} {
     frputs "Return from $ftp($ftpI,sftp)FTPcommand $ftpI $command " command result
     set result "Sorry, the command \"$command\" returned error: $result"
@@ -629,7 +629,7 @@ proc FTP_CheckError {ftpI {message ""}} {
 proc FTP_ShutDown { ftpI } {
   global ftp
   if {$ftp($ftpI,handle) != -1} {
-    catch "$ftp($ftpI,sftp)FTPclose $ftpI"
+    catch { $ftp($ftpI,sftp)FTPclose $ftpI }
   }
   set ftp($ftpI,handle) ""
   set ftp($ftpI,host) ""
