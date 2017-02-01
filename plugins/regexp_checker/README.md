@@ -10,7 +10,7 @@ Matched text will be highlighted to help you understand exactly which text is
 being matched.  If no text is matched, no text will be highlighted.
 
 Once you have entered the desired regular expression, you can copy the expression
-to the clipboard using the **Copy** button.
+to the clipboard using the **Copy Pattern** button.
 
 Finally, if you select any text in an editing buffer and then start the plugin
 via the **Plugins** window, that text will automatically be copied into the
