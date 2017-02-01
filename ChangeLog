@@ -1,67 +1,34 @@
-2017-01-26 21:12 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0e3ad01c861e [devel-2.9.1])
+2017-01-31 00:38 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d51e10432b45 [devel-2.9.2])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.1 release
+	ChangeLog for devel-2.9.2 release
 
-2017-01-26 21:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5660bc437833)
+2017-01-31 00:38 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c9fcf8161d2d)
 
 	* .hgtags:
-	Added tag devel-2.9.1 for changeset 0e3ad01c861e
+	Added tag devel-2.9.2 for changeset d51e10432b45
 
-2017-01-26 23:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (8cd278d3e4a8)
+2017-02-01 00:15 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (070123eb9fa7)
 
-	* plugins/regexp_checker/header.tkedat,
-	plugins/regexp_checker/main.tcl: new file.
-	* lib/ctext/ctext.tcl, lib/interpreter.tcl, lib/version.tcl,
-	plugins/regexp_checker/header.tkedat,
+	* lib/version.tcl, plugins/css_colorize/main.tcl,
 	plugins/regexp_checker/main.tcl:
-	* Attempting to improve performance of line update in ctext widget
-	when line wrapping is disabled.
-	* Initial add of regexp_checker plugin.
+	* Enhancing regular expression checker plugin.
+	* Fixing CSS colorize plugin issue when reloading.
 
-2017-01-28 02:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (caf510e6a277)
+2017-02-01 00:20 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (142cd5855b14)
 
-	* lib/version.tcl, plugins/regexp_checker/main.tcl:
-	* Checkpointing work on regular expression checker.
+	* lib/version.tcl, plugins/regexp_checker/README.md:
+	* Adjusting regular expression checker README.md.
 
-2017-01-28 02:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a5ae741b0179)
+2017-02-01 01:14 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6afc142f62e6)
 
-	* lib/search.tcl, lib/version.tcl:
-	* Fixing comment.
+	* lib/remote/ftp_control.tcl, lib/version.tcl:
+	* Fixing issues in FTP/SFTP code when connection name contains
+	whitespace.
 
-2017-01-30 01:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (429f9b2461e7)
+2017-02-01 02:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c80268450fe3 [tip])
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl,
-	plugins/regexp_checker/main.tcl:
-	* Checkpointing work on regular expression checker.
-	* Adding initial support for f, F, t and T Vim motions (work in
-	progress).
-
-2017-01-30 09:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (2274eb6e1d76)
-
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Checkpointing work on find motion command.
-
-2017-01-30 16:49 -0600  Trevor Williams  <phase1geo@gmail.com>  (3696521ad281)
-
-	* lib/api.tcl, lib/favorites.tcl, lib/gui.tcl, lib/version.tcl,
-	lib/vim.tcl:
-	* Fixing syntax errors when calling the old gui::normalize
-	procedure.
-	* More fixes to Vim find motion command.
-
-2017-01-30 22:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (bf53693d3b4d)
-
-	* lib/version.tcl, lib/vim.tcl:
-	* Fixing issues with Vim find motion.
-	* Adding support for character toggle and visual character with find
-	motion.
-
-2017-01-31 00:20 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (48bc6f48f3d1 [tip])
-
-	* plugins/regexp_checker/README.md: new file.
-	* lib/version.tcl, plugins/regexp_checker/README.md,
-	plugins/regexp_checker/main.tcl:
-	* Adding readme for regular expression checker.
-	* Adding variable support to regular expression checker plugin.
+	* data/syntax/Xojo.syntax: new file.
+	* data/syntax/Xojo.syntax, lib/version.tcl:
+	* Adding Xojo syntax.
 
