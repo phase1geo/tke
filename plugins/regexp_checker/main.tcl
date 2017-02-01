@@ -18,19 +18,23 @@ namespace eval regexp_checker {
 
       ttk::labelframe $w.ef -text "Regexp Pattern"
       set widgets(entry) [ttk::entry       $w.ef.e  -validate key -validatecommand [list regexp_checker::check_after]]
-      set widgets(case)  [ttk::checkbutton $w.ef.cb -text " Case-sensitive" -command [list regexp_checker::check]]
-      set widgets(copy)  [ttk::button      $w.ef.b  -text "Copy Pattern"    -command [list regexp_checker::copy] -state disabled]
+      set widgets(line)  [ttk::checkbutton $w.ef.cb -text " Match on line" -command [list regexp_checker::check]]
+      set widgets(copy)  [ttk::button      $w.ef.b  -text "Copy Pattern"   -command [list regexp_checker::copy] -state disabled]
 
       grid rowconfigure    $w.ef 2 -weight 1
       grid columnconfigure $w.ef 1 -weight 1
       grid $widgets(entry) -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
-      grid $widgets(case)  -row 1 -column 0 -sticky w -padx 2 -pady 2
+      grid $widgets(line)  -row 1 -column 0 -sticky w -padx 2 -pady 2
       grid $widgets(copy)  -row 1 -column 2 -sticky e -padx 2 -pady 2
 
       ttk::labelframe $w.tf -text "Text"
-      set widgets(text) [text $w.tf.t -xscrollcommand [list api::set_xscrollbar $w.tf.hb] -yscrollcommand [list api::set_yscrollbar $w.tf.vb]]
+      set widgets(text) [text $w.tf.t -height 10 \
+        -xscrollcommand [list api::set_xscrollbar $w.tf.hb] \
+        -yscrollcommand [list api::set_yscrollbar $w.tf.vb]]
       ttk::scrollbar $w.tf.vb -orient vertical   -command [list $w.tf.t yview]
       ttk::scrollbar $w.tf.hb -orient horizontal -command [list $w.tf.t xview]
+
+      bind $widgets(text) <<Modified>> [list regexp_checker::text_modified]
 
       grid rowconfigure    $w.tf 0 -weight 1
       grid columnconfigure $w.tf 0 -weight 1
@@ -40,7 +44,7 @@ namespace eval regexp_checker {
 
       ttk::labelframe $w.vf -text "Variables"
       set widgets(vars) [ttk::treeview $w.vf.tl -columns {value} -displaycolumns #all \
-        -yscrollcommand [list $w.vf.vb set]]
+        -height 5 -yscrollcommand [list $w.vf.vb set]]
       ttk::scrollbar $w.vf.vb -orient vertical -command [list $w.vf.tl yview]
 
       $widgets(vars) heading #0    -text "Variable" -anchor center
@@ -85,6 +89,19 @@ namespace eval regexp_checker {
   }
 
   ######################################################################
+  # Called whenever the text widget is modified.
+  proc text_modified {} {
+
+    variable widgets
+
+    if {[$widgets(text) edit modified]} {
+      $widgets(text) edit modified false
+      check
+    }
+
+  }
+
+  ######################################################################
   # Checks the regular expression match after idle.
   proc check_after {} {
 
@@ -110,8 +127,8 @@ namespace eval regexp_checker {
 
     # Create opts
     set opts [list]
-    if {[$widgets(case) state] ne "selected"} {
-      lappend opts "-nocase"
+    if {[lsearch [$widgets(line) state] "selected"] != -1} {
+      lappend opts "-line"
     }
 
     # Clear the variable table

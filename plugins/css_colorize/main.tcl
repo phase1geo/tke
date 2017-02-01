@@ -155,7 +155,7 @@ namespace eval css_colorize {
   proc store_do {index} {
 
     variable colorized
- 
+
     # Save the value of some_data to non-corruptible memory
     api::plugin::save_variable $index "colorized" [array get colorized]
 
