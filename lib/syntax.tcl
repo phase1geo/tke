@@ -344,7 +344,7 @@ namespace eval syntax {
     # Set the bird's eye text widget
     [ns gui]::get_info $txt txt beye
     if {[winfo exists $beye]} {
-      $be configure -background $theme(background) -foreground $theme(foreground) \
+      $beye configure -background $theme(background) -foreground $theme(foreground) \
         -inactiveselectbackground [[ns utils]::auto_adjust_color $theme(background) 25]
     }
 
