@@ -13,11 +13,13 @@ namespace eval url_validator {
 
   ######################################################################
   # Parses the given Markdown file
-  proc check_url {url} {
+  proc check_url {url {startpos ""} {endpos ""}} {
 
     variable checked
 
-    if {![catch { http::geturl $url } token]} {
+    set tags [list]
+
+    if {![catch { http::geturl $url -validate 1 } token]} {
       set status [http::status $token]
       set ncode  [http::ncode  $token]
       http::cleanup $token
@@ -26,7 +28,7 @@ namespace eval url_validator {
       set ncode  ""
     }
 
-    lappend checked [list $url $status $ncode]
+    lappend checked [list $url $status $ncode $startpos $endpos]
 
   }
 
@@ -38,7 +40,8 @@ namespace eval url_validator {
 
     set i 0
     foreach index [$txt search -all -count lengths -regexp -- $url_pattern 1.0 end] {
-      check_url [$txt get $index $index+[lindex $lengths $i]c]
+      set endpos [$txt index $index+[lindex $lengths $i]c]
+      check_url [$txt get $index $endpos] $index $endpos
       incr i
     }
 
@@ -46,48 +49,83 @@ namespace eval url_validator {
 
   ######################################################################
   # Displays the checked URLs.
-  proc display_checked_urls {} {
+  proc display_checked_urls {{txt ""}} {
 
     variable checked
 
-    if {![winfo exists .urlval]} {
+    if {[winfo exists .urlval]} {
+      destroy .urlval
+    }
 
-      toplevel .urlval
-      wm title .urlval "Checked URLs"
+    toplevel .urlval
+    wm title .urlval "Checked URLs"
 
-      set table [ttk::treeview .urlval.tv -columns {status code} -displaycolumns {status code} \
-        -xscrollcommand [list .urlval.hb set] -yscrollcommand [list .urlval.vb set]]
-      ttk::scrollbar .urlval.vb -orient vertical   -command [list .urlval.tv yview]
-      ttk::scrollbar .urlval.hb -orient horizontal -command [list .urlval.tv xview]
+    set columns [list status code line startpos]
 
-      $table heading #0     -text "URL"
-      $table heading status -text "Status"
-      $table heading code   -text "Code"
-
-      $table column #0     -stretch 1 -width 400 -minwidth 200
-      $table column status -width 100 -minwidth 50 -anchor center
-      $table column code   -width 100 -minwidth 50 -anchor center
-
-      grid rowconfigure    .urlval 0 -weight 1
-      grid columnconfigure .urlval 0 -weight 1
-      grid .urlval.tv -row 0 -column 0 -sticky news
-      grid .urlval.vb -row 0 -column 1 -sticky ns
-      grid .urlval.hb -row 1 -column 0 -sticky es
-
+    if {$txt eq ""} {
+      set displaycolumns [list status code]
     } else {
+      set displaycolumns [list status code line]
+    }
 
-      wm withdraw  .urlval
-      wm deiconify .urlval
+    set table [ttk::treeview .urlval.tv -columns $columns -displaycolumns $displaycolumns \
+      -xscrollcommand [list .urlval.hb set] -yscrollcommand [list .urlval.vb set]]
+    ttk::scrollbar .urlval.vb -orient vertical   -command [list .urlval.tv yview]
+    ttk::scrollbar .urlval.hb -orient horizontal -command [list .urlval.tv xview]
 
-      $table delete [$table children {}]
+    $table heading #0     -text "URL"
+    $table heading status -text "Status"
+    $table heading code   -text "Code"
 
+    $table column #0     -stretch 1 -width 400 -minwidth 200 -anchor w
+    $table column status -width 100 -minwidth 50 -anchor center
+    $table column code   -width 100 -minwidth 50 -anchor center
+
+    if {$txt ne ""} {
+      $table heading line -text "Line"
+      $table column  line -width 100 -minwidth 50 -anchor e
+    }
+
+    # $table tag configure bad -foreground red
+    if {$txt ne ""} {
+      $table tag bind both <ButtonPress> [list url_validator::handle_click %W %x %y $txt]
+    }
+
+    grid rowconfigure    .urlval 0 -weight 1
+    grid columnconfigure .urlval 0 -weight 1
+    grid .urlval.tv -row 0 -column 0 -sticky news
+    grid .urlval.vb -row 0 -column 1 -sticky ns
+    grid .urlval.hb -row 1 -column 0 -sticky es
+
+    # Create the images, if necessary
+    if {[lsearch [image names] bad] == -1} {
+      image create photo bad  -file [file join [api::get_plugin_directory] bad.gif]
+      image create photo good -file [file join [api::get_plugin_directory] good.gif]
     }
 
     # Populate the the table with the checked status
     foreach item $checked {
-      lassign $item url status code
-      $table insert {} end -text $url -values [list $status $code]
+      lassign $item url status code startpos endpos
+      set tag [expr {(($status eq "ok") && ($code == 200)) ? "good" : "bad"}]
+      $table insert {} end -text "  $url" -image $tag -values [list $status $code [lindex [split $startpos .] 0] $startpos] -tags [list both $tag]
     }
+
+  }
+
+  ######################################################################
+  # Handles a left click on the results table.
+  proc handle_click {table x y txt} {
+
+    if {![winfo exists $txt]} {
+      return
+    }
+
+    set item     [$table identify item $x $y]
+    set startpos [lindex [$table item $item -values] 3]
+
+    # Display the text widget
+    api::reset_text_focus $txt
+    tk::TextSetCursor $txt $startpos
 
   }
 
@@ -103,10 +141,10 @@ namespace eval url_validator {
     set checked    [list]
 
     # Parse the file for URLs
-    parse_file [api::file::get_info $file_index txt]
+    parse_file [set txt [api::file::get_info $file_index txt]]
 
     # Display the checked URLs
-    display_checked_urls
+    display_checked_urls $txt
 
   }
 
@@ -136,12 +174,12 @@ namespace eval url_validator {
 
     if {![catch { $txt tag ranges sel } selected]} {
       foreach {startpos endpos} $selected {
-        check_url [$txt get $startpos $endpos]
+        check_url [$txt get $startpos $endpos] $startpos $endpos
       }
     }
 
     # Display the checked URLs
-    display_checked_urls
+    display_checked_urls $txt
 
   }
 

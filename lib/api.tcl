@@ -191,9 +191,14 @@ namespace eval api {
 
   ######################################################################
   ## Sets the text focus back to the last text widget to receive focus.
-  proc reset_text_focus {interp pname} {
+  proc reset_text_focus {interp pname {txtt ""}} {
 
-    after idle [list gui::set_txt_focus [gui::last_txt_focus {}]]
+    if {$txtt eq ""} {
+      after idle [list gui::set_txt_focus [gui::last_txt_focus {}]]
+    } else {
+      [ns gui]::get_info [winfo parent $txtt] txt tabbar tab
+      after idle [list gui::set_current_tab $tabbar $tab]
+    }
 
   }
 
