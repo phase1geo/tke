@@ -18,6 +18,6 @@ Click on found URL to set the insertion marker on the within the associated edit
 
 ---
 
-Here is a URL: http://www.google.com and this is another URL: http://www.bing.com
-and this is a bad URL: http://www.buggygubby.com and another bad URL:
-http://www.google.com/error.html
+Here is a [URL](http://www.google.com) and this is [another URL](http://www.bing.com)
+and this is a [bad URL](http://www.buggygubby.com) and
+[another bad URL](http://www.google.com/error.html)

@@ -1,3 +1,5 @@
+package require http
+
 # Plugin namespace
 namespace eval url_validator {
 
