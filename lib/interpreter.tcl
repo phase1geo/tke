@@ -276,9 +276,6 @@ namespace eval interpreter {
         if {$subcmd eq "bind"} {
           switch [llength $args] {
             3 {
-              return [string map [list "$interps($pname,interp) eval " ""] [$win tag bind {*}$args]]
-            }
-            4 {
               if {[string index [lindex $args end] 0] == "+"} {
                 return [$win tag bind {*}[lrange $args 0 end-1] [list +$interps($pname,interp) eval {*}[lindex $args end]]]
               } else {
