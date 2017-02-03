@@ -398,6 +398,7 @@ namespace eval gui {
     trace variable [ns preferences]::prefs(Editor/WarningWidth)                 w [ns gui]::handle_warning_width_change
     trace variable [ns preferences]::prefs(Editor/MaxUndo)                      w [ns gui]::handle_max_undo
     trace variable [ns preferences]::prefs(Editor/HighlightMatchingChar)        w [ns gui]::handle_matching_char
+    trace variable [ns preferences]::prefs(Editor/RelativeLineNumbers)          w [ns gui]::handle_relative_line_numbers
     trace variable [ns preferences]::prefs(View/AllowTabScrolling)              w [ns gui]::handle_allow_tab_scrolling
     trace variable [ns preferences]::prefs(Editor/VimMode)                      w [ns gui]::handle_vim_mode
     trace variable [ns preferences]::prefs(Appearance/EditorFont)               w [ns gui]::handle_editor_font
@@ -494,6 +495,19 @@ namespace eval gui {
     # Update all existing text widgets to the new value
     foreach txt [get_all_texts] {
       $txt configure -matchchar $value
+    }
+
+  }
+
+  ######################################################################
+  # Handles any changes to the Editor/RelativeLineNumbers preference
+  # value.  Updates all text widgets to the given value.
+  proc handle_relative_line_numbers {name1 name2 op} {
+
+    set linemap_type [expr {[[ns preferences]::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}]
+
+    foreach txt [get_all_texts] {
+      $txt configure -linemap_type $linemap_type
     }
 
   }
