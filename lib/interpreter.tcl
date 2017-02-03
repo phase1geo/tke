@@ -757,15 +757,6 @@ namespace eval interpreter {
       $interp hide exit my_exit
     }
 
-    # Add any additional namespaces that can only be run when the plugin is trusted
-    if {$trust_granted} {
-      foreach ns [list http] {
-        foreach cmd [info commands ::${ns}::*] {
-          $interp alias $cmd $cmd
-        }
-      }
-    }
-
     # Create raw ttk widget aliases
     foreach widget [list canvas listbox menu text toplevel ttk::button ttk::checkbutton ttk::combobox \
                          ttk::entry ttk::frame ttk::label ttk::labelframe ttk::menubutton ttk::notebook \
