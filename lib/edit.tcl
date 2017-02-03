@@ -331,15 +331,15 @@ namespace eval edit {
   # Get the start and end positions for the pair defined by char.
   proc get_char_positions {txtt endchar} {
 
-    array set pairs {\{ \} \} \{ \( \) \) \( \[ \] \] \[ < > > <}
+    array set pairs {\{ \\\} \} \\\{ \( \\\) \) \\\( \[ \\\] \] \\\[ < > > <}
 
     # Initialize
     set retval [set end_index 0]
 
     # Get the matching character
     if {[info exists pairs($endchar)]} {
-      if {[set start_index [[ns gui]::find_match_pair $txtt $pairs($endchar) $endchar -backwards]] != -1} {
-        set retval [expr {[set end_index [[ns gui]::find_match_pair $txtt $endchar $pairs($endchar) -forwards]] != -1}]
+      if {[set start_index [[ns gui]::find_match_pair $txtt $pairs($endchar) \\$endchar -backwards]] != -1} {
+        set retval [expr {[set end_index [[ns gui]::find_match_pair $txtt \\$endchar $pairs($endchar) -forwards]] != -1}]
       }
     } else {
       if {[set start_index [[ns gui]::find_match_char $txtt $endchar -backwards]] != -1} {
