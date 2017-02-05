@@ -598,13 +598,7 @@ namespace eval multicursor {
         }
       }
 
-      set ranges [$txt highlight -dotags $do_tags {*}$ranges]
-
-      foreach {start end} $ranges {
-        set linestart [$txt._t index "$start linestart"]
-        set lineend   [$txt._t index "$end+1c lineend"]
-        ctext::modified $txt 1 [list delete [list $linestart $lineend] [list]]
-      }
+      $txt highlight -dotags $do_tags -modified {*}$ranges
 
       event generate $txt.t <<CursorChanged>>
 
@@ -644,10 +638,7 @@ namespace eval multicursor {
         set start "$start+[expr $valuelen + 1]c"
         lappend ranges {*}$range
       }
-      $txtt highlight -insert 1 -dotags $do_tags {*}$ranges
-      foreach {start end} $ranges {
-        ctext::modified $txt 1 [list insert [list $start $end] [list]]
-      }
+      $txtt highlight -insert 1 -dotags $do_tags -modified {*}$ranges
       if {$indent_cmd ne ""} {
         set start 1.0
         while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
@@ -688,11 +679,7 @@ namespace eval multicursor {
           set start "$start+[expr $valuelen + 1]c"
           lappend ranges {*}$range
         }
-        $txt highlight -insert 1 -dotags $do_tags {*}$ranges
-        foreach {start end} $ranges {
-          ctext::modified $txt 1 [list delete [list $start $end] [list]]
-          ctext::modified $txt 1 [list insert [list $start $end] [list]]
-        }
+        $txt highlight -insert 1 -dotags $do_tags -modified {*}$ranges
         if {$indent_cmd ne ""} {
           set start 1.0
           while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
