@@ -1482,11 +1482,9 @@ proc ctext::command_fastreplace {win args} {
     }
   }
 
-  set startPos  [$win._t index [lindex $args 0]]
-  set endPos    [$win._t index [lindex $args 1]]
-  set datlen    [string length [lindex $args 2]]
-  set lineStart [$win._t index "$startPos linestart"]
-  set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
+  set startPos [$win._t index [lindex $args 0]]
+  set endPos   [$win._t index [lindex $args 1]]
+  set datlen   [string length [lindex $args 2]]
 
   ctext::undo_delete $win $startPos $endPos
 
@@ -1496,8 +1494,7 @@ proc ctext::command_fastreplace {win args} {
   ctext::undo_insert $win $startPos $datlen [$win._t index insert]
 
   if {$do_update} {
-    ctext::modified $win 1 [list delete [list $startPos $endPos] $moddata]
-    ctext::modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+    ctext::modified $win 1 [list replace [list $startPos $endPos] $moddata]
     event generate $win.t <<CursorChanged>>
   }
 
@@ -1507,17 +1504,19 @@ proc ctext::command_highlight {win args} {
 
   variable data
 
-  set moddata    [list]
-  set insert     0
-  set dotags     ""
-  set ranges [list]
+  set moddata  [list]
+  set insert   0
+  set dotags   ""
+  set modified 0
+  set ranges   [list]
 
   while {[string index [lindex $args 0] 0] eq "-"} {
     switch [lindex $args 0] {
-      "-moddata" { set args [lassign $args dummy moddata] }
-      "-insert"  { set args [lassign $args dummy insert] }
-      "-dotags"  { set args [lassign $args dummy dotags] }
-      default    {
+      "-moddata"  { set args [lassign $args dummy moddata] }
+      "-insert"   { set args [lassign $args dummy insert] }
+      "-dotags"   { set args [lassign $args dummy dotags] }
+      "-modified" { set args [lassign $args dummy]; set modified 1 }
+      default     {
         return -code error "Unknown option specified ([lindex $args 0])"
       }
     }
@@ -1527,10 +1526,8 @@ proc ctext::command_highlight {win args} {
     lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
   }
 
-  set ranges [ctext::highlightAll $win $ranges $insert $dotags]
-  ctext::modified $win 0 [list highlight $ranges $moddata]
-
-  return $ranges
+  ctext::highlightAll $win $ranges $insert $dotags
+  ctext::modified $win $modified [list highlight $ranges $moddata]
 
 }
 
@@ -1633,8 +1630,7 @@ proc ctext::command_replace {win args} {
   }
 
   ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags
-  ctext::modified     $win 1 [list delete [list $startPos $endPos] $moddata]
-  ctext::modified     $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+  ctext::modified     $win 1 [list replace [list $startPos $endPos] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -2555,8 +2551,6 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   if {$all} {
     event generate $win.t <<StringCommentChanged>>
   }
-
-  return $ranges
 
 }
 

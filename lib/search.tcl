@@ -286,14 +286,8 @@ namespace eval search {
 
     if {$num_indices > 0} {
 
-      set ranges [$txt highlight -dotags $do_tags -insert 1 {*}[lreverse $ranges]]
-
-      foreach {start end} $ranges {
-        set linestart [$txt index "$start linestart"]
-        set lineend   [$txt index "$end+1c lineend"]
-        ctext::modified $win 1 [list delete [list $start $end] $moddata]
-        ctext::modified $win 1 [list insert [list $linestart $lineend] $moddata]
-      }
+      # Perform the highlight
+      $txt highlight -dotags $do_tags -insert 1 -modified {*}[lreverse $ranges]
 
       # Set the insertion cursor to the last match and make that line visible
       ::tk::TextSetCursor $txt [lindex $indices 0]
