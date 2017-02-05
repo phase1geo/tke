@@ -1510,7 +1510,7 @@ proc ctext::command_highlight {win args} {
   set moddata    [list]
   set insert     0
   set dotags     ""
-  set lineranges [list]
+  set ranges [list]
 
   while {[string index [lindex $args 0] 0] eq "-"} {
     switch [lindex $args 0] {
@@ -1524,11 +1524,13 @@ proc ctext::command_highlight {win args} {
   }
 
   foreach {start end} $args {
-    lappend lineranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
+    lappend ranges [$win._t index "$start linestart"] [$win._t index "$end lineend"]
   }
 
-  ctext::highlightAll $win $lineranges $insert $dotags
-  ctext::modified     $win 0 [list highlight $lineranges $moddata]
+  set ranges [ctext::highlightAll $win $ranges $insert $dotags]
+  ctext::modified $win 0 [list highlight $ranges $moddata]
+
+  return $ranges
 
 }
 
@@ -2553,6 +2555,8 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   if {$all} {
     event generate $win.t <<StringCommentChanged>>
   }
+
+  return $ranges
 
 }
 

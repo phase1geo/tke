@@ -266,14 +266,34 @@ namespace eval search {
 
     # Get the number of indices
     set num_indices [llength $indices]
+    set ranges      [list]
+    set do_tags     [list]
 
     # Replace the text (perform variable substitutions if necessary)
     for {set i 0} {$i < $num_indices} {incr i} {
-      set index [lindex $indices $i]
-      $txt replace $index "$index+[lindex $lengths $i]c" [regsub $search [$txt get $index "$index+[lindex $lengths $i]c"] $replace]
+      set startpos [lindex $indices $i]
+      set endpos   [$txt index $startpos+[lindex $lengths $i]c]
+      set rendpos  [$txt index $startpos+[string length $replace]c]
+      if {[llength $do_tags] == 0} {
+        ctext::comments_chars_deleted $txt $startpos $endpos do_tags
+      }
+      $txt fastreplace -update 0 $startpos $endpos [regsub $search [$txt get $startpos $endpos] $replace]
+      if {[llength $do_tags] == 0} {
+        ctext::comments_do_tag $txt $startpos $rendpos do_tags
+      }
+      lappend ranges $endpos $startpos
     }
 
     if {$num_indices > 0} {
+
+      set ranges [$txt highlight -dotags $do_tags -insert 1 {*}[lreverse $ranges]]
+
+      foreach {start end} $ranges {
+        set linestart [$txt index "$start linestart"]
+        set lineend   [$txt index "$end+1c lineend"]
+        ctext::modified $win 1 [list delete [list $start $end] $moddata]
+        ctext::modified $win 1 [list insert [list $linestart $lineend] $moddata]
+      }
 
       # Set the insertion cursor to the last match and make that line visible
       ::tk::TextSetCursor $txt [lindex $indices 0]

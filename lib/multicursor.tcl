@@ -598,7 +598,7 @@ namespace eval multicursor {
         }
       }
 
-      $txt highlight -dotags $do_tags {*}$ranges
+      set ranges [$txt highlight -dotags $do_tags {*}$ranges]
 
       foreach {start end} $ranges {
         set linestart [$txt._t index "$start linestart"]
