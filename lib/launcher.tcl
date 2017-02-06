@@ -676,8 +676,8 @@ namespace eval launcher {
           if {[llength [array names commands [get_command_name * launcher::symbol_okay 1]]] == 0} {
             unregister * * 1
             set i 0
-            foreach {procedure pos} [gui::get_symbol_list {}] {
-              lappend matches [register_temp "@$procedure" [list gui::jump_to {} $pos] $procedure $i "" launcher::symbol_okay]
+            foreach {procedure pos} [gui::get_symbol_list] {
+              lappend matches [register_temp "@$procedure" [list gui::jump_to $pos] $procedure $i "" launcher::symbol_okay]
               incr i
             }
           }
@@ -711,7 +711,7 @@ namespace eval launcher {
             set i 0
             foreach snippet [snippets::get_current_snippets] {
               lassign $snippet name value
-              lappend matches [register_temp ";$name" [list snippets::insert_snippet_into_current {} $value] $name $i [list snippets::add_detail $value] launcher::snip_okay]
+              lappend matches [register_temp ";$name" [list snippets::insert_snippet_into_current $value] $name $i [list snippets::add_detail $value] launcher::snip_okay]
               incr i
             }
             set show_detail 1

@@ -276,7 +276,7 @@ namespace eval files {
         set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
           -detail $fname -type yesno -default yes]
         if {$answer eq "yes"} {
-          close_tab {} $tab -check 0
+          close_tab $tab -check 0
         } else {
           lset files $index $fields(mtime) ""
         }
@@ -441,7 +441,7 @@ namespace eval files {
       lset files $index $fields(save_cmd) ""
       lset files $index $fields(remember) 1
       return 1
-    } elseif {[set save_as [gui::prompt_for_save {}]] ne ""} {
+    } elseif {[set save_as [gui::prompt_for_save]] ne ""} {
       lset files $index $fields(buffer)   0
       lset files $index $fields(save_cmd) ""
       lset files $index $fields(fname)    $save_as

@@ -159,13 +159,13 @@ namespace eval indent {
 
   ######################################################################
   # Sets the indentation mode for the current text widget.
-  proc set_indent_mode {tid mode} {
+  proc set_indent_mode {mode} {
 
     variable indent_exprs
     variable indent_mode_map
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
+    set txt [[ns gui]::current_txt]
 
     # Set the current mode
     set indent_exprs($txt.t,mode) $indent_mode_map($mode)
@@ -177,7 +177,7 @@ namespace eval indent {
     [set [ns gui]::widgets(info_indent)] configure -text $mode
 
     # Set the focus back to the text widget
-    catch { [ns gui]::set_txt_focus [[ns gui]::last_txt_focus {}] }
+    catch { [ns gui]::set_txt_focus [[ns gui]::last_txt_focus] }
 
   }
 
@@ -655,7 +655,7 @@ namespace eval indent {
     # Populate the menu with the available languages
     foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
       $mnu add radiobutton -label $lbl -variable [ns indent]::current_indent \
-        -value $mode -command "[ns indent]::set_indent_mode {} $mode"
+        -value $mode -command [list [ns indent]::set_indent_mode $mode]
     }
 
     return $mnu
@@ -685,7 +685,7 @@ namespace eval indent {
     variable current_indent
 
     # Get the current text widget
-    set txtt [[ns gui]::current_txt {}].t
+    set txtt [[ns gui]::current_txt].t
 
     # Configure the menubutton
     if {[info exists indent_exprs($txtt,mode)]} {

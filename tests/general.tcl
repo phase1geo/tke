@@ -28,7 +28,7 @@ namespace eval general {
     }
 
     # Close the tab
-    gui::close_tab {} $tab
+    gui::close_tab $tab
 
     # Check to make sure that the tab was removed from the tabbar
     if {[lsearch [$tabbar tabs] $tab] != -1} {
@@ -72,7 +72,7 @@ namespace eval general {
     }
 
     # Close the tab
-    gui::close_tab {} $tab
+    gui::close_tab $tab
 
     # Check to make sure that the tab was removed from the tabbar
     if {[lsearch [$tabbar tabs] $tab] != -1} {
@@ -121,7 +121,7 @@ namespace eval general {
     }
 
     # Close the tab
-    gui::close_tab {} $tab
+    gui::close_tab $tab
 
     # Check to make sure that the tab was removed from the tabbar
     if {[lsearch [$tabbar tabs] $tab] != -1} {

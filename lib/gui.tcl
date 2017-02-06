@@ -333,21 +333,21 @@ namespace eval gui {
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand [ns gui]::setup_tab_popup_menu]
-    $widgets(menu) add command -label [msgcat::mc "Close Tab"]        -command [list [ns gui]::close_current {}]
+    $widgets(menu) add command -label [msgcat::mc "Close Tab"]        -command [list [ns gui]::close_current]
     $widgets(menu) add command -label [msgcat::mc "Close Other Tabs"] -command [ns gui]::close_others
     $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]   -command [ns gui]::close_all
     $widgets(menu) add separator
-    $widgets(menu) add command -label [msgcat::mc "Hide Tab"]         -command [list [ns gui]::hide_current {}]
+    $widgets(menu) add command -label [msgcat::mc "Hide Tab"]         -command [list [ns gui]::hide_current]
     $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Split View"] -onvalue 1 -offvalue 0 \
-      -variable [ns menus]::show_split_pane -command [list [ns gui]::toggle_split_pane {}]
+      -variable [ns menus]::show_split_pane -command [list [ns gui]::toggle_split_pane]
     $widgets(menu) add checkbutton -label [msgcat::mc "Bird's Eye View"] -onvalue 1 -offvalue 0 \
-      -variable [ns menus]::show_birdseye -command [list [ns gui]::toggle_birdseye {}]
+      -variable [ns menus]::show_birdseye -command [list [ns gui]::toggle_birdseye]
     $widgets(menu) add separator
     $widgets(menu) add checkbutton -label [msgcat::mc "Locked"] -onvalue 1 -offvalue 0 \
-      -variable [ns gui]::file_locked    -command [list [ns gui]::set_current_file_lock_with_current {}]
+      -variable [ns gui]::file_locked    -command [list [ns gui]::set_current_file_lock_with_current]
     $widgets(menu) add checkbutton -label [msgcat::mc "Favorited"] -onvalue 1 -offvalue 0 \
-      -variable [ns gui]::file_favorited -command [list [ns gui]::set_current_file_favorite_with_current {}]
+      -variable [ns gui]::file_favorited -command [list [ns gui]::set_current_file_favorite_with_current]
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Show in Sidebar"]    -command [ns gui]::show_current_in_sidebar
     $widgets(menu) add separator
@@ -849,17 +849,17 @@ namespace eval gui {
 
   ######################################################################
   # Shows the line numbers.
-  proc set_line_number_view {tid value} {
+  proc set_line_number_view {value} {
 
     # Show the line numbers in the current editor
-    [current_txt $tid] configure -linemap $value
+    [current_txt] configure -linemap $value
 
   }
 
   ######################################################################
   # Sets the minimum line number width of the line gutter to the given
   # value.
-  proc set_line_number_width {tid val} {
+  proc set_line_number_width {val} {
 
     variable numberwidth
 
@@ -986,7 +986,7 @@ namespace eval gui {
   ######################################################################
   # Loads the geometry information (if it exists) and changes the current
   # window geometry to match the read value.
-  proc load_session {tid info} {
+  proc load_session {info} {
 
     variable widgets
     variable last_opened
@@ -1067,7 +1067,7 @@ namespace eval gui {
               [ns syntax]::set_language $txt $finfo(language)
             }
             if {[info exists finfo(indent)]} {
-              [ns indent]::set_indent_mode $tid $finfo(indent)
+              [ns indent]::set_indent_mode $finfo(indent)
             }
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               [ns diff]::set_session_data $txt $finfo(diffdata)
@@ -1440,10 +1440,10 @@ namespace eval gui {
 
   ######################################################################
   # Selects all of the text in the current text widget.
-  proc select_all {tid} {
+  proc select_all {} {
 
     # Get the current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # Set the selection to include everything
     $txt tag add sel 1.0 end
@@ -1509,7 +1509,7 @@ namespace eval gui {
       if {$name eq "Untitled"} {
         return
       } else {
-        close_tab {} [get_info {} current tab] -keeptab 0
+        close_tab [get_info {} current tab] -keeptab 0
       }
     }
 
@@ -1648,7 +1648,7 @@ namespace eval gui {
 
     # If have a single untitled tab in view, close it before adding the file
     if {[untitled_check]} {
-      close_tab {} [get_info {} current tab] -keeptab 0
+      close_tab [get_info {} current tab] -keeptab 0
     }
 
     # If the file is already loaded, display the tab
@@ -1880,14 +1880,14 @@ namespace eval gui {
   # Prompts the user for a file save name.  Returns the name of the selected
   # filename; otherwise, returns the empty string to indicate that no
   # filename was selected.
-  proc prompt_for_save {tid} {
+  proc prompt_for_save {} {
 
     # Get the directory of the current file
     set dirname [gui::get_browse_directory]
 
     # Get the list of save options
     set save_opts [list]
-    if {[llength [set extensions [[ns syntax]::get_extensions $tid]]] > 0} {
+    if {[llength [set extensions [[ns syntax]::get_extensions]]] > 0} {
       lappend save_opts -defaultextension [lindex $extensions 0]
     }
 
@@ -1976,7 +1976,7 @@ namespace eval gui {
   ######################################################################
   # Saves the current tab contents.  Returns 1 if the save was successful;
   # otherwise, returns a value of 0.
-  proc save_current {tid args} {
+  proc save_current {args} {
 
     array set opts {
       -force   0
@@ -2015,7 +2015,7 @@ namespace eval gui {
 
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {$buffer || $diff} {
-      if {[set sfile [prompt_for_save $tid]] eq ""} {
+      if {[set sfile [prompt_for_save]] eq ""} {
         return 0
       } else {
         set matching_index [[ns files]::get_index $sfile ""]
@@ -2034,7 +2034,7 @@ namespace eval gui {
 
     # If the file already exists in one of the open tabs, close it now
     if {$matching_index != -1} {
-      close_tab $tid [[ns files]::get_info $matching_index fileindex tab] -keeptab 0 -check 0
+      close_tab [[ns files]::get_info $matching_index fileindex tab] -keeptab 0 -check 0
     }
 
     # Save the file contents
@@ -2112,7 +2112,7 @@ namespace eval gui {
           } else {
 
             set_current_tab $tabbar $tab -skip_check 1
-            save_current {} -force 1
+            save_current -force 1
 
           }
 
@@ -2153,7 +2153,7 @@ namespace eval gui {
   ######################################################################
   # Returns 1 if the tab is closable; otherwise, returns a value of 0.
   # Saves the tab if it needs to be saved.
-  proc close_check {tid tab force exiting} {
+  proc close_check {tab force exiting} {
 
     # Get the tab information
     get_info $tab tab tabbar fname modified diff
@@ -2164,7 +2164,7 @@ namespace eval gui {
       set msg   [format "%s %s?" [msgcat::mc "Save"] $fname]
       set_current_tab $tabbar $tab
       if {[set answer [tk_messageBox -default yes -type [expr {$exiting ? {yesno} : {yesnocancel}}] -message $msg -title [msgcat::mc "Save request"]]] eq "yes"} {
-        return [save_current $tid -force $force]
+        return [save_current -force $force]
       } elseif {$answer eq "cancel"} {
         return 0
       }
@@ -2177,20 +2177,26 @@ namespace eval gui {
   ######################################################################
   # Returns 1 if the tab is closable; otherwise, returns a value of 0.
   # Saves the tab if it needs to be saved.
-  proc close_check_by_tabbar {tid w tab} {
+  proc close_check_by_tabbar {w tab} {
 
-    return [close_check $tid $tab 0 0]
+    return [close_check $tab 0 0]
 
   }
 
   ######################################################################
-  # Close the current tab.  If force is set to 1, closes regardless of
-  # modified state of text widget.  If force is set to 0 and the text
+  # Close the current tab.  If -force is set to 1, closes regardless of
+  # modified state of text widget.  If -force is set to 0 and the text
   # widget is modified, the user will be questioned if they want to save
   # the contents of the file prior to closing the tab.
-  proc close_current {tid {force 0} {exiting 0}} {
+  proc close_current {args} {
 
-    close_tab $tid [get_info {} current tab] -force $force -exiting $exiting
+    array set opts {
+      -force   0
+      -exiting 0
+    }
+    array set opts $args
+
+    close_tab [get_info {} current tab] -force $opts(-force) -exiting $opts(-exiting)
 
   }
 
@@ -2203,7 +2209,7 @@ namespace eval gui {
     # Close the tab specified by tab (we don't need to check because the check
     # will have already been performed with the -checkcommand passed to the
     # tabbar.
-    close_tab {} $tab -tabbar $w -check 0
+    close_tab $tab -tabbar $w -check 0
 
     return 1
 
@@ -2211,7 +2217,7 @@ namespace eval gui {
 
   ######################################################################
   # Close the specified tab (do not ask the user about closing the tab).
-  proc close_tab {tid tab args} {
+  proc close_tab {tab args} {
 
     variable widgets
     variable pw_current
@@ -2231,7 +2237,7 @@ namespace eval gui {
 
     # Perform save check on close
     if {$opts(-check)} {
-      close_check $tid $tab $opts(-force) $opts(-exiting)
+      close_check $tab $opts(-force) $opts(-exiting)
     }
 
     # Unhighlight the file in the file browser (if the file was not a difference view)
@@ -2290,7 +2296,7 @@ namespace eval gui {
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         if {($nb ne $current_pw) || ($tab ne [$nb.tbf.tb select])} {
-          close_tab {} $tab -lazy 1
+          close_tab $tab -lazy 1
         }
       }
     }
@@ -2315,7 +2321,7 @@ namespace eval gui {
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
-        close_tab {} $tab -lazy 1 {*}$args
+        close_tab $tab -lazy 1 {*}$args
       }
     }
 
@@ -2329,7 +2335,7 @@ namespace eval gui {
 
       # Perform a lazy close
       foreach index $indices {
-        catch { close_tab {} [get_info $index fileindex tab] -lazy 1 }
+        catch { close_tab [get_info $index fileindex tab] -lazy 1 }
       }
 
       # Set the current tab
@@ -2348,7 +2354,7 @@ namespace eval gui {
 
     foreach dir $dirs {
       foreach index [lreverse [[ns files]::get_indices fname $dir*]] {
-        close_tab {} [get_info $index fileindex tab] -lazy 1
+        close_tab [get_info $index fileindex tab] -lazy 1
         set set_current 1
       }
     }
@@ -2419,7 +2425,7 @@ namespace eval gui {
 
   ######################################################################
   # Hides the current tab.
-  proc hide_current {tid} {
+  proc hide_current {} {
 
     # Get the current tabbar and tab
     hide_tab [get_info {} current tab]
@@ -2608,10 +2614,10 @@ namespace eval gui {
 
   ######################################################################
   # Performs an undo of the current tab.
-  proc undo {tid} {
+  proc undo {} {
 
     # Get the current textbox
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # Perform the undo operation from Vim perspective
     [ns vim]::undo $txt.t
@@ -2620,10 +2626,10 @@ namespace eval gui {
 
   ######################################################################
   # Returns true if there is something in the undo buffer.
-  proc undoable {tid} {
+  proc undoable {} {
 
     # Get the current textbox
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     return [$txt edit undoable]
 
@@ -2631,10 +2637,10 @@ namespace eval gui {
 
   ######################################################################
   # This procedure performs an redo operation.
-  proc redo {tid} {
+  proc redo {} {
 
     # Get the current textbox
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # Perform the redo operation from Vim perspective
     [ns vim]::redo $txt.t
@@ -2643,10 +2649,10 @@ namespace eval gui {
 
   ######################################################################
   # Returns true if there is something in the redo buffer.
-  proc redoable {tid} {
+  proc redoable {} {
 
     # Get the current textbox
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     return [$txt edit redoable]
 
@@ -2654,10 +2660,10 @@ namespace eval gui {
 
   ######################################################################
   # Cuts the currently selected text.
-  proc cut {tid} {
+  proc cut {} {
 
     # Perform the cut
-    [current_txt $tid] cut
+    [current_txt] cut
 
     # Add the clipboard contents to history
     [ns cliphist]::add_from_clipboard
@@ -2666,10 +2672,10 @@ namespace eval gui {
 
   ##############################################################################
   # This procedure performs a text selection copy operation.
-  proc copy {tid} {
+  proc copy {} {
 
     # Perform the copy
-    [current_txt $tid] copy
+    [current_txt] copy
 
     # Add the clipboard contents to history
     [ns cliphist]::add_from_clipboard
@@ -2678,9 +2684,9 @@ namespace eval gui {
 
   ######################################################################
   # Returns true if text is currently selected in the current buffer.
-  proc selected {tid} {
+  proc selected {} {
 
-    if {([set txt [current_txt $tid]] ne "") && \
+    if {([set txt [current_txt]] ne "") && \
         ([llength [$txt tag ranges sel]] > 0)} {
       return 1
     } else {
@@ -2692,10 +2698,10 @@ namespace eval gui {
   ##############################################################################
   # This procedure performs a text selection paste operation.  Returns 1 if the
   # paste operation was performed on the current text widget; otherwise, returns 0.
-  proc paste {tid} {
+  proc paste {} {
 
     # Get the current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # If the current txt widget has the focus, paste clipboard contents to it and record the
     # paste with the Vim namespace.
@@ -2718,7 +2724,7 @@ namespace eval gui {
   ######################################################################
   # This procedure performs a paste operation, formatting the pasted text
   # to match the code that it is being pasted into.
-  proc paste_and_format {tid} {
+  proc paste_and_format {} {
 
     if {![catch {clipboard get}]} {
 
@@ -2726,13 +2732,13 @@ namespace eval gui {
       set cliplen [string length [clipboard get]]
 
       # Get the position of the insertion cursor
-      set insertpos [[current_txt $tid] index insert]
+      set insertpos [[current_txt] index insert]
 
       # Perform the paste operation
-      if {[paste $tid]} {
+      if {[paste]} {
 
         # Have the indent namespace format the clipboard contents
-        [ns indent]::format_text [current_txt $tid].t $insertpos "$insertpos+${cliplen}c"
+        [ns indent]::format_text [current_txt].t $insertpos "$insertpos+${cliplen}c"
 
       }
 
@@ -2743,24 +2749,24 @@ namespace eval gui {
   ######################################################################
   # Returns true if there is something in the paste buffer and the current
   # editor is editable.
-  proc pastable {tid} {
+  proc pastable {} {
 
-    return [expr {![catch {clipboard get} contents] && ($contents ne "") && [editable $tid]}]
+    return [expr {![catch {clipboard get} contents] && ($contents ne "") && [editable]}]
 
   }
 
   ######################################################################
   # Returns true if the current editor is editable.
-  proc editable {tid} {
+  proc editable {} {
 
-    return [expr {[[current_txt $tid] cget -state] eq "normal"}]
+    return [expr {[[current_txt] cget -state] eq "normal"}]
 
   }
 
   ######################################################################
   # Formats either the selected text (if type is "selected") or the entire
   # file contents (if type is "all").
-  proc format_text {tid} {
+  proc format_text {} {
 
     # Get the file information
     get_info {} current txt fname lock readonly
@@ -2800,7 +2806,7 @@ namespace eval gui {
 
   ######################################################################
   # Displays the search bar.
-  proc search {tid {dir "next"}} {
+  proc search {{dir "next"}} {
 
     variable saved
 
@@ -2812,10 +2818,10 @@ namespace eval gui {
     grid $tab.sep1
 
     # Add bindings
-    bind $tab.sf.e    <Return> [list [ns search]::find_start $tid $dir]
-    bind $tab.sf.e    <Return> [list [ns search]::find_start $tid $dir]
-    bind $tab.sf.case <Return> [list [ns search]::find_start $tid $dir]
-    bind $tab.sf.save <Return> [list [ns search]::find_start $tid $dir]
+    bind $tab.sf.e    <Return> [list [ns search]::find_start $dir]
+    bind $tab.sf.e    <Return> [list [ns search]::find_start $dir]
+    bind $tab.sf.case <Return> [list [ns search]::find_start $dir]
+    bind $tab.sf.save <Return> [list [ns search]::find_start $dir]
 
     # Clear the search entry
     $tab.sf.e delete 0 end
@@ -2845,7 +2851,7 @@ namespace eval gui {
     grid remove $tab.sep1
 
     # Put the focus on the text widget
-    set_txt_focus [last_txt_focus {}]
+    set_txt_focus [last_txt_focus]
 
   }
 
@@ -2891,7 +2897,7 @@ namespace eval gui {
     grid remove $tab.sep1
 
     # Put the focus on the text widget
-    set_txt_focus [last_txt_focus {}]
+    set_txt_focus [last_txt_focus]
 
   }
 
@@ -2980,7 +2986,7 @@ namespace eval gui {
 
   ######################################################################
   # Sets the file lock to the specified value for the current file.
-  proc set_current_file_lock {tid lock} {
+  proc set_current_file_lock {lock} {
 
     # Get the current tab information
     get_info {} current tab
@@ -2996,17 +3002,17 @@ namespace eval gui {
   ######################################################################
   # Sets the file lock of the current editor with the value of the file_locked
   # local variable.
-  proc set_current_file_lock_with_current {tid} {
+  proc set_current_file_lock_with_current {} {
 
     variable file_locked
 
-    set_current_file_lock $tid $file_locked
+    set_current_file_lock $file_locked
 
   }
 
   ######################################################################
   # Set or clear the favorite status of the current file.
-  proc set_current_file_favorite {tid favorite} {
+  proc set_current_file_favorite {favorite} {
 
     # Get the current file name
     get_info {} current fname
@@ -3023,11 +3029,11 @@ namespace eval gui {
   ######################################################################
   # Sets the file favorite of the current editor with the value of the
   # file_favorited local variable.
-  proc set_current_file_favorite_with_current {tid} {
+  proc set_current_file_favorite_with_current {} {
 
     variable file_favorited
 
-    set_current_file_favorite $tid $file_favorited
+    set_current_file_favorite $file_favorited
 
   }
 
@@ -3212,7 +3218,7 @@ namespace eval gui {
         return $txt.t
       }
       "current" {
-        return [expr {$txt eq [current_txt {}]}]
+        return [expr {$txt eq [current_txt]}]
       }
       "vimmode" {
         return [[ns vim]::in_vim_mode $txt.t]
@@ -3459,21 +3465,21 @@ namespace eval gui {
 
   ######################################################################
   # Toggles the split pane for the current tab.
-  proc toggle_split_pane {tid} {
+  proc toggle_split_pane {} {
 
-    if {[winfo exists [get_info $tid current txt2]]} {
-      hide_split_pane $tid
+    if {[winfo exists [get_info {} current txt2]]} {
+      hide_split_pane
     } else {
-      show_split_pane $tid
+      show_split_pane
     }
 
   }
 
   ######################################################################
   # Toggles the bird's eye view panel for the current tab.
-  proc toggle_birdseye {tid} {
+  proc toggle_birdseye {} {
 
-    get_info $tid current txt beye
+    get_info current txt beye
 
     if {[winfo exists $beye]} {
       hide_birdseye $txt
@@ -3509,7 +3515,7 @@ namespace eval gui {
   # Gets the various pieces of tos information from the given from.
   # The valid values for from and tos (list) is the following:
   #
-  #   - current   (from_type only, from must be the tid)
+  #   - current   (from_type only)
   #   - pane      (using in from implies the current pane)
   #   - paneindex (using in from implies the current pane index)
   #   - tabbar    (using in from implies the current tabbar)
@@ -3649,7 +3655,7 @@ namespace eval gui {
     ttk::frame $nb.tbf
     tabbar::tabbar $nb.tbf.tb -command "[ns gui]::handle_tabbar_select" \
       -closeimage tab_close \
-      -checkcommand "[ns gui]::close_check_by_tabbar {}" \
+      -checkcommand "[ns gui]::close_check_by_tabbar" \
       -closecommand "[ns gui]::close_tab_by_tabbar"
 
     # Configure the tabbar
@@ -3858,15 +3864,15 @@ namespace eval gui {
 
     $txt configure -font editor_font
 
-    bind Ctext  <<Modified>>                 "[ns gui]::text_changed %W %d"
-    bind $txt.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
-    bind $txt.t <<CursorChanged>>            "+[ns gui]::update_position $txt"
+    bind Ctext  <<Modified>>                 [list [ns gui]::text_changed %W %d]
+    bind $txt.t <FocusIn>                    [list +[ns gui]::handle_txt_focus %W]
+    bind $txt.t <<CursorChanged>>            [list +[ns gui]::update_position $txt]
     bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
-    bind $txt.l <ButtonPress-1>              "[ns gui]::select_line %W %x %y"
-    bind $txt.l <B1-Motion>                  "[ns gui]::select_lines %W %x %y"
-    bind $txt.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %x %y"
-    bind $txt   <<Selection>>                "[ns gui]::selection_changed $txt"
-    bind $txt   <Motion>                     "[ns gui]::clear_tab_tooltip $tb"
+    bind $txt.l <ButtonPress-1>              [list [ns gui]::select_line %W %x %y]
+    bind $txt.l <B1-Motion>                  [list [ns gui]::select_lines %W %x %y]
+    bind $txt.l <Shift-ButtonPress-1>        [list [ns gui]::select_lines %W %x %y]
+    bind $txt   <<Selection>>                [list [ns gui]::selection_changed $txt]
+    bind $txt   <Motion>                     [list [ns gui]::clear_tab_tooltip $tb]
     bind Text   <<Cut>>                      ""
     bind Text   <<Copy>>                     ""
     bind Text   <<Paste>>                    ""
@@ -3886,7 +3892,7 @@ namespace eval gui {
     grid $tab.pw.tf.hb  -row 1 -column 0 -sticky ew
 
     # Create the Vim command bar
-    [ns vim]::bind_command_entry $txt [entry $tab.ve] {}
+    [ns vim]::bind_command_entry $txt [entry $tab.ve]
 
     # Create the search bar
     ttk::frame       $tab.sf
@@ -3904,13 +3910,13 @@ namespace eval gui {
     pack $tab.sf.save  -side right -padx 2 -pady 2
     pack $tab.sf.case  -side right -padx 2 -pady 2
 
-    bind $tab.sf.e     <Escape>    "[ns gui]::close_search"
-    bind $tab.sf.case  <Escape>    "[ns gui]::close_search"
-    bind $tab.sf.save  <Escape>    "[ns gui]::close_search"
-    bind $tab.sf.e     <Up>        "[ns search]::traverse_history find  1"
-    bind $tab.sf.e     <Down>      "[ns search]::traverse_history find -1"
-    bind $tab.sf.close <Button-1>  "[ns gui]::close_search"
-    bind $tab.sf.close <Key-space> "[ns gui]::close_search"
+    bind $tab.sf.e     <Escape>    [list [ns gui]::close_search]
+    bind $tab.sf.case  <Escape>    [list [ns gui]::close_search]
+    bind $tab.sf.save  <Escape>    [list [ns gui]::close_search]
+    bind $tab.sf.e     <Up>        [list [ns search]::traverse_history find  1]
+    bind $tab.sf.e     <Down>      [list [ns search]::traverse_history find -1]
+    bind $tab.sf.close <Button-1>  [list [ns gui]::close_search]
+    bind $tab.sf.close <Key-space> [list [ns gui]::close_search]
 
     # Create the search/replace bar
     ttk::frame       $tab.rf
@@ -3933,20 +3939,20 @@ namespace eval gui {
     pack $tab.rf.save  -side left -padx 2 -pady 2
     pack $tab.rf.close -side left -padx 2 -pady 2
 
-    bind $tab.rf.fe    <Return>    [list [ns search]::replace_start {}]
-    bind $tab.rf.re    <Return>    [list [ns search]::replace_start {}]
-    bind $tab.rf.case  <Return>    [list [ns search]::replace_start {}]
-    bind $tab.rf.glob  <Return>    [list [ns search]::replace_start {}]
-    bind $tab.rf.save  <Return>    [list [ns search]::replace_start {}]
-    bind $tab.rf.fe    <Escape>    "[ns gui]::close_search_and_replace"
-    bind $tab.rf.re    <Escape>    "[ns gui]::close_search_and_replace"
-    bind $tab.rf.case  <Escape>    "[ns gui]::close_search_and_replace"
-    bind $tab.rf.glob  <Escape>    "[ns gui]::close_search_and_replace"
-    bind $tab.rf.save  <Escape>    "[ns gui]::close_search_and_replace"
-    bind $tab.rf.close <Button-1>  "[ns gui]::close_search_and_replace"
-    bind $tab.rf.close <Key-space> "[ns gui]::close_search_and_replace"
-    bind $tab.rf.fe    <Up>        "[ns search]::traverse_history replace  1"
-    bind $tab.rf.fe    <Down>      "[ns search]::traverse_history replace -1"
+    bind $tab.rf.fe    <Return>    [list [ns search]::replace_start]
+    bind $tab.rf.re    <Return>    [list [ns search]::replace_start]
+    bind $tab.rf.case  <Return>    [list [ns search]::replace_start]
+    bind $tab.rf.glob  <Return>    [list [ns search]::replace_start]
+    bind $tab.rf.save  <Return>    [list [ns search]::replace_start]
+    bind $tab.rf.fe    <Escape>    [list [ns gui]::close_search_and_replace]
+    bind $tab.rf.re    <Escape>    [list [ns gui]::close_search_and_replace]
+    bind $tab.rf.case  <Escape>    [list [ns gui]::close_search_and_replace]
+    bind $tab.rf.glob  <Escape>    [list [ns gui]::close_search_and_replace]
+    bind $tab.rf.save  <Escape>    [list [ns gui]::close_search_and_replace]
+    bind $tab.rf.close <Button-1>  [list [ns gui]::close_search_and_replace]
+    bind $tab.rf.close <Key-space> [list [ns gui]::close_search_and_replace]
+    bind $tab.rf.fe    <Up>        [list [ns search]::traverse_history replace  1]
+    bind $tab.rf.fe    <Down>      [list [ns search]::traverse_history replace -1]
 
     # Create the diff bar
     if {$opts(-diff)} {
@@ -3982,7 +3988,7 @@ namespace eval gui {
     if {!$opts(-diff)} {
       [ns indent]::add_bindings          $txt
       [ns multicursor]::add_bindings     $txt
-      [ns vim]::set_vim_mode             $txt {}
+      [ns vim]::set_vim_mode             $txt
       [ns completer]::add_bindings       $txt
     }
     [ns plugins]::handle_text_bindings $txt $opts(-tags)
@@ -4036,7 +4042,7 @@ namespace eval gui {
   # the current pane.
   #
   # TBD - This is missing support for applied gutters!
-  proc show_split_pane {tid} {
+  proc show_split_pane {} {
 
     variable show_match_char
 
@@ -4065,14 +4071,14 @@ namespace eval gui {
       -markcommand1 [list [ns markers]::get_positions $txt] -markhide1 [expr [[ns preferences]::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list [ns diff]::get_marks $txt] : ""}]
 
-    bind $txt2.t <FocusIn>                    "+[ns gui]::handle_txt_focus %W"
-    bind $txt2.t <<CursorChanged>>            "+[ns gui]::update_position $txt2"
+    bind $txt2.t <FocusIn>                    [list +[ns gui]::handle_txt_focus %W]
+    bind $txt2.t <<CursorChanged>>            [list +[ns gui]::update_position $txt2]
     bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
-    bind $txt2.l <ButtonPress-1>              "[ns gui]::select_line %W %x %y"
-    bind $txt2.l <B1-Motion>                  "[ns gui]::select_lines %W %x %y"
-    bind $txt2.l <Shift-ButtonPress-1>        "[ns gui]::select_lines %W %x %y"
-    bind $txt2   <<Selection>>                "[ns gui]::selection_changed $txt2"
-    bind $txt2   <Motion>                     "[ns gui]::clear_tab_tooltip $tabbar"
+    bind $txt2.l <ButtonPress-1>              [list [ns gui]::select_line %W %x %y]
+    bind $txt2.l <B1-Motion>                  [list [ns gui]::select_lines %W %x %y]
+    bind $txt2.l <Shift-ButtonPress-1>        [list [ns gui]::select_lines %W %x %y]
+    bind $txt2   <<Selection>>                [list [ns gui]::selection_changed $txt2]
+    bind $txt2   <Motion>                     [list [ns gui]::clear_tab_tooltip $tabbar]
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt2.t] Text]
@@ -4087,12 +4093,12 @@ namespace eval gui {
     grid $pw.tf2.hb  -row 1 -column 0 -sticky ew
 
     # Associate the existing command entry field with this text widget
-    [ns vim]::bind_command_entry $txt2 $tab.ve {}
+    [ns vim]::bind_command_entry $txt2 $tab.ve
 
     # Add the text bindings
     [ns indent]::add_bindings          $txt2
     [ns multicursor]::add_bindings     $txt2
-    [ns vim]::set_vim_mode             $txt2 {}
+    [ns vim]::set_vim_mode             $txt2
     [ns completer]::add_bindings       $txt2
     [ns plugins]::handle_text_bindings $txt2 {}  ;# TBD - add tags
     make_drop_target                   $txt2
@@ -4113,10 +4119,10 @@ namespace eval gui {
 
   ######################################################################
   # Removes the split pane
-  proc hide_split_pane {tid} {
+  proc hide_split_pane {} {
 
     # Get the current paned window
-    set txt [current_txt $tid]
+    set txt [current_txt]
     set pw  [winfo parent [winfo parent $txt]]
 
     # Delete the extra text widget
@@ -4591,13 +4597,13 @@ namespace eval gui {
       [ns preferences]::update_prefs [[ns sessions]::current]
 
       # Reload the snippets to correspond to the current file
-      [ns snippets]::reload_snippets {}
+      [ns snippets]::reload_snippets
 
     }
 
     # Set the text focus
     if {!$opts(-skip_focus)} {
-      set_txt_focus [last_txt_focus {} $tab]
+      set_txt_focus [last_txt_focus $tab]
     }
 
   }
@@ -4613,13 +4619,9 @@ namespace eval gui {
   ######################################################################
   # Returns the current text widget pathname (or the empty string if
   # there is no current text widget).
-  proc current_txt {tid} {
+  proc current_txt {} {
 
-    if {$tid eq ""} {
-      return [expr {[catch { get_info {} current txt } txt] ? "" : $txt}]
-    } else {
-      return $tid
-    }
+    return [expr {[catch { get_info {} current txt } txt] ? "" : $txt}]
 
   }
 
@@ -4675,12 +4677,12 @@ namespace eval gui {
   ######################################################################
   # Returns the list of procs in the current text widget.  Uses the _procs
   # highlighting to tag to quickly find procs in the widget.
-  proc get_symbol_list {tid} {
+  proc get_symbol_list {} {
 
     variable lengths
 
     # Get current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     set proclist [list]
     foreach tag [$txt tag names] {
@@ -4701,10 +4703,10 @@ namespace eval gui {
   ######################################################################
   # Create a marker at the current insertion cursor line of the current
   # editor.
-  proc create_current_marker {tid} {
+  proc create_current_marker {} {
 
     # Get the current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # Get the current line
     set line [lindex [split [$txt index insert] .] 0]
@@ -4722,10 +4724,10 @@ namespace eval gui {
 
   ######################################################################
   # Removes all markers placed at the current line.
-  proc remove_current_marker {tid} {
+  proc remove_current_marker {} {
 
     # Get the current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # Get the current line number
     set line [lindex [split [$txt index insert] .] 0]
@@ -4739,10 +4741,10 @@ namespace eval gui {
 
   ######################################################################
   # Removes all of the markers from the current editor.
-  proc remove_all_markers {tid} {
+  proc remove_all_markers {} {
 
     # Get the current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     foreach name [[ns markers]::get_all_names $txt] {
       set line [lindex [split [[ns markers]::get_index $txt $name] .] 0]
@@ -4770,9 +4772,9 @@ namespace eval gui {
 
   ######################################################################
   # Jump to the given position in the current text widget.
-  proc jump_to {tid pos} {
+  proc jump_to {pos} {
 
-    jump_to_txt [current_txt $tid] $pos
+    jump_to_txt [current_txt] $pos
 
   }
 
@@ -4798,10 +4800,10 @@ namespace eval gui {
   ######################################################################
   # Finds the matching character for the one at the current insertion
   # marker.
-  proc show_match_pair {tid} {
+  proc show_match_pair {} {
 
     # Get the current widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # If we are escaped or in a comment/string, we should not match
     if {[ctext::isEscaped $txt insert] || [ctext::inCommentString $txt insert]} {
@@ -5054,20 +5056,16 @@ namespace eval gui {
 
   ######################################################################
   # Returns the path to the ctext widget that last received focus.
-  proc last_txt_focus {tid {tab ""}} {
+  proc last_txt_focus {{tab ""}} {
 
     variable txt_current
 
-    if {$tid eq ""} {
-      if {$tab eq ""} {
-        return $txt_current([get_info {} current tab])
-      } elseif {[info exists txt_current($tab)]} {
-        return $txt_current($tab)
-      } else {
-        return [get_info $tab tab txt]
-      }
+    if {$tab eq ""} {
+      return $txt_current([get_info {} current tab])
+    } elseif {[info exists txt_current($tab)]} {
+      return $txt_current($tab)
     } else {
-      return $tid
+      return [get_info $tab tab txt]
     }
 
   }
@@ -5096,12 +5094,12 @@ namespace eval gui {
   ######################################################################
   # Jumps to the next cursor as specified by direction.  Returns a boolean
   # value of true if a jump occurs (or can occur).
-  proc jump_to_cursor {tid dir jump} {
+  proc jump_to_cursor {dir jump} {
 
     variable cursor_hist
 
     # Get the current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # Get the index of the cursor in the cursor hist to use
     if {![info exists cursor_hist($txt,hist)]} {
@@ -5142,10 +5140,10 @@ namespace eval gui {
   ######################################################################
   # Jumps to the next difference in the specified direction.  Returns
   # a boolean value of true if a jump occurs (or can occur).
-  proc jump_to_difference {tid dir jump} {
+  proc jump_to_difference {dir jump} {
 
     # Get the current text widget
-    set txt [current_txt $tid]
+    set txt [current_txt]
 
     # Get the list of ranges
     if {[$txt cget -diff_mode] && ([llength [set ranges [$txt diff ranges both]]] > 0)} {
@@ -5187,7 +5185,7 @@ namespace eval gui {
   # Finds the last version that caused the currently selected line to be
   # changed.  Returns true if this can be accomplished; otherwise, returns
   # false.
-  proc show_difference_line_change {tid show} {
+  proc show_difference_line_change {show} {
 
     # Get the current information
     get_info {} current txt fname

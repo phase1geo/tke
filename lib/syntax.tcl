@@ -297,7 +297,7 @@ namespace eval syntax {
     set_language $txt $language {*}$args
 
     # Set the focus back to the text editor
-    [ns gui]::set_txt_focus [[ns gui]::last_txt_focus {}]
+    [ns gui]::set_txt_focus [[ns gui]::last_txt_focus]
 
   }
 
@@ -730,7 +730,7 @@ namespace eval syntax {
     variable current_lang
 
     # Get the current language
-    set current_lang $curr_lang([[ns gui]::current_txt {}])
+    set current_lang $curr_lang([[ns gui]::current_txt])
 
     # Configures the current language for the specified text widget
     $w configure -text $current_lang
@@ -777,13 +777,13 @@ namespace eval syntax {
 
   ######################################################################
   # Retrieves the extensions for the current text widget.
-  proc get_extensions {tid {language ""}} {
+  proc get_extensions {{language ""}} {
 
     variable langs
     variable curr_lang
 
     if {$language eq ""} {
-      set language $curr_lang([[ns gui]::current_txt $tid])
+      set language $curr_lang([[ns gui]::current_txt])
     }
 
     # Get the current language

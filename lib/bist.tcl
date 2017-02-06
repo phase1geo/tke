@@ -643,7 +643,7 @@ namespace eval bist {
     add_test_file $name
 
     # Save the file
-    gui::save_current {}
+    gui::save_current
 
   }
 
@@ -681,7 +681,7 @@ namespace eval bist {
     ::tk::TextSetCursor $txt $endpos+4c
 
     # Save the file
-    gui::save_current {}
+    gui::save_current
 
   }
 

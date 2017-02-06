@@ -701,10 +701,10 @@ namespace eval edit {
 
   ######################################################################
   # Comments out the currently selected text.
-  proc comment {tid} {
+  proc comment {} {
 
     # Get the current text widget
-    set txt [gui::current_txt $tid]
+    set txt [gui::current_txt]
 
     # Create a separator
     $txt edit separator
@@ -751,10 +751,10 @@ namespace eval edit {
   ######################################################################
   # Uncomments out the currently selected text in the current text
   # widget.
-  proc uncomment {tid} {
+  proc uncomment {} {
 
     # Get the current text widget
-    set txt [gui::current_txt $tid]
+    set txt [gui::current_txt]
 
     # Create a separator
     $txt edit separator
@@ -793,10 +793,10 @@ namespace eval edit {
   ######################################################################
   # Handles commenting/uncommenting either the currently selected code
   # or the current cursor.
-  proc comment_toggle {tid} {
+  proc comment_toggle {} {
 
     # Get the current text widget
-    set txt [gui::current_txt $tid]
+    set txt [gui::current_txt]
 
     # Create a separator
     $txt edit separator
@@ -970,10 +970,10 @@ namespace eval edit {
 
   ######################################################################
   # Replaces the current line with the output contents of it as a script.
-  proc replace_line_with_script {tid} {
+  proc replace_line_with_script {} {
 
     # Get the current text widget
-    set txt [gui::current_txt $tid]
+    set txt [gui::current_txt]
 
     # Get the current line
     set cmd [$txt get "insert linestart" "insert lineend"]
@@ -991,10 +991,10 @@ namespace eval edit {
 
   ######################################################################
   # Returns true if the current line is empty; otherwise, returns false.
-  proc current_line_empty {tid} {
+  proc current_line_empty {} {
 
     # Get the current text widget
-    set txt [gui::current_txt $tid]
+    set txt [gui::current_txt]
 
     return [expr {[$txt get "insert linestart" "insert lineend"] eq ""}]
 
@@ -1002,10 +1002,10 @@ namespace eval edit {
 
   ######################################################################
   # Aligns the current cursors.
-  proc align_cursors {tid} {
+  proc align_cursors {} {
 
     # Get the current text widget
-    set txt [gui::current_txt $tid]
+    set txt [gui::current_txt]
 
     # Align multicursors
     multicursor::align $txt
@@ -1014,10 +1014,10 @@ namespace eval edit {
 
   ######################################################################
   # Inserts an enumeration when in multicursor mode.
-  proc insert_enumeration {tid} {
+  proc insert_enumeration {} {
 
     # Get the current text widget
-    set txt [gui::current_txt $tid]
+    set txt [gui::current_txt]
 
     # Perform the insertion
     gui::insert_numbers $txt

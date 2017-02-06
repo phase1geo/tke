@@ -1183,7 +1183,7 @@ namespace eval pref_ui {
     # Add all of the languages
     foreach lang [lsort [syntax::get_all_languages]] {
       set enabled    [expr [lsearch $dis_langs $lang] == -1]
-      set extensions [syntax::get_extensions {} $lang]
+      set extensions [syntax::get_extensions $lang]
       if {[info exists orides($lang)]} {
         foreach ext $orides($lang) {
           if {[string index $ext 0] eq "+"} {
@@ -1236,7 +1236,7 @@ namespace eval pref_ui {
     variable prefs
 
     set lang [$tbl cellcget $row,lang -text]
-    set exts [syntax::get_extensions {} $lang]
+    set exts [syntax::get_extensions $lang]
 
     set lang_oride [list]
     foreach ext $exts {

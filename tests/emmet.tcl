@@ -30,7 +30,7 @@ namespace eval emmet {
     variable current_tab
 
     # Close the current tab
-    gui::close_tab {} $current_tab -check 0
+    gui::close_tab $current_tab -check 0
 
     # Output the fail message and cause a failure
     if {$fail_msg ne ""} {
@@ -48,7 +48,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -75,7 +75,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -100,7 +100,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -127,7 +127,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -154,7 +154,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -187,7 +187,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<a href="">Click me</a>$0}
@@ -209,7 +209,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<div id="header"></div>$0}
@@ -231,7 +231,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<div class="title"></div>$0}
@@ -253,7 +253,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<p class="class3 class2 class1"></p>$0}
@@ -275,7 +275,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<form id="search" class="wide" action="">$2</form>$0}
@@ -297,7 +297,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<p title="Hello World"></p>$0}
@@ -319,7 +319,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<td rowspan="2" title="" colspan="3">$2</td>$0}
@@ -341,7 +341,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<p>Click <a href="">here</a> to continue</p>$0}
@@ -363,7 +363,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<link href="" rel="stylesheet" />$0}
@@ -385,7 +385,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<link href="" title="Hello world" rel="prefetch" />$0}
@@ -407,7 +407,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -432,7 +432,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<em><span class="info"></span></em>$0}
@@ -454,7 +454,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -479,7 +479,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -506,7 +506,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<div a="value" b="value2"></div>$0}
@@ -528,7 +528,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -557,7 +557,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -586,7 +586,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -615,7 +615,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -644,7 +644,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<a href="">click</a><b>here</b>$0}
@@ -666,7 +666,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<a href="">click<b>here</b></a>$0}
@@ -688,7 +688,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -723,7 +723,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -753,7 +753,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -778,7 +778,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<!DOCTYPE HTML="PUBLIC" -//W3C//DTD HTML 4.01 Transitional//EN="http://www.w3.org/TR/html4/loose.dtd">}
@@ -800,7 +800,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -829,7 +829,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"></xsl:stylesheet>$0}
@@ -851,7 +851,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -878,7 +878,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -910,7 +910,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -980,7 +980,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {<a href="">foobar</a>$0}
@@ -1002,7 +1002,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert 2.10
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -1027,7 +1027,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert 2.15
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {This is <b>good</b>!}
@@ -1049,7 +1049,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert 2.20
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {This is <b>very good</b>!}
@@ -1072,7 +1072,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert 2.34
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {This is <a href="great game">good</a>!}
@@ -1095,7 +1095,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert 2.34
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {This is <a href="great game">good</a>!}
@@ -1117,7 +1117,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -1144,7 +1144,7 @@ namespace eval emmet {
     $txt insert end "\n$str"
     $txt mark set insert 2.12
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -1168,7 +1168,7 @@ namespace eval emmet {
     $txt insert end $str
     $txt mark set insert 2.10
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 1.0 end-1c]
     set expect \

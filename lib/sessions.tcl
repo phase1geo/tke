@@ -198,9 +198,9 @@ namespace eval sessions {
 
     # Load the GUI session information (provide backward compatibility)
     if {[info exists content(gui)]} {
-      [ns gui]::load_session {} $content(gui)
+      [ns gui]::load_session $content(gui)
     } else {
-      [ns gui]::load_session {} $rc
+      [ns gui]::load_session $rc
     }
 
     # Load the find session information

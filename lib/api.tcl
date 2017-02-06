@@ -194,7 +194,7 @@ namespace eval api {
   proc reset_text_focus {interp pname {txtt ""}} {
 
     if {$txtt eq ""} {
-      after idle [list gui::set_txt_focus [gui::last_txt_focus {}]]
+      after idle [list gui::set_txt_focus [gui::last_txt_focus]]
     } else {
       [ns gui]::get_info [winfo parent $txtt] txt tabbar tab
       after idle [list gui::set_current_tab $tabbar $tab]
@@ -298,7 +298,7 @@ namespace eval api {
       gui::add_buffer end $name $save_command {*}[array get opts]
 
       # Allow the plugin to manipulate the ctext widget
-      set txt [gui::current_txt {}]
+      set txt [gui::current_txt]
       $interp alias $txt $txt
 
       return $txt
@@ -449,7 +449,7 @@ namespace eval api {
       }
 
       # Allow the plugin to manipulate the ctext widget
-      set txt [gui::current_txt {}]
+      set txt [gui::current_txt]
       $interp alias $txt $txt
 
       return $txt

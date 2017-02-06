@@ -43,12 +43,12 @@ namespace eval search {
   ######################################################################
   # Performs a search of the current text widget in the given direction
   # with the text specified in the specified entry widget.
-  proc find_start {tid direction} {
+  proc find_start {direction} {
 
     variable data
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
+    set txt [[ns gui]::current_txt]
 
     # Get the search information
     lassign [set search_data [[ns gui]::get_search_data find]] str case_sensitive saved
@@ -75,7 +75,7 @@ namespace eval search {
       add_history find $search_data
 
       # Clear the search highlight class
-      find_clear $tid
+      find_clear
 
       # Create a highlight class for the given search string
       ctext::addSearchClassForRegexp $txt search black yellow "" $str $search_opts
@@ -93,10 +93,10 @@ namespace eval search {
 
   ######################################################################
   # Clears the current search text.
-  proc find_clear {tid} {
+  proc find_clear {} {
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
+    set txt [[ns gui]::current_txt]
 
     # Clear the highlight class
     catch { ctext::deleteHighlightClass $txt search }
@@ -209,12 +209,12 @@ namespace eval search {
   ######################################################################
   # Performs a search and replace operation based on the GUI element
   # settings.
-  proc replace_start {tid} {
+  proc replace_start {} {
 
     lassign [set search_data [[ns gui]::get_search_data replace]] find replace case_sensitive replace_all
 
     # Perform the search and replace
-    replace_do_raw $tid 1.0 end $find $replace [expr !$case_sensitive] $replace_all
+    replace_do_raw 1.0 end $find $replace [expr !$case_sensitive] $replace_all
 
     # Add the search data to history
     add_history replace $search_data
@@ -226,12 +226,12 @@ namespace eval search {
 
   ######################################################################
   # Performs a search and replace given the expression,
-  proc replace_do_raw {tid sline eline search replace ignore_case all} {
+  proc replace_do_raw {sline eline search replace ignore_case all} {
 
     variable lengths
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
+    set txt [[ns gui]::current_txt]
 
     # Clear the selection
     $txt tag remove sel 1.0 end
@@ -378,7 +378,7 @@ namespace eval search {
   proc fif_insert_results {find_expr num_files err result} {
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt {}]
+    set txt [[ns gui]::current_txt]
 
     # Change the text state to allow text to be inserted
     $txt configure -state normal
@@ -506,7 +506,7 @@ namespace eval search {
     [ns gui]::add_file end [string trim $fname]
 
     # Jump to the line and set the cursor to the beginning of the line
-    set txt [[ns gui]::current_txt {}]
+    set txt [[ns gui]::current_txt]
     ::tk::TextSetCursor $txt $linenum.0
 
   }
