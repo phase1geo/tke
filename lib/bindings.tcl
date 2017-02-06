@@ -24,8 +24,6 @@
 
 namespace eval bindings {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable base_bindings_file [file join $::tke_dir data bindings menu_bindings.[tk windowingsystem].tkedat]
   variable user_bindings_file [file join $::tke_home menu_bindings.[tk windowingsystem].tkedat]
 
@@ -96,7 +94,7 @@ namespace eval bindings {
 
     if {!$skip_base} {
       if {[file exists $user_bindings_file]} {
-        if {![catch { [ns tkedat]::read $base_bindings_file 0 } rc]} {
+        if {![catch { tkedat::read $base_bindings_file 0 } rc]} {
           array set menu_bindings $rc
         }
       } else {
@@ -104,7 +102,7 @@ namespace eval bindings {
       }
     }
 
-    if {![catch { [ns tkedat]::read $user_bindings_file 0 } rc]} {
+    if {![catch { tkedat::read $user_bindings_file 0 } rc]} {
       array set menu_bindings $rc
       apply_all_bindings
     } else {
@@ -124,7 +122,7 @@ namespace eval bindings {
 
     foreach {mnu_path binding} [array get menu_bindings] {
       set menu_list [split $mnu_path /]
-      if {![catch { [ns menus]::get_menu [lrange $menu_list 0 end-1] } mnu]} {
+      if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
           set value [list * * * * *]
           foreach elem [split $binding -] {
@@ -133,7 +131,7 @@ namespace eval bindings {
           set binding [join [string map {* {}} $value] -]
           set bound_menus($mnu,$menu_index) $binding
           $mnu entryconfigure $menu_index -accelerator $binding
-          bind all [accelerator_to_sequence $binding] "[ns menus]::invoke $mnu $menu_index; break"
+          bind all [accelerator_to_sequence $binding] "menus::invoke $mnu $menu_index; break"
         }
       }
     }

@@ -24,16 +24,14 @@
 
 namespace eval completer {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable delete_check ""
 
   array set pref_complete    {}
   array set complete         {}
   array set lang_match_chars {}
 
-  trace add variable [ns preferences]::prefs(Editor/AutoMatchChars)           write [ns completer]::handle_auto_match_chars
-  trace add variable [ns preferences]::prefs(Editor/HighlightMismatchingChar) write [ns completer]::handle_bracket_audit
+  trace add variable preferences::prefs(Editor/AutoMatchChars)           write completer::handle_auto_match_chars
+  trace add variable preferences::prefs(Editor/HighlightMismatchingChar) write completer::handle_bracket_audit
 
   ######################################################################
   # Handles any changes to the Editor/AutoMatchChars preference value.
@@ -53,7 +51,7 @@ namespace eval completer {
       btick  0
     }
 
-    foreach value [[ns preferences]::get Editor/AutoMatchChars] {
+    foreach value [preferences::get Editor/AutoMatchChars] {
       set pref_complete($value) 1
     }
 
@@ -70,7 +68,7 @@ namespace eval completer {
   proc handle_bracket_audit {name1 name2 op} {
 
     # Update all text widgets
-    foreach txt [[ns gui]::get_all_texts] {
+    foreach txt [gui::get_all_texts] {
       check_all_brackets $txt.t
     }
 
@@ -111,30 +109,29 @@ namespace eval completer {
   # Adds bindings to the given text widget.
   proc add_bindings {txt} {
 
-    bind precomp$txt <Key-bracketleft>  "[ns completer]::add_square %W left"
-    bind precomp$txt <Key-bracketright> "if {\[[ns completer]::add_square %W right\]} { break }"
-    bind precomp$txt <Key-braceleft>    "[ns completer]::add_curly %W left"
-    bind precomp$txt <Key-braceright>   "if {\[[ns completer]::add_curly %W right\]} { break }"
-    bind precomp$txt <Key-less>         "[ns completer]::add_angled %W left"
-    bind precomp$txt <Key-greater>      "if {\[[ns completer]::add_angled %W right\]} { break }"
-    bind precomp$txt <Key-parenleft>    "[ns completer]::add_paren %W left"
-    bind precomp$txt <Key-parenright>   "if {\[[ns completer]::add_paren %W right\]} { break }"
-    bind precomp$txt <Key-quotedbl>     "if {\[[ns completer]::add_double %W\]} { break }"
-    bind precomp$txt <Key-quoteright>   "if {\[[ns completer]::add_single %W\]} { break }"
-    bind precomp$txt <Key-quoteleft>    "if {\[[ns completer]::add_btick %W\]} { break }"
-    bind precomp$txt <BackSpace>        "[ns completer]::handle_delete %W"
+    bind precomp$txt <Key-bracketleft>  "completer::add_square %W left"
+    bind precomp$txt <Key-bracketright> "if {\[completer::add_square %W right\]} { break }"
+    bind precomp$txt <Key-braceleft>    "completer::add_curly %W left"
+    bind precomp$txt <Key-braceright>   "if {\[completer::add_curly %W right\]} { break }"
+    bind precomp$txt <Key-less>         "completer::add_angled %W left"
+    bind precomp$txt <Key-greater>      "if {\[completer::add_angled %W right\]} { break }"
+    bind precomp$txt <Key-parenleft>    "completer::add_paren %W left"
+    bind precomp$txt <Key-parenright>   "if {\[completer::add_paren %W right\]} { break }"
+    bind precomp$txt <Key-quotedbl>     "if {\[completer::add_double %W\]} { break }"
+    bind precomp$txt <Key-quoteright>   "if {\[completer::add_single %W\]} { break }"
+    bind precomp$txt <Key-quoteleft>    "if {\[completer::add_btick %W\]} { break }"
+    bind precomp$txt <BackSpace>        "completer::handle_delete %W"
 
-    bind postcomp$txt <Key-bracketleft>  [list [ns completer]::check_brackets %W square 0]
-    bind postcomp$txt <Key-bracketright> [list [ns completer]::check_brackets %W square 0]
-    bind postcomp$txt <Key-braceleft>    [list [ns completer]::check_brackets %W curly  0]
-    bind postcomp$txt <Key-braceright>   [list [ns completer]::check_brackets %W curly  0]
-    bind postcomp$txt <Key-less>         [list [ns completer]::check_brackets %W angled 0]
-    bind postcomp$txt <Key-greater>      [list [ns completer]::check_brackets %W angled 0]
-    bind postcomp$txt <Key-parenleft>    [list [ns completer]::check_brackets %W paren  0]
-    bind postcomp$txt <Key-parenright>   [list [ns completer]::check_brackets %W paren  0]
-    bind postcomp$txt <BackSpace>        [list [ns completer]::check_delete %W]
-    # bind postcomp$txt <Key>              [list [ns completer]::check_any %W]
-    bind postcomp$txt <<StringCommentChanged>> [list [ns completer]::check_all_brackets %W]
+    bind postcomp$txt <Key-bracketleft>  [list completer::check_brackets %W square 0]
+    bind postcomp$txt <Key-bracketright> [list completer::check_brackets %W square 0]
+    bind postcomp$txt <Key-braceleft>    [list completer::check_brackets %W curly  0]
+    bind postcomp$txt <Key-braceright>   [list completer::check_brackets %W curly  0]
+    bind postcomp$txt <Key-less>         [list completer::check_brackets %W angled 0]
+    bind postcomp$txt <Key-greater>      [list completer::check_brackets %W angled 0]
+    bind postcomp$txt <Key-parenleft>    [list completer::check_brackets %W paren  0]
+    bind postcomp$txt <Key-parenright>   [list completer::check_brackets %W paren  0]
+    bind postcomp$txt <BackSpace>        [list completer::check_delete %W]
+    bind postcomp$txt <<StringCommentChanged>> [list completer::check_all_brackets %W]
 
     # Add the bindings
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -154,7 +151,7 @@ namespace eval completer {
   # Sets the mismatching bracket color to the attention syntax color.
   proc set_bracket_mismatch_color {txt} {
 
-    array set theme [[ns theme]::get_syntax_colors]
+    array set theme [theme::get_syntax_colors]
 
     foreach tag [list square curly paren angled] {
       $txt tag configure missing:$tag -background $theme(attention)
@@ -494,7 +491,7 @@ namespace eval completer {
     $txtt tag remove missing:$stype 1.0 end
 
     # If the mismcatching char option is cleared, don't continue
-    if {!$force && ![[ns preferences]::get Editor/HighlightMismatchingChar]} {
+    if {!$force && ![preferences::get Editor/HighlightMismatchingChar]} {
       return
     }
 
@@ -552,10 +549,10 @@ namespace eval completer {
     array set opts $args
 
     # Get the current text widget
-    set txtt [[ns gui]::current_txt].t
+    set txtt [gui::current_txt].t
 
     # If the current text buffer was not highlighted, do it now
-    if {[[ns preferences]::get Editor/HighlightMismatchingChar]} {
+    if {[preferences::get Editor/HighlightMismatchingChar]} {
 
       # Find the previous/next index
       if {$dir eq "next"} {

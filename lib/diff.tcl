@@ -24,8 +24,6 @@
 
 namespace eval diff {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   array set data {}
 
   # Check to see if the ttk::spinbox command exists
@@ -53,20 +51,20 @@ namespace eval diff {
 
     ttk::frame      $win
     ttk::menubutton $win.cvs  -menu $win.cvsMenu -direction above
-    ttk::button     $win.show -text [msgcat::mc "Update"] -command "[ns diff]::show $txt"
+    ttk::button     $win.show -text [msgcat::mc "Update"] -command "diff::show $txt"
     message         $txt.log
 
     # Create the version frame
     ttk::frame $win.vf
     ttk::label $win.vf.l1 -text [msgcat::mc "    Start: "]
-    $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v1) -width 10 -state readonly -command "[ns diff]::handle_v1 $txt"
+    $data(sb)  $win.vf.v1 {*}$data(sb_opts) -textvariable diff::data($txt,v1) -width 10 -state readonly -command "diff::handle_v1 $txt"
     ttk::label $win.vf.l2 -text [msgcat::mc "    End: "]
-    $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable [ns diff]::data($txt,v2) -width 10 -state readonly -command "[ns diff]::handle_v2 $txt"
+    $data(sb)  $win.vf.v2 {*}$data(sb_opts) -textvariable diff::data($txt,v2) -width 10 -state readonly -command "diff::handle_v2 $txt"
 
-    bind $win.vf.v1 <FocusIn>  "[ns diff]::show_hide_version_log $txt v1 on"
-    bind $win.vf.v1 <FocusOut> "[ns diff]::show_hide_version_log $txt v1 off"
-    bind $win.vf.v2 <FocusIn>  "[ns diff]::show_hide_version_log $txt v2 on"
-    bind $win.vf.v2 <FocusOut> "[ns diff]::show_hide_version_log $txt v2 off"
+    bind $win.vf.v1 <FocusIn>  [list diff::show_hide_version_log $txt v1 on]
+    bind $win.vf.v1 <FocusOut> [list diff::show_hide_version_log $txt v1 off]
+    bind $win.vf.v2 <FocusIn>  [list diff::show_hide_version_log $txt v2 on]
+    bind $win.vf.v2 <FocusOut> [list diff::show_hide_version_log $txt v2 off]
 
     grid rowconfigure    $win.vf 0 -weight 1
     grid columnconfigure $win.vf 2 -weight 1
@@ -78,9 +76,9 @@ namespace eval diff {
     # Create the file frame
     ttk::frame             $win.ff
     wmarkentry::wmarkentry $win.ff.e -watermark [msgcat::mc "Enter starting file"] \
-      -validate key -validatecommand "[ns diff]::handle_file_entry $win %P"
+      -validate key -validatecommand [list diff::handle_file_entry $win %P]
 
-    bind [$win.ff.e entrytag] <Return> "[ns diff]::show $txt"
+    bind [$win.ff.e entrytag] <Return> [list diff::show $txt]
 
     grid rowconfigure    $win.ff 0 -weight 1
     grid columnconfigure $win.ff 0 -weight 1
@@ -90,7 +88,7 @@ namespace eval diff {
     ttk::frame $win.cf
     wmarkentry::wmarkentry $win.cf.e -watermark [msgcat::mc "Enter difference command"]
 
-    bind [$win.cf.e entrytag] <Return> "[ns diff]::show $txt"
+    bind [$win.cf.e entrytag] <Return> [list diff::show $txt]
 
     grid rowconfigure    $win.cf 0 -weight 1
     grid columnconfigure $win.cf 0 -weight 1
@@ -125,7 +123,7 @@ namespace eval diff {
         $win.cvsMenu add separator
       }
       foreach name [get_cvs_names $type] {
-        $win.cvsMenu add radiobutton -label $name -variable [ns diff]::data($txt,cvs) -value $name -command "[ns diff]::update_diff_frame $txt"
+        $win.cvsMenu add radiobutton -label $name -variable diff::data($txt,cvs) -value $name -command "diff::update_diff_frame $txt"
       }
       set first 0
     }
@@ -197,7 +195,7 @@ namespace eval diff {
     set cwd [pwd]
 
     # Get the filename
-    [ns gui]::get_info $txt txt fname
+    gui::get_info $txt txt fname
 
     # Set the current working directory to the directory of the file
     cd [file dirname $fname]
@@ -356,7 +354,7 @@ namespace eval diff {
     variable data
 
     # Get the filename
-    set fname [file tail [[ns gui]::get_info $txt txt fname]]
+    set fname [file tail [gui::get_info $txt txt fname]]
 
     set data($txt,cvs) "diff"
     set data($txt,v2)  "Current"
@@ -463,7 +461,7 @@ namespace eval diff {
     variable data
 
     # Get the versions
-    set data($txt,versions) [list "Current" {*}[[string tolower $data($txt,cvs)]::versions [[ns gui]::get_info $txt txt fname]]]
+    set data($txt,versions) [list "Current" {*}[[string tolower $data($txt,cvs)]::versions [gui::get_info $txt txt fname]]]
 
     # Set the version 2 value to the current value
     set data($txt,v2) "Current"
@@ -526,14 +524,14 @@ namespace eval diff {
 
     variable data
 
-    if {[[ns preferences]::get View/ShowDifferenceVersionInfo] &&
+    if {[preferences::get View/ShowDifferenceVersionInfo] &&
         (![info exists data($txt,logmode)] || \
          (!$data($txt,logmode) && ($mode eq "toggle")) || \
          ($mode eq "on") || \
          ($data($txt,logmode) && ($mode eq "update")))} {
 
       # Get the filename
-      [ns gui]::get_info $txt txt fname
+      gui::get_info $txt txt fname
 
       # Get the current working directory
       set cwd [pwd]
@@ -642,7 +640,7 @@ namespace eval diff {
     $txt configure -state disabled
 
     # Update the scroller
-    [ns scroller]::update_markers [winfo parent $txt].vb
+    scroller::update_markers [winfo parent $txt].vb
 
   }
 
@@ -657,7 +655,7 @@ namespace eval diff {
     # Add the difference marks
     set marks [list]
     foreach type [list sub add] {
-      set color [[ns theme]::get_value syntax difference_$type]
+      set color [theme::get_value syntax difference_$type]
       foreach {start end} [$txt diff ranges $type] {
         set start_line [lindex [split $start .] 0]
         set end_line   [lindex [split $end .] 0]
@@ -1135,15 +1133,15 @@ namespace eval diff {
     set data($txt,canvas) [canvas $win -width 15 -relief flat -bd 1 -highlightthickness 0 -bg $data($txt,-background)]
 
     # Create canvas bindings
-    bind $data($txt,canvas) <Configure>  [list [ns diff]::map_configure $txt]
-    bind $data($txt,canvas) <Button-1>   [list [ns diff]::map_position_slider %W %y $txt]
-    bind $data($txt,canvas) <B1-Motion>  [list [ns diff]::map_position_slider %W %y $txt]
-    bind $data($txt,canvas) <MouseWheel> "event generate $txt.t <MouseWheel> -delta %D"
-    bind $data($txt,canvas) <4>          "event generate $txt.t <4>"
-    bind $data($txt,canvas) <5>          "event generate $txt.t <5>"
+    bind $data($txt,canvas) <Configure>  [list diff::map_configure $txt]
+    bind $data($txt,canvas) <Button-1>   [list diff::map_position_slider %W %y $txt]
+    bind $data($txt,canvas) <B1-Motion>  [list diff::map_position_slider %W %y $txt]
+    bind $data($txt,canvas) <MouseWheel> [list event generate $txt.t <MouseWheel> -delta %D]
+    bind $data($txt,canvas) <4>          [list event generate $txt.t <4>]
+    bind $data($txt,canvas) <5>          list event generate $txt.t <5>]
 
     rename ::$win $win
-    interp alias {} ::$win {} [ns diff]::map_command $txt
+    interp alias {} ::$win {} diff::map_command $txt
 
     return $win
 

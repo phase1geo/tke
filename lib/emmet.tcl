@@ -27,8 +27,6 @@ source [file join $::tke_dir lib emmet_css.tcl]
 
 namespace eval emmet {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable custom_file
   variable customizations
 
@@ -66,7 +64,7 @@ namespace eval emmet {
     variable data
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
 
     # Get the current line and column numbers
     lassign [split [$txt index insert] .] line endcol
@@ -107,11 +105,11 @@ namespace eval emmet {
   # starting index of the snippet and the ending index of the snippet.
   proc expand_abbreviation {} {
 
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
 
     # Get the language of the current insertion cursor
     if {[set lang [ctext::get_lang $txt insert]] eq ""} {
-      set lang [[ns syntax]::get_language $txt]
+      set lang [syntax::get_language $txt]
     }
 
     # If the current language is CSS, translate the abbreviation as such
@@ -119,8 +117,8 @@ namespace eval emmet {
 
       # Get the abbreviation text, translate it and insert it back into the text
       if {[regexp {(\S+)$} [$txt get "insert linestart" insert] -> abbr]} {
-        if {![catch { [ns emmet_css]::parse $abbr } str]} {
-          [ns snippets]::insert_snippet_into_current $str [list "insert-[string length $abbr]c" insert]
+        if {![catch { emmet_css::parse $abbr } str]} {
+          snippets::insert_snippet_into_current $str [list "insert-[string length $abbr]c" insert]
         }
       }
 
@@ -131,7 +129,7 @@ namespace eval emmet {
 
       # Parse the snippet and if no error, insert the resulting string
       if {![catch { ::parse_emmet $str $prespace } str]} {
-        [ns snippets]::insert_snippet_into_current $str [list $startpos $endpos]
+        snippets::insert_snippet_into_current $str [list $startpos $endpos]
       }
 
     }
@@ -154,7 +152,7 @@ namespace eval emmet {
     variable customizations
 
     # Read in the emmet customizations
-    if {![catch { [ns tkedat]::read $custom_file 1 } rc]} {
+    if {![catch { tkedat::read $custom_file 1 } rc]} {
 
       array unset customizations
 
@@ -188,7 +186,7 @@ namespace eval emmet {
     set customizations($type) [array get aliases]
 
     # Write the customization value to file
-    catch { [ns tkedat]::write $custom_file [array get customizations] 1 [list node_aliases array abbreviation_aliases array] }
+    catch { tkedat::write $custom_file [array get customizations] 1 [list node_aliases array abbreviation_aliases array] }
 
   }
 
