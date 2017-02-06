@@ -28,7 +28,7 @@ namespace eval brackets {
     variable current_tab
 
     # Close the current tab
-    gui::close_tab {} $current_tab -check 0
+    gui::close_tab $current_tab -check 0
 
     # Output the fail message and cause a failure
     if {$fail_msg ne ""} {

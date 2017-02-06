@@ -28,7 +28,7 @@ namespace eval emmet_css {
     variable current_tab
 
     # Close the current tab
-    gui::close_tab {} $current_tab -check 0
+    gui::close_tab $current_tab -check 0
 
     # Output the fail message and cause a failure
     if {$fail_msg ne ""} {
@@ -45,7 +45,7 @@ namespace eval emmet_css {
     $txt insert end "\nm10"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {margin: 10px;}
@@ -67,7 +67,7 @@ namespace eval emmet_css {
     $txt insert end "\nm10p20e30x"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {margin: 10% 20em 30ex;}
@@ -89,7 +89,7 @@ namespace eval emmet_css {
     $txt insert end "\nm1.5"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {margin: 1.5em;}
@@ -111,7 +111,7 @@ namespace eval emmet_css {
     $txt insert end "\nm1.5ex"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {margin: 1.5ex;}
@@ -133,7 +133,7 @@ namespace eval emmet_css {
     $txt insert end "\nm10foo"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {margin: 10foo;}
@@ -155,7 +155,7 @@ namespace eval emmet_css {
     $txt insert end "\nw100p"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {width: 100%;}
@@ -177,7 +177,7 @@ namespace eval emmet_css {
     $txt insert end "\nc#3"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {color: #333333;}
@@ -199,7 +199,7 @@ namespace eval emmet_css {
     $txt insert end "\nc#e0"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {color: #e0e0e0;}
@@ -221,7 +221,7 @@ namespace eval emmet_css {
     $txt insert end "\nc#fc0"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {color: #ffcc00;}
@@ -243,7 +243,7 @@ namespace eval emmet_css {
     $txt insert end "\nbd5#0s"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {border: 5px #000000 solid;}
@@ -265,7 +265,7 @@ namespace eval emmet_css {
     $txt insert end "\nlh2"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {line-height: 2;}
@@ -287,7 +287,7 @@ namespace eval emmet_css {
     $txt insert end "\nfw400"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {font-weight: 400;}
@@ -309,7 +309,7 @@ namespace eval emmet_css {
     $txt insert end "\np!+m10e!"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -333,7 +333,7 @@ margin: 10em !important;}
     $txt insert end "\n-trf"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -360,7 +360,7 @@ transform: $1;$0}
     $txt insert end "\n-wm-trf"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -385,7 +385,7 @@ transform: $1;$0}
     $txt insert end "\ntal:a"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect \
@@ -409,7 +409,7 @@ text-align-last: auto;}
     $txt insert end "\noh"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {overflow: hidden;}
@@ -431,7 +431,7 @@ text-align-last: auto;}
     $txt insert end "\novh"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {overflow: hidden;}
@@ -453,7 +453,7 @@ text-align-last: auto;}
     $txt insert end "\n10"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {10px}
@@ -475,7 +475,7 @@ text-align-last: auto;}
     $txt insert end "\n#3"
     $txt mark set insert end-1c
 
-    emmet::expand_abbreviation {}
+    emmet::expand_abbreviation
 
     set actual [$txt get 2.0 end-1c]
     set expect {#333333}

@@ -61,12 +61,12 @@ namespace eval emmet {
   ######################################################################
   # Returns a three element list containing the snippet text, starting and ending
   # position of that text.
-  proc get_snippet_text_pos {tid} {
+  proc get_snippet_text_pos {} {
 
     variable data
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt $tid]
+    set txt [[ns gui]::current_txt]
 
     # Get the current line and column numbers
     lassign [split [$txt index insert] .] line endcol
@@ -105,9 +105,9 @@ namespace eval emmet {
   # Parses the current Emmet snippet found in the current editing buffer.
   # Returns a three element list containing the generated code, the
   # starting index of the snippet and the ending index of the snippet.
-  proc expand_abbreviation {tid} {
+  proc expand_abbreviation {} {
 
-    set txt [[ns gui]::current_txt $tid]
+    set txt [[ns gui]::current_txt]
 
     # Get the language of the current insertion cursor
     if {[set lang [ctext::get_lang $txt insert]] eq ""} {
@@ -120,18 +120,18 @@ namespace eval emmet {
       # Get the abbreviation text, translate it and insert it back into the text
       if {[regexp {(\S+)$} [$txt get "insert linestart" insert] -> abbr]} {
         if {![catch { [ns emmet_css]::parse $abbr } str]} {
-          [ns snippets]::insert_snippet_into_current $tid $str [list "insert-[string length $abbr]c" insert]
+          [ns snippets]::insert_snippet_into_current $str [list "insert-[string length $abbr]c" insert]
         }
       }
 
     } else {
 
       # Find the snippet text
-      lassign [get_snippet_text_pos $tid] str startpos endpos prespace
+      lassign [get_snippet_text_pos] str startpos endpos prespace
 
       # Parse the snippet and if no error, insert the resulting string
       if {![catch { ::parse_emmet $str $prespace } str]} {
-        [ns snippets]::insert_snippet_into_current $tid $str [list $startpos $endpos]
+        [ns snippets]::insert_snippet_into_current $str [list $startpos $endpos]
       }
 
     }

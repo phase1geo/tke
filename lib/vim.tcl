@@ -79,10 +79,10 @@ namespace eval vim {
 
   ######################################################################
   # Enables/disables Vim mode for the specified text widget.
-  proc set_vim_mode {txt tid} {
+  proc set_vim_mode {txt} {
 
     if {[[ns preferences]::get Editor/VimMode]} {
-      add_bindings $txt $tid
+      add_bindings $txt
     } else {
       remove_bindings $txt
     }
@@ -171,7 +171,7 @@ namespace eval vim {
           set opts [string map {"\\:" {:} ":" { }} $opts]
           foreach opt $opts {
             if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
-              do_set_command {} $txt $key $val $mod 1
+              do_set_command $txt $key $val $mod 1
             }
           }
         }
@@ -183,25 +183,25 @@ namespace eval vim {
 
   ######################################################################
   # Binds the given entry
-  proc bind_command_entry {txt entry tid} {
+  proc bind_command_entry {txt entry} {
 
     variable command_entries
 
     # Save the entry
     set command_entries($txt.t) $entry
 
-    bind $entry <Return>    "[ns vim]::handle_command_return %W {$tid}"
-    bind $entry <Escape>    "[ns vim]::handle_command_escape %W {$tid}"
-    bind $entry <BackSpace> "[ns vim]::handle_command_backspace %W {$tid}"
+    bind $entry <Return>    [list [ns vim]::handle_command_return %W]
+    bind $entry <Escape>    [list [ns vim]::handle_command_escape %W]
+    bind $entry <BackSpace> [list [ns vim]::handle_command_backspace %W]
 
   }
 
   ######################################################################
   # Handles the command entry text.
-  proc handle_command_return {w tid} {
+  proc handle_command_return {w} {
 
     # Get the last txt widget that had the focus
-    set txt [[ns gui]::last_txt_focus $tid]
+    set txt [[ns gui]::last_txt_focus]
 
     # Get the value from the command field
     set value [$w get]
@@ -211,19 +211,19 @@ namespace eval vim {
 
     # Execute the command
     switch -- $value {
-      w   { [ns gui]::save_current $tid }
-      w!  { [ns gui]::save_current $tid -force 1 }
-      wq  { if {[[ns gui]::save_current $tid]} { [ns gui]::close_current $tid 0; set txt "" } }
-      wq! { if {[[ns gui]::save_current $tid -force 1]} { [ns gui]::close_current $tid 0; set txt "" } }
-      q   { [ns gui]::close_current $tid 0; set txt "" }
-      q!  { [ns gui]::close_current $tid 1; set txt "" }
+      w   { [ns gui]::save_current }
+      w!  { [ns gui]::save_current -force 1 }
+      wq  { if {[[ns gui]::save_current]} { [ns gui]::close_current; set txt "" } }
+      wq! { if {[[ns gui]::save_current -force 1]} { [ns gui]::close_current; set txt "" } }
+      q   { [ns gui]::close_current; set txt "" }
+      q!  { [ns gui]::close_current -force 1; set txt "" }
       cq  { [ns gui]::close_all -force 1 -exiting 1; [ns menus]::exit_command }
       e!  { [ns gui]::update_current }
       n   { [ns gui]::next_tab }
       N   { [ns gui]::previous_tab }
       p   { after idle [ns gui]::next_pane }
       e\# { [ns gui]::last_tab }
-      m   { [ns gui]::remove_current_marker $tid }
+      m   { [ns gui]::remove_current_marker }
       default {
         catch {
 
@@ -231,7 +231,7 @@ namespace eval vim {
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/([giI]*)$} $value -> from to search replace opts]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
-            [ns search]::replace_do_raw $tid $from $to $search $replace \
+            [ns search]::replace_do_raw $from $to $search $replace \
               [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
 
           # Delete/copy lines
@@ -280,7 +280,7 @@ namespace eval vim {
             set to   [$txt index "[get_linenum $txt $to] lineend"]
             if {[[ns edit]::save_selection $txt $from $to [expr {$overwrite eq "!"}] $fname]} {
               if {$and_close ne ""} {
-                [ns gui]::close_current $tid 0
+                [ns gui]::close_current
                 set txt ""
               }
             }
@@ -299,9 +299,9 @@ namespace eval vim {
             if {![file exists [file dirname [set filename [normalize_filename [[ns utils]::perform_substitutions $filename]]]]]} {
               [ns gui]::set_error_message [msgcat::mc "Unable to write"] [msgcat::mc "Filename directory does not exist"]
             } else {
-              [ns gui]::save_current $tid -force [expr {$and_force ne ""}] -save_as [normalize_filename [[ns utils]::perform_substitutions $filename]]
+              [ns gui]::save_current -force [expr {$and_force ne ""}] -save_as [normalize_filename [[ns utils]::perform_substitutions $filename]]
               if {$and_close ne ""} {
-                [ns gui]::close_current $tid [expr {($and_close eq "q") ? 0 : 1}]
+                [ns gui]::close_current -force [expr {($and_close eq "q") ? 0 : 1}]
                 set txt ""
               }
             }
@@ -336,7 +336,7 @@ namespace eval vim {
           } elseif {[regexp {^set?\s+(.*)$} $value -> opts]} {
             foreach opt [split $opts ": "] {
               if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
-                set txt [do_set_command $tid $txt $key $val $mod]
+                set txt [do_set_command $txt $key $val $mod]
               }
             }
 
@@ -363,7 +363,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles set command calls and modeline settings.
-  proc do_set_command {tid txt opt val mod {ml 0}} {
+  proc do_set_command {txt opt val mod {ml 0}} {
 
     switch $opt {
       autochdir        -
@@ -377,73 +377,73 @@ namespace eval vim {
         do_set_autochdir 0
       }
       autoindent       -
-      ai               { do_set_indent_mode $tid IND 1 }
+      ai               { do_set_indent_mode IND 1 }
       noautoindent     -
-      noai             { do_set_indent_mode $tid IND 0 }
+      noai             { do_set_indent_mode IND 0 }
       browsedir        -
-      bsdir            { do_set_browse_dir $tid $val }
+      bsdir            { do_set_browse_dir $val }
       expandtab        -
-      et               { do_set_expandtab $tid 1 }
+      et               { do_set_expandtab 1 }
       noexpandtab      -
-      noet             { do_set_expandtab $tid 0 }
+      noet             { do_set_expandtab 0 }
       fileformat       -
-      ff               { do_set_fileformat $tid $val }
+      ff               { do_set_fileformat $val }
       foldenable       -
-      fen              { do_set_foldenable $tid 1 }
+      fen              { do_set_foldenable 1 }
       nofoldenable     -
-      nofen            { do_set_foldenable $tid 0 }
+      nofen            { do_set_foldenable 0 }
       foldmethod       -
-      fdm              { do_set_foldmethod $tid $val }
+      fdm              { do_set_foldmethod $val }
       matchpairs       -
-      mps              { do_set_matchpairs $tid $val $mod }
+      mps              { do_set_matchpairs $val $mod }
       modeline         -
-      ml               { do_set_modeline $tid 1 }
+      ml               { do_set_modeline 1 }
       nomodeline       -
-      noml             { do_set_modeline $tid 0 }
+      noml             { do_set_modeline 0 }
       modelines        -
       mls              {
         if {$ml} { return $txt }
         do_set_modelines $val
       }
       modifiable       -
-      ma               { do_set_modifiable $tid 1 }
+      ma               { do_set_modifiable 1 }
       nomodifiable     -
-      noma             { do_set_modifiable $tid 0 }
+      noma             { do_set_modifiable 0 }
       modified         -
-      mod              { do_set_modified $tid 1 }
+      mod              { do_set_modified 1 }
       nomodified       -
-      nomod            { do_set_modified $tid 0 }
+      nomod            { do_set_modified 0 }
       number           -
-      nu               { do_set_number $tid 1 }
+      nu               { do_set_number 1 }
       nonumber         -
-      nonu             { do_set_number $tid 0 }
+      nonu             { do_set_number 0 }
       numberwidth      -
       nuw              {
         if {$ml} { return $txt }
-        do_set_numberwidth $tid $val
+        do_set_numberwidth $val
       }
       relativenumber   -
-      rnu              { do_set_relativenumber $tid relative }
+      rnu              { do_set_relativenumber relative }
       norelativenumber -
-      nornu            { do_set_relativenumber $tid absolute }
+      nornu            { do_set_relativenumber absolute }
       shiftwidth       -
-      sw               { do_set_shiftwidth $tid $val }
+      sw               { do_set_shiftwidth $val }
       showmatch        -
-      sm               { do_set_showmatch $tid 1 }
+      sm               { do_set_showmatch 1 }
       noshowmatch      -
-      nosm             { do_set_showmatch $tid 0 }
+      nosm             { do_set_showmatch 0 }
       smartindent      -
-      si               { do_set_indent_mode $tid IND+ 1 }
+      si               { do_set_indent_mode IND+ 1 }
       nosmartindent    -
-      nosi             { do_set_indent_mode $tid IND+ 0 }
+      nosi             { do_set_indent_mode IND+ 0 }
       splitbelow       -
-      sb               { do_set_split $tid 1 }
+      sb               { do_set_split 1 }
       nosplitbelow     -
-      nosb             { do_set_split $tid 0; set txt [[ns gui]::current_txt $tid] }
+      nosb             { do_set_split 0; set txt [[ns gui]::current_txt] }
       syntax           -
       syn              { do_set_syntax $val }
       tabstop          -
-      ts               { do_set_tabstop $tid $val }
+      ts               { do_set_tabstop $val }
       default          {
         [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Unrecognized vim option"] $opt]
       }
@@ -465,7 +465,7 @@ namespace eval vim {
   ######################################################################
   # Sets the indentation mode based on the current value, the specified
   # type (IND, IND+) and the value (0 or 1).
-  proc do_set_indent_mode {tid type value} {
+  proc do_set_indent_mode {type value} {
 
     array set newval {
       {OFF,IND,0}   {OFF}
@@ -483,18 +483,18 @@ namespace eval vim {
     }
 
     # Get the current mode
-    set curr [[ns indent]::get_indent_mode [[ns gui]::current_txt $tid]]
+    set curr [[ns indent]::get_indent_mode [[ns gui]::current_txt]]
 
     # If the indentation mode will change, set it to the new value
     if {$curr ne $newval($curr,$type,$value)} {
-      [ns indent]::set_indent_mode $tid $newval($curr,$type,$value)
+      [ns indent]::set_indent_mode $newval($curr,$type,$value)
     }
 
   }
 
   ######################################################################
   # Sets the file browser directory default pathname.
-  proc do_set_browse_dir {tid val} {
+  proc do_set_browse_dir {val} {
 
     [ns gui]::set_browse_directory $val
 
@@ -503,15 +503,15 @@ namespace eval vim {
   ######################################################################
   # Sets the tab expansion mode for the current buffer to (use tabs or
   # translate tabs to spaces.
-  proc do_set_expandtab {tid val} {
+  proc do_set_expandtab {val} {
 
-    [ns snippets]::set_expandtabs [[ns gui]::current_txt $tid] $val
+    [ns snippets]::set_expandtabs [[ns gui]::current_txt] $val
 
   }
 
   ######################################################################
   # Set the EOL setting for the current buffer.
-  proc do_set_fileformat {tid val} {
+  proc do_set_fileformat {val} {
 
     array set map {
       dos  crlf
@@ -530,19 +530,19 @@ namespace eval vim {
 
   ######################################################################
   # Perform a fold_all or unfold_all command call.
-  proc do_set_foldenable {tid val} {
+  proc do_set_foldenable {val} {
 
     if {$val} {
-      [ns folding]::close_all_folds [[ns gui]::current_txt {}]
+      [ns folding]::close_all_folds [[ns gui]::current_txt]
     } else {
-      [ns folding]::open_all_folds [[ns gui]::current_txt {}]
+      [ns folding]::open_all_folds [[ns gui]::current_txt]
     }
 
   }
 
   ######################################################################
   # Set the current code folding method.
-  proc do_set_foldmethod {tid val} {
+  proc do_set_foldmethod {val} {
 
     array set map {
       none   1
@@ -552,7 +552,7 @@ namespace eval vim {
 
     # Set the current folding method
     if {[info exists map($val)]} {
-      [ns folding]::set_fold_method [[ns gui]::current_txt $tid] $val
+      [ns folding]::set_fold_method [[ns gui]::current_txt] $val
     } else {
       [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Folding method unrecognized"] $val]
     }
@@ -562,10 +562,10 @@ namespace eval vim {
   ######################################################################
   # Set the matchpairs to the given value(s).  The value of val is like
   # <:> and mod will be {}, + or -.
-  proc do_set_matchpairs {tid val mod} {
+  proc do_set_matchpairs {val mod} {
 
     # Get the current text widget
-    set txt  [[ns gui]::current_txt $tid]
+    set txt  [[ns gui]::current_txt]
     set lang [ctext::get_lang $txt insert]
 
     # Get the current match characters
@@ -597,11 +597,11 @@ namespace eval vim {
   ######################################################################
   # Sets whether or not modeline information should be used for the current
   # buffer.
-  proc do_set_modeline {tid val} {
+  proc do_set_modeline {val} {
 
     variable modeline
 
-    set modeline([[ns gui]::current_txt $tid].t) $val
+    set modeline([[ns gui]::current_txt].t) $val
 
   }
 
@@ -621,15 +621,15 @@ namespace eval vim {
 
   ######################################################################
   # Set the locked status of the current buffer.
-  proc do_set_modifiable {tid val} {
+  proc do_set_modifiable {val} {
 
-    [ns gui]::set_current_file_lock $tid [expr {$val ? 0 : 1}]
+    [ns gui]::set_current_file_lock [expr {$val ? 0 : 1}]
 
   }
 
   ######################################################################
   # Changes the modified state of the current buffer.
-  proc do_set_modified {tid val} {
+  proc do_set_modified {val} {
 
     [ns gui]::set_current_modified $val
 
@@ -637,19 +637,19 @@ namespace eval vim {
 
   ######################################################################
   # Sets the visibility of the line numbers.
-  proc do_set_number {tid val} {
+  proc do_set_number {val} {
 
-    [ns gui]::set_line_number_view $tid $val
+    [ns gui]::set_line_number_view $val
 
   }
 
   ######################################################################
   # Sets the minimum width of the line number gutter area to the specified
   # value.
-  proc do_set_numberwidth {tid val} {
+  proc do_set_numberwidth {val} {
 
     if {[string is integer $val]} {
-      [ns gui]::set_line_number_width $tid $val
+      [ns gui]::set_line_number_width $val
     } else {
       [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Number width not a number"] $val]
     }
@@ -658,18 +658,18 @@ namespace eval vim {
 
   ######################################################################
   # Sets the relative numbering mode to the given value.
-  proc do_set_relativenumber {tid val} {
+  proc do_set_relativenumber {val} {
 
-    [[ns gui]::current_txt $tid] configure -linemap_type $val
+    [[ns gui]::current_txt] configure -linemap_type $val
 
   }
 
   ######################################################################
   # Specifies the number of spaces to use for each indentation.
-  proc do_set_shiftwidth {tid val} {
+  proc do_set_shiftwidth {val} {
 
     if {[string is integer $val]} {
-      [ns indent]::set_shiftwidth [[ns gui]::current_txt $tid].t $val
+      [ns indent]::set_shiftwidth [[ns gui]::current_txt].t $val
     } else {
       [ns gui]::set_info_message [msgcat::mc "Shiftwidth value is not an integer"]
     }
@@ -678,7 +678,7 @@ namespace eval vim {
 
   ######################################################################
   # Sets the showmatch value in all of the text widgets.
-  proc do_set_showmatch {tid val} {
+  proc do_set_showmatch {val} {
 
     [ns gui]::set_matching_char $val
 
@@ -686,12 +686,12 @@ namespace eval vim {
 
   ######################################################################
   # Shows or hides split view in the current buffer.
-  proc do_set_split {tid val} {
+  proc do_set_split {val} {
 
     if {$val} {
-      [ns gui]::show_split_pane $tid
+      [ns gui]::show_split_pane
     } else {
-      [ns gui]::hide_split_pane $tid
+      [ns gui]::hide_split_pane
     }
 
   }
@@ -706,10 +706,10 @@ namespace eval vim {
 
   ######################################################################
   # Specifies number of spaces that a TAB in the file counts for.
-  proc do_set_tabstop {tid val} {
+  proc do_set_tabstop {val} {
 
     if {[string is integer $val]} {
-      [ns indent]::set_tabstop [[ns gui]::current_txt $tid].t $val
+      [ns indent]::set_tabstop [[ns gui]::current_txt].t $val
     } else {
       [ns gui]::set_info_message [msgcat::mc "Tabstop value is not an integer"]
     }
@@ -775,10 +775,10 @@ namespace eval vim {
 
   ######################################################################
   # Handles an escape key in the command entry widget.
-  proc handle_command_escape {w tid} {
+  proc handle_command_escape {w} {
 
     # Get the last text widget that had focus
-    set txt [[ns gui]::last_txt_focus $tid]
+    set txt [[ns gui]::last_txt_focus]
 
     # Delete the value in the command entry
     $w delete 0 end
@@ -794,13 +794,13 @@ namespace eval vim {
 
   ######################################################################
   # Handles a backspace key in the command entry widget.
-  proc handle_command_backspace {w tid} {
+  proc handle_command_backspace {w} {
 
     if {[$w get] eq ""} {
 
       # Remove the grab and set the focus back to the text widget
       grab release $w
-      [ns gui]::set_txt_focus [[ns gui]::last_txt_focus $tid]
+      [ns gui]::set_txt_focus [[ns gui]::last_txt_focus]
 
       # Hide the command entry widget
       grid remove $w
@@ -831,7 +831,7 @@ namespace eval vim {
 
   ######################################################################
   # Add Vim bindings
-  proc add_bindings {txt tid} {
+  proc add_bindings {txt} {
 
     variable mode
     variable number
@@ -855,8 +855,8 @@ namespace eval vim {
 
     # Add bindings
     bind $txt       <<Modified>>            "if {\[[ns vim]::handle_modified %W\]} { break }"
-    bind vim$txt    <Escape>                "if {\[[ns vim]::handle_escape %W {$tid}\]} { break }"
-    bind vim$txt    <Key>                   "if {\[[ns vim]::handle_any %W {$tid} %K %A\]} { break }"
+    bind vim$txt    <Escape>                "if {\[[ns vim]::handle_escape %W\]} { break }"
+    bind vim$txt    <Key>                   "if {\[[ns vim]::handle_any %W %K %A\]} { break }"
     bind vim$txt    <Control-Button-1>      "[ns vim]::nil"
     bind vim$txt    <Shift-Button-1>        "[ns vim]::nil"
     bind vim$txt    <Button-1>              "[ns vim]::handle_button1 %W %x %y; break"
@@ -1247,7 +1247,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles the escape-key when in Vim mode.
-  proc handle_escape {txtt tid} {
+  proc handle_escape {txtt} {
 
     variable mode
     variable number
@@ -1277,7 +1277,7 @@ namespace eval vim {
       $txtt tag remove sel 1.0 end
 
       # Clear any searches
-      [ns search]::find_clear $tid
+      [ns search]::find_clear
 
     }
 
@@ -1290,7 +1290,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles any single printable character.
-  proc handle_any {txtt tid keysym char} {
+  proc handle_any {txtt keysym char} {
 
     variable mode
     variable number
@@ -1341,7 +1341,7 @@ namespace eval vim {
     }
 
     # If we are not in edit mode
-    if {![catch "handle_$keysym $txtt {$tid}" rc] && $rc} {
+    if {![catch "handle_$keysym $txtt" rc] && $rc} {
       record_add "Key-$keysym"
       if {$mode($txtt) eq "start"} {
         set number($txtt) ""
@@ -1562,7 +1562,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, display the command entry field and
   # give it the focus.
-  proc handle_colon {txtt tid} {
+  proc handle_colon {txtt} {
 
     variable mode
     variable command_entries
@@ -1595,7 +1595,7 @@ namespace eval vim {
   # If we are in the "start" mode, move insertion cursor to the end of
   # the current line.  If we are in "delete" mode, delete all of the
   # text from the insertion marker to the end of the line.
-  proc handle_dollar {txtt tid} {
+  proc handle_dollar {txtt} {
 
     variable mode
 
@@ -1622,7 +1622,7 @@ namespace eval vim {
   # of the current line.  If we are in "delete" mode, delete all of the
   # text between the beginning of the current line and the current
   # insertion marker.
-  proc handle_asciicircum {txtt tid} {
+  proc handle_asciicircum {txtt} {
 
     variable mode
 
@@ -1645,13 +1645,13 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, display the search bar.
-  proc handle_slash {txtt tid} {
+  proc handle_slash {txtt} {
 
     variable mode
     variable search_dir
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::search $tid "next"
+      [ns gui]::search "next"
       set search_dir($txtt) "next"
       return 1
     }
@@ -1663,13 +1663,13 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, display the search bar for doing a
   # a previous search.
-  proc handle_question {txtt tid} {
+  proc handle_question {txtt} {
 
     variable mode
     variable search_dir
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::search $tid "prev"
+      [ns gui]::search "prev"
       set search_dir($txtt) "prev"
       return 1
     }
@@ -1681,7 +1681,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, invokes the buffered command at the current
   # insertion point.
-  proc handle_period {txtt tid} {
+  proc handle_period {txtt} {
 
     variable mode
 
@@ -1706,12 +1706,12 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode and the insertion point character has a
   # matching left/right partner, display the partner.
-  proc handle_percent {txtt tid} {
+  proc handle_percent {txtt} {
 
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::show_match_pair $tid
+      [ns gui]::show_match_pair
       return 1
     }
 
@@ -1721,7 +1721,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles the i-key when in Vim mode.
-  proc handle_i {txtt tid} {
+  proc handle_i {txtt} {
 
     variable mode
 
@@ -1757,7 +1757,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, inserts at the beginning of the current
   # line.
-  proc handle_I {txtt tid} {
+  proc handle_I {txtt} {
 
     variable mode
 
@@ -1774,7 +1774,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, move the insertion cursor down one line.
-  proc handle_j {txtt tid} {
+  proc handle_j {txtt} {
 
     variable mode
     variable number
@@ -1817,7 +1817,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, join the next line to the end of the
   # previous line.
-  proc handle_J {txtt tid} {
+  proc handle_J {txtt} {
 
     variable mode
     variable number
@@ -1838,7 +1838,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, move the insertion cursor up one line.
-  proc handle_k {txtt tid} {
+  proc handle_k {txtt} {
 
     variable mode
     variable number
@@ -1879,7 +1879,7 @@ namespace eval vim {
   ######################################################################
   # If we are in start mode and multicursor is enabled, move all of the
   # cursors up one line.
-  proc handle_K {txtt tid} {
+  proc handle_K {txtt} {
 
     variable mode
 
@@ -1897,7 +1897,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, move the insertion cursor right one
   # character.
-  proc handle_l {txtt tid} {
+  proc handle_l {txtt} {
 
     variable mode
     variable number
@@ -2024,7 +2024,7 @@ namespace eval vim {
   # If we are in "start" mode and multicursor mode is enabled, adjust
   # all of the cursors to the right by one character.  If we are only
   # in "start" mode, jump the insertion cursor to the bottom line.
-  proc handle_L {txtt tid} {
+  proc handle_L {txtt} {
 
     variable mode
     variable number
@@ -2067,7 +2067,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "goto" mode, edit any filesnames that are found under
   # any of the cursors.
-  proc handle_f {txtt tid} {
+  proc handle_f {txtt} {
 
     variable mode
 
@@ -2124,7 +2124,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles any previous find character motions.
-  proc handle_F {txtt tid} {
+  proc handle_F {txtt} {
 
     variable mode
 
@@ -2160,7 +2160,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles any next find character (non-inclusive) motions.
-  proc handle_t {txtt tid} {
+  proc handle_t {txtt} {
 
     variable mode
 
@@ -2196,7 +2196,7 @@ namespace eval vim {
 
   ######################################################################
   # Handles any next find character (non-inclusive) motions.
-  proc handle_T {txtt tid} {
+  proc handle_T {txtt} {
 
     variable mode
 
@@ -2233,7 +2233,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, edit any filenames found under any of
   # the cursors.
-  proc handle_g {txtt tid} {
+  proc handle_g {txtt} {
 
     variable mode
 
@@ -2254,7 +2254,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, move the insertion cursor left one
   # character.
-  proc handle_h {txtt tid} {
+  proc handle_h {txtt} {
 
     variable mode
     variable number
@@ -2380,7 +2380,7 @@ namespace eval vim {
   # If we are in "start" mode and multicursor mode is enabled, move all
   # cursors to the left by one character.  Otherwise, if we are just in
   # "start" mode, jump to the top line of the editor.
-  proc handle_H {txtt tid} {
+  proc handle_H {txtt} {
 
     variable mode
     variable number
@@ -2401,7 +2401,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, move the insertion cursor to the beginning
   # of previous word.
-  proc handle_b {txtt tid} {
+  proc handle_b {txtt} {
 
     variable mode
     variable number
@@ -2419,7 +2419,7 @@ namespace eval vim {
   # If we are in "start" mode, change the state to "change" mode.  If
   # we are in the "change" mode, delete the current line and put ourselves
   # into edit mode.
-  proc handle_c {txtt tid} {
+  proc handle_c {txtt} {
 
     variable mode
 
@@ -2452,7 +2452,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, delete from the insertion cursor to the
   # end of the line and put ourselves into "edit" mode.
-  proc handle_C {txtt tid} {
+  proc handle_C {txtt} {
 
     variable mode
 
@@ -2472,7 +2472,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "folding" mode, remove all folds in the current text editor.
-  proc handle_E {txtt tid} {
+  proc handle_E {txtt} {
 
     variable mode
 
@@ -2489,7 +2489,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "change" mode, delete the current word and change to edit
   # mode.
-  proc handle_w {txtt tid} {
+  proc handle_w {txtt} {
 
     variable mode
     variable number
@@ -2532,7 +2532,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, go to the last line.
-  proc handle_G {txtt tid} {
+  proc handle_G {txtt} {
 
     variable mode
     variable number
@@ -2553,7 +2553,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, transition the mode to the delete mode.
   # If we are in the "delete" mode, delete the current line.
-  proc handle_d {txtt tid} {
+  proc handle_d {txtt} {
 
     variable mode
     variable number
@@ -2584,7 +2584,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, deletes all text from the current
   # insertion cursor to the end of the line.
-  proc handle_D {txtt tid} {
+  proc handle_D {txtt} {
 
     variable mode
 
@@ -2600,7 +2600,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, move the insertion cursor ahead by
   # one character and set ourselves into "edit" mode.
-  proc handle_a {txtt tid} {
+  proc handle_a {txtt} {
 
     variable mode
 
@@ -2625,7 +2625,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, insert text at the end of the current line.
-  proc handle_A {txtt tid} {
+  proc handle_A {txtt} {
 
     variable mode
 
@@ -2647,7 +2647,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, set ourselves to yank mode.  If we
   # are in "yank" mode, copy the current line to the clipboard.
-  proc handle_y {txtt tid} {
+  proc handle_y {txtt} {
 
     variable mode
     variable number
@@ -2748,7 +2748,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, put the contents of the clipboard
   # after the current line.
-  proc handle_p {txtt tid} {
+  proc handle_p {txtt} {
 
     variable mode
 
@@ -2798,7 +2798,7 @@ namespace eval vim {
   ######################################################################
   # If we are in the "start" mode, put the contents of the clipboard
   # before the current line.
-  proc handle_P {txtt tid} {
+  proc handle_P {txtt} {
 
     variable mode
 
@@ -2845,7 +2845,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, undoes the last operation.
-  proc handle_u {txtt tid} {
+  proc handle_u {txtt} {
 
     variable mode
 
@@ -2863,7 +2863,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "goto" mode, convert the mode to uppercase mode.
-  proc handle_U {txtt tid} {
+  proc handle_U {txtt} {
 
     variable mode
 
@@ -2952,7 +2952,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, deletes the current character.
-  proc handle_x {txtt tid} {
+  proc handle_x {txtt} {
 
     variable mode
     variable number
@@ -2971,7 +2971,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, deletes the current character (same as
   # the 'x' command).
-  proc handle_Delete {txtt tid} {
+  proc handle_Delete {txtt} {
 
     variable mode
     variable number
@@ -2989,7 +2989,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, deletes the previous character.
-  proc handle_X {txtt tid} {
+  proc handle_X {txtt} {
 
     variable mode
     variable number
@@ -3008,7 +3008,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, add a new line below the current line
   # and transition into "edit" mode.
-  proc handle_o {txtt tid} {
+  proc handle_o {txtt} {
 
     variable mode
     variable number
@@ -3029,7 +3029,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, add a new line above the current line
   # and transition into "edit" mode.
-  proc handle_O {txtt tid} {
+  proc handle_O {txtt} {
 
     variable mode
 
@@ -3049,7 +3049,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, set the mode to the "quit" mode.  If we
   # are in "quit" mode, save and exit the current tab.
-  proc handle_Z {txtt tid} {
+  proc handle_Z {txtt} {
 
     variable mode
 
@@ -3057,8 +3057,8 @@ namespace eval vim {
       set mode($txtt) "quit"
       return 1
     } elseif {$mode($txtt) eq "quit"} {
-      [ns gui]::save_current $tid
-      [ns gui]::close_current $tid
+      [ns gui]::save_current
+      [ns gui]::close_current
       return 1
     }
 
@@ -3068,7 +3068,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, finds the next occurrence of the search text.
-  proc handle_n {txtt tid} {
+  proc handle_n {txtt} {
 
     variable mode
     variable search_dir
@@ -3101,7 +3101,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, finds the previous occurrence of the
   # search text.
-  proc handle_N {txtt tid} {
+  proc handle_N {txtt} {
 
     variable mode
     variable search_dir
@@ -3128,7 +3128,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, replaces the current character with the
   # next character.
-  proc handle_r {txtt tid} {
+  proc handle_r {txtt} {
 
     variable mode
 
@@ -3145,7 +3145,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, replaces all characters until the escape
   # key is hit.
-  proc handle_R {txtt tid} {
+  proc handle_R {txtt} {
 
     variable mode
 
@@ -3165,7 +3165,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, puts the mode into "visual char" mode.
-  proc handle_v {txtt tid} {
+  proc handle_v {txtt} {
 
     variable mode
 
@@ -3187,7 +3187,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, puts the mode into "visual line" mode.
-  proc handle_V {txtt tid} {
+  proc handle_V {txtt} {
 
     variable mode
 
@@ -3282,7 +3282,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, add a cursor.
-  proc handle_s {txtt tid} {
+  proc handle_s {txtt} {
 
     variable mode
 
@@ -3304,7 +3304,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, add cursors between the current anchor
   # the current line.
-  proc handle_S {txtt tid} {
+  proc handle_S {txtt} {
 
     variable mode
 
@@ -3327,7 +3327,7 @@ namespace eval vim {
   # If we are in "start" mode, run the gui::insert_numbers procedure to
   # allow the user to potentially insert incrementing numbers into the
   # specified text widget.
-  proc handle_numbersign {txtt tid} {
+  proc handle_numbersign {txtt} {
 
     variable mode
 
@@ -3342,7 +3342,7 @@ namespace eval vim {
 
   ######################################################################
   # Moves the specified bracket one word to the right.
-  proc move_bracket_right {txtt tid char} {
+  proc move_bracket_right {txtt char} {
 
     if {[set index [$txtt search -forwards -- $char insert]] ne ""} {
       $txtt delete $index
@@ -3353,7 +3353,7 @@ namespace eval vim {
 
   ######################################################################
   # Inserts or moves the specified bracket pair.
-  proc place_bracket {txtt tid left {right ""}} {
+  proc place_bracket {txtt left {right ""}} {
 
     variable mode
 
@@ -3371,7 +3371,7 @@ namespace eval vim {
       if {($left eq "\"") || ($left eq "'")} {
         set tag [expr {($left eq "'") ? "_sString" : "_dString"}]
         if {[lsearch [$txtt tag names insert] $tag] != -1} {
-          move_bracket_right $txtt $tid $left
+          move_bracket_right $txtt $left
         } else {
           $txtt insert "insert wordend"   $left
           $txtt insert "insert wordstart" $left
@@ -3379,7 +3379,7 @@ namespace eval vim {
       } else {
         set re "(\\$left|\\$right)"
         if {([set index [$txtt search -backwards -regexp -- $re insert]] ne "") && ([$txtt get $index] eq $left)} {
-          move_bracket_right $txtt $tid $right
+          move_bracket_right $txtt $right
         } else {
           $txtt insert "insert wordend"   $right
           $txtt insert "insert wordstart" $left
@@ -3399,12 +3399,12 @@ namespace eval vim {
   # string, the right-most quote of the completed string is moved one
   # word to the end; otherwise, the current word is placed within
   # double-quotes.
-  proc handle_quotedbl {txtt tid} {
+  proc handle_quotedbl {txtt} {
 
     variable mode
 
     if {$mode($txtt) eq "change"} {
-      place_bracket $txtt $tid \"
+      place_bracket $txtt \"
       return 1
     }
 
@@ -3418,12 +3418,12 @@ namespace eval vim {
   # single string, the right-most quote of the completed string is moved one
   # word to the end; otherwise, the current word is placed within
   # single-quotes.
-  proc handle_apostrophe {txtt tid} {
+  proc handle_apostrophe {txtt} {
 
     variable mode
 
     if {$mode($txtt) eq "change"} {
-      place_bracket $txtt $tid '
+      place_bracket $txtt '
       return 1
     }
 
@@ -3437,12 +3437,12 @@ namespace eval vim {
   # bracket sequence, the right-most bracket of the sequence is moved one
   # word to the end; otherwise, the current word is placed within
   # curly brackets.
-  proc handle_bracketleft {txtt tid} {
+  proc handle_bracketleft {txtt} {
 
     variable mode
 
     if {$mode($txtt) eq "change"} {
-      place_bracket $txtt $tid \[ \]
+      place_bracket $txtt \[ \]
       return 1
     }
 
@@ -3456,12 +3456,12 @@ namespace eval vim {
   # bracket sequence, the right-most bracket of the sequence is moved one
   # word to the end; otherwise, the current word is placed within
   # square brackets.
-  proc handle_braceleft {txtt tid} {
+  proc handle_braceleft {txtt} {
 
     variable mode
 
     if {$mode($txtt) eq "change"} {
-      place_bracket $txtt $tid \{ \}
+      place_bracket $txtt \{ \}
       return 1
     }
 
@@ -3475,12 +3475,12 @@ namespace eval vim {
   # parenthetical sequence, the right-most parenthesis of the sequence
   # is moved one word to the end; otherwise, the current word is placed
   # within parenthesis.
-  proc handle_parenleft {txtt tid} {
+  proc handle_parenleft {txtt} {
 
     variable mode
 
     if {$mode($txtt) eq "change"} {
-      place_bracket $txtt $tid ( )
+      place_bracket $txtt ( )
       return 1
     }
 
@@ -3498,7 +3498,7 @@ namespace eval vim {
   # bracket sequence, the right-most bracket of the sequence is moved one
   # word to the end; otherwise, the current word is placed within
   # angled brackets.
-  proc handle_less {txtt tid} {
+  proc handle_less {txtt} {
 
     variable mode
     variable number
@@ -3512,7 +3512,7 @@ namespace eval vim {
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "change"} {
-      place_bracket $txtt $tid < >
+      place_bracket $txtt < >
       return 1
     }
 
@@ -3523,7 +3523,7 @@ namespace eval vim {
   ######################################################################
   # If we are in start mode, begin a rshift mode.  If we are in
   # rshift mode, shift the current line right by one indent.
-  proc handle_greater {txtt tid} {
+  proc handle_greater {txtt} {
 
     variable mode
     variable number
@@ -3547,7 +3547,7 @@ namespace eval vim {
   # formatted; otherwise, if we are in start mode, we are transitioned to
   # format mode.  If we are in format mode, we format the currently selected
   # line only.
-  proc handle_equal {txtt tid} {
+  proc handle_equal {txtt} {
 
     variable mode
 
@@ -3573,7 +3573,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the next line.
-  proc handle_Return {txtt tid} {
+  proc handle_Return {txtt} {
 
     variable mode
 
@@ -3598,7 +3598,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the previous line.
-  proc handle_minus {txtt tid} {
+  proc handle_minus {txtt} {
 
     variable mode
 
@@ -3623,7 +3623,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" or "visual" mode, move the cursor to the given
   # column of the current line.
-  proc handle_bar {txtt tid} {
+  proc handle_bar {txtt} {
 
     variable mode
     variable number
@@ -3641,7 +3641,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, change the case of the current character.
-  proc handle_asciitilde {txtt tid} {
+  proc handle_asciitilde {txtt} {
 
     variable mode
     variable number
@@ -3665,7 +3665,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, move the cursor to the start of the middle
   # line.
-  proc handle_M {txtt tid} {
+  proc handle_M {txtt} {
 
     variable mode
     variable number
@@ -3686,7 +3686,7 @@ namespace eval vim {
   ######################################################################
   # If we are in "start" mode, search for all occurences of the current
   # word.
-  proc handle_asterisk {txtt tid} {
+  proc handle_asterisk {txtt} {
 
     variable mode
 
@@ -3705,7 +3705,7 @@ namespace eval vim {
 
   ######################################################################
   # If we are in "start" mode, sets the current mode to "record" mode.
-  proc handle_q {txtt tid} {
+  proc handle_q {txtt} {
 
     variable mode
     variable recording
@@ -3727,14 +3727,14 @@ namespace eval vim {
   ######################################################################
   # If we are in start mode, do nothing.  If we are in quit mode, close
   # the current tab without writing the file (same as :q!).
-  proc handle_Q {txtt tid} {
+  proc handle_Q {txtt} {
 
     variable mode
 
     if {$mode($txtt) eq "start"} {
       return 1
     } elseif {$mode($txtt) eq "quit"} {
-      [ns gui]::close_current $tid 1
+      [ns gui]::close_current -force 1
       return 1
     }
 
@@ -3746,7 +3746,7 @@ namespace eval vim {
   # If we are in "start" mode, replays the register specified with the
   # next character.  If we are in "replay_reg" mode, playback the current
   # register again.
-  proc handle_at {txtt tid} {
+  proc handle_at {txtt} {
 
     variable mode
     variable recording
@@ -3763,60 +3763,60 @@ namespace eval vim {
   ######################################################################
   # This is just a synonym for the 'l' command so we'll just call the
   # handle_l procedure instead of replicating the code.
-  proc handle_space {txtt tid} {
+  proc handle_space {txtt} {
 
-    return [handle_l $txtt $tid]
+    return [handle_l $txtt]
 
   }
 
   ######################################################################
   # This is just a synonym for the 'l' command so we'll just call the
   # handle_l procedure instead of replicating the code.
-  proc handle_Right {txtt tid} {
+  proc handle_Right {txtt} {
 
-    return [handle_l $txtt $tid]
-
-  }
-
-  ######################################################################
-  # This is just a synonym for the 'h' command so we'll just call the
-  # handle_h procedure instead of replicating the code.
-  proc handle_BackSpace {txtt tid} {
-
-    return [handle_h $txtt $tid]
+    return [handle_l $txtt]
 
   }
 
   ######################################################################
   # This is just a synonym for the 'h' command so we'll just call the
   # handle_h procedure instead of replicating the code.
-  proc handle_Left {txtt tid} {
+  proc handle_BackSpace {txtt} {
 
-    return [handle_h $txtt $tid]
+    return [handle_h $txtt]
+
+  }
+
+  ######################################################################
+  # This is just a synonym for the 'h' command so we'll just call the
+  # handle_h procedure instead of replicating the code.
+  proc handle_Left {txtt} {
+
+    return [handle_h $txtt]
 
   }
 
   ######################################################################
   # This is just a synonym for the 'k' command so we'll just call the
   # handle_k procedure instead of replicating the code.
-  proc handle_Up {txtt tid} {
+  proc handle_Up {txtt} {
 
-    return [handle_k $txtt $tid]
+    return [handle_k $txtt]
 
   }
 
   ######################################################################
   # This is just a synonym for the 'j' command so we'll just call the
   # handle_j procedure instead of replicating the code.
-  proc handle_Down {txtt tid} {
+  proc handle_Down {txtt} {
 
-    return [handle_j $txtt $tid]
+    return [handle_j $txtt]
 
   }
 
   ######################################################################
   # If we are in start mode, transition to the folding mode.
-  proc handle_z {txtt tid} {
+  proc handle_z {txtt} {
 
     variable mode
 

@@ -552,7 +552,7 @@ namespace eval completer {
     array set opts $args
 
     # Get the current text widget
-    set txtt [[ns gui]::current_txt {}].t
+    set txtt [[ns gui]::current_txt].t
 
     # If the current text buffer was not highlighted, do it now
     if {[[ns preferences]::get Editor/HighlightMismatchingChar]} {

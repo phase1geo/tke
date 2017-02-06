@@ -29,7 +29,7 @@ namespace eval ctext {
     variable current_tab
 
     # Close the tab
-    gui::close_tab {} $current_tab -check 0
+    gui::close_tab $current_tab -check 0
 
     # If there was a fail message, exit with a failure
     if {$fail_msg ne ""} {

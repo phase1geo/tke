@@ -133,7 +133,7 @@ namespace eval templates {
       }
 
       # Write the file contents
-      puts $rc [[ns gui]::scrub_text [gui::current_txt {}]]
+      puts $rc [[ns gui]::scrub_text [gui::current_txt]]
       close $rc
 
       # Add the file to our list if it does not already exist

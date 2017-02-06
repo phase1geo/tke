@@ -137,7 +137,7 @@ namespace eval cliphist {
     clipboard append [string map {\\\{ \{} $str]
 
     # Insert the string in the current text widget
-    gui::paste_and_format {}
+    gui::paste_and_format
 
   }
 

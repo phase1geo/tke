@@ -30,7 +30,7 @@ namespace eval folding {
     variable current_tab
 
     # Close the current tab
-    gui::close_tab {} $current_tab -check 0
+    gui::close_tab $current_tab -check 0
 
     # Output the fail message and cause a failure
     if {$fail_msg ne ""} {
@@ -59,9 +59,9 @@ namespace eval folding {
       foreach method [list manual indent syntax indent manual syntax] {
 
         switch $method {
-          manual { indent::set_indent_mode {} OFF }
-          indent { indent::set_indent_mode {} IND }
-          syntax { indent::set_indent_mode {} IND+ }
+          manual { indent::set_indent_mode OFF }
+          indent { indent::set_indent_mode IND }
+          syntax { indent::set_indent_mode IND+ }
         }
 
         # Verify that we are disabled
@@ -257,7 +257,7 @@ namespace eval folding {
     }
 
     # Set the folding mode to manual
-    indent::set_indent_mode {} OFF
+    indent::set_indent_mode OFF
 
     foreach type [list line range all] {
 
@@ -313,7 +313,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode {} OFF
+    indent::set_indent_mode OFF
     folding::close_range $txt 7.0 9.0
     folding::close_range $txt 2.0 5.0
 
@@ -385,7 +385,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode {} OFF
+    indent::set_indent_mode OFF
     folding::close_range $txt 2.0 5.0
     folding::close_range $txt 7.0 9.0
 
@@ -443,7 +443,7 @@ namespace eval folding {
       $txt insert end "This is line $i\n"
     }
 
-    indent::set_indent_mode {} OFF
+    indent::set_indent_mode OFF
 
     $txt mark set insert 5.0
     folding::close_range $txt 2.0 9.0

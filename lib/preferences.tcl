@@ -120,7 +120,7 @@ namespace eval preferences {
     array set temp_prefs $loaded_prefs($prefix,global)
 
     # Load language-specific preferences, if necessary
-    if {([set txt [[ns gui]::current_txt {}]] ne "") && \
+    if {([set txt [[ns gui]::current_txt]] ne "") && \
         ([set language [[ns syntax]::get_language $txt]] ne "None") && \
         [info exists loaded_prefs($prefix,$language)]} {
       array set temp_prefs $loaded_prefs($prefix,$language)

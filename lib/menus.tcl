@@ -471,7 +471,7 @@ namespace eval menus {
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As"]]           -state $diff_state
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Remote"]]    -state $diff_state
       $mb entryconfigure [format "%s..." [msgcat::mc "Save As Template"]]  -state $diff_state
-      $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected {}] ? "normal" : "disabled"}]
+      $mb entryconfigure [format "%s..." [msgcat::mc "Save Selection As"]] -state [expr {[gui::selected] ? "normal" : "disabled"}]
       $mb entryconfigure [msgcat::mc "Save All"]                           -state normal
       $mb entryconfigure [format "%s..." [msgcat::mc "Export"]]            -state $diff_state
       $mb entryconfigure [msgcat::mc "Line Ending"]                        -state $diff_state
@@ -699,7 +699,7 @@ namespace eval menus {
   # Saves the current tab file.
   proc save_command {} {
 
-    gui::save_current {} -force 1
+    gui::save_current -force 1
 
   }
 
@@ -708,8 +708,8 @@ namespace eval menus {
   proc save_as_command {} {
 
     # Get some of the save options
-    if {[set sfile [gui::prompt_for_save {}]] ne ""} {
-      gui::save_current {} -force 1 -save_as $sfile
+    if {[set sfile [gui::prompt_for_save]] ne ""} {
+      gui::save_current -force 1 -save_as $sfile
     }
 
   }
@@ -723,7 +723,7 @@ namespace eval menus {
     lassign [remote::create save $fname] connection sfile
 
     if {$sfile ne ""} {
-      gui::save_current {} -force 1 -save_as $sfile -remote $connection
+      gui::save_current -force 1 -save_as $sfile -remote $connection
     }
 
   }
@@ -733,10 +733,10 @@ namespace eval menus {
   proc save_selection_as_command {} {
 
     # Get the filename
-    if {[set sfile [gui::prompt_for_save {}]] ne ""} {
+    if {[set sfile [gui::prompt_for_save]] ne ""} {
 
       # Get the current text widget
-      set txt [gui::current_txt {}]
+      set txt [gui::current_txt]
 
       # Save the current selection
       edit::save_selection $txt [$txt index sel.first] [$txt index sel.last] 1 $sfile
@@ -754,7 +754,7 @@ namespace eval menus {
     set dirname [gui::get_browse_directory]
 
     # Get the current editing buffer
-    set txt [gui::current_txt {}]
+    set txt [gui::current_txt]
 
     # Get the current editing buffer language
     set lang [syntax::get_language $txt]
@@ -913,7 +913,7 @@ namespace eval menus {
   proc lock_command {mb} {
 
     # Lock the current file
-    if {[gui::set_current_file_lock {} 1]} {
+    if {[gui::set_current_file_lock 1]} {
 
       # Set the menu up to display the unlock file menu option
       $mb entryconfigure [msgcat::mc "Lock"] -label [msgcat::mc "Unlock"] -command "menus::unlock_command $mb"
@@ -927,7 +927,7 @@ namespace eval menus {
   proc unlock_command {mb} {
 
     # Unlock the current file
-    if {[gui::set_current_file_lock {} 0]} {
+    if {[gui::set_current_file_lock 0]} {
 
       # Set the menu up to display the lock file menu option
       $mb entryconfigure [msgcat::mc "Unlock"] -label [msgcat::mc "Lock"] -command "menus::lock_command $mb"
@@ -983,7 +983,7 @@ namespace eval menus {
   # Closes the current tab.
   proc close_command {} {
 
-    gui::close_current {} 1
+    gui::close_current
 
   }
 
@@ -1044,28 +1044,28 @@ namespace eval menus {
   proc add_edit {mb} {
 
     # Add edit menu commands
-    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command [list gui::undo {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Undo"]] [list gui::undo {}]
+    $mb add command -label [msgcat::mc "Undo"] -underline 0 -command [list gui::undo]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Undo"]] [list gui::undo]
 
-    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command [list gui::redo {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Redo"]] [list gui::redo {}]
+    $mb add command -label [msgcat::mc "Redo"] -underline 0 -command [list gui::redo]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Redo"]] [list gui::redo]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command [list gui::cut {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Cut text"]] [list gui::cut {}]
+    $mb add command -label [msgcat::mc "Cut"] -underline 0 -command [list gui::cut]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Cut text"]] [list gui::cut]
 
-    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command [list gui::copy {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Copy text"]] [list gui::copy {}]
+    $mb add command -label [msgcat::mc "Copy"] -underline 1 -command [list gui::copy]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Copy text"]] [list gui::copy]
 
-    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command [list gui::paste {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste text from clipboard"]] [list gui::paste {}]
+    $mb add command -label [msgcat::mc "Paste"] -underline 0 -command [list gui::paste]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste text from clipboard"]] [list gui::paste]
 
-    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command [list gui::paste_and_format {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste and format text from clipboard"]] [list gui::paste_and_format {}]
+    $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command [list gui::paste_and_format]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste and format text from clipboard"]] [list gui::paste_and_format]
 
-    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command [list gui::select_all {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list gui::select_all {}]
+    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command [list gui::select_all]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list gui::select_all]
 
     $mb add separator
 
@@ -1075,8 +1075,8 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command [list edit::comment_toggle {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle comment"]] [list edit::comment_toggle {}]
+    $mb add command -label [msgcat::mc "Toggle Comment"] -underline 0 -command [list edit::comment_toggle]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle comment"]] [list edit::comment_toggle]
 
     $mb add cascade -label [msgcat::mc "Indentation"] -underline 0 -menu [make_menu $mb.indentPopup -tearoff 0 -postcommand [list menus::edit_indent_posting $mb.indentPopup]]
     $mb add cascade -label [msgcat::mc "Cursor"]      -underline 1 -menu [make_menu $mb.cursorPopup -tearoff 0 -postcommand [list menus::edit_cursor_posting $mb.cursorPopup]]
@@ -1109,19 +1109,19 @@ namespace eval menus {
 
     $mb.indentPopup add separator
 
-    $mb.indentPopup add command -label [msgcat::mc "Format Text"] -command [list gui::format_text {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Format indentation for text"]] [list gui::format_text {}]
+    $mb.indentPopup add command -label [msgcat::mc "Format Text"] -command [list gui::format_text]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Format indentation for text"]] [list gui::format_text]
 
     $mb.indentPopup add separator
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_indent_mode {} OFF]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_indent_mode {} OFF]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Indent Off"] -variable menus::indent_mode -value "OFF" -command [list indent::set_indent_mode OFF]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "OFF"]] [list indent::set_indent_mode OFF]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_indent_mode {} IND]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_indent_mode {} IND]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Auto-Indent"] -variable menus::indent_mode -value "IND" -command [list indent::set_indent_mode IND]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND"]] [list indent::set_indent_mode IND]
 
-    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_indent_mode {} IND+]
-    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_indent_mode {} IND+]
+    $mb.indentPopup add radiobutton -label [msgcat::mc "Smart Indent"] -variable menus::indent_mode -value "IND+" -command [list indent::set_indent_mode IND+]
+    launcher::register [make_menu_cmd "Edit" [format "%s %s" [msgcat::mc "Set indent mode to"] "IND+"]] [list indent::set_indent_mode IND+]
 
     ######################
     # Populate cursor menu
@@ -1180,8 +1180,8 @@ namespace eval menus {
 
     $mb.cursorPopup add separator
 
-    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors"] -command [list edit::align_cursors {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors"]] [list edit::align_cursors {}]
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors"] -command [list edit::align_cursors]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors"]] [list edit::align_cursors]
 
     #########################
     # Populate insertion menu
@@ -1211,8 +1211,8 @@ namespace eval menus {
 
     $mb.insertPopup add separator
 
-    $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::insert_enumeration {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::insert_enumeration {}]
+    $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::insert_enumeration]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::insert_enumeration]
 
     ########################
     # Populate deletion menu
@@ -1279,8 +1279,8 @@ namespace eval menus {
 
     $mb.transformPopup add separator
 
-    $mb.transformPopup add command -label [msgcat::mc "Replace Line With Script"] -command [list edit::replace_line_with_script {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Replace line with script"]] [list edit::replace_line_with_script {}]
+    $mb.transformPopup add command -label [msgcat::mc "Replace Line With Script"] -command [list edit::replace_line_with_script]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Replace line with script"]] [list edit::replace_line_with_script]
 
     ###########################
     # Populate preferences menu
@@ -1312,8 +1312,8 @@ namespace eval menus {
 
     $mb.snipPopup add separator
 
-    $mb.snipPopup add command -label [msgcat::mc "Reload"] -command [list snippets::reload_snippets {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Reload snippets"]] [list snippets::reload_snippets {}]
+    $mb.snipPopup add command -label [msgcat::mc "Reload"] -command [list snippets::reload_snippets]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Reload snippets"]] [list snippets::reload_snippets]
 
     #########################
     # Populate templates menu
@@ -1334,8 +1334,8 @@ namespace eval menus {
     # Populate Emmet menu
     #####################
 
-    $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list emmet::expand_abbreviation {}]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Expand Emmet abbreviation"]] [list emmet::expand_abbreviation {}]
+    $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list emmet::expand_abbreviation]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Expand Emmet abbreviation"]] [list emmet::expand_abbreviation]
 
     $mb.emmetPopup add separator
 
@@ -1369,19 +1369,19 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Delete"]           -state disabled
       $mb entryconfigure [msgcat::mc "Transform"]        -state disabled
     } else {
-      if {[gui::undoable {}]} {
+      if {[gui::undoable]} {
         $mb entryconfigure [msgcat::mc "Undo"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Undo"] -state disabled
       }
-      if {[gui::redoable {}]} {
+      if {[gui::redoable]} {
         $mb entryconfigure [msgcat::mc "Redo"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Redo"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Cut"]  -state $readonly_state
       $mb entryconfigure [msgcat::mc "Copy"] -state normal
-      if {[gui::pastable {}]} {
+      if {[gui::pastable]} {
         $mb entryconfigure [msgcat::mc "Paste"]            -state $readonly_state
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state $readonly_state
       } else {
@@ -1390,14 +1390,14 @@ namespace eval menus {
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
       $mb entryconfigure [msgcat::mc "Vim Mode"]    -state $readonly_state
-      if {[lindex [syntax::get_comments [gui::current_txt {}]] 0] eq ""} {
+      if {[lindex [syntax::get_comments [gui::current_txt]] 0] eq ""} {
         $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
       } else {
         $mb entryconfigure [msgcat::mc "Toggle Comment"] -state $readonly_state
       }
       $mb entryconfigure [msgcat::mc "Indentation"] -state $readonly_state
       $mb entryconfigure [msgcat::mc "Cursor"]      -state $readonly_state
-      if {[gui::editable {}]} {
+      if {[gui::editable]} {
         $mb entryconfigure [msgcat::mc "Insert"]    -state $readonly_state
         $mb entryconfigure [msgcat::mc "Delete"]    -state $readonly_state
         $mb entryconfigure [msgcat::mc "Transform"] -state $readonly_state
@@ -1420,7 +1420,7 @@ namespace eval menus {
     set state "disabled"
 
     # Set the indentation mode for the current editor
-    if {[set txt [gui::current_txt {}]] ne ""} {
+    if {[set txt [gui::current_txt]] ne ""} {
       set indent_mode [indent::get_indent_mode $txt]
       set state       "normal"
     }
@@ -1442,7 +1442,7 @@ namespace eval menus {
     set sstate "disabled"
 
     # Get the current text widget
-    if {[set txt [gui::current_txt {}]] ne ""} {
+    if {[set txt [gui::current_txt]] ne ""} {
       if {[multicursor::enabled $txt]} {
         set mstate "normal"
       } else {
@@ -1478,7 +1478,7 @@ namespace eval menus {
     set tstate "disabled"
     set mstate "disabled"
 
-    if {[set txt [gui::current_txt {}]] ne ""} {
+    if {[set txt [gui::current_txt]] ne ""} {
       set tstate "normal"
       if {[multicursor::enabled $txt]} {
         set mstate "normal"
@@ -1512,7 +1512,7 @@ namespace eval menus {
   proc edit_delete_posting {mb} {
 
     # Get the state
-    set state [expr {([gui::current_txt {}] eq "") ? "disabled" : "normal"}]
+    set state [expr {([gui::current_txt] eq "") ? "disabled" : "normal"}]
 
     $mb entryconfigure [msgcat::mc "Current Line"]           -state $state
     $mb entryconfigure [msgcat::mc "Current Word"]           -state $state
@@ -1531,7 +1531,7 @@ namespace eval menus {
   proc edit_transform_posting {mb} {
 
     # Get the state
-    set state [expr {([gui::current_txt {}] eq "") ? "disabled" : "normal"}]
+    set state [expr {([gui::current_txt] eq "") ? "disabled" : "normal"}]
 
     $mb entryconfigure [msgcat::mc "Toggle Case"]              -state $state
     $mb entryconfigure [msgcat::mc "Lower Case"]               -state $state
@@ -1542,7 +1542,7 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Bubble Down"]              -state $state
     $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state $state
 
-    if {[edit::current_line_empty {}]} {
+    if {[edit::current_line_empty]} {
       $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
     }
 
@@ -1553,7 +1553,7 @@ namespace eval menus {
   # the menu option states to match the current UI state.
   proc edit_preferences_posting {mb} {
 
-    if {[gui::current_txt {}] eq ""} {
+    if {[gui::current_txt] eq ""} {
       $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit User"]    [msgcat::mc "Language"]] -state disabled
       $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Language"]] -state disabled
     } else {
@@ -1576,7 +1576,7 @@ namespace eval menus {
 
     $mb entryconfigure [msgcat::mc "Edit User"] -state normal
 
-    if {[gui::current_txt {}] eq ""} {
+    if {[gui::current_txt] eq ""} {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Edit Language"] -state normal
@@ -1601,7 +1601,7 @@ namespace eval menus {
   # Sets the menu option states to match the current UI state.
   proc edit_emmet_posting {mb} {
 
-    if {[gui::current_txt {}] eq ""} {
+    if {[gui::current_txt] eq ""} {
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state normal
@@ -1613,7 +1613,7 @@ namespace eval menus {
   # Indents the current line or current selection.
   proc indent_command {} {
 
-    edit::indent [gui::current_txt {}].t
+    edit::indent [gui::current_txt].t
 
   }
 
@@ -1621,7 +1621,7 @@ namespace eval menus {
   # Unindents the current line or current selection.
   proc unindent_command {} {
 
-    edit::unindent [gui::current_txt {}].t
+    edit::unindent [gui::current_txt].t
 
   }
 
@@ -1631,7 +1631,7 @@ namespace eval menus {
   proc edit_cursor_move {modifier} {
 
     # Get the current text widget
-    set txtt [gui::current_txt {}].t
+    set txtt [gui::current_txt].t
 
     # Move the cursor if we are not in multicursor mode
     if {![multicursor::enabled $txtt]} {
@@ -1646,7 +1646,7 @@ namespace eval menus {
   proc edit_cursor_move_by_page {dir} {
 
     # Get the current text widget
-    set txtt [gui::current_txt {}].t
+    set txtt [gui::current_txt].t
 
     # Move the cursor if we are not in multicursor mode
     if {![multicursor::enabled $txtt]} {
@@ -1660,7 +1660,7 @@ namespace eval menus {
   proc edit_cursors_move {modifier} {
 
     # Get the current text widget
-    set txtt [gui::current_txt {}].t
+    set txtt [gui::current_txt].t
 
     # If we are in multicursor mode, move the cursors in the direction given by modifier
     if {[multicursor::enabled $txtt]} {
@@ -1673,7 +1673,7 @@ namespace eval menus {
   # Inserts a new line above the current line.
   proc edit_insert_line_above {} {
 
-    edit::insert_line_above_current [gui::current_txt {}].t
+    edit::insert_line_above_current [gui::current_txt].t
 
   }
 
@@ -1681,7 +1681,7 @@ namespace eval menus {
   # Inserts a new line below the current line.
   proc edit_insert_line_below {} {
 
-    edit::insert_line_below_current [gui::current_txt {}].t
+    edit::insert_line_below_current [gui::current_txt].t
 
   }
 
@@ -1691,8 +1691,8 @@ namespace eval menus {
   proc edit_insert_file_after_current_line {} {
 
     if {[set fname [tk_getOpenFile -parent . -initialdir [gui::get_browse_directory] -multiple 1]] ne ""} {
-      edit::insert_file [gui::current_txt {}].t $fname
-      gui::set_txt_focus [gui::current_txt {}]
+      edit::insert_file [gui::current_txt].t $fname
+      gui::set_txt_focus [gui::current_txt]
     }
 
   }
@@ -1705,7 +1705,7 @@ namespace eval menus {
     set cmd ""
 
     if {[gui::get_user_response [format "%s:" [msgcat::mc "Command"]] cmd 1]} {
-      edit::insert_file [gui::current_txt {}].t "|$cmd"
+      edit::insert_file [gui::current_txt].t "|$cmd"
     }
 
   }
@@ -1714,7 +1714,7 @@ namespace eval menus {
   # Deletes the current line.
   proc edit_delete_current_line {} {
 
-    edit::delete_current_line [gui::current_txt {}].t
+    edit::delete_current_line [gui::current_txt].t
 
   }
 
@@ -1722,7 +1722,7 @@ namespace eval menus {
   # Deletes the current word.
   proc edit_delete_current_word {} {
 
-    edit::delete_current_word [gui::current_txt {}].t
+    edit::delete_current_word [gui::current_txt].t
 
   }
 
@@ -1730,7 +1730,7 @@ namespace eval menus {
   # Deletes from the current cursor position to the end of the line.
   proc edit_delete_to_end {} {
 
-    edit::delete_to_end [gui::current_txt {}].t
+    edit::delete_to_end [gui::current_txt].t
 
   }
 
@@ -1738,7 +1738,7 @@ namespace eval menus {
   # Deletes from the start of the current line to just before the cursor.
   proc edit_delete_from_start {} {
 
-    edit::delete_from_start [gui::current_txt {}].t
+    edit::delete_from_start [gui::current_txt].t
 
   }
 
@@ -1746,7 +1746,7 @@ namespace eval menus {
   # Deletes the current number.
   proc edit_delete_current_number {} {
 
-    edit::delete_current_number [gui::current_txt {}].t
+    edit::delete_current_number [gui::current_txt].t
 
   }
 
@@ -1755,7 +1755,7 @@ namespace eval menus {
   # the line.
   proc edit_delete_next_space {} {
 
-    edit::delete_next_space [gui::current_txt {}].t
+    edit::delete_next_space [gui::current_txt].t
 
   }
 
@@ -1763,7 +1763,7 @@ namespace eval menus {
   # Deletes all consecutive whitespace prior to the cursor.
   proc edit_delete_prev_space {} {
 
-    edit::delete_prev_space [gui::current_txt {}].t
+    edit::delete_prev_space [gui::current_txt].t
 
   }
 
@@ -1775,7 +1775,7 @@ namespace eval menus {
     set char ""
 
     if {[gui::get_user_response [format "%s:" [msgcat::mc "Character"]] char 0] && ([string length $char] == 1)} {
-      edit::delete_between_char [gui::current_txt {}].t $char
+      edit::delete_between_char [gui::current_txt].t $char
     }
 
   }
@@ -1784,7 +1784,7 @@ namespace eval menus {
   # Perform a case toggle operation.
   proc edit_transform_toggle_case {} {
 
-    edit::transform_toggle_case [gui::current_txt {}].t
+    edit::transform_toggle_case [gui::current_txt].t
 
   }
 
@@ -1792,7 +1792,7 @@ namespace eval menus {
   # Perform a lowercase conversion.
   proc edit_transform_to_lower_case {} {
 
-    edit::transform_to_lower_case [gui::current_txt {}].t
+    edit::transform_to_lower_case [gui::current_txt].t
 
   }
 
@@ -1800,7 +1800,7 @@ namespace eval menus {
   # Perform an uppercase conversion.
   proc edit_transform_to_upper_case {} {
 
-    edit::transform_to_upper_case [gui::current_txt {}].t
+    edit::transform_to_upper_case [gui::current_txt].t
 
   }
 
@@ -1808,7 +1808,7 @@ namespace eval menus {
   # Perform a title case conversion.
   proc edit_transform_to_title_case {} {
 
-    edit::transform_to_title_case [gui::current_txt {}].t
+    edit::transform_to_title_case [gui::current_txt].t
 
   }
 
@@ -1816,7 +1816,7 @@ namespace eval menus {
   # Joins selected lines or the line beneath the current lines.
   proc edit_transform_join_lines {} {
 
-    edit::transform_join_lines [gui::current_txt {}].t
+    edit::transform_join_lines [gui::current_txt].t
 
   }
 
@@ -1824,7 +1824,7 @@ namespace eval menus {
   # Moves selected lines or the current line up by one line.
   proc edit_transform_bubble_up {} {
 
-    edit::transform_bubble_up [gui::current_txt {}].t
+    edit::transform_bubble_up [gui::current_txt].t
 
   }
 
@@ -1832,7 +1832,7 @@ namespace eval menus {
   # Moves selected lines or the current line down by one line.
   proc edit_transform_bubble_down {} {
 
-    edit::transform_bubble_down [gui::current_txt {}].t
+    edit::transform_bubble_down [gui::current_txt].t
 
   }
 
@@ -1849,7 +1849,7 @@ namespace eval menus {
   # Edits the user current language preference settings.
   proc edit_user_language {} {
 
-    pref_ui::create "" [syntax::get_language [gui::current_txt {}]]
+    pref_ui::create "" [syntax::get_language [gui::current_txt]]
 
   }
 
@@ -1865,7 +1865,7 @@ namespace eval menus {
   # Edits the session current language preference settings.
   proc edit_session_language {} {
 
-    pref_ui::create [sessions::current] [syntax::get_language [gui::current_txt {}]]
+    pref_ui::create [sessions::current] [syntax::get_language [gui::current_txt]]
 
   }
 
@@ -1876,7 +1876,7 @@ namespace eval menus {
     if {$language eq "user"} {
       pref_ui::create "" "" snippets
     } else {
-      pref_ui::create "" [syntax::get_language [gui::current_txt {}]] snippets
+      pref_ui::create "" [syntax::get_language [gui::current_txt]] snippets
     }
 
   }
@@ -1886,8 +1886,8 @@ namespace eval menus {
   proc add_find {mb} {
 
     # Add find menu commands
-    $mb add command -label [msgcat::mc "Find"] -underline 0 -command [list gui::search {}]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find"]] [list gui::search {}]
+    $mb add command -label [msgcat::mc "Find"] -underline 0 -command [list gui::search]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find"]] [list gui::search]
 
     $mb add command -label [msgcat::mc "Find and Replace"] -underline 9 -command [list gui::search_and_replace]
     launcher::register [make_menu_cmd "Find" [msgcat::mc "Find and Replace"]] [list gui::search_and_replace]
@@ -1908,25 +1908,25 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Jump Backward"] -underline 5 -command [list gui::jump_to_cursor {} -1 1]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump backward"]] [list gui::jump_to_cursor {} -1 1]
+    $mb add command -label [msgcat::mc "Jump Backward"] -underline 5 -command [list gui::jump_to_cursor -1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump backward"]] [list gui::jump_to_cursor -1 1]
 
-    $mb add command -label [msgcat::mc "Jump Forward"] -underline 5 -command [list gui::jump_to_cursor {} 1 1]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump forward"]] [list gui::jump_to_cursor {} 1 1]
+    $mb add command -label [msgcat::mc "Jump Forward"] -underline 5 -command [list gui::jump_to_cursor 1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump forward"]] [list gui::jump_to_cursor 1 1]
 
     $mb add command -label [msgcat::mc "Jump To Line"] -underline 8 -command [list menus::jump_to_line]
     launcher::register [make_menu_cmd "Find" [msgcat::mc "Jump to line"]] [list menus::jump_to_line]
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Next Difference"] -underline 0 -command [list gui::jump_to_difference {} 1 1]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Goto next difference"]] [list gui::jump_to_difference {} 1 1]
+    $mb add command -label [msgcat::mc "Next Difference"] -underline 0 -command [list gui::jump_to_difference 1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Goto next difference"]] [list gui::jump_to_difference 1 1]
 
-    $mb add command -label [msgcat::mc "Previous Difference"] -underline 0 -command [list gui::jump_to_difference {} -1 1]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Goto previous difference"]] [list gui::jump_to_difference {} -1 1]
+    $mb add command -label [msgcat::mc "Previous Difference"] -underline 0 -command [list gui::jump_to_difference -1 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Goto previous difference"]] [list gui::jump_to_difference -1 1]
 
-    $mb add command -label [msgcat::mc "Show Selected Line Change"] -underline 19 -command [list gui::show_difference_line_change {} 1]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Show selected line change"]] [list gui::show_difference_line_change {} 1]
+    $mb add command -label [msgcat::mc "Show Selected Line Change"] -underline 19 -command [list gui::show_difference_line_change 1]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Show selected line change"]] [list gui::show_difference_line_change 1]
 
     $mb add separator
 
@@ -1934,8 +1934,8 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Find Matching Bracket"] -underline 5 -command [list gui::show_match_pair {}]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find matching character pair"]] [list gui::show_match_pair {}]
+    $mb add command -label [msgcat::mc "Find Matching Bracket"] -underline 5 -command [list gui::show_match_pair]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find matching character pair"]] [list gui::show_match_pair]
 
     $mb add separator
 
@@ -1951,9 +1951,9 @@ namespace eval menus {
     launcher::register [make_menu_cmd "Find" [msgcat::mc "Find in files"]] [list search::fif_start]
 
     # Add marker popup launchers
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Create marker at current line"]]   [list gui::create_current_marker {}]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove marker from current line"]] [list gui::remove_current_marker {}]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove all markers"]]              [list gui::remove_all_markers {}]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Create marker at current line"]]   [list gui::create_current_marker]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove marker from current line"]] [list gui::remove_current_marker]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove all markers"]]              [list gui::remove_all_markers]
 
   }
 
@@ -1989,24 +1989,24 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Select Previous Occurrence"] -state normal
       $mb entryconfigure [msgcat::mc "Append Next Occurrence"]     -state normal
       $mb entryconfigure [msgcat::mc "Select All Occurrences"]     -state normal
-      if {[gui::jump_to_cursor {} -1 0]} {
+      if {[gui::jump_to_cursor -1 0]} {
         $mb entryconfigure [msgcat::mc "Jump Backward"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Jump Backward"] -state disabled
       }
-      if {[gui::jump_to_cursor {} 1 0]} {
+      if {[gui::jump_to_cursor 1 0]} {
         $mb entryconfigure [msgcat::mc "Jump Forward"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Jump Forward"] -state disabled
       }
-      if {[gui::jump_to_difference {} 1 0]} {
+      if {[gui::jump_to_difference 1 0]} {
         $mb entryconfigure [msgcat::mc "Next Difference"]     -state normal
         $mb entryconfigure [msgcat::mc "Previous Difference"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Next Difference"]     -state disabled
         $mb entryconfigure [msgcat::mc "Previous Difference"] -state disabled
       }
-      if {[gui::show_difference_line_change {} 0]} {
+      if {[gui::show_difference_line_change 0]} {
         $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state disabled
@@ -2035,10 +2035,10 @@ namespace eval menus {
     $mb delete 0 end
 
     # Populate the markerPopup menu
-    $mb add command -label [msgcat::mc "Create at Current Line"]   -underline 0 -command [list gui::create_current_marker {}]
+    $mb add command -label [msgcat::mc "Create at Current Line"]   -underline 0 -command [list gui::create_current_marker]
     $mb add separator
-    $mb add command -label [msgcat::mc "Remove From Current Line"] -underline 0 -command [list gui::remove_current_marker {}]
-    $mb add command -label [msgcat::mc "Remove All Markers"]       -underline 7 -command [list gui::remove_all_markers {}]
+    $mb add command -label [msgcat::mc "Remove From Current Line"] -underline 0 -command [list gui::remove_current_marker]
+    $mb add command -label [msgcat::mc "Remove All Markers"]       -underline 7 -command [list gui::remove_all_markers]
 
     if {[llength [set markers [gui::get_marker_list]]] > 0} {
       $mb add separator
@@ -2055,7 +2055,7 @@ namespace eval menus {
   # text widget.
   proc find_next_command {app} {
 
-    search::find_next [gui::current_txt {}] $app
+    search::find_next [gui::current_txt] $app
 
   }
 
@@ -2064,7 +2064,7 @@ namespace eval menus {
   # current text widget.
   proc find_prev_command {app} {
 
-    search::find_prev [gui::current_txt {}] $app
+    search::find_prev [gui::current_txt] $app
 
   }
 
@@ -2073,7 +2073,7 @@ namespace eval menus {
   # text widget and adds it to the selection.
   proc find_all_command {} {
 
-    search::find_all [gui::current_txt {}]
+    search::find_all [gui::current_txt]
 
   }
 
@@ -2085,7 +2085,7 @@ namespace eval menus {
 
     # Get the line number from the user
     if {[gui::get_user_response [format "%s:" [msgcat::mc "Line Number"]] linenum 0] && [string is integer $linenum]} {
-      edit::jump_to_line [gui::current_txt {}].t $linenum.0
+      edit::jump_to_line [gui::current_txt].t $linenum.0
     }
 
   }
@@ -2161,11 +2161,11 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command [list gui::toggle_split_pane {}]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle split view mode"]] [list gui::toggle_split_pane {}]
+    $mb add checkbutton -label [msgcat::mc "Split View"] -underline 6 -variable menus::show_split_pane -command [list gui::toggle_split_pane]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle split view mode"]] [list gui::toggle_split_pane]
 
-    $mb add checkbutton -label [msgcat::mc "Bird's Eye View"] -underline 0 -variable menus::show_birdseye -command [list gui::toggle_birdseye {}]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle bird's eye view mode"]] [list gui::toggle_birdseye {}]
+    $mb add checkbutton -label [msgcat::mc "Bird's Eye View"] -underline 0 -variable menus::show_birdseye -command [list gui::toggle_birdseye]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Toggle bird's eye view mode"]] [list gui::toggle_birdseye]
 
     $mb add command -label [msgcat::mc "Move to Other Pane"] -underline 0 -command [list gui::move_to_pane]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Move to other pane"]] [list gui::move_to_pane]
@@ -2225,8 +2225,8 @@ namespace eval menus {
 
     $mb.tabPopup add separator
 
-    $mb.tabPopup add command -label [msgcat::mc "Hide Current Tab"] -underline 5 -command [list gui::hide_current {}]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide Current Tab"]] [list gui::hide_current {}]
+    $mb.tabPopup add command -label [msgcat::mc "Hide Current Tab"] -underline 5 -command [list gui::hide_current]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide Current Tab"]] [list gui::hide_current]
 
     $mb.tabPopup add command -label [msgcat::mc "Hide All Tabs"] -underline 5 -command [list gui::hide_all]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Hide All Tabs"]] [list gui::hide_all]
@@ -2337,7 +2337,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Panes"] -state normal
     }
 
-    if {[gui::current_txt {}] eq ""} {
+    if {[gui::current_txt] eq ""} {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]    -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]    -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Line Numbering"]       -state disabled }
@@ -2357,14 +2357,14 @@ namespace eval menus {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Line Numbering"]     -state normal }
-      if {[markers::exist [gui::current_txt {}]]} {
+      if {[markers::exist [gui::current_txt]]} {
         catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state normal }
         catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state normal }
       } else {
         catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state disabled }
         catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state disabled }
       }
-      if {[syntax::contains_meta_chars [gui::current_txt {}]]} {
+      if {[syntax::contains_meta_chars [gui::current_txt]]} {
         catch { $mb entryconfigure [msgcat::mc "Show Meta Characters"] -state normal }
         catch { $mb entryconfigure [msgcat::mc "Hide Meta Characters"] -state normal }
       } else {
@@ -2389,7 +2389,7 @@ namespace eval menus {
     }
 
     # Get the current line numbering
-    set line_numbering [[gui::current_txt {}] cget -linemap_type]
+    set line_numbering [[gui::current_txt] cget -linemap_type]
 
   }
 
@@ -2426,7 +2426,7 @@ namespace eval menus {
     variable code_folding
 
     # Get the current text widget
-    set txt          [gui::current_txt {}]
+    set txt          [gui::current_txt]
     set state        [folding::fold_state $txt [lindex [split [$txt index insert] .] 0]]
     set code_folding [folding::get_enable $txt]
     set sel_state    [expr {([$txt tag ranges sel] ne "") ? "normal" : "disabled"}]
@@ -2554,7 +2554,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Show Line Numbers"] -label [msgcat::mc "Hide Line Numbers"] -command "menus::hide_line_numbers $mb"}]} {
-      gui::set_line_number_view {} 1
+      gui::set_line_number_view 1
     }
 
   }
@@ -2565,7 +2565,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Line Numbers"] -label [msgcat::mc "Show Line Numbers"] -command "menus::show_line_numbers $mb"}]} {
-      gui::set_line_number_view {} 0
+      gui::set_line_number_view 0
     }
 
   }
@@ -2575,7 +2575,7 @@ namespace eval menus {
   # 'absolute' or 'relative'.
   proc set_line_numbering {type} {
 
-    [gui::current_txt {}] configure -linemap_type $type
+    [gui::current_txt] configure -linemap_type $type
 
   }
 
@@ -2585,7 +2585,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide marker map command
     if {![catch {$mb entryconfigure [msgcat::mc "Show Marker Map"] -label [msgcat::mc "Hide Marker Map"] -command "menus::hide_marker_map $mb"}]} {
-      [winfo parent [gui::current_txt {}]].vb configure -markhide1 0
+      [winfo parent [gui::current_txt]].vb configure -markhide1 0
     }
 
   }
@@ -2596,7 +2596,7 @@ namespace eval menus {
 
     # Convert the menu command into the show marker map command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Marker Map"] -label [msgcat::mc "Show Marker Map"] -command "menus::show_marker_map $mb"}]} {
-      [winfo parent [gui::current_txt {}]].vb configure -markhide1 1
+      [winfo parent [gui::current_txt]].vb configure -markhide1 1
     }
 
   }
@@ -2607,7 +2607,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Show Meta Characters"] -label [msgcat::mc "Hide Meta Characters"] -command "menus::hide_meta_chars $mb"}]} {
-      syntax::set_meta_visibility [gui::current_txt {}] 1
+      syntax::set_meta_visibility [gui::current_txt] 1
     }
 
   }
@@ -2618,7 +2618,7 @@ namespace eval menus {
 
     # Convert the menu command into the hide line numbers command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Meta Characters"] -label [msgcat::mc "Show Meta Characters"] -command "menus::show_meta_chars $mb"}]} {
-      syntax::set_meta_visibility [gui::current_txt {}] 0
+      syntax::set_meta_visibility [gui::current_txt] 0
     }
 
   }
@@ -2627,7 +2627,7 @@ namespace eval menus {
   # Display the line and character counts in the information bar.
   proc display_text_info {} {
 
-    gui::display_file_counts [gui::current_txt {}].t
+    gui::display_file_counts [gui::current_txt].t
 
   }
 
@@ -2648,7 +2648,7 @@ namespace eval menus {
     variable code_folding
 
     # Get the current text widget
-    set txt [gui::current_txt {}]
+    set txt [gui::current_txt]
 
     # Set the fold enable value
     if {$value eq ""} {
@@ -2663,7 +2663,7 @@ namespace eval menus {
   # Create a fold for the selected code and close the fold.
   proc add_fold_from_selection {} {
 
-    folding::close_selected [gui::current_txt {}]
+    folding::close_selected [gui::current_txt]
 
   }
 
@@ -2674,7 +2674,7 @@ namespace eval menus {
   #  - all      (deletes all folds)
   proc delete_folds {type} {
 
-    set txt [gui::current_txt {}]
+    set txt [gui::current_txt]
 
     switch $type {
       current  { folding::delete_fold $txt [lindex [split [$txt index insert] .] 0] }
@@ -2698,7 +2698,7 @@ namespace eval menus {
   #  - all      (closes all folds)
   proc close_folds {type {depth 0}} {
 
-    set txt [gui::current_txt {}]
+    set txt [gui::current_txt]
 
     switch $type {
       current  { folding::close_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
@@ -2722,7 +2722,7 @@ namespace eval menus {
   #  - all      (opens all folds)
   proc open_folds {type {depth 0}} {
 
-    set txt [gui::current_txt {}]
+    set txt [gui::current_txt]
 
     switch $type {
       current  { folding::open_fold $depth $txt [lindex [split [$txt index insert] .] 0] }
@@ -2744,7 +2744,7 @@ namespace eval menus {
   # cursor position.
   proc jump_to_fold {dir} {
 
-    folding::jump_to [gui::current_txt {}] $dir
+    folding::jump_to [gui::current_txt] $dir
 
   }
 

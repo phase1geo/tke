@@ -49,10 +49,10 @@ namespace eval snippets {
 
   ######################################################################
   # Reloads the current snippet.
-  proc reload_snippets {tid} {
+  proc reload_snippets {} {
 
     # Get the current language
-    set language [syntax::get_language [gui::current_txt $tid]]
+    set language [syntax::get_language [gui::current_txt]]
 
     # Reload the snippet file for the current language
     set_language $language
@@ -294,9 +294,9 @@ namespace eval snippets {
   ######################################################################
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
-  proc insert_snippet_into_current {tid snippet {delrange ""}} {
+  proc insert_snippet_into_current {snippet {delrange ""}} {
 
-    insert_snippet [gui::current_txt $tid].t $snippet -delrange $delrange
+    insert_snippet [gui::current_txt].t $snippet -delrange $delrange
 
   }
 
@@ -472,7 +472,7 @@ namespace eval snippets {
     variable snippets
 
     set names [list]
-    set lang  [[ns utils]::get_current_lang [[ns gui]::current_txt {}]]
+    set lang  [[ns utils]::get_current_lang [[ns gui]::current_txt]]
 
     foreach type [list user $lang] {
       foreach name [array names snippets $type,*] {
@@ -494,7 +494,7 @@ namespace eval snippets {
     foreach snippet [get_current_snippets] {
       lassign $snippet name value
       launcher::register_temp "`SNIPPET:$name" \
-        [list [ns snippets]::insert_snippet_into_current {} $value] \
+        [list [ns snippets]::insert_snippet_into_current $value] \
         $name $i [list snippets::add_detail $value]
       incr i
     }
