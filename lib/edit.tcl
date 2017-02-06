@@ -25,8 +25,6 @@
 
 namespace eval edit {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   array set patterns {
     nnumber {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
     pnumber {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
@@ -39,11 +37,11 @@ namespace eval edit {
   proc insert_line_above_current {txtt} {
 
     # If we are operating in Vim mode,
-    [ns vim]::edit_mode $txtt
+    vim::edit_mode $txtt
 
     # Create the new line
-    if {[[ns multicursor]::enabled $txtt]} {
-      [ns multicursor]::adjust $txtt "-1l" 1 dspace
+    if {[multicursor::enabled $txtt]} {
+      multicursor::adjust $txtt "-1l" 1 dspace
     } elseif {[$txtt compare "insert linestart" == 1.0]} {
       $txtt insert "insert linestart" "\n"
       ::tk::TextSetCursor $txtt "insert-1l"
@@ -53,13 +51,13 @@ namespace eval edit {
     }
 
     # Perform the proper indentation
-    [ns indent]::newline $txtt insert 1
+    indent::newline $txtt insert 1
 
     # Start recording
-    [ns vim]::record_start
+    vim::record_start
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -68,14 +66,14 @@ namespace eval edit {
   proc insert_line_below_current {txtt} {
 
     # If we are operating in Vim mode, switch to edit mode
-    [ns vim]::edit_mode $txtt
+    vim::edit_mode $txtt
 
     # Get the current insertion point
     set insert [$txtt index insert]
 
     # Add the line(s)
-    if {[[ns multicursor]::enabled $txtt]} {
-      [ns multicursor]::adjust $txtt "+1l" 1 dspace
+    if {[multicursor::enabled $txtt]} {
+      multicursor::adjust $txtt "+1l" 1 dspace
     } else {
       ::tk::TextSetCursor $txtt "insert lineend"
       $txtt insert "insert lineend" "\n"
@@ -88,13 +86,13 @@ namespace eval edit {
     $txtt see insert
 
     # Perform the proper indentation
-    [ns indent]::newline $txtt insert 1
+    indent::newline $txtt insert 1
 
     # Start recording
-    [ns vim]::record_start
+    vim::record_start
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -115,10 +113,10 @@ namespace eval edit {
     $txt insert "insert lineend" "\n$contents"
 
     # Adjust the insertion point, if necessary
-    [ns vim]::adjust_insert $txt
+    vim::adjust_insert $txt
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -156,10 +154,10 @@ namespace eval edit {
     move_cursor $txtt firstword
 
     # Adjust the insertion cursor
-    [ns vim]::adjust_insert $txtt
+    vim::adjust_insert $txtt
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -180,7 +178,7 @@ namespace eval edit {
     }
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -189,8 +187,8 @@ namespace eval edit {
   proc delete_to_end {txtt} {
 
     # Delete from the current cursor to the end of the line
-    if {[[ns multicursor]::enabled $txtt]} {
-      [ns multicursor]::delete $txtt "lineend"
+    if {[multicursor::enabled $txtt]} {
+      multicursor::delete $txtt "lineend"
     } else {
       clipboard clear
       clipboard append [$txtt get insert "insert lineend"]
@@ -198,7 +196,7 @@ namespace eval edit {
     }
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -207,8 +205,8 @@ namespace eval edit {
   proc delete_from_start {txtt} {
 
     # Delete from the beginning of the line to just before the current cursor
-    if {[[ns multicursor]::enabled $txtt]} {
-      [ns multicursor]::delete $txtt "linestart"
+    if {[multicursor::enabled $txtt]} {
+      multicursor::delete $txtt "linestart"
     } else {
       clipboard clear
       clipboard append [$txtt get "insert linestart" insert]
@@ -216,7 +214,7 @@ namespace eval edit {
     }
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -226,9 +224,9 @@ namespace eval edit {
 
     variable patterns
 
-    if {[[ns multicursor]::enabled $txtt]} {
+    if {[multicursor::enabled $txtt]} {
       foreach key [list pnumber nnumber] {
-        [ns multicursor]::delete $txtt pattern $patterns($key)
+        multicursor::delete $txtt pattern $patterns($key)
       }
     } else {
       set first 1
@@ -251,7 +249,7 @@ namespace eval edit {
     }
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -263,13 +261,13 @@ namespace eval edit {
     variable patterns
 
     if {[multicursor::enabled $txtt]} {
-      [ns multicursor]::delete $txtt pattern $patterns(nspace)
+      multicursor::delete $txtt pattern $patterns(nspace)
     } elseif {[regexp $patterns(nspace) [$txtt get insert "insert lineend"] match]} {
       $txtt delete insert "insert+[string length $match]c"
     }
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -281,13 +279,13 @@ namespace eval edit {
     variable patterns
 
     if {[multicursor::enabled $txtt]} {
-      [ns multicursor]::delete $txtt pattern $patterns(pspace)
+      multicursor::delete $txtt pattern $patterns(pspace)
     } elseif {[regexp $patterns(pspace) [$txtt get "insert linestart" insert] match]} {
       $txtt delete "insert-[string length $match]c" insert
     }
 
     # Check the brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -338,12 +336,12 @@ namespace eval edit {
 
     # Get the matching character
     if {[info exists pairs($endchar)]} {
-      if {[set start_index [[ns gui]::find_match_pair $txtt $pairs($endchar) \\$endchar -backwards]] != -1} {
-        set retval [expr {[set end_index [[ns gui]::find_match_pair $txtt \\$endchar $pairs($endchar) -forwards]] != -1}]
+      if {[set start_index [gui::find_match_pair $txtt $pairs($endchar) \\$endchar -backwards]] != -1} {
+        set retval [expr {[set end_index [gui::find_match_pair $txtt \\$endchar $pairs($endchar) -forwards]] != -1}]
       }
     } else {
-      if {[set start_index [[ns gui]::find_match_char $txtt $endchar -backwards]] != -1} {
-        set retval [expr {[set end_index [[ns gui]::find_match_char $txtt $endchar -forwards]] != -1}]
+      if {[set start_index [gui::find_match_char $txtt $endchar -backwards]] != -1} {
+        set retval [expr {[set end_index [gui::find_match_char $txtt $endchar -forwards]] != -1}]
       }
     }
 
@@ -361,7 +359,7 @@ namespace eval edit {
       clipboard clear
       clipboard append [$txtt get $start_index+1c $end_index]
       $txtt delete $start_index+1c $end_index
-      [ns completer]::check_all_brackets $txtt
+      completer::check_all_brackets $txtt
       return 1
     }
 
@@ -378,8 +376,8 @@ namespace eval edit {
       $txtt tag remove sel 1.0 end
       ::tk::TextSetCursor $txtt $end_index
       $txtt tag add sel $start_index+1c $end_index
-      [ns vim]::set_select_anchor $txtt $start_index+1c
-      [ns completer]::check_all_brackets $txtt
+      vim::set_select_anchor $txtt $start_index+1c
+      completer::check_all_brackets $txtt
       return 1
     }
 
@@ -393,7 +391,7 @@ namespace eval edit {
   proc format_between_char {txtt char} {
 
     if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
-      [ns indent]::format_text $txtt $start_index+1c $end_index
+      indent::format_text $txtt $start_index+1c $end_index
       return 1
     }
 
@@ -608,7 +606,7 @@ namespace eval edit {
 
     }
 
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -640,7 +638,7 @@ namespace eval edit {
     # Create undo separator
     $txtt edit separator
 
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -670,7 +668,7 @@ namespace eval edit {
     $txtt edit separator
 
     # Highlight brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -682,16 +680,16 @@ namespace eval edit {
   proc save_selection {txt from to overwrite fname} {
 
     if {!$overwrite && [file exists $fname]} {
-      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
+      gui::set_info_message [format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
       return 0
     } else {
       if {[catch { open $fname w } rc]} {
-        [ns gui]::set_info_message [format "%s %s" [msgcat::mc "Unable to write"] $fname]
+        gui::set_info_message [format "%s %s" [msgcat::mc "Unable to write"] $fname]
         return 0
       } else {
         puts $rc [$txt get $from $to]
         close $rc
-        [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
+        gui::set_info_message [format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
       }
     }
 
@@ -744,7 +742,7 @@ namespace eval edit {
     $txt edit separator
 
     # Highlight brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -786,7 +784,7 @@ namespace eval edit {
     $txt edit separator
 
     # Highlight brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -859,7 +857,7 @@ namespace eval edit {
     $txt edit separator
 
     # Highlight brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -889,7 +887,7 @@ namespace eval edit {
     }
 
     # Highlight brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
     return $retval
 
@@ -904,7 +902,7 @@ namespace eval edit {
     $txtt edit separator
 
     # Get the indent spacing
-    set indent_str [string repeat " " [[ns indent]::get_shiftwidth $txtt]]
+    set indent_str [string repeat " " [indent::get_shiftwidth $txtt]]
 
     # Get the selection ranges
     if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
@@ -938,7 +936,7 @@ namespace eval edit {
     $txtt edit separator
 
     # Get the indent spacing
-    set unindent_str [string repeat " " [[ns indent]::get_shiftwidth $txtt]]
+    set unindent_str [string repeat " " [indent::get_shiftwidth $txtt]]
     set unindent_len [string length $unindent_str]
 
     # Get the selection ranges
@@ -985,7 +983,7 @@ namespace eval edit {
     $txt replace "insert linestart" "insert lineend" $rc
 
     # Highlight brackets
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -1032,7 +1030,7 @@ namespace eval edit {
     ::tk::TextSetCursor $txt $linenum
 
     # Adjust the insertion cursor
-    [ns vim]::adjust_insert $txt
+    vim::adjust_insert $txt
 
   }
 
@@ -1167,7 +1165,7 @@ namespace eval edit {
     ::tk::TextSetCursor $txtt $index
 
     # Adjust the insertion cursor in Vim mode
-    [ns vim]::adjust_insert $txtt
+    vim::adjust_insert $txtt
 
   }
 
@@ -1181,7 +1179,7 @@ namespace eval edit {
     eval [string map {%W $txtt} [bind Text <[string totitle $dir]>]]
 
     # Adjust the insertion cursor in Vim mode
-    [ns vim]::adjust_insert $txtt
+    vim::adjust_insert $txtt
 
   }
 
@@ -1193,7 +1191,7 @@ namespace eval edit {
     $txtt tag remove sel 1.0 end
 
     # Adjust the cursors
-    [ns multicursor]::adjust $txtt $modifier
+    multicursor::adjust $txtt $modifier
 
   }
 

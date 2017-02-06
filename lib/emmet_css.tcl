@@ -24,8 +24,6 @@
 
 namespace eval emmet_css {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   array set lookup {
     pos        {{position}                   {{|relative}}}
     pos:s      {{position}                   {static}}
@@ -892,9 +890,9 @@ namespace eval emmet_css {
           set val $value
           if {($property eq "") || ![info exists unitless($property)]} {
             if {$type eq "number"} {
-              set suffix [[ns preferences]::get {Emmet/CSSIntUnit}]
+              set suffix [preferences::get {Emmet/CSSIntUnit}]
             } else {
-              set suffix [[ns preferences]::get {Emmet/CSSFloatUnit}]
+              set suffix [preferences::get {Emmet/CSSFloatUnit}]
             }
             set suffix_needed 1
           } else {
@@ -931,7 +929,7 @@ namespace eval emmet_css {
           } elseif {[info exists lookup($value)]} {
             lassign $lookup($value) property values
             set prefix_list [get_prefix_list $property $hyphen]
-          } elseif {[[ns preferences]::get {Emmet/CSSFuzzySearch}] && \
+          } elseif {[preferences::get {Emmet/CSSFuzzySearch}] && \
                     [set tmp [lsearch -glob -inline [lsort [array names lookup]] [join [split $value {}] *]]] ne ""} {
             lassign $lookup($tmp) property values
             set prefix_list [get_prefix_list $property $hyphen]
@@ -952,11 +950,11 @@ namespace eval emmet_css {
             }
             set suffix_needed 0
           }
-          switch [string tolower [[ns preferences]::get {Emmet/CSSColorCase}]] {
+          switch [string tolower [preferences::get {Emmet/CSSColorCase}]] {
             upper { set value [string toupper $value] }
             lower { set value [string tolower $value] }
           }
-          if {[[ns preferences]::get {Emmet/CSSColorShort}]} {
+          if {[preferences::get {Emmet/CSSColorShort}]} {
             set value [shorten_color $value]
           }
           if {$property ne ""} {
@@ -998,8 +996,8 @@ namespace eval emmet_css {
         incr index
       }
       set lines     [list]
-      set endstr    [[ns preferences]::get {Emmet/CSSPropertyEnd}]
-      set separator [[ns preferences]::get {Emmet/CSSValueSeparator}]
+      set endstr    [preferences::get {Emmet/CSSPropertyEnd}]
+      set separator [preferences::get {Emmet/CSSValueSeparator}]
       lappend prefix_list ""
       foreach prefix $prefix_list {
         lappend lines "$prefix$property$separator$values$endstr"
@@ -1032,13 +1030,13 @@ namespace eval emmet_css {
 
     set prefix_list [list]
 
-    if {[[ns preferences]::get {Emmet/CSSAutoInsertVendorPrefixes}] || $hyphen} {
+    if {[preferences::get {Emmet/CSSAutoInsertVendorPrefixes}] || $hyphen} {
 
       # Get the override values from preferences
-      set overrides(w) [[ns preferences]::get {Emmet/CSSWebkitPropertiesAddon}]
-      set overrides(m) [[ns preferences]::get {Emmet/CSSMozPropertiesAddon}]
-      set overrides(s) [[ns preferences]::get {Emmet/CSSMSPropertiesAddon}]
-      set overrides(o) [[ns preferences]::get {Emmet/CSSOPropertiesAddon}]
+      set overrides(w) [preferences::get {Emmet/CSSWebkitPropertiesAddon}]
+      set overrides(m) [preferences::get {Emmet/CSSMozPropertiesAddon}]
+      set overrides(s) [preferences::get {Emmet/CSSMSPropertiesAddon}]
+      set overrides(o) [preferences::get {Emmet/CSSOPropertiesAddon}]
 
       # If the value is in vender_props and its not removed via preferences
       if {[info exists vendor_props($property)]} {

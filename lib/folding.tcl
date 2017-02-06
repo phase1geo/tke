@@ -24,8 +24,6 @@
 
 namespace eval folding {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   array set enable {}
 
   ######################################################################
@@ -46,10 +44,10 @@ namespace eval folding {
     variable enable
 
     if {[info exists enable($txt)] && $enable($txt)} {
-      switch [[ns indent]::get_indent_mode $txt] {
+      switch [indent::get_indent_mode $txt] {
         "OFF"   { return "manual" }
         "IND"   { return "indent" }
-        "IND+"  { return [expr {[[ns indent]::is_auto_indent_available $txt] ? "syntax" : "indent"}] }
+        "IND+"  { return [expr {[indent::is_auto_indent_available $txt] ? "syntax" : "indent"}] }
         default { return "none" }
       }
     } else {
@@ -84,7 +82,7 @@ namespace eval folding {
   proc initialize {txt} {
 
     # Set the fold enable
-    set_fold_enable $txt [[ns preferences]::get View/EnableCodeFolding]
+    set_fold_enable $txt [preferences::get View/EnableCodeFolding]
 
   }
 
@@ -121,10 +119,10 @@ namespace eval folding {
 
     # Add the folding gutter
     $txt gutter create folding \
-      open   [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
-      close  [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
-      eopen  [list -symbol \u25be -onclick [list [ns folding]::close_fold 1] -onshiftclick [list [ns folding]::close_fold 0]] \
-      eclose [list -symbol \u25b8 -onclick [list [ns folding]::open_fold  1] -onshiftclick [list [ns folding]::open_fold  0]] \
+      open   [list -symbol \u25be -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
+      close  [list -symbol \u25b8 -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
+      eopen  [list -symbol \u25be -onclick [list folding::close_fold 1] -onshiftclick [list folding::close_fold 0]] \
+      eclose [list -symbol \u25b8 -onclick [list folding::open_fold  1] -onshiftclick [list folding::open_fold  0]] \
       end    [list -symbol \u221f]
 
     # Restart the folding
@@ -199,8 +197,8 @@ namespace eval folding {
 
     switch [get_method $txt] {
       syntax {
-        set indent_cnt   [[ns indent]::get_tag_count $txt.t indent   $line.0 $line.end]
-        set unindent_cnt [[ns indent]::get_tag_count $txt.t unindent $line.0 $line.end]
+        set indent_cnt   [indent::get_tag_count $txt.t indent   $line.0 $line.end]
+        set unindent_cnt [indent::get_tag_count $txt.t unindent $line.0 $line.end]
       }
       indent {
         if {[lsearch [$txt tag names $line.0] _prewhite] != -1} {
@@ -628,7 +626,7 @@ namespace eval folding {
         }
       }
       ::tk::TextSetCursor $txt [lindex $data $index].0
-      [ns vim]::adjust_insert $txt.t
+      vim::adjust_insert $txt.t
     }
 
   }

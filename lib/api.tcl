@@ -24,8 +24,6 @@
 
 namespace eval api {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   ######################################################################
   ## \return Returns true if we are doing tke_development.
   proc tke_development {interp pname} {
@@ -196,7 +194,7 @@ namespace eval api {
     if {$txtt eq ""} {
       after idle [list gui::set_txt_focus [gui::last_txt_focus]]
     } else {
-      [ns gui]::get_info [winfo parent $txtt] txt tabbar tab
+      gui::get_info [winfo parent $txtt] txt tabbar tab
       after idle [list gui::set_current_tab $tabbar $tab]
     }
 
