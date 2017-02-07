@@ -24,8 +24,6 @@
 
 namespace eval syntax {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable filetypes    {}
   variable current_lang [msgcat::mc "None"]
   variable assoc_file
@@ -73,7 +71,7 @@ namespace eval syntax {
     variable assoc_file
 
     # Load the tke_dir syntax files
-    set sfiles [[ns utils]::glob_install [file join $::tke_dir data syntax] *.syntax]
+    set sfiles [utils::glob_install [file join $::tke_dir data syntax] *.syntax]
 
     # Load the tke_home syntax files
     set sfiles [concat $sfiles [glob -nocomplain -directory [file join $::tke_home syntax] *.syntax]]
@@ -132,7 +130,7 @@ namespace eval syntax {
 
       # Add the language and the command launcher
       set langs($name) [array get lang_array]
-      [ns launcher]::register [format "%s: %s" [msgcat::mc "Syntax"] $name] [list [ns syntax]::set_current_language $name]
+      launcher::register [format "%s: %s" [msgcat::mc "Syntax"] $name] [list syntax::set_current_language $name]
 
     }
 
@@ -157,7 +155,7 @@ namespace eval syntax {
     unset langs($name)
 
     # Unregister the language with the launcher
-    [ns launcher]::unregister [format "%s: %s" [msgcat::mc "Syntax"] $name]
+    launcher::unregister [format "%s: %s" [msgcat::mc "Syntax"] $name]
 
   }
 
@@ -178,7 +176,7 @@ namespace eval syntax {
     variable langs
 
     # Get the list of disabled languages
-    set dis_langs [[ns preferences]::get General/DisabledLanguages]
+    set dis_langs [preferences::get General/DisabledLanguages]
 
     # If we don't have any disabled languages, just return the full list
     if {[llength $dis_langs] == 0} {
@@ -215,7 +213,7 @@ namespace eval syntax {
     }
 
     # Get the list of extension overrides
-    array set overrides [[ns preferences]::get {General/LanguagePatternOverrides}]
+    array set overrides [preferences::get {General/LanguagePatternOverrides}]
 
     foreach lang [array names langs] {
       array set lang_array $langs($lang)
@@ -286,7 +284,7 @@ namespace eval syntax {
   proc set_current_language {language args} {
 
     # Get information about the current tab
-    [ns gui]::get_info {} current txt fname
+    gui::get_info {} current txt fname
 
     # Save the directory, extension and selected language
     if {$fname ne "Untitled"} {
@@ -297,7 +295,7 @@ namespace eval syntax {
     set_language $txt $language {*}$args
 
     # Set the focus back to the text editor
-    [ns gui]::set_txt_focus [[ns gui]::last_txt_focus]
+    gui::set_txt_focus [gui::last_txt_focus]
 
   }
 
@@ -318,7 +316,7 @@ namespace eval syntax {
     array set opts $args
 
     # Get the current syntax theme
-    array set theme [[ns theme]::get_syntax_colors]
+    array set theme [theme::get_syntax_colors]
 
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
@@ -342,14 +340,14 @@ namespace eval syntax {
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground)
 
     # Set the bird's eye text widget
-    [ns gui]::get_info $txt txt beye
+    gui::get_info $txt txt beye
     if {[winfo exists $beye]} {
       $beye configure -background $theme(background) -foreground $theme(foreground) \
-        -inactiveselectbackground [[ns utils]::auto_adjust_color $theme(background) 25]
+        -inactiveselectbackground [utils::auto_adjust_color $theme(background) 25]
     }
 
     # Set default indent/unindent strings
-    [ns indent]::set_indent_expressions $txt.t {} {} {}
+    indent::set_indent_expressions $txt.t {} {} {}
 
     # Apply the new syntax highlighting syntax, if one exists for the given language
     if {[info exists langs($language)]} {
@@ -416,11 +414,11 @@ namespace eval syntax {
         ctext::addHighlightKeywords $txt FIXME class fixme
 
         # Set the indent/unindent regular expressions
-        [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 0
+        indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 0
 
         # Set the completer options for the given language
         ctext::setAutoMatchChars $txt {} $lang_array(matchcharsallowed)
-        [ns completer]::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
+        completer::set_auto_match_chars $txt.t {} $lang_array(matchcharsallowed)
 
         foreach embedded $lang_array(embedded) {
           lassign $embedded sublang embed_start embed_end
@@ -433,10 +431,10 @@ namespace eval syntax {
         }
 
         # Set the snippets for the current text widget
-        [ns snippets]::set_language $language
+        snippets::set_language $language
 
       } rc]} {
-        [ns gui]::set_error_message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] $rc
+        gui::set_error_message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] $rc
         puts $::errorInfo
       }
 
@@ -448,16 +446,16 @@ namespace eval syntax {
     # Re-highlight
     if {$opts(-highlight)} {
       $txt highlight 1.0 end
-      [ns folding]::restart $txt
-      [ns completer]::check_all_brackets $txt.t
+      folding::restart $txt
+      completer::check_all_brackets $txt.t
     }
 
     # Generate a <<ThemeChanged>> event on the text widget
     event generate $txt.t <<ThemeChanged>>
 
     # Set the menubutton text
-    if {[info exists [ns gui]::widgets(info_syntax)]} {
-      [set [ns gui]::widgets(info_syntax)] configure -text $language
+    if {[info exists gui::widgets(info_syntax)]} {
+      [set gui::widgets(info_syntax)] configure -text $language
     }
 
   }
@@ -496,7 +494,7 @@ namespace eval syntax {
     if {$embed_start ne ""} {
 
       # Get the current syntax theme
-      array set theme [[ns theme]::get_syntax_colors]
+      array set theme [theme::get_syntax_colors]
 
       # Add the rest of the sections
       set_language_section $txt numbers    $lang_array(numbers) $language
@@ -522,14 +520,14 @@ namespace eval syntax {
       ctext::addHighlightKeywords $txt FIXME class fixme $language
 
       # Set the indent/unindent regular expressions
-      [ns indent]::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 1
+      indent::set_indent_expressions $txt.t $lang_array(indent) $lang_array(unindent) $lang_array(reindent) 1
 
       # Set the completer options for the given language
       ctext::setAutoMatchChars $txt $language $lang_array(matchcharsallowed)
-      [ns completer]::set_auto_match_chars $txt.t $language $lang_array(matchcharsallowed)
+      completer::set_auto_match_chars $txt.t $language $lang_array(matchcharsallowed)
 
       # Set the snippets for the current text widget
-      [ns snippets]::set_language $language
+      snippets::set_language $language
 
     }
 
@@ -551,7 +549,7 @@ namespace eval syntax {
     variable meta_tags
 
     # Get the current syntax theme
-    array set theme [[ns theme]::get_syntax_colors]
+    array set theme [theme::get_syntax_colors]
 
     switch $section {
       "advanced" -
@@ -716,7 +714,7 @@ namespace eval syntax {
     set mnu [menu ${w}Menu -tearoff 0]
 
     # Populate the syntax menu
-    populate_syntax_menu $mnu [ns syntax]::set_current_language [ns syntax]::current_lang [msgcat::mc "None"]
+    populate_syntax_menu $mnu syntax::set_current_language syntax::current_lang [msgcat::mc "None"]
 
     return $mnu
 
@@ -730,7 +728,7 @@ namespace eval syntax {
     variable current_lang
 
     # Get the current language
-    set current_lang $curr_lang([[ns gui]::current_txt])
+    set current_lang $curr_lang([gui::current_txt])
 
     # Configures the current language for the specified text widget
     $w configure -text $current_lang
@@ -783,7 +781,7 @@ namespace eval syntax {
     variable curr_lang
 
     if {$language eq ""} {
-      set language $curr_lang([[ns gui]::current_txt])
+      set language $curr_lang([gui::current_txt])
     }
 
     # Get the current language

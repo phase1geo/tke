@@ -24,8 +24,6 @@
 
 namespace eval share {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable last_directory ""
   variable last_items     [list]
 
@@ -102,11 +100,11 @@ namespace eval share {
     # Indicate the new directory to all sharing items
     if {$data(ShareDirectory) ne ""} {
       foreach {type nspace name} [get_share_items] {
-        [ns $nspace]::share_changed [expr {([lsearch $data(ShareItems) $type] != -1) ? $data(ShareDirectory) : $::tke_home}]
+        $nspace::share_changed [expr {([lsearch $data(ShareItems) $type] != -1) ? $data(ShareDirectory) : $::tke_home}]
       }
     } else {
       foreach {type nspace name} [get_share_items] {
-        [ns $nspace]::share_changed $::tke_home
+        $nspace::share_changed $::tke_home
       }
     }
 
@@ -126,7 +124,7 @@ namespace eval share {
 
       # Copy the relevant files to the share directory
       if {[lsearch $share_items $type] != -1} {
-        foreach item [[ns $nspace]::get_share_items $::tke_home] {
+        foreach item [$nspace::get_share_items $::tke_home] {
           set home_item  [file join $::tke_home $item]
           set share_item [file join $share_dir $item]
           if {[file exists $home_item] && ![file exists $share_item]} {
@@ -136,7 +134,7 @@ namespace eval share {
 
       # Otherwise, copy relevant items to home directory if we used to get the items from the share directory
       } elseif {([lsearch $share_items $type] == -1) && ([lsearch $last_items $type] != -1)} {
-        foreach item [[ns $nspace]::get_share_items $share_dir] {
+        foreach item [$nspace::get_share_items $share_dir] {
           set home_item  [file join $::tke_home $item]
           set share_item [file join $share_dir $item]
           if {[file exists $share_item]} {
@@ -165,7 +163,7 @@ namespace eval share {
       set fdir [expr {(($from_dir eq "") || (($from_dir eq $data(ShareDirectory)) && ([lsearch $data(ShareItems) $type] == -1))) ? $::tke_home : $from_dir}]
       set tdir [expr {(($to_dir   eq "") || (($to_dir   eq $data(ShareDirectory)) && ([lsearch $data(ShareItems) $type] == -1))) ? $::tke_home : $to_dir}]
       if {[lsearch $share_items $type] != -1} {
-        foreach item [[ns $nspace]::get_share_items $fdir] {
+        foreach item [$nspace::get_share_items $fdir] {
           if {[file exists [set fname [file join $fdir $item]]]} {
             set tname [file join $tdir $item]
             if {[file exists $tname] && [file isdirectory $tname]} {
@@ -413,7 +411,7 @@ namespace eval share {
     set data(ShareItems)     [list emmet launcher plugins prefs remote sessions snippets templates themes]
 
     # Read in the share data from the file
-    if {![catch { [ns tkedat]::read [file join $::tke_home share.tkedat] } rc]} {
+    if {![catch { tkedat::read [file join $::tke_home share.tkedat] } rc]} {
       array set data $rc
     }
 
@@ -428,7 +426,7 @@ namespace eval share {
 
     variable data
 
-    [ns tkedat]::write [file join $::tke_home share.tkedat] [array get data] 0
+    tkedat::write [file join $::tke_home share.tkedat] [array get data] 0
 
   }
 

@@ -24,8 +24,6 @@
 
 namespace eval utils {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable bin_rx {[\x00-\x08\x0b\x0e-\x1f]}
   variable eol_rx {\r\n|\n|\r}
 
@@ -690,7 +688,7 @@ namespace eval utils {
   proc get_current_lang {txt} {
 
     if {[set lang [ctext::get_lang $txt insert]] eq ""} {
-      set lang [[ns syntax]::get_language $txt]
+      set lang [syntax::get_language $txt]
     }
 
     return $lang

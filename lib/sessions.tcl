@@ -24,8 +24,6 @@
 
 namespace eval sessions {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable user_name    ""
   variable current_name ""
 
@@ -72,7 +70,7 @@ namespace eval sessions {
 
     # If the name has not been specified, ask the user for a name
     if {$name eq ""} {
-      if {[[ns gui]::get_user_response "Session name:" sessions::user_name 0]} {
+      if {[gui::get_user_response "Session name:" sessions::user_name 0]} {
         set name         $user_name
         set names($name) 1
         set current_name $name
@@ -100,7 +98,7 @@ namespace eval sessions {
     } else {
 
       # Get the session information from the UI
-      set content(gui) [[ns gui]::save_session]
+      set content(gui) [gui::save_session]
 
       # Set the session name if we are saving the last
       if {$type eq "last"} {
@@ -111,12 +109,12 @@ namespace eval sessions {
 
     # Get the session information from preferences
     if {($type eq "prefs") || ($type eq "full")} {
-      set content(prefs) [[ns preferences]::save_session $name]
+      set content(prefs) [preferences::save_session $name]
     }
 
     # Get the find information from the UI
     if {($type eq "find") || ($type eq "full") || ($type eq "last")} {
-      set content(find) [[ns search]::save_session]
+      set content(find) [search::save_session]
     }
 
     # Create the session file path
@@ -127,7 +125,7 @@ namespace eval sessions {
     }
 
     # Write the content to the save file
-    catch { [ns tkedat]::write $session_file [array get content] }
+    catch { tkedat::write $session_file [array get content] }
 
     if {$type eq "full"} {
 
@@ -135,13 +133,13 @@ namespace eval sessions {
       set current_name $name
 
       # Update the title
-      [ns gui]::set_title
+      gui::set_title
 
       # Indicate to the user that we successfully saved
-      [ns gui]::set_info_message "Session \"$current_name\" saved"
+      gui::set_info_message "Session \"$current_name\" saved"
 
     } elseif {$type eq "prefs"} {
-      [ns gui]::set_info_message "Session \"$name\" preferences saved"
+      gui::set_info_message "Session \"$name\" preferences saved"
 
     }
 
@@ -177,7 +175,7 @@ namespace eval sessions {
         exec -ignorestderr [info nameofexecutable] $frame(file) -s $name -n &
         return
       }
-    } elseif {($type eq "full") && ![[ns gui]::untitled_check]} {
+    } elseif {($type eq "full") && ![gui::untitled_check]} {
       switch [tk_messageBox -parent . -icon question -default yes -type yesnocancel -message [msgcat::mc "Save session?"] -detail [msgcat::mc "Session state will be lost if not saved"]] {
         yes    { save "full" }
         cancel { return }
@@ -185,27 +183,27 @@ namespace eval sessions {
     }
 
     # Read the information from the session file
-    if {[catch { [ns tkedat]::read $session_file } rc]} {
-      [ns gui]::set_info_message "Unable to load session \"$name\""
+    if {[catch { tkedat::read $session_file } rc]} {
+      gui::set_info_message "Unable to load session \"$name\""
       return
     }
 
     array set content $rc
 
     # Clear the UI
-    [ns gui]::close_all
-    [ns sidebar]::clear
+    gui::close_all
+    sidebar::clear
 
     # Load the GUI session information (provide backward compatibility)
     if {[info exists content(gui)]} {
-      [ns gui]::load_session $content(gui)
+      gui::load_session $content(gui)
     } else {
-      [ns gui]::load_session $rc
+      gui::load_session $rc
     }
 
     # Load the find session information
     if {[info exists content(find)]} {
-      [ns search]::load_session $content(find)
+      search::load_session $content(find)
     }
 
     # Save the current name (provide backward compatibility)
@@ -217,7 +215,7 @@ namespace eval sessions {
 
     # Load the preference session information (provide backward compatibility)
     if {[info exists content(prefs)]} {
-      [ns preferences]::load_session $name $content(prefs)
+      preferences::load_session $name $content(prefs)
     } elseif {$current_name ne ""} {
       load_prefs $current_name
     }
@@ -226,7 +224,7 @@ namespace eval sessions {
     array set current_content [array get content]
 
     # Update the title
-    [ns gui]::set_title
+    gui::set_title
 
   }
 
@@ -240,7 +238,7 @@ namespace eval sessions {
     set session_file [file join $sessions_dir $name.tkedat]
 
     # Read the information from the session file
-    if {[catch { [ns tkedat]::read $session_file } rc]} {
+    if {[catch { tkedat::read $session_file } rc]} {
       return
     }
 
@@ -248,7 +246,7 @@ namespace eval sessions {
 
     # Load the preference session information (provide backward compatibility)
     if {[info exists content(prefs)]} {
-      [ns preferences]::load_session $name $content(prefs)
+      preferences::load_session $name $content(prefs)
     }
 
   }
@@ -261,7 +259,7 @@ namespace eval sessions {
     after idle [list sessions::load full $name 0]
 
     # Raise the window
-    [ns gui]::raise_window
+    gui::raise_window
 
   }
 
@@ -275,10 +273,10 @@ namespace eval sessions {
     set current_name ""
 
     # Update the window title
-    [ns gui]::set_title
+    gui::set_title
 
     # Load the default preferences
-    [ns preferences]::update_prefs
+    preferences::update_prefs
 
   }
 
@@ -308,7 +306,7 @@ namespace eval sessions {
     # If the name matches the current name, clear the current name and update the title
     if {$current_name eq $name} {
       set current_name ""
-      [ns gui]::set_title
+      gui::set_title
     }
 
   }

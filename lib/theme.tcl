@@ -24,8 +24,6 @@
 
 namespace eval theme {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable colorizers    {keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3}
   variable extra_content {swatch creator website}
 
@@ -351,7 +349,7 @@ namespace eval theme {
     if {![info exists contents(syntax,background)]} {
       set bg  $contents(background)
       set fg  $contents(foreground)
-      set abg [[ns utils]::auto_adjust_color $contents(background) 40]
+      set abg [utils::auto_adjust_color $contents(background) 40]
       set contents(syntax) [array get contents]
       set contents(swatch) [list $bg $fg $abg]
     }
@@ -911,16 +909,16 @@ namespace eval theme {
     array set syntax [get_category_options syntax 1]
 
     # Remove theme values that aren't in the Appearance/Colorize array
-    foreach name [::struct::set difference $colorizers [[ns preferences]::get Appearance/Colorize]] {
+    foreach name [::struct::set difference $colorizers [preferences::get Appearance/Colorize]] {
       set syntax($name) ""
     }
 
     # Update all of the syntax and scrollers
     foreach txt $widgets(syntax) {
-      [ns syntax]::set_language $txt [[ns syntax]::get_language $txt] -highlight 0
-      [ns scroller]::update_markers [winfo parent $txt].vb
-      [ns folding]::update_closed $txt
-      [ns completer]::set_bracket_mismatch_color $txt
+      syntax::set_language $txt [syntax::get_language $txt] -highlight 0
+      scroller::update_markers [winfo parent $txt].vb
+      folding::update_closed $txt
+      completer::set_bracket_mismatch_color $txt
     }
 
   }

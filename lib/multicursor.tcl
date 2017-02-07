@@ -24,8 +24,6 @@
 
 namespace eval multicursor {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable selected            0
   variable select_start_line   ""
   variable select_start_column ""
@@ -41,18 +39,18 @@ namespace eval multicursor {
     $txt tag configure mcursor -underline 1
 
     # Create multicursor bindings
-    bind mcursor$txt <<Selection>>                "[ns multicursor]::handle_selection %W"
-    bind mcursor$txt <Mod2-Button-1>              "[ns multicursor]::handle_alt_button1 %W %x %y"
-    bind mcursor$txt <Mod2-Button-$::right_click> "[ns multicursor]::handle_alt_button3 %W %x %y"
-    bind mcursor$txt <Shift-Mod2-ButtonPress-1>   "[ns multicursor]::handle_shift_alt_buttonpress1 %W %x %y; break"
-    bind mcursor$txt <Shift-Mod2-B1-Motion>       "[ns multicursor]::handle_shift_alt_motion %W %x %y; break"
-    bind mcursor$txt <Shift-Mod2-ButtonRelease-1> "[ns multicursor]::handle_shift_alt_buttonrelease1 %W %x %y; break"
-    bind mcursor$txt <Key-Delete>                 "if {\[[ns multicursor]::handle_delete %W\]} { break }"
-    bind mcursor$txt <Key-BackSpace>              "if {\[[ns multicursor]::handle_backspace %W\]} { break }"
-    bind mcursor$txt <Return>                     "if {\[[ns multicursor]::handle_return %W\]} { break }"
-    bind mcursor$txt <Any-KeyPress>               "if {\[[ns multicursor]::handle_keypress %W %A %K\]} { break }"
-    bind mcursor$txt <Escape>                     "[ns multicursor]::handle_escape %W"
-    bind mcursor$txt <Button-1>                   "[ns multicursor]::disable %W"
+    bind mcursor$txt <<Selection>>                [list multicursor::handle_selection %W]
+    bind mcursor$txt <Mod2-Button-1>              [list multicursor::handle_alt_button1 %W %x %y]
+    bind mcursor$txt <Mod2-Button-$::right_click> [list multicursor::handle_alt_button3 %W %x %y]
+    bind mcursor$txt <Shift-Mod2-ButtonPress-1>   "multicursor::handle_shift_alt_buttonpress1 %W %x %y; break"
+    bind mcursor$txt <Shift-Mod2-B1-Motion>       "multicursor::handle_shift_alt_motion %W %x %y; break"
+    bind mcursor$txt <Shift-Mod2-ButtonRelease-1> "multicursor::handle_shift_alt_buttonrelease1 %W %x %y; break"
+    bind mcursor$txt <Key-Delete>                 "if {\[multicursor::handle_delete %W\]} { break }"
+    bind mcursor$txt <Key-BackSpace>              "if {\[multicursor::handle_backspace %W\]} { break }"
+    bind mcursor$txt <Return>                     "if {\[multicursor::handle_return %W\]} { break }"
+    bind mcursor$txt <Any-KeyPress>               "if {\[multicursor::handle_keypress %W %A %K\]} { break }"
+    bind mcursor$txt <Escape>                     [list multicursor::handle_escape %W]
+    bind mcursor$txt <Button-1>                   [list multicursor::disable %W]
 
     # Add the multicursor bindings to the text widget's bindtags
     bindtags $txt.t [linsert [bindtags $txt.t] 2 mcursor$txt]
@@ -140,7 +138,7 @@ namespace eval multicursor {
   # Handles a delete key event in multicursor mode.
   proc handle_delete {W} {
 
-    if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::delete $W "+1c"]} {
+    if {![vim::in_vim_mode $W] && [multicursor::delete $W "+1c"]} {
       return 1
     }
 
@@ -152,7 +150,7 @@ namespace eval multicursor {
   # Handles a backspace key event in multicursor mode.
   proc handle_backspace {W} {
 
-    if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::delete $W "-1c"]} {
+    if {![vim::in_vim_mode $W] && [multicursor::delete $W "-1c"]} {
       return 1
     }
 
@@ -164,7 +162,7 @@ namespace eval multicursor {
   # Handles a return key event in multicursor mode.
   proc handle_return {W} {
 
-    if {![[ns vim]::in_vim_mode $W] && [[ns multicursor]::insert $W "\n" [ns indent]::newline]} {
+    if {![vim::in_vim_mode $W] && [multicursor::insert $W "\n" indent::newline]} {
       return 1
     }
 
@@ -178,10 +176,10 @@ namespace eval multicursor {
 
     if {([string compare -length 5 $K "Shift"]   != 0) && \
         ([string compare -length 7 $K "Control"] != 0) && \
-        ![[ns vim]::in_vim_mode $W]} {
+        ![vim::in_vim_mode $W]} {
       if {[string length $A] == 0} {
-        [ns multicursor]::disable $W
-      } elseif {[string is print $A] && [[ns multicursor]::insert $W $A [ns indent]::check_indent]} {
+        multicursor::disable $W
+      } elseif {[string is print $A] && [multicursor::insert $W $A indent::check_indent]} {
         return 1
       }
     }
@@ -194,7 +192,7 @@ namespace eval multicursor {
   # Handles an escape event in multicursor mode.
   proc handle_escape {W} {
 
-    if {[[ns vim]::get_edit_mode $W] eq ""} {
+    if {[vim::get_edit_mode $W] eq ""} {
       disable $W
     }
 
@@ -482,7 +480,7 @@ namespace eval multicursor {
       } elseif {$suffix eq "word"} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           set start [$txt index "[lindex $range 0] wordstart"]
-          set end   [[ns edit]::get_word $txtt next [expr $data - 1] $start]
+          set end   [edit::get_word $txtt next [expr $data - 1] $start]
           if {[$txt compare $end > "$start lineend"]} {
             set end [$txt index "$start lineend"]
           }

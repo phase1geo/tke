@@ -24,8 +24,6 @@
 
 namespace eval indent {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable current_indent "IND+"
 
   array set tabstops     {}
@@ -38,8 +36,8 @@ namespace eval indent {
     "1"    "IND+"
   }
 
-  trace variable [ns preferences]::prefs(Editor/SpacesPerTab) w [list [ns indent]::handle_spaces_per_tab]
-  trace variable [ns preferences]::prefs(Editor/IndentSpaces) w [list [ns indent]::handle_indent_spaces]
+  trace variable preferences::prefs(Editor/SpacesPerTab) w [list indent::handle_spaces_per_tab]
+  trace variable preferences::prefs(Editor/IndentSpaces) w [list indent::handle_indent_spaces]
 
   ######################################################################
   # Sets the tabstop value to match the value of Editor/SpacesPerTab and
@@ -51,7 +49,7 @@ namespace eval indent {
 
     foreach txtt [array names tabstops] {
       if {[winfo exists $txtt]} {
-        set_tabstop $txtt [[ns preferences]::get Editor/SpacesPerTab]
+        set_tabstop $txtt [preferences::get Editor/SpacesPerTab]
       } else {
         unset tabstops($txtt)
       }
@@ -69,7 +67,7 @@ namespace eval indent {
 
     foreach txtt [array names shiftwidths] {
       if {[winfo exists $txtt]} {
-        set_shiftwidth $txtt [[ns preferences]::get Editor/IndentSpaces]
+        set_shiftwidth $txtt [preferences::get Editor/IndentSpaces]
       } else {
         unset shiftwidths($txtt)
       }
@@ -82,11 +80,11 @@ namespace eval indent {
   proc add_bindings {txt} {
 
     # Initialize the tabstop
-    set_tabstop    $txt.t [[ns preferences]::get Editor/SpacesPerTab]
-    set_shiftwidth $txt.t [[ns preferences]::get Editor/IndentSpaces]
+    set_tabstop    $txt.t [preferences::get Editor/SpacesPerTab]
+    set_shiftwidth $txt.t [preferences::get Editor/IndentSpaces]
 
-    bind indent$txt <Any-Key> [list [ns indent]::check_indent %W insert 1]
-    bind indent$txt <Return>  [list [ns indent]::newline      %W insert 1]
+    bind indent$txt <Any-Key> [list indent::check_indent %W insert 1]
+    bind indent$txt <Return>  [list indent::newline      %W insert 1]
 
     # Add the indentation tag into the bindtags list just after Text
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -165,19 +163,19 @@ namespace eval indent {
     variable indent_mode_map
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
 
     # Set the current mode
     set indent_exprs($txt.t,mode) $indent_mode_map($mode)
 
     # Set the text widget's indent mode
-    [ns folding]::add_folds $txt 1.0 end
+    folding::add_folds $txt 1.0 end
 
     # Update the menu button
-    [set [ns gui]::widgets(info_indent)] configure -text $mode
+    $gui::widgets(info_indent) configure -text $mode
 
     # Set the focus back to the text widget
-    catch { [ns gui]::set_txt_focus [[ns gui]::last_txt_focus] }
+    catch { gui::set_txt_focus [gui::last_txt_focus] }
 
   }
 
@@ -236,7 +234,7 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txtt,mode) ne "IND+") || [[ns vim]::in_vim_mode $txtt]} {
+    if {($indent_exprs($txtt,mode) ne "IND+") || [vim::in_vim_mode $txtt]} {
       return $index
     }
 
@@ -406,7 +404,7 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txtt,mode) eq "OFF") || [[ns vim]::in_vim_mode $txtt]} {
+    if {($indent_exprs($txtt,mode) eq "OFF") || [vim::in_vim_mode $txtt]} {
       return $index
     }
 
@@ -492,7 +490,7 @@ namespace eval indent {
     variable indent_exprs
 
     if {($indent_exprs($txtt,mode) eq "OFF") || \
-        [[ns vim]::in_vim_mode $txtt] || \
+        [vim::in_vim_mode $txtt] || \
         ([lindex [split $index .] 0] == 1)} {
       return 0
     }
@@ -628,7 +626,7 @@ namespace eval indent {
     set indent_exprs($txtt,reindent) [join $reindent |]
 
     # Set the default indentation mode
-    if {[[ns preferences]::get Editor/EnableAutoIndent]} {
+    if {[preferences::get Editor/EnableAutoIndent]} {
       if {$indent ne ""} {
         set indent_exprs($txtt,mode) "IND+"
       } else {
@@ -639,7 +637,7 @@ namespace eval indent {
     }
 
     # Update the state of the indentation widget
-    [ns gui]::update_indent_button
+    gui::update_indent_button
 
   }
 
@@ -654,8 +652,8 @@ namespace eval indent {
 
     # Populate the menu with the available languages
     foreach {lbl mode} [list "No Indent" "OFF" "Auto-Indent" "IND" "Smart Indent" "IND+"] {
-      $mnu add radiobutton -label $lbl -variable [ns indent]::current_indent \
-        -value $mode -command [list [ns indent]::set_indent_mode $mode]
+      $mnu add radiobutton -label $lbl -variable indent::current_indent \
+        -value $mode -command [list indent::set_indent_mode $mode]
     }
 
     return $mnu
@@ -685,7 +683,7 @@ namespace eval indent {
     variable current_indent
 
     # Get the current text widget
-    set txtt [[ns gui]::current_txt].t
+    set txtt [gui::current_txt].t
 
     # Configure the menubutton
     if {[info exists indent_exprs($txtt,mode)]} {

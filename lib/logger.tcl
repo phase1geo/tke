@@ -25,8 +25,6 @@
 
 namespace eval logger {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable logdir ""
   variable logrc  ""
 
@@ -38,7 +36,7 @@ namespace eval logger {
     variable logrc
 
     # Get the logfile directory
-    if {[set logdir [[ns preferences]::get Debug/LogDirectory]] eq ""} {
+    if {[set logdir [preferences::get Debug/LogDirectory]] eq ""} {
       set logdir [file join $::tke_home logs]
     }
 
@@ -51,7 +49,7 @@ namespace eval logger {
     create_logfile $logdir
 
     # Keep an eye on the Debug/LogDirectory preference option
-    trace variable [ns preferences]::prefs(Debug/LogDirectory) w logger::handle_logdir_change
+    trace variable preferences::prefs(Debug/LogDirectory) w logger::handle_logdir_change
 
   }
 
@@ -100,7 +98,7 @@ namespace eval logger {
     variable logdir
 
     # Get the preference directory value
-    if {[set pref_dir [[ns preferences]::get Debug/LogDirectory]] eq ""} {
+    if {[set pref_dir [preferences::get Debug/LogDirectory]] eq ""} {
       set pref_dir [file join $::tke_home logs]
     }
 
@@ -182,7 +180,7 @@ namespace eval logger {
     }
 
     # Add the file to the editor
-    [ns gui]::add_file end [file join $logdir debug.[pid].log] -readonly 1 -sidebar 0 -lazy $opts(-lazy) -remember 0
+    gui::add_file end [file join $logdir debug.[pid].log] -readonly 1 -sidebar 0 -lazy $opts(-lazy) -remember 0
 
   }
 

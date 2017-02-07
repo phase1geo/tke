@@ -24,8 +24,6 @@
 
 namespace eval templates {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   array set data {}
 
   set data(templates_dir) [file join $::tke_home templates]
@@ -58,14 +56,14 @@ namespace eval templates {
     close $rc
 
     # Add the buffer
-    [ns gui]::get_info [[ns gui]::add_new_file end -name $fname -sidebar 1 {*}$args] tab txt
+    gui::get_info [gui::add_new_file end -name $fname -sidebar 1 {*}$args] tab txt
 
     # Insert the content as a snippet
-    [ns snippets]::insert_snippet $txt.t $contents
+    snippets::insert_snippet $txt.t $contents
 
     # Take the extension of the template file (if there is one) and set the
     # current syntax highlighting to it
-    [ns syntax]::set_language $txt [[ns syntax]::get_default_language $name]
+    syntax::set_language $txt [syntax::get_default_language $name]
 
   }
 
@@ -74,7 +72,7 @@ namespace eval templates {
   proc load_abs {name args} {
 
     # Get the browse directory
-    set dirname [[ns gui]::get_browse_directory]
+    set dirname [gui::get_browse_directory]
 
     # Get the filename from the user
     if {[set fname [tk_getSaveFile -parent . -initialdir $dirname -confirmoverwrite 1 -title "New Filepath"]] ne ""} {
@@ -90,7 +88,7 @@ namespace eval templates {
 
     set fname ""
 
-    if {[[ns gui]::get_user_response "File Name:" fname]} {
+    if {[gui::get_user_response "File Name:" fname]} {
 
       # Normalize the pathname
       set fname [file join [lindex $args 0] [file tail $fname]]
@@ -109,7 +107,7 @@ namespace eval templates {
     variable data
 
     # Add the file for editing (but don't display the other themes in the sidebar
-    [ns gui]::add_file end [get_pathname $name] -sidebar 0
+    gui::add_file end [get_pathname $name] -sidebar 0
 
   }
 
@@ -122,7 +120,7 @@ namespace eval templates {
     set name ""
 
     # Get the template name from the user
-    if {[[ns gui]::get_user_response [format "%s:" [msgcat::mc "Template Name"]] name 0]} {
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Template Name"]] name 0]} {
 
       # Create the templates directory if it does not exist
       file mkdir $data(templates_dir)
@@ -133,7 +131,7 @@ namespace eval templates {
       }
 
       # Write the file contents
-      puts $rc [[ns gui]::scrub_text [gui::current_txt]]
+      puts $rc [gui::scrub_text [gui::current_txt]]
       close $rc
 
       # Add the file to our list if it does not already exist
@@ -142,7 +140,7 @@ namespace eval templates {
       }
 
       # Specify that the file was saved in the information bar
-      [ns gui]::set_info_message [format "%s $name %s" [msgcat::mc "Template"] [msgcat::mc "saved"]]
+      gui::set_info_message [format "%s $name %s" [msgcat::mc "Template"] [msgcat::mc "saved"]]
 
     }
 
@@ -174,7 +172,7 @@ namespace eval templates {
     }
 
     # Specify that the file was deleted in the information bar
-    [ns gui]::set_info_message [format "%s $name %s" [msgcat::mc "Template"] [msgcat::mc "deleted"]]
+    gui::set_info_message [format "%s $name %s" [msgcat::mc "Template"] [msgcat::mc "deleted"]]
 
   }
 
@@ -214,7 +212,7 @@ namespace eval templates {
     # Add temporary registries to launcher
     set i 0
     foreach name [lsort $data(templates)] {
-      launcher::register_temp "`TEMPLATE:$name" [list [ns templates]::$cmd_type $name {*}$args] $name $i [list [ns templates]::add_detail $name]
+      launcher::register_temp "`TEMPLATE:$name" [list templates::$cmd_type $name {*}$args] $name $i [list templates::add_detail $name]
       incr i
     }
 
