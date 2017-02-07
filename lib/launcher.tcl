@@ -24,8 +24,6 @@
 
 namespace eval launcher {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable match_commands {}
 
   array set move_info     {}
@@ -127,7 +125,7 @@ namespace eval launcher {
       set widgets(win) .lwin
 
       # Get information from theme
-      array set theme [[ns theme]::get_category_options launcher 1]
+      array set theme [theme::get_category_options launcher 1]
 
       frame $widgets(win) -borderwidth 2 -bg $theme(-bordercolor) \
         -padx $theme(-borderwidth) -pady $theme(-borderwidth)
@@ -293,7 +291,7 @@ namespace eval launcher {
     array unset move_info
 
     # Save the command launcher position if we are supposed to
-    if {[[ns preferences]::get Appearance/CommandLauncherRememberLastPosition]} {
+    if {[preferences::get Appearance/CommandLauncherRememberLastPosition]} {
       array set opts [place info $widgets(win)]
       set move_info(save_x) $opts(-x)
       set move_info(save_y) $opts(-y)
@@ -327,7 +325,7 @@ namespace eval launcher {
 
     variable move_info
 
-    if {[[ns preferences]::get Appearance/CommandLauncherRememberLastPosition] == 0} {
+    if {[preferences::get Appearance/CommandLauncherRememberLastPosition] == 0} {
       catch { unset move_info(save_x) }
       catch { unset move_info(save_y) }
     }

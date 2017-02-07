@@ -24,8 +24,6 @@
 
 namespace eval snippets {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   array set widgets    {}
   array set snippets   {}
   array set timestamps {}
@@ -68,7 +66,7 @@ namespace eval snippets {
     variable snippets_dir
 
     # Remove any launcher commands that would be associated with this file
-    [ns launcher]::unregister [msgcat::mc "Snippet: *"]
+    launcher::unregister [msgcat::mc "Snippet: *"]
 
     foreach lang [list user $language] {
 
@@ -160,12 +158,12 @@ namespace eval snippets {
 
     # Initialize the within array
     set within($txt.t)     0
-    set expandtabs($txt.t) [expr [[ns syntax]::get_tabs_allowed $txt] ? 0 : 1]
+    set expandtabs($txt.t) [expr syntax::get_tabs_allowed $txt] ? 0 : 1]
 
     # Bind whitespace
-    bind snippet$txt <Key-space> "if {\[[ns snippets]::check_snippet %W %K\]} { break }"
-    bind snippet$txt <Return>    "if {\[[ns snippets]::check_snippet %W %K\]} { break }"
-    bind snippet$txt <Tab>       "if {\[[ns snippets]::handle_tab %W\]} { break }"
+    bind snippet$txt <Key-space> "if {\[snippets::check_snippet %W %K\]} { break }"
+    bind snippet$txt <Return>    "if {\[snippets::check_snippet %W %K\]} { break }"
+    bind snippet$txt <Tab>       "if {\[snippets::handle_tab %W\]} { break }"
 
     bindtags $txt.t [linsert [bindtags $txt.t] 3 snippet$txt]
 
@@ -178,8 +176,8 @@ namespace eval snippets {
     variable expandtabs
 
     if {![tab_clicked $txtt]} {
-      if {![[ns vim]::in_vim_mode $txtt] && $expandtabs($txtt)} {
-        $txtt insert insert [string repeat " " [[ns indent]::get_tabstop $txtt]]
+      if {![vim::in_vim_mode $txtt] && $expandtabs($txtt)} {
+        $txtt insert insert [string repeat " " [indent::get_tabstop $txtt]]
         return 1
       }
     } else {
@@ -200,7 +198,7 @@ namespace eval snippets {
     variable tabpoints
 
     # If the given key symbol is not one of the snippet completers, stop now
-    if {[lsearch [[ns preferences]::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
+    if {[lsearch [preferences::get Editor/SnippetCompleters] [string tolower $keysym]] == -1} {
       return 0
     }
 
@@ -208,7 +206,7 @@ namespace eval snippets {
     set last_word [string trim [$txtt get "insert-1c wordstart" "insert-1c wordend"]]
 
     # Get the current language
-    set lang [[ns utils]::get_current_lang [winfo parent $txtt]]
+    set lang [utils::get_current_lang [winfo parent $txtt]]
 
     # If the snippet exists, perform the replacement.
     foreach type [list $lang user] {
@@ -266,7 +264,7 @@ namespace eval snippets {
       $txtt insert insert {*}$result
 
       # Format the text to match indentation
-      if {[[ns preferences]::get Editor/SnippetFormatAfterInsert]} {
+      if {[preferences::get Editor/SnippetFormatAfterInsert]} {
         set datalen 0
         foreach {str tags} $result {
           incr datalen [string length $str]
@@ -472,7 +470,7 @@ namespace eval snippets {
     variable snippets
 
     set names [list]
-    set lang  [[ns utils]::get_current_lang [[ns gui]::current_txt]]
+    set lang  [utils::get_current_lang [gui::current_txt]]
 
     foreach type [list user $lang] {
       foreach name [array names snippets $type,*] {
@@ -494,7 +492,7 @@ namespace eval snippets {
     foreach snippet [get_current_snippets] {
       lassign $snippet name value
       launcher::register_temp "`SNIPPET:$name" \
-        [list [ns snippets]::insert_snippet_into_current $value] \
+        [list snippets::insert_snippet_into_current $value] \
         $name $i [list snippets::add_detail $value]
       incr i
     }
@@ -590,19 +588,19 @@ namespace eval snippets {
     }
 
     # Create a temporary editing buffer
-    set tab [[ns gui]::add_buffer end temporary [list] -lang $lang -background 1]
+    set tab [gui::add_buffer end temporary [list] -lang $lang -background 1]
 
     # Get the current text widget
-    [ns gui]::get_info $tab tab txt
+    gui::get_info $tab tab txt
 
     # Insert the content as a snippet
-    [ns snippets]::insert_snippet $txt.t $str -traverse 0
+    snippets::insert_snippet $txt.t $str -traverse 0
 
     # Get the text
-    set str [[ns gui]::scrub_text $txt]
+    set str [gui::scrub_text $txt]
 
     # Close the tab
-    [ns gui]::close_tab {} $tab -keeptab 0 -check 0
+    gui::close_tab {} $tab -keeptab 0 -check 0
 
     return $str
 

@@ -24,8 +24,6 @@
 
 namespace eval markers {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable curr_marker 0
 
   array set markers {}
@@ -156,7 +154,7 @@ namespace eval markers {
 
     set pos   [list]
     set lines [$txt count -lines 1.0 end]
-    set color [[ns theme]::get_value syntax cursor]
+    set color [theme::get_value syntax cursor]
 
     foreach {name tag} [array get markers $txt,*] {
       set start_line [lindex [$txt tag ranges $tag] 0]

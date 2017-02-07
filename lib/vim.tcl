@@ -26,8 +26,6 @@
 
 namespace eval vim {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable modelines
 
   array set command_entries {}
@@ -48,7 +46,7 @@ namespace eval vim {
     set recording($reg,events) [list]
   }
 
-  trace variable [ns preferences]::prefs(Editor/VimModelines) w [list [ns vim]::handle_vim_modelines]
+  trace variable preferences::prefs(Editor/VimModelines) w [list vim::handle_vim_modelines]
 
   ######################################################################
   # Handles any value changes to the Editor/VimModlines preference value.
@@ -56,7 +54,7 @@ namespace eval vim {
 
     variable modelines
 
-    set modelines [[ns preferences]::get Editor/VimModelines]
+    set modelines [preferences::get Editor/VimModelines]
 
   }
 
@@ -81,14 +79,14 @@ namespace eval vim {
   # Enables/disables Vim mode for the specified text widget.
   proc set_vim_mode {txt} {
 
-    if {[[ns preferences]::get Editor/VimMode]} {
+    if {[preferences::get Editor/VimMode]} {
       add_bindings $txt
     } else {
       remove_bindings $txt
     }
 
     # Update the position information in the status bar
-    [ns gui]::update_position $txt
+    gui::update_position $txt
 
   }
 
@@ -117,7 +115,7 @@ namespace eval vim {
 
     variable mode
 
-    if {[[ns preferences]::get Editor/VimMode] && \
+    if {[preferences::get Editor/VimMode] && \
         [info exists mode($txtt)] && \
         ($mode($txtt) ne "edit")} {
       return 1
@@ -134,7 +132,7 @@ namespace eval vim {
     variable mode
     variable recording
 
-    if {[[ns preferences]::get Editor/VimMode]} {
+    if {[preferences::get Editor/VimMode]} {
       set record ""
       set curr_reg $recording(curr_reg)
       if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
@@ -190,9 +188,9 @@ namespace eval vim {
     # Save the entry
     set command_entries($txt.t) $entry
 
-    bind $entry <Return>    [list [ns vim]::handle_command_return %W]
-    bind $entry <Escape>    [list [ns vim]::handle_command_escape %W]
-    bind $entry <BackSpace> [list [ns vim]::handle_command_backspace %W]
+    bind $entry <Return>    [list vim::handle_command_return %W]
+    bind $entry <Escape>    [list vim::handle_command_escape %W]
+    bind $entry <BackSpace> [list vim::handle_command_backspace %W]
 
   }
 
@@ -201,7 +199,7 @@ namespace eval vim {
   proc handle_command_return {w} {
 
     # Get the last txt widget that had the focus
-    set txt [[ns gui]::last_txt_focus]
+    set txt [gui::last_txt_focus]
 
     # Get the value from the command field
     set value [$w get]
@@ -211,19 +209,19 @@ namespace eval vim {
 
     # Execute the command
     switch -- $value {
-      w   { [ns gui]::save_current }
-      w!  { [ns gui]::save_current -force 1 }
-      wq  { if {[[ns gui]::save_current]} { [ns gui]::close_current; set txt "" } }
-      wq! { if {[[ns gui]::save_current -force 1]} { [ns gui]::close_current; set txt "" } }
-      q   { [ns gui]::close_current; set txt "" }
-      q!  { [ns gui]::close_current -force 1; set txt "" }
-      cq  { [ns gui]::close_all -force 1 -exiting 1; [ns menus]::exit_command }
-      e!  { [ns gui]::update_current }
-      n   { [ns gui]::next_tab }
-      N   { [ns gui]::previous_tab }
-      p   { after idle [ns gui]::next_pane }
-      e\# { [ns gui]::last_tab }
-      m   { [ns gui]::remove_current_marker }
+      w   { gui::save_current }
+      w!  { gui::save_current -force 1 }
+      wq  { if {[gui::save_current]} { gui::close_current; set txt "" } }
+      wq! { if {[gui::save_current -force 1]} { gui::close_current; set txt "" } }
+      q   { gui::close_current; set txt "" }
+      q!  { gui::close_current -force 1; set txt "" }
+      cq  { gui::close_all -force 1 -exiting 1; menus::exit_command }
+      e!  { gui::update_current }
+      n   { gui::next_tab }
+      N   { gui::previous_tab }
+      p   { after idle gui::next_pane }
+      e\# { gui::last_tab }
+      m   { gui::remove_current_marker }
       default {
         catch {
 
@@ -231,7 +229,7 @@ namespace eval vim {
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/([giI]*)$} $value -> from to search replace opts]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
-            [ns search]::replace_do_raw $from $to $search $replace \
+            search::replace_do_raw $from $to $search $replace \
               [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
 
           # Delete/copy lines
@@ -248,60 +246,60 @@ namespace eval vim {
 
           # Jump to line
           } elseif {[regexp {^(\d+|[.^$]|\w+)$} $value]} {
-            [ns edit]::jump_to_line $txt.t [get_linenum $txt $value]
+            edit::jump_to_line $txt.t [get_linenum $txt $value]
 
           # Add multicursors to a range of lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)c/(.*)/$} $value -> from to search]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
-            [ns multicursor]::search_and_add_cursors $txt $from $to $search
+            multicursor::search_and_add_cursors $txt $from $to $search
 
           # Handle code fold opening in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldo(pen)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            [ns folding]::open_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
+            folding::open_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
 
           # Handle code fold closing in range
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)foldc(lose)?(!?)$} $value -> from to dummy full_depth]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            [ns folding]::close_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
+            folding::close_folds_in_range $txt $from $to [expr {$full_depth ne ""}]
 
           # Handling code folding
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)fo(ld)?$} $value -> from to]} {
             set from [lindex [split [get_linenum $txt $from] .] 0]
             set to   [lindex [split [get_linenum $txt $to] .] 0]
-            [ns folding]::close_range $txt $from $to
+            folding::close_range $txt $from $to
 
           # Save/quit a subset of lines as a filename
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)w(q)?(!)?\s+(.*)$} $value -> from to and_close overwrite fname]} {
             set from [$txt index "[get_linenum $txt $from] linestart"]
             set to   [$txt index "[get_linenum $txt $to] lineend"]
-            if {[[ns edit]::save_selection $txt $from $to [expr {$overwrite eq "!"}] $fname]} {
+            if {[edit::save_selection $txt $from $to [expr {$overwrite eq "!"}] $fname]} {
               if {$and_close ne ""} {
-                [ns gui]::close_current
+                gui::close_current
                 set txt ""
               }
             }
 
           # Open a new file
           } elseif {[regexp {^e\s+(.*)$} $value -> filename]} {
-            set filename [normalize_filename [[ns utils]::perform_substitutions $filename]]
+            set filename [normalize_filename [utils::perform_substitutions $filename]]
             if {[file exists $filename]} {
-              [ns gui]::add_file end $filename
+              gui::add_file end $filename
             } else {
-              [ns gui]::add_new_file end -name $filename
+              gui::add_new_file end -name $filename
             }
 
           # Save/quit the entire file with a new name
           } elseif {[regexp {^w(q)?(!)?\s+(.*)$} $value -> and_close and_force filename]} {
-            if {![file exists [file dirname [set filename [normalize_filename [[ns utils]::perform_substitutions $filename]]]]]} {
-              [ns gui]::set_error_message [msgcat::mc "Unable to write"] [msgcat::mc "Filename directory does not exist"]
+            if {![file exists [file dirname [set filename [normalize_filename [utils::perform_substitutions $filename]]]]]} {
+              gui::set_error_message [msgcat::mc "Unable to write"] [msgcat::mc "Filename directory does not exist"]
             } else {
-              [ns gui]::save_current -force [expr {$and_force ne ""}] -save_as [normalize_filename [[ns utils]::perform_substitutions $filename]]
+              gui::save_current -force [expr {$and_force ne ""}] -save_as [normalize_filename [utils::perform_substitutions $filename]]
               if {$and_close ne ""} {
-                [ns gui]::close_current -force [expr {($and_close eq "q") ? 0 : 1}]
+                gui::close_current -force [expr {($and_close eq "q") ? 0 : 1}]
                 set txt ""
               }
             }
@@ -311,24 +309,24 @@ namespace eval vim {
             set line [lindex [split [$txt index insert] .] 0]
             if {$marker ne ""} {
               if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
-                [ns markers]::add $txt $tag $marker
+                markers::add $txt $tag $marker
               }
             } else {
-              [ns markers]::delete_by_line $txt $line
+              markers::delete_by_line $txt $line
               ctext::linemapClearMark $txt $line
             }
 
           # Insert the contents of a file after the current line
           } elseif {[regexp {^r\s+(.*)$} $value -> filename]} {
             if {[string index $filename 0] eq "!"} {
-              [ns edit]::insert_file $txt "|[[ns utils]::perform_substitutions [string range $filename 1 end]]"
+              edit::insert_file $txt "|[utils::perform_substitutions [string range $filename 1 end]]"
             } else {
-              [ns edit]::insert_file $txt [normalize_filename [[ns utils]::perform_substitutions $filename]]
+              edit::insert_file $txt [normalize_filename [utils::perform_substitutions $filename]]
             }
 
           # Change the working directory
           } elseif {[regexp {^cd\s+(.*)$} $value -> directory]} {
-            if {[file isdirectory [[ns utils]::perform_substitutions $directory]]} {
+            if {[file isdirectory [utils::perform_substitutions $directory]]} {
               gui::change_working_directory $directory
             }
 
@@ -352,7 +350,7 @@ namespace eval vim {
     if {$txt ne ""} {
 
       # Set the focus back to the text widget
-      [ns gui]::set_txt_focus $txt
+      gui::set_txt_focus $txt
 
       # Hide the command entry widget
       grid remove $w
@@ -439,13 +437,13 @@ namespace eval vim {
       splitbelow       -
       sb               { do_set_split 1 }
       nosplitbelow     -
-      nosb             { do_set_split 0; set txt [[ns gui]::current_txt] }
+      nosb             { do_set_split 0; set txt [gui::current_txt] }
       syntax           -
       syn              { do_set_syntax $val }
       tabstop          -
       ts               { do_set_tabstop $val }
       default          {
-        [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Unrecognized vim option"] $opt]
+        gui::set_info_message [format "%s (%s)" [msgcat::mc "Unrecognized vim option"] $opt]
       }
     }
 
@@ -458,7 +456,7 @@ namespace eval vim {
   # the directory of the currently opened file.  This is a global setting.
   proc do_set_autochdir {value} {
 
-    [ns gui]::set_auto_cwd $value
+    gui::set_auto_cwd $value
 
   }
 
@@ -483,11 +481,11 @@ namespace eval vim {
     }
 
     # Get the current mode
-    set curr [[ns indent]::get_indent_mode [[ns gui]::current_txt]]
+    set curr [indent::get_indent_mode [gui::current_txt]]
 
     # If the indentation mode will change, set it to the new value
     if {$curr ne $newval($curr,$type,$value)} {
-      [ns indent]::set_indent_mode $newval($curr,$type,$value)
+      indent::set_indent_mode $newval($curr,$type,$value)
     }
 
   }
@@ -496,7 +494,7 @@ namespace eval vim {
   # Sets the file browser directory default pathname.
   proc do_set_browse_dir {val} {
 
-    [ns gui]::set_browse_directory $val
+    gui::set_browse_directory $val
 
   }
 
@@ -505,7 +503,7 @@ namespace eval vim {
   # translate tabs to spaces.
   proc do_set_expandtab {val} {
 
-    [ns snippets]::set_expandtabs [[ns gui]::current_txt] $val
+    snippets::set_expandtabs [gui::current_txt] $val
 
   }
 
@@ -521,9 +519,9 @@ namespace eval vim {
 
     # Set the current EOL translation
     if {[info exists map($val)]} {
-      [ns gui]::set_current_eol_translation $map($val)
+      gui::set_current_eol_translation $map($val)
     } else {
-      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "File format unrecognized"] $val]
+      gui::set_info_message [format "%s (%s)" [msgcat::mc "File format unrecognized"] $val]
     }
 
   }
@@ -533,9 +531,9 @@ namespace eval vim {
   proc do_set_foldenable {val} {
 
     if {$val} {
-      [ns folding]::close_all_folds [[ns gui]::current_txt]
+      folding::close_all_folds [gui::current_txt]
     } else {
-      [ns folding]::open_all_folds [[ns gui]::current_txt]
+      folding::open_all_folds [gui::current_txt]
     }
 
   }
@@ -552,9 +550,9 @@ namespace eval vim {
 
     # Set the current folding method
     if {[info exists map($val)]} {
-      [ns folding]::set_fold_method [[ns gui]::current_txt] $val
+      folding::set_fold_method [gui::current_txt] $val
     } else {
-      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Folding method unrecognized"] $val]
+      gui::set_info_message [format "%s (%s)" [msgcat::mc "Folding method unrecognized"] $val]
     }
 
   }
@@ -565,7 +563,7 @@ namespace eval vim {
   proc do_set_matchpairs {val mod} {
 
     # Get the current text widget
-    set txt  [[ns gui]::current_txt]
+    set txt  [gui::current_txt]
     set lang [ctext::get_lang $txt insert]
 
     # Get the current match characters
@@ -601,7 +599,7 @@ namespace eval vim {
 
     variable modeline
 
-    set modeline([[ns gui]::current_txt].t) $val
+    set modeline([gui::current_txt].t) $val
 
   }
 
@@ -614,7 +612,7 @@ namespace eval vim {
     if {[string is integer $val]} {
       set modelines $val
     } else {
-      [ns gui]::set_info_message [msgcat::mc "Illegal modelines value"]
+      gui::set_info_message [msgcat::mc "Illegal modelines value"]
     }
 
   }
@@ -623,7 +621,7 @@ namespace eval vim {
   # Set the locked status of the current buffer.
   proc do_set_modifiable {val} {
 
-    [ns gui]::set_current_file_lock [expr {$val ? 0 : 1}]
+    gui::set_current_file_lock [expr {$val ? 0 : 1}]
 
   }
 
@@ -631,7 +629,7 @@ namespace eval vim {
   # Changes the modified state of the current buffer.
   proc do_set_modified {val} {
 
-    [ns gui]::set_current_modified $val
+    gui::set_current_modified $val
 
   }
 
@@ -639,7 +637,7 @@ namespace eval vim {
   # Sets the visibility of the line numbers.
   proc do_set_number {val} {
 
-    [ns gui]::set_line_number_view $val
+    gui::set_line_number_view $val
 
   }
 
@@ -649,9 +647,9 @@ namespace eval vim {
   proc do_set_numberwidth {val} {
 
     if {[string is integer $val]} {
-      [ns gui]::set_line_number_width $val
+      gui::set_line_number_width $val
     } else {
-      [ns gui]::set_info_message [format "%s (%s)" [msgcat::mc "Number width not a number"] $val]
+      gui::set_info_message [format "%s (%s)" [msgcat::mc "Number width not a number"] $val]
     }
 
   }
@@ -660,7 +658,7 @@ namespace eval vim {
   # Sets the relative numbering mode to the given value.
   proc do_set_relativenumber {val} {
 
-    [[ns gui]::current_txt] configure -linemap_type $val
+    [gui::current_txt] configure -linemap_type $val
 
   }
 
@@ -669,9 +667,9 @@ namespace eval vim {
   proc do_set_shiftwidth {val} {
 
     if {[string is integer $val]} {
-      [ns indent]::set_shiftwidth [[ns gui]::current_txt].t $val
+      indent::set_shiftwidth [gui::current_txt].t $val
     } else {
-      [ns gui]::set_info_message [msgcat::mc "Shiftwidth value is not an integer"]
+      gui::set_info_message [msgcat::mc "Shiftwidth value is not an integer"]
     }
 
   }
@@ -680,7 +678,7 @@ namespace eval vim {
   # Sets the showmatch value in all of the text widgets.
   proc do_set_showmatch {val} {
 
-    [ns gui]::set_matching_char $val
+    gui::set_matching_char $val
 
   }
 
@@ -689,9 +687,9 @@ namespace eval vim {
   proc do_set_split {val} {
 
     if {$val} {
-      [ns gui]::show_split_pane
+      gui::show_split_pane
     } else {
-      [ns gui]::hide_split_pane
+      gui::hide_split_pane
     }
 
   }
@@ -700,7 +698,7 @@ namespace eval vim {
   # Run the set syntax command.
   proc do_set_syntax {val} {
 
-    [ns syntax]::set_current_language [[ns syntax]::get_vim_language $val]
+    syntax::set_current_language [syntax::get_vim_language $val]
 
   }
 
@@ -709,9 +707,9 @@ namespace eval vim {
   proc do_set_tabstop {val} {
 
     if {[string is integer $val]} {
-      [ns indent]::set_tabstop [[ns gui]::current_txt].t $val
+      indent::set_tabstop [gui::current_txt].t $val
     } else {
-      [ns gui]::set_info_message [msgcat::mc "Tabstop value is not an integer"]
+      gui::set_info_message [msgcat::mc "Tabstop value is not an integer"]
     }
 
   }
@@ -778,14 +776,14 @@ namespace eval vim {
   proc handle_command_escape {w} {
 
     # Get the last text widget that had focus
-    set txt [[ns gui]::last_txt_focus]
+    set txt [gui::last_txt_focus]
 
     # Delete the value in the command entry
     $w delete 0 end
 
     # Remove the grab and set the focus back to the text widget
     grab release $w
-    [ns gui]::set_txt_focus $txt
+    gui::set_txt_focus $txt
 
     # Hide the command entry widget
     grid remove $w
@@ -800,7 +798,7 @@ namespace eval vim {
 
       # Remove the grab and set the focus back to the text widget
       grab release $w
-      [ns gui]::set_txt_focus [[ns gui]::last_txt_focus]
+      gui::set_txt_focus [gui::last_txt_focus]
 
       # Hide the command entry widget
       grid remove $w
@@ -819,7 +817,7 @@ namespace eval vim {
       return "1.0"
     } elseif {$char eq "$"} {
       return [$txt index "end linestart"]
-    } elseif {[set index [[ns markers]::get_index $txt $char]] ne ""} {
+    } elseif {[set index [markers::get_index $txt $char]] ne ""} {
       return [$txt index "$index linestart"]
     } elseif {[regexp {^\d+$} $char]} {
       return "$char.0"
@@ -854,22 +852,22 @@ namespace eval vim {
     set modeline($txt.t)         1
 
     # Add bindings
-    bind $txt       <<Modified>>            "if {\[[ns vim]::handle_modified %W\]} { break }"
-    bind vim$txt    <Escape>                "if {\[[ns vim]::handle_escape %W\]} { break }"
-    bind vim$txt    <Key>                   "if {\[[ns vim]::handle_any %W %K %A\]} { break }"
-    bind vim$txt    <Control-Button-1>      "[ns vim]::nil"
-    bind vim$txt    <Shift-Button-1>        "[ns vim]::nil"
-    bind vim$txt    <Button-1>              "[ns vim]::handle_button1 %W %x %y; break"
-    bind vim$txt    <Double-Shift-Button-1> "[ns vim]::nil"
-    bind vim$txt    <Double-Button-1>       "[ns vim]::handle_double_button1 %W %x %y; break"
-    bind vim$txt    <Triple-Button-1>       "[ns vim]::nil"
-    bind vim$txt    <Triple-Shift-Button-1> "[ns vim]::nil"
-    bind vim$txt    <B1-Motion>             "[ns vim]::handle_motion %W %x %y; break"
-    bind vimpre$txt <Control-f>             "if {\[[ns vim]::handle_control_f %W\]} { break }"
-    bind vimpre$txt <Control-b>             "if {\[[ns vim]::handle_control_b %W\]} { break }"
-    bind vimpre$txt <Control-g>             "if {\[[ns vim]::handle_control_g %W\]} { break }"
-    bind vimpre$txt <Control-j>             "if {\[[ns vim]::handle_control_j %W\]} { break }"
-    bind vimpre$txt <Control-k>             "if {\[[ns vim]::handle_control_k %W\]} { break }"
+    bind $txt       <<Modified>>            "if {\[vim::handle_modified %W\]} { break }"
+    bind vim$txt    <Escape>                "if {\[vim::handle_escape %W\]} { break }"
+    bind vim$txt    <Key>                   "if {\[vim::handle_any %W %K %A\]} { break }"
+    bind vim$txt    <Control-Button-1>      "vim::nil"
+    bind vim$txt    <Shift-Button-1>        "vim::nil"
+    bind vim$txt    <Button-1>              "vim::handle_button1 %W %x %y; break"
+    bind vim$txt    <Double-Shift-Button-1> "vim::nil"
+    bind vim$txt    <Double-Button-1>       "vim::handle_double_button1 %W %x %y; break"
+    bind vim$txt    <Triple-Button-1>       "vim::nil"
+    bind vim$txt    <Triple-Shift-Button-1> "vim::nil"
+    bind vim$txt    <B1-Motion>             "vim::handle_motion %W %x %y; break"
+    bind vimpre$txt <Control-f>             "if {\[vim::handle_control_f %W\]} { break }"
+    bind vimpre$txt <Control-b>             "if {\[vim::handle_control_b %W\]} { break }"
+    bind vimpre$txt <Control-g>             "if {\[vim::handle_control_g %W\]} { break }"
+    bind vimpre$txt <Control-j>             "if {\[vim::handle_control_j %W\]} { break }"
+    bind vimpre$txt <Control-k>             "if {\[vim::handle_control_k %W\]} { break }"
 
     # Insert the vimpre binding just prior to all
     set all_index [lsearch [bindtags $txt.t] all]
@@ -917,7 +915,7 @@ namespace eval vim {
     $W tag remove sel 1.0 end
 
     set current [$W index @$x,$y]
-    $W mark set [[ns utils]::text_anchor $W] $current
+    $W mark set [utils::text_anchor $W] $current
     ::tk::TextSetCursor $W $current
 
     adjust_insert $W
@@ -955,7 +953,7 @@ namespace eval vim {
     adjust_insert $W
 
     # Add the selection
-    set anchor [[ns utils]::text_anchor $W]
+    set anchor [utils::text_anchor $W]
     if {[$W compare $anchor < $current]} {
       $W tag add sel $anchor $current
     } else {
@@ -984,7 +982,7 @@ namespace eval vim {
     bind $txt <<Modified>> ""
 
     # Change the cursor to the insertion cursor and turn autoseparators on
-    $txt configure -blockcursor false -autoseparators 1 -insertwidth [[ns preferences]::get Appearance/CursorWidth]
+    $txt configure -blockcursor false -autoseparators 1 -insertwidth [preferences::get Appearance/CursorWidth]
 
   }
 
@@ -1001,7 +999,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Set the blockcursor to false
-    $txtt configure -blockcursor false -insertwidth [[ns preferences]::get Appearance/CursorWidth]
+    $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth]
 
     # If the current cursor is on a dummy space, remove it
     set tags [$txtt tag names insert]
@@ -1026,8 +1024,8 @@ namespace eval vim {
     # one character.
     if {(($mode($txtt) eq "edit") || ($mode($txtt) eq "replace_all")) && \
         ([$txtt index insert] ne [$txtt index "insert linestart"])} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns multicursor]::adjust $txtt -1c
+      if {[multicursor::enabled $txtt]} {
+        multicursor::adjust $txtt -1c
       } else {
         ::tk::TextSetCursor $txtt "insert-1c"
       }
@@ -1277,7 +1275,7 @@ namespace eval vim {
       $txtt tag remove sel 1.0 end
 
       # Clear any searches
-      [ns search]::find_clear
+      search::find_clear
 
     }
 
@@ -1363,15 +1361,15 @@ namespace eval vim {
     # Append the text to the insertion buffer
     } elseif {[string equal -length 7 $mode($txtt) "replace"]} {
       record_add "Key-$keysym"
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns multicursor]::replace $txtt $char [ns indent]::check_indent
+      if {[multicursor::enabled $txtt]} {
+        multicursor::replace $txtt $char indent::check_indent
       } else {
         $txtt replace insert "insert+1c" $char
         $txtt highlight "insert linestart" "insert lineend"
       }
       if {$mode($txtt) eq "replace"} {
-        if {[[ns multicursor]::enabled $txtt]} {
-          [ns multicursor]::adjust $txtt -1c
+        if {[multicursor::enabled $txtt]} {
+          multicursor::adjust $txtt -1c
         } else {
           ::tk::TextSetCursor $txtt "insert-1c"
         }
@@ -1383,7 +1381,7 @@ namespace eval vim {
     # Remove all text within the current character
     } elseif {$mode($txtt) eq "changein"} {
       record_add "Key-$keysym"
-      if {[[ns edit]::delete_between_char $txtt $char]} {
+      if {[edit::delete_between_char $txtt $char]} {
         edit_mode $txtt
       } else {
         start_mode $txtt
@@ -1393,7 +1391,7 @@ namespace eval vim {
     # Select all text within the current character
     } elseif {[lindex [split $mode($txtt) :] 0] eq "visualin"} {
       record_add "Key-$keysym"
-      if {[[ns edit]::select_between_char $txtt $char]} {
+      if {[edit::select_between_char $txtt $char]} {
         set mode($txtt) "visual:[lindex [split $mode($txtt) :] 1]"
       } else {
         start_mode $txtt
@@ -1403,21 +1401,21 @@ namespace eval vim {
     # Format all text within the current character
     } elseif {$mode($txtt) eq "formatin"} {
       record_add "Key-$keysym"
-      [ns edit]::format_between_char $txtt $char
+      edit::format_between_char $txtt $char
       start_mode $txtt
       return 1
 
     # Left shift all text within the current character
     } elseif {$mode($txtt) eq "lshiftin"} {
       record_add "Key-$keysym"
-      [ns edit]::lshift_between_char $txtt $char
+      edit::lshift_between_char $txtt $char
       start_mode $txtt
       return 1
 
     # Right shift all text within the current character
     } elseif {$mode($txtt) eq "rshiftin"} {
       record_add "Key-$keysym"
-      [ns edit]::rshift_between_char $txtt $char
+      edit::rshift_between_char $txtt $char
       start_mode $txtt
       return 1
 
@@ -1455,27 +1453,27 @@ namespace eval vim {
     # Handle any find motions
     switch $command {
       "find" {
-        [ns edit]::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
+        edit::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
         start_mode $txtt
         return 1
       }
       "visual" {
-        [ns edit]::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
+        edit::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
         set mode($txtt) "visual:char"
         return 1
       }
       "delete" {
-        [ns edit]::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
+        edit::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
         start_mode $txtt
         return 1
       }
       "change" {
-        [ns edit]::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
+        edit::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
         edit_mode $txtt
         return 1
       }
       "yank" {
-        if {[set index [[ns edit]::find_char $txtt $dir $char $num]] ne "insert"} {
+        if {[set index [edit::find_char $txtt $dir $char $num]] ne "insert"} {
           clipboard clear
           if {$dir eq "next"} {
             if {$type eq "f"} {
@@ -1491,14 +1489,14 @@ namespace eval vim {
               clipboard append [$txtt get $index+1c insert]
               ::tk::TextSetCursor $txtt $index+1c
             }
-            [ns vim]::adjust_insert $txtt
+            vim::adjust_insert $txtt
           }
         }
         start_mode $txtt
         return 1
       }
       "case" {
-        if {[set index [[ns edit]::find_char $txtt $dir $char $num]] ne "insert"} {
+        if {[set index [edit::find_char $txtt $dir $char $num]] ne "insert"} {
           if {$dir eq "next"} {
             set startpos [$txtt index insert]
             set endpos   [expr {($type eq "f") ? "$index+1c" : $index}]
@@ -1507,12 +1505,12 @@ namespace eval vim {
             set endpos   "insert"
           }
           switch $subcmd {
-            swap  { [ns edit]::convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos] }
-            upper { [ns edit]::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] upper }
-            lower { [ns edit]::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] lower }
+            swap  { edit::convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos] }
+            upper { edit::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] upper }
+            lower { edit::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] lower }
           }
           ::tk::TextSetCursor $txtt $startpos
-          [ns vim]::adjust_insert $txtt
+          vim::adjust_insert $txtt
           start_mode $txtt
         }
         return 1
@@ -1534,15 +1532,15 @@ namespace eval vim {
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {($mode($txtt) eq "start") && ($num eq "0") && ($number($txtt) eq "")} {
-        [ns edit]::move_cursor $txtt linestart
+        edit::move_cursor $txtt linestart
       } else {
         append number($txtt) $num
         record_start
       }
       return 1
     } elseif {($mode($txtt) eq "delete") && ($num eq "0") && ($number($txtt) eq "")} {
-      if {![[ns multicursor]::delete $txtt linestart]} {
-        [ns edit]::delete_from_start $txtt
+      if {![multicursor::delete $txtt linestart]} {
+        edit::delete_from_start $txtt
       }
       start_mode $txtt
       return 1
@@ -1600,12 +1598,12 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns edit]::move_cursor $txtt lineend
+      edit::move_cursor $txtt lineend
       ::tk::TextSetCursor $txtt "insert lineend-1c"
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      if {![[ns multicursor]::delete $txtt lineend]} {
-        [ns edit]::delete_to_end $txtt
+      if {![multicursor::delete $txtt lineend]} {
+        edit::delete_to_end $txtt
       }
       start_mode $txtt
       record_add "Key-dollar"
@@ -1630,8 +1628,8 @@ namespace eval vim {
       ::tk::TextSetCursor $txtt "insert linestart"
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      if {![[ns multicursor]::delete $txtt linestart]} {
-        [ns edit]::delete_from_start $txtt
+      if {![multicursor::delete $txtt linestart]} {
+        edit::delete_from_start $txtt
       }
       start_mode $txtt
       record_add "Key-asciicircum"
@@ -1651,7 +1649,7 @@ namespace eval vim {
     variable search_dir
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::search "next"
+      gui::search "next"
       set search_dir($txtt) "next"
       return 1
     }
@@ -1669,7 +1667,7 @@ namespace eval vim {
     variable search_dir
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::search "prev"
+      gui::search "prev"
       set search_dir($txtt) "prev"
       return 1
     }
@@ -1711,7 +1709,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::show_match_pair
+      gui::show_match_pair
       return 1
     }
 
@@ -1742,7 +1740,7 @@ namespace eval vim {
       set mode($txtt) "rshiftin"
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::toggle_all_folds [winfo parent $txtt]
+      folding::toggle_all_folds [winfo parent $txtt]
       start_mode $txtt
       return 1
     } elseif {[in_visual_mode $txtt]} {
@@ -1801,11 +1799,11 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::jump_to [winfo parent $txtt] next
+      folding::jump_to [winfo parent $txtt] next
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding:range"} {
-      [ns folding]::close_range [winfo parent $txtt] insert "insert+$number($txtt) display lines"
+      folding::close_range [winfo parent $txtt] insert "insert+$number($txtt) display lines"
       start_mode $txtt
       return 1
     }
@@ -1823,10 +1821,10 @@ namespace eval vim {
     variable number
 
     if {$mode($txtt) eq "start"} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns edit]::move_cursors $txtt "+1l"
+      if {[multicursor::enabled $txtt]} {
+        edit::move_cursors $txtt "+1l"
       } else {
-        [ns edit]::transform_join_lines $txtt $number($txtt)
+        edit::transform_join_lines $txtt $number($txtt)
         record "Key-J"
       }
       return 1
@@ -1861,11 +1859,11 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::jump_to [winfo parent $txtt] prev
+      folding::jump_to [winfo parent $txtt] prev
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding:range"} {
-      [ns folding]::close_range [winfo parent $txtt] "insert-$number($txtt) display lines" insert
+      folding::close_range [winfo parent $txtt] "insert-$number($txtt) display lines" insert
       ::tk::TextSetCursor $txtt "insert-1 display lines"
       adjust_insert $txtt
       start_mode $txtt
@@ -1884,8 +1882,8 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns edit]::move_cursors $txtt "-1l"
+      if {[multicursor::enabled $txtt]} {
+        edit::move_cursors $txtt "-1l"
       }
       return 1
     }
@@ -1980,9 +1978,9 @@ namespace eval vim {
       set type [lindex [split $mode($txtt) :] 1]
       if {[string index $mode($txtt) end] eq "V"} {
         switch $type {
-          swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
-          upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
-          lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
+          upper { edit::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          lower { edit::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
         }
       } else {
         if {$number($txtt) ne ""} {
@@ -2000,15 +1998,15 @@ namespace eval vim {
         }
         if {[$txtt compare "insert lineend" < $endpos]} {
           switch $type {
-            swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) insert "insert lineend" }
-            upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) insert "insert lineend" }
-            lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) insert "insert lineend" }
+            swap  { edit::transform_toggle_case   $txtt $number($txtt) insert "insert lineend" }
+            upper { edit::transform_to_upper_case $txtt $number($txtt) insert "insert lineend" }
+            lower { edit::transform_to_lower_case $txtt $number($txtt) insert "insert lineend" }
           }
         } else {
           switch $type {
-            swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) insert $endpos }
-            upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) insert $endpos }
-            lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) insert $endpos }
+            swap  { edit::transform_toggle_case   $txtt $number($txtt) insert $endpos }
+            upper { edit::transform_to_upper_case $txtt $number($txtt) insert $endpos }
+            lower { edit::transform_to_lower_case $txtt $number($txtt) insert $endpos }
           }
         }
       }
@@ -2030,10 +2028,10 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns edit]::move_cursors $txtt "+1c"
+      if {[multicursor::enabled $txtt]} {
+        edit::move_cursors $txtt "+1c"
       } elseif {$mode($txtt) eq "start"} {
-        [ns edit]::move_cursor $txtt screenbot $number($txtt)
+        edit::move_cursor $txtt screenbot $number($txtt)
       }
       return 1
     }
@@ -2096,21 +2094,21 @@ namespace eval vim {
       set mode($txtt) "case:f:next:lower"
       return 1
     } elseif {$mode($txtt) eq "goto"} {
-      if {[[ns multicursor]::enabled $txtt]} {
+      if {[multicursor::enabled $txtt]} {
         foreach {startpos endpos} [$txtt tag ranges mcursor] {
           if {[file exists [set fname [get_filename $txtt $startpos]]]} {
-            [ns gui]::add_file end $fname
+            gui::add_file end $fname
           }
         }
       } else {
         if {[file exists [set fname [get_filename $txtt insert]]]} {
-          [ns gui]::add_file end $fname
+          gui::add_file end $fname
         }
       }
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      if {[[ns folding]::close_selected [winfo parent $txtt]]} {
+      if {[folding::close_selected [winfo parent $txtt]]} {
         start_mode $txtt
       } else {
         set mode($txtt) "folding:range"
@@ -2334,9 +2332,9 @@ namespace eval vim {
       set type [lindex [split $mode($txtt) :] 1]
       if {[string index $mode($txtt) end] eq "V"} {
         switch $type {
-          swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
-          upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
-          lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
+          upper { edit::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          lower { edit::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
         }
       } else {
         if {[string index $mode($txtt) end] eq "v"} {
@@ -2347,22 +2345,22 @@ namespace eval vim {
         if {$number($txtt) ne ""} {
           if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
             switch $type {
-              swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert linestart" $endpos }
-              upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert linestart" $endpos }
-              lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert linestart" $endpos }
+              swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert linestart" $endpos }
+              upper { edit::transform_to_upper_case $txtt $number($txtt) "insert linestart" $endpos }
+              lower { edit::transform_to_lower_case $txtt $number($txtt) "insert linestart" $endpos }
             }
           } else {
             switch $type {
-              swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
-              upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
-              lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
+              swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
+              upper { edit::transform_to_upper_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
+              lower { edit::transform_to_lower_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
             }
           }
         } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
           switch $type {
-            swap  { [ns edit]::transform_toggle_case   $txtt $number($txtt) "insert-1c" $endpos }
-            upper { [ns edit]::transform_to_upper_case $txtt $number($txtt) "insert-1c" $endpos }
-            lower { [ns edit]::transform_to_lower_case $txtt $number($txtt) "insert-1c" $endpos }
+            swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert-1c" $endpos }
+            upper { edit::transform_to_upper_case $txtt $number($txtt) "insert-1c" $endpos }
+            lower { edit::transform_to_lower_case $txtt $number($txtt) "insert-1c" $endpos }
           }
         } else {
           bell
@@ -2386,10 +2384,10 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns edit]::move_cursors $txtt "-1c"
+      if {[multicursor::enabled $txtt]} {
+        edit::move_cursors $txtt "-1c"
       } else {
-        [ns edit]::move_cursor $txtt screentop $number($txtt)
+        edit::move_cursor $txtt screentop $number($txtt)
       }
       return 1
     }
@@ -2407,7 +2405,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      [ns edit]::move_cursor $txtt prevword $number($txtt)
+      edit::move_cursor $txtt prevword $number($txtt)
       return 1
     }
 
@@ -2428,19 +2426,19 @@ namespace eval vim {
       record_start
       return 1
     } elseif {[in_visual_mode $txtt]} {
-      if {![[ns multicursor]::delete $txtt "selected"]} {
+      if {![multicursor::delete $txtt "selected"]} {
         $txtt delete sel.first sel.last
       }
       edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "change"} {
-      if {![[ns multicursor]::delete $txtt "line"]} {
+      if {![multicursor::delete $txtt "line"]} {
         $txtt delete "insert linestart" "insert lineend"
       }
       edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      folding::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -2461,7 +2459,7 @@ namespace eval vim {
       edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      folding::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -2477,7 +2475,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "folding"} {
-      [ns folding]::delete_all_folds [winfo parent $txtt]
+      folding::delete_all_folds [winfo parent $txtt]
       start_mode $txtt
       return 1
     }
@@ -2495,15 +2493,15 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      [ns edit]::move_cursor $txtt nextword $number($txtt)
+      edit::move_cursor $txtt nextword $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "change"} {
       if {($number($txtt) ne "") && ($number($txtt) > 1)} {
-        if {![[ns multicursor]::delete $txtt "word" $number($txtt)]} {
-          $txtt delete insert "[[ns edit]::get_word $txtt next [expr $number($txtt) - 1]] wordend"
+        if {![multicursor::delete $txtt "word" $number($txtt)]} {
+          $txtt delete insert "[edit::get_word $txtt next [expr $number($txtt) - 1]] wordend"
         }
       } else {
-        if {![[ns multicursor]::delete $txtt " wordend"]} {
+        if {![multicursor::delete $txtt " wordend"]} {
           $txtt delete insert "insert wordend"
         }
       }
@@ -2512,15 +2510,15 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "yank"} {
       clipboard clear
       if {$number($txtt) ne ""} {
-        clipboard append [$txtt get "insert wordstart" "[[ns edit]::get_word $txtt next [expr $number($txtt) - 1]] wordend"]
+        clipboard append [$txtt get "insert wordstart" "[edit::get_word $txtt next [expr $number($txtt) - 1]] wordend"]
       } else {
         clipboard append [$txtt get "insert wordstart" "insert wordend"]
       }
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      if {![[ns multicursor]::delete $txtt word $number($txtt)]} {
-        [ns edit]::delete_current_word $txtt $number($txtt)
+      if {![multicursor::delete $txtt word $number($txtt)]} {
+        edit::delete_current_word $txtt $number($txtt)
       }
       start_mode $txtt
       return 1
@@ -2538,10 +2536,10 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      [ns edit]::move_cursor $txtt last $number($txtt)
+      edit::move_cursor $txtt last $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "format"} {
-      [ns indent]::format_text $txtt "insert linestart" end
+      indent::format_text $txtt "insert linestart" end
       start_mode $txtt
       return 1
     }
@@ -2564,15 +2562,15 @@ namespace eval vim {
       $txtt edit separator
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      if {![[ns multicursor]::delete $txtt line]} {
-        [ns edit]::delete_current_line $txtt $number($txtt)
+      if {![multicursor::delete $txtt line]} {
+        edit::delete_current_line $txtt $number($txtt)
       }
       start_mode $txtt
       record_add "Key-d"
       record_stop
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -2589,7 +2587,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns edit]::delete_to_end $txtt
+      edit::delete_to_end $txtt
       return 1
     }
 
@@ -2605,8 +2603,8 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns multicursor]::adjust $txtt "+1c" 1 dspace
+      if {[multicursor::enabled $txtt]} {
+        multicursor::adjust $txtt "+1c" 1 dspace
       }
       cleanup_dspace $txtt
       ::tk::TextSetCursor $txtt "insert+1c"
@@ -2614,7 +2612,7 @@ namespace eval vim {
       record_start
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
+      folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
       start_mode $txtt
       return 1
     }
@@ -2635,7 +2633,7 @@ namespace eval vim {
       record_start
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
+      folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
       start_mode $txtt
       return 1
     }
@@ -2687,7 +2685,7 @@ namespace eval vim {
 
     variable mode
 
-    if {[[ns preferences]::get Editor/VimMode] && [info exists mode($txt.t)]} {
+    if {[preferences::get Editor/VimMode] && [info exists mode($txt.t)]} {
 
       # If we are not currently in edit mode, temporarily set ourselves to edit mode
       if {$mode($txt.t) ne "edit"} {
@@ -2741,7 +2739,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Perform bracket auditing
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -2791,7 +2789,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Perform bracket auditing
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -2824,7 +2822,7 @@ namespace eval vim {
     adjust_insert $txtt
 
     # Perform bracket auditing
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -2839,7 +2837,7 @@ namespace eval vim {
     adjust_insert $txtt
 
     # Perform bracket auditing
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -2884,8 +2882,8 @@ namespace eval vim {
     $txtt edit separator
 
     if {$number ne ""} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns multicursor]::delete $txtt "+${number}c"
+      if {[multicursor::enabled $txtt]} {
+        multicursor::delete $txtt "+${number}c"
       } elseif {[$txtt compare "insert+${number}c" > "insert lineend"]} {
         $txtt delete insert "insert lineend"
         if {[$txtt index insert] eq [$txtt index "insert linestart"]} {
@@ -2895,8 +2893,8 @@ namespace eval vim {
       } else {
         $txtt delete insert "insert+${number}c"
       }
-    } elseif {[[ns multicursor]::enabled $txtt]} {
-      [ns multicursor]::delete $txtt "+1c"
+    } elseif {[multicursor::enabled $txtt]} {
+      multicursor::delete $txtt "+1c"
     } else {
       $txtt delete insert
       if {[$txtt index insert] eq [$txtt index "insert lineend"]} {
@@ -2911,7 +2909,7 @@ namespace eval vim {
     adjust_insert $txtt
 
     # Allow brackets to be highlighted
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
     # Create separator
     $txtt edit separator
@@ -2926,15 +2924,15 @@ namespace eval vim {
     $txtt edit separator
 
     if {$number ne ""} {
-      if {[[ns multicursor]::enabled $txtt]} {
-        [ns multicursor]::delete $txtt "-${number}c"
+      if {[multicursor::enabled $txtt]} {
+        multicursor::delete $txtt "-${number}c"
       } elseif {[$txtt compare "insert-${number}c" < "insert linestart"]} {
         $txtt delete "insert linestart" insert
       } else {
         $txtt delete "insert-${number}c" insert
       }
-    } elseif {[[ns multicursor]::enabled $txtt]} {
-      [ns multicursor]::delete $txtt "-1c"
+    } elseif {[multicursor::enabled $txtt]} {
+      multicursor::delete $txtt "-1c"
     } elseif {[$txtt compare "insert-1c" >= "insert linestart"] && ([$txtt index insert] ne "1.0")} {
       $txtt delete "insert-1c"
     }
@@ -2946,7 +2944,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Allow brackets to be highlighted
-    [ns completer]::check_all_brackets $txtt
+    completer::check_all_brackets $txtt
 
   }
 
@@ -3014,10 +3012,10 @@ namespace eval vim {
     variable number
 
     if {$mode($txtt) eq "start"} {
-      [ns edit]::insert_line_below_current $txtt
+      edit::insert_line_below_current $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
+      folding::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
       start_mode $txtt
       return 1
     }
@@ -3034,10 +3032,10 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns edit]::insert_line_above_current $txtt
+      edit::insert_line_above_current $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
+      folding::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
       start_mode $txtt
       return 1
     }
@@ -3057,8 +3055,8 @@ namespace eval vim {
       set mode($txtt) "quit"
       return 1
     } elseif {$mode($txtt) eq "quit"} {
-      [ns gui]::save_current
-      [ns gui]::close_current
+      gui::save_current
+      gui::close_current
       return 1
     }
 
@@ -3078,16 +3076,16 @@ namespace eval vim {
       set count [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
       if {$search_dir($txtt) eq "next"} {
         for {set i 0} {$i < $count} {incr i} {
-          [ns search]::find_next [winfo parent $txtt] 0
+          search::find_next [winfo parent $txtt] 0
         }
       } else {
         for {set i 0} {$i < $count} {incr i} {
-          [ns search]::find_prev [winfo parent $txtt] 0
+          search::find_prev [winfo parent $txtt] 0
         }
       }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      [ns edit]::delete_current_number $txtt
+      edit::delete_current_number $txtt
       start_mode $txtt
       record_add "Key-n"
       record_stop
@@ -3111,11 +3109,11 @@ namespace eval vim {
       set count [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
       if {$search_dir($txtt) eq "next"} {
         for {set i 0} {$i < $count} {incr i} {
-          [ns search]::find_prev [winfo parent $txtt] 0
+          search::find_prev [winfo parent $txtt] 0
         }
       } else {
         for {set i 0} {$i < $count} {incr i} {
-          [ns search]::find_next [winfo parent $txtt] 0
+          search::find_next [winfo parent $txtt] 0
         }
       }
       return 1
@@ -3154,7 +3152,7 @@ namespace eval vim {
       record_start
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::open_all_folds [winfo parent $txtt]
+      folding::open_all_folds [winfo parent $txtt]
       start_mode $txtt
       return 1
     }
@@ -3173,7 +3171,7 @@ namespace eval vim {
       visual_mode $txtt char
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      folding::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     } elseif {($mode($txtt) eq "change") || ($mode($txtt) eq "delete")} {
@@ -3210,7 +3208,7 @@ namespace eval vim {
     variable mode
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      [ns edit]::move_cursor_by_page $txtt next
+      edit::move_cursor_by_page $txtt next
       record "Control-f"
       return 1
     }
@@ -3226,7 +3224,7 @@ namespace eval vim {
     variable mode
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      [ns edit]::move_cursor_by_page $txtt prior
+      edit::move_cursor_by_page $txtt prior
       record "Control-b"
       return 1
     }
@@ -3242,7 +3240,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::display_file_counts $txtt
+      gui::display_file_counts $txtt
       return 1
     }
 
@@ -3257,7 +3255,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns edit]::transform_bubble_down $txtt
+      edit::transform_bubble_down $txtt
       return 1
     }
 
@@ -3272,7 +3270,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns edit]::transform_bubble_up $txtt
+      edit::transform_bubble_up $txtt
       return 1
     }
 
@@ -3287,10 +3285,10 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns multicursor]::add_cursor $txtt [$txtt index insert]
+      multicursor::add_cursor $txtt [$txtt index insert]
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      [ns edit]::delete_next_space $txtt
+      edit::delete_next_space $txtt
       start_mode $txtt
       record_add "Key-s"
       record_stop
@@ -3309,10 +3307,10 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns multicursor]::add_cursors $txtt [$txtt index insert]
+      multicursor::add_cursors $txtt [$txtt index insert]
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      [ns edit]::delete_prev_space $txtt
+      edit::delete_prev_space $txtt
       start_mode $txtt
       record_add "Key-S"
       record_stop
@@ -3332,7 +3330,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      [ns gui]::insert_numbers $txtt
+      gui::insert_numbers $txtt
       return 1
     }
 
@@ -3508,7 +3506,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "lshift"} {
       set lines [expr {($number($txtt) eq "") ? 0 : ($number($txtt) - 1)}]
-      [ns edit]::unindent $txtt insert "insert+${lines}l"
+      edit::unindent $txtt insert "insert+${lines}l"
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "change"} {
@@ -3533,7 +3531,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "rshift"} {
       set lines [expr {($number($txtt) eq "") ? 0 : ($number($txtt) - 1)}]
-      [ns edit]::indent $txtt insert "insert+${lines}l"
+      edit::indent $txtt insert "insert+${lines}l"
       start_mode $txtt
       return 1
     }
@@ -3554,14 +3552,14 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
         foreach {endpos startpos} [lreverse $selected] {
-          [ns indent]::format_text $txtt $startpos $endpos
+          indent::format_text $txtt $startpos $endpos
         }
       } else {
         set mode($txtt) "format"
       }
       return 1
     } elseif {$mode($txtt) eq "format"} {
-      [ns indent]::format_text $txtt "insert linestart" "insert lineend"
+      indent::format_text $txtt "insert linestart" "insert lineend"
       start_mode $txtt
       return 1
     }
@@ -3580,7 +3578,7 @@ namespace eval vim {
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       ::tk::TextSetCursor $txtt "insert+1l linestart"
       if {[string is space [$txtt get insert]]} {
-        set next_word [[ns edit]::get_word $txtt next]
+        set next_word [edit::get_word $txtt next]
         if {[$txtt compare $next_word < "insert lineend"]} {
           ::tk::TextSetCursor $txtt $next_word
         } else {
@@ -3605,7 +3603,7 @@ namespace eval vim {
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       ::tk::TextSetCursor $txtt "insert-1l linestart"
       if {[string is space [$txtt get insert]]} {
-        set next_word [[ns edit]::get_word $txtt next]
+        set next_word [edit::get_word $txtt next]
         if {[$txtt compare $next_word < "insert lineend"]} {
           ::tk::TextSetCursor $txtt $next_word
         } else {
@@ -3647,7 +3645,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      [ns edit]::transform_toggle_case $txtt $number($txtt)
+      edit::transform_toggle_case $txtt $number($txtt)
       adjust_insert $txtt
       if {[in_visual_mode $txtt]} {
         start_mode $txtt
@@ -3671,10 +3669,10 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      [ns edit]::move_cursor $txtt screenmid $number($txtt)
+      edit::move_cursor $txtt screenmid $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      [ns folding]::close_all_folds [winfo parent $txtt]
+      folding::close_all_folds [winfo parent $txtt]
       start_mode $txtt
       return 1
     }
@@ -3695,7 +3693,7 @@ namespace eval vim {
       catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
       ctext::addSearchClass [winfo parent $txtt] search black yellow "" $word
       $txtt tag lower _search sel
-      [ns search]::find_next [winfo parent $txtt] 0
+      search::find_next [winfo parent $txtt] 0
       return 1
     }
 
@@ -3734,7 +3732,7 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       return 1
     } elseif {$mode($txtt) eq "quit"} {
-      [ns gui]::close_current -force 1
+      gui::close_current -force 1
       return 1
     }
 

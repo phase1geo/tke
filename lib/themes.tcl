@@ -24,8 +24,6 @@
 
 namespace eval themes {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable curr_theme ""
 
   array set files {}
@@ -57,16 +55,16 @@ namespace eval themes {
 
     # Trace changes to syntax preference values
     if {[array size files] == 0} {
-      trace variable [ns preferences]::prefs(Appearance/Theme)    w [ns themes]::handle_theme_change
-      trace variable [ns preferences]::prefs(Appearance/Colorize) w [ns themes]::handle_colorize_change
+      trace variable preferences::prefs(Appearance/Theme)    w themes::handle_theme_change
+      trace variable preferences::prefs(Appearance/Colorize) w themes::handle_colorize_change
     }
 
     # Reset the files/themes arrays and unregister launcher items
     array unset files
-    [ns launcher]::unregister [msgcat::mc "Theme:*"]
+    launcher::unregister [msgcat::mc "Theme:*"]
 
     # Load the tke_dir theme files
-    set tfiles [[ns utils]::glob_install [file join $::tke_dir data themes] *.tketheme]
+    set tfiles [utils::glob_install [file join $::tke_dir data themes] *.tketheme]
 
     # Load the theme files
     foreach item [glob -nocomplain -directory $themes_dir -type d *] {
@@ -79,7 +77,7 @@ namespace eval themes {
     foreach tfile $tfiles {
       set name         [file rootname [file tail $tfile]]
       set files($name) $tfile
-      [ns launcher]::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list [ns theme]::load_theme $tfile] "" [list [ns themes::theme_okay]]
+      launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $tfile] "" [list themes::theme_okay]]
     }
 
   }
@@ -123,7 +121,7 @@ namespace eval themes {
 
     variable files
 
-    set user_theme [[ns preferences]::get Appearance/Theme]
+    set user_theme [preferences::get Appearance/Theme]
 
     if {[info exists files($user_theme)]} {
       theme::load_theme $files($user_theme)
@@ -209,7 +207,7 @@ namespace eval themes {
     variable curr_theme
 
     # Get the current theme
-    set curr_theme [[ns theme]::get_current_theme]
+    set curr_theme [theme::get_current_theme]
 
     # Figure out the state for the items
     set state [expr {[themer::window_exists] ? "disabled" : "normal"}]
@@ -219,7 +217,7 @@ namespace eval themes {
 
     # Populate the menu with the available themes
     foreach name [lsort [array names files]] {
-      $mnu add radiobutton -label $name -variable [ns themes]::curr_theme -value $name -command [list [ns theme]::load_theme $files($name)] -state $state
+      $mnu add radiobutton -label $name -variable themes::curr_theme -value $name -command [list theme::load_theme $files($name)] -state $state
     }
 
     return $mnu

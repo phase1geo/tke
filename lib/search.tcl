@@ -24,8 +24,6 @@
 
 namespace eval search {
 
-  source [file join $::tke_dir lib ns.tcl]
-
   variable lengths {}
 
   array set data {
@@ -48,10 +46,10 @@ namespace eval search {
     variable data
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
 
     # Get the search information
-    lassign [set search_data [[ns gui]::get_search_data find]] str case_sensitive saved
+    lassign [set search_data [gui::get_search_data find]] str case_sensitive saved
 
     # If the user has specified a new search value, find all occurrences
     if {$str ne ""} {
@@ -61,7 +59,7 @@ namespace eval search {
 
       # Test the regular expression, if it is invalid, let the user know
       if {[catch { regexp $str "" } rc]} {
-        after 100 [list [ns gui]::set_info_message $rc]
+        after 100 [list gui::set_info_message $rc]
         return
       }
 
@@ -96,7 +94,7 @@ namespace eval search {
   proc find_clear {} {
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
 
     # Clear the highlight class
     catch { ctext::deleteHighlightClass $txt search }
@@ -125,19 +123,19 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      if {![[ns vim]::in_vim_mode $txt.t]} {
+      if {![vim::in_vim_mode $txt.t]} {
         $txt tag add sel $startpos $endpos
       }
       ::tk::TextSetCursor $txt $startpos
       if {$wrapped} {
-        [ns gui]::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
+        gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
       }
     } else {
-      [ns gui]::set_info_message [msgcat::mc "No search results found"]
+      gui::set_info_message [msgcat::mc "No search results found"]
     }
 
     # Closes the search interface
-    [ns gui]::close_search
+    gui::close_search
 
   }
 
@@ -163,19 +161,19 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      if {![[ns vim]::in_vim_mode $txt.t]} {
+      if {![vim::in_vim_mode $txt.t]} {
         $txt tag add sel $startpos $endpos
       }
       ::tk::TextSetCursor $txt $startpos
       if {$wrapped} {
-        [ns gui]::set_info_message [msgcat::mc "Search wrapped to end of file"]
+        gui::set_info_message [msgcat::mc "Search wrapped to end of file"]
       }
     } else {
-      [ns gui]::set_info_message [msgcat::mc "No search results found"]
+      gui::set_info_message [msgcat::mc "No search results found"]
     }
 
     # Close the search interface
-    [ns gui]::close_search
+    gui::close_search
 
   }
 
@@ -202,7 +200,7 @@ namespace eval search {
     }
 
     # Close the search interface
-    [ns gui]::close_search
+    gui::close_search
 
   }
 
@@ -211,7 +209,7 @@ namespace eval search {
   # settings.
   proc replace_start {} {
 
-    lassign [set search_data [[ns gui]::get_search_data replace]] find replace case_sensitive replace_all
+    lassign [set search_data [gui::get_search_data replace]] find replace case_sensitive replace_all
 
     # Perform the search and replace
     replace_do_raw 1.0 end $find $replace [expr !$case_sensitive] $replace_all
@@ -220,7 +218,7 @@ namespace eval search {
     add_history replace $search_data
 
     # Close the search and replace bar
-    [ns gui]::close_search_and_replace
+    gui::close_search_and_replace
 
   }
 
@@ -231,7 +229,7 @@ namespace eval search {
     variable lengths
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
 
     # Clear the selection
     $txt tag remove sel 1.0 end
@@ -243,7 +241,7 @@ namespace eval search {
     }
 
     # Get the list of items to replace
-    set indices [$txt search -all -regexp -count [ns search]::lengths {*}$rs_args -- $search $sline $eline]
+    set indices [$txt search -all -regexp -count search::lengths {*}$rs_args -- $search $sline $eline]
 
     if {$all} {
       set indices [lreverse $indices]
@@ -293,16 +291,16 @@ namespace eval search {
       ::tk::TextSetCursor $txt [lindex $indices 0]
 
       # Make sure that the insertion cursor is valid
-      if {[[ns vim]::in_vim_mode $txt]} {
-        [ns vim]::adjust_insert $txt
+      if {[vim::in_vim_mode $txt]} {
+        vim::adjust_insert $txt
       }
 
       # Specify the number of substitutions that we did
-      [ns gui]::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]
+      gui::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]
 
     } else {
 
-      [ns gui]::set_info_message [msgcat::mc "No search results found"]
+      gui::set_info_message [msgcat::mc "No search results found"]
 
     }
 
@@ -317,7 +315,7 @@ namespace eval search {
     set rsp_list [list]
 
     # Display the find UI to the user and get input
-    if {[[ns gui]::fif_get_input rsp_list]} {
+    if {[gui::fif_get_input rsp_list]} {
 
       array set rsp $rsp_list
 
@@ -329,11 +327,11 @@ namespace eval search {
       foreach file $rsp(in) {
         if {[file isdirectory $file]} {
           foreach sfile [glob -nocomplain -directory $file -types {f r} *] {
-            if {![[ns sidebar]::ignore_file $sfile 1]} {
+            if {![sidebar::ignore_file $sfile 1]} {
               set files($sfile) 1
             }
           }
-        } elseif {![[ns sidebar]::ignore_file $file 1]} {
+        } elseif {![sidebar::ignore_file $file 1]} {
           set files($file) 1
         }
       }
@@ -347,13 +345,13 @@ namespace eval search {
       # Perform egrep operation (test)
       if {[array size files] > 0} {
         if {$::tcl_platform(platform) eq "windows"} {
-          [ns search]::fif_callback $rsp(find) [array size files] 0 [utils::egrep $rsp(find) [lsort [array names files]] [preferences::get Find/ContextNum] $egrep_opts]
+          search::fif_callback $rsp(find) [array size files] 0 [utils::egrep $rsp(find) [lsort [array names files]] [preferences::get Find/ContextNum] $egrep_opts]
         } else {
-          [ns bgproc]::system find_in_files "egrep -a -H -C[[ns preferences]::get Find/ContextNum] -n $egrep_opts -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
-            -callback "[ns search]::fif_callback [list $rsp(find)] [array size files]"
+          bgproc::system find_in_files "egrep -a -H -C[preferences::get Find/ContextNum] -n $egrep_opts -s {$rsp(find)} [lsort [array names files]]" -killable 1 \
+            -callback "search::fif_callback [list $rsp(find)] [array size files]"
         }
       } else {
-        [ns gui]::set_info_message [msgcat::mc "No files found in specified directories"]
+        gui::set_info_message [msgcat::mc "No files found in specified directories"]
       }
 
     }
@@ -365,7 +363,7 @@ namespace eval search {
   proc fif_callback {find_expr num_files err data} {
 
     # Add the file to the viewer
-    [ns gui]::add_buffer end "FIF Results" "" -readonly 1 -other [[ns preferences]::get View/ShowFindInFileResultsInOtherPane]
+    gui::add_buffer end "FIF Results" "" -readonly 1 -other [preferences::get View/ShowFindInFileResultsInOtherPane]
 
     # Inserts the results into the current buffer
     fif_insert_results $find_expr $num_files $err $data
@@ -378,7 +376,7 @@ namespace eval search {
   proc fif_insert_results {find_expr num_files err result} {
 
     # Get the current text widget
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
 
     # Change the text state to allow text to be inserted
     $txt configure -state normal
@@ -406,7 +404,7 @@ namespace eval search {
         $txt tag add fif $index "$index + [lindex $find_counts $i]c"
         $txt tag bind fif <Enter>           [list %W configure -cursor [ttk::cursor link]]
         $txt tag bind fif <Leave>           [list %W configure -cursor [$txt cget -cursor]]
-        $txt tag bind fif <ButtonRelease-1> [list [ns search]::fif_handle_click %W %x %y]
+        $txt tag bind fif <ButtonRelease-1> [list search::fif_handle_click %W %x %y]
         incr i
       }
 
@@ -503,10 +501,10 @@ namespace eval search {
     set fname  [$W get $findex "$findex+[expr $fif_count - 1]c"]
 
     # Add the file to the file viewer (if necessary)
-    [ns gui]::add_file end [string trim $fname]
+    gui::add_file end [string trim $fname]
 
     # Jump to the line and set the cursor to the beginning of the line
-    set txt [[ns gui]::current_txt]
+    set txt [gui::current_txt]
     ::tk::TextSetCursor $txt $linenum.0
 
   }
@@ -551,7 +549,7 @@ namespace eval search {
 
     # Otherwise, reduce the size of the find history if adding another element will cause it to overflow
     } else {
-      foreach index [lrange [lreverse [lsearch -index end -all $data($type,hist) 0]] [[ns preferences]::get {Find/MaxHistory}] end] {
+      foreach index [lrange [lreverse [lsearch -index end -all $data($type,hist) 0]] [preferences::get {Find/MaxHistory}] end] {
         set data($type,hist) [lreplace $data($type,hist) $index $index]
       }
     }
@@ -575,14 +573,14 @@ namespace eval search {
     variable data
 
     # Get the current search information
-    set search_data [[ns gui]::get_search_data $type]
+    set search_data [gui::get_search_data $type]
 
     # Find the matching item in history and update its save status
     set i 0
     foreach item $data($type,hist) {
       if {[lrange $item 0 end-1] eq [lrange $search_data 0 end-1]} {
         lset data($type,hist) $i 0 [lindex $search_data end]
-        [ns sessions]::save find [[ns sessions]::current]
+        sessions::save find [sessions::current]
         break
       }
       incr i
@@ -607,7 +605,7 @@ namespace eval search {
       if {$dir == 1} {
         return
       }
-      set data($type,current) [[ns gui]::get_search_data $type]
+      set data($type,current) [gui::get_search_data $type]
     }
 
     # Update the current pointer
@@ -619,9 +617,9 @@ namespace eval search {
 
     # If the new history pointer is -1, restore the current text value
     if {$data($type,hist_ptr) == $hlen} {
-      [ns gui]::set_search_data $type $data($type,current)
+      gui::set_search_data $type $data($type,current)
     } else {
-      [ns gui]::set_search_data $type [lindex $data($type,hist) $data($type,hist_ptr)]
+      gui::set_search_data $type [lindex $data($type,hist) $data($type,hist_ptr)]
     }
 
   }
