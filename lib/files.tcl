@@ -360,12 +360,7 @@ namespace eval files {
     variable files
     variable fields
 
-    get_info $tab tab fileindex fname loaded diff remote
-
-    # If the file is already loaded, return now
-    if {$loaded} {
-      return 0
-    }
+    get_info $tab tab fileindex fname diff remote
 
     # Set the loaded indicator
     lset files $fileindex $fields(loaded) 1

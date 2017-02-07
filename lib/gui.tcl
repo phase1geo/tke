@@ -1721,12 +1721,12 @@ namespace eval gui {
   proc add_tab_content {tab} {
 
     # Get some of the file information
-    get_info $tab tab tabbar txt fname diff
+    get_info $tab tab tabbar txt fname diff loaded
 
     # Indicate that we are loading the tab
     $tabbar tab $tab -busy 1
 
-    if {[files::get_file $tab contents]} {
+    if {!$loaded && [files::get_file $tab contents]} {
 
       # Delete any dspace characters
       vim::remove_dspace $txt
@@ -1828,7 +1828,11 @@ namespace eval gui {
     $txt configure -state normal
     $txt delete 1.0 end
 
+    puts "HERE A"
+
     if {[files::get_file $tab contents]} {
+
+      puts "HERE B"
 
       # Read the file contents and insert them
       $txt insert end $contents
@@ -1856,6 +1860,10 @@ namespace eval gui {
 
       # Allow plugins to be run on update
       plugins::handle_on_update $file_index
+
+    } else {
+
+      puts "HERE C"
 
     }
 
