@@ -2739,7 +2739,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Perform bracket auditing
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $clip
 
   }
 
@@ -2789,7 +2789,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Perform bracket auditing
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $clip
 
   }
 
@@ -2878,6 +2878,8 @@ namespace eval vim {
   # Performs a single character delete.
   proc do_char_delete_current {txtt number} {
 
+    set delstr ""
+
     # Create separator
     $txtt edit separator
 
@@ -2885,17 +2887,20 @@ namespace eval vim {
       if {[multicursor::enabled $txtt]} {
         multicursor::delete $txtt "+${number}c"
       } elseif {[$txtt compare "insert+${number}c" > "insert lineend"]} {
+        set delstr [$txtt get insert "insert lineend"]
         $txtt delete insert "insert lineend"
         if {[$txtt index insert] eq [$txtt index "insert linestart"]} {
           $txtt insert insert " "
         }
         ::tk::TextSetCursor $txtt "insert-1c"
       } else {
+        set delstr [$txtt get insert "insert+${number}c"]
         $txtt delete insert "insert+${number}c"
       }
     } elseif {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "+1c"
     } else {
+      set delstr [$txtt get insert]
       $txtt delete insert
       if {[$txtt index insert] eq [$txtt index "insert lineend"]} {
         if {[$txtt index insert] eq [$txtt index "insert linestart"]} {
@@ -2909,7 +2914,7 @@ namespace eval vim {
     adjust_insert $txtt
 
     # Allow brackets to be highlighted
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $delstr
 
     # Create separator
     $txtt edit separator
@@ -2920,6 +2925,8 @@ namespace eval vim {
   # Performs a single character delete.
   proc do_char_delete_previous {txtt number} {
 
+    set delstr ""
+
     # Create separator
     $txtt edit separator
 
@@ -2927,13 +2934,16 @@ namespace eval vim {
       if {[multicursor::enabled $txtt]} {
         multicursor::delete $txtt "-${number}c"
       } elseif {[$txtt compare "insert-${number}c" < "insert linestart"]} {
+        set delstr [$txtt get "insert linestart" insert]
         $txtt delete "insert linestart" insert
       } else {
+        set delstr [$txtt get "insert-${number}c" insert]
         $txtt delete "insert-${number}c" insert
       }
     } elseif {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "-1c"
     } elseif {[$txtt compare "insert-1c" >= "insert linestart"] && ([$txtt index insert] ne "1.0")} {
+      set delstr [$txtt get "insert-1c"]
       $txtt delete "insert-1c"
     }
 
@@ -2944,7 +2954,7 @@ namespace eval vim {
     $txtt edit separator
 
     # Allow brackets to be highlighted
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 

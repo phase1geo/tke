@@ -56,9 +56,6 @@ namespace eval edit {
     # Start recording
     vim::record_start
 
-    # Check the brackets
-    completer::check_all_brackets $txtt
-
   }
 
   ######################################################################
@@ -91,9 +88,6 @@ namespace eval edit {
     # Start recording
     vim::record_start
 
-    # Check the brackets
-    completer::check_all_brackets $txtt
-
   }
 
   ######################################################################
@@ -116,7 +110,7 @@ namespace eval edit {
     vim::adjust_insert $txt
 
     # Check the brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $contents
 
   }
 
@@ -136,7 +130,7 @@ namespace eval edit {
     set deleting_last [$txtt compare "insert+${num}l linestart" == end]
 
     # Copy the lines that will be deleted to the clipboard
-    clipboard append [$txtt get "insert linestart" "insert+${num}l linestart"]
+    clipboard append [set delstr [$txtt get "insert linestart" "insert+${num}l linestart"]]
 
     # If we are deleting the last line, move the cursor up one line
     if {[$txtt compare "insert+${num}l linestart" == end]} {
@@ -157,7 +151,7 @@ namespace eval edit {
     vim::adjust_insert $txtt
 
     # Check the brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 
@@ -170,15 +164,15 @@ namespace eval edit {
 
     if {$num ne ""} {
       set word [get_word $txtt next [expr $num - 1]]
-      clipboard append [$txtt get "insert wordstart" "$word wordend"]
+      clipboard append [set delstr [$txtt get "insert wordstart" "$word wordend"]]
       $txtt delete "insert wordstart" "$word wordend"
     } else {
-      clipboard append [$txtt get "insert wordstart" "insert wordend"]
+      clipboard append [set delstr [$txtt get "insert wordstart" "insert wordend"]]
       $txtt delete "insert wordstart" "insert wordend"
     }
 
     # Check the brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 
@@ -186,17 +180,19 @@ namespace eval edit {
   # Delete from the current cursor to the end of the line
   proc delete_to_end {txtt} {
 
+    set delstr ""
+
     # Delete from the current cursor to the end of the line
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "lineend"
     } else {
       clipboard clear
-      clipboard append [$txtt get insert "insert lineend"]
+      clipboard append [set delstr [$txtt get insert "insert lineend"]]
       $txtt delete insert "insert lineend"
     }
 
     # Check the brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 
@@ -204,17 +200,19 @@ namespace eval edit {
   # Delete from the start of the current line to just before the current cursor.
   proc delete_from_start {txtt} {
 
+    set delstr ""
+
     # Delete from the beginning of the line to just before the current cursor
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "linestart"
     } else {
       clipboard clear
-      clipboard append [$txtt get "insert linestart" insert]
+      clipboard append [set delstr [$txtt get "insert linestart" insert]]
       $txtt delete "insert linestart" insert
     }
 
     # Check the brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 
@@ -248,9 +246,6 @@ namespace eval edit {
       }
     }
 
-    # Check the brackets
-    completer::check_all_brackets $txtt
-
   }
 
   ######################################################################
@@ -265,9 +260,6 @@ namespace eval edit {
     } elseif {[regexp $patterns(nspace) [$txtt get insert "insert lineend"] match]} {
       $txtt delete insert "insert+[string length $match]c"
     }
-
-    # Check the brackets
-    completer::check_all_brackets $txtt
 
   }
 
@@ -284,9 +276,6 @@ namespace eval edit {
       $txtt delete "insert-[string length $match]c" insert
     }
 
-    # Check the brackets
-    completer::check_all_brackets $txtt
-
   }
 
   ######################################################################
@@ -294,16 +283,21 @@ namespace eval edit {
   # character on the current line.
   proc delete_to_next_char {txtt char {num 1} {inclusive 1}} {
 
+    set delstr ""
+
     if {[set index [find_char $txtt next $char $num]] ne "insert"} {
       clipboard clear
       if {$inclusive} {
-        clipboard append [$txtt get insert "$index+1c"]
+        clipboard append [set delstr [$txtt get insert "$index+1c"]]
         $txtt delete insert "$index+1c"
       } else {
-        clipboard append [$txtt get insert $index]
+        clipboard append [set delstr [$txtt get insert $index]]
         $txtt delete insert $index
       }
     }
+
+    # Check the brackets
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 
@@ -312,16 +306,21 @@ namespace eval edit {
   # previous character on the current line.
   proc delete_to_prev_char {txtt char {num 1} {inclusive 1}} {
 
+    set delstr ""
+
     if {[set index [find_char $txtt prev $char $num]] ne "insert"} {
       clipboard clear
       if {$inclusive} {
-        clipboard append [$txtt get $index insert]
+        clipboard append [set delstr [$txtt get $index insert]]
         $txtt delete $index insert
       } else {
-        clipboard append [$txtt get $index+1c insert]
+        clipboard append [set delstr [$txtt get $index+1c insert]]
         $txtt delete $index+1c insert
       }
     }
+
+    # Check the brackets
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 
@@ -357,9 +356,9 @@ namespace eval edit {
 
     if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
       clipboard clear
-      clipboard append [$txtt get $start_index+1c $end_index]
+      clipboard append [set delstr [$txtt get $start_index+1c $end_index]]
       $txtt delete $start_index+1c $end_index
-      completer::check_all_brackets $txtt
+      completer::check_all_brackets $txtt -string $delstr
       return 1
     }
 
@@ -377,7 +376,6 @@ namespace eval edit {
       ::tk::TextSetCursor $txtt $end_index
       $txtt tag add sel $start_index+1c $end_index
       vim::set_select_anchor $txtt $start_index+1c
-      completer::check_all_brackets $txtt
       return 1
     }
 
