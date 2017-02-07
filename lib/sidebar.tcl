@@ -787,7 +787,7 @@ namespace eval sidebar {
           set frow $child
         }
       } else {
-        if {![ignore_file $fname]} {
+        if {($remote ne "") || ![ignore_file $fname]} {
           set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 1 -tags [list f $fname,$remote]]
           if {[files::is_opened $fname $remote]} {
             set_image $key sidebar_open

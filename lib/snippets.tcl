@@ -158,7 +158,7 @@ namespace eval snippets {
 
     # Initialize the within array
     set within($txt.t)     0
-    set expandtabs($txt.t) [expr syntax::get_tabs_allowed $txt] ? 0 : 1]
+    set expandtabs($txt.t) [expr [syntax::get_tabs_allowed $txt] ? 0 : 1]
 
     # Bind whitespace
     bind snippet$txt <Key-space> "if {\[snippets::check_snippet %W %K\]} { break }"
