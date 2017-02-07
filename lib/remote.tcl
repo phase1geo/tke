@@ -64,7 +64,7 @@ namespace eval remote {
         {msgcat::mc "Image used in remote file selector to indicate a folder."} \
         -file     [file join $::tke_dir lib images right.bmp] \
         -maskfile [file join $::tke_dir lib images right.bmp] \
-        -foreground 2
+        -foreground 0
 
       theme::register_image remote_file bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector to indicate a file."} \
@@ -78,11 +78,23 @@ namespace eval remote {
         -maskfile [file join $::tke_dir lib images left.bmp] \
         -foreground 1
 
+      theme::register_image remote_back_disabled bitmap ttk_style background \
+        {msgcat::mc "Image used in remote file selector for the history back button."} \
+        -file     [file join $::tke_dir lib images left.bmp] \
+        -maskfile [file join $::tke_dir lib images left.bmp] \
+        -foreground 2
+
       theme::register_image remote_next bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector for the history forward button."} \
         -file     [file join $::tke_dir lib images right.bmp] \
         -maskfile [file join $::tke_dir lib images right.bmp] \
         -foreground 1
+
+      theme::register_image remote_next_disabled bitmap ttk_style background \
+        {msgcat::mc "Image used in remote file selector for the history forward button."} \
+        -file     [file join $::tke_dir lib images right.bmp] \
+        -maskfile [file join $::tke_dir lib images right.bmp] \
+        -foreground 2
 
       set initialized 1
 
@@ -186,8 +198,8 @@ namespace eval remote {
     ttk::frame .ftp.pw.rf.vf.ff
 
     ttk::frame .ftp.pw.rf.vf.ff.mf
-    set widgets(dir_back)    [ttk::button     .ftp.pw.rf.vf.ff.mf.back    -style BButton -image remote_back -command [list remote::handle_dir -1] -state disabled]
-    set widgets(dir_forward) [ttk::button     .ftp.pw.rf.vf.ff.mf.forward -style BButton -image remote_next -command [list remote::handle_dir  1] -state disabled]
+    set widgets(dir_back)    [ttk::button     .ftp.pw.rf.vf.ff.mf.back    -style BButton -image remote_back_disabled -command [list remote::handle_dir -1] -state disabled]
+    set widgets(dir_forward) [ttk::button     .ftp.pw.rf.vf.ff.mf.forward -style BButton -image remote_next_disabled -command [list remote::handle_dir  1] -state disabled]
     set widgets(dir_mb)      [ttk::menubutton .ftp.pw.rf.vf.ff.mf.mb \
       -menu [set widgets(dir_menu) [menu .ftp.dirPopup -tearoff 0 -postcommand [list remote::handle_dir_mb_post]]] \
       -state disabled]
@@ -1207,8 +1219,8 @@ namespace eval remote {
     $widgets(folder) configure -state disabled
 
     # Make sure that the directory widgets are disabled
-    $widgets(dir_back)    configure -state disabled
-    $widgets(dir_forward) configure -state disabled
+    $widgets(dir_back)    configure -state disabled -image remote_back_disabled
+    $widgets(dir_forward) configure -state disabled -image remote_next_disabled
     $widgets(dir_mb)      configure -text "" -state disabled
 
   }
@@ -1304,20 +1316,20 @@ namespace eval remote {
 
     incr dir_hist_index($current_server) $dir
 
+    # Set the current directory
+    set_current_directory [lindex $dir_hist($current_server) $dir_hist_index($current_server)] 0
+
     if {$dir_hist_index($current_server) == 0} {
-      $widgets(dir_back) configure -state disabled
+      $widgets(dir_back) configure -state disabled -image remote_back_disabled
     } else {
-      $widgets(dir_back) configure -state normal
+      $widgets(dir_back) configure -state normal -image remote_back
     }
 
     if {[expr ($dir_hist_index($current_server) + 1) == [llength $dir_hist($current_server)]]} {
-      $widgets(dir_forward) configure -state disabled
+      $widgets(dir_forward) configure -state disabled -image remote_next_disabled
     } else {
-      $widgets(dir_forward) configure -state normal
+      $widgets(dir_forward) configure -state normal -image remote_next
     }
-
-    # Set the current directory
-    set_current_directory [lindex $dir_hist($current_server) $dir_hist_index($current_server)] 0
 
   }
 
@@ -1679,11 +1691,11 @@ namespace eval remote {
       lappend dir_hist($current_server) $directory
       set dir_hist_index($current_server) [expr [llength $dir_hist($current_server)] - 1]
       if {[llength $dir_hist($current_server)] == 1} {
-        $widgets(dir_back) configure -state disabled
+        $widgets(dir_back) configure -state disabled -image remote_back_disabled
       } else {
-        $widgets(dir_back) configure -state normal
+        $widgets(dir_back) configure -state normal -image remote_back
       }
-      $widgets(dir_forward) configure -state disabled
+      $widgets(dir_forward) configure -state disabled -image remote_next_disabled
     }
 
     # Enable the New Folder button
