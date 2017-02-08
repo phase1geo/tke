@@ -613,7 +613,7 @@ namespace eval snippets {
     variable snippets_dir
     variable snippets
 
-    if {$language eq "Any"} {
+    if {$language eq "All"} {
       set language "user"
     }
 
@@ -636,14 +636,14 @@ namespace eval snippets {
 
     variable snippets_dir
 
-    if {$language eq "Any"} {
+    if {$language eq "All"} {
       set language "user"
     }
 
     if {![catch { open [file join $snippets_dir $language.snippets] w } rc]} {
       foreach item $items {
         lassign $item keyword snippet
-        puts $rc "snippet $item"
+        puts $rc "snippet $keyword"
         puts $rc $snippet
         puts $rc "endsnippet\n"
       }

@@ -97,6 +97,20 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
   return $::CLOSE_PAREN
 }
 
+\[ {
+  set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos
+  return $::OPEN_SQUARE
+}
+
+\] {
+  set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos
+  return $::CLOSE_SQUARE
+}
+
   # Single character symbols
 [`:/\?] {
   set ::snip_lval $snip_text
@@ -119,6 +133,13 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
   return $::VARNAME
+}
+
+CLIPHIST {
+  set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos [string length $snip_text]
+  return $::CLIPHIST
 }
 
   # Final catch-all
