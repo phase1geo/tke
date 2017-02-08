@@ -6,6 +6,7 @@ The following table represents the various variables that can be used within sni
 | - | - |
 | **\$SELECTED\_TEXT** | Inserts the currently selected text at this variable’s location. If no text is currently selected, an empty string is inserted in its place. |
 | **$CLIPBOARD** | Places the contents that are currently in the clipboard at this variable’s location. |
+| <b>$CLIPHIST[</b>_number_<b>]</b> | Places the contents that are in the given location of the clipboard history where a _number_ value of 0 refers to the last item added to the clipboard history queue. |
 | **$CURRENT\_LINE** | Places the current line contents (minus the abbreviation) at this variable’s location. |
 | **$CURRENT\_WORD** | Places the current word at this variable’s location. |
 | **$DIRECTORY** | Places the current directory at this variable’s location. |
