@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -296,37 +296,61 @@ proc snip_lex {} {
             set ::snip_leng [string length $::snip_text]
             set snip__matched_rule 6
         }
-        # rule 7: [`:/\?]
+        # rule 7: \[
         if {$::snip__state_table($snip__current_state) && \
-                [regexp -start $::snip__index -indices -line  -- {\A([`:/\?])} $::snip__buffer snip__match] > 0 && \
+                [regexp -start $::snip__index -indices -line  -- {\A(\[)} $::snip__buffer snip__match] > 0 && \
                 [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
             set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
             set ::snip_leng [string length $::snip_text]
             set snip__matched_rule 7
         }
-        # rule 8: [0-9][0-9]*
+        # rule 8: \]
         if {$::snip__state_table($snip__current_state) && \
-                [regexp -start $::snip__index -indices -line  -- {\A([0-9][0-9]*)} $::snip__buffer snip__match] > 0 && \
+                [regexp -start $::snip__index -indices -line  -- {\A(\])} $::snip__buffer snip__match] > 0 && \
                 [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
             set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
             set ::snip_leng [string length $::snip_text]
             set snip__matched_rule 8
         }
-        # rule 9: (SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER)
+        # rule 9: [`:/\?]
         if {$::snip__state_table($snip__current_state) && \
-                [regexp -start $::snip__index -indices -line  -- {\A((SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER))} $::snip__buffer snip__match] > 0 && \
+                [regexp -start $::snip__index -indices -line  -- {\A([`:/\?])} $::snip__buffer snip__match] > 0 && \
                 [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
             set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
             set ::snip_leng [string length $::snip_text]
             set snip__matched_rule 9
         }
-        # rule 10: .
+        # rule 10: [0-9][0-9]*
+        if {$::snip__state_table($snip__current_state) && \
+                [regexp -start $::snip__index -indices -line  -- {\A([0-9][0-9]*)} $::snip__buffer snip__match] > 0 && \
+                [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
+            set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
+            set ::snip_leng [string length $::snip_text]
+            set snip__matched_rule 10
+        }
+        # rule 11: (SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER)
+        if {$::snip__state_table($snip__current_state) && \
+                [regexp -start $::snip__index -indices -line  -- {\A((SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER))} $::snip__buffer snip__match] > 0 && \
+                [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
+            set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
+            set ::snip_leng [string length $::snip_text]
+            set snip__matched_rule 11
+        }
+        # rule 12: CLIPHIST
+        if {$::snip__state_table($snip__current_state) && \
+                [regexp -start $::snip__index -indices -line  -- {\A(CLIPHIST)} $::snip__buffer snip__match] > 0 && \
+                [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
+            set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
+            set ::snip_leng [string length $::snip_text]
+            set snip__matched_rule 12
+        }
+        # rule 13: .
         if {$::snip__state_table($snip__current_state) && \
                 [regexp -start $::snip__index -indices -line  -- {\A(.)} $::snip__buffer snip__match] > 0 && \
                 [lindex $snip__match 1] - $::snip__index + 1 > $::snip_leng} {
             set ::snip_text [string range $::snip__buffer $::snip__index [lindex $snip__match 1]]
             set ::snip_leng [string length $::snip_text]
-            set snip__matched_rule 10
+            set snip__matched_rule 13
         }
         if {$snip__matched_rule == -1} {
             set ::snip_text [string index $::snip__buffer $::snip__index]
@@ -397,21 +421,39 @@ set ::snip_lval $snip_text
 set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos
-  return $snip_text
+  return $::OPEN_SQUARE
             }
             8 {
+set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos
+  return $::CLOSE_SQUARE
+            }
+            9 {
+set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos
+  return $snip_text
+            }
+            10 {
 set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
   return $::DECIMAL
             }
-            9 {
+            11 {
 set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
   return $::VARNAME
             }
-            10 {
+            12 {
+set ::snip_lval $snip_text
+  set ::snip_begpos $::snip_endpos
+  incr ::snip_endpos [string length $snip_text]
+  return $::CLIPHIST
+            }
+            13 {
 set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]

@@ -4,7 +4,7 @@ The following table represents the various variables that can be used within sni
 
 | Variable | Description |
 | - | - |
-| **$SELECTED\_TEXT** | Inserts the currently selected text at this variable’s location. If no text is currently selected, an empty string is inserted in its place. |
+| **\$SELECTED\_TEXT** | Inserts the currently selected text at this variable’s location. If no text is currently selected, an empty string is inserted in its place. |
 | **$CLIPBOARD** | Places the contents that are currently in the clipboard at this variable’s location. |
 | **$CURRENT\_LINE** | Places the current line contents (minus the abbreviation) at this variable’s location. |
 | **$CURRENT\_WORD** | Places the current word at this variable’s location. |
@@ -25,8 +25,8 @@ The following table represents the various variables that can be used within sni
 | **$CURRENT\_DAY2** | Numerical day of the current month expressed as a two digit number where the first digit will be zero, if needed. |
 | **$CURRENT\_YEAR2** | Two digit representation of the current year where the first digit will be zero, if needed. |
 | **$CURRENT\_YEAR** | Four digit representation of the current year. |
-| <b>\$0</b> | Places the cursor at this variable’s location after the entire snippet has been expanded. |
-| <b>\$</b>_number_ | Places the cursor at this variable's location in the order of number. Hitting the TAB key will jump the cursor to the next cursor stop. For example, if a snippet uses the variables “\$1 … \$2”, the cursor will first be  placed at location “\$1” and when the TAB key is pressed, the cursor will jump to the location of “\$2”. If more than one “\$1” is use within the same snippet, the text that is entered in the first occurrence of this variable will also be entered in all other places within the snippet that share the same number. |
+| <b> \$0</b> | Places the cursor at this variable’s location after the entire snippet has been expanded. |
+| <b> \$</b>_number_ | Places the cursor at this variable's location in the order of number. Hitting the TAB key will jump the cursor to the next cursor stop. For example, if a snippet uses the variables “\$1 … \$2”, the cursor will first be  placed at location “\$1” and when the TAB key is pressed, the cursor will jump to the location of “\$2”. If more than one “\$1” is use within the same snippet, the text that is entered in the first occurrence of this variable will also be entered in all other places within the snippet that share the same number. |
 | <b>\${<b>_number_**:**_value_**}** | Places the cursor at this variable's location in the order of number, placing the string value at the cursor’s location. The string value can be used as a placeholder to remind the user what information to insert at that location. The value string will be automatically selected when the snippet is inserted so that immediately typing text will delete the value string with the user’s entered string. |
 | **\`**_shell\_command_**\`** | Executes the specified command between the back tick characters. |
 | <b>\${</b>_number_**/**_pattern_**/**_format_**/**_opts_**}** | The value of number must be a tabstop previously specified in the snippet. Its value is run through a regular expression match against pattern (the specified options are passed to the regular expression parser (values of g, i and I are supported; see the Vim command for search/replace for a description of these flags). The resulting matches are used with format and the resulting value is inserted. See the following table for a description of format strings. |

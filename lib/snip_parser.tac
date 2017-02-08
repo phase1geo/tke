@@ -76,8 +76,8 @@ proc parse_format {str matches} {
 
 %}
 
-%token DECIMAL DOLLAR_SIGN VARNAME CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB
-%token OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN
+%token DECIMAL DOLLAR_SIGN VARNAME CLIPHIST CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB
+%token OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN OPEN_SQUARE CLOSE_SQUARE
 
 %%
 
@@ -194,6 +194,9 @@ varname: VARNAME {
              CURRENT_YEAR    { set _ [clock format [clock seconds] -format "%Y"] }
            }
          }
+       | CLIPHIST OPEN_SQUARE DECIMAL CLOSE_SQUARE {
+           set _ [lindex [cliphist::get_history] $3 1]
+         }
          ;
 
 pattern: pattern CHAR {
@@ -220,6 +223,12 @@ pattern: pattern CHAR {
        | pattern '?' {
            set _ "?"
          }
+       | pattern OPEN_SQUARE {
+           set _ "\["
+         }
+       | pattern CLOSE_SQUARE {
+           set _ "\]"
+         }
        | CHAR {
            set _ $1
          }
@@ -243,6 +252,12 @@ pattern: pattern CHAR {
          }
        | '?' {
            set _ "?"
+         }
+       | OPEN_SQUARE {
+           set _ "\["
+         }
+       | CLOSE_SQUARE {
+           set _ "\]"
          }
          ;
 
@@ -278,6 +293,12 @@ value: value CHAR {
      | value tabstop {
          set _ [concat $1 $2]
        }
+     | value OPEN_SQUARE {
+         set _ [merge_values $1 [list "\[" {}]]
+       }
+     | value CLOSE_SQUARE {
+         set _ [merge_values $1 [list "\]" {}]]
+       }
      | CHAR {
          set _ [list $1 {}]
        }
@@ -301,6 +322,12 @@ value: value CHAR {
        }
      | tabstop {
          set _ $1
+       }
+     | OPEN_SQUARE {
+         set _ [list "\[" {}]
+       }
+     | CLOSE_SQUARE {
+         set _ [list "\]" {}]
        }
        ;
 
@@ -331,6 +358,12 @@ text: text CHAR {
     | text ':' {
         set _ "$1:"
       }
+    | text OPEN_SQUARE {
+        set _ "$1\["
+      }
+    | text CLOSE_SQUARE {
+        set _ "$1\]"
+      }
     | text OPEN_BRACKET {
         set _ "$1$2"
       }
@@ -338,6 +371,9 @@ text: text CHAR {
         set _ "$1$2"
       }
     | text VARNAME {
+        set _ "$1$2"
+      }
+    | text CLIPHIST {
         set _ "$1$2"
       }
     | CHAR {
@@ -367,6 +403,12 @@ text: text CHAR {
     | ':' {
         set _ ":"
       }
+    | OPEN_SQUARE {
+        set _ "\["
+      }
+    | CLOSE_SQUARE {
+        set _ "\]"
+      }
     | OPEN_BRACKET {
         set _ $1
       }
@@ -374,6 +416,9 @@ text: text CHAR {
         set _ $1
       }
     | VARNAME {
+        set _ $1
+      }
+    | CLIPHIST {
         set _ $1
       }
       ;
@@ -398,6 +443,12 @@ format: format CHAR {
       | format '?' {
           set _ "$1?"
         }
+      | format OPEN_SQUARE {
+          set _ "$1\["
+        }
+      | format CLOSE_SQUARE {
+          set _ "$1\]"
+        }
       | format case_fold {
           set _ "$1$2"
         }
@@ -421,6 +472,12 @@ format: format CHAR {
         }
       | '?' {
           set _ "?"
+        }
+      | OPEN_SQUARE {
+          set _ "\["
+        }
+      | CLOSE_SQUARE {
+          set _ "\]"
         }
       | case_fold {
           set _ $1
