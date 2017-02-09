@@ -1049,13 +1049,6 @@ namespace eval sidebar {
       # Colorize the selected items to be selected
       $widgets(tl) tag add sel [$widgets(tl) selection]
 
-      # If the file is currently in the notebook, make it the current tab
-      #if {([llength $selected] == 1) && ([$widgets(tl) item $selected -image] ne "")} {
-      #  set fileindex [files::get_index [$widgets(tl) set $selected name] [$widgets(tl) set $selected remote]]
-      #  gui::get_info $fileindex fileindex tabbar tab
-      #  gui::set_current_tab $tabbar $tab
-      #}
-
     }
 
   }
