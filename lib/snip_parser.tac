@@ -215,19 +215,19 @@ pattern: pattern CHAR {
            set _ "$1\$"
          }
        | pattern OPEN_PAREN {
-           set _ "$1\("
+           set _ "$1$2"
          }
        | pattern CLOSE_PAREN {
-           set _ "$1)"
+           set _ "$1$2"
          }
        | pattern '?' {
-           set _ "?"
+           set _ "$1?"
          }
        | pattern OPEN_SQUARE {
-           set _ "\["
+           set _ "$1$2"
          }
        | pattern CLOSE_SQUARE {
-           set _ "\]"
+           set _ "$1$2"
          }
        | CHAR {
            set _ $1
@@ -245,19 +245,19 @@ pattern: pattern CHAR {
            set _ "\$"
          }
        | OPEN_PAREN {
-           set _ "("
+           set _ $1
          }
        | CLOSE_PAREN {
-           set _ ")"
+           set _ $1
          }
        | '?' {
            set _ "?"
          }
        | OPEN_SQUARE {
-           set _ "\["
+           set _ $1
          }
        | CLOSE_SQUARE {
-           set _ "\]"
+           set _ $1
          }
          ;
 
@@ -294,10 +294,10 @@ value: value CHAR {
          set _ [concat $1 $2]
        }
      | value OPEN_SQUARE {
-         set _ [merge_values $1 [list "\[" {}]]
+         set _ [merge_values $1 [list $2 {}]]
        }
      | value CLOSE_SQUARE {
-         set _ [merge_values $1 [list "\]" {}]]
+         set _ [merge_values $1 [list $2 {}]]
        }
      | CHAR {
          set _ [list $1 {}]
@@ -324,10 +324,10 @@ value: value CHAR {
          set _ $1
        }
      | OPEN_SQUARE {
-         set _ [list "\[" {}]
+         set _ [list $1 {}]
        }
      | CLOSE_SQUARE {
-         set _ [list "\]" {}]
+         set _ [list $1 {}]
        }
        ;
 
@@ -347,10 +347,10 @@ text: text CHAR {
         set _ "$1/"
       }
     | text OPEN_PAREN {
-        set _ "$1\("
+        set _ "$1$2"
       }
     | text CLOSE_PAREN {
-        set _ "$1)"
+        set _ "$1$2"
       }
     | text '?' {
         set _ "$1?"
@@ -359,10 +359,10 @@ text: text CHAR {
         set _ "$1:"
       }
     | text OPEN_SQUARE {
-        set _ "$1\["
+        set _ "$1$2"
       }
     | text CLOSE_SQUARE {
-        set _ "$1\]"
+        set _ "$1$2"
       }
     | text OPEN_BRACKET {
         set _ "$1$2"
@@ -392,10 +392,10 @@ text: text CHAR {
         set _ "/"
       }
     | OPEN_PAREN {
-        set _ "("
+        set _ $1
       }
     | CLOSE_PAREN {
-        set _ ")"
+        set _ $1
       }
     | '?' {
         set _ "?"
@@ -404,10 +404,10 @@ text: text CHAR {
         set _ ":"
       }
     | OPEN_SQUARE {
-        set _ "\["
+        set _ $1
       }
     | CLOSE_SQUARE {
-        set _ "\]"
+        set _ $1
       }
     | OPEN_BRACKET {
         set _ $1
@@ -444,10 +444,10 @@ format: format CHAR {
           set _ "$1?"
         }
       | format OPEN_SQUARE {
-          set _ "$1\["
+          set _ "$1$2"
         }
       | format CLOSE_SQUARE {
-          set _ "$1\]"
+          set _ "$1$2"
         }
       | format case_fold {
           set _ "$1$2"
@@ -474,10 +474,10 @@ format: format CHAR {
           set _ "?"
         }
       | OPEN_SQUARE {
-          set _ "\["
+          set _ $1
         }
       | CLOSE_SQUARE {
-          set _ "\]"
+          set _ $1
         }
       | case_fold {
           set _ $1

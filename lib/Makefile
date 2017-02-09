@@ -15,7 +15,7 @@ snip_lexer.tcl: snip_lexer.fcl
 	tclsh8.5 $(FICKLE) -P snip_ snip_lexer.fcl
 
 snip_parser.tcl:
-	tclsh8.5 $(TACCLE) -d -p snip_ snip_parser.tac
+	tclsh8.5 $(TACCLE) -d -v -p snip_ snip_parser.tac
 
 format_lexer.tcl: format_lexer.fcl
 	tclsh8.5 $(FICKLE) -P format_ format_lexer.fcl

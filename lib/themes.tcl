@@ -77,7 +77,7 @@ namespace eval themes {
     foreach tfile $tfiles {
       set name         [file rootname [file tail $tfile]]
       set files($name) $tfile
-      launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $tfile] "" [list themes::theme_okay]]
+      launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $tfile] "" [list themes::theme_okay]
     }
 
   }

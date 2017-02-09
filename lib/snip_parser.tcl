@@ -5129,19 +5129,19 @@ proc snip_parse {} {
            set _ "$1\$"
           }
                     27 { 
-           set _ "$1\("
+           set _ "$1$2"
           }
                     28 { 
-           set _ "$1)"
+           set _ "$1$2"
           }
                     29 { 
-           set _ "?"
+           set _ "$1?"
           }
                     30 { 
-           set _ "\["
+           set _ "$1$2"
           }
                     31 { 
-           set _ "\]"
+           set _ "$1$2"
           }
                     32 { 
            set _ $1
@@ -5159,19 +5159,19 @@ proc snip_parse {} {
            set _ "\$"
           }
                     37 { 
-           set _ "("
+           set _ $1
           }
                     38 { 
-           set _ ")"
+           set _ $1
           }
                     39 { 
            set _ "?"
           }
                     40 { 
-           set _ "\["
+           set _ $1
           }
                     41 { 
-           set _ "\]"
+           set _ $1
           }
                     42 { 
         set _ "$1$2"
@@ -5204,10 +5204,10 @@ proc snip_parse {} {
          set _ [concat $1 $2]
         }
                     52 { 
-         set _ [merge_values $1 [list "\[" {}]]
+         set _ [merge_values $1 [list $2 {}]]
         }
                     53 { 
-         set _ [merge_values $1 [list "\]" {}]]
+         set _ [merge_values $1 [list $2 {}]]
         }
                     54 { 
          set _ [list $1 {}]
@@ -5234,10 +5234,10 @@ proc snip_parse {} {
          set _ $1
         }
                     62 { 
-         set _ [list "\[" {}]
+         set _ [list $1 {}]
         }
                     63 { 
-         set _ [list "\]" {}]
+         set _ [list $1 {}]
         }
                     64 { 
         set _ "$1$2"
@@ -5255,10 +5255,10 @@ proc snip_parse {} {
         set _ "$1/"
        }
                     69 { 
-        set _ "$1\("
+        set _ "$1$2"
        }
                     70 { 
-        set _ "$1)"
+        set _ "$1$2"
        }
                     71 { 
         set _ "$1?"
@@ -5267,10 +5267,10 @@ proc snip_parse {} {
         set _ "$1:"
        }
                     73 { 
-        set _ "$1\["
+        set _ "$1$2"
        }
                     74 { 
-        set _ "$1\]"
+        set _ "$1$2"
        }
                     75 { 
         set _ "$1$2"
@@ -5300,10 +5300,10 @@ proc snip_parse {} {
         set _ "/"
        }
                     84 { 
-        set _ "("
+        set _ $1
        }
                     85 { 
-        set _ ")"
+        set _ $1
        }
                     86 { 
         set _ "?"
@@ -5312,10 +5312,10 @@ proc snip_parse {} {
         set _ ":"
        }
                     88 { 
-        set _ "\["
+        set _ $1
        }
                     89 { 
-        set _ "\]"
+        set _ $1
        }
                     90 { 
         set _ $1
@@ -5348,10 +5348,10 @@ proc snip_parse {} {
           set _ "$1?"
          }
                     100 { 
-          set _ "$1\["
+          set _ "$1$2"
          }
                     101 { 
-          set _ "$1\]"
+          set _ "$1$2"
          }
                     102 { 
           set _ "$1$2"
@@ -5378,10 +5378,10 @@ proc snip_parse {} {
           set _ "?"
          }
                     110 { 
-          set _ "\["
+          set _ $1
          }
                     111 { 
-          set _ "\]"
+          set _ $1
          }
                     112 { 
           set _ $1
