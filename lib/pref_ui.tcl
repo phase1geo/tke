@@ -2304,11 +2304,12 @@ namespace eval pref_ui {
     $widgets(snippets_ins_menu) add cascade -label [format "%s / %s" [msgcat::mc "Date"] [msgcat::mc "Time"]] -menu [menu $w.sf.datePopup -tearoff 0]
     $widgets(snippets_ins_menu) add cascade -label [msgcat::mc "File"] -menu [menu $w.sf.filePopup -tearoff 0]
     $widgets(snippets_ins_menu) add separator
-    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Selected Text"] -command [list pref_ui::snippets_insert_str "\$SELECTED_TEXT"]
-    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Clipboard"]     -command [list pref_ui::snippets_insert_str "\$CLIPBOARD"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Selected Text"]     -command [list pref_ui::snippets_insert_str "\$SELECTED_TEXT"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Clipboard"]         -command [list pref_ui::snippets_insert_str "\$CLIPBOARD"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Clipboard History"] -command [list pref_ui::snippets_insert_str "\$CLIPHIST\[1\]"]
     $widgets(snippets_ins_menu) add separator
-    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Tab Stop"]      -command [list pref_ui::snippets_insert_str "\${1}"]
-    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Cursor"]        -command [list pref_ui::snippets_insert_str "\${0}"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Tab Stop"]          -command [list pref_ui::snippets_insert_str "\${1}"]
+    $widgets(snippets_ins_menu) add command -label [msgcat::mc "Cursor"]            -command [list pref_ui::snippets_insert_str "\${0}"]
 
     # Setup the date/time submenu
     $w.sf.datePopup add command -label "01/01/2001" -command [list pref_ui::snippets_insert_str "\$CURRENT_DATE"]
