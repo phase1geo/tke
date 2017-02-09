@@ -1,122 +1,42 @@
-2017-02-01 09:30 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (55016d571809 [devel-2.9.3])
+2017-02-07 00:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6418471fd86f [devel-2.9.4])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.3 release
+	ChangeLog for devel-2.9.4 release
 
-2017-02-01 09:30 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (08f8aa0c447f)
+2017-02-07 00:11 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (315b8245c493)
 
 	* .hgtags:
-	Added tag devel-2.9.3 for changeset 55016d571809
+	Added tag devel-2.9.4 for changeset 6418471fd86f
 
-2017-02-01 10:21 -0600  Trevor Williams  <phase1geo@gmail.com>  (f4471f5cf29a)
+2017-02-07 23:50 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c3587dd08d5a)
 
-	* lib/syntax.tcl, lib/version.tcl:
-	* Fixing syntax error in syntax.tcl.
+	* doc/md/TKE User Guide/Snippets/Snippet Variables.textbundle/text.md,
+	lib/format_lexer.tcl, lib/format_parser.tcl, lib/snip_lexer.fcl,
+	lib/snip_lexer.tcl, lib/snip_parser.tab.tcl, lib/snip_parser.tac,
+	lib/snip_parser.tcl, lib/snippets.tcl, lib/version.tcl:
+	* Fixing syntax variable table in user guide.
+	* Adding support for clipboard history snippet variables.
+	* Fixing support for user snippets in preferences window.
+	* Fixing snippet saving issue within the preferences window.
 
-2017-02-02 00:45 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (23876826689f)
+2017-02-08 00:01 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d58f0153cb5d)
 
-	* plugins/url_validator/README.md,
-	plugins/url_validator/header.tkedat, plugins/url_validator/main.tcl:
-	new file.
-	* lib/interpreter.tcl, lib/version.tcl,
-	plugins/url_validator/README.md,
-	plugins/url_validator/header.tkedat, plugins/url_validator/main.tcl:
-	* Adding http namespace for trusted plugins.
-	* Adding URL validator plugin.
-
-2017-02-03 02:09 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (8c6435e2dc4a)
-
-	* plugins/url_validator/bad.gif, plugins/url_validator/good.gif: new
-	file.
-	* .DS_Store, lib/api.tcl, lib/interpreter.tcl, lib/version.tcl,
-	plugins/url_validator/README.md, plugins/url_validator/bad.gif,
-	plugins/url_validator/good.gif, plugins/url_validator/main.tcl:
-	* Finishing up support for URL validator.
-	* Changing api::reset_txt_focus to allow a text widget to be
-	specified.
-	* Fixing bug in tag bind handling in plugins.
-
-2017-02-03 13:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0743e6f60db0)
-
-	* lib/interpreter.tcl, lib/version.tcl,
-	plugins/url_validator/README.md, plugins/url_validator/main.tcl:
-	* Removing http from interpreter (this package can be loaded by the
-	package).
-
-2017-02-03 13:46 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (097cd3d66906)
-
-	* lib/edit.tcl, lib/version.tcl:
-	* Fixing issue with the ci), ci} and ci] Vim commands.
-
-2017-02-03 16:29 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3eebaf8c182b)
-
-	* lib/gui.tcl, lib/version.tcl:
-	* When line numbering scheme is changed in preferences, immediately
-	cause all opened editing buffers to switch to that mode.
-
-2017-02-05 00:12 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4ac89cbec0ef)
-
-	* lib/ctext/ctext.tcl, lib/multicursor.tcl, lib/search.tcl,
+	* doc/md/TKE User Guide/Snippets/Snippet Variables.textbundle/text.md,
 	lib/version.tcl:
-	* Improving performance of search/replace.
+	* Adding clipboard history snippet documentation to snippet
+	variable.
 
-2017-02-05 01:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1769136098aa)
+2017-02-09 00:33 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (479f5634b492)
 
-	* lib/ctext/ctext.tcl, lib/multicursor.tcl, lib/search.tcl,
-	lib/version.tcl:
-	* Improving performance of search/replace and multicursor
-	insert/delete.
+	* lib/Makefile, lib/pref_ui.tcl, lib/snip_parser.tac,
+	lib/snip_parser.tcl, lib/themes.tcl, lib/version.tcl:
+	* Adding clipboard history to insert menu within snippet preferences
+	panel.
+	* Adjustments to snippets syntax description.
+	* Fixing syntax error in themes.tcl
 
-2017-02-06 00:14 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1bad119b4c13)
+2017-02-09 08:55 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3be633a9b0b9 [tip])
 
-	* lib/embed_tke.tcl: deleted file.
-	* lib/api.tcl, lib/bist.tcl, lib/cliphist.tcl, lib/completer.tcl,
-	lib/edit.tcl, lib/embed_tke.tcl, lib/emmet.tcl, lib/files.tcl,
-	lib/gui.tcl, lib/indent.tcl, lib/launcher.tcl, lib/menus.tcl,
-	lib/pref_ui.tcl, lib/preferences.tcl, lib/search.tcl,
-	lib/sessions.tcl, lib/snippets.tcl, lib/syntax.tcl,
-	lib/templates.tcl, lib/version.tcl, lib/vim.tcl, tests/brackets.tcl,
-	tests/ctext.tcl, tests/emmet.tcl, tests/emmet_css.tcl,
-	tests/folding.tcl, tests/general.tcl, tests/multicursor.tcl,
-	tests/snippets.tcl, tests/syntax.tcl, tests/vim.tcl:
-	* Removing tid usage.
-	* Removing the embed_tke namespace.
-
-2017-02-06 08:31 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ebe05e9a81b3)
-
-	* lib/api.tcl, lib/bgproc.tcl, lib/bindings.tcl, lib/cliphist.tcl,
-	lib/completer.tcl, lib/diff.tcl, lib/edit.tcl, lib/emmet.tcl,
-	lib/emmet_css.tcl, lib/folding.tcl, lib/gui.tcl, lib/version.tcl:
-	* Removing ns namespace (checkpointing work).
-
-2017-02-06 18:26 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5e929b3d5dd4)
-
-	* lib/ns.tcl: deleted file.
-	* lib/indent.tcl, lib/launcher.tcl, lib/logger.tcl, lib/markers.tcl,
-	lib/multicursor.tcl, lib/ns.tcl, lib/preferences.tcl,
-	lib/search.tcl, lib/sessions.tcl, lib/share.tcl, lib/snippets.tcl,
-	lib/syntax.tcl, lib/templates.tcl, lib/theme.tcl, lib/themes.tcl,
-	lib/tkedat.tcl, lib/utils.tcl, lib/version.tcl, lib/vim.tcl:
-	* Removing ns calls.
-
-2017-02-06 21:30 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (86fff96bfba2)
-
-	* lib/remote.tcl, lib/share.tcl, lib/sidebar.tcl, lib/snippets.tcl,
-	lib/version.tcl:
-	* Fixing syntax errors.
-	* Fixing icons within remote file viewer when buttons are disabled.
-	* Fixing directory foreground images.
-	* Changing backward/foreward button states to change after the new
-	directory contents are displayed.
-
-2017-02-06 21:46 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (66909b3caa77)
-
-	* lib/files.tcl, lib/gui.tcl, lib/version.tcl:
-	* Fixing file reloading.
-
-2017-02-06 23:58 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (04342c0e045a [tip])
-
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Adding inserted/deleted string to call to check_all_brackets to
-	enhance performance.
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Fixing keyboard traversal focus issues in the sidebar.
 
