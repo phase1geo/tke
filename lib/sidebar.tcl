@@ -179,6 +179,7 @@ namespace eval sidebar {
     bind $widgets(tl) <<TreeviewSelect>>      [list sidebar::handle_selection]
     bind $widgets(tl) <<TreeviewOpen>>        [list sidebar::expand_directory]
     bind $widgets(tl) <<TreeviewClose>>       [list sidebar::collapse]
+    bind $widgets(tl) <Button-1>              [list sidebar::handle_left_click %W %x %y]
     bind $widgets(tl) <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl) <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
     bind $widgets(tl) <Motion>                [list sidebar::handle_motion %W %x %y]
@@ -1049,12 +1050,31 @@ namespace eval sidebar {
       $widgets(tl) tag add sel [$widgets(tl) selection]
 
       # If the file is currently in the notebook, make it the current tab
-      if {([llength $selected] == 1) && ([$widgets(tl) item $selected -image] ne "")} {
-        set fileindex [files::get_index [$widgets(tl) set $selected name] [$widgets(tl) set $selected remote]]
-        gui::get_info $fileindex fileindex tabbar tab
-        gui::set_current_tab $tabbar $tab
-      }
+      #if {([llength $selected] == 1) && ([$widgets(tl) item $selected -image] ne "")} {
+      #  set fileindex [files::get_index [$widgets(tl) set $selected name] [$widgets(tl) set $selected remote]]
+      #  gui::get_info $fileindex fileindex tabbar tab
+      #  gui::set_current_tab $tabbar $tab
+      #}
 
+    }
+
+  }
+
+  ######################################################################
+  # Handles a left-click on the sidebar.
+  proc handle_left_click {W x y} {
+
+    variable widgets
+
+    if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
+      return
+    }
+
+    # If the file is currently in the notebook, make it the current tab
+    if {([llength $row] == 1) && ([$widgets(tl) item $row -image] ne "")} {
+      set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
+      gui::get_info $fileindex fileindex tabbar tab
+      gui::set_current_tab $tabbar $tab
     }
 
   }
