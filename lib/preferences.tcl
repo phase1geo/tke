@@ -344,6 +344,7 @@ namespace eval preferences {
   # for the given language.
   proc delete_language_prefs {session language} {
 
+    variable preferences_dir
     variable loaded_prefs
 
     if {$session eq ""} {
@@ -352,8 +353,8 @@ namespace eval preferences {
       }
       file delete -force [file join $preferences_dir preferences.$language.tkedat]
     } else {
-      if {[info exists loaded_prefs($session,$language)]} {
-        unset loaded_prefs($session,$language)
+      if {[info exists loaded_prefs(session,$session,$language)]} {
+        unset loaded_prefs(session,$session,$language)
         sessions::save "prefs" $session
       }
     }
