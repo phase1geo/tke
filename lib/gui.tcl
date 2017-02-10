@@ -2251,9 +2251,9 @@ namespace eval gui {
     if {$opts(-tabbar) eq ""} {
       $tabbar delete $tabindex
     } else {
-      set tabbar $opts(-tabbar)
-      get_info $tabbar tabbar pane paneindex
-      set pw_current $paneindex
+      set tabbar     $opts(-tabbar)
+      set pane       [winfo parent [winfo parent $tabbar]]
+      set pw_current [lsearch [$widgets(nb_pw) panes] $pane]
     }
 
     # Delete the text frame
