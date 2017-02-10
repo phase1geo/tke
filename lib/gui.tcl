@@ -2202,6 +2202,8 @@ namespace eval gui {
   # the user clicks on the close button of a tab.
   proc close_tab_by_tabbar {w tab} {
 
+    variable pw_current
+
     # Close the tab specified by tab (we don't need to check because the check
     # will have already been performed with the -checkcommand passed to the
     # tabbar.
@@ -2248,6 +2250,10 @@ namespace eval gui {
     # Remove the tab from the tabbar (unless this has already been done by the tabbar)
     if {$opts(-tabbar) eq ""} {
       $tabbar delete $tabindex
+    } else {
+      set tabbar $opts(-tabbar)
+      get_info $tabbar tabbar pane paneindex
+      set pw_current $paneindex
     }
 
     # Delete the text frame
