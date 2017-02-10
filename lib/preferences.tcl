@@ -71,6 +71,20 @@ namespace eval preferences {
   }
 
   ######################################################################
+  # Returns true if the given session/language preferences currently exist.
+  proc language_exists {session language} {
+
+    variable loaded_prefs
+
+    if {$session eq ""} {
+      return [info exists loaded_prefs(user,$language)]
+    } else {
+      return [info exists loaded_prefs(session,$session,$language)]
+    }
+
+  }
+
+  ######################################################################
   # Returns the loaded preference values for the given session name and
   # language.
   proc get_loaded {{session ""} {language ""}} {
@@ -322,6 +336,30 @@ namespace eval preferences {
 
     # Perform environment variable setting from the General/Variables preference option
     utils::set_environment $prefs(General/Variables)
+
+  }
+
+  ######################################################################
+  # Delete the specified language preference file and reload preferences
+  # for the given language.
+  proc delete_language_prefs {session language} {
+
+    variable loaded_prefs
+
+    if {$session eq ""} {
+      if {[info exists loaded_prefs(user,$language)]} {
+        unset loaded_prefs(user,$language)
+      }
+      file delete -force [file join $preferences_dir preferences.$language.tkedat]
+    } else {
+      if {[info exists loaded_prefs($session,$language)]} {
+        unset loaded_prefs($session,$language)
+        sessions::save "prefs" $session
+      }
+    }
+
+    # Update preferences
+    update_prefs $session
 
   }
 
