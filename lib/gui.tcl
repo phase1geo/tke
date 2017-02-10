@@ -1032,12 +1032,10 @@ namespace eval gui {
     # Put the list in order
     if {[llength $content(FileInfo)] > 0} {
       set ordered     [lrepeat 2 [lrepeat [llength $content(FileInfo)] ""]]
-      set second_pane 0
       set i           0
       foreach finfo_list $content(FileInfo) {
         array set finfo $finfo_list
         lset ordered $finfo(pane) $finfo(tab) $i
-        set second_pane [expr $finfo(pane) == 2]
         incr i
       }
     } else {
@@ -1057,7 +1055,7 @@ namespace eval gui {
         if {$index ne ""} {
           array set finfo [lindex $content(FileInfo) $index]
           if {[file exists $finfo(fname)]} {
-            set tab [add_file end $finfo(fname) \
+            set tab [add_file $finfo(tab) $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1]
             get_info $tab tab txt
@@ -1828,11 +1826,7 @@ namespace eval gui {
     $txt configure -state normal
     $txt delete 1.0 end
 
-    puts "HERE A"
-
     if {[files::get_file $tab contents]} {
-
-      puts "HERE B"
 
       # Read the file contents and insert them
       $txt insert end $contents
@@ -1860,10 +1854,6 @@ namespace eval gui {
 
       # Allow plugins to be run on update
       plugins::handle_on_update $file_index
-
-    } else {
-
-      puts "HERE C"
 
     }
 

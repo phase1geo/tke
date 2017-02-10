@@ -584,7 +584,7 @@ namespace eval bitmap {
 if {0} {
   pack [bitmap::create .bm] -side left
   if {![catch { open images/sopen.bmp r } rc]} {
-    set content [read $rc]]
+    set content [read $rc]
     close $rc
     bitmap::set_from_info .bm [list fg black bg white dat $content msk $content]
   }
