@@ -1294,11 +1294,19 @@ namespace eval menus {
 
     $mb.prefPopup add separator
 
+    $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Delete User"] [msgcat::mc "Language"]] -command [list menus::delete_user_language]
+
+    $mb.prefPopup add separator
+
     $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Global"]] -command [list menus::edit_session_global]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit session global preferences"]] [list menus::edit_session_global]
 
     $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Language"]] -command [list menus::edit_session_language]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit session current language preferences"]] [list menus::edit_session_language]
+
+    $mb.prefPopup add separator
+
+    $mb.prefPopup add command -label [format "%s - %s" [msgcat::mc "Delete Session"] [msgcat::mc "Language"]] -command [list menus::delete_session_language]
 
     ########################
     # Populate snippets menu
@@ -1553,17 +1561,30 @@ namespace eval menus {
   # the menu option states to match the current UI state.
   proc edit_preferences_posting {mb} {
 
-    if {[gui::current_txt] eq ""} {
-      $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit User"]    [msgcat::mc "Language"]] -state disabled
-      $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Language"]] -state disabled
+    if {[set txt [gui::current_txt]] eq ""} {
+      $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit User"]      [msgcat::mc "Language"]] -state disabled
+      $mb entryconfigure [format "%s - %s" [msgcat::mc "Delete User"]    [msgcat::mc "Language"]] -state disabled
+      $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"]   [msgcat::mc "Language"]] -state disabled
+      $mb entryconfigure [format "%s - %s" [msgcat::mc "Delete Session"] [msgcat::mc "Language"]] -state disabled
     } else {
       $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit User"] [msgcat::mc "Language"]] -state normal
-      if {[sessions::current] eq ""} {
-        $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Global"]]   -state disabled
-        $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Language"]] -state disabled
+      if {[preferences::language_exists "" [syntax::get_language $txt]]} {
+        $mb entryconfigure [format "%s - %s" [msgcat::mc "Delete User"] [msgcat::mc "Language"]] -state normal
+      } else {
+        $mb entryconfigure [format "%s - %s" [msgcat::mc "Delete User"] [msgcat::mc "Language"]] -state disabled
+      }
+      if {[set session [sessions::current]] eq ""} {
+        $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"]   [msgcat::mc "Global"]]   -state disabled
+        $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"]   [msgcat::mc "Language"]] -state disabled
+        $mb entryconfigure [format "%s - %s" [msgcat::mc "Delete Session"] [msgcat::mc "Language"]] -state disabled
       } else {
         $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Global"]]   -state normal
         $mb entryconfigure [format "%s - %s" [msgcat::mc "Edit Session"] [msgcat::mc "Language"]] -state normal
+        if {[preferences::language_exists $session [syntax::get_language $txt]]} {
+          $mb entryconfigure [format "%s - %s" [msgcat::mc "Delete Session"] [msgcat::mc "Language"]] -state normal
+        } else {
+          $mb entryconfigure [format "%s - %s" [msgcat::mc "Delete Session"] [msgcat::mc "Language"]] -state disabled
+        }
       }
     }
 
@@ -1854,6 +1875,14 @@ namespace eval menus {
   }
 
   ######################################################################
+  # Delete the current language preferences file.
+  proc delete_user_language {} {
+
+    preferences::delete_language_prefs "" [syntax::get_language [gui::current_txt]]
+
+  }
+
+  ######################################################################
   # Edits the session global preference settings.
   proc edit_session_global {} {
 
@@ -1866,6 +1895,14 @@ namespace eval menus {
   proc edit_session_language {} {
 
     pref_ui::create [sessions::current] [syntax::get_language [gui::current_txt]]
+
+  }
+
+  ######################################################################
+  # Delete the current session/language preferences file.
+  proc delete_session_language {} {
+
+    preferences::delete_language_prefs [sessions::current] [syntax::get_language [gui::current_txt]]
 
   }
 
