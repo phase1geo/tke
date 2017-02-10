@@ -1878,7 +1878,12 @@ namespace eval menus {
   # Delete the current language preferences file.
   proc delete_user_language {} {
 
-    preferences::delete_language_prefs "" [syntax::get_language [gui::current_txt]]
+    set message [msgcat::mc "Delete language preferences?"]
+    set detail  [msgcat::mc "All language-specific settings will be removed and the global settings will be applied for the specified language."]
+
+    if {[tk_messageBox -parent . -type yesno -default no -message $message -detail $detail] eq "yes"} {
+      preferences::delete_language_prefs "" [syntax::get_language [gui::current_txt]]
+    }
 
   }
 
@@ -1902,7 +1907,12 @@ namespace eval menus {
   # Delete the current session/language preferences file.
   proc delete_session_language {} {
 
-    preferences::delete_language_prefs [sessions::current] [syntax::get_language [gui::current_txt]]
+    set message [msgcat::mc "Delete session language preferences?"]
+    set detail  [msgcat::mc "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."]
+
+    if {[tk_messageBox -parent . -type yesno -default no -message $message -detail $detail] eq "yes"} {
+      preferences::delete_language_prefs [sessions::current] [syntax::get_language [gui::current_txt]]
+    }
 
   }
 
