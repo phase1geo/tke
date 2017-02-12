@@ -1884,6 +1884,10 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       if {[multicursor::enabled $txtt]} {
         edit::move_cursors $txtt "-1l"
+      } else {
+        if {[set url [syntax::get_reference [gui::get_info {} current lang]]] ne ""} {
+          utils::open_file_externally $url 1
+        }
       }
       return 1
     }

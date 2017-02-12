@@ -31,6 +31,7 @@ namespace eval syntax {
   array set lang_template {
     filepatterns       {}
     vimsyntax          {}
+    reference          {}
     embedded           {}
     matchcharsallowed  {}
     escapes            1
@@ -276,6 +277,22 @@ namespace eval syntax {
     }
 
     return [msgcat::mc "None"]
+
+  }
+
+  ######################################################################
+  # Returns the language's reference URL if the language has one; otherwise,
+  # returns the empty string.
+  proc get_reference {language} {
+
+    variable langs
+
+    if {[info exists langs($language)]} {
+      array set lang_array $langs($language)
+      return $lang_array(reference)
+    }
+
+    return ""
 
   }
 
