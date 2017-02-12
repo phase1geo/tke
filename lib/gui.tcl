@@ -321,12 +321,9 @@ namespace eval gui {
     grid rowconfigure    . 0 -weight 1
     grid columnconfigure . 0 -weight 1
     grid $widgets(pw)   -row 0 -column 0 -sticky news
-    grid $widgets(ursp) -row 1 -column 0 -sticky ew
-    grid $widgets(fif)  -row 2 -column 0 -sticky ew
-    grid $widgets(info) -row 3 -column 0 -sticky ew
+    grid $widgets(info) -row 1 -column 0 -sticky ew
 
-    grid remove $widgets(ursp)
-    grid remove $widgets(fif)
+    ttk::separator .sep -orient horizontal
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
@@ -2787,8 +2784,7 @@ namespace eval gui {
     get_info {} current tab txt
 
     # Display the search bar and separator
-    grid $tab.sf
-    grid $tab.sep1
+    panel_place $tab.sf
 
     # Add bindings
     bind $tab.sf.e    <Return> [list search::find_start $dir]
@@ -2820,8 +2816,7 @@ namespace eval gui {
     get_info {} current tab
 
     # Hide the search frame
-    grid remove $tab.sf
-    grid remove $tab.sep1
+    panel_forget $tab.sf
 
     # Put the focus on the text widget
     set_txt_focus [last_txt_focus]
@@ -2838,8 +2833,7 @@ namespace eval gui {
     get_info {} current tab txt
 
     # Display the search bar and separator
-    grid $tab.rf
-    grid $tab.sep1
+    panel_place $tab.rf
 
     # Clear the search entry
     $tab.rf.fe delete 0 end
@@ -2866,8 +2860,7 @@ namespace eval gui {
     get_info {} current tab
 
     # Hide the search and replace bar
-    grid remove $tab.rf
-    grid remove $tab.sep1
+    panel_forget $tab.rf
 
     # Put the focus on the text widget
     set_txt_focus [last_txt_focus]
@@ -3107,6 +3100,48 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Places the panel in the window.
+  proc panel_place {w} {
+
+    variable widgets
+
+    if {[winfo parent $w] eq "."} {
+      set top [winfo height $widgets(info)]
+      set sep .sep
+    } else {
+      set top 0
+      set sep [winfo parent $w].sep
+    }
+
+    set stop [winfo reqheight $sep]
+    set wtop [winfo reqheight $w]
+
+    # Place the separator
+    place $sep -relwidth 1.0 -rely 1.0 -y [expr 0 - ($top + $stop)]
+    raise $sep
+
+    # Place the window and make sure that the window is raised above all others
+    place $w -relwidth 1.0 -rely 1.0 -y [expr 0 - ($top + $stop + $wtop)]
+    raise $w
+
+  }
+
+  ######################################################################
+  # Forget the pnael.
+  proc panel_forget {w} {
+
+    if {[winfo parent $w] eq "."} {
+      set sep .sep
+    } else {
+      set sep [winfo parent $w].sep
+    }
+
+    place forget $w
+    place forget $sep
+
+  }
+
+  ######################################################################
   # Gets user input from the interface in a generic way.
   proc get_user_response {msg pvar {allow_vars 1}} {
 
@@ -3125,7 +3160,7 @@ namespace eval gui {
     }
 
     # Display the user input widget
-    grid $widgets(ursp)
+    panel_place $widgets(ursp)
 
     # Get current focus and grab
     set old_focus [focus]
@@ -3156,7 +3191,7 @@ namespace eval gui {
     }
 
     # Hide the user input widget
-    grid remove $widgets(ursp)
+    panel_forget $widgets(ursp)
 
     # Get the user response value
     set var [$widgets(ursp_entry) get]
@@ -3230,7 +3265,7 @@ namespace eval gui {
     $widgets(fif_in) configure -listvar gui::fif_files -matchmode regexp -matchindex 0 -matchdisplayindex 0
 
     # Display the FIF widget
-    grid $widgets(fif)
+    panel_place $widgets(fif)
 
     # Get current focus and grab
     set old_focus [focus]
@@ -3260,7 +3295,7 @@ namespace eval gui {
     }
 
     # Hide the widget
-    grid remove $widgets(fif)
+    panel_forget $widgets(fif)
 
     # Get the list of files/directories from the list of tokens
     set ins [list]
@@ -3452,7 +3487,7 @@ namespace eval gui {
   # Toggles the bird's eye view panel for the current tab.
   proc toggle_birdseye {} {
 
-    get_info current txt beye
+    get_info {} current txt beye
 
     if {[winfo exists $beye]} {
       hide_birdseye $txt
@@ -3902,6 +3937,7 @@ namespace eval gui {
     ttk::checkbutton $tab.rf.save  -text [msgcat::mc "Save"] -variable gui::saved \
       -command [list search::update_save replace]
     ttk::label       $tab.rf.close -image form_close
+    ttk::separator   $tab.rf.sep   -orient horizontal
 
     pack $tab.rf.fl    -side left -padx 2 -pady 2
     pack $tab.rf.fe    -side left -padx 2 -pady 2 -fill x -expand yes
@@ -3911,6 +3947,7 @@ namespace eval gui {
     pack $tab.rf.glob  -side left -padx 2 -pady 2
     pack $tab.rf.save  -side left -padx 2 -pady 2
     pack $tab.rf.close -side left -padx 2 -pady 2
+    pack $tab.rf.sep   -fill x
 
     bind $tab.rf.fe    <Return>    [list search::replace_start]
     bind $tab.rf.re    <Return>    [list search::replace_start]
@@ -3929,30 +3966,20 @@ namespace eval gui {
 
     # Create the diff bar
     if {$opts(-diff)} {
-      diff::create_diff_bar $txt $tab.df
-      ttk::separator $tab.sep2 -orient horizontal
+      ttk::frame $tab.df
+      pack [diff::create_diff_bar $txt $tab.df.df] -fill x
+      pack [ttk::separator $tab.df.sep -orient horizontal] -fill x
     }
-
-    # Create separator between search and information bar
-    ttk::separator $tab.sep1 -orient horizontal
 
     grid rowconfigure    $tab 0 -weight 1
     grid columnconfigure $tab 0 -weight 1
     grid $tab.pw   -row 0 -column 0 -sticky news
-    grid $tab.ve   -row 1 -column 0 -sticky ew -columnspan 2
-    grid $tab.sf   -row 2 -column 0 -sticky ew -columnspan 2
-    grid $tab.rf   -row 3 -column 0 -sticky ew -columnspan 2
-    grid $tab.sep1 -row 4 -column 0 -sticky ew -columnspan 2
     if {$opts(-diff)} {
-      grid $tab.df   -row 5 -column 0 -sticky ew -columnspan 2
-      grid $tab.sep2 -row 6 -column 0 -sticky ew -columnspan 2
+      grid $tab.df -row 1 -column 0 -sticky ew -columnspan 2
     }
 
-    # Hide the vim command entry, search bar, search/replace bar and search separator
-    grid remove $tab.ve
-    grid remove $tab.sf
-    grid remove $tab.rf
-    grid remove $tab.sep1
+    # Separator
+    ttk::separator $tab.sep -orient horizontal
 
     # Get the adjusted index
     set adjusted_index [$tb index $index]
