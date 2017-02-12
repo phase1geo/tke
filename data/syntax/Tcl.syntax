@@ -4,6 +4,9 @@ filepatterns
 vimsyntax
 {tcl}
 
+reference
+{http://www.tcl.tk/man/tcl8.5/}
+
 matchcharsallowed
 {curly square paren double}
 

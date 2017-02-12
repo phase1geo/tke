@@ -4,6 +4,9 @@ filepatterns
 vimsyntax
 {}
 
+reference
+{}
+
 embedded
 {}
 
@@ -43,9 +46,10 @@ strings {}
 
 keywords
 {
-  filepatterns vimsyntax embedded matchcharsallowed tabsallowed linewrap casesensitive delimiters indent unindent
-  reindent keywords symbols icomment lcomments bcomments strings numbers punctuation precompile
-  miscellaneous1 miscellaneous2 miscellaneous3 highlighter meta advanced escapes
+  filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
+  casesensitive delimiters indent unindent reindent keywords symbols icomment
+  lcomments bcomments strings numbers punctuation precompile miscellaneous1
+  miscellaneous2 miscellaneous3 highlighter meta advanced escapes
   HighlightClass
   HighlightKeywords
   HighlightRegexp
@@ -56,9 +60,10 @@ keywords
 symbols
 {
   HighlightKeywords {
-    filepatterns vimsyntax embedded matchcharsallowed tabsallowed linewrap casesensitive delimiters indent unindent
-    reindent icomment lcomments bcomments strings symbols numbers punctuation precompile
-    miscellaneous1 miscellaneous2 miscellaneous3 meta advanced escapes
+    filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed
+    linewrap casesensitive delimiters indent unindent reindent icomment lcomments
+    bcomments strings symbols numbers punctuation precompile miscellaneous1
+    miscellaneous2 miscellaneous3 meta advanced escapes
   } syntax::get_syntax_symbol
 }
 
