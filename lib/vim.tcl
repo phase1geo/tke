@@ -353,7 +353,7 @@ namespace eval vim {
       gui::set_txt_focus $txt
 
       # Hide the command entry widget
-      grid remove $w
+      gui::panel_forget $w
 
     }
 
@@ -786,7 +786,7 @@ namespace eval vim {
     gui::set_txt_focus $txt
 
     # Hide the command entry widget
-    grid remove $w
+    gui::panel_forget $w
 
   }
 
@@ -801,7 +801,7 @@ namespace eval vim {
       gui::set_txt_focus [gui::last_txt_focus]
 
       # Hide the command entry widget
-      grid remove $w
+      gui::panel_forget $w
 
     }
 
@@ -1575,7 +1575,7 @@ namespace eval vim {
         -insertbackground [$txtt cget -insertbackground] -font [$txtt cget -font]
 
       # Show the command entry widget
-      grid $command_entries($txtt)
+      gui::panel_place $command_entries($txtt)
 
       # Set the focus and grab on the widget
       grab $command_entries($txtt)
