@@ -55,7 +55,6 @@ namespace eval gui {
   array set tab_tip         {}
   array set line_sel_anchor {}
   array set txt_current     {}
-  array set tab_current     {}
   array set cursor_hist     {}
   array set synced          {}
   array set be_after_id     {}
@@ -870,11 +869,10 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Changes the given filename to the new filename in the file list and
-  # updates the tab name to match the new name.
+  # Updates the contents of the text within the tab as well as the
+  # title bar information to match the given tab.
   proc update_tab {tab} {
 
-    # Get information from old_name and if it exists, update it and update the tab name.
     get_info $tab tab tabbar fname
 
     # Update the tab name
@@ -2107,7 +2105,7 @@ namespace eval gui {
           # Save the current
           } else {
 
-            set_current_tab $tabbar $tab -skip_check 1
+            set_current_tab $tabbar $tab
             save_current -force 1
 
           }
@@ -2371,14 +2369,9 @@ namespace eval gui {
 
   ######################################################################
   # Hides the given tab.
-  proc hide_tab {tab args} {
+  proc hide_tab {tab} {
 
     variable widgets
-
-    array set opts {
-      -lazy 0
-    }
-    array set opts $args
 
     # Get the current tabbar
     get_info $tab tab tabbar fname remote
@@ -2386,27 +2379,19 @@ namespace eval gui {
     # Hide the tab
     $tabbar tab $tab -state hidden
 
-    if {!$opts(-lazy)} {
-      set_current_tab $tabbar [$tabbar select] -changed 1
-    }
-
     # Make sure the sidebar is updated properly
     sidebar::set_hide_state $fname $remote 1
 
-    return $tabbar
+    # Update ourselves to reflect the current tab show in the tabbar
+    show_current_tab $tabbar
 
   }
 
   ######################################################################
-  # Shows the given tab.
-  proc show_tab {tab args} {
+  # Makes the given tab visible in the tabbar.
+  proc show_tab {tab} {
 
     variable widgets
-
-    array set opts {
-      -lazy 0
-    }
-    array set opts $args
 
     # Get the current tabbar
     get_info $tab tab tabbar fname remote
@@ -2414,14 +2399,11 @@ namespace eval gui {
     # Show the tab
     $tabbar tab $tab -state normal
 
-    if {!$opts(-lazy)} {
-      set_current_tab $tabbar [$tabbar select] -changed 1
-    }
-
     # Make sure the sidebar is updated properly
     sidebar::set_hide_state $fname $remote 0
 
-    return $tabbar
+    # Update ourselves to reflect the current tab show in the tabbar
+    show_current_tab $tabbar
 
   }
 
@@ -2435,22 +2417,14 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Hides all of the files with the given filenames.
-  # FIXME - Add remote parameters to hone in on correct name.
-  proc hide_files {fnames} {
+  # Hides all of the files with the given filenames.  The parameter must
+  # be a list with the following format:
+  #   {filename remote}+
+  proc hide_files {files_info} {
 
-    if {[llength $fnames] > 0} {
-
-      # Perform a lazy close
-      foreach fname $fnames {
-        set tbs([hide_tab [get_info $fname fname tab] -lazy 1]) 1
-      }
-
-      # Set the current tab
-      foreach tb [array names tbs] {
-        set_current_tab $tb [$tb select] -changed 1
-      }
-
+    # Perform a lazy close
+    foreach file_info $files_info {
+      hide_tab [get_info [files::get_index {*}$file_info] fileindex tab]
     }
 
   }
@@ -2459,26 +2433,21 @@ namespace eval gui {
   # Hides all of the opened files.
   proc hide_all {} {
 
-    hide_files [files::get_indices fname]
+    foreach tab [files::get_tabs] {
+      hide_tab $tab
+    }
 
   }
 
   ######################################################################
-  # Shows all of the files with the given filenames.
-  proc show_files {fnames} {
+  # Shows all of the files with the given filenames.  The parameter must
+  # be a list with the following format:
+  #   {filename remote}+
+  proc show_files {files_info} {
 
-    if {[llength $fnames] > 0} {
-
-      # Perform a lazy show
-      foreach fname $fnames {
-        set tbs([show_tab [get_info $fname fname tab] -lazy 1]) 1
-      }
-
-      # Set the current tab
-      foreach tb [array names tbs] {
-        set_current_tab $tb [$tb select] -changed 1
-      }
-
+    # Make sure that all specified files are shown
+    foreach file_info $files_info {
+      show_tab [get_info [files::get_index {*}$file_info] fileindex tab]
     }
 
   }
@@ -2487,7 +2456,9 @@ namespace eval gui {
   # Shows all of the files.
   proc show_all {} {
 
-    show_files [files::get_indices fname]
+    foreach tab [files::get_tabs] {
+      show_tab $tab
+    }
 
   }
 
@@ -2588,7 +2559,7 @@ namespace eval gui {
     }
 
     # Now move the current tab from the previous current pane to the new current pane
-    set_current_tab $tabbar $tab -skip_focus 1 -skip_check 1
+    set_current_tab $tabbar $tab -skip_focus 1
 
     # Set the tab image for the moved file
     set_tab_image $tab
@@ -3655,8 +3626,8 @@ namespace eval gui {
 
     # Add the tabbar frame
     ttk::frame $nb.tbf
-    tabbar::tabbar $nb.tbf.tb -command [list gui::handle_tabbar_select] \
-      -closeimage tab_close \
+    tabbar::tabbar $nb.tbf.tb -closeimage tab_close \
+      -command      [list gui::handle_tabbar_select] \
       -checkcommand [list gui::close_check_by_tabbar] \
       -closecommand [list gui::close_tab_by_tabbar]
 
@@ -4537,28 +4508,13 @@ namespace eval gui {
 
   ######################################################################
   # Make the specified tab the current tab.
-  # Options:
-  #   w
-  #        Item to base the current tab on (defined by the -type option)
-  #   -changed (0 | 1)
-  #        Set to true by the tabbar selection command.
-  #   -skip_focus (0 | 1)
-  #        Specifies if we should set the focus on the text widget.
-  #        Default is 0
-  proc set_current_tab {tb tab args} {
+  proc set_current_tab {tabbar tab} {
 
     variable widgets
     variable pw_current
-    variable tab_current
-
-    array set opts {
-      -changed    0
-      -skip_focus 0
-    }
-    array set opts $args
 
     # Get the frame containing the text widget
-    set tf [winfo parent [winfo parent $tb]].tf
+    set tf [winfo parent [winfo parent $tabbar]].tf
 
     # If there is no tab being set, just delete the packed slave
     if {$tab eq ""} {
@@ -4568,45 +4524,92 @@ namespace eval gui {
       return
     }
 
-    # Get the current information
-    get_info $tab tab paneindex
-    set pw_current $paneindex
+    # Get the tab's file information
+    get_info $tab tab fname remote
 
-    # If the proc is not being called by the tabbar and the tab is different than the tabbar's current
-    # tab, just call the tabbar select with the tab.  It will call this proc itself.  This is an
-    # optimization that should eliminate running unnecessary code in this procedure.
-    if {!$opts(-changed) && ([$tb select] ne $tab)} {
-      show_tab $tab
-      $tb select $tab
-      return
-    }
+    # Make sure that the tab state is shown
+    $tabbar tab $tab -state normal
 
-    if {$opts(-changed) || ([pack slaves $tf] eq "")} {
+    # Make sure the sidebar is updated properly
+    sidebar::set_hide_state $fname $remote 0
 
-      # Add the tab content, if necessary
-      add_tab_content $tab
+    # Make the tab the selected tab in the tabbar
+    $tabbar select $tab
 
-      # Display the tab frame
+    # Make sure that the tab's content is displayed
+    show_current_tab $tabbar
+
+  }
+
+  ######################################################################
+  # Causes the currently selected tab contents to be displayed to the
+  # screen.  This procedure is called by the tabbar when the user releases
+  # the mouse button so it is assumed that the tabbar and tab parameters
+  # are always valid.
+  proc show_current_tab {tabbar} {
+
+    variable widgets
+    variable pw_current
+    variable auto_cwd
+
+    # Get the frame containing the text widget
+    set tf [winfo parent [winfo parent $tabbar]].tf
+
+    # If the current tabbar contains no visible tabs, remove the editing frame
+    if {[$tabbar select] eq ""} {
       if {[set slave [pack slaves $tf]] ne ""} {
         pack forget $slave
       }
-      pack [$tb select] -in $tf -fill both -expand yes
-
-      # Update the pane synchronization status
-      pane_sync_tab_change
-
-      # Update the preferences
-      preferences::update_prefs [sessions::current]
-
-      # Reload the snippets to correspond to the current file
-      snippets::reload_snippets
-
+      return
     }
+
+    # Get the current information
+    get_info $tabbar tabbar tab paneindex fname buffer diff
+
+    # If nothing is changing, stop now
+    if {($pw_current eq $paneindex) && ([pack slaves $tf] eq $tab)} {
+      return
+    }
+
+    # Update the current panedwindow indicator
+    set pw_current $paneindex
+
+    # Add the tab content, if necessary
+    add_tab_content $tab
+
+    # Remove the current tab frame (if it exists)
+    if {[set slave [pack slaves $tf]] ne ""} {
+      pack forget $slave
+    }
+
+    # Display the tab frame
+    pack [$tabbar select] -in $tf -fill both -expand yes
+
+    # Update the pane synchronization status
+    pane_sync_tab_change
+
+    # Update the preferences
+    preferences::update_prefs [sessions::current]
+
+    # Reload the snippets to correspond to the current file
+    snippets::reload_snippets
+
+    # Update the indentation indicator
+    indent::update_button $widgets(info_indent)
+
+    # Set the syntax menubutton to the current language
+    syntax::update_button $widgets(info_syntax)
+
+    # If we are supposed to automatically change the working directory, do it now
+    if {$auto_cwd && !$buffer && !$diff} {
+      cd [file dirname $fname]
+    }
+
+    # Make sure that the title bar is updated
+    set_title
 
     # Set the text focus
-    if {!$opts(-skip_focus)} {
-      set_txt_focus [last_txt_focus $tab]
-    }
+    set_txt_focus [last_txt_focus $tab]
 
   }
 
@@ -4614,7 +4617,7 @@ namespace eval gui {
   # Handles a selection made by the user from the tabbar.
   proc handle_tabbar_select {tabbar args} {
 
-    set_current_tab $tabbar [get_info $tabbar tabbar tab] -changed 1
+    show_current_tab $tabbar
 
   }
 
@@ -5016,20 +5019,6 @@ namespace eval gui {
 
     # Set the line and row information
     update_position $txt
-
-    # Update the indentation indicator
-    indent::update_button $widgets(info_indent)
-
-    # Set the syntax menubutton to the current language
-    syntax::update_button $widgets(info_syntax)
-
-    # If we are supposed to automatically change the working directory, do it now
-    if {$auto_cwd && !$buffer && !$diff} {
-      cd [file dirname $fname]
-    }
-
-    # Set the application title bar
-    set_title
 
     # Check to see if the file has changed
     catch { files::check_file $fileindex }

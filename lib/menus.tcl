@@ -408,10 +408,7 @@ namespace eval menus {
   proc file_posting {mb} {
 
     # Get information for current file
-    gui::get_info {} current fileindex fname readonly lock diff buffer modified remote
-
-    # Get the current file index (if one exists)
-    if {$fileindex != -1} {
+    if {![catch { gui::get_info {} current fileindex fname readonly lock diff buffer modified remote }]} {
 
       # Get state if the file is a buffer
       set buffer_state [expr {($buffer || $diff) ? "disabled" : "normal"}]
@@ -1357,11 +1354,7 @@ namespace eval menus {
   # menu items to match the proper state of the UI.
   proc edit_posting {mb} {
 
-    gui::get_info {} current txt readonly diff
-
-    set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
-
-    if {$txt eq ""} {
+    if {[catch { gui::get_info {} current txt readonly diff }]} {
       $mb entryconfigure [msgcat::mc "Undo"]             -state disabled
       $mb entryconfigure [msgcat::mc "Redo"]             -state disabled
       $mb entryconfigure [msgcat::mc "Cut"]              -state disabled
@@ -1377,6 +1370,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Delete"]           -state disabled
       $mb entryconfigure [msgcat::mc "Transform"]        -state disabled
     } else {
+      set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
       if {[gui::undoable]} {
         $mb entryconfigure [msgcat::mc "Undo"] -state $readonly_state
       } else {
@@ -2009,11 +2003,7 @@ namespace eval menus {
   # items to match the current UI state.
   proc find_posting {mb} {
 
-    gui::get_info {} current txt readonly diff
-
-    set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
-
-    if {$txt eq ""} {
+    if {[catch { gui::get_info {} current txt readonly diff }]} {
       $mb entryconfigure [msgcat::mc "Find"]                           -state disabled
       $mb entryconfigure [msgcat::mc "Find and Replace"]               -state disabled
       $mb entryconfigure [msgcat::mc "Select Next Occurrence"]         -state disabled
@@ -2030,6 +2020,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"]     -state disabled
       $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state disabled
     } else {
+      set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
       $mb entryconfigure [msgcat::mc "Find"]                       -state normal
       $mb entryconfigure [msgcat::mc "Find and Replace"]           -state $readonly_state
       $mb entryconfigure [msgcat::mc "Select Next Occurrence"]     -state normal
@@ -2433,10 +2424,11 @@ namespace eval menus {
       gui::get_info {} current txt2 beye
       set show_split_pane [winfo exists $txt2]
       set show_birdseye   [winfo exists $beye]
-    }
 
-    # Get the current line numbering
-    set line_numbering [[gui::current_txt] cget -linemap_type]
+      # Get the current line numbering
+      set line_numbering [[gui::current_txt] cget -linemap_type]
+
+    }
 
   }
 

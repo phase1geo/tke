@@ -682,6 +682,11 @@ namespace eval tabbar {
       set data($w,current) $data($w,last_current)
       select $w [page_index $w $data($w,moveto_index)]
 
+      # If the user has specified a command to run for the selection, run it now
+      if {$data($w,option,-command) ne ""} {
+        uplevel #0 $data($w,option,-command) $w $data($w,current)
+      }
+
       # Clear the moveto_index
       set data($w,moveto_index) ""
       set data($w,moveto_stop)  0
@@ -889,7 +894,6 @@ namespace eval tabbar {
 
     if {$orig_opts($w,option,-foreground) ne $data($w,option,-foreground)} {
       foreach page $data($w,pages) {
-        # $w.c itemconfigure x[lindex $page 1 0] -fill $data($w,option,-foreground)
         $w.c itemconfigure c[lindex $page 1 0] -image $data($w,image,close)
       }
     }
@@ -1709,11 +1713,6 @@ namespace eval tabbar {
 
           # Make sure that the tab is in view
           make_current_viewable $w
-
-          # If the user has specified a command to run for the selection, run it now
-          if {$data($w,option,-command) ne ""} {
-            uplevel #0 $data($w,option,-command) $w [lindex $data($w,pages) $index 0]
-          }
 
         # Otherwise, make the selected tab viewable
         } else {

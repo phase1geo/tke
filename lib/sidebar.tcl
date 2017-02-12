@@ -1397,7 +1397,7 @@ namespace eval sidebar {
     foreach row $rows {
       foreach child [$widgets(tl) children $row] {
         if {[$widgets(tl) item $child -image] ne ""} {
-          lappend fnames [$widgets(tl) set $child name]
+          lappend fnames [list [$widgets(tl) set $child name] [widgets(tl) set $child remote]]
         }
       }
     }
@@ -1417,7 +1417,7 @@ namespace eval sidebar {
     foreach row $rows {
       foreach child [$widgets(tl) children $row] {
         if {[$widgets(tl) item $child -image] ne ""} {
-          lappend fnames [$widgets(tl) set $child name]
+          lappend fnames [list [$widgets(tl) set $child name] [$widgets(tl) set $child remote]]
         }
       }
     }
@@ -1666,7 +1666,7 @@ namespace eval sidebar {
     # Gather all of the opened filenames
     foreach row $rows {
       if {[$widgets(tl) item $row -image] ne ""} {
-        lappend fnames [$widgets(tl) set $row name]
+        lappend fnames [list [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       }
     }
 
@@ -1686,7 +1686,7 @@ namespace eval sidebar {
     # Gather all the opened filenames
     foreach row $rows {
       if {[$widgets(tl) item $row -image] ne ""} {
-        lappend fnames [$widgets(tl) set $row name]
+        lappend fnames [list [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       }
     }
 
