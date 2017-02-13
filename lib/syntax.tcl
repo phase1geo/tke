@@ -283,7 +283,7 @@ namespace eval syntax {
   ######################################################################
   # Returns the language's reference URL if the language has one; otherwise,
   # returns the empty string.
-  proc get_reference {language} {
+  proc get_references {language} {
 
     variable langs
 
