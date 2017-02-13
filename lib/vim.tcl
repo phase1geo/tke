@@ -67,7 +67,7 @@ namespace eval vim {
     # Set the Vim mode on all text widgets
     foreach txtt [array names command_entries] {
       if {[winfo exists $txtt]} {
-        set_vim_mode [winfo parent $txtt] {}  ;# TBD
+        set_vim_mode [winfo parent $txtt]
       } else {
         unset command_entries($txtt)
       }
