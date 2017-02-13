@@ -1884,9 +1884,22 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       if {[multicursor::enabled $txtt]} {
         edit::move_cursors $txtt "-1l"
+
+      # Check to see if documentation for the current word exists
       } else {
-        if {[set url [syntax::get_reference [gui::get_info {} current lang]]] ne ""} {
-          utils::open_file_externally $url 1
+        if {([lsearch [$txtt tag names insert] "_keywords"] != -1) && \
+            ([set word [string trim [$txtt get "insert wordstart" "insert wordend"]]] ne "")} {
+          gui::get_info [winfo parent $txtt] txt lang
+          foreach item [syntax::get_references $lang] {
+            lassign $item name url
+            if {[set index [string first "{query}" $url]] != -1} {
+              set url [string replace $url $index [expr $index + 6] $word]
+              if {[utils::test_url $url]} {
+                utils::open_file_externally $url 1
+                break
+              }
+            }
+          }
         }
       }
       return 1

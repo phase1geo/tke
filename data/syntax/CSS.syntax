@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {css}
 
+reference
+{
+  {{Language Reference} http://www.w3schools.com/cssref/default.asp}
+}
+
 matchcharsallowed
 {curly paren double single}
 

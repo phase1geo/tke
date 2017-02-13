@@ -7,6 +7,9 @@ vimsyntax
 reference
 {
   {{Language Reference} http://www.tcl.tk/man/tcl8.5/}
+  {{Wiki} http://wiki.tcl.tk}
+  {{Tcl Command} http://www.tcl.tk/man/tcl8.5/TclCmd/{query}.htm}
+  {{Tk Command} http://www.tcl.tk/man/tcl8.5/TkCmd/{query}.htm}
 }
 
 matchcharsallowed

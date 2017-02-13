@@ -1,6 +1,12 @@
 filepatterns
 {*.pas}
 
+reference
+{
+  {{Language Reference} http://docwiki.embarcadero.com/RADStudio/Seattle/en/Delphi_Language_Reference}
+  {{Wiki} http://delphi.wikia.com/wiki/Delphi_Wiki}
+}
+
 embedded {
   {Pascal {} {}}
 }

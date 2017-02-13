@@ -1,6 +1,11 @@
 filepatterns
 {*.feature}
 
+reference
+{
+  {{Language Reference} https://cucumber.io/docs/reference}
+}
+
 matchcharsallowed
 {angled}
 

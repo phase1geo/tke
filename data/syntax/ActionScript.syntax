@@ -1,6 +1,11 @@
 filepatterns
 {*.as}
 
+reference
+{
+  {{Language Reference} http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/index.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

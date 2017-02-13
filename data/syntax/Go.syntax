@@ -1,6 +1,11 @@
 filepatterns
 {*.go}
 
+reference
+{
+  {{Language Specification} https://golang.org/ref/spec}
+}
+
 matchcharsallowed
 {square curly paren double btick}
 

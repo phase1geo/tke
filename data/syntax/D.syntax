@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {d}
 
+reference
+{
+  {{Language Reference} http://dlang.org/spec/spec.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

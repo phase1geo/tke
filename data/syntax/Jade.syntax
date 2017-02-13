@@ -1,6 +1,11 @@
 filepatterns
 {*.jade}
 
+reference
+{
+  {{Language Reference} https://scalate.github.io/scalate/documentation/jade-syntax.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

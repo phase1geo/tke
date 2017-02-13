@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {yacc}
 
+reference
+{
+  {{Language Reference} http://dinosaur.compilertools.net/yacc/index.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

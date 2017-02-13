@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {sh}
 
+reference
+{
+  {{User Guide} https://www.gnu.org/software/bash/manual/bashref.html}
+}
+
 matchcharsallowed
 {paren double single}
 

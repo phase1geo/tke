@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {cs}
 
+reference
+{
+  {{Language Reference} https://msdn.microsoft.com/en-us/library/618ayhy6.aspx}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

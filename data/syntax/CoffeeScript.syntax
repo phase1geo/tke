@@ -1,6 +1,11 @@
 filepatterns
 {*.coffee *.litcoffee}
 
+reference
+{
+  {{Language Reference} http://coffeescript.org/}
+}
+
 matchcharsallowed
 {paren double single}
 

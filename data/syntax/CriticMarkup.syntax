@@ -1,6 +1,11 @@
 filepatterns
 {*.md *.markdown *.txt}
 
+reference
+{
+  {{User Guide} http://criticmarkup.com/users-guide.php}
+}
+
 casesensitive
 {1}
 

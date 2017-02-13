@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {cobol}
 
+reference
+{
+  {{Language Reference} http://web.cse.ohio-state.edu/~sgomori/314/langref.html}
+}
+
 matchcharsallowed
 {curly paren double single}
 

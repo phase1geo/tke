@@ -1,6 +1,11 @@
 filepatterns
 {*.julia}
 
+reference
+{
+  {{Language Reference} http://docs.julialang.org/en/stable/}
+}
+
 delimiters
 {}
 

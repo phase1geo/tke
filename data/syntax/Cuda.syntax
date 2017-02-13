@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {cuda}
 
+reference
+{
+  {{Toolkit Documentation} http://docs.nvidia.com/cuda/#axzz4YXesizWJ}
+}
+
 embedded
 {{C}}
 
