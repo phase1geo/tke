@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {html}
 
+reference
+{
+  {{5.0 Reference} https://dev.w3.org/html5/html-author/}
+}
+
 embedded {
   {PHP        {<\?php$}                                 {\?>}}
   {CSS        {<style.*?type="text/css".*?>$}           {</style>}}

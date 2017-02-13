@@ -4,6 +4,10 @@ filepatterns
 vimsyntax
 {awk}
 
+reference
+{
+  {{User Guide} https://www.gnu.org/software/gawk/manual/gawk.html}
+
 matchcharsallowed
 {curly square paren double}
 

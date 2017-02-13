@@ -226,6 +226,26 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Returns true if the specified URL returns a status of ok and an ncode
+  # value of 200; otherwise, returns a value of false;
+  proc test_url {url} {
+
+    # Attempt to open the URL
+    if {[catch { http::geturl $url -validate 1 } token]} {
+      return 0
+    }
+
+    # Check the return status
+    set retval [expr {([http::status $token] eq "ok") && ([http::ncode $token] == 200)}]
+
+    # Cleanup the token
+    http::cleanup $token
+
+    return $retval
+
+  }
+
+  ######################################################################
   # Opens the given filename in an external application, using one of the
   # open terminal commands to determine the proper application to use.
   # Returns true if the file/command failed to open; otherwise, returns 0.

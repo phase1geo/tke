@@ -1,6 +1,12 @@
 filepatterns
 {*.clj *.cljs}
 
+reference
+{
+  {{Language Reference} https://clojure.org/reference/reader}
+  {{Search} https://clojure.org/search?q={query}}
+}
+
 matchcharsallowed
 {curly square paren double}
 

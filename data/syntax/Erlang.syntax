@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {erlang}
 
+reference
+{
+  {{Reference Manual} http://erlang.org/doc/reference_manual/users_guide.html}
+}
+
 matchcharsallowed
 {curly paren square}
 

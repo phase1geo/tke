@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {haskell}
 
+reference
+{
+  {{Documentation} https://www.haskell.org/documentation}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

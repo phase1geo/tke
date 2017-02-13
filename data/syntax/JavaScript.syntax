@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {javascript}
 
+reference
+{
+  {{Language Reference} https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference?redirectlocale=en-US&redirectslug=JavaScript%2FReference}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {cpp}
 
+reference
+{
+  {{Language Reference} http://en.cppreference.com/w/cpp/language}
+}
+
 embedded
 {{C}}
 

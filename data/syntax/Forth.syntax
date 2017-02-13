@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {forth}
 
+reference
+{
+  {{Language Reference} https://www.taygeta.com/forth/dpans.html}
+}
+
 matchcharsallowed
 {curly square}
 

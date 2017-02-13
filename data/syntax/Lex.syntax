@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {lex}
 
+reference
+{
+  {{Language Reference} http://dinosaur.compilertools.net/lex/index.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

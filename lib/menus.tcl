@@ -207,7 +207,7 @@ namespace eval menus {
     add_plugins $mb.plugins
 
     # Add the help menu
-    $mb add cascade -label [msgcat::mc "Help"] -menu [make_menu $mb.help -tearoff false]
+    $mb add cascade -label [msgcat::mc "Help"] -menu [make_menu $mb.help -tearoff false -postcommand "menus::help_posting $mb.help"]
     add_help $mb.help
 
     # If we are running on Mac OS X, add the window menu with the windowlist package
@@ -3156,6 +3156,10 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Tips & Tricks"] -underline 0 -command [list menus::help_tips_tricks]
     launcher::register [make_menu_cmd "Help" [msgcat::mc "View tips & tricks articles"]] [list menus::help_tips_tricks]
 
+    $mb add separator
+
+    $mb add cascade -label [msgcat::mc "Language Documentation"] -menu [menu $mb.refPopup -tearoff 0 -postcommand [list menus::help_lang_ref_posting $mb.refPopup]]
+
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
       $mb add command -label [msgcat::mc "Check for Update"] -underline 0 -command [list menus::check_for_update]
@@ -3174,6 +3178,38 @@ namespace eval menus {
       $mb add separator
       $mb add command -label [format "%s %s" [msgcat::mc "About"] "TKE"] -underline 0 -command [list gui::show_about]
       launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]
+    }
+
+  }
+
+  ######################################################################
+  # Called when the help menu is posted.  Controls the state of the help
+  # menu items.
+  proc help_posting {mb} {
+
+    if {[llength [lsearch -index 1 -inline -all -not [syntax::get_references [gui::get_info {} current lang]] "{query}"]] == 0} {
+      $mb entryconfigure [msgcat::mc "Language Documentation"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Language Documentation"] -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Called when the language reference submenu is posted.
+  proc help_lang_ref_posting {mb} {
+
+    gui::get_info {} current lang
+
+    # Clean the menu
+    $mb delete 0 end
+
+    # Add the items
+    foreach item [lsearch -index 1 -inline -all -not [syntax::get_references $lang] "{query}"] {
+      lassign $item name url
+      if {[string first "{query}" $url] == -1} {
+        $mb add command -label [format "$lang %s" $name] -command [list utils::open_file_externally $url 1]
+      }
     }
 
   }

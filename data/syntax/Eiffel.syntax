@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {eiffel}
 
+reference
+{
+  {{Language Reference} https://archive.eiffel.com/nice/language/}
+}
+
 matchcharsallowed
 {paren curly square}
 

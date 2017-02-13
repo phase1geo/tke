@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {haml}
 
+reference
+{
+  {{Language Reference} http://haml.info/docs/yardoc/file.REFERENCE.html}
+}
+
 matchcharsallowed
 {paren double single}
 

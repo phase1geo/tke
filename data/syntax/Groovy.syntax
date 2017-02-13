@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {groovy}
 
+reference
+{
+  {{Language Reference} http://www.groovy-lang.org/documentation.html}
+}
+
 matchcharsallowed
 {curly paren square double single}
 
