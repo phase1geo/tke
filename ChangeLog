@@ -1,42 +1,97 @@
-2017-02-07 00:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6418471fd86f [devel-2.9.4])
+2017-02-09 09:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (67bf16474b3e [devel-2.9.5])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.4 release
+	ChangeLog for devel-2.9.5 release
 
-2017-02-07 00:11 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (315b8245c493)
+2017-02-09 09:00 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1794d7d4a58d)
 
 	* .hgtags:
-	Added tag devel-2.9.4 for changeset 6418471fd86f
+	Added tag devel-2.9.5 for changeset 67bf16474b3e
 
-2017-02-07 23:50 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (c3587dd08d5a)
-
-	* doc/md/TKE User Guide/Snippets/Snippet Variables.textbundle/text.md,
-	lib/format_lexer.tcl, lib/format_parser.tcl, lib/snip_lexer.fcl,
-	lib/snip_lexer.tcl, lib/snip_parser.tab.tcl, lib/snip_parser.tac,
-	lib/snip_parser.tcl, lib/snippets.tcl, lib/version.tcl:
-	* Fixing syntax variable table in user guide.
-	* Adding support for clipboard history snippet variables.
-	* Fixing support for user snippets in preferences window.
-	* Fixing snippet saving issue within the preferences window.
-
-2017-02-08 00:01 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d58f0153cb5d)
-
-	* doc/md/TKE User Guide/Snippets/Snippet Variables.textbundle/text.md,
-	lib/version.tcl:
-	* Adding clipboard history snippet documentation to snippet
-	variable.
-
-2017-02-09 00:33 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (479f5634b492)
-
-	* lib/Makefile, lib/pref_ui.tcl, lib/snip_parser.tac,
-	lib/snip_parser.tcl, lib/themes.tcl, lib/version.tcl:
-	* Adding clipboard history to insert menu within snippet preferences
-	panel.
-	* Adjustments to snippets syntax description.
-	* Fixing syntax error in themes.tcl
-
-2017-02-09 08:55 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (3be633a9b0b9 [tip])
+2017-02-09 09:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (df08e157049c)
 
 	* lib/sidebar.tcl, lib/version.tcl:
-	* Fixing keyboard traversal focus issues in the sidebar.
+	* Cleaning up sidebar code.
+
+2017-02-09 22:54 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (e278107c5cab)
+
+	* lib/version.tcl:
+	* Merging.
+
+2017-02-09 23:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (53ef007f2847)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Fixing issue when closing tab in the pane that is not the current
+	pane.
+
+2017-02-10 00:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (1e491f9d1db0)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Fixing problem caused by last checkin.
+
+2017-02-10 00:55 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6a9467854237)
+
+	* lib/menus.tcl, lib/preferences.tcl, lib/version.tcl:
+	* Adding menu support for deleting language preferences.
+
+2017-02-10 09:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (8f4cfd74dc7e)
+
+	* data/syntax/Perl.syntax, lib/menus.tcl, lib/preferences.tcl,
+	lib/version.tcl:
+	* Fixing bugs in new language preferences deletion code.
+	* Added confirmation popup when a language preference is being
+	deleted.
+	* Adding missing "else" keyword in Perl syntax.
+
+2017-02-11 18:44 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (735f7c256997)
+
+	* lib/gui.tcl, lib/menus.tcl, lib/ptwidgets1.2/library/tabbar.tcl,
+	lib/sidebar.tcl, lib/version.tcl:
+	* Fixing issue with updating title bar when a tab is selected.
+	* Cleaning up code related to selecting and showing tabs.
+	* Fixing syntax error caused when no file is shown and view menu is
+	displayed.
+	* Fixing potential issue with showing/hiding files via the sidebar.
+
+2017-02-11 23:57 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (dcbc02617758)
+
+	* lib/diff.tcl, lib/gui.tcl, lib/version.tcl, lib/vim.tcl:
+	* Changing bottom display panels to use place instead of grid
+	placement management.
+
+2017-02-12 08:01 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (554e9431604a)
+
+	* data/syntax/Tcl.syntax, data/syntax/syntax.syntax, lib/syntax.tcl,
+	lib/version.tcl, lib/vim.tcl:
+	* Adding code support for K Vim command.
+
+2017-02-12 20:35 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b471871de8d5)
+
+	* data/syntax/Tcl.syntax, lib/syntax.tcl, lib/version.tcl:
+	* Minor tweaks to language references support.
+
+2017-02-13 00:32 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7387668f544b [tip])
+
+	* data/syntax/ABAP.syntax, data/syntax/ActionScript.syntax,
+	data/syntax/Ada.syntax, data/syntax/AppleScript.syntax,
+	data/syntax/Awk.syntax, data/syntax/Bash.syntax,
+	data/syntax/C#.syntax, data/syntax/C++.syntax, data/syntax/C.syntax,
+	data/syntax/CSS.syntax, data/syntax/Clojure.syntax,
+	data/syntax/Cobol.syntax, data/syntax/CoffeeScript.syntax,
+	data/syntax/CriticMarkup.syntax, data/syntax/Cuda.syntax,
+	data/syntax/D.syntax, data/syntax/Delphi.syntax,
+	data/syntax/DocBook.syntax, data/syntax/Eiffel.syntax,
+	data/syntax/Erlang.syntax, data/syntax/Forth.syntax,
+	data/syntax/Fortran.syntax, data/syntax/Gherkin.syntax,
+	data/syntax/Go.syntax, data/syntax/Groovy.syntax,
+	data/syntax/HTML.syntax, data/syntax/Haml.syntax,
+	data/syntax/Haskell.syntax, data/syntax/Haxe.syntax,
+	data/syntax/Jade.syntax, data/syntax/Java.syntax,
+	data/syntax/JavaScript.syntax, data/syntax/Julia.syntax,
+	data/syntax/Lex.syntax, data/syntax/PHP.syntax,
+	data/syntax/Tcl.syntax, data/syntax/Yacc.syntax, lib/menus.tcl,
+	lib/utils.tcl, lib/version.tcl, lib/vim.tcl:
+	* Adding language manual support to syntax files.
+	* Adding language manual viewer from Help menu.
+	* Adding language lookup support via Vim K command.
 
