@@ -277,15 +277,16 @@ namespace eval pref_ui {
   proc populate_session_menu {language} {
 
     variable widgets
+    variable selected_session
 
     # Delete the current menu
     $widgets(selsmenu) delete 0 end
 
     # Populate the selection menu
-    $widgets(selsmenu) add radiobutton -label "None" -variable pref_ui::selected_session -value "None" -command [list pref_ui::select "None" $language]
+    $widgets(selsmenu) add radiobutton -label "None" -variable pref_ui::selected_session -value "None" -command [list pref_ui::select $selected_session $language "None" $language]
     $widgets(selsmenu) add separator
     foreach name [sessions::get_names] {
-      $widgets(selsmenu) add radiobutton -label $name -variable pref_ui::selected_session -value $name -command [list pref_ui::select $name $language]
+      $widgets(selsmenu) add radiobutton -label $name -variable pref_ui::selected_session -value $name -command [list pref_ui::select $selected_session $language $name $language]
     }
 
   }
@@ -295,21 +296,27 @@ namespace eval pref_ui {
   proc populate_lang_menu {session} {
 
     variable widgets
+    variable selected_language
 
-    syntax::populate_syntax_menu $widgets(sellmenu) [list pref_ui::select $session] pref_ui::selected_language "All"
+    syntax::populate_syntax_menu $widgets(sellmenu) [list pref_ui::select $session $selected_language $session] pref_ui::selected_language "All"
 
   }
 
   ######################################################################
   # Selects the given session language.
-  proc select {session language {init 0}} {
+  proc select {prev_session prev_language session language {init 0}} {
 
     variable widgets
     variable prefs
     variable current_panel
 
     # Disable traces
-    catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] }
+    catch { trace remove variable pref_ui::prefs {*}[lindex [trace info variable pref_ui::prefs] 0] } rc
+
+    # Check for any changes that we might want to save to another set of preferences
+    if {!$init} {
+      check_on_close $prev_session $prev_language
+    }
 
     # Update the menubuttons text
     $widgets(select_s) configure -text "Session: $session"
@@ -459,7 +466,7 @@ namespace eval pref_ui {
       pack .prefwin.f  -fill both -expand yes
 
       # Select the given session/language information
-      select $selected_session $selected_language 1
+      select "" "" $selected_session $selected_language 1
 
       # Create the list of panes
       set panes [list general appearance editor find sidebar view snippets emmet shortcuts plugins advanced]
@@ -606,11 +613,59 @@ namespace eval pref_ui {
   # Called when the preference window is destroyed.
   proc destroy_window {} {
 
+    variable selected_session
+    variable selected_language
+
     # Save any sharing changes (if necessary)
     save_share_changes
 
+    # Check the state of the preferences and, if necessary, ask the user to
+    # apply the changes to other preferences
+    check_on_close $selected_session $selected_language
+
     # Kill the window
     destroy .prefwin
+
+  }
+
+  ######################################################################
+  # Checks to see if any of the changes could be saved to other preference
+  # types.  If so, prompts the user to cross save those values that changed.
+  proc check_on_close {session language} {
+
+    variable changes
+
+    # If we are changing language preferences do nothing
+    if {($language ne "All") || ([array size changes] == 0)} {
+      return
+    }
+
+    if {$session eq "None"} {
+
+      if {[sessions::current] ne ""} {
+
+        set detail [msgcat::mc "You have changed global preferences which will not be visible because you are currently within a named session."]
+        set answer [tk_messageBox -parent .prefwin -icon question -type yesno -message [msgcat::mc "Save changes to current session?"] -detail $detail]
+
+        if {$answer eq "yes"} {
+          preferences::save_prefs "" "" [array get changes]
+        }
+
+      }
+
+    } else {
+
+      set detail [msgcat::mc "You have changed the current session's preferences which will not be applied globally"]
+      set answer [tk_messageBox -parent .prefwin -icon question -type yesno -message [msgcat::mc "Save changes to global preferences?"] -detail $detail]
+
+      if {$answer eq "yes"} {
+        preferences::save_prefs [sessions::current] "" [array get changes]
+      }
+
+    }
+
+    # Clear the changes
+    array unset changes
 
   }
 
@@ -619,9 +674,20 @@ namespace eval pref_ui {
   proc handle_prefs_change {session language name1 name2 op} {
 
     variable prefs
+    variable changes
 
     if {[winfo exists .prefwin]} {
+
+      # Track the preferences change
+      set changes($name2) $prefs($name2)
+      array unset changes General/*
+      array unset changes Help/*
+      array unset changes Debug/*
+      array unset changes Tools/Profile*
+
+      # Save the preferences
       preferences::save_prefs $session $language [array get prefs]
+
     }
 
   }
