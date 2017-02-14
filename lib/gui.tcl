@@ -4179,6 +4179,9 @@ namespace eval gui {
       set be_after_id($txt) ""
       set be_ignore($txt)   0
 
+      # Make sure that the bird's eye viewer is below any lower panel
+      lower $beye
+
     }
 
   }

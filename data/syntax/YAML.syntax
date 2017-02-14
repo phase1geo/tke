@@ -1,6 +1,11 @@
 filepatterns
 {*.yaml}
 
+reference
+{
+  {{Language Reference} http://yaml.org/spec/1.2/spec.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {vala}
 
+reference
+{
+  {{Language Reference} https://wiki.gnome.org/Projects/Vala/Tutorial}
+}
+
 matchcharsallowed
 {curly square paren double single}
 
@@ -43,7 +48,7 @@ keywords
   lock
   namespace new
   override out
-  private protected public 
+  private protected public
   ref requires return
   set signal static string struct switch
   throw this throws try

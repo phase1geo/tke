@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {markdown}
 
+reference
+{
+  {{Language Reference} http://fletcher.github.io/MultiMarkdown-5/}
+}
+
 embedded
 {
   {HTML}

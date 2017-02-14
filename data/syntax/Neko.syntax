@@ -1,6 +1,11 @@
 filepatterns
 {*.n}
 
+reference
+{
+  {{Language Reference} http://nekovm.org/doc}
+}
+
 matchcharsallowed
 {curly}
 

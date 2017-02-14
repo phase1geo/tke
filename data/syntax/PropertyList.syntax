@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {xml}
 
+reference
+{
+  {{Language Reference} https://developer.apple.com/library/content/documentation/CoreFoundation/Conceptual/CFPropertyLists/CFPropertyLists.html}
+}
+
 matchcharsallowed
 {paren angled double single}
 

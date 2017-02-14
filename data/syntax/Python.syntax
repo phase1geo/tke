@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {python}
 
+reference
+{
+  {{Language Reference} https://docs.python.org/3/reference/}
+}
+
 matchcharsallowed
 {square paren double single}
 

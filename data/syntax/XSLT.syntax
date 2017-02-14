@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {xslt}
 
+reference
+{
+  {{Language Reference} https://www.w3.org/TR/xslt}
+}
+
 matchcharsallowed
 {paren angled double single}
 

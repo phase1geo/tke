@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {pascal}
 
+reference
+{
+  {{Language Reference} http://www.freepascal.org/docs-html/ref/ref.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

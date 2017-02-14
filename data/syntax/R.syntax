@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {r}
 
+reference
+{
+  {{Language Reference} https://cran.r-project.org/doc/manuals/r-release/R-intro.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

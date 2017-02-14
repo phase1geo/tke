@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {verilog}
 
+reference
+{
+  {{Language Reference} http://www.ece.uah.edu/~gaede/cpe526/SystemVerilog_3.1a.pdf}
+}
+
 embedded {
   {Verilog}
 }

@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {markdown}
 
+reference
+{
+  {{Syntax Reference} http://daringfireball.net/projects/markdown/syntax}
+}
+
 embedded
 {
   {HTML}

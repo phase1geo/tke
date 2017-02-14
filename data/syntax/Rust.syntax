@@ -1,6 +1,11 @@
 filepatterns
 {*.rs}
 
+reference
+{
+  {{Language Reference} https://doc.rust-lang.org/book/}
+}
+
 matchcharsallowed
 {curly square paren double}
 
