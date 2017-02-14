@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {objc}
 
+reference
+{
+  {{Language Reference} https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html}
+}
+
 delimiters
 {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,@<>]+}
 

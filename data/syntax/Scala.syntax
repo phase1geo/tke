@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {scala}
 
+reference
+{
+  {{Documentation} http://www.scala-lang.org/documentation/}
+}
+
 matchcharsallowed
 {curly paren square double single}
 

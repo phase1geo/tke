@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {scheme}
 
+reference
+{
+  {{Language Reference} http://www.scheme.com/tspl3/}
+}
+
 matchcharsallowed
 {paren square double}
 

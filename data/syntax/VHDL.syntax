@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {vhdl}
 
+reference
+{
+  {{Language Reference} http://edg.uchicago.edu/~tang/VHDLref.pdf}
+}
+
 matchcharsallowed
 {curly square paren double}
 

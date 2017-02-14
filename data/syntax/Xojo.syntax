@@ -1,6 +1,11 @@
 filepatterns
 {*.xojo}
 
+reference
+{
+  {{Language Reference} http://docs.xojo.com/index.php/Category:Language_Reference}
+}
+
 matchcharsallowed
 {paren}
 

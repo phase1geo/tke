@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {mysql}
 
+reference
+{
+  {{Language Reference} https://dev.mysql.com/doc/refman/5.5/en/}
+}
+
 matchcharsallowed
 {paren single}
 

@@ -1,6 +1,11 @@
 filepatterns
 {*.rss}
 
+reference
+{
+  {{Specification} https://cyber.harvard.edu/rss/rss.html}
+}
+
 matchcharsallowed
 {paren angled double single}
 

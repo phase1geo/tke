@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {perl perl6}
 
+reference
+{
+  {{Language Reference} http://perldoc.perl.org/index-language.html}
+}
+
 matchcharsallowed
 {curly square paren double single}
 

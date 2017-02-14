@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {ocaml}
 
+reference
+{
+  {{Language Reference} http://caml.inria.fr/pub/docs/manual-ocaml/language.html}
+}
+
 matchcharsallowed
 {curly square paren double}
 

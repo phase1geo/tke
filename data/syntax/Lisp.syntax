@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {lisp}
 
+reference
+{
+  {{Language Reference} https://www.gnu.org/software/emacs/manual/elisp.html}
+}
+
 matchcharsallowed
 {paren double}
 

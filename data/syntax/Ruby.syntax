@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {ruby}
 
+reference
+{
+  {{Language Reference} http://ruby-doc.com/docs/ProgrammingRuby/}
+}
+
 matchcharsallowed
 {curly square paren double single}
 
