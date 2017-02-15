@@ -31,6 +31,7 @@ namespace eval pref_ui {
   variable sym_dict
   variable enable_share
   variable share_changed
+  variable initialize_callbacks {}
 
   array set widgets     {}
   array set match_chars {}
@@ -58,6 +59,28 @@ namespace eval pref_ui {
     set widgets(sb)      "ttk::spinbox"
     set widgets(sb_opts) "-justify center"
     destroy .__tmp
+  }
+
+  ######################################################################
+  # Register the given initialization callback.
+  proc register_initialization {cmd} {
+
+    variable initialize_callbacks
+
+    lappend initialize_callbacks $cmd
+
+  }
+
+  ######################################################################
+  # Initializes all of the widgets.
+  proc initialize_widgets {} {
+
+    variable initialize_callbacks
+
+    foreach callback $initialize_callbacks {
+      uplevel #0 $callback
+    }
+
   }
 
   ######################################################################
@@ -193,12 +216,21 @@ namespace eval pref_ui {
     }
 
     # Initialize the widget
-    $w.te tokeninsert end $pref_ui::prefs($varname)
+    register_initialization [list pref_ui::init_token $w.te $varname]
 
     # Register the widget for search
     register $w.te $msg $varname
 
     return $w.te
+
+  }
+
+  ######################################################################
+  # Initializes the given tokenentry widget.
+  proc init_token {w varname} {
+
+    $w tokendelete 0 end
+    $w tokeninsert end $pref_ui::prefs($varname)
 
   }
 
@@ -217,8 +249,8 @@ namespace eval pref_ui {
     grid $w.vb -row 0 -column 1 -sticky ns
     grid $w.hb -row 1 -column 0 -sticky ew
 
-    # Insert the preference value
-    $w.t insert end $pref_ui::prefs($varname)
+    # Register the widget for initialization
+    register_initialization [list pref_ui::init_text $w.t $varname]
 
     if {$grid} {
       set row [llength [grid slaves [winfo parent $w] -column 0]]
@@ -231,6 +263,15 @@ namespace eval pref_ui {
     register $w.t $msg $varname
 
     return $w.t
+
+  }
+
+  ######################################################################
+  # Initializes the given text widget.
+  proc init_text {w varname} {
+
+    $w delete 1.0 end
+    $w insert end $pref_ui::prefs($varname)
 
   }
 
@@ -260,13 +301,21 @@ namespace eval pref_ui {
       }
     }
 
-    # Initialize the widget
-    $win set $pref_ui::prefs($varname)
+    # Add the widget to the initialize_callbacks array
+    register_initialization [list pref_ui::init_sb $win $varname]
 
     # Register the widget
     register $win $msg $varname
 
     return $win
+
+  }
+
+  ######################################################################
+  # Initializes the given spinbox widget.
+  proc init_sb {w varname} {
+
+    $w set $pref_ui::prefs($varname)
 
   }
 
@@ -348,6 +397,9 @@ namespace eval pref_ui {
     # Setup the prefs
     array unset prefs
     array set prefs [preferences::get_loaded $session $language]
+
+    # Initialize the widgets
+    initialize_widgets
 
     # Remove all listed panels
     foreach panel [pack slaves $widgets(panes)] {
@@ -483,6 +535,9 @@ namespace eval pref_ui {
         bind $widgets(panes).$pane <Button-1> [list pref_ui::pane_clicked $pane]
         create_$pane [set widgets($pane) [ttk::frame $widgets(frame).$pane]]
       }
+
+      # Initialize widget values
+      initialize_widgets
 
       # Allow the panel dimensions to be calculatable
       update
