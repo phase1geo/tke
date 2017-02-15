@@ -236,7 +236,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make a spinbox.
-  proc make_sb {w msg varname from to inc {grid 0}} {
+  proc make_sb {w msg varname from to inc {grid 0} {endmsg ""}} {
 
     variable widgets
 
@@ -247,11 +247,17 @@ namespace eval pref_ui {
       set row [llength [grid slaves [winfo parent ${w}l] -column 0]]
       grid ${w}l  -row $row -column 0 -sticky news -padx 2 -pady 2
       grid ${w}sb -row $row -column 1 -sticky news -padx 2 -pady 2
+      if {$endmsg ne ""} {
+        grid [ttk::label ${w}l2 -text $endmsg] -row $row -column 2 -sticky news -padx 2 -pady 2
+      }
     } else {
-      pack [ttk::frame $w] -fill x -expand yes
+      pack [ttk::frame $w] -fill x
       pack [ttk::label $w.l -text [format "%s: " $msg]] -side left -padx 2 -pady 2
       pack [set win [$widgets(sb) $w.sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
         -width [string length $to] -state readonly -command [list pref_ui::handle_sb_change $w.sb $varname]]] -side left -padx 2 -pady 2
+      if {$endmsg ne ""} {
+        pack [ttk::label $w.l2 -text $endmsg] -side left -padx 2 -pady 2
+      }
     }
 
     # Initialize the widget
@@ -902,6 +908,7 @@ namespace eval pref_ui {
     make_cb $a.eolc [msgcat::mc "Exit the application after the last tab is closed"]                             General/ExitOnLastClose
     make_cb $a.acwd [msgcat::mc "Automatically set the current working directory to the current tabs directory"] General/AutoChangeWorkingDirectory
     make_cb $a.umtt [msgcat::mc "Show Move To Trash for local files/directories instead of Delete"]              General/UseMoveToTrash
+    make_cb $a.pcs  [msgcat::mc "Prompt user to save preference changes in global or named session"]             General/PromptCrossSessionSave
 
     make_spacer $a
 
@@ -2175,6 +2182,8 @@ namespace eval pref_ui {
 
     make_cb $a.rralc [msgcat::mc "Remove root directory after last sub-file is closed"] Sidebar/RemoveRootAfterLastClose
     make_cb $a.fat   [msgcat::mc "Show folders at top"] Sidebar/FoldersAtTop
+    make_spacer $a
+    make_sb $a.kst   [msgcat::mc "Append characters to search string if entered within"] Sidebar/KeySearchTimeout 100 3000 100 0 [msgcat::mc "milliseconds"]
 
     ##############
     # HIDING TAB #

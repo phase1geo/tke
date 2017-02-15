@@ -45,25 +45,26 @@ msgcat::mcmset da {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset da {
-
-  "Find:"
-  "finde"
-
-  "Replace:"
-  "Erstat"
-
-}
-
 # files.tcl
 msgcat::mcmset da {
+
+  "Delete tab?"
+  "Slet fane?"
+
+  "Reload file?"
+  "Genindlæs fil"
 
   "Unable to determine how to move to trash"
   "Afskåret fra afgøre hvor hen til skridt hen til skidt"
 
   "Unable to determine platform"
   "Afskåret fra afgøre platform"
+
+  "Unable to write file"
+  "Kunne ikke skrive filen"
+
+  "Unable to write remote file"
+  "Der kan ikke skrives fjernfil"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset da {
   "Credits"
   "Krediteringer"
 
-  "Delete tab?"
-  "Slet fane?"
-
   "Developer"
   "Udvikler"
 
@@ -114,9 +112,6 @@ msgcat::mcmset da {
 
   "File already exists.  Use '!' to force an overwrite"
   "Filen findes allerede.  Brug '!' at tvinge en Overskriv"
-
-  "File attribute does not exist"
-  "Attribut til systemfil findes ikke"
 
   "File index is out of range"
   "File indeks er uden for rækkevidde"
@@ -208,9 +203,6 @@ msgcat::mcmset da {
   "Release Type"
   "Release Type"
 
-  "Reload file?"
-  "Genindlæs fil"
-
   "Replace"
   "Erstat"
 
@@ -234,12 +226,6 @@ msgcat::mcmset da {
 
   "Unable to successfully parse number string"
   "Ikke kan med held parse nummer streng"
-
-  "Unable to write file"
-  "Kunne ikke skrive filen"
-
-  "Unable to write remote file"
-  "Der kan ikke skrives fjernfil"
 
   "Version"
   "Version"
@@ -280,6 +266,12 @@ msgcat::mcmset da {
 
   "All Levels"
   "ALLE NIVEAUER!"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Alle sprogspecifikke indstillinger for den aktuelle session vil blive fjernet og de globale indstillinger vil blive anvendt til det angivne sprog."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Alle sprogspecifikke indstillinger vil blive fjernet og de globale indstillinger vil blive anvendt til det angivne sprog."
 
   "Append Next Occurrence"
   "Føj næste forekomst"
@@ -416,6 +408,12 @@ msgcat::mcmset da {
   "Delete Selected Folds"
   "Slet de valgte folder"
 
+  "Delete Session"
+  "Slet Session"
+
+  "Delete User"
+  "Slet bruger"
+
   "Delete all folds"
   "Slet alle folder"
 
@@ -440,8 +438,14 @@ msgcat::mcmset da {
   "Delete from start of line to cursor"
   "Slet fra starten af linjen til markør"
 
+  "Delete language preferences?"
+  "Slette indstillinger for sprog?"
+
   "Delete session"
   "Slet session"
+
+  "Delete session language preferences?"
+  "Slette sessionsindstillingerne sprog?"
 
   "Delete template"
   "Slet skabelon"
@@ -754,6 +758,9 @@ msgcat::mcmset da {
 
   "Jump to the previous fold indicator"
   "Springe til den forrige fold indikator"
+
+  "Language Documentation"
+  "Sprog dokumentation"
 
   "Line Above Current"
   "Linje over nuværende"
@@ -1410,6 +1417,9 @@ msgcat::mcmset da {
   "Angled bracket"
   "Vinklet beslag"
 
+  "Append characters to search string if entered within"
+  "Tilføj tegn for at søgestreng, hvis indtastet inden for"
+
   "Auto-match Characters"
   "Auto-match tegn"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset da {
 
   "Clipboard"
   "Udklipsholder"
+
+  "Clipboard History"
+  "Klippebordets historikstørrelse"
 
   "Clipboard history depth"
   "Clipboard historie dybde"
@@ -1617,6 +1630,9 @@ msgcat::mcmset da {
   "Profiler Options"
   "Profiler indstillinger"
 
+  "Prompt user to save preference changes in global or named session"
+  "Spørg brugeren gemme præference ændringer i globale eller navngivet session"
+
   "Properties"
   "Ejendomme"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset da {
 
   "Ruler column"
   "Lineal kolonne"
+
+  "Save changes to current session?"
+  "Gemme ændringer til aktuelle session?"
+
+  "Save changes to global preferences?"
+  "Gemme ændringer til global præferencer?"
 
   "Search Shortcuts"
   "Søg genveje"
@@ -1790,6 +1812,15 @@ msgcat::mcmset da {
 
   "Variables"
   "Variabler"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Du har ændret globale indstillinger, der ikke vil være synlig, fordi du er i øjeblikket i en navngivet session."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Du har ændret den aktuelle session præferencer, som ikke bliver anvendt globalt"
+
+  "milliseconds"
+  "Millisekund"
 
 }
 

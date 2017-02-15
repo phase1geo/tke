@@ -45,25 +45,26 @@ msgcat::mcmset cs {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset cs {
-
-  "Find:"
-  "Find"
-
-  "Replace:"
-  "slova"
-
-}
-
 # files.tcl
 msgcat::mcmset cs {
+
+  "Delete tab?"
+  "Kartu smazat?"
+
+  "Reload file?"
+  "Obnovit soubor?"
 
   "Unable to determine how to move to trash"
   "Nelze určit, jak se přesunout do koše"
 
   "Unable to determine platform"
   "Nelze určit platformy"
+
+  "Unable to write file"
+  "Nelze zapsat soubor"
+
+  "Unable to write remote file"
+  "Nelze zapsat vzdálený soubor"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset cs {
   "Credits"
   "Autoři"
 
-  "Delete tab?"
-  "Kartu smazat?"
-
   "Developer"
   "Vývojář"
 
@@ -114,9 +112,6 @@ msgcat::mcmset cs {
 
   "File already exists.  Use '!' to force an overwrite"
   "Soubor již existuje.  Použijte '!' přinutit přepsání"
-
-  "File attribute does not exist"
-  "{attribute} neexistuje!"
 
   "File index is out of range"
   "Obsah souboru je mimo rozsah"
@@ -208,9 +203,6 @@ msgcat::mcmset cs {
   "Release Type"
   "Typ vydání"
 
-  "Reload file?"
-  "Obnovit soubor?"
-
   "Replace"
   "Nahradit"
 
@@ -234,12 +226,6 @@ msgcat::mcmset cs {
 
   "Unable to successfully parse number string"
   "Nelze úspěšně analyzovat číselné řetězce"
-
-  "Unable to write file"
-  "Nelze zapsat soubor"
-
-  "Unable to write remote file"
-  "Nelze zapsat vzdálený soubor"
 
   "Version"
   "Verze"
@@ -280,6 +266,12 @@ msgcat::mcmset cs {
 
   "All Levels"
   "Všechny úrovně"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Všechna nastavení specifické pro jazyk pro aktuální relace bude odstraněna a globální nastavení bude použito pro zadaný jazyk."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Budou odstraněny všechny jazykové nastavení a globální nastavení bude použito pro zadaný jazyk."
 
   "Append Next Occurrence"
   "P?ipojit dalí výskyt"
@@ -416,6 +408,12 @@ msgcat::mcmset cs {
   "Delete Selected Folds"
   "Odstranit vybrané záhyby"
 
+  "Delete Session"
+  "Odstranit relaci"
+
+  "Delete User"
+  "Smazat uživatele"
+
   "Delete all folds"
   "Odstranit všechny záhyby"
 
@@ -440,8 +438,14 @@ msgcat::mcmset cs {
   "Delete from start of line to cursor"
   "Odstranit ze začátku řádku kurzoru"
 
+  "Delete language preferences?"
+  "Smazat předvolby jazyka?"
+
   "Delete session"
   "Odstranit relaci"
+
+  "Delete session language preferences?"
+  "Smazat předvolby jazyka relace?"
 
   "Delete template"
   "Smazat šablonu"
@@ -754,6 +758,9 @@ msgcat::mcmset cs {
 
   "Jump to the previous fold indicator"
   "Přejít na předchozí indikátor krát"
+
+  "Language Documentation"
+  "Dokumentace jazyka"
 
   "Line Above Current"
   "Linka nad aktuální"
@@ -1410,6 +1417,9 @@ msgcat::mcmset cs {
   "Angled bracket"
   "Úhlový držák"
 
+  "Append characters to search string if entered within"
+  "Připojit znaky Hledat řetězec, je-li zadán do"
+
   "Auto-match Characters"
   "Auto shoda znaků"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset cs {
 
   "Clipboard"
   "Schránka"
+
+  "Clipboard History"
+  "Historie schránky"
 
   "Clipboard history depth"
   "Hloubka historie schránky"
@@ -1617,6 +1630,9 @@ msgcat::mcmset cs {
   "Profiler Options"
   "Profiler možnosti"
 
+  "Prompt user to save preference changes in global or named session"
+  "Vyzvat uživatele k uložení změny předvoleb v globálním nebo pojmenované relace"
+
   "Properties"
   "Nemovitosti"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset cs {
 
   "Ruler column"
   "Vládce sloupec"
+
+  "Save changes to current session?"
+  "Uložit změny do aktuální relaci?"
+
+  "Save changes to global preferences?"
+  "Uložit změny globální nastavení?"
 
   "Search Shortcuts"
   "Hledání zkratek"
@@ -1790,6 +1812,15 @@ msgcat::mcmset cs {
 
   "Variables"
   "Proměnné"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Změnili jste globální nastavení, které nebude viditelný, protože se v současné době v rámci relace pojmenované."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Jste změnili předvolby aktuální relace, které nebudou použita globálně"
+
+  "milliseconds"
+  "milisekundy"
 
 }
 

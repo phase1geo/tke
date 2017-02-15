@@ -45,25 +45,26 @@ msgcat::mcmset zh {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset zh {
-
-  "Find:"
-  "查找"
-
-  "Replace:"
-  "替换:"
-
-}
-
 # files.tcl
 msgcat::mcmset zh {
+
+  "Delete tab?"
+  "删除标签？"
+
+  "Reload file?"
+  "重装文件？"
 
   "Unable to determine how to move to trash"
   "无法确定如何将移动到垃圾"
 
   "Unable to determine platform"
   "无法确定平台"
+
+  "Unable to write file"
+  "无法写入文件"
+
+  "Unable to write remote file"
+  "无法写入远程文件"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset zh {
   "Credits"
   "贡献"
 
-  "Delete tab?"
-  "删除标签？"
-
   "Developer"
   "开发者"
 
@@ -114,9 +112,6 @@ msgcat::mcmset zh {
 
   "File already exists.  Use '!' to force an overwrite"
   "文件已存在。 使用 '!' 强制覆盖"
-
-  "File attribute does not exist"
-  "文件属性不存在"
 
   "File index is out of range"
   "文件索引超出范围"
@@ -208,9 +203,6 @@ msgcat::mcmset zh {
   "Release Type"
   "发行类型（特殊）"
 
-  "Reload file?"
-  "重装文件？"
-
   "Replace"
   "替换"
 
@@ -234,12 +226,6 @@ msgcat::mcmset zh {
 
   "Unable to successfully parse number string"
   "无法成功分析数字字符串"
-
-  "Unable to write file"
-  "无法写入文件"
-
-  "Unable to write remote file"
-  "无法写入远程文件"
 
   "Version"
   "版本"
@@ -280,6 +266,12 @@ msgcat::mcmset zh {
 
   "All Levels"
   "所有级别"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "将删除当前会话的所有特定语言设置和全局设置将应用于指定的语言。"
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "将删除所有语言特定的设置和全局设置将应用于指定的语言。"
 
   "Append Next Occurrence"
   "追加下一個事件"
@@ -416,6 +408,12 @@ msgcat::mcmset zh {
   "Delete Selected Folds"
   "删除选定的褶皱"
 
+  "Delete Session"
+  "删除会话？"
+
+  "Delete User"
+  "删除用户"
+
   "Delete all folds"
   "删除所有折叠"
 
@@ -440,8 +438,14 @@ msgcat::mcmset zh {
   "Delete from start of line to cursor"
   "删除行的起始处到光标处"
 
+  "Delete language preferences?"
+  "删除语言首选项？"
+
   "Delete session"
   "删除会话？"
+
+  "Delete session language preferences?"
+  "删除会话语言首选项？"
 
   "Delete template"
   "删除模板"
@@ -754,6 +758,9 @@ msgcat::mcmset zh {
 
   "Jump to the previous fold indicator"
   "跳转到以前的折叠指示器"
+
+  "Language Documentation"
+  "用语言的文档"
 
   "Line Above Current"
   "高于当前行"
@@ -1410,6 +1417,9 @@ msgcat::mcmset zh {
   "Angled bracket"
   "直角的支架"
 
+  "Append characters to search string if entered within"
+  "添加要搜索的字符串，如果在输入的字符"
+
   "Auto-match Characters"
   "自动匹配字符"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset zh {
 
   "Clipboard"
   "剪贴板"
+
+  "Clipboard History"
+  "剪贴板历史"
 
   "Clipboard history depth"
   "剪贴板历史深度"
@@ -1617,6 +1630,9 @@ msgcat::mcmset zh {
   "Profiler Options"
   "探查器选项"
 
+  "Prompt user to save preference changes in global or named session"
+  "提示用户保存在全局或命名会话中的偏好的变化"
+
   "Properties"
   "房源"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset zh {
 
   "Ruler column"
   "统治者列"
+
+  "Save changes to current session?"
+  "将更改保存到当前会话？"
+
+  "Save changes to global preferences?"
+  "将更改保存到全球优惠吗？"
 
   "Search Shortcuts"
   "搜尋捷徑鍵"
@@ -1790,6 +1812,15 @@ msgcat::mcmset zh {
 
   "Variables"
   "變量"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "你改变了全球的首选项，因为你是命名会话中当前不可见。"
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "您已经更改了当前会话的首选项，将不会应用到的全球"
+
+  "milliseconds"
+  "毫秒"
 
 }
 

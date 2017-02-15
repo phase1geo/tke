@@ -53,6 +53,7 @@ Returns the pathname of the main widget which allows you to customize the widget
 | -to _number_ | none | Only valid for the spinbox type. Specifies the highest legal value that the spinbox can be set to. |
 | -increment _number_ | 1 | Only valid for the spinbox type. Specifies the amount that will be added/subtracted from the current value when the up/down arrow is clicked in the spinbox. |
 | -grid _number_ | 0 | If set to 0, the widget will be packed using the Tk pack manager. If set to 1, the widget will be packed using the Tk grid manager. |
+| -ending _string_ | none | Only valid for spinbox types. If specified, this string will be displayed on the right side of the spinbox value. |
 
 **Message Display**
 
@@ -67,4 +68,3 @@ The following table describes how the message parameter will be displayed in rel
 | entry | Message is displayed just above the entry field. |
 | token | Message is displayed just above the entry field. |
 | text | Message is displayed just above the text field. |
-

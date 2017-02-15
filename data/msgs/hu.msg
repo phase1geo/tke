@@ -45,25 +45,26 @@ msgcat::mcmset hu {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset hu {
-
-  "Find:"
-  "felfedez"
-
-  "Replace:"
-  "Csere:"
-
-}
-
 # files.tcl
 msgcat::mcmset hu {
+
+  "Delete tab?"
+  "Törlés lap?"
+
+  "Reload file?"
+  "A fájl újratöltése"
 
   "Unable to determine how to move to trash"
   "Nem határozható meg, hogyan kell mozgatni a szemét"
 
   "Unable to determine platform"
   "Nem lehet meghatározni a platform"
+
+  "Unable to write file"
+  "Nem lehet írni a fájlt"
+
+  "Unable to write remote file"
+  "Nem lehet írni a távoli fájl"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset hu {
   "Credits"
   "Jóváírások"
 
-  "Delete tab?"
-  "Törlés lap?"
-
   "Developer"
   "Fejlesztő"
 
@@ -114,9 +112,6 @@ msgcat::mcmset hu {
 
   "File already exists.  Use '!' to force an overwrite"
   "A fájl már létezik. Használja a '!' kényszeríteni felülíró"
-
-  "File attribute does not exist"
-  "Attribútum nem létezik"
 
   "File index is out of range"
   "Fájl index tartományon kívül"
@@ -208,9 +203,6 @@ msgcat::mcmset hu {
   "Release Type"
   "Kiadás típusa"
 
-  "Reload file?"
-  "A fájl újratöltése"
-
   "Replace"
   "Csere"
 
@@ -234,12 +226,6 @@ msgcat::mcmset hu {
 
   "Unable to successfully parse number string"
   "Nem lehet elemezni a biztonsági szám karakterlánc"
-
-  "Unable to write file"
-  "Nem lehet írni a fájlt"
-
-  "Unable to write remote file"
-  "Nem lehet írni a távoli fájl"
 
   "Version"
   "Verzió"
@@ -280,6 +266,12 @@ msgcat::mcmset hu {
 
   "All Levels"
   "Minden szint"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Minden nyelv-specifikus beállításokat a jelenlegi munkamenet törlődik, és a globális beállítások maradnak érvényben a megadott nyelvhez."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Minden nyelv-specifikus beállításokat el kell távolítani, és a globális beállítások maradnak érvényben a megadott nyelvhez."
 
   "Append Next Occurrence"
   "Ráakaszt a következ? alkalom emlékeztet?je"
@@ -416,6 +408,12 @@ msgcat::mcmset hu {
   "Delete Selected Folds"
   "Törli a kijelölt redők"
 
+  "Delete Session"
+  "Munkamenetek törlése"
+
+  "Delete User"
+  "A felhasználó törlése"
+
   "Delete all folds"
   "Törölje az összes redők"
 
@@ -440,8 +438,14 @@ msgcat::mcmset hu {
   "Delete from start of line to cursor"
   "Törlés a sor elejére kurzor"
 
+  "Delete language preferences?"
+  "Nyelv beállítások törlése?"
+
   "Delete session"
   "Munkamenetek törlése"
+
+  "Delete session language preferences?"
+  "Törli a munkamenet nyelvi beállításai?"
 
   "Delete template"
   "Sablon törlése"
@@ -754,6 +758,9 @@ msgcat::mcmset hu {
 
   "Jump to the previous fold indicator"
   "Ugrás az előző fold-jelző"
+
+  "Language Documentation"
+  "Nyelvű dokumentáció"
 
   "Line Above Current"
   "Folyó feletti line"
@@ -1410,6 +1417,9 @@ msgcat::mcmset hu {
   "Angled bracket"
   "Szögletes zárójel"
 
+  "Append characters to search string if entered within"
+  "Hozzáfűzés a keresési karakterlánc, ha belül megadott karakterek"
+
   "Auto-match Characters"
   "Auto-mérkőzés karakter"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset hu {
 
   "Clipboard"
   "Vágólap"
+
+  "Clipboard History"
+  "A vágólapnapló mérete"
 
   "Clipboard history depth"
   "Csipeszes írótábla történelem mélység"
@@ -1617,6 +1630,9 @@ msgcat::mcmset hu {
   "Profiler Options"
   "A profilozó beállításai:"
 
+  "Prompt user to save preference changes in global or named session"
+  "Gyors preferencia módosítások mentését a globális vagy elnevezett munkamenet"
+
   "Properties"
   "Ingatlanok"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset hu {
 
   "Ruler column"
   "Vonalzó oszlop"
+
+  "Save changes to current session?"
+  "Menti a módosításokat a jelenlegi munkamenet?"
+
+  "Save changes to global preferences?"
+  "Menti a módosításokat a globális előnyök?"
 
   "Search Shortcuts"
   "Keresés parancsikonok"
@@ -1790,6 +1812,15 @@ msgcat::mcmset hu {
 
   "Variables"
   "Változók"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Globális beállítások, ami nem látható, mert jelenleg egy névvel ellátott munkameneten belül változott."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Módosítja az aktuális munkamenet beállításait nem globálisan alkalmazható"
+
+  "milliseconds"
+  "ezredmásodperc"
 
 }
 

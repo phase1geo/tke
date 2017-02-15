@@ -85,6 +85,13 @@
 
 {General/UseMoveToTrash}     {1}
 
+# If set to 1, TKE will prompt the user to save the current preference settings
+# to the global preferences (if a named session's preferences have been changed)
+# or to the named session's preferences (if the current session is a named session
+# and the global preferences are being changed).
+
+{General/PromptCrossSessionSave} {1}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
 # color and selection background/foreground colors.  The following
@@ -379,6 +386,13 @@
 # and files will be sorted together in alphabetical order.
 
 {Sidebar/FoldersAtTop} {1}
+
+# Specifies the amount of time (in milliseconds) after a key is entered when the
+# sidebar has keyboard focus before the current search string is forgotton.  If
+# the user enters a key prior to the timeout, the character will be appended to
+# the current search string and the files will be compared to that string.
+
+{Sidebar/KeySearchTimeout} {1000}
 
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:

@@ -45,25 +45,26 @@ msgcat::mcmset fr {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset fr {
-
-  "Find:"
-  "Find:"
-
-  "Replace:"
-  "remplacer le point:"
-
-}
-
 # files.tcl
 msgcat::mcmset fr {
+
+  "Delete tab?"
+  "Supprimer onglet?"
+
+  "Reload file?"
+  "Recharger le fichier"
 
   "Unable to determine how to move to trash"
   "Impossible de déterminer comment se déplacer dans la corbeille"
 
   "Unable to determine platform"
   "Impossible de déterminer la plate-forme"
+
+  "Unable to write file"
+  "Impossible d'écrire fichier"
+
+  "Unable to write remote file"
+  "Impossible d'écrire fichier"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset fr {
   "Credits"
   "Crédits"
 
-  "Delete tab?"
-  "Supprimer onglet?"
-
   "Developer"
   "Développeur"
 
@@ -114,9 +112,6 @@ msgcat::mcmset fr {
 
   "File already exists.  Use '!' to force an overwrite"
   "Le fichier existe déjà.  Utilisation '!' pour forcer un écrasement"
-
-  "File attribute does not exist"
-  "Attribut de fichier n'existe pas"
 
   "File index is out of range"
   "index du fichier est hors de portée"
@@ -208,9 +203,6 @@ msgcat::mcmset fr {
   "Release Type"
   "Type de sortie"
 
-  "Reload file?"
-  "Recharger le fichier"
-
   "Replace"
   "Remplacer"
 
@@ -234,12 +226,6 @@ msgcat::mcmset fr {
 
   "Unable to successfully parse number string"
   "Impossible d'analyser correctement la chaîne numérique"
-
-  "Unable to write file"
-  "Impossible d'écrire fichier"
-
-  "Unable to write remote file"
-  "Impossible d'écrire fichier"
 
   "Version"
   "Version"
@@ -280,6 +266,12 @@ msgcat::mcmset fr {
 
   "All Levels"
   "Tous les niveaux"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Tous les paramètres spécifiques à une langue pour la session en cours seront supprimés et les paramètres globaux seront appliquées pour la langue spécifiée."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Tous les paramètres spécifiques à une langue seront supprimés et les paramètres globaux seront appliquées pour la langue spécifiée."
 
   "Append Next Occurrence"
   "Ajouter l'Occurrence suivante"
@@ -416,6 +408,12 @@ msgcat::mcmset fr {
   "Delete Selected Folds"
   "Supprimer les plis sélectionnés"
 
+  "Delete Session"
+  "SUPPRESSION DE LA SÉANCE"
+
+  "Delete User"
+  "Supprimer l'Utilisateur"
+
   "Delete all folds"
   "Supprimer tous les plis"
 
@@ -440,8 +438,14 @@ msgcat::mcmset fr {
   "Delete from start of line to cursor"
   "Supprimer de début de ligne au curseur"
 
+  "Delete language preferences?"
+  "Supprimer les préférences de langue ?"
+
   "Delete session"
   "Supprimer la période ?"
+
+  "Delete session language preferences?"
+  "Supprimer les préférences de langue de session ?"
 
   "Delete template"
   "Supprimer le modèle"
@@ -754,6 +758,9 @@ msgcat::mcmset fr {
 
   "Jump to the previous fold indicator"
   "Saut à l'indicateur précédent de pli"
+
+  "Language Documentation"
+  "Documentation de langue"
 
   "Line Above Current"
   "Ligne supérieure courant"
@@ -1410,6 +1417,9 @@ msgcat::mcmset fr {
   "Angled bracket"
   "Support coudé"
 
+  "Append characters to search string if entered within"
+  "Ajouter des caractères pour la chaîne de recherche si entrée dans"
+
   "Auto-match Characters"
   "Sélection automatique des caractères"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset fr {
 
   "Clipboard"
   "Presse-papiers"
+
+  "Clipboard History"
+  "Taille de l'historique du presse-papiers"
 
   "Clipboard history depth"
   "Profondeur de l’histoire de presse-papiers"
@@ -1617,6 +1630,9 @@ msgcat::mcmset fr {
   "Profiler Options"
   "Options de l'outil de profilage :"
 
+  "Prompt user to save preference changes in global or named session"
+  "Inviter l’utilisateur à enregistrer les modifications de préférence dans la session globale ou nommée"
+
   "Properties"
   "Biens"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset fr {
 
   "Ruler column"
   "Colonne de souverain"
+
+  "Save changes to current session?"
+  "Enregistrez les modifications apportées à la session en cours ?"
+
+  "Save changes to global preferences?"
+  "Enregistrer les modifications dans les préférences globales ?"
 
   "Search Shortcuts"
   "Raccourcis de recherche"
@@ -1790,6 +1812,15 @@ msgcat::mcmset fr {
 
   "Variables"
   "Variables"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Vous avez modifié les préférences globales qui ne sera pas visibles car vous êtes actuellement dans une session nommée."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Vous avez modifié les préférences de la session en cours qui ne seront pas appliqués à l’échelle mondiale"
+
+  "milliseconds"
+  "millisecondes"
 
 }
 
