@@ -45,25 +45,26 @@ msgcat::mcmset sv {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset sv {
-
-  "Find:"
-  "Sök i"
-
-  "Replace:"
-  "Ersätt:"
-
-}
-
 # files.tcl
 msgcat::mcmset sv {
+
+  "Delete tab?"
+  "Radera flik?"
+
+  "Reload file?"
+  "Ladda om filen?"
 
   "Unable to determine how to move to trash"
   "Inte kan avgöra hur du flyttar till papperskorgen"
 
   "Unable to determine platform"
   "Det går inte att avgöra plattform"
+
+  "Unable to write file"
+  "Kan inte skriva filen"
+
+  "Unable to write remote file"
+  "Kan inte skriva fjärrfil"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset sv {
   "Credits"
   "Kediter"
 
-  "Delete tab?"
-  "Radera flik?"
-
   "Developer"
   "Utvecklare"
 
@@ -114,9 +112,6 @@ msgcat::mcmset sv {
 
   "File already exists.  Use '!' to force an overwrite"
   "Filen finns redan.  Använd '!' tvinga en överskrivning"
-
-  "File attribute does not exist"
-  "Filattributet finns inte"
 
   "File index is out of range"
   "File index är utanför intervallet"
@@ -208,9 +203,6 @@ msgcat::mcmset sv {
   "Release Type"
   "Release typ"
 
-  "Reload file?"
-  "Ladda om filen?"
-
   "Replace"
   "Ersätt"
 
@@ -234,12 +226,6 @@ msgcat::mcmset sv {
 
   "Unable to successfully parse number string"
   "Inte att framgångsrikt parsa nummer sträng"
-
-  "Unable to write file"
-  "Kan inte skriva filen"
-
-  "Unable to write remote file"
-  "Kan inte skriva fjärrfil"
 
   "Version"
   "Version"
@@ -280,6 +266,12 @@ msgcat::mcmset sv {
 
   "All Levels"
   "Alla nivåer"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Alla språkspecifika inställningar för den aktuella sessionen tas bort och de globala inställningarna kommer att tillämpas för det angivna språket."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Alla språkspecifika inställningar tas bort och de globala inställningarna kommer att tillämpas för det angivna språket."
 
   "Append Next Occurrence"
   "Lägg nästa förekomst"
@@ -416,6 +408,12 @@ msgcat::mcmset sv {
   "Delete Selected Folds"
   "Ta bort markerade veck"
 
+  "Delete Session"
+  "Ta bort Session"
+
+  "Delete User"
+  "Ta bort användare"
+
   "Delete all folds"
   "Ta bort alla veck"
 
@@ -440,8 +438,14 @@ msgcat::mcmset sv {
   "Delete from start of line to cursor"
   "Ta bort från början av linje till markören"
 
+  "Delete language preferences?"
+  "Ta bort språkinställningar?"
+
   "Delete session"
   "Ta bort session"
+
+  "Delete session language preferences?"
+  "Ta bort session språkinställningar?"
 
   "Delete template"
   "Radera mall"
@@ -754,6 +758,9 @@ msgcat::mcmset sv {
 
   "Jump to the previous fold indicator"
   "Hoppa till föregående vik indikatorn"
+
+  "Language Documentation"
+  "Språkdokumentation"
 
   "Line Above Current"
   "Linje ovanför aktuell"
@@ -1410,6 +1417,9 @@ msgcat::mcmset sv {
   "Angled bracket"
   "Vinklat fäste"
 
+  "Append characters to search string if entered within"
+  "Lägg till tecken för att söka snöre om in inom"
+
   "Auto-match Characters"
   "Auto-match tecken"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset sv {
 
   "Clipboard"
   "Urklipp"
+
+  "Clipboard History"
+  "Storlek på klippbordshistorik"
 
   "Clipboard history depth"
   "Klippborden historia djup"
@@ -1617,6 +1630,9 @@ msgcat::mcmset sv {
   "Profiler Options"
   "Alternativ för profiler"
 
+  "Prompt user to save preference changes in global or named session"
+  "Uppmana användaren att spara preferens ändringar i globala eller namngiven session"
+
   "Properties"
   "Egenskaper"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset sv {
 
   "Ruler column"
   "Linjalen kolumn"
+
+  "Save changes to current session?"
+  "Spara ändringar i aktuell session?"
+
+  "Save changes to global preferences?"
+  "Spara ändringar i globala inställningar?"
 
   "Search Shortcuts"
   "Sök kortkommandon"
@@ -1790,6 +1812,15 @@ msgcat::mcmset sv {
 
   "Variables"
   "Variabler"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Du har ändrat globala inställningar som inte är synliga eftersom du är för närvarande i en namngiven session."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Du har ändrat den aktuella sessionens preferenser som inte kommer att tillämpas globalt"
+
+  "milliseconds"
+  "Millisekund"
 
 }
 

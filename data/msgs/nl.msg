@@ -45,25 +45,26 @@ msgcat::mcmset nl {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset nl {
-
-  "Find:"
-  "ontdekken"
-
-  "Replace:"
-  "Vervangen:"
-
-}
-
 # files.tcl
 msgcat::mcmset nl {
+
+  "Delete tab?"
+  "Delete tab?"
+
+  "Reload file?"
+  "Opnieuw laden"
 
   "Unable to determine how to move to trash"
   "Niet in staat om te bepalen hoe naar Prullenbak verplaatsen"
 
   "Unable to determine platform"
   "Niet in staat om te bepalen van platform"
+
+  "Unable to write file"
+  "Kan niet schrijven bestand"
+
+  "Unable to write remote file"
+  "Kan niet extern bestand schrijven"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset nl {
   "Credits"
   "Credits"
 
-  "Delete tab?"
-  "Delete tab?"
-
   "Developer"
   "Ontwikkelaar"
 
@@ -114,9 +112,6 @@ msgcat::mcmset nl {
 
   "File already exists.  Use '!' to force an overwrite"
   "Bestand bestaat al.  Gebruik '!' te dwingen een overschrijven"
-
-  "File attribute does not exist"
-  "Bestandskenmerk bestaat niet"
 
   "File index is out of range"
   "File index valt buiten het bereik"
@@ -208,9 +203,6 @@ msgcat::mcmset nl {
   "Release Type"
   "Release Type"
 
-  "Reload file?"
-  "Opnieuw laden"
-
   "Replace"
   "Vervangen"
 
@@ -234,12 +226,6 @@ msgcat::mcmset nl {
 
   "Unable to successfully parse number string"
   "Kan niet met succes nummer tekenreeks parseren"
-
-  "Unable to write file"
-  "Kan niet schrijven bestand"
-
-  "Unable to write remote file"
-  "Kan niet extern bestand schrijven"
 
   "Version"
   "Versie"
@@ -280,6 +266,12 @@ msgcat::mcmset nl {
 
   "All Levels"
   "Alle niveaus"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Alle taal-specifieke instellingen voor de huidige sessie zal worden verwijderd en de globale instellingen zal worden toegepast voor de opgegeven taal."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Alle taalspecifieke instellingen zullen worden verwijderd en de globale instellingen zal worden toegepast voor de opgegeven taal."
 
   "Append Next Occurrence"
   "Volgende vindplaats toevoegen"
@@ -416,6 +408,12 @@ msgcat::mcmset nl {
   "Delete Selected Folds"
   "Verwijder geselecteerde plooien"
 
+  "Delete Session"
+  "Verwijder sessie"
+
+  "Delete User"
+  "Gebruiker verwijderen"
+
   "Delete all folds"
   "Verwijderen van alle plooien"
 
@@ -440,8 +438,14 @@ msgcat::mcmset nl {
   "Delete from start of line to cursor"
   "Begin van regel verwijderen met de cursor"
 
+  "Delete language preferences?"
+  "Taalvoorkeuren verwijderen?"
+
   "Delete session"
   "Verwijder sessie"
+
+  "Delete session language preferences?"
+  "Sessie taalvoorkeuren verwijderen?"
 
   "Delete template"
   "Sjabloon verwijderen"
@@ -754,6 +758,9 @@ msgcat::mcmset nl {
 
   "Jump to the previous fold indicator"
   "Ga naar de vorige vouw-indicator"
+
+  "Language Documentation"
+  "Documentatie van de taal"
 
   "Line Above Current"
   "Lijn boven de huidige"
@@ -1410,6 +1417,9 @@ msgcat::mcmset nl {
   "Angled bracket"
   "Schuine beugel"
 
+  "Append characters to search string if entered within"
+  "Toevoegen van tekens om te zoeken string als ingevoerd binnen"
+
   "Auto-match Characters"
   "Auto-overeenkomen met tekens"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset nl {
 
   "Clipboard"
   "Klembord"
+
+  "Clipboard History"
+  "Kladbordgeschiedenis"
 
   "Clipboard history depth"
   "Klembord geschiedenis diepte"
@@ -1617,6 +1630,9 @@ msgcat::mcmset nl {
   "Profiler Options"
   "Profiler opties"
 
+  "Prompt user to save preference changes in global or named session"
+  "Gebruiker vragen om te voorkeur-wijzigingen opslaan in de globale of benoemde sessie"
+
   "Properties"
   "Vastgoed"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset nl {
 
   "Ruler column"
   "Liniaal kolom"
+
+  "Save changes to current session?"
+  "Wijzigingen in de huidige sessie opslaan?"
+
+  "Save changes to global preferences?"
+  "Wijzigingen in de globale voorkeuren opslaan?"
 
   "Search Shortcuts"
   "Zoeken snelkoppelingen"
@@ -1790,6 +1812,15 @@ msgcat::mcmset nl {
 
   "Variables"
   "Variabelen"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "U kunt globale voorkeuren die niet zichtbaar zijn zal omdat u zich momenteel binnen een benoemde sessie hebt gewijzigd."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "U hebt de huidige sessie voorkeuren die niet wereldwijd zal worden toegepast"
+
+  "milliseconds"
+  "Milliseconde"
 
 }
 

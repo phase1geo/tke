@@ -45,25 +45,26 @@ msgcat::mcmset el {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset el {
-
-  "Find:"
-  "Find"
-
-  "Replace:"
-  "Το κάτωθι:"
-
-}
-
 # files.tcl
 msgcat::mcmset el {
+
+  "Delete tab?"
+  "Διαγραφή καρτέλας;"
+
+  "Reload file?"
+  "Επαναφόρτωση αρχείου"
 
   "Unable to determine how to move to trash"
   "Δεν μπορείτε να προσδιορίσετε πώς να μετακινήσετε στα απορρίμματα"
 
   "Unable to determine platform"
   "Δεν μπορείτε να προσδιορίσετε πλατφόρμα"
+
+  "Unable to write file"
+  "Δεν είναι δυνατή η εγγραφή αρχείου"
+
+  "Unable to write remote file"
+  "Ανίκανος να γράψει το απομακρυσμένο αρχείο"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset el {
   "Credits"
   "Συντελεστές"
 
-  "Delete tab?"
-  "Διαγραφή καρτέλας;"
-
   "Developer"
   "Προγραμματιστή"
 
@@ -114,9 +112,6 @@ msgcat::mcmset el {
 
   "File already exists.  Use '!' to force an overwrite"
   "Το αρχείο υπάρχει ήδη.  Χρήση «!» να αναγκάσει την επανεγγραφή του τομέα"
-
-  "File attribute does not exist"
-  "Δεν υπάρχει χαρακτηριστικό αρχείου"
 
   "File index is out of range"
   "Δείκτης αρχείου είναι εκτός ορίων"
@@ -208,9 +203,6 @@ msgcat::mcmset el {
   "Release Type"
   "ΔΕΛΤΙΟ ΤΥΠΟΥ"
 
-  "Reload file?"
-  "Επαναφόρτωση αρχείου"
-
   "Replace"
   "Αντικαταστήστε"
 
@@ -234,12 +226,6 @@ msgcat::mcmset el {
 
   "Unable to successfully parse number string"
   "Δυνατό να αναλύσει με επιτυχία αριθμός συμβολοσειρά"
-
-  "Unable to write file"
-  "Δεν είναι δυνατή η εγγραφή αρχείου"
-
-  "Unable to write remote file"
-  "Ανίκανος να γράψει το απομακρυσμένο αρχείο"
 
   "Version"
   "Έκδοση"
@@ -280,6 +266,12 @@ msgcat::mcmset el {
 
   "All Levels"
   "Όλα τα επίπεδα"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Θα καταργηθούν όλες οι ρυθμίσεις γλωσσών για την τρέχουσα περίοδο λειτουργίας και τις καθολικές ρυθμίσεις που θα εφαρμοστούν για τη συγκεκριμένη γλώσσα."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Θα καταργηθούν όλες οι ρυθμίσεις γλωσσών και τις καθολικές ρυθμίσεις που θα εφαρμοστούν για τη συγκεκριμένη γλώσσα."
 
   "Append Next Occurrence"
   "Προσάρτηση επόμενη εμφάνιση"
@@ -416,6 +408,12 @@ msgcat::mcmset el {
   "Delete Selected Folds"
   "Διαγραφή επιλεγμένων πτυχώσεις"
 
+  "Delete Session"
+  "Διαγραφή της περιόδου λειτουργίας"
+
+  "Delete User"
+  "Διαγραφή Χρήστη"
+
   "Delete all folds"
   "Διαγράψετε όλες πτυχές"
 
@@ -440,8 +438,14 @@ msgcat::mcmset el {
   "Delete from start of line to cursor"
   "Διαγραφή του δρομέα από την αρχή της γραμμής"
 
+  "Delete language preferences?"
+  "Για να διαγράψετε τις προτιμήσεις γλώσσας;"
+
   "Delete session"
   "Διαγραφή της περιόδου λειτουργίας"
+
+  "Delete session language preferences?"
+  "Για να διαγράψετε τις προτιμήσεις γλώσσας της συνεδρίας;"
 
   "Delete template"
   "Διαγράψτε το αρχείο περιγράμματος"
@@ -754,6 +758,9 @@ msgcat::mcmset el {
 
   "Jump to the previous fold indicator"
   "Άλμα με τον προηγούμενο δείκτη φορές"
+
+  "Language Documentation"
+  "Γλώσσα εγγράφων"
 
   "Line Above Current"
   "Γραμμή πάνω από το ρεύμα"
@@ -1410,6 +1417,9 @@ msgcat::mcmset el {
   "Angled bracket"
   "ΓΩΝΙΑΚΗ ΕΛΑΣΤΙΚΗ ΒΑΣΗ"
 
+  "Append characters to search string if entered within"
+  "Προσάρτηση χαρακτήρες στη συμβολοσειρά αναζήτησης εάν εισαχθεί εντός"
+
   "Auto-match Characters"
   "Auto-παιχνίδι χαρακτήρες"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset el {
 
   "Clipboard"
   "Πρόχειρο"
+
+  "Clipboard History"
+  "Μέγεθος ιστορικού του προχείρου:"
 
   "Clipboard history depth"
   "Βάθος ιστορίας Πρόχειρο"
@@ -1617,6 +1630,9 @@ msgcat::mcmset el {
   "Profiler Options"
   "Profiler επιλογές"
 
+  "Prompt user to save preference changes in global or named session"
+  "Ερώτηση στο χρήστη για να αποθηκεύσετε αλλαγές προτίμησης σε παγκόσμια ή όνομα περιόδου λειτουργίας"
+
   "Properties"
   "Ιδιότητες"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset el {
 
   "Ruler column"
   "Στήλη του χάρακα"
+
+  "Save changes to current session?"
+  "Αποθήκευση αλλαγών στην τρέχουσα περίοδο λειτουργίας;"
+
+  "Save changes to global preferences?"
+  "Αποθήκευση αλλαγών σε σφαιρικές προτιμήσεις;"
 
   "Search Shortcuts"
   "Αναζήτηση συντομεύσεις"
@@ -1790,6 +1812,15 @@ msgcat::mcmset el {
 
   "Variables"
   "Μεταβλητές"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Έχετε αλλάξει σφαιρικές προτιμήσεις που δεν θα είναι ορατή επειδή είστε επί του παρόντος στο πλαίσιο ένα όνομα περιόδου λειτουργίας."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Έχετε αλλάξει την τρέχουσα περίοδο λειτουργίας του προτιμήσεις, οι οποίες δεν θα εφαρμοστεί καθολικά"
+
+  "milliseconds"
+  "χιλιοστά του δευτερολέπτου"
 
 }
 

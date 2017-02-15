@@ -554,6 +554,7 @@ namespace eval api {
           -from      ""
           -to        ""
           -increment 1
+          -ending    ""
         }
         array set opts [lrange $args 2 end]
 
@@ -600,7 +601,7 @@ namespace eval api {
             if {$opts(-to) eq ""} {
               return -code error "Spinbox widget must have -to option set"
             }
-            return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref $opts(-from) $opts(-to) $opts(-increment) $opts(-grid)]
+            return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref $opts(-from) $opts(-to) $opts(-increment) $opts(-grid) -opts(-ending)]
           }
           default {
             return -error code "Unsupported preference widget type ($type)"

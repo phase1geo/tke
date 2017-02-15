@@ -45,25 +45,26 @@ msgcat::mcmset no {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset no {
-
-  "Find:"
-  "Søk"
-
-  "Replace:"
-  "bytt"
-
-}
-
 # files.tcl
 msgcat::mcmset no {
+
+  "Delete tab?"
+  "Slett fane?"
+
+  "Reload file?"
+  "Last filen?"
 
   "Unable to determine how to move to trash"
   "Kan ikke fastslå hvordan du flytter til papirkurven"
 
   "Unable to determine platform"
   "Kan ikke bestemme plattform"
+
+  "Unable to write file"
+  "Kan ikke skrive filen"
+
+  "Unable to write remote file"
+  "Kan ikke skrive ekstern fil"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset no {
   "Credits"
   "Kreditter"
 
-  "Delete tab?"
-  "Slett fane?"
-
   "Developer"
   "Fremkaller"
 
@@ -114,9 +112,6 @@ msgcat::mcmset no {
 
   "File already exists.  Use '!' to force an overwrite"
   "Filen finnes allerede.  Bruk '!' å tvinge en overskriving"
-
-  "File attribute does not exist"
-  "Filattributtet finnes ikke"
 
   "File index is out of range"
   "File indeksen er utenfor rekkevidde"
@@ -208,9 +203,6 @@ msgcat::mcmset no {
   "Release Type"
   "Versjonstypen"
 
-  "Reload file?"
-  "Last filen?"
-
   "Replace"
   "Skift ut"
 
@@ -234,12 +226,6 @@ msgcat::mcmset no {
 
   "Unable to successfully parse number string"
   "Kan ikke analysere vellykket tallstreng"
-
-  "Unable to write file"
-  "Kan ikke skrive filen"
-
-  "Unable to write remote file"
-  "Kan ikke skrive ekstern fil"
 
   "Version"
   "Versjon"
@@ -280,6 +266,12 @@ msgcat::mcmset no {
 
   "All Levels"
   "Alle Nivåer"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Alle språkspesifikke innstillinger for gjeldende økt fjernes og de globale innstillingene brukes for det angitte språket."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Alle språkspesifikke innstillinger fjernes og de globale innstillingene brukes for det angitte språket."
 
   "Append Next Occurrence"
   "Legg til neste forekomst"
@@ -416,6 +408,12 @@ msgcat::mcmset no {
   "Delete Selected Folds"
   "Slett valgte folder"
 
+  "Delete Session"
+  "Slett møteperiode"
+
+  "Delete User"
+  "Slett bruker"
+
   "Delete all folds"
   "Slette alle kaster"
 
@@ -440,8 +438,14 @@ msgcat::mcmset no {
   "Delete from start of line to cursor"
   "Slette fra begynnelsen av linjen til markør"
 
+  "Delete language preferences?"
+  "Slette språkinnstillingene?"
+
   "Delete session"
   "Slette økt"
+
+  "Delete session language preferences?"
+  "Slette økt språkinnstillingene?"
 
   "Delete template"
   "Slette malen"
@@ -754,6 +758,9 @@ msgcat::mcmset no {
 
   "Jump to the previous fold indicator"
   "Hoppe til forrige fold indikatoren"
+
+  "Language Documentation"
+  "Språk dokumentasjon"
 
   "Line Above Current"
   "Linjen over gjeldende"
@@ -1410,6 +1417,9 @@ msgcat::mcmset no {
   "Angled bracket"
   "Vinklet brakett"
 
+  "Append characters to search string if entered within"
+  "Lagt tegn å søkestrengen hvis angitt i"
+
   "Auto-match Characters"
   "Autospill tegn"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset no {
 
   "Clipboard"
   "utklippstavle"
+
+  "Clipboard History"
+  "Utklippstavle historie"
 
   "Clipboard history depth"
   "Utklippstavle historie dybde"
@@ -1617,6 +1630,9 @@ msgcat::mcmset no {
   "Profiler Options"
   "Profiler alternativer"
 
+  "Prompt user to save preference changes in global or named session"
+  "Be brukeren om å lagre preferanseendringer i globale eller navngitt"
+
   "Properties"
   "Egenskaper"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset no {
 
   "Ruler column"
   "Linjalen kolonne"
+
+  "Save changes to current session?"
+  "Lagre endringer i gjeldende økt?"
+
+  "Save changes to global preferences?"
+  "Lagre endringer i globale preferanser?"
 
   "Search Shortcuts"
   "Snarveier for søk"
@@ -1790,6 +1812,15 @@ msgcat::mcmset no {
 
   "Variables"
   "Variabler"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Du har endret globale innstillinger som ikke vises fordi du er for øyeblikket i en navngitt økt."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Du har endret den gjeldende økten preferanser som ikke vil brukes globalt"
+
+  "milliseconds"
+  "Millisekund"
 
 }
 

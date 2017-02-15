@@ -45,25 +45,26 @@ msgcat::mcmset he {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset he {
-
-  "Find:"
-  "לימצו (limtzo)"
-
-  "Replace:"
-  "חיפוש והחלפה:"
-
-}
-
 # files.tcl
 msgcat::mcmset he {
+
+  "Delete tab?"
+  "למחוק טאב?"
+
+  "Reload file?"
+  "טען מחדש קובץ?"
 
   "Unable to determine how to move to trash"
   "אין אפשרות לקבוע כיצד להעביר זבל"
 
   "Unable to determine platform"
   "אין אפשרות לקבוע את הפלטפורמה"
+
+  "Unable to write file"
+  "אין אפשרות לכתוב את הקובץ"
+
+  "Unable to write remote file"
+  "אין אפשרות לכתוב קובץ מרוחק"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset he {
   "Credits"
   "קרדיט"
 
-  "Delete tab?"
-  "למחוק טאב?"
-
   "Developer"
   "מפתח"
 
@@ -114,9 +112,6 @@ msgcat::mcmset he {
 
   "File already exists.  Use '!' to force an overwrite"
   "הקובץ כבר קיים.  שימוש '!' לכפות על החלף"
-
-  "File attribute does not exist"
-  "תכונת הקובץ אינו קיים"
 
   "File index is out of range"
   "קובץ אינדקס נמצא מחוץ לטווח"
@@ -208,9 +203,6 @@ msgcat::mcmset he {
   "Release Type"
   "סוג המהדורה"
 
-  "Reload file?"
-  "טען מחדש קובץ?"
-
   "Replace"
   "החלף"
 
@@ -234,12 +226,6 @@ msgcat::mcmset he {
 
   "Unable to successfully parse number string"
   "אין אפשרות לנתח בהצלחה מספר מיתרים"
-
-  "Unable to write file"
-  "אין אפשרות לכתוב את הקובץ"
-
-  "Unable to write remote file"
-  "אין אפשרות לכתוב קובץ מרוחק"
 
   "Version"
   "גרסה"
@@ -280,6 +266,12 @@ msgcat::mcmset he {
 
   "All Levels"
   "כל הסוגים"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "כל ההגדרות ספציפיים לשפה עבור ההפעלה הנוכחית יוסרו, יוחלו על הגדרות כלליות עבור השפה שצוינה."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "כל הגדרות ספציפיות לשפה יוסרו, יוחלו על הגדרות כלליות עבור השפה שצוינה."
 
   "Append Next Occurrence"
   "צרף המופע הבא"
@@ -416,6 +408,12 @@ msgcat::mcmset he {
   "Delete Selected Folds"
   "למחוק את קפלי שנבחרו"
 
+  "Delete Session"
+  "למחוק את הפגישה"
+
+  "Delete User"
+  "מחק משתמש"
+
   "Delete all folds"
   "מחיקת כל קפלי"
 
@@ -440,8 +438,14 @@ msgcat::mcmset he {
   "Delete from start of line to cursor"
   "מחק מתחילתו של קו כדי הסמן"
 
+  "Delete language preferences?"
+  "האם למחוק את העדפות השפה?"
+
   "Delete session"
   "למחוק את הפגישה"
+
+  "Delete session language preferences?"
+  "האם למחוק את העדפות השפה הפעלה?"
 
   "Delete template"
   "למחוק תבנית"
@@ -754,6 +758,9 @@ msgcat::mcmset he {
 
   "Jump to the previous fold indicator"
   "לקפוץ על מחוון הקיפול הקודם"
+
+  "Language Documentation"
+  "תיעוד שפה"
 
   "Line Above Current"
   "קו מעל זרם"
@@ -1410,6 +1417,9 @@ msgcat::mcmset he {
   "Angled bracket"
   "סוגר זוויתי"
 
+  "Append characters to search string if entered within"
+  "צירוף תווים כדי לחפש מחרוזת אם נכנס בתוך"
+
   "Auto-match Characters"
   "התאם אוטומטית-תווים"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset he {
 
   "Clipboard"
   "הלוח"
+
+  "Clipboard History"
+  "הלוח היסטוריה"
 
   "Clipboard history depth"
   "הלוח היסטוריה עומק"
@@ -1617,6 +1630,9 @@ msgcat::mcmset he {
   "Profiler Options"
   "אפשרויות פרופיילר"
 
+  "Prompt user to save preference changes in global or named session"
+  "בקש מהמשתמש לשמור את השינויים העדפה בהפעלה או בעל שם עולמי"
+
   "Properties"
   "נכסים"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset he {
 
   "Ruler column"
   "הסרגל עמודות"
+
+  "Save changes to current session?"
+  "האם לשמור שינויים ההפעלה הנוכחית?"
+
+  "Save changes to global preferences?"
+  "האם לשמור שינויים בהעדפות הכללית?"
 
   "Search Shortcuts"
   "חפש קיצורי דרך"
@@ -1790,6 +1812,15 @@ msgcat::mcmset he {
 
   "Variables"
   "משתנים"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  ". שינית את ההעדפות הכללית אשר לא יהיו גלויים כי אתה כעת בתוך מושב בשם."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "שינית את העדפות ההפעלה הנוכחית לא יוחלו באופן גלובלי"
+
+  "milliseconds"
+  "מילי שניות"
 
 }
 

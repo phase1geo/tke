@@ -45,25 +45,26 @@ msgcat::mcmset ru {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset ru {
-
-  "Find:"
-  "Находить"
-
-  "Replace:"
-  "Заменить:"
-
-}
-
 # files.tcl
 msgcat::mcmset ru {
+
+  "Delete tab?"
+  "Удалить вкладку?"
+
+  "Reload file?"
+  "Перезагрузить файл"
 
   "Unable to determine how to move to trash"
   "Не удалось определить, как переместить в корзину"
 
   "Unable to determine platform"
   "Не удается определить платформу"
+
+  "Unable to write file"
+  "Не удается записать файл"
+
+  "Unable to write remote file"
+  "Не удается записать удаленный файл"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset ru {
   "Credits"
   "Авторы"
 
-  "Delete tab?"
-  "Удалить вкладку?"
-
   "Developer"
   "Разработчик"
 
@@ -114,9 +112,6 @@ msgcat::mcmset ru {
 
   "File already exists.  Use '!' to force an overwrite"
   "Файл уже существует.  Используйте '!' заставить перезаписи"
-
-  "File attribute does not exist"
-  "Атрибут файла не существует"
 
   "File index is out of range"
   "Индекс файла находится вне диапазона"
@@ -208,9 +203,6 @@ msgcat::mcmset ru {
   "Release Type"
   "Тип выпуска"
 
-  "Reload file?"
-  "Перезагрузить файл"
-
   "Replace"
   "Замена"
 
@@ -234,12 +226,6 @@ msgcat::mcmset ru {
 
   "Unable to successfully parse number string"
   "Не в состоянии успешно разбирать строку номера"
-
-  "Unable to write file"
-  "Не удается записать файл"
-
-  "Unable to write remote file"
-  "Не удается записать удаленный файл"
 
   "Version"
   "Версия"
@@ -280,6 +266,12 @@ msgcat::mcmset ru {
 
   "All Levels"
   "Все уровни"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Будут удалены все языковые настройки для текущего сеанса и глобальные параметры будут применяться для указанного языка."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Будут удалены все языковые настройки и глобальные параметры будут применяться для указанного языка."
 
   "Append Next Occurrence"
   "Добавление следующее вхождение"
@@ -416,6 +408,12 @@ msgcat::mcmset ru {
   "Delete Selected Folds"
   "Удалить выбранные складки"
 
+  "Delete Session"
+  "Удалить сеанс"
+
+  "Delete User"
+  "Удалить Пользователя"
+
   "Delete all folds"
   "Удалить все складки"
 
@@ -440,8 +438,14 @@ msgcat::mcmset ru {
   "Delete from start of line to cursor"
   "Удаление от начала строки до курсора"
 
+  "Delete language preferences?"
+  "Удалить настройки языка?"
+
   "Delete session"
   "Удалить сеанс"
+
+  "Delete session language preferences?"
+  "Удаление сессии языковые предпочтения?"
 
   "Delete template"
   "Удалить шаблон"
@@ -754,6 +758,9 @@ msgcat::mcmset ru {
 
   "Jump to the previous fold indicator"
   "Перейти в предыдущий раз индикатор"
+
+  "Language Documentation"
+  "Документация по языку"
 
   "Line Above Current"
   "Линия выше тока"
@@ -1410,6 +1417,9 @@ msgcat::mcmset ru {
   "Angled bracket"
   "Угловой кронштейн"
 
+  "Append characters to search string if entered within"
+  "Добавление символов в строку поиска, если вступил в"
+
   "Auto-match Characters"
   "Авто матч символов"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset ru {
 
   "Clipboard"
   "Буфер"
+
+  "Clipboard History"
+  "История буфера обмена"
 
   "Clipboard history depth"
   "Глубина истории буфера обмена"
@@ -1617,6 +1630,9 @@ msgcat::mcmset ru {
   "Profiler Options"
   "Параметры профилировщика"
 
+  "Prompt user to save preference changes in global or named session"
+  "Запрос пользователю сохранить изменения предпочтений в глобальном или именованные сессии"
+
   "Properties"
   "Недвижимость"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset ru {
 
   "Ruler column"
   "Правитель столбец"
+
+  "Save changes to current session?"
+  "Сохранить изменения в текущей сессии?"
+
+  "Save changes to global preferences?"
+  "Сохранить изменения в глобальных настройках?"
 
   "Search Shortcuts"
   "Ярлыки поиска"
@@ -1790,6 +1812,15 @@ msgcat::mcmset ru {
 
   "Variables"
   "Параметры"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Вы изменились глобальные предпочтения, которые не будут видны, потому что вы находитесь в настоящее время в рамках сеанса именованные."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Вы изменили предпочтения на текущей сессии, которые не будут применяться глобально"
+
+  "milliseconds"
+  "миллисекунды"
 
 }
 

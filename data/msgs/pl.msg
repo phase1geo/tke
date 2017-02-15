@@ -45,25 +45,26 @@ msgcat::mcmset pl {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset pl {
-
-  "Find:"
-  "Odnaleźć:"
-
-  "Replace:"
-  "Zastąpić:"
-
-}
-
 # files.tcl
 msgcat::mcmset pl {
+
+  "Delete tab?"
+  "Usuń kartę?"
+
+  "Reload file?"
+  "Wczytaj plik na nowo?"
 
   "Unable to determine how to move to trash"
   "Nie można określić jak wrzucić do kosza"
 
   "Unable to determine platform"
   "Nie można określić platformę"
+
+  "Unable to write file"
+  "Nie można zapisać pliku"
+
+  "Unable to write remote file"
+  "Nie można zapisać pliku zdalnego"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset pl {
   "Credits"
   "Kredyty"
 
-  "Delete tab?"
-  "Usuń kartę?"
-
   "Developer"
   "Deweloper"
 
@@ -114,9 +112,6 @@ msgcat::mcmset pl {
 
   "File already exists.  Use '!' to force an overwrite"
   "Plik już istnieje.  Użycie '!' wymusić zastępowaniem"
-
-  "File attribute does not exist"
-  "Atrybut pliku nie istnieje"
 
   "File index is out of range"
   "Wskaźnik pliku jest poza zakresem"
@@ -208,9 +203,6 @@ msgcat::mcmset pl {
   "Release Type"
   "Typ wydania"
 
-  "Reload file?"
-  "Wczytaj plik na nowo?"
-
   "Replace"
   "Zastąp"
 
@@ -234,12 +226,6 @@ msgcat::mcmset pl {
 
   "Unable to successfully parse number string"
   "Nie można pomyślnie przeanalizować ciąg liczb"
-
-  "Unable to write file"
-  "Nie można zapisać pliku"
-
-  "Unable to write remote file"
-  "Nie można zapisać pliku zdalnego"
 
   "Version"
   "Wersja"
@@ -280,6 +266,12 @@ msgcat::mcmset pl {
 
   "All Levels"
   "Wszystkie poziomy"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "Wszystkie ustawienia specyficzne dla języka w bieżącej sesji zostaną usunięte i zostaną zastosowane ustawienia globalne dla określonego języka."
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "Zostaną usunięte wszystkie ustawienia języka i ustawienia globalne będą stosowane dla określonego języka."
 
   "Append Next Occurrence"
   "Dołącz następnego wystąpienia"
@@ -416,6 +408,12 @@ msgcat::mcmset pl {
   "Delete Selected Folds"
   "Usuń zaznaczone fałdy"
 
+  "Delete Session"
+  "<g x=1 id=\"
+
+  "Delete User"
+  "Usuń użytkownika"
+
   "Delete all folds"
   "Usuń wszystkie fałdy"
 
@@ -440,8 +438,14 @@ msgcat::mcmset pl {
   "Delete from start of line to cursor"
   "Usuń z początku wiersza kursor"
 
+  "Delete language preferences?"
+  "Usuń preferencje językowe?"
+
   "Delete session"
   "Usuń sesji"
+
+  "Delete session language preferences?"
+  "Usuń preferencje językowe sesji?"
 
   "Delete template"
   "Usuń szablon"
@@ -754,6 +758,9 @@ msgcat::mcmset pl {
 
   "Jump to the previous fold indicator"
   "Przeskoczyć do poprzedniego wskaźnika razy"
+
+  "Language Documentation"
+  "Język dokumentacji"
 
   "Line Above Current"
   "Linii powyżej bieżącego"
@@ -1410,6 +1417,9 @@ msgcat::mcmset pl {
   "Angled bracket"
   "Wspornik kątowy"
 
+  "Append characters to search string if entered within"
+  "Dołączanie znaków do wyszukiwania ciąg, jeżeli w terminie"
+
   "Auto-match Characters"
   "Auto dopasowanie znaków"
 
@@ -1459,6 +1469,9 @@ msgcat::mcmset pl {
   "Wyczyść"
 
   "Clipboard"
+  "Schowek"
+
+  "Clipboard History"
   "Schowek"
 
   "Clipboard history depth"
@@ -1617,6 +1630,9 @@ msgcat::mcmset pl {
   "Profiler Options"
   "Ustawienia programu profilującego:"
 
+  "Prompt user to save preference changes in global or named session"
+  "Monituj użytkownika o zapisanie zmian preferencji w sesji globalnej lub nazwane"
+
   "Properties"
   "Nieruchomości"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset pl {
 
   "Ruler column"
   "Władca kolumna"
+
+  "Save changes to current session?"
+  "Zapisać zmiany w bieżącej sesji?"
+
+  "Save changes to global preferences?"
+  "Zapisać zmiany globalne Preferencje?"
 
   "Search Shortcuts"
   "Skróty wyszukiwania"
@@ -1790,6 +1812,15 @@ msgcat::mcmset pl {
 
   "Variables"
   "Zmienne"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "Zmieniłeś preferencje globalne, które nie będą widoczne, ponieważ są obecnie w ramach sesji nazwanych."
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "Zmieniłeś preferencje w bieżącej sesji, które nie będą stosowane na całym świecie"
+
+  "milliseconds"
+  "Milisekundy"
 
 }
 

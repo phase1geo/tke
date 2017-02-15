@@ -45,25 +45,26 @@ msgcat::mcmset ja {
 
 }
 
-# embed_tke.tcl
-msgcat::mcmset ja {
-
-  "Find:"
-  "見つけます:"
-
-  "Replace:"
-  "置換："
-
-}
-
 # files.tcl
 msgcat::mcmset ja {
+
+  "Delete tab?"
+  "タブを削除しますか？"
+
+  "Reload file?"
+  "ファイルをリロード？"
 
   "Unable to determine how to move to trash"
   "ゴミ箱に移動する方法を決定できません。"
 
   "Unable to determine platform"
   "プラットフォームを決定できません。"
+
+  "Unable to write file"
+  "ファイルを書き込めません。"
+
+  "Unable to write remote file"
+  "リモート ファイルを書き込めません。"
 
 }
 
@@ -97,9 +98,6 @@ msgcat::mcmset ja {
   "Credits"
   "クレジット"
 
-  "Delete tab?"
-  "タブを削除しますか？"
-
   "Developer"
   "デベロッパー"
 
@@ -114,9 +112,6 @@ msgcat::mcmset ja {
 
   "File already exists.  Use '!' to force an overwrite"
   "ファイルは既に存在します。 使用 '!' 強制的に上書きする"
-
-  "File attribute does not exist"
-  "ファイル属性は存在しません"
 
   "File index is out of range"
   "ファイルインデックスが範囲外である"
@@ -208,9 +203,6 @@ msgcat::mcmset ja {
   "Release Type"
   "リリースの種類"
 
-  "Reload file?"
-  "ファイルをリロード？"
-
   "Replace"
   "置換"
 
@@ -234,12 +226,6 @@ msgcat::mcmset ja {
 
   "Unable to successfully parse number string"
   "番号の文字列を正しく解析することができません。"
-
-  "Unable to write file"
-  "ファイルを書き込めません。"
-
-  "Unable to write remote file"
-  "リモート ファイルを書き込めません。"
 
   "Version"
   "バージョン"
@@ -280,6 +266,12 @@ msgcat::mcmset ja {
 
   "All Levels"
   "すべてのレベル"
+
+  "All language-specific settings for the current session will be removed and the global settings will be applied for the specified language."
+  "現在のセッションのすべての言語固有の設定が削除され、指定した言語のグローバル設定が適用されます。"
+
+  "All language-specific settings will be removed and the global settings will be applied for the specified language."
+  "すべての言語固有の設定が削除され、指定した言語のグローバル設定が適用されます。"
 
   "Append Next Occurrence"
   "次のオカレンスを追加"
@@ -416,6 +408,12 @@ msgcat::mcmset ja {
   "Delete Selected Folds"
   "選択した襞を削除します。"
 
+  "Delete Session"
+  "セッションを削除します。"
+
+  "Delete User"
+  "ユーザーを削除"
+
   "Delete all folds"
   "すべてのフォールドを削除します。"
 
@@ -440,8 +438,14 @@ msgcat::mcmset ja {
   "Delete from start of line to cursor"
   "行の先頭からカーソルまでを削除します。"
 
+  "Delete language preferences?"
+  "言語設定を削除しますか。"
+
   "Delete session"
   "セッションを削除します。"
+
+  "Delete session language preferences?"
+  "セッション言語の設定を削除しますか。"
 
   "Delete template"
   "テンプレートの削除"
@@ -754,6 +758,9 @@ msgcat::mcmset ja {
 
   "Jump to the previous fold indicator"
   "以前の倍インジケーターへジャンプします。"
+
+  "Language Documentation"
+  "言語のドキュメント"
 
   "Line Above Current"
   "現在の上行"
@@ -1410,6 +1417,9 @@ msgcat::mcmset ja {
   "Angled bracket"
   "傾斜ブラケット"
 
+  "Append characters to search string if entered within"
+  "内で入力した場合、検索文字列に文字を追加します。"
+
   "Auto-match Characters"
   "自動一致文字"
 
@@ -1460,6 +1470,9 @@ msgcat::mcmset ja {
 
   "Clipboard"
   "クリップボード"
+
+  "Clipboard History"
+  "クリップボードの履歴"
 
   "Clipboard history depth"
   "クリップボードの履歴の深さ"
@@ -1617,6 +1630,9 @@ msgcat::mcmset ja {
   "Profiler Options"
   "「Profiler オプション"
 
+  "Prompt user to save preference changes in global or named session"
+  "グローバルまたは名前付きセッションの設定の変更を保存するプロンプト ユーザー"
+
   "Properties"
   "プロパティ"
 
@@ -1646,6 +1662,12 @@ msgcat::mcmset ja {
 
   "Ruler column"
   "定規コラム"
+
+  "Save changes to current session?"
+  "変更を現在のセッションに保存しますか。"
+
+  "Save changes to global preferences?"
+  "グローバル設定への変更を保存しますか。"
 
   "Search Shortcuts"
   "検索ショートカット"
@@ -1790,6 +1812,15 @@ msgcat::mcmset ja {
 
   "Variables"
   "変数"
+
+  "You have changed global preferences which will not be visible because you are currently within a named session."
+  "名前付きセッション内の現在、あなたは表示されません、グローバル設定を変更しました。"
+
+  "You have changed the current session's preferences which will not be applied globally"
+  "グローバルに適用されません、現在のセッションの設定を変更しました。"
+
+  "milliseconds"
+  "ミリ秒"
 
 }
 
