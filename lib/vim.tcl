@@ -1453,12 +1453,12 @@ namespace eval vim {
     # Handle any find motions
     switch $command {
       "find" {
-        edit::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
+        edit::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] -num $num -char $char
         start_mode $txtt
         return 1
       }
       "visual" {
-        edit::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] $num $char
+        edit::move_cursor $txtt ${dir}find[expr {($type eq "f") ? "inc" : ""}] -num $num -char $char
         set mode($txtt) "visual:char"
         return 1
       }
@@ -2048,7 +2048,7 @@ namespace eval vim {
       if {[multicursor::enabled $txtt]} {
         edit::move_cursors $txtt "+1c"
       } elseif {$mode($txtt) eq "start"} {
-        edit::move_cursor $txtt screenbot $number($txtt)
+        edit::move_cursor $txtt screenbot -num $number($txtt)
       }
       return 1
     }
@@ -2404,7 +2404,7 @@ namespace eval vim {
       if {[multicursor::enabled $txtt]} {
         edit::move_cursors $txtt "-1c"
       } else {
-        edit::move_cursor $txtt screentop $number($txtt)
+        edit::move_cursor $txtt screentop -num $number($txtt)
       }
       return 1
     }
@@ -2422,7 +2422,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt prevword $number($txtt)
+      edit::move_cursor $txtt prevword -num $number($txtt)
       return 1
     }
 
@@ -2510,7 +2510,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt nextword $number($txtt)
+      edit::move_cursor $txtt nextword -num $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "change"} {
       if {($number($txtt) ne "") && ($number($txtt) > 1)} {
@@ -2553,7 +2553,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt last $number($txtt)
+      edit::move_cursor $txtt last -num $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "format"} {
       indent::format_text $txtt "insert linestart" end
@@ -3696,7 +3696,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt screenmid $number($txtt)
+      edit::move_cursor $txtt screenmid -num $number($txtt)
       return 1
     } elseif {$mode($txtt) eq "folding"} {
       folding::close_all_folds [winfo parent $txtt]

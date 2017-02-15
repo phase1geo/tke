@@ -917,9 +917,6 @@ namespace eval edit {
       }
     }
 
-    # Position the cursor at the beginning of the first word
-    move_cursor $txtt firstword
-
     # Create a separator
     $txtt edit separator
 
@@ -955,9 +952,6 @@ namespace eval edit {
         set startpos [$txtt index "$startpos linestart+1l"]
       }
     }
-
-    # Position the cursor at the beginning of the first word
-    move_cursor $txtt firstword
 
     # Create a separator
     $txtt edit separator
@@ -1121,10 +1115,13 @@ namespace eval edit {
   # - screentop  Top of current screen
   # - screenmid  Middle of current screen
   # - screenbot  Bottom of current screen
-  proc move_cursor {txtt position {num ""} {char ""}} {
+  proc move_cursor {txtt position args} {
 
-    # Clear the selection
-    $txtt tag remove sel 1.0 end
+    array set opts {
+      -num  ""
+      -char ""
+    }
+    array set opts $args
 
     # Get the new cursor position
     switch $position {
