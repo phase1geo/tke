@@ -29,6 +29,8 @@ namespace eval sidebar {
   variable selection_anchor ""
   variable last_id          ""
   variable after_id         ""
+  variable jump_str         ""
+  variable jump_after_id    ""
 
   array set widgets {}
 
@@ -191,6 +193,7 @@ namespace eval sidebar {
       sidebar::handle_return_space %W
       break
     }
+    bind $widgets(tl) <Key> [list sidebar::handle_any %A]
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
@@ -1167,6 +1170,47 @@ namespace eval sidebar {
       if {$id ne ""} {
         set after_id [after 300 sidebar::show_tooltip $id]
       }
+    }
+
+  }
+
+  ######################################################################
+  # Handles any key binding which is used for search purposes within the
+  # sidebar.
+  proc handle_any {char} {
+
+    variable widgets
+    variable jump_str
+    variable jump_after_id
+
+    if {[set selected [lindex [$widgets(tl) selection] 0]] ne ""} {
+
+      # Stop the jump string from being cleared
+      if {$jump_after_id ne ""} {
+        after cancel $jump_after_id
+      }
+
+      # Add to the jump string
+      append jump_str $char
+
+      # Get the parent directory to search
+      set parent [expr {([get_info $selected is_dir] && [$widgets(tl) item $selected -open]) ? $selected : [$widgets(tl) parent $selected]}]
+
+      # Perform the search within the table
+      foreach row [$widgets(tl) children $parent] {
+        if {[string match -nocase $jump_str* [$widgets(tl) item $row -text]]} {
+          $widgets(tl) selection set $row
+          $widgets(tl) see $row
+          break
+        }
+      }
+
+      # Clear the jump string after a given amount of time
+      set jump_after_id [after 1000 {
+        set sidebar::jump_str      ""
+        set sidebar::jump_after_id ""
+      }]
+
     }
 
   }
