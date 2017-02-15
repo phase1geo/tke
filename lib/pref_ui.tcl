@@ -641,8 +641,9 @@ namespace eval pref_ui {
 
     variable changes
 
-    # If we are changing language preferences do nothing
-    if {($language ne "All") || ([array size changes] == 0)} {
+    # If we are changing language preferences, there are no changes or we are specified
+    # to not prompt the user, do nothing
+    if {($language ne "All") || ([array size changes] == 0) || !$pref_ui::prefs(General/PromptCrossSessionSave)} {
       return
     }
 

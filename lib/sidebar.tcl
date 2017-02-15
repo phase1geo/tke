@@ -1210,7 +1210,7 @@ namespace eval sidebar {
     }
 
     # Clear the jump string after a given amount of time
-    set jump_after_id [after 1000 {
+    set jump_after_id [after [preferences::get Sidebar/KeySearchTimeout] {
       set sidebar::jump_str      ""
       set sidebar::jump_after_id ""
     }]
