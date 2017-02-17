@@ -76,8 +76,8 @@ proc parse_format {str matches} {
 
 %}
 
-%token DECIMAL DOLLAR_SIGN VARNAME CLIPHIST CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB
-%token OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN OPEN_SQUARE CLOSE_SQUARE
+%token DECIMAL DOLLAR_SIGN VARNAME CHAR LOWER UPPER LOWER_BLOCK UPPER_BLOCK END_BLOCK NEWLINE TAB
+%token OPEN_BRACKET CLOSE_BRACKET OPEN_PAREN CLOSE_PAREN
 
 %%
 
@@ -170,7 +170,7 @@ variable: DOLLAR_SIGN varname {
 
 varname: VARNAME {
            set txtt $::snip_txtt
-           switch $1 {
+           switch -glob $1 {
              SELECTED_TEXT   { set _ [expr {![catch { $txtt get sel.first sel.last } rc] ? $rc : ""}] }
              CLIPBOARD       { set _ [expr {![catch "clipboard get" rc] ? $rc : ""}] }
              CURRENT_LINE    { set _ [$txtt get "insert linestart" "insert lineend"] }
@@ -192,10 +192,11 @@ varname: VARNAME {
              CURRENT_DAY2    { set _ [clock format [clock seconds] -format "%d"] }
              CURRENT_YEAR2   { set _ [clock format [clock seconds] -format "%y"] }
              CURRENT_YEAR    { set _ [clock format [clock seconds] -format "%Y"] }
+             CLIPHIST*       {
+               regexp {\[(\d+)\]} $1 -> index
+               set _ [lindex [cliphist::get_history] $index 1]
+             }
            }
-         }
-       | CLIPHIST OPEN_SQUARE DECIMAL CLOSE_SQUARE {
-           set _ [lindex [cliphist::get_history] $3 1]
          }
          ;
 
@@ -215,19 +216,13 @@ pattern: pattern CHAR {
            set _ "$1\$"
          }
        | pattern OPEN_PAREN {
-           set _ "$1$2"
+           set _ "$1\("
          }
        | pattern CLOSE_PAREN {
-           set _ "$1$2"
+           set _ "$1)"
          }
        | pattern '?' {
-           set _ "$1?"
-         }
-       | pattern OPEN_SQUARE {
-           set _ "$1$2"
-         }
-       | pattern CLOSE_SQUARE {
-           set _ "$1$2"
+           set _ "?"
          }
        | CHAR {
            set _ $1
@@ -245,19 +240,13 @@ pattern: pattern CHAR {
            set _ "\$"
          }
        | OPEN_PAREN {
-           set _ $1
+           set _ "("
          }
        | CLOSE_PAREN {
-           set _ $1
+           set _ ")"
          }
        | '?' {
            set _ "?"
-         }
-       | OPEN_SQUARE {
-           set _ $1
-         }
-       | CLOSE_SQUARE {
-           set _ $1
          }
          ;
 
@@ -293,12 +282,6 @@ value: value CHAR {
      | value tabstop {
          set _ [concat $1 $2]
        }
-     | value OPEN_SQUARE {
-         set _ [merge_values $1 [list $2 {}]]
-       }
-     | value CLOSE_SQUARE {
-         set _ [merge_values $1 [list $2 {}]]
-       }
      | CHAR {
          set _ [list $1 {}]
        }
@@ -323,12 +306,6 @@ value: value CHAR {
      | tabstop {
          set _ $1
        }
-     | OPEN_SQUARE {
-         set _ [list $1 {}]
-       }
-     | CLOSE_SQUARE {
-         set _ [list $1 {}]
-       }
        ;
 
 text: text CHAR {
@@ -347,22 +324,16 @@ text: text CHAR {
         set _ "$1/"
       }
     | text OPEN_PAREN {
-        set _ "$1$2"
+        set _ "$1\("
       }
     | text CLOSE_PAREN {
-        set _ "$1$2"
+        set _ "$1)"
       }
     | text '?' {
         set _ "$1?"
       }
     | text ':' {
         set _ "$1:"
-      }
-    | text OPEN_SQUARE {
-        set _ "$1$2"
-      }
-    | text CLOSE_SQUARE {
-        set _ "$1$2"
       }
     | text OPEN_BRACKET {
         set _ "$1$2"
@@ -371,9 +342,6 @@ text: text CHAR {
         set _ "$1$2"
       }
     | text VARNAME {
-        set _ "$1$2"
-      }
-    | text CLIPHIST {
         set _ "$1$2"
       }
     | CHAR {
@@ -392,22 +360,16 @@ text: text CHAR {
         set _ "/"
       }
     | OPEN_PAREN {
-        set _ $1
+        set _ "("
       }
     | CLOSE_PAREN {
-        set _ $1
+        set _ ")"
       }
     | '?' {
         set _ "?"
       }
     | ':' {
         set _ ":"
-      }
-    | OPEN_SQUARE {
-        set _ $1
-      }
-    | CLOSE_SQUARE {
-        set _ $1
       }
     | OPEN_BRACKET {
         set _ $1
@@ -416,9 +378,6 @@ text: text CHAR {
         set _ $1
       }
     | VARNAME {
-        set _ $1
-      }
-    | CLIPHIST {
         set _ $1
       }
       ;
@@ -443,12 +402,6 @@ format: format CHAR {
       | format '?' {
           set _ "$1?"
         }
-      | format OPEN_SQUARE {
-          set _ "$1$2"
-        }
-      | format CLOSE_SQUARE {
-          set _ "$1$2"
-        }
       | format case_fold {
           set _ "$1$2"
         }
@@ -472,12 +425,6 @@ format: format CHAR {
         }
       | '?' {
           set _ "?"
-        }
-      | OPEN_SQUARE {
-          set _ $1
-        }
-      | CLOSE_SQUARE {
-          set _ $1
         }
       | case_fold {
           set _ $1

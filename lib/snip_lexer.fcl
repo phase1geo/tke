@@ -97,20 +97,6 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
   return $::CLOSE_PAREN
 }
 
-\[ {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
-  return $::OPEN_SQUARE
-}
-
-\] {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos
-  return $::CLOSE_SQUARE
-}
-
   # Single character symbols
 [`:/\?] {
   set ::snip_lval $snip_text
@@ -128,18 +114,11 @@ source [file join $::tke_dir lib snip_parser.tab.tcl]
 }
 
   # Variable names
-(SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER) {
+(SELECTED_TEXT|CLIPBOARD|CURRENT_(LINE|WORD|DATE|TIME|MON|MONTH|MON1|MON2|DAYN|DAYNAME|DAY1|DAY2|YEAR2|YEAR)|DIRECTORY|FILEPATH|FILENAME|LINE_INDEX|LINE_NUMBER|CLIPHIST\[[0-9]+\]) {
   set ::snip_lval $snip_text
   set ::snip_begpos $::snip_endpos
   incr ::snip_endpos [string length $snip_text]
   return $::VARNAME
-}
-
-CLIPHIST {
-  set ::snip_lval $snip_text
-  set ::snip_begpos $::snip_endpos
-  incr ::snip_endpos [string length $snip_text]
-  return $::CLIPHIST
 }
 
   # Final catch-all
