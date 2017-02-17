@@ -399,7 +399,9 @@ namespace eval pref_ui {
     array set prefs [preferences::get_loaded $session $language]
 
     # Initialize the widgets
-    initialize_widgets
+    if {!$init} {
+      initialize_widgets
+    }
 
     # Remove all listed panels
     foreach panel [pack slaves $widgets(panes)] {
