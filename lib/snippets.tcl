@@ -650,6 +650,9 @@ namespace eval snippets {
       close $rc
     }
 
+    # Re-parse the file
+    set_language $language
+
   }
 
   ######################################################################
