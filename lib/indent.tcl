@@ -83,12 +83,15 @@ namespace eval indent {
     set_tabstop    $txt.t [preferences::get Editor/SpacesPerTab]
     set_shiftwidth $txt.t [preferences::get Editor/IndentSpaces]
 
-    bind indent$txt <Any-Key> [list indent::check_indent %W insert 1]
-    bind indent$txt <Return>  [list indent::newline      %W insert 1]
+    bind indentpost$txt <Any-Key>   { indent::check_indent %W insert 1 }
+    bind indentpost$txt <Return>    { indent::newline      %W insert 1 }
+    bind indentpost$txt <BackSpace> {}
+    bind indentpre$txt  <BackSpace> { if {[indent::backspace %W insert 1] ne "insert"} break }
 
     # Add the indentation tag into the bindtags list just after Text
     set text_index [lsearch [bindtags $txt.t] Text]
-    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indent$txt]
+    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indentpost$txt]
+    bindtags $txt.t [linsert [bindtags $txt.t] $text_index indentpre$txt]
 
   }
 
@@ -480,6 +483,41 @@ namespace eval indent {
     }
 
     return [$txtt index "$index+[string length $indent_space]c"]
+
+  }
+
+  ######################################################################
+  # Handles the backspace key.  If we are
+  proc backspace {txtt index do_update} {
+
+    variable indent_exprs
+
+    # If the auto-indent feature was disabled, we are in vim start mode, or
+    # the current language doesn't have an indent expression, quit now
+    if {($indent_exprs($txtt,mode) ne "IND+") || [vim::in_vim_mode $txtt]} {
+      return $index
+    }
+
+    if {[$txtt compare [lindex [$txtt tag prevrange _prewhite $index] 1] == "$index+1c"] && \
+        ([string trim [set space [$txtt get "$index linestart" $index]]] eq "")} {
+
+      # Find the matching indentation index
+      if {[set tindex [get_match_indent $txtt $index]] ne ""} {
+        set indent_space [get_start_of_line $txtt $tindex]
+      } else {
+        set indent_space [get_start_of_line $txtt $index]
+      }
+
+      # Replace the whitespace with the appropriate amount of indentation space
+      if {$indent_space ne $space} {
+        $txtt fastreplace -update $do_update "$index linestart" $index $indent_space
+        set offset [string length $indent_space]
+        return [$txtt index "$index linestart+${offset}c"]
+      }
+
+    }
+
+    return $index
 
   }
 
