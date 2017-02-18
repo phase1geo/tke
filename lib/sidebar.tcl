@@ -1439,17 +1439,19 @@ namespace eval sidebar {
 
     variable widgets
 
+    set indices [list]
+
     # Gather all of the opened file names
     foreach row $rows {
       foreach child [$widgets(tl) children $row] {
         if {[$widgets(tl) item $child -image] ne ""} {
-          lappend fnames [list [$widgets(tl) set $child name] [widgets(tl) set $child remote]]
+          lappend indices [files::get_index [$widgets(tl) set $child name] [$widgets(tl) set $child remote]]
         }
       }
     }
 
     # Hide all of the files
-    gui::hide_files $fnames
+    gui::hide_files $indices
 
   }
 
@@ -1459,17 +1461,19 @@ namespace eval sidebar {
 
     variable widgets
 
+    set indices [list]
+
     # Gather all of the opened file names
     foreach row $rows {
       foreach child [$widgets(tl) children $row] {
         if {[$widgets(tl) item $child -image] ne ""} {
-          lappend fnames [list [$widgets(tl) set $child name] [$widgets(tl) set $child remote]]
+          lappend indices [files::get_index [$widgets(tl) set $child name] [$widgets(tl) set $child remote]]
         }
       }
     }
 
     # Show all of the files
-    gui::show_files $fnames
+    gui::show_files $indices
 
   }
 
@@ -1707,17 +1711,17 @@ namespace eval sidebar {
 
     variable widgets
 
-    set fnames [list]
+    set indices [list]
 
     # Gather all of the opened filenames
     foreach row $rows {
       if {[$widgets(tl) item $row -image] ne ""} {
-        lappend fnames [list [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
+        lappend indices [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       }
     }
 
     # Hide the tab at the current location
-    gui::hide_files $fnames
+    gui::hide_files $indices
 
   }
 
@@ -1727,17 +1731,17 @@ namespace eval sidebar {
 
     variable widgets
 
-    set fnames [list]
+    set indices [list]
 
     # Gather all the opened filenames
     foreach row $rows {
       if {[$widgets(tl) item $row -image] ne ""} {
-        lappend fnames [list [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
+        lappend indices [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       }
     }
 
     # Show the tabs with the given filenames
-    gui::show_files $fnames
+    gui::show_files $indices
 
   }
 

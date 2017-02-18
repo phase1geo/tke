@@ -2417,11 +2417,11 @@ namespace eval gui {
   # Hides all of the files with the given filenames.  The parameter must
   # be a list with the following format:
   #   {filename remote}+
-  proc hide_files {files_info} {
+  proc hide_files {indices} {
 
     # Perform a lazy close
-    foreach file_info $files_info {
-      hide_tab [get_info [files::get_index {*}$file_info] fileindex tab]
+    foreach index [lsort -decreasing $indices] {
+      hide_tab [get_info $index fileindex tab]
     }
 
   }
@@ -2440,11 +2440,11 @@ namespace eval gui {
   # Shows all of the files with the given filenames.  The parameter must
   # be a list with the following format:
   #   {filename remote}+
-  proc show_files {files_info} {
+  proc show_files {indices} {
 
     # Make sure that all specified files are shown
-    foreach file_info $files_info {
-      show_tab [get_info [files::get_index {*}$file_info] fileindex tab]
+    foreach index [lsort -decreasing $indices] {
+      show_tab [get_info $index fileindex tab]
     }
 
   }
