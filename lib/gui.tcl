@@ -2331,7 +2331,7 @@ namespace eval gui {
     if {[llength $indices] > 0} {
 
       # Perform a lazy close
-      foreach index $indices {
+      foreach index [lsort -decreasing $indices] {
         catch { close_tab [get_info $index fileindex tab] -lazy 1 }
       }
 
