@@ -83,15 +83,13 @@ namespace eval indent {
     set_tabstop    $txt.t [preferences::get Editor/SpacesPerTab]
     set_shiftwidth $txt.t [preferences::get Editor/IndentSpaces]
 
-    bind indentpost$txt <Any-Key>   { indent::check_indent %W insert 1 }
-    bind indentpost$txt <Return>    { indent::newline      %W insert 1 }
-    bind indentpost$txt <BackSpace> {}
-    bind indentpre$txt  <BackSpace> { if {[indent::backspace %W insert 1] ne "insert"} break }
+    bind indent$txt <Any-Key>   { indent::check_indent %W insert 1 }
+    bind indent$txt <Return>    { indent::newline      %W insert 1 }
+    bind indent$txt <BackSpace> { indent::backspace    %W insert 1 }
 
     # Add the indentation tag into the bindtags list just after Text
     set text_index [lsearch [bindtags $txt.t] Text]
-    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indentpost$txt]
-    bindtags $txt.t [linsert [bindtags $txt.t] $text_index indentpre$txt]
+    bindtags $txt.t [linsert [bindtags $txt.t] [expr $text_index + 1] indent$txt]
 
   }
 
@@ -494,19 +492,18 @@ namespace eval indent {
 
     # If the auto-indent feature was disabled, we are in vim start mode, or
     # the current language doesn't have an indent expression, quit now
-    if {($indent_exprs($txtt,mode) ne "IND+") || [vim::in_vim_mode $txtt]} {
+    if {($indent_exprs($txtt,mode) eq "OFF") || [vim::in_vim_mode $txtt]} {
       return $index
     }
 
-    if {[$txtt compare [lindex [$txtt tag prevrange _prewhite $index] 1] == "$index+1c"] && \
-        ([string trim [set space [$txtt get "$index linestart" $index]]] eq "")} {
+    if {([string trim [set space [$txtt get "$index linestart" "$index lineend"]]] eq "") || \
+        ([$txtt compare [lindex [$txtt tag prevrange _prewhite $index] 1] == "$index+1c"] && \
+         ([string trim [set space [$txtt get "$index linestart" $index]]] eq ""))} {
 
-      # Find the matching indentation index
-      if {[set tindex [get_match_indent $txtt $index]] ne ""} {
-        set indent_space [get_start_of_line $txtt $tindex]
-      } else {
-        set indent_space [get_start_of_line $txtt $index]
-      }
+      # Calculate the new indentation
+      set tab_count    [expr [string length $space] / [get_shiftwidth $txtt]]
+      set indent_space [string repeat " " [expr $tab_count * [get_shiftwidth $txtt]]]
+      puts "tab_count: $tab_count, space: [string length $space], indent_space: [string length $indent_space]"
 
       # Replace the whitespace with the appropriate amount of indentation space
       if {$indent_space ne $space} {

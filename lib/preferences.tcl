@@ -199,12 +199,16 @@ namespace eval preferences {
 
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        array set content $loaded_prefs(user,global)
+        if {[info exists loaded_prefs(user,global)]} {
+          array set content $loaded_prefs(user,global)
+        }
         array set content $data
         set loaded_prefs(user,global) [array get content]
         tkedat::write [get_user_preference_file] $loaded_prefs(user,global) 0
       } else {
-        array set content $loaded_prefs(user,$language)
+        if {[info exists loaded_prefs(user,$language)]} {
+          array set content $loaded_prefs(user,$language)
+        }
         array set content $data
         set loaded_prefs(user,$language) [array get content Editor/*]
         tkedat::write [file join $preferences_dir preferences.$language.tkedat] $loaded_prefs(user,$language) 0
@@ -214,7 +218,9 @@ namespace eval preferences {
 
       # Get the filename to write and update the appropriate loaded_prefs array
       if {$language eq ""} {
-        array set content $loaded_prefs(session,$session,global)
+        if {[info exists loaded_prefs(session,$session,global)]} {
+          array set content $loaded_prefs(session,$session,global)
+        }
         array set content $data
         array unset content General/*
         array unset content Help/*
@@ -222,7 +228,9 @@ namespace eval preferences {
         array unset content Tools/Profile*
         set loaded_prefs(session,$session,global) [array get content]
       } else {
-        array set content $loaded_prefs(session,$session,$language)
+        if {[info exists loaded_prefs(session,$session,$language)]} {
+          array set content $loaded_prefs(session,$session,$language)
+        }
         array set content $data
         set loaded_prefs(session,$session,$language) [array get content Editor/*]
       }
