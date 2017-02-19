@@ -449,6 +449,7 @@ namespace eval syntax {
 
         # Set the snippets for the current text widget
         snippets::set_language $language
+        snippets::set_expandtabs $txt [expr $lang_array(tabsallowed) ? 0 : 1]
 
       } rc]} {
         gui::set_error_message [format "%s (%s)" [msgcat::mc "Syntax error in syntax file"] $language] $rc
