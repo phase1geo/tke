@@ -57,6 +57,7 @@ namespace eval syntax {
     highlighter        {}
     meta               {}
     advanced           {}
+    formatting         {}
   }
   array set langs        {}
   array set curr_lang    {}
@@ -842,6 +843,23 @@ namespace eval syntax {
     } else {
       array set lang_array $langs($language)
       return [list $lang_array(icomment) $lang_array(lcomments) $lang_array(bcomments)]
+    }
+
+  }
+
+  ######################################################################
+  # Retrieves the values stored in the formatting array.
+  proc get_formatting {txt} {
+
+    variable langs
+    variable curr_lang
+
+    # Get the current language
+    if {[set language $curr_lang($txt)] eq [msgcat::mc "None"]} {
+      return [list]
+    } else {
+      array set lang_array $langs($language)
+      return $lang_array(formatting)
     }
 
   }

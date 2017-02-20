@@ -332,3 +332,13 @@ advanced {
 
 }
 
+formatting
+{
+  bold          {** **}
+  italics       {_  _}
+  strikethrough {~~ ~~}
+  highlight     {== ==}
+  superscript   {^  ^}
+  subscript     {~  ~}
+}
+

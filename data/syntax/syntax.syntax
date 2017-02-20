@@ -49,7 +49,7 @@ keywords
   filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
   casesensitive delimiters indent unindent reindent keywords symbols icomment
   lcomments bcomments strings numbers punctuation precompile miscellaneous1
-  miscellaneous2 miscellaneous3 highlighter meta advanced escapes
+  miscellaneous2 miscellaneous3 highlighter meta advanced escapes formatting
   HighlightClass
   HighlightKeywords
   HighlightRegexp
@@ -63,7 +63,7 @@ symbols
     filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed
     linewrap casesensitive delimiters indent unindent reindent icomment lcomments
     bcomments strings symbols numbers punctuation precompile miscellaneous1
-    miscellaneous2 miscellaneous3 meta advanced escapes
+    miscellaneous2 miscellaneous3 meta advanced escapes formatting
   } syntax::get_syntax_symbol
 }
 
@@ -80,10 +80,16 @@ miscellaneous1 {}
 
 miscellaneous2 {}
 
-miscellaneous3 {}
+miscellaneous3 {
+  HighlightKeywords {
+    bold italics underline strikethrough highlight superscript subscript
+  }
+}
 
 highlighter {}
 
 meta {}
 
 advanced {}
+
+formatting {}
