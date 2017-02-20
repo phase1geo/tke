@@ -496,14 +496,25 @@ namespace eval indent {
       return $index
     }
 
-    if {([string trim [set space [$txtt get "$index linestart" "$index lineend"]]] eq "") || \
-        ([$txtt compare [lindex [$txtt tag prevrange _prewhite $index] 1] == "$index+1c"] && \
-         ([string trim [set space [$txtt get "$index linestart" $index]]] eq ""))} {
+    # Figure out the leading space
+    set space ""
+    if {[set endpos [lassign [$txtt tag prevrange _prewhite $index "$index linestart"] startpos]] ne ""} {
+      if {[$txtt compare $endpos == "$index+1c"]} {
+        set space [$txtt get $startpos $index]
+      } else {
+        return $index
+      }
+    } else {
+      set space [$txtt get "$index linestart" "$index lineend"]
+    }
+
+    # If the leading whitespace only consists of spaces, attempt to delete to the previous tab
+    if {([string map {{ } {}} $space] eq "")} {
 
       # Calculate the new indentation
-      set tab_count    [expr [string length $space] / [get_shiftwidth $txtt]]
-      set indent_space [string repeat " " [expr $tab_count * [get_shiftwidth $txtt]]]
-      puts "tab_count: $tab_count, space: [string length $space], indent_space: [string length $indent_space]"
+      set shiftwidth   [get_shiftwidth $txtt]
+      set tab_count    [expr [string length $space] / $shiftwidth]
+      set indent_space [string repeat " " [expr $tab_count * $shiftwidth]]
 
       # Replace the whitespace with the appropriate amount of indentation space
       if {$indent_space ne $space} {
