@@ -1127,8 +1127,8 @@ namespace eval edit {
     switch $position {
       first       { set index "1.0" }
       last        { set index "end" }
-      nextword    { set index [get_word $txtt next [expr {($num eq "") ? 1 : $num}]] }
-      prevword    { set index [get_word $txtt prev [expr {($num eq "") ? 1 : $num}]] }
+      nextword    { set index [get_word $txtt next [expr {($opts(-num) eq "") ? 1 : $opts(-num)}]] }
+      prevword    { set index [get_word $txtt prev [expr {($opts(-num) eq "") ? 1 : $opts(-num)}]] }
       firstword   {
         if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
           set index "[lindex [$txtt tag nextrange _prewhite {insert linestart}] 1]-1c"
@@ -1142,17 +1142,17 @@ namespace eval edit {
       screenmid   { set index "@0,[expr [winfo height $txtt] / 2]" }
       screenbot   { set index "@0,[winfo height $txtt]" }
       nextfind    {
-        if {[set index [find_char $txtt next $char $num]] ne "insert"} {
+        if {[set index [find_char $txtt next $opts(-char) $opts(-num)]] ne "insert"} {
           set index [$txtt index $index-1c]
         }
       }
       prevfind    {
-        if {[set index [find_char $txtt prev $char $num]] ne "insert"} {
+        if {[set index [find_char $txtt prev $opts(-char) $opts(-num)]] ne "insert"} {
           set index [$txtt index $index+1c]
         }
       }
-      nextfindinc { set index [find_char $txtt next $char $num] }
-      prevfindinc { set index [find_char $txtt prev $char $num] }
+      nextfindinc { set index [find_char $txtt next $opts(-char) $num] }
+      prevfindinc { set index [find_char $txtt prev $opts(-char) $num] }
       default     { set index insert }
     }
 

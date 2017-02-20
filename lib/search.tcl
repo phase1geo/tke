@@ -267,6 +267,9 @@ namespace eval search {
     set ranges      [list]
     set do_tags     [list]
 
+    # Make sure that newline characters and tabs are replaced properly
+    set replace [string map {{\n} \n {\t} \t} $replace]
+
     # Replace the text (perform variable substitutions if necessary)
     for {set i 0} {$i < $num_indices} {incr i} {
       set startpos [lindex $indices $i]
