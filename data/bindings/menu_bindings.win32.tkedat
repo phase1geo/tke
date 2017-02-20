@@ -21,6 +21,9 @@
 {Edit/Indentation/Indent}         Ctrl-[
 {Edit/Indentation/Unindent}       Ctrl-]
 {Edit/Cursor/Align Cursors}       Ctrl-A
+{Edit/Format/Bold}                Ctrl-B
+{Edit/Format/Italics}             Ctrl-I
+{Edit/Format/Underline}           Ctrl-U
 {Edit/Emmet/Expand Abbreviation}  Ctrl-E
 
 # Find menu bindings

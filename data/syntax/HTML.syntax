@@ -65,3 +65,14 @@ advanced
 
   HighlightRegexp {\S+=} syntax::get_xml_attribute
 }
+
+formatting
+{
+  bold          {<b>      </b>}
+  italics       {<i>      </i>}
+  underline     {<u>      </u>}
+  strikethrough {<strike> </strike>}
+  highlight     {<mark>   </mark>}
+  superscript   {<super>  </super>}
+  subscript     {<sub>    </sub>}
+}

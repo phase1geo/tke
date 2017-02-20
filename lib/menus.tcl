@@ -1083,6 +1083,7 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Insert"]    -menu [make_menu $mb.insertPopup    -tearoff 0 -postcommand [list menus::edit_insert_posting $mb.insertPopup]]
     $mb add cascade -label [msgcat::mc "Delete"]    -menu [make_menu $mb.deletePopup    -tearoff 0 -postcommand [list menus::edit_delete_posting $mb.deletePopup]]
     $mb add cascade -label [msgcat::mc "Transform"] -menu [make_menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
+    $mb add cascade -label [msgcat::mc "Format"]    -menu [make_menu $mb.formatPopup    -tearoff 0 -postcommand [list menus::edit_format_posting $mb.formatPopup]]
 
     $mb add separator
 
@@ -1279,6 +1280,36 @@ namespace eval menus {
     $mb.transformPopup add command -label [msgcat::mc "Replace Line With Script"] -command [list edit::replace_line_with_script]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Replace line with script"]] [list edit::replace_line_with_script]
 
+    ##########################
+    # Populate formatting menu
+    ##########################
+
+    $mb.formatPopup add command -label [msgcat::mc "Bold"] -command [list menus::edit_format bold]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text bold"]] [list menus::edit_format bold]
+
+    $mb.formatPopup add command -label [msgcat::mc "Italics"] -command [list menus::edit_format italics]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text italicized"]] [list menus::edit_format italics]
+
+    $mb.formatPopup add command -label [msgcat::mc "Underline"] -command [list menus::edit_format underline]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text underlined"]] [list menus::edit_format underline]
+
+    $mb.formatPopup add command -label [msgcat::mc "Strikethrough"] -command [list menus::edit_format strikethrough]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text stricken"]] [list menus::edit_format strikethrough]
+
+    $mb.formatPopup add command -label [msgcat::mc "Highlight"] -command [list menus::edit_format highlight]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text highlighted"]] [list menus::edit_format highlight]
+
+    $mb.formatPopup add command -label [msgcat::mc "Superscript"] -command [list menus::edit_format superscript]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text superscript"]] [list menus::edit_format superscript]
+
+    $mb.formatPopup add command -label [msgcat::mc "Subscript"] -command [list menus::edit_format subscript]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text subscript"]] [list menus::edit_format subscript]
+
+    $mb.formatPopup add separator
+
+    $mb.formatPopup add command -label [msgcat::mc "Remove formatting"] -command [list menus::edit_format_remove]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Remove formatting from selected text"]] [list menus::edit_format_remove]
+
     ###########################
     # Populate preferences menu
     ###########################
@@ -1369,6 +1400,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Insert"]           -state disabled
       $mb entryconfigure [msgcat::mc "Delete"]           -state disabled
       $mb entryconfigure [msgcat::mc "Transform"]        -state disabled
+      $mb entryconfigure [msgcat::mc "Format"]           -state disabled
     } else {
       set readonly_state [expr {($readonly || $diff) ? "disabled" : "normal"}]
       if {[gui::undoable]} {
@@ -1407,6 +1439,11 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Insert"]    -state disabled
         $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
         $mb entryconfigure [msgcat::mc "Transform"] -state disabled
+      }
+      if {[gui::editable] && ([$txt tag ranges sel] ne "") && ([llength [syntax::get_formatting $txt]] > 0)} {
+        $mb entryconfigure [msgcat::mc "Format"] -state $readonly_state
+      } else {
+        $mb entryconfigure [msgcat::mc "Format"] -state disabled
       }
     }
 
@@ -1547,6 +1584,26 @@ namespace eval menus {
     if {[edit::current_line_empty]} {
       $mb entryconfigure [msgcat::mc "Replace Line With Script"] -state disabled
     }
+
+  }
+
+  ######################################################################
+  # Called just prior to posting the edit/format menu option.  Sets the
+  # menu option states to match the current UI state.
+  proc edit_format_posting {mb} {
+
+    set txt [gui::get_info {} current txt]
+
+    # Place the contents of the formatting information in the array
+    array set formatting [syntax::get_formatting $txt]
+
+    $mb entryconfigure [msgcat::mc "Bold"]          -state [expr {[info exists formatting(bold)]          ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Italics"]       -state [expr {[info exists formatting(italics)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Underline"]     -state [expr {[info exists formatting(underline)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Strikethrough"] -state [expr {[info exists formatting(strikethrough)] ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Highlight"]     -state [expr {[info exists formatting(highlight)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Superscript"]   -state [expr {[info exists formatting(superscript)]   ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Subscript"]     -state [expr {[info exists formatting(subscript)]     ? "normal" : "disabled"}]
 
   }
 
@@ -1848,6 +1905,43 @@ namespace eval menus {
   proc edit_transform_bubble_down {} {
 
     edit::transform_bubble_down [gui::current_txt].t
+
+  }
+
+  ######################################################################
+  # Adds the specified formatting around the selected text.
+  proc edit_format {type} {
+
+    # Get the current text widget
+    set txt [gui::get_info {} current txt]
+
+    array set formatting [syntax::get_formatting $txt]
+
+    if {[info exists formatting($type)]} {
+      lassign $formatting($type) startchars endchars
+      $txt edit separator
+      if {$endchars ne ""} {
+        foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
+          $txt insert $endpos   $endchars
+          $txt insert $startpos $startchars
+        }
+      } else {
+        foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
+          $txt insert $startpos $startchars
+        }
+      }
+      $txt edit separator
+    }
+
+  }
+
+  ######################################################################
+  # Removes all formatting within the selected text.
+  proc edit_format_remove {} {
+
+    set txt [gui::get_info {} current txt]
+
+    # TBD
 
   }
 
