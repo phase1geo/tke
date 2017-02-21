@@ -252,8 +252,11 @@ msgcat::mcmset hu {
   "Absolute line numbering"
   "Abszolút sorszámozás"
 
-  "Align Cursors"
-  "Igazítás kurzorok"
+  "Align Cursors Only"
+  "Igazítás kurzorok csak"
+
+  "Align Cursors and Text"
+  "Kurzor és a szöveg igazítása"
 
   "Align Panes"
   "Összehangolják az üvegtáblák"
@@ -261,8 +264,11 @@ msgcat::mcmset hu {
   "Align current lines in both panes"
   "Mindkét aktuális sorok igazítása"
 
-  "Align cursors"
-  "Igazítás kurzorok"
+  "Align cursors and text"
+  "Kurzor és a szöveg igazítása"
+
+  "Align cursors only"
+  "Kurzorok csak igazítása"
 
   "All Levels"
   "Minden szint"
@@ -281,6 +287,9 @@ msgcat::mcmset hu {
 
   "Auto-Indent"
   "Automatikus behúzás"
+
+  "Bold"
+  "Félkövér"
 
   "Bubble Down"
   "Buborék le"
@@ -591,6 +600,9 @@ msgcat::mcmset hu {
   "Folding"
   "Összecsukható"
 
+  "Format"
+  "Formátum"
+
   "Format Text"
   "Szöveg formázása"
 
@@ -632,6 +644,9 @@ msgcat::mcmset hu {
 
   "Goto previous tab"
   "﻿Előző lap"
+
+  "Header"
+  "Fejléc"
 
   "Help"
   "Segítség"
@@ -684,6 +699,9 @@ msgcat::mcmset hu {
   "Hide tab bar"
   "A fülek elrejtése"
 
+  "Highlight"
+  "Kiemel"
+
   "Indent"
   "Behúzás"
 
@@ -722,6 +740,9 @@ msgcat::mcmset hu {
 
   "Install plugin"
   "A plugin telepítése"
+
+  "Italics"
+  "Dőlt"
 
   "Join Lines"
   "Sorok összevonása"
@@ -785,6 +806,36 @@ msgcat::mcmset hu {
 
   "Lower Case"
   "Alsó-ügy"
+
+  "Make line an ordered bullet"
+  "Hogy sor egy megrendelt golyó"
+
+  "Make line an unordered bullet"
+  "Hogy sor egy rendezetlen golyó"
+
+  "Make line header style"
+  "Fejléc stílusa, hogy"
+
+  "Make text bold"
+  "Félkövér betűstílus használata"
+
+  "Make text highlighted"
+  "Kijelölt szöveg"
+
+  "Make text italicized"
+  "Dőlt szöveg"
+
+  "Make text stricken"
+  "Sújtotta szöveg"
+
+  "Make text subscript"
+  "A szöveg alsó indexbe"
+
+  "Make text superscript"
+  "A szöveg felső indexbe"
+
+  "Make text underlined"
+  "Szöveg formázása aláhúzottra"
 
   "Markers"
   "Markerek"
@@ -963,6 +1014,9 @@ msgcat::mcmset hu {
   "Open selected folds - one level"
   "Nyitott kijelölt ráncok - egy szinttel"
 
+  "Ordered Bullet"
+  "Megrendelt golyó"
+
   "Panes"
   "Panelek"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset hu {
   "Remove All Markers"
   "Összes jelöl?jének eltávolítása"
 
+  "Remove Formatting"
+  "Formázás eltávolítása"
+
   "Remove From Current Line"
   "Távolítsa el az aktuális sorból"
 
   "Remove all markers"
   "Összes jelölőjének eltávolítása"
+
+  "Remove formatting from selected text"
+  "A kijelölt szöveg formázásának eltávolítása"
 
   "Remove marker from current line"
   "Jelölő eltávolítása az aktuális sorhoz"
@@ -1236,6 +1296,15 @@ msgcat::mcmset hu {
   "Stop profiling"
   "Profilkészítés leállítása"
 
+  "Strikethrough"
+  "Áthúzott"
+
+  "Subscript"
+  "alsó index"
+
+  "Superscript"
+  "Alsó index"
+
   "Switch To"
   "Kapcsol-hoz"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset hu {
   "Unable to write export file"
   "Nem lehet írni az exportfájl"
 
+  "Underline"
+  "Aláhúzott"
+
   "Undo"
   "Visszavonás"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset hu {
 
   "Unlock file"
   "Fájl kinyit"
+
+  "Unordered Bullet"
+  "Számozatlan felsorolás"
 
   "Upper Case"
   "Nagybetű"

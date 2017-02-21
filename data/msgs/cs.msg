@@ -252,8 +252,11 @@ msgcat::mcmset cs {
   "Absolute line numbering"
   "Absolutní číslování"
 
-  "Align Cursors"
-  "Zarovnání kurzor?"
+  "Align Cursors Only"
+  "Zarovnat kurzory pouze"
+
+  "Align Cursors and Text"
+  "Zarovnání kurzorů a Text"
 
   "Align Panes"
   "Zarovnání podokna"
@@ -261,8 +264,11 @@ msgcat::mcmset cs {
   "Align current lines in both panes"
   "Zarovnat proudu v obou podoknech"
 
-  "Align cursors"
-  "Zarovnání kurzorů"
+  "Align cursors and text"
+  "Zarovnání kurzorů a text"
+
+  "Align cursors only"
+  "Zarovnat pouze kurzory"
 
   "All Levels"
   "Všechny úrovně"
@@ -281,6 +287,9 @@ msgcat::mcmset cs {
 
   "Auto-Indent"
   "Automatické odsazení"
+
+  "Bold"
+  "Tučný"
 
   "Bubble Down"
   "Bublina dole"
@@ -591,6 +600,9 @@ msgcat::mcmset cs {
   "Folding"
   "p?ehnutí"
 
+  "Format"
+  "Formát"
+
   "Format Text"
   "Formát textu"
 
@@ -632,6 +644,9 @@ msgcat::mcmset cs {
 
   "Goto previous tab"
   "Předchozí karta"
+
+  "Header"
+  "Záhlaví"
 
   "Help"
   "Nápověda"
@@ -684,6 +699,9 @@ msgcat::mcmset cs {
   "Hide tab bar"
   "Skrýt lištu karet"
 
+  "Highlight"
+  "Zvýraznění"
+
   "Indent"
   "Zvětšit odsazení"
 
@@ -722,6 +740,9 @@ msgcat::mcmset cs {
 
   "Install plugin"
   "Install plugin"
+
+  "Italics"
+  "Kurzíva"
 
   "Join Lines"
   "Čáry spojení"
@@ -785,6 +806,36 @@ msgcat::mcmset cs {
 
   "Lower Case"
   "Malá písmena"
+
+  "Make line an ordered bullet"
+  "Veďte čáru objednané bullet"
+
+  "Make line an unordered bullet"
+  "Veďte čáru neuspořádané bullet"
+
+  "Make line header style"
+  "Vytvořit styl záhlaví řádku"
+
+  "Make text bold"
+  "Změna textu na tučný"
+
+  "Make text highlighted"
+  "Aby text zvýrazněn"
+
+  "Make text italicized"
+  "Změna textu na kurzívu"
+
+  "Make text stricken"
+  "Aby text zasažený"
+
+  "Make text subscript"
+  "Vytvořit textový index"
+
+  "Make text superscript"
+  "Aby text jako horní index"
+
+  "Make text underlined"
+  "Změna textu na podtržený"
 
   "Markers"
   "Značky"
@@ -963,6 +1014,9 @@ msgcat::mcmset cs {
   "Open selected folds - one level"
   "Otevřít vybrané záhyby - jedna úroveň"
 
+  "Ordered Bullet"
+  "Objednané Bullet"
+
   "Panes"
   "Panely"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset cs {
   "Remove All Markers"
   "Odebrat vechny zna?ky"
 
+  "Remove Formatting"
+  "Odstranit formátování"
+
   "Remove From Current Line"
   "Odebrat z aktuálního ?ádku"
 
   "Remove all markers"
   "Odebrat všechny značky"
+
+  "Remove formatting from selected text"
+  "Odebrat formátování z vybraného textu"
 
   "Remove marker from current line"
   "Odstranit značku z aktuálního řádku"
@@ -1236,6 +1296,15 @@ msgcat::mcmset cs {
   "Stop profiling"
   "Zastavit, profilování"
 
+  "Strikethrough"
+  "Přeškrtnuté"
+
+  "Subscript"
+  "Dolní index"
+
+  "Superscript"
+  "Horní index"
+
   "Switch To"
   "P?epnout do"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset cs {
   "Unable to write export file"
   "Nelze zapsat soubor exportu"
 
+  "Underline"
+  "Podtržený"
+
   "Undo"
   "Vrátit zpět akci"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset cs {
 
   "Unlock file"
   "Odemknutí souboru"
+
+  "Unordered Bullet"
+  "Neuspořádané Bullet"
 
   "Upper Case"
   "Majuskule"

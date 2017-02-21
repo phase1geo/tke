@@ -252,8 +252,11 @@ msgcat::mcmset zh {
   "Absolute line numbering"
   "绝对行编号"
 
-  "Align Cursors"
-  "對齊光標"
+  "Align Cursors Only"
+  "只调整光标"
+
+  "Align Cursors and Text"
+  "游标和文本对齐"
 
   "Align Panes"
   "对齐窗格"
@@ -261,8 +264,11 @@ msgcat::mcmset zh {
   "Align current lines in both panes"
   "对齐两个窗格中的当前行"
 
-  "Align cursors"
-  "调整光标"
+  "Align cursors and text"
+  "游标和文本对齐"
+
+  "Align cursors only"
+  "调整光标只"
 
   "All Levels"
   "所有级别"
@@ -281,6 +287,9 @@ msgcat::mcmset zh {
 
   "Auto-Indent"
   "自动缩进"
+
+  "Bold"
+  "粗体"
 
   "Bubble Down"
   "泡下来"
@@ -591,6 +600,9 @@ msgcat::mcmset zh {
   "Folding"
   "摺頁"
 
+  "Format"
+  "格式"
+
   "Format Text"
   "设置文本格式"
 
@@ -632,6 +644,9 @@ msgcat::mcmset zh {
 
   "Goto previous tab"
   "上一选项卡"
+
+  "Header"
+  "顶部"
 
   "Help"
   "帮助"
@@ -684,6 +699,9 @@ msgcat::mcmset zh {
   "Hide tab bar"
   "隐藏选项卡栏"
 
+  "Highlight"
+  "高亮"
+
   "Indent"
   "縮排"
 
@@ -722,6 +740,9 @@ msgcat::mcmset zh {
 
   "Install plugin"
   "安装新插件"
+
+  "Italics"
+  "斜体"
 
   "Join Lines"
   "联接线"
@@ -785,6 +806,36 @@ msgcat::mcmset zh {
 
   "Lower Case"
   "小写字母"
+
+  "Make line an ordered bullet"
+  "使线序的子弹"
+
+  "Make line an unordered bullet"
+  "使线无序的子弹"
+
+  "Make line header style"
+  "使行标题样式"
+
+  "Make text bold"
+  "使文本加粗"
+
+  "Make text highlighted"
+  "使突出显示文本"
+
+  "Make text italicized"
+  "使文本变为斜体"
+
+  "Make text stricken"
+  "使文本受灾"
+
+  "Make text subscript"
+  "使文本变为下标"
+
+  "Make text superscript"
+  "使文本成为上标"
+
+  "Make text underlined"
+  "使文本加下划线"
 
   "Markers"
   "标记"
@@ -963,6 +1014,9 @@ msgcat::mcmset zh {
   "Open selected folds - one level"
   "打开选定的褶皱-一个级别"
 
+  "Ordered Bullet"
+  "序的子弹"
+
   "Panes"
   "窗格"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset zh {
   "Remove All Markers"
   "刪除所有標記"
 
+  "Remove Formatting"
+  "清除格式"
+
   "Remove From Current Line"
   "從當前行中刪除"
 
   "Remove all markers"
   "删除所有标记"
+
+  "Remove formatting from selected text"
+  "删除所选文本的格式"
 
   "Remove marker from current line"
   "删除从当前行的标记"
@@ -1236,6 +1296,15 @@ msgcat::mcmset zh {
   "Stop profiling"
   "停止性能分析"
 
+  "Strikethrough"
+  "刪除线"
+
+  "Subscript"
+  "下标"
+
+  "Superscript"
+  "上标"
+
   "Switch To"
   "切換到"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset zh {
   "Unable to write export file"
   "无法写入导出文件"
 
+  "Underline"
+  "下划线"
+
   "Undo"
   "復原"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset zh {
 
   "Unlock file"
   "解锁文件"
+
+  "Unordered Bullet"
+  "无序的子弹"
 
   "Upper Case"
   "大寫字母"

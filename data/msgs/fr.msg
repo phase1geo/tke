@@ -252,8 +252,11 @@ msgcat::mcmset fr {
   "Absolute line numbering"
   "Numérotation de ligne absolue"
 
-  "Align Cursors"
-  "Aligner les curseurs"
+  "Align Cursors Only"
+  "Aligner les curseurs uniquement"
+
+  "Align Cursors and Text"
+  "Aligner le texte et les curseurs"
 
   "Align Panes"
   "Aligner les volets"
@@ -261,8 +264,11 @@ msgcat::mcmset fr {
   "Align current lines in both panes"
   "Aligner les lignes actuelles dans les deux volets"
 
-  "Align cursors"
-  "Aligner les curseurs"
+  "Align cursors and text"
+  "Aligner le texte et les curseurs"
+
+  "Align cursors only"
+  "Aligner les curseurs uniquement"
 
   "All Levels"
   "Tous les niveaux"
@@ -281,6 +287,9 @@ msgcat::mcmset fr {
 
   "Auto-Indent"
   "Indentation automatique"
+
+  "Bold"
+  "Gras"
 
   "Bubble Down"
   "Des bulles vers le bas"
@@ -591,6 +600,9 @@ msgcat::mcmset fr {
   "Folding"
   "Pliage"
 
+  "Format"
+  "Format"
+
   "Format Text"
   "Format texte"
 
@@ -632,6 +644,9 @@ msgcat::mcmset fr {
 
   "Goto previous tab"
   "Onglet précédent"
+
+  "Header"
+  "En-tête"
 
   "Help"
   "Aide"
@@ -684,6 +699,9 @@ msgcat::mcmset fr {
   "Hide tab bar"
   "Masquer la barre d'onglets"
 
+  "Highlight"
+  "Surlignage"
+
   "Indent"
   "Retrait"
 
@@ -722,6 +740,9 @@ msgcat::mcmset fr {
 
   "Install plugin"
   "Installer l'extension"
+
+  "Italics"
+  "Italiques"
 
   "Join Lines"
   "Fusionner les lignes"
@@ -785,6 +806,36 @@ msgcat::mcmset fr {
 
   "Lower Case"
   "lettre du bas de casse"
+
+  "Make line an ordered bullet"
+  "Aligner une balle ordonnée"
+
+  "Make line an unordered bullet"
+  "Aligner une puce non ordonnée"
+
+  "Make line header style"
+  "Faire style d’en-tête de ligne"
+
+  "Make text bold"
+  "Mettre le texte en gras"
+
+  "Make text highlighted"
+  "Faire du texte mis en surbrillance"
+
+  "Make text italicized"
+  "Faire du texte en italique"
+
+  "Make text stricken"
+  "Rendre le texte frappé"
+
+  "Make text subscript"
+  "Passer le texte en indice"
+
+  "Make text superscript"
+  "Passer le texte en exposant"
+
+  "Make text underlined"
+  "Rendre le texte souligné"
 
   "Markers"
   "Marqueur"
@@ -963,6 +1014,9 @@ msgcat::mcmset fr {
   "Open selected folds - one level"
   "Plis ouverts sélectionnés - plain-pied"
 
+  "Ordered Bullet"
+  "Bullet ordonnée"
+
   "Panes"
   "Pane"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset fr {
   "Remove All Markers"
   "Supprimer tous les marqueurs"
 
+  "Remove Formatting"
+  "Supprimer la mise en page"
+
   "Remove From Current Line"
   "Retirer de la ligne courante"
 
   "Remove all markers"
   "Supprimer tous les marqueurs"
+
+  "Remove formatting from selected text"
+  "Supprimer le formatage du texte sélectionné"
 
   "Remove marker from current line"
   "Supprimer le marqueur de ligne courante"
@@ -1236,6 +1296,15 @@ msgcat::mcmset fr {
   "Stop profiling"
   "Arrêter le profilage"
 
+  "Strikethrough"
+  "Barrer"
+
+  "Subscript"
+  "Indice"
+
+  "Superscript"
+  "Exposant"
+
   "Switch To"
   "Passer à ..."
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset fr {
   "Unable to write export file"
   "Impossible d'écrire fichier"
 
+  "Underline"
+  "Souligner"
+
   "Undo"
   "Annuler"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset fr {
 
   "Unlock file"
   "Ouvrir le fichier"
+
+  "Unordered Bullet"
+  "Balle non ordonnée"
 
   "Upper Case"
   "lettre haut-de-casse"

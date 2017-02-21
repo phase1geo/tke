@@ -252,8 +252,11 @@ msgcat::mcmset it {
   "Absolute line numbering"
   "Numerazione di riga assoluta"
 
-  "Align Cursors"
-  "Allineare i cursori"
+  "Align Cursors Only"
+  "Allineare i cursori solo"
+
+  "Align Cursors and Text"
+  "Allineare i cursori e testo"
 
   "Align Panes"
   "Allineare i riquadri"
@@ -261,8 +264,11 @@ msgcat::mcmset it {
   "Align current lines in both panes"
   "Allineare le linee di corrente in entrambi i riquadri"
 
-  "Align cursors"
-  "Allineare i cursori"
+  "Align cursors and text"
+  "Allineare i cursori e testo"
+
+  "Align cursors only"
+  "Allineare i cursori solo"
 
   "All Levels"
   "Tutti i Livelli"
@@ -281,6 +287,9 @@ msgcat::mcmset it {
 
   "Auto-Indent"
   "Rientro automatico"
+
+  "Bold"
+  "Grassetto"
 
   "Bubble Down"
   "Bolla giù"
@@ -591,6 +600,9 @@ msgcat::mcmset it {
   "Folding"
   "Piegatura"
 
+  "Format"
+  "Formato"
+
   "Format Text"
   "Formato testo"
 
@@ -632,6 +644,9 @@ msgcat::mcmset it {
 
   "Goto previous tab"
   "Scheda Precedente"
+
+  "Header"
+  "Intestazione"
 
   "Help"
   "Aiuto"
@@ -684,6 +699,9 @@ msgcat::mcmset it {
   "Hide tab bar"
   "Nascondere la barra delle schede"
 
+  "Highlight"
+  "Evidenziare"
+
   "Indent"
   "Indenta"
 
@@ -722,6 +740,9 @@ msgcat::mcmset it {
 
   "Install plugin"
   "Installa il plugin"
+
+  "Italics"
+  "Corsivo"
 
   "Join Lines"
   "Unisci righe"
@@ -785,6 +806,36 @@ msgcat::mcmset it {
 
   "Lower Case"
   "minuscolo"
+
+  "Make line an ordered bullet"
+  "Fare linea un proiettile ordinato"
+
+  "Make line an unordered bullet"
+  "Fare linea un proiettile non ordinato"
+
+  "Make line header style"
+  "Fare stile dell'intestazione di riga"
+
+  "Make text bold"
+  "Rendi il testo in grassetto"
+
+  "Make text highlighted"
+  "Rendere il testo evidenziato"
+
+  "Make text italicized"
+  "Rendere il testo in corsivo"
+
+  "Make text stricken"
+  "Rendere il testo colpita"
+
+  "Make text subscript"
+  "Rendere pedice testo"
+
+  "Make text superscript"
+  "Rendere il testo apice"
+
+  "Make text underlined"
+  "Rendere il testo sottolineato"
 
   "Markers"
   "marcatori"
@@ -963,6 +1014,9 @@ msgcat::mcmset it {
   "Open selected folds - one level"
   "Selezionata l'opzione aprire piega - un livello"
 
+  "Ordered Bullet"
+  "Punto elenco ordinato"
+
   "Panes"
   "Riquadri"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset it {
   "Remove All Markers"
   "Rimuovere tutti i marcatori"
 
+  "Remove Formatting"
+  "Rimuovi formattazione"
+
   "Remove From Current Line"
   "Rimuovere dalla riga corrente"
 
   "Remove all markers"
   "Rimuovere tutti i marcatori"
+
+  "Remove formatting from selected text"
+  "Rimuovere la formattazione dal testo selezionato"
 
   "Remove marker from current line"
   "Rimuovere il marcatore da riga corrente"
@@ -1236,6 +1296,15 @@ msgcat::mcmset it {
   "Stop profiling"
   "Interrompere la profilatura"
 
+  "Strikethrough"
+  "Barrato"
+
+  "Subscript"
+  "pedice"
+
+  "Superscript"
+  "apice"
+
   "Switch To"
   "Passa a"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset it {
   "Unable to write export file"
   "Impossibile scrivere il file di esportazione"
 
+  "Underline"
+  "Sottolineato"
+
   "Undo"
   "Undo"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset it {
 
   "Unlock file"
   "Sbloccare file"
+
+  "Unordered Bullet"
+  "Punto elenco non ordinato"
 
   "Upper Case"
   "MAIUSCOLO"

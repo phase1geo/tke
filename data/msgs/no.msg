@@ -252,8 +252,11 @@ msgcat::mcmset no {
   "Absolute line numbering"
   "Absolutt linjenummerering"
 
-  "Align Cursors"
-  "Justere pekere"
+  "Align Cursors Only"
+  "Justere markører bare"
+
+  "Align Cursors and Text"
+  "Justere markører og tekst"
 
   "Align Panes"
   "Justere ruter"
@@ -261,8 +264,11 @@ msgcat::mcmset no {
   "Align current lines in both panes"
   "Justere gjeldende i begge rutene"
 
-  "Align cursors"
-  "Justere pekere"
+  "Align cursors and text"
+  "Justere markører og tekst"
+
+  "Align cursors only"
+  "Justere markører bare"
 
   "All Levels"
   "Alle Nivåer"
@@ -281,6 +287,9 @@ msgcat::mcmset no {
 
   "Auto-Indent"
   "Auto-innrykk"
+
+  "Bold"
+  "Fet"
 
   "Bubble Down"
   "Boble ned"
@@ -591,6 +600,9 @@ msgcat::mcmset no {
   "Folding"
   "Folding"
 
+  "Format"
+  "Dato med tidsformat"
+
   "Format Text"
   "Formater tekst"
 
@@ -632,6 +644,9 @@ msgcat::mcmset no {
 
   "Goto previous tab"
   "Forrige fane"
+
+  "Header"
+  "Header"
 
   "Help"
   "Help!"
@@ -684,6 +699,9 @@ msgcat::mcmset no {
   "Hide tab bar"
   "Skjule fanelinjen"
 
+  "Highlight"
+  "Uthev"
+
   "Indent"
   "innrykk"
 
@@ -722,6 +740,9 @@ msgcat::mcmset no {
 
   "Install plugin"
   "Installere plugin"
+
+  "Italics"
+  "Kursiv"
 
   "Join Lines"
   "Sammenføyningslinjer"
@@ -785,6 +806,36 @@ msgcat::mcmset no {
 
   "Lower Case"
   "Små bokstaver"
+
+  "Make line an ordered bullet"
+  "Lage linje en bestilte punkt"
+
+  "Make line an unordered bullet"
+  "Lage linje en sorterte punkt"
+
+  "Make line header style"
+  "Gjøre hodet linjestil"
+
+  "Make text bold"
+  "Gjøre tekst fet"
+
+  "Make text highlighted"
+  "Gjøre teksten markert"
+
+  "Make text italicized"
+  "Gjøre tekst kursiv"
+
+  "Make text stricken"
+  "Gjøre teksten rammet"
+
+  "Make text subscript"
+  "Gjøre teksten senket skrift"
+
+  "Make text superscript"
+  "Gjøre teksten hevet skrift"
+
+  "Make text underlined"
+  "Understreke teksten"
 
   "Markers"
   "Markører"
@@ -963,6 +1014,9 @@ msgcat::mcmset no {
   "Open selected folds - one level"
   "Åpne valgte folder - ett nivå"
 
+  "Ordered Bullet"
+  "Bestilte punkt"
+
   "Panes"
   "Ruter"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset no {
   "Remove All Markers"
   "Fjerne alle merkene"
 
+  "Remove Formatting"
+  "Fjern formatering"
+
   "Remove From Current Line"
   "Fjern fra gjeldende linje"
 
   "Remove all markers"
   "Fjerne alle merkene"
+
+  "Remove formatting from selected text"
+  "Fjerne formatering fra merket tekst"
 
   "Remove marker from current line"
   "Fjerne merket fra gjeldende linje"
@@ -1236,6 +1296,15 @@ msgcat::mcmset no {
   "Stop profiling"
   "Stoppe profilering"
 
+  "Strikethrough"
+  "Gjennomstreking"
+
+  "Subscript"
+  "Senket skrift"
+
+  "Superscript"
+  "Hevet skrift"
+
   "Switch To"
   "Bytt til:"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset no {
   "Unable to write export file"
   "Kan ikke skrive eksportfilen"
 
+  "Underline"
+  "Understrek"
+
   "Undo"
   "angre"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset no {
 
   "Unlock file"
   "Låse opp fil"
+
+  "Unordered Bullet"
+  "Sorterte punkt"
 
   "Upper Case"
   "Store bokstaver"

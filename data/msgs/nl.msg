@@ -252,8 +252,11 @@ msgcat::mcmset nl {
   "Absolute line numbering"
   "Absolute regelnummering"
 
-  "Align Cursors"
-  "Uitlijnen van Cursors"
+  "Align Cursors Only"
+  "Alleen Cursors uitlijnen"
+
+  "Align Cursors and Text"
+  "Cursors en tekst uitlijnen"
 
   "Align Panes"
   "Deelvensters Uitlijnen"
@@ -261,8 +264,11 @@ msgcat::mcmset nl {
   "Align current lines in both panes"
   "Huidige regels in beide deelvensters Uitlijnen"
 
-  "Align cursors"
-  "Uitlijnen van cursors"
+  "Align cursors and text"
+  "Cursors en tekst uitlijnen"
+
+  "Align cursors only"
+  "Alleen cursors uitlijnen"
 
   "All Levels"
   "Alle niveaus"
@@ -281,6 +287,9 @@ msgcat::mcmset nl {
 
   "Auto-Indent"
   "Automatisch inspringen"
+
+  "Bold"
+  "Vet"
 
   "Bubble Down"
   "Bubble omlaag"
@@ -591,6 +600,9 @@ msgcat::mcmset nl {
   "Folding"
   "Invouwen"
 
+  "Format"
+  "Formaat"
+
   "Format Text"
   "Tekst opmaken"
 
@@ -632,6 +644,9 @@ msgcat::mcmset nl {
 
   "Goto previous tab"
   "Vorige tab"
+
+  "Header"
+  "Koptekst"
 
   "Help"
   "Help"
@@ -684,6 +699,9 @@ msgcat::mcmset nl {
   "Hide tab bar"
   "Hide barkrediet"
 
+  "Highlight"
+  "Highlight"
+
   "Indent"
   "Inspringen"
 
@@ -722,6 +740,9 @@ msgcat::mcmset nl {
 
   "Install plugin"
   "Installeer plugin"
+
+  "Italics"
+  "cursief"
 
   "Join Lines"
   "Regels samenvoegen"
@@ -785,6 +806,36 @@ msgcat::mcmset nl {
 
   "Lower Case"
   "Kleineletters"
+
+  "Make line an ordered bullet"
+  "Maak de lijn een geordende kogel"
+
+  "Make line an unordered bullet"
+  "Maak de lijn een ongeordende kogel"
+
+  "Make line header style"
+  "Koptekst lijnstijl maken"
+
+  "Make text bold"
+  "Tekst vet maken"
+
+  "Make text highlighted"
+  "Gemarkeerde tekst maken"
+
+  "Make text italicized"
+  "Tekst cursief maken"
+
+  "Make text stricken"
+  "Tekst getroffen maken"
+
+  "Make text subscript"
+  "Tekst subscript maken"
+
+  "Make text superscript"
+  "Tekst superscript maken"
+
+  "Make text underlined"
+  "Tekst onderstrepen"
 
   "Markers"
   "markeerders"
@@ -963,6 +1014,9 @@ msgcat::mcmset nl {
   "Open selected folds - one level"
   "Open geselecteerde plooien - één niveau"
 
+  "Ordered Bullet"
+  "Bestelde kogel"
+
   "Panes"
   "Deelvensters"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset nl {
   "Remove All Markers"
   "Alle markeringen verwijderen"
 
+  "Remove Formatting"
+  "Herstel / verwijder alle tekstopties"
+
   "Remove From Current Line"
   "Verwijderen uit de huidige regel"
 
   "Remove all markers"
   "Alle markeringen verwijderen"
+
+  "Remove formatting from selected text"
+  "Opmaak van geselecteerde tekst verwijderen"
 
   "Remove marker from current line"
   "Markering verwijderen uit de huidige regel"
@@ -1236,6 +1296,15 @@ msgcat::mcmset nl {
   "Stop profiling"
   "Stoppen met profielen"
 
+  "Strikethrough"
+  "Doorhalen"
+
+  "Subscript"
+  "Onderschrift"
+
+  "Superscript"
+  "Superschrift"
+
   "Switch To"
   "Overschakelen naar"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset nl {
   "Unable to write export file"
   "Kan niet schrijven exportbestand"
 
+  "Underline"
+  "Onderstrepen"
+
   "Undo"
   "Ongedaan maken"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset nl {
 
   "Unlock file"
   "Ontgrendelen bestand"
+
+  "Unordered Bullet"
+  "Ongeordende kogel"
 
   "Upper Case"
   "bovenkast"
