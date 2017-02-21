@@ -125,6 +125,10 @@ namespace eval bindings {
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
           set value [list * * * * *]
+          if {[string range $binding end-1 end] eq "--"} {
+            set binding [string range $binding 0 end-2]
+            lset value 4 "-"
+          }
           foreach elem [split $binding -] {
             lset value [lindex [accelerator_mapping $elem] 0] $elem
           }

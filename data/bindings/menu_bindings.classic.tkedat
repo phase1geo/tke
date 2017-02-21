@@ -22,6 +22,7 @@
 {Edit/Indentation/Unindent}          Ctrl-]
 {Edit/Cursor/Align Cursors Only}     Ctrl-Shift-A
 {Edit/Cursor/Align Cursors and Text} Ctrl-A
+{Edit/Transform/Join Lines}          Ctrl-J
 {Edit/Format/Bold}                   Ctrl-B
 {Edit/Format/Italics}                Ctrl-I
 {Edit/Format/Underline}              Ctrl-U
