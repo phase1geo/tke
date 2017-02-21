@@ -832,12 +832,13 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable search_dir
     variable ignore_modified
     variable column
     variable select_anchors
     variable modeline
-    variable recording
     variable multicursor
+    variable recording
 
     # Change the cursor to the block cursor
     $txt configure -blockcursor true -insertwidth 1
