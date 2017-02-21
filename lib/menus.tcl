@@ -1179,10 +1179,10 @@ namespace eval menus {
     $mb.cursorPopup add separator
 
     $mb.cursorPopup add command -label [msgcat::mc "Align Cursors Only"] -command [list edit::align_cursors]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors only"] [list edit::align_cursors]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors only"]] [list edit::align_cursors]
 
-    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors and Text"] -command [list edit::align_cursors_with_text]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors and text"]] [list edit::align_cursors_with_text]
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors and Text"] -command [list edit::align_cursors_and_text]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors and text"]] [list edit::align_cursors_and_text]
 
     #########################
     # Populate insertion menu
