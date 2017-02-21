@@ -1165,8 +1165,8 @@ namespace eval edit {
           set index [$txtt index $index+1c]
         }
       }
-      nextfindinc { set index [find_char $txtt next $opts(-char) $num] }
-      prevfindinc { set index [find_char $txtt prev $opts(-char) $num] }
+      nextfindinc { set index [find_char $txtt next $opts(-char) $opts(-num)] }
+      prevfindinc { set index [find_char $txtt prev $opts(-char) $opts(-num)] }
       default     { set index insert }
     }
 

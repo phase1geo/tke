@@ -127,7 +127,7 @@ namespace eval bindings {
           set value [list * * * * *]
           if {[string range $binding end-1 end] eq "--"} {
             set binding [string range $binding 0 end-2]
-            lset value 4 "\\-"
+            lset value 4 "-"
           }
           foreach elem [split $binding -] {
             lset value [lindex [accelerator_mapping $elem] 0] $elem
@@ -165,13 +165,14 @@ namespace eval bindings {
   # Convert the Tcl binding to an appropriate accelerator.
   proc accelerator_to_sequence {accelerator} {
 
-    set sequence "<"
-    set shifted  0
+    set sequence    "<"
+    set shifted     0
+    set append_dash 0
 
     # Create character to keysym mapping
     array set mapping {
       Ctrl      "Control-"
-      Alt       "Mod2-"
+      Alt       "Alt-"
       Cmd       "Mod1-"
       Super     "Mod1-"
       !         "exclam"
@@ -208,6 +209,20 @@ namespace eval bindings {
       Space     "space"
     }
 
+    # If we are on a Mac, adjust the mapping
+    if {[tk windowingsystem] eq "aqua"} {
+      array set mapping {
+        Alt "Mod2-"
+      }
+    }
+
+    # If the sequence detail is the minus key, this will cause problems with the parser so
+    # remove it and append it at the end of the sequence.
+    if {[string range $accelerator end-1 end] eq "--"} {
+      set append_dash 1
+      set accelerator [string range $accelerator 0 end-2]
+    }
+
     # Create the sequence
     foreach value [split $accelerator -] {
       if {[info exists mapping($value)]} {
@@ -225,6 +240,10 @@ namespace eval bindings {
           append sequence $value
         }
       }
+    }
+    
+    if {$append_dash} {
+      append sequence "minus"
     }
 
     append sequence ">"
