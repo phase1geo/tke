@@ -1244,8 +1244,11 @@ namespace eval edit {
           set last ""
           foreach {end start} [lreverse $ranges] {
             if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
-              $txtt insert "$start linestart" $startchars
-              set last $start
+              while {[$txtt compare $start < $end]} {
+                $txtt insert "$start linestart" $startchars
+                set last  $start
+                set start [$txtt index "$start+1l"]
+              }
             }
           }
         }
