@@ -127,7 +127,7 @@ namespace eval bindings {
           set value [list * * * * *]
           if {[string range $binding end-1 end] eq "--"} {
             set binding [string range $binding 0 end-2]
-            lset value 4 "-"
+            lset value 4 "\\-"
           }
           foreach elem [split $binding -] {
             lset value [lindex [accelerator_mapping $elem] 0] $elem
