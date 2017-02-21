@@ -189,8 +189,6 @@ namespace eval vim {
     bind $entry <Escape>    [list vim::handle_command_escape %W]
     bind $entry <BackSpace> [list vim::handle_command_backspace %W]
 
-    bind $txt.t <Destroy>   [list unset vim::command_entries(%W)]
-
   }
 
   ######################################################################
@@ -853,17 +851,6 @@ namespace eval vim {
     set modeline($txt.t)         1
     set multicursor($txt.t)      0
 
-    # Clean things up when the text widget it destroyed
-    bind $txt.t <Destroy> {
-      unset vim::mode(%W)
-      unset vim::number(%W)
-      unset vim::search_dir(%W)
-      unset vim::ignore_modified([winfo parent %W])
-      unset vim::column(%W)
-      unset vim::select_anchors(%W)
-      unset vim::modeline(%W)
-    }
-
     # Add bindings
     bind $txt       <<Modified>>            "if {\[vim::handle_modified %W\]} { break }"
     bind vim$txt    <Escape>                "if {\[vim::handle_escape %W\]} { break }"
@@ -895,6 +882,30 @@ namespace eval vim {
 
     # Set autoseparator mode to false
     $txt configure -autoseparators 0
+
+  }
+
+  ######################################################################
+  # Called whenever the given text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable command_entries
+    variable mode
+    variable number
+    variable search_dir
+    variable ignore_modified
+    variable column
+    variable select_anchors
+    variable modeline
+
+    unset command_entries($txt.t)
+    unset mode($txt.t)
+    unset number($txt.t)
+    unset search_dir($txt.t)
+    unset ignore_modified($txt)
+    unset column($txt.t)
+    unset select_anchors($txt.t)
+    unset modeline($txt.t)
 
   }
 

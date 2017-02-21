@@ -92,6 +92,18 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # Called whenever the given text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable curr_lang
+    variable meta_tags
+
+    catch { unset curr_lang($txt) }
+    catch { unset meta_tags($txt) }
+
+  }
+
+  ######################################################################
   # Adds the given syntax file to the total list.
   proc add_syntax {sfile {interp ""}} {
 

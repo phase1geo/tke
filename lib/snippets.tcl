@@ -170,6 +170,18 @@ namespace eval snippets {
   }
 
   ######################################################################
+  # Called whenever the given text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable within
+    variable expandtabs
+
+    unset within($txt.t)
+    unset expandtabs($txt.t)
+
+  }
+
+  ######################################################################
   # Handles a tab key event.
   proc handle_tab {txtt} {
 
