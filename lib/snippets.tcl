@@ -188,9 +188,16 @@ namespace eval snippets {
     variable expandtabs
 
     if {![tab_clicked $txtt]} {
-      if {![vim::in_vim_mode $txtt] && $expandtabs($txtt)} {
-        $txtt insert insert [string repeat " " [indent::get_tabstop $txtt]]
-        return 1
+      if {![vim::in_vim_mode $txtt]} {
+        if {[string is space [$txtt get insert]] || ([lsearch [$txtt tag names insert] _prewhite] != -1)} {
+          if {$expandtabs($txtt)} {
+            $txtt insert insert [string repeat " " [indent::get_tabstop $txtt]]
+            return 1
+          }
+        } elseif {[set index [$txtt search -regexp -- {\s} insert "insert+1l linestart"]] ne ""} {
+          ::tk::TextSetCursor $txtt $index
+          return 1
+        }
       }
     } else {
       return 1
