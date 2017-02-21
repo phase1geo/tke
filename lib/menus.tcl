@@ -91,7 +91,7 @@ namespace eval menus {
   proc handle_development_mode {{name1 ""} {name2 ""} {op ""}} {
 
     variable last_devel_mode
-
+    
     # If the menubar does not exist, we have nothing further to do
     if {![winfo exists .menubar]} {
       return
@@ -225,11 +225,11 @@ namespace eval menus {
       . configure -menu $mb
     }
 
-    # Load and apply the menu bindings
-    bindings::load
-
     # Handle the default development mode
     handle_development_mode
+
+    # Load and apply the menu bindings
+    bindings::load
 
     # Register the menubar for theming purposes if we are running on MacOSX
     if {[tk windowingsystem] ne "aqua"} {

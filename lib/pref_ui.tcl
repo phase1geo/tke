@@ -2906,15 +2906,30 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Returns true if the current symbol displayed in the symbol widget is
+  # a function key.
+  proc shortcut_sym_is_funckey {} {
+    
+    variable widgets
+    
+    return [regexp {^F\d+$} [$widgets(shortcut_sym) get]]
+    
+  }
+  
+  ######################################################################
   # Called whenever the modifier or symbol combobox change.  Handles the
   # state of the Update button and update the values available in the
   # combobox value lists.
   proc shortcut_changed {} {
 
     variable widgets
+    
+    # Get the widget contents
+    set mod [$widgets(shortcut_mod) get]
+    set sym [$widgets(shortcut_sym) get]
 
     # Make sure that the Update button is enabled
-    if {([$widgets(shortcut_mod) get] ne "") && ([$widgets(shortcut_sym) get] ne "")} {
+    if {(($mod ne "") && ($sym ne "")) || [shortcut_sym_is_funckey]} {
       $widgets(shortcut_update) configure -state normal
     }
 
@@ -2949,13 +2964,27 @@ namespace eval pref_ui {
     # Create dictionaries from the mod_dict and sym_dict dictionaries
     set mods [dict create {*}[dict get $mod_dict]]
     set syms [dict create {*}[dict get $sym_dict]]
+    
+    # If the symbol widget is not displaying a function key, remove the empty space modifier
+    if {![shortcut_sym_is_funckey]} {
+      catch { dict unset mods {} }
+    }
 
     # Iterate through the table finding partial matches
     foreach tl_shortcut [$widgets(shortcut_tl) getcolumn shortcut] {
       if {$tl_shortcut ne ""} {
-        set tl_list [split $tl_shortcut -]
-        set tl_mod  [lrange $tl_list 0 end-1]
-        set tl_sym  [lindex $tl_list end]
+        if {[string range $tl_shortcut end-1 end] eq "--"} {
+          set tl_list [split [string range $tl_shortcut 0 end-2] -]
+          lappend tl_list "-"
+        } else {
+          set tl_list [split $tl_shortcut -]
+        }
+        if {[llength $tl_list] == 1} {
+          set tl_mod ""
+        } else {
+          set tl_mod [lrange $tl_list 0 end-1]
+        }
+        set tl_sym [lindex $tl_list end]
         if {$curr_mod eq $tl_mod} {
           catch { dict unset syms $tl_sym }
         }
@@ -3026,6 +3055,12 @@ namespace eval pref_ui {
       # Get the current shortcut menu from the table
       set shortcut [$widgets(shortcut_tl) cellcget $selected,shortcut -text]
       set value    [list "" "" "" "" ""]
+      
+      # If the shortcut contains the minus key, pull it off and adjust the rest of the shortcut string
+      if {[string range $shortcut end-1 end] eq "--"} {
+        lset value 4 "-"
+        set shortcut [string range $shortcut 0 end-2]
+      }
 
       # Setup the value list
       if {[tk windowingsystem] eq "aqua"} {
@@ -3039,7 +3074,11 @@ namespace eval pref_ui {
       }
 
       # Set the current modifier and symbol
-      $widgets(shortcut_mod) set [join [lrange $value 0 3] ""]
+      if {[tk windowingsystem] eq "aqua"} {
+        $widgets(shortcut_mod) set [join [lrange $value 0 3] ""]
+      } else {
+        $widgets(shortcut_mod) set [join [concat {*}[lrange $value 0 3]] "-"]
+      }
       $widgets(shortcut_sym) set [lindex $value 4]
 
       # Make sure the Clear button state is set correctly
@@ -3076,14 +3115,14 @@ namespace eval pref_ui {
 
     switch [tk windowingsystem] {
       aqua {
-        set mods [list Cmd Ctrl Alt Shift \
+        set mods [list {} Cmd Ctrl Alt Shift \
                        Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
                        Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
                        Ctrl-Alt-Shift-Cmd]
       }
       win32 -
       x11 {
-        set mods [list Ctrl Alt Shift \
+        set mods [list {} Ctrl Alt Shift \
                        Shift-Ctrl Ctrl-Alt Shift-Alt \
                        Shift-Ctrl-Alt]
       }
@@ -3159,8 +3198,9 @@ namespace eval pref_ui {
 
     set value ""
 
+    set sym [$widgets(shortcut_sym) get]
+    
     if {[set mod [$widgets(shortcut_mod) get]] ne ""} {
-      set sym [$widgets(shortcut_sym) get]
       if {$mod ne ""} {
         if {[tk windowingsystem] eq "aqua"} {
           set value [list * * * * $sym]
@@ -3172,8 +3212,10 @@ namespace eval pref_ui {
           set value "$mod-$sym"
         }
       }
+    } else {
+      set value $sym
     }
-
+    
     # Set the shortcut cell value
     $widgets(shortcut_tl) cellconfigure [$widgets(shortcut_tl) curselection],shortcut -text $value
 
@@ -3230,6 +3272,10 @@ namespace eval pref_ui {
 
     if {[tk windowingsystem] eq "aqua"} {
       set new_value [list "" "" "" "" ""]
+      if {[string range $value end-1 end] eq "--"} {
+        lset new_value 4 "-"
+        set value [string range $value 0 end-2]
+      }
       foreach elem [split $value -] {
         lset new_value {*}[bindings::accelerator_mapping $elem]
       }
