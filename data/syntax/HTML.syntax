@@ -75,6 +75,7 @@ formatting
   highlight     {<mark>   </mark>}
   superscript   {<super>  </super>}
   subscript     {<sub>    </sub>}
+  code          {<code>   </code>}
   header1       {<h1>     </h1>}
   header2       {<h2>     </h2>}
   header3       {<h3>     </h3>}

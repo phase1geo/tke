@@ -82,7 +82,7 @@ miscellaneous2 {}
 
 miscellaneous3 {
   HighlightKeywords {
-    bold italics underline strikethrough highlight superscript subscript
+    bold italics underline strikethrough highlight superscript subscript code
     header1 header2 header3 header4 header5 header6 unordered ordered
   }
 }
