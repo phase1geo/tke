@@ -1229,10 +1229,15 @@ namespace eval edit {
         lassign $formatting($type) startchars endchars
 
         $txtt edit separator
+        
+        set insert [$txtt index insert]
 
         if {$endchars ne ""} {
           foreach {end start} [lreverse $ranges] {
             $txtt insert $end   $endchars
+            if {[$txtt compare $insert != insert]} {
+              $txtt mark set insert $insert
+            }
             $txtt insert $start $startchars
           }
         } else {
