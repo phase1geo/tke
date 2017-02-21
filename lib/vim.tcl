@@ -36,6 +36,7 @@ namespace eval vim {
   array set column          {}
   array set select_anchors  {}
   array set modeline        {}
+  array set multicursor     {}
 
   array set recording {
     curr_reg ""
@@ -66,11 +67,7 @@ namespace eval vim {
 
     # Set the Vim mode on all text widgets
     foreach txtt [array names command_entries] {
-      if {[winfo exists $txtt]} {
-        set_vim_mode [winfo parent $txtt]
-      } else {
-        unset command_entries($txtt)
-      }
+      set_vim_mode [winfo parent $txtt]
     }
 
   }
@@ -191,6 +188,8 @@ namespace eval vim {
     bind $entry <Return>    [list vim::handle_command_return %W]
     bind $entry <Escape>    [list vim::handle_command_escape %W]
     bind $entry <BackSpace> [list vim::handle_command_backspace %W]
+
+    bind $txt.t <Destroy>   [list unset vim::command_entries(%W)]
 
   }
 
@@ -838,6 +837,7 @@ namespace eval vim {
     variable select_anchors
     variable modeline
     variable recording
+    variable multicursor
 
     # Change the cursor to the block cursor
     $txt configure -blockcursor true -insertwidth 1
@@ -850,6 +850,18 @@ namespace eval vim {
     set column($txt.t)           ""
     set select_anchors($txt.t)   [list]
     set modeline($txt.t)         1
+    set multicursor($txt.t)      0
+
+    # Clean things up when the text widget it destroyed
+    bind $txt.t <Destroy> {
+      unset vim::mode(%W)
+      unset vim::number(%W)
+      unset vim::search_dir(%W)
+      unset vim::ignore_modified([winfo parent %W])
+      unset vim::column(%W)
+      unset vim::select_anchors(%W)
+      unset vim::modeline(%W)
+    }
 
     # Add bindings
     bind $txt       <<Modified>>            "if {\[vim::handle_modified %W\]} { break }"
@@ -991,9 +1003,13 @@ namespace eval vim {
   proc edit_mode {txtt} {
 
     variable mode
+    variable multicursor
 
     # Set the mode to the edit mode
     set mode($txtt) "edit"
+
+    # Clear the multicursor mode (since we are not moving multicursors around)
+    set multicursor($txtt) 0
 
     # Add separator
     $txtt edit separator
@@ -1014,6 +1030,7 @@ namespace eval vim {
   proc start_mode {txtt} {
 
     variable mode
+    variable multicursor
 
     # If we are coming from visual mode, clear the selection
     if {[in_visual_mode $txtt]} {
@@ -1044,6 +1061,21 @@ namespace eval vim {
 
     # Set the current mode to the start mode
     set mode($txtt) "start"
+
+    # Clear multicursor mode
+    set multicursor($txtt) 0
+
+  }
+
+  ######################################################################
+  # Set the current mode to multicursor move mode.
+  proc multicursor_mode {txtt} {
+
+    variable mode
+    variable multicursor
+
+    set mode($txtt)        "start"
+    set multicursor($txtt) 1
 
   }
 
@@ -1250,6 +1282,7 @@ namespace eval vim {
     variable mode
     variable number
     variable recording
+    variable multicursor
 
     # Add this keysym to the current recording buffer (if one exists)
     set curr_reg $recording(curr_reg)
@@ -1281,6 +1314,9 @@ namespace eval vim {
 
     # Clear the current number string
     set number($txtt) ""
+
+    # Clear the multicursor indicator
+    set multicursor($txtt) 0
 
     return 1
 
@@ -1529,10 +1565,15 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable multicursor
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {($mode($txtt) eq "start") && ($num eq "0") && ($number($txtt) eq "")} {
-        edit::move_cursor $txtt linestart
+        if {$multicursor($txtt)} {
+          multicursor::adjust $txtt linestart
+        } else {
+          edit::move_cursor $txtt linestart
+        }
       } else {
         append number($txtt) $num
         record_start
@@ -1596,10 +1637,15 @@ namespace eval vim {
   proc handle_dollar {txtt} {
 
     variable mode
+    variable multicursor
 
     if {$mode($txtt) eq "start"} {
-      edit::move_cursor $txtt lineend
-      ::tk::TextSetCursor $txtt "insert lineend-1c"
+      if {$multicursor($txtt)} {
+        multicursor::adjust $txtt lineend
+      } else {
+        edit::move_cursor $txtt lineend
+        ::tk::TextSetCursor $txtt "insert lineend-1c"
+      }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
       if {![multicursor::delete $txtt lineend]} {
@@ -1777,25 +1823,30 @@ namespace eval vim {
     variable mode
     variable number
     variable column
+    variable multicursor
 
     # Move the insertion cursor down one line
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
-      lassign [split [$txtt index insert] .] row col
-      if {$column($txtt) ne ""} {
-        set col $column($txtt)
+      if {$multicursor($txtt)} {
+        multicursor::adjust $txtt +1l
       } else {
-        set column($txtt) $col
-      }
-      set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
-      set row  $row.0
-      for {set i 0} {$i < [expr $rows + 1]} {incr i} {
-        set row [$txtt search -- \n "$row+1c" end]
-      }
-      set row [lindex [split $row .] 0]
-      if {[$txtt compare "$row.$col" < end]} {
-        ::tk::TextSetCursor $txtt "$row.$col"
-        adjust_insert $txtt
+        lassign [split [$txtt index insert] .] row col
+        if {$column($txtt) ne ""} {
+          set col $column($txtt)
+        } else {
+          set column($txtt) $col
+        }
+        set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
+        set row  $row.0
+        for {set i 0} {$i < [expr $rows + 1]} {incr i} {
+          set row [$txtt search -- \n "$row+1c" end]
+        }
+        set row [lindex [split $row .] 0]
+        if {[$txtt compare "$row.$col" < end]} {
+          ::tk::TextSetCursor $txtt "$row.$col"
+          adjust_insert $txtt
+        }
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
@@ -1821,12 +1872,8 @@ namespace eval vim {
     variable number
 
     if {$mode($txtt) eq "start"} {
-      if {[multicursor::enabled $txtt]} {
-        edit::move_cursors $txtt "+1l"
-      } else {
-        edit::transform_join_lines $txtt $number($txtt)
-        record "Key-J"
-      }
+      edit::transform_join_lines $txtt $number($txtt)
+      record "Key-J"
       return 1
     }
 
@@ -1841,21 +1888,26 @@ namespace eval vim {
     variable mode
     variable number
     variable column
+    variable multicursor
 
     # Move the insertion cursor up one line
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
-      lassign [split [$txtt index insert] .] row col
-      if {$column($txtt) ne ""} {
-        set col $column($txtt)
+      if {$multicursor($txtt)} {
+        multicursor::adjust $txtt "-1l"
       } else {
-        set column($txtt) $col
-      }
-      set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
-      set row  [lindex [split [$txtt index "$row.0-$rows display lines"] .] 0]
-      if {$row >= 1} {
-        ::tk::TextSetCursor $txtt "$row.$col"
-        adjust_insert $txtt
+        lassign [split [$txtt index insert] .] row col
+        if {$column($txtt) ne ""} {
+          set col $column($txtt)
+        } else {
+          set column($txtt) $col
+        }
+        set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
+        set row  [lindex [split [$txtt index "$row.0-$rows display lines"] .] 0]
+        if {$row >= 1} {
+          ::tk::TextSetCursor $txtt "$row.$col"
+          adjust_insert $txtt
+        }
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
@@ -1882,22 +1934,16 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      if {[multicursor::enabled $txtt]} {
-        edit::move_cursors $txtt "-1l"
-
-      # Check to see if documentation for the current word exists
-      } else {
-        if {([lsearch [$txtt tag names insert] "_keywords"] != -1) && \
-            ([set word [string trim [$txtt get "insert wordstart" "insert wordend"]]] ne "")} {
-          gui::get_info [winfo parent $txtt] txt lang
-          foreach item [syntax::get_references $lang] {
-            lassign $item name url
-            if {[set index [string first "{query}" $url]] != -1} {
-              set url [string replace $url $index [expr $index + 6] $word]
-              if {[utils::test_url $url]} {
-                utils::open_file_externally $url 1
-                break
-              }
+      if {([lsearch [$txtt tag names insert] "_keywords"] != -1) && \
+          ([set word [string trim [$txtt get "insert wordstart" "insert wordend"]]] ne "")} {
+        gui::get_info [winfo parent $txtt] txt lang
+        foreach item [syntax::get_references $lang] {
+          lassign $item name url
+          if {[set index [string first "{query}" $url]] != -1} {
+            set url [string replace $url $index [expr $index + 6] $word]
+            if {[utils::test_url $url]} {
+              utils::open_file_externally $url 1
+              break
             }
           }
         }
@@ -1916,22 +1962,27 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable multicursor
 
     # Move the insertion cursor right one character
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
-      if {$number($txtt) ne ""} {
-        if {[$txtt compare "insert lineend" < "insert+$number($txtt)c"]} {
-          ::tk::TextSetCursor $txtt "insert lineend"
-        } else {
-          ::tk::TextSetCursor $txtt "insert+$number($txtt)c"
-        }
-        adjust_insert $txtt
-      } elseif {[$txtt compare "insert lineend" > "insert+1c"]} {
-        ::tk::TextSetCursor $txtt "insert+1c"
-        adjust_insert $txtt
+      if {$multicursor($txtt)} {
+        multicursor::adjust $txtt +1c
       } else {
-        bell
+        if {$number($txtt) ne ""} {
+          if {[$txtt compare "insert lineend" < "insert+$number($txtt)c"]} {
+            ::tk::TextSetCursor $txtt "insert lineend"
+          } else {
+            ::tk::TextSetCursor $txtt "insert+$number($txtt)c"
+          }
+          adjust_insert $txtt
+        } elseif {[$txtt compare "insert lineend" > "insert+1c"]} {
+          ::tk::TextSetCursor $txtt "insert+1c"
+          adjust_insert $txtt
+        } else {
+          bell
+        }
       }
       return 1
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
@@ -2043,13 +2094,10 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable multicursor
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {[multicursor::enabled $txtt]} {
-        edit::move_cursors $txtt "+1c"
-      } elseif {$mode($txtt) eq "start"} {
-        edit::move_cursor $txtt screenbot -num $number($txtt)
-      }
+    if {(($mode($txtt) eq "start") && !$multicursor($txtt)) || [in_visual_mode $txtt]} {
+      edit::move_cursor $txtt screenbot -num $number($txtt)
       return 1
     }
 
@@ -2080,7 +2128,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "goto" mode, edit any filesnames that are found under
+  # If we are in "goto" mode, edit any filenames that are found under
   # any of the cursors.
   proc handle_f {txtt} {
 
@@ -2273,22 +2321,27 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable multicursor
 
     # Move the insertion cursor left one character
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
-      if {$number($txtt) ne ""} {
-        if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
-          ::tk::TextSetCursor $txtt "insert linestart"
-        } else {
-          ::tk::TextSetCursor $txtt "insert-$number($txtt)c"
-        }
-        adjust_insert $txtt
-      } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
-        ::tk::TextSetCursor $txtt "insert-1c"
-        adjust_insert $txtt
+      if {$multicursor($txtt)} {
+        multicursor::adjust $txtt "-1c"
       } else {
-        bell
+        if {$number($txtt) ne ""} {
+          if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
+            ::tk::TextSetCursor $txtt "insert linestart"
+          } else {
+            ::tk::TextSetCursor $txtt "insert-$number($txtt)c"
+          }
+          adjust_insert $txtt
+        } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
+          ::tk::TextSetCursor $txtt "insert-1c"
+          adjust_insert $txtt
+        } else {
+          bell
+        }
       }
       return 1
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
@@ -2399,13 +2452,10 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable multicursor
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {[multicursor::enabled $txtt]} {
-        edit::move_cursors $txtt "-1c"
-      } else {
-        edit::move_cursor $txtt screentop -num $number($txtt)
-      }
+    if {(($mode($txtt) eq "start") && !$multicursor($txtt)) || [in_visual_mode $txtt]} {
+      edit::move_cursor $txtt screentop -num $number($txtt)
       return 1
     }
 
@@ -2420,9 +2470,14 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable multicursor
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt prevword -num $number($txtt)
+      if {$multicursor($txtt)} {
+        multicursor::adjust $txtt prevword
+      } else {
+        edit::move_cursor $txtt prevword -num $number($txtt)
+      }
       return 1
     }
 
@@ -2508,9 +2563,14 @@ namespace eval vim {
 
     variable mode
     variable number
+    variable multicursor
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt nextword -num $number($txtt)
+      if {$multicursor($txtt)} {
+        multicursor::adjust $txtt nextword
+      } else {
+        edit::move_cursor $txtt nextword -num $number($txtt)
+      }
       return 1
     } elseif {$mode($txtt) eq "change"} {
       if {($number($txtt) ne "") && ($number($txtt) > 1)} {
@@ -3084,6 +3144,23 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "quit"} {
       gui::save_current
       gui::close_current
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in start mode and multicursors are enabled, set the Vim mode
+  # to indicate that any further movement commands should be applied to
+  # the multicursors instead of the standard cursor.
+  proc handle_m {txtt} {
+
+    variable mode
+
+    if {($mode($txtt) eq "start") && [multicursor::enabled $txtt]} {
+      multicursor_mode $txtt
       return 1
     }
 
