@@ -2567,7 +2567,7 @@ namespace eval gui {
     }
 
     # Now move the current tab from the previous current pane to the new current pane
-    set_current_tab $tabbar $tab -skip_focus 1
+    set_current_tab $tabbar $tab
 
     # Set the tab image for the moved file
     set_tab_image $tab

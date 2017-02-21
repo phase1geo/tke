@@ -1308,6 +1308,9 @@ namespace eval menus {
     $mb.formatPopup add command -label [msgcat::mc "Subscript"] -command [list menus::edit_format subscript]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text subscript"]] [list menus::edit_format subscript]
 
+    $mb.formatPopup add command -label [msgcat::mc "Code"] -command [list menus::edit_format code]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text monospaced"]] [list menus::edit_format code]
+
     $mb.formatPopup add separator
 
     $mb.formatPopup add command -label [format "%s 1" [msgcat::mc "Header"]] -command [list menus::edit_format header1]
