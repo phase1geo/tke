@@ -1178,8 +1178,11 @@ namespace eval menus {
 
     $mb.cursorPopup add separator
 
-    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors"] -command [list edit::align_cursors]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors"]] [list edit::align_cursors]
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors Only"] -command [list edit::align_cursors]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors only"] [list edit::align_cursors]
+
+    $mb.cursorPopup add command -label [msgcat::mc "Align Cursors and Text"] -command [list edit::align_cursors_with_text]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Align cursors and text"]] [list edit::align_cursors_with_text]
 
     #########################
     # Populate insertion menu
@@ -1327,15 +1330,15 @@ namespace eval menus {
 
     $mb.formatPopup add separator
 
-    $mb.formatPopup add command -label [msgcat::mc "Unordered bullet"] -command [list menus::edit_format unordered]
+    $mb.formatPopup add command -label [msgcat::mc "Unordered Bullet"] -command [list menus::edit_format unordered]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line an unordered bullet"]] [list menus::edit_format unordered]
 
-    $mb.formatPopup add command -label [msgcat::mc "Ordered bullet"] -command [list menus::edit_format ordered]
+    $mb.formatPopup add command -label [msgcat::mc "Ordered Bullet"] -command [list menus::edit_format ordered]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line an ordered bullet"]] [list menus::edit_format ordered]
 
     $mb.formatPopup add separator
 
-    $mb.formatPopup add command -label [msgcat::mc "Remove formatting"] -command [list menus::edit_format_remove]
+    $mb.formatPopup add command -label [msgcat::mc "Remove Formatting"] -command [list menus::edit_format_remove]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Remove formatting from selected text"]] [list menus::edit_format_remove]
 
     ###########################
@@ -1529,11 +1532,12 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Move to Next Word"]     -state $sstate
     $mb entryconfigure [msgcat::mc "Move to Previous Word"] -state $sstate
 
-    $mb entryconfigure [msgcat::mc "Move Cursors Up"]       -state $mstate
-    $mb entryconfigure [msgcat::mc "Move Cursors Down"]     -state $mstate
-    $mb entryconfigure [msgcat::mc "Move Cursors Left"]     -state $mstate
-    $mb entryconfigure [msgcat::mc "Move Cursors Right"]    -state $mstate
-    $mb entryconfigure [msgcat::mc "Align Cursors"]         -state $mstate
+    $mb entryconfigure [msgcat::mc "Move Cursors Up"]        -state $mstate
+    $mb entryconfigure [msgcat::mc "Move Cursors Down"]      -state $mstate
+    $mb entryconfigure [msgcat::mc "Move Cursors Left"]      -state $mstate
+    $mb entryconfigure [msgcat::mc "Move Cursors Right"]     -state $mstate
+    $mb entryconfigure [msgcat::mc "Align Cursors Only"]     -state $mstate
+    $mb entryconfigure [msgcat::mc "Align Cursors and Text"] -state $mstate
 
   }
 
@@ -1638,8 +1642,8 @@ namespace eval menus {
     $mb entryconfigure [format "%s 4" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header4)]       ? "normal" : "disabled"}]
     $mb entryconfigure [format "%s 5" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header5)]       ? "normal" : "disabled"}]
     $mb entryconfigure [format "%s 6" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header6)]       ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Unordered bullet"]       -state [expr {[info exists formatting(unordered)]     ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Ordered bullet"]         -state [expr {[info exists formatting(ordered)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Unordered Bullet"]       -state [expr {[info exists formatting(unordered)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Ordered Bullet"]         -state [expr {[info exists formatting(ordered)]       ? "normal" : "disabled"}]
 
   }
 

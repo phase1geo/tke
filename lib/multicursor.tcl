@@ -781,11 +781,49 @@ namespace eval multicursor {
   }
 
   ######################################################################
+  # Aligns all multicursors to each other, aligning them to the cursor
+  # that is closest to the start of its line.
+  proc align {txt} {
+
+    set last_row -1
+    set min_col  1000000
+    set rows     [list]
+
+    # Find the cursor that is closest to the start of its line
+    foreach {start end} [$txt tag ranges mcursor] {
+      lassign [split $start .] row col
+      if {$row ne $last_row} {
+        set last_row $row
+        if {$col < $min_col} {
+          set min_col $col
+        }
+        lappend rows $row
+      }
+    }
+
+    if {[llength $rows] > 0} {
+
+      # Create the cursors list
+      foreach row $rows {
+        lappend cursors $row.$min_col $row.[expr $min_col + 1]
+      }
+
+      # Remove the multicursors
+      $txt tag remove mcursor 1.0 end
+
+      # Add the cursors back
+      $txt tag add mcursor {*}$cursors
+
+    }
+
+  }
+
+  ######################################################################
   # Aligns all of the cursors by inserting spaces prior to each cursor
   # that is less than the one in the highest column position.  If multiple
   # cursors exist on the same line, the cursor in the lowest column position
   # is used.
-  proc align {txt} {
+  proc align_with_text {txt} {
 
     set last_row -1
     set max_col  0

@@ -11,20 +11,21 @@
 {File/Quit}                       Ctrl-Q
 
 # Edit menu bindings
-{Edit/Undo}                       Ctrl-Z
-{Edit/Redo}                       Ctrl-R
-{Edit/Cut}                        Ctrl-X
-{Edit/Copy}                       Ctrl-C
-{Edit/Paste}                      Ctrl-V
-{Edit/Paste and Format}           Ctrl-Shift-V
-{Edit/Toggle Comment}             Ctrl-I
-{Edit/Indentation/Indent}         Ctrl-[
-{Edit/Indentation/Unindent}       Ctrl-]
-{Edit/Cursor/Align Cursors}       Ctrl-A
-{Edit/Format/Bold}                Ctrl-B
-{Edit/Format/Italics}             Ctrl-I
-{Edit/Format/Underline}           Ctrl-U
-{Edit/Emmet/Expand Abbreviation}  Ctrl-E
+{Edit/Undo}                          Ctrl-Z
+{Edit/Redo}                          Ctrl-R
+{Edit/Cut}                           Ctrl-X
+{Edit/Copy}                          Ctrl-C
+{Edit/Paste}                         Ctrl-V
+{Edit/Paste and Format}              Ctrl-Shift-V
+{Edit/Toggle Comment}                Ctrl-I
+{Edit/Indentation/Indent}            Ctrl-[
+{Edit/Indentation/Unindent}          Ctrl-]
+{Edit/Cursor/Align Cursors Only}     Ctrl-Shift-A
+{Edit/Cursor/Align Cursors and Text} Ctrl-A
+{Edit/Format/Bold}                   Ctrl-B
+{Edit/Format/Italics}                Ctrl-I
+{Edit/Format/Underline}              Ctrl-U
+{Edit/Emmet/Expand Abbreviation}     Ctrl-E
 
 # Find menu bindings
 {Find/Find}                       Ctrl-F
