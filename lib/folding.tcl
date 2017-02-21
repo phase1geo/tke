@@ -87,6 +87,16 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Called whenever the text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable enable
+
+    unset enable($txt)
+
+  }
+
+  ######################################################################
   # Set the fold enable to the given type.
   proc set_fold_enable {txt value} {
 

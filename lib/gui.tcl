@@ -51,7 +51,6 @@ namespace eval gui {
   variable synced_txt       ""
 
   array set widgets         {}
-  array set language        {}
   array set tab_tip         {}
   array set line_sel_anchor {}
   array set txt_current     {}
@@ -2226,7 +2225,10 @@ namespace eval gui {
     array set opts $args
 
     # Get information
-    get_info $tab tab pane tabbar tabindex fileindex fname diff
+    get_info $tab tab pane tabbar tabindex txt txt2 fileindex fname diff
+
+    # Figure out if the tab has txt2 opened
+    set txt2_exists [winfo exists $txt2]
 
     # Perform save check on close
     if {$opts(-check)} {
@@ -2256,6 +2258,15 @@ namespace eval gui {
 
     # Destroy the text frame
     destroy $tab
+
+    # Clean up any code that is reliant on the text widget (if we are not exiting
+    # the application) to avoid memory leaks
+    if {!$opts(-exiting)} {
+      cleanup_txt $txt
+      if {$txt2_exists} {
+        cleanup_txt $txt2
+      }
+    }
 
     # Display the current pane (if one exists)
     if {!$opts(-lazy) && ([set tab [$tabbar select]] ne "")} {
@@ -4118,6 +4129,26 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Called when the given text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable line_sel_anchor
+    variable txt_current
+    variable cursor_hist
+    variable be_after_id
+    variable be_ignore
+
+    set tab [join [lrange [split $txt .] 0 end-3] .]
+
+    catch { unset line_sel_anchor($txt.l) }
+    catch { unset txt_current($tab) }
+    catch { array unset cursor_hist $txt,* }
+    catch { unset be_after_id($txt) }
+    catch { unset be_ignore($txt) }
+
+  }
+
+  ######################################################################
   # Removes the split pane
   proc hide_split_pane {} {
 
@@ -4130,6 +4161,9 @@ namespace eval gui {
 
     # Destroy the extra text widget frame
     destroy $pw.tf2
+
+    # Cleanup the text widget
+    cleanup_txt $pw.tf2.txt
 
     # Set the focus back on the tf text widget
     set_txt_focus $pw.tf.txt
@@ -5255,6 +5289,21 @@ namespace eval gui {
 
     # Update the title
     set_title
+
+  }
+
+  ######################################################################
+  # Check all of the namespaces for a procedure called "handle_destroy_txt".
+  # When a namespace is found the the procedure, call it with the given
+  # text widget.  This allows namespaces to clean up any state that is
+  # dependent on the given text widget.
+  proc cleanup_txt {txt} {
+
+    foreach ns [namespace children ::] {
+      if {[info procs ${ns}::handle_destroy_txt] ne ""} {
+        eval ${ns}::handle_destroy_txt $txt
+      }
+    }
 
   }
 

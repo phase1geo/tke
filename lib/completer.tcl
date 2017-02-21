@@ -148,6 +148,18 @@ namespace eval completer {
   }
 
   ######################################################################
+  # Called whenever the given text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable complete
+    variable lang_match_chars
+
+    array unset completer::complete $txt.t,*
+    array unset completer::lang_match_chars $txt.t,*
+
+  }
+
+  ######################################################################
   # Sets the mismatching bracket color to the attention syntax color.
   proc set_bracket_mismatch_color {txt} {
 

@@ -93,6 +93,8 @@ namespace eval scroller {
     bind $data($win,canvas) <4>                          [list scroller::wheel_slider    %W 1]
     bind $data($win,canvas) <5>                          [list scroller::wheel_slider    %W -1]
 
+    bind $win <Destroy> [list array unset scroller::data %W,*]
+
     rename ::$win $win
     interp alias {} ::$win {} scroller::widget_command $win
 

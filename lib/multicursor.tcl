@@ -58,6 +58,16 @@ namespace eval multicursor {
   }
 
   ######################################################################
+  # Called when the specified text widget is destroyed.
+  proc handle_destroy_txt {txt} {
+
+    variable copy_cursors
+
+    array unset copy_cursors $txt.t,*
+
+  }
+
+  ######################################################################
   # Handles a selection of the widget in the multicursor mode.
   proc handle_selection {W} {
 
