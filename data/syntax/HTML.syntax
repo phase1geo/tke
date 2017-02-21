@@ -75,4 +75,12 @@ formatting
   highlight     {<mark>   </mark>}
   superscript   {<super>  </super>}
   subscript     {<sub>    </sub>}
+  header1       {<h1>     </h1>}
+  header2       {<h2>     </h2>}
+  header3       {<h3>     </h3>}
+  header4       {<h4>     </h4>}
+  header5       {<h5>     </h5>}
+  header6       {<h6>     </h6>}
+  unordered     {<li>     </li>}
+  ordered       {<li>     </li>}
 }
