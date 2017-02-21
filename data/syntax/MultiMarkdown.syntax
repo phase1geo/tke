@@ -336,9 +336,17 @@ formatting
 {
   bold          {** **}
   italics       {_  _}
-  strikethrough {~~ ~~}
-  highlight     {== ==}
+  strikethrough {\{-- --\}}
+  underline     {\{++ ++\}}
+  highlight     {\{== ==\}}
   superscript   {^  ^}
   subscript     {~  ~}
+  header1       {{# }}
+  header2       {{## }}
+  header3       {{### }}
+  header4       {{#### }}
+  header5       {{##### }}
+  header6       {{###### }}
+  unordered     {{* }}
 }
 

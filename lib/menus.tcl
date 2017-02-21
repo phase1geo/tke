@@ -1285,25 +1285,53 @@ namespace eval menus {
     ##########################
 
     $mb.formatPopup add command -label [msgcat::mc "Bold"] -command [list menus::edit_format bold]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text bold"]] [list menus::edit_format bold]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text bold"]] [list menus::edit_format bold]
 
     $mb.formatPopup add command -label [msgcat::mc "Italics"] -command [list menus::edit_format italics]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text italicized"]] [list menus::edit_format italics]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text italicized"]] [list menus::edit_format italics]
 
     $mb.formatPopup add command -label [msgcat::mc "Underline"] -command [list menus::edit_format underline]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text underlined"]] [list menus::edit_format underline]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text underlined"]] [list menus::edit_format underline]
 
     $mb.formatPopup add command -label [msgcat::mc "Strikethrough"] -command [list menus::edit_format strikethrough]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text stricken"]] [list menus::edit_format strikethrough]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text stricken"]] [list menus::edit_format strikethrough]
 
     $mb.formatPopup add command -label [msgcat::mc "Highlight"] -command [list menus::edit_format highlight]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text highlighted"]] [list menus::edit_format highlight]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text highlighted"]] [list menus::edit_format highlight]
 
     $mb.formatPopup add command -label [msgcat::mc "Superscript"] -command [list menus::edit_format superscript]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text superscript"]] [list menus::edit_format superscript]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text superscript"]] [list menus::edit_format superscript]
 
     $mb.formatPopup add command -label [msgcat::mc "Subscript"] -command [list menus::edit_format subscript]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make selected text subscript"]] [list menus::edit_format subscript]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text subscript"]] [list menus::edit_format subscript]
+
+    $mb.formatPopup add separator
+
+    $mb.formatPopup add command -label [format "%s 1" [msgcat::mc "Header"]] -command [list menus::edit_format header1]
+    launcher::register [make_menu_cmd "Edit" [format "%s 1" [msgcat::mc "Make line header style"]]] [list menus::edit_format header1]
+
+    $mb.formatPopup add command -label [format "%s 2" [msgcat::mc "Header"]] -command [list menus::edit_format header2]
+    launcher::register [make_menu_cmd "Edit" [format "%s 2" [msgcat::mc "Make line header style"]]] [list menus::edit_format header2]
+
+    $mb.formatPopup add command -label [format "%s 3" [msgcat::mc "Header"]] -command [list menus::edit_format header3]
+    launcher::register [make_menu_cmd "Edit" [format "%s 3" [msgcat::mc "Make line header style"]]] [list menus::edit_format header3]
+
+    $mb.formatPopup add command -label [format "%s 4" [msgcat::mc "Header"]] -command [list menus::edit_format header4]
+    launcher::register [make_menu_cmd "Edit" [format "%s 4" [msgcat::mc "Make line header style"]]] [list menus::edit_format header4]
+
+    $mb.formatPopup add command -label [format "%s 5" [msgcat::mc "Header"]] -command [list menus::edit_format header5]
+    launcher::register [make_menu_cmd "Edit" [format "%s 5" [msgcat::mc "Make line header style"]]] [list menus::edit_format header5]
+
+    $mb.formatPopup add command -label [format "%s 6" [msgcat::mc "Header"]] -command [list menus::edit_format header6]
+    launcher::register [make_menu_cmd "Edit" [format "%s 6" [msgcat::mc "Make line header style"]]] [list menus::edit_format header6]
+
+    $mb.formatPopup add separator
+
+    $mb.formatPopup add command -label [msgcat::mc "Unordered bullet"] -command [list menus::edit_format unordered]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line an unordered bullet"]] [list menus::edit_format unordered]
+
+    $mb.formatPopup add command -label [msgcat::mc "Ordered bullet"] -command [list menus::edit_format ordered]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line an ordered bullet"]] [list menus::edit_format ordered]
 
     $mb.formatPopup add separator
 
@@ -1440,7 +1468,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
         $mb entryconfigure [msgcat::mc "Transform"] -state disabled
       }
-      if {[gui::editable] && ([$txt tag ranges sel] ne "") && ([llength [syntax::get_formatting $txt]] > 0)} {
+      if {[gui::editable] && ([llength [syntax::get_formatting $txt]] > 0)} {
         $mb entryconfigure [msgcat::mc "Format"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Format"] -state disabled
@@ -1597,13 +1625,21 @@ namespace eval menus {
     # Place the contents of the formatting information in the array
     array set formatting [syntax::get_formatting $txt]
 
-    $mb entryconfigure [msgcat::mc "Bold"]          -state [expr {[info exists formatting(bold)]          ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Italics"]       -state [expr {[info exists formatting(italics)]       ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Underline"]     -state [expr {[info exists formatting(underline)]     ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Strikethrough"] -state [expr {[info exists formatting(strikethrough)] ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Highlight"]     -state [expr {[info exists formatting(highlight)]     ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Superscript"]   -state [expr {[info exists formatting(superscript)]   ? "normal" : "disabled"}]
-    $mb entryconfigure [msgcat::mc "Subscript"]     -state [expr {[info exists formatting(subscript)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Bold"]                   -state [expr {[info exists formatting(bold)]          ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Italics"]                -state [expr {[info exists formatting(italics)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Underline"]              -state [expr {[info exists formatting(underline)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Strikethrough"]          -state [expr {[info exists formatting(strikethrough)] ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Highlight"]              -state [expr {[info exists formatting(highlight)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Superscript"]            -state [expr {[info exists formatting(superscript)]   ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Subscript"]              -state [expr {[info exists formatting(subscript)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [format "%s 1" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header1)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [format "%s 2" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header2)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [format "%s 3" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header3)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [format "%s 4" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header4)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [format "%s 5" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header5)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [format "%s 6" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header6)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Unordered bullet"]       -state [expr {[info exists formatting(unordered)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Ordered bullet"]         -state [expr {[info exists formatting(ordered)]       ? "normal" : "disabled"}]
 
   }
 
@@ -1915,23 +1951,8 @@ namespace eval menus {
     # Get the current text widget
     set txt [gui::get_info {} current txt]
 
-    array set formatting [syntax::get_formatting $txt]
-
-    if {[info exists formatting($type)]} {
-      lassign $formatting($type) startchars endchars
-      $txt edit separator
-      if {$endchars ne ""} {
-        foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
-          $txt insert $endpos   $endchars
-          $txt insert $startpos $startchars
-        }
-      } else {
-        foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
-          $txt insert $startpos $startchars
-        }
-      }
-      $txt edit separator
-    }
+    # Perform the editing
+    edit::format $txt.t $type
 
   }
 
@@ -1941,7 +1962,8 @@ namespace eval menus {
 
     set txt [gui::get_info {} current txt]
 
-    # TBD
+    # Unapply any formatting found in the selected text
+    edit::unformat $txt.t
 
   }
 

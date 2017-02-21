@@ -1190,4 +1190,119 @@ namespace eval edit {
 
   }
 
+  ######################################################################
+  # Applies the specified formatting to the given text widget.
+  proc format {txtt type} {
+
+    # Get the range of lines to modify
+    if {[set ranges [$txtt tag ranges sel]] eq ""} {
+      if {[multicursor::enabled $txtt]} {
+        foreach {start end} [$txtt tag ranges mcursor] {
+          lappend ranges [$txtt index "$start wordstart"] [$txtt index "$start wordend"]
+        }
+      } else {
+        set ranges [list [$txtt index "insert wordstart"] [$txtt index "insert wordend"]]
+      }
+    }
+
+    if {[llength $ranges] > 0} {
+
+      # Get the formatting information for the current text widget
+      array set formatting [syntax::get_formatting [winfo parent $txtt]]
+
+      if {[info exists formatting($type)]} {
+
+        lassign $formatting($type) startchars endchars
+
+        $txtt edit separator
+
+        if {$endchars ne ""} {
+          foreach {end start} [lreverse $ranges] {
+            $txtt insert $end   $endchars
+            $txtt insert $start $startchars
+          }
+        } else {
+          set last ""
+          foreach {end start} [lreverse $ranges] {
+            if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
+              $txtt insert "$start linestart" $startchars
+              set last $start
+            }
+          }
+        }
+
+        $txtt edit separator
+
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Removes any applied text formatting found in the selection or (if no
+  # text is currently selected the current line).
+  proc unformat {txtt} {
+
+    # Get the formatting information for the current text widget
+    array set formatting [syntax::get_formatting [winfo parent $txtt]]
+
+    # Get the range of lines to check
+    if {[set ranges [$txtt tag ranges sel]] eq ""} {
+      if {[multicursor::enabled $txtt]} {
+        set last ""
+        foreach {start end} [$txtt tag ranges mcursor] {
+          if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
+            lappend ranges [$txtt index "$start linestart"] [$txtt index "$start lineend"]
+            set last $start
+          }
+        }
+      } else {
+        set ranges [list [$txtt index "insert linestart"] [$txtt index "insert lineend"]]
+      }
+    }
+
+    # If we have at least one range to unformat, go for it
+    if {[llength $ranges] > 0} {
+
+      $txtt edit separator
+
+      foreach {type chars} [array get formatting] {
+        lassign $chars startchars endchars
+        if {$endchars ne ""} {
+          set pattern  ""
+          set startlen [string length $startchars]
+          set endlen   [string length $endchars]
+          append pattern [string map {\{ \\\{ \} \\\} * \\* + \\+} $startchars] ".+?" [string map {\{ \\\{ \} \\\} * \\* + \\+} $endchars]
+          foreach {end start} [lreverse $ranges] {
+            set i 0
+            foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
+              set format_end [$txtt index $index+[lindex $lengths $i]c]
+              $txtt delete $format_end-${endlen}c $format_end
+              $txtt delete $index $index+${startlen}c
+              incr i
+            }
+            lappend new_ranges [$txtt index $end-[expr ($endlen + $startlen) * $i]c] $start
+          }
+        } else {
+          set startlen [string length $startchars]
+          foreach {end start} [lreverse $ranges] {
+            if {[$txtt get "$start linestart" "$start linestart+${startlen}c"] eq $startchars} {
+              $txtt delete "$start linestart" "$start linestart+${startlen}c"
+              lappend new_ranges [$txtt index $end-${startlen}c] $start
+            } else {
+              lappend new_ranges $end $start
+            }
+          }
+        }
+        set ranges     [lreverse $new_ranges]
+        set new_ranges [list]
+      }
+
+      $txtt edit separator
+
+    }
+
+  }
+
 }
