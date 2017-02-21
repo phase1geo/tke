@@ -238,4 +238,5 @@ formatting
   header5       {{##### }}
   header6       {{###### }}
   unordered     {{* }}
+  checkbox      {{[ ] }}
 }

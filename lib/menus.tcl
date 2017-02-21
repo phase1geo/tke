@@ -1339,6 +1339,9 @@ namespace eval menus {
     $mb.formatPopup add command -label [msgcat::mc "Ordered Bullet"] -command [list menus::edit_format ordered]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line an ordered bullet"]] [list menus::edit_format ordered]
 
+    $mb.formatPopup add command -label [msgcat::mc "Checkbox"] -command [list menus::edit_format checkbox]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line a checklist item"]] [list menus::edit_format checkbox]
+
     $mb.formatPopup add separator
 
     $mb.formatPopup add command -label [msgcat::mc "Remove Formatting"] -command [list menus::edit_format_remove]
@@ -1639,6 +1642,7 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Highlight"]              -state [expr {[info exists formatting(highlight)]     ? "normal" : "disabled"}]
     $mb entryconfigure [msgcat::mc "Superscript"]            -state [expr {[info exists formatting(superscript)]   ? "normal" : "disabled"}]
     $mb entryconfigure [msgcat::mc "Subscript"]              -state [expr {[info exists formatting(subscript)]     ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Code"]                   -state [expr {[info exists formatting(code)]          ? "normal" : "disabled"}]
     $mb entryconfigure [format "%s 1" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header1)]       ? "normal" : "disabled"}]
     $mb entryconfigure [format "%s 2" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header2)]       ? "normal" : "disabled"}]
     $mb entryconfigure [format "%s 3" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header3)]       ? "normal" : "disabled"}]
@@ -1647,6 +1651,7 @@ namespace eval menus {
     $mb entryconfigure [format "%s 6" [msgcat::mc "Header"]] -state [expr {[info exists formatting(header6)]       ? "normal" : "disabled"}]
     $mb entryconfigure [msgcat::mc "Unordered Bullet"]       -state [expr {[info exists formatting(unordered)]     ? "normal" : "disabled"}]
     $mb entryconfigure [msgcat::mc "Ordered Bullet"]         -state [expr {[info exists formatting(ordered)]       ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Checkbox"]               -state [expr {[info exists formatting(checkbox)]      ? "normal" : "disabled"}]
 
   }
 
