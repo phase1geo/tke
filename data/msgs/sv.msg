@@ -252,8 +252,11 @@ msgcat::mcmset sv {
   "Absolute line numbering"
   "Absoluta radnumrering"
 
-  "Align Cursors"
-  "Justera markörer"
+  "Align Cursors Only"
+  "Justera markörer endast"
+
+  "Align Cursors and Text"
+  "Justera markörer och Text"
 
   "Align Panes"
   "Justera fönster"
@@ -261,8 +264,11 @@ msgcat::mcmset sv {
   "Align current lines in both panes"
   "Justera aktuella rader i båda fönsterrutorna"
 
-  "Align cursors"
-  "Justera markörer"
+  "Align cursors and text"
+  "Justera markörer och text"
+
+  "Align cursors only"
+  "Justera markörer endast"
 
   "All Levels"
   "Alla nivåer"
@@ -281,6 +287,9 @@ msgcat::mcmset sv {
 
   "Auto-Indent"
   "Automatisk indentering"
+
+  "Bold"
+  "Fet"
 
   "Bubble Down"
   "Bubbla ner"
@@ -591,6 +600,9 @@ msgcat::mcmset sv {
   "Folding"
   "tvinning"
 
+  "Format"
+  "Format"
+
   "Format Text"
   "Formatera text"
 
@@ -632,6 +644,9 @@ msgcat::mcmset sv {
 
   "Goto previous tab"
   "Föregående flik"
+
+  "Header"
+  "Titel"
 
   "Help"
   "Hjälp"
@@ -684,6 +699,9 @@ msgcat::mcmset sv {
   "Hide tab bar"
   "Dölja flikraden"
 
+  "Highlight"
+  "Markera"
+
   "Indent"
   "Indrag"
 
@@ -722,6 +740,9 @@ msgcat::mcmset sv {
 
   "Install plugin"
   "Installera insticksprogram"
+
+  "Italics"
+  "Kursiv stil"
 
   "Join Lines"
   "Kombinera rader"
@@ -785,6 +806,36 @@ msgcat::mcmset sv {
 
   "Lower Case"
   "Små bokstäver"
+
+  "Make line an ordered bullet"
+  "Gör linje en beställda kula"
+
+  "Make line an unordered bullet"
+  "Gör linje en oordnad kula"
+
+  "Make line header style"
+  "Göra header linjeformat"
+
+  "Make text bold"
+  "Gör texten fet"
+
+  "Make text highlighted"
+  "Göra text markeras"
+
+  "Make text italicized"
+  "Gör texten kursiv"
+
+  "Make text stricken"
+  "Göra texten drabbade"
+
+  "Make text subscript"
+  "Göra text nedsänkt"
+
+  "Make text superscript"
+  "Gör text upphöjd"
+
+  "Make text underlined"
+  "Gör texten understruken"
 
   "Markers"
   "Marker"
@@ -963,6 +1014,9 @@ msgcat::mcmset sv {
   "Open selected folds - one level"
   "Öppna markerade veck - en nivå"
 
+  "Ordered Bullet"
+  "Beställda kula"
+
   "Panes"
   "Rutor"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset sv {
   "Remove All Markers"
   "Ta bort alla markörer"
 
+  "Remove Formatting"
+  "Ta bort formatering"
+
   "Remove From Current Line"
   "Ta bort från aktuell rad"
 
   "Remove all markers"
   "Ta bort alla markörer"
+
+  "Remove formatting from selected text"
+  "Ta bort formatering från markerad text"
 
   "Remove marker from current line"
   "Ta bort markör från aktuell rad"
@@ -1236,6 +1296,15 @@ msgcat::mcmset sv {
   "Stop profiling"
   "Stoppa profilering"
 
+  "Strikethrough"
+  "Genomstrykning"
+
+  "Subscript"
+  "Subscript"
+
+  "Superscript"
+  "Superscript"
+
   "Switch To"
   "Växla till"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset sv {
   "Unable to write export file"
   "Kan inte skriva exportfil"
 
+  "Underline"
+  "Understruken"
+
   "Undo"
   "Ord"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset sv {
 
   "Unlock file"
   "Låsa upp filen"
+
+  "Unordered Bullet"
+  "Oordnad kula"
 
   "Upper Case"
   "Stora bokstäver"

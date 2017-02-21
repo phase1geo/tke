@@ -252,8 +252,11 @@ msgcat::mcmset pt {
   "Absolute line numbering"
   "Numeração de linha absoluta"
 
-  "Align Cursors"
-  "Alinhar os cursores"
+  "Align Cursors Only"
+  "Alinhar os cursores somente"
+
+  "Align Cursors and Text"
+  "Alinhar texto e cursores"
 
   "Align Panes"
   "Alinhar os painéis"
@@ -261,8 +264,11 @@ msgcat::mcmset pt {
   "Align current lines in both panes"
   "Alinhar linhas de corrente em ambos os painéis"
 
-  "Align cursors"
-  "Alinhar os cursores"
+  "Align cursors and text"
+  "Alinhar texto e cursores"
+
+  "Align cursors only"
+  "Alinhar os cursores somente"
 
   "All Levels"
   "﻿Todos as dificuldade"
@@ -281,6 +287,9 @@ msgcat::mcmset pt {
 
   "Auto-Indent"
   "Auto Indentar"
+
+  "Bold"
+  "Negrito"
 
   "Bubble Down"
   "Bolha para baixo"
@@ -591,6 +600,9 @@ msgcat::mcmset pt {
   "Folding"
   "Dobragem"
 
+  "Format"
+  "Formato"
+
   "Format Text"
   "Text Format"
 
@@ -632,6 +644,9 @@ msgcat::mcmset pt {
 
   "Goto previous tab"
   "Aba anterior"
+
+  "Header"
+  "Cabeçalho"
 
   "Help"
   "Ajuda"
@@ -684,6 +699,9 @@ msgcat::mcmset pt {
   "Hide tab bar"
   "Ocultar barra de guia"
 
+  "Highlight"
+  "Realçar"
+
   "Indent"
   "Avançar"
 
@@ -722,6 +740,9 @@ msgcat::mcmset pt {
 
   "Install plugin"
   "Instalar Plugin"
+
+  "Italics"
+  "Itálico"
 
   "Join Lines"
   "Unir Linhas"
@@ -785,6 +806,36 @@ msgcat::mcmset pt {
 
   "Lower Case"
   "caixa baixa"
+
+  "Make line an ordered bullet"
+  "Fazer a linha uma bala ordenada"
+
+  "Make line an unordered bullet"
+  "Fazer a linha uma bala não ordenada"
+
+  "Make line header style"
+  "Fazer o estilo de cabeçalho de linha"
+
+  "Make text bold"
+  "Colocar o texto em negrito"
+
+  "Make text highlighted"
+  "Tornar o texto realçado"
+
+  "Make text italicized"
+  "Fazer um texto em itálico"
+
+  "Make text stricken"
+  "Fazer texto atingido"
+
+  "Make text subscript"
+  "Fazer subscrito texto"
+
+  "Make text superscript"
+  "Fazer sobrescrito de texto"
+
+  "Make text underlined"
+  "Tornar o texto sublinhado"
 
   "Markers"
   "Marcadores"
@@ -963,6 +1014,9 @@ msgcat::mcmset pt {
   "Open selected folds - one level"
   "Dobras de selecionado abertas - um nível"
 
+  "Ordered Bullet"
+  "Bala de ordenada"
+
   "Panes"
   "Janelas"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset pt {
   "Remove All Markers"
   "Remova todos os marcadores"
 
+  "Remove Formatting"
+  "Remover formatação"
+
   "Remove From Current Line"
   "Remover da linha atual"
 
   "Remove all markers"
   "Remova todos os marcadores"
+
+  "Remove formatting from selected text"
+  "Remover a formatação do texto selecionado"
 
   "Remove marker from current line"
   "Remover o marcador de linha atual"
@@ -1236,6 +1296,15 @@ msgcat::mcmset pt {
   "Stop profiling"
   "Impedir a criação de perfil"
 
+  "Strikethrough"
+  "Tachado"
+
+  "Subscript"
+  "Subscrito"
+
+  "Superscript"
+  "Sobrescrito"
+
   "Switch To"
   "Trocar para"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset pt {
   "Unable to write export file"
   "Não foi possível gravar o ficheiro"
 
+  "Underline"
+  "Sublinhado"
+
   "Undo"
   "Anular"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset pt {
 
   "Unlock file"
   "Desbloquear arquivo"
+
+  "Unordered Bullet"
+  "Bala não ordenada"
 
   "Upper Case"
   "CAIXA SUPERIOR"

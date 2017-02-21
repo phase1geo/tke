@@ -252,8 +252,11 @@ msgcat::mcmset he {
   "Absolute line numbering"
   "מספור שורות מוחלטת"
 
-  "Align Cursors"
-  "יישר Cursors"
+  "Align Cursors Only"
+  "ליישר סמנים בלבד"
+
+  "Align Cursors and Text"
+  "ליישר סמנים וטקסט"
 
   "Align Panes"
   "ליישר חלוניות"
@@ -261,8 +264,11 @@ msgcat::mcmset he {
   "Align current lines in both panes"
   "ליישר קווים הנוכחי שתי החלוניות"
 
-  "Align cursors"
-  "ליישר סמנים"
+  "Align cursors and text"
+  "ליישר סמנים וטקסט"
+
+  "Align cursors only"
+  "ליישר סמנים בלבד"
 
   "All Levels"
   "כל הסוגים"
@@ -281,6 +287,9 @@ msgcat::mcmset he {
 
   "Auto-Indent"
   "כניסה אוטומטית"
+
+  "Bold"
+  "מובלט"
 
   "Bubble Down"
   "בועה למטה"
@@ -591,6 +600,9 @@ msgcat::mcmset he {
   "Folding"
   "מִתקַפֵּל"
 
+  "Format"
+  "פורמט"
+
   "Format Text"
   "עיצוב טקסט"
 
@@ -632,6 +644,9 @@ msgcat::mcmset he {
 
   "Goto previous tab"
   "הכרטיסיה הקודמת גוטו"
+
+  "Header"
+  "כותרת"
 
   "Help"
   "עזרה"
@@ -684,6 +699,9 @@ msgcat::mcmset he {
   "Hide tab bar"
   "הסתר סרגל הלשוניות"
 
+  "Highlight"
+  "הבלטה"
+
   "Indent"
   "כניסה"
 
@@ -722,6 +740,9 @@ msgcat::mcmset he {
 
   "Install plugin"
   "להתקין תוסף"
+
+  "Italics"
+  "נטוי"
 
   "Join Lines"
   "קווי צירוף"
@@ -785,6 +806,36 @@ msgcat::mcmset he {
 
   "Lower Case"
   "באותיות קטנות"
+
+  "Make line an ordered bullet"
+  "לעשות קו כדור מסודרת"
+
+  "Make line an unordered bullet"
+  "לעשות קו כדור לא מסודרים"
+
+  "Make line header style"
+  "להפוך סגנון כותרת שורה"
+
+  "Make text bold"
+  "הפיכת טקסט למודגש"
+
+  "Make text highlighted"
+  "הפיכת טקסט מודגש"
+
+  "Make text italicized"
+  "הפיכת טקסט לנטוי"
+
+  "Make text stricken"
+  "הפיכת טקסט מוכה"
+
+  "Make text subscript"
+  "להפוך טקסט תחתי"
+
+  "Make text superscript"
+  "להפוך טקסט עילי"
+
+  "Make text underlined"
+  "הפיכת טקסט מסומן בקו תחתון"
 
   "Markers"
   "סמנים"
@@ -963,6 +1014,9 @@ msgcat::mcmset he {
   "Open selected folds - one level"
   "קפלי שנבחר פתוח - רמה אחת"
 
+  "Ordered Bullet"
+  "כדור מסודרת"
+
   "Panes"
   "חלוניות"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset he {
   "Remove All Markers"
   "הסר כל המרקרים"
 
+  "Remove Formatting"
+  "הסרת עיצוב"
+
   "Remove From Current Line"
   "הסר תווי שורה"
 
   "Remove all markers"
   "להסיר את כל הסמנים"
+
+  "Remove formatting from selected text"
+  "הסרת עיצוב מטקסט שנבחר"
 
   "Remove marker from current line"
   "הסר סמן השורה הנוכחית"
@@ -1236,6 +1296,15 @@ msgcat::mcmset he {
   "Stop profiling"
   "להפסיק. עם הפרופיל"
 
+  "Strikethrough"
+  "קו חוצה"
+
+  "Subscript"
+  "כתב תחתי"
+
+  "Superscript"
+  "עילי"
+
   "Switch To"
   "לעבור ל"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset he {
   "Unable to write export file"
   "לא ניתן לכתוב בקובץ הייצוא"
 
+  "Underline"
+  "קו תחתון"
+
   "Undo"
   "בטל"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset he {
 
   "Unlock file"
   "לפתוח קובץ"
+
+  "Unordered Bullet"
+  "הכדור לא מסודרים"
 
   "Upper Case"
   "אותיות רישיות"

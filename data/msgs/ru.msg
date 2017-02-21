@@ -252,8 +252,11 @@ msgcat::mcmset ru {
   "Absolute line numbering"
   "Абсолютная нумерация"
 
-  "Align Cursors"
-  "Выравнивание курсоры"
+  "Align Cursors Only"
+  "Выровнять курсоры только"
+
+  "Align Cursors and Text"
+  "Выровнять курсоры и текст"
 
   "Align Panes"
   "Выравнивание панелей"
@@ -261,8 +264,11 @@ msgcat::mcmset ru {
   "Align current lines in both panes"
   "Выравнивание текущей строки в обеих областях"
 
-  "Align cursors"
-  "Выравнивание курсоры"
+  "Align cursors and text"
+  "Выровнять курсоры и текст"
+
+  "Align cursors only"
+  "Выровнять курсоры только"
 
   "All Levels"
   "Все уровни"
@@ -281,6 +287,9 @@ msgcat::mcmset ru {
 
   "Auto-Indent"
   "Авто отступ"
+
+  "Bold"
+  "Жирный"
 
   "Bubble Down"
   "Пузырь вниз"
@@ -591,6 +600,9 @@ msgcat::mcmset ru {
   "Folding"
   "складной"
 
+  "Format"
+  "Формат"
+
   "Format Text"
   "Формат"
 
@@ -632,6 +644,9 @@ msgcat::mcmset ru {
 
   "Goto previous tab"
   "Предыдущая вкладка"
+
+  "Header"
+  "Заголовок"
 
   "Help"
   "Помощь"
@@ -684,6 +699,9 @@ msgcat::mcmset ru {
   "Hide tab bar"
   "Скрыть панель вкладок"
 
+  "Highlight"
+  "Выделить"
+
   "Indent"
   "Отступ"
 
@@ -722,6 +740,9 @@ msgcat::mcmset ru {
 
   "Install plugin"
   "Установить плагин"
+
+  "Italics"
+  "Курсив"
 
   "Join Lines"
   "Присоединиться к линии"
@@ -785,6 +806,36 @@ msgcat::mcmset ru {
 
   "Lower Case"
   "Минускул"
+
+  "Make line an ordered bullet"
+  "Сделать линию упорядоченный пуля"
+
+  "Make line an unordered bullet"
+  "Сделать линию неупорядоченных пуля"
+
+  "Make line header style"
+  "Сделать линии стиль заголовка"
+
+  "Make text bold"
+  "Жирный текст"
+
+  "Make text highlighted"
+  "Сделать текст выделен"
+
+  "Make text italicized"
+  "Сделать текст курсивом"
+
+  "Make text stricken"
+  "Сделать текст пострадавших"
+
+  "Make text subscript"
+  "Сделать текст подстрочного"
+
+  "Make text superscript"
+  "Сделать текст надстрочным"
+
+  "Make text underlined"
+  "Подчеркивание текста"
 
   "Markers"
   "Указатели"
@@ -963,6 +1014,9 @@ msgcat::mcmset ru {
   "Open selected folds - one level"
   "Открыть выбранный складки - один уровень"
 
+  "Ordered Bullet"
+  "Заказанные пуля"
+
   "Panes"
   "Области"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset ru {
   "Remove All Markers"
   "Удалить все маркеры"
 
+  "Remove Formatting"
+  "Убрать форматирование"
+
   "Remove From Current Line"
   "Удалить из текущей строки"
 
   "Remove all markers"
   "Удалить маркеры"
+
+  "Remove formatting from selected text"
+  "Удаление форматирования из выделенного текста"
 
   "Remove marker from current line"
   "Удалить маркер из текущей строки"
@@ -1236,6 +1296,15 @@ msgcat::mcmset ru {
   "Stop profiling"
   "Остановить профилирование"
 
+  "Strikethrough"
+  "Зачёркнутый"
+
+  "Subscript"
+  "Подстрочный"
+
+  "Superscript"
+  "Надстрочный"
+
   "Switch To"
   "Переключить на"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset ru {
   "Unable to write export file"
   "Не удается записать файл экспорта"
 
+  "Underline"
+  "Подчеркивание"
+
   "Undo"
   "Отменить"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset ru {
 
   "Unlock file"
   "Открыть файл"
+
+  "Unordered Bullet"
+  "Неупорядоченные пуля"
 
   "Upper Case"
   "Маюскул"

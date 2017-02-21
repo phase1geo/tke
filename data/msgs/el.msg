@@ -252,8 +252,11 @@ msgcat::mcmset el {
   "Absolute line numbering"
   "Απόλυτη γραμμή αρίθμηση"
 
-  "Align Cursors"
-  "Ευθυγράμμιση Δρομείς"
+  "Align Cursors Only"
+  "Ευθυγραμμίστε τους δρομείς μόνο"
+
+  "Align Cursors and Text"
+  "Ευθυγραμμίστε τους δρομείς και κείμενο"
 
   "Align Panes"
   "Στοίχιση υαλοπίνακες"
@@ -261,8 +264,11 @@ msgcat::mcmset el {
   "Align current lines in both panes"
   "Ευθυγραμμίστε την τρέχουσα γραμμές σε δύο παράθυρα"
 
-  "Align cursors"
-  "Στοίχιση δρομείς"
+  "Align cursors and text"
+  "Ευθυγραμμίστε τους δρομείς και κείμενο"
+
+  "Align cursors only"
+  "Ευθυγραμμίστε τους δρομείς μόνο"
 
   "All Levels"
   "Όλα τα επίπεδα"
@@ -281,6 +287,9 @@ msgcat::mcmset el {
 
   "Auto-Indent"
   "Αυτο-εντομή"
+
+  "Bold"
+  "Έντονο"
 
   "Bubble Down"
   "Φούσκα κάτω"
@@ -591,6 +600,9 @@ msgcat::mcmset el {
   "Folding"
   "Πτυσσόμενος"
 
+  "Format"
+  "Μορφή"
+
   "Format Text"
   "Μορφή κειμένου"
 
@@ -632,6 +644,9 @@ msgcat::mcmset el {
 
   "Goto previous tab"
   "Goto προηγούμενη καρτέλα"
+
+  "Header"
+  "Επικεφαλίδα"
 
   "Help"
   "Βοήθεια"
@@ -684,6 +699,9 @@ msgcat::mcmset el {
   "Hide tab bar"
   "Απόκρυψη της γραμμής καρτέλα"
 
+  "Highlight"
+  "Στιγμιότυπο"
+
   "Indent"
   "Εσοχή"
 
@@ -722,6 +740,9 @@ msgcat::mcmset el {
 
   "Install plugin"
   "Εγκαταστήσετε το plugin"
+
+  "Italics"
+  "Επισεσυρμένη γραφή"
 
   "Join Lines"
   "Ενώνουν γραμμές"
@@ -785,6 +806,36 @@ msgcat::mcmset el {
 
   "Lower Case"
   "Πεζά"
+
+  "Make line an ordered bullet"
+  "Κάνετε γραμμή μια ταξινομημένη σφαίρα"
+
+  "Make line an unordered bullet"
+  "Κάνετε γραμμή μια μη διατεταγμένη σφαίρα"
+
+  "Make line header style"
+  "Κάνει το στυλ γραμμής κεφαλίδας"
+
+  "Make text bold"
+  "Κάνετε ένα κείμενο έντονο"
+
+  "Make text highlighted"
+  "Κάνει την επισήμανση του κειμένου"
+
+  "Make text italicized"
+  "Κείμενο με πλάγια γραφή"
+
+  "Make text stricken"
+  "Κείμενο που επλήγησαν"
+
+  "Make text subscript"
+  "Κάνει το κείμενο εκθέτη"
+
+  "Make text superscript"
+  "Κάνουν κειμένου σε εκθέτη"
+
+  "Make text underlined"
+  "Κάνει το επιλεγμένο κείμενο υπογραμμίζεται"
 
   "Markers"
   "Σημεία"
@@ -963,6 +1014,9 @@ msgcat::mcmset el {
   "Open selected folds - one level"
   "Άνοιγμα επιλεγμένου πτυχώσεις - ένα επίπεδο"
 
+  "Ordered Bullet"
+  "Διέταξε Bullet"
+
   "Panes"
   "τμήματα παραθύρων"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset el {
   "Remove All Markers"
   "Αφαιρέστε όλους τους δείκτες"
 
+  "Remove Formatting"
+  "Κατάργηση μορφοποίησης"
+
   "Remove From Current Line"
   "Αφαιρέστε από την τρέχουσα γραμμή"
 
   "Remove all markers"
   "Αφαιρέστε όλους τους δείκτες"
+
+  "Remove formatting from selected text"
+  "Κατάργηση μορφοποίηση από το επιλεγμένο κείμενο"
 
   "Remove marker from current line"
   "Κατάργηση δείκτη από τρέχουσα γραμμή"
@@ -1236,6 +1296,15 @@ msgcat::mcmset el {
   "Stop profiling"
   "Σταματήσει σκιαγράφηση"
 
+  "Strikethrough"
+  "Διακριτή διαγραφή"
+
+  "Subscript"
+  "Δείκτης"
+
+  "Superscript"
+  "Εκθέτης"
+
   "Switch To"
   "εναλλαγή σε"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset el {
   "Unable to write export file"
   "Δεν είναι δυνατή η εγγραφή αρχείου εξαγωγής"
 
+  "Underline"
+  "Υπογράμμιση"
+
   "Undo"
   "Αναίρεση"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset el {
 
   "Unlock file"
   "Ξεκλειδώσετε αρχείο"
+
+  "Unordered Bullet"
+  "Μη διατεταγμένη Bullet"
 
   "Upper Case"
   "Γραφή με κεφαλαία γράμματα"

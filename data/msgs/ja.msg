@@ -252,8 +252,11 @@ msgcat::mcmset ja {
   "Absolute line numbering"
   "絶対行番号"
 
-  "Align Cursors"
-  "カーソルを合わせます"
+  "Align Cursors Only"
+  "のみカーソルの位置合わせ"
+
+  "Align Cursors and Text"
+  "カーソルとテキストを揃える"
 
   "Align Panes"
   "ウィンドウを整列します。"
@@ -261,8 +264,11 @@ msgcat::mcmset ja {
   "Align current lines in both panes"
   "両方のペインの現在のラインを揃える"
 
-  "Align cursors"
-  "カーソルの位置合わせ"
+  "Align cursors and text"
+  "カーソルとテキストを揃える"
+
+  "Align cursors only"
+  "のみカーソルの位置合わせ"
 
   "All Levels"
   "すべてのレベル"
@@ -281,6 +287,9 @@ msgcat::mcmset ja {
 
   "Auto-Indent"
   "自動インデント"
+
+  "Bold"
+  "ボールド"
 
   "Bubble Down"
   "バブルのダウン"
@@ -591,6 +600,9 @@ msgcat::mcmset ja {
   "Folding"
   "折り畳み式の"
 
+  "Format"
+  "フォーマット"
+
   "Format Text"
   "テキストをフォーマットする"
 
@@ -632,6 +644,9 @@ msgcat::mcmset ja {
 
   "Goto previous tab"
   "後藤の前のタブ"
+
+  "Header"
+  "Header"
 
   "Help"
   "ヘルプ"
@@ -684,6 +699,9 @@ msgcat::mcmset ja {
   "Hide tab bar"
   "タブ バーを非表示します。"
 
+  "Highlight"
+  "ハイライト"
+
   "Indent"
   "インデント"
 
@@ -722,6 +740,9 @@ msgcat::mcmset ja {
 
   "Install plugin"
   "プラグインをインストール"
+
+  "Italics"
+  "イタリック体"
 
   "Join Lines"
   "行に参加します。"
@@ -785,6 +806,36 @@ msgcat::mcmset ja {
 
   "Lower Case"
   "小文字"
+
+  "Make line an ordered bullet"
+  "順序付けられた弾丸のラインを作る"
+
+  "Make line an unordered bullet"
+  "行番号なしの箇条書きを作る"
+
+  "Make line header style"
+  "行ヘッダーのスタイルを作る"
+
+  "Make text bold"
+  "テキストを太字にします。"
+
+  "Make text highlighted"
+  "テキストを強調表示します。"
+
+  "Make text italicized"
+  "斜体のテキストします。"
+
+  "Make text stricken"
+  "襲われたテキストします。"
+
+  "Make text subscript"
+  "テキストを下付き"
+
+  "Make text superscript"
+  "テキストを上付き"
+
+  "Make text underlined"
+  "テキストに下線を作る"
 
   "Markers"
   "マーカー"
@@ -963,6 +1014,9 @@ msgcat::mcmset ja {
   "Open selected folds - one level"
   "開いている選択した襞 - 1 レベル"
 
+  "Ordered Bullet"
+  "順序付けられた箇条書き"
+
   "Panes"
   "パネル"
 
@@ -1029,11 +1083,17 @@ msgcat::mcmset ja {
   "Remove All Markers"
   "すべてのマーカーを削除します"
 
+  "Remove Formatting"
+  "装飾を除去"
+
   "Remove From Current Line"
   "現在の行から削除"
 
   "Remove all markers"
   "すべてのマーカーを削除します。"
+
+  "Remove formatting from selected text"
+  "選択したテキストから書式を削除します。"
 
   "Remove marker from current line"
   "現在の行からマーカーを削除します。"
@@ -1236,6 +1296,15 @@ msgcat::mcmset ja {
   "Stop profiling"
   "プロファイリングを停止します。"
 
+  "Strikethrough"
+  "取り消し線"
+
+  "Subscript"
+  "下付き文字"
+
+  "Superscript"
+  "上付き文字"
+
   "Switch To"
   "切り替える"
 
@@ -1284,6 +1353,9 @@ msgcat::mcmset ja {
   "Unable to write export file"
   "エクスポート ファイルを書き込めません。"
 
+  "Underline"
+  "下線"
+
   "Undo"
   "アンドゥ"
 
@@ -1310,6 +1382,9 @@ msgcat::mcmset ja {
 
   "Unlock file"
   "ファイルのロックを解除します。"
+
+  "Unordered Bullet"
+  "記号付き箇条書き"
 
   "Upper Case"
   "大文字"
