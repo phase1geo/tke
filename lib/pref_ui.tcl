@@ -3115,14 +3115,14 @@ namespace eval pref_ui {
 
     switch [tk windowingsystem] {
       aqua {
-        set mods [list {} Cmd Ctrl Alt Shift \
+        set mods [list {} Cmd Ctrl Alt \
                        Ctrl-Cmd Alt-Cmd Shift-Cmd Ctrl-Shift Ctrl-Alt Shift-Alt \
                        Ctrl-Alt-Cmd Ctrl-Alt-Shift Ctrl-Shift-Cmd Alt-Shift-Cmd \
                        Ctrl-Alt-Shift-Cmd]
       }
       win32 -
       x11 {
-        set mods [list {} Ctrl Alt Shift \
+        set mods [list {} Ctrl Alt \
                        Shift-Ctrl Ctrl-Alt Shift-Alt \
                        Shift-Ctrl-Alt]
       }
