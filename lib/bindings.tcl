@@ -92,21 +92,41 @@ namespace eval bindings {
     # Remove the existing bindings
     remove_all_bindings
 
+    # Read in the base bindings file.  Copy it to the user bindings file, if one does not exist.
     if {!$skip_base} {
       if {[file exists $user_bindings_file]} {
         if {![catch { tkedat::read $base_bindings_file 0 } rc]} {
           array set menu_bindings $rc
+          array set reversed      [lreverse $rc]
         }
       } else {
         file copy -force $base_bindings_file $::tke_home
       }
     }
 
+    # Read in the user bindings file.
     if {![catch { tkedat::read $user_bindings_file 0 } rc]} {
+      
+      # This block of code removes and default menu bindings that are in use by the user.
+      if {[array exists reversed]} {
+        foreach {mnu binding} $rc {
+          if {[info exists reversed($binding)]} {
+            catch { unset menu_bindings($reversed($binding)) }
+          }
+        }
+      }
+      
+      # Override the left-over menu bindings with those from the user
       array set menu_bindings $rc
+      
+      # Apply the bindings to the UI
       apply_all_bindings
+      
     } else {
+      
+      # Remove all menu bindings if we were unable to read the user bindings file (this file should exist)
       array unset menu_bindings
+      
     }
 
   }
