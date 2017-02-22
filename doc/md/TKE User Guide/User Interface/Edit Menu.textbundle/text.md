@@ -2,71 +2,92 @@
 
 The Edit menu contains menu items that affect the contents within the current file.  The following table describes the items available within this menu.
 
-| Menu Item | Description |
+| Menu Item | Shortcut<br>(Mac) | Shortcut<br>(Other) | Description |
 | - | - |
-| Undo | Undoes the last change made to the file content.  Each file can have an unlimited number of items that can be undone.  Saving a file clears the undo stack for that file. |
-| Redo | Re-applies the last undone change made to the file content.  Saving a file clears the redo stack for that file. |
-| Cut | Deletes the selected text, copying the deleted content to the clipboard.  If no text is currently selected, the current line is deleted and sent to the clipboard. |
-| Copy | Copies the selected text to the clipboard.  If no text is currently selected, the current line is copied to the clipboard. |
-| Paste | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is copied “as is”. |
-| Paste and Format | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is indented to fit into the current insertion point. |
-| Select All | Selects all of the text in the current editor. |
-| Vim Mode | When selected, changes the editing environment to use Vim-style interaction.  When deselected, changes the editing environment back to “normal” editing mode. |
-| Toggle Comment | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
-| Indentation / Indent | Indents the selected text by one level of indentation. |
-| Indentation / Unindent | Unindents the selected text by one level of indentation. |
-| Indentation / Format Text | Modifies either the selected text or the entire file content (depending on whether text is currently selected or not) to match the indentation in the current context. |
-| Indentation / Indent Off | Turns indentation mode off for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the first column of the next row. |
-| Indentation / Auto-Indent | Turns auto-indentation mode on for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the same column as the previous line’s starting character. |
-| Indentation / Smart Indent | Turns smart indentation mode on for the current editor.  Hitting the ENTER key in the editing window will perform the proper indentation based on the current language and context.  If a character sequence is entered that completes an indentation, the character sequence will be adjusted to the proper indentation level. |
-| Cursor / Move to First Line | Moves the cursor to the start of the first line of the file and adjusts the view so the cursor is visible. |
-| Cursor / Move to Last Line | Moves the cursor to the start of the last line of the file and adjusts the view so the cursor is visible. |
-| Cursor / Move to Next Page | Moves the cursor down by a single page and adjusts the view so the cursor is visible. |
-| Cursor / Move to Previous Page | Moves the cursor up by a single page and adjusts the view so the cursor is visible. |
-| Cursor / Move to Screen Top | Moves the cursor to the start of the line at the top of the current screen. |
-| Cursor / Move to Screen Middle | Moves the cursor to the start of the line in the middle of the current screen. |
-| Cursor / Move to Screen Bottom | Moves the cursor to the start of the line at the bottom of the current screen. |
-| Cursor / Move to Line Start | Moves the cursor to the start of the current line. |
-| Cursor / Move to Line End | Moves the cursor to the end of the current line. |
-| Cursor / Move to Next Word | Moves the cursor to the beginning of the next word. |
-| Cursor / Move to Previous Word | Moves the cursor to the beginning of the previous word. |
-| Cursor / Move Cursors Up | In multicursor mode, moves all of the cursors up by one line. |
-| Cursor / Move Cursors Down | In multicursor mode, moves all of the cursors down by one line. |
-| Cursor / Move Cursors Left | In multicursor mode, moves all of the cursors to the left by one character. |
-| Cursor / Move Cursors Right | In multicursor mode, moves all of the cursors to the right by one character. |
-| Cursor / Align Cursors | When multicursors are set in the current file, this command will adjust each line such that all cursors will be aligned to the same column.  The cursors will be aligned to the highest column in the multicursor set. |
-| Insert / Line Above Current | Inserts a blank line above the current line and places the cursor at the beginning of the blank line for editing. |
-| Insert / Line Below Current | Inserts a blank line below the current line and places the cursor at the beginning of the blank line for editing. |
-| Insert / File Contents | Prompts the user to select a file for insertion. If a file is selected, the entire contents of the file are inserted the line below the current line. |
-| Insert / Command Result | Prompts the user to input a shell command. If a legal shell command is entered, the result of the command is inserted below the current line. |
-| Insert / From Clipboard | Displays the command launcher in clipboard mode to allow the user to view and select one of the clipboard history elements to insert into the current editor. |
-| Insert / Snippet | Displays the command launcher in snippet mode to allow the user to view and select one of the language-specific snippets to insert into the current editor. |
-| Insert / Enumeration | When one or more multicursors are set, allows the user to insert ascending numerical values at each cursor insertion position. |
-| Delete / Current Line | Deletes the current line and places the cursor at the beginning of the next line.  The deleted line is placed into the clipboard. |
-| Delete / Current Word | Deletes the current word and places the cursor at the beginning of the next word.  The deleted word is placed into the clipboard. |
-| Delete / Current Number | Deletes the current number and places the cursor just after the deleted text.  The deleted number is placed into the clipboard. |
-| Delete / Cursor to Line End | Deletes all characters between the current cursor and the end of the line, placing the cursor on the character previous to the current character. |
-| Delete / Cursor to Line Start | Deletes all characters between the start of the current line and up to (but not including) the current cursor. |
-| Delete / Whitespace Forward | Deletes all consecutive whitespace (i.e., space and tab) characters from the current cursor towards the end of the current line. |
-| Delete / Whitespace Backward | Deletes all consecutive whitespace characters from the current cursor towards the start of the current line. |
-| Delete / Text Between Character | Displays an input field allowing a single character to be entered.  The character is searched for the first occurrence before the current cursor and the first occurrence after the current cursor. All characters between these two characters is deleted and placed in the clipboard. |
-| Transform / Toggle Case | Toggles the case of the character at the current insertion cursor or of all selected characters. |
-| Transform / Lower Case | Sets the case of the character at the current cursor or all selected characters to lower case. |
-| Transform / Upper Case | Sets the case of the character at the current cursor or all selected characters to upper case. |
-| Transform / Title Case | Sets the case of the character at the current cursor or all selected characters such that the first character of each word is capitalized while all other characters are placed into lower case. |
-| Transform / Join Lines | If multiple lines are selected, joins all lines containing a selection are joined with a single space character into one line.  If no lines are selected, the line below the current line is joined to the current line. |
-| Transform / Bubble Up | If multiple lines are selected, all selected lines are moved up by one line (the line above will be moved below the bubbled line(s)); otherwise, the current line is bubbled up one line. |
-| Transform / Bubble Down | If multiple lines are selected, all selected lines are moved down by one line (the line below will be moved above the bubbled line(s)); otherwise, the current line is bubbled down by one line. |
-| Transform / Replace Line With Script | If the current line contains an executable shell command, the command is executed and the resulting output replaces the current line. |
-| Snippets / Edit User | Adds the user's global snippet file into the editor. |
-| Snippets / Edit Language | Adds the user’s snippet file into the editor for the current language. |
-| Snippets / Reload | Reloads the contents of the snippets for the current language and user.  Useful if the snippet file contents are not usable within the editor. |
-| Templates / Edit | Opens an existing named template for editing. |
-| Templates / Delete | Deletes an existing named template. |
-| Templates / Reload | Reloads the names of the existing templates. |
-| Emmet / Expand Abbreviation | Expands the Emmet abbreviation syntax that is found to the left of the cursor (i.e., cursor must be placed on the right side of the abbreviation for proper expansion to occur). |
-| Emmet / Edit Custom Abbreviations | Displays the custom Emmet abbreviation file in a new editing buffer allowing the user to change, remove or add custom Emmet syntax to their liking. Saving the editing buffer will cause the file changes to go into effect immediately. |
-| Preferences / Edit User - Global | Displays the user’s global (cross-language) preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
-| Preferences / Edit User - Language | Displays the user’s current language preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
-| Preferences / Edit Session - Global | Displays the current session’s global (cross-language) preferences in an editor tab.  This option will only be available if a named session is currently opened (see Session menu for details).  Saving changes made to this tab will immediately update the environment without restarting. |
-| Preferences / Edit Session - Language | Displays the current session's current language preferences in an editor tab.  This option will only be available if a named session is currently opened.  Saving changes made to this tab will immediately update the environment without restarting. |
+| Undo | Cmd-Z | Ctrl-Z | Undoes the last change made to the file content.  Each file can have an unlimited number of items that can be undone.  Saving a file clears the undo stack for that file. |
+| Redo | Cmd-R | Ctrl-R | Re-applies the last undone change made to the file content.  Saving a file clears the redo stack for that file. |
+| Cut | Cmd-X | Ctrl-X | Deletes the selected text, copying the deleted content to the clipboard.  If no text is currently selected, the current line is deleted and sent to the clipboard. |
+| Copy | Cmd-C | Ctrl-C | Copies the selected text to the clipboard.  If no text is currently selected, the current line is copied to the clipboard. |
+| Paste | Cmd-V | Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is copied “as is”. |
+| Paste and Format | Shift-Cmd-V | Shift-Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is indented to fit into the current insertion point. |
+| Select All | Cmd-A | Ctrl-A | Selects all of the text in the current editor. |
+| Vim Mode | | | When selected, changes the editing environment to use Vim-style interaction.  When deselected, changes the editing environment back to “normal” editing mode. |
+| Toggle Comment | Ctrl-/ | Ctrl-/ | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
+| Indentation / Indent | Ctrl-\[ | Ctrl-\[ | Indents the selected text by one level of indentation. |
+| Indentation / Unindent | Ctrl-\] | Ctrl-\] | Unindents the selected text by one level of indentation. |
+| Indentation / Format Text | Ctrl-I | Ctrl-I | Modifies either the selected text or the entire file content (depending on whether text is currently selected or not) to match the indentation in the current context. |
+| Indentation / Indent Off | | | Turns indentation mode off for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the first column of the next row. |
+| Indentation / Auto-Indent | | | Turns auto-indentation mode on for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the same column as the previous line’s starting character. |
+| Indentation / Smart Indent | | | Turns smart indentation mode on for the current editor.  Hitting the ENTER key in the editing window will perform the proper indentation based on the current language and context.  If a character sequence is entered that completes an indentation, the character sequence will be adjusted to the proper indentation level. |
+| Cursor / Move to First Line | Alt-Cmd-0 | Alt-Ctrl-0 | Moves the cursor to the start of the first line of the file and adjusts the view so the cursor is visible. |
+| Cursor / Move to Last Line | Alt-Cmd-9 | Alt-Ctrl-9 | Moves the cursor to the start of the last line of the file and adjusts the view so the cursor is visible. |
+| Cursor / Move to Next Page | Alt-Cmd-N | Alt-Ctrl-N | Moves the cursor down by a single page and adjusts the view so the cursor is visible. |
+| Cursor / Move to Previous Page | Alt-Cmd-P | Alt-Ctrl-P | Moves the cursor up by a single page and adjusts the view so the cursor is visible. |
+| Cursor / Move to Screen Top | Alt-Cmd-H | Alt-Ctrl-H | Moves the cursor to the start of the line at the top of the current screen. |
+| Cursor / Move to Screen Middle | Alt-Cmd-M | Alt-Ctrl-M | Moves the cursor to the start of the line in the middle of the current screen. |
+| Cursor / Move to Screen Bottom | Alt-Cmd-L | Alt-Ctrl-L | Moves the cursor to the start of the line at the bottom of the current screen. |
+| Cursor / Move to Line Start | Alt-Cmd-^ | Alt-Ctrl-^ | Moves the cursor to the start of the current line. |
+| Cursor / Move to Line End | Alt-Cmd-$ | Alt-Ctrl-$ | Moves the cursor to the end of the current line. |
+| Cursor / Move to Next Word | Alt-Cmd-W | Alt-Ctrl-W | Moves the cursor to the beginning of the next word. |
+| Cursor / Move to Previous Word | Alt-Cmd-B | Alt-Ctrl-B | Moves the cursor to the beginning of the previous word. |
+| Cursor / Move Cursors Up | Alt-Cmd-Up | Alt-Ctrl-Up | In multicursor mode, moves all of the cursors up by one line. |
+| Cursor / Move Cursors Down | Alt-Cmd-Down | Alt-Ctrl-Down | In multicursor mode, moves all of the cursors down by one line. |
+| Cursor / Move Cursors Left | Alt-Cmd-Left | Alt-Ctrl-Left | In multicursor mode, moves all of the cursors to the left by one character. |
+| Cursor / Move Cursors Right | Alt-Cmd-Right | Alt-Ctrl-Right | In multicursor mode, moves all of the cursors to the right by one character. |
+| Cursor / Align Cursors Only | Shift-Ctrl-A | Shift-Ctrl-A | When multicursors are set in the current file, this command will adjust the cursors in each line so that they are aligned to the cursor which is closest to the beginning of the line |
+| Cursor / Align Cursors and Text | Ctrl-A | Ctrl-A | When multicursors are set in the current file, this command will adjust each line such that all cursors (and all text from the cursor to the end of the line) will be aligned to the same column.  The cursors will be aligned to the highest column in the multicursor set. |
+| Insert / Line Above Current | Shift-Alt-O | Shift-Alt-O | Inserts a blank line above the current line and places the cursor at the beginning of the blank line for editing. |
+| Insert / Line Below Current | Alt-O | Alt-O | Inserts a blank line below the current line and places the cursor at the beginning of the blank line for editing. |
+| Insert / File Contents | | | Prompts the user to select a file for insertion. If a file is selected, the entire contents of the file are inserted the line below the current line. |
+| Insert / Command Result | | | Prompts the user to input a shell command. If a legal shell command is entered, the result of the command is inserted below the current line. |
+| Insert / From Clipboard | Alt-C | Alt-C | Displays the command launcher in clipboard mode to allow the user to view and select one of the clipboard history elements to insert into the current editor. |
+| Insert / Snippet | Alt-S | Alt-S | Displays the command launcher in snippet mode to allow the user to view and select one of the language-specific snippets to insert into the current editor. |
+| Insert / Enumeration | Alt-E | Alt-E | When one or more multicursors are set, allows the user to insert ascending numerical values at each cursor insertion position. |
+| Delete / Current Line | Ctrl-Alt-D | Ctrl-Alt-D | Deletes the current line and places the cursor at the beginning of the next line.  The deleted line is placed into the clipboard. |
+| Delete / Current Word | Ctrl-Alt-W | Ctrl-Alt-W | Deletes the current word and places the cursor at the beginning of the next word.  The deleted word is placed into the clipboard. |
+| Delete / Current Number | Ctrl-Alt-N | Ctrl-Alt-N | Deletes the current number and places the cursor just after the deleted text.  The deleted number is placed into the clipboard. |
+| Delete / Cursor to Line End | Ctrl-Alt-$ | Ctrl-Alt-$ | Deletes all characters between the current cursor and the end of the line, placing the cursor on the character previous to the current character. |
+| Delete / Cursor to Line Start | Ctrl-Alt-^ | Ctrl-Alt-^ | Deletes all characters between the start of the current line and up to (but not including) the current cursor. |
+| Delete / Whitespace Forward | Ctrl-Alt-S | Ctrl-Alt-S | Deletes all consecutive whitespace (i.e., space and tab) characters from the current cursor towards the end of the current line. |
+| Delete / Whitespace Backward | Ctrl-Alt-Shift-S | Ctrl-Alt-Shift-S | Deletes all consecutive whitespace characters from the current cursor towards the start of the current line. |
+| Delete / Text Between Character | Ctrl-Alt-C | Ctrl-Alt-C | Displays an input field allowing a single character to be entered.  The character is searched for the first occurrence before the current cursor and the first occurrence after the current cursor. All characters between these two characters is deleted and placed in the clipboard. |
+| Transform / Toggle Case | | | Toggles the case of the character at the current insertion cursor or of all selected characters. |
+| Transform / Lower Case | Alt-L | Alt-L | Sets the case of the character at the current cursor or all selected characters to lower case. |
+| Transform / Upper Case | Alt-U | Alt-U | Sets the case of the character at the current cursor or all selected characters to upper case. |
+| Transform / Title Case | Alt-T | Alt-T | Sets the case of the character at the current cursor or all selected characters such that the first character of each word is capitalized while all other characters are placed into lower case. |
+| Transform / Join Lines | Cmd-J | Ctrl-J | If multiple lines are selected, joins all lines containing a selection are joined with a single space character into one line.  If no lines are selected, the line below the current line is joined to the current line. |
+| Transform / Bubble Up | Alt-Up | Alt-Up | If multiple lines are selected, all selected lines are moved up by one line (the line above will be moved below the bubbled line(s)); otherwise, the current line is bubbled up one line. |
+| Transform / Bubble Down | Alt-Down | Alt-Down | If multiple lines are selected, all selected lines are moved down by one line (the line below will be moved above the bubbled line(s)); otherwise, the current line is bubbled down by one line. |
+| Transform / Replace Line With Script | | | If the current line contains an executable shell command, the command is executed and the resulting output replaces the current line. |
+| Format / Bold | Cmd-B | Ctrl-B | Inserts the bold syntax associated with the current language. If text is selected, bolds the selected text. If no text is selected, bolds the current word (if the cursor is not on a word, it will insert the bold syntax and place the insertion cursor between the syntax characters). If multicursors are set, bolds the word that each multicursor is in. |
+| Format / Italics | Cmd-I | Ctrl-I | Inserts the italicize syntax associated with the current language. If text is selected, italicizes the selected text. If no text is selected, italicizes the current word (if the cursor is not on a word, it will insert the italics syntax and place the insertion cursor between the syntax characters). If multicursors are set, italicizes the word that each multicursor is in. |
+| Format / Underline | Cmd-U | Ctrl-U | Inserts the underline syntax associated with the current language. If text is selected, underlines the selected text. If no text is selected, underlines the current word (if the cursor is not on a word, it will insert the underline syntax and place the insertion cursor between the syntax characters). If multicursors are set, underlines the word that each multicursor is in. |
+| Format / Strikethrough | | | Inserts the strikethrough syntax associated with the current language. If text is selected, overstrikes the selected text. If no text is selected, overstrikes the current word (if the cursor is not on a word, it will insert the strikethrough syntax and place the insertion cursor between the syntax characters). If multicursors are set, underlines the word that each multicursor is in. |
+| Format / Highlight | | | Inserts the highlight syntax associated with the current language. If text is selected, highlights the selected text. If no text is selected, highlights the current word (if the cursor is not on a word, it will insert the highlight syntax and place the insertion cursor between the syntax characters). If multicursors are set, highlights the word that each multicursor is in. |
+| Format / Superscript | | | Inserts the superscript syntax associated with the current language. If text is selected, superscripts the selected text. If no text is selected, superscripts the current word (if the cursor is not on a word, it will insert the superscript syntax and place the insertion cursor between the syntax characters). If multicursors are set, superscripts the word that each multicursor is in. |
+| Format / Subscript | | | Inserts the subscript syntax associated with the current language. If text is selected, subscripts the selected text. If no text is selected, subscripts the current word (if the cursor is not on a word, it will insert the subscript syntax and place the insertion cursor between the syntax characters). If multicursors are set, subscripts the word that each multicursor is in. |
+| Format / Code | | | Inserts the code (mono-spaced font) syntax associated with the current language. If text is selected, codifies the selected text. If no text is selected, codifies the current word (if the cursor is not on a word, it will insert the code syntax and place the insertion cursor between the syntax characters). If multicursors are set, codifies the word that each multicursor is in. |
+| Format / Header 1 | | | Inserts the header 1 syntax associated with the current language. If text is selected, the header 1 syntax will be placed at the beginning of each line containing a selection. If no text is selected, the header 1 syntax will be placed at the beginning of the current line. If multicursors are set, header 1 syntax will be inserted at each line containing a multicursor. |
+| Format / Header 2 | | | Inserts the header 2 syntax associated with the current language. If text is selected, the header 2 syntax will be placed at the beginning of each line containing a selection. If no text is selected, the header 2 syntax will be placed at the beginning of the current line. If multicursors are set, header 2 syntax will be inserted at each line containing a multicursor. |
+| Format / Header 3 | | | Inserts the header 3 syntax associated with the current language. If text is selected, the header 3 syntax will be placed at the beginning of each line containing a selection. If no text is selected, the header 3 syntax will be placed at the beginning of the current line. If multicursors are set, header 3 syntax will be inserted at each line containing a multicursor. |
+| Format / Header 4 | | | Inserts the header 4 syntax associated with the current language. If text is selected, the header 4 syntax will be placed at the beginning of each line containing a selection. If no text is selected, the header 4 syntax will be placed at the beginning of the current line. If multicursors are set, header 4 syntax will be inserted at each line containing a multicursor. |
+| Format / Header 5 | | | Inserts the header 5 syntax associated with the current language. If text is selected, the header 5 syntax will be placed at the beginning of each line containing a selection. If no text is selected, the header 5 syntax will be placed at the beginning of the current line. If multicursors are set, header 5 syntax will be inserted at each line containing a multicursor. |
+| Format / Header 6 | | | Inserts the header 6 syntax associated with the current language. If text is selected, the header 6 syntax will be placed at the beginning of each line containing a selection. If no text is selected, the header 6 syntax will be placed at the beginning of the current line. If multicursors are set, header 6 syntax will be inserted at each line containing a multicursor. |
+| Format / Unordered | | | Inserts the unordered item syntax associated with the current language. If text is selected, the unordered syntax will be placed at the beginning of each line containing a selection. If no text is selected, the unordered syntax will be placed at the beginning of the current line. If multicursors are set, unordered syntax will be inserted at each line containing a multicursor. |
+| Format / Ordered | | | Inserts the ordered item syntax associated with the current language. If text is selected, the ordered syntax will be placed at the beginning of each line containing a selection. If no text is selected, the ordered syntax will be placed at the beginning of the current line. If multicursors are set, ordered syntax will be inserted at each line containing a multicursor. |
+| Format / Checkbox | | | Inserts the checkbox syntax associated with the current language. If text is selected, the checkbox syntax will be placed at the beginning of each line containing a selection. If no text is selected, the checkbox syntax will be placed at the beginning of the current line. If multicursors are set, checkbox syntax will be inserted at each line containing a multicursor. |
+| Format / Remove Formatting | Cmd- - | Ctrl- - | Removes any text formatting that is insertable by the formatting menu. If text is selected, all formatting will be removed from the selection. If text is not selected, all formatting will be removed from the current line. If multicursors are set, all formatting will be removed from each line that contains a multicursor. |
+| Snippets / Edit User | Alt-Shift-Cmd-S | Alt-Shift-Ctrl-S | Adds the user's global snippet file into the editor. |
+| Snippets / Edit Language | Alt-Cmd-S | Alt-Ctrl-S | Adds the user’s snippet file into the editor for the current language. |
+| Snippets / Reload | | | Reloads the contents of the snippets for the current language and user.  Useful if the snippet file contents are not usable within the editor. |
+| Templates / Edit | | | Opens an existing named template for editing. |
+| Templates / Delete | | | Deletes an existing named template. |
+| Templates / Reload | | | Reloads the names of the existing templates. |
+| Emmet / Expand Abbreviation | Ctrl-E | Ctrl-E | Expands the Emmet abbreviation syntax that is found to the left of the cursor (i.e., cursor must be placed on the right side of the abbreviation for proper expansion to occur). |
+| Emmet / Edit Custom Abbreviations | | | Displays the custom Emmet abbreviation file in a new editing buffer allowing the user to change, remove or add custom Emmet syntax to their liking. Saving the editing buffer will cause the file changes to go into effect immediately. |
+| Preferences / Edit User - Global | Cmd-, | Ctrl-, | Displays the user’s global (cross-language) preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
+| Preferences / Edit User - Language | | | Displays the user’s current language preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
+| Preferences / Delete User - Language | | | Deletes the preferences file (and related preferences) associated with the current language. The preferences will come from the user global preferences after this action takes place. |
+| Preferences / Edit Session - Global | Cmd-; | Ctrl-; | Displays the current session’s global (cross-language) preferences in an editor tab.  This option will only be available if a named session is currently opened (see Session menu for details).  Saving changes made to this tab will immediately update the environment without restarting. |
+| Preferences / Edit Session - Language | | | Displays the current session's current language preferences in an editor tab.  This option will only be available if a named session is currently opened.  Saving changes made to this tab will immediately update the environment without restarting. |
+| Preferences / Delete Session - Language | | | Deletes the preferences file (and related preferences) associated with the current language of the current session. The preferences will come from the session global preferences after this action takes place. |
