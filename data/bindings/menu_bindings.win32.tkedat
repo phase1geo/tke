@@ -11,7 +11,7 @@
 {File/Delete}                             Shift-Ctrl-T
 {File/Lock}                               Ctrl-L
 {File/Close}                              Ctrl-W
-{File/Close All}                          Shift-Ctrl-W
+{File/Close All}                          Ctrl-Shift-W
 {File/Quit}                               Ctrl-Q
 
 # Edit menu bindings
@@ -20,23 +20,23 @@
 {Edit/Cut}                                Ctrl-X
 {Edit/Copy}                               Ctrl-C
 {Edit/Paste}                              Ctrl-V
-{Edit/Paste and Format}                   Shift-Ctrl-V
+{Edit/Paste and Format}                   Ctrl-Shift-V
 {Edit/Select All}                         Ctrl-A
 {Edit/Toggle Comment}                     Ctrl-/
 {Edit/Indentation/Indent}                 Ctrl-[
 {Edit/Indentation/Unindent}               Ctrl-]
-{Edit/Indentation/Format Text}            Shift-Ctrl-I
+{Edit/Indentation/Format Text}            Ctrl-|
 {Edit/Cursor/Move to First Line}          Ctrl-Alt-0
 {Edit/Cursor/Move to Last Line}           Ctrl-Alt-9
-{Edit/Cursor/Move to Next Page}           Ctrl-Alt-N
-{Edit/Cursor/Move to Previous Page}       Ctrl-Alt-P
+{Edit/Cursor/Move to Next Page}           Ctrl-Alt-J
+{Edit/Cursor/Move to Previous Page}       Ctrl-Alt-K
 {Edit/Cursor/Move to Screen Top}          Ctrl-Alt-H
 {Edit/Cursor/Move to Screen Middle}       Ctrl-Alt-M
 {Edit/Cursor/Move to Screen Bottom}       Ctrl-Alt-L
 {Edit/Cursor/Move to Line Start}          Ctrl-Alt-^
 {Edit/Cursor/Move to Line End}            Ctrl-Alt-$
 {Edit/Cursor/Move to Next Word}           Ctrl-Alt-W
-{Edit/Cursor/Move to Previous Word}       Ctrl-Alt-B
+{Edit/Cursor/Move to Previous Word}       Ctrl-Alt-P
 {Edit/Cursor/Move Cursors Up}             Ctrl-Alt-Up
 {Edit/Cursor/Move Cursors Down}           Ctrl-Alt-Down
 {Edit/Cursor/Move Cursors Left}           Ctrl-Alt-Left
@@ -49,10 +49,10 @@
 {Edit/Insert/Snippet}                     Alt-S
 {Edit/Insert/Enumeration}                 Alt-E
 {Edit/Delete/Current Line}                Ctrl-Alt-D
-{Edit/Delete/Current Word}                Ctrl-Alt-W
+{Edit/Delete/Current Word}                Ctrl-Alt-R
 {Edit/Delete/Current Number}              Ctrl-Alt-N
-{Edit/Delete/Cursor to Line End}          Ctrl-Alt-$
-{Edit/Delete/Cursor from Line Start}      Ctrl-Alt-^
+{Edit/Delete/Cursor to Line End}          Ctrl-Alt-E
+{Edit/Delete/Cursor from Line Start}      Ctrl-Alt-B
 {Edit/Delete/Whitespace Forward}          Ctrl-Alt-S
 {Edit/Delete/Whitespace Backward}         Shift-Ctrl-Alt-S
 {Edit/Delete/Text Between Character}      Ctrl-Alt-C
@@ -66,15 +66,13 @@
 {Edit/Format/Italics}                     Ctrl-I
 {Edit/Format/Underline}                   Ctrl-U
 {Edit/Format/Remove Formatting}           Ctrl--
-{Edit/Snippets/Edit User}                 Shift-Ctrl-Alt-S
-{Edit/Snippets/Edit Language}             Ctrl-Alt-S
 {Edit/Emmet/Expand Abbreviation}          Ctrl-E
 {Edit/Preferences/Edit User - Global}     Ctrl-,
 {Edit/Preferences/Edit Session - Global}  Ctrl-;
 
 # Find menu bindings
 {Find/Find}                               Ctrl-F
-{Find/Find and Replace}                   Shift-Ctrl-F
+{Find/Find and Replace}                   Ctrl-Shift-F
 {Find/Select Next Occurrence}             Alt-N
 {Find/Select Previous Occurrence}         Alt-P
 {Find/Select All Occurrences}             Alt-A
@@ -92,11 +90,11 @@
 {View/Display Text Info}                  Ctrl-T
 {View/Split View}                         Ctrl-P
 {View/Move to Other Pane}                 Ctrl-M
-{View/Panes/Merge Panes}                  Ctrl-Alt-M
+{View/Panes/Merge Panes}                  Ctrl-Alt-G
 {View/Tabs/Goto Next Tab}                 Shift-Alt-N
 {View/Tabs/Goto Previous Tab}             Shift-Alt-P
 {View/Tabs/Goto Last Tab}                 Shift-Alt-L
-{View/Tabs/Goto Other Pane}               Shift-Alt-O
+{View/Tabs/Goto Other Pane}               Shift-Alt-A
 
 # Tools menu bindings
 {Tools/Launcher}                          Ctrl-Space
