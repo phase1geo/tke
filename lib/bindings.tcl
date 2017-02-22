@@ -43,6 +43,25 @@ namespace eval bindings {
   }
 
   ######################################################################
+  # If a user bindings file exists, remove it and perform a load.
+  proc use_default {} {
+    
+    variable user_bindings_file
+    
+    # If a user binding file exists, do the following
+    if {[file exists $user_bindings_file]} {
+      
+      # Remove the file
+      file delete -force $user_bindings_file
+      
+      # Reload the bindings
+      load_file 0
+      
+    }
+    
+  }
+  
+  ######################################################################
   # Saves the given shortcut information to the menu binding file.
   proc save {max shortcuts} {
 
