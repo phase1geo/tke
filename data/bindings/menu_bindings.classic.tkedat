@@ -11,7 +11,7 @@
 {File/Delete}                             Shift-Ctrl-T
 {File/Lock}                               Ctrl-L
 {File/Close}                              Ctrl-W
-{File/Close All}                          Ctrl-Shift-W
+{File/Close All}                          Shift-Ctrl-W
 {File/Quit}                               Ctrl-Q
 
 # Edit menu bindings
@@ -20,7 +20,7 @@
 {Edit/Cut}                                Ctrl-X
 {Edit/Copy}                               Ctrl-C
 {Edit/Paste}                              Ctrl-V
-{Edit/Paste and Format}                   Ctrl-Shift-V
+{Edit/Paste and Format}                   Shift-Ctrl-V
 {Edit/Select All}                         Ctrl-A
 {Edit/Toggle Comment}                     Ctrl-/
 {Edit/Indentation/Indent}                 Ctrl-[
@@ -74,7 +74,7 @@
 
 # Find menu bindings
 {Find/Find}                               Ctrl-F
-{Find/Find and Replace}                   Ctrl-Shift-F
+{Find/Find and Replace}                   Shift-Ctrl-F
 {Find/Select Next Occurrence}             Alt-N
 {Find/Select Previous Occurrence}         Alt-P
 {Find/Select All Occurrences}             Alt-A
