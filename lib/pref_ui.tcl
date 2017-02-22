@@ -2826,8 +2826,10 @@ namespace eval pref_ui {
     ttk::frame $w.sf
     wmarkentry::wmarkentry $w.sf.search -width 20 -watermark [msgcat::mc "Search Shortcuts"] \
       -validate key -validatecommand [list pref_ui::shortcut_search %P]
+    ttk::button $w.sf.revert -style BButton -text [msgcat::mc "Use Default"] -command [list pref_ui::shortcut_use_default]
 
-    pack $w.sf.search -side left -padx 2 -pady 2
+    pack $w.sf.search -side left  -padx 2 -pady 2
+    pack $w.sf.revert -side right -padx 2 -pady 2
 
     ttk::frame $w.tf
     set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut}} \
@@ -2903,6 +2905,37 @@ namespace eval pref_ui {
 
     return 1
 
+  }
+  
+  ######################################################################
+  # Checks with the user to verify that they want to revert to using the
+  # default menu bindings.  If the answer was yes, 
+  proc shortcut_use_default {} {
+    
+    variable widgets
+    
+    set msg    [msgcat::mc "Delete user bindings and use default?"]
+    set detail [msgcat::mc "This operation cannot be reversed."]
+    
+    # Get confirmation from the user
+    set ans [tk_messageBox -parent .prefwin -icon question -type yesno -default no -message $msg -detail $detail]
+    
+    if {$ans eq "yes"} {
+      
+      # Clear the shortcut editor (in case its visible)
+      shortcut_cancel
+        
+      # Revert the bindings and set them up using the new values
+      bindings::use_default
+      
+      # Clear the shortcut table
+      $widgets(shortcut_tl) delete 0 end
+      
+      # Re-populate the shortcut table with the updated values
+      populate_shortcut_table .menubar
+      
+    }
+    
   }
 
   ######################################################################
