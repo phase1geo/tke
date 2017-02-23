@@ -20,7 +20,7 @@
 {Edit/Cut}                                Ctrl-X
 {Edit/Copy}                               Ctrl-C
 {Edit/Paste}                              Ctrl-V
-{Edit/Paste and Format}                   Ctrl-Shift-V
+{Edit/Paste and Format}                   Shift-Ctrl-V
 {Edit/Select All}                         Ctrl-A
 {Edit/Toggle Comment}                     Ctrl-/
 {Edit/Indentation/Indent}                 Ctrl-[

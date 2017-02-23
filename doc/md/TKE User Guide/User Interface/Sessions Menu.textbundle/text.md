@@ -5,7 +5,7 @@ The Sessions menu contains items for saving, deleting, opening, closing and swit
 | Menu Items | Shortcut<br>(Mac) | Shortcut<br>(Other) | Description |
 | - | - |
 | Switch To | | | Quickly closes the current session (named or unnamed) and opens the current window using the named session in the associated submenu. |
-| Close Current | Shift-Cmd-C | Shift-Ctrl-C | Closes the current named session and reverts the current window to the last state of the unnamed session. |
-| Save Current | Shift-Cmd-S | Shift-Ctrl-S | Saves the current state of the current named session. |
+| Close Current | Shift-Alt-C | Shift-Alt-C | Closes the current named session and reverts the current window to the last state of the unnamed session. |
+| Save Current | Shift-Alt-S | Shift-Alt-S | Saves the current state of the current named session. |
 | Save As | | | Saves the current state of the editor as a given named session. |
 | Delete | | | Permanently deletes a named session. |
