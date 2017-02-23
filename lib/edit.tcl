@@ -740,7 +740,7 @@ namespace eval edit {
     $txt edit separator
 
     # Highlight brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txt
 
   }
 
@@ -782,7 +782,7 @@ namespace eval edit {
     $txt edit separator
 
     # Highlight brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txt
 
   }
 
@@ -855,7 +855,7 @@ namespace eval edit {
     $txt edit separator
 
     # Highlight brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txt
 
   }
 
@@ -885,7 +885,7 @@ namespace eval edit {
     }
 
     # Highlight brackets
-    completer::check_all_brackets $txtt
+    completer::check_all_brackets $txt
 
     return $retval
 
@@ -1229,7 +1229,7 @@ namespace eval edit {
         lassign $formatting($type) startchars endchars
 
         $txtt edit separator
-        
+
         set insert [$txtt index insert]
 
         if {$endchars ne ""} {
