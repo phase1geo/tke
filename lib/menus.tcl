@@ -91,7 +91,7 @@ namespace eval menus {
   proc handle_development_mode {{name1 ""} {name2 ""} {op ""}} {
 
     variable last_devel_mode
-    
+
     # If the menubar does not exist, we have nothing further to do
     if {![winfo exists .menubar]} {
       return
@@ -811,9 +811,11 @@ namespace eval menus {
     gui::get_info {} current fname remote
 
     set old_name $fname
+    set new_name $fname
+    set selrange [utils::basename_range $fname]
 
     # Get the new name from the user
-    if {[gui::get_user_response [msgcat::mc "File Name:"] new_name]} {
+    if {[gui::get_user_response [msgcat::mc "File Name:"] new_name -allow_vars 1 -selrange $selrange]} {
 
       # If the value of the cell hasn't changed or is empty, do nothing else.
       if {($old_name eq $new_name) || ($new_name eq "")} {
@@ -1824,7 +1826,7 @@ namespace eval menus {
 
     set cmd ""
 
-    if {[gui::get_user_response [format "%s:" [msgcat::mc "Command"]] cmd 1]} {
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Command"]] cmd -allow_vars 1]} {
       edit::insert_file [gui::current_txt].t "|$cmd"
     }
 
@@ -1894,7 +1896,7 @@ namespace eval menus {
 
     set char ""
 
-    if {[gui::get_user_response [format "%s:" [msgcat::mc "Character"]] char 0] && ([string length $char] == 1)} {
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Character"]] char] && ([string length $char] == 1)} {
       edit::delete_between_char [gui::current_txt].t $char
     }
 
@@ -2250,7 +2252,7 @@ namespace eval menus {
     set linenum ""
 
     # Get the line number from the user
-    if {[gui::get_user_response [format "%s:" [msgcat::mc "Line Number"]] linenum 0] && [string is integer $linenum]} {
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Line Number"]] linenum] && [string is integer $linenum]} {
       edit::jump_to_line [gui::current_txt].t $linenum.0
     }
 

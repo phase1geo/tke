@@ -3154,9 +3154,15 @@ namespace eval gui {
 
   ######################################################################
   # Gets user input from the interface in a generic way.
-  proc get_user_response {msg pvar {allow_vars 1}} {
+  proc get_user_response {msg pvar args} {
 
     variable widgets
+
+    array set opts {
+      -allow_vars 0
+      -selrange   {}
+    }
+    array set opts $args
 
     upvar $pvar var
 
@@ -3167,7 +3173,9 @@ namespace eval gui {
     # If var contains a value, display it and select it
     if {$var ne ""} {
       $widgets(ursp_entry) insert end $var
-      $widgets(ursp_entry) selection range 0 end
+      if {$opts(-selrange) ne ""} {
+        $widgets(ursp_entry) selection range {*}$opts(-selrange)
+      }
     }
 
     # Display the user input widget
@@ -3208,7 +3216,7 @@ namespace eval gui {
     set var [$widgets(ursp_entry) get]
 
     # If variable substitutions are allowed, perform any substitutions
-    if {$allow_vars} {
+    if {$opts(-allow_vars)} {
       set var [utils::perform_substitutions $var]
     }
 

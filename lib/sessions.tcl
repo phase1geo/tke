@@ -70,7 +70,7 @@ namespace eval sessions {
 
     # If the name has not been specified, ask the user for a name
     if {$name eq ""} {
-      if {[gui::get_user_response "Session name:" sessions::user_name 0]} {
+      if {[gui::get_user_response "Session name:" sessions::user_name]} {
         set name         $user_name
         set names($name) 1
         set current_name $name

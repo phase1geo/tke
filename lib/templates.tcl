@@ -88,7 +88,7 @@ namespace eval templates {
 
     set fname ""
 
-    if {[gui::get_user_response "File Name:" fname]} {
+    if {[gui::get_user_response "File Name:" fname -allow_vars 1]} {
 
       # Normalize the pathname
       set fname [file join [lindex $args 0] [file tail $fname]]
@@ -120,7 +120,7 @@ namespace eval templates {
     set name ""
 
     # Get the template name from the user
-    if {[gui::get_user_response [format "%s:" [msgcat::mc "Template Name"]] name 0]} {
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Template Name"]] name]} {
 
       # Create the templates directory if it does not exist
       file mkdir $data(templates_dir)
