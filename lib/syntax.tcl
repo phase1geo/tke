@@ -242,7 +242,7 @@ namespace eval syntax {
           }
         }
         foreach pattern $epatterns {
-          if {[string match $pattern $filename]} {
+          if {[string match -nocase $pattern [file tail $filename]]} {
             set excluded 1
             break
           }
@@ -250,7 +250,7 @@ namespace eval syntax {
       }
       if {!$excluded} {
         foreach pattern $patterns {
-          if {[string match $pattern $filename]} {
+          if {[string match -nocase $pattern [file tail $filename]]} {
             return $lang
           }
         }
