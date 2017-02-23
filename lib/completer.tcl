@@ -20,7 +20,7 @@
 # Author:   Trevor Williams  (phase1geo@gmail.com)
 # Date:     11/4/2014
 # Brief:    Contains namespace handling bracket/string completion.
-######################################################################
+####################################################################
 
 namespace eval completer {
 
@@ -506,6 +506,9 @@ namespace eval completer {
   ######################################################################
   # Checks all matches in the editing buffer.
   proc check_brackets {txtt stype force} {
+
+    puts "In check_brackets, txtt: $txtt, stype: $stype, force: $force"
+    puts [utils::stacktrace]
 
     # Clear missing
     $txtt tag remove missing:$stype 1.0 end

@@ -2911,6 +2911,8 @@ namespace eval vim {
     adjust_insert $txtt
 
     # Perform bracket auditing
+    # TBD - Ignore StringCommentChanged and only call if changed text contained
+    #       brackets.
     completer::check_all_brackets $txtt
 
   }
@@ -2926,6 +2928,8 @@ namespace eval vim {
     adjust_insert $txtt
 
     # Perform bracket auditing
+    # TBD - Ignore StringCommentChanged and only call if changed text contained
+    #       brackets.
     completer::check_all_brackets $txtt
 
   }
@@ -3002,11 +3006,11 @@ namespace eval vim {
     # Adjust the cursor
     adjust_insert $txtt
 
-    # Allow brackets to be highlighted
-    completer::check_all_brackets $txtt -string $delstr
-
     # Create separator
     $txtt edit separator
+
+    # Allow brackets to be highlighted
+    completer::check_all_brackets $txtt -string $delstr
 
   }
 
