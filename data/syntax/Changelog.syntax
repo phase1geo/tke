@@ -1,5 +1,5 @@
 filepatterns
-{Changelog ChangeLog changelog}
+{changelog}
 
 vimsyntax
 {changelog}
