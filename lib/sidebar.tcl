@@ -1247,7 +1247,7 @@ namespace eval sidebar {
 
       # Get the new filename from the user
       set fname ""
-      if {![gui::get_user_response [msgcat::mc "File Name:"] fname]} {
+      if {![gui::get_user_response [msgcat::mc "File Name:"] fname -allow_vars 1]} {
         return
       }
 
@@ -1317,7 +1317,7 @@ namespace eval sidebar {
 
       # Get the directory name from the user
       set dname ""
-      if {![gui::get_user_response [msgcat::mc "Directory Name:"] dname]} {
+      if {![gui::get_user_response [msgcat::mc "Directory Name:"] dname -allow_vars 1]} {
         return
       }
 
@@ -1492,7 +1492,7 @@ namespace eval sidebar {
     set old_dname [set dname [$widgets(tl) set $row name]]
 
     # Get the new name from the user
-    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "Folder Name:"] dname]} {
+    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "Folder Name:"] dname -allow_vars 1 -selrange {0 end}]} {
 
       # Make the fname match the testname option if it was set
       if {$opts(-testname) ne ""} {
@@ -1759,12 +1759,13 @@ namespace eval sidebar {
 
     # Get the current name
     set old_name [set new_name [$widgets(tl) set $row name]]
+    set selrange [utils::basename_range $new_name]
 
     # Get the remote status
     set remote [$widgets(tl) set $row remote]
 
     # Get the new name from the user
-    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "File Name:"] new_name]} {
+    if {($opts(-testname) ne "") || [gui::get_user_response [msgcat::mc "File Name:"] new_name -allow_vars 1 -selrange $selrange]} {
 
       if {$opts(-testname) ne ""} {
         set new_name $opts(-testname)

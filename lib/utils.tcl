@@ -729,4 +729,17 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Returns a list containing the character range of the basename within
+  # the given filename.
+  proc basename_range {fname} {
+
+    if {[regexp -indices "^.*([file tail $fname])\$" $fname -> range]} {
+      return [list [lindex $range 0] [expr [lindex $range 1] + 1]]
+    }
+
+    return [list]
+
+  }
+
 }

@@ -168,7 +168,7 @@ namespace eval api {
   #  \param pvar        Reference to variable to store user input to
   #  \param allow_vars  If set to 1, variables embedded in string will have
   #                     substitutions performed; otherwise, the raw string
-  #                     will be returned.
+  #                     will be returned.  (Optional)
   #
   #  \return Returns a list containing two elements.  The first element is set to a
   #          1 if the user provided input; otherwise, returns 0 to indicate that the
@@ -178,7 +178,7 @@ namespace eval api {
 
     set var ""
 
-    if {[gui::get_user_response $msg var $allow_vars]} {
+    if {[gui::get_user_response $msg var -allow_vars $allow_vars]} {
       $interp eval set $pvar [list $var]
       return 1
     }
