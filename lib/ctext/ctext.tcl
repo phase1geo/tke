@@ -71,6 +71,8 @@ proc ctext {win args} {
   set ctext::data($win,config,-matchchar)              0
   set ctext::data($win,config,-matchchar_bg)           $ctext::data($win,config,-fg)
   set ctext::data($win,config,-matchchar_fg)           $ctext::data($win,config,-bg)
+  set ctext::data($win,config,-matchaudit)             0
+  set ctext::data($win,config,-matchaudit_bg)          "red"
   set ctext::data($win,config,re_opts)                 ""
   set ctext::data($win,config,win)                     $win
   set ctext::data($win,config,modified)                0
@@ -92,7 +94,7 @@ proc ctext {win args} {
 
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
-  -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg \
+  -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3]
 
@@ -553,6 +555,30 @@ proc ctext::buildArgParseTable win {
     $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     break
   }
+  
+  lappend argTable {0 false no} -matchaudit {
+    set data($win,config,-matchaudit) 0
+    foreach type [list curly square paren angled] {
+      catch { $win tag remove missing:$type 1.0 end }
+    }
+    break
+  }
+  
+  lappend argTable {1 true yes} -matchaudit {
+    set data($win,config,-matchaudit) 1
+    checkAllBrackets $win
+    break
+  }
+  
+  lappend argTable {any} -matchaudit_bg {
+    set data($win,config,-matchaudit_bg) $value
+    foreach type [list curly square paren angled] {
+      if {[lsearch [$win tag names] missing:$type] != -1} {
+        $win tag configure missing:$type -background $value
+      }
+    }
+    break
+  }
 
   set data($win,config,argTable) $argTable
 
@@ -939,6 +965,7 @@ proc ctext::undo {win} {
     set insert      0
     set ranges      [list]
     set do_tags     [list]
+    set changed     ""
 
     foreach element [lreverse $data($win,config,undo_hist)] {
 
@@ -951,6 +978,7 @@ proc ctext::undo {win} {
       switch $cmd {
         i {
           $win._t insert $val1 $val2
+          append changed $val2
           comments_do_tag $win $val1 "$val1+[string length val2]c" do_tags
           set val2 [$win index "$val1+[string length $val2]c"]
           lappend data($win,config,redo_hist) [list d $val1 $val2 $cursor $sep]
@@ -958,6 +986,7 @@ proc ctext::undo {win} {
         }
         d {
           set str [$win get $val1 $val2]
+          append changed $str
           comments_chars_deleted $win $val1 $val2 do_tags
           $win._t delete $val1 $val2
           lappend data($win,config,redo_hist) [list i $val1 $str $cursor $sep]
@@ -973,7 +1002,11 @@ proc ctext::undo {win} {
     }
 
     # Perform the highlight
-    $win highlight -insert $insert -dotags $do_tags {*}$ranges
+    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
+      ctext::checkAllBrackets $win
+    } else {
+      ctext::checkAllBrackets $win $changed
+    }
 
     set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
     incr data($win,config,undo_hist_size) [expr 0 - $i]
@@ -988,8 +1021,8 @@ proc ctext::undo {win} {
     set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
     incr data($win,config,undo_sep_size) -1
 
-    ::tk::TextSetCursor $win._t $last_cursor
-    ctext::modified $win 1
+    ::tk::TextSetCursor $win.t $last_cursor
+    ctext::modified $win 1 [list undo $ranges ""]
 
   }
 
@@ -1008,6 +1041,7 @@ proc ctext::redo {win} {
     set insert  0
     set do_tags [list]
     set ranges  [list]
+    set changed ""
 
     foreach element [lreverse $data($win,config,redo_hist)] {
 
@@ -1016,6 +1050,7 @@ proc ctext::redo {win} {
       switch $cmd {
         i {
           $win._t insert $val1 $val2
+          append changed $val2
           comments_do_tag $win.t $val1 "$val1+[string length val2]c" do_tags
           set val2 [$win index "$val1+[string length $val2]c"]
           lappend data($win,config,undo_hist) [list d $val1 $val2 $cursor $sep]
@@ -1026,6 +1061,7 @@ proc ctext::redo {win} {
         }
         d {
           set str [$win get $val1 $val2]
+          append changed $str
           comments_chars_deleted $win.t $val1 $val2 do_tags
           $win._t delete $val1 $val2
           lappend data($win,config,undo_hist) [list i $val1 $str $cursor $sep]
@@ -1046,7 +1082,11 @@ proc ctext::redo {win} {
     }
 
     # Highlight the code
-    $win highlight -insert $insert -dotag $do_tags {*}$ranges
+    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
+      ctext::checkAllBrackets $win
+    } else {
+      ctext::checkAllBrackets $win $changed
+    }
 
     set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
 
@@ -1062,8 +1102,8 @@ proc ctext::redo {win} {
     set data($win,config,undo_sep_last) [expr $data($win,config,undo_hist_size) - 1]
     incr data($win,config,undo_sep_size)
 
-    ::tk::TextSetCursor $win._t $cursor
-    ctext::modified $win 1
+    ::tk::TextSetCursor $win.t $cursor
+    ctext::modified $win 1 [list redo $ranges ""]
 
   }
 
@@ -1260,6 +1300,7 @@ proc ctext::command_delete {win args} {
 
   set lineStart [$win._t index "$deleteStartPos linestart"]
   set lineEnd   [$win._t index "$deleteEndPos + 1 chars lineend"]
+  set deldata   [$win._t get $deleteStartPos $deleteEndPos]
   set do_tags   [list]
 
   ctext::undo_delete            $win $deleteStartPos $deleteEndPos
@@ -1269,8 +1310,15 @@ proc ctext::command_delete {win args} {
   # Delete the text
   $win._t delete $deleteStartPos $deleteEndPos
 
-  ctext::highlightAll $win [list $lineStart $lineEnd] 0 $do_tags
-  ctext::modified     $win 1 [list delete [list $lineStart $lineEnd] $moddata]
+  set comstr [ctext::highlightAll $win [list $lineStart $lineEnd] 0 $do_tags]
+  if {$comstr == 2} {
+    ctext::checkAllBrackets $win
+  } elseif {$comstr == 1} {
+    ctext::checkAllBrackets $win [$win._t get $deleteStartPos $lineEnd]
+  } else {
+    ctext::checkAllBrackets $win $deldata
+  }
+  ctext::modified $win 1 [list delete [list $lineStart $lineEnd] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1408,10 +1456,12 @@ proc ctext::command_fastdelete {win args} {
 
   set moddata   [list]
   set do_update 1
+  set do_undo   1
   while {[string index [lindex $args 0] 0] eq "-"} {
     switch [lindex $args 0] {
       "-moddata" { set args [lassign $args dummy moddata] }
       "-update"  { set args [lassign $args dummy do_update] }
+      "-undo"    { set args [lassign $args dummy do_undo] }
     }
   }
 
@@ -1425,7 +1475,9 @@ proc ctext::command_fastdelete {win args} {
     ctext::linemapCheckOnDelete $win $startPos $endPos
   }
 
-  ctext::undo_delete $win $startPos $endPos
+  if {$do_undo} {
+    ctext::undo_delete $win $startPos $endPos
+  }
 
   $win._t delete {*}$args
 
@@ -1442,20 +1494,25 @@ proc ctext::command_fastinsert {win args} {
 
   set moddata   [list]
   set do_update 1
+  set do_undo   1
   while {[string index [lindex $args 0] 0] eq "-"} {
     switch [lindex $args 0] {
       "-moddata" { set args [lassign $args dummy moddata] }
       "-update"  { set args [lassign $args dummy do_update] }
+      "-undo"    { set args [lassign $args dummy do_undo] }
     }
   }
 
   set startPos [$win._t index [lindex $args 0]]
   set chars    [string length [lindex $args 1]]
   set endPos   [$win._t index "$startPos+${chars}c"]
+  set cursor   [$win._t index insert]
 
   $win._t insert {*}$args
 
-  ctext::undo_insert     $win $startPos $chars [$win._t index insert]
+  if {$do_undo} {
+    ctext::undo_insert $win $startPos $chars $cursor
+  }
   ctext::handleInsertAt0 $win._t $startPos $chars
 
   if {$do_update} {
@@ -1475,23 +1532,30 @@ proc ctext::command_fastreplace {win args} {
 
   set moddata   [list]
   set do_update 1
+  set do_undo   1
   while {[string index [lindex $args 0] 0] eq "-"} {
     switch [lindex $args 0] {
       "-moddata" { set args [lassign $args dummy moddata] }
       "-update"  { set args [lassign $args dummy do_update] }
+      "-undo"    { set args [lassign $args dummy do_undo] }
     }
   }
 
   set startPos [$win._t index [lindex $args 0]]
   set endPos   [$win._t index [lindex $args 1]]
   set datlen   [string length [lindex $args 2]]
+  set cursor   [$win._t index insert]
 
-  ctext::undo_delete $win $startPos $endPos
+  if {$do_undo} {
+    ctext::undo_delete $win $startPos $endPos
+  }
 
   # Perform the text replacement
   $win._t replace {*}$args
 
-  ctext::undo_insert $win $startPos $datlen [$win._t index insert]
+  if {$do_undo} {
+    ctext::undo_insert $win $startPos $datlen $cursor
+  }
 
   if {$do_update} {
     ctext::modified $win 1 [list replace [list $startPos $endPos] $moddata]
@@ -1577,12 +1641,18 @@ proc ctext::command_insert {win args} {
   ctext::handleInsertAt0 $win._t $insertPos $datlen
 
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
-  set lines   [$win._t count -lines $lineStart $lineEnd]
   set do_tags [list]
 
   ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
-  ctext::highlightAll    $win [list $lineStart $lineEnd] 1 $do_tags
-  ctext::modified        $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+  set comstr [ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]
+  if {$comstr == 2} {
+    ctext::checkAllBrackets $win
+  } elseif {$comstr == 1} {
+    ctext::checkAllBrackets $win [$win._t get $insertPos $lineEnd]
+  } else {
+    ctext::checkAllBrackets $win $dat
+  }
+  ctext::modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1601,17 +1671,16 @@ proc ctext::command_replace {win args} {
     set args [lassign $args dummy moddata]
   }
 
-  set startPos    [$win._t index [lindex $args 0]]
-  set endPos      [$win._t index [lindex $args 1]]
-  set dat         ""
+  set startPos [$win._t index [lindex $args 0]]
+  set endPos   [$win._t index [lindex $args 1]]
+  set dat      ""
   foreach {chars taglist} [lrange $args 2 end] {
     append dat $chars
   }
-  set datlen      [string length $dat]
-  set cursor      [$win._t index insert]
-  set deleteChars [$win._t count -chars $startPos $endPos]
-  set deleteLines [$win._t count -lines $startPos $endPos]
-  set do_tags     [list]
+  set datlen   [string length $dat]
+  set deldata  [$win._t get $startPos $endPos]
+  set cursor   [$win._t index insert]
+  set do_tags  [list]
 
   ctext::undo_delete            $win $startPos $endPos
   ctext::comments_chars_deleted $win $startPos $endPos do_tags
@@ -1621,16 +1690,22 @@ proc ctext::command_replace {win args} {
 
   ctext::undo_insert $win $startPos $datlen $cursor
 
-  set lineStart   [$win._t index "$startPos linestart"]
-  set lineEnd     [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
-  set insertLines [$win._t count -lines $lineStart $lineEnd]
+  set lineStart [$win._t index "$startPos linestart"]
+  set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
 
   if {[llength $do_tags] == 0} {
     ctext::comments_do_tag $win $startPos "$startPos+${datlen}c" do_tags
   }
 
-  ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags
-  ctext::modified     $win 1 [list replace [list $startPos $endPos] $moddata]
+  set comstr [ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]
+  if {$comstr == 2} {
+    ctext::checkAllBrackets $win
+  } elseif {$comstr == 1} {
+    ctext::checkAllBrackets $win [$win._t get $startPos $lineEnd]
+  } else {
+    ctext::checkAllBrackets $win "$deldata$dat"
+  }
+  ctext::modified $win 1 [list replace [list $startPos $endPos] $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -2159,10 +2234,22 @@ proc ctext::setAutoMatchChars {win lang matchChars} {
 
   # Clear the matchChars
   catch { array unset data $win,config,matchChar,$lang,* }
+  
+  # Remove the brackets
+  foreach type [list curly square paren angled] {
+    catch { $win._t tag delete missing:$type }
+  }
 
   # Set the matchChars
   foreach matchChar $matchChars {
     set data($win,config,matchChar,$lang,$matchChar) 1
+  }
+
+  # Set the bracket auditing tags
+  foreach matchChar [list curly square paren angled] {
+    if {[info exists data($win,config,matchChar,$lang,$matchChar)]} {
+      $win._t tag configure missing:$matchChar -background $data($win,config,-matchaudit_bg)
+    }
   }
 
 }
@@ -2351,6 +2438,135 @@ proc ctext::matchQuote {win lang pos tag type} {
     }
   }
 
+}
+
+proc ctext::checkAllBrackets {win {str ""}} {
+  
+  variable data
+  
+  # If the mismcatching char option is cleared, don't continue
+  if {!$data($win,config,-matchaudit)} {
+    return
+  }
+  
+  # We don't have support for bracket auditing in embedded languages as of yet
+  set lang ""
+
+  # If a string was supplied, only perform bracket check for brackets found in string
+  if {$str ne ""} {
+    if {[info exists data($win,config,matchChar,$lang,curly)]  && ([string map {\{ {} \} {}} $str] ne $str)} { checkBracketType $win curly }
+    if {[info exists data($win,config,matchChar,$lang,square)] && ([string map {\[ {} \] {}} $str] ne $str)} { checkBracketType $win square }
+    if {[info exists data($win,config,matchChar,$lang,paren)]  && ([string map {( {} ) {}}   $str] ne $str)} { checkBracketType $win paren }
+    if {[info exists data($win,config,matchChar,$lang,angled)] && ([string map {< {} > {}}   $str] ne $str)} { checkBracketType $win angled }
+    
+  # Otherwise, check all of the brackets
+  } else {
+    foreach type [list square curly paren angled] {
+      if {[info exists data($win,config,matchChar,$lang,$type)]} {
+        checkBracketType $win $type
+      }
+    }
+  }
+  
+}
+  
+proc ctext::checkBracketType {win stype} {
+  
+  variable data
+  
+  # Clear missing
+  $win._t tag remove missing:$stype 1.0 end
+
+  set count   0
+  set other   ${stype}R
+  set olist   [lassign [$win.t tag ranges _$other] ofirst olast]
+  set missing [list]
+ 
+  # Perform count for all code containing left stypes
+  foreach {sfirst slast} [$win.t tag ranges _${stype}L] {
+    while {($ofirst ne "") && [$win.t compare $sfirst > $ofirst]} {
+      if {[incr count -[$win._t count -chars $ofirst $olast]] < 0} {
+        lappend missing "$olast+${count}c" $olast
+        set count 0
+      }
+      set olist [lassign $olist ofirst olast]
+    }
+    if {$count == 0} {
+      set start $sfirst
+    }
+    incr count [$win._t count -chars $sfirst $slast]
+  }
+ 
+  # Perform count for all right types after the above code
+  while {$ofirst ne ""} {
+    if {[incr count -[$win._t count -chars $ofirst $olast]] < 0} {
+      lappend missing "$olast+${count}c" $olast
+      set count 0
+    }
+    set olist [lassign $olist ofirst olast]
+  }
+
+  # Highlight all brackets that are missing right stypes
+  while {$count > 0} {
+    lappend missing $start "$start+1c"
+    set start [get_next_bracket $win ${stype}L $start]
+    incr count -1
+  }
+
+  # Highlight all brackets that are missing left stypes
+  catch { $win._t tag add missing:$stype {*}$missing }
+
+}
+
+######################################################################
+# Places the cursor on the next or previous mismatching bracket and
+# makes it visible in the editing window.  If the -check option is
+# set, returns 0 to indicate that the given option is invalid; otherwise,
+# returns 1.
+proc ctext::gotoBracketMismatch {win dir args} {
+  
+  variable data
+  
+  # If the current text buffer was not highlighted, do it now
+  if {!$data($win,config,-matchaudit)} {
+    return 0
+  }
+    
+  array set opts {
+    -check 0
+  }
+  array set opts $args
+  
+  # Find the previous/next index
+  if {$dir eq "next"} {
+    set index end
+    foreach type [list square curly paren angled] {
+      lassign [$win._t tag nextrange missing:$type "insert+1c"] first
+      if {($first ne "") && [$win._t compare $first < $index]} {
+        set index $first
+      }
+    }
+  } else {
+    set index 1.0
+    foreach type [list square curly paren angled] {
+      lassign [$win._t tag prevrange missing:$type insert] first
+      if {($first ne "") && [$win._t compare $first > $index]} {
+        set index $first
+      }
+    }
+  }
+      
+  # Make sure that the current bracket is in view
+  if {[lsearch [$win._t tag names $index] missing:*] != -1} {
+    if {!$opts(-check)} {
+      ::tk::TextSetCursor $win.t $index
+      $win._t see $index
+    }
+    return 1
+  }
+    
+  return 0
+  
 }
 
 proc ctext::get_lang {win index} {
@@ -2551,6 +2767,8 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   if {$all} {
     event generate $win.t <<StringCommentChanged>>
   }
+  
+  return $all
 
 }
 

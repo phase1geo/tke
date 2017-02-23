@@ -32,7 +32,6 @@ namespace eval vim {
   array set mode            {}
   array set number          {}
   array set search_dir      {}
-  array set ignore_modified {}
   array set column          {}
   array set select_anchors  {}
   array set modeline        {}
@@ -831,7 +830,6 @@ namespace eval vim {
     variable mode
     variable number
     variable search_dir
-    variable ignore_modified
     variable column
     variable select_anchors
     variable modeline
@@ -845,14 +843,12 @@ namespace eval vim {
     set mode($txt.t)             "start"
     set number($txt.t)           ""
     set search_dir($txt.t)       "next"
-    set ignore_modified($txt)    0
     set column($txt.t)           ""
     set select_anchors($txt.t)   [list]
     set modeline($txt.t)         1
     set multicursor($txt.t)      0
 
     # Add bindings
-    bind $txt       <<Modified>>            "if {\[vim::handle_modified %W\]} { break }"
     bind vim$txt    <Escape>                "if {\[vim::handle_escape %W\]} { break }"
     bind vim$txt    <Key>                   "if {\[vim::handle_any %W %K %A\]} { break }"
     bind vim$txt    <Control-Button-1>      "vim::nil"
@@ -893,7 +889,6 @@ namespace eval vim {
     variable mode
     variable number
     variable search_dir
-    variable ignore_modified
     variable column
     variable select_anchors
     variable modeline
@@ -902,7 +897,6 @@ namespace eval vim {
     unset mode($txt.t)
     unset number($txt.t)
     unset search_dir($txt.t)
-    unset ignore_modified($txt)
     unset column($txt.t)
     unset select_anchors($txt.t)
     unset modeline($txt.t)
@@ -913,22 +907,6 @@ namespace eval vim {
   # This is a do-nothing procedure that is called by bindings that would
   # otherwise match other keybindings that we don't want to call.
   proc nil {} {
-
-  }
-
-  ######################################################################
-  # Handles a modified event when in Vim mode.
-  proc handle_modified {W} {
-
-    variable ignore_modified
-
-    if {[info exists ignore_modified($W)] && $ignore_modified($W)} {
-      set ignore_modified($W) 0
-      $W edit modified false
-      return 1
-    }
-
-    return 0
 
   }
 
@@ -1032,7 +1010,7 @@ namespace eval vim {
     # If the current cursor is on a dummy space, remove it
     set tags [$txtt tag names insert]
     if {([lsearch $tags "dspace"] != -1) && ([lsearch $tags "mcursor"] == -1)} {
-      $txtt delete insert
+      $txtt fastdelete -update 0 -undo 0 insert
     }
 
   }
@@ -1210,7 +1188,6 @@ namespace eval vim {
   proc adjust_insert {txtt} {
 
     variable mode
-    variable ignore_modified
 
     # If we are not running in Vim mode, don't continue
     if {![in_vim_mode $txtt]} {
@@ -1223,8 +1200,7 @@ namespace eval vim {
     # If the current line contains nothing, add a dummy space so that the
     # block cursor doesn't look dumb.
     if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
-      set ignore_modified([winfo parent $txtt]) 1
-      $txtt fastinsert insert " " dspace
+      $txtt fastinsert -update 0 -undo 0 insert " " dspace
       ::tk::TextSetCursor $txtt "insert-1c"
 
     # Make sure that lineend is never the insertion point
@@ -1243,12 +1219,9 @@ namespace eval vim {
   # Removes dspace characters.
   proc remove_dspace {w} {
 
-    variable ignore_modified
-
     foreach {endpos startpos} [lreverse [$w tag ranges dspace]] {
       if {[lsearch [$w tag names $startpos] "mcursor"] == -1} {
-        set ignore_modified($w) 1
-        $w fastdelete $startpos $endpos
+        $w fastdelete -update 0 -undo 0 $startpos $endpos
       }
     }
 
@@ -1258,10 +1231,7 @@ namespace eval vim {
   # Removes the dspace tag from the current index (if it is set).
   proc cleanup_dspace {w} {
 
-    variable ignore_modified
-
     if {[lsearch [$w tag names insert] dspace] != -1} {
-      set ignore_modified($w) 1
       $w tag remove dspace insert
     }
 
@@ -2827,9 +2797,6 @@ namespace eval vim {
     # Create a separator
     $txtt edit separator
 
-    # Perform bracket auditing
-    completer::check_all_brackets $txtt -string $clip
-
   }
 
   ######################################################################
@@ -2877,9 +2844,6 @@ namespace eval vim {
     # Create separator
     $txtt edit separator
 
-    # Perform bracket auditing
-    completer::check_all_brackets $txtt -string $clip
-
   }
 
   ######################################################################
@@ -2910,11 +2874,6 @@ namespace eval vim {
     # Adjusts the insertion cursor
     adjust_insert $txtt
 
-    # Perform bracket auditing
-    # TBD - Ignore StringCommentChanged and only call if changed text contained
-    #       brackets.
-    completer::check_all_brackets $txtt
-
   }
 
   ######################################################################
@@ -2926,11 +2885,6 @@ namespace eval vim {
 
     # Adjusts the insertion cursor
     adjust_insert $txtt
-
-    # Perform bracket auditing
-    # TBD - Ignore StringCommentChanged and only call if changed text contained
-    #       brackets.
-    completer::check_all_brackets $txtt
 
   }
 
@@ -2971,8 +2925,6 @@ namespace eval vim {
   # Performs a single character delete.
   proc do_char_delete_current {txtt number} {
 
-    set delstr ""
-
     # Create separator
     $txtt edit separator
 
@@ -2980,20 +2932,17 @@ namespace eval vim {
       if {[multicursor::enabled $txtt]} {
         multicursor::delete $txtt "+${number}c"
       } elseif {[$txtt compare "insert+${number}c" > "insert lineend"]} {
-        set delstr [$txtt get insert "insert lineend"]
         $txtt delete insert "insert lineend"
         if {[$txtt index insert] eq [$txtt index "insert linestart"]} {
           $txtt insert insert " "
         }
         ::tk::TextSetCursor $txtt "insert-1c"
       } else {
-        set delstr [$txtt get insert "insert+${number}c"]
         $txtt delete insert "insert+${number}c"
       }
     } elseif {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "+1c"
     } else {
-      set delstr [$txtt get insert]
       $txtt delete insert
       if {[$txtt index insert] eq [$txtt index "insert lineend"]} {
         if {[$txtt index insert] eq [$txtt index "insert linestart"]} {
@@ -3009,16 +2958,11 @@ namespace eval vim {
     # Create separator
     $txtt edit separator
 
-    # Allow brackets to be highlighted
-    completer::check_all_brackets $txtt -string $delstr
-
   }
 
   ######################################################################
   # Performs a single character delete.
   proc do_char_delete_previous {txtt number} {
-
-    set delstr ""
 
     # Create separator
     $txtt edit separator
@@ -3027,16 +2971,13 @@ namespace eval vim {
       if {[multicursor::enabled $txtt]} {
         multicursor::delete $txtt "-${number}c"
       } elseif {[$txtt compare "insert-${number}c" < "insert linestart"]} {
-        set delstr [$txtt get "insert linestart" insert]
         $txtt delete "insert linestart" insert
       } else {
-        set delstr [$txtt get "insert-${number}c" insert]
         $txtt delete "insert-${number}c" insert
       }
     } elseif {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "-1c"
     } elseif {[$txtt compare "insert-1c" >= "insert linestart"] && ([$txtt index insert] ne "1.0")} {
-      set delstr [$txtt get "insert-1c"]
       $txtt delete "insert-1c"
     }
 
@@ -3045,9 +2986,6 @@ namespace eval vim {
 
     # Create separator
     $txtt edit separator
-
-    # Allow brackets to be highlighted
-    completer::check_all_brackets $txtt -string $delstr
 
   }
 

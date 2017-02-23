@@ -367,7 +367,8 @@ namespace eval syntax {
       -linemap_select_bg $theme(cursor) -linemap_select_fg $theme(background) \
       -warnwidth_bg $theme(warning_width) -relief flat \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
-      -matchchar_fg $theme(background) -matchchar_bg $theme(foreground)
+      -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
+      -matchaudit_bg $theme(attention)
 
     # Set the bird's eye text widget
     gui::get_info $txt txt beye
@@ -478,9 +479,6 @@ namespace eval syntax {
     if {$opts(-highlight)} {
       $txt highlight 1.0 end
       folding::restart $txt
-
-      # TBD - We need to disable StringCommentChanged bracket checking
-      completer::check_all_brackets $txt.t
     }
 
     # Generate a <<ThemeChanged>> event on the text widget

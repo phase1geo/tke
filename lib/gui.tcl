@@ -45,10 +45,10 @@ namespace eval gui {
   variable highlightcolor   ""
   variable auto_cwd         0
   variable numberwidth      4
-  variable show_match_char  0
   variable browse_dir       "last"
   variable synced_key       ""
   variable synced_txt       ""
+  variable show_match_chars 0
 
   array set widgets         {}
   array set tab_tip         {}
@@ -379,8 +379,8 @@ namespace eval gui {
     } else {
       hide_status_view
     }
-
-    # Set the matchchar value
+    
+    # Save the initial state since this value can be modified from Vim
     set_matching_char [preferences::get Editor/HighlightMatchingChar]
 
     # If the user attempts to close the window via the window manager, treat
@@ -391,6 +391,7 @@ namespace eval gui {
     trace variable preferences::prefs(Editor/WarningWidth)                 w gui::handle_warning_width_change
     trace variable preferences::prefs(Editor/MaxUndo)                      w gui::handle_max_undo
     trace variable preferences::prefs(Editor/HighlightMatchingChar)        w gui::handle_matching_char
+    trace variable preferences::prefs(Editor/HighlightMismatchingChar)     w gui::handle_bracket_audit
     trace variable preferences::prefs(Editor/RelativeLineNumbers)          w gui::handle_relative_line_numbers
     trace variable preferences::prefs(View/AllowTabScrolling)              w gui::handle_allow_tab_scrolling
     trace variable preferences::prefs(Editor/VimMode)                      w gui::handle_vim_mode
@@ -479,17 +480,31 @@ namespace eval gui {
   ######################################################################
   # Sets the -matchchar value on all displayed text widgets.
   proc set_matching_char {value} {
-
-    variable show_match_char
-
-    # Save the show_match_char value
-    set show_match_char $value
+    
+    variable show_match_chars
+    
+    # Save this value because it can be changed from Vim
+    set show_match_chars $value
 
     # Update all existing text widgets to the new value
     foreach txt [get_all_texts] {
       $txt configure -matchchar $value
     }
 
+  }
+  
+  ######################################################################
+  # Handles any preference changes to the Editor/HighlightMismatchingChar setting.
+  proc handle_bracket_audit {name1 name2 op} {
+    
+    # Get the preference value
+    set value [preferences::get Editor/HighlightMismatchingChar]
+    
+    # Set the -matchaudit option in each opened text widget to the given value
+    foreach txt [get_all_texts] {
+      $txt configure -matchaudit $value
+    }
+    
   }
 
   ######################################################################
@@ -639,7 +654,7 @@ namespace eval gui {
     }
 
   }
-
+  
   ######################################################################
   # Handles any changes to the Appearance/ExtraLineSpacing preference
   # value.
@@ -1731,7 +1746,7 @@ namespace eval gui {
       $txt see 1.0
 
       # Check brackets
-      completer::check_all_brackets $txt.t
+      ctext::checkAllBrackets $txt
 
       # Change the text to unmodified
       $txt edit reset
@@ -3829,7 +3844,7 @@ namespace eval gui {
     variable language
     variable case_sensitive
     variable numberwidth
-    variable show_match_char
+    variable show_match_chars
 
     array set opts {
       -diff    0
@@ -3869,7 +3884,8 @@ namespace eval gui {
       -maxundo [preferences::get Editor/MaxUndo] \
       -insertwidth [preferences::get Appearance/CursorWidth] \
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
-      -diff_mode $opts(-diff) -matchchar $show_match_char \
+      -diff_mode $opts(-diff) -matchchar $show_match_chars \
+      -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
@@ -4063,8 +4079,8 @@ namespace eval gui {
   # TBD - This is missing support for applied gutters!
   proc show_split_pane {} {
 
-    variable show_match_char
-
+    variable show_match_chars
+    
     # Get the current paned window
     get_info {} current tabbar tab txt txt2 diff
 
@@ -4080,7 +4096,8 @@ namespace eval gui {
       -insertwidth [preferences::get Appearance/CursorWidth] \
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
-      -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_char \
+      -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
+      -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap [preferences::get View/ShowLineNumbers] \
       -linemap_mark_command gui::mark_command -linemap_select_bg orange -peer $txt \
       -xscrollcommand "$pw.tf2.hb set" \
@@ -4477,7 +4494,7 @@ namespace eval gui {
   proc text_changed {txt data} {
 
     variable cursor_hist
-
+    
     if {[$txt edit modified]} {
 
       # Get file information
@@ -5004,6 +5021,15 @@ namespace eval gui {
 
   }
 
+  ######################################################################
+  # Jumps the insertion cursor to the next/previous mismatching bracket
+  # within the current text widget.
+  proc goto_mismatch {dir args} {
+    
+    return [ctext::gotoBracketMismatch [current_txt] $dir {*}$args]
+    
+  }
+  
   ######################################################################
   # Handles a mark request when the line is clicked.
   proc mark_command {win type tag} {
