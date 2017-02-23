@@ -2906,49 +2906,49 @@ namespace eval pref_ui {
     return 1
 
   }
-  
+
   ######################################################################
   # Checks with the user to verify that they want to revert to using the
-  # default menu bindings.  If the answer was yes, 
+  # default menu bindings.  If the answer was yes,
   proc shortcut_use_default {} {
-    
+
     variable widgets
-    
+
     set msg    [msgcat::mc "Delete user bindings and use default?"]
     set detail [msgcat::mc "This operation cannot be reversed."]
-    
+
     # Get confirmation from the user
     set ans [tk_messageBox -parent .prefwin -icon question -type yesno -default no -message $msg -detail $detail]
-    
+
     if {$ans eq "yes"} {
-      
+
       # Clear the shortcut editor (in case its visible)
       shortcut_cancel
-        
+
       # Revert the bindings and set them up using the new values
       bindings::use_default
-      
+
       # Clear the shortcut table
       $widgets(shortcut_tl) delete 0 end
-      
+
       # Re-populate the shortcut table with the updated values
       populate_shortcut_table .menubar
-      
+
     }
-    
+
   }
 
   ######################################################################
   # Returns true if the current symbol displayed in the symbol widget is
   # a function key.
   proc shortcut_sym_is_funckey {} {
-    
+
     variable widgets
-    
+
     return [regexp {^F\d+$} [$widgets(shortcut_sym) get]]
-    
+
   }
-  
+
   ######################################################################
   # Called whenever the modifier or symbol combobox change.  Handles the
   # state of the Update button and update the values available in the
@@ -2956,7 +2956,7 @@ namespace eval pref_ui {
   proc shortcut_changed {} {
 
     variable widgets
-    
+
     # Get the widget contents
     set mod [$widgets(shortcut_mod) get]
     set sym [$widgets(shortcut_sym) get]
@@ -2997,7 +2997,7 @@ namespace eval pref_ui {
     # Create dictionaries from the mod_dict and sym_dict dictionaries
     set mods [dict create {*}[dict get $mod_dict]]
     set syms [dict create {*}[dict get $sym_dict]]
-    
+
     # If the symbol widget is not displaying a function key, remove the empty space modifier
     if {![shortcut_sym_is_funckey]} {
       catch { dict unset mods {} }
@@ -3088,7 +3088,7 @@ namespace eval pref_ui {
       # Get the current shortcut menu from the table
       set shortcut [$widgets(shortcut_tl) cellcget $selected,shortcut -text]
       set value    [list "" "" "" "" ""]
-      
+
       # If the shortcut contains the minus key, pull it off and adjust the rest of the shortcut string
       if {[string range $shortcut end-1 end] eq "--"} {
         lset value 4 "-"
@@ -3232,15 +3232,15 @@ namespace eval pref_ui {
     set value ""
 
     set sym [$widgets(shortcut_sym) get]
-    
+
     if {[set mod [$widgets(shortcut_mod) get]] ne ""} {
       if {$mod ne ""} {
         if {[tk windowingsystem] eq "aqua"} {
-          set value [list * * * * $sym]
-          foreach elem [split $mod ""] {
+          set value [list "" "" "" "" ""]
+          foreach elem [list {*}[split $mod ""] $sym] {
             lset value {*}[bindings::accelerator_mapping $elem]
           }
-          set value [join [string map {* {}} $value] -]
+          set value [join [concat {*}$value] -]
         } else {
           set value "$mod-$sym"
         }
@@ -3248,7 +3248,7 @@ namespace eval pref_ui {
     } else {
       set value $sym
     }
-    
+
     # Set the shortcut cell value
     $widgets(shortcut_tl) cellconfigure [$widgets(shortcut_tl) curselection],shortcut -text $value
 

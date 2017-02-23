@@ -45,22 +45,22 @@ namespace eval bindings {
   ######################################################################
   # If a user bindings file exists, remove it and perform a load.
   proc use_default {} {
-    
+
     variable user_bindings_file
-    
+
     # If a user binding file exists, do the following
     if {[file exists $user_bindings_file]} {
-      
+
       # Remove the file
       file delete -force $user_bindings_file
-      
+
       # Reload the bindings
       load_file 0
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Saves the given shortcut information to the menu binding file.
   proc save {max shortcuts} {
@@ -125,7 +125,7 @@ namespace eval bindings {
 
     # Read in the user bindings file.
     if {![catch { tkedat::read $user_bindings_file 0 } rc]} {
-      
+
       # This block of code removes and default menu bindings that are in use by the user.
       if {[array exists reversed]} {
         foreach {mnu binding} $rc {
@@ -134,18 +134,18 @@ namespace eval bindings {
           }
         }
       }
-      
+
       # Override the left-over menu bindings with those from the user
       array set menu_bindings $rc
-      
+
       # Apply the bindings to the UI
       apply_all_bindings
-      
+
     } else {
-      
+
       # Remove all menu bindings if we were unable to read the user bindings file (this file should exist)
       array unset menu_bindings
-      
+
     }
 
   }
@@ -163,7 +163,7 @@ namespace eval bindings {
       set menu_list [split $mnu_path /]
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
-          set value [list * * * * *]
+          set value [list "" "" "" "" ""]
           if {[string range $binding end-1 end] eq "--"} {
             set binding [string range $binding 0 end-2]
             lset value 4 "-"
@@ -171,7 +171,7 @@ namespace eval bindings {
           foreach elem [split $binding -] {
             lset value [lindex [accelerator_mapping $elem] 0] $elem
           }
-          set binding [join [string map {* {}} $value] -]
+          set binding [join [concat {*}$value] -]
           set bound_menus($mnu,$menu_index) $binding
           $mnu entryconfigure $menu_index -accelerator $binding
           bind all [accelerator_to_sequence $binding] "menus::invoke $mnu $menu_index; break"
@@ -280,7 +280,7 @@ namespace eval bindings {
         }
       }
     }
-    
+
     if {$append_dash} {
       append sequence "minus"
     }
@@ -304,6 +304,11 @@ namespace eval bindings {
       Down,\u2193    4
       Left,\u2190    4
       Right,\u2192   4
+    }
+
+    # Special-case the asterisk character
+    if {($value eq "*") || ($value eq "?")} {
+      return [list 4 $value]
     }
 
     if {[set key [array names map $value,*]] ne ""} {
