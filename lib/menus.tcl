@@ -2110,11 +2110,11 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Find Next Bracket Mismatch"] -command [list completer::goto_mismatch next]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find next mismatching bracket"]] [list completer::goto_mismatch next]
+    $mb add command -label [msgcat::mc "Find Next Bracket Mismatch"] -command [list gui::goto_mismatch next]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find next mismatching bracket"]] [list gui::goto_mismatch next]
 
-    $mb add command -label [msgcat::mc "Find Previous Bracket Mismatch"] -command [list completer::goto_mismatch prev]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find previous mismatching bracket"]] [list completer::goto_mismatch prev]
+    $mb add command -label [msgcat::mc "Find Previous Bracket Mismatch"] -command [list gui::goto_mismatch prev]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Find previous mismatching bracket"]] [list gui::goto_mismatch prev]
 
     $mb add separator
 
@@ -2180,12 +2180,12 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Show Selected Line Change"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Find Matching Bracket"] -state $readonly_state
-      if {[completer::goto_mismatch next -check 1]} {
+      if {[gui::goto_mismatch next -check 1]} {
         $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Find Next Bracket Mismatch"] -state disabled
       }
-      if {[completer::goto_mismatch prev -check 1]} {
+      if {[gui::goto_mismatch prev -check 1]} {
         $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state normal
       } else {
         $mb entryconfigure [msgcat::mc "Find Previous Bracket Mismatch"] -state disabled
