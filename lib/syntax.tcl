@@ -478,6 +478,8 @@ namespace eval syntax {
     if {$opts(-highlight)} {
       $txt highlight 1.0 end
       folding::restart $txt
+
+      # TBD - We need to disable StringCommentChanged bracket checking
       completer::check_all_brackets $txt.t
     }
 

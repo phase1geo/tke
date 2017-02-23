@@ -604,6 +604,7 @@ namespace eval edit {
 
     }
 
+    # TBD - We should specify the string so that check_all_brackets can be smarter
     completer::check_all_brackets $txtt
 
   }
@@ -636,6 +637,7 @@ namespace eval edit {
     # Create undo separator
     $txtt edit separator
 
+    # TBD - Add string to this call
     completer::check_all_brackets $txtt
 
   }
@@ -665,7 +667,7 @@ namespace eval edit {
     # Create undo separator
     $txtt edit separator
 
-    # Highlight brackets
+    # Highlight brackets - add string to this call
     completer::check_all_brackets $txtt
 
   }
@@ -974,7 +976,7 @@ namespace eval edit {
     # Replace the line with the given text
     $txt replace "insert linestart" "insert lineend" $rc
 
-    # Highlight brackets
+    # Highlight brackets - Make this call smarter by adding string
     completer::check_all_brackets $txtt
 
   }
@@ -1259,6 +1261,8 @@ namespace eval edit {
 
     }
 
+    # TBD - We need to call check_all_brackets with inserted text
+
   }
 
   ######################################################################
@@ -1326,5 +1330,7 @@ namespace eval edit {
     }
 
   }
+
+  # TBD - We need to call check_all_brackets with deleted string
 
 }
