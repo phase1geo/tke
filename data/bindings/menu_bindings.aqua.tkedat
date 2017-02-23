@@ -1,50 +1,112 @@
 # File menu bindings
-{File/New File}                   Cmd-N
-{File/Open File...}               Cmd-O
-{File/Open Directory...}          Cmd-Shift-O
-{File/Show File Difference}       Cmd-D
-{File/Save}                       Cmd-S
-{File/Save As...}                 Cmd-Shift-S
-{File/Lock}                       Cmd-L
-{File/Close}                      Cmd-W
-{File/Close All}                  Cmd-Shift-W
-{File/Quit}                       Cmd-Q
+{File/New File}                           Cmd-N
+{File/Open File...}                       Cmd-O
+{File/Open Directory...}                  Shift-Cmd-O
+{File/Show File Difference}               Cmd-D
+{File/Save}                               Cmd-S
+{File/Save As...}                         Shift-Cmd-S
+{File/Export...}                          Shift-Cmd-E
+{File/Rename}                             Shift-Cmd-R
+{File/Duplicate}                          Shift-Cmd-D
+{File/Delete}                             Shift-Cmd-T
+{File/Lock}                               Cmd-L
+{File/Close}                              Cmd-W
+{File/Close All}                          Shift-Cmd-W
 
 # Edit menu bindings
-{Edit/Undo}                          Cmd-Z
-{Edit/Redo}                          Cmd-R
-{Edit/Cut}                           Cmd-X
-{Edit/Copy}                          Cmd-C
-{Edit/Paste}                         Cmd-V
-{Edit/Paste and Format}              Cmd-Shift-V
-{Edit/Toggle Comment}                Ctrl-I
-{Edit/Indentation/Indent}            Ctrl-[
-{Edit/Indentation/Unindent}          Ctrl-]
-{Edit/Cursor/Align Cursors Only}     Ctrl-Shift-A
-{Edit/Cursor/Align Cursors and Text} Ctrl-A
-{Edit/Transform/Join Lines}          Cmd-J
-{Edit/Format/Bold}                   Cmd-B
-{Edit/Format/Italics}                Cmd-I
-{Edit/Format/Underline}              Cmd-U
-{Edit/Emmet/Expand Abbreviation}     Ctrl-E
+{Edit/Undo}                               Cmd-Z
+{Edit/Redo}                               Cmd-R
+{Edit/Cut}                                Cmd-X
+{Edit/Copy}                               Cmd-C
+{Edit/Paste}                              Cmd-V
+{Edit/Paste and Format}                   Shift-Cmd-V
+{Edit/Select All}                         Cmd-A
+{Edit/Toggle Comment}                     Ctrl-/
+{Edit/Indentation/Indent}                 Ctrl-[
+{Edit/Indentation/Unindent}               Ctrl-]
+{Edit/Indentation/Format Text}            Ctrl-|
+{Edit/Cursor/Move to First Line}          Alt-Cmd-0
+{Edit/Cursor/Move to Last Line}           Alt-Cmd-9
+{Edit/Cursor/Move to Next Page}           Alt-Cmd-J
+{Edit/Cursor/Move to Previous Page}       Alt-Cmd-K
+{Edit/Cursor/Move to Screen Top}          Alt-Cmd-H
+{Edit/Cursor/Move to Screen Middle}       Alt-Cmd-M
+{Edit/Cursor/Move to Screen Bottom}       Alt-Cmd-L
+{Edit/Cursor/Move to Line Start}          Alt-Cmd-^
+{Edit/Cursor/Move to Line End}            Alt-Cmd-$
+{Edit/Cursor/Move to Next Word}           Alt-Cmd-W
+{Edit/Cursor/Move to Previous Word}       Alt-Cmd-P
+{Edit/Cursor/Move Cursors Up}             Alt-Cmd-Up
+{Edit/Cursor/Move Cursors Down}           Alt-Cmd-Down
+{Edit/Cursor/Move Cursors Left}           Alt-Cmd-Left
+{Edit/Cursor/Move Cursors Right}          Alt-Cmd-Right
+{Edit/Cursor/Align Cursors Only}          Ctrl-Shift-Alt-A
+{Edit/Cursor/Align Cursors and Text}      Ctrl-Alt-A
+{Edit/Insert/Line Above Current}          Alt-Shift-O
+{Edit/Insert/Line Below Current}          Alt-O
+{Edit/Insert/From Clipboard}              Alt-C
+{Edit/Insert/Snippet}                     Alt-S
+{Edit/Insert/Enumeration}                 Alt-E
+{Edit/Delete/Current Line}                Ctrl-Alt-D
+{Edit/Delete/Current Word}                Ctrl-Alt-R
+{Edit/Delete/Current Number}              Ctrl-Alt-N
+{Edit/Delete/Cursor to Line End}          Ctrl-Alt-E
+{Edit/Delete/Cursor from Line Start}      Ctrl-Alt-B
+{Edit/Delete/Whitespace Forward}          Ctrl-Alt-S
+{Edit/Delete/Whitespace Backward}         Ctrl-Alt-Shift-S
+{Edit/Delete/Text Between Character}      Ctrl-Alt-C
+{Edit/Transform/Lower Case}               Alt-L
+{Edit/Transform/Upper Case}               Alt-U
+{Edit/Transform/Title Case}               Alt-T
+{Edit/Transform/Join Lines}               Cmd-J
+{Edit/Transform/Bubble Up}                Alt-Up
+{Edit/Transform/Bubble Down}              Alt-Down
+{Edit/Format/Bold}                        Cmd-B
+{Edit/Format/Italics}                     Cmd-I
+{Edit/Format/Underline}                   Cmd-U
+{Edit/Format/Remove Formatting}           Cmd--
+{Edit/Emmet/Expand Abbreviation}          Ctrl-E
+{Edit/Preferences/Edit User - Global}     Cmd-,
+{Edit/Preferences/Edit Session - Global}  Cmd-;
 
 # Find menu bindings
-{Find/Find}                       Cmd-F
-{Find/Find and Replace}           Cmd-Shift-F
-{Find/Select Next Occurrence}     Alt-N
-{Find/Select Previous Occurrence} Alt-P
-{Find/Append Next Occurrence}     Alt-D
-{Find/Select All Occurrences}     Alt-A
-{Find/Jump Backward}              Ctrl-Left
-{Find/Jump Forward}               Ctrl-Right
-{Find/Next Difference}            Ctrl-Down
-{Find/Previous Difference}        Ctrl-Up
-{Find/Find Matching Pair}         Ctrl-P
-{Find/Find In Files}              Cmd-Ctrl-F
+{Find/Find}                               Cmd-F
+{Find/Find and Replace}                   Shift-Cmd-F
+{Find/Select Next Occurrence}             Alt-N
+{Find/Select Previous Occurrence}         Alt-P
+{Find/Select All Occurrences}             Alt-A
+{Find/Append Next Occurrence}             Alt-D
+{Find/Jump Backward}                      Ctrl-Left
+{Find/Jump Forward}                       Ctrl-Right
+{Find/Jump To Line}                       Ctrl-G
+{Find/Next Difference}                    Ctrl-Down
+{Find/Previous Difference}                Ctrl-Up
+{Find/Find Matching Bracket}              Ctrl-%
+{Find/Find In Files}                      Ctrl-Alt-F
 
 # View menu bindings
-{View/Hide Sidebar}               Cmd-K
+{View/Hide Sidebar}                       Cmd-K
+{View/Display Text Info}                  Cmd-T
+{View/Split View}                         Ctrl-P
+{View/Move to Other Pane}                 Ctrl-M
+{View/Panes/Merge Panes}                  Ctrl-Alt-G
+{View/Tabs/Goto Next Tab}                 Shift-Alt-N
+{View/Tabs/Goto Previous Tab}             Shift-Alt-P
+{View/Tabs/Goto Last Tab}                 Shift-Alt-L
+{View/Tabs/Goto Other Pane}               Shift-Alt-A
 
 # Tools menu bindings
-{Tools/Launcher}                  Ctrl-Space
-{Tools/Vim Mode}                  Ctrl-M
+{Tools/Launcher}                          Ctrl-Space
+
+# Sessions menu bindings
+{Sessions/Close Current}                  Shift-Alt-C
+{Sessions/Save Current}                   Shift-Alt-S
+
+# Plugins menu bindings
+{Plugins/Install...}                      Shift-Cmd-I
+{Plugins/Uninstall...}                    Shift-Cmd-U
+{Plugins/Show Installed...}               Shift-Cmd-P
+
+# Window menu bindings
+{Window/Minimize}                         Cmd-M
+{Window/Cycle Through Windows}            Cmd-`

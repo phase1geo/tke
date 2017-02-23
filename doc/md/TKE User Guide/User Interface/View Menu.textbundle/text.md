@@ -14,16 +14,16 @@ The View menu allows the user to change the interface as desired.  The following
 | Show/Hide Marker Map | | | Shows or hides the marker map in the text scrollbar region. |
 | Show/Hide Meta Characters | | | Shows or hides any characters in the current edit tab that are syntax highlighted as “meta” characters.  Examples of meta characters would be formatting characters used in languages like Markdown. |
 | Display Text Info | Cmd-T | Ctrl-T | Displays the current line count and character count for the current file in the information bar. |
-| Split View | Ctrl-S | Ctrl-S | When selected, creates a second view into the current file.  Each view can be independently manipulated; however, any text modifications made in either window will be available in the other view.  Deselecting this menu option will return the file to only showing a single view of the file in the editor. |
+| Split View | Ctrl-P | Ctrl-P | When selected, creates a second view into the current file.  Each view can be independently manipulated; however, any text modifications made in either window will be available in the other view.  Deselecting this menu option will return the file to only showing a single view of the file in the editor. |
 | Bird’s Eye View | | | When selected, displays the bird’s eye view within each opened tab. Deselecting this option will hide the bird’s eye view in all opened tabs. |
 | Move to Other Pane | Ctrl-M | Ctrl-M | Moves the current file to the other text pane.  If only one text pane is currently viewable, a second pane will be displayed to the right of the current pane and the file will be moved to that pane.  If a pane only contains the file that is being moved, that pane will be removed from view.  This allows two files to be viewed “side by side”. |
 | Panes / Enable Synchronized Scrolling | | | When selected, synchronizes the scrolling of both panes to keep the displayed lines in alignment with one another when either pane is scrolled. |
 | Panes / Align Panes | | | Causes the current line in both panes to align to each other horizontally. |
-| Panes / Merge Panes | Ctrl-Alt-M | Ctrl-Alt-M | Merges all tabs in both panes into a single pane. |
-| Tabs / Goto Next Tab | Ctrl-N | Ctrl-N | Changes the current file to be the file in the next tab in the current pane to the right of the current tab. |
-| Tabs / Goto Previous Tab | Ctrl-P | Ctrl-P | Changes the current file to be the file in the next tab in the current pane to the left of the current tab. |
-| Tabs / Goto Last Tab | Ctrl-L | Ctrl-L | Changes the current file to be the file in the last viewed tab in the current pane. |
-| Tabs / Goto Other Pane | Ctrl-O | Ctrl-O | Changes the current keyboard focus to the current tab in the other pane.  This menu item is only available if both panes in viewable. |
+| Panes / Merge Panes | Ctrl-Alt-G | Ctrl-Alt-G | Merges all tabs in both panes into a single pane. |
+| Tabs / Goto Next Tab | Shift-Alt-N | Shift-Alt-N | Changes the current file to be the file in the next tab in the current pane to the right of the current tab. |
+| Tabs / Goto Previous Tab | Shift-Alt-P | Shift-Alt-P | Changes the current file to be the file in the next tab in the current pane to the left of the current tab. |
+| Tabs / Goto Last Tab | Shift-Alt-L | Shift-Alt-L | Changes the current file to be the file in the last viewed tab in the current pane. |
+| Tabs / Goto Other Pane | Shift-Alt-A | Shift-Alt-A | Changes the current keyboard focus to the current tab in the other pane.  This menu item is only available if both panes in viewable. |
 | Tabs / Sort Tabs | | | Alphabetically sorts the tabs in the current pane. |
 | Tabs / Hide Current Tab | | | Hides the current tab from view. |
 | Tabs / Hide All Tabs | | | Hides all of the opened tabs from view. |

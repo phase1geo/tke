@@ -15,27 +15,27 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Toggle Comment | Ctrl-/ | Ctrl-/ | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
 | Indentation / Indent | Ctrl-\[ | Ctrl-\[ | Indents the selected text by one level of indentation. |
 | Indentation / Unindent | Ctrl-\] | Ctrl-\] | Unindents the selected text by one level of indentation. |
-| Indentation / Format Text | Ctrl-I | Ctrl-I | Modifies either the selected text or the entire file content (depending on whether text is currently selected or not) to match the indentation in the current context. |
+| Indentation / Format Text | Ctrl-\| | Ctrl-\| | Modifies either the selected text or the entire file content (depending on whether text is currently selected or not) to match the indentation in the current context. |
 | Indentation / Indent Off | | | Turns indentation mode off for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the first column of the next row. |
 | Indentation / Auto-Indent | | | Turns auto-indentation mode on for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the same column as the previous line’s starting character. |
 | Indentation / Smart Indent | | | Turns smart indentation mode on for the current editor.  Hitting the ENTER key in the editing window will perform the proper indentation based on the current language and context.  If a character sequence is entered that completes an indentation, the character sequence will be adjusted to the proper indentation level. |
-| Cursor / Move to First Line | Alt-Cmd-0 | Alt-Ctrl-0 | Moves the cursor to the start of the first line of the file and adjusts the view so the cursor is visible. |
-| Cursor / Move to Last Line | Alt-Cmd-9 | Alt-Ctrl-9 | Moves the cursor to the start of the last line of the file and adjusts the view so the cursor is visible. |
-| Cursor / Move to Next Page | Alt-Cmd-N | Alt-Ctrl-N | Moves the cursor down by a single page and adjusts the view so the cursor is visible. |
-| Cursor / Move to Previous Page | Alt-Cmd-P | Alt-Ctrl-P | Moves the cursor up by a single page and adjusts the view so the cursor is visible. |
-| Cursor / Move to Screen Top | Alt-Cmd-H | Alt-Ctrl-H | Moves the cursor to the start of the line at the top of the current screen. |
-| Cursor / Move to Screen Middle | Alt-Cmd-M | Alt-Ctrl-M | Moves the cursor to the start of the line in the middle of the current screen. |
-| Cursor / Move to Screen Bottom | Alt-Cmd-L | Alt-Ctrl-L | Moves the cursor to the start of the line at the bottom of the current screen. |
-| Cursor / Move to Line Start | Alt-Cmd-^ | Alt-Ctrl-^ | Moves the cursor to the start of the current line. |
-| Cursor / Move to Line End | Alt-Cmd-$ | Alt-Ctrl-$ | Moves the cursor to the end of the current line. |
-| Cursor / Move to Next Word | Alt-Cmd-W | Alt-Ctrl-W | Moves the cursor to the beginning of the next word. |
-| Cursor / Move to Previous Word | Alt-Cmd-B | Alt-Ctrl-B | Moves the cursor to the beginning of the previous word. |
-| Cursor / Move Cursors Up | Alt-Cmd-Up | Alt-Ctrl-Up | In multicursor mode, moves all of the cursors up by one line. |
-| Cursor / Move Cursors Down | Alt-Cmd-Down | Alt-Ctrl-Down | In multicursor mode, moves all of the cursors down by one line. |
-| Cursor / Move Cursors Left | Alt-Cmd-Left | Alt-Ctrl-Left | In multicursor mode, moves all of the cursors to the left by one character. |
-| Cursor / Move Cursors Right | Alt-Cmd-Right | Alt-Ctrl-Right | In multicursor mode, moves all of the cursors to the right by one character. |
-| Cursor / Align Cursors Only | Shift-Ctrl-A | Shift-Ctrl-A | When multicursors are set in the current file, this command will adjust the cursors in each line so that they are aligned to the cursor which is closest to the beginning of the line |
-| Cursor / Align Cursors and Text | Ctrl-A | Ctrl-A | When multicursors are set in the current file, this command will adjust each line such that all cursors (and all text from the cursor to the end of the line) will be aligned to the same column.  The cursors will be aligned to the highest column in the multicursor set. |
+| Cursor / Move to First Line | Alt-Cmd-0 | Ctrl-Alt-0 | Moves the cursor to the start of the first line of the file and adjusts the view so the cursor is visible. |
+| Cursor / Move to Last Line | Alt-Cmd-9 | Ctrl-Alt-9 | Moves the cursor to the start of the last line of the file and adjusts the view so the cursor is visible. |
+| Cursor / Move to Next Page | Alt-Cmd-J | Ctrl-Alt-J | Moves the cursor down by a single page and adjusts the view so the cursor is visible. |
+| Cursor / Move to Previous Page | Alt-Cmd-K | Ctrl-Alt-K | Moves the cursor up by a single page and adjusts the view so the cursor is visible. |
+| Cursor / Move to Screen Top | Alt-Cmd-H | Ctrl-Alt-H | Moves the cursor to the start of the line at the top of the current screen. |
+| Cursor / Move to Screen Middle | Alt-Cmd-M | Ctrl-Alt-M | Moves the cursor to the start of the line in the middle of the current screen. |
+| Cursor / Move to Screen Bottom | Alt-Cmd-L | Ctrl-Alt-L | Moves the cursor to the start of the line at the bottom of the current screen. |
+| Cursor / Move to Line Start | Alt-Cmd-^ | Ctrl-Alt-^ | Moves the cursor to the start of the current line. |
+| Cursor / Move to Line End | Alt-Cmd-$ | Ctrl-Alt-$ | Moves the cursor to the end of the current line. |
+| Cursor / Move to Next Word | Alt-Cmd-W | Ctrl-Alt-W | Moves the cursor to the beginning of the next word. |
+| Cursor / Move to Previous Word | Alt-Cmd-P | Ctrl-Alt-P | Moves the cursor to the beginning of the previous word. |
+| Cursor / Move Cursors Up | Alt-Cmd-Up | Ctrl-Alt-Up | In multicursor mode, moves all of the cursors up by one line. |
+| Cursor / Move Cursors Down | Alt-Cmd-Down | Ctrl-Alt-Down | In multicursor mode, moves all of the cursors down by one line. |
+| Cursor / Move Cursors Left | Alt-Cmd-Left | Ctrl-Alt-Left | In multicursor mode, moves all of the cursors to the left by one character. |
+| Cursor / Move Cursors Right | Alt-Cmd-Right | Ctrl-Alt-Right | In multicursor mode, moves all of the cursors to the right by one character. |
+| Cursor / Align Cursors Only | Shift-Ctrl-Alt-A | Shift-Ctrl-Alt-A | When multicursors are set in the current file, this command will adjust the cursors in each line so that they are aligned to the cursor which is closest to the beginning of the line |
+| Cursor / Align Cursors and Text | Ctrl-Alt-A | Ctrl-Alt-A | When multicursors are set in the current file, this command will adjust each line such that all cursors (and all text from the cursor to the end of the line) will be aligned to the same column.  The cursors will be aligned to the highest column in the multicursor set. |
 | Insert / Line Above Current | Shift-Alt-O | Shift-Alt-O | Inserts a blank line above the current line and places the cursor at the beginning of the blank line for editing. |
 | Insert / Line Below Current | Alt-O | Alt-O | Inserts a blank line below the current line and places the cursor at the beginning of the blank line for editing. |
 | Insert / File Contents | | | Prompts the user to select a file for insertion. If a file is selected, the entire contents of the file are inserted the line below the current line. |
@@ -44,12 +44,12 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Insert / Snippet | Alt-S | Alt-S | Displays the command launcher in snippet mode to allow the user to view and select one of the language-specific snippets to insert into the current editor. |
 | Insert / Enumeration | Alt-E | Alt-E | When one or more multicursors are set, allows the user to insert ascending numerical values at each cursor insertion position. |
 | Delete / Current Line | Ctrl-Alt-D | Ctrl-Alt-D | Deletes the current line and places the cursor at the beginning of the next line.  The deleted line is placed into the clipboard. |
-| Delete / Current Word | Ctrl-Alt-W | Ctrl-Alt-W | Deletes the current word and places the cursor at the beginning of the next word.  The deleted word is placed into the clipboard. |
+| Delete / Current Word | Ctrl-Alt-R | Ctrl-Alt-R | Deletes the current word and places the cursor at the beginning of the next word.  The deleted word is placed into the clipboard. |
 | Delete / Current Number | Ctrl-Alt-N | Ctrl-Alt-N | Deletes the current number and places the cursor just after the deleted text.  The deleted number is placed into the clipboard. |
-| Delete / Cursor to Line End | Ctrl-Alt-$ | Ctrl-Alt-$ | Deletes all characters between the current cursor and the end of the line, placing the cursor on the character previous to the current character. |
-| Delete / Cursor to Line Start | Ctrl-Alt-^ | Ctrl-Alt-^ | Deletes all characters between the start of the current line and up to (but not including) the current cursor. |
+| Delete / Cursor to Line End | Ctrl-Alt-E | Ctrl-Alt-E | Deletes all characters between the current cursor and the end of the line, placing the cursor on the character previous to the current character. |
+| Delete / Cursor to Line Start | Ctrl-Alt-B | Ctrl-Alt-B | Deletes all characters between the start of the current line and up to (but not including) the current cursor. |
 | Delete / Whitespace Forward | Ctrl-Alt-S | Ctrl-Alt-S | Deletes all consecutive whitespace (i.e., space and tab) characters from the current cursor towards the end of the current line. |
-| Delete / Whitespace Backward | Ctrl-Alt-Shift-S | Ctrl-Alt-Shift-S | Deletes all consecutive whitespace characters from the current cursor towards the start of the current line. |
+| Delete / Whitespace Backward | Shift-Ctrl-Alt-S | Shift-Ctrl-Alt-S | Deletes all consecutive whitespace characters from the current cursor towards the start of the current line. |
 | Delete / Text Between Character | Ctrl-Alt-C | Ctrl-Alt-C | Displays an input field allowing a single character to be entered.  The character is searched for the first occurrence before the current cursor and the first occurrence after the current cursor. All characters between these two characters is deleted and placed in the clipboard. |
 | Transform / Toggle Case | | | Toggles the case of the character at the current insertion cursor or of all selected characters. |
 | Transform / Lower Case | Alt-L | Alt-L | Sets the case of the character at the current cursor or all selected characters to lower case. |
@@ -77,8 +77,8 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Format / Ordered | | | Inserts the ordered item syntax associated with the current language. If text is selected, the ordered syntax will be placed at the beginning of each line containing a selection. If no text is selected, the ordered syntax will be placed at the beginning of the current line. If multicursors are set, ordered syntax will be inserted at each line containing a multicursor. |
 | Format / Checkbox | | | Inserts the checkbox syntax associated with the current language. If text is selected, the checkbox syntax will be placed at the beginning of each line containing a selection. If no text is selected, the checkbox syntax will be placed at the beginning of the current line. If multicursors are set, checkbox syntax will be inserted at each line containing a multicursor. |
 | Format / Remove Formatting | Cmd- - | Ctrl- - | Removes any text formatting that is insertable by the formatting menu. If text is selected, all formatting will be removed from the selection. If text is not selected, all formatting will be removed from the current line. If multicursors are set, all formatting will be removed from each line that contains a multicursor. |
-| Snippets / Edit User | Alt-Shift-Cmd-S | Alt-Shift-Ctrl-S | Adds the user's global snippet file into the editor. |
-| Snippets / Edit Language | Alt-Cmd-S | Alt-Ctrl-S | Adds the user’s snippet file into the editor for the current language. |
+| Snippets / Edit User | | | Adds the user's global snippet file into the editor. |
+| Snippets / Edit Language | | | Adds the user’s snippet file into the editor for the current language. |
 | Snippets / Reload | | | Reloads the contents of the snippets for the current language and user.  Useful if the snippet file contents are not usable within the editor. |
 | Templates / Edit | | | Opens an existing named template for editing. |
 | Templates / Delete | | | Deletes an existing named template. |
