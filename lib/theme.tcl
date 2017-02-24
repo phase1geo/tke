@@ -918,7 +918,6 @@ namespace eval theme {
       syntax::set_language $txt [syntax::get_language $txt] -highlight 0
       scroller::update_markers [winfo parent $txt].vb
       folding::update_closed $txt
-      completer::set_bracket_mismatch_color $txt
     }
 
   }
