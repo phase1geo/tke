@@ -23,13 +23,12 @@
 ####################################################################
 
 namespace eval completer {
-  
+
   array set pref_complete    {}
   array set complete         {}
   array set lang_match_chars {}
 
-  trace add variable preferences::prefs(Editor/AutoMatchChars)           write completer::handle_auto_match_chars
-  trace add variable preferences::prefs(Editor/HighlightMismatchingChar) write completer::handle_bracket_audit
+  trace add variable preferences::prefs(Editor/AutoMatchChars) write completer::handle_auto_match_chars
 
   ######################################################################
   # Handles any changes to the Editor/AutoMatchChars preference value.
@@ -57,17 +56,6 @@ namespace eval completer {
     foreach key [array names lang_match_chars] {
       lassign [split $key ,] txtt lang
       set_auto_match_chars $txtt $lang $lang_match_chars($key)
-    }
-
-  }
-
-  ######################################################################
-  # Handle any changes to the bracket auditing preference value.
-  proc handle_bracket_audit {name1 name2 op} {
-
-    # Update all text widgets
-    foreach txt [gui::get_all_texts] {
-      # ctext::checkAllBrackets $txt
     }
 
   }
@@ -412,5 +400,5 @@ namespace eval completer {
     }
 
   }
-  
+
 }
