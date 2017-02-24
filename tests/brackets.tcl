@@ -61,7 +61,7 @@ namespace eval brackets {
       }
 
       # Highlight mismatching brackets
-      completer::check_all_brackets $txt.t -force 1
+      ctext::checkAllBrackets $txt
 
       foreach type [list square curly paren angled] {
         set ranges [$txt tag ranges missing:$type]
@@ -107,7 +107,7 @@ namespace eval brackets {
       }
 
       # Highlight mismatching brackets
-      completer::check_all_brackets $txt.t -force 1
+      ctext::checkAllBrackets $txt
 
       foreach type [list square curly paren angled] {
         set ranges [$txt tag ranges missing:$type]
@@ -153,7 +153,7 @@ namespace eval brackets {
       }
 
       # Highlight mismatching brackets
-      completer::check_all_brackets $txt.t -force 1
+      ctext::checkAllBrackets $txt
 
       foreach type [list square curly paren angled] {
         set ranges [$txt tag ranges missing:$type]
