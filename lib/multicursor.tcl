@@ -666,7 +666,7 @@ namespace eval multicursor {
       } else {
         ctext::checkAllBrackets $txt $dat
       }
-      ctext::modified $win 1 [list delete $ranges ""]
+      ctext::modified $txt 1 [list delete $ranges ""]
 
       event generate $txt.t <<CursorChanged>>
 
@@ -742,7 +742,7 @@ namespace eval multicursor {
         } else {
           ctext::checkAllBrackets $txt $dat
         }
-        ctext::modified $win 1 [list replace $ranges ""]
+        ctext::modified $txt 1 [list replace $ranges ""]
         if {$indent_cmd ne ""} {
           set start 1.0
           while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
