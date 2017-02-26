@@ -555,7 +555,7 @@ proc ctext::buildArgParseTable win {
     $win tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     break
   }
-  
+
   lappend argTable {0 false no} -matchaudit {
     set data($win,config,-matchaudit) 0
     foreach type [list curly square paren angled] {
@@ -563,13 +563,13 @@ proc ctext::buildArgParseTable win {
     }
     break
   }
-  
+
   lappend argTable {1 true yes} -matchaudit {
     set data($win,config,-matchaudit) 1
     checkAllBrackets $win
     break
   }
-  
+
   lappend argTable {any} -matchaudit_bg {
     set data($win,config,-matchaudit_bg) $value
     foreach type [list curly square paren angled] {
@@ -1595,6 +1595,7 @@ proc ctext::command_highlight {win args} {
 
 }
 
+
 proc ctext::command_insert {win args} {
 
   variable data
@@ -1603,57 +1604,70 @@ proc ctext::command_insert {win args} {
     return -code error "please use at least 2 arguments to $win insert"
   }
 
-  set moddata [list]
+  set moddata   [list]
+  set ranges    [list]
+  set do_tags   [list]
+  set dat       ""
+  set tag_index 0
+
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
   }
 
-  set insertPos [$win._t index [lindex $args 0]]
-  set nextChar  [$win._t get $insertPos]
-  if {[lindex $args 0] eq "end"} {
-    set lineStart [$win._t index "$insertPos-1c linestart"]
-  } else {
-    set lineStart [$win._t index "$insertPos linestart"]
-  }
-
-  # Gather the data
-  set dat ""
-  foreach {chars taglist} [lrange $args 1 end] {
-    append dat $chars
-  }
-
-  # Add the embedded language tag to the arguments if taglists are present
-  if {([llength $args] >= 3) && ([set lang [get_lang $win $insertPos]] ne "")} {
-    set tag_index 2
+  # Prepare the arguments to be passed
+  if {[llength $args] >= 3} {
     foreach {chars taglist} [lrange $args 1 end] {
-      lappend taglist _Lang:$lang
-      lset args $tag_index $taglist
-      incr tag_index 2
+      append dat $chars
+      lappend taglist _XX_
+      lset args [incr tag_index 2] $taglist
     }
+  } else {
+    set dat [lindex $args 1]
   }
 
-  set datlen [string length $dat]
-  set cursor [$win._t index insert]
+  set datlen    [string length $dat]
+  set cursor    [$win._t index insert]
+  set insertPos [lindex $args 0]
 
-  $win._t insert {*}$args
+  # Tag the insertion points
+  if {[catch { $win._t index $insertPos }]} {
+    set start 1.0
+    set tag   $insertPos
+    while {[set dummy [lassign [$win._t tag nextrange $tag $start] insertPos]] ne ""} {
+      if {[set lang [get_lang $win $insertPos]] ne ""} {
+        set new_args [string map [list _XX_ _Lang:$lang] $args]
+      } else {
+        set new_args [string map [list _XX_ ""] $args]
+      }
+      $win._t insert $insertPos {*}[lrange $new_args 1 end]
+      ctext::undo_insert     $win $insertPos $datlen $cursor
+      ctext::handleInsertAt0 $win._t $insertPos $datlen
+      ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
+      lappend ranges [$win._t index "$insertPos linestart"] [$win._t index "$insertPos+${datlen}c lineend"]
+      set start "$insertPos+[expr $datlen + 1]c"
+    }
+  } else {
+    if {[set lang [get_lang $win $insertPos]] ne ""} {
+      set new_args [string map [list _XX_ _Lang:$lang] $args]
+    } else {
+      set new_args [string map [list _XX_ ""] $args]
+    }
+    $win._t insert $insertPos {*}[lrange $new_args 1 end]
+    ctext::undo_insert     $win $insertPos $datlen $cursor
+    ctext::handleInsertAt0 $win._t $insertPos $datlen
+    ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
+    lappend ranges [$win._t index "$insertPos linestart"] [$win._t index "$insertPos+${datlen}c lineend"]
+  }
 
-  ctext::undo_insert $win $insertPos $datlen $cursor
-  ctext::handleInsertAt0 $win._t $insertPos $datlen
-
-  set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
-  set do_tags [list]
-
-  ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
-  set comstr [ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]
-  if {$comstr == 2} {
+  # Perform highlighting, bracket auditing and indicate modification occurs
+  if {[ctext::highlightAll $win $ranges 1 $do_tags]} {
     ctext::checkAllBrackets $win
-  } elseif {$comstr == 1} {
-    ctext::checkAllBrackets $win [$win._t get $insertPos $lineEnd]
   } else {
     ctext::checkAllBrackets $win $dat
   }
-  ctext::modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+  ctext::modified $win 1 [list insert $ranges $moddata]
 
+  # Generate the CursorChanged event
   event generate $win.t <<CursorChanged>>
 
 }
@@ -2234,7 +2248,7 @@ proc ctext::setAutoMatchChars {win lang matchChars} {
 
   # Clear the matchChars
   catch { array unset data $win,config,matchChar,$lang,* }
-  
+
   # Remove the brackets
   foreach type [list curly square paren angled] {
     catch { $win._t tag delete missing:$type }
@@ -2441,14 +2455,14 @@ proc ctext::matchQuote {win lang pos tag type} {
 }
 
 proc ctext::checkAllBrackets {win {str ""}} {
-  
+
   variable data
-  
+
   # If the mismcatching char option is cleared, don't continue
   if {!$data($win,config,-matchaudit)} {
     return
   }
-  
+
   # We don't have support for bracket auditing in embedded languages as of yet
   set lang ""
 
@@ -2458,7 +2472,7 @@ proc ctext::checkAllBrackets {win {str ""}} {
     if {[info exists data($win,config,matchChar,$lang,square)] && ([string map {\[ {} \] {}} $str] ne $str)} { checkBracketType $win square }
     if {[info exists data($win,config,matchChar,$lang,paren)]  && ([string map {( {} ) {}}   $str] ne $str)} { checkBracketType $win paren }
     if {[info exists data($win,config,matchChar,$lang,angled)] && ([string map {< {} > {}}   $str] ne $str)} { checkBracketType $win angled }
-    
+
   # Otherwise, check all of the brackets
   } else {
     foreach type [list square curly paren angled] {
@@ -2467,13 +2481,13 @@ proc ctext::checkAllBrackets {win {str ""}} {
       }
     }
   }
-  
+
 }
-  
+
 proc ctext::checkBracketType {win stype} {
-  
+
   variable data
-  
+
   # Clear missing
   $win._t tag remove missing:$stype 1.0 end
 
@@ -2481,7 +2495,7 @@ proc ctext::checkBracketType {win stype} {
   set other   ${stype}R
   set olist   [lassign [$win.t tag ranges _$other] ofirst olast]
   set missing [list]
- 
+
   # Perform count for all code containing left stypes
   foreach {sfirst slast} [$win.t tag ranges _${stype}L] {
     while {($ofirst ne "") && [$win.t compare $sfirst > $ofirst]} {
@@ -2496,7 +2510,7 @@ proc ctext::checkBracketType {win stype} {
     }
     incr count [$win._t count -chars $sfirst $slast]
   }
- 
+
   # Perform count for all right types after the above code
   while {$ofirst ne ""} {
     if {[incr count -[$win._t count -chars $ofirst $olast]] < 0} {
@@ -2524,19 +2538,19 @@ proc ctext::checkBracketType {win stype} {
 # set, returns 0 to indicate that the given option is invalid; otherwise,
 # returns 1.
 proc ctext::gotoBracketMismatch {win dir args} {
-  
+
   variable data
-  
+
   # If the current text buffer was not highlighted, do it now
   if {!$data($win,config,-matchaudit)} {
     return 0
   }
-    
+
   array set opts {
     -check 0
   }
   array set opts $args
-  
+
   # Find the previous/next index
   if {$dir eq "next"} {
     set index end
@@ -2555,7 +2569,7 @@ proc ctext::gotoBracketMismatch {win dir args} {
       }
     }
   }
-      
+
   # Make sure that the current bracket is in view
   if {[lsearch [$win._t tag names $index] missing:*] != -1} {
     if {!$opts(-check)} {
@@ -2564,9 +2578,9 @@ proc ctext::gotoBracketMismatch {win dir args} {
     }
     return 1
   }
-    
+
   return 0
-  
+
 }
 
 proc ctext::get_lang {win index} {
@@ -2767,7 +2781,7 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   if {$all} {
     event generate $win.t <<StringCommentChanged>>
   }
-  
+
   return $all
 
 }

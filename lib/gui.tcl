@@ -379,7 +379,7 @@ namespace eval gui {
     } else {
       hide_status_view
     }
-    
+
     # Save the initial state since this value can be modified from Vim
     set_matching_char [preferences::get Editor/HighlightMatchingChar]
 
@@ -480,9 +480,9 @@ namespace eval gui {
   ######################################################################
   # Sets the -matchchar value on all displayed text widgets.
   proc set_matching_char {value} {
-    
+
     variable show_match_chars
-    
+
     # Save this value because it can be changed from Vim
     set show_match_chars $value
 
@@ -492,19 +492,19 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Handles any preference changes to the Editor/HighlightMismatchingChar setting.
   proc handle_bracket_audit {name1 name2 op} {
-    
+
     # Get the preference value
     set value [preferences::get Editor/HighlightMismatchingChar]
-    
+
     # Set the -matchaudit option in each opened text widget to the given value
     foreach txt [get_all_texts] {
       $txt configure -matchaudit $value
     }
-    
+
   }
 
   ######################################################################
@@ -654,7 +654,7 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Handles any changes to the Appearance/ExtraLineSpacing preference
   # value.
@@ -4080,7 +4080,7 @@ namespace eval gui {
   proc show_split_pane {} {
 
     variable show_match_chars
-    
+
     # Get the current paned window
     get_info {} current tabbar tab txt txt2 diff
 
@@ -4494,7 +4494,7 @@ namespace eval gui {
   proc text_changed {txt data} {
 
     variable cursor_hist
-    
+
     if {[$txt edit modified]} {
 
       # Get file information
@@ -5025,11 +5025,11 @@ namespace eval gui {
   # Jumps the insertion cursor to the next/previous mismatching bracket
   # within the current text widget.
   proc goto_mismatch {dir args} {
-    
+
     return [ctext::gotoBracketMismatch [current_txt] $dir {*}$args]
-    
+
   }
-  
+
   ######################################################################
   # Handles a mark request when the line is clicked.
   proc mark_command {win type tag} {

@@ -680,24 +680,12 @@ namespace eval multicursor {
         }
         set selected 0
       }
-      set start    1.0
-      set ranges   [list]
-      set valuelen [string length $value]
-      while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
-        set start [lindex $range 0]
-        $txtt fastinsert -update 0 $start $value
-        ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
-        set start "$start+[expr $valuelen + 1]c"
-        lappend ranges {*}$range
-      }
-      $txtt highlight -insert 1 -dotags $do_tags -modified {*}$ranges
+      $txtt insert mcursor $value
       if {$indent_cmd ne ""} {
         set start 1.0
         while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
           set start [$indent_cmd $txtt [lindex $range 0] 0]+2c
         }
-      } else {
-        event generate $txtt <<CursorChanged>>
       }
       return 1
     }
