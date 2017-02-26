@@ -1284,41 +1284,24 @@ proc ctext::command_delete {win args} {
     set args [lassign $args dummy moddata]
   }
 
-  switch [llength $args] {
-    1 {
-      set deleteStartPos [$win._t index [lindex $args 0]]
-      set deleteEndPos   [$win._t index "$deleteStartPos+1c"]
-    }
-    2 {
-      set deleteStartPos [$win._t index [lindex $args 0]]
-      set deleteEndPos   [$win._t index [lindex $args 1]]
-    }
-    default {
-      return -code error "invalid argument(s) sent to $win delete: $args"
-    }
-  }
+  set startPos [$win._t index [lindex $args 0]]
+  set endPos   [expr {([lindex $args 1] eq "") ? [$win._t index $startPos+1c] : [$win._t index [lindex $args 1]]}]
+  set ranges   [list [$win._t index "$startPos linestart"] [$win._t index "$endPos+1c lineend"]]
+  set deldata  [$win._t get $startPos $endPos]
+  set do_tags  [list]
 
-  set lineStart [$win._t index "$deleteStartPos linestart"]
-  set lineEnd   [$win._t index "$deleteEndPos + 1 chars lineend"]
-  set deldata   [$win._t get $deleteStartPos $deleteEndPos]
-  set do_tags   [list]
+  ctext::undo_delete            $win $startPos $endPos
+  ctext::linemapCheckOnDelete   $win $startPos $endPos
+  ctext::comments_chars_deleted $win $startPos $endPos do_tags
 
-  ctext::undo_delete            $win $deleteStartPos $deleteEndPos
-  ctext::linemapCheckOnDelete   $win $deleteStartPos $deleteEndPos
-  ctext::comments_chars_deleted $win $deleteStartPos $deleteEndPos do_tags
+  $win._t delete $startPos $endPos
 
-  # Delete the text
-  $win._t delete $deleteStartPos $deleteEndPos
-
-  set comstr [ctext::highlightAll $win [list $lineStart $lineEnd] 0 $do_tags]
-  if {$comstr == 2} {
+  if {[ctext::highlightAll $win $ranges 0 $do_tags]} {
     ctext::checkAllBrackets $win
-  } elseif {$comstr == 1} {
-    ctext::checkAllBrackets $win [$win._t get $deleteStartPos $lineEnd]
   } else {
     ctext::checkAllBrackets $win $deldata
   }
-  ctext::modified $win 1 [list delete [list $lineStart $lineEnd] $moddata]
+  ctext::modified $win 1 [list delete $ranges $moddata]
 
   event generate $win.t <<CursorChanged>>
 
@@ -1594,7 +1577,6 @@ proc ctext::command_highlight {win args} {
   ctext::modified $win $modified [list highlight $ranges $moddata]
 
 }
-
 
 proc ctext::command_insert {win args} {
 
