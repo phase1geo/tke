@@ -1612,7 +1612,7 @@ proc ctext::command_insert {win args} {
   set insertPos [lindex $args 0]
 
   # Tag the insertion points
-  if {[catch { $win._t index $insertPos }]} {
+  if {[catch { $win._t index $insertPos } insertPos]} {
     set start 1.0
     set tag   $insertPos
     while {[set dummy [lassign [$win._t tag nextrange $tag $start] insertPos]] ne ""} {
@@ -1629,6 +1629,7 @@ proc ctext::command_insert {win args} {
       set start "$insertPos+[expr $datlen + 1]c"
     }
   } else {
+    set insertPos [expr {([lindex $args 0] eq "end") ? [$win._t index "end-1c"] : $insertPos}]
     if {[set lang [get_lang $win $insertPos]] ne ""} {
       set new_args [string map [list _XX_ _Lang:$lang] $args]
     } else {
