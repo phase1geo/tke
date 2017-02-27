@@ -510,7 +510,7 @@ namespace eval multicursor {
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          lappend ranges $start $end
+          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           if {([$txtt compare $start == "$start linestart"]) || \
               ([$txtt compare $start != "$start lineend"])} {
             add_cursor $txtt $start
@@ -530,7 +530,7 @@ namespace eval multicursor {
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           add_cursor $txt.t $start
-          lappend ranges $start $end
+          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           set start "$start+2c"
         }
 
@@ -544,7 +544,7 @@ namespace eval multicursor {
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          lappend ranges $start $end
+          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           if {([$txtt compare $start == "$start linestart"]) || \
               ([$txtt compare $start != "$start lineend"])} {
             add_cursor $txtt $start
@@ -562,7 +562,7 @@ namespace eval multicursor {
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          lappend ranges $start $end
+          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           set start "$start+2c"
         }
 
@@ -593,7 +593,7 @@ namespace eval multicursor {
               append dat [$txt get $start $end]
               ctext::comments_chars_deleted $txt $start $end do_tags
               $txt fastdelete -update 0 $start $end
-              lappend ranges $start $end
+              lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
               if {([$txtt compare $start == "$start linestart"]) || \
                   ([$txtt compare $start != "$start lineend"])} {
                 add_cursor $txtt $start
@@ -615,7 +615,7 @@ namespace eval multicursor {
               append dat [$txt get $start $end]
               ctext::comments_chars_deleted $txt $start $end do_tags
               $txt fastdelete -update 0 $start $end
-              lappend ranges $start $end
+              lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
             }
             set start "$start+2c"
           }
@@ -633,7 +633,7 @@ namespace eval multicursor {
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          lappend ranges $start $end
+          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           set start "[lindex $range 0]$suffix+2c"
         }
 
@@ -648,7 +648,7 @@ namespace eval multicursor {
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
-          lappend ranges $start $end
+          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           if {([$txtt compare $start == "$start linestart"]) || \
               ([$txtt compare $start != "$start lineend"])} {
             add_cursor $txtt $start
@@ -696,12 +696,29 @@ namespace eval multicursor {
         }
         set selected 0
       }
-      $txtt insert mcursor $value
+      set start    1.0
+      set ranges   [list]
+      set valuelen [string length $value]
+      while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
+        set start [lindex $range 0]
+        $txtt fastinsert -update 0 $start $value
+        ctext::comments_do_tag $txt $start "$start+${valuelen}c" do_tags
+        lappend ranges "$start linestart" "$start+${valuelen}c lineend"
+        set start "$start+[expr $valuelen + 1]c"
+      }
+      if {[ctext::highlightAll $txt $ranges 1 $do_tags]} {
+        ctext::checkAllBrackets $txt
+      } else {
+        ctext::checkAllBrackets $txt $value
+      }
+      ctext::modified $txt 1 [list insert $ranges ""]
       if {$indent_cmd ne ""} {
         set start 1.0
         while {[set range [$txtt tag nextrange mcursor $start]] ne [list]} {
           set start [$indent_cmd $txtt [lindex $range 0] 0]+2c
         }
+      } else {
+        event generate $txtt <<CursorChanged>>
       }
       return 1
     }

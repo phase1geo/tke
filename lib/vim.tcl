@@ -893,13 +893,15 @@ namespace eval vim {
     variable select_anchors
     variable modeline
 
-    unset command_entries($txt.t)
-    unset mode($txt.t)
-    unset number($txt.t)
-    unset search_dir($txt.t)
-    unset column($txt.t)
-    unset select_anchors($txt.t)
-    unset modeline($txt.t)
+    catch {
+      unset command_entries($txt.t)
+      unset mode($txt.t)
+      unset number($txt.t)
+      unset search_dir($txt.t)
+      unset column($txt.t)
+      unset select_anchors($txt.t)
+      unset modeline($txt.t)
+    }
 
   }
 
