@@ -1285,8 +1285,12 @@ proc ctext::command_delete {win args} {
   }
 
   set startPos [$win._t index [lindex $args 0]]
-  set endPos   [expr {([lindex $args 1] eq "") ? [$win._t index $startPos+1c] : [$win._t index [lindex $args 1]]}]
-  set ranges   [list [$win._t index "$startPos linestart"] [$win._t index "$endPos+1c lineend"]]
+  if {[llength $args] == 1} {
+    set endPos [$win._t index $startPos+1c]
+  } else {
+    set endPos [$win._t index [lindex $args 1]]
+  }
+  set ranges   [list [$win._t index "$startPos linestart"] [$win._t index "$startPos lineend"]]
   set deldata  [$win._t get $startPos $endPos]
   set do_tags  [list]
 
@@ -1586,71 +1590,54 @@ proc ctext::command_insert {win args} {
     return -code error "please use at least 2 arguments to $win insert"
   }
 
-  set moddata   [list]
-  set ranges    [list]
-  set do_tags   [list]
-  set dat       ""
-  set tag_index 0
-
+  set moddata [list]
   if {[lindex $args 0] eq "-moddata"} {
     set args [lassign $args dummy moddata]
   }
 
-  # Prepare the arguments to be passed
-  if {[llength $args] >= 3} {
-    foreach {chars taglist} [lrange $args 1 end] {
-      append dat $chars
-      lappend taglist _XX_
-      lset args [incr tag_index 2] $taglist
-    }
-  } else {
-    set dat [lindex $args 1]
-  }
-
-  set datlen    [string length $dat]
+  set insertPos [$win._t index [lindex $args 0]]
   set cursor    [$win._t index insert]
-  set insertPos [lindex $args 0]
+  set dat       ""
+  set do_tags   [list]
 
-  # Tag the insertion points
-  if {[catch { $win._t index $insertPos } insertPos]} {
-    set start 1.0
-    set tag   $insertPos
-    while {[set dummy [lassign [$win._t tag nextrange $tag $start] insertPos]] ne ""} {
-      if {[set lang [get_lang $win $insertPos]] ne ""} {
-        set new_args [string map [list _XX_ _Lang:$lang] $args]
-      } else {
-        set new_args [string map [list _XX_ ""] $args]
-      }
-      $win._t insert $insertPos {*}[lrange $new_args 1 end]
-      ctext::undo_insert     $win $insertPos $datlen $cursor
-      ctext::handleInsertAt0 $win._t $insertPos $datlen
-      ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
-      lappend ranges [$win._t index "$insertPos linestart"] [$win._t index "$insertPos+${datlen}c lineend"]
-      set start "$insertPos+[expr $datlen + 1]c"
-    }
+  if {[lindex $args 0] eq "end"} {
+    set lineStart [$win._t index "$insertPos-1c linestart"]
   } else {
-    set insertPos [expr {([lindex $args 0] eq "end") ? [$win._t index "end-1c"] : $insertPos}]
-    if {[set lang [get_lang $win $insertPos]] ne ""} {
-      set new_args [string map [list _XX_ _Lang:$lang] $args]
-    } else {
-      set new_args [string map [list _XX_ ""] $args]
-    }
-    $win._t insert $insertPos {*}[lrange $new_args 1 end]
-    ctext::undo_insert     $win $insertPos $datlen $cursor
-    ctext::handleInsertAt0 $win._t $insertPos $datlen
-    ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
-    lappend ranges [$win._t index "$insertPos linestart"] [$win._t index "$insertPos+${datlen}c lineend"]
+    set lineStart [$win._t index "$insertPos linestart"]
   }
 
-  # Perform highlighting, bracket auditing and indicate modification occurs
-  if {[ctext::highlightAll $win $ranges 1 $do_tags]} {
+  # Gather the data
+  foreach {chars taglist} [lrange $args 1 end] {
+    append dat $chars
+  }
+  set datlen [string length $dat]
+
+  # Add the embedded language tag to the arguments if taglists are present
+  if {([llength $args] >= 3) && ([set lang [get_lang $win $insertPos]] ne "")} {
+    set tag_index 2
+    foreach {chars taglist} [lrange $args 1 end] {
+      lappend taglist _Lang:$lang
+      lset args $tag_index $taglist
+      incr tag_index 2
+    }
+  }
+
+  $win._t insert {*}$args
+
+  ctext::undo_insert     $win $insertPos $datlen $cursor
+  ctext::handleInsertAt0 $win._t $insertPos $datlen
+  ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
+
+  set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
+
+  # Highlight text and bracket auditing
+  if {[ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]} {
     ctext::checkAllBrackets $win
   } else {
     ctext::checkAllBrackets $win $dat
   }
-  ctext::modified $win 1 [list insert $ranges $moddata]
+  ctext::modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
-  # Generate the CursorChanged event
   event generate $win.t <<CursorChanged>>
 
 }
