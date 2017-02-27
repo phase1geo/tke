@@ -1822,15 +1822,12 @@ namespace eval vim {
           set column($txtt) $col
         }
         set rows [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
-        set row  $row.0
-        for {set i 0} {$i < [expr $rows + 1]} {incr i} {
-          set row [$txtt search -- \n "$row+1c" end]
+        set row  [lindex [split [$txtt index "$row.0+$rows display lines"] .] 0]
+        if {[$txtt compare "$row.$col" == end]} {
+          set row [lindex [split [$txtt index "end-1c"] .] 0]
         }
-        set row [lindex [split $row .] 0]
-        if {[$txtt compare "$row.$col" < end]} {
-          ::tk::TextSetCursor $txtt "$row.$col"
-          adjust_insert $txtt
-        }
+        ::tk::TextSetCursor $txtt "$row.$col"
+        adjust_insert $txtt
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
