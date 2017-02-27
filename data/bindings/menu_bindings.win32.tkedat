@@ -23,8 +23,8 @@
 {Edit/Paste and Format}                   Shift-Ctrl-V
 {Edit/Select All}                         Ctrl-A
 {Edit/Toggle Comment}                     Ctrl-/
-{Edit/Indentation/Indent}                 Ctrl-[
-{Edit/Indentation/Unindent}               Ctrl-]
+{Edit/Indentation/Indent}                 Ctrl-]
+{Edit/Indentation/Unindent}               Ctrl-[
 {Edit/Indentation/Format Text}            Ctrl-|
 {Edit/Cursor/Move to First Line}          Ctrl-Alt-0
 {Edit/Cursor/Move to Last Line}           Ctrl-Alt-9
