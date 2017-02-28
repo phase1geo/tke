@@ -1034,7 +1034,7 @@ namespace eval vim {
     if {(($mode($txtt) eq "edit") || ($mode($txtt) eq "replace_all")) && \
         ([$txtt index insert] ne [$txtt index "insert linestart"])} {
       if {[multicursor::enabled $txtt]} {
-        multicursor::adjust $txtt -1c
+        multicursor::adjust_left $txtt 1
       } else {
         ::tk::TextSetCursor $txtt "insert-1c"
       }
@@ -1389,7 +1389,7 @@ namespace eval vim {
       }
       if {$mode($txtt) eq "replace"} {
         if {[multicursor::enabled $txtt]} {
-          multicursor::adjust $txtt -1c
+          multicursor::adjust_left $txtt 1
         } else {
           ::tk::TextSetCursor $txtt "insert-1c"
         }
@@ -1554,7 +1554,7 @@ namespace eval vim {
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {($mode($txtt) eq "start") && ($num eq "0") && ($number($txtt) eq "")} {
         if {$multicursor($txtt)} {
-          multicursor::adjust $txtt linestart
+          multicursor::adjust_linestart $txtt
         } else {
           edit::move_cursor $txtt linestart
         }
@@ -1622,12 +1622,13 @@ namespace eval vim {
 
     variable mode
     variable multicursor
+    variable number
 
     if {$mode($txtt) eq "start"} {
       if {$multicursor($txtt)} {
-        multicursor::adjust $txtt lineend
+        multicursor::adjust_lineend $txtt $number($txtt)
       } else {
-        edit::move_cursor $txtt lineend
+        edit::move_cursor $txtt lineend -num $number($txtt)
         ::tk::TextSetCursor $txtt "insert lineend-1c"
       }
       return 1
@@ -1813,7 +1814,7 @@ namespace eval vim {
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       if {$multicursor($txtt)} {
-        multicursor::adjust $txtt +1l
+        multicursor::adjust_down $txtt $number($txtt)
       } else {
         lassign [split [$txtt index insert] .] row col
         if {$column($txtt) ne ""} {
@@ -1875,7 +1876,7 @@ namespace eval vim {
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       if {$multicursor($txtt)} {
-        multicursor::adjust $txtt "-1l"
+        multicursor::adjust_up $txtt $number($txtt)
       } else {
         lassign [split [$txtt index insert] .] row col
         if {$column($txtt) ne ""} {
@@ -1949,7 +1950,7 @@ namespace eval vim {
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       if {$multicursor($txtt)} {
-        multicursor::adjust $txtt +1c
+        multicursor::adjust_right $txtt $number($txtt)
       } else {
         if {$number($txtt) ne ""} {
           if {[$txtt compare "insert lineend" < "insert+$number($txtt)c"]} {
@@ -2308,7 +2309,7 @@ namespace eval vim {
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
       if {$multicursor($txtt)} {
-        multicursor::adjust $txtt "-1c"
+        multicursor::adjust_left $txtt $number($txtt)
       } else {
         if {$number($txtt) ne ""} {
           if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
@@ -2455,7 +2456,7 @@ namespace eval vim {
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {$multicursor($txtt)} {
-        multicursor::adjust $txtt prevword
+        multicursor::adjust_word $txtt prev $number($txtt)
       } else {
         edit::move_cursor $txtt prevword -num $number($txtt)
       }
@@ -2548,7 +2549,7 @@ namespace eval vim {
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {$multicursor($txtt)} {
-        multicursor::adjust $txtt nextword
+        multicursor::adjust_word $txtt next $number($txtt)
       } else {
         edit::move_cursor $txtt nextword -num $number($txtt)
       }
@@ -2662,7 +2663,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       if {[multicursor::enabled $txtt]} {
-        multicursor::adjust $txtt "+1c" 1 dspace
+        multicursor::adjust_right $txtt 1 dspace
       }
       cleanup_dspace $txtt
       ::tk::TextSetCursor $txtt "insert+1c"
