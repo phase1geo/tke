@@ -1009,11 +1009,12 @@ namespace eval edit {
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
         if {![string is space [$txt get $curr_index]]} {
+          set last_wordend $curr_index
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index display wordstart"]
           }
         }
-        set curr_index [$txt index "$curr_index+1 display chars"]
+        set curr_index [$txt index "$curr_index display wordend"]
       }
 
       return [$txt index "$curr_index display wordstart"]
