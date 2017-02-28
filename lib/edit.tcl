@@ -411,19 +411,8 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Converts the case to the given type for the entire string.
-  proc convert_case_all {txtt index str type} {
-
-    set strlen [string length $str]
-
-    # Replace the text
-    $txtt replace $index "$index+${strlen}c" [string to$type $str]
-
-  }
-
-  ######################################################################
   # Converts the case to the given type on a word basis.
-  proc convert_case_words {txtt index str type} {
+  proc convert_case_to_title {txtt index str} {
 
     while {[regexp {^(\w+)(\W*)(.*)$} $str -> word wspace str]} {
       set wordlen [string length $word]
@@ -436,7 +425,7 @@ namespace eval edit {
 
   ######################################################################
   # Perform a case toggle operation.
-  proc transform_toggle_case {txtt {num ""}} {
+  proc transform_toggle_case {txtt startpos endpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
@@ -444,59 +433,53 @@ namespace eval edit {
       }
       $txtt tag remove sel 1.0 end
     } else {
-      set num_chars [expr {($num ne "") ? $num : 1}]
-      set str       [string range [$txtt get insert "insert lineend"] 0 [expr $num_chars - 1]]
-      convert_case_toggle $txtt insert $str
+      convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos]
     }
 
   }
 
   ######################################################################
   # Perform a lowercase conversion.
-  proc transform_to_lower_case {txtt {num ""}} {
+  proc transform_to_lower_case {txtt startpos endpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_all $txtt $startpos [$txtt get $startpos $endpos] lower
+        $txtt replace $startpos $endpos [string tolower [$txtt get $startpos $endpos]]
       }
       $txtt tag remove sel 1.0 end
     } else {
-      set num_chars [expr {($num ne "") ? $num : 1}]
-      set str       [string range [$txtt get insert "insert lineend"] 0 [expr $num_chars - 1]]
-      convert_case_all $txtt insert $str lower
+      $txtt replace $startpos $endpos [string tolower [$txtt get $startpos $endpos]]
     }
 
   }
 
   ######################################################################
   # Perform an uppercase conversion.
-  proc transform_to_upper_case {txtt {num ""}} {
+  proc transform_to_upper_case {txtt startpos endpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_all $txtt $startpos [$txtt get $startpos $endpos] upper
+        $txtt replace $startpos $endpos [string toupper [$txtt get $startpos $endpos]]
       }
       $txtt tag remove sel 1.0 end
     } else {
-      set num_chars [expr {($num ne "") ? $num : 1}]
-      set str       [string range [$txtt get insert "insert lineend"] 0 [expr $num_chars - 1]]
-      convert_case_all $txtt insert $str upper
+      $txtt replace $startpos $endpos [string toupper [$txtt get $startpos $endpos]]
     }
 
   }
 
   ######################################################################
   # Perform a title case conversion.
-  proc transform_to_title_case {txtt} {
+  proc transform_to_title_case {txtt startpos endpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_words $txtt [$txtt index "$startpos wordstart"] [$txtt get "$startpos wordstart" $endpos] title
+        convert_case_to_title $txtt [$txtt index "$startpos wordstart"] [$txtt get "$startpos wordstart" $endpos]
       }
       $txtt tag remove sel 1.0 end
     } else {
       set str [$txtt get "insert wordstart" "insert wordend"]
-      convert_case_words $txtt [$txtt index "insert wordstart"] $str title
+      convert_case_to_title $txtt [$txtt index "$startpos wordstart"] [$txtt get "$startpos wordstart" "$endpos wordend"]
     }
 
   }
@@ -989,6 +972,58 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Returns the index of the character located num chars in the direction
+  # specified from the starting index.
+  proc get_char {txt dir {num 1} {start insert}} {
+    
+    if {$dir eq "next"} {
+      
+      set first 1
+      while {($num > 0) && [$txt compare $start < end]} {
+        if {[set line_chars [$txt count -displaychars $start "$start lineend"]] == 0} {
+          set start [$txt index "$start+1l display lines"]
+          set start "$start linestart"
+          incr num -1
+        } elseif {$line_chars <= $num} {
+          set start [$txt index "$start+1l display lines"]
+          set start "$start linestart"
+          incr num -$line_chars
+        } else {
+          set start "$start+$num display chars"
+          set num 0
+        }
+      }
+      
+      if {[$txt compare $start == end]} {
+        return [$txt index "end-1c"]
+      } else {
+        return [$txt index $start]
+      }
+      
+    } else {
+      
+      while {($num > 0) && [$txt compare $start > 1.0]} {
+        if {[set line_chars [$txt count -displaychars "$start linestart" $start]] == 0} {
+          set start [$txt index "$start-1l display lines"]
+          set start "$start lineend"
+          incr num -1
+        } elseif {$line_chars <= $num} {
+          set start [$txt index "$start-1l display lines"]
+          set start "$start lineend"
+          incr num -$line_chars
+        } else {
+          set start "$start-$num display chars"
+          set num 0
+        }
+      }
+      
+      return [$txt index $start]
+      
+    }
+    
+  }
+  
+  ######################################################################
   # Returns the index of the beginning next/previous word.  If num is
   # given a value > 1, the procedure will return the beginning index of
   # the next/previous num'th word.  If no word was found, return the index
@@ -1068,11 +1103,18 @@ namespace eval edit {
   ######################################################################
   # Moves the cursor to a position that is specified by position and num.
   # Valid values for position are:
+  # - left       Move the cursor to the left on the current line
+  # - right      Move the cursor to the right on the current line
   # - first      First line in file
   # - last       Last line in file
+  # - nextchar   Next character
+  # - prevchar   Previous character
   # - nextword   Beginning of next word
   # - prevword   Beginning of previous word
   # - firstword  Beginning of first word on the current line
+  # - nextfirst  Beginning of first word in next line
+  # - prevfirst  Beginning of first word in previous line
+  # - column     Move the cursor to the specified column in the current line
   # - linestart  Start of current line
   # - lineend    End of current line
   # - screentop  Top of current screen
@@ -1090,17 +1132,51 @@ namespace eval edit {
 
     # Get the new cursor position
     switch $position {
-      first       { set index "1.0" }
-      last        { set index "end" }
-      nextword    { set index [get_word $txtt next $num] }
-      prevword    { set index [get_word $txtt prev $num] }
-      firstword   {
-        if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
-          set index "[lindex [$txtt tag nextrange _prewhite {insert linestart}] 1]-1c"
+      left        {
+        if {[$txtt compare "insert linestart" > "insert-${num}c"]} {
+          set index "insert linestart"
         } else {
-          set index "insert lineend"
+          set index "insert-${num}c"
         }
       }
+      right       {
+        if {[$txtt compare "insert lineend" < "insert+${num}c"]} {
+          set index "insert lineend"
+        } else {
+          set index "insert+${num}c"
+        }
+      }
+      first       { set index "1.0" }
+      last        { set index "end" }
+      nextchar    { set index [get_char $txtt next $num] }
+      prevchar    { set index [get_char $txtt prev $num] }
+      nextword    { set index [get_word $txtt next $num] }
+      prevword    { set index [get_word $txtt prev $num] }
+      nextfirst   -
+      prevfirst   -
+      firstword   {
+        switch $position {
+          nextfirst {
+            if {[$txtt compare [set index [$txtt index "insert+${num} display lines"]] == end]} {
+              set index [$txtt index "$index-1 display lines"]
+            }
+          }
+          prevfirst {
+            if {[$txtt compare [set index [$txtt index "insert-${num} display lines"]] == end]} {
+              set index [$txtt index "$index-1 display lines"]
+            }
+          }
+          default {
+            set index "insert"
+          }
+        }
+        if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c
+        } else {
+          set index "$index lineend"
+        }
+      }
+      column      { set index [lindex [split [$txtt index insert] .] 0].[expr $num - 1] }
       linestart   { set index "insert linestart" }
       lineend     {
         if {$num == 1} {
@@ -1127,7 +1203,7 @@ namespace eval edit {
       prevfindinc { set index [find_char $txtt prev $opts(-char) $num] }
       default     { set index insert }
     }
-
+    
     # Set the insertion position and make it visible
     ::tk::TextSetCursor $txtt $index
 

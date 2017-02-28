@@ -202,7 +202,7 @@ namespace eval multicursor {
   # Handles an escape event in multicursor mode.
   proc handle_escape {W} {
 
-    if {[vim::get_edit_mode $W] eq ""} {
+    if {![vim::in_multimove $W]} {
       disable $W
     }
 
@@ -371,12 +371,12 @@ namespace eval multicursor {
     set ranges [$txtt tag ranges mcursor]
 
     # If we will be moving past the end, no need to continue
-    if {[$txtt compare "[lindex $ranges end-1]+${num} display lines" >= end]} {
+    if {[$txtt compare "[lindex $ranges end-1]+${num} display lines" == end]} {
       return
     }
 
     $txtt tag remove mcursor 1.0 end
-    foreach {end start} $ranges {
+    foreach {end start} [lreverse $ranges] {
       set index [$txtt index "$start+${num} display lines"]
       if {[$txtt get $index] eq "\n"} {
         $txtt fastinsert -update 0 -undo 0 $index " " dspace
@@ -412,14 +412,10 @@ namespace eval multicursor {
   # Adjusts all of the cursors up by the given number of lines.
   proc adjust_up {txtt num} {
 
-    puts "In adjust_up, txtt: $txtt, num: $num"
-
     set num    [expr {($num eq "") ? 1 : $num}]
     set ranges [$txtt tag ranges mcursor]
 
     lassign [split [lindex $ranges 0] .] row col
-
-    puts "row: $row, col: $col"
 
     # If we will be moving past the end, no need to continue
     if {$row == 1} {
@@ -429,7 +425,7 @@ namespace eval multicursor {
     }
 
     $txtt tag remove mcursor 1.0 end
-    foreach {end start} $ranges {
+    foreach {end start} [lreverse $ranges] {
       set index [$txtt index "$start-${num} display lines"]
       if {[$txtt get $index] eq "\n"} {
         $txtt fastinsert -update 0 -undo 0 $index " " dspace
