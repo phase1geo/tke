@@ -403,4 +403,77 @@ namespace eval vim {
 
   }
 
+  # Verify beginning/end of line motion
+  proc run_test7 {} {
+
+    # Initialize the widgets
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nAnother line"
+
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    if {[$txtt index insert] ne "2.5"} {
+      cleanup "Insertion cursor did not start at 2.5"
+    }
+
+    # Jump to the beginning of the line
+    vim::handle_number $txtt 0
+
+    if {[$txtt index insert] ne "2.0"} {
+      cleanup "Insertion cursor did not jump to the beginning of the line ([$txtt index insert])"
+    }
+
+    # Jump to the end of the line
+    vim::handle_dollar $txtt
+
+    if {[$txtt index insert] ne "2.13"} {
+      cleanup "Insertion cursor did not jump to the end of the line ([$txtt index insert])"
+    }
+
+    # Verify that using a number jumps to the next line down
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    set vim::number($txtt) 2
+    vim::handle_dollar $txtt
+
+    if {[$txtt index insert] ne "3.11"} {
+      cleanup "Insertion cursor did not stay on the same line, end ([$txtt index insert])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  proc run_test8 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is good\n\nThis is great"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    foreach index [list 2.5 2.8 4.0 4.5 4.8 4.8] {
+      vim::handle_w $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Next word was incorrect ([$txtt index insert])"
+      }
+    }
+
+    foreach index [list 4.5 4.0 2.8 2.5 2.0 2.0] {
+      vim::handle_b $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Previous word was incorrect ([$txtt index insert])"
+      }
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
 }

@@ -41,7 +41,7 @@ namespace eval edit {
 
     # Create the new line
     if {[multicursor::enabled $txtt]} {
-      multicursor::adjust $txtt "-1l" 1 dspace
+      multicursor::adjust_up $txtt 1
     } elseif {[$txtt compare "insert linestart" == 1.0]} {
       $txtt insert "insert linestart" "\n"
       ::tk::TextSetCursor $txtt "insert-1l"
@@ -70,7 +70,7 @@ namespace eval edit {
 
     # Add the line(s)
     if {[multicursor::enabled $txtt]} {
-      multicursor::adjust $txtt "+1l" 1 dspace
+      multicursor::adjust_down $txtt 1
     } else {
       ::tk::TextSetCursor $txtt "insert lineend"
       $txtt insert "insert lineend" "\n"
@@ -1013,7 +1013,7 @@ namespace eval edit {
             return [$txt index "$curr_index display wordstart"]
           }
         }
-        set curr_index [$txt index "$curr_index display wordend"]
+        set curr_index [$txt index "$curr_index+1 display chars"]
       }
 
       return [$txt index "$curr_index display wordstart"]
@@ -1085,12 +1085,14 @@ namespace eval edit {
     }
     array set opts $args
 
+    set num [expr {($opts(-num) eq "") ? 1 : $opts(-num)}]
+
     # Get the new cursor position
     switch $position {
       first       { set index "1.0" }
       last        { set index "end" }
-      nextword    { set index [get_word $txtt next [expr {($opts(-num) eq "") ? 1 : $opts(-num)}]] }
-      prevword    { set index [get_word $txtt prev [expr {($opts(-num) eq "") ? 1 : $opts(-num)}]] }
+      nextword    { set index [get_word $txtt next $num] }
+      prevword    { set index [get_word $txtt prev $num] }
       firstword   {
         if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
           set index "[lindex [$txtt tag nextrange _prewhite {insert linestart}] 1]-1c"
@@ -1099,22 +1101,29 @@ namespace eval edit {
         }
       }
       linestart   { set index "insert linestart" }
-      lineend     { set index "insert lineend-1c" }
+      lineend     {
+        if {$num == 1} {
+          set index "insert lineend-1c"
+        } else {
+          set index [$txtt index "insert+[expr $num - 1] display lines"]
+          set index "$index lineend-1c"
+        }
+      }
       screentop   { set index "@0,0" }
       screenmid   { set index "@0,[expr [winfo height $txtt] / 2]" }
       screenbot   { set index "@0,[winfo height $txtt]" }
       nextfind    {
-        if {[set index [find_char $txtt next $opts(-char) $opts(-num)]] ne "insert"} {
+        if {[set index [find_char $txtt next $opts(-char) $num]] ne "insert"} {
           set index [$txtt index $index-1c]
         }
       }
       prevfind    {
-        if {[set index [find_char $txtt prev $opts(-char) $opts(-num)]] ne "insert"} {
+        if {[set index [find_char $txtt prev $opts(-char) $num]] ne "insert"} {
           set index [$txtt index $index+1c]
         }
       }
-      nextfindinc { set index [find_char $txtt next $opts(-char) $opts(-num)] }
-      prevfindinc { set index [find_char $txtt prev $opts(-char) $opts(-num)] }
+      nextfindinc { set index [find_char $txtt next $opts(-char) $num] }
+      prevfindinc { set index [find_char $txtt prev $opts(-char) $num] }
       default     { set index insert }
     }
 

@@ -310,172 +310,223 @@ namespace eval multicursor {
 
   }
 
-  ######################################################################
-  # Adjusts the cursors by the given suffix.  The valid values for suffix
-  # are:
-  #  +1c       - Adjusts the cursors one character to the right.
-  #  -1c       - Adjusts the cursors one character to the left.
-  #  +1l       - Adjusts the cursors one line down.
-  #  -1l       - Adjusts the cursors one line up.
-  #  linestart - Adjusts the cursors to the beginning of the line (if a line contains more than
-  #              one multicursor, create only one on the current line)
-  #  lineend   - Adjusts the cursors to the end of the line (if a line contains more than one
-  #              multicursor, create only one on the current line)
-  #  nextword  - Adjusts the cursors to the beginning of the next word
-  #  prevword  - Adjusts the cursors to the beginning of the previous word
-  #  firstword - Adjusts the cursors to the beginning of the first word of the line
-  #
-  # If the insert value is set to 1 and moving the character would cause
-  # the cursor to be lost (beginning/end of line or beginning/end of file),
-  # a line or character will be inserted and the cursor set to that position.
-  # The inserted text will be given the tag name of "insert_tag".
-  proc adjust {txtt suffix {insert 0} {insert_tag ""}} {
+    ######################################################################
+    # Adjusts the cursors by the given suffix.  The valid values for suffix
+    # are:
+    #  +1c       - Adjusts the cursors one character to the right.
+    #  -1c       - Adjusts the cursors one character to the left.
+    #  +1l       - Adjusts the cursors one line down.
+    #  -1l       - Adjusts the cursors one line up.
+    #  linestart - Adjusts the cursors to the beginning of the line (if a line contains more than
+    #              one multicursor, create only one on the current line)
+    #  lineend   - Adjusts the cursors to the end of the line (if a line contains more than one
+    #              multicursor, create only one on the current line)
+    #  nextword  - Adjusts the cursors to the beginning of the next word
+    #  prevword  - Adjusts the cursors to the beginning of the previous word
+    #  firstword - Adjusts the cursors to the beginning of the first word of the line
+    #
+    # If the insert value is set to 1 and moving the character would cause
+    # the cursor to be lost (beginning/end of line or beginning/end of file),
+    # a line or character will be inserted and the cursor set to that position.
+    # The inserted text will be given the tag name of "insert_tag".
+  proc adjust_right {txtt num {tag ""}} {
 
-    if {[string index $suffix 0] eq "+"} {
+    # Number of characters to advance
+    set num    [expr {($num eq "") ? 1 : $num}]
+    set ranges [$txtt tag ranges mcursor]
 
-      # If any of the cursors would "fall off the edge", don't modify any of them
-      if {!$insert && ([string index $suffix end] eq "c")} {
-        foreach {start end} [$txtt tag ranges mcursor] {
-          if {[$txtt compare $start == "$start lineend-1c"]} {
-            return
-          }
+    # If any of the cursors would "fall off the edge", don't modify any of them
+    if {$tag eq ""} {
+
+      foreach {start end} $ranges {
+        if {[$txtt compare "$start+${num} display chars" >= "$start lineend"]} {
+          return
         }
       }
-
-      # Move the cursors
-      switch $suffix {
-        "+1c" {
-          foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
-            $txtt tag remove mcursor $start
-            if {[$txtt compare $start == "$start lineend-1c"]} {
-              if {$insert} {
-                $txtt insert "$start+1c" " "
-                if {$insert_tag ne ""} {
-                  $txtt tag add $insert_tag "$start+1 display char"
-                }
-                adjust_set_and_view $txtt $start "$start+1 display char"
-              } else {
-                $txtt tag add mcursor $start
-                break
-              }
-            } else {
-              adjust_set_and_view $txtt $start "$start+1c"
-            }
-          }
-        }
-        "+1l" {
-          foreach {end start} [lreverse [$txtt tag ranges mcursor]] {
-            $txtt tag remove mcursor $start
-            lassign [split $start .] row col
-            set pos $row.end
-            set pos [$txtt search \n "$pos+1c" end]
-            if {$pos eq ""} {
-              $txtt tag add mcursor $start
-              break
-            } else {
-              set row [lindex [split $pos .] 0]
-              if {$insert} {
-                $txtt insert "$start lineend" "\n "
-                if {$insert_tag ne ""} {
-                  $txtt tag add $insert_tag $row.0
-                }
-                adjust_set_and_view $txtt $start $row.0
-              } else {
-                adjust_set_and_view $txtt $start $row.$col
-              }
-            }
-          }
-        }
+      $txtt tag remove mcursor 1.0 end
+      foreach {start end} $ranges {
+        adjust_set_and_view $txtt $start "$start+${num} display chars"
       }
 
-    } elseif {[string index $suffix 0] eq "-"} {
-
-      # If any of the cursors would "fall off the edge", don't adjust any of them
-      if {!$insert && ([string index $suffix end] eq "c")} {
-        foreach {start end} [$txtt tag ranges mcursor] {
-          if {[$txtt compare $start == "$start linestart"]} {
-            return
-          }
-        }
-      }
-
-      # Adjust the cursors
-      switch $suffix {
-        "-1c" {
-          foreach {start end} [$txtt tag ranges mcursor] {
-            $txtt tag remove mcursor $start
-            if {[$txtt compare $start == "$start linestart"]} {
-              if {$insert} {
-                $txtt insert $start " "
-                if {$insert_tag ne ""} {
-                  $txtt tag add $insert_tag $start
-                }
-                $txtt tag add mcursor $start
-              } else {
-                $txtt tag add mcursor $start
-                break
-              }
-            } else {
-              adjust_set_and_view $txtt $start "$start-1c"
-            }
-          }
-        }
-        "-1l" {
-          foreach {start end} [$txtt tag ranges mcursor] {
-            $txtt tag remove mcursor $start
-            if {$insert} {
-              $txtt insert "$start linestart" " \n"
-              if {$insert_tag ne ""} {
-                $txtt tag add $insert_tag "$start linestart"
-              }
-              adjust_set_and_view $txtt $start "$start linestart"
-            } elseif {[$txtt compare $start >= 2.0]} {
-              adjust_set_and_view $txtt $start "$start-1 display line"
-            } else {
-              $txtt tag add mcursor $start
-              break
-            }
-          }
-        }
-      }
-
+    # Otherwise, move and add lines
     } else {
 
-      switch $suffix {
-        linestart {
-          foreach {start end} [$txtt tag ranges mcursor] {
-            $txtt tag remove mcursor $start
-            $txtt tag add mcursor "$start linestart"
-          }
+      $txtt tag remove mcursor 1.0 end
+      foreach {end start} [lreverse $ranges] {
+        if {[set diff [$txtt count -displaychars "$start lineend" "$start+${num} display chars"]] > 0} {
+          $txtt fastinsert -update 0 -undo 0 "$start lineend" [string repeat " " $diff] $tag
         }
-        lineend {
-          foreach {start end} [$txtt tag ranges mcursor] {
-            $txtt tag remove mcursor $start
-            $txtt tag add mcursor "$start lineend-1c"
-          }
-        }
-        nextword {
-          foreach {start end} [$txtt tag ranges mcursor] {
-            $txtt tag remove mcursor $start
-            $txtt tag add mcursor [edit::get_word $txtt next 1 $start]
-          }
-        }
-        prevword {
-          foreach {start end} [$txtt tag ranges mcursor] {
-            $txtt tag remove mcursor $start
-            $txtt tag add mcursor [edit::get_word $txtt prev 1 $start]
-          }
-        }
-        firstword {
-          foreach {start end} [$txtt tag ranges mcursor] {
-            if {[lsearch [$txtt tag names "$start linestart"] _prewhite] != -1} {
-              $txtt tag remove mcursor $start
-              $txtt tag add mcursor [lindex [$txtt tag nextrange _prewhite "$start linestart"] 1]-1c
-            }
-          }
-        }
+        adjust_set_and_view $txtt $start "$start+${num} display chars"
       }
 
+    }
+
+  }
+
+  ######################################################################
+  # Adjust the multicursors down by the specified number of lines.
+  proc adjust_down {txtt num} {
+
+    set num    [expr {($num eq "") ? 1 : $num}]
+    set ranges [$txtt tag ranges mcursor]
+
+    # If we will be moving past the end, no need to continue
+    if {[$txtt compare "[lindex $ranges end-1]+${num} display lines" >= end]} {
+      return
+    }
+
+    $txtt tag remove mcursor 1.0 end
+    foreach {end start} $ranges {
+      set index [$txtt index "$start+${num} display lines"]
+      if {[$txtt get $index] eq "\n"} {
+        $txtt fastinsert -update 0 -undo 0 $index " " dspace
+      }
+      adjust_set_and_view $txtt $start $index
+    }
+
+  }
+
+  ######################################################################
+  # Adjust all of the cursors num characters to the left.
+  proc adjust_left {txtt num} {
+
+    set num    [expr {($num eq "") ? 1 : $num}]
+    set ranges [$txtt tag ranges mcursor]
+
+    # If any of the cursors would "fall off the edge", don't adjust any of them
+    foreach {start end} $ranges {
+      if {[$txtt compare "$start-${num} display chars" < "$start linestart"]} {
+        return
+      }
+    }
+
+    # Adjust the cursors
+    $txtt tag remove mcursor 1.0 end
+    foreach {start end} $ranges {
+      adjust_set_and_view $txtt $start "$start-${num} display chars"
+    }
+
+  }
+
+  ######################################################################
+  # Adjusts all of the cursors up by the given number of lines.
+  proc adjust_up {txtt num} {
+
+    puts "In adjust_up, txtt: $txtt, num: $num"
+
+    set num    [expr {($num eq "") ? 1 : $num}]
+    set ranges [$txtt tag ranges mcursor]
+
+    lassign [split [lindex $ranges 0] .] row col
+
+    puts "row: $row, col: $col"
+
+    # If we will be moving past the end, no need to continue
+    if {$row == 1} {
+      return
+    } else {
+      set num [expr (($row - $num) < 1) ? ($row - 1) : $num]
+    }
+
+    $txtt tag remove mcursor 1.0 end
+    foreach {end start} $ranges {
+      set index [$txtt index "$start-${num} display lines"]
+      if {[$txtt get $index] eq "\n"} {
+        $txtt fastinsert -update 0 -undo 0 $index " " dspace
+      }
+      adjust_set_and_view $txtt $start $index
+    }
+
+  }
+
+  ######################################################################
+  # Adjusts all of the cursors to the start of their respective lines.
+  proc adjust_linestart {txtt} {
+
+    set ranges [$txtt tag ranges mcursor]
+
+    $txtt tag remove mcursor 1.0 end
+    foreach {start end} $ranges {
+      $txtt tag remove mcursor $start
+      adjust_set_and_view $txtt $start "$start linestart"
+    }
+
+  }
+
+  ######################################################################
+  # Adjust all of the cursors to the end of the line, adjusting the cursors
+  # down by the given number of lines.
+  proc adjust_lineend {txtt num} {
+
+    # First, adjust all of the cursors down
+    if {($num ne "") && ($num > 1)} {
+      adjust_down $txtt [expr $num - 1]
+    }
+
+    set ranges [$txtt tag ranges mcursor]
+
+    $txtt tag remove mcursor 1.0 end
+    foreach {start end} $ranges {
+      adjust_set_and_view $txtt $start "$start lineend-1c"
+    }
+
+  }
+
+  ######################################################################
+  # Adjust by a given number of characters, allowing cursors to move to
+  # the next or previous line.
+  proc adjust_char {txtt dir num} {
+
+    set num    [expr {($num eq "") ? 1 : $num}]
+    set ranges [$txtt tag ranges mcursor]
+
+    $txtt tag remove mcursor 1.0 end
+    if {$dir eq "next"} {
+      foreach {end start} [lreverse $ranges] {
+        set index [$txtt index "$start+${num} display chars"]
+        if {[$txtt get $index] eq "\n"} {
+          $txtt fastinsert -update 0 -undo 0 $index " " dspace
+        }
+        adjust_set_and_view $txtt $start $index
+      }
+    } else {
+      foreach {start end} $ranges {
+        set index [$txtt index "$start-${num} display chars"]
+        if {[$txtt get $index] eq "\n"} {
+          $txtt fastinsert -update 0 -undo 0 $index " " dspace
+        }
+        adjust_set_and_view $txtt $start $index
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Moves all of the cursors to the next num words.
+  proc adjust_word {txtt dir num} {
+
+    set num    [expr {($num eq "") ? 1 : $num}]
+    set ranges [$txtt tag ranges mcursor]
+
+    $txtt tag remove mcursor 1.0 end
+    foreach {start end} $ranges {
+      adjust_set_and_view $txtt $start [edit::get_word $txtt $dir $num $start]
+    }
+
+  }
+
+  ######################################################################
+  # Adjusts all of the cursors to land on the first non-whitespace character
+  # in each line.
+  proc adjust_firstword {txtt} {
+
+    set ranges [$txtt tag ranges mcursor]
+
+    $txtt tag remove mcursor 1.0 end
+    foreach {start end} $ranges {
+      if {[lsearch [$txtt tag names "$start linestart"] _prewhite] != -1} {
+        adjust_set_and_view $txtt $start [lindex [$txtt tag nextrange _prewhite "$start linestart"] 1]-1c
+      }
     }
 
   }
