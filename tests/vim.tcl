@@ -496,4 +496,66 @@ namespace eval vim {
 
   }
 
+  # Verify firstword motion
+  proc run_test9 {} {
+    
+    # Initialize
+    set txtt [initialize].t
+    
+    $txtt insert end "\n apples\n\ngrapes\n      bananas\n  milk\n\n    soup"
+    
+    # Verify the current line firstword variety
+    foreach index [list 1.0 2.1 3.0 4.0 5.6 6.2 7.0 8.4] {
+      $txtt mark set insert "$index linestart"
+      vim::adjust_insert $txtt
+      set vim::number($txtt) [expr int( rand() * 10 )]   ;# Make sure that the number doesn't matter
+      vim::handle_asciicircum $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Current firstword is at incorrect position ([$txtt index insert])"
+      }
+    }
+    
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+    set vim::number($txtt) ""
+    
+    # Test nextfirst (one line at a time)
+    foreach index [list 2.1 3.0 4.0 5.6 6.2 7.0 8.4 8.4] {
+      vim::handle_Return $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Next firstword is at incorrect position ([$txtt index insert])"
+      }
+    }
+    
+    # Test prevfirst (one line at a time)
+    foreach index [list 7.0 6.2 5.6 4.0 3.0 2.1 1.0 1.0] {
+      vim::handle_minus $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Previous firstword is at incorrect position ([$txtt index insert])"
+      }
+    }
+    
+    set vim::number($txtt) 2
+    
+    # Test nextfirst (two lines at a time)
+    foreach index [list 3.0 5.6 7.0 8.4] {
+      vim::handle_Return $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Next firstword is at incorrect position ([$txtt index insert])"
+      }
+    }
+    
+    # Test prevfirst (two lines at a time)
+    foreach index [list 6.2 4.0 2.1 1.0] {
+      vim::handle_minus $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Previous firstword is at incorrect position ([$txtt index insert])"
+      }
+    }
+    
+    # Cleanup
+    cleanup
+    
+  }
+
 }

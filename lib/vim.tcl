@@ -85,6 +85,16 @@ namespace eval vim {
     gui::update_position $txt
 
   }
+  
+  ######################################################################
+  # Returns true if we are currently in multi-cursor move mode.
+  proc in_multimove {txtt} {
+    
+    variable multicursor
+    
+    return [expr {([get_edit_mode $txtt] ne "") && $multicursor($txtt)}]
+    
+  }
 
   ######################################################################
   # Returns the current edit mode type (insert or replace).
@@ -127,6 +137,7 @@ namespace eval vim {
 
     variable mode
     variable recording
+    variable multicursor
 
     if {[preferences::get Editor/VimMode]} {
       set record ""
@@ -142,7 +153,11 @@ namespace eval vim {
           "format"      { return "FORMAT$record" }
         }
       }
-      return "COMMAND MODE$record"
+      if {$multicursor($txt.t)} {
+        return "MULTIMOVE MODE"
+      } else {
+        return "COMMAND MODE$record"
+      }
     } else {
       return ""
     }
@@ -1656,7 +1671,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      ::tk::TextSetCursor $txtt "insert linestart"
+      edit::move_cursor $txtt firstword
       return 1
     } elseif {$mode($txtt) eq "delete"} {
       if {![multicursor::delete $txtt linestart]} {
@@ -1952,19 +1967,7 @@ namespace eval vim {
       if {$multicursor($txtt)} {
         multicursor::adjust_right $txtt $number($txtt)
       } else {
-        if {$number($txtt) ne ""} {
-          if {[$txtt compare "insert lineend" < "insert+$number($txtt)c"]} {
-            ::tk::TextSetCursor $txtt "insert lineend"
-          } else {
-            ::tk::TextSetCursor $txtt "insert+$number($txtt)c"
-          }
-          adjust_insert $txtt
-        } elseif {[$txtt compare "insert lineend" > "insert+1c"]} {
-          ::tk::TextSetCursor $txtt "insert+1c"
-          adjust_insert $txtt
-        } else {
-          bell
-        }
+        edit::move_cursor $txtt right -num $number($txtt)
       }
       return 1
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
@@ -2028,9 +2031,9 @@ namespace eval vim {
       set type [lindex [split $mode($txtt) :] 1]
       if {[string index $mode($txtt) end] eq "V"} {
         switch $type {
-          swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
-          upper { edit::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
-          lower { edit::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          swap  { edit::transform_toggle_case   $txtt "insert linestart" "insert lineend" }
+          upper { edit::transform_to_upper_case $txtt "insert linestart" "insert lineend" }
+          lower { edit::transform_to_lower_case $txtt "insert linestart" "insert lineend" }
         }
       } else {
         if {$number($txtt) ne ""} {
@@ -2048,15 +2051,15 @@ namespace eval vim {
         }
         if {[$txtt compare "insert lineend" < $endpos]} {
           switch $type {
-            swap  { edit::transform_toggle_case   $txtt $number($txtt) insert "insert lineend" }
-            upper { edit::transform_to_upper_case $txtt $number($txtt) insert "insert lineend" }
-            lower { edit::transform_to_lower_case $txtt $number($txtt) insert "insert lineend" }
+            swap  { edit::transform_toggle_case   $txtt insert "insert lineend" }
+            upper { edit::transform_to_upper_case $txtt insert "insert lineend" }
+            lower { edit::transform_to_lower_case $txtt insert "insert lineend" }
           }
         } else {
           switch $type {
-            swap  { edit::transform_toggle_case   $txtt $number($txtt) insert $endpos }
-            upper { edit::transform_to_upper_case $txtt $number($txtt) insert $endpos }
-            lower { edit::transform_to_lower_case $txtt $number($txtt) insert $endpos }
+            swap  { edit::transform_toggle_case   $txtt insert $endpos }
+            upper { edit::transform_to_upper_case $txtt insert $endpos }
+            lower { edit::transform_to_lower_case $txtt insert $endpos }
           }
         }
       }
@@ -2311,19 +2314,7 @@ namespace eval vim {
       if {$multicursor($txtt)} {
         multicursor::adjust_left $txtt $number($txtt)
       } else {
-        if {$number($txtt) ne ""} {
-          if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
-            ::tk::TextSetCursor $txtt "insert linestart"
-          } else {
-            ::tk::TextSetCursor $txtt "insert-$number($txtt)c"
-          }
-          adjust_insert $txtt
-        } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
-          ::tk::TextSetCursor $txtt "insert-1c"
-          adjust_insert $txtt
-        } else {
-          bell
-        }
+        edit::move_cursor $txtt left -num $number($txtt)
       }
       return 1
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
@@ -2384,9 +2375,9 @@ namespace eval vim {
       set type [lindex [split $mode($txtt) :] 1]
       if {[string index $mode($txtt) end] eq "V"} {
         switch $type {
-          swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert linestart" "insert lineend" }
-          upper { edit::transform_to_upper_case $txtt $number($txtt) "insert linestart" "insert lineend" }
-          lower { edit::transform_to_lower_case $txtt $number($txtt) "insert linestart" "insert lineend" }
+          swap  { edit::transform_toggle_case   $txtt "insert linestart" "insert lineend" }
+          upper { edit::transform_to_upper_case $txtt "insert linestart" "insert lineend" }
+          lower { edit::transform_to_lower_case $txtt "insert linestart" "insert lineend" }
         }
       } else {
         if {[string index $mode($txtt) end] eq "v"} {
@@ -2397,22 +2388,22 @@ namespace eval vim {
         if {$number($txtt) ne ""} {
           if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
             switch $type {
-              swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert linestart" $endpos }
-              upper { edit::transform_to_upper_case $txtt $number($txtt) "insert linestart" $endpos }
-              lower { edit::transform_to_lower_case $txtt $number($txtt) "insert linestart" $endpos }
+              swap  { edit::transform_toggle_case   $txtt "insert linestart" $endpos }
+              upper { edit::transform_to_upper_case $txtt "insert linestart" $endpos }
+              lower { edit::transform_to_lower_case $txtt "insert linestart" $endpos }
             }
           } else {
             switch $type {
-              swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
-              upper { edit::transform_to_upper_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
-              lower { edit::transform_to_lower_case $txtt $number($txtt) "insert-$number($txtt)c" $endpos }
+              swap  { edit::transform_toggle_case   $txtt "insert-$number($txtt)c" $endpos }
+              upper { edit::transform_to_upper_case $txtt "insert-$number($txtt)c" $endpos }
+              lower { edit::transform_to_lower_case $txtt "insert-$number($txtt)c" $endpos }
             }
           }
         } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
           switch $type {
-            swap  { edit::transform_toggle_case   $txtt $number($txtt) "insert-1c" $endpos }
-            upper { edit::transform_to_upper_case $txtt $number($txtt) "insert-1c" $endpos }
-            lower { edit::transform_to_lower_case $txtt $number($txtt) "insert-1c" $endpos }
+            swap  { edit::transform_toggle_case   $txtt "insert-1c" $endpos }
+            upper { edit::transform_to_upper_case $txtt "insert-1c" $endpos }
+            lower { edit::transform_to_lower_case $txtt "insert-1c" $endpos }
           }
         } else {
           bell
@@ -3632,18 +3623,10 @@ namespace eval vim {
   proc handle_Return {txtt} {
 
     variable mode
+    variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      ::tk::TextSetCursor $txtt "insert+1l linestart"
-      if {[string is space [$txtt get insert]]} {
-        set next_word [edit::get_word $txtt next]
-        if {[$txtt compare $next_word < "insert lineend"]} {
-          ::tk::TextSetCursor $txtt $next_word
-        } else {
-          ::tk::TextSetCursor $txtt "insert lineend"
-        }
-      }
-      adjust_insert $txtt
+      edit::move_cursor $txtt nextfirst -num $number($txtt)
       return 1
     }
 
@@ -3657,18 +3640,10 @@ namespace eval vim {
   proc handle_minus {txtt} {
 
     variable mode
-
+    variable number
+    
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      ::tk::TextSetCursor $txtt "insert-1l linestart"
-      if {[string is space [$txtt get insert]]} {
-        set next_word [edit::get_word $txtt next]
-        if {[$txtt compare $next_word < "insert lineend"]} {
-          ::tk::TextSetCursor $txtt $next_word
-        } else {
-          ::tk::TextSetCursor $txtt "insert lineend"
-        }
-      }
-      adjust_insert $txtt
+      edit::move_cursor $txtt prevfirst -num $number($txtt)
       return 1
     }
 
@@ -3685,9 +3660,7 @@ namespace eval vim {
     variable number
 
     if {(($mode($txtt) eq "start") || [in_visual_mode $txtt]) && ($number($txtt) ne "")} {
-      ::tk::TextSetCursor $txtt [lindex [split [$txtt index insert] .] 0].$number($txtt)
-      adjust_insert $txtt
-      $txtt see insert
+      edit::move_cursor $txtt column -num $number($txtt)
       return 1
     }
 
@@ -3703,7 +3676,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::transform_toggle_case $txtt $number($txtt)
+      edit::transform_toggle_case $txtt insert "insert+1c"
       adjust_insert $txtt
       if {[in_visual_mode $txtt]} {
         start_mode $txtt
@@ -3821,7 +3794,160 @@ namespace eval vim {
   # handle_l procedure instead of replicating the code.
   proc handle_space {txtt} {
 
-    return [handle_l $txtt]
+    variable mode
+    variable number
+    variable multicursor
+    
+    set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
+
+    # Move the insertion cursor right one character
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+      $txtt tag remove sel 1.0 end
+      if {$multicursor($txtt)} {
+        multicursor::adjust_char $txtt next $num
+      } else {
+        edit::move_cursor $txtt nextchar -num $num
+      }
+      return 1
+    } elseif {([string range $mode($txtt) 0 5] eq "change") || \
+              ([string range $mode($txtt) 0 5] eq "delete")} {
+      if {[string index $mode($txtt) end] eq "V"} {
+        $txtt delete "insert linestart" "insert+1l linestart"
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+[expr $num + 1] display chars"
+        } else {
+          set endpos "insert+$num display chars"
+        }
+        $txtt delete insert $endpos
+      }
+      adjust_insert $txtt
+      if {[string range $mode($txtt) 0 5] eq "change"} {
+        edit_mode $txtt
+      } else {
+        start_mode $txtt
+      }
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
+      clipboard clear
+      if {[string index $mode($txtt) end] eq "V"} {
+        clipboard append [$txtt get "insert linestart" "insert lineend"]
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+[expr $num + 1] display chars"
+        } else {
+          set endpos "insert+$num display chars"
+        }
+        clipboard append [$txtt get insert $endpos]
+      }
+      start_mode $txtt
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "case")} {
+      set type [lindex [split $mode($txtt) :] 1]
+      if {[string index $mode($txtt) end] eq "V"} {
+        switch $type {
+          swap  { edit::transform_toggle_case   $txtt "insert linestart" "insert lineend" }
+          upper { edit::transform_to_upper_case $txtt "insert linestart" "insert lineend" }
+          lower { edit::transform_to_lower_case $txtt "insert linestart" "insert lineend" }
+        }
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+[expr $num + 1] display chars"
+        } else {
+          set endpos "insert+$num display chars"
+        }
+        switch $type {
+          swap  { edit::transform_toggle_case   $txtt insert $endpos }
+          upper { edit::transform_to_upper_case $txtt insert $endpos }
+          lower { edit::transform_to_lower_case $txtt insert $endpos }
+        }
+      }
+      start_mode $txtt
+      return 1
+    }
+
+    return 0
+    
+  }
+
+  ######################################################################
+  # This is just a synonym for the 'h' command so we'll just call the
+  # handle_h procedure instead of replicating the code.
+  proc handle_BackSpace {txtt} {
+
+    variable mode
+    variable number
+    variable multicursor
+    
+    set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
+
+    # Move the insertion cursor left one character
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+      $txtt tag remove sel 1.0 end
+      if {$multicursor($txtt)} {
+        multicursor::adjust_char $txtt prev $num
+      } else {
+        edit::move_cursor $txtt prevchar -num $num
+      }
+      return 1
+    } elseif {([string range $mode($txtt) 0 5] eq "change") || \
+              ([string range $mode($txtt) 0 5] eq "delete")} {
+      if {[string index $mode($txtt) end] eq "V"} {
+        $txtt delete "insert linestart" "insert+1l linestart"
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+1c"
+        } else {
+          set endpos "insert"
+        }
+        $txtt delete "insert-${num}c" $endpos
+      }
+      adjust_insert $txtt
+      if {[string range $mode($txtt) 0 5] eq "change"} {
+        edit_mode $txtt
+      } else {
+        start_mode $txtt
+      }
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
+      clipboard clear
+      if {[string index $mode($txtt) end] eq "V"} {
+        clipboard append [$txtt get "insert linestart" "insert lineend"]
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+1c"
+        } else {
+          set endpos "insert"
+        }
+        clipboard append [$txtt get "insert-${num}c" $endpos]
+      }
+      start_mode $txtt
+      return 1
+    } elseif {([string range $mode($txtt) 0 3] eq "case")} {
+      set type [lindex [split $mode($txtt) :] 1]
+      if {[string index $mode($txtt) end] eq "V"} {
+        switch $type {
+          swap  { edit::transform_toggle_case   $txtt "insert linestart" "insert lineend" }
+          upper { edit::transform_to_upper_case $txtt "insert linestart" "insert lineend" }
+          lower { edit::transform_to_lower_case $txtt "insert linestart" "insert lineend" }
+        }
+      } else {
+        if {[string index $mode($txtt) end] eq "v"} {
+          set endpos "insert+1c"
+        } else {
+          set endpos "insert"
+        }
+        switch $type {
+          swap  { edit::transform_toggle_case   $txtt "insert-${num}c" $endpos }
+          upper { edit::transform_to_upper_case $txtt "insert-${num}c" $endpos }
+          lower { edit::transform_to_lower_case $txtt "insert-${num}c" $endpos }
+        }
+      }
+      start_mode $txtt
+      return 1
+    }
+
+    return 0
 
   }
 
@@ -3831,15 +3957,6 @@ namespace eval vim {
   proc handle_Right {txtt} {
 
     return [handle_l $txtt]
-
-  }
-
-  ######################################################################
-  # This is just a synonym for the 'h' command so we'll just call the
-  # handle_h procedure instead of replicating the code.
-  proc handle_BackSpace {txtt} {
-
-    return [handle_h $txtt]
 
   }
 
