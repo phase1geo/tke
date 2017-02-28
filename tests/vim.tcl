@@ -448,6 +448,7 @@ namespace eval vim {
 
   }
 
+  # Move forward/backward by words
   proc run_test8 {} {
 
     # Initialize
@@ -457,14 +458,33 @@ namespace eval vim {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    foreach index [list 2.5 2.8 4.0 4.5 4.8 4.8] {
+    # Move forward by one word
+    foreach index [list 2.5 2.8 3.0 4.0 4.5 4.8 4.12 4.12] {
       vim::handle_w $txtt
       if {[$txtt index insert] ne $index} {
         cleanup "Next word was incorrect ([$txtt index insert])"
       }
     }
 
-    foreach index [list 4.5 4.0 2.8 2.5 2.0 2.0] {
+    # Move backward by one word
+    foreach index [list 4.8 4.5 4.0 2.8 2.5 2.0 1.0 1.0] {
+      vim::handle_b $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Previous word was incorrect ([$txtt index insert])"
+      }
+    }
+
+    # Move forward by two words
+    set vim::number($txtt) 2
+    foreach index [list 2.5 3.0 4.5 4.12 4.12] {
+      vim::handle_w $txtt
+      if {[$txtt index insert] ne $index} {
+        cleanup "Next word was incorrect ([$txtt index insert])"
+      }
+    }
+
+    # Move backward by two words
+    foreach index [list 4.5 2.8 2.0 1.0 1.0] {
       vim::handle_b $txtt
       if {[$txtt index insert] ne $index} {
         cleanup "Previous word was incorrect ([$txtt index insert])"
