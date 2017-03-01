@@ -36,7 +36,7 @@ keywords
 {
   return var function undefined null typeof void undefined new true false throw
   if else switch case default break for in while do with continue goto this
-  delete instanceof prototype try catch finally
+  delete instanceof prototype try catch finally const
 }
 
 symbols {

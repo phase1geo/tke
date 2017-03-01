@@ -8,7 +8,9 @@ reference
 {}
 
 embedded
-{}
+{
+  {Tcl {HighlightProc} {HighlightEndProc}}
+}
 
 delimiters
 {}
@@ -50,11 +52,6 @@ keywords
   casesensitive delimiters indent unindent reindent keywords symbols icomment
   lcomments bcomments strings numbers punctuation precompile miscellaneous1
   miscellaneous2 miscellaneous3 highlighter meta advanced escapes formatting
-  HighlightClass
-  HighlightKeywords
-  HighlightRegexp
-  HighlightWithOnlyCharStart
-  HighlightProc
 }
 
 symbols
@@ -74,7 +71,12 @@ punctuation
   HighlightRegexp {[\{\}]} {}
 }
 
-precompile {}
+precompile {
+  HighlightKeywords {
+    HighlightClass HighlightKeywords HighlightRegexp HighlightWithOnlyCharStart
+    HighlightProc HighlightEndProc
+  } {}
+}
 
 miscellaneous1 {}
 

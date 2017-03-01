@@ -38,3 +38,17 @@ punctuation
 {
   HighlightRegexp {[][\{\}&*!?:|>%@`,-]} {}
 }
+
+advanced {
+  HighlightClass key keywords {}
+
+  HighlightRegexp {\S+\s*:} keyword
+
+  HighlightProc keyword {
+    if {[regexp {(\\S+)\\s*:} [$txt get $startpos $endpos] -> str]} {
+      return [list [list [list key $startpos [$txt index "$startpos+[string length $str]c"] [list]]] ""]
+    }
+    return ""
+  } HighlightEndProc
+
+}
