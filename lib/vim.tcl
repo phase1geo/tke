@@ -727,11 +727,11 @@ namespace eval vim {
 
   ######################################################################
   # Set the select anchor for visual mode.
-  proc set_select_anchor {txtt index} {
+  proc set_select_anchors {txtt indices} {
 
     variable select_anchors
 
-    set select_anchors($txtt) $index
+    set select_anchors($txtt) $indices
 
   }
 
@@ -755,7 +755,7 @@ namespace eval vim {
 
   ######################################################################
   # Adjust the current selection if we are in visual mode.
-  proc adjust_select {txtt index} {
+  proc adjust_select {txtt index pos} {
 
     variable mode
     variable select_anchors
@@ -766,17 +766,17 @@ namespace eval vim {
     # Get the anchor for the given selection
     set anchor [lindex $select_anchors($txtt) $index]
 
-    if {[$txtt compare $anchor < insert]} {
+    if {[$txtt compare $anchor < $pos]} {
       if {$type eq "line"} {
-        $txtt tag add sel "$anchor linestart" "insert lineend"
+        $txtt tag add sel "$anchor linestart" "$pos lineend"
       } else {
-        $txtt tag add sel $anchor insert
+        $txtt tag add sel $anchor $pos
       }
     } else {
       if {$type eq "line"} {
-        $txtt tag add sel "insert linestart" "$anchor lineend"
+        $txtt tag add sel "$pos linestart" "$anchor lineend"
       } else {
-        $txtt tag add sel insert $anchor
+        $txtt tag add sel $pos $anchor
       }
     }
 
@@ -1092,6 +1092,7 @@ namespace eval vim {
 
     variable mode
     variable select_anchors
+    variable multicursor
 
     # Set the current mode
     set mode($txtt) "visual:$type"
@@ -1100,10 +1101,15 @@ namespace eval vim {
     $txtt tag remove sel 1.0 end
 
     # Initialize the select range
-    set select_anchors($txtt) [$txtt index insert]
-
-    # Perform the initial selection
-    adjust_select $txtt 0
+    if {$multicursor($txtt)} {
+      set select_anchors($txtt) [list]
+      foreach {start end} [$txtt tag ranges mcursor] {
+        lappend select_anchors($txtt) $start
+      }
+    } else {
+      set select_anchors($txtt) [$txtt index insert]
+      # adjust_select $txtt 0 insert
+    }
 
   }
 
@@ -1227,7 +1233,7 @@ namespace eval vim {
 
     # Adjust the selection (if we are in visual mode)
     if {[in_visual_mode $txtt]} {
-      adjust_select $txtt 0
+      adjust_select $txtt 0 insert
     }
 
   }

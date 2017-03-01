@@ -298,37 +298,56 @@ namespace eval multicursor {
   ######################################################################
   # Adjusts the view to make sure that previously viewable cursors are
   # still visible.
-  proc adjust_set_and_view {txt prev next} {
+  proc adjust_set_and_view {txtt prev next} {
 
     # Add the multicursor
-    $txt tag add mcursor $next
+    $txtt tag add mcursor $next
+    
+    # If we are in selection mode in Vim, add to the selection
+    if {[vim::in_visual_mode $txtt]} {
+      
+    }
 
     # If our next cursor is going off screen, make it viewable
-    if {([$txt bbox $prev] ne "") && ([$txt bbox $next] eq "")} {
-      $txt see $next
+    if {([$txtt bbox $prev] ne "") && ([$txtt bbox $next] eq "")} {
+      $txtt see $next
     }
 
   }
 
-    ######################################################################
-    # Adjusts the cursors by the given suffix.  The valid values for suffix
-    # are:
-    #  +1c       - Adjusts the cursors one character to the right.
-    #  -1c       - Adjusts the cursors one character to the left.
-    #  +1l       - Adjusts the cursors one line down.
-    #  -1l       - Adjusts the cursors one line up.
-    #  linestart - Adjusts the cursors to the beginning of the line (if a line contains more than
-    #              one multicursor, create only one on the current line)
-    #  lineend   - Adjusts the cursors to the end of the line (if a line contains more than one
-    #              multicursor, create only one on the current line)
-    #  nextword  - Adjusts the cursors to the beginning of the next word
-    #  prevword  - Adjusts the cursors to the beginning of the previous word
-    #  firstword - Adjusts the cursors to the beginning of the first word of the line
-    #
-    # If the insert value is set to 1 and moving the character would cause
-    # the cursor to be lost (beginning/end of line or beginning/end of file),
-    # a line or character will be inserted and the cursor set to that position.
-    # The inserted text will be given the tag name of "insert_tag".
+  ######################################################################
+  # Adjusts the selection if we are in a Vim visual mode.
+  proc adjust_select {txtt} {
+    
+    if {[vim::in_visual_mode $txtt]} {
+      set i 0
+      foreach {start end} [$txtt tag ranges mcursor] {
+        vim::adjust_select $txtt $i $start
+        incr i
+      }
+    }
+    
+  }
+  
+  ######################################################################
+  # Adjusts the cursors by the given suffix.  The valid values for suffix
+  # are:
+  #  +1c       - Adjusts the cursors one character to the right.
+  #  -1c       - Adjusts the cursors one character to the left.
+  #  +1l       - Adjusts the cursors one line down.
+  #  -1l       - Adjusts the cursors one line up.
+  #  linestart - Adjusts the cursors to the beginning of the line (if a line contains more than
+  #              one multicursor, create only one on the current line)
+  #  lineend   - Adjusts the cursors to the end of the line (if a line contains more than one
+  #              multicursor, create only one on the current line)
+  #  nextword  - Adjusts the cursors to the beginning of the next word
+  #  prevword  - Adjusts the cursors to the beginning of the previous word
+  #  firstword - Adjusts the cursors to the beginning of the first word of the line
+  #
+  # If the insert value is set to 1 and moving the character would cause
+  # the cursor to be lost (beginning/end of line or beginning/end of file),
+  # a line or character will be inserted and the cursor set to that position.
+  # The inserted text will be given the tag name of "insert_tag".
   proc adjust_right {txtt num {tag ""}} {
 
     # Number of characters to advance
@@ -360,6 +379,9 @@ namespace eval multicursor {
       }
 
     }
+  
+    # Adjust the selection, if necessary
+    adjust_select $txtt
 
   }
 
@@ -384,6 +406,9 @@ namespace eval multicursor {
       adjust_set_and_view $txtt $start $index
     }
 
+    # Adjust the selection, if necessary
+    adjust_select $txtt
+
   }
 
   ######################################################################
@@ -405,6 +430,9 @@ namespace eval multicursor {
     foreach {start end} $ranges {
       adjust_set_and_view $txtt $start "$start-${num} display chars"
     }
+
+    # Adjust the selection, if necessary
+    adjust_select $txtt
 
   }
 
@@ -433,6 +461,9 @@ namespace eval multicursor {
       adjust_set_and_view $txtt $start $index
     }
 
+    # Adjust the selection, if necessary
+    adjust_select $txtt
+
   }
 
   ######################################################################
@@ -446,6 +477,9 @@ namespace eval multicursor {
       $txtt tag remove mcursor $start
       adjust_set_and_view $txtt $start "$start linestart"
     }
+
+    # Adjust the selection, if necessary
+    adjust_select $txtt
 
   }
 
@@ -466,6 +500,9 @@ namespace eval multicursor {
       adjust_set_and_view $txtt $start "$start lineend-1c"
     }
 
+    # Adjust the selection, if necessary
+    adjust_select $txtt
+
   }
 
   ######################################################################
@@ -481,6 +518,9 @@ namespace eval multicursor {
       adjust_set_and_view $txtt $start [edit::get_char $txtt $dir $num $start]
     }
 
+    # Adjust the selection, if necessary
+    adjust_select $txtt
+
   }
 
   ######################################################################
@@ -494,6 +534,9 @@ namespace eval multicursor {
     foreach {start end} $ranges {
       adjust_set_and_view $txtt $start [edit::get_word $txtt $dir $num $start]
     }
+
+    # Adjust the selection, if necessary
+    adjust_select $txtt
 
   }
 
@@ -510,6 +553,9 @@ namespace eval multicursor {
         adjust_set_and_view $txtt $start [lindex [$txtt tag nextrange _prewhite "$start linestart"] 1]-1c
       }
     }
+
+    # Adjust the selection, if necessary
+    adjust_select $txtt
 
   }
 
