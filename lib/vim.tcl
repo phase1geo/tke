@@ -85,15 +85,15 @@ namespace eval vim {
     gui::update_position $txt
 
   }
-  
+
   ######################################################################
   # Returns true if we are currently in multi-cursor move mode.
   proc in_multimove {txtt} {
-    
+
     variable multicursor
-    
+
     return [expr {([get_edit_mode $txtt] ne "") && $multicursor($txtt)}]
-    
+
   }
 
   ######################################################################
@@ -1753,9 +1753,19 @@ namespace eval vim {
   proc handle_percent {txtt} {
 
     variable mode
+    variable number
 
     if {$mode($txtt) eq "start"} {
-      gui::show_match_pair
+      if {$number($txtt) eq ""} {
+        gui::show_match_pair
+      } else {
+        $txtt tag remove sel 1.0 end
+        set lines [lindex [split [$txtt index end] .] 0]
+        set line  [expr int( ($number($txtt) * $lines + 99) / 100 )]
+        puts "lines: $lines, goto line: $line, number: $number($txtt)"
+        ::tk::TextSetCursor $txtt $line.0
+        adjust_insert $txtt
+      }
       return 1
     }
 
@@ -2078,11 +2088,10 @@ namespace eval vim {
   proc handle_L {txtt} {
 
     variable mode
-    variable number
     variable multicursor
 
     if {(($mode($txtt) eq "start") && !$multicursor($txtt)) || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt screenbot -num $number($txtt)
+      edit::move_cursor $txtt screenbot
       return 1
     }
 
@@ -2424,11 +2433,10 @@ namespace eval vim {
   proc handle_H {txtt} {
 
     variable mode
-    variable number
     variable multicursor
 
     if {(($mode($txtt) eq "start") && !$multicursor($txtt)) || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt screentop -num $number($txtt)
+      edit::move_cursor $txtt screentop
       return 1
     }
 
@@ -2586,7 +2594,12 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt last -num $number($txtt)
+      if {$number($txtt) eq ""} {
+        edit::move_cursor $txtt last
+      } else {
+        ::tk::TextSetCursor $txtt $number($txtt).0
+        edit::move_cursor $txtt firstword
+      }
       return 1
     } elseif {$mode($txtt) eq "format"} {
       indent::format_text $txtt "insert linestart" end
@@ -3641,7 +3654,7 @@ namespace eval vim {
 
     variable mode
     variable number
-    
+
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       edit::move_cursor $txtt prevfirst -num $number($txtt)
       return 1
@@ -3697,10 +3710,9 @@ namespace eval vim {
   proc handle_M {txtt} {
 
     variable mode
-    variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt screenmid -num $number($txtt)
+      edit::move_cursor $txtt screenmid
       return 1
     } elseif {$mode($txtt) eq "folding"} {
       folding::close_all_folds [winfo parent $txtt]
@@ -3797,7 +3809,7 @@ namespace eval vim {
     variable mode
     variable number
     variable multicursor
-    
+
     set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
 
     # Move the insertion cursor right one character
@@ -3867,7 +3879,7 @@ namespace eval vim {
     }
 
     return 0
-    
+
   }
 
   ######################################################################
@@ -3878,7 +3890,7 @@ namespace eval vim {
     variable mode
     variable number
     variable multicursor
-    
+
     set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
 
     # Move the insertion cursor left one character

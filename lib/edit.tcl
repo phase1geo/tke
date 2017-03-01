@@ -975,10 +975,9 @@ namespace eval edit {
   # Returns the index of the character located num chars in the direction
   # specified from the starting index.
   proc get_char {txt dir {num 1} {start insert}} {
-    
+
     if {$dir eq "next"} {
-      
-      set first 1
+
       while {($num > 0) && [$txt compare $start < end]} {
         if {[set line_chars [$txt count -displaychars $start "$start lineend"]] == 0} {
           set start [$txt index "$start+1l display lines"]
@@ -993,21 +992,23 @@ namespace eval edit {
           set num 0
         }
       }
-      
+
       if {[$txt compare $start == end]} {
         return [$txt index "end-1c"]
       } else {
         return [$txt index $start]
       }
-      
+
     } else {
-      
+
+      set first 1
       while {($num > 0) && [$txt compare $start > 1.0]} {
-        if {[set line_chars [$txt count -displaychars "$start linestart" $start]] == 0} {
-          set start [$txt index "$start-1l display lines"]
-          set start "$start lineend"
-          incr num -1
-        } elseif {$line_chars <= $num} {
+        if {([set line_chars [$txt count -displaychars "$start linestart" $start]] == 0) && !$first} {
+          if {[incr num -1] > 0} {
+            set start [$txt index "$start-1l display lines"]
+            set start "$start lineend"
+          }
+        } elseif {$line_chars < $num} {
           set start [$txt index "$start-1l display lines"]
           set start "$start lineend"
           incr num -$line_chars
@@ -1015,14 +1016,15 @@ namespace eval edit {
           set start "$start-$num display chars"
           set num 0
         }
+        set first 0
       }
-      
+
       return [$txt index $start]
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Returns the index of the beginning next/previous word.  If num is
   # given a value > 1, the procedure will return the beginning index of
@@ -1203,7 +1205,7 @@ namespace eval edit {
       prevfindinc { set index [find_char $txtt prev $opts(-char) $num] }
       default     { set index insert }
     }
-    
+
     # Set the insertion position and make it visible
     ::tk::TextSetCursor $txtt $index
 
