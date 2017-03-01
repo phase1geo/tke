@@ -1,24 +1,94 @@
-2017-02-26 00:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (91b85b4c9607 [devel-2.9.8])
+2017-02-27 00:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (db3eeaf99737 [devel-2.9.9])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.8 release
+	ChangeLog for devel-2.9.9 release
 
-2017-02-26 00:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (46afc50940d2)
+2017-02-27 00:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (517afacd5086)
 
 	* .hgtags:
-	Added tag devel-2.9.8 for changeset 91b85b4c9607
+	Added tag devel-2.9.9 for changeset db3eeaf99737
 
-2017-02-26 17:53 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (686fd4f775c1)
+2017-02-27 02:08 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (efcb67dbab1a)
 
-	* lib/ctext/ctext.tcl, lib/multicursor.tcl, lib/version.tcl:
-	* Fixing problems found in BIST.
+	* lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
+	* Improving performance of `j` Vim command.
+	* Fixing issue with `#j` where # is a number that exceeds the number
+	of lines available below the insertion cursor.
+	* Adding Vim BIST diagnostics for j, k, l and h cursor motions.
 
-2017-02-26 23:51 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (149f7e41fd14 [tip])
+2017-02-27 02:12 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ed28bbe0da47)
 
-	* lib/ctext/ctext.tcl, lib/multicursor.tcl, lib/version.tcl,
-	lib/vim.tcl:
-	* Fixing issue that would occur if a tab was closed when Vim mode is
-	disabled.
-	* Reverting ctext insert procedure to the way it worked.
-	* Fixing lots of issues caused by recent changes to multicursor.
+	* data/bindings/menu_bindings.aqua.tkedat,
+	data/bindings/menu_bindings.classic.tkedat,
+	data/bindings/menu_bindings.win32.tkedat,
+	data/bindings/menu_bindings.x11.tkedat, lib/version.tcl:
+	* Switching around default indent/unindent menu bindings.
+
+2017-02-28 02:23 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (10963d6e41e2)
+
+	* lib/edit.tcl, lib/multicursor.tcl, lib/version.tcl, lib/vim.tcl,
+	tests/vim.tcl:
+	* Fixed issue with using the `$` Vim command with a numerical value.
+	* Enhancing multicursor support to allow numerical values with
+	motions.
+
+2017-02-28 09:43 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4883a5dc5bbb)
+
+	* lib/edit.tcl, lib/version.tcl, tests/vim.tcl:
+	* Restoring edit::get_word to original state since I misinterpreted
+	its original results to be bad.
+	* Completing Vim word motion test.
+
+2017-02-28 17:51 -0600  Trevor Williams  <phase1geo@gmail.com>  (3224b771a5cd)
+
+	* lib/edit.tcl, lib/multicursor.tcl, lib/version.tcl, lib/vim.tcl,
+	tests/vim.tcl:
+	* Enhancing and improving edit::move_cursor functionality
+	* Improving case transformation functionality
+	* Fixing handling of escape key when in multicursor move mode (i.e.,
+	don't lose multicursors)
+	* Outputing multicursor move mode in information bar
+	* Fixing multicursor up/down functionality.
+	* Fixing space and BackSpace Vim command handling to move by
+	characters instead of stopping at end/begin of line.
+	* Adding firstword Vim test to suite.
+
+2017-03-01 00:01 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (9a625594ee90)
+
+	* data/syntax/JavaScript.syntax, data/syntax/YAML.syntax,
+	data/syntax/syntax.syntax, lib/edit.tcl, lib/version.tcl,
+	lib/vim.tcl, tests/vim.tcl:
+	* Adding missing `const` keyword to JavaScript syntax.
+	* Changing some syntax highlighting for TKE syntax files.
+	* Adding new `HighlightEndProc` keyword in TKE syntax files to allow
+	embedded Tcl syntax highlighting within `HighlightProc` procedures.
+	* Enhancing key highlighting in YAML syntax.
+	* Fixing previous character index calculations from previous checkin.
+	* Adding ability to jump to a line at a certain percentage line within
+	a file (i.e., `10%`)
+	* Adding ability to jump to a specific line via the `G` vim command.
+	* Adding more tests to Vim BIST suite.
+
+2017-03-01 01:10 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6387fa1ab72c)
+
+	* tests/formatting.tcl: new file.
+	* lib/version.tcl, lib/vim.tcl, tests/formatting.tcl,
+	tests/snippets.tcl:
+	* Cleaning up debug output.
+	* Adding more tests.
+
+2017-03-01 01:23 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5c4218b83137)
+
+	* lib/multicursor.tcl, lib/version.tcl:
+	* Upgrading multicursor handling of character motion.
+
+2017-03-01 09:28 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4ed60764a089 [tip])
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
 
