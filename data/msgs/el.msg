@@ -315,6 +315,9 @@ msgcat::mcmset el {
   "Check for update"
   "Ελέγχου για την ενημερωμένη έκδοση"
 
+  "Checkbox"
+  "Πλαίσιο ελέγχου"
+
   "Classic Mac"
   "Κλασικό Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset el {
 
   "Close selected folds - one level"
   "Κλείστε επιλεγμένες πτυχές - ένα επίπεδο"
+
+  "Code"
+  "Κωδικός"
 
   "Command"
   "Εντολή"
@@ -807,6 +813,9 @@ msgcat::mcmset el {
   "Lower Case"
   "Πεζά"
 
+  "Make line a checklist item"
+  "Κάνετε γραμμή ένα στοιχείο του πίνακα ελέγχου"
+
   "Make line an ordered bullet"
   "Κάνετε γραμμή μια ταξινομημένη σφαίρα"
 
@@ -824,6 +833,9 @@ msgcat::mcmset el {
 
   "Make text italicized"
   "Κείμενο με πλάγια γραφή"
+
+  "Make text monospaced"
+  "Κάνουν κειμένου σταθερού πλάτους"
 
   "Make text stricken"
   "Κείμενο που επλήγησαν"
@@ -1609,6 +1621,9 @@ msgcat::mcmset el {
   "Delete snippet"
   "Διαγραφή του αποκόμματος"
 
+  "Delete user bindings and use default?"
+  "Διαγραφή χρήστη βιβλιοδεσίες και χρήση προεπιλογής;"
+
   "Development"
   "Ανάπτυξη"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset el {
   "Tab Stop"
   "θέση στηλοθέτησης"
 
+  "This operation cannot be reversed."
+  "Αυτή η λειτουργία δεν μπορεί να αντιστραφεί."
+
   "Time"
   "Ώρα"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset el {
 
   "Updates"
   "Ενημερώσεις"
+
+  "Use Default"
+  "Χρήση προεπιλογής"
 
   "Use appropriate EOL character on system"
   "Χρησιμοποιήστε κατάλληλη EOL χαρακτήρα στο σύστημα"

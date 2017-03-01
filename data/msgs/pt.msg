@@ -315,6 +315,9 @@ msgcat::mcmset pt {
   "Check for update"
   "Buscar por atualizações"
 
+  "Checkbox"
+  "Caixa de Seleção"
+
   "Classic Mac"
   "Com seu clássico Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset pt {
 
   "Close selected folds - one level"
   "Feche o selecionado dobras - um nível"
+
+  "Code"
+  "Código Postal"
 
   "Command"
   "Comando"
@@ -807,6 +813,9 @@ msgcat::mcmset pt {
   "Lower Case"
   "caixa baixa"
 
+  "Make line a checklist item"
+  "Fazer a linha um item de lista de verificação"
+
   "Make line an ordered bullet"
   "Fazer a linha uma bala ordenada"
 
@@ -824,6 +833,9 @@ msgcat::mcmset pt {
 
   "Make text italicized"
   "Fazer um texto em itálico"
+
+  "Make text monospaced"
+  "Fazer texto monospaced"
 
   "Make text stricken"
   "Fazer texto atingido"
@@ -1609,6 +1621,9 @@ msgcat::mcmset pt {
   "Delete snippet"
   "Excluir o trecho"
 
+  "Delete user bindings and use default?"
+  "Exclua as ligações do usuário e usar o padrão?"
+
   "Development"
   "Desenvolvimento"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset pt {
   "Tab Stop"
   "Marca de tabulação"
 
+  "This operation cannot be reversed."
+  "Esta operação não pode ser revertida."
+
   "Time"
   "Hora"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset pt {
 
   "Updates"
   "Atualizações"
+
+  "Use Default"
+  "Use Padrão"
 
   "Use appropriate EOL character on system"
   "Use o caractere de EOL apropriado no sistema"

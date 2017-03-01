@@ -315,6 +315,9 @@ msgcat::mcmset zh {
   "Check for update"
   "檢查更新"
 
+  "Checkbox"
+  "复选框"
+
   "Classic Mac"
   "经典的 Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset zh {
 
   "Close selected folds - one level"
   "关闭选定的褶皱-一个级别"
+
+  "Code"
+  "Code"
 
   "Command"
   "命令"
@@ -807,6 +813,9 @@ msgcat::mcmset zh {
   "Lower Case"
   "小写字母"
 
+  "Make line a checklist item"
+  "使行核对清单项"
+
   "Make line an ordered bullet"
   "使线序的子弹"
 
@@ -824,6 +833,9 @@ msgcat::mcmset zh {
 
   "Make text italicized"
   "使文本变为斜体"
+
+  "Make text monospaced"
+  "使文本等宽"
 
   "Make text stricken"
   "使文本受灾"
@@ -1609,6 +1621,9 @@ msgcat::mcmset zh {
   "Delete snippet"
   "删除代码段"
 
+  "Delete user bindings and use default?"
+  "删除用户绑定并使用默认值吗？"
+
   "Development"
   "开发"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset zh {
   "Tab Stop"
   "制表符"
 
+  "This operation cannot be reversed."
+  "此操作不是可逆的。"
+
   "Time"
   "时间"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset zh {
 
   "Updates"
   "更新"
+
+  "Use Default"
+  "默认用户"
 
   "Use appropriate EOL character on system"
   "在系统上使用适当的 EOL 字符"

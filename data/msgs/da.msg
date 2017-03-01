@@ -315,6 +315,9 @@ msgcat::mcmset da {
   "Check for update"
   "Kontroller for opdateringer"
 
+  "Checkbox"
+  "Giv mig besked ved svar til denne kommentar"
+
   "Classic Mac"
   "Klassiske Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset da {
 
   "Close selected folds - one level"
   "Luk valgte folder - et niveau"
+
+  "Code"
+  "Kode"
 
   "Command"
   "Kommando:"
@@ -807,6 +813,9 @@ msgcat::mcmset da {
   "Lower Case"
   "Små bogstaver"
 
+  "Make line a checklist item"
+  "Gøre linje en tjekliste vare"
+
   "Make line an ordered bullet"
   "Gøre linje en bestilt bullet"
 
@@ -824,6 +833,9 @@ msgcat::mcmset da {
 
   "Make text italicized"
   "Gør tekst kursiv"
+
+  "Make text monospaced"
+  "Gøre tekst monospaced"
 
   "Make text stricken"
   "Gøre tekst ramte"
@@ -1609,6 +1621,9 @@ msgcat::mcmset da {
   "Delete snippet"
   "Slette kodestykke"
 
+  "Delete user bindings and use default?"
+  "Slette brugeren bindinger og bruge standard?"
+
   "Development"
   "Udvikling"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset da {
   "Tab Stop"
   "tabulatorstop"
 
+  "This operation cannot be reversed."
+  "Denne handling kan ikke annulleres."
+
   "Time"
   "Tid"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset da {
 
   "Updates"
   "Opdateringer"
+
+  "Use Default"
+  "Brug standard"
 
   "Use appropriate EOL character on system"
   "Brug passende EOL tegn på systemet"

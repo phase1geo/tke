@@ -315,6 +315,9 @@ msgcat::mcmset sv {
   "Check for update"
   "Sök efter uppdateringar"
 
+  "Checkbox"
+  "Kryssruta"
+
   "Classic Mac"
   "Klassiska Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset sv {
 
   "Close selected folds - one level"
   "Nära valda veck - en nivå"
+
+  "Code"
+  "Kod"
 
   "Command"
   "Kommando"
@@ -807,6 +813,9 @@ msgcat::mcmset sv {
   "Lower Case"
   "Små bokstäver"
 
+  "Make line a checklist item"
+  "Gör linje en checklistepunkten"
+
   "Make line an ordered bullet"
   "Gör linje en beställda kula"
 
@@ -824,6 +833,9 @@ msgcat::mcmset sv {
 
   "Make text italicized"
   "Gör texten kursiv"
+
+  "Make text monospaced"
+  "Göra text med fast bredd"
 
   "Make text stricken"
   "Göra texten drabbade"
@@ -1609,6 +1621,9 @@ msgcat::mcmset sv {
   "Delete snippet"
   "Ta bort snutt"
 
+  "Delete user bindings and use default?"
+  "Ta bort användaren bindningar och använda standard?"
+
   "Development"
   "Utveckling"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset sv {
   "Tab Stop"
   "tabbstopp"
 
+  "This operation cannot be reversed."
+  "Åtgärden kan inte ångras."
+
   "Time"
   "Tid"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset sv {
 
   "Updates"
   "Uppdateringar"
+
+  "Use Default"
+  "Använd som standard"
 
   "Use appropriate EOL character on system"
   "Använda lämpliga EOL-tecken på system"

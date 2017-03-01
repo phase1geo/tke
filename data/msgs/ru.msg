@@ -315,6 +315,9 @@ msgcat::mcmset ru {
   "Check for update"
   "Проверьте на обновление"
 
+  "Checkbox"
+  "Чекбокс"
+
   "Classic Mac"
   "Классический Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset ru {
 
   "Close selected folds - one level"
   "Закрыть выбранный складки - один уровень"
+
+  "Code"
+  "код"
 
   "Command"
   "Команда"
@@ -807,6 +813,9 @@ msgcat::mcmset ru {
   "Lower Case"
   "Минускул"
 
+  "Make line a checklist item"
+  "Сделать линии элемент контрольного списка"
+
   "Make line an ordered bullet"
   "Сделать линию упорядоченный пуля"
 
@@ -824,6 +833,9 @@ msgcat::mcmset ru {
 
   "Make text italicized"
   "Сделать текст курсивом"
+
+  "Make text monospaced"
+  "Сделать текст моноширинный"
 
   "Make text stricken"
   "Сделать текст пострадавших"
@@ -1609,6 +1621,9 @@ msgcat::mcmset ru {
   "Delete snippet"
   "Удалить Сниппет"
 
+  "Delete user bindings and use default?"
+  "Удаление привязки пользователя и использовать по умолчанию?"
+
   "Development"
   "Разработка"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset ru {
   "Tab Stop"
   "Табуляция"
 
+  "This operation cannot be reversed."
+  "Эта операция не может быть реверсирован."
+
   "Time"
   "Время:"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset ru {
 
   "Updates"
   "Обновления"
+
+  "Use Default"
+  "Использовать по умолчанию"
 
   "Use appropriate EOL character on system"
   "Используйте соответствующий символ EOL на системы"
