@@ -477,22 +477,8 @@ namespace eval multicursor {
     set ranges [$txtt tag ranges mcursor]
 
     $txtt tag remove mcursor 1.0 end
-    if {$dir eq "next"} {
-      foreach {end start} [lreverse $ranges] {
-        set index [$txtt index "$start+${num} display chars"]
-        if {[$txtt get $index] eq "\n"} {
-          $txtt fastinsert -update 0 -undo 0 $index " " dspace
-        }
-        adjust_set_and_view $txtt $start $index
-      }
-    } else {
-      foreach {start end} $ranges {
-        set index [$txtt index "$start-${num} display chars"]
-        if {[$txtt get $index] eq "\n"} {
-          $txtt fastinsert -update 0 -undo 0 $index " " dspace
-        }
-        adjust_set_and_view $txtt $start $index
-      }
+    foreach {end start} [lreverse $ranges] {
+      adjust_set_and_view $txtt $start [edit::get_char $txtt $dir $num $start]
     }
 
   }
