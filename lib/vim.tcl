@@ -1762,7 +1762,6 @@ namespace eval vim {
         $txtt tag remove sel 1.0 end
         set lines [lindex [split [$txtt index end] .] 0]
         set line  [expr int( ($number($txtt) * $lines + 99) / 100 )]
-        puts "lines: $lines, goto line: $line, number: $number($txtt)"
         ::tk::TextSetCursor $txtt $line.0
         adjust_insert $txtt
       }
