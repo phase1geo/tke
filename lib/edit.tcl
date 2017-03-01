@@ -345,7 +345,7 @@ namespace eval edit {
       $txtt tag remove sel 1.0 end
       ::tk::TextSetCursor $txtt $end_index
       $txtt tag add sel $start_index+1c $end_index
-      vim::set_select_anchor $txtt $start_index+1c
+      vim::set_select_anchors $txtt $start_index+1c
       return 1
     }
 
