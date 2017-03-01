@@ -315,6 +315,9 @@ msgcat::mcmset cs {
   "Check for update"
   "Kontrola aktualizací"
 
+  "Checkbox"
+  "Zaškrtávací políčko"
+
   "Classic Mac"
   "Klasický Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset cs {
 
   "Close selected folds - one level"
   "Zavřít vybrané záhyby - jedna úroveň"
+
+  "Code"
+  "Kód"
 
   "Command"
   "Příkaz"
@@ -807,6 +813,9 @@ msgcat::mcmset cs {
   "Lower Case"
   "Malá písmena"
 
+  "Make line a checklist item"
+  "Vytvořit řádek položka kontrolního seznamu"
+
   "Make line an ordered bullet"
   "Veďte čáru objednané bullet"
 
@@ -824,6 +833,9 @@ msgcat::mcmset cs {
 
   "Make text italicized"
   "Změna textu na kurzívu"
+
+  "Make text monospaced"
+  "Aby text neproporcionálním"
 
   "Make text stricken"
   "Aby text zasažený"
@@ -1609,6 +1621,9 @@ msgcat::mcmset cs {
   "Delete snippet"
   "Odstranit výstřižek"
 
+  "Delete user bindings and use default?"
+  "Odstraňte uživatelské vazby a použít výchozí nastavení?"
+
   "Development"
   "Vývoj"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset cs {
   "Tab Stop"
   "Zarážku tabulátoru"
 
+  "This operation cannot be reversed."
+  "Tuto operaci nelze vrátit zpět."
+
   "Time"
   "Čas"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset cs {
 
   "Updates"
   "Aktualizace"
+
+  "Use Default"
+  "Použít výchozí"
 
   "Use appropriate EOL character on system"
   "Použít vhodné znaky EOL na systému"

@@ -315,6 +315,9 @@ msgcat::mcmset hu {
   "Check for update"
   "Frissítések keresése most"
 
+  "Checkbox"
+  "Jelölőnégyzet"
+
   "Classic Mac"
   "Klasszikus Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset hu {
 
   "Close selected folds - one level"
   "Zárja be a kijelölt ráncok - egy szinttel"
+
+  "Code"
+  "Kód"
 
   "Command"
   "Parancs"
@@ -807,6 +813,9 @@ msgcat::mcmset hu {
   "Lower Case"
   "Alsó-ügy"
 
+  "Make line a checklist item"
+  "Ellenőrzőlista-elem, hogy vonal"
+
   "Make line an ordered bullet"
   "Hogy sor egy megrendelt golyó"
 
@@ -824,6 +833,9 @@ msgcat::mcmset hu {
 
   "Make text italicized"
   "Dőlt szöveg"
+
+  "Make text monospaced"
+  "Hogy a nyomtatott szöveg"
 
   "Make text stricken"
   "Sújtotta szöveg"
@@ -1609,6 +1621,9 @@ msgcat::mcmset hu {
   "Delete snippet"
   "Részlet törlése"
 
+  "Delete user bindings and use default?"
+  "Törli a felhasználó kötések, és alapértelmezett?"
+
   "Development"
   "Fejlesztés"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset hu {
   "Tab Stop"
   "Tabulátor"
 
+  "This operation cannot be reversed."
+  "Ezt a műveletet nem lehet visszavonni."
+
   "Time"
   "Idő"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset hu {
 
   "Updates"
   "Frissítések"
+
+  "Use Default"
+  "Alapértelmezett használata"
 
   "Use appropriate EOL character on system"
   "Használja a megfelelő EOL karakter a rendszer"

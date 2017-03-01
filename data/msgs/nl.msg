@@ -315,6 +315,9 @@ msgcat::mcmset nl {
   "Check for update"
   "Controle voor update"
 
+  "Checkbox"
+  "Selectievakje"
+
   "Classic Mac"
   "Klassieke Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset nl {
 
   "Close selected folds - one level"
   "Geselecteerde plooien - gelijkvloerse sluiten"
+
+  "Code"
+  "Code"
 
   "Command"
   "besturingssignaal"
@@ -807,6 +813,9 @@ msgcat::mcmset nl {
   "Lower Case"
   "Kleineletters"
 
+  "Make line a checklist item"
+  "Regel een controlelijst-item maken"
+
   "Make line an ordered bullet"
   "Maak de lijn een geordende kogel"
 
@@ -824,6 +833,9 @@ msgcat::mcmset nl {
 
   "Make text italicized"
   "Tekst cursief maken"
+
+  "Make text monospaced"
+  "Maken met vaste spatiëring van tekst"
 
   "Make text stricken"
   "Tekst getroffen maken"
@@ -1609,6 +1621,9 @@ msgcat::mcmset nl {
   "Delete snippet"
   "Fragment verwijderen"
 
+  "Delete user bindings and use default?"
+  "Verwijder gebruiker bindingen en gebruik van de standaard?"
+
   "Development"
   "Development"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset nl {
   "Tab Stop"
   "tabstop"
 
+  "This operation cannot be reversed."
+  "Deze bewerking kan niet worden teruggedraaid."
+
   "Time"
   "Tijd"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset nl {
 
   "Updates"
   "Updates"
+
+  "Use Default"
+  "Gebruik standaard"
 
   "Use appropriate EOL character on system"
   "Gebruik van juiste EOL karakter op systeem"

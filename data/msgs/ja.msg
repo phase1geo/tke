@@ -315,6 +315,9 @@ msgcat::mcmset ja {
   "Check for update"
   "アップデートの確認"
 
+  "Checkbox"
+  "チェックボックス"
+
   "Classic Mac"
   "古典的な Mac"
 
@@ -359,6 +362,9 @@ msgcat::mcmset ja {
 
   "Close selected folds - one level"
   "閉じる選択した襞 - 1 レベル"
+
+  "Code"
+  "コード"
 
   "Command"
   "命令"
@@ -807,6 +813,9 @@ msgcat::mcmset ja {
   "Lower Case"
   "小文字"
 
+  "Make line a checklist item"
+  "チェックリスト項目のラインを作る"
+
   "Make line an ordered bullet"
   "順序付けられた弾丸のラインを作る"
 
@@ -824,6 +833,9 @@ msgcat::mcmset ja {
 
   "Make text italicized"
   "斜体のテキストします。"
+
+  "Make text monospaced"
+  "テキストの幅を作る"
 
   "Make text stricken"
   "襲われたテキストします。"
@@ -1609,6 +1621,9 @@ msgcat::mcmset ja {
   "Delete snippet"
   "スニペットを削除します。"
 
+  "Delete user bindings and use default?"
+  "ユーザー バインドを削除し、既定を使用して?"
+
   "Development"
   "開発"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset ja {
   "Tab Stop"
   "タブ"
 
+  "This operation cannot be reversed."
+  "この操作を元に戻すことはできません。"
+
   "Time"
   "時間"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset ja {
 
   "Updates"
   "更新"
+
+  "Use Default"
+  "1行目をデフォルトにする"
 
   "Use appropriate EOL character on system"
   "システムに適切な EOL 文字を使用します。"

@@ -315,6 +315,9 @@ msgcat::mcmset he {
   "Check for update"
   "הסימון עבור עדכון"
 
+  "Checkbox"
+  "תיבת סימון"
+
   "Classic Mac"
   "Mac קלאסי"
 
@@ -359,6 +362,9 @@ msgcat::mcmset he {
 
   "Close selected folds - one level"
   "סגור את קפלי הנבחר - רמה אחת"
+
+  "Code"
+  "השדה ' מיקוד ' הוא חובה."
 
   "Command"
   "הפקודה"
@@ -807,6 +813,9 @@ msgcat::mcmset he {
   "Lower Case"
   "באותיות קטנות"
 
+  "Make line a checklist item"
+  "להפוך שורות של פריט רשימת פעולות לביצוע"
+
   "Make line an ordered bullet"
   "לעשות קו כדור מסודרת"
 
@@ -824,6 +833,9 @@ msgcat::mcmset he {
 
   "Make text italicized"
   "הפיכת טקסט לנטוי"
+
+  "Make text monospaced"
+  "להפוך טקסט ברוחב אחיד"
 
   "Make text stricken"
   "הפיכת טקסט מוכה"
@@ -1609,6 +1621,9 @@ msgcat::mcmset he {
   "Delete snippet"
   "מחק מקטע"
 
+  "Delete user bindings and use default?"
+  "מחיקת משתמש איגודי ולהשתמש ברירת המחדל?"
+
   "Development"
   "פיתוח"
 
@@ -1855,6 +1870,9 @@ msgcat::mcmset he {
   "Tab Stop"
   "עצירת טאב"
 
+  "This operation cannot be reversed."
+  "פעולה זו בלתי הפיכה."
+
   "Time"
   "זמן"
 
@@ -1863,6 +1881,9 @@ msgcat::mcmset he {
 
   "Updates"
   "עדכונים"
+
+  "Use Default"
+  "להשתמש בברירת המחדל"
 
   "Use appropriate EOL character on system"
   "שימוש בתו EOL המתאים במערכת"
