@@ -615,6 +615,9 @@ namespace eval syntax {
                 }
               }
             }
+            "HighlightEndProc" {
+              # This is not invalid syntax but is not used for anything in this namespace
+            }
             "Highlight*" {
               set section_list [lassign $section_list syntax command]
               if {$command ne ""} {
