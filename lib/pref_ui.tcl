@@ -84,14 +84,30 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Returns the grid row to insert the given widget into.  Also has the
+  # side-effect of configuring the grid layout if we are the first child
+  # to be placed.
+  proc get_grid_row {w} {
+
+    set row [llength [grid slaves [winfo parent $w] -column 0]]
+
+    # If we are the first row, configure the grid
+    if {$row == 0} {
+      grid columnconfigure [winfo parent $w] 3 -weight 1
+    }
+
+    return $row
+
+  }
+
+  ######################################################################
   # Make a horizontal spacer.
   proc make_spacer {w {grid 0}} {
 
     set win [ttk::label $w.spacer[llength [lsearch -all [winfo children $w] $w.spacer*]]]
 
     if {$grid} {
-      set row [llength [grid slaves $w -column 0]]
-      grid $win -row $row -column 0 -sticky ew -columnspan 3
+      grid $win -row [get_grid_row $win] -column 0 -sticky ew -columnspan 4
     } else {
       pack $win -fill x
     }
@@ -109,8 +125,7 @@ namespace eval pref_ui {
 
     # Pack the widget
     if {$grid} {
-      set row [llength [grid slaves [winfo parent $w] -column 0]]
-      grid $w -row $row -column 0 -sticky ew -columnspan 2 -padx 2 -pady 2
+      grid $w -row [get_grid_row $w] -column 0 -sticky ew -columnspan 4 -padx 2 -pady 2
     } else {
       pack $w -fill x -padx 2 -pady 2
     }
@@ -131,8 +146,7 @@ namespace eval pref_ui {
 
     # Pack the widget
     if {$grid} {
-      set row [llength [grid slaves [winfo parent $w] -column 0]]
-      grid $w -row $row -column 0 -sticky ew -columnspan 2 -padx 2 -pady 2
+      grid $w -row [get_grid_row $w] -column 0 -sticky ew -columnspan 4 -padx 2 -pady 2
     } else {
       pack $w -fill x -padx 2 -pady 2
     }
@@ -153,7 +167,7 @@ namespace eval pref_ui {
       ttk::label ${w}l -text $msg
       set win [ttk::menubutton ${w}mb -textvariable pref_ui::prefs($varname) \
         -menu [set mnu [menu ${w}mbMenu -tearoff 0]]]
-      set row [llength [grid slaves [winfo parent ${w}l] -column 0]]
+      set row [get_grid_row ${w}l]
       grid ${w}l  -row $row -column 0 -sticky news -padx 2 -pady 2
       grid ${w}mb -row $row -column 1 -sticky news -columnspan 2 -padx 2 -pady 2
     } else {
@@ -185,8 +199,7 @@ namespace eval pref_ui {
 
     # Pack the widget
     if {$grid} {
-      set row [llength [grid slaves [winfo parent $w] -column 0]]
-      grid $w -row $row -column 0 -sticky news -columnspan 3 -padx 2 -pady 2
+      grid $w -row [get_grid_row $w] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
     } else {
       pack $w -fill x -padx 2 -pady 2
     }
@@ -209,8 +222,7 @@ namespace eval pref_ui {
 
     # Pack the widget
     if {$grid} {
-      set row [llength [grid slaves [winfo parent $w] -column 0]]
-      grid $w -row $row -column 0 -sticky news -columnspan 2 -padx 2 -pady 2
+      grid $w -row [get_grid_row $w] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
     } else {
       pack $w -fill x -padx 2 -pady 2
     }
@@ -253,8 +265,7 @@ namespace eval pref_ui {
     register_initialization [list pref_ui::init_text $w.t $varname]
 
     if {$grid} {
-      set row [llength [grid slaves [winfo parent $w] -column 0]]
-      grid $w -row $row -column 0 -sticky news -columnspan 2 -padx 2 -pady 2
+      grid $w -row [get_grid_row $w] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
     } else {
       pack $w -fill both -expand yes -padx 2 -pady 2
     }
@@ -285,7 +296,7 @@ namespace eval pref_ui {
       ttk::label ${w}l -text [format "%s: " $msg]
       set win [$widgets(sb) ${w}sb {*}$widgets(sb_opts) -from $from -to $to -increment $inc \
         -width [string length $to] -state readonly -command [list pref_ui::handle_sb_change ${w}sb $varname]]
-      set row [llength [grid slaves [winfo parent ${w}l] -column 0]]
+      set row [get_grid_row ${w}l]
       grid ${w}l  -row $row -column 0 -sticky news -padx 2 -pady 2
       grid ${w}sb -row $row -column 1 -sticky news -padx 2 -pady 2
       if {$endmsg ne ""} {
@@ -331,23 +342,20 @@ namespace eval pref_ui {
   # Make a file picker widget.
   proc make_fp {w msg varname type {type_args {}} {grid 0}} {
 
-    puts "Calling make_fp, w: $w, msg: $msg, varname: $varname, type: $type"
-
     # Create the widget
-    set frame [ttk::labelframe ${w}f -text $msg]
-    pack [set win [ttk::label ${w}f.l]] -side left -fill x -padx 2 -pady 2
-    pack [ttk::button ${w}f.c -style BButton -text [msgcat::mc "Clear"]                   -command [list pref_ui::fp_clear ${w}f $varname]]                   -side right -padx 2 -pady 2
-    pack [ttk::button ${w}f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list pref_ui::fp_browse ${w}f $varname $type $type_args]] -side right -padx 2 -pady 2
+    set frame [ttk::labelframe $w -text $msg]
+    pack [set win [ttk::label $w.l]] -side left -fill x -padx 2 -pady 2
+    pack [ttk::button $w.c -style BButton -text [msgcat::mc "Clear"]                   -command [list pref_ui::fp_clear  $w $varname]]                   -side right -padx 2 -pady 2
+    pack [ttk::button $w.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list pref_ui::fp_browse $w $varname $type $type_args]] -side right -padx 2 -pady 2
 
     if {$grid} {
-      set row [llength [grid slaves [winfo parent ${w}f] -column 0]]
-      grid ${w}f -row $row -column 0 -columnspan 3 -padx 2 -pady 2
+      grid $w -row [get_grid_row $w] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
     } else {
-      pack ${w}f -fill x
+      pack $w -fill x -padx 2 -pady 2
     }
 
     # Add the widget to the initialize_callbacks array
-    register_initialization [list pref_ui::init_fp ${w}f $varname]
+    register_initialization [list pref_ui::init_fp $w $varname]
 
     # Register the widget
     register $win $msg $varname
@@ -562,8 +570,6 @@ namespace eval pref_ui {
     variable prefs
     variable selected_session
     variable selected_language
-
-    puts "HERE in create"
 
     if {![winfo exists .prefwin]} {
 
@@ -3493,8 +3499,6 @@ namespace eval pref_ui {
     variable widgets
     variable prefs
 
-    puts "HERE!"
-
     ttk::notebook $w.nb
 
     ###########
@@ -3503,11 +3507,9 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    make_mb $a.dme [msgcat::mc "Default Markdown Export Extension"] General/DefaultMarkdownExportExtension [list html htm xhtml] 1
-
-    make_spacer $a
-
-    make_fp $a.dted [msgcat::mc "Default Theme Export Directory"] General/DefaultThemeExportDirectory dir
+    make_mb $a.dme  [msgcat::mc "Default Markdown Export Extension"] General/DefaultMarkdownExportExtension [list html htm xhtml] 1
+    make_spacer $a 1
+    make_fp $a.dted [msgcat::mc "Default Theme Export Directory"] General/DefaultThemeExportDirectory dir {} 1
 
     ###############
     # DEVELOPMENT #
