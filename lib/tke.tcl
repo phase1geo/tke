@@ -267,6 +267,34 @@ if {$tcl_platform(platform) eq "windows"} {
 
   }
 
+  ######################################################################
+  # Checks the given filename to see if it is something that we should
+  # request to import.  Returns 0 if the file is not importable and can
+  # be handled as a regular file; otherwise, returns 1 to indicate that
+  # the file should not be treated as a normal file.
+  proc check_file_for_import {fname} {
+
+    switch -exact -- [string tolower [file extension $fname]] {
+      .tmtheme {
+        set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TextMate theme?"] -parent . -type yesnocancel]
+        if {$ans eq "yes"} {
+          themer::import_tm $fname
+          return 1
+        }
+      }
+      .tkethemz {
+        set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TKE theme?"] -parent . -type yesnocancel]
+        if {$ans eq "yes"} {
+          themes::import . $fname
+        }
+        return 1
+      }
+    }
+
+    return 0
+
+  }
+
   # If we are using aqua, define a few tk::mac procedures that the application can use
   if {[tk windowingsystem] eq "aqua"} {
 
@@ -278,30 +306,8 @@ if {$tcl_platform(platform) eq "windows"} {
       foreach name $args {
         if {[file isdirectory $name]} {
           sidebar::add_directory $name
-        } else {
-          switch -exact -- [string tolower [file extension $name]] {
-            .tmtheme {
-              set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TextMate theme?"] -parent . -type yesnocancel]
-              if {$ans eq "yes"} {
-                themer::import_tm $name
-              } elseif {$ans eq "no"} {
-                gui::add_file end $name
-              } else {
-                return
-              }
-            }
-            .tkethemz {
-              set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TKE theme?"] -parent . -type yesnocancel]
-              if {$ans eq "yes"} {
-                themes::import . $name
-              } else {
-                return
-              }
-            }
-            default {
-              gui::add_file end $name
-            }
-          }
+        } elseif {![check_file_for_import $name]} {
+          gui::add_file end $name
         }
       }
 
