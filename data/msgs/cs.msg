@@ -1612,6 +1612,9 @@ msgcat::mcmset cs {
   "Default Markdown Export Extension"
   "Výchozí rozšíření exportu Markdown"
 
+  "Default Theme Export Directory"
+  "Default Theme Export Adresář"
+
   "Default unit for floating point values"
   "Výchozí jednotka pro hodnoty s plovoucí čárkou"
 

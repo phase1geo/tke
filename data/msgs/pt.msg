@@ -1612,6 +1612,9 @@ msgcat::mcmset pt {
   "Default Markdown Export Extension"
   "Extensão de exportação padrão Markdown"
 
+  "Default Theme Export Directory"
+  "Directory Export padrão Tema"
+
   "Default unit for floating point values"
   "Padrão de unidade para os valores de ponto flutuante"
 

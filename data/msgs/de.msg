@@ -1612,6 +1612,9 @@ msgcat::mcmset de {
   "Default Markdown Export Extension"
   "Markdown Export Standarderweiterung"
 
+  "Default Theme Export Directory"
+  "Default Theme Exportverzeichnis"
+
   "Default unit for floating point values"
   "Standard-Einheit für Gleitkommawerte"
 

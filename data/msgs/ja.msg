@@ -1612,6 +1612,9 @@ msgcat::mcmset ja {
   "Default Markdown Export Extension"
   "既定の値下げのエクスポートの拡張"
 
+  "Default Theme Export Directory"
+  "デフォルトのテーマのエクスポートディレクトリ"
+
   "Default unit for floating point values"
   "デフォルトの浮動小数点値の単位"
 
