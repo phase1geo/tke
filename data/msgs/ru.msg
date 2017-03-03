@@ -1612,6 +1612,9 @@ msgcat::mcmset ru {
   "Default Markdown Export Extension"
   "Расширение экспорта по умолчанию Markdown"
 
+  "Default Theme Export Directory"
+  "По умолчанию Тема Справочник Экспорт"
+
   "Default unit for floating point values"
   "По умолчанию устройство для значений с плавающей запятой"
 

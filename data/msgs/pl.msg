@@ -1612,6 +1612,9 @@ msgcat::mcmset pl {
   "Default Markdown Export Extension"
   "Domyślne rozszerzenie eksportu Markdown"
 
+  "Default Theme Export Directory"
+  "Domyślny motyw Export katalog"
+
   "Default unit for floating point values"
   "Domyślne jednostki dla wartości zmiennoprzecinkowe"
 

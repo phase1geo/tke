@@ -1612,6 +1612,9 @@ msgcat::mcmset he {
   "Default Markdown Export Extension"
   "סיומת ברירת המחדל הוזלה ייצוא"
 
+  "Default Theme Export Directory"
+  "ספריית ברירת המחדל נושא הייצוא"
+
   "Default unit for floating point values"
   "ברירת מחדל עבור ערכי הנקודה הצפה"
 

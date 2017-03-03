@@ -1612,6 +1612,9 @@ msgcat::mcmset zh {
   "Default Markdown Export Extension"
   "默认降价出口扩展名"
 
+  "Default Theme Export Directory"
+  "默认主题导出目录"
+
   "Default unit for floating point values"
   "默认单位为浮点值"
 

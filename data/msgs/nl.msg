@@ -1612,6 +1612,9 @@ msgcat::mcmset nl {
   "Default Markdown Export Extension"
   "Standaardextensie Markdown Export"
 
+  "Default Theme Export Directory"
+  "Default Theme Export Directory"
+
   "Default unit for floating point values"
   "Standaard eenheid voor zwevende puntenwaarden"
 

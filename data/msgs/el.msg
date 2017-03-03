@@ -1612,6 +1612,9 @@ msgcat::mcmset el {
   "Default Markdown Export Extension"
   "Προεπιλεγμένη επέκταση εξαγωγή Markdown"
 
+  "Default Theme Export Directory"
+  "Προεπιλεγμένο θέμα Export Directory"
+
   "Default unit for floating point values"
   "Προεπιλεγμένη μονάδα για τιμές κινητής υποδιαστολής"
 

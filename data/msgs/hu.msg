@@ -1612,6 +1612,9 @@ msgcat::mcmset hu {
   "Default Markdown Export Extension"
   "Markdown Export árbevétel"
 
+  "Default Theme Export Directory"
+  "Alapértelmezett téma Export Directory"
+
   "Default unit for floating point values"
   "Alapértelmezett egység a lebegőpontos értékek"
 

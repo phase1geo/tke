@@ -1612,6 +1612,9 @@ msgcat::mcmset sv {
   "Default Markdown Export Extension"
   "Standardtillägget Markdown Export"
 
+  "Default Theme Export Directory"
+  "Standard Tema Export Directory"
+
   "Default unit for floating point values"
   "Standardenhet för flytande punkt värden"
 

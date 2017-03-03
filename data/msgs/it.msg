@@ -1612,6 +1612,9 @@ msgcat::mcmset it {
   "Default Markdown Export Extension"
   "Estensione predefinita Markdown esportazione"
 
+  "Default Theme Export Directory"
+  "directory di esportazione predefinita"
+
   "Default unit for floating point values"
   "Unità per valori a virgola mobile di default"
 

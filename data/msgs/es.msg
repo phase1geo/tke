@@ -1612,6 +1612,9 @@ msgcat::mcmset es {
   "Default Markdown Export Extension"
   "Extensión predeterminada de exportación para el descuento"
 
+  "Default Theme Export Directory"
+  "Exportación de directorio por defecto del tema"
+
   "Default unit for floating point values"
   "Por defecto la unidad para valores de punto flotante"
 
