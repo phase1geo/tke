@@ -328,6 +328,97 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Make a file picker widget.
+  proc make_fp {w msg varname type {type_args {}} {grid 0}} {
+
+    puts "Calling make_fp, w: $w, msg: $msg, varname: $varname, type: $type"
+
+    # Create the widget
+    set frame [ttk::labelframe ${w}f -text $msg]
+    pack [set win [ttk::label ${w}f.l]] -side left -fill x -padx 2 -pady 2
+    pack [ttk::button ${w}f.c -style BButton -text [msgcat::mc "Clear"]                   -command [list pref_ui::fp_clear ${w}f $varname]]                   -side right -padx 2 -pady 2
+    pack [ttk::button ${w}f.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list pref_ui::fp_browse ${w}f $varname $type $type_args]] -side right -padx 2 -pady 2
+
+    if {$grid} {
+      set row [llength [grid slaves [winfo parent ${w}f] -column 0]]
+      grid ${w}f -row $row -column 0 -columnspan 3 -padx 2 -pady 2
+    } else {
+      pack ${w}f -fill x
+    }
+
+    # Add the widget to the initialize_callbacks array
+    register_initialization [list pref_ui::init_fp ${w}f $varname]
+
+    # Register the widget
+    register $win $msg $varname
+
+    return $win
+
+  }
+
+  ######################################################################
+  # Initializes the given file picker widget.
+  proc init_fp {w varname} {
+
+    $w.l configure -text $pref_ui::prefs($varname)
+
+    if {$pref_ui::prefs($varname) eq ""} {
+      $w.c configure -state disabled
+    } else {
+      $w.c configure -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Opens the open/save/directory dialog window and updates the given
+  # window if it is selected by the user.
+  proc fp_browse {win varname type type_args} {
+
+    array set type_args_array $type_args
+
+    set type_args_array(-parent) .prefwin
+
+    # Override the -initialdir value if the value was previously set
+    if {[set value [$win.l cget -text]] ne ""} {
+      set type_args_array(-initialdir) [file dirname $value]
+    }
+
+    switch $type {
+      open {
+        set type_args_array(-multiple) 0
+        set ans [tk_getOpenFile {*}[array get type_args_array]]
+      }
+      save {
+        set type_args_array(-initialfile) $value
+        set ans [tk_getOpenFile {*}[array get type_args_array]]
+      }
+      default {
+        set ans [tk_chooseDirectory {*}[array get type_args_array]]
+      }
+    }
+
+    # Configure the label and set the preference value
+    if {$ans ne ""} {
+      set pref_ui::prefs($varname) $ans
+      init_fp $win $varname
+    }
+
+  }
+
+  ######################################################################
+  # Clears the contents of the widget.
+  proc fp_clear {win varname} {
+
+    # Clear the preference value
+    set pref_ui::prefs($varname) ""
+
+    # Set the filepicker state
+    init_fp $win $varname
+
+  }
+
+  ######################################################################
   # Sets up the session submenu for the given
   proc populate_session_menu {language} {
 
@@ -471,6 +562,8 @@ namespace eval pref_ui {
     variable prefs
     variable selected_session
     variable selected_language
+
+    puts "HERE in create"
 
     if {![winfo exists .prefwin]} {
 
@@ -3400,6 +3493,8 @@ namespace eval pref_ui {
     variable widgets
     variable prefs
 
+    puts "HERE!"
+
     ttk::notebook $w.nb
 
     ###########
@@ -3408,9 +3503,11 @@ namespace eval pref_ui {
 
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
-    ttk::frame $a.f
-    make_mb $a.f.dme [msgcat::mc "Default Markdown Export Extension"] General/DefaultMarkdownExportExtension [list html htm xhtml] 1
-    pack $a.f -fill x
+    make_mb $a.dme [msgcat::mc "Default Markdown Export Extension"] General/DefaultMarkdownExportExtension [list html htm xhtml] 1
+
+    make_spacer $a
+
+    make_fp $a.dted [msgcat::mc "Default Theme Export Directory"] General/DefaultThemeExportDirectory dir
 
     ###############
     # DEVELOPMENT #
@@ -3422,14 +3519,7 @@ namespace eval pref_ui {
     make_cb $b.sdl [msgcat::mc "Show diagnostic logfile at startup"] Debug/ShowDiagnosticLogfileAtStartup
     make_spacer $b
 
-    ttk::labelframe $b.df -text [set wstr [msgcat::mc "Logfile Directory"]]
-    pack [set widgets(advanced_ld) [ttk::label $b.df.l]] -side left -fill x -padx 2 -pady 2
-    pack [ttk::button $b.df.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list pref_ui::get_log_directory]] -side right -padx 2 -pady 2
-
-    # Register the widget for search
-    register $b.df.b $wstr Debug/LogDirectory
-
-    pack $b.df -fill x -padx 2 -pady 10
+    make_fp $b.ld [msgcat::mc "Logfile Directory"] Debug/LogDirectory dir [list -title [msgcat::mc "Choose Logfile Directory"]]
 
     make_spacer $b
 
@@ -3483,26 +3573,9 @@ namespace eval pref_ui {
     pack $w.nb -fill both -expand yes
 
     # Initialize widget values
-    $widgets(advanced_ld) configure -text $prefs(Debug/LogDirectory)
-
     foreach {host values} $prefs(NFSMounts) {
       lassign $values nfs_mount remote_mount
       $widgets(advanced_tl) insert end [list $host $nfs_mount $remote_mount]
-    }
-
-  }
-
-  ######################################################################
-  # Gets a logfile directory from the user using a choose directory dialog
-  # box.
-  proc get_log_directory {} {
-
-    variable widgets
-    variable prefs
-
-    if {[set dname [tk_chooseDirectory -parent .prefwin -title [msgcat::mc "Choose Logfile Directory"]]] ne ""} {
-      $widgets(advanced_ld) configure -text $dname
-      set prefs(Debug/LogDirectory) $dname
     }
 
   }
