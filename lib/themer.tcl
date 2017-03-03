@@ -1828,6 +1828,9 @@ namespace eval themer {
       .expwin.f.de configure -state disabled
     }
 
+    # Make sure that the state of the Export button is correct
+    validate_export
+
     # Center the window in the .thmwin
     ::tk::PlaceWindow .expwin widget .thmwin
 

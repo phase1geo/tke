@@ -49,6 +49,20 @@
 		</dict>
 		<dict>
 			<key>CFBundleTypeName</key>
+			<string>TKEThemePackage</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>tkethemz</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>TKETheme.icns</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
 			<string>Anything</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
@@ -66,8 +80,8 @@
 	<key>CFBundleExecutable</key>
 	<string>Wish</string>
 	<key>CFBundleGetInfoString</key>
-	<string>TKE 2.9,
-Copyright © 2013-2016 Trevor Williams</string>
+	<string>TKE 3.0,
+Copyright © 2013-2017 Trevor Williams</string>
 	<key>CFBundleIconFile</key>
 	<string>TKE.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -98,11 +112,11 @@ Copyright © 2013-2016 Trevor Williams</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.9</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>WiSH</string>
 	<key>CFBundleVersion</key>
-	<string>2.9</string>
+	<string>3.0</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>10.5.0</string>
 	<key>LSRequiresCarbon</key>
