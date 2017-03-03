@@ -284,7 +284,7 @@ namespace eval sidebar {
     foreach fname $files {
       if {[file isdirectory $fname]} {
         add_directory $fname
-      } else {
+      } elseif {![::check_file_for_import $fname]} {
         gui::add_file end $fname
       }
     }

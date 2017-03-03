@@ -4469,7 +4469,7 @@ namespace eval gui {
       $txt insert insert $data
 
     # Otherwise, insert the content of the file(s) after the insertion line
-    } else {
+    } elseif {![::check_file_for_import $data]} {
       set str "\n"
       foreach ifile $data {
         if {[file isfile $ifile]} {
