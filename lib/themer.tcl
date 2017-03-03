@@ -1766,10 +1766,14 @@ namespace eval themer {
     ttk::label     .expwin.f.dl  -text "Output Directory:"
     ttk::entry     .expwin.f.de  -width 50 -state disabled
     ttk::button    .expwin.f.db  -style BButton -text "Choose" -command {
-      if {[set fname [tk_chooseDirectory -parent .expwin -mustexist 1]] ne ""} {
+      lappend opts -parent .expwin -mustexist 1
+      if {[set dir [.expwin.f.de get]] ne ""} {
+        lappend opts -initialdir $dir
+      }
+      if {[set dir [tk_chooseDirectory {*}$opts]] ne ""} {
         .expwin.f.de configure -state normal
         .expwin.f.de delete 0 end
-        .expwin.f.de insert end $fname
+        .expwin.f.de insert end $dir
         .expwin.f.de configure -state disabled
         themer::validate_export
       }
@@ -1816,6 +1820,13 @@ namespace eval themer {
 
     # Set the theme name to the current theme name
     .expwin.f.ne insert end [theme::get_current_theme]
+
+    # Set the export directory to the default value from preferences
+    if {[file exists [set dir [preferences::get General/DefaultThemeExportDirectory]]]} {
+      .expwin.f.de configure -state normal
+      .expwin.f.de insert end $dir
+      .expwin.f.de configure -state disabled
+    }
 
     # Center the window in the .thmwin
     ::tk::PlaceWindow .expwin widget .thmwin

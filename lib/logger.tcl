@@ -96,6 +96,7 @@ namespace eval logger {
   proc handle_logdir_change {name1 name2 op} {
 
     variable logdir
+    variable logrc
 
     # Get the preference directory value
     if {[set pref_dir [preferences::get Debug/LogDirectory]] eq ""} {

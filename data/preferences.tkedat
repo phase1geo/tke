@@ -92,20 +92,14 @@
 
 {General/PromptCrossSessionSave} {1}
 
+# Specifies a default directory to use when exporting theme packages from the theme
+# editor.
+
+{General/DefaultThemeExportDirectory} {}
+
 # Specifies the current theme that is used in the code editor.  Each
 # theme contains setting for syntax highlight coloring schemes, background
-# color and selection background/foreground colors.  The following
-# values are valid by default:
-#  - Cool Glow
-#  - Juicy
-#  - Made of Code
-#  - Monokai
-#  - Notebook
-#  - Ruby Blue
-#  - choco
-#  - default
-#  - idleFingers
-#  - minimal_Theme
+# color and selection background/foreground colors.
 
 {Appearance/Theme}           {Monokai}
 
