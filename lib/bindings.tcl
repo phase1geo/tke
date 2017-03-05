@@ -205,8 +205,9 @@ namespace eval bindings {
   proc accelerator_to_sequence {accelerator} {
 
     set sequence    "<"
-    set shifted     0
     set append_dash 0
+    set shift       0
+    set alt         0
 
     # Create character to keysym mapping
     array set mapping {
@@ -248,11 +249,60 @@ namespace eval bindings {
       Space     "space"
     }
 
+    # I don't believe there are any Alt key mappings on other platforms
+    array set alt_mapping {}
+
     # If we are on a Mac, adjust the mapping
     if {[tk windowingsystem] eq "aqua"} {
-      array set mapping {
-        Alt "Mod2-"
+      unset mapping(Alt)
+      array set alt_mapping {
+        1  "exclamdown"
+        3  "sterling"
+        4  "cent"
+        6  "section"
+        7  "paragraph"
+        9  "ordfeminine"
+        0  "masculine"
+        r  "registered"
+        y  "yen"
+        o  "oslash"
+        p  "Amacron"
+        \\ "guillemotleft"
+        a  "aring"
+        s  "ssharp"
+        g  "copyright"
+        l  "notsign"
+        ,  "ae"
+        c  "ccedilla"
+        m  "mu"
+        /  "division"
+        *  "degree"
+        (  "periodcentered"
+        +  "plusminus"
+        E  "acute"
+        Y  "Aacute"
+        U  "diaeresis"
+        I  "Ccircumflex"
+        O  "Ooblique"
+        |  "guillemotright"
+        A  "Aring"
+        S  "Iacute"
+        D  "Icircumflex"
+        F  "Idiaresis"
+        G  "Ubreve"
+        H  "Oacute"
+        J  "Ocircumflex"
+        L  "Ograve"
+        :  "Uacute"
+        \" "AE"
+        z  "cedilla"
+        C  "Ccedilla"
+        M  "Acircumflex"
+        <  "macron"
+        >  "Gcircumflex"
+        ?  "questuondown"
       }
+      # Notes: don't allow Option-e, Option-u, Option-i,
     }
 
     # If the sequence detail is the minus key, this will cause problems with the parser so
@@ -264,20 +314,27 @@ namespace eval bindings {
 
     # Create the sequence
     foreach value [split $accelerator -] {
-      if {[info exists mapping($value)]} {
+      if {$alt && !$shift && [info exists alt_mapping([string tolower $value])]} {
+        append sequence $alt_mapping([string tolower $value])
+      } elseif {$alt && $shift && [info exists alt_mapping([string toupper $value])]} {
+        append sequence $alt_mapping([string toupper $value])
+      } elseif {[info exists mapping($value)]} {
         append sequence $mapping($value)
       } elseif {$value eq "Shift"} {
-        set shifted 1
-      } else {
-        if {[string length $value] == 1} {
-          if {$shifted} {
-            append sequence [string toupper $value]
-          } else {
-            append sequence [string tolower $value]
-          }
-        } else {
-          append sequence $value
+        set shift 1
+      } elseif {$value eq "Alt"} {
+        set alt 1
+      } elseif {[string length $value] == 1} {
+        if {$alt} {
+          append sequence "Mod2-"
         }
+        if {$shift} {
+          append sequence [string toupper $value]
+        } else {
+          append sequence [string tolower $value]
+        }
+      } else {
+        append sequence $value
       }
     }
 
