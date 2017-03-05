@@ -1332,6 +1332,8 @@ namespace eval vim {
     variable column
     variable recording
 
+    # puts "In handle_any, txtt: $txtt, keysym: $keysym, char: $char"
+
     # If the key does not have a printable char representation, quit now
     if {([string compare -length 5 $keysym "Shift"]   == 0) || \
         ([string compare -length 7 $keysym "Control"] == 0) || \
