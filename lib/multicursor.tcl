@@ -53,7 +53,8 @@ namespace eval multicursor {
     bind mcursor$txt <Button-1>                   [list multicursor::disable %W]
 
     # Add the multicursor bindings to the text widget's bindtags
-    bindtags $txt.t [linsert [bindtags $txt.t] 2 mcursor$txt]
+    set all_index [lsearch -exact [bindtags $txt.t] all]
+    bindtags $txt.t [linsert [bindtags $txt.t] [expr $all_index + 1] mcursor$txt]
 
   }
 
@@ -302,10 +303,10 @@ namespace eval multicursor {
 
     # Add the multicursor
     $txtt tag add mcursor $next
-    
+
     # If we are in selection mode in Vim, add to the selection
     if {[vim::in_visual_mode $txtt]} {
-      
+
     }
 
     # If our next cursor is going off screen, make it viewable
@@ -318,7 +319,7 @@ namespace eval multicursor {
   ######################################################################
   # Adjusts the selection if we are in a Vim visual mode.
   proc adjust_select {txtt} {
-    
+
     if {[vim::in_visual_mode $txtt]} {
       set i 0
       foreach {start end} [$txtt tag ranges mcursor] {
@@ -326,9 +327,9 @@ namespace eval multicursor {
         incr i
       }
     }
-    
+
   }
-  
+
   ######################################################################
   # Adjusts the cursors by the given suffix.  The valid values for suffix
   # are:
@@ -379,7 +380,7 @@ namespace eval multicursor {
       }
 
     }
-  
+
     # Adjust the selection, if necessary
     adjust_select $txtt
 

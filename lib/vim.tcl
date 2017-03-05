@@ -864,29 +864,25 @@ namespace eval vim {
     set multicursor($txt.t)      0
 
     # Add bindings
-    bind vim$txt    <Escape>                "if {\[vim::handle_escape %W\]} { break }"
-    bind vim$txt    <Key>                   "if {\[vim::handle_any %W %K %A\]} { break }"
-    bind vim$txt    <Control-Button-1>      "vim::nil"
-    bind vim$txt    <Shift-Button-1>        "vim::nil"
-    bind vim$txt    <Button-1>              "vim::handle_button1 %W %x %y; break"
-    bind vim$txt    <Double-Shift-Button-1> "vim::nil"
-    bind vim$txt    <Double-Button-1>       "vim::handle_double_button1 %W %x %y; break"
-    bind vim$txt    <Triple-Button-1>       "vim::nil"
-    bind vim$txt    <Triple-Shift-Button-1> "vim::nil"
-    bind vim$txt    <B1-Motion>             "vim::handle_motion %W %x %y; break"
-    bind vimpre$txt <Control-f>             "if {\[vim::handle_control_f %W\]} { break }"
-    bind vimpre$txt <Control-b>             "if {\[vim::handle_control_b %W\]} { break }"
-    bind vimpre$txt <Control-g>             "if {\[vim::handle_control_g %W\]} { break }"
-    bind vimpre$txt <Control-j>             "if {\[vim::handle_control_j %W\]} { break }"
-    bind vimpre$txt <Control-k>             "if {\[vim::handle_control_k %W\]} { break }"
+    bind vim$txt <Escape>                "if {\[vim::handle_escape %W\]} { break }"
+    bind vim$txt <Key>                   "if {\[vim::handle_any %W %K %A\]} { break }"
+    bind vim$txt <Control-Button-1>      "vim::nil"
+    bind vim$txt <Shift-Button-1>        "vim::nil"
+    bind vim$txt <Button-1>              "vim::handle_button1 %W %x %y; break"
+    bind vim$txt <Double-Shift-Button-1> "vim::nil"
+    bind vim$txt <Double-Button-1>       "vim::handle_double_button1 %W %x %y; break"
+    bind vim$txt <Triple-Button-1>       "vim::nil"
+    bind vim$txt <Triple-Shift-Button-1> "vim::nil"
+    bind vim$txt <B1-Motion>             "vim::handle_motion %W %x %y; break"
+    bind vim$txt <Control-f>             "if {\[vim::handle_control_f %W\]} { break }"
+    bind vim$txt <Control-b>             "if {\[vim::handle_control_b %W\]} { break }"
+    bind vim$txt <Control-g>             "if {\[vim::handle_control_g %W\]} { break }"
+    bind vim$txt <Control-j>             "if {\[vim::handle_control_j %W\]} { break }"
+    bind vim$txt <Control-k>             "if {\[vim::handle_control_k %W\]} { break }"
 
-    # Insert the vimpre binding just prior to all
+    # Insert the vim binding just after all
     set all_index [lsearch [bindtags $txt.t] all]
-    bindtags $txt.t [linsert [bindtags $txt.t] $all_index vimpre$txt]
-
-    # Insert the vim binding just prior to Text
-    set text_index [lsearch [bindtags $txt.t] Text]
-    bindtags $txt.t [linsert [bindtags $txt.t] $text_index vim$txt]
+    bindtags $txt.t [linsert [bindtags $txt.t] [expr $all_index + 1] vim$txt]
 
     # Put ourselves into start mode
     start_mode $txt.t

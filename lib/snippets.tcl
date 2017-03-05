@@ -165,7 +165,8 @@ namespace eval snippets {
     bind snippet$txt <Return>    "if {\[snippets::check_snippet %W %K\]} { break }"
     bind snippet$txt <Tab>       "if {\[snippets::handle_tab %W\]} { break }"
 
-    bindtags $txt.t [linsert [bindtags $txt.t] 3 snippet$txt]
+    set all_index [lsearch -exact [bindtags $txt.t] all]
+    bindtags $txt.t [linsert [bindtags $txt.t] $all_index snippet$txt]
 
   }
 
