@@ -1568,6 +1568,12 @@ namespace eval pref_ui {
     make_sb $w.f.icw [msgcat::mc "Insertion cursor width"]         Appearance/CursorWidth      1  5 1 1
     make_sb $w.f.els [msgcat::mc "Additional space between lines"] Appearance/ExtraLineSpacing 0 10 1 1
 
+    # Create button that will jump to the theme page
+    ttk::button $w.f.themes -style BButton -text "Get More Themes" -command {
+      utils::open_file_externally "http://tke.sourceforge.net/themes/index.html"
+    }
+    place $w.f.themes -in $w.f -anchor ne -relx 1.0 -x -2 -rely 0.0 -y 2
+
     ttk::labelframe $w.cf -text [set wstr [msgcat::mc "Syntax Coloring"]]
 
     # Pack the colorizer frame
