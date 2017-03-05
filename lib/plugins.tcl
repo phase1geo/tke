@@ -1134,7 +1134,7 @@ namespace eval plugins {
     variable bound_tags
 
     set ttags       [bindtags $txt.t]
-    set tpre_index  [expr [lsearch -exact $ttags $txt.t] + 1]
+    set tpre_index  [expr [lsearch -exact $ttags all] + 1]
     set tpost_index [lsearch -exact $ttags .]
 
     array set ptags {
