@@ -155,13 +155,13 @@ namespace eval sidebar {
       {msgcat::mc "Image displayed in sidebar to indicate a selected directory that is expanded"} \
       -file [file join $::tke_dir lib images down10.bmp] \
       -maskfile [file join $::tke_dir lib images down10.bmp] \
-      -foreground 0
+      -foreground 2
 
     theme::register_image sidebar_collapsed_sel bitmap sidebar -selectbackground \
       {msgcat::mc "Image displayed in sidebar to indicate a selected directory that is collapsed"} \
       -file [file join $::tke_dir lib images right10.bmp] \
       -maskfile [file join $::tke_dir lib images right10.bmp] \
-      -foreground 0
+      -foreground 2
 
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]

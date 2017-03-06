@@ -214,14 +214,10 @@ namespace eval theme {
   # Returns the color to use for the given image.
   proc get_image_color {value} {
 
-    variable orig_data
-    variable fields
+    variable data
 
     if {[string is integer $value]} {
-      set values [list [lindex $orig_data(syntax,background) $fields(default)] \
-                       [lindex $orig_data(syntax,foreground) $fields(default)] \
-                       [lindex $orig_data(syntax,warning_width) $fields(default)]]
-      return [lindex $values $value]
+      return [lindex $data(swatch) $value]
     }
 
     return $value
@@ -230,23 +226,36 @@ namespace eval theme {
 
   ######################################################################
   # Creates the given image and adds it to the orig_data array.
+  # Arguments:
+  #   name     Unique name that identifies this image.
+  #   type     Specifies the image type (legal values are bitmap, photo)
+  #   bgcat    Specifies the theme category in which this image will be placed
+  #   bgopt    Specifies the option name within the category that should be used
+  #            for setting the background color of the image (only used in bitmap
+  #            but must be specified)
+  #   desc     Short description of how the image is used and what it means
+  #   args     Arguments that will be passed to the "image" TK command when
+  #            the image is created/transformed. If the -foreground option is
+  #            specified, specifying a numerical value of 0, 1 or 2 will specify
+  #            which of the three primary swatch colors to use for the foreground.
   proc register_image {name type bgcat bgopt desc args} {
 
     variable orig_data
 
     array set opts     $args
+    array set img_opts $args
     array set img_info [list basecolor $bgcat,$bgopt]
 
     # Transform the background/foreground colors, if necessary
-    if {[info exists opts(-background)]} {
-      set opts(-background) [get_image_color $opts(-background)]
+    if {[info exists img_opts(-background)]} {
+      set img_opts(-background) "black"
     }
     if {[info exists opts(-foreground)]} {
-      set opts(-foreground) [get_image_color $opts(-foreground)]
+      set img_opts(-foreground) "red"
     }
 
     # First, create the image
-    image create $type $name {*}[array get opts]
+    image create $type $name {*}[array get img_opts]
 
     # Discern the image information
     switch $type {
@@ -659,7 +668,7 @@ namespace eval theme {
   }
 
   ######################################################################
-  # Converts the given imaged
+  # Converts the given image.
   proc convert_image {value name} {
 
     variable data
@@ -681,7 +690,14 @@ namespace eval theme {
 
     # Configure the image
     if {$value_type eq "bitmap"} {
-      foreach {field opt} [list dat -data bg -background fg -foreground msk -maskdata] {
+      if {[info exists value_array(bg)]} {
+        lappend opts -background [get_image_color $value_array(bg)]
+      }
+      if {[info exists value_array(fg)]} {
+        lappend opts -foreground [get_image_color $value_array(fg)]
+        puts "Setting image $name foreground to [get_image_color $value_array(fg)]"
+      }
+      foreach {field opt} [list dat -data msk -maskdata] {
         if {[info exists value_array($field)] && ($value_array($field) ne "")} {
           lappend opts $opt $value_array($field)
         }
@@ -1181,7 +1197,7 @@ namespace eval theme {
           {!user1 !user2  selected} sidebar_collapsed_sel
           { user1 !user2  selected} sidebar_expanded_sel
           {!user1  user2  selected} sidebar_collapsed_sel
-          { user1  user2} sidebar_file
+          { user1  user2}           sidebar_file
         } -width 15 -sticky w
       }
       ttk::style layout SBTreeview.Item {

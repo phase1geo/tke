@@ -4022,8 +4022,8 @@ namespace eval gui {
     # Add the text bindings
     if {!$opts(-diff)} {
       indent::add_bindings      $txt
-      multicursor::add_bindings $txt
       vim::set_vim_mode         $txt
+      multicursor::add_bindings $txt
       completer::add_bindings   $txt
     }
     plugins::handle_text_bindings $txt $opts(-tags)
@@ -4133,8 +4133,8 @@ namespace eval gui {
 
     # Add the text bindings
     indent::add_bindings          $txt2
-    multicursor::add_bindings     $txt2
     vim::set_vim_mode             $txt2
+    multicursor::add_bindings     $txt2
     completer::add_bindings       $txt2
     plugins::handle_text_bindings $txt2 {}  ;# TBD - add tags
     make_drop_target                   $txt2
