@@ -2505,6 +2505,15 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Panes"] -state normal
     }
 
+    # Handle the state of the Show/Hide Console entry (if it exists)
+    if {![catch { console eval "winfo ismapped ." } rc]} {
+      if {$rc} {
+        catch { $mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command [list menus::hide_console_view $mb] }
+      } else {
+        catch { $mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command [list menus::show_console_view $mb]}
+      }
+    }
+
     if {[gui::current_txt] eq ""} {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]    -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]    -state disabled }

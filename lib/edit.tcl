@@ -1248,10 +1248,18 @@ namespace eval edit {
     if {[set ranges [$txtt tag ranges sel]] eq ""} {
       if {[multicursor::enabled $txtt]} {
         foreach {start end} [$txtt tag ranges mcursor] {
-          lappend ranges [$txtt index "$start wordstart"] [$txtt index "$start wordend"]
+          if {[string trim [$txtt get "$start wordstart" "$start wordend"]] ne ""} {
+            lappend ranges [$txtt index "$start wordstart"] [$txtt index "$start wordend"]
+          } else {
+            lappend ranges $start $start
+          }
         }
       } else {
-        set ranges [list [$txtt index "insert wordstart"] [$txtt index "insert wordend"]]
+        if {[string trim [$txtt get "insert wordstart" "insert wordend"]] ne ""} {
+          set ranges [list [$txtt index "insert wordstart"] [$txtt index "insert wordend"]]
+        } else {
+          set ranges [list [$txtt index "insert"] [$txtt index "insert"]]
+        }
       }
     }
 
@@ -1331,7 +1339,7 @@ namespace eval edit {
           set pattern  ""
           set startlen [string length $startchars]
           set endlen   [string length $endchars]
-          append pattern [string map {\{ \\\{ \} \\\} * \\* + \\+} $startchars] ".+?" [string map {\{ \\\{ \} \\\} * \\* + \\+} $endchars]
+          append pattern [string map {\{ \\\{ \} \\\} * \\* + \\+ \\ \\\\} $startchars] ".+?" [string map {\{ \\\{ \} \\\} * \\* + \\+ \\ \\\\} $endchars]
           foreach {end start} [lreverse $ranges] {
             set i 0
             foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
