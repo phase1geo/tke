@@ -177,8 +177,8 @@ namespace eval snippets {
     variable within
     variable expandtabs
 
-    unset within($txt.t)
-    unset expandtabs($txt.t)
+    unset -nocomplain within($txt.t)
+    unset -nocomplain expandtabs($txt.t)
 
   }
 

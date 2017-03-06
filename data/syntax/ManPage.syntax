@@ -36,6 +36,6 @@ miscellaneous3 {
 }
 
 formatting {
-  bold    {\\fB  \\fR}
-  italics {\\fI  \\fR}
+  bold    {word \\fB  \\fR}
+  italics {word \\fI  \\fR}
 }

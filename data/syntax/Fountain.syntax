@@ -62,15 +62,15 @@ advanced {
     } else {
       return [list [list [list heading $startpos $endpos [list]]] ""]
     }
-  }
+  } HighlightEndProc
 
   HighlightProc lyrics {
     return [list [list [list lyrics $startpos $endpos [list]]] ""]
-  }
+  } HighlightEndProc
 
   HighlightProc parenthetical {
     return [list [list [list parenthetical $startpos $endpos [list]]] ""]
-  }
+  } HighlightEndProc
 
   HighlightProc character {
     if {[string trim [$txt get "$endpos-1l linestart" "$endpos-1l lineend"]] eq ""} {
@@ -81,7 +81,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc check_character {
     if {[set epos [lassign [$txt tag prevrange _pcharacter $startpos "$endpos-1l linestart"] spos]] ne ""} {
@@ -89,7 +89,7 @@ advanced {
       return [list [list [list character $spos $epos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc bold {
     return [list [list [list bold        [$txt index "$startpos+2c"] [$txt index "$endpos-2c"] [list]] \
@@ -97,7 +97,7 @@ advanced {
                        [list boldmarkers [$txt index "$endpos-2c"] $endpos [list]] \
                        [list grey        $startpos [$txt index "$startpos+2c"] [list]] \
                        [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
-  }
+  } HighlightEndProc
 
   HighlightProc italics {
     if {([lsearch [$txt tag names $startpos]    _boldmarkers] == -1) && \
@@ -108,13 +108,13 @@ advanced {
     } else {
       return [list [list] [$txt index "$startpos+2c"]]
     }
-  }
+  } HighlightEndProc
 
   HighlightProc underline {
     return [list [list [list underline [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]] \
                        [list grey      $startpos [$txt index "$startpos+1c"] [list]] \
                        [list grey      [$txt index "$endpos-1c"] $endpos [list]]] ""]
-  }
+  } HighlightEndProc
 
   HighlightProc section {
     if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
@@ -123,7 +123,7 @@ advanced {
                          [list grey        $startpos [$txt index "$startpos+${num}c"] [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc synopses {
     if {[regexp {={3}$} [$txt get $startpos $endpos]]} {
@@ -132,24 +132,24 @@ advanced {
       return [list [list [list section6 [$txt index "$startpos+1c"] $endpos [list]] \
                          [list grey     $startpos [$txt index "$startpos+1c"] [list]]] ""]
     }
-  }
+  } HighlightEndProc
 
   HighlightProc center {
     return [list [list [list grey $startpos [$txt index "$startpos+1c"] [list]] \
                        [list grey [$txt index "$endpos-1c"] $endpos [list]]] [$txt index "$startpos+1c"]]
-  }
+  } HighlightEndProc
 
 }
 
 formatting
 {
-  bold      {** **}
-  italics   {*  *}
-  underline {_  _}
-  header1   {{# }}
-  header2   {{## }}
-  header3   {{### }}
-  header4   {{#### }}
-  header5   {{##### }}
-  header6   {{###### }}
+  bold      {word ** **}
+  italics   {word *  *}
+  underline {word _  _}
+  header1   {line {# }}
+  header2   {line {## }}
+  header3   {line {### }}
+  header4   {line {#### }}
+  header5   {line {##### }}
+  header6   {line {###### }}
 }

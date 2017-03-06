@@ -68,20 +68,20 @@ advanced
 
 formatting
 {
-  bold          {<b>      </b>}
-  italics       {<i>      </i>}
-  underline     {<u>      </u>}
-  strikethrough {<strike> </strike>}
-  highlight     {<mark>   </mark>}
-  superscript   {<super>  </super>}
-  subscript     {<sub>    </sub>}
-  code          {<code>   </code>}
-  header1       {<h1>     </h1>}
-  header2       {<h2>     </h2>}
-  header3       {<h3>     </h3>}
-  header4       {<h4>     </h4>}
-  header5       {<h5>     </h5>}
-  header6       {<h6>     </h6>}
-  unordered     {<li>     </li>}
-  ordered       {<li>     </li>}
+  bold          {word <b>      </b>}
+  italics       {word <i>      </i>}
+  underline     {word <u>      </u>}
+  strikethrough {word <strike> </strike>}
+  highlight     {word <mark>   </mark>}
+  superscript   {word <super>  </super>}
+  subscript     {word <sub>    </sub>}
+  code          {word <code>   </code>}
+  header1       {word <h1>     </h1>}
+  header2       {word <h2>     </h2>}
+  header3       {word <h3>     </h3>}
+  header4       {word <h4>     </h4>}
+  header5       {word <h5>     </h5>}
+  header6       {word <h6>     </h6>}
+  unordered     {word <li>     </li>}
+  ordered       {word <li>     </li>}
 }

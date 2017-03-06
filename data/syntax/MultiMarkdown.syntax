@@ -75,7 +75,7 @@ advanced {
                          [list grey        [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc code {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
@@ -89,7 +89,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc header {
     if {[regexp {(#{1,6})[^#]+} [$txt get $startpos $endpos] all hashes]} {
@@ -98,7 +98,7 @@ advanced {
                          [list grey  $startpos [$txt index "$startpos+${num}c"] [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc bold {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
@@ -110,7 +110,7 @@ advanced {
                          [list grey        [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc italics {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
@@ -124,7 +124,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc overstrike {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -135,7 +135,7 @@ advanced {
                          [list grey          [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc underline {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -144,7 +144,7 @@ advanced {
                          [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc correction {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -162,7 +162,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc highlight {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -171,13 +171,13 @@ advanced {
                          [list grey   [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc ignore {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
       return [list [list [list grey $startpos $endpos [list]]] ""]
     }
-  }
+  } HighlightEndProc
 
   HighlightProc subscript {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
@@ -191,7 +191,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc superscript {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
@@ -200,7 +200,7 @@ advanced {
                          [list grey  [$txt index "$endpos-1c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc image {
     if {![ctext::isEscaped $txt $startpos]} {
@@ -224,7 +224,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc link {
     if {![ctext::isEscaped $txt $startpos]} {
@@ -247,7 +247,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc link2 {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
@@ -257,7 +257,7 @@ advanced {
                          [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc linkref {
     variable linkrefs
@@ -267,14 +267,14 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc handle_reflink_click {txt ref} {
     variable linkrefs
     if {[info exists linkrefs($txt,$ref)]} {
       utils::open_file_externally $linkrefs($txt,$ref)
     }
-  }
+  } HighlightEndProc
 
   HighlightProc math1 {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-4c"]} {
@@ -283,7 +283,7 @@ advanced {
                          [list grey [$txt index "$endpos-4c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc math2 {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-4c"]} {
@@ -292,7 +292,7 @@ advanced {
                          [list grey [$txt index "$endpos-4c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc math3 {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
@@ -301,7 +301,7 @@ advanced {
                          [list grey [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc math4 {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-1c"]} {
@@ -310,7 +310,7 @@ advanced {
                          [list grey [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc list_check {
     if {[$txt compare $endpos < insert] && $ins} {
@@ -328,27 +328,27 @@ advanced {
         }
       }
     }
-  }
+  } HighlightEndProc
 
 }
 
 formatting
 {
-  bold          {** **}
-  italics       {_  _}
-  strikethrough {\{-- --\}}
-  underline     {\{++ ++\}}
-  highlight     {\{== ==\}}
-  superscript   {^  ^}
-  subscript     {~  ~}
-  code          {`  `}
-  header1       {{# }}
-  header2       {{## }}
-  header3       {{### }}
-  header4       {{#### }}
-  header5       {{##### }}
-  header6       {{###### }}
-  unordered     {{* }}
-  checkbox      {{[ ] }}
+  bold          {word ** **}
+  italics       {word _  _}
+  strikethrough {word \{-- --\}}
+  underline     {word \{++ ++\}}
+  highlight     {word \{== ==\}}
+  superscript   {word ^  ^}
+  subscript     {word ~  ~}
+  code          {word `  `}
+  header1       {line {# }}
+  header2       {line {## }}
+  header3       {line {### }}
+  header4       {line {#### }}
+  header5       {line {##### }}
+  header6       {line {###### }}
+  unordered     {line {* }}
+  checkbox      {line {[ ] }}
 }
 

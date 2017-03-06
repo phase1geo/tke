@@ -153,7 +153,7 @@ namespace eval vim {
           "format"      { return "FORMAT$record" }
         }
       }
-      if {$multicursor($txt.t)} {
+      if {[info exists multicursor($txt.t)] && $multicursor($txt.t)} {
         return "MULTIMOVE MODE"
       } else {
         return "COMMAND MODE$record"
@@ -904,15 +904,13 @@ namespace eval vim {
     variable select_anchors
     variable modeline
 
-    catch {
-      unset command_entries($txt.t)
-      unset mode($txt.t)
-      unset number($txt.t)
-      unset search_dir($txt.t)
-      unset column($txt.t)
-      unset select_anchors($txt.t)
-      unset modeline($txt.t)
-    }
+    unset -nocomplain command_entries($txt.t)
+    unset -nocomplain mode($txt.t)
+    unset -nocomplain number($txt.t)
+    unset -nocomplain search_dir($txt.t)
+    unset -nocomplain column($txt.t)
+    unset -nocomplain select_anchors($txt.t)
+    unset -nocomplain modeline($txt.t)
 
   }
 

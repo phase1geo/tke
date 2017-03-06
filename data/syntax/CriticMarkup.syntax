@@ -29,7 +29,7 @@ advanced {
                          [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc deletion {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -38,7 +38,7 @@ advanced {
                          [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc substitution {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -53,7 +53,7 @@ advanced {
       }
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc comment {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -62,7 +62,7 @@ advanced {
                          [list grey [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
   HighlightProc highlight {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -71,7 +71,7 @@ advanced {
                          [list grey   [$txt index "$endpos-3c"] $endpos [list]]] ""]
     }
     return ""
-  }
+  } HighlightEndProc
 
 }
 
