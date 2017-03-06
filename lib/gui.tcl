@@ -329,9 +329,12 @@ namespace eval gui {
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
-    $widgets(menu) add command -label [msgcat::mc "Close Tab"]        -command [list gui::close_current]
-    $widgets(menu) add command -label [msgcat::mc "Close Other Tabs"] -command gui::close_others
-    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]   -command gui::close_all
+    $widgets(menu) add command -label [msgcat::mc "Close Tab"]         -command [list gui::close_current]
+    $widgets(menu) add command -label [msgcat::mc "Close Other Tabs"]  -command gui::close_others
+    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]    -command gui::close_all
+    $widgets(menu) add separator
+    $widgets(menu) add command -label [msgcat::mc "Close Other Tabs In Pane"] -command gui::close_others_current_pane
+    $widgets(menu) add command -label [msgcat::mc "Close All Tabs In Pane"]   -command gui::close_current_pane
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Hide Tab"]         -command [list gui::hide_current]
     $widgets(menu) add separator
@@ -890,7 +893,7 @@ namespace eval gui {
     get_info $tab tab tabbar fname
 
     # Update the tab name
-    $tabbar tab $tab -text [file tail $fname]
+    $tabbar tab $tab -text " [file tail $fname]"
 
     # Update the title if necessary
     set_title
@@ -2315,13 +2318,11 @@ namespace eval gui {
   proc close_others {} {
 
     variable widgets
-    variable pw_current
-
-    set current_pw [get_info $pw_current paneindex pane]
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
+      set current_tab [$nb.tbf.tb select]
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
-        if {($nb ne $current_pw) || ($tab ne [$nb.tbf.tb select])} {
+        if {$tab ne $current_tab} {
           close_tab $tab -lazy 1
         }
       }
@@ -2332,7 +2333,7 @@ namespace eval gui {
     set_current_tab $tabbar $tab
 
   }
-
+  
   ######################################################################
   # Close all of the tabs.
   proc close_all {args} {
@@ -2351,6 +2352,43 @@ namespace eval gui {
       }
     }
 
+  }
+  
+  ######################################################################
+  # Closes all other tabs within the current pane.
+  proc close_others_current_pane {} {
+    
+    variable widgets
+    variable pw_current
+    
+    set nb          [lindex [$widgets(nb_pw) panes] $pw_current]
+    set current_tab [$nb.tbf.tb select]
+    
+    foreach tab [lreverse [$nb.tbf.tb tabs]] {
+      if {$tab ne $current_tab} {
+        close_tab $tab -lazy 1
+      }
+    }
+    
+    # Set the current tab
+    get_info {} current tabbar tab
+    set_current_tab $tabbar $tab
+    
+  }
+  
+  ######################################################################
+  # Closes all tabs within the current pane.
+  proc close_current_pane {} {
+    
+    variable widgets
+    variable pw_current
+    
+    set nb [lindex [$widgets(nb_pw) panes] $pw_current]
+    
+    foreach tab [lreverse [$nb.tbf.tb tabs]] {
+      close_tab $tab -lazy 1
+    }
+    
   }
 
   ######################################################################
