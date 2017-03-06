@@ -92,7 +92,7 @@ namespace eval folding {
 
     variable enable
 
-    unset enable($txt)
+    unset -nocomplain enable($txt)
 
   }
 

@@ -1270,21 +1270,13 @@ namespace eval edit {
 
       if {[info exists formatting($type)]} {
 
-        lassign $formatting($type) startchars endchars
+        lassign $formatting($type) stype startchars endchars
 
         $txtt edit separator
 
         set insert [$txtt index insert]
 
-        if {$endchars ne ""} {
-          foreach {end start} [lreverse $ranges] {
-            $txtt insert $end   $endchars
-            if {[$txtt compare $insert != insert]} {
-              $txtt mark set insert $insert
-            }
-            $txtt insert $start $startchars
-          }
-        } else {
+        if {$stype eq "line"} {
           set last ""
           foreach {end start} [lreverse $ranges] {
             if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
@@ -1294,6 +1286,18 @@ namespace eval edit {
                 set start [$txtt index "$start+1l"]
               }
             }
+          }
+        } elseif {$endchars ne ""} {
+          foreach {end start} [lreverse $ranges] {
+            $txtt insert $end $endchars
+            if {[$txtt compare $insert != insert]} {
+              $txtt mark set insert $insert
+            }
+            $txtt insert $start $startchars
+          }
+        } else {
+          foreach {end start} [lreverse $ranges] {
+            $txtt insert $start $startchars
           }
         }
 
@@ -1334,8 +1338,18 @@ namespace eval edit {
       $txtt edit separator
 
       foreach {type chars} [array get formatting] {
-        lassign $chars startchars endchars
-        if {$endchars ne ""} {
+        lassign $chars stype startchars endchars
+        if {$stype eq "line"} {
+          set startlen [string length $startchars]
+          foreach {end start} [lreverse $ranges] {
+            if {[$txtt get "$start linestart" "$start linestart+${startlen}c"] eq $startchars} {
+              $txtt delete "$start linestart" "$start linestart+${startlen}c"
+              lappend new_ranges [$txtt index $end-${startlen}c] $start
+            } else {
+              lappend new_ranges $end $start
+            }
+          }
+        } elseif {$endchars ne ""} {
           set pattern  ""
           set startlen [string length $startchars]
           set endlen   [string length $endchars]
@@ -1351,14 +1365,15 @@ namespace eval edit {
             lappend new_ranges [$txtt index $end-[expr ($endlen + $startlen) * $i]c] $start
           }
         } else {
+          set pattern  [string map {\{ \\\{ \} \\\} * \\* + \\+ \\ \\\\} $startchars]
           set startlen [string length $startchars]
           foreach {end start} [lreverse $ranges] {
-            if {[$txtt get "$start linestart" "$start linestart+${startlen}c"] eq $startchars} {
-              $txtt delete "$start linestart" "$start linestart+${startlen}c"
-              lappend new_ranges [$txtt index $end-${startlen}c] $start
-            } else {
-              lappend new_ranges $end $start
+            set i 0
+            foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
+              $txtt delete $index "$index+[lindex $lengths $i]c"
+              incr i
             }
+            lappend new_ranges [$txtt index $end-[expr $startlen * $i]c] $start
           }
         }
         set ranges     [lreverse $new_ranges]
