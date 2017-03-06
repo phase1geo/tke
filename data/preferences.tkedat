@@ -103,6 +103,10 @@
 
 {Appearance/Theme}           {Monokai}
 
+# Specifies a Tcl list of theme names to hide from the "View / Set Theme" menu.
+
+{Appearance/HiddenThemes}    {}
+
 # Specifies which syntax highlighting elements should be colorized.  The following
 # element names are valid:
 #  - keywords

@@ -77,7 +77,11 @@ namespace eval themes {
     foreach tfile $tfiles {
       set name         [file rootname [file tail $tfile]]
       set files($name) $tfile
-      launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $tfile] "" [list themes::theme_okay]
+    }
+
+    # Create the launcher items (only display the visible themes)
+    foreach name [get_visible_themes] {
+      launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $files($name)] "" [list themes::theme_okay]
     }
 
   }
@@ -112,6 +116,17 @@ namespace eval themes {
     variable files
 
     return [lsort [array names files]]
+
+  }
+
+  ######################################################################
+  # Returns the list of themes that will be visible from the theme menu.
+  proc get_visible_themes {} {
+
+    variable files
+
+    # Create list of files to
+    return [lsort [::struct::set difference [array names files] [preferences::get Appearance/HiddenThemes]]]
 
   }
 
@@ -221,6 +236,47 @@ namespace eval themes {
     }
 
     return $mnu
+
+  }
+
+  ######################################################################
+  # Returns the name of the currently displayed theme.
+  proc get_current_theme {} {
+
+    variable curr_theme
+
+    return $curr_theme
+
+  }
+
+  ######################################################################
+  # Returns 1 if the given file is imported; otherwise, returns 0.
+  proc get_imported {name} {
+
+    variable files
+    variable themes_dir
+
+    if {[info exists files($name)]} {
+      return [expr [string compare -length [string length $themes_dir] $themes_dir $files($name)] == 0]
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Returns the creator/version information from the file in array format.
+  proc get_attributions {name} {
+
+    variable files
+
+    array set attrs [list creator "" version "" website ""]
+
+    if {[info exists files($name)]} {
+      array set attrs [theme::get_file_attributions $files($name)]
+    }
+
+    return [array get attrs]
 
   }
 

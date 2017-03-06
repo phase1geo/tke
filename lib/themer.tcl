@@ -708,7 +708,7 @@ namespace eval themer {
     $mnu delete 0 end
 
     # Add all available themes (in alphabetical order) to the menu
-    foreach theme_name [themes::get_all_themes] {
+    foreach theme_name [themes::get_visible_themes] {
       $mnu add command -label $theme_name -command [list themer::preview_theme $theme_name]
     }
 
