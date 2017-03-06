@@ -695,7 +695,6 @@ namespace eval theme {
       }
       if {[info exists value_array(fg)]} {
         lappend opts -foreground [get_image_color $value_array(fg)]
-        puts "Setting image $name foreground to [get_image_color $value_array(fg)]"
       }
       foreach {field opt} [list dat -data msk -maskdata] {
         if {[info exists value_array($field)] && ($value_array($field) ne "")} {

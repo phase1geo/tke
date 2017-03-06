@@ -35,3 +35,7 @@ miscellaneous3 {
   HighlightRegexp {\.[TSBIPRnf][HRPfiES]?|\\f[BRI]} {}
 }
 
+formatting {
+  bold    {\\fB  \\fR}
+  italics {\\fI  \\fR}
+}
