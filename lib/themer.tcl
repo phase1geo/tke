@@ -96,6 +96,21 @@ namespace eval themer {
     set_current_theme_to $data(original_theme)
 
   }
+  
+  ######################################################################
+  # This procedure can be called externally for editing a given theme by
+  # name.
+  proc edit_theme {theme} {
+    
+    # If the theme editor window is not displayed, create it with the current theme
+    if {![winfo exists .thmwin]} {
+      edit_current_theme
+    }
+    
+    # Display the given theme
+    preview_theme $theme
+    
+  }
 
   ######################################################################
   # Applies the current settings to the current TKE session.
@@ -1602,13 +1617,8 @@ namespace eval themer {
     # Destroy the widgets
     destroy $data(widgets,sf).f$index
 
-    # Add the plus button if the number of packed elements is the allowed maximum
-    set len [theme::swatch_do length]
-    if {$len == $data(max_swatches)} {
-      pack $data(widgets,plus) -side left -padx 2 -pady 2
-    } elseif {$len == 1} {
-      pack forget $data(widgets,plus_text)
-    }
+    # Make sure that the plus button is displayed since we will have room in the swatch bar
+    pack $data(widgets,plus) -side left -padx 2 -pady 2
 
     # Get the color being deleted
     set orig_color [theme::swatch_do index $pos]
@@ -1638,18 +1648,28 @@ namespace eval themer {
   ######################################################################
   # Imports a TextMate or TKE theme file after prompting user to import
   # a file.
-  proc import {} {
+  proc import {{parent .thmwin}} {
 
     variable data
 
     # Get the theme file to import
-    if {[set theme [tk_getOpenFile -parent .thmwin -title [msgcat::mc "Import Theme File"] -filetypes {{{TKE Theme} {.tkethemz}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
+    if {[set theme [tk_getOpenFile -parent $parent -title [msgcat::mc "Import Theme File"] -filetypes {{{TKE Theme} {.tkethemz}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
       switch -exact [string tolower [file extension $theme]] {
-        .tkethemz { import_tke $theme .thmwin }
-        .tmtheme  { import_tm  $theme .thmwin }
-        default   {}
+        .tkethemz {
+          import_tke $theme .thmwin
+          return 1
+        }
+        .tmtheme  {
+          import_tm  $theme .thmwin
+          return 1
+        }
+        default   {
+          return 0
+        }
       }
     }
+    
+    return 0
 
   }
 

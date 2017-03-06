@@ -178,15 +178,29 @@ namespace eval pref_ui {
     }
 
     # Populate the menu
-    foreach value $values {
-      $mnu add radiobutton -label $value -variable pref_ui::prefs($varname) -value $value
-    }
+    init_mb $win $varname $values
 
     # Register the widget
     register $win $msg $varname
 
     return $win
 
+  }
+  
+  ######################################################################
+  # Initializes the menubutton's menu with the given set of values.
+  proc init_mb {w varname values} {
+    
+    # Get the menu from the menubutton
+    set mnu [$w cget -menu]
+    
+    # Clear the menu
+    $mnu delete 0 end
+    
+    foreach value $values {
+      $mnu add radiobutton -label $value -variable pref_ui::prefs($varname) -value $value
+    }
+    
   }
 
   ######################################################################
@@ -836,6 +850,7 @@ namespace eval pref_ui {
   # Handles any changes to the preference array.
   proc handle_prefs_change {session language name1 name2 op} {
 
+    variable widgets
     variable prefs
     variable changes
 
@@ -850,6 +865,10 @@ namespace eval pref_ui {
 
       # Save the preferences
       preferences::save_prefs $session $language [array get prefs]
+      
+      # Refresh any UI state after the preferences update
+      puts "Refreshing appear_theme widget"
+      init_mb $widgets(appear_theme) Appearance/Theme [themes::get_visible_themes]
 
     }
 
@@ -1572,9 +1591,9 @@ namespace eval pref_ui {
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
     ttk::frame $a.f
-    make_mb $a.f.th  [msgcat::mc "Theme"]                          Appearance/Theme            [themes::get_visible_themes] 1
-    make_sb $a.f.icw [msgcat::mc "Insertion cursor width"]         Appearance/CursorWidth      1  5 1 1
-    make_sb $a.f.els [msgcat::mc "Additional space between lines"] Appearance/ExtraLineSpacing 0 10 1 1
+    set widgets(appear_theme) [make_mb $a.f.th [msgcat::mc "Theme"] Appearance/Theme            [themes::get_visible_themes] 1]
+    make_sb $a.f.icw [msgcat::mc "Insertion cursor width"]          Appearance/CursorWidth      1  5 1 1
+    make_sb $a.f.els [msgcat::mc "Additional space between lines"]  Appearance/ExtraLineSpacing 0 10 1 1
 
     ttk::labelframe $a.cf -text [set wstr [msgcat::mc "Syntax Coloring"]]
 
@@ -1635,10 +1654,9 @@ namespace eval pref_ui {
 
     ttk::frame $b.tf
     set widgets(themes_tl) [tablelist::tablelist $b.tf.tl \
-      -columns {0 Name 0 Visible 0 Imported 0 Creator 0 Website} \
-      -exportselection 0 -stretch all -instanttoggle 1 \
-      -editendcommand [list pref_ui::themes_edit_end_command] \
-      -labelcommand   tablelist::sortByColumn \
+      -columns {0 Name 0 Visible center 0 Imported center 0 Creator 0 Website} \
+      -exportselection 0 -stretch all \
+      -labelcommand tablelist::sortByColumn \
       -xscrollcommand [list utils::set_xscrollbar $b.tf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $b.tf.vb]]
     ttk::scrollbar $b.tf.vb -orient vertical   -command [list $b.tf.tl yview]
@@ -1647,12 +1665,13 @@ namespace eval pref_ui {
     utils::tablelist_configure $b.tf.tl
 
     $widgets(themes_tl) columnconfigure 0 -name name     -editable 0
-    $widgets(themes_tl) columnconfigure 1 -name visible  -editable 1 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_visible] -editwindow checkbutton
+    $widgets(themes_tl) columnconfigure 1 -name visible  -editable 0 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_visible]
     $widgets(themes_tl) columnconfigure 2 -name imported -editable 0 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_imported]
     $widgets(themes_tl) columnconfigure 3 -name creator  -editable 0
     $widgets(themes_tl) columnconfigure 4 -name website  -editable 0 -hide 1
 
-    bind $widgets(themes_tl) <<TablelistSelect>> [list pref_ui::themes_selected]
+    bind $widgets(themes_tl)           <<TablelistSelect>> [list pref_ui::themes_selected]
+    bind [$widgets(themes_tl) bodytag] <Button-1>          [list pref_ui::themes_left_click %W %x %y]
 
     grid rowconfigure    $b.tf 0 -weight 1
     grid columnconfigure $b.tf 0 -weight 1
@@ -1661,12 +1680,14 @@ namespace eval pref_ui {
     grid $b.tf.hb -row 1 -column 0 -sticky ew
 
     ttk::frame  $b.bf
-    ttk::button $b.bf.add  -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::themes_add]
+    ttk::button $b.bf.add  -style BButton -text [msgcat::mc "Add"]  -command [list pref_ui::themes_add]
     set widgets(themes_del) [ttk::button $b.bf.del  -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::themes_delete] -state disabled]
+    ttk::button $b.bf.edit -style BButton -text [msgcat::mc "Edit"] -command [list pref_ui::themes_edit]
     ttk::button $b.bf.more -style BButton -text [format "%s..." [msgcat::mc "Get More Themes"]] -command [list pref_ui::themes_get_more]
 
     pack $b.bf.add  -side left  -padx 2 -pady 2
     pack $b.bf.del  -side left  -padx 2 -pady 2
+    pack $b.bf.edit -side left  -padx 2 -pady 2
     pack $b.bf.more -side right -padx 2 -pady 2
 
     pack $b.tf -fill both -expand yes
@@ -1737,31 +1758,6 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Ends the edit operation.
-  proc themes_edit_end_command {tbl row col value} {
-
-    variable prefs
-
-    switch [$tbl columncget $col -name] {
-      visible {
-        set name [$tbl cellcget $row,name -text]
-        if {$value} {
-          if {[set index [lsearch -exact $prefs(Appearance/HiddenThemes) $name]] != -1} {
-            set prefs(Appearance/HiddenThemes) [lreplace $prefs(Appearance/HiddenThemes) $index $index]
-          }
-          $tbl cellconfigure $row,$col -image pref_checked
-        } else {
-          lappend prefs(Appearance/HiddenThemes) $name
-          $tbl cellconfigure $row,$col -image pref_unchecked
-        }
-      }
-    }
-
-    return $value
-
-  }
-
-  ######################################################################
   # Populates the themes table with the list of existing themes.
   proc themes_populate_table {} {
 
@@ -1782,9 +1778,12 @@ namespace eval pref_ui {
         $widgets(themes_tl) cellconfigure $row,visible -image pref_unchecked
       }
       if {$imported} {
-        $widgets(themes_tl) cellconfigure $row,imported -image pref_checked
+        $widgets(themes_tl) cellconfigure $row,imported -image pref_check
       }
     }
+    
+    # Make sure that the state of the disable button is disabled since nothing will be selected
+    $widgets(themes_del) configure -state disabled
 
   }
 
@@ -1804,27 +1803,87 @@ namespace eval pref_ui {
     }
 
   }
+  
+  ######################################################################
+  # Handles a left-click on the themes table.  If the user clicked on the
+  # visibility cell, toggle the image value and update the HiddenThemes
+  # preference.
+  proc themes_left_click {W x y} {
+    
+    variable prefs
+    
+    lassign [tablelist::convEventFields $W $x $y] tbl x y
+    lassign [split [$tbl containingcell $x $y] ,] row col
+    
+    if {$row != -1} {
+      if {[$tbl columncget $col -name] eq "visible"} {
+        set name  [$tbl cellcget $row,name    -text]
+        set value [$tbl cellcget $row,visible -text]
+        if {$value} {
+          $tbl cellconfigure $row,visible -text 0 -image pref_unchecked
+          lappend prefs(Appearance/HiddenThemes) $name
+        } else {
+          $tbl cellconfigure $row,visible -text 1 -image pref_checked
+          if {[set index [lsearch -exact $prefs(Appearance/HiddenThemes) $name]] != -1} {
+            set prefs(Appearance/HiddenThemes) [lreplace $prefs(Appearance/HiddenThemes) $index $index]
+          }
+        }
+      }
+    }
+
+  }
 
   ######################################################################
   # Adds a new theme from the file system, importing it if necessary.
   proc themes_add {} {
 
-    # TBD
+    # Allow the user to select a theme to import
+    if {[themer::import .prefwin]} {
 
-    # Update the themes table
-    themes_populate_table
+      # Update the themes table
+      themes_populate_table
+      
+    }
 
   }
 
   ######################################################################
   # Removes a theme from the file system.
   proc themes_delete {} {
+    
+    variable widgets
+    variable prefs
+    
+    # Get the currently selected theme
+    set selected [$widgets(themes_tl) curselection]
+    set name     [$widgets(themes_tl) cellcget $selected,name -text]
 
-    # TBD
+    # Delete the theme
+    themes::delete_theme $name
+    
+    # Remove the theme from the hidden list so that we don't confuse the user if they reload the
+    # theme.
+    if {[set index [lsearch -exact $prefs(Appearance/HiddenThemes) $name]] != -1} {
+      set prefs(Appearance/HiddentThemes) [lreplace $prefs(Appearance/HiddenThemes) $index $index]
+    }
 
     # Update the themes table
     themes_populate_table
-
+    
+  }
+  
+  ######################################################################
+  # Edits the selected theme.
+  proc themes_edit {} {
+    
+    variable widgets
+    
+    # Get the selected theme
+    set selected [$widgets(themes_tl) curselection]
+    
+    # Make sure that the theme editor is opened
+    themer::edit_theme [$widgets(themes_tl) cellcget $selected,name -text]
+    
   }
 
   ######################################################################

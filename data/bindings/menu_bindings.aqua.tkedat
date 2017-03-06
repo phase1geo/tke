@@ -27,8 +27,8 @@
 {Edit/Indentation/Format Text}            Ctrl-|
 {Edit/Cursor/Move to First Line}          Alt-Cmd-0
 {Edit/Cursor/Move to Last Line}           Alt-Cmd-9
-{Edit/Cursor/Move to Next Page}           Alt-Cmd-J
-{Edit/Cursor/Move to Previous Page}       Alt-Cmd-K
+{Edit/Cursor/Move to Next Page}           Ctrl-F
+{Edit/Cursor/Move to Previous Page}       Ctrl-B
 {Edit/Cursor/Move to Screen Top}          Alt-Cmd-H
 {Edit/Cursor/Move to Screen Middle}       Alt-Cmd-M
 {Edit/Cursor/Move to Screen Bottom}       Alt-Cmd-L
@@ -78,7 +78,7 @@
 {Find/Append Next Occurrence}             Alt-D
 {Find/Jump Backward}                      Ctrl-Left
 {Find/Jump Forward}                       Ctrl-Right
-{Find/Jump To Line}                       Ctrl-G
+{Find/Jump To Line}                       Alt-G
 {Find/Next Difference}                    Ctrl-Down
 {Find/Previous Difference}                Ctrl-Up
 {Find/Find Matching Bracket}              Ctrl-%

@@ -55,8 +55,9 @@ namespace eval themes {
 
     # Trace changes to syntax preference values
     if {[array size files] == 0} {
-      trace variable preferences::prefs(Appearance/Theme)    w themes::handle_theme_change
-      trace variable preferences::prefs(Appearance/Colorize) w themes::handle_colorize_change
+      trace variable preferences::prefs(Appearance/Theme)        w themes::handle_theme_change
+      trace variable preferences::prefs(Appearance/Colorize)     w themes::handle_colorize_change
+      trace variable preferences::prefs(Appearance/HiddenThemes) w themes::handle_hidden_change
     }
 
     # Reset the files/themes arrays and unregister launcher items
@@ -84,6 +85,22 @@ namespace eval themes {
       launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $files($name)] "" [list themes::theme_okay]
     }
 
+  }
+  
+  ######################################################################
+  # Deletes the given theme from the file system.
+  proc delete_theme {name} {
+    
+    variable files
+    
+    # If the theme file exists, delete the file
+    if {[info exists files($name)] && [file exists $files($name)]} {
+      file delete -force $files($name)
+    }
+    
+    # Reload the theme information
+    load
+    
   }
 
   ######################################################################
@@ -152,6 +169,15 @@ namespace eval themes {
 
     theme::update_syntax
 
+  }
+  
+  ######################################################################
+  # Handle a change to the Appearance/HiddenThemes preference value.
+  proc handle_hidden_change {name1 name2 op} {
+    
+    # Reload the themes
+    load
+    
   }
 
   ######################################################################
@@ -231,7 +257,7 @@ namespace eval themes {
     $mnu delete 0 end
 
     # Populate the menu with the available themes
-    foreach name [lsort [array names files]] {
+    foreach name [get_visible_themes] {
       $mnu add radiobutton -label $name -variable themes::curr_theme -value $name -command [list theme::load_theme $files($name)] -state $state
     }
 

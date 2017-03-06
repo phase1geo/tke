@@ -874,11 +874,6 @@ namespace eval vim {
     bind vim$txt <Triple-Button-1>       "vim::nil"
     bind vim$txt <Triple-Shift-Button-1> "vim::nil"
     bind vim$txt <B1-Motion>             "vim::handle_motion %W %x %y; break"
-    bind vim$txt <Control-f>             "if {\[vim::handle_control_f %W\]} { break }"
-    bind vim$txt <Control-b>             "if {\[vim::handle_control_b %W\]} { break }"
-    bind vim$txt <Control-g>             "if {\[vim::handle_control_g %W\]} { break }"
-    bind vim$txt <Control-j>             "if {\[vim::handle_control_j %W\]} { break }"
-    bind vim$txt <Control-k>             "if {\[vim::handle_control_k %W\]} { break }"
 
     # Insert the vim binding just after all
     set all_index [lsearch [bindtags $txt.t] all]
@@ -3257,83 +3252,6 @@ namespace eval vim {
       return 1
     } elseif {($mode($txtt) eq "change") || ($mode($txtt) eq "delete")} {
       set mode($txtt) "$mode($txtt):V"
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # If we are in "start" mode, move the cursor down by 1 page.
-  proc handle_control_f {txtt} {
-
-    variable mode
-
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor_by_page $txtt next
-      record "Control-f"
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # If we are in "start" mode, move the cursor up by 1 page.
-  proc handle_control_b {txtt} {
-
-    variable mode
-
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor_by_page $txtt prior
-      record "Control-b"
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # If we are in "start" mode, display the current text counts.
-  proc handle_control_g {txtt} {
-
-    variable mode
-
-    if {$mode($txtt) eq "start"} {
-      gui::display_file_counts $txtt
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # If we are in "start" mode, move the current line or selection down one line.
-  proc handle_control_j {txtt} {
-
-    variable mode
-
-    if {$mode($txtt) eq "start"} {
-      edit::transform_bubble_down $txtt
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # If we are in "start" mode, move the current line or selection up one line.
-  proc handle_control_k {txtt} {
-
-    variable mode
-
-    if {$mode($txtt) eq "start"} {
-      edit::transform_bubble_up $txtt
       return 1
     }
 
