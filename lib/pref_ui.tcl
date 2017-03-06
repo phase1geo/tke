@@ -1563,67 +1563,120 @@ namespace eval pref_ui {
     variable colorizers
     variable prefs
 
-    ttk::frame $w.f
-    make_mb $w.f.th  [msgcat::mc "Theme"]                          Appearance/Theme            [themes::get_all_themes] 1
-    make_sb $w.f.icw [msgcat::mc "Insertion cursor width"]         Appearance/CursorWidth      1  5 1 1
-    make_sb $w.f.els [msgcat::mc "Additional space between lines"] Appearance/ExtraLineSpacing 0 10 1 1
+    pack [ttk::notebook $w.nb] -fill both -expand yes
 
-    # Create button that will jump to the theme page
-    ttk::button $w.f.themes -style BButton -text [msgcat::mc "Get More Themes"] -command {
-      utils::open_file_externally "http://tke.sourceforge.net/themes.html"
-    }
-    place $w.f.themes -in $w.f -anchor ne -relx 1.0 -x -2 -rely 0.0 -y 2
+    ###########
+    # GENERAL #
+    ###########
 
-    ttk::labelframe $w.cf -text [set wstr [msgcat::mc "Syntax Coloring"]]
+    $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
+
+    ttk::frame $a.f
+    make_mb $a.f.th  [msgcat::mc "Theme"]                          Appearance/Theme            [themes::get_visible_themes] 1
+    make_sb $a.f.icw [msgcat::mc "Insertion cursor width"]         Appearance/CursorWidth      1  5 1 1
+    make_sb $a.f.els [msgcat::mc "Additional space between lines"] Appearance/ExtraLineSpacing 0 10 1 1
+
+    ttk::labelframe $a.cf -text [set wstr [msgcat::mc "Syntax Coloring"]]
 
     # Pack the colorizer frame
     set i 0
     set colorize $prefs(Appearance/Colorize)
     foreach type [lsort [array names colorizers]] {
       set colorizers($type) [expr {[lsearch $colorize $type] != -1}]
-      grid [ttk::checkbutton $w.cf.$type -text " $type" -variable pref_ui::colorizers($type) -command [list pref_ui::set_colorizers]] -row [expr $i % 3] -column [expr $i / 3] -sticky news -padx 2 -pady 2
+      grid [ttk::checkbutton $a.cf.$type -text " $type" -variable pref_ui::colorizers($type) -command [list pref_ui::set_colorizers]] -row [expr $i % 3] -column [expr $i / 3] -sticky news -padx 2 -pady 2
       incr i
     }
 
     # Register the widget
-    register $w.cf.$type $wstr Appearance/Colorize
+    register $a.cf.$type $wstr Appearance/Colorize
 
     # Create fonts frame
-    ttk::labelframe $w.ff -text "Fonts"
-    ttk::label  $w.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
-    ttk::label  $w.ff.f0  -text "AaBbCc0123" -font $prefs(Appearance/EditorFont)
-    ttk::button $w.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
-    ttk::label  $w.ff.l1  -text [format "%s: " [msgcat::mc "Command launcher entry"]]
-    ttk::label  $w.ff.f1  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherEntryFont)
-    ttk::button $w.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
-    ttk::label  $w.ff.l2  -text [format "%s: " [msgcat::mc "Command launcher preview"]]
-    ttk::label  $w.ff.f2  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherPreviewFont)
-    ttk::button $w.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
+    ttk::labelframe $a.ff -text "Fonts"
+    ttk::label  $a.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
+    ttk::label  $a.ff.f0  -text "AaBbCc0123" -font $prefs(Appearance/EditorFont)
+    ttk::button $a.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
+    ttk::label  $a.ff.l1  -text [format "%s: " [msgcat::mc "Command launcher entry"]]
+    ttk::label  $a.ff.f1  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherEntryFont)
+    ttk::button $a.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
+    ttk::label  $a.ff.l2  -text [format "%s: " [msgcat::mc "Command launcher preview"]]
+    ttk::label  $a.ff.f2  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherPreviewFont)
+    ttk::button $a.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
 
     # Register the widgets for search
-    register $w.ff.b0 "" Appearance/EditorFont
-    register $w.ff.b1 "" Appearance/CommandLauncherEntryFont
-    register $w.ff.b2 "" Appearance/CommandLauncherPreviewFont
+    register $a.ff.b0 "" Appearance/EditorFont
+    register $a.ff.b1 "" Appearance/CommandLauncherEntryFont
+    register $a.ff.b2 "" Appearance/CommandLauncherPreviewFont
 
-    grid columnconfigure $w.ff 1 -weight 1
-    grid $w.ff.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.ff.f0 -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.ff.b0 -row 0 -column 2 -sticky news -padx 2 -pady 2
-    grid $w.ff.l1 -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.ff.f1 -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.ff.b1 -row 1 -column 2 -sticky news -padx 2 -pady 2
-    grid $w.ff.l2 -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.ff.f2 -row 2 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.ff.b2 -row 2 -column 2 -sticky news -padx 2 -pady 2
+    grid columnconfigure $a.ff 1 -weight 1
+    grid $a.ff.l0 -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.ff.f0 -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.ff.b0 -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $a.ff.l1 -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.ff.f1 -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.ff.b1 -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid $a.ff.l2 -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid $a.ff.f2 -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid $a.ff.b2 -row 2 -column 2 -sticky news -padx 2 -pady 2
 
-    pack $w.f  -fill x -padx 2 -pady 2
-    make_spacer $w
-    pack $w.cf -fill x -padx 2 -pady 4
-    make_spacer $w
-    pack $w.ff -fill x -padx 2 -pady 4
+    pack $a.f  -fill x -padx 2 -pady 2
+    make_spacer $a
+    pack $a.cf -fill x -padx 2 -pady 4
+    make_spacer $a
+    pack $a.ff -fill x -padx 2 -pady 4
 
-    make_spacer $w
-    make_cb $w.cl_pos [msgcat::mc "Remember last position of command launcher"] Appearance/CommandLauncherRememberLastPosition
+    make_spacer $a
+    make_cb $a.cl_pos [msgcat::mc "Remember last position of command launcher"] Appearance/CommandLauncherRememberLastPosition
+
+    ##########
+    # THEMES #
+    ##########
+
+    $w.nb add [set b [ttk::frame $w.nb.b]] -text [msgcat::mc "Manage Themes"]
+
+    ttk::frame $b.tf
+    set widgets(themes_tl) [tablelist::tablelist $b.tf.tl \
+      -columns {0 Name 0 Visible 0 Imported 0 Creator 0 Website} \
+      -exportselection 0 -stretch all -instanttoggle 1 \
+      -editendcommand [list pref_ui::themes_edit_end_command] \
+      -labelcommand   tablelist::sortByColumn \
+      -xscrollcommand [list utils::set_xscrollbar $b.tf.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $b.tf.vb]]
+    ttk::scrollbar $b.tf.vb -orient vertical   -command [list $b.tf.tl yview]
+    ttk::scrollbar $b.tf.hb -orient horizontal -command [list $b.tf.tl xview]
+
+    utils::tablelist_configure $b.tf.tl
+
+    $widgets(themes_tl) columnconfigure 0 -name name     -editable 0
+    $widgets(themes_tl) columnconfigure 1 -name visible  -editable 1 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_visible] -editwindow checkbutton
+    $widgets(themes_tl) columnconfigure 2 -name imported -editable 0 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_imported]
+    $widgets(themes_tl) columnconfigure 3 -name creator  -editable 0
+    $widgets(themes_tl) columnconfigure 4 -name website  -editable 0 -hide 1
+
+    bind $widgets(themes_tl) <<TablelistSelect>> [list pref_ui::themes_selected]
+
+    grid rowconfigure    $b.tf 0 -weight 1
+    grid columnconfigure $b.tf 0 -weight 1
+    grid $b.tf.tl -row 0 -column 0 -sticky news
+    grid $b.tf.vb -row 0 -column 1 -sticky ns
+    grid $b.tf.hb -row 1 -column 0 -sticky ew
+
+    ttk::frame  $b.bf
+    ttk::button $b.bf.add  -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::themes_add]
+    set widgets(themes_del) [ttk::button $b.bf.del  -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::themes_delete] -state disabled]
+    ttk::button $b.bf.more -style BButton -text [format "%s..." [msgcat::mc "Get More Themes"]] -command [list pref_ui::themes_get_more]
+
+    pack $b.bf.add  -side left  -padx 2 -pady 2
+    pack $b.bf.del  -side left  -padx 2 -pady 2
+    pack $b.bf.more -side right -padx 2 -pady 2
+
+    pack $b.tf -fill both -expand yes
+    pack $b.bf -fill x
+
+    # Register the Appearance/HiddenThemes preference
+    register $widgets(themes_tl) [msgcat::mc "Manage theme visibility"] Appearance/HiddenThemes
+
+    # Populate the themes table
+    themes_populate_table
 
   }
 
@@ -1664,6 +1717,121 @@ namespace eval pref_ui {
       $lbl configure -font $new_font
       set prefs($varname) $new_font
     }
+
+  }
+
+  ######################################################################
+  # Displays the visibility value.
+  proc themes_format_visible {value} {
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Displays the imported value.
+  proc themes_format_imported {value} {
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Ends the edit operation.
+  proc themes_edit_end_command {tbl row col value} {
+
+    variable prefs
+
+    switch [$tbl columncget $col -name] {
+      visible {
+        set name [$tbl cellcget $row,name -text]
+        if {$value} {
+          if {[set index [lsearch -exact $prefs(Appearance/HiddenThemes) $name]] != -1} {
+            set prefs(Appearance/HiddenThemes) [lreplace $prefs(Appearance/HiddenThemes) $index $index]
+          }
+          $tbl cellconfigure $row,$col -image pref_checked
+        } else {
+          lappend prefs(Appearance/HiddenThemes) $name
+          $tbl cellconfigure $row,$col -image pref_unchecked
+        }
+      }
+    }
+
+    return $value
+
+  }
+
+  ######################################################################
+  # Populates the themes table with the list of existing themes.
+  proc themes_populate_table {} {
+
+    variable widgets
+
+    # Clear the table
+    $widgets(themes_tl) delete 0 end
+
+    # Add the current themes to the table
+    foreach name [themes::get_all_themes] {
+      set visible  [expr [lsearch [themes::get_visible_themes] $name] != -1]
+      set imported [themes::get_imported $name]
+      array set attrs [themes::get_attributions $name]
+      set row [$widgets(themes_tl) insert end [list $name $visible $imported $attrs(creator) $attrs(version)]]
+      if {$visible} {
+        $widgets(themes_tl) cellconfigure $row,visible -image pref_checked
+      } else {
+        $widgets(themes_tl) cellconfigure $row,visible -image pref_unchecked
+      }
+      if {$imported} {
+        $widgets(themes_tl) cellconfigure $row,imported -image pref_checked
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Called whenever the selection state of the themes table changes.
+  proc themes_selected {} {
+
+    variable widgets
+
+    # Update the state of the deletion button
+    if {([set selected [$widgets(themes_tl) curselection]] eq "") || \
+        ([$widgets(themes_tl) cellcget $selected,imported -text] == 0) || \
+        ([$widgets(themes_tl) cellcget $selected,name -text] eq [theme::get_current_theme])} {
+      $widgets(themes_del) configure -state disabled
+    } else {
+      $widgets(themes_del) configure -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Adds a new theme from the file system, importing it if necessary.
+  proc themes_add {} {
+
+    # TBD
+
+    # Update the themes table
+    themes_populate_table
+
+  }
+
+  ######################################################################
+  # Removes a theme from the file system.
+  proc themes_delete {} {
+
+    # TBD
+
+    # Update the themes table
+    themes_populate_table
+
+  }
+
+  ######################################################################
+  # Sends the user to the themes webpage to find/download more themes.
+  proc themes_get_more {} {
+
+    utils::open_file_externally "http://tke.sourceforge.net/themes.html"
 
   }
 

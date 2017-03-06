@@ -25,7 +25,7 @@
 namespace eval theme {
 
   variable colorizers    {keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3}
-  variable extra_content {swatch creator website}
+  variable extra_content {swatch creator website version}
 
   array set fields {
     type    0
@@ -848,10 +848,6 @@ namespace eval theme {
 
   }
 
-  proc get_launcher_theme {} {
-
-  }
-
   ######################################################################
   # Returns the name of the current theme.
   proc get_current_theme {} {
@@ -867,19 +863,44 @@ namespace eval theme {
   # The valid attribution keys are:
   #   - creator
   #   - website
+  #   - version
   proc get_attributions {} {
 
     variable data
 
     set attr [list]
 
-    foreach item [list creator website] {
+    foreach item [list creator website version] {
       if {[info exists data($item)]} {
         lappend attr $item $data($item)
       }
     }
 
     return $attr
+
+  }
+
+  ######################################################################
+  # Returns an array containing the file attributions.
+  proc get_file_attributions {fname} {
+
+    if {[catch { open $fname r } rc]} {
+      return -code error [format "%s %s" [msgcat::mc "ERROR:  Unable to read"] $fname]
+    }
+
+    # Read the contents of the file into 'contents' and close the file
+    array set contents [read $rc]
+    close $rc
+
+    # Gather the file attributions that are found
+    array set attrs [list]
+    foreach attr [list creator website version] {
+      if {[info exists contents($attr)]} {
+        set attrs($attr) $contents($attr)
+      }
+    }
+
+    return [array get attrs]
 
   }
 
