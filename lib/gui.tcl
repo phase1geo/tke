@@ -174,6 +174,9 @@ namespace eval gui {
     theme::register_image pref_unchecked photo ttk_style background \
       {msgcat::mc "Image used in the preferences window to indicate that a table item is deselected."} \
       -file [file join $::tke_dir lib images unchecked.gif]
+    theme::register_image pref_check photo ttk_style background \
+      {msgcat::mc "Image used in the preferences window to indicate that something is true."} \
+      -file [file join $::tke_dir lib images check.gif]
     theme::register_image pref_general photo ttk_style background \
       {msgcat::mc "Image used in the preferences window in the General tab."} \
       -file [file join $::tke_dir lib images general.gif]

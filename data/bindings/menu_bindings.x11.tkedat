@@ -28,8 +28,8 @@
 {Edit/Indentation/Format Text}            Ctrl-|
 {Edit/Cursor/Move to First Line}          Ctrl-Alt-0
 {Edit/Cursor/Move to Last Line}           Ctrl-Alt-9
-{Edit/Cursor/Move to Next Page}           Ctrl-Alt-J
-{Edit/Cursor/Move to Previous Page}       Ctrl-Alt-K
+{Edit/Cursor/Move to Next Page}           Ctrl-F
+{Edit/Cursor/Move to Previous Page}       Ctrl-B
 {Edit/Cursor/Move to Screen Top}          Ctrl-Alt-H
 {Edit/Cursor/Move to Screen Middle}       Ctrl-Alt-M
 {Edit/Cursor/Move to Screen Bottom}       Ctrl-Alt-L
@@ -62,24 +62,24 @@
 {Edit/Transform/Join Lines}               Ctrl-J
 {Edit/Transform/Bubble Up}                Alt-Up
 {Edit/Transform/Bubble Down}              Alt-Down
-{Edit/Format/Bold}                        Ctrl-B
-{Edit/Format/Italics}                     Ctrl-I
-{Edit/Format/Underline}                   Ctrl-U
+{Edit/Format/Bold}                        Shift-Alt-B
+{Edit/Format/Italics}                     Shift-Alt-I
+{Edit/Format/Underline}                   Shift-Alt-U
 {Edit/Format/Remove Formatting}           Ctrl--
 {Edit/Emmet/Expand Abbreviation}          Ctrl-E
 {Edit/Preferences/Edit User - Global}     Ctrl-,
 {Edit/Preferences/Edit Session - Global}  Ctrl-;
 
 # Find menu bindings
-{Find/Find}                               Ctrl-F
-{Find/Find and Replace}                   Ctrl-Shift-F
+{Find/Find}                               Alt-F
+{Find/Find and Replace}                   Alt-Shift-F
 {Find/Select Next Occurrence}             Alt-N
 {Find/Select Previous Occurrence}         Alt-P
 {Find/Select All Occurrences}             Alt-A
 {Find/Append Next Occurrence}             Alt-D
 {Find/Jump Backward}                      Ctrl-Left
 {Find/Jump Forward}                       Ctrl-Right
-{Find/Jump To Line}                       Ctrl-G
+{Find/Jump To Line}                       Alt-G
 {Find/Next Difference}                    Ctrl-Down
 {Find/Previous Difference}                Ctrl-Up
 {Find/Find Matching Bracket}              Ctrl-%
@@ -87,7 +87,7 @@
 
 # View menu bindings
 {View/Hide Sidebar}                       Ctrl-K
-{View/Display Text Info}                  Ctrl-T
+{View/Display Text Info}                  Ctrl-G
 {View/Split View}                         Ctrl-P
 {View/Move to Other Pane}                 Ctrl-M
 {View/Panes/Merge Panes}                  Ctrl-Alt-G
