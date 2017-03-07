@@ -66,13 +66,16 @@ namespace eval themes {
 
     # Load the tke_dir theme files
     set tfiles [utils::glob_install [file join $::tke_dir data themes] *.tketheme]
+    puts "tfiles: $tfiles"
 
     # Load the theme files
     foreach item [glob -nocomplain -directory $themes_dir -type d *] {
+      puts "item: $item"
       if {[file exists [file join $item [file tail $item].tketheme]]} {
-        lappend tfiles [file join $item [file tail $item.tketheme]]
+        lappend tfiles [file join $item [file tail $item].tketheme]
       }
     }
+    puts "tfiles: $tfiles"
 
     # Get the theme information
     foreach tfile $tfiles {
@@ -85,22 +88,25 @@ namespace eval themes {
       launcher::register [format "%s: %s" [msgcat::mc "Theme"] $name] [list theme::load_theme $files($name)] "" [list themes::theme_okay]
     }
 
+    # Allow the preferences UI to be updated, if it exists
+    pref_ui::themes_populate_table
+
   }
-  
+
   ######################################################################
   # Deletes the given theme from the file system.
   proc delete_theme {name} {
-    
+
     variable files
-    
+
     # If the theme file exists, delete the file
     if {[info exists files($name)] && [file exists $files($name)]} {
       file delete -force $files($name)
     }
-    
+
     # Reload the theme information
     load
-    
+
   }
 
   ######################################################################
@@ -170,14 +176,14 @@ namespace eval themes {
     theme::update_syntax
 
   }
-  
+
   ######################################################################
   # Handle a change to the Appearance/HiddenThemes preference value.
   proc handle_hidden_change {name1 name2 op} {
-    
+
     # Reload the themes
     load
-    
+
   }
 
   ######################################################################
@@ -303,6 +309,16 @@ namespace eval themes {
     }
 
     return [array get attrs]
+
+  }
+
+  ######################################################################
+  # Returns the location of the user themes directory.
+  proc get_user_directory {} {
+
+    variable themes_dir
+
+    return $themes_dir
 
   }
 

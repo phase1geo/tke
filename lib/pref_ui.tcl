@@ -186,21 +186,21 @@ namespace eval pref_ui {
     return $win
 
   }
-  
+
   ######################################################################
   # Initializes the menubutton's menu with the given set of values.
   proc init_mb {w varname values} {
-    
+
     # Get the menu from the menubutton
     set mnu [$w cget -menu]
-    
+
     # Clear the menu
     $mnu delete 0 end
-    
+
     foreach value $values {
       $mnu add radiobutton -label $value -variable pref_ui::prefs($varname) -value $value
     }
-    
+
   }
 
   ######################################################################
@@ -865,7 +865,7 @@ namespace eval pref_ui {
 
       # Save the preferences
       preferences::save_prefs $session $language [array get prefs]
-      
+
       # Refresh any UI state after the preferences update
       puts "Refreshing appear_theme widget"
       init_mb $widgets(appear_theme) Appearance/Theme [themes::get_visible_themes]
@@ -1763,6 +1763,11 @@ namespace eval pref_ui {
 
     variable widgets
 
+    # If the preference window is not currently being shown, return immediately
+    if {![info exists widgets(themes_tl)] || ![winfo exists $widgets(themes_tl)]} {
+      return
+    }
+
     # Clear the table
     $widgets(themes_tl) delete 0 end
 
@@ -1781,7 +1786,7 @@ namespace eval pref_ui {
         $widgets(themes_tl) cellconfigure $row,imported -image pref_check
       }
     }
-    
+
     # Make sure that the state of the disable button is disabled since nothing will be selected
     $widgets(themes_del) configure -state disabled
 
@@ -1803,18 +1808,18 @@ namespace eval pref_ui {
     }
 
   }
-  
+
   ######################################################################
   # Handles a left-click on the themes table.  If the user clicked on the
   # visibility cell, toggle the image value and update the HiddenThemes
   # preference.
   proc themes_left_click {W x y} {
-    
+
     variable prefs
-    
+
     lassign [tablelist::convEventFields $W $x $y] tbl x y
     lassign [split [$tbl containingcell $x $y] ,] row col
-    
+
     if {$row != -1} {
       if {[$tbl columncget $col -name] eq "visible"} {
         set name  [$tbl cellcget $row,name    -text]
@@ -1837,12 +1842,15 @@ namespace eval pref_ui {
   # Adds a new theme from the file system, importing it if necessary.
   proc themes_add {} {
 
+    # Start the theme editor with the current theme
+    themer::edit_current_theme
+
     # Allow the user to select a theme to import
     if {[themer::import .prefwin]} {
 
       # Update the themes table
       themes_populate_table
-      
+
     }
 
   }
@@ -1850,17 +1858,17 @@ namespace eval pref_ui {
   ######################################################################
   # Removes a theme from the file system.
   proc themes_delete {} {
-    
+
     variable widgets
     variable prefs
-    
+
     # Get the currently selected theme
     set selected [$widgets(themes_tl) curselection]
     set name     [$widgets(themes_tl) cellcget $selected,name -text]
 
     # Delete the theme
     themes::delete_theme $name
-    
+
     # Remove the theme from the hidden list so that we don't confuse the user if they reload the
     # theme.
     if {[set index [lsearch -exact $prefs(Appearance/HiddenThemes) $name]] != -1} {
@@ -1869,21 +1877,21 @@ namespace eval pref_ui {
 
     # Update the themes table
     themes_populate_table
-    
+
   }
-  
+
   ######################################################################
   # Edits the selected theme.
   proc themes_edit {} {
-    
+
     variable widgets
-    
+
     # Get the selected theme
     set selected [$widgets(themes_tl) curselection]
-    
+
     # Make sure that the theme editor is opened
     themer::edit_theme [$widgets(themes_tl) cellcget $selected,name -text]
-    
+
   }
 
   ######################################################################
