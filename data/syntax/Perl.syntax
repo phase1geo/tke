@@ -1,5 +1,5 @@
 filepatterns
-{*.pl *.PL}
+{*.pl *.PL *.pm}
 
 vimsyntax
 {perl perl6}

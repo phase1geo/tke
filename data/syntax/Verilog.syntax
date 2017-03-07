@@ -1,5 +1,5 @@
 filepatterns
-{*.v *.vg}
+{*.v *.vh *.vg}
 
 vimsyntax
 {verilog}
