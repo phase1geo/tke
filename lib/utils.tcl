@@ -65,7 +65,7 @@ namespace eval utils {
     |   Key-bar
     \}  Key-braceright
     ~   Key-asciitilde
-    \n  Return
+    \n  Key-Return
   }
 
   array set code2sym {
@@ -183,8 +183,15 @@ namespace eval utils {
       3342463 BackSpace
       3145737 Tab
       2359309 Return
+      7599913 Home
       8124162 Left
+      8320768 Up
       8189699 Right
+      8255233 Down
+      7665452 Prior
+      7993133 Next
+      7862059 End
+      7730984 Delete
     }
   }
 
