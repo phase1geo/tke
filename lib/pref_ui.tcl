@@ -3175,7 +3175,7 @@ namespace eval pref_ui {
     pack $w.sf.revert -side right -padx 2 -pady 2
 
     ttk::frame $w.tf
-    set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut}} \
+    set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut} 0 {}} \
       -height 20 -exportselection 0 -stretch all \
       -yscrollcommand [list $w.tf.vb set]]
     ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
@@ -3184,6 +3184,7 @@ namespace eval pref_ui {
 
     $widgets(shortcut_tl) columnconfigure 0 -name label    -editable 0 -resizable 0 -stretchable 1
     $widgets(shortcut_tl) columnconfigure 1 -name shortcut -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::shortcut_format]
+    $widgets(shortcut_tl) columnconfigure 2 -name clear    -hide 1
 
     bind $widgets(shortcut_tl) <<TablelistSelect>> [list pref_ui::shortcut_table_select]
 
@@ -3568,6 +3569,7 @@ namespace eval pref_ui {
 
     # Set the shortcut cell value
     $widgets(shortcut_tl) cellconfigure $selected,shortcut -text ""
+    $widgets(shortcut_tl) cellconfigure $selected,clear    -text 1
 
     # Save the table to the menu binding file
     shortcut_save
@@ -3585,8 +3587,7 @@ namespace eval pref_ui {
     variable widgets
 
     set value ""
-
-    set sym [$widgets(shortcut_sym) get]
+    set sym   [$widgets(shortcut_sym) get]
 
     if {[set mod [$widgets(shortcut_mod) get]] ne ""} {
       if {$mod ne ""} {
@@ -3603,9 +3604,13 @@ namespace eval pref_ui {
     } else {
       set value $sym
     }
+    
+    # Get the currently selected shortcut
+    set selected [$widgets(shortcut_tl) curselection]
 
     # Set the shortcut cell value
-    $widgets(shortcut_tl) cellconfigure [$widgets(shortcut_tl) curselection],shortcut -text $value
+    $widgets(shortcut_tl) cellconfigure $selected,shortcut -text $value
+    $widgets(shortcut_tl) cellconfigure $selected,clear    -text 0
 
     # Save the table to the menu binding file
     shortcut_save
@@ -3626,8 +3631,8 @@ namespace eval pref_ui {
 
     # Get the table rows to save
     for {set i 0} {$i < [$widgets(shortcut_tl) size]} {incr i} {
-      lassign [$widgets(shortcut_tl) get $i] mnu_path shortcut
-      if {$shortcut ne ""} {
+      lassign [$widgets(shortcut_tl) get $i] mnu_path shortcut cleared
+      if {($shortcut ne "") || $cleared} {
         if {[set mnu_len [string length $mnu_path]] > $max} {
           set max $mnu_len
         }
@@ -3694,8 +3699,8 @@ namespace eval pref_ui {
         command -
         checkbutton -
         radiobutton {
-          $widgets(shortcut_tl) insert end \
-          [list "${prefix}[$mnu entrycget $i -label]" [$mnu entrycget $i -accelerator]]
+          set name "${prefix}[$mnu entrycget $i -label]"
+          $widgets(shortcut_tl) insert end [list $name [$mnu entrycget $i -accelerator] [bindings::is_cleared $name]]
         }
       }
     }
