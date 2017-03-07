@@ -329,9 +329,9 @@ namespace eval gui {
 
     # Create tab popup
     set widgets(menu) [menu $widgets(nb_pw).popupMenu -tearoff 0 -postcommand gui::setup_tab_popup_menu]
-    $widgets(menu) add command -label [msgcat::mc "Close Tab"]         -command [list gui::close_current]
-    $widgets(menu) add command -label [msgcat::mc "Close Other Tabs"]  -command gui::close_others
-    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]    -command gui::close_all
+    $widgets(menu) add command -label [msgcat::mc "Close Tab"]            -command [list gui::close_current]
+    $widgets(menu) add command -label [msgcat::mc "Close All Other Tabs"] -command gui::close_others
+    $widgets(menu) add command -label [msgcat::mc "Close All Tabs"]       -command gui::close_all
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Close Other Tabs In Pane"] -command gui::close_others_current_pane
     $widgets(menu) add command -label [msgcat::mc "Close All Tabs In Pane"]   -command gui::close_current_pane
@@ -727,6 +727,7 @@ namespace eval gui {
     variable widgets
     variable file_locked
     variable file_favorited
+    variable pw_current
 
     # Get the current information
     get_info {} current txt fname readonly lock diff tabbar remote buffer txt2 beye
@@ -736,10 +737,21 @@ namespace eval gui {
     set file_favorited [favorites::is_favorite $fname]
 
     # Set the state of the menu items
-    if {[llength [$tabbar tabs]] > 1} {
-      $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state normal
+    if {[files::get_file_num] > 1} {
+      $widgets(menu) entryconfigure [msgcat::mc "Close All Other Tabs"] -state normal
     } else {
-      $widgets(menu) entryconfigure [msgcat::mc "Close Other*"] -state disabled
+      $widgets(menu) entryconfigure [msgcat::mc "Close All Other Tabs"] -state disabled
+    }
+    if {[llength [$widgets(nb_pw) panes]] == 2} {
+      if {[llength [$tabbar tabs]] > 1} {
+        $widgets(menu) entryconfigure [msgcat::mc "Close Other Tabs In Pane"] -state normal
+      } else {
+        $widgets(menu) entryconfigure [msgcat::mc "Close Other Tabs In Pane"] -state disabled
+      }
+      $widgets(menu) entryconfigure [msgcat::mc "Close All Tabs In Pane"] -state normal
+    } else {
+      $widgets(menu) entryconfigure [msgcat::mc "Close Other Tabs In Pane"] -state disabled
+      $widgets(menu) entryconfigure [msgcat::mc "Close All Tabs In Pane"]   -state disabled
     }
     if {$diff} {
       $widgets(menu) entryconfigure [msgcat::mc "Hide Tab"] -state disabled
@@ -2318,9 +2330,12 @@ namespace eval gui {
   proc close_others {} {
 
     variable widgets
+    variable pw_current
+
+    set current_nb  [lindex [$widgets(nb_pw) panes] $pw_current]
+    set current_tab [$current_nb.tbf.tb select]
 
     foreach nb [lreverse [$widgets(nb_pw) panes]] {
-      set current_tab [$nb.tbf.tb select]
       foreach tab [lreverse [$nb.tbf.tb tabs]] {
         if {$tab ne $current_tab} {
           close_tab $tab -lazy 1
@@ -2333,7 +2348,7 @@ namespace eval gui {
     set_current_tab $tabbar $tab
 
   }
-  
+
   ######################################################################
   # Close all of the tabs.
   proc close_all {args} {
@@ -2353,42 +2368,42 @@ namespace eval gui {
     }
 
   }
-  
+
   ######################################################################
   # Closes all other tabs within the current pane.
   proc close_others_current_pane {} {
-    
+
     variable widgets
     variable pw_current
-    
+
     set nb          [lindex [$widgets(nb_pw) panes] $pw_current]
     set current_tab [$nb.tbf.tb select]
-    
+
     foreach tab [lreverse [$nb.tbf.tb tabs]] {
       if {$tab ne $current_tab} {
         close_tab $tab -lazy 1
       }
     }
-    
+
     # Set the current tab
     get_info {} current tabbar tab
     set_current_tab $tabbar $tab
-    
+
   }
-  
+
   ######################################################################
   # Closes all tabs within the current pane.
   proc close_current_pane {} {
-    
+
     variable widgets
     variable pw_current
-    
+
     set nb [lindex [$widgets(nb_pw) panes] $pw_current]
-    
+
     foreach tab [lreverse [$nb.tbf.tb tabs]] {
       close_tab $tab -lazy 1
     }
-    
+
   }
 
   ######################################################################
@@ -3769,6 +3784,7 @@ namespace eval gui {
       set pane            [winfo parent [winfo parent [winfo parent %W]]]
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
       if {![catch "[winfo parent %W] select @%x,%y"]} {
+        gui::set_current_tab [winfo parent %W] [[winfo parent %W] select]
         tk_popup $gui::widgets(menu) %X %Y
       }
     }
