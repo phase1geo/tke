@@ -81,7 +81,12 @@ namespace eval bindings {
           puts $rc "# [string totitle $mnu] menu bindings"
           set last_mnu $mnu
         }
-        puts $rc "{$mnu_path}[string repeat { } [expr $max - [string length $mnu_path]]]  [lindex $shortcut 1]"
+        puts -nonewline $rc "{$mnu_path}[string repeat { } [expr $max - [string length $mnu_path]]]  "
+        if {[lindex $shortcut 1] eq ""} {
+          puts $rc "{}"
+        } else {
+          puts $rc [lindex $shortcut 1]
+        }
       }
 
       # Close the file
@@ -127,16 +132,12 @@ namespace eval bindings {
     if {![catch { tkedat::read $user_bindings_file 0 } rc]} {
 
       # This block of code removes and default menu bindings that are in use by the user.
-      if {[array exists reversed]} {
-        foreach {mnu binding} $rc {
-          if {[info exists reversed($binding)]} {
-            catch { unset menu_bindings($reversed($binding)) }
-          }
+      foreach {mnu binding} $rc {
+        if {[info exists reversed($binding)]} {
+          catch { unset menu_bindings($reversed($binding)) }
         }
+        set menu_bindings($mnu) $binding
       }
-
-      # Override the left-over menu bindings with those from the user
-      array set menu_bindings $rc
 
       # Apply the bindings to the UI
       apply_all_bindings
@@ -160,6 +161,9 @@ namespace eval bindings {
     array unset bound_menus
 
     foreach {mnu_path binding} [array get menu_bindings] {
+      if {$binding eq ""} {
+        continue
+      }
       set menu_list [split $mnu_path /]
       if {![catch { menus::get_menu [lrange $menu_list 0 end-1] } mnu]} {
         if {![catch { $mnu index [msgcat::mc [lindex $menu_list end]] } menu_index] && ($menu_index ne "none")} {
@@ -198,6 +202,16 @@ namespace eval bindings {
     # Delete the menu_bindings array
     array unset menu_bindings
 
+  }
+  
+  ######################################################################
+  # Returns 1 if the given menu contains an empty menu binding.
+  proc is_cleared {mnu} {
+    
+    variable menu_bindings
+    
+    return [expr {[info exists menu_bindings($mnu)] && ($menu_bindings($mnu) eq "")}]
+    
   }
 
   ######################################################################
