@@ -66,16 +66,13 @@ namespace eval themes {
 
     # Load the tke_dir theme files
     set tfiles [utils::glob_install [file join $::tke_dir data themes] *.tketheme]
-    puts "tfiles: $tfiles"
 
     # Load the theme files
     foreach item [glob -nocomplain -directory $themes_dir -type d *] {
-      puts "item: $item"
       if {[file exists [file join $item [file tail $item].tketheme]]} {
         lappend tfiles [file join $item [file tail $item].tketheme]
       }
     }
-    puts "tfiles: $tfiles"
 
     # Get the theme information
     foreach tfile $tfiles {

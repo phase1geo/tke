@@ -86,29 +86,16 @@ namespace eval themer {
 
     variable data
 
-    # Get the current theme name and save it
-    set data(original_theme) [theme::get_current_theme]
+    # If we have not set the original_theme, set it to the current application theme
+    if {![info exists data(original_theme)]} {
+      set data(original_theme) [theme::get_current_theme]
+    }
 
     # Initialize the themer
     initialize
 
     # Save the current theme
     set_current_theme_to $data(original_theme)
-
-  }
-
-  ######################################################################
-  # This procedure can be called externally for editing a given theme by
-  # name.
-  proc edit_theme {theme} {
-
-    # If the theme editor window is not displayed, create it with the current theme
-    if {![winfo exists .thmwin]} {
-      edit_current_theme
-    }
-
-    # Display the given theme
-    preview_theme $theme
 
   }
 
@@ -438,6 +425,7 @@ namespace eval themer {
 
     # Cause the original theme to be reloaded in the UI
     theme::load_theme [themes::get_file $data(original_theme)]
+    unset data(original_theme)
 
   }
 
@@ -734,6 +722,11 @@ namespace eval themer {
   proc preview_theme {theme} {
 
     variable data
+
+    # If we have not set the original_theme, set it to the current application theme
+    if {![info exists data(original_theme)]} {
+      set data(original_theme) [theme::get_current_theme]
+    }
 
     # Save the current theme
     if {[check_for_save]} {
@@ -1679,6 +1672,11 @@ namespace eval themer {
 
     variable data
 
+    # If we have not set the original_theme, set it to the current application theme
+    if {![info exists data(original_theme)]} {
+      set data(original_theme) [theme::get_current_theme]
+    }
+
     # Set the theme
     if {[check_for_save]} {
 
@@ -1709,6 +1707,11 @@ namespace eval themer {
   proc import_tke {theme {parent .}} {
 
     variable data
+
+    # If we have not set the original_theme, set it to the current application theme
+    if {![info exists data(original_theme)]} {
+      set data(original_theme) [theme::get_current_theme]
+    }
 
     # Perform the tkethemz import
     set theme_file [themes::import .thmwin $theme]
