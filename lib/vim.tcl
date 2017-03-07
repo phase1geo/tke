@@ -865,7 +865,7 @@ namespace eval vim {
 
     # Add bindings
     bind vim$txt <Escape>                "if {\[vim::handle_escape %W\]} { break }"
-    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A\]} { break }"
+    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A %K\]} { break }"
     bind vim$txt <Control-Button-1>      "vim::nil"
     bind vim$txt <Shift-Button-1>        "vim::nil"
     bind vim$txt <Button-1>              "vim::handle_button1 %W %x %y; break"
@@ -1147,7 +1147,7 @@ namespace eval vim {
     variable recording
 
     if {$recording($reg,mode) eq "none"} {
-      set recording($reg,events) $event
+      set recording($reg,events) [string range $event 4 end]
     }
 
   }
@@ -1159,7 +1159,7 @@ namespace eval vim {
     variable recording
 
     if {$recording($reg,mode) eq "record"} {
-      lappend recording($reg,events) $event
+      lappend recording($reg,events) [string range $event 4 end]
     }
 
   }
@@ -1175,7 +1175,7 @@ namespace eval vim {
 
     # Replay the recording buffer
     foreach event $recording($reg,events) {
-      eval "event generate $txtt <$event>"
+      event generate $txtt <Key> -keysym $event
     }
 
     # Set the record mode to none
@@ -1281,13 +1281,13 @@ namespace eval vim {
     # Add this keysym to the current recording buffer (if one exists)
     set curr_reg $recording(curr_reg)
     if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
-      record_add Escape $curr_reg
+      record_add Key-Escape $curr_reg
     }
 
     if {$mode($txtt) ne "start"} {
 
       # Add to the recording if we are doing so
-      record_add Escape
+      record_add Key-Escape
       record_stop
 
       # Set the mode to start
@@ -1318,14 +1318,14 @@ namespace eval vim {
 
   ######################################################################
   # Handles any single printable character.
-  proc handle_any {txtt keycode char} {
+  proc handle_any {txtt keycode char keysym} {
 
     variable mode
     variable number
     variable column
     variable recording
 
-    puts "In handle_any, keycode: $keycode"
+    puts "In handle_any, keycode: $keycode, keysym: $keysym, char: $char"
 
     # If we don't have a keysym for the keycode, return now
     if {![info exists utils::code2sym($keycode)]} {
@@ -2766,7 +2766,7 @@ namespace eval vim {
 
       # If we were in command mode, escape out of edit mode
       if {$mode($txt.t) ne "edit"} {
-        record_add "Escape"
+        record_add "Key-Escape"
         record_stop
       }
 
