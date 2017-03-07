@@ -164,6 +164,28 @@ namespace eval utils {
     124 bar
     125 braceright
     126 asciitilde
+    65288 BackSpace
+    65289 Tab
+    65293 Return
+    65360 Home
+    65361 Left
+    65362 Up
+    65363 Right
+    65364 Down
+    65365 Prior
+    65366 Next
+    65367 End
+    65535 Delete
+  }
+
+  if {[tk windowingsystem] eq "aqua"} {
+    array set code2sym {
+      3342463 BackSpace
+      3145737 Tab
+      2359309 Return
+      8124162 Left
+      8189699 Right
+    }
   }
 
   array set tablelistopts {
