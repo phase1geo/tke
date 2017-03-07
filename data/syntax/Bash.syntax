@@ -31,11 +31,11 @@ keywords
 }
 
 numbers {
-  HighlightRegexp {[0-9]+} {}
+  HighlightRegexp {\m[0-9]+} {}
 }
 
 punctuation
 {
-  HighlightRegexp {[][=+~|>$:@^,%*?<&;!\{\}()]} {}
+  HighlightRegexp {[][\{\}()=+~|>$:@^,%*?<&;!]} {}
 }
 
