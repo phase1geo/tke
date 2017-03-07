@@ -49,7 +49,7 @@ keywords
   ignore_bins illegal_bins import include inside instance int interface intersect join_any
   join_none local logic longint matches modport new null option. package packed priority
   program property protected pure rand randc randcase randomize randsequence ref return scalared
-  sequence shortint shortreal solve static struct super tagged this throughout timeprecision
+  sequence shortint shortreal solve static string struct super tagged this throughout timeprecision
   timeunit type typedef type_option union unique unsigned virtual void wait_order wildcard with
   within
 }
