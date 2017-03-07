@@ -1681,8 +1681,8 @@ namespace eval pref_ui {
 
     ttk::frame  $b.bf
     ttk::button $b.bf.add  -style BButton -text [msgcat::mc "Add"]  -command [list pref_ui::themes_add]
-    set widgets(themes_del) [ttk::button $b.bf.del  -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::themes_delete] -state disabled]
-    ttk::button $b.bf.edit -style BButton -text [msgcat::mc "Edit"] -command [list pref_ui::themes_edit]
+    set widgets(themes_del)  [ttk::button $b.bf.del  -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::themes_delete] -state disabled]
+    set widgets(themes_edit) [ttk::button $b.bf.edit -style BButton -text [msgcat::mc "Edit"]   -command [list pref_ui::themes_edit] -state disabled]
     ttk::button $b.bf.more -style BButton -text [format "%s..." [msgcat::mc "Get More Themes"]] -command [list pref_ui::themes_get_more]
 
     pack $b.bf.add  -side left  -padx 2 -pady 2
@@ -1807,6 +1807,13 @@ namespace eval pref_ui {
       $widgets(themes_del) configure -state normal
     }
 
+    # Update the state of the edit button
+    if {$selected eq ""} {
+      $widgets(themes_edit) configure -state disabled
+    } else {
+      $widgets(themes_edit) configure -state normal
+    }
+
   }
 
   ######################################################################
@@ -1841,9 +1848,6 @@ namespace eval pref_ui {
   ######################################################################
   # Adds a new theme from the file system, importing it if necessary.
   proc themes_add {} {
-
-    # Start the theme editor with the current theme
-    themer::edit_current_theme
 
     # Allow the user to select a theme to import
     if {[themer::import .prefwin]} {
@@ -1890,7 +1894,7 @@ namespace eval pref_ui {
     set selected [$widgets(themes_tl) curselection]
 
     # Make sure that the theme editor is opened
-    themer::edit_theme [$widgets(themes_tl) cellcget $selected,name -text]
+    themer::preview_theme [$widgets(themes_tl) cellcget $selected,name -text]
 
   }
 
