@@ -55,9 +55,9 @@
 {Edit/Delete/Whitespace Forward}          Ctrl-Alt-S
 {Edit/Delete/Whitespace Backward}         Ctrl-Alt-Shift-S
 {Edit/Delete/Text Between Character}      Ctrl-Alt-C
-{Edit/Transform/Lower Case}               Alt-L
-{Edit/Transform/Upper Case}               Alt-U
-{Edit/Transform/Title Case}               Alt-T
+{Edit/Transform/Lower Case}               Ctrl-Alt-L
+{Edit/Transform/Upper Case}               Ctrl-Alt-U
+{Edit/Transform/Title Case}               Ctrl-Alt-T
 {Edit/Transform/Join Lines}               Cmd-J
 {Edit/Transform/Bubble Up}                Alt-Up
 {Edit/Transform/Bubble Down}              Alt-Down
