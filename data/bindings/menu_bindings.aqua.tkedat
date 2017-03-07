@@ -46,7 +46,7 @@
 {Edit/Insert/Line Below Current}          Alt-O
 {Edit/Insert/From Clipboard}              Alt-C
 {Edit/Insert/Snippet}                     Alt-S
-{Edit/Insert/Enumeration}                 Alt-E
+{Edit/Insert/Enumeration}                 Alt-1
 {Edit/Delete/Current Line}                Ctrl-Alt-D
 {Edit/Delete/Current Word}                Ctrl-Alt-R
 {Edit/Delete/Current Number}              Ctrl-Alt-N

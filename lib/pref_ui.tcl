@@ -867,7 +867,6 @@ namespace eval pref_ui {
       preferences::save_prefs $session $language [array get prefs]
 
       # Refresh any UI state after the preferences update
-      puts "Refreshing appear_theme widget"
       init_mb $widgets(appear_theme) Appearance/Theme [themes::get_visible_themes]
 
     }
@@ -3345,6 +3344,18 @@ namespace eval pref_ui {
     # If the symbol widget is not displaying a function key, remove the empty space modifier
     if {![shortcut_sym_is_funckey]} {
       catch { dict unset mods {} }
+    }
+
+    # If we are on windows, we need to remove dead keys
+    if {[tk windowingsystem] eq "aqua"} {
+      if {[lsearch [list E I U] $curr_sym] != -1} {
+        catch { dict unset mods Alt }
+      }
+      if {$curr_mod eq "Alt"} {
+        catch { dict unset syms E }
+        catch { dict unset syms I }
+        catch { dict unset syms U }
+      }
     }
 
     # Iterate through the table finding partial matches
