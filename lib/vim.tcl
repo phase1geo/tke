@@ -1325,6 +1325,14 @@ namespace eval vim {
     variable column
     variable recording
 
+    puts "In handle_any, keycode: $keycode"
+
+    # If we don't have a keysym for the keycode, return now
+    if {![info exists utils::code2sym($keycode)]} {
+      return 0
+    }
+
+    # Get the keysym from the keycode
     set keysym $utils::code2sym($keycode)
 
     # If the key does not have a printable char representation, quit now
