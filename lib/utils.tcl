@@ -32,40 +32,40 @@ namespace eval utils {
   array set vars       {}
 
   array set c2k_map {
-    { } Key-space
-    !   Key-exclam
-    \"  Key-quotedbl
-    \#  Key-numbersign
-    \$  Key-dollar
-    %   Key-percent
-    &   Key-ampersand
-    '   Key-quoteright
-    (   Key-parenleft
-    )   Key-parenright
-    *   Key-asterisk
-    +   Key-plus
-    ,   Key-comma
-    -   Key-minus
-    .   Key-period
-    /   Key-slash
-    :   Key-colon
-    \;  Key-semicolon
-    <   Key-less
-    =   Key-equal
-    >   Key-greater
-    ?   Key-question
-    @   Key-at
-    \[  Key-bracketleft
-    \\  Key-backslash
-    \]  Key-bracketright
-    ^   Key-asciicircum
-    _   Key-underscore
-    `   Key-quoteleft
-    \{  Key-braceleft
-    |   Key-bar
-    \}  Key-braceright
-    ~   Key-asciitilde
-    \n  Key-Return
+    { } space
+    !   exclam
+    \"  quotedbl
+    \#  numbersign
+    \$  dollar
+    %   percent
+    &   ampersand
+    '   quoteright
+    (   parenleft
+    )   parenright
+    *   asterisk
+    +   plus
+    ,   comma
+    -   minus
+    .   period
+    /   slash
+    :   colon
+    \;  semicolon
+    <   less
+    =   equal
+    >   greater
+    ?   question
+    @   at
+    \[  bracketleft
+    \\  backslash
+    \]  bracketright
+    ^   asciicircum
+    _   underscore
+    `   quoteleft
+    \{  braceleft
+    |   bar
+    \}  braceright
+    ~   asciitilde
+    \n  Return
   }
 
   array set code2sym {

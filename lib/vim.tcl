@@ -1142,24 +1142,24 @@ namespace eval vim {
 
   ######################################################################
   # Records a signal event and stops recording.
-  proc record {event {reg auto}} {
+  proc record {keysym {reg auto}} {
 
     variable recording
 
     if {$recording($reg,mode) eq "none"} {
-      set recording($reg,events) [string range $event 4 end]
+      set recording($reg,events) $keysym
     }
 
   }
 
   ######################################################################
   # Adds an event to the recording buffer if we are in record mode.
-  proc record_add {event {reg auto}} {
+  proc record_add {keysym {reg auto}} {
 
     variable recording
 
     if {$recording($reg,mode) eq "record"} {
-      lappend recording($reg,events) [string range $event 4 end]
+      lappend recording($reg,events) $keysym
     }
 
   }
@@ -1281,13 +1281,13 @@ namespace eval vim {
     # Add this keysym to the current recording buffer (if one exists)
     set curr_reg $recording(curr_reg)
     if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
-      record_add Key-Escape $curr_reg
+      record_add Escape $curr_reg
     }
 
     if {$mode($txtt) ne "start"} {
 
       # Add to the recording if we are doing so
-      record_add Key-Escape
+      record_add Escape
       record_stop
 
       # Set the mode to start
@@ -1316,6 +1316,14 @@ namespace eval vim {
 
   }
 
+  if {[tk windowingsystem] eq "aqua"} {
+    proc get_keysym {keycode keysym} {
+      return $utils::code2sym($keycode)
+    }
+  } else {
+    proc get_keysym {keycode keysym} { return $keysym }
+  }
+
   ######################################################################
   # Handles any single printable character.
   proc handle_any {txtt keycode char keysym} {
@@ -1325,15 +1333,10 @@ namespace eval vim {
     variable column
     variable recording
 
-    puts "In handle_any, keycode: $keycode, keysym: $keysym, char: $char"
-
-    # If we don't have a keysym for the keycode, return now
-    if {![info exists utils::code2sym($keycode)]} {
+    # Lookup the keysym
+    if {[catch { get_keysym $keycode $keysym } keysym]} {
       return 0
     }
-
-    # Get the keysym from the keycode
-    set keysym $utils::code2sym($keycode)
 
     # If the key does not have a printable char representation, quit now
     if {([string compare -length 5 $keysym "Shift"]   == 0) || \
@@ -1364,7 +1367,7 @@ namespace eval vim {
     } elseif {($mode($txtt) ne "start") || ($keysym ne "q")} {
       set curr_reg $recording(curr_reg)
       if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
-        record_add "Key-$keysym" $curr_reg
+        record_add $keysym $curr_reg
       }
     }
 
@@ -1380,7 +1383,7 @@ namespace eval vim {
 
     # If we are not in edit mode
     if {![catch "handle_$keysym $txtt" rc] && $rc} {
-      record_add "Key-$keysym"
+      record_add $keysym
       if {$mode($txtt) eq "start"} {
         set number($txtt) ""
       }
@@ -1388,7 +1391,7 @@ namespace eval vim {
 
     # If the keysym is a number, handle the number
     } elseif {[string is integer $keysym] && [handle_number $txtt $char]} {
-      record_add "Key-$keysym"
+      record_add $keysym
       return 1
 
     # If we are in start, visual, record or format modes, stop character processing
@@ -1400,7 +1403,7 @@ namespace eval vim {
 
     # Append the text to the insertion buffer
     } elseif {[string equal -length 7 $mode($txtt) "replace"]} {
-      record_add "Key-$keysym"
+      record_add $keysym
       if {[multicursor::enabled $txtt]} {
         multicursor::replace $txtt $char indent::check_indent
       } else {
@@ -1420,7 +1423,7 @@ namespace eval vim {
 
     # Remove all text within the current character
     } elseif {$mode($txtt) eq "changein"} {
-      record_add "Key-$keysym"
+      record_add $keysym
       if {[edit::delete_between_char $txtt $char]} {
         edit_mode $txtt
       } else {
@@ -1430,7 +1433,7 @@ namespace eval vim {
 
     # Select all text within the current character
     } elseif {[lindex [split $mode($txtt) :] 0] eq "visualin"} {
-      record_add "Key-$keysym"
+      record_add $keysym
       if {[edit::select_between_char $txtt $char]} {
         set mode($txtt) "visual:[lindex [split $mode($txtt) :] 1]"
       } else {
@@ -1440,21 +1443,21 @@ namespace eval vim {
 
     # Format all text within the current character
     } elseif {$mode($txtt) eq "formatin"} {
-      record_add "Key-$keysym"
+      record_add $keysym
       edit::format_between_char $txtt $char
       start_mode $txtt
       return 1
 
     # Left shift all text within the current character
     } elseif {$mode($txtt) eq "lshiftin"} {
-      record_add "Key-$keysym"
+      record_add $keysym
       edit::lshift_between_char $txtt $char
       start_mode $txtt
       return 1
 
     # Right shift all text within the current character
     } elseif {$mode($txtt) eq "rshiftin"} {
-      record_add "Key-$keysym"
+      record_add $keysym
       edit::rshift_between_char $txtt $char
       start_mode $txtt
       return 1
@@ -1466,7 +1469,7 @@ namespace eval vim {
     }
 
     # Record the keysym
-    record_add "Key-$keysym"
+    record_add $keysym
 
     return 0
 
@@ -1657,7 +1660,7 @@ namespace eval vim {
         edit::delete_to_end $txtt
       }
       start_mode $txtt
-      record_add "Key-dollar"
+      record_add dollar
       record_stop
       return 1
     }
@@ -1683,7 +1686,7 @@ namespace eval vim {
         edit::delete_from_start $txtt
       }
       start_mode $txtt
-      record_add "Key-asciicircum"
+      record_add asciicircum
       record_stop
       return 1
     }
@@ -1884,7 +1887,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       edit::transform_join_lines $txtt $number($txtt)
-      record "Key-J"
+      record J
       return 1
     }
 
@@ -2633,7 +2636,7 @@ namespace eval vim {
         edit::delete_current_line $txtt $number($txtt)
       }
       start_mode $txtt
-      record_add "Key-d"
+      record_add d
       record_stop
       return 1
     } elseif {$mode($txtt) eq "folding"} {
@@ -2737,7 +2740,7 @@ namespace eval vim {
       }
       cliphist::add_from_clipboard
       start_mode $txtt
-      record_add "Key-y"
+      record_add y
       record_stop
       return 1
     }
@@ -2756,7 +2759,7 @@ namespace eval vim {
 
       # If we are not currently in edit mode, temporarily set ourselves to edit mode
       if {$mode($txt.t) ne "edit"} {
-        record_add "Key-i"
+        record_add i
       }
 
       # Add the characters
@@ -2766,7 +2769,7 @@ namespace eval vim {
 
       # If we were in command mode, escape out of edit mode
       if {$mode($txt.t) ne "edit"} {
-        record_add "Key-Escape"
+        record_add Escape
         record_stop
       }
 
@@ -2817,7 +2820,7 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       do_post_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
-      record "Key-p"
+      record p
       return 1
     }
 
@@ -2864,7 +2867,7 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       do_pre_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
-      record "Key-P"
+      record P
       return 1
     }
 
@@ -3006,7 +3009,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       do_char_delete_current $txtt $number($txtt)
-      record_add "Key-x"
+      record_add x
       record_stop
       return 1
     }
@@ -3025,7 +3028,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       do_char_delete_current $txtt $number($txtt)
-      record_add "Key-Delete"
+      record_add Delete
       record_stop
       return 1
     }
@@ -3043,7 +3046,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       do_char_delete_previous $txtt $number($txtt)
-      record_add "Key-X"
+      record_add X
       record_stop
       return 1
     }
@@ -3153,7 +3156,7 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "delete"} {
       edit::delete_current_number $txtt
       start_mode $txtt
-      record_add "Key-n"
+      record_add n
       record_stop
       return 1
     }
@@ -3279,7 +3282,7 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "delete"} {
       edit::delete_next_space $txtt
       start_mode $txtt
-      record_add "Key-s"
+      record_add s
       record_stop
       return 1
     }
@@ -3301,7 +3304,7 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "delete"} {
       edit::delete_prev_space $txtt
       start_mode $txtt
-      record_add "Key-S"
+      record_add S
       record_stop
       return 1
     }
