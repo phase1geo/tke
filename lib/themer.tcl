@@ -96,20 +96,20 @@ namespace eval themer {
     set_current_theme_to $data(original_theme)
 
   }
-  
+
   ######################################################################
   # This procedure can be called externally for editing a given theme by
   # name.
   proc edit_theme {theme} {
-    
+
     # If the theme editor window is not displayed, create it with the current theme
     if {![winfo exists .thmwin]} {
       edit_current_theme
     }
-    
+
     # Display the given theme
     preview_theme $theme
-    
+
   }
 
   ######################################################################
@@ -502,7 +502,7 @@ namespace eval themer {
     set theme_name [$data(widgets,save_cb) get]
 
     if {$data(save_directory) eq "user"} {
-      set theme_file [file join $::tke_home themes $theme_name $theme_name.tketheme]
+      set theme_file [file join [themes::get_user_directory] $theme_name $theme_name.tketheme]
     } else {
       set theme_file [file join $::tke_dir data themes $theme_name.tketheme]
     }
@@ -540,7 +540,7 @@ namespace eval themer {
         return
       }
     } else {
-      set theme_file [file join $::tke_home themes $data(curr_theme) $data(curr_theme).tketheme]
+      set theme_file [file join [themes::get_user_directory] $data(curr_theme) $data(curr_theme).tketheme]
       file mkdir [file dirname $theme_file]
     }
 
@@ -948,7 +948,7 @@ namespace eval themer {
       }
       user    {
         set dirname [msgcat::mc "User Directory"]
-        set inames  [glob -nocomplain -directory [file join $::tke_home themes [theme::get_current_theme]] $pattern]
+        set inames  [glob -nocomplain -directory [file join [themes::get_user_directory] [theme::get_current_theme]] $pattern]
       }
       custom  {
         if {$fname eq ""} {
@@ -1668,7 +1668,7 @@ namespace eval themer {
         }
       }
     }
-    
+
     return 0
 
   }
