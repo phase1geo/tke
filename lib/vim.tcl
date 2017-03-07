@@ -865,7 +865,7 @@ namespace eval vim {
 
     # Add bindings
     bind vim$txt <Escape>                "if {\[vim::handle_escape %W\]} { break }"
-    bind vim$txt <Key>                   "if {\[vim::handle_any %W %K %A\]} { break }"
+    bind vim$txt <Key>                   "if {\[vim::handle_any %W %k %A\]} { break }"
     bind vim$txt <Control-Button-1>      "vim::nil"
     bind vim$txt <Shift-Button-1>        "vim::nil"
     bind vim$txt <Button-1>              "vim::handle_button1 %W %x %y; break"
@@ -1318,14 +1318,14 @@ namespace eval vim {
 
   ######################################################################
   # Handles any single printable character.
-  proc handle_any {txtt keysym char} {
+  proc handle_any {txtt keycode char} {
 
     variable mode
     variable number
     variable column
     variable recording
 
-    # puts "In handle_any, txtt: $txtt, keysym: $keysym, char: $char"
+    set keysym $utils::code2sym($keycode)
 
     # If the key does not have a printable char representation, quit now
     if {([string compare -length 5 $keysym "Shift"]   == 0) || \
