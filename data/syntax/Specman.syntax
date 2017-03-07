@@ -1,0 +1,71 @@
+filepatterns
+{*.e}
+
+vimsyntax
+{specman}
+
+reference
+{}
+
+matchcharsallowed
+{curly square paren double}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{//}}
+
+lcomments {{//} {--}}
+
+strings {{"}}
+
+keywords
+{
+  all also and any at_least
+  before bit bits bool break byte bytes
+  case check compute continue cover cross cycle
+  default define do down
+  each else emit empty enum event extend
+  fall file first for from
+  gen
+  if ignore import in index inline instance int is it item
+  keep
+  line list
+  matching
+  now
+  of on out outf
+  package per_instance print
+  repeat return reverse rise routine
+  select sim soft start string struct sys
+  that then time to transition type
+  uint undefined until using
+  var
+  wait when while
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|0x[0-9a-fA-F_]+|0b[0-1_]+|0o[0-7_]+|[1-9][0-9]*'(d[0-9]+|h[0-9a-fA-F_]+|b[0-1_]+|o[0-7]+))}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}():;,.<>'!=%@~&|^*/%+-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    TRUE FALSE NULL MAX_INT MAX_UINT
+  }
+}
