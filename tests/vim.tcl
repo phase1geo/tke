@@ -573,7 +573,7 @@ namespace eval vim {
     foreach index [list 2.0 2.1 2.2 2.3 3.0 4.0 4.1 4.2 4.3 4.4 4.4] {
       vim::handle_space $txtt
       if {[$txtt index insert] ne $index} {
-        cleanup "Moving one character forward did not work properly ([$txtt index insert])"
+        cleanup "Moving one character forward did not work properly ([$txtt index insert], $index)"
       }
     }
 
@@ -638,6 +638,13 @@ namespace eval vim {
     vim::handle_L $txtt
     if {[$txtt index insert] ne [$txtt index @0,[winfo reqheight $txtt]]} {
       cleanup "Bottom index was incorrect ([$txtt index insert])"
+    }
+
+    # Jump to the first line
+    vim::handle_g $txtt
+    vim::handle_g $txtt
+    if {[$txtt index insert] ne "1.0"} {
+      cleanup "Top of file was incorrect ([$txtt index insert])"
     }
 
     # Jump to the last line
@@ -826,6 +833,144 @@ namespace eval vim {
     }
 
     # Clean things up
+    cleanup
+
+  }
+
+  # Verify the bar command
+  proc run_test13 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is something"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Move to a valid column
+    vim::handle_number $txtt 7
+    vim::handle_any $txtt 124 | bar
+    if {[$txtt index insert] ne "2.6"} {
+      cleanup "Move to column 7 did not work ([$txtt index insert])"
+    }
+
+    # Move to column 0
+    vim::handle_number $txtt 1
+    vim::handle_any $txtt 124 | bar
+    if {[$txtt index insert] ne "2.0"} {
+      cleanup "Move to column 0 did not work ([$txtt index insert])"
+    }
+
+    # Attempt to move to an invalidate column
+    vim::handle_number $txtt 2
+    vim::handle_number $txtt 0
+    vim::handle_any $txtt 124 | bar
+    if {[$txtt index insert] ne "2.16"} {
+      cleanup "Move to column which exceeds line did not move to end of line ([$txtt index insert])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify motions over elided text
+  proc run_test14 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Insert a line that we can code fold
+    $txtt insert end "\nif {\$foocar} {\n  set c 0\n}\n# Another comment"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Close the fold
+    folding::close_all_folds [winfo parent $txtt]
+
+    # Move up/down
+    vim::handle_j $txtt
+    if {[$txtt index insert] ne "4.0"} {
+      cleanup "Move j over ellided text did not work properly ([$txtt index insert])"
+    }
+
+    vim::handle_k $txtt
+    if {[$txtt index insert] ne "2.0"} {
+      cleanup "Move k over ellided text did not work properly ([$txtt index insert])"
+    }
+
+    vim::handle_Down $txtt
+    if {[$txtt index insert] ne "4.0"} {
+      cleanup "Move down over ellided text did not work properly ([$txtt index insert])"
+    }
+
+    vim::handle_Up $txtt
+    if {[$txtt index insert] ne "2.0"} {
+      cleanup "Move up over ellided text did not work properly ([$txtt index insert])"
+    }
+
+    vim::handle_Return $txtt
+    if {[$txtt index insert] ne "4.0"} {
+      cleanup "Move return over ellided text did not work ([$txtt index insert])"
+    }
+
+    vim::handle_minus $txtt
+    if {[$txtt index insert] ne "2.0"} {
+      cleanup "Move minus over ellided text did not work ([$txtt index insert])"
+    }
+
+    # Move left/right by char
+    vim::handle_dollar $txtt
+    if {[$txtt index insert] ne "2.13"} {
+      cleanup "Move to end of line did not work ([$txtt index insert])"
+    }
+
+    vim::handle_space $txtt
+    if {[$txtt index insert] ne "4.0"} {
+      cleanup "Move next char over ellided text did not work ([$txtt index insert])"
+    }
+
+    vim::handle_BackSpace $txtt
+    if {[$txtt index insert] ne "2.13"} {
+      cleanup "Move previous char over ellided text did not work ([$txtt index insert])"
+    }
+
+    # Move left/right by word
+    vim::handle_w $txtt
+    if {[$txtt index insert] ne "4.0"} {
+      cleanup "Move next word over ellided text did not work ([$txtt index insert])"
+    }
+
+    vim::handle_b $txtt
+    if {[$txtt index insert] ne "2.13"} {
+      cleanup "Move previous word over ellided text did not work ([$txtt index insert])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Test motion with character selection
+  proc run_test15 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is good\n\nThis is great"
+    $txtt mark set insert 2.0
+
+    vim::handle_v $txtt
+    if {[$txtt tag ranges sel] ne [list]} {
+      cleanup "Character selection did not work ([$txtt tag ranges sel])"
+    }
+
+    vim::handle_l $txtt
+    if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
+      cleanup "Right one did not work ([$txtt tag ranges sel])"
+    }
+
+    # Cleanup
     cleanup
 
   }
