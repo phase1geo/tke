@@ -677,7 +677,7 @@ namespace eval vim {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
     vim::handle_f $txtt
-    vim::handle_any $txtt x x
+    vim::handle_any $txtt 120 x x
     if {[$txtt index insert] ne "2.0"} {
       cleanup "We should not have found anything with f ([$txtt index insert])"
     }
@@ -686,7 +686,7 @@ namespace eval vim {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
     vim::handle_f $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.11"} {
       cleanup "Search for next l is incorrect f ([$txtt index insert])"
     }
@@ -696,7 +696,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 2
     vim::handle_f $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.12"} {
       cleanup "Search for second l is incorrect f ([$txtt index insert])"
     }
@@ -706,7 +706,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 3
     vim::handle_f $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.0"} {
       cleanup "Search for third l is incorrect f ([$txtt index insert])"
     }
@@ -715,7 +715,7 @@ namespace eval vim {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
     vim::handle_t $txtt
-    vim::handle_any $txtt x x
+    vim::handle_any $txtt 120 x x
     if {[$txtt index insert] ne "2.0"} {
       cleanup "We should not have found anything with t ([$txtt index insert])"
     }
@@ -724,7 +724,7 @@ namespace eval vim {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
     vim::handle_t $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.10"} {
       cleanup "Search for next l is incorrect t ([$txtt index insert])"
     }
@@ -734,7 +734,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 2
     vim::handle_t $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.11"} {
       cleanup "Search for second l is incorrect t ([$txtt index insert])"
     }
@@ -744,7 +744,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 3
     vim::handle_t $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.0"} {
       cleanup "Search for third l is incorrect t ([$txtt index insert])"
     }
@@ -753,7 +753,7 @@ namespace eval vim {
     $txtt mark set insert 2.end
     vim::adjust_insert $txtt
     vim::handle_F $txtt
-    vim::handle_any $txtt x x
+    vim::handle_any $txtt 120 x x
     if {[$txtt index insert] ne "2.20"} {
       cleanup "We should not have found anything with F ([$txtt index insert])"
     }
@@ -762,7 +762,7 @@ namespace eval vim {
     $txtt mark set insert 2.end
     vim::adjust_insert $txtt
     vim::handle_F $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.12"} {
       cleanup "Search for next l is incorrect F ([$txtt index insert])"
     }
@@ -772,7 +772,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 2
     vim::handle_F $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.11"} {
       cleanup "Search for second l is incorrect F ([$txtt index insert])"
     }
@@ -782,7 +782,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 3
     vim::handle_F $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.20"} {
       cleanup "Search for third l is incorrect F ([$txtt index insert])"
     }
@@ -791,7 +791,7 @@ namespace eval vim {
     $txtt mark set insert 2.end
     vim::adjust_insert $txtt
     vim::handle_T $txtt
-    vim::handle_any $txtt x x
+    vim::handle_any $txtt 120 x x
     if {[$txtt index insert] ne "2.20"} {
       cleanup "We should not have found anything with T ([$txtt index insert])"
     }
@@ -800,7 +800,7 @@ namespace eval vim {
     $txtt mark set insert 2.end
     vim::adjust_insert $txtt
     vim::handle_T $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.13"} {
       cleanup "Search for next l is incorrect T ([$txtt index insert])"
     }
@@ -810,7 +810,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 2
     vim::handle_T $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.12"} {
       cleanup "Search for second l is incorrect T ([$txtt index insert])"
     }
@@ -820,7 +820,7 @@ namespace eval vim {
     vim::adjust_insert $txtt
     vim::handle_number $txtt 3
     vim::handle_T $txtt
-    vim::handle_any $txtt l l
+    vim::handle_any $txtt 108 l l
     if {[$txtt index insert] ne "2.20"} {
       cleanup "Search for third l is incorrect T ([$txtt index insert])"
     }

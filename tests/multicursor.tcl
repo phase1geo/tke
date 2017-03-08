@@ -147,10 +147,7 @@ namespace eval multicursor {
       cleanup "mcursor does not match expected ([$txt tag ranges mcursor])"
     }
 
-    multicursor::adjust $txt.t -1c
-    multicursor::adjust $txt.t -1c
-    multicursor::adjust $txt.t -1c
-    multicursor::adjust $txt.t -1c
+    multicursor::adjust_left $txt.t 4
 
     if {[$txt tag ranges mcursor] ne [list 2.3 2.4 3.3 3.4]} {
       cleanup "mcursor mismatch after -3c adjust ([$txt tag ranges mcursor])"
