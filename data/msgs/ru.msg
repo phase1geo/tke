@@ -77,14 +77,17 @@ msgcat::mcmset ru {
   "Case sensitivity"
   "Чувствительность к регистру символов"
 
+  "Close All Other Tabs"
+  "Закрыть другие вкладки"
+
   "Close All Tabs"
   "Закрыть все вкладки"
 
-  "Close Other Tabs"
-  "Закрыть другие вкладки"
+  "Close All Tabs In Pane"
+  "Закрыть все вкладки в панели"
 
-  "Close Other*"
-  "Закрыть Другое *"
+  "Close Other Tabs In Pane"
+  "Закрыть другие вкладки в панели"
 
   "Close Tab"
   "Закрыть вкладку"
@@ -181,6 +184,9 @@ msgcat::mcmset ru {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Изображение, используемое в окне настройки для указания, что элемент таблицы выбран."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Изображение, используемое в окне настройки для указания, что что-то правда."
 
   "License"
   "Лицензия"
@@ -494,9 +500,6 @@ msgcat::mcmset ru {
 
   "Duplicate current file"
   "Дубликат текущего файла"
-
-  "Edit"
-  "Редактировать"
 
   "Edit Custom Abbreviations"
   "Редактирование пользовательских сокращений"
@@ -1666,6 +1669,9 @@ msgcat::mcmset ru {
   "General"
   "Общие"
 
+  "Get More Themes"
+  "Больше тем"
+
   "Hide Patterns"
   "Скрытие структуры"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset ru {
 
   "Logfile Directory"
   "Logfile каталог"
+
+  "Manage Themes"
+  "Управление темами"
+
+  "Manage theme visibility"
+  "Управление видимостью тема"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Максимальная отмены истории (установить в 0 для неограниченное)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset ru {
 
   "Duplicate"
   "Удвоить"
+
+  "Edit"
+  "Редактировать"
 
   "Enable code folding"
   "Включить сворачивание кода"

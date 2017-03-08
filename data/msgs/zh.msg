@@ -77,14 +77,17 @@ msgcat::mcmset zh {
   "Case sensitivity"
   "区分大小写"
 
+  "Close All Other Tabs"
+  "关闭所有其他选项卡"
+
   "Close All Tabs"
   "關閉全部的頁籤"
 
-  "Close Other Tabs"
-  "关闭其他标签"
+  "Close All Tabs In Pane"
+  "关闭所有选项卡的窗格"
 
-  "Close Other*"
-  "关闭其他*"
+  "Close Other Tabs In Pane"
+  "关闭窗格中的其他选项卡"
 
   "Close Tab"
   "关闭标签页"
@@ -181,6 +184,9 @@ msgcat::mcmset zh {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "在首选项窗口用于指示表项选中的图像。"
+
+  "Image used in the preferences window to indicate that something is true."
+  "在首选项窗口用于指示某事是真实的图像。"
 
   "License"
   "许可证"
@@ -494,9 +500,6 @@ msgcat::mcmset zh {
 
   "Duplicate current file"
   "重复当前文件"
-
-  "Edit"
-  "编辑"
 
   "Edit Custom Abbreviations"
   "编辑自定义缩写"
@@ -1666,6 +1669,9 @@ msgcat::mcmset zh {
   "General"
   "通用"
 
+  "Get More Themes"
+  "更多主题"
+
   "Hide Patterns"
   "隐藏模式"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset zh {
 
   "Logfile Directory"
   "日志文件目录"
+
+  "Manage Themes"
+  "管理主题"
+
+  "Manage theme visibility"
+  "管理主题可见性"
 
   "Maximum undo history (set to 0 for unlimited)"
   "最大撤消历史记录 (设置为 0 表示无限制)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset zh {
 
   "Duplicate"
   "复制"
+
+  "Edit"
+  "编辑"
 
   "Enable code folding"
   "启用代码折叠"

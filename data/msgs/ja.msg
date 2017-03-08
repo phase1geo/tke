@@ -77,14 +77,17 @@ msgcat::mcmset ja {
   "Case sensitivity"
   "大文字と小文字を区別する"
 
+  "Close All Other Tabs"
+  "他のタブをすべて閉じる"
+
   "Close All Tabs"
   "すべてのタブを閉じる"
 
-  "Close Other Tabs"
-  "他のタブを閉じる"
+  "Close All Tabs In Pane"
+  "ウィンドウのすべてのタブを閉じる"
 
-  "Close Other*"
-  "その他の*を閉じ"
+  "Close Other Tabs In Pane"
+  "ウィンドウの他のタブを閉じる"
 
   "Close Tab"
   "タブを閉じる"
@@ -181,6 +184,9 @@ msgcat::mcmset ja {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "テーブルの項目が選択されていることを示すに設定ウィンドウで使用するイメージ。"
+
+  "Image used in the preferences window to indicate that something is true."
+  "何かが真であることを示すに設定ウィンドウで使用するイメージ。"
 
   "License"
   "ナンバープレート"
@@ -494,9 +500,6 @@ msgcat::mcmset ja {
 
   "Duplicate current file"
   "現在ファイルが重複して"
-
-  "Edit"
-  "編集"
 
   "Edit Custom Abbreviations"
   "カスタムの略語を編集します。"
@@ -1666,6 +1669,9 @@ msgcat::mcmset ja {
   "General"
   "総論"
 
+  "Get More Themes"
+  "多くのテーマを取得します。"
+
   "Hide Patterns"
   "パターンを隠す"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset ja {
 
   "Logfile Directory"
   "ログ ファイル ディレクトリ"
+
+  "Manage Themes"
+  "テーマを管理"
+
+  "Manage theme visibility"
+  "テーマの可視性を管理します。"
 
   "Maximum undo history (set to 0 for unlimited)"
   "最大元に戻す履歴 (0 に設定無制限)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset ja {
 
   "Duplicate"
   "複製"
+
+  "Edit"
+  "編集"
 
   "Enable code folding"
   "コード折り畳みを有効にします。"

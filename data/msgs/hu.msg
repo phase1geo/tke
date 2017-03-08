@@ -77,14 +77,17 @@ msgcat::mcmset hu {
   "Case sensitivity"
   "Kisbetű-nagybetű érzékenység"
 
+  "Close All Other Tabs"
+  "Többi böngészőlap bezárása"
+
   "Close All Tabs"
   "Összes fül bezárása"
 
-  "Close Other Tabs"
-  "A többi lap bezárása"
+  "Close All Tabs In Pane"
+  "Zár minden Tabs, ablak"
 
-  "Close Other*"
-  "A többi lap bezárása"
+  "Close Other Tabs In Pane"
+  "Egyéb lapok ablaktábla bezárása"
 
   "Close Tab"
   "A lap bezárása"
@@ -181,6 +184,9 @@ msgcat::mcmset hu {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Jelzi, hogy a tábla elem van-e jelölve a beállítások ablakban használt kép."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Azt jelzi, hogy valami igaz a beállítások ablakban használt kép."
 
   "License"
   "Licenc"
@@ -494,9 +500,6 @@ msgcat::mcmset hu {
 
   "Duplicate current file"
   "Ismétlődő aktuális fájl"
-
-  "Edit"
-  "Szerkesztés"
 
   "Edit Custom Abbreviations"
   "Egyéni rövidítések szerkesztése"
@@ -1666,6 +1669,9 @@ msgcat::mcmset hu {
   "General"
   "Általános"
 
+  "Get More Themes"
+  "Kapni további témák"
+
   "Hide Patterns"
   "Mintáinak elrejtéséhez"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset hu {
 
   "Logfile Directory"
   "Logfile-könyvtár"
+
+  "Manage Themes"
+  "Sablonok kezelése"
+
+  "Manage theme visibility"
+  "Láthatóság téma kezelése"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximális visszavonás történelem (készlet-hoz 0 részére határtalan)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset hu {
 
   "Duplicate"
   "Megkettőzés"
+
+  "Edit"
+  "Szerkesztés"
 
   "Enable code folding"
   "Engedélyezi a kód összecsukható"

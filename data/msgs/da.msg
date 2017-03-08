@@ -77,14 +77,17 @@ msgcat::mcmset da {
   "Case sensitivity"
   "Versalfølsom"
 
+  "Close All Other Tabs"
+  "Luk de andre faneblade"
+
   "Close All Tabs"
   "Luk alle faneblade"
 
-  "Close Other Tabs"
-  "Luk de andre faneblade"
+  "Close All Tabs In Pane"
+  "Luk alle faner i rude"
 
-  "Close Other*"
-  "Luk de andre faneblade"
+  "Close Other Tabs In Pane"
+  "Luk andre faner i rude"
 
   "Close Tab"
   "Luk faneblad"
@@ -181,6 +184,9 @@ msgcat::mcmset da {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Billedet i indstillingsvinduet til at angive, at en tabel element er valgt."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Billedet i indstillingsvinduet til at angive, at noget er sandt."
 
   "License"
   "Licens"
@@ -494,9 +500,6 @@ msgcat::mcmset da {
 
   "Duplicate current file"
   "Dublerede aktuelle fil"
-
-  "Edit"
-  "Rediger"
 
   "Edit Custom Abbreviations"
   "Rediger brugerdefinerede forkortelser"
@@ -1666,6 +1669,9 @@ msgcat::mcmset da {
   "General"
   "Generelt"
 
+  "Get More Themes"
+  "Få flere temaer"
+
   "Hide Patterns"
   "Skjule mønstre"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset da {
 
   "Logfile Directory"
   "Logfile Register"
+
+  "Manage Themes"
+  "Håndtér temaer…"
+
+  "Manage theme visibility"
+  "Administrere tema synlighed"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maksimale Fortryd historie (sat til 0 for ubegrænset)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset da {
 
   "Duplicate"
   "Dupliker"
+
+  "Edit"
+  "Rediger"
 
   "Enable code folding"
   "Aktivere kode foldning"

@@ -77,14 +77,17 @@ msgcat::mcmset fr {
   "Case sensitivity"
   "Sensibilité à la casse"
 
+  "Close All Other Tabs"
+  "Fermer les autres onglets"
+
   "Close All Tabs"
   "Fermer tous les onglets"
 
-  "Close Other Tabs"
-  "Fermer les autres onglets"
+  "Close All Tabs In Pane"
+  "Fermer tous les onglets de volet"
 
-  "Close Other*"
-  "Fermer onglet*"
+  "Close Other Tabs In Pane"
+  "Fermer les autres onglets de volet"
 
   "Close Tab"
   "Fermer l'onglet"
@@ -181,6 +184,9 @@ msgcat::mcmset fr {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Image utilisée dans la fenêtre Préférences pour indiquer qu’un élément de tableau est sélectionné."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Image utilisée dans la fenêtre Préférences pour indiquer que quelque chose est vrai."
 
   "License"
   "Licence"
@@ -494,9 +500,6 @@ msgcat::mcmset fr {
 
   "Duplicate current file"
   "Double de dossier actuelle"
-
-  "Edit"
-  "Modification"
 
   "Edit Custom Abbreviations"
   "Modifier les abréviations personnalisées"
@@ -1666,6 +1669,9 @@ msgcat::mcmset fr {
   "General"
   "Général"
 
+  "Get More Themes"
+  "Ayez accès à plus de thèmes"
+
   "Hide Patterns"
   "Masquer les modèles"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset fr {
 
   "Logfile Directory"
   "Répertoire du fichier journal"
+
+  "Manage Themes"
+  "Gérer les thèmes"
+
+  "Manage theme visibility"
+  "Gérer la visibilité du thème"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Historique d’annulation maximale (la valeur 0 pour illimité)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset fr {
 
   "Duplicate"
   "Dupliquer"
+
+  "Edit"
+  "Modification"
 
   "Enable code folding"
   "Activez le code folding"
