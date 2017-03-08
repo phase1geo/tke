@@ -77,14 +77,17 @@ msgcat::mcmset el {
   "Case sensitivity"
   "αναζήτηση βάσει πλήρους αντιστοίχισης"
 
+  "Close All Other Tabs"
+  "Κλείσιμο των άλλων καρτελών"
+
   "Close All Tabs"
   "Κλείσιμο όλων των ετικετών"
 
-  "Close Other Tabs"
-  "Κλείσιμο άλλων καρτελών"
+  "Close All Tabs In Pane"
+  "Κλείστε όλες τις καρτέλες στο παράθυρο"
 
-  "Close Other*"
-  "Κλείσιμο των άλλων καρτελών"
+  "Close Other Tabs In Pane"
+  "Κλείσιμο άλλων καρτελών στο παράθυρο"
 
   "Close Tab"
   "Κλείσιμο καρτέλας"
@@ -181,6 +184,9 @@ msgcat::mcmset el {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να υποδείξει ότι ένα στοιχείο του πίνακα επιλέγεται."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να δείξει ότι κάτι είναι αληθινό."
 
   "License"
   "Άδεια"
@@ -494,9 +500,6 @@ msgcat::mcmset el {
 
   "Duplicate current file"
   "Αντίγραφο τρέχοντος αρχείου"
-
-  "Edit"
-  "Επεξεργασία"
 
   "Edit Custom Abbreviations"
   "Επεξεργαστείτε την προσαρμοσμένη συντομογραφίες"
@@ -1666,6 +1669,9 @@ msgcat::mcmset el {
   "General"
   "Γενικά"
 
+  "Get More Themes"
+  "Περισσότερα Θέματα"
+
   "Hide Patterns"
   "Απόκρυψη μοτίβων"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset el {
 
   "Logfile Directory"
   "Logfile καταλόγου"
+
+  "Manage Themes"
+  "Διαχείριση θεμάτων..."
+
+  "Manage theme visibility"
+  "Διαχειριστείτε θέμα ορατότητας"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Ιστορικό αναιρέσεων μέγιστη (ορίζεται στο 0 για απεριόριστο)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset el {
 
   "Duplicate"
   "Αναπαραγωγή"
+
+  "Edit"
+  "Επεξεργασία"
 
   "Enable code folding"
   "Ενεργοποίηση κώδικα πτυσσόμενα"

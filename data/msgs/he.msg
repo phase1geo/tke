@@ -77,14 +77,17 @@ msgcat::mcmset he {
   "Case sensitivity"
   "תלות ברישיות"
 
+  "Close All Other Tabs"
+  "לסגור את כל הכרטיסיות אחרים"
+
   "Close All Tabs"
   "לסגור את כל הכרטיסיות"
 
-  "Close Other Tabs"
-  "סגור כרטיסיות אחרות"
+  "Close All Tabs In Pane"
+  "לסגור את כל הכרטיסיות בחלונית"
 
-  "Close Other*"
-  "לסגור את השני *"
+  "Close Other Tabs In Pane"
+  "סגור כרטיסיות אחרות בחלונית"
 
   "Close Tab"
   "סגור טאב"
@@ -181,6 +184,9 @@ msgcat::mcmset he {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "תמונת שימוש בחלון ההעדפות כדי לציין כי פריט הטבלה נבחרה."
+
+  "Image used in the preferences window to indicate that something is true."
+  "תמונת שימוש בחלון ההעדפות כדי לציין כי משהו נכון."
 
   "License"
   "רישיון"
@@ -494,9 +500,6 @@ msgcat::mcmset he {
 
   "Duplicate current file"
   "הקובץ הנוכחי כפולים"
-
-  "Edit"
-  "עריכה"
 
   "Edit Custom Abbreviations"
   "עריכת קיצורים מותאם אישית"
@@ -1666,6 +1669,9 @@ msgcat::mcmset he {
   "General"
   "כללי"
 
+  "Get More Themes"
+  "קבל ערכות נושא נוספות"
+
   "Hide Patterns"
   "הסתר תבניות"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset he {
 
   "Logfile Directory"
   "מדריך יומן"
+
+  "Manage Themes"
+  "ניהול ערכות נושא"
+
+  "Manage theme visibility"
+  "ניהול ניראות דירוג"
 
   "Maximum undo history (set to 0 for unlimited)"
   "ביטול מרבית ההיסטוריה (מוגדר כ- 0 עבור ללא הגבלה)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset he {
 
   "Duplicate"
   "שכפל"
+
+  "Edit"
+  "עריכה"
 
   "Enable code folding"
   "הפעלת קוד מתקפלים"

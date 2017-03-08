@@ -77,14 +77,17 @@ msgcat::mcmset sv {
   "Case sensitivity"
   "Skiftlägeskänslighet"
 
+  "Close All Other Tabs"
+  "Stäng övriga flikar"
+
   "Close All Tabs"
   "Stäng alla flikar"
 
-  "Close Other Tabs"
-  "Stäng övriga flikar"
+  "Close All Tabs In Pane"
+  "Stäng alla flikar i rutan"
 
-  "Close Other*"
-  "Stäng övriga flikar"
+  "Close Other Tabs In Pane"
+  "Stäng andra flikar i rutan"
 
   "Close Tab"
   "Stäng flik"
@@ -181,6 +184,9 @@ msgcat::mcmset sv {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Bilden i inställningsfönstret brukade anger att en tabell-objekt är markerad."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Bilden används i inställningsfönstret för att ange att något är sant."
 
   "License"
   "Licens"
@@ -494,9 +500,6 @@ msgcat::mcmset sv {
 
   "Duplicate current file"
   "Dubbla nuvarande fil"
-
-  "Edit"
-  "Ändra"
 
   "Edit Custom Abbreviations"
   "Redigera anpassade förkortningar"
@@ -1666,6 +1669,9 @@ msgcat::mcmset sv {
   "General"
   "Allmänt"
 
+  "Get More Themes"
+  "Fler teman"
+
   "Hide Patterns"
   "Dölja mönster"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset sv {
 
   "Logfile Directory"
   "Logfile katalog"
+
+  "Manage Themes"
+  "Hantera teman..."
+
+  "Manage theme visibility"
+  "Hantera tema synlighet"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximal ångringshistoriken (satt till 0 för obegränsad)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset sv {
 
   "Duplicate"
   "Duplicera"
+
+  "Edit"
+  "Ändra"
 
   "Enable code folding"
   "Aktivera kod vikning"

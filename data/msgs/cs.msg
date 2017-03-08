@@ -77,14 +77,17 @@ msgcat::mcmset cs {
   "Case sensitivity"
   "Rozlišování"
 
+  "Close All Other Tabs"
+  "Zavřít ostatní karty"
+
   "Close All Tabs"
   "Zavřít vše"
 
-  "Close Other Tabs"
-  "Zavřít ostatní karty"
+  "Close All Tabs In Pane"
+  "Zavřete všechny karty v podokně"
 
-  "Close Other*"
-  "Close Ostatní *"
+  "Close Other Tabs In Pane"
+  "Zavřít ostatní karty v podokně"
 
   "Close Tab"
   "Zavřít list"
@@ -181,6 +184,9 @@ msgcat::mcmset cs {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Obrázek použitý k označení, že je vybrána položka tabulka v okně Předvolby."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Obrázek v okně Předvolby k označení, že něco je pravda."
 
   "License"
   "Licence"
@@ -494,9 +500,6 @@ msgcat::mcmset cs {
 
   "Duplicate current file"
   "Duplicitní aktuální soubor"
-
-  "Edit"
-  "Upravit"
 
   "Edit Custom Abbreviations"
   "Upravit vlastní zkratky"
@@ -1666,6 +1669,9 @@ msgcat::mcmset cs {
   "General"
   "Hlavní"
 
+  "Get More Themes"
+  "Další šablony"
+
   "Hide Patterns"
   "Skrýt vzorce"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset cs {
 
   "Logfile Directory"
   "Adresář souboru protokolu"
+
+  "Manage Themes"
+  "Spravovat vzhledy"
+
+  "Manage theme visibility"
+  "Správa téma zobrazení"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximální zpět historie (nastavte na 0 pro neomezený počet)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset cs {
 
   "Duplicate"
   "Duplicita"
+
+  "Edit"
+  "Upravit"
 
   "Enable code folding"
   "Povolit skládání kódu"

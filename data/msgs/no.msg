@@ -77,14 +77,17 @@ msgcat::mcmset no {
   "Case sensitivity"
   "Bokstaver"
 
+  "Close All Other Tabs"
+  "Lukk alle andre faner"
+
   "Close All Tabs"
   "Lukk alle faner"
 
-  "Close Other Tabs"
-  "Lukk andre faner"
+  "Close All Tabs In Pane"
+  "Lukk alle faner i ruten"
 
-  "Close Other*"
-  "Lukk Annet *"
+  "Close Other Tabs In Pane"
+  "Lukk andre faner i ruten"
 
   "Close Tab"
   "Lukk fane"
@@ -181,6 +184,9 @@ msgcat::mcmset no {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Bildet som brukes i vinduet innstillinger for å angi at en tabell element er valgt."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Bildet som brukes i vinduet innstillinger for å angi at noe er sant."
 
   "License"
   "Lisens"
@@ -494,9 +500,6 @@ msgcat::mcmset no {
 
   "Duplicate current file"
   "Gjeldende duplikatfiler"
-
-  "Edit"
-  "Redigere"
 
   "Edit Custom Abbreviations"
   "Redigere egendefinerte forkortelser"
@@ -1666,6 +1669,9 @@ msgcat::mcmset no {
   "General"
   "Generelt"
 
+  "Get More Themes"
+  "Flere themes"
+
   "Hide Patterns"
   "Skjule mønstre"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset no {
 
   "Logfile Directory"
   "Logfile Directory"
+
+  "Manage Themes"
+  "Administrer Temaer"
+
+  "Manage theme visibility"
+  "Behandle synlighet for tema"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maksimal angrehistorikk (satt til 0 for ubegrenset)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset no {
 
   "Duplicate"
   "Duplikat"
+
+  "Edit"
+  "Redigere"
 
   "Enable code folding"
   "Aktivere koden folding"

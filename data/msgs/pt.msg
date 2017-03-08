@@ -77,14 +77,17 @@ msgcat::mcmset pt {
   "Case sensitivity"
   "Distinção entre maiúsculas e minúsculas"
 
+  "Close All Other Tabs"
+  "Feche os outros separadores"
+
   "Close All Tabs"
   "Fechar todas as guias"
 
-  "Close Other Tabs"
-  "Fechar as Outras Páginas"
+  "Close All Tabs In Pane"
+  "Fechar todas as guias no painel"
 
-  "Close Other*"
-  "Feche os outros separadores"
+  "Close Other Tabs In Pane"
+  "Fechar outras guias no painel"
 
   "Close Tab"
   "Fechar a Página"
@@ -181,6 +184,9 @@ msgcat::mcmset pt {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "Imagem usada na janela de preferências para indicar que um item da tabela está seleccionado."
+
+  "Image used in the preferences window to indicate that something is true."
+  "Imagem usada na janela de preferências para indicar que algo é verdadeiro."
 
   "License"
   "Licença"
@@ -494,9 +500,6 @@ msgcat::mcmset pt {
 
   "Duplicate current file"
   "Arquivo atual duplicado"
-
-  "Edit"
-  "Editar"
 
   "Edit Custom Abbreviations"
   "Editar abreviaturas personalizadas"
@@ -1666,6 +1669,9 @@ msgcat::mcmset pt {
   "General"
   "Geral"
 
+  "Get More Themes"
+  "Mais templates"
+
   "Hide Patterns"
   "Esconder os padrões"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset pt {
 
   "Logfile Directory"
   "Diretório do arquivo de log"
+
+  "Manage Themes"
+  "Gerir Temas"
+
+  "Manage theme visibility"
+  "Gerenciar a visibilidade do tema"
 
   "Maximum undo history (set to 0 for unlimited)"
   "História de desfazer máxima (definido como 0 para ilimitado)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset pt {
 
   "Duplicate"
   "Duplicação"
+
+  "Edit"
+  "Editar"
 
   "Enable code folding"
   "Habilitar o dobramento de código"

@@ -77,14 +77,17 @@ msgcat::mcmset nl {
   "Case sensitivity"
   "Hoofdletters/kleine letters"
 
+  "Close All Other Tabs"
+  "Alle andere tabbladen sluiten"
+
   "Close All Tabs"
   "Sluit alle tabbladen"
 
-  "Close Other Tabs"
-  "Alle andere tabbladen sluiten"
+  "Close All Tabs In Pane"
+  "Close All Tabs In deelvenster"
 
-  "Close Other*"
-  "Alle andere tabbladen sluiten"
+  "Close Other Tabs In Pane"
+  "Close Other Tabs In deelvenster"
 
   "Close Tab"
   "Tabblad sluiten"
@@ -181,6 +184,9 @@ msgcat::mcmset nl {
 
   "Image used in the preferences window to indicate that a table item is selected."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster om aan te geven dat een tabel item is geselecteerd."
+
+  "Image used in the preferences window to indicate that something is true."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster om aan te geven dat iets waar is."
 
   "License"
   "Licentie"
@@ -494,9 +500,6 @@ msgcat::mcmset nl {
 
   "Duplicate current file"
   "Dubbele huidig bestand"
-
-  "Edit"
-  "Bewerken"
 
   "Edit Custom Abbreviations"
   "Bewerken van aangepaste afkortingen"
@@ -1666,6 +1669,9 @@ msgcat::mcmset nl {
   "General"
   "Algemeen"
 
+  "Get More Themes"
+  "Meer Thema’s"
+
   "Hide Patterns"
   "Verbergen van patronen"
 
@@ -1701,6 +1707,12 @@ msgcat::mcmset nl {
 
   "Logfile Directory"
   "Logfile Directory"
+
+  "Manage Themes"
+  "Ad beheren"
+
+  "Manage theme visibility"
+  "De zichtbaarheid van het thema beheren"
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximale ongedaan maken geschiedenis (ingesteld op 0 voor onbeperkt)"
@@ -2816,6 +2828,9 @@ msgcat::mcmset nl {
 
   "Duplicate"
   "Dupliceren"
+
+  "Edit"
+  "Bewerken"
 
   "Enable code folding"
   "Inschakelen code vouwen"
