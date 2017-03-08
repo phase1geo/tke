@@ -203,15 +203,15 @@ namespace eval bindings {
     array unset menu_bindings
 
   }
-  
+
   ######################################################################
   # Returns 1 if the given menu contains an empty menu binding.
   proc is_cleared {mnu} {
-    
+
     variable menu_bindings
-    
+
     return [expr {[info exists menu_bindings($mnu)] && ($menu_bindings($mnu) eq "")}]
-    
+
   }
 
   ######################################################################
@@ -316,7 +316,6 @@ namespace eval bindings {
         >  "Gcircumflex"
         ?  "questuondown"
       }
-      # Notes: don't allow Option-e, Option-u, Option-i,
     }
 
     # If the sequence detail is the minus key, this will cause problems with the parser so
