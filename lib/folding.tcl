@@ -641,4 +641,12 @@ namespace eval folding {
 
   }
 
+  ######################################################################
+  # Returns true if the specified index exists within a fold.
+  proc is_folded {txt index} {
+
+    return [expr [lsearch -exact [$txt tag names $index] _folded] != -1]
+
+  }
+
 }

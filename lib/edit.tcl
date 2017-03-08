@@ -978,13 +978,13 @@ namespace eval edit {
 
     if {$dir eq "next"} {
 
-      while {($num > 0) && [$txt compare $start < end]} {
+      while {($num > 0) && [$txt compare $start < end-2c]} {
         if {[set line_chars [$txt count -displaychars $start "$start lineend"]] == 0} {
-          set start [$txt index "$start+1l display lines"]
+          set start [$txt index "$start+1 display lines"]
           set start "$start linestart"
           incr num -1
         } elseif {$line_chars <= $num} {
-          set start [$txt index "$start+1l display lines"]
+          set start [$txt index "$start+1 display lines"]
           set start "$start linestart"
           incr num -$line_chars
         } else {
@@ -993,11 +993,7 @@ namespace eval edit {
         }
       }
 
-      if {[$txt compare $start == end]} {
-        return [$txt index "end-1c"]
-      } else {
-        return [$txt index $start]
-      }
+      return [$txt index $start]
 
     } else {
 
@@ -1005,11 +1001,11 @@ namespace eval edit {
       while {($num > 0) && [$txt compare $start > 1.0]} {
         if {([set line_chars [$txt count -displaychars "$start linestart" $start]] == 0) && !$first} {
           if {[incr num -1] > 0} {
-            set start [$txt index "$start-1l display lines"]
+            set start [$txt index "$start-1 display lines"]
             set start "$start lineend"
           }
         } elseif {$line_chars < $num} {
-          set start [$txt index "$start-1l display lines"]
+          set start [$txt index "$start-1 display lines"]
           set start "$start lineend"
           incr num -$line_chars
         } else {
