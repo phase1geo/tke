@@ -39,6 +39,17 @@ namespace eval vim {
 
   }
 
+  ######################################################################
+  # Emulates a Vim keystroke.
+  proc enter {txtt keysyms} {
+    
+    foreach keysym $keysyms {
+      puts "In enter, keysym: $keysym"
+      event generate $txtt <Key> -keysym $keysym
+    }
+    
+  }
+  
   # Verify tab stop setting and getting
   proc run_test1 {} {
 
@@ -874,7 +885,7 @@ namespace eval vim {
 
   }
 
-  # Verify motions over elided text
+  # Verify up/down motions over elided text
   proc run_test14 {} {
 
     # Initialize
@@ -950,12 +961,116 @@ namespace eval vim {
     cleanup
 
   }
-
-  # Test motion with character selection
+  
+  # Test left/right motion with elided text
   proc run_test15 {} {
+    
+    # Initialize
+    set txtt [initialize].t
+    
+    # Set the current language to Markdown so that we will have meta characters
+    syntax::set_current_language "Markdown"
+    
+    # Hide meta characters
+    syntax::set_meta_visibility [winfo parent $txtt] 0
+    
+    # Insert a line that we can code fold
+    $txtt insert end "\nNice **bold** text"
+    $txtt mark set insert 2.4
+    
+    vim::handle_l $txtt
+    if {[$txtt index insert] ne "2.7"} {
+      cleanup "One l did not work ([$txtt index insert])"
+    }
+    
+    # Cleanup
+    cleanup
+    
+  }
+
+  # Test motion with character selection (inclusive selection mode)
+  proc run_test16 {} {
 
     # Initialize
     set txtt [initialize].t
+
+    # Set the selection mode to inclusive
+    vim::do_set_selection "inclusive"
+
+    $txtt insert end "\nThis is so so good\n\nThis is great"
+    $txtt mark set insert 2.0
+
+    vim::handle_v $txtt
+    if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
+      cleanup "Character selection did not work ([$txtt tag ranges sel])"
+    }
+
+    vim::handle_any $txtt 108 l l
+    if {[$txtt tag ranges sel] ne [list 2.0 2.2]} {
+      cleanup "Right one did not work ([$txtt tag ranges sel])"
+    }
+
+    vim::handle_number $txtt 2
+    vim::handle_any $txtt 108 l l
+    if {[$txtt tag ranges sel] ne [list 2.0 2.4]} {
+      cleanup "Right two did not work ([$txtt tag ranges sel])"
+    }
+
+    vim::handle_any $txtt 32 " " space
+    if {[$txtt tag ranges sel] ne [list 2.0 2.5]} {
+      cleanup "Space one did not work ([$txtt tag ranges sel])"
+    }
+
+    vim::handle_number $txtt 2
+    vim::handle_any $txtt 32 " " space
+    if {[$txtt tag ranges sel] ne [list 2.0 2.7]} {
+      cleanup "Space two did not work ([$txtt tag ranges sel])"
+    }
+    
+    vim::handle_any $txtt 119 w w
+    if {[$txtt tag ranges sel] ne [list 2.0 2.9]} {
+      cleanup "One w did not work ([$txtt tag ranges sel])"
+    }
+    
+    vim::handle_number $txtt 2
+    vim::handle_any $txtt 119 w w
+    if {[$txtt tag ranges sel] ne [list 2.0 2.15]} {
+      cleanup "Two w did not work ([$txtt tag ranges sel])"
+    }
+
+    vim::handle_any $txtt 36 \$ dollar
+    if {[$txtt tag ranges sel] ne [list 2.0 2.18]} {
+      cleanup "Dollar did not work ([$txtt tag ranges sel])"
+    }
+    
+    vim::handle_any $txtt 48 0 0
+    if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
+      cleanup "Zero did not work ([$txtt tag ranges sel])"
+    }
+    
+    vim::handle_any $txtt 106 j j
+    if {[$txtt tag ranges sel] ne [list 2.0 3.1]} {
+      cleanup "One j did not work ([$txtt tag ranges sel])"
+    }
+    
+    vim::handle_any $txtt [utils::sym2code Return] \n Return
+    if {[$txtt tag ranges sel] ne [list 2.0 4.1]} {
+      cleanup "One return did not work ([$txtt tag ranges sel])"
+    }
+    
+    # Cleanup
+    cleanup
+
+  }
+
+  # Test motion with character selection (exclusive selection mode)
+  proc run_test17 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Set the selection mode to exclusive
+    vim::do_set_selection "exclusive"
 
     $txtt insert end "\nThis is good\n\nThis is great"
     $txtt mark set insert 2.0
@@ -973,6 +1088,50 @@ namespace eval vim {
     # Cleanup
     cleanup
 
+  }
+  
+  # Verify the period (.) Vim command
+  proc run_test18 {} {
+    
+    # Initialize
+    set txtt [initialize].t
+    
+    $txtt insert end "\n\n"
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+    
+    # Put the buffer into insertion mode
+    enter $txtt i
+    
+    set str "`1234567890-=qwertyuiop\[\]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP\{\}|ASDFGHJKL:\"ZXCVBNM<>? "
+    
+    # Insert every printable character
+    foreach char [split $str {}] {
+      set keysym  [utils::string_to_keysym $char]
+      set keycode [utils::sym2code $keysym]
+      vim::handle_any $txtt $keycode $char $keysym
+    }
+    
+    # Get out of insertion mode
+    enter $txtt Escape
+    
+    if {[$txtt get 1.0 1.end] ne $str} {
+      cleanup "Initial insertion did not work ([$txtt get 1.0 1.end])"
+    }
+    
+    # Move the cursor to line to and repeat with the . key
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+    
+    # Repeat the last insert
+    enter $txtt period
+    if {[$txtt get 2.0 2.end] ne $str} {
+      cleanup "Repeat did not work ([$txtt get 2.0 2.end])"
+    }
+      
+    # Cleanup
+    cleanup
+    
   }
 
 }

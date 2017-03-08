@@ -1131,17 +1131,17 @@ namespace eval edit {
     # Get the new cursor position
     switch $position {
       left        {
-        if {[$txtt compare "insert linestart" > "insert-${num}c"]} {
-          set index "insert linestart"
+        if {[$txtt compare "insert display linestart" > "insert-${num} display chars"]} {
+          set index "insert display linestart"
         } else {
-          set index "insert-${num}c"
+          set index "insert-${num} display chars"
         }
       }
       right       {
-        if {[$txtt compare "insert lineend" < "insert+${num}c"]} {
-          set index "insert lineend"
+        if {[$txtt compare "insert display lineend" < "insert+${num} display chars"]} {
+          set index "insert display lineend"
         } else {
-          set index "insert+${num}c"
+          set index "insert+${num} display chars"
         }
       }
       first       { set index "1.0" }
@@ -1175,13 +1175,13 @@ namespace eval edit {
         }
       }
       column      { set index [lindex [split [$txtt index insert] .] 0].[expr $num - 1] }
-      linestart   { set index "insert linestart" }
+      linestart   { set index "insert display linestart" }
       lineend     {
         if {$num == 1} {
-          set index "insert lineend-1c"
+          set index "insert lineend-1 display chars"
         } else {
           set index [$txtt index "insert+[expr $num - 1] display lines"]
-          set index "$index lineend-1c"
+          set index "$index lineend-1 display chars"
         }
       }
       screentop   { set index "@0,0" }

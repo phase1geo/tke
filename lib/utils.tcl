@@ -167,6 +167,7 @@ namespace eval utils {
     65288 BackSpace
     65289 Tab
     65293 Return
+    65307 Escape
     65360 Home
     65361 Left
     65362 Up
@@ -183,6 +184,7 @@ namespace eval utils {
       3342463 BackSpace
       3145737 Tab
       2359309 Return
+      0000000 Escape
       7599913 Home
       8124162 Left
       8320768 Up
@@ -239,6 +241,20 @@ namespace eval utils {
 
     return $stack
 
+  }
+  
+  ######################################################################
+  # Looks up the given keycode value based on the provided keysym.
+  proc sym2code {sym} {
+    
+    variable code2sym
+    
+    set code2sym_list [array get code2sym]
+    
+    if {[set index [lsearch -exact $code2sym_list $sym]] != -1} {
+      return [lindex $code2sym_list [expr $index - 1]]
+    }
+    
   }
 
   ######################################################################
@@ -700,6 +716,24 @@ namespace eval utils {
 
     return [string map [array get c2k_map] $str]
 
+  }
+  
+  ######################################################################
+  # Convers a keysym to a character.
+  proc sym2char {sym} {
+    
+    variable c2k_map
+    
+    set map_list [array get c2k_map]
+    
+    if {[set index [lsearch -exact $map_list $sym]] != -1} {
+      return [lindex $map_list [expr $index - 1]]
+    } elseif {[string length $sym] == 1} {
+      return $sym
+    } else {
+      return ""
+    }
+    
   }
 
   ######################################################################
