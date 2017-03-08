@@ -30,7 +30,7 @@ strings {{"} {'}}
 keywords
 {
   Type Version Name GenericName NoDisplay Comment Icon Hidden OnlyShowIn NotShowIn
-  DBusActivatable TryExec Exec Path Terminal Actions MimeType Categories Implements
+  DBusActivatable TryExec Exec Path Terminal Actions MimeType MimeTypes Categories Implements
   Keywords StartupNotify StartupWMClass URL
 }
 
