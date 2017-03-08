@@ -27,6 +27,7 @@
 namespace eval vim {
 
   variable modelines
+  variable seltype   "inclusive"
 
   array set command_entries {}
   array set mode            {}
@@ -435,6 +436,8 @@ namespace eval vim {
       rnu              { do_set_relativenumber relative }
       norelativenumber -
       nornu            { do_set_relativenumber absolute }
+      selection        -
+      sel              { do_set_selection $val }
       shiftwidth       -
       sw               { do_set_shiftwidth $val }
       showmatch        -
@@ -674,6 +677,24 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Sets the selection value to either old, inclusive or exclusive.
+  proc do_set_selection {val} {
+
+    variable seltype
+
+    switch $val {
+      "inclusive" -
+      "exclusive" {
+        set seltype $val
+      }
+      default     {
+        gui::set_info_message [format "%s (%s)" [msgcat::mc "Selection value is unsupported"] $val]
+      }
+    }
+
+  }
+
+  ######################################################################
   # Specifies the number of spaces to use for each indentation.
   proc do_set_shiftwidth {val} {
 
@@ -759,6 +780,7 @@ namespace eval vim {
 
     variable mode
     variable select_anchors
+    variable seltype
 
     # Get the visual type from the mode
     set type [lindex [split $mode($txtt) :] 1]
@@ -769,14 +791,18 @@ namespace eval vim {
     if {[$txtt compare $anchor < $pos]} {
       if {$type eq "line"} {
         $txtt tag add sel "$anchor linestart" "$pos lineend"
-      } else {
+      } elseif {$seltype eq "exclusive"} {
         $txtt tag add sel $anchor $pos
+      } else {
+        $txtt tag add sel $anchor $pos+1c
       }
     } else {
       if {$type eq "line"} {
         $txtt tag add sel "$pos linestart" "$anchor lineend"
-      } else {
+      } elseif {$seltype eq "exclusive"} {
         $txtt tag add sel $pos $anchor
+      } else {
+        $txtt tag add sel $pos $anchor+1c
       }
     }
 
@@ -1082,6 +1108,7 @@ namespace eval vim {
     variable mode
     variable select_anchors
     variable multicursor
+    variable seltype
 
     # Set the current mode
     set mode($txtt) "visual:$type"
@@ -1098,6 +1125,19 @@ namespace eval vim {
     } else {
       set select_anchors($txtt) [$txtt index insert]
       # adjust_select $txtt 0 insert
+    }
+
+    # If the selection type is inclusive or old, include the current insertion cursor in the selection
+    if {$seltype ne "exclusive"} {
+      if {$type eq "line"} {
+        foreach anchor $select_anchors($txtt) {
+          $txtt tag add sel "$anchor linestart" "$anchor lineend"
+        }
+      } else {
+        foreach anchor $select_anchors($txtt) {
+          $txtt tag add sel $anchor $anchor+1c
+        }
+      }
     }
 
   }
@@ -1169,6 +1209,8 @@ namespace eval vim {
   proc playback {txtt {reg auto}} {
 
     variable recording
+    
+    puts "In playback, reg: $reg, events: $recording($reg,events)"
 
     # Set the record mode to playback
     set recording($reg,mode) "playback"
@@ -1284,6 +1326,9 @@ namespace eval vim {
       record_add Escape $curr_reg
     }
 
+    # Clear the any selections
+    $txtt tag remove sel 1.0 end
+
     if {$mode($txtt) ne "start"} {
 
       # Add to the recording if we are doing so
@@ -1297,9 +1342,6 @@ namespace eval vim {
 
       # If were in start mode, clear the auto recording buffer
       record_clear
-
-      # Clear the any selections
-      $txtt tag remove sel 1.0 end
 
       # Clear any searches
       search::find_clear
@@ -1327,6 +1369,8 @@ namespace eval vim {
   ######################################################################
   # Handles any single printable character.
   proc handle_any {txtt keycode char keysym} {
+
+    puts "In handle_any, txtt: $txtt, keycode: $keycode, char: $char, keysym: $keysym"
 
     variable mode
     variable number
@@ -1384,7 +1428,7 @@ namespace eval vim {
     # If we are not in edit mode
     if {![catch "handle_$keysym $txtt" rc] && $rc} {
       record_add $keysym
-      if {$mode($txtt) eq "start"} {
+      if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
         set number($txtt) ""
       }
       return 1
@@ -1395,8 +1439,8 @@ namespace eval vim {
       return 1
 
     # If we are in start, visual, record or format modes, stop character processing
-    } elseif {($mode($txtt) eq "start") || \
-              ([in_visual_mode $txtt]) || \
+    } elseif {($mode($txtt) eq "start")  || \
+              ([in_visual_mode $txtt])   || \
               ($mode($txtt) eq "record") || \
               ($mode($txtt) eq "format")} {
       return 1
@@ -1575,7 +1619,7 @@ namespace eval vim {
     variable multicursor
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {($mode($txtt) eq "start") && ($num eq "0") && ($number($txtt) eq "")} {
+      if {(($mode($txtt) eq "start") || [in_visual_mode $txtt]) && ($num eq "0") && ($number($txtt) eq "")} {
         if {$multicursor($txtt)} {
           multicursor::adjust_linestart $txtt
         } else {
@@ -1647,12 +1691,12 @@ namespace eval vim {
     variable multicursor
     variable number
 
-    if {$mode($txtt) eq "start"} {
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {$multicursor($txtt)} {
         multicursor::adjust_lineend $txtt $number($txtt)
       } else {
         edit::move_cursor $txtt lineend -num $number($txtt)
-        ::tk::TextSetCursor $txtt "insert lineend-1c"
+        $txtt mark set insert "insert lineend-1c"
       }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
@@ -1736,6 +1780,8 @@ namespace eval vim {
   proc handle_period {txtt} {
 
     variable mode
+    
+    puts "In handle_period, mode: $mode($txtt)"
 
     if {$mode($txtt) eq "start"} {
       set start_index [$txtt index insert]
