@@ -1466,12 +1466,13 @@ namespace eval pref_ui {
         set disabled_langs $prefs(General/DisabledLanguages)
         if {[$tbl cellcget $row,$col -text]} {
           $tbl cellconfigure $row,$col -text 0 -image pref_unchecked
-          lappend $disabled_langs $lang
+          lappend disabled_langs $lang
         } else {
           $tbl cellconfigure $row,$col -text 1 -image pref_checked
           set index [lsearch [set $disabled_langs] $lang]
-          set $disabled_langs [lreplace [set $disabled_langs] $index $index]
+          set disabled_langs [lreplace [set $disabled_langs] $index $index]
         }
+        set prefs(General/DisabledLanguages) $disabled_langs
       }
     }
 
