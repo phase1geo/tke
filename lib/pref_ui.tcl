@@ -373,7 +373,7 @@ namespace eval pref_ui {
 
     # Register the widget
     register $win $msg $varname
-
+    
     return $win
 
   }
@@ -1868,6 +1868,11 @@ namespace eval pref_ui {
     # Get the currently selected theme
     set selected [$widgets(themes_tl) curselection]
     set name     [$widgets(themes_tl) cellcget $selected,name -text]
+    
+    # Confirm with the user
+    if {[tk_messageBox -parent .prefwin -type yesno -default no -message [format "%s %s %s?" [msgcat::mc "Delete"] $name [msgcat::mc "theme"]]] eq "no"} {
+      return
+    }
 
     # Delete the theme
     themes::delete_theme $name
