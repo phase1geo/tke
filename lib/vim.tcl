@@ -1210,8 +1210,6 @@ namespace eval vim {
 
     variable recording
     
-    puts "In playback, reg: $reg, events: $recording($reg,events)"
-
     # Set the record mode to playback
     set recording($reg,mode) "playback"
 
@@ -1369,8 +1367,6 @@ namespace eval vim {
   ######################################################################
   # Handles any single printable character.
   proc handle_any {txtt keycode char keysym} {
-
-    puts "In handle_any, txtt: $txtt, keycode: $keycode, char: $char, keysym: $keysym"
 
     variable mode
     variable number
@@ -1781,8 +1777,6 @@ namespace eval vim {
 
     variable mode
     
-    puts "In handle_period, mode: $mode($txtt)"
-
     if {$mode($txtt) eq "start"} {
       set start_index [$txtt index insert]
       playback $txtt
