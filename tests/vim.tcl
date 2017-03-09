@@ -42,14 +42,20 @@ namespace eval vim {
   ######################################################################
   # Emulates a Vim keystroke.
   proc enter {txtt keysyms} {
-    
+
     foreach keysym $keysyms {
-      puts "In enter, keysym: $keysym"
-      event generate $txtt <Key> -keysym $keysym
+      if {$keysym eq "Escape"} {
+        vim::handle_escape $txtt
+      } else {
+        set char [utils::sym2char $keysym]
+        if {![vim::handle_any $txtt [utils::sym2code $keysym] $char $keysym]} {
+          $txtt insert insert $char
+        }
+      }
     }
-    
+
   }
-  
+
   # Verify tab stop setting and getting
   proc run_test1 {} {
 
@@ -961,31 +967,31 @@ namespace eval vim {
     cleanup
 
   }
-  
+
   # Test left/right motion with elided text
   proc run_test15 {} {
-    
+
     # Initialize
     set txtt [initialize].t
-    
+
     # Set the current language to Markdown so that we will have meta characters
     syntax::set_current_language "Markdown"
-    
+
     # Hide meta characters
     syntax::set_meta_visibility [winfo parent $txtt] 0
-    
+
     # Insert a line that we can code fold
     $txtt insert end "\nNice **bold** text"
     $txtt mark set insert 2.4
-    
+
     vim::handle_l $txtt
     if {[$txtt index insert] ne "2.7"} {
       cleanup "One l did not work ([$txtt index insert])"
     }
-    
+
     # Cleanup
     cleanup
-    
+
   }
 
   # Test motion with character selection (inclusive selection mode)
@@ -1026,12 +1032,12 @@ namespace eval vim {
     if {[$txtt tag ranges sel] ne [list 2.0 2.7]} {
       cleanup "Space two did not work ([$txtt tag ranges sel])"
     }
-    
+
     vim::handle_any $txtt 119 w w
     if {[$txtt tag ranges sel] ne [list 2.0 2.9]} {
       cleanup "One w did not work ([$txtt tag ranges sel])"
     }
-    
+
     vim::handle_number $txtt 2
     vim::handle_any $txtt 119 w w
     if {[$txtt tag ranges sel] ne [list 2.0 2.15]} {
@@ -1042,22 +1048,22 @@ namespace eval vim {
     if {[$txtt tag ranges sel] ne [list 2.0 2.18]} {
       cleanup "Dollar did not work ([$txtt tag ranges sel])"
     }
-    
+
     vim::handle_any $txtt 48 0 0
     if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
       cleanup "Zero did not work ([$txtt tag ranges sel])"
     }
-    
+
     vim::handle_any $txtt 106 j j
     if {[$txtt tag ranges sel] ne [list 2.0 3.1]} {
       cleanup "One j did not work ([$txtt tag ranges sel])"
     }
-    
+
     vim::handle_any $txtt [utils::sym2code Return] \n Return
     if {[$txtt tag ranges sel] ne [list 2.0 4.1]} {
       cleanup "One return did not work ([$txtt tag ranges sel])"
     }
-    
+
     # Cleanup
     cleanup
 
@@ -1089,49 +1095,51 @@ namespace eval vim {
     cleanup
 
   }
-  
+
   # Verify the period (.) Vim command
   proc run_test18 {} {
-    
+
     # Initialize
     set txtt [initialize].t
-    
+
     $txtt insert end "\n\n"
     $txtt mark set insert 1.0
     vim::adjust_insert $txtt
-    
+
     # Put the buffer into insertion mode
     enter $txtt i
-    
+
     set str "`1234567890-=qwertyuiop\[\]\\asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+QWERTYUIOP\{\}|ASDFGHJKL:\"ZXCVBNM<>? "
-    
+
     # Insert every printable character
     foreach char [split $str {}] {
       set keysym  [utils::string_to_keysym $char]
       set keycode [utils::sym2code $keysym]
-      vim::handle_any $txtt $keycode $char $keysym
+      if {![vim::handle_any $txtt $keycode $char $keysym]} {
+        $txtt insert insert $char
+      }
     }
-    
+
     # Get out of insertion mode
     enter $txtt Escape
-    
+
     if {[$txtt get 1.0 1.end] ne $str} {
       cleanup "Initial insertion did not work ([$txtt get 1.0 1.end])"
     }
-    
+
     # Move the cursor to line to and repeat with the . key
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
-    
+
     # Repeat the last insert
     enter $txtt period
     if {[$txtt get 2.0 2.end] ne $str} {
       cleanup "Repeat did not work ([$txtt get 2.0 2.end])"
     }
-      
+
     # Cleanup
     cleanup
-    
+
   }
 
 }
