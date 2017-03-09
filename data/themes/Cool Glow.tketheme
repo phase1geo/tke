@@ -1,4 +1,4 @@
-swatch {#06071d #0e1145 #e0e0e0}
+swatch {{#06071d} #0e1145 #e0e0e0}
 images,form_close {fg white dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -39,11 +39,13 @@ static unsigned char lock_bits[] = {
 }}
 images,pref_advanced {file advanced.gif dir install}
 images,pref_appearance {file appearance.gif dir install}
+images,pref_check {file check.gif dir install}
 images,pref_checked {file checked.gif dir install}
 images,pref_editor {file editor.gif dir install}
 images,pref_emmet {file emmet.gif dir install}
 images,pref_find {file find.gif dir install}
 images,pref_general {file general.gif dir install}
+images,pref_plugins {file plugins.gif dir install}
 images,pref_shortcuts {file shortcut.gif dir install}
 images,pref_sidebar {file sidebar.gif dir install}
 images,pref_snippets {file snippets.gif dir install}
@@ -138,6 +140,20 @@ static unsigned char lock_bits[] = {
 static unsigned char lock_bits[] = {
    0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
 }}
+launcher,-background {white}
+launcher,-bordercolor {grey90}
+launcher,-borderwidth {5}
+launcher,-foreground {black}
+launcher,-listbackground {white}
+launcher,-listforeground {black}
+launcher,-scrollcolor {grey90}
+launcher,-scrollwidth {10}
+launcher,-selectbackground {light blue}
+launcher,-selectforeground {black}
+launcher,-spacercolor {white}
+launcher,-spacerheight {5}
+launcher,-textbackground {#06071d}
+launcher,-textforeground {#e0e0e0}
 menus,-activebackground {light blue}
 menus,-activeforeground {black}
 menus,-background {white}
@@ -155,7 +171,6 @@ sidebar,-highlightthickness {1}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#0e1145}
 sidebar,-selectforeground {#e0e0e0}
-sidebar,-treestyle {aqua}
 sidebar_scrollbar,-background {#e0e0e0}
 sidebar_scrollbar,-foreground {#0e1145}
 sidebar_scrollbar,-thickness {15}
@@ -163,7 +178,7 @@ syntax,attention {red}
 syntax,background {#06071d}
 syntax,border_highlight {gold}
 syntax,comments {#aeaeae}
-syntax,cursor {#ffffff}
+syntax,cursor {#7600fe}
 syntax,difference_add {#06251d}
 syntax,difference_sub {#24071d}
 syntax,embedded {#0c0e3a}
