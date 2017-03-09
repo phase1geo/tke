@@ -745,12 +745,7 @@ namespace eval syntax {
   proc create_menu {w} {
 
     # Create the menubutton menu
-    set mnu [menu ${w}Menu -tearoff 0]
-
-    # Populate the syntax menu
-    populate_syntax_menu $mnu syntax::set_current_language syntax::current_lang [msgcat::mc "None"]
-
-    return $mnu
+    return [menu ${w}Menu -tearoff 0 -postcommand [list syntax::populate_syntax_menu ${w}Menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"]]]
 
   }
 
