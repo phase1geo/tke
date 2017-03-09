@@ -1849,7 +1849,7 @@ namespace eval themer {
 
     # Set the creator name
     if {[info exists attrs(creator)]} {
-      .expwin.f.cl insert end $attrs(creator)
+      .expwin.f.ce insert end $attrs(creator)
     }
 
     # Set the export directory to the default value from preferences
