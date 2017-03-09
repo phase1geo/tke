@@ -1841,8 +1841,16 @@ namespace eval themer {
     # Set the focus on the first entry field
     focus .expwin.f.ce
 
+    # Get the theme attribution information
+    array set attrs [theme::get_attributions]
+
     # Set the theme name to the current theme name
     .expwin.f.ne insert end [theme::get_current_theme]
+
+    # Set the creator name
+    if {[info exists attrs(creator)]} {
+      .expwin.f.cl insert end $attrs(creator)
+    }
 
     # Set the export directory to the default value from preferences
     if {[file exists [set dir [preferences::get General/DefaultThemeExportDirectory]]]} {

@@ -510,7 +510,9 @@ namespace eval theme {
     set foreground  0
     set background  0
     set caret       0
+    set author      0
     set scope_types ""
+    set creator     ""
 
     while {[regexp {\s*([^<]*)\s*<(/?\w+)[^>]*>(.*)$} $content -> val element content]} {
       if {[string index $element 0] eq "/"} {
@@ -522,6 +524,7 @@ namespace eval theme {
               foreground { set foreground 1 }
               background { set background 1 }
               caret      { set caret      1 }
+              author     { set author     1 }
             }
           }
           string {
@@ -554,6 +557,9 @@ namespace eval theme {
               if {$scope_types eq ""} {
                 set labels(cursor) $color
               }
+            } elseif {$author} {
+              set author  0
+              set creator $val
             }
           }
         }
@@ -567,8 +573,9 @@ namespace eval theme {
     array set data [array get orig_data]
 
     # Load the swatch and extra data
-    set data(name)  [file rootname [file tail $theme_file]]
-    set data(fname) $theme_file
+    set data(name)    [file rootname [file tail $theme_file]]
+    set data(fname)   $theme_file
+    set data(creator) $creator
 
     # Setup a default swatch and clear the meta data
     set data(swatch) [list $labels(background) $labels(warning_width) $labels(foreground)]
