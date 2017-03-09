@@ -31,11 +31,13 @@ static char img_bits[] = {
 0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
 images,pref_advanced {file advanced.gif dir install}
 images,pref_appearance {file appearance.gif dir install}
+images,pref_check {file check.gif dir install}
 images,pref_checked {file checked.gif dir install}
 images,pref_editor {file editor.gif dir install}
 images,pref_emmet {file emmet.gif dir install}
 images,pref_find {file find.gif dir install}
 images,pref_general {file general.gif dir install}
+images,pref_plugins {file plugins.gif dir install}
 images,pref_shortcuts {file shortcut.gif dir install}
 images,pref_sidebar {file sidebar.gif dir install}
 images,pref_snippets {file snippets.gif dir install}
@@ -126,6 +128,20 @@ static char img_bits[] = {
 #define img_height 8
 static char img_bits[] = {
 0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #000000}
+launcher,-background {white}
+launcher,-bordercolor {grey90}
+launcher,-borderwidth {5}
+launcher,-foreground {black}
+launcher,-listbackground {white}
+launcher,-listforeground {black}
+launcher,-scrollcolor {grey90}
+launcher,-scrollwidth {10}
+launcher,-selectbackground {light blue}
+launcher,-selectforeground {black}
+launcher,-spacercolor {white}
+launcher,-spacerheight {5}
+launcher,-textbackground {#f4f4f4}
+launcher,-textforeground {#000000}
 menus,-activebackground {light blue}
 menus,-activeforeground {black}
 menus,-background {white}
@@ -142,7 +158,6 @@ sidebar,-highlightthickness {1}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#cccccc}
 sidebar,-selectforeground {#000000}
-sidebar,-treestyle {aqua}
 sidebar_scrollbar,-background {#000000}
 sidebar_scrollbar,-foreground {#cccccc}
 sidebar_scrollbar,-thickness {15}
@@ -163,7 +178,7 @@ syntax,miscellaneous1 {#1c3981}
 syntax,miscellaneous2 {#20498d}
 syntax,miscellaneous3 {#c34f0a}
 syntax,numbers {#c5060b}
-syntax,precompile {#ffffff}
+syntax,precompile {#fc83fc}
 syntax,punctuation {#001d56}
 syntax,select_background {blue}
 syntax,select_foreground {white}
