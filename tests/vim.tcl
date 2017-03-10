@@ -978,11 +978,12 @@ namespace eval vim {
     syntax::set_current_language "Markdown"
 
     # Hide meta characters
-    syntax::set_meta_visibility [winfo parent $txtt] 0
+    menus::hide_meta_chars .menubar.view
 
     # Insert a line that we can code fold
     $txtt insert end "\nNice **bold** text"
     $txtt mark set insert 2.4
+    vim::adjust_insert $txtt
 
     vim::handle_l $txtt
     if {[$txtt index insert] ne "2.7"} {
