@@ -1933,6 +1933,9 @@ msgcat::mcmset ja {
   "milliseconds"
   "ミリ秒"
 
+  "theme"
+  "テーマ"
+
 }
 
 # remote.tcl
@@ -2772,6 +2775,9 @@ msgcat::mcmset ja {
 
   "Number width not a number"
   "番号ではなく幅を数します。"
+
+  "Selection value is unsupported"
+  "選択値はサポートされていません"
 
   "Shiftwidth value is not an integer"
   "シフト値が整数ではありません。"
