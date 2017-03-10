@@ -1933,6 +1933,9 @@ msgcat::mcmset he {
   "milliseconds"
   "מילי שניות"
 
+  "theme"
+  "עצם"
+
 }
 
 # remote.tcl
@@ -2772,6 +2775,9 @@ msgcat::mcmset he {
 
   "Number width not a number"
   "מספר רוחב לא מספר"
+
+  "Selection value is unsupported"
+  "בחירת ערך אינו נתמך"
 
   "Shiftwidth value is not an integer"
   "Shiftwidth ערך אינו שלם"

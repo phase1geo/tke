@@ -1933,6 +1933,9 @@ msgcat::mcmset hu {
   "milliseconds"
   "ezredmásodperc"
 
+  "theme"
+  "téma"
+
 }
 
 # remote.tcl
@@ -2772,6 +2775,9 @@ msgcat::mcmset hu {
 
   "Number width not a number"
   "Szám szélessége nem szám"
+
+  "Selection value is unsupported"
+  "Kiválasztási értékkel nem támogatott"
 
   "Shiftwidth value is not an integer"
   "Shiftwidth értéke nem egész szám"

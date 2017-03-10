@@ -1933,6 +1933,9 @@ msgcat::mcmset zh {
   "milliseconds"
   "毫秒"
 
+  "theme"
+  "主题"
+
 }
 
 # remote.tcl
@@ -2772,6 +2775,9 @@ msgcat::mcmset zh {
 
   "Number width not a number"
   "数字宽度不是一个数字"
+
+  "Selection value is unsupported"
+  "选择值不受支持"
 
   "Shiftwidth value is not an integer"
   "数值非整数。"

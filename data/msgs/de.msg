@@ -1933,6 +1933,9 @@ msgcat::mcmset de {
   "milliseconds"
   "Millisekunden"
 
+  "theme"
+  "Theme"
+
 }
 
 # remote.tcl
@@ -2772,6 +2775,9 @@ msgcat::mcmset de {
 
   "Number width not a number"
   "Nummer Breite Nichtzahlen"
+
+  "Selection value is unsupported"
+  "Auswahlwert wird nicht unterstützt"
 
   "Shiftwidth value is not an integer"
   "Einrückungstiefe Wert ist keine Ganzzahl"
