@@ -1,48 +1,89 @@
-2017-03-01 09:37 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (286b820424ed [devel-2.9.10])
+2017-03-07 22:01 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (6ae697aafb47 [devel-2.9.11])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.10 release
+	ChangeLog for devel-2.9.11 release
 
-2017-03-01 09:37 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7f7371932eed)
+2017-03-07 22:01 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (256feffa5c09)
 
 	* .hgtags:
-	Added tag devel-2.9.10 for changeset 286b820424ed
+	Added tag devel-2.9.11 for changeset 6ae697aafb47
 
-2017-03-01 17:35 -0600  Trevor Williams  <phase1geo@gmail.com>  (c160c3c34f78)
+2017-03-07 23:55 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (e59d436528d9)
 
-	* lib/edit.tcl, lib/multicursor.tcl, lib/version.tcl, lib/vim.tcl:
-	* Starting to add support for multicursor Vim selections (work in
-	progress).
+	* lib/version.tcl, tests/multicursor.tcl, tests/vim.tcl:
+	* Fixing regression issues.
 
-2017-03-02 02:02 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (980ce99016c0)
+2017-03-08 02:44 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (690514bc142e)
 
-	* data/syntax/YAML.syntax, lib/syntax.tcl, lib/version.tcl:
-	* Fixing YAML syntax to use indentation based code folding.
-	* Fixing issue with HighlightEndProc syntax parsing.
+	* lib/edit.tcl, lib/folding.tcl, lib/version.tcl, tests/vim.tcl:
+	* Fixing regression issues.
+	* Enhancing Vim test.
 
-2017-03-03 02:18 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (5597d0c11e88)
+2017-03-08 17:53 -0600  Trevor Williams  <phase1geo@gmail.com>  (7d87c15786ae)
 
-	* doc/md/TKE User Guide/Theme Editor/Sharing and Downloading New
-	Themes.textbundle/info.json, doc/md/TKE User Guide/Theme
-	Editor/Sharing and Downloading New Themes.textbundle/text.md: new
-	file.
-	* data/preferences.tkedat, doc/md/.Ulysses-favorites.plist, doc/md/TKE
-	User Guide/Theme Editor/.Ulysses-Group.plist, doc/md/TKE User
-	Guide/Theme Editor/Sharing and Downloading New
-	Themes.textbundle/info.json, doc/md/TKE User Guide/Theme
-	Editor/Sharing and Downloading New Themes.textbundle/text.md,
-	lib/logger.tcl, lib/pref_ui.tcl, lib/themer.tcl, lib/version.tcl:
-	* Adding `General/DefaultThemeExportDirectory` preference value and
-	associated functionality.
-	* Cleaning up comments in preferences.tkedat in regards to the
-	possible values for the `Appearance/Theme` preference item.
-	* Fixing bug in diagnostic logfile namespace that could occur if the
-	user changes the `Logfile Directory` value in the preferences
-	window.
-	* Adding new file picker built-in widget to preferences UI.
-	* Updating User Guide.
+	* lib/bist.tcl, lib/edit.tcl, lib/utils.tcl, lib/version.tcl,
+	lib/vim.tcl, tests/vim.tcl:
+	* Fixing Vim issues found in regression.
+	* Enhancing Vim testing.
+	* Adding ability to view a test from the output text.
 
-2017-03-03 02:20 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d023ba04ae12)
+2017-03-09 01:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a929dc740af3)
+
+	* lib/utils.tcl, lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
+	* Fixing the Escape keycode on macOS.
+	* Cleaning up debug output.
+
+2017-03-09 09:51 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d51ae7060ad0)
+
+	* data/themes/Cool Glow.tketheme, data/themes/Fluidvision.tketheme,
+	data/themes/Notebook.tketheme, lib/version.tcl:
+	* Minor color improvements to syntax highlights in a few themes.
+
+2017-03-09 10:05 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (149c065b575b)
+
+	* lib/theme.tcl, lib/themer.tcl, lib/version.tcl:
+	* Grabbing authorship information from tmtheme files.
+	* Inserting creator information into export dialog if it exists.
+
+2017-03-09 10:07 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (e0165fb03217)
+
+	* lib/themer.tcl, lib/version.tcl:
+	* Fixing bug in last commit.
+
+2017-03-09 11:07 -0600  Trevor Williams  <phase1geo@gmail.com>  (8d2d6bf18248)
+
+	* data/syntax/Tcl.syntax, lib/pref_ui.tcl, lib/version.tcl:
+	* Adding confirmation dialog when attempting to delete a theme.
+	* Enhancing Tcl syntax to improve syntax highlighting.
+
+2017-03-09 12:37 -0600  Trevor Williams  <phase1geo@gmail.com>  (f7d44f1c4f9f)
+
+	* lib/pref_ui.tcl, lib/version.tcl:
+	* Fixing issue with `General/DisabledLanguages` being remembered
+	when changed in preferences window.
+
+2017-03-09 13:11 -0600  Trevor Williams  <phase1geo@gmail.com>  (1abd5fd1782c)
+
+	* lib/pref_ui.tcl, lib/syntax.tcl, lib/version.tcl:
+	* Fixing issues with changing General/DisabledLanguages in
+	preference window.
+
+2017-03-09 13:21 -0600  Trevor Williams  <phase1geo@gmail.com>  (b7fe04b949f0)
+
+	* data/themes/Quiverly.tketheme, lib/version.tcl:
+	* Minor adjustment to Quiverly theme.
+
+2017-03-09 15:46 -0600  Trevor Williams  <phase1geo@gmail.com>  (7306a5e82f7b)
+
+	* data/syntax/HTML.syntax, lib/version.tcl:
+	* Enhancing HTML syntax highlighting.
+
+2017-03-10 02:06 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (674c4386245d)
+
+	* lib/version.tcl, tests/vim.tcl:
+	* Minor fixes to Vim BIST.
+
+2017-03-10 09:44 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (54d436a36e01)
 
 	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
 	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
@@ -52,218 +93,8 @@
 	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
 	* Updating translations.
 
-2017-03-03 03:56 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (bc402fab7d25)
+2017-03-10 09:46 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7b3aab293644 [tip])
 
-	* MacOSX/TKE.app/Contents/Resources/TKETheme.icns: new file.
-	* .DS_Store, MacOSX/.DS_Store, MacOSX/TKE.app/Contents/Info.plist,
-	MacOSX/TKE.app/Contents/Resources/TKETheme.icns, lib/pref_ui.tcl,
-	lib/themer.tcl, lib/version.tcl:
-	* Attempting to make TKE theme package files acceptable to MacOSX
-	via drag and drop.
-	* Adding icon for the TKE theme package files to use.
-	* Fixing preferences issues.
-	* Fixing themer UI state issue.
-
-2017-03-03 12:17 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (92e6e95fe13e)
-
-	* MacOSX/.DS_Store, MacOSX/TKE.app/Contents/Info.plist, lib/gui.tcl,
-	lib/sidebar.tcl, lib/tke.tcl, lib/version.tcl:
-	* Adding the ability to associate TextMate themes with TKE.
-	* Adding ability to drag and drop a theme file/package on the sidebar
-	or editing buffer to import the theme.
-
-2017-03-04 18:01 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (16c3a71d5092)
-
-	* lib/multicursor.tcl, lib/plugins.tcl, lib/snippets.tcl,
-	lib/version.tcl, lib/vim.tcl:
-	* Fixing the arrangement of the bindtags on the text widget to allow
-	menu bindings while editing.
-
-2017-03-04 20:42 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (56bd036936f9)
-
-	* lib/bindings.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing Option bindings for MacOSX.
-
-2017-03-05 08:04 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (edaa212e012d)
-
-	* lib/pref_ui.tcl, lib/version.tcl:
-	* Adding `Get More Themes` button in appearances preference panel.
-
-2017-03-05 14:38 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (0c5082fbbbaa)
-
-	* lib/pref_ui.tcl, lib/version.tcl:
-	* Fixing themes link in preferences apperance panel.
-
-2017-03-05 21:44 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (aa350deff5d5)
-
-	* lib/gui.tcl, lib/sidebar.tcl, lib/theme.tcl, lib/version.tcl:
-	* Fixing issue with hitting the escape key when multicursors are
-	enabled.
-	* Fixing issues with default image color handling when importing
-	themes.
-
-2017-03-05 23:03 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (011a7b7e1c61)
-
-	* data/syntax/HelpSystem.syntax, data/syntax/ManPage.syntax,
-	lib/edit.tcl, lib/menus.tcl, lib/theme.tcl, lib/version.tcl:
-	* Adding formatting syntax to HelpSystem and ManPage syntax.
-	* Fixing issue in format removal code to properly handle formatting
-	syntax with backslashes.
-	* Fixing state of `Show/Hide Console` menu item when console is closed
-	via the window manager.
-	* Removing debug output from theme.tcl
-
-2017-03-05 23:47 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (4fd91121d0d8)
-
-	* data/syntax/CriticMarkup.syntax, data/syntax/Fountain.syntax,
-	data/syntax/HTML.syntax, data/syntax/HelpSystem.syntax,
-	data/syntax/ManPage.syntax, data/syntax/Markdown.syntax,
-	data/syntax/MultiMarkdown.syntax, data/syntax/syntax.syntax,
-	lib/edit.tcl, lib/folding.tcl, lib/snippets.tcl, lib/version.tcl,
-	lib/vim.tcl:
-	* Adding missing HighlightEndProc to syntax files that use
-	HighlightProc.
-	* Adding support for word-based formatting with only a starting tag.
-	* Adding missing checkbox syntax highlighting in syntax files.
-	* Fixing tab closing issues when a difference tab is closed.
-
-2017-03-06 02:21 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (44d2fecad0b5)
-
-	* data/preferences.tkedat, lib/pref_ui.tcl, lib/theme.tcl,
-	lib/themer.tcl, lib/themes.tcl, lib/version.tcl:
-	* Adding `Appearance/HiddenThemes` preference items which hides
-	available themes from menus and command launcher.
-	* Adding new `Manage Themes` tab in Appearances preference panel (work
-	in progress).
-
-2017-03-06 16:07 -0600  Trevor Williams  <phase1geo@gmail.com>  (d8faf3bc1f36)
-
-	* lib/images/check.gif: new file.
-	* data/bindings/menu_bindings.aqua.tkedat,
-	data/bindings/menu_bindings.classic.tkedat,
-	data/bindings/menu_bindings.win32.tkedat,
-	data/bindings/menu_bindings.x11.tkedat, lib/gui.tcl,
-	lib/images/check.gif, lib/pref_ui.tcl, lib/themer.tcl,
-	lib/themes.tcl, lib/tke.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing issues with default menu bindings overlapping with Vim-
-	required bindings.
-	* Finishing initial work on theme manager.
-	* Fixing bug with importing TKE theme via drag and drop.
-
-2017-03-06 16:42 -0600  Trevor Williams  <phase1geo@gmail.com>  (e5ce08952e55)
-
-	* lib/gui.tcl, lib/version.tcl:
-	* Adding "Close Other Tabs in Pane" and "Close All Tabs in Pane" tab
-	menu options.
-
-2017-03-06 19:22 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b143ea742414)
-
-	* lib/gui.tcl, lib/version.tcl:
-	* Fixing various issues with new "Close Other Tabs in Pane" and
-	"Close Tabs in Pane" menu options.
-	* Fixing bug when tab menu is brought up but no menu item is selected.
-
-2017-03-06 20:14 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (fa74c58c3bdc)
-
-	* lib/pref_ui.tcl, lib/themer.tcl, lib/themes.tcl, lib/version.tcl:
-	* Checkpointing work on adding themes via preferences panel.
-
-2017-03-06 21:59 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d7022216f09e)
-
-	* lib/pref_ui.tcl, lib/themer.tcl, lib/themes.tcl, lib/version.tcl:
-	* Fixing various issues with editing theme and returning to the
-	correct theme.
-	* Removing unnecessary debug output.
-
-2017-03-06 22:24 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (a5370a2ba06f)
-
-	* data/bindings/menu_bindings.aqua.tkedat,
-	data/bindings/menu_bindings.classic.tkedat,
-	data/bindings/menu_bindings.win32.tkedat,
-	data/bindings/menu_bindings.x11.tkedat, lib/pref_ui.tcl,
-	lib/version.tcl:
-	* Removing dead keys from shortcuts on aqua.
-	* More adjustments to the default shortcuts.
-
-2017-03-06 22:29 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (7a996210442c)
-
-	* data/bindings/menu_bindings.aqua.tkedat, lib/version.tcl:
-	* Fixing aqua menu bindings one more time.
-
-2017-03-07 01:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d317ffa9950d)
-
-	* lib/utils.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing issue with Vim repeat command on macOS.
-
-2017-03-07 02:41 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (54c50ac0fa7f)
-
-	* lib/utils.tcl, lib/version.tcl, lib/vim.tcl:
-	* More fixes with Vim on macOS.
-
-2017-03-07 09:59 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (bca743d4ce98)
-
-	* lib/utils.tcl, lib/version.tcl, lib/vim.tcl:
-	* More adjustments for Vim handling on macOS.
-
-2017-03-07 11:23 -0600  Trevor Williams  <phase1geo@gmail.com>  (e58092a4a16e)
-
-	* lib/utils.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing new Vim handling on X11.
-
-2017-03-07 14:48 -0600  Trevor Williams  <phase1geo@gmail.com>  (c20a5099f69f)
-
-	* data/syntax/Specman.syntax: new file.
-	* data/syntax/Bash.syntax, data/syntax/Specman.syntax,
-	data/syntax/SystemVerilog.syntax, lib/version.tcl:
-	* Fixing syntax error in Bash syntax file.
-	* Adding Specman syntax.
-	* Adding .svh extension to SystemVerilog file pattern list.
-
-2017-03-07 15:22 -0600  Trevor Williams  <phase1geo@gmail.com>  (2cd97faed3ad)
-
-	* data/syntax/JSON.syntax, data/syntax/Perl.syntax,
-	data/syntax/SystemVerilog.syntax, data/syntax/Verilog.syntax,
-	lib/version.tcl:
-	* Minor tweaks to various syntax files.
-
-2017-03-07 16:27 -0600  Trevor Williams  <phase1geo@gmail.com>  (22b03e9afbe6)
-
-	* data/syntax/Specman.syntax, data/syntax/SystemVerilog.syntax,
-	lib/version.tcl:
-	* A few more tweaks to syntax files.
-
-2017-03-07 17:07 -0600  Trevor Williams  <phase1geo@gmail.com>  (f4f256779471)
-
-	* lib/bindings.tcl, lib/pref_ui.tcl, lib/version.tcl:
-	* Fixing issue where clearing a shortcut in preferences would not be
-	preserved between sessions.
-
-2017-03-07 20:13 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (b93111467dca)
-
-	* data/syntax/DesktopEntry.syntax: new file.
-	* data/syntax/DesktopEntry.syntax, lib/bindings.tcl, lib/version.tcl:
-	* Adding DesktopEntry syntax.
-	* Cleaning up bindings namespace.
-
-2017-03-07 21:43 -0600  Trevor Williams  <phase1geo@gmail.com>  (129f653a27a0)
-
-	* data/syntax/DesktopEntry.syntax, install.tcl, lib/version.tcl:
-	* Enhancing DesktopEntry syntax.
-	* Adding MimeTypes and Comment to the tke.desktop file generated from
-	install.tcl
-
-2017-03-07 21:48 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (52bca02a6727)
-
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
-	* Updating translations.
-
-2017-03-07 21:55 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (62c0cc49d658 [tip])
-
-	* data/syntax/DesktopEntry.syntax, lib/version.tcl:
-	* Small correction to DesktopEntry syntax.
+	* lib/version.tcl, specl_version.tcl:
+	* Fixing specl_version.tcl
 
