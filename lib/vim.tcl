@@ -2344,8 +2344,7 @@ namespace eval vim {
       set mode($txtt) "goto"
       return 1
     } elseif {$mode($txtt) eq "goto"} {
-      ::tk::TextSetCursor $txtt 1.0
-      adjust_insert $txtt
+      edit::move_cursor $txtt first
       start_mode $txtt
       return 1
     }

@@ -1049,9 +1049,42 @@ namespace eval vim {
       cleanup "One w at end did not work ([$txtt index insert])"
     }
 
+    $txtt mark set insert 2.0
     vim::handle_dollar $txtt
     if {[$txtt index insert] ne "2.10"} {
       cleanup "One dollar at end did not work ([$txtt index insert])"
+    }
+    
+    $txtt tag remove foobar 1.0 end
+    $txtt tag add foobar 3.0 3.2
+    $txtt mark set insert 3.3
+    
+    vim::handle_number $txtt 0
+    if {[$txtt index insert] ne "3.2"} {
+      cleanup "One zero at begin did not work ([$txtt index insert])"
+    }
+    
+    $txtt mark set insert 3.2
+    vim::handle_b $txtt
+    if {[$txtt index insert] ne "2.12"} {
+      cleanup "One b at begin did not work ([$txtt index insert])"
+    }
+    
+    $txtt tag remove foobar 1.0 end
+    $txtt tag add foobar 3.2 3.end
+    $txtt mark set insert 2.7
+    vim::handle_G $txtt
+    if {[$txtt index insert] ne "3.1"} {
+      cleanup "One G at file end did not work ([$txtt index insert])"
+    }
+    
+    $txtt tag remove foobar 1.0 end
+    $txtt insert 1.0 "here"
+    $txtt tag add foobar 1.0 1.1
+    vim::handle_g $txtt
+    vim::handle_g $txtt
+    if {[$txtt index insert] ne "1.2"} {
+      cleanup "One gg at file begin did not work ([$txtt index insert])"
     }
 
     # Cleanup
