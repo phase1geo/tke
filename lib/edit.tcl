@@ -1033,7 +1033,11 @@ namespace eval edit {
 
       # Get the end of the current word (this will be the beginning of the next word)
       set curr_index [$txt index "$start display wordend"]
-      puts "start: $start, curr_index: $curr_index, num: $num"
+      
+      # This works around a text issue with wordend
+      if {[$txt count -displaychars $curr_index "$curr_index+1c"] == 0} {
+        set curr_index [$txt index "$curr_index display wordend"]
+      }
 
       # If num is 0, do not continue
       if {$num <= 0} {
@@ -1043,14 +1047,12 @@ namespace eval edit {
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
         if {![string is space [$txt get $curr_index]]} {
-          puts "HERE A"
           set last_wordend $curr_index
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index display wordstart"]
           }
         }
         set curr_index [$txt index "$curr_index display wordend"]
-        puts "  curr_index: $curr_index"
       }
 
       return [$txt index "$curr_index display wordstart"]
@@ -1147,7 +1149,13 @@ namespace eval edit {
           set index "insert+${num} display chars"
         }
       }
-      first       { set index "1.0" }
+      first       {
+        if {[$txtt count -displaychars 1.0 1.1] == 0} {
+          set index "1.0+1 display chars"
+        } else {
+          set index "1.0"
+        }
+      }
       last        { set index "end" }
       nextchar    { set index [get_char $txtt next $num] }
       prevchar    { set index [get_char $txtt prev $num] }
@@ -1178,7 +1186,9 @@ namespace eval edit {
         }
       }
       column      { set index [lindex [split [$txtt index insert] .] 0].[expr $num - 1] }
-      linestart   { set index "insert display linestart" }
+      linestart   {
+        set index [$txtt index "insert-1l lineend"]
+        set index "$index+1 display chars" }
       lineend     {
         if {$num == 1} {
           set index "insert lineend-1 display chars"
