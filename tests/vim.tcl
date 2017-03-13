@@ -1195,7 +1195,7 @@ namespace eval vim {
   }
 
   # Verify the period (.) Vim command
-  proc run_test18 {} {
+  proc tbd_test18 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -1237,7 +1237,7 @@ namespace eval vim {
 
     # Cleanup
     cleanup
-
+    
   }
 
 }
