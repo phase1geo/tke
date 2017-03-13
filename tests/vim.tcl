@@ -974,20 +974,84 @@ namespace eval vim {
     # Initialize
     set txtt [initialize].t
 
-    # Set the current language to Markdown so that we will have meta characters
-    syntax::set_current_language "Markdown"
-
-    # Hide meta characters
-    menus::hide_meta_chars .menubar.view
-
-    # Insert a line that we can code fold
-    $txtt insert end "\nNice **bold** text"
+    # Insert a line that we will elide some text on
+    $txtt insert end "\nNi*e **bold**\nGood"
+    $txtt tag configure foobar -elide 1
+    $txtt tag add foobar 2.5 2.7
     $txtt mark set insert 2.4
     vim::adjust_insert $txtt
 
     vim::handle_l $txtt
     if {[$txtt index insert] ne "2.7"} {
       cleanup "One l did not work ([$txtt index insert])"
+    }
+
+    vim::handle_h $txtt
+    if {[$txtt index insert] ne "2.4"} {
+      cleanup "One h did not work ([$txtt index insert])"
+    }
+
+    vim::handle_w $txtt
+    if {[$txtt index insert] ne "2.7"} {
+      cleanup "One w did not work ([$txtt index insert])"
+    }
+
+    vim::handle_b $txtt
+    if {[$txtt index insert] ne "2.3"} {
+      cleanup "One b did not work ([$txtt index insert])"
+    }
+
+    $txtt mark set insert 2.4
+    vim::handle_space $txtt
+    if {[$txtt index insert] ne "2.7"} {
+      cleanup "One space did not work ([$txtt index insert])"
+    }
+
+    vim::handle_BackSpace $txtt
+    if {[$txtt index insert] ne "2.4"} {
+      cleanup "One backspace did not work ([$txtt index insert])"
+    }
+
+    vim::handle_f $txtt
+    vim::handle_any $txtt 42 * asterisk
+    if {[$txtt index insert] ne "2.11"} {
+      cleanup "One f did not work ([$txtt index insert])"
+    }
+
+    vim::handle_F $txtt
+    vim::handle_any $txtt 42 * asterisk
+    if {[$txtt index insert] ne "2.2"} {
+      cleanup "One F did not work ([$txtt index insert])"
+    }
+
+    vim::handle_t $txtt
+    vim::handle_any $txtt 42 * asterisk
+    if {[$txtt index insert] ne "2.10"} {
+      cleanup "One t did not work ([$txtt index insert])"
+    }
+
+    vim::handle_T $txtt
+    vim::handle_any $txtt 42 * asterisk
+    if {[$txtt index insert] ne "2.3"} {
+      cleanup "One T did not work ([$txtt index insert])"
+    }
+
+    $txtt tag add foobar 2.11 2.13
+    $txtt mark set insert 2.10
+
+    vim::handle_l $txtt
+    if {[$txtt index insert] ne "2.10"} {
+      cleanup "One l at end did not work ([$txtt index insert])"
+    }
+
+    vim::handle_w $txtt
+    if {[$txtt index insert] ne "3.0"} {
+      cleanup "One w at end did not work ([$txtt index insert])"
+    }
+
+    vim::handle_dollar $txtt
+    if {[$txtt index insert] ne "2.10"} {
+      cleanup "One dollar at end did not work ([$txtt index insert])"
     }
 
     # Cleanup

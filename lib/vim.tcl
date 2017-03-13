@@ -1209,7 +1209,7 @@ namespace eval vim {
   proc playback {txtt {reg auto}} {
 
     variable recording
-    
+
     # Set the record mode to playback
     set recording($reg,mode) "playback"
 
@@ -1257,7 +1257,7 @@ namespace eval vim {
 
     # Make sure that lineend is never the insertion point
     } elseif {[$txtt index insert] eq [$txtt index "insert lineend"]} {
-      ::tk::TextSetCursor $txtt "insert-1c"
+      ::tk::TextSetCursor $txtt "insert-1 display chars"
     }
 
     # Adjust the selection (if we are in visual mode)
@@ -1692,7 +1692,6 @@ namespace eval vim {
         multicursor::adjust_lineend $txtt $number($txtt)
       } else {
         edit::move_cursor $txtt lineend -num $number($txtt)
-        $txtt mark set insert "insert lineend-1c"
       }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
@@ -1776,7 +1775,7 @@ namespace eval vim {
   proc handle_period {txtt} {
 
     variable mode
-    
+
     if {$mode($txtt) eq "start"} {
       set start_index [$txtt index insert]
       playback $txtt

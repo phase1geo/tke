@@ -1033,6 +1033,7 @@ namespace eval edit {
 
       # Get the end of the current word (this will be the beginning of the next word)
       set curr_index [$txt index "$start display wordend"]
+      puts "start: $start, curr_index: $curr_index, num: $num"
 
       # If num is 0, do not continue
       if {$num <= 0} {
@@ -1042,12 +1043,14 @@ namespace eval edit {
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
         if {![string is space [$txt get $curr_index]]} {
+          puts "HERE A"
           set last_wordend $curr_index
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index display wordstart"]
           }
         }
         set curr_index [$txt index "$curr_index display wordend"]
+        puts "  curr_index: $curr_index"
       }
 
       return [$txt index "$curr_index display wordstart"]
