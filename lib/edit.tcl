@@ -1150,7 +1150,7 @@ namespace eval edit {
         }
       }
       first       {
-        if {[$txtt count -displaychars 1.0 1.1] == 0} {
+        if {[$txtt get -displaychars 1.0] eq ""} {
           set index "1.0+1 display chars"
         } else {
           set index "1.0"
