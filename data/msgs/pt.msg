@@ -1618,6 +1618,9 @@ msgcat::mcmset pt {
   "Default Theme Export Directory"
   "Directory Export padrão Tema"
 
+  "Default theme"
+  "Tema padrão"
+
   "Default unit for floating point values"
   "Padrão de unidade para os valores de ponto flutuante"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset pt {
 # themes.tcl
 msgcat::mcmset pt {
 
+  "Theme"
+  "Tema"
+
   "Theme:*"
   "Tema"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset pt {
 
   "Templates"
   "Templates"
-
-  "Theme"
-  "Tema"
 
   "Theme Editor"
   "Editor de temas"

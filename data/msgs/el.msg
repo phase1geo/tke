@@ -1618,6 +1618,9 @@ msgcat::mcmset el {
   "Default Theme Export Directory"
   "Προεπιλεγμένο θέμα Export Directory"
 
+  "Default theme"
+  "Προεπιλεγμένο θέμα"
+
   "Default unit for floating point values"
   "Προεπιλεγμένη μονάδα για τιμές κινητής υποδιαστολής"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset el {
 # themes.tcl
 msgcat::mcmset el {
 
+  "Theme"
+  "Θέμα"
+
   "Theme:*"
   "Θέμα"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset el {
 
   "Templates"
   "Πρότυπα"
-
-  "Theme"
-  "Θέμα"
 
   "Theme Editor"
   "Θέμα Εκδότης"

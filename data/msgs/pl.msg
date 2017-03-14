@@ -1618,6 +1618,9 @@ msgcat::mcmset pl {
   "Default Theme Export Directory"
   "Domyślny motyw Export katalog"
 
+  "Default theme"
+  "Motyw domyślny"
+
   "Default unit for floating point values"
   "Domyślne jednostki dla wartości zmiennoprzecinkowe"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset pl {
 # themes.tcl
 msgcat::mcmset pl {
 
+  "Theme"
+  "Temat"
+
   "Theme:*"
   "Temat:*"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset pl {
 
   "Templates"
   "Szablony"
-
-  "Theme"
-  "Temat"
 
   "Theme Editor"
   "Motyw Editor"

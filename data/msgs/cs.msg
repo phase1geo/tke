@@ -1618,6 +1618,9 @@ msgcat::mcmset cs {
   "Default Theme Export Directory"
   "Default Theme Export Adresář"
 
+  "Default theme"
+  "Výchozí motiv"
+
   "Default unit for floating point values"
   "Výchozí jednotka pro hodnoty s plovoucí čárkou"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset cs {
 # themes.tcl
 msgcat::mcmset cs {
 
+  "Theme"
+  "Šablona"
+
   "Theme:*"
   "Šablona"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset cs {
 
   "Templates"
   "Šablony"
-
-  "Theme"
-  "Šablona"
 
   "Theme Editor"
   "Editor téma"

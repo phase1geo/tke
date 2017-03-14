@@ -1618,6 +1618,9 @@ msgcat::mcmset nl {
   "Default Theme Export Directory"
   "Default Theme Export Directory"
 
+  "Default theme"
+  "Standaardthema"
+
   "Default unit for floating point values"
   "Standaard eenheid voor zwevende puntenwaarden"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset nl {
 # themes.tcl
 msgcat::mcmset nl {
 
+  "Theme"
+  "Thema"
+
   "Theme:*"
   "Thema"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset nl {
 
   "Templates"
   "Templates"
-
-  "Theme"
-  "Thema"
 
   "Theme Editor"
   "Thema-editor"

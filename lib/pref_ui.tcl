@@ -373,7 +373,7 @@ namespace eval pref_ui {
 
     # Register the widget
     register $win $msg $varname
-    
+
     return $win
 
   }
@@ -642,7 +642,7 @@ namespace eval pref_ui {
       select "" "" $selected_session $selected_language 1
 
       # Create the list of panes
-      set panes [list general appearance editor find sidebar view snippets emmet shortcuts plugins advanced]
+      set panes [list general appearance editor find sidebar view snippets emmet shortcuts plugins documentation advanced]
 
       # Create and pack each of the panes
       foreach pane $panes {
@@ -1589,7 +1589,7 @@ namespace eval pref_ui {
     $w.nb add [set a [ttk::frame $w.nb.a]] -text [msgcat::mc "General"]
 
     ttk::frame $a.f
-    set widgets(appear_theme) [make_mb $a.f.th [msgcat::mc "Theme"] Appearance/Theme            [themes::get_visible_themes] 1]
+    set widgets(appear_theme) [make_mb $a.f.th [msgcat::mc "Default theme"] Appearance/Theme [themes::get_visible_themes] 1]
     make_sb $a.f.icw [msgcat::mc "Insertion cursor width"]          Appearance/CursorWidth      1  5 1 1
     make_sb $a.f.els [msgcat::mc "Additional space between lines"]  Appearance/ExtraLineSpacing 0 10 1 1
 
@@ -1867,7 +1867,7 @@ namespace eval pref_ui {
     # Get the currently selected theme
     set selected [$widgets(themes_tl) curselection]
     set name     [$widgets(themes_tl) cellcget $selected,name -text]
-    
+
     # Confirm with the user
     if {[tk_messageBox -parent .prefwin -type yesno -default no -message [format "%s %s %s?" [msgcat::mc "Delete"] $name [msgcat::mc "theme"]]] eq "no"} {
       return
@@ -3608,7 +3608,7 @@ namespace eval pref_ui {
     } else {
       set value $sym
     }
-    
+
     # Get the currently selected shortcut
     set selected [$widgets(shortcut_tl) curselection]
 
@@ -3750,6 +3750,114 @@ namespace eval pref_ui {
 
     # Pack the selected frame
     pack $widgets(plugins_frame).$plugin -fill both -expand yes
+
+  }
+
+  #################
+  # DOCUMENTATION #
+  #################
+
+  ######################################################################
+  proc create_documentation {w} {
+
+    variable widgets
+    variable prefs
+
+    ttk::frame $w.tf
+    set widgets(doc,table) [tablelist::tablelist $w.tf.tl -columns {0 Name 0 URL} \
+      -exportselection 0 -stretch all -editselectedonly 1 \
+      -yscrollcommand [list utils::set_yscrollbar $w.tf.vb]]
+    ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
+
+    utils::configure_tablelist $w.tf.tl
+
+    $w.tf.tl columnconfigure 0 -name name -editable 1 -resizable 1 -stretchable 1
+    $w.tf.tl columnconfigure 1 -name URL  -editable 1 -resizable 1 -stretchable 1
+
+    bind $w.tf.tl <<TablelistSelect>>      [list pref_ui::documentation_selected]
+    bind $w.tf.tl <<TablelistCellUpdated>> [list pref_ui::documentation_updated %d]
+
+    grid rowconfigure    $w.tf 0 -weight 1
+    grid columnconfigure $w.tf 0 -weight 1
+    grid $w.tf.tl -row 0 -column 0 -sticky news
+    grid $w.tf.vb -row 0 -column 1 -sticky ns
+
+    ttk::frame $w.bf
+    ttk::frame $w.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::documentation_add]
+    set widgets(doc,delete) [ttk::frame $w.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::documentation_delete] -state disabled]
+    set widgets(doc,test)   [ttk::frame $w.bf.text -style BButton -text [msgcat::mc "Test"] -command [list pref_ui::documentation_test] -state disabled]
+
+    pack $w.bf.add  -side left -padx 2 -pady 2
+    pack $w.bf.del  -side left -padx 2 -pady 2
+    pack $w.bf.test -side right -padx 2 -pady 2
+
+    pack $w.tf -fill both -expand yes
+    pack $w.bf -fill x
+
+  }
+
+  ######################################################################
+  # Called whenever a documentation row is selected in the table.
+  proc documentation_selected {} {
+
+    variable widgets
+
+    if {[set selected [$widgets(doc,table) curselection]] ne ""} {
+      $widgets(doc,delete) configure -state normal
+      $widgets(doc,test)   configure -state normal
+    } else {
+      $widgets(doc,delete) configure -state disabled
+      $widgets(doc,test)   configure -state disabled
+    }
+
+  }
+
+  ######################################################################
+  # Called whenever the user successfully updates the documentation table.
+  proc documentation_updated {data} {
+
+    variable widgets
+    variable prefs
+
+    lassign $data row col
+
+    # Only update the variable when both values are input
+    if {([$widgets(doc,table) cellcget $row,name -text] ne "") && \
+        ([$widgets(doc,table) cellcget $row,url  -text] ne "")} {
+      lset prefs(Documentation/References) $row $col [$widgets(doc,table) cellcget $row,$col -text]
+    }
+
+  }
+
+  ######################################################################
+  # Adds a documentation row to the table.
+  proc documentation_add {} {
+
+    variable widgets
+
+    # Add the line to the end of the table
+    set row [$widgets(doc,table) insert end [list "" ""]]
+    $widgets(doc,table) see
+
+    # Start the edit session
+    $widgets(doc,table) editcell $row,name
+
+  }
+
+  ######################################################################
+  # Deletes the currently selected row in the table.
+  proc documentation_delete {} {
+
+    # Get the currently selected row
+    set selected [$widgets(doc,table) curselection]
+
+    # Delete the row in the table
+    $widgets(doc,table) delete $selected
+
+    # Delete the preference value
+    set prefs(Documentation/References) [lreplace $prefs(Documentation/References) $selected $selected]
+
+    # Set the
 
   }
 
