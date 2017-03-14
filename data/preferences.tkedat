@@ -521,3 +521,15 @@
 # expanding CSS abbreviations.
 
 {Emmet/CSSPropertyEnd} {;}
+
+# Specifies a list containing name/URL pairs which describe websites containing reference documentation
+# that will be displayed in a web browser when selected within the the Help/Language Documentation menu.
+# If a URL contains the substring {query}, the substring will be replaced with a search string.  The URL
+# will not be directly available in the Help/Language Documentation menu but it will be used in
+# documentation searches.
+#
+# Each item must be formatted as follows:
+#
+# {<name> <HTTP or HTTPS URL>}
+
+{Documentation/References} {}
