@@ -14,9 +14,19 @@ Each extension value must contain a PERIOD (.) followed by a legal filesystem ex
 
 #### vimsyntax
 
-The vimsyntax value is a list of one or more names that match the corresponding \*.vim syntax file (this can be found in the /usr/share/vim/vim_version_/syntax directory of your system, minus the .vim extension) that can also be used for syntax highlighting. This value is compared to any “syntax=name” Vim modeline information to determine which syntax highlighting language to use for the given file.
+The vimsyntax value is a list of one or more names that match the corresponding \*.vim syntax file (this can be found in the /usr/share/vim/vim\_version\_/syntax directory of your system, minus the .vim extension) that can also be used for syntax highlighting. This value is compared to any “syntax=name” Vim modeline information to determine which syntax highlighting language to use for the given file.
 
 `vimsyntax {name …}`
+
+#### reference
+
+The reference value is a list of one or more name/URL pairings where each URL specifies the location of documentation pertaining to the given language. The associated name is displayed in the `Help/Language Documentation` submenu. If the name contains spaces, the full name should be encapsulated in curly braces. Typically, one of the reference items should be a language reference link.  However, other URLs can also be specified such as links to supporting documentation.
+
+	reference {
+	 {name url}+
+	}
+
+If a URL contains the syntax `{query}` within it, TKE will create a new URL by replacing this portion of the URL string with text that is either selected within the editing buffer or using the keyword that is beneath the insertion cursor. This allows user’s to use the Vim `K` command to perform language-specific documentation search. If no URLs are provided with this string embedded, the Vim `K` command will not be available for that syntax.
 
 #### embedded
 
@@ -58,6 +68,12 @@ The tabsallowed value is used to determine whether any TAB characters entered in
 
 `tabsallowed {0|1}`
 
+#### linewrap
+
+The line wrap value is used to specify if the editing buffer for the language should enable (1) or disable (0) line wrapping by default. For example, syntaxes that support writing should potentially enable line wrapping by default; however, programming languages should not.
+
+`linewrap {0|1}`
+ 
 #### casesensitive
 
 The casesensitive value specifies if the language is case sensitive (1) or not (0).  If the language is not case sensitive, TKE will perform any keyword/expression matching using a case insensitive method.  This value should be either 0 or 1 and should be specified as follows:
@@ -169,10 +185,12 @@ The following specifies the syntax for this element:
 
 	symbols {
 	  {HighlightKeywords {symbol_keyword *}} *
-	  {HighlightClassForRegexp {regular_expression}} *
+	  {HighlightClassForRegexp {regular_expression} {processing_procedure}} *
 	}
 
 The value of _symbol\_keyword_ must be a literal value.  The value of _regular\_expression_ must be a valid Tcl regular expression.  You can have any number of HighlightClass and/or HighlightClassForRegexp lists in the symbols list.
+
+The value of _processing\_procedure_ is used in the same way as those specified in the advanced section of the syntax file. See the advanced section for details on the makeup of this procedure. If a processing procedure is not necessary, simply pass the empty Tcl list (`{}`) in its place.
 
 #### numbers
 
@@ -181,7 +199,7 @@ The numbers value is a list of regular expressions that represent all valid numb
 The following specifies the syntax for this element:
 
 	numbers {
-	  {HighlightClassForRegexp {regular_expression}} *
+	  {HighlightClassForRegexp {regular_expression} {processing_procedure}} *
 	}
 
 #### punctuation
@@ -191,7 +209,7 @@ The punctuation value is a list of regular expressions that represent all valid 
 The following specifies the syntax for this element:
 
 	punctuation {
-	  {HighlightClassForRegexp {regular_expression}} *
+	  {HighlightClassForRegexp {regular_expression} {processing_procedure}} *
 	}
 
 #### precompile
@@ -201,8 +219,8 @@ The precompile value is a list of regular expressions that represent all valid p
 The following specifies the syntax for this element:
 
 	precompile {
-	  {HighlightClassForRegexp {regular_expression}} *
-	  {HighlightClassStartWithChar {character}} *
+	  {HighlightClassForRegexp {regular_expression} {processing_procedure}} *
+	  {HighlightClassStartWithChar {character} {processing_procedure}} *
 	}
 
 The _regular\_expression_ value must be a valid Tcl expression.  The character value must be a single keyboard character.  The HighlightClassStartWithChar is a special case regular expression that finds a non-whitespace list of characters that starts with the given character and highlights it.  From a performance perspective, it is faster to use this call than a regular expression if your situation can take advantage of it.
@@ -215,8 +233,8 @@ The following specifies the syntax for this element:
 
 	miscellaneous {
 	  {HighlightKeywords {{keyword} *}}
-	  {HighlightClassForRegexp {regular_expression}} *
-	  {HighlightClassStartsWithChar {character}} *
+	  {HighlightClassForRegexp {regular_expression} {processing_procedure}} *
+	  {HighlightClassStartsWithChar {character} {processing_procedure}} *
 	}
 
 #### highlight
@@ -226,8 +244,8 @@ The highlight section allows text to be syntax highlighted by colorizing the bac
 The following specifies the syntax for this element:
 
 	highlighter {
-	  {HighlightClassForRegexp {regular_expression}} *
-	  {HighlightClassStartWithChar {character}} *
+	  {HighlightClassForRegexp {regular_expression} {processing_procedure}} *
+	  {HighlightClassStartWithChar {character} {processing_procedure}} *
 	}
 
 #### meta
@@ -237,15 +255,19 @@ The meta section allows text to be syntax highlighted with a color that matches 
 The following specifies the syntax for this element:
 
 	meta {
-	  {HighlightClassForRegexp {regular_expression}} *
-	  {HighlightClassStartWithChar {character}} *
+	  {HighlightClassForRegexp {regular_expression} {processing_procedure}} *
+	  {HighlightClassStartWithChar {character} {processing_procedure}} *
 	}
 
 #### advanced
 
 The advanced section allows for more complex language parsing scenarios (beyond what can be handled with a regular expression only) and allows the user to change the font rendering (i.e., bold, italics, underline, overstrike, superscript, subscript, and font size) and handle mouse clicks.
 
-The advanced section is comprised of two parts.  The first part is a list of highlight classes that are user-defined.  A highlight class is defined using the following syntax:
+The advanced section is comprised of two or three parts: highlight classes, regular expressions and processing procedures.
+
+##### Highlight Classes
+
+The first part is a list of highlight classes that are user-defined.  A highlight class is defined using the following syntax:
 
 `HighlightClass class_name syntax_key {render_options}`
 
@@ -262,12 +284,16 @@ where _class\_name_ is a user-defined name that will be rendered with the color 
 | subscript | Any text tagged with the associated _class\_name_ will be written in subscript. |
 | click | Any text tagged with the associated _class\_name_ will be clickable.  Any left-clicks associated with the text will call a specified Tcl procedure. |
 
+##### Regular Expressions
+
 The second section in the advanced section is a list of highlight calls, associating values/regular expressions with Tcl procedure calls that will be executed whenever text is found that matches the value/regular expression.  The highlight calls are defined using the following syntax:
 
-	HighlightRegexp             {regular_expression} procedure_name
-	HighlightClassStartWithChar {character}          procedure_name
+	HighlightRegexp             {regular_expression} processing_procedure
+	HighlightClassStartWithChar {character}          processing_procedure
 
-For user-created syntax files, the location of the Tcl procedures would be within the main.tcl plugin file.  The purposes of the Tcl procedure is to take the matching contents of the text widget and return a list containing a list of tags, their starting positions in the text widget, their ending positions in the text widget, and any Tcl procedures to call (if the tag is clickable) along with an optional new starting position in the text widget to begin parsing (default is to start at the character just after the input matching text.
+##### Processing Procedures
+
+For user-created syntax files, the location of the processing procedures will either be within the main.tcl plugin file or within the syntax file itself.  The purposes of the Tcl procedure is to take the matching contents of the text widget and return a list containing a list of tags, their starting positions in the text widget, their ending positions in the text widget, and any Tcl procedures to call (if the tag is clickable) along with an optional new starting position in the text widget to begin parsing (default is to start at the character just after the input matching text.
 
 The following is a representation of this Tcl procedure:
 
@@ -281,4 +307,44 @@ The parameters of the procedure include _txt_ which is the name of the text widg
 
 The body of the function should perform some sort of advanced parsing of the given text that ultimately produces the return list.  Care should be taken in the body of this function to produce as efficient of code as possible as this procedure could be called often by the syntax parser.
 
-For an example of how to write your own advanced parsing code, refer to the _markdown\_color_ plugin located in the installation directory (_installation\_directory_/plugins/_markdown\_color_).
+For an example of how to write your own advanced parsing code, refer to the _markdown\_color_ plugin located in the installation directory (_installation\_directory_/plugins/\_markdown\_color\_).
+
+In addition to writing the processing procedures outside of the syntax file, you can also embed the processing procedures directly in the syntax file itself using the following syntax:
+
+	HighlightProc name {
+	 # Body of procedure
+	 # Four variables are automatically available:
+	 #   - $txt = refers to the text widget containing the matched text
+	 #   - $startpos = starting position of the matched text
+	 #   - $endpos = ending position of the matched text
+	 #   - $insert = Set to 1 if we are syntax highlighting due to inserting text; otherwise, it will be set to 0.
+	} HighlightEndProc
+
+All text between `HighlightProc` and `HighlightEndProc` will be highlighted by TKE as Tcl syntax.  The body of the function works the same as the processing procedure that was previously described.
+
+#### formatting
+
+Specifies one or more supported syntax formatting by associating a TKE formatting type with language syntax that should be inserted before and/or after selected text (or line) within the editing buffer. The information specified in this section is used by TKE’s `Edit/Formatting` menu.
+
+This section must be specified as follows:
+
+	formatting {
+	 type {(word|line) start_syntax ?end_syntax?}+
+	}
+
+The valid values for `type` are as follows:
+
+- bold
+- italics
+- underline
+- strikethrough
+- highlight
+- superscript
+- subscript
+- code
+- header1, header2, header3, header4, header5, header6
+- ordered
+- unordered
+- checkbox
+
+A value of `word` should be used if the `start_syntax` and, if specified, `end_syntax` should be placed around the selected text. A value of `line` should be used if the `start_syntax` should be placed at the beginning of a selected line and, if specified, the `end_syntax` be placed at the end of a selected line.

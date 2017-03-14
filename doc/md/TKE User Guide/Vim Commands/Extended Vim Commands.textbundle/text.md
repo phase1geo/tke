@@ -23,11 +23,8 @@ To provide additional functionality to the user, Vim command extensions have bee
 | - | - |
 | **s** | Sets a multicursor cursor on the current character.  Also makes this character the anchor for any multiline cursor sets. |
 | **S** | Sets multicursors for every line between the current line and the last multicursor anchor, inclusive.  Each multicursor will match the column of the anchor multicursor. |
-| **J** | When one or more multicursors are set, moves all of the cursors down one line. |
-| **K** | When one or more multicursors are set, moves all of the cursors up one line. |
-| **H** | When one or more multicursors are set, moves all of the cursors to the left by one character. |
-| **L** | When one or more multicursors are set, moves all of the cursors to the right by one character. |
-| **\\#** | When one or more multicursors are set, allows the user to insert an ascending numerical values at each cursor input. See below for details on its usage. |
+| **m** | When multiple cursors are set, allows the multicursors to be moved using the standard cursor movement commands. Until the **m** command is input, all cursor movement commands will move the selection cursor only. To exit multicursor move command, enter the `Escape` key. |
+| **\\\\#** | When one or more multicursors are set, allows the user to insert an ascending numerical values at each cursor input. See below for details on its usage. |
 
 #### Multicursor Enumeration
 
@@ -76,7 +73,6 @@ Note: If a value is not specified, a value of zero is assumed.
 | **dN** | Deletes all preceding characters that are numbers. |
 | **ds** | Deletes all subsequent space and tab characters. |
 | **dS** | Deletes all preceding space and tab characters. |
-
 
 
 

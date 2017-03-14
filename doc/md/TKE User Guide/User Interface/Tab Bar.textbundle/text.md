@@ -15,8 +15,10 @@ In addition to these functions, you can also access a drop down menu of function
 | Menu Item | Description |
 | - | - |
 | Close Tab | Closes the current tab.  This is the exact same behavior as clicking on the close button within the tab. |
-| Close Other Tabs | Closes all of the other tabs in the tab bar, leaving this tab as the only opened tab in the editing pane. |
+| Close All Other Tabs | Closes all of the other tabs in the tab bar, leaving this tab as the only opened tab in the editing pane. |
 | Close All Tabs | Closes all tabs in the tab bar. |
+| Close Other Tabs in Pane | Closes all of the other tabs in the current tab pane. Leaves all tabs in the other pane opened. |
+| Close All Tabs in Pane | Closes all of the tabs in the current tab pane. Leaves all tabs in the other pane opened. |
 | Hide Tab | Hides the current tab from view.  You can show the tab by either using the sidebar or by using the View / Tabs / Show All Tabs option. |
 | Split View | Creates another editing buffer in the same tab (it is placed above the current editing buffer).  This buffer is a second view into the same file.  This allows you to view and edit two different views of the same file.  Selecting this command again will remove the second editing buffer view. |
 | Bird’s Eye View | If checked, displays the bird’s eye view of the current file within a narrow ribbon on the left side of the editing buffer. This option allows the user to override the view menu option and/or preference option that controls the display of the birds’ eye view. |
