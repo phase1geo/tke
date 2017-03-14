@@ -3,13 +3,13 @@
 The following is a high-level list of built-in features.
 
 - **Syntax highlighting**
-	- Over 75 languages currently supported, including:
+	- Over 80 languages currently supported, including:
 		- ABAP, ActionScript, Ada, AppleScript, Assembly, Awk
 		- Bash
-		- C#, C, C\+\+, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
-		- D, Delphi, DocBook
+		- C#, C, C\+\+, Changelog, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
+		- D, Delphi, DesktopEntry, DocBook
 		- Eiffel, Erlang
-		- Fickle, Forth, Fortran
+		- Fickle, Forth, Fortran, Fountain
 		- Gherkin, Go, Groovy
 		- HTML, Haml, Haskell, Haxe, HelpSystem
 		- J, JSON, Jade, Java, JavaScript, Julia
@@ -17,12 +17,12 @@ The following is a high-level list of built-in features.
 		- MATLAB, Makefile, ManPage, Markdown, MultiMarkdown, MySQL
 		- Neko
 		- Objective-C, OCaml
-		- PHP, Pascal, Perl, Prolog, Python
+		- PHP, Pascal, Perl, Prolog, PropertyList, Python
 		- R, RSS, Ruby, Rust
-		- SASS, SCSS, Scala, Scheme, ShellScript, SQL, Swift, SystemVerilog
+		- SASS, SCSS, Scala, Scheme, ShellScript, Specman, SQL, Swift, SystemVerilog
 		- Taccle, Tcl
 		- Vala, Verilog, VisualBasic, VHDL
-		- XML, XSLT
+		- XML, Xojo, XSLT
 		- YAML, Yacc
 	- Syntax description files can be easily added
 	- Preference control can select syntax types to highlight/not highlight
@@ -46,7 +46,7 @@ The following is a high-level list of built-in features.
 - **Auto and smart indentation features**
 	- Selected code can have indentation policies applied
 	- Pasted code can have indentation policies applied
-- **Code line marking support**	
+- **Code line marking support** 
 - **Line number display**
 	- Includes support for both absolute and relative line numbering
 - **Code folding**
@@ -69,7 +69,7 @@ The following is a high-level list of built-in features.
 	- Files modified outside of editor will be automatically updated (unless file is in a modified state)
 - **File locking support**
 	- File can be set to be read-only within the editor (regardless of actual file permissions)
-- **Command launcher**	
+- **Command launcher**  
 - **File system sidebar**
 	- Contains functionality for creating, renaming, deleting, and trashing files/directories
 - **Multiple files can be opened at once**
@@ -82,7 +82,7 @@ The following is a high-level list of built-in features.
 	- Create two independent editable views into the same file.
 - **Bird’s Eye text viewer**
 	- See your file’s code at a glance and quickly navigate to other points in your code.
-- **Maximum column width display**	
+- **Maximum column width display**  
 - **Support for NFS mounted file systems**
 - **Plugin support**
 	- Full plugin development documentation available.
@@ -91,7 +91,7 @@ The following is a high-level list of built-in features.
 	- Create new themes
 	- Import TKE and TextMate themes
 	- Export TKE themes that can be shared with others"
-- **Favorite file/directory support**	
+- **Favorite file/directory support**   
 - **Automatic matching character insertion**
 	- Curly bracket, square bracket, angled bracket, parenthesis, double and single string character matches are inserted as you type.
 	- Preference item to enable/disable any of the above character types.
@@ -107,7 +107,7 @@ The following is a high-level list of built-in features.
 		- Saved search items
 - **Templates**
 	- Special snippet-like files that can be used for quickly generating new files.  TKE allows for saving, using and managing template files.
-- **Automatic session save**	
+- **Automatic session save**    
 - **In-app update mechanism**
 	- Preference option to follow stable or development release track (not available for Windows).
 - **Remote file editing**
@@ -116,3 +116,5 @@ The following is a high-level list of built-in features.
 	- Duplicate, rename and delete remote files/folders via the sidebar
 - **Tab hiding**
 	- Temporary hide tabs in the tab bar for improved workflow.
+- **Text Formatting**
+	- Bold, italicized, underline, strikethrough, highlight, header1-6, list item and checkbox text formatting is provided as enabled by the current syntax.

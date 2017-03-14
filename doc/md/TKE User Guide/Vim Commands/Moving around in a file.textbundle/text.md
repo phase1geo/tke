@@ -29,3 +29,9 @@
 | DOWN | Moves the cursor one line down. |
 | LEFT | Moves the cursor one character to the left. |
 | RIGHT | Moves the cursor one character to the right. |
+| **f**_char_ | Moves the cursor to the next occurrence of the specified character in the current line. |
+| **t**_char_ | Moves the cursor to the character just before the next occurrence of the specified character in the current line. |
+| **F**_char_ | Moves the cursor to the previous occurrence of the specified character in the current line. |
+| **T**_char_ | Moves the cursor to the character just after the previous occurrence of the specified character in the current line. |
+| **%** | Moves to matching (, ), \{, \}, [, ], \>, \<, “ or ‘ character. |
+| _num_**%** | Moves the cursor to the line which _num_ percent of the way through the file. The value of _num_ must be a whole number. |

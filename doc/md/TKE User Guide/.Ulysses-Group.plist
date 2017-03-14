@@ -18,7 +18,7 @@
 		<string>Snippets</string>
 		<string>Preferences</string>
 		<string>Menu Bindings</string>
-		<string>Theme Editor</string>
+		<string>Themes</string>
 		<string>Plugins</string>
 	</array>
 	<key>resolutionData</key>
@@ -155,14 +155,14 @@
 					<integer>5</integer>
 				</dict>
 			</dict>
-			<key>Theme Editor</key>
+			<key>Themes</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779853.81920999</real>
+				<real>511159290.03143102</real>
 				<key>version</key>
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>16</integer>
+					<integer>18</integer>
 				</dict>
 			</dict>
 			<key>User Interface</key>
@@ -194,7 +194,7 @@
 		<key>childOrder</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>17</integer>
+			<integer>18</integer>
 		</dict>
 	</dict>
 </dict>
