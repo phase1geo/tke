@@ -5168,23 +5168,28 @@ namespace eval gui {
     variable widgets
     variable pw_current
     variable txt_current
-    variable auto_cwd
 
-    # Get the text information
-    get_info [winfo parent $txtt] txt paneindex tab txt fileindex fname buffer diff
-    set pw_current $paneindex
+    # It is possible that getting the parent of txtt could cause errors, so just
+    # silently catch them and move on
+    catch {
 
-    # Set the line and row information
-    update_position $txt
+      # Get the text information
+      get_info [winfo parent $txtt] txt paneindex tab txt fileindex fname buffer diff
+      set pw_current $paneindex
 
-    # Check to see if the file has changed
-    catch { files::check_file $fileindex }
+      # Set the line and row information
+      update_position $txt
 
-    # Save the text widget
-    set txt_current($tab) [winfo parent $txtt]
+      # Check to see if the file has changed
+      catch { files::check_file $fileindex }
 
-    # Let the plugins know about the FocusIn event
-    plugins::handle_on_focusin $tab
+      # Save the text widget
+      set txt_current($tab) [winfo parent $txtt]
+
+      # Let the plugins know about the FocusIn event
+      plugins::handle_on_focusin $tab
+
+    }
 
   }
 
