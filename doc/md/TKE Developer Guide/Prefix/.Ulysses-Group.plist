@@ -6,16 +6,6 @@
 	<dict>
 		<key>sheetClusters</key>
 		<dict>
-			<key>TKE Developer Guide.textbundle</key>
-			<dict>
-				<key>lastModification</key>
-				<real>504779712.58641201</real>
-				<key>version</key>
-				<dict>
-					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>2</integer>
-				</dict>
-			</dict>
 			<key>Table of Contents.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -26,12 +16,22 @@
 					<integer>3</integer>
 				</dict>
 			</dict>
+			<key>title- TKE Developer Guide.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>511153452.916336</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>4</integer>
+				</dict>
+			</dict>
 		</dict>
 	</dict>
 	<key>sheetClusters</key>
 	<array>
 		<array>
-			<string>TKE Developer Guide.textbundle</string>
+			<string>title- TKE Developer Guide.textbundle</string>
 		</array>
 		<array>
 			<string>Table of Contents.textbundle</string>
@@ -44,7 +44,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>3</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 </dict>
