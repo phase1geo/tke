@@ -8,7 +8,8 @@
 | **l** | Moves right one character |
 | **w** | Moves the insertion cursor to the beginning of the next word. |
 | **b** | Moves the insertion cursor to the beginning of the previous word. |
-| **0** or **^** | Moves to the beginning of current line |
+| **0** | Moves to the beginning of current line |
+| **^** | Moves to the first non-whitespace character of the current line. |
 | **$** | Moves to the end of the current line |
 | **:**_num_ | Moves to line _num_ (note: _num_ value of 0 or 1 takes you to the first line). |
 | **gg** | Moves to the beginning of the file. |
@@ -28,4 +29,3 @@
 | DOWN | Moves the cursor one line down. |
 | LEFT | Moves the cursor one character to the left. |
 | RIGHT | Moves the cursor one character to the right. |
-
