@@ -1618,6 +1618,9 @@ msgcat::mcmset de {
   "Default Theme Export Directory"
   "Default Theme Exportverzeichnis"
 
+  "Default theme"
+  "Standard-Thematik"
+
   "Default unit for floating point values"
   "Standard-Einheit für Gleitkommawerte"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset de {
 # themes.tcl
 msgcat::mcmset de {
 
+  "Theme"
+  "﻿Theme"
+
   "Theme:*"
   "﻿Theme"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset de {
 
   "Templates"
   "Templates"
-
-  "Theme"
-  "﻿Theme"
 
   "Theme Editor"
   "Motiv-Bearbeitung"

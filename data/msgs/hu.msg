@@ -1618,6 +1618,9 @@ msgcat::mcmset hu {
   "Default Theme Export Directory"
   "Alapértelmezett téma Export Directory"
 
+  "Default theme"
+  "Alapértelmezett Téma"
+
   "Default unit for floating point values"
   "Alapértelmezett egység a lebegőpontos értékek"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset hu {
 # themes.tcl
 msgcat::mcmset hu {
 
+  "Theme"
+  "Sablon"
+
   "Theme:*"
   "Sablon*"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset hu {
 
   "Templates"
   "Sablonok"
-
-  "Theme"
-  "Sablon"
 
   "Theme Editor"
   "Témaszerkesztő"

@@ -1618,6 +1618,9 @@ msgcat::mcmset ru {
   "Default Theme Export Directory"
   "По умолчанию Тема Справочник Экспорт"
 
+  "Default theme"
+  "Тема по умолчанию"
+
   "Default unit for floating point values"
   "По умолчанию устройство для значений с плавающей запятой"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset ru {
 # themes.tcl
 msgcat::mcmset ru {
 
+  "Theme"
+  "Тема"
+
   "Theme:*"
   "Тема:*"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset ru {
 
   "Templates"
   "Шаблоны"
-
-  "Theme"
-  "Тема"
 
   "Theme Editor"
   "Визуальный редактор темы"

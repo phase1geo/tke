@@ -1618,6 +1618,9 @@ msgcat::mcmset da {
   "Default Theme Export Directory"
   "Standard Tema Eksport Register"
 
+  "Default theme"
+  "Standardtema"
+
   "Default unit for floating point values"
   "Standard enhed for flydende punkt værdier"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset da {
 # themes.tcl
 msgcat::mcmset da {
 
+  "Theme"
+  "Tema"
+
   "Theme:*"
   "Tema"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset da {
 
   "Templates"
   "Skabeloner"
-
-  "Theme"
-  "Tema"
 
   "Theme Editor"
   "Tema Editor"

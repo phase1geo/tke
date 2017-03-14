@@ -1618,6 +1618,9 @@ msgcat::mcmset ja {
   "Default Theme Export Directory"
   "デフォルトのテーマのエクスポートディレクトリ"
 
+  "Default theme"
+  "デフォルトテーマ"
+
   "Default unit for floating point values"
   "デフォルトの浮動小数点値の単位"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset ja {
 # themes.tcl
 msgcat::mcmset ja {
 
+  "Theme"
+  "テーマ"
+
   "Theme:*"
   "テーマ"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset ja {
 
   "Templates"
   "テンプレート"
-
-  "Theme"
-  "テーマ"
 
   "Theme Editor"
   "テーマエディタ"

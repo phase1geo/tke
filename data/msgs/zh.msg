@@ -1618,6 +1618,9 @@ msgcat::mcmset zh {
   "Default Theme Export Directory"
   "默认主题导出目录"
 
+  "Default theme"
+  "默認主題"
+
   "Default unit for floating point values"
   "默认单位为浮点值"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset zh {
 # themes.tcl
 msgcat::mcmset zh {
 
+  "Theme"
+  "主题"
+
   "Theme:*"
   "主题"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset zh {
 
   "Templates"
   "模板"
-
-  "Theme"
-  "主题"
 
   "Theme Editor"
   "主题编辑器"

@@ -1618,6 +1618,9 @@ msgcat::mcmset he {
   "Default Theme Export Directory"
   "ספריית ברירת המחדל נושא הייצוא"
 
+  "Default theme"
+  "נושא שתשמש כברירת מחדל"
+
   "Default unit for floating point values"
   "ברירת מחדל עבור ערכי הנקודה הצפה"
 
@@ -2734,6 +2737,9 @@ msgcat::mcmset he {
 # themes.tcl
 msgcat::mcmset he {
 
+  "Theme"
+  "ערכת עיצוב"
+
   "Theme:*"
   "ערכת עיצוב"
 
@@ -2936,9 +2942,6 @@ msgcat::mcmset he {
 
   "Templates"
   "תבניות"
-
-  "Theme"
-  "ערכת עיצוב"
 
   "Theme Editor"
   "דירוג העורך"
