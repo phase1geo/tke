@@ -161,9 +161,9 @@ namespace eval files {
 
   ######################################################################
   # Returns 1 if the given filename exists (either locally or remotely).
-  proc exists {fname} {
+  proc exists {index} {
 
-    get_info $fname fname remote
+    get_info $index fileindex fname remote
 
     if {$remote eq ""} {
       return [file exists $fname]
@@ -209,9 +209,9 @@ namespace eval files {
   ######################################################################
   # Returns the modification time of the given file (either locally or
   # remotely).
-  proc modtime {fname} {
+  proc modtime {index} {
 
-    get_info $fname fname remote
+    get_info $index fileindex fname remote
 
     if {$remote eq ""} {
       file stat $fname stat
@@ -258,17 +258,17 @@ namespace eval files {
     get_info $index fileindex tab fname mtime modified
 
     if {$fname ne ""} {
-      if {[exists $fname]} {
-        set file_mtime [modtime $fname]
+      if {[exists $index]} {
+        set file_mtime [modtime $index]
         if {$mtime != $file_mtime} {
           if {$modified} {
             set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Reload file?"] \
               -detail $fname -type yesno -default yes]
             if {$answer eq "yes"} {
-              update_file $index
+              gui::update_file $index
             }
           } else {
-            update_file $index
+            gui::update_file $index
           }
           lset files $index $fields(mtime) $file_mtime
         }
@@ -276,7 +276,7 @@ namespace eval files {
         set answer [tk_messageBox -parent . -icon question -message [msgcat::mc "Delete tab?"] \
           -detail $fname -type yesno -default yes]
         if {$answer eq "yes"} {
-          close_tab $tab -check 0
+          gui::close_tab $tab -check 0
         } else {
           lset files $index $fields(mtime) ""
         }
