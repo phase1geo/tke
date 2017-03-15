@@ -3794,12 +3794,12 @@ namespace eval pref_ui {
 
     pack $w.tf -fill both -expand yes
     pack $w.bf -fill x
-    
+
     # Register the table
     register $w.tf.tl [msgcat::mc "Language Documentation"] Documentation/References
-    
-    # Populate the table with the list of values
-    documentation_populate
+
+    # Initialize the table on initialization
+    register_initialization pref_ui::documentation_populate
 
   }
 
@@ -3824,21 +3824,21 @@ namespace eval pref_ui {
   proc documentation_add {} {
 
     variable widgets
-    
+
     toplevel     .prefwin.docwin
     wm title     .prefwin.docwin [format "%s URL" [msgcat::mc "Add Language Reference"]]
     wm transient .prefwin.docwin .prefwin
     wm resizable .prefwin.docwin 0 0
-    
+
     ttk::frame .prefwin.docwin.f
     ttk::label .prefwin.docwin.f.ul  -text "URL: "
     ttk::entry .prefwin.docwin.f.url -validate key -validatecommand [list pref_ui::docwin_validate %P] -width 60
-    
+
     bind .prefwin.docwin.f.url <Return> [list .prefwin.docwin.bf.ok invoke]
-    
+
     pack .prefwin.docwin.f.ul  -side left -padx 2 -pady 2
     pack .prefwin.docwin.f.url -side left -padx 2 -pady 2
-    
+
     ttk::frame  .prefwin.docwin.bf
     ttk::button .prefwin.docwin.bf.ok -style BButton -text [msgcat::mc "Add"] -width 6 -command {
       set url  [.prefwin.docwin.f.url get]
@@ -3847,82 +3847,84 @@ namespace eval pref_ui {
       $pref_ui::widgets(doc,table) see $row
       $pref_ui::widgets(doc,table) selection clear 0 end
       $pref_ui::widgets(doc,table) selection set $row
+      $pref_ui::widgets(doc,delete) configure -state normal
+      $pref_ui::widgets(doc,test)   configure -state normal
       after idle [list pref_ui::documentation_save]
       destroy .prefwin.docwin
     } -state disabled
     ttk::button .prefwin.docwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -width 6 -command {
       destroy .prefwin.docwin
     }
-    
+
     pack .prefwin.docwin.bf.cancel -side right -padx 2 -pady 2
     pack .prefwin.docwin.bf.ok     -side right -padx 2 -pady 2
-    
+
     pack .prefwin.docwin.f  -fill both -expand yes
     pack .prefwin.docwin.bf -fill x
-    
+
     # Place the window in the middle of the preference window
     ::tk::PlaceWindow .prefwin.docwin widget .prefwin
 
     # Get the grab and focus
     ::tk::SetFocusGrab .prefwin.docwin .prefwin.docwin.f.url
-    
+
     # Wait for the window to be closed
     tkwait window .prefwin.docwin
 
     # Restore the focus and grab
     ::tk::RestoreFocusGrab .prefwin.docwin .prefwin.docwin.f.url
-    
+
   }
-  
+
   ######################################################################
   # Validates the given entry field value along with the other value and
   # control the state of the Add button.
   proc docwin_validate {value} {
-    
+
     variable widgets
-    
+
     if {$value ne ""} {
       .prefwin.docwin.bf.ok configure -state active
     } else {
       .prefwin.docwin.bf.ok configure -state disabled
     }
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Downloads the webpage and returns the title tag found in the HTML response.
   proc docwin_get_title {url} {
-    
+
     # If the URL contains a {query} substring, replace it with "foobar"
     set url [string map {\{query\} foobar} $url]
-      
+
     # Set the default value of title
     set title "Unknown"
-    
+
     # Attempt to open the URL
     if {[catch { http::geturl $url } token]} {
       return $title
     }
-    
+
     # Check the return status
     if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
       set content [http::data $token]
-      regexp {<title>(.*?)</title>} $content -> title
+      regexp -nocase {<title>(.*?)</title>} $content -> title
     }
-    
+
     # Cleanup the token
     http::cleanup $token
-    
+
     return $title
-    
+
   }
 
   ######################################################################
   # Deletes the currently selected row in the table.
   proc documentation_delete {} {
-    
+
     variable widgets
     variable prefs
 
@@ -3940,55 +3942,55 @@ namespace eval pref_ui {
     $widgets(doc,test)   configure -state disabled
 
   }
-  
+
   ######################################################################
   # Displays the given URL in a web browser.
   proc documentation_test {} {
-    
+
     variable widgets
-    
+
     # Get the currently selected row
     set selected [$widgets(doc,table) curselection]
-    
+
     # Get the URL to display
     if {[set url [$widgets(doc,table) cellcget $selected,url -text]] ne ""} {
       utils::open_file_externally $url 0
     }
-    
+
   }
-  
+
   ######################################################################
   # Populates the given documentation table with the list of current results.
   proc documentation_populate {} {
-    
+
     variable widgets
     variable prefs
-    
+
     # Clear the table
     $widgets(doc,table) delete 0 end
-    
+
     # Populate the table
     foreach pref $prefs(Documentation/References) {
       $widgets(doc,table) insert end $pref
     }
-    
+
   }
-  
+
   ######################################################################
   # Saves the contents of the current state of the documentation table.
   proc documentation_save {} {
-    
+
     variable widgets
     variable prefs
-    
+
     set references [list]
     for {set i 0} {$i < [$widgets(doc,table) size]} {incr i} {
       lappend references [list [$widgets(doc,table) cellcget $i,name -text] [$widgets(doc,table) cellcget $i,url -text]]
     }
-    
+
     # Set the Documentation/References preference variable with the list of values
     set prefs(Documentation/References) $references
-    
+
   }
 
   ############

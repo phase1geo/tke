@@ -628,6 +628,41 @@ namespace eval search {
   }
 
   ######################################################################
+  # Searches the current language documentation for the given search string.
+  proc search_documentation {{str ""} {url ""}} {
+
+    # If a search string was not specified, prompt the user
+    if {$str eq ""} {
+      if {![gui::get_user_response [format "%s: " [msgcat::mc "Search String"]] str]} {
+        return
+      }
+    }
+
+    # Substitute any space characters with %20
+    set str [string map {{ } {%20} \t {%20}} $str]
+
+    # Get the current language
+    gui::get_info {} current lang
+
+    if {$url eq ""} {
+      foreach item [lsearch -all -index 1 -inline [list {*}[syntax::get_references $lang] {*}[preferences::get Documentation/References]] "*{query}*"] {
+        lassign $item name url
+        set url [string map [list "{query}" $str] $url]
+        if {[utils::test_url $url]} {
+          utils::open_file_externally $url 1
+          break
+        }
+      }
+    } else {
+      set url [string map [list "{query}" $str] $url]
+      if {[utils::test_url $url]} {
+        utils::open_file_externally $url 1
+      }
+    }
+
+  }
+
+  ######################################################################
   # Loads the given session data.
   proc load_session {session_data} {
 

@@ -1989,17 +1989,7 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       if {([lsearch [$txtt tag names insert] "_keywords"] != -1) && \
           ([set word [string trim [$txtt get "insert wordstart" "insert wordend"]]] ne "")} {
-        gui::get_info [winfo parent $txtt] txt lang
-        foreach item [syntax::get_references $lang] {
-          lassign $item name url
-          if {[set index [string first "{query}" $url]] != -1} {
-            set url [string replace $url $index [expr $index + 6] $word]
-            if {[utils::test_url $url]} {
-              utils::open_file_externally $url 1
-              break
-            }
-          }
-        }
+        search::search_documentation $word
       }
       return 1
     }
