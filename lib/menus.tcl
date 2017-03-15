@@ -3319,6 +3319,9 @@ namespace eval menus {
       launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] [list gui::show_about]
     }
 
+    # Create search popup menu
+    menu $mb.refPopup.searchPopup -tearoff 0
+
   }
 
   ######################################################################
@@ -3343,12 +3346,38 @@ namespace eval menus {
     # Clean the menu
     $mb delete 0 end
 
-    # Add the items
-    foreach item [lsearch -index 1 -inline -all -not [syntax::get_references $lang] "{query}"] {
+    # Add the syntax items
+    foreach item [lsearch -index 1 -inline -all -not [syntax::get_references $lang] "*{query}*"] {
       lassign $item name url
-      if {[string first "{query}" $url] == -1} {
-        $mb add command -label [format "$lang %s" $name] -command [list utils::open_file_externally $url 1]
-      }
+      $mb add command -label [format "$lang %s" $name] -command [list utils::open_file_externally $url 1]
+    }
+
+    if {[$mb index end] ne "none"} {
+      $mb add separator
+    }
+
+    # Add the user documentation
+    foreach item [lsearch -index 1 -inline -all -not [preferences::get Documentation/References] "*{query}*"] {
+      lassign $item name url
+      $mb add command -label $name -command [list utils::open_file_externally $url 1]
+    }
+
+    if {[$mb index end] ne "none"} {
+      $mb add separator
+    }
+
+    # Populate the search Popup menu
+    $mb.searchPopup delete 0 end
+    foreach item [lsearch -index 1 -inline -all [list {*}[syntax::get_references $lang] {*}[preferences::get Documentation/References]] "*{query}*"] {
+      lassign $item name url
+      $mb.searchPopup add command -label $name -command [list search::search_documentation "" $url]
+    }
+
+    # Add the ability to search within documentation
+    switch [$mb.searchPopup index end] {
+      none    { $mb add command -label [msgcat::mc "Search Documentation"] -state disabled }
+      0       { $mb add command -label [format "%s %s" [msgcat::mc "Search"] [$mb.searchPopup entrycget 0 -label]] -command [$mb.searchPopup entrycget 0 -command] }
+      default { $mb add cascade -label [msgcat::mc "Search Documentation"] -menu $mb.searchPopup }
     }
 
   }

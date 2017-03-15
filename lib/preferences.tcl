@@ -212,7 +212,7 @@ namespace eval preferences {
         }
         array set content $data
         set loaded_prefs(user,$language) [array get content Editor/*]
-        lappend loaded_prefs(user,$language) [array get content Documentation/*]
+        lappend loaded_prefs(user,$language) {*}[array get content Documentation/*]
         tkedat::write [file join $preferences_dir preferences.$language.tkedat] $loaded_prefs(user,$language) 0
       }
 
