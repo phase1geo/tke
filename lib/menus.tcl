@@ -2211,8 +2211,8 @@ namespace eval menus {
     if {[llength [set markers [gui::get_marker_list]]] > 0} {
       $mb add separator
       foreach marker $markers {
-        lassign $marker name txt pos
-        $mb add command -label $name -command [list gui::jump_to_txt $txt $pos]
+        lassign $marker name txt mname
+        $mb add command -label $name -command [list gui::jump_to_marker $txt $mname]
       }
     }
 
@@ -3297,7 +3297,7 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add cascade -label [msgcat::mc "Language Documentation"] -menu [menu $mb.refPopup -tearoff 0 -postcommand [list menus::help_lang_ref_posting $mb.refPopup]]
+    $mb add cascade -label [msgcat::mc "Language Documentation"] -menu [make_menu $mb.refPopup -tearoff 0 -postcommand [list menus::help_lang_ref_posting $mb.refPopup]]
 
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
@@ -3321,6 +3321,8 @@ namespace eval menus {
 
     # Create search popup menu
     menu $mb.refPopup.searchPopup -tearoff 0
+
+    launcher::register [make_menu_cmd "Help" [msgcat::mc "Search language reference documentation"]] [list search::search_documentation]
 
   }
 

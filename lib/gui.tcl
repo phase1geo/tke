@@ -982,6 +982,7 @@ namespace eval gui {
 
         # Add markers
         set finfo(markers) [list]
+        logger::log "In save session, markers: [markers::get_markers $txt]"
         foreach {mname mtxt pos} [markers::get_markers $txt] {
           lappend finfo(markers) $mname [lindex [split $pos .] 0]
         }
@@ -1105,10 +1106,9 @@ namespace eval gui {
               $txt yview $finfo(yview)
             }
             if {[info exists finfo(markers)]} {
+              puts "In load session, markers: $finfo(markers)"
               foreach {mname line} $finfo(markers) {
-                if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
-                  markers::add $txt $tag $mname
-                }
+                markers::add $txt line $line $mname
               }
             }
           }
@@ -1765,6 +1765,9 @@ namespace eval gui {
       # Highlight text and add update code folds
       $txt highlight 1.0 end
       $txt see 1.0
+
+      # Add any previous markers saved for this text widget
+      markers::tagify $txt
 
       # Check brackets
       ctext::checkAllBrackets $txt
@@ -4869,7 +4872,7 @@ namespace eval gui {
 
     # Add the marker at the current line
     if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
-      if {[markers::add $txt $tag]} {
+      if {[markers::add $txt tag $tag]} {
         scroller::update_markers [winfo parent $txt].vb
       } else {
         ctext::linemapClearMark $txt $line
@@ -4912,14 +4915,15 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Returns the list of markers in the current text widget.
+  # Returns the list of markers in the all text widgets, sorted in
+  # alphabetical order..
   proc get_marker_list {} {
 
     # Create a list of marker names and index
     set markers [list]
-    foreach {name txt line} [markers::get_markers] {
+    foreach {name txt pos} [markers::get_markers] {
       get_info $txt txt fname
-      lappend markers [list "[file tail $fname] - $name" $txt $line]
+      lappend markers [list "[file tail $fname] - $name" $txt $name]
     }
 
     return [lsort -index 0 -dictionary $markers]
@@ -4941,6 +4945,28 @@ namespace eval gui {
     # Change the current tab, if necessary
     get_info $txt txt tabbar tab
     set_current_tab $tabbar $tab
+
+    # Make sure that the cursor is visible
+    folding::show_line $txt.t [lindex [split $pos .] 0]
+
+    # Make the line viewable
+    ::tk::TextSetCursor $txt.t $pos
+
+    # Adjust the insert
+    vim::adjust_insert $txt.t
+
+  }
+
+  ######################################################################
+  # Jumps to the specified text name.
+  proc jump_to_marker {txt name} {
+
+    # Change the current tab, if necessary
+    get_info $txt txt tabbar tab
+    set_current_tab $tabbar $tab
+
+    # Get the marker position
+    set pos [markers::get_index $txt $name]
 
     # Make sure that the cursor is visible
     folding::show_line $txt.t [lindex [split $pos .] 0]
@@ -5096,8 +5122,10 @@ namespace eval gui {
   # Handles a mark request when the line is clicked.
   proc mark_command {win type tag} {
 
+    puts "In mark_command, win: $win, type: $type, tag: $tag"
+
     if {$type eq "marked"} {
-      if {![markers::add $win $tag]} {
+      if {![markers::add $win tag $tag]} {
         return 0
       }
     } else {

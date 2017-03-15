@@ -685,8 +685,8 @@ namespace eval launcher {
             unregister * * 1
             set i 0
             foreach marker [gui::get_marker_list] {
-              lassign $marker name txt pos
-              lappend matches [register_temp ",$marker" [list gui::jump_to_txt $txt $pos] $name $i "" launcher::marker_okay]
+              lassign $marker name txt mname
+              lappend matches [register_temp ",$marker" [list gui::jump_to_marker $txt $mname] $name $i "" launcher::marker_okay]
               incr i
             }
           }
