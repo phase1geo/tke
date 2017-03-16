@@ -3759,6 +3759,7 @@ namespace eval pref_ui {
   #################
 
   ######################################################################
+  # Creates the documentation preference panel, populates and initializes it.
   proc create_documentation {w} {
 
     variable widgets
@@ -3767,6 +3768,7 @@ namespace eval pref_ui {
     ttk::frame $w.tf
     set widgets(doc,table) [tablelist::tablelist $w.tf.tl -columns {0 Name 0 URL} \
       -exportselection 0 -stretch all -editselectedonly 1 \
+      -movablerows 1 -movecursor [ttk::cursor move] -selectmode single \
       -yscrollcommand [list utils::set_yscrollbar $w.tf.vb]]
     ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
 
@@ -3777,6 +3779,7 @@ namespace eval pref_ui {
 
     bind $w.tf.tl <<TablelistSelect>>      [list pref_ui::documentation_selected]
     bind $w.tf.tl <<TablelistCellUpdated>> [list pref_ui::documentation_save]
+    bind $w.tf.tl <<TablelistRowMoved>>    [list pref_ui::documentation_save]
 
     grid rowconfigure    $w.tf 0 -weight 1
     grid columnconfigure $w.tf 0 -weight 1
