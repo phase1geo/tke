@@ -466,7 +466,7 @@ namespace eval pref_ui {
     variable widgets
     variable selected_language
 
-    syntax::populate_syntax_menu $widgets(sellmenu) [list pref_ui::select $session $selected_language $session] pref_ui::selected_language "All"
+    syntax::populate_syntax_menu $widgets(sellmenu) [list pref_ui::select $session $selected_language $session] pref_ui::selected_language "All" [syntax::get_all_languages]
 
   }
 
@@ -2985,7 +2985,7 @@ namespace eval pref_ui {
     set widgets(snippets_lang_menu) [menu $w.langPopup -tearoff 0]
 
     # Populate the menu
-    syntax::populate_syntax_menu $widgets(snippets_lang_menu) pref_ui::snippets_set_language pref_ui::snip_data(lang) "All"
+    syntax::populate_syntax_menu $widgets(snippets_lang_menu) pref_ui::snippets_set_language pref_ui::snip_data(lang) "All" [syntax::get_all_languages]
 
     return $widgets(snippets_lang_menu)
 

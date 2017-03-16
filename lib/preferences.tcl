@@ -203,7 +203,6 @@ namespace eval preferences {
           array set content $loaded_prefs(user,global)
         }
         array set content $data
-        array unset content Documentation/*
         set loaded_prefs(user,global) [array get content]
         tkedat::write [get_user_preference_file] $loaded_prefs(user,global) 0
       } else {

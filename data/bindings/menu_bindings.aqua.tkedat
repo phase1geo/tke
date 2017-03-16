@@ -86,7 +86,7 @@
 
 # View menu bindings
 {View/Hide Sidebar}                       Cmd-K
-{View/Display Text Info}                  Cmd-T
+{View/Display Text Info}                  Ctrl-G
 {View/Split View}                         Ctrl-P
 {View/Move to Other Pane}                 Ctrl-M
 {View/Panes/Merge Panes}                  Ctrl-Alt-G
