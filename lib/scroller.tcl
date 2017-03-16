@@ -375,7 +375,7 @@ namespace eval scroller {
     # Clear the marker count
     set data($win,marks) 0
 
-    for {set i 1} {$i <= 2} {incr i} {
+    foreach i {1 2} {
 
       # If the -markcommandx was not set or the -hide indicator is set for markcommand1, don't continue
       if {($data($win,-markcommand$i) eq "") || $data($win,-markhide$i)} {

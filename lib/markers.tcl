@@ -36,8 +36,6 @@ namespace eval markers {
     variable markers
     variable curr_marker
 
-    puts "In markers::add, txt: $txt, type: $type, value: $value, name: $name"
-
     # If the name wasn't specified, ask the user
     if {($name eq "") && ![gui::get_user_response [msgcat::mc "Marker name:"] name]} {
       return 0
@@ -64,11 +62,8 @@ namespace eval markers {
 
     variable markers
 
-    puts "In tagify, txt: $txt"
-
     foreach key [array names markers $txt,*] {
       lassign $markers($key) type value
-      puts "In tagify, type: $type, value: $value"
       if {$type eq "line"} {
         if {[set tag [ctext::linemapSetMark $txt $value]] ne ""} {
           set markers($key) [list tag $tag]
@@ -84,8 +79,10 @@ namespace eval markers {
 
     variable markers
 
-    if {[info exists markers($txt,$name)]} {
-      unset markers($txt,$name)
+    set key "$txt,$name"
+
+    if {[info exists markers($key)]} {
+      unset markers($key)
     }
 
   }
@@ -96,10 +93,9 @@ namespace eval markers {
 
     variable markers
 
-    foreach {name t} [array get markers $txt,*] {
-      lassign $t type value
-      if {($type eq "tag") && ($value eq $tag)} {
-        unset markers($name)
+    foreach {key data} [array get markers $txt,*] {
+      if {$data eq [list tag $tag]} {
+        unset markers($key)
       }
     }
 
@@ -111,11 +107,9 @@ namespace eval markers {
 
     variable markers
 
-    foreach {name t} [array get markers $txt,*] {
-      lassign $t type value
-      if {(($type eq "line") && ($value == $line)) || \
-          (($type eq "tag") && ([lsearch [$txt tag ranges $tag] $line.0] != -1))} {
-        unset markers($name)
+    foreach key [array names markers $txt,*] {
+      if {$line eq [get_index_by_key $key]} {
+        unset markers($key)
       }
     }
 
@@ -131,16 +125,31 @@ namespace eval markers {
 
     # Get the list of all names
     foreach key [array names markers $txt,*] {
-      lassign key type value
-      set name [join [lassign [split $key ,] txt] ,]
-      if {$type eq "line"} {
-        lappend data $name $txt $value
-      } elseif {[llength [set ranges [$txt tag ranges $markers($key)]]] > 0} {
-        lappend data $name $txt [lindex $ranges 0]
+      if {[set index [get_index_by_key $key]] ne ""} {
+        set name [join [lassign [split $key ,] txt] ,]
+        lappend data $name $txt $index
       }
     }
 
     return $data
+
+  }
+
+  ######################################################################
+  # Returns the index of the given marker key.
+  proc get_index_by_key {key {txt ""}} {
+
+    variable markers
+
+    lassign $markers($key) type value
+
+    if {$type eq "line"} {
+      return $value
+    } elseif {[set index [lindex [[lindex [split $key ,] 0] tag ranges $value] 0]] ne ""} {
+      return [lindex [split $index .] 0]
+    } else {
+      return ""
+    }
 
   }
 
@@ -150,28 +159,13 @@ namespace eval markers {
 
     variable markers
 
-    if {[info exists markers($txt,$name)]} {
-      return [lindex [$txt tag ranges $markers($txt,$name)] 0]
+    set key "$txt,$name"
+
+    if {[info exists markers($key)]} {
+      return [get_index_by_key $key].0
     } else {
       return ""
     }
-
-  }
-
-  ######################################################################
-  # Returns all of the names for the given index.
-  proc get_names {txt line} {
-
-    variable markers
-
-    set names [list]
-    foreach {name index} [array get markers] {
-      if {[lindex [split $index .] 0] == $line} {
-        lappend names $name
-      }
-    }
-
-    return $names
 
   }
 
@@ -185,14 +179,10 @@ namespace eval markers {
     set lines [$txt count -lines 1.0 end]
     set color [theme::get_value syntax cursor]
 
-    foreach {name t} [array get markers $txt,*] {
-      lassign $t type value
-      if {$type eq "line"} {
-        set start_line $value
-      } else {
-        set start_line [lindex [$txt tag ranges $value] 0]
+    foreach key [array names markers $txt,*] {
+      if {[set start_line [get_index_by_key $key]] ne ""} {
+        lappend pos [expr $start_line.0 / $lines] [expr $start_line.0 / $lines] $color
       }
-      lappend pos [expr $start_line / $lines] [expr $start_line / $lines] $color
     }
 
     return $pos
@@ -200,8 +190,24 @@ namespace eval markers {
   }
 
   ######################################################################
+  # Returns true if a marker exists at the current line.
+  proc exists_at_line {txt line} {
+
+    variable markers
+
+    foreach key [array names markers $txt,*] {
+      if {$line eq [get_index_by_key $key]} {
+        return 1
+      }
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Returns true if one or more markers exist in the specified text widget.
-  proc exist {txt} {
+  proc exists {txt} {
 
     variable markers
 

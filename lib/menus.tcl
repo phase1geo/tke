@@ -2122,9 +2122,10 @@ namespace eval menus {
     launcher::register [make_menu_cmd "Find" [msgcat::mc "Find in files"]] [list search::fif_start]
 
     # Add marker popup launchers
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Create marker at current line"]]   [list gui::create_current_marker]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove marker from current line"]] [list gui::remove_current_marker]
-    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove all markers"]]              [list gui::remove_all_markers]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Create marker at current line"]]          [list gui::create_current_marker]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove marker from current line"]]        [list gui::remove_current_marker]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove all markers from current buffer"]] [list gui::remove_current_markers]
+    launcher::register [make_menu_cmd "Find" [msgcat::mc "Remove all markers"]]                     [list gui::remove_all_markers]
 
   }
 
@@ -2199,14 +2200,22 @@ namespace eval menus {
   # Called when the marker menu is opened.
   proc find_marker_posting {mb} {
 
+    set txt          [gui::current_txt]
+    set line_exists  [markers::exists_at_line $txt [lindex [split [$txt index insert] .] 0]]
+    set create_state [expr {$line_exists ? "disabled" : "normal"}]
+    set remove_state [expr {$line_exists ? "normal"   : "disabled"}]
+    set txt_state    [expr {[markers::exists $txt] ? "normal" : "disabled"}]
+    set all_state    [expr {[markers::exists *]    ? "normal" : "disabled"}]
+
     # Clear the menu
     $mb delete 0 end
 
     # Populate the markerPopup menu
-    $mb add command -label [msgcat::mc "Create at Current Line"]   -underline 0 -command [list gui::create_current_marker]
+    $mb add command -label [msgcat::mc "Create at Current Line"]         -underline 0  -command [list gui::create_current_marker]  -state $create_state
     $mb add separator
-    $mb add command -label [msgcat::mc "Remove From Current Line"] -underline 0 -command [list gui::remove_current_marker]
-    $mb add command -label [msgcat::mc "Remove All Markers"]       -underline 7 -command [list gui::remove_all_markers]
+    $mb add command -label [msgcat::mc "Remove From Current Line"]       -underline 0  -command [list gui::remove_current_marker]  -state $remove_state
+    $mb add command -label [msgcat::mc "Remove All From Current Buffer"] -underline 24 -command [list gui::remove_current_markers] -state $txt_state
+    $mb add command -label [msgcat::mc "Remove All Markers"]             -underline 7  -command [list gui::remove_all_markers]     -state $all_state
 
     if {[llength [set markers [gui::get_marker_list]]] > 0} {
       $mb add separator
@@ -2534,7 +2543,7 @@ namespace eval menus {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Line Numbering"]     -state normal }
-      if {[markers::exist [gui::current_txt]]} {
+      if {[markers::exists [gui::current_txt]]} {
         catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state normal }
         catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state normal }
       } else {
