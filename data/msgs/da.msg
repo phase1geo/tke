@@ -152,6 +152,9 @@ msgcat::mcmset da {
   "Image used in the preferences window in the Appearance tab."
   "Billedet i indstillingsvinduet på fanen udseende."
 
+  "Image used in the preferences window in the Documentation tab."
+  "Billedet i indstillingsvinduet i fanen dokumentation."
+
   "Image used in the preferences window in the Editor tab."
   "Billedet i indstillingsvinduet i fanen Editor."
 
@@ -789,9 +792,6 @@ msgcat::mcmset da {
   "Jump to the previous fold indicator"
   "Springe til den forrige fold indikator"
 
-  "Language Documentation"
-  "Sprog dokumentation"
-
   "Line Above Current"
   "Linje over nuværende"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset da {
   "Reload template information"
   "Genindlæse skabelonoplysninger"
 
+  "Remove All From Current Buffer"
+  "Fjerne alle fra aktuelle Buffer"
+
   "Remove All Markers"
   "Fjerne alle markører"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset da {
 
   "Remove all markers"
   "Fjerne alle markører"
+
+  "Remove all markers from current buffer"
+  "Fjerne alle markører fra aktuelle buffer"
 
   "Remove formatting from selected text"
   "Fjerne formateringen fra den markerede tekst"
@@ -1175,6 +1181,12 @@ msgcat::mcmset da {
 
   "Save sessions as"
   "Gemme sessioner som"
+
+  "Search Documentation"
+  "Søg i dokumentation"
+
+  "Search language reference documentation"
+  "Søg efter sprog referencedokumentation"
 
   "Select All"
   "Vælg alle"
@@ -1494,6 +1506,9 @@ msgcat::mcmset da {
 
   "Add"
   "Tilføj"
+
+  "Add Language Reference"
+  "Tilføje Language Reference"
 
   "Additional space between lines"
   "Ekstra mellemrum mellem linjer"
@@ -2046,9 +2061,6 @@ msgcat::mcmset da {
   "Server"
   "Server"
 
-  "Test"
-  "Test"
-
   "Test Connection"
   "Test forbindelse"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset da {
 
   "No search results found"
   "Ingen resultater matcher din søgning!"
+
+  "Search String"
+  "søgestreng"
 
   "Search wrapped to beginning of file"
   "Søg ombrydes til begyndelsen af filen"
@@ -2678,9 +2693,6 @@ msgcat::mcmset da {
   "Save theme changes?"
   "Gem tema ændringer?"
 
-  "Search"
-  "Søg Nu"
-
   "Select Directory"
   "Vælg katalog"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset da {
   "Language"
   "Sprog"
 
+  "Language Documentation"
+  "Sprog dokumentation"
+
   "Launcher"
   "Launcher"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset da {
   "Save As"
   "Gem som"
 
+  "Search"
+  "Søg Nu"
+
   "Sessions"
   "Sessioner"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset da {
 
   "Templates"
   "Skabeloner"
+
+  "Test"
+  "Test"
 
   "Theme Editor"
   "Tema Editor"

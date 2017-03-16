@@ -152,6 +152,9 @@ msgcat::mcmset nl {
   "Image used in the preferences window in the Appearance tab."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Weergave."
 
+  "Image used in the preferences window in the Documentation tab."
+  "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad documentatie."
+
   "Image used in the preferences window in the Editor tab."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster op het tabblad Editor."
 
@@ -789,9 +792,6 @@ msgcat::mcmset nl {
   "Jump to the previous fold indicator"
   "Ga naar de vorige vouw-indicator"
 
-  "Language Documentation"
-  "Documentatie van de taal"
-
   "Line Above Current"
   "Lijn boven de huidige"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset nl {
   "Reload template information"
   "Informatie in de groepsbeleidssjabloon herladen"
 
+  "Remove All From Current Buffer"
+  "Verwijder alle uit de huidige Buffer"
+
   "Remove All Markers"
   "Alle markeringen verwijderen"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset nl {
 
   "Remove all markers"
   "Alle markeringen verwijderen"
+
+  "Remove all markers from current buffer"
+  "Alle markeringen verwijderen uit huidige buffer"
 
   "Remove formatting from selected text"
   "Opmaak van geselecteerde tekst verwijderen"
@@ -1175,6 +1181,12 @@ msgcat::mcmset nl {
 
   "Save sessions as"
   "Opslaan als zittingen"
+
+  "Search Documentation"
+  "Zoek in de documentatie"
+
+  "Search language reference documentation"
+  "Zoek taal referentie documentatie"
 
   "Select All"
   "Alles selecteren"
@@ -1494,6 +1506,9 @@ msgcat::mcmset nl {
 
   "Add"
   "Toevoegen"
+
+  "Add Language Reference"
+  "Naslaggids voor toevoegen"
 
   "Additional space between lines"
   "Extra ruimte tussen regels"
@@ -2046,9 +2061,6 @@ msgcat::mcmset nl {
   "Server"
   "Server"
 
-  "Test"
-  "Test"
-
   "Test Connection"
   "Test verbinding"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset nl {
 
   "No search results found"
   "﻿Geen resultaten gevonden..."
+
+  "Search String"
+  "Zoekreeks"
 
   "Search wrapped to beginning of file"
   "Zoek verpakt aan begin van bestand"
@@ -2678,9 +2693,6 @@ msgcat::mcmset nl {
   "Save theme changes?"
   "Opslaan thema veranderingen?"
 
-  "Search"
-  "Zoeken"
-
   "Select Directory"
   "Kies Directory"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset nl {
   "Language"
   "Taal"
 
+  "Language Documentation"
+  "Documentatie van de taal"
+
   "Launcher"
   "Launcher"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset nl {
   "Save As"
   "Opslaan als"
 
+  "Search"
+  "Zoeken"
+
   "Sessions"
   "Sessies"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset nl {
 
   "Templates"
   "Templates"
+
+  "Test"
+  "Test"
 
   "Theme Editor"
   "Thema-editor"

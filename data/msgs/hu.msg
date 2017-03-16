@@ -152,6 +152,9 @@ msgcat::mcmset hu {
   "Image used in the preferences window in the Appearance tab."
   "A megjelenés lapon a beállítások ablakban használt kép."
 
+  "Image used in the preferences window in the Documentation tab."
+  "A dokumentumok lapon a beállítások ablakban használt kép."
+
   "Image used in the preferences window in the Editor tab."
   "Az Editor fülön a beállítások ablakban használt kép."
 
@@ -789,9 +792,6 @@ msgcat::mcmset hu {
   "Jump to the previous fold indicator"
   "Ugrás az előző fold-jelző"
 
-  "Language Documentation"
-  "Nyelvű dokumentáció"
-
   "Line Above Current"
   "Folyó feletti line"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset hu {
   "Reload template information"
   "Reload információjához"
 
+  "Remove All From Current Buffer"
+  "Minden aktuális puffer eltávolítása"
+
   "Remove All Markers"
   "Összes jelöl?jének eltávolítása"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset hu {
 
   "Remove all markers"
   "Összes jelölőjének eltávolítása"
+
+  "Remove all markers from current buffer"
+  "Összes jelölőjének eltávolítása a jelenlegi puffer"
 
   "Remove formatting from selected text"
   "A kijelölt szöveg formázásának eltávolítása"
@@ -1175,6 +1181,12 @@ msgcat::mcmset hu {
 
   "Save sessions as"
   "Megment a gyűlés mint"
+
+  "Search Documentation"
+  "Keresés a dokumentumban"
+
+  "Search language reference documentation"
+  "Keresés nyelvi referencia dokumentáció"
 
   "Select All"
   "Összes kijelölése"
@@ -1494,6 +1506,9 @@ msgcat::mcmset hu {
 
   "Add"
   "Hozzáadás"
+
+  "Add Language Reference"
+  "Nyelv-hivatkozás hozzáadása"
 
   "Additional space between lines"
   "További sorok közötti térköz"
@@ -2046,9 +2061,6 @@ msgcat::mcmset hu {
   "Server"
   "Szerver"
 
-  "Test"
-  "Teszt"
-
   "Test Connection"
   "Kapcsolat ellenőrzése"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset hu {
 
   "No search results found"
   "Nincs találat"
+
+  "Search String"
+  "Karakterlánc keresése"
 
   "Search wrapped to beginning of file"
   "Keresés becsomagolt fájl elejére"
@@ -2678,9 +2693,6 @@ msgcat::mcmset hu {
   "Save theme changes?"
   "Mentsd téma változik?"
 
-  "Search"
-  "Keresés"
-
   "Select Directory"
   "Válasszon ki egy könyvtárat"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset hu {
   "Language"
   "Nyelv"
 
+  "Language Documentation"
+  "Nyelvű dokumentáció"
+
   "Launcher"
   "Rakétaindító állvány"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset hu {
   "Save As"
   "Mentés másként"
 
+  "Search"
+  "Keresés"
+
   "Sessions"
   "Ülések"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset hu {
 
   "Templates"
   "Sablonok"
+
+  "Test"
+  "Teszt"
 
   "Theme Editor"
   "Témaszerkesztő"

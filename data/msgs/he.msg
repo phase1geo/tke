@@ -152,6 +152,9 @@ msgcat::mcmset he {
   "Image used in the preferences window in the Appearance tab."
   "תמונת שימוש בחלון העדפות הכרטיסייה ' מראה '."
 
+  "Image used in the preferences window in the Documentation tab."
+  "תמונת שימוש בחלון העדפות בכרטיסיה תיעוד."
+
   "Image used in the preferences window in the Editor tab."
   "תמונת שימוש בחלון העדפות בכרטיסיה ' עורך '."
 
@@ -789,9 +792,6 @@ msgcat::mcmset he {
   "Jump to the previous fold indicator"
   "לקפוץ על מחוון הקיפול הקודם"
 
-  "Language Documentation"
-  "תיעוד שפה"
-
   "Line Above Current"
   "קו מעל זרם"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset he {
   "Reload template information"
   "מידע אודות תבנית טען מחדש"
 
+  "Remove All From Current Buffer"
+  "להסיר את כל המאגר הנוכחי"
+
   "Remove All Markers"
   "הסר כל המרקרים"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset he {
 
   "Remove all markers"
   "להסיר את כל הסמנים"
+
+  "Remove all markers from current buffer"
+  "להסיר את כל הסמנים מהמאגר הנוכחי"
 
   "Remove formatting from selected text"
   "הסרת עיצוב מטקסט שנבחר"
@@ -1175,6 +1181,12 @@ msgcat::mcmset he {
 
   "Save sessions as"
   "לשמור הפעלות כמו"
+
+  "Search Documentation"
+  "חפש בתיעוד"
+
+  "Search language reference documentation"
+  "חיפוש שפת הפניה לתיעוד"
 
   "Select All"
   "בחר את כל"
@@ -1494,6 +1506,9 @@ msgcat::mcmset he {
 
   "Add"
   "הוסף"
+
+  "Add Language Reference"
+  "הוסף הפניה שפה"
 
   "Additional space between lines"
   "שטח נוסף בין השורות"
@@ -2046,9 +2061,6 @@ msgcat::mcmset he {
   "Server"
   "שרת"
 
-  "Test"
-  "בדיקה"
-
   "Test Connection"
   "בדיקת חיבור"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset he {
 
   "No search results found"
   "תוצאות חיפוש נמצאו"
+
+  "Search String"
+  "מחרוזת החיפוש"
 
   "Search wrapped to beginning of file"
   "חיפוש עטוף לתחילת הקובץ"
@@ -2678,9 +2693,6 @@ msgcat::mcmset he {
   "Save theme changes?"
   "האם לשמור שינויים בערכות נושא?"
 
-  "Search"
-  "חיפוש"
-
   "Select Directory"
   "בחר סוג אינדקס"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset he {
   "Language"
   "שפה"
 
+  "Language Documentation"
+  "תיעוד שפה"
+
   "Launcher"
   "משגר"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset he {
   "Save As"
   "שמירה בשם"
 
+  "Search"
+  "חיפוש"
+
   "Sessions"
   "הפעלות"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset he {
 
   "Templates"
   "תבניות"
+
+  "Test"
+  "בדיקה"
 
   "Theme Editor"
   "דירוג העורך"

@@ -152,6 +152,9 @@ msgcat::mcmset fr {
   "Image used in the preferences window in the Appearance tab."
   "Image utilisée dans la fenêtre de préférences dans l’onglet apparence."
 
+  "Image used in the preferences window in the Documentation tab."
+  "Image utilisée dans la fenêtre de préférences dans l’onglet Documentation."
+
   "Image used in the preferences window in the Editor tab."
   "Image utilisée dans la fenêtre de préférences dans l’onglet Éditeur."
 
@@ -789,9 +792,6 @@ msgcat::mcmset fr {
   "Jump to the previous fold indicator"
   "Saut à l'indicateur précédent de pli"
 
-  "Language Documentation"
-  "Documentation de langue"
-
   "Line Above Current"
   "Ligne supérieure courant"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset fr {
   "Reload template information"
   "Recharger les informations de modèle"
 
+  "Remove All From Current Buffer"
+  "Retirez tout le Buffer courant"
+
   "Remove All Markers"
   "Supprimer tous les marqueurs"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset fr {
 
   "Remove all markers"
   "Supprimer tous les marqueurs"
+
+  "Remove all markers from current buffer"
+  "Supprimer tous les marqueurs de tampon courant"
 
   "Remove formatting from selected text"
   "Supprimer le formatage du texte sélectionné"
@@ -1175,6 +1181,12 @@ msgcat::mcmset fr {
 
   "Save sessions as"
   "Enregistrer des sessions en tant que"
+
+  "Search Documentation"
+  "Rechercher Documentation"
+
+  "Search language reference documentation"
+  "Documentation de référence de langue recherche"
 
   "Select All"
   "Tout sélectionner"
@@ -1494,6 +1506,9 @@ msgcat::mcmset fr {
 
   "Add"
   "Ajouter"
+
+  "Add Language Reference"
+  "Ajoutez la référence du langage"
 
   "Additional space between lines"
   "Espace supplémentaire entre les lignes"
@@ -2046,9 +2061,6 @@ msgcat::mcmset fr {
   "Server"
   "serveur"
 
-  "Test"
-  "Essai"
-
   "Test Connection"
   "Test de connection"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset fr {
 
   "No search results found"
   "Résultats de la recherche\:"
+
+  "Search String"
+  "Terme de recherche"
 
   "Search wrapped to beginning of file"
   "Rechercher enveloppé au début du fichier"
@@ -2678,9 +2693,6 @@ msgcat::mcmset fr {
   "Save theme changes?"
   "Enregistrer les modifications de thème?"
 
-  "Search"
-  "Search"
-
   "Select Directory"
   "Sélectionner un répertoire"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset fr {
   "Language"
   "Langue"
 
+  "Language Documentation"
+  "Documentation de langue"
+
   "Launcher"
   "Lance"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset fr {
   "Save As"
   "Enregistrer sous"
 
+  "Search"
+  "Search"
+
   "Sessions"
   "Sessions"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset fr {
 
   "Templates"
   "Modèles HTML"
+
+  "Test"
+  "Essai"
 
   "Theme Editor"
   "éditeur de thèmes"

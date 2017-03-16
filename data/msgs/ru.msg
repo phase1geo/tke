@@ -152,6 +152,9 @@ msgcat::mcmset ru {
   "Image used in the preferences window in the Appearance tab."
   "Изображение, используемое в окне настройки на вкладке внешний вид."
 
+  "Image used in the preferences window in the Documentation tab."
+  "Изображение, используемое в окне настроек на закладке документации."
+
   "Image used in the preferences window in the Editor tab."
   "Изображение, используемое в окне настройки на вкладке Редактор."
 
@@ -789,9 +792,6 @@ msgcat::mcmset ru {
   "Jump to the previous fold indicator"
   "Перейти в предыдущий раз индикатор"
 
-  "Language Documentation"
-  "Документация по языку"
-
   "Line Above Current"
   "Линия выше тока"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset ru {
   "Reload template information"
   "Перезагрузить шаблон информации"
 
+  "Remove All From Current Buffer"
+  "Удалите все из текущего буфера"
+
   "Remove All Markers"
   "Удалить все маркеры"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset ru {
 
   "Remove all markers"
   "Удалить маркеры"
+
+  "Remove all markers from current buffer"
+  "Удалить все маркеры из текущего буфера"
 
   "Remove formatting from selected text"
   "Удаление форматирования из выделенного текста"
@@ -1175,6 +1181,12 @@ msgcat::mcmset ru {
 
   "Save sessions as"
   "Сохранить сессий как"
+
+  "Search Documentation"
+  "Поиск документации"
+
+  "Search language reference documentation"
+  "Поиск язык справочной документации"
 
   "Select All"
   "Выбрать все"
@@ -1494,6 +1506,9 @@ msgcat::mcmset ru {
 
   "Add"
   "Добавьте"
+
+  "Add Language Reference"
+  "Добавить в Справочник по языку"
 
   "Additional space between lines"
   "Дополнительное пространство между линиями"
@@ -2046,9 +2061,6 @@ msgcat::mcmset ru {
   "Server"
   "Сервер"
 
-  "Test"
-  "Тест"
-
   "Test Connection"
   "Тест подключения"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset ru {
 
   "No search results found"
   "Результаты не найдены."
+
+  "Search String"
+  "Строка поиска"
 
   "Search wrapped to beginning of file"
   "Поиск, завернутые в начале файла"
@@ -2678,9 +2693,6 @@ msgcat::mcmset ru {
   "Save theme changes?"
   "Сохранить изменения теме?"
 
-  "Search"
-  "Поиск"
-
   "Select Directory"
   "Выберите папку"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset ru {
   "Language"
   "Язык"
 
+  "Language Documentation"
+  "Документация по языку"
+
   "Launcher"
   "Пусковая установка"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset ru {
   "Save As"
   "Сохранить как"
 
+  "Search"
+  "Поиск"
+
   "Sessions"
   "сессий"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset ru {
 
   "Templates"
   "Шаблоны"
+
+  "Test"
+  "Тест"
 
   "Theme Editor"
   "Визуальный редактор темы"

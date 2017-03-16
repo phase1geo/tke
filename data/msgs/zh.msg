@@ -152,6 +152,9 @@ msgcat::mcmset zh {
   "Image used in the preferences window in the Appearance tab."
   "在首选项窗口中外观选项卡中使用的图像。"
 
+  "Image used in the preferences window in the Documentation tab."
+  "在首选项窗口中文件选项卡所用的图像。"
+
   "Image used in the preferences window in the Editor tab."
   "在首选项窗口中编辑器选项卡中使用的图像。"
 
@@ -789,9 +792,6 @@ msgcat::mcmset zh {
   "Jump to the previous fold indicator"
   "跳转到以前的折叠指示器"
 
-  "Language Documentation"
-  "用语言的文档"
-
   "Line Above Current"
   "高于当前行"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset zh {
   "Reload template information"
   "重新加载模板信息"
 
+  "Remove All From Current Buffer"
+  "所有从当前缓冲区中删除"
+
   "Remove All Markers"
   "刪除所有標記"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset zh {
 
   "Remove all markers"
   "删除所有标记"
+
+  "Remove all markers from current buffer"
+  "从当前缓冲区中删除所有标记"
 
   "Remove formatting from selected text"
   "删除所选文本的格式"
@@ -1175,6 +1181,12 @@ msgcat::mcmset zh {
 
   "Save sessions as"
   "保存会话作为"
+
+  "Search Documentation"
+  "搜索文档"
+
+  "Search language reference documentation"
+  "搜索语言参考文档"
 
   "Select All"
   "全选"
@@ -1494,6 +1506,9 @@ msgcat::mcmset zh {
 
   "Add"
   "添加"
+
+  "Add Language Reference"
+  "添加语言参考"
 
   "Additional space between lines"
   "字里行间的额外空间"
@@ -2046,9 +2061,6 @@ msgcat::mcmset zh {
   "Server"
   "服务器"
 
-  "Test"
-  "测试"
-
   "Test Connection"
   "测试连接"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset zh {
 
   "No search results found"
   "个搜索结果"
+
+  "Search String"
+  "搜索字符串"
 
   "Search wrapped to beginning of file"
   "搜索到文件的开头包裹"
@@ -2678,9 +2693,6 @@ msgcat::mcmset zh {
   "Save theme changes?"
   "保存主题的变化？"
 
-  "Search"
-  "搜索"
-
   "Select Directory"
   "选择目录"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset zh {
   "Language"
   "语言"
 
+  "Language Documentation"
+  "用语言的文档"
+
   "Launcher"
   "发射台"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset zh {
   "Save As"
   "保存为"
 
+  "Search"
+  "搜索"
+
   "Sessions"
   "會議"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset zh {
 
   "Templates"
   "模板"
+
+  "Test"
+  "测试"
 
   "Theme Editor"
   "主题编辑器"
