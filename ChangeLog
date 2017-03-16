@@ -1,255 +1,89 @@
-2017-03-10 09:50 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (ff55bb6394d1 [devel-2.9.12])
+2017-03-14 00:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3fed7859addf [devel-2.9.13])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.12 release
+	ChangeLog for devel-2.9.13 release
 
-2017-03-10 09:50 -0600  Trevor Williams  <phase1geo@users.sourceforge.net>  (d5c6523d075c)
+2017-03-14 00:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cc8f0fbd3ca6)
 
 	* .hgtags:
-	Added tag devel-2.9.12 for changeset ff55bb6394d1
+	Added tag devel-2.9.13 for changeset 3fed7859addf
 
-2017-03-13 09:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2ea5a1d9be74)
+2017-03-14 09:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (662779893190)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
-	* Fixing Vim BIST issues in section 15.
-	* Fixing a few code issues found in BIST.
+	* lib/images/documentation.gif: new file.
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/gui.tcl,
+	lib/images/documentation.gif, lib/pref_ui.tcl, lib/version.tcl:
+	* Updating translations.
+	* Checkpointing work on new Documentation preference panel.
 
-2017-03-13 14:23 -0500  Trevor Williams  <phase1geo@gmail.com>  (c78fb0899af8)
+2017-03-14 17:29 -0500  Trevor Williams  <phase1geo@gmail.com>  (812342620eeb)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
-	* Fixing regression issues.
-	* Enhancing Vim test.
-
-2017-03-13 14:42 -0500  Trevor Williams  <phase1geo@gmail.com>  (e8f52a468995)
-
-	* lib/edit.tcl, lib/version.tcl, tests/vim.tcl:
-	* Fixing BIST issue with recent code change.
-
-2017-03-13 20:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f68c4efa7f7a)
-
-	* MacOSX/.DS_Store, MacOSX/TKE.app/Contents/Resources/TKETheme.icns,
+	* data/preferences.tkedat, lib/pref_ui.tcl, lib/preferences.tcl,
 	lib/version.tcl:
-	* Updating theme icon.
+	* Checkpointing work on documentation references in preference
+	window.
 
-2017-03-13 20:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bdc240da498e)
+2017-03-14 20:57 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (de07e538636d)
 
-	* lib/files.tcl, lib/gui.tcl, lib/version.tcl:
-	* Fixing issues with checking a file for existence when the tab
-	receives focus.
+	* lib/menus.tcl, lib/pref_ui.tcl, lib/preferences.tcl, lib/search.tcl,
+	lib/version.tcl, lib/vim.tcl:
+	* Completing initial work on language documentation support.
 
-2017-03-13 22:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4316653159a1)
+2017-03-15 01:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8412e4768971)
 
-	* .DS_Store, doc/md/.Ulysses-favorites.plist, doc/md/TKE Developer
-	Guide/Prefix/.Ulysses-Group.plist, doc/md/TKE User Guide/Prefix
-	/.Ulysses-Group.plist, doc/md/TKE User Guide/User Interface/Plugins
-	Menu.textbundle/text.md, doc/md/TKE User Guide/Vim Commands/Moving
-	around in a file.textbundle/text.md, lib/version.tcl:
-	* Documentation updates.
-
-2017-03-13 22:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b3a89b33bc50)
-
-	* doc/md/TKE Developer Guide/Prefix/title- TKE Developer
-	Guide.textbundle/info.json, doc/md/TKE Developer Guide/Prefix/title-
-	TKE Developer Guide.textbundle/text.md, doc/md/TKE User
-	Guide/Prefix/title- TKE User Guide.textbundle/info.json, doc/md/TKE
-	User Guide/Prefix/title- TKE User Guide.textbundle/text.md: new
-	file.
-	* doc/md/TKE Developer Guide/Prefix/TKE Developer
-	Guide.textbundle/info.json, doc/md/TKE Developer Guide/Prefix/TKE
-	Developer Guide.textbundle/text.md, doc/md/TKE User Guide/Prefix/TKE
-	User Guide.textbundle/info.json, doc/md/TKE User Guide/Prefix/TKE
-	User Guide.textbundle/text.md: deleted file.
-	* Win/setup.iss, doc/md/TKE Developer Guide/Prefix/TKE Developer
-	Guide.textbundle/info.json, doc/md/TKE Developer Guide/Prefix/TKE
-	Developer Guide.textbundle/text.md, doc/md/TKE Developer
-	Guide/Prefix/title- TKE Developer Guide.textbundle/info.json,
-	doc/md/TKE Developer Guide/Prefix/title- TKE Developer
-	Guide.textbundle/text.md, doc/md/TKE User Guide/Prefix/TKE User
-	Guide.textbundle/info.json, doc/md/TKE User Guide/Prefix/TKE User
-	Guide.textbundle/text.md, doc/md/TKE User Guide/Prefix/title- TKE
-	User Guide.textbundle/info.json, doc/md/TKE User Guide/Prefix/title-
-	TKE User Guide.textbundle/text.md, lib/version.tcl:
-	* Updating Windows version for upcoming stable release.
-	* More documentation updates.
-
-2017-03-14 00:43 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (38c2389dd981)
-
-	* doc/md/TKE User Guide/Themes/.Ulysses-Group.plist, doc/md/TKE User
-	Guide/Themes/Button Action Bar.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Button Action Bar.textbundle/info.json,
-	doc/md/TKE User Guide/Themes/Button Action Bar.textbundle/text.md,
-	doc/md/TKE User Guide/Themes/Category
-	Table.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Themes/Category Table.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Category Table.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Color Swatch Editor.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Color Swatch
-	Editor.textbundle/info.json, doc/md/TKE User Guide/Themes/Color
-	Swatch Editor.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Interface.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Interface.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Option Description Pane.textbundle/info.json,
-	doc/md/TKE User Guide/Themes/Option Description
-	Pane.textbundle/text.md, doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-4.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-5.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/info.json, doc/md/TKE User Guide/Themes/Option
-	Detail Pane.textbundle/text.md, doc/md/TKE User Guide/Themes/Sharing
-	New Themes.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Sharing New Themes.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Theme Editor.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Theme Editor.textbundle/info.json,
-	doc/md/TKE User Guide/Themes/Theme Editor.textbundle/text.md,
-	doc/md/TKE User Guide/Themes/Themes.textbundle/info.json, doc/md/TKE
-	User Guide/Themes/Themes.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Title Bar.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Title Bar.textbundle/text.md: new file.
-	* doc/DeveloperGuide.html, doc/UserGuide.html, doc/md/.Ulysses-
-	favorites.plist, doc/md/TKE Developer Guide/Syntax Handling/File
-	Format.textbundle/text.md, doc/md/TKE User Guide/.Ulysses-
-	Group.plist, doc/md/TKE User Guide/Introduction/Feature
-	Set.textbundle/text.md, doc/md/TKE User Guide/Themes/.Ulysses-
-	Group.plist, doc/md/TKE User Guide/Themes/Button Action
-	Bar.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Themes/Button Action Bar.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Button Action Bar.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Category Table.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Category Table.textbundle/info.json,
-	doc/md/TKE User Guide/Themes/Category Table.textbundle/text.md,
-	doc/md/TKE User Guide/Themes/Color Swatch
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Themes/Color Swatch Editor.textbundle/info.json, doc/md/TKE
-	User Guide/Themes/Color Swatch Editor.textbundle/text.md, doc/md/TKE
-	User Guide/Themes/Interface.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Interface.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Option Description Pane.textbundle/info.json,
-	doc/md/TKE User Guide/Themes/Option Description
-	Pane.textbundle/text.md, doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-4.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-5.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/info.json, doc/md/TKE User Guide/Themes/Option
-	Detail Pane.textbundle/text.md, doc/md/TKE User Guide/Themes/Sharing
-	New Themes.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Sharing New Themes.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Theme Editor.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Theme Editor.textbundle/info.json,
-	doc/md/TKE User Guide/Themes/Theme Editor.textbundle/text.md,
-	doc/md/TKE User Guide/Themes/Themes.textbundle/info.json, doc/md/TKE
-	User Guide/Themes/Themes.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Title Bar.textbundle/info.json, doc/md/TKE User
-	Guide/Themes/Title Bar.textbundle/text.md, doc/md/TKE User
-	Guide/User Interface/Help Menu.textbundle/text.md, doc/md/TKE User
-	Guide/User Interface/Tab Bar.textbundle/text.md, doc/md/TKE User
-	Guide/Vim Commands/Extended Vim Commands.textbundle/text.md,
-	doc/md/TKE User Guide/Vim Commands/Miscellaneous.textbundle/text.md,
-	doc/md/TKE User Guide/Vim Commands/Moving around in a
-	file.textbundle/text.md, doc/md/TKE User Guide/Vim Commands/Vim
-	Options.textbundle/text.md, lib/version.tcl:
-	* Updating User Guide.
-	* Updating Developer Guide.
-
-2017-03-14 00:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a094b995110e [tip])
-
-	* doc/md/TKE User Guide/Theme Editor/.Ulysses-Group.plist, doc/md/TKE
-	User Guide/Theme Editor/Button Action
-	Bar.textbundle/assets/DraggedImage.png, doc/md/TKE User Guide/Theme
-	Editor/Button Action Bar.textbundle/info.json, doc/md/TKE User
-	Guide/Theme Editor/Button Action Bar.textbundle/text.md, doc/md/TKE
-	User Guide/Theme Editor/Category
-	Table.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Theme Editor/Category Table.textbundle/info.json, doc/md/TKE
-	User Guide/Theme Editor/Category Table.textbundle/text.md,
-	doc/md/TKE User Guide/Theme Editor/Color Swatch
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Theme Editor/Color Swatch Editor.textbundle/info.json,
-	doc/md/TKE User Guide/Theme Editor/Color Swatch
-	Editor.textbundle/text.md, doc/md/TKE User Guide/Theme
-	Editor/Interface.textbundle/info.json, doc/md/TKE User Guide/Theme
-	Editor/Interface.textbundle/text.md, doc/md/TKE User Guide/Theme
-	Editor/Option Description Pane.textbundle/info.json, doc/md/TKE User
-	Guide/Theme Editor/Option Description Pane.textbundle/text.md,
-	doc/md/TKE User Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-4.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-5.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage.png, doc/md/TKE User Guide/Theme
-	Editor/Option Detail Pane.textbundle/info.json, doc/md/TKE User
-	Guide/Theme Editor/Option Detail Pane.textbundle/text.md, doc/md/TKE
-	User Guide/Theme Editor/Sharing and Downloading New
-	Themes.textbundle/info.json, doc/md/TKE User Guide/Theme
-	Editor/Sharing and Downloading New Themes.textbundle/text.md,
-	doc/md/TKE User Guide/Theme Editor/Theme
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Theme Editor/Theme Editor.textbundle/info.json, doc/md/TKE
-	User Guide/Theme Editor/Theme Editor.textbundle/text.md, doc/md/TKE
-	User Guide/Theme Editor/Title Bar.textbundle/info.json, doc/md/TKE
-	User Guide/Theme Editor/Title Bar.textbundle/text.md: deleted file.
-	* doc/md/TKE User Guide/Theme Editor/.Ulysses-Group.plist, doc/md/TKE
-	User Guide/Theme Editor/Button Action
-	Bar.textbundle/assets/DraggedImage.png, doc/md/TKE User Guide/Theme
-	Editor/Button Action Bar.textbundle/info.json, doc/md/TKE User
-	Guide/Theme Editor/Button Action Bar.textbundle/text.md, doc/md/TKE
-	User Guide/Theme Editor/Category
-	Table.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Theme Editor/Category Table.textbundle/info.json, doc/md/TKE
-	User Guide/Theme Editor/Category Table.textbundle/text.md,
-	doc/md/TKE User Guide/Theme Editor/Color Swatch
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Theme Editor/Color Swatch Editor.textbundle/info.json,
-	doc/md/TKE User Guide/Theme Editor/Color Swatch
-	Editor.textbundle/text.md, doc/md/TKE User Guide/Theme
-	Editor/Interface.textbundle/info.json, doc/md/TKE User Guide/Theme
-	Editor/Interface.textbundle/text.md, doc/md/TKE User Guide/Theme
-	Editor/Option Description Pane.textbundle/info.json, doc/md/TKE User
-	Guide/Theme Editor/Option Description Pane.textbundle/text.md,
-	doc/md/TKE User Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-4.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage-5.png, doc/md/TKE User
-	Guide/Theme Editor/Option Detail
-	Pane.textbundle/assets/DraggedImage.png, doc/md/TKE User Guide/Theme
-	Editor/Option Detail Pane.textbundle/info.json, doc/md/TKE User
-	Guide/Theme Editor/Option Detail Pane.textbundle/text.md, doc/md/TKE
-	User Guide/Theme Editor/Sharing and Downloading New
-	Themes.textbundle/info.json, doc/md/TKE User Guide/Theme
-	Editor/Sharing and Downloading New Themes.textbundle/text.md,
-	doc/md/TKE User Guide/Theme Editor/Theme
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Theme Editor/Theme Editor.textbundle/info.json, doc/md/TKE
-	User Guide/Theme Editor/Theme Editor.textbundle/text.md, doc/md/TKE
-	User Guide/Theme Editor/Title Bar.textbundle/info.json, doc/md/TKE
-	User Guide/Theme Editor/Title Bar.textbundle/text.md,
+	* lib/gui.tcl, lib/launcher.tcl, lib/markers.tcl, lib/menus.tcl,
 	lib/version.tcl:
-	* Removing old files.
+	* Checkpointing work on fixing markers (code is kind of a mess right
+	now).
+
+2017-03-15 19:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4b0283e6d01c)
+
+	* lib/edit.tcl:
+	* Code cleanup.
+
+2017-03-15 19:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (58c5ebf6b80d)
+
+	* * Merging.
+
+2017-03-15 19:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5175ce4b7bca)
+
+	* lib/markers.tcl, lib/pref_ui.tcl, lib/version.tcl:
+	* Fixing markers syntax error.
+	* Adding ability to move documentation rows around in preference
+	table.
+
+2017-03-15 23:20 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e4d32f50ef45)
+
+	* lib/gui.tcl, lib/markers.tcl, lib/menus.tcl, lib/scroller.tcl,
+	lib/version.tcl:
+	* Fixing several issues with markers.
+	* Adding ability to remove all markers in the current editing buffer.
+	* Changing `Remove All Markers` to remove all markers in all tabs.
+
+2017-03-15 23:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f1725ce0fae1)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2017-03-16 02:29 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8c34427219de [tip])
+
+	* data/bindings/menu_bindings.aqua.tkedat, lib/menus.tcl,
+	lib/pref_ui.tcl, lib/preferences.tcl, lib/syntax.tcl,
+	lib/version.tcl:
+	* Changing Command-T default shortcut to Control-G on macOS.
+	* Adding `View/Set Syntax` menu item back in the View menu.
+	* Fixing issue with displaying syntax menus which would cause the
+	application to crash.
+	* Fixing issue in displaying preferences window when viewing global
+	user preferences.
 
