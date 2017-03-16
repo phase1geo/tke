@@ -982,7 +982,6 @@ namespace eval gui {
 
         # Add markers
         set finfo(markers) [list]
-        logger::log "In save session, markers: [markers::get_markers $txt]"
         foreach {mname mtxt pos} [markers::get_markers $txt] {
           lappend finfo(markers) $mname [lindex [split $pos .] 0]
         }
@@ -1106,7 +1105,6 @@ namespace eval gui {
               $txt yview $finfo(yview)
             }
             if {[info exists finfo(markers)]} {
-              puts "In load session, markers: $finfo(markers)"
               foreach {mname line} $finfo(markers) {
                 markers::add $txt line $line $mname
               }
@@ -4874,6 +4872,7 @@ namespace eval gui {
     if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
       if {[markers::add $txt tag $tag]} {
         scroller::update_markers [winfo parent $txt].vb
+        ctext::linemapUpdate $txt
       } else {
         ctext::linemapClearMark $txt $line
       }
@@ -4899,18 +4898,34 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Removes all of the markers from the current editor.
-  proc remove_all_markers {} {
+  # Remove all of the text markers for the given text widget.
+  proc remove_txt_markers {txt} {
 
-    # Get the current text widget
-    set txt [current_txt]
-
-    foreach name [markers::get_all_names $txt] {
-      set line [lindex [split [markers::get_index $txt $name] .] 0]
+    foreach {name t line} [markers::get_markers $txt] {
+      set line [lindex [split $line .] 0]
       markers::delete_by_name $txt $name
       ctext::linemapClearMark $txt $line
     }
+
     scroller::update_markers [winfo parent $txt].vb
+
+  }
+
+  ######################################################################
+  # Removes all of the markers associated with the current text widget.
+  proc remove_current_markers {} {
+
+    remove_txt_markers [current_txt]
+
+  }
+
+  ######################################################################
+  # Removes all of the markers from the current editor.
+  proc remove_all_markers {} {
+
+    foreach txt [get_all_texts] {
+      remove_txt_markers $txt
+    }
 
   }
 
@@ -5121,8 +5136,6 @@ namespace eval gui {
   ######################################################################
   # Handles a mark request when the line is clicked.
   proc mark_command {win type tag} {
-
-    puts "In mark_command, win: $win, type: $type, tag: $tag"
 
     if {$type eq "marked"} {
       if {![markers::add $win tag $tag]} {
