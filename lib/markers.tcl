@@ -185,10 +185,13 @@ namespace eval markers {
     set lines [$txt count -lines 1.0 end]
     set color [theme::get_value syntax cursor]
 
-    puts "In markers::get_positions"
-    foreach {name tag} [array get markers $txt,*] {
-      puts "  txt: $txt, name: $name, tag: $tag, ranges: [$txt tag ranges $tag]"
-      set start_line [lindex [$txt tag ranges $tag] 0]
+    foreach {name t} [array get markers $txt,*] {
+      lassign $t type value
+      if {$type eq "line"} {
+        set start_line $value
+      } else {
+        set start_line [lindex [$txt tag ranges $value] 0]
+      }
       lappend pos [expr $start_line / $lines] [expr $start_line / $lines] $color
     }
 
