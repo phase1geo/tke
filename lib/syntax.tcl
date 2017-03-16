@@ -518,8 +518,8 @@ namespace eval syntax {
 
     # Adjust the language value if we are not performing a full insertion
     if {$embed_start eq ""} {
+      set lang_ns  [string tolower $language]
       set language $parent
-      set lang_ns ""
     } elseif {$cmd_prefix ne ""} {
       set lang_ns ""
     } else {
