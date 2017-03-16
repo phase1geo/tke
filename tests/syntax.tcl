@@ -51,8 +51,8 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.7 2.14 2.21]} {
-      cleanup "Keyword tags are incorrect ([$txt tag ranges _keywords])"
+    if {[$txt tag ranges _tag] ne [list 2.1 2.7 2.14 2.21]} {
+      cleanup "Tag tags are incorrect ([$txt tag ranges _tag])"
     }
     if {[$txt tag ranges _bold] ne [list 2.25 2.30]} {
       cleanup "Bold tags are incorrect ([$txt tag ranges _bold])"
@@ -83,8 +83,11 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6 10.1 10.6]} {
+    if {[$txt tag ranges _keywords] ne [list 6.4 6.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    }
+    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
+      cleanup "Tag miscompare ([$txt tag ranges _tag])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -121,8 +124,11 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
+    if {[$txt tag ranges _keywords] ne [list]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    }
+    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
+      cleanup "Tag miscompare ([$txt tag ranges _tag])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -159,8 +165,11 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6]} {
+    if {[$txt tag ranges _keywords] ne [list 6.4 6.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    }
+    if {[$txt tag ranges _tag] ne [list 2.1 2.5]} {
+      cleanup "Tag miscompare ([$txt tag ranges _tag])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -197,8 +206,11 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 6.4 6.6 10.1 10.6]} {
+    if {[$txt tag ranges _keywords] ne [list 6.4 6.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    }
+    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
+      cleanup "Tag miscompare ([$txt tag ranges _tag])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment0 miscompare ([$txt tag ranges _comstr1c0])"
@@ -218,7 +230,7 @@ namespace eval syntax {
 
   }
 
-  # Verify that inserting an extra character to a languag symbol causes a highlight change
+  # Verify that inserting an extra character to a language symbol causes a highlight change
   proc run_test6 {} {
 
     # Get the text widget
@@ -239,8 +251,11 @@ namespace eval syntax {
     $txt insert end "\n[string trim $str]"
     $txt insert 4.4 a
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
+    if {[$txt tag ranges _keywords] ne [list]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    }
+    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
+      cleanup "Tag miscompare ([$txt tag ranges _tag])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -278,8 +293,11 @@ namespace eval syntax {
     $txt insert end "\n[string trim $str]"
     $txt delete 4.4
 
-    if {[$txt tag ranges _keywords] ne [list 2.1 2.5 5.15 5.16 10.1 10.6]} {
+    if {[$txt tag ranges _keywords] ne [list]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
+    }
+    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
+      cleanup "Tag miscompare ([$txt tag ranges _tag])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
