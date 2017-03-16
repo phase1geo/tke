@@ -152,6 +152,9 @@ msgcat::mcmset cs {
   "Image used in the preferences window in the Appearance tab."
   "Obrázek v okně Předvolby na kartě vzhled."
 
+  "Image used in the preferences window in the Documentation tab."
+  "Obrázek v okně Předvolby na kartě dokumentace."
+
   "Image used in the preferences window in the Editor tab."
   "Obrázek v okně Předvolby v záložce Editor."
 
@@ -789,9 +792,6 @@ msgcat::mcmset cs {
   "Jump to the previous fold indicator"
   "Přejít na předchozí indikátor krát"
 
-  "Language Documentation"
-  "Dokumentace jazyka"
-
   "Line Above Current"
   "Linka nad aktuální"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset cs {
   "Reload template information"
   "Znovu načíst informace o šabloně"
 
+  "Remove All From Current Buffer"
+  "Odstranit vše od aktuální vyrovnávací paměti"
+
   "Remove All Markers"
   "Odebrat vechny zna?ky"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset cs {
 
   "Remove all markers"
   "Odebrat všechny značky"
+
+  "Remove all markers from current buffer"
+  "Odstranit všechny značky z aktuální vyrovnávací paměti"
 
   "Remove formatting from selected text"
   "Odebrat formátování z vybraného textu"
@@ -1175,6 +1181,12 @@ msgcat::mcmset cs {
 
   "Save sessions as"
   "Uložit sezení jako"
+
+  "Search Documentation"
+  "Vyhledávání dokumentace"
+
+  "Search language reference documentation"
+  "Hledání jazykových referenční dokumentace"
 
   "Select All"
   "Vybrat vše"
@@ -1494,6 +1506,9 @@ msgcat::mcmset cs {
 
   "Add"
   "Přidat"
+
+  "Add Language Reference"
+  "Přidat Reference jazyka"
 
   "Additional space between lines"
   "Další mezery mezi řádky"
@@ -2046,9 +2061,6 @@ msgcat::mcmset cs {
   "Server"
   "<strong>ERROR:</strong> There was an error storing <strong>robots.txt</strong> to the server, the file could not be written."
 
-  "Test"
-  "Test"
-
   "Test Connection"
   "Připojení"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset cs {
 
   "No search results found"
   "Nic se nenašlo"
+
+  "Search String"
+  "Hledat řetězec:"
 
   "Search wrapped to beginning of file"
   "Hledat zabalené na začátku souboru"
@@ -2678,9 +2693,6 @@ msgcat::mcmset cs {
   "Save theme changes?"
   "Uložit změny téma?"
 
-  "Search"
-  "Hledat"
-
   "Select Directory"
   "Vybrat adresář"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset cs {
   "Language"
   "Jazyk"
 
+  "Language Documentation"
+  "Dokumentace jazyka"
+
   "Launcher"
   "spouštěč"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset cs {
   "Save As"
   "Uložit jako"
 
+  "Search"
+  "Hledat"
+
   "Sessions"
   "Návt?vy"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset cs {
 
   "Templates"
   "Šablony"
+
+  "Test"
+  "Test"
 
   "Theme Editor"
   "Editor téma"

@@ -152,6 +152,9 @@ msgcat::mcmset pl {
   "Image used in the preferences window in the Appearance tab."
   "Obraz używany w oknie Preferencje na zakładce wygląd."
 
+  "Image used in the preferences window in the Documentation tab."
+  "Obraz używany w oknie Preferencje na zakładce dokumentacja."
+
   "Image used in the preferences window in the Editor tab."
   "W oknie Preferencje na zakładce Edytor obrazu."
 
@@ -789,9 +792,6 @@ msgcat::mcmset pl {
   "Jump to the previous fold indicator"
   "Przeskoczyć do poprzedniego wskaźnika razy"
 
-  "Language Documentation"
-  "Język dokumentacji"
-
   "Line Above Current"
   "Linii powyżej bieżącego"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset pl {
   "Reload template information"
   "Załaduj ponownie szablon informacji"
 
+  "Remove All From Current Buffer"
+  "Usuń wszystkie z bieżącego buforu"
+
   "Remove All Markers"
   "Usuń wszystkie znaczniki"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset pl {
 
   "Remove all markers"
   "Usuń wszystkie markery"
+
+  "Remove all markers from current buffer"
+  "Usuwanie wszystkich znaczników z bieżącego buforu"
 
   "Remove formatting from selected text"
   "Usuń formatowanie z zaznaczonego tekstu"
@@ -1175,6 +1181,12 @@ msgcat::mcmset pl {
 
   "Save sessions as"
   "Zapisać sesje jako"
+
+  "Search Documentation"
+  "Wyszukiwanie — dokumentacja"
+
+  "Search language reference documentation"
+  "Szukaj język dokumentacji"
 
   "Select All"
   "Wybierz wszystko"
@@ -1494,6 +1506,9 @@ msgcat::mcmset pl {
 
   "Add"
   "Dodaj"
+
+  "Add Language Reference"
+  "Dodaj odwołanie do języka"
 
   "Additional space between lines"
   "Dodatkowe miejsce między liniami"
@@ -2046,9 +2061,6 @@ msgcat::mcmset pl {
   "Server"
   "Serwer"
 
-  "Test"
-  "Test"
-
   "Test Connection"
   "Testuj Połączenie"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset pl {
 
   "No search results found"
   "Nie znaleziono żadnych wyników wyszukiwania"
+
+  "Search String"
+  "Wyszukiwany ciąg znaków"
 
   "Search wrapped to beginning of file"
   "Szukaj zawijane do początku pliku"
@@ -2678,9 +2693,6 @@ msgcat::mcmset pl {
   "Save theme changes?"
   "Zapisz zmiany motywu?"
 
-  "Search"
-  "Szukaj"
-
   "Select Directory"
   "Wybierz katalog"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset pl {
   "Language"
   "Język"
 
+  "Language Documentation"
+  "Język dokumentacji"
+
   "Launcher"
   "Wyrzutnia"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset pl {
   "Save As"
   "Zapisz jako"
 
+  "Search"
+  "Szukaj"
+
   "Sessions"
   "Sesje"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset pl {
 
   "Templates"
   "Szablony"
+
+  "Test"
+  "Test"
 
   "Theme Editor"
   "Motyw Editor"

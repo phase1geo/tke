@@ -152,6 +152,9 @@ msgcat::mcmset sv {
   "Image used in the preferences window in the Appearance tab."
   "Bild som används i inställningsfönstret i fliken utseende."
 
+  "Image used in the preferences window in the Documentation tab."
+  "Bild som används i inställningsfönstret i fliken dokumentation."
+
   "Image used in the preferences window in the Editor tab."
   "Bild som används i inställningsfönstret i fliken Editor."
 
@@ -789,9 +792,6 @@ msgcat::mcmset sv {
   "Jump to the previous fold indicator"
   "Hoppa till föregående vik indikatorn"
 
-  "Language Documentation"
-  "Språkdokumentation"
-
   "Line Above Current"
   "Linje ovanför aktuell"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset sv {
   "Reload template information"
   "Ladda mallinformation"
 
+  "Remove All From Current Buffer"
+  "Ta bort allt från aktuella bufferten"
+
   "Remove All Markers"
   "Ta bort alla markörer"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset sv {
 
   "Remove all markers"
   "Ta bort alla markörer"
+
+  "Remove all markers from current buffer"
+  "Ta bort alla markörer från aktuella bufferten"
 
   "Remove formatting from selected text"
   "Ta bort formatering från markerad text"
@@ -1175,6 +1181,12 @@ msgcat::mcmset sv {
 
   "Save sessions as"
   "Spara sessioner som"
+
+  "Search Documentation"
+  "Sök dokumentation"
+
+  "Search language reference documentation"
+  "Sök språk referensdokumentation"
 
   "Select All"
   "Markera alla"
@@ -1494,6 +1506,9 @@ msgcat::mcmset sv {
 
   "Add"
   "Lägg till"
+
+  "Add Language Reference"
+  "Lägg till Språkreferens"
 
   "Additional space between lines"
   "Extra utrymme mellan raderna"
@@ -2046,9 +2061,6 @@ msgcat::mcmset sv {
   "Server"
   "Server"
 
-  "Test"
-  "Test"
-
   "Test Connection"
   "Testa anslutning"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset sv {
 
   "No search results found"
   "Inga sökresultat som hittade"
+
+  "Search String"
+  "Söksträng"
 
   "Search wrapped to beginning of file"
   "Sök insvept till början av filen"
@@ -2678,9 +2693,6 @@ msgcat::mcmset sv {
   "Save theme changes?"
   "Spara tema ändringar?"
 
-  "Search"
-  "Sök"
-
   "Select Directory"
   "Välj katalog"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset sv {
   "Language"
   "Språk"
 
+  "Language Documentation"
+  "Språkdokumentation"
+
   "Launcher"
   "Launcher"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset sv {
   "Save As"
   "Spara som"
 
+  "Search"
+  "Sök"
+
   "Sessions"
   "Sessioner"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset sv {
 
   "Templates"
   "Mallar"
+
+  "Test"
+  "Test"
 
   "Theme Editor"
   "Temaredigeraren"

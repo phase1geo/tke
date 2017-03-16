@@ -152,6 +152,9 @@ msgcat::mcmset ja {
   "Image used in the preferences window in the Appearance tab."
   "[外観] タブでの基本設定ウィンドウで使用するイメージ。"
 
+  "Image used in the preferences window in the Documentation tab."
+  "[ドキュメント] タブで設定ウィンドウで使用する画像。"
+
   "Image used in the preferences window in the Editor tab."
   "[エディター] タブ設定ウィンドウで使用するイメージ。"
 
@@ -789,9 +792,6 @@ msgcat::mcmset ja {
   "Jump to the previous fold indicator"
   "以前の倍インジケーターへジャンプします。"
 
-  "Language Documentation"
-  "言語のドキュメント"
-
   "Line Above Current"
   "現在の上行"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset ja {
   "Reload template information"
   "テンプレート情報を再読み込み"
 
+  "Remove All From Current Buffer"
+  "現在のバッファーからすべて削除します。"
+
   "Remove All Markers"
   "すべてのマーカーを削除します"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset ja {
 
   "Remove all markers"
   "すべてのマーカーを削除します。"
+
+  "Remove all markers from current buffer"
+  "現在のバッファーからすべてのマーカーを削除します。"
 
   "Remove formatting from selected text"
   "選択したテキストから書式を削除します。"
@@ -1175,6 +1181,12 @@ msgcat::mcmset ja {
 
   "Save sessions as"
   "としてセッションを保存します。"
+
+  "Search Documentation"
+  "本文書を検索"
+
+  "Search language reference documentation"
+  "言語リファレンスのドキュメントを検索"
 
   "Select All"
   "すべて選択"
@@ -1494,6 +1506,9 @@ msgcat::mcmset ja {
 
   "Add"
   "追加"
+
+  "Add Language Reference"
+  "言語リファレンスを追加します。"
 
   "Additional space between lines"
   "行の間にスペース"
@@ -2046,9 +2061,6 @@ msgcat::mcmset ja {
   "Server"
   "サーバー"
 
-  "Test"
-  "テスト"
-
   "Test Connection"
   "テスト接続"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset ja {
 
   "No search results found"
   "検索結果は見つかりませんでした。"
+
+  "Search String"
+  "検索文字列"
 
   "Search wrapped to beginning of file"
   "ファイルの先頭に折り返し検索"
@@ -2678,9 +2693,6 @@ msgcat::mcmset ja {
   "Save theme changes?"
   "テーマの変更を保存しますか？"
 
-  "Search"
-  "検索"
-
   "Select Directory"
   "ディレクトリを選択"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset ja {
   "Language"
   "言語"
 
+  "Language Documentation"
+  "言語のドキュメント"
+
   "Launcher"
   "ランチャー"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset ja {
   "Save As"
   "名前を付けて保存"
 
+  "Search"
+  "検索"
+
   "Sessions"
   "セッション"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset ja {
 
   "Templates"
   "テンプレート"
+
+  "Test"
+  "テスト"
 
   "Theme Editor"
   "テーマエディタ"

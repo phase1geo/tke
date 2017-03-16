@@ -152,6 +152,9 @@ msgcat::mcmset el {
   "Image used in the preferences window in the Appearance tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο \"
 
+  "Image used in the preferences window in the Documentation tab."
+  "Εικόνα που χρησιμοποιείται στο παράθυρο \"
+
   "Image used in the preferences window in the Editor tab."
   "Εικόνα που χρησιμοποιείται στο παράθυρο \"
 
@@ -789,9 +792,6 @@ msgcat::mcmset el {
   "Jump to the previous fold indicator"
   "Άλμα με τον προηγούμενο δείκτη φορές"
 
-  "Language Documentation"
-  "Γλώσσα εγγράφων"
-
   "Line Above Current"
   "Γραμμή πάνω από το ρεύμα"
 
@@ -1095,6 +1095,9 @@ msgcat::mcmset el {
   "Reload template information"
   "Επαναφόρτωση πληροφορίες πρότυπο"
 
+  "Remove All From Current Buffer"
+  "Αφαιρούμε όλα τα τρέχοντα Buffer"
+
   "Remove All Markers"
   "Αφαιρέστε όλους τους δείκτες"
 
@@ -1106,6 +1109,9 @@ msgcat::mcmset el {
 
   "Remove all markers"
   "Αφαιρέστε όλους τους δείκτες"
+
+  "Remove all markers from current buffer"
+  "Αφαιρέστε όλα τα δείκτες από τρέχουσα buffer"
 
   "Remove formatting from selected text"
   "Κατάργηση μορφοποίηση από το επιλεγμένο κείμενο"
@@ -1175,6 +1181,12 @@ msgcat::mcmset el {
 
   "Save sessions as"
   "Σώσει συνεδρίες ως"
+
+  "Search Documentation"
+  "Αναζητήστε την τεκμηρίωση"
+
+  "Search language reference documentation"
+  "Τεκμηρίωση αναφοράς γλώσσα αναζήτησης"
 
   "Select All"
   "Επιλογή όλων"
@@ -1494,6 +1506,9 @@ msgcat::mcmset el {
 
   "Add"
   "Προσθήκη"
+
+  "Add Language Reference"
+  "Προσθέστε αναφορά γλώσσας"
 
   "Additional space between lines"
   "Επιπλέον χώρο μεταξύ των γραμμών"
@@ -2046,9 +2061,6 @@ msgcat::mcmset el {
   "Server"
   "Διακομιστής"
 
-  "Test"
-  "Δοκιμή"
-
   "Test Connection"
   "Δοκιμή σύνδεσης"
 
@@ -2074,6 +2086,9 @@ msgcat::mcmset el {
 
   "No search results found"
   "Δε βρέθηκαν αποτελέσματα αναζήτησης"
+
+  "Search String"
+  "Συμβολοσειρά αναζήτησης"
 
   "Search wrapped to beginning of file"
   "Αναζήτηση τυλιγμένο στην αρχή του αρχείου"
@@ -2678,9 +2693,6 @@ msgcat::mcmset el {
   "Save theme changes?"
   "Αποθηκεύστε τις αλλαγές θέμα;"
 
-  "Search"
-  "Αναζήτηση"
-
   "Select Directory"
   "Επιλογή καταλόγου"
 
@@ -2868,6 +2880,9 @@ msgcat::mcmset el {
   "Language"
   "Μητρική Γλώσσα"
 
+  "Language Documentation"
+  "Γλώσσα εγγράφων"
+
   "Launcher"
   "Προωθητής"
 
@@ -2910,6 +2925,9 @@ msgcat::mcmset el {
   "Save As"
   "Αποθήκευση ως"
 
+  "Search"
+  "Αναζήτηση"
+
   "Sessions"
   "συνεδρίες"
 
@@ -2942,6 +2960,9 @@ msgcat::mcmset el {
 
   "Templates"
   "Πρότυπα"
+
+  "Test"
+  "Δοκιμή"
 
   "Theme Editor"
   "Θέμα Εκδότης"
