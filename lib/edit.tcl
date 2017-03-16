@@ -76,10 +76,7 @@ namespace eval edit {
       $txtt insert "insert lineend" "\n"
     }
 
-    # Perform the insertion
-    # if {$insert == [$txtt index insert]} {
-    #   ::tk::TextSetCursor $txtt "insert+1l"
-    # }
+    # Make sure the inserted text is seen
     $txtt see insert
 
     # Perform the proper indentation
@@ -1033,7 +1030,7 @@ namespace eval edit {
 
       # Get the end of the current word (this will be the beginning of the next word)
       set curr_index [$txt index "$start display wordend"]
-      
+
       # This works around a text issue with wordend
       if {[$txt count -displaychars $curr_index "$curr_index+1c"] == 0} {
         set curr_index [$txt index "$curr_index display wordend"]
