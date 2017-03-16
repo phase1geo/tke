@@ -27,6 +27,7 @@ namespace eval syntax {
   variable filetypes    {}
   variable current_lang [msgcat::mc "None"]
   variable assoc_file
+  variable syntax_menus {}
 
   array set lang_template {
     filepatterns       {}
@@ -89,6 +90,9 @@ namespace eval syntax {
     # Add all of the syntax plugins
     plugins::add_all_syntax
 
+    # Create preference trace on language hiding
+    trace add variable preferences::prefs(General/DisabledLanguages) write [list syntax::handle_disabled_langs]
+
   }
 
   ######################################################################
@@ -100,6 +104,19 @@ namespace eval syntax {
 
     catch { unset curr_lang($txt) }
     catch { unset meta_tags($txt) }
+
+  }
+
+  ######################################################################
+  # Handle any changes to the General/DisabledLanguages preference
+  # variable.
+  proc handle_disabled_langs {name1 name2 op} {
+
+    variable syntax_menus
+
+    foreach syntax_menu $syntax_menus {
+      populate_syntax_menu $syntax_menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"] [get_enabled_languages]
+    }
 
   }
 
@@ -702,7 +719,7 @@ namespace eval syntax {
 
   ######################################################################
   # Repopulates the specified syntax selection menu.
-  proc populate_syntax_menu {mnu command varname dflt} {
+  proc populate_syntax_menu {mnu command varname dflt languages} {
 
     variable langs
 
@@ -730,13 +747,11 @@ namespace eval syntax {
     # Populate the menu with the available languages
     $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]
     set i 0
-    foreach lang [lsort [get_enabled_languages]] {
+    foreach lang [lsort $languages] {
       $mnu add radiobutton -label $lang -variable $varname \
         -value $lang -command [list {*}$command $lang] -columnbreak [expr (($len / $cols) == $i) && $dobreak]
       set i [expr (($len / $cols) == $i) ? 0 : ($i + 1)]
     }
-
-    return $mnu
 
   }
 
@@ -744,8 +759,15 @@ namespace eval syntax {
   # Create a menubutton containing a list of all available languages.
   proc create_menu {w} {
 
+    variable syntax_menus
+
     # Create the menubutton menu
-    return [menu ${w}Menu -tearoff 0 -postcommand [list syntax::populate_syntax_menu ${w}Menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"]]]
+    lappend syntax_menus [menu ${w}Menu -tearoff 0]
+
+    # Populate the menu
+    populate_syntax_menu ${w}Menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"] [get_enabled_languages]
+
+    return ${w}Menu
 
   }
 
