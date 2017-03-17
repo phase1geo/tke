@@ -640,19 +640,19 @@ namespace eval vim {
     }
 
     # Jump the cursor to the top of the screen
-    vim::handle_H $txtt
+    enter $txtt H
     if {[$txtt index insert] ne [$txtt index @0,0]} {
       cleanup "Top index was incorrect ([$txtt index insert])"
     }
 
     # Jump to the middle
-    vim::handle_M $txtt
+    enter $txtt M
     if {[$txtt index insert] ne [$txtt index @0,[expr [winfo reqheight $txtt] / 2]]} {
       cleanup "Middle index was incorrect ([$txtt index insert])"
     }
 
     # Jump to the bottom
-    vim::handle_L $txtt
+    enter $txtt L
     if {[$txtt index insert] ne [$txtt index @0,[winfo reqheight $txtt]]} {
       cleanup "Bottom index was incorrect ([$txtt index insert])"
     }
@@ -1429,21 +1429,130 @@ namespace eval vim {
 
   }
 
-  # Verify line selection (inclusive)
+  # Verify line selection (both inclusive and exclusive since it should not matter)
   proc run_test20 {} {
 
     # Initialize
     set txtt [initialize].t
 
-    $txtt insert end "\nThis is good\n\nThis is okay\nThis is great"
-    $txtt mark set insert 2.0
+    $txtt insert end [string repeat "\n  This is good" 100]
 
-    # Set mode to inclusive
-    vim::do_set_selection "inclusive"
+    foreach seltype [list inclusive exclusive] {
 
-    enter $txtt V
-    if {[$txtt tag ranges sel] ne [list 2.0 2.12]} {
-      cleanup "Line selection mode did not work ([$txtt tag ranges sel])"
+      # Set mode to inclusive
+      vim::do_set_selection $seltype
+      $txtt mark set insert 10.0
+
+      enter $txtt V
+      if {[$txtt tag ranges sel] ne [list 10.0 10.14]} {
+        cleanup "Line selection mode did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt j
+      if {[$txtt tag ranges sel] ne [list 10.0 11.14]} {
+        cleanup "One j did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {2 j}
+      if {[$txtt tag ranges sel] ne [list 10.0 13.14]} {
+        cleanup "Two j did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt Return
+      if {[$txtt tag ranges sel] ne [list 10.0 14.14]} {
+        cleanup "One return did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {2 Return}
+      if {[$txtt tag ranges sel] ne [list 10.0 16.14]} {
+        cleanup "Two return did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt w
+      if {[$txtt tag ranges sel] ne [list 10.0 16.14]} {
+        cleanup "One w did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {2 w}
+      if {[$txtt tag ranges sel] ne [list 10.0 17.14]} {
+        cleanup "Two w did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt b
+      if {[$txtt tag ranges sel] ne [list 10.0 16.14]} {
+        cleanup "One b did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {1 0 l}
+      if {[$txtt tag ranges sel] ne [list 10.0 16.14]} {
+        cleanup "One l did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt space
+      if {[$txtt tag ranges sel] ne [list 10.0 17.14]} {
+        cleanup "One space did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt BackSpace
+      if {[$txtt tag ranges sel] ne [list 10.0 16.14]} {
+        cleanup "One backspace did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt BackSpace
+      if {[$txtt tag ranges sel] ne [list 10.0 16.14]} {
+        cleanup "Another backspace did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt space
+      if {[$txtt tag ranges sel] ne [list 10.0 16.14]} {
+        cleanup "Another space did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt minus
+      if {[$txtt tag ranges sel] ne [list 10.0 15.14]} {
+        cleanup "One minus did not work ([$txtt tag ranges sel])"
+      }
+      if {[$txtt index insert] ne "15.2"} {
+        cleanup "One minus had bad insert ([$txtt index insert])"
+      }
+
+      enter $txtt {f T}
+      if {[$txtt tag ranges sel] ne [list 10.0 15.14]} {
+        cleanup "One fT did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {t T}
+      if {[$txtt tag ranges sel] ne [list 10.0 15.14]} {
+        cleanup "One tT did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {T T}
+      if {[$txtt tag ranges sel] ne [list 10.0 15.14]} {
+        cleanup "One TT did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {F T}
+      if {[$txtt tag ranges sel] ne [list 10.0 15.14]} {
+        cleanup "One FT did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {g g}
+      if {[$txtt tag ranges sel] ne [list 1.0 10.14]} {
+        cleanup "One gg did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt G
+      if {[$txtt tag ranges sel] ne [list 10.0 101.14]} {
+        cleanup "One G did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {2 0 G}
+      if {[$txtt tag ranges sel] ne [list 10.0 20.14]} {
+        cleanup "One 20G did not work ([$txtt tag ranges sel])"
+      }
+
+      enter $txtt {Escape Escape}
+
     }
 
     # Cleanup
@@ -1451,21 +1560,68 @@ namespace eval vim {
 
   }
 
-  # Verify line selection (exclusive)
+  # Verify indent, unindent, shiftwidth and indent formatting
   proc run_test21 {} {
 
     # Initialize
     set txtt [initialize].t
 
-    $txtt insert end "\nThis is good\n\nThis is okay\nThis is great"
+    $txtt insert end "\nThis is good\n\nThis is good too"
     $txtt mark set insert 2.0
 
-    # Set mode to exclusive
-    vim::do_set_selection "exclusive"
+    vim::do_set_shiftwidth 2
 
-    enter $txtt V
-    if {[$txtt tag ranges sel] ne [list]} {
-      cleanup "Line selection mode did not work ([$txtt tag ranges sel])"
+    enter $txtt {greater greater}
+    if {[$txtt get 1.0 end-1c] ne "\n  This is good\n\nThis is good too"} {
+      cleanup "Right shift failed ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {2 greater greater}
+    if {[$txtt get 1.0 end-1c] ne "\n    This is good\n  \nThis is good too"} {
+      cleanup "Right shift 2 failed ([$txtt get 1.0 end-1c])"
+    }
+
+    vim::do_set_shiftwidth 4
+
+    enter $txtt {3 greater greater}
+    if {[$txtt get 1.0 end-1c] ne "\n        This is good\n      \n    This is good too"} {
+      cleanup "Right shift 3 failed ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {less less}
+    if {[$txtt get 1.0 end-1c] ne "\n    This is good\n      \n    This is good too"} {
+      cleanup "Left shift failed ([$txtt get 1.0 end-1c])"
+    }
+
+    vim::do_set_shiftwidth 2
+
+    enter $txtt {2 less less}
+    if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n    This is good too"} {
+      cleanup "Left shift 2 failed ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {2 j equal equal}
+    if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n  This is good too"} {
+      cleanup "Equal failed ([$txtt get 1.0 end-1c])"
+    }
+
+    $txtt insert end "\n      This is cool"
+    enter $txtt {less less}
+    if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \nThis is good too\n      This is cool"} {
+      cleanup "Text adjustment failed ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {2 equal equal}
+    if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n  This is good too\n  This is cool"} {
+      cleanup "Equal 2 failed ([$txtt get 1.0 end-1c])"
+    }
+
+    $txtt insert end "\nThis is wacky\n    Not this though"
+    $txtt tag add sel 5.0 8.0
+
+    enter $txtt equal
+    if {[$txtt get 1.0 end-1c] ne "\n  This is good\n    \n  This is good too\n  This is cool\n  This is wacky\n  Not this though"} {
+      cleanup "Selected equal failed ([$txtt get 1.0 end-1c])"
     }
 
     # Cleanup

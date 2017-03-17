@@ -1128,15 +1128,13 @@ namespace eval vim {
     }
 
     # If the selection type is inclusive or old, include the current insertion cursor in the selection
-    if {$seltype ne "exclusive"} {
-      if {$type eq "line"} {
-        foreach anchor $select_anchors($txtt) {
-          $txtt tag add sel "$anchor linestart" "$anchor lineend"
-        }
-      } else {
-        foreach anchor $select_anchors($txtt) {
-          $txtt tag add sel $anchor $anchor+1c
-        }
+    if {$type eq "line"} {
+      foreach anchor $select_anchors($txtt) {
+        $txtt tag add sel "$anchor linestart" "$anchor lineend"
+      }
+    } elseif {$seltype ne "exclusive"} {
+      foreach anchor $select_anchors($txtt) {
+        $txtt tag add sel $anchor $anchor+1c
       }
     }
 
@@ -2341,6 +2339,14 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "goto"} {
       edit::move_cursor $txtt first
       start_mode $txtt
+      return 1
+    } elseif {[in_visual_mode $txtt]} {
+      if {[lindex [split $mode($txtt) :] end] eq "goto"} {
+        edit::move_cursor $txtt first
+        set mode($txtt) [join [lrange [split $mode($txtt) :] 0 end-1] :]
+      } else {
+        set mode($txtt) "$mode($txtt):goto"
+      }
       return 1
     }
 
@@ -3573,6 +3579,7 @@ namespace eval vim {
   proc handle_equal {txtt} {
 
     variable mode
+    variable number
 
     if {$mode($txtt) eq "start"} {
       if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
@@ -3584,7 +3591,11 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "format"} {
-      indent::format_text $txtt "insert linestart" "insert lineend"
+      if {[set num [expr {($number($txtt) eq "") ? 0 : ($number($txtt) - 1)}]] == 0} {
+        indent::format_text $txtt "insert linestart" "insert lineend"
+      } else {
+        indent::format_text $txtt "insert linestart" "insert+1l lineend"
+      }
       start_mode $txtt
       return 1
     }
