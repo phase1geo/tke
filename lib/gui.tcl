@@ -123,29 +123,29 @@ namespace eval gui {
       {msgcat::mc "Image used in tab to indicate that the tab’s file is locked."} \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
-      -foreground 1
+      -foreground 2
     theme::register_image tab_readonly bitmap tabs -background \
       {msgcat::mc "Image used in tab to indicate that the tab's file is readonly."} \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
-      -foreground 1
+      -foreground 2
     theme::register_image tab_diff bitmap tabs -background \
       {msgcat::mc "Image used in tab to indicate that the tab contains a difference view."} \
       -file     [file join $::tke_dir lib images diff.bmp] \
       -maskfile [file join $::tke_dir lib images diff.bmp] \
-      -foreground 1
+      -foreground 2
     theme::register_image tab_close bitmap tabs -background \
       {msgcat::mc "Image used in tab which, when clicked, closes the tab."} \
       -file     [file join $::tke_dir lib images close.bmp] \
       -maskfile [file join $::tke_dir lib images close.bmp] \
-      -foreground 1
+      -foreground 2
 
     # Create close button for forms
     theme::register_image form_close bitmap ttk_style background \
       {msgcat::mc "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."} \
       -file     [file join $::tke_dir lib images close.bmp] \
       -maskfile [file join $::tke_dir lib images close.bmp] \
-      -foreground 1
+      -foreground 2
 
     # Create main logo image
     image create photo logo -file [file join $::tke_dir lib images tke_logo_64.gif]
@@ -155,17 +155,17 @@ namespace eval gui {
       {msgcat::mc "Image used in tab menus to indicate that the file is locked."} \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
-      -foreground 1
+      -foreground 2
     theme::register_image menu_readonly bitmap menus -background \
       {msgcat::mc "Image used in tab menus to indicate that the file is readonly."} \
       -file     [file join $::tke_dir lib images lock.bmp] \
       -maskfile [file join $::tke_dir lib images lock.bmp] \
-      -foreground 1
+      -foreground 2
     theme::register_image menu_diff bitmap menus -background \
       {msgcat::mc "Image used in tab menus to indicate that the file is associated with a difference view."} \
       -file     [file join $::tke_dir lib images diff.bmp] \
       -maskfile [file join $::tke_dir lib images diff.bmp] \
-      -foreground 1
+      -foreground 2
 
     # Create preference images
     theme::register_image pref_checked photo ttk_style background \
@@ -354,6 +354,11 @@ namespace eval gui {
     $widgets(menu) add command -label [msgcat::mc "Show in Sidebar"]    -command gui::show_current_in_sidebar
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command gui::move_to_pane
+    
+    # Register the menu for theming purposes if we are not running on MacOSX
+    if {[tk windowingsystem] ne "aqua"} {
+      theme::register_widget $widgets(menu) menus
+    }
 
     # Add plugins to tab popup
     plugins::handle_tab_popup $widgets(menu)

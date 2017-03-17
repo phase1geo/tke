@@ -124,13 +124,13 @@ namespace eval sidebar {
     theme::register_image sidebar_open bitmap sidebar -background \
       {msgcat::mc "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."} \
       -file [file join $::tke_dir lib images sopen.bmp] \
-      -maskfile [file join $::tke_dir lib images sopen.bmp] \
+      -maskfile [file join $::tke_dir lib images smask.bmp] \
       -foreground gold -background black
 
     theme::register_image sidebar_hidden bitmap sidebar -background \
       {msgcat::mc "Image displayed in sidebar to indicate that a file is currently opened but hidden"} \
       -file [file join $::tke_dir lib images sopen.bmp] \
-      -maskfile [file join $::tke_dir lib images sopen.bmp] \
+      -maskfile [file join $::tke_dir lib images smask.bmp] \
       -foreground white -background black
 
     theme::register_image sidebar_file bitmap sidebar -background \
