@@ -251,7 +251,7 @@ namespace eval theme {
       set img_opts(-background) "black"
     }
     if {[info exists opts(-foreground)]} {
-      set img_opts(-foreground) "red"
+      set img_opts(-foreground) "white"
     }
 
     # First, create the image
@@ -986,10 +986,13 @@ namespace eval theme {
   proc update_menus {} {
 
     variable widgets
+    
+    puts "In update_menus"
 
     set opts [get_category_options menus]
 
     foreach mnu $widgets(menus) {
+      puts "  mnu: $mnu, opts: $opts"
       update_menu_helper $mnu $opts
     }
 
@@ -1051,14 +1054,19 @@ namespace eval theme {
   proc update_menu_helper {mnu opts} {
 
     $mnu configure {*}$opts
+    
+    puts [$mnu configure]
 
     if {[set last [$mnu index end]] ne "none"} {
+      puts "HERE ?"
       for {set i 0} {$i <= $last} {incr i} {
         if {[$mnu type $i] eq "cascade"} {
           update_menu_helper [$mnu entrycget $i -menu] $opts
         }
       }
     }
+    
+    puts "DONE"
 
   }
 

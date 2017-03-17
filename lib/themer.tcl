@@ -212,7 +212,7 @@ namespace eval themer {
 
       toplevel     .thmwin
       wm title     .thmwin [msgcat::mc "Theme Editor"]
-      wm geometry  .thmwin 800x600
+      wm geometry  .thmwin 800x650
       wm transient .thmwin .
       wm protocol  .thmwin WM_DELETE_WINDOW [list themer::close_window 0]
 
@@ -1356,7 +1356,7 @@ namespace eval themer {
   proc show_image_frame {type {value ""}} {
 
     variable data
-
+    
     set orig_value $value
 
     # Unpack any children in the image frame
@@ -1375,13 +1375,21 @@ namespace eval themer {
 
     # Organize the value into an array
     array set value_array $value
+    
+    # Make sure that the value arrays are 
+    if {[info exists value_array(fg)]} {
+      set value_array(fg) [theme::get_image_color $value_array(fg)]
+    }
+    if {[info exists value_array(bg)]} {
+      set value_array(bg) [theme::get_image_color $value_array(bg)]
+    }
 
     switch $type {
       mono {
         $data(widgets,image_mb)    configure -text [msgcat::mc "One-Color Bitmap"]
         $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get] -background $base_color
         if {[info exists value_array(dat)]} {
-          bitmap::set_from_info $data(widgets,image_mf_bm) $value
+          bitmap::set_from_info $data(widgets,image_mf_bm) [array get value_array]
           if {$orig_value eq ""} {
             handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
           }
@@ -1392,7 +1400,7 @@ namespace eval themer {
         $data(widgets,image_mb)    configure -text [msgcat::mc "Two-Color Bitmap"]
         $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get] -background $base_color
         if {[info exists value_array(dat)]} {
-          bitmap::set_from_info $data(widgets,image_df_bm) $value
+          bitmap::set_from_info $data(widgets,image_df_bm) [array get value_array]
           if {$orig_value eq ""} {
             handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
           }
@@ -1646,7 +1654,7 @@ namespace eval themer {
     variable data
 
     # Get the theme file to import
-    if {[set theme [tk_getOpenFile -parent $parent -title [msgcat::mc "Import Theme File"] -filetypes {{{TKE Theme} {.tkethemz}} {{TextMate Theme} {.tmtheme}}}]] ne ""} {
+    if {[set theme [tk_getOpenFile -parent $parent -title [msgcat::mc "Import Theme File"] -filetypes {{{TKE Theme} {.tkethemz}} {{TextMate Theme} {.tmtheme .tmTheme}}}]] ne ""} {
       switch -exact [string tolower [file extension $theme]] {
         .tkethemz {
           import_tke $theme .thmwin
