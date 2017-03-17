@@ -596,14 +596,14 @@ namespace eval edit {
     # If lines are selected, move all selected lines down one line
     if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
       foreach {end_range start_range} [lreverse $selected] {
-        set str [$txtt get "$end_range+1l linestart" "$end_range+l2 linestart"]
+        set str [$txtt get "$end_range+1l linestart" "$end_range+2l linestart"]
         $txtt delete "$end_range lineend" "$end_range+1l lineend"
         $txtt insert "$start_range linestart" $str
       }
 
     # Otherwise, move the current line down by one line
     } else {
-      set str [$txtt get "insert+1l linestart" "insert+2l linestart"]
+      set str [$txtt get "insert+1l linestart" "insert+l2 linestart"]
       $txtt delete "insert lineend" "insert+1l lineend"
       $txtt insert "insert linestart" $str
     }
@@ -1184,8 +1184,11 @@ namespace eval edit {
       }
       column      { set index [lindex [split [$txtt index insert] .] 0].[expr $num - 1] }
       linestart   {
-        set index [$txtt index "insert-1l lineend"]
-        set index "$index+1 display chars" }
+        set index [$txtt index "insert linestart+1 display chars"]
+        if {[$txtt compare "$index-1 display chars" >= "$index linestart"]} {
+          set index "$index-1 display chars"
+        }
+      }
       lineend     {
         if {$num == 1} {
           set index "insert lineend-1 display chars"
