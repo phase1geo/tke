@@ -1716,9 +1716,14 @@ namespace eval vim {
   proc handle_asciicircum {txtt} {
 
     variable mode
+    variable multicursor
 
-    if {$mode($txtt) eq "start"} {
-      edit::move_cursor $txtt firstword
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+      if {$multicursor($txtt)} {
+        multicursor::adjust_firstword $txtt
+      } else {
+        edit::move_cursor $txtt firstword
+      }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
       if {![multicursor::delete $txtt linestart]} {

@@ -1054,22 +1054,22 @@ namespace eval vim {
     if {[$txtt index insert] ne "2.10"} {
       cleanup "One dollar at end did not work ([$txtt index insert])"
     }
-    
+
     $txtt tag remove foobar 1.0 end
     $txtt tag add foobar 3.0 3.2
     $txtt mark set insert 3.3
-    
+
     vim::handle_number $txtt 0
     if {[$txtt index insert] ne "3.2"} {
       cleanup "One zero at begin did not work ([$txtt index insert])"
     }
-    
+
     $txtt mark set insert 3.2
     vim::handle_b $txtt
     if {[$txtt index insert] ne "2.12"} {
       cleanup "One b at begin did not work ([$txtt index insert])"
     }
-    
+
     $txtt tag remove foobar 1.0 end
     $txtt tag add foobar 3.2 3.end
     $txtt mark set insert 2.7
@@ -1077,7 +1077,7 @@ namespace eval vim {
     if {[$txtt index insert] ne "3.1"} {
       cleanup "One G at file end did not work ([$txtt index insert])"
     }
-    
+
     $txtt tag remove foobar 1.0 end
     $txtt insert 1.0 "here"
     $txtt tag add foobar 1.0 1.1
@@ -1092,7 +1092,7 @@ namespace eval vim {
 
   }
 
-  # Test motion with character selection (inclusive selection mode)
+  # Test forward motion with character selection (inclusive selection mode)
   proc run_test16 {} {
 
     # Initialize
@@ -1104,60 +1104,72 @@ namespace eval vim {
     $txtt insert end "\nThis is so so good\n\nThis is great"
     $txtt mark set insert 2.0
 
-    vim::handle_v $txtt
+    enter $txtt v
     if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
       cleanup "Character selection did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_any $txtt 108 l l
+    enter $txtt l
     if {[$txtt tag ranges sel] ne [list 2.0 2.2]} {
       cleanup "Right one did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_number $txtt 2
-    vim::handle_any $txtt 108 l l
+    enter $txtt {2 l}
     if {[$txtt tag ranges sel] ne [list 2.0 2.4]} {
       cleanup "Right two did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_any $txtt 32 " " space
+    enter $txtt space
     if {[$txtt tag ranges sel] ne [list 2.0 2.5]} {
       cleanup "Space one did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_number $txtt 2
-    vim::handle_any $txtt 32 " " space
+    enter $txtt {2 space}
     if {[$txtt tag ranges sel] ne [list 2.0 2.7]} {
       cleanup "Space two did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_any $txtt 119 w w
+    enter $txtt w
     if {[$txtt tag ranges sel] ne [list 2.0 2.9]} {
       cleanup "One w did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_number $txtt 2
-    vim::handle_any $txtt 119 w w
+    enter $txtt {2 w}
     if {[$txtt tag ranges sel] ne [list 2.0 2.15]} {
       cleanup "Two w did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_any $txtt 36 \$ dollar
+    enter $txtt dollar
     if {[$txtt tag ranges sel] ne [list 2.0 2.18]} {
       cleanup "Dollar did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_any $txtt 48 0 0
+    enter $txtt 0
     if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
       cleanup "Zero did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_any $txtt 106 j j
+    enter $txtt {5 bar}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.5]} {
+      cleanup "Bar did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {f g}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.15]} {
+      cleanup "One fg did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {0 t g}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.14]} {
+      cleanup "One tg did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt j
     if {[$txtt tag ranges sel] ne [list 2.0 3.1]} {
       cleanup "One j did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_any $txtt [utils::sym2code Return] \n Return
+    enter $txtt Return
     if {[$txtt tag ranges sel] ne [list 2.0 4.1]} {
       cleanup "One return did not work ([$txtt tag ranges sel])"
     }
@@ -1167,8 +1179,90 @@ namespace eval vim {
 
   }
 
-  # Test motion with character selection (exclusive selection mode)
+  # Test backword motion with character selection (inclusive selection mode)
   proc run_test17 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Set the selection mode to inclusive
+    vim::do_set_selection "inclusive"
+
+    $txtt insert end "\nThis is so so good\n\nThis is great"
+    $txtt mark set insert 2.10
+
+    enter $txtt v
+    if {[$txtt tag ranges sel] ne [list 2.10 2.11]} {
+      cleanup "Character selection did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt h
+    if {[$txtt tag ranges sel] ne [list 2.9 2.11]} {
+      cleanup "One h did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {2 h}
+    if {[$txtt tag ranges sel] ne [list 2.7 2.11]} {
+      cleanup "Two h did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt b
+    if {[$txtt tag ranges sel] ne [list 2.5 2.11]} {
+      cleanup "One b did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {1 1 bar 2 b}
+    if {[$txtt tag ranges sel] ne [list 2.5 2.11]} {
+      cleanup "Two b did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt BackSpace
+    if {[$txtt tag ranges sel] ne [list 2.4 2.11]} {
+      cleanup "Backspace did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt asciicircum
+    if {[$txtt tag ranges sel] ne [list 2.0 2.11]} {
+      cleanup "Caret did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {1 1 bar 0}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.11]} {
+      cleanup "0 did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {9 bar}
+    if {[$txtt tag ranges sel] ne [list 2.8 2.11]} {
+      cleanup "bar did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt minus
+    if {[$txtt tag ranges sel] ne [list 1.0 2.11]} {
+      cleanup "minus did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {Escape 4 G v}
+    if {[$txtt tag ranges sel] ne [list 4.0 4.1]} {
+      cleanup "Moving cursor to last line did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt k
+    if {[$txtt tag ranges sel] ne [list 3.0 4.1]} {
+      cleanup "One k did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt k
+    if {[$txtt tag ranges sel] ne [list 2.0 4.1]} {
+      cleanup "Another k did not work ([$txtt tag ranges sel])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Test forward motion with character selection (exclusive selection mode)
+  proc run_test18 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -1176,17 +1270,202 @@ namespace eval vim {
     # Set the selection mode to exclusive
     vim::do_set_selection "exclusive"
 
-    $txtt insert end "\nThis is good\n\nThis is great"
+    $txtt insert end "\nThis is so so good\n\nThis is great"
     $txtt mark set insert 2.0
 
-    vim::handle_v $txtt
+    enter $txtt v
     if {[$txtt tag ranges sel] ne [list]} {
       cleanup "Character selection did not work ([$txtt tag ranges sel])"
     }
 
-    vim::handle_l $txtt
+    enter $txtt l
     if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
       cleanup "Right one did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {2 l}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.3]} {
+      cleanup "Right two did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt space
+    if {[$txtt tag ranges sel] ne [list 2.0 2.4]} {
+      cleanup "Space one did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {2 space}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.6]} {
+      cleanup "Space two did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt w
+    if {[$txtt tag ranges sel] ne [list 2.0 2.8]} {
+      cleanup "One w did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {2 w}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.14]} {
+      cleanup "Two w did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt dollar
+    if {[$txtt tag ranges sel] ne [list 2.0 2.17]} {
+      cleanup "Dollar did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt 0
+    if {[$txtt tag ranges sel] ne [list]} {
+      cleanup "Zero did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {5 bar}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.4]} {
+      cleanup "Bar did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {f g}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.14]} {
+      cleanup "One fg did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {0 t g}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.13]} {
+      cleanup "One tg did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt j
+    if {[$txtt tag ranges sel] ne [list 2.0 3.0]} {
+      cleanup "One j did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt Return
+    if {[$txtt tag ranges sel] ne [list 2.0 4.0]} {
+      cleanup "One return did not work ([$txtt tag ranges sel])"
+    }
+    # Cleanup
+    cleanup
+
+  }
+
+  # Test backward motion with character selection (exclusive selection mode)
+  proc run_test19 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Set the selection mode to exclusive
+    vim::do_set_selection "exclusive"
+
+    $txtt insert end "\nThis is so so good\n\nThis is great"
+    $txtt mark set insert 2.10
+
+    enter $txtt v
+    if {[$txtt tag ranges sel] ne [list]} {
+      cleanup "Character selection did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt h
+    if {[$txtt tag ranges sel] ne [list 2.9 2.10]} {
+      cleanup "One h did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {2 h}
+    if {[$txtt tag ranges sel] ne [list 2.7 2.10]} {
+      cleanup "Two h did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt b
+    if {[$txtt tag ranges sel] ne [list 2.5 2.10]} {
+      cleanup "One b did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {1 1 bar 2 b}
+    if {[$txtt tag ranges sel] ne [list 2.5 2.10]} {
+      cleanup "Two b did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt BackSpace
+    if {[$txtt tag ranges sel] ne [list 2.4 2.10]} {
+      cleanup "Backspace did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt asciicircum
+    if {[$txtt tag ranges sel] ne [list 2.0 2.10]} {
+      cleanup "Caret did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {1 2 bar 0}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.10]} {
+      cleanup "0 did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {9 bar}
+    if {[$txtt tag ranges sel] ne [list 2.8 2.10]} {
+      cleanup "bar did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt minus
+    if {[$txtt tag ranges sel] ne [list 1.0 2.10]} {
+      cleanup "minus did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {Escape 4 G v}
+    if {[$txtt tag ranges sel] ne [list]} {
+      cleanup "Moving cursor to last line did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt k
+    if {[$txtt tag ranges sel] ne [list 3.0 4.0]} {
+      cleanup "One k did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt k
+    if {[$txtt tag ranges sel] ne [list 2.0 4.0]} {
+      cleanup "Another k did not work ([$txtt tag ranges sel])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify line selection (inclusive)
+  proc run_test20 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is good\n\nThis is okay\nThis is great"
+    $txtt mark set insert 2.0
+
+    # Set mode to inclusive
+    vim::do_set_selection "inclusive"
+
+    enter $txtt V
+    if {[$txtt tag ranges sel] ne [list 2.0 2.12]} {
+      cleanup "Line selection mode did not work ([$txtt tag ranges sel])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify line selection (exclusive)
+  proc run_test21 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is good\n\nThis is okay\nThis is great"
+    $txtt mark set insert 2.0
+
+    # Set mode to exclusive
+    vim::do_set_selection "exclusive"
+
+    enter $txtt V
+    if {[$txtt tag ranges sel] ne [list]} {
+      cleanup "Line selection mode did not work ([$txtt tag ranges sel])"
     }
 
     # Cleanup
@@ -1195,7 +1474,7 @@ namespace eval vim {
   }
 
   # Verify the period (.) Vim command
-  proc tbd_test18 {} {
+  proc tbd_test22 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -1237,7 +1516,7 @@ namespace eval vim {
 
     # Cleanup
     cleanup
-    
+
   }
 
 }
