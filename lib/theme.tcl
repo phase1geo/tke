@@ -987,12 +987,9 @@ namespace eval theme {
 
     variable widgets
     
-    puts "In update_menus"
-
     set opts [get_category_options menus]
 
     foreach mnu $widgets(menus) {
-      puts "  mnu: $mnu, opts: $opts"
       update_menu_helper $mnu $opts
     }
 
@@ -1055,10 +1052,7 @@ namespace eval theme {
 
     $mnu configure {*}$opts
     
-    puts [$mnu configure]
-
     if {[set last [$mnu index end]] ne "none"} {
-      puts "HERE ?"
       for {set i 0} {$i <= $last} {incr i} {
         if {[$mnu type $i] eq "cascade"} {
           update_menu_helper [$mnu entrycget $i -menu] $opts
@@ -1066,8 +1060,6 @@ namespace eval theme {
       }
     }
     
-    puts "DONE"
-
   }
 
 
