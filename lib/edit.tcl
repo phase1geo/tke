@@ -110,20 +110,10 @@ namespace eval edit {
 
   ######################################################################
   # Deletes the current line.
-  proc delete_current_line {txtt {num ""}} {
+  proc delete_current_line {txtt {num 1}} {
 
-    # Clear the clipboard
+    # Clear the clipboard and copy the line(s) that will be deleted
     clipboard clear
-
-    # Add the text to be deleted to the clipboard and delete the text
-    if {$num eq ""} {
-      set num 1
-    }
-
-    # If we are deleting the last line, take note of it
-    set deleting_last [$txtt compare "insert+${num}l linestart" == end]
-
-    # Copy the lines that will be deleted to the clipboard
     clipboard append [$txtt get "insert linestart" "insert+${num}l linestart"]
 
     # If we are deleting the last line, move the cursor up one line
@@ -148,33 +138,33 @@ namespace eval edit {
 
   ######################################################################
   # Deletes the current word (i.e., dw Vim mode).
-  proc delete_current_word {txtt {num ""}} {
+  proc delete_current_word {txtt {num 1}} {
 
-    # Clear the clipboard
-    clipboard clear
-
-    if {$num ne ""} {
-      set word [get_word $txtt next [expr $num - 1]]
-      clipboard append [$txtt get "insert wordstart" "$word wordend"]
-      $txtt delete "insert wordstart" "$word wordend"
+    if {[multicursor::enabled $txtt]} {
+      multicursor::delete $txtt word $num
     } else {
-      clipboard append [$txtt get "insert wordstart" "insert wordend"]
-      $txtt delete "insert wordstart" "insert wordend"
+      set endpos [get_index $txtt nextword -num $num]
+      clipboard clear
+      clipboard append [$txtt get insert $endpos]
+      $txtt delete insert $endpos
+      vim::adjust_insert $txtt
     }
 
   }
 
   ######################################################################
   # Delete from the current cursor to the end of the line
-  proc delete_to_end {txtt} {
+  proc delete_to_end {txtt {num 1}} {
 
     # Delete from the current cursor to the end of the line
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "lineend"
     } else {
+      set endpos [get_index $txtt lineend $num]+1c
       clipboard clear
-      clipboard append [$txtt get insert "insert lineend"]
-      $txtt delete insert "insert lineend"
+      clipboard append [$txtt get insert $endpos]
+      $txtt delete insert $endpos
+      vim::adjust_insert $txtt
     }
 
   }
@@ -1101,8 +1091,7 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Moves the cursor to a position that is specified by position and num.
-  # Valid values for position are:
+  # Returns the index of the requested permission.
   # - left       Move the cursor to the left on the current line
   # - right      Move the cursor to the right on the current line
   # - first      First line in file
@@ -1120,15 +1109,15 @@ namespace eval edit {
   # - screentop  Top of current screen
   # - screenmid  Middle of current screen
   # - screenbot  Bottom of current screen
-  proc move_cursor {txtt position args} {
+  proc get_index {txtt position args} {
 
     array set opts {
-      -num  ""
+      -num  1
       -char ""
     }
     array set opts $args
 
-    set num [expr {($opts(-num) eq "") ? 1 : $opts(-num)}]
+    set num $opts(-num)
 
     # Get the new cursor position
     switch $position {
@@ -1214,6 +1203,17 @@ namespace eval edit {
       prevfindinc { set index [find_char $txtt prev $opts(-char) $num] }
       default     { set index insert }
     }
+
+    return $index
+
+  }
+
+  ######################################################################
+  # Moves the cursor to the given position
+  proc move_cursor {txtt position args} {
+
+    # Get the index to move to
+    set index [get_index $txtt $position {*}$args]
 
     # Set the insertion position and make it visible
     ::tk::TextSetCursor $txtt $index

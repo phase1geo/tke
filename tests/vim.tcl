@@ -1675,4 +1675,94 @@ namespace eval vim {
 
   }
 
+  # Verify deletion
+  proc run_test23 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\n  This is a line"
+    $txtt mark set insert 2.0
+    vim::remove_dspace $txtt
+
+    if {[$txtt get 1.0 end-1c] ne "\n  This is a line"} {
+      cleanup "Starting state is not correct ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt x
+    if {[$txtt get 1.0 end-1c] ne "\n This is a line"} {
+      cleanup "One x did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {2 x}
+    if {[$txtt get 1.0 end-1c] ne "\nhis is a line"} {
+      cleanup "Two x did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {k x}
+    if {[$txtt get 1.0 end-1c] ne " \nhis is a line"} {
+      cleanup "One x on blank line did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    $txtt delete 1.0 end
+    $txtt insert end "\n  This is a line\nThis is a line\nThis is a line\nThis is a line"
+    $txtt mark set insert 2.0
+
+    enter $txtt {d d}
+    if {[$txtt get 1.0 end-1c] ne "\nThis is a line\nThis is a line\nThis is a line"} {
+      cleanup "One dd did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {2 d d}
+    if {[$txtt get 1.0 end-1c] ne "\nThis is a line"} {
+      cleanup "Two dd did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d l}
+    if {[$txtt get 1.0 end-1c] ne "\nhis is a line"} {
+      cleanup "One dl did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d 2 l}
+    if {[$txtt get 1.0 end-1c] ne "\ns is a line"} {
+      cleanup "Two dl did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d v l}
+    if {[$txtt get 1.0 end-1c] ne "\nis a line"} {
+      cleanup "One dvl did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d 2 v l}
+    if {[$txtt get 1.0 end-1c] ne "\na line"} {
+      cleanup "One d2vl did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d w}
+    if {[$txtt get 1.0 end-1c] ne "\nline"} {
+      cleanup "One dw did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    $txtt insert end "   good bar young"
+    enter $txtt {d 2 w}
+    if {[$txtt get 1.0 end-1c] ne "\nbar young"} {
+      cleanup "One d2w did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
+    enter $txtt {d dollar}
+    if {[$txtt get 1.0 end-1c] ne "\n \nThis is a line\nThis is a line\nThis is a line"} {
+      cleanup "One d\$ did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {2 d dollar}
+    if {[$txtt get 1.0 end-1c] ne "\n \nThis is a line\nThis is a line"} {
+      cleanup "Two d\$ did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
 }

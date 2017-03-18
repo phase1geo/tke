@@ -1266,6 +1266,16 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Returns the current number.
+  proc get_number {txtt} {
+
+    variable number
+
+    return [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
+
+  }
+
+  ######################################################################
   # Removes dspace characters.
   proc remove_dspace {w} {
 
@@ -1519,7 +1529,6 @@ namespace eval vim {
   proc handle_find_motion {txtt char} {
 
     variable mode
-    variable number
 
     lassign [split $mode($txtt) :] command type dir subcmd
 
@@ -1529,7 +1538,7 @@ namespace eval vim {
     }
 
     # Calculate the number
-    set num [expr {($number($txtt) ne "") ? $number($txtt) : 1}]
+    set num [get_number $txtt]
 
     # Handle any find motions
     switch $command {
@@ -1689,12 +1698,12 @@ namespace eval vim {
       if {$multicursor($txtt)} {
         multicursor::adjust_lineend $txtt $number($txtt)
       } else {
-        edit::move_cursor $txtt lineend -num $number($txtt)
+        edit::move_cursor $txtt lineend -num [get_number $txtt]
       }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
       if {![multicursor::delete $txtt lineend]} {
-        edit::delete_to_end $txtt
+        edit::delete_to_end $txtt [get_number $txtt]
       }
       start_mode $txtt
       record_add dollar
@@ -2016,7 +2025,7 @@ namespace eval vim {
       if {$multicursor($txtt)} {
         multicursor::adjust_right $txtt $number($txtt)
       } else {
-        edit::move_cursor $txtt right -num $number($txtt)
+        edit::move_cursor $txtt right -num [get_number $txtt]
       }
       return 1
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
@@ -2024,19 +2033,11 @@ namespace eval vim {
       if {[string index $mode($txtt) end] eq "V"} {
         $txtt delete "insert linestart" "insert+1l linestart"
       } else {
-        if {$number($txtt) ne ""} {
-          if {[string index $mode($txtt) end] eq "v"} {
-            set endpos "insert+[expr $number($txtt) + 1]c"
-          } else {
-            set endpos "insert+$number($txtt)c"
-          }
-        } else {
-          if {[string index $mode($txtt) end] eq "v"} {
-            set endpos "insert+1c"
-          } else {
-            set endpos "insert"
-          }
+        set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
+        if {[string index $mode($txtt) end] eq "v"} {
+          incr num
         }
+        set endpos "insert+${num}c"
         if {[$txtt compare "insert lineend" < $endpos]} {
           $txtt delete insert "insert lineend"
         } else {
@@ -2369,7 +2370,7 @@ namespace eval vim {
       if {$multicursor($txtt)} {
         multicursor::adjust_left $txtt $number($txtt)
       } else {
-        edit::move_cursor $txtt left -num $number($txtt)
+        edit::move_cursor $txtt left -num [get_number $txtt]
       }
       return 1
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
@@ -2503,7 +2504,7 @@ namespace eval vim {
       if {$multicursor($txtt)} {
         multicursor::adjust_word $txtt prev $number($txtt)
       } else {
-        edit::move_cursor $txtt prevword -num $number($txtt)
+        edit::move_cursor $txtt prevword -num [get_number $txtt]
       }
       return 1
     }
@@ -2596,34 +2597,22 @@ namespace eval vim {
       if {$multicursor($txtt)} {
         multicursor::adjust_word $txtt next $number($txtt)
       } else {
-        edit::move_cursor $txtt nextword -num $number($txtt)
+        edit::move_cursor $txtt nextword -num [get_number $txtt]
       }
       return 1
     } elseif {$mode($txtt) eq "change"} {
-      if {($number($txtt) ne "") && ($number($txtt) > 1)} {
-        if {![multicursor::delete $txtt "word" $number($txtt)]} {
-          $txtt delete insert "[edit::get_word $txtt next [expr $number($txtt) - 1]] wordend"
-        }
-      } else {
-        if {![multicursor::delete $txtt " wordend"]} {
-          $txtt delete insert "insert wordend"
-        }
+      if {![multicursor::delete $txtt "word" $number($txtt)]} {
+        $txtt delete insert [edit::get_word $txtt next [get_number $txtt]]
       }
       edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "yank"} {
       clipboard clear
-      if {$number($txtt) ne ""} {
-        clipboard append [$txtt get "insert wordstart" "[edit::get_word $txtt next [expr $number($txtt) - 1]] wordend"]
-      } else {
-        clipboard append [$txtt get "insert wordstart" "insert wordend"]
-      }
+      clipboard append [$txtt get insert [edit::get_word $txtt next [get_number $txtt]]]
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      if {![multicursor::delete $txtt word $number($txtt)]} {
-        edit::delete_current_word $txtt $number($txtt)
-      }
+      edit::delete_current_word $txtt [get_number $txtt]
       start_mode $txtt
       return 1
     }
@@ -2672,7 +2661,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "delete"} {
       if {![multicursor::delete $txtt line]} {
-        edit::delete_current_line $txtt $number($txtt)
+        edit::delete_current_line $txtt [get_number $txtt]
       }
       start_mode $txtt
       record_add d
@@ -3613,7 +3602,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt nextfirst -num $number($txtt)
+      edit::move_cursor $txtt nextfirst -num [get_number $txtt]
       return 1
     }
 
@@ -3630,7 +3619,7 @@ namespace eval vim {
     variable number
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt prevfirst -num $number($txtt)
+      edit::move_cursor $txtt prevfirst -num [get_number $txtt]
       return 1
     }
 
@@ -3647,7 +3636,7 @@ namespace eval vim {
     variable number
 
     if {(($mode($txtt) eq "start") || [in_visual_mode $txtt]) && ($number($txtt) ne "")} {
-      edit::move_cursor $txtt column -num $number($txtt)
+      edit::move_cursor $txtt column -num [get_number $txtt]
       return 1
     }
 
@@ -3784,7 +3773,7 @@ namespace eval vim {
     variable number
     variable multicursor
 
-    set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
+    set num [get_number $txtt]
 
     # Move the insertion cursor right one character
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
@@ -3865,7 +3854,7 @@ namespace eval vim {
     variable number
     variable multicursor
 
-    set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
+    set num [get_number $txtt]
 
     # Move the insertion cursor left one character
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
