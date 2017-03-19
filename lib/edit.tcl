@@ -160,7 +160,7 @@ namespace eval edit {
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "lineend"
     } else {
-      set endpos [get_index $txtt lineend $num]+1c
+      set endpos [get_index $txtt lineend -num $num]+1c
       clipboard clear
       clipboard append [$txtt get insert $endpos]
       $txtt delete insert $endpos
@@ -1076,14 +1076,15 @@ namespace eval edit {
 
     # Perform the character search
     if {$dir eq "next"} {
-      set indices [$txtt search -all -forward -- $char "insert+1c" "insert lineend"]
+      set indices [$txtt search -all -- $char "insert+1c" "insert lineend"]
+      if {[set index [lindex $indices [expr $num - 1]]] eq ""} {
+        set index "insert"
+      }
     } else {
-      set indices [$txtt search -all -backward -- $char insert "insert linestart"]
-    }
-
-    # If we could not find the character, return the insertion index
-    if {[set index [lindex $indices [expr $num - 1]]] eq ""} {
-      set index "insert"
+      set indices [$txtt search -all -- $char "insert linestart" insert]
+      if {[set index [lindex $indices end-[expr $num - 1]]] eq ""} {
+        set index "insert"
+      }
     }
 
     return $index
