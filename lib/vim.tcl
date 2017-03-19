@@ -2533,7 +2533,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "change"} {
       if {![multicursor::delete $txtt "line"]} {
-        $txtt delete "insert linestart" "insert lineend"
+        $txtt delete "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]+1c
       }
       edit_mode $txtt
       return 1

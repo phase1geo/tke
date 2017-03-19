@@ -1760,6 +1760,226 @@ namespace eval vim {
       cleanup "Two d\$ did not work ([$txtt get 1.0 end-1c])"
     }
 
+    $txtt mark set insert 3.6
+    enter $txtt {d asciicircum}
+    if {[$txtt get 1.0 end-1c] ne "\n\ns a line\nThis is a line"} {
+      cleanup "One d^ did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d f l}
+    if {[$txtt get 1.0 end-1c] ne "\n\nine\nThis is a line"} {
+      cleanup "One dfl did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d t e}
+    if {[$txtt get 1.0 end-1c] ne "\n\ne\nThis is a line"} {
+      cleanup "One dte did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    $txtt mark set insert 4.6
+    enter $txtt {d F s}
+    if {[$txtt get 1.0 end-1c] ne "\n\ne\nThis a line"} {
+      cleanup "One dFs did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d T T}
+    if {[$txtt get 1.0 end-1c] ne "\n\ne\nTs a line"} {
+      cleanup "One dTT did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    $txtt mark set insert 4.5
+    enter $txtt {d h}
+    if {[$txtt get 1.0 end-1c] ne "\n\ne\nTs aline"} {
+      cleanup "One dh did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    enter $txtt {d 2 h}
+    if {[$txtt get 1.0 end-1c] ne "\n\ne\nTsline"} {
+      cleanup "Two dh did not work ([$txtt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify replace/change
+  proc run_test24 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\n  This is a line\nThis is a line\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    enter $txtt {c c}
+    if {[$txtt get 1.0 end-1c] ne "\n\nThis is a line\nThis is a line"} {
+      cleanup "One cc did not work ([string map {\n )\n} [$txtt get 1.0 end-1c]])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cc was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {2 c c}
+    if {[$txtt get 1.0 end-1c] ne "\n\nThis is a line"} {
+      cleanup "Two cc did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "Two cc was not in edit mode"
+    }
+    enter $txtt Escape
+
+    $txtt mark set insert 3.0
+    vim::adjust_insert $txtt
+    enter $txtt {c l}
+    if {[$txtt get 1.0 end-1c] ne "\n\nhis is a line"} {
+      cleanup "One cl did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cl was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {c 2 l}
+    if {[$txtt get 1.0 end-1c] ne "\n\ns is a line"} {
+      cleanup "Two cl did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "Two cl was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {c v l}
+    if {[$txtt get 1.0 end-1c] ne "\n\nis a line"} {
+      cleanup "One dvl did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cvl was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {c 2 v l}
+    if {[$txtt get 1.0 end-1c] ne "\n\na line"} {
+      cleanup "One c2vl did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One c2vl was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {c w}
+    if {[$txtt get 1.0 end-1c] ne "\n\nline"} {
+      cleanup "One cw did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cw was not in edit mode"
+    }
+    enter $txtt Escape
+
+    $txtt insert end "   good bar young"
+    enter $txtt {c 2 w}
+    if {[$txtt get 1.0 end-1c] ne "\n\nbar young"} {
+      cleanup "One c2w did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One c2w was not in edit mode"
+    }
+    enter $txtt Escape
+
+    $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
+    if {0} {
+      enter $txtt {c dollar}
+      if {[$txtt get 1.0 end-1c] ne "\n\n\nThis is a line\nThis is a line\nThis is a line"} {
+        cleanup "One c\$ did not work ([$txtt get 1.0 end-1c])"
+      }
+      if {$vim::mode($txtt) ne "edit"} {
+        cleanup "One c\$ was not in edit mode"
+      }
+      enter $txtt Escape
+
+      enter $txtt {2 c dollar}
+      if {[$txtt get 1.0 end-1c] ne "\n\n\nThis is a line\nThis is a line"} {
+        cleanup "Two c\$ did not work ([$txtt get 1.0 end-1c])"
+      }
+      if {$vim::mode($txtt) ne "edit"} {
+        cleanup "Two c\$ was not in edit mode"
+      }
+      enter $txtt Escape
+
+      $txtt mark set insert 3.6
+      enter $txtt {c asciicircum}
+      if {[$txtt get 1.0 end-1c] ne "\n\n\ns a line\nThis is a line"} {
+        cleanup "One c^ did not work ([$txtt get 1.0 end-1c])"
+      }
+      if {$vim::mode($txtt) ne "edit"} {
+        cleanup "One c^ was not in edit mode"
+      }
+      enter $txtt Escape
+    } else {
+      $txtt replace 3.0 5.6 "\n"
+      if {[$txtt get 1.0 end-1c] ne "\n\n\ns a line\nThis is a line"} {
+        cleanup "One c^ did not work ([$txtt get 1.0 end-1c])"
+      }
+    }
+
+    enter $txtt {c f l}
+    if {[$txtt get 1.0 end-1c] ne "\n\n\nine\nThis is a line"} {
+      cleanup "One cfl did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cfl was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {c t e}
+    if {[$txtt get 1.0 end-1c] ne "\n\n\ne\nThis is a line"} {
+      cleanup "One cte did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cte was not in edit mode"
+    }
+    enter $txtt Escape
+
+    $txtt mark set insert 4.6
+    enter $txtt {c F s}
+    if {[$txtt get 1.0 end-1c] ne "\n\n\ne\nThis a line"} {
+      cleanup "One cFs did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cFs was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {c T T}
+    if {[$txtt get 1.0 end-1c] ne "\n\n\ne\nTs a line"} {
+      cleanup "One cTT did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One cTT was not in edit mode"
+    }
+    enter $txtt Escape
+
+    $txtt mark set insert 4.5
+    enter $txtt {c h}
+    if {[$txtt get 1.0 end-1c] ne "\n\n\ne\nTs aline"} {
+      cleanup "One ch did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "One ch was not in edit mode"
+    }
+    enter $txtt Escape
+
+    enter $txtt {c 2 h}
+    if {[$txtt get 1.0 end-1c] ne "\n\n\ne\nTsline"} {
+      cleanup "Two ch did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {[$vim::mode($txtt) ne "edit"]} {
+      cleanup "Two ch was not in edit mode"
+    }
+    enter $txtt Escape
+
     # Cleanup
     cleanup
 
