@@ -1,39 +1,58 @@
-2017-03-16 02:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fb13f604e140 [devel-2.9.14])
+2017-03-17 02:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (81abee0777c0 [devel-2.9.15])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.14 release
+	ChangeLog for devel-2.9.15 release
 
-2017-03-16 02:33 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ad053b08fd08)
+2017-03-17 02:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2d101010b5df)
 
 	* .hgtags:
-	Added tag devel-2.9.14 for changeset fb13f604e140
+	Added tag devel-2.9.15 for changeset 81abee0777c0
 
-2017-03-16 16:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (8b1c63da10ce)
+2017-03-17 08:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fc60ff11ed60)
 
-	* lib/syntax.tcl, lib/version.tcl:
-	* Fixing issue with syntax highlighting embedded languages without
-	start/end indicators.
+	* lib/tke.tcl, lib/version.tcl:
+	* Fixing syntax error when attempting to import a TKE theme.
 
-2017-03-16 16:32 -0500  Trevor Williams  <phase1geo@gmail.com>  (fac461bfa004)
+2017-03-17 17:07 -0500  Trevor Williams  <phase1geo@gmail.com>  (0c24a0ce3e17)
 
-	* lib/version.tcl, tests/syntax.tcl:
-	* Fixing syntax BIST failures.
+	* lib/images/smask.bmp: new file.
+	* lib/gui.tcl, lib/images/smask.bmp, lib/sidebar.tcl, lib/theme.tcl,
+	lib/themer.tcl, lib/version.tcl:
+	* Fixing issues with importing a TextMate theme and modifying an
+	image.
+	* Attempting to cause popup menu to get colorized in the same way as
+	the main menu on non-aqua systems but having no luck so far.
 
-2017-03-16 20:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (00eb977c1e60)
+2017-03-17 23:02 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b7a744e01780)
 
-	* lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
-	* Adding visual mode support to `^` Vim command.
-	* Enhancing Vim test.
+	* lib/gui.tcl, lib/theme.tcl, lib/version.tcl:
+	* Fixing default icon coloring.
 
-2017-03-17 02:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7d506a731aa0 [tip])
+2017-03-18 01:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1d121327df29)
 
-	* data/syntax/JavaScript.syntax, lib/edit.tcl, lib/version.tcl,
-	lib/vim.tcl, tests/vim.tcl:
-	* Several enhancements to JavaScript syntax.
-	* Fixing syntax error in bubble down code.
-	* Fixing move cursor to linestart when cursor is on first line.
-	* Fixing selection state when entering visual line mode.
-	* Fixing `gg` Vim command when we are in visual mode.
-	* Fixing `==` to work properly when a number is supplied.
-	* Lots of enhancements to Vim BIST.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
+	* Checkpointing work on verifying Vim deletion.
+
+2017-03-19 00:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9d3404f7f595)
+
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
+	* More enhancements to Vim BIST.
+	* Fixing issue with `F` or `T` Vim commands to hang.
+	* Fixing issue with `cc` Vim command when a count value is used.
+
+2017-03-20 00:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9da782a8b63b [tip])
+
+	* data/bindings/menu_bindings.aqua.tkedat,
+	data/bindings/menu_bindings.classic.tkedat,
+	data/bindings/menu_bindings.win32.tkedat,
+	data/bindings/menu_bindings.x11.tkedat, lib/gui.tcl, lib/menus.tcl,
+	lib/search.tcl, lib/version.tcl:
+	* Changing documentation search to use a search panel instead of
+	using menus to make it more keyboard friendly.
+	* Attempting to fix issue on macOS where search history traversal
+	could cause syntax errors.
+	* Changing default menu bindings to use Control-Y for sidebar
+	show/hide.
+	* Using Control-K for the default menu binding for searching
+	documentation URLs.
 
