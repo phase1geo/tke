@@ -249,13 +249,13 @@ namespace eval gui {
 
     # Create the find_in_files widget
     set widgets(fif)       [ttk::frame .fif]
-    ttk::label $widgets(fif).lf -text "Find: "
+    ttk::label $widgets(fif).lf -text [format "%s: " [msgcat::mc "Find"]]
     set widgets(fif_find)  [ttk::entry $widgets(fif).ef]
     set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable gui::case_sensitive]
-    ttk::label $widgets(fif).li -text "In: "
+    ttk::label $widgets(fif).li -text [format "%s: " [msgcat::mc "In"]]
     set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font] -tokenshape square]
     set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text [msgcat::mc "Save"] \
-      -variable gui::saved -command "search::update_save fif"]
+      -variable gui::saved -command [list search::update_save fif]]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image form_close]
 
     tooltip::tooltip $widgets(fif_case) [msgcat::mc "Case sensitivity"]
@@ -269,8 +269,8 @@ namespace eval gui {
     bind $widgets(fif_case)          <Escape>    [list set gui::user_exit_status 0]
     bind $widgets(fif_save)          <Escape>    [list set gui::user_exit_status 0]
     bind $widgets(fif_close)         <Button-1>  [list set gui::user_exit_status 0]
-    bind $widgets(fif_find)          <Up>        [list search::traverse_history fif  1]
-    bind $widgets(fif_find)          <Down>      [list search::traverse_history fif -1]
+    bind $widgets(fif_find)          <Up>        "search::traverse_history fif  1; break"
+    bind $widgets(fif_find)          <Down>      "search::traverse_history fif -1; break"
     bind $widgets(fif_close)         <Key-space> [list set gui::user_exit_status 0]
 
     grid columnconfigure $widgets(fif) 1 -weight 1
@@ -281,6 +281,34 @@ namespace eval gui {
     grid $widgets(fif).li    -row 1 -column 0 -sticky ew -pady 2
     grid $widgets(fif).ti    -row 1 -column 1 -sticky ew -pady 2
     grid $widgets(fif).save  -row 1 -column 2 -sticky news -padx 2 -pady 2 -columnspan 2
+
+    # Create the documentation search bar
+    set widgets(doc) [ttk::frame .doc]
+    ttk::label       $widgets(doc).l1f   -text [format "%s: " [msgcat::mc "Search"]]
+    ttk::menubutton  $widgets(doc).mb    -menu [menu .doc.docPopup -tearoff 0]
+    ttk::label       $widgets(doc).l2f   -text [format "%s: " [msgcat::mc "for"]]
+    ttk::entry       $widgets(doc).e
+    ttk::checkbutton $widgets(doc).save  -text [msgcat::mc "Save"] -variable gui::saved \
+      -command [list search::update_save docsearch]
+    ttk::label       $widgets(doc).close -image form_close
+
+    bind $widgets(doc).e     <Return>    [list set gui::user_exit_status 1]
+    bind $widgets(doc).e     <Escape>    [list set gui::user_exit_status 0]
+    bind $widgets(doc).e     <Up>        "search::traverse_history docsearch  1; break"
+    bind $widgets(doc).e     <Down>      "search::traverse_history docsearch -1; break"
+    bind $widgets(doc).mb    <Return>    [list set gui::user_exit_status 1]
+    bind $widgets(doc).mb    <Escape>    [list set gui::user_exit_status 0]
+    bind $widgets(doc).save  <Return>    [list set gui::user_exit_status 1]
+    bind $widgets(doc).save  <Escape>    [list set gui::user_exit_status 0]
+    bind $widgets(doc).close <Button-1>  [list set gui::user_exit_status 0]
+    bind $widgets(doc).close <Key-space> [list set gui::user_exit_status 0]
+
+    pack $widgets(doc).l1f   -side left -padx 2 -pady 2
+    pack $widgets(doc).mb    -side left -padx 2 -pady 2
+    pack $widgets(doc).l2f   -side left -padx 2 -pady 2
+    pack $widgets(doc).e     -side left -padx 2 -pady 2 -fill x -expand yes
+    pack $widgets(doc).save  -side left -padx 2 -pady 2
+    pack $widgets(doc).close -side left -padx 2 -pady 2
 
     # Create the information bar
     set widgets(info)        [ttk::frame .if]
@@ -3006,6 +3034,12 @@ namespace eval gui {
         $widgets(fif_in) tokendelete 0 end
         $widgets(fif_in) tokeninsert end $in
       }
+      "docsearch" {
+        lassign $data name str saved
+        $widgets(doc).mb configure -text [expr {($name eq "") ? [[$widgets(doc).mb cget -menu] entrycget 0 -label] : $name}]
+        $widgets(doc).e  delete 0 end
+        $widgets(doc).e  insert end $str
+      }
     }
 
   }
@@ -3222,6 +3256,7 @@ namespace eval gui {
       set sep [winfo parent $w].sep
     }
 
+    # Remove the given panels from display
     place forget $w
     place forget $sep
 
@@ -4002,8 +4037,8 @@ namespace eval gui {
     ttk::frame       $tab.sf
     ttk::label       $tab.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab.sf.e
-    ttk::checkbutton $tab.sf.case  -text "Aa"   -variable gui::case_sensitive
-    ttk::checkbutton $tab.sf.save  -text "Save" -variable gui::saved -command [list search::update_save find]
+    ttk::checkbutton $tab.sf.case  -text "Aa" -variable gui::case_sensitive
+    ttk::checkbutton $tab.sf.save  -text [msgcat::mc "Save"] -variable gui::saved -command [list search::update_save find]
     ttk::label       $tab.sf.close -image form_close
 
     tooltip::tooltip $tab.sf.case "Case sensitivity"
@@ -4017,8 +4052,8 @@ namespace eval gui {
     bind $tab.sf.e     <Escape>    [list gui::close_search]
     bind $tab.sf.case  <Escape>    [list gui::close_search]
     bind $tab.sf.save  <Escape>    [list gui::close_search]
-    bind $tab.sf.e     <Up>        [list search::traverse_history find  1]
-    bind $tab.sf.e     <Down>      [list search::traverse_history find -1]
+    bind $tab.sf.e     <Up>        "search::traverse_history find  1; break"
+    bind $tab.sf.e     <Down>      "search::traverse_history find -1; break"
     bind $tab.sf.close <Button-1>  [list gui::close_search]
     bind $tab.sf.close <Key-space> [list gui::close_search]
 
@@ -4057,8 +4092,8 @@ namespace eval gui {
     bind $tab.rf.save  <Escape>    [list gui::close_search_and_replace]
     bind $tab.rf.close <Button-1>  [list gui::close_search_and_replace]
     bind $tab.rf.close <Key-space> [list gui::close_search_and_replace]
-    bind $tab.rf.fe    <Up>        [list search::traverse_history replace  1]
-    bind $tab.rf.fe    <Down>      [list search::traverse_history replace -1]
+    bind $tab.rf.fe    <Up>        "search::traverse_history replace  1; break"
+    bind $tab.rf.fe    <Down>      "search::traverse_history replace -1; break"
 
     # Create the diff bar
     if {$opts(-diff)} {
@@ -5446,6 +5481,72 @@ namespace eval gui {
         eval ${ns}::handle_destroy_txt $txt
       }
     }
+
+  }
+
+  ######################################################################
+  # Gets the documentation search URL and string.
+  proc docsearch_get_input {docs prsplist} {
+
+    variable widgets
+    variable saved
+
+    upvar $prsplist rsplist
+
+    # Clear the saved indicator
+    set saved 0
+
+    # Clear the entry field
+    $widgets(doc).e delete 0 end
+
+    # Initialize the text in the menubutton
+    $widgets(doc).mb configure -text [lindex $docs 0 0]
+
+    # Populate the documentation list
+    [$widgets(doc).mb cget -menu] delete 0 end
+    foreach item $docs {
+      [$widgets(doc).mb cget -menu] add command -label [lindex $item 0] -command [list $widgets(doc).mb configure -text [lindex $item 0]]
+    }
+
+    # Display the user input widget
+    panel_place $widgets(doc)
+
+    # Get current focus and grab
+    set old_focus [focus]
+    set old_grab  [grab current $widgets(doc)]
+    if {$old_grab ne ""} {
+      set grab_status [grab status $old_grab]
+    }
+
+    # Set focus to the ursp_entry widget
+    focus $widgets(doc).mb
+
+    # Wait for the ursp_entry widget to be visible and then grab it
+    tkwait visibility $widgets(doc)
+    grab $widgets(doc)
+
+    # Wait for the widget to be closed
+    vwait gui::user_exit_status
+
+    # Reset the original focus and grab
+    catch { focus $old_focus }
+    catch { grab release $widgets(doc) }
+    if {$old_grab ne ""} {
+      if {$grab_status ne "global"} {
+        grab $old_grab
+      } else {
+        grab -global $old_grab
+      }
+    }
+
+    # Hide the user input widget
+    panel_forget $widgets(doc)
+
+    set name    [$widgets(doc).mb cget -text]
+    set url     [lindex [lsearch -exact -index 0 -inline $docs $name] 1]
+    set rsplist [list str [$widgets(doc).e get] name $name url $url save $saved]
+
+    return [set gui::user_exit_status]
 
   }
 
