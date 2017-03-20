@@ -629,34 +629,43 @@ namespace eval search {
 
   ######################################################################
   # Searches the current language documentation for the given search string.
+  # Returns 1 if the search was opened; otherwise, returns a value of 0.
   proc search_documentation {{str ""} {url ""}} {
-
-    # If a search string was not specified, prompt the user
-    if {$str eq ""} {
-      if {![gui::get_user_response [format "%s: " [msgcat::mc "Search String"]] str]} {
-        return
-      }
-    }
-
-    # Substitute any space characters with %20
-    set str [string map {{ } {%20} \t {%20}} $str]
 
     # Get the current language
     gui::get_info {} current lang
 
-    if {$url eq ""} {
-      foreach item [lsearch -all -index 1 -inline [list {*}[syntax::get_references $lang] {*}[preferences::get Documentation/References]] "*{query}*"] {
+    # Get the list of searchable documents
+    set docs [lsearch -all -inline -index 1 [list {*}[syntax::get_references $lang] {*}[preferences::get Documentation/References]] "*{query}*"]
+
+    # Initialize the rsp array
+    array set rsp [list str $str url $url]
+
+    # If a search string was not specified, prompt the user
+    if {$str eq ""} {
+      if {![gui::docsearch_get_input $docs rsplist]} {
+        return
+      }
+      array set rsp $rsplist
+      add_history docsearch [list $rsp(name) $rsp(str) $rsp(save)]
+    }
+
+    # Substitute any space characters with %20
+    set str [string map {{ } {%20} \t {%20}} $rsp(str)]
+
+    if {$rsp(url) eq ""} {
+      foreach item $docs {
         lassign $item name url
-        set url [string map [list "{query}" $str] $url]
+        set url [string map [list "{query}" $str] $rsp(url)]
         if {[utils::test_url $url]} {
-          utils::open_file_externally $url 1
+          utils::open_file_externally $url 0
           break
         }
       }
     } else {
-      set url [string map [list "{query}" $str] $url]
+      set url [string map [list "{query}" $str] $rsp(url)]
       if {[utils::test_url $url]} {
-        utils::open_file_externally $url 1
+        utils::open_file_externally $url 0
       }
     }
 
@@ -672,8 +681,13 @@ namespace eval search {
     array set data $session_data
 
     # Clear the history pointers
-    foreach type [list find replace fif] {
-      set data($type,hist_ptr) [llength $data($type,hist)]
+    foreach type [list find replace fif docsearch] {
+      if {[info exists data($type,hist)]} {
+        set data($type,hist_ptr) [llength $data($type,hist)]
+      } else {
+        set data($type,hist_ptr) 0
+        set data($type,hist)     [list]
+      }
     }
 
   }
@@ -685,7 +699,7 @@ namespace eval search {
     variable data
 
     # Only save history items with the save indicator set
-    foreach type [list find replace fif] {
+    foreach type [list find replace fif docsearch] {
       set saved($type,hist) [list]
       foreach item $data($type,hist) {
         if {[lindex $item end]} {

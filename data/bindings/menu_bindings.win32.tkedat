@@ -86,7 +86,7 @@
 {Find/Find In Files}                      Ctrl-Alt-F
 
 # View menu bindings
-{View/Hide Sidebar}                       Ctrl-K
+{View/Hide Sidebar}                       Ctrl-Y
 {View/Display Text Info}                  Ctrl-G
 {View/Split View}                         Ctrl-P
 {View/Move to Other Pane}                 Ctrl-M
@@ -107,3 +107,7 @@
 {Plugins/Install...}                      Shift-Ctrl-I
 {Plugins/Uninstall...}                    Shift-Ctrl-U
 {Plugins/Show Installed...}               Shift-Ctrl-P
+
+# Help menu bindings
+{Help/Search References}                  Ctrl-K
+

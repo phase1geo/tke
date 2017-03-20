@@ -3303,6 +3303,8 @@ namespace eval menus {
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Language Documentation"] -menu [make_menu $mb.refPopup -tearoff 0 -postcommand [list menus::help_lang_ref_posting $mb.refPopup]]
+    $mb add command -label [msgcat::mc "Search References"] -underline 0 -command [list search::search_documentation]
+    launcher::register [make_menu_cmd "Help" [msgcat::mc "Search reference documentation"]] [list search::search_documentation]
 
     if {![string match *Win* $::tcl_platform(os)]} {
       $mb add separator
@@ -3327,7 +3329,7 @@ namespace eval menus {
     # Create search popup menu
     menu $mb.refPopup.searchPopup -tearoff 0
 
-    launcher::register [make_menu_cmd "Help" [msgcat::mc "Search language reference documentation"]] [list search::search_documentation]
+    launcher::register [make_menu_cmd "Help" [msgcat::mc "Search language reference documentation"]] [list gui::search_documentation]
 
   }
 
@@ -3336,10 +3338,18 @@ namespace eval menus {
   # menu items.
   proc help_posting {mb} {
 
-    if {[llength [lsearch -index 1 -inline -all -not [syntax::get_references [gui::get_info {} current lang]] "{query}"]] == 0} {
+    set docs [list {*}[syntax::get_references [gui::get_info {} current lang]] {*}[preferences::get Documentation/References]]
+
+    if {[lsearch -index 1 -not $docs "*{query}*"] == -1} {
       $mb entryconfigure [msgcat::mc "Language Documentation"] -state disabled
     } else {
       $mb entryconfigure [msgcat::mc "Language Documentation"] -state normal
+    }
+
+    if {[lsearch -index 1 $docs "*{query}*"] == -1} {
+      $mb entryconfigure [msgcat::mc "Search References"] -state disabled
+    } else {
+      $mb entryconfigure [msgcat::mc "Search References"] -state normal
     }
 
   }
@@ -3367,24 +3377,6 @@ namespace eval menus {
     foreach item [lsearch -index 1 -inline -all -not [preferences::get Documentation/References] "*{query}*"] {
       lassign $item name url
       $mb add command -label $name -command [list utils::open_file_externally $url 1]
-    }
-
-    if {[$mb index end] ne "none"} {
-      $mb add separator
-    }
-
-    # Populate the search Popup menu
-    $mb.searchPopup delete 0 end
-    foreach item [lsearch -index 1 -inline -all [list {*}[syntax::get_references $lang] {*}[preferences::get Documentation/References]] "*{query}*"] {
-      lassign $item name url
-      $mb.searchPopup add command -label $name -command [list search::search_documentation "" $url]
-    }
-
-    # Add the ability to search within documentation
-    switch [$mb.searchPopup index end] {
-      none    { $mb add command -label [msgcat::mc "Search Documentation"] -state disabled }
-      0       { $mb add command -label [format "%s %s" [msgcat::mc "Search"] [$mb.searchPopup entrycget 0 -label]] -command [$mb.searchPopup entrycget 0 -command] }
-      default { $mb add cascade -label [msgcat::mc "Search Documentation"] -menu $mb.searchPopup }
     }
 
   }
