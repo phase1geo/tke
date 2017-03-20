@@ -191,6 +191,9 @@ msgcat::mcmset zh {
   "Image used in the preferences window to indicate that something is true."
   "在首选项窗口用于指示某事是真实的图像。"
 
+  "In"
+  "归档于"
+
   "License"
   "许可证"
 
@@ -238,6 +241,9 @@ msgcat::mcmset zh {
 
   "Version"
   "版本"
+
+  "for"
+  "对于"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset zh {
   "Save sessions as"
   "保存会话作为"
 
-  "Search Documentation"
-  "搜索文档"
+  "Search References"
+  "搜索引用"
 
   "Search language reference documentation"
   "搜索语言参考文档"
+
+  "Search reference documentation"
+  "搜索参考文档"
 
   "Select All"
   "全选"
@@ -2086,9 +2095,6 @@ msgcat::mcmset zh {
 
   "No search results found"
   "个搜索结果"
-
-  "Search String"
-  "搜索字符串"
 
   "Search wrapped to beginning of file"
   "搜索到文件的开头包裹"

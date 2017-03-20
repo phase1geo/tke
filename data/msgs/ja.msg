@@ -191,6 +191,9 @@ msgcat::mcmset ja {
   "Image used in the preferences window to indicate that something is true."
   "何かが真であることを示すに設定ウィンドウで使用するイメージ。"
 
+  "In"
+  "イン"
+
   "License"
   "ナンバープレート"
 
@@ -238,6 +241,9 @@ msgcat::mcmset ja {
 
   "Version"
   "バージョン"
+
+  "for"
+  "から"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset ja {
   "Save sessions as"
   "としてセッションを保存します。"
 
-  "Search Documentation"
-  "本文書を検索"
+  "Search References"
+  "検索参照"
 
   "Search language reference documentation"
   "言語リファレンスのドキュメントを検索"
+
+  "Search reference documentation"
+  "検索リファレンス ドキュメント"
 
   "Select All"
   "すべて選択"
@@ -2086,9 +2095,6 @@ msgcat::mcmset ja {
 
   "No search results found"
   "検索結果は見つかりませんでした。"
-
-  "Search String"
-  "検索文字列"
 
   "Search wrapped to beginning of file"
   "ファイルの先頭に折り返し検索"

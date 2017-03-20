@@ -191,6 +191,9 @@ msgcat::mcmset pt {
   "Image used in the preferences window to indicate that something is true."
   "Imagem usada na janela de preferências para indicar que algo é verdadeiro."
 
+  "In"
+  "Em"
+
   "License"
   "Licença"
 
@@ -238,6 +241,9 @@ msgcat::mcmset pt {
 
   "Version"
   "Versão"
+
+  "for"
+  "por"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset pt {
   "Save sessions as"
   "Guardar as sessões como"
 
-  "Search Documentation"
-  "Procurar documentação"
+  "Search References"
+  "Referências de pesquisa"
 
   "Search language reference documentation"
   "Documentação de referência de linguagem de pesquisa"
+
+  "Search reference documentation"
+  "Documentação de referência de pesquisa"
 
   "Select All"
   "Selecionar tudo"
@@ -2086,9 +2095,6 @@ msgcat::mcmset pt {
 
   "No search results found"
   "Resultados Encontrados da Pesquisa"
-
-  "Search String"
-  "String de busca"
 
   "Search wrapped to beginning of file"
   "Busca ajustada para início do arquivo."

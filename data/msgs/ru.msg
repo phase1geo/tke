@@ -191,6 +191,9 @@ msgcat::mcmset ru {
   "Image used in the preferences window to indicate that something is true."
   "Изображение, используемое в окне настройки для указания, что что-то правда."
 
+  "In"
+  "In"
+
   "License"
   "Лицензия"
 
@@ -238,6 +241,9 @@ msgcat::mcmset ru {
 
   "Version"
   "Версия"
+
+  "for"
+  "за"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset ru {
   "Save sessions as"
   "Сохранить сессий как"
 
-  "Search Documentation"
-  "Поиск документации"
+  "Search References"
+  "Поиск ссылки"
 
   "Search language reference documentation"
   "Поиск язык справочной документации"
+
+  "Search reference documentation"
+  "Поиск справочной документации"
 
   "Select All"
   "Выбрать все"
@@ -2086,9 +2095,6 @@ msgcat::mcmset ru {
 
   "No search results found"
   "Результаты не найдены."
-
-  "Search String"
-  "Строка поиска"
 
   "Search wrapped to beginning of file"
   "Поиск, завернутые в начале файла"

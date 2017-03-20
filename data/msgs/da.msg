@@ -191,6 +191,9 @@ msgcat::mcmset da {
   "Image used in the preferences window to indicate that something is true."
   "Billedet i indstillingsvinduet til at angive, at noget er sandt."
 
+  "In"
+  "Ind"
+
   "License"
   "Licens"
 
@@ -238,6 +241,9 @@ msgcat::mcmset da {
 
   "Version"
   "Version"
+
+  "for"
+  "for"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset da {
   "Save sessions as"
   "Gemme sessioner som"
 
-  "Search Documentation"
-  "Søg i dokumentation"
+  "Search References"
+  "Søg referencer"
 
   "Search language reference documentation"
   "Søg efter sprog referencedokumentation"
+
+  "Search reference documentation"
+  "Søg efter referencedokumentation"
 
   "Select All"
   "Vælg alle"
@@ -2086,9 +2095,6 @@ msgcat::mcmset da {
 
   "No search results found"
   "Ingen resultater matcher din søgning!"
-
-  "Search String"
-  "søgestreng"
 
   "Search wrapped to beginning of file"
   "Søg ombrydes til begyndelsen af filen"

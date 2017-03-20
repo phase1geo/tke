@@ -191,6 +191,9 @@ msgcat::mcmset el {
   "Image used in the preferences window to indicate that something is true."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να δείξει ότι κάτι είναι αληθινό."
 
+  "In"
+  "Σε"
+
   "License"
   "Άδεια"
 
@@ -238,6 +241,9 @@ msgcat::mcmset el {
 
   "Version"
   "Έκδοση"
+
+  "for"
+  "για"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset el {
   "Save sessions as"
   "Σώσει συνεδρίες ως"
 
-  "Search Documentation"
-  "Αναζητήστε την τεκμηρίωση"
+  "Search References"
+  "Αναζήτηση αναφορές"
 
   "Search language reference documentation"
   "Τεκμηρίωση αναφοράς γλώσσα αναζήτησης"
+
+  "Search reference documentation"
+  "Τεκμηρίωση αναφοράς αναζήτηση"
 
   "Select All"
   "Επιλογή όλων"
@@ -2086,9 +2095,6 @@ msgcat::mcmset el {
 
   "No search results found"
   "Δε βρέθηκαν αποτελέσματα αναζήτησης"
-
-  "Search String"
-  "Συμβολοσειρά αναζήτησης"
 
   "Search wrapped to beginning of file"
   "Αναζήτηση τυλιγμένο στην αρχή του αρχείου"

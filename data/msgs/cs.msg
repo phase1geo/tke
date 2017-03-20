@@ -191,6 +191,9 @@ msgcat::mcmset cs {
   "Image used in the preferences window to indicate that something is true."
   "Obrázek v okně Předvolby k označení, že něco je pravda."
 
+  "In"
+  "v"
+
   "License"
   "Licence"
 
@@ -238,6 +241,9 @@ msgcat::mcmset cs {
 
   "Version"
   "Verze"
+
+  "for"
+  "za"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset cs {
   "Save sessions as"
   "Uložit sezení jako"
 
-  "Search Documentation"
-  "Vyhledávání dokumentace"
+  "Search References"
+  "Hledat reference"
 
   "Search language reference documentation"
   "Hledání jazykových referenční dokumentace"
+
+  "Search reference documentation"
+  "Vyhledávání Referenční dokumentace"
 
   "Select All"
   "Vybrat vše"
@@ -2086,9 +2095,6 @@ msgcat::mcmset cs {
 
   "No search results found"
   "Nic se nenašlo"
-
-  "Search String"
-  "Hledat řetězec:"
 
   "Search wrapped to beginning of file"
   "Hledat zabalené na začátku souboru"

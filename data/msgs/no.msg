@@ -191,6 +191,9 @@ msgcat::mcmset no {
   "Image used in the preferences window to indicate that something is true."
   "Bildet som brukes i vinduet innstillinger for å angi at noe er sant."
 
+  "In"
+  "I"
+
   "License"
   "Lisens"
 
@@ -238,6 +241,9 @@ msgcat::mcmset no {
 
   "Version"
   "Versjon"
+
+  "for"
+  "for"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset no {
   "Save sessions as"
   "Lagre sesjoner som"
 
-  "Search Documentation"
-  "Søk i dokumentasjonen"
+  "Search References"
+  "Søk Referanser"
 
   "Search language reference documentation"
   "Søk etter språk referansedokumentasjon"
+
+  "Search reference documentation"
+  "Søk referansedokumentasjon"
 
   "Select All"
   "Merk alt"
@@ -2086,9 +2095,6 @@ msgcat::mcmset no {
 
   "No search results found"
   "Søkeresultater Funnet For"
-
-  "Search String"
-  "Søkeord"
 
   "Search wrapped to beginning of file"
   "Søk brytes til begynnelsen av filen"

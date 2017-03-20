@@ -191,6 +191,9 @@ msgcat::mcmset he {
   "Image used in the preferences window to indicate that something is true."
   "תמונת שימוש בחלון ההעדפות כדי לציין כי משהו נכון."
 
+  "In"
+  "ב"
+
   "License"
   "רישיון"
 
@@ -238,6 +241,9 @@ msgcat::mcmset he {
 
   "Version"
   "גרסה"
+
+  "for"
+  "עבור"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset he {
   "Save sessions as"
   "לשמור הפעלות כמו"
 
-  "Search Documentation"
-  "חפש בתיעוד"
+  "Search References"
+  "חפש הפניות"
 
   "Search language reference documentation"
   "חיפוש שפת הפניה לתיעוד"
+
+  "Search reference documentation"
+  "חפש הפניה לתיעוד"
 
   "Select All"
   "בחר את כל"
@@ -2086,9 +2095,6 @@ msgcat::mcmset he {
 
   "No search results found"
   "תוצאות חיפוש נמצאו"
-
-  "Search String"
-  "מחרוזת החיפוש"
 
   "Search wrapped to beginning of file"
   "חיפוש עטוף לתחילת הקובץ"
