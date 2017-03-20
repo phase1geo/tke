@@ -191,6 +191,9 @@ msgcat::mcmset de {
   "Image used in the preferences window to indicate that something is true."
   "Bild im Einstellungsfenster verwendet, um anzuzeigen, dass etwas wahr ist."
 
+  "In"
+  "In"
+
   "License"
   "Lizenze"
 
@@ -238,6 +241,9 @@ msgcat::mcmset de {
 
   "Version"
   "Neue Font-Awesome-Version aktivieren"
+
+  "for"
+  "für"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset de {
   "Save sessions as"
   "Speichern Sie Sitzungen als"
 
-  "Search Documentation"
-  "Durchsuchen Sie diese Dokumentation"
+  "Search References"
+  "Referenzen durchsuchen"
 
   "Search language reference documentation"
   "Suche Sprache Referenzdokumentation"
+
+  "Search reference documentation"
+  "Suche Referenz-Dokumentation"
 
   "Select All"
   "Alle auswählen"
@@ -2086,9 +2095,6 @@ msgcat::mcmset de {
 
   "No search results found"
   "Keine Suchergebnisse gefunden"
-
-  "Search String"
-  "検索文字列"
 
   "Search wrapped to beginning of file"
   "Suche gewickelt an Anfang der Datei"

@@ -191,6 +191,9 @@ msgcat::mcmset sv {
   "Image used in the preferences window to indicate that something is true."
   "Bilden används i inställningsfönstret för att ange att något är sant."
 
+  "In"
+  "In"
+
   "License"
   "Licens"
 
@@ -238,6 +241,9 @@ msgcat::mcmset sv {
 
   "Version"
   "Version"
+
+  "for"
+  "för"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset sv {
   "Save sessions as"
   "Spara sessioner som"
 
-  "Search Documentation"
-  "Sök dokumentation"
+  "Search References"
+  "Sök referenser"
 
   "Search language reference documentation"
   "Sök språk referensdokumentation"
+
+  "Search reference documentation"
+  "Sök referensdokumentation"
 
   "Select All"
   "Markera alla"
@@ -2086,9 +2095,6 @@ msgcat::mcmset sv {
 
   "No search results found"
   "Inga sökresultat som hittade"
-
-  "Search String"
-  "Söksträng"
 
   "Search wrapped to beginning of file"
   "Sök insvept till början av filen"

@@ -191,6 +191,9 @@ msgcat::mcmset hu {
   "Image used in the preferences window to indicate that something is true."
   "Azt jelzi, hogy valami igaz a beállítások ablakban használt kép."
 
+  "In"
+  "Azokban"
+
   "License"
   "Licenc"
 
@@ -238,6 +241,9 @@ msgcat::mcmset hu {
 
   "Version"
   "Verzió"
+
+  "for"
+  "mert"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset hu {
   "Save sessions as"
   "Megment a gyűlés mint"
 
-  "Search Documentation"
-  "Keresés a dokumentumban"
+  "Search References"
+  "Hivatkozások keresése"
 
   "Search language reference documentation"
   "Keresés nyelvi referencia dokumentáció"
+
+  "Search reference documentation"
+  "Szálláshelyek keresése referencia dokumentáció"
 
   "Select All"
   "Összes kijelölése"
@@ -2086,9 +2095,6 @@ msgcat::mcmset hu {
 
   "No search results found"
   "Nincs találat"
-
-  "Search String"
-  "Karakterlánc keresése"
 
   "Search wrapped to beginning of file"
   "Keresés becsomagolt fájl elejére"

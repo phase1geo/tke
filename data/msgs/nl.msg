@@ -191,6 +191,9 @@ msgcat::mcmset nl {
   "Image used in the preferences window to indicate that something is true."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster om aan te geven dat iets waar is."
 
+  "In"
+  "In"
+
   "License"
   "Licentie"
 
@@ -238,6 +241,9 @@ msgcat::mcmset nl {
 
   "Version"
   "Versie"
+
+  "for"
+  "voor"
 
 }
 
@@ -1182,11 +1188,14 @@ msgcat::mcmset nl {
   "Save sessions as"
   "Opslaan als zittingen"
 
-  "Search Documentation"
-  "Zoek in de documentatie"
+  "Search References"
+  "Zoeken naar referentie"
 
   "Search language reference documentation"
   "Zoek taal referentie documentatie"
+
+  "Search reference documentation"
+  "Zoek referentie documentatie"
 
   "Select All"
   "Alles selecteren"
@@ -2086,9 +2095,6 @@ msgcat::mcmset nl {
 
   "No search results found"
   "﻿Geen resultaten gevonden..."
-
-  "Search String"
-  "Zoekreeks"
 
   "Search wrapped to beginning of file"
   "Zoek verpakt aan begin van bestand"
