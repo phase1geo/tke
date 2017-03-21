@@ -223,7 +223,7 @@ namespace eval change {
     vim::adjust_insert $txtt
 
     enter $txtt {c w}
-    if {[$txtt get 1.0 end-1c] ne "\nTis a line"} {
+    if {[$txtt get 1.0 end-1c] ne "\nT is a line"} {
       cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
     }
     if {$vim::mode($txtt) ne "edit"} {
@@ -245,7 +245,7 @@ namespace eval change {
       }
 
       enter $txtt [linsert {c w} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTa line"} {
+      if {[$txtt get 1.0 end-1c] ne "\nT a line"} {
         cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
       }
       if {$vim::mode($txtt) ne "edit"} {
