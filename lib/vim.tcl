@@ -2602,7 +2602,11 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "change"} {
       if {![multicursor::delete $txtt "word" $number($txtt)]} {
-        $txtt delete insert [edit::get_word $txtt next [get_number $txtt]]
+        if {[get_number $txtt] > 1} {
+          $txtt delete insert "[edit::get_word $txtt next [expr [get_number $txtt] - 1]] wordend"
+        } else {
+          $txtt delete insert "insert wordend"
+        }
       }
       edit_mode $txtt
       return 1
