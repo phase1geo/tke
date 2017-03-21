@@ -121,8 +121,9 @@ namespace eval edit {
       if {[$txtt compare "insert linestart" == 1.0]} {
         $txtt delete "insert linestart" "insert lineend"
       } else {
-        $txtt mark set insert insert-1l
-        $txtt delete "insert lineend" "insert+${num}l lineend"
+        set new_index [$txtt index "insert-1l"]
+        $txtt delete "insert-1l lineend" "insert+[expr $num - 1]l lineend"
+        $txtt mark set insert $new_index
       }
     } else {
       $txtt delete "insert linestart" "insert+${num}l linestart"
