@@ -496,7 +496,7 @@ namespace eval bist {
       -yscrollcommand [list $rf.of.vb set]]
     scroller::scroller $rf.of.hb -orient horizontal -background white -foreground black -command [list $rf.of.t xview]
     scroller::scroller $rf.of.vb -orient vertical   -background white -foreground black -command [list $rf.of.t yview]
-    
+
     bind $rf.of.t <ButtonPress-$::right_click>   [list bist::text_select_test %x %y]
     bind $rf.of.t <ButtonRelease-$::right_click> [list bist::text_jump_to_test %x %y]
 
@@ -564,42 +564,42 @@ namespace eval bist {
   # Parses the line which the user selected for test information and, if
   # found selects the text that matches the test pattern.
   proc text_select_test {x y} {
-    
+
     variable data
-    
+
     # Get the selected row
     set row [lindex [split [$data(widgets,output) index @$x,$y] .] 0]
-    
+
     # Clear the selection
     $data(widgets,output) tag remove sel 1.0 end
-    
+
     if {[set index [$data(widgets,output) search -count length -regexp -- {Running \S+\.\.\.} $row.0 $row.end]] ne ""} {
       $data(widgets,output) tag add sel "$index+8c" "$index+[expr $length - 3]c"
     }
-    
+
   }
-  
+
   ######################################################################
   # On right button release, gets the test file and test number to jump
   # to the given test.
   proc text_jump_to_test {x y} {
-    
+
     variable data
-    
+
     # Get our row
     set row [lindex [split [$data(widgets,output) index @$x,$y] .] 0]
-    
+
     # If there is selected text, compare its to ours
     if {([set endpos [lassign [$data(widgets,output) tag ranges sel] startpos]] ne "") && ([lindex [split $endpos .] 0] == $row)} {
       lassign [string map {:: { }} [$data(widgets,output) get $startpos $endpos]] dummy fname tname
       add_and_jump_to_test $fname $tname
     }
-    
+
     # Make sure that the selection is blown away no matter what
     $data(widgets,output) tag remove sel 1.0 end
-    
+
   }
-  
+
   ######################################################################
   # Displays the UI window to enter a test file.
   proc create_file {} {
@@ -612,6 +612,8 @@ namespace eval bist {
     ttk::frame .bistwin.namewin.f
     ttk::label .bistwin.namewin.f.l -text "Name: "
     ttk::entry .bistwin.namewin.f.e -validate key -validatecommand [list bist::validate_file %P]
+
+    bind .bistwin.namewin.f.e <Return> [list .bistwin.namewin.bf.create invoke]
 
     pack .bistwin.namewin.f.l -side left -padx 2 -pady 2
     pack .bistwin.namewin.f.e -side left -padx 2 -pady 2 -fill x
@@ -761,12 +763,12 @@ namespace eval bist {
     # Get the diagnostic name
     set parent [$data(widgets,tbl) parentkey $selected]
     set fname  [$data(widgets,tbl) cellcget $parent,name -text]
-    
+
     # Add the file and jump to the text
     add_and_jump_to_test $fname $tname
-    
+
   }
-  
+
   ######################################################################
   # Adds the given file to the editor and jumps to the specified test.
   proc add_and_jump_to_test {fname tname} {
