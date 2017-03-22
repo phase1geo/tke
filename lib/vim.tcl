@@ -1594,15 +1594,17 @@ namespace eval vim {
             set startpos [expr {($type eq "f") ? $index : "$index+1c"}]
             set endpos   "insert"
           }
-          switch $subcmd {
-            swap  { edit::convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos] }
-            upper { edit::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] upper }
-            lower { edit::convert_case_all    $txtt $startpos [$txtt get $startpos $endpos] lower }
+          if {[$txtt compare $startpos != $endpos]} {
+            switch $subcmd {
+              swap  { edit::transform_toggle_case   $txtt $startpos $endpos }
+              upper { edit::transform_to_upper_case $txtt $startpos $endpos }
+              lower { edit::transform_to_lower_case $txtt $startpos $endpos }
+            }
+            ::tk::TextSetCursor $txtt $startpos
+            vim::adjust_insert $txtt
           }
-          ::tk::TextSetCursor $txtt $startpos
-          vim::adjust_insert $txtt
-          start_mode $txtt
         }
+        start_mode $txtt
         return 1
       }
     }
@@ -2066,7 +2068,8 @@ namespace eval vim {
       start_mode $txtt
       return 1
     } elseif {([string range $mode($txtt) 0 3] eq "case")} {
-      set type [lindex [split $mode($txtt) :] 1]
+      set type  [lindex [split $mode($txtt) :] 1]
+      set index [$txtt index insert]
       if {[string index $mode($txtt) end] eq "V"} {
         switch $type {
           swap  { edit::transform_toggle_case   $txtt "insert linestart" "insert lineend" }
@@ -2087,6 +2090,7 @@ namespace eval vim {
           lower { edit::transform_to_lower_case $txtt insert $endpos }
         }
       }
+      ::tk::TextSetCursor $txtt $index
       start_mode $txtt
       return 1
     }
@@ -2412,34 +2416,24 @@ namespace eval vim {
           upper { edit::transform_to_upper_case $txtt "insert linestart" "insert lineend" }
           lower { edit::transform_to_lower_case $txtt "insert linestart" "insert lineend" }
         }
+        ::tk::TextSetCursor $txtt $startpos
       } else {
+        set num [get_number $txtt]
         if {[string index $mode($txtt) end] eq "v"} {
           set endpos "insert+1c"
         } else {
           set endpos "insert"
         }
-        if {$number($txtt) ne ""} {
-          if {[$txtt compare "insert linestart" > "insert-$number($txtt)c"]} {
-            switch $type {
-              swap  { edit::transform_toggle_case   $txtt "insert linestart" $endpos }
-              upper { edit::transform_to_upper_case $txtt "insert linestart" $endpos }
-              lower { edit::transform_to_lower_case $txtt "insert linestart" $endpos }
-            }
-          } else {
-            switch $type {
-              swap  { edit::transform_toggle_case   $txtt "insert-$number($txtt)c" $endpos }
-              upper { edit::transform_to_upper_case $txtt "insert-$number($txtt)c" $endpos }
-              lower { edit::transform_to_lower_case $txtt "insert-$number($txtt)c" $endpos }
-            }
-          }
-        } elseif {[$txtt compare "insert linestart" <= "insert-1c"]} {
+        if {[$txtt compare "insert linestart" > [set startpos "insert-${num}c"]]} {
+          set startpos "insert linestart"
+        }
+        if {[$txtt compare $startpos != $endpos]} {
           switch $type {
-            swap  { edit::transform_toggle_case   $txtt "insert-1c" $endpos }
-            upper { edit::transform_to_upper_case $txtt "insert-1c" $endpos }
-            lower { edit::transform_to_lower_case $txtt "insert-1c" $endpos }
+            swap  { edit::transform_toggle_case   $txtt $startpos $endpos }
+            upper { edit::transform_to_upper_case $txtt $startpos $endpos }
+            lower { edit::transform_to_lower_case $txtt $startpos $endpos }
           }
-        } else {
-          bell
+          ::tk::TextSetCursor $txtt $startpos
         }
       }
       start_mode $txtt
@@ -2921,12 +2915,14 @@ namespace eval vim {
       set mode($txtt) "case:lower"
       return 1
     } elseif {$mode($txtt) eq "case:lower"} {
-      set num [get_number $txtt]
-      if {$num == 1} {
+      set num   [expr [get_number $txtt] - 1]
+      set index [$txtt index "insert linestart"]
+      if {$num == 0} {
         edit::transform_to_lower_case $txtt "insert linestart" "insert lineend"
       } else {
         edit::transform_to_lower_case $txtt "insert linestart" "insert+${num}l lineend"
       }
+      ::tk::TextSetCursor $txtt $index
       start_mode $txtt
       return 1
     }
@@ -2945,12 +2941,14 @@ namespace eval vim {
       set mode($txtt) "case:upper"
       return 1
     } elseif {$mode($txtt) eq "case:upper"} {
-      set num [get_number $txtt]
-      if {$num == 1} {
+      set num   [expr [get_number $txtt] - 1]
+      set index [$txtt index "insert linestart"]
+      if {$num == 0} {
         edit::transform_to_upper_case $txtt "insert linestart" "insert lineend"
       } else {
         edit::transform_to_upper_case $txtt "insert linestart" "insert+${num}l lineend"
       }
+      ::tk::TextSetCursor $txtt $index
       start_mode $txtt
       return 1
     }
@@ -3661,12 +3659,14 @@ namespace eval vim {
       set mode($txtt) "case:swap"
       return 1
     } elseif {$mode($txtt) eq "case:swap"} {
-      set num [get_number $txtt]
-      if {$num == 1} {
+      set num   [expr [get_number $txtt] - 1]
+      set index [$txtt index "insert linestart"]
+      if {$num == 0} {
         edit::transform_toggle_case $txtt "insert linestart" "insert lineend"
       } else {
         edit::transform_toggle_case $txtt "insert linestart" "insert+${num}l lineend"
       }
+      ::tk::TextSetCursor $txtt $index
       start_mode $txtt
       return 1
     }
@@ -3826,7 +3826,8 @@ namespace eval vim {
       start_mode $txtt
       return 1
     } elseif {([string range $mode($txtt) 0 3] eq "case")} {
-      set type [lindex [split $mode($txtt) :] 1]
+      set type  [lindex [split $mode($txtt) :] 1]
+      set index [$txtt index insert]
       if {[string index $mode($txtt) end] eq "V"} {
         switch $type {
           swap  { edit::transform_toggle_case   $txtt "insert linestart" "insert lineend" }
@@ -3845,6 +3846,7 @@ namespace eval vim {
           lower { edit::transform_to_lower_case $txtt insert $endpos }
         }
       }
+      ::tk::TextSetCursor $txtt $index
       start_mode $txtt
       return 1
     }
@@ -3916,6 +3918,7 @@ namespace eval vim {
           lower { edit::transform_to_lower_case $txtt "insert linestart" "insert lineend" }
         }
       } else {
+        set index [$txtt index "insert-${num}c"]
         if {[string index $mode($txtt) end] eq "v"} {
           set endpos "insert+1c"
         } else {
@@ -3926,6 +3929,7 @@ namespace eval vim {
           upper { edit::transform_to_upper_case $txtt "insert-${num}c" $endpos }
           lower { edit::transform_to_lower_case $txtt "insert-${num}c" $endpos }
         }
+        ::tk::TextSetCursor $txtt $index
       }
       start_mode $txtt
       return 1
