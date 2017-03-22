@@ -42,7 +42,7 @@ keywords
   dde dict else elseif encoding eof error eval exec exit expr fblocked fconfigure fcopy file fileevent
   filename flush for foreach format gets glob global history http if incr info interp
   join lappend lassign lindex linsert list llength load lrange lrepeat lreplace lreverse
-  lsearch lset lsort mathfunc mathop memory msgcat namespace open package parray pid
+  lsearch lset lsort mathfunc mathop memory namespace open package parray pid
   pkg::create pkg_mkIndex platform platform::shell proc puts pwd read refchan regexp
   registry regsub rename return scan seek set socket source split string subst switch
   tcl_endOfWord tcl_findLibrary tcl_startOfNextWord tcl_startOfPreviousWord tcl_wordBreakAfter

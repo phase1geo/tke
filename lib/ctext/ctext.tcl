@@ -1826,19 +1826,24 @@ proc ctext::command_tag {win args} {
       } elseif {[string map [list $tag {}] $bracket_tags] ne $bracket_tags} {
         if {$subcmd eq "nextrange"} {
           lassign [$win._t tag nextrange $tag {*}$args] s e
-          while {($s ne "") && ([inCommentString $win $s] || [isEscaped $win $s])} {
+          while {($s ne "") && ([inCommentString $win $s] || ([isEscaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
             lset args 0 $e
             lassign [$win._t tag nextrange $tag {*}$args] s e
           }
         } else {
           lassign [$win._t tag prevrange $tag {*}$args] s e
-          while {($s ne "") && ([inCommentString $win $s] || [isEscaped $win $s])} {
+          if {($s ne "") && ![inCommentString $win $s] && [isEscaped $win $s] && [$win._t compare "$s+1c" == [lindex $args 0]]} {
+            lassign [$win._t tag prevrange $tag $s {*}[lrange $args 1 end]] s e
+          }
+          while {($s ne "") && ([inCommentString $win $s] || ([isEscaped $win $s] && ([$win._t index "$s+1c"] eq $e)))} {
             lset args 0 $s
             lassign [$win._t tag prevrange $tag {*}$args] s e
           }
         }
         if {$s eq ""} {
           return ""
+        } elseif {[isEscaped $win $s]} {
+          return [list [$win._t index "$s+1c"] $e]
         } else {
           return [list $s $e]
         }
@@ -1853,8 +1858,10 @@ proc ctext::command_tag {win args} {
         if {![info exists range_cache($win,$tag)]} {
           set range_cache($win,$tag) [list]
           foreach {s e} [$win._t tag ranges $tag] {
-            if {![inCommentString $win $s] && ![isEscaped $win $s]} {
-              lappend range_cache($win,$tag) $s $e
+            if {![inCommentString $win $s]} {
+              if {![isEscaped $win $s] || ([set s [$win._t index "$s+1c"]] ne $e)} {
+                lappend range_cache($win,$tag) $s $e
+              }
             }
           }
         }
@@ -2465,7 +2472,7 @@ proc ctext::checkBracketType {win stype} {
   set other   ${stype}R
   set olist   [lassign [$win.t tag ranges _$other] ofirst olast]
   set missing [list]
-
+  
   # Perform count for all code containing left stypes
   foreach {sfirst slast} [$win.t tag ranges _${stype}L] {
     while {($ofirst ne "") && [$win.t compare $sfirst > $ofirst]} {
