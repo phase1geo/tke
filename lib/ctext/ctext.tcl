@@ -2445,10 +2445,10 @@ proc ctext::checkAllBrackets {win {str ""}} {
 
   # If a string was supplied, only perform bracket check for brackets found in string
   if {$str ne ""} {
-    if {[info exists data($win,config,matchChar,$lang,curly)]  && ([string map {\{ {} \} {}} $str] ne $str)} { checkBracketType $win curly }
-    if {[info exists data($win,config,matchChar,$lang,square)] && ([string map {\[ {} \] {}} $str] ne $str)} { checkBracketType $win square }
-    if {[info exists data($win,config,matchChar,$lang,paren)]  && ([string map {( {} ) {}}   $str] ne $str)} { checkBracketType $win paren }
-    if {[info exists data($win,config,matchChar,$lang,angled)] && ([string map {< {} > {}}   $str] ne $str)} { checkBracketType $win angled }
+    if {[info exists data($win,config,matchChar,$lang,curly)]  && ([string map {\{ {} \} {} \\ {}} $str] ne $str)} { checkBracketType $win curly }
+    if {[info exists data($win,config,matchChar,$lang,square)] && ([string map {\[ {} \] {} \\ {}} $str] ne $str)} { checkBracketType $win square }
+    if {[info exists data($win,config,matchChar,$lang,paren)]  && ([string map {( {} ) {} \\ {}}   $str] ne $str)} { checkBracketType $win paren }
+    if {[info exists data($win,config,matchChar,$lang,angled)] && ([string map {< {} > {} \\ {}}   $str] ne $str)} { checkBracketType $win angled }
 
   # Otherwise, check all of the brackets
   } else {
@@ -2472,7 +2472,7 @@ proc ctext::checkBracketType {win stype} {
   set other   ${stype}R
   set olist   [lassign [$win.t tag ranges _$other] ofirst olast]
   set missing [list]
-  
+
   # Perform count for all code containing left stypes
   foreach {sfirst slast} [$win.t tag ranges _${stype}L] {
     while {($ofirst ne "") && [$win.t compare $sfirst > $ofirst]} {
