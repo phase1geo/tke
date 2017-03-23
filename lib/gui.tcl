@@ -5123,7 +5123,7 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Returns the index of the matching quotation mark; otherwise, if one
+  # Returns the index of the matching character; otherwise, if one
   # is not found, returns -1.
   proc find_match_char {txt char dir {startpos insert}} {
 

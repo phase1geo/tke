@@ -14,4 +14,3 @@
 | **d0** | Deletes from current cursor position to the beginning of the current line. |
 | **d$** | Deletes from the current cursor position to the end of the current line. |
 | **:**_x,y_**d** | Deletes lines _x_ through _y_ (deleted contents are placed in clipboard). |
-
