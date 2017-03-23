@@ -1,58 +1,141 @@
-2017-03-17 02:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (81abee0777c0 [devel-2.9.15])
+2017-03-20 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b68660f59131 [devel-2.9.16])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.15 release
+	ChangeLog for devel-2.9.16 release
 
-2017-03-17 02:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2d101010b5df)
+2017-03-20 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6edd2c5d8601)
 
 	* .hgtags:
-	Added tag devel-2.9.15 for changeset 81abee0777c0
+	Added tag devel-2.9.16 for changeset b68660f59131
 
-2017-03-17 08:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fc60ff11ed60)
+2017-03-20 00:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1fac5b212a19)
 
-	* lib/tke.tcl, lib/version.tcl:
-	* Fixing syntax error when attempting to import a TKE theme.
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
 
-2017-03-17 17:07 -0500  Trevor Williams  <phase1geo@gmail.com>  (0c24a0ce3e17)
+2017-03-21 00:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (51266020f07c)
 
-	* lib/images/smask.bmp: new file.
-	* lib/gui.tcl, lib/images/smask.bmp, lib/sidebar.tcl, lib/theme.tcl,
-	lib/themer.tcl, lib/version.tcl:
-	* Fixing issues with importing a TextMate theme and modifying an
-	image.
-	* Attempting to cause popup menu to get colorized in the same way as
-	the main menu on non-aqua systems but having no luck so far.
+	* tests/change.tcl, tests/delete.tcl: new file.
+	* lib/version.tcl, tests/change.tcl, tests/delete.tcl, tests/vim.tcl:
+	* Creating change and delete BIST from vim test.
 
-2017-03-17 23:02 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b7a744e01780)
+2017-03-21 00:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (27b3db979b0a)
 
-	* lib/gui.tcl, lib/theme.tcl, lib/version.tcl:
-	* Fixing default icon coloring.
+	* lib/version.tcl, lib/vim.tcl, tests/change.tcl:
+	* Fixing change word behavior.
 
-2017-03-18 01:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1d121327df29)
+2017-03-21 01:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e7bb38931fb0)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
-	* Checkpointing work on verifying Vim deletion.
+	* lib/edit.tcl, lib/version.tcl:
+	* Fixing issue with deleting the last line and then undoing the
+	change, putting the cursor back into the correct position.
 
-2017-03-19 00:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9d3404f7f595)
+2017-03-21 08:04 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (00439317a251)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/vim.tcl:
-	* More enhancements to Vim BIST.
-	* Fixing issue with `F` or `T` Vim commands to hang.
-	* Fixing issue with `cc` Vim command when a count value is used.
+	* tests/yank.tcl: new file.
+	* lib/edit.tcl, lib/version.tcl, tests/yank.tcl:
+	* Improving the fix for deleting the last line of a file.
+	* Adding yank Vim BIST.
 
-2017-03-20 00:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9da782a8b63b [tip])
+2017-03-21 17:25 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (eab41004ab98)
 
-	* data/bindings/menu_bindings.aqua.tkedat,
-	data/bindings/menu_bindings.classic.tkedat,
-	data/bindings/menu_bindings.win32.tkedat,
-	data/bindings/menu_bindings.x11.tkedat, lib/gui.tcl, lib/menus.tcl,
-	lib/search.tcl, lib/version.tcl:
-	* Changing documentation search to use a search panel instead of
-	using menus to make it more keyboard friendly.
-	* Attempting to fix issue on macOS where search history traversal
-	could cause syntax errors.
-	* Changing default menu bindings to use Control-Y for sidebar
-	show/hide.
-	* Using Control-K for the default menu binding for searching
-	documentation URLs.
+	* tests/transform.tcl: new file.
+	* lib/bist.tcl, lib/version.tcl, lib/vim.tcl, tests/transform.tcl,
+	tests/yank.tcl:
+	* Adding Return binding to new BIST test file creation dialog
+	window.
+	* Fixing Vim BIST issues
+	* Adding support for `guu`, `gUU` and `g~~` Vim commands.
+	* Finishing yank BIST and starting new transform BIST.
+
+2017-03-22 01:31 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cd9475f593d7)
+
+	* lib/version.tcl, lib/vim.tcl, tests/transform.tcl:
+	* Fixing BIST issues with transform test.
+	* Completing transform BIST.
+
+2017-03-22 17:23 -0500  Trevor Williams  <phase1geo@gmail.com>  (6c0cb6a0ff77)
+
+	* data/syntax/Tcl.syntax, lib/ctext/ctext.tcl, lib/version.tcl:
+	* Removing msgcat keyword from Tcl syntax.
+	* Fixing the bracket match handling for back-to-back brackets where
+	the first bracket is escaped.
+
+2017-03-22 19:57 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f0a0616a7f3d)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Adding support for bracket auditing when an escape character is
+	inserted/deleted.
+
+2017-03-23 00:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a1af6e1eb336)
+
+	* doc/md/TKE User Guide/Vim Commands/Changing case.textbundle/text.md,
+	doc/md/TKE User Guide/Vim Commands/Deleting text.textbundle/text.md,
+	doc/md/TKE User Guide/Vim Commands/Inserting-Replacing
+	text.textbundle/text.md, doc/md/TKE User Guide/Vim Commands/Undoing-
+	Cancelling commands.textbundle/text.md, lib/edit.tcl, lib/gui.tcl,
+	lib/version.tcl, tests/change.tcl:
+	* Updates to user guide for Vim commands.
+	* Enhancing ci_bracket_ commands to allow either right or left
+	bracket.
+	* Enhancing change BIST.
+
+2017-03-23 01:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7f1d88905101 [tip])
+
+	* doc/md/TKE User Guide/Language Reference Documentation/.Ulysses-
+	Group.plist, doc/md/TKE User Guide/Language Reference
+	Documentation/Editing Language
+	References.textbundle/assets/docedit.png, doc/md/TKE User
+	Guide/Language Reference Documentation/Editing Language
+	References.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Editing Language
+	References.textbundle/text.md, doc/md/TKE User Guide/Language
+	Reference Documentation/Language Reference
+	Documentation.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Language Reference
+	Documentation.textbundle/text.md, doc/md/TKE User Guide/Language
+	Reference Documentation/Searching a Language-Specific
+	Website.textbundle/assets/docsearch.png, doc/md/TKE User
+	Guide/Language Reference Documentation/Searching a Language-Specific
+	Website.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Searching a Language-Specific
+	Website.textbundle/text.md, doc/md/TKE User Guide/Language Reference
+	Documentation/Viewing a Language-Specific
+	Website.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Viewing a Language-Specific
+	Website.textbundle/text.md: new file.
+	* doc/md/.Ulysses-favorites.plist, doc/md/TKE User Guide/.Ulysses-
+	Group.plist, doc/md/TKE User Guide/Language Reference Documentation
+	/.Ulysses-Group.plist, doc/md/TKE User Guide/Language Reference
+	Documentation/Editing Language
+	References.textbundle/assets/docedit.png, doc/md/TKE User
+	Guide/Language Reference Documentation/Editing Language
+	References.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Editing Language
+	References.textbundle/text.md, doc/md/TKE User Guide/Language
+	Reference Documentation/Language Reference
+	Documentation.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Language Reference
+	Documentation.textbundle/text.md, doc/md/TKE User Guide/Language
+	Reference Documentation/Searching a Language-Specific
+	Website.textbundle/assets/docsearch.png, doc/md/TKE User
+	Guide/Language Reference Documentation/Searching a Language-Specific
+	Website.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Searching a Language-Specific
+	Website.textbundle/text.md, doc/md/TKE User Guide/Language Reference
+	Documentation/Viewing a Language-Specific
+	Website.textbundle/info.json, doc/md/TKE User Guide/Language
+	Reference Documentation/Viewing a Language-Specific
+	Website.textbundle/text.md, doc/md/TKE User Guide/User
+	Interface/Help Menu.textbundle/text.md, lib/search.tcl,
+	lib/version.tcl:
+	* Adding Language Reference chapter to the User Guide.
+	* Enhancing documentation search URL conditioner to the
+	http::formatQuery instead of attempting my own character
+	substitutions.
 
