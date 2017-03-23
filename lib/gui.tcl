@@ -5486,12 +5486,18 @@ namespace eval gui {
 
   ######################################################################
   # Gets the documentation search URL and string.
-  proc docsearch_get_input {docs prsplist} {
+  proc docsearch_get_input {docs prsplist args} {
 
     variable widgets
     variable saved
 
     upvar $prsplist rsplist
+
+    array set opts {
+      -str ""
+      -url ""
+    }
+    array set opts $args
 
     # Clear the saved indicator
     set saved 0
@@ -5506,6 +5512,14 @@ namespace eval gui {
     [$widgets(doc).mb cget -menu] delete 0 end
     foreach item $docs {
       [$widgets(doc).mb cget -menu] add command -label [lindex $item 0] -command [list $widgets(doc).mb configure -text [lindex $item 0]]
+    }
+
+    # Initialize the widget
+    if {$opts(-str) ne ""} {
+      $widgets(doc).e insert end $opts(-str)
+    }
+    if {($opts(-url) ne "") && ([set name [lsearch -exact -inline -index 1 $docs $opts(-url)]] ne "")} {
+      $widgets(doc).mb configure -text $name
     }
 
     # Display the user input widget

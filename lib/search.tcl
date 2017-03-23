@@ -630,7 +630,13 @@ namespace eval search {
   ######################################################################
   # Searches the current language documentation for the given search string.
   # Returns 1 if the search was opened; otherwise, returns a value of 0.
-  proc search_documentation {{str ""} {url ""}} {
+  proc search_documentation {args} {
+
+    array set opts {
+      -str ""
+      -url ""
+    }
+    array set opts $args
 
     # Get the current language
     gui::get_info {} current lang
@@ -639,11 +645,11 @@ namespace eval search {
     set docs [lsearch -all -inline -index 1 [list {*}[syntax::get_references $lang] {*}[preferences::get Documentation/References]] "*{query}*"]
 
     # Initialize the rsp array
-    array set rsp [list str $str url $url]
+    array set rsp [list str $opts(-str) url $opts(-url)]
 
     # If a search string was not specified, prompt the user
-    if {$str eq ""} {
-      if {![gui::docsearch_get_input $docs rsplist]} {
+    if {($opts(-str) eq "") || ($opts(-url) eq "")} {
+      if {![gui::docsearch_get_input $docs rsplist -str $opts(-str) -url $opts(-url)]} {
         return
       }
       array set rsp $rsplist
