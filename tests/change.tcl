@@ -56,53 +56,57 @@ namespace eval change {
 
   }
 
+  proc do_test {txtt id cmdlist cursor value {undo 1}} {
+
+    set start        [$txtt get 1.0 end-1c]
+    set start_cursor [$txtt index insert]
+
+    enter $txtt $cmdlist
+    if {[$txtt get 1.0 end-1c] ne $value} {
+      cleanup "$id change did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "edit"} {
+      cleanup "$id not in edit mode"
+    }
+    if {[$txtt index insert] ne $cursor} {
+      cleanup "$id insertion cursor not correct ([$txtt index insert])"
+    }
+    enter $txtt Escape
+
+    if {$undo} {
+      enter $txtt u
+      if {[$txtt get 1.0 end-1c] ne $start} {
+        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
+      }
+      if {[$txtt index insert] ne $start_cursor} {
+        cleanup "undo insertion not correct ([$txtt get 1.0 end-1c])"
+      }
+    }
+
+  }
+
   # Verify cc Vim command
   proc run_test1 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line\nThis is a line"]
+    $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.5
     vim::adjust_insert $txtt
 
-    enter $txtt {c c}
-    if {[$txtt get 1.0 end-1c] ne "\n\nThis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 insertion cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c c} 2.0 "\n\nThis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.5"} {
-        cleanup "undo insertion not correct ([$txtt get 1.0 end-1c])"
-      }
-
-      enter $txtt [linsert {c c} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\n"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "2 insertion cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c c} $index 2] 2.0 "\n"
     }
 
+    do_test $txtt 3 {c c} 2.0 "\n\nThis is a line" 0
+    $txtt mark set insert 3.1
+    do_test $txtt 4 {c c} 3.0 "\n\n"
+
+    # Cleanup
     cleanup
 
   }
@@ -113,46 +117,19 @@ namespace eval change {
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    enter $txtt {c l}
-    if {[$txtt get 1.0 end-1c] ne "\nhis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c l} 2.0 "\nhis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "Undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "Undo cursor incorrect ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c l} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nis is a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "2 insertion cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c l} $index 2] 2.0 "\nis is a line"
     }
+
+    do_test $txtt 3 {c l} 2.0 "\nhis is a line" 0
+    do_test $txtt 4 {c l} 2.0 "\nis is a line"
 
     # Cleanup
     cleanup
@@ -165,46 +142,19 @@ namespace eval change {
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    enter $txtt {c v l}
-    if {[$txtt get 1.0 end-1c] ne "\nis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 insertion cursor is not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c v l} 2.0 "\nis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "undo insertion cursor not correct ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c v l} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\ns is a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c v l} $index 2] 2.0 "\ns is a line"
     }
+
+    do_test $txtt 3 {c v l} 2.0 "\nis is a line" 0
+    do_test $txtt 4 {c v l} 2.0 "\n is a line"
 
     # Cleanup
     cleanup
@@ -217,46 +167,40 @@ namespace eval change {
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
-    enter $txtt {c w}
-    if {[$txtt get 1.0 end-1c] ne "\nT is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.1"} {
-      cleanup "1 insertion cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c w} 2.1 "\nT is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "Undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "Undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c w} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nT a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c w} $index 2] 2.1 "\nT a line"
     }
+
+    do_test $txtt 3 {c w} 2.1 "\nT is a line" 0
+    do_test $txtt 4 {c w} 2.0 "\n is a line"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  proc run_test5 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 C 2.3 "\nThi\nThis is a line"
+
+    do_test $txtt 1 C 2.3 "\nThi\nThis is a line" 0
+    $txtt mark set insert 3.1
+    do_test $txtt 2 C 3.1 "\nThi\nT"
 
     # Cleanup
     cleanup
@@ -264,51 +208,25 @@ namespace eval change {
   }
 
   # Verify c$ command
-  proc tbd_test5 {} {
+  proc tbd_test6 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line\nThis is a line\nThis is a line"]
+    $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.5
     vim::adjust_insert $txtt
 
-    enter $txtt {c dollar}
-    if {[$txtt get 1.0 end-1c] ne "\nThis \nThis is a line\nThis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.5"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c dollar} 2.5 "\nThis \nThis is a line\nThis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.5"} {
-        cleanup "undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c dollar} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nThis \nThis is a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.5"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c dollar} $index 2] 2.5 "\nThis \nThis is a line"
     }
+
+    do_test $txtt 3 {c dollar} 2.5 "\nThis \nThis is a line\nThis is a line" 0
+    $txtt mark set insert 3.1
+    do_test $txtt 4 {c dollar} 3.1 "\nThis \nT\nThis is a line"
 
     # Cleanup
     cleanup
@@ -316,35 +234,21 @@ namespace eval change {
   }
 
   # Verify c^ Vim command
-  proc tbd_test6 {} {
+  proc tbd_test7 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {c asciicircum}
-    if {[$txtt get 1.0 end-1c] ne "\na line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c asciicircum} 2.0 "\na line\nThis is a line"
 
-    enter $txtt u
-    if {[$txtt get 1.0 end-1c] ne $start} {
-      cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {[$txtt index insert] ne "2.8"} {
-      cleanup "undo cursor not correct ([$txtt index insert])"
-    }
+    do_test $txtt 1 {c asciicircum} 2.0 "\na line\nThis is a line" 0
+    $txtt mark set insert 3.1
+    do_test $txtt 2 {c asciicircum} 3.0 "\na line\nhis is a line"
 
     # Cleanup
     cleanup
@@ -352,51 +256,24 @@ namespace eval change {
   }
 
   # Verify cf Vim command
-  proc run_test7 {} {
+  proc run_test8 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
-    enter $txtt {c f l}
-    if {[$txtt get 1.0 end-1c] ne "\nTine"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.1"} {
-      cleanup "1 cursor did not work ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c f i} 2.1 "\nTs is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c f i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTs a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "2 cursor did not work ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c f i} $index 2] 2.1 "\nTs a line"
     }
+
+    do_test $txtt 3 {c f i} 2.1 "\nTs is a line" 0
+    do_test $txtt 4 {c f i} 2.0 "\ns a line"
 
     # Cleanup
     cleanup
@@ -404,51 +281,24 @@ namespace eval change {
   }
 
   # Verify ct Vim command
-  proc run_test8 {} {
+  proc run_test9 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
-    enter $txtt {c t l}
-    if {[$txtt get 1.0 end-1c] ne "\nTline"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.1"} {
-      cleanup "1 cursor did not work ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c t l} 2.1 "\nTline"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "undo cursor not correct ([$txtt get 1.0 end-1c])"
-      }
-
-      enter $txtt [linsert {c t i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTis a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "2 cursor did not work ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c t i} $index 2] 2.1 "\nTis a line"
     }
+
+    do_test $txtt 3 {c t i} 2.1 "\nTis is a line" 0
+    do_test $txtt 4 {c t i} 2.0 "\nis is a line"
 
     # Cleanup
     cleanup
@@ -456,51 +306,24 @@ namespace eval change {
   }
 
   # Verify cF Vim command
-  proc run_test9 {} {
+  proc run_test10 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {c F i}
-    if {[$txtt get 1.0 end-1c] ne "\nThis a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.5"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c F i} 2.5 "\nThis a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not change ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.8"} {
-        cleanup "undo cursor did not change ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c F i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTha line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.2"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c F i} $index 2] 2.2 "\nTha line"
     }
+
+    do_test $txtt 3 {c F i} 2.5 "\nThis a line" 0
+    do_test $txtt 4 {c F i} 2.2 "\nTh a line"
 
     # Cleanup
     cleanup
@@ -508,103 +331,139 @@ namespace eval change {
   }
 
   # Verify cT Vim command
-  proc run_test10 {} {
+  proc run_test11 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {c T i}
-    if {[$txtt get 1.0 end-1c] ne "\nThis ia line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.6"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c T i} 2.6 "\nThis ia line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.8"} {
-        cleanup "undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c T i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nThia line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.3"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c T i} $index 2] 2.3 "\nThia line"
     }
+
+    do_test $txtt 3 {c T i} 2.6 "\nThis ia line" 0
+    do_test $txtt 4 {c T i} 2.3 "\nThiia line"
 
     # Cleanup
     cleanup
 
   }
 
-  # Verify ch did not work
-  proc run_test11 {} {
+  # Verify ch Vim command
+  proc run_test12 {} {
 
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end [set start "\nThis is a line"]
+    $txtt insert end "\nThis is a line"
     $txtt edit separator
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {c h}
-    if {[$txtt get 1.0 end-1c] ne "\nThis isa line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "1 not in edit mode"
-    }
-    if {[$txtt index insert] ne "2.7"} {
-      cleanup "1 insertion cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {c h} 2.7 "\nThis isa line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.8"} {
-        cleanup "undo cursor is not correct ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {c h} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nThis ia line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "edit"} {
-        cleanup "2 not in edit mode"
-      }
-      if {[$txtt index insert] ne "2.6"} {
-        cleanup "2 insertion cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {c h} $index 2] 2.6 "\nThis ia line"
     }
+
+    do_test $txtt 3 {c h} 2.7 "\nThis isa line" 0
+    do_test $txtt 4 {c h} 2.5 "\nThis sa line"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify ci Vim command
+  proc run_test13 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis \\is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.4
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {c i i} 2.3 "\nThiine"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify ci\{ Vim command
+  proc run_test14 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nset this {is good\\\}}"
+    $txtt edit separator
+    $txtt mark set insert 2.12
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {c i braceleft} 2.10 "\nset this {}"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify ci[ Vim command
+  proc run_test15 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nset this \[is good\\\]\]"
+    $txtt edit separator
+    $txtt mark set insert 2.12
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {c i bracketleft} 2.10 "\nset this \[\]"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify ci( Vim command
+  proc run_test16 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nset this (is good\\))"
+    $txtt edit separator
+    $txtt mark set insert 2.12
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {c i parenleft} 2.10 "\nset this ()"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify ci< Vim command
+  proc run_test17 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nset this <is good\\>>"
+    $txtt edit separator
+    $txtt mark set insert 2.12
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {c i less} 2.10 "\nset this <>"
 
     # Cleanup
     cleanup

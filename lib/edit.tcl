@@ -285,21 +285,36 @@ namespace eval edit {
 
   ######################################################################
   # Get the start and end positions for the pair defined by char.
-  proc get_char_positions {txtt endchar} {
+  proc get_char_positions {txtt char} {
 
-    array set pairs {\{ \\\} \} \\\{ \( \\\) \) \\\( \[ \\\] \] \\\[ < > > <}
+    array set pairs {
+      \{ {\\\} L}
+      \} {\\\{ R}
+      \( {\\\) L}
+      \) {\\\( R}
+      \[ {\\\] L}
+      \] {\\\[ R}
+      <  {> L}
+      >  {< R}
+    }
 
     # Initialize
     set retval [set end_index 0]
 
     # Get the matching character
-    if {[info exists pairs($endchar)]} {
-      if {[set start_index [gui::find_match_pair $txtt $pairs($endchar) \\$endchar -backwards]] != -1} {
-        set retval [expr {[set end_index [gui::find_match_pair $txtt \\$endchar $pairs($endchar) -forwards]] != -1}]
+    if {[info exists pairs($char)]} {
+      if {[lindex $pairs($char) 1] eq "R"} {
+        if {[set start_index [gui::find_match_pair $txtt [lindex $pairs($char) 0] \\$char -backwards]] != -1} {
+          set retval [expr {[set end_index [gui::find_match_pair $txtt \\$char [lindex $pairs($char) 0] -forwards]] != -1}]
+        }
+      } else {
+        if {[set start_index [gui::find_match_pair $txtt \\$char [lindex $pairs($char) 0] -backwards]] != -1} {
+          set retval [expr {[set end_index [gui::find_match_pair $txtt [lindex $pairs($char) 0] \\$char -forwards]] != -1}]
+        }
       }
     } else {
-      if {[set start_index [gui::find_match_char $txtt $endchar -backwards]] != -1} {
-        set retval [expr {[set end_index [gui::find_match_char $txtt $endchar -forwards]] != -1}]
+      if {[set start_index [gui::find_match_char $txtt $char -backwards]] != -1} {
+        set retval [expr {[set end_index [gui::find_match_char $txtt $char -forwards]] != -1}]
       }
     }
 
