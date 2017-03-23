@@ -533,23 +533,31 @@ namespace eval folding {
     # Get ordered gutter list
     set ranges [list]
     set count  0
+    set oline  ""
     foreach {tline tag} [concat {*}[get_gutter_info $txt]] {
       if {($count == 0) && (($tag eq "open") || ($tag eq "eopen"))} {
         set oline [expr $tline + 1]
       }
       if {[incr count $inc($tag)] == 0} {
-        lappend ranges $oline.0 $tline.0
+        if {$oline ne ""} {
+          lappend ranges $oline.0 $tline.0
+          set oline ""
+        }
       } elseif {$count < 0} {
         set count 0
       }
     }
 
-    # Adds folds
-    $txt tag add _folded {*}$ranges
-
-    # Close the folds
-    $txt gutter set folding close  [$txt gutter get folding open]
-    $txt gutter set folding eclose [$txt gutter get folding eopen]
+    if {[llength $ranges] > 0} {
+      
+      # Adds folds
+      $txt tag add _folded {*}$ranges
+   
+      # Close the folds
+      $txt gutter set folding close  [$txt gutter get folding open]
+      $txt gutter set folding eclose [$txt gutter get folding eopen]
+      
+    }
 
   }
 

@@ -37,6 +37,23 @@ namespace eval multicursor {
 
   }
 
+  ######################################################################
+  # Emulates a Vim keystroke.
+  proc enter {txtt keysyms} {
+
+    foreach keysym $keysyms {
+      if {$keysym eq "Escape"} {
+        vim::handle_escape $txtt
+      } else {
+        set char [utils::sym2char $keysym]
+        if {![vim::handle_any $txtt [utils::sym2code $keysym] $char $keysym]} {
+          $txtt insert insert $char
+        }
+      }
+    }
+
+  }
+  
   proc run_test1 {} {
 
     # Create a text widget
@@ -580,6 +597,16 @@ namespace eval multicursor {
     # Clean things up
     cleanup
 
+  }
+  
+  proc run_test18 {} {
+    
+    # Initialize
+    set txt [initialize].t
+    
+    # Cleanup
+    cleanup
+    
   }
 
 }
