@@ -2001,9 +2001,8 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      if {([lsearch [$txtt tag names insert] "_keywords"] != -1) && \
-          ([set word [string trim [$txtt get "insert wordstart" "insert wordend"]]] ne "")} {
-        search::search_documentation $word
+      if {[set word [string trim [$txtt get "insert wordstart" "insert wordend"]]] ne ""} {
+        search::search_documentation -str $word
       }
       return 1
     }
