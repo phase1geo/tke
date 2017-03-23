@@ -554,11 +554,24 @@ namespace eval files {
       }
 
     }
-
+    
     # Find the matching file in the files list and change its filename to the new name
     if {[set index [get_index $old_name $remote]] != -1} {
+      
+      # Update the stored name to the new name
       lset files $index $fields(fname) $new_name
-      gui::update_tab [lindex $files $index $fields(tab)]
+      
+      # Get some information about the current file
+      gui::get_info $index fileindex tab txt lang
+      
+      # Reset the syntax highlighter to match the new name
+      if {[set new_lang [syntax::get_default_language $new_name]] ne $lang} {
+        syntax::set_language $txt $new_lang
+      }
+      
+      # Update the tab text
+      gui::update_tab $tab
+      
     }
 
     return $new_name
