@@ -4,7 +4,7 @@ The View menu allows the user to change the interface as desired.  The following
 
 | Menu Item | Shortcut<br>(Mac) | Shortcut<br>(Other) | Description |
 | - | - |
-| Show/Hide Sidebar | Cmd-K | Ctrl-K | Shows or hides the sidebar panel. |
+| Show/Hide Sidebar | Ctrl-Y | Ctrl-Y | Shows or hides the sidebar panel. |
 | Show/Hide Console | | | For operating systems that allow a Tcl/Tk console to be viewed, shows/hides this console window from view.  This menu item is only displayed if a console is available.  The console is mostly useful for TKE development purposes only. |
 | Show/Hide Tab Bar | | | Shows or hides the tab bar. |
 | Show/Hide Status Bar | | | Shows or hides the status bar at the bottom of the window. |
@@ -13,7 +13,7 @@ The View menu allows the user to change the interface as desired.  The following
 | Line Numbering / Relative | | | Displays the current line number as 0 and counts up above and below the current line. |
 | Show/Hide Marker Map | | | Shows or hides the marker map in the text scrollbar region. |
 | Show/Hide Meta Characters | | | Shows or hides any characters in the current edit tab that are syntax highlighted as “meta” characters.  Examples of meta characters would be formatting characters used in languages like Markdown. |
-| Display Text Info | Cmd-T | Ctrl-T | Displays the current line count and character count for the current file in the information bar. |
+| Display Text Info | Ctrl-G | Ctrl-G | Displays the current line count and character count for the current file in the information bar. |
 | Split View | Ctrl-P | Ctrl-P | When selected, creates a second view into the current file.  Each view can be independently manipulated; however, any text modifications made in either window will be available in the other view.  Deselecting this menu option will return the file to only showing a single view of the file in the editor. |
 | Bird’s Eye View | | | When selected, displays the bird’s eye view within each opened tab. Deselecting this option will hide the bird’s eye view in all opened tabs. |
 | Move to Other Pane | Ctrl-M | Ctrl-M | Moves the current file to the other text pane.  If only one text pane is currently viewable, a second pane will be displayed to the right of the current pane and the file will be moved to that pane.  If a pane only contains the file that is being moved, that pane will be removed from view.  This allows two files to be viewed “side by side”. |
