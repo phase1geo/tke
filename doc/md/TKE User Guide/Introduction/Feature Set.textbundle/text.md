@@ -118,3 +118,7 @@ The following is a high-level list of built-in features.
 	- Temporary hide tabs in the tab bar for improved workflow.
 - **Text Formatting**
 	- Bold, italicized, underline, strikethrough, highlight, header1-6, list item and checkbox text formatting is provided as enabled by the current syntax.
+- **Language-Specific References**
+	- Quick access to websites associated with the current buffer’s language.
+	- Quick in-app online documentation search capabilities.
+	- Customizable documentation.
