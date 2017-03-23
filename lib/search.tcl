@@ -651,7 +651,7 @@ namespace eval search {
     }
 
     # Substitute any space characters with %20
-    set str [string map {{ } {%20} \t {%20}} $rsp(str)]
+    set str [string range [http::formatQuery {} $rsp(str)] 1 end]
 
     if {$rsp(url) eq ""} {
       foreach item $docs {
