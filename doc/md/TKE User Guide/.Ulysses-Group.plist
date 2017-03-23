@@ -18,6 +18,7 @@
 		<string>Snippets</string>
 		<string>Preferences</string>
 		<string>Menu Bindings</string>
+		<string>Language Reference Documentation</string>
 		<string>Themes</string>
 		<string>Plugins</string>
 	</array>
@@ -73,6 +74,16 @@
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>3</integer>
+				</dict>
+			</dict>
+			<key>Language Reference Documentation</key>
+			<dict>
+				<key>lastModification</key>
+				<real>511939508.46226501</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>23</integer>
 				</dict>
 			</dict>
 			<key>Menu Bindings</key>
@@ -194,7 +205,7 @@
 		<key>childOrder</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>18</integer>
+			<integer>23</integer>
 		</dict>
 	</dict>
 </dict>

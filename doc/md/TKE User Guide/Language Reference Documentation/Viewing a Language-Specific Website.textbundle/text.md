@@ -1,0 +1,3 @@
+## Viewing a Language-Specific Website
+
+To access all online documentation content associated with the current syntax language, simply go to the `Help` menu’s `Language References` submenu and select one of the available websites listed. The listed websites will be a concatenation of the websites listed in the syntax description file and the list of websites the user specified in the documentation preference panel. When a website is selected, the user’s default web browser will open a new tab with the specified website.
