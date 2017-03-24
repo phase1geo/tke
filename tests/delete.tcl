@@ -56,6 +56,36 @@ namespace eval delete {
 
   }
 
+  ######################################################################
+  # Runs the given deletion test.
+  proc do_test {txtt id cmdlist cursor value {undo 1}} {
+
+    set start        [$txtt get 1.0 end-1c]
+    set start_cursor [$txtt index insert]
+
+    enter $txtt $cmdlist
+    if {[$txtt get 1.0 end-1c] ne $value} {
+      cleanup "$id delete did not work ([$txtt get 1.0 end-1c])"
+    }
+    if {$vim::mode($txtt) ne "start"} {
+      cleanup "$id not in mode start"
+    }
+    if {[$txtt index insert] ne $cursor} {
+      cleanup "$id cursor incorrect ([$txtt index insert])"
+    }
+
+    if {$undo} {
+      enter $txtt u
+      if {[$txtt get 1.0 end-1c] ne $start} {
+        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
+      }
+      if {[$txtt index insert] ne $start_cursor} {
+        cleanup "undo cursor not correct ([$txtt index insert])"
+      }
+    }
+
+  }
+
   # Verify deletion
   proc run_test1 {} {
 
@@ -67,35 +97,11 @@ namespace eval delete {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    enter $txtt x
-    if {[$txtt get 1.0 end-1c] ne "\nhis is a line"} {
-      cleanup "1 delete did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in mode start"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 cursor incorrect ([$txtt index insert])"
-    }
+    do_test $txtt 0 x 2.0 "\nhis is a line"
+    do_test $txtt 1 {2 x} 2.0 "\nis is a line"
 
-    enter $txtt u
-    if {[$txtt get 1.0 end-1c] ne $start} {
-      cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "undo cursor not correct ([$txtt index insert])"
-    }
-
-    enter $txtt {2 x}
-    if {[$txtt get 1.0 end-1c] ne "\nis is a line"} {
-      cleanup "2 delete did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "2 not in mode start"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "2 cursor not correct ([$txtt index insert])"
-    }
+    do_test $txtt 2 x 2.0 "\nhis is a line" 0
+    do_test $txtt 3 x 2.0 "\nis is a line"
 
     # Cleanup
     cleanup
@@ -113,41 +119,14 @@ namespace eval delete {
     $txtt mark set insert 2.5
     vim::adjust_insert $txtt
 
-    enter $txtt {d d}
-    if {[$txtt get 1.0 end-1c] ne "\nThis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 insertion cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d d} 2.0 "\nThis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.5"} {
-        cleanup "undo insertion not correct ([$txtt get 1.0 end-1c])"
-      }
-
-      enter $txtt [linsert {d d} $index 2]
-      if {[$txtt get 1.0 end-1c] ne " "} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "1.0"} {
-        cleanup "2 insertion cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d d} $index 2] 1.0 " "
     }
+
+    do_test $txtt 3 {d d} 2.0 "\nThis is a line" 0
+    do_test $txtt 4 {d d} 1.0 " "
 
     # Cleanup
     cleanup
@@ -165,41 +144,14 @@ namespace eval delete {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    enter $txtt {d l}
-    if {[$txtt get 1.0 end-1c] ne "\nhis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d l} 2.0 "\nhis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "Undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "Undo cursor incorrect ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d l} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nis is a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "2 insertion cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d l} $index 2] 2.0 "\nis is a line"
     }
+
+    do_test $txtt 3 {d l} 2.0 "\nhis is a line" 0
+    do_test $txtt 4 {d l} 2.0 "\nis is a line"
 
     # Cleanup
     cleanup
@@ -217,41 +169,14 @@ namespace eval delete {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    enter $txtt {d v l}
-    if {[$txtt get 1.0 end-1c] ne "\nis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 insertion cursor is not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d v l} 2.0 "\nis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "undo insertion cursor not correct ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d v l} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\ns is a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.0"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d v l} $index 2] 2.0 "\ns is a line"
     }
+
+    do_test $txtt 3 {d v l} 2.0 "\nis is a line" 0
+    do_test $txtt 4 {d v l} 2.0 "\n is a line"
 
     # Cleanup
     cleanup
@@ -269,41 +194,14 @@ namespace eval delete {
     $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
-    enter $txtt {d w}
-    if {[$txtt get 1.0 end-1c] ne "\nTis a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.1"} {
-      cleanup "1 insertion cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d w} 2.1 "\nTis a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "Undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "Undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d w} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTa line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d w} $index 2] 2.1 "\nTa line"
     }
+
+    do_test $txtt 3 {d w} 2.1 "\nTis a line" 0
+    do_test $txtt 4 {d w} 2.1 "\nTa line"
 
     # Cleanup
     cleanup
@@ -321,41 +219,15 @@ namespace eval delete {
     $txtt mark set insert 2.5
     vim::adjust_insert $txtt
 
-    enter $txtt {d dollar}
-    if {[$txtt get 1.0 end-1c] ne "\nThis \nThis is a line\nThis is a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.4"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d dollar} 2.4 "\nThis \nThis is a line\nThis is a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.5"} {
-        cleanup "undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d dollar} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nThis \nThis is a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.4"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d dollar} $index 2] 2.4 "\nThis \nThis is a line"
     }
+
+    do_test $txtt 3 {d dollar} 2.4 "\nThis \nThis is a line\nThis is a line" 0
+    $txtt mark set insert 3.0
+    do_test $txtt 4 {d dollar} 3.0 "\nThis \n \nThis is a line"
 
     # Cleanup
     cleanup
@@ -373,25 +245,7 @@ namespace eval delete {
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {d asciicircum}
-    if {[$txtt get 1.0 end-1c] ne "\na line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.0"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
-
-    enter $txtt u
-    if {[$txtt get 1.0 end-1c] ne $start} {
-      cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {[$txtt index insert] ne "2.8"} {
-      cleanup "undo cursor not correct ([$txtt index insert])"
-    }
+    do_test $txtt 0 {d asciicircum} 2.0 "\na line"
 
     # Cleanup
     cleanup
@@ -409,41 +263,14 @@ namespace eval delete {
     $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
-    enter $txtt {d f l}
-    if {[$txtt get 1.0 end-1c] ne "\nTine"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.1"} {
-      cleanup "1 cursor did not work ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d f l} 2.1 "\nTine"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d f i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTs a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "2 cursor did not work ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d f i} $index 2] 2.1 "\nTs a line"
     }
+
+    do_test $txtt 3 {d f i} 2.1 "\nTs is a line" 0
+    do_test $txtt 4 {d f i} 2.1 "\nTs a line"
 
     # Cleanup
     cleanup
@@ -461,41 +288,14 @@ namespace eval delete {
     $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
-    enter $txtt {d t l}
-    if {[$txtt get 1.0 end-1c] ne "\nTline"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.1"} {
-      cleanup "1 cursor did not work ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d t l} 2.1 "\nTline"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "undo cursor not correct ([$txtt get 1.0 end-1c])"
-      }
-
-      enter $txtt [linsert {d t i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTis a line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.1"} {
-        cleanup "2 cursor did not work ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d t i} $index 2] 2.1 "\nTis a line"
     }
+
+    do_test $txtt 3 {d t i} 2.1 "\nTis is a line" 0
+    do_test $txtt 4 {d t i} 2.1 "\nTis a line"
 
     # Cleanup
     cleanup
@@ -513,41 +313,14 @@ namespace eval delete {
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {d F i}
-    if {[$txtt get 1.0 end-1c] ne "\nThis a line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.5"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d F i} 2.5 "\nThis a line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not change ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.8"} {
-        cleanup "undo cursor did not change ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d F i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nTha line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.2"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d F i} $index 2] 2.2 "\nTha line"
     }
+
+    do_test $txtt 3 {d F i} 2.5 "\nThis a line" 0
+    do_test $txtt 4 {d F i} 2.2 "\nTha line"
 
     # Cleanup
     cleanup
@@ -565,41 +338,15 @@ namespace eval delete {
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {d T i}
-    if {[$txtt get 1.0 end-1c] ne "\nThis ia line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.6"} {
-      cleanup "1 cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d T i} 2.6 "\nThis ia line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.8"} {
-        cleanup "undo cursor did not work ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d T i} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nThia line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.3"} {
-        cleanup "2 cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d T i} $index 2] 2.3 "\nThia line"
     }
+
+    do_test $txtt 3 {d T i} 2.6 "\nThis ia line" 0
+    $txtt mark set insert 2.5
+    do_test $txtt 4 {d T i} 2.3 "\nThiia line"
 
     # Cleanup
     cleanup
@@ -617,41 +364,14 @@ namespace eval delete {
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    enter $txtt {d h}
-    if {[$txtt get 1.0 end-1c] ne "\nThis isa line"} {
-      cleanup "1 change did not work ([$txtt get 1.0 end-1c])"
-    }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "1 not in start mode"
-    }
-    if {[$txtt index insert] ne "2.7"} {
-      cleanup "1 insertion cursor not correct ([$txtt index insert])"
-    }
-    enter $txtt Escape
+    do_test $txtt 0 {d h} 2.7 "\nThis isa line"
 
     foreach index {0 1} {
-
-      enter $txtt u
-      if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {[$txtt index insert] ne "2.8"} {
-        cleanup "undo cursor is not correct ([$txtt index insert])"
-      }
-
-      enter $txtt [linsert {d h} $index 2]
-      if {[$txtt get 1.0 end-1c] ne "\nThis ia line"} {
-        cleanup "2 change did not work ([$txtt get 1.0 end-1c])"
-      }
-      if {$vim::mode($txtt) ne "start"} {
-        cleanup "2 not in start mode"
-      }
-      if {[$txtt index insert] ne "2.6"} {
-        cleanup "2 insertion cursor not correct ([$txtt index insert])"
-      }
-      enter $txtt Escape
-
+      do_test $txtt [expr $index + 1] [linsert {d h} $index 2] 2.6 "\nThis ia line"
     }
+
+    do_test $txtt 3 {d h} 2.7 "\nThis isa line" 0
+    do_test $txtt 4 {d h} 2.6 "\nThis ia line"
 
     # Cleanup
     cleanup
