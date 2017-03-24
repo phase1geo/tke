@@ -446,11 +446,9 @@ namespace eval multicursor {
 
     lassign [split [lindex $ranges 0] .] row col
 
-    # If we will be moving past the end, no need to continue
-    if {$row == 1} {
+    # If we will be moving past the beginning, no need to continue
+    if {[expr ($row - $num) < 1]} {
       return
-    } else {
-      set num [expr (($row - $num) < 1) ? ($row - 1) : $num]
     }
 
     $txtt tag remove mcursor 1.0 end

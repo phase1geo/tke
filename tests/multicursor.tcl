@@ -53,7 +53,7 @@ namespace eval multicursor {
     }
 
   }
-  
+
   proc run_test1 {} {
 
     # Create a text widget
@@ -598,15 +598,180 @@ namespace eval multicursor {
     cleanup
 
   }
-  
+
+  ######################################################################
+  # Performs a Vim multicursor movement test.
+  proc do_test {txtt id cmdlist cursors} {
+
+    enter $txtt $cmdlist
+
+    # Create the full cursor to compare against
+    foreach cursor $cursors {
+      lappend cursorlist $cursor [$txtt index $cursor+1c]
+    }
+
+    if {[$txtt tag ranges mcursor] ne $cursorlist} {
+      cleanup "$id mcursor was not correct ([$txtt tag ranges mcursor])"
+    }
+
+  }
+
+  # Move the cursors to the right
   proc run_test18 {} {
-    
+
     # Initialize
-    set txt [initialize].t
-    
+    set txtt [initialize].t
+
+    $txtt insert end "\nthis is a line\nthis is a good line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Select the multicursors and place ourselves into multicursor move mode
+    enter $txtt {s j s m}
+
+    do_test $txtt 0 l       [list 2.1 3.1]
+    do_test $txtt 1 {2 l}   [list 2.3 3.3]
+    do_test $txtt 2 {2 0 l} [list 2.3 3.3]
+    do_test $txtt 3 {1 0 l} [list 2.13 3.13]
+    do_test $txtt 4 l       [list 2.13 3.13]
+
     # Cleanup
     cleanup
-    
+
   }
+
+  # Move cursors to the left
+  proc run_test19 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nThis is a good line"
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
+
+    enter $txtt {s j 5 l s m}
+
+    do_test $txtt 0 h       [list 2.12 3.17]
+    do_test $txtt 1 {2 h}   [list 2.10 3.15]
+    do_test $txtt 2 {2 0 h} [list 2.10 3.15]
+    do_test $txtt 3 {1 0 h} [list 2.0 3.5]
+    do_test $txtt 4 h       [list 2.0 3.5]
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify multicursor down
+  proc run_test20 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end [string repeat "\nThis is a line" 10]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    enter $txtt {s j s m}
+
+    do_test $txtt 0 j       [list 3.0 4.0]
+    do_test $txtt 1 {2 j}   [list 5.0 6.0]
+    do_test $txtt 2 {1 0 j} [list 5.0 6.0]
+    do_test $txtt 3 {5 j}   [list 10.0 11.0]
+    do_test $txtt 4 j       [list 10.0 11.0]
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify k Vim command
+  proc run_test21 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end [string repeat "\nThis is a line" 10]
+    $txtt mark set insert 10.0
+    vim::adjust_insert $txtt
+
+    enter $txtt {s j s m}
+
+    do_test $txtt 0 k       [list 9.0 10.0]
+    do_test $txtt 1 {2 k}   [list 7.0 8.0]
+    do_test $txtt 2 {1 0 k} [list 7.0 8.0]
+    do_test $txtt 3 {6 k}   [list 1.0 2.0]
+    do_test $txtt 4 k       [list 1.0 2.0]
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify 0 Vim commands
+  proc run_test22 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nThis is also a line"
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {s j 5 l s m} [list 2.13 3.18]
+    do_test $txtt 1 0 [list 2.0 3.0]
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify $ Vim command
+  proc run_test23 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a good line\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {s j s m} [list 2.0 3.0]
+    do_test $txtt 1 dollar    [list 2.18 3.13]
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify w and b Vim commands
+  proc run_test24 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nThis is a really good line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {s j s m} [list 2.0 3.0]
+    do_test $txtt 1 w         [list 2.5 3.5]
+    do_test $txtt 2 {2 w}     [list 2.10 3.10]
+    do_test $txtt 3 w         [list 3.0 3.17]
+    do_test $txtt 4 {10 w}    [list 3.0 3.17]
+
+    do_test $txtt 5 b         [list 2.10 3.10]
+    do_test $txtt 6 {2 b}     [list 2.5 3.5]
+    do_test $txtt 7 {3 b}     [list 2.5 3.5]
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify space Vim command
+  # Verify backspace Vim command
+  # Verify ^ Vim command
 
 }
