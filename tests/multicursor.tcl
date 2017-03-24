@@ -616,27 +616,11 @@ namespace eval multicursor {
 
   }
 
-  # Move the cursors to the right
-  proc run_test18 {} {
+  ######################################################################
+  # Perfoms a Vim multicursor selection test.
+  proc do_sel_test {txtt id cmdlist cursors} {
 
-    # Initialize
-    set txtt [initialize].t
 
-    $txtt insert end "\nthis is a line\nthis is a good line"
-    $txtt mark set insert 2.0
-    vim::adjust_insert $txtt
-
-    # Select the multicursors and place ourselves into multicursor move mode
-    enter $txtt {s j s m}
-
-    do_test $txtt 0 l       [list 2.1 3.1]
-    do_test $txtt 1 {2 l}   [list 2.3 3.3]
-    do_test $txtt 2 {2 0 l} [list 2.3 3.3]
-    do_test $txtt 3 {1 0 l} [list 2.13 3.13]
-    do_test $txtt 4 l       [list 2.13 3.13]
-
-    # Cleanup
-    cleanup
 
   }
 
@@ -759,19 +743,58 @@ namespace eval multicursor {
     do_test $txtt 1 w         [list 2.5 3.5]
     do_test $txtt 2 {2 w}     [list 2.10 3.10]
     do_test $txtt 3 w         [list 3.0 3.17]
-    do_test $txtt 4 {10 w}    [list 3.0 3.17]
+    do_test $txtt 4 {10 w}    [list 3.5 3.22]
 
-    do_test $txtt 5 b         [list 2.10 3.10]
-    do_test $txtt 6 {2 b}     [list 2.5 3.5]
-    do_test $txtt 7 {3 b}     [list 2.5 3.5]
+    do_test $txtt 5 b         [list 3.0 3.17]
+    do_test $txtt 6 {2 b}     [list 2.8 3.8]
+    do_test $txtt 7 {4 b}     [list 1.0 2.8]
 
     # Cleanup
     cleanup
 
   }
 
-  # Verify space Vim command
-  # Verify backspace Vim command
+  # Verify space and backspace Vim command
+  proc run_test25 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nThis is a really good line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {s j s m}       [list 2.0 3.0]
+    do_test $txtt 1 space           [list 2.1 3.1]
+    do_test $txtt 2 {1 2 space}     [list 2.13 3.13]
+    do_test $txtt 3 space           [list 3.0 3.14]
+
+    do_test $txtt 4 BackSpace       [list 2.13 3.13]
+    do_test $txtt 5 {1 2 BackSpace} [list 2.1 3.1]
+    do_test $txtt 6 {1 0 BackSpace} [list 1.0 2.5]
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify ^ Vim command
+  proc run_test26 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\n This is a line\n  This is a line"
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {s j s m}   [list 2.5 3.5]
+    do_test $txtt 1 asciicircum [list 2.1 3.2]
+    do_test $txtt 2 asciicircum [list 2.1 3.2]
+
+    # Cleanup
+    cleanup
+
+  }
 
 }
