@@ -93,7 +93,7 @@ namespace eval vim {
 
     variable multicursor
 
-    return [expr {([get_edit_mode $txtt] ne "") && $multicursor($txtt)}]
+    return [expr {([get_edit_mode $txtt] ne "") || $multicursor($txtt)}]
 
   }
 
@@ -1054,7 +1054,7 @@ namespace eval vim {
     variable mode
     variable multicursor
 
-    # If we are coming from visual mode, clear the selection
+    # If we are coming from visual mode, clear the selection and the anchors
     if {[in_visual_mode $txtt]} {
       $txtt tag remove sel 1.0 end
     }
@@ -1073,6 +1073,12 @@ namespace eval vim {
     # Set the blockcursor to true
     $txtt configure -blockcursor true -insertwidth 1
 
+    # Set the current mode to the start mode
+    set mode($txtt) "start"
+
+    # Clear multicursor mode
+    set multicursor($txtt) 0
+
     # Adjust the insertion marker
     adjust_insert $txtt
 
@@ -1080,12 +1086,6 @@ namespace eval vim {
     if {$mode($txtt) ne "start"} {
       $txtt edit separator
     }
-
-    # Set the current mode to the start mode
-    set mode($txtt) "start"
-
-    # Clear multicursor mode
-    set multicursor($txtt) 0
 
   }
 
