@@ -1073,6 +1073,9 @@ namespace eval vim {
     # Set the blockcursor to true
     $txtt configure -blockcursor true -insertwidth 1
 
+    # Remember the previous mode
+    set prev_mode $mode($txtt)
+
     # Set the current mode to the start mode
     set mode($txtt) "start"
 
@@ -1083,7 +1086,7 @@ namespace eval vim {
     adjust_insert $txtt
 
     # Add a separator if we were in edit mode
-    if {$mode($txtt) ne "start"} {
+    if {$prev_mode ne "start"} {
       $txtt edit separator
     }
 
