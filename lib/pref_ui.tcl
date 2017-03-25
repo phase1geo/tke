@@ -3352,15 +3352,14 @@ namespace eval pref_ui {
       catch { dict unset mods {} }
     }
 
-    # If we are on windows, we need to remove dead keys
+    # If we are on macOS, we need to remove dead keys and other keys that
+    # would cause problems
     if {[tk windowingsystem] eq "aqua"} {
-      if {[lsearch [list E I U] $curr_sym] != -1} {
+      if {[lsearch [list E I U Up Down Left Right] $curr_sym] != -1} {
         catch { dict unset mods Alt }
       }
       if {$curr_mod eq "Alt"} {
-        catch { dict unset syms E }
-        catch { dict unset syms I }
-        catch { dict unset syms U }
+        catch { dict unset syms E I U Up Down Left Right }
       }
     }
 
