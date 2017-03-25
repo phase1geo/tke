@@ -74,6 +74,11 @@ namespace eval multicursor {
 
     variable selected
 
+    # If we are in multimove Vim mode, return immediately
+    if {[vim::in_multimove $W]} {
+      return
+    }
+
     set selected 0
 
     if {[llength [set sel [$W tag ranges sel]]] > 2} {
@@ -304,11 +309,6 @@ namespace eval multicursor {
     # Add the multicursor
     $txtt tag add mcursor $next
 
-    # If we are in selection mode in Vim, add to the selection
-    if {[vim::in_visual_mode $txtt]} {
-
-    }
-
     # If our next cursor is going off screen, make it viewable
     if {([$txtt bbox $prev] ne "") && ([$txtt bbox $next] eq "")} {
       $txtt see $next
@@ -321,6 +321,7 @@ namespace eval multicursor {
   proc adjust_select {txtt} {
 
     if {[vim::in_visual_mode $txtt]} {
+      $txtt tag remove sel 1.0 end
       set i 0
       foreach {start end} [$txtt tag ranges mcursor] {
         vim::adjust_select $txtt $i $start
@@ -360,6 +361,7 @@ namespace eval multicursor {
 
       foreach {start end} $ranges {
         if {[$txtt compare "$start+${num} display chars" >= "$start lineend"]} {
+          adjust_select $txtt
           return
         }
       }
@@ -395,6 +397,7 @@ namespace eval multicursor {
 
     # If we will be moving past the end, no need to continue
     if {[$txtt compare "[lindex $ranges end-1]+${num} display lines" == end]} {
+      adjust_select $txtt
       return
     }
 
@@ -422,6 +425,7 @@ namespace eval multicursor {
     # If any of the cursors would "fall off the edge", don't adjust any of them
     foreach {start end} $ranges {
       if {[$txtt compare "$start-${num} display chars" < "$start linestart"]} {
+        adjust_select $txtt
         return
       }
     }
@@ -448,6 +452,7 @@ namespace eval multicursor {
 
     # If we will be moving past the beginning, no need to continue
     if {[expr ($row - $num) < 1]} {
+      adjust_select $txtt
       return
     }
 
@@ -473,7 +478,6 @@ namespace eval multicursor {
 
     $txtt tag remove mcursor 1.0 end
     foreach {start end} $ranges {
-      $txtt tag remove mcursor $start
       adjust_set_and_view $txtt $start "$start linestart"
     }
 
@@ -513,7 +517,7 @@ namespace eval multicursor {
     set ranges [$txtt tag ranges mcursor]
 
     $txtt tag remove mcursor 1.0 end
-    foreach {end start} [lreverse $ranges] {
+    foreach {start end} $ranges {
       adjust_set_and_view $txtt $start [edit::get_char $txtt $dir $num $start]
     }
 

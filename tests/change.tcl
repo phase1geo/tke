@@ -104,6 +104,7 @@ namespace eval change {
 
     do_test $txtt 3 {c c} 2.0 "\n\nThis is a line" 0
     $txtt mark set insert 3.1
+    vim::adjust_insert $txtt
     do_test $txtt 4 {c c} 3.0 "\n\n"
 
     # Cleanup

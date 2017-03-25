@@ -27,15 +27,18 @@ namespace eval search {
   variable lengths {}
 
   array set data {
-    find,hist        {}
-    find,hist_ptr    0
-    find,current     {}
-    replace,hist     {}
-    replace,hist_ptr 0
-    replace,current  {}
-    fif,hist         {}
-    fif,hist_ptr     0
-    fif,current      {}
+    find,hist          {}
+    find,hist_ptr      0
+    find,current       {}
+    replace,hist       {}
+    replace,hist_ptr   0
+    replace,current    {}
+    fif,hist           {}
+    fif,hist_ptr       0
+    fif,current        {}
+    docsearch,hist     {}
+    docsearch,hist_ptr 0
+    docsearch,current  {}
   }
 
   ######################################################################
@@ -688,12 +691,7 @@ namespace eval search {
 
     # Clear the history pointers
     foreach type [list find replace fif docsearch] {
-      if {[info exists data($type,hist)]} {
-        set data($type,hist_ptr) [llength $data($type,hist)]
-      } else {
-        set data($type,hist_ptr) 0
-        set data($type,hist)     [list]
-      }
+      set data($type,hist_ptr) [llength $data($type,hist)]
     }
 
   }

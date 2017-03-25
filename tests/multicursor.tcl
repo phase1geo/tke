@@ -6,15 +6,22 @@ namespace eval multicursor {
   proc initialize {} {
 
     variable current_tab
+    variable anchors
 
     # Add a new file
     set current_tab [gui::add_new_file end]
+
+    # Clear the anchors array
+    set anchors [list]
 
     # Get the text widget
     set txt [gui::get_info $current_tab tab txt]
 
     # Set the current syntax to Tcl
     syntax::set_language $txt Tcl
+
+    # Make sure that the selection mode is "inclusive"
+    vim::do_set_selection "inclusive"
 
     return $txt
 
@@ -43,6 +50,7 @@ namespace eval multicursor {
 
     foreach keysym $keysyms {
       if {$keysym eq "Escape"} {
+        multicursor::handle_escape $txtt
         vim::handle_escape $txtt
       } else {
         set char [utils::sym2char $keysym]
@@ -606,12 +614,16 @@ namespace eval multicursor {
     enter $txtt $cmdlist
 
     # Create the full cursor to compare against
+    set cursorlist [list]
     foreach cursor $cursors {
       lappend cursorlist $cursor [$txtt index $cursor+1c]
     }
 
     if {[$txtt tag ranges mcursor] ne $cursorlist} {
-      cleanup "$id mcursor was not correct ([$txtt tag ranges mcursor])"
+      cleanup "$id mcursor was not correct ([$txtt tag ranges mcursor], $cursorlist)"
+    }
+    if {[$txtt tag ranges sel] ne [list]} {
+      cleanup "$id selection was not correct ([$txtt tag ranges sel])"
     }
 
   }
@@ -620,12 +632,75 @@ namespace eval multicursor {
   # Perfoms a Vim multicursor selection test.
   proc do_sel_test {txtt id cmdlist cursors} {
 
+    variable anchors
 
+    # Get the current multicursors
+    set mcursors [$txtt tag ranges mcursor]
+    set i        0
+
+    enter $txtt $cmdlist
+
+    if {$anchors eq [list]} {
+      set anchors [list]
+      foreach {start end} $mcursors {
+        lappend anchors $start
+      }
+    }
+
+    foreach cursor $cursors {
+      lappend mcursorlist $cursor [$txtt index $cursor+1c]
+      if {[$txtt compare $cursor < [lindex $anchors $i]]} {
+        lappend selectlist [$txtt index $cursor] [$txtt index [lindex $anchors $i]+1c]
+      } else {
+        lappend selectlist [lindex $anchors $i] [$txtt index $cursor+1c]
+      }
+      incr i
+    }
+
+    if {[$txtt tag ranges mcursor] ne $mcursorlist} {
+      cleanup "$id mcursor was not correct ([$txtt tag ranges mcursor])"
+    }
+    if {[$txtt tag ranges sel] ne $selectlist} {
+      cleanup "$id selection was not correct ([$txtt tag ranges sel], $selectlist)"
+    }
+
+  }
+
+  # Move cursors to the right
+  proc run_test19 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nThis is a good line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {s j s m} [list 2.0 3.0]
+    do_test $txtt 1 l         [list 2.1 3.1]
+    do_test $txtt 2 {1 2 l}   [list 2.13 3.13]
+    do_test $txtt 3 l         [list 2.13 3.13]
+
+    # Get out of multicursor mode
+    do_test $txtt 4 Escape [list 2.13 3.13]
+    do_test $txtt 5 Escape [list]
+
+    $txtt mark set insert 2.0
+    do_test     $txtt 6 {s j s m} [list 2.0 3.0]
+    do_sel_test $txtt 7 {v l}     [list 2.1 3.1]
+    do_sel_test $txtt 8 {1 2 l}   [list 2.13 3.13]
+    do_sel_test $txtt 9 l         [list 2.13 3.13]
+
+    do_test $txtt 10 Escape [list 2.13 3.13]
+    do_test $txtt 11 Escape [list]
+
+    # Cleanup
+    cleanup
 
   }
 
   # Move cursors to the left
-  proc run_test19 {} {
+  proc run_test20 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -642,13 +717,26 @@ namespace eval multicursor {
     do_test $txtt 3 {1 0 h} [list 2.0 3.5]
     do_test $txtt 4 h       [list 2.0 3.5]
 
+    # Get out of multicursor mode
+    do_test $txtt 4 Escape [list 2.0 3.5]
+    do_test $txtt 5 Escape [list]
+
+    $txtt mark set insert 2.13
+    do_test $txtt     6 {s j 5 l s m} [list 2.13 3.18]
+    do_sel_test $txtt 7 {v h}         [list 2.12 3.17]
+    do_sel_test $txtt 8 {1 2 h}       [list 2.0 3.5]
+    do_sel_test $txtt 9 h             [list 2.0 3.5]
+
+    do_test $txtt 10 Escape [list 2.0 3.5]
+    do_test $txtt 11 Escape [list]
+
     # Cleanup
     cleanup
 
   }
 
   # Verify multicursor down
-  proc run_test20 {} {
+  proc run_test21 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -657,13 +745,25 @@ namespace eval multicursor {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    enter $txtt {s j s m}
+    do_test $txtt 0 {s j s m} [list 2.0 3.0]
+    do_test $txtt 1 j         [list 3.0 4.0]
+    do_test $txtt 2 {2 j}     [list 5.0 6.0]
+    do_test $txtt 3 {1 0 j}   [list 5.0 6.0]
+    do_test $txtt 4 {5 j}     [list 10.0 11.0]
+    do_test $txtt 5 j         [list 10.0 11.0]
 
-    do_test $txtt 0 j       [list 3.0 4.0]
-    do_test $txtt 1 {2 j}   [list 5.0 6.0]
-    do_test $txtt 2 {1 0 j} [list 5.0 6.0]
-    do_test $txtt 3 {5 j}   [list 10.0 11.0]
-    do_test $txtt 4 j       [list 10.0 11.0]
+    # Get out of multicursor mode
+    do_test $txtt 6 Escape [list 10.0 11.0]
+    do_test $txtt 7 Escape [list]
+
+    $txtt mark set insert 2.0
+    do_test $txtt     8 {s 5 j s m} [list 2.0 7.0]
+    do_sel_test $txtt 9 {v j}       [list 3.0 8.0]
+    do_sel_test $txtt 10 {3 j}      [list 6.0 11.0]
+    do_sel_test $txtt 11 j          [list 6.0 11.0]
+
+    do_test $txtt 12 Escape [list 6.0 11.0]
+    do_test $txtt 13 Escape [list]
 
     # Cleanup
     cleanup
@@ -671,7 +771,7 @@ namespace eval multicursor {
   }
 
   # Verify k Vim command
-  proc run_test21 {} {
+  proc run_test22 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -680,13 +780,27 @@ namespace eval multicursor {
     $txtt mark set insert 10.0
     vim::adjust_insert $txtt
 
-    enter $txtt {s j s m}
+    do_test $txtt 0 {s j s m} [list 10.0 11.0]
+    do_test $txtt 1 k         [list 9.0 10.0]
+    do_test $txtt 2 {2 k}     [list 7.0 8.0]
+    do_test $txtt 3 {1 0 k}   [list 7.0 8.0]
+    do_test $txtt 4 {6 k}     [list 1.0 2.0]
+    do_test $txtt 5 k         [list 1.0 2.0]
 
-    do_test $txtt 0 k       [list 9.0 10.0]
-    do_test $txtt 1 {2 k}   [list 7.0 8.0]
-    do_test $txtt 2 {1 0 k} [list 7.0 8.0]
-    do_test $txtt 3 {6 k}   [list 1.0 2.0]
-    do_test $txtt 4 k       [list 1.0 2.0]
+    # Get out of multicursor mode
+    do_test $txtt 6 Escape [list 1.0 2.0]
+    do_test $txtt 7 Escape [list]
+
+    $txtt mark set insert 11.0
+    vim::adjust_insert $txtt
+
+    do_test     $txtt 8  {s 6 k s m} [list 5.0 11.0]
+    do_sel_test $txtt 9  {v k}       [list 4.0 10.0]
+    do_sel_test $txtt 10 {3 k}       [list 1.0 7.0]
+    do_sel_test $txtt 11 k           [list 1.0 7.0]
+
+    do_test $txtt 12 Escape [list 1.0 7.0]
+    do_test $txtt 13 Escape [list]
 
     # Cleanup
     cleanup
@@ -694,7 +808,7 @@ namespace eval multicursor {
   }
 
   # Verify 0 Vim commands
-  proc run_test22 {} {
+  proc run_test23 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -706,13 +820,26 @@ namespace eval multicursor {
     do_test $txtt 0 {s j 5 l s m} [list 2.13 3.18]
     do_test $txtt 1 0 [list 2.0 3.0]
 
+    # Get out of multicursor mode
+    do_test $txtt 2 Escape [list 2.0 3.0]
+    do_test $txtt 3 Escape [list]
+
+    $txtt mark set insert 2.13
+    vim::adjust_insert $txtt
+
+    do_test     $txtt 4 {s j 5 l s m} [list 2.13 3.18]
+    do_sel_test $txtt 5 {v 0}         [list 2.0 3.0]
+
+    do_test $txtt 6 Escape [list 2.0 3.0]
+    do_test $txtt 7 Escape [list]
+
     # Cleanup
     cleanup
 
   }
 
   # Verify $ Vim command
-  proc run_test23 {} {
+  proc run_test24 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -724,13 +851,26 @@ namespace eval multicursor {
     do_test $txtt 0 {s j s m} [list 2.0 3.0]
     do_test $txtt 1 dollar    [list 2.18 3.13]
 
+    # Get out of multicursor mode
+    do_test $txtt 2 Escape [list 2.18 3.13]
+    do_test $txtt 3 Escape [list]
+
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test     $txtt 4 {s j s m}  [list 2.0 3.0]
+    do_sel_test $txtt 5 {v dollar} [list 2.18 3.13]
+
+    do_test $txtt 6 Escape [list 2.18 3.13]
+    do_test $txtt 7 Escape [list]
+
     # Cleanup
     cleanup
 
   }
 
   # Verify w and b Vim commands
-  proc run_test24 {} {
+  proc run_test25 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -749,13 +889,29 @@ namespace eval multicursor {
     do_test $txtt 6 {2 b}     [list 2.8 3.8]
     do_test $txtt 7 {4 b}     [list 1.0 2.8]
 
+    do_test $txtt 8 Escape [list 1.0 2.8]
+    do_test $txtt 9 Escape [list]
+
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test     $txtt 10 {s j s m} [list 2.0 3.0]
+    do_sel_test $txtt 11 {v w}     [list 2.5 3.5]
+    do_sel_test $txtt 12 {2 w}     [list 2.10 3.10]
+    do_sel_test $txtt 13 b         [list 2.8 3.8]
+    do_sel_test $txtt 14 {2 b}     [list 2.0 3.0]
+    do_sel_test $txtt 15 b         [list 1.0 2.10]
+
+    do_test $txtt 16 Escape [list 1.0 2.10]
+    do_test $txtt 17 Escape [list]
+
     # Cleanup
     cleanup
 
   }
 
   # Verify space and backspace Vim command
-  proc run_test25 {} {
+  proc run_test26 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -773,13 +929,30 @@ namespace eval multicursor {
     do_test $txtt 5 {1 2 BackSpace} [list 2.1 3.1]
     do_test $txtt 6 {1 0 BackSpace} [list 1.0 2.5]
 
+    do_test $txtt 8 Escape [list 1.0 2.5]
+    do_test $txtt 9 Escape [list]
+
+    $txtt mark set insert 2.2
+    vim::adjust_insert $txtt
+
+    do_test     $txtt 10 {s j s m}       [list 2.2 3.2]
+    do_sel_test $txtt 11 {v space}       [list 2.3 3.3]
+    do_sel_test $txtt 12 {1 0 space}     [list 2.13 3.13]
+    do_sel_test $txtt 13 space           [list 3.0 3.14]
+    do_sel_test $txtt 14 BackSpace       [list 2.13 3.13]
+    do_sel_test $txtt 15 {1 3 BackSpace} [list 2.0 3.0]
+    do_sel_test $txtt 16 BackSpace       [list 1.0 2.13]
+
+    do_test $txtt 17 Escape [list 1.0 2.13]
+    do_test $txtt 18 Escape [list]
+
     # Cleanup
     cleanup
 
   }
 
   # Verify ^ Vim command
-  proc run_test26 {} {
+  proc run_test27 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -791,6 +964,18 @@ namespace eval multicursor {
     do_test $txtt 0 {s j s m}   [list 2.5 3.5]
     do_test $txtt 1 asciicircum [list 2.1 3.2]
     do_test $txtt 2 asciicircum [list 2.1 3.2]
+
+    do_test $txtt 3 Escape [list 2.1 3.2]
+    do_test $txtt 4 Escape [list]
+
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    do_test $txtt     5 {s j s m}       [list 2.5 3.5]
+    do_sel_test $txtt 6 {v asciicircum} [list 2.1 3.2]
+
+    do_test $txtt 7 Escape [list 2.1 3.2]
+    do_test $txtt 8 Escape [list]
 
     # Cleanup
     cleanup
