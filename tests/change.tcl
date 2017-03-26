@@ -56,6 +56,8 @@ namespace eval change {
 
   }
 
+  ######################################################################
+  # Runs the given change test.
   proc do_test {txtt id cmdlist cursor value {undo 1}} {
 
     set start        [$txtt get 1.0 end-1c]
@@ -76,10 +78,10 @@ namespace eval change {
     if {$undo} {
       enter $txtt u
       if {[$txtt get 1.0 end-1c] ne $start} {
-        cleanup "undo did not work ([$txtt get 1.0 end-1c])"
+        cleanup "$id undo did not work ([$txtt get 1.0 end-1c])"
       }
       if {[$txtt index insert] ne $start_cursor} {
-        cleanup "undo insertion not correct ([$txtt get 1.0 end-1c])"
+        cleanup "$id undo insertion not correct ([$txtt get 1.0 end-1c])"
       }
     }
 
@@ -157,6 +159,8 @@ namespace eval change {
     do_test $txtt 3 {c v l} 2.0 "\nis is a line" 0
     do_test $txtt 4 {c v l} 2.0 "\n is a line"
 
+    do_test $txtt 5 {c V l} 2.0 "\n"
+
     # Cleanup
     cleanup
 
@@ -187,6 +191,7 @@ namespace eval change {
 
   }
 
+  # Verify C Vim command
   proc run_test5 {} {
 
     # Initialize
@@ -376,6 +381,9 @@ namespace eval change {
     do_test $txtt 3 {c h} 2.7 "\nThis isa line" 0
     do_test $txtt 4 {c h} 2.5 "\nThis sa line"
 
+    do_test $txtt 5 {c v h} 2.5 "\nThis a line"
+    do_test $txtt 6 {c V h} 2.0 "\n"
+
     # Cleanup
     cleanup
 
@@ -465,6 +473,63 @@ namespace eval change {
     vim::adjust_insert $txtt
 
     do_test $txtt 0 {c i less} 2.10 "\nset this <>"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify cSpace Vim command
+  proc run_test18 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {c space} 2.0 "\nhis is a line\nThis is a line"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {c space} $index 2] 2.0 "\nis is a line\nThis is a line"
+    }
+
+    $txtt mark set insert 2.13
+    do_test $txtt 3 {2 c space} 2.13 "\nThis is a linThis is a line"
+
+    $txtt mark set insert 2.2
+    do_test $txtt 4 {c v space} 2.2 "\nTh is a line\nThis is a line"
+    do_test $txtt 5 {c V space} 2.0 "\n\nThis is a line"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify cBackSpace Vim command
+  proc run_test19 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {c BackSpace} 2.4 "\nThisis a line\nThis is a line"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {c BackSpace} $index 2] 2.3 "\nThiis a line\nThis is a line"
+    }
+
+    $txtt mark set insert 3.1
+    do_test $txtt 3 {3 c BackSpace} 2.13 "\nThis is a linhis is a line"
+
+    do_test $txtt 4 {c v BackSpace} 3.0 "\nThis is a line\nis is a line"
+    do_test $txtt 5 {c V BackSpace} 3.0 "\nThis is a line\n"
 
     # Cleanup
     cleanup
