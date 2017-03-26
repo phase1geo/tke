@@ -353,7 +353,6 @@ namespace eval multicursor {
   proc adjust_right {txtt num {tag ""}} {
 
     # Number of characters to advance
-    set num    [expr {($num eq "") ? 1 : $num}]
     set ranges [$txtt tag ranges mcursor]
 
     # If any of the cursors would "fall off the edge", don't modify any of them
@@ -392,7 +391,6 @@ namespace eval multicursor {
   # Adjust the multicursors down by the specified number of lines.
   proc adjust_down {txtt num} {
 
-    set num    [expr {($num eq "") ? 1 : $num}]
     set ranges [$txtt tag ranges mcursor]
 
     # If we will be moving past the end, no need to continue
@@ -419,7 +417,6 @@ namespace eval multicursor {
   # Adjust all of the cursors num characters to the left.
   proc adjust_left {txtt num} {
 
-    set num    [expr {($num eq "") ? 1 : $num}]
     set ranges [$txtt tag ranges mcursor]
 
     # If any of the cursors would "fall off the edge", don't adjust any of them
@@ -445,7 +442,6 @@ namespace eval multicursor {
   # Adjusts all of the cursors up by the given number of lines.
   proc adjust_up {txtt num} {
 
-    set num    [expr {($num eq "") ? 1 : $num}]
     set ranges [$txtt tag ranges mcursor]
 
     lassign [split [lindex $ranges 0] .] row col
@@ -492,7 +488,7 @@ namespace eval multicursor {
   proc adjust_lineend {txtt num} {
 
     # First, adjust all of the cursors down
-    if {($num ne "") && ($num > 1)} {
+    if {$num > 1} {
       adjust_down $txtt [expr $num - 1]
     }
 
@@ -513,7 +509,6 @@ namespace eval multicursor {
   # the next or previous line.
   proc adjust_char {txtt dir num} {
 
-    set num    [expr {($num eq "") ? 1 : $num}]
     set ranges [$txtt tag ranges mcursor]
 
     $txtt tag remove mcursor 1.0 end
@@ -530,7 +525,6 @@ namespace eval multicursor {
   # Moves all of the cursors to the next num words.
   proc adjust_word {txtt dir num} {
 
-    set num    [expr {($num eq "") ? 1 : $num}]
     set ranges [$txtt tag ranges mcursor]
 
     $txtt tag remove mcursor 1.0 end

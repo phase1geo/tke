@@ -491,7 +491,7 @@ namespace eval edit {
   # If a selection occurs, joins the selected lines; otherwise, joins the
   # number of specified lines.
   # TBD - Needs work
-  proc transform_join_lines {txtt {num ""}} {
+  proc transform_join_lines {txtt {num 1}} {
 
     # Specifies if at least one line was deleted in the join
     set deleted 0
@@ -533,8 +533,7 @@ namespace eval edit {
 
     } elseif {[$txtt compare "insert+1l" < end]} {
 
-      set lines [expr {($num ne "") ? $num : 1}]
-      for {set i 0} {$i < $lines} {incr i} {
+      for {set i 0} {$i < $num} {incr i} {
         set line    [string trimleft [$txtt get "insert+1l linestart" "insert+1l lineend"]]
         $txtt delete "insert lineend" "insert+1l lineend"
         if {![string is space [$txtt get "insert lineend-1c"]]} {
@@ -545,7 +544,7 @@ namespace eval edit {
         }
       }
 
-      set deleted [expr $lines > 0]
+      set deleted [expr $num > 0]
       set index   [$txtt index "insert lineend-[string length $line]c"]
 
     }

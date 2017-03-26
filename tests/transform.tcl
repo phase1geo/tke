@@ -187,9 +187,12 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g asciitilde l} $index 2] 2.0 "\nthIS IS A LINE\nThis is a line"
     }
 
+    do_test $txtt 3 {g asciitilde v l} 2.0 "\nthIS IS A LINE\nThis is a line"
+    do_test $txtt 4 {g asciitilde V l} 2.0 "\nthis is a line\nThis is a line"
+
     # Verify that the line does not wrap
     $txtt mark set insert 2.13
-    do_test $txtt 4 {3 g asciitilde l} 2.13 "\nTHIS IS A LINe\nThis is a line"
+    do_test $txtt 5 {3 g asciitilde l} 2.13 "\nTHIS IS A LINe\nThis is a line"
 
     # Cleanup
     cleanup
@@ -213,6 +216,9 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g u l} $index 2] 2.0 "\nthIS IS A LINE\nTHIS IS A LINE"
     }
 
+    do_test $txtt 3 {g u v l} 2.0 "\nthIS IS A LINE\nTHIS IS A LINE"
+    do_test $txtt 4 {g u V l} 2.0 "\nthis is a line\nTHIS IS A LINE"
+
     # Cleanup
     cleanup
 
@@ -234,6 +240,9 @@ namespace eval transform {
     foreach index {0 2} {
       do_test $txtt [expr $index + 1] [linsert {g U l} $index 2] 2.0 "\nTHis is a line"
     }
+
+    do_test $txtt 3 {g U v l} 2.0 "\nTHis is a line"
+    do_test $txtt 4 {g U V l} 2.0 "\nTHIS IS A LINE"
 
     # Cleanup
     cleanup
@@ -257,9 +266,12 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g asciitilde h} $index 2] 2.1 "\nTHis Is A lInE\nThis is a line"
     }
 
+    do_test $txtt 3 {g asciitilde v h} 2.2 "\nThiS Is A lInE\nThis is a line"
+    do_test $txtt 4 {g asciitilde V h} 2.2 "\ntHiS iS a LiNe\nThis is a line"
+
     # Verify that the change doesn't line wrap
     $txtt mark set insert 3.1
-    do_test $txtt 4 {3 g asciitilde h} 3.0 "\nThIs Is A lInE\nthis is a line"
+    do_test $txtt 5 {3 g asciitilde h} 3.0 "\nThIs Is A lInE\nthis is a line"
 
     # Cleanup
     cleanup
@@ -283,6 +295,9 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g u h} $index 2] 2.1 "\nThiS IS A LINE"
     }
 
+    do_test $txtt 3 {g u v h} 2.2 "\nTHis IS A LINE"
+    do_test $txtt 4 {g u V h} 2.2 "\nthis is a line"
+
     # Cleanup
     cleanup
 
@@ -304,6 +319,9 @@ namespace eval transform {
     foreach index {0 2} {
       do_test $txtt [expr $index + 1] [linsert {g U h} $index 2] 2.1 "\ntHIs is a line"
     }
+
+    do_test $txtt 3 {g U v h} 2.2 "\nthIS is a line"
+    do_test $txtt 4 {g U V h} 2.2 "\nTHIS IS A LINE"
 
     # Cleanup
     cleanup
@@ -327,9 +345,12 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g asciitilde space} $index 2] 2.0 "\ntHIs Is A lInE\nThis is a line"
     }
 
+    do_test $txtt 3 {g asciitilde v space} 2.0 "\ntHIs Is A lInE\nThis is a line"
+    do_test $txtt 4 {g asciitilde V space} 2.0 "\ntHiS iS a LiNe\nThis is a line"
+
     # Verify that we line wrap
     $txtt mark set insert 2.13
-    do_test $txtt 4 {3 g asciitilde space} 2.13 "\nThIs Is A lIne\nthis is a line"
+    do_test $txtt 5 {3 g asciitilde space} 2.13 "\nThIs Is A lIne\nthis is a line"
 
     # Cleanup
     cleanup
@@ -353,6 +374,9 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g u space} $index 2] 2.0 "\nthIS IS A LINE"
     }
 
+    do_test $txtt 3 {g u v space} 2.0 "\nthIS IS A LINE"
+    do_test $txtt 4 {g u V space} 2.0 "\nthis is a line"
+
     # Cleanup
     cleanup
 
@@ -374,6 +398,9 @@ namespace eval transform {
     foreach index {0 2} {
       do_test $txtt [expr $index + 1] [linsert {g U space} $index 2] 2.0 "\nTHis is a line"
     }
+
+    do_test $txtt 3 {g U v space} 2.0 "\nTHis is a line"
+    do_test $txtt 4 {g U V space} 2.0 "\nTHIS IS A LINE"
 
     # Cleanup
     cleanup
@@ -397,8 +424,11 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g asciitilde BackSpace} $index 2] 2.1 "\nTHis Is A lInE\nThis is a line"
     }
 
+    do_test $txtt 3 {g asciitilde v BackSpace} 2.2 "\nThiS Is A lInE\nThis is a line"
+    do_test $txtt 4 {g asciitilde V BackSpace} 2.2 "\ntHiS iS a LiNe\nThis is a line"
+
     $txtt mark set insert 3.1
-    do_test $txtt 4 {3 g asciitilde BackSpace} 2.13 "\nThIs Is A lIne\nthis is a line"
+    do_test $txtt 5 {3 g asciitilde BackSpace} 2.13 "\nThIs Is A lIne\nthis is a line"
 
     # Cleanup
     cleanup
@@ -422,6 +452,9 @@ namespace eval transform {
       do_test $txtt [expr $index + 1] [linsert {g u BackSpace} $index 2] 2.1 "\nThiS IS A LINE"
     }
 
+    do_test $txtt 3 {g u v BackSpace} 2.2 "\nTHis IS A LINE"
+    do_test $txtt 4 {g u V BackSpace} 2.2 "\nthis is a line"
+
     # Cleanup
     cleanup
 
@@ -443,6 +476,9 @@ namespace eval transform {
     foreach index {0 2} {
       do_test $txtt [expr $index + 1] [linsert {g U BackSpace} $index 2] 2.1 "\ntHIs is a line"
     }
+
+    do_test $txtt 3 {g U v BackSpace} 2.2 "\nthIS is a line"
+    do_test $txtt 4 {g U V BackSpace} 2.2 "\nTHIS IS A LINE"
 
     # Cleanup
     cleanup
