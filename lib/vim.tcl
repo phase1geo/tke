@@ -1033,9 +1033,6 @@ namespace eval vim {
     # Clear the multicursor mode (since we are not moving multicursors around)
     set multicursor($txtt) 0
 
-    # Add separator
-    $txtt edit separator
-
     # Set the blockcursor to false
     $txtt configure -blockcursor false -insertwidth [preferences::get Appearance/CursorWidth]
 
@@ -2035,7 +2032,7 @@ namespace eval vim {
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
               ([string range $mode($txtt) 0 5] eq "delete")} {
       if {[string index $mode($txtt) end] eq "V"} {
-        $txtt delete "insert linestart" "insert+1l linestart"
+        $txtt delete "insert linestart" "insert lineend"
       } else {
         set num [expr {($number($txtt) eq "") ? 1 : $number($txtt)}]
         if {[string index $mode($txtt) end] eq "v"} {
@@ -2356,7 +2353,7 @@ namespace eval vim {
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
               ([string range $mode($txtt) 0 5] eq "delete")} {
       if {[string index $mode($txtt) end] eq "V"} {
-        $txtt delete "insert linestart" "insert+1l linestart"
+        $txtt delete "insert linestart" "insert lineend"
       } else {
         if {[string index $mode($txtt) end] eq "v"} {
           set endpos "insert+1c"
@@ -2532,7 +2529,7 @@ namespace eval vim {
       edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      folding::close_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -3797,7 +3794,7 @@ namespace eval vim {
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
               ([string range $mode($txtt) 0 5] eq "delete")} {
       if {[string index $mode($txtt) end] eq "V"} {
-        $txtt delete "insert linestart" "insert+1l linestart"
+        $txtt delete "insert linestart" "insert lineend"
       } else {
         if {[string index $mode($txtt) end] eq "v"} {
           set endpos "insert+[expr $num + 1] display chars"
@@ -3880,7 +3877,7 @@ namespace eval vim {
     } elseif {([string range $mode($txtt) 0 5] eq "change") || \
               ([string range $mode($txtt) 0 5] eq "delete")} {
       if {[string index $mode($txtt) end] eq "V"} {
-        $txtt delete "insert linestart" "insert+1l linestart"
+        $txtt delete "insert linestart" "insert lineend"
       } else {
         if {[string index $mode($txtt) end] eq "v"} {
           set endpos "insert+1c"
