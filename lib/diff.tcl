@@ -1140,7 +1140,7 @@ namespace eval diff {
     bind $data($txt,canvas) <B1-Motion>  [list diff::map_position_slider %W %y $txt]
     bind $data($txt,canvas) <MouseWheel> [list event generate $txt.t <MouseWheel> -delta %D]
     bind $data($txt,canvas) <4>          [list event generate $txt.t <4>]
-    bind $data($txt,canvas) <5>          list event generate $txt.t <5>]
+    bind $data($txt,canvas) <5>          [list event generate $txt.t <5>]
 
     rename ::$win $win
     interp alias {} ::$win {} diff::map_command $txt

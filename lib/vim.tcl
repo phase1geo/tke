@@ -3094,7 +3094,7 @@ namespace eval vim {
       edit::insert_line_below_current $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
+      folding::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -3114,7 +3114,7 @@ namespace eval vim {
       edit::insert_line_above_current $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
+      folding::open_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }

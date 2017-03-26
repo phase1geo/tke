@@ -1,7 +1,52 @@
 FICKLE = ../scripts/fickle.tcl
 TACCLE = ../scripts/taccle.tcl
 
-.PHONY: commit snippets emmet snip_parser.tcl format_parser.tcl
+NAGELFAR_FILES = version.tcl \
+                 share.tcl \
+                 startup.tcl \
+                 utils.tcl \
+                 preferences.tcl \
+                 edit.tcl \
+                 gui.tcl \
+                 sidebar.tcl \
+                 indent.tcl \
+                 menus.tcl \
+                 launcher.tcl \
+                 plugins.tcl \
+                 interpreter.tcl \
+                 snip_parser.tcl \
+                 format_parser.tcl \
+                 snippets.tcl \
+                 completer.tcl \
+                 bindings.tcl \
+                 bgproc.tcl \
+                 multicursor.tcl \
+                 cliphist.tcl \
+                 vim.tcl \
+                 syntax.tcl \
+                 api.tcl \
+                 markers.tcl \
+                 tkedat.tcl \
+                 themer.tcl \
+                 theme.tcl \
+                 themes.tcl \
+                 favorites.tcl \
+                 logger.tcl \
+                 diff.tcl \
+                 sessions.tcl \
+                 search.tcl \
+                 scroller.tcl \
+                 templates.tcl \
+                 folding.tcl \
+                 fontchooser.tcl \
+                 emmet.tcl \
+                 pref_ui.tcl \
+                 remote.tcl \
+                 socksend.tcl \
+                 ftp_wrapper.tcl \
+                 files.tcl
+
+.PHONY: commit snippets emmet snip_parser.tcl format_parser.tcl static
 
 commit:
 	tclsh8.5 commit.tcl
@@ -29,3 +74,5 @@ emmet_lexer.tcl: emmet_lexer.fcl
 emmet_parser.tcl: emmet_parser.tac
 	tclsh8.5 $(TACCLE) -d -p emmet_ emmet_parser.tac
 
+static:
+	nagelfar -gui $(NAGELFAR_FILES) &

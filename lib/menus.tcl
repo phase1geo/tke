@@ -1033,6 +1033,11 @@ namespace eval menus {
     # Clean up the application
     exit_cleanup
 
+    # If we are doing code coverage, call cleanup directly
+    if {[namespace exists ::_instrument_]} {
+      ::_instrument_::cleanup
+    }
+
     # Destroy the interface
     destroy .
 
@@ -1906,7 +1911,15 @@ namespace eval menus {
   # Perform a case toggle operation.
   proc edit_transform_toggle_case {} {
 
-    edit::transform_toggle_case [gui::current_txt].t
+    set txtt [gui::current_txt].t
+
+    if {[catch { $txtt tag ranges sel } sel]} {
+      foreach {startpos endpos} $sel {
+        edit::transform_toggle_case $txtt $startpos $endpos
+      }
+    } else {
+      edit::transform_toggle_case $txtt insert "insert+1c"
+    }
 
   }
 
@@ -1914,7 +1927,15 @@ namespace eval menus {
   # Perform a lowercase conversion.
   proc edit_transform_to_lower_case {} {
 
-    edit::transform_to_lower_case [gui::current_txt].t
+    set txtt [gui::current_txt].t
+
+    if {[catch { $txtt tag ranges sel } sel]} {
+      foreach {startpos endpos} $sel {
+        edit::transform_to_lower_case $txtt $startpos $endpos
+      }
+    } else {
+      edit::transform_to_lower_case $txtt insert "insert+1c"
+    }
 
   }
 
@@ -1922,7 +1943,15 @@ namespace eval menus {
   # Perform an uppercase conversion.
   proc edit_transform_to_upper_case {} {
 
-    edit::transform_to_upper_case [gui::current_txt].t
+    set txtt [gui::current_txt].t
+
+    if {[catch { $txtt tag ranges sel } sel]} {
+      foreach {startpos endpos} $sel {
+        edit::transform_to_upper_case $txtt $startpos $endpos
+      }
+    } else {
+      edit::transform_to_upper_case $txtt insert "insert+1c"
+    }
 
   }
 
@@ -1930,7 +1959,15 @@ namespace eval menus {
   # Perform a title case conversion.
   proc edit_transform_to_title_case {} {
 
-    edit::transform_to_title_case [gui::current_txt].t
+    set txtt [gui::current_txt].t
+
+    if {[catch { $txtt tag ranges sel } sel]} {
+      foreach {startpos endpos} $sel {
+        edit::transform_to_title_case $txtt $startpos $endpos
+      }
+    } else {
+      edit::transform_to_title_case $txtt insert "insert+1c"
+    }
 
   }
 
