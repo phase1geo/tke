@@ -121,9 +121,12 @@ namespace eval yank {
       do_test $txtt [expr $index + 1] [linsert {y l} $index 2] 2.0 "Th"
     }
 
+    do_test $txtt 3 {y v l} 2.0 "Th"
+    do_test $txtt 4 {y V l} 2.0 "This is a line"
+
     # Make sure that we don't get the end of line
     $txtt mark set insert 2.13
-    do_test $txtt 3 {3 y l} 2.13 "e"
+    do_test $txtt 5 {3 y l} 2.13 "e"
 
     # Cleanup
     cleanup
@@ -147,9 +150,12 @@ namespace eval yank {
       do_test $txtt [expr $index + 1] [linsert {y h} $index 2] 2.6 "s "
     }
 
+    do_test $txtt 3 {y v h} 2.5 "is"
+    do_test $txtt 4 {y V h} 2.4 "This is a line"
+
     # Make sure that the cursor does not line wrap
     $txtt mark set insert 3.0
-    do_test $txtt 3 {3 y h} 3.0 ""
+    do_test $txtt 5 {3 y h} 3.0 ""
 
     # Cleanup
     cleanup
@@ -173,8 +179,11 @@ namespace eval yank {
       do_test $txtt [expr $index + 1] [linsert {y space} $index 2] 2.13 "e\n"
     }
 
+    do_test $txtt 3 {y v space} 2.13 "e\n"
+    do_test $txtt 4 {y V space} 2.13 "This is a line"
+
     # Verify that yank does not wrap
-    do_test $txtt 3 {3 y space} 2.13 "e\nT"
+    do_test $txtt 5 {3 y space} 2.13 "e\nT"
 
     # Cleanup
     cleanup
@@ -198,8 +207,11 @@ namespace eval yank {
       do_test $txtt [expr $index + 1] [linsert {y BackSpace} $index 2] 2.6 "s "
     }
 
+    do_test $txtt 3 {y v BackSpace} 2.5 "is"
+    do_test $txtt 4 {y V BackSpace} 2.4 "This is a line"
+
     $txtt mark set insert 3.1
-    do_test $txtt 3 {3 y BackSpace} 2.13 "e\nT"
+    do_test $txtt 5 {3 y BackSpace} 2.13 "e\nT"
 
     # Cleanup
     cleanup
