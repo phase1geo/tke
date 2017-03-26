@@ -462,7 +462,7 @@ namespace eval api {
     ## \return Returns the selected sidebar file index.
     proc get_selected_indices {interp pname} {
 
-      return [sidebar::get_selected_indices]
+      return [::sidebar::get_selected_indices]
 
     }
 
@@ -480,7 +480,7 @@ namespace eval api {
     #                                     file.
     proc get_info {interp pname sb_index attr} {
 
-      return [sidebar::get_info $sb_index $attr]
+      return [::sidebar::get_info $sb_index $attr]
 
     }
 

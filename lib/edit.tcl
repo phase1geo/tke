@@ -627,16 +627,16 @@ namespace eval edit {
   proc save_selection {txt from to overwrite fname} {
 
     if {!$overwrite && [file exists $fname]} {
-      gui::set_info_message [format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
+      gui::set_info_message [::format "%s (%s)" [msgcat::mc "Filename already exists"] $fname]
       return 0
     } else {
       if {[catch { open $fname w } rc]} {
-        gui::set_info_message [format "%s %s" [msgcat::mc "Unable to write"] $fname]
+        gui::set_info_message [::format "%s %s" [msgcat::mc "Unable to write"] $fname]
         return 0
       } else {
         puts $rc [$txt get $from $to]
         close $rc
-        gui::set_info_message [format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
+        gui::set_info_message [::format "%s (%s)" [msgcat::mc "File successfully written"] $fname]
       }
     }
 
