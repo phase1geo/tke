@@ -1,141 +1,94 @@
-2017-03-20 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b68660f59131 [devel-2.9.16])
+2017-03-23 01:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (90904cef86f4 [devel-2.9.17])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.16 release
+	ChangeLog for devel-2.9.17 release
 
-2017-03-20 00:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6edd2c5d8601)
+2017-03-23 01:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (35726718fef4)
 
 	* .hgtags:
-	Added tag devel-2.9.16 for changeset b68660f59131
+	Added tag devel-2.9.17 for changeset 90904cef86f4
 
-2017-03-20 00:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1fac5b212a19)
+2017-03-23 02:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (462650a8c06b)
 
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
-	* Updating translations.
-
-2017-03-21 00:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (51266020f07c)
-
-	* tests/change.tcl, tests/delete.tcl: new file.
-	* lib/version.tcl, tests/change.tcl, tests/delete.tcl, tests/vim.tcl:
-	* Creating change and delete BIST from vim test.
-
-2017-03-21 00:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (27b3db979b0a)
-
-	* lib/version.tcl, lib/vim.tcl, tests/change.tcl:
-	* Fixing change word behavior.
-
-2017-03-21 01:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e7bb38931fb0)
-
-	* lib/edit.tcl, lib/version.tcl:
-	* Fixing issue with deleting the last line and then undoing the
-	change, putting the cursor back into the correct position.
-
-2017-03-21 08:04 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (00439317a251)
-
-	* tests/yank.tcl: new file.
-	* lib/edit.tcl, lib/version.tcl, tests/yank.tcl:
-	* Improving the fix for deleting the last line of a file.
-	* Adding yank Vim BIST.
-
-2017-03-21 17:25 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (eab41004ab98)
-
-	* tests/transform.tcl: new file.
-	* lib/bist.tcl, lib/version.tcl, lib/vim.tcl, tests/transform.tcl,
-	tests/yank.tcl:
-	* Adding Return binding to new BIST test file creation dialog
-	window.
-	* Fixing Vim BIST issues
-	* Adding support for `guu`, `gUU` and `g~~` Vim commands.
-	* Finishing yank BIST and starting new transform BIST.
-
-2017-03-22 01:31 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cd9475f593d7)
-
-	* lib/version.tcl, lib/vim.tcl, tests/transform.tcl:
-	* Fixing BIST issues with transform test.
-	* Completing transform BIST.
-
-2017-03-22 17:23 -0500  Trevor Williams  <phase1geo@gmail.com>  (6c0cb6a0ff77)
-
-	* data/syntax/Tcl.syntax, lib/ctext/ctext.tcl, lib/version.tcl:
-	* Removing msgcat keyword from Tcl syntax.
-	* Fixing the bracket match handling for back-to-back brackets where
-	the first bracket is escaped.
-
-2017-03-22 19:57 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f0a0616a7f3d)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Adding support for bracket auditing when an escape character is
-	inserted/deleted.
-
-2017-03-23 00:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a1af6e1eb336)
-
-	* doc/md/TKE User Guide/Vim Commands/Changing case.textbundle/text.md,
-	doc/md/TKE User Guide/Vim Commands/Deleting text.textbundle/text.md,
-	doc/md/TKE User Guide/Vim Commands/Inserting-Replacing
-	text.textbundle/text.md, doc/md/TKE User Guide/Vim Commands/Undoing-
-	Cancelling commands.textbundle/text.md, lib/edit.tcl, lib/gui.tcl,
-	lib/version.tcl, tests/change.tcl:
-	* Updates to user guide for Vim commands.
-	* Enhancing ci_bracket_ commands to allow either right or left
-	bracket.
-	* Enhancing change BIST.
-
-2017-03-23 01:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7f1d88905101 [tip])
-
-	* doc/md/TKE User Guide/Language Reference Documentation/.Ulysses-
-	Group.plist, doc/md/TKE User Guide/Language Reference
-	Documentation/Editing Language
-	References.textbundle/assets/docedit.png, doc/md/TKE User
-	Guide/Language Reference Documentation/Editing Language
-	References.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Editing Language
-	References.textbundle/text.md, doc/md/TKE User Guide/Language
-	Reference Documentation/Language Reference
-	Documentation.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Language Reference
-	Documentation.textbundle/text.md, doc/md/TKE User Guide/Language
-	Reference Documentation/Searching a Language-Specific
-	Website.textbundle/assets/docsearch.png, doc/md/TKE User
-	Guide/Language Reference Documentation/Searching a Language-Specific
-	Website.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Searching a Language-Specific
-	Website.textbundle/text.md, doc/md/TKE User Guide/Language Reference
-	Documentation/Viewing a Language-Specific
-	Website.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Viewing a Language-Specific
-	Website.textbundle/text.md: new file.
-	* doc/md/.Ulysses-favorites.plist, doc/md/TKE User Guide/.Ulysses-
-	Group.plist, doc/md/TKE User Guide/Language Reference Documentation
-	/.Ulysses-Group.plist, doc/md/TKE User Guide/Language Reference
-	Documentation/Editing Language
-	References.textbundle/assets/docedit.png, doc/md/TKE User
-	Guide/Language Reference Documentation/Editing Language
-	References.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Editing Language
-	References.textbundle/text.md, doc/md/TKE User Guide/Language
-	Reference Documentation/Language Reference
-	Documentation.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Language Reference
-	Documentation.textbundle/text.md, doc/md/TKE User Guide/Language
-	Reference Documentation/Searching a Language-Specific
-	Website.textbundle/assets/docsearch.png, doc/md/TKE User
-	Guide/Language Reference Documentation/Searching a Language-Specific
-	Website.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Searching a Language-Specific
-	Website.textbundle/text.md, doc/md/TKE User Guide/Language Reference
-	Documentation/Viewing a Language-Specific
-	Website.textbundle/info.json, doc/md/TKE User Guide/Language
-	Reference Documentation/Viewing a Language-Specific
-	Website.textbundle/text.md, doc/md/TKE User Guide/User
-	Interface/Help Menu.textbundle/text.md, lib/search.tcl,
+	* doc/md/TKE User Guide/Introduction/Feature Set.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/Edit Menu.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/Find Menu.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/View Menu.textbundle/text.md,
 	lib/version.tcl:
-	* Adding Language Reference chapter to the User Guide.
-	* Enhancing documentation search URL conditioner to the
-	http::formatQuery instead of attempting my own character
-	substitutions.
+	* User Guide updates.
+
+2017-03-23 09:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4fe10ae4246c)
+
+	* lib/gui.tcl, lib/search.tcl, lib/version.tcl, lib/vim.tcl:
+	* Fixing `K` Vim functionality to display documentation search panel
+	with current word filled in.
+
+2017-03-23 17:37 -0500  Trevor Williams  <phase1geo@gmail.com>  (3dcbedc5f858)
+
+	* lib/ctext/ctext.tcl, lib/files.tcl, lib/folding.tcl,
+	lib/version.tcl, tests/multicursor.tcl:
+	* Fixing issue with getting the next/previous
+	indent/unindent/reindent tag in ctext.
+	* Fixing issue with updating the current syntax highlighter when a
+	file is renamed and its extension is changed.
+	* Fixing issue with closing all folds when at least fold is already
+	closed.
+
+2017-03-24 00:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (18eb45645763)
+
+	* lib/version.tcl, tests/delete.tcl:
+	* Refactoring and improving delete BIST.
+
+2017-03-24 02:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4f167135306a)
+
+	* lib/multicursor.tcl, lib/version.tcl, tests/multicursor.tcl:
+	* Checkpointing work on multicursor BIST motion testing.
+
+2017-03-24 15:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8ed069f66f0a)
+
+	* lib/version.tcl, tests/multicursor.tcl:
+	* More updates to multicursor BIST.
+
+2017-03-24 23:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (12bdc5b53880)
+
+	* lib/multicursor.tcl, lib/search.tcl, lib/version.tcl, lib/vim.tcl,
+	tests/change.tcl, tests/general.tcl, tests/multicursor.tcl:
+	* Completing support for multicursor visual mode support.
+	* Enhancing BIST (BIST fully passes now).
+	* Fixing bug with saving/loading documentation saved search results.
+
+2017-03-25 00:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d6cc71beb3e7)
+
+	* lib/pref_ui.tcl, lib/version.tcl:
+	* Attempting to fix pref_ui issue with removing Alt-
+	Up/Down/Left/Right.
+
+2017-03-25 01:53 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f51cb3dfab06)
+
+	* lib/vim.tcl:
+	* Fixing small issue in start_mode.
+
+2017-03-25 22:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b1e0b06801fb)
+
+	* lib/Makefile, lib/api.tcl, lib/diff.tcl, lib/edit.tcl,
+	lib/menus.tcl, lib/themes.tcl, lib/version.tcl, lib/vim.tcl:
+	* Adding Makefile support for Nagelfar static checking.
+	* Fixing issues found with Nagelfar static checker.
+
+2017-03-26 00:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4e9062efcbaa)
+
+	* lib/version.tcl, lib/vim.tcl, tests/change.tcl, tests/delete.tcl:
+	* Enhancing change and delete BISTs.
+	* Fixing issue with changing/deleting text that is specified with V.
+
+2017-03-26 16:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2e4e864f3d33 [tip])
+
+	* lib/edit.tcl, lib/multicursor.tcl, lib/version.tcl, lib/vim.tcl,
+	tests/transform.tcl, tests/vim.tcl, tests/yank.tcl:
+	* Refactoring Vim code to reduce code in l, h, space and backspace
+	Vim motions.
+	* Refactoring Vim code to eliminate direct usage of number array to
+	use get_number procedure.
+	* Added numerical multiplication in Vim commands.
+	* BIST enhancements.
 
