@@ -55,7 +55,7 @@ proc tke_development {} {
 wm withdraw .
 
 set auto_path [list [file join $tke_dir lib ctext] \
-                    [file join $tke_dir lib tablelist5.16] \
+                    [file join $tke_dir lib tablelist5.17] \
                     [file join $tke_dir lib ptwidgets1.2] \
                     [file join $tke_dir lib specl] \
                     [file join $tke_dir lib webdav] \
@@ -67,7 +67,7 @@ if {$tcl_platform(platform) eq "windows"} {
   package require Tclx
 }
 package require -exact ctext 5.0
-package require -exact tablelist 5.16
+package require -exact tablelist 5.17
 package require tooltip
 package require msgcat
 package require tokenentry
