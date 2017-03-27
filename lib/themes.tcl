@@ -211,13 +211,13 @@ namespace eval themes {
   ######################################################################
   # Exports the contents of the given theme to the given .tkethemz
   # directory.
-  proc export {parent_win theme odir creator website} {
+  proc export {parent_win theme odir creator website license} {
 
     # Create the theme directory
     file mkdir [set theme_dir [file join $odir $theme]]
 
     # Populate the theme directory with the given contents
-    if {![theme::export $theme $theme_dir $creator $website]} {
+    if {![theme::export $theme $theme_dir $creator $website $license]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to export theme contents"
     }

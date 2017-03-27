@@ -611,7 +611,7 @@ namespace eval theme {
   # Exports the current theme into the specified output directory.
   # Returns 1 if the exporting of information is successful; otherwise,
   # returns 0.
-  proc export {name odir creator website} {
+  proc export {name odir creator website license} {
 
     variable data
     variable fields
@@ -636,6 +636,13 @@ namespace eval theme {
         }
       }
       array unset value_array
+    }
+
+    # If a license file was specified, copy it to the output directory
+    if {($license ne "") && [file exists $license]} {
+      if {[catch { file copy -force $license $odir }]} {
+        return 0
+      }
     }
 
     # Open the theme file for writing
@@ -986,7 +993,7 @@ namespace eval theme {
   proc update_menus {} {
 
     variable widgets
-    
+
     set opts [get_category_options menus]
 
     foreach mnu $widgets(menus) {
@@ -1051,7 +1058,7 @@ namespace eval theme {
   proc update_menu_helper {mnu opts} {
 
     $mnu configure {*}$opts
-    
+
     if {[set last [$mnu index end]] ne "none"} {
       for {set i 0} {$i <= $last} {incr i} {
         if {[$mnu type $i] eq "cascade"} {
@@ -1059,7 +1066,7 @@ namespace eval theme {
         }
       }
     }
-    
+
   }
 
 

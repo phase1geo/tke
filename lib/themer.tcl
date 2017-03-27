@@ -1356,7 +1356,7 @@ namespace eval themer {
   proc show_image_frame {type {value ""}} {
 
     variable data
-    
+
     set orig_value $value
 
     # Unpack any children in the image frame
@@ -1375,8 +1375,8 @@ namespace eval themer {
 
     # Organize the value into an array
     array set value_array $value
-    
-    # Make sure that the value arrays are 
+
+    # Make sure that the value arrays are
     if {[info exists value_array(fg)]} {
       set value_array(fg) [theme::get_image_color $value_array(fg)]
     }
@@ -1761,7 +1761,7 @@ namespace eval themer {
     if {[info exists expdata(name)]} {
 
       # Export the theme
-      themes::export .thmwin $expdata(name) $expdata(dir) $expdata(creator) $expdata(website)
+      themes::export .thmwin $expdata(name) $expdata(dir) $expdata(creator) $expdata(website) $expdata(license)
 
       # Make the save frame disappear
       end_save_frame
@@ -1779,7 +1779,7 @@ namespace eval themer {
     variable export_retval
 
     toplevel     .expwin
-    wm title     .expwin "Export Theme As"
+    wm title     .expwin [msgcat::mc "Export Theme As"]
     wm resizable .expwin 0 0
     wm transient .expwin .thmwin
     wm protocol  .expwin WM_DELETE_WINDOW {
@@ -1788,15 +1788,31 @@ namespace eval themer {
     }
 
     ttk::frame     .expwin.f
-    ttk::label     .expwin.f.cl  -text "Created By:"
+    ttk::label     .expwin.f.cl  -text [format "%s:" [msgcat::mc "Created By"]]
     ttk::entry     .expwin.f.ce  -width 50
-    ttk::label     .expwin.f.wl  -text "Website:"
+    ttk::label     .expwin.f.wl  -text [format "%s:" [msgcat::mc "Website"]]
     ttk::entry     .expwin.f.we  -width 50
-    ttk::label     .expwin.f.nl  -text "Theme Name:"
+    ttk::label     .expwin.f.nl  -text [format "%s:" [msgcat::mc "Theme Name"]]
     ttk::entry     .expwin.f.ne  -width 50 -validate key -validatecommand themer::validate_export
-    ttk::label     .expwin.f.dl  -text "Output Directory:"
+    ttk::label     .expwin.f.ll  -text [format "%s:" [msgcat::mc "License File"]]
+    ttk::entry     .expwin.f.le  -width 50 -state disabled
+    ttk::button    .expwin.f.lb  -style BButton -text [msgcat::mc "Choose"] -command {
+      lappend opts -parent .expwin
+      if {[set license [.expwin.f.le get]] ne ""} {
+        lappend opts -initialfile $dir
+        lappend opts -initialdir  [file dirname $dir]
+      }
+      if {[set license [tk_getOpenFile {*}$opts]] ne ""} {
+        .expwin.f.le configure -state normal
+        .expwin.f.le delete 0 end
+        .expwin.f.le insert end $license
+        .expwin.f.le configure -state disabled
+        themer::validate_export
+      }
+    }
+    ttk::label     .expwin.f.dl  -text [format "%s:" [msgcat::mc "Output Directory"]]
     ttk::entry     .expwin.f.de  -width 50 -state disabled
-    ttk::button    .expwin.f.db  -style BButton -text "Choose" -command {
+    ttk::button    .expwin.f.db  -style BButton -text [msgcat::mc "Choose"] -command {
       lappend opts -parent .expwin -mustexist 1
       if {[set dir [.expwin.f.de get]] ne ""} {
         lappend opts -initialdir $dir
@@ -1811,7 +1827,7 @@ namespace eval themer {
     }
     ttk::separator .expwin.f.sep -orient horizontal
 
-    grid rowconfigure    .expwin.f 2 -weight 1
+    grid rowconfigure    .expwin.f 5 -weight 1
     grid columnconfigure .expwin.f 1 -weight 1
     grid .expwin.f.cl  -row 0 -column 0 -sticky e    -padx 2 -pady 2
     grid .expwin.f.ce  -row 0 -column 1 -sticky news -padx 2 -pady 2
@@ -1819,22 +1835,26 @@ namespace eval themer {
     grid .expwin.f.we  -row 1 -column 1 -sticky news -padx 2 -pady 2
     grid .expwin.f.nl  -row 2 -column 0 -sticky e    -padx 2 -pady 2
     grid .expwin.f.ne  -row 2 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.dl  -row 3 -column 0 -sticky e    -padx 2 -pady 2
-    grid .expwin.f.de  -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.db  -row 3 -column 2 -sticky news -padx 2 -pady 2
-    grid .expwin.f.sep -row 4 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
+    grid .expwin.f.ll  -row 3 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.le  -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.lb  -row 3 -column 2 -sticky news -padx 2 -pady 2
+    grid .expwin.f.dl  -row 4 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.de  -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.db  -row 4 -column 2 -sticky news -padx 2 -pady 2
+    grid .expwin.f.sep -row 6 -column 0 -sticky news -padx 2 -pady 2 -columnspan 3
 
     ttk::frame .expwin.bf
-    ttk::button .expwin.bf.export -style BButton -text "Export" -command {
+    ttk::button .expwin.bf.export -style BButton -text [msgcat::mc "Export"] -command {
       set themer::export_retval [list \
         name    [.expwin.f.ne get] \
         dir     [.expwin.f.de get] \
         creator [.expwin.f.ce get] \
         website [.expwin.f.we get] \
+        license [.expwin.f.le get] \
       ]
       destroy .expwin
     } -state disabled
-    ttk::button .expwin.bf.cancel -style BButton -text "Cancel" -command {
+    ttk::button .expwin.bf.cancel -style BButton -text [msgcat::mc "Cancel"] -command {
       set themer::export_retval [list]
       destroy .expwin
     }
