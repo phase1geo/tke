@@ -1573,9 +1573,6 @@ msgcat::mcmset zh {
   "Buffer"
   "缓冲区"
 
-  "Choose"
-  "選擇"
-
   "Choose Logfile Directory"
   "选择日志文件目录"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset zh {
   "Choose Theme"
   "选择主题"
 
+  "Created By"
+  "由...制作"
+
   "Custom Directory"
   "自定义目录"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset zh {
 
   "Enable Copy Mode"
   "启用复制模式"
+
+  "Export Theme As"
+  "导出主题"
 
   "GIF Photo"
   "GIF图片"
@@ -2681,11 +2684,17 @@ msgcat::mcmset zh {
   "Installation Directory"
   "安装目录"
 
+  "License File"
+  "许可文件"
+
   "Modifications"
   "其他"
 
   "One-Color Bitmap"
   "单色位图"
+
+  "Output Directory"
+  "输出目录"
 
   "Paste Theme Items"
   "粘贴主题项目"
@@ -2735,6 +2744,9 @@ msgcat::mcmset zh {
   "The current theme has unsaved changes"
   "目前的主题有未保存的更改"
 
+  "Theme Name"
+  "主题名称"
+
   "Tree Style: "
   "树风格："
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset zh {
 
   "Value: "
   "值:"
+
+  "Website"
+  "站点"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset zh {
 
   "Check for Update"
   "检查更新"
+
+  "Choose"
+  "選擇"
 
   "Close"
   "关闭"

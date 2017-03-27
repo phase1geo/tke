@@ -1573,9 +1573,6 @@ msgcat::mcmset es {
   "Buffer"
   "Buffer"
 
-  "Choose"
-  "Seleccionar"
-
   "Choose Logfile Directory"
   "Elegir el directorio de archivo de registro"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset es {
   "Choose Theme"
   "Elige un tema"
 
+  "Created By"
+  "Creado por"
+
   "Custom Directory"
   "Directorio personalizada"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset es {
 
   "Enable Copy Mode"
   "Activar el modo de copia"
+
+  "Export Theme As"
+  "Tema de la exportación como"
 
   "GIF Photo"
   "GIF fotos"
@@ -2681,11 +2684,17 @@ msgcat::mcmset es {
   "Installation Directory"
   "Directorio de instalación"
 
+  "License File"
+  "Archivo de licencia"
+
   "Modifications"
   "Modificaciones"
 
   "One-Color Bitmap"
   "Bitmap Uno-Color"
+
+  "Output Directory"
+  "EMC directorio de salida"
 
   "Paste Theme Items"
   "Pegar elementos de tema"
@@ -2735,6 +2744,9 @@ msgcat::mcmset es {
   "The current theme has unsaved changes"
   "El tema actual tiene cambios sin guardar"
 
+  "Theme Name"
+  "Nombre del Tema"
+
   "Tree Style: "
   "Estilo del árbol:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset es {
 
   "Value: "
   "Valor:"
+
+  "Website"
+  "Página web"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset es {
 
   "Check for Update"
   "Buscar actualización"
+
+  "Choose"
+  "Seleccionar"
 
   "Close"
   "Cerrar"

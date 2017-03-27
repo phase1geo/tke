@@ -1573,9 +1573,6 @@ msgcat::mcmset cs {
   "Buffer"
   "pufr,"
 
-  "Choose"
-  "Vybrat"
-
   "Choose Logfile Directory"
   "Zvolte adresář souboru protokolu"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset cs {
   "Choose Theme"
   "Vyberte si téma"
 
+  "Created By"
+  "Vytvořil:"
+
   "Custom Directory"
   "Vlastní adresář"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset cs {
 
   "Enable Copy Mode"
   "Povolit režim kopírování"
+
+  "Export Theme As"
+  "Exportovat motiv jako"
 
   "GIF Photo"
   "GIF foto"
@@ -2681,11 +2684,17 @@ msgcat::mcmset cs {
   "Installation Directory"
   "Instalační adresář"
 
+  "License File"
+  "许可证"
+
   "Modifications"
   "Pozměňovací návrhy"
 
   "One-Color Bitmap"
   "One-Color Bitmap"
+
+  "Output Directory"
+  "Výstupní adresář"
 
   "Paste Theme Items"
   "Vložit položky"
@@ -2735,6 +2744,9 @@ msgcat::mcmset cs {
   "The current theme has unsaved changes"
   "Aktuální téma má neuložené změny"
 
+  "Theme Name"
+  "Jméno šablony"
+
   "Tree Style: "
   "Tree Style:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset cs {
 
   "Value: "
   "Hodnota:"
+
+  "Website"
+  "Webové stránky"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset cs {
 
   "Check for Update"
   "Zkontrolujte, zda aktualizaci"
+
+  "Choose"
+  "Vybrat"
 
   "Close"
   "Zavřít"

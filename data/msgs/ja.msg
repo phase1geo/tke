@@ -1573,9 +1573,6 @@ msgcat::mcmset ja {
   "Buffer"
   "バッファー"
 
-  "Choose"
-  "選択"
-
   "Choose Logfile Directory"
   "ログ ファイルのディレクトリを選択します。"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset ja {
   "Choose Theme"
   "テーマを選択"
 
+  "Created By"
+  "作成者"
+
   "Custom Directory"
   "カスタムディレクトリ"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset ja {
 
   "Enable Copy Mode"
   "コピー モードを有効にします。"
+
+  "Export Theme As"
+  "テーマとしてのエクスポートします。"
 
   "GIF Photo"
   "GIF写真"
@@ -2681,11 +2684,17 @@ msgcat::mcmset ja {
   "Installation Directory"
   "インストールディレクトリ"
 
+  "License File"
+  "ライセンス ファイル"
+
   "Modifications"
   "修正"
 
   "One-Color Bitmap"
   "ワンカラービットマップ"
+
+  "Output Directory"
+  "出力ディレクトリ"
 
   "Paste Theme Items"
   "テーマ アイテムを貼り付ける"
@@ -2735,6 +2744,9 @@ msgcat::mcmset ja {
   "The current theme has unsaved changes"
   "現在のテーマは保存されていない変更があります"
 
+  "Theme Name"
+  "テーマ名"
+
   "Tree Style: "
   "ツリーのスタイル："
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset ja {
 
   "Value: "
   "価格:"
+
+  "Website"
+  "ウェブサイト"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset ja {
 
   "Check for Update"
   "アップデートの確認"
+
+  "Choose"
+  "選択"
 
   "Close"
   "閉じる"

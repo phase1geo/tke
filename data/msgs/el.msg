@@ -1573,9 +1573,6 @@ msgcat::mcmset el {
   "Buffer"
   "Ρυθμιστής"
 
-  "Choose"
-  "Επιλέξτε"
-
   "Choose Logfile Directory"
   "Επιλέξτε κατάλογο Logfile"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset el {
   "Choose Theme"
   "Επιλέξτε θέμα εμφάνισης"
 
+  "Created By"
+  "Δημιουργήθηκε από"
+
   "Custom Directory"
   "Προσαρμοσμένο Κατάλογο"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset el {
 
   "Enable Copy Mode"
   "Ενεργοποιήστε τη λειτουργία αντίγραφο"
+
+  "Export Theme As"
+  "Εξαγάγετε το θέμα ως"
 
   "GIF Photo"
   "GIF Φωτογραφία"
@@ -2681,11 +2684,17 @@ msgcat::mcmset el {
   "Installation Directory"
   "Κατάλογος εγκατάστασης"
 
+  "License File"
+  "Αρχείο άδειας χρήσης"
+
   "Modifications"
   "Τροποποιήσεις"
 
   "One-Color Bitmap"
   "Ένα-Color Bitmap"
+
+  "Output Directory"
+  "Κατάλογος εξόδου"
 
   "Paste Theme Items"
   "Επικόλληση στοιχείων θέμα"
@@ -2735,6 +2744,9 @@ msgcat::mcmset el {
   "The current theme has unsaved changes"
   "Το σημερινό θέμα έχει μη αποθηκευμένες αλλαγές"
 
+  "Theme Name"
+  "Όνομα θέματος:"
+
   "Tree Style: "
   "Δέντρο Στυλ:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset el {
 
   "Value: "
   "Τιμή:"
+
+  "Website"
+  "Ιστοσελίδα"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset el {
 
   "Check for Update"
   "Έλεγχος για ενημέρωση"
+
+  "Choose"
+  "Επιλέξτε"
 
   "Close"
   "Κλείσιμο"
