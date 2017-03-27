@@ -1792,8 +1792,6 @@ namespace eval themer {
     ttk::entry     .expwin.f.ce  -width 50
     ttk::label     .expwin.f.wl  -text [format "%s:" [msgcat::mc "Website"]]
     ttk::entry     .expwin.f.we  -width 50
-    ttk::label     .expwin.f.nl  -text [format "%s:" [msgcat::mc "Theme Name"]]
-    ttk::entry     .expwin.f.ne  -width 50 -validate key -validatecommand themer::validate_export
     ttk::label     .expwin.f.ll  -text [format "%s:" [msgcat::mc "License File"]]
     ttk::entry     .expwin.f.le  -width 50 -state disabled
     ttk::button    .expwin.f.lb  -style BButton -text [msgcat::mc "Choose"] -command {
@@ -1810,6 +1808,8 @@ namespace eval themer {
         themer::validate_export
       }
     }
+    ttk::label     .expwin.f.nl  -text [format "%s:" [msgcat::mc "Theme Name"]]
+    ttk::entry     .expwin.f.ne  -width 50 -validate key -validatecommand themer::validate_export
     ttk::label     .expwin.f.dl  -text [format "%s:" [msgcat::mc "Output Directory"]]
     ttk::entry     .expwin.f.de  -width 50 -state disabled
     ttk::button    .expwin.f.db  -style BButton -text [msgcat::mc "Choose"] -command {
@@ -1833,11 +1833,11 @@ namespace eval themer {
     grid .expwin.f.ce  -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid .expwin.f.wl  -row 1 -column 0 -sticky e    -padx 2 -pady 2
     grid .expwin.f.we  -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.nl  -row 2 -column 0 -sticky e    -padx 2 -pady 2
-    grid .expwin.f.ne  -row 2 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.ll  -row 3 -column 0 -sticky e    -padx 2 -pady 2
-    grid .expwin.f.le  -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid .expwin.f.lb  -row 3 -column 2 -sticky news -padx 2 -pady 2
+    grid .expwin.f.ll  -row 2 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.le  -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid .expwin.f.lb  -row 2 -column 2 -sticky news -padx 2 -pady 2
+    grid .expwin.f.nl  -row 3 -column 0 -sticky e    -padx 2 -pady 2
+    grid .expwin.f.ne  -row 3 -column 1 -sticky news -padx 2 -pady 2
     grid .expwin.f.dl  -row 4 -column 0 -sticky e    -padx 2 -pady 2
     grid .expwin.f.de  -row 4 -column 1 -sticky news -padx 2 -pady 2
     grid .expwin.f.db  -row 4 -column 2 -sticky news -padx 2 -pady 2
