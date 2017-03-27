@@ -533,4 +533,110 @@ namespace eval folding {
 
   }
 
+  ######################################################################
+  # Emulates a Vim keystroke.
+  proc enter {txtt keysyms} {
+
+    foreach keysym $keysyms {
+      if {$keysym eq "Escape"} {
+        vim::handle_escape $txtt
+      } else {
+        set char [utils::sym2char $keysym]
+        if {![vim::handle_any $txtt [utils::sym2code $keysym] $char $keysym]} {
+          $txtt insert insert $char
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Performs a folding test.
+  proc do_test {txtt id cmdlist cursor folded} {
+
+    enter $txtt $cmdlist
+
+    set folds [list]
+    for {set i 0} {$i < [$txtt count -lines 1.0 end]} {incr i} {
+      if {[lsearch [$txtt tag names $i.0] _folded] != -1} {
+        lappend folds $i
+      }
+    }
+
+    if {[$txtt index insert] ne $cursor} {
+      cleanup "$id insertion cursor is not correct ([$txtt index insert])"
+    }
+    if {[$txtt tag ranges sel] ne ""} {
+      cleanup "$id selection is not correct ([$txtt tag ranges sel])"
+    }
+    if {$vim::mode($txtt) ne "start"} {
+      cleanup "$id mode was not start"
+    }
+    if {$folds ne $folded} {
+      cleanup "$id folded lines are incorrect ($folds)"
+    }
+
+  }
+
+  # Verify zf
+  proc run_test10 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Put the folding mode into manual
+    indent::set_indent_mode OFF
+
+    $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Select line 3 and fold it with zf
+    $txtt tag add sel 3.0 5.0
+    do_test $txtt 0 {z f} 2.0 {4}
+
+    # Verify that zd does not work when the cursor is not on the folded line
+    do_test $txtt 1 {z d} 2.0 {4}
+
+    # Undo the fold with zd
+    $txtt mark set insert 3.0
+    do_test $txtt 2 {z d} 3.0 {}
+
+    do_test $txtt 3 {z f 2 j} 3.0 {4}
+    do_test $txtt 4 {z d}     3.0 {}
+
+    do_test $txtt 5 {2 z f j} 3.0 {4}
+    do_test $txtt 6 {z d}     3.0 {}
+
+    do_test $txtt 7 {z f k} 2.0 {3}
+    do_test $txtt 8 {z d}   2.0 {}
+
+    do_test $txtt 9 {j 2 z f k} 1.0 {2 3}
+    do_test $txtt 10 {z d} 1.0 {}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zF
+  proc run_test11 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Put the folding mode into manual
+    indent::set_indent_mode OFF
+
+    $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {z F}
+
+    # Cleanup
+    cleanup
+
+  }
+
 }
