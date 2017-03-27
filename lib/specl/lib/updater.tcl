@@ -607,11 +607,54 @@ namespace eval specl::updater {
   }
 
   ######################################################################
+  # Cause the password to be sent to the command.
+  proc run_admin_cmd_write {rc password} {
+
+    catch { puts $rc $password }
+    fileevent $rc writable {}
+
+  }
+
+  ######################################################################
+  proc run_admin_cmd_read {rc password} {
+
+    variable admin_cmd_done
+
+    set chars [gets $rc line]
+
+    set failed [expr {[string first "try again" $line] != -1}]
+
+    if {[eof $rc] || $failed} {
+      fileevent $rc writable {}
+      fileevent $rc readable {}
+      catch { close $rc }
+      set admin_cmd_done $failed
+    }
+
+  }
+
+  ######################################################################
   # Runs the given command with administrative privileges.
   proc run_admin_cmd {cmd password} {
 
-    # Execute the command
-    exec -ignorestderr sudo -S {*}$cmd << "$password\n" 2>@1
+    variable admin_cmd_done
+  
+    if {[catch "open {| sudo -S $cmd 2>@1} r+" rc]} {
+      return -code error $rc
+    }
+
+    fconfigure $rc -buffering none -blocking 1
+    fileevent  $rc writable [list specl::updater::run_admin_cmd_write $rc $password]
+    fileevent  $rc readable [list specl::updater::run_admin_cmd_read  $rc $password]
+    
+    set admin_cmd_done 0
+
+    # Wait for the command to complete
+    vwait specl::updater::admin_cmd_done
+
+    if {$admin_cmd_done} {
+      return -code error "Password incorrect"
+    }
 
     # Remove the timestamp
     exec -ignorestderr sudo -k
