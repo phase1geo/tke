@@ -3397,21 +3397,25 @@ namespace eval menus {
 
     gui::get_info {} current lang
 
+    # Get the documentation elements to add
+    set syntax [lsearch -index 1 -inline -all -not [syntax::get_references $lang] "*{query}*"]
+    set user   [lsearch -index 1 -inline -all -not [preferences::get Documentation/References] "*{query}*"]
+
     # Clean the menu
     $mb delete 0 end
 
     # Add the syntax items
-    foreach item [lsearch -index 1 -inline -all -not [syntax::get_references $lang] "*{query}*"] {
+    foreach item $syntax {
       lassign $item name url
       $mb add command -label [format "$lang %s" $name] -command [list utils::open_file_externally $url 1]
     }
 
-    if {[$mb index end] ne "none"} {
+    if {([llength $syntax] > 0) && ([llength $user] > 0)} {
       $mb add separator
     }
 
     # Add the user documentation
-    foreach item [lsearch -index 1 -inline -all -not [preferences::get Documentation/References] "*{query}*"] {
+    foreach item $user {
       lassign $item name url
       $mb add command -label $name -command [list utils::open_file_externally $url 1]
     }

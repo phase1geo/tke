@@ -1109,20 +1109,53 @@ proc ctext::redo {win} {
 
 }
 
+proc ctext::getGutterTags {win pos} {
+
+  set alltags [$win tag names $pos]
+  set tags    [lsearch -inline -all -glob $alltags gutter:*]
+  lappend tags {*}[lsearch -inline -all -glob $alltags lmark*]
+
+  return $tags
+
+}
+
+######################################################################
+# Move all gutter tags from the old column 0 of the given row to the new
+# column 0 character.
 proc ctext::handleInsertAt0 {win startpos datalen} {
 
   if {[lindex [split $startpos .] 1] == 0} {
-
-    set endpos  [$win index "$startpos+${datalen}c"]
-    set alltags [$win tag names $endpos]
-    set tags    [lsearch -inline -all -glob $alltags gutter:*]
-    lappend tags {*}[lsearch -inline -all -glob $alltags lmark*]
-
-    foreach tag $tags {
+    set endpos [$win index "$startpos+${datalen}c"]
+    foreach tag [getGutterTags $win $endpos] {
       $win tag add $tag $startpos
       $win tag remove $tag $endpos
     }
+  }
 
+}
+
+proc ctext::handleDeleteAt0Helper {win firstpos endpos} {
+
+  foreach tag [getGutterTags $win $firstpos] {
+    $win._t add $tag $endpos
+  }
+
+}
+
+######################################################################
+# Preserve gutter tags that will be deleted in column 0, moving them to
+# what will be the new column 0 after the deletion takes place.
+proc ctext::handleDeleteAt0 {win startpos endpos} {
+
+  lassign [split $startpos .] startrow startcol
+  lassign [split $endpos   .] endrow   endcol
+
+  if {$startrow == $endrow} {
+    if {$startcol == 0} {
+      handleDeleteAt0Helper $win $startrow.0 $endpos
+    }
+  } elseif {$endcol != 0} {
+    handleDeleteAt0Helper $win $endrow.0 $endpos
   }
 
 }
@@ -1295,6 +1328,7 @@ proc ctext::command_delete {win args} {
   set do_tags  [list]
 
   ctext::undo_delete            $win $startPos $endPos
+  ctext::handleDeleteAt0        $win $startPos $endPos
   ctext::linemapCheckOnDelete   $win $startPos $endPos
   ctext::comments_chars_deleted $win $startPos $endPos do_tags
 
@@ -1465,6 +1499,7 @@ proc ctext::command_fastdelete {win args} {
   if {$do_undo} {
     ctext::undo_delete $win $startPos $endPos
   }
+  ctext::handleDeleteAt0 $win $startPos $endPos
 
   $win._t delete {*}$args
 
