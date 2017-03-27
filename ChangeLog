@@ -1,15 +1,10 @@
-2017-03-26 16:16 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1c732141812f [devel-2.9.18])
+2017-03-26 20:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fbf90bf87120 [devel-2.9.19])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.18 release
+	ChangeLog for devel-2.9.19 release
 
-2017-03-26 16:16 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1eccef98a34d)
+2017-03-26 20:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (26c2e1d3c4e8 [tip])
 
 	* .hgtags:
-	Added tag devel-2.9.18 for changeset 1c732141812f
-
-2017-03-26 20:01 -0500  Trevor Williams  <phase1geo@gmail.com>  (b2df1bb13ae5 [tip])
-
-	* lib/specl/lib/updater.tcl, lib/version.tcl:
-	* Attempting to improve password handler.
+	Added tag devel-2.9.19 for changeset fbf90bf87120
 
