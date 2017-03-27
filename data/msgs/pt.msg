@@ -1573,9 +1573,6 @@ msgcat::mcmset pt {
   "Buffer"
   "Buffer"
 
-  "Choose"
-  "Escolha"
-
   "Choose Logfile Directory"
   "Escolha o diretório de arquivo de log"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset pt {
   "Choose Theme"
   "Escolha um Tema"
 
+  "Created By"
+  "Criado Por"
+
   "Custom Directory"
   "Directório Personalizado"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset pt {
 
   "Enable Copy Mode"
   "Ativar o modo de cópia"
+
+  "Export Theme As"
+  "Exportar Tema"
 
   "GIF Photo"
   "GIF Foto"
@@ -2681,11 +2684,17 @@ msgcat::mcmset pt {
   "Installation Directory"
   "Diretório de Instalação"
 
+  "License File"
+  "Licença:"
+
   "Modifications"
   "Modificações"
 
   "One-Color Bitmap"
   "Bitmap de uma cor"
+
+  "Output Directory"
+  "Diretório destino:"
 
   "Paste Theme Items"
   "Colar itens do tema"
@@ -2735,6 +2744,9 @@ msgcat::mcmset pt {
   "The current theme has unsaved changes"
   "O tema atual tem alterações não salvas"
 
+  "Theme Name"
+  "Nome do Tema"
+
   "Tree Style: "
   "Estilo Tree:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset pt {
 
   "Value: "
   "Valor:"
+
+  "Website"
+  "WhatsApp"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset pt {
 
   "Check for Update"
   "Procurar atualização agora"
+
+  "Choose"
+  "Escolha"
 
   "Close"
   "Fecho"

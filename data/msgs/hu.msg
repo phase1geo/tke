@@ -1573,9 +1573,6 @@ msgcat::mcmset hu {
   "Buffer"
   "Buffer"
 
-  "Choose"
-  "Kiválasztás"
-
   "Choose Logfile Directory"
   "Válassza ki a Logfile könyvtár"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset hu {
   "Choose Theme"
   "Válasszon téma"
 
+  "Created By"
+  "Készítette:"
+
   "Custom Directory"
   "más könyvtárból:"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset hu {
 
   "Enable Copy Mode"
   "Másolási üzemmód engedélyezése"
+
+  "Export Theme As"
+  "Export téma mint"
 
   "GIF Photo"
   "GIF Fotó"
@@ -2681,11 +2684,17 @@ msgcat::mcmset hu {
   "Installation Directory"
   "Telepítési könyvtár"
 
+  "License File"
+  "Licenc"
+
   "Modifications"
   "Módosítások"
 
   "One-Color Bitmap"
   "Egy-Color Bitmap"
+
+  "Output Directory"
+  "Kimeneti könyvtár"
 
   "Paste Theme Items"
   "Téma elemek beillesztése"
@@ -2735,6 +2744,9 @@ msgcat::mcmset hu {
   "The current theme has unsaved changes"
   "Az aktuális téma nem mentett módosításokat tartalmaz"
 
+  "Theme Name"
+  "Téma neve"
+
   "Tree Style: "
   "Fa Stílus:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset hu {
 
   "Value: "
   "Érték:"
+
+  "Website"
+  "Weboldal"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset hu {
 
   "Check for Update"
   "Ellenőrizze a Frissítés"
+
+  "Choose"
+  "Kiválasztás"
 
   "Close"
   "Bezárás"

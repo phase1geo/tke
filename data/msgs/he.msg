@@ -1573,9 +1573,6 @@ msgcat::mcmset he {
   "Buffer"
   "Buffer"
 
-  "Choose"
-  "בחר"
-
   "Choose Logfile Directory"
   "לבחור מדריך יומן"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset he {
   "Choose Theme"
   "בחר נושא"
 
+  "Created By"
+  "נוצר על ידי"
+
   "Custom Directory"
   "מדריך מותאם אישית"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset he {
 
   "Enable Copy Mode"
   "לאפשר מצב העתקה"
+
+  "Export Theme As"
+  "לייצוא ערכת נושא כמו"
 
   "GIF Photo"
   "תמונה GIF"
@@ -2681,11 +2684,17 @@ msgcat::mcmset he {
   "Installation Directory"
   "ספריית ההתקנה"
 
+  "License File"
+  "קיבצי רישיון"
+
   "Modifications"
   "שינויים"
 
   "One-Color Bitmap"
   "מפת סיביות צבע אחד"
+
+  "Output Directory"
+  "ספריית פלט"
 
   "Paste Theme Items"
   "הדבקת פריטים דירוג"
@@ -2735,6 +2744,9 @@ msgcat::mcmset he {
   "The current theme has unsaved changes"
   "הנושא הנוכחית שינויים שלא נשמרו"
 
+  "Theme Name"
+  "שם ערכת נושא"
+
   "Tree Style: "
   "עץ בסגנון:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset he {
 
   "Value: "
   "ערך"
+
+  "Website"
+  "אתר אינטרנט"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset he {
 
   "Check for Update"
   "הסימון עבור עדכון"
+
+  "Choose"
+  "בחר"
 
   "Close"
   "סגור"

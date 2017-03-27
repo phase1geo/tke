@@ -1573,9 +1573,6 @@ msgcat::mcmset nl {
   "Buffer"
   "Buffer"
 
-  "Choose"
-  "Kies"
-
   "Choose Logfile Directory"
   "Kies Logfile Directory"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset nl {
   "Choose Theme"
   "Kies thema"
 
+  "Created By"
+  "Aangemaakt door"
+
   "Custom Directory"
   "Aangepaste Map"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset nl {
 
   "Enable Copy Mode"
   "Inschakelen van de modus kopiëren"
+
+  "Export Theme As"
+  "Exporteer thema"
 
   "GIF Photo"
   "GIF Photo"
@@ -2681,11 +2684,17 @@ msgcat::mcmset nl {
   "Installation Directory"
   "Installatie Gids"
 
+  "License File"
+  "Licentie"
+
   "Modifications"
   "Wijzigingen"
 
   "One-Color Bitmap"
   "One-Color Bitmap"
+
+  "Output Directory"
+  "EMC Debug Locatie"
 
   "Paste Theme Items"
   "Thema Items plakken"
@@ -2735,6 +2744,9 @@ msgcat::mcmset nl {
   "The current theme has unsaved changes"
   "De huidige thema heeft opgeslagen wijzigingen"
 
+  "Theme Name"
+  "Thema Naam"
+
   "Tree Style: "
   "Boom Stijl:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset nl {
 
   "Value: "
   "Waarde:"
+
+  "Website"
+  "Website"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset nl {
 
   "Check for Update"
   "Zoek naar nieuwe versies"
+
+  "Choose"
+  "Kies"
 
   "Close"
   "Sluiten"

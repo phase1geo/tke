@@ -1573,9 +1573,6 @@ msgcat::mcmset no {
   "Buffer"
   "Buffer"
 
-  "Choose"
-  "Velg"
-
   "Choose Logfile Directory"
   "Velg loggfil katalog"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset no {
   "Choose Theme"
   "Velg et tema"
 
+  "Created By"
+  "Opprettet av"
+
   "Custom Directory"
   "Custom Directory"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset no {
 
   "Enable Copy Mode"
   "Aktiver kopieringsmodus"
+
+  "Export Theme As"
+  "Eksportere tema som"
 
   "GIF Photo"
   "GIF Photo"
@@ -2681,11 +2684,17 @@ msgcat::mcmset no {
   "Installation Directory"
   "Installasjon Directory"
 
+  "License File"
+  "Lisens"
+
   "Modifications"
   "Modifikasjoner"
 
   "One-Color Bitmap"
   "One-Color Bitmap"
+
+  "Output Directory"
+  "Utdatamappen"
 
   "Paste Theme Items"
   "Lime Theme"
@@ -2735,6 +2744,9 @@ msgcat::mcmset no {
   "The current theme has unsaved changes"
   "Den aktuelle temaet har ulagrede endringer"
 
+  "Theme Name"
+  "Tema"
+
   "Tree Style: "
   "Tre Stil:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset no {
 
   "Value: "
   "Verdi:"
+
+  "Website"
+  "Hjemmeside"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset no {
 
   "Check for Update"
   "Søk etter oppdateringer"
+
+  "Choose"
+  "Velg"
 
   "Close"
   "Lukk"

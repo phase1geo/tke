@@ -1573,9 +1573,6 @@ msgcat::mcmset sv {
   "Buffer"
   "Buffert"
 
-  "Choose"
-  "Välj"
-
   "Choose Logfile Directory"
   "Välj loggfil katalog"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset sv {
   "Choose Theme"
   "Välj ett tema"
 
+  "Created By"
+  "Skapad av"
+
   "Custom Directory"
   "Custom Directory"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset sv {
 
   "Enable Copy Mode"
   "Aktivera kopieringsläget"
+
+  "Export Theme As"
+  "Exportera temat som"
 
   "GIF Photo"
   "GIF-bild"
@@ -2681,11 +2684,17 @@ msgcat::mcmset sv {
   "Installation Directory"
   "Installationskatalog"
 
+  "License File"
+  "Licens"
+
   "Modifications"
   "Ändringar"
 
   "One-Color Bitmap"
   "Enfärgs Bitmap"
+
+  "Output Directory"
+  "Målkatalog:"
 
   "Paste Theme Items"
   "Klistra in tema objekt"
@@ -2735,6 +2744,9 @@ msgcat::mcmset sv {
   "The current theme has unsaved changes"
   "Det aktuella temat har osparade ändringar"
 
+  "Theme Name"
+  "Temanamn"
+
   "Tree Style: "
   "Träd Stil: "
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset sv {
 
   "Value: "
   "Värde: "
+
+  "Website"
+  "Hemsida"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset sv {
 
   "Check for Update"
   "Leta efter uppdatering"
+
+  "Choose"
+  "Välj"
 
   "Close"
   "Stäng"

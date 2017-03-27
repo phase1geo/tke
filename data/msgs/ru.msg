@@ -1573,9 +1573,6 @@ msgcat::mcmset ru {
   "Buffer"
   "Буфер"
 
-  "Choose"
-  "Выберите"
-
   "Choose Logfile Directory"
   "Выберите каталог файла журнала"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset ru {
   "Choose Theme"
   "Выбрать тему:"
 
+  "Created By"
+  "Сделано"
+
   "Custom Directory"
   "Пользовательские Каталог"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset ru {
 
   "Enable Copy Mode"
   "Включить режим копирования"
+
+  "Export Theme As"
+  "Экспорт Темы"
 
   "GIF Photo"
   "GIF фото"
@@ -2681,11 +2684,17 @@ msgcat::mcmset ru {
   "Installation Directory"
   "Каталог установки"
 
+  "License File"
+  "Лицензия"
+
   "Modifications"
   "Измененных"
 
   "One-Color Bitmap"
   "Один-битовых цветовых"
+
+  "Output Directory"
+  "Каталог сохранения"
 
   "Paste Theme Items"
   "Вставить элементы темы"
@@ -2735,6 +2744,9 @@ msgcat::mcmset ru {
   "The current theme has unsaved changes"
   "В настоящее время тема имеет несохраненные изменения"
 
+  "Theme Name"
+  "Название темы"
+
   "Tree Style: "
   "Дерево Стиль:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset ru {
 
   "Value: "
   "Значение:"
+
+  "Website"
+  "Сайт"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset ru {
 
   "Check for Update"
   "Проверить обновления"
+
+  "Choose"
+  "Выберите"
 
   "Close"
   "Клоуз"

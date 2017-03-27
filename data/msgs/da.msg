@@ -1573,9 +1573,6 @@ msgcat::mcmset da {
   "Buffer"
   "Buffer"
 
-  "Choose"
-  "Vælg"
-
   "Choose Logfile Directory"
   "Vælg logfil bibliotek"
 
@@ -2639,6 +2636,9 @@ msgcat::mcmset da {
   "Choose Theme"
   "Elige un tema."
 
+  "Created By"
+  "Oprettet af"
+
   "Custom Directory"
   "Brugervalgt katalog:"
 
@@ -2659,6 +2659,9 @@ msgcat::mcmset da {
 
   "Enable Copy Mode"
   "Aktiver Kopieringstilstand"
+
+  "Export Theme As"
+  "Eksportere tema som"
 
   "GIF Photo"
   "GIF Billeder"
@@ -2681,11 +2684,17 @@ msgcat::mcmset da {
   "Installation Directory"
   "Installation Vejviser"
 
+  "License File"
+  "License"
+
   "Modifications"
   "ÆNDRINGER"
 
   "One-Color Bitmap"
   "One-farve bitmap"
+
+  "Output Directory"
+  "Enhedens uddatakatalog:"
 
   "Paste Theme Items"
   "Indsætte tema elementer"
@@ -2735,6 +2744,9 @@ msgcat::mcmset da {
   "The current theme has unsaved changes"
   "Den aktuelle tema har ikke-gemte ændringer"
 
+  "Theme Name"
+  "Temanavn"
+
   "Tree Style: "
   "Træ Stil:"
 
@@ -2749,6 +2761,9 @@ msgcat::mcmset da {
 
   "Value: "
   "Værdi:"
+
+  "Website"
+  "Hjemmeside"
 
 }
 
@@ -2831,6 +2846,9 @@ msgcat::mcmset da {
 
   "Check for Update"
   "Søg efter opdatering"
+
+  "Choose"
+  "Vælg"
 
   "Close"
   "Luk"
