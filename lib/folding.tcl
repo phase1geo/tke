@@ -381,17 +381,14 @@ namespace eval folding {
   proc close_range {txt startpos endpos} {
 
     if {[get_method $txt] eq "manual"} {
+
       lassign [split [$txt index $startpos] .] start_line start_col
       lassign [split [$txt index $endpos]   .] end_line   end_col
-      if {$end_col == 0} {
-        $txt tag add _folded "$startpos+1l linestart" $endpos
-        $txt gutter set folding close $start_line
-        $txt gutter set folding end   $end_line
-      } else {
-        $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
-        $txt gutter set folding close $start_line
-        $txt gutter set folding end   [expr $end_line + 1]
-      }
+
+      $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
+      $txt gutter set folding close $start_line
+      $txt gutter set folding end   [expr $end_line + 1]
+
     }
 
   }
@@ -549,14 +546,14 @@ namespace eval folding {
     }
 
     if {[llength $ranges] > 0} {
-      
+
       # Adds folds
       $txt tag add _folded {*}$ranges
-   
+
       # Close the folds
       $txt gutter set folding close  [$txt gutter get folding open]
       $txt gutter set folding eclose [$txt gutter get folding eopen]
-      
+
     }
 
   }
