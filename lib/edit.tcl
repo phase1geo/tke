@@ -640,7 +640,7 @@ namespace eval edit {
 
     # Otherwise, move the current line down by one line
     } else {
-      set str [$txtt get "insert+1l linestart" "insert+l2 linestart"]
+      set str [$txtt get "insert+1l linestart" "insert+2l linestart"]
       $txtt delete "insert lineend" "insert+1l lineend"
       $txtt insert "insert linestart" $str
     }

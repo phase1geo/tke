@@ -59,8 +59,8 @@
 {Edit/Transform/Upper Case}               Ctrl-Alt-U
 {Edit/Transform/Title Case}               Ctrl-Alt-T
 {Edit/Transform/Join Lines}               Cmd-J
-{Edit/Transform/Bubble Up}                Alt-Up
-{Edit/Transform/Bubble Down}              Alt-Down
+{Edit/Transform/Bubble Up}                Cmd-Up
+{Edit/Transform/Bubble Down}              Cmd-Down
 {Edit/Format/Bold}                        Cmd-B
 {Edit/Format/Italics}                     Cmd-I
 {Edit/Format/Underline}                   Cmd-U
