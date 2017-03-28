@@ -317,7 +317,7 @@ namespace eval folding {
     folding::close_range $txt 7.0 9.0
     folding::close_range $txt 2.0 5.0
 
-    set lines [list none close none none end none close none end none]
+    set lines [list none close none none none end close none none end]
     for {set i 0} {$i < 10} {incr i} {
       set line [expr $i + 1]
       if {[folding::fold_state $txt $line] ne [lindex $lines $i]} {
@@ -578,7 +578,7 @@ namespace eval folding {
 
   }
 
-  # Verify zf
+  # Verify zf Vim command
   proc run_test10 {} {
 
     # Initialize
@@ -608,18 +608,18 @@ namespace eval folding {
     do_test $txtt 5 {2 z f j} 3.0 {4}
     do_test $txtt 6 {z d}     3.0 {}
 
-    do_test $txtt 7 {z f 2 k} 1.0 {2}
+    do_test $txtt 7 {z f 2 k} 1.0 {2 3}
     do_test $txtt 8 {z d}     1.0 {}
 
-    do_test $txtt 9 {2 j 2 z f k} 1.0 {2}
-    do_test $txtt 10 {z d} 1.0 {}
+    do_test $txtt 9  {2 j 2 z f k} 1.0 {2 3}
+    do_test $txtt 10 {z d}         1.0 {}
 
     # Cleanup
     cleanup
 
   }
 
-  # Verify zF
+  # Verify zF Vim command
   proc run_test11 {} {
 
     # Initialize
@@ -632,11 +632,157 @@ namespace eval folding {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {z F} 2.0 {3}
-    do_test $txtt 1 {z d} 2.0 {}
+    do_test $txtt 0 {z F} 2.0 {}
 
-    do_test $txtt 2 {2 z F} 2.0 {3 4}
-    do_test $txtt 3 {z d} 2.0 {}
+    do_test $txtt 1 {2 z F} 2.0 {3}
+    do_test $txtt 2 {z d} 2.0 {}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zd and zD Vim commands
+  proc run_test12 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    indent::set_indent_mode OFF
+
+    $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6"
+    $txtt mark set insert 3.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {2 z F}   3.0 {4}
+    do_test $txtt 1 {k 3 z F} 2.0 {3 4 5}
+    do_test $txtt 2 {z d}     2.0 {4}
+
+    do_test $txtt 3 {3 z F} 2.0 {3 4 5}
+    do_test $txtt 4 {z D}   2.0 {}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zE Vim command
+  proc run_test13 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    indent::set_indent_mode OFF
+
+    $txtt insert end "\nThis is line 2\nThis is line 3\nThis is line 4\nThis is line 5\nThis is line 6\nThis is line 7\nThis is line 8"
+    $txtt mark set insert 3.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {2 z F}     3.0 {4}
+    do_test $txtt 1 {k 3 z F}   2.0 {3 4 5}
+    do_test $txtt 2 {6 G 2 z F} 6.0 {3 4 5 7}
+    do_test $txtt 3 {3 G z E} 3.0 {}
+
+    do_test $txtt 4 {2 z F k 3 z F 6 G 2 z F} 6.0 {3 4 5 7}
+    do_test $txtt 3 {g g z E}                 1.0 {}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zo, zO, zc, zC, za, zA Vim commands
+  proc run_test14 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nif {1} {\n  if {1} {\n    if {1} {\n      set a 0\n    }\n  }\n}"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {}      2.0 {}
+    do_test $txtt 1 {z c}   2.0 {3 4 5 6 7}
+    do_test $txtt 2 {z o}   2.0 {}
+
+    do_test $txtt 3 {2 z c} 2.0 {3 4 5 6 7}
+    do_test $txtt 4 {z o}   2.0 {4 5 6}
+
+    do_test $txtt 5 {3 z c} 2.0 {3 4 5 6 7}
+    do_test $txtt 6 {2 z o} 2.0 {5}
+    do_test $txtt 7 {3 z o} 2.0 {}
+
+    do_test $txtt 8  {z C}   2.0 {3 4 5 6 7}
+    do_test $txtt 9  {2 z o} 2.0 {5}
+    do_test $txtt 10 {z C}   2.0 {3 4 5 6 7}
+    do_test $txtt 11 {z O}   2.0 {}
+
+    do_test $txtt 12 {z a}   2.0 {3 4 5 6 7}
+    do_test $txtt 13 {z a}   2.0 {}
+
+    do_test $txtt 14 {z C}   2.0 {3 4 5 6 7}
+    do_test $txtt 15 {z a}   2.0 {4 5 6}
+    do_test $txtt 16 {z a}   2.0 {3 4 5 6 7}
+    do_test $txtt 17 {2 z a} 2.0 {5}
+    do_test $txtt 16 {2 z a} 2.0 {3 4 5 6 7}
+
+    do_test $txtt 17 {z A}   2.0 {}
+    do_test $txtt 18 {z A}   2.0 {3 4 5 6 7}
+    do_test $txtt 19 {z o}   2.0 {4 5 6}
+    do_test $txtt 20 {2 z o} 2.0 {5}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zv Vim Command
+  proc run_test15 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nif {1} {\n  if {1} {\n    set a 0\n  }\n  set b 0\n}"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {} 2.0 {}
+    do_test $txtt 1 {z C} 2.0 {3 4 5 6}
+
+    $txtt mark set insert 4.0
+    do_test $txtt 2 {z v} 4.0 {}
+
+    $txtt mark set insert 2.0
+    do_test $txtt 3 {z C} 2.0 {3 4 5 6}
+    $txtt mark set insert 6.0
+    do_test $txtt 4 {z v} 6.0 {4}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zM and zR Vim commands
+  proc run_test16 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nif {1} {\n  if {1} {\n    set a 0\n  }\n  set b 0\n}"
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {}    1.0 {}
+    do_test $txtt 1 {z M} 1.0 {3 4 5 6}
+
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+    do_test $txtt 2 {z o} 2.0 {4}
+    do_test $txtt 3 {z c} 2.0 {3 4 5 6}
+
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+    do_test $txtt 4 {z R} 1.0 {}
 
     # Cleanup
     cleanup
