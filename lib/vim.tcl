@@ -2187,6 +2187,10 @@ namespace eval vim {
         set mode($txtt) "folding:range"
       }
       return 1
+    } elseif {[in_visual_mode $txtt] && ([lindex [split $mode($txtt) :] end] eq "folding")} {
+      folding::close_selected [winfo parent $txtt]
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -2222,6 +2226,14 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "case:lower"} {
       set mode($txtt) "case:f:prev:lower"
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      if {![folding::close_selected [winfo parent $txtt]]} {
+        if {[set num [get_number $txtt]] > 1} {
+          folding::close_range [winfo parent $txtt] insert "insert+[expr $num - 1] display lines"
+        }
+      }
+      start_mode $txtt
       return 1
     }
 
@@ -2445,15 +2457,13 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "change"
-      record_start
-      return 1
-    } elseif {[in_visual_mode $txtt]} {
-      if {![multicursor::delete $txtt "selected"]} {
-        $txtt delete sel.first sel.last
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+      if {[edit::delete_selected $txtt]} {
+        edit_mode $txtt
+      } else {
+        set mode($txtt) "change"
+        record_start
       }
-      edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "change"} {
       if {![multicursor::delete $txtt "line"]} {
@@ -2582,10 +2592,14 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "delete"
-      record_start
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       $txtt edit separator
+      if {[edit::delete_selected $txtt]} {
+        start_mode $txtt
+      } else {
+        set mode($txtt) "delete"
+        record_start
+      }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
       if {![multicursor::delete $txtt line]} {
@@ -2614,6 +2628,10 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       edit::delete_to_end $txtt
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      start_mode $txtt
       return 1
     }
 
@@ -2958,10 +2976,14 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
-      do_char_delete_current $txtt [get_number $txtt]
-      record_add x
-      record_stop
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+      if {[edit::delete_selected $txtt]} {
+        start_mode $txtt
+      } else {
+        do_char_delete_current $txtt [get_number $txtt]
+        record_add x
+        record_stop
+      }
       return 1
     }
 
@@ -2976,10 +2998,14 @@ namespace eval vim {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
-      do_char_delete_current $txtt [get_number $txtt]
-      record_add Delete
-      record_stop
+    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+      if {[edit::delete_selected $txtt]} {
+        start_mode $txtt
+      } else {
+        do_char_delete_current $txtt [get_number $txtt]
+        record_add Delete
+        record_stop
+      }
       return 1
     }
 
@@ -3863,6 +3889,9 @@ namespace eval vim {
 
     if {$mode($txtt) eq "start"} {
       set mode($txtt) "folding"
+      return 1
+    } elseif {[in_visual_mode $txtt]} {
+      set mode($txtt) "$mode($txtt):folding"
       return 1
     }
 

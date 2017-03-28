@@ -608,10 +608,10 @@ namespace eval folding {
     do_test $txtt 5 {2 z f j} 3.0 {4}
     do_test $txtt 6 {z d}     3.0 {}
 
-    do_test $txtt 7 {z f k} 2.0 {3}
-    do_test $txtt 8 {z d}   2.0 {}
+    do_test $txtt 7 {z f 2 k} 1.0 {2}
+    do_test $txtt 8 {z d}     1.0 {}
 
-    do_test $txtt 9 {j 2 z f k} 1.0 {2 3}
+    do_test $txtt 9 {2 j 2 z f k} 1.0 {2}
     do_test $txtt 10 {z d} 1.0 {}
 
     # Cleanup
@@ -632,7 +632,11 @@ namespace eval folding {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {z F}
+    do_test $txtt 0 {z F} 2.0 {3}
+    do_test $txtt 1 {z d} 2.0 {}
+
+    do_test $txtt 2 {2 z F} 2.0 {3 4}
+    do_test $txtt 3 {z d} 2.0 {}
 
     # Cleanup
     cleanup

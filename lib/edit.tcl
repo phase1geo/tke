@@ -109,6 +109,38 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Checks to see if any text is currently selected.  If it is, performs
+  # the deletion on the selected text.
+  proc delete_selected {txtt} {
+
+    # If we have selected text, perform the deletion
+    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
+
+      # Allow multicursors to be handled, if enabled
+      if {![multicursor::delete $txtt selected]} {
+
+        # Save the selected text to the clipboard
+        clipboard clear
+        foreach {start end} $selected {
+          clipboard append [$txtt get $start $end]
+        }
+
+        # Delete the text
+        foreach {end start} [lreverse $selected] {
+          $txtt delete $start $end
+        }
+
+      }
+
+      return 1
+
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Deletes the current line.
   proc delete_current_line {txtt {num 1}} {
 
