@@ -2472,7 +2472,7 @@ namespace eval vim {
       edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::close_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      folding::close_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -2656,7 +2656,7 @@ namespace eval vim {
       record_start
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 1
+      folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
       start_mode $txtt
       return 1
     }
@@ -3041,7 +3041,7 @@ namespace eval vim {
       edit::insert_line_below_current $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::open_fold 1 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      folding::open_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       start_mode $txtt
       return 1
     }
@@ -3132,6 +3132,10 @@ namespace eval vim {
       record_add n
       record_stop
       return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      folding::open_all_folds [winfo parent $txtt]
+      start_mode $txtt
+      return 1
     }
 
     return 0
@@ -3157,6 +3161,9 @@ namespace eval vim {
           search::find_next [winfo parent $txtt] 0
         }
       }
+      return 1
+    } elseif {$mode($txtt) eq "folding"} {
+      folding::restore_all_folds [winfo parent $txtt]
       return 1
     }
 

@@ -388,8 +388,8 @@ namespace eval folding {
 
     if {[get_method $txt] eq "manual"} {
 
-      lassign [split [$txt index $startpos]  .] start_line start_col
-      lassign [split [$txt index $endpos-1c] .] end_line   end_col
+      lassign [split [$txt index $startpos] .] start_line start_col
+      lassign [split [$txt index $endpos]   .] end_line   end_col
 
       $txt tag add _folded [expr $start_line + 1].0 [expr $end_line + 1].0
       $txt gutter set folding close $start_line
@@ -408,7 +408,7 @@ namespace eval folding {
     if {[get_method $txt] eq "manual"} {
 
       foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
-        close_range $txt $startpos $endpos
+        close_range $txt $startpos $endpos-1c
         set retval 1
       }
 
@@ -458,10 +458,15 @@ namespace eval folding {
       # Get the current line state
       set state [fold_state $txt $line]
 
+      # Open the fold recursively if it is closed
+      if {$state eq "close"} {
+        open_fold 0 $txt $line
+      }
+
       # If the line is closed or opened, continue with the recursive deletion
       if {($state eq "close") || ($state eq "open")} {
         lassign [get_fold_range $txt $line 1] startpos endpos
-        delete_folds_in_range $txt [lindex [split $startpos .] 0] [lindex [split $endpos .] 0]
+        $txt gutter clear folding $line [lindex [split $endpos .] 0]
       }
 
     }
@@ -475,12 +480,13 @@ namespace eval folding {
     if {[get_method $txt] eq "manual"} {
 
       # Get all of the open/close folds
-      set all_lines [list {*}[$txt gutter get folding open] {*}[$txt gutter get folding close]]
+      set lines    [lsort -integer [list $startline {*}[$txt gutter get folding open] {*}[$txt gutter get folding close]]]
+      set lineslen [llength $lines]
+      set index    [expr [lsearch $lines $startline] + 1]
 
-      while {$startline <= $endline} {
-        set lines     [lsort -integer [list $startline {*}$all_lines]]
-        set index     [expr [lsearch $lines $startline] + 1]
-        set startline [lindex [split [delete_fold $txt [lindex $lines $index]] .] 0]
+      while {($index < $lineslen) && ([lindex $lines $index] <= $endline)} {
+        delete_fold $txt [lindex $lines $index]
+        incr index
       }
 
     }
@@ -608,11 +614,9 @@ namespace eval folding {
     }
 
     # Close all of the previous folds
-    if {$depth == 1} {
-      foreach tline $closed {
-        if {$tline != $line} {
-          close_fold 1 $txt $tline
-        }
+    if {$depth > 0} {
+      foreach tline [::struct::set intersect $aboves $closed] {
+        close_fold 1 $txt $tline
       }
     }
 
