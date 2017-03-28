@@ -1137,7 +1137,7 @@ proc ctext::handleInsertAt0 {win startpos datalen} {
 proc ctext::handleDeleteAt0Helper {win firstpos endpos} {
 
   foreach tag [getGutterTags $win $firstpos] {
-    $win._t add $tag $endpos
+    $win._t tag add $tag $endpos
   }
 
 }
@@ -1156,6 +1156,39 @@ proc ctext::handleDeleteAt0 {win startpos endpos} {
     }
   } elseif {$endcol != 0} {
     handleDeleteAt0Helper $win $endrow.0 $endpos
+  }
+
+}
+
+######################################################################
+# Called prior to the deletion of the text for a text replacement.
+proc ctext::handleReplaceDeleteAt0 {win startpos endpos} {
+
+  lassign [split $startpos .] startrow startcol
+  lassign [split $endpos   .] endrow   endcol
+
+  if {$startrow == $endrow} {
+    if {$startcol == 0} {
+      return [list 0 [getGutterTags $win $startrow.0]]
+    }
+  } elseif {$endcol != 0} {
+    return [list 1 [getGutterTags $win $endrow.0]]
+  }
+
+  return [list 0 [list]]
+
+}
+
+proc ctext::handleReplaceInsert {win startpos datalen tags} {
+
+  if {[lindex $tags 0]} {
+    set insertpos [$win._t index "$startpos+${datalen}c"]
+  } else {
+    set insertpos $startpos
+  }
+
+  foreach tag $tags {
+    $win._t tag add $tag $insertpos
   }
 
 }
@@ -1572,8 +1605,12 @@ proc ctext::command_fastreplace {win args} {
     ctext::undo_delete $win $startPos $endPos
   }
 
+  set tags [ctext::handleReplaceDeleteAt0 $win $startPos $endPos]
+
   # Perform the text replacement
   $win._t replace {*}$args
+
+  ctext::handleReplaceInsert $win $startPos $datlen $tags
 
   if {$do_undo} {
     ctext::undo_insert $win $startPos $datlen $cursor
@@ -1703,10 +1740,12 @@ proc ctext::command_replace {win args} {
 
   ctext::undo_delete            $win $startPos $endPos
   ctext::comments_chars_deleted $win $startPos $endPos do_tags
+  set tags [ctext::handleReplaceDeleteAt0 $win $startPos $endPos]
 
   # Perform the text replacement
   $win._t replace {*}$args
 
+  ctext::handleReplaceInsert $win $startPos $datlen $tags
   ctext::undo_insert $win $startPos $datlen $cursor
 
   set lineStart [$win._t index "$startPos linestart"]

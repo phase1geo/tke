@@ -172,8 +172,14 @@ namespace eval folding {
   # Adds any found folds to the gutter
   proc add_folds {txt startpos endpos} {
 
+    set method [get_method $txt]
+
+    # If we are doing manual code folding, don't go any further
+    if {$method eq "manual"} {
+      return
+
     # Get the starting and ending line
-    if {[get_method $txt] eq "indent"} {
+    } elseif {$method eq "indent"} {
       set startpos 1.0
       if {[set range [$txt tag prevrange _prewhite "$startpos lineend"]] ne ""} {
         set startpos [lindex $range 0]
@@ -382,10 +388,10 @@ namespace eval folding {
 
     if {[get_method $txt] eq "manual"} {
 
-      lassign [split [$txt index $startpos] .] start_line start_col
-      lassign [split [$txt index $endpos]   .] end_line   end_col
+      lassign [split [$txt index $startpos]  .] start_line start_col
+      lassign [split [$txt index $endpos-1c] .] end_line   end_col
 
-      $txt tag add _folded "$startpos+1l linestart" "$endpos+1l linestart"
+      $txt tag add _folded [expr $start_line + 1].0 [expr $end_line + 1].0
       $txt gutter set folding close $start_line
       $txt gutter set folding end   [expr $end_line + 1]
 
@@ -431,11 +437,31 @@ namespace eval folding {
       }
 
       # Remove the start/end markers for the current fold
-      if {($state eq "close") ||($state eq "open")} {
+      if {($state eq "close") || ($state eq "open")} {
         lassign [get_fold_range $txt $line 1] startpos endpos
         $txt gutter clear folding $line
         $txt gutter clear folding [lindex [split $endpos .] 0]
         return $endpos
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Delete all folds between the first and last lines of the current
+  # open/close fold.
+  proc delete_folds {txt line} {
+
+    if {[get_method $txt] eq "manual"} {
+
+      # Get the current line state
+      set state [fold_state $txt $line]
+
+      # If the line is closed or opened, continue with the recursive deletion
+      if {($state eq "close") || ($state eq "open")} {
+        lassign [get_fold_range $txt $line 1] startpos endpos
+        delete_folds_in_range $txt [lindex [split $startpos .] 0] [lindex [split $endpos .] 0]
       }
 
     }
