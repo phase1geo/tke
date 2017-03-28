@@ -13,7 +13,9 @@
 | **zf** | When text is selected and we are in manual folding mode, causes the selected text to be folded. |
 | **zf**_num_**j** | When we are in manual folding mode, causes the following _num_ lines to be folded. |
 | **zf**_num_**k** | When we are in manual folding mode, causes the previous _num_ lines to be folded. |
+| _num_**zF** | When we are in manual folding mode, causes the following _num_ lines to be folded. |
 | **zd** | When we are in manual folding mode and the cursor is in a line that contains a fold indicator, the fold indicator will be removed. |
+| **zD** | When we are in manual folding mode and the cursor is in a line that contains a fold indicator, the fold indicator and all other folds within the current fold will be removed. |
 | **zE** | When we are in manual folding mode, all fold indicators are removed. |
 | **zi** | Toggles all folds by one level to the same state. |
 | **zj** | Jumps the cursor to the next folded line indicator. |
@@ -22,4 +24,3 @@
 | **:**_x,y_**fold** | Specifies a range of lines to fold. This is only valid when the foldmethod is set to manual. |
 | **:**_x,y_**foldclose**[**!**] | Specifies a range of lines where any opened folds will be closed. If the **!** character is specified, all fold levels will be closed; otherwise, one level of folding will be closed. |
 | **:**_x,y_**foldopen**[**!**] | Specifies a range of lines where any closed folds will be opened. If the **!** character is specified, all fold levels will be opened; otherwise, one level of folding will be opened.
-
