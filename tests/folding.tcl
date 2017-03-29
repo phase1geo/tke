@@ -405,13 +405,13 @@ namespace eval folding {
 
     folding::jump_to $txt next
 
-    if {[$txt index insert] ne 2.0} {
+    if {[$txt index insert] ne 7.0} {
       cleanup "Insertion cursor incorrect C ([$txt index insert])"
     }
 
     folding::jump_to $txt prev
 
-    if {[$txt index insert] ne 7.0} {
+    if {[$txt index insert] ne 2.0} {
       cleanup "Insertion cursor incorrect D ([$txt index insert])"
     }
 
@@ -556,13 +556,6 @@ namespace eval folding {
 
     enter $txtt $cmdlist
 
-    set folds [list]
-    for {set i 0} {$i < [$txtt count -lines 1.0 end]} {incr i} {
-      if {[lsearch [$txtt tag names $i.0] _folded] != -1} {
-        lappend folds $i
-      }
-    }
-
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id insertion cursor is not correct ([$txtt index insert])"
     }
@@ -572,6 +565,22 @@ namespace eval folding {
     if {$vim::mode($txtt) ne "start"} {
       cleanup "$id mode was not start"
     }
+
+    check_folds $txtt $id $folded
+
+  }
+
+  ######################################################################
+  # Checks the folded lines against the given list.
+  proc check_folds {txtt id folded} {
+
+    set folds [list]
+    for {set i 0} {$i < [$txtt count -lines 1.0 end]} {incr i} {
+      if {[lsearch [$txtt tag names $i.0] _folded] != -1} {
+        lappend folds $i
+      }
+    }
+
     if {$folds ne $folded} {
       cleanup "$id folded lines are incorrect ($folds)"
     }
@@ -783,6 +792,111 @@ namespace eval folding {
     $txtt mark set insert 1.0
     vim::adjust_insert $txtt
     do_test $txtt 4 {z R} 1.0 {}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zn, zN, zi and do_set_foldenable Vim commands
+  proc run_test17 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nif {1} {\n  if {1} {\n    if {1} {\n      set e 0\n    }\n  }\n}"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {}    2.0 {}
+    do_test $txtt 1 {z c} 2.0 {3 4 5 6 7}
+
+    do_test $txtt 2 {z n} 2.0 {}
+    if {[folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "1 Vim foldenable is set when it should be clear"
+    }
+    do_test $txtt 3 {z n} 2.0 {}
+    if {[folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "2 Vim foldenable is set when it should be clear"
+    }
+
+    do_test $txtt 4 {z N} 2.0 {3 4 5 6 7}
+    if {![folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "1 Vim foldenable is clear when it should be set"
+    }
+    do_test $txtt 5 {z N} 2.0 {3 4 5 6 7}
+    if {![folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "2 Vim foldenable is clear when it should be set"
+    }
+
+    do_test $txtt 6 {z i} 2.0 {}
+    if {[folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "3 Vim foldenable is set when it should be clear"
+    }
+    do_test $txtt 7 {z i} 2.0 {3 4 5 6 7}
+    if {![folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "3 Vim foldenable is clear when it should be set"
+    }
+
+    vim::do_set_command [winfo parent $txtt] nofoldenable "" ""
+    if {[folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "(nofoldenable) Fold enable was not correct"
+    }
+    check_folds $txtt 8 {}
+
+    vim::do_set_command [winfo parent $txtt] foldenable "" ""
+    if {![folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "(foldenable) Fold enable was not correct"
+    }
+    check_folds $txtt 9 {3 4 5 6 7}
+
+    vim::do_set_command [winfo parent $txtt] nofen "" ""
+    if {[folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "(nofen) Fold enable was not correct"
+    }
+    check_folds $txtt 8 {}
+
+    vim::do_set_command [winfo parent $txtt] fen "" ""
+    if {![folding::get_vim_foldenable [winfo parent $txtt]]} {
+      cleanup "(fen) Fold enable was not correct"
+    }
+    check_folds $txtt 9 {3 4 5 6 7}
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify zj and zk Vim commands
+  proc run_test18 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    foreach var [list a b c d e] {
+      $txtt insert end "\nif {$var} {\n  set $var 0\n}"
+    }
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {}        2.0  {}
+    do_test $txtt 1 {z c}     2.0  {3}
+    do_test $txtt 2 {5 j z c} 8.0  {3 9}
+    do_test $txtt 3 {5 j z c} 14.0 {3 9 15}
+
+    do_test $txtt 4 {g g} 1.0  {3 9 15}
+    do_test $txtt 5 {z j} 2.0  {3 9 15}
+    do_test $txtt 6 {z j} 8.0  {3 9 15}
+    do_test $txtt 7 {z j} 14.0 {3 9 15}
+    do_test $txtt 8 {z j} 14.0 {3 9 15}
+
+    do_test $txtt 10 {z k} 8.0  {3 9 15}
+    do_test $txtt 11 {z k} 2.0  {3 9 15}
+    do_test $txtt 12 {z k} 2.0  {3 9 15}
+
+    do_test $txtt 13 {g g 2 z j} 8.0 {3 9 15}
+    do_test $txtt 14 {2 z j}     8.0 {3 9 15}
+    do_test $txtt 15 {G 3 z k}   2.0 {3 9 15}
+    do_test $txtt 16 {2 z k}     2.0 {3 9 15}
 
     # Cleanup
     cleanup
