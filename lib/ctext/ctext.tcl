@@ -85,7 +85,6 @@ proc ctext {win args} {
   set ctext::data($win,config,csl_tag_pair)            [list]
   set ctext::data($win,config,langs)                   [list {}]
   set ctext::data($win,config,gutters)                 [list]
-  set ctext::data($win,config,showngutters)            [list]
   set ctext::data($win,config,undo_hist)               [list]
   set ctext::data($win,config,undo_hist_size)          0
   set ctext::data($win,config,undo_sep_last)           -1
@@ -279,7 +278,7 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {0 false no} -linemap {
     set data($win,config,-linemap) 0
-    if {([llength $data($win,config,showngutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-folding)} {
+    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-folding)} {
       catch {
         grid remove $win.l
         grid remove $win.f
@@ -302,7 +301,7 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {0 false no} -folding {
     set data($win,config,-folding) 0
-    if {([llength $data($win,config,showngutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-linemap)} {
+    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-linemap)} {
       catch {
         grid remove $win.l
         grid remove $win.f
