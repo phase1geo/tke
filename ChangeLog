@@ -1,10 +1,534 @@
-2017-03-26 20:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fbf90bf87120 [devel-2.9.19])
+2017-03-26 20:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (343994357551 [devel-2.9.20])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-2.9.19 release
+	ChangeLog for devel-2.9.20 release
 
-2017-03-26 20:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (26c2e1d3c4e8 [tip])
+2017-03-26 20:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (094f4b0a224d)
 
 	* .hgtags:
-	Added tag devel-2.9.19 for changeset fbf90bf87120
+	Added tag devel-2.9.20 for changeset 343994357551
+
+2017-03-26 23:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0efa21ec9c93)
+
+	* lib/theme.tcl, lib/themer.tcl, lib/themes.tcl, lib/version.tcl:
+	* Adding ability to associate a license file when exporting a theme.
+
+2017-03-26 23:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f38150f56a47)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2017-03-26 23:47 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9f47d8c7c32f)
+
+	* doc/md/TKE User Guide/Themes/Button Action
+	Bar.textbundle/assets/export.png: new file.
+	* doc/md/TKE User Guide/Themes/Button Action
+	Bar.textbundle/assets/DraggedImage.png: deleted file.
+	* doc/md/TKE User Guide/Themes/Button Action
+	Bar.textbundle/assets/DraggedImage.png, doc/md/TKE User
+	Guide/Themes/Button Action Bar.textbundle/assets/export.png,
+	doc/md/TKE User Guide/Themes/Button Action Bar.textbundle/text.md,
+	lib/themer.tcl, lib/version.tcl:
+	* Changing the UI slightly for the export dialog window.
+	* Updating theme export documentation to match new capabilities.
+
+2017-03-27 01:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0b1a30c55323)
+
+	* lib/folding.tcl, lib/version.tcl, tests/folding.tcl:
+	* Checkpointing work on Vim folding BIST.
+	* Cleaning out unnecessary code when creating a fold.
+
+2017-03-27 07:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3d3ddf5a5f00)
+
+	* lib/tablelist5.17/CHANGES.txt, lib/tablelist5.17/COPYRIGHT.txt,
+	lib/tablelist5.17/README.txt, lib/tablelist5.17/demos/browse.tcl,
+	lib/tablelist5.17/demos/browseTree.tcl,
+	lib/tablelist5.17/demos/browseTree_tile.tcl,
+	lib/tablelist5.17/demos/browse_tile.tcl,
+	lib/tablelist5.17/demos/bwidget.tcl,
+	lib/tablelist5.17/demos/bwidget_tile.tcl,
+	lib/tablelist5.17/demos/checked.gif,
+	lib/tablelist5.17/demos/clsdFolder.gif,
+	lib/tablelist5.17/demos/comp.xbm,
+	lib/tablelist5.17/demos/config.tcl,
+	lib/tablelist5.17/demos/config_tile.tcl,
+	lib/tablelist5.17/demos/dirViewer.tcl,
+	lib/tablelist5.17/demos/dirViewer_tile.tcl,
+	lib/tablelist5.17/demos/embeddedWindows.tcl,
+	lib/tablelist5.17/demos/embeddedWindows_tile.tcl,
+	lib/tablelist5.17/demos/file.gif,
+	lib/tablelist5.17/demos/images.tcl,
+	lib/tablelist5.17/demos/iwidgets.tcl,
+	lib/tablelist5.17/demos/iwidgets_tile.tcl,
+	lib/tablelist5.17/demos/leaf.xbm,
+	lib/tablelist5.17/demos/miscWidgets.tcl,
+	lib/tablelist5.17/demos/miscWidgets_tile.tcl,
+	lib/tablelist5.17/demos/open.gif,
+	lib/tablelist5.17/demos/openFolder.gif,
+	lib/tablelist5.17/demos/option.tcl,
+	lib/tablelist5.17/demos/option_tile.tcl,
+	lib/tablelist5.17/demos/styles.tcl,
+	lib/tablelist5.17/demos/styles_tile.tcl,
+	lib/tablelist5.17/demos/tileWidgets.tcl,
+	lib/tablelist5.17/demos/unchecked.gif,
+	lib/tablelist5.17/doc/adwaita.png,
+	lib/tablelist5.17/doc/ambiance.png, lib/tablelist5.17/doc/aqua.png,
+	lib/tablelist5.17/doc/arc.png,
+	lib/tablelist5.17/doc/arrowStyles.png,
+	lib/tablelist5.17/doc/arrowStyles_vista.png,
+	lib/tablelist5.17/doc/baghira.png,
+	lib/tablelist5.17/doc/bicolor1.png,
+	lib/tablelist5.17/doc/bicolor2.png,
+	lib/tablelist5.17/doc/bicolor3.png,
+	lib/tablelist5.17/doc/bicolor4.png,
+	lib/tablelist5.17/doc/blueMenta.png,
+	lib/tablelist5.17/doc/browse.png,
+	lib/tablelist5.17/doc/browseTree.png,
+	lib/tablelist5.17/doc/bwidget.png,
+	lib/tablelist5.17/doc/classic1.png,
+	lib/tablelist5.17/doc/classic2.png,
+	lib/tablelist5.17/doc/classic3.png,
+	lib/tablelist5.17/doc/classic4.png,
+	lib/tablelist5.17/doc/config.png,
+	lib/tablelist5.17/doc/dirViewer.png, lib/tablelist5.17/doc/dust.png,
+	lib/tablelist5.17/doc/dustSand.png,
+	lib/tablelist5.17/doc/embeddedWindows.png,
+	lib/tablelist5.17/doc/embeddedWindows_tile.png,
+	lib/tablelist5.17/doc/gtk.png, lib/tablelist5.17/doc/index.html,
+	lib/tablelist5.17/doc/klearlooks.png,
+	lib/tablelist5.17/doc/mate.png, lib/tablelist5.17/doc/menta.png,
+	lib/tablelist5.17/doc/mint.png, lib/tablelist5.17/doc/mint2.png,
+	lib/tablelist5.17/doc/newWave.png,
+	lib/tablelist5.17/doc/oxygen1.png,
+	lib/tablelist5.17/doc/oxygen2.png, lib/tablelist5.17/doc/phase.png,
+	lib/tablelist5.17/doc/plain1.png, lib/tablelist5.17/doc/plain2.png,
+	lib/tablelist5.17/doc/plain3.png, lib/tablelist5.17/doc/plain4.png,
+	lib/tablelist5.17/doc/plastik.png,
+	lib/tablelist5.17/doc/plastique.png,
+	lib/tablelist5.17/doc/radiance.png,
+	lib/tablelist5.17/doc/styles.png,
+	lib/tablelist5.17/doc/stylesheet.css,
+	lib/tablelist5.17/doc/tablelist.html,
+	lib/tablelist5.17/doc/tablelistBWidget.html,
+	lib/tablelist5.17/doc/tablelistBinding.html,
+	lib/tablelist5.17/doc/tablelistColSort.html,
+	lib/tablelist5.17/doc/tablelistCombobox.html,
+	lib/tablelist5.17/doc/tablelistCtext.html,
+	lib/tablelist5.17/doc/tablelistIwidgets.html,
+	lib/tablelist5.17/doc/tablelistMentry.html,
+	lib/tablelist5.17/doc/tablelistThemes.html,
+	lib/tablelist5.17/doc/tablelistTile.html,
+	lib/tablelist5.17/doc/tablelistTkCore.html,
+	lib/tablelist5.17/doc/tablelistWidget.html,
+	lib/tablelist5.17/doc/tileWidgets.png,
+	lib/tablelist5.17/doc/ubuntu.png, lib/tablelist5.17/doc/ubuntu2.png,
+	lib/tablelist5.17/doc/ubuntu3.png,
+	lib/tablelist5.17/doc/ubuntuMate.png,
+	lib/tablelist5.17/doc/vistaAero.png,
+	lib/tablelist5.17/doc/vistaClassic.png,
+	lib/tablelist5.17/doc/win10.png, lib/tablelist5.17/doc/win7Aero.png,
+	lib/tablelist5.17/doc/win7Classic.png,
+	lib/tablelist5.17/doc/winnative.png,
+	lib/tablelist5.17/doc/winxpBlue.png,
+	lib/tablelist5.17/doc/winxpOlive.png,
+	lib/tablelist5.17/doc/winxpSilver.png,
+	lib/tablelist5.17/doc/yuyo.png, lib/tablelist5.17/pkgIndex.tcl,
+	lib/tablelist5.17/scripts/mwutil.tcl,
+	lib/tablelist5.17/scripts/pencil.cur,
+	lib/tablelist5.17/scripts/repair.tcl,
+	lib/tablelist5.17/scripts/tablelistBind.tcl,
+	lib/tablelist5.17/scripts/tablelistConfig.tcl,
+	lib/tablelist5.17/scripts/tablelistEdit.tcl,
+	lib/tablelist5.17/scripts/tablelistImages.tcl,
+	lib/tablelist5.17/scripts/tablelistMove.tcl,
+	lib/tablelist5.17/scripts/tablelistSort.tcl,
+	lib/tablelist5.17/scripts/tablelistThemes.tcl,
+	lib/tablelist5.17/scripts/tablelistUtil.tcl,
+	lib/tablelist5.17/scripts/tablelistWidget.tcl,
+	lib/tablelist5.17/scripts/tclIndex, lib/tablelist5.17/tablelist.tcl,
+	lib/tablelist5.17/tablelistPublic.tcl,
+	lib/tablelist5.17/tablelist_tile.tcl: new file.
+	* lib/tablelist5.16/CHANGES.txt, lib/tablelist5.16/COPYRIGHT.txt,
+	lib/tablelist5.16/README.txt, lib/tablelist5.16/demos/browse.tcl,
+	lib/tablelist5.16/demos/browseTree.tcl,
+	lib/tablelist5.16/demos/browseTree_tile.tcl,
+	lib/tablelist5.16/demos/browse_tile.tcl,
+	lib/tablelist5.16/demos/bwidget.tcl,
+	lib/tablelist5.16/demos/bwidget_tile.tcl,
+	lib/tablelist5.16/demos/checked.gif,
+	lib/tablelist5.16/demos/clsdFolder.gif,
+	lib/tablelist5.16/demos/comp.xbm,
+	lib/tablelist5.16/demos/config.tcl,
+	lib/tablelist5.16/demos/config_tile.tcl,
+	lib/tablelist5.16/demos/dirViewer.tcl,
+	lib/tablelist5.16/demos/dirViewer_tile.tcl,
+	lib/tablelist5.16/demos/embeddedWindows.tcl,
+	lib/tablelist5.16/demos/embeddedWindows_tile.tcl,
+	lib/tablelist5.16/demos/file.gif,
+	lib/tablelist5.16/demos/images.tcl,
+	lib/tablelist5.16/demos/iwidgets.tcl,
+	lib/tablelist5.16/demos/iwidgets_tile.tcl,
+	lib/tablelist5.16/demos/leaf.xbm,
+	lib/tablelist5.16/demos/miscWidgets.tcl,
+	lib/tablelist5.16/demos/miscWidgets_tile.tcl,
+	lib/tablelist5.16/demos/open.gif,
+	lib/tablelist5.16/demos/openFolder.gif,
+	lib/tablelist5.16/demos/option.tcl,
+	lib/tablelist5.16/demos/option_tile.tcl,
+	lib/tablelist5.16/demos/styles.tcl,
+	lib/tablelist5.16/demos/styles_tile.tcl,
+	lib/tablelist5.16/demos/tileWidgets.tcl,
+	lib/tablelist5.16/demos/unchecked.gif,
+	lib/tablelist5.16/doc/adwaita.png,
+	lib/tablelist5.16/doc/ambiance.png, lib/tablelist5.16/doc/aqua.png,
+	lib/tablelist5.16/doc/arrowStyles.png,
+	lib/tablelist5.16/doc/arrowStyles_vista.png,
+	lib/tablelist5.16/doc/baghira.png,
+	lib/tablelist5.16/doc/bicolor1.png,
+	lib/tablelist5.16/doc/bicolor2.png,
+	lib/tablelist5.16/doc/bicolor3.png,
+	lib/tablelist5.16/doc/bicolor4.png,
+	lib/tablelist5.16/doc/browse.png,
+	lib/tablelist5.16/doc/browseTree.png,
+	lib/tablelist5.16/doc/bwidget.png,
+	lib/tablelist5.16/doc/classic1.png,
+	lib/tablelist5.16/doc/classic2.png,
+	lib/tablelist5.16/doc/classic3.png,
+	lib/tablelist5.16/doc/classic4.png,
+	lib/tablelist5.16/doc/config.png,
+	lib/tablelist5.16/doc/dirViewer.png, lib/tablelist5.16/doc/dust.png,
+	lib/tablelist5.16/doc/dustSand.png,
+	lib/tablelist5.16/doc/embeddedWindows.png,
+	lib/tablelist5.16/doc/embeddedWindows_tile.png,
+	lib/tablelist5.16/doc/gtk.png, lib/tablelist5.16/doc/index.html,
+	lib/tablelist5.16/doc/klearlooks.png,
+	lib/tablelist5.16/doc/mate.png, lib/tablelist5.16/doc/mint.png,
+	lib/tablelist5.16/doc/mint2.png, lib/tablelist5.16/doc/newWave.png,
+	lib/tablelist5.16/doc/oxygen1.png,
+	lib/tablelist5.16/doc/oxygen2.png, lib/tablelist5.16/doc/phase.png,
+	lib/tablelist5.16/doc/plain1.png, lib/tablelist5.16/doc/plain2.png,
+	lib/tablelist5.16/doc/plain3.png, lib/tablelist5.16/doc/plain4.png,
+	lib/tablelist5.16/doc/plastik.png,
+	lib/tablelist5.16/doc/plastique.png,
+	lib/tablelist5.16/doc/radiance.png,
+	lib/tablelist5.16/doc/styles.png,
+	lib/tablelist5.16/doc/stylesheet.css,
+	lib/tablelist5.16/doc/tablelist.html,
+	lib/tablelist5.16/doc/tablelistBWidget.html,
+	lib/tablelist5.16/doc/tablelistBinding.html,
+	lib/tablelist5.16/doc/tablelistColSort.html,
+	lib/tablelist5.16/doc/tablelistCombobox.html,
+	lib/tablelist5.16/doc/tablelistCtext.html,
+	lib/tablelist5.16/doc/tablelistIwidgets.html,
+	lib/tablelist5.16/doc/tablelistMentry.html,
+	lib/tablelist5.16/doc/tablelistThemes.html,
+	lib/tablelist5.16/doc/tablelistTile.html,
+	lib/tablelist5.16/doc/tablelistTkCore.html,
+	lib/tablelist5.16/doc/tablelistWidget.html,
+	lib/tablelist5.16/doc/tileWidgets.png,
+	lib/tablelist5.16/doc/ubuntu.png, lib/tablelist5.16/doc/ubuntu2.png,
+	lib/tablelist5.16/doc/vistaAero.png,
+	lib/tablelist5.16/doc/vistaClassic.png,
+	lib/tablelist5.16/doc/win10.png, lib/tablelist5.16/doc/win7Aero.png,
+	lib/tablelist5.16/doc/win7Classic.png,
+	lib/tablelist5.16/doc/winnative.png,
+	lib/tablelist5.16/doc/winxpBlue.png,
+	lib/tablelist5.16/doc/winxpOlive.png,
+	lib/tablelist5.16/doc/winxpSilver.png,
+	lib/tablelist5.16/doc/yuyo.png, lib/tablelist5.16/pkgIndex.tcl,
+	lib/tablelist5.16/scripts/mwutil.tcl,
+	lib/tablelist5.16/scripts/pencil.cur,
+	lib/tablelist5.16/scripts/repair.tcl,
+	lib/tablelist5.16/scripts/tablelistBind.tcl,
+	lib/tablelist5.16/scripts/tablelistConfig.tcl,
+	lib/tablelist5.16/scripts/tablelistEdit.tcl,
+	lib/tablelist5.16/scripts/tablelistImages.tcl,
+	lib/tablelist5.16/scripts/tablelistMove.tcl,
+	lib/tablelist5.16/scripts/tablelistSort.tcl,
+	lib/tablelist5.16/scripts/tablelistThemes.tcl,
+	lib/tablelist5.16/scripts/tablelistUtil.tcl,
+	lib/tablelist5.16/scripts/tablelistWidget.tcl,
+	lib/tablelist5.16/scripts/tclIndex, lib/tablelist5.16/tablelist.tcl,
+	lib/tablelist5.16/tablelistPublic.tcl,
+	lib/tablelist5.16/tablelist_tile.tcl: deleted file.
+	* lib/lang.tcl, lib/tablelist5.16/CHANGES.txt,
+	lib/tablelist5.16/COPYRIGHT.txt, lib/tablelist5.16/README.txt,
+	lib/tablelist5.16/demos/browse.tcl,
+	lib/tablelist5.16/demos/browseTree.tcl,
+	lib/tablelist5.16/demos/browseTree_tile.tcl,
+	lib/tablelist5.16/demos/browse_tile.tcl,
+	lib/tablelist5.16/demos/bwidget.tcl,
+	lib/tablelist5.16/demos/bwidget_tile.tcl,
+	lib/tablelist5.16/demos/checked.gif,
+	lib/tablelist5.16/demos/clsdFolder.gif,
+	lib/tablelist5.16/demos/comp.xbm,
+	lib/tablelist5.16/demos/config.tcl,
+	lib/tablelist5.16/demos/config_tile.tcl,
+	lib/tablelist5.16/demos/dirViewer.tcl,
+	lib/tablelist5.16/demos/dirViewer_tile.tcl,
+	lib/tablelist5.16/demos/embeddedWindows.tcl,
+	lib/tablelist5.16/demos/embeddedWindows_tile.tcl,
+	lib/tablelist5.16/demos/file.gif,
+	lib/tablelist5.16/demos/images.tcl,
+	lib/tablelist5.16/demos/iwidgets.tcl,
+	lib/tablelist5.16/demos/iwidgets_tile.tcl,
+	lib/tablelist5.16/demos/leaf.xbm,
+	lib/tablelist5.16/demos/miscWidgets.tcl,
+	lib/tablelist5.16/demos/miscWidgets_tile.tcl,
+	lib/tablelist5.16/demos/open.gif,
+	lib/tablelist5.16/demos/openFolder.gif,
+	lib/tablelist5.16/demos/option.tcl,
+	lib/tablelist5.16/demos/option_tile.tcl,
+	lib/tablelist5.16/demos/styles.tcl,
+	lib/tablelist5.16/demos/styles_tile.tcl,
+	lib/tablelist5.16/demos/tileWidgets.tcl,
+	lib/tablelist5.16/demos/unchecked.gif,
+	lib/tablelist5.16/doc/adwaita.png,
+	lib/tablelist5.16/doc/ambiance.png, lib/tablelist5.16/doc/aqua.png,
+	lib/tablelist5.16/doc/arrowStyles.png,
+	lib/tablelist5.16/doc/arrowStyles_vista.png,
+	lib/tablelist5.16/doc/baghira.png,
+	lib/tablelist5.16/doc/bicolor1.png,
+	lib/tablelist5.16/doc/bicolor2.png,
+	lib/tablelist5.16/doc/bicolor3.png,
+	lib/tablelist5.16/doc/bicolor4.png,
+	lib/tablelist5.16/doc/browse.png,
+	lib/tablelist5.16/doc/browseTree.png,
+	lib/tablelist5.16/doc/bwidget.png,
+	lib/tablelist5.16/doc/classic1.png,
+	lib/tablelist5.16/doc/classic2.png,
+	lib/tablelist5.16/doc/classic3.png,
+	lib/tablelist5.16/doc/classic4.png,
+	lib/tablelist5.16/doc/config.png,
+	lib/tablelist5.16/doc/dirViewer.png, lib/tablelist5.16/doc/dust.png,
+	lib/tablelist5.16/doc/dustSand.png,
+	lib/tablelist5.16/doc/embeddedWindows.png,
+	lib/tablelist5.16/doc/embeddedWindows_tile.png,
+	lib/tablelist5.16/doc/gtk.png, lib/tablelist5.16/doc/index.html,
+	lib/tablelist5.16/doc/klearlooks.png,
+	lib/tablelist5.16/doc/mate.png, lib/tablelist5.16/doc/mint.png,
+	lib/tablelist5.16/doc/mint2.png, lib/tablelist5.16/doc/newWave.png,
+	lib/tablelist5.16/doc/oxygen1.png,
+	lib/tablelist5.16/doc/oxygen2.png, lib/tablelist5.16/doc/phase.png,
+	lib/tablelist5.16/doc/plain1.png, lib/tablelist5.16/doc/plain2.png,
+	lib/tablelist5.16/doc/plain3.png, lib/tablelist5.16/doc/plain4.png,
+	lib/tablelist5.16/doc/plastik.png,
+	lib/tablelist5.16/doc/plastique.png,
+	lib/tablelist5.16/doc/radiance.png,
+	lib/tablelist5.16/doc/styles.png,
+	lib/tablelist5.16/doc/stylesheet.css,
+	lib/tablelist5.16/doc/tablelist.html,
+	lib/tablelist5.16/doc/tablelistBWidget.html,
+	lib/tablelist5.16/doc/tablelistBinding.html,
+	lib/tablelist5.16/doc/tablelistColSort.html,
+	lib/tablelist5.16/doc/tablelistCombobox.html,
+	lib/tablelist5.16/doc/tablelistCtext.html,
+	lib/tablelist5.16/doc/tablelistIwidgets.html,
+	lib/tablelist5.16/doc/tablelistMentry.html,
+	lib/tablelist5.16/doc/tablelistThemes.html,
+	lib/tablelist5.16/doc/tablelistTile.html,
+	lib/tablelist5.16/doc/tablelistTkCore.html,
+	lib/tablelist5.16/doc/tablelistWidget.html,
+	lib/tablelist5.16/doc/tileWidgets.png,
+	lib/tablelist5.16/doc/ubuntu.png, lib/tablelist5.16/doc/ubuntu2.png,
+	lib/tablelist5.16/doc/vistaAero.png,
+	lib/tablelist5.16/doc/vistaClassic.png,
+	lib/tablelist5.16/doc/win10.png, lib/tablelist5.16/doc/win7Aero.png,
+	lib/tablelist5.16/doc/win7Classic.png,
+	lib/tablelist5.16/doc/winnative.png,
+	lib/tablelist5.16/doc/winxpBlue.png,
+	lib/tablelist5.16/doc/winxpOlive.png,
+	lib/tablelist5.16/doc/winxpSilver.png,
+	lib/tablelist5.16/doc/yuyo.png, lib/tablelist5.16/pkgIndex.tcl,
+	lib/tablelist5.16/scripts/mwutil.tcl,
+	lib/tablelist5.16/scripts/pencil.cur,
+	lib/tablelist5.16/scripts/repair.tcl,
+	lib/tablelist5.16/scripts/tablelistBind.tcl,
+	lib/tablelist5.16/scripts/tablelistConfig.tcl,
+	lib/tablelist5.16/scripts/tablelistEdit.tcl,
+	lib/tablelist5.16/scripts/tablelistImages.tcl,
+	lib/tablelist5.16/scripts/tablelistMove.tcl,
+	lib/tablelist5.16/scripts/tablelistSort.tcl,
+	lib/tablelist5.16/scripts/tablelistThemes.tcl,
+	lib/tablelist5.16/scripts/tablelistUtil.tcl,
+	lib/tablelist5.16/scripts/tablelistWidget.tcl,
+	lib/tablelist5.16/scripts/tclIndex, lib/tablelist5.16/tablelist.tcl,
+	lib/tablelist5.16/tablelistPublic.tcl,
+	lib/tablelist5.16/tablelist_tile.tcl, lib/tablelist5.17/CHANGES.txt,
+	lib/tablelist5.17/COPYRIGHT.txt, lib/tablelist5.17/README.txt,
+	lib/tablelist5.17/demos/browse.tcl,
+	lib/tablelist5.17/demos/browseTree.tcl,
+	lib/tablelist5.17/demos/browseTree_tile.tcl,
+	lib/tablelist5.17/demos/browse_tile.tcl,
+	lib/tablelist5.17/demos/bwidget.tcl,
+	lib/tablelist5.17/demos/bwidget_tile.tcl,
+	lib/tablelist5.17/demos/checked.gif,
+	lib/tablelist5.17/demos/clsdFolder.gif,
+	lib/tablelist5.17/demos/comp.xbm,
+	lib/tablelist5.17/demos/config.tcl,
+	lib/tablelist5.17/demos/config_tile.tcl,
+	lib/tablelist5.17/demos/dirViewer.tcl,
+	lib/tablelist5.17/demos/dirViewer_tile.tcl,
+	lib/tablelist5.17/demos/embeddedWindows.tcl,
+	lib/tablelist5.17/demos/embeddedWindows_tile.tcl,
+	lib/tablelist5.17/demos/file.gif,
+	lib/tablelist5.17/demos/images.tcl,
+	lib/tablelist5.17/demos/iwidgets.tcl,
+	lib/tablelist5.17/demos/iwidgets_tile.tcl,
+	lib/tablelist5.17/demos/leaf.xbm,
+	lib/tablelist5.17/demos/miscWidgets.tcl,
+	lib/tablelist5.17/demos/miscWidgets_tile.tcl,
+	lib/tablelist5.17/demos/open.gif,
+	lib/tablelist5.17/demos/openFolder.gif,
+	lib/tablelist5.17/demos/option.tcl,
+	lib/tablelist5.17/demos/option_tile.tcl,
+	lib/tablelist5.17/demos/styles.tcl,
+	lib/tablelist5.17/demos/styles_tile.tcl,
+	lib/tablelist5.17/demos/tileWidgets.tcl,
+	lib/tablelist5.17/demos/unchecked.gif,
+	lib/tablelist5.17/doc/adwaita.png,
+	lib/tablelist5.17/doc/ambiance.png, lib/tablelist5.17/doc/aqua.png,
+	lib/tablelist5.17/doc/arc.png,
+	lib/tablelist5.17/doc/arrowStyles.png,
+	lib/tablelist5.17/doc/arrowStyles_vista.png,
+	lib/tablelist5.17/doc/baghira.png,
+	lib/tablelist5.17/doc/bicolor1.png,
+	lib/tablelist5.17/doc/bicolor2.png,
+	lib/tablelist5.17/doc/bicolor3.png,
+	lib/tablelist5.17/doc/bicolor4.png,
+	lib/tablelist5.17/doc/blueMenta.png,
+	lib/tablelist5.17/doc/browse.png,
+	lib/tablelist5.17/doc/browseTree.png,
+	lib/tablelist5.17/doc/bwidget.png,
+	lib/tablelist5.17/doc/classic1.png,
+	lib/tablelist5.17/doc/classic2.png,
+	lib/tablelist5.17/doc/classic3.png,
+	lib/tablelist5.17/doc/classic4.png,
+	lib/tablelist5.17/doc/config.png,
+	lib/tablelist5.17/doc/dirViewer.png, lib/tablelist5.17/doc/dust.png,
+	lib/tablelist5.17/doc/dustSand.png,
+	lib/tablelist5.17/doc/embeddedWindows.png,
+	lib/tablelist5.17/doc/embeddedWindows_tile.png,
+	lib/tablelist5.17/doc/gtk.png, lib/tablelist5.17/doc/index.html,
+	lib/tablelist5.17/doc/klearlooks.png,
+	lib/tablelist5.17/doc/mate.png, lib/tablelist5.17/doc/menta.png,
+	lib/tablelist5.17/doc/mint.png, lib/tablelist5.17/doc/mint2.png,
+	lib/tablelist5.17/doc/newWave.png,
+	lib/tablelist5.17/doc/oxygen1.png,
+	lib/tablelist5.17/doc/oxygen2.png, lib/tablelist5.17/doc/phase.png,
+	lib/tablelist5.17/doc/plain1.png, lib/tablelist5.17/doc/plain2.png,
+	lib/tablelist5.17/doc/plain3.png, lib/tablelist5.17/doc/plain4.png,
+	lib/tablelist5.17/doc/plastik.png,
+	lib/tablelist5.17/doc/plastique.png,
+	lib/tablelist5.17/doc/radiance.png,
+	lib/tablelist5.17/doc/styles.png,
+	lib/tablelist5.17/doc/stylesheet.css,
+	lib/tablelist5.17/doc/tablelist.html,
+	lib/tablelist5.17/doc/tablelistBWidget.html,
+	lib/tablelist5.17/doc/tablelistBinding.html,
+	lib/tablelist5.17/doc/tablelistColSort.html,
+	lib/tablelist5.17/doc/tablelistCombobox.html,
+	lib/tablelist5.17/doc/tablelistCtext.html,
+	lib/tablelist5.17/doc/tablelistIwidgets.html,
+	lib/tablelist5.17/doc/tablelistMentry.html,
+	lib/tablelist5.17/doc/tablelistThemes.html,
+	lib/tablelist5.17/doc/tablelistTile.html,
+	lib/tablelist5.17/doc/tablelistTkCore.html,
+	lib/tablelist5.17/doc/tablelistWidget.html,
+	lib/tablelist5.17/doc/tileWidgets.png,
+	lib/tablelist5.17/doc/ubuntu.png, lib/tablelist5.17/doc/ubuntu2.png,
+	lib/tablelist5.17/doc/ubuntu3.png,
+	lib/tablelist5.17/doc/ubuntuMate.png,
+	lib/tablelist5.17/doc/vistaAero.png,
+	lib/tablelist5.17/doc/vistaClassic.png,
+	lib/tablelist5.17/doc/win10.png, lib/tablelist5.17/doc/win7Aero.png,
+	lib/tablelist5.17/doc/win7Classic.png,
+	lib/tablelist5.17/doc/winnative.png,
+	lib/tablelist5.17/doc/winxpBlue.png,
+	lib/tablelist5.17/doc/winxpOlive.png,
+	lib/tablelist5.17/doc/winxpSilver.png,
+	lib/tablelist5.17/doc/yuyo.png, lib/tablelist5.17/pkgIndex.tcl,
+	lib/tablelist5.17/scripts/mwutil.tcl,
+	lib/tablelist5.17/scripts/pencil.cur,
+	lib/tablelist5.17/scripts/repair.tcl,
+	lib/tablelist5.17/scripts/tablelistBind.tcl,
+	lib/tablelist5.17/scripts/tablelistConfig.tcl,
+	lib/tablelist5.17/scripts/tablelistEdit.tcl,
+	lib/tablelist5.17/scripts/tablelistImages.tcl,
+	lib/tablelist5.17/scripts/tablelistMove.tcl,
+	lib/tablelist5.17/scripts/tablelistSort.tcl,
+	lib/tablelist5.17/scripts/tablelistThemes.tcl,
+	lib/tablelist5.17/scripts/tablelistUtil.tcl,
+	lib/tablelist5.17/scripts/tablelistWidget.tcl,
+	lib/tablelist5.17/scripts/tclIndex, lib/tablelist5.17/tablelist.tcl,
+	lib/tablelist5.17/tablelistPublic.tcl,
+	lib/tablelist5.17/tablelist_tile.tcl, lib/tke.tcl, lib/version.tcl:
+	* Upgrading tablelist widget to version 5.17 (from 5.16).
+
+2017-03-27 17:41 -0500  Trevor Williams  <phase1geo@gmail.com>  (617859d70d15)
+
+	* lib/ctext/ctext.tcl, lib/menus.tcl, lib/version.tcl:
+	* Attempting to fix issue where text is deleted in column 0 and it
+	causes tag information to get lost (work in progress).
+	* Fixing issue with displaying separator in Language Documentation
+	submenu.
+
+2017-03-28 01:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2e1304932fb7)
+
+	* lib/ctext/ctext.tcl, lib/edit.tcl, lib/folding.tcl, lib/version.tcl,
+	lib/vim.tcl, tests/folding.tcl:
+	* Adding support for `zD` Vim command.
+	* Fixing code folding issues in manual mode when text is edited.
+	* Fixing issue with closing a fold range.
+	* Improving support for deleting selected text with Vim commands x, d
+	and Delete.
+	* Adding support for `zf` Vim command when text is selected in visual
+	mode.
+	* Adding support for `zF` Vim command.
+
+2017-03-28 09:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1c501f8cd50e)
+
+	* data/bindings/menu_bindings.aqua.tkedat, doc/md/TKE User Guide/User
+	Interface/Edit Menu.textbundle/text.md, doc/md/TKE User Guide/Vim
+	Commands/Code Folding.textbundle/text.md, lib/edit.tcl,
+	lib/version.tcl:
+	* Fixing syntax error in bubble down code.
+	* Updating User Guide.
+
+2017-03-28 17:21 -0500  Trevor Williams  <phase1geo@gmail.com>  (c5d6fc8bda24)
+
+	* lib/folding.tcl, lib/version.tcl, lib/vim.tcl, tests/folding.tcl:
+	* Fixing various issues surrounding Vim code folding.
+	* Starting to add support for zn and zN Vim commands.
+
+2017-03-29 00:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (742caf5f2d10)
+
+	* lib/ctext/ctext.tcl, lib/folding.tcl, lib/menus.tcl,
+	lib/version.tcl, lib/vim.tcl, tests/folding.tcl:
+	* Adding proper support for Vim foldenable, `zn`, `zN` and `zi` Vim
+	commands.
+	* Changing `zj` and `zk` Vim commands to not buffer wrap, to find only
+	closed folds, and to provide count support.
+	* Adding gutter hide ctext support.
+	* Fixing search highlight foreground coloring.
+	* Completing code folding BIST.
+
+2017-03-29 00:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (625795972c1c)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Fixing ctext issue.
+
+2017-03-29 02:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9a37b9e24509 [tip])
+
+	* data/bindings/menu_bindings.aqua.tkedat, lib/menus.tcl,
+	lib/pref_ui.tcl, lib/version.tcl:
+	* Updating Aqua default menu bindings (almost there now).
+	* Changing default answer to preference `Use Default` shortcuts dialog
+	to `Yes` to avoid confusion.
+	* Removing unnecessary debug output.
 
