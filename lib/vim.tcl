@@ -94,7 +94,7 @@ namespace eval vim {
 
     variable multicursor
 
-    return [expr {([get_edit_mode $txtt] ne "") || $multicursor($txtt)}]
+    return [expr {[in_vim_mode $txtt] && (([get_edit_mode $txtt] ne "") || $multicursor($txtt))}]
 
   }
 
@@ -1252,11 +1252,11 @@ namespace eval vim {
     # block cursor doesn't look dumb.
     if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
       $txtt fastinsert -update 0 -undo 0 insert " " dspace
-      ::tk::TextSetCursor $txtt "insert-1c"
+      $txtt mark set insert "insert-1c"
 
     # Make sure that lineend is never the insertion point
     } elseif {[$txtt index insert] eq [$txtt index "insert lineend"]} {
-      ::tk::TextSetCursor $txtt "insert-1 display chars"
+      $txtt mark set insert "insert-1 display chars"
     }
 
     # Adjust the selection (if we are in visual mode)
@@ -3114,11 +3114,11 @@ namespace eval vim {
       set count [get_number $txtt]
       if {$search_dir($txtt) eq "next"} {
         for {set i 0} {$i < $count} {incr i} {
-          search::find_next [winfo parent $txtt] 0
+          search::find_next [winfo parent $txtt]
         }
       } else {
         for {set i 0} {$i < $count} {incr i} {
-          search::find_prev [winfo parent $txtt] 0
+          search::find_prev [winfo parent $txtt]
         }
       }
       return 1
@@ -3150,11 +3150,11 @@ namespace eval vim {
       set count [get_number $txtt]
       if {$search_dir($txtt) eq "next"} {
         for {set i 0} {$i < $count} {incr i} {
-          search::find_prev [winfo parent $txtt] 0
+          search::find_prev [winfo parent $txtt]
         }
       } else {
         for {set i 0} {$i < $count} {incr i} {
-          search::find_next [winfo parent $txtt] 0
+          search::find_next [winfo parent $txtt]
         }
       }
       return 1
@@ -3657,7 +3657,7 @@ namespace eval vim {
       catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
       ctext::addSearchClass [winfo parent $txtt] search black yellow "" $word
       $txtt tag lower _search sel
-      search::find_next [winfo parent $txtt] 0
+      search::find_next [winfo parent $txtt]
       return 1
     }
 

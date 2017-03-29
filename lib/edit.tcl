@@ -452,7 +452,7 @@ namespace eval edit {
     while {[regexp {^(\w+)(\W*)(.*)$} $str -> word wspace str]} {
       set wordlen [string length $word]
       set strlen  [expr $wordlen + [string length $wspace]]
-      $txtt replace $index "$index+${wordlen}c" [string to$type $word]
+      $txtt replace $index "$index+${wordlen}c" [string totitle $word]
       set index   [$txtt index "$index+${strlen}c"]
     }
 
