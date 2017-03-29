@@ -85,6 +85,7 @@ proc ctext {win args} {
   set ctext::data($win,config,csl_tag_pair)            [list]
   set ctext::data($win,config,langs)                   [list {}]
   set ctext::data($win,config,gutters)                 [list]
+  set ctext::data($win,config,showngutters)            [list]
   set ctext::data($win,config,undo_hist)               [list]
   set ctext::data($win,config,undo_hist_size)          0
   set ctext::data($win,config,undo_sep_last)           -1
@@ -278,7 +279,7 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {0 false no} -linemap {
     set data($win,config,-linemap) 0
-    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-folding)} {
+    if {([llength $data($win,config,showngutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-folding)} {
       catch {
         grid remove $win.l
         grid remove $win.f
@@ -301,7 +302,7 @@ proc ctext::buildArgParseTable win {
 
   lappend argTable {0 false no} -folding {
     set data($win,config,-folding) 0
-    if {([llength $data($win,config,gutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-linemap)} {
+    if {([llength $data($win,config,showngutters)] == 0) && !$data($win,config,-linemap_markable) && !$data($win,config,-linemap)} {
       catch {
         grid remove $win.l
         grid remove $win.f
@@ -2043,7 +2044,7 @@ proc ctext::command_gutter {win args} {
         lappend gutter_tags $gutter_tag
         array unset sym_opts
       }
-      lappend data($win,config,gutters) [list $gutter_name $gutter_tags]
+      lappend data($win,config,gutters) [list $gutter_name $gutter_tags 0]
       ctext::linemapUpdate $win
     }
     destroy {
@@ -2052,6 +2053,17 @@ proc ctext::command_gutter {win args} {
         $win._t tag delete {*}[lindex $data($win,config,gutters) $index 1]
         set data($win,config,gutters) [lreplace $data($win,config,gutters) $index $index]
         ctext::linemapUpdate $win
+      }
+    }
+    hide {
+      set gutter_name [lindex $args 0]
+      if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
+        if {[llength $args] == 1} {
+          return [lindex $data($win,config,gutters) $index 2]
+        } else {
+          lset data($win,config,gutters) $index 2 [lindex $args 1]
+          ctext::linemapUpdate $win
+        }
       }
     }
     del* {
@@ -2675,6 +2687,8 @@ proc ctext::setBlockCommentPatterns {win lang patterns {color "khaki"}} {
   if {[llength $patterns] > 0} {
     $win tag configure _comstr1c0 -foreground $color
     $win tag configure _comstr1c1 -foreground $color
+    $win tag lower _comstr1c0 sel
+    $win tag lower _comstr1c1 sel
     lappend data($win,config,csl_char_tags) _cCommentStart:$lang _cCommentEnd:$lang
     lappend data($win,config,csl_tags)      _comstr1c0 _comstr1c1
     lappend data($win,config,csl_array)     {*}[array get tags]
@@ -2699,6 +2713,7 @@ proc ctext::setLineCommentPatterns {win lang patterns {color "khaki"}} {
 
   if {[llength $patterns] > 0} {
     $win tag configure _comstr1l -foreground $color
+    $win tag lower _comstr1l sel
     lappend data($win,config,lc_char_tags) _lCommentStart:$lang
     lappend data($win,config,csl_tags)     _comstr1l
     lappend data($win,config,csl_array)    {*}[array get tags]
@@ -2734,6 +2749,7 @@ proc ctext::setStringPatterns {win lang patterns {color "green"}} {
   if {[llength $patterns] > 0} {
     foreach tag [list _comstr0s0 _comstr0s1 _comstr0d0 _comstr0d1 _comstr0b0 _comstr0b1] {
       $win tag configure $tag -foreground $color
+      $win tag lower $tag sel
     }
     lappend data($win,config,csl_char_tags) _sQuote:$lang _dQuote:$lang _bQuote:$lang
     lappend data($win,config,csl_tags)      _comstr0s0 _comstr0s1 _comstr0d0 _comstr0d1 _comstr0b0 _comstr0b1
@@ -3018,7 +3034,7 @@ proc ctext::comments {win ranges do_tags} {
     $win tag remove $tag 1.0 end
     if {[llength $tags($tag)] > 0} {
       $win tag add   $tag {*}$tags($tag)
-      $win tag raise $tag
+      $win tag lower $tag sel
     }
   }
 
@@ -3585,7 +3601,7 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
   set last_line     [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
   set linenum_width [expr max( $data($win,config,-linemap_minwidth), $line_width )]
-  set gutter_width  [llength $data($win,config,gutters)]
+  set gutter_width  [llength [lsearch -index 2 -all -inline $data($win,config,gutters) 0]]
 
   if {$gutter_width > 0} {
     set gutter_items [lrepeat $gutter_width " " [list]]
@@ -3614,6 +3630,30 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
   # Resize the linemap window, if necessary
   if {[$win.l cget -width] != $full_width} {
     $win.l configure -width $full_width
+  }
+
+}
+
+proc ctext::linemapUpdateGutter {win ptags pline_content} {
+
+  variable data
+
+  upvar $ptags         tags
+  upvar $pline_content line_content
+
+  set index 0
+
+  foreach gutter_data $data($win,config,gutters) {
+    if {[lindex $gutter_data 2]} { continue }
+    foreach gutter_tag [lsearch -inline -all -glob $tags gutter:[lindex $gutter_data 0]:*] {
+      lassign [split $gutter_tag :] dummy dummy gutter_symname gutter_sym
+      if {$gutter_sym ne ""} {
+        set gutter_index [expr ($index * 2) + 2]
+        lset line_content $gutter_index            $gutter_sym
+        lset line_content [expr $gutter_index + 1] $gutter_tag
+      }
+    }
+    incr index
   }
 
 }
@@ -3652,14 +3692,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
     }
-    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
-      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
-      if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $data($win,config,gutters) $gutter_name] * 2) + 2]
-        lset line_content $gutter_index            $gutter_sym
-        lset line_content [expr $gutter_index + 1] $gutter_tag
-      }
-    }
+    ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
   }
 
@@ -3686,14 +3719,7 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [set largest [lindex [lsort $lsizes] 0]]
     }
-    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
-      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
-      if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $data($win,config,gutters) $gutter_name] * 2) + 2]
-        lset line_content $gutter_index            $gutter_sym
-        lset line_content [expr $gutter_index + 1] $gutter_tag
-      }
-    }
+    ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
     if {$wrapped && ([set blanks [$win._t count -displaylines $line.0 $line.end]] > 0)} {
       set linenum [format "%-*s" $linenum_width ""]
@@ -3729,14 +3755,7 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
     if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
       lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
     }
-    foreach gutter_tag [lsearch -inline -all -glob $ltags gutter:*] {
-      lassign [split $gutter_tag :] dummy gutter_name gutter_symname gutter_sym
-      if {$gutter_sym ne ""} {
-        set gutter_index [expr ([lsearch -index 0 $data($win,config,gutters) $gutter_name] * 2) + $line_items]
-        lset line_content $gutter_index            $gutter_sym
-        lset line_content [expr $gutter_index + 1] $gutter_tag
-      }
-    }
+    ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
   }
 

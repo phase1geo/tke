@@ -37,6 +37,14 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Returns the current value of volue enable
+  proc get_vim_foldenable {txt} {
+
+    return [expr [$txt gutter hide folding] ^ 1]
+
+  }
+
+  ######################################################################
   # Returns the indentation method based on the values of enable and the
   # current indentation mode.
   proc get_method {txt} {
@@ -107,6 +115,23 @@ namespace eval folding {
       add_folds $txt 1.0 end
     } else {
       disable_folding $txt
+    }
+
+  }
+
+  ######################################################################
+  # Sets the value of the Vim foldenable indicator to the given boolean
+  # value.  Updates the UI state accordingly.
+  proc set_vim_foldenable {txt value} {
+
+    if {$value == [$txt gutter hide folding]} {
+      if {$value} {
+        restore_folds $txt
+        $txt gutter hide folding 0
+      } else {
+        $txt tag remove _folded 1.0 end
+        $txt gutter hide folding 1
+      }
     }
 
   }
@@ -337,6 +362,10 @@ namespace eval folding {
   # the given line.
   proc show_line {txt line} {
 
+    if {![get_vim_foldenable $txt]} {
+      return
+    }
+
     array set counts [list open -1 close -1 eopen 0 eclose 0 end 1]
 
     # Find our current position
@@ -358,8 +387,25 @@ namespace eval folding {
   }
 
   ######################################################################
+  # Restores the eliding based on the stored values within the given text
+  # widget.
+  proc restore_folds {txt} {
+
+    foreach line [$txt gutter get folding close] {
+      lassign [get_fold_range $txt $line 1] startpos endpos
+      $txt tag add _folded $startpos $endpos
+    }
+
+  }
+
+  ######################################################################
   # Toggles the fold for the given line.
   proc toggle_fold {txt line {depth 1}} {
+
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return
+    }
 
     switch [$txt gutter get folding $line] {
       open   -
@@ -374,6 +420,11 @@ namespace eval folding {
   # Toggles all folds.
   proc toggle_all_folds {txt} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return
+    }
+
     if {[$txt gutter get folding open] ne [list]} {
       close_all_folds $txt
     } else {
@@ -385,6 +436,11 @@ namespace eval folding {
   ######################################################################
   # Close the selected range.
   proc close_range {txt startpos endpos} {
+
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return
+    }
 
     if {[get_method $txt] eq "manual"} {
 
@@ -404,6 +460,11 @@ namespace eval folding {
   proc close_selected {txt} {
 
     set retval 0
+
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
 
     if {[get_method $txt] eq "manual"} {
 
@@ -425,6 +486,11 @@ namespace eval folding {
   # Attempts to delete the closed fold marker (if it exists).  This operation
   # is only valid in manual mode.
   proc delete_fold {txt line} {
+
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
 
     if {[get_method $txt] eq "manual"} {
 
@@ -453,6 +519,11 @@ namespace eval folding {
   # open/close fold.
   proc delete_folds {txt line} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
+
     if {[get_method $txt] eq "manual"} {
 
       # Get the current line state
@@ -477,6 +548,11 @@ namespace eval folding {
   # Deletes all fold markers found in the given range.
   proc delete_folds_in_range {txt startline endline} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
+
     if {[get_method $txt] eq "manual"} {
 
       # Get all of the open/close folds
@@ -498,6 +574,11 @@ namespace eval folding {
   # mode.
   proc delete_all_folds {txt} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
+
     if {[get_method $txt] eq "manual"} {
 
       # Remove all folded text
@@ -513,6 +594,11 @@ namespace eval folding {
   ######################################################################
   # Closes a fold, hiding the contents.
   proc close_fold {depth txt line} {
+
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
 
     array set map {
       open   close
@@ -542,6 +628,11 @@ namespace eval folding {
   # Close all folds in the given range.
   proc close_folds_in_range {txt startline endline depth} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
+
     # Get all of the open folds
     set open_lines [$txt gutter get folding open]
 
@@ -556,6 +647,11 @@ namespace eval folding {
   ######################################################################
   # Closes all open folds.
   proc close_all_folds {txt} {
+
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
 
     array set inc [list end -1 open 1 close 1 eopen 0 eclose 0]
 
@@ -594,6 +690,11 @@ namespace eval folding {
   # Opens a fold, showing the contents.
   proc open_fold {depth txt line} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
+
     array set map {
       close  open
       open   open
@@ -628,6 +729,11 @@ namespace eval folding {
   # Open all folds in the given range.
   proc open_folds_in_range {txt startline endline depth} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
+
     # Get all of the closed folds
     set close_lines [$txt gutter get folding close]
 
@@ -643,6 +749,11 @@ namespace eval folding {
   # Opens all closed folds.
   proc open_all_folds {txt} {
 
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
+
     $txt tag remove _folded 1.0 end
     $txt gutter set folding open  [$txt gutter get folding close]
     $txt gutter set folding eopen [$txt gutter get folding eclose]
@@ -651,23 +762,28 @@ namespace eval folding {
 
   ######################################################################
   # Jumps to the next or previous folding.
-  proc jump_to {txt dir} {
+  proc jump_to {txt dir {num 1}} {
+
+    # If foldenable is 0, return immediately
+    if {![get_vim_foldenable $txt]} {
+      return $retval
+    }
 
     # Get a sorted list of open/close tags and locate our current position
     set data [set line [lindex [split [$txt index insert] .] 0]]
-    foreach tag [list open close eopen eclose] {
+    foreach tag [list close eclose] {
       lappend data {*}[$txt gutter get folding $tag]
     }
 
-    # Find the index of the open/close symbols and set the cursor on the line
+    # Find the index of the close symbols and set the cursor on the line
     if {[set index [lsearch [set data [lsort -unique -integer -index 0 $data]] $line]] != -1} {
       if {$dir eq "next"} {
-        if {[incr index] == [llength $data]} {
-          set index 0
+        if {[incr index $num] == [llength $data]} {
+          return
         }
       } else {
-        if {[incr index -1] < 0} {
-          set index [expr [llength $data] - 1]
+        if {[incr index -$num] < 0} {
+          return
         }
       }
       ::tk::TextSetCursor $txt [lindex $data $index].0

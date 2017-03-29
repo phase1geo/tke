@@ -545,11 +545,7 @@ namespace eval vim {
   # Perform a fold_all or unfold_all command call.
   proc do_set_foldenable {val} {
 
-    if {$val} {
-      folding::close_all_folds [gui::current_txt]
-    } else {
-      folding::open_all_folds [gui::current_txt]
-    }
+    folding::set_vim_foldenable [gui::current_txt] $val
 
   }
 
@@ -1875,7 +1871,7 @@ namespace eval vim {
       set mode($txtt) "rshiftin"
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::toggle_all_folds [winfo parent $txtt]
+      folding::set_vim_foldenable [winfo parent $txtt] [expr [folding::get_vim_foldenable [winfo parent $txtt]] ^ 1]
       start_mode $txtt
       return 1
     } elseif {[in_visual_mode $txtt]} {
@@ -1936,7 +1932,7 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::jump_to [winfo parent $txtt] next
+      folding::jump_to [winfo parent $txtt] next [get_number $txtt]
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding:range"} {
@@ -1996,7 +1992,7 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::jump_to [winfo parent $txtt] prev
+      folding::jump_to [winfo parent $txtt] prev [get_number $txtt]
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding:range"} {
@@ -3133,7 +3129,7 @@ namespace eval vim {
       record_stop
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::open_all_folds [winfo parent $txtt]
+      folding::set_vim_foldenable [winfo parent $txtt] 0
       start_mode $txtt
       return 1
     }
@@ -3163,7 +3159,8 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "folding"} {
-      folding::restore_all_folds [winfo parent $txtt]
+      folding::set_vim_foldenable [winfo parent $txtt] 1
+      start_mode $txtt
       return 1
     }
 
