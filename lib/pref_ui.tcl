@@ -3267,7 +3267,7 @@ namespace eval pref_ui {
     set detail [msgcat::mc "This operation cannot be reversed."]
 
     # Get confirmation from the user
-    set ans [tk_messageBox -parent .prefwin -icon question -type yesno -default no -message $msg -detail $detail]
+    set ans [tk_messageBox -parent .prefwin -icon question -type yesno -default yes -message $msg -detail $detail]
 
     if {$ans eq "yes"} {
 
