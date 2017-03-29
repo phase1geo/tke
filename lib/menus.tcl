@@ -1983,8 +1983,6 @@ namespace eval menus {
   # Moves selected lines or the current line up by one line.
   proc edit_transform_bubble_up {} {
 
-    puts "In menus::edit_transform_bubble_up"
-
     edit::transform_bubble_up [gui::current_txt].t
 
   }
@@ -1992,8 +1990,6 @@ namespace eval menus {
   ######################################################################
   # Moves selected lines or the current line down by one line.
   proc edit_transform_bubble_down {} {
-
-    puts "In menus::edit_transform_bubble_down"
 
     edit::transform_bubble_down [gui::current_txt].t
 

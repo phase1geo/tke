@@ -29,17 +29,17 @@
 {Edit/Cursor/Move to Last Line}           Alt-Cmd-9
 {Edit/Cursor/Move to Next Page}           Ctrl-F
 {Edit/Cursor/Move to Previous Page}       Ctrl-B
-{Edit/Cursor/Move to Screen Top}          Alt-Cmd-H
-{Edit/Cursor/Move to Screen Middle}       Alt-Cmd-M
-{Edit/Cursor/Move to Screen Bottom}       Alt-Cmd-L
-{Edit/Cursor/Move to Line Start}          Alt-Cmd-^
-{Edit/Cursor/Move to Line End}            Alt-Cmd-$
-{Edit/Cursor/Move to Next Word}           Alt-Cmd-W
-{Edit/Cursor/Move to Previous Word}       Alt-Cmd-P
-{Edit/Cursor/Move Cursors Up}             Alt-Cmd-Up
-{Edit/Cursor/Move Cursors Down}           Alt-Cmd-Down
-{Edit/Cursor/Move Cursors Left}           Alt-Cmd-Left
-{Edit/Cursor/Move Cursors Right}          Alt-Cmd-Right
+{Edit/Cursor/Move to Screen Top}          Ctrl-Cmd-H
+{Edit/Cursor/Move to Screen Middle}       Ctrl-Cmd-M
+{Edit/Cursor/Move to Screen Bottom}       Ctrl-Cmd-L
+{Edit/Cursor/Move to Line Start}          Ctrl-Cmd-^
+{Edit/Cursor/Move to Line End}            Ctrl-Cmd-$
+{Edit/Cursor/Move to Next Word}           Ctrl-Cmd-W
+{Edit/Cursor/Move to Previous Word}       Ctrl-Cmd-P
+{Edit/Cursor/Move Cursors Up}             Ctrl-Cmd-Up
+{Edit/Cursor/Move Cursors Down}           Ctrl-Cmd-Down
+{Edit/Cursor/Move Cursors Left}           Ctrl-Cmd-Left
+{Edit/Cursor/Move Cursors Right}          Ctrl-Cmd-Right
 {Edit/Cursor/Align Cursors Only}          Ctrl-Shift-Alt-A
 {Edit/Cursor/Align Cursors and Text}      Ctrl-Alt-A
 {Edit/Insert/Line Above Current}          Alt-Shift-O
@@ -78,7 +78,7 @@
 {Find/Append Next Occurrence}             Alt-D
 {Find/Jump Backward}                      Ctrl-Left
 {Find/Jump Forward}                       Ctrl-Right
-{Find/Jump To Line}                       Alt-G
+{Find/Jump To Line}                       Cmd-G
 {Find/Next Difference}                    Ctrl-Down
 {Find/Previous Difference}                Ctrl-Up
 {Find/Find Matching Bracket}              Ctrl-%
@@ -89,11 +89,11 @@
 {View/Display Text Info}                  Ctrl-G
 {View/Split View}                         Ctrl-P
 {View/Move to Other Pane}                 Ctrl-M
-{View/Panes/Merge Panes}                  Ctrl-Alt-G
-{View/Tabs/Goto Next Tab}                 Shift-Alt-N
-{View/Tabs/Goto Previous Tab}             Shift-Alt-P
-{View/Tabs/Goto Last Tab}                 Shift-Alt-L
-{View/Tabs/Goto Other Pane}               Shift-Alt-A
+{View/Panes/Merge Panes}                  Ctrl-Cmd-G
+{View/Tabs/Goto Next Tab}                 Shift-Cmd-N
+{View/Tabs/Goto Previous Tab}             Shift-Cmd-P
+{View/Tabs/Goto Last Tab}                 Shift-Cmd-L
+{View/Tabs/Goto Other Pane}               Shift-Cmd-A
 
 # Tools menu bindings
 {Tools/Launcher}                          Ctrl-Space
@@ -103,9 +103,9 @@
 {Sessions/Save Current}                   Shift-Alt-S
 
 # Plugins menu bindings
-{Plugins/Install...}                      Shift-Cmd-I
-{Plugins/Uninstall...}                    Shift-Cmd-U
-{Plugins/Show Installed...}               Shift-Cmd-P
+{Plugins/Install...}                      Shift-Ctrl-I
+{Plugins/Uninstall...}                    Shift-Ctrl-U
+{Plugins/Show Installed...}               Shift-Ctrl-P
 
 # Help menu bindings
 {Help/Search References}                  Cmd-K
