@@ -85,10 +85,13 @@ namespace eval search {
 
     # Select the search term
     if {$direction eq "next"} {
-      find_next $txt 0
+      find_next $txt
     } else {
-      find_prev $txt 0
+      find_prev $txt
     }
+    
+    # Close the search panel
+    gui::close_search
 
   }
 
@@ -105,15 +108,19 @@ namespace eval search {
   }
 
   ######################################################################
+  # Returns true if the Find Next/Previous menu options should be enabled;
+  # otherwise, returns false.
+  proc enable_find_view {txt} {
+    
+    return [expr {[$txt tag ranges _search] ne ""}]
+    
+  }
+  
+  ######################################################################
   # Searches for the next occurrence of the search item.
-  proc find_next {txt app} {
+  proc find_next {txt} {
 
     set wrapped 0
-
-    # If we are not appending to the selection, clear the selection
-    if {!$app} {
-      $txt tag remove sel 1.0 end
-    }
 
     # Search the text widget from the current insertion cursor forward.
     lassign [$txt tag nextrange _search "insert+1c"] startpos endpos
@@ -126,10 +133,8 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      if {![vim::in_vim_mode $txt.t]} {
-        $txt tag add sel $startpos $endpos
-      }
-      ::tk::TextSetCursor $txt $startpos
+      $txt mark set insert $startpos
+      $txt see $startpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
       }
@@ -137,21 +142,13 @@ namespace eval search {
       gui::set_info_message [msgcat::mc "No search results found"]
     }
 
-    # Closes the search interface
-    gui::close_search
-
   }
 
   ######################################################################
   # Searches for the previous occurrence of the search item.
-  proc find_prev {txt app} {
+  proc find_prev {txt} {
 
     set wrapped 0
-
-    # If we are not appending to the selection, clear the selection
-    if {!$app} {
-      $txt tag remove sel 1.0 end
-    }
 
     # Search the text widget from the current insertion cursor forward.
     lassign [$txt tag prevrange _search insert] startpos endpos
@@ -164,10 +161,8 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      if {![vim::in_vim_mode $txt.t]} {
-        $txt tag add sel $startpos $endpos
-      }
-      ::tk::TextSetCursor $txt $startpos
+      $txt mark set insert $startpos
+      $txt see $startpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to end of file"]
       }
@@ -175,35 +170,49 @@ namespace eval search {
       gui::set_info_message [msgcat::mc "No search results found"]
     }
 
-    # Close the search interface
-    gui::close_search
-
+  }
+  
+  ######################################################################
+  # Returns true if the insertion cursor is currently located on a found
+  # search item.
+  proc enable_select_current {txt} {
+    
+    return [expr [lsearch [$txt tag names insert] _search] != -1]
+    
   }
 
   ######################################################################
-  # Searches for all of the occurrences and selects them all.
-  proc find_all {txt} {
+  # Appends the current search text to the selection.
+  proc select_current {txt} {
+    
+    # If the insertion cursor is not currently on a search item, return immediately
+    if {![enable_select_current $txt]} {
+      return
+    }
+  
+    # Add the search term to the selection
+    $txt tag add sel {*}[$txt tag prevrange _search "insert+1c"]
+    
+  }
+  
+  ######################################################################
+  # Selects all of the found text occurrences.
+  proc select_all {txt} {
 
     # Clear the selection
     $txt tag remove sel 1.0 end
 
     # Get the search ranges
-    set ranges [$txt tag ranges _search]
+    if {[set ranges [$txt tag ranges _search]] ne ""} {
+      
+      # Add the ranges to the selection
+      $txt tag add sel {*}$ranges
 
-    # Delete the search highlight
-    catch { ctext::deleteHighlightClass $txt search }
-
-    # Add all matching search items to the selection
-    $txt tag add sel {*}$ranges
-
-    # Make the first line viewable
-    catch {
-      set firstpos [lindex [$txt tag ranges _search] 0]
-      ::tk::TextSetCursor $txt $firstpos
+      # Make the last matched item viewable
+      $txt mark set insert [lindex $ranges end]
+      $txt see [lindex $ranges end]
+      
     }
-
-    # Close the search interface
-    gui::close_search
 
   }
 
@@ -297,9 +306,7 @@ namespace eval search {
       ::tk::TextSetCursor $txt [lindex $indices 0]
 
       # Make sure that the insertion cursor is valid
-      if {[vim::in_vim_mode $txt]} {
-        vim::adjust_insert $txt
-      }
+      vim::adjust_insert $txt
 
       # Specify the number of substitutions that we did
       gui::set_info_message [format "%d %s" $num_indices [msgcat::mc "substitutions done"]]

@@ -4652,6 +4652,9 @@ namespace eval gui {
     # Select the corresponding line in the text widget
     $txt tag remove sel 1.0 end
     $txt tag add sel "$index linestart" "$index lineend"
+    
+    $txt mark set insert "$index lineend"
+    vim::adjust_insert $txt.t
 
     # Save the selected line to the anchor
     set line_sel_anchor($w) $index
@@ -4687,9 +4690,14 @@ namespace eval gui {
     # Add the selection between the anchor and this line, inclusive
     if {[$txt compare $index < $line_sel_anchor($w)]} {
       $txt tag add sel "$index linestart" "$line_sel_anchor($w) lineend"
+      $txt mark set insert "$line_sel_anchor($w) lineend"
     } else {
       $txt tag add sel "$line_sel_anchor($w) linestart" "$index lineend"
+      $txt mark set insert "$index lineend"
     }
+    
+    # Make sure that the insertion cursor is handled properly when in Vim mode
+    vim::adjust_insert $txt.t
 
   }
 

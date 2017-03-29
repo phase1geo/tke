@@ -72,11 +72,11 @@
 
 # Find menu bindings
 {Find/Find}                               Alt-F
+{Find/Find Next}                          Alt-N
+{Find/Find Previous}                      Alt-P
+{Find/Select Current Match}               Alt-D
+{Find/Select All Matches}                 Alt-A
 {Find/Find and Replace}                   Alt-Shift-F
-{Find/Select Next Occurrence}             Alt-N
-{Find/Select Previous Occurrence}         Alt-P
-{Find/Select All Occurrences}             Alt-A
-{Find/Append Next Occurrence}             Alt-D
 {Find/Jump Backward}                      Ctrl-Left
 {Find/Jump Forward}                       Ctrl-Right
 {Find/Jump To Line}                       Alt-G
