@@ -226,6 +226,16 @@
 					<integer>32</integer>
 				</dict>
 			</dict>
+			<key>gutter hide.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>512530182.74853599</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>58</integer>
+				</dict>
+			</dict>
 			<key>gutter names.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -455,6 +465,9 @@
 			<string>gutter destroy.textbundle</string>
 		</array>
 		<array>
+			<string>gutter hide.textbundle</string>
+		</array>
+		<array>
 			<string>gutter set.textbundle</string>
 		</array>
 		<array>
@@ -486,7 +499,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>55</integer>
+			<integer>59</integer>
 		</dict>
 	</dict>
 </dict>
