@@ -1839,7 +1839,7 @@ namespace eval vim {
         set lines [lindex [split [$txtt index end] .] 0]
         set line  [expr int( ($multiplier($txtt) * $lines + 99) / 100 )]
         ::tk::TextSetCursor $txtt $line.0
-        adjust_insert $txtt
+        edit::move_cursor $txtt firstword
       }
       return 1
     }
