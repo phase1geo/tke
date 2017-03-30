@@ -1141,9 +1141,10 @@ namespace eval gui {
         }
       }
       if {$tab ne ""} {
-        get_info [lindex $content(CurrentTabs) $pane] tabindex tabbar tab
-        if {[catch { set_current_tab $tabbar $tab }]} {
+        if {[catch { get_info [lindex $content(CurrentTabs) $pane] tabindex tabbar tab }]} {
           set_current_tab [get_info $pane paneindex tabbar] $tab
+        } else {
+          set_current_tab $tabbar $tab
         }
       }
     }
@@ -2064,18 +2065,31 @@ namespace eval gui {
 
     # If a save_as name is specified, change the filename
     if {$opts(-save_as) ne ""} {
+
+      # Add the file to the sidebar and indicate that it is opened
       sidebar::highlight_filename $fname [expr $diff * 2]
       set matching_index [files::get_index $opts(-save_as) $opts(-remote)]
-      files::set_info $fileindex fileindex fname [set fname [file normalize $opts(-save_as)]] remote [set remote $opts(-remote)]
+
+      # Set the filename, remote tag indicator and set the tab attributes to match
+      # the same as a file
+      files::set_info $fileindex fileindex \
+        fname [set fname [file normalize $opts(-save_as)]] \
+        remote [set remote $opts(-remote)] \
+        readonly 0 buffer 0 remember 1
+
+      # Update the tab image to reflect that fact that we not readonly
+      set_tab_image $tab
 
     # If the current file doesn't have a filename, allow the user to set it
     } elseif {$buffer || $diff} {
+
       if {[set sfile [prompt_for_save]] eq ""} {
         return 0
       } else {
         set matching_index [files::get_index $sfile ""]
         files::set_info $fileindex fileindex fname [set fname $sfile]
       }
+
     }
 
     # Run the on_save plugins
@@ -4652,7 +4666,7 @@ namespace eval gui {
     # Select the corresponding line in the text widget
     $txt tag remove sel 1.0 end
     $txt tag add sel "$index linestart" "$index lineend"
-    
+
     $txt mark set insert "$index lineend"
     vim::adjust_insert $txt.t
 
@@ -4695,7 +4709,7 @@ namespace eval gui {
       $txt tag add sel "$line_sel_anchor($w) linestart" "$index lineend"
       $txt mark set insert "$index lineend"
     }
-    
+
     # Make sure that the insertion cursor is handled properly when in Vim mode
     vim::adjust_insert $txt.t
 
