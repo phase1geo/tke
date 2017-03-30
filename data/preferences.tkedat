@@ -362,6 +362,15 @@
 
 {View/EnableCodeFolding} {0}
 
+# Specifies the default enable value for editing buffer line wrapping when a new editing
+# buffer is created.  The valid values are as follows:
+#
+#  - syntax  = Each syntax description indicates whether line wrapping should be enabled by default.  Use this value.
+#  - enable  = Enables line wrapping regardless of syntax.
+#  - disable = Disables line wrapping regardless of syntax.
+
+{View/EnableLineWrapping} {syntax}
+
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
 

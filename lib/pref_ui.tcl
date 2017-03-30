@@ -2637,6 +2637,7 @@ namespace eval pref_ui {
     make_sb $w.sf.sro  [msgcat::mc "Recently opened history depth"] View/ShowRecentlyOpened    0 20 1 1
     make_sb $w.sf.befs [msgcat::mc "Bird's Eye View Font Size"]     View/BirdsEyeViewFontSize  1  2 1 1
     make_sb $w.sf.bew  [msgcat::mc "Bird's Eye View Width"]         View/BirdsEyeViewWidth    30 80 5 1
+    make_mb $w.sf.elw  [msgcat::mc "Line Wrapping Default"]         View/EnableLineWrapping   [list syntax enable disable] 1
     pack $w.sf -fill x -pady 8
 
   }
