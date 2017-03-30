@@ -14,7 +14,7 @@
 | **:**_num_ | Moves to line _num_ (note: _num_ value of 0 or 1 takes you to the first line). |
 | **gg** | Moves to the beginning of the file. |
 | **G** | Moves to the end of the file. |
-| _num_**G** | Moves to the line _num_. |
+| _num_**G** | Moves to the first non-whitespace character in line _num_. |
 | RETURN | Moves the insertion cursor to the first non-whitespace character in the line after the current line. |
 | SPACE | Moves the insertion cursor one character to the right, moving to the next line below the current line if the cursor is at the end of the line. |
 | BACKSPACE | Moves the insertion cursor one character to the left, moving to the next line above the current line if the cursor is at the end of the line. |
@@ -34,4 +34,4 @@
 | **F**_char_ | Moves the cursor to the previous occurrence of the specified character in the current line. |
 | **T**_char_ | Moves the cursor to the character just after the previous occurrence of the specified character in the current line. |
 | **%** | Moves to matching (, ), \{, \}, [, ], \>, \<, “ or ‘ character. |
-| _num_**%** | Moves the cursor to the line which _num_ percent of the way through the file. The value of _num_ must be a whole number. |
+| _num_**%** | Moves the cursor to the first non-whitespace character in the line which is _num_ percent of the way through the file. |
