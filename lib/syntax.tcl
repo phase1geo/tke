@@ -418,10 +418,16 @@ namespace eval syntax {
         set meta_tags($txt) "meta"
 
         # Set the case sensitivity, delimiter characters and wrap mode
-        $txt configure -casesensitive $lang_array(casesensitive) \
-          -escapes $lang_array(escapes) -wrap [expr {$lang_array(linewrap) ? "word" : "none"}]
+        $txt configure -casesensitive $lang_array(casesensitive) -escapes $lang_array(escapes)
         if {$lang_array(delimiters) ne ""} {
           $txt configure -delimiters $lang_array(delimiters)
+        }
+
+        # Set the wrap mode
+        switch [preferences::get View/EnableLineWrapping] {
+          syntax  { $txt configure -wrap [expr {$lang_array(linewrap) ? "word" : "none"}] }
+          enable  { $txt configure -wrap "word" }
+          disable { $txt configure -wrap "none" }
         }
 
         # Add the language keywords
