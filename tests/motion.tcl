@@ -1,4 +1,4 @@
-namespace eval vim {
+namespace eval motion {
 
   variable current_tab
 
@@ -56,39 +56,107 @@ namespace eval vim {
 
   }
 
-  # Verify tab stop setting and getting
-  proc run_test1 {} {
+  ######################################################################
+  # Perform motion test.
+  proc do_test {txtt id cmdlist cursor {dspace 0}} {
 
-    # Initialize the test
+    enter $txtt $cmdlist
+
+    if {[$txtt index insert] ne $cursor} {
+      cleanup "$id insertion cursor is incorrect ([$txtt index insert])"
+    }
+    if {$vim::mode($txtt) ne "start"} {
+      cleanup "$id mode is not start"
+    }
+    if {$dspace} {
+      if {[lindex [split $cursor .] 1] != 0} {
+        cleanup "$id dspace is expected when cursor is not 0"
+      }
+      if {[$txtt tag ranges dspace] ne [list $cursor [$txtt index "$cursor+1c"]]} {
+        cleanup "$id dspace does not match expected ([$txtt tag ranges dspace])"
+      }
+    } else {
+      if {[$txtt tag ranges dspace] ne [list]} {
+        cleanup "$id dspace does not match expected ([$txtt tag ranges dspace])"
+      }
+    }
+
+  }
+
+  # Verify h Vim command
+  proc run_test3 {} {
+
+    # Initialize the text
     set txtt [initialize].t
 
-    # Get the current tabstop
-    set orig_tabstop [indent::get_tabstop $txtt]
+    $txtt insert end "\nthis is good"
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
 
-    # Set the tabstop
-    indent::set_tabstop $txtt 20
+    do_test $txtt 0 h     2.4
+    do_test $txtt 1 {2 h} 2.2
 
-    # Get the current tabstop
-    if {[indent::get_tabstop $txtt] != 20} {
-      cleanup "Tabstop not set to the correct value"
-    }
+    # Verify that if we move by more characters than column 0, we don't move past column 0
+    do_test $txtt 2 {5 h} 2.0
 
-    # Verify that the text widget -tabs value is correct
-    if {[$txtt cget -tabs] ne [list [expr 20 * [font measure [$txtt cget -font] 0]] left]} {
-      cleanup "Text widget -tabs value is not set correctly"
-    }
+    # Verify that the cursor will not move to the left when we are in column 0
+    do_test $txtt 3 h     2.0
 
-    # Set the tabstop to the original value
-    indent::set_tabstop $txtt $orig_tabstop
+    # Cleanup
+    cleanup
 
-    # Get the current tabstop
-    if {[indent::get_tabstop $txtt] != $orig_tabstop} {
-      cleanup "Tabstop not set to the correct value"
-    }
+  }
 
-    # Verify that the text widget -tabs value is correct
-    if {[$txtt cget -tabs] ne [list [expr $orig_tabstop * [font measure [$txtt cget -font] 0]] left]} {
-      cleanup "Text widget -tabs value is not set correctly"
+  # Verify l Vim command
+  proc run_test4 {} {
+
+    # Initialize the text
+    set txtt [initialize].t
+
+    $txtt insert end "\nthis is not bad\nthis is cool"
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 l       2.6
+    do_test $txtt 1 {2 l}   2.8
+
+    # Verify that we don't advance past the end of the current line
+    do_test $txtt 2 {2 0 l} 2.14
+
+    # Verify that we don't move a single character
+    do_test $txtt 3 l       2.14
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify k Vim command
+  proc run_test5 {} {
+
+    # Initialize the text
+    set txtt [initialize].t
+
+    $txtt insert end "\ngood\n\nbad\nfoobar\nnice\nbetter"
+    $txtt mark set insert 7.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {}    7.0
+    do_test $txtt 1 k     6.0
+    do_test $txtt 2 {2 k} 4.0
+    do_test $txtt 3 k     3.0 1
+    do_test $txtt 4 k     2.0
+
+    # Attempt to move up by more than the number specified
+    do_test $txtt 5 {5 k} 1.0 1
+    do_test $txtt 6 k     1.0 1
+
+    # Make sure current column is removed
+    do_test $txtt 7 {G 4 bar} 7.3
+    set i 0
+    foreach index [list 6.3 5.3 4.2 3.0 2.3 1.0] {
+      do_test $txtt [expr $i + 8] k $index [expr [lindex [split $index .] 1] == 0]
+      incr i
     }
 
     # Cleanup
@@ -96,36 +164,405 @@ namespace eval vim {
 
   }
 
-  # Verify browsedir Vim option
-  proc run_test2 {} {
+  # Verify j Vim command
+  proc run_test6 {} {
 
     # Initialize the text
     set txtt [initialize].t
 
-    foreach type [list last buffer current directory] {
+    $txtt insert end "\ngood\nbad\nfoobar\nnice\n\nbetter\n\n"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
-      # Set the browse directory
-      if {$type ne "directory"} {
-        gui::set_browse_directory $type
-      } else {
-        gui::set_browse_directory "foobar"
-      }
+    do_test $txtt 0 {}    2.0
+    do_test $txtt 1 j     3.0
+    do_test $txtt 2 {2 j} 5.0
+    do_test $txtt 3 j     6.0 1
+    do_test $txtt 4 j     7.0
 
-      # Verify that the browse directory is correct
-      set dir [gui::get_browse_directory]
+    # Attempt to move up by more than the number specified
+    do_test $txtt 5 {5 j} 9.0 1
+    do_test $txtt 6 j     9.0 1
 
-      switch $type {
-        last      { set expect "" }
-        buffer    { set expect "." }
-        current   { set expect [pwd] }
-        directory { set expect "foobar" }
-      }
-
-      if {$dir ne $expect} {
-        cleanup "Browse directory type: $type, not expected ($dir)"
-      }
-
+    # Make sure that the current column is removed
+    do_test $txtt 7 {2 G 4 bar} 2.3
+    set i 0
+    foreach index [list 3.2 4.3 5.3 6.0 7.3 8.0] {
+      do_test $txtt [expr $i + 8] j $index [expr [lindex [split $index .] 1] == 0]
     }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify 0 and $ Vim command
+  proc run_test7 {} {
+
+    # Initialize the widgets
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nAnother line"
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {}       2.5
+    do_test $txtt 1 0        2.0
+    do_test $txtt 2 {dollar} 2.13
+
+    # Verify that using a number jumps to the next line down
+    do_test $txtt 3 {2 G 6 bar} 2.5
+    do_test $txtt 4 {2 dollar}  3.11
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Move w and b Vim commands
+  proc run_test8 {} {
+
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+
+    $txtt insert end "\nThis is good\n\nThis is great"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Move forward by one word
+    foreach {index dspace} [list 2.5 0 2.8 0 3.0 1 4.0 0 4.5 0 4.8 0 4.12 0 4.12 0] {
+      do_test $txtt $i w $index $dspace
+      incr i
+    }
+
+    # Move backward by one word
+    foreach {index dspace} [list 4.8 0 4.5 0 4.0 0 2.8 0 2.5 0 2.0 0 1.0 1 1.0 1] {
+      do_test $txtt $i b $index $dspace
+      incr i
+    }
+
+    # Move forward by two words
+    foreach {index dspace} [list 2.5 0 3.0 1 4.5 0 4.12 0 4.12 0] {
+      do_test $txtt $i {2 w} $index $dspace
+      incr i
+    }
+
+    # Move backward by two words
+    foreach {index dspace} [list 4.5 0 2.8 0 2.0 0 1.0 1 1.0 1] {
+      do_test $txtt $i {2 b} $index $dspace
+      incr i
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Return and minus Vim commands
+  proc run_test9 {} {
+
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+
+    $txtt insert end "\n apples\n\ngrapes\n      bananas\n  milk\n\n    soup"
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+
+    # Verify the current line firstword variety
+    foreach {index dspace} [list 1.0 1 2.1 0 3.0 1 4.0 0 5.6 0 6.2 0 7.0 1 8.4 0] {
+      do_test $txtt $i [list [lindex [split $index .] 0] G [expr int( rand() * 10 )] asciicircum] $index $dspace
+      incr i
+    }
+
+    do_test $txtt $i {g g} 1.0 1
+    incr i
+
+    # Test nextfirst (one line at a time)
+    foreach {index dspace} [list 2.1 0 3.0 1 4.0 0 5.6 0 6.2 0 7.0 1 8.4 0 8.4 0] {
+      do_test $txtt $i Return $index $dspace
+      incr i
+    }
+
+    # Test prevfirst (one line at a time)
+    foreach {index dspace} [list 7.0 1 6.2 0 5.6 0 4.0 0 3.0 1 2.1 0 1.0 1 1.0 1] {
+      do_test $txtt $i minus $index $dspace
+      incr i
+    }
+
+    # Test nextfirst (two lines at a time)
+    foreach {index dspace} [list 3.0 1 5.6 0 7.0 1 8.4 0] {
+      do_test $txtt $i {2 Return} $index $dspace
+      incr i
+    }
+
+    # Test prevfirst (two lines at a time)
+    foreach {index dspace} [list 6.2 0 4.0 0 2.1 0 1.0 1] {
+      do_test $txtt $i {2 minus} $index $dspace
+      incr i
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify space and BackSpace Vim command
+  proc run_test10 {} {
+
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+
+    $txtt insert end "\ngood\n\ngreat"
+
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+
+    # Move forward through the document, one character at a time
+    foreach {index dspace} [list 2.0 0 2.1 0 2.2 0 2.3 0 3.0 1 4.0 0 4.1 0 4.2 0 4.3 0 4.4 0 4.4 0] {
+      do_test $txtt $i space $index $dspace
+      incr i
+    }
+
+    # Move backward through the document, one character at a time
+    foreach {index dspace} [list 4.3 0 4.2 0 4.1 0 4.0 0 3.0 1 2.3 0 2.2 0 2.1 0 2.0 0 1.0 1 1.0 1] {
+      do_test $txtt $i BackSpace $index $dspace
+      incr i
+    }
+
+    # Move forward 2 characters at a time
+    foreach {index dspace} [list 2.1 0 2.3 0 4.0 0 4.2 0 4.4 0 4.4 0] {
+      do_test $txtt $i {2 space} $index $dspace
+      incr i
+    }
+
+    # Move backward through the document, one character at a time
+    foreach {index dspace} [list 4.2 0 4.0 0 2.3 0 2.1 0 1.0 1 1.0 1] {
+      do_test $txtt $i {2 BackSpace} $index $dspace
+      incr i
+    }
+
+    # Clean things up
+    cleanup
+
+  }
+
+  # Verify top, middle, bottom of screen
+  proc run_test11 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end [string repeat "\n" 100]
+
+    $txtt mark set insert 10.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {} 10.0 1
+
+    # Jump the cursor to the top of the screen
+    do_test $txtt 1 H [$txtt index @0,0] 1
+
+    # Jump to the middle
+    do_test $txtt 2 M [$txtt index @0,[expr [winfo reqheight $txtt] / 2]] 1
+
+    # Jump to the bottom
+    do_test $txtt 3 L [$txtt index @0,[winfo reqheight $txtt]] 1
+
+    # Jump to the first line
+    do_test $txtt 4 {g g} 1.0 1
+
+    # Jump to the last line
+    do_test $txtt 5 G 101.0 1
+
+    # Jump to a specific line
+    do_test $txtt 6 {1 2 G} 12.0 1
+
+    # Jump to a line percentage
+    do_test $txtt 7 {2 0 percent} 21.0 1
+
+    # Clean things up
+    cleanup
+
+  }
+
+  # Verify f, t, F and T Vim motions
+  proc run_test12 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is really strong\n\nBut I am stronger"
+
+    # Attempt to find a character that does not exist
+    do_test $txtt 0 {2 G 0 f x} 2.0
+
+    # Search forward for the first l
+    do_test $txtt 1 {0 f l} 2.11
+
+    # Search forward for the second l
+    do_test $txtt 2 {0 2 f l} 2.12
+
+    # Search forward for the third l
+    do_test $txtt 3 {0 3 f l} 2.0
+
+    # Attempt to find a character that does not exist
+    do_test $txtt 4 {0 t x} 2.0
+
+    # Search forward for the first l
+    do_test $txtt 5 {0 t l} 2.10
+
+    # Search forward for the second l
+    do_test $txtt 6 {0 2 t l} 2.11
+
+    # Search forward for the third l
+    do_test $txtt 7 {0 3 t l} 2.0
+
+    # Attempt to find a character that does not exist
+    do_test $txtt 8 {dollar F x} 2.20
+
+    # Search forward for the first l
+    do_test $txtt 9 {dollar F l} 2.12
+
+    # Search forward for the second l
+    do_test $txtt 10 {dollar 2 F l} 2.11
+
+    # Search forward for the third l
+    do_test $txtt 11 {dollar 3 F l} 2.20
+
+    # Attempt to find a character that does not exist
+    do_test $txtt 12 {dollar T x} 2.20
+
+    # Search forward for the first l
+    do_test $txtt 13 {dollar T l} 2.13
+
+    # Search forward for the second l
+    do_test $txtt 14 {dollar 2 T l} 2.12
+
+    # Search forward for the third l
+    do_test $txtt 15 {dollar 3 T l} 2.20
+
+    # Clean things up
+    cleanup
+
+  }
+
+  # Verify bar Vim command
+  proc run_test13 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is something"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Move to a valid column
+    do_test $txtt 0 {7 bar} 2.6
+
+    # Move to column 0
+    do_test $txtt 1 {1 bar} 2.0
+
+    # Attempt to move to an invalidate column
+    do_test $txtt 2 {2 0 bar} 2.16
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify up/down motions over elided text
+  proc run_test14 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Insert a line that we can code fold
+    $txtt insert end "\nif {\$foocar} {\n  set c 0\n}\n# Another comment"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Close the fold
+    folding::close_all_folds [winfo parent $txtt]
+
+    # Move up/down
+    do_test $txtt 0 j      4.0
+    do_test $txtt 1 k      2.0
+    do_test $txtt 2 Down   4.0
+    do_test $txtt 3 Up     2.0
+    do_test $txtt 4 Return 4.0
+    do_test $txtt 5 minus  2.0
+
+    # Move left/right by char
+    do_test $txtt 6 dollar 2.13
+    do_test $txtt 7 space  4.0
+    do_test $txtt 8 BackSpace 2.13
+
+    # Move left/right by word
+    do_test $txtt 9  w 4.0
+    do_test $txtt 10 b 2.13
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Test left/right motion with elided text
+  proc run_test15 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    # Insert a line that we will elide some text on
+    $txtt insert end "\nNi*e **bold**\nGood"
+    $txtt tag configure foobar -elide 1
+    $txtt tag add foobar 2.5 2.7
+    $txtt mark set insert 2.4
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 l 2.7
+    do_test $txtt 1 h 2.4
+    do_test $txtt 2 w 2.7
+    do_test $txtt 3 b 2.3
+
+    do_test $txtt 4 {l space} 2.7
+    do_test $txtt 5 BackSpace 2.4
+
+    do_test $txtt 6 {f asterisk} 2.11
+    do_test $txtt 7 {F asterisk} 2.2
+    do_test $txtt 8 {t asterisk} 2.10
+    do_test $txtt 9 {T asterisk} 2.3
+
+    $txtt tag add foobar 2.11 2.13
+    $txtt mark set insert 2.10
+
+    do_test $txtt 10 l 2.10
+    do_test $txtt 11 w 3.0
+
+    $txtt mark set insert 2.0
+
+    do_test $txtt 12 dollar 2.10
+
+    $txtt tag remove foobar 1.0 end
+    $txtt tag add foobar 3.0 3.2
+    $txtt mark set insert 3.3
+
+    do_test $txtt 13 0 3.2
+    do_test $txtt 14 b 2.12
+
+    $txtt tag remove foobar 1.0 end
+    $txtt tag add foobar 3.2 3.end
+    $txtt mark set insert 2.7
+
+    do_test $txtt 15 G 3.1
+
+    $txtt tag remove foobar 1.0 end
+    $txtt insert 1.0 "here"
+    $txtt tag add foobar 1.0 1.1
+
+    do_test $txtt 16 {g g} 1.2
 
     # Cleanup
     cleanup
@@ -133,7 +570,7 @@ namespace eval vim {
   }
 
   # Test forward motion with character selection (inclusive selection mode)
-  proc run_test3 {} {
+  proc run_test16 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -220,7 +657,7 @@ namespace eval vim {
   }
 
   # Test backword motion with character selection (inclusive selection mode)
-  proc run_test4 {} {
+  proc run_test17 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -302,7 +739,7 @@ namespace eval vim {
   }
 
   # Test forward motion with character selection (exclusive selection mode)
-  proc run_test5 {} {
+  proc run_test18 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -388,7 +825,7 @@ namespace eval vim {
   }
 
   # Test backward motion with character selection (exclusive selection mode)
-  proc run_test6 {} {
+  proc run_test19 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -470,7 +907,7 @@ namespace eval vim {
   }
 
   # Verify line selection (both inclusive and exclusive since it should not matter)
-  proc run_test7 {} {
+  proc run_test20 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -601,7 +1038,7 @@ namespace eval vim {
   }
 
   # Verify indent, unindent, shiftwidth and indent formatting
-  proc run_test8 {} {
+  proc run_test21 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -670,7 +1107,7 @@ namespace eval vim {
   }
 
   # Verify the period (.) Vim command
-  proc tbd_test9 {} {
+  proc tbd_test22 {} {
 
     # Initialize
     set txtt [initialize].t
