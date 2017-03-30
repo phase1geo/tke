@@ -39,8 +39,8 @@ keywords
 {
   after append apply array auto_execok auto_import auto_load auto_mkindex auto_mkindex_old
   auto_qualify auto_reset bgerror binary break catch cd chan clock close concat continue
-  dde dict else elseif encoding eof error eval exec exit expr fblocked fconfigure fcopy file fileevent
-  filename flush for foreach format gets glob global history http if incr info interp
+  dde default dict else elseif encoding eof error eval exec exit expr fblocked fconfigure fcopy file
+  fileevent filename flush for foreach format gets glob global history http if incr info interp
   join lappend lassign lindex linsert list llength load lrange lrepeat lreplace lreverse
   lsearch lset lsort mathfunc mathop memory namespace open package parray pid
   pkg::create pkg_mkIndex platform platform::shell proc puts pwd read refchan regexp

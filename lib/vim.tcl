@@ -153,12 +153,14 @@ namespace eval vim {
           "visual:char" { return "VISUAL MODE$record" }
           "visual:line" { return "VISUAL LINE MODE$record"}
           "format"      { return "FORMAT$record" }
+          default       {
+            if {[info exists multicursor($txt.t)] && $multicursor($txt.t)} {
+              return "MULTIMOVE MODE"
+            } else {
+              return "COMMAND MODE$record"
+            }
+          }
         }
-      }
-      if {[info exists multicursor($txt.t)] && $multicursor($txt.t)} {
-        return "MULTIMOVE MODE"
-      } else {
-        return "COMMAND MODE$record"
       }
     } else {
       return ""

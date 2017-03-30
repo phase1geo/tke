@@ -669,6 +669,31 @@ namespace eval vim {
 
   }
 
+  proc do_ml_test {txt id options} {
+
+    vim::parse_modeline $txt
+
+
+
+  }
+
+  # Verify modelines are ignored when modelines is not set
+  proc run_test9 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "# vim:set shiftwidth=4: "
+
+    vim::do_set_modeline 0
+    do_ml_test $txt 0
+
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify the period (.) Vim command
   proc tbd_test9 {} {
 
