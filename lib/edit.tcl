@@ -219,34 +219,45 @@ namespace eval edit {
 
   ######################################################################
   # Delete all consecutive numbers from cursor to end of line.
-  proc delete_current_number {txtt} {
+  proc delete_next_numbers {txtt} {
 
     variable patterns
 
+    set first 1
+    
     if {[multicursor::enabled $txtt]} {
-      foreach key [list pnumber nnumber] {
-        multicursor::delete $txtt pattern $patterns($key)
+      multicursor::delete $txtt pattern $patterns(nnumber)
+    } elseif {[regexp $patterns(nnumber) [$txtt get insert "insert lineend"] match]} {
+      if {$first} {
+        clipboard clear
+        set first 0
       }
-    } else {
-      set first 1
-      if {[regexp $patterns(pnumber) [$txtt get "insert linestart" insert] match]} {
-        if {$first} {
-          clipboard clear
-          set first 0
-        }
-        clipboard append [$txtt get "insert-[string length $match]c" insert]
-        $txtt delete "insert-[string length $match]c" insert
-      }
-      if {[regexp $patterns(nnumber) [$txtt get insert "insert lineend"] match]} {
-        if {$first} {
-          clipboard clear
-          set first 0
-        }
-        clipboard append [$txtt get insert "insert+[string length $match]c"]
-        $txtt delete insert "insert+[string length $match]c"
-      }
+      clipboard append [$txtt get insert "insert+[string length $match]c"]
+      $txtt delete insert "insert+[string length $match]c"
     }
-
+    
+  }
+  
+  ######################################################################
+  # Deletes all consecutive numbers from the insertion toward the start of
+  # the current line.
+  proc delete_prev_numbers {txtt} {
+    
+    variable patterns
+    
+    set first 1
+    
+    if {[multicursor::enabled $txtt]} {
+      multicursor::delete $txtt pattern $patterns(pnumber)
+    } elseif {[regexp $patterns(pnumber) [$txtt get "insert linestart" insert] match]} {
+      if {$first} {
+        clipboard clear
+        set first 0
+      }
+      clipboard append [$txtt get "insert-[string length $match]c" insert]
+      $txtt delete "insert-[string length $match]c" insert
+    }
+    
   }
 
   ######################################################################

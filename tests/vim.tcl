@@ -679,7 +679,7 @@ namespace eval vim {
 
     array set opts $options
 
-    puts "do_ml_test - ([string trim [$txt get 1.0 end-1c]])"
+    # puts "do_ml_test - ([string trim [$txt get 1.0 end-1c]])"
 
     vim::parse_modeline $txt
 

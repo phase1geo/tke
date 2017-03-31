@@ -64,6 +64,7 @@ namespace eval change {
     set start_cursor [$txtt index insert]
 
     enter $txtt $cmdlist
+    
     if {[$txtt get 1.0 end-1c] ne $value} {
       cleanup "$id change did not work ([$txtt get 1.0 end-1c])"
     }
@@ -73,6 +74,7 @@ namespace eval change {
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id insertion cursor not correct ([$txtt index insert])"
     }
+    
     enter $txtt Escape
 
     if {$undo} {
@@ -534,6 +536,120 @@ namespace eval change {
     # Cleanup
     cleanup
 
+  }
+  
+  # Verify cn Vim command
+  proc run_test20 {} {
+    
+    # Initialize
+    set txtt [initialize]
+    
+    $txtt insert end "\nThis is line 1000x"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+    
+    do_test $txtt 0 {c n} 2.0 "\nThis is line 1000x" 0
+    
+    $txtt mark set insert 2.13
+    do_test $txtt 1 {c n} 2.13 "\nThis is line x"
+    
+    $txtt mark set insert 2.14
+    do_test $txtt 2 {c n} 2.14 "\nThis is line 1x"
+    
+    do_test $txtt 3 {c n} 2.14 "\nThis is line 1x" 0
+    $txtt mark set insert 2.13
+    do_test $txtt 4 {c n} 2.13 "\nThis is line x"
+    
+    # Cleanup
+    cleanup
+    
+  }
+  
+  # Verify cN Vim command
+  proc run_test21 {} {
+    
+    # Initialize
+    set txtt [initialize]
+    
+    $txtt insert end "\nThis is line 1000x"
+    $txtt edit separator
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+    
+    do_test $txtt 0 {c N} 2.5 "\nThis is line 1000x" 0
+    
+    $txtt mark set insert 2.17
+    do_test $txtt 1 {c N} 2.13 "\nThis is line x"
+    
+    $txtt mark set insert 2.16
+    do_test $txtt 2 {c N} 2.13 "\nThis is line 0x"
+    
+    do_test $txtt 3 {c N} 2.13 "\nThis is line 0x" 0
+    $txtt mark set insert 2.14
+    do_test $txtt 4 {c N} 2.13 "\nThis is line x"
+    
+    # Cleanup
+    cleanup
+    
+  }
+  
+  # Verify cs Vim command
+  proc run_test22 {} {
+    
+    # Initialize
+    set txtt [initialize]
+    
+    $txtt insert end "\nThis is line    x"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+    
+    do_test $txtt 0 {c s} 2.0 "\nThis is line    x" 0
+    
+    $txtt mark set insert 2.13
+    do_test $txtt 1 {c s} 2.13 "\nThis is line x"
+    
+    do_test $txtt 2 {c s} 2.13 "\nThis is line x" 0
+    $txtt mark set insert 2.12
+    do_test $txtt 3 {c s} 2.12 "\nThis is linex"
+    
+    $txtt delete 1.0 end
+    $txtt insert end "\nThis is line    "
+    $txtt edit separator
+    $txtt mark set insert 2.12
+    vim::adjust_insert $txtt
+    
+    do_test $txtt 4 {c s} 2.12 "\nThis is line"
+    
+    # Cleanup
+    cleanup
+    
+  }
+  
+  # Verify cS Vim command
+  proc run_test23 {} {
+    
+    # Initialize
+    set txtt [initialize]
+    
+    $txtt insert end "\nThis is line    x"
+    $txtt edit separator
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
+    
+    do_test $txtt 0 {c S} 2.3 "\nThis is line    x" 0
+    
+    $txtt mark set insert 2.15
+    do_test $txtt 1 {c S} 2.12 "\nThis is line x"
+    
+    do_test $txtt 2 {c S} 2.12 "\nThis is line x" 0
+    $txtt mark set insert 2.13
+    do_test $txtt 3 {c S} 2.12 "\nThis is linex"
+    
+    # Cleanup
+    cleanup
+    
   }
 
 }
