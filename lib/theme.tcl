@@ -640,7 +640,7 @@ namespace eval theme {
 
     # If a license file was specified, copy it to the output directory
     if {($license ne "") && [file exists $license]} {
-      if {[catch { file copy -force $license $odir }]} {
+      if {[catch { file copy -force $license [file join $odir LICENSE] }]} {
         return 0
       }
     }
