@@ -294,11 +294,8 @@ msgcat::mcmset he {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "כל הגדרות ספציפיות לשפה יוסרו, יוחלו על הגדרות כלליות עבור השפה שצוינה."
 
-  "Append Next Occurrence"
-  "צרף המופע הבא"
-
-  "Append next occurrence"
-  "צרף המופע הבא"
+  "Append current find text to selection"
+  "להוסיף טקסט חיפוש הנוכחי לבחירה"
 
   "Auto-Indent"
   "כניסה אוטומטית"
@@ -588,8 +585,14 @@ msgcat::mcmset he {
   "Find Matching Bracket"
   "למצוא את התאמת מסגרת"
 
+  "Find Next"
+  "חפש את הבא"
+
   "Find Next Bracket Mismatch"
   "למצוא התאמה סוגר הבא"
+
+  "Find Previous"
+  "הקודם"
 
   "Find Previous Bracket Mismatch"
   "למצוא התאמה סוגריים קודמים"
@@ -812,6 +815,9 @@ msgcat::mcmset he {
 
   "Line Numbering"
   "מספור שורות"
+
+  "Line Wrapping"
+  "גלישת שורות"
 
   "Lock"
   "מנעול"
@@ -1200,17 +1206,14 @@ msgcat::mcmset he {
   "Select All"
   "בחר את כל"
 
-  "Select All Occurrences"
-  "בחר את כל המופעים"
+  "Select All Matches"
+  "בחר כל ההתאמות"
 
-  "Select Next Occurrence"
-  "בחר מופע הבא"
+  "Select Current Match"
+  "בחר התאמה נוכחי"
 
-  "Select Previous Occurrence"
-  "בחר הופעה קודמת"
-
-  "Select all occurrences"
-  "בחר כל המופעים"
+  "Select all find matches"
+  "בחר כל למצוא התאמה."
 
   "Select all text"
   "לבחור את הכל"
@@ -1725,6 +1728,9 @@ msgcat::mcmset he {
 
   "Last accessed"
   "הפעם האחרונה שנכנסת"
+
+  "Line Wrapping Default"
+  "קו גלישת ברירת מחדל"
 
   "Line count to find Vim modeline information"
   "ספירת השורות כדי למצוא מידע modeline Vim"
@@ -2247,8 +2253,8 @@ msgcat::mcmset he {
   "Change Directory"
   "מדריך שינוי"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "עותקים הגדרות נתונים ספריה קיימת כדי ספריית עמוד הבית שלך.  לחץ על 'התאמה אישית של הגדרות' להלן כדי להתאים אישית את הגדרות הנתונים יועתקו."
+  "Copies settings data from an existing directory to your home directory."
+  "עותקים הגדרות נתונים ספריה קיימת כדי ספריית עמוד הבית שלך."
 
   "Copy settings from directory"
   "הגדרות העתקה ממדריך"
@@ -2262,8 +2268,8 @@ msgcat::mcmset he {
   "Finish"
   "סיום"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "אם אתה צריך היית רוצה לשנות את הגדרות מיקום או נתונים, באפשרותך לעשות זאת תוך השיתוף/העריכה/פה תפריט."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "אם אתה צריך. הייתי רוצה לשנות את הגדרות השיתוף שלך, תוכל לעשות זאת בתוך העדפות תחת הכרטיסייה כללי/שיתוף."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "הפריטים שנבחרו יועתקו אל ספריית עמוד הבית המקומי. הפריטים שנבחרו לא ייווצר ב ספריית עמוד הבית שלך."
@@ -2289,8 +2295,8 @@ msgcat::mcmset he {
   "Share"
   "שתף"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "מניות הגדרות נתונים ספריה חדשה או קיימת (אקס, iCloud כונן, כונן גוגל, Dropbox, וכו.).  כל השינויים שבוצעו הגדרות הנתונים יהיו זמינים אחרים משתפי.  לחץ על 'התאמה אישית של הגדרות' להלן כדי להתאים אישית את הגדרות הנתונים ישותפו."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "מניות הגדרות נתונים ספריה חדשה או קיימת (אקס, iCloud כונן, כונן גוגל, Dropbox, וכו.).  כל השינויים שבוצעו הגדרות הנתונים יהיו זמינים אחרים משתפי."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "תודה על שימוש בבית, העורך של מתכנת מתקדם.  מאז זה התקנה חדשה של בבית, בואו לעזור לך להשיג דברים לסדר. \\n \\n לחץ על 'הבא' להלן כדי להזיז את הדברים."

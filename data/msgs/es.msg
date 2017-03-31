@@ -294,11 +294,8 @@ msgcat::mcmset es {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Se eliminarán todos los ajustes específicos del idioma y la configuración global se aplicará para el idioma especificado."
 
-  "Append Next Occurrence"
-  "Anexar la siguiente ocurrencia"
-
-  "Append next occurrence"
-  "Anexar la siguiente ocurrencia"
+  "Append current find text to selection"
+  "Anexar texto actual encuentra a selección"
 
   "Auto-Indent"
   "Sangrado automático"
@@ -588,8 +585,14 @@ msgcat::mcmset es {
   "Find Matching Bracket"
   "Encontrar soporte"
 
+  "Find Next"
+  "Buscar siguiente"
+
   "Find Next Bracket Mismatch"
   "Buscar la siguiente coincidencia de soporte"
+
+  "Find Previous"
+  "Buscar anterior"
 
   "Find Previous Bracket Mismatch"
   "Buscar anterior desajuste de soporte"
@@ -812,6 +815,9 @@ msgcat::mcmset es {
 
   "Line Numbering"
   "Numeración de líneas"
+
+  "Line Wrapping"
+  "Línea de embalaje"
 
   "Lock"
   "Bloquear"
@@ -1200,17 +1206,14 @@ msgcat::mcmset es {
   "Select All"
   "Seleccionar todo"
 
-  "Select All Occurrences"
-  "Seleccione todas las ocurrencias"
+  "Select All Matches"
+  "Seleccione todos los partidos"
 
-  "Select Next Occurrence"
-  "Seleccione la siguiente ocurrencia"
+  "Select Current Match"
+  "Seleccione a partido actual"
 
-  "Select Previous Occurrence"
-  "Seleccionar anterior aparición"
-
-  "Select all occurrences"
-  "Seleccionar todas las apariciones"
+  "Select all find matches"
+  "Seleccione todos buscar partidos"
 
   "Select all text"
   "Seleccionar todo el texto"
@@ -1725,6 +1728,9 @@ msgcat::mcmset es {
 
   "Last accessed"
   "Último acceso"
+
+  "Line Wrapping Default"
+  "Línea de embalaje por defecto"
 
   "Line count to find Vim modeline information"
   "Línea cuenta para encontrar información de modeline de Vim"
@@ -2247,8 +2253,8 @@ msgcat::mcmset es {
   "Change Directory"
   "Chdir"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Copia datos de configuración de un directorio existente a su directorio home.  Haga clic en 'personalizar ' siguiente configuración para personalizar los datos de configuración se copiarán."
+  "Copies settings data from an existing directory to your home directory."
+  "Copia datos de configuración de un directorio existente a su directorio home."
 
   "Copy settings from directory"
   "Copiar la configuración del directorio"
@@ -2262,8 +2268,8 @@ msgcat::mcmset es {
   "Finish"
   "Terminar"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Si necesita le gustaría cambiar su ubicación de configuración o datos, puede hacerlo dentro de la edición/compartir/Ed.... menú."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Si necesita le gustaría cambiar configuración de uso compartida, puede hacerlo dentro de preferencias en la pestaña General/compartir."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Elementos que están seleccionados se copiarán a su directorio local. Elementos que están seleccionados no se creará en el directorio de inicio."
@@ -2289,8 +2295,8 @@ msgcat::mcmset es {
   "Share"
   "Comparte"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Comparte datos de configuración de un directorio nuevo o existente (ej., iCloud Drive, Google Drive, Dropbox, etc..).  Los cambios realizados en configuración de datos estará disponibles para otros partícipes.  Haga clic en 'personalizar ' siguiente configuración para personalizar los datos de configuración serán compartidos."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Comparte datos de configuración de un directorio nuevo o existente (ej., iCloud Drive, Google Drive, Dropbox, etcetera.).  Los cambios realizados en configuración de datos estará disponibles para otros partícipes."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Gracias por usar TKE, editor de programación avanzada.  Puesto que se trata de una nueva instalación de TKE, vamos a ayudarle a conseguir cosas establecidas. \\n \\n haga clic en 'Next' a continuación para que las cosas vas."

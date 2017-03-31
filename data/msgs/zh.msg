@@ -294,11 +294,8 @@ msgcat::mcmset zh {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "将删除所有语言特定的设置和全局设置将应用于指定的语言。"
 
-  "Append Next Occurrence"
-  "追加下一個事件"
-
-  "Append next occurrence"
-  "追加下一个匹配项"
+  "Append current find text to selection"
+  "将当前的查找文本追加到选择"
 
   "Auto-Indent"
   "自动缩进"
@@ -588,8 +585,14 @@ msgcat::mcmset zh {
   "Find Matching Bracket"
   "查找匹配的括号"
 
+  "Find Next"
+  "查找下一个"
+
   "Find Next Bracket Mismatch"
   "查找下一个括号不匹配"
+
+  "Find Previous"
+  "查找上一个"
 
   "Find Previous Bracket Mismatch"
   "找到前括号不匹配"
@@ -812,6 +815,9 @@ msgcat::mcmset zh {
 
   "Line Numbering"
   "行編號"
+
+  "Line Wrapping"
+  "换行"
 
   "Lock"
   "鎖定"
@@ -1200,17 +1206,14 @@ msgcat::mcmset zh {
   "Select All"
   "全选"
 
-  "Select All Occurrences"
-  "選擇所有事例"
+  "Select All Matches"
+  "选择的所有匹配项"
 
-  "Select Next Occurrence"
-  "選擇下一個發生"
+  "Select Current Match"
+  "选择当前匹配"
 
-  "Select Previous Occurrence"
-  "選擇上發生"
-
-  "Select all occurrences"
-  "选择所有匹配项"
+  "Select all find matches"
+  "请选择所有查找匹配项"
 
   "Select all text"
   "选择文本"
@@ -1725,6 +1728,9 @@ msgcat::mcmset zh {
 
   "Last accessed"
   "最后访问："
+
+  "Line Wrapping Default"
+  "默认自动换行"
 
   "Line count to find Vim modeline information"
   "要找到 Vim modeline 信息的行计数"
@@ -2247,8 +2253,8 @@ msgcat::mcmset zh {
   "Change Directory"
   "切换目录"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "将设置数据从现有的目录复制到您的主目录。 单击自定义设置下面自定义哪些设置数据将被复制。"
+  "Copies settings data from an existing directory to your home directory."
+  "将设置数据从现有的目录复制到您的主目录。"
 
   "Copy settings from directory"
   "从目录复制设置"
@@ -2262,8 +2268,8 @@ msgcat::mcmset zh {
   "Finish"
   "完成"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "如果你需要想要改变你的设置位置和/或数据，你可以在编辑/共享/菜单编辑...。"
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "如果你需要想要改变你的共享设置，你可以在首选项中一般/共享选项卡下。"
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "选定的项将复制到您当地的主目录。未选中的项目将在您的主目录中创建。"
@@ -2289,8 +2295,8 @@ msgcat::mcmset zh {
   "Share"
   "分享"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "共享设置数据从一个新的或现有的目录 (例如，iCloud 谷歌驱动器，Dropbox，等.)。 对设置数据所做的任何更改将提供到其他的共享资源文件。 单击自定义设置下面自定义的设置数据将共享。"
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "共享设置数据从一个新的或现有的目录 (例如，iCloud 谷歌驱动器，Dropbox，等.)。 对设置数据所做的任何更改将提供到其他的共享资源文件。"
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "感谢您使用将军澳支线，高级的程序员编辑器。 由于这是一个新安装的将军澳支线，让我们帮助你把事情设置。\\n \\n 点击下一步来维持生活。"

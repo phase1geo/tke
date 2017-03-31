@@ -294,11 +294,8 @@ msgcat::mcmset nl {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Alle taalspecifieke instellingen zullen worden verwijderd en de globale instellingen zal worden toegepast voor de opgegeven taal."
 
-  "Append Next Occurrence"
-  "Volgende vindplaats toevoegen"
-
-  "Append next occurrence"
-  "Volgende vindplaats toevoegen"
+  "Append current find text to selection"
+  "Huidige zoektekst toevoegen aan selectie"
 
   "Auto-Indent"
   "Automatisch inspringen"
@@ -588,8 +585,14 @@ msgcat::mcmset nl {
   "Find Matching Bracket"
   "Vinden Matching beugel"
 
+  "Find Next"
+  "Zoek volgende"
+
   "Find Next Bracket Mismatch"
   "Zoek volgende beugel Mismatch"
+
+  "Find Previous"
+  "Zoek vorige haakjes"
 
   "Find Previous Bracket Mismatch"
   "Vinden vorige beugel Mismatch"
@@ -812,6 +815,9 @@ msgcat::mcmset nl {
 
   "Line Numbering"
   "Regelnummering"
+
+  "Line Wrapping"
+  "Lijn Verpakking"
 
   "Lock"
   "Vergrendelen"
@@ -1200,17 +1206,14 @@ msgcat::mcmset nl {
   "Select All"
   "Alles selecteren"
 
-  "Select All Occurrences"
-  "Selecteer alle exemplaren"
+  "Select All Matches"
+  "Selecteer alle wedstrijden"
 
-  "Select Next Occurrence"
-  "Selecteer volgende vindplaats"
+  "Select Current Match"
+  "Selecteer huidige Match"
 
-  "Select Previous Occurrence"
-  "Selecteer vorige exemplaar"
-
-  "Select all occurrences"
-  "Selecteer alle exemplaren"
+  "Select all find matches"
+  "Selecteer alle overeenkomsten worden gevonden"
 
   "Select all text"
   "Alle tekst selecteren"
@@ -1725,6 +1728,9 @@ msgcat::mcmset nl {
 
   "Last accessed"
   "Laatst geopend:"
+
+  "Line Wrapping Default"
+  "Lijn standaard verpakking"
 
   "Line count to find Vim modeline information"
   "Regeltelling Vim modeline informatie zoeken"
@@ -2247,8 +2253,8 @@ msgcat::mcmset nl {
   "Change Directory"
   "Map wijzigen"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Kopieën-instellingsgegevens uit een bestaande map naar uw home directory.  Klik op 'Instellingen aanpassen' hieronder als u wilt aanpassen welke instellingsgegevens worden gekopieerd."
+  "Copies settings data from an existing directory to your home directory."
+  "Kopieën-instellingsgegevens uit een bestaande map naar uw home directory."
 
   "Copy settings from directory"
   "Instellingen van map kopiëren"
@@ -2262,8 +2268,8 @@ msgcat::mcmset nl {
   "Finish"
   "Voltooien"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Als u zou willen veranderen van uw locatie van de instellingen en/of gegevens, kunt u dit doen binnen het bewerken/delen/bewerken.. menu."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Als u zou willen veranderen van uw instellingen voor delen, kunt u dat doen in Voorkeuren onder het tabblad Algemeen/delen."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Items die zijn geselecteerd zal worden gekopieerd naar uw lokale basismap. Items die niet geselecteerd zijn worden aangemaakt in je home directory."
@@ -2289,8 +2295,8 @@ msgcat::mcmset nl {
   "Share"
   "Delen"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "-Instellingsgegevens uit een nieuwe of bestaande map deelt (ex., iCloud Drive, Google Drive, Dropbox, enz.).  Wijzigingen die zijn aangebracht in instellingsgegevens zal voor andere delende bestanden beschikbaar zijn.  Klik op 'Instellingen aanpassen' hieronder als u wilt aanpassen welke instellingsgegevens zal worden gedeeld."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "-Instellingsgegevens uit een nieuwe of bestaande map deelt (ex., iCloud Drive, Google Drive, Dropbox, enz.).  Wijzigingen die zijn aangebracht in instellingsgegevens zal voor andere delende bestanden beschikbaar zijn."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Bedankt voor het gebruiken van TKE, de geavanceerde programmer's editor.  Aangezien dit een nieuwe installatie van TKE, laten we u helpen om dingen opgezet. \\n \\n Klik 'Volgende' hieronder om dingen gaan."

@@ -294,11 +294,8 @@ msgcat::mcmset ru {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Будут удалены все языковые настройки и глобальные параметры будут применяться для указанного языка."
 
-  "Append Next Occurrence"
-  "Добавление следующее вхождение"
-
-  "Append next occurrence"
-  "Добавить следующее вхождение"
+  "Append current find text to selection"
+  "Добавление текущего найти текст для выбора"
 
   "Auto-Indent"
   "Авто отступ"
@@ -588,8 +585,14 @@ msgcat::mcmset ru {
   "Find Matching Bracket"
   "Найти соответствующие кронштейн"
 
+  "Find Next"
+  "Найти далее"
+
   "Find Next Bracket Mismatch"
   "Найти следующий кронштейн несоответствие"
+
+  "Find Previous"
+  "Найти предыдущее"
 
   "Find Previous Bracket Mismatch"
   "Найти предыдущий кронштейн несоответствие"
@@ -812,6 +815,9 @@ msgcat::mcmset ru {
 
   "Line Numbering"
   "Нумерация строк"
+
+  "Line Wrapping"
+  "Проекция"
 
   "Lock"
   "шлюз"
@@ -1200,17 +1206,14 @@ msgcat::mcmset ru {
   "Select All"
   "Выбрать все"
 
-  "Select All Occurrences"
-  "Выберите все вхождения"
+  "Select All Matches"
+  "Выберите все матчи"
 
-  "Select Next Occurrence"
-  "Выберите следующее вхождение"
+  "Select Current Match"
+  "Выберите текущий матч"
 
-  "Select Previous Occurrence"
-  "Выберите предыдущее вхождение"
-
-  "Select all occurrences"
-  "Выберите все вхождения"
+  "Select all find matches"
+  "Выберите все найти матчи"
 
   "Select all text"
   "Выберите текст"
@@ -1725,6 +1728,9 @@ msgcat::mcmset ru {
 
   "Last accessed"
   "Последний доступ"
+
+  "Line Wrapping Default"
+  "Линия упаковки по умолчанию"
 
   "Line count to find Vim modeline information"
   "Число строк для поиска информации modeline Vim"
@@ -2247,8 +2253,8 @@ msgcat::mcmset ru {
   "Change Directory"
   "Chdir"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Копирует данные параметры из существующего каталога в ваш домашний каталог.  Нажмите кнопку «Настроить параметры» ниже для настройки, какие данные параметры будут скопированы."
+  "Copies settings data from an existing directory to your home directory."
+  "Копирует параметры данные из существующего каталога в вашей домашней директории."
 
   "Copy settings from directory"
   "Копировать параметры из каталога"
@@ -2262,8 +2268,8 @@ msgcat::mcmset ru {
   "Finish"
   "Закончить"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Если вам хотите изменить настройки местоположения и/или данных, вы можете сделать это в Edit/общий доступ/изменить меню."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Если вам нужна хотели бы изменить настройки совместного доступа, вы можете сделать это в настройках на вкладке Генеральной/совместное использование."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Элементы, выбранные будут скопированы на ваш локальный домашний каталог. Элементы, которые не выбраны будут создаваться в вашем домашнем каталоге."
@@ -2289,8 +2295,8 @@ msgcat::mcmset ru {
   "Share"
   "Поделиться"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Передает данные настройки из нового или существующего каталога (напр., iCloud диск, Google Drive, Dropbox, и др.).  Любые изменения, внесенные в данные настройки будут доступны для других удел.  Нажмите кнопку «Настроить параметры» ниже для настройки, какие данные параметры будут переданы."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Разделяет параметры данных из нового или существующего каталога (напр., iCloud диск Google, Dropbox, и т.д.).  Любые изменения, внесенные в данные параметры будут доступны для других акционеров."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Спасибо за использование TKE, расширенный программиста редактор.  Поскольку это новая установка TKE, поможем вам получить вещи. \\n \\n нажмите «Next», чтобы получить вещей продолжается."

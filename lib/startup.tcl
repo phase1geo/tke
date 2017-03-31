@@ -202,8 +202,8 @@ namespace eval startup {
 
     array set labels [list \
       local [msgcat::mc "Creates new settings information and places it in your home directory"] \
-      copy  [msgcat::mc "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."] \
-      share [msgcat::mc "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."] \
+      copy  [msgcat::mc "Copies settings data from an existing directory to your home directory."] \
+      share [msgcat::mc "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."] \
     ]
 
     # Header
@@ -285,7 +285,7 @@ namespace eval startup {
 
     # Display text
     make_text $widgets(finish) $locs(header_x) $locs(first_y) \
-      [msgcat::mc "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."]
+      [msgcat::mc "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."]
 
     # Create the button bar
     make_button $widgets(finish) $locs(back_x) $locs(button_y) [msgcat::mc "Back"] \

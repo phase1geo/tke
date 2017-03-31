@@ -294,11 +294,8 @@ msgcat::mcmset sv {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Alla språkspecifika inställningar tas bort och de globala inställningarna kommer att tillämpas för det angivna språket."
 
-  "Append Next Occurrence"
-  "Lägg nästa förekomst"
-
-  "Append next occurrence"
-  "Lägg nästa förekomst"
+  "Append current find text to selection"
+  "Lägga till nuvarande hitta text i urval"
 
   "Auto-Indent"
   "Automatisk indentering"
@@ -588,8 +585,14 @@ msgcat::mcmset sv {
   "Find Matching Bracket"
   "Hitta matchande fäste"
 
+  "Find Next"
+  "Sök igen"
+
   "Find Next Bracket Mismatch"
   "Hitta nästa fäste Mismatch"
+
+  "Find Previous"
+  "Sök föregående"
 
   "Find Previous Bracket Mismatch"
   "Hitta tidigare fäste Mismatch"
@@ -812,6 +815,9 @@ msgcat::mcmset sv {
 
   "Line Numbering"
   "Radnumrering"
+
+  "Line Wrapping"
+  "Radbrytning"
 
   "Lock"
   "Lock"
@@ -1200,17 +1206,14 @@ msgcat::mcmset sv {
   "Select All"
   "Markera alla"
 
-  "Select All Occurrences"
-  "Markera alla förekomster"
+  "Select All Matches"
+  "Välj alla matcher"
 
-  "Select Next Occurrence"
-  "Markera nästa förekomst"
+  "Select Current Match"
+  "Välj aktuell Match"
 
-  "Select Previous Occurrence"
-  "Markera föregående förekomst"
-
-  "Select all occurrences"
-  "Markera alla förekomster"
+  "Select all find matches"
+  "Markera alla hitta matcher"
 
   "Select all text"
   "Markera all text"
@@ -1725,6 +1728,9 @@ msgcat::mcmset sv {
 
   "Last accessed"
   "Senast använd:"
+
+  "Line Wrapping Default"
+  "Radbrytning standard"
 
   "Line count to find Vim modeline information"
   "Antal rader att hitta Vim lägesrader information"
@@ -2247,8 +2253,8 @@ msgcat::mcmset sv {
   "Change Directory"
   "Ändra katalog"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Kopior inställningsdata från en befintlig katalog till din hemkatalog.  Klicka på 'Anpassa inställningar' nedan om du vill anpassa vilka data som inställningarna ska kopieras."
+  "Copies settings data from an existing directory to your home directory."
+  "Kopior inställningsdata från en befintlig katalog till din hemkatalog."
 
   "Copy settings from directory"
   "Kopiera inställningar från katalog"
@@ -2262,8 +2268,8 @@ msgcat::mcmset sv {
   "Finish"
   "Avsluta"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Behöver du vill ändra dina inställningar läge eller data, kan du göra det inom den Redigera/delning/redigera...-menyn."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Behöver du vill ändra delningsinställningarna, kan du göra det i inställningar under fliken General/delning."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Objekt som är markerade kommer att kopieras till din lokala arbetskatalog. Objekt som inte är markerade kommer att skapas i din hemkatalog."
@@ -2289,8 +2295,8 @@ msgcat::mcmset sv {
   "Share"
   "Dela"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Aktier inställningsdata från en ny eller befintlig katalog (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Eventuella ändringar i inställningsdata blir tillgängliga för andra delaktiga.  Klicka på 'Anpassa inställningar' nedan om du vill anpassa vilka inställningsdata delas."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Aktier inställningsdata från en ny eller befintlig katalog (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Eventuella ändringar i inställningsdata blir tillgängliga för andra delaktiga."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Tack för hjälp TKE, avancerade programmerarens editor.  Eftersom detta är en ny installation av TKE, låt oss hjälpa dig att få saker ställa in. \\n \\n klicka 'Nästa' nedan för att få saker och ting."

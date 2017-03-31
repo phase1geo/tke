@@ -294,11 +294,8 @@ msgcat::mcmset el {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Θα καταργηθούν όλες οι ρυθμίσεις γλωσσών και τις καθολικές ρυθμίσεις που θα εφαρμοστούν για τη συγκεκριμένη γλώσσα."
 
-  "Append Next Occurrence"
-  "Προσάρτηση επόμενη εμφάνιση"
-
-  "Append next occurrence"
-  "Προσαρτήσετε την επόμενη εμφάνιση"
+  "Append current find text to selection"
+  "Προσάρτηση τρέχουσα Εύρεση κειμένου σε επιλογή"
 
   "Auto-Indent"
   "Αυτο-εντομή"
@@ -588,8 +585,14 @@ msgcat::mcmset el {
   "Find Matching Bracket"
   "Βρείτε ταιριάζουν αγκύλη"
 
+  "Find Next"
+  "Αναζήτηση επόμενου"
+
   "Find Next Bracket Mismatch"
   "Βρείτε επόμενο υποστήριγμα ασυμφωνία"
+
+  "Find Previous"
+  "Αναζήτηση προηγουμένου"
 
   "Find Previous Bracket Mismatch"
   "Βρείτε προηγούμενο στήριγμα ασυμφωνία"
@@ -812,6 +815,9 @@ msgcat::mcmset el {
 
   "Line Numbering"
   "Αρίθμηση γραμμών"
+
+  "Line Wrapping"
+  "Αναδίπλωση γραμμών"
 
   "Lock"
   "Κλείδωμα"
@@ -1200,17 +1206,14 @@ msgcat::mcmset el {
   "Select All"
   "Επιλογή όλων"
 
-  "Select All Occurrences"
-  "Επιλέξτε όλες τις εμφανίσεις"
+  "Select All Matches"
+  "Επιλέξτε όλους τους αγώνες"
 
-  "Select Next Occurrence"
-  "Επιλέξτε επόμενη εμφάνιση"
+  "Select Current Match"
+  "Επιλέξτε την τρέχουσα αντιστοιχία"
 
-  "Select Previous Occurrence"
-  "Επιλέξτε Προηγούμενη Περιστατικό"
-
-  "Select all occurrences"
-  "Επιλέξτε όλες οι εμφανίσεις"
+  "Select all find matches"
+  "Επιλέξτε όλα τα βρείτε αγώνες"
 
   "Select all text"
   "Επιλογή όλων"
@@ -1725,6 +1728,9 @@ msgcat::mcmset el {
 
   "Last accessed"
   "Τελευταία πρόσβαση"
+
+  "Line Wrapping Default"
+  "Αναδίπλωση προεπιλογή γραμμών"
 
   "Line count to find Vim modeline information"
   "Γραμμή αρίθμηση για να βρείτε πληροφορίες modeline Vim"
@@ -2247,8 +2253,8 @@ msgcat::mcmset el {
   "Change Directory"
   "Chdir"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Αντίγραφα δεδομένα ρυθμίσεων από έναν υπάρχοντα κατάλογο στο δικό σου σπίτι Κατάλογος.  Κάντε κλικ στην επιλογή 'Προσαρμογή ρυθμίσεων' παρακάτω να προσαρμόσετε ποια δεδομένα θα αντιγραφούν."
+  "Copies settings data from an existing directory to your home directory."
+  "Αντίγραφα δεδομένα ρυθμίσεων από έναν υπάρχοντα κατάλογο στο δικό σου σπίτι Κατάλογος."
 
   "Copy settings from directory"
   "Για να αντιγράψετε τις ρυθμίσεις από τον κατάλογο"
@@ -2262,8 +2268,8 @@ msgcat::mcmset el {
   "Finish"
   "Λήξη"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Αν χρειαστεί, θα ήθελα να αλλάξει ρυθμίσεις τοποθεσία σας και τα δεδομένα, μπορείτε να το κάνετε κατά την επεξεργασία/κοινή χρήση/Επεξεργασία μενού."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Αν χρειαστεί, θα ήθελα να αλλάξει τις ρυθμίσεις κοινής χρήσης, μπορείτε να το κάνετε εντός προτιμήσεις στην καρτέλα Γενικός/κοινή χρήση."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Στοιχεία που έχουν επιλεγεί θα αντιγραφούν στον home κατάλογο του τοπικού σας. Στοιχεία που δεν έχουν επιλεγεί θα δημιουργηθεί στον εγχώριο κατάλογό σας."
@@ -2289,8 +2295,8 @@ msgcat::mcmset el {
   "Share"
   "Κοινοποίηση"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Συμμερίζεται τις ρυθμίσεις δεδομένων από έναν νέο ή υπάρχοντα κατάλογο (π.χ., το iCloud Drive, Google Drive, Dropbox, κλπ.).  Οποιεσδήποτε αλλαγές γίνονται ρυθμίσεις δεδομένων θα είναι διαθέσιμη σε άλλες sharers.  Κάντε κλικ στην επιλογή 'Προσαρμογή ρυθμίσεων' παρακάτω να προσαρμόσετε ποια δεδομένα ρυθμίσεις θα είναι κοινόχρηστος."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Συμμερίζεται τις ρυθμίσεις δεδομένων από έναν νέο ή υπάρχοντα κατάλογο (π.χ., το iCloud Drive, Google Drive, Dropbox, κλπ.).  Οποιεσδήποτε αλλαγές γίνονται ρυθμίσεις δεδομένων θα είναι διαθέσιμη σε άλλες sharers."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Ευχαριστώ για τη χρήση TKE, προχωρημένους προγραμματιστές του επεξεργαστή.  Δεδομένου ότι αυτό είναι μια νέα εγκατάσταση του TKE, ας βοηθήσουμε να πάρετε τα πράγματα που έχει συσταθεί. \\n \\n κάντε κλικ στο κουμπί 'Επόμενο' κάτω από να πάρει τα πράγματα πρόκειται."
