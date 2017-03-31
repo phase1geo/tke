@@ -294,11 +294,8 @@ msgcat::mcmset hu {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Minden nyelv-specifikus beállításokat el kell távolítani, és a globális beállítások maradnak érvényben a megadott nyelvhez."
 
-  "Append Next Occurrence"
-  "Ráakaszt a következ? alkalom emlékeztet?je"
-
-  "Append next occurrence"
-  "Ráakaszt a következő alkalom emlékeztetője"
+  "Append current find text to selection"
+  "Jelenlegi keresés szöveg hozzáfűzése a kijelölt"
 
   "Auto-Indent"
   "Automatikus behúzás"
@@ -588,8 +585,14 @@ msgcat::mcmset hu {
   "Find Matching Bracket"
   "Zárójel párjának keresése"
 
+  "Find Next"
+  "Következő"
+
   "Find Next Bracket Mismatch"
   "Talál a következő zárójeles eltérés"
+
+  "Find Previous"
+  "Az előző keresése"
 
   "Find Previous Bracket Mismatch"
   "Még előző zárójel eltérés"
@@ -812,6 +815,9 @@ msgcat::mcmset hu {
 
   "Line Numbering"
   "Sorszámozás"
+
+  "Line Wrapping"
+  "Sortörés"
 
   "Lock"
   "Zárolás"
@@ -1200,17 +1206,14 @@ msgcat::mcmset hu {
   "Select All"
   "Összes kijelölése"
 
-  "Select All Occurrences"
-  "Válassza ki az összes el?fordulás"
+  "Select All Matches"
+  "Jelölje be a minden mérkőzés"
 
-  "Select Next Occurrence"
-  "Válassza ki a következ? alkalom emlékeztet?je"
+  "Select Current Match"
+  "Válassza ki az aktuális mérkőzés"
 
-  "Select Previous Occurrence"
-  "Jelölje be az el?z?t"
-
-  "Select all occurrences"
-  "Válassza ki az összes előfordulás"
+  "Select all find matches"
+  "Összes kijelölése halmazt"
 
   "Select all text"
   "Az összes szöveg kijelölése"
@@ -1725,6 +1728,9 @@ msgcat::mcmset hu {
 
   "Last accessed"
   "Utolsó hozzáférés:"
+
+  "Line Wrapping Default"
+  "Sortörés alapértelmezett"
 
   "Line count to find Vim modeline information"
   "Sorok száma Vim modeline talál?"
@@ -2247,8 +2253,8 @@ msgcat::mcmset hu {
   "Change Directory"
   "Cd"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Másolatok beállítások adatokat egy létező könyvtár a haza címtár.  Kattintson 'Beállítások testreszabása' az alábbi szabni, hogy mely beállítások adat másolódik."
+  "Copies settings data from an existing directory to your home directory."
+  "Másolatok beállítások adatokat egy létező könyvtár a haza címtár."
 
   "Copy settings from directory"
   "Beállítások másolása könyvtárba"
@@ -2262,8 +2268,8 @@ msgcat::mcmset hu {
   "Finish"
   "Kész"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Ha módosítani szeretné a beállítások helye és/vagy az adatok, akkor erre belül a Szerkesztés/megosztás/engedélybejegyzések menü."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Ha módosítani szeretné a megosztási beállítások, akkor erre belül beállítások, általános/megosztás lapján."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "A kijelölt elem bekerül a helyi kezdőkönyvtárat. Nem kijelölt elem jön létre a saját könyvtáradba."
@@ -2289,8 +2295,8 @@ msgcat::mcmset hu {
   "Share"
   "Megosztás"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Megosztja a beállítások adatait új vagy meglévő könyvtárból (ex., iCloud Drive, a Google-meghajtó, Dropbox, stb.).  Adatok beállításainak módosításai más osztozik elérhető lesz.  Kattintson 'Beállítások testreszabása' az alábbi szabni, hogy mely beállítások adatokat meg kell osztani."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Megosztja a beállítások adatait új vagy meglévő könyvtárból (ex., iCloud Drive, a Google-meghajtó, Dropbox, stb.).  Adatok beállításainak módosításai más osztozik elérhető lesz."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Köszönjük, hogy használta a TKE, a speciális programmer's szerkesztő.  Mivel ez egy új bevezetés-ból TKE, segítsünk Önnek a dolgokat létrehozni. \\n \\n Kattintsona 'Next' alatt, hogy mennek a dolgok."

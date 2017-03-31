@@ -294,11 +294,8 @@ msgcat::mcmset cs {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Budou odstraněny všechny jazykové nastavení a globální nastavení bude použito pro zadaný jazyk."
 
-  "Append Next Occurrence"
-  "P?ipojit dalí výskyt"
-
-  "Append next occurrence"
-  "Připojit další výskyt"
+  "Append current find text to selection"
+  "Přidat aktuální hledání text na výběru"
 
   "Auto-Indent"
   "Automatické odsazení"
@@ -588,8 +585,14 @@ msgcat::mcmset cs {
   "Find Matching Bracket"
   "Najít odpovídající závorku"
 
+  "Find Next"
+  "Najít další"
+
   "Find Next Bracket Mismatch"
   "Najít další neshoda závorky"
+
+  "Find Previous"
+  "Najít předchozí"
 
   "Find Previous Bracket Mismatch"
   "Najít předchozí neshoda závorky"
@@ -812,6 +815,9 @@ msgcat::mcmset cs {
 
   "Line Numbering"
   "Číslování řádků"
+
+  "Line Wrapping"
+  "Zalomení řádku"
 
   "Lock"
   "Uzamknout"
@@ -1200,17 +1206,14 @@ msgcat::mcmset cs {
   "Select All"
   "Vybrat vše"
 
-  "Select All Occurrences"
-  "Vybrat vechny výskyty"
-
-  "Select Next Occurrence"
-  "Vybrat dalí výskyt"
-
-  "Select Previous Occurrence"
-  "Vybrat p?edchozí výskyt"
-
-  "Select all occurrences"
+  "Select All Matches"
   "Vybrat všechny výskyty"
+
+  "Select Current Match"
+  "Vyberte aktuální zápas"
+
+  "Select all find matches"
+  "Vybrat vše najít shody"
 
   "Select all text"
   "Vybrat vše"
@@ -1725,6 +1728,9 @@ msgcat::mcmset cs {
 
   "Last accessed"
   "Poslední přístup"
+
+  "Line Wrapping Default"
+  "Výchozím nastavení zalamování řádků"
 
   "Line count to find Vim modeline information"
   "Počet řádků Vim modeline informace"
@@ -2247,8 +2253,8 @@ msgcat::mcmset cs {
   "Change Directory"
   "Změna složky..."
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Zkopíruje nastavení data z existujícího adresáře do svého domovského adresáře.  Klikněte na \"
+  "Copies settings data from an existing directory to your home directory."
+  "Zkopíruje nastavení data z existujícího adresáře do svého domovského adresáře."
 
   "Copy settings from directory"
   "Kopírovat nastavení z adresáře"
@@ -2262,8 +2268,8 @@ msgcat::mcmset cs {
   "Finish"
   "Dokončit"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Potřebujete-li by chtěli změnit nastavení umístění nebo data, můžete tak učinit v rámci úpravy či sdílení/upravit nabídky."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Potřebujete-li by chtěli změnit nastavení sdílení, můžete tak učinit v Předvolby na kartě Obecné či sdílení."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Položky, které jsou vybrány, budou zkopírovány do domovského adresáře. Položky, které nejsou vybrány, vytvoří se ve vašem domovském adresáři."
@@ -2289,8 +2295,8 @@ msgcat::mcmset cs {
   "Share"
   "Sdílet"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Sdílí nastavení data z nové nebo existující adresáře (ex., iCloud Drive, Google Drive, Dropbox, atd.).  Všechny změny provedené nastavení údajů bude k dispozici pro jiné sdílející.  Klikněte na \"
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Sdílí nastavení data z nové nebo existující adresáře (ex., iCloud Drive, Google Drive, Dropbox, atd.).  Všechny změny provedené nastavení údajů bude k dispozici pro jiné sdílející."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Děkujeme vám za používání TKE, pokročilé programátorský editor.  Protože se jedná o novou instalaci TKE, Pomozme si všechno nastavit. \\n \\n klikněte na 'Next' jednotlivé dát věci."

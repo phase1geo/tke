@@ -294,11 +294,8 @@ msgcat::mcmset no {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Alle språkspesifikke innstillinger fjernes og de globale innstillingene brukes for det angitte språket."
 
-  "Append Next Occurrence"
-  "Legg til neste forekomst"
-
-  "Append next occurrence"
-  "Legg til neste forekomst"
+  "Append current find text to selection"
+  "Legge gjeldende søketeksten i utvalg"
 
   "Auto-Indent"
   "Auto-innrykk"
@@ -588,8 +585,14 @@ msgcat::mcmset no {
   "Find Matching Bracket"
   "Søk etter samsvarende klammeparentes"
 
+  "Find Next"
+  "Søk etter neste"
+
   "Find Next Bracket Mismatch"
   "Finn neste braketten Mismatch"
+
+  "Find Previous"
+  "Forrige"
 
   "Find Previous Bracket Mismatch"
   "Finn forrige braketten Mismatch"
@@ -812,6 +815,9 @@ msgcat::mcmset no {
 
   "Line Numbering"
   "Linjenummerering"
+
+  "Line Wrapping"
+  "Linjebryting"
 
   "Lock"
   "Lås"
@@ -1200,17 +1206,14 @@ msgcat::mcmset no {
   "Select All"
   "Merk alt"
 
-  "Select All Occurrences"
-  "Velg alle forekomster"
+  "Select All Matches"
+  "Velg alle kampene"
 
-  "Select Next Occurrence"
-  "Velg neste forekomst"
+  "Select Current Match"
+  "Velg gjeldende"
 
-  "Select Previous Occurrence"
-  "Velg forrige forekomst"
-
-  "Select all occurrences"
-  "Velg alle forekomster"
+  "Select all find matches"
+  "Velg alle finne treff"
 
   "Select all text"
   "Velg tekst"
@@ -1725,6 +1728,9 @@ msgcat::mcmset no {
 
   "Last accessed"
   "Sist åpnet"
+
+  "Line Wrapping Default"
+  "Linjebryting standard"
 
   "Line count to find Vim modeline information"
   "Linjetelling finne Vim modeline informasjon"
@@ -2247,8 +2253,8 @@ msgcat::mcmset no {
   "Change Directory"
   "Forandringen adresseliste"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Kopier innstillingene data fra en eksisterende katalog til startmappen.  Klikk \"
+  "Copies settings data from an existing directory to your home directory."
+  "Kopier innstillingene data fra en eksisterende katalog til startmappen."
 
   "Copy settings from directory"
   "Kopier innstillinger fra katalogen"
@@ -2262,8 +2268,8 @@ msgcat::mcmset no {
   "Finish"
   "Finsk"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Hvis du vil endre innstillinger for plassering og/eller data, kan du gjøre det i Rediger/deling/Nedlastingsalternativ menyen."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Hvis du vil endre innstillingene for deling, kan du gjøre det i innstillinger under kategorien Generelt/deling."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Elementer som er valgt overføres til lokale startmappen. Elementer som ikke er valgt, opprettes i startmappen."
@@ -2289,8 +2295,8 @@ msgcat::mcmset no {
   "Share"
   "Del"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Aksjer innstillinger data fra en ny eller eksisterende mappe (ex., iCloud Google stasjonen, Dropbox, etc.).  Endringer i innstillingene data vil være tilgjengelig for andre brukere.  Klikk \"
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Aksjer innstillinger data fra en ny eller eksisterende mappe (ex., iCloud Google stasjonen, Dropbox, etc.).  Endringer i innstillingene data vil være tilgjengelig for andre brukere."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Takk for hjelp TKE, den avanserte programmerer redaktør.  Siden dette er en ny installasjon av TKE, la oss hjelpe deg å få ting satt opp. \\n \\n klikk \"

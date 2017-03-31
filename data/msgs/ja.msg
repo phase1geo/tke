@@ -294,11 +294,8 @@ msgcat::mcmset ja {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "すべての言語固有の設定が削除され、指定した言語のグローバル設定が適用されます。"
 
-  "Append Next Occurrence"
-  "次のオカレンスを追加"
-
-  "Append next occurrence"
-  "次の出現箇所を追加します。"
+  "Append current find text to selection"
+  "現在の検索文字列を選択に追加します。"
 
   "Auto-Indent"
   "自動インデント"
@@ -588,8 +585,14 @@ msgcat::mcmset ja {
   "Find Matching Bracket"
   "一致した括弧を見つける"
 
+  "Find Next"
+  "次を検索"
+
   "Find Next Bracket Mismatch"
   "次の角かっこの不一致を見つける"
+
+  "Find Previous"
+  "前を検索"
 
   "Find Previous Bracket Mismatch"
   "前の角かっこの不一致を見つける"
@@ -812,6 +815,9 @@ msgcat::mcmset ja {
 
   "Line Numbering"
   "行番号の表示"
+
+  "Line Wrapping"
+  "行の折り返し"
 
   "Lock"
   "固定"
@@ -1200,17 +1206,14 @@ msgcat::mcmset ja {
   "Select All"
   "すべて選択"
 
-  "Select All Occurrences"
-  "すべてのオカレンスを選択"
+  "Select All Matches"
+  "すべての一致項目を選択します。"
 
-  "Select Next Occurrence"
-  "次の発生を選択"
+  "Select Current Match"
+  "現在の一致項目を選択します。"
 
-  "Select Previous Occurrence"
-  "前のオカレンスを選択"
-
-  "Select all occurrences"
-  "単語をすべて選択します。"
+  "Select all find matches"
+  "選択すべてを検索します。"
 
   "Select all text"
   "すべて選択"
@@ -1725,6 +1728,9 @@ msgcat::mcmset ja {
 
   "Last accessed"
   "最後にアクセスされた"
+
+  "Line Wrapping Default"
+  "既定の折り返し"
 
   "Line count to find Vim modeline information"
   "行カウントを Vim modeline 情報を検索するには"
@@ -2247,8 +2253,8 @@ msgcat::mcmset ja {
   "Change Directory"
   "Cd"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "あなたのホーム ディレクトリに既存のディレクトリからに設定データをコピーします。 クリックして 'カスタマイズ' 以下をカスタマイズする設定設定データがコピーされます。"
+  "Copies settings data from an existing directory to your home directory."
+  "あなたのホーム ディレクトリに既存のディレクトリからに設定データをコピーします。"
 
   "Copy settings from directory"
   "設定ディレクトリからコピーします。"
@@ -2262,8 +2268,8 @@ msgcat::mcmset ja {
   "Finish"
   "フィニッシュ"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "必要な場合はあなたの設定の場所および/またはデータを変更したい編集/共有内でこれを行うことができます/編集] メニュー。"
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "必要な場合は、共有の設定を変更したい一般/共有] タブの下で設定内でそうことができます。"
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "選択されている項目は、あなたのローカルのホーム ディレクトリにコピーされます。選択されていないアイテムは、あなたのホーム ディレクトリに作成されます。"
@@ -2289,8 +2295,8 @@ msgcat::mcmset ja {
   "Share"
   "共有"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "新規または既存のディレクトリから設定データを共有する (例、iCloud Google ドライブ、Dropbox など。)。 設定データに加えられた変更は、他の共有者になります。 'カスタマイズ' 以下をカスタマイズする設定する設定データを共有するをクリックします。"
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "新規または既存のディレクトリから設定データを共有する (例、iCloud Google ドライブ、Dropbox など。)。 設定データに加えられた変更は、他の共有者になります。"
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "TKE、先進的なプログラマのエディターを使用していただきありがとうございます。 これは TKE の新しいインストールは、あなたが物事を設定を助けましょう。\\n \\n 行くことに下「次へ」をクリックしてします。"

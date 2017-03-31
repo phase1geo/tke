@@ -294,11 +294,8 @@ msgcat::mcmset da {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Alle sprogspecifikke indstillinger vil blive fjernet og de globale indstillinger vil blive anvendt til det angivne sprog."
 
-  "Append Next Occurrence"
-  "Føj næste forekomst"
-
-  "Append next occurrence"
-  "Føj næste forekomst"
+  "Append current find text to selection"
+  "Føj nuværende søgeteksten til udvalg"
 
   "Auto-Indent"
   "Automatisk indryk"
@@ -588,8 +585,14 @@ msgcat::mcmset da {
   "Find Matching Bracket"
   "Finde matchende beslag"
 
+  "Find Next"
+  "Find næste"
+
   "Find Next Bracket Mismatch"
   "Find næste beslag Mismatch"
+
+  "Find Previous"
+  "Find forrige"
 
   "Find Previous Bracket Mismatch"
   "Find forrige beslag Mismatch"
@@ -812,6 +815,9 @@ msgcat::mcmset da {
 
   "Line Numbering"
   "Linjenummerering"
+
+  "Line Wrapping"
+  "Linje ombrydning"
 
   "Lock"
   "Lås"
@@ -1200,17 +1206,14 @@ msgcat::mcmset da {
   "Select All"
   "Vælg alle"
 
-  "Select All Occurrences"
-  "Vælg alle forekomster"
+  "Select All Matches"
+  "Vælg alle kampe"
 
-  "Select Next Occurrence"
-  "Vælg næste forekomst"
+  "Select Current Match"
+  "Vælg Nuværende Match"
 
-  "Select Previous Occurrence"
-  "Vælg forrige forekomst"
-
-  "Select all occurrences"
-  "Vælg alle forekomster"
+  "Select all find matches"
+  "Vælg alle finde kampe"
 
   "Select all text"
   "Markér al tekst"
@@ -1725,6 +1728,9 @@ msgcat::mcmset da {
 
   "Last accessed"
   "Sidst brugt:"
+
+  "Line Wrapping Default"
+  "Linjeombrydning standard"
 
   "Line count to find Vim modeline information"
   "Linje tæller at finde Vim modeline oplysninger"
@@ -2247,8 +2253,8 @@ msgcat::mcmset da {
   "Change Directory"
   "Lave om på bibliotek"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Kopier indstillinger for data fra en eksisterende mappe til din hjemmemappe.  Klik på 'Tilpasse indstillinger' nedenfor for at tilpasse hvilke indstillinger data vil blive kopieret."
+  "Copies settings data from an existing directory to your home directory."
+  "Kopier indstillinger for data fra en eksisterende mappe til din hjemmemappe."
 
   "Copy settings from directory"
   "Kopiere indstillinger fra Register"
@@ -2262,8 +2268,8 @@ msgcat::mcmset da {
   "Finish"
   "Afslut"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Hvis du ønsker at ændre dine indstillinger for placering og/eller data, du kan gøre dette inden for Rediger/deling/Rediger... menu."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Hvis du ønsker at ændre indstillingerne for deling kan du gøre det inden for indstillinger under fanen General/deling."
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Elementer der er markeret kopieres til din lokale hjemmemappe. Varer, der ikke er valgt vil blive oprettet i din hjemmemappe."
@@ -2289,8 +2295,8 @@ msgcat::mcmset da {
   "Share"
   "Del"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Deler indstillinger data fra en ny eller eksisterende mappe (ex., iCloud drev, Google drev, Dropbox, osv.).  Ændringer af indstillingerne data vil være tilgængelige for andre delagtige.  Klik på 'Tilpasse indstillinger' nedenfor for at tilpasse hvilke indstillinger data vil blive delt."
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Deler indstillinger data fra en ny eller eksisterende mappe (ex., iCloud drev, Google drev, Dropbox, osv.).  Ændringer af indstillingerne data vil være tilgængelige for andre delagtige."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Tak for at bruge TKE, den avancerede programmør editor.  Da dette er en ny installation af TKE, lad os hjælpe dig med at få tingene sat op. \\n \\n Klik 'Next' nedenfor for at få tingene i gang."

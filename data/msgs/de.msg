@@ -294,11 +294,8 @@ msgcat::mcmset de {
   "All language-specific settings will be removed and the global settings will be applied for the specified language."
   "Alle Sprachen-spezifische Einstellungen werden entfernt und die globalen Einstellungen werden für die angegebene Sprache angewendet werden."
 
-  "Append Next Occurrence"
-  "Suchbegriffes anfügen"
-
-  "Append next occurrence"
-  "Suchbegriffes anfügen"
+  "Append current find text to selection"
+  "Auswahl aktueller finden Sie Text hinzufügen"
 
   "Auto-Indent"
   "Auto-Einzug"
@@ -588,8 +585,14 @@ msgcat::mcmset de {
   "Find Matching Bracket"
   "Finden Sie passende Halterung"
 
+  "Find Next"
+  "Weitersuchen"
+
   "Find Next Bracket Mismatch"
   "Finden Sie die nächste Klammer Mismatch"
+
+  "Find Previous"
+  "Vorheriges Vorkommen suchen"
 
   "Find Previous Bracket Mismatch"
   "Vorherige Klammer Missverhältnis zu finden"
@@ -812,6 +815,9 @@ msgcat::mcmset de {
 
   "Line Numbering"
   "Zeilennummerierung"
+
+  "Line Wrapping"
+  "Zeilenumbruch"
 
   "Lock"
   "Sperren"
@@ -1200,17 +1206,14 @@ msgcat::mcmset de {
   "Select All"
   "Alle auswählen"
 
-  "Select All Occurrences"
-  "Wählen Sie alle Vorkommen"
+  "Select All Matches"
+  "Wählen Sie alle Spiele"
 
-  "Select Next Occurrence"
-  "Wählen Sie die nächstes vorkommen"
+  "Select Current Match"
+  "Wählen Sie aktuelle Match"
 
-  "Select Previous Occurrence"
-  "Wählen Sie vorherige Vorkommen"
-
-  "Select all occurrences"
-  "Wählen Sie alle Vorkommen"
+  "Select all find matches"
+  "Wählen Sie alle zu finden"
 
   "Select all text"
   "Alles auswählen"
@@ -1725,6 +1728,9 @@ msgcat::mcmset de {
 
   "Last accessed"
   "des letzten Zugriffs"
+
+  "Line Wrapping Default"
+  "Zeilenumbruch Standard"
 
   "Line count to find Vim modeline information"
   "Anzahl der Zeilen, Vim Modeline Informationen finden"
@@ -2247,8 +2253,8 @@ msgcat::mcmset de {
   "Change Directory"
   "Change Directory"
 
-  "Copies settings data from an existing directory to your home directory.  Click 'Customize Settings' below to customize which settings data will be copied."
-  "Kopiert die Einstellungsdaten aus einem vorhandenen Verzeichnis auf Ihrem home-Verzeichnis.  Klicken Sie auf \"
+  "Copies settings data from an existing directory to your home directory."
+  "Kopiert die Einstellungsdaten aus einem vorhandenen Verzeichnis auf Ihrem home-Verzeichnis."
 
   "Copy settings from directory"
   "Kopiereinstellungen aus Verzeichnis"
@@ -2262,8 +2268,8 @@ msgcat::mcmset de {
   "Finish"
   "Schlichten"
 
-  "If you need would like to change your settings location and/or data, you can do so within the Edit/Sharing/Edit... menu."
-  "Benötigen Sie möchten ändern Sie Ihre Einstellungen Standort und/oder zu löschen, können Sie hierzu in die Edit/Sharing/Berabeiten Menü."
+  "If you need would like to change your sharing settings, you can do so within Preferences under the General/Sharing tab."
+  "Benötigen Sie möchten Ihre Freigabeeinstellungen ändern Sie dazu in den Einstellungen unter der Registerkarte \"
 
   "Items that are selected will be copied to your local home directory. Items that are not selected will be created in your home directory."
   "Ausgewählten Elemente werden auf Ihrem lokalen home-Verzeichnis kopiert. Elemente, die nicht ausgewählt sind werden in Ihrem home-Verzeichnis erstellt werden."
@@ -2289,8 +2295,8 @@ msgcat::mcmset de {
   "Share"
   "Teilen"
 
-  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers.  Click 'Customize Settings' below to customize which settings data will be shared."
-  "Teilt Einstellungsdaten aus einem neuen oder vorhandenen Verzeichnis (z. B. iCloud Laufwerk, Google, Dropbox, etc..).  Alle vorgenommenen Einstellungsdaten werden zu anderen Quellen.  Klicken Sie auf \"
+  "Shares settings data from a new or existing directory (ex., iCloud Drive, Google Drive, Dropbox, etc.).  Any changes made to settings data will be available to other sharers."
+  "Teilt Einstellungsdaten aus einem neuen oder vorhandenen Verzeichnis (z. B. iCloud Laufwerk, Google, Dropbox, etc..).  Alle vorgenommenen Einstellungsdaten werden zu anderen Quellen."
 
   "Thanks for using TKE, the advanced programmer's editor.  Since this is a new installation of TKE, let's help you get things set up. \\n \\n Click 'Next' below to get things going."
   "Danke fuer die Benutzung TKE, den fortgeschrittenen Programmierer-Editor.  Da dies eine neue Installation von TKE ist, lassen Sie uns Ihnen helfen, Dinge eingerichtet. \\n \\n 'Weiter' klicken Sie unten um Dinge geht."
