@@ -11,6 +11,7 @@ The View menu allows the user to change the interface as desired.  The following
 | Show/Hide Line Numbers | | | Shows or hides the line numbers in the current buffer. |
 | Line Numbering / Absolute | | | Displays line numbers starting at 1 and incrementing by one to the end of the file. |
 | Line Numbering / Relative | | | Displays the current line number as 0 and counts up above and below the current line. |
+| Line Wrapping | | | Controls the line wrapping mode for the current editing buffer. |
 | Show/Hide Marker Map | | | Shows or hides the marker map in the text scrollbar region. |
 | Show/Hide Meta Characters | | | Shows or hides any characters in the current edit tab that are syntax highlighted as “meta” characters.  Examples of meta characters would be formatting characters used in languages like Markdown. |
 | Display Text Info | Ctrl-G | Ctrl-G | Displays the current line count and character count for the current file in the information bar. |

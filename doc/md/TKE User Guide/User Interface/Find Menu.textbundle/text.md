@@ -5,14 +5,14 @@ The Find menu contains items for searching and, optionally, replacing text in th
 | Menu Item | Shortcut<br>(Mac) | Shortcut<br>(Other) | Description |
 | - | - |
 | Find | Cmd-F | Alt-F | Searches the current file for a given regular expression.  The displayed search bar also contains a checkbutton for specifying whether a case sensitive search should be performed or not and a checkbutton for saving the search input.  Using the up/down keys while the input is in the entry field will allow you to traverse the find history and previously saved searches.  Hitting the return key will cause all matches in the current file to be highlighted, the first match after the current cursor to be in view, and the cursor placed at the  beginning of the match. |
+| Find Next | Alt-N | Alt-N | Moves the insertion cursor to the beginning of the next matched string after the current insertion cursor. |
+| Find Previous | Alt-P | Alt-P | Moves the insertion cursor to the beginning of the next matched string before the current insertion cursor. |
+| Select Current Match | Alt-D | Alt-D | If the insertion cursor is located on a match from a find operation, the matched text will be added to the current selection. If the insertion cursor is not currently on a match, no action will be taken. |
+| Select All Matches | Alt-A | Alt-A | Selects all matched occurrences. |
 | Find and Replace | Shift-Cmd-F | Shift-Alt-F | Searches the current file for a given regular expression and replaces it with an associated string.  The displayed search and replace bar also contains three checkbuttons:  one for specifying case sensitivity of the match, one for replacing the first match or all matches, and one for saving the search input.  Using the up/down keys will traverse Find/Replace history and previously saved searches.  Hitting the return key will perform the replacement. |
-| Select Next Occurrence | Alt-N | Alt-N | Selects the next matched occurrence. |
-| Select Previous Occurrence | Alt-P | Alt-P | Selects the previous matched occurrence. |
-| Select All Occurrences | Alt-A | Alt-A | Selects all matched occurrences. |
-| Append Next Occurrence | Alt-D | Alt-D | Adds the next matched occurrence to the selection. |
 | Jump Backward | Ctrl-Left | Ctrl-Left | Jumps to the last cursor position that was more than 2 lines from the current cursor position.  The number of minimum lines can be adjusted in the preferences file. |
 | Jump Forward | Ctrl-Right | Ctrl-Right | Jumps to the next cursor position. |
-| Jump To Line | Alt-G | Alt-G | Displays a user input interface that allows the user to specify a line number to jump to.  Sets the cursor to the given line number and makes the insertion cursor visible. |
+| Jump To Line | Cmd-G | Alt-G | Displays a user input interface that allows the user to specify a line number to jump to.  Sets the cursor to the given line number and makes the insertion cursor visible. |
 | Next Difference | Ctrl-Down | Ctrl-Down | If the current buffer is in difference mode, jumps to the next difference that is not currently in view.  If no difference exists below the current view, jumps to the first difference in the file. |
 | Previous Difference | Ctrl-Up | Ctrl-Up | If the current buffer is in difference mode, jumps to the previous difference that is not currently in view.  If no difference exists above the current view, jumps to the last difference in the file. |
 | Show Selected Line Change | | | If the current buffer is in difference mode and a line is currently selected, sets the first file version to the version that last modified the first line of the selection. |

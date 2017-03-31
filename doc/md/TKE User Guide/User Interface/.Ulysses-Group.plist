@@ -36,6 +36,18 @@
 					<integer>28</integer>
 				</dict>
 			</dict>
+			<key>Difference Line Number Bar.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>512633496.663351</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>1</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>34</integer>
+				</dict>
+			</dict>
 			<key>Difference Viewer.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -144,16 +156,6 @@
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>12</integer>
-				</dict>
-			</dict>
-			<key>Line Number Bar - 2.textbundle</key>
-			<dict>
-				<key>lastModification</key>
-				<real>504779853.39879298</real>
-				<key>version</key>
-				<dict>
-					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>33</integer>
 				</dict>
 			</dict>
 			<key>Line Number Bar.textbundle</key>
@@ -436,7 +438,7 @@
 			<string>Difference Viewer.textbundle</string>
 		</array>
 		<array>
-			<string>Line Number Bar - 2.textbundle</string>
+			<string>Difference Line Number Bar.textbundle</string>
 		</array>
 		<array>
 			<string>Main File Viewing Area.textbundle</string>
@@ -450,6 +452,8 @@
 	<dict>
 		<key>sheetClusters</key>
 		<dict>
+			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+			<integer>2</integer>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 			<integer>34</integer>
 		</dict>
