@@ -669,11 +669,29 @@ namespace eval vim {
 
   }
 
+  ######################################################################
+  # Performs modeline test with the given options.
   proc do_ml_test {txt id options} {
+
+    set opts(lang)       [gui::get_info {} current lang]
+    set opts(fileformat) [gui::get_info {} current eol]
+    set opts(foldenable) [expr [$txt gutter hide folding] ^ 1]
+
+    array set opts $options
+
+    puts "do_ml_test - ([string trim [$txt get 1.0 end-1c]])"
 
     vim::parse_modeline $txt
 
-
+    if {$opts(lang) ne [gui::get_info {} current lang]} {
+      cleanup "$id syntax not expected ([gui::get_info {} current lang])"
+    }
+    if {$opts(fileformat) ne [gui::get_info {} current eol]} {
+      cleanup "$id fileformat not expected ([gui::get_info {} current eol])"
+    }
+    if {$opts(foldenable) ne [expr [$txt gutter hide folding] ^ 1]} {
+      cleanup "$id foldenable not expected ([expr [$txt gutter hide folding] ^ 1])"
+    }
 
   }
 
@@ -681,13 +699,104 @@ namespace eval vim {
   proc run_test9 {} {
 
     # Initialize
-    set txt [initialize]
+    set txt       [initialize]
+    set modelines $vim::modelines
 
-    $txt insert end "# vim:set shiftwidth=4: "
+    $txt insert end "# vim:set syntax=c: "
 
     vim::do_set_modeline 0
-    do_ml_test $txt 0
+    do_ml_test $txt 0 {}
 
+    vim::do_set_modeline  1
+    vim::do_set_modelines 0
+    do_ml_test $txt "0A" {}
+
+    vim::do_set_modelines $modelines
+    do_ml_test $txt 1 {lang C}
+
+    $txt delete 1.0 end
+    $txt insert end "# vim:set syntax=perl: "
+    do_ml_test $txt 2 {lang Perl}
+
+    $txt delete 1.0 end
+    $txt insert end "# vi:se syntax=tcl fileformat=dos: syntax=c"
+    do_ml_test $txt 3 {lang Tcl fileformat crlf}
+
+    $txt delete 1.0 end
+    $txt insert end "# vim6:set nofen syntax=perl: "
+    do_ml_test $txt 4 {lang Perl foldenable 0}
+
+    $txt delete 1.0 end
+    $txt insert end "# vim<4: set fen: "
+    do_ml_test $txt 5 {foldenable 1}
+
+    $txt delete 1.0 end
+    $txt insert end "# vim>10:nofen:syntax=tcl ff=mac"
+    do_ml_test $txt 6 {foldenable 0 lang Tcl fileformat cr}
+
+    $txt delete 1.0 end
+    $txt insert end "vim=9: set   syntax=c : nice"
+    do_ml_test $txt 7 {lang C}
+
+    $txt delete 1.0 end
+    $txt insert end " ex:ff=unix:fen"
+    do_ml_test $txt 8 {fileformat lf foldenable 1}
+
+    # Verify that modelines at the bottom of the file work
+    $txt delete 1.0 end
+    $txt insert end [string repeat "\n" $modelines]
+    $txt insert end " vim:set syntax=perl :"
+    do_ml_test $txt 9 {lang Perl}
+
+    $txt delete 1.0 end
+    $txt insert end [string repeat "\n" [expr $modelines - 1]]
+    $txt insert end "// vi:nofen"
+    $txt insert end [string repeat "\n" $modelines]
+    do_ml_test $txt 10 {foldenable 0}
+
+    $txt delete 1.0 end
+    $txt insert end [string repeat "\n" $modelines]
+    $txt insert end "/* vim:set foldenable: */"
+    $txt insert end [string repeat "\n" [expr $modelines - 1]]
+    do_ml_test $txt 11 {foldenable 1}
+
+    # ERROR CASES
+
+    # Place line outside of the modelines setting
+    $txt delete 1.0 end
+    $txt insert end [string repeat "\n" $modelines]
+    $txt insert end "# vim:set syntax=tcl: "
+    $txt insert end [string repeat "\n" $modelines]
+    do_ml_test $txt 20 {}
+
+    $txt delete 1.0 end
+    $txt insert end "vi\\:set syntax=tcl: "
+    do_ml_test $txt 21 {}
+
+    # This case doesn't work exactly right, but we'll let it slide
+    $txt delete 1.0 end
+    $txt insert end "vim:set syntax=tcl\\: "
+    do_ml_test $txt 22 {lang None}
+
+    vim::do_set_syntax tcl
+    if {[gui::get_info {} current lang] ne "Tcl"} {
+      cleanup "Unable to set language from None to Tcl with do_set_syntax tcl"
+    }
+
+    $txt delete 1.0 end
+    $txt insert end "ex:syntax=tcl,fen:"
+    do_ml_test $txt 23 {lang None}
+
+    vim::do_set_syntax tcl
+    $txt delete 1.0 end
+    $txt insert end "ex:syntax=bubba"
+    do_ml_test $txt 24 {lang None}
+
+    # This case should technically not allow the syntax to be set due to the extra
+    # characters after the modeline text.
+    $txt delete 1.0 end
+    $txt insert end "/* vim:syntax=tcl */"
+    do_ml_test $txt 25 {lang Tcl}
 
     # Cleanup
     cleanup

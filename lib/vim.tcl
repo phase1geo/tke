@@ -178,14 +178,17 @@ namespace eval vim {
 
     if {$modelines && (![info exists modeline($txt.t)] || $modeline($txt.t))} {
 
-      foreach line [split [$txt get 1.0 "1.0+${modelines}l"] \n] {
-        if {[regexp {\s(vi|vim|vim\d+|vim<\d+|vim>\d+|vim=\d+|ex):\s*(set\s+(.*):|(.*)$)} $line -> dummy1 dummy2 opts1 opts2]} {
-          set opts [expr {([string range $dummy2 0 2] eq "set") ? $opts1 : $opts2}]
-          set opts [string map {"\\:" {:} ":" { }} $opts]
-          foreach opt $opts {
-            if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
-              do_set_command $txt $key $val $mod 1
+      foreach {startline endline} [list 1.0 "1.0+${modelines}l linestart" "end-${modelines}l linestart" end] {
+        foreach line [split [$txt get $startline $endline] \n] {
+          if {[regexp {(^|\s)(vi|vim|vim\d+|vim<\d+|vim>\d+|vim=\d+|ex):\s*(set?\s+(.*):.*|(.*)$)} $line -> dummy0 dummy1 dummy2 opts1 opts2]} {
+            set opts [expr {(([string range $dummy2 0 2] eq "se ") || ([string range $dummy2 0 3] eq "set ")) ? $opts1 : $opts2}]
+            set opts [string map {"\\:" {:} ":" { }} $opts]
+            foreach opt $opts {
+              if {[regexp {(\S+?)(([+-])?=(\S+))?$} $opt -> key dummy mod val]} {
+                do_set_command $txt $key $val $mod 1
+              }
             }
+            return
           }
         }
       }
