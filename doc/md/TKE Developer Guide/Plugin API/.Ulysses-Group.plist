@@ -148,12 +148,18 @@
 			</dict>
 			<key>api--get_images_directory - 2.textbundle</key>
 			<dict>
+				<key>explicitUnassignment</key>
+				<true/>
+				<key>firstUnassignment</key>
+				<real>512634387.42487401</real>
 				<key>lastModification</key>
-				<real>504779714.00642198</real>
+				<real>512634387.42487401</real>
 				<key>version</key>
 				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>5</integer>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>6</integer>
+					<integer>38</integer>
 				</dict>
 			</dict>
 			<key>api--get_images_directory.textbundle</key>
@@ -284,6 +290,18 @@
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>9</integer>
+				</dict>
+			</dict>
+			<key>api--reset_txt_focus.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>512634189.05045998</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>3</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>38</integer>
 				</dict>
 			</dict>
 			<key>api--rgb_to_hsl.textbundle</key>
@@ -423,6 +441,9 @@
 			<string>api--get_user_input.textbundle</string>
 		</array>
 		<array>
+			<string>api--reset_txt_focus.textbundle</string>
+		</array>
+		<array>
 			<string>api--file--current_file_index.textbundle</string>
 		</array>
 		<array>
@@ -498,6 +519,8 @@
 	<dict>
 		<key>sheetClusters</key>
 		<dict>
+			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+			<integer>5</integer>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 			<integer>38</integer>
 		</dict>

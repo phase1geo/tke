@@ -52,9 +52,9 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Delete / Whitespace Backward | Shift-Ctrl-Alt-S | Shift-Ctrl-Alt-S | Deletes all consecutive whitespace characters from the current cursor towards the start of the current line. |
 | Delete / Text Between Character | Ctrl-Alt-C | Ctrl-Alt-C | Displays an input field allowing a single character to be entered.  The character is searched for the first occurrence before the current cursor and the first occurrence after the current cursor. All characters between these two characters is deleted and placed in the clipboard. |
 | Transform / Toggle Case | | | Toggles the case of the character at the current insertion cursor or of all selected characters. |
-| Transform / Lower Case | Alt-L | Alt-L | Sets the case of the character at the current cursor or all selected characters to lower case. |
-| Transform / Upper Case | Alt-U | Alt-U | Sets the case of the character at the current cursor or all selected characters to upper case. |
-| Transform / Title Case | Alt-T | Alt-T | Sets the case of the character at the current cursor or all selected characters such that the first character of each word is capitalized while all other characters are placed into lower case. |
+| Transform / Lower Case | Ctrl-Alt-L | Alt-L | Sets the case of the character at the current cursor or all selected characters to lower case. |
+| Transform / Upper Case | Ctrl-Alt-U | Alt-U | Sets the case of the character at the current cursor or all selected characters to upper case. |
+| Transform / Title Case | Ctrl-Alt-T | Alt-T | Sets the case of the character at the current cursor or all selected characters such that the first character of each word is capitalized while all other characters are placed into lower case. |
 | Transform / Join Lines | Cmd-J | Ctrl-J | If multiple lines are selected, joins all lines containing a selection are joined with a single space character into one line.  If no lines are selected, the line below the current line is joined to the current line. |
 | Transform / Bubble Up | Cmd-Up | Alt-Up | If multiple lines are selected, all selected lines are moved up by one line (the line above will be moved below the bubbled line(s)); otherwise, the current line is bubbled up one line. |
 | Transform / Bubble Down | Cmd-Down | Alt-Down | If multiple lines are selected, all selected lines are moved down by one line (the line below will be moved above the bubbled line(s)); otherwise, the current line is bubbled down by one line. |

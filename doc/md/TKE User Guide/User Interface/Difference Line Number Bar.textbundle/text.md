@@ -1,4 +1,4 @@
-## Line Number Bar
+## Difference Line Number Bar
 
 The line number displays two sets of line numbers, corresponding to the associated line numbers of each file that is part of the difference.  The numbers on the left side correspond to the first file while the numbers on the right side correspond to the second file.  Gaps in line numbers represent differences that the associated file has with the other file.
 
