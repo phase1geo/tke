@@ -1842,7 +1842,7 @@ namespace eval menus {
   # Deletes the current line.
   proc edit_delete_current_line {} {
 
-    edit::delete_current_line [gui::current_txt].t
+    edit::delete_current_line [gui::current_txt].t 1
 
   }
 
@@ -1850,7 +1850,7 @@ namespace eval menus {
   # Deletes the current word.
   proc edit_delete_current_word {} {
 
-    edit::delete_current_word [gui::current_txt].t
+    edit::delete_current_word [gui::current_txt].t 1
 
   }
 
@@ -1858,7 +1858,7 @@ namespace eval menus {
   # Deletes from the current cursor position to the end of the line.
   proc edit_delete_to_end {} {
 
-    edit::delete_to_end [gui::current_txt].t
+    edit::delete_to_end [gui::current_txt].t 1
 
   }
 
@@ -1866,7 +1866,7 @@ namespace eval menus {
   # Deletes from the start of the current line to just before the cursor.
   proc edit_delete_from_start {} {
 
-    edit::delete_from_start [gui::current_txt].t
+    edit::delete_from_start [gui::current_txt].t 1
 
   }
 
@@ -1874,7 +1874,8 @@ namespace eval menus {
   # Deletes the current number.
   proc edit_delete_current_number {} {
 
-    edit::delete_current_number [gui::current_txt].t
+    edit::delete_prev_number [gui::current_txt].t 1
+    edit::delete_next_number [gui::current_txt].t 1
 
   }
 
@@ -1903,7 +1904,7 @@ namespace eval menus {
     set char ""
 
     if {[gui::get_user_response [format "%s:" [msgcat::mc "Character"]] char] && ([string length $char] == 1)} {
-      edit::delete_between_char [gui::current_txt].t $char
+      edit::delete_between_char [gui::current_txt].t $char 1
     }
 
   }

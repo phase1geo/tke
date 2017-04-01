@@ -1492,7 +1492,7 @@ namespace eval vim {
     # Remove all text within the current character
     } elseif {$mode($txtt) eq "changein"} {
       record_add $keysym
-      if {[edit::delete_between_char $txtt $char]} {
+      if {[edit::delete_between_char $txtt $char 0]} {
         edit_mode $txtt
       } else {
         start_mode $txtt
@@ -1573,12 +1573,12 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        edit::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
+        edit::delete_to_${dir}_char $txtt $char 1 $num [expr {$type eq "f"}]
         start_mode $txtt
         return 1
       }
       "change" {
-        edit::delete_to_${dir}_char $txtt $char $num [expr {$type eq "f"}]
+        edit::delete_to_${dir}_char $txtt $char 0 $num [expr {$type eq "f"}]
         edit_mode $txtt
         return 1
       }
@@ -1657,10 +1657,12 @@ namespace eval vim {
       }
       return 1
     } elseif {($mode($txtt) eq "delete") && ($num eq "0") && ($multiplier($txtt) eq "")} {
-      if {![multicursor::delete $txtt linestart]} {
-        edit::delete_from_start $txtt
-      }
+      edit::delete_from_start $txtt 1
       start_mode $txtt
+      return 1
+    } elseif {($mode($txtt) eq "change") && ($num eq "0") && ($multiplier($txtt) eq "")} {
+      edit::delete_from_start $txtt 0
+      edit_mode $txtt
       return 1
     } elseif {($mode($txtt) eq "folding:range") || \
               ([string range $mode($txtt) 0 5] eq "change") || \
@@ -1724,12 +1726,14 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      if {![multicursor::delete $txtt lineend]} {
-        edit::delete_to_end $txtt [get_number $txtt]
-      }
+      edit::delete_to_end $txtt 1 [get_number $txtt]
       start_mode $txtt
       record_add dollar
       record_stop
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      edit::delete_to_end $txtt 0 [get_number $txtt]
+      edit_mode $txtt
       return 1
     }
 
@@ -1755,12 +1759,14 @@ namespace eval vim {
       }
       return 1
     } elseif {$mode($txtt) eq "delete"} {
-      if {![multicursor::delete $txtt linestart]} {
-        edit::delete_from_start $txtt
-      }
+      edit::delete_to_firstword $txtt 1
       start_mode $txtt
       record_add asciicircum
       record_stop
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      edit::delete_to_firstword $txtt 0
+      edit_mode $txtt
       return 1
     }
 
@@ -2536,6 +2542,15 @@ namespace eval vim {
         edit::move_cursor $txtt nextword -num $num
       }
       return 1
+    } elseif {$mode($txtt) eq "yank"} {
+      clipboard clear
+      clipboard append [$txtt get insert [edit::get_word $txtt next $num]]
+      start_mode $txtt
+      return 1
+    } elseif {$mode($txtt) eq "delete"} {
+      edit::delete_current_word $txtt 1 [get_number $txtt]
+      start_mode $txtt
+      return 1
     } elseif {$mode($txtt) eq "change"} {
       if {![multicursor::delete $txtt "word" $num]} {
         if {[get_number $txtt] > 1} {
@@ -2545,15 +2560,6 @@ namespace eval vim {
         }
       }
       edit_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "yank"} {
-      clipboard clear
-      clipboard append [$txtt get insert [edit::get_word $txtt next $num]]
-      start_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      edit::delete_current_word $txtt [get_number $txtt]
-      start_mode $txtt
       return 1
     }
 
@@ -2604,7 +2610,7 @@ namespace eval vim {
       return 1
     } elseif {$mode($txtt) eq "delete"} {
       if {![multicursor::delete $txtt line]} {
-        edit::delete_current_line $txtt [get_number $txtt]
+        edit::delete_current_line $txtt 1 [get_number $txtt]
       }
       start_mode $txtt
       record_add d
@@ -2628,7 +2634,7 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "start"} {
-      edit::delete_to_end $txtt
+      edit::delete_to_end $txtt 1
       return 1
     } elseif {$mode($txtt) eq "folding"} {
       folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -3127,15 +3133,15 @@ namespace eval vim {
         }
       }
       return 1
-    } elseif {($mode($txtt) eq "delete") || ($mode($txtt) eq "change")} {
-      edit::delete_next_numbers $txtt
-      if {$mode($txtt) eq "delete"} {
-        start_mode $txtt
-      } else {
-        edit_mode $txtt
-      }
+    } elseif {$mode($txtt) eq "delete"} {
+      edit::delete_next_numbers $txtt 1
+      start_mode $txtt
       record_add n
       record_stop
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      edit::delete_next_numbers $txtt 0
+      edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
       folding::set_vim_foldenable [winfo parent $txtt] 0
@@ -3167,15 +3173,15 @@ namespace eval vim {
         }
       }
       return 1
-    } elseif {($mode($txtt) eq "delete") || ($mode($txtt) eq "change")} {
-      edit::delete_prev_numbers $txtt
-      if {$mode($txtt) eq "delete"} {
-        start_mode $txtt
-      } else {
-        edit_mode $txtt
-      }
+    } elseif {$mode($txtt) eq "delete"} {
+      edit::delete_prev_numbers $txtt 1
+      start_mode $txtt
       record_add N
       record_stop
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      edit::delete_prev_numbers $txtt 0
+      edit_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding"} {
       folding::set_vim_foldenable [winfo parent $txtt] 1
@@ -3280,15 +3286,15 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       multicursor::add_cursor $txtt [$txtt index insert]
       return 1
-    } elseif {($mode($txtt) eq "delete") || ($mode($txtt) eq "change")} {
+    } elseif {$mode($txtt) eq "delete"} {
       edit::delete_next_space $txtt
-      if {$mode($txtt) eq "delete"} {
-        start_mode $txtt
-      } else {
-        edit_mode $txtt
-      }
+      start_mode $txtt
       record_add s
       record_stop
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      edit::delete_next_space $txtt
+      edit_mode $txtt
       return 1
     }
 
@@ -3306,15 +3312,15 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       multicursor::add_cursors $txtt [$txtt index insert]
       return 1
-    } elseif {($mode($txtt) eq "delete") || ($mode($txtt) eq "change")} {
+    } elseif {$mode($txtt) eq "delete"} {
       edit::delete_prev_space $txtt
-      if {$mode($txtt) eq "delete"} {
-        start_mode $txtt
-      } else {
-        edit_mode $txtt
-      }
+      start_mode $txtt
       record_add S
       record_stop
+      return 1
+    } elseif {$mode($txtt) eq "change"} {
+      edit::delete_prev_space $txtt
+      edit_mode $txtt
       return 1
     }
 

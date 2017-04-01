@@ -142,11 +142,13 @@ namespace eval edit {
 
   ######################################################################
   # Deletes the current line.
-  proc delete_current_line {txtt {num 1}} {
+  proc delete_current_line {txtt copy {num 1}} {
 
     # Clear the clipboard and copy the line(s) that will be deleted
-    clipboard clear
-    clipboard append [$txtt get "insert linestart" "insert+${num}l linestart"]
+    if {$copy} {
+      clipboard clear
+      clipboard append [$txtt get "insert linestart" "insert+${num}l linestart"]
+    }
 
     # If we are deleting the last line, move the cursor up one line
     if {[$txtt compare "insert+${num}l linestart" == end]} {
@@ -165,99 +167,136 @@ namespace eval edit {
     move_cursor $txtt firstword
 
     # Adjust the insertion cursor
-    vim::adjust_insert $txtt
+    if {$copy} {
+      vim::adjust_insert $txtt
+    }
 
   }
 
   ######################################################################
   # Deletes the current word (i.e., dw Vim mode).
-  proc delete_current_word {txtt {num 1}} {
+  proc delete_current_word {txtt copy {num 1}} {
 
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt word $num
     } else {
       set endpos [get_index $txtt nextword -num $num]
-      clipboard clear
-      clipboard append [$txtt get insert $endpos]
+      if {$copy} {
+        clipboard clear
+        clipboard append [$txtt get insert $endpos]
+      }
       $txtt delete insert $endpos
-      vim::adjust_insert $txtt
+      if {$copy} {
+        vim::adjust_insert $txtt
+      }
     }
 
   }
 
   ######################################################################
   # Delete from the current cursor to the end of the line
-  proc delete_to_end {txtt {num 1}} {
+  proc delete_to_end {txtt copy {num 1}} {
 
     # Delete from the current cursor to the end of the line
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "lineend"
     } else {
       set endpos [get_index $txtt lineend -num $num]+1c
-      clipboard clear
-      clipboard append [$txtt get insert $endpos]
+      if {$copy} {
+        clipboard clear
+        clipboard append [$txtt get insert $endpos]
+      }
       $txtt delete insert $endpos
-      vim::adjust_insert $txtt
+      if {$copy} {
+        vim::adjust_insert $txtt
+      }
     }
 
   }
 
   ######################################################################
   # Delete from the start of the current line to just before the current cursor.
-  proc delete_from_start {txtt} {
+  proc delete_from_start {txtt copy} {
 
     # Delete from the beginning of the line to just before the current cursor
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "linestart"
     } else {
-      clipboard clear
-      clipboard append [$txtt get "insert linestart" insert]
+      if {$copy} {
+        clipboard clear
+        clipboard append [$txtt get "insert linestart" insert]
+      }
       $txtt delete "insert linestart" insert
     }
 
   }
 
   ######################################################################
+  # Delete from the start of the firstword to just before the current cursor.
+  proc delete_to_firstword {txtt copy} {
+
+    if {[multicursor::enabled $txtt]} {
+      multicursor::delete $txtt "firstword"
+    } else {
+      set firstword [get_index $txtt firstword]
+      if {[$txtt compare $firstword < insert]} {
+        if {$copy} {
+          clipboard clear
+          clipboard append [$txtt get $firstword insert]
+        }
+        $txtt delete $firstword insert
+      } elseif {[$txtt compare $firstword > insert]} {
+        if {$copy} {
+          clipboard clear
+          clipboard append [$txtt get insert $firstword]
+        }
+        $txtt delete insert $firstword
+        if {$copy} {
+          vim::adjust_insert $txtt
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
   # Delete all consecutive numbers from cursor to end of line.
-  proc delete_next_numbers {txtt} {
+  proc delete_next_numbers {txtt copy} {
 
     variable patterns
 
-    set first 1
-    
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt pattern $patterns(nnumber)
     } elseif {[regexp $patterns(nnumber) [$txtt get insert "insert lineend"] match]} {
-      if {$first} {
+      if {$copy} {
         clipboard clear
-        set first 0
+        clipboard append [$txtt get insert "insert+[string length $match]c"]
       }
-      clipboard append [$txtt get insert "insert+[string length $match]c"]
       $txtt delete insert "insert+[string length $match]c"
+      if {$copy} {
+        vim::adjust_insert $txtt
+      }
     }
-    
+
   }
-  
+
   ######################################################################
   # Deletes all consecutive numbers from the insertion toward the start of
   # the current line.
-  proc delete_prev_numbers {txtt} {
-    
+  proc delete_prev_numbers {txtt copy} {
+
     variable patterns
-    
-    set first 1
-    
+
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt pattern $patterns(pnumber)
     } elseif {[regexp $patterns(pnumber) [$txtt get "insert linestart" insert] match]} {
-      if {$first} {
+      if {$copy} {
         clipboard clear
-        set first 0
+        clipboard append [$txtt get "insert-[string length $match]c" insert]
       }
-      clipboard append [$txtt get "insert-[string length $match]c" insert]
       $txtt delete "insert-[string length $match]c" insert
     }
-    
+
   }
 
   ######################################################################
@@ -293,16 +332,19 @@ namespace eval edit {
   ######################################################################
   # Deletes from the current insert postion to (and including) the next
   # character on the current line.
-  proc delete_to_next_char {txtt char {num 1} {inclusive 1}} {
+  proc delete_to_next_char {txtt char copy {num 1} {inclusive 1}} {
 
     if {[set index [find_char $txtt next $char $num]] ne "insert"} {
-      clipboard clear
       if {$inclusive} {
+        set index "$index+1c"
+      }
+      if {$copy} {
+        clipboard clear
         clipboard append [$txtt get insert "$index+1c"]
-        $txtt delete insert "$index+1c"
-      } else {
-        clipboard append [$txtt get insert $index]
-        $txtt delete insert $index
+      }
+      $txtt delete insert $index
+      if {$copy && $inclusive} {
+        vim::adjust_insert $txtt
       }
     }
 
@@ -311,17 +353,17 @@ namespace eval edit {
   ######################################################################
   # Deletes from the current insert position to (and including) the
   # previous character on the current line.
-  proc delete_to_prev_char {txtt char {num 1} {inclusive 1}} {
+  proc delete_to_prev_char {txtt char copy {num 1} {inclusive 1}} {
 
     if {[set index [find_char $txtt prev $char $num]] ne "insert"} {
-      clipboard clear
-      if {$inclusive} {
-        clipboard append [$txtt get $index insert]
-        $txtt delete $index insert
-      } else {
-        clipboard append [$txtt get $index+1c insert]
-        $txtt delete $index+1c insert
+      if {!$inclusive} {
+        set index "$index+1c"
       }
+      if {$copy} {
+        clipboard clear
+        clipboard append [$txtt get $index insert]
+      }
+      $txtt delete $index insert
     }
 
   }
@@ -369,11 +411,13 @@ namespace eval edit {
   # Deletes all text found between the given character such that the
   # current insertion cursor sits between the character set.  Returns 1
   # if a match occurred (and text was deleted); otherwise, returns 0.
-  proc delete_between_char {txtt char} {
+  proc delete_between_char {txtt char copy} {
 
     if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
-      clipboard clear
-      clipboard append [$txtt get $start_index+1c $end_index]
+      if {$copy} {
+        clipboard clear
+        clipboard append [$txtt get $start_index+1c $end_index]
+      }
       $txtt delete $start_index+1c $end_index
       return 1
     }
