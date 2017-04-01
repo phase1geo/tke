@@ -1025,11 +1025,11 @@ namespace eval edit {
 
       while {($num > 0) && [$txt compare $start < end-2c]} {
         if {[set line_chars [$txt count -displaychars $start "$start lineend"]] == 0} {
-          set start [$txt index "$start+1 lines"]
+          set start [$txt index "$start+1 display lines"]
           set start "$start linestart"
           incr num -1
         } elseif {$line_chars <= $num} {
-          set start [$txt index "$start+1 lines"]
+          set start [$txt index "$start+1 display lines"]
           set start "$start linestart"
           incr num -$line_chars
         } else {
@@ -1046,11 +1046,11 @@ namespace eval edit {
       while {($num > 0) && [$txt compare $start > 1.0]} {
         if {([set line_chars [$txt count -displaychars "$start linestart" $start]] == 0) && !$first} {
           if {[incr num -1] > 0} {
-            set start [$txt index "$start-1 lines"]
+            set start [$txt index "$start-1 display lines"]
             set start "$start lineend"
           }
         } elseif {$line_chars < $num} {
-          set start [$txt index "$start-1 lines"]
+          set start [$txt index "$start-1 display lines"]
           set start "$start lineend"
           incr num -$line_chars
         } else {
@@ -1181,15 +1181,15 @@ namespace eval edit {
     # Get the new cursor position
     switch $position {
       left        {
-        if {[$txtt compare "insert linestart" > "insert-${num} display chars"]} {
-          set index "insert linestart"
+        if {[$txtt compare "insert display linestart" > "insert-${num} display chars"]} {
+          set index "insert display linestart"
         } else {
           set index "insert-${num} display chars"
         }
       }
       right       {
-        if {[$txtt compare "insert lineend" < "insert+${num} display chars"]} {
-          set index "insert lineend"
+        if {[$txtt compare "insert display lineend" < "insert+${num} display chars"]} {
+          set index "insert display lineend"
         } else {
           set index "insert+${num} display chars"
         }
@@ -1211,13 +1211,13 @@ namespace eval edit {
       firstword   {
         switch $position {
           nextfirst {
-            if {[$txtt compare [set index [$txtt index "insert+${num} lines"]] == end]} {
-              set index [$txtt index "$index-1 lines"]
+            if {[$txtt compare [set index [$txtt index "insert+${num} display lines"]] == end]} {
+              set index [$txtt index "$index-1 display lines"]
             }
           }
           prevfirst {
-            if {[$txtt compare [set index [$txtt index "insert-${num} lines"]] == end]} {
-              set index [$txtt index "$index-1 lines"]
+            if {[$txtt compare [set index [$txtt index "insert-${num} display lines"]] == end]} {
+              set index [$txtt index "$index-1 display lines"]
             }
           }
           default {
@@ -1241,7 +1241,7 @@ namespace eval edit {
         if {$num == 1} {
           set index "insert lineend-1 display chars"
         } else {
-          set index [$txtt index "insert+[expr $num - 1] lines"]
+          set index [$txtt index "insert+[expr $num - 1] display lines"]
           set index "$index lineend-1 display chars"
         }
       }
