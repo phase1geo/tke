@@ -1928,7 +1928,7 @@ namespace eval vim {
         } else {
           set column($txtt) $col
         }
-        set row [lindex [split [$txtt index "$row.0+$num lines"] .] 0]
+        set row [lindex [split [$txtt index "$row.0+$num display lines"] .] 0]
         if {[$txtt compare "$row.$col" == end]} {
           set row [lindex [split [$txtt index "end-1c"] .] 0]
         }
@@ -1941,7 +1941,7 @@ namespace eval vim {
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding:range"} {
-      folding::close_range [winfo parent $txtt] insert "insert+$num lines"
+      folding::close_range [winfo parent $txtt] insert "insert+$num display lines"
       start_mode $txtt
       return 1
     }
@@ -1989,7 +1989,7 @@ namespace eval vim {
         } else {
           set column($txtt) $col
         }
-        set row [lindex [split [$txtt index "$row.0-$num lines"] .] 0]
+        set row [lindex [split [$txtt index "$row.0-$num display lines"] .] 0]
         if {$row >= 1} {
           ::tk::TextSetCursor $txtt "$row.$col"
           adjust_insert $txtt
@@ -2001,8 +2001,8 @@ namespace eval vim {
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "folding:range"} {
-      folding::close_range [winfo parent $txtt] "insert-$num lines" insert
-      ::tk::TextSetCursor $txtt "insert-1 lines"
+      folding::close_range [winfo parent $txtt] "insert-$num display lines" insert
+      ::tk::TextSetCursor $txtt "insert-1 display lines"
       adjust_insert $txtt
       start_mode $txtt
       return 1
@@ -2231,7 +2231,7 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "folding"} {
       if {![folding::close_selected [winfo parent $txtt]]} {
         if {[set num [get_number $txtt]] > 1} {
-          folding::close_range [winfo parent $txtt] insert "insert+[expr $num - 1] lines"
+          folding::close_range [winfo parent $txtt] insert "insert+[expr $num - 1] display lines"
         }
       }
       start_mode $txtt

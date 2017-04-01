@@ -394,14 +394,14 @@ namespace eval multicursor {
     set ranges [$txtt tag ranges mcursor]
 
     # If we will be moving past the end, no need to continue
-    if {[$txtt compare "[lindex $ranges end-1]+${num} lines" == end]} {
+    if {[$txtt compare "[lindex $ranges end-1]+${num} display lines" == end]} {
       adjust_select $txtt
       return
     }
 
     $txtt tag remove mcursor 1.0 end
     foreach {end start} [lreverse $ranges] {
-      set index [$txtt index "$start+${num} lines"]
+      set index [$txtt index "$start+${num} display lines"]
       if {[$txtt get $index] eq "\n"} {
         $txtt fastinsert -update 0 -undo 0 $index " " dspace
       }
@@ -454,7 +454,7 @@ namespace eval multicursor {
 
     $txtt tag remove mcursor 1.0 end
     foreach {end start} [lreverse $ranges] {
-      set index [$txtt index "$start-${num} lines"]
+      set index [$txtt index "$start-${num} display lines"]
       if {[$txtt get $index] eq "\n"} {
         $txtt fastinsert -update 0 -undo 0 $index " " dspace
       }
