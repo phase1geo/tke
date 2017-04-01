@@ -13,6 +13,9 @@
 | **cl** | Replaces the character to the right of the insertion cursor. |
 | **ch** | Replaces the character to the left of the insertion cursor. |
 | **cw** | Replaces the current word. |
-| **ci**_char_ | Replaces all text contained within the pair of _char_ characters before and after the current insertion cursor. If the value of _char_ is a bracket type (i.e., **{**, **}**, **[**, **]**, **(**, **)**, **\<**, **\>**), all characters between that bracket and its matching bracket around the current insertion cursor will be replaced. |
+| **c\$** | Replaces all text from the current cursor to the end of the line. |
+| **c0** | Replaces all text from the beginning of the current line to just before the cursor. |
+| **c^** | Replaces all text from the current cursor to the beginning of the first non-whitespace character of the line. |
+| **ci**_char_ | Replaces all text contained within the pair of _char_ characters before and after the current insertion cursor. If the value of _char_ is a bracket type (i.e., **{**, **}**, **[**, **]**, **(**, **)**, **\<**, **\>**), all characters between that bracket and its matching bracket around the current insertion cursor will be replaced. |
 | **cc** | Replaces the current line. |
 | **C** | Replaces all text from the current insertion cursor to the end of the current line. |
