@@ -1,12 +1,9 @@
 var searchData=
 [
-  ['scroller_2etcl',['scroller.tcl',['../scroller_8tcl.html',1,'']]],
-  ['search_2etcl',['search.tcl',['../search_8tcl.html',1,'']]],
-  ['sessions_2etcl',['sessions.tcl',['../sessions_8tcl.html',1,'']]],
-  ['share_2etcl',['share.tcl',['../share_8tcl.html',1,'']]],
-  ['sidebar_2etcl',['sidebar.tcl',['../sidebar_8tcl.html',1,'']]],
-  ['snippets_2etcl',['snippets.tcl',['../snippets_8tcl.html',1,'']]],
-  ['socksend_2etcl',['socksend.tcl',['../socksend_8tcl.html',1,'']]],
-  ['startup_2etcl',['startup.tcl',['../startup_8tcl.html',1,'']]],
-  ['syntax_2etcl',['syntax.tcl',['../syntax_8tcl.html',1,'']]]
+  ['templates_2etcl',['templates.tcl',['../templates_8tcl.html',1,'']]],
+  ['theme_2etcl',['theme.tcl',['../theme_8tcl.html',1,'']]],
+  ['themer_2etcl',['themer.tcl',['../themer_8tcl.html',1,'']]],
+  ['themes_2etcl',['themes.tcl',['../themes_8tcl.html',1,'']]],
+  ['tke_2etcl',['tke.tcl',['../tke_8tcl.html',1,'']]],
+  ['tkedat_2etcl',['tkedat.tcl',['../tkedat_8tcl.html',1,'']]]
 ];

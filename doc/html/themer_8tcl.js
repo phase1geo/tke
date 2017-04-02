@@ -52,7 +52,7 @@ var themer_8tcl =
     [ "handle_relief_change", "themer_8tcl.html#aa0b84893cd606f791b4ad2effe2bc8be", null ],
     [ "handle_table_search", "themer_8tcl.html#a1f37735181f727ed9934ee482f5531e7", null ],
     [ "image_photo_dir", "themer_8tcl.html#ace88d9e2d0e4b6fc5636ad8820f92d70", null ],
-    [ "import", "themer_8tcl.html#aabce4e70c6536695bc2516967c65c9c4", null ],
+    [ "import", "themer_8tcl.html#a3f55953e3fa31ad09203fba8df18df10", null ],
     [ "import_tke", "themer_8tcl.html#ac9705be5ecfe988bb154095cf57798c6", null ],
     [ "import_tm", "themer_8tcl.html#ada10095823e8d1a7472cca625aeef3bf", null ],
     [ "initialize", "themer_8tcl.html#a44d296073d0e66d7c5f20d85c03a84dd", null ],

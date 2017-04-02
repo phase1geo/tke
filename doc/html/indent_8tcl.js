@@ -1,6 +1,7 @@
 var indent_8tcl =
 [
     [ "add_bindings", "indent_8tcl.html#aca65a01cc4e7e3977b83229f20dba784", null ],
+    [ "backspace", "indent_8tcl.html#ac02df348c6387ce997f8c96a627da3db", null ],
     [ "check_indent", "indent_8tcl.html#ab0b6993111afe013ae31678ed3ef5853", null ],
     [ "check_reindent_for_unindent", "indent_8tcl.html#a64da10a090390a3aaeade7920113ca76", null ],
     [ "create_menu", "indent_8tcl.html#aa9b7e522bdf9c6688431e743d0266475", null ],
@@ -19,7 +20,7 @@ var indent_8tcl =
     [ "newline", "indent_8tcl.html#af0fe20db3a00f61c70a7122891e2a8c0", null ],
     [ "populate_indent_menu", "indent_8tcl.html#a6354b33861551e27b6f2ac17c813ba06", null ],
     [ "set_indent_expressions", "indent_8tcl.html#a064b4310c92873e348ddaef2e6af1952", null ],
-    [ "set_indent_mode", "indent_8tcl.html#ad02d16475af66252e2fc7d55afea7562", null ],
+    [ "set_indent_mode", "indent_8tcl.html#aff385d4cd4c939ba7712d91a12bb2318", null ],
     [ "set_shiftwidth", "indent_8tcl.html#a43172ae5078d5a74639e35a9e73205c4", null ],
     [ "set_tabstop", "indent_8tcl.html#a032a38575e6d722d220ebcd3c3a9050c", null ],
     [ "update_button", "indent_8tcl.html#afc3853bc8d8b9616b15dbad372cbd2a7", null ]

@@ -1,10 +1,12 @@
 var searchData=
 [
+  ['backspace',['backspace',['../namespaceindent.html#ac02df348c6387ce997f8c96a627da3db',1,'indent']]],
+  ['basename_5frange',['basename_range',['../namespaceutils.html#aa882721b1d7a65d479cd627571bfc09d',1,'utils']]],
   ['bgerror',['bgerror',['../logger_8tcl.html#a110676ebc5ab467ea0d00b1679da7e31',1,'logger.tcl']]],
   ['bgproc',['bgproc',['../namespacebgproc.html',1,'']]],
   ['bgproc_2etcl',['bgproc.tcl',['../bgproc_8tcl.html',1,'']]],
   ['bind_5fcommand',['bind_command',['../namespaceinterpreter.html#aae7186b5ca99011f9dd12ab097618257',1,'interpreter']]],
-  ['bind_5fcommand_5fentry',['bind_command_entry',['../namespacevim.html#abf0beb855dbd66aac7fa232325c528c7',1,'vim']]],
+  ['bind_5fcommand_5fentry',['bind_command_entry',['../namespacevim.html#ad526c56793c548953440101f57e5f498',1,'vim']]],
   ['bindings',['bindings',['../namespacebindings.html',1,'']]],
   ['bindings_2etcl',['bindings.tcl',['../bindings_8tcl.html',1,'']]],
   ['bist',['bist',['../namespacebist.html',1,'']]],

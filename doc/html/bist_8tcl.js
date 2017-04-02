@@ -1,5 +1,6 @@
 var bist_8tcl =
 [
+    [ "add_and_jump_to_test", "bist_8tcl.html#ad0e6e283505922f79801e1a73436d5a3", null ],
     [ "add_test_file", "bist_8tcl.html#af792345100851afa5502b9881a90e431", null ],
     [ "cancel", "bist_8tcl.html#a654734126f6a5b2f5f2037de0a16cd39", null ],
     [ "create", "bist_8tcl.html#afd10dc0c5424ef2017154e6c35136724", null ],
@@ -26,5 +27,7 @@ var bist_8tcl =
     [ "set_mode", "bist_8tcl.html#ab5eeb421b9650ac0ac9660069da340b3", null ],
     [ "set_selections", "bist_8tcl.html#aeb3bc7550d24c2eda21c8405ea6e1d05", null ],
     [ "set_state", "bist_8tcl.html#a840eddc95c7c950f475397471c37e958", null ],
+    [ "text_jump_to_test", "bist_8tcl.html#a1a2d3e34f1deef1986f73e11a54b006f", null ],
+    [ "text_select_test", "bist_8tcl.html#a6a8b5f65490e012e558af0a725fa4e8b", null ],
     [ "validate_file", "bist_8tcl.html#adcadd00925188697ce98faf7bf10d664", null ]
 ];
