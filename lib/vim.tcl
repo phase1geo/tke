@@ -2782,8 +2782,9 @@ namespace eval vim {
         set clip [string replace $clip $nl_index $nl_index]
       }
       $txtt insert "insert lineend" [string repeat "\n$clip" $num]
-      multicursor::paste $txtt "insert+${num}l linestart"
-      ::tk::TextSetCursor $txtt "insert+${num}l linestart"
+      multicursor::paste $txtt "insert+1l linestart"
+      ::tk::TextSetCursor $txtt "insert+1l linestart"
+      edit::move_cursor $txtt firstword
     } else {
       set clip [string repeat $clip $num]
       $txtt insert "insert+1c" $clip
@@ -2829,8 +2830,11 @@ namespace eval vim {
       if {[expr ([string length $clip] - 1) == $nl_index]} {
         set clip [string replace $clip $nl_index $nl_index]
       }
+      set startpos [$txtt index "insert linestart"]
       $txtt insert "insert linestart" [string repeat "$clip\n" $num]
-      multicursor::paste $txtt "insert linestart"
+      multicursor::paste $txtt $startpos
+      ::tk::TextSetCursor $txtt $startpos
+      edit::move_cursor $txtt firstword
     } else {
       $txtt insert insert [string repeat $clip $num]
       multicursor::paste $txtt insert
