@@ -2832,8 +2832,9 @@ namespace eval vim {
       $txtt insert "insert linestart" [string repeat "$clip\n" $num]
       multicursor::paste $txtt "insert linestart"
     } else {
-      $txtt insert "insert-1c" [string repeat $clip $num]
-      multicursor::paste $txtt "insert-1c"
+      $txtt insert insert [string repeat $clip $num]
+      multicursor::paste $txtt insert
+      ::tk::TextSetCursor $txtt "insert-1c"
     }
     adjust_insert $txtt
 

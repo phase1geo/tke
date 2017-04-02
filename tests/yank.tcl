@@ -359,4 +359,64 @@ namespace eval yank {
 
   }
 
+  proc do_paste_test {txtt id cmdlist cursor value {undo 1}} {
+
+    set cb        [clipboard get]
+    set prevalue  [$txtt get 1.0 end-1c]
+    set precursor [$txtt index insert]
+
+    enter $txtt $cmdlist
+
+    if {[$txtt get 1.0 end-1c] ne $value} {
+      cleanup "$id paste text is not correct ([$txtt get 1.0 end-1c])"
+    }
+    if {[clipboard get] ne $cb} {
+      cleanup "$id clipboard content is not correct ([clipboard get])"
+    }
+    if {[$txtt index insert] ne $cursor} {
+      cleanup "$id cursor is not correct ([$txtt index insert])"
+    }
+    if {$vim::mode($txtt) ne "start"} {
+      cleanup "$id mode is not start"
+    }
+
+    if {$undo} {
+
+      enter $txtt u
+
+      if {[$txtt get 1.0 end-1c] ne $prevalue} {
+        cleanup "$id undo did not work ([$txtt get 1.0 end-1c])"
+      }
+      if {[$txtt index insert] ne $precursor} {
+        cleanup "$id undo cursor is not correct ([$txtt index insert])"
+      }
+
+    }
+
+  }
+
+  # Perform p Vim command
+  proc run_test40 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    clipboard clear
+    clipboard append "This is a line"
+
+    do_paste_test $txtt 0 p     2.14 "\nTThis is a linehis is a line"
+    do_paste_test $txtt 1 {2 p} 2.28 "\nTThis is a lineThis is a linehis is a line"
+    do_paste_test $txtt 2 P     2.13 "\nThis is a lineThis is a line"
+
+
+    # Cleanup
+    cleanup
+
+  }
+
 }
