@@ -892,8 +892,10 @@ OR<br/>
 </tr>
 <tr>
 	<td style="text-align:left;">Indentation / Format Text</td>
-	<td style="text-align:left;">Ctrl-|</td>
-	<td style="text-align:left;">Ctrl-|</td>
+	<td style="text-align:left;">Ctrl-</td>
+	<td style="text-align:left;"></td>
+	<td style="text-align:left;">Ctrl-</td>
+	<td style="text-align:left;"></td>
 	<td style="text-align:left;">Modifies either the selected text or the entire file content (depending on whether text is currently selected or not) to match the indentation in the current context.</td>
 </tr>
 <tr>
@@ -3363,6 +3365,18 @@ OR<br/>
 	<td style="text-align:left;">Replaces the current word.</td>
 </tr>
 <tr>
+	<td style="text-align:left;"><strong>c$</strong></td>
+	<td style="text-align:left;">Replaces all text from the current cursor to the end of the line.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>c0</strong></td>
+	<td style="text-align:left;">Replaces all text from the beginning of the current line to just before the cursor.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>c^</strong></td>
+	<td style="text-align:left;">Replaces all text from the current cursor to the beginning of the first non-whitespace character of the line.</td>
+</tr>
+<tr>
 	<td style="text-align:left;"><strong>ci</strong><em>char</em></td>
 	<td style="text-align:left;">Replaces all text contained within the pair of <em>char</em> characters before and after the current insertion cursor. If the value of <em>char</em> is a bracket type (i.e., <strong>{</strong>, <strong>}</strong>, <strong>[<strong>, </strong>]</strong>, <strong>(</strong>, <strong>)</strong>, <strong>&lt;</strong>, <strong>&gt;</strong>), all characters between that bracket and its matching bracket around the current insertion cursor will be replaced.</td>
 </tr>
@@ -3665,6 +3679,10 @@ OR<br/>
 <tr>
 	<td style="text-align:left;"><strong>d$</strong></td>
 	<td style="text-align:left;">Deletes from the current cursor position to the end of the current line.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>d^</strong></td>
+	<td style="text-align:left;">Deletes from the current cursor position to the first non-whitespace character of the current line.</td>
 </tr>
 <tr>
 	<td style="text-align:left;"><strong>:</strong><em>x,y</em><strong>d</strong></td>
