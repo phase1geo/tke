@@ -1136,7 +1136,7 @@ namespace eval vim {
     # If the selection type is inclusive or old, include the current insertion cursor in the selection
     if {$type eq "line"} {
       foreach anchor $select_anchors($txtt) {
-        $txtt tag add sel "$anchor linestart" "$anchor lineend"
+        $txtt tag add sel "$anchor linestart" "$anchor+1l linestart"
       }
     } elseif {$seltype ne "exclusive"} {
       foreach anchor $select_anchors($txtt) {
@@ -2068,17 +2068,21 @@ namespace eval vim {
           set endpos "insert lineend"
         }
       }
-      if {([string range $mode($txtt) 0 5] eq "change") || \
-          ([string range $mode($txtt) 0 5] eq "delete")} {
+      if {[string range $mode($txtt) 0 5] eq "delete"} {
+        if {[$txtt compare $startpos != $endpos]} {
+          clipboard clear
+          clipboard append [$txtt get $startpos $endpos]
+          $txtt delete $startpos $endpos
+          adjust_insert $txtt
+        }
+        start_mode $txtt
+        return 1
+      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
         if {[$txtt compare $startpos != $endpos]} {
           $txtt delete $startpos $endpos
           adjust_insert $txtt
         }
-        if {[string index $mode($txtt) 0] eq "c"} {
-          edit_mode $txtt
-        } else {
-          start_mode $txtt
-        }
+        edit_mode $txtt
         return 1
       } elseif {[string range $mode($txtt) 0 3] eq "yank"} {
         clipboard clear
@@ -2381,17 +2385,20 @@ namespace eval vim {
           set endpos "insert+1c"
         }
       }
-      if {([string range $mode($txtt) 0 5] eq "change") || \
-          ([string range $mode($txtt) 0 5] eq "delete")} {
+      if {[string range $mode($txtt) 0 5] eq "delete"} {
         if {[$txtt compare $startpos != $endpos]} {
+          clipboard clear
+          clipboard append [$txtt get $startpos $endpos]
           $txtt delete $startpos $endpos
           adjust_insert $txtt
         }
-        if {[string index $mode($txtt) 0] eq "c"} {
-          edit_mode $txtt
-        } else {
-          start_mode $txtt
+        start_mode $txtt
+        return 1
+      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
+        if {[$txtt compare $startpos != $endpos]} {
+          $txtt delete $startpos $endpos
         }
+        edit_mode $txtt
         return 1
       } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
         clipboard clear
@@ -2707,6 +2714,7 @@ namespace eval vim {
       clipboard clear
       clipboard append [$txtt get sel.first sel.last]
       cliphist::add_from_clipboard
+      $txtt mark set insert sel.first
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "yank"} {
@@ -2940,14 +2948,17 @@ namespace eval vim {
 
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "+${number}c"
-    } elseif {[$txtt compare "insert+${number}c" > "insert lineend"]} {
-      $txtt delete insert "insert lineend"
     } else {
-      $txtt delete insert "insert+${number}c"
+      if {[$txtt compare [set endpos "insert+${number}c"] > "insert lineend"]} {
+        set endpos "insert lineend"
+      }
+      if {[$txtt compare insert != $endpos]} {
+        clipboard clear
+        clipboard append [$txtt get insert $endpos]
+        $txtt delete insert $endpos
+        adjust_insert $txtt
+      }
     }
-
-    # Adjust the cursor
-    adjust_insert $txtt
 
     # Create separator
     $txtt edit separator
@@ -2963,14 +2974,17 @@ namespace eval vim {
 
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt "-${number}c"
-    } elseif {[$txtt compare "insert-${number}c" < "insert linestart"]} {
-      $txtt delete "insert linestart" insert
     } else {
-      $txtt delete "insert-${number}c" insert
+      if {[$txtt compare [set startpos "insert-${number}c"] < "insert linestart"]} {
+        set startpos "insert linestart"
+      }
+      if {[$txtt compare insert != $startpos]} {
+        clipboard clear
+        clipboard append [$txtt get $startpos insert]
+        $txtt delete $startpos insert
+        adjust_insert $txtt
+      }
     }
-
-    # Adjust the cursor
-    adjust_insert $txtt
 
     # Create separator
     $txtt edit separator
@@ -3631,12 +3645,16 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+    if {$mode($txtt) eq "start"} {
       edit::transform_toggle_case $txtt insert "insert+[get_number $txtt]c"
       adjust_insert $txtt
-      if {[in_visual_mode $txtt]} {
-        start_mode $txtt
-      }
+      return 1
+    } elseif {[in_visual_mode $txtt]} {
+      set startpos [$txtt index sel.first]
+      edit::transform_toggle_case $txtt sel.first sel.last
+      $txtt mark set insert $startpos
+      vim::adjust_insert $txtt
+      start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "goto"} {
       set mode($txtt) "case:swap"
@@ -3785,17 +3803,20 @@ namespace eval vim {
         set startpos "insert"
         set endpos   "insert+$num display chars"
       }
-      if {([string range $mode($txtt) 0 5] eq "change") || \
-          ([string range $mode($txtt) 0 5] eq "delete")} {
+      if {[string range $mode($txtt) 0 5] eq "delete"} {
         if {[$txtt compare $startpos != $endpos]} {
+          clipboard clear
+          clipboard append [$txtt get $startpos $endpos]
           $txtt delete $startpos $endpos
           adjust_insert $txtt
         }
-        if {[string index $mode($txtt) 0] eq "c"} {
-          edit_mode $txtt
-        } else {
-          start_mode $txtt
+        start_mode $txtt
+        return 1
+      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
+        if {[$txtt compare $startpos != $endpos]} {
+          $txtt delete $startpos $endpos
         }
+        edit_mode $txtt
         return 1
       } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
         clipboard clear
@@ -3850,15 +3871,20 @@ namespace eval vim {
           set endpos "insert+1c"
         }
       }
-      if {([string range $mode($txtt) 0 5] eq "change") || \
-          ([string range $mode($txtt) 0 5] eq "delete")} {
-        $txtt delete "insert-${num}c" $endpos
-        adjust_insert $txtt
-        if {[string range $mode($txtt) 0 5] eq "change"} {
-          edit_mode $txtt
-        } else {
-          start_mode $txtt
+      if {[string range $mode($txtt) 0 5] eq "delete"} {
+        if {[$txtt compare "insert-${num}c" != $endpos]} {
+          clipboard clear
+          clipboard append [$txtt get "insert-${num}c" $endpos]
+          $txtt delete "insert-${num}c" $endpos
+          adjust_insert $txtt
         }
+        start_mode $txtt
+        return 1
+      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
+        if {[$txtt compare "insert-${num}c" != $endpos]} {
+          $txtt delete "insert-${num}c" $endpos
+        }
+        edit_mode $txtt
         return 1
       } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
         clipboard clear

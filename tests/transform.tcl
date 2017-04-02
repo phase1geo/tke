@@ -99,6 +99,11 @@ namespace eval transform {
     do_test $txtt 0 {asciitilde} 2.1 "\nthis is a line"
     do_test $txtt 1 {2 asciitilde} 2.2 "\ntHis is a line"
 
+    $txtt mark set insert 2.2
+    enter $txtt {v l}
+    do_test $txtt 2 asciitilde     2.2 "\nThIS is a line"
+    do_test $txtt 3 {V asciitilde} 2.0 "\ntHIS IS A LINE"
+
     # Cleanup
     cleanup
 

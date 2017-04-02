@@ -340,7 +340,7 @@ namespace eval edit {
       }
       if {$copy} {
         clipboard clear
-        clipboard append [$txtt get insert "$index+1c"]
+        clipboard append [$txtt get insert $index]
       }
       $txtt delete insert $index
       if {$copy && $inclusive} {
@@ -489,6 +489,11 @@ namespace eval edit {
   # Converts a character-by-character case inversion of the given text.
   proc convert_case_toggle {txtt index str} {
 
+    # Adjust the string so that we don't add an extra new line
+    if {[string index $str end] eq "\n"} {
+      set str [string range $str 0 end-1]
+    }
+
     set strlen [string length $str]
 
     for {set i 0} {$i < $strlen} {incr i} {
@@ -503,6 +508,11 @@ namespace eval edit {
   ######################################################################
   # Converts the case to the given type on a word basis.
   proc convert_case_to_title {txtt index str} {
+
+    # Adjust the string so that we don't add an extra new line
+    if {[string index $str end] eq "\n"} {
+      set str [string range $str 0 end-1]
+    }
 
     while {[regexp {^(\w+)(\W*)(.*)$} $str -> word wspace str]} {
       set wordlen [string length $word]

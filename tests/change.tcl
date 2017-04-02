@@ -63,16 +63,27 @@ namespace eval change {
     set start        [$txtt get 1.0 end-1c]
     set start_cursor [$txtt index insert]
 
+    clipboard clear
+    clipboard append "FOOBAR"
+
     enter $txtt $cmdlist
 
     if {[$txtt get 1.0 end-1c] ne $value} {
       cleanup "$id change did not work ([$txtt get 1.0 end-1c])"
     }
-    if {$vim::mode($txtt) ne "edit"} {
-      cleanup "$id not in edit mode"
+    switch [lindex $cmdlist 0] {
+      "r"     { set mode "start" }
+      "R"     { set mode "replace_all" }
+      default { set mode "edit" }
+    }
+    if {$vim::mode($txtt) ne $mode} {
+      cleanup "$id not in $mode mode ($vim::mode($txtt))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id insertion cursor not correct ([$txtt index insert])"
+    }
+    if {[clipboard get] ne "FOOBAR"} {
+      cleanup "$id clipboard was incorrect ([clipboard get])"
     }
 
     enter $txtt Escape
@@ -89,8 +100,44 @@ namespace eval change {
 
   }
 
-  # Verify cc Vim command
+  # Verify r Vim command
   proc run_test1 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {r M} 2.0 "\nMhis is a line"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify R Vim command
+  proc run_test2 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {R M a r k} 2.4 "\nMark is a line\nThis is a line"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify cc Vim command
+  proc run_test3 {} {
 
     # Initialize
     set txtt [initialize]
@@ -117,7 +164,7 @@ namespace eval change {
   }
 
   # Verify cl Vim command
-  proc run_test2 {} {
+  proc run_test4 {} {
 
     # Initialize
     set txtt [initialize]
@@ -142,7 +189,7 @@ namespace eval change {
   }
 
   # Verify cvl Vim command
-  proc run_test3 {} {
+  proc run_test5 {} {
 
     # Initialize
     set txtt [initialize]
@@ -169,7 +216,7 @@ namespace eval change {
   }
 
   # Verify cw Vim command
-  proc run_test4 {} {
+  proc run_test6 {} {
 
     # Initialize
     set txtt [initialize]
@@ -194,7 +241,7 @@ namespace eval change {
   }
 
   # Verify C Vim command
-  proc run_test5 {} {
+  proc run_test7 {} {
 
     # Initialize
     set txtt [initialize]
@@ -216,7 +263,7 @@ namespace eval change {
   }
 
   # Verify c$ command
-  proc run_test6 {} {
+  proc run_test8 {} {
 
     # Initialize
     set txtt [initialize]
@@ -242,7 +289,7 @@ namespace eval change {
   }
 
   # Verify c0 Vim command
-  proc run_test8 {} {
+  proc run_test9 {} {
 
     # Initialize
     set txtt [initialize]
@@ -252,11 +299,11 @@ namespace eval change {
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {c 0} 2.0 "\ns a line\nThis is a line"
+    do_test $txtt 0 {c 0} 2.0 "\na line\nThis is a line"
 
-    do_test $txtt 1 {c 0} 2.0 "\ns a line\nThis is a line" 0
+    do_test $txtt 1 {c 0} 2.0 "\na line\nThis is a line" 0
     $txtt mark set insert 3.1
-    do_test $txtt 2 {c 0} 3.0 "\ns a line\nhis is a line"
+    do_test $txtt 2 {c 0} 3.0 "\na line\nhis is a line"
 
     # Cleanup
     cleanup
@@ -264,7 +311,7 @@ namespace eval change {
   }
 
   # Verify c^ Vim command
-  proc run_test7 {} {
+  proc run_test10 {} {
 
     # Initialize
     set txtt [initialize]
@@ -298,7 +345,7 @@ namespace eval change {
   }
 
   # Verify cf Vim command
-  proc run_test8 {} {
+  proc run_test11 {} {
 
     # Initialize
     set txtt [initialize]
@@ -323,7 +370,7 @@ namespace eval change {
   }
 
   # Verify ct Vim command
-  proc run_test9 {} {
+  proc run_test12 {} {
 
     # Initialize
     set txtt [initialize]
@@ -348,7 +395,7 @@ namespace eval change {
   }
 
   # Verify cF Vim command
-  proc run_test10 {} {
+  proc run_test13 {} {
 
     # Initialize
     set txtt [initialize]
@@ -373,7 +420,7 @@ namespace eval change {
   }
 
   # Verify cT Vim command
-  proc run_test11 {} {
+  proc run_test14 {} {
 
     # Initialize
     set txtt [initialize]
@@ -398,7 +445,7 @@ namespace eval change {
   }
 
   # Verify ch Vim command
-  proc run_test12 {} {
+  proc run_test15 {} {
 
     # Initialize
     set txtt [initialize]
@@ -426,7 +473,7 @@ namespace eval change {
   }
 
   # Verify ci Vim command
-  proc run_test13 {} {
+  proc run_test16 {} {
 
     # Initialize
     set txtt [initialize]
@@ -444,7 +491,7 @@ namespace eval change {
   }
 
   # Verify ci\{ Vim command
-  proc run_test14 {} {
+  proc run_test17 {} {
 
     # Initialize
     set txtt [initialize]
@@ -462,7 +509,7 @@ namespace eval change {
   }
 
   # Verify ci[ Vim command
-  proc run_test15 {} {
+  proc run_test18 {} {
 
     # Initialize
     set txtt [initialize]
@@ -480,7 +527,7 @@ namespace eval change {
   }
 
   # Verify ci( Vim command
-  proc run_test16 {} {
+  proc run_test19 {} {
 
     # Initialize
     set txtt [initialize]
@@ -498,7 +545,7 @@ namespace eval change {
   }
 
   # Verify ci< Vim command
-  proc run_test17 {} {
+  proc run_test20 {} {
 
     # Initialize
     set txtt [initialize]
@@ -516,7 +563,7 @@ namespace eval change {
   }
 
   # Verify cSpace Vim command
-  proc run_test18 {} {
+  proc run_test21 {} {
 
     # Initialize
     set txtt [initialize]
@@ -545,7 +592,7 @@ namespace eval change {
   }
 
   # Verify cBackSpace Vim command
-  proc run_test19 {} {
+  proc run_test22 {} {
 
     # Initialize
     set txtt [initialize]
@@ -573,7 +620,7 @@ namespace eval change {
   }
 
   # Verify cn Vim command
-  proc run_test20 {} {
+  proc run_test23 {} {
 
     # Initialize
     set txtt [initialize]
@@ -601,7 +648,7 @@ namespace eval change {
   }
 
   # Verify cN Vim command
-  proc run_test21 {} {
+  proc run_test24 {} {
 
     # Initialize
     set txtt [initialize]
@@ -629,7 +676,7 @@ namespace eval change {
   }
 
   # Verify cs Vim command
-  proc run_test22 {} {
+  proc run_test25 {} {
 
     # Initialize
     set txtt [initialize]
@@ -662,7 +709,7 @@ namespace eval change {
   }
 
   # Verify cS Vim command
-  proc run_test23 {} {
+  proc run_test26 {} {
 
     # Initialize
     set txtt [initialize]
