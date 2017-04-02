@@ -2,6 +2,7 @@ var utils_8tcl =
 [
     [ "auto_adjust_color", "utils_8tcl.html#ae67b92ab7f8d7401b82a5ee5e211cc5d", null ],
     [ "auto_mix_colors", "utils_8tcl.html#a8c3b435ab26715ea69ffd020a52be918", null ],
+    [ "basename_range", "utils_8tcl.html#aa882721b1d7a65d479cd627571bfc09d", null ],
     [ "center_on_screen", "utils_8tcl.html#a52195c97d90390224e74900292d122e2", null ],
     [ "color_difference", "utils_8tcl.html#a397ee0ebc76bb4ca28317e8b978e560e", null ],
     [ "color_to_rgb", "utils_8tcl.html#a8c959c74cd7de75f85b289b0be625b5a", null ],
@@ -27,6 +28,9 @@ var utils_8tcl =
     [ "set_yscrollbar", "utils_8tcl.html#a613ba50c9cda7df625beea690cfd28cf", null ],
     [ "stacktrace", "utils_8tcl.html#a37bb69c30961eae2ef7cab8c309ee87e", null ],
     [ "string_to_keysym", "utils_8tcl.html#a77efd6dbbcfa19b24e64eba2b74ed0af", null ],
+    [ "sym2char", "utils_8tcl.html#a5d3bc75e794bed4488573a9643da8431", null ],
+    [ "sym2code", "utils_8tcl.html#a1daeb0b36be4e5f5085814b66a3b5a63", null ],
     [ "tablelist_configure", "utils_8tcl.html#a626b3f5a259e34e4b77ec34256607dee", null ],
+    [ "test_url", "utils_8tcl.html#a4bd6667f7a2dc5ecc0859064e356823b", null ],
     [ "text_anchor", "utils_8tcl.html#ac71da0a72a12bce0a4da53391b3b0786", null ]
 ];

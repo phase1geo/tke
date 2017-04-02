@@ -13,9 +13,7 @@ var searchData=
   ['nfs_5fdelete',['nfs_delete',['../namespacepref__ui.html#a1ea3390960f4051f3ee8e80dfe0b2355',1,'pref_ui']]],
   ['nfs_5fedit_5fend_5fcommand',['nfs_edit_end_command',['../namespacepref__ui.html#a26f696152a82c40fefd10845c4535f5b',1,'pref_ui']]],
   ['nil',['nil',['../namespacevim.html#a497ebd10458af921b8241f11678d4df4',1,'vim']]],
-  ['normalize',['normalize',['../namespacegui.html#a8c4f55aea41fbcef4b84066ef0be39f5',1,'gui']]],
+  ['normalize',['normalize',['../namespacefiles.html#afd303a056c6f540f7a974fc8b4d7cfbd',1,'files']]],
   ['normalize_5fcolor',['normalize_color',['../namespacetheme.html#af2c54c066109e0a2be0c72cd48c0faf2',1,'theme']]],
-  ['normalize_5ffilename',['normalize_filename',['../namespaceapi.html#a721c189f06523428e19bf94ceb165a7b',1,'api::normalize_filename()'],['../namespacevim.html#a3dde75450ea5fee2224bc9aa24c3ad46',1,'vim::normalize_filename()']]],
-  ['ns',['ns',['../ns_8tcl.html#a9c9a409beb4613f259cda69a2208b1e2',1,'ns.tcl']]],
-  ['ns_2etcl',['ns.tcl',['../ns_8tcl.html',1,'']]]
+  ['normalize_5ffilename',['normalize_filename',['../namespaceapi.html#a721c189f06523428e19bf94ceb165a7b',1,'api::normalize_filename()'],['../namespacevim.html#a3dde75450ea5fee2224bc9aa24c3ad46',1,'vim::normalize_filename()']]]
 ];

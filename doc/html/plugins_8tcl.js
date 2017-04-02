@@ -31,6 +31,7 @@ var plugins_8tcl =
     [ "handle_on_rename", "plugins_8tcl.html#a342697765095b34a1ff3eea9352782a1", null ],
     [ "handle_on_save", "plugins_8tcl.html#a535273b3aeebc5af69d529002995eda0", null ],
     [ "handle_on_start", "plugins_8tcl.html#ae6a9b2088b8bb2ab19faa96d247ea628", null ],
+    [ "handle_on_trash", "plugins_8tcl.html#aa9f302ca26bab434bb4ed46e37c2c71d", null ],
     [ "handle_on_uninstall", "plugins_8tcl.html#a82eb7446080e9d79b4d77b3b548fe1bd", null ],
     [ "handle_on_update", "plugins_8tcl.html#a1dc1c9606a5cfd5f2b5af8bf6423105f", null ],
     [ "handle_plugin_menu", "plugins_8tcl.html#abb36fa8201e0a294c137c72860d107d6", null ],

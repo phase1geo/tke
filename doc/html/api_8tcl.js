@@ -17,11 +17,11 @@ var api_8tcl =
     [ "normalize_filename", "api_8tcl.html#a721c189f06523428e19bf94ceb165a7b", null ],
     [ "open_file", "api_8tcl.html#a8314b76c2b45a6f10caf4b9648a9980f", null ],
     [ "register_launcher", "api_8tcl.html#a7d613353a404aa8653113b181c28ecfb", null ],
-    [ "reset_text_focus", "api_8tcl.html#a3ad71c189816c2d0a934cdd3545a8ca5", null ],
+    [ "reset_text_focus", "api_8tcl.html#aa517a42355eb6cccae71569fa5273d32", null ],
     [ "save_variable", "api_8tcl.html#ae98577e8c2577e6bd5abc1effc4812ed", null ],
     [ "show_error", "api_8tcl.html#af986a4bee016402e7118a63d9d15d999", null ],
     [ "show_info", "api_8tcl.html#a14afda708b0389cd13906216203a4bf1", null ],
     [ "tke_development", "api_8tcl.html#ad92668593904387911fcccb8b9c211a0", null ],
     [ "unregister_launcher", "api_8tcl.html#aaaeb165f38a12a750f55389bc59979ae", null ],
-    [ "widget", "api_8tcl.html#a560a4298e97b9c687970e0e64b11d0e9", null ]
+    [ "widget", "api_8tcl.html#ace67a3c32c53d4e90f8abd0a500edd9c", null ]
 ];

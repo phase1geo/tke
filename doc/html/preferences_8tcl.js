@@ -1,10 +1,12 @@
 var preferences_8tcl =
 [
     [ "add_plugin_prefs", "preferences_8tcl.html#aee836b3336b6ef7a605275e1dd2d045a", null ],
+    [ "delete_language_prefs", "preferences_8tcl.html#af3de0b054035a4aa379352960a2f7340", null ],
     [ "get", "preferences_8tcl.html#a83c0c52bb5347f9f2e8f914d02bcc3cb", null ],
     [ "get_loaded", "preferences_8tcl.html#aafa5cc09f06e50c14ce7a1387f482983", null ],
     [ "get_share_items", "preferences_8tcl.html#a21f80b8fcd17ef5afd8bbd53031fa5b9", null ],
     [ "get_user_preference_file", "preferences_8tcl.html#a1eaa9c890552c9b2afea42cd83f398f5", null ],
+    [ "language_exists", "preferences_8tcl.html#a58297b1d521e8101b1252baf9713bb59", null ],
     [ "load", "preferences_8tcl.html#accc53512284d3da2788f88005351d176", null ],
     [ "load_base_prefs", "preferences_8tcl.html#ab1e10cbb046b4808eeb7d44b0917065f", null ],
     [ "load_file", "preferences_8tcl.html#a2bebf3650407f8a433b92cabfe3d17e0", null ],
