@@ -83,7 +83,7 @@ namespace eval motion {
 
   }
 
-  # Verify h Vim command
+  # Verify h and Left Vim commands
   proc run_test3 {} {
 
     # Initialize the text
@@ -102,12 +102,19 @@ namespace eval motion {
     # Verify that the cursor will not move to the left when we are in column 0
     do_test $txtt 3 h     2.0
 
+    $txtt mark set insert 2.5
+
+    do_test $txtt 4 Left     2.4
+    do_test $txtt 5 {2 Left} 2.2
+    do_test $txtt 6 {5 Left} 2.0
+    do_test $txtt 7 Left     2.0
+
     # Cleanup
     cleanup
 
   }
 
-  # Verify l Vim command
+  # Verify l and Right Vim commands
   proc run_test4 {} {
 
     # Initialize the text
@@ -126,12 +133,19 @@ namespace eval motion {
     # Verify that we don't move a single character
     do_test $txtt 3 l       2.14
 
+    $txtt mark set insert 2.5
+
+    do_test $txtt 4 Right       2.6
+    do_test $txtt 5 {2 Right}   2.8
+    do_test $txtt 6 {2 0 Right} 2.14
+    do_test $txtt 7 Right       2.14
+
     # Cleanup
     cleanup
 
   }
 
-  # Verify k Vim command
+  # Verify k and Up Vim commands
   proc run_test5 {} {
 
     # Initialize the text
@@ -159,12 +173,21 @@ namespace eval motion {
       incr i
     }
 
+    $txtt mark set insert 7.0
+
+    do_test $txtt 20 Up     6.0
+    do_test $txtt 21 {2 Up} 4.0
+    do_test $txtt 22 Up     3.0 1
+    do_test $txtt 23 Up     2.0
+    do_test $txtt 24 {5 Up} 1.0 1
+    do_test $txtt 25 Up     1.0 1
+
     # Cleanup
     cleanup
 
   }
 
-  # Verify j Vim command
+  # Verify j and Down Vim command
   proc run_test6 {} {
 
     # Initialize the text
@@ -190,6 +213,15 @@ namespace eval motion {
     foreach index [list 3.2 4.3 5.3 6.0 7.3 8.0] {
       do_test $txtt [expr $i + 8] j $index [expr [lindex [split $index .] 1] == 0]
     }
+
+    $txtt mark set insert 2.0
+
+    do_test $txtt 20 Down     3.0
+    do_test $txtt 21 {2 Down} 5.0
+    do_test $txtt 22 Down     6.0 1
+    do_test $txtt 23 Down     7.0
+    do_test $txtt 24 {5 Down} 9.0 1
+    do_test $txtt 25 Down     9.0 1
 
     # Cleanup
     cleanup
@@ -522,10 +554,12 @@ namespace eval motion {
     $txtt mark set insert 2.4
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 l 2.7
-    do_test $txtt 1 h 2.4
-    do_test $txtt 2 w 2.7
-    do_test $txtt 3 b 2.3
+    do_test $txtt 0 l      2.7
+    do_test $txtt 1 h      2.4
+    do_test $txtt 20 Right 2.7
+    do_test $txtt 21 Left  2.4
+    do_test $txtt 2 w      2.7
+    do_test $txtt 3 b      2.3
 
     do_test $txtt 4 {l space} 2.7
     do_test $txtt 5 BackSpace 2.4
@@ -651,6 +685,21 @@ namespace eval motion {
       cleanup "One return did not work ([$txtt tag ranges sel])"
     }
 
+    enter $txtt Right
+    if {[$txtt tag ranges sel] ne [list 2.0 4.2]} {
+      cleanup "One Right did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt {2 G}
+    if {[$txtt tag ranges sel] ne [list 2.0 2.1]} {
+      cleanup "2 G did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt Down
+    if {[$txtt tag ranges sel] ne [list 2.0 3.1]} {
+      cleanup "One Down did not work ([$txtt tag ranges sel])"
+    }
+
     # Cleanup
     cleanup
 
@@ -686,6 +735,11 @@ namespace eval motion {
     enter $txtt b
     if {[$txtt tag ranges sel] ne [list 2.5 2.11]} {
       cleanup "One b did not work ([$txtt tag ranges sel])"
+    }
+
+    enter $txtt Left
+    if {[$txtt tag ranges sel] ne [list 2.4 2.11]} {
+      cleanup "One Left did not work ([$txtt tag ranges sel])"
     }
 
     enter $txtt {1 1 bar 2 b}
@@ -728,9 +782,9 @@ namespace eval motion {
       cleanup "One k did not work ([$txtt tag ranges sel])"
     }
 
-    enter $txtt k
+    enter $txtt Up
     if {[$txtt tag ranges sel] ne [list 2.0 4.1]} {
-      cleanup "Another k did not work ([$txtt tag ranges sel])"
+      cleanup "One Up did not work ([$txtt tag ranges sel])"
     }
 
     # Cleanup
