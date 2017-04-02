@@ -406,13 +406,23 @@ namespace eval yank {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
+    # Verify pasting characters that are less than a line
     clipboard clear
     clipboard append "This is a line"
 
     do_paste_test $txtt 0 p     2.14 "\nTThis is a linehis is a line"
     do_paste_test $txtt 1 {2 p} 2.28 "\nTThis is a lineThis is a linehis is a line"
     do_paste_test $txtt 2 P     2.13 "\nThis is a lineThis is a line"
+    do_paste_test $txtt 3 {2 P} 2.27 "\nThis is a lineThis is a lineThis is a line"
 
+    # Verify pasting strings that contain newlines
+    clipboard clear
+    clipboard append "  This is a line\n"
+
+    do_paste_test $txtt 4 p     3.2 "\nThis is a line\n  This is a line"
+    do_paste_test $txtt 5 {2 p} 3.2 "\nThis is a line\n  This is a line\n  This is a line"
+    do_paste_test $txtt 6 P     2.2 "\n  This is a line\nThis is a line"
+    do_paste_test $txtt 7 {2 P} 2.2 "\n  This is a line\n  This is a line\nThis is a line"
 
     # Cleanup
     cleanup
