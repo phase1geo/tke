@@ -921,7 +921,7 @@ namespace eval motion {
       $txtt mark set insert 10.0
 
       enter $txtt V
-      if {[$txtt tag ranges sel] ne [list 10.0 10.14]} {
+      if {[$txtt tag ranges sel] ne [list 10.0 11.0]} {
         cleanup "Line selection mode did not work ([$txtt tag ranges sel])"
       }
 

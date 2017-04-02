@@ -161,6 +161,7 @@ namespace eval sidebar {
 
   }
 
+  # Verify directory deletion
   proc run_test3 {} {
 
     # Initialize for test
@@ -202,6 +203,7 @@ namespace eval sidebar {
 
   }
 
+  # Verify close directory files
   proc run_test4 {} {
 
     # Initialize for test
@@ -244,6 +246,7 @@ namespace eval sidebar {
 
   }
 
+  # Verify copy directory pathname
   proc run_test5 {} {
 
     # Initialize for test
@@ -263,6 +266,7 @@ namespace eval sidebar {
 
   }
 
+  # Verify folder rename
   proc run_test6 {} {
 
     # Initialize for test
@@ -319,6 +323,7 @@ namespace eval sidebar {
 
   }
 
+  # Verify folder deletion
   proc run_test7 {} {
 
     # Initialize for test
@@ -337,7 +342,27 @@ namespace eval sidebar {
 
   }
 
+  # Verify folder trash
   proc run_test8 {} {
+
+    # Initialize
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+
+    sidebar::move_to_trash $parent
+
+    if {[llength [$sidebar::widgets(tl) children {}]] != 0} {
+      cleanup "Folder was not removed ([llength [$sidebar::widgets(tl) children {}]])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify add parent directory
+  proc run_test9 {} {
 
     # Initialize for test
     initialize
@@ -380,7 +405,7 @@ namespace eval sidebar {
 
   }
 
-  proc run_test9 {} {
+  proc run_test10 {} {
 
     variable base_dir
 
@@ -407,7 +432,8 @@ namespace eval sidebar {
 
   }
 
-  proc run_test10 {} {
+  # Verify remove parent folder
+  proc run_test11 {} {
 
     variable base_dir
 
@@ -447,7 +473,7 @@ namespace eval sidebar {
   }
 
   # Verify file open/close
-  proc run_test11 {} {
+  proc run_test12 {} {
 
     variable base_dir
 
@@ -485,7 +511,8 @@ namespace eval sidebar {
 
   }
 
-  proc run_test12 {} {
+  # Verify rename file
+  proc run_test13 {} {
 
     variable base_dir
 
@@ -517,7 +544,8 @@ namespace eval sidebar {
 
   }
 
-  proc run_test13 {} {
+  # Verify file duplicate and deletion
+  proc run_test14 {} {
 
     variable base_dir
 
@@ -578,6 +606,86 @@ namespace eval sidebar {
     }
 
     # Clean things up
+    cleanup
+
+  }
+
+  # Verify file trash
+  proc run_test15 {} {
+
+    variable base_dir
+
+    # Initialize
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+    set row    [sidebar::get_index [file join $base_dir glad.tcl] ""]
+
+    sidebar::move_to_trash $row
+
+    if {[llength [$sidebar::widgets(tl) children $parent]] != 2} {
+      cleanup "glad.tcl was not removed from the parent directory in sidebar"
+    }
+
+    if {[sidebar::get_index [file join $base_dir glad.tcl] ""] ne ""} {
+      cleanup "glad.tcl was still found in the sidebar"
+    }
+
+    if {[file exists [file join $base_dir glad.tcl]]} {
+      cleanup "glad.tcl was not removed from the file system"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify file handling when an opened file is renamed
+  proc run_test16 {} {
+
+    variable base_dir
+
+    # Initialize
+    initialize
+
+    set parent [lindex [$sidebar::widgets(tl) children {}] 0]
+    set row    [sidebar::get_index [file join $base_dir glad.tcl] ""]
+
+    # Open the file
+    sidebar::open_file $row
+    gui::get_info {} current tabbar tab fname
+
+    if {$fname ne [file join $base_dir glad.tcl]} {
+      sidebar::close_file $row
+      cleanup "glad.tcl was not opened in an editing buffer ($fname)"
+    }
+
+    if {[set name [string trim [$tabbar tab $tab -text]]] ne "glad.tcl"} {
+      sidebar::close_file $row
+      cleanup "Tab identifier for current buffer is not glad.tcl ($name)"
+    }
+
+    sidebar::rename_file $row -testname [file join $base_dir bald.tcl]
+    gui::get_info {} current tabbar tab fname
+
+    if {[set row [sidebar::get_index [file join $base_dir bald.tcl] ""]] eq ""} {
+      cleanup "bald.tcl was not found in sidebar"
+    }
+
+    if {$fname ne [file join $base_dir bald.tcl]} {
+      sidebar::close_file $row
+      cleanup "glad.tcl was not renamed within the opened files ($fname)"
+    }
+
+    if {[string trim [$tabbar tab $tab -text]] ne "bald.tcl"} {
+      sidebar::close_file $row
+      cleanup "Tab identifier for current buffer is not bald.tcl"
+    }
+
+    # Make sure that the file is closed
+    sidebar::close_file $row
+
+    # Cleanup
     cleanup
 
   }

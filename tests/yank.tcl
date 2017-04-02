@@ -341,4 +341,22 @@ namespace eval yank {
 
   }
 
+  # Perform yank in visual mode
+  proc run_test11 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line"
+    $txtt mark set insert 2.8
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {v l y} 2.8 "a "
+    do_test $txtt 1 {V y}   2.0 "This is a line\n"
+
+    # Cleanup
+    cleanup
+
+  }
+
 }
