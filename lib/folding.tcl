@@ -182,12 +182,11 @@ namespace eval folding {
 
     if {[lsearch [$txt gutter names] folding] != -1} {
 
-      # Get the color used to highlight closed folds
-      set close_fg [$txt cget -insertbackground]
+      array set theme [theme::get_syntax_colors]
 
       # Update the folding color
-      $txt gutter configure folding close  -fg $close_fg
-      $txt gutter configure folding eclose -fg $close_fg
+      $txt gutter configure folding close  -fg $theme(closed_fold)
+      $txt gutter configure folding eclose -fg $theme(closed_fold)
 
     }
 

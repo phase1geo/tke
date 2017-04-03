@@ -285,7 +285,9 @@ namespace eval sidebar {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
 
-    [winfo parent [winfo parent $tbl]] configure -highlightbackground green
+    array set opts [theme::get_category_options sidebar 1]
+    
+    [winfo parent [winfo parent $tbl]] configure -highlightbackground $opts(-dropcolor)
 
     return "link"
 

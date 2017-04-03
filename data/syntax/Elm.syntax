@@ -1,0 +1,62 @@
+filepatterns
+{*.syntax}
+
+vimsyntax
+{}
+
+reference
+{
+  {{Language Reference} http://elm-lang.org/docs}
+}
+
+matchcharsallowed
+{curly square paren}
+
+escapes
+{1}
+
+tabsallowed
+{0}
+
+linewrap
+{0}
+
+casesensitive
+{1}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{--}}
+
+lcomments {{--}}
+
+bcomments {{{\{-} {-\}}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  alias
+  case
+  dist
+  else exposing
+  if import in
+  let
+  module
+  of
+  port
+  then type
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}():,<>=?|^*/+-]} {}
+}

@@ -3711,7 +3711,8 @@ namespace eval vim {
     if {$mode($txtt) eq "start"} {
       set word [$txtt get "insert wordstart" "insert wordend"]
       catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
-      ctext::addSearchClass [winfo parent $txtt] search black yellow "" $word
+      array set theme [theme::get_syntax_colors]
+      ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word
       $txtt tag lower _search sel
       search::find_next [winfo parent $txtt]
       return 1
