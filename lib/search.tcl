@@ -79,7 +79,8 @@ namespace eval search {
       find_clear
 
       # Create a highlight class for the given search string
-      ctext::addSearchClassForRegexp $txt search black yellow "" $str $search_opts
+      array set theme [theme::get_syntax_colors]
+      ctext::addSearchClassForRegexp $txt search $theme(search_foreground) $theme(search_background) "" $str $search_opts
 
     }
 

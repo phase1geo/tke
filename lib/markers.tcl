@@ -177,7 +177,7 @@ namespace eval markers {
 
     set pos   [list]
     set lines [$txt count -lines 1.0 end]
-    set color [theme::get_value syntax cursor]
+    set color [theme::get_value syntax marker]
 
     foreach key [array names markers $txt,*] {
       if {[set start_line [get_index_by_key $key]] ne ""} {

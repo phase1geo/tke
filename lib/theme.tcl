@@ -104,12 +104,17 @@ namespace eval theme {
     syntax,warning_width          {color {grey} {} {0} {msgcat::mc "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."}}
     syntax,embedded               {color {#141414} {} {0} {msgcat::mc "Background color displayed in embedded language code."}}
     syntax,attention              {color {red} {} {0} {msgcat::mc "Background color to use for displaying character information that requires the user's attention."}}
+    syntax,search_background      {color {yellow} {} {0} {msgcat::mc "Background color for matching search text"}}
+    syntax,search_foreground      {color {black} {} {0} {msgcat::mc "Foreground color for matching search text"}}
+    syntax,marker                 {color {orange} {} {0} {msgcat::mc "Background color for markers in the line gutter and scrollbar"}}
+    syntax,closed_fold            {color {orange} {} {0} {msgcat::mc "Color to use for highlighting closed folds in the line number gutter"}}
     sidebar,-background           {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
     sidebar,-foreground           {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
     sidebar,-selectbackground     {color {1} {} {0} {msgcat::mc "Background color for all sidebar items that are selected."}}
     sidebar,-selectforeground     {color {2} {} {0} {msgcat::mc "Text color for all sidebar items that are selected."}}
     sidebar,-highlightbackground  {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar does not have the focus."}}
     sidebar,-highlightcolor       {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar has the focus."}}
+    sidebar,-dropcolor            {color {green} {} {0} {msgcat::mc "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"}}
     sidebar,-highlightthickness   {{number {1 5}} {1} {} {0} {msgcat::mc "Specifies the pixel thickness of the highlight line."}}
     sidebar,-relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Relief value of the sidebar area."}}
     sidebar_scrollbar,-background {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
