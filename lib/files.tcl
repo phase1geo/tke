@@ -43,6 +43,8 @@ namespace eval files {
     eol      13
     remember 14
     remote   15
+    yview    16
+    cursor   17
   }
 
   ######################################################################
@@ -305,6 +307,8 @@ namespace eval files {
       -eol      ""
       -remember 0
       -remote   ""
+      -yview    1.0
+      -cursor   1.0
     }
     array set opts $args
 
@@ -325,6 +329,8 @@ namespace eval files {
     lset file_info $fields(loaded)   $opts(-loaded)
     lset file_info $fields(remember) $opts(-remember)
     lset file_info $fields(remote)   $opts(-remote)
+    lset file_info $fields(yview)    $opts(-yview)
+    lset file_info $fields(cursor)   $opts(-cursor)
 
     if {($opts(-remote) eq "") && !$opts(-buffer)} {
       lset file_info $fields(eol) [get_eol_translation $fname]
