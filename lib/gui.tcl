@@ -619,15 +619,15 @@ namespace eval gui {
   proc handle_show_birdseye {name1 name2 op} {
 
     if {[preferences::get View/ShowBirdsEyeView]} {
-      foreach txt [get_all_texts] {
-        if {[string first "tf2" $txt] == -1} {
-          show_birdseye $txt
+      foreach tab [files::get_tabs] {
+        if {![winfo exists [get_info $tab tab txt2]]} {
+          show_birdseye $tab
         }
       }
     } else {
-      foreach txt [get_all_texts] {
-        if {[string first "tf2" $txt] == -1} {
-          hide_birdseye $txt
+      foreach tab [files::get_tabs] {
+        if {![winfo exists [get_info $tab tab txt2]]} {
+          hide_birdseye $tab
         }
       }
     }
@@ -976,7 +976,7 @@ namespace eval gui {
       foreach tab [$nb.tbf.tb tabs] {
 
         # Get the file tab information
-        get_info $tab tab paneindex txt fname save_cmd lock readonly diff sidebar buffer remember remote
+        get_info $tab tab paneindex txt fname save_cmd lock readonly diff sidebar buffer remember remote txt2 beye
 
         # If we need to forget this file, don't save it to the session
         if {!$remember || ($remote ne "")} {
@@ -1007,6 +1007,8 @@ namespace eval gui {
         set finfo(modified)    0
         set finfo(cursor)      [$txt index insert]
         set finfo(yview)       [$txt index @0,0]
+        set finfo(beye)        [winfo exists $beye]
+        set finfo(split)       [winfo exists $txt2]
 
         # Add markers
         set finfo(markers) [list]
@@ -1059,6 +1061,13 @@ namespace eval gui {
     ]
 
     array set content $info
+
+    array set finfo {
+      yview  ""
+      cursor ""
+      beye   0
+      split  0
+    }
 
     # Put the state information into the rest of the GUI
     if {[info exists content(Fullscreen)] && $content(Fullscreen)} {
@@ -1115,7 +1124,8 @@ namespace eval gui {
           if {[file exists $finfo(fname)]} {
             set tab [add_file $finfo(tab) $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
-              -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1]
+              -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1 -sidebar 0 \
+              -yview $finfo(yview) -cursor $finfo(cursor)]
             get_info $tab tab txt
             if {[syntax::get_language $txt] ne $finfo(language)} {
               syntax::set_language $txt $finfo(language)
@@ -1126,11 +1136,11 @@ namespace eval gui {
             if {$finfo(diff) && [info exists finfo(diffdata)]} {
               diff::set_session_data $txt $finfo(diffdata)
             }
-            if {[info exists finfo(cursor)]} {
-              ::tk::TextSetCursor $txt.t $finfo(cursor)
+            if {$finfo(split)} {
+              show_split_pane $tab
             }
-            if {[info exists finfo(yview)]} {
-              $txt yview $finfo(yview)
+            if {$finfo(beye)} {
+              show_birdseye $tab
             }
             if {[info exists finfo(markers)]} {
               foreach {mname line} $finfo(markers) {
@@ -1361,40 +1371,40 @@ namespace eval gui {
 
   ######################################################################
   # Sync the birdseye text widget.
-  proc sync_birdseye_helper {txt top} {
+  proc sync_birdseye_helper {tab top} {
 
     variable be_after_id
 
     # Get the current tab
-    if {[winfo exists [get_info $txt txt beye]]} {
+    if {[winfo exists [get_info $tab tab beye]]} {
       $beye yview moveto $top
     }
 
-    set be_after_id($txt) ""
+    set be_after_id($tab) ""
 
   }
 
   ######################################################################
   # Sync the birdseye text widget.
-  proc sync_birdseye {txt top} {
+  proc sync_birdseye {tab top} {
 
     variable be_after_id
     variable be_ignore
 
     # If bird's eye view is not enabled, exit immediately
-    if {![info exists be_after_id($txt)]} {
+    if {![info exists be_after_id($tab)]} {
       return
     }
 
-    if {$be_after_id($txt) ne ""} {
-      after cancel $be_after_id($txt)
+    if {$be_after_id($tab) ne ""} {
+      after cancel $be_after_id($tab)
     }
 
-    if {$be_ignore($txt) == 0} {
-      set be_after_id($txt) [after 50 [list gui::sync_birdseye_helper $txt $top]]
+    if {$be_ignore($tab) == 0} {
+      set be_after_id($tab) [after 50 [list gui::sync_birdseye_helper $tab $top]]
     }
 
-    set be_ignore($txt) 0
+    set be_ignore($tab) 0
 
   }
 
@@ -1696,6 +1706,8 @@ namespace eval gui {
       -lazy        0
       -remember    1
       -remote      ""
+      -cursor      1.0
+      -yview       1.0
     }
     array set opts $args
 
@@ -1746,7 +1758,9 @@ namespace eval gui {
         -tags     $opts(-tags) \
         -loaded   0 \
         -remember $opts(-remember) \
-        -remote   $opts(-remote)
+        -remote   $opts(-remote) \
+        -yview    $opts(-yview) \
+        -cursor   $opts(-cursor)
 
       # Run any plugins that should run when a file is opened
       plugins::handle_on_open [expr [files::get_file_num] - 1]
@@ -1776,7 +1790,7 @@ namespace eval gui {
   proc add_tab_content {tab} {
 
     # Get some of the file information
-    get_info $tab tab tabbar txt fname diff loaded
+    get_info $tab tab tabbar txt fname diff loaded yview cursor
 
     # Indicate that we are loading the tab
     $tabbar tab $tab -busy 1
@@ -1804,7 +1818,10 @@ namespace eval gui {
       files::set_info $tab tab modified 0
 
       # Set the insertion mark to the first position
-      ::tk::TextSetCursor $txt.t 1.0
+      ::tk::TextSetCursor $txt.t $cursor
+
+      # Set the yview
+      $txt yview $yview
 
       # Perform an insertion adjust, if necessary
       if {[vim::in_vim_mode $txt.t]} {
@@ -3618,10 +3635,12 @@ namespace eval gui {
   # Toggles the split pane for the current tab.
   proc toggle_split_pane {} {
 
-    if {[winfo exists [get_info {} current txt2]]} {
-      hide_split_pane
+    get_info {} current tab txt2
+
+    if {[winfo exists $txt2]} {
+      hide_split_pane $tab
     } else {
-      show_split_pane
+      show_split_pane $tab
     }
 
   }
@@ -3630,12 +3649,12 @@ namespace eval gui {
   # Toggles the bird's eye view panel for the current tab.
   proc toggle_birdseye {} {
 
-    get_info {} current txt beye
+    get_info {} current tab beye
 
     if {[winfo exists $beye]} {
-      hide_birdseye $txt
+      hide_birdseye $tab
     } else {
-      show_birdseye $txt
+      show_birdseye $tab
     }
 
   }
@@ -4175,7 +4194,7 @@ namespace eval gui {
 
     # Display the bird's eye viewer
     if {[preferences::get View/ShowBirdsEyeView]} {
-      show_birdseye $txt
+      show_birdseye $tab
     }
 
     return $tab
@@ -4187,12 +4206,12 @@ namespace eval gui {
   # the current pane.
   #
   # TBD - This is missing support for applied gutters!
-  proc show_split_pane {} {
+  proc show_split_pane {tab} {
 
     variable show_match_chars
 
     # Get the current paned window
-    get_info {} current tabbar tab txt txt2 diff
+    get_info $tab tab tabbar txt txt2 diff
 
     # Get the paned window of the text widget
     set pw [winfo parent [winfo parent $txt]]
@@ -4278,18 +4297,18 @@ namespace eval gui {
     catch { unset line_sel_anchor($txt.l) }
     catch { unset txt_current($tab) }
     catch { array unset cursor_hist $txt,* }
-    catch { unset be_after_id($txt) }
-    catch { unset be_ignore($txt) }
+    catch { unset be_after_id($tab) }
+    catch { unset be_ignore($tab) }
 
   }
 
   ######################################################################
   # Removes the split pane
-  proc hide_split_pane {} {
+  proc hide_split_pane {tab} {
 
     # Get the current paned window
-    set txt [current_txt]
-    set pw  [winfo parent [winfo parent $txt]]
+    get_info $tab tab txt
+    set pw [winfo parent [winfo parent $txt]]
 
     # Delete the extra text widget
     $pw forget $pw.tf2
@@ -4308,13 +4327,13 @@ namespace eval gui {
   ######################################################################
   # Creates and displays the bird's eye viewer in the same editing buffer
   # as the specified text widget.
-  proc show_birdseye {txt} {
+  proc show_birdseye {tab} {
 
     variable be_after_id
     variable be_ignore
 
     # Get the tab that contains the text widget
-    get_info $txt txt tab beye
+    get_info $tab tab txt beye
 
     if {![winfo exists $beye]} {
 
@@ -4334,8 +4353,8 @@ namespace eval gui {
       # Setup bindings
       bind $beye <Enter>                         [list gui::handle_birdseye_enter %W $txt %m]
       bind $beye <Leave>                         [list gui::handle_birdseye_leave %W %m]
-      bind $beye <ButtonPress-1>                 [list gui::handle_birdseye_left_press %W %x %y $txt]
-      bind $beye <B1-Motion>                     [list gui::handle_birdseye_motion     %W %x %y $txt]
+      bind $beye <ButtonPress-1>                 [list gui::handle_birdseye_left_press %W %x %y $tab $txt]
+      bind $beye <B1-Motion>                     [list gui::handle_birdseye_motion     %W %x %y $tab $txt]
       bind $beye <Control-Button-1>              [list gui::handle_birdseye_control_left %W]
       bind $beye <Control-Button-$::right_click> [list gui::handle_birdseye_control_right %W]
       bind $beye <MouseWheel>                    [bind Text <MouseWheel>]
@@ -4345,8 +4364,8 @@ namespace eval gui {
       set index [lsearch [bindtags $beye] "Text"]
       bindtags $beye [lreplace [bindtags $beye] $index $index]
 
-      set be_after_id($txt) ""
-      set be_ignore($txt)   0
+      set be_after_id($tab) ""
+      set be_ignore($tab)   0
 
       # Make sure that the bird's eye viewer is below any lower panel
       lower $beye
@@ -4405,7 +4424,7 @@ namespace eval gui {
 
   ######################################################################
   # Handles a left button press event inside the bird's eye viewer.
-  proc handle_birdseye_left_press {W x y txt} {
+  proc handle_birdseye_left_press {W x y tab txt} {
 
     variable be_last_y
     variable be_ignore
@@ -4423,7 +4442,7 @@ namespace eval gui {
 
       set be_last_y       ""
       set height          [winfo height $txt]
-      set be_ignore($txt) 1
+      set be_ignore($tab) 1
 
       # TBD - We will want to make sure that the cursor line is centered vertically
       $txt see $cursor
@@ -4440,7 +4459,7 @@ namespace eval gui {
 
   ######################################################################
   # Handles a left button motion event inside the bird's eye viewer.
-  proc handle_birdseye_motion {W x y txt} {
+  proc handle_birdseye_motion {W x y tab txt} {
 
     variable be_last_y
     variable be_ignore
@@ -4450,7 +4469,7 @@ namespace eval gui {
       # Get the current cursor
       set cursor          [$W index @$x,$y]
       set height          [winfo height $txt]
-      set be_ignore($txt) 1
+      set be_ignore($tab) 1
 
       # TBD - We will want to make sure that the cursor line is centered vertically
       $txt see $cursor
@@ -4483,24 +4502,24 @@ namespace eval gui {
 
   ######################################################################
   # Hides the bird's eye viewer associated with the given text widget.
-  proc hide_birdseye {txt} {
+  proc hide_birdseye {tab} {
 
     variable be_after_id
     variable be_ignore
 
     # Get the tab that contains the bird's eye viewer
-    get_info $txt txt beye
+    get_info $tab tab beye
 
     if {[winfo exists $beye]} {
 
       # Cancel the scroll event if one is still set
-      if {$be_after_id($txt) ne ""} {
-        after cancel $be_after_id($txt)
+      if {$be_after_id($tab) ne ""} {
+        after cancel $be_after_id($tab)
       }
 
       # Remove the be_after_id
-      unset be_after_id($txt)
-      unset be_ignore($txt)
+      unset be_after_id($tab)
+      unset be_ignore($tab)
 
       # Remove the widget from the grid
       grid forget $beye

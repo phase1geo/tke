@@ -49,7 +49,7 @@ namespace eval sidebar {
       }
     }
 
-    return [list directories $dirs last_opened $last_opened]
+    return [list directories $dirs last_opened $last_opened opened_dirs [get_opened_dirs]]
 
   }
 
@@ -64,6 +64,7 @@ namespace eval sidebar {
     array set content {
       directories {}
       last_opened {}
+      opened_dirs {}
     }
     array set content $data
 
@@ -77,6 +78,29 @@ namespace eval sidebar {
         add_directory $dir(name)
       }
     }
+
+    # Make sure all of the appropriate directories are opened
+    foreach name $content(opened_dirs) {
+      if {[set row [$widgets(tl) tag has $name,]] ne ""} {
+        expand_directory $row
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Returns a list containing
+  proc get_opened_dirs {} {
+
+    variable widgets
+
+    foreach dir [$widgets(tl) tag has d] {
+      if {([$widgets(tl) set $dir remote] eq "") && [$widgets(tl) item $dir -open]} {
+        lappend dirs [$widgets(tl) set $dir name]
+      }
+    }
+
+    return $dirs
 
   }
 
