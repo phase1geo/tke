@@ -4884,7 +4884,11 @@ namespace eval gui {
 
     # Update the information widgets
     if {[set vim_mode [vim::get_mode $txt]] ne ""} {
-      $widgets(info_state) configure -text [format "%s, %s: %d, %s: %d" $vim_mode [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
+      if {$vim_mode eq "MULTIMOVE MODE"} {
+        $widgets(info_state) configure -text [format "%s" $vim_mode]
+      } else {
+        $widgets(info_state) configure -text [format "%s, %s: %d, %s: %d" $vim_mode [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
+      }
     } else {
       $widgets(info_state) configure -text [format "%s: %d, %s: %d" [msgcat::mc "Line"] $line [msgcat::mc "Column"] [expr $column + 1]]
     }
