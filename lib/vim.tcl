@@ -1673,13 +1673,47 @@ namespace eval vim {
     variable multiplier
     variable multicursor
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {(($mode($txtt) eq "start") || [in_visual_mode $txtt]) && ($num eq "0") && ($multiplier($txtt) eq "")} {
+    if {$mode($txtt) eq "start"} {
+      if {($multiplier($txtt) eq "") && ($num eq "0")} {
         if {$multicursor($txtt)} {
           multicursor::adjust_linestart $txtt
         } else {
           edit::move_cursor $txtt linestart
         }
+      } else {
+        append multiplier($txtt) $num
+        record_start
+      }
+      return 1
+    } elseif {$mode($txtt) eq "goto"} {
+      if {($num eq "0") && ($multiplier($txtt) eq "")} {
+        if {$multicursor($txtt)} {
+          multicursor::adjust_dispstart $txtt
+        } else {
+          edit::move_cursor $txtt dispstart
+        }
+      }
+      start_mode $txtt
+      return 1
+    } elseif {[in_visual_mode $txtt]} {
+      if {($multiplier($txtt) eq "") && ($num eq "0")} {
+        if {[lindex [split $mode($txtt) :] end] eq "goto"} {
+          if {$multicursor($txtt)} {
+            multicursor::adjust_dispstart $txtt
+          } else {
+            edit::move_cursor $txtt dispstart
+          }
+          set mode($txtt) [join [lrange [split $mode($txtt) :] 0 end-1] :]
+        } else {
+          if {$multicursor($txtt)} {
+            multicursor::adjust_linestart $txtt
+          } else {
+            edit::move_cursor $txtt linestart
+          }
+          start_mode $txtt
+        }
+      } elseif {[lindex [split $mode($txtt) :] end] eq "goto"} {
+        start_mode $txtt
       } else {
         append multiplier($txtt) $num
         record_start
@@ -2481,7 +2515,7 @@ namespace eval vim {
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {$multicursor($txtt)} {
-        multicursor::adjust_word $txtt prev $num
+        multicursor::adjust_wordstart $txtt prev $num
       } else {
         edit::move_cursor $txtt prevword -num $num
       }
@@ -2573,14 +2607,14 @@ namespace eval vim {
 
     if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
       if {$multicursor($txtt)} {
-        multicursor::adjust_word $txtt next $num
+        multicursor::adjust_wordstart $txtt next $num
       } else {
-        edit::move_cursor $txtt nextword -num $num
+        edit::move_cursor $txtt nextwordstart -num $num
       }
       return 1
     } elseif {$mode($txtt) eq "yank"} {
       clipboard clear
-      clipboard append [$txtt get insert [edit::get_word $txtt next $num]]
+      clipboard append [$txtt get insert [edit::get_wordstart $txtt next $num]]
       start_mode $txtt
       return 1
     } elseif {$mode($txtt) eq "delete"} {
@@ -2590,7 +2624,7 @@ namespace eval vim {
     } elseif {$mode($txtt) eq "change"} {
       if {![multicursor::delete $txtt "word" $num]} {
         if {[get_number $txtt] > 1} {
-          $txtt delete insert "[edit::get_word $txtt next [expr [get_number $txtt] - 1]] wordend"
+          $txtt delete insert "[edit::get_wordstart $txtt next [expr [get_number $txtt] - 1]] wordend"
         } else {
           $txtt delete insert "insert wordend"
         }
@@ -3990,6 +4024,70 @@ namespace eval vim {
       return 1
     } elseif {[in_visual_mode $txtt]} {
       set mode($txtt) "$mode($txtt):folding"
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in goto mode, move the cursor to the last character of the
+  # line.
+  proc handle_underscore {txtt} {
+
+    variable mode
+
+    if {$mode($txtt) eq "goto"} {
+      edit::move_cursor $txtt lastchar -num [get_number $txtt]
+      start_mode $txtt
+      return 1
+    } elseif {[in_visual_mode $txtt] && ([lindex [split $mode($txtt) :] end] eq "goto")} {
+      edit::move_cursor $txtt lastchar -num [get_number $txtt]
+      set mode($txtt) [join [lrange [split $mode($txtt) :] 0 end-1] :]
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Moves the cursor to the end of the next word.
+  proc handle_e {txtt} {
+
+    variable mode
+    variable multicursor
+
+    if {$mode($txtt) eq "start"} {
+      if {$multicursor($txtt)} {
+        multicursor::adjust_nextwordend $txtt [get_number $txtt]
+      } else {
+        edit::move_cursor $txtt nextwordend -num [get_number $txtt]
+      }
+      return 1
+    } elseif {$mode($txtt) eq "goto"} {
+      if {$multicursor($txtt)} {
+        multicursor::adjust_prevwordend $txtt [get_number $txtt]
+      } else {
+        edit::move_cursor $txtt prevwordend -num [get_number $txtt]
+      }
+      return 1
+    } elseif {[in_visual_mode $txtt]} {
+      if {[lindex [split $mode($txtt) :] end-1] eq "goto"} {
+        if {$multicursor($txtt)} {
+          multicursor::adjust_prevwordend $txtt [get_number $txtt]
+        } else {
+          edit::move_cursor $txtt prevwordend -num [get_number $txtt]
+        }
+        set mode($txtt) [join [lrange [split $mode($txtt) :] 0 end-1] :]
+      } else {
+        if {$multicursor($txtt)} {
+          multicursor::adjust_nextwordend $txtt [get_number $txtt]
+        } else {
+          edit::move_cursor $txtt nextwordend -num [get_number $txtt]
+        }
+      }
       return 1
     }
 

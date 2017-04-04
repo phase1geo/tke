@@ -164,7 +164,7 @@ namespace eval edit {
     }
 
     # Position the cursor at the beginning of the first word
-    move_cursor $txtt firstword
+    move_cursor $txtt firstchar
 
     # Adjust the insertion cursor
     if {$copy} {
@@ -180,7 +180,7 @@ namespace eval edit {
     if {[multicursor::enabled $txtt]} {
       multicursor::delete $txtt word $num
     } else {
-      set endpos [get_index $txtt nextword -num $num]
+      set endpos [get_index $txtt nextwordstart -num $num]
       if {$copy} {
         clipboard clear
         clipboard append [$txtt get insert $endpos]
@@ -232,25 +232,25 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Delete from the start of the firstword to just before the current cursor.
-  proc delete_to_firstword {txtt copy} {
+  # Delete from the start of the firstchar to just before the current cursor.
+  proc delete_to_firstchar {txtt copy} {
 
     if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt "firstword"
+      multicursor::delete $txtt firstchar
     } else {
-      set firstword [get_index $txtt firstword]
-      if {[$txtt compare $firstword < insert]} {
+      set firstchar [get_index $txtt firstchar]
+      if {[$txtt compare $firstchar < insert]} {
         if {$copy} {
           clipboard clear
-          clipboard append [$txtt get $firstword insert]
+          clipboard append [$txtt get $firstchar insert]
         }
-        $txtt delete $firstword insert
-      } elseif {[$txtt compare $firstword > insert]} {
+        $txtt delete $firstchar insert
+      } elseif {[$txtt compare $firstchar > insert]} {
         if {$copy} {
           clipboard clear
-          clipboard append [$txtt get insert $firstword]
+          clipboard append [$txtt get insert $firstchar]
         }
-        $txtt delete insert $firstword
+        $txtt delete insert $firstchar
         if {$copy} {
           vim::adjust_insert $txtt
         }
@@ -1125,7 +1125,7 @@ namespace eval edit {
   # given a value > 1, the procedure will return the beginning index of
   # the next/previous num'th word.  If no word was found, return the index
   # of the current word.
-  proc get_word {txt dir {num 1} {start insert}} {
+  proc get_wordstart {txt dir {num 1} {start insert}} {
 
     # If the direction is 'next', search forward
     if {$dir eq "next"} {
@@ -1183,6 +1183,63 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Returns the index of the ending next/previous word.  If num is
+  # given a value > 1, the procedure will return the beginning index of
+  # the next/previous num'th word.  If no word was found, return the index
+  # of the current word.
+  proc get_wordend {txt dir {num 1} {start insert}} {
+
+    puts "In get_wordend, txt: $txt, dir: $dir, num: $num, start: $start"
+
+    if {$dir eq "next"} {
+
+      set curr_index [$txt index "$start display wordstart"]
+      puts "  curr_index: $curr_index"
+
+      # If num is 0, do not continue
+      if {$num <= 0} {
+        puts "  HERE!!!"
+        return [$txt index "$curr_index-1c"]
+      }
+
+      while {[$txt compare $curr_index < end]} {
+        if {![string is space [$txt get $curr_index]]} {
+          set last_wordend $curr_index
+          if {[incr num -1] == 0} {
+            return [$txt index "$curr_index display wordend"]
+          }
+        }
+        set curr_index [$txt index "$curr_index display wordstart"]
+      }
+
+      return [$txt index "$curr_index display wordend"]
+
+    } else {
+
+      # Get the index of the current word
+      set curr_index [$txt index "$start display wordend"]
+
+      # If num is 0, do not continue
+      if {$num <= 0} {
+        return [$txt index "$curr_index-1c"]
+      }
+
+      while {[$txt compare $curr_index > 1.0]} {
+        if {![string is space [$txt get $curr_index]] && [$txt compare $curr_index != $start]} {
+          if {[incr num -1] == 0} {
+            return $curr_index
+          }
+        }
+        set curr_index [$txt index "$curr_index-1 display chars wordend"]
+      }
+
+      return $curr_index
+
+    }
+
+  }
+
+  ######################################################################
   # Returns the starting index of the given character.
   proc find_char {txtt dir char {num 1}} {
 
@@ -1211,9 +1268,10 @@ namespace eval edit {
   # - last       Last line in file
   # - nextchar   Next character
   # - prevchar   Previous character
+  # - firstchar  First character of the line
+  # - lastchar   Last character of the line
   # - nextword   Beginning of next word
   # - prevword   Beginning of previous word
-  # - firstword  Beginning of first word on the current line
   # - nextfirst  Beginning of first word in next line
   # - prevfirst  Beginning of first word in previous line
   # - column     Move the cursor to the specified column in the current line
@@ -1255,28 +1313,37 @@ namespace eval edit {
           set index "1.0"
         }
       }
-      last        { set index "end" }
-      nextchar    { set index [get_char $txtt next $num] }
-      prevchar    { set index [get_char $txtt prev $num] }
-      nextword    { set index [get_word $txtt next $num] }
-      prevword    { set index [get_word $txtt prev $num] }
-      nextfirst   -
-      prevfirst   -
-      firstword   {
-        switch $position {
-          nextfirst {
-            if {[$txtt compare [set index [$txtt index "insert+${num} display lines"]] == end]} {
-              set index [$txtt index "$index-1 display lines"]
-            }
-          }
-          prevfirst {
-            if {[$txtt compare [set index [$txtt index "insert-${num} display lines"]] == end]} {
-              set index [$txtt index "$index-1 display lines"]
-            }
-          }
-          default {
-            set index "insert"
-          }
+      last          { set index "end" }
+      nextchar      { set index [get_char $txtt next $num] }
+      prevchar      { set index [get_char $txtt prev $num] }
+      firstchar     {
+        if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange _prewhite "insert linestart"] 1]-1c
+        } else {
+          set index "insert lineend"
+        }
+      }
+      lastchar      {
+        set line  [expr [lindex [split [$txtt index insert] .] 0] + ($num - 1)]
+        set index "$line.0+[string length [string trimright [$txtt get $line.0 $line.end]]]c"
+      }
+      nextwordstart { set index [get_wordstart $txtt next $num] }
+      prevwordstart { set index [get_wordstart $txtt prev $num] }
+      nextwordend   { set index [get_wordend $txtt next $num]; puts "index: $index!!!!"; return }
+      prevwordend   { set index [get_wordend $txtt prev $num] }
+      nextfirst     {
+        if {[$txtt compare [set index [$txtt index "insert+${num} display lines"]] == end]} {
+          set index [$txtt index "$index-1 display lines"]
+        }
+        if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c
+        } else {
+          set index "$index lineend"
+        }
+      }
+      prevfirst     {
+        if {[$txtt compare [set index [$txtt index "insert-${num} display lines"]] == end]} {
+          set index [$txtt index "$index-1 display lines"]
         }
         if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
           set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c

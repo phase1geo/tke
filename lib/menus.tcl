@@ -1164,11 +1164,11 @@ namespace eval menus {
     $mb.cursorPopup add command -label [msgcat::mc "Move to Line End"] -command [list menus::edit_cursor_move lineend]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to end of current line"]] [list menus::edit_cursor_move lineend]
 
-    $mb.cursorPopup add command -label [msgcat::mc "Move to Next Word"] -command [list menus::edit_cursor_move nextword]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to next word"]] [list menus::edit_cursor_move nextword]
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Next Word"] -command [list menus::edit_cursor_move nextwordstart]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to next word"]] [list menus::edit_cursor_move nextwordstart]
 
-    $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Word"] -command [list menus::edit_cursor_move prevword]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to previous word"]] [list menus::edit_cursor_move prevword]
+    $mb.cursorPopup add command -label [msgcat::mc "Move to Previous Word"] -command [list menus::edit_cursor_move prevwordstart]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Move cursor to previous word"]] [list menus::edit_cursor_move prevwordstart]
 
     $mb.cursorPopup add separator
 
