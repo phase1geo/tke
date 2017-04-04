@@ -1569,15 +1569,13 @@ namespace eval gui {
 
     # Perform untitled tab check
     if {[untitled_check]} {
-      if {$name eq "Untitled"} {
-        return
-      } else {
+      if {$name ne "Untitled"} {
         close_tab [get_info {} current tab] -keeptab 0
       }
     }
 
     # If the file is already loaded, display the tab
-    if {[set file_index [files::get_index $name $opts(-remote) -buffer 1]] != -1} {
+    if {($name ne "Untitled") && ([set file_index [files::get_index $name $opts(-remote) -buffer 1]] != -1)} {
 
       if {!$opts(-background)} {
         get_info $file_index fileindex tabbar tab
