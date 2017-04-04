@@ -1002,7 +1002,7 @@ proc ctext::undo {win} {
     }
 
     # Perform the highlight
-    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
+    if {[ctext::highlightAll $win [lsort $ranges] $insert $do_tags]} {
       ctext::checkAllBrackets $win
     } else {
       ctext::checkAllBrackets $win $changed
@@ -1082,7 +1082,7 @@ proc ctext::redo {win} {
     }
 
     # Highlight the code
-    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
+    if {[ctext::highlightAll $win [lsort $ranges] $insert $do_tags]} {
       ctext::checkAllBrackets $win
     } else {
       ctext::checkAllBrackets $win $changed
