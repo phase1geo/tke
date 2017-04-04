@@ -1411,7 +1411,7 @@ namespace eval gui {
   ######################################################################
   # Sets the yview of the given text widget (called by the yscrollbar)
   # and adjusts the scroll of the other pane if sync scrolling is enabled.
-  proc yview {txt args} {
+  proc yview {tab txt args} {
 
     # Return the yview information
     if {[llength $args] == 0} {
@@ -1420,7 +1420,7 @@ namespace eval gui {
     # Otherwise, set the yview given the arguments
     } else {
       $txt yview {*}$args
-      sync_birdseye $txt [lindex $args 1]
+      sync_birdseye $tab [lindex $args 1]
       sync_scroll   $txt 0
     }
 
@@ -1429,13 +1429,13 @@ namespace eval gui {
   ######################################################################
   # Implements yscrollcommand for an editing buffer.  Adjusts the scrollbar
   # position and performs synchronized scrolling, if enabled.
-  proc yscrollcommand {txt vb args} {
+  proc yscrollcommand {tab txt vb args} {
 
     # Set the vertical scrollbar position
     $vb set {*}$args
 
     # Set birdseye view
-    sync_birdseye $txt [lindex $args 0]
+    sync_birdseye $tab [lindex $args 0]
 
     # Perform sync scrolling, if necessary
     sync_scroll $txt 1
@@ -4018,9 +4018,9 @@ namespace eval gui {
       -linemap_mark_command gui::mark_command -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
-      -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $txt $tab.pw.tf.vb]
+      -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $tab $txt $tab.pw.tf.vb]
     scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command [list $txt xview]
-    scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command [list gui::yview $txt] \
+    scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command [list gui::yview $tab $txt] \
       -markcommand1 [list markers::get_positions $txt] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$opts(-diff) ? [list diff::get_marks $txt] : ""}]
 
@@ -4265,8 +4265,8 @@ namespace eval gui {
     vim::set_vim_mode             $txt2
     multicursor::add_bindings     $txt2
     completer::add_bindings       $txt2
-    plugins::handle_text_bindings $txt2 {}  ;# TBD - add tags
-    make_drop_target                   $txt2
+    plugins::handle_text_bindings $txt2 {}
+    make_drop_target              $txt2
 
     # Apply the appropriate syntax highlighting for the given extension
     syntax::set_language $txt2 [syntax::get_language $txt]
@@ -4297,8 +4297,12 @@ namespace eval gui {
     catch { unset line_sel_anchor($txt.l) }
     catch { unset txt_current($tab) }
     catch { array unset cursor_hist $txt,* }
-    catch { unset be_after_id($tab) }
-    catch { unset be_ignore($tab) }
+
+    # Only unset the bird's eye variables if we are destroying txt
+    if {[lindex [split $txt .] end-1] eq "tf"} {
+      catch { unset be_after_id($tab) }
+      catch { unset be_ignore($tab) }
+    }
 
   }
 
