@@ -1084,7 +1084,7 @@ namespace eval vim {
 
     # Clear multicursor mode
     disable_multicursor $txtt
-    
+
     # Adjust the insertion marker
     adjust_insert $txtt
 
@@ -1104,30 +1104,36 @@ namespace eval vim {
 
     set mode($txtt)        "start"
     set multicursor($txtt) 1
-    
+
     # Effectively make the insertion cursor disappear
     $txtt configure -blockcursor 0 -insertwidth 0
-    
+
     # Make the multicursors look like the normal cursor
     $txtt tag configure mcursor -background [$txtt cget -insertbackground]
 
+    # Make sure that the status bar is updated properly
+    gui::update_position [winfo parent $txtt]
+
   }
-  
+
   ######################################################################
   # Turns off multicursor moving mode.
   proc disable_multicursor {txtt} {
-    
+
     variable mode
     variable multicursor
-    
+
     set multicursor($txtt) 0
-    
+
     # Restore the insertion cursor width
     $txtt configure -blockcursor [expr {$mode($txtt) ne "edit"}] -insertwidth [preferences::get Appearance/CursorWidth]
-    
+
     # Make the multicursors look like normal
     $txtt tag configure mcursor -background ""
-    
+
+    # Make sure that the status bar is updated properly
+    gui::update_position [winfo parent $txtt]
+
   }
 
   ######################################################################
@@ -1403,7 +1409,7 @@ namespace eval vim {
 
     # Clear the multicursor indicator
     disable_multicursor $txtt
-    
+
     return 1
 
   }
