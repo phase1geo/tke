@@ -26,10 +26,11 @@
 namespace eval edit {
 
   array set patterns {
-    nnumber {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
-    pnumber {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
-    nspace  {^[ \t]+}
-    pspace  {[ \t]+$}
+    nnumber  {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
+    pnumber  {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
+    sentence {[.!?][])\"']*\s+}
+    nspace   {^[ \t]+}
+    pspace   {[ \t]+$}
   }
 
   ######################################################################
@@ -1241,22 +1242,58 @@ namespace eval edit {
 
   ######################################################################
   # Returns the starting index of the given character.
-  proc find_char {txtt dir char {num 1}} {
+  proc find_char {txtt dir char {num 1} {startpos "insert"}} {
 
     # Perform the character search
     if {$dir eq "next"} {
-      set indices [$txtt search -all -- $char "insert+1c" "insert lineend"]
+      set indices [$txtt search -all -- $char "$startpos+1c" "$startpos lineend"]
       if {[set index [lindex $indices [expr $num - 1]]] eq ""} {
         set index "insert"
       }
     } else {
-      set indices [$txtt search -all -- $char "insert linestart" insert]
+      set indices [$txtt search -all -- $char "$startpos linestart" insert]
       if {[set index [lindex $indices end-[expr $num - 1]]] eq ""} {
         set index "insert"
       }
     }
 
     return $index
+
+  }
+
+  ######################################################################
+  # Gets the previous or next sentence as defined by the Vim specification.
+  proc get_sentence {txtt dir num {startpos "insert"}} {
+
+    variable patterns
+
+    if {$dir eq "next"} {
+
+      for {set i [expr $num - 1]} {$i >= 0} {incr i -1} {
+        if {[set index [$txtt search -forwards -count lengths -regexp -- $patterns(sentence) $startpos end]] ne ""} {
+          set startpos [$txtt index "$index+[lindex $lengths 0]c"]
+          if {$i == 0} {
+            return [$txtt index "$startpos+1 display chars"]
+          }
+        } else {
+          return "end"
+        }
+      }
+
+    } else {
+
+      for {set i [expr $num - 1]} {$i >= 0} {incr i -1} { 
+        if {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos 1.0]] ne ""} {
+          set startpos [$txtt index "$index+[lindex $lengths 0]c"]
+          if {$i == 0} {
+            return [$txtt index "$startpos+1 display chars"]
+          }
+        } else {
+          return $startpos
+        }
+      }
+
+    }
 
   }
 
@@ -1283,27 +1320,45 @@ namespace eval edit {
   proc get_index {txtt position args} {
 
     array set opts {
-      -num  1
-      -char ""
+      -dir       "next"
+      -startpos  "insert"
+      -num       1
+      -char      ""
+      -exclusive 0
+      -column    ""
     }
     array set opts $args
-
-    set num $opts(-num)
 
     # Get the new cursor position
     switch $position {
       left        {
-        if {[$txtt compare "insert display linestart" > "insert-${num} display chars"]} {
-          set index "insert display linestart"
+        if {[$txtt compare "$opts(-startpos) display linestart" > "$opts(-startpos)-$opts(-num) display chars"]} {
+          set index "$opts(-startpos) display linestart"
         } else {
-          set index "insert-${num} display chars"
+          set index "$opts(-startpos)-$opts(-num) display chars"
         }
       }
       right       {
-        if {[$txtt compare "insert display lineend" < "insert+${num} display chars"]} {
-          set index "insert display lineend"
+        if {[$txtt compare "$opts(-startpos) display lineend" < "$opts(-startpos)+$opts(-num) display chars"]} {
+          set index "$opts(-startpos) display lineend"
         } else {
-          set index "insert+${num} display chars"
+          set index "$opts(-startpos)+$opts(-num) display chars"
+        }
+      }
+      up          {
+        upvar [set $opts(-column)] column
+        if {$column eq ""} {
+          set column [lindex [split [$txtt index $opts(-startpos)] .] 1]
+        }
+        set index [$txtt index "$opts(-startpos)-$opts(-num) display lines linestart+$column display chars"]
+      }
+      down        {
+        upvar [set $opts(-column)] column
+        if {$column eq ""} {
+          set column [lindex [split [$txtt index $opts(-startpos)] .] 1]
+        }
+        if {[$txtt compare [set index [$txtt index "$opts(-startpos)+$opts(-num) display lines linestart+$column display chars"]] == end]} {
+          set index [$txtt index "end-1c linestart+$column display chars"]
         }
       }
       first       {
@@ -1314,74 +1369,66 @@ namespace eval edit {
         }
       }
       last          { set index "end" }
-      nextchar      { set index [get_char $txtt next $num] }
-      prevchar      { set index [get_char $txtt prev $num] }
+      char          { set index [get_char $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      findchar      {
+        set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos)]
+      }
       firstchar     {
-        if {[lsearch [$txtt tag names "insert linestart"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "insert linestart"] 1]-1c
+        if {$opts(-num) == 0} {
+          set index $opts(-startpos)
+        } elseif {$opts(-dir) eq "next"} {
+          if {[$txtt compare [set index [$txtt index "$opts(-startpos)+$opts(-num) display lines"]] == end]} {
+            set index [$txtt index "$index-1 display lines"]
+          }
         } else {
-          set index "insert lineend"
+          if {[$txtt compare [set index [$txtt index "$opts(-startpos)-$opts(-num) display lines"]] == end]} {
+            set index [$txtt index "$index-1 display lines"]
+          }
+        }
+        if {[lsearch [$txtt tag names "$opts(-startpos) linestart"] _prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange _prewhite "$opts(-startpos) linestart"] 1]-1c
+        } else {
+          set index "$opts(-startpos) lineend"
         }
       }
       lastchar      {
-        set line  [expr [lindex [split [$txtt index insert] .] 0] + ($num - 1)]
+        set line  [expr [lindex [split [$txtt index $opts(-startpos)] .] 0] + ($num - 1)]
         set index "$line.0+[string length [string trimright [$txtt get $line.0 $line.end]]]c"
       }
-      nextwordstart { set index [get_wordstart $txtt next $num] }
-      prevwordstart { set index [get_wordstart $txtt prev $num] }
-      nextwordend   { set index [get_wordend $txtt next $num]; puts "index: $index!!!!"; return }
-      prevwordend   { set index [get_wordend $txtt prev $num] }
-      nextfirst     {
-        if {[$txtt compare [set index [$txtt index "insert+${num} display lines"]] == end]} {
-          set index [$txtt index "$index-1 display lines"]
-        }
-        if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c
-        } else {
-          set index "$index lineend"
-        }
-      }
-      prevfirst     {
-        if {[$txtt compare [set index [$txtt index "insert-${num} display lines"]] == end]} {
-          set index [$txtt index "$index-1 display lines"]
-        }
-        if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c
-        } else {
-          set index "$index lineend"
-        }
-      }
-      column      { set index [lindex [split [$txtt index insert] .] 0].[expr $num - 1] }
-      linestart   {
-        set index [$txtt index "insert linestart+1 display chars"]
+      wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $num - 1] }
+      linestart     {
+        set index [$txtt index "$opts(-startpos) linestart+1 display chars"]
         if {[$txtt compare "$index-1 display chars" >= "$index linestart"]} {
           set index "$index-1 display chars"
         }
       }
-      lineend     {
+      lineend       {
         if {$num == 1} {
-          set index "insert lineend-1 display chars"
+          set index "$opts(-startpos) lineend-1 display chars"
         } else {
-          set index [$txtt index "insert+[expr $num - 1] display lines"]
+          set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] display lines"]
           set index "$index lineend-1 display chars"
         }
       }
-      screentop   { set index "@0,0" }
-      screenmid   { set index "@0,[expr [winfo height $txtt] / 2]" }
-      screenbot   { set index "@0,[winfo height $txtt]" }
-      nextfind    {
-        if {[set index [find_char $txtt next $opts(-char) $num]] ne "insert"} {
-          set index [$txtt index $index-1c]
-        }
+      dispstart     { set index "@[lindex [$txtt bbox $opts(-startpos)] 0],0" }
+      dispend       { set index "@[lindex [$txtt bbox $opts(-startpos)] 0],[winfo width $txtt]" }
+      sentence      { set index [get_sentence  $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      paragraph     { set index [get_paragraph $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      screentop     { set index "@0,0" }
+      screenmid     { set index "@0,[expr [winfo height $txtt] / 2]" }
+      screenbot     { set index "@0,[winfo height $txtt]" }
+      default       { set index $opts(-startpos) }
+    }
+
+    # Adjust the position of the cursor if the -exclusive option was set to 1
+    if {$opts(-exclusive)} {
+      if {$opts(-dir) eq "next"} {
+        set index [$txtt index $index-1c]
+      } else {
+        set index [$txtt index $index+1c]
       }
-      prevfind    {
-        if {[set index [find_char $txtt prev $opts(-char) $num]] ne "insert"} {
-          set index [$txtt index $index+1c]
-        }
-      }
-      nextfindinc { set index [find_char $txtt next $opts(-char) $num] }
-      prevfindinc { set index [find_char $txtt prev $opts(-char) $num] }
-      default     { set index insert }
     }
 
     return $index
