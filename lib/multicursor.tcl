@@ -523,13 +523,13 @@ namespace eval multicursor {
 
   ######################################################################
   # Moves all of the cursors to the next num words.
-  proc adjust_word {txtt dir num} {
+  proc adjust_wordstart {txtt dir num} {
 
     set ranges [$txtt tag ranges mcursor]
 
     $txtt tag remove mcursor 1.0 end
     foreach {start end} $ranges {
-      adjust_set_and_view $txtt $start [edit::get_word $txtt $dir $num $start]
+      adjust_set_and_view $txtt $start [edit::get_wordstart $txtt $dir $num $start]
     }
 
     # Adjust the selection, if necessary
@@ -613,7 +613,7 @@ namespace eval multicursor {
       } elseif {$suffix eq "word"} {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           set start [$txt index "[lindex $range 0] wordstart"]
-          set end   [edit::get_word $txtt next [expr $data - 1] $start]
+          set end   [edit::get_wordstart $txtt next [expr $data - 1] $start]
           if {[$txt compare $end > "$start lineend"]} {
             set end [$txt index "$start lineend"]
           }
