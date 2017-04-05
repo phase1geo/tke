@@ -1282,7 +1282,7 @@ namespace eval edit {
 
     } else {
 
-      for {set i [expr $num - 1]} {$i >= 0} {incr i -1} { 
+      for {set i [expr $num - 1]} {$i >= 0} {incr i -1} {
         if {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos 1.0]] ne ""} {
           set startpos [$txtt index "$index+[lindex $lengths 0]c"]
           if {$i == 0} {
@@ -1346,20 +1346,22 @@ namespace eval edit {
         }
       }
       up          {
-        upvar [set $opts(-column)] column
-        if {$column eq ""} {
+        if {[set column [uplevel 1 [list set $opts(-column)]]] eq ""} {
           set column [lindex [split [$txtt index $opts(-startpos)] .] 1]
+          uplevel 1 [list set $opts(-column) $column]
         }
-        set index [$txtt index "$opts(-startpos)-$opts(-num) display lines linestart+$column display chars"]
+        set row   [lindex [split [$txtt index "$opts(-startpos)-$opts(-num) display lines"] .] 0]
+        set index $row.$column
       }
       down        {
-        upvar [set $opts(-column)] column
-        if {$column eq ""} {
+        if {[set column [uplevel 1 [list set $opts(-column)]]] eq ""} {
           set column [lindex [split [$txtt index $opts(-startpos)] .] 1]
+          uplevel 1 [list set $opts(-column) $column]
         }
-        if {[$txtt compare [set index [$txtt index "$opts(-startpos)+$opts(-num) display lines linestart+$column display chars"]] == end]} {
-          set index [$txtt index "end-1c linestart+$column display chars"]
+        if {[$txtt compare [set index [$txtt index "$opts(-startpos)+$opts(-num) display lines"]] == end]} {
+          set index [$txtt index "end-1c"]
         }
+        set index [lindex [split $index .] 0].$column
       }
       first       {
         if {[$txtt get -displaychars 1.0] eq ""} {
@@ -1392,12 +1394,12 @@ namespace eval edit {
         }
       }
       lastchar      {
-        set line  [expr [lindex [split [$txtt index $opts(-startpos)] .] 0] + ($num - 1)]
+        set line  [expr [lindex [split [$txtt index $opts(-startpos)] .] 0] + ($opts(-num) - 1)]
         set index "$line.0+[string length [string trimright [$txtt get $line.0 $line.end]]]c"
       }
       wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
       wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
-      column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $num - 1] }
+      column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
       linestart     {
         set index [$txtt index "$opts(-startpos) linestart+1 display chars"]
         if {[$txtt compare "$index-1 display chars" >= "$index linestart"]} {
@@ -1405,8 +1407,10 @@ namespace eval edit {
         }
       }
       lineend       {
-        if {$num == 1} {
+        puts "num: $opts(-num)"
+        if {$opts(-num) == 1} {
           set index "$opts(-startpos) lineend-1 display chars"
+          puts "index: $index ([$txtt index $index])"
         } else {
           set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] display lines"]
           set index "$index lineend-1 display chars"
