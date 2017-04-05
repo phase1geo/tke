@@ -65,8 +65,14 @@ namespace eval motion {
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id insertion cursor is incorrect ([$txtt index insert])"
     }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "$id mode is not start"
+    if {$vim::mode($txtt) ne "command"} {
+      cleanup "$id mode is not command ($vim::mode($txtt))"
+    }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator is not empty string ($vim::operator($txtt))"
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id motion is not empty string ($vim::motion($txtt))"
     }
     if {$dspace} {
       if {[lindex [split $cursor .] 1] != 0} {

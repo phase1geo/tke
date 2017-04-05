@@ -1725,16 +1725,16 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {($multiplier($txtt) eq "") && ($num eq "0")} {
         if {$motion($txtt) eq ""} {
-          do_operation $txtt [edit::get_index $txtt linestart] {}
+          return [do_operation $txtt [edit::get_index $txtt linestart] insert]
         } elseif {$motion($txtt) eq "g"} {
-          do_operation $txtt [edit::get_index $txtt dispstart] {}
-        } else {
-          reset_state $txtt
+          return [do_operation $txtt [edit::get_index $txtt dispstart] insert]
         }
       } else {
         append multiplier($txtt) $num
         record_start
+        return 1
       }
+      reset_state $txtt
       return 1
     }
 
@@ -2277,13 +2277,11 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$operator($txtt) eq ""} {
-        if {$motion($txtt) eq ""} {
-          set motion($txtt) "g"
-          return 1
-        } elseif {$motion($txtt) eq "g"} {
-          return [do_operation $txtt [edit::get_index $txtt first]]
-        }
+      if {$motion($txtt) eq ""} {
+        set motion($txtt) "g"
+        return 1
+      } elseif {$motion($txtt) eq "g"} {
+        return [do_operation $txtt [edit::get_index $txtt first] insert]
       }
       reset_state $txtt
       return 1
@@ -2480,7 +2478,7 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$multiplier($txtt) eq ""} {
-        return [do_operation $txtt [edit::get_index $txtt last]]
+        return [do_operation $txtt insert [edit::get_index $txtt last]]
       } else {
         ::tk::TextSetCursor $txtt $multiplier($txtt).0
         return [do_operation $txtt insert [edit::get_index $txtt firstchar]]
@@ -3496,13 +3494,13 @@ namespace eval vim {
     variable mode
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {[$txtt compare [set index [edit::get_index $txtt column -num [get_number $txtt]]]] < insert]} {
+      if {[$txtt compare [set index [edit::get_index $txtt column -num [get_number $txtt]]] < insert]} {
         return [do_operation $txtt $index insert]
       } else {
         return [do_operation $txtt insert $index]
       }
     }
-
+    
     return 0
 
   }
@@ -3523,6 +3521,7 @@ namespace eval vim {
         set operator($txtt) "swap"
         return [do_operation $txtt insert [edit::get_index $txtt char -dir next -num [get_number $txtt]]]
       }
+      reset_state $txtt
       return 1
     }
 
