@@ -1491,9 +1491,6 @@ namespace eval vim {
     # If we are not in edit mode
     if {![catch "handle_$keysym $txtt" rc] && $rc} {
       record_add $keysym
-      if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-        reset_state $txtt
-      }
       return 1
 
     # If the keysym is a number, handle the number
@@ -1604,16 +1601,16 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        if {![multicursor::delete $txtt]} {
-          edit::delete $txtt $startpos $endpos
-        }
+        #if {![multicursor::delete $txtt]} {
+          edit::delete $txtt $startpos $endpos 1
+        #}
         reset_state $txtt
         return 1
       }
       "change" {
-        if {![multicursor::delete $txtt]} {
-          edit::delete $txtt $startpos $endpos
-        }
+        #if {![multicursor::delete $txtt]} {
+          edit::delete $txtt $startpos $endpos 0
+        #}
         edit_mode $txtt
         reset_state $txtt
         return 1
@@ -2052,10 +2049,7 @@ namespace eval vim {
           adjust_insert $txtt
         }
         default {
-          catch {
           return [do_operation $txtt [edit::get_index $txtt up -num [get_number $txtt] -column column($txtt)] insert]
-          } rc
-          puts "rc: $rc"
         }
       }
       reset_state $txtt
@@ -2096,8 +2090,6 @@ namespace eval vim {
     variable mode
     variable motion
 
-    catch {
-
     # Move the insertion cursor right one character
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch [lindex $motion($txtt) end] {
@@ -2116,8 +2108,6 @@ namespace eval vim {
       }
       return [do_operation $txtt $startpos $endpos]
     }
-    } rc
-    puts "rc: $rc"
 
     return 0
 
@@ -2470,6 +2460,7 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$motion($txtt) eq ""} {
+        puts "About to do something with a word"
         return [do_operation [edit::get_index $txtt wordstart -dir next -num [get_number $txtt]]]
       }
       reset_state $txtt
@@ -2514,12 +2505,14 @@ namespace eval vim {
       switch $operator($txtt) {
         "" {
           if {![edit::delete_selected $txtt]} {
+            puts "Setting operator to delete"
             set operator($txtt) "delete"
             record_start
             return 1
           }
         }
         "delete" {
+          puts "Attempting to delete text"
           return [do_operation $txtt "insert linestart" "insert lineend"]
         }
         "folding" {

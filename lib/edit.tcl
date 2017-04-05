@@ -176,20 +176,20 @@ namespace eval edit {
 
   ######################################################################
   # Deletes the current word (i.e., dw Vim mode).
-  proc delete_current_word {txtt copy {num 1}} {
+  proc delete {txtt startpos endpos copy} {
 
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt word $num
-    } else {
-      set endpos [get_index $txtt nextwordstart -num $num]
-      if {$copy} {
-        clipboard clear
-        clipboard append [$txtt get insert $endpos]
-      }
-      $txtt delete insert $endpos
-      if {$copy} {
-        vim::adjust_insert $txtt
-      }
+    # Copy the text to the clipboard, if specified
+    if {$copy} {
+      clipboard clear
+      clipboard append [$txtt get insert $endpos]
+    }
+
+    # Delete the text
+    $txtt delete insert $endpos
+
+    # Adjust the insertion cursor if this was a delete and not a change
+    if {$copy} {
+      vim::adjust_insert $txtt
     }
 
   }
@@ -1156,7 +1156,7 @@ namespace eval edit {
       }
 
       return [$txt index "$curr_index display wordstart"]
-
+      
     } else {
 
       # Get the index of the current word
@@ -1190,16 +1190,12 @@ namespace eval edit {
   # of the current word.
   proc get_wordend {txt dir {num 1} {start insert}} {
 
-    puts "In get_wordend, txt: $txt, dir: $dir, num: $num, start: $start"
-
     if {$dir eq "next"} {
 
       set curr_index [$txt index "$start display wordstart"]
-      puts "  curr_index: $curr_index"
-
+      
       # If num is 0, do not continue
       if {$num <= 0} {
-        puts "  HERE!!!"
         return [$txt index "$curr_index-1c"]
       }
 
@@ -1407,13 +1403,11 @@ namespace eval edit {
         }
       }
       lineend       {
-        puts "num: $opts(-num)"
         if {$opts(-num) == 1} {
           set index "$opts(-startpos) lineend-1 display chars"
-          puts "index: $index ([$txtt index $index])"
         } else {
           set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] display lines"]
-          set index "$index lineend-1 display chars"
+          set index "$index lineend"
         }
       }
       dispstart     { set index "@[lindex [$txtt bbox $opts(-startpos)] 0],0" }
