@@ -889,7 +889,7 @@ namespace eval vim {
     $txt configure -blockcursor true -insertwidth 1
 
     # Put ourselves into start mode
-    set mode($txt.t)             "start"
+    set mode($txt.t)             "command"
     set number($txt.t)           ""
     set multiplier($txt.t)       ""
     set search_dir($txt.t)       "next"
@@ -1124,7 +1124,6 @@ namespace eval vim {
     variable mode
     variable multicursor
 
-    set mode($txtt)        "start"
     set multicursor($txtt) 1
 
     # Effectively make the insertion cursor disappear
@@ -1395,7 +1394,7 @@ namespace eval vim {
     # Clear the any selections
     $txtt tag remove sel 1.0 end
 
-    if {$mode($txtt) ne "start"} {
+    if {$mode($txtt) ne "command"} {
 
       # Add to the recording if we are doing so
       record_add Escape
@@ -1437,6 +1436,7 @@ namespace eval vim {
   proc handle_any {txtt keycode char keysym} {
 
     variable mode
+    variable operator
     variable column
     variable recording
 
@@ -1471,7 +1471,7 @@ namespace eval vim {
         }
         return 1
       }
-    } elseif {($mode($txtt) ne "start") || ($keysym ne "q")} {
+    } elseif {($mode($txtt) ne "command") || ($keysym ne "q")} {
       set curr_reg $recording(curr_reg)
       if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
         record_add $keysym $curr_reg
@@ -1491,7 +1491,7 @@ namespace eval vim {
     # If we are not in edit mode
     if {![catch "handle_$keysym $txtt" rc] && $rc} {
       record_add $keysym
-      if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+      if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
         reset_state $txtt
       }
       return 1
@@ -1502,10 +1502,10 @@ namespace eval vim {
       return 1
 
     # If we are in start, visual, record or format modes, stop character processing
-    } elseif {($mode($txtt) eq "start")  || \
+    } elseif {($mode($txtt) eq "command")  || \
               ([in_visual_mode $txtt])   || \
               ($mode($txtt) eq "record") || \
-              ($mode($txtt) eq "format")} {
+              ($operator($txtt) eq "format")} {
       return 1
 
     # Append the text to the insertion buffer
@@ -1588,13 +1588,17 @@ namespace eval vim {
   proc do_operation {txtt startpos endpos} {
 
     variable operator
+    variable multicursor
+
+    puts "In do_operation, txtt: $txtt, startpos: $startpos, endpos: $endpos, operator($txtt): $operator($txtt), multicursor: $multicursor($txtt)"
 
     switch $operator($txtt) {
       "" {
         if {$multicursor($txtt)} {
           # TBD
         } else {
-          edit::move_cursor $txtt $startpos
+          ::tk::TextSetCursor $txtt [expr {($startpos ne "insert") ? $startpos : $endpos}]
+          vim::adjust_insert $txtt
         }
         reset_state $txtt
         return 1
@@ -1622,7 +1626,7 @@ namespace eval vim {
         reset_state $txtt
         return 1
       }
-      "swap"{
+      "swap" {
         if {![multicursor::toggle_case $txtt]} {
           edit::transform_toggle_case $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt $startpos
@@ -1647,25 +1651,27 @@ namespace eval vim {
         return 1
       }
       "rot13" {
-        # TBD
+        if {![multicursor::rot13 $txtt]} {
+          edit::transform_rot13 $txtt $startpos $endpos
+        }
         reset_state $txtt
         return 1
       }
       "format" {
-        # TBD
+        indent::format_text $txtt $startpos $endpos
         reset_state $txtt
         return 1
       }
       "lshift" {
         if {![multicursor::shift $txtt left]} {
-          edit::transform_shift $txtt left
+          edit::unindent $txtt $startpos $endpos
         }
         reset_state $txtt
         return 1
       }
       "rshift" {
         if {![multicursor::shift $txtt right]} {
-          edit::transform_shift $txtt right
+          edit::indent $txtt $startpos $endpos
         }
         reset_state $txtt
         return 1
@@ -1685,7 +1691,7 @@ namespace eval vim {
     variable motion
 
     # If the current mode does not pertain to us, return now
-    if {([lsearch {t f} [string tolower $motion($txtt)]] == -1} {
+    if {[lsearch {t f} [string tolower $motion($txtt)]] == -1} {
       return 0
     }
 
@@ -1709,7 +1715,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, the number is 0 and the current number
+  # If we are in "command" mode, the number is 0 and the current number
   # is empty, set the insertion cursor to the beginning of the line;
   # otherwise, append the number current to number value.
   proc handle_number {txtt num} {
@@ -1740,16 +1746,16 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in the "start" mode, display the command entry field and
+  # If we are in the "command" mode, display the command entry field and
   # give it the focus.
   proc handle_colon {txtt} {
 
     variable mode
     variable command_entries
 
-    # If we are in the "start" mode, bring up the command entry widget
+    # If we are in the "command" mode, bring up the command entry widget
     # and give it the focus.
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
 
       # Colorize the entry widget to match the look of the associated text widget
       $command_entries($txtt) configure \
@@ -1772,7 +1778,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in the "start" mode, move insertion cursor to the end of
+  # If we are in the "command" mode, move insertion cursor to the end of
   # the current line.  If we are in "delete" mode, delete all of the
   # text from the insertion marker to the end of the line.
   proc handle_dollar {txtt} {
@@ -1782,9 +1788,9 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$motion($txtt) eq ""} {
-        return [do_operator $txtt insert [edit::get_index $txtt lineend -num [get_number $txtt]]]
+        return [do_operation $txtt insert [edit::get_index $txtt lineend -num [get_number $txtt]]]
       } elseif {$motion($txtt) eq "g"} {
-        return [do_operator $txtt insert [edit::get_index $txtt dispend -num [get_number $txtt]]]
+        return [do_operation $txtt insert [edit::get_index $txtt dispend -num [get_number $txtt]]]
       }
       reset_state $txtt
       return 1
@@ -1795,7 +1801,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in the "start" mode, move insertion cursor to the beginning
+  # If we are in the "command" mode, move insertion cursor to the beginning
   # of the current line.  If we are in "delete" mode, delete all of the
   # text between the beginning of the current line and the current
   # insertion marker.
@@ -1805,7 +1811,7 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq "") {
+      if {$motion($txtt) eq ""} {
         if {[$txtt compare [set index [edit::get_index $txtt firstchar -num 0]] < insert]} {
           return [do_operation $txtt $index insert]
         } else {
@@ -1828,7 +1834,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, display the search bar.
+  # If we are in "command" mode, display the search bar.
   proc handle_slash {txtt} {
 
     variable mode
@@ -1845,7 +1851,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, display the search bar for doing a
+  # If we are in "command" mode, display the search bar for doing a
   # a previous search.
   proc handle_question {txtt} {
 
@@ -1863,7 +1869,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, invokes the buffered command at the current
+  # If we are in "command" mode, invokes the buffered command at the current
   # insertion point.
   proc handle_period {txtt} {
 
@@ -1888,7 +1894,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode and the insertion point character has a
+  # If we are in "command" mode and the insertion point character has a
   # matching left/right partner, display the partner.
   proc handle_percent {txtt} {
 
@@ -1954,7 +1960,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, inserts at the beginning of the current
+  # If we are in "command" mode, inserts at the beginning of the current
   # line.
   proc handle_I {txtt} {
 
@@ -1975,7 +1981,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, move the insertion cursor down one line.
+  # If we are in "command" mode, move the insertion cursor down one line.
   proc handle_j {txtt} {
 
     variable mode
@@ -2004,7 +2010,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, join the next line to the end of the
+  # If we are in "command" mode, join the next line to the end of the
   # previous line.
   proc handle_J {txtt} {
 
@@ -2024,7 +2030,7 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, move the insertion cursor up one line.
+  # If we are in "command" mode, move the insertion cursor up one line.
   proc handle_k {txtt} {
 
     variable mode
@@ -2046,7 +2052,10 @@ namespace eval vim {
           adjust_insert $txtt
         }
         default {
-          return [do_operation $txtt [edit::get_index $txtt up -num [get_number $txtt] -column column($txtt)] insert
+          catch {
+          return [do_operation $txtt [edit::get_index $txtt up -num [get_number $txtt] -column column($txtt)] insert]
+          } rc
+          puts "rc: $rc"
         }
       }
       reset_state $txtt
@@ -2063,6 +2072,7 @@ namespace eval vim {
   proc handle_K {txtt} {
 
     variable mode
+    variable operator
 
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
@@ -2079,87 +2089,51 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, move the insertion cursor right one
+  # If we are in "command" mode, move the insertion cursor right one
   # character.
   proc handle_l {txtt} {
 
     variable mode
-    variable multicursor
+    variable motion
 
-    set num [get_number $txtt]
+    catch {
 
     # Move the insertion cursor right one character
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      $txtt tag remove sel 1.0 end
-      if {$multicursor($txtt)} {
-        multicursor::adjust_right $txtt $num
-      } else {
-        edit::move_cursor $txtt right -num $num
-      }
-      return 1
-    } else {
-      if {[string index $mode($txtt) end] eq "V"} {
-        set startpos "insert linestart"
-        set endpos   "insert lineend"
-      } else {
-        if {[string index $mode($txtt) end] eq "v"} {
-          incr num
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch [lindex $motion($txtt) end] {
+        "V" {
+          set startpos "insert linestart"
+          set endpos   "insert lineend"
         }
-        set startpos "insert"
-        if {[$txtt compare "insert lineend" < [set endpos "insert+${num}c"]]} {
-          set endpos "insert lineend"
+        "v" {
+          set startpos "insert"
+          set endpos   [edit::get_index $txtt right -num [expr [get_number $txtt] + 1]]
+        }
+        default {
+          set startpos "insert"
+          set endpos   [edit::get_index $txtt right -num [get_number $txtt]]
         }
       }
-      if {[string range $mode($txtt) 0 5] eq "delete"} {
-        if {[$txtt compare $startpos != $endpos]} {
-          clipboard clear
-          clipboard append [$txtt get $startpos $endpos]
-          $txtt delete $startpos $endpos
-          adjust_insert $txtt
-        }
-        command_mode $txtt
-        return 1
-      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
-        if {[$txtt compare $startpos != $endpos]} {
-          $txtt delete $startpos $endpos
-          adjust_insert $txtt
-        }
-        edit_mode $txtt
-        return 1
-      } elseif {[string range $mode($txtt) 0 3] eq "yank"} {
-        clipboard clear
-        clipboard append [$txtt get $startpos $endpos]
-        command_mode $txtt
-        return 1
-      } elseif {[string range $mode($txtt) 0 3] eq "case"} {
-        set curpos [$txtt index insert]
-        switch [lindex [split $mode($txtt) :] 1] {
-          swap  { edit::transform_toggle_case   $txtt $startpos $endpos }
-          upper { edit::transform_to_upper_case $txtt $startpos $endpos }
-          lower { edit::transform_to_lower_case $txtt $startpos $endpos }
-        }
-        ::tk::TextSetCursor $txtt $curpos
-        command_mode $txtt
-        return 1
-      }
+      return [do_operation $txtt $startpos $endpos]
     }
+    } rc
+    puts "rc: $rc"
 
     return 0
 
   }
 
   ######################################################################
-  # If we are in "start" mode and multicursor mode is enabled, adjust
+  # If we are in "command" mode and multicursor mode is enabled, adjust
   # all of the cursors to the right by one character.  If we are only
-  # in "start" mode, jump the insertion cursor to the bottom line.
+  # in "command" mode, jump the insertion cursor to the bottom line.
   proc handle_L {txtt} {
 
     variable mode
     variable multicursor
 
-    if {(($mode($txtt) eq "start") && !$multicursor($txtt)) || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt screenbot
-      return 1
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      return [do_operation $txtt insert [edit::get_index $txtt screenbot]]
     }
 
     return 0
@@ -2194,55 +2168,34 @@ namespace eval vim {
   proc handle_f {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "find:f:next"
-      return 1
-    } elseif {$mode($txtt) eq "visual:char"} {
-      set mode($txtt) "visual:f:next"
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      set mode($txtt) "delete:f:next"
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      set mode($txtt) "change:f:next"
-      return 1
-    } elseif {$mode($txtt) eq "yank"} {
-      set mode($txtt) "yank:f:next"
-      return 1
-    } elseif {$mode($txtt) eq "case:swap"} {
-      set mode($txtt) "case:f:next:swap"
-      return 1
-    } elseif {$mode($txtt) eq "case:upper"} {
-      set mode($txtt) "case:f:next:upper"
-      return 1
-    } elseif {$mode($txtt) eq "case:lower"} {
-      set mode($txtt) "case:f:next:lower"
-      return 1
-    } elseif {$mode($txtt) eq "goto"} {
-      if {[multicursor::enabled $txtt]} {
-        foreach {startpos endpos} [$txtt tag ranges mcursor] {
-          if {[file exists [set fname [get_filename $txtt $startpos]]]} {
-            gui::add_file end $fname
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          set motion($txtt) "f"
+          return 1
+        } elseif {$motion($txtt) eq "g"} {
+          if {[multicursor::enabled $txtt]} {
+            foreach {startpos endpos} [$txtt tag ranges mcursor] {
+              if {[file exists [set fname [get_filename $txtt $startpos]]]} {
+                gui::add_file end $fname
+              }
+            }
+          } else {
+            if {[file exists [set fname [get_filename $txtt insert]]]} {
+              gui::add_file end $fname
+            }
           }
         }
-      } else {
-        if {[file exists [set fname [get_filename $txtt insert]]]} {
-          gui::add_file end $fname
+      } elseif {$operator($txtt) eq "folding"} {
+        if {[folding::close_selected [winfo parent $txtt]]} {
+          reset_state $txtt
+        } else {
+          set mode($txtt) "folding:range"
         }
       }
-      command_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      if {[folding::close_selected [winfo parent $txtt]]} {
-        command_mode $txtt
-      } else {
-        set mode($txtt) "folding:range"
-      }
-      return 1
-    } elseif {[in_visual_mode $txtt] && ([lindex [split $mode($txtt) :] end] eq "folding")} {
-      folding::close_selected [winfo parent $txtt]
-      command_mode $txtt
       return 1
     }
 
@@ -2255,38 +2208,22 @@ namespace eval vim {
   proc handle_F {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "find:f:prev"
-      return 1
-    } elseif {$mode($txtt) eq "visual:char"} {
-      set mode($txtt) "visual:f:prev"
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      set mode($txtt) "delete:f:prev"
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      set mode($txtt) "change:f:prev"
-      return 1
-    } elseif {$mode($txtt) eq "yank"} {
-      set mode($txtt) "yank:f:prev"
-      return 1
-    } elseif {$mode($txtt) eq "case:swap"} {
-      set mode($txtt) "case:f:prev:swap"
-      return 1
-    } elseif {$mode($txtt) eq "case:upper"} {
-      set mode($txtt) "case:f:prev:upper"
-      return 1
-    } elseif {$mode($txtt) eq "case:lower"} {
-      set mode($txtt) "case:f:prev:lower"
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      if {![folding::close_selected [winfo parent $txtt]]} {
-        if {[set num [get_number $txtt]] > 1} {
-          folding::close_range [winfo parent $txtt] insert "insert+[expr $num - 1] display lines"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        set motion($txtt) "F"
+        return 1
+      } elseif {$operator($txtt) eq "folding"} {
+        if {![folding::close_selected [winfo parent $txtt]]} {
+          if {[set num [get_number $txtt]] > 1} {
+            folding::close_range [winfo parent $txtt] insert "insert+[expr $num - 1] display lines"
+            return 1
+          }
         }
       }
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -2299,30 +2236,17 @@ namespace eval vim {
   proc handle_t {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "find:t:next"
-      return 1
-    } elseif {$mode($txtt) eq "visual:char"} {
-      set mode($txtt) "visual:t:next"
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      set mode($txtt) "delete:t:next"
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      set mode($txtt) "change:t:next"
-      return 1
-    } elseif {$mode($txtt) eq "yank"} {
-      set mode($txtt) "yank:t:next"
-      return 1
-    } elseif {$mode($txtt) eq "case:swap"} {
-      set mode($txtt) "case:t:next:swap"
-      return 1
-    } elseif {$mode($txtt) eq "case:upper"} {
-      set mode($txtt) "case:t:next:upper"
-      return 1
-    } elseif {$mode($txtt) eq "case:lower"} {
-      set mode($txtt) "case:t:next:lower"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          set motion($txtt) "t"
+          return 1
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -2335,30 +2259,17 @@ namespace eval vim {
   proc handle_T {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "find:t:prev"
-      return 1
-    } elseif {$mode($txtt) eq "visual:char"} {
-      set mode($txtt) "visual:t:prev"
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      set mode($txtt) "delete:t:prev"
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      set mode($txtt) "change:t:prev"
-      return 1
-    } elseif {$mode($txtt) eq "yank"} {
-      set mode($txtt) "yank:t:prev"
-      return 1
-    } elseif {$mode($txtt) eq "case:swap"} {
-      set mode($txtt) "case:t:prev:swap"
-      return 1
-    } elseif {$mode($txtt) eq "case:upper"} {
-      set mode($txtt) "case:t:prev:upper"
-      return 1
-    } elseif {$mode($txtt) eq "case:lower"} {
-      set mode($txtt) "case:t:prev:lower"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          set motion($txtt) "T"
+          return 1
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -2367,26 +2278,24 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, edit any filenames found under any of
+  # If we are in "command" mode, edit any filenames found under any of
   # the cursors.
   proc handle_g {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "goto"
-      return 1
-    } elseif {$mode($txtt) eq "goto"} {
-      edit::move_cursor $txtt first
-      command_mode $txtt
-      return 1
-    } elseif {[in_visual_mode $txtt]} {
-      if {[lindex [split $mode($txtt) :] end] eq "goto"} {
-        edit::move_cursor $txtt first
-        set mode($txtt) [join [lrange [split $mode($txtt) :] 0 end-1] :]
-      } else {
-        set mode($txtt) "$mode($txtt):goto"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          set motion($txtt) "g"
+          return 1
+        } elseif {$motion($txtt) eq "g"} {
+          return [do_operation $txtt [edit::get_index $txtt first]]
+        }
       }
+      reset_state $txtt
       return 1
     }
 
@@ -2395,69 +2304,31 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, move the insertion cursor left one
+  # If we are in "command" mode, move the insertion cursor left one
   # character.
   proc handle_h {txtt} {
 
     variable mode
-    variable multicursor
-
-    set num [get_number $txtt]
+    variable operator
+    variable motion
 
     # Move the insertion cursor left one character
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      $txtt tag remove sel 1.0 end
-      if {$multicursor($txtt)} {
-        multicursor::adjust_left $txtt $num
-      } else {
-        edit::move_cursor $txtt left -num $num
-      }
-      return 1
-    } else {
-      if {[$txtt compare "insert linestart" > [set curpos [$txtt index "insert-${num}c"]]]} {
-        set curpos [$txtt index "insert linestart"]
-      }
-      if {[string index $mode($txtt) end] eq "V"} {
-        set startpos "insert linestart"
-        set endpos   "insert lineend"
-      } else {
-        set startpos $curpos
-        set endpos   "insert"
-        if {[string index $mode($txtt) end] eq "v"} {
-          set endpos "insert+1c"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch [lindex $motion($txtt) end] {
+        "V" {
+          set startpos "insert linestart"
+          set endpos   "insert lineend"
+        }
+        "v" {
+          set startpos "insert"
+          set endpos   [edit::get_index $txtt left -num [expr [get_number $txtt] + 1]]
+        }
+        default {
+          set startpos "insert"
+          set endpos   [edit::get_index $txtt left -num [get_number $txtt]]
         }
       }
-      if {[string range $mode($txtt) 0 5] eq "delete"} {
-        if {[$txtt compare $startpos != $endpos]} {
-          clipboard clear
-          clipboard append [$txtt get $startpos $endpos]
-          $txtt delete $startpos $endpos
-          adjust_insert $txtt
-        }
-        command_mode $txtt
-        return 1
-      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
-        if {[$txtt compare $startpos != $endpos]} {
-          $txtt delete $startpos $endpos
-        }
-        edit_mode $txtt
-        return 1
-      } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
-        clipboard clear
-        clipboard append [$txtt get $startpos $endpos]
-        ::tk::TextSetCursor $txtt $curpos
-        command_mode $txtt
-        return 1
-      } elseif {([string range $mode($txtt) 0 3] eq "case")} {
-        switch [lindex [split $mode($txtt) :] 1] {
-          swap  { edit::transform_toggle_case   $txtt $startpos $endpos }
-          upper { edit::transform_to_upper_case $txtt $startpos $endpos }
-          lower { edit::transform_to_lower_case $txtt $startpos $endpos }
-        }
-        ::tk::TextSetCursor $txtt $curpos
-        command_mode $txtt
-        return 1
-      }
+      return [do_operation $txtt $startpos $endpos]
     }
 
     return 0
@@ -2465,16 +2336,22 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode and multicursor mode is enabled, move all
+  # If we are in "command" mode and multicursor mode is enabled, move all
   # cursors to the left by one character.  Otherwise, if we are just in
-  # "start" mode, jump to the top line of the editor.
+  # "command" mode, jump to the top line of the editor.
   proc handle_H {txtt} {
 
     variable mode
-    variable multicursor
+    variable operator
+    variable motion
 
-    if {(($mode($txtt) eq "start") && !$multicursor($txtt)) || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt screentop
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          return [do_operation $txtt [edit::get_index $txtt screentop] insert]
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -2483,21 +2360,18 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, move the insertion cursor to the beginning
+  # If we are in "command" mode, move the insertion cursor to the beginning
   # of previous word.
   proc handle_b {txtt} {
 
     variable mode
-    variable multicursor
+    variable motion
 
-    set num [get_number $txtt]
-
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {$multicursor($txtt)} {
-        multicursor::adjust_wordstart $txtt prev $num
-      } else {
-        edit::move_cursor $txtt prevword -num $num
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$motion($txtt) eq ""} {
+        return [do_operation [edit::get_index $txtt wordstart -dir prev -num [get_number $txtt]]]
       }
+      reset_state $txtt
       return 1
     }
 
@@ -2506,30 +2380,37 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, change the state to "change" mode.  If
+  # If we are in "command" mode, change the state to "change" mode.  If
   # we are in the "change" mode, delete the current line and put ourselves
   # into edit mode.
   proc handle_c {txtt} {
 
     variable mode
+    variable operator
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {[edit::delete_selected $txtt]} {
-        edit_mode $txtt
-      } else {
-        set mode($txtt) "change"
-        record_start
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $operator($txtt) {
+        "" {
+          if {[edit::delete_selected $txtt]} {
+            edit_mode $txtt
+            reset_state $txtt
+          } else {
+            set operator($txtt) "change"
+            record_start
+          }
+        }
+        "change" {
+          if {![multicursor::delete $txtt "line"]} {
+            $txtt delete "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]+1c
+          }
+          edit_mode $txtt
+          reset_state $txtt
+        }
+        "folding" {
+          folding::close_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+          reset_state $txtt
+        }
       }
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      if {![multicursor::delete $txtt "line"]} {
-        $txtt delete "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]+1c
-      }
-      edit_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::close_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-      command_mode $txtt
       return 1
     }
 
@@ -2538,19 +2419,21 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, delete from the insertion cursor to the
+  # If we are in "command" mode, delete from the insertion cursor to the
   # end of the line and put ourselves into "edit" mode.
   proc handle_C {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      $txtt delete insert "insert lineend"
-      edit_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::close_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        $txtt delete insert "insert lineend"
+        edit_mode $txtt
+      } elseif {$operator($txtt) eq "folding"} {
+        folding::close_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -2563,10 +2446,13 @@ namespace eval vim {
   proc handle_E {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "folding"} {
-      folding::delete_all_folds [winfo parent $txtt]
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq "folding"} {
+        folding::delete_all_folds [winfo parent $txtt]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -2580,35 +2466,13 @@ namespace eval vim {
   proc handle_w {txtt} {
 
     variable mode
-    variable multicursor
+    variable motion
 
-    set num [get_number $txtt]
-
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {$multicursor($txtt)} {
-        multicursor::adjust_wordstart $txtt next $num
-      } else {
-        edit::move_cursor $txtt nextwordstart -num $num
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$motion($txtt) eq ""} {
+        return [do_operation [edit::get_index $txtt wordstart -dir next -num [get_number $txtt]]]
       }
-      return 1
-    } elseif {$mode($txtt) eq "yank"} {
-      clipboard clear
-      clipboard append [$txtt get insert [edit::get_wordstart $txtt next $num]]
-      command_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      edit::delete_current_word $txtt 1 [get_number $txtt]
-      command_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      if {![multicursor::delete $txtt "word" $num]} {
-        if {[get_number $txtt] > 1} {
-          $txtt delete insert "[edit::get_wordstart $txtt next [expr [get_number $txtt] - 1]] wordend"
-        } else {
-          $txtt delete insert "insert wordend"
-        }
-      }
-      edit_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -2617,23 +2481,20 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, go to the last line.
+  # If we are in "command" mode, go to the last line.
   proc handle_G {txtt} {
 
     variable mode
     variable multiplier
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$multiplier($txtt) eq ""} {
-        edit::move_cursor $txtt last
+        return [do_operation $txtt [edit::get_index $txtt last]]
       } else {
         ::tk::TextSetCursor $txtt $multiplier($txtt).0
-        edit::move_cursor $txtt firstword
+        return [do_operation $txtt insert [edit::get_index $txtt firstchar]]
       }
-      return 1
-    } elseif {$mode($txtt) eq "format"} {
-      indent::format_text $txtt "insert linestart" end
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -2642,32 +2503,31 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, transition the mode to the delete mode.
+  # If we are in "command" mode, transition the mode to the delete mode.
   # If we are in the "delete" mode, delete the current line.
   proc handle_d {txtt} {
 
     variable mode
+    variable operator
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      $txtt edit separator
-      if {[edit::delete_selected $txtt]} {
-        command_mode $txtt
-      } else {
-        set mode($txtt) "delete"
-        record_start
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $operator($txtt) {
+        "" {
+          if {![edit::delete_selected $txtt]} {
+            set operator($txtt) "delete"
+            record_start
+            return 1
+          }
+        }
+        "delete" {
+          return [do_operation $txtt "insert linestart" "insert lineend"]
+        }
+        "folding" {
+          folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+          return 1
+        }
       }
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      if {![multicursor::delete $txtt line]} {
-        edit::delete_current_line $txtt 1 [get_number $txtt]
-      }
-      command_mode $txtt
-      record_add d
-      record_stop
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -2676,18 +2536,20 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, deletes all text from the current
+  # If we are in "command" mode, deletes all text from the current
   # insertion cursor to the end of the line.
   proc handle_D {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      edit::delete_to_end $txtt 1
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        edit::delete_to_end $txtt 1
+      } elseif {$operator($txtt) eq "folding"} {
+        folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -2696,24 +2558,29 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in the "start" mode, move the insertion cursor ahead by
+  # If we are in the "command" mode, move the insertion cursor ahead by
   # one character and set ourselves into "edit" mode.
   proc handle_a {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      if {[multicursor::enabled $txtt]} {
-        multicursor::adjust_right $txtt 1 dspace
+    if {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          if {[multicursor::enabled $txtt]} {
+            multicursor::adjust_right $txtt 1 dspace
+          }
+          cleanup_dspace $txtt
+          ::tk::TextSetCursor $txtt "insert+1c"
+          edit_mode $txtt
+          record_start
+        }
+        "folding" {
+          folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
+        }
       }
-      cleanup_dspace $txtt
-      ::tk::TextSetCursor $txtt "insert+1c"
-      edit_mode $txtt
-      record_start
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -2722,19 +2589,24 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, insert text at the end of the current line.
+  # If we are in "command" mode, insert text at the end of the current line.
   proc handle_A {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      ::tk::TextSetCursor $txtt "insert lineend"
-      edit_mode $txtt
-      record_start
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          ::tk::TextSetCursor $txtt "insert lineend"
+          edit_mode $txtt
+          record_start
+        }
+        "folding" {
+          folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -2743,36 +2615,21 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in the "start" mode, set ourselves to yank mode.  If we
+  # If we are in the "command" mode, set ourselves to yank mode.  If we
   # are in "yank" mode, copy the current line to the clipboard.
   proc handle_y {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "yank"
-      return 1
-    } elseif {[in_visual_mode $txtt]} {
-      clipboard clear
-      clipboard append [$txtt get sel.first sel.last]
-      cliphist::add_from_clipboard
-      $txtt mark set insert sel.first
-      command_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "yank"} {
-      set num [get_number $txtt]
-      clipboard clear
-      if {$num > 1} {
-        set endpos "insert linestart+[expr $num - 1]l lineend"
-      } else {
-        set endpos "insert lineend"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        set operator($txtt) "yank"
+        return 1
+      } elseif {$operator($txtt) eq "yank"} {
+        return [do_operation $txtt "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]]
       }
-      clipboard append [$txtt get "insert linestart" $endpos]\n
-      multicursor::copy $txtt "insert linestart" $endpos
-      cliphist::add_from_clipboard
-      command_mode $txtt
-      record_add y
-      record_stop
+      reset_state $txtt
       return 1
     }
 
@@ -2841,16 +2698,17 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in the "start" mode, put the contents of the clipboard
+  # If we are in the "command" mode, put the contents of the clipboard
   # after the current line.
   proc handle_p {txtt} {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
       do_post_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
       record p
+      reset_state $txtt
       return 1
     }
 
@@ -2890,16 +2748,17 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in the "start" mode, put the contents of the clipboard
+  # If we are in the "command" mode, put the contents of the clipboard
   # before the current line.
   proc handle_P {txtt} {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
       do_pre_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
       record P
+      reset_state $txtt
       return 1
     }
 
@@ -2932,27 +2791,26 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, undoes the last operation.
+  # If we are in "command" mode, undoes the last operation.
   proc handle_u {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      undo $txtt
-      return 1
-    } elseif {$mode($txtt) eq "goto"} {
-      set mode($txtt) "case:lower"
-      return 1
-    } elseif {$mode($txtt) eq "case:lower"} {
-      set num   [expr [get_number $txtt] - 1]
-      set index [$txtt index "insert linestart"]
-      if {$num == 0} {
-        edit::transform_to_lower_case $txtt "insert linestart" "insert lineend"
-      } else {
-        edit::transform_to_lower_case $txtt "insert linestart" "insert+${num}l lineend"
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          undo $txtt
+        } elseif {$motion($txtt) eq "g"} {
+          set operator($txtt) "lower"
+          set motion($txtt)   ""
+          return 1
+        }
+      } elseif {$operator($txtt) eq "lower"} {
+        return [do_operation $txtt "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]]
       }
-      ::tk::TextSetCursor $txtt $index
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -2965,20 +2823,20 @@ namespace eval vim {
   proc handle_U {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "goto"} {
-      set mode($txtt) "case:upper"
-      return 1
-    } elseif {$mode($txtt) eq "case:upper"} {
-      set num   [expr [get_number $txtt] - 1]
-      set index [$txtt index "insert linestart"]
-      if {$num == 0} {
-        edit::transform_to_upper_case $txtt "insert linestart" "insert lineend"
-      } else {
-        edit::transform_to_upper_case $txtt "insert linestart" "insert+${num}l lineend"
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq "g"} {
+          set operator($txtt) "upper"
+          set motion($txtt)   ""
+          return 1
+        }
+      } elseif {$operator($txtt) eq "upper"} {
+        return [do_operation $txtt "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]]
       }
-      ::tk::TextSetCursor $txtt $index
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -2987,71 +2845,16 @@ namespace eval vim {
   }
 
   ######################################################################
-  # Performs a single character delete.
-  proc do_char_delete_current {txtt number} {
-
-    # Create separator
-    $txtt edit separator
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt "+${number}c"
-    } else {
-      if {[$txtt compare [set endpos "insert+${number}c"] > "insert lineend"]} {
-        set endpos "insert lineend"
-      }
-      if {[$txtt compare insert != $endpos]} {
-        clipboard clear
-        clipboard append [$txtt get insert $endpos]
-        $txtt delete insert $endpos
-        adjust_insert $txtt
-      }
-    }
-
-    # Create separator
-    $txtt edit separator
-
-  }
-
-  ######################################################################
-  # Performs a single character delete.
-  proc do_char_delete_previous {txtt number} {
-
-    # Create separator
-    $txtt edit separator
-
-    if {[multicursor::enabled $txtt]} {
-      multicursor::delete $txtt "-${number}c"
-    } else {
-      if {[$txtt compare [set startpos "insert-${number}c"] < "insert linestart"]} {
-        set startpos "insert linestart"
-      }
-      if {[$txtt compare insert != $startpos]} {
-        clipboard clear
-        clipboard append [$txtt get $startpos insert]
-        $txtt delete $startpos insert
-        adjust_insert $txtt
-      }
-    }
-
-    # Create separator
-    $txtt edit separator
-
-  }
-
-  ######################################################################
-  # If we are in "start" mode, deletes the current character.
+  # If we are in "command" mode, deletes the current character.
   proc handle_x {txtt} {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {[edit::delete_selected $txtt]} {
-        command_mode $txtt
-      } else {
-        do_char_delete_current $txtt [get_number $txtt]
-        record_add x
-        record_stop
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {![edit::delete_selected $txtt]} {
+        return [do_operation $txtt insert [edit::get_index $txtt right -num [get_number $txtt]]]
       }
+      reset_state $txtt
       return 1
     }
 
@@ -3060,20 +2863,17 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, deletes the current character (same as
+  # If we are in "command" mode, deletes the current character (same as
   # the 'x' command).
   proc handle_Delete {txtt} {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      if {[edit::delete_selected $txtt]} {
-        command_mode $txtt
-      } else {
-        do_char_delete_current $txtt [get_number $txtt]
-        record_add Delete
-        record_stop
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {![edit::delete_selected $txtt]} {
+        return [do_operation $txtt insert [edit::get_index $txtt right -num [get_number $txtt]]]
       }
+      reset_state $txtt
       return 1
     }
 
@@ -3082,15 +2882,16 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, deletes the previous character.
+  # If we are in "command" mode, deletes the previous character.
   proc handle_X {txtt} {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
-      do_char_delete_previous $txtt [get_number $txtt]
-      record_add X
-      record_stop
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {![edit::delete_selected $txtt]} {
+        return [do_operation $txtt [edit::get_index $txtt left -num [get_number $txtt] insert]]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3099,18 +2900,20 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, add a new line below the current line
+  # If we are in "command" mode, add a new line below the current line
   # and transition into "edit" mode.
   proc handle_o {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      edit::insert_line_below_current $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::open_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        edit::insert_line_below_current $txtt
+      } elseif {$operator($txtt) eq "folding"} {
+        folding::open_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3119,18 +2922,20 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, add a new line above the current line
+  # If we are in "command" mode, add a new line above the current line
   # and transition into "edit" mode.
   proc handle_O {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      edit::insert_line_above_current $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::open_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        edit::insert_line_above_current $txtt
+      } elseif {$operator($txtt) eq "folding"} {
+        folding::open_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3139,18 +2944,21 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, set the mode to the "quit" mode.  If we
+  # If we are in "command" mode, set the mode to the "quit" mode.  If we
   # are in "quit" mode, save and exit the current tab.
   proc handle_Z {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "quit"
-      return 1
-    } elseif {$mode($txtt) eq "quit"} {
-      gui::save_current
-      gui::close_current
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        set operator($txtt) "quit"
+      } elseif {$operator($txtt) eq "quit"} {
+        gui::save_current
+        gui::close_current
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3166,7 +2974,7 @@ namespace eval vim {
 
     variable mode
 
-    if {($mode($txtt) eq "start") && [multicursor::enabled $txtt]} {
+    if {($mode($txtt) eq "command") && [multicursor::enabled $txtt]} {
       multicursor_mode $txtt
       return 1
     }
@@ -3176,37 +2984,35 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, finds the next occurrence of the search text.
+  # If we are in "command" mode, finds the next occurrence of the search text.
   proc handle_n {txtt} {
 
     variable mode
+    variable operator
     variable search_dir
 
-    if {$mode($txtt) eq "start"} {
-      set count [get_number $txtt]
-      if {$search_dir($txtt) eq "next"} {
-        for {set i 0} {$i < $count} {incr i} {
-          search::find_next [winfo parent $txtt]
+    if {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          set count [get_number $txtt]
+          if {$search_dir($txtt) eq "next"} {
+            for {set i 0} {$i < $count} {incr i} {
+              search::find_next [winfo parent $txtt]
+            }
+          } else {
+            for {set i 0} {$i < $count} {incr i} {
+              search::find_prev [winfo parent $txtt]
+            }
+          }
         }
-      } else {
-        for {set i 0} {$i < $count} {incr i} {
-          search::find_prev [winfo parent $txtt]
+        "folding" {
+          folding::set_vim_foldenable [winfo parent $txtt] 0
+        }
+        default {
+          return [do_operation $txtt insert [edit::get_index $txtt numberend]]
         }
       }
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      edit::delete_next_numbers $txtt 1
-      command_mode $txtt
-      record_add n
-      record_stop
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      edit::delete_next_numbers $txtt 0
-      edit_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::set_vim_foldenable [winfo parent $txtt] 0
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -3215,38 +3021,36 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, finds the previous occurrence of the
+  # If we are in "command" mode, finds the previous occurrence of the
   # search text.
   proc handle_N {txtt} {
 
     variable mode
+    variable operator
     variable search_dir
 
-    if {$mode($txtt) eq "start"} {
-      set count [get_number $txtt]
-      if {$search_dir($txtt) eq "next"} {
-        for {set i 0} {$i < $count} {incr i} {
-          search::find_prev [winfo parent $txtt]
+    if {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          set count [get_number $txtt]
+          if {$search_dir($txtt) eq "next"} {
+            for {set i 0} {$i < $count} {incr i} {
+              search::find_prev [winfo parent $txtt]
+            }
+          } else {
+            for {set i 0} {$i < $count} {incr i} {
+              search::find_next [winfo parent $txtt]
+            }
+          }
         }
-      } else {
-        for {set i 0} {$i < $count} {incr i} {
-          search::find_next [winfo parent $txtt]
+        "folding" {
+          folding::set_vim_foldenable [winfo parent $txtt] 1
+        }
+        default {
+          return [do_operation $txtt [edit::get_index $txtt numberstart]]
         }
       }
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      edit::delete_prev_numbers $txtt 1
-      command_mode $txtt
-      record_add N
-      record_stop
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      edit::delete_prev_numbers $txtt 0
-      edit_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::set_vim_foldenable [winfo parent $txtt] 1
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -3255,13 +3059,13 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, replaces the current character with the
+  # If we are in "command" mode, replaces the current character with the
   # next character.
   proc handle_r {txtt} {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
       set mode($txtt) "replace"
       record_start
       return 1
@@ -3272,19 +3076,22 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, replaces all characters until the escape
+  # If we are in "command" mode, replaces all characters until the escape
   # key is hit.
   proc handle_R {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "replace_all"
-      record_start
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::open_all_folds [winfo parent $txtt]
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        set mode($txtt) "replace_all"
+        record_start
+        return 1
+      } elseif {$operator($txtt) eq "folding"} {
+        folding::open_all_folds [winfo parent $txtt]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3293,23 +3100,20 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, puts the mode into "visual char" mode.
+  # If we are in "command" mode, puts the mode into "visual char" mode.
   proc handle_v {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      visual_mode $txtt char
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-      command_mode $txtt
-      return 1
-    } elseif {($mode($txtt) eq "change") ||
-              ($mode($txtt) eq "delete") ||
-              ($mode($txtt) eq "yank")   ||
-              ([string range $mode($txtt) 0 3] eq "case")} {
-      set mode($txtt) "$mode($txtt):v"
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq "folding"} {
+        folding::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      } else {
+        visual_mode $txtt char
+        return 1
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3318,19 +3122,13 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, puts the mode into "visual line" mode.
+  # If we are in "command" mode, puts the mode into "visual line" mode.
   proc handle_V {txtt} {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
       visual_mode $txtt line
-      return 1
-    } elseif {($mode($txtt) eq "change") ||
-              ($mode($txtt) eq "delete") ||
-              ($mode($txtt) eq "yank")   ||
-              ([string range $mode($txtt) 0 3] eq "case")} {
-      set mode($txtt) "$mode($txtt):V"
       return 1
     }
 
@@ -3339,23 +3137,19 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, add a cursor.
+  # If we are in "command" mode, add a cursor.
   proc handle_s {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      multicursor::add_cursor $txtt [$txtt index insert]
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      edit::delete_next_space $txtt
-      command_mode $txtt
-      record_add s
-      record_stop
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      edit::delete_next_space $txtt
-      edit_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        multicursor::add_cursor $txtt [$txtt index insert]
+      } else {
+        return [do_operation $txtt insert [edit::get_index $txtt spaceend]]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3364,24 +3158,20 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, add cursors between the current anchor
+  # If we are in "command" mode, add cursors between the current anchor
   # the current line.
   proc handle_S {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      multicursor::add_cursors $txtt [$txtt index insert]
-      return 1
-    } elseif {$mode($txtt) eq "delete"} {
-      edit::delete_prev_space $txtt
-      command_mode $txtt
-      record_add S
-      record_stop
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      edit::delete_prev_space $txtt
-      edit_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        multicursor::add_cursors $txtt [$txtt index insert]
+      } else {
+        return [do_operation $txtt [edit::get_index $txtt spacestart] insert]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3390,15 +3180,18 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, run the gui::insert_numbers procedure to
+  # If we are in "command" mode, run the gui::insert_numbers procedure to
   # allow the user to potentially insert incrementing numbers into the
   # specified text widget.
   proc handle_numbersign {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      gui::insert_numbers $txtt
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        gui::insert_numbers $txtt
+      }
       return 1
     }
 
@@ -3468,9 +3261,13 @@ namespace eval vim {
   proc handle_quotedbl {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "change"} {
-      place_bracket $txtt \"
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq "change"} {
+        place_bracket $txtt \"
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3487,9 +3284,13 @@ namespace eval vim {
   proc handle_apostrophe {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "change"} {
-      place_bracket $txtt '
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq "change"} {
+        place_bracket $txtt '
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3506,9 +3307,13 @@ namespace eval vim {
   proc handle_bracketleft {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "change"} {
-      place_bracket $txtt \[ \]
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq "change"} {
+        place_bracket $txtt \[ \]
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3525,9 +3330,13 @@ namespace eval vim {
   proc handle_braceleft {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "change"} {
-      place_bracket $txtt \{ \}
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq "change"} {
+        place_bracket $txtt \{ \}
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3544,14 +3353,15 @@ namespace eval vim {
   proc handle_parenleft {txtt} {
 
     variable mode
+    variable operator
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$operator($txtt) eq ""} {
-        set operator($txtt) "move"
-        do_operation $txtt [edit::get_index $txtt sentence -dir prev -num [get_number $txtt]] {}
+        return [do_operation $txtt [edit::get_index $txtt sentence -dir prev -num [get_number $txtt]] {}]
       } elseif {$operator($txtt) eq "change"} {
         place_bracket $txtt ( )
       }
+      reset_state $txtt
       return 1
     }
 
@@ -3572,17 +3382,22 @@ namespace eval vim {
   proc handle_less {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "lshift"
-      return 1
-    } elseif {$mode($txtt) eq "lshift"} {
-      set lines [expr [get_number $txtt] - 1]
-      edit::unindent $txtt insert "insert+${lines}l"
-      command_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "change"} {
-      place_bracket $txtt < >
+    if {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          set operator($txtt) "lshift"
+          return 1
+        }
+        "change" {
+          place_bracket $txtt < >
+        }
+        "lshift" {
+          return [do_operation $txtt "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]]
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3596,14 +3411,19 @@ namespace eval vim {
   proc handle_greater {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "rshift"
-      return 1
-    } elseif {$mode($txtt) eq "rshift"} {
-      set lines [expr [get_number $txtt] - 1]
-      edit::indent $txtt insert "insert+${lines}l"
-      command_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          set operator($txtt) "rshift"
+          return 1
+        }
+        "rshift" {
+          return [do_operation $txtt "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]]
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3619,23 +3439,25 @@ namespace eval vim {
   proc handle_equal {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-        foreach {endpos startpos} [lreverse $selected] {
-          indent::format_text $txtt $startpos $endpos
+    if {$mode($txtt) eq "command"} {
+      switch $operator($txtt) {
+        "" {
+          if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
+            foreach {endpos startpos} [lreverse $selected] {
+              indent::format_text $txtt $startpos $endpos
+            }
+          } else {
+            set mode($txtt) "format"
+          }
+          return 1
         }
-      } else {
-        set mode($txtt) "format"
+        "format" {
+          return [do_operation $txtt "insert linestart" [edit::get_index $txtt lineend -num [get_number $txtt]]]
+        }
       }
-      return 1
-    } elseif {$mode($txtt) eq "format"} {
-      if {[set num [expr [get_number $txtt] - 1]] == 0} {
-        indent::format_text $txtt "insert linestart" "insert lineend"
-      } else {
-        indent::format_text $txtt "insert linestart" "insert+${num}l lineend"
-      }
-      command_mode $txtt
+      reset_state $txtt
       return 1
     }
 
@@ -3644,15 +3466,14 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" or "visual" mode, moves the insertion cursor to the first
+  # If we are in "command" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the next line.
   proc handle_Return {txtt} {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt nextfirst -num [get_number $txtt]
-      return 1
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      return [do_operation $txtt insert [edit::get_index $txtt firstchar -dir next -num [get_number $txtt]]]
     }
 
     return 0
@@ -3660,15 +3481,14 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" or "visual" mode, moves the insertion cursor to the first
+  # If we are in "command" or "visual" mode, moves the insertion cursor to the first
   # non-whitespace character in the previous line.
   proc handle_minus {txtt} {
 
     variable mode
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt prevfirst -num [get_number $txtt]
-      return 1
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      return [do_operation $txtt insert [edit::get_index $txtt firstchar -dir prev -num [get_number $txtt]]]
     }
 
     return 0
@@ -3676,15 +3496,18 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" or "visual" mode, move the cursor to the given
+  # If we are in "command" or "visual" mode, move the cursor to the given
   # column of the current line.
   proc handle_bar {txtt} {
 
     variable mode
 
-    if {(($mode($txtt) eq "start") || [in_visual_mode $txtt])} {
-      edit::move_cursor $txtt column -num [get_number $txtt]
-      return 1
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {[$txtt compare [set index [edit::get_index $txtt column -num [get_number $txtt]]]] < insert]} {
+        return [do_operation $txtt $index insert]
+      } else {
+        return [do_operation $txtt insert $index]
+      }
     }
 
     return 0
@@ -3692,35 +3515,21 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, change the case of the current character.
+  # If we are in "command" mode, change the case of the current character.
   proc handle_asciitilde {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      edit::transform_toggle_case $txtt insert "insert+[get_number $txtt]c"
-      adjust_insert $txtt
-      return 1
-    } elseif {[in_visual_mode $txtt]} {
-      set startpos [$txtt index sel.first]
-      edit::transform_toggle_case $txtt sel.first sel.last
-      $txtt mark set insert $startpos
-      vim::adjust_insert $txtt
-      command_mode $txtt
-      return 1
-    } elseif {$mode($txtt) eq "goto"} {
-      set mode($txtt) "case:swap"
-      return 1
-    } elseif {$mode($txtt) eq "case:swap"} {
-      set num   [expr [get_number $txtt] - 1]
-      set index [$txtt index "insert linestart"]
-      if {$num == 0} {
-        edit::transform_toggle_case $txtt "insert linestart" "insert lineend"
-      } else {
-        edit::transform_toggle_case $txtt "insert linestart" "insert+${num}l lineend"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$motion($txtt) eq "g"} {
+        set operator($txtt) "swap"
+        return 1
+      } elseif {$motion($txtt) eq ""} {
+        set operator($txtt) "swap"
+        return [do_operation $txtt insert [edit::get_index $txtt char -dir next -num [get_number $txtt]]]
       }
-      ::tk::TextSetCursor $txtt $index
-      command_mode $txtt
       return 1
     }
 
@@ -3729,18 +3538,24 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, move the cursor to the start of the middle
+  # If we are in "command" mode, move the cursor to the start of the middle
   # line.
   proc handle_M {txtt} {
 
     variable mode
+    variable operator
 
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      edit::move_cursor $txtt screenmid
-      return 1
-    } elseif {$mode($txtt) eq "folding"} {
-      folding::close_all_folds [winfo parent $txtt]
-      command_mode $txtt
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq "folding"} {
+        folding::close_all_folds [winfo parent $txtt]
+      } else {
+        if {[$txtt compare [set index [edit::get_index $txtt screenmid]] < insert]} {
+          return [do_operation $txtt $index insert]
+        } else {
+          return [do_operation $txtt insert $index]
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3749,19 +3564,20 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, search for all occurences of the current
+  # If we are in "command" mode, search for all occurences of the current
   # word.
   proc handle_asterisk {txtt} {
 
     variable mode
 
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
       set word [$txtt get "insert wordstart" "insert wordend"]
       catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
       array set theme [theme::get_syntax_colors]
       ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word
       $txtt tag lower _search sel
       search::find_next [winfo parent $txtt]
+      reset_state $txtt
       return 1
     }
 
@@ -3770,16 +3586,17 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, sets the current mode to "record" mode.
+  # If we are in "command" mode, sets the current mode to "record" mode.
   proc handle_q {txtt} {
 
     variable mode
     variable recording
 
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
       set curr_reg $recording(curr_reg)
       if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
         record_stop $curr_reg
+        reset_state $txtt
       } else {
         set mode($txtt) "record_reg"
       }
@@ -3796,11 +3613,16 @@ namespace eval vim {
   proc handle_Q {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      return 1
-    } elseif {$mode($txtt) eq "quit"} {
-      gui::close_current -force 1
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        set operator($txtt) "quit"
+        return 1
+      } elseif {$operator($txtt) eq "quit"} {
+        gui::close_current -force 1
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -3809,15 +3631,14 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "start" mode, replays the register specified with the
+  # If we are in "command" mode, replays the register specified with the
   # next character.  If we are in "replay_reg" mode, playback the current
   # register again.
   proc handle_at {txtt} {
 
     variable mode
-    variable recording
 
-    if {$mode($txtt) eq "start"} {
+    if {$mode($txtt) eq "command"} {
       set mode($txtt) "playback_reg"
       return 1
     }
@@ -3832,61 +3653,25 @@ namespace eval vim {
   proc handle_space {txtt} {
 
     variable mode
-    variable multicursor
-
-    set num [get_number $txtt]
+    variable motion
 
     # Move the insertion cursor right one character
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      $txtt tag remove sel 1.0 end
-      if {$multicursor($txtt)} {
-        multicursor::adjust_char $txtt next $num
-      } else {
-        edit::move_cursor $txtt nextchar -num $num
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch [lindex $motion($txtt) end] {
+        "V" {
+          set startpos "insert linestart"
+          set endpos   "insert lineend"
+        }
+        "v" {
+          set startpos "insert"
+          set endpos   [edit::get_index $txtt char -dir next -num [expr [get_number $txtt] + 1]]
+        }
+        default {
+          set startpos "insert"
+          set endpos   [edit::get_index $txtt char -dir next -num [get_number $txtt]]
+        }
       }
-      return 1
-    } else {
-      if {[string index $mode($txtt) end] eq "V"} {
-        set startpos "insert linestart"
-        set endpos   "insert lineend"
-      } else {
-        if {[string index $mode($txtt) end] eq "v"} {
-          incr num
-        }
-        set startpos "insert"
-        set endpos   "insert+$num display chars"
-      }
-      if {[string range $mode($txtt) 0 5] eq "delete"} {
-        if {[$txtt compare $startpos != $endpos]} {
-          clipboard clear
-          clipboard append [$txtt get $startpos $endpos]
-          $txtt delete $startpos $endpos
-          adjust_insert $txtt
-        }
-        command_mode $txtt
-        return 1
-      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
-        if {[$txtt compare $startpos != $endpos]} {
-          $txtt delete $startpos $endpos
-        }
-        edit_mode $txtt
-        return 1
-      } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
-        clipboard clear
-        clipboard append [$txtt get $startpos $endpos]
-        command_mode $txtt
-        return 1
-      } elseif {([string range $mode($txtt) 0 3] eq "case")} {
-        set curpos [$txtt index insert]
-        switch [lindex [split $mode($txtt) :] 1] {
-          swap  { edit::transform_toggle_case   $txtt $startpos $endpos }
-          upper { edit::transform_to_upper_case $txtt $startpos $endpos }
-          lower { edit::transform_to_lower_case $txtt $startpos $endpos }
-        }
-        ::tk::TextSetCursor $txtt $curpos
-        command_mode $txtt
-        return 1
-      }
+      return [do_operation $txtt $startpos $endpos]
     }
 
     return 0
@@ -3899,62 +3684,25 @@ namespace eval vim {
   proc handle_BackSpace {txtt} {
 
     variable mode
-    variable multicursor
-
-    set num [get_number $txtt]
+    variable motion
 
     # Move the insertion cursor left one character
-    if {($mode($txtt) eq "start") || [in_visual_mode $txtt]} {
-      $txtt tag remove sel 1.0 end
-      if {$multicursor($txtt)} {
-        multicursor::adjust_char $txtt prev $num
-      } else {
-        edit::move_cursor $txtt prevchar -num $num
-      }
-      return 1
-    } else {
-      set curpos "insert-${num}c"
-      if {[string index $mode($txtt) end] eq "V"} {
-        set startpos "insert linestart"
-        set endpos   "insert lineend"
-      } else {
-        set startpos $curpos
-        set endpos   "insert"
-        if {[string index $mode($txtt) end] eq "v"} {
-          set endpos "insert+1c"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch [lindex $motion($txtt) end] {
+        "V" {
+          set startpos "insert linestart"
+          set endpos   "insert lineend"
+        }
+        "v" {
+          set startpos [edit::get_index $txtt char -dir prev -num [expr [get_number $txtt] + 1]]
+          set endpos   "insert"
+        }
+        default {
+          set startpos [edit::get_index $txtt char -dir prev -num [get_number $txtt]]
+          set endpos   "insert"
         }
       }
-      if {[string range $mode($txtt) 0 5] eq "delete"} {
-        if {[$txtt compare "insert-${num}c" != $endpos]} {
-          clipboard clear
-          clipboard append [$txtt get "insert-${num}c" $endpos]
-          $txtt delete "insert-${num}c" $endpos
-          adjust_insert $txtt
-        }
-        command_mode $txtt
-        return 1
-      } elseif {[string range $mode($txtt) 0 5] eq "change"} {
-        if {[$txtt compare "insert-${num}c" != $endpos]} {
-          $txtt delete "insert-${num}c" $endpos
-        }
-        edit_mode $txtt
-        return 1
-      } elseif {([string range $mode($txtt) 0 3] eq "yank")} {
-        clipboard clear
-        clipboard append [$txtt get $startpos $endpos]
-        ::tk::TextSetCursor $txtt $curpos
-        command_mode $txtt
-        return 1
-      } elseif {([string range $mode($txtt) 0 3] eq "case")} {
-        switch [lindex [split $mode($txtt) :] 1] {
-          swap  { edit::transform_toggle_case   $txtt $startpos $endpos }
-          upper { edit::transform_to_upper_case $txtt $startpos $endpos }
-          lower { edit::transform_to_lower_case $txtt $startpos $endpos }
-        }
-        ::tk::TextSetCursor $txtt $curpos
-        command_mode $txtt
-        return 1
-      }
+      return [do_operation $txtt $startpos $endpos]
     }
 
     return 0
@@ -4002,12 +3750,14 @@ namespace eval vim {
   proc handle_z {txtt} {
 
     variable mode
+    variable operator
 
-    if {$mode($txtt) eq "start"} {
-      set mode($txtt) "folding"
-      return 1
-    } elseif {[in_visual_mode $txtt]} {
-      set mode($txtt) "$mode($txtt):folding"
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        set operator($txtt) "folding"
+        return 1
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -4021,14 +3771,17 @@ namespace eval vim {
   proc handle_underscore {txtt} {
 
     variable mode
+    variable motion
 
-    if {$mode($txtt) eq "goto"} {
-      edit::move_cursor $txtt lastchar -num [get_number $txtt]
-      command_mode $txtt
-      return 1
-    } elseif {[in_visual_mode $txtt] && ([lindex [split $mode($txtt) :] end] eq "goto")} {
-      edit::move_cursor $txtt lastchar -num [get_number $txtt]
-      set mode($txtt) [join [lrange [split $mode($txtt) :] 0 end-1] :]
+    if {($mode($txtt) eq "goto") || [in_visual_mode $txtt]} {
+      if {$motion($txtt) eq "g"} {
+        if {[$txtt compare [set index [edit::get_index $txtt lastchar -num [get_number $txtt]]] < insert]} {
+          return [do_operation $txtt $index insert]
+        } else {
+          return [do_operation $txtt insert $index]
+        }
+      }
+      reset_state $txtt
       return 1
     }
 
@@ -4041,37 +3794,18 @@ namespace eval vim {
   proc handle_e {txtt} {
 
     variable mode
-    variable multicursor
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "start"} {
-      if {$multicursor($txtt)} {
-        multicursor::adjust_nextwordend $txtt [get_number $txtt]
-      } else {
-        edit::move_cursor $txtt nextwordend -num [get_number $txtt]
-      }
-      return 1
-    } elseif {$mode($txtt) eq "goto"} {
-      if {$multicursor($txtt)} {
-        multicursor::adjust_prevwordend $txtt [get_number $txtt]
-      } else {
-        edit::move_cursor $txtt prevwordend -num [get_number $txtt]
-      }
-      return 1
-    } elseif {[in_visual_mode $txtt]} {
-      if {[lindex [split $mode($txtt) :] end-1] eq "goto"} {
-        if {$multicursor($txtt)} {
-          multicursor::adjust_prevwordend $txtt [get_number $txtt]
-        } else {
-          edit::move_cursor $txtt prevwordend -num [get_number $txtt]
-        }
-        set mode($txtt) [join [lrange [split $mode($txtt) :] 0 end-1] :]
-      } else {
-        if {$multicursor($txtt)} {
-          multicursor::adjust_nextwordend $txtt [get_number $txtt]
-        } else {
-          edit::move_cursor $txtt nextwordend -num [get_number $txtt]
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          return [do_operation $txtt insert [edit::get_index $txtt wordend -dir next -num [get_number $txtt]]]
+        } elseif {$motion($txtt) eq "g"} {
+          return [do_operation $txtt [edit::get_index $txtt wordend -dir prev -num [get_number $txtt]] insert]
         }
       }
+      reset_state $txtt
       return 1
     }
 
