@@ -72,7 +72,7 @@ namespace eval change {
       cleanup "$id change did not work ([$txtt get 1.0 end-1c])"
     }
     switch [lindex $cmdlist 0] {
-      "r"     { set mode "start" }
+      "r"     { set mode "command" }
       "R"     { set mode "replace_all" }
       default { set mode "edit" }
     }

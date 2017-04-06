@@ -394,7 +394,7 @@ namespace eval multicursor {
   ######################################################################
   # Handles multicursor deletion using the esposargs and sposargs parameters
   # for calculating the deletion ranges.
-  proc delete {txtt eposargs sposargs} {
+  proc delete {txtt eposargs {sposargs ""}} {
 
     variable selected
 
@@ -407,7 +407,7 @@ namespace eval multicursor {
     # Only perform this if multiple cursors
     if {[enabled $txtt]} {
 
-      if {$selected} {
+      if {$selected || ($eposargs eq "selected")} {
         while {[set range [$txtt tag nextrange sel $start]] ne [list]} {
           lassign $range start end
           append dat [$txtt get $start $end]
