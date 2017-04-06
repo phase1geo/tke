@@ -1655,8 +1655,11 @@ namespace eval vim {
         return 1
       }
       "rot13" {
+        puts "HERE A"
         if {![multicursor::rot13 $txtt $eposargs $sposargs]} {
+          puts "HERE B"
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
+          puts "  startpos: $startpos, endpos: $endpos"
           edit::transform_rot13 $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt $startpos
         }
@@ -1850,11 +1853,24 @@ namespace eval vim {
   proc handle_question {txtt} {
 
     variable mode
+    variable operator
+    variable motion
     variable search_dir
 
     if {$mode($txtt) eq "command"} {
-      gui::search "prev"
-      set search_dir($txtt) "prev"
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          gui::search "prev"
+          set search_dir($txtt) "prev"
+        } elseif {$motion($txtt) eq "g"} {
+          set operator($txtt) "rot13"
+          set motion($txtt)   ""
+          return 1
+        }
+      } elseif {$operator($txtt) eq "rot13"} {
+        return [do_operation $txtt [list linestart -num 2] linestart]
+      }
+      reset_state $txtt
       return 1
     }
 

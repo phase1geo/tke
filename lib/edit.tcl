@@ -1457,7 +1457,11 @@ namespace eval edit {
       }
       linestart     {
         if {$opts(-num) > 1} {
-          set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] linestart+1 display chars"]
+          if {[$txtt compare [set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] display lines linestart"]] == end]} {
+            set index "end"
+          } else {
+            set index "$index+1 display chars"
+          }
         } else {
           set index [$txtt index "$opts(-startpos) linestart+1 display chars"]
         }
@@ -1490,8 +1494,15 @@ namespace eval edit {
   ######################################################################
   # Returns the startpos/endpos range based on the supplied arguments.
   proc get_range {txtt pos1args pos2args {cursor insert}} {
+    
+    puts "In get_range, txtt: $txtt, pos1args: $pos1args, pos2args: $pos2args, cursor: $cursor"
 
+    catch {
     set pos1 [edit::get_index $txtt {*}$pos1args -startpos $cursor]
+    } rc
+    puts "rc: $rc"
+    
+    puts "pos1args: $pos1args, pos1: $pos1, pos2args: $pos2args"
 
     if {$pos2args ne ""} {
       set pos2 [edit::get_index $txtt {*}$pos2args -startpos $cursor]
