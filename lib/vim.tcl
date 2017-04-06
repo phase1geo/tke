@@ -1666,23 +1666,25 @@ namespace eval vim {
         if {![multicursor::format_text $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
           indent::format_text $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt $startpos
+          ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
         reset_state $txtt
         return 1
       }
       "lshift" {
         if {![multicursor::shift $txtt left $eposargs $sposargs]} {
-          edit::unindent $txtt {*}[edit::get_range $txtt $eposargs $sposargs]
-          ::tk::TextSetCursor $txtt $startpos
+          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
+          edit::unindent $txtt $startpos $endpos
+          ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
         reset_state $txtt
         return 1
       }
       "rshift" {
         if {![multicursor::shift $txtt right $eposargs $sposargs]} {
-          edit::indent $txtt {*}[edit::get_range $txtt $eposargs $sposargs]
-          ::tk::TextSetCursor $txtt $startpos
+          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
+          edit::indent $txtt $startpos $endpos
+          ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
         reset_state $txtt
         return 1
