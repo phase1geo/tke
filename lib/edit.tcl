@@ -335,12 +335,9 @@ namespace eval edit {
   ######################################################################
   # Deletes from the current insert postion to (and including) the next
   # character on the current line.
-  proc delete_to_next_char {txtt char copy {num 1} {inclusive 1}} {
+  proc delete_to_next_char {txtt char copy {num 1} {exclusive 0}} {
 
-    if {[set index [find_char $txtt next $char $num]] ne "insert"} {
-      if {$inclusive} {
-        set index "$index+1c"
-      }
+    if {[set index [find_char $txtt next $char $num insert $exclusive]] ne "insert"} {
       if {$copy} {
         clipboard clear
         clipboard append [$txtt get insert $index]
@@ -356,12 +353,9 @@ namespace eval edit {
   ######################################################################
   # Deletes from the current insert position to (and including) the
   # previous character on the current line.
-  proc delete_to_prev_char {txtt char copy {num 1} {inclusive 1}} {
+  proc delete_to_prev_char {txtt char copy {num 1} {exclusive 0}} {
 
-    if {[set index [find_char $txtt prev $char $num]] ne "insert"} {
-      if {!$inclusive} {
-        set index "$index+1c"
-      }
+    if {[set index [find_char $txtt prev $char $num insert $exclusive]] ne "insert"} {
       if {$copy} {
         clipboard clear
         clipboard append [$txtt get $index insert]
@@ -1298,18 +1292,22 @@ namespace eval edit {
 
   ######################################################################
   # Returns the starting index of the given character.
-  proc find_char {txtt dir char {num 1} {startpos "insert"}} {
+  proc find_char {txtt dir char num startpos exclusive} {
 
     # Perform the character search
     if {$dir eq "next"} {
       set indices [$txtt search -all -- $char "$startpos+1c" "$startpos lineend"]
       if {[set index [lindex $indices [expr $num - 1]]] eq ""} {
         set index "insert"
+      } elseif {$exclusive} {
+        set index "$index-1c"
       }
     } else {
       set indices [$txtt search -all -- $char "$startpos linestart" insert]
       if {[set index [lindex $indices end-[expr $num - 1]]] eq ""} {
         set index "insert"
+      } elseif {$exclusive} {
+        set index "$index+1c"
       }
     }
 
@@ -1426,7 +1424,7 @@ namespace eval edit {
       }
       last          { set index "end" }
       char          { set index [get_char $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
-      findchar      { set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos)] }
+      findchar      { set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       firstchar     {
         if {$opts(-num) == 0} {
           set index $opts(-startpos)
@@ -1483,15 +1481,6 @@ namespace eval edit {
       screenmid     { set index "@0,[expr [winfo height $txtt] / 2]" }
       screenbot     { set index "@0,[winfo height $txtt]" }
       default       { set index $opts(-startpos) }
-    }
-
-    # Adjust the position of the cursor if the -exclusive option was set to 1
-    if {$opts(-exclusive)} {
-      if {$opts(-dir) eq "next"} {
-        set index [$txtt index $index-1c]
-      } else {
-        set index [$txtt index $index+1c]
-      }
     }
 
     return $index
