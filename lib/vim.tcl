@@ -1603,14 +1603,15 @@ namespace eval vim {
       }
       "delete" {
         if {![multicursor::delete $txtt $eposargs $sposargs]} {
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] 1
+          set copy [expr [lsearch [list spacestart spaceend numberstart numberend] [lindex $eposargs 0]] == -1]
+          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] $copy 1 
         }
         reset_state $txtt
         return 1
       }
       "change" {
         if {![multicursor::delete $txtt $eposargs $sposargs]} {
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] 0
+          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] 0 0
         }
         edit_mode $txtt
         reset_state $txtt

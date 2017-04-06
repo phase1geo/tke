@@ -172,7 +172,7 @@ namespace eval multicursor {
       cleanup "mcursor does not match expected ([$txt tag ranges mcursor])"
     }
 
-    multicursor::adjust_left $txt.t 4
+    multicursor::move $txt.t [list left -num 4]
 
     if {[$txt tag ranges mcursor] ne [list 2.3 2.4 3.3 3.4]} {
       cleanup "mcursor mismatch after -3c adjust ([$txt tag ranges mcursor])"
@@ -303,7 +303,7 @@ namespace eval multicursor {
     }
 
     # Delete the current line
-    multicursor::delete $txt.t line
+    multicursor::delete $txt.t linestart [list linestart -num 2]
 
     if {[$txt get 2.0 end-1c] ne " \n "} {
       cleanup "text mismatched after deletion ([$txt get 2.0 end-1c])"

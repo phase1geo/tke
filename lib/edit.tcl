@@ -178,7 +178,7 @@ namespace eval edit {
 
   ######################################################################
   # Deletes the current word (i.e., dw Vim mode).
-  proc delete {txtt startpos endpos copy} {
+  proc delete {txtt startpos endpos copy adjust} {
 
     # Copy the text to the clipboard, if specified
     if {$copy} {
@@ -190,7 +190,7 @@ namespace eval edit {
     $txtt delete $startpos $endpos
 
     # Adjust the insertion cursor if this was a delete and not a change
-    if {$copy} {
+    if {$adjust} {
       vim::adjust_insert $txtt
     }
 

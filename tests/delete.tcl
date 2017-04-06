@@ -70,8 +70,14 @@ namespace eval delete {
     if {[$txtt get 1.0 end-1c] ne $value} {
       cleanup "$id delete did not work ([$txtt get 1.0 end-1c])"
     }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "$id not in mode start"
+    if {$vim::mode($txtt) ne "command"} {
+      cleanup "$id not in mode command ($vim::mode($txtt))"
+    }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator not cleared ($vim::operator($txtt))"
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id motion not cleared ($vim::mode($txtt))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id cursor incorrect ([$txtt index insert])"
