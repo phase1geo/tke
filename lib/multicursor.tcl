@@ -154,7 +154,7 @@ namespace eval multicursor {
   # Handles a delete key event in multicursor mode.
   proc handle_delete {W} {
 
-    if {![vim::in_vim_mode $W] && [multicursor::delete $W "+1c"]} {
+    if {![vim::in_vim_mode $W] && [multicursor::delete $W [list char -dir next] ""]} {
       return 1
     }
 
@@ -166,7 +166,7 @@ namespace eval multicursor {
   # Handles a backspace key event in multicursor mode.
   proc handle_backspace {W} {
 
-    if {![vim::in_vim_mode $W] && [multicursor::delete $W "-1c"]} {
+    if {![vim::in_vim_mode $W] && [multicursor::delete $W [list char -dir prev] ""]} {
       return 1
     }
 
@@ -332,242 +332,69 @@ namespace eval multicursor {
   }
 
   ######################################################################
-  # Adjusts the cursors by the given suffix.  The valid values for suffix
-  # are:
-  #  +1c       - Adjusts the cursors one character to the right.
-  #  -1c       - Adjusts the cursors one character to the left.
-  #  +1l       - Adjusts the cursors one line down.
-  #  -1l       - Adjusts the cursors one line up.
-  #  linestart - Adjusts the cursors to the beginning of the line (if a line contains more than
-  #              one multicursor, create only one on the current line)
-  #  lineend   - Adjusts the cursors to the end of the line (if a line contains more than one
-  #              multicursor, create only one on the current line)
-  #  nextword  - Adjusts the cursors to the beginning of the next word
-  #  prevword  - Adjusts the cursors to the beginning of the previous word
-  #  firstword - Adjusts the cursors to the beginning of the first word of the line
-  #
-  # If the insert value is set to 1 and moving the character would cause
-  # the cursor to be lost (beginning/end of line or beginning/end of file),
-  # a line or character will be inserted and the cursor set to that position.
-  # The inserted text will be given the tag name of "insert_tag".
-  proc adjust_right {txtt num {tag ""}} {
+  # Moves all of the cursors using the positional arguments.
+  proc move {txtt posargs} {
 
-    # Number of characters to advance
+    # Get the existing ranges
     set ranges [$txtt tag ranges mcursor]
 
-    # If any of the cursors would "fall off the edge", don't modify any of them
-    if {$tag eq ""} {
+    # Get the list of new ranges
+    set new_ranges [list]
+    foreach {start end} $ranges {
+      lappend new_ranges $start [edit::get_index $txtt {*}$posargs -startpos $start]
+    }
 
-      foreach {start end} $ranges {
-        if {[$txtt compare "$start+${num} display chars" >= "$start lineend"]} {
+    # If any cursors are going to "fall off" an edge, don't perform the move
+    switch [lindex $posargs 0] {
+      left {
+        foreach {start new_start} $new_ranges {
+          if {[$txtt compare $new_start < "$start linestart"]} {
+            adjust_select $txtt
+            return
+          }
+        }
+      }
+      right {
+        foreach {start new_start} $new_ranges {
+          if {[$txtt compare $new_start >= "$start lineend"]} {
+            adjust_select $txtt
+            return
+          }
+        }
+      }
+      up {
+        array set opts [lrange $posargs 1 end]
+        if {[$txtt count -displaylines [lindex $new_ranges 0] [lindex $ranges 0]] != $opts(-num)} {
           adjust_select $txtt
           return
         }
       }
-      $txtt tag remove mcursor 1.0 end
-      foreach {start end} $ranges {
-        adjust_set_and_view $txtt $start "$start+${num} display chars"
-      }
-
-    # Otherwise, move and add lines
-    } else {
-
-      $txtt tag remove mcursor 1.0 end
-      foreach {end start} [lreverse $ranges] {
-        if {[set diff [$txtt count -displaychars "$start lineend" "$start+${num} display chars"]] > 0} {
-          $txtt fastinsert -update 0 -undo 0 "$start lineend" [string repeat " " $diff] $tag
+      down {
+        if {[$txtt compare [lindex $new_ranges end] == end]} {
+          adjust_select $txtt
+          return
         }
-        adjust_set_and_view $txtt $start "$start+${num} display chars"
-      }
-
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Adjust the multicursors down by the specified number of lines.
-  proc adjust_down {txtt num} {
-
-    set ranges [$txtt tag ranges mcursor]
-
-    # If we will be moving past the end, no need to continue
-    if {[$txtt compare "[lindex $ranges end-1]+${num} display lines" == end]} {
-      adjust_select $txtt
-      return
-    }
-
-    $txtt tag remove mcursor 1.0 end
-    foreach {end start} [lreverse $ranges] {
-      set index [$txtt index "$start+${num} display lines"]
-      if {[$txtt get $index] eq "\n"} {
-        $txtt fastinsert -update 0 -undo 0 $index " " dspace
-      }
-      adjust_set_and_view $txtt $start $index
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Adjust all of the cursors num characters to the left.
-  proc adjust_left {txtt num} {
-
-    set ranges [$txtt tag ranges mcursor]
-
-    # If any of the cursors would "fall off the edge", don't adjust any of them
-    foreach {start end} $ranges {
-      if {[$txtt compare "$start-${num} display chars" < "$start linestart"]} {
-        adjust_select $txtt
-        return
       }
     }
 
-    # Adjust the cursors
+    # Move the cursors
     $txtt tag remove mcursor 1.0 end
-    foreach {start end} $ranges {
-      adjust_set_and_view $txtt $start "$start-${num} display chars"
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Adjusts all of the cursors up by the given number of lines.
-  proc adjust_up {txtt num} {
-
-    set ranges [$txtt tag ranges mcursor]
-
-    lassign [split [lindex $ranges 0] .] row col
-
-    # If we will be moving past the beginning, no need to continue
-    if {[expr ($row - $num) < 1]} {
-      adjust_select $txtt
-      return
-    }
-
-    $txtt tag remove mcursor 1.0 end
-    foreach {end start} [lreverse $ranges] {
-      set index [$txtt index "$start-${num} display lines"]
-      if {[$txtt get $index] eq "\n"} {
-        $txtt fastinsert -update 0 -undo 0 $index " " dspace
+    foreach {new_start start} [lreverse $new_ranges] {
+      if {[$txtt compare "$new_start linestart" == "$new_start lineend"]} {
+        $txtt fastinsert -update 0 -undo 0 "$new_start lineend" " " dspace
       }
-      adjust_set_and_view $txtt $start $index
+      adjust_set_and_view $txtt $start $new_start
     }
 
-    # Adjust the selection, if necessary
+    # Adjust the selection
     adjust_select $txtt
 
   }
 
   ######################################################################
-  # Adjusts all of the cursors to the start of their respective lines.
-  proc adjust_linestart {txtt} {
-
-    set ranges [$txtt tag ranges mcursor]
-
-    $txtt tag remove mcursor 1.0 end
-    foreach {start end} $ranges {
-      adjust_set_and_view $txtt $start "$start linestart"
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Adjust all of the cursors to the end of the line, adjusting the cursors
-  # down by the given number of lines.
-  proc adjust_lineend {txtt num} {
-
-    # First, adjust all of the cursors down
-    if {$num > 1} {
-      adjust_down $txtt [expr $num - 1]
-    }
-
-    set ranges [$txtt tag ranges mcursor]
-
-    $txtt tag remove mcursor 1.0 end
-    foreach {start end} $ranges {
-      adjust_set_and_view $txtt $start "$start lineend-1c"
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Adjust by a given number of characters, allowing cursors to move to
-  # the next or previous line.
-  proc adjust_char {txtt dir num} {
-
-    set ranges [$txtt tag ranges mcursor]
-
-    $txtt tag remove mcursor 1.0 end
-    foreach {start end} $ranges {
-      adjust_set_and_view $txtt $start [edit::get_char $txtt $dir $num $start]
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Moves all of the cursors to the next num words.
-  proc adjust_wordstart {txtt dir num} {
-
-    set ranges [$txtt tag ranges mcursor]
-
-    $txtt tag remove mcursor 1.0 end
-    foreach {start end} $ranges {
-      adjust_set_and_view $txtt $start [edit::get_wordstart $txtt $dir $num $start]
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Adjusts all of the cursors to land on the first non-whitespace character
-  # in each line.
-  proc adjust_firstword {txtt} {
-
-    set ranges [$txtt tag ranges mcursor]
-
-    $txtt tag remove mcursor 1.0 end
-    foreach {start end} $ranges {
-      if {[lsearch [$txtt tag names "$start linestart"] _prewhite] != -1} {
-        adjust_set_and_view $txtt $start [lindex [$txtt tag nextrange _prewhite "$start linestart"] 1]-1c
-      }
-    }
-
-    # Adjust the selection, if necessary
-    adjust_select $txtt
-
-  }
-
-  ######################################################################
-  # Handles the deletion key.  The value of suffix defines what text will
-  # be deleted.  The following is a listing of valid values for suffix:
-  # - selected  = Forces selected text to be deleted (by default this is detected)
-  # - line      = Delete the entire line of the current cursor.
-  # - word      = Delete the number of words from the current cursor.
-  # - linestart = Delete the line from the start to the current cursor.
-  # - lineend   = Delete the line from the current cursor to the end of the line.
-  # - pattern   = Delete if the start of the text matches the given pattern.
-  # - -#type    = Delete # of types prior to the cursor to the cursor.
-  # - +#type    = Delete from the cursor to # of types after the cursor.
-  proc delete {txtt suffix {data ""}} {
+  # Handles multicursor deletion using the esposargs and sposargs parameters
+  # for calculating the deletion ranges.
+  proc delete {txtt eposargs sposargs} {
 
     variable selected
 
@@ -580,11 +407,11 @@ namespace eval multicursor {
     # Only perform this if multiple cursors
     if {[enabled $txtt]} {
 
-      if {$selected || ($suffix eq "selected")} {
-        while {[set range [$txt tag nextrange sel $start]] ne [list]} {
+      if {$selected} {
+        while {[set range [$txtt tag nextrange sel $start]] ne [list]} {
           lassign $range start end
-          append dat [$txt get $start $end]
-          ctext::comments_chars_deleted $txt $start $end do_tags
+          append dat [$txtt get $start $end]
+          ctext::comments_chars_deleted $txtt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           if {([$txtt compare $start == "$start linestart"]) || \
@@ -598,135 +425,14 @@ namespace eval multicursor {
         }
         set selected 0
 
-      } elseif {$suffix eq "line"} {
-        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start [$txt index "[lindex $range 0] linestart"]
-          set end   [$txt index "[lindex $range 1] lineend"]
-          append dat [$txt get $start $end]
-          ctext::comments_chars_deleted $txt $start $end do_tags
-          $txt fastdelete -update 0 $start $end
-          add_cursor $txt.t $start
-          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-          set start "$start+2c"
-        }
-
-      } elseif {$suffix eq "word"} {
-        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start [$txt index "[lindex $range 0] wordstart"]
-          set end   [edit::get_wordstart $txtt next [expr $data - 1] $start]
-          if {[$txt compare $end > "$start lineend"]} {
-            set end [$txt index "$start lineend"]
-          }
-          append dat [$txt get $start $end]
-          ctext::comments_chars_deleted $txt $start $end do_tags
-          $txt fastdelete -update 0 $start $end
-          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-          if {([$txtt compare $start == "$start linestart"]) || \
-              ([$txtt compare $start != "$start lineend"])} {
-            add_cursor $txtt $start
-            set start "$start+2c"
-          } else {
-            add_cursor $txtt "$start-1c"
-            set start "$start+1c"
-          }
-        }
-
-      } elseif {$suffix eq "linestart"} {
-        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start [$txt index "[lindex $range 0] linestart"]
-          set end   [lindex $range 0]
-          append dat [$txt get $start $end]
-          ctext::comments_chars_deleted $txt $start $end do_tags
-          $txt fastdelete -update 0 $start $end
-          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-          set start "$start+2c"
-        }
-
-      } elseif {$suffix eq "lineend"} {
-        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start [lindex $range 0]
-          set end   [$txt index "[lindex $range 0] lineend"]
-          append dat [$txt get $start $end]
-          ctext::comments_chars_deleted $txt $start $end do_tags
-          $txt fastdelete -update 0 $start $end
-          lappend ranges $start $end
-          if {([$txtt compare $start == "$start linestart"]) || \
-              ([$txtt compare $start != "$start lineend"])} {
-            add_cursor $txtt $start
-            set start "$start+2c"
-          } else {
-            add_cursor $txtt "$start-1c"
-            set start "$start+1c"
-          }
-        }
-
-      } elseif {$suffix eq "pattern"} {
-        if {[string index $data 0] eq "^"} {
-          while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-            set start [lindex $range 0]
-            if {[regexp $data [$txt get $start "$start lineend"] match]} {
-              set end [$txt index "$start+[string length $match]c"]
-              append dat [$txt get $start $end]
-              ctext::comments_chars_deleted $txt $start $end do_tags
-              $txt fastdelete -update 0 $start $end
-              lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-              if {([$txtt compare $start == "$start linestart"]) || \
-                  ([$txtt compare $start != "$start lineend"])} {
-                add_cursor $txtt $start
-                set start "$start+2c"
-              } else {
-                add_cursor $txtt "$start-1c"
-                set start "$start+1c"
-              }
-            } else {
-              set start "$start+2c"
-            }
-          }
-        } else {
-          while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-            set start [lindex $range 0]
-            if {[regexp $data [$txt get "$start linestart" $start] match]} {
-              set start [$txt index "[lindex $range 0]-[string length $match]c"]
-              set end   [lindex $range 0]
-              append dat [$txt get $start $end]
-              ctext::comments_chars_deleted $txt $start $end do_tags
-              $txt fastdelete -update 0 $start $end
-              lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-            }
-            set start "$start+2c"
-          }
-        }
-
-      } elseif {[string index $suffix 0] eq "-"} {
-        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start [lindex $range 0]
-          if {[$txt compare "$start$suffix" < "$start linestart"]} {
-            set start [$txt index "[lindex $range 0] linestart"]
-          } else {
-            set start [$txt index "[lindex $range 0]$suffix"]
-          }
-          set end [lindex $range 0]
-          append dat [$txt get $start $end]
-          ctext::comments_chars_deleted $txt $start $end do_tags
-          $txt fastdelete -update 0 $start $end
-          lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-          set start "[lindex $range 0]$suffix+2c"
-        }
-
       } else {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
-          set start [lindex $range 0]
-          if {[$txt compare "$start$suffix" >= "$start lineend"]} {
-            set end [$txt index "$start lineend"]
-          } else {
-            set end [$txt index "$start$suffix"]
-          }
+          lassign [edit::get_range $txt $eposargs $sposargs [lindex $range 0]] start end
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-          if {([$txtt compare $start == "$start linestart"]) || \
-              ([$txtt compare $start != "$start lineend"])} {
+          if {([$txtt compare $start == "$start linestart"]) || ([$txtt compare $start != "$start lineend"])} {
             add_cursor $txtt $start
             set start "$start+2c"
           } else {
@@ -734,6 +440,7 @@ namespace eval multicursor {
             set start "$start+1c"
           }
         }
+
       }
 
       # Highlight and audit brackets
@@ -849,6 +556,72 @@ namespace eval multicursor {
     }
 
     return 0
+
+  }
+
+  ######################################################################
+  # Toggles the case of all characters that match the given positional arguments.
+  proc toggle_case {txtt eposargs sposargs} {
+
+    foreach {start end} [$txtt tag ranges mcursor] {
+      edit::convert_case_toggle $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    }
+
+  }
+
+  ######################################################################
+  # Transforms all text to upper case for the given multicursor ranges.
+  proc case_upper {txtt eposargs sposargs} {
+
+    foreach {start end} [$txtt tag ranges mcursor] {
+      edit::convert_to_upper_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    }
+
+  }
+
+  ######################################################################
+  # Transforms all text to lower case for the given multicursor ranges.
+  proc case_upper {txtt eposargs sposargs} {
+
+    foreach {start end} [$txtt tag ranges mcursor] {
+      edit::convert_to_lower_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    }
+
+  }
+
+  ######################################################################
+  # Transforms all text to rot13 for the given multicursor ranges.
+  proc rot13 {txtt eposargs sposargs} {
+
+    foreach {start end} [$txtt tag ranges mcursor] {
+      edit::convert_to_rot13 $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    }
+
+  }
+
+  ######################################################################
+  # Perform text indentation formatting for each multicursor line.
+  proc format_text {txtt eposargs sposargs} {
+
+    foreach {start end} [$txtt tag ranges mcursor] {
+      indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    }
+
+  }
+
+  ######################################################################
+  # Perform a left or right indentation shift for each multicursor line.
+  proc shift {txtt dir eposargs sposargs} {
+
+    if {$dir eq "right"} {
+      foreach {start end} [$txtt tag ranges mcursor] {
+        edit::indent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+      }
+    } else {
+      foreach {start end} [$txtt tag ranges mcursor] {
+        edit::unindent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+      }
+    }
 
   }
 

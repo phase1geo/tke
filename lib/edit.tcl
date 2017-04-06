@@ -33,6 +33,8 @@ namespace eval edit {
     pspace   {[ \t]+$}
   }
 
+  variable rot13_map {a n b o c p d q e r f s g t h u i v j w k x l y m z n a o b p c q d r e s f t g u h v i w j x k y l z m}
+
   ######################################################################
   # Inserts the line above the current line in the given editor.
   proc insert_line_above_current {txtt} {
@@ -181,11 +183,11 @@ namespace eval edit {
     # Copy the text to the clipboard, if specified
     if {$copy} {
       clipboard clear
-      clipboard append [$txtt get insert $endpos]
+      clipboard append [$txtt get $startpos $endpos]
     }
 
     # Delete the text
-    $txtt delete insert $endpos
+    $txtt delete $startpos $endpos
 
     # Adjust the insertion cursor if this was a delete and not a change
     if {$copy} {
@@ -488,7 +490,10 @@ namespace eval edit {
 
   ######################################################################
   # Converts a character-by-character case inversion of the given text.
-  proc convert_case_toggle {txtt index str} {
+  proc convert_case_toggle {txtt startpos endpos} {
+
+    # Get the string
+    set str [$txtt get $startpos $endpos]
 
     # Adjust the string so that we don't add an extra new line
     if {[string index $str end] eq "\n"} {
@@ -502,13 +507,16 @@ namespace eval edit {
       append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
     }
 
-    $txtt replace $index "$index+${strlen}c" $newstr
+    $txtt replace $startpos "$index+${strlen}c" $newstr
 
   }
 
   ######################################################################
   # Converts the case to the given type on a word basis.
-  proc convert_case_to_title {txtt index str} {
+  proc convert_case_to_title {txtt startpos endpos} {
+
+    # Get the string
+    set str [$txtt get $startpos $endpos]
 
     # Adjust the string so that we don't add an extra new line
     if {[string index $str end] eq "\n"} {
@@ -525,16 +533,54 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Converts the given string
+  proc convert_to_lower_case {txtt startpos endpos} {
+
+    # Get the string
+    set str [$txtt get $startpos $endpos]
+
+    # Substitute the text
+    $txtt replace $startpos "$startpos+[string length $str]c" [string tolower $str]
+
+  }
+
+  ######################################################################
+  # Converts the given string
+  proc convert_to_upper_case {txtt startpos endpos} {
+
+    # Get the string
+    set str [$txtt get $startpos $endpos]
+
+    # Substitute the text
+    $txtt replace $startpos "$startpos+[string length $str]c" [string toupper $str]
+
+  }
+
+  ######################################################################
+  # Converts the text to rot13.
+  proc convert_to_rot13 {txtt startpos endpos} {
+
+    variable rot13_map
+
+    # Get the string
+    set str [$txtt get $startpos $endpos]
+
+    # Perform the substitution
+    $txtt replace $startpos "$startpos+[string length $str]c" [string map $rot13_map $str]
+
+  }
+
+  ######################################################################
   # Perform a case toggle operation.
   proc transform_toggle_case {txtt startpos endpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos]
+        convert_case_toggle $txtt $startpos $endpos
       }
       $txtt tag remove sel 1.0 end
     } else {
-      convert_case_toggle $txtt $startpos [$txtt get $startpos $endpos]
+      convert_case_toggle $txtt $startpos $endpos
     }
 
   }
@@ -545,11 +591,11 @@ namespace eval edit {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        $txtt replace $startpos $endpos [string tolower [$txtt get $startpos $endpos]]
+        convert_to_lower_case $txtt $startpos $endpos
       }
       $txtt tag remove sel 1.0 end
     } else {
-      $txtt replace $startpos $endpos [string tolower [$txtt get $startpos $endpos]]
+      convert_to_lower_case $txtt $startpos $endpos
     }
 
   }
@@ -560,11 +606,25 @@ namespace eval edit {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        $txtt replace $startpos $endpos [string toupper [$txtt get $startpos $endpos]]
+        convert_to_upper_case $txtt $startpos $endpos
       }
       $txtt tag remove sel 1.0 end
     } else {
-      $txtt replace $startpos $endpos [string toupper [$txtt get $startpos $endpos]]
+      convert_to_upper_case $txtt $startpos $endpos
+    }
+
+  }
+
+  ######################################################################
+  # Transforms all text in the given range to rot13.
+  proc transform_to_rot13 {txtt startpos endpos} {
+
+    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $sel_ranges] {
+        convert_to_rot13 $txtt $startpos $endpos
+      }
+    } else {
+      convert_to_rot13 $txtt $startpos $startpos $endpos
     }
 
   }
@@ -575,12 +635,12 @@ namespace eval edit {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
-        convert_case_to_title $txtt [$txtt index "$startpos wordstart"] [$txtt get "$startpos wordstart" $endpos]
+        convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
       }
       $txtt tag remove sel 1.0 end
     } else {
       set str [$txtt get "insert wordstart" "insert wordend"]
-      convert_case_to_title $txtt [$txtt index "$startpos wordstart"] [$txtt get "$startpos wordstart" "$endpos wordend"]
+      convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
     }
 
   }
@@ -1342,22 +1402,20 @@ namespace eval edit {
         }
       }
       up          {
-        if {[set column [uplevel 1 [list set $opts(-column)]]] eq ""} {
-          set column [lindex [split [$txtt index $opts(-startpos)] .] 1]
-          uplevel 1 [list set $opts(-column) $column]
+        if {[set $opts(-column)] eq ""} {
+          set $opts(-column) [lindex [split [$txtt index $opts(-startpos)] .] 1]
         }
         set row   [lindex [split [$txtt index "$opts(-startpos)-$opts(-num) display lines"] .] 0]
-        set index $row.$column
+        set index $row.[set $opts(-column)]
       }
       down        {
-        if {[set column [uplevel 1 [list set $opts(-column)]]] eq ""} {
-          set column [lindex [split [$txtt index $opts(-startpos)] .] 1]
-          uplevel 1 [list set $opts(-column) $column]
+        if {[set $opts(-column)] eq ""} {
+          set $opts(-column) [lindex [split [$txtt index $opts(-startpos)] .] 1]
         }
         if {[$txtt compare [set index [$txtt index "$opts(-startpos)+$opts(-num) display lines"]] == end]} {
           set index [$txtt index "end-1c"]
         }
-        set index [lindex [split $index .] 0].$column
+        set index [lindex [split $index .] 0].[set $opts(-column)]
       }
       first       {
         if {[$txtt get -displaychars 1.0] eq ""} {
@@ -1368,9 +1426,7 @@ namespace eval edit {
       }
       last          { set index "end" }
       char          { set index [get_char $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
-      findchar      {
-        set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos)]
-      }
+      findchar      { set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos)] }
       firstchar     {
         if {$opts(-num) == 0} {
           set index $opts(-startpos)
@@ -1379,14 +1435,12 @@ namespace eval edit {
             set index [$txtt index "$index-1 display lines"]
           }
         } else {
-          if {[$txtt compare [set index [$txtt index "$opts(-startpos)-$opts(-num) display lines"]] == end]} {
-            set index [$txtt index "$index-1 display lines"]
-          }
+          set index [$txtt index "$opts(-startpos)-$opts(-num) display lines"]
         }
-        if {[lsearch [$txtt tag names "$opts(-startpos) linestart"] _prewhite] != -1} {
-          set index [lindex [$txtt tag nextrange _prewhite "$opts(-startpos) linestart"] 1]-1c
+        if {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange _prewhite "$index linestart"] 1]-1c
         } else {
-          set index "$opts(-startpos) lineend"
+          set index "$index lineend"
         }
       }
       lastchar      {
@@ -1396,15 +1450,26 @@ namespace eval edit {
       wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
       wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
       column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
+      linenum       {
+        if {[lsearch [$txtt tag names "$opts(-num).0"] _prewhite] != -1} {
+          set index [lindex [$txtt tag nextrange _prewhite "$opts(-num).0"] 1]-1c
+        } else {
+          set index "$opts(-num).0 lineend"
+        }
+      }
       linestart     {
-        set index [$txtt index "$opts(-startpos) linestart+1 display chars"]
+        if {$opts(-num) > 1} {
+          set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] linestart+1 display chars"]
+        } else {
+          set index [$txtt index "$opts(-startpos) linestart+1 display chars"]
+        }
         if {[$txtt compare "$index-1 display chars" >= "$index linestart"]} {
           set index "$index-1 display chars"
         }
       }
       lineend       {
         if {$opts(-num) == 1} {
-          set index "$opts(-startpos) lineend-1 display chars"
+          set index "$opts(-startpos) lineend"
         } else {
           set index [$txtt index "$opts(-startpos)+[expr $opts(-num) - 1] display lines"]
           set index "$index lineend"
@@ -1430,6 +1495,22 @@ namespace eval edit {
     }
 
     return $index
+
+  }
+
+  ######################################################################
+  # Returns the startpos/endpos range based on the supplied arguments.
+  proc get_range {txtt pos1args pos2args {cursor insert}} {
+
+    set pos1 [edit::get_index $txtt {*}$pos1args -startpos $cursor]
+
+    if {$pos2args ne ""} {
+      set pos2 [edit::get_index $txtt {*}$pos2args -startpos $cursor]
+    } else {
+      set pos2 $cursor
+    }
+
+    return [expr {[$txtt compare $pos1 < $pos2] ? [list $pos1 $pos2] : [list $pos2 $pos1]}]
 
   }
 
