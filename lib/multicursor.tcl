@@ -563,9 +563,17 @@ namespace eval multicursor {
   # Toggles the case of all characters that match the given positional arguments.
   proc toggle_case {txtt eposargs sposargs} {
 
-    foreach {start end} [$txtt tag ranges mcursor] {
-      edit::convert_case_toggle $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    if {[enabled [winfo parent $txtt]]} {
+
+      foreach {start end} [$txtt tag ranges mcursor] {
+        edit::convert_case_toggle $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+      }
+
+      return 1
+
     }
+
+    return 0
 
   }
 
@@ -573,19 +581,35 @@ namespace eval multicursor {
   # Transforms all text to upper case for the given multicursor ranges.
   proc case_upper {txtt eposargs sposargs} {
 
-    foreach {start end} [$txtt tag ranges mcursor] {
-      edit::convert_to_upper_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    if {[enabled [winfo parent $txtt]]} {
+
+      foreach {start end} [$txtt tag ranges mcursor] {
+        edit::convert_to_upper_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+      }
+
+      return 1
+
     }
+
+    return 0
 
   }
 
   ######################################################################
   # Transforms all text to lower case for the given multicursor ranges.
-  proc case_upper {txtt eposargs sposargs} {
+  proc case_lower {txtt eposargs sposargs} {
 
-    foreach {start end} [$txtt tag ranges mcursor] {
-      edit::convert_to_lower_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    if {[enabled [winfo parent $txtt]]} {
+
+      foreach {start end} [$txtt tag ranges mcursor] {
+        edit::convert_to_lower_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+      }
+
+      return 1
+
     }
+
+    return 0
 
   }
 
@@ -593,9 +617,17 @@ namespace eval multicursor {
   # Transforms all text to rot13 for the given multicursor ranges.
   proc rot13 {txtt eposargs sposargs} {
 
-    foreach {start end} [$txtt tag ranges mcursor] {
-      edit::convert_to_rot13 $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    if {[enabled [winfo parent $txtt]]} {
+
+      foreach {start end} [$txtt tag ranges mcursor] {
+        edit::convert_to_rot13 $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+      }
+
+      return 1
+
     }
+
+    return 0
 
   }
 
@@ -603,9 +635,17 @@ namespace eval multicursor {
   # Perform text indentation formatting for each multicursor line.
   proc format_text {txtt eposargs sposargs} {
 
-    foreach {start end} [$txtt tag ranges mcursor] {
-      indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    if {[enabled [winfo parent $txtt]]} {
+
+      foreach {start end} [$txtt tag ranges mcursor] {
+        indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+      }
+
+      return 1
+
     }
+
+    return 0
 
   }
 
@@ -613,15 +653,23 @@ namespace eval multicursor {
   # Perform a left or right indentation shift for each multicursor line.
   proc shift {txtt dir eposargs sposargs} {
 
-    if {$dir eq "right"} {
-      foreach {start end} [$txtt tag ranges mcursor] {
-        edit::indent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+    if {[enabled [winfo parent $txtt]]} {
+
+      if {$dir eq "right"} {
+        foreach {start end} [$txtt tag ranges mcursor] {
+          edit::indent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+        }
+      } else {
+        foreach {start end} [$txtt tag ranges mcursor] {
+          edit::unindent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+        }
       }
-    } else {
-      foreach {start end} [$txtt tag ranges mcursor] {
-        edit::unindent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
-      }
+
+      return 1
+
     }
+
+    return 0
 
   }
 
