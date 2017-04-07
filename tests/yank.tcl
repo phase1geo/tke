@@ -68,8 +68,14 @@ namespace eval yank {
     if {[$txtt get 1.0 end-1c] ne $start} {
       cleanup "$id yank changed text ([$txtt get 1.0 end-1c])"
     }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "$id not in start mode"
+    if {$vim::mode($txtt) ne "command"} {
+      cleanup "$id not in command mode"
+    }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator not cleared ($vim::operator($txtt))"
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id operator not cleared ($vim::motion($txtt))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id yank changed cursor ([$txtt index insert])"
@@ -376,8 +382,14 @@ namespace eval yank {
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id cursor is not correct ([$txtt index insert])"
     }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "$id mode is not start"
+    if {$vim::mode($txtt) ne "command"} {
+      cleanup "$id mode is not command"
+    }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator is not cleared ($vim::mode($txtt))"
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id motion is not cleared ($vim::motion($txtt))"
     }
 
     if {$undo} {

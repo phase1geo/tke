@@ -1588,7 +1588,7 @@ namespace eval vim {
     variable operator
     variable multicursor
 
-    puts "In do_operation, txtt: $txtt, eposargs: $eposargs, sposargs: $sposargs, operator($txtt): $operator($txtt), multicursor: $multicursor($txtt)"
+    # puts "In do_operation, txtt: $txtt, eposargs: $eposargs, sposargs: $sposargs, operator($txtt): $operator($txtt), multicursor: $multicursor($txtt)"
 
     switch $operator($txtt) {
       "" {
