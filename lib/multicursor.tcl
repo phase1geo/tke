@@ -579,7 +579,7 @@ namespace eval multicursor {
 
   ######################################################################
   # Transforms all text to upper case for the given multicursor ranges.
-  proc case_upper {txtt eposargs sposargs} {
+  proc upper_case {txtt eposargs sposargs} {
 
     if {[enabled [winfo parent $txtt]]} {
 
@@ -597,7 +597,7 @@ namespace eval multicursor {
 
   ######################################################################
   # Transforms all text to lower case for the given multicursor ranges.
-  proc case_lower {txtt eposargs sposargs} {
+  proc lower_case {txtt eposargs sposargs} {
 
     if {[enabled [winfo parent $txtt]]} {
 

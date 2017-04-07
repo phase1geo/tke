@@ -521,7 +521,10 @@ namespace eval edit {
       append newstr [expr {[string is lower $char] ? [string toupper $char] : [string tolower $char]}]
     }
 
-    $txtt replace $startpos "$index+${strlen}c" $newstr
+    $txtt replace $startpos "$startpos+${strlen}c" $newstr
+
+    # Setting the insertion cursor
+    ::tk::TextSetCursor $txtt $startpos
 
   }
 
@@ -540,8 +543,9 @@ namespace eval edit {
     while {[regexp {^(\w+)(\W*)(.*)$} $str -> word wspace str]} {
       set wordlen [string length $word]
       set strlen  [expr $wordlen + [string length $wspace]]
-      $txtt replace $index "$index+${wordlen}c" [string totitle $word]
-      set index   [$txtt index "$index+${strlen}c"]
+      $txtt replace $startpos "$startpos+${wordlen}c" [string totitle $word]
+      ::tk::TextSetCursor $txtt $startpos
+      set startpos [$txtt index "$startpos+${strlen}c"]
     }
 
   }
@@ -556,6 +560,9 @@ namespace eval edit {
     # Substitute the text
     $txtt replace $startpos "$startpos+[string length $str]c" [string tolower $str]
 
+    # Set the cursor
+    ::tk::TextSetCursor $txtt $startpos
+
   }
 
   ######################################################################
@@ -567,6 +574,9 @@ namespace eval edit {
 
     # Substitute the text
     $txtt replace $startpos "$startpos+[string length $str]c" [string toupper $str]
+
+    # Set the cursor
+    ::tk::TextSetCursor $txtt $startpos
 
   }
 
@@ -582,6 +592,9 @@ namespace eval edit {
     # Perform the substitution
     $txtt replace $startpos "$startpos+[string length $str]c" [string map $rot13_map $str]
 
+    # Set the cursor
+    ::tk::TextSetCursor $txtt $startpos
+
   }
 
   ######################################################################
@@ -592,7 +605,6 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_case_toggle $txtt $startpos $endpos
       }
-      $txtt tag remove sel 1.0 end
     } else {
       convert_case_toggle $txtt $startpos $endpos
     }
@@ -607,7 +619,6 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_to_lower_case $txtt $startpos $endpos
       }
-      $txtt tag remove sel 1.0 end
     } else {
       convert_to_lower_case $txtt $startpos $endpos
     }
@@ -622,7 +633,6 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_to_upper_case $txtt $startpos $endpos
       }
-      $txtt tag remove sel 1.0 end
     } else {
       convert_to_upper_case $txtt $startpos $endpos
     }
@@ -1552,12 +1562,12 @@ namespace eval edit {
   # Returns the startpos/endpos range based on the supplied arguments.
   proc get_range {txtt pos1args pos2args {cursor insert}} {
 
-    set pos1 [edit::get_index $txtt {*}$pos1args -startpos $cursor]
+    set pos1 [$txtt index [edit::get_index $txtt {*}$pos1args -startpos $cursor]]
 
     if {$pos2args ne ""} {
-      set pos2 [edit::get_index $txtt {*}$pos2args -startpos $cursor]
+      set pos2 [$txtt index [edit::get_index $txtt {*}$pos2args -startpos $cursor]]
     } else {
-      set pos2 $cursor
+      set pos2 [$txtt index $cursor]
     }
 
     return [expr {[$txtt compare $pos1 < $pos2] ? [list $pos1 $pos2] : [list $pos2 $pos1]}]

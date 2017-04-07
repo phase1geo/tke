@@ -66,8 +66,14 @@ namespace eval transform {
     if {[$txtt get 1.0 end-1c] ne $value} {
       cleanup "$id transform is not correct ([$txtt get 1.0 end-1c])"
     }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "$id not in start mode"
+    if {$vim::mode($txtt) ne "command"} {
+      cleanup "$id not in command mode"
+    }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator is not cleared ($vim::operator($txtt))" 
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id motion is not cleared ($vim::motion($txtt))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id cursor is not correct ([$txtt index insert])"
