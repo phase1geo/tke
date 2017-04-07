@@ -1896,6 +1896,7 @@ namespace eval vim {
           $txtt highlight $end_index $start_index
         }
       }
+      reset_state $txtt
       return 1
     }
 
@@ -1943,6 +1944,7 @@ namespace eval vim {
             record_start
           } else {
             set motion($txtt) i
+            return 1
           }
         }
         "folding" {
@@ -1953,12 +1955,11 @@ namespace eval vim {
         default {
           if {$motion($txtt) ne ""} {
             set operator($txtt) "$operator($txtt)in"
-          } else {
-            reset_state $txtt
+            return 1
           }
         }
-        default { reset_state $txtt }
       }
+      reset_state $txtt
       return 1
     }
 
@@ -1980,6 +1981,7 @@ namespace eval vim {
         edit_mode $txtt
         record_start
       }
+      reset_state $txtt
       return 1
     }
 
@@ -2029,6 +2031,7 @@ namespace eval vim {
         edit::transform_join_lines $txtt [get_number $txtt]
         record J
       }
+      reset_state $txtt
       return 1
     }
 
@@ -2518,7 +2521,6 @@ namespace eval vim {
         }
         "folding" {
           folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-          return 1
         }
       }
       reset_state $txtt

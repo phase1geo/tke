@@ -562,8 +562,14 @@ namespace eval folding {
     if {[$txtt tag ranges sel] ne ""} {
       cleanup "$id selection is not correct ([$txtt tag ranges sel])"
     }
-    if {$vim::mode($txtt) ne "start"} {
-      cleanup "$id mode was not start"
+    if {$vim::mode($txtt) ne "command"} {
+      cleanup "$id mode was not command"
+    }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator was not cleared ($vim::operator($txtt))"
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id motion was not cleared ($vim::motion($txtt))"
     }
 
     check_folds $txtt $id $folded
