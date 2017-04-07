@@ -2971,9 +2971,15 @@ namespace eval vim {
   proc handle_m {txtt} {
 
     variable mode
+    variable motion
 
-    if {($mode($txtt) eq "command") && [multicursor::enabled $txtt]} {
-      multicursor_mode $txtt
+    if {$mode($txtt) eq "command"} {
+      if {[multicursor::enabled $txtt]} {
+        multicursor_mode $txtt
+      } elseif {$motion($txtt) eq "g"} {
+        # TBD
+      }
+      reset_state $txtt
       return 1
     }
 
