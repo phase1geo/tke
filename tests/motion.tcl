@@ -1105,17 +1105,24 @@ namespace eval motion {
 
     $txtt insert end "\nThis is good\n\nThis is good too"
     $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
 
     vim::do_set_shiftwidth 2
 
     enter $txtt {greater greater}
+    if {[$txtt index insert] ne 2.2} {
+      cleanup "0 Insertion cursor is not correct ([$txtt index insert])"
+    }
     if {[$txtt get 1.0 end-1c] ne "\n  This is good\n\nThis is good too"} {
-      cleanup "Right shift failed ([$txtt get 1.0 end-1c])"
+      cleanup "0 rshift not correct ([$txtt get 1.0 end-1c])"
     }
 
     enter $txtt {2 greater greater}
+    if {[$txtt index insert] ne 2.4} {
+      cleanup "1 Insertion cursor is not correct ([$txtt index insert])"
+    }
     if {[$txtt get 1.0 end-1c] ne "\n    This is good\n  \nThis is good too"} {
-      cleanup "Right shift 2 failed ([$txtt get 1.0 end-1c])"
+      cleanup "1 rshift not correct ([$txtt get 1.0 end-1c])"
     }
 
     vim::do_set_shiftwidth 4

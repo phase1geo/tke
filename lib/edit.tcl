@@ -180,6 +180,23 @@ namespace eval edit {
   # Deletes the current word (i.e., dw Vim mode).
   proc delete {txtt startpos endpos copy adjust} {
 
+    # If the starting and ending position are the same, return now
+    if {[$txtt compare $startpos == $endpos]} {
+      return
+    }
+
+    set insertpos ""
+
+    if {[$txtt compare $endpos == end]} {
+      if {[$txtt compare $startpos == 1.0]} {
+        set endpos "$startpos lineend"
+      } elseif {[$txtt compare $startpos == "$startpos linestart"]} {
+        set startpos  "$startpos-1l lineend"
+        set endpos    "end-1c"
+        set insertpos "$startpos-1l"
+      }
+    }
+
     # Copy the text to the clipboard, if specified
     if {$copy} {
       clipboard clear
@@ -191,6 +208,9 @@ namespace eval edit {
 
     # Adjust the insertion cursor if this was a delete and not a change
     if {$adjust} {
+      if {$insertpos ne ""} {
+        $txtt mark set insert $insertpos
+      }
       vim::adjust_insert $txtt
     }
 
@@ -618,7 +638,7 @@ namespace eval edit {
         convert_to_rot13 $txtt $startpos $endpos
       }
     } else {
-      convert_to_rot13 $txtt $startpos $startpos $endpos
+      convert_to_rot13 $txtt $startpos $endpos
     }
 
   }
@@ -1210,7 +1230,7 @@ namespace eval edit {
       }
 
       return [$txt index "$curr_index display wordstart"]
-      
+
     } else {
 
       # Get the index of the current word
@@ -1247,7 +1267,7 @@ namespace eval edit {
     if {$dir eq "next"} {
 
       set curr_index [$txt index "$start display wordstart"]
-      
+
       # If num is 0, do not continue
       if {$num <= 0} {
         return [$txt index "$curr_index-1c"]
@@ -1373,6 +1393,8 @@ namespace eval edit {
   # - screenbot  Bottom of current screen
   proc get_index {txtt position args} {
 
+    variable patterns
+
     array set opts {
       -dir       "next"
       -startpos  "insert"
@@ -1380,8 +1402,12 @@ namespace eval edit {
       -char      ""
       -exclusive 0
       -column    ""
+      -adjust    ""
     }
     array set opts $args
+
+    # Create a default index to use
+    set index $opts(-startpos)
 
     # Get the new cursor position
     switch $position {
@@ -1424,6 +1450,13 @@ namespace eval edit {
       }
       last          { set index "end" }
       char          { set index [get_char $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      dchar         {
+        if {$opts(-dir) eq "next"} {
+          set index "$opts(-startpos)+$opts(-num) display chars"
+        } else {
+          set index "$opts(-startpos)-$opts(-num) display chars"
+        }
+      }
       findchar      { set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       firstchar     {
         if {$opts(-num) == 0} {
@@ -1484,7 +1517,31 @@ namespace eval edit {
       screentop     { set index "@0,0" }
       screenmid     { set index "@0,[expr [winfo height $txtt] / 2]" }
       screenbot     { set index "@0,[winfo height $txtt]" }
-      default       { set index $opts(-startpos) }
+      numberstart   {
+        if {[regexp $patterns(pnumber) [$txtt get "$opts(-startpos) linestart" $opts(-startpos)] match]} {
+          set index "$opts(-startpos)-[string length $match]c"
+        }
+      }
+      numberend     {
+        if {[regexp $patterns(nnumber) [$txtt get $opts(-startpos) "$opts(-startpos) lineend"] match]} {
+          set index "$opts(-startpos)+[string length $match]c"
+        }
+      }
+      spacestart    {
+        if {[regexp $patterns(pspace) [$txtt get "$opts(-startpos) linestart" $opts(-startpos)] match]} {
+          set index "$opts(-startpos)-[string length $match]c"
+        }
+      }
+      spaceend      {
+        if {[regexp $patterns(nspace) [$txtt get $opts(-startpos) "$opts(-startpos) lineend"] match]} {
+          set index "$opts(-startpos)+[string length $match]c"
+        }
+      }
+    }
+
+    # Make any necessary adjustments, if needed
+    if {($index ne $opts(-startpos)) && ($opts(-adjust) ne "")} {
+      set index [$txtt index "$index$opts(-adjust)"]
     }
 
     return $index
@@ -1494,15 +1551,8 @@ namespace eval edit {
   ######################################################################
   # Returns the startpos/endpos range based on the supplied arguments.
   proc get_range {txtt pos1args pos2args {cursor insert}} {
-    
-    puts "In get_range, txtt: $txtt, pos1args: $pos1args, pos2args: $pos2args, cursor: $cursor"
 
-    catch {
     set pos1 [edit::get_index $txtt {*}$pos1args -startpos $cursor]
-    } rc
-    puts "rc: $rc"
-    
-    puts "pos1args: $pos1args, pos1: $pos1, pos2args: $pos2args"
 
     if {$pos2args ne ""} {
       set pos2 [edit::get_index $txtt {*}$pos2args -startpos $cursor]
