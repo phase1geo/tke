@@ -1630,36 +1630,32 @@ namespace eval vim {
         if {![multicursor::toggle_case $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
           edit::transform_toggle_case $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt $startpos
         }
-        reset_state $txtt
+        command_mode $txtt
         return 1
       }
       "upper" {
         if {![multicursor::upper_case $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
           edit::transform_to_upper_case $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt $startpos
         }
-        reset_state $txtt
+        command_mode $txtt
         return 1
       }
       "lower" {
         if {![multicursor::lower_case $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
           edit::transform_to_lower_case $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt $startpos
         }
-        reset_state $txtt
+        command_mode $txtt
         return 1
       }
       "rot13" {
         if {![multicursor::rot13 $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
           edit::transform_to_rot13 $txtt $startpos $endpos
-          ::tk::TextSetCursor $txtt $startpos
         }
-        reset_state $txtt
+        command_mode $txtt
         return 1
       }
       "format" {
@@ -1668,7 +1664,7 @@ namespace eval vim {
           indent::format_text $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
-        reset_state $txtt
+        command_mode $txtt
         return 1
       }
       "lshift" {
@@ -1677,7 +1673,7 @@ namespace eval vim {
           edit::unindent $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
-        reset_state $txtt
+        command_mode $txtt
         return 1
       }
       "rshift" {
@@ -1686,7 +1682,7 @@ namespace eval vim {
           edit::indent $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
-        reset_state $txtt
+        command_mode $txtt
         return 1
       }
     }
@@ -3541,7 +3537,7 @@ namespace eval vim {
         return 1
       } elseif {$motion($txtt) eq ""} {
         set operator($txtt) "swap"
-        return [do_operation $txtt insert [edit::get_index $txtt char -dir next -num [get_number $txtt]]]
+        return [do_operation $txtt [list char -dir next -num [get_number $txtt]]]
       }
       reset_state $txtt
       return 1
