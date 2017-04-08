@@ -724,9 +724,9 @@ namespace eval vim {
   proc do_set_split {val} {
 
     if {$val} {
-      gui::show_split_pane
+      gui::show_split_pane [gui::get_info {} current tab]
     } else {
-      gui::hide_split_pane
+      gui::hide_split_pane [gui::get_info {} current tab]
     }
 
   }
