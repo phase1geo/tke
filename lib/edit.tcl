@@ -185,23 +185,30 @@ namespace eval edit {
       return
     }
 
-    set insertpos ""
-
-    if {[$txtt compare $endpos == end]} {
-      if {[$txtt compare $startpos == 1.0]} {
-        set endpos "$startpos lineend"
-      } elseif {[$txtt compare $startpos == "$startpos linestart"]} {
-        set startpos  "$startpos-1l lineend"
-        set endpos    "end-1c"
-        set insertpos "$startpos-1l"
-      }
-    }
+    puts "In delete, txtt: $txtt, startpos: $startpos, endpos: $endpos, copy: $copy, adjust: $adjust"
 
     # Copy the text to the clipboard, if specified
     if {$copy} {
       clipboard clear
       clipboard append [$txtt get $startpos $endpos]
     }
+
+    set insertpos ""
+
+    if {[$txtt compare $endpos == end]} {
+      puts "  endpos is end"
+      if {[$txtt compare $startpos == 1.0]} {
+        puts "  startpos is 1.0"
+        set endpos "$startpos lineend"
+      } elseif {[$txtt compare $startpos == "$startpos linestart"]} {
+        puts "  startpos is linestart"
+        set startpos  "$startpos-1l lineend"
+        set endpos    "end-1c"
+        set insertpos "$startpos-1l"
+      }
+    }
+
+    puts "    startpos: $startpos, endpos: $endpos, insertpos: $insertpos"
 
     # Delete the text
     $txtt delete $startpos $endpos
