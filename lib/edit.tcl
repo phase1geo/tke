@@ -28,7 +28,7 @@ namespace eval edit {
   array set patterns {
     nnumber  {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
     pnumber  {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
-    sentence {[.!?][])\"']*\s+}
+    sentence {[.!?][])\"']*\s+\S}
     nspace   {^[ \t]+}
     pspace   {[ \t]+$}
   }
@@ -1351,13 +1351,20 @@ namespace eval edit {
 
     variable patterns
 
+    # Search for the end of the previous sentence
+    set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos 1.0]
+
     if {$dir eq "next"} {
+
+      if {($index ne "") && [$txtt compare $startpos < "$index+[expr [lindex $lengths 0] - 1]c"]} {
+        set startpos $index
+      }
 
       for {set i [expr $num - 1]} {$i >= 0} {incr i -1} {
         if {[set index [$txtt search -forwards -count lengths -regexp -- $patterns(sentence) $startpos end]] ne ""} {
-          set startpos [$txtt index "$index+[lindex $lengths 0]c"]
+          set startpos [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
           if {$i == 0} {
-            return [$txtt index "$startpos+1 display chars"]
+            return $startpos
           }
         } else {
           return "end"
@@ -1366,18 +1373,36 @@ namespace eval edit {
 
     } else {
 
+      if {($index ne "") && [$txtt compare $startpos <= "$index+[expr [lindex $lengths 0] - 1]c"]} {
+        set startpos $index
+      }
+
       for {set i [expr $num - 1]} {$i >= 0} {incr i -1} {
-        if {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos 1.0]] ne ""} {
-          set startpos [$txtt index "$index+[lindex $lengths 0]c"]
+        if {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos-1c 1.0]] ne ""} {
+          set startpos [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
           if {$i == 0} {
-            return [$txtt index "$startpos+1 display chars"]
+            return $startpos
           }
         } else {
-          return $startpos
+          return [get_index $txtt firstchar -num 0 -startpos $startpos]
         }
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Find the next or previous paragraph.
+  proc get_paragraph {txtt dir num {startpos insert}} {
+
+    if {$dir eq "next"} {
+      # TBD
+    } else {
+      # TBD
+    }
+
+    return $startpos
 
   }
 
@@ -1520,8 +1545,9 @@ namespace eval edit {
           set index "$index lineend"
         }
       }
-      dispstart     { set index "@[lindex [$txtt bbox $opts(-startpos)] 0],0" }
-      dispend       { set index "@[lindex [$txtt bbox $opts(-startpos)] 0],[winfo width $txtt]" }
+      dispstart     { set index "@0,[lindex [$txtt bbox $opts(-startpos)] 1]" }
+      dispmid       { set index "@[expr [winfo width $txtt] / 2],[lindex [$txtt bbox $opts(-startpos)] 1]" }
+      dispend       { set index "@[winfo width $txtt],[lindex [$txtt bbox $opts(-startpos)] 0]" }
       sentence      { set index [get_sentence  $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
       paragraph     { set index [get_paragraph $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
       screentop     { set index "@0,0" }

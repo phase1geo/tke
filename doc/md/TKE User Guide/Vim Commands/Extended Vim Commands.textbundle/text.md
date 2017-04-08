@@ -24,7 +24,7 @@ To provide additional functionality to the user, Vim command extensions have bee
 | **s** | Sets a multicursor cursor on the current character.  Also makes this character the anchor for any multiline cursor sets. |
 | **S** | Sets multicursors for every line between the current line and the last multicursor anchor, inclusive.  Each multicursor will match the column of the anchor multicursor. |
 | **m** | When multiple cursors are set, allows the multicursors to be moved using the standard cursor movement commands. Until the **m** command is input, all cursor movement commands will move the selection cursor only. To exit multicursor move command, enter the `Escape` key. |
-| **\\\\#** | When one or more multicursors are set, allows the user to insert an ascending numerical values at each cursor input. See below for details on its usage. |
+| **\#** | When one or more multicursors are set, allows the user to insert an ascending numerical values at each cursor input. See below for details on its usage. |
 
 #### Multicursor Enumeration
 
@@ -51,12 +51,12 @@ Note: If a value is not specified, a value of zero is assumed.
 
 | Command or KEY | Description |
 | - | - |
-| **c‘** | If a selection exists, all selected code will be encapsulated in single quotes.  If no selection exists and current insertion cursor is within a single quote quotation, the right single quote is moved one word to the right.  If none of the above is true, the current word is encapsulated in single quotes. |
-| **c“** | If a selection exists, all selected code will be encapsulated in double quotes.  If no selection exists and current insertion cursor is within a double quote quotation, the right double quote is moved one word to the right.  If none of the above is true, the current word is encapsulated in double quotes. |
-| **c\{** | If a selection exists, all selected code will be encapsulated in curly brackets.  If no selection exists and current insertion cursor is within a curly bracketed code block, the right curly bracket is moved one word to the right.  If none of the above is true, the current word is encapsulated in curly brackets. |
-| **c[** | If a selection exists, all selected code will be encapsulated in square brackets.  If no selection exists and current insertion cursor is within a square bracketed code block, the right square bracket is moved one word to the right.  If none of the above is true, the current word is encapsulated in square brackets. |
-| **c(** | If a selection exists, all selected code will be encapsulated in parenthesis.  If no selection exists and current insertion cursor is within a parenthetical code block, the right parenthesis is moved one word to the right.  If none of the above is true, the current word is encapsulated in parenthesis. |
-| **c\<** | If a selection exists, all selected code will be encapsulated in angled brackets.  If no selection exists and current insertion cursor is within a angle bracketed code block, the right angle bracket is moved one word to the right.  If none of the above is true, the current word is encapsulated in angled brackets. |
+| **ca‘** | If a selection exists, all selected code will be encapsulated in single quotes.  If no selection exists and current insertion cursor is within a single quote quotation, the right single quote is moved one word to the right.  If none of the above is true, the current word is encapsulated in single quotes. |
+| **ca“** | If a selection exists, all selected code will be encapsulated in double quotes.  If no selection exists and current insertion cursor is within a double quote quotation, the right double quote is moved one word to the right.  If none of the above is true, the current word is encapsulated in double quotes. |
+| **ca\{** | If a selection exists, all selected code will be encapsulated in curly brackets.  If no selection exists and current insertion cursor is within a curly bracketed code block, the right curly bracket is moved one word to the right.  If none of the above is true, the current word is encapsulated in curly brackets. |
+| **ca[** | If a selection exists, all selected code will be encapsulated in square brackets.  If no selection exists and current insertion cursor is within a square bracketed code block, the right square bracket is moved one word to the right.  If none of the above is true, the current word is encapsulated in square brackets. |
+| **ca(** | If a selection exists, all selected code will be encapsulated in parenthesis.  If no selection exists and current insertion cursor is within a parenthetical code block, the right parenthesis is moved one word to the right.  If none of the above is true, the current word is encapsulated in parenthesis. |
+| **ca\<** | If a selection exists, all selected code will be encapsulated in angled brackets.  If no selection exists and current insertion cursor is within a angle bracketed code block, the right angle bracket is moved one word to the right.  If none of the above is true, the current word is encapsulated in angled brackets. |
 
 ### Line Bubbling
 
@@ -73,7 +73,6 @@ Note: If a value is not specified, a value of zero is assumed.
 | **dN** | Deletes all preceding characters that are numbers. |
 | **ds** | Deletes all subsequent space and tab characters. |
 | **dS** | Deletes all preceding space and tab characters. |
-
 
 
 
