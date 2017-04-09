@@ -1480,7 +1480,8 @@ namespace eval vim {
     }
 
     if {[handle_find_motion $txtt $char]} {
-      reset_state $txtt
+      return 1
+    } elseif {[handle_between_motion $txtt $char]} {
       return 1
     }
 
@@ -1722,6 +1723,21 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Checks the current mode and if we are in a between character motion,
+  # handle the action.
+  proc handle_between_motion {txtt char} {
+
+    variable motion
+
+    if {$motion($txtt) ne "i"} {
+      return 0
+    }
+
+    return [do_operation $txtt [list betweenchar -dir prev -char $char] [list betweenchar -dir next -char $char]]
+
+  }
+
+  ######################################################################
   # If we are in "command" mode, the number is 0 and the current number
   # is empty, set the insertion cursor to the beginning of the line;
   # otherwise, append the number current to number value.
@@ -1954,8 +1970,8 @@ namespace eval vim {
           }
         }
         default {
-          if {$motion($txtt) ne ""} {
-            set operator($txtt) "$operator($txtt)in"
+          if {$motion($txtt) eq ""} {
+            set motion($txtt) "i"
             return 1
           }
         }
@@ -2179,7 +2195,7 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$operator($txtt) eq "folding"} {
         if {![folding::close_selected [winfo parent $txtt]]} {
-          set mode($txtt) "folding:range"
+          set operator($txtt) "folding:range"
           return 1
         }
       } else {
