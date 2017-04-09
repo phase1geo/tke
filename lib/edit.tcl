@@ -1353,6 +1353,52 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Returns the exclusive position of the given character search.
+  proc between_char {txtt dir char {startpos "insert"}} {
+
+    array set pairs {
+      \{ {\\\} L}
+      \} {\\\{ R}
+      \( {\\\) L}
+      \) {\\\( R}
+      \[ {\\\] L}
+      \] {\\\[ R}
+      <  {> L}
+      >  {< R}
+    }
+
+    # Get the matching character
+    if {[info exists pairs($char)]} {
+      if {[lindex $pairs($char) 1] eq "R"} {
+        if {$dir eq "prev"} {
+          set index [gui::find_match_pair $txtt [lindex $pairs($char) 0] \\$char -backwards]
+        } else {
+          set index [gui::find_match_pair $txtt \\$char [lindex $pairs($char) 0] -forwards]
+        }
+      } else {
+        if {$dir eq "prev"} {
+          set index [gui::find_match_pair $txtt \\$char [lindex $pairs($char) 0] -backwards]
+        } else {
+          set index [gui::find_match_pair $txtt [lindex $pairs($char) 0] \\$char -forwards]
+        }
+      }
+    } else {
+      if {$dir eq "prev"} {
+        set index [gui::find_match_char $txtt $char -backwards]
+      } else {
+        set index [gui::find_match_char $txtt $char -forwards]
+      }
+    }
+
+    if {$index == -1} {
+      return [expr {($dir eq "prev") ? 1.0 : end-1c}]
+    } else {
+      return [expr {($dir eq "prev") ? "$index+1c" : $index}]
+    }
+
+  }
+
+  ######################################################################
   # Gets the previous or next sentence as defined by the Vim specification.
   proc get_sentence {txtt dir num {startpos "insert"}} {
 
@@ -1500,6 +1546,7 @@ namespace eval edit {
         }
       }
       findchar      { set index [find_char $txtt $opts(-dir) $opts(-char) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
+      betweenchar   { set index [between_char $txtt $opts(-dir) $opts(-char) $opts(-startpos)] }
       firstchar     {
         if {$opts(-num) == 0} {
           set index $opts(-startpos)
