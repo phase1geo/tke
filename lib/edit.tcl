@@ -1231,7 +1231,7 @@ namespace eval edit {
 
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index]]} {
+        if {![string is space [$txt get $curr_index]] || [$txt compare $curr_index == "$curr_index linestart"]} {
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index display wordstart"]
           }
@@ -1252,7 +1252,7 @@ namespace eval edit {
       }
 
       while {[$txt compare $curr_index > 1.0]} {
-        if {![string is space [$txt get $curr_index]] && \
+        if {(![string is space [$txt get $curr_index]] || [$txt compare $curr_index == "$curr_index linestart"]) && \
              [$txt compare $curr_index != $start]} {
           if {[incr num -1] == 0} {
             return $curr_index
