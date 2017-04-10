@@ -330,7 +330,7 @@ namespace eval multicursor {
     multicursor::add_cursor $txt.t 3.0
 
     # Verify that only the first word is deleted
-    multicursor::delete $txt.t wordend
+    multicursor::delete $txt.t [list wordend -adjust +1c]
 
     if {[$txt get 2.0 end-1c] ne "th is good\n is not good"} {
       cleanup "text mismatched ([$txt get 2.0 end-1c])"
