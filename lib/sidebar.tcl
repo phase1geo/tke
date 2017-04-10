@@ -94,6 +94,8 @@ namespace eval sidebar {
 
     variable widgets
 
+    set dirs [list]
+
     foreach dir [$widgets(tl) tag has d] {
       if {([$widgets(tl) set $dir remote] eq "") && [$widgets(tl) item $dir -open]} {
         lappend dirs [$widgets(tl) set $dir name]
@@ -286,7 +288,7 @@ namespace eval sidebar {
   proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
 
     array set opts [theme::get_category_options sidebar 1]
-    
+
     [winfo parent [winfo parent $tbl]] configure -highlightbackground $opts(-dropcolor)
 
     return "link"

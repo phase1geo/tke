@@ -408,10 +408,10 @@ namespace eval multicursor {
     if {[enabled $txtt]} {
 
       if {$selected || ($eposargs eq "selected")} {
-        while {[set range [$txtt tag nextrange sel $start]] ne [list]} {
+        while {[set range [$txt tag nextrange sel $start]] ne [list]} {
           lassign $range start end
-          append dat [$txtt get $start $end]
-          ctext::comments_chars_deleted $txtt $start $end do_tags
+          append dat [$txt get $start $end]
+          ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
           lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
           if {([$txtt compare $start == "$start linestart"]) || \
