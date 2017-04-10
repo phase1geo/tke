@@ -226,15 +226,20 @@ namespace eval change {
     $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
+    puts "HERE A"
     do_test $txtt 0 {c w} 2.1 "\nT is a line"
 
     foreach index {0 1} {
+      puts "HERE B"
       do_test $txtt [expr $index + 1] [linsert {c w} $index 2] 2.1 "\nT a line"
     }
 
+    puts "HERE C"
     do_test $txtt 3 {c w} 2.1 "\nT is a line" 0
+    puts "HERE D"
     do_test $txtt 4 {c w} 2.0 "\n is a line"
 
+    puts "HERE E"
     # Cleanup
     cleanup
 

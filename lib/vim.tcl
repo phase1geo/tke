@@ -250,7 +250,6 @@ namespace eval vim {
           if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/([giI]*)$} $value -> from to search replace opts]} {
             set from [get_linenum $txt $from]
             set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
-            puts "Calling replace_do_raw, from: $from, to: $to, search: $search, replace: $replace, opts: $opts"
             search::replace_do_raw $from $to $search $replace \
               [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
 
@@ -1585,12 +1584,12 @@ namespace eval vim {
   ######################################################################
   # Performs the current motion-specific operation on the text range specified
   # by startpos/endpos.
-  proc do_operation {txtt eposargs {sposargs {}} {cursorargs {}}} {
+  proc do_operation {txtt eposargs {sposargs {}} {cursorargs {none}}} {
 
     variable operator
     variable multicursor
 
-    puts "In do_operation, txtt: $txtt, eposargs: $eposargs, sposargs: $sposargs, operator: $operator($txtt), multicursor: $multicursor($txtt)"
+    # puts "In do_operation, txtt: $txtt, eposargs: $eposargs, sposargs: $sposargs, operator: $operator($txtt), multicursor: $multicursor($txtt)"
 
     switch $operator($txtt) {
       "" {
@@ -1625,8 +1624,6 @@ namespace eval vim {
         clipboard append [$txtt get $startpos $endpos]
         if {$cursorargs ne ""} {
           ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$cursorargs]
-        } else {
-          ::tk::TextSetCursor $txtt $startpos
         }
         vim::adjust_insert $txtt
         command_mode $txtt
@@ -1635,7 +1632,7 @@ namespace eval vim {
       "swap" {
         if {![multicursor::toggle_case $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_toggle_case $txtt $startpos $endpos
+          edit::transform_toggle_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
         }
         command_mode $txtt
         return 1
@@ -1643,7 +1640,7 @@ namespace eval vim {
       "upper" {
         if {![multicursor::upper_case $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_to_upper_case $txtt $startpos $endpos
+          edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
         }
         command_mode $txtt
         return 1
@@ -1651,7 +1648,7 @@ namespace eval vim {
       "lower" {
         if {![multicursor::lower_case $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_to_lower_case $txtt $startpos $endpos
+          edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
         }
         command_mode $txtt
         return 1
@@ -1659,7 +1656,7 @@ namespace eval vim {
       "rot13" {
         if {![multicursor::rot13 $txtt $eposargs $sposargs]} {
           lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_to_rot13 $txtt $startpos $endpos
+          edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
         }
         command_mode $txtt
         return 1
@@ -1714,8 +1711,14 @@ namespace eval vim {
     set dir  [expr {[string is lower $motion($txtt)] ? "next" : "prev"}]
     set excl [expr {[string tolower $motion($txtt)] eq "t"}]
 
+    # Determine where to put the cursor
+    set cursorargs "none"
+    if {$dir eq "prev"} {
+      set cursorargs [list findchar -dir prev -char $char -num [get_number $txtt] -exclusive $excl]
+    }
+
     if {($operator($txtt) eq "") || ($dir eq "prev")} {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl]]
+      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] {} $cursorargs]
     } else {
       return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl -adjust "+1 display chars"]]
     }
@@ -2122,13 +2125,11 @@ namespace eval vim {
 
     # Move the insertion cursor right one character
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      set startargs  ""
-      set cursorargs ""
+      set startargs ""
       switch [lindex $motion($txtt) end] {
         "V" {
-          set startargs  linestart
-          set endargs    lineend
-          set cursorargs "none"
+          set startargs linestart
+          set endargs   lineend
         }
         "v" {
           set endargs [list right -num [expr [get_number $txtt] + 1]]
@@ -2137,7 +2138,7 @@ namespace eval vim {
           set endargs [list right -num [get_number $txtt]]
         }
       }
-      return [do_operation $txtt $endargs $startargs $cursorargs]
+      return [do_operation $txtt $endargs $startargs]
     }
 
     return 0
@@ -2331,12 +2332,12 @@ namespace eval vim {
     # Move the insertion cursor left one character
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       set startargs  ""
-      set cursorargs ""
+      set cursorargs [list left -num [get_number $txtt]]
       switch [lindex $motion($txtt) end] {
         "V" {
           set startargs  "linestart"
           set endargs    "lineend"
-          set cursorargs "left"
+          # set cursorargs "none"
         }
         "v" {
           set startargs right
@@ -3441,11 +3442,7 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$motion($txtt) eq ""} {
-        puts "Going to previous sentence"
-        catch {
         return [do_operation $txtt [list sentence -dir prev -num [get_number $txtt]]]
-        } rc
-        puts "rc: $rc"
       } elseif {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
         place_bracket $txtt ( )
       }
@@ -3659,12 +3656,17 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq "g"} {
-        set operator($txtt) "swap"
-        return 1
-      } elseif {$motion($txtt) eq ""} {
-        set operator($txtt) "swap"
-        return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} [list char -dir next -num [get_number $txtt]]]
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq "g"} {
+          set operator($txtt) "swap"
+          set motion($txtt)   ""
+          return 1
+        } elseif {$motion($txtt) eq ""} {
+          set operator($txtt) "swap"
+          return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} [list char -dir next -num [get_number $txtt]]]
+        }
+      } elseif {$operator($txtt) eq "swap"} {
+        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
       }
       reset_state $txtt
       return 1
@@ -3791,13 +3793,11 @@ namespace eval vim {
 
     # Move the insertion cursor right one character
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      set startargs  ""
-      set cursorargs ""
+      set startargs ""
       switch [lindex $motion($txtt) end] {
         "V" {
-          set startargs  "linestart"
-          set endargs    "lineend"
-          set cursorargs "none"
+          set startargs "linestart"
+          set endargs   "lineend"
         }
         "v" {
           if {$operator($txtt) eq ""} {
@@ -3814,7 +3814,7 @@ namespace eval vim {
           }
         }
       }
-      return [do_operation $txtt $endargs $startargs $cursorargs]
+      return [do_operation $txtt $endargs $startargs]
     }
 
     return 0
@@ -3833,12 +3833,12 @@ namespace eval vim {
     # Move the insertion cursor left one character
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       set startargs  ""
-      set cursorargs ""
+      set cursorargs [list dchar -dir prev -num [get_number $txtt]]
       switch [lindex $motion($txtt) end] {
         "V" {
-          set startargs "linestart"
-          set endargs   "lineend"
-          set cursorargs [list char -dir prev]
+          set startargs  "linestart"
+          set endargs    "lineend"
+          # set cursorargs "none"
         }
         "v" {
           set startargs "right"

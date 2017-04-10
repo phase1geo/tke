@@ -185,8 +185,6 @@ namespace eval edit {
       return
     }
 
-    puts "In delete, txtt: $txtt, startpos: $startpos, endpos: $endpos, copy: $copy, adjust: $adjust"
-
     # Copy the text to the clipboard, if specified
     if {$copy} {
       clipboard clear
@@ -196,19 +194,14 @@ namespace eval edit {
     set insertpos ""
 
     if {[$txtt compare $endpos == end]} {
-      puts "  endpos is end"
       if {[$txtt compare $startpos == 1.0]} {
-        puts "  startpos is 1.0"
         set endpos "$startpos lineend"
       } elseif {[$txtt compare $startpos == "$startpos linestart"]} {
-        puts "  startpos is linestart"
         set startpos  "$startpos-1l lineend"
         set endpos    "end-1c"
         set insertpos "$startpos-1l"
       }
     }
-
-    puts "    startpos: $startpos, endpos: $endpos, insertpos: $insertpos"
 
     # Delete the text
     $txtt delete $startpos $endpos
@@ -522,6 +515,7 @@ namespace eval edit {
     }
 
     set strlen [string length $str]
+    set newstr ""
 
     for {set i 0} {$i < $strlen} {incr i} {
       set char [string index $str $i]
@@ -529,9 +523,6 @@ namespace eval edit {
     }
 
     $txtt replace $startpos "$startpos+${strlen}c" $newstr
-
-    # Setting the insertion cursor
-    ::tk::TextSetCursor $txtt $startpos
 
   }
 
@@ -567,9 +558,6 @@ namespace eval edit {
     # Substitute the text
     $txtt replace $startpos "$startpos+[string length $str]c" [string tolower $str]
 
-    # Set the cursor
-    ::tk::TextSetCursor $txtt $startpos
-
   }
 
   ######################################################################
@@ -581,9 +569,6 @@ namespace eval edit {
 
     # Substitute the text
     $txtt replace $startpos "$startpos+[string length $str]c" [string toupper $str]
-
-    # Set the cursor
-    ::tk::TextSetCursor $txtt $startpos
 
   }
 
@@ -606,72 +591,81 @@ namespace eval edit {
 
   ######################################################################
   # Perform a case toggle operation.
-  proc transform_toggle_case {txtt startpos endpos} {
+  proc transform_toggle_case {txtt startpos endpos cursorpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_case_toggle $txtt $startpos $endpos
       }
+      ::tk::TextSetCursor $txtt $startpos
     } else {
       convert_case_toggle $txtt $startpos $endpos
+      ::tk::TextSetCursor $txtt $cursorpos
     }
 
   }
 
   ######################################################################
   # Perform a lowercase conversion.
-  proc transform_to_lower_case {txtt startpos endpos} {
+  proc transform_to_lower_case {txtt startpos endpos cursorpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_to_lower_case $txtt $startpos $endpos
       }
+      ::tk::TextSetCursor $txtt $startpos
     } else {
       convert_to_lower_case $txtt $startpos $endpos
+      ::tk::TextSetCursor $txtt $cursorpos
     }
 
   }
 
   ######################################################################
   # Perform an uppercase conversion.
-  proc transform_to_upper_case {txtt startpos endpos} {
+  proc transform_to_upper_case {txtt startpos endpos cursorpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_to_upper_case $txtt $startpos $endpos
       }
+      ::tk::TextSetCursor $txtt $startpos
     } else {
       convert_to_upper_case $txtt $startpos $endpos
+      ::tk::TextSetCursor $txtt $cursorpos
     }
 
   }
 
   ######################################################################
   # Transforms all text in the given range to rot13.
-  proc transform_to_rot13 {txtt startpos endpos} {
+  proc transform_to_rot13 {txtt startpos endpos cursorpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_to_rot13 $txtt $startpos $endpos
       }
+      ::tk::TextSetCursor $txtt $startpos
     } else {
       convert_to_rot13 $txtt $startpos $endpos
+      ::tk::TextSetCursor $txtt $cursorpos
     }
 
   }
 
   ######################################################################
   # Perform a title case conversion.
-  proc transform_to_title_case {txtt startpos endpos} {
+  proc transform_to_title_case {txtt startpos endpos cursorpos} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
         convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
       }
-      $txtt tag remove sel 1.0 end
+      ::tk::TextSetCursor $txtt $startpos
     } else {
       set str [$txtt get "insert wordstart" "insert wordend"]
       convert_case_to_title $txtt [$txtt index "$startpos wordstart"] $endpos
+      ::tk::TextSetCursor $txtt $cursorpos
     }
 
   }
@@ -1283,7 +1277,7 @@ namespace eval edit {
 
     if {$dir eq "next"} {
 
-      set curr_index [$txt index "$start display wordstart"]
+      set curr_index [$txt index "$start display wordend"]
 
       # If num is 0, do not continue
       if {$num <= 0} {
@@ -1294,10 +1288,10 @@ namespace eval edit {
         if {![string is space [$txt get $curr_index]]} {
           set last_wordend $curr_index
           if {[incr num -1] == 0} {
-            return [$txt index "$curr_index display wordend"]
+            return [$txt index "$curr_index-1c"]
           }
         }
-        set curr_index [$txt index "$curr_index display wordstart"]
+        set curr_index [$txt index "$curr_index display wordend"]
       }
 
       return [$txt index "$curr_index display wordend"]
