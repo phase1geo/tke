@@ -34,7 +34,8 @@ namespace eval bist {
   array set data {}
 
   # In case the UI is closed without running a regression...
-  set data(done) 1
+  set data(done)   1
+  set data(filter) "all"
 
   ######################################################################
   # Populates the test list.
@@ -104,8 +105,12 @@ namespace eval bist {
     variable run_tests
 
     # Specify that the regression should run
-    set data(run)  1
-    set data(done) 0
+    set data(run)    1
+    set data(done)   0
+    
+    # Initialize the filter
+    set data(filter) "all"
+    filter
 
     # Initialize a few things first
     initialize
@@ -130,8 +135,7 @@ namespace eval bist {
 
     # Configure UI components
     $data(widgets,refresh) configure -state disabled
-    $data(widgets,run)     configure -state disabled
-    $data(widgets,cancel)  configure -state normal
+    $data(widgets,run)     configure -text  "Cancel" -command [list bist::cancel]
 
     update idletasks
 
@@ -206,8 +210,7 @@ namespace eval bist {
 
     # Configure UI components
     $data(widgets,refresh) configure -state normal
-    $data(widgets,run)     configure -state normal
-    $data(widgets,cancel)  configure -state disabled
+    $data(widgets,run)     configure -text "Run" -command [list bist::run]
 
     # Wrap things up
     finish
@@ -240,14 +243,14 @@ namespace eval bist {
     # Run the diagnostic and track the pass/fail status in the table
     if {[catch { $test } rc]} {
       incr fail
-      output "  FAILED ($rc)\n"
+      output "  FAILED ($rc)\n" failed
       logger::log $::errorInfo
       $data(widgets,fail) configure -text $fail
       $data(widgets,tbl)  cellconfigure $row,fail -text [expr [$data(widgets,tbl) cellcget $row,fail -text] + 1]
       $data(widgets,tbl)  cellconfigure $par,fail -text [expr [$data(widgets,tbl) cellcget $par,fail -text] + 1]
     } else {
       incr pass
-      output "  PASSED\n"
+      output "  PASSED\n" passed
       $data(widgets,pass) configure -text $pass
       $data(widgets,tbl)  cellconfigure $row,pass -text [expr [$data(widgets,tbl) cellcget $row,pass -text] + 1]
       $data(widgets,tbl)  cellconfigure $par,pass -text [expr [$data(widgets,tbl) cellcget $par,pass -text] + 1]
@@ -275,12 +278,15 @@ namespace eval bist {
 
   ######################################################################
   # Displays the given output to the BIST output widget.
-  proc output {msg} {
+  proc output {msg {tag ""}} {
 
     variable data
 
     $data(widgets,output) configure -state normal
-    $data(widgets,output) insert end $msg
+    if {$tag ne ""} {
+      $data(widgets,output) tag add $tag "end-1c linestart" end
+    }
+    $data(widgets,output) insert end $msg $tag
     $data(widgets,output) configure -state disabled
 
     $data(widgets,output) see insert
@@ -331,7 +337,7 @@ namespace eval bist {
         }
       }
     }
-
+    
   }
 
   ######################################################################
@@ -510,9 +516,9 @@ namespace eval bist {
 
     # Add the main button frame
     ttk::frame  .bistwin.bf
-    set data(widgets,refresh) [ttk::button .bistwin.bf.refresh -style BButton -text "Refresh" -width 7 -command [list bist::refresh]]
-    set data(widgets,run)     [ttk::button .bistwin.bf.run     -style BButton -text "Run"     -width 7 -command [list bist::run]]
-    set data(widgets,cancel)  [ttk::button .bistwin.bf.close   -style BButton -text "Cancel"  -width 7 -command [list bist::cancel] -state disabled]
+    set data(widgets,filter)  [ttk::menubutton .bistwin.bf.filter  -text "Filter" -width 12 -menu .bistwin.filterPopup]
+    set data(widgets,refresh) [ttk::button     .bistwin.bf.refresh -style BButton -text "Refresh" -width 7 -command [list bist::refresh]]
+    set data(widgets,run)     [ttk::button     .bistwin.bf.run     -style BButton -text "Run"     -width 7 -command [list bist::run]]
 
     # Pack the button frame
     ttk::label      .bistwin.bf.l0 -text "Total: "
@@ -528,13 +534,17 @@ namespace eval bist {
     pack .bistwin.bf.pass    -side left  -padx 2 -pady 2
     pack .bistwin.bf.l2      -side left  -padx 2 -pady 2
     pack .bistwin.bf.fail    -side left  -padx 2 -pady 2
-    pack .bistwin.bf.close   -side right -padx 2 -pady 2
     pack .bistwin.bf.run     -side right -padx 2 -pady 2
     pack .bistwin.bf.refresh -side right -padx 2 -pady 2
+    pack .bistwin.bf.filter  -side right -padx 2 -pady 2
 
     # Pack the main UI elements
     pack .bistwin.nb -fill both -expand yes
     pack .bistwin.bf -fill x
+    
+    # Create output tags
+    $data(widgets,output) tag configure passed -elide 0
+    $data(widgets,output) tag configure failed -elide 0
 
     # Handle a window destruction
     bind [$data(widgets,tbl) bodytag] <Button-1> [list bist::on_select %W %x %y]
@@ -548,6 +558,12 @@ namespace eval bist {
 
     menu .bistwin.testPopup -tearoff 0
     .bistwin.testPopup add command -label "Edit Test"     -command [list bist::edit_test]
+    
+    menu .bistwin.filterPopup -tearoff 0
+    .bistwin.filterPopup add radiobutton -label "All"  -variable bist::data(filter) -value all -command [list bist::filter]
+    .bistwin.filterPopup add separator
+    .bistwin.filterPopup add radiobutton -label "Fail" -variable bist::data(filter) -value fail -command [list bist::filter]
+    .bistwin.filterPopup add radiobutton -label "Pass" -variable bist::data(filter) -value pass -command [list bist::filter]
 
     # Handle the window close event
     wm protocol .bistwin WM_DELETE_WINDOW [list bist::on_destroy]
@@ -1061,6 +1077,32 @@ namespace eval bist {
       $data(widgets,tbl) cellconfigure $i,selected -text $sel -image $img
     }
 
+  }
+  
+  ######################################################################
+  # Applies the current filter to the text field.
+  proc filter {} {
+    
+    variable data
+    
+    switch $data(filter) {
+      "all" {
+        $data(widgets,output) tag configure passed -elide 0
+        $data(widgets,output) tag configure failed -elide 0
+        $data(widgets,filter) configure -text "Filter: All"
+      }
+      "pass" {
+        $data(widgets,output) tag configure passed -elide 0
+        $data(widgets,output) tag configure failed -elide 1
+        $data(widgets,filter) configure -text "Filter: Pass"
+      }
+      "fail" {
+        $data(widgets,output) tag configure passed -elide 1
+        $data(widgets,output) tag configure failed -elide 0
+        $data(widgets,filter) configure -text "Filter: Fail"
+      }
+    }
+    
   }
 
 }
