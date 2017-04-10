@@ -303,10 +303,7 @@ namespace eval multicursor {
     }
 
     # Delete the current line
-    catch {
     multicursor::delete $txt.t linestart lineend
-    } rc
-    puts "rc: $rc, info: $::errorInfo"
 
     if {[$txt get 2.0 end-1c] ne " \n "} {
       cleanup "text mismatched after deletion ([$txt get 2.0 end-1c])"

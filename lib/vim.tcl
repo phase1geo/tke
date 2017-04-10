@@ -2487,7 +2487,7 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$motion($txtt) eq ""} {
         if {$operator($txtt) eq "change"} {
-          return [do_operation $txtt [list wordend -dir next -num [get_number $txtt]]]
+          return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]]
         } else {
           return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt]]]
         }
@@ -3952,9 +3952,9 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$operator($txtt) eq ""} {
         if {$motion($txtt) eq ""} {
-          return [do_operation $txtt [list wordend -dir next -num [get_number $txtt]]]
+          return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 1]]
         } elseif {$motion($txtt) eq "g"} {
-          return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt]]]
+          return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1]]
         }
       }
       reset_state $txtt
