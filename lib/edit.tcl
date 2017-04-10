@@ -1232,7 +1232,6 @@ namespace eval edit {
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
         if {![string is space [$txt get $curr_index]]} {
-          set last_wordend $curr_index
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index display wordstart"]
           }
@@ -1273,20 +1272,14 @@ namespace eval edit {
   # given a value > 1, the procedure will return the beginning index of
   # the next/previous num'th word.  If no word was found, return the index
   # of the current word.
-  proc get_wordend {txt dir {num 1} {start insert}} {
+  proc get_wordend {txt dir {num 1} {start insert} {exclusive 0}} {
 
     if {$dir eq "next"} {
 
       set curr_index [$txt index "$start display wordend"]
 
-      # If num is 0, do not continue
-      if {$num <= 0} {
-        return [$txt index "$curr_index-1c"]
-      }
-
       while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index]]} {
-          set last_wordend $curr_index
+        if {![string is space [$txt get $curr_index-1c]] && ([$txt compare "$curr_index-1c" != $start] || ($exclusive == 0))} {
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index-1c"]
           }
@@ -1298,8 +1291,8 @@ namespace eval edit {
 
     } else {
 
-      # Get the index of the current word
-      set curr_index [$txt index "$start display wordend"]
+      # Get the index of the current wordstart
+      set curr_index [$txt index "$start display wordstart"]
 
       # If num is 0, do not continue
       if {$num <= 0} {
@@ -1307,12 +1300,12 @@ namespace eval edit {
       }
 
       while {[$txt compare $curr_index > 1.0]} {
-        if {![string is space [$txt get $curr_index]] && [$txt compare $curr_index != $start]} {
+        if {![string is space [$txt get $curr_index-1c]]} {
           if {[incr num -1] == 0} {
-            return $curr_index
+            return [$txt index "$curr_index-1c"]
           }
         }
-        set curr_index [$txt index "$curr_index-1 display chars wordend"]
+        set curr_index [$txt index "$curr_index-1 display chars wordstart"]
       }
 
       return $curr_index
@@ -1562,7 +1555,7 @@ namespace eval edit {
         set index "$line.0+[string length [string trimright [$txtt get $line.0 $line.end]]]c"
       }
       wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
-      wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
       linenum       {
         if {[lsearch [$txtt tag names "$opts(-num).0"] _prewhite] != -1} {
