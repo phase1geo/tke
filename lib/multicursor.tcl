@@ -208,8 +208,17 @@ namespace eval multicursor {
   # Handles an escape event in multicursor mode.
   proc handle_escape {W} {
 
-    if {![vim::in_multimove $W]} {
-      disable $W
+    if {[set first [lindex [$W tag ranges mcursor] 0]] ne ""} {
+      
+      # If we are not in a multimove, delete the mcursors
+      if {![vim::in_multimove $W]} {
+        disable $W
+        
+      # Otherwise, position the insertion cursor on the first multicursor position
+      } else {
+        ::tk::TextSetCursor $W $first
+      }
+      
     }
 
   }
@@ -227,7 +236,7 @@ namespace eval multicursor {
   proc disable {txtt} {
 
     variable cursor_anchor
-
+    
     # Clear the start positions value
     $txtt tag remove mcursor 1.0 end
 
@@ -330,25 +339,44 @@ namespace eval multicursor {
     }
 
   }
+  
+  ######################################################################
+  # Returns true if the given motion is not supported by multicursor mode.
+  proc motion_unsupported {txtt motion} {
+    
+    return [expr [lsearch [list linenum screentop screenmid screenbot first last] $motion] != -1]
+    
+  }
 
   ######################################################################
   # Moves all of the cursors using the positional arguments.
   proc move {txtt posargs} {
+    
+    array set opts [lassign $posargs motion]
+    
+    # If the motion is not supported, return now
+    if {[motion_unsupported $txtt $motion]} {
+      return
+    }
 
     # Get the existing ranges
     set ranges [$txtt tag ranges mcursor]
-
+    
     # Get the list of new ranges
     set new_ranges [list]
     foreach {start end} $ranges {
-      lappend new_ranges $start [edit::get_index $txtt {*}$posargs -startpos $start]
+      set new_start [$txtt index [edit::get_index $txtt {*}$posargs -startpos $start]]
+      if {[$txtt compare $new_start == "$new_start lineend"] && [$txtt compare $new_start > "$new_start linestart"]} {
+        set new_start [$txtt index $new_start-1c]
+      }
+      lappend new_ranges $start $new_start
     }
-
+    
     # If any cursors are going to "fall off" an edge, don't perform the move
-    switch [lindex $posargs 0] {
+    switch $motion {
       left {
         foreach {start new_start} $new_ranges {
-          if {[$txtt compare $new_start < "$start linestart"]} {
+          if {([lindex [split $start .] 1] - [lindex [split $new_start .] 1]) < $opts(-num)} {
             adjust_select $txtt
             return
           }
@@ -356,21 +384,20 @@ namespace eval multicursor {
       }
       right {
         foreach {start new_start} $new_ranges {
-          if {[$txtt compare $new_start >= "$start lineend"]} {
+          if {([lindex [split $new_start .] 1] - [lindex [split $start .] 1]) < $opts(-num)} {
             adjust_select $txtt
             return
           }
         }
       }
       up {
-        array set opts [lrange $posargs 1 end]
-        if {[$txtt count -displaylines [lindex $new_ranges 0] [lindex $ranges 0]] != $opts(-num)} {
+        if {([lindex [split [lindex $new_ranges 0] .] 0] - [lindex [split [lindex $new_ranges 1] .] 0]) < $opts(-num)} {
           adjust_select $txtt
           return
         }
       }
       down {
-        if {[$txtt compare [lindex $new_ranges end] == end]} {
+        if {([lindex [split [lindex $new_ranges end] .] 0] - [lindex [split [lindex $new_ranges end-1] .] 0]) < $opts(-num)} {
           adjust_select $txtt
           return
         }
@@ -407,6 +434,11 @@ namespace eval multicursor {
     # Only perform this if multiple cursors
     if {[enabled $txtt]} {
 
+      # If the motion is not supported, return now
+      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
+        return 1
+      }
+
       if {$selected || ($eposargs eq "selected")} {
         while {[set range [$txt tag nextrange sel $start]] ne [list]} {
           lassign $range start end
@@ -428,6 +460,10 @@ namespace eval multicursor {
       } else {
         while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
           lassign [edit::get_range $txt $eposargs $sposargs [lindex $range 0]] start end
+          puts "start: $start, end: $end, next: [lindex [$txt tag nextrange mcursor [lindex $range 0]] 0]"
+          if {([set next [lindex [$txt tag nextrange mcursor [lindex $range 0]] 0]] ne "") && [$txt compare $next > $end]} {
+            set end $next
+          }
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
           $txt fastdelete -update 0 $start $end
@@ -469,6 +505,7 @@ namespace eval multicursor {
 
     # Insert the value into the text widget for each of the starting positions
     if {[enabled $txtt]} {
+      
       set do_tags [list]
       set txt     [winfo parent $txtt]
       if {$selected} {
@@ -503,7 +540,9 @@ namespace eval multicursor {
       } else {
         event generate $txtt <<CursorChanged>>
       }
+      
       return 1
+      
     }
 
     return 0
@@ -565,6 +604,11 @@ namespace eval multicursor {
 
     if {[enabled [winfo parent $txtt]]} {
 
+      # If the motion is not supported, return now
+      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
+        return 1
+      }
+
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_case_toggle $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
       }
@@ -582,6 +626,11 @@ namespace eval multicursor {
   proc upper_case {txtt eposargs sposargs} {
 
     if {[enabled [winfo parent $txtt]]} {
+
+      # If the motion is not supported, return now
+      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
+        return 1
+      }
 
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_to_upper_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
@@ -601,6 +650,11 @@ namespace eval multicursor {
 
     if {[enabled [winfo parent $txtt]]} {
 
+      # If the motion is not supported, return now
+      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
+        return 1
+      }
+
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_to_lower_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
       }
@@ -618,6 +672,11 @@ namespace eval multicursor {
   proc rot13 {txtt eposargs sposargs} {
 
     if {[enabled [winfo parent $txtt]]} {
+
+      # If the motion is not supported, return now
+      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
+        return 1
+      }
 
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_to_rot13 $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
@@ -637,6 +696,11 @@ namespace eval multicursor {
 
     if {[enabled [winfo parent $txtt]]} {
 
+      # If the motion is not supported, return now
+      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
+        return 1
+      }
+
       foreach {start end} [$txtt tag ranges mcursor] {
         indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
       }
@@ -654,6 +718,11 @@ namespace eval multicursor {
   proc shift {txtt dir eposargs sposargs} {
 
     if {[enabled [winfo parent $txtt]]} {
+
+      # If the motion is not supported, return now
+      if {[motion_unsupported $txtt [lindex $eposargs 0]]} {
+        return 1
+      }
 
       if {$dir eq "right"} {
         foreach {start end} [$txtt tag ranges mcursor] {
