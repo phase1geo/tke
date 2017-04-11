@@ -713,9 +713,8 @@ namespace eval multicursor {
 
     do_test $txtt 0 h       [list 2.12 3.17]
     do_test $txtt 1 {2 h}   [list 2.10 3.15]
-    do_test $txtt 2 {2 0 h} [list 2.10 3.15]
+    do_test $txtt 2 {1 1 h} [list 2.10 3.15]
     do_test $txtt 3 {1 0 h} [list 2.0 3.5]
-    do_test $txtt 4 h       [list 2.0 3.5]
 
     # Get out of multicursor mode
     do_test $txtt 4 Escape [list 2.0 3.5]
