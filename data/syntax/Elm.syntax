@@ -1,5 +1,5 @@
 filepatterns
-{*.syntax}
+{*.elm}
 
 vimsyntax
 {}
