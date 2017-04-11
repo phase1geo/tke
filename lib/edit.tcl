@@ -1211,13 +1211,14 @@ namespace eval edit {
   # given a value > 1, the procedure will return the beginning index of
   # the next/previous num'th word.  If no word was found, return the index
   # of the current word.
-  proc get_wordstart {txt dir {num 1} {start insert}} {
+  proc get_wordstart {txt dir {num 1} {start insert} {exclusive 0}} {
 
     # If the direction is 'next', search forward
     if {$dir eq "next"} {
 
       # Get the end of the current word (this will be the beginning of the next word)
       set curr_index [$txt index "$start display wordend"]
+      set last_index $curr_index
 
       # This works around a text issue with wordend
       if {[$txt count -displaychars $curr_index "$curr_index+1c"] == 0} {
@@ -1231,11 +1232,18 @@ namespace eval edit {
 
       # Use a brute-force method of finding the next word
       while {[$txt compare $curr_index < end]} {
-        if {![string is space [$txt get $curr_index]] || [$txt compare $curr_index == "$curr_index linestart"]} {
+        if {![string is space [$txt get $curr_index]]} {
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index display wordstart"]
           }
+        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"] && $exclusive} {
+          if {[incr num -1] == 0} {
+            return [$txt index "$curr_index display wordstart"]
+          }
+        } elseif {!$exclusive && ([string first "\n" [$txt get $last_index $curr_index]] != -1) && ($num == 1)} {
+          return $curr_index
         }
+        set last_index $curr_index
         set curr_index [$txt index "$curr_index display wordend"]
       }
 
@@ -1252,7 +1260,7 @@ namespace eval edit {
       }
 
       while {[$txt compare $curr_index > 1.0]} {
-        if {(![string is space [$txt get $curr_index]] || [$txt compare $curr_index == "$curr_index linestart"]) && \
+        if {(![string is space [$txt get $curr_index]] || [$txt compare "$curr_index linestart" == "$curr_index lineend"]) && \
              [$txt compare $curr_index != $start]} {
           if {[incr num -1] == 0} {
             return $curr_index
@@ -1277,13 +1285,21 @@ namespace eval edit {
     if {$dir eq "next"} {
 
       set curr_index [$txt index "$start display wordend"]
+      set last_index $curr_index
 
       while {[$txt compare $curr_index < end]} {
         if {![string is space [$txt get $curr_index-1c]] && ([$txt compare "$curr_index-1c" != $start] || ($exclusive == 0))} {
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index-1c"]
           }
+        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"] && $exclusive} {
+          if {[incr num -1] == 0} {
+            return $curr_index
+          }
+        } elseif {([string first "\n" [$txt get $last_index $curr_index]] != -1) && !$exclusive && ($num == 1)} {
+          return $curr_index
         }
+        set last_index $curr_index
         set curr_index [$txt index "$curr_index display wordend"]
       }
 
@@ -1303,6 +1319,10 @@ namespace eval edit {
         if {![string is space [$txt get $curr_index-1c]]} {
           if {[incr num -1] == 0} {
             return [$txt index "$curr_index-1c"]
+          }
+        } elseif {[$txt compare "$curr_index linestart" == "$curr_index lineend"]} {
+          if {[incr num -1] == 0} {
+            return $curr_index
           }
         }
         set curr_index [$txt index "$curr_index-1 display chars wordstart"]
@@ -1554,7 +1574,7 @@ namespace eval edit {
         set line  [expr [lindex [split [$txtt index $opts(-startpos)] .] 0] + ($opts(-num) - 1)]
         set index "$line.0+[string length [string trimright [$txtt get $line.0 $line.end]]]c"
       }
-      wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos)] }
+      wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
       linenum       {
