@@ -2388,7 +2388,7 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list wordstart -dir prev -num [get_number $txtt]]]
+        return [do_operation $txtt [list wordstart -dir prev -num [get_number $txtt] -exclusive 1]]
       }
       reset_state $txtt
       return 1
@@ -2486,10 +2486,10 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$motion($txtt) eq ""} {
-        if {$operator($txtt) eq "change"} {
-          return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]]
-        } else {
-          return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt]]]
+        switch $operator($txtt) {
+          ""       { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 1]] }
+          "change" { return [do_operation $txtt [list wordend   -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
+          default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
         }
       }
       reset_state $txtt
