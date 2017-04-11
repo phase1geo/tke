@@ -1,0 +1,47 @@
+filepatterns
+{*.dox *.doxy *.doxygen *.doxyfile Doxyfile doxyfile}
+
+reference
+{
+  {{Configuration Description} http://www.stack.nl/~dimitri/doxygen/manual/config.html}
+}
+
+escapes
+{1}
+
+tabsallowed
+{1}
+
+casesensitive
+{1}
+
+icomment {{#}}
+
+lcomments {{^[ \t]*#}}
+
+strings {{"}}
+
+numbers {
+  HighlightRegexp {\m[0-9]+} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[=]} {}
+}
+
+advanced {
+  HighlightClass var keywords {}
+
+  HighlightRegexp {^\s*\w+\s*=} handle_variable
+
+  HighlightProc handle_variable {
+    if {[regexp {^(\\s*)(\\w+)} [$txt get $startpos $endpos] -> prespace varname]} {
+      set start [$txt index "$startpos+[string length $prespace]c"]
+      return [list [list [list var $start [$txt index "$start+[string length $varname]c"] [list]]] [list]]
+    }
+    return ""
+  } HighlightEndProc
+
+}
+
