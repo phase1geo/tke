@@ -209,16 +209,16 @@ namespace eval multicursor {
   proc handle_escape {W} {
 
     if {[set first [lindex [$W tag ranges mcursor] 0]] ne ""} {
-      
+
       # If we are not in a multimove, delete the mcursors
       if {![vim::in_multimove $W]} {
         disable $W
-        
+
       # Otherwise, position the insertion cursor on the first multicursor position
       } else {
         ::tk::TextSetCursor $W $first
       }
-      
+
     }
 
   }
@@ -236,7 +236,7 @@ namespace eval multicursor {
   proc disable {txtt} {
 
     variable cursor_anchor
-    
+
     # Clear the start positions value
     $txtt tag remove mcursor 1.0 end
 
@@ -339,21 +339,21 @@ namespace eval multicursor {
     }
 
   }
-  
+
   ######################################################################
   # Returns true if the given motion is not supported by multicursor mode.
   proc motion_unsupported {txtt motion} {
-    
+
     return [expr [lsearch [list linenum screentop screenmid screenbot first last] $motion] != -1]
-    
+
   }
 
   ######################################################################
   # Moves all of the cursors using the positional arguments.
   proc move {txtt posargs} {
-    
+
     array set opts [lassign $posargs motion]
-    
+
     # If the motion is not supported, return now
     if {[motion_unsupported $txtt $motion]} {
       return
@@ -361,7 +361,7 @@ namespace eval multicursor {
 
     # Get the existing ranges
     set ranges [$txtt tag ranges mcursor]
-    
+
     # Get the list of new ranges
     set new_ranges [list]
     foreach {start end} $ranges {
@@ -371,7 +371,7 @@ namespace eval multicursor {
       }
       lappend new_ranges $start $new_start
     }
-    
+
     # If any cursors are going to "fall off" an edge, don't perform the move
     switch $motion {
       left {
@@ -440,40 +440,40 @@ namespace eval multicursor {
       }
 
       if {$selected || ($eposargs eq "selected")} {
-        while {[set range [$txt tag nextrange sel $start]] ne [list]} {
+        set range [$txt tag nextrange sel $start]
+        while {$range ne [list]} {
           lassign $range start end
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
+          $txt tag remove mcursor [lindex $range 0]
           $txt fastdelete -update 0 $start $end
           lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
-          if {([$txtt compare $start == "$start linestart"]) || \
-              ([$txtt compare $start != "$start lineend"])} {
+          set range [$txt tag nextrange sel $start]
+          if {([$txtt compare $start == "$start linestart"]) || ([$txtt compare $start != "$start lineend"])} {
             add_cursor $txtt $start
-            set start "$start+2c"
           } else {
             add_cursor $txtt "$start-1c"
-            set start "$start+1c"
           }
         }
         set selected 0
 
       } else {
-        while {[set range [$txt tag nextrange mcursor $start]] ne [list]} {
+        set range [$txt tag nextrange mcursor $start]
+        while {$range ne [list]} {
           lassign [edit::get_range $txt $eposargs $sposargs [lindex $range 0]] start end
-          puts "start: $start, end: $end, next: [lindex [$txt tag nextrange mcursor [lindex $range 0]] 0]"
-          if {([set next [lindex [$txt tag nextrange mcursor [lindex $range 0]] 0]] ne "") && [$txt compare $next > $end]} {
+          if {([set next [lindex [$txt tag nextrange mcursor [lindex $range 1]] 0]] ne "") && [$txt compare $end > $next]} {
             set end $next
           }
           append dat [$txt get $start $end]
           ctext::comments_chars_deleted $txt $start $end do_tags
+          $txt tag remove mcursor [lindex $range 0]
           $txt fastdelete -update 0 $start $end
           lappend ranges [$txt index "$start linestart"] [$txt index "$start lineend"]
+          set range [$txt tag nextrange mcursor $start]
           if {([$txtt compare $start == "$start linestart"]) || ([$txtt compare $start != "$start lineend"])} {
             add_cursor $txtt $start
-            set start "$start+2c"
           } else {
             add_cursor $txtt "$start-1c"
-            set start "$start+1c"
           }
         }
 
@@ -505,7 +505,7 @@ namespace eval multicursor {
 
     # Insert the value into the text widget for each of the starting positions
     if {[enabled $txtt]} {
-      
+
       set do_tags [list]
       set txt     [winfo parent $txtt]
       if {$selected} {
@@ -540,9 +540,9 @@ namespace eval multicursor {
       } else {
         event generate $txtt <<CursorChanged>>
       }
-      
+
       return 1
-      
+
     }
 
     return 0
