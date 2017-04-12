@@ -386,10 +386,13 @@ namespace eval multicursor {
 
     multicursor::delete $txt.t [list wordstart -num 2]
 
-    if {[$txt get 2.0 end-1c] ne "this i\nnot good"} {
+    #if {[$txt get 2.0 end-1c] ne "this i\nnot good"} {
+    #  cleanup "text mismatched ([$txt get 2.0 end-1c])"
+    # }
+    if {[$txt get 2.0 end-1c] ne "this inot good"} {
       cleanup "text mismatched ([$txt get 2.0 end-1c])"
     }
-    if {[$txt tag ranges mcursor] ne [list 2.4 2.5 3.0 3.1]} {
+    if {[$txt tag ranges mcursor] ne [list 2.6 2.7 3.0 3.1]} {
       cleanup "mcursor mismatched ([$txt tag ranges mcursor])"
     }
 
@@ -441,58 +444,6 @@ namespace eval multicursor {
       cleanup "text mismatched after deletion ([$txt get 2.0 end-1c])"
     }
     if {[$txt tag ranges mcursor] ne [list 2.5 2.6 3.2 3.3]} {
-      cleanup "mcursor mismatched after deletion ([$txt tag ranges mcursor])"
-    }
-
-    # Clean things up
-    cleanup
-
-  }
-
-  # Delete if the start of the text matches the given pattern.
-  proc run_test12 {} {
-
-    # Get the text widget
-    set txt [initialize]
-
-    $txt insert end "\nthis is this good\nthis is not good"
-
-    # Add the multicursors
-    multicursor::add_cursor $txt.t 2.0
-    multicursor::add_cursor $txt.t 3.0
-
-    multicursor::delete $txt.t pattern {^this}
-
-    if {[$txt get 2.0 end-1c] ne " is this good\n is not good"} {
-      cleanup "text mismatched after deletion ([$txt get 2.0 end-1c])"
-    }
-    if {[$txt tag ranges mcursor] ne [list 2.0 2.1 3.0 3.1]} {
-      cleanup "mcursor mismatched after deletion ([$txt tag ranges mcursor])"
-    }
-
-    # Clean things up
-    cleanup
-
-  }
-
-  # Delete if text within the line matches the given pattern.
-  proc run_test13 {} {
-
-    # Get the text widget
-    set txt [initialize]
-
-    $txt insert end "\nthis is this good\nthis is not good"
-
-    # Add the multicursors
-    multicursor::add_cursor $txt.t 2.12
-    multicursor::add_cursor $txt.t 3.2
-
-    multicursor::delete $txt.t pattern {this$}
-
-    if {[$txt get 2.0 end-1c] ne "this is  good\nthis is not good"} {
-      cleanup "text mismatched after deletion ([$txt get 2.0 end-1c])"
-    }
-    if {[$txt tag ranges mcursor] ne [list 2.8 2.9 3.2 3.3]} {
       cleanup "mcursor mismatched after deletion ([$txt tag ranges mcursor])"
     }
 
@@ -593,7 +544,7 @@ namespace eval multicursor {
     multicursor::add_cursor $txt.t 2.0
     multicursor::add_cursor $txt.t 3.0
 
-    multicursor::delete $txt.t [list left -num 40]
+    multicursor::delete $txt.t [list right -num 40]
 
     if {[$txt get 2.0 end-1c] ne " \n "} {
       cleanup "text mismatched after deletion ([$txt get 2.0 end-1c])"
