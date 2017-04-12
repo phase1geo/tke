@@ -1180,7 +1180,6 @@ namespace eval vim {
       }
     } else {
       set select_anchors($txtt) [$txtt index insert]
-      # adjust_select $txtt 0 insert
     }
 
     # If the selection type is inclusive or old, include the current insertion cursor in the selection
@@ -1588,8 +1587,6 @@ namespace eval vim {
 
     variable operator
     variable multicursor
-
-    # puts "In do_operation, txtt: $txtt, eposargs: $eposargs, sposargs: $sposargs, operator: $operator($txtt), multicursor: $multicursor($txtt)"
 
     switch $operator($txtt) {
       "" {
@@ -3165,6 +3162,9 @@ namespace eval vim {
       }
       reset_state $txtt
       return 1
+    } elseif {[in_visual_mode $txtt]} {
+      command_mode $txtt
+      return 1
     }
 
     return 0
@@ -3187,6 +3187,9 @@ namespace eval vim {
         return 1
       }
       reset_state $txtt
+      return 1
+    } elseif {[in_visual_mode $txtt]} {
+      command_mode $txtt
       return 1
     }
 
