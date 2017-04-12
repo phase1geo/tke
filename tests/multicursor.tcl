@@ -384,15 +384,12 @@ namespace eval multicursor {
     multicursor::add_cursor $txt.t 2.6
     multicursor::add_cursor $txt.t 3.0
 
-    multicursor::delete $txt.t [list wordstart -num 2]
+    multicursor::delete $txt.t [list wordend -num 2 -adjust +1c]
 
-    #if {[$txt get 2.0 end-1c] ne "this i\nnot good"} {
-    #  cleanup "text mismatched ([$txt get 2.0 end-1c])"
-    # }
-    if {[$txt get 2.0 end-1c] ne "this inot good"} {
+    if {[$txt get 2.0 end-1c] ne "this i\n not good"} {
       cleanup "text mismatched ([$txt get 2.0 end-1c])"
     }
-    if {[$txt tag ranges mcursor] ne [list 2.6 2.7 3.0 3.1]} {
+    if {[$txt tag ranges mcursor] ne [list 2.5 2.6 3.0 3.1]} {
       cleanup "mcursor mismatched ([$txt tag ranges mcursor])"
     }
 
