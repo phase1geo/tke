@@ -3,12 +3,12 @@
 The following is a high-level list of built-in features.
 
 - **Syntax highlighting**
-	- Over 80 languages currently supported, including:
+	- Over 85 languages currently supported, including:
 		- ABAP, ActionScript, Ada, AppleScript, Assembly, Awk
 		- Bash
 		- C#, C, C\+\+, Changelog, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
-		- D, Delphi, DesktopEntry, DocBook
-		- Eiffel, Erlang
+		- D, Delphi, DesktopEntry, DocBook, Doxyfile
+		- Eiffel, Elm, Erlang
 		- Fickle, Forth, Fortran, Fountain
 		- Gherkin, Go, Groovy
 		- HTML, Haml, Haskell, Haxe, HelpSystem
