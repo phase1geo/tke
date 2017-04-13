@@ -1094,7 +1094,7 @@ namespace eval vim {
     if {(($mode($txtt) eq "edit") || ($mode($txtt) eq "replace_all")) && \
         ([$txtt index insert] ne [$txtt index "insert linestart"])} {
       if {[multicursor::enabled $txtt]} {
-        multicursor::adjust_left $txtt 1
+        multicursor::move $txtt left
       } else {
         ::tk::TextSetCursor $txtt "insert-1c"
       }
@@ -1516,7 +1516,7 @@ namespace eval vim {
       }
       if {$mode($txtt) eq "replace"} {
         if {[multicursor::enabled $txtt]} {
-          multicursor::adjust_left $txtt 1
+          multicursor::move $txtt left
         } else {
           ::tk::TextSetCursor $txtt "insert-1c"
         }
@@ -2587,7 +2587,7 @@ namespace eval vim {
       switch $operator($txtt) {
         "" {
           if {[multicursor::enabled $txtt]} {
-            multicursor::adjust_right $txtt 1 dspace
+            multicursor::move $txtt right
           }
           cleanup_dspace $txtt
           ::tk::TextSetCursor $txtt "insert+1c"

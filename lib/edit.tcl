@@ -47,7 +47,7 @@ namespace eval edit {
 
     # Create the new line
     if {[multicursor::enabled $txtt]} {
-      multicursor::adjust_up $txtt 1
+      multicursor::move $txtt up
     } elseif {[$txtt compare "insert linestart" == 1.0]} {
       $txtt insert "insert linestart" "\n"
       ::tk::TextSetCursor $txtt "insert-1l"
@@ -76,7 +76,7 @@ namespace eval edit {
 
     # Add the line(s)
     if {[multicursor::enabled $txtt]} {
-      multicursor::adjust_down $txtt 1
+      multicursor::move $txtt down
     } else {
       ::tk::TextSetCursor $txtt "insert lineend"
       $txtt insert "insert lineend" "\n"
@@ -1701,7 +1701,7 @@ namespace eval edit {
     $txtt tag remove sel 1.0 end
 
     # Adjust the cursors
-    multicursor::adjust $txtt $modifier
+    multicursor::move $txtt $modifier
 
   }
 
