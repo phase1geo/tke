@@ -2149,10 +2149,15 @@ namespace eval vim {
   proc handle_L {txtt} {
 
     variable mode
+    variable motion
     variable multicursor
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      return [do_operation $txtt screenbot]
+      if {$motion($txtt) eq ""} {
+        return [do_operation $txtt screenbot]
+      }
+      reset_state $txtt
+      return 1
     }
 
     return 0
@@ -2362,10 +2367,8 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$operator($txtt) eq ""} {
-        if {$motion($txtt) eq ""} {
-          return [do_operation $txtt screentop]
-        }
+      if {$motion($txtt) eq ""} {
+        return [do_operation $txtt screentop]
       }
       reset_state $txtt
       return 1
@@ -3934,7 +3937,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt [list firstchar -dir next -num [expr [get_number $txtt] - 1]]]
       } elseif {$motion($txtt) eq "g"} {
-        return [do_operation $txtt [list lastchar -num [expr [get_number $txtt] - 1]]]
+        return [do_operation $txtt [list lastchar -num [get_number $txtt]]]
       }
       reset_state $txtt
       return 1
