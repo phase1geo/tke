@@ -70,7 +70,7 @@ namespace eval transform {
       cleanup "$id not in command mode"
     }
     if {$vim::operator($txtt) ne ""} {
-      cleanup "$id operator is not cleared ($vim::operator($txtt))" 
+      cleanup "$id operator is not cleared ($vim::operator($txtt))"
     }
     if {$vim::motion($txtt) ne ""} {
       cleanup "$id motion is not cleared ($vim::motion($txtt))"
@@ -123,7 +123,7 @@ namespace eval transform {
 
     $txtt insert end "\nThIs Is A lInE\ntHiS iS a LiNe"
     $txtt edit separator
-    $txtt mark set insert 2.0
+    $txtt mark set insert 2.2
     vim::adjust_insert $txtt
 
     do_test $txtt 0 {g asciitilde asciitilde} 2.0 "\ntHiS iS a LiNe\ntHiS iS a LiNe"
@@ -145,7 +145,7 @@ namespace eval transform {
 
     $txtt insert end "\nTHIS IS A LINE\nTHIS IS A LINE"
     $txtt edit separator
-    $txtt mark set insert 2.0
+    $txtt mark set insert 2.2
     vim::adjust_insert $txtt
 
     do_test $txtt 0 {g u u} 2.0 "\nthis is a line\nTHIS IS A LINE"
@@ -167,7 +167,7 @@ namespace eval transform {
 
     $txtt insert end "\nthis is a line\nthis is a line"
     $txtt edit separator
-    $txtt mark set insert 2.0
+    $txtt mark set insert 2.2
     vim::adjust_insert $txtt
 
     do_test $txtt 0 {g U U} 2.0 "\nTHIS IS A LINE\nthis is a line"
@@ -181,8 +181,30 @@ namespace eval transform {
 
   }
 
-  # Verify g~l Vim command
+  # Verify g?? Vim command
   proc run_test5 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nthe quick brown fox jumps over the lazy dog\nTHE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
+    $txtt edit separator
+    $txtt mark set insert 2.2
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {g question question} 2.0 "\ngur dhvpx oebja sbk whzcf bire gur ynml qbt\nTHE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
+
+    foreach index {0 2} {
+      do_test $txtt [expr $index + 1] [linsert {g question question} $index 2] 2.0 "\ngur dhvpx oebja sbk whzcf bire gur ynml qbt\nGUR DHVPX OEBJA SBK WHZCF BIRE GUR YNML QBT"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify g~l Vim command
+  proc run_test6 {} {
 
     # Initialize
     set txtt [initialize]
@@ -211,7 +233,7 @@ namespace eval transform {
   }
 
   # Verify gul Vim command
-  proc run_test6 {} {
+  proc run_test7 {} {
 
     # Initialize
     set txtt [initialize]
@@ -236,7 +258,7 @@ namespace eval transform {
   }
 
   # Verify gUl Vim command
-  proc run_test7 {} {
+  proc run_test8 {} {
 
     # Initialize
     set txtt [initialize]
@@ -260,8 +282,33 @@ namespace eval transform {
 
   }
 
+  # Verify g?l Vim command
+  proc run_test9 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nthis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {g question l} 2.0 "\nghis is a line"
+
+    foreach index {0 2} {
+      do_test $txtt [expr $index + 1] [linsert {g question l} $index 2] 2.0 "\nguis is a line"
+    }
+
+    do_test $txtt 3 {g question v l} 2.0 "\nguis is a line"
+    do_test $txtt 4 {g question V l} 2.0 "\nguvf vf n yvar"
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify g~h Vim command
-  proc run_test8 {} {
+  proc run_test10 {} {
 
     # Initialize
     set txtt [initialize]
@@ -290,7 +337,7 @@ namespace eval transform {
   }
 
   # Verify guh Vim command
-  proc run_test9 {} {
+  proc run_test11 {} {
 
     # Initialize
     set txtt [initialize]
@@ -315,7 +362,7 @@ namespace eval transform {
   }
 
   # Verify gUh Vim command
-  proc run_test10 {} {
+  proc run_test12 {} {
 
     # Initialize
     set txtt [initialize]
@@ -339,8 +386,33 @@ namespace eval transform {
 
   }
 
+  # Verify g?h Vim command
+  proc run_test13 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nthis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {g question h} 2.2 "\nthvs is a line"
+
+    foreach index {0 2} {
+      do_test $txtt [expr $index + 1] [linsert {g question h} $index 2] 2.1 "\ntuvs is a line"
+    }
+
+    do_test $txtt 3 {g question v h} 2.2 "\nthvf is a line"
+    do_test $txtt 4 {g question V h} 2.2 "\nguvf vf n yvar"
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify g~space Vim command
-  proc run_test11 {} {
+  proc run_test14 {} {
 
     # Initialize
     set txtt [initialize]
@@ -369,7 +441,7 @@ namespace eval transform {
   }
 
   # Verify guspace Vim command
-  proc run_test12 {} {
+  proc run_test15 {} {
 
     # Initialize
     set txtt [initialize]
@@ -394,7 +466,7 @@ namespace eval transform {
   }
 
   # Verify gUspace Vim command
-  proc run_test13 {} {
+  proc run_test16 {} {
 
     # Initialize
     set txtt [initialize]
@@ -418,8 +490,21 @@ namespace eval transform {
 
   }
 
+  # Verify g?space Vim command
+  proc run_test17 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # TBD
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify g~BackSpace Vim command
-  proc run_test14 {} {
+  proc run_test18 {} {
 
     # Initialize
     set txtt [initialize]
@@ -447,7 +532,7 @@ namespace eval transform {
   }
 
   # Verify guBackSpace Vim command
-  proc run_test15 {} {
+  proc run_test19 {} {
 
     # Initialize
     set txtt [initialize]
@@ -472,7 +557,7 @@ namespace eval transform {
   }
 
   # Verify gUBackSpace Vim command
-  proc run_test15 {} {
+  proc run_test20 {} {
 
     # Initialize
     set txtt [initialize]
@@ -496,8 +581,21 @@ namespace eval transform {
 
   }
 
+  # Verify g?BackSpace Vim command
+  proc run_test21 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # TBD
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify g~f Vim command
-  proc run_test16 {} {
+  proc run_test22 {} {
 
     # Initialize
     set txtt [initialize]
@@ -521,7 +619,7 @@ namespace eval transform {
   }
 
   # Verify guf Vim command
-  proc run_test17 {} {
+  proc run_test23 {} {
 
     # Initialize
     set txtt [initialize]
@@ -543,7 +641,7 @@ namespace eval transform {
   }
 
   # Verify gUf Vim command
-  proc run_test18 {} {
+  proc run_test24 {} {
 
     # Initialize
     set txtt [initialize]
@@ -564,8 +662,21 @@ namespace eval transform {
 
   }
 
+  # Verify g?f Vim command
+  proc run_test25 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # TBD
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify g~t Vim command
-  proc run_test19 {} {
+  proc run_test26 {} {
 
     # Initialize
     set txtt [initialize]
@@ -589,7 +700,7 @@ namespace eval transform {
   }
 
   # Verify gut Vim command
-  proc run_test20 {} {
+  proc run_test27 {} {
 
     # Initialize
     set txtt [initialize]
@@ -611,7 +722,7 @@ namespace eval transform {
   }
 
   # Verify gUt Vim command
-  proc run_test21 {} {
+  proc run_test28 {} {
 
     # Initialize
     set txtt [initialize]
@@ -632,8 +743,21 @@ namespace eval transform {
 
   }
 
+  # Verify g?t Vim command
+  proc run_test29 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # TBD
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify g~F Vim command
-  proc run_test22 {} {
+  proc run_test30 {} {
 
     # Initialize
     set txtt [initialize]
@@ -658,7 +782,7 @@ namespace eval transform {
   }
 
   # Verify guF Vim command
-  proc run_test23 {} {
+  proc run_test31 {} {
 
     # Initialize
     set txtt [initialize]
@@ -680,7 +804,7 @@ namespace eval transform {
   }
 
   # Verify gUF Vim command
-  proc run_test24 {} {
+  proc run_test32 {} {
 
     # Initialize
     set txtt [initialize]
@@ -701,8 +825,21 @@ namespace eval transform {
 
   }
 
+  # Verify g?F Vim command
+  proc run_test33 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # TBD
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify g~T Vim command
-  proc run_test25 {} {
+  proc run_test34 {} {
 
     # Initialize
     set txtt [initialize]
@@ -727,7 +864,7 @@ namespace eval transform {
   }
 
   # Verify guT Vim command
-  proc run_test26 {} {
+  proc run_test35 {} {
 
     # Initialize
     set txtt [initialize]
@@ -749,7 +886,7 @@ namespace eval transform {
   }
 
   # Verify gUT Vim command
-  proc run_test27 {} {
+  proc run_test36 {} {
 
     # Initialize
     set txtt [initialize]
@@ -764,6 +901,19 @@ namespace eval transform {
     foreach index {0 2} {
       do_test $txtt [expr $index + 1] [linsert {g U T s} $index 2] 2.4 "\nthis IS A LINe"
     }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify g?T Vim command
+  proc run_test37 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # TBD
 
     # Cleanup
     cleanup

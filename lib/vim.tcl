@@ -1885,7 +1885,7 @@ namespace eval vim {
           return 1
         }
       } elseif {$operator($txtt) eq "rot13"} {
-        return [do_operation $txtt lineend linestart]
+        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
       }
       reset_state $txtt
       return 1
@@ -2839,7 +2839,7 @@ namespace eval vim {
           return 1
         }
       } elseif {$operator($txtt) eq "lower"} {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
       }
       reset_state $txtt
       return 1
@@ -2865,7 +2865,7 @@ namespace eval vim {
           return 1
         }
       } elseif {$operator($txtt) eq "upper"} {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
       }
       reset_state $txtt
       return 1
