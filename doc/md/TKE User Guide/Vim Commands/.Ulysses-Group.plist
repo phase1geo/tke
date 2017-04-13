@@ -6,16 +6,6 @@
 	<dict>
 		<key>sheetClusters</key>
 		<dict>
-			<key>Changing case.textbundle</key>
-			<dict>
-				<key>lastModification</key>
-				<real>504779852.78119802</real>
-				<key>version</key>
-				<dict>
-					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>12</integer>
-				</dict>
-			</dict>
 			<key>Code Folding.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -176,6 +166,16 @@
 					<integer>3</integer>
 				</dict>
 			</dict>
+			<key>Text Transformation.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>513735902.51745099</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>24</integer>
+				</dict>
+			</dict>
 			<key>Undoing-Cancelling commands.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -261,7 +261,7 @@
 			<string>Joining text.textbundle</string>
 		</array>
 		<array>
-			<string>Changing case.textbundle</string>
+			<string>Text Transformation.textbundle</string>
 		</array>
 		<array>
 			<string>Moving around in a file.textbundle</string>
@@ -304,7 +304,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>23</integer>
+			<integer>25</integer>
 		</dict>
 	</dict>
 </dict>

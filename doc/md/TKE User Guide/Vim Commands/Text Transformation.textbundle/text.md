@@ -1,4 +1,4 @@
-#### Changing case
+#### Text Transformation
 
 | Command or KEY | Description |
 | - | - |
@@ -10,3 +10,5 @@
 | **gu**_motion_ | Transforms all text between the cursor and the indicated motion direction to lower case. |
 | **gUU** | Transforms the current line to upper case. |
 | **gU**_motion_ | Transforms all text between the cursor and the indicated motion direction to upper case. |
+| **g??** | Converts the current line by to its rot13 encoding. |
+| **g?**_motion_ | Converts all text between the cursor and the indicated motion direction to its rot13 encoding. |
