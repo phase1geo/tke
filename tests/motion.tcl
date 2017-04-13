@@ -275,7 +275,7 @@ namespace eval motion {
     }
 
     # Move backward by one word
-    foreach {index dspace} [list 4.8 0 4.5 0 4.0 0 2.8 0 2.5 0 2.0 0 1.0 1 1.0 1] {
+    foreach {index dspace} [list 4.8 0 4.5 0 4.0 0 3.0 1 2.8 0 2.5 0 2.0 0 1.0 1 1.0 1] {
       do_test $txtt $i b $index $dspace
       incr i
     }
@@ -287,7 +287,7 @@ namespace eval motion {
     }
 
     # Move backward by two words
-    foreach {index dspace} [list 4.5 0 2.8 0 2.0 0 1.0 1 1.0 1] {
+    foreach {index dspace} [list 4.5 0 3.0 1 2.5 0 1.0 1 1.0 1] {
       do_test $txtt $i {2 b} $index $dspace
       incr i
     }
@@ -297,8 +297,44 @@ namespace eval motion {
 
   }
 
-  # Verify Return and minus Vim commands
+  # Verify e and ge Vim commands.
   proc run_test9 {} {
+
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+
+    $txtt insert end "\nThis is good\n\n\nThis is good"
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+
+    foreach {index dspace} [list 2.3 0 2.6 0 2.11 0 3.0 1 4.0 1 5.3 0 5.6 0 5.11 0 5.11 0] {
+      do_test $txtt $i e $index $dspace
+      incr i
+    }
+
+    foreach {index dspace} [list 5.6 0 5.3 0 4.0 1 3.0 1 2.11 0 2.6 0 2.3 0 1.0 1 1.0 1] {
+      do_test $txtt $i {g e} $index $dspace
+      incr i
+    }
+
+    foreach {index dspace} [list 2.6 0 3.0 1 5.3 0 5.11 0 5.11 0] {
+      do_test $txtt $i {2 e} $index $dspace
+      incr i
+    }
+
+    foreach {index dspace} [list 5.3 0 3.0 1 2.6 0 1.0 1 1.0 1] {
+      do_test $txtt $i {2 g e} $index $dspace
+      incr i
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Return and minus Vim commands
+  proc run_test10 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -347,7 +383,7 @@ namespace eval motion {
   }
 
   # Verify space and BackSpace Vim command
-  proc run_test10 {} {
+  proc run_test11 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -388,7 +424,7 @@ namespace eval motion {
   }
 
   # Verify top, middle, bottom of screen
-  proc run_test11 {} {
+  proc run_test12 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -427,7 +463,7 @@ namespace eval motion {
   }
 
   # Verify f, t, F and T Vim motions
-  proc run_test12 {} {
+  proc run_test13 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -488,7 +524,7 @@ namespace eval motion {
   }
 
   # Verify bar Vim command
-  proc run_test13 {} {
+  proc run_test14 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -512,7 +548,7 @@ namespace eval motion {
   }
 
   # Verify up/down motions over elided text
-  proc run_test14 {} {
+  proc run_test15 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -548,7 +584,7 @@ namespace eval motion {
   }
 
   # Test left/right motion with elided text
-  proc run_test15 {} {
+  proc run_test16 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -610,7 +646,7 @@ namespace eval motion {
   }
 
   # Test forward motion with character selection (inclusive selection mode)
-  proc run_test16 {} {
+  proc run_test17 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -712,7 +748,7 @@ namespace eval motion {
   }
 
   # Test backword motion with character selection (inclusive selection mode)
-  proc run_test17 {} {
+  proc run_test18 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -799,7 +835,7 @@ namespace eval motion {
   }
 
   # Test forward motion with character selection (exclusive selection mode)
-  proc run_test18 {} {
+  proc run_test19 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -885,7 +921,7 @@ namespace eval motion {
   }
 
   # Test backward motion with character selection (exclusive selection mode)
-  proc run_test19 {} {
+  proc run_test20 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -967,7 +1003,7 @@ namespace eval motion {
   }
 
   # Verify line selection (both inclusive and exclusive since it should not matter)
-  proc run_test20 {} {
+  proc run_test21 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -1098,7 +1134,7 @@ namespace eval motion {
   }
 
   # Verify indent, unindent, shiftwidth and indent formatting
-  proc run_test21 {} {
+  proc run_test22 {} {
 
     # Initialize
     set txtt [initialize].t
