@@ -36,6 +36,7 @@ set emmet_max         1
 set emmet_curr        0
 set emmet_start       1
 set emmet_prespace    ""
+set emmet_wrap_strs   [list]
 
 array set emmet_ml_lookup {
 
@@ -250,6 +251,8 @@ proc emmet_gen_str {format_str values} {
 
   set vals [list]
 
+  puts "In emmet_gen_str, format_str: $format_str, values: $values"
+
   foreach value $values {
     lappend vals [eval {*}$value]
   }
@@ -342,11 +345,13 @@ proc emmet_elaborate {tree node action} {
 
         # Generate the attributes
         foreach attr [$tree keys $node attr,*] {
+          puts "Elaborating attr: $attr"
           set attr_key [emmet_gen_str {*}[lindex [split $attr ,] 1]]
           $::emmet_elab set $enode attr,$attr_key [list]
           foreach attr_val [$tree get $node $attr] {
             $::emmet_elab lappend $enode attr,$attr_key [emmet_gen_str {*}$attr_val]
           }
+          puts "Done."
         }
 
       }
@@ -577,6 +582,9 @@ item: IDENTIFIER attrs_opt multiply_opt {
 multiply_opt: MULTIPLY NUMBER {
                 set _ $2
               }
+            | MULTIPLY {
+                set _ [llength $::emmet_wrap_strs]
+              }
             | {
                 set _ 1
               }
@@ -650,7 +658,7 @@ proc emmet_error {s} {
 
 }
 
-proc parse_emmet {str {prespace ""}} {
+proc parse_emmet {str {prespace ""} {wrap_str ""}} {
 
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
@@ -659,9 +667,10 @@ proc parse_emmet {str {prespace ""}} {
   emmet__scan_string $str
 
   # Initialize some values
-  set ::emmet_begpos   0
-  set ::emmet_endpos   0
-  set ::emmet_prespace $prespace
+  set ::emmet_begpos    0
+  set ::emmet_endpos    0
+  set ::emmet_prespace  $prespace
+  set ::emmet_wrap_strs [split $wrap_str \n]
 
   # Create the trees
   set ::emmet_dom  [::struct::tree]

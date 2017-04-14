@@ -63,8 +63,8 @@ proc emmet_get_item_name {str} {
   while {[set index [string first \$ $str]] != -1} {
     append formatted_str [string range $str 0 [expr $index - 1]]
     regexp {^(\$+)(@(-)?(\d*))?(.*)$} [string range $str $index end] match numbering dummy reverse start rest
-    append formatted_str "%0[string length $numbering]d"
     if {$dummy ne ""} {
+      append formatted_str "%0[string length $numbering]d"
       if {$reverse ne ""} {
         if {$start ne ""} {
           lappend values [list expr (\$::emmet_max - \$::emmet_curr) + ($start - 1)]
@@ -78,7 +78,11 @@ proc emmet_get_item_name {str} {
           lappend values [list expr \$::emmet_curr + 1]
         }
       }
+    } elseif {[string range $str $index end] eq "\$#"} {
+      append formatted_str "%s"
+      lappend values [list lindex \$::emmet_wrap_strs [list expr \$::emmet_curr + 1]]
     } else {
+      append formatted_str "%0[string length $numbering]d"
       lappend values [list expr \$::emmet_curr + 1]
     }
     set str [string range $str [expr $index + [string length $match]] end]
@@ -233,6 +237,13 @@ proc emmet_get_matching {str start end} {
 
 \".*\" {
   set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \" \"]]
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::VALUE
+}
+
+\$# {
+  set ::emmet_lval   [emmet_get_item_name $emmet_text]
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos [string length $emmet_text]
   return $::VALUE
