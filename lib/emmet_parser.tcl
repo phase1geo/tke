@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -35,6 +35,7 @@ set emmet_max         1
 set emmet_curr        0
 set emmet_start       1
 set emmet_prespace    ""
+set emmet_wrap_strs   [list]
 
 array set emmet_ml_lookup {
 
@@ -249,6 +250,8 @@ proc emmet_gen_str {format_str values} {
 
   set vals [list]
 
+  puts "In emmet_gen_str, format_str: $format_str, values: $values"
+
   foreach value $values {
     lappend vals [eval {*}$value]
   }
@@ -341,11 +344,13 @@ proc emmet_elaborate {tree node action} {
 
         # Generate the attributes
         foreach attr [$tree keys $node attr,*] {
+          puts "Elaborating attr: $attr"
           set attr_key [emmet_gen_str {*}[lindex [split $attr ,] 1]]
           $::emmet_elab set $enode attr,$attr_key [list]
           foreach attr_val [$tree get $node $attr] {
             $::emmet_elab lappend $enode attr,$attr_key [emmet_gen_str {*}$attr_val]
           }
+          puts "Done."
         }
 
       }
@@ -514,19 +519,19 @@ proc emmet_unsetupvalues {numsyms} {
 array set ::emmet_table {
   27:262,target 2
   17:257 reduce
-  7:264,target 28
-  34:265,target 20
-  11:263,target 23
+  7:264,target 29
+  34:265,target 21
+  11:263,target 24
   26:257,target 1
-  17:266,target 18
-  6:259,target 13
-  6:260,target 13
+  17:266,target 19
+  6:259,target 14
+  6:260,target 14
   24:269,target 5
   37:276,target 46
-  23:265,target 27
+  23:265,target 28
   38:260,target 3
   38:259,target 3
-  29:268,target 24
+  29:268,target 25
   26:257 shift
   17:266 reduce
   1:279,target 11
@@ -537,42 +542,43 @@ array set ::emmet_table {
   22:261,target 9
   13:269,target 5
   0:275,target 10
-  6:0,target 13
+  6:0,target 14
   6:263 reduce
   26:262 shift
   6:264 shift
   12:265,target 3
-  34:263,target 20
+  34:263,target 21
   26:265 shift
   25:272,target 7
   35:257 reduce
   24:0 reduce
-  11:261,target 23
+  11:261,target 24
   41:0,target 7
   33:258,target 44
   26:268 shift
   26:269 shift
   26:271 shift
   26:272 shift
-  23:263,target 27
+  23:263,target 28
   10:0,target 2
   6:276 goto
   44:257 reduce
   35:266 reduce
   26:275 goto
-  20:271,target 22
-  19:271,target 21
+  20:271,target 23
+  19:271,target 22
   0:273,target 8
   6:276,target 22
-  12:263,target 13
+  12:263,target 14
   27:257,target 1
   26:279 goto
   26:280 goto
   18:266,target 34
-  7:259,target 28
-  7:260,target 28
-  34:261,target 20
+  7:259,target 29
+  7:260,target 29
+  34:261,target 21
   25:269,target 5
+  21:0 reduce
   14:260 reduce
   14:259 reduce
   44:266 reduce
@@ -586,30 +592,30 @@ array set ::emmet_table {
   2:280,target 12
   2:279,target 11
   46:263,target 10
-  16:257,target 17
+  16:257,target 18
   14:263 reduce
-  23:261,target 27
+  23:261,target 28
   14:264 shift
   3:257 shift
   30:264,target 21
-  29:264,target 24
+  29:264,target 25
   13:265,target 3
   28:260,target 8
   28:259,target 8
   23:260 reduce
   23:259 reduce
-  20:268,target 22
-  19:268,target 21
+  20:268,target 23
+  19:268,target 22
   0:271,target 6
   26:272,target 7
   23:261 reduce
   14:271 shift
-  12:261,target 13
+  12:261,target 14
   23:263 reduce
   23:264 reduce
   23:265 reduce
   38:0 reduce
-  24:263,target 26
+  24:263,target 27
   14:276 goto
   32:260 reduce
   32:259 reduce
@@ -621,46 +627,46 @@ array set ::emmet_table {
   32:263 reduce
   12:279,target 29
   32:264 shift
-  13:263,target 25
+  13:263,target 26
   0:268,target 4
   3:277 goto
   26:269,target 5
   3:278 goto
   41:260 reduce
   41:259 reduce
-  37:0,target 13
+  37:0,target 14
   14:0 reduce
   41:261 reduce
-  30:0,target 13
-  29:0,target 24
+  30:0,target 14
+  29:0,target 25
   25:265,target 3
   22:0,target 9
   41:263 reduce
   41:260,target 7
   41:259,target 7
-  14:0,target 13
-  17:257,target 18
-  24:261,target 26
+  14:0,target 14
+  17:257,target 19
+  24:261,target 27
   11:259 reduce
   11:260 reduce
   2:275,target 10
   11:261 reduce
   32:276 goto
   11:263 reduce
-  30:260,target 13
-  30:259,target 13
-  29:260,target 24
-  29:259,target 24
-  1:271,target 26
+  30:260,target 14
+  30:259,target 14
+  29:260,target 25
+  29:259,target 25
+  1:271,target 27
   0:257 shift
   11:264 reduce
   36:263,target 12
   27:272,target 7
   11:265 reduce
-  43:266,target 16
-  13:261,target 25
-  20:264,target 22
-  19:264,target 21
+  43:266,target 17
+  13:261,target 26
+  20:264,target 23
+  19:264,target 22
   9:0 reduce
   20:260 reduce
   20:259 reduce
@@ -695,7 +701,7 @@ array set ::emmet_table {
   28:261 reduce
   20:269 reduce
   19:269 reduce
-  14:263,target 13
+  14:263,target 14
   0:272 shift
   20:271 reduce
   19:271 reduce
@@ -709,7 +715,7 @@ array set ::emmet_table {
   0:274 goto
   0:275 goto
   6:0 reduce
-  11:271,target 23
+  11:271,target 24
   26:265,target 3
   42:260,target 11
   42:259,target 11
@@ -719,7 +725,7 @@ array set ::emmet_table {
   18:257,target 16
   0:279 goto
   0:280 goto
-  7:0,target 28
+  7:0,target 29
   37:261 reduce
   32:264,target 21
   37:263 reduce
@@ -728,56 +734,56 @@ array set ::emmet_table {
   31:260,target 6
   31:259,target 6
   2:271,target 6
-  37:263,target 13
-  44:266,target 15
+  37:263,target 14
+  44:266,target 16
   42:0,target 11
-  14:261,target 13
+  14:261,target 14
   46:260 reduce
   46:259 reduce
-  34:0,target 20
+  34:0,target 21
   46:261 reduce
-  7:269,target 28
-  34:271,target 20
+  7:269,target 29
+  34:271,target 21
   25:279,target 11
   25:280,target 12
   46:263 reduce
-  20:260,target 22
-  20:259,target 22
-  19:260,target 21
-  19:259,target 21
+  20:260,target 23
+  20:259,target 23
+  19:260,target 22
+  19:259,target 22
   16:257 reduce
   0:262,target 2
-  11:0,target 23
-  11:268,target 23
+  11:0,target 24
+  11:268,target 24
   37:276 goto
   16:267,target 33
   46:0 reduce
-  23:271,target 27
+  23:271,target 28
   5:257 shift
   15:263,target 32
   25:257 shift
   16:266 reduce
   2:268,target 4
-  37:261,target 13
+  37:261,target 14
   16:267 shift
-  1:264,target 26
+  1:264,target 27
   27:265,target 3
   25:262 shift
-  34:268,target 20
+  34:268,target 21
   25:265 shift
   22:0 reduce
-  6:263,target 13
+  6:263,target 14
   34:260 reduce
   34:259 reduce
   25:268 shift
   34:261 reduce
-  32:260,target 13
-  32:259,target 13
+  32:260,target 14
+  32:259,target 14
   25:269 shift
-  23:268,target 27
+  23:268,target 28
   38:263,target 3
   25:271 shift
-  45:266,target 14
+  45:266,target 15
   34:263 reduce
   25:272 shift
   15:261,target 27
@@ -787,18 +793,20 @@ array set ::emmet_table {
   26:279,target 11
   26:280,target 12
   25:275 goto
+  21:260,target 13
+  21:259,target 13
   12:268,target 4
   34:268 reduce
-  7:265,target 28
-  43:257,target 16
+  7:265,target 29
+  43:257,target 17
   34:269 reduce
   25:275,target 38
   34:271 reduce
   25:279 goto
   25:280 goto
   0:257,target 1
-  11:264,target 23
-  6:261,target 13
+  11:264,target 24
+  6:261,target 14
   40:0 reduce
   39:0 reduce
   10:259,target 2
@@ -811,24 +819,24 @@ array set ::emmet_table {
   38:0,target 3
   38:261,target 3
   31:0,target 6
-  29:269,target 24
+  29:269,target 25
   1:281,target 14
   13:263 reduce
-  23:0,target 27
+  23:0,target 28
   13:264 reduce
   2:257 shift
   13:265 shift
-  13:271,target 25
+  13:271,target 26
   22:260 reduce
   22:259 reduce
   13:268 shift
-  1:260,target 26
-  1:259,target 26
+  1:260,target 27
+  1:259,target 27
   2:262 shift
   22:261 reduce
   13:269 shift
-  7:263,target 28
-  34:264,target 20
+  7:263,target 29
+  34:264,target 21
   13:271 reduce
   32:276,target 42
   22:263 reduce
@@ -841,7 +849,7 @@ array set ::emmet_table {
   2:269 shift
   31:260 reduce
   31:259 reduce
-  23:264,target 27
+  23:264,target 28
   2:271 shift
   31:261 reduce
   2:272 shift
@@ -858,11 +866,11 @@ array set ::emmet_table {
   28:263,target 8
   0:274,target 9
   2:275 goto
-  44:257,target 15
-  35:266,target 19
+  44:257,target 16
+  35:266,target 20
   26:275,target 39
   12:264,target 21
-  7:261,target 28
+  7:261,target 29
   12:0 reduce
   40:260 reduce
   40:259 reduce
@@ -873,8 +881,8 @@ array set ::emmet_table {
   2:279 goto
   40:261 reduce
   39:261 reduce
-  11:259,target 23
-  11:260,target 23
+  11:259,target 24
+  11:260,target 24
   40:263 reduce
   39:263 reduce
   33:257,target 43
@@ -884,50 +892,50 @@ array set ::emmet_table {
   10:260 reduce
   14:271,target 30
   10:261 reduce
-  29:265,target 24
+  29:265,target 25
   8:0,target 0
-  1:0,target 26
+  1:0,target 27
   10:263 reduce
   28:261,target 8
-  20:269,target 22
-  19:269,target 21
+  20:269,target 23
+  19:269,target 22
   0:272,target 7
   18:257 shift
   7:0 reduce
   7:258,target 23
-  34:260,target 20
-  34:259,target 20
+  34:260,target 21
+  34:259,target 21
   25:268,target 4
   41:263,target 7
   30:0 reduce
   29:0 reduce
-  24:264,target 26
-  20:0,target 22
-  19:0,target 21
+  24:264,target 27
+  20:0,target 23
+  19:0,target 22
   7:258 shift
-  12:0,target 13
+  12:0,target 14
   27:257 shift
   18:266 shift
   7:259 reduce
   7:260 reduce
-  23:260,target 27
-  23:259,target 27
+  23:260,target 28
+  23:259,target 28
   7:261 reduce
-  30:263,target 13
-  29:263,target 24
-  45:257,target 14
+  30:263,target 14
+  29:263,target 25
+  45:257,target 15
   27:275,target 40
   7:263 reduce
   27:262 shift
-  13:264,target 25
+  13:264,target 26
   2:257,target 1
   7:264 reduce
   0:269,target 5
   7:265 reduce
   26:271,target 6
   27:265 shift
-  12:259,target 13
-  12:260,target 13
+  12:259,target 14
+  12:260,target 14
   7:268 reduce
   7:269 reduce
   41:261,target 7
@@ -944,12 +952,12 @@ array set ::emmet_table {
   46:260,target 10
   46:259,target 10
   45:257 reduce
-  30:261,target 13
-  29:261,target 24
+  30:261,target 14
+  29:261,target 25
   27:275 goto
   1:0 reduce
-  20:265,target 22
-  19:265,target 21
+  20:265,target 23
+  19:265,target 22
   27:279 goto
   27:280 goto
   26:268,target 4
@@ -962,8 +970,8 @@ array set ::emmet_table {
   45:266 reduce
   15:261 shift
   3:278,target 18
-  24:260,target 26
-  24:259,target 26
+  24:260,target 27
+  24:259,target 27
   15:263 shift
   31:263,target 6
   2:274,target 15
@@ -979,15 +987,15 @@ array set ::emmet_table {
   40:0,target 5
   39:0,target 4
   24:261 reduce
-  13:259,target 25
-  13:260,target 25
-  32:0,target 13
-  20:263,target 22
-  19:263,target 21
+  13:259,target 26
+  13:260,target 26
+  32:0,target 14
+  20:263,target 23
+  19:263,target 22
   0:265,target 3
-  35:257,target 19
+  35:257,target 20
   24:263 reduce
-  24:0,target 26
+  24:0,target 27
   42:261,target 11
   33:270,target 45
   24:264 reduce
@@ -1007,12 +1015,12 @@ array set ::emmet_table {
   36:259,target 12
   27:268,target 4
   18:277,target 35
-  7:271,target 28
+  7:271,target 29
   42:260 reduce
   42:259 reduce
-  20:261,target 22
-  19:261,target 21
-  11:269,target 23
+  20:261,target 23
+  19:261,target 22
+  11:269,target 24
   42:261 reduce
   33:270 shift
   24:279 goto
@@ -1020,7 +1028,7 @@ array set ::emmet_table {
   42:263 reduce
   24:281 goto
   37:0 reduce
-  32:263,target 13
+  32:263,target 14
   12:259 reduce
   12:260 reduce
   12:261 reduce
@@ -1028,17 +1036,21 @@ array set ::emmet_table {
   2:269,target 5
   12:263 reduce
   12:264 shift
-  14:260,target 13
-  14:259,target 13
+  14:260,target 14
+  14:259,target 14
   12:265 shift
+  21:263,target 13
   1:265,target 3
   1:260 reduce
   1:259 reduce
   21:258 shift
   1:261 reduce
-  7:268,target 28
-  34:269,target 20
+  7:268,target 29
+  34:269,target 21
+  21:260 reduce
+  21:259 reduce
   12:268 shift
+  21:261 reduce
   1:263 reduce
   9:0,target 1
   12:269 shift
@@ -1046,13 +1058,14 @@ array set ::emmet_table {
   26:262,target 2
   1:264 reduce
   6:264,target 21
+  21:263 reduce
   1:265 shift
   34:0 reduce
   10:263,target 2
   25:257,target 1
-  16:266,target 17
-  32:261,target 13
-  23:269,target 27
+  16:266,target 18
+  32:261,target 14
+  23:269,target 28
   1:268 shift
   9:259 shift
   9:260 shift
@@ -1067,23 +1080,25 @@ array set ::emmet_table {
   36:0,target 12
   30:261 reduce
   29:261 reduce
-  37:260,target 13
-  37:259,target 13
+  37:260,target 14
+  37:259,target 14
   28:0,target 8
   0:279,target 11
   0:280,target 12
   12:279 goto
   30:263 reduce
   29:263 reduce
+  21:0,target 13
   30:264 shift
   29:264 reduce
-  1:263,target 26
+  21:261,target 13
+  1:263,target 27
   12:269,target 5
-  13:0,target 25
+  13:0,target 26
   29:265 reduce
   8:0 accept
   10:0 reduce
-  11:265,target 23
+  11:265,target 24
   38:260 reduce
   38:259 reduce
   29:268 reduce
@@ -1098,22 +1113,22 @@ array set ::emmet_table {
   38:263 reduce
   5:257,target 20
   14:276,target 31
-  29:271,target 24
+  29:271,target 25
   15:260,target 26
   15:259,target 25
   30:276 goto
   22:263,target 9
   2:265,target 3
   21:258,target 36
-  1:261,target 26
+  1:261,target 27
 }
 
 array set ::emmet_rules {
-  27,l 282
+  27,l 281
   9,l 275
   11,l 275
   15,l 277
-  20,l 279
+  20,l 278
   19,l 278
   2,l 274
   24,l 280
@@ -1123,8 +1138,9 @@ array set ::emmet_rules {
   16,l 277
   21,l 279
   3,l 274
-  25,l 281
+  25,l 280
   7,l 275
+  29,l 282
   13,l 276
   0,l 283
   17,l 277
@@ -1133,74 +1149,76 @@ array set ::emmet_rules {
   26,l 281
   8,l 275
   10,l 275
-  14,l 277
-  18,l 278
+  14,l 276
+  18,l 277
   1,l 273
-  23,l 280
+  23,l 279
   5,l 274
 }
 
 array set ::emmet_rules {
-  23,dc 1
+  23,dc 2
   5,dc 3
   0,dc 1
-  17,dc 1
+  17,dc 3
   12,dc 2
-  26,dc 0
+  26,dc 1
   8,dc 2
-  21,dc 2
+  21,dc 3
   3,dc 3
   15,dc 3
   10,dc 4
-  24,dc 2
+  29,dc 0
+  24,dc 1
   6,dc 3
   18,dc 1
   1,dc 1
-  13,dc 0
-  27,dc 1
+  13,dc 1
+  27,dc 0
   9,dc 2
   22,dc 2
   4,dc 3
   16,dc 3
   11,dc 4
-  25,dc 1
+  25,dc 2
   7,dc 4
-  20,dc 3
-  19,dc 2
+  20,dc 2
+  19,dc 1
   2,dc 1
-  14,dc 3
-  28,dc 0
+  14,dc 0
+  28,dc 1
 }
 
 array set ::emmet_rules {
-  13,line 583
-  25,line 629
-  7,line 540
-  10,line 568
-  22,line 616
-  4,line 511
-  18,line 602
-  1,line 483
-  15,line 591
-  27,line 637
-  9,line 557
-  12,line 580
-  24,line 624
-  6,line 529
-  21,line 613
-  3,line 507
-  17,line 597
-  14,line 588
-  26,line 632
-  8,line 550
-  11,line 575
-  23,line 621
-  5,line 517
-  20,line 610
-  19,line 605
-  2,line 488
-  16,line 594
-  28,line 640
+  13,line 588
+  25,line 632
+  7,line 545
+  10,line 573
+  22,line 621
+  4,line 516
+  18,line 605
+  1,line 488
+  15,line 596
+  27,line 640
+  9,line 562
+  12,line 585
+  24,line 629
+  6,line 534
+  21,line 618
+  3,line 512
+  17,line 602
+  29,line 648
+  14,line 591
+  26,line 637
+  8,line 555
+  11,line 580
+  23,line 624
+  5,line 522
+  20,line 613
+  19,line 610
+  2,line 493
+  16,line 599
+  28,line 645
 }
 
 proc emmet_parse {} {
@@ -1356,51 +1374,54 @@ proc emmet_parse {} {
                 set _ $2
                }
                     13 { 
-                set _ 1
+                set _ [llength $::emmet_wrap_strs]
                }
                     14 { 
-             set _ [list $1 $3]
-            }
+                set _ 1
+               }
                     15 { 
-             set _ [list $1 [list $3 {}]]
+             set _ [list $1 $3]
             }
                     16 { 
-             set _ [list $1 $3]
+             set _ [list $1 [list $3 {}]]
             }
                     17 { 
-             set _ [list $1 [list {} {}]]
+             set _ [list $1 $3]
             }
                     18 { 
-              set _ $1
-             }
+             set _ [list $1 [list {} {}]]
+            }
                     19 { 
-              set _ [concat $1 $2]
+              set _ $1
              }
                     20 { 
+              set _ [concat $1 $2]
+             }
+                    21 { 
         set _ $2
        }
-                    21 { 
+                    22 { 
         set _ [list [list id {}] $2]
        }
-                    22 { 
+                    23 { 
         set _ [list [list class {}] $2]
        }
-                    23 { 
+                    24 { 
          set _ $1
         }
-                    24 { 
+                    25 { 
          set _ [concat $2 $1]
         }
-                    25 { 
+                    26 { 
              set _ $1
             }
-                    26 { 
+                    27 { 
              set _ [list]
             }
-                    27 { 
+                    28 { 
               set _ $1
              }
-                    28 { 
+                    29 { 
               set _ 30
              }
                 }
@@ -1441,7 +1462,7 @@ proc emmet_error {s} {
 
 }
 
-proc parse_emmet {str {prespace ""}} {
+proc parse_emmet {str {prespace ""} {wrap_str ""}} {
 
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
@@ -1450,9 +1471,10 @@ proc parse_emmet {str {prespace ""}} {
   emmet__scan_string $str
 
   # Initialize some values
-  set ::emmet_begpos   0
-  set ::emmet_endpos   0
-  set ::emmet_prespace $prespace
+  set ::emmet_begpos    0
+  set ::emmet_endpos    0
+  set ::emmet_prespace  $prespace
+  set ::emmet_wrap_strs [split $wrap_str \n]
 
   # Create the trees
   set ::emmet_dom  [::struct::tree]

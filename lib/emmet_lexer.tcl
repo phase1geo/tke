@@ -1,5 +1,5 @@
 # TKE - Advanced Programmer's Editor
-# Copyright (C) 2014-2016  Trevor Williams (phase1geo@gmail.com)
+# Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -62,8 +62,8 @@ proc emmet_get_item_name {str} {
   while {[set index [string first \$ $str]] != -1} {
     append formatted_str [string range $str 0 [expr $index - 1]]
     regexp {^(\$+)(@(-)?(\d*))?(.*)$} [string range $str $index end] match numbering dummy reverse start rest
-    append formatted_str "%0[string length $numbering]d"
     if {$dummy ne ""} {
+      append formatted_str "%0[string length $numbering]d"
       if {$reverse ne ""} {
         if {$start ne ""} {
           lappend values [list expr (\$::emmet_max - \$::emmet_curr) + ($start - 1)]
@@ -77,7 +77,11 @@ proc emmet_get_item_name {str} {
           lappend values [list expr \$::emmet_curr + 1]
         }
       }
+    } elseif {[string range $str $index end] eq "\$#"} {
+      append formatted_str "%s"
+      lappend values [list lindex \$::emmet_wrap_strs [list expr \$::emmet_curr + 1]]
     } else {
+      append formatted_str "%0[string length $numbering]d"
       lappend values [list expr \$::emmet_curr + 1]
     }
     set str [string range $str [expr $index + [string length $match]] end]
@@ -444,37 +448,45 @@ proc emmet_lex {} {
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 13
         }
-        # rule 14: =
+        # rule 14: \$#
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A(=)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(\$#)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 14
         }
-        # rule 15: \#
+        # rule 15: =
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A(\#)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(=)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 15
         }
-        # rule 16: \.
+        # rule 16: \#
         if {$::emmet__state_table($emmet__current_state) && \
-                [regexp -start $::emmet__index -indices -line  -- {\A(\.)} $::emmet__buffer emmet__match] > 0 && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(\#)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
             set emmet__matched_rule 16
         }
-        # rule 17: .
+        # rule 17: \.
+        if {$::emmet__state_table($emmet__current_state) && \
+                [regexp -start $::emmet__index -indices -line  -- {\A(\.)} $::emmet__buffer emmet__match] > 0 && \
+                [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
+            set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
+            set ::emmet_leng [string length $::emmet_text]
+            set emmet__matched_rule 17
+        }
+        # rule 18: .
         if {$::emmet__state_table($emmet__current_state) && \
                 [regexp -start $::emmet__index -indices -line  -- {\A(.)} $::emmet__buffer emmet__match] > 0 && \
                 [lindex $emmet__match 1] - $::emmet__index + 1 > $::emmet_leng} {
             set ::emmet_text [string range $::emmet__buffer $::emmet__index [lindex $emmet__match 1]]
             set ::emmet_leng [string length $::emmet_text]
-            set emmet__matched_rule 17
+            set emmet__matched_rule 18
         }
         if {$emmet__matched_rule == -1} {
             set ::emmet_text [string index $::emmet__buffer $::emmet__index]
@@ -590,24 +602,30 @@ set ::emmet_lval [emmet_get_item_name [emmet_get_matching $emmet_text \" \"]]
   return $::VALUE
             }
             14 {
-set ::emmet_lval $emmet_text
+set ::emmet_lval   [emmet_get_item_name $emmet_text]
   set ::emmet_begpos $::emmet_endpos
-  incr ::emmet_endpos
-  return $::ASSIGN
+  incr ::emmet_endpos [string length $emmet_text]
+  return $::VALUE
             }
             15 {
 set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos
-  return $::ID
+  return $::ASSIGN
             }
             16 {
 set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emmet_endpos
-  return $::CLASS
+  return $::ID
             }
             17 {
+set ::emmet_lval $emmet_text
+  set ::emmet_begpos $::emmet_endpos
+  incr ::emmet_endpos
+  return $::CLASS
+            }
+            18 {
 set ::emmet_lval $emmet_text
   set ::emmet_begpos $::emmet_endpos
   incr ::emment_endpos [string length $emmet_text]
