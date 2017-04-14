@@ -1743,8 +1743,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Go to Matching Pair"]    -state disabled
     } else {
       set intag_mode [expr {([emmet::inside_tag $txt] eq "") ? "disabled" : "normal"}]
+      set sel_mode   [expr {([llength [$txt tag ranges sel]] == 2) ? "normal" : $intag_mode}]
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"]   -state normal
-      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"] -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"] -state $sel_mode
       $mb entryconfigure [msgcat::mc "Go to Matching Pair"]    -state $intag_mode
     }
 

@@ -2829,7 +2829,7 @@ namespace eval vim {
     variable operator
     variable motion
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$operator($txtt) eq ""} {
         if {$motion($txtt) eq ""} {
           undo $txtt
