@@ -132,7 +132,7 @@ namespace eval emmet {
       lassign [get_snippet_text_pos] str startpos endpos prespace
 
       # Parse the snippet and if no error, insert the resulting string
-      if {![catch { ::parse_emmet $str $prespace "Apples\nOranges\nGrapes" } str]} {
+      if {![catch { ::parse_emmet $str $prespace } str]} {
         snippets::insert_snippet_into_current $str [list $startpos $endpos]
       }
 
@@ -391,11 +391,8 @@ namespace eval emmet {
         set range [get_node_range $txt 1]
       }
 
-      # Set the wrap string
-      set ::emmet_wrap_str [$txt get {*}$range]
-
       # Parse the snippet and if no error, insert the resulting string
-      if {![catch { ::parse_emmet $abbr "" } str]} {
+      if {![catch { ::parse_emmet $abbr "" [$txt get {*}$range] } str]} {
         snippets::insert_snippet_into_current $str $range
       }
 

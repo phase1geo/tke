@@ -61,28 +61,31 @@ proc emmet_get_item_name {str} {
 
   while {[set index [string first \$ $str]] != -1} {
     append formatted_str [string range $str 0 [expr $index - 1]]
-    regexp {^(\$+)(@(-)?(\d*))?(.*)$} [string range $str $index end] match numbering dummy reverse start rest
-    if {$dummy ne ""} {
-      append formatted_str "%0[string length $numbering]d"
-      if {$reverse ne ""} {
-        if {$start ne ""} {
-          lappend values [list expr (\$::emmet_max - \$::emmet_curr) + ($start - 1)]
+    if {[regexp {^\$#} [string range $str $index end] match rest]} {
+      append formatted_str "%s"
+      lappend values [list expr {($::emmet_max == 1) ? $::emmet_wrap_str : [lindex $::emmet_wrap_strs $::emmet_curr]}]
+    } elseif {[regexp {^(\$+)(@(-)?(\d*))?} [string range $str $index end] match numbering dummy reverse start]} {
+      if {$dummy ne ""} {
+        append formatted_str "%0[string length $numbering]d"
+        if {$reverse ne ""} {
+          if {$start ne ""} {
+            lappend values [list expr (\$::emmet_max - \$::emmet_curr) + ($start - 1)]
+          } else {
+            lappend values [list expr \$::emmet_max - \$::emmet_curr]
+          }
         } else {
-          lappend values [list expr \$::emmet_max - \$::emmet_curr]
+          if {$start ne ""} {
+            lappend values [list expr \$::emmet_curr + $start]
+          } else {
+            lappend values [list expr \$::emmet_curr + 1]
+          }
         }
       } else {
-        if {$start ne ""} {
-          lappend values [list expr \$::emmet_curr + $start]
-        } else {
-          lappend values [list expr \$::emmet_curr + 1]
-        }
+        append formatted_str "%0[string length $numbering]d"
+        lappend values [list expr \$::emmet_curr + 1]
       }
-    } elseif {[string range $str $index end] eq "\$#"} {
-      append formatted_str "%s"
-      lappend values [list lindex \$::emmet_wrap_strs [list expr \$::emmet_curr + 1]]
     } else {
-      append formatted_str "%0[string length $numbering]d"
-      lappend values [list expr \$::emmet_curr + 1]
+      return -code error "Unknown item name format ([string range $str $index end])"
     }
     set str [string range $str [expr $index + [string length $match]] end]
   }
