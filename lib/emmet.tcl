@@ -31,9 +31,13 @@ namespace eval emmet {
   variable customizations
 
   array set data {
-    tag      {(.*)(<\/?[\w:-]+(?:\s+[\w:-]+(?:\s*=\s*(?:(?:".*?")|(?:'.*?')|[^>\s]+))?)*\s*(\/?)>)}
-    brackets {(.*?)(\[.*?\]|\{.*?\})}
-    space    {(.*?)(\s+)}
+    tag       {(.*)(<\/?[\w:-]+(?:\s+[\w:-]+(?:\s*=\s*(?:(?:".*?")|(?:'.*?')|[^>\s]+))?)*\s*(\/?)>)}
+    brackets  {(.*?)(\[.*?\]|\{.*?\})}
+    space     {(.*?)(\s+)}
+    tagname   {[a-zA-Z0-9_:-]+}
+    other_map {"100" "001" "001" "100"}
+    dir_map   {"100" "next" "001" "prev"}
+    index_map {"100" 1 "001" 0}
   }
 
   # Create the custom filename
@@ -233,6 +237,198 @@ namespace eval emmet {
     variable customizations
 
     return [array get customizations]
+
+  }
+
+  ######################################################################
+  # Gets the tag that begins before the current insertion cursor.  The
+  # value of -dir must be "next or "prev".  The value of -type must be
+  # "100" (start), "001" (end), "010" (both) or "*" (any).  The value of
+  # name is the tag name to search for (if specified).
+  #
+  # Returns a list of 6 elements if a tag was found that matches:
+  #  - starting tag position
+  #  - ending tag position
+  #  - tag name
+  #  - type of tag found (10=start, 01=end or 11=both)
+  #  - number of starting tags encountered that did not match
+  #  - number of ending tags encountered that did not match
+  proc get_tag {txt args} {
+
+    array set opts {
+      -dir   "next"
+      -type  "*"
+      -name  "*"
+      -start "insert"
+    }
+    array set opts $args
+
+    # Initialize counts
+    set missed [list]
+
+    # Get the tag
+    if {$opts(-dir) eq "prev"} {
+      if {[set start [lindex [$txt tag prevrange _angledL $opts(-start)] 0]] eq ""} {
+        return ""
+      } elseif {[set end [lindex [$txt tag nextrange _angledR $start] 1]] eq ""} {
+        return ""
+      }
+    } else {
+      if {[set end [lindex [$txt tag nextrange _angledR $opts(-start)] 1]] eq ""} {
+        return ""
+      } elseif {[set start [lindex [$txt tag prevrange _angledL $end] 0]] eq ""} {
+        return ""
+      }
+    }
+
+    while {1} {
+
+      # Get the tag elements
+      if {[$txt get "$start+1c"] eq "/"} {
+        set found_type "001"
+        set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+2c" "$end-1c"]]
+      } else {
+        if {[$txt get "$end-1c"] eq "/"} {
+          set found_type "010"
+          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-2c"]]
+        } else {
+          set found_type "100"
+          set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-1c"]]
+        }
+      }
+
+      # If we have found what we are looking for, return now
+      if {[string match $opts(-type) $found_type] && [string match $opts(-name) $found_name]} {
+        return [list $start $end $found_name $found_type $missed]
+      }
+
+      # Update counts
+      lappend missed "$found_name,$found_type"
+
+      # Otherwise, get the next tag
+      if {$opts(-dir) eq "prev"} {
+        if {[set end [lindex [$txt tag prevrange _angledR $start] 1]] eq ""} {
+          return ""
+        } elseif {[set start [lindex [$txt tag prevrange _angledL $end] 0]] eq ""} {
+          return ""
+        }
+      } else {
+        if {[set start [lindex [$txt tag nextrange _angledL $end] 0]] eq ""} {
+          return ""
+        } elseif {[set end [lindex [$txt tag nextrange _angledR $start] 1]] eq ""} {
+          return ""
+        }
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # If the insertion cursor is currently inside of a tag element, returns
+  # the tag information; otherwise, returns the empty string
+  proc inside_tag {txt} {
+
+    set retval [get_tag $txt -dir prev -start "insert+1c"]
+
+    if {($retval ne "") && [$txt compare insert <= [lindex $retval 1]] && ([lindex $retval 3] ne "010")} {
+      return $retval
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the character range for the current node based on the given
+  # outer type.
+  proc get_node_range {txt outer} {
+
+    variable data
+
+    array set other $data(other_map)
+    array set dir   $data(dir_map)
+    array set index $data(index_map)
+
+    # Get the tag that we are inside of
+    lassign [inside_tag $txt] start end name type
+
+    # If we are on a starting tag, look for the ending tag
+    set retval [list $start $end]
+    set others 0
+    while {1} {
+      if {[set retval [get_tag $txt -dir $dir($type) -name $name -type $other($type) -start [lindex $retval $index($type)]]] eq ""} {
+        return
+      }
+      if {[incr others [llength [lsearch -all [lindex $retval 4] $name,$type]]] == 0} {
+        switch $outer:$type {
+          "0:100" { return [list $end [lindex $retval 0]] }
+          "0:001" { return [list [lindex $retval 1] $start] }
+          "1:100" { return [list $start [lindex $retval 1]] }
+          "1:001" { return [list [lindex $retval 0] $end] }
+          default { return -code error "Error finding node range" }
+        }
+      }
+      incr others -1
+    }
+
+  }
+
+  ######################################################################
+  # Wraps the current tag with a user-specified Emmet abbreviation.
+  proc wrap_with_abbreviation {} {
+
+    set abbr ""
+
+    # Get the abbreviation from the user
+    if {[gui::get_user_response [format "%s:" [msgcat::mc "Abbreviation"]] abbr]} {
+
+      # Get the current text widget
+      set txt [gui::current_txt]
+
+      # Get the node to surround
+      set range [get_node_range $txt 1]
+      set abbr  [join [list $abbr \{ [$txt get {*}$range] \}] ""]
+
+      # Parse the snippet and if no error, insert the resulting string
+      if {![catch { ::parse_emmet $abbr "" } str]} {
+        snippets::insert_snippet_into_current $str $range
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Starting at a given tag, set the insertion cursor at the start of
+  # the matching tag.
+  proc go_to_matching_pair {} {
+
+    variable data
+
+    array set other $data(other_map)
+    array set dir   $data(dir_map)
+    array set index $data(index_map)
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Get the tag that we are inside of
+    lassign [inside_tag $txt] start end name type
+
+    # If we are on a starting tag, look for the ending tag
+    set retval [list $start $end]
+    set others 0
+    while {1} {
+      if {[set retval [get_tag $txt -dir $dir($type) -name $name -type $other($type) -start [lindex $retval $index($type)]]] eq ""} {
+        return
+      }
+      if {[incr others [llength [lsearch -all [lindex $retval 4] $name,$type]]] == 0} {
+        ::tk::TextSetCursor $txt [lindex $retval 0]
+        return
+      }
+      incr others -1
+    }
 
   }
 

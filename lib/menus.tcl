@@ -1418,6 +1418,14 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Expand Abbreviation"] -command [list emmet::expand_abbreviation]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Expand Emmet abbreviation"]] [list emmet::expand_abbreviation]
 
+    $mb.emmetPopup add command -label [msgcat::mc "Wrap With Abbreviation"] -command [list emmet::wrap_with_abbreviation]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Wrap tag with Emmet abbreviation"]] [list emmet::wrap_with_abbreviation]
+
+    $mb.emmetPopup add separator
+
+    $mb.emmetPopup add command -label [msgcat::mc "Go to Matching Pair"] -command [list emmet::go_to_matching_pair]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to matching tag pair"]] [list emmet::go_to_matching_pair]
+
     $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
@@ -1729,10 +1737,15 @@ namespace eval menus {
   # Sets the menu option states to match the current UI state.
   proc edit_emmet_posting {mb} {
 
-    if {[gui::current_txt] eq ""} {
-      $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state disabled
+    if {[set txt [gui::current_txt]] eq ""} {
+      $mb entryconfigure [msgcat::mc "Expand Abbreviation"]    -state disabled
+      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"] -state disabled
+      $mb entryconfigure [msgcat::mc "Go to Matching Pair"]    -state disabled
     } else {
-      $mb entryconfigure [msgcat::mc "Expand Abbreviation"] -state normal
+      set intag_mode [expr {([emmet::inside_tag $txt] eq "") ? "disabled" : "normal"}]
+      $mb entryconfigure [msgcat::mc "Expand Abbreviation"]   -state normal
+      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"] -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Go to Matching Pair"]    -state $intag_mode
     }
 
   }
