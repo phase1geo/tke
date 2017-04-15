@@ -33,6 +33,7 @@ set emmet_errstr      ""
 set emmet_shift_width 2
 set emmet_item_id     0
 set emmet_max         1
+set emmet_multi       0
 set emmet_curr        0
 set emmet_start       1
 set emmet_prespace    ""
@@ -285,7 +286,11 @@ proc emmet_elaborate {tree node action} {
     return
   }
 
-  set ::emmet_max [$tree get $node multiplier]
+  # Calculate the number of children to generate:w
+  if {[set ::emmet_max [$tree get $node multiplier]] == 0} {
+    set ::emmet_max   [llength $::emmet_wrap_strs]
+    set ::emmet_multi 1
+  }
 
   foreach parent [$::emmet_elab nodes] {
 
@@ -581,7 +586,7 @@ multiply_opt: MULTIPLY NUMBER {
                 set _ $2
               }
             | MULTIPLY {
-                set _ [llength $::emmet_wrap_strs]
+                set _ 0
               }
             | {
                 set _ 1
@@ -658,34 +663,32 @@ proc emmet_error {s} {
 
 # Handles abbreviation filtering
 proc emmet_condition_abbr {str wrap_str} {
-  
+
   set filters [list]
-  
+
   while {[regexp {^(.*)\|(haml|html|e|c|xsl|s|t)$} $str -> str filter]} {
     lappend filters $filter
   }
-  
+
   # Make sure that we maintain the filter order that the user presented
   set ::emmet_filters [lreverse $filters]
-  
+
   # If we have a wrap string and the abbreviation lacks the $# indicator, add it
   if {$wrap_str ne ""} {
     if {[string first \$# $str] == -1} {
-      append str ">{\$#}" 
+      append str ">{\$#}"
     }
   }
 
   return $str
-  
+
 }
 
 proc parse_emmet {str {prespace ""} {wrap_str ""}} {
-  
+
   # Check to see if the trim filter was specified
   set str [emmet_condition_abbr $str $wrap_str]
-  
-  puts "conditioned abbr: $str"
-  
+
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
 
@@ -696,14 +699,14 @@ proc parse_emmet {str {prespace ""} {wrap_str ""}} {
   set ::emmet_begpos    0
   set ::emmet_endpos    0
   set ::emmet_prespace  $prespace
-  
+
   # Condition the wrap strings
   set ::emmet_wrap_str  [string trim $wrap_str]
   set ::emmet_wrap_strs [list]
-  foreach line [split $wrap_str \n] {
+  foreach line [split [string trim $wrap_str] \n] {
     lappend ::emmet_wrap_strs [string trim $line]
   }
-  
+
   # Create the trees
   set ::emmet_dom  [::struct::tree]
   set ::emmet_elab [::struct::tree]

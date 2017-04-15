@@ -32,6 +32,7 @@ set emmet_errstr      ""
 set emmet_shift_width 2
 set emmet_item_id     0
 set emmet_max         1
+set emmet_multi       0
 set emmet_curr        0
 set emmet_start       1
 set emmet_prespace    ""
@@ -284,7 +285,11 @@ proc emmet_elaborate {tree node action} {
     return
   }
 
-  set ::emmet_max [$tree get $node multiplier]
+  # Calculate the number of children to generate:w
+  if {[set ::emmet_max [$tree get $node multiplier]] == 0} {
+    set ::emmet_max   [llength $::emmet_wrap_strs]
+    set ::emmet_multi 1
+  }
 
   foreach parent [$::emmet_elab nodes] {
 
@@ -1188,35 +1193,35 @@ array set ::emmet_rules {
 }
 
 array set ::emmet_rules {
-  13,line 586
-  25,line 630
-  7,line 543
-  10,line 571
-  22,line 619
-  4,line 514
-  18,line 603
-  1,line 486
-  15,line 594
-  27,line 638
-  9,line 560
-  12,line 583
-  24,line 627
-  6,line 532
-  21,line 616
-  3,line 510
-  17,line 600
-  29,line 646
-  14,line 589
-  26,line 635
-  8,line 553
-  11,line 578
-  23,line 622
-  5,line 520
-  20,line 611
-  19,line 608
-  2,line 491
-  16,line 597
-  28,line 643
+  13,line 591
+  25,line 635
+  7,line 548
+  10,line 576
+  22,line 624
+  4,line 519
+  18,line 608
+  1,line 491
+  15,line 599
+  27,line 643
+  9,line 565
+  12,line 588
+  24,line 632
+  6,line 537
+  21,line 621
+  3,line 515
+  17,line 605
+  29,line 651
+  14,line 594
+  26,line 640
+  8,line 558
+  11,line 583
+  23,line 627
+  5,line 525
+  20,line 616
+  19,line 613
+  2,line 496
+  16,line 602
+  28,line 648
 }
 
 proc emmet_parse {} {
@@ -1372,7 +1377,7 @@ proc emmet_parse {} {
                 set _ $2
                }
                     13 { 
-                set _ [llength $::emmet_wrap_strs]
+                set _ 0
                }
                     14 { 
                 set _ 1
@@ -1462,34 +1467,32 @@ proc emmet_error {s} {
 
 # Handles abbreviation filtering
 proc emmet_condition_abbr {str wrap_str} {
-  
+
   set filters [list]
-  
+
   while {[regexp {^(.*)\|(haml|html|e|c|xsl|s|t)$} $str -> str filter]} {
     lappend filters $filter
   }
-  
+
   # Make sure that we maintain the filter order that the user presented
   set ::emmet_filters [lreverse $filters]
-  
+
   # If we have a wrap string and the abbreviation lacks the $# indicator, add it
   if {$wrap_str ne ""} {
     if {[string first \$# $str] == -1} {
-      append str ">{\$#}" 
+      append str ">{\$#}"
     }
   }
 
   return $str
-  
+
 }
 
 proc parse_emmet {str {prespace ""} {wrap_str ""}} {
-  
+
   # Check to see if the trim filter was specified
   set str [emmet_condition_abbr $str $wrap_str]
-  
-  puts "conditioned abbr: $str"
-  
+
   # Flush the parsing buffer
   EMMET__FLUSH_BUFFER
 
@@ -1500,14 +1503,14 @@ proc parse_emmet {str {prespace ""} {wrap_str ""}} {
   set ::emmet_begpos    0
   set ::emmet_endpos    0
   set ::emmet_prespace  $prespace
-  
+
   # Condition the wrap strings
   set ::emmet_wrap_str  [string trim $wrap_str]
   set ::emmet_wrap_strs [list]
-  foreach line [split $wrap_str \n] {
+  foreach line [split [string trim $wrap_str] \n] {
     lappend ::emmet_wrap_strs [string trim $line]
   }
-  
+
   # Create the trees
   set ::emmet_dom  [::struct::tree]
   set ::emmet_elab [::struct::tree]

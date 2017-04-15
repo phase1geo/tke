@@ -1551,6 +1551,7 @@ namespace eval gui {
   #                        remote server name.
   proc add_buffer {index name save_command args} {
 
+    variable widgets
     variable pw_current
 
     # Handle options
