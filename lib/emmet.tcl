@@ -419,7 +419,11 @@ namespace eval emmet {
     set txt [gui::current_txt]
 
     # Get the tag that we are inside of
-    lassign [inside_tag $txt] start end name type
+    if {[set itag [inside_tag $txt]] eq ""} {
+      return
+    }
+
+    lassign $itag start end name type
 
     # If we are on a starting tag, look for the ending tag
     set retval [list $start $end]
@@ -434,6 +438,67 @@ namespace eval emmet {
       }
       incr others -1
     }
+
+  }
+
+  ######################################################################
+  # Performs tag balancing.
+  proc balance_outward {} {
+
+    variable data
+
+    array set other $data(other_map)
+    array set dir   $data(dir_map)
+    array set index $data(index_map)
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    $txt mark set insert "insert-1c"
+
+    # If the insertion cursor is on a tag, get the outer node range
+    if {[set node_range [get_node_range $txt 1]] eq ""} {
+
+      # Find the beginning tag that we are currently inside of
+      set retval [list insert]
+      set count  0
+
+      while {1} {
+        if {[set retval [get_tag $txt -dir prev -type 100 -start [lindex $retval 0]]] eq ""} {
+          return
+        }
+        puts "retval: $retval"
+        if {[incr count [expr [llength [lsearch -all [lindex $retval 4] *,100]] - [llength [lsearch -all [lindex $retval 4] *,001]]]] == 0} {
+          set range_start [lindex $retval 1]
+          set range_name  [lindex $retval 2]
+          break
+        }
+      }
+
+      # Find the ending tag based on the beginning tag
+      set retval [list {} insert]
+      set count 0
+
+      while {1} {
+        if {[set retval [get_tag $txt -dir next -type 001 -name $range_name -start [lindex $retval 1]]] eq ""} {
+          return
+        }
+        if {[incr count [llength [lsearch -all [lindex $retval 4] $range_name,100]]] == 0} {
+          set range_end [lindex $retval 0]
+          break
+        }
+        incr count -1
+      }
+
+      set node_range [list $range_start $range_end]
+
+    }
+
+    # Set the cursor at the beginning of the range
+    ::tk::TextSetCursor $txt [lindex $node_range 0]
+
+    # Select the current range
+    $txt tag add sel {*}$node_range
 
   }
 
