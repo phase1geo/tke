@@ -571,12 +571,14 @@ namespace eval indent {
   ######################################################################
   # Formats the given str based on the indentation information of the text
   # widget at the current insertion cursor.
-  proc format_text {txtt startpos endpos} {
+  proc format_text {txtt startpos endpos {add_separator 1}} {
 
     variable indent_exprs
 
     # Create a separator
-    $txtt edit separator
+    if {$add_separator} {
+      $txtt edit separator
+    }
 
     # If we are the first line containing non-whitespace, preserve the indentation
     if {([$txtt tag prevrange _prewhite "$startpos linestart"] eq "") || \

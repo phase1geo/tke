@@ -122,7 +122,7 @@ namespace eval emmet {
       # Get the abbreviation text, translate it and insert it back into the text
       if {[regexp {(\S+)$} [$txt get "insert linestart" insert] -> abbr]} {
         if {![catch { emmet_css::parse $abbr } str]} {
-          snippets::insert_snippet_into_current $str [list "insert-[string length $abbr]c" insert]
+          snippets::insert_snippet_into_current $str -delrange [list "insert-[string length $abbr]c" insert] -separator 0
         }
       }
 
@@ -133,7 +133,7 @@ namespace eval emmet {
 
       # Parse the snippet and if no error, insert the resulting string
       if {![catch { ::parse_emmet $str $prespace } str]} {
-        snippets::insert_snippet_into_current $str [list $startpos $endpos]
+        snippets::insert_snippet_into_current $str -delrange [list $startpos $endpos] -separator 0
       }
 
     }
@@ -351,7 +351,11 @@ namespace eval emmet {
     array set index $data(index_map)
 
     # Get the tag that we are inside of
-    lassign [inside_tag $txt] start end name type
+    if {[set itag [inside_tag $txt]] eq ""} {
+      return ""
+    }
+
+    lassign $itag start end name type
 
     # If we are on a starting tag, look for the ending tag
     set retval [list $start $end]
@@ -393,7 +397,7 @@ namespace eval emmet {
 
       # Parse the snippet and if no error, insert the resulting string
       if {![catch { ::parse_emmet $abbr "" [$txt get {*}$range] } str]} {
-        snippets::insert_snippet_into_current $str $range
+        snippets::insert_snippet_into_current $str -delrange $range -separator 0
       }
 
     }

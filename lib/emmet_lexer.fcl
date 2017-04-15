@@ -55,6 +55,20 @@ array set emmet_block_aliases {
   xsl       {xsl:stylesheet[version=1.0 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"]}
 }
 
+proc emmet_get_item_value {} {
+
+  if {!$::emmet_multi} {
+    if {[llength $::emmet_wrap_strs] == 1} {
+      return $::emmet_wrap_str
+    } else {
+      return "\n$::emmet_wrap_str\n"
+    }
+  } else {
+    return [lindex $::emmet_wrap_str $::emmet_curr]
+  }
+
+}
+
 proc emmet_get_item_name {str} {
 
   set formatted_str ""
@@ -64,7 +78,7 @@ proc emmet_get_item_name {str} {
     append formatted_str [string range $str 0 [expr $index - 1]]
     if {[regexp {^\$#} [string range $str $index end] match rest]} {
       append formatted_str "%s"
-      lappend values [list expr {($::emmet_max == 1) ? $::emmet_wrap_str : [lindex $::emmet_wrap_strs $::emmet_curr]}]
+      lappend values [list emmet_get_item_value]
     } elseif {[regexp {^(\$+)(@(-)?(\d*))?} [string range $str $index end] match numbering dummy reverse start]} {
       if {$dummy ne ""} {
         append formatted_str "%0[string length $numbering]d"

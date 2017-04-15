@@ -246,8 +246,9 @@ namespace eval snippets {
     variable tabpoints
 
     array set opts {
-      -delrange ""
-      -traverse 1
+      -delrange  ""
+      -traverse  1
+      -separator 1
     }
     array set opts $args
 
@@ -258,7 +259,9 @@ namespace eval snippets {
     set tabpoints($txtt) 1
 
     # Mark the change
-    $txtt edit separator
+    if {$opts(-separator)} {
+      $txtt edit separator
+    }
 
     # Delete the last_word, if specified
     if {$opts(-delrange) ne ""} {
@@ -289,7 +292,7 @@ namespace eval snippets {
         foreach {str tags} $result {
           incr datalen [string length $str]
         }
-        indent::format_text $txtt $insert "$insert+${datalen}c"
+        indent::format_text $txtt $insert "$insert+${datalen}c" 0
       }
 
       # Traverse the inserted snippet
@@ -312,9 +315,9 @@ namespace eval snippets {
   ######################################################################
   # Inserts the given snippet into the current text widget, adhering to
   # indentation rules.
-  proc insert_snippet_into_current {snippet {delrange ""}} {
+  proc insert_snippet_into_current {snippet args} {
 
-    insert_snippet [gui::current_txt].t $snippet -delrange $delrange
+    insert_snippet [gui::current_txt].t $snippet {*}$args
 
   }
 
