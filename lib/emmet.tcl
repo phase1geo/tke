@@ -329,9 +329,13 @@ namespace eval emmet {
   # the tag information; otherwise, returns the empty string
   proc inside_tag {txt} {
 
+    puts "In inside_tag, insert: [$txt index insert]"
+
     set retval [get_tag $txt -dir prev -start "insert+1c"]
 
-    if {($retval ne "") && [$txt compare insert <= [lindex $retval 1]] && ([lindex $retval 3] ne "010")} {
+    puts "  retval: $retval, insert: [$txt index insert]"
+
+    if {($retval ne "") && [$txt compare insert < [lindex $retval 1]] && ([lindex $retval 3] ne "010")} {
       return $retval
     }
 
@@ -354,6 +358,8 @@ namespace eval emmet {
     if {[set itag [inside_tag $txt]] eq ""} {
       return ""
     }
+
+    puts "In itag: $itag"
 
     lassign $itag start end name type
 
@@ -459,6 +465,8 @@ namespace eval emmet {
     # If the insertion cursor is on a tag, get the outer node range
     if {[set node_range [get_node_range $txt 1]] eq ""} {
 
+      puts "HERE"
+
       # Find the beginning tag that we are currently inside of
       set retval [list insert]
       set count  0
@@ -467,12 +475,12 @@ namespace eval emmet {
         if {[set retval [get_tag $txt -dir prev -type 100 -start [lindex $retval 0]]] eq ""} {
           return
         }
-        puts "retval: $retval"
         if {[incr count [expr [llength [lsearch -all [lindex $retval 4] *,100]] - [llength [lsearch -all [lindex $retval 4] *,001]]]] == 0} {
           set range_start [lindex $retval 1]
           set range_name  [lindex $retval 2]
           break
         }
+        incr count
       }
 
       # Find the ending tag based on the beginning tag
