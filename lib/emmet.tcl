@@ -329,11 +329,7 @@ namespace eval emmet {
   # the tag information; otherwise, returns the empty string
   proc inside_tag {txt} {
 
-    puts "In inside_tag, insert: [$txt index insert]"
-
     set retval [get_tag $txt -dir prev -start "insert+1c"]
-
-    puts "  retval: $retval, insert: [$txt index insert]"
 
     if {($retval ne "") && [$txt compare insert < [lindex $retval 1]] && ([lindex $retval 3] ne "010")} {
       return $retval
@@ -358,8 +354,6 @@ namespace eval emmet {
     if {[set itag [inside_tag $txt]] eq ""} {
       return ""
     }
-
-    puts "In itag: $itag"
 
     lassign $itag start end name type
 
@@ -460,12 +454,14 @@ namespace eval emmet {
     # Get the current text widget
     set txt [gui::current_txt]
 
-    $txt mark set insert "insert-1c"
+    # Adjust the insertion cursor if we are on a starting tag and there
+    # is a selection.
+    if {[$txt tag ranges sel] ne ""} {
+      $txt mark set insert "insert-1c"
+    }
 
     # If the insertion cursor is on a tag, get the outer node range
     if {[set node_range [get_node_range $txt 1]] eq ""} {
-
-      puts "HERE"
 
       # Find the beginning tag that we are currently inside of
       set retval [list insert]
