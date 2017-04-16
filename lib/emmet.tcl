@@ -507,6 +507,40 @@ namespace eval emmet {
   }
 
   ######################################################################
+  # Performs an Emmet balance inward operation based on the current
+  # selection state.
+  proc balance_inward {} {
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # If we already have a selection, perform the inward balance
+    if {[llength [$txt tag ranges sel]] == 2} {
+      if {[set tag_range [get_node_range $txt 0]] eq ""} {
+        if {([set retval [get_tag $txt -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
+          ::tk::TextSetCursor $txt [lindex $retval 0]
+          if {[set tag_range [get_node_range $txt 1]] eq ""} {
+            return
+          }
+        } else {
+          return
+        }
+      }
+
+      # Set the cursor and the selection
+      ::tk::TextSetCursor $txt [lindex $tag_range 0]
+      $txt tag add sel {*}$tag_range
+
+    # Otherwise, perform an outward balance to make the selection
+    } else {
+
+      balance_outward
+
+    }
+
+  }
+
+  ######################################################################
   # Returns a list of files/directories used by the Emmet namespace for
   # importing/exporting purposes.
   proc get_share_items {dir} {

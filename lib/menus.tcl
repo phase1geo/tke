@@ -1426,6 +1426,9 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Balance Outward"] -command [list emmet::balance_outward]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Balance tag pair moving outward"]] [list emmet::balance_outward]
 
+    $mb.emmetPopup add command -label [msgcat::mc "Balance Inward"] -command [list emmet::balance_inward]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Balance tag pair moving inward"]] [list emmet::balance_inward]
+
     $mb.emmetPopup add command -label [msgcat::mc "Go to Matching Pair"] -command [list emmet::go_to_matching_pair]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to matching tag pair"]] [list emmet::go_to_matching_pair]
 
