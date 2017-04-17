@@ -340,6 +340,43 @@ namespace eval emmet {
   }
 
   ######################################################################
+  # Assumes that the insertion cursor is somewhere between a start and end
+  # tag.
+  proc get_node_range_within {txt} {
+
+    # Find the beginning tag that we are currently inside of
+    set retval [list insert]
+    set count  0
+
+    while {1} {
+      if {[set retval [get_tag $txt -dir prev -type 100 -start [lindex $retval 0]]] eq ""} {
+        return ""
+      }
+      if {[incr count [expr [llength [lsearch -all [lindex $retval 4] *,100]] - [llength [lsearch -all [lindex $retval 4] *,001]]]] == 0} {
+        set start_range [lrange $retval 0 1]
+        set range_name  [lindex $retval 2]
+        break
+      }
+      incr count
+    }
+
+    # Find the ending tag based on the beginning tag
+    set retval [list {} insert]
+    set count 0
+
+    while {1} {
+      if {[set retval [get_tag $txt -dir next -type 001 -name $range_name -start [lindex $retval 1]]] eq ""} {
+        return ""
+      }
+      if {[incr count [llength [lsearch -all [lindex $retval 4] $range_name,100]]] == 0} {
+        return [list {*}$start_range {*}[lrange $retval 0 1]]
+      }
+      incr count -1
+    }
+
+  }
+
+  ######################################################################
   # Returns the character range for the current node based on the given
   # outer type.
   proc get_node_range {txt} {
@@ -350,9 +387,10 @@ namespace eval emmet {
     array set dir   $data(dir_map)
     array set index $data(index_map)
 
-    # Get the tag that we are inside of
+    # Check to see if the current insertion cursor is within a tag and if it is
+    # not, find the tags surrounding the insertion cursor.
     if {[set itag [inside_tag $txt]] eq ""} {
-      return ""
+      return [get_node_range_within $txt]
     }
 
     lassign $itag start end name type
@@ -484,47 +522,14 @@ namespace eval emmet {
 
     # If the insertion cursor is on a tag, get the outer node range
     if {[set node_range [get_outer [get_node_range $txt]]] eq ""} {
-
-      # Find the beginning tag that we are currently inside of
-      set retval [list insert]
-      set count  0
-
-      while {1} {
-        if {[set retval [get_tag $txt -dir prev -type 100 -start [lindex $retval 0]]] eq ""} {
-          return
-        }
-        if {[incr count [expr [llength [lsearch -all [lindex $retval 4] *,100]] - [llength [lsearch -all [lindex $retval 4] *,001]]]] == 0} {
-          set range_start [lindex $retval 1]
-          set range_name  [lindex $retval 2]
-          break
-        }
-        incr count
-      }
-
-      # Find the ending tag based on the beginning tag
-      set retval [list {} insert]
-      set count 0
-
-      while {1} {
-        if {[set retval [get_tag $txt -dir next -type 001 -name $range_name -start [lindex $retval 1]]] eq ""} {
-          return
-        }
-        if {[incr count [llength [lsearch -all [lindex $retval 4] $range_name,100]]] == 0} {
-          set range_end [lindex $retval 0]
-          break
-        }
-        incr count -1
-      }
-
-      set node_range [list $range_start $range_end]
-
+      return
     }
 
     # Set the cursor at the beginning of the range
-    ::tk::TextSetCursor $txt [lindex $node_range 0]
+    ::tk::TextSetCursor $txt [lindex $node_range 1]
 
     # Select the current range
-    $txt tag add sel {*}$node_range
+    $txt tag add sel {*}[lrange $node_range 1 2]
 
   }
 
