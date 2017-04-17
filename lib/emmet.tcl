@@ -342,7 +342,7 @@ namespace eval emmet {
   ######################################################################
   # Returns the character range for the current node based on the given
   # outer type.
-  proc get_node_range {txt outer} {
+  proc get_node_range {txt} {
 
     variable data
 
@@ -365,16 +365,38 @@ namespace eval emmet {
         return
       }
       if {[incr others [llength [lsearch -all [lindex $retval 4] $name,$type]]] == 0} {
-        switch $outer:$type {
-          "0:100" { return [list $end [lindex $retval 0]] }
-          "0:001" { return [list [lindex $retval 1] $start] }
-          "1:100" { return [list $start [lindex $retval 1]] }
-          "1:001" { return [list [lindex $retval 0] $end] }
+        switch $type {
+          "100" { return [list $start $end {*}[lrange $retval 0 1]] }
+          "001" { return [list {*}[lrange $retval 0 1] $start $end] }
           default { return -code error "Error finding node range" }
         }
       }
       incr others -1
     }
+
+  }
+
+  ######################################################################
+  # Returns the outer range of the given node range value as a list.
+  proc get_outer {node_range} {
+
+    if {$node_range ne ""} {
+      return [list [lindex $node_range 0] [lindex $node_range 3]]
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the inner range of the given node range value as a list.
+  proc get_inner {node_range} {
+
+    if {$node_range ne ""} {
+      return [lrange $node_range 1 2]
+    }
+
+    return ""
 
   }
 
@@ -392,7 +414,7 @@ namespace eval emmet {
 
       # Get the node to surround
       if {[llength [set range [$txt tag ranges sel]]] != 2} {
-        set range [get_node_range $txt 1]
+        set range [get_outer [get_node_range $txt]]
       }
 
       # Parse the snippet and if no error, insert the resulting string
@@ -461,7 +483,7 @@ namespace eval emmet {
     }
 
     # If the insertion cursor is on a tag, get the outer node range
-    if {[set node_range [get_node_range $txt 1]] eq ""} {
+    if {[set node_range [get_outer [get_node_range $txt]]] eq ""} {
 
       # Find the beginning tag that we are currently inside of
       set retval [list insert]
@@ -516,10 +538,10 @@ namespace eval emmet {
 
     # If we already have a selection, perform the inward balance
     if {[llength [$txt tag ranges sel]] == 2} {
-      if {[set tag_range [get_node_range $txt 0]] eq ""} {
+      if {[set tag_range [get_inner [get_node_range $txt]]] eq ""} {
         if {([set retval [get_tag $txt -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
           ::tk::TextSetCursor $txt [lindex $retval 0]
-          if {[set tag_range [get_node_range $txt 1]] eq ""} {
+          if {[set tag_range [get_outer [get_node_range $txt]]] eq ""} {
             return
           }
         } else {
