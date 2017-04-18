@@ -75,6 +75,7 @@ namespace eval theme {
     tabs,-activeforeground        {color {2} {} {0} {msgcat::mc "Foreground text color used for the current/active tab in the tabbar."}}
     tabs,-inactivebackground      {color {1} {} {0} {msgcat::mc "Background color used for all other tabs that are not the current/active tab in the tabbar."}}
     tabs,-inactiveforeground      {color {2} {} {0} {msgcat::mc "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."}}
+    tabs,-bordercolor             {color {0} {} {0} {msgcat::mc "Color of space between tabs."}}
     tabs,-height                  {{number {20 40}} {25} {} {0} {msgcat::mc "Pixel height of the tabbar widget."}}
     tabs,-relief                  {{relief {flat raised}} {flat} {} {0} {msgcat::mc "Relief used in drawing the tabs."}}
     text_scrollbar,-background    {color {0} {} {0} {msgcat::mc "Background (trough) color used in the text scrollbars."}}
