@@ -1612,13 +1612,13 @@ namespace eval pref_ui {
     ttk::labelframe $a.ff -text "Fonts"
     ttk::label  $a.ff.l0  -text [format "%s: " [msgcat::mc "Editor"]]
     ttk::label  $a.ff.f0  -text "AaBbCc0123" -font $prefs(Appearance/EditorFont)
-    ttk::button $a.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
+    ttk::button $a.ff.b0  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f0 "Select Editor Font" Appearance/EditorFont 1]
     ttk::label  $a.ff.l1  -text [format "%s: " [msgcat::mc "Command launcher entry"]]
     ttk::label  $a.ff.f1  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherEntryFont)
-    ttk::button $a.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
+    ttk::button $a.ff.b1  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f1 "Select Command Launcher Entry Font" Appearance/CommandLauncherEntryFont 0]
     ttk::label  $a.ff.l2  -text [format "%s: " [msgcat::mc "Command launcher preview"]]
     ttk::label  $a.ff.f2  -text "AaBbCc0123" -font $prefs(Appearance/CommandLauncherPreviewFont)
-    ttk::button $a.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $w.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
+    ttk::button $a.ff.b2  -style BButton -text [msgcat::mc "Choose"] -command [list pref_ui::set_font $a.ff.f2 "Select Command Launcher Preview Font" Appearance/CommandLauncherPreviewFont 0]
 
     # Register the widgets for search
     register $a.ff.b0 "" Appearance/EditorFont
