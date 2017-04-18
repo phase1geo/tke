@@ -220,14 +220,41 @@ namespace eval vim {
   # Handles the command entry text.
   proc handle_command_return {w} {
 
+    variable recording
+
     # Get the last txt widget that had the focus
     set txt [gui::last_txt_focus]
 
     # Get the value from the command field
     set value [$w get]
 
+    # Save the value as a recording
+    set recording(:,events) $value
+
     # Delete the value in the command entry
     $w delete 0 end
+
+    # Execute the colon command
+    set txt [handle_colon_command $txt $value]
+
+    # Remove the grab
+    grab release $w
+
+    if {$txt ne ""} {
+
+      # Set the focus back to the text widget
+      gui::set_txt_focus $txt
+
+      # Hide the command entry widget
+      gui::panel_forget $w
+
+    }
+
+  }
+
+  ######################################################################
+  # Parses and executes the colon command value.
+  proc handle_colon_command {txt value} {
 
     # Execute the command
     switch -- $value {
@@ -374,18 +401,7 @@ namespace eval vim {
       }
     }
 
-    # Remove the grab
-    grab release $w
-
-    if {$txt ne ""} {
-
-      # Set the focus back to the text widget
-      gui::set_txt_focus $txt
-
-      # Hide the command entry widget
-      gui::panel_forget $w
-
-    }
+    return $txt
 
   }
 
@@ -1301,6 +1317,18 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Performs the last colon command operation.
+  proc playback_colon {txtt} {
+
+    variable recording
+
+    if {[info exists recording(:,events)] && ($recording(:,events) ne "")} {
+      handle_colon_command [winfo parent $txtt] $recording(:,events)
+    }
+
+  }
+
+  ######################################################################
   # Stops recording and clears the recording array.
   proc record_clear {{reg auto}} {
 
@@ -1491,6 +1519,11 @@ namespace eval vim {
       } elseif {$keysym eq "at"} {
         if {$recording(curr_reg) ne ""} {
           playback $txtt $recording(curr_reg)
+        }
+        return 1
+      } elseif {$keysym eq "colon"} {
+        for {set i 0} {$i < [get_number $txtt]} {incr i} {
+          playback_colon $txtt
         }
         return 1
       }
