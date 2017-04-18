@@ -1401,7 +1401,7 @@ namespace eval edit {
     }
 
     if {$index == -1} {
-      return [expr {($dir eq "prev") ? 1.0 : end-1c}]
+      return [expr {($dir eq "prev") ? 1.0 : "end-1c"}]
     } else {
       return [expr {($dir eq "prev") ? "$index+1c" : $index}]
     }
