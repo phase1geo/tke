@@ -521,15 +521,22 @@ namespace eval emmet {
     }
 
     # If the insertion cursor is on a tag, get the outer node range
-    if {[set node_range [get_outer [get_node_range $txt]]] eq ""} {
+    if {[set node_range [get_node_range $txt]] eq ""} {
       return
     }
 
     # Set the cursor at the beginning of the range
-    ::tk::TextSetCursor $txt [lindex $node_range 1]
+    if {[$txt compare [lindex $node_range 1] <= insert] && [$txt compare insert < [lindex $node_range 2]]} {
+      set node_range [get_inner $node_range]
+    } else {
+      set node_range [get_outer $node_range]
+    }
+
+    # Set the cursor position
+    ::tk::TextSetCursor $txt {*}[get_outer $node_range]
 
     # Select the current range
-    $txt tag add sel {*}[lrange $node_range 1 2]
+    $txt tag add sel {*}$node_range
 
   }
 
@@ -543,7 +550,7 @@ namespace eval emmet {
 
     # If we already have a selection, perform the inward balance
     if {[llength [$txt tag ranges sel]] == 2} {
-      if {[set tag_range [get_inner [get_node_range $txt]]] eq ""} {
+      if {([inside_tag $txt] eq "") || ([set tag_range [get_inner [get_node_range $txt]]] eq "")} {
         if {([set retval [get_tag $txt -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
           ::tk::TextSetCursor $txt [lindex $retval 0]
           if {[set tag_range [get_outer [get_node_range $txt]]] eq ""} {
@@ -562,6 +569,60 @@ namespace eval emmet {
     } else {
 
       balance_outward
+
+    }
+
+  }
+
+  ######################################################################
+  # Returns the list of attributes such that each attribute as the following
+  # properties:
+  #   - attribute name
+  #   - attribute name start index
+  #   - attribute value
+  #   - attribute value start index
+  proc get_tag_attributes {txt tag_info} {
+
+    lassign $tag_info start end name type
+
+    # Attributes cannot exist in ending attributes, so just return
+    if {$type eq "001"} {
+      return [list]
+    }
+
+    # Get the attribute contents after the tag name
+    set start    [$txt index "$start+[expr [string length $name] + 1]c"]
+    set contents [$txt get $start "$end-1c"]
+
+    set attrs [list]
+    while {[regexp {^(\s*)(\w+)="(.*?)"(.*)$} $contents -> prespace attr_name attr_value contents]} {
+      set attr_name_start [$txt index "$start+[string length $prespace]c"]
+      set attr_val_start  [$txt index "$attr_name_start+[expr [string length $attr_name] + 2]c"]
+      lappend attrs $attr_name $attr_name_start $attr_value $attr_value_start
+      set start [$txt index "$attr_val_start+[expr [string length $attr_value] + 1]c"]
+    }
+
+    return $attrs
+
+  }
+
+  ######################################################################
+  # Jumps the insertion cursor to an HTML edit point.
+  proc go_to_edit_point {dir} {
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # If we are inside a tag, look for an empty attribute
+    if {[set retval [inside_tag $txt]] ne ""} {
+
+      # Look for an empty attribute
+      foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
+        if {$attr_value eq ""} {
+          ::tk::TextSetCursor $txt $attr_value_start
+          return
+        }
+      }
 
     }
 

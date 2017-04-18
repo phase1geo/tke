@@ -34,6 +34,7 @@ namespace eval vim {
   array set search_dir      {}
   array set column          {}
   array set select_anchors  {}
+  array set last_selection  {}
   array set modeline        {}
   array set multicursor     {}
 
@@ -247,11 +248,19 @@ namespace eval vim {
         catch {
 
           # Perform search and replace
-          if {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)s/(.*)/(.*)/([giI]*)$} $value -> from to search replace opts]} {
-            set from [get_linenum $txt $from]
-            set to   [$txt index "[get_linenum $txt $to] lineend-1c"]
-            search::replace_do_raw $from $to $search $replace \
-              [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
+          if {[regexp {^((\d+|[.^$]|\w+),(\d+|[.^$]|\w+))?s/(.*)/(.*)/([giI]*)$} $value -> dummy from to search replace opts]} {
+            set ranges [list]
+            if {$dummy eq ""} {
+              if {[set ranges [$txt tag ranges sel]] eq ""} {
+                set ranges [list 1.0 [$txt index end]]
+              }
+            } else {
+              set ranges [list [get_linenum $txt $from] [$txt index "[get_linenum $txt $to] lineend-1c"]]
+            }
+            foreach {from to} $ranges {
+              search::replace_do_raw $from $to $search $replace \
+                [expr [string first "i" $opts] != -1] [expr [string first "g" $opts] != -1]
+            }
 
           # Delete/copy lines
           } elseif {[regexp {^(\d+|[.^$]|\w+),(\d+|[.^$]|\w+)([dy])$} $value -> from to cmd]} {
@@ -1083,9 +1092,11 @@ namespace eval vim {
 
     variable mode
     variable multicursor
+    variable last_selection
 
     # If we are coming from visual mode, clear the selection and the anchors
-    if {[in_visual_mode $txtt]} {
+    if {[$txtt tag ranges sel] ne ""} {
+      set last_selection($txtt) [list $mode($txtt) [$txtt tag ranges sel]]
       $txtt tag remove sel 1.0 end
     }
 
@@ -1165,6 +1176,19 @@ namespace eval vim {
     variable select_anchors
     variable multicursor
     variable seltype
+    variable last_selection
+
+    # If we are called with the type of "last", set the selection
+    if {$type eq "last"} {
+      if {$last_selection($txtt) ne ""} {
+        lassign $last_selection($txtt) vmode sel
+        set mode($txtt) $vmode
+        ::tk::TextSetCursor $txtt "[lindex $sel 1]-1c"
+        $txtt tag remove sel 1.0
+        $txtt tag add sel {*}$sel
+      }
+      return
+    }
 
     # Set the current mode
     set mode($txtt) "visual:$type"
@@ -1390,9 +1414,6 @@ namespace eval vim {
       record_add Escape $curr_reg
     }
 
-    # Clear the any selections
-    $txtt tag remove sel 1.0 end
-
     if {$mode($txtt) ne "command"} {
 
       # Add to the recording if we are doing so
@@ -1403,6 +1424,9 @@ namespace eval vim {
       command_mode $txtt
 
     } else {
+
+      # Clear the any selections
+      $txtt tag remove sel 1.0 end
 
       # If were in start mode, clear the auto recording buffer
       record_clear
@@ -1778,7 +1802,7 @@ namespace eval vim {
 
     # If we are in the "command" mode, bring up the command entry widget
     # and give it the focus.
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
 
       # Colorize the entry widget to match the look of the associated text widget
       $command_entries($txtt) configure \
@@ -3153,7 +3177,11 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          visual_mode $txtt char
+          if {$motion($txtt) eq "g"} {
+            visual_mode $txtt last
+          } else {
+            visual_mode $txtt char
+          }
         }
         "folding" {
           folding::show_line [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
