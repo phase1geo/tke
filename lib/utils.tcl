@@ -181,15 +181,15 @@ namespace eval utils {
 
   if {[tk windowingsystem] eq "aqua"} {
     array set code2sym {
-      3342463 BackSpace
-      3145737 Tab
-      2359309 Return
-      3473435 Escape
+      127     BackSpace
+      9       Tab
+      13      Return
+      27      Escape
       7599913 Home
-      8124162 Left
-      8320768 Up
-      8189699 Right
-      8255233 Down
+      63234   Left
+      63232   Up
+      63235   Right
+      63233   Down
       7665452 Prior
       7993133 Next
       7862059 End
