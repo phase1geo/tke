@@ -1060,7 +1060,7 @@ namespace eval vim {
 
   ######################################################################
   # Resets the operator/motion states.
-  proc reset_state {txtt} {
+  proc reset_state {txtt err} {
 
     variable operator
     variable motion
@@ -1073,8 +1073,25 @@ namespace eval vim {
     set multiplier($txtt) ""
     set number($txtt)     ""
 
+    # Stop recording
+    record_stop
+
     # Add a separator
     $txtt edit separator
+
+  }
+
+  ######################################################################
+  # Sets the operator.
+  proc set_operator {txtt op keysyms} {
+
+    variable operator
+
+    # Set operator
+    set operator($txtt) $op
+
+    # Start recording
+    record_start auto $keysyms
 
   }
 
@@ -1137,7 +1154,7 @@ namespace eval vim {
     disable_multicursor $txtt
 
     # Reset the states
-    reset_state $txtt
+    reset_state $txtt 0
 
     # Adjust the insertion marker
     adjust_insert $txtt
@@ -1247,13 +1264,13 @@ namespace eval vim {
 
   ######################################################################
   # Starts recording keystrokes.
-  proc record_start {{reg auto}} {
+  proc record_start {{reg auto} {keysyms {}}} {
 
     variable recording
 
     if {$recording($reg,mode) eq "none"} {
       set recording($reg,mode)   "record"
-      set recording($reg,events) [list]
+      set recording($reg,events) $keysyms
       if {$reg ne "auto"} {
         set recording(curr_reg) $reg
       }
@@ -1462,10 +1479,10 @@ namespace eval vim {
       # Clear any searches
       search::find_clear
 
-    }
+      # Clear the state
+      reset_state $txtt 1
 
-    # Clear the state
-    reset_state $txtt
+    }
 
     # Clear the multicursor indicator
     disable_multicursor $txtt
@@ -1476,7 +1493,7 @@ namespace eval vim {
 
   if {[tk windowingsystem] eq "aqua"} {
     proc get_keysym {keycode keysym} {
-      return $utils::code2sym($keycode)
+      return $utils::code2sym([expr $keycode & 0xffff])
     }
   } else {
     proc get_keysym {keycode keysym} { return $keysym }
@@ -1534,6 +1551,9 @@ namespace eval vim {
       }
     }
 
+    # Record the character
+    record_add $keysym
+
     if {[handle_find_motion $txtt $char]} {
       return 1
     } elseif {[handle_between_motion $txtt $char]} {
@@ -1547,12 +1567,10 @@ namespace eval vim {
 
     # If we are not in edit mode
     if {![catch "handle_$keysym $txtt" rc] && $rc} {
-      record_add $keysym
       return 1
 
     # If the keysym is a number, handle the number
     } elseif {[string is integer $keysym] && [handle_number $txtt $char]} {
-      record_add $keysym
       return 1
 
     # If we are in start, visual, record or format modes, stop character processing
@@ -1564,7 +1582,6 @@ namespace eval vim {
 
     # Append the text to the insertion buffer
     } elseif {[string equal -length 7 $mode($txtt) "replace"]} {
-      record_add $keysym
       if {[multicursor::enabled $txtt]} {
         multicursor::replace $txtt $char indent::check_indent
       } else {
@@ -1584,7 +1601,6 @@ namespace eval vim {
 
     # Remove all text within the current character
     } elseif {$mode($txtt) eq "changein"} {
-      record_add $keysym
       if {[edit::delete_between_char $txtt $char 0]} {
         edit_mode $txtt
       } else {
@@ -1594,7 +1610,6 @@ namespace eval vim {
 
     # Select all text within the current character
     } elseif {[lindex [split $mode($txtt) :] 0] eq "visualin"} {
-      record_add $keysym
       if {[edit::select_between_char $txtt $char]} {
         set mode($txtt) "visual:[lindex [split $mode($txtt) :] 1]"
       } else {
@@ -1604,21 +1619,18 @@ namespace eval vim {
 
     # Format all text within the current character
     } elseif {$mode($txtt) eq "formatin"} {
-      record_add $keysym
       edit::format_between_char $txtt $char
       command_mode $txtt
       return 1
 
     # Left shift all text within the current character
     } elseif {$mode($txtt) eq "lshiftin"} {
-      record_add $keysym
       edit::lshift_between_char $txtt $char
       command_mode $txtt
       return 1
 
     # Right shift all text within the current character
     } elseif {$mode($txtt) eq "rshiftin"} {
-      record_add $keysym
       edit::rshift_between_char $txtt $char
       command_mode $txtt
       return 1
@@ -1628,9 +1640,6 @@ namespace eval vim {
       command_mode $txtt
       return 1
     }
-
-    # Record the keysym
-    record_add $keysym
 
     return 0
 
@@ -1653,7 +1662,7 @@ namespace eval vim {
           ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$eposargs]
           vim::adjust_insert $txtt
         }
-        reset_state $txtt
+        reset_state $txtt 0
         return 1
       }
       "delete" {
@@ -1669,7 +1678,7 @@ namespace eval vim {
           edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] 0 0
         }
         edit_mode $txtt
-        reset_state $txtt
+        reset_state $txtt 0
         return 1
       }
       "yank" {
@@ -1814,10 +1823,9 @@ namespace eval vim {
         }
       } else {
         append multiplier($txtt) $num
-        record_start
         return 1
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -1872,7 +1880,7 @@ namespace eval vim {
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt [list dispend -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -1896,7 +1904,7 @@ namespace eval vim {
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt dispfirst]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -1932,19 +1940,25 @@ namespace eval vim {
     variable search_dir
 
     if {$mode($txtt) eq "command"} {
-      if {$operator($txtt) eq ""} {
-        if {$motion($txtt) eq ""} {
-          gui::search "prev"
-          set search_dir($txtt) "prev"
-        } elseif {$motion($txtt) eq "g"} {
-          set operator($txtt) "rot13"
-          set motion($txtt)   ""
-          return 1
+      switch $operator($txtt) {
+        "" {
+          if {$motion($txtt) eq ""} {
+            gui::search "prev"
+            set search_dir($txtt) "prev"
+          } elseif {$motion($txtt) eq "g"} {
+            set_operator $txtt "rot13" {g question}
+            set motion($txtt)   ""
+            return 1
+          }
         }
-      } elseif {$operator($txtt) eq "rot13"} {
-        return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
+        "rot13" {
+          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
+        }
+        default {
+          reset_state $txtt 1
+        }
       }
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -1970,7 +1984,7 @@ namespace eval vim {
           $txtt highlight $end_index $start_index
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -1994,7 +2008,7 @@ namespace eval vim {
         set line  [expr int( ($multiplier($txtt) * $lines + 99) / 100 )]
         return [do_operation $txtt [list linenum -num $line]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2030,10 +2044,12 @@ namespace eval vim {
           if {$motion($txtt) eq ""} {
             set motion($txtt) "i"
             return 1
+          } else {
+            reset_state $txtt 1
           }
         }
       }
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -2055,7 +2071,7 @@ namespace eval vim {
         edit_mode $txtt
         record_start
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2084,7 +2100,7 @@ namespace eval vim {
           return [do_operation $txtt [list down -num [get_number $txtt] -column vim::column($txtt)]]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2105,7 +2121,7 @@ namespace eval vim {
         edit::transform_join_lines $txtt [get_number $txtt]
         record J
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2139,7 +2155,7 @@ namespace eval vim {
           return [do_operation $txtt [list up -num [get_number $txtt] -column vim::column($txtt)]]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2161,7 +2177,7 @@ namespace eval vim {
           search::search_documentation -str $word
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2213,7 +2229,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt screenbot]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2276,7 +2292,7 @@ namespace eval vim {
           }
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2305,7 +2321,7 @@ namespace eval vim {
           return 1
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2326,7 +2342,7 @@ namespace eval vim {
         set motion($txtt) "t"
         return 1
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2347,7 +2363,7 @@ namespace eval vim {
         set motion($txtt) "T"
         return 1
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2371,7 +2387,7 @@ namespace eval vim {
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt first]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2427,7 +2443,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt screentop]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2447,7 +2463,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt [list wordstart -dir prev -num [get_number $txtt] -exclusive 1]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2469,20 +2485,20 @@ namespace eval vim {
         "" {
           if {[edit::delete_selected $txtt]} {
             edit_mode $txtt
-            reset_state $txtt
           } else {
-            set operator($txtt) "change"
-            record_start
+            set_operator $txtt "change" {c}
           }
+          return 1
         }
         "change" {
           return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
         }
         "folding" {
           folding::close_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
-          reset_state $txtt
+          return 1
         }
       }
+      reset_state $txtt 1
       return 1
     }
 
@@ -2502,10 +2518,12 @@ namespace eval vim {
       if {$operator($txtt) eq ""} {
         $txtt delete insert "insert lineend"
         edit_mode $txtt
+        return 1
       } elseif {$operator($txtt) eq "folding"} {
         folding::close_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+        return 1
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2524,7 +2542,7 @@ namespace eval vim {
       if {$operator($txtt) eq "folding"} {
         folding::delete_all_folds [winfo parent $txtt]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2549,7 +2567,7 @@ namespace eval vim {
           default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2570,7 +2588,7 @@ namespace eval vim {
       } else {
         return [do_operation $txtt [list linenum -num $multiplier($txtt)]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2590,8 +2608,7 @@ namespace eval vim {
       switch $operator($txtt) {
         "" {
           if {![edit::delete_selected $txtt]} {
-            set operator($txtt) "delete"
-            record_start
+            set_operator $txtt "delete" {d}
             return 1
           }
         }
@@ -2601,8 +2618,11 @@ namespace eval vim {
         "folding" {
           folding::delete_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
         }
+        default {
+          reset_state $txtt 1
+        }
       }
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -2619,12 +2639,18 @@ namespace eval vim {
     variable operator
 
     if {$mode($txtt) eq "command"} {
-      if {$operator($txtt) eq ""} {
-        edit::delete_to_end $txtt 1
-      } elseif {$operator($txtt) eq "folding"} {
-        folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+      switch $operator($txtt) {
+        "" {
+          edit::delete_to_end $txtt 1
+        }
+        "folding" {
+          folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
+        }
+        default {
+          reset_state $txtt 1
+        }
       }
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -2658,8 +2684,11 @@ namespace eval vim {
           set motion($txtt) "a"
           return 1
         }
+        default {
+          reset_state $txtt 1
+        }
       }
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -2684,8 +2713,11 @@ namespace eval vim {
         "folding" {
           folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
         }
+        default {
+          reset_state $txtt 1
+        }
       }
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -2711,13 +2743,13 @@ namespace eval vim {
           ::tk::TextSetCursor $txtt $start
           command_mode $txtt
         } else {
-          set operator($txtt) "yank"
+          set_operator $txtt "yank" {y}
           return 1
         }
       } elseif {$operator($txtt) eq "yank"} {
         return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart 0]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2796,7 +2828,7 @@ namespace eval vim {
       do_post_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
       record p
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -2846,7 +2878,7 @@ namespace eval vim {
       do_pre_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
       record P
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -2891,14 +2923,14 @@ namespace eval vim {
         if {$motion($txtt) eq ""} {
           undo $txtt
         } elseif {$motion($txtt) eq "g"} {
-          set operator($txtt) "lower"
-          set motion($txtt)   ""
+          set_operator $txtt "lower" {g u}
+          set motion($txtt) ""
           return 1
         }
       } elseif {$operator($txtt) eq "lower"} {
         return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2917,14 +2949,14 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
         if {$motion($txtt) eq "g"} {
-          set operator($txtt) "upper"
-          set motion($txtt)   ""
+          set_operator $txtt "upper" {g U}
+          set motion($txtt) ""
           return 1
         }
       } elseif {$operator($txtt) eq "upper"} {
         return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2941,10 +2973,10 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {![edit::delete_selected $txtt]} {
-        set operator($txtt) "delete"
+        set_operator $txtt "delete" {x}
         return [do_operation $txtt [list right -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2962,10 +2994,10 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {![edit::delete_selected $txtt]} {
-        set operator($txtt) "delete"
+        set_operator $txtt "delete" {Delete}
         return [do_operation $txtt [list right -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -2982,10 +3014,10 @@ namespace eval vim {
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {![edit::delete_selected $txtt]} {
-        set operator($txtt) "delete"
+        set_operator $txtt "delete" {X}
         return [do_operation $txtt [list left -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3007,7 +3039,7 @@ namespace eval vim {
       } elseif {$operator($txtt) eq "folding"} {
         folding::open_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3029,7 +3061,7 @@ namespace eval vim {
       } elseif {$operator($txtt) eq "folding"} {
         folding::open_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3052,7 +3084,7 @@ namespace eval vim {
         gui::save_current
         gui::close_current
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3075,7 +3107,7 @@ namespace eval vim {
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt dispmid]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3112,7 +3144,7 @@ namespace eval vim {
           return [do_operation $txtt numberend]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3150,7 +3182,7 @@ namespace eval vim {
           return [do_operation $txtt numberstart]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3191,7 +3223,7 @@ namespace eval vim {
       } elseif {$operator($txtt) eq "folding"} {
         folding::open_all_folds [winfo parent $txtt]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3224,7 +3256,7 @@ namespace eval vim {
           return 1
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     } elseif {[in_visual_mode $txtt]} {
       command_mode $txtt
@@ -3250,7 +3282,7 @@ namespace eval vim {
         set motion($txtt) "V"
         return 1
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     } elseif {[in_visual_mode $txtt]} {
       command_mode $txtt
@@ -3274,7 +3306,7 @@ namespace eval vim {
       } else {
         return [do_operation $txtt spaceend]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3296,7 +3328,7 @@ namespace eval vim {
       } else {
         return [do_operation $txtt spacestart]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3393,7 +3425,7 @@ namespace eval vim {
       if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
         place_bracket $txtt \"
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3417,7 +3449,7 @@ namespace eval vim {
       if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
         place_bracket $txtt '
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3441,7 +3473,7 @@ namespace eval vim {
       if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
         place_bracket $txtt \[ \]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3467,7 +3499,7 @@ namespace eval vim {
       } elseif {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
         place_bracket $txtt \{ \}
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3487,7 +3519,7 @@ namespace eval vim {
       if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
         return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3513,7 +3545,7 @@ namespace eval vim {
       } elseif {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
         place_bracket $txtt ( )
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3533,7 +3565,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt [list sentence -dir next -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3560,7 +3592,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          set operator($txtt) "lshift"
+          set_operator $txtt "lshift" {less}
           return 1
         }
         "change" {
@@ -3572,7 +3604,7 @@ namespace eval vim {
           return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3591,14 +3623,14 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
         "" {
-          set operator($txtt) "rshift"
+          set_operator $txtt "rshift" {greater}
           return 1
         }
         "rshift" {
           return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3624,7 +3656,7 @@ namespace eval vim {
               indent::format_text $txtt $startpos $endpos
             }
           } else {
-            set operator($txtt) "format"
+            set_operator $txtt "format" {equal}
           }
           return 1
         }
@@ -3632,7 +3664,7 @@ namespace eval vim {
           return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3652,7 +3684,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt [list firstchar -dir next -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3671,7 +3703,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt [list firstchar -dir next -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3691,7 +3723,7 @@ namespace eval vim {
       if {$motion($txtt) eq ""} {
         return [do_operation $txtt [list firstchar -dir prev -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3725,17 +3757,17 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$operator($txtt) eq ""} {
         if {$motion($txtt) eq "g"} {
-          set operator($txtt) "swap"
-          set motion($txtt)   ""
+          set_operator $txtt "swap" {g asciitilde}
+          set motion($txtt) ""
           return 1
         } elseif {$motion($txtt) eq ""} {
-          set operator($txtt) "swap"
+          set_operator $txtt "swap" {asciitilde}
           return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} [list char -dir next -num [get_number $txtt]]]
         }
       } elseif {$operator($txtt) eq "swap"} {
         return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3757,7 +3789,7 @@ namespace eval vim {
       } else {
         return [do_operation $txtt screenmid]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3779,7 +3811,7 @@ namespace eval vim {
       ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word
       $txtt tag lower _search sel
       search::find_next [winfo parent $txtt]
-      reset_state $txtt
+      reset_state $txtt 0
       return 1
     }
 
@@ -3798,7 +3830,7 @@ namespace eval vim {
       set curr_reg $recording(curr_reg)
       if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
         record_stop $curr_reg
-        reset_state $txtt
+        reset_state $txtt 0
       } else {
         set mode($txtt) "record_reg"
       }
@@ -3824,7 +3856,7 @@ namespace eval vim {
       } elseif {$operator($txtt) eq "quit"} {
         gui::close_current -force 1
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -3978,7 +4010,7 @@ namespace eval vim {
         set operator($txtt) "folding"
         return 1
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -4000,7 +4032,7 @@ namespace eval vim {
       } elseif {$motion($txtt) eq "g"} {
         return [do_operation $txtt [list lastchar -num [get_number $txtt]]]
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
@@ -4024,7 +4056,7 @@ namespace eval vim {
           return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1]]
         }
       }
-      reset_state $txtt
+      reset_state $txtt 1
       return 1
     }
 
