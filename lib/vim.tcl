@@ -144,7 +144,7 @@ namespace eval vim {
     if {[preferences::get Editor/VimMode]} {
       set record ""
       if {[in_recording]} {
-        set record ", REC\[ $curr_reg \]"
+        set record ", REC\[ $recording(curr_reg) \]"
       }
       if {[info exists mode($txt.t)]} {
         switch $mode($txt.t) {
@@ -1063,7 +1063,7 @@ namespace eval vim {
     variable number
 
     # Stop recording
-    record_stop
+    record_stop 0
 
     # Clear the state information
     set operator($txtt)   ""
@@ -1268,6 +1268,7 @@ namespace eval vim {
       set recording(mode)        "record"
       set recording(auto,num)    $multiplier($txtt)
       set recording(auto,events) $keysyms
+      set recording($reg,events) [list]
       set recording(curr_reg)    $reg
     }
 
@@ -1275,16 +1276,19 @@ namespace eval vim {
 
   ######################################################################
   # Stops recording keystrokes.
-  proc record_stop {} {
+  proc record_stop {reg_stop} {
 
     variable recording
 
     set reg $recording(curr_reg)
 
     if {$recording(mode) eq "record"} {
-      set recording(mode) "none"
-      set recording($reg,num)    $recording(auto,num)
-      set recording($reg,events) $recording(auto,events)
+      if {($reg eq "auto") || $reg_stop} {
+        set recording(mode) "none"
+      }
+      if {$reg_stop} {
+        lappend recording($reg,events) {*}$recording(auto,events)
+      }
     }
 
   }
@@ -1299,7 +1303,6 @@ namespace eval vim {
     if {$recording(mode) eq "none"} {
       set recording(auto,events) $keysyms
       set recording(auto,num)    $multiplier($txtt)
-      set recording($reg,num)    $recording(auto,num)
       set recording($reg,events) $recording(auto,events)
     }
 
@@ -1489,11 +1492,6 @@ namespace eval vim {
     variable recording
     variable multicursor
 
-    # Add this keysym to the current recording buffer (if one exists)
-    if {[in_recording]} {
-      record_add Escape
-    }
-
     if {$mode($txtt) ne "command"} {
 
       # Add to the recording if we are doing so
@@ -1542,8 +1540,6 @@ namespace eval vim {
     variable column
     variable recording
 
-    puts "In handle_any, keycode: $keycode, char: $char, keysym: $keysym"
-
     # Lookup the keysym
     if {[catch { get_keysym $keycode $keysym } keysym]} {
       return 0
@@ -1580,14 +1576,12 @@ namespace eval vim {
         }
         return 1
       }
-    } elseif {($mode($txtt) ne "command") || ($keysym ne "q")} {
-      if {[in_recording]} {
-        record_add $keysym
-      }
     }
 
     # Record the character
-    record_add $keysym
+    if {![in_recording] || ($keysym ne "q")} {
+      record_add $keysym
+    }
 
     if {[handle_find_motion $txtt $char]} {
       return 1
@@ -2833,7 +2827,7 @@ namespace eval vim {
       # If we were in command mode, escape out of edit mode
       if {$mode($txt.t) ne "edit"} {
         record_add Escape
-        record_stop
+        record_stop 0
       }
 
     }
@@ -3970,7 +3964,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       if {[in_recording]} {
-        record_stop $curr_reg
+        record_stop 1
         reset_state $txtt 0
       } else {
         set mode($txtt) "record_reg"
