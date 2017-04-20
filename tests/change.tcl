@@ -72,9 +72,18 @@ namespace eval change {
       cleanup "$id change did not work ([$txtt get 1.0 end-1c])"
     }
     switch [lindex $cmdlist 0] {
-      "r"     { set mode "command" }
-      "R"     { set mode "replace_all" }
-      default { set mode "edit" }
+      "r"     {
+        set mode    "command"
+        set recmode "none"
+      }
+      "R"     {
+        set mode    "replace_all"
+        set recmode "record"
+      }
+      default {
+        set mode    "edit"
+        set recmode "record"
+      }
     }
     if {$vim::mode($txtt) ne $mode} {
       cleanup "$id not in $mode mode ($vim::mode($txtt))"
@@ -84,6 +93,12 @@ namespace eval change {
     }
     if {[clipboard get] ne "FOOBAR"} {
       cleanup "$id clipboard was incorrect ([clipboard get])"
+    }
+    if {$vim::recording(auto,mode) ne $recmode} {
+      cleanup "$id recording mode is incorrect ($vim::recording(auto,mode))"
+    }
+    if {$vim::recording(auto,events) ne $cmdlist} {
+      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
     }
 
     enter $txtt Escape
