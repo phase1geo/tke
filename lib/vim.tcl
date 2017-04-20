@@ -44,12 +44,8 @@ namespace eval vim {
   array set number          {}
 
   array set recording {
+    mode     "none"
     curr_reg ""
-  }
-
-  foreach reg [list a b c d e f g h i j k l m n o p q r s t u v w x y z auto] {
-    set recording($reg,mode)   "none"
-    set recording($reg,events) [list]
   }
 
   trace variable preferences::prefs(Editor/VimModelines) w [list vim::handle_vim_modelines]
@@ -1067,14 +1063,14 @@ namespace eval vim {
     variable multiplier
     variable number
 
+    # Stop recording
+    record_stop
+
     # Clear the state information
     set operator($txtt)   ""
     set motion($txtt)     ""
     set multiplier($txtt) ""
     set number($txtt)     ""
-
-    # Stop recording
-    record_stop
 
     # Add a separator
     $txtt edit separator
@@ -1091,7 +1087,7 @@ namespace eval vim {
     set operator($txtt) $op
 
     # Start recording
-    record_start auto $keysyms
+    record_start $txtt $keysyms
 
   }
 
@@ -1264,52 +1260,60 @@ namespace eval vim {
 
   ######################################################################
   # Starts recording keystrokes.
-  proc record_start {{reg auto} {keysyms {}}} {
+  proc record_start {txtt {keysyms {}} {reg auto}} {
 
     variable recording
+    variable multiplier
 
-    if {$recording($reg,mode) eq "none"} {
-      set recording($reg,mode)   "record"
-      set recording($reg,events) $keysyms
-      if {$reg ne "auto"} {
-        set recording(curr_reg) $reg
-      }
+    if {$recording(mode) eq "none"} {
+      set recording(mode)        "record"
+      set recording(auto,num)    $multiplier($txtt)
+      set recording(auto,events) $keysyms
+      set recording(curr_reg)    $reg
     }
 
   }
 
   ######################################################################
   # Stops recording keystrokes.
-  proc record_stop {{reg auto}} {
+  proc record_stop {} {
 
     variable recording
 
-    if {$recording($reg,mode) eq "record"} {
-      set recording($reg,mode) "none"
+    set reg $recording(curr_reg)
+
+    if {$recording(mode) eq "record"} {
+      set recording(mode) "none"
+      set recording($reg,num)    $recording(auto,num)
+      set recording($reg,events) $recording(auto,events)
     }
 
   }
 
   ######################################################################
   # Records a signal event and stops recording.
-  proc record {keysym {reg auto}} {
+  proc record {txtt keysyms {reg auto}} {
 
     variable recording
+    variable multiplier
 
-    if {$recording($reg,mode) eq "none"} {
-      set recording($reg,events) $keysym
+    if {$recording(mode) eq "none"} {
+      set recording(auto,events) $keysyms
+      set recording(auto,num)    $multiplier($txtt)
+      set recording($reg,num)    $recording(auto,num)
+      set recording($reg,events) $recording(auto,events)
     }
 
   }
 
   ######################################################################
   # Adds an event to the recording buffer if we are in record mode.
-  proc record_add {keysym {reg auto}} {
+  proc record_add {keysym} {
 
     variable recording
 
-    if {$recording($reg,mode) eq "record"} {
-      lappend recording($reg,events) $keysym
+    if {$recording(mode) eq "record"} {
+      lappend recording(auto,events) $keysym
     }
 
   }
@@ -1319,9 +1323,22 @@ namespace eval vim {
   proc playback {txtt {reg auto}} {
 
     variable recording
+    variable multiplier
 
     # Set the record mode to playback
-    set recording($reg,mode) "playback"
+    set recording(mode) "playback"
+
+    if {$reg eq "auto"} {
+
+      # Sets the number to use prior to the sequence
+      set num [expr {($multiplier($txtt) ne "") ? $multiplier($txtt) : $recording($reg,num)}]
+
+      # Add the numerical value
+      foreach event [split $num {}] {
+        event generate $txtt <Key> -keysym $event
+      }
+
+    }
 
     # Replay the recording buffer
     foreach event $recording($reg,events) {
@@ -1329,7 +1346,7 @@ namespace eval vim {
     }
 
     # Set the record mode to none
-    set recording($reg,mode) "none"
+    set recording(mode) "none"
 
   }
 
@@ -1351,7 +1368,10 @@ namespace eval vim {
 
     variable recording
 
-    set recording($reg,mode)   "none"
+    set recording(mode)        "none"
+    set recording(auto,num)    ""
+    set recording(auto,events) [list]
+    set recording($reg,num)    ""
     set recording($reg,events) [list]
 
   }
@@ -1463,7 +1483,6 @@ namespace eval vim {
 
       # Add to the recording if we are doing so
       record_add Escape
-      record_stop
 
       # Set the mode to command
       command_mode $txtt
@@ -1524,8 +1543,8 @@ namespace eval vim {
     # Handle a character when recording a macro
     if {$mode($txtt) eq "record_reg"} {
       command_mode $txtt
-      if {[regexp {^[a-z]$} $keysym]} {
-        record_start $keysym
+      if {[regexp {^[a-zA-Z\"]$} $keysym]} {
+        record_start $txtt {} $keysym
         return 1
       }
     } elseif {$mode($txtt) eq "playback_reg"} {
@@ -1595,7 +1614,6 @@ namespace eval vim {
           ::tk::TextSetCursor $txtt "insert-1c"
         }
         command_mode $txtt
-        record_stop
       }
       return 1
 
@@ -1678,7 +1696,7 @@ namespace eval vim {
           edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] 0 0
         }
         edit_mode $txtt
-        reset_state $txtt 0
+        # reset_state $txtt 0
         return 1
       }
       "yank" {
@@ -2030,11 +2048,11 @@ namespace eval vim {
         "" {
           if {![in_visual_mode $txtt]} {
             edit_mode $txtt
-            record_start
+            record_start $txtt "i"
           } else {
             set motion($txtt) i
-            return 1
           }
+          return 1
         }
         "folding" {
           if {![in_visual_mode $txtt]} {
@@ -2071,9 +2089,10 @@ namespace eval vim {
       if {$operator($txtt) eq ""} {
         ::tk::TextSetCursor $txtt "insert linestart"
         edit_mode $txtt
-        record_start
+        record_start $txtt "I"
+      } else {
+        reset_state $txtt 1
       }
-      reset_state $txtt 1
       return 1
     }
 
@@ -2683,7 +2702,8 @@ namespace eval vim {
           cleanup_dspace $txtt
           ::tk::TextSetCursor $txtt "insert+1c"
           edit_mode $txtt
-          record_start
+          record_start $txtt "a"
+          return 1
         }
         "folding" {
           folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
@@ -2717,7 +2737,8 @@ namespace eval vim {
         "" {
           ::tk::TextSetCursor $txtt "insert lineend"
           edit_mode $txtt
-          record_start
+          record_start $txtt "A"
+          return 1
         }
         "folding" {
           folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] 0
@@ -3254,7 +3275,7 @@ namespace eval vim {
 
     if {$mode($txtt) eq "command"} {
       set mode($txtt) "replace"
-      record_start
+      record_start $txtt "r"
       return 1
     }
 
@@ -3274,7 +3295,7 @@ namespace eval vim {
       switch $operator($txtt) {
         "" {
           set mode($txtt) "replace_all"
-          record_start
+          record_start $txtt "R"
           return 1
         }
         "folding" {
