@@ -1006,7 +1006,8 @@ namespace eval gui {
         set finfo(indent)      [indent::get_indent_mode $txt]
         set finfo(modified)    0
         set finfo(cursor)      [$txt index insert]
-        set finfo(yview)       [$txt index @0,0]
+        set finfo(xview)       [lindex [$txt xview] 0]
+        set finfo(yview)       [lindex [$txt yview] 0]
         set finfo(beye)        [winfo exists $beye]
         set finfo(split)       [winfo exists $txt2]
 
@@ -1063,7 +1064,8 @@ namespace eval gui {
     array set content $info
 
     array set finfo {
-      yview  ""
+      xview  0
+      yview  0
       cursor ""
       beye   0
       split  0
@@ -1125,7 +1127,7 @@ namespace eval gui {
             set tab [add_file $finfo(tab) $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
               -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1 -sidebar 0 \
-              -yview $finfo(yview) -cursor $finfo(cursor)]
+              -xview $finfo(xview) -yview $finfo(yview) -cursor $finfo(cursor)]
             get_info $tab tab txt
             if {[syntax::get_language $txt] ne $finfo(language)} {
               syntax::set_language $txt $finfo(language)
@@ -1706,7 +1708,8 @@ namespace eval gui {
       -remember    1
       -remote      ""
       -cursor      1.0
-      -yview       1.0
+      -xview       0
+      -yview       0
     }
     array set opts $args
 
@@ -1758,6 +1761,7 @@ namespace eval gui {
         -loaded   0 \
         -remember $opts(-remember) \
         -remote   $opts(-remote) \
+        -xview    $opts(-xview) \
         -yview    $opts(-yview) \
         -cursor   $opts(-cursor)
 
@@ -1789,7 +1793,7 @@ namespace eval gui {
   proc add_tab_content {tab} {
 
     # Get some of the file information
-    get_info $tab tab tabbar txt fname diff loaded yview cursor
+    get_info $tab tab tabbar txt fname diff loaded xview yview cursor
 
     # Indicate that we are loading the tab
     $tabbar tab $tab -busy 1
@@ -1820,7 +1824,8 @@ namespace eval gui {
       ::tk::TextSetCursor $txt.t $cursor
 
       # Set the yview
-      $txt yview $yview
+      $txt xview moveto $xview
+      $txt yview moveto $yview
 
       # Perform an insertion adjust, if necessary
       if {[vim::in_vim_mode $txt.t]} {

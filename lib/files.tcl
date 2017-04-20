@@ -43,8 +43,9 @@ namespace eval files {
     eol      13
     remember 14
     remote   15
-    yview    16
-    cursor   17
+    xview    16
+    yview    17
+    cursor   18
   }
 
   ######################################################################
@@ -307,7 +308,8 @@ namespace eval files {
       -eol      ""
       -remember 0
       -remote   ""
-      -yview    1.0
+      -xview    0
+      -yview    0
       -cursor   1.0
     }
     array set opts $args
@@ -329,6 +331,7 @@ namespace eval files {
     lset file_info $fields(loaded)   $opts(-loaded)
     lset file_info $fields(remember) $opts(-remember)
     lset file_info $fields(remote)   $opts(-remote)
+    lset file_info $fields(xview)    $opts(-xview)
     lset file_info $fields(yview)    $opts(-yview)
     lset file_info $fields(cursor)   $opts(-cursor)
 
@@ -560,24 +563,24 @@ namespace eval files {
       }
 
     }
-    
+
     # Find the matching file in the files list and change its filename to the new name
     if {[set index [get_index $old_name $remote]] != -1} {
-      
+
       # Update the stored name to the new name
       lset files $index $fields(fname) $new_name
-      
+
       # Get some information about the current file
       gui::get_info $index fileindex tab txt lang
-      
+
       # Reset the syntax highlighter to match the new name
       if {[set new_lang [syntax::get_default_language $new_name]] ne $lang} {
         syntax::set_language $txt $new_lang
       }
-      
+
       # Update the tab text
       gui::update_tab $tab
-      
+
     }
 
     return $new_name

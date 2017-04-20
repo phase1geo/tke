@@ -60,11 +60,21 @@ namespace eval delete {
   # Runs the given deletion test.
   proc do_test {txtt id cmdlist cursor value cb {undo 1}} {
 
-    set start        [$txtt get 1.0 end-1c]
-    set start_cursor [$txtt index insert]
+    set start         [$txtt get 1.0 end-1c]
+    set start_cursor  [$txtt index insert]
+    set record_num    ""
+    set record_events [list]
 
     clipboard clear
     clipboard append "FOOBAR"
+
+    foreach cmd $cmdlist {
+      if {([llength $record_events] == 0) && [string is integer $cmd]} {
+        append record_num $cmd
+      } else {
+        lappend record_events $cmd
+      }
+    }
 
     enter $txtt $cmdlist
     if {[$txtt get 1.0 end-1c] ne $value} {
@@ -78,6 +88,15 @@ namespace eval delete {
     }
     if {$vim::motion($txtt) ne ""} {
       cleanup "$id motion not cleared ($vim::mode($txtt))"
+    }
+    if {$vim::recording(mode) ne "none"} {
+      cleanup "$id recording mode is not none ($vim::recording(mode))"
+    }
+    if {$vim::recording(auto,num) != $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    }
+    if {$vim::recording(auto,events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id cursor incorrect ([$txtt index insert])"

@@ -60,13 +60,24 @@ namespace eval change {
   # Runs the given change test.
   proc do_test {txtt id cmdlist cursor value {undo 1}} {
 
-    set start        [$txtt get 1.0 end-1c]
-    set start_cursor [$txtt index insert]
+    set start         [$txtt get 1.0 end-1c]
+    set start_cursor  [$txtt index insert]
+    set record_num    ""
+    set record_events [list]
 
     clipboard clear
     clipboard append "FOOBAR"
 
     enter $txtt $cmdlist
+
+    # Figure out the recording information
+    foreach cmd $cmdlist {
+      if {([llength $record_events] == 0) && [string is integer $cmd]} {
+        append record_num $cmd
+      } else {
+        lappend record_events $cmd
+      }
+    }
 
     if {[$txtt get 1.0 end-1c] ne $value} {
       cleanup "$id change did not work ([$txtt get 1.0 end-1c])"
@@ -94,10 +105,13 @@ namespace eval change {
     if {[clipboard get] ne "FOOBAR"} {
       cleanup "$id clipboard was incorrect ([clipboard get])"
     }
-    if {$vim::recording(auto,mode) ne $recmode} {
-      cleanup "$id recording mode is incorrect ($vim::recording(auto,mode))"
+    if {$vim::recording(mode) ne $recmode} {
+      cleanup "$id recording mode is incorrect ($vim::recording(mode))"
     }
-    if {$vim::recording(auto,events) ne $cmdlist} {
+    if {$vim::recording(auto,num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    }
+    if {$vim::recording(auto,events) ne $record_events} {
       cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
     }
 
