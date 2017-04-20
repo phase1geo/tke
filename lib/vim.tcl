@@ -143,8 +143,7 @@ namespace eval vim {
 
     if {[preferences::get Editor/VimMode]} {
       set record ""
-      set curr_reg $recording(curr_reg)
-      if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
+      if {[in_recording]} {
         set record ", REC\[ $curr_reg \]"
       }
       if {[info exists mode($txt.t)]} {
@@ -1319,6 +1318,20 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Returns true if we are currently in a user-recording state.
+  proc in_recording {} {
+
+    variable recording
+
+    if {($recording(curr_reg) ne "auto") && ($recording(mode) eq "record")} {
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Plays back the record buffer.
   proc playback {txtt {reg auto}} {
 
@@ -1332,6 +1345,9 @@ namespace eval vim {
 
       # Sets the number to use prior to the sequence
       set num [expr {($multiplier($txtt) ne "") ? $multiplier($txtt) : $recording($reg,num)}]
+
+      # Clear the multiplier
+      set multiplier($txtt) ""
 
       # Add the numerical value
       foreach event [split $num {}] {
@@ -1474,9 +1490,8 @@ namespace eval vim {
     variable multicursor
 
     # Add this keysym to the current recording buffer (if one exists)
-    set curr_reg $recording(curr_reg)
-    if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
-      record_add Escape $curr_reg
+    if {[in_recording]} {
+      record_add Escape
     }
 
     if {$mode($txtt) ne "command"} {
@@ -1527,6 +1542,8 @@ namespace eval vim {
     variable column
     variable recording
 
+    puts "In handle_any, keycode: $keycode, char: $char, keysym: $keysym"
+
     # Lookup the keysym
     if {[catch { get_keysym $keycode $keysym } keysym]} {
       return 0
@@ -1564,9 +1581,8 @@ namespace eval vim {
         return 1
       }
     } elseif {($mode($txtt) ne "command") || ($keysym ne "q")} {
-      set curr_reg $recording(curr_reg)
-      if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
-        record_add $keysym $curr_reg
+      if {[in_recording]} {
+        record_add $keysym
       }
     }
 
@@ -2140,7 +2156,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       if {$operator($txtt) eq ""} {
         edit::transform_join_lines $txtt [get_number $txtt]
-        record J
+        record $txtt J
       }
       reset_state $txtt 1
       return 1
@@ -2542,6 +2558,8 @@ namespace eval vim {
       if {$operator($txtt) eq ""} {
         $txtt delete insert "insert lineend"
         edit_mode $txtt
+        record_start $txtt "C"
+        return 1
       } elseif {$operator($txtt) eq "folding"} {
         folding::close_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
       } else {
@@ -2864,7 +2882,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       do_post_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
-      record p
+      record $txtt p
       reset_state $txtt 0
       return 1
     }
@@ -2914,7 +2932,7 @@ namespace eval vim {
     if {$mode($txtt) eq "command"} {
       do_pre_paste $txtt [set clip [clipboard get]]
       cliphist::add_from_clipboard
-      record P
+      record $txtt P
       reset_state $txtt 0
       return 1
     }
@@ -3088,6 +3106,8 @@ namespace eval vim {
       switch $operator($txtt) {
         "" {
           edit::insert_line_below_current $txtt
+          record_start $txtt "o"
+          return 1
         }
         "folding" {
           folding::open_fold [get_number $txtt] [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -3117,6 +3137,8 @@ namespace eval vim {
       switch $operator($txtt) {
         "" {
           edit::insert_line_above_current $txtt
+          record_start $txtt "O"
+          return 1
         }
         "folding" {
           folding::open_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -3867,13 +3889,16 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          if {$motion($txtt) eq "g"} {
+          if {$motion($txtt) eq ""} {
+            set_operator $txtt "swap" {asciitilde}
+            return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} [list char -dir next -num [get_number $txtt]]]
+          } elseif {$motion($txtt) eq "g"} {
             set_operator $txtt "swap" {g asciitilde}
             set motion($txtt) ""
             return 1
-          } elseif {$motion($txtt) eq ""} {
-            set_operator $txtt "swap" {asciitilde}
-            return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} [list char -dir next -num [get_number $txtt]]]
+          } else {
+            reset_state $txtt 1
+            return 1
           }
         }
         "swap" {
@@ -3944,8 +3969,7 @@ namespace eval vim {
     variable recording
 
     if {$mode($txtt) eq "command"} {
-      set curr_reg $recording(curr_reg)
-      if {($curr_reg ne "") && ($recording($curr_reg,mode) eq "record")} {
+      if {[in_recording]} {
         record_stop $curr_reg
         reset_state $txtt 0
       } else {

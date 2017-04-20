@@ -59,8 +59,18 @@ namespace eval transform {
   proc do_test {txtt id cmdlist cursor value {undo 1}} {
 
     # Record the initial text so that we can verify undo
-    set start        [$txtt get 1.0 end-1c]
-    set start_cursor [$txtt index insert]
+    set start         [$txtt get 1.0 end-1c]
+    set start_cursor  [$txtt index insert]
+    set record_num    ""
+    set record_events [list]
+
+    foreach cmd $cmdlist {
+      if {([llength $record_events] == 0) && [string is integer $cmd]} {
+        append record_num $cmd
+      } else {
+        lappend record_events $cmd
+      }
+    }
 
     enter $txtt $cmdlist
     if {[$txtt get 1.0 end-1c] ne $value} {
@@ -74,6 +84,15 @@ namespace eval transform {
     }
     if {$vim::motion($txtt) ne ""} {
       cleanup "$id motion is not cleared ($vim::motion($txtt))"
+    }
+    if {$vim::recording(mode) ne "none"} {
+      cleanup "$id recording mode is not none ($vim::recording(mode))"
+    }
+    if {$vim::recording(auto,num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    }
+    if {$vim::recording(auto,events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id cursor is not correct ([$txtt index insert])"
@@ -107,8 +126,9 @@ namespace eval transform {
 
     $txtt mark set insert 2.2
     enter $txtt {v l}
-    do_test $txtt 2 asciitilde     2.2 "\nThIS is a line"
-    do_test $txtt 3 {V asciitilde} 2.0 "\ntHIS IS A LINE"
+    do_test $txtt 2 asciitilde 2.2 "\nThIS is a line"
+    enter $txtt V
+    do_test $txtt 3 asciitilde 2.0 "\ntHIS IS A LINE"
 
     # Cleanup
     cleanup

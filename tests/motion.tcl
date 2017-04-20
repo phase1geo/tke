@@ -18,6 +18,10 @@ namespace eval motion {
     # Set the current syntax to Tcl
     syntax::set_language $txt Tcl
 
+    # Make sure these are cleared
+    set vim::recording(auto,num)    ""
+    set vim::recording(auto,events) [list]
+
     return $txt
 
   }
@@ -73,6 +77,15 @@ namespace eval motion {
     }
     if {$vim::motion($txtt) ne ""} {
       cleanup "$id motion is not empty string ($vim::motion($txtt))"
+    }
+    if {$vim::recording(mode) ne "none"} {
+      cleanup "$id recording mode is incorrect ($vim::recording(mode))"
+    }
+    if {$vim::recording(auto,num) ne ""} {
+      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    }
+    if {$vim::recording(auto,events) ne {}} {
+      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
     }
     if {$dspace} {
       if {[lindex [split $cursor .] 1] != 0} {

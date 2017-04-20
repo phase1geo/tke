@@ -16,6 +16,10 @@ namespace eval yank {
     # Set the current syntax to Tcl
     syntax::set_language $txt Tcl
 
+    # Clear recording information
+    set vim::recording(auto,num)    ""
+    set vim::recording(auto,events) [list]
+
     return $txt.t
 
   }
@@ -59,10 +63,24 @@ namespace eval yank {
   proc do_test {txtt id cmdlist cursor cb} {
 
     # The text should never change so just record it
-    set start [$txtt get 1.0 end-1c]
+    set start         [$txtt get 1.0 end-1c]
+    set record_num    ""
+    set record_events [list]
 
     # Make sure that the clipboard contents are cleared
     clipboard clear
+
+    foreach cmd $cmdlist {
+      if {([llength $record_events] == 0) && [string is integer $cmd]} {
+        append record_num $cmd
+      } else {
+        lappend record_events $cmd
+      }
+    }
+
+    if {$record_events eq {y}} {
+      set record_events {}
+    }
 
     enter $txtt $cmdlist
     if {[$txtt get 1.0 end-1c] ne $start} {
@@ -76,6 +94,15 @@ namespace eval yank {
     }
     if {$vim::motion($txtt) ne ""} {
       cleanup "$id operator not cleared ($vim::motion($txtt))"
+    }
+    if {$vim::recording(mode) ne "none"} {
+      cleanup "$id recording mode is not none ($vim::recording(mode))"
+    }
+    if {$vim::recording(auto,num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    }
+    if {$vim::recording(auto,events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id yank changed cursor ([$txtt index insert])"
@@ -357,8 +384,11 @@ namespace eval yank {
     $txtt mark set insert 2.8
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {v l y} 2.8 "a "
-    do_test $txtt 1 {V y}   2.0 "This is a line\n"
+    enter $txtt {v l}
+    do_test $txtt 0 y 2.8 "a "
+
+    enter $txtt V
+    do_test $txtt 1 y 2.0 "This is a line\n"
 
     # Cleanup
     cleanup
@@ -367,9 +397,19 @@ namespace eval yank {
 
   proc do_paste_test {txtt id cmdlist cursor value {undo 1}} {
 
-    set cb        [clipboard get]
-    set prevalue  [$txtt get 1.0 end-1c]
-    set precursor [$txtt index insert]
+    set cb            [clipboard get]
+    set prevalue      [$txtt get 1.0 end-1c]
+    set precursor     [$txtt index insert]
+    set record_num    ""
+    set record_events [list]
+
+    foreach cmd $cmdlist {
+      if {([llength $record_events] == 0) && [string is integer $cmd]} {
+        append record_num $cmd
+      } else {
+        lappend record_events $cmd
+      }
+    }
 
     enter $txtt $cmdlist
 
@@ -390,6 +430,15 @@ namespace eval yank {
     }
     if {$vim::motion($txtt) ne ""} {
       cleanup "$id motion is not cleared ($vim::motion($txtt))"
+    }
+    if {$vim::recording(mode) ne "none"} {
+      cleanup "$id recording mode is not none ($vim::recording(mode))"
+    }
+    if {$vim::recording(auto,num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    }
+    if {$vim::recording(auto,events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
     }
 
     if {$undo} {

@@ -59,9 +59,6 @@ namespace eval edit {
     # Perform the proper indentation
     indent::newline $txtt insert 1
 
-    # Start recording
-    vim::record_start
-
   }
 
   ######################################################################
@@ -87,9 +84,6 @@ namespace eval edit {
 
     # Perform the proper indentation
     indent::newline $txtt insert 1
-
-    # Start recording
-    vim::record_start
 
   }
 
