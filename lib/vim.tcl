@@ -2648,10 +2648,12 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          if {![edit::delete_selected $txtt]} {
+          if {[edit::delete_selected $txtt]} {
+            command_mode $txtt
+          } else {
             set_operator $txtt "delete" {d}
-            return 1
           }
+          return 1
         }
         "delete" {
           return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart]
@@ -3039,11 +3041,12 @@ namespace eval vim {
     variable operator
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {![edit::delete_selected $txtt]} {
+      if {[edit::delete_selected $txtt]} {
+        command_mode $txtt
+      } else {
         set_operator $txtt "delete" {x}
         return [do_operation $txtt [list right -num [get_number $txtt]]]
       }
-      reset_state $txtt 0
       return 1
     }
 
@@ -3080,11 +3083,12 @@ namespace eval vim {
     variable operator
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {![edit::delete_selected $txtt]} {
+      if {[edit::delete_selected $txtt]} {
+        command_mode $txtt
+      } else {
         set_operator $txtt "delete" {X}
         return [do_operation $txtt [list left -num [get_number $txtt]]]
       }
-      reset_state $txtt 0
       return 1
     }
 
