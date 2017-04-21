@@ -1259,17 +1259,19 @@ namespace eval vim {
 
   ######################################################################
   # Starts recording keystrokes.
-  proc record_start {txtt {keysyms {}} {reg auto}} {
+  proc record_start {txtt {keysyms {}} {reg ""}} {
 
     variable recording
     variable multiplier
 
     if {$recording(mode) eq "none"} {
-      set recording(mode)        "record"
-      set recording(auto,num)    $multiplier($txtt)
-      set recording(auto,events) $keysyms
-      set recording($reg,events) [list]
-      set recording(curr_reg)    $reg
+      set recording(mode)   "record"
+      set recording(num)    $multiplier($txtt)
+      set recording(events) $keysyms
+      if {($recording(curr_reg) eq "") && ($reg ne "")} {
+        set recording($reg,events) [list]
+        set recording(curr_reg)    $reg
+      }
     }
 
   }
@@ -1280,14 +1282,12 @@ namespace eval vim {
 
     variable recording
 
-    set reg $recording(curr_reg)
+    set recording(mode) "none"
 
-    if {$recording(mode) eq "record"} {
-      if {($reg eq "auto") || $reg_stop} {
-        set recording(mode) "none"
-      }
+    if {[set reg $recording(curr_reg)] ne ""} {
+      lappend recording($reg,events) {*}$recording(events)
       if {$reg_stop} {
-        lappend recording($reg,events) {*}$recording(auto,events)
+        set recording(curr_reg) ""
       }
     }
 
@@ -1295,15 +1295,17 @@ namespace eval vim {
 
   ######################################################################
   # Records a signal event and stops recording.
-  proc record {txtt keysyms {reg auto}} {
+  proc record {txtt keysyms {reg ""}} {
 
     variable recording
     variable multiplier
 
     if {$recording(mode) eq "none"} {
-      set recording(auto,events) $keysyms
-      set recording(auto,num)    $multiplier($txtt)
-      set recording($reg,events) $recording(auto,events)
+      set recording(events) $keysyms
+      set recording(num)    $multiplier($txtt)
+      if {$recording(curr_reg) ne ""} {
+        lappend recording($reg,events) {*}$recording(events)
+      }
     }
 
   }
@@ -1315,7 +1317,7 @@ namespace eval vim {
     variable recording
 
     if {$recording(mode) eq "record"} {
-      lappend recording(auto,events) $keysym
+      lappend recording(events) $keysym
     }
 
   }
@@ -1326,17 +1328,13 @@ namespace eval vim {
 
     variable recording
 
-    if {($recording(curr_reg) ne "auto") && ($recording(mode) eq "record")} {
-      return 1
-    }
-
-    return 0
+    return [expr {$recording(curr_reg) ne ""}]
 
   }
 
   ######################################################################
   # Plays back the record buffer.
-  proc playback {txtt {reg auto}} {
+  proc playback {txtt {reg ""}} {
 
     variable recording
     variable multiplier
@@ -1344,10 +1342,10 @@ namespace eval vim {
     # Set the record mode to playback
     set recording(mode) "playback"
 
-    if {$reg eq "auto"} {
+    if {$reg eq ""} {
 
       # Sets the number to use prior to the sequence
-      set num [expr {($multiplier($txtt) ne "") ? $multiplier($txtt) : $recording($reg,num)}]
+      set num [expr {($multiplier($txtt) ne "") ? $multiplier($txtt) : $recording(num)}]
 
       # Clear the multiplier
       set multiplier($txtt) ""
@@ -1357,10 +1355,16 @@ namespace eval vim {
         event generate $txtt <Key> -keysym $event
       }
 
+      set events "events"
+
+    } else {
+
+      set events "$reg,events"
+
     }
 
     # Replay the recording buffer
-    foreach event $recording($reg,events) {
+    foreach event $recording($events) {
       event generate $txtt <Key> -keysym $event
     }
 
@@ -1383,13 +1387,13 @@ namespace eval vim {
 
   ######################################################################
   # Stops recording and clears the recording array.
-  proc record_clear {{reg auto}} {
+  proc record_clear {{reg ""}} {
 
     variable recording
 
     set recording(mode)        "none"
-    set recording(auto,num)    ""
-    set recording(auto,events) [list]
+    set recording(num)         ""
+    set recording(events)      [list]
     set recording($reg,num)    ""
     set recording($reg,events) [list]
 
@@ -1579,7 +1583,7 @@ namespace eval vim {
     }
 
     # Record the character
-    if {![in_recording] || ($keysym ne "q")} {
+    if {![in_recording] || ($keysym ne "q") || ($mode($txtt) eq "command")} {
       record_add $keysym
     }
 

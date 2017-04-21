@@ -56,15 +56,9 @@ namespace eval recording {
 
   ######################################################################
   # Execute a Vim test.
-  proc do_test {txtt id cmdlist reg events} {
+  proc do_test {txtt id cmdlist reg mode events} {
 
     enter $txtt $cmdlist
-
-    if {$cmdlist eq {q}} {
-      set mode "none"
-    } else {
-      set mode "record"
-    }
 
     if {$vim::recording(mode) ne $mode} {
       cleanup "$id recording mode is not record ($vim::recording(mode))"
@@ -72,8 +66,9 @@ namespace eval recording {
     if {$vim::recording(curr_reg) ne $reg} {
       cleanup "$id recording reg is incorrect ($vim::recording(curr_reg))"
     }
-    if {$vim::recording($reg,events) ne $events} {
-      cleanup "$id recording reg $reg events is incorrect ($vim::recording($reg,events))"
+    set event_key [expr {($reg eq "") ? "events" : "$reg,events"}]
+    if {$vim::recording($event_key) ne $events} {
+      cleanup "$id recording reg ($reg) events is incorrect ($vim::recording($event_key))"
     }
 
   }
@@ -83,10 +78,43 @@ namespace eval recording {
     # Initialize
     set txtt [initialize]
 
-    do_test $txtt 0 {q a} a {}
-    do_test $txtt 1 {i n i c e Escape} a {}
-    do_test $txtt 2 {o g o o d Escape} a {}
-    do_test $txtt 3 {q} a {i n i c e Escape o g o o d Escape}
+    do_test $txtt 0 {q a} a record {}
+    do_test $txtt 1 {i n i c e Escape} a none {i n i c e Escape}
+    do_test $txtt 2 {o g o o d Escape} a none {i n i c e Escape o g o o d Escape}
+    do_test $txtt 3 {q} "" none {o g o o d Escape}
+
+    do_test $txtt 4 {q q} q record {}
+    do_test $txtt 5 {i g o Escape} q none {i g o Escape}
+    do_test $txtt 6 {O n o Escape} q none {i g o Escape O n o Escape}
+    do_test $txtt 7 {q} "" none {O n o Escape}
+
+    do_test $txtt 8 {i f o o Escape} "" none {i f o o Escape}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  proc run_test2 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [string repeat "\nThis is a line" 6]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {2 d d} "" none {d d}
+
+    if {$vim::recording(num) != 2} {
+      cleanup "0 recording num incorrect ($vim::recording(num))"
+    }
+
+    do_test $txtt 1 {3 d 2 l} "" none {d 2 l}
+
+    if {$vim::recording(num) != 3} {
+      cleanup "1 recording num incorrect ($vim::recording(num))"
+    }
 
     # Cleanup
     cleanup

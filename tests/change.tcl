@@ -108,11 +108,11 @@ namespace eval change {
     if {$vim::recording(mode) ne $recmode} {
       cleanup "$id recording mode is incorrect ($vim::recording(mode))"
     }
-    if {$vim::recording(auto,num) ne $record_num} {
-      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    if {$vim::recording(num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(num))"
     }
-    if {$vim::recording(auto,events) ne $record_events} {
-      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
+    if {$vim::recording(events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(events))"
     }
 
     enter $txtt Escape

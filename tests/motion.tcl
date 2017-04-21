@@ -19,8 +19,8 @@ namespace eval motion {
     syntax::set_language $txt Tcl
 
     # Make sure these are cleared
-    set vim::recording(auto,num)    ""
-    set vim::recording(auto,events) [list]
+    set vim::recording(num)    ""
+    set vim::recording(events) [list]
 
     return $txt
 
@@ -81,11 +81,11 @@ namespace eval motion {
     if {$vim::recording(mode) ne "none"} {
       cleanup "$id recording mode is incorrect ($vim::recording(mode))"
     }
-    if {$vim::recording(auto,num) ne ""} {
-      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    if {$vim::recording(num) ne ""} {
+      cleanup "$id recording num is incorrect ($vim::recording(num))"
     }
-    if {$vim::recording(auto,events) ne {}} {
-      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
+    if {$vim::recording(events) ne {}} {
+      cleanup "$id recording events are incorrect ($vim::recording(events))"
     }
     if {$dspace} {
       if {[lindex [split $cursor .] 1] != 0} {

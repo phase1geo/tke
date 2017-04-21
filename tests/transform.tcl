@@ -88,11 +88,11 @@ namespace eval transform {
     if {$vim::recording(mode) ne "none"} {
       cleanup "$id recording mode is not none ($vim::recording(mode))"
     }
-    if {$vim::recording(auto,num) ne $record_num} {
-      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    if {$vim::recording(num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(num))"
     }
-    if {$vim::recording(auto,events) ne $record_events} {
-      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
+    if {$vim::recording(events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(events))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id cursor is not correct ([$txtt index insert])"

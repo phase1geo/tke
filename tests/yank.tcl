@@ -17,8 +17,8 @@ namespace eval yank {
     syntax::set_language $txt Tcl
 
     # Clear recording information
-    set vim::recording(auto,num)    ""
-    set vim::recording(auto,events) [list]
+    set vim::recording(num)    ""
+    set vim::recording(events) [list]
 
     return $txt.t
 
@@ -98,11 +98,11 @@ namespace eval yank {
     if {$vim::recording(mode) ne "none"} {
       cleanup "$id recording mode is not none ($vim::recording(mode))"
     }
-    if {$vim::recording(auto,num) ne $record_num} {
-      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    if {$vim::recording(num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(num))"
     }
-    if {$vim::recording(auto,events) ne $record_events} {
-      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
+    if {$vim::recording(events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(events))"
     }
     if {[$txtt index insert] ne $cursor} {
       cleanup "$id yank changed cursor ([$txtt index insert])"
@@ -434,11 +434,11 @@ namespace eval yank {
     if {$vim::recording(mode) ne "none"} {
       cleanup "$id recording mode is not none ($vim::recording(mode))"
     }
-    if {$vim::recording(auto,num) ne $record_num} {
-      cleanup "$id recording num is incorrect ($vim::recording(auto,num))"
+    if {$vim::recording(num) ne $record_num} {
+      cleanup "$id recording num is incorrect ($vim::recording(num))"
     }
-    if {$vim::recording(auto,events) ne $record_events} {
-      cleanup "$id recording events are incorrect ($vim::recording(auto,events))"
+    if {$vim::recording(events) ne $record_events} {
+      cleanup "$id recording events are incorrect ($vim::recording(events))"
     }
 
     if {$undo} {
