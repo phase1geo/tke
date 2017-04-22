@@ -4,6 +4,11 @@ filepatterns
 vimsyntax
 {xml}
 
+reference {
+  {{Emmet Reference} https://docs.emmet.io}
+  {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
+}
+
 matchcharsallowed
 {paren angled double single}
 

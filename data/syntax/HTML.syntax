@@ -7,11 +7,13 @@ vimsyntax
 reference
 {
   {{5.0 Reference} https://dev.w3.org/html5/html-author/}
+  {{Emmet Reference} https://docs.emmet.io}
+  {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
 }
 
 embedded {
   {PHP        {<\?php$}                                {\?>}}
-  {CSS        {<style.*type="text/css".*>$}            {</style>}}
+  {CSS        {<style(.*type="text/css".*)?>$}         {</style>}}
   {JavaScript {<script(.*type="text/javascript".*)?>$} {</script>}}
 }
 
