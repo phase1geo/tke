@@ -3684,7 +3684,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
     if {[lsearch -glob $ltags diff:B:S:*] != -1} {
       set lineB [incr currline(B)]
     }
-    set line_content [list [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] [list] {*}$gutter_items "0" [list] "\n"]
+    set line_content [list [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] [list] {*}$gutter_items " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
     }
@@ -3711,7 +3711,7 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     set ltags        [$win.t tag names $line.0]
     set linenum      [expr $abs ? $line : abs( $line - $curr )]
     set largest      [list]
-    set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items "0" [list] "\n"]
+    set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
     }
@@ -3723,7 +3723,7 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     if {$wrapped && ([set blanks [$win._t count -displaylines $line.0 $line.end]] > 0)} {
       set linenum [format "%-*s" $linenum_width ""]
       for {set i 0} {$i < $blanks} {incr i} {
-        $win.l insert end $linenum [list] {*}$gutter_items "0" $largest "\n"
+        $win.l insert end $linenum [list] {*}$gutter_items " " $largest "\n"
       }
     }
   }
@@ -3735,10 +3735,10 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
   variable data
 
   if {$data($win,config,-linemap_markable)} {
-    set line_template [list " " [list] {*}$gutter_items "0" [list] "\n"]
+    set line_template [list " " [list] {*}$gutter_items " " [list] "\n"]
     set line_items    2
   } else {
-    set line_template [list {*}$gutter_items "0" [list] "\n"]
+    set line_template [list {*}$gutter_items " " [list] "\n"]
     set line_items    0
   }
 
@@ -3747,7 +3747,7 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
   for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags [$win.t tag names $line.0]
-    set line_content [list " " [list] {*}$gutter_items "0" [list] "\n"]
+    set line_content [list " " [list] {*}$gutter_items " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
     }
@@ -3765,7 +3765,7 @@ proc ctext::linemapMarkUpdate {win first last} {
   for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
     set ltags        [$win.t tag names $line.0]
-    set line_content [list " " [list] "0" [list] "\n"]
+    set line_content [list " " [list] " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
     }
