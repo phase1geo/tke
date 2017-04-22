@@ -1862,7 +1862,11 @@ namespace eval menus {
   # Deletes the current line.
   proc edit_delete_current_line {} {
 
-    edit::delete_current_line [gui::current_txt].t 1
+    set txtt [gui::current_txt].t
+
+    if {![edit::delete_selected $txtt]} {
+      edit::delete $txtt linestart lineend 1 1
+    }
 
   }
 
@@ -1878,7 +1882,11 @@ namespace eval menus {
   # Deletes from the current cursor position to the end of the line.
   proc edit_delete_to_end {} {
 
-    edit::delete_to_end [gui::current_txt].t 1
+    set txtt [gui::current_txt].t
+
+    if {![edit::delete_selected $txtt]} {
+      edit::delete $txtt insert lineend 1 1
+    }
 
   }
 
@@ -1886,7 +1894,11 @@ namespace eval menus {
   # Deletes from the start of the current line to just before the cursor.
   proc edit_delete_from_start {} {
 
-    edit::delete_from_start [gui::current_txt].t 1
+    set txtt [gui::current_txt].t
+
+    if {![edit::delete_selected $txtt]} {
+      edit::delete $txtt insert linestart 1 1
+    }
 
   }
 

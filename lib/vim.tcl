@@ -1971,15 +1971,19 @@ namespace eval vim {
     variable motion
     variable search_dir
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
           if {$motion($txtt) eq ""} {
             gui::search "prev"
             set search_dir($txtt) "prev"
           } elseif {$motion($txtt) eq "g"} {
-            set_operator $txtt "rot13" {g question}
-            set motion($txtt)   ""
+            if {[edit::transform_to_rot13_selected $txtt]} {
+              command_mode $txtt
+            } else {
+              set_operator $txtt "rot13" {g question}
+              set motion($txtt)   ""
+            }
             return 1
           }
         }
@@ -2518,7 +2522,7 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          if {[edit::delete_selected $txtt]} {
+          if {[edit::delete_selected $txtt 0]} {
             edit_mode $txtt
           } else {
             set_operator $txtt "change" {c}
@@ -2552,11 +2556,15 @@ namespace eval vim {
     variable mode
     variable operator
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       if {$operator($txtt) eq ""} {
-        $txtt delete insert "insert lineend"
-        edit_mode $txtt
-        record_start $txtt "C"
+        if {[edit::delete_selected $txtt 1]} {
+          edit_mode $txtt
+        } else {
+          $txtt delete insert "insert lineend"
+          edit_mode $txtt
+          record_start $txtt "C"
+        }
         return 1
       } elseif {$operator($txtt) eq "folding"} {
         folding::close_fold 0 [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -2648,7 +2656,7 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          if {[edit::delete_selected $txtt]} {
+          if {[edit::delete_selected $txtt 0]} {
             command_mode $txtt
           } else {
             set_operator $txtt "delete" {d}
@@ -2682,10 +2690,15 @@ namespace eval vim {
     variable mode
     variable operator
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          edit::delete_to_end $txtt 1
+          if {[edit::delete_selected $txtt 1]} {
+            command_mode $txtt
+            return 1
+          } else {
+            edit::delete_to_end $txtt 1
+          }
         }
         "folding" {
           folding::delete_folds [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0]
@@ -2794,8 +2807,8 @@ namespace eval vim {
             command_mode $txtt
           } else {
             set_operator $txtt "yank" {y}
-            return 1
           }
+          return 1
         }
         "yank" {
           return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart 0]
@@ -2979,8 +2992,12 @@ namespace eval vim {
           if {$motion($txtt) eq ""} {
             undo $txtt
           } elseif {$motion($txtt) eq "g"} {
-            set_operator $txtt "lower" {g u}
-            set motion($txtt) ""
+            if {[edit::transform_to_lower_case_selected $txtt]} {
+              command_mode $txtt
+            } else {
+              set_operator $txtt "lower" {g u}
+              set motion($txtt) ""
+            }
             return 1
           }
         }
@@ -3008,12 +3025,16 @@ namespace eval vim {
     variable operator
     variable motion
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
           if {$motion($txtt) eq "g"} {
-            set_operator $txtt "upper" {g U}
-            set motion($txtt) ""
+            if {[edit::transform_to_upper_case_selected $txtt]} {
+              command_mode $txtt
+            } else {
+              set_operator $txtt "upper" {g U}
+              set motion($txtt) ""
+            }
             return 1
           }
         }
@@ -3041,7 +3062,7 @@ namespace eval vim {
     variable operator
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {[edit::delete_selected $txtt]} {
+      if {[edit::delete_selected $txtt 0]} {
         command_mode $txtt
       } else {
         set_operator $txtt "delete" {x}
@@ -3063,7 +3084,10 @@ namespace eval vim {
     variable operator
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {![edit::delete_selected $txtt]} {
+      if {[edit::delete_selected $txtt 0]} {
+        command_mode $txtt
+        return 1
+      } else {
         set_operator $txtt "delete" {Delete}
         return [do_operation $txtt [list right -num [get_number $txtt]]]
       }
@@ -3083,7 +3107,7 @@ namespace eval vim {
     variable operator
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {[edit::delete_selected $txtt]} {
+      if {[edit::delete_selected $txtt 1]} {
         command_mode $txtt
       } else {
         set_operator $txtt "delete" {X}
@@ -3711,10 +3735,14 @@ namespace eval vim {
     variable operator
     variable motion
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          set_operator $txtt "lshift" {less}
+          if {[edit::unindent_selected $txtt]} {
+            command_mode $txtt
+          } else {
+            set_operator $txtt "lshift" {less}
+          }
           return 1
         }
         "change" {
@@ -3746,10 +3774,14 @@ namespace eval vim {
     variable mode
     variable operator
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          set_operator $txtt "rshift" {greater}
+          if {[edit::indent_selected $txtt]} {
+            command_mode $txtt
+          } else {
+            set_operator $txtt "rshift" {greater}
+          }
           return 1
         }
         "rshift" {
@@ -3778,13 +3810,15 @@ namespace eval vim {
     variable mode
     variable operator
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
           if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
             foreach {endpos startpos} [lreverse $selected] {
               indent::format_text $txtt $startpos $endpos
             }
+            ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -startpos $startpos]
+            command_mode $txtt
           } else {
             set_operator $txtt "format" {equal}
           }
@@ -3895,8 +3929,12 @@ namespace eval vim {
             set_operator $txtt "swap" {asciitilde}
             return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} [list char -dir next -num [get_number $txtt]]]
           } elseif {$motion($txtt) eq "g"} {
-            set_operator $txtt "swap" {g asciitilde}
-            set motion($txtt) ""
+            if {[edit::transform_toggle_case_selected $txtt]} {
+              command_mode $txtt
+            } else {
+              set_operator $txtt "swap" {g asciitilde}
+              set motion($txtt) ""
+            }
             return 1
           } else {
             reset_state $txtt 1

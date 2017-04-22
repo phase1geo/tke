@@ -67,14 +67,20 @@ namespace eval selection {
     if {$vim::mode($txtt) ne $mode} {
       cleanup "$id mode incorrect ($vim::mode($txtt))"
     }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator incorrect ($vim::operator($txtt))"
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id motion incorrect ($vim::motion($txtt))"
+    }
 
-    if {$sel eq ""} {
+    if {($sel eq "") && ($mode eq "command") && ($cmdlist ne {y})} {
       enter $txtt u
     }
 
   }
 
-  # Verify selection and operators in visual mode
+  # Baseline selection test
   proc run_test1 {} {
 
     # Initialize
@@ -87,20 +93,422 @@ namespace eval selection {
     do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
     do_test $txtt 1 {l}     "\nThis is a line" {2.0 2.6} visual:char
 
-    # Verify an x deletion
-    do_test $txtt 2 x "\ns a line" {}
+    # Cleanup
+    cleanup
 
-    # Verify an X deletion
-    do_test $txtt 3 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
-    do_test $txtt 4 X "\nis a line" {}
+  }
 
-    # Verify a d deletion
-    do_test $txtt 5 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
-    do_test $txtt 6 d "\nis a line" {}
+  # Verify an x deletion
+  proc run_test2 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify using visual mode to select
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 x "\nis a line" {}
+
+    # Verify using mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 x "\nis a line" {}
+
+    # Verify non-Vim mode
 
     # Cleanup
     cleanup
 
+  }
+
+  # Verify an X deletion
+  proc run_test3 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 X "\n " {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 X "\n " {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a d deletion
+  proc run_test4 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 d "\nis a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 d "\nis a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a D deletion
+  proc run_test5 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 D "\n " {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 D "\n " {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a Delete deletion
+  proc run_test6 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 Delete "\nis a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 Delete "\nis a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a c deletion
+  proc run_test7 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 c "\nis a line" {} edit
+    do_test $txtt 2 Escape "\nis a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 3 c "\nis a line" {} edit
+    do_test $txtt 4 Escape "\nis a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a C deletion
+  proc run_test8 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 14 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 15 C "\n" {} edit
+    do_test $txtt 16 Escape "\n " {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 15 C "\n" {} edit
+    do_test $txtt 16 Escape "\n " {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a y yank
+  proc run_test9 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    clipboard clear
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 y "\nThis is a line" {}
+
+    if {[clipboard get] ne "This "} {
+      cleanup "1 yank clipboard was not correct ([clipboard get])"
+    }
+
+    # Verify mouse selection
+    clipboard clear
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 y "\nThis is a line" {}
+
+    if {[clipboard get] ne "This "} {
+      cleanup "2 yank clipboard was not correct ([clipboard get])"
+    }
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a ~ transform
+  proc run_test10 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 asciitilde "\ntHIS is a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 1 asciitilde "\ntHIS is a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a g~ transform
+  proc run_test11 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 {g asciitilde} "\ntHIS is a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 {g asciitilde} "\ntHIS is a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a gu transform
+  proc run_test12 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 {g u} "\nthis is a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 {g u} "\nthis is a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a gU transform
+  proc run_test13 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 {g U} "\nTHIS is a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 {g U} "\nTHIS is a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a g? transform
+  proc run_test14 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 {g question} "\nGuvf is a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 {g question} "\nGuvf is a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a > transform
+  proc run_test15 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nThis is a line" {2.0 2.5} visual:char
+    do_test $txtt 1 {greater} "\n  This is a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.0 2.5
+    do_test $txtt 2 {greater} "\n  This is a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a < transform
+  proc run_test16 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\n    This is a line"
+    $txtt mark set insert 2.4
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\n    This is a line" {2.4 2.9} visual:char
+    do_test $txtt 1 {less} "\n  This is a line" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 2.4 2.9
+    do_test $txtt 2 {less} "\n  This is a line" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify a = transform
+  proc run_test17 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nif {1} {\n    set a 1\n}"
+    $txtt mark set insert 3.4
+    vim::adjust_insert $txtt
+
+    # Verify visual mode
+    do_test $txtt 0 {v 4 l} "\nif {1} {\n    set a 1\n}" {3.4 3.9} visual:char
+    do_test $txtt 1 {equal} "\nif {1} {\n  set a 1\n}" {}
+
+    # Verify mouse selection
+    $txtt tag add sel 3.4 3.9
+    do_test $txtt 2 {equal} "\nif {1} {\n  set a 1\n}" {}
+
+    # Verify non-Vim mode
+
+    # Cleanup
+    cleanup
 
   }
 
