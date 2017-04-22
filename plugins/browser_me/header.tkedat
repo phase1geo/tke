@@ -1,0 +1,7 @@
+name           {browser_me}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {no}
+description    {Adds sidebar file menu option to display the current file in a web browser.}

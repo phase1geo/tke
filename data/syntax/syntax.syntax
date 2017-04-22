@@ -4,9 +4,6 @@ filepatterns
 vimsyntax
 {}
 
-reference
-{}
-
 embedded
 {
   {Tcl {HighlightProc} {HighlightEndProc}}
@@ -78,7 +75,9 @@ precompile {
   } {}
 }
 
-miscellaneous1 {}
+miscellaneous1 {
+  HighlightRegexp {https?://[^ \t\n\}]+} {}
+}
 
 miscellaneous2 {}
 

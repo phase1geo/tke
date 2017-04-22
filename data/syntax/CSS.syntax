@@ -7,6 +7,8 @@ vimsyntax
 reference
 {
   {{Language Reference} http://www.w3schools.com/cssref/default.asp}
+  {{Emmet Reference} https://docs.emmet.io}
+  {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
 }
 
 matchcharsallowed
@@ -67,11 +69,15 @@ keywords
 
 numbers
 {
-  HighlightRegexp {\m([0-9]+|#[0-9a-fA-F]+|[0-9]+%|[0-9]*\.[0-9]+)} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+%|[0-9]*\.[0-9]+)|#[0-9a-fA-F]+} {}
 }
 
 punctuation
 {
   HighlightRegexp {[][\{\};:,.>+~*^$=]} {}
+}
+
+miscellaneous1 {
+  HighlightRegexp {--\w+} {}
 }
 
