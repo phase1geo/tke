@@ -111,7 +111,7 @@ namespace eval edit {
   ######################################################################
   # Checks to see if any text is currently selected.  If it is, performs
   # the deletion on the selected text.
-  proc delete_selected {txtt} {
+  proc delete_selected {txtt line} {
 
     # If we have selected text, perform the deletion
     if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
@@ -119,15 +119,38 @@ namespace eval edit {
       # Allow multicursors to be handled, if enabled
       if {![multicursor::delete $txtt selected]} {
 
-        # Save the selected text to the clipboard
-        clipboard clear
-        foreach {start end} $selected {
-          clipboard append [$txtt get $start $end]
-        }
+        if {$line} {
 
-        # Delete the text
-        foreach {end start} [lreverse $selected] {
-          $txtt delete $start $end
+          # Save the selected text to the clipboard
+          clipboard clear
+          foreach {start end} $selected {
+            clipboard append [$txtt get "$start linestart" "$end lineend"]
+          }
+
+          # Set the cursor to the first character of the selection prior to deletion
+          $txtt mark set insert [lindex $selected 0]
+
+          # Delete the text
+          foreach {end start} [lreverse $selected] {
+            $txtt delete "$start linestart" "$end lineend"
+          }
+
+        } else {
+
+          # Save the selected text to the clipboard
+          clipboard clear
+          foreach {start end} $selected {
+            clipboard append [$txtt get $start $end]
+          }
+
+          # Set the cursor to the first character of the selection prior to deletion
+          $txtt mark set insert [lindex $selected 0]
+
+          # Delete the text
+          foreach {end start} [lreverse $selected] {
+            $txtt delete $start $end
+          }
+
         }
 
       }
@@ -587,15 +610,28 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Perform a case toggle operation.
-  proc transform_toggle_case {txtt startpos endpos cursorpos} {
+  # If text is selected, the case will be toggled for each selected
+  # character.  Returns 1 if selected text was found; otherwise, returns 0.
+  proc transform_toggle_case_selected {txtt} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
+    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
+      puts "In transform_toggle_case_selected, ranges: $ranges"
+      foreach {endpos startpos} [lreverse $ranges] {
         convert_case_toggle $txtt $startpos $endpos
       }
       ::tk::TextSetCursor $txtt $startpos
-    } else {
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Perform a case toggle operation.
+  proc transform_toggle_case {txtt startpos endpos cursorpos} {
+
+    if {![transform_toggle_case_selected $txtt]} {
       convert_case_toggle $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
     }
@@ -603,15 +639,27 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Perform a lowercase conversion.
-  proc transform_to_lower_case {txtt startpos endpos cursorpos} {
+  # If text is selected, the case will be lowered for each selected
+  # character.  Returns 1 if selected text was found; otherwise, returns 0.
+  proc transform_to_lower_case_selected {txtt} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
+    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $ranges] {
         convert_to_lower_case $txtt $startpos $endpos
       }
       ::tk::TextSetCursor $txtt $startpos
-    } else {
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Perform a lowercase conversion.
+  proc transform_to_lower_case {txtt startpos endpos cursorpos} {
+
+    if {![transform_to_lower_case_selected $txtt]} {
       convert_to_lower_case $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
     }
@@ -619,15 +667,27 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Perform an uppercase conversion.
-  proc transform_to_upper_case {txtt startpos endpos cursorpos} {
+  # If text is selected, the case will be uppered for each selected
+  # character.  Returns 1 if selected text was found; otherwise, returns 0.
+  proc transform_to_upper_case_selected {txtt} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
+    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $ranges] {
         convert_to_upper_case $txtt $startpos $endpos
       }
       ::tk::TextSetCursor $txtt $startpos
-    } else {
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Perform an uppercase conversion.
+  proc transform_to_upper_case {txtt startpos endpos cursorpos} {
+
+    if {![transform_to_upper_case_selected $txtt]} {
       convert_to_upper_case $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
     }
@@ -635,15 +695,27 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Transforms all text in the given range to rot13.
-  proc transform_to_rot13 {txtt startpos endpos cursorpos} {
+  # If text is selected, the selected text will be rot13'ed.  Returns 1
+  # if selected text was found; otherwise, returns 0.
+  proc transform_to_rot13_selected {txtt} {
 
-    if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $sel_ranges] {
+    if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $ranges] {
         convert_to_rot13 $txtt $startpos $endpos
       }
       ::tk::TextSetCursor $txtt $startpos
-    } else {
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Transforms all text in the given range to rot13.
+  proc transform_to_rot13 {txtt startpos endpos cursorpos} {
+
+    if {![transform_to_rot13_selected $txtt]} {
       convert_to_rot13 $txtt $startpos $endpos
       ::tk::TextSetCursor $txtt $cursorpos
     }
@@ -1008,33 +1080,79 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Indents the selected text of the current text widget by one
-  # indentation level.
-  proc indent {txtt {startpos "insert"} {endpos "insert"}} {
-
-    # Create a separator
-    $txtt edit separator
+  # Perform indentation on a specified range.
+  proc do_indent {txtt startpos endpos} {
 
     # Get the indent spacing
     set indent_str [string repeat " " [indent::get_shiftwidth $txtt]]
 
-    # Get the selection ranges
-    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $selected] {
-        while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-          $txtt insert "$startpos linestart" $indent_str
-          set startpos [$txtt index "$startpos linestart+1l"]
-        }
-      }
-    } else {
-      while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-        $txtt insert "$startpos linestart" $indent_str
-        set startpos [$txtt index "$startpos linestart+1l"]
-      }
+    while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
+      $txtt insert "$startpos linestart" $indent_str
+      set startpos [$txtt index "$startpos linestart+1l"]
     }
 
-    # Create a separator
-    $txtt edit separator
+  }
+
+  ######################################################################
+  # Perform unindentation on a specified range.
+  proc do_unindent {txtt startpos endpos} {
+
+    # Get the indent spacing
+    set unindent_str [string repeat " " [indent::get_shiftwidth $txtt]]
+    set unindent_len [string length $unindent_str]
+
+    while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
+      if {[regexp "^$unindent_str" [$txtt get "$startpos linestart" "$startpos lineend"]]} {
+        $txtt delete "$startpos linestart" "$startpos linestart+${unindent_len}c"
+      }
+      set startpos [$txtt index "$startpos linestart+1l"]
+    }
+
+  }
+
+  ######################################################################
+  # If text is selected, performs one level of indentation.  Returns 1 if
+  # text was selected; otherwise, returns 0.
+  proc indent_selected {txtt} {
+
+    if {[llength [set range [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $range] {
+        do_indent $txtt $startpos $endpos
+      }
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Indents the selected text of the current text widget by one
+  # indentation level.
+  proc indent {txtt {startpos "insert"} {endpos "insert"}} {
+
+    if {![indent_selected $txtt]} {
+      do_indent $txtt $startpos $endpos
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
+    }
+
+  }
+
+  ######################################################################
+  # If text is selected, unindents the selected lines by one level and
+  # return a value of 1; otherwise, return a value of 0.
+  proc unindent_selected {txtt} {
+
+    if {[llength [set range [$txtt tag ranges sel]]] > 0} {
+      foreach {endpos startpos} [lreverse $range] {
+        do_unindent $txtt $startpos $endpos
+      }
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
+      return 1
+    }
+
+    return 0
 
   }
 
@@ -1043,34 +1161,10 @@ namespace eval edit {
   # indentation level.
   proc unindent {txtt {startpos "insert"} {endpos "insert"}} {
 
-    # Create a separator
-    $txtt edit separator
-
-    # Get the indent spacing
-    set unindent_str [string repeat " " [indent::get_shiftwidth $txtt]]
-    set unindent_len [string length $unindent_str]
-
-    # Get the selection ranges
-    if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-      foreach {endpos startpos} [lreverse $selected] {
-        while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-          if {[regexp "^$unindent_str" [$txtt get "$startpos linestart" "$startpos lineend"]]} {
-            $txtt delete "$startpos linestart" "$startpos linestart+${unindent_len}c"
-          }
-          set startpos [$txtt index "$startpos linestart+1l"]
-        }
-      }
-    } else {
-      while {[$txtt index "$startpos linestart"] <= [$txtt index "$endpos linestart"]} {
-        if {[regexp "^$unindent_str" [$txtt get "$startpos linestart" "$startpos lineend"]]} {
-          $txtt delete "$startpos linestart" "$startpos linestart+${unindent_len}c"
-        }
-        set startpos [$txtt index "$startpos linestart+1l"]
-      }
+    if {![unindent_selected $txtt]} {
+      do_unindent $txtt $startpos $endpos
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
     }
-
-    # Create a separator
-    $txtt edit separator
 
   }
 
