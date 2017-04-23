@@ -45,6 +45,14 @@ msgcat::mcmset no {
 
 }
 
+# emmet.tcl
+msgcat::mcmset no {
+
+  "Abbreviation"
+  "Forkortelse"
+
+}
+
 # files.tcl
 msgcat::mcmset no {
 
@@ -299,6 +307,18 @@ msgcat::mcmset no {
 
   "Auto-Indent"
   "Auto-innrykk"
+
+  "Balance Inward"
+  "Balanse innover"
+
+  "Balance Outward"
+  "Balanse utover"
+
+  "Balance tag pair moving inward"
+  "Balanse tag paret beveger seg innover"
+
+  "Balance tag pair moving outward"
+  "Balanse tag paret beveger seg utover"
 
   "Bold"
   "Fet"
@@ -635,6 +655,12 @@ msgcat::mcmset no {
 
   "Global"
   "Global"
+
+  "Go to Matching Pair"
+  "Gå til matchende par"
+
+  "Go to matching tag pair"
+  "Gå til samsvarende kode par"
 
   "Goto Last Tab"
   "Gå Siste Tab"
@@ -1451,6 +1477,12 @@ msgcat::mcmset no {
 
   "Windows"
   "Microsoft Windows"
+
+  "Wrap With Abbreviation"
+  "Bryte med forkortelse"
+
+  "Wrap tag with Emmet abbreviation"
+  "Bryte koden med Emmet forkortelse"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset no {
   "Background color for all sidebar items that are selected."
   "Bakgrunnsfarge for alle sidebar elementer som er valgt."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Bakgrunnsfarge for markører i linje rennesteinen og rullefelt"
+
+  "Background color for matching search text"
+  "Bakgrunnsfarge for samsvarende Søketekst"
+
   "Background color in difference viewer that shows added lines."
   "Bakgrunnsfarge i forskjell viewer som viser ekstra linjer."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset no {
   "Color of border drawn around active editing buffer."
   "Fargen på kantlinjen tegnet rundt aktiv redigering buffer."
 
+  "Color of space between tabs."
+  "Farge mellom kategorier."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Fargen på avstand mellom kommandoen bærerakett feltet og listen"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Fargen på ttk oppføring widget tekst grensen når posten har tastaturfokus."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Farge som brukes for utheving lukket folder i linje nummer rennesteinen"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Fargen som brukes til å trekke advarsel bredde linjen redigering bufferen (samt linjen skille gutter fra redigering bufferen)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset no {
 
   "Foreground (slider) color used in the text scrollbars."
   "(Skyveknappen) forgrunnsfargen brukes i tekst rullefeltene."
+
+  "Foreground color for matching search text"
+  "Forgrunnsfargen for samsvarende Søketekst"
 
   "Foreground color of list items when not selected"
   "Forgrunnsfargen for listeelementer når ikke"
@@ -2585,6 +2632,9 @@ msgcat::mcmset no {
 
   "Specifies foreground color of command launcher entry and list"
   "Angir forgrunnsfargen for kommandoen bærerakett oppføringen og liste"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Angir fargen tegnet rundt kanten av sidepanelet når en dratt fil droppable"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Angir fargen som vises rundt sidepanelet når sidepanelet ikke har fokus."

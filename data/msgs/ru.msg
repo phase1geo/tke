@@ -45,6 +45,14 @@ msgcat::mcmset ru {
 
 }
 
+# emmet.tcl
+msgcat::mcmset ru {
+
+  "Abbreviation"
+  "Сокращение"
+
+}
+
 # files.tcl
 msgcat::mcmset ru {
 
@@ -299,6 +307,18 @@ msgcat::mcmset ru {
 
   "Auto-Indent"
   "Авто отступ"
+
+  "Balance Inward"
+  "Баланс внутрь"
+
+  "Balance Outward"
+  "Баланс наружу"
+
+  "Balance tag pair moving inward"
+  "Пары тегов баланс, перемещение внутрь"
+
+  "Balance tag pair moving outward"
+  "Пары тегов баланс, перемещение наружу"
 
   "Bold"
   "Жирный"
@@ -635,6 +655,12 @@ msgcat::mcmset ru {
 
   "Global"
   "Глобально"
+
+  "Go to Matching Pair"
+  "Перейти к совпадающие пары"
+
+  "Go to matching tag pair"
+  "Перейти к совпадающие пары тегов"
 
   "Goto Last Tab"
   "На Последняя вкладка"
@@ -1451,6 +1477,12 @@ msgcat::mcmset ru {
 
   "Windows"
   "Windows"
+
+  "Wrap With Abbreviation"
+  "Обертывание с аббревиатура"
+
+  "Wrap tag with Emmet abbreviation"
+  "Оберните тег с Emmet аббревиатура"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset ru {
   "Background color for all sidebar items that are selected."
   "Цвет фона для всех элементов боковой панели, которые выбраны."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Цвет фона для маркеров в линию желоба и прокрутки"
+
+  "Background color for matching search text"
+  "Цвет фона для сопоставления искомого текста"
+
   "Background color in difference viewer that shows added lines."
   "Цвет фона в окне просмотра разница, которая показывает добавил строки."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset ru {
   "Color of border drawn around active editing buffer."
   "Цвет границы, нарисованной вокруг активной буфера редактирования."
 
+  "Color of space between tabs."
+  "Цвет пространства между вкладками."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Цвет спейсера между поле ввода команды запуска и список результатов"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Цвет границы текста виджет входа ТТК когда элемент имеет фокус клавиатуры."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Цвет, используемый для выделения закрытой складки в канаве номер линии"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Цвет, используемый для рисования линии ширина предупреждение в буфере редактирования (а также линия, разделяющая желоба от редактирования буфера)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset ru {
 
   "Foreground (slider) color used in the text scrollbars."
   "Цвет переднего плана (ползунок), используемый в тексте полосы прокрутки."
+
+  "Foreground color for matching search text"
+  "Цвет переднего плана для сопоставления искомого текста"
 
   "Foreground color of list items when not selected"
   "Цвет переднего плана для элементов списка, если не выбран"
@@ -2585,6 +2632,9 @@ msgcat::mcmset ru {
 
   "Specifies foreground color of command launcher entry and list"
   "Задает основной цвет команды запуска записи и список"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Определяет цвет, обращается вокруг границы боковой панели, когда перетаскиваемый файл виджетов"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Указывает цвет для отображения вокруг боковой панели при боковой панели не имеет фокус."

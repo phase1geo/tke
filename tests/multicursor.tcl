@@ -929,4 +929,118 @@ namespace eval multicursor {
 
   }
 
+  proc do_op_test {txtt id cmdlist value mcursor_list {mode "command"} {undo 1}} {
+
+    set start_value    [$txtt get 1.0 end-1c]
+    set start_mcursors [$txtt tag ranges mcursor]
+    set mcursors       [list]
+    foreach mcursor $mcursor_list {
+      lappend mcursors $mcursor [$txtt index "$mcursor+1c"]
+    }
+
+    enter $txtt $cmdlist
+
+    if {[$txtt get 1.0 end-1c] ne $value} {
+      cleanup "$id text does not match ([$txtt get 1.0 end-1c])"
+    }
+    if {[$txtt tag ranges mcursor] ne $mcursors} {
+      cleanup "$id mcursors do not match ([$txtt tag ranges mcursor])"
+    }
+    if {$vim::mode($txtt) ne $mode} {
+      cleanup "$id mode is incorrect ($vim::mode($txtt))"
+    }
+    if {$vim::operator($txtt) ne ""} {
+      cleanup "$id operator is incorrect ($vim::operator($txtt))"
+    }
+    if {$vim::motion($txtt) ne ""} {
+      cleanup "$id motion is incorrect ($vim::motion($txtt))"
+    }
+
+    if {$undo && ($mode ne "edit") && ([lindex $cmdlist 0] ne "y")} {
+
+      enter $txtt {Escape u}
+
+      if {[$txtt get 1.0 end-1c] ne $start_value} {
+        cleanup "$id undo text does not match ([$txtt get 1.0 end-1c])"
+      }
+      if {[$txtt tag ranges mcursor] ne ""} {
+        cleanup "$id undo mcursors do not match ([$txtt tag ranges mcursor])"
+      }
+
+      # Restore mcursors
+      $txtt tag add mcursor {*}$start_mcursors
+
+    }
+
+  }
+
+  proc run_test40 {} {
+
+    # Initialize
+    set txtt [initialize].t
+
+    $txtt insert end "\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    $txtt tag add mcursor 2.0 2.1 3.0 3.1
+    vim::adjust_insert $txtt
+
+    # Verify d deletion
+    do_op_test $txtt 0 {d l} "\nhis is a line\nhis is a line" {2.0 3.0}
+
+    # Verify x deletion
+    do_op_test $txtt 1 {2 x} "\nis is a line\nis is a line" {2.0 3.0}
+
+    # Verify Delete deletion
+    do_op_test $txtt 2 {Delete} "\nhis is a line\nhis is a line" {2.0 3.0}
+
+    # Verify c deletion
+    do_op_test $txtt 3 {c w} "\n is a line\n is a line" {2.0 3.0} "edit"
+    enter $txtt {Escape u}
+
+    # Verify y yank
+    clipboard clear
+    $txtt tag add mcursor 2.0 2.1 3.0 3.1
+    do_op_test $txtt 4 {y l} "\nThis is a line\nThis is a line" {2.0 3.0}
+
+    # TBD - Multicursor yank is not fully supported yet
+    if {[clipboard get] ne "T"} {
+      cleanup "4 yank text is incorrect ([clipboard get])"
+    }
+
+    # Verify case toggle
+    do_op_test $txtt 5 asciitilde "\nthis is a line\nthis is a line" {2.0 3.0}
+
+    # Verify case toggle
+    do_op_test $txtt 6 {g asciitilde v l} "\ntHis is a line\ntHis is a line" {2.0 3.0}
+
+    # Verify lower case
+    do_op_test $txtt 7 {g u l} "\nthis is a line\nthis is a line" {2.0 3.0}
+
+    # Verify upper case
+    do_op_test $txtt 8 {g U v l} "\nTHis is a line\nTHis is a line" {2.0 3.0}
+
+    # Verify rot13
+    do_op_test $txtt 9 {g question 4 l} "\nGuvf is a line\nGuvf is a line" {2.0 3.0}
+
+    # Verify rshift
+    do_op_test $txtt 10 {greater greater} "\n  This is a line\n  This is a line" {2.2 3.2}
+
+    # Verify lshift
+    $txtt insert 2.0 "  "
+    $txtt insert 3.0 "  "
+    $txtt edit separator
+    do_op_test $txtt 11 {less less} "\nThis is a line\nThis is a line" {2.0 3.0}
+
+    $txtt tag remove mcursor 1.0 end
+    $txtt tag add mcursor 2.1 2.2 3.2 3.3
+
+    # Verify X deletion
+    do_op_test $txtt 13 {X} "\n This is a line\n This is a line" {2.0 3.1}
+
+    # Cleanup
+    cleanup
+
+  }
+
 }

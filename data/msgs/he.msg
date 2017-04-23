@@ -45,6 +45,14 @@ msgcat::mcmset he {
 
 }
 
+# emmet.tcl
+msgcat::mcmset he {
+
+  "Abbreviation"
+  "קיצור"
+
+}
+
 # files.tcl
 msgcat::mcmset he {
 
@@ -299,6 +307,18 @@ msgcat::mcmset he {
 
   "Auto-Indent"
   "כניסה אוטומטית"
+
+  "Balance Inward"
+  "איזון פנימה"
+
+  "Balance Outward"
+  "איזון כלפי חוץ"
+
+  "Balance tag pair moving inward"
+  "איזון תג זוג נע כלפי"
+
+  "Balance tag pair moving outward"
+  "איזון תג זוג נע כלפי חוץ"
 
   "Bold"
   "מובלט"
@@ -635,6 +655,12 @@ msgcat::mcmset he {
 
   "Global"
   "גלובלי"
+
+  "Go to Matching Pair"
+  "ללכת התאמת זוג"
+
+  "Go to matching tag pair"
+  "ללכת התאמת זוג תג"
 
   "Goto Last Tab"
   "הכרטיסיה האחרונה גוטו"
@@ -1451,6 +1477,12 @@ msgcat::mcmset he {
 
   "Windows"
   "חלונות"
+
+  "Wrap With Abbreviation"
+  "לעטוף עם ראשי תבות"
+
+  "Wrap tag with Emmet abbreviation"
+  "גלישת תג עם ראשי תבות אמט"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset he {
   "Background color for all sidebar items that are selected."
   "צבע רקע עבור כל הפריטים הצידי שנבחרו."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "צבע רקע עבור סמני קו הביוב ואת פס גלילה"
+
+  "Background color for matching search text"
+  "צבע רקע עבור התאמת טקסט חיפוש"
+
   "Background color in difference viewer that shows added lines."
   "צבע הרקע במציג הבדל שמראה להוסיף קווים."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset he {
   "Color of border drawn around active editing buffer."
   "צבע לצייר גבול סביב מאגר העריכה פעיל."
 
+  "Color of space between tabs."
+  "צבע רווח בין כרטיסיות."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "צבע מרווח בין השדה ערך הפקודה משגר ורשימת תוצאות"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "הצבע של ttk כניסה יישומון גבול הטקסט כאשר הערך יש מוקד לוח מקשים."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "הצבע בו יש להשתמש עבור הדגשת קפלי סגור בביוב מספר השורה"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "הצבע המשמש כדי לצייר קו רוחב אזהרה המאגר העריכה (כמו גם על הקו המפריד בין המרזב מתוך המאגר העריכה)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset he {
 
   "Foreground (slider) color used in the text scrollbars."
   "צבע הקידמה (המחוון) המשמשים את פסי גלילה טקסט."
+
+  "Foreground color for matching search text"
+  "צבע הקידמה עבור התאמת טקסט חיפוש"
 
   "Foreground color of list items when not selected"
   "צבע הקידמה של פריטי רשימה כאשר לא נבחר"
@@ -2585,6 +2632,9 @@ msgcat::mcmset he {
 
   "Specifies foreground color of command launcher entry and list"
   "מציין את צבע הקידמה הפקודה משגר הכניסה של הרשימה"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "מציין את צבע נמשך סביב הגבול של הסרגל הצידי כאשר קובץ הנגררים droppable"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "מציין את צבע כדי להציג סביב הצידי כאשר הסרגל הצידי אינו חייב המוקד."

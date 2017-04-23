@@ -45,6 +45,14 @@ msgcat::mcmset fr {
 
 }
 
+# emmet.tcl
+msgcat::mcmset fr {
+
+  "Abbreviation"
+  "Abréviation"
+
+}
+
 # files.tcl
 msgcat::mcmset fr {
 
@@ -299,6 +307,18 @@ msgcat::mcmset fr {
 
   "Auto-Indent"
   "Indentation automatique"
+
+  "Balance Inward"
+  "Balance vers l’intérieur"
+
+  "Balance Outward"
+  "Bilan à l’extérieur"
+
+  "Balance tag pair moving inward"
+  "Paire de balise équilibre glissant vers l’intérieur"
+
+  "Balance tag pair moving outward"
+  "Paire de balise d’équilibre se déplaçant vers l’extérieur"
 
   "Bold"
   "Gras"
@@ -635,6 +655,12 @@ msgcat::mcmset fr {
 
   "Global"
   "Mondial"
+
+  "Go to Matching Pair"
+  "Aller à la correspondance de paire"
+
+  "Go to matching tag pair"
+  "Aller à une adéquation entre la paire de balises"
 
   "Goto Last Tab"
   "Goto dernier onglet"
@@ -1451,6 +1477,12 @@ msgcat::mcmset fr {
 
   "Windows"
   "Fenêtres"
+
+  "Wrap With Abbreviation"
+  "Envelopper d’une abréviation"
+
+  "Wrap tag with Emmet abbreviation"
+  "Envelopper la balise avec l’abréviation Emmet"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset fr {
   "Background color for all sidebar items that are selected."
   "La couleur de fond pour tous les éléments de la barre latérale qui sont sélectionnés."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Couleur d’arrière-plan pour les marqueurs dans la gouttière de la ligne et la barre de défilement"
+
+  "Background color for matching search text"
+  "Couleur d’arrière-plan pour un alignement de texte de recherche"
+
   "Background color in difference viewer that shows added lines."
   "La couleur de fond dans la différence spectateur qui montre lignes ajoutées."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset fr {
   "Color of border drawn around active editing buffer."
   "Couleur de la frontière tracée autour tampon d`édition active."
 
+  "Color of space between tabs."
+  "Couleur de l’espace entre les onglets."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Couleur de l’entretoise entre le champ de saisie de commande launcher et la liste des résultats"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Couleur de la saisie de texte ttk widget frontière lorsque l`entrée a le focus clavier."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Couleur à utiliser pour mettre en évidence les plis fermés dans le caniveau de numéro de ligne"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Couleur utilisée pour tracer la ligne de largeur d`avertissement dans le tampon d`édition (ainsi que la ligne qui sépare la gouttière de la mémoire tampon d`édition)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset fr {
 
   "Foreground (slider) color used in the text scrollbars."
   "Premier plan (curseur) couleur utilisée dans les barres de défilement de texte."
+
+  "Foreground color for matching search text"
+  "Couleur de premier plan pour faire correspondre le texte recherché"
 
   "Foreground color of list items when not selected"
   "Couleur de premier plan des éléments de liste lorsque ne pas sélectionné"
@@ -2585,6 +2632,9 @@ msgcat::mcmset fr {
 
   "Specifies foreground color of command launcher entry and list"
   "Spécifie la couleur de premier plan de l’entrée de commande launcher et liste"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Spécifie la couleur de tracé autour de la frontière de la barre latérale lorsqu’un fichier déplacé est capable de recevoir"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Indique la couleur pour afficher autour de la barre latérale lorsque la barre latérale n'a pas le focus."

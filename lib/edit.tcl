@@ -615,7 +615,6 @@ namespace eval edit {
   proc transform_toggle_case_selected {txtt} {
 
     if {[llength [set ranges [$txtt tag ranges sel]]] > 0} {
-      puts "In transform_toggle_case_selected, ranges: $ranges"
       foreach {endpos startpos} [lreverse $ranges] {
         convert_case_toggle $txtt $startpos $endpos
       }

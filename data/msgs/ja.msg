@@ -45,6 +45,14 @@ msgcat::mcmset ja {
 
 }
 
+# emmet.tcl
+msgcat::mcmset ja {
+
+  "Abbreviation"
+  "略語"
+
+}
+
 # files.tcl
 msgcat::mcmset ja {
 
@@ -299,6 +307,18 @@ msgcat::mcmset ja {
 
   "Auto-Indent"
   "自動インデント"
+
+  "Balance Inward"
+  "内側のバランスをとる"
+
+  "Balance Outward"
+  "外側のバランスをとる"
+
+  "Balance tag pair moving inward"
+  "内側へ動かしてバランス タグのペア"
+
+  "Balance tag pair moving outward"
+  "外側に移動バランス タグのペア"
 
   "Bold"
   "ボールド"
@@ -635,6 +655,12 @@ msgcat::mcmset ja {
 
   "Global"
   "グローバル"
+
+  "Go to Matching Pair"
+  "ペアに一致するへ"
+
+  "Go to matching tag pair"
+  "タグのペアに一致するへ"
 
   "Goto Last Tab"
   "後藤最後のタブ"
@@ -1451,6 +1477,12 @@ msgcat::mcmset ja {
 
   "Windows"
   "窓"
+
+  "Wrap With Abbreviation"
+  "省略形でラップ"
+
+  "Wrap tag with Emmet abbreviation"
+  "エメットの略語でタグを囲む"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset ja {
   "Background color for all sidebar items that are selected."
   "選択されているすべてのサイドバーの項目の背景色です。"
 
+  "Background color for markers in the line gutter and scrollbar"
+  "線樋とスクロール バーのマーカーの背景色"
+
+  "Background color for matching search text"
+  "一致する検索テキストの背景色"
+
   "Background color in difference viewer that shows added lines."
   "追加された行を示し、差分ビューアで背景色です。"
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset ja {
   "Color of border drawn around active editing buffer."
   "アクティブな編集バッファ周りに描か境界線の色です。"
 
+  "Color of space between tabs."
+  "タブ間のスペースの色です。"
+
   "Color of the spacer between the command launcher entry field and the result list"
   "コマンド起動入力フィールドと、結果の一覧の間のスペーサーの色"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "エントリにキーボードフォーカスがTTKエントリウィジェットのテキストの境界線の色です。"
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "行番号余白で閉じた襞を強調表示に使用する色"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "色は、編集バッファに警告幅ライン（並びに編集バッファから樋を分離線）を描画するために使用されます。"
@@ -2474,6 +2518,9 @@ msgcat::mcmset ja {
 
   "Foreground (slider) color used in the text scrollbars."
   "テキストスクロールバーで使用される前景（スライダー）カラー。"
+
+  "Foreground color for matching search text"
+  "検索文字列に一致する前景色の色"
 
   "Foreground color of list items when not selected"
   "選択されていない場合、リスト アイテムの前景の色"
@@ -2585,6 +2632,9 @@ msgcat::mcmset ja {
 
   "Specifies foreground color of command launcher entry and list"
   "ランチャーのコマンド エントリと一覧の背景色を指定します"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "ドラッグしたファイルがドロップ可能なときにサイドバーの境界線の描画色を指定します"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "サイドバーにフォーカスがないときに、サイドバーの周りに表示する色を指定します。"
