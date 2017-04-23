@@ -148,11 +148,12 @@ namespace eval vim {
       }
       if {[info exists mode($txt.t)]} {
         switch $mode($txt.t) {
-          "edit"        { return "INSERT MODE$record" }
-          "visual:char" { return "VISUAL MODE$record" }
-          "visual:line" { return "VISUAL LINE MODE$record"}
-          "format"      { return "FORMAT$record" }
-          default       {
+          "edit"         { return "INSERT MODE$record" }
+          "visual:char"  { return "VISUAL MODE$record" }
+          "visual:line"  { return "VISUAL LINE MODE$record"}
+          "visual:block" { return "VISUAL BLOCK MODE$record"}
+          "format"       { return "FORMAT$record" }
+          default        {
             if {[info exists multicursor($txt.t)] && $multicursor($txt.t)} {
               return "MULTIMOVE MODE"
             } else {
@@ -813,7 +814,13 @@ namespace eval vim {
     # Get the anchor for the given selection
     set anchor [lindex $select_anchors($txtt) $index]
 
-    if {[$txtt compare $anchor < $pos]} {
+    if {$type eq "block"} {
+      if {$seltype eq "exclusive"} {
+        multicursor::handle_block_selection $txtt $anchor [$txtt index $pos]
+      } else {
+        multicursor::handle_block_selection $txtt $anchor [$txtt index $pos+1c]
+      }
+    } elseif {[$txtt compare $anchor < $pos]} {
       if {$type eq "line"} {
         $txtt tag add sel "$anchor linestart" "$pos lineend"
       } elseif {$seltype eq "exclusive"} {
@@ -3396,7 +3403,11 @@ namespace eval vim {
       reset_state $txtt 0
       return 1
     } elseif {[in_visual_mode $txtt]} {
-      command_mode $txtt
+      if {$mode($txtt) eq "visual:char"} {
+        visual_mode $txtt block
+      } else {
+        command_mode $txtt
+      }
       return 1
     }
 
