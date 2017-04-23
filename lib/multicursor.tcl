@@ -111,11 +111,44 @@ namespace eval multicursor {
   # Handles a Shift-Alt-Buttonpress-1 event when in multicursor mode.
   proc handle_shift_alt_buttonpress1 {W x y} {
 
-    variable select_start_line
-    variable select_start_column
+    variable select_anchor
 
-    lassign [split [$W index @$x,$y] .] select_start_line select_start_column
+    # Set the anchor point
+    set select_anchor [$W index @$x,$y]
+
+    # Clear the current selection
     $W tag remove sel 1.0 end
+
+  }
+
+  ######################################################################
+  # Performs the block selection.
+  proc handle_block_selection {txtt anchor current} {
+
+    lassign [split $anchor  .] arow acol
+    lassign [split $current .] crow ccol
+
+    if {$arow < $crow} {
+      set srow $arow
+      set erow $crow
+    } else {
+      set srow $crow
+      set erow $arow
+    }
+
+    if {$acol < $ccol} {
+      set scol $acol
+      set ecol $ccol
+    } else {
+      set scol $ccol
+      set ecol $acol
+    }
+
+    # Set the selection
+    $txtt tag remove sel 1.0 end
+    for {set i $srow} {$i <= $erow} {incr i} {
+      $txtt tag add sel $i.$scol $i.$ecol
+    }
 
   }
 
@@ -123,18 +156,9 @@ namespace eval multicursor {
   # Handles a Shift-Alt-Button1-Motion event when in multicursor mode.
   proc handle_shift_alt_motion {W x y} {
 
-    variable select_start_line
-    variable select_start_column
+    variable select_anchor
 
-    lassign [split [$W index @$x,$y] .] line column
-    lassign [split [lindex [$W tag ranges sel] end] .] last_line last_column
-
-    if {($last_line eq "") || ($line != $last_line) || ($column != $last_column)} {
-      $W tag remove sel 1.0 end
-      for {set i $select_start_line} {$i <= $line} {incr i} {
-        $W tag add sel $i.$select_start_column $i.$column
-      }
-    }
+    handle_block_selection $W $select_anchor [$W index @$x,$y]
 
   }
 
@@ -142,11 +166,9 @@ namespace eval multicursor {
   # Handles a Shift-Alt-Buttonrelease-1 event when in multicursor mode.
   proc handle_shift_alt_buttonrelease1 {W x y} {
 
-    variable select_start_line
-    variable select_start_column
+    variable select_anchor
 
-    set select_start_line   ""
-    set select_start_column ""
+    set select_anchor ""
 
   }
 
