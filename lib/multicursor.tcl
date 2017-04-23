@@ -611,6 +611,7 @@ namespace eval multicursor {
 
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_case_toggle $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+        $txtt tag add mcursor $start
       }
 
       return 1
@@ -634,6 +635,7 @@ namespace eval multicursor {
 
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_to_upper_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+        $txtt tag add mcursor $start
       }
 
       return 1
@@ -657,6 +659,7 @@ namespace eval multicursor {
 
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_to_lower_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+        $txtt tag add mcursor $start
       }
 
       return 1
@@ -680,6 +683,7 @@ namespace eval multicursor {
 
       foreach {start end} [$txtt tag ranges mcursor] {
         edit::convert_to_rot13 $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+        $txtt tag add mcursor $start
       }
 
       return 1
@@ -703,6 +707,7 @@ namespace eval multicursor {
 
       foreach {start end} [$txtt tag ranges mcursor] {
         indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $start]
+        $txtt tag add mcursor $start
       }
 
       return 1

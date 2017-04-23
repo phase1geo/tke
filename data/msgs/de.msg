@@ -45,6 +45,14 @@ msgcat::mcmset de {
 
 }
 
+# emmet.tcl
+msgcat::mcmset de {
+
+  "Abbreviation"
+  "Abkürzung"
+
+}
+
 # files.tcl
 msgcat::mcmset de {
 
@@ -299,6 +307,18 @@ msgcat::mcmset de {
 
   "Auto-Indent"
   "Auto-Einzug"
+
+  "Balance Inward"
+  "Bilanz nach innen"
+
+  "Balance Outward"
+  "Bilanz nach außen"
+
+  "Balance tag pair moving inward"
+  "Balance-Tag-paar nach innen verschieben"
+
+  "Balance tag pair moving outward"
+  "Balance-Tag-paar nach außen verschieben"
 
   "Bold"
   "Bold"
@@ -635,6 +655,12 @@ msgcat::mcmset de {
 
   "Global"
   "Globale Einstellungen"
+
+  "Go to Matching Pair"
+  "Gehen Sie zu passenden paar"
+
+  "Go to matching tag pair"
+  "Gehen Sie auf passende Tag-paar"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -1451,6 +1477,12 @@ msgcat::mcmset de {
 
   "Windows"
   "Fenster"
+
+  "Wrap With Abbreviation"
+  "Wrap mit Abkürzung"
+
+  "Wrap tag with Emmet abbreviation"
+  "Verpacken Sie-Tag mit Emmet Abkürzung"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset de {
   "Background color for all sidebar items that are selected."
   "Hintergrundfarbe für alle Sidebar Elemente, die ausgewählt sind."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Hintergrundfarbe für Markierungen in der Linie Gosse und scrollbar"
+
+  "Background color for matching search text"
+  "Hintergrundfarbe für den Abgleich Suchtext"
+
   "Background color in difference viewer that shows added lines."
   "Hintergrundfarbe im Unterschied Viewer, der hinzugefügten Zeilen zeigt."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset de {
   "Color of border drawn around active editing buffer."
   "Farbe des Rahmens um aktive Bearbeitungspuffer gezeichnet."
 
+  "Color of space between tabs."
+  "Farbe der Raum zwischen den Tabs."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Farbe der Abstandhalter zwischen Feld Befehl Launcher und die Ergebnisliste"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Farbe des TTK Eintrag Widget Text Grenze, wenn der Eintrag über den Tastaturfokus."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Farbe für die Hervorhebung geschlossene Falten in der Linie Nummer Gosse verwenden"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Farbe verwendet werden, um die Warnung Breitenlinie im Bearbeitungspuffer (wie auch die Trennlinie zwischen der Dachrinne von der Bearbeitungspuffer) zu zeichnen."
@@ -2474,6 +2518,9 @@ msgcat::mcmset de {
 
   "Foreground (slider) color used in the text scrollbars."
   "Vordergrund (Schieberegler) Farbe in den Textbildlaufleisten verwendet."
+
+  "Foreground color for matching search text"
+  "Vordergrundfarbe für passender Suchtext"
 
   "Foreground color of list items when not selected"
   "Vordergrundfarbe von Listenelementen wenn nicht ausgewählt"
@@ -2585,6 +2632,9 @@ msgcat::mcmset de {
 
   "Specifies foreground color of command launcher entry and list"
   "Gibt die Vordergrundfarbe der Befehlseingabe Launcher und Liste"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Gibt die Farbe am Rand der Seitenleiste, wenn eine gezogene Datei dementsprechende ist gezogen"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Gibt die Farbe an, um rund um die Seitenleiste angezeigt werden, wenn die Seitenleiste nicht den Fokus."

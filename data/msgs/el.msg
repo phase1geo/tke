@@ -45,6 +45,14 @@ msgcat::mcmset el {
 
 }
 
+# emmet.tcl
+msgcat::mcmset el {
+
+  "Abbreviation"
+  "Συντομογραφία"
+
+}
+
 # files.tcl
 msgcat::mcmset el {
 
@@ -299,6 +307,18 @@ msgcat::mcmset el {
 
   "Auto-Indent"
   "Αυτο-εντομή"
+
+  "Balance Inward"
+  "Ισορροπίας προς τα μέσα"
+
+  "Balance Outward"
+  "Ισορροπίας προς τα έξω"
+
+  "Balance tag pair moving inward"
+  "Ισορροπία ετικέτα ζευγάρι κινείται προς τα μέσα"
+
+  "Balance tag pair moving outward"
+  "Ισορροπία ετικέτα ζευγάρι κινείται προς τα έξω"
 
   "Bold"
   "Έντονο"
@@ -635,6 +655,12 @@ msgcat::mcmset el {
 
   "Global"
   "Γενικά"
+
+  "Go to Matching Pair"
+  "Πάει να ταιριάζουν ζεύγος"
+
+  "Go to matching tag pair"
+  "Πάει να ταιριάζουν ζεύγος ετικέτα"
 
   "Goto Last Tab"
   "Μετάβαση Last Tab"
@@ -1451,6 +1477,12 @@ msgcat::mcmset el {
 
   "Windows"
   "Παράθυρα"
+
+  "Wrap With Abbreviation"
+  "Τυλίξτε με σύντμηση"
+
+  "Wrap tag with Emmet abbreviation"
+  "Αναδίπλωση ετικέτας με Emmet συντομογραφία"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset el {
   "Background color for all sidebar items that are selected."
   "Χρώμα φόντου για όλα τα στοιχεία sidebar που έχουν επιλεγεί."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Χρώμα φόντου για δείκτες στη γραμμή υδρορροών και γραμμής κύλισης"
+
+  "Background color for matching search text"
+  "Χρώμα φόντου για το ταίριασμα αναζήτησης κειμένου"
+
   "Background color in difference viewer that shows added lines."
   "Χρώμα φόντου στη διαφορά θεατή που δείχνει πρόσθεσε γραμμές."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset el {
   "Color of border drawn around active editing buffer."
   "Χρώμα των συνοριακών που γύρω ενεργό ρυθμιστικό μοντάζ."
 
+  "Color of space between tabs."
+  "Χρώμα του χώρου μεταξύ των καρτελών."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Χρώμα του το διαχωριστικό μεταξύ πεδίο εντολή εκτοξευτή εγγραφή και λίστα αποτελεσμάτων"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Χρώμα εισόδου TTK συνόρων κειμένου του widget όταν η είσοδος έχει εστίαση πληκτρολογίου."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Χρώμα που χρησιμοποιεί για την επισήμανση κλειστό πτυχώσεις στην υδρορροή αριθμός γραμμής"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Χρώμα που χρησιμοποιείται για να επιστήσει την γραμμή πλάτους προειδοποίηση στο ρυθμιστικό μοντάζ (καθώς και η γραμμή που χωρίζει την υδρορροή από το ρυθμιστικό μοντάζ)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset el {
 
   "Foreground (slider) color used in the text scrollbars."
   "Προσκήνιο (slider) χρώμα που χρησιμοποιείται στο κείμενο κύλισης."
+
+  "Foreground color for matching search text"
+  "Χρώμα προσκηνίου για την αντιστοίχιση αναζήτησης κειμένου"
 
   "Foreground color of list items when not selected"
   "Χρώμα προσκηνίου στοιχείων λίστας όταν δεν είναι επιλεγμένο"
@@ -2585,6 +2632,9 @@ msgcat::mcmset el {
 
   "Specifies foreground color of command launcher entry and list"
   "Καθορίζει το χρώμα προσκηνίου εντολή εκτοξευτή εισόδου και Κατάλογος"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Καθορίζει το χρώμα που συντάχθηκε γύρω στα σύνορα της πλαϊνής γραμμής, όταν ένα αρχείο που σύρατε droppable"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Καθορίζει το χρώμα για να εμφανιστεί γύρω από την πλαϊνή μπάρα, όταν η πλαϊνή γραμμή δεν έχει την εστίαση."

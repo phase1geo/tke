@@ -45,6 +45,14 @@ msgcat::mcmset es {
 
 }
 
+# emmet.tcl
+msgcat::mcmset es {
+
+  "Abbreviation"
+  "Abreviatura"
+
+}
+
 # files.tcl
 msgcat::mcmset es {
 
@@ -299,6 +307,18 @@ msgcat::mcmset es {
 
   "Auto-Indent"
   "Sangrado automático"
+
+  "Balance Inward"
+  "Equilibrio interior"
+
+  "Balance Outward"
+  "Equilibrio exterior"
+
+  "Balance tag pair moving inward"
+  "Par de etiqueta de equilibrio moviéndose hacia adentro"
+
+  "Balance tag pair moving outward"
+  "Par de etiqueta de equilibrio moviéndose hacia afuera"
 
   "Bold"
   "Negrita"
@@ -635,6 +655,12 @@ msgcat::mcmset es {
 
   "Global"
   "Global"
+
+  "Go to Matching Pair"
+  "Ir a la par de coincidencia"
+
+  "Go to matching tag pair"
+  "Ir al juego par etiqueta"
 
   "Goto Last Tab"
   "Ir a la última pestaña"
@@ -1451,6 +1477,12 @@ msgcat::mcmset es {
 
   "Windows"
   "Ventanas"
+
+  "Wrap With Abbreviation"
+  "Envuelva con la abreviatura"
+
+  "Wrap tag with Emmet abbreviation"
+  "Envolver la etiqueta con la abreviatura de Emmet"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset es {
   "Background color for all sidebar items that are selected."
   "Color de fondo para todos los elementos de la barra lateral que se seleccionan."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Color de fondo para los marcadores en el canal de la línea y la barra de desplazamiento"
+
+  "Background color for matching search text"
+  "Color de fondo para emparejar el texto a buscar"
+
   "Background color in difference viewer that shows added lines."
   "El color de fondo en el visor de la diferencia que muestra líneas añadidas."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset es {
   "Color of border drawn around active editing buffer."
   "El color de la frontera dibujada alrededor de buffer de edición activa."
 
+  "Color of space between tabs."
+  "Color de espacio entre las pestañas."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Color del espaciador entre el campo de entrada de lanzador de comandos y la lista de resultados"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "El color de la entrada ttk texto del widget frontera cuando la entrada tiene el foco del teclado."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Color que desea utilizar para resaltar pliegues cerrados en el canal número de línea"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Color utilizado para dibujar la línea de ancho de advertencia en el buffer de edición (así como la línea que separa la cuneta de la memoria intermedia de edición)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset es {
 
   "Foreground (slider) color used in the text scrollbars."
   "Primer Plano (slider) de color utilizado en las barras de desplazamiento de texto."
+
+  "Foreground color for matching search text"
+  "Color de primer plano para emparejar el texto a buscar"
 
   "Foreground color of list items when not selected"
   "Color de primer plano de elementos de lista cuando no se selecciona"
@@ -2585,6 +2632,9 @@ msgcat::mcmset es {
 
   "Specifies foreground color of command launcher entry and list"
   "Especifica el color de primer plano de la entrada del lanzador comando y lista"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Especifica el color dibujado alrededor de la frontera de la barra lateral cuando un archivo arrastrado es lanzable"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Especifica el color para mostrar alrededor de la barra lateral cuando la barra lateral no tiene el foco."

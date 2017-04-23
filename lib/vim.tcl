@@ -1684,6 +1684,9 @@ namespace eval vim {
   proc do_operation {txtt eposargs {sposargs {}} {cursorargs {none}}} {
 
     variable operator
+    variable motion
+    variable multiplier
+    variable number
     variable multicursor
 
     switch $operator($txtt) {
@@ -1710,7 +1713,10 @@ namespace eval vim {
           edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] 0 0
         }
         edit_mode $txtt
-        # reset_state $txtt 0
+        set operator($txtt)   ""
+        set motion($txtt)     ""
+        set multiplier($txtt) ""
+        set number($txtt)     ""
         return 1
       }
       "yank" {

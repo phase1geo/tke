@@ -45,6 +45,14 @@ msgcat::mcmset nl {
 
 }
 
+# emmet.tcl
+msgcat::mcmset nl {
+
+  "Abbreviation"
+  "Afkorting"
+
+}
+
 # files.tcl
 msgcat::mcmset nl {
 
@@ -299,6 +307,18 @@ msgcat::mcmset nl {
 
   "Auto-Indent"
   "Automatisch inspringen"
+
+  "Balance Inward"
+  "Evenwicht naar binnen"
+
+  "Balance Outward"
+  "Evenwicht naar buiten"
+
+  "Balance tag pair moving inward"
+  "Evenwicht label paar verplaatsen naar binnen"
+
+  "Balance tag pair moving outward"
+  "Evenwicht label paar verplaatsen naar buiten"
 
   "Bold"
   "Vet"
@@ -635,6 +655,12 @@ msgcat::mcmset nl {
 
   "Global"
   "Globaal"
+
+  "Go to Matching Pair"
+  "Ga naar bijpassende paar"
+
+  "Go to matching tag pair"
+  "Ga naar overeenkomende label paar"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -1451,6 +1477,12 @@ msgcat::mcmset nl {
 
   "Windows"
   "Windows"
+
+  "Wrap With Abbreviation"
+  "Wikkel met afkorting"
+
+  "Wrap tag with Emmet abbreviation"
+  "Wikkel tag met Emmet afkorting"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset nl {
   "Background color for all sidebar items that are selected."
   "Achtergrondkleur voor alle sidebar items die zijn geselecteerd."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Achtergrondkleur voor markeringen in de regel goot en scrollbar"
+
+  "Background color for matching search text"
+  "Achtergrondkleur voor het afstemmen van zoektekst"
+
   "Background color in difference viewer that shows added lines."
   "Achtergrondkleur in verschil viewer die toegevoegde lijnen toont."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset nl {
   "Color of border drawn around active editing buffer."
   "Kleur van de grens getrokken rond actieve bewerking buffer."
 
+  "Color of space between tabs."
+  "Kleur van de ruimte tussen de tabbladen."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Kleur van de spacer tussen het invoerveld in command launcher en de resultatenlijst"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Kleur van TTK binnenkomst widget tekst grens wanneer de invoer heeft toetsenbord focus."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Kleur gebruiken voor het benadrukken van gesloten plooien in de lijn nummer goot"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Kleur gebruikt om de waarschuwing breedte regel in de editing buffer (evenals de lijn tussen de goot van de redactie buffer) te trekken."
@@ -2474,6 +2518,9 @@ msgcat::mcmset nl {
 
   "Foreground (slider) color used in the text scrollbars."
   "Voorgrond (schuif) kleur die wordt gebruikt in de tekst schuifbalken."
+
+  "Foreground color for matching search text"
+  "Voorgrondkleur voor het afstemmen van zoektekst"
 
   "Foreground color of list items when not selected"
   "Voorgrondkleur van lijstitems als niet geselecteerd"
@@ -2585,6 +2632,9 @@ msgcat::mcmset nl {
 
   "Specifies foreground color of command launcher entry and list"
   "Voorgrondkleur van command launcher ingang en lijst aangeeft"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Hiermee geeft u de kleur getekend rond de rand van de zijbalk wanneer een gesleepte bestand droppable is"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Geeft de kleur weer te geven rond de zijbalk wanneer de zijbalk niet de focus hebben."

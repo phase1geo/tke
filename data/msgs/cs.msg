@@ -45,6 +45,14 @@ msgcat::mcmset cs {
 
 }
 
+# emmet.tcl
+msgcat::mcmset cs {
+
+  "Abbreviation"
+  "Zkratka"
+
+}
+
 # files.tcl
 msgcat::mcmset cs {
 
@@ -299,6 +307,18 @@ msgcat::mcmset cs {
 
   "Auto-Indent"
   "Automatické odsazení"
+
+  "Balance Inward"
+  "Vyvážení směrem dovnitř"
+
+  "Balance Outward"
+  "Vyvážení směrem ven"
+
+  "Balance tag pair moving inward"
+  "Bilance značky dvojice směrem dovnitř"
+
+  "Balance tag pair moving outward"
+  "Bilance značky dvojice pohybuje směrem ven"
 
   "Bold"
   "Tučný"
@@ -635,6 +655,12 @@ msgcat::mcmset cs {
 
   "Global"
   "Globální"
+
+  "Go to Matching Pair"
+  "Přejděte na odpovídající dvojice"
+
+  "Go to matching tag pair"
+  "Přejděte na odpovídající pár tagů"
 
   "Goto Last Tab"
   "Jdi Last Tab"
@@ -1451,6 +1477,12 @@ msgcat::mcmset cs {
 
   "Windows"
   "Windows"
+
+  "Wrap With Abbreviation"
+  "Zabalte je zkratka"
+
+  "Wrap tag with Emmet abbreviation"
+  "Uzavřít do tagu se zkratkou Emmet"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset cs {
   "Background color for all sidebar items that are selected."
   "Barva pozadí pro všechny položky postranního panelu, které jsou vybrány."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Barva pozadí pro značky v linii hřbetu a posuvník"
+
+  "Background color for matching search text"
+  "Barva pozadí pro odpovídající hledaný text"
+
   "Background color in difference viewer that shows added lines."
   "Barva pozadí v rozdílu prohlížeč, který ukazuje přidané linky."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset cs {
   "Color of border drawn around active editing buffer."
   "Barva rámu okolo aktivní pro úpravy vyrovnávací paměti."
 
+  "Color of space between tabs."
+  "Barva mezery mezi kartami."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Barva rozpěrku mezi polem pro zadání spouštěče příkazu a seznam výsledků"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Barva zadávání TTK widgetu textu okraje, když záznam má fokus klávesnice."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Barva se použije na zvýraznění uzavřených záhyby linky číslo okapu"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Barva slouží ke kreslení šířky varování řádek v editační vyrovnávací paměti (stejně jako čáru oddělující okap z vyrovnávací paměti pro úpravy)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset cs {
 
   "Foreground (slider) color used in the text scrollbars."
   "Popředí (slider), barvy použité v textu posuvníky."
+
+  "Foreground color for matching search text"
+  "Barvu popředí pro odpovídající hledaný text"
 
   "Foreground color of list items when not selected"
   "Barva popředí seznamu položek, pokud není vybrána"
@@ -2585,6 +2632,9 @@ msgcat::mcmset cs {
 
   "Specifies foreground color of command launcher entry and list"
   "Určuje barvu popředí při zadávání spouštěč příkazů a seznam"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Určuje barvu nakreslena kolem hranice na postranním panelu při přetažené soubor je použitelný"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Určuje barvu, která se zobrazí po postranním panelu, když postranní panel nemá fokus."

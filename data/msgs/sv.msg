@@ -45,6 +45,14 @@ msgcat::mcmset sv {
 
 }
 
+# emmet.tcl
+msgcat::mcmset sv {
+
+  "Abbreviation"
+  "Förkortning"
+
+}
+
 # files.tcl
 msgcat::mcmset sv {
 
@@ -299,6 +307,18 @@ msgcat::mcmset sv {
 
   "Auto-Indent"
   "Automatisk indentering"
+
+  "Balance Inward"
+  "Balansera inåt"
+
+  "Balance Outward"
+  "Balansera utåt"
+
+  "Balance tag pair moving inward"
+  "Balance tagg par flytta inåt"
+
+  "Balance tag pair moving outward"
+  "Balance tagg par flytta utåt"
 
   "Bold"
   "Fet"
@@ -635,6 +655,12 @@ msgcat::mcmset sv {
 
   "Global"
   "Global"
+
+  "Go to Matching Pair"
+  "Gå till matchande par"
+
+  "Go to matching tag pair"
+  "Gå till matchande taggen par"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -1451,6 +1477,12 @@ msgcat::mcmset sv {
 
   "Windows"
   "Windows"
+
+  "Wrap With Abbreviation"
+  "Wrap med förkortning"
+
+  "Wrap tag with Emmet abbreviation"
+  "Linda in taggen med Emmet förkortning"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset sv {
   "Background color for all sidebar items that are selected."
   "Bakgrundsfärgen för alla sidofältet objekt som är markerade."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Bakgrundsfärg för markörer i linje rännstenen och rullningslist"
+
+  "Background color for matching search text"
+  "Bakgrundsfärg för matchande söktext"
+
   "Background color in difference viewer that shows added lines."
   "Bakgrundsfärg i skillnaden viewer som visar lagt till rader."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset sv {
   "Color of border drawn around active editing buffer."
   "Färgen på gränsen dras runt aktiv redigering buffert."
 
+  "Color of space between tabs."
+  "Färgen på utrymmet mellan flikar."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Färgen på distansen mellan fältet kommando launcher och resultatlistan"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Färgen på ttk posten widget text kantlinje när transaktionen har tangentbordsfokus."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Färg som ska användas för att belysa stängda veck i linje nummer rännstenen"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Färgen används för att rita linjen varning bredd i redigering bufferten (liksom linjen som skiljer rännstenen från redigering bufferten)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset sv {
 
   "Foreground (slider) color used in the text scrollbars."
   "Förgrundsfärgen (reglaget) används i text scrollbars."
+
+  "Foreground color for matching search text"
+  "Förgrundsfärg för matchande söktext"
 
   "Foreground color of list items when not selected"
   "Förgrundsfärgen för listobjekt när inte markerad"
@@ -2585,6 +2632,9 @@ msgcat::mcmset sv {
 
   "Specifies foreground color of command launcher entry and list"
   "Anger förgrundsfärgen för kommandot launcher intrade och lista"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Anger färgen dras runt kanten av sidofältet när en dragna filen är droppable"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Anger färgen ska visas runt bufferten när sidofältet inte har fokus."

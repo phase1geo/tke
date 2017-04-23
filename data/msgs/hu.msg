@@ -45,6 +45,14 @@ msgcat::mcmset hu {
 
 }
 
+# emmet.tcl
+msgcat::mcmset hu {
+
+  "Abbreviation"
+  "Rövidítés"
+
+}
+
 # files.tcl
 msgcat::mcmset hu {
 
@@ -299,6 +307,18 @@ msgcat::mcmset hu {
 
   "Auto-Indent"
   "Automatikus behúzás"
+
+  "Balance Inward"
+  "Befelé egyensúlyt"
+
+  "Balance Outward"
+  "Passzív egyenleg"
+
+  "Balance tag pair moving inward"
+  "Mozgó befelé egyensúlyt tag-pár"
+
+  "Balance tag pair moving outward"
+  "Egyensúly tag-pár kifelé halad"
 
   "Bold"
   "Félkövér"
@@ -635,6 +655,12 @@ msgcat::mcmset hu {
 
   "Global"
   "Összes"
+
+  "Go to Matching Pair"
+  "Egyezési pár megy"
+
+  "Go to matching tag pair"
+  "Megy a megfelelő tag-pár"
 
   "Goto Last Tab"
   "Ugrás az utolsó lap"
@@ -1451,6 +1477,12 @@ msgcat::mcmset hu {
 
   "Windows"
   "Windows"
+
+  "Wrap With Abbreviation"
+  "Wrap rövidítése"
+
+  "Wrap tag with Emmet abbreviation"
+  "Körülzárás címkével a Emmet rövidítése"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset hu {
   "Background color for all sidebar items that are selected."
   "Háttérszíne minden oldalsáv elemek vannak jelölve."
 
+  "Background color for markers in the line gutter and scrollbar"
+  "Háttérszín markerek a vonal ereszcsatorna és a görgetősáv"
+
+  "Background color for matching search text"
+  "Háttérszínét egyezés keresése a szövegben"
+
   "Background color in difference viewer that shows added lines."
   "Háttérszíne különbség nézőt, amely megmutatja hozzáadott sorokat."
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset hu {
   "Color of border drawn around active editing buffer."
   "Színe határ köré rajzolt aktív szerkesztési puffer."
 
+  "Color of space between tabs."
+  "Színes lapok közötti térköz."
+
   "Color of the spacer between the command launcher entry field and the result list"
   "Színe a távtartó között a parancs launcher mező, és a találati lista"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "Színe TTK beviteli dobozon szöveget határt, amikor a bejegyzésnek a fókuszt."
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "Kiemelve a zárt bedobja a vonal szám ereszcsatorna a használandó színt"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "Színes hívják fel a figyelmeztető széles vonal a szerkesztési puffer (valamint az elválasztó vonal az ereszcsatorna a szerkesztési puffer)."
@@ -2474,6 +2518,9 @@ msgcat::mcmset hu {
 
   "Foreground (slider) color used in the text scrollbars."
   "Előtér (slider) használt szín a szövegben gördítősávját."
+
+  "Foreground color for matching search text"
+  "Festőszín megfelelő keresése a szövegben"
 
   "Foreground color of list items when not selected"
   "Listaelemek, ha nincs kijelölve előtérszíne"
@@ -2585,6 +2632,9 @@ msgcat::mcmset hu {
 
   "Specifies foreground color of command launcher entry and list"
   "Adja meg a parancs launcher belépés és lista előtérszíne"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "Megadja a szín látszódjék a határ a tálaló, ha a húzott fájl droppable"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "Meghatározza a színt megjeleníteni körül a tálaló, amikor a oldalsáv nem rendelkezik a hangsúly."

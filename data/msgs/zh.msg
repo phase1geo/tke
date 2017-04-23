@@ -45,6 +45,14 @@ msgcat::mcmset zh {
 
 }
 
+# emmet.tcl
+msgcat::mcmset zh {
+
+  "Abbreviation"
+  "缩写"
+
+}
+
 # files.tcl
 msgcat::mcmset zh {
 
@@ -299,6 +307,18 @@ msgcat::mcmset zh {
 
   "Auto-Indent"
   "自动缩进"
+
+  "Balance Inward"
+  "向内的平衡"
+
+  "Balance Outward"
+  "向外平衡"
+
+  "Balance tag pair moving inward"
+  "向内移动的平衡标记双"
+
+  "Balance tag pair moving outward"
+  "向外移动的平衡标记双"
 
   "Bold"
   "粗体"
@@ -635,6 +655,12 @@ msgcat::mcmset zh {
 
   "Global"
   "全局"
+
+  "Go to Matching Pair"
+  "转到匹配对"
+
+  "Go to matching tag pair"
+  "转到匹配标记对"
 
   "Goto Last Tab"
   "转到最后一个标签页"
@@ -1451,6 +1477,12 @@ msgcat::mcmset zh {
 
   "Windows"
   "Windows"
+
+  "Wrap With Abbreviation"
+  "用缩写包裹"
+
+  "Wrap tag with Emmet abbreviation"
+  "包装与埃米特缩写标记"
 
 }
 
@@ -2367,6 +2399,12 @@ msgcat::mcmset zh {
   "Background color for all sidebar items that are selected."
   "所有选定的侧边栏项的背景色。"
 
+  "Background color for markers in the line gutter and scrollbar"
+  "标记线装订线和滚动条的背景色"
+
+  "Background color for matching search text"
+  "匹配的搜索文本的背景色"
+
   "Background color in difference viewer that shows added lines."
   "在差异查看器中显示的背景色添加行。"
 
@@ -2421,11 +2459,17 @@ msgcat::mcmset zh {
   "Color of border drawn around active editing buffer."
   "在活跃的编辑缓冲区周围绘制的边框的颜色。"
 
+  "Color of space between tabs."
+  "选项卡之间空间的颜色。"
+
   "Color of the spacer between the command launcher entry field and the result list"
   "命令启动程序输入字段和结果列表之间间隔的颜色"
 
   "Color of ttk entry widget text border when the entry has keyboard focus."
   "当该条目具有键盘焦点时 ttk 条目构件文本边框的颜色。"
+
+  "Color to use for highlighting closed folds in the line number gutter"
+  "颜色要用于突出显示行数滚动条槽中的闭的褶皱"
 
   "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."
   "用来绘制中编辑缓冲区 (以及线装订线分离编辑缓冲区) 的警告宽度线的颜色。"
@@ -2474,6 +2518,9 @@ msgcat::mcmset zh {
 
   "Foreground (slider) color used in the text scrollbars."
   "(滑块) 使用前景色在文本滚动条。"
+
+  "Foreground color for matching search text"
+  "前景颜色匹配搜索文本"
 
   "Foreground color of list items when not selected"
   "当未选中的列表项的前景色"
@@ -2585,6 +2632,9 @@ msgcat::mcmset zh {
 
   "Specifies foreground color of command launcher entry and list"
   "指定命令发射器项和列表中的前景色"
+
+  "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"
+  "指定的颜色绘制在侧边栏的边框拖动的文件时投掷"
 
   "Specifies the color to display around the sidebar when the sidebar does not have the focus."
   "指定要显示在侧边栏时侧边栏没有焦点的颜色。"

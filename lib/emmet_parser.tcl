@@ -86,7 +86,7 @@ array set emmet_ml_lookup {
   form                 {form       1 {action ""}}
   form:get             {form       1 {action "" method "get"}}
   form:post            {form       1 {action "" method "post"}}
-  label                {form       1 {for ""}}
+  label                {label      1 {for ""}}
   input                {input      0 {type "{|text}"}}
   inp                  {input      0 {type "{|text}" name "" id ""}}
   input:hidden         {input      0 {type "hidden" name ""}}
