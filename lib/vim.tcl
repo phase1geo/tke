@@ -1122,16 +1122,28 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Saves the last selection in case the user wants to use it again.
+  proc set_last_selection {txtt} {
+
+    variable mode
+    variable last_selection
+
+    if {[info exists mode($txtt)]} {
+      set last_selection($txtt) [list $mode($txtt) [$txtt tag ranges sel]]
+    }
+
+  }
+
+  ######################################################################
   # Set the current mode to the "command" mode.
   proc command_mode {txtt} {
 
     variable mode
     variable multicursor
-    variable last_selection
 
     # If we are coming from visual mode, clear the selection and the anchors
     if {[$txtt tag ranges sel] ne ""} {
-      set last_selection($txtt) [list $mode($txtt) [$txtt tag ranges sel]]
+      set_last_selection $txtt
       $txtt tag remove sel 1.0 end
     }
 
@@ -1251,6 +1263,9 @@ namespace eval vim {
         $txtt tag add sel $anchor $anchor+1c
       }
     }
+
+    # Make sure that the mode is updated in the status bar
+    event generate $txtt <<CursorChanged>
 
   }
 

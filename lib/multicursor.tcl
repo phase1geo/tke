@@ -24,10 +24,9 @@
 
 namespace eval multicursor {
 
-  variable selected            0
-  variable select_start_line   ""
-  variable select_start_column ""
-  variable cursor_anchor       ""
+  variable selected      0
+  variable select_anchor ""
+  variable cursor_anchor ""
 
   array set copy_cursors {}
 
@@ -125,8 +124,13 @@ namespace eval multicursor {
   # Performs the block selection.
   proc handle_block_selection {txtt anchor current} {
 
-    lassign [split $anchor  .] arow acol
-    lassign [split $current .] crow ccol
+    # Get the anchor and current row/col, but if either is invalid, return immediately
+    if {[set acol [lassign [split $anchor  .] arow]] eq ""} {
+      return
+    }
+    if {[set ccol [lassign [split $current .] crow]] eq ""} {
+      return
+    }
 
     if {$arow < $crow} {
       set srow $arow
@@ -169,6 +173,9 @@ namespace eval multicursor {
     variable select_anchor
 
     set select_anchor ""
+
+    # Save the selection in Vim
+    vim::set_last_selection $W
 
   }
 
