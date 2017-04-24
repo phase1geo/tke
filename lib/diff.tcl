@@ -641,8 +641,9 @@ namespace eval diff {
     # Disable the text window from editing
     $txt configure -state disabled
 
-    # Update the scroller
-    scroller::update_markers [winfo parent $txt].vb
+    # Update the scrollers
+    gui::get_info $txt txt tab
+    gui::update_tab_markers $tab
 
   }
 

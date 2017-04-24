@@ -2256,11 +2256,12 @@ namespace eval menus {
   # Called when the marker menu is opened.
   proc find_marker_posting {mb} {
 
-    set txt          [gui::current_txt]
-    set line_exists  [markers::exists_at_line $txt [lindex [split [$txt index insert] .] 0]]
+    gui::get_info {} current tab txt
+
+    set line_exists  [markers::exists_at_line $tab [lindex [split [$txt index insert] .] 0]]
     set create_state [expr {$line_exists ? "disabled" : "normal"}]
     set remove_state [expr {$line_exists ? "normal"   : "disabled"}]
-    set txt_state    [expr {[markers::exists $txt] ? "normal" : "disabled"}]
+    set tab_state    [expr {[markers::exists $tab] ? "normal" : "disabled"}]
     set all_state    [expr {[markers::exists *]    ? "normal" : "disabled"}]
 
     # Clear the menu
@@ -2270,7 +2271,7 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Create at Current Line"]         -underline 0  -command [list gui::create_current_marker]  -state $create_state
     $mb add separator
     $mb add command -label [msgcat::mc "Remove From Current Line"]       -underline 0  -command [list gui::remove_current_marker]  -state $remove_state
-    $mb add command -label [msgcat::mc "Remove All From Current Buffer"] -underline 24 -command [list gui::remove_current_markers] -state $txt_state
+    $mb add command -label [msgcat::mc "Remove All From Current Buffer"] -underline 24 -command [list gui::remove_current_markers] -state $tab_state
     $mb add command -label [msgcat::mc "Remove All Markers"]             -underline 7  -command [list gui::remove_all_markers]     -state $all_state
 
     if {[llength [set markers [gui::get_marker_list]]] > 0} {
@@ -2602,11 +2603,12 @@ namespace eval menus {
       }
       $mb entryconfigure [msgcat::mc "Folding"]                      -state disabled
     } else {
+      gui::get_info {} current tab txt
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]  -state normal }
       catch { $mb entryconfigure [msgcat::mc "Line Numbering"]     -state normal }
       $mb entryconfigure [msgcat::mc "Line Wrapping"]              -state normal
-      if {[markers::exists [gui::current_txt]]} {
+      if {[markers::exists $tab]} {
         catch { $mb entryconfigure [msgcat::mc "Show Marker Map"] -state normal }
         catch { $mb entryconfigure [msgcat::mc "Hide Marker Map"] -state normal }
       } else {

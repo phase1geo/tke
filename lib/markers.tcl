@@ -31,7 +31,7 @@ namespace eval markers {
   ######################################################################
   # Adds a new marker for the given index.  Returns 1 if the marker was
   # added; otherwise, returns 0.
-  proc add {txt type value {name ""}} {
+  proc add {tab type value {name ""}} {
 
     variable markers
     variable curr_marker
@@ -49,7 +49,7 @@ namespace eval markers {
     }
 
     # Set the marker
-    set markers($txt,$name) [list $type $value]
+    set markers($tab,$name) [list $type $value]
 
     return 1
 
@@ -58,12 +58,13 @@ namespace eval markers {
   ######################################################################
   # Iterate through all markers that do not have a tag associated with
   # them and set them (or delete them if a tag cannot be created).
-  proc tagify {txt} {
+  proc tagify {tab} {
 
     variable markers
 
-    foreach key [array names markers $txt,*] {
+    foreach key [array names markers $tab,*] {
       lassign $markers($key) type value
+      gui::get_info $tab tab txt
       if {$type eq "line"} {
         if {[set tag [ctext::linemapSetMark $txt $value]] ne ""} {
           set markers($key) [list tag $tag]
@@ -75,11 +76,11 @@ namespace eval markers {
 
   ######################################################################
   # Deletes the marker of the given name, if it exists.
-  proc delete_by_name {txt name} {
+  proc delete_by_name {tab name} {
 
     variable markers
 
-    set key "$txt,$name"
+    set key "$tab,$name"
 
     if {[info exists markers($key)]} {
       unset markers($key)
@@ -89,11 +90,11 @@ namespace eval markers {
 
   ######################################################################
   # Deletes the marker of the given tag, if it exists.
-  proc delete_by_tag {txt tag} {
+  proc delete_by_tag {tab tag} {
 
     variable markers
 
-    foreach {key data} [array get markers $txt,*] {
+    foreach {key data} [array get markers $tab,*] {
       if {$data eq [list tag $tag]} {
         unset markers($key)
       }
@@ -103,11 +104,11 @@ namespace eval markers {
 
   ######################################################################
   # Deletes all markers at the given line.
-  proc delete_by_line {txt line} {
+  proc delete_by_line {tab line} {
 
     variable markers
 
-    foreach key [array names markers $txt,*] {
+    foreach key [array names markers $tab,*] {
       if {$line eq [get_index_by_key $key]} {
         unset markers($key)
       }
@@ -117,17 +118,17 @@ namespace eval markers {
 
   ######################################################################
   # Returns all of the marker names.
-  proc get_markers {{txt "*"}} {
+  proc get_markers {{tab "*"}} {
 
     variable markers
 
     set data [list]
 
     # Get the list of all names
-    foreach key [array names markers $txt,*] {
+    foreach key [array names markers $tab,*] {
       if {[set index [get_index_by_key $key]] ne ""} {
-        set name [join [lassign [split $key ,] txt] ,]
-        lappend data $name $txt $index
+        set name [join [lassign [split $key ,] tab] ,]
+        lappend data $name $tab $index
       }
     }
 
@@ -137,15 +138,17 @@ namespace eval markers {
 
   ######################################################################
   # Returns the index of the given marker key.
-  proc get_index_by_key {key {txt ""}} {
+  proc get_index_by_key {key {tab ""}} {
 
     variable markers
 
     lassign $markers($key) type value
 
+    gui::get_info [lindex [split $key ,] 0] tab txt
+
     if {$type eq "line"} {
       return $value
-    } elseif {[set index [lindex [[lindex [split $key ,] 0] tag ranges $value] 0]] ne ""} {
+    } elseif {[set index [lindex [$txt tag ranges $value] 0]] ne ""} {
       return [lindex [split $index .] 0]
     } else {
       return ""
@@ -155,11 +158,11 @@ namespace eval markers {
 
   ######################################################################
   # Returns the index for the given marker name.
-  proc get_index {txt name} {
+  proc get_index {tab name} {
 
     variable markers
 
-    set key "$txt,$name"
+    set key "$tab,$name"
 
     if {[info exists markers($key)]} {
       return [get_index_by_key $key].0
@@ -171,15 +174,17 @@ namespace eval markers {
 
   ######################################################################
   # Returns the marked lines.
-  proc get_positions {txt} {
+  proc get_positions {tab} {
 
     variable markers
+
+    gui::get_info $tab tab txt
 
     set pos   [list]
     set lines [$txt count -lines 1.0 end]
     set color [theme::get_value syntax marker]
 
-    foreach key [array names markers $txt,*] {
+    foreach key [array names markers $tab,*] {
       if {[set start_line [get_index_by_key $key]] ne ""} {
         lappend pos [expr $start_line.0 / $lines] [expr $start_line.0 / $lines] $color
       }
@@ -191,11 +196,11 @@ namespace eval markers {
 
   ######################################################################
   # Returns true if a marker exists at the current line.
-  proc exists_at_line {txt line} {
+  proc exists_at_line {tab line} {
 
     variable markers
 
-    foreach key [array names markers $txt,*] {
+    foreach key [array names markers $tab,*] {
       if {$line eq [get_index_by_key $key]} {
         return 1
       }
@@ -207,11 +212,11 @@ namespace eval markers {
 
   ######################################################################
   # Returns true if one or more markers exist in the specified text widget.
-  proc exists {txt} {
+  proc exists {tab} {
 
     variable markers
 
-    return [expr [llength [array names markers $txt,*]] > 0]
+    return [expr [llength [array names markers $tab,*]] > 0]
 
   }
 

@@ -360,12 +360,14 @@ namespace eval vim {
           # Create/delete a marker for the current line
           } elseif {[regexp {^m\s+(.*)$} $value -> marker]} {
             set line [lindex [split [$txt index insert] .] 0]
+            gui::get_info $txt txt tab
             if {$marker ne ""} {
               if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
-                markers::add $txt $tag $marker
+                markers::add $tab tag $tag $marker
+                gui::update_tab_markers $tab
               }
             } else {
-              markers::delete_by_line $txt $line
+              markers::delete_by_line $tab $line
               ctext::linemapClearMark $txt $line
             }
 
@@ -880,13 +882,15 @@ namespace eval vim {
   # Returns the line number based on the given line number character.
   proc get_linenum {txt char} {
 
+    gui::get_info $txt txt tab
+
     if {$char eq "."} {
       return [$txt index "insert linestart"]
     } elseif {$char eq "^"} {
       return "1.0"
     } elseif {$char eq "$"} {
       return [$txt index "end linestart"]
-    } elseif {[set index [markers::get_index $txt $char]] ne ""} {
+    } elseif {[set index [markers::get_index $tab $char]] ne ""} {
       return [$txt index "$index linestart"]
     } elseif {[regexp {^\d+$} $char]} {
       return "$char.0"

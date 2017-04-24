@@ -1013,7 +1013,7 @@ namespace eval gui {
 
         # Add markers
         set finfo(markers) [list]
-        foreach {mname mtxt pos} [markers::get_markers $txt] {
+        foreach {mname mtxt pos} [markers::get_markers $tab] {
           lappend finfo(markers) $mname [lindex [split $pos .] 0]
         }
 
@@ -1146,7 +1146,7 @@ namespace eval gui {
             }
             if {[info exists finfo(markers)]} {
               foreach {mname line} $finfo(markers) {
-                markers::add $txt line $line $mname
+                markers::add $tab line $line $mname
               }
             }
           }
@@ -1811,7 +1811,7 @@ namespace eval gui {
       $txt see 1.0
 
       # Add any previous markers saved for this text widget
-      markers::tagify $txt
+      markers::tagify $tab
 
       # Check brackets
       ctext::checkAllBrackets $txt
@@ -4019,13 +4019,13 @@ namespace eval gui {
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
       -diff_mode $opts(-diff) -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
-      -linemap_mark_command gui::mark_command -linemap_select_bg orange \
+      -linemap_mark_command [list gui::mark_command $tab] -linemap_select_bg orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $tab $txt $tab.pw.tf.vb]
     scroller::scroller $tab.pw.tf.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command [list $txt xview]
     scroller::scroller $tab.pw.tf.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command [list gui::yview $tab $txt] \
-      -markcommand1 [list markers::get_positions $txt] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
+      -markcommand1 [list markers::get_positions $tab] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$opts(-diff) ? [list diff::get_marks $txt] : ""}]
 
     # Register the widgets
@@ -4232,12 +4232,12 @@ namespace eval gui {
       -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap [preferences::get View/ShowLineNumbers] \
-      -linemap_mark_command gui::mark_command -linemap_select_bg orange -peer $txt \
+      -linemap_mark_command [list gui::mark_command $tab] -linemap_select_bg orange -peer $txt \
       -xscrollcommand "$pw.tf2.hb set" \
       -yscrollcommand "$pw.tf2.vb set"
     scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt2 xview"
     scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt2 yview" \
-      -markcommand1 [list markers::get_positions $txt] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
+      -markcommand1 [list markers::get_positions $tab] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list diff::get_marks $txt] : ""}]
 
     bind $txt2.t <FocusIn>                    [list +gui::handle_txt_focus %W]
@@ -4951,16 +4951,15 @@ namespace eval gui {
   proc create_current_marker {} {
 
     # Get the current text widget
-    set txt [current_txt]
+    get_info {} current tab txt
 
     # Get the current line
     set line [lindex [split [$txt index insert] .] 0]
 
     # Add the marker at the current line
     if {[set tag [ctext::linemapSetMark $txt $line]] ne ""} {
-      if {[markers::add $txt tag $tag]} {
-        scroller::update_markers [winfo parent $txt].vb
-        ctext::linemapUpdate $txt
+      if {[markers::add $tab tag $tag]} {
+        update_tab_markers $tab
       } else {
         ctext::linemapClearMark $txt $line
       }
@@ -4973,15 +4972,17 @@ namespace eval gui {
   proc remove_current_marker {} {
 
     # Get the current text widget
-    set txt [current_txt]
+    get_info {} current tab txt
 
     # Get the current line number
     set line [lindex [split [$txt index insert] .] 0]
 
     # Remove all markers at the current line
-    markers::delete_by_line $txt $line
+    markers::delete_by_line $tab $line
     ctext::linemapClearMark $txt $line
-    scroller::update_markers [winfo parent $txt].vb
+
+    # Update the tab's marker view
+    update_tab_markers $tab
 
   }
 
@@ -4989,13 +4990,16 @@ namespace eval gui {
   # Remove all of the text markers for the given text widget.
   proc remove_txt_markers {txt} {
 
-    foreach {name t line} [markers::get_markers $txt] {
+    get_info $txt txt tab
+
+    foreach {name t line} [markers::get_markers $tab] {
       set line [lindex [split $line .] 0]
-      markers::delete_by_name $txt $name
+      markers::delete_by_name $tab $name
       ctext::linemapClearMark $txt $line
     }
 
-    scroller::update_markers [winfo parent $txt].vb
+    # Update the marker display
+    update_tab_markers $tab
 
   }
 
@@ -5024,8 +5028,8 @@ namespace eval gui {
 
     # Create a list of marker names and index
     set markers [list]
-    foreach {name txt pos} [markers::get_markers] {
-      get_info $txt txt fname
+    foreach {name tab pos} [markers::get_markers] {
+      get_info $tab tab txt fname
       lappend markers [list "[file tail $fname] - $name" $txt $name]
     }
 
@@ -5069,7 +5073,7 @@ namespace eval gui {
     set_current_tab $tabbar $tab
 
     # Get the marker position
-    set pos [markers::get_index $txt $name]
+    set pos [markers::get_index $tab $name]
 
     # Make sure that the cursor is visible
     folding::show_line $txt.t [lindex [split $pos .] 0]
@@ -5222,19 +5226,38 @@ namespace eval gui {
   }
 
   ######################################################################
+  # Updates the scroller markers for the given tab.
+  proc update_tab_markers {tab} {
+
+    # Get the pathname of txt and txt2 from the given tab
+    get_info $tab tab txt txt2
+
+    # The txt widget will always exist, so update it now
+    ctext::linemapUpdate $txt
+    scroller::update_markers [winfo parent $txt].vb
+
+    # If the split view widget exists, update it as well
+    if {[winfo exists $txt2]} {
+      ctext::linemapUpdate $txt2
+      scroller::update_markers [winfo parent $txt2].vb
+    }
+
+  }
+
+  ######################################################################
   # Handles a mark request when the line is clicked.
-  proc mark_command {win type tag} {
+  proc mark_command {tab win type tag} {
 
     if {$type eq "marked"} {
-      if {![markers::add $win tag $tag]} {
+      if {![markers::add $tab tag $tag]} {
         return 0
       }
     } else {
-      markers::delete_by_tag $win $tag
+      markers::delete_by_tag $tab $tag
     }
 
     # Update the markers in the scrollbar
-    scroller::update_markers [winfo parent $win].vb
+    update_tab_markers $tab
 
     return 1
 
