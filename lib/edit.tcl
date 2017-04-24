@@ -1430,13 +1430,23 @@ namespace eval edit {
   # line.
   proc get_WORDstart {txtt dir {num 1} {start insert} {exclusive 0}} {
 
-    set diropt   [expr {($dir eq "next") ? "-forwards" : "-backwards"}]
-    set startpos [expr {($dir eq "next") ? $start : "$start-1c"}]
+    if {$dir eq "next"} {
+      set diropt   "-forwards"
+      set startpos $start
+      set endpos   "end"
+      set suffix   "+1c"
+    } else {
+      set diropt   "-backwards"
+      set startpos "$start-1c"
+      set endpos   "1.0"
+      set suffix   ""
+    }
 
-    while {[set index [$txtt search $diropt -regexp -- {\s\S} $startpos]] ne ""} {
+    while {[set index [$txtt search $diropt -regexp -- {\s\S|\n\n} $startpos $endpos]] ne ""} {
       if {[incr num -1] == 0} {
         return [$txtt index $index+1c]
       }
+      set startpos "$index$suffix"
     }
 
     return $start
@@ -1448,13 +1458,29 @@ namespace eval edit {
   # succeeded by whitespace, the last character of a line or an empty line.
   proc get_WORDend {txtt dir {num 1} {start insert} {exclusive 0}} {
 
-    set diropt   [expr {($dir eq "next") ? "-forwards" : "-backwards"}]
-    set startpos [expr {($dir eq "next") ? "$start+1c" : $start}]
+    if {$dir eq "next"} {
+      set diropt   "-forwards"
+      set startpos "$start+1c"
+      set endpos   "end"
+      set suffix   "+1c"
+    } else {
+      set diropt   "-backwards"
+      set startpos $start
+      set endpos   "1.0"
+      set suffix   ""
+    }
 
-    while {[set index [$txtt search $diropt -regexp -- {\S\s} $startpos]] ne ""} {
-      if {[incr num -1] == 0} {
-        return [$txtt index $index]
+    while {[set index [$txtt search $diropt -regexp -- {\S\s|\n\n} $startpos $endpos]] ne ""} {
+      if {[$txtt get $index] eq "\n"} {
+        if {[incr num -1] == 0} {
+          return [$txtt index $index+1c]
+        }
+      } else {
+        if {[incr num -1] == 0} {
+          return [$txtt index $index]
+        }
       }
+      set startpos "$index$suffix"
     }
 
     return $start
