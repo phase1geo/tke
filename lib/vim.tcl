@@ -2543,6 +2543,25 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Move counts WORDs backward.
+  proc handle_B {txtt} {
+
+    variable mode
+    variable motion
+
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$motion($txtt) eq ""} {
+        return [do_operation $txtt [list WORDstart -dir prev -num [get_number $txtt] -exclusive 1]]
+      }
+      reset_state $txtt 1
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # If we are in "command" mode, change the state to "change" mode.  If
   # we are in the "change" mode, delete the current line and put ourselves
   # into edit mode.
@@ -2646,6 +2665,31 @@ namespace eval vim {
           ""       { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 1]] }
           "change" { return [do_operation $txtt [list wordend   -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
           default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
+        }
+      }
+      reset_state $txtt 1
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # If we are in "change" mode, delete the current WORD and change to edit
+  # mode.
+  proc handle_W {txtt} {
+
+    variable mode
+    variable operator
+    variable motion
+
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$motion($txtt) eq ""} {
+        switch $operator($txtt) {
+          ""       { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 1]] }
+          "change" { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
+          default  { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0]] }
         }
       }
       reset_state $txtt 1
@@ -4278,6 +4322,30 @@ namespace eval vim {
           return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 1]]
         } elseif {$motion($txtt) eq "g"} {
           return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1]]
+        }
+      }
+      reset_state $txtt 1
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Move forward/backward to the end of a WORD.
+  proc handle_E {txtt} {
+
+    variable mode
+    variable operator
+    variable motion
+
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      if {$operator($txtt) eq ""} {
+        if {$motion($txtt) eq ""} {
+          return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt] -exclusive 1]]
+        } elseif {$motion($txtt) eq "g"} {
+          return [do_operation $txtt [list WORDend -dir prev -num [get_number $txtt] -exclusive 1]]
         }
       }
       reset_state $txtt 1

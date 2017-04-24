@@ -1425,6 +1425,43 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Returns the index of the start of a Vim WORD (any character that is
+  # preceded by whitespace, the first character of a line, or an empty
+  # line.
+  proc get_WORDstart {txtt dir {num 1} {start insert} {exclusive 0}} {
+
+    set diropt   [expr {($dir eq "next") ? "-forwards" : "-backwards"}]
+    set startpos [expr {($dir eq "next") ? $start : "$start-1c"}]
+
+    while {[set index [$txtt search $diropt -regexp -- {\s\S} $startpos]] ne ""} {
+      if {[incr num -1] == 0} {
+        return [$txtt index $index+1c]
+      }
+    }
+
+    return $start
+
+  }
+
+  ######################################################################
+  # Returns the index of the end of a Vim WORD (any character that is
+  # succeeded by whitespace, the last character of a line or an empty line.
+  proc get_WORDend {txtt dir {num 1} {start insert} {exclusive 0}} {
+
+    set diropt   [expr {($dir eq "next") ? "-forwards" : "-backwards"}]
+    set startpos [expr {($dir eq "next") ? "$start+1c" : $start}]
+
+    while {[set index [$txtt search $diropt -regexp -- {\S\s} $startpos]] ne ""} {
+      if {[incr num -1] == 0} {
+        return [$txtt index $index]
+      }
+    }
+
+    return $start
+
+  }
+
+  ######################################################################
   # Returns the starting index of the given character.
   proc find_char {txtt dir char num startpos exclusive} {
 
@@ -1666,6 +1703,8 @@ namespace eval edit {
       }
       wordstart     { set index [get_wordstart $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       wordend       { set index [get_wordend   $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
+      WORDstart     { set index [get_WORDstart $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
+      WORDend       { set index [get_WORDend   $txtt $opts(-dir) $opts(-num) $opts(-startpos) $opts(-exclusive)] }
       column        { set index [lindex [split [$txtt index $opts(-startpos)] .] 0].[expr $opts(-num) - 1] }
       linenum       {
         if {[lsearch [$txtt tag names "$opts(-num).0"] _prewhite] != -1} {
