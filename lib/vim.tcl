@@ -1445,10 +1445,12 @@ namespace eval vim {
     if {[$txtt index "insert linestart"] eq [$txtt index "insert lineend"]} {
       $txtt fastinsert -update 0 -undo 0 insert " " dspace
       $txtt mark set insert "insert-1c"
+      gui::update_position [winfo parent $txtt]
 
     # Make sure that lineend is never the insertion point
     } elseif {[$txtt index insert] eq [$txtt index "insert lineend"]} {
       $txtt mark set insert "insert-1 display chars"
+      gui::update_position [winfo parent $txtt]
     }
 
     # Adjust the selection (if we are in visual mode)
@@ -3739,7 +3741,7 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
+      if {$motion($txtt) eq ""} {
         return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt]]]
       }
       reset_state $txtt 1

@@ -26,11 +26,12 @@
 namespace eval edit {
 
   array set patterns {
-    nnumber  {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
-    pnumber  {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
-    sentence {[.!?][])\"']*\s+\S}
-    nspace   {^[ \t]+}
-    pspace   {[ \t]+$}
+    nnumber   {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
+    pnumber   {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
+    sentence  {[.!?][])\"']*\s+\S}
+    paragraph {\n\n[^\n]}
+    nspace    {^[ \t]+}
+    pspace    {[ \t]+$}
   }
 
   variable rot13_map {
@@ -1607,15 +1608,30 @@ namespace eval edit {
 
   ######################################################################
   # Find the next or previous paragraph.
-  proc get_paragraph {txtt dir num {startpos insert}} {
-
+  proc get_paragraph {txtt dir num {start insert}} {
+    
+    variable patterns
+    
     if {$dir eq "next"} {
-      # TBD
+      set diropt   "-forwards"
+      set suffix   ""
+      set startpos "$start+1c"
+      set endpos   "end-1c"
     } else {
-      # TBD
+      set diropt   "-backwards"
+      set suffix   "-2c"
+      set startpos $start-2c
+      set endpos   "1.0"
     }
 
-    return $startpos
+    while {[set index [$txtt search $diropt -regexp -- $patterns(paragraph) $startpos $endpos]] ne ""} {
+      if {[incr num -1] == 0} {
+        return "$index+2c"
+      }
+      set startpos "$index$suffix"
+    }
+    
+    return $endpos
 
   }
 
