@@ -1265,7 +1265,7 @@ namespace eval vim {
     }
 
     # Make sure that the mode is updated in the status bar
-    event generate $txtt <<CursorChanged>
+    gui::update_position [winfo parent $txtt]
 
   }
 
