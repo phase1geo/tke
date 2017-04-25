@@ -143,8 +143,30 @@ namespace eval delete {
 
   }
 
-  # Verify X Vim command
+  # Verify Delete Vim command
   proc run_test2 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 Delete 2.0 "\nhis is a line" "T"
+    do_test $txtt 1 {2 Delete} 2.0 "\nis is a line" "Th"
+
+    do_test $txtt 2 Delete 2.0 "\nhis is a line" "T" 0
+    do_test $txtt 3 Delete 2.0 "\nis is a line" "h"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify X Vim command
+  proc run_test3 {} {
 
     # Initialize
     set txtt [initialize]
@@ -165,8 +187,27 @@ namespace eval delete {
 
   }
 
+  # Verify D Vim command
+  proc run_test4 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.3
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 D 2.2 "\nThi\nThis is a line\nThis is a line" "s is a line"
+    do_test $txtt 1 {2 D} 2.2 "\nThi\nThis is a line" "s is a line\nThis is a line"
+
+    do_test $txtt 2 D 2.2 "\nThi\nThis is a line\nThis is a line" "s is a line" 0
+    do_test $txtt 3 D 2.1 "\nTh\nThis is a line\nThis is a line" "i"
+
+  }
+
   # Verify dd Vim command
-  proc run_test3 {} {
+  proc run_test5 {} {
 
     # Initialize
     set txtt [initialize]
@@ -191,7 +232,7 @@ namespace eval delete {
   }
 
   # Verify dl Vim command
-  proc run_test4 {} {
+  proc run_test6 {} {
 
     # Initialize
     set txtt [initialize]
@@ -216,7 +257,7 @@ namespace eval delete {
   }
 
   # Verify dvl Vim command
-  proc run_test5 {} {
+  proc run_test7 {} {
 
     # Initialize
     set txtt [initialize]
@@ -242,200 +283,8 @@ namespace eval delete {
 
   }
 
-  # Verify dw Vim command
-  proc run_test6 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end [set start "\nThis is a line"]
-    $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d w} 2.1 "\nTis a line" "his "
-
-    foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d w} $index 2] 2.1 "\nTa line" "his is "
-    }
-
-    do_test $txtt 3 {d w} 2.1 "\nTis a line" "his " 0
-    do_test $txtt 4 {d w} 2.1 "\nTa line" "is "
-
-    # Cleanup
-    cleanup
-
-  }
-
-  # Verify d$ command
-  proc run_test7 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end [set start "\nThis is a line\nThis is a line\nThis is a line"]
-    $txtt edit separator
-    $txtt mark set insert 2.5
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d dollar} 2.4 "\nThis \nThis is a line\nThis is a line" "is a line"
-
-    foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d dollar} $index 2] 2.4 "\nThis \nThis is a line" "is a line\nThis is a line"
-    }
-
-    do_test $txtt 3 {d dollar} 2.4 "\nThis \nThis is a line\nThis is a line" "is a line" 0
-    $txtt mark set insert 3.0
-    do_test $txtt 4 {d dollar} 3.0 "\nThis \n \nThis is a line" "This is a line"
-
-    # Cleanup
-    cleanup
-
-  }
-
-  # Verify d0 Vim command
-  proc run_test8 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end "\n  This is a line"
-    $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d 0} 2.0 "\ns a line" "  This i"
-
-    # Cleanup
-    cleanup
-
-  }
-
-  # Verify d^ Vim command
-  proc run_test9 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end "\n  This is a line\n This is a line"
-    $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d asciicircum} 2.2 "\n  s a line\n This is a line" "This i"
-
-    do_test $txtt 1 {d asciicircum} 2.2 "\n  s a line\n This is a line" "This i" 0
-    $txtt mark set insert 3.0
-    do_test $txtt 2 {d asciicircum} 3.0 "\n  s a line\nThis is a line" " "
-
-    # Cleanup
-    cleanup
-
-  }
-
-  # Verify df Vim command
-  proc run_test10 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end [set start "\nThis is a line"]
-    $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d f l} 2.1 "\nTine" "his is a l"
-
-    foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d f i} $index 2] 2.1 "\nTs a line" "his i"
-    }
-
-    do_test $txtt 3 {d f i} 2.1 "\nTs is a line" "hi" 0
-    do_test $txtt 4 {d f i} 2.1 "\nTs a line" "s i"
-
-    # Cleanup
-    cleanup
-
-  }
-
-  # Verify dt Vim command
-  proc run_test11 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end [set start "\nThis is a line"]
-    $txtt edit separator
-    $txtt mark set insert 2.1
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d t l} 2.1 "\nTline" "his is a "
-
-    foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d t i} $index 2] 2.1 "\nTis a line" "his "
-    }
-
-    do_test $txtt 3 {d t i} 2.1 "\nTis is a line" "h" 0
-    do_test $txtt 4 {d t i} 2.1 "\nTis a line" "is "
-
-    # Cleanup
-    cleanup
-
-  }
-
-  # Verify dF Vim command
-  proc run_test12 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end [set start "\nThis is a line"]
-    $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d F i} 2.5 "\nThis a line" "is "
-
-    foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d F i} $index 2] 2.2 "\nTha line" "is is "
-    }
-
-    do_test $txtt 3 {d F i} 2.5 "\nThis a line" "is " 0
-    do_test $txtt 4 {d F i} 2.2 "\nTha line" "is "
-
-    # Cleanup
-    cleanup
-
-  }
-
-  # Verify dT Vim command
-  proc run_test13 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end [set start "\nThis is a line"]
-    $txtt edit separator
-    $txtt mark set insert 2.8
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {d T i} 2.6 "\nThis ia line" "s "
-
-    foreach index {0 1} {
-      do_test $txtt [expr $index + 1] [linsert {d T i} $index 2] 2.3 "\nThia line" "s is "
-    }
-
-    do_test $txtt 3 {d T i} 2.6 "\nThis ia line" "s " 0
-    $txtt mark set insert 2.5
-    do_test $txtt 4 {d T i} 2.3 "\nThiia line" "s "
-
-    # Cleanup
-    cleanup
-
-  }
-
   # Verify dh Vim command
-  proc run_test14 {} {
+  proc run_test8 {} {
 
     # Initialize
     set txtt [initialize]
@@ -462,8 +311,425 @@ namespace eval delete {
 
   }
 
-  # Verify dSpace Vim command
+  # Verify dj Vim command
+  proc run_test9 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.2
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d j} 2.2 "\nThis is a line\nThis is a line" "is is a line\nTh"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d j} $index 2] 2.2 "\nThis is a line" "is is a line\nThis is a line\nTh"
+    }
+
+    do_test $txtt 3 {d j} 2.2 "\nThis is a line\nThis is a line" "is is a line\nTh" 0
+    do_test $txtt 4 {d j} 2.2 "\nThis is a line" "is is a line\nTh"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dk Vim command
+  proc run_test10 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is a line\nThis is a line\nThis is a line"
+    $txtt edit separator
+    $txtt mark set insert 4.2
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d k} 3.2 "\nThis is a line\nThis is a line" "is is a line\nTh"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d k} $index 2] 2.2 "\nThis is a line" "is is a line\nThis is a line\nTh"
+    }
+
+    do_test $txtt 3 {d k} 3.2 "\nThis is a line\nThis is a line" "is is a line\nTh" 0
+    do_test $txtt 4 {d k} 2.2 "\nThis is a line" "is is a line\nTh"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dw Vim command
+  proc run_test11 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis... is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.1
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d w} 2.1 "\nT... is a line" "his"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d w} $index 2] 2.1 "\nT.. is a line" "his."
+    }
+
+    do_test $txtt 3 {d w} 2.1 "\nT... is a line" "his" 0
+    do_test $txtt 4 {d w} 2.1 "\nT.. is a line" "."
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dW Vim command
+  proc run_test12 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis... is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.1
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d W} 2.1 "\nTis a line" "his... "
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d W} $index 2] 2.1 "\nTa line" "his... is "
+    }
+
+    do_test $txtt 3 {d W} 2.1 "\nTis a line" "his... " 0
+    do_test $txtt 4 {d W} 2.1 "\nTa line" "is "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify db Vim command
+  proc run_test13 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis... is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.8
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d b} 2.6 "\nThis..is a line" ". "
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d b} $index 2] 2.5 "\nThis.is a line" ".. "
+    }
+
+    do_test $txtt 3 {d b} 2.6 "\nThis..is a line" ". " 0
+    do_test $txtt 4 {d b} 2.5 "\nThis.is a line" "."
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dB Vim command
+  proc run_test14 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis... is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.11
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d B} 2.8 "\nThis... a line" "is "
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d B} $index 2] 2.0 "\na line" "This... is "
+    }
+
+    do_test $txtt 3 {d B} 2.8 "\nThis... a line" "is " 0
+    do_test $txtt 4 {d B} 2.0 "\na line" "This... "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify de Vim command
   proc run_test15 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis... is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d e} 2.0 "\n... is a line" "This"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d e} $index 2] 2.0 "\n.. is a line" "This."
+    }
+
+    do_test $txtt 3 {d e} 2.0 "\n... is a line" "This" 0
+    do_test $txtt 4 {d e} 2.0 "\n. is a line" ".."
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dE Vim command
+  proc run_test16 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis... is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d E} 2.0 "\n is a line" "This..."
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d E} $index 2] 2.0 "\n a line" "This... is"
+    }
+
+    do_test $txtt 3 {d E} 2.0 "\n is a line" "This..." 0
+    do_test $txtt 4 {d E} 2.0 "\n a line" " is"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dge Vim command
+  proc run_test17 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is... a line"
+    $txtt edit separator
+    $txtt mark set insert 2.11
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d g e} 2.9 "\nThis is.. line" ". a"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d g e} $index 2] 2.8 "\nThis is. line" ".. a"
+    }
+
+    do_test $txtt 3 {d g e} 2.9 "\nThis is.. line" ". a" 0
+    do_test $txtt 4 {d g e} 2.8 "\nThis is.line" ". "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dgE Vim command
+  proc run_test18 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\nThis is... a line"
+    $txtt edit separator
+    $txtt mark set insert 2.11
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d g E} 2.9 "\nThis is.. line" ". a"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d g E} $index 2] 2.3 "\nThi line" "s is... a"
+    }
+
+    do_test $txtt 3 {d g E} 2.9 "\nThis is.. line" ". a" 0
+    do_test $txtt 4 {d g E} 2.8 "\nThis is.line" ". "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify d$ command
+  proc run_test19 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set start "\nThis is a line\nThis is a line\nThis is a line"]
+    $txtt edit separator
+    $txtt mark set insert 2.5
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d dollar} 2.4 "\nThis \nThis is a line\nThis is a line" "is a line"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d dollar} $index 2] 2.4 "\nThis \nThis is a line" "is a line\nThis is a line"
+    }
+
+    do_test $txtt 3 {d dollar} 2.4 "\nThis \nThis is a line\nThis is a line" "is a line" 0
+    $txtt mark set insert 3.0
+    do_test $txtt 4 {d dollar} 3.0 "\nThis \n \nThis is a line" "This is a line"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify d0 Vim command
+  proc run_test20 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\n  This is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.8
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d 0} 2.0 "\ns a line" "  This i"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify d^ Vim command
+  proc run_test21 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end "\n  This is a line\n This is a line"
+    $txtt edit separator
+    $txtt mark set insert 2.8
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d asciicircum} 2.2 "\n  s a line\n This is a line" "This i"
+
+    do_test $txtt 1 {d asciicircum} 2.2 "\n  s a line\n This is a line" "This i" 0
+    $txtt mark set insert 3.0
+    do_test $txtt 2 {d asciicircum} 3.0 "\n  s a line\nThis is a line" " "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify df Vim command
+  proc run_test22 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set start "\nThis is a line"]
+    $txtt edit separator
+    $txtt mark set insert 2.1
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d f l} 2.1 "\nTine" "his is a l"
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d f i} $index 2] 2.1 "\nTs a line" "his i"
+    }
+
+    do_test $txtt 3 {d f i} 2.1 "\nTs is a line" "hi" 0
+    do_test $txtt 4 {d f i} 2.1 "\nTs a line" "s i"
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dt Vim command
+  proc run_test23 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set start "\nThis is a line"]
+    $txtt edit separator
+    $txtt mark set insert 2.1
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d t l} 2.1 "\nTline" "his is a "
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d t i} $index 2] 2.1 "\nTis a line" "his "
+    }
+
+    do_test $txtt 3 {d t i} 2.1 "\nTis is a line" "h" 0
+    do_test $txtt 4 {d t i} 2.1 "\nTis a line" "is "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dF Vim command
+  proc run_test24 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set start "\nThis is a line"]
+    $txtt edit separator
+    $txtt mark set insert 2.8
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d F i} 2.5 "\nThis a line" "is "
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d F i} $index 2] 2.2 "\nTha line" "is is "
+    }
+
+    do_test $txtt 3 {d F i} 2.5 "\nThis a line" "is " 0
+    do_test $txtt 4 {d F i} 2.2 "\nTha line" "is "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dT Vim command
+  proc run_test25 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set start "\nThis is a line"]
+    $txtt edit separator
+    $txtt mark set insert 2.8
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {d T i} 2.6 "\nThis ia line" "s "
+
+    foreach index {0 1} {
+      do_test $txtt [expr $index + 1] [linsert {d T i} $index 2] 2.3 "\nThia line" "s is "
+    }
+
+    do_test $txtt 3 {d T i} 2.6 "\nThis ia line" "s " 0
+    $txtt mark set insert 2.5
+    do_test $txtt 4 {d T i} 2.3 "\nThiia line" "s "
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify dSpace Vim command
+  proc run_test26 {} {
 
     # Initialize
     set txtt [initialize]
@@ -492,7 +758,7 @@ namespace eval delete {
   }
 
   # Verify dBackSpace Vim command
-  proc run_test16 {} {
+  proc run_test27 {} {
 
     # Initialize
     set txtt [initialize]
@@ -520,7 +786,7 @@ namespace eval delete {
   }
 
   # Verify dn Vim command
-  proc run_test17 {} {
+  proc run_test28 {} {
 
     # Initialize
     set txtt [initialize]
@@ -548,7 +814,7 @@ namespace eval delete {
   }
 
   # Verify dN Vim command
-  proc run_test18 {} {
+  proc run_test29 {} {
 
     # Initialize
     set txtt [initialize]
@@ -576,7 +842,7 @@ namespace eval delete {
   }
 
   # Verify ds Vim command
-  proc run_test19 {} {
+  proc run_test30 {} {
 
     # Initialize
     set txtt [initialize]
@@ -609,7 +875,7 @@ namespace eval delete {
   }
 
   # Verify dS Vim command
-  proc run_test20 {} {
+  proc run_test31 {} {
 
     # Initialize
     set txtt [initialize]

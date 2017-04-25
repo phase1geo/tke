@@ -2756,7 +2756,8 @@ namespace eval vim {
             command_mode $txtt
             return 1
           } else {
-            edit::delete_to_end $txtt 1
+            set_operator $txtt "delete" {D}
+            return [do_operation $txtt [list lineend -num [get_number $txtt]]]
           }
         }
         "folding" {
@@ -4313,7 +4314,7 @@ namespace eval vim {
         if {$motion($txtt) eq ""} {
           return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
         } elseif {$motion($txtt) eq "g"} {
-          return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+          return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1] right]
         } else {
           reset_state $txtt 1
           return 1
@@ -4352,7 +4353,7 @@ namespace eval vim {
           if {$motion($txtt) eq ""} {
             return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
           } elseif {$motion($txtt) eq "g"} {
-            return [do_operation $txtt [list WORDend -dir prev -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+            return [do_operation $txtt [list WORDend -dir prev -num [get_number $txtt] -exclusive 1] right]
           } else {
             reset_state $txtt 1
             return 1
