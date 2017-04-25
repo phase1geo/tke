@@ -2634,25 +2634,6 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If we are in "folding" mode, remove all folds in the current text editor.
-  proc handle_E {txtt} {
-
-    variable mode
-    variable operator
-
-    if {$mode($txtt) eq "command"} {
-      if {$operator($txtt) eq "folding"} {
-        folding::delete_all_folds [winfo parent $txtt]
-      }
-      reset_state $txtt 1
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
   # If we are in "change" mode, delete the current word and change to edit
   # mode.
   proc handle_w {txtt} {
@@ -4324,10 +4305,20 @@ namespace eval vim {
           return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -exclusive 1]]
         } elseif {$motion($txtt) eq "g"} {
           return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -exclusive 1]]
+        } else {
+          reset_state $txtt 1
+          return 1
+        }
+      } else {
+        if {$motion($txtt) eq ""} {
+          return [do_operation $txtt [list wordend -dir next -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+        } elseif {$motion($txtt) eq "g"} {
+          return [do_operation $txtt [list wordend -dir prev -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+        } else {
+          reset_state $txtt 1
+          return 1
         }
       }
-      reset_state $txtt 1
-      return 1
     }
 
     return 0
@@ -4343,14 +4334,32 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$operator($txtt) eq ""} {
-        if {$motion($txtt) eq ""} {
-          return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt] -exclusive 1]]
-        } elseif {$motion($txtt) eq "g"} {
-          return [do_operation $txtt [list WORDend -dir prev -num [get_number $txtt] -exclusive 1]]
+      switch $operator($txtt) {
+        "" {
+          if {$motion($txtt) eq ""} {
+            return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt] -exclusive 1]]
+          } elseif {$motion($txtt) eq "g"} {
+            return [do_operation $txtt [list WORDend -dir prev -num [get_number $txtt] -exclusive 1]]
+          } else {
+            reset_state $txtt 1
+            return 1
+          }
+        }
+        "folding" {
+          folding::delete_all_folds [winfo parent $txtt]
+        }
+        default {
+          if {$motion($txtt) eq ""} {
+            return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+          } elseif {$motion($txtt) eq "g"} {
+            return [do_operation $txtt [list WORDend -dir prev -num [get_number $txtt] -adjust "+1 display chars" -exclusive 1]]
+          } else {
+            reset_state $txtt 1
+            return 1
+          }
         }
       }
-      reset_state $txtt 1
+      reset_state $txtt 0
       return 1
     }
 
