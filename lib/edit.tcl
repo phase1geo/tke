@@ -28,8 +28,7 @@ namespace eval edit {
   array set patterns {
     nnumber   {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
     pnumber   {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
-    sentence  {[.!?][])\"']*\s+\S}
-    paragraph {\n\n[A-Z]}
+    sentence  {[.!?][])\"']*\s+\S|\n[ \t]\S}
     nspace    {^[ \t]+}
     pspace    {[ \t]+$}
   }
@@ -217,9 +216,9 @@ namespace eval edit {
       if {[$txtt compare $startpos == 1.0]} {
         set endpos "$startpos lineend"
       } elseif {[$txtt compare $startpos == "$startpos linestart"]} {
+        set insertpos "$startpos-1l"
         set startpos  "$startpos-1l lineend"
         set endpos    "end-1c"
-        set insertpos "$startpos-1l"
       }
     }
 

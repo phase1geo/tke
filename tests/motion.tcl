@@ -309,9 +309,49 @@ namespace eval motion {
     cleanup
 
   }
+  
+  # Move W and B Vim commands
+  proc run_test9 {} {
+    
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+    
+    $txtt insert end "\nThis... is good\n\nThis... is great"
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+    
+    # Move forward by one WORD (0-6)
+    foreach {index dspace} [list 2.8 0 2.11 0 3.0 1 4.0 0 4.8 0 4.11 0 4.11 0] {
+      do_test $txtt $i W $index $dspace
+      incr i
+    }
+    
+    # Move backward by one WORD (7-13)
+    foreach {index dspace} [list 4.8 0 4.0 0 3.0 1 2.11 0 2.8 0 2.0 0 2.0 0] {
+      do_test $txtt $i B $index $dspace
+      incr i
+    }
+    
+    # Move forward by two WORDs
+    foreach {index dspace} [list 2.11 0 4.0 0 4.11 0 4.11 0] {
+      do_test $txtt $i {2 W} $index $dspace
+      incr i
+    }
+    
+    # Move backward by two WORDs
+    foreach {index dspace} [list 4.0 0 2.11 0 2.0 0 2.0 0] {
+      do_test $txtt $i {2 B} $index $dspace
+      incr i
+    }
+    
+    # Cleanup
+    cleanup
+    
+  }
 
   # Verify e and ge Vim commands.
-  proc run_test9 {} {
+  proc run_test10 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -345,9 +385,51 @@ namespace eval motion {
     cleanup
 
   }
+  
+  # Verify E and gE Vim commands.
+  proc run_test11 {} {
+    
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+    
+    $txtt insert end "\nThis... is good\n\n\nThis... is great"
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+    
+    # 0-8
+    foreach {index dspace} [list 2.6 0 2.9 0 2.14 0 3.0 1 4.0 1 5.6 0 5.9 0 5.15 0 5.15 0] {
+      do_test $txtt $i E $index $dspace
+      incr i
+    }
+    
+    # 9-16
+    foreach {index dspace} [list 5.9 0 5.6 0 4.0 1 3.0 1 2.14 0 2.9 0 2.6 0 2.6 0] {
+      do_test $txtt $i {g E} $index $dspace
+      incr i
+    }
+    
+    $txtt mark set insert 2.0
+    
+    # 17-21
+    foreach {index dspace} [list 2.9 0 3.0 1 5.6 0 5.15 0 5.15 0] {
+      do_test $txtt $i {2 E} $index $dspace
+      incr i
+    }
+    
+    # 22-25
+    foreach {index dspace} [list 5.6 0 3.0 1 2.9 0 2.9 0] {
+      do_test $txtt $i {2 g E} $index $dspace
+      incr i
+    }
+    
+    # Cleanup
+    cleanup
+    
+  }
 
   # Verify Return and minus Vim commands
-  proc run_test10 {} {
+  proc run_test12 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -396,7 +478,7 @@ namespace eval motion {
   }
 
   # Verify space and BackSpace Vim command
-  proc run_test11 {} {
+  proc run_test13 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -437,7 +519,7 @@ namespace eval motion {
   }
 
   # Verify top, middle, bottom of screen
-  proc run_test12 {} {
+  proc run_test14 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -476,7 +558,7 @@ namespace eval motion {
   }
 
   # Verify f, t, F and T Vim motions
-  proc run_test13 {} {
+  proc run_test15 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -537,7 +619,7 @@ namespace eval motion {
   }
 
   # Verify bar Vim command
-  proc run_test14 {} {
+  proc run_test16 {} {
 
     # Initialize
     set txtt [initialize].t
@@ -558,6 +640,78 @@ namespace eval motion {
     # Cleanup
     cleanup
 
+  }
+  
+  # Verify ( and ) Vim command
+  proc run_test17 {} {
+    
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+    
+    $txtt insert end "\nThis is something. This is something else.\n\nThis is great.\nThis is not."
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+    
+    foreach index [list 2.0 2.19 4.0 5.0 5.0] {
+      do_test $txtt $i parenright $index
+      incr i
+    }
+    
+    foreach index [list 4.0 2.19 2.0 1.0 1.0] {
+      do_test $txtt $i parenleft $index
+      incr i
+    }
+    
+    foreach index [list 2.19 5.0 5.0] {
+      do_test $txtt $i {2 parenright} $index
+      incr i
+    }
+    
+    foreach index [list 2.19 1.0 1.0] {
+      do_test $txtt $i {2 parenleft} $index
+      incr i
+    }
+    
+    # Cleanup
+    cleanup
+    
+  }
+  
+  # Verify { and } Vim commands
+  proc run_test18 {} {
+    
+    # Initialize
+    set txtt [initialize].t
+    set i    0
+    
+    $txtt insert end "\nThis is the first paragraph.\nThis is still a part of the first paragraph.\n\n\nAnother paragraph.\n\nLast paragraph"
+    $txtt mark set insert 1.0
+    vim::adjust_insert $txtt
+    
+    foreach index [list 2.0 6.0 8.0 8.13 8.13] {
+      do_test $txtt $i braceright $index
+      incr i
+    }
+    
+    foreach index [list 8.0 6.0 2.0 1.0 1.0] {
+      do_test $txtt $i braceleft $index
+      incr i
+    }
+    
+    foreach index [list 6.0 8.13] {
+      do_test $txtt $i {2 braceright} $index
+      incr i
+    }
+    
+    foreach index [list 6.0 1.0 1.0] {
+      do_test $txtt $i {2 braceleft} $index
+      incr i
+    }
+    
+    # Cleanup
+    cleanup
+    
   }
 
   # Verify up/down motions over elided text
