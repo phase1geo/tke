@@ -29,7 +29,7 @@ namespace eval edit {
     nnumber   {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
     pnumber   {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
     sentence  {[.!?][])\"']*\s+\S}
-    paragraph {\n\n[^\n]}
+    paragraph {\n\n[A-Z]}
     nspace    {^[ \t]+}
     pspace    {[ \t]+$}
   }
@@ -57,7 +57,6 @@ namespace eval edit {
       $txtt insert "insert lineend" "\n"
     }
 
-    # Perform the proper indentation
     indent::newline $txtt insert 1
 
   }
@@ -1609,29 +1608,46 @@ namespace eval edit {
   ######################################################################
   # Find the next or previous paragraph.
   proc get_paragraph {txtt dir num {start insert}} {
-    
-    variable patterns
-    
-    if {$dir eq "next"} {
-      set diropt   "-forwards"
-      set suffix   ""
-      set startpos "$start+1c"
-      set endpos   "end-1c"
-    } else {
-      set diropt   "-backwards"
-      set suffix   "-2c"
-      set startpos $start-2c
-      set endpos   "1.0"
-    }
 
-    while {[set index [$txtt search $diropt -regexp -- $patterns(paragraph) $startpos $endpos]] ne ""} {
-      if {[incr num -1] == 0} {
-        return "$index+2c"
+    if {$dir eq "next"} {
+
+      set nl 0
+      while {[$txtt compare $start < end-1c]} {
+        if {[$txtt get "$start linestart" "$start lineend"] eq ""} {
+          set nl 1
+        } elseif {$nl && ([incr num -1] == 0)} {
+          return "$start linestart"
+        } else {
+          set nl 0
+        }
+        set start [$txtt index "$start+1 display lines"]
       }
-      set startpos "$index$suffix"
+
+      return [$txtt index end-1c]
+
+    } else {
+
+      # If the start position is in the first column adjust the starting
+      # line to the line above to avoid matching ourselves
+      if {[$txtt compare $start == "$start linestart"]} {
+        set start [$txtt index "$start-1 display lines"]
+      }
+
+      set nl 1
+      while {[$txtt compare $start > 1.0]} {
+        if {[$txtt get "$start linestart" "$start lineend"] ne ""} {
+          set nl 0
+        } elseif {!$nl && ([incr num -1] == 0)} {
+          return [$txtt index "$start+1 display lines linestart"]
+        } else {
+          set nl 1
+        }
+        set start [$txtt index "$start-1 display lines"]
+      }
+
+      return 1.0
+
     }
-    
-    return $endpos
 
   }
 
