@@ -1,54 +1,39 @@
-2017-04-22 17:00 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c8e500e09c9b [devel-3.0.2])
+2017-04-24 00:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3fd5aa9beb5a [devel-3.0.3])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.0.2 release
+	ChangeLog for devel-3.0.3 release
 
-2017-04-22 17:00 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cf68a0d9c768)
+2017-04-24 00:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d496f6e8c543)
 
 	* .hgtags:
-	Added tag devel-3.0.2 for changeset c8e500e09c9b
+	Added tag devel-3.0.3 for changeset 3fd5aa9beb5a
 
-2017-04-22 23:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f114b8a6497b)
+2017-04-24 09:29 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7f1886cc9621)
 
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, lib/edit.tcl,
-	lib/emmet_parser.tcl, lib/multicursor.tcl, lib/version.tcl,
-	lib/vim.tcl, tests/multicursor.tcl:
-	* Updating translations.
-	* Updating emmet_parser.tcl.
-	* Fixing issues with multicursors and operations.
-	* Code cleanup.
-	* Enhancing multicursor BIST.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
+	* Adding initial support for `W`, `E`, `B` and `gE` Vim motions
+	(work in progress).
 
-2017-04-22 23:57 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (217f1e81aa26)
+2017-04-24 11:48 -0500  Trevor Williams  <phase1geo@gmail.com>  (16885da6fefb)
 
-	* lib/multicursor.tcl, lib/version.tcl, lib/vim.tcl:
-	* Adding block selection Vim mode `vv` command support.
-	* Fixing block selection issue when cursor fell before or above the
-	anchor point.
+	* lib/edit.tcl, lib/version.tcl:
+	* Fixing W, B, E and gE motions.
 
-2017-04-23 00:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (edae90d39bfd)
+2017-04-24 16:50 -0500  Trevor Williams  <phase1geo@gmail.com>  (1520e2964996)
 
-	* lib/multicursor.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing potential syntax error when performing block selection via
-	mouse.
-	* Adding save of mouse block selection in case `gv` Vim command is
-	later used.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
+	* Checkpointing work on paragraph motion support.
 
-2017-04-23 22:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8f03eb4fd20b)
+2017-04-24 23:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7e3e8072f0da)
 
-	* lib/version.tcl, lib/vim.tcl:
-	* Fixing issue where status bar was not updated immediately when Vim
-	modes were changed.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
+	* Fixing support for paragraph motions.
+	* Fixing support for E/gE/e/ge motions in non-motion operations.
 
-2017-04-24 00:47 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c3b7edcc8536 [tip])
+2017-04-25 01:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (aefb7fddf6b8 [tip])
 
-	* lib/diff.tcl, lib/gui.tcl, lib/markers.tcl, lib/menus.tcl,
-	lib/version.tcl, lib/vim.tcl:
-	* Fixing issue with synchronizing markers when split view is
-	enabled.
+	* lib/version.tcl, lib/vim.tcl, tests/delete.tcl:
+	* Fixing `D` Vim command.
+	* Enhancing delete BIST.
+	* Fixing BIST errors.
 
