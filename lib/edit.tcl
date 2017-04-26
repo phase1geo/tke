@@ -28,7 +28,7 @@ namespace eval edit {
   array set patterns {
     nnumber   {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
     pnumber   {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
-    sentence  {[.!?][])\"']*\s+\S|\n[ \t]\S}
+    sentence  {[.!?][])\"']*\s+\S}
     nspace    {^[ \t]+}
     pspace    {[ \t]+$}
   }
@@ -1568,20 +1568,28 @@ namespace eval edit {
 
     if {$dir eq "next"} {
 
+      # If we could not find the end of a previous sentence, find the first
+      # non-whitespace character in the file and if it is after the startpos,
+      # return the index.
+      if {($index eq "") && ([set index [$txtt search -forwards -regexp -- {\S} 1.0 end-1c]] ne "")} {
+        if {[$txtt compare $index > $startpos] && ([incr num -1] == 0)} {
+          return $index
+        }
+        set index ""
+      }
+
       if {($index ne "") && [$txtt compare $startpos < "$index+[expr [lindex $lengths 0] - 1]c"]} {
         set startpos $index
       }
 
-      for {set i [expr $num - 1]} {$i >= 0} {incr i -1} {
-        if {[set index [$txtt search -forwards -count lengths -regexp -- $patterns(sentence) $startpos end]] ne ""} {
-          set startpos [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
-          if {$i == 0} {
-            return $startpos
-          }
-        } else {
-          return "end"
+      while {[set index [$txtt search -forwards -count lengths -regexp -- $patterns(sentence) $startpos end]] ne ""} {
+        set startpos [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
+        if {[incr num -1] == 0} {
+          return $startpos
         }
       }
+
+      return "end-1c"
 
     } else {
 
@@ -1589,15 +1597,19 @@ namespace eval edit {
         set startpos $index
       }
 
-      for {set i [expr $num - 1]} {$i >= 0} {incr i -1} {
-        if {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos-1c 1.0]] ne ""} {
-          set startpos [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
-          if {$i == 0} {
-            return $startpos
-          }
-        } else {
-          return [get_index $txtt firstchar -num 0 -startpos $startpos]
+      while {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos-1c 1.0]] ne ""} {
+        set startpos $index
+        if {[incr num -1] == 0} {
+          return [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
         }
+      }
+
+      if {([incr num -1] == 0) && \
+          ([set index [$txtt search -forwards -regexp -- {\S} 1.0 end-1c]] ne "") && \
+          ([$txtt compare $index < $startpos])} {
+        return $index
+      } else {
+        return "1.0"
       }
 
     }
@@ -1612,7 +1624,8 @@ namespace eval edit {
 
       set nl 0
       while {[$txtt compare $start < end-1c]} {
-        if {[$txtt get "$start linestart" "$start lineend"] eq ""} {
+        if {([$txtt get "$start linestart" "$start lineend"] eq "") || \
+            ([lsearch [$txtt tag names $start] dspace] != -1)} {
           set nl 1
         } elseif {$nl && ([incr num -1] == 0)} {
           return "$start linestart"
@@ -1634,7 +1647,8 @@ namespace eval edit {
 
       set nl 1
       while {[$txtt compare $start > 1.0]} {
-        if {[$txtt get "$start linestart" "$start lineend"] ne ""} {
+        if {([$txtt get "$start linestart" "$start lineend"] ne "") && \
+            ([lsearch [$txtt tag names $start] dspace] == -1)} {
           set nl 0
         } elseif {!$nl && ([incr num -1] == 0)} {
           return [$txtt index "$start+1 display lines linestart"]
@@ -1644,7 +1658,13 @@ namespace eval edit {
         set start [$txtt index "$start-1 display lines"]
       }
 
-      return 1.0
+      if {(([$txtt get "$start linestart" "$start lineend"] eq "") || \
+           ([lsearch [$txtt tag names $start] dspace] != -1)) && !$nl && \
+          ([incr num -1] == 0)} {
+        return [$txtt index "$start+1 display lines linestart"]
+      } else {
+        return 1.0
+      }
 
     }
 
