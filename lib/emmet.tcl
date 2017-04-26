@@ -598,11 +598,38 @@ namespace eval emmet {
     while {[regexp {^(\s*)(\w+)="(.*?)"(.*)$} $contents -> prespace attr_name attr_value contents]} {
       set attr_name_start [$txt index "$start+[string length $prespace]c"]
       set attr_val_start  [$txt index "$attr_name_start+[expr [string length $attr_name] + 2]c"]
-      lappend attrs $attr_name $attr_name_start $attr_value $attr_value_start
+      lappend attrs $attr_name $attr_name_start $attr_value $attr_val_start
       set start [$txt index "$attr_val_start+[expr [string length $attr_value] + 1]c"]
     }
 
     return $attrs
+
+  }
+
+  ######################################################################
+  # Returns an index that contains an empty, indented line; otherwise,
+  # returns the empty string.
+  proc get_blank_line {txt dir startpos endpos} {
+
+    if {$dir eq "next"} {
+      while {[$txt compare $startpos < $endpos]} {
+        if {([string trim [$txt get "$startpos linestart" "$startpos lineend"]] eq "") && \
+            ([$txt compare "$startpos linestart" != "$startpos lineend"])} {
+          return $startpos
+        }
+        set startpos [$txt index "$startpos+1 display lines"]
+      }
+    } else {
+      while {[$txt compare $startpos > $endpos]} {
+        if {([string trim [$txt get "$startpos linestart" "$startpos lineend"]] eq "") && \
+            ([$txt compare "$startpos linestart" != "$startpos lineend"])} {
+          return $startpos
+        }
+        set startpos [$txt index "$startpos-1 display lines"]
+      }
+    }
+
+    return ""
 
   }
 
@@ -614,12 +641,69 @@ namespace eval emmet {
     set txt [gui::current_txt]
 
     # If we are inside a tag, look for an empty attribute
-    if {[set retval [inside_tag $txt]] ne ""} {
+    if {[set retval [inside_tag $txt]] eq ""} {
+      if {[set retval [get_tag $txt -dir $dir]] eq ""} {
+        return
+      } else {
+        set endpos [expr {($dir eq "next") ? [lindex $retval 0] : [lindex $retval 1]}]
+        if {[set index [get_blank_line $txt $dir insert $endpos]] ne ""} {
+          ::tk::TextSetCursor $txt "$index lineend"
+          vim::adjust_insert $txt.t
+          return
+        }
+      }
+    }
 
-      # Look for an empty attribute
-      foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
-        if {$attr_value eq ""} {
-          ::tk::TextSetCursor $txt $attr_value_start
+    # Look for an empty attribute
+    if {$dir eq "next"} {
+
+      while {1} {
+        foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
+          if {($attr_value eq "") && [$txt compare $attr_value_start > insert]} {
+            ::tk::TextSetCursor $txt $attr_value_start
+            return
+          }
+        }
+        if {[set next_tag [get_tag $txt -dir next -start [lindex $retval 1]]] ne ""} {
+          if {[$txt compare [lindex $retval 1] == [lindex $next_tag 0]]} {
+            ::tk::TextSetCursor $txt [lindex $next_tag 0]
+            return
+          } elseif {[set index [$txt search -forwards -regexp -- {^\s+$} [lindex $retval 1] [lindex $next_tag 0]]] ne ""} {
+            ::tk::TextSetCursor $txt "$index lineend"
+            vim::adjust_insert $txt.t
+            return
+          } else {
+            set retval $next_tag
+          }
+        } else {
+          return
+        }
+      }
+
+    } else {
+
+      while {1} {
+        foreach {attr_value_start attr_value attr_name_start attr_name} [lreverse [get_tag_attributes $txt $retval]] {
+          if {($attr_value eq "") && [$txt compare $attr_value_start < insert]} {
+            ::tk::TextSetCursor $txt $attr_value_start
+            return
+          }
+        }
+        if {[set prev_tag [get_tag $txt -dir prev -start [lindex $retval 0]]] ne ""} {
+          puts "prev_tag: $prev_tag"
+          if {[$txt compare [lindex $prev_tag 1] == [lindex $retval 0]] && \
+              [$txt compare insert != [lindex $retval 0]]} {
+            ::tk::TextSetCursor $txt [lindex $retval 0]
+            return
+          } elseif {[set index [$txt search -backwards -regexp -- {^\s+$} [lindex $retval 0] [lindex $prev_tag 1]]] ne ""} {
+            puts "$txt search -backwards -regexp -- {^\\s+\$} [lindex $retval 0] [lindex $prev_tag 1], index: $index"
+            ::tk::TextSetCursor $txt "$index lineend"
+            vim::adjust_insert $txt.t
+            return
+          } else {
+            set retval $prev_tag
+          }
+        } else {
           return
         }
       }

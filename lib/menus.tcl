@@ -1434,6 +1434,14 @@ namespace eval menus {
 
     $mb.emmetPopup add separator
 
+    $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list emmet::go_to_edit_point next]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to next edit point"]] [list emmet::go_to_edit_point next]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Previous Edit Point"] -command [list emmet::go_to_edit_point prev]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to previous edit point"]] [list emmet::go_to_edit_point prev]
+
+    $mb.emmetPopup add separator
+
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
 
