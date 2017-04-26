@@ -612,6 +612,9 @@ namespace eval emmet {
   proc get_blank_line {txt dir startpos endpos} {
 
     if {$dir eq "next"} {
+      if {[$txt compare $startpos >= "$startpos lineend-1 display chars"]} {
+        set startpos [$txt index "$startpos+1 display lines linestart"]
+      }
       while {[$txt compare $startpos < $endpos]} {
         if {([string trim [$txt get "$startpos linestart" "$startpos lineend"]] eq "") && \
             ([$txt compare "$startpos linestart" != "$startpos lineend"])} {
@@ -620,6 +623,7 @@ namespace eval emmet {
         set startpos [$txt index "$startpos+1 display lines"]
       }
     } else {
+      set startpos [$txt index "$startpos-1 display lines linestart"]
       while {[$txt compare $startpos > $endpos]} {
         if {([string trim [$txt get "$startpos linestart" "$startpos lineend"]] eq "") && \
             ([$txt compare "$startpos linestart" != "$startpos lineend"])} {
@@ -668,7 +672,7 @@ namespace eval emmet {
           if {[$txt compare [lindex $retval 1] == [lindex $next_tag 0]]} {
             ::tk::TextSetCursor $txt [lindex $next_tag 0]
             return
-          } elseif {[set index [$txt search -forwards -regexp -- {^\s+$} [lindex $retval 1] [lindex $next_tag 0]]] ne ""} {
+          } elseif {[set index [get_blank_line $txt next [lindex $retval 1] [lindex $next_tag 0]]] ne ""} {
             ::tk::TextSetCursor $txt "$index lineend"
             vim::adjust_insert $txt.t
             return
@@ -690,13 +694,11 @@ namespace eval emmet {
           }
         }
         if {[set prev_tag [get_tag $txt -dir prev -start [lindex $retval 0]]] ne ""} {
-          puts "prev_tag: $prev_tag"
           if {[$txt compare [lindex $prev_tag 1] == [lindex $retval 0]] && \
               [$txt compare insert != [lindex $retval 0]]} {
             ::tk::TextSetCursor $txt [lindex $retval 0]
             return
-          } elseif {[set index [$txt search -backwards -regexp -- {^\s+$} [lindex $retval 0] [lindex $prev_tag 1]]] ne ""} {
-            puts "$txt search -backwards -regexp -- {^\\s+\$} [lindex $retval 0] [lindex $prev_tag 1], index: $index"
+          } elseif {[set index [get_blank_line $txt prev [lindex $retval 0] [lindex $prev_tag 1]]] ne ""} {
             ::tk::TextSetCursor $txt "$index lineend"
             vim::adjust_insert $txt.t
             return
