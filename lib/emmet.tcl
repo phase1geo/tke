@@ -713,21 +713,21 @@ namespace eval emmet {
     }
 
   }
-  
+
   ######################################################################
   # Selects the next value in the HTML attribute list of values.
   proc select_html_attr_value {txt dir selected attr_value attr_value_start} {
-    
+
     puts "In select_html_attr_value, attr_value ($attr_value)"
-    
+
     if {$attr_value eq ""} {
       return 0
     }
-    
+
     set select         0
     set pattern        [expr {($dir eq "next") ? {^\S+} : {\S+$}}]
     set attr_value_end [$txt index "$attr_value_start+[string length $attr_value]c"]
-    
+
     while {[regexp -indices $pattern $attr_value match]} {
       set value_start [$txt index "$attr_value_start+[lindex $match 0]c"]
       set value_end   [$txt index "$attr_value_start+[expr [lindex $match 1] + 1]c"]
@@ -746,7 +746,7 @@ namespace eval emmet {
         set attr_value       [string range $attr_value 0 [expr [lindex $match 0] - 1]]
       }
     }
-    
+
     if {$select} {
       return 0
     } else {
@@ -755,43 +755,45 @@ namespace eval emmet {
       puts "HERE D"
       return 1
     }
-    
+
   }
-  
+
   ######################################################################
   # Selects the next or previous HTML item.
   proc select_html_item {txt dir} {
-    
+
     set startpos "insert"
-    
+
     # If the cursor is not within a start tag, go find the next start tag
     if {([set retval [inside_tag $txt]] eq "") || ([lindex $retval 3] ne "100")} {
       set retval [get_tag $txt -dir $dir -type "100"]
     }
-    
+
     # Get the currently selected text
     if {[llength [set selected [$txt tag ranges sel]]] != 2} {
       set selected ""
     }
-    
+
     if {$dir eq "next"} {
-      
+
       while {$retval ne ""} {
-        
+
         # Figure out the index of the end of the name
         set end_name "[lindex $retval 0]+[expr [string length [lindex $retval 2]] + 1]c"
-        
+
         # Select the tag name if it is the next item
         if {[$txt compare $startpos < $end_name]} {
           ::tk::TextSetCursor $txt $end_name
           $txt tag add sel "[lindex $retval 0]+1c" $end_name
           return
-          
+
         # Otherwise, check the attributes within the tag for selectable items
         } else {
+          puts "-------"
           foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
             set attr_end [$txt index "$attr_value_start+[expr [string length $attr_value] + 1]c"]
-            if {[$txt compare $startpos >= $attr_end]} {
+            puts "  startpos: [$txt index $startpos], attr_end: $attr_end"
+            if {[$txt compare $startpos > $attr_end]} {
               continue
             }
             if {[$txt compare $startpos < $attr_value_start]} {
@@ -809,33 +811,33 @@ namespace eval emmet {
             }
           }
         }
-        
+
         # Get the next tag
         set retval [get_tag $txt -dir $dir -type "100" -start [lindex $retval 1]]
         puts "retval: $retval"
-        
+
       }
-        
+
     } else {
-      
+
       # TBD
-      
+
     }
-    
+
   }
-  
+
   ######################################################################
   # Perform next/previous item selection.
   proc select_item {dir} {
-    
+
     gui::get_info {} current txt lang
-    
+
     if {$lang eq "HTML"} {
       select_html_item $txt $dir
     } else {
       select_css_item $txt $dir
     }
-    
+
   }
 
   ######################################################################
