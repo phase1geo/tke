@@ -260,7 +260,31 @@ namespace eval bindings {
       |         "bar"
       \}        "braceright"
       ~         "asciitilde"
+      &         "ampersand"
       Space     "space"
+    }
+
+    array set shift_mapping {
+      1 "exclam"
+      2 "at"
+      3 "numbersign"
+      4 "dollar"
+      5 "percent"
+      6 "asciicircum"
+      7 "ampersand"
+      8 "asterisk"
+      9 "parenleft"
+      0 "parenright"
+      - "underscore"
+      = "plus"
+      \[ "bracketleft"
+      \] "bracketright"
+      \\ "bar"
+      ;  "colon"
+      '  "quotedbl"
+      ,  "less"
+      .  "greater"
+      /  "question"
     }
 
     # I don't believe there are any Alt key mappings on other platforms
@@ -331,6 +355,8 @@ namespace eval bindings {
         append sequence $alt_mapping([string tolower $value])
       } elseif {$alt && $shift && [info exists alt_mapping([string toupper $value])]} {
         append sequence $alt_mapping([string toupper $value])
+      } elseif {$shift && [info exists shift_mapping($value)]} {
+        append sequence $shift_mapping($value)
       } elseif {[info exists mapping($value)]} {
         append sequence $mapping($value)
       } elseif {$value eq "Shift"} {
