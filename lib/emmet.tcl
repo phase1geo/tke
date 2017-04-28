@@ -728,13 +728,19 @@ namespace eval emmet {
     set pattern        [expr {($dir eq "next") ? {^\S+} : {\S+$}}]
     set attr_value_end [$txt index "$attr_value_start+[string length $attr_value]c"]
 
+    puts "selected: $selected, attr value: [list $attr_value_start $attr_value_end]"
+
+    if {($selected eq [list $attr_value_start $attr_value_end]) && [regexp {\s} $attr_value]} {
+      set select 1
+    }
+
     while {[regexp -indices $pattern $attr_value match]} {
       set value_start [$txt index "$attr_value_start+[lindex $match 0]c"]
       set value_end   [$txt index "$attr_value_start+[expr [lindex $match 1] + 1]c"]
       if {$select} {
+        puts "Selecting one value A"
         ::tk::TextSetCursor $txt $value_end
         $txt tag add sel $value_start $value_end
-        puts "HERE C"
         return 1
       } elseif {$selected eq [list $value_start $value_end]} {
         set select 1
@@ -750,9 +756,9 @@ namespace eval emmet {
     if {$select} {
       return 0
     } else {
+      puts "Selecting one value, B"
       ::tk::TextSetCursor $txt $attr_value_end
       $txt tag add sel $attr_value_start $attr_value_end
-      puts "HERE D"
       return 1
     }
 
@@ -761,6 +767,10 @@ namespace eval emmet {
   ######################################################################
   # Selects the next or previous HTML item.
   proc select_html_item {txt dir} {
+
+    puts "###################"
+    puts "IN SELECT_HTML_ITEM"
+    puts "###################"
 
     set startpos "insert"
 
@@ -781,10 +791,16 @@ namespace eval emmet {
         # Figure out the index of the end of the name
         set end_name "[lindex $retval 0]+[expr [string length [lindex $retval 2]] + 1]c"
 
+        puts "startpos: [$txt index $startpos], end_name: [$txt index $end_name]"
+
         # Select the tag name if it is the next item
         if {[$txt compare $startpos < $end_name]} {
+          puts "Selecting tag name"
+          catch {
           ::tk::TextSetCursor $txt $end_name
           $txt tag add sel "[lindex $retval 0]+1c" $end_name
+          } rc
+          puts "rc: $rc"
           return
 
         # Otherwise, check the attributes within the tag for selectable items
@@ -797,12 +813,12 @@ namespace eval emmet {
               continue
             }
             if {[$txt compare $startpos < $attr_value_start]} {
-              puts "HERE A"
+              puts "Selecting full attribute"
               ::tk::TextSetCursor $txt $attr_end
               $txt tag add sel $attr_name_start $attr_end
               return
             } elseif {($selected eq [list $attr_name_start $attr_end]) || ($selected eq "")} {
-              puts "HERE B, selected: $selected, attr_name_start: $attr_name_start, attr_end: $attr_end"
+              puts "Selecting attribute value"
               ::tk::TextSetCursor $txt "$attr_end-1c"
               $txt tag add sel $attr_value_start "$attr_end-1c"
               return
