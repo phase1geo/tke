@@ -1432,6 +1432,9 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Go to Matching Pair"] -command [list emmet::go_to_matching_pair]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to matching tag pair"]] [list emmet::go_to_matching_pair]
 
+    $mb.emmetPopup add command -label [msgcat::mc "Toggle Comment"] -command [list emmet::toggle_comment]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle tag/rule comment"]] [list emmet::toggle_comment]
+
     $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list emmet::go_to_edit_point next]
@@ -1439,12 +1442,12 @@ namespace eval menus {
 
     $mb.emmetPopup add command -label [msgcat::mc "Previous Edit Point"] -command [list emmet::go_to_edit_point prev]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to previous edit point"]] [list emmet::go_to_edit_point prev]
-    
+
     $mb.emmetPopup add separator
-    
+
     $mb.emmetPopup add command -label [msgcat::mc "Select Next Item"] -command [list emmet::select_item next]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select next tag item"]] [list emmet::select_item next]
-    
+
     $mb.emmetPopup add command -label [msgcat::mc "Select Previous Item"] -command [list emmet::select_item prev]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select previous tag item"]] [list emmet::select_item prev]
 
