@@ -288,7 +288,7 @@ namespace eval emmet {
         set found_type "001"
         set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+2c" "$end-1c"]]
       } else {
-        if {[$txt get "$end-1c"] eq "/"} {
+        if {[$txt get "$end-2c"] eq "/"} {
           set found_type "010"
           set found_name [regexp -inline -- {[a-zA-Z0-9_:-]+} [$txt get "$start+1c" "$end-2c"]]
         } else {
@@ -327,11 +327,11 @@ namespace eval emmet {
   ######################################################################
   # If the insertion cursor is currently inside of a tag element, returns
   # the tag information; otherwise, returns the empty string
-  proc inside_tag {txt} {
+  proc inside_tag {txt {allow_010 0}} {
 
     set retval [get_tag $txt -dir prev -start "insert+1c"]
 
-    if {($retval ne "") && [$txt compare insert < [lindex $retval 1]] && ([lindex $retval 3] ne "010")} {
+    if {($retval ne "") && [$txt compare insert < [lindex $retval 1]] && (([lindex $retval 3] ne "010") || $allow_010)} {
       return $retval
     }
 
@@ -389,8 +389,10 @@ namespace eval emmet {
 
     # Check to see if the current insertion cursor is within a tag and if it is
     # not, find the tags surrounding the insertion cursor.
-    if {[set itag [inside_tag $txt]] eq ""} {
+    if {[set itag [inside_tag $txt 1]] eq ""} {
       return [get_node_range_within $txt]
+    } elseif {[lindex $itag 3] eq "010"} {
+      return ""
     }
 
     lassign $itag start end name type
@@ -718,8 +720,6 @@ namespace eval emmet {
   # Selects the next value in the HTML attribute list of values.
   proc select_html_attr_value {txt dir selected attr_value attr_value_start} {
 
-    puts "In select_html_attr_value, attr_value ($attr_value)"
-
     if {$attr_value eq ""} {
       return 0
     }
@@ -727,8 +727,6 @@ namespace eval emmet {
     set select         0
     set pattern        [expr {($dir eq "next") ? {^\S+} : {\S+$}}]
     set attr_value_end [$txt index "$attr_value_start+[string length $attr_value]c"]
-
-    puts "selected: $selected, attr value: [list $attr_value_start $attr_value_end]"
 
     if {($selected eq [list $attr_value_start $attr_value_end]) && [regexp {\s} $attr_value]} {
       set select 1
@@ -738,7 +736,6 @@ namespace eval emmet {
       set value_start [$txt index "$attr_value_start+[lindex $match 0]c"]
       set value_end   [$txt index "$attr_value_start+[expr [lindex $match 1] + 1]c"]
       if {$select} {
-        puts "Selecting one value A"
         ::tk::TextSetCursor $txt $value_end
         $txt tag add sel $value_start $value_end
         return 1
@@ -756,7 +753,6 @@ namespace eval emmet {
     if {$select} {
       return 0
     } else {
-      puts "Selecting one value, B"
       ::tk::TextSetCursor $txt $attr_value_end
       $txt tag add sel $attr_value_start $attr_value_end
       return 1
@@ -767,10 +763,6 @@ namespace eval emmet {
   ######################################################################
   # Selects the next or previous HTML item.
   proc select_html_item {txt dir} {
-
-    puts "###################"
-    puts "IN SELECT_HTML_ITEM"
-    puts "###################"
 
     set startpos "insert"
 
@@ -791,34 +783,24 @@ namespace eval emmet {
         # Figure out the index of the end of the name
         set end_name "[lindex $retval 0]+[expr [string length [lindex $retval 2]] + 1]c"
 
-        puts "startpos: [$txt index $startpos], end_name: [$txt index $end_name]"
-
         # Select the tag name if it is the next item
         if {[$txt compare $startpos < $end_name]} {
-          puts "Selecting tag name"
-          catch {
           ::tk::TextSetCursor $txt $end_name
           $txt tag add sel "[lindex $retval 0]+1c" $end_name
-          } rc
-          puts "rc: $rc"
           return
 
         # Otherwise, check the attributes within the tag for selectable items
         } else {
-          puts "-------"
           foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
             set attr_end [$txt index "$attr_value_start+[expr [string length $attr_value] + 1]c"]
-            puts "  startpos: [$txt index $startpos], attr_end: $attr_end"
             if {[$txt compare $startpos > $attr_end]} {
               continue
             }
             if {[$txt compare $startpos < $attr_value_start]} {
-              puts "Selecting full attribute"
               ::tk::TextSetCursor $txt $attr_end
               $txt tag add sel $attr_name_start $attr_end
               return
             } elseif {($selected eq [list $attr_name_start $attr_end]) || ($selected eq "")} {
-              puts "Selecting attribute value"
               ::tk::TextSetCursor $txt "$attr_end-1c"
               $txt tag add sel $attr_value_start "$attr_end-1c"
               return
@@ -830,7 +812,6 @@ namespace eval emmet {
 
         # Get the next tag
         set retval [get_tag $txt -dir $dir -type "100" -start [lindex $retval 1]]
-        puts "retval: $retval"
 
       }
 
@@ -921,6 +902,28 @@ namespace eval emmet {
       toggle_html_comment $txt
     } else {
       toggle_css_comment $txt
+    }
+
+  }
+
+  ######################################################################
+  # Split/Join a tag
+  proc split_join_tag {} {
+
+    set txt [gui::current_txt]
+
+    # If the cursor is within a node range, join the range
+    if {[set retval [get_node_range $txt]] ne ""} {
+
+      $txt delete [lindex $retval 1] [lindex $retval 3]
+      $txt insert "[lindex $retval 1]-1c" " /"
+
+    # Otherwise, split the tag
+    } elseif {([set retval [inside_tag $txt 1]] ne "")} {
+
+      set index [$txt search -regexp -- {\s*/>$} [lindex $retval 0] [lindex $retval 1]]
+      $txt replace $index [lindex $retval 1] "></[lindex $retval 2]>"
+
     }
 
   }
