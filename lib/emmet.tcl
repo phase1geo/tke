@@ -843,6 +843,13 @@ namespace eval emmet {
   }
 
   ######################################################################
+  proc select_css_item {txt dir} {
+
+    # TBD
+
+  }
+
+  ######################################################################
   # Perform next/previous item selection.
   proc select_item {dir} {
 
@@ -852,6 +859,68 @@ namespace eval emmet {
       select_html_item $txt $dir
     } else {
       select_css_item $txt $dir
+    }
+
+  }
+
+  ######################################################################
+  # Toggles the current HTML node with an HTML comment.
+  proc toggle_html_comment {txt} {
+
+    if {[ctext::inComment $txt insert]} {
+
+      if {([set comment_end [lassign [$txt tag prevrange _comstr1c0 insert] comment_start]] eq "") || \
+          [$txt compare insert > $comment_end]} {
+        lassign [$txt tag prevrange _comstr1c1 insert] comment_start comment_end
+      }
+
+      set i 0
+      foreach index [$txt search -backwards -all -count lengths -regexp -- {<!--\s*|\s*-->} $comment_end $comment_start] {
+        $txt delete $index "$index+[lindex $lengths $i]c"
+        incr i
+      }
+
+    } else {
+
+      if {[set node_range [get_node_range $txt]] ne ""} {
+        lassign [get_outer $node_range] comment_start comment_end
+      } elseif {[set retval [inside_tag $txt]] ne ""} {
+        lassign $retval comment_start comment_end
+      } else {
+        return
+      }
+
+      # Remove any comments found within range that we are going to comment
+      set i 0
+      foreach index [$txt search -backwards -all -count lengths -regexp -- {<!--\s*|\s*-->} $comment_end $comment_start] {
+        $txt delete $index "$index+[lindex $lengths $i]c"
+        incr i
+      }
+
+      $txt insert $comment_end   " -->"
+      $txt insert $comment_start "<!-- "
+
+    }
+
+  }
+
+  ######################################################################
+  proc toggle_css_comment {txt} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Toggles the comment of a full HTML tag or CSS rule/property.
+  proc toggle_comment {} {
+
+    gui::get_info {} current txt lang
+
+    if {$lang eq "HTML"} {
+      toggle_html_comment $txt
+    } else {
+      toggle_css_comment $txt
     }
 
   }
