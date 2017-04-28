@@ -1435,6 +1435,9 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Toggle Comment"] -command [list emmet::toggle_comment]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle tag/rule comment"]] [list emmet::toggle_comment]
 
+    $mb.emmetPopup add command -label [msgcat::mc "Split/Join Tag"] -command [list emmet::split_join_tag]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Split/Join tag"]] [list emmet::split_join_tag]
+
     $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list emmet::go_to_edit_point next]
