@@ -66,6 +66,8 @@
 {Edit/Format/Underline}                   Cmd-U
 {Edit/Format/Remove Formatting}           Cmd--
 {Edit/Emmet/Expand Abbreviation}          Ctrl-E
+{Edit/Emmet/Select Next Item}             Shift-Ctrl-.
+{Edit/Emmet/Select Previous Item}         Shift-Ctrl-,
 {Edit/Preferences/Edit User - Global}     Cmd-,
 {Edit/Preferences/Edit Session - Global}  Cmd-;
 
