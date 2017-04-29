@@ -1467,6 +1467,26 @@ namespace eval menus {
 
     $mb.emmetPopup add separator
 
+    $mb.emmetPopup add command -label [msgcat::mc "Increment by 10"] -command [list emmet::change_number 10]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 10"]] [list emmet::change_number 10]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Increment by 1"] -command [list emmet::change_number 1]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 1"]] [list emmet::change_number 1]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Increment by 0.1"] -command [list emmet::change_number 0.1]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 0.1"]] [list emmet::change_number 0.1]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 10"] -command [list emmet::change_number -10]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 10"]] [list emmet::change_number -10]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 1"] -command [list emmet::change_number -1]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 1"]] [list emmet::change_number -1]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Decrement by 0.1"] -command [list emmet::change_number -0.1]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Decrement number by 0.1"]] [list emmet::change_number -0.1]
+
+    $mb.emmetPopup add separator
+
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
 

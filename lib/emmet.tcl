@@ -1113,6 +1113,71 @@ namespace eval emmet {
   }
 
   ######################################################################
+  # Increment/decrement the number under the insertion cursor by the
+  # given amount.
+  proc change_number {amount} {
+
+    set txt [gui::current_txt]
+
+    # Get the range of the number
+    if {[$txt get insert] eq "-"} {
+      set num_start "insert"
+      set num_end   [edit::get_index $txt.t numberend -startpos "insert+1c"]
+      if {[$txt compare $num_end == "insert+1c"]} {
+        return
+      }
+    } else {
+      set num_start [edit::get_index $txt.t numberstart]
+      set num_end   [edit::get_index $txt.t numberend]
+      if {[$txt compare $num_start == $num_end]} {
+        return
+      }
+      if {[$txt get "$num_start-1c"] eq "-"} {
+        set num_start "$num_start-1c"
+      }
+    }
+
+    # Get the number and only continue on if the value is not a hexidecimal
+    if {[string range [set number [$txt get $num_start $num_end]] 0 1] ne "0x"} {
+
+      # Get the decimal portions of the text number and the increment/decrement
+      # amount
+      set number_len [string length [lindex [split $number .] 1]]
+      set amount_len [string length [lindex [split $amount .] 1]]
+      set number     [expr $number + $amount]
+
+      # Figure out the numerical formatting
+      if {($number_len != 0) || ($amount_len != 0)} {
+        if {$number_len < $amount_len} {
+          set number [format "%.${amount_len}f" $number]
+          if {[lindex [split $number .] 1] eq "0"} {
+            set number [expr int( $number )]
+          }
+        } else {
+          set number [format "%.${number_len}f" $number]
+          if {[lindex [split $number .] 1] eq "0"} {
+            set number [expr int( $number )]
+          }
+        }
+      }
+
+      # Get the insertion cursor position
+      set cursor [$txt index insert]
+
+      # Insert the number
+      $txt replace $num_start $num_end $number
+
+      # Set the cursor
+      ::tk::TextSetCursor $txt.t $cursor
+
+      # Create an undo separator
+      $txt edit separator
+
+    }
+
+  }
+
+  ######################################################################
   # Returns a list of files/directories used by the Emmet namespace for
   # importing/exporting purposes.
   proc get_share_items {dir} {
