@@ -1443,6 +1443,12 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Remove Tag"] -command [list emmet::remove_tag]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Remove tag"]] [list emmet::remove_tag]
 
+    $mb.emmetPopup add command -label [msgcat::mc "Merge Lines"] -command [list emmet::merge_lines]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Merge Lines"]] [list emmet::merge_lines]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Update Image Size"] -command [list emmet::update_image_size]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Update img tag width and height attributes"]] [list emmet::update_image_size]
+
     $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list emmet::go_to_edit_point next]
