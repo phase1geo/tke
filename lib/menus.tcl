@@ -1432,11 +1432,16 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Go to Matching Pair"] -command [list emmet::go_to_matching_pair]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Go to matching tag pair"]] [list emmet::go_to_matching_pair]
 
+    $mb.emmetPopup add separator
+
     $mb.emmetPopup add command -label [msgcat::mc "Toggle Comment"] -command [list emmet::toggle_comment]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Toggle tag/rule comment"]] [list emmet::toggle_comment]
 
     $mb.emmetPopup add command -label [msgcat::mc "Split/Join Tag"] -command [list emmet::split_join_tag]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Split/Join tag"]] [list emmet::split_join_tag]
+
+    $mb.emmetPopup add command -label [msgcat::mc "Remove Tag"] -command [list emmet::remove_tag]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Remove tag"]] [list emmet::remove_tag]
 
     $mb.emmetPopup add separator
 

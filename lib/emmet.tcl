@@ -919,10 +919,78 @@ namespace eval emmet {
       $txt insert "[lindex $retval 1]-1c" " /"
 
     # Otherwise, split the tag
-    } elseif {([set retval [inside_tag $txt 1]] ne "")} {
+    } elseif {[set retval [inside_tag $txt 1]] ne ""} {
 
       set index [$txt search -regexp -- {\s*/>$} [lindex $retval 0] [lindex $retval 1]]
       $txt replace $index [lindex $retval 1] "></[lindex $retval 2]>"
+
+    }
+
+  }
+
+  ######################################################################
+  # Removes the current start/end tag and adjusts indentation of all
+  # included tags.
+  proc remove_tag {} {
+
+    set txt [gui::current_txt]
+
+    # If the cursor is within a node range, delete the start/end tags
+    # and adjust indentation if necessary.
+    if {[set retval [get_node_range $txt]] ne ""} {
+
+      # If the start and end tags are on the same line and the tag is the only
+      # tag on the line.
+      if {[$txt compare "[lindex $retval 0] linestart" == "[lindex $retval 3] linestart"] && \
+          ([string trim [$txt get [lindex $retval 1] [lindex $retval 2]]] eq "") && \
+          ([string trim [$txt get "[lindex $retval 0] linestart" [lindex $retval 0]]] eq "") && \
+          ([string trim [$txt get [lindex $retval 3] "[lindex $retval 3] lineend"]] eq "")} {
+
+        $txt delete "[lindex $retval 0] linestart" "[lindex $retval 3]+1l linestart"
+
+      } else {
+
+        # Adjust the starting tag range
+        if {([string trim [$txt get "[lindex $retval 0] linestart" [lindex $retval 0]]] eq "") && \
+            ([string trim [$txt get [lindex $retval 1] "[lindex $retval 1] lineend"]] eq "")} {
+          lset retval 0 [$txt index "[lindex $retval 0] linestart"]
+          lset retval 1 [$txt index "[lindex $retval 1]+1l linestart"]
+        }
+
+        # Adjust the ending tag range
+        if {([string trim [$txt get "[lindex $retval 2] linestart" [lindex $retval 2]]] eq "") && \
+            ([string trim [$txt get [lindex $retval 3] "[lindex $retval 3] lineend"]] eq "")} {
+          lset retval 2 [$txt index "[lindex $retval 2] linestart"]
+          lset retval 3 [$txt index "[lindex $retval 3]+1l linestart"]
+        }
+
+        # These are the number of characters that will be removed from the start
+        set count [$txt count -chars {*}[lrange $retval 0 1]]
+
+        # Delete the tags
+        $txt delete {*}[lrange $retval 2 3]
+        $txt delete {*}[lrange $retval 0 1]
+
+        # Just use the indentation algorithm
+        indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 2]-${count}c" 0
+
+      }
+
+      # Add a separator
+      $txt edit separator
+
+    } elseif {[set retval [inside_tag $txt 1]] ne ""} {
+
+      # Delete the tag
+      if {([string trim [$txt get "[lindex $retval 0] linestart" [lindex $retval 0]]] eq "") && \
+          ([string trim [$txt get [lindex $retval 1] "[lindex $retval 1] lineend"]] eq "")} {
+        $txt delete "[lindex $retval 0] linestart" "[lindex $retval 1]+1l linestart"
+      } else {
+        $txt delete {*}[lrange $retval 0 1]
+      }
+
+      # Add a separator
+      $txt edit separator
 
     }
 
