@@ -997,6 +997,122 @@ namespace eval emmet {
   }
 
   ######################################################################
+  # Merges all lines for a given node range.
+  proc merge_lines {} {
+
+    set txt [gui::current_txt]
+
+    if {[set range [get_node_range $txt]] ne ""} {
+
+      lassign $range startpos dummy1 dummy2 endpos
+
+      # Get the number of lines to join
+      set lines [$txt count -lines $startpos $endpos]
+
+      for {set i 0} {$i < $lines} {incr i} {
+        set line [string trimleft [$txt get "$startpos+1l linestart" "$startpos+1l lineend"]]
+        $txt delete "$startpos lineend" "$startpos+1l lineend"
+        if {![string is space [$txt get "$startpos lineend-1c"]]} {
+          set line " $line"
+        }
+        if {$line ne ""} {
+          $txt insert "$startpos lineend" $line
+        }
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  # Updates the HTML size using the given image's width and height and
+  # available attributes.
+  proc update_html_image_size {txt} {
+
+    if {([set retval [inside_tag $txt 1]] ne "") && ([lindex $retval 2] eq "img") && [string match "??0" [lindex $retval 3]]} {
+
+      set width        ""
+      set height       ""
+      set src_end      ""
+      set width_start  ""
+      set width_end    ""
+      set hstart       ""
+      set height_start ""
+      set height_end   ""
+
+      foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
+        switch $attr_name {
+          "src" {
+            if {![catch { exec php [file join $::tke_dir lib image_size.php] $attr_value } rc]} {
+              lassign $rc width height
+              if {![string is integer $width]} {
+                set width ""
+              }
+            }
+            set src_end [$txt index "$attr_value_start+[expr [string length $attr_value] + 1]c"]
+          }
+          "width" {
+            set width_start $attr_value_start
+            set width_end   [$txt index "$attr_value_start+[string length $attr_value]c"]
+          }
+          "height" {
+            set hstart       $attr_name_start
+            set height_start $attr_value_start
+            set height_end   [$txt index "$attr_value_start+[string length $attr_value]c"]
+          }
+        }
+      }
+
+      if {$width ne ""} {
+        if {$width_start ne ""} {
+          if {$height_start ne ""} {
+            if {[$txt compare $width_start < $height_start]} {
+              $txt replace $height_start $height_end $height
+              $txt replace $width_start  $width_end  $width
+            } else {
+              $txt replace $width_start  $width_end  $width
+              $txt replace $height_start $height_end $height
+            }
+          } else {
+            $txt insert "$width_end+1c" " height=\"$height\""
+            $txt replace $width_start $width_end $width
+          }
+        } else {
+          if {$height_start ne ""} {
+            $txt replace $height_start $height_end $height
+            $txt insert $hstart "width=\"$width\" "
+          } else {
+            $txt insert $src_end " width=\"$width\" height=\"$height\""
+          }
+        }
+      }
+
+    }
+
+  }
+
+  ######################################################################
+  proc update_css_image_size {txt} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Updates the image size of the current tag.
+  proc update_image_size {} {
+
+    gui::get_info {} current txt lang
+
+    if {$lang eq "HTML"} {
+      update_html_image_size $txt
+    } else {
+      update_css_image_size $txt
+    }
+
+  }
+
+  ######################################################################
   # Returns a list of files/directories used by the Emmet namespace for
   # importing/exporting purposes.
   proc get_share_items {dir} {
