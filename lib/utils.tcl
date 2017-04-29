@@ -462,6 +462,33 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Get relative path to target file from current path
+  # First argument is a file name, second a directory name (not checked)
+  proc relative_to {targetfile currentpath} {
+    set cc [file split [file normalize $currentpath]]
+    set tt [file split [file normalize $targetfile]]
+    if {![string equal [lindex $cc 0] [lindex $tt 0]]} {
+      return $targetfile
+    }
+    while {[string equal [lindex $cc 0] [lindex $tt 0]] && ([llength $cc] > 0)} {
+      # discard matching components from the front
+      set cc [lreplace $cc 0 0]
+      set tt [lreplace $tt 0 0]
+    }
+    set prefix ""
+    if {[llength $cc] == 0} {
+      # just the file name, so targetfile is lower down (or in same place)
+      set prefix "."
+    }
+    # step up the tree
+    for {set i 0} {$i < [llength $cc]} {incr i} {
+      append prefix " .."
+    }
+    # stick it all together (the eval is to flatten the targetfile list)
+    return [eval file join $prefix $tt]
+  }
+
+  ######################################################################
   # Returns the default foreground color.
   proc get_default_foreground {} {
 

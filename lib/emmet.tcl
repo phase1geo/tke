@@ -1181,14 +1181,9 @@ namespace eval emmet {
   # Runs encode/decode image to data:URL in HTML.
   proc encode_decode_html_image_to_data_url {txt} {
 
-    puts "In encode_decode_html_image_to_data_url"
-
     if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
-      puts "retval: $retval"
       return
     }
-
-    puts "retval: $retval"
 
     # Find the URL in the current img tag
     set url ""
@@ -1203,9 +1198,21 @@ namespace eval emmet {
       }
     }
 
-    puts "url: $url"
-
     if {$url eq ""} {
+      return
+    }
+
+    # If we have base64 data, decode and save the information to a file
+    if {[regexp {^data:image/(gif|png|jpg);base64,(.*)$} $url -> ext data]} {
+      if {[set fname [tk_getSaveFile -parent . -defaultextension .$ext -title [msgcat::mc "Select File to Save"]]] ne ""} {
+        if {![catch { open $fname w } rc]} {
+          fconfigure $rc -encoding binary
+          puts $rc [base64::decode $data]
+          close $rc
+          $txt replace $startpos $endpos [utils::relative_to $fname [pwd]]
+          $txt edit separator
+        }
+      }
       return
     }
 
@@ -1220,23 +1227,24 @@ namespace eval emmet {
     }
 
     # Get the filename to handle from the parsed URL
+    set delete 1
     if {[file exists $url]} {
-      set fname $url
+      set fname  $url
+      set delete 0
     } elseif {[set fname [utils::download_url $url]] eq ""} {
       return
     }
 
-    puts "type: $type, fname: $fname"
-
     # Output the base64 output
     if {($type ne "") && ![catch { open $fname r } rc]} {
-      puts "HERE!!!!"
       fconfigure $rc -translation binary
       set data [read $rc]
       close $rc
-      file delete -force $fname
-      puts "WHAT!?!"
-      $txt replace $startpos $endpos "data:$type;base64,[base64::encode $data -maxlen 0]"
+      if {$delete} {
+        file delete -force $fname
+      }
+      $txt replace $startpos $endpos "data:$type;base64,[base64::encode -maxlen 0 $data]"
+      $txt edit separator
     }
 
   }
