@@ -1449,6 +1449,9 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Update Image Size"] -command [list emmet::update_image_size]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Update img tag width and height attributes"]] [list emmet::update_image_size]
 
+    $mb.emmetPopup add command -label [msgcat::mc "Encode/Decode Image to Data:URL"] -command [list emmet::encode_decode_image_to_data_url]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Encode/Decode image to data:URL"]] [list emmet::encode_decode_image_to_data_url]
+
     $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list emmet::go_to_edit_point next]

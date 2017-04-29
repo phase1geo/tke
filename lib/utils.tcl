@@ -389,6 +389,44 @@ namespace eval utils {
   }
 
   ######################################################################
+  # Downloads the file specified by the given URL to a temporary file
+  # which is returned.  If there is any error downloading the URL file,
+  # returns the empty string.
+  proc download_url {url} {
+
+    # Get the URL type
+    if {![regexp {^(ftp|https?)://} $url -> type]} {
+      return ""
+    }
+
+    # Create a temporary file that will store binary data
+    if {[catch { open [set fname [exec mktemp]] w } rc]} {
+      return ""
+    }
+
+    fconfigure $rc -encoding binary
+
+    # Attempt to open the URL
+    if {[catch { http::geturl $url -channel $rc } token]} {
+      close $rc
+      file delete -force $fname
+      return ""
+    }
+
+    # Closes temporary file
+    close $rc
+
+    # Check the return status
+    if {([http::status $token] eq "ok") && ([http::ncode $token] == 200)} {
+      return $fname
+    } else {
+      file delete -force $fname
+      return ""
+    }
+
+  }
+
+  ######################################################################
   # Opens the given filename in an external application, using one of the
   # open terminal commands to determine the proper application to use.
   # Returns true if the file/command failed to open; otherwise, returns 0.
