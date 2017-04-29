@@ -1178,6 +1178,92 @@ namespace eval emmet {
   }
 
   ######################################################################
+  # Runs encode/decode image to data:URL in HTML.
+  proc encode_decode_html_image_to_data_url {txt} {
+
+    puts "In encode_decode_html_image_to_data_url"
+
+    if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
+      puts "retval: $retval"
+      return
+    }
+
+    puts "retval: $retval"
+
+    # Find the URL in the current img tag
+    set url ""
+    foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
+      if {($attr_name eq "src") && \
+          [$txt compare $attr_value_start <= insert] && \
+          [$txt compare insert <= "$attr_value_start+[string length $attr_value]c"]} {
+        set url $attr_value
+        set startpos $attr_value_start
+        set endpos   [$txt index "$attr_value_start+[string length $attr_value]c"]
+        break
+      }
+    }
+
+    puts "url: $url"
+
+    if {$url eq ""} {
+      return
+    }
+
+    # If the filename is a supported image type, convert the file to base64
+    # and insert them.
+    set type ""
+    switch [file extension $url] {
+      .gif  { set type "image/gif" }
+      .png  { set type "image/png" }
+      .jpg  { set type "image/jpg" }
+      .jpeg { set type "image/jpg" }
+    }
+
+    # Get the filename to handle from the parsed URL
+    if {[file exists $url]} {
+      set fname $url
+    } elseif {[set fname [utils::download_url $url]] eq ""} {
+      return
+    }
+
+    puts "type: $type, fname: $fname"
+
+    # Output the base64 output
+    if {($type ne "") && ![catch { open $fname r } rc]} {
+      puts "HERE!!!!"
+      fconfigure $rc -translation binary
+      set data [read $rc]
+      close $rc
+      file delete -force $fname
+      puts "WHAT!?!"
+      $txt replace $startpos $endpos "data:$type;base64,[base64::encode $data -maxlen 0]"
+    }
+
+  }
+
+  ######################################################################
+  # Runs encode/decode image to data:URL in CSS.
+  proc encode_decode_css_image_to_data_url {txt} {
+
+    # TBD
+
+  }
+
+  ######################################################################
+  # Executes encode/decode image to data:URL functionality.
+  proc encode_decode_image_to_data_url {} {
+
+    gui::get_info {} current txt lang
+
+    if {$lang eq "HTML"} {
+      encode_decode_html_image_to_data_url $txt
+    } else {
+      encode_decode_css_image_to_data_url $txt
+    }
+
+  }
+
+  ######################################################################
   # Returns a list of files/directories used by the Emmet namespace for
   # importing/exporting purposes.
   proc get_share_items {dir} {
