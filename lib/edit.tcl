@@ -26,8 +26,8 @@
 namespace eval edit {
 
   array set patterns {
-    nnumber   {^([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)}
-    pnumber   {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]+)$}
+    nnumber   {^([0-9]+|0x[0-9a-fA-F]+|[0-9]*\.[0-9]+)}
+    pnumber   {([0-9]+|0x[0-9a-fA-F]+|[0-9]+\.[0-9]*)$}
     sentence  {[.!?][])\"']*\s+\S}
     nspace    {^[ \t]+}
     pspace    {[ \t]+$}
