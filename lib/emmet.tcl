@@ -1178,6 +1178,27 @@ namespace eval emmet {
   }
 
   ######################################################################
+  # Evaluate the current math expression.
+  proc evaluate_math_expression {} {
+
+    set txt [gui::current_txt]
+
+    regexp {[0-9\.\+/\*\\-]+$} [$txt get "insert linestart" insert] pre_match
+    regexp {^[0-9\.\+/\*\\-]+} [$txt get insert "insert lineend"] post_match
+
+    if {[set expression "$pre_match$post_match"] ne ""} {
+      if {![catch { expr $expression } rc]} {
+        set startpos [$txt index "insert-[string length $pre_match]c"]
+        set endpos   [$txt index "insert+[string length $post_match]c"]
+        $txt replace $startpos $endpos $rc
+        ::tk::TextSetCursor $txt $startpos
+        $txt edit separator
+      }
+    }
+
+  }
+
+  ######################################################################
   # Runs encode/decode image to data:URL in HTML.
   proc encode_decode_html_image_to_data_url {txt} {
 

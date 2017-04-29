@@ -1470,6 +1470,9 @@ namespace eval menus {
 
     $mb.emmetPopup add separator
 
+    $mb.emmetPopup add command -label [msgcat::mc "Evalutate Math Expression"] -command [list emmet::evaluate_math_expression]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Evaluate the current math expression"]] [list emmet::evaluate_math_expression]
+
     $mb.emmetPopup add command -label [msgcat::mc "Increment by 10"] -command [list emmet::change_number 10]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 10"]] [list emmet::change_number 10]
 
