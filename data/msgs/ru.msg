@@ -51,6 +51,9 @@ msgcat::mcmset ru {
   "Abbreviation"
   "Сокращение"
 
+  "Select File to Save"
+  "Выберите файл для сохранения"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset ru {
   "Cut text"
   "Вырезание текста"
 
+  "Decrement by 0.1"
+  "Декремент 0.1"
+
+  "Decrement by 1"
+  "Уменьшение на 1"
+
+  "Decrement by 10"
+  "Уменьшение на 10"
+
+  "Decrement number by 0.1"
+  "Уменьшение числа 0.1"
+
+  "Decrement number by 1"
+  "Уменьшения числа на 1"
+
+  "Decrement number by 10"
+  "Уменьшение числа 10"
+
   "Delete All Folds"
   "Удалить все складки"
 
@@ -575,8 +596,20 @@ msgcat::mcmset ru {
   "Enable two-pane scrolling synchronization"
   "Включить две области прокрутки синхронизации"
 
+  "Encode/Decode Image to Data:URL"
+  "Кодировать/декодировать изображение URL данных:"
+
+  "Encode/Decode image to data:URL"
+  "Кодирования/декодирования изображения URL данных:"
+
   "Enumeration"
   "перечисление"
+
+  "Evaluate Math Expression"
+  "Вычислить математические выражения"
+
+  "Evaluate the current math expression"
+  "Оценить текущие математическое выражение"
 
   "Expand Abbreviation"
   "Разверните аббревиатура"
@@ -661,6 +694,12 @@ msgcat::mcmset ru {
 
   "Go to matching tag pair"
   "Перейти к совпадающие пары тегов"
+
+  "Go to next edit point"
+  "Перейти к далее изменить точки"
+
+  "Go to previous edit point"
+  "Перейти к предыдущей точке редактирования"
 
   "Goto Last Tab"
   "На Последняя вкладка"
@@ -748,6 +787,24 @@ msgcat::mcmset ru {
 
   "Highlight"
   "Выделить"
+
+  "Increment by 0.1"
+  "Увеличение на 0,1"
+
+  "Increment by 1"
+  "Шаг 1"
+
+  "Increment by 10"
+  "Увеличение на 10"
+
+  "Increment number by 0.1"
+  "Шаг номер 0.1"
+
+  "Increment number by 1"
+  "Шаг номер 1"
+
+  "Increment number by 10"
+  "Шаг номер 10"
 
   "Indent"
   "Отступ"
@@ -896,6 +953,9 @@ msgcat::mcmset ru {
   "Menu"
   "תפריט"
 
+  "Merge Lines"
+  "Объединение строк"
+
   "Merge Panes"
   "Слияние Panes"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset ru {
   "Next Difference"
   "Следующее отличие"
 
+  "Next Edit Point"
+  "Редактировать пункт"
+
   "One Level"
   "Один уровень"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset ru {
   "Previous Difference"
   "Предыдущая Разница"
 
+  "Previous Edit Point"
+  "Предыдущие точки редактирования"
+
   "Profiling Report Sorted By"
   "Сортировка по отчета профилирования"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset ru {
   "Remove From Current Line"
   "Удалить из текущей строки"
 
+  "Remove Tag"
+  "Убрать метку"
+
   "Remove all markers"
   "Удалить маркеры"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset ru {
 
   "Remove marker from current line"
   "Удалить маркер из текущей строки"
+
+  "Remove tag"
+  "Удалить отметку"
 
   "Rename current file"
   "Переименование текущего файла"
@@ -1238,11 +1310,23 @@ msgcat::mcmset ru {
   "Select Current Match"
   "Выберите текущий матч"
 
+  "Select Next Item"
+  "Выберите Далее."
+
+  "Select Previous Item"
+  "Выбор предыдущего элемента"
+
   "Select all find matches"
   "Выберите все найти матчи"
 
   "Select all text"
   "Выберите текст"
+
+  "Select next tag item"
+  "Выбор следующего элемента тега"
+
+  "Select previous tag item"
+  "Выбор предыдущего элемента тега"
 
   "Send Bug Report"
   "Отправить отчет об ошибке"
@@ -1349,6 +1433,12 @@ msgcat::mcmset ru {
   "Sort tabs"
   "Сортировка закладок"
 
+  "Split/Join Tag"
+  "Сплит/Join тег"
+
+  "Split/Join tag"
+  "Сплит/Join тег"
+
   "Start Profiling"
   "Запуск профилирования"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset ru {
   "Toggle split view mode"
   "Переключить режим просмотра Сплит"
 
+  "Toggle tag/rule comment"
+  "Комментарий правила тег переключения"
+
   "Tools"
   "Инструмент"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset ru {
 
   "Unordered Bullet"
   "Неупорядоченные пуля"
+
+  "Update Image Size"
+  "Обновить изображение"
+
+  "Update img tag width and height attributes"
+  "Обновить атрибуты ширины и высоты в тег img"
 
   "Upper Case"
   "Маюскул"

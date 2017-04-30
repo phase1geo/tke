@@ -51,6 +51,9 @@ msgcat::mcmset pl {
   "Abbreviation"
   "Skrót"
 
+  "Select File to Save"
+  "Wybierz plik, aby zapisać"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset pl {
   "Cut text"
   "Wycięcie tekstu"
 
+  "Decrement by 0.1"
+  "Zmniejsza o 0,1"
+
+  "Decrement by 1"
+  "Zmniejsza o 1"
+
+  "Decrement by 10"
+  "Zmniejsza o 10"
+
+  "Decrement number by 0.1"
+  "Przyrost numeru o 0,1"
+
+  "Decrement number by 1"
+  "Przyrost numeru o 1"
+
+  "Decrement number by 10"
+  "Zmniejsz liczbę przez 10"
+
   "Delete All Folds"
   "Usuń wszystkie fałdy"
 
@@ -575,8 +596,20 @@ msgcat::mcmset pl {
   "Enable two-pane scrolling synchronization"
   "Włączanie synchronizacji przewijanie dwa okienka"
 
+  "Encode/Decode Image to Data:URL"
+  "Kodowania/dekodowania obrazu danych: adres URL"
+
+  "Encode/Decode image to data:URL"
+  "Kodowania/dekodowania obrazu danych: adres URL"
+
   "Enumeration"
   "wyliczenie"
+
+  "Evaluate Math Expression"
+  "Wyrażenia matematyczne"
+
+  "Evaluate the current math expression"
+  "Bieżącego wyrażenia matematyczne"
 
   "Expand Abbreviation"
   "Rozwiń skrót"
@@ -661,6 +694,12 @@ msgcat::mcmset pl {
 
   "Go to matching tag pair"
   "Przejdź do pasujące pary tag"
+
+  "Go to next edit point"
+  "Przejdź do następnej zmiany punktu"
+
+  "Go to previous edit point"
+  "Przejdź do poprzedniej edycji punktu"
 
   "Goto Last Tab"
   "Idź Ostatnio Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset pl {
 
   "Highlight"
   "Podkreśl"
+
+  "Increment by 0.1"
+  "Przyrost o 0,1"
+
+  "Increment by 1"
+  "Przyrost o 1"
+
+  "Increment by 10"
+  "Przyrost przez 10"
+
+  "Increment number by 0.1"
+  "Liczba przyrostów o 0,1"
+
+  "Increment number by 1"
+  "Liczba przyrostów przez 1"
+
+  "Increment number by 10"
+  "Przyrost liczby przez 10"
 
   "Indent"
   "Einzug"
@@ -896,6 +953,9 @@ msgcat::mcmset pl {
   "Menu"
   "Menu"
 
+  "Merge Lines"
+  "Scal wiersze"
+
   "Merge Panes"
   "Scalanie okienek"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset pl {
   "Next Difference"
   "Następna różnica"
 
+  "Next Edit Point"
+  "Dalej edytuj punkt"
+
   "One Level"
   "jeden poziom"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset pl {
   "Previous Difference"
   "Poprzedni Różnica"
 
+  "Previous Edit Point"
+  "Poprzednia Edycja punktu"
+
   "Profiling Report Sorted By"
   "Profilowanie według raportu"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset pl {
   "Remove From Current Line"
   "Usuń z bieżącej linii"
 
+  "Remove Tag"
+  "Usuń znacznik"
+
   "Remove all markers"
   "Usuń wszystkie markery"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset pl {
 
   "Remove marker from current line"
   "Usuń znacznik z bieżącego wiersza"
+
+  "Remove tag"
+  "Usuń znacznik"
 
   "Rename current file"
   "Zmiana nazwy bieżącego pliku"
@@ -1238,11 +1310,23 @@ msgcat::mcmset pl {
   "Select Current Match"
   "Zaznacz bieżące Match"
 
+  "Select Next Item"
+  "Wybierz następną pozycję."
+
+  "Select Previous Item"
+  "Wybierz poprzednią pozycję."
+
   "Select all find matches"
   "Zaznacz wszystko znaleźć odpowiedniki"
 
   "Select all text"
   "Zaznacz cały tekst"
+
+  "Select next tag item"
+  "Zaznacz następny element etykieta"
+
+  "Select previous tag item"
+  "Zaznacz poprzedni element etykieta"
 
   "Send Bug Report"
   "Wyślij raport o błędzie"
@@ -1349,6 +1433,12 @@ msgcat::mcmset pl {
   "Sort tabs"
   "Sortowanie kart"
 
+  "Split/Join Tag"
+  "Split/Dołącz znacznik"
+
+  "Split/Join tag"
+  "Split/Dołącz znacznik"
+
   "Start Profiling"
   "Zacznij Profilowanie"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset pl {
   "Toggle split view mode"
   "Przełącz widok tryb rozdzielny"
 
+  "Toggle tag/rule comment"
+  "Przełącznik tag/reguły komentarz"
+
   "Tools"
   "Narzędzia"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset pl {
 
   "Unordered Bullet"
   "Nieuporządkowana Bullet"
+
+  "Update Image Size"
+  "Aktualizuj obrazek"
+
+  "Update img tag width and height attributes"
+  "Zaktualizować atrybuty width i height znacznika img"
 
   "Upper Case"
   "Wielkie litery"

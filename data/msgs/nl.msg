@@ -51,6 +51,9 @@ msgcat::mcmset nl {
   "Abbreviation"
   "Afkorting"
 
+  "Select File to Save"
+  "Kies Bestand Om Te Bewaren"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset nl {
   "Cut text"
   "Tekst knippen"
 
+  "Decrement by 0.1"
+  "Decrement met 0,1"
+
+  "Decrement by 1"
+  "Decrement door 1"
+
+  "Decrement by 10"
+  "Decrement door 10"
+
+  "Decrement number by 0.1"
+  "Decrement nummer met 0,1"
+
+  "Decrement number by 1"
+  "Decrement nummer 1"
+
+  "Decrement number by 10"
+  "Decrement nummer 10"
+
   "Delete All Folds"
   "Verwijderen van alle plooien"
 
@@ -575,8 +596,20 @@ msgcat::mcmset nl {
   "Enable two-pane scrolling synchronization"
   "Twee deelvensters scrollen synchronisatie inschakelen"
 
+  "Encode/Decode Image to Data:URL"
+  "Coderen/decoderen van afbeelding naar gegevens: URL"
+
+  "Encode/Decode image to data:URL"
+  "Coderen/decoderen van gegevens: URL afbeelding"
+
   "Enumeration"
   "telling"
+
+  "Evaluate Math Expression"
+  "Wiskundige expressie evalueren"
+
+  "Evaluate the current math expression"
+  "De huidige wiskundige expressie evalueren"
 
   "Expand Abbreviation"
   "Vouw afkorting"
@@ -661,6 +694,12 @@ msgcat::mcmset nl {
 
   "Go to matching tag pair"
   "Ga naar overeenkomende label paar"
+
+  "Go to next edit point"
+  "Ga naar volgende punt bewerken"
+
+  "Go to previous edit point"
+  "Ga naar vorige bewerkingspunt"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset nl {
 
   "Highlight"
   "Highlight"
+
+  "Increment by 0.1"
+  "Toename met 0,1"
+
+  "Increment by 1"
+  "Aanwas door 1"
+
+  "Increment by 10"
+  "Increment door 10"
+
+  "Increment number by 0.1"
+  "Toename aantal met 0,1"
+
+  "Increment number by 1"
+  "Toename aantal door 1"
+
+  "Increment number by 10"
+  "Toename aantal door 10"
 
   "Indent"
   "Inspringen"
@@ -896,6 +953,9 @@ msgcat::mcmset nl {
   "Menu"
   "Menu"
 
+  "Merge Lines"
+  "Regels samenvoegen"
+
   "Merge Panes"
   "Samenvoegen van deelvensters"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset nl {
   "Next Difference"
   "Volgend verschil"
 
+  "Next Edit Point"
+  "Bewerk Punt"
+
   "One Level"
   "Één niveau"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset nl {
   "Previous Difference"
   "Vorig verschil"
 
+  "Previous Edit Point"
+  "Vorige bewerkingspunt"
+
   "Profiling Report Sorted By"
   "Profilering verslag gesorteerd"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset nl {
   "Remove From Current Line"
   "Verwijderen uit de huidige regel"
 
+  "Remove Tag"
+  "Verwijder Tag"
+
   "Remove all markers"
   "Alle markeringen verwijderen"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset nl {
 
   "Remove marker from current line"
   "Markering verwijderen uit de huidige regel"
+
+  "Remove tag"
+  "Verwijder tag"
 
   "Rename current file"
   "Huidige bestand hernoemen"
@@ -1238,11 +1310,23 @@ msgcat::mcmset nl {
   "Select Current Match"
   "Selecteer huidige Match"
 
+  "Select Next Item"
+  "Volgende Item selecteren"
+
+  "Select Previous Item"
+  "Vorige Item selecteren"
+
   "Select all find matches"
   "Selecteer alle overeenkomsten worden gevonden"
 
   "Select all text"
   "Alle tekst selecteren"
+
+  "Select next tag item"
+  "Selecteer Label orde"
+
+  "Select previous tag item"
+  "Vorige label item selecteren"
 
   "Send Bug Report"
   "Bugrapport verzenden."
@@ -1349,6 +1433,12 @@ msgcat::mcmset nl {
   "Sort tabs"
   "Tabs soort"
 
+  "Split/Join Tag"
+  "Split/Join Tag"
+
+  "Split/Join tag"
+  "Split/Join tag"
+
   "Start Profiling"
   "Start Profiling"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset nl {
   "Toggle split view mode"
   "Toggle splitsen weergavemodus"
 
+  "Toggle tag/rule comment"
+  "Toggle tag/regel commentaar"
+
   "Tools"
   "hulpmiddelen;"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset nl {
 
   "Unordered Bullet"
   "Ongeordende kogel"
+
+  "Update Image Size"
+  "Afbeelding bijwerken"
+
+  "Update img tag width and height attributes"
+  "Bijwerken van de img-tag width en height attributen"
 
   "Upper Case"
   "bovenkast"

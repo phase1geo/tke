@@ -51,6 +51,9 @@ msgcat::mcmset es {
   "Abbreviation"
   "Abreviatura"
 
+  "Select File to Save"
+  "Seleccione Archivo para guardar"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset es {
   "Cut text"
   "Cortar texto"
 
+  "Decrement by 0.1"
+  "Disminuir por 0.1"
+
+  "Decrement by 1"
+  "Decremento por 1"
+
+  "Decrement by 10"
+  "Disminuir por 10"
+
+  "Decrement number by 0.1"
+  "Disminuir el número por 0.1"
+
+  "Decrement number by 1"
+  "Número de decremento por 1"
+
+  "Decrement number by 10"
+  "Disminuir el número de 10"
+
   "Delete All Folds"
   "Eliminar todos los pliegues"
 
@@ -575,8 +596,20 @@ msgcat::mcmset es {
   "Enable two-pane scrolling synchronization"
   "Habilitar la sincronización de desplazamiento de dos paneles"
 
+  "Encode/Decode Image to Data:URL"
+  "Codificar/decodificar imagen Data: URL"
+
+  "Encode/Decode image to data:URL"
+  "Imagen a datos: URL encode/Decode"
+
   "Enumeration"
   "Enumeración"
+
+  "Evaluate Math Expression"
+  "Evaluar la expresión matemática"
+
+  "Evaluate the current math expression"
+  "Evaluar la expresión actual de matemáticas"
 
   "Expand Abbreviation"
   "Ampliar la abreviatura"
@@ -661,6 +694,12 @@ msgcat::mcmset es {
 
   "Go to matching tag pair"
   "Ir al juego par etiqueta"
+
+  "Go to next edit point"
+  "Ir a siguiente editar punto de"
+
+  "Go to previous edit point"
+  "Ir al punto de edición anterior"
 
   "Goto Last Tab"
   "Ir a la última pestaña"
@@ -748,6 +787,24 @@ msgcat::mcmset es {
 
   "Highlight"
   "Resaltado"
+
+  "Increment by 0.1"
+  "Incremento de 0.1"
+
+  "Increment by 1"
+  "Incremento por 1"
+
+  "Increment by 10"
+  "Incremento por 10"
+
+  "Increment number by 0.1"
+  "Número de incrementos de 0,1"
+
+  "Increment number by 1"
+  "Número de incremento por 1"
+
+  "Increment number by 10"
+  "Número de incremento por 10"
 
   "Indent"
   "Indentar"
@@ -896,6 +953,9 @@ msgcat::mcmset es {
   "Menu"
   "Menú"
 
+  "Merge Lines"
+  "Combinar líneas"
+
   "Merge Panes"
   "Unir paneles"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset es {
   "Next Difference"
   "Siguiente diferencia"
 
+  "Next Edit Point"
+  "Punto de edición siguiente"
+
   "One Level"
   "Subir un nivel"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset es {
   "Previous Difference"
   "Anterior diferencia"
 
+  "Previous Edit Point"
+  "Punto de edición anterior"
+
   "Profiling Report Sorted By"
   "Informe perfiles ordenado por"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset es {
   "Remove From Current Line"
   "Retire de la línea actual"
 
+  "Remove Tag"
+  "Eliminar etiqueta"
+
   "Remove all markers"
   "Eliminar todos los marcadores"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset es {
 
   "Remove marker from current line"
   "Eliminar marcador de línea actual"
+
+  "Remove tag"
+  "Quitar tag"
 
   "Rename current file"
   "Cambiar el nombre de archivo actual"
@@ -1238,11 +1310,23 @@ msgcat::mcmset es {
   "Select Current Match"
   "Seleccione a partido actual"
 
+  "Select Next Item"
+  "Seleccionar siguiente punto"
+
+  "Select Previous Item"
+  "Seleccionar el elemento anterior"
+
   "Select all find matches"
   "Seleccione todos buscar partidos"
 
   "Select all text"
   "Seleccionar todo el texto"
+
+  "Select next tag item"
+  "Seleccionar el siguiente elemento etiqueta"
+
+  "Select previous tag item"
+  "Seleccionar el anterior elemento etiqueta"
 
   "Send Bug Report"
   "Enviar el informe de fallos."
@@ -1349,6 +1433,12 @@ msgcat::mcmset es {
   "Sort tabs"
   "Fichas de clase"
 
+  "Split/Join Tag"
+  "Etiqueta de Split/Join"
+
+  "Split/Join tag"
+  "Etiqueta de Split/Join"
+
   "Start Profiling"
   "Comience perfiles"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset es {
   "Toggle split view mode"
   "Cambiar split modo de vista"
 
+  "Toggle tag/rule comment"
+  "Comentario de etiqueta de la regla de alternar"
+
   "Tools"
   "Herramientas"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset es {
 
   "Unordered Bullet"
   "Desordenado de la bala"
+
+  "Update Image Size"
+  "Actualización de la Imagen"
+
+  "Update img tag width and height attributes"
+  "Actualizar atributos de anchura y altura de etiqueta img"
 
   "Upper Case"
   "Mayúsculas"

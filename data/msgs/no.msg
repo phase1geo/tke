@@ -51,6 +51,9 @@ msgcat::mcmset no {
   "Abbreviation"
   "Forkortelse"
 
+  "Select File to Save"
+  "Velg filen du vil lagre"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset no {
   "Cut text"
   "Klippe ut tekst"
 
+  "Decrement by 0.1"
+  "Reduser med 0,1"
+
+  "Decrement by 1"
+  "Reduser med 1"
+
+  "Decrement by 10"
+  "Reduser med 10"
+
+  "Decrement number by 0.1"
+  "Reduser antallet med 0,1"
+
+  "Decrement number by 1"
+  "Reduser antall med 1"
+
+  "Decrement number by 10"
+  "Reduser antall med 10"
+
   "Delete All Folds"
   "Slette alle kaster"
 
@@ -575,8 +596,20 @@ msgcat::mcmset no {
   "Enable two-pane scrolling synchronization"
   "To-ruten rullende synkronisering"
 
+  "Encode/Decode Image to Data:URL"
+  "Kode/dekode Image Data: URL"
+
+  "Encode/Decode image to data:URL"
+  "Kode/dekode bildet data: URL"
+
   "Enumeration"
   "Opplisting"
+
+  "Evaluate Math Expression"
+  "Vurdere matematisk uttrykk"
+
+  "Evaluate the current math expression"
+  "Vurdere gjeldende matematiske uttrykk"
 
   "Expand Abbreviation"
   "Utvide forkortelse"
@@ -661,6 +694,12 @@ msgcat::mcmset no {
 
   "Go to matching tag pair"
   "Gå til samsvarende kode par"
+
+  "Go to next edit point"
+  "Gå til neste redigere punkt"
+
+  "Go to previous edit point"
+  "Gå til forrige redigeringspunkt"
 
   "Goto Last Tab"
   "Gå Siste Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset no {
 
   "Highlight"
   "Uthev"
+
+  "Increment by 0.1"
+  "Øk med 0,1"
+
+  "Increment by 1"
+  "Øk med 1"
+
+  "Increment by 10"
+  "Øke med 10"
+
+  "Increment number by 0.1"
+  "Tilvekst tallet med 0,1"
+
+  "Increment number by 1"
+  "Tilvekst tallet med 1"
+
+  "Increment number by 10"
+  "Tilvekst tallet med 10"
 
   "Indent"
   "innrykk"
@@ -896,6 +953,9 @@ msgcat::mcmset no {
   "Menu"
   "Meny"
 
+  "Merge Lines"
+  "Slå sammen linjer"
+
   "Merge Panes"
   "Flette ruter"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset no {
   "Next Difference"
   "Neste forskjellen"
 
+  "Next Edit Point"
+  "Neste redigeringspunkt"
+
   "One Level"
   "Ett nivå"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset no {
   "Previous Difference"
   "Tidligere forskjellen"
 
+  "Previous Edit Point"
+  "Tidligere redigeringspunkt"
+
   "Profiling Report Sorted By"
   "Profilering rapport sortert etter"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset no {
   "Remove From Current Line"
   "Fjern fra gjeldende linje"
 
+  "Remove Tag"
+  "Fjern merke"
+
   "Remove all markers"
   "Fjerne alle merkene"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset no {
 
   "Remove marker from current line"
   "Fjerne merket fra gjeldende linje"
+
+  "Remove tag"
+  "Fjern tagg"
 
   "Rename current file"
   "Endre gjeldende fil"
@@ -1238,11 +1310,23 @@ msgcat::mcmset no {
   "Select Current Match"
   "Velg gjeldende"
 
+  "Select Next Item"
+  "Velg (Next) (Neste)."
+
+  "Select Previous Item"
+  "Velge forrige element"
+
   "Select all find matches"
   "Velg alle finne treff"
 
   "Select all text"
   "Velg tekst"
+
+  "Select next tag item"
+  "Velg neste tag element"
+
+  "Select previous tag item"
+  "Velg forrige koden element"
 
   "Send Bug Report"
   "Sende feilrapport"
@@ -1349,6 +1433,12 @@ msgcat::mcmset no {
   "Sort tabs"
   "Sorter kategorier"
 
+  "Split/Join Tag"
+  "Splitte/Join Tag"
+
+  "Split/Join tag"
+  "Splitte/Join tag"
+
   "Start Profiling"
   "Begynn Profilering"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset no {
   "Toggle split view mode"
   "Veksle delt visningsmodus"
 
+  "Toggle tag/rule comment"
+  "Veksle tag/regel kommentar"
+
   "Tools"
   "Redskap"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset no {
 
   "Unordered Bullet"
   "Sorterte punkt"
+
+  "Update Image Size"
+  "Oppdatere bildestørrelse"
+
+  "Update img tag width and height attributes"
+  "Oppdatere img tag width og height attributter"
 
   "Upper Case"
   "Store bokstaver"

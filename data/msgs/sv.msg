@@ -51,6 +51,9 @@ msgcat::mcmset sv {
   "Abbreviation"
   "Förkortning"
 
+  "Select File to Save"
+  "Välj fil att spara"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset sv {
   "Cut text"
   "Klipp ut text"
 
+  "Decrement by 0.1"
+  "Minskning med 0,1"
+
+  "Decrement by 1"
+  "Minskning av 1"
+
+  "Decrement by 10"
+  "Minska med 10"
+
+  "Decrement number by 0.1"
+  "Minska antalet med 0,1"
+
+  "Decrement number by 1"
+  "Dekrement nummer 1"
+
+  "Decrement number by 10"
+  "Minska antal av 10"
+
   "Delete All Folds"
   "Ta bort alla veck"
 
@@ -575,8 +596,20 @@ msgcat::mcmset sv {
   "Enable two-pane scrolling synchronization"
   "Aktivera rullning synkronisering av två-rutan"
 
+  "Encode/Decode Image to Data:URL"
+  "Koda/Avkoda bild till Data: URL"
+
+  "Encode/Decode image to data:URL"
+  "Koda/Avkoda bild till data: URL"
+
   "Enumeration"
   "räkning"
+
+  "Evaluate Math Expression"
+  "Utvärdera matematiska uttrycket"
+
+  "Evaluate the current math expression"
+  "Utvärdera nuvarande matematiska uttrycket"
 
   "Expand Abbreviation"
   "Expandera förkortning"
@@ -661,6 +694,12 @@ msgcat::mcmset sv {
 
   "Go to matching tag pair"
   "Gå till matchande taggen par"
+
+  "Go to next edit point"
+  "Gå till nästa redigera punkt"
+
+  "Go to previous edit point"
+  "Gå till föregående redigeringspunkt"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset sv {
 
   "Highlight"
   "Markera"
+
+  "Increment by 0.1"
+  "Ökning med 0,1"
+
+  "Increment by 1"
+  "Ökning av 1"
+
+  "Increment by 10"
+  "Ökning av 10"
+
+  "Increment number by 0.1"
+  "Steg nummer med 0,1"
+
+  "Increment number by 1"
+  "Steg nummer 1"
+
+  "Increment number by 10"
+  "Öka antal av 10"
 
   "Indent"
   "Indrag"
@@ -896,6 +953,9 @@ msgcat::mcmset sv {
   "Menu"
   "Meny"
 
+  "Merge Lines"
+  "Sammanfoga rader"
+
   "Merge Panes"
   "Slå ihop fönsterrutorna"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset sv {
   "Next Difference"
   "Nästa skillnad"
 
+  "Next Edit Point"
+  "Nästa redigeringspunkt"
+
   "One Level"
   "En nivå"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset sv {
   "Previous Difference"
   "Föregående skillnad"
 
+  "Previous Edit Point"
+  "Föregående redigeringspunkt"
+
   "Profiling Report Sorted By"
   "Profilering rapporten sorterade efter"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset sv {
   "Remove From Current Line"
   "Ta bort från aktuell rad"
 
+  "Remove Tag"
+  "Ta bort tagg"
+
   "Remove all markers"
   "Ta bort alla markörer"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset sv {
 
   "Remove marker from current line"
   "Ta bort markör från aktuell rad"
+
+  "Remove tag"
+  "Ta bort tagg"
 
   "Rename current file"
   "Byta namn på nuvarande fil"
@@ -1238,11 +1310,23 @@ msgcat::mcmset sv {
   "Select Current Match"
   "Välj aktuell Match"
 
+  "Select Next Item"
+  "Markera nästa objekt"
+
+  "Select Previous Item"
+  "Välj föregående objekt"
+
   "Select all find matches"
   "Markera alla hitta matcher"
 
   "Select all text"
   "Markera all text"
+
+  "Select next tag item"
+  "Välj nästa tagg"
+
+  "Select previous tag item"
+  "Välj föregående tagg objekt"
 
   "Send Bug Report"
   "Skicka felrapport"
@@ -1349,6 +1433,12 @@ msgcat::mcmset sv {
   "Sort tabs"
   "Sortera flikar"
 
+  "Split/Join Tag"
+  "Split/Join tagg"
+
+  "Split/Join tag"
+  "Split/Join tagg"
+
   "Start Profiling"
   "Börja Profilering"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset sv {
   "Toggle split view mode"
   "Toggle split view-läge"
 
+  "Toggle tag/rule comment"
+  "Toggle tagg/regel kommentar"
+
   "Tools"
   "Verktyg"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset sv {
 
   "Unordered Bullet"
   "Oordnad kula"
+
+  "Update Image Size"
+  "Uppdatera bild"
+
+  "Update img tag width and height attributes"
+  "Uppdatera img taggen width och height-attribut"
 
   "Upper Case"
   "Stora bokstäver"
