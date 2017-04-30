@@ -1462,7 +1462,7 @@ namespace eval menus {
 
     $mb.emmetPopup add separator
 
-    $mb.emmetPopup add command -label [msgcat::mc "Select Next Item"] -command [list emmet::select_item next]
+    $mb.emmetPopup add command -label [msgcat::mc "Select Next Item"] -command [list menus::select_item next]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select next tag item"]] [list emmet::select_item next]
 
     $mb.emmetPopup add command -label [msgcat::mc "Select Previous Item"] -command [list emmet::select_item prev]
@@ -1498,6 +1498,11 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Edit Custom Abbreviations"] -command [list emmet::edit_abbreviations]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Edit custom Emmet abbreviations"]] [list emmet::edit_abbreviations]
 
+  }
+
+  # TEMPORARY
+  proc select_item {dir} {
+    emmet::select_item $dir
   }
 
   ######################################################################
