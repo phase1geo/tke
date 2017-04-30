@@ -360,6 +360,7 @@ namespace eval bindings {
       } elseif {[info exists mapping($value)]} {
         append sequence $mapping($value)
       } elseif {$value eq "Shift"} {
+        append sequence "Shift-"
         set shift 1
       } elseif {$value eq "Alt"} {
         set alt 1
@@ -367,11 +368,7 @@ namespace eval bindings {
         if {$alt} {
           append sequence "Mod2-"
         }
-        if {$shift} {
-          append sequence [string toupper $value]
-        } else {
-          append sequence [string tolower $value]
-        }
+        append sequence [string tolower $value]
       } else {
         append sequence $value
       }
