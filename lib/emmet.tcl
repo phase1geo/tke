@@ -1181,12 +1181,16 @@ namespace eval emmet {
   # Evaluate the current math expression.
   proc evaluate_math_expression {} {
 
-    set txt [gui::current_txt]
+    set txt        [gui::current_txt]
+    set pre_match  ""
+    set post_match ""
 
-    regexp {[0-9\.\+/\*\\-]+$} [$txt get "insert linestart" insert] pre_match
-    regexp {^[0-9\.\+/\*\\-]+} [$txt get insert "insert lineend"] post_match
+    regexp {(\S+)$} [$txt get "insert linestart" insert] pre_match
+    regexp {^(\S+)} [$txt get insert "insert lineend"] post_match
 
     if {[set expression "$pre_match$post_match"] ne ""} {
+
+      # Attempt to evaluate the expression
       if {![catch { expr $expression } rc]} {
         set startpos [$txt index "insert-[string length $pre_match]c"]
         set endpos   [$txt index "insert+[string length $post_match]c"]
@@ -1194,6 +1198,7 @@ namespace eval emmet {
         ::tk::TextSetCursor $txt $startpos
         $txt edit separator
       }
+
     }
 
   }
