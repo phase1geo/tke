@@ -1470,8 +1470,10 @@ namespace eval menus {
 
     $mb.emmetPopup add separator
 
-    $mb.emmetPopup add command -label [msgcat::mc "Evalutate Math Expression"] -command [list emmet::evaluate_math_expression]
+    $mb.emmetPopup add command -label [msgcat::mc "Evaluate Math Expression"] -command [list emmet::evaluate_math_expression]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Evaluate the current math expression"]] [list emmet::evaluate_math_expression]
+
+    $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Increment by 10"] -command [list emmet::change_number 10]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Increment number by 10"]] [list emmet::change_number 10]
@@ -1802,16 +1804,63 @@ namespace eval menus {
   # Sets the menu option states to match the current UI state.
   proc edit_emmet_posting {mb} {
 
-    if {[set txt [gui::current_txt]] eq ""} {
-      $mb entryconfigure [msgcat::mc "Expand Abbreviation"]    -state disabled
-      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"] -state disabled
-      $mb entryconfigure [msgcat::mc "Go to Matching Pair"]    -state disabled
+    if {[catch { gui::get_info {} current txt lang }]} {
+
+      $mb entryconfigure [msgcat::mc "Expand Abbreviation"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"]          -state disabled
+      $mb entryconfigure [msgcat::mc "Balance Outward"]                 -state disabled
+      $mb entryconfigure [msgcat::mc "Balance Inward"]                  -state disabled
+      $mb entryconfigure [msgcat::mc "Go to Matching Pair"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Toggle Comment"]                  -state disabled
+      $mb entryconfigure [msgcat::mc "Split/Join Tag"]                  -state disabled
+      $mb entryconfigure [msgcat::mc "Remove Tag"]                      -state disabled
+      $mb entryconfigure [msgcat::mc "Merge Lines"]                     -state disabled
+      $mb entryconfigure [msgcat::mc "Update Image Size"]               -state disabled
+      $mb entryconfigure [msgcat::mc "Encode/Decode Image to Data:URL"] -state disabled
+      $mb entryconfigure [msgcat::mc "Next Edit Point"]                 -state disabled
+      $mb entryconfigure [msgcat::mc "Previous Edit Point"]             -state disabled
+      $mb entryconfigure [msgcat::mc "Select Next Item"]                -state disabled
+      $mb entryconfigure [msgcat::mc "Select Previous Item"]            -state disabled
+      $mb entryconfigure [msgcat::mc "Evaluate Math Expression"]        -state disabled
+      $mb entryconfigure [msgcat::mc "Increment by 10"]                 -state disabled
+      $mb entryconfigure [msgcat::mc "Increment by 1"]                  -state disabled
+      $mb entryconfigure [msgcat::mc "Increment by 0.1"]                -state disabled
+      $mb entryconfigure [msgcat::mc "Decrement by 10"]                 -state disabled
+      $mb entryconfigure [msgcat::mc "Decrement by 1"]                  -state disabled
+      $mb entryconfigure [msgcat::mc "Decrement by 0.1"]                -state disabled
+
     } else {
-      set intag_mode [expr {([emmet::inside_tag $txt] eq "") ? "disabled" : "normal"}]
-      set sel_mode   [expr {([llength [$txt tag ranges sel]] == 2) ? "normal" : $intag_mode}]
-      $mb entryconfigure [msgcat::mc "Expand Abbreviation"]   -state normal
-      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"] -state $sel_mode
-      $mb entryconfigure [msgcat::mc "Go to Matching Pair"]    -state $intag_mode
+
+      set intag       [emmet::inside_tag $txt 1]
+      set innode      [emmet::get_node_range $txt]
+      set intag_mode  [expr {($intag eq "") ? "disabled" : "normal"}]
+      set innode_mode [expr {($innode eq "") ? "disabled" : "normal"}]
+      set sel_mode    [expr {([llength [$txt tag ranges sel]] == 2) ? "normal" : $intag_mode}]
+      set html_mode   [expr {($lang eq "HTML") ? "normal" : "disabled"}]
+
+      $mb entryconfigure [msgcat::mc "Expand Abbreviation"]             -state normal
+      $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"]          -state $sel_mode
+      $mb entryconfigure [msgcat::mc "Balance Outward"]                 -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Balance Inward"]                  -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Go to Matching Pair"]             -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Toggle Comment"]                  -state $html_mode
+      $mb entryconfigure [msgcat::mc "Split/Join Tag"]                  -state $innode_mode
+      $mb entryconfigure [msgcat::mc "Remove Tag"]                      -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Merge Lines"]                     -state $innode_mode
+      $mb entryconfigure [msgcat::mc "Update Image Size"]               -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Encode/Decode Image to Data:URL"] -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Next Edit Point"]                 -state $html_mode
+      $mb entryconfigure [msgcat::mc "Previous Edit Point"]             -state $html_mode
+      $mb entryconfigure [msgcat::mc "Select Next Item"]                -state $html_mode
+      $mb entryconfigure [msgcat::mc "Select Previous Item"]            -state $html_mode
+      $mb entryconfigure [msgcat::mc "Evaluate Math Expression"]        -state normal
+      $mb entryconfigure [msgcat::mc "Increment by 10"]                 -state normal
+      $mb entryconfigure [msgcat::mc "Increment by 1"]                  -state normal
+      $mb entryconfigure [msgcat::mc "Increment by 0.1"]                -state normal
+      $mb entryconfigure [msgcat::mc "Decrement by 10"]                 -state normal
+      $mb entryconfigure [msgcat::mc "Decrement by 1"]                  -state normal
+      $mb entryconfigure [msgcat::mc "Decrement by 0.1"]                -state normal
+
     }
 
   }

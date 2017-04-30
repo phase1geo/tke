@@ -836,10 +836,10 @@ namespace eval emmet {
 
     gui::get_info {} current txt lang
 
-    if {$lang eq "HTML"} {
-      select_html_item $txt $dir
-    } else {
+    if {$lang eq "CSS"} {
       select_css_item $txt $dir
+    } else {
+      select_html_item $txt $dir
     }
 
   }
@@ -898,10 +898,10 @@ namespace eval emmet {
 
     gui::get_info {} current txt lang
 
-    if {$lang eq "HTML"} {
-      toggle_html_comment $txt
-    } else {
+    if {$lang eq "CSS"} {
       toggle_css_comment $txt
+    } else {
+      toggle_html_comment $txt
     }
 
   }
@@ -1104,10 +1104,10 @@ namespace eval emmet {
 
     gui::get_info {} current txt lang
 
-    if {$lang eq "HTML"} {
-      update_html_image_size $txt
-    } else {
+    if {$lang eq "CSS"} {
       update_css_image_size $txt
+    } else {
+      update_html_image_size $txt
     }
 
   }
@@ -1289,10 +1289,10 @@ namespace eval emmet {
 
     gui::get_info {} current txt lang
 
-    if {$lang eq "HTML"} {
-      encode_decode_html_image_to_data_url $txt
-    } else {
+    if {$lang eq "CSS"} {
       encode_decode_css_image_to_data_url $txt
+    } else {
+      encode_decode_html_image_to_data_url $txt
     }
 
   }
