@@ -86,6 +86,7 @@ if {[catch { package require xml }]} {
 catch { package require webdav }
 catch { package require tkdnd }
 catch { package require registry }
+catch { package require tkcon }
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib share.tcl]

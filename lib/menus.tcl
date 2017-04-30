@@ -2456,7 +2456,7 @@ namespace eval menus {
     launcher::register [make_menu_cmd "View" [msgcat::mc "Show sidebar"]] [list menus::show_sidebar_view $mb]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Hide sidebar"]] [list menus::hide_sidebar_view $mb]
 
-    if {![catch "console hide"]} {
+    if {![catch "tkcon hide"] || ![catch "console hide"]} {
       if {[preferences::get View/ShowConsole]} {
         $mb add command -label [msgcat::mc "Hide Console"] -underline 5 -command [list menus::hide_console_view $mb]
       } else {
@@ -2690,8 +2690,13 @@ namespace eval menus {
     }
 
     # Handle the state of the Show/Hide Console entry (if it exists)
-    if {![catch { console eval "winfo ismapped ." } rc]} {
-      if {$rc} {
+    if {![catch { tkcon version }]} {
+      set console_shown [winfo ismapped .tkcon]
+    } elseif {![catch { console eval "winfo ismapped ." } rc]} {
+      set console_shown $rc
+    }
+    if {[info exists console_shown]} {
+      if {$console_shown} {
         catch { $mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command [list menus::hide_console_view $mb] }
       } else {
         catch { $mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command [list menus::show_console_view $mb]}

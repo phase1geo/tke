@@ -840,7 +840,9 @@ namespace eval gui {
   # Shows the console.
   proc show_console_view {} {
 
-    catch { console show }
+    if {[catch { tkcon show }]} {
+      catch { console show }
+    }
 
   }
 
@@ -848,7 +850,9 @@ namespace eval gui {
   # Hides the console.
   proc hide_console_view {} {
 
-    catch { console hide }
+    if {[catch { tkcon hide }]} {
+      catch { console hide }
+    }
 
   }
 
