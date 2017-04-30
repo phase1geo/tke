@@ -51,6 +51,9 @@ msgcat::mcmset fr {
   "Abbreviation"
   "Abréviation"
 
+  "Select File to Save"
+  "Sélectionnez le fichier à enregistrer"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset fr {
   "Cut text"
   "couper le texte"
 
+  "Decrement by 0.1"
+  "Décrémentez de 0,1"
+
+  "Decrement by 1"
+  "Décrémenter de 1"
+
+  "Decrement by 10"
+  "Décrémentez de 10"
+
+  "Decrement number by 0.1"
+  "Décrémenter le nombre par 0,1"
+
+  "Decrement number by 1"
+  "Décrémenter le nombre de 1"
+
+  "Decrement number by 10"
+  "Décrémenter le nombre par 10"
+
   "Delete All Folds"
   "Supprimer tous les plis"
 
@@ -575,8 +596,20 @@ msgcat::mcmset fr {
   "Enable two-pane scrolling synchronization"
   "Activer la synchronisation des deux volets défilement"
 
+  "Encode/Decode Image to Data:URL"
+  "Encoder/décoder l’Image aux données : URL"
+
+  "Encode/Decode image to data:URL"
+  "Image encode/Decode pour données : URL"
+
   "Enumeration"
   "énumération"
+
+  "Evaluate Math Expression"
+  "Évaluer l’Expression mathématique"
+
+  "Evaluate the current math expression"
+  "Évaluer l’expression actuelle des mathématiques"
 
   "Expand Abbreviation"
   "Développez l'abréviation"
@@ -661,6 +694,12 @@ msgcat::mcmset fr {
 
   "Go to matching tag pair"
   "Aller à une adéquation entre la paire de balises"
+
+  "Go to next edit point"
+  "Passer ensuite éditer point"
+
+  "Go to previous edit point"
+  "Aller au point de montage précédent"
 
   "Goto Last Tab"
   "Goto dernier onglet"
@@ -748,6 +787,24 @@ msgcat::mcmset fr {
 
   "Highlight"
   "Surlignage"
+
+  "Increment by 0.1"
+  "Incrément de 0,1"
+
+  "Increment by 1"
+  "Incrémenter par"
+
+  "Increment by 10"
+  "Incrémenter par"
+
+  "Increment number by 0.1"
+  "Numéro de l’incrément de 0,1"
+
+  "Increment number by 1"
+  "Numéro de l’incrément de 1"
+
+  "Increment number by 10"
+  "Numéro de l’incrément de 10"
 
   "Indent"
   "Retrait"
@@ -896,6 +953,9 @@ msgcat::mcmset fr {
   "Menu"
   "Menu"
 
+  "Merge Lines"
+  "Fusionner des lignes"
+
   "Merge Panes"
   "Fusionner les volets"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset fr {
   "Next Difference"
   "Différence suivante"
 
+  "Next Edit Point"
+  "Modifier Point"
+
   "One Level"
   "Niveau supérieur"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset fr {
   "Previous Difference"
   "Différence précédente"
 
+  "Previous Edit Point"
+  "Point de montage précédent"
+
   "Profiling Report Sorted By"
   "Rapport de profilage trié par"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset fr {
   "Remove From Current Line"
   "Retirer de la ligne courante"
 
+  "Remove Tag"
+  "Supprimer Marque"
+
   "Remove all markers"
   "Supprimer tous les marqueurs"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset fr {
 
   "Remove marker from current line"
   "Supprimer le marqueur de ligne courante"
+
+  "Remove tag"
+  "Supprimer ce tag"
 
   "Rename current file"
   "Renommez le fichier en cours"
@@ -1238,11 +1310,23 @@ msgcat::mcmset fr {
   "Select Current Match"
   "Sélectionnez le combat actuel"
 
+  "Select Next Item"
+  "Sélectionnez NEXT."
+
+  "Select Previous Item"
+  "Sélectionner l’élément précédent"
+
   "Select all find matches"
   "Sélectionner tout trouvé"
 
   "Select all text"
   "Sélectionner tout le texte"
+
+  "Select next tag item"
+  "Sélectionnez l’ordre du jour tag"
+
+  "Select previous tag item"
+  "Sélectionnez l’élément tag précédent"
 
   "Send Bug Report"
   "Envoyer un rapport de bogue."
@@ -1349,6 +1433,12 @@ msgcat::mcmset fr {
   "Sort tabs"
   "Onglets de sorte"
 
+  "Split/Join Tag"
+  "Split/joindre Tag"
+
+  "Split/Join tag"
+  "Split/Join tag"
+
   "Start Profiling"
   "Démarrer le profilage"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset fr {
   "Toggle split view mode"
   "Activer/désactiver mode de vue de split"
 
+  "Toggle tag/rule comment"
+  "Commentaire de tag/règle de bascule"
+
   "Tools"
   "Outils"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset fr {
 
   "Unordered Bullet"
   "Balle non ordonnée"
+
+  "Update Image Size"
+  "Mettre à jour l’image"
+
+  "Update img tag width and height attributes"
+  "Mettre à jour les attributs width et height de la balise img"
 
   "Upper Case"
   "lettre haut-de-casse"

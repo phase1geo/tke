@@ -51,6 +51,9 @@ msgcat::mcmset it {
   "Abbreviation"
   "Abbreviazione"
 
+  "Select File to Save"
+  "Selezionare il File da salvare"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset it {
   "Cut text"
   "Taglia (CTRL+X)"
 
+  "Decrement by 0.1"
+  "Decremento di 0,1"
+
+  "Decrement by 1"
+  "diminuisci di"
+
+  "Decrement by 10"
+  "diminuisci di"
+
+  "Decrement number by 0.1"
+  "Decrementa il numero di 0,1"
+
+  "Decrement number by 1"
+  "Diminuire il numero di 1"
+
+  "Decrement number by 10"
+  "Decrementa il numero di 10"
+
   "Delete All Folds"
   "Eliminare tutte le pieghe"
 
@@ -575,8 +596,20 @@ msgcat::mcmset it {
   "Enable two-pane scrolling synchronization"
   "Abilitare la sincronizzazione di scorrimento di due riquadri"
 
+  "Encode/Decode Image to Data:URL"
+  "Immagine di codificare/decodificare dati: URL"
+
+  "Encode/Decode image to data:URL"
+  "Immagine di codificare/decodificare dati: URL"
+
   "Enumeration"
   "Enumerazione"
+
+  "Evaluate Math Expression"
+  "Valutare l'espressione matematica"
+
+  "Evaluate the current math expression"
+  "Valutare l'attuale espressione matematica"
 
   "Expand Abbreviation"
   "Abbreviazione di espandere"
@@ -661,6 +694,12 @@ msgcat::mcmset it {
 
   "Go to matching tag pair"
   "Vai alla coppia di tag di corrispondenza"
+
+  "Go to next edit point"
+  "Vai a punto di montaggio successivo"
+
+  "Go to previous edit point"
+  "Andare al punto di montaggio precedente"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset it {
 
   "Highlight"
   "Evidenziare"
+
+  "Increment by 0.1"
+  "Aumenta di"
+
+  "Increment by 1"
+  "Aumenta di"
+
+  "Increment by 10"
+  "Aumenta di"
+
+  "Increment number by 0.1"
+  "Numero di incremento di 0.1"
+
+  "Increment number by 1"
+  "Numero di incremento di 1"
+
+  "Increment number by 10"
+  "Numero di incremento di 10"
 
   "Indent"
   "Indenta"
@@ -896,6 +953,9 @@ msgcat::mcmset it {
   "Menu"
   "Menu"
 
+  "Merge Lines"
+  "Linee di Unione"
+
   "Merge Panes"
   "Unire i riquadri"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset it {
   "Next Difference"
   "Differenza successiva"
 
+  "Next Edit Point"
+  "Punto di montaggio successivo"
+
   "One Level"
   "Un livello"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset it {
   "Previous Difference"
   "Differenza precedente"
 
+  "Previous Edit Point"
+  "Punto di montaggio precedente"
+
   "Profiling Report Sorted By"
   "Profilatura Report ordinati per"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset it {
   "Remove From Current Line"
   "Rimuovere dalla riga corrente"
 
+  "Remove Tag"
+  "Rimuovi tag"
+
   "Remove all markers"
   "Rimuovere tutti i marcatori"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset it {
 
   "Remove marker from current line"
   "Rimuovere il marcatore da riga corrente"
+
+  "Remove tag"
+  "Rimuovi il tag"
 
   "Rename current file"
   "Rinominare il file corrente"
@@ -1238,11 +1310,23 @@ msgcat::mcmset it {
   "Select Current Match"
   "Selezionare la partita corrente"
 
+  "Select Next Item"
+  "Selezionare l'elemento successivo"
+
+  "Select Previous Item"
+  "Selezionare l'elemento precedente"
+
   "Select all find matches"
   "Seleziona tutto trova corrispondenze"
 
   "Select all text"
   "Seleziona tutto il testo"
+
+  "Select next tag item"
+  "Selezionare l'elemento successivo tag"
+
+  "Select previous tag item"
+  "Selezionare l'elemento precedente tag"
 
   "Send Bug Report"
   "Spedisci la segnalazione di bug."
@@ -1349,6 +1433,12 @@ msgcat::mcmset it {
   "Sort tabs"
   "Schede di sorta"
 
+  "Split/Join Tag"
+  "Tag: dividere/unire"
+
+  "Split/Join tag"
+  "Tag: dividere/unire"
+
   "Start Profiling"
   "Inizia Profiling"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset it {
   "Toggle split view mode"
   "Attiva/disattiva visualizzazione modalità split"
 
+  "Toggle tag/rule comment"
+  "Commento tag/regola Toggle"
+
   "Tools"
   "Strumenti"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset it {
 
   "Unordered Bullet"
   "Punto elenco non ordinato"
+
+  "Update Image Size"
+  "Aggiorna immagine"
+
+  "Update img tag width and height attributes"
+  "Aggiornare gli attributi width e height di tag img"
 
   "Upper Case"
   "MAIUSCOLO"

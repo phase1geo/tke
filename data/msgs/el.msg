@@ -51,6 +51,9 @@ msgcat::mcmset el {
   "Abbreviation"
   "Συντομογραφία"
 
+  "Select File to Save"
+  "Επιλέξτε να αποθηκεύσετε το αρχείο"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset el {
   "Cut text"
   "Αποκόψετε κείμενο"
 
+  "Decrement by 0.1"
+  "Μείωση κατά 0,1"
+
+  "Decrement by 1"
+  "Μείωση κατά 1"
+
+  "Decrement by 10"
+  "Μείωση κατά 10"
+
+  "Decrement number by 0.1"
+  "Μείωση αριθμού κατά 0,1"
+
+  "Decrement number by 1"
+  "Μείωση αριθμού από το 1"
+
+  "Decrement number by 10"
+  "Μείωση στον αριθμό με το 10"
+
   "Delete All Folds"
   "Διαγράψετε όλες πτυχές"
 
@@ -575,8 +596,20 @@ msgcat::mcmset el {
   "Enable two-pane scrolling synchronization"
   "Ενεργοποιήσετε δύο παράθυρο κύλιση συγχρονισμού"
 
+  "Encode/Decode Image to Data:URL"
+  "Κωδικοποίηση/αποκωδικοποίηση εικόνας σε δεδομένα: διεύθυνση URL."
+
+  "Encode/Decode image to data:URL"
+  "Κωδικοποίησης/αποκωδικοποίησης εικόνων σε δεδομένα: διεύθυνση URL"
+
   "Enumeration"
   "Καταμέτρηση"
+
+  "Evaluate Math Expression"
+  "Αξιολογήσει την μαθηματική παράσταση"
+
+  "Evaluate the current math expression"
+  "Αξιολογεί την τρέχουσα μαθηματική παράσταση"
 
   "Expand Abbreviation"
   "Αναπτύξτε συντομογραφία"
@@ -661,6 +694,12 @@ msgcat::mcmset el {
 
   "Go to matching tag pair"
   "Πάει να ταιριάζουν ζεύγος ετικέτα"
+
+  "Go to next edit point"
+  "Πηγαίνετε να επεξεργαστείτε επόμενο σημείο"
+
+  "Go to previous edit point"
+  "Πηγαίνετε στο προηγούμενο σημείο επεξεργασία"
 
   "Goto Last Tab"
   "Μετάβαση Last Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset el {
 
   "Highlight"
   "Στιγμιότυπο"
+
+  "Increment by 0.1"
+  "Διαβάθμιση από 0,1"
+
+  "Increment by 1"
+  "Αύξηση κατά 1"
+
+  "Increment by 10"
+  "Προσαύξηση κατά 10"
+
+  "Increment number by 0.1"
+  "Αριθμός διαβάθμιση από 0,1"
+
+  "Increment number by 1"
+  "Προσαύξηση αριθμού από το 1"
+
+  "Increment number by 10"
+  "Αριθμός προσαύξησης κατά 10"
 
   "Indent"
   "Εσοχή"
@@ -896,6 +953,9 @@ msgcat::mcmset el {
   "Menu"
   "ΜΕΝΟΥ"
 
+  "Merge Lines"
+  "Συγχώνευση γραμμές"
+
   "Merge Panes"
   "Συγχώνευση Panes"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset el {
   "Next Difference"
   "επόμενο Διαφορά"
 
+  "Next Edit Point"
+  "Επόμενο σημείο του Edit"
+
   "One Level"
   "Ένα επίπεδο"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset el {
   "Previous Difference"
   "Προηγούμενο Διαφορά"
 
+  "Previous Edit Point"
+  "Προηγούμενο σημείο επεξεργασία"
+
   "Profiling Report Sorted By"
   "Σκιαγράφηση έκθεση ταξινομημένες κατά"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset el {
   "Remove From Current Line"
   "Αφαιρέστε από την τρέχουσα γραμμή"
 
+  "Remove Tag"
+  "Αφαίρεση ετικέτας"
+
   "Remove all markers"
   "Αφαιρέστε όλους τους δείκτες"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset el {
 
   "Remove marker from current line"
   "Κατάργηση δείκτη από τρέχουσα γραμμή"
+
+  "Remove tag"
+  "Αφαίρεση ετικέτας"
 
   "Rename current file"
   "Μετονομάστε το τρέχον αρχείο"
@@ -1238,11 +1310,23 @@ msgcat::mcmset el {
   "Select Current Match"
   "Επιλέξτε την τρέχουσα αντιστοιχία"
 
+  "Select Next Item"
+  "Επιλογή επόμενου στοιχείου"
+
+  "Select Previous Item"
+  "Επιλογή προηγούμενου στοιχείου"
+
   "Select all find matches"
   "Επιλέξτε όλα τα βρείτε αγώνες"
 
   "Select all text"
   "Επιλογή όλων"
+
+  "Select next tag item"
+  "Επιλέξτε ετικέτα ημερήσια"
+
+  "Select previous tag item"
+  "Επιλογή προηγούμενου στοιχείου ετικέτα"
 
   "Send Bug Report"
   "Στείλτε την αναφορά σφαλμάτων"
@@ -1349,6 +1433,12 @@ msgcat::mcmset el {
   "Sort tabs"
   "Είδος καρτέλες"
 
+  "Split/Join Tag"
+  "Ετικέτα split/Join"
+
+  "Split/Join tag"
+  "Ετικέτα split/Join"
+
   "Start Profiling"
   "Ξεκινήστε Profiling"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset el {
   "Toggle split view mode"
   "Εναλλαγή διαίρεση λειτουργία προβολής"
 
+  "Toggle tag/rule comment"
+  "Εναλλαγή ετικέτας/κανόνα σχόλιο"
+
   "Tools"
   "Μέσα δράσης"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset el {
 
   "Unordered Bullet"
   "Μη διατεταγμένη Bullet"
+
+  "Update Image Size"
+  "Ενημέρωση εικόνας"
+
+  "Update img tag width and height attributes"
+  "Ενημέρωση χαρακτηριστικών ετικέτας img πλάτος και το ύψος"
 
   "Upper Case"
   "Γραφή με κεφαλαία γράμματα"

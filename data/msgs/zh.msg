@@ -51,6 +51,9 @@ msgcat::mcmset zh {
   "Abbreviation"
   "缩写"
 
+  "Select File to Save"
+  "选择日志文件保存"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset zh {
   "Cut text"
   "剪切文本"
 
+  "Decrement by 0.1"
+  "递减 0.1"
+
+  "Decrement by 1"
+  "递减 1"
+
+  "Decrement by 10"
+  "递减 10"
+
+  "Decrement number by 0.1"
+  "减量数目由 0.1"
+
+  "Decrement number by 1"
+  "递减数量 1"
+
+  "Decrement number by 10"
+  "递减数量由 10"
+
   "Delete All Folds"
   "删除所有折叠"
 
@@ -575,8 +596,20 @@ msgcat::mcmset zh {
   "Enable two-pane scrolling synchronization"
   "使两个窗格滚动同步"
 
+  "Encode/Decode Image to Data:URL"
+  "数据︰ URL 编码解码图像"
+
+  "Encode/Decode image to data:URL"
+  "到数据︰ URL 编码/解码图像"
+
   "Enumeration"
   "列举法"
+
+  "Evaluate Math Expression"
+  "计算数学表达式"
+
+  "Evaluate the current math expression"
+  "评估当前的数学表达式"
 
   "Expand Abbreviation"
   "展开缩写"
@@ -661,6 +694,12 @@ msgcat::mcmset zh {
 
   "Go to matching tag pair"
   "转到匹配标记对"
+
+  "Go to next edit point"
+  "转到下一个编辑点"
+
+  "Go to previous edit point"
+  "转到上一个编辑点"
 
   "Goto Last Tab"
   "转到最后一个标签页"
@@ -748,6 +787,24 @@ msgcat::mcmset zh {
 
   "Highlight"
   "高亮"
+
+  "Increment by 0.1"
+  "增量由 0.1"
+
+  "Increment by 1"
+  "以 1 递增"
+
+  "Increment by 10"
+  "增量的 10"
+
+  "Increment number by 0.1"
+  "增量数由 0.1"
+
+  "Increment number by 1"
+  "1 号的增加"
+
+  "Increment number by 10"
+  "10 号的增加"
 
   "Indent"
   "縮排"
@@ -896,6 +953,9 @@ msgcat::mcmset zh {
   "Menu"
   "菜单"
 
+  "Merge Lines"
+  "合并行"
+
   "Merge Panes"
   "合併窗格"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset zh {
   "Next Difference"
   "接下來差異"
 
+  "Next Edit Point"
+  "编辑积分"
+
   "One Level"
   "一个级别"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset zh {
   "Previous Difference"
   "上一頁差異"
 
+  "Previous Edit Point"
+  "以前的编辑点"
+
   "Profiling Report Sorted By"
   "按排序的分析报告"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset zh {
   "Remove From Current Line"
   "從當前行中刪除"
 
+  "Remove Tag"
+  "選取目標標籤"
+
   "Remove all markers"
   "删除所有标记"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset zh {
 
   "Remove marker from current line"
   "删除从当前行的标记"
+
+  "Remove tag"
+  "移除标记"
 
   "Rename current file"
   "重命名当前文件"
@@ -1238,11 +1310,23 @@ msgcat::mcmset zh {
   "Select Current Match"
   "选择当前匹配"
 
+  "Select Next Item"
+  "选择下一项"
+
+  "Select Previous Item"
+  "选择上一项"
+
   "Select all find matches"
   "请选择所有查找匹配项"
 
   "Select all text"
   "选择文本"
+
+  "Select next tag item"
+  "选择下一个标记项目"
+
+  "Select previous tag item"
+  "选择上一个标记项目"
 
   "Send Bug Report"
   "发送报告"
@@ -1349,6 +1433,12 @@ msgcat::mcmset zh {
   "Sort tabs"
   "排序选项卡"
 
+  "Split/Join Tag"
+  "拆分/联接标记"
+
+  "Split/Join tag"
+  "拆分/联接标记"
+
   "Start Profiling"
   "开始分析"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset zh {
   "Toggle split view mode"
   "拆分视图模式切换:"
 
+  "Toggle tag/rule comment"
+  "开启/关闭标记/规则注释"
+
   "Tools"
   "工具"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset zh {
 
   "Unordered Bullet"
   "无序的子弹"
+
+  "Update Image Size"
+  "更新图像"
+
+  "Update img tag width and height attributes"
+  "更新 img 标签的宽度和高度属性"
 
   "Upper Case"
   "大寫字母"

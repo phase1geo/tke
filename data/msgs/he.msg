@@ -51,6 +51,9 @@ msgcat::mcmset he {
   "Abbreviation"
   "קיצור"
 
+  "Select File to Save"
+  "בחר קובץ כדי לשמור"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset he {
   "Cut text"
   "גזור טקסט"
 
+  "Decrement by 0.1"
+  "הקטן ב 0.1"
+
+  "Decrement by 1"
+  "הקטן ב 1"
+
+  "Decrement by 10"
+  "הקטן ב 10"
+
+  "Decrement number by 0.1"
+  "הקטן את המספר ב 0.1"
+
+  "Decrement number by 1"
+  "הקטנת מספר 1"
+
+  "Decrement number by 10"
+  "הקטנת מספר 10"
+
   "Delete All Folds"
   "מחיקת כל קפלי"
 
@@ -575,8 +596,20 @@ msgcat::mcmset he {
   "Enable two-pane scrolling synchronization"
   "לאפשר סנכרון גלילה שתי חלוניות"
 
+  "Encode/Decode Image to Data:URL"
+  "קידוד/פענוח התמונה לכתובת: נתונים"
+
+  "Encode/Decode image to data:URL"
+  "קידוד/פענוח התמונה לכתובת: נתונים"
+
   "Enumeration"
   "ספירה"
+
+  "Evaluate Math Expression"
+  "להעריך את הביטוי המתמטי"
+
+  "Evaluate the current math expression"
+  "להעריך את הביטוי המתמטי הנוכחי"
 
   "Expand Abbreviation"
   "הרחב את קיצור"
@@ -661,6 +694,12 @@ msgcat::mcmset he {
 
   "Go to matching tag pair"
   "ללכת התאמת זוג תג"
+
+  "Go to next edit point"
+  ". לך הבא לערוך נקודה"
+
+  "Go to previous edit point"
+  "מגיעים לנקודת עריכה קודמת"
 
   "Goto Last Tab"
   "הכרטיסיה האחרונה גוטו"
@@ -748,6 +787,24 @@ msgcat::mcmset he {
 
   "Highlight"
   "הבלטה"
+
+  "Increment by 0.1"
+  "הגדל ב 0.1"
+
+  "Increment by 1"
+  "הגדל ב 1"
+
+  "Increment by 10"
+  "הגדל ב 10"
+
+  "Increment number by 0.1"
+  "המספר הגדל על ידי 0.1"
+
+  "Increment number by 1"
+  "תוספת מספר 1"
+
+  "Increment number by 10"
+  "תוספת מספר 10"
 
   "Indent"
   "כניסה"
@@ -896,6 +953,9 @@ msgcat::mcmset he {
   "Menu"
   "תפריט"
 
+  "Merge Lines"
+  "למיזוג הקווים"
+
   "Merge Panes"
   "מיזוג חלוניות"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset he {
   "Next Difference"
   "ההבדל הבא"
 
+  "Next Edit Point"
+  "עריכת נקודה"
+
   "One Level"
   "רמה אחת"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset he {
   "Previous Difference"
   "הבדל קודם"
 
+  "Previous Edit Point"
+  "נקודת עריכה קודמת"
+
   "Profiling Report Sorted By"
   "פרופיל ח ממוין לפי"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset he {
   "Remove From Current Line"
   "הסר תווי שורה"
 
+  "Remove Tag"
+  "הסר"
+
   "Remove all markers"
   "להסיר את כל הסמנים"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset he {
 
   "Remove marker from current line"
   "הסר סמן השורה הנוכחית"
+
+  "Remove tag"
+  "הסר"
 
   "Rename current file"
   "לשנות את שם הקובץ הנוכחי"
@@ -1238,11 +1310,23 @@ msgcat::mcmset he {
   "Select Current Match"
   "בחר התאמה נוכחי"
 
+  "Select Next Item"
+  "בחירת הפריט הבא"
+
+  "Select Previous Item"
+  "בחירת הפריט הקודם"
+
   "Select all find matches"
   "בחר כל למצוא התאמה."
 
   "Select all text"
   "לבחור את הכל"
+
+  "Select next tag item"
+  "בחירת הפריט הבא תג"
+
+  "Select previous tag item"
+  "בחירת הפריט הקודם תג"
 
   "Send Bug Report"
   "לשלוח דיווח הבאג"
@@ -1349,6 +1433,12 @@ msgcat::mcmset he {
   "Sort tabs"
   "מיון כרטיסיות"
 
+  "Split/Join Tag"
+  "פיצול/צירוף תג"
+
+  "Split/Join tag"
+  "פיצול/צירוף תג"
+
   "Start Profiling"
   "התחל ליצור פרופיל"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset he {
   "Toggle split view mode"
   "מצב תצוגה מפוצל דו-מצבי"
 
+  "Toggle tag/rule comment"
+  "תגובה תג/כלל דו-מצבי"
+
   "Tools"
   "כלי"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset he {
 
   "Unordered Bullet"
   "הכדור לא מסודרים"
+
+  "Update Image Size"
+  "עדכון תמונה"
+
+  "Update img tag width and height attributes"
+  "לעדכן את תכונות רוחב וגובה תג img"
 
   "Upper Case"
   "אותיות רישיות"

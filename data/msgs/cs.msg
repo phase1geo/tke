@@ -51,6 +51,9 @@ msgcat::mcmset cs {
   "Abbreviation"
   "Zkratka"
 
+  "Select File to Save"
+  "Vyberte soubor pro uložení"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset cs {
   "Cut text"
   "Vyjmout text"
 
+  "Decrement by 0.1"
+  "Snížit o 0,1"
+
+  "Decrement by 1"
+  "Snížit o 1"
+
+  "Decrement by 10"
+  "Snížit o 10."
+
+  "Decrement number by 0.1"
+  "Snížit počet 0,1"
+
+  "Decrement number by 1"
+  "Sníží číslo 1"
+
+  "Decrement number by 10"
+  "Sníží číslo 10"
+
   "Delete All Folds"
   "Odstranit všechny záhyby"
 
@@ -575,8 +596,20 @@ msgcat::mcmset cs {
   "Enable two-pane scrolling synchronization"
   "Zapnout posouvání synchronizaci dvou panelový"
 
+  "Encode/Decode Image to Data:URL"
+  "Kódovat/dekódovat obraz údaje: adresu URL"
+
+  "Encode/Decode image to data:URL"
+  "Kódování a dekódování obrazu na údaje: adresu URL"
+
   "Enumeration"
   "Výčet"
+
+  "Evaluate Math Expression"
+  "Vyhodnotit matematický výraz"
+
+  "Evaluate the current math expression"
+  "Vyhodnotit současný matematický výraz"
 
   "Expand Abbreviation"
   "Rozšířit zkratka"
@@ -661,6 +694,12 @@ msgcat::mcmset cs {
 
   "Go to matching tag pair"
   "Přejděte na odpovídající pár tagů"
+
+  "Go to next edit point"
+  "Přejít na další úprava bodu"
+
+  "Go to previous edit point"
+  "Přejít na předchozí bod úpravy"
 
   "Goto Last Tab"
   "Jdi Last Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset cs {
 
   "Highlight"
   "Zvýraznění"
+
+  "Increment by 0.1"
+  "Přírůstek po 0,1"
+
+  "Increment by 1"
+  "Přírůstek po 1"
+
+  "Increment by 10"
+  "Zvětšit o 10"
+
+  "Increment number by 0.1"
+  "Přírůstek číslo o 0,1"
+
+  "Increment number by 1"
+  "Přírůstek číslo 1"
+
+  "Increment number by 10"
+  "Přírůstek číslo 10"
 
   "Indent"
   "Zvětšit odsazení"
@@ -896,6 +953,9 @@ msgcat::mcmset cs {
   "Menu"
   "Nabídka"
 
+  "Merge Lines"
+  "Sloučit řádky"
+
   "Merge Panes"
   "Slou?it podokna"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset cs {
   "Next Difference"
   "Dalí rozdíl"
 
+  "Next Edit Point"
+  "Další úpravu bodů"
+
   "One Level"
   "Jedna úroveň"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset cs {
   "Previous Difference"
   "P?edchozí rozdíl"
 
+  "Previous Edit Point"
+  "Předchozí bod úpravy"
+
   "Profiling Report Sorted By"
   "Profilování sestavu setříděnou podle"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset cs {
   "Remove From Current Line"
   "Odebrat z aktuálního ?ádku"
 
+  "Remove Tag"
+  "Odebrat štítek"
+
   "Remove all markers"
   "Odebrat všechny značky"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset cs {
 
   "Remove marker from current line"
   "Odstranit značku z aktuálního řádku"
+
+  "Remove tag"
+  "Odebrat značku"
 
   "Rename current file"
   "Přejmenovat aktuální soubor"
@@ -1238,11 +1310,23 @@ msgcat::mcmset cs {
   "Select Current Match"
   "Vyberte aktuální zápas"
 
+  "Select Next Item"
+  "Vyberte další položku"
+
+  "Select Previous Item"
+  "Vybrat předchozí položku"
+
   "Select all find matches"
   "Vybrat vše najít shody"
 
   "Select all text"
   "Vybrat vše"
+
+  "Select next tag item"
+  "Vybrat další tag položky"
+
+  "Select previous tag item"
+  "Vybrat předchozí položku"
 
   "Send Bug Report"
   "Odeslat hlášení o chybě"
@@ -1349,6 +1433,12 @@ msgcat::mcmset cs {
   "Sort tabs"
   "Seřadit záložky"
 
+  "Split/Join Tag"
+  "Split/Join Tag"
+
+  "Split/Join tag"
+  "Split/Join tag"
+
   "Start Profiling"
   "Začněte profilování"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset cs {
   "Toggle split view mode"
   "Přepnout rozdělené zobrazení"
 
+  "Toggle tag/rule comment"
+  "Přepnout značky/pravidlo komentář"
+
   "Tools"
   "nástroje"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset cs {
 
   "Unordered Bullet"
   "Neuspořádané Bullet"
+
+  "Update Image Size"
+  "aktualizace Image"
+
+  "Update img tag width and height attributes"
+  "Aktualizovat atributy width a height tagu img"
 
   "Upper Case"
   "Majuskule"

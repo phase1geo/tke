@@ -51,6 +51,9 @@ msgcat::mcmset ja {
   "Abbreviation"
   "略語"
 
+  "Select File to Save"
+  "保存するファイルを選択します。"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset ja {
   "Cut text"
   "テキストを切り取る"
 
+  "Decrement by 0.1"
+  "0.1 をデクリメントします。"
+
+  "Decrement by 1"
+  "1 だけデクリメントします。"
+
+  "Decrement by 10"
+  "10 によってデクリメントします。"
+
+  "Decrement number by 0.1"
+  "0.1 で番号をデクリメントします。"
+
+  "Decrement number by 1"
+  "数を 1 つずつ減らす"
+
+  "Decrement number by 10"
+  "10 で番号をデクリメントします。"
+
   "Delete All Folds"
   "すべてのフォールドを削除します。"
 
@@ -575,8 +596,20 @@ msgcat::mcmset ja {
   "Enable two-pane scrolling synchronization"
   "2 つのペインのスクロールの同期を有効にします。"
 
+  "Encode/Decode Image to Data:URL"
+  "データ: URL にエンコード/デコード イメージ"
+
+  "Encode/Decode image to data:URL"
+  "データ: URL に画像のエンコード/デコード"
+
   "Enumeration"
   "数え上げ"
+
+  "Evaluate Math Expression"
+  "数学式を評価します。"
+
+  "Evaluate the current math expression"
+  "現在の数学式を評価します。"
 
   "Expand Abbreviation"
   "省略名を展開します。"
@@ -661,6 +694,12 @@ msgcat::mcmset ja {
 
   "Go to matching tag pair"
   "タグのペアに一致するへ"
+
+  "Go to next edit point"
+  "次の編集ポイントに移動"
+
+  "Go to previous edit point"
+  "前の編集ポイントに移動します。"
 
   "Goto Last Tab"
   "後藤最後のタブ"
@@ -748,6 +787,24 @@ msgcat::mcmset ja {
 
   "Highlight"
   "ハイライト"
+
+  "Increment by 0.1"
+  "0.1 ずつインクリメント"
+
+  "Increment by 1"
+  "1 ずつ増加"
+
+  "Increment by 10"
+  "10 ずつインクリメント"
+
+  "Increment number by 0.1"
+  "増加数は 0.1"
+
+  "Increment number by 1"
+  "1 数を増やす."
+
+  "Increment number by 10"
+  "10 数を増やす."
 
   "Indent"
   "インデント"
@@ -896,6 +953,9 @@ msgcat::mcmset ja {
   "Menu"
   "MENU"
 
+  "Merge Lines"
+  "行をマージします。"
+
   "Merge Panes"
   "ペインのマージ"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset ja {
   "Next Difference"
   "次の違い"
 
+  "Next Edit Point"
+  "ポイント編集"
+
   "One Level"
   "1 つのレベル"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset ja {
   "Previous Difference"
   "前の違い"
 
+  "Previous Edit Point"
+  "前の編集ポイント"
+
   "Profiling Report Sorted By"
   "プロファイリング レポート順"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset ja {
   "Remove From Current Line"
   "現在の行から削除"
 
+  "Remove Tag"
+  "タグを削除"
+
   "Remove all markers"
   "すべてのマーカーを削除します。"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset ja {
 
   "Remove marker from current line"
   "現在の行からマーカーを削除します。"
+
+  "Remove tag"
+  "タグを外す"
 
   "Rename current file"
   "現在のファイルの名前を変更します。"
@@ -1238,11 +1310,23 @@ msgcat::mcmset ja {
   "Select Current Match"
   "現在の一致項目を選択します。"
 
+  "Select Next Item"
+  "次の項目を選択します。"
+
+  "Select Previous Item"
+  "前の項目を選択します。"
+
   "Select all find matches"
   "選択すべてを検索します。"
 
   "Select all text"
   "すべて選択"
+
+  "Select next tag item"
+  "タグの次の項目を選択します。"
+
+  "Select previous tag item"
+  "以前のタグ項目を選択します。"
 
   "Send Bug Report"
   "バグ報告を送る"
@@ -1349,6 +1433,12 @@ msgcat::mcmset ja {
   "Sort tabs"
   "並び替えタブ"
 
+  "Split/Join Tag"
+  "分割/結合タグ"
+
+  "Split/Join tag"
+  "分割/結合タグ"
+
   "Start Profiling"
   "プロファイリング開始"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset ja {
   "Toggle split view mode"
   "トグル分割表示モード"
 
+  "Toggle tag/rule comment"
+  "タグ/ルール コメント切り替え"
+
   "Tools"
   "道具"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset ja {
 
   "Unordered Bullet"
   "記号付き箇条書き"
+
+  "Update Image Size"
+  "画像更新"
+
+  "Update img tag width and height attributes"
+  "Img タグの幅と高さの属性を更新します。"
 
   "Upper Case"
   "大文字"

@@ -51,6 +51,9 @@ msgcat::mcmset hu {
   "Abbreviation"
   "Rövidítés"
 
+  "Select File to Save"
+  "A következő mentése:"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset hu {
   "Cut text"
   "Vágott szöveg"
 
+  "Decrement by 0.1"
+  "Ennyivel 0,1"
+
+  "Decrement by 1"
+  "Ennyivel 1"
+
+  "Decrement by 10"
+  "Ennyivel 10"
+
+  "Decrement number by 0.1"
+  "Számos ennyivel 0,1"
+
+  "Decrement number by 1"
+  "Csökkentő a szám 1"
+
+  "Decrement number by 10"
+  "Csökkentő a szám 10"
+
   "Delete All Folds"
   "Törölje az összes redők"
 
@@ -575,8 +596,20 @@ msgcat::mcmset hu {
   "Enable two-pane scrolling synchronization"
   "Két ablaktáblából görgetés szinkronizálásának engedélyezése"
 
+  "Encode/Decode Image to Data:URL"
+  "Adatok: URL rejtjelez/megfejt kép"
+
+  "Encode/Decode image to data:URL"
+  "Adatok: az URL-kódolás/dekódolás kép"
+
   "Enumeration"
   "számláló"
+
+  "Evaluate Math Expression"
+  "Matematikai kifejezést értékeli"
+
+  "Evaluate the current math expression"
+  "A jelenlegi matematikai kifejezés kiértékelése"
 
   "Expand Abbreviation"
   "A rövidítések kibontása"
@@ -661,6 +694,12 @@ msgcat::mcmset hu {
 
   "Go to matching tag pair"
   "Megy a megfelelő tag-pár"
+
+  "Go to next edit point"
+  "Ugrás a következő pont módosítása"
+
+  "Go to previous edit point"
+  "Ugrás az előző pont módosítása"
 
   "Goto Last Tab"
   "Ugrás az utolsó lap"
@@ -748,6 +787,24 @@ msgcat::mcmset hu {
 
   "Highlight"
   "Kiemel"
+
+  "Increment by 0.1"
+  "Növekmény 0,1"
+
+  "Increment by 1"
+  "Növekmény 1"
+
+  "Increment by 10"
+  "Növekmény 10"
+
+  "Increment number by 0.1"
+  "Növekmény szám 0,1"
+
+  "Increment number by 1"
+  "Növekmény száma 1"
+
+  "Increment number by 10"
+  "Növekmény szám 10"
 
   "Indent"
   "Behúzás"
@@ -896,6 +953,9 @@ msgcat::mcmset hu {
   "Menu"
   "Menü"
 
+  "Merge Lines"
+  "Sorok egyesítése"
+
   "Merge Panes"
   "Összeolvad ablaktáblát"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset hu {
   "Next Difference"
   "A következ? eltérés"
 
+  "Next Edit Point"
+  "Tovább szerkesztése pont"
+
   "One Level"
   "Egy szinttel"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset hu {
   "Previous Difference"
   "Előző különbség"
 
+  "Previous Edit Point"
+  "Korábbi Csomópontszerkesztőből"
+
   "Profiling Report Sorted By"
   "Profilkészítés jelentés szerint rendezve"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset hu {
   "Remove From Current Line"
   "Távolítsa el az aktuális sorból"
 
+  "Remove Tag"
+  "Elem eltávolítása"
+
   "Remove all markers"
   "Összes jelölőjének eltávolítása"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset hu {
 
   "Remove marker from current line"
   "Jelölő eltávolítása az aktuális sorhoz"
+
+  "Remove tag"
+  "Elem eltávolítása"
 
   "Rename current file"
   "Aktuális fájl átnevezése"
@@ -1238,11 +1310,23 @@ msgcat::mcmset hu {
   "Select Current Match"
   "Válassza ki az aktuális mérkőzés"
 
+  "Select Next Item"
+  "Következő elem kijelölése"
+
+  "Select Previous Item"
+  "Előző elem kijelölése"
+
   "Select all find matches"
   "Összes kijelölése halmazt"
 
   "Select all text"
   "Az összes szöveg kijelölése"
+
+  "Select next tag item"
+  "Következő címke elem kijelölése"
+
+  "Select previous tag item"
+  "Előző tag elem kijelölése"
 
   "Send Bug Report"
   "Hibajelentés küldése."
@@ -1349,6 +1433,12 @@ msgcat::mcmset hu {
   "Sort tabs"
   "Lapok rendezése"
 
+  "Split/Join Tag"
+  "Split/Join Tag"
+
+  "Split/Join tag"
+  "Split/Join tag"
+
   "Start Profiling"
   "Kezdje Profiling"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset hu {
   "Toggle split view mode"
   "Toggle osztott nézetben"
 
+  "Toggle tag/rule comment"
+  "Ki-/ bekapcsolása cédula, a szabály comment"
+
   "Tools"
   "Eszközök"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset hu {
 
   "Unordered Bullet"
   "Számozatlan felsorolás"
+
+  "Update Image Size"
+  "Kép feltöltése"
+
+  "Update img tag width and height attributes"
+  "Frissítse a címke img width és height attribútumokkal"
 
   "Upper Case"
   "Nagybetű"

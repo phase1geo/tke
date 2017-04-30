@@ -51,6 +51,9 @@ msgcat::mcmset da {
   "Abbreviation"
   "Forkortelse"
 
+  "Select File to Save"
+  "Vælg filen for at gemme"
+
 }
 
 # files.tcl
@@ -446,6 +449,24 @@ msgcat::mcmset da {
   "Cut text"
   "Klippe tekst"
 
+  "Decrement by 0.1"
+  "Formindske af 0,1"
+
+  "Decrement by 1"
+  "Formindske af 1"
+
+  "Decrement by 10"
+  "Formindske af 10"
+
+  "Decrement number by 0.1"
+  "Formindske antallet af 0,1"
+
+  "Decrement number by 1"
+  "Formindske antallet af 1"
+
+  "Decrement number by 10"
+  "Formindske antallet af 10"
+
   "Delete All Folds"
   "Slet alle folder"
 
@@ -575,8 +596,20 @@ msgcat::mcmset da {
   "Enable two-pane scrolling synchronization"
   "Aktivere rulning synkronisering af to ruder"
 
+  "Encode/Decode Image to Data:URL"
+  "Indkode/afkode billedet til Data: URL"
+
+  "Encode/Decode image to data:URL"
+  "Encode/Decode billede til data: URL"
+
   "Enumeration"
   "tælling af bakterier"
+
+  "Evaluate Math Expression"
+  "Vurdere matematiske udtryk"
+
+  "Evaluate the current math expression"
+  "Evaluere de nuværende matematisk udtryk"
 
   "Expand Abbreviation"
   "Udvid forkortelser"
@@ -661,6 +694,12 @@ msgcat::mcmset da {
 
   "Go to matching tag pair"
   "Gå til matchende tag par"
+
+  "Go to next edit point"
+  "Gå til næste redigere punkt"
+
+  "Go to previous edit point"
+  "Gå til forrige punkt, Rediger"
 
   "Goto Last Tab"
   "Goto Last Tab"
@@ -748,6 +787,24 @@ msgcat::mcmset da {
 
   "Highlight"
   "Fremhævelse"
+
+  "Increment by 0.1"
+  "Tilvækst af 0,1"
+
+  "Increment by 1"
+  "Tilvækst af 1"
+
+  "Increment by 10"
+  "Tilvækst af 10"
+
+  "Increment number by 0.1"
+  "Forøg antallet af 0,1"
+
+  "Increment number by 1"
+  "Increment nummeret af 1"
+
+  "Increment number by 10"
+  "Forøg antallet af 10"
 
   "Indent"
   "Indryk"
@@ -896,6 +953,9 @@ msgcat::mcmset da {
   "Menu"
   "Menu"
 
+  "Merge Lines"
+  "Flet linjer"
+
   "Merge Panes"
   "Flette ruder"
 
@@ -1013,6 +1073,9 @@ msgcat::mcmset da {
   "Next Difference"
   "Næste forskel"
 
+  "Next Edit Point"
+  "Næste redigere punkt"
+
   "One Level"
   "Ét niveau"
 
@@ -1091,6 +1154,9 @@ msgcat::mcmset da {
   "Previous Difference"
   "Forrige forskel"
 
+  "Previous Edit Point"
+  "Tidligere Rediger punkt"
+
   "Profiling Report Sorted By"
   "Profilering rapport sorteret efter"
 
@@ -1145,6 +1211,9 @@ msgcat::mcmset da {
   "Remove From Current Line"
   "Fjern fra aktuel linje"
 
+  "Remove Tag"
+  "Fjern Tags"
+
   "Remove all markers"
   "Fjerne alle markører"
 
@@ -1156,6 +1225,9 @@ msgcat::mcmset da {
 
   "Remove marker from current line"
   "Fjern markering fra aktuel linje"
+
+  "Remove tag"
+  "Fjern kode"
 
   "Rename current file"
   "Omdøbe aktuelle fil"
@@ -1238,11 +1310,23 @@ msgcat::mcmset da {
   "Select Current Match"
   "Vælg Nuværende Match"
 
+  "Select Next Item"
+  "Markere næste element"
+
+  "Select Previous Item"
+  "Vælge forrige element"
+
   "Select all find matches"
   "Vælg alle finde kampe"
 
   "Select all text"
   "Markér al tekst"
+
+  "Select next tag item"
+  "Vælg næste tag vare"
+
+  "Select previous tag item"
+  "Vælg forrige tag element"
 
   "Send Bug Report"
   "Send fejlrapport."
@@ -1349,6 +1433,12 @@ msgcat::mcmset da {
   "Sort tabs"
   "Sortere faneblade"
 
+  "Split/Join Tag"
+  "Split/Join Tag"
+
+  "Split/Join tag"
+  "Split/Join tag"
+
   "Start Profiling"
   "Start Profilering"
 
@@ -1406,6 +1496,9 @@ msgcat::mcmset da {
   "Toggle split view mode"
   "Skifte split visningstilstand"
 
+  "Toggle tag/rule comment"
+  "Skifte tag/regel kommentar"
+
   "Tools"
   "Værktøjer"
 
@@ -1450,6 +1543,12 @@ msgcat::mcmset da {
 
   "Unordered Bullet"
   "Uordnet kugle"
+
+  "Update Image Size"
+  "Opdater billedet"
+
+  "Update img tag width and height attributes"
+  "Opdatere img tag bredde og højde attributter"
 
   "Upper Case"
   "Store bogstaver"
