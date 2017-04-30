@@ -178,7 +178,7 @@ namespace eval bindings {
           set binding [join [concat {*}$value] -]
           set bound_menus($mnu,$menu_index) $binding
           $mnu entryconfigure $menu_index -accelerator $binding
-          bind all [accelerator_to_sequence $binding] "menus::invoke $mnu $menu_index; break"
+          # bind all [accelerator_to_sequence $binding] "puts %W; menus::invoke $mnu $menu_index; puts %W; break"
         }
       }
     }

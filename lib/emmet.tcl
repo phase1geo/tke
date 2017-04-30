@@ -725,14 +725,15 @@ namespace eval emmet {
     }
 
     set select         0
-    set pattern        [expr {($dir eq "next") ? {^\S+} : {\S+$}}]
+    set pattern        [expr {($dir eq "next") ? {^\s*(\S+)} : {(\S+)\s*$}}]
     set attr_value_end [$txt index "$attr_value_start+[string length $attr_value]c"]
 
-    if {($selected eq [list $attr_value_start $attr_value_end]) && [regexp {\s} $attr_value]} {
+    if {((($dir eq "next") && ($selected eq [list $attr_value_start $attr_value_end])) || \
+         (($dir eq "prev") && ($selected ne "") && [$txt compare [lindex $selected 0] > $attr_value_end])) && [regexp {\s} $attr_value]} {
       set select 1
     }
 
-    while {[regexp -indices $pattern $attr_value match]} {
+    while {[regexp -indices $pattern $attr_value -> match]} {
       set value_start [$txt index "$attr_value_start+[lindex $match 0]c"]
       set value_end   [$txt index "$attr_value_start+[expr [lindex $match 1] + 1]c"]
       if {$select} {
@@ -744,7 +745,7 @@ namespace eval emmet {
       }
       if {$dir eq "next"} {
         set attr_value       [string range $attr_value [expr [lindex $match 1] + 1] end]
-        set attr_value_start [$txt index "$attr_value_start+[lindex $match 1]c"]
+        set attr_value_start [$txt index "$attr_value_start+[expr [lindex $match 1] + 1]c"]
       } else {
         set attr_value       [string range $attr_value 0 [expr [lindex $match 0] - 1]]
       }
@@ -767,8 +768,8 @@ namespace eval emmet {
     set startpos "insert"
 
     # If the cursor is not within a start tag, go find the next start tag
-    if {([set retval [inside_tag $txt]] eq "") || ([lindex $retval 3] ne "100")} {
-      set retval [get_tag $txt -dir $dir -type "100"]
+    if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]]} {
+      set retval [get_tag $txt -dir $dir -type "??0"]
     }
 
     # Get the currently selected text
@@ -800,30 +801,70 @@ namespace eval emmet {
               ::tk::TextSetCursor $txt $attr_end
               $txt tag add sel $attr_name_start $attr_end
               return
-            } elseif {($selected eq [list $attr_name_start $attr_end]) || ($selected eq "")} {
+            } elseif {(($selected eq [list $attr_name_start $attr_end]) && ($attr_value ne "")) || ($selected eq "")} {
               ::tk::TextSetCursor $txt "$attr_end-1c"
               $txt tag add sel $attr_value_start "$attr_end-1c"
               return
-            } elseif {[select_html_attr_value $txt $dir $selected $attr_value $attr_value_start]} {
+            } elseif {[select_html_attr_value $txt $dir $selected $attr_value $attr_value_start ]} {
               return
             }
           }
         }
 
         # Get the next tag
-        set retval [get_tag $txt -dir $dir -type "100" -start [lindex $retval 1]]
+        set retval [get_tag $txt -dir $dir -type "??0" -start [lindex $retval 1]]
 
       }
 
     } else {
 
-      # TBD
+      while {$retval ne ""} {
+
+        set attr_name_start ""
+
+        foreach {attr_value_start attr_value attr_name_start attr_name} [lreverse [get_tag_attributes $txt $retval]] {
+          set attr_end [$txt index "$attr_value_start+[expr [string length $attr_value] + 1]c"]
+          if {($selected eq [list $attr_name_start $attr_end]) || [$txt compare $startpos < $attr_name_start]} {
+            continue
+          }
+          if {($selected eq [list $attr_value_start [$txt index $attr_end-1c]]) || \
+              (($attr_value eq "") && [$txt compare $startpos > $attr_name_start])} {
+            ::tk::TextSetCursor $txt $attr_end
+            $txt tag add sel $attr_name_start $attr_end
+            return
+          } elseif {[select_html_attr_value $txt $dir $selected $attr_value $attr_value_start]} {
+            return
+          } elseif {[$txt compare $startpos > $attr_value_start] && ($attr_value ne "")} {
+            ::tk::TextSetCursor $txt "$attr_end-1c"
+            $txt tag add sel $attr_value_start "$attr_end-1c"
+            return
+          }
+        }
+
+        set start_name [$txt index "[lindex $retval 0]+1c"]
+        set end_name   [$txt index "[lindex $retval 0]+[expr [string length [lindex $retval 2]] + 1]c"]
+
+        # Highlight the tag name if the first full attribute is highlighted or
+        # if nothing was highlighted but the cursor is after the beginning of
+        # the tag name
+        if {(($selected ne [list $start_name $end_name]) && [$txt compare $startpos > [lindex $retval 0]]) || \
+            (($attr_name_start ne "") && ($selected eq [list $attr_name_start $attr_end]))} {
+          ::tk::TextSetCursor $txt $end_name
+          $txt tag add sel $start_name $end_name
+          return
+        }
+
+        # Get the previous tag
+        set retval [get_tag $txt -dir $dir -type "??0" -start [lindex $retval 0]]
+
+      }
 
     }
 
   }
 
   ######################################################################
+  # Selects the next/previous CSS item.
   proc select_css_item {txt dir} {
 
     # TBD
@@ -833,6 +874,8 @@ namespace eval emmet {
   ######################################################################
   # Perform next/previous item selection.
   proc select_item {dir} {
+
+    puts [utils::stacktrace]
 
     gui::get_info {} current txt lang
 
