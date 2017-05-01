@@ -442,12 +442,17 @@ namespace eval emmet {
 
   ######################################################################
   # Wraps the current tag with a user-specified Emmet abbreviation.
-  proc wrap_with_abbreviation {} {
+  proc wrap_with_abbreviation {args} {
 
-    set abbr ""
+    array set opts {
+      -test ""
+    }
+    array set opts $args
+
+    set abbr $opts(-test)
 
     # Get the abbreviation from the user
-    if {[gui::get_user_response [format "%s:" [msgcat::mc "Abbreviation"]] abbr]} {
+    if {($abbr ne "") || [gui::get_user_response [format "%s:" [msgcat::mc "Abbreviation"]] abbr]} {
 
       # Get the current text widget
       set txt [gui::current_txt]
@@ -524,6 +529,7 @@ namespace eval emmet {
 
     # If the insertion cursor is on a tag, get the outer node range
     if {[set node_range [get_node_range $txt]] eq ""} {
+      $txt mark set insert "insert+1c"
       return
     }
 
@@ -535,7 +541,7 @@ namespace eval emmet {
     }
 
     # Set the cursor position
-    ::tk::TextSetCursor $txt {*}[get_outer $node_range]
+    ::tk::TextSetCursor $txt [lindex $node_range 0]
 
     # Select the current range
     $txt tag add sel {*}$node_range
@@ -875,8 +881,6 @@ namespace eval emmet {
   # Perform next/previous item selection.
   proc select_item {dir} {
 
-    puts [utils::stacktrace]
-
     gui::get_info {} current txt lang
 
     if {$lang eq "CSS"} {
@@ -908,7 +912,7 @@ namespace eval emmet {
 
       if {[set node_range [get_node_range $txt]] ne ""} {
         lassign [get_outer $node_range] comment_start comment_end
-      } elseif {[set retval [inside_tag $txt]] ne ""} {
+      } elseif {[set retval [inside_tag $txt 1]] ne ""} {
         lassign $retval comment_start comment_end
       } else {
         return
@@ -1055,9 +1059,6 @@ namespace eval emmet {
       for {set i 0} {$i < $lines} {incr i} {
         set line [string trimleft [$txt get "$startpos+1l linestart" "$startpos+1l lineend"]]
         $txt delete "$startpos lineend" "$startpos+1l lineend"
-        if {![string is space [$txt get "$startpos lineend-1c"]]} {
-          set line " $line"
-        }
         if {$line ne ""} {
           $txt insert "$startpos lineend" $line
         }

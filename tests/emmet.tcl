@@ -1186,4 +1186,497 @@ namespace eval emmet {
 
   }
 
+  # Wrap with simple abbreviation from selection
+  proc run_test100 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\n<p>Hello</p>"
+    vim::adjust_insert $txt.t
+    $txt tag add sel 2.0 2.12
+
+    emmet::wrap_with_abbreviation -test "body>dir"
+
+    set actual [$txt get 1.0 end-1c]
+    set expect \
+{<body>
+  <dir><p>Hello</p></dir>
+</body>
+}
+
+    if {$actual ne $expect} {
+      cleanup "abbreviation not wrapped correctly ($actual)"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Wrap with simple abbreviation with no selection
+  proc run_test101 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\n<p>Hello</p>"
+    $txt mark set insert 2.1
+    vim::adjust_insert $txt.t
+
+    emmet::wrap_with_abbreviation -test "ul>li"
+
+    set actual [$txt get 1.0 end-1c]
+    set expect {
+<ul>
+  <li><p>Hello</p></li>
+</ul>}
+
+    if {$actual ne $expect} {
+      cleanup "abbreviation not wrapped correctly ($actual)"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Wrap multiple lines with abbreviation
+  proc run_test102 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\nHello\nWorld\nAgain"
+    vim::adjust_insert $txt.t
+    $txt tag add sel 2.0 5.0
+
+    emmet::wrap_with_abbreviation -test "ul>li*>p"
+
+    set actual [$txt get 1.0 end-1c]
+    set expect \
+{<ul>
+  <li>
+    <p>Hello</p>
+  </li>
+  <li>
+    <p>World</p>
+  </li>
+  <li>
+    <p>Again</p>
+  </li>
+</ul>
+}
+
+    if {$actual ne $expect} {
+      cleanup "abbreviation not wrapped correctly ($actual)"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Wrap multi-line abbreviation with attributes
+  proc run_test103 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\nHello\nWorld\nGo"
+    vim::adjust_insert $txt.t
+    $txt tag add sel 2.0 5.0
+
+    emmet::wrap_with_abbreviation -test {ul>li[title=$#]*>{$#}+img[alt=$#]}
+
+    set actual [$txt get 1.0 end-1c]
+    set expect \
+{<ul>
+  <li title="Hello">
+    Hello
+    <img alt="Hello" src="" />
+  </li>
+  <li title="World">
+    World
+    <img alt="World" src="$2" />
+  </li>
+  <li title="Go">
+    Go
+    <img alt="Go" src="$3" />
+  </li>
+</ul>$0
+}
+
+    if {$actual ne $expect} {
+      cleanup "abbreviation not wrapped correctly ($actual)"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify balance outward and inward actions
+  proc run_test110 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end {
+<div id="page">
+  <section class="content">
+    <h1>Document example</h1>
+    <p>Lorem ipsum dolor sit amet.</p>
+  </section>
+div>}
+    $txt mark set insert 5.10
+    vim::adjust_insert $txt.t
+
+    foreach {startpos endpos} [list 5.7 5.34 5.4 5.38 3.27 6.2 3.2 6.12 2.15 7.0 2.0 7.6 2.0 7.6] {
+      emmet::balance_outward
+      if {[$txt tag ranges sel] ne [list $startpos $endpos]} {
+        cleanup "outward balance mismatched $startpos $endpos ([$txt tag ranges sel])"
+      }
+      if {[$txt index insert] ne $startpos} {
+        cleanup "outward cursor incorrect ([$txt index insert])"
+      }
+    }
+
+    foreach {startpos endpos} [list 2.15 7.0 3.2 6.12 3.27 6.2 4.4 4.29 4.8 4.24 4.8 4.24] {
+      emmet::balance_inward
+      if {[$txt tag ranges sel] ne [list $startpos $endpos]} {
+        cleanup "inward balance mismatched $startpos $endpos ([$txt tag ranges sel])"
+      }
+      if {[$txt index insert] ne $startpos} {
+        cleanup "inward cursor incorrect ([$txt index insert])"
+      }
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Go to Matching Pair action
+  proc run_test111 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end {
+<div id="page">
+  <section class="content">
+    <h1>Document example</h1>
+    <p>Lorem ipsum dolor sit amet.</p>
+  </section>
+</div>}
+    $txt mark set insert 7.2
+    vim::adjust_insert $txt.t
+
+    emmet::go_to_matching_pair
+    if {[$txt index insert] ne "2.0"} {
+      cleanup "starting matching pair cursor A incorrect ([$txt index insert])"
+    }
+
+    emmet::go_to_matching_pair
+    if {[$txt index insert] ne "7.0"} {
+      cleanup "ending matching pair cursor incorrect ([$txt index insert])"
+    }
+
+    emmet::go_to_matching_pair
+    if {[$txt index insert] ne "2.0"} {
+      cleanup "starting matching pair cursor B incorrect ([$txt index insert])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Go to Next/Previou Edit Point action
+  proc run_test112 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end {
+<ul>
+  <li><a href=""></a></li>
+  <li><a href="foo"></a></li>
+</ul>
+<div>
+
+</div>}
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
+
+    foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.20 4.24 4.24] { ;# 7.2 7.2
+      emmet::go_to_edit_point next
+      if {[$txt index insert] ne $cursor} {
+        cleanup "next cursor is incorrect $cursor ([$txt index insert])"
+      }
+    }
+
+    foreach cursor [list 4.20 4.6 3.21 3.17 3.15 3.6 3.6] {
+      emmet::go_to_edit_point prev
+      if {[$txt index insert] ne $cursor} {
+        cleanup "prev cursor is incorrect $cursor ([$txt index insert])"
+      }
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Select Next/Previous Item action
+  proc run_test113 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end {
+<body>
+
+  <a href="http://foobar.com" target="parent child sibling">
+    <img src="images/advanced.gif" width="32" height="32" />
+    <ul>
+      <li class=""><p>Hello world</p></li>
+      <li></li>
+      <li class="blah" />
+    </ul>
+  </a>
+</body>}
+    $txt mark set insert 3.0
+    vim::adjust_insert $txt.t
+
+    foreach {startpos endpos} [list 4.3 4.4 4.5 4.29 4.11 4.28 4.30 4.59 4.38 4.58 4.38 4.44 4.45 4.50 4.51 4.58 \
+                                    5.5 5.8 5.9 5.34 5.14 5.33 5.35 5.45 5.42 5.44 5.46 5.57 5.54 5.56 \
+                                    6.5 6.7 \
+                                    7.7 7.9 7.10 7.18 7.20 7.21 \
+                                    8.7 8.9 \
+                                    9.7 9.9 9.10 9.22 9.17 9.21 9.17 9.21] {
+      emmet::select_item next
+      if {[$txt tag ranges sel] ne [list $startpos $endpos]} {
+        cleanup "next select item incorrect $startpos $endpos ([$txt tag ranges sel])"
+      }
+      if {[$txt index insert] ne $endpos} {
+        cleanup "next cursor incorrect $endpos ([$txt index insert])"
+      }
+    }
+
+    foreach {startpos endpos} [list 9.10 9.22 9.7 9.9 \
+                                    8.7 8.9 \
+                                    7.20 7.21 7.10 7.18 7.7 7.9 \
+                                    6.5 6.7 \
+                                    5.54 5.56 5.46 5.57 5.42 5.44 5.35 5.45 5.14 5.33 5.9 5.34 5.5 5.8 \
+                                    4.51 4.58 4.45 4.50 4.38 4.44 4.38 4.58 4.30 4.59 4.11 4.28 4.5 4.29 4.3 4.4 \
+                                    2.1 2.5 2.1 2.5] {
+      emmet::select_item prev
+      if {[$txt tag ranges sel] ne [list $startpos $endpos]} {
+        cleanup "prev select item incorrect $startpos $endpos ([$txt tag ranges sel])"
+      }
+      if {[$txt index insert] ne $endpos} {
+        cleanup "next cursor incorrect $endpos ([$txt index insert])"
+      }
+    }
+
+    foreach test [list {4.2 4.3 4.4} {4.3 4.3 4.4} {4.4 4.5 4.29} {4.5 4.5 4.29} {4.6 4.5 4.29} {4.11 4.11 4.28} {4.28 4.30 4.59}] {
+      $txt tag remove 1.0 end
+      $txt mark set insert [lindex $test 0]
+      emmet::select_item next
+      if {[$txt tag ranges sel] ne [lrange $test 1 2]} {
+        cleanup "next select item incorrect [lindex $test 0] ([$txt tag ranges sel])"
+      }
+      if {[$txt index insert] ne [lindex $test 2]} {
+        cleanup "next select cursor incorrect [lindex $test 0] ([$txt index insert])"
+      }
+    }
+
+    foreach test [list {4.29 4.11 4.28} {4.28 4.5 4.29}] {
+      $txt tag remove 1.0 end
+      $txt mark set insert [lindex $test 0]
+      emmet::select_item prev
+      if {[$txt tag ranges sel] ne [lrange $test 1 2]} {
+        cleanup "prev select item incorrect [lindex $test 0] ([$txt tag ranges sel])"
+      }
+      if {[$txt index insert] ne [lindex $test 2]} {
+        cleanup "prev select cursor incorrect [lindex $test 0] ([$txt index insert])"
+      }
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify
+  proc run_test114 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end [set value {
+<body>
+  <img src="stuff.png" />
+  <p>Here is <b>bold</b></p>
+</body>}]
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
+
+    emmet::toggle_comment
+    if {[$txt get 1.0 end-1c] ne [set body_value "\n<!-- <body>\n  <img src=\"stuff.png\" />\n  <p>Here is <b>bold</b></p>\n</body> -->"]} {
+      cleanup "body was not commented correctly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne "2.5"} {
+      cleanup "body comment cursor incorrect ([$txt index insert])"
+    }
+
+    emmet::toggle_comment
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "body was not uncommented correctly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne "2.0"} {
+      cleanup "body uncomment cursor incorrect ([$txt index insert])"
+    }
+
+    $txt mark set insert 4.0
+    emmet::toggle_comment
+    if {[$txt get 1.0 end-1c] ne $body_value} {
+      cleanup "body was not commented correctly B ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne "4.0"} {
+      cleanup "body comment cursor incorrect B ([$txt index insert])"
+    }
+
+    emmet::toggle_comment
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "body was not uncommented correctly B ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 3.3
+    emmet::toggle_comment
+    if {[$txt get 1.0 end-1c] ne "\n<body>\n  <!-- <img src=\"stuff.png\" /> -->\n  <p>Here is <b>bold</b></p>\n</body>"} {
+      cleanup "img was not commented correctly ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne "3.8"} {
+      cleanup "img comment cursor incorrect ([$txt index insert])"
+    }
+
+    $txt mark set insert 2.2
+    emmet::toggle_comment
+    if {[$txt get 1.0 end-1c] ne $body_value} {
+      cleanup "body was not commented correctly C ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne "2.7"} {
+      cleanup "body comment cursor incorrect C ([$txt index insert])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Split/Join Tag action
+  proc run_test115 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end {
+<example>
+    Lorem ipsum dolor sit amet
+</example>}
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
+
+    emmet::split_join_tag
+    if {[$txt get 1.0 end-1c] ne "\n<example />"} {
+      cleanup "Tag join incorrect ([$txt get 1.0 end-1c])"
+    }
+
+    emmet::split_join_tag
+    if {[$txt get 1.0 end-1c] ne "\n<example></example>"} {
+      cleanup "Tag split incorrect ([$txt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify remove tag
+  proc run_test116 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end [set value {
+<body>
+  <div class="wrapper">
+    <h1>Title</h1>
+    <p>Lorem ipsum dolor sit amet.</p>
+  </div>
+</body>}]
+    $txt edit separator
+    $txt mark set insert 3.2
+    vim::adjust_insert $txt.t
+
+    emmet::remove_tag
+    if {[$txt get 1.0 end-1c] ne [set remove_value "\n<body>\n  <h1>Title</h1>\n  <p>Lorem ipsum dolor sit amet.</p>\n</body>"]} {
+      cleanup "tag removed incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 4.0
+    emmet::remove_tag
+    if {[$txt get 1.0 end-1c] ne $remove_value} {
+      cleanup "tag removed incorrectly B ([$txt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Merge Lines action
+  proc run_test117 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end [set value {
+<p>
+  Line 1.
+  <b>Line</b> 2.
+</p>}]
+    $txt edit separator
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
+
+    emmet::merge_lines
+    if {[$txt get 1.0 end-1c] ne [set merge_value "\n<p>Line 1.<b>Line</b> 2.</p>"]} {
+      cleanup "merge lines incorrect ([$txt get 1.0 end-1c])"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "merge undo incorrect ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 4.0
+    emmet::merge_lines
+    if {[$txt get 1.0 end-1c] ne $merge_value} {
+      cleanup "merge lines incorrect B ([$txt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
 }
