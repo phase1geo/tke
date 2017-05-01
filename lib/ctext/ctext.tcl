@@ -993,7 +993,7 @@ proc ctext::undo {win} {
         }
       }
 
-      lappend ranges [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
+      $win._t tag add hl [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
 
       set last_cursor $cursor
 
@@ -1001,8 +1001,12 @@ proc ctext::undo {win} {
 
     }
 
+    # Get the list of affected lines that need to be re-highlighted
+    set ranges [$win._t tag ranges hl]
+    $win._t tag delete hl
+
     # Perform the highlight
-    if {[ctext::highlightAll $win [lsort -dictionary $ranges] $insert $do_tags]} {
+    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
       ctext::checkAllBrackets $win
     } else {
       ctext::checkAllBrackets $win $changed
@@ -1071,7 +1075,7 @@ proc ctext::redo {win} {
         }
       }
 
-      lappend ranges [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
+      $win._t tag add hl [$win._t index "$val1 linestart"] [$win._t index "$val2 lineend"]
 
       incr i
 
@@ -1081,8 +1085,12 @@ proc ctext::redo {win} {
 
     }
 
+    # Get the list of affected lines that need to be re-highlighted
+    set ranges [$win._t tag ranges hl]
+    $win._t tag delete hl
+
     # Highlight the code
-    if {[ctext::highlightAll $win [lsort -dictionary $ranges] $insert $do_tags]} {
+    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
       ctext::checkAllBrackets $win
     } else {
       ctext::checkAllBrackets $win $changed
