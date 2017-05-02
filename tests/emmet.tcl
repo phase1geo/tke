@@ -1328,7 +1328,7 @@ namespace eval emmet {
     <h1>Document example</h1>
     <p>Lorem ipsum dolor sit amet.</p>
   </section>
-div>}
+</div>}
     $txt mark set insert 5.10
     vim::adjust_insert $txt.t
 
@@ -1510,7 +1510,7 @@ div>}
 
   }
 
-  # Verify
+  # Verify Toggle Comment action
   proc run_test114 {} {
 
     # Initialize
@@ -1672,6 +1672,208 @@ div>}
     emmet::merge_lines
     if {[$txt get 1.0 end-1c] ne $merge_value} {
       cleanup "merge lines incorrect B ([$txt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Update Image Size action
+  proc run_test118 {} {
+
+    # Initialize
+    set txt    [initialize]
+    set url    "http://tke.sourceforge.net/screenshots_files/page2-1000-thumb.jpg"
+    set width  145
+    set height 144
+    set tags   [list [list "\n<img src=\"$url\" alt=\"\" />"                             "\n<img src=\"$url\" width=\"$width\" height=\"$height\" alt=\"\" />"] \
+                     [list "\n<img src=\"$url\" alt=\"\" width=\"10\" />"                "\n<img src=\"$url\" alt=\"\" width=\"$width\" height=\"$height\" />"] \
+                     [list "\n<img src=\"$url\" alt=\"\" height=\"11\" />"               "\n<img src=\"$url\" alt=\"\" width=\"$width\" height=\"$height\" />"] \
+                     [list "\n<img src=\"$url\" alt=\"\" height=\"20\" width=\"100\" />" "\n<img src=\"$url\" alt=\"\" height=\"$height\" width=\"$width\" />"]]
+
+    set i 0
+    foreach tag $tags {
+
+      $txt delete 1.0 end
+      $txt insert end [lindex $tag 0]
+      $txt edit separator
+      $txt mark set insert 2.0
+      vim::adjust_insert $txt.t
+
+      emmet::update_image_size
+      if {[$txt get 1.0 end-1c] ne [lindex $tag 1]} {
+        cleanup "$i img tag does not match expected ([$txt get 1.0 end-1c])"
+      }
+
+      incr i
+
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Evaluate Math Expression
+  proc run_test119 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\n100+91\nabs(-10)\n10/4\n10.0/4\n\nNothing 2*3"
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
+
+    emmet::evaluate_math_expression
+    if {[$txt get 1.0 end-1c] ne "\n191\nabs(-10)\n10/4\n10.0/4\n\nNothing 2*3"} {
+      cleanup "Addition did not work correctly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 3.0
+    emmet::evaluate_math_expression
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n10/4\n10.0/4\n\nNothing 2*3"} {
+      cleanup "Absolute did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 4.0
+    emmet::evaluate_math_expression
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n10.0/4\n\nNothing 2*3"} {
+      cleanup "Integer division did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 5.0
+    emmet::evaluate_math_expression
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n\nNothing 2*3"} {
+      cleanup "Real division did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 6.0
+    emmet::evaluate_math_expression
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n\nNothing 2*3"} {
+      cleanup "Empty line did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 7.0
+    emmet::evaluate_math_expression
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n\nNothing 2*3"} {
+      cleanup "NAN did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 7.10
+    emmet::evaluate_math_expression
+    if {[$txt get 1.0 end-1c] ne "\n191\n10\n2\n2.5\n\nNothing 6"} {
+      cleanup "Multiplication did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Increment/Decrement Number action
+  proc run_test120 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\nx100x\nx-100x\nNothing"
+    $txt mark set insert 2.1
+    vim::adjust_insert $txt.t
+
+    emmet::change_number 10
+    if {[$txt get 1.0 end-1c] ne "\nx110x\nx-100x\nNothing"} {
+      cleanup "Increment by 10 did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx111x\nx-100x\nNothing"} {
+      cleanup "Increment by 1 did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    emmet::change_number 0.1
+    if {[$txt get 1.0 end-1c] ne "\nx111.1x\nx-100x\nNothing"} {
+      cleanup "Increment by 0.1 did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    emmet::change_number -10
+    if {[$txt get 1.0 end-1c] ne "\nx101.1x\nx-100x\nNothing"} {
+      cleanup "Decrement by 10 did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    emmet::change_number -1
+    if {[$txt get 1.0 end-1c] ne "\nx100.1x\nx-100x\nNothing"} {
+      cleanup "Decrement by 1 did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    emmet::change_number -0.1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing"} {
+      cleanup "Decrement by 0.1 did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 2.0
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing"} {
+      cleanup "Changing non-number did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 2.4
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing"} {
+      cleanup "Changing non-number did not work properly 2 ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 3.1
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-99x\nNothing"} {
+      cleanup "Changing negative number did not work properly ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 3.2
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-98x\nNothing"} {
+      cleanup "Changing negative number did not work properly B ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 3.3
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing"} {
+      cleanup "Changing negative number did not work properly C ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 4.0
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing"} {
+      cleanup "Changing non-number did not work properly 3 ([$txt get 1.0 end-1c])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify Encode/Decode data:URL action
+  proc run_test121 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\n<img src=\"http://tke.sourceforge.net/resources/unchecked.gif\" width=\"11\" height=\"11\" />"
+    $txt mark set insert 2.20
+    vim::adjust_insert $txt.t
+
+    emmet::encode_decode_image_to_data_url
+    if {[$txt get 1.0 end-1c] ne [set expect "\n<img src=\"data:image/gif;base64,R0lGODdhCwALAJEAAH9/f////////////ywAAAAACwALAAACH4SPRvEPADEIYPwDQAwCGP8AEIMAxj8AxCCA8Y/goxUAOw==\" width=\"11\" height=\"11\" />"]} {
+      cleanup "File not encoded properly ([$txt get 1.0 end-1c])"
+    }
+
+    emmet::encode_decode_image_to_data_url -test "foobar.gif"
+    if {![file exists "foobar.gif"]} {
+      cleanup "foobar.gif was not created"
+    }
+    file remove -force "foobar.gif"
+    if {[$txt get 1.0 end-1c] ne "\n<img src=\"./foobar.gif\" width=\"11\" height=\"11\" />"} {
+      cleanup "Data not decoded properly ([$txt get 1.0 end-1c])"
     }
 
     # Cleanup
