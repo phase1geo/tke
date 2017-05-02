@@ -69,6 +69,12 @@
 {Edit/Emmet/Expand Abbreviation}          Ctrl-E
 {Edit/Emmet/Select Next Item}             Ctrl->
 {Edit/Emmet/Select Previous Item}         Ctrl-<
+{Edit/Emmet/Increment by 10}              Shift-Ctrl-Up
+{Edit/Emmet/Increment by 1}               Ctrl-Up
+{Edit/Emmet/Increment by 0.1}             Shift-Up
+{Edit/Emmet/Decrement by 10}              Shift-Ctrl-Down
+{Edit/Emmet/Decrement by 1}               Ctrl-Down
+{Edit/Emmet/Decrement by 0.1}             Shift-Down
 {Edit/Preferences/Edit User - Global}     Ctrl-,
 {Edit/Preferences/Edit Session - Global}  Ctrl-;
 
@@ -82,8 +88,6 @@
 {Find/Jump Backward}                      Ctrl-Left
 {Find/Jump Forward}                       Ctrl-Right
 {Find/Jump To Line}                       Alt-G
-{Find/Next Difference}                    Ctrl-Down
-{Find/Previous Difference}                Ctrl-Up
 {Find/Find Matching Bracket}              Ctrl-%
 {Find/Find In Files}                      Ctrl-Alt-F
 
