@@ -67,8 +67,8 @@
 {Edit/Format/Underline}                   Shift-Alt-U
 {Edit/Format/Remove Formatting}           Ctrl--
 {Edit/Emmet/Expand Abbreviation}          Ctrl-E
-{Edit/Emmet/Select Next Item}             Shift-Ctrl-.
-{Edit/Emmet/Select Previous Item}         Shift-Ctrl-,
+{Edit/Emmet/Select Next Item}             Ctrl->
+{Edit/Emmet/Select Previous Item}         Ctrl-<
 {Edit/Preferences/Edit User - Global}     Ctrl-,
 {Edit/Preferences/Edit Session - Global}  Ctrl-;
 
