@@ -1130,7 +1130,7 @@ namespace eval gui {
           if {[file exists $finfo(fname)]} {
             set tab [add_file $finfo(tab) $finfo(fname) \
               -savecommand $finfo(savecommand) -lock $finfo(lock) -readonly $finfo(readonly) \
-              -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1 -sidebar 0 \
+              -diff $finfo(diff) -sidebar $finfo(sidebar) -lazy 1 \
               -xview $finfo(xview) -yview $finfo(yview) -cursor $finfo(cursor)]
             get_info $tab tab txt
             if {[syntax::get_language $txt] ne $finfo(language)} {
