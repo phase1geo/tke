@@ -11,6 +11,8 @@ reference
   {{Emmet Cheat Sheet} https://docs.emmet.io/cheat-sheet/}
 }
 
+delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>@]+}
+
 matchcharsallowed
 {curly paren double single}
 
@@ -79,5 +81,11 @@ punctuation
 
 miscellaneous1 {
   HighlightRegexp {--\w+} {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    media and
+  }
 }
 
