@@ -1173,10 +1173,10 @@ namespace eval emmet {
     } else {
       set num_start [edit::get_index $txt.t numberstart]
       set num_end   [edit::get_index $txt.t numberend]
-      if {[$txt compare $num_start == $num_end]} {
+      if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
         return
       }
-      if {[$txt get "$num_start-1c"] eq "-"} {
+      if {([$txt get "$num_start-1c"] eq "-") && ![ctext::isEscaped $txt "$num_start-1c"]} {
         set num_start "$num_start-1c"
       }
     }
@@ -1249,7 +1249,12 @@ namespace eval emmet {
 
   ######################################################################
   # Runs encode/decode image to data:URL in HTML.
-  proc encode_decode_html_image_to_data_url {txt} {
+  proc encode_decode_html_image_to_data_url {txt args} {
+
+    array set opts {
+      -test ""
+    }
+    array set opts $args
 
     if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
       return
@@ -1274,7 +1279,8 @@ namespace eval emmet {
 
     # If we have base64 data, decode and save the information to a file
     if {[regexp {^data:image/(gif|png|jpg);base64,(.*)$} $url -> ext data]} {
-      if {[set fname [tk_getSaveFile -parent . -defaultextension .$ext -title [msgcat::mc "Select File to Save"]]] ne ""} {
+      set fname $opts(-test)
+      if {($fname ne "") || [set fname [tk_getSaveFile -parent . -defaultextension .$ext -title [msgcat::mc "Select File to Save"]]] ne ""} {
         if {![catch { open $fname w } rc]} {
           fconfigure $rc -encoding binary
           puts $rc [base64::decode $data]
@@ -1321,7 +1327,12 @@ namespace eval emmet {
 
   ######################################################################
   # Runs encode/decode image to data:URL in CSS.
-  proc encode_decode_css_image_to_data_url {txt} {
+  proc encode_decode_css_image_to_data_url {txt args} {
+
+    array set opts {
+      -test ""
+    }
+    array set opts $args
 
     # TBD
 
@@ -1329,14 +1340,14 @@ namespace eval emmet {
 
   ######################################################################
   # Executes encode/decode image to data:URL functionality.
-  proc encode_decode_image_to_data_url {} {
+  proc encode_decode_image_to_data_url {args} {
 
     gui::get_info {} current txt lang
 
     if {$lang eq "CSS"} {
-      encode_decode_css_image_to_data_url $txt
+      encode_decode_css_image_to_data_url $txt {*}$args
     } else {
-      encode_decode_html_image_to_data_url $txt
+      encode_decode_html_image_to_data_url $txt {*}$args
     }
 
   }
