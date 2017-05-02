@@ -124,5 +124,7 @@ Copyright © 2013-2017 Trevor Williams</string>
 	<false/>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
+	<key>NSHighResolutionCapable</key>
+	<true/>
 </dict>
 </plist>

@@ -207,10 +207,6 @@ namespace eval menus {
     $mb add cascade -label [msgcat::mc "Plugins"] -menu [make_menu $mb.plugins -tearoff false -postcommand "menus::plugins_posting $mb.plugins"]
     add_plugins $mb.plugins
 
-    # Add the help menu
-    $mb add cascade -label [msgcat::mc "Help"] -menu [make_menu $mb.help -tearoff false -postcommand "menus::help_posting $mb.help"]
-    add_help $mb.help
-
     # If we are running on Mac OS X, add the window menu with the windowlist package
     if {[tk windowingsystem] eq "aqua"} {
 
@@ -221,6 +217,10 @@ namespace eval menus {
       launcher::register [make_menu_cmd "Help" [format "%s %s" [msgcat::mc "About"] "TKE"]] gui::show_about
 
     }
+
+    # Add the help menu
+    $mb add cascade -label [msgcat::mc "Help"] -menu [make_menu $mb.help -tearoff false -postcommand "menus::help_posting $mb.help"]
+    add_help $mb.help
 
     if {([tk windowingsystem] eq "aqua") || [preferences::get View/ShowMenubar]} {
       . configure -menu $mb
