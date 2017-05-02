@@ -1,39 +1,191 @@
-2017-04-24 00:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3fd5aa9beb5a [devel-3.0.3])
+2017-04-25 01:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6e4b1b77f890 [devel-3.0.4])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.0.3 release
+	ChangeLog for devel-3.0.4 release
 
-2017-04-24 00:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d496f6e8c543)
+2017-04-25 01:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (07bcedfc0c88)
 
 	* .hgtags:
-	Added tag devel-3.0.3 for changeset 3fd5aa9beb5a
+	Added tag devel-3.0.4 for changeset 6e4b1b77f890
 
-2017-04-24 09:29 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7f1886cc9621)
+2017-04-25 16:49 -0500  Trevor Williams  <phase1geo@gmail.com>  (db1d5c74003d)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Adding initial support for `W`, `E`, `B` and `gE` Vim motions
+	* lib/edit.tcl, lib/version.tcl, tests/motion.tcl:
+	* Fixing cursor placement issue with deleting the last line of the
+	file.
+	* Enhancing motion BIST.
+
+2017-04-26 00:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6b3266310cfa)
+
+	* lib/edit.tcl, lib/version.tcl, tests/motion.tcl:
+	* Fixing BIST issues with sentence and paragraph motions.
+
+2017-04-26 02:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9cbed5a2326d)
+
+	* lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Checkpointing work on Emmet next/previous edit point action.
+
+2017-04-26 10:55 -0500  Trevor Williams  <phase1geo@gmail.com>  (ce7bb7972804)
+
+	* lib/emmet.tcl, lib/version.tcl:
+	* Fixing edit point Emmet action issues.
+
+2017-04-26 17:32 -0500  Trevor Williams  <phase1geo@gmail.com>  (24e55b9382a0)
+
+	* lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Checkpointing work on select next item Emmet action.
+
+2017-04-26 21:20 -0600  Trevor Williams  <phase1geo@gmail.com>  (2d6f307601d7)
+
+	* data/bindings/menu_bindings.x11.tkedat, lib/bindings.tcl,
+	lib/emmet.tcl, lib/version.tcl:
+	* Fixing memory binding issues related to the shift key.
+	* Fixing an issue with Emmet Select Next Item action (still a work in
+	progress).
+	* Adding `Select Next Item` and `Select Previous Item` to menu
+	bindings.
+
+2017-04-28 13:33 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (85f7b3c82b8b)
+
+	* data/bindings/menu_bindings.aqua.tkedat, lib/emmet.tcl,
+	lib/version.tcl:
+	* Adding Emmet `Select Next/Previous Item` action default shortcuts.
+
+2017-04-28 15:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (13d617bb5d78)
+
+	* lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Adding Emmet `Toggle Comment` action.
+
+2017-04-28 16:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b195ad92a197)
+
+	* lib/ctext/ctext.tcl, lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Adding Emmet `Split/Join Tag` action support.
+	* Fixing issue with undo and highlighting.
+	* Cleaning up debug output.
+
+2017-04-28 20:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (331ce7eff7bf)
+
+	* lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Adding `Remove Tag` Emmet action support.
+
+2017-04-28 22:43 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b5f73c2290e8)
+
+	* lib/image_size.php: new file.
+	* lib/emmet.tcl, lib/image_size.php, lib/menus.tcl, lib/version.tcl:
+	* Adding support for `Updating Image Size` Emmet action support.
+
+2017-04-29 00:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1b1fab4b121c)
+
+	* lib/edit.tcl, lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Adding support for Emmet `Increment/Decrement Number` action.
+
+2017-04-29 13:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (27769620bc92)
+
+	* lib/emmet.tcl, lib/menus.tcl, lib/utils.tcl, lib/version.tcl:
+	* Adding support for Emmet `Encode/Decode Image to Data:URL` action
 	(work in progress).
 
-2017-04-24 11:48 -0500  Trevor Williams  <phase1geo@gmail.com>  (16885da6fefb)
+2017-04-29 16:51 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6abad1f1668f)
 
-	* lib/edit.tcl, lib/version.tcl:
-	* Fixing W, B, E and gE motions.
+	* lib/emmet.tcl, lib/utils.tcl, lib/version.tcl:
+	* Finishing work on `Encode/Decode Image from Data:URL` Emmet
+	action.
 
-2017-04-24 16:50 -0500  Trevor Williams  <phase1geo@gmail.com>  (1520e2964996)
+2017-04-29 17:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dbc1df44923a)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Checkpointing work on paragraph motion support.
+	* lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Adding support for Emmet `Evalulate Math Expression` action (work
+	in progress).
 
-2017-04-24 23:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7e3e8072f0da)
+2017-04-29 20:03 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (165fa86e2010)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Fixing support for paragraph motions.
-	* Fixing support for E/gE/e/ge motions in non-motion operations.
+	* lib/emmet.tcl, lib/version.tcl:
+	* Making a few improvements to the `Evaluate Math Expression` Emmet
+	action.
 
-2017-04-25 01:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (aefb7fddf6b8 [tip])
+2017-04-29 21:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e4445a482b48)
 
-	* lib/version.tcl, lib/vim.tcl, tests/delete.tcl:
-	* Fixing `D` Vim command.
-	* Enhancing delete BIST.
-	* Fixing BIST errors.
+	* lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Making small enhancements to Emmet functions that operate in both
+	HTML and CSS.
+	* Adding Emmet menu option enablements.
+
+2017-04-29 23:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9071c77bb1ab)
+
+	* lib/bindings.tcl, lib/emmet.tcl, lib/menus.tcl, lib/version.tcl:
+	* Completing work on Emmet `Select Next/Previous Item` action.
+	* Adding stuff to help debug issue where menu shortcut causes code to
+	fire twice.
+
+2017-04-30 15:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ccf71263d1fa)
+
+	* lib/bindings.tcl, lib/gui.tcl, lib/menus.tcl, lib/tke.tcl,
+	lib/version.tcl:
+	* Adding support for tkcon console (if it exists on the current
+	system).
+	* Adding menu bindings back into the UI.
+
+2017-04-30 18:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2986e4c66c6a)
+
+	* lib/bindings.tcl, lib/version.tcl:
+	* Fixing issues with menu bindings containing the Shift key.
+
+2017-04-30 18:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e04555409401)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2017-05-01 02:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cb03b51c1f53)
+
+	* lib/ctext/ctext.tcl, lib/emmet.tcl, lib/version.tcl,
+	tests/emmet.tcl:
+	* Fixing undo/redo syntax highlighting issue.
+	* Fixing Emmet action BIST issues.
+	* Enhancing Emmet BIST to include testing of actions (work in
+	progress).
+
+2017-05-01 20:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (146332860111)
+
+	* data/bindings/menu_bindings.aqua.tkedat,
+	data/bindings/menu_bindings.classic.tkedat,
+	data/bindings/menu_bindings.win32.tkedat,
+	data/bindings/menu_bindings.x11.tkedat, lib/version.tcl:
+	* Changing Emmet `Select Next/Previous Item` menu bindings to fix
+	issue.
+
+2017-05-01 20:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2d103021c6d3)
+
+	* data/bindings/menu_bindings.aqua.tkedat,
+	data/bindings/menu_bindings.classic.tkedat,
+	data/bindings/menu_bindings.win32.tkedat,
+	data/bindings/menu_bindings.x11.tkedat, lib/version.tcl:
+	* Adding default shortcuts for more Emmet actions.
+
+2017-05-01 21:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (17e0d1dc2dda)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Fixing issue with sidebar highlighting when files are loaded from
+	a session.
+
+2017-05-02 00:02 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ef582ed4a2e7)
+
+	* lib/emmet.tcl, lib/version.tcl, tests/emmet.tcl:
+	* Fixing Emmet action issues from BIST testing.
+	* Enhancing Emmet action BIST.
+
+2017-05-02 00:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e075c241612f)
+
+	* data/syntax/CSS.syntax, lib/version.tcl:
+	* Small enhancements to CSS syntax.
+
+2017-05-02 00:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a3000bc87992 [tip])
+
+	* lib/plugins.tcl, lib/version.tcl:
+	* Fixing issue where a newly installed plugin that is reloaded in
+	the same session caused the plugin to become uninstalled.
 
