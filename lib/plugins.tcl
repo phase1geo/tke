@@ -546,6 +546,9 @@ namespace eval plugins {
     # Add all loaded preferences
     handle_on_pref_load
 
+    # Save the installation information to the config file
+    write_config
+
   }
 
   ######################################################################
@@ -623,6 +626,9 @@ namespace eval plugins {
 
     # Add all of the VCS commands
     add_all_vcs_commands
+
+    # Save the plugin information
+    write_config
 
     # Display the uninstall message
     gui::set_info_message [format "%s (%s)" [msgcat::mc "Plugin uninstalled"] $registry($index,name)]
