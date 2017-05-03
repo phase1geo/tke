@@ -456,6 +456,320 @@ namespace eval api {
 
   }
 
+  namespace eval edit {
+
+    ######################################################################
+    ## \return Returns the text widget index based on the given input
+    #  parameters.
+    #
+    #  \param txt       Pathname of text widget to get index of.
+    #  \param position  The specifies the visible cursor position to lookup.  The
+    #                   values that can be used for this option are as follows:
+    #    - left       Index num characters left of the starting position, staying on the same line.
+    #    - right      Index num characters right of the starting position, staying on the same line.
+    #    - up         Index above the starting position, remaining in the same
+    #                 column, if possible.
+    #    - down       Index below the starting position, remaining in the same
+    #                 column, if possible.
+    #    - first      Index of the first line/column in the buffer.
+    #    - last       Index of the last line/column in the buffer.
+    #    - char       Index of the a specified character before or after the starting
+    #                 position.
+    #    - dchar      Index of num'th character before or after the starting
+    #                 position.
+    #    - findchar   Index of a specified character before or after the starting
+    #                 position.
+    #    - firstchar  Index of first non-whitespace character of the line specified
+    #                 by startpos.
+    #    - lastchar   Index of last non-whitespace character of the line specified
+    #                 by startpos.
+    #    - wordstart  Index of the first character of the word containing startpos.
+    #    - wordend    Index of the last character+1 of the word containing startpos.
+    #    - WORDstart  Index of the first character of the WORD containing startpos.
+    #    - WORDend    Index of the last character+1 of the WORD containing startpos.
+    #    - column     Index of the character in the line containing startpos at the
+    #                 num'th position.
+    #    - linenum    Index of the first non-whitespace character on the given line.
+    #    - linestart  Index of the beginning of the line containing startpos.
+    #    - lineend    Index of the ending of the line containing startpos.
+    #    - dispstart  Index of the first character that is displayed in the line
+    #                 containing startpos.
+    #    - dispmid    Index of the middle-most character that is displayed in the
+    #                 line containing startpos.
+    #    - dispend    Index of the last character that is displayed in the line
+    #                 containing startpos.
+    #    - screentop  Index of the start of the first line that is displayed in
+    #                 the buffer.
+    #    - screenmid  Index of the start of the middle-most line that is displayed
+    #                 in the buffer.
+    #    - screenbot  Index of the start of the last line that is displayed in
+    #                 the buffer.
+    #    - numberstart  First numerical character of the word containing startpos.
+    #    - numberend    Last numerical character of the word containing startpos.
+    #    - spacestart   First whitespace character of the whitespace containing startpos.
+    #    - spaceend     Last whitespace character of the whitespace containing startpos.
+    #  \param args  Modifier arguments based on position value.
+    #    -dir        Specifies direction from starting position (values are "next"
+    #                or "prev").  Defaults to "next".
+    #    -startpos   Specifies the starting index of calculation.  Defaults to "insert".
+    #    -num        Specifies the number to apply.  Defaults to 1.
+    #    -char       Used with "findchar" position type.  Specifies the character
+    #                to find.
+    #    -exclusive  If set to 1, returns character position before calculated
+    #                index.  Defaults to 0.
+    #    -column     Specifies the name of a variable containing the column to
+    #                use for "up" and "down" positions.
+    #    -adjust     Adjusts the calculated index by the given value before
+    #                returning the result.
+    proc get_index {interp pname txt position args} {
+
+      return [edit::get_index $txt.t $position {*}$args]
+
+    }
+
+    ######################################################################
+    ## Deletes all characters between startpos and endpos-1, inclusive.
+    #
+    #  \param txt       Pathname of text widget to delete text from.
+    #  \param startpos  Text widget index to begin deleting from.
+    #  \param endpos    Text widget index to stop deleting from.
+    #  \param copy      Copies deleted text to the clipboard.
+    #  \param adjust    This must be set if the buffer is in Vim normal mode
+    #                   will stay in that mode after the deletion.
+    proc delete {interp pname txt startpos endpos copy adjust} {
+
+      edit::delete $txt.t $startpos $endpos $copy $adjust
+
+    }
+
+    ######################################################################
+    ## Toggles the case of all characters in the range of startpos to endpos-1,
+    #  inclusive.  If text is selected, the selected text is toggled instead
+    #  of the given range.
+    #
+    #  \param txt        Text widget to modify.
+    #  \param startpos   Starting index of range to modify.
+    #  \param endpos     Ending index of range to modify.
+    #  \param cursorpos  Position to place cursor at after the modification.
+    proc toggle_case {interp pname txt startpos endpos cursorpos} {
+
+      edit::transform_toggle_case $txt.t $startpos $endpos $cursorpos
+
+    }
+
+    ######################################################################
+    ## Transforms all text in the given range of startpos to endpos-1,
+    #  inclusive, to lower case.  If text is seelected, the selected text
+    #  is transformed instead of the given range.
+    #
+    #  \param txt        Text widget to modify.
+    #  \param startpos   Starting index of range to modify.
+    #  \param endpos     Ending index of range to modify.
+    #  \param cursorpos  Position to place cursor at after the modification.
+    proc lower_case {interp pname txt startpos endpos cursorpos} {
+
+      edit::transform_to_lower_case $txt.t $startpos $endpos $cursorpos
+
+    }
+
+    ######################################################################
+    ## Transforms all text in the given range of startpos to endpos-1,
+    #  inclusive, to upper case.  If text is selected, the selected text
+    #  is transformed instead of the given range.
+    #
+    #  \param txt        Text widget to modify.
+    #  \param startpos   Starting index of range to modify.
+    #  \param endpos     Ending index of range to modify.
+    #  \param cursorpos  Position to place cursor at after the modification.
+    proc upper_case {interp pname txt startpos endpos cursorpos} {
+
+      edit::transform_to_upper_case $txt.t $startpos $endpos $cursorpos
+
+    }
+
+    ######################################################################
+    ## Transforms all text in the given range of startpos to endpos-1,
+    #  inclusive, to its rot13 equivalent.  If text is selected, the
+    #  selected text is transformed instead of the given range.
+    #
+    #  \param txt        Text widget to modify.
+    #  \param startpos   Starting index of range to modify.
+    #  \param endpos     Ending index of range to modify.
+    #  \param cursorpos  Position to place cursor at after the modification.
+    proc rot13 {interp pname txt startpos endpos cursorpos} {
+
+      edit::transform_to_rot13 $txt.t $startpos $endpos $cursorpos
+
+    }
+
+    ######################################################################
+    ## Transforms all text in the given range of startpos to endpos-1,
+    #  inclusive, to title case (first character of each word is capitalized
+    #  while the rest of the characters are set to lowercase).
+    #
+    #  \param txt        Text widget to modify.
+    #  \param startpos   Starting index of range to modify.
+    #  \param endpos     Ending index of range to modify.
+    #  \param cursorpos  Position to place cursor at after the modification.
+    proc title_case {interp pname txt startpos endpos cursorpos} {
+
+      edit::transform_to_title_case $txt.t $startpos $endpos $cursorpos
+
+    }
+
+    ######################################################################
+    ## Joins the given number of lines, guaranteeing that on a single space
+    #  separates the text of each joined line, starting at the current
+    #  insertion cursor position.  If text is selected, any line that contains
+    #  a selection will be joined together.
+    #
+    #  \param txt  Text widget to modify.
+    #  \param num  Number of lines to join below current line.
+    proc join_lines {interp pname txt {num 1}} {
+
+      edit::transform_join_lines $txt.t $num
+
+    }
+
+    ######################################################################
+    ## Moves the current line up by one (unless the current line is the
+    #  first line in the buffer.  If any text is selected, lines containing
+    #  a selection will be moved up by one line.
+    #
+    # \param txt  Text widget to change.
+    proc bubble_up {interp pname txt} {
+
+      edit::transform_bubble_up $txt.t
+
+    }
+
+    ######################################################################
+    ## Moves the current line down by one (unless the current line is the
+    #  last line in the buffer.  If any text is selected, lines containing
+    #  a selection will be moved down by one line.
+    #
+    # \param txt  Text widget to change.
+    proc bubble_down {interp pname txt} {
+
+      edit::transform_bubble_down $txt.t
+
+    }
+
+    ######################################################################
+    ## Comments the currently selected lines.
+    #
+    #  \param txt  Text widget to comment.
+    proc comment {interp pname txt} {
+
+      edit::comment $txt
+
+    }
+
+    ######################################################################
+    ## Uncomments the currently selected lines.
+    #
+    #  \param txt  Text widget to uncomment.
+    proc uncomment {interp pname txt} {
+
+      edit::uncomment $txt
+
+    }
+
+    ######################################################################
+    ## Toggles the comment status of the currently selected lines.
+    #
+    #  \param txt  Text widget to change.
+    proc toggle_comment {interp pname txt} {
+
+      edit::comment_toggle $txt
+
+    }
+
+    ######################################################################
+    ## Indents the given range of text between startpos and endpos-1, inclusive,
+    #  by one level of indentation.  If text is currently selected, the
+    #  selected text is indented instead.
+    #
+    #  \param txt       Text widget to indent.
+    #  \param startpos  Starting position of range to indent.
+    #  \param endpos    Ending position of range to indent.
+    proc indent {interp pname txt {startpos insert} {endpos insert}} {
+
+      edit::indent $txt.t $startpos $endpos
+
+    }
+
+    ######################################################################
+    ## Unindents the given range of text between startpos and endpos-1,
+    #  inclusive, by one level of indentation.  If text is currently
+    #  selected, the selected text is unindented instead.
+    #
+    #  \param txt       Text widget to unindent.
+    #  \param startpos  Starting position of range to unindent.
+    #  \param endpos    Ending position of range to unindent.
+    proc unindent {interp pname txt {startpos insert} {endpos insert}} {
+
+      edit::unindent $txt.t $startpos $endpos
+
+    }
+
+    ######################################################################
+    ## Moves the cursor to the given cursor position.  The value of position
+    #  and args are the same as those of the \ref api::edit::get_index.
+    #
+    #  \param txt       Text widget to change the cursor of.
+    #  \param position  Position to move the cursor to (see \ref api::edit::get_index)
+    #  \param args      List of arguments based on position value (see \ref api::edit::get_index)
+    proc move_cursor {interp pname txt position args} {
+
+      edit::move_cursor $txt.t $position {*}$args
+
+    }
+
+    ######################################################################
+    ## Adds text formatting to current word of the given type.  If text is
+    #  currently selected, the formatting will be applied to all of the
+    #  selected text.
+    #
+    #  \param txt   Text widget to apply formatting to.
+    #  \param type  Type of formatting to apply.  The available formats
+    #               supported by the current syntax are allowed.  The legal
+    #               values for this
+    #               parameter are as follows:
+    #   - bold
+    #   - italics
+    #   - underline
+    #   - strikethrough
+    #   - highlight
+    #   - superscript
+    #   - subscript
+    #   - code
+    #   - header1
+    #   - header2
+    #   - header3
+    #   - header4
+    #   - header5
+    #   - header6
+    #   - unordered
+    #   - ordered
+    proc format {interp pname txt type} {
+
+      edit::format $txt.t $type
+
+    }
+
+    ######################################################################
+    ## Removes any formatting that is applied to the selected text.
+    #
+    #  \param txt  Text widget to unformat.
+    proc unformat {interp pname txt} {
+
+      edit::unformat $txt.t
+
+    }
+
+  }
+
   namespace eval sidebar {
 
     ######################################################################
