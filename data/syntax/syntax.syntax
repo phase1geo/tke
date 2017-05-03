@@ -4,6 +4,8 @@ filepatterns
 vimsyntax
 {}
 
+reference {}
+
 embedded
 {
   {Tcl {HighlightProc} {HighlightEndProc}}
