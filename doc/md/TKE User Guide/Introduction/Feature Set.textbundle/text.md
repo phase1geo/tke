@@ -13,9 +13,10 @@ The following is a high-level list of built-in features.
 		- Gherkin, Go, Groovy
 		- HTML, Haml, Haskell, Haxe, HelpSystem
 		- J, JSON, Jade, Java, JavaScript, Julia
+		- Kotlin
 		- Lex, Lisp, Lua
 		- MATLAB, Makefile, ManPage, Markdown, MultiMarkdown, MySQL
-		- Neko
+		- Neko, Nim
 		- Objective-C, OCaml
 		- PHP, Pascal, Perl, Prolog, PropertyList, Python
 		- R, RSS, Ruby, Rust
@@ -40,9 +41,11 @@ The following is a high-level list of built-in features.
 - **Unlimited undo/redo**
 - **Language-specific snippet support**
 	- Support for tab stops, variable substitution, and special value substitutions.
-- **Built-in Emmet abbreviation support**
+- **Built-in Emmet abbreviation and action support**
 	- HTML, XML, XSL and CSS abbreviation syntax supported.
 	- Support for custom Emmet commands.
+	- Support for abbreviation wrapping.
+	- Support for all Emmet actions that operate on HTML code (CSS is not currently supported at this time).
 - **Auto and smart indentation features**
 	- Selected code can have indentation policies applied
 	- Pasted code can have indentation policies applied

@@ -11,9 +11,13 @@ Most motions can be preceded by a number which causes the motion to be repeated 
 | **k** | Moves up one line. |
 | **l** | Moves right one character. |
 | **w** | Moves the insertion cursor to the beginning of the next word. |
+| **W** | Moves the insertion cursor to the beginning of the next WORD. |
 | **b** | Moves the insertion cursor to the beginning of the current word. |
+| **B** | Moves the insertion cursor to the beginning of the current WORD. |
 | **e** | Moves the insertion cursor to the ending of the current word. |
+| **E** | Moves the insertion cursor to the ending of the current WORD. |
 | **ge** | Moves the insertion cursor to the ending of the previous word. |
+| **gE** | Moves the insertion cursor to the ending of the previous WORD. |
 | **0** | Moves to the beginning of current line. |
 | **^** | Moves to the first non-whitespace character of the current line. |
 | _num_**\_** (underscore) | Moves _num_-1 lines downward to the first non-whitespace character. |
@@ -22,6 +26,7 @@ Most motions can be preceded by a number which causes the motion to be repeated 
 | **gg** | Moves to the beginning of the file. |
 | **G** | Moves to the end of the file. |
 | _num_**G** | Moves to the first non-whitespace character in line _num_. |
+| **g\_** | Moves the cursor to the last non-whitespace character in the current line. |
 | **g0** | When line wrapping is enabled, moves the cursor to the first character of displayed line. When line wrapping is disabled, moves the cursor to the leftmost displayed character of the current line. |
 | **g^** | When line wrapping is enabled, moves the cursor to the first non-whitespace character of the displayed line. When line wrapping is disabled, moves the cursor to the leftmost non-whitespace character of the current line. |
 | **g$** | When line wrapping is enabled, moves the cursor to the last character of the displayed line. When line wrapping is disabled, moves the cursor to the rightmost displayed character of the current line. |
@@ -48,3 +53,5 @@ Most motions can be preceded by a number which causes the motion to be repeated 
 | _num_**%** | Moves the cursor to the first non-whitespace character in the line which is _num_ percent of the way through the file. |
 | **\(** | Moves the cursor to the beginning of the current sentence. |
 | **\)** | Moves the cursor to the beginning of the next sentence. |
+| **\{** | Moves the cursor to the beginning of the current paragraph. |
+| **\}** | Moves the cursor to the ending of the next paragraph. |
