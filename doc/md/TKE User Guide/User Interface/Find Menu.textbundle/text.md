@@ -13,8 +13,8 @@ The Find menu contains items for searching and, optionally, replacing text in th
 | Jump Backward | Ctrl-Left | Ctrl-Left | Jumps to the last cursor position that was more than 2 lines from the current cursor position.  The number of minimum lines can be adjusted in the preferences file. |
 | Jump Forward | Ctrl-Right | Ctrl-Right | Jumps to the next cursor position. |
 | Jump To Line | Cmd-G | Alt-G | Displays a user input interface that allows the user to specify a line number to jump to.  Sets the cursor to the given line number and makes the insertion cursor visible. |
-| Next Difference | Ctrl-Down | Ctrl-Down | If the current buffer is in difference mode, jumps to the next difference that is not currently in view.  If no difference exists below the current view, jumps to the first difference in the file. |
-| Previous Difference | Ctrl-Up | Ctrl-Up | If the current buffer is in difference mode, jumps to the previous difference that is not currently in view.  If no difference exists above the current view, jumps to the last difference in the file. |
+| Next Difference | | | If the current buffer is in difference mode, jumps to the next difference that is not currently in view.  If no difference exists below the current view, jumps to the first difference in the file. |
+| Previous Difference | | | If the current buffer is in difference mode, jumps to the previous difference that is not currently in view.  If no difference exists above the current view, jumps to the last difference in the file. |
 | Show Selected Line Change | | | If the current buffer is in difference mode and a line is currently selected, sets the first file version to the version that last modified the first line of the selection. |
 | Markers / Create at Current Line | | | Sets a marker at the current insertion index. |
 | Markers / Remove From Current Line | | | Clears the marker at the current insertion index if one exists. |

@@ -40,7 +40,7 @@ html,body,#wrapper{font-size:10pt!important}
 
 <p><br><br><br><br><br><br><br></p>
 
-<h4 id="version:3.0">Version: 3.0</h4>
+<h4 id="version:3.1">Version: 3.1</h4>
 
 <p><br><br></p>
 
@@ -49,7 +49,7 @@ html,body,#wrapper{font-size:10pt!important}
 <h1 id="tableofcontents">Table of Contents</h1>
 
 
-<ul style="display: block;" id="mkreplaced-toc" class="max-3"><li class="notmissing"><a href="#plugindevelopment" class="wiki-link">Plugin Development</a><ul><li class="notmissing"><a href="#pluginframework" class="wiki-link">Plugin Framework</a><ul><li class="notmissing"><a href="#startingup" class="wiki-link">Starting up</a></li><li class="notmissing"><a href="#pluginmanagement" class="wiki-link">Plugin management</a></li><li class="notmissing"><a href="#interpretercreation" class="wiki-link">Interpreter Creation</a></li><li class="notmissing"><a href="#safeuntrustedinterpreterdescription" class="wiki-link">Safe (Untrusted) Interpreter Description</a></li><li class="notmissing"><a href="#pluginguielementcreation" class="wiki-link">Plugin GUI Element Creation</a></li><li class="notmissing"><a href="#creatinglaunchercommands" class="wiki-link">Creating Launcher Commands</a></li></ul></li><li class="notmissing"><a href="#pluginbundlestructure" class="wiki-link">Plugin Bundle Structure</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#header.tkedat" data-orig-id="header.tkedat" class="wiki-link">header.tkedat</a></li><li class="notmissing"><a href="#registration" class="wiki-link">Registration</a></li><li class="notmissing"><a href="#pluginactionnamespaceandprocedures" class="wiki-link">Plugin Action Namespace and Procedures</a></li><li class="notmissing"><a href="#otherelements" class="wiki-link">Other Elements</a></li></ul></li></ul></li><li class="notmissing"><a href="#creatinganewplugintemplate" class="wiki-link">Creating a New Plugin Template</a></li></ul></li><li class="notmissing"><a href="#syntaxhandling" class="wiki-link">Syntax Handling</a><ul><li class="notmissing"><a href="#fileformat" class="wiki-link">File Format</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#filepatterns" class="wiki-link">filepatterns</a></li><li class="notmissing"><a href="#vimsyntax" class="wiki-link">vimsyntax</a></li><li class="notmissing"><a href="#reference" class="wiki-link">reference</a></li><li class="notmissing"><a href="#embedded" class="wiki-link">embedded</a></li><li class="notmissing"><a href="#matchcharsallowed" class="wiki-link">matchcharsallowed</a></li><li class="notmissing"><a href="#escapes" class="wiki-link">escapes</a></li><li class="notmissing"><a href="#tabsallowed" class="wiki-link">tabsallowed</a></li><li class="notmissing"><a href="#linewrap" class="wiki-link">linewrap</a></li><li class="notmissing"><a href="#casesensitive" class="wiki-link">casesensitive</a></li><li class="notmissing"><a href="#delimiters" class="wiki-link">delimiters</a></li><li class="notmissing"><a href="#indent" class="wiki-link">indent</a></li><li class="notmissing"><a href="#unindent" class="wiki-link">unindent</a></li><li class="notmissing"><a href="#reindent" class="wiki-link">reindent</a></li><li class="notmissing"><a href="#icomment" class="wiki-link">icomment</a></li><li class="notmissing"><a href="#lcomments" class="wiki-link">lcomments</a></li><li class="notmissing"><a href="#bcomments" class="wiki-link">bcomments</a></li><li class="notmissing"><a href="#strings" class="wiki-link">strings</a></li><li class="notmissing"><a href="#keywords" class="wiki-link">keywords</a></li><li class="notmissing"><a href="#symbols" class="wiki-link">symbols</a></li><li class="notmissing"><a href="#numbers" class="wiki-link">numbers</a></li><li class="notmissing"><a href="#punctuation" class="wiki-link">punctuation</a></li><li class="notmissing"><a href="#precompile" class="wiki-link">precompile</a></li><li class="notmissing"><a href="#miscellaneous1miscellaneous2miscellaneous3" class="wiki-link">miscellaneous1, miscellaneous2, miscellaneous3</a></li><li class="notmissing"><a href="#highlight" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#meta" class="wiki-link">meta</a></li><li class="notmissing"><a href="#advanced" class="wiki-link">advanced</a><ul><li class="notmissing"><a href="#highlightclasses" class="wiki-link">Highlight Classes</a></li><li class="notmissing"><a href="#regularexpressions" class="wiki-link">Regular Expressions</a></li><li class="notmissing"><a href="#processingprocedures" class="wiki-link">Processing Procedures</a></li></ul></li><li class="notmissing"><a href="#formatting" class="wiki-link">formatting</a></li></ul></li></ul></li><li class="notmissing"><a href="#example" class="wiki-link">Example</a></li></ul></li><li class="notmissing"><a href="#pluginactiontypes" class="wiki-link">Plugin Action Types</a><ul><li class="notmissing"><a href="#menu" class="wiki-link">menu</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#tab_popup" data-orig-id="tab_popup" class="wiki-link">tab_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description2" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration2" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures2" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#root_popup" data-orig-id="root_popup" class="wiki-link">root_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description3" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration3" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures3" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#dir_popup" data-orig-id="dir_popup" class="wiki-link">dir_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description4" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration4" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures4" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#file_popup" data-orig-id="file_popup" class="wiki-link">file_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description5" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration5" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures5" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#text_binding" data-orig-id="text_binding" class="wiki-link">text_binding</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description6" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration6" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures6" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_start" data-orig-id="on_start" class="wiki-link">on_start</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description7" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration7" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures7" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_open" data-orig-id="on_open" class="wiki-link">on_open</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description8" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration8" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures8" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_focusin" data-orig-id="on_focusin" class="wiki-link">on_focusin</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description9" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration9" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures9" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_close" data-orig-id="on_close" class="wiki-link">on_close</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description10" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration10" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures10" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_quit" data-orig-id="on_quit" class="wiki-link">on_quit</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description11" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration11" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures11" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_reload" data-orig-id="on_reload" class="wiki-link">on_reload</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description12" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclprocedures12" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_save" data-orig-id="on_save" class="wiki-link">on_save</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description13" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration12" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures13" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_uninstall" data-orig-id="on_uninstall" class="wiki-link">on_uninstall</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description14" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration13" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures14" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_rename" data-orig-id="on_rename" class="wiki-link">on_rename</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description15" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration14" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures15" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_duplicate" data-orig-id="on_duplicate" class="wiki-link">on_duplicate</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description16" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration15" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures16" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_delete" data-orig-id="on_delete" class="wiki-link">on_delete</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description17" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration16" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures17" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_trash" data-orig-id="on_trash" class="wiki-link">on_trash</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description18" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration17" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures18" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#syntax" class="wiki-link">syntax</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description19" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration18" class="wiki-link">Tcl Registration</a></li></ul></li></ul></li><li class="notmissing"><a href="#vcs" class="wiki-link">vcs</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description20" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration19" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures19" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_pref_load" data-orig-id="on_pref_load" class="wiki-link">on_pref_load</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description21" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration20" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures20" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#do_pref_ui" data-orig-id="do_pref_ui" class="wiki-link">do_pref_ui</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description22" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration21" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures21" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li></ul></li><li class="notmissing"><a href="#pluginapi" class="wiki-link">Plugin API</a><ul><li class="notmissing"><a href="#api::tke_development" data-orig-id="api::tke_development" class="wiki-link">api::tke_development</a></li><li class="notmissing"><a href="#api::get_plugin_directory" data-orig-id="api::get_plugin_directory" class="wiki-link">api::get_plugin_directory</a></li><li class="notmissing"><a href="#api::get_images_directory" data-orig-id="api::get_images_directory" class="wiki-link">api::get_images_directory</a></li><li class="notmissing"><a href="#api::get_home_directory" data-orig-id="api::get_home_directory" class="wiki-link">api::get_home_directory</a></li><li class="notmissing"><a href="#api::normalize_filename" data-orig-id="api::normalize_filename" class="wiki-link">api::normalize_filename</a></li><li class="notmissing"><a href="#api::register_launcher" data-orig-id="api::register_launcher" class="wiki-link">api::register_launcher</a></li><li class="notmissing"><a href="#api::unregister_launcher" data-orig-id="api::unregister_launcher" class="wiki-link">api::unregister_launcher</a></li><li class="notmissing"><a href="#api::invoke_menu" data-orig-id="api::invoke_menu" class="wiki-link">api::invoke_menu</a></li><li class="notmissing"><a href="#api::log" data-orig-id="api::log" class="wiki-link">api::log</a></li><li class="notmissing"><a href="#api::show_info" data-orig-id="api::show_info" class="wiki-link">api::show_info</a></li><li class="notmissing"><a href="#api::show_error" data-orig-id="api::show_error" class="wiki-link">api::show_error</a></li><li class="notmissing"><a href="#api::get_user_input" data-orig-id="api::get_user_input" class="wiki-link">api::get_user_input</a></li><li class="notmissing"><a href="#api::reset_txt_focus" data-orig-id="api::reset_txt_focus" class="wiki-link">api::reset_txt_focus</a></li><li class="notmissing"><a href="#api::file::current_file_index" data-orig-id="api::file::current_file_index" class="wiki-link">api::file::current_file_index</a></li><li class="notmissing"><a href="#api::file::get_info" data-orig-id="api::file::get_info" class="wiki-link">api::file::get_info</a></li><li class="notmissing"><a href="#api::file::add_buffer" data-orig-id="api::file::add_buffer" class="wiki-link">api::file::add_buffer</a></li><li class="notmissing"><a href="#api::file::add_file" data-orig-id="api::file::add_file" class="wiki-link">api::file::add_file</a></li><li class="notmissing"><a href="#api::sidebar::get_selected_indices" data-orig-id="api::sidebar::get_selected_indices" class="wiki-link">api::sidebar::get_selected_indices</a></li><li class="notmissing"><a href="#api::sidebar::get_info" data-orig-id="api::sidebar::get_info" class="wiki-link">api::sidebar::get_info</a></li><li class="notmissing"><a href="#api::plugin::save_variable" data-orig-id="api::plugin::save_variable" class="wiki-link">api::plugin::save_variable</a></li><li class="notmissing"><a href="#api::plugin::load_variable" data-orig-id="api::plugin::load_variable" class="wiki-link">api::plugin::load_variable</a></li><li class="notmissing"><a href="#api::utils::open_file" data-orig-id="api::utils::open_file" class="wiki-link">api::utils::open_file</a></li><li class="notmissing"><a href="#api::get_default_foreground" data-orig-id="api::get_default_foreground" class="wiki-link">api::get_default_foreground</a></li><li class="notmissing"><a href="#api::get_default_background" data-orig-id="api::get_default_background" class="wiki-link">api::get_default_background</a></li><li class="notmissing"><a href="#api::color_to_rgb" data-orig-id="api::color_to_rgb" class="wiki-link">api::color_to_rgb</a></li><li class="notmissing"><a href="#api::get_complementary_mono_color" data-orig-id="api::get_complementary_mono_color" class="wiki-link">api::get_complementary_mono_color</a></li><li class="notmissing"><a href="#api::rgb_to_hsv" data-orig-id="api::rgb_to_hsv" class="wiki-link">api::rgb_to_hsv</a></li><li class="notmissing"><a href="#api::hsv_to_rgb" data-orig-id="api::hsv_to_rgb" class="wiki-link">api::hsv_to_rgb</a></li><li class="notmissing"><a href="#api::rgb_to_hsl" data-orig-id="api::rgb_to_hsl" class="wiki-link">api::rgb_to_hsl</a></li><li class="notmissing"><a href="#api::hsl_to_rgb" data-orig-id="api::hsl_to_rgb" class="wiki-link">api::hsl_to_rgb</a></li><li class="notmissing"><a href="#api::get_color_values" data-orig-id="api::get_color_values" class="wiki-link">api::get_color_values</a></li><li class="notmissing"><a href="#api::auto_adjust_color" data-orig-id="api::auto_adjust_color" class="wiki-link">api::auto_adjust_color</a></li><li class="notmissing"><a href="#api::auto_mix_colors" data-orig-id="api::auto_mix_colors" class="wiki-link">api::auto_mix_colors</a></li><li class="notmissing"><a href="#api::color_difference" data-orig-id="api::color_difference" class="wiki-link">api::color_difference</a></li><li class="notmissing"><a href="#api::preferences::widget" data-orig-id="api::preferences::widget" class="wiki-link">api::preferences::widget</a></li><li class="notmissing"><a href="#api::preferences::get_value" data-orig-id="api::preferences::get_value" class="wiki-link">api::preferences::get_value</a></li></ul></li><li class="notmissing"><a href="#ctextwidget" class="wiki-link">Ctext Widget</a><ul><li class="notmissing"><a href="#differencesfromtheoriginalctextwidget" class="wiki-link">Differences from the original Ctext widget</a></li><li class="notmissing"><a href="#options" class="wiki-link">Options</a></li><li class="notmissing"><a href="#commandapi" class="wiki-link">Command API</a><ul><li class="notmissing"><a href="#delete" class="wiki-link">delete</a></li><li class="notmissing"><a href="#diffreset" class="wiki-link">diff reset</a></li><li class="notmissing"><a href="#diffranges" class="wiki-link">diff ranges</a></li><li class="notmissing"><a href="#diffsub" class="wiki-link">diff sub</a></li><li class="notmissing"><a href="#diffadd" class="wiki-link">diff add</a></li><li class="notmissing"><a href="#fastdelete" class="wiki-link">fastdelete</a></li><li class="notmissing"><a href="#fastinsert" class="wiki-link">fastinsert</a></li><li class="notmissing"><a href="#fastreplace" class="wiki-link">fastreplace</a></li><li class="notmissing"><a href="#highlight2" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#insert" class="wiki-link">insert</a></li><li class="notmissing"><a href="#inbacktickinbacktickrange" class="wiki-link">inBackTick / inBackTickRange</a></li><li class="notmissing"><a href="#inblockcommentinblockcommentrange" class="wiki-link">inBlockComment / inBlockCommentRange</a></li><li class="notmissing"><a href="#incommentincommentrange" class="wiki-link">inComment / inCommentRange</a></li><li class="notmissing"><a href="#incommentstringincommentstringrange" class="wiki-link">inCommentString / inCommentStringRange</a></li><li class="notmissing"><a href="#indoublequoteindoublequoterange" class="wiki-link">inDoubleQuote / inDoubleQuoteRange</a></li><li class="notmissing"><a href="#inlinecommentinlinecommentrange" class="wiki-link">inLineComment / inLineCommentRange</a></li><li class="notmissing"><a href="#insinglequoteinsinglequoterange" class="wiki-link">inSingleQuote / inSingleQuoteRange</a></li><li class="notmissing"><a href="#instringinstringrange" class="wiki-link">inString / inStringRange</a></li><li class="notmissing"><a href="#isescaped" class="wiki-link">isEscaped</a></li><li class="notmissing"><a href="#editundoable" class="wiki-link">edit undoable</a></li><li class="notmissing"><a href="#editredoable" class="wiki-link">edit redoable</a></li><li class="notmissing"><a href="#editcursorhist" class="wiki-link">edit cursorhist</a></li><li class="notmissing"><a href="#guttercreate" class="wiki-link">gutter create</a></li><li class="notmissing"><a href="#gutterdestroy" class="wiki-link">gutter destroy</a></li><li class="notmissing"><a href="#gutterhide" class="wiki-link">gutter hide</a></li><li class="notmissing"><a href="#gutterset" class="wiki-link">gutter set</a></li><li class="notmissing"><a href="#gutterdelete" class="wiki-link">gutter delete</a></li><li class="notmissing"><a href="#gutterget" class="wiki-link">gutter get</a></li><li class="notmissing"><a href="#gutterclear" class="wiki-link">gutter clear</a></li><li class="notmissing"><a href="#guttercget" class="wiki-link">gutter cget</a></li><li class="notmissing"><a href="#gutterconfigure" class="wiki-link">gutter configure</a></li><li class="notmissing"><a href="#gutternames" class="wiki-link">gutter names</a></li><li class="notmissing"><a href="#replace" class="wiki-link">replace</a></li></ul></li></ul></li><li class="notmissing"><a href="#packages" class="wiki-link">Packages</a><ul><li class="notmissing"><a href="#tclx" class="wiki-link">Tclx</a></li><li class="notmissing"><a href="#tablelist" class="wiki-link">Tablelist</a></li><li class="notmissing"><a href="#tooltip" class="wiki-link">tooltip</a></li><li class="notmissing"><a href="#msgcat" class="wiki-link">msgcat</a></li><li class="notmissing"><a href="#tokenentry" class="wiki-link">tokenentry</a></li><li class="notmissing"><a href="#tabbar" class="wiki-link">tabbar</a></li><li class="notmissing"><a href="#fontchooser" class="wiki-link">fontchooser</a></li></ul></li></ul>
+<ul style="display: block;" id="mkreplaced-toc" class="max-3"><li class="notmissing"><a href="#plugindevelopment" class="wiki-link">Plugin Development</a><ul><li class="notmissing"><a href="#pluginframework" class="wiki-link">Plugin Framework</a><ul><li class="notmissing"><a href="#startingup" class="wiki-link">Starting up</a></li><li class="notmissing"><a href="#pluginmanagement" class="wiki-link">Plugin management</a></li><li class="notmissing"><a href="#interpretercreation" class="wiki-link">Interpreter Creation</a></li><li class="notmissing"><a href="#safeuntrustedinterpreterdescription" class="wiki-link">Safe (Untrusted) Interpreter Description</a></li><li class="notmissing"><a href="#pluginguielementcreation" class="wiki-link">Plugin GUI Element Creation</a></li><li class="notmissing"><a href="#creatinglaunchercommands" class="wiki-link">Creating Launcher Commands</a></li></ul></li><li class="notmissing"><a href="#pluginbundlestructure" class="wiki-link">Plugin Bundle Structure</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#header.tkedat" data-orig-id="header.tkedat" class="wiki-link">header.tkedat</a></li><li class="notmissing"><a href="#registration" class="wiki-link">Registration</a></li><li class="notmissing"><a href="#pluginactionnamespaceandprocedures" class="wiki-link">Plugin Action Namespace and Procedures</a></li><li class="notmissing"><a href="#otherelements" class="wiki-link">Other Elements</a></li></ul></li></ul></li><li class="notmissing"><a href="#creatinganewplugintemplate" class="wiki-link">Creating a New Plugin Template</a></li></ul></li><li class="notmissing"><a href="#syntaxhandling" class="wiki-link">Syntax Handling</a><ul><li class="notmissing"><a href="#fileformat" class="wiki-link">File Format</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#filepatterns" class="wiki-link">filepatterns</a></li><li class="notmissing"><a href="#vimsyntax" class="wiki-link">vimsyntax</a></li><li class="notmissing"><a href="#reference" class="wiki-link">reference</a></li><li class="notmissing"><a href="#embedded" class="wiki-link">embedded</a></li><li class="notmissing"><a href="#matchcharsallowed" class="wiki-link">matchcharsallowed</a></li><li class="notmissing"><a href="#escapes" class="wiki-link">escapes</a></li><li class="notmissing"><a href="#tabsallowed" class="wiki-link">tabsallowed</a></li><li class="notmissing"><a href="#linewrap" class="wiki-link">linewrap</a></li><li class="notmissing"><a href="#casesensitive" class="wiki-link">casesensitive</a></li><li class="notmissing"><a href="#delimiters" class="wiki-link">delimiters</a></li><li class="notmissing"><a href="#indent" class="wiki-link">indent</a></li><li class="notmissing"><a href="#unindent" class="wiki-link">unindent</a></li><li class="notmissing"><a href="#reindent" class="wiki-link">reindent</a></li><li class="notmissing"><a href="#icomment" class="wiki-link">icomment</a></li><li class="notmissing"><a href="#lcomments" class="wiki-link">lcomments</a></li><li class="notmissing"><a href="#bcomments" class="wiki-link">bcomments</a></li><li class="notmissing"><a href="#strings" class="wiki-link">strings</a></li><li class="notmissing"><a href="#keywords" class="wiki-link">keywords</a></li><li class="notmissing"><a href="#symbols" class="wiki-link">symbols</a></li><li class="notmissing"><a href="#numbers" class="wiki-link">numbers</a></li><li class="notmissing"><a href="#punctuation" class="wiki-link">punctuation</a></li><li class="notmissing"><a href="#precompile" class="wiki-link">precompile</a></li><li class="notmissing"><a href="#miscellaneous1miscellaneous2miscellaneous3" class="wiki-link">miscellaneous1, miscellaneous2, miscellaneous3</a></li><li class="notmissing"><a href="#highlight" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#meta" class="wiki-link">meta</a></li><li class="notmissing"><a href="#advanced" class="wiki-link">advanced</a><ul><li class="notmissing"><a href="#highlightclasses" class="wiki-link">Highlight Classes</a></li><li class="notmissing"><a href="#regularexpressions" class="wiki-link">Regular Expressions</a></li><li class="notmissing"><a href="#processingprocedures" class="wiki-link">Processing Procedures</a></li></ul></li><li class="notmissing"><a href="#formatting" class="wiki-link">formatting</a></li></ul></li></ul></li><li class="notmissing"><a href="#example" class="wiki-link">Example</a></li></ul></li><li class="notmissing"><a href="#pluginactiontypes" class="wiki-link">Plugin Action Types</a><ul><li class="notmissing"><a href="#menu" class="wiki-link">menu</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#tab_popup" data-orig-id="tab_popup" class="wiki-link">tab_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description2" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration2" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures2" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#root_popup" data-orig-id="root_popup" class="wiki-link">root_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description3" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration3" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures3" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#dir_popup" data-orig-id="dir_popup" class="wiki-link">dir_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description4" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration4" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures4" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#file_popup" data-orig-id="file_popup" class="wiki-link">file_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description5" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration5" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures5" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#text_binding" data-orig-id="text_binding" class="wiki-link">text_binding</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description6" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration6" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures6" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_start" data-orig-id="on_start" class="wiki-link">on_start</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description7" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration7" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures7" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_open" data-orig-id="on_open" class="wiki-link">on_open</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description8" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration8" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures8" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_focusin" data-orig-id="on_focusin" class="wiki-link">on_focusin</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description9" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration9" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures9" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_close" data-orig-id="on_close" class="wiki-link">on_close</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description10" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration10" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures10" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_quit" data-orig-id="on_quit" class="wiki-link">on_quit</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description11" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration11" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures11" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_reload" data-orig-id="on_reload" class="wiki-link">on_reload</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description12" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclprocedures12" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_save" data-orig-id="on_save" class="wiki-link">on_save</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description13" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration12" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures13" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_uninstall" data-orig-id="on_uninstall" class="wiki-link">on_uninstall</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description14" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration13" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures14" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_rename" data-orig-id="on_rename" class="wiki-link">on_rename</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description15" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration14" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures15" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_duplicate" data-orig-id="on_duplicate" class="wiki-link">on_duplicate</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description16" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration15" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures16" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_delete" data-orig-id="on_delete" class="wiki-link">on_delete</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description17" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration16" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures17" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_trash" data-orig-id="on_trash" class="wiki-link">on_trash</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description18" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration17" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures18" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#syntax" class="wiki-link">syntax</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description19" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration18" class="wiki-link">Tcl Registration</a></li></ul></li></ul></li><li class="notmissing"><a href="#vcs" class="wiki-link">vcs</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description20" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration19" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures19" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_pref_load" data-orig-id="on_pref_load" class="wiki-link">on_pref_load</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description21" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration20" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures20" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#do_pref_ui" data-orig-id="do_pref_ui" class="wiki-link">do_pref_ui</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description22" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration21" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures21" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li></ul></li><li class="notmissing"><a href="#pluginapi" class="wiki-link">Plugin API</a><ul><li class="notmissing"><a href="#api::tke_development" data-orig-id="api::tke_development" class="wiki-link">api::tke_development</a></li><li class="notmissing"><a href="#api::get_plugin_directory" data-orig-id="api::get_plugin_directory" class="wiki-link">api::get_plugin_directory</a></li><li class="notmissing"><a href="#api::get_images_directory" data-orig-id="api::get_images_directory" class="wiki-link">api::get_images_directory</a></li><li class="notmissing"><a href="#api::get_home_directory" data-orig-id="api::get_home_directory" class="wiki-link">api::get_home_directory</a></li><li class="notmissing"><a href="#api::normalize_filename" data-orig-id="api::normalize_filename" class="wiki-link">api::normalize_filename</a></li><li class="notmissing"><a href="#api::register_launcher" data-orig-id="api::register_launcher" class="wiki-link">api::register_launcher</a></li><li class="notmissing"><a href="#api::unregister_launcher" data-orig-id="api::unregister_launcher" class="wiki-link">api::unregister_launcher</a></li><li class="notmissing"><a href="#api::invoke_menu" data-orig-id="api::invoke_menu" class="wiki-link">api::invoke_menu</a></li><li class="notmissing"><a href="#api::log" data-orig-id="api::log" class="wiki-link">api::log</a></li><li class="notmissing"><a href="#api::show_info" data-orig-id="api::show_info" class="wiki-link">api::show_info</a></li><li class="notmissing"><a href="#api::show_error" data-orig-id="api::show_error" class="wiki-link">api::show_error</a></li><li class="notmissing"><a href="#api::get_user_input" data-orig-id="api::get_user_input" class="wiki-link">api::get_user_input</a></li><li class="notmissing"><a href="#api::reset_txt_focus" data-orig-id="api::reset_txt_focus" class="wiki-link">api::reset_txt_focus</a></li><li class="notmissing"><a href="#api::file::current_file_index" data-orig-id="api::file::current_file_index" class="wiki-link">api::file::current_file_index</a></li><li class="notmissing"><a href="#api::file::get_info" data-orig-id="api::file::get_info" class="wiki-link">api::file::get_info</a></li><li class="notmissing"><a href="#api::file::add_buffer" data-orig-id="api::file::add_buffer" class="wiki-link">api::file::add_buffer</a></li><li class="notmissing"><a href="#api::file::add_file" data-orig-id="api::file::add_file" class="wiki-link">api::file::add_file</a></li><li class="notmissing"><a href="#api::edit::get_index" data-orig-id="api::edit::get_index" class="wiki-link">api::edit::get_index</a></li><li class="notmissing"><a href="#api::edit::delete" data-orig-id="api::edit::delete" class="wiki-link">api::edit::delete</a></li><li class="notmissing"><a href="#api::edit::toggle_case" data-orig-id="api::edit::toggle_case" class="wiki-link">api::edit::toggle_case</a></li><li class="notmissing"><a href="#api::edit::lower_case" data-orig-id="api::edit::lower_case" class="wiki-link">api::edit::lower_case</a></li><li class="notmissing"><a href="#api::edit::upper_case" data-orig-id="api::edit::upper_case" class="wiki-link">api::edit::upper_case</a></li><li class="notmissing"><a href="#api::edit::rot13" data-orig-id="api::edit::rot13" class="wiki-link">api::edit::rot13</a></li><li class="notmissing"><a href="#api::edit::title_case" data-orig-id="api::edit::title_case" class="wiki-link">api::edit::title_case</a></li><li class="notmissing"><a href="#api::edit::join_lines" data-orig-id="api::edit::join_lines" class="wiki-link">api::edit::join_lines</a></li><li class="notmissing"><a href="#api::edit::bubble_up" data-orig-id="api::edit::bubble_up" class="wiki-link">api::edit::bubble_up</a></li><li class="notmissing"><a href="#api::edit::bubble_down" data-orig-id="api::edit::bubble_down" class="wiki-link">api::edit::bubble_down</a></li><li class="notmissing"><a href="#api::edit::comment" data-orig-id="api::edit::comment" class="wiki-link">api::edit::comment</a></li><li class="notmissing"><a href="#api::edit::uncomment" data-orig-id="api::edit::uncomment" class="wiki-link">api::edit::uncomment</a></li><li class="notmissing"><a href="#api::edit::toggle_comment" data-orig-id="api::edit::toggle_comment" class="wiki-link">api::edit::toggle_comment</a></li><li class="notmissing"><a href="#api::edit::indent" data-orig-id="api::edit::indent" class="wiki-link">api::edit::indent</a></li><li class="notmissing"><a href="#api::edit::unindent" data-orig-id="api::edit::unindent" class="wiki-link">api::edit::unindent</a></li><li class="notmissing"><a href="#api::edit::move_cursor" data-orig-id="api::edit::move_cursor" class="wiki-link">api::edit::move_cursor</a></li><li class="notmissing"><a href="#api::edit::format" data-orig-id="api::edit::format" class="wiki-link">api::edit::format</a></li><li class="notmissing"><a href="#api::edit::unformat" data-orig-id="api::edit::unformat" class="wiki-link">api::edit::unformat</a></li><li class="notmissing"><a href="#api::sidebar::get_selected_indices" data-orig-id="api::sidebar::get_selected_indices" class="wiki-link">api::sidebar::get_selected_indices</a></li><li class="notmissing"><a href="#api::sidebar::get_info" data-orig-id="api::sidebar::get_info" class="wiki-link">api::sidebar::get_info</a></li><li class="notmissing"><a href="#api::plugin::save_variable" data-orig-id="api::plugin::save_variable" class="wiki-link">api::plugin::save_variable</a></li><li class="notmissing"><a href="#api::plugin::load_variable" data-orig-id="api::plugin::load_variable" class="wiki-link">api::plugin::load_variable</a></li><li class="notmissing"><a href="#api::utils::open_file" data-orig-id="api::utils::open_file" class="wiki-link">api::utils::open_file</a></li><li class="notmissing"><a href="#api::get_default_foreground" data-orig-id="api::get_default_foreground" class="wiki-link">api::get_default_foreground</a></li><li class="notmissing"><a href="#api::get_default_background" data-orig-id="api::get_default_background" class="wiki-link">api::get_default_background</a></li><li class="notmissing"><a href="#api::color_to_rgb" data-orig-id="api::color_to_rgb" class="wiki-link">api::color_to_rgb</a></li><li class="notmissing"><a href="#api::get_complementary_mono_color" data-orig-id="api::get_complementary_mono_color" class="wiki-link">api::get_complementary_mono_color</a></li><li class="notmissing"><a href="#api::rgb_to_hsv" data-orig-id="api::rgb_to_hsv" class="wiki-link">api::rgb_to_hsv</a></li><li class="notmissing"><a href="#api::hsv_to_rgb" data-orig-id="api::hsv_to_rgb" class="wiki-link">api::hsv_to_rgb</a></li><li class="notmissing"><a href="#api::rgb_to_hsl" data-orig-id="api::rgb_to_hsl" class="wiki-link">api::rgb_to_hsl</a></li><li class="notmissing"><a href="#api::hsl_to_rgb" data-orig-id="api::hsl_to_rgb" class="wiki-link">api::hsl_to_rgb</a></li><li class="notmissing"><a href="#api::get_color_values" data-orig-id="api::get_color_values" class="wiki-link">api::get_color_values</a></li><li class="notmissing"><a href="#api::auto_adjust_color" data-orig-id="api::auto_adjust_color" class="wiki-link">api::auto_adjust_color</a></li><li class="notmissing"><a href="#api::auto_mix_colors" data-orig-id="api::auto_mix_colors" class="wiki-link">api::auto_mix_colors</a></li><li class="notmissing"><a href="#api::color_difference" data-orig-id="api::color_difference" class="wiki-link">api::color_difference</a></li><li class="notmissing"><a href="#api::preferences::widget" data-orig-id="api::preferences::widget" class="wiki-link">api::preferences::widget</a></li><li class="notmissing"><a href="#api::preferences::get_value" data-orig-id="api::preferences::get_value" class="wiki-link">api::preferences::get_value</a></li></ul></li><li class="notmissing"><a href="#ctextwidget" class="wiki-link">Ctext Widget</a><ul><li class="notmissing"><a href="#differencesfromtheoriginalctextwidget" class="wiki-link">Differences from the original Ctext widget</a></li><li class="notmissing"><a href="#options" class="wiki-link">Options</a></li><li class="notmissing"><a href="#commandapi" class="wiki-link">Command API</a><ul><li class="notmissing"><a href="#delete" class="wiki-link">delete</a></li><li class="notmissing"><a href="#diffreset" class="wiki-link">diff reset</a></li><li class="notmissing"><a href="#diffranges" class="wiki-link">diff ranges</a></li><li class="notmissing"><a href="#diffsub" class="wiki-link">diff sub</a></li><li class="notmissing"><a href="#diffadd" class="wiki-link">diff add</a></li><li class="notmissing"><a href="#fastdelete" class="wiki-link">fastdelete</a></li><li class="notmissing"><a href="#fastinsert" class="wiki-link">fastinsert</a></li><li class="notmissing"><a href="#fastreplace" class="wiki-link">fastreplace</a></li><li class="notmissing"><a href="#highlight2" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#insert" class="wiki-link">insert</a></li><li class="notmissing"><a href="#inbacktickinbacktickrange" class="wiki-link">inBackTick / inBackTickRange</a></li><li class="notmissing"><a href="#inblockcommentinblockcommentrange" class="wiki-link">inBlockComment / inBlockCommentRange</a></li><li class="notmissing"><a href="#incommentincommentrange" class="wiki-link">inComment / inCommentRange</a></li><li class="notmissing"><a href="#incommentstringincommentstringrange" class="wiki-link">inCommentString / inCommentStringRange</a></li><li class="notmissing"><a href="#indoublequoteindoublequoterange" class="wiki-link">inDoubleQuote / inDoubleQuoteRange</a></li><li class="notmissing"><a href="#inlinecommentinlinecommentrange" class="wiki-link">inLineComment / inLineCommentRange</a></li><li class="notmissing"><a href="#insinglequoteinsinglequoterange" class="wiki-link">inSingleQuote / inSingleQuoteRange</a></li><li class="notmissing"><a href="#instringinstringrange" class="wiki-link">inString / inStringRange</a></li><li class="notmissing"><a href="#isescaped" class="wiki-link">isEscaped</a></li><li class="notmissing"><a href="#editundoable" class="wiki-link">edit undoable</a></li><li class="notmissing"><a href="#editredoable" class="wiki-link">edit redoable</a></li><li class="notmissing"><a href="#editcursorhist" class="wiki-link">edit cursorhist</a></li><li class="notmissing"><a href="#guttercreate" class="wiki-link">gutter create</a></li><li class="notmissing"><a href="#gutterdestroy" class="wiki-link">gutter destroy</a></li><li class="notmissing"><a href="#gutterhide" class="wiki-link">gutter hide</a></li><li class="notmissing"><a href="#gutterset" class="wiki-link">gutter set</a></li><li class="notmissing"><a href="#gutterdelete" class="wiki-link">gutter delete</a></li><li class="notmissing"><a href="#gutterget" class="wiki-link">gutter get</a></li><li class="notmissing"><a href="#gutterclear" class="wiki-link">gutter clear</a></li><li class="notmissing"><a href="#guttercget" class="wiki-link">gutter cget</a></li><li class="notmissing"><a href="#gutterconfigure" class="wiki-link">gutter configure</a></li><li class="notmissing"><a href="#gutternames" class="wiki-link">gutter names</a></li><li class="notmissing"><a href="#replace" class="wiki-link">replace</a></li></ul></li></ul></li><li class="notmissing"><a href="#packages" class="wiki-link">Packages</a><ul><li class="notmissing"><a href="#tclx" class="wiki-link">Tclx</a></li><li class="notmissing"><a href="#tablelist" class="wiki-link">Tablelist</a></li><li class="notmissing"><a href="#tooltip" class="wiki-link">tooltip</a></li><li class="notmissing"><a href="#msgcat" class="wiki-link">msgcat</a></li><li class="notmissing"><a href="#tokenentry" class="wiki-link">tokenentry</a></li><li class="notmissing"><a href="#tabbar" class="wiki-link">tabbar</a></li><li class="notmissing"><a href="#fontchooser" class="wiki-link">fontchooser</a></li></ul></li></ul>
 
 
 
@@ -2523,6 +2523,1144 @@ if {[api::get_user_input “Filename:” filename 1]} {
 </tr>
 </tbody>
 </table>
+
+<h2 id="api::edit::get_index">api::edit::get_index</h2>
+
+<p>Returns a text widget index relative to a starting position (by default, the starting position is the current insertion cursor position) based on a position type and associated arguments.</p>
+
+<p>It is highly recommended that you use this procedure for calculating indices as it has bounds checks and takes advantage of some under-the-hood performance enhancements.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::get_index txt position options</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>Returns a text widget index.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname to a text widget.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">position</td>
+	<td style="text-align:left;">Type of position relative to a starting index.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">options</td>
+	<td style="text-align:left;">Options that are used in conjunction with the position to calculate the index.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Position Values</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Position</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">left</td>
+	<td style="text-align:left;">Index <em>num</em> characters left of the starting position, staying on the same line.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">right</td>
+	<td style="text-align:left;">Index <em>num</em> characters right of the starting position, staying on the same line.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">up</td>
+	<td style="text-align:left;">Index <em>num</em> lines above the starting position, remaining in the same column, if possible.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">down</td>
+	<td style="text-align:left;">Index <em>num</em> lines below the starting position, remaining in the same column, if possible.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">first</td>
+	<td style="text-align:left;">Index of the first line/column in the buffer.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">last</td>
+	<td style="text-align:left;">Index of the last line/column in the buffer.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">char</td>
+	<td style="text-align:left;">Index of the _num_’th character before or after the starting position.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">dchar</td>
+	<td style="text-align:left;">Index of _num_’th character before or after the starting position.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">findchar</td>
+	<td style="text-align:left;">Index of the _num_’th specified character before or after the starting position.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">firstchar</td>
+	<td style="text-align:left;">Index of first non-whitespace character of the line specified by startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">lastchar</td>
+	<td style="text-align:left;">Index of last non-whitespace character of the line specified by startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">wordstart</td>
+	<td style="text-align:left;">Index of the first character of the word which is <em>num</em> words before or after th startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">wordend</td>
+	<td style="text-align:left;">Index of the last character+1 of the word which is <em>num</em> words before or after the startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">WORDstart</td>
+	<td style="text-align:left;">Index of the first character of the WORD which is <em>num</em> WORDs before or after startpos. A WORD is defined as a list of sequential non-whitespace characters.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">WORDend</td>
+	<td style="text-align:left;">Index of the last character+1 of the WORD which is <em>num</em> WORDs before or after startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">column</td>
+	<td style="text-align:left;">Index of the character in the line containing startpos at the _num_’th position.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">linenum</td>
+	<td style="text-align:left;">Index of the first non-whitespace character on the given line.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">linestart</td>
+	<td style="text-align:left;">Index of the beginning of the line containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">lineend</td>
+	<td style="text-align:left;">Index of the ending of the line containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">dispstart</td>
+	<td style="text-align:left;">Index of the first character that is displayed in the line containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">dispmid</td>
+	<td style="text-align:left;">Index of the middle-most character that is displayed in the line containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">dispend</td>
+	<td style="text-align:left;">Index of the last character that is displayed in the line containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">sentence</td>
+	<td style="text-align:left;">Index of the first character of a sentence before or after startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">paragraph</td>
+	<td style="text-align:left;">Index of the first character of a paragraph before or after startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">screentop</td>
+	<td style="text-align:left;">Index of the start of the first line that is displayed in the buffer.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">screenmid</td>
+	<td style="text-align:left;">Index of the start of the middle-most line that is displayed in the buffer.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">screenbot</td>
+	<td style="text-align:left;">Index of the start of the last line that is displayed in the buffer.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">numberstart</td>
+	<td style="text-align:left;">First numerical character of the word containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">numberend</td>
+	<td style="text-align:left;">Last numerical character of the word containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">spacestart</td>
+	<td style="text-align:left;">First whitespace character of the whitespace containing startpos.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">spaceend</td>
+	<td style="text-align:left;">Last whitespace character of the whitespace containing startpos.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong> Option Values</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Options</th>
+	<th style="text-align:left;">Default</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;"><strong>-dir</strong> (<strong>next</strong> or <strong>prev</strong>)</td>
+	<td style="text-align:left;"><strong>next</strong></td>
+	<td style="text-align:left;">Specifies direction from starting position.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>-startpos</strong> <em>index</em></td>
+	<td style="text-align:left;"><strong>insert</strong></td>
+	<td style="text-align:left;">Specifies the starting index of calculation.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>-num</strong> <em>number</em></td>
+	<td style="text-align:left;">1</td>
+	<td style="text-align:left;">Specifies the number to apply.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>-char</strong> <em>character</em></td>
+	<td style="text-align:left;">“”</td>
+	<td style="text-align:left;">Used with <strong>findchar</strong> position type. Specifies the character to find.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>-exclusive</strong> (<strong>0</strong> or <strong>1</strong>)</td>
+	<td style="text-align:left;">0</td>
+	<td style="text-align:left;">If set to 1, returns character position before calculated index.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>-column</strong> <em>varname</em></td>
+	<td style="text-align:left;">“”</td>
+	<td style="text-align:left;">Specifies the name of a variable containing the column to use for <strong>up</strong> and <strong>down</strong> positions.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>-adjust</strong> <em>index_modifier</em></td>
+	<td style="text-align:left;">“”</td>
+	<td style="text-align:left;">Adjusts the calculated index by the given value before returning the result.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code>proc foobar {} {  
+  set file_index [api::file::current_file_index]  
+  set txt [api::file::get_info $file_index txt]
+
+  # Get the index of the 10'th character to the right of the insertion cursor  
+  set index [api::edit::get_index $txt right -num 10]
+
+  # Move the cursor to the calculated index  
+  api::edit::move_cursor $txt $index  
+}
+</code></pre>
+
+<h2 id="api::edit::delete">api::edit::delete</h2>
+
+<p>Deletes all characters between the specified starting and ending positions for the given text widget.</p>
+
+<p><strong>Note</strong>: This is the preferred method of deleting text within an editing buffer.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::delete txt startpos endpos copy</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to delete text from.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting text widget index to delete from.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending text widget index to delete to. The character located at this position will not be deleted.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">copy</td>
+	<td style="text-align:left;">If set to 1, copies the deleted text to the clipboard.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Deletes from the current insertion cursor to the end of the current line  
+api::edit::delete $txt insert [api::edit::get_index $txt lineend] 1
+</code></pre>
+
+<h2 id="api::edit::toggle_case">api::edit::toggle_case</h2>
+
+<p>Toggles the case of all characters in the range of startpos to endpos&#8211;1, inclusive. If text is selected, the selected text is toggled instead of the given range.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::toggle_case txt startpos endpos</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting text widget index to toggle.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending text widget index of range to toggle. The character at this position will not be toggled.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Toggle the case of the current sentence  
+set sentence_start [api::edit::get_index $txt sentence -dir prev]  
+set sentence_end [api::edit::get_index $txt sentence -dir next -startpos $sentence_start]
+
+api::edit::toggle_case $txt $sentence_start $sentence_end
+</code></pre>
+
+<h2 id="api::edit::lower_case">api::edit::lower_case</h2>
+
+<p>Transforms all text in the given range of startpos to endpos&#8211;1, inclusive, to lower case. If text is selected, the selected text is transformed instead of the given range.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::lower_case txt startpos endpos</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting text widget index of range to lowercase.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending text widget index of range to lowercase. The character at this position will not be modified.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Make the current character lowercased  
+api::edit::lower_case $txt insert &quot;insert+1c&quot;
+</code></pre>
+
+<h2 id="api::edit::upper_case">api::edit::upper_case</h2>
+
+<p>Transforms all text in the given range of startpos to endpos&#8211;1, inclusive, to upper case. If text is selected, the selected text is transformed instead of the given range.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::upper_case txt startpos endpos</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting text widget index of range to uppercase.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending text widget index of range to uppercase. The character at this position will not be modified.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Make the previous character uppercase  
+api::edit::upper_case $txt insert-1c insert
+</code></pre>
+
+<h2 id="api::edit::rot13">api::edit::rot13</h2>
+
+<p>Transforms all text in the given range of startpos to endpos&#8211;1, inclusive, to its rot13 equivalent. If text is selected, the selected text is transformed instead of the given range.</p>
+
+<p>The rot13 encoding transforms each character by rotating it character by 13 characters in the alphabet (i.e., an &#8216;a&#8217; would be changed to an &#8216;n&#8217; and vice versa). This is a simple/poor method for encoding information. It can be decoded by performing the transformation on the same text a second time.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::rot13 txt startpos endpos</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to rot13.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting text widget index in range to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending text widget index in range to modify. The character at this index will not be modified.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Encode the entire file using rot13  
+api::edit::rot13 $txt 1.0 end
+</code></pre>
+
+<h2 id="api::edit::title_case">api::edit::title_case</h2>
+
+<p>Transforms all text in the given range of startpos to endpos&#8211;1, inclusive, to title case (first character of each word is capitalized while the rest of the characters are set to lowercase).</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::title_case txt startpos endpos</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting text widget index in range to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending text widget index in range to modify. The character at this position will not be modified.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Titlecase all text within the next set of double-quotes  
+set startpos [api::edit::get_index $txt findchar -char \&quot; -dir next -num 1]  
+set endpos [api::edit::get_index $txt findchar -char \&quot; -dir next -num 2]
+
+api::edit::title_case $txt $startpos $endpos 
+</code></pre>
+
+<h2 id="api::edit::join_lines">api::edit::join_lines</h2>
+
+<p>Joins the given number of lines, guaranteeing that on a single space separates the text of each joined line, starting at the current insertion cursor position. If text is selected, any line that contains a selection will be joined together.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::join_lines txt ?num?</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">num</td>
+	<td style="text-align:left;">Number of lines below the current line to join to the current line. Default is 1.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Join the next three lines to the current line  
+api::join_lines $txt 3
+</code></pre>
+
+<h2 id="api::edit::bubble_up">api::edit::bubble_up</h2>
+
+<p>Moves the current line up by one (unless the current line is the first line in the buffer. If any text is selected, lines containing a selection will be moved up by one line.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::bubble_up txt</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Move the current line up  
+api::edit::bubble_up $txt
+</code></pre>
+
+<h2 id="api::edit::bubble_down">api::edit::bubble_down</h2>
+
+<p>Moves the current line down by one (unless the current line is the last line in the buffer. If any text is selected, lines containing a selection will be moved down by one line.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::bubble_down txt</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code>Move the current row down  
+api::edit::bubble_down $txt
+</code></pre>
+
+<h2 id="api::edit::comment">api::edit::comment</h2>
+
+<p>Comments the currently selected lines using the current language&#8217;s proper line comment syntax.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::comment txt</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Comment out the current paragraph  
+set startpos [api::edit::get_index $txt paragraph -dir prev]  
+set endpos [api::edit::get_index $txt paragraph -dir next -startpos $startpos]
+
+# Select the text and comment it out  
+$txt tag add sel $startpos $endpos  
+api::edit::comment $txt
+</code></pre>
+
+<h2 id="api::edit::uncomment">api::edit::uncomment</h2>
+
+<p>Removes any line comments from selected lines.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::uncomment txt</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code>Remove comment from current line  
+$txt tag add sel insert &quot;insert lineend&quot;  
+api::edit::uncomment $txt
+</code></pre>
+
+<h2 id="api::edit::toggle_comment">api::edit::toggle_comment</h2>
+
+<p>Toggles the comment status of the currently selected lines.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::toggle_comment</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Toggle comments of the currently selected line  
+$txt tag add sel insert &quot;insert lineend&quot;  
+api::edit::toggle_comment $txt
+</code></pre>
+
+<h2 id="api::edit::indent">api::edit::indent</h2>
+
+<p>Indents the given range of text between startpos and endpos&#8211;1, inclusive, by one level of indentation. If text is currently selected, the selected text is indented instead.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::indent txt ?startpos ?endpos??</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting position of text to indent. Indentation will be performed on the whole line that this index is on. Defaults to the current insertion point.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending position of text to indent. Indentation will be performed on the whole line that this index is on. Defaults to the current insertion point.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Indent the current paragraph  
+set startpos [api::edit::get_index $txt paragraph -dir prev]  
+set endpos [api::edit::get_index $txt paragraph -dir next -startpos $startpos]
+
+api::edit::indent $txt $startpos $endpos
+</code></pre>
+
+<h2 id="api::edit::unindent">api::edit::unindent</h2>
+
+<p>Unindents the given range of text between startpos and endpos&#8211;1, inclusive, by one level of indentation. If text is currently selected, the selected text is unindented instead.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::unindent txt ?startpos ?endpos??</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to modify.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">startpos</td>
+	<td style="text-align:left;">Starting position of text to indent. Indentation will be performed on the whole line that this index is on. Defaults to the current insertion point if not specified.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">endpos</td>
+	<td style="text-align:left;">Ending position of text to indent. Indentation will be performed on the whole line that this index is on. Defaults to the current insertion point if not specified.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Unindent the line above the current line  
+api::edit::unindent $txt [api::edit::get_index $txt up]
+</code></pre>
+
+<h2 id="api::edit::move_cursor">api::edit::move_cursor</h2>
+
+<p>Moves the cursor to the given cursor position. The value of position and args are the same as those of the ref api::edit::get_index.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::move_cursor txt pos</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to change.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">pos</td>
+	<td style="text-align:left;">Text widget index to set the insertion cursor to.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Move the insertion cursor to the first non-whitespace character of the next line.  
+api::edit::move_cursor $txt firstchar -dir next
+</code></pre>
+
+<h2 id="api::edit::format">api::edit::format</h2>
+
+<p>Adds text formatting syntax to current word of the given type. If text is currently selected, the formatting will be applied to all of the selected text.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::format txt type</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to format.</td>
+</tr>
+<tr>
+	<td style="text-align:left;">type</td>
+	<td style="text-align:left;">Type of formatting to apply. Only values that are supported by the current syntax are applied.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong> Type Values </strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Type</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;"><strong>bold</strong></td>
+	<td style="text-align:left;">Emboldens text.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>italics</strong></td>
+	<td style="text-align:left;">Italicizes text.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>underline</strong></td>
+	<td style="text-align:left;">Underlines text.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>strikethrough</strong></td>
+	<td style="text-align:left;">Draws line through text.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>highlight</strong></td>
+	<td style="text-align:left;">Adds highlight color to background of text.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>superscript</strong></td>
+	<td style="text-align:left;">Superscripts text.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>subscript</strong></td>
+	<td style="text-align:left;">Subscripts text.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>code</strong></td>
+	<td style="text-align:left;">Specifies that the text should be displayed as code.</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>header1</strong></td>
+	<td style="text-align:left;">HTML header1</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>header2</strong></td>
+	<td style="text-align:left;">HTML header2</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>header3</strong></td>
+	<td style="text-align:left;">HTML header3</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>header4</strong></td>
+	<td style="text-align:left;">HTML header4</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>header5</strong></td>
+	<td style="text-align:left;">HTML header5</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>header6</strong></td>
+	<td style="text-align:left;">HTML header6</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>unordered</strong></td>
+	<td style="text-align:left;">Unordered list item</td>
+</tr>
+<tr>
+	<td style="text-align:left;"><strong>ordered</strong></td>
+	<td style="text-align:left;">Ordered list item</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code># Add &lt;b&gt;&lt;/b&gt; (bold) around the current HTML word  
+api::edit::format $txt bold
+</code></pre>
+
+<h2 id="api::edit::unformat">api::edit::unformat</h2>
+
+<p>Removes any formatting that is applied to the selected text.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::edit::unformat txt</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>None.</p>
+
+<p><strong>Parameters</strong></p>
+
+<table>
+<colgroup>
+<col style="text-align:left;"/>
+<col style="text-align:left;"/>
+</colgroup>
+
+<thead>
+<tr>
+	<th style="text-align:left;">Parameter</th>
+	<th style="text-align:left;">Description</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+	<td style="text-align:left;">txt</td>
+	<td style="text-align:left;">Pathname of text widget to unformat.</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Example</strong></p>
+
+<pre><code>Remove all formatting applied to the current line  
+$txt tag add sel &quot;insert linestart&quot; &quot;insert lineend&quot;  
+api::edit::unformat $txt
+</code></pre>
 
 <h2 id="api::sidebar::get_selected_indices">api::sidebar::get_selected_indices</h2>
 

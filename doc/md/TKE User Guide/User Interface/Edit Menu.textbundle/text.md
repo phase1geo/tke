@@ -15,7 +15,7 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Toggle Comment | Ctrl-/ | Ctrl-/ | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
 | Indentation / Indent | Ctrl-] | Ctrl-] | Indents the selected text by one level of indentation. |
 | Indentation / Unindent | Ctrl-[ | Ctrl-[ | Unindents the selected text by one level of indentation. |
-| Indentation / Format Text | Ctrl-\| | Ctrl-\| | Modifies either the selected text or the entire file content (depending on whether text is currently selected or not) to match the indentation in the current context. |
+| Indentation / Format Text | Ctrl-&#124; | Ctrl-&#124; | Modifies either the selected text or the entire file content (depending on whether text is currently selected or not) to match the indentation in the current context. |
 | Indentation / Indent Off | | | Turns indentation mode off for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the first column of the next row. |
 | Indentation / Auto-Indent | | | Turns auto-indentation mode on for the current editor.  Hitting the ENTER key in the editing window will place the cursor in the same column as the previous line’s starting character. |
 | Indentation / Smart Indent | | | Turns smart indentation mode on for the current editor.  Hitting the ENTER key in the editing window will perform the proper indentation based on the current language and context.  If a character sequence is entered that completes an indentation, the character sequence will be adjusted to the proper indentation level. |
@@ -84,6 +84,27 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Templates / Delete | | | Deletes an existing named template. |
 | Templates / Reload | | | Reloads the names of the existing templates. |
 | Emmet / Expand Abbreviation | Ctrl-E | Ctrl-E | Expands the Emmet abbreviation syntax that is found to the left of the cursor (i.e., cursor must be placed on the right side of the abbreviation for proper expansion to occur). |
+| Emmet / Wrap With Abbreviation | | | Allows the user to wrap selected text in the buffer with an Emmet abbreviation. When this option is selected, an entry field at the bottom of the window will allow you to add the Emmet wrapping syntax. When the RETURN key is entered, the abbreviation will be expanded and the selected text inserted into the expansion in the appropriate location. The expanded text will then replace the selected text in the current buffer. |
+| Emmet / Balance Outward | | | Selects text in the buffer that contains the current tag based on the current insertion cursor. Calling this function again will expand the selection to include the parent tag. |
+| Emmet / Balance Inward | | | Selects text in the buffer that contains the current tag based on the current insertion cursor. Calling this function again will shrink the selection to include child tags. |
+| Emmet / Go to Matching Pair | | | Places the insertion at the beginning of the current tags matching pair (i.e., if the insertion cursor is within an ending tag, this action will move the cursor to the beginning of the start tag that matches this tag). |
+| Emmet / Toggle Comment | | | Toggles the comment status of the current HTML/XML node. |
+| Emmet / Split/Join Tag | | | If the current tag is both a start and and end tag (i.e., \<p /\>), splits the tag into both a starting and ending tag (i.e., \<p\>\</p\>). Likewise, if the cursor is with a split HTML/XML node, the tags will be combined to a combination tag (and all child content will be deleted). |
+| Emmet / Remove Tag | | | Removes the tag (and its matching tag) from the buffer and adjusts the indentation of child nodes. |
+| Emmet / Merge Lines | | | Joins all lines that are a part of the current HTML/XML node into a single line. |
+| Emmet / Update Image Size | | | If the insertion cursor is within an image tag, this action will insert and/or update the width and height attributes to match the image specified in the src attribute. |
+| Emmet / Encode/Decode Image to Data:URL | | | If the insertion cursor is within an \<img\> src attribute value, it will convert the image file into an embedded resource using base64. Likewise, if the src attribute value contains embedded resource information, it will decode the base64 information and save it as a local file that you can specify with a save dialog box. |
+| Emmet / Next Edit Point | | | Moves the insertion cursor to the next edit point after the current insertion cursor as defined by the Emmet action description. |
+| Emmet / Previous Edit Point | | | Moves the insertion cursor to the nex edit point before the current insertion cursor as defined by the Emmet action description. |
+| Emmet / Select Next Item | | | Selects the next HTML/XML item after the current insertion cursor as defined by the Emmet action description. |
+| Emmet / Select Previous Item | | | Selects the next HTML/XML item before the current insertion cursor as defined by the Emmet action description. |
+| Emmet / Evaluate Math Expression | | | When the cursor is placed at the end of a mathematical equation that does not contain any spaces within itself, the equation will be evaluated and the result will replace expression in the editing buffer. Any valid Tcl expression syntax can be used. |
+| Emmet / Increment by 10 | Ctrl-Shift-Up | Ctrl-Shift-Up | If the insertion cursor is placed within a number, this action will increase the number by 10. |
+| Emmet / Increment by 1 | Ctrl-Up | Ctrl-Up | If the insertion cursor is placed within a number, this action will increase the number by 1. |
+| Emmet / Increment by 0.1 | Shift-Up | Shift-Up | If the insertion cursor is placed within a number, this action will increase the number by 0.1 |
+| Emmet / Decrement by 10 | Ctrl-Shift-Up | Ctrl-Shift-Up | If the insertion cursor is placed within a number, this action will decrease the number by 10. |
+| Emmet / Decrement by 1 | Ctrl-Up | Ctrl-Up | If the insertion cursor is placed within a number, this action will decrease the number by 1. |
+| Emmet / Decrement by 0.1 | Shift-Up | Shift-Up | If the insertion cursor is placed within a number, this action will decrease the number by 0.1 |
 | Emmet / Edit Custom Abbreviations | | | Displays the custom Emmet abbreviation file in a new editing buffer allowing the user to change, remove or add custom Emmet syntax to their liking. Saving the editing buffer will cause the file changes to go into effect immediately. |
 | Preferences / Edit User - Global | Cmd-, | Ctrl-, | Displays the user’s global (cross-language) preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
 | Preferences / Edit User - Language | | | Displays the user’s current language preferences in an editor tab.  Saving changes made to this tab will immediately update the environment without restarting. |
