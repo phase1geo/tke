@@ -56,6 +56,18 @@
 					<integer>27</integer>
 				</dict>
 			</dict>
+			<key>api--edit--get_index.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515489627.55951297</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>5</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
 			<key>api--file--add_buffer.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -144,22 +156,6 @@
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>7</integer>
-				</dict>
-			</dict>
-			<key>api--get_images_directory - 2.textbundle</key>
-			<dict>
-				<key>explicitUnassignment</key>
-				<true/>
-				<key>firstUnassignment</key>
-				<real>512634387.42487401</real>
-				<key>lastModification</key>
-				<real>512634387.42487401</real>
-				<key>version</key>
-				<dict>
-					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
-					<integer>5</integer>
-					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>38</integer>
 				</dict>
 			</dict>
 			<key>api--get_images_directory.textbundle</key>
@@ -411,9 +407,6 @@
 			<string>api--get_images_directory.textbundle</string>
 		</array>
 		<array>
-			<string>api--get_images_directory - 2.textbundle</string>
-		</array>
-		<array>
 			<string>api--get_home_directory.textbundle</string>
 		</array>
 		<array>
@@ -454,6 +447,9 @@
 		</array>
 		<array>
 			<string>api--file--add_file.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--get_index.textbundle</string>
 		</array>
 		<array>
 			<string>api--sidebar--get_selected_indices.textbundle</string>
@@ -522,7 +518,7 @@
 			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
 			<integer>5</integer>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>38</integer>
+			<integer>44</integer>
 		</dict>
 	</dict>
 </dict>
