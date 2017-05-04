@@ -30,22 +30,24 @@ Returns a text widget index.
 | down | Index _num_ lines below the starting position, remaining in the same column, if possible. |
 | first | Index of the first line/column in the buffer. |
 | last | Index of the last line/column in the buffer. |
-| char | Index of the _num_’th character before or after the starting position. |
-| dchar | Index of _num_’th character before or after the starting position. |
-| findchar | Index of the _num_’th specified character before or after the starting position. |
+| char | Index of the \_num\_’th character before or after the starting position. |
+| dchar | Index of \_num\_’th character before or after the starting position. |
+| findchar | Index of the \_num\_’th specified character before or after the starting position. |
 | firstchar | Index of first non-whitespace character of the line specified by startpos. |
 | lastchar | Index of last non-whitespace character of the line specified by startpos. |
 | wordstart | Index of the first character of the word which is _num_ words before or after th startpos. |
 | wordend | Index of the last character+1 of the word which is _num_ words before or after the startpos. |
 | WORDstart | Index of the first character of the WORD which is _num_ WORDs before or after startpos. A WORD is defined as a list of sequential non-whitespace characters. |
 | WORDend | Index of the last character+1 of the WORD which is _num_ WORDs before or after startpos. |
-| column | Index of the character in the line containing startpos at the _num_’th position. |
+| column | Index of the character in the line containing startpos at the \_num\_’th position. |
 | linenum | Index of the first non-whitespace character on the given line. |
 | linestart | Index of the beginning of the line containing startpos. |
 | lineend | Index of the ending of the line containing startpos. |
 | dispstart | Index of the first character that is displayed in the line containing startpos. |
 | dispmid | Index of the middle-most character that is displayed in the line containing startpos. |
 | dispend | Index of the last character that is displayed in the line containing startpos. |
+| sentence | Index of the first character of a sentence before or after startpos. |
+| paragraph | Index of the first character of a paragraph before or after startpos. |
 | screentop | Index of the start of the first line that is displayed in the buffer. |
 | screenmid | Index of the start of the middle-most line that is displayed in the buffer. |
 | screenbot | Index of the start of the last line that is displayed in the buffer. |
@@ -78,6 +80,5 @@ Returns a text widget index.
 	  # Move the cursor to the calculated index
 	  api::edit::move_cursor $txt $index
 	}
-
 
 
