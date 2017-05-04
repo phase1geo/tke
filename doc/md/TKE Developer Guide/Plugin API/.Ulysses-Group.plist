@@ -56,6 +56,66 @@
 					<integer>27</integer>
 				</dict>
 			</dict>
+			<key>api--edit--bubble_down.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551435.80726701</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>48</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--bubble_up.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551421.99048102</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>44</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--comment.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551448.70682299</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>52</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--delete.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515550666.71433699</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>12</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--format.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551532.97635698</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>76</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
 			<key>api--edit--get_index.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -64,6 +124,150 @@
 				<dict>
 					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
 					<integer>5</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--indent.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551487.57121998</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>64</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--join_lines.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551404.28556502</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>40</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--lower_case.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551327.405114</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>24</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--move_cursor.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551521.56521899</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>72</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--rot13.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551367.348014</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>32</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--title_case.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551383.81755197</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>36</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--toggle_case.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551308.659266</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>20</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--toggle_comment.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551476.15661901</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>60</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--uncomment.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551460.78091198</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>56</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--unformat.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551547.06120801</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>78</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--unindent.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551499.867024</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>68</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
+			<key>api--edit--upper_case.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>515551345.05659401</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>28</integer>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>44</integer>
 				</dict>
@@ -452,6 +656,57 @@
 			<string>api--edit--get_index.textbundle</string>
 		</array>
 		<array>
+			<string>api--edit--delete.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--toggle_case.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--lower_case.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--upper_case.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--rot13.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--title_case.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--join_lines.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--bubble_up.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--bubble_down.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--comment.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--uncomment.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--toggle_comment.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--indent.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--unindent.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--move_cursor.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--format.textbundle</string>
+		</array>
+		<array>
+			<string>api--edit--unformat.textbundle</string>
+		</array>
+		<array>
 			<string>api--sidebar--get_selected_indices.textbundle</string>
 		</array>
 		<array>
@@ -516,7 +771,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
-			<integer>5</integer>
+			<integer>79</integer>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 			<integer>44</integer>
 		</dict>

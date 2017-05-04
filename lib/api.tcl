@@ -534,11 +534,9 @@ namespace eval api {
     #  \param startpos  Text widget index to begin deleting from.
     #  \param endpos    Text widget index to stop deleting from.
     #  \param copy      Copies deleted text to the clipboard.
-    #  \param adjust    This must be set if the buffer is in Vim normal mode
-    #                   will stay in that mode after the deletion.
-    proc delete {interp pname txt startpos endpos copy adjust} {
+    proc delete {interp pname txt startpos endpos copy} {
 
-      edit::delete $txt.t $startpos $endpos $copy $adjust
+      edit::delete $txt.t $startpos $endpos $copy 1
 
     }
 
@@ -550,10 +548,9 @@ namespace eval api {
     #  \param txt        Text widget to modify.
     #  \param startpos   Starting index of range to modify.
     #  \param endpos     Ending index of range to modify.
-    #  \param cursorpos  Position to place cursor at after the modification.
-    proc toggle_case {interp pname txt startpos endpos cursorpos} {
+    proc toggle_case {interp pname txt startpos endpos} {
 
-      edit::transform_toggle_case $txt.t $startpos $endpos $cursorpos
+      edit::transform_toggle_case $txt.t $startpos $endpos insert
 
     }
 
@@ -565,10 +562,9 @@ namespace eval api {
     #  \param txt        Text widget to modify.
     #  \param startpos   Starting index of range to modify.
     #  \param endpos     Ending index of range to modify.
-    #  \param cursorpos  Position to place cursor at after the modification.
-    proc lower_case {interp pname txt startpos endpos cursorpos} {
+    proc lower_case {interp pname txt startpos endpos} {
 
-      edit::transform_to_lower_case $txt.t $startpos $endpos $cursorpos
+      edit::transform_to_lower_case $txt.t $startpos $endpos
 
     }
 
@@ -580,10 +576,9 @@ namespace eval api {
     #  \param txt        Text widget to modify.
     #  \param startpos   Starting index of range to modify.
     #  \param endpos     Ending index of range to modify.
-    #  \param cursorpos  Position to place cursor at after the modification.
-    proc upper_case {interp pname txt startpos endpos cursorpos} {
+    proc upper_case {interp pname txt startpos endpos} {
 
-      edit::transform_to_upper_case $txt.t $startpos $endpos $cursorpos
+      edit::transform_to_upper_case $txt.t $startpos $endpos
 
     }
 
@@ -595,10 +590,9 @@ namespace eval api {
     #  \param txt        Text widget to modify.
     #  \param startpos   Starting index of range to modify.
     #  \param endpos     Ending index of range to modify.
-    #  \param cursorpos  Position to place cursor at after the modification.
-    proc rot13 {interp pname txt startpos endpos cursorpos} {
+    proc rot13 {interp pname txt startpos endpos} {
 
-      edit::transform_to_rot13 $txt.t $startpos $endpos $cursorpos
+      edit::transform_to_rot13 $txt.t $startpos $endpos
 
     }
 
@@ -610,10 +604,9 @@ namespace eval api {
     #  \param txt        Text widget to modify.
     #  \param startpos   Starting index of range to modify.
     #  \param endpos     Ending index of range to modify.
-    #  \param cursorpos  Position to place cursor at after the modification.
-    proc title_case {interp pname txt startpos endpos cursorpos} {
+    proc title_case {interp pname txt startpos endpos} {
 
-      edit::transform_to_title_case $txt.t $startpos $endpos $cursorpos
+      edit::transform_to_title_case $txt.t $startpos $endpos
 
     }
 
