@@ -1316,6 +1316,31 @@ namespace eval emmet {
 
   }
 
+  # Wrap with bad abbreviation
+  proc run_test104 {} {
+
+    # Initialize
+    set txt [initialize]
+
+    $txt insert end "\nHello World"
+    $txt mark set insert 2.0
+    vim::adjust_insert $txt.t
+    $txt tag add sel 2.0 3.0
+
+    emmet::wrap_with_abbreviation -test {ul<li}
+
+    if {[$txt get 1.0 end-1c] ne "\nHello World"} {
+      cleanup "Bad abbreviation was used when it should not have been used ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt tag ranges sel] ne [list 2.0 3.0]} {
+      cleanup "Selection was removed ([$txt tag ranges sel])"
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
   # Verify balance outward and inward actions
   proc run_test110 {} {
 
@@ -1352,6 +1377,16 @@ namespace eval emmet {
       }
     }
 
+    # Clear the selection and run balance inward
+    $txt tag remove sel 1.0 end
+    emmet::balance_inward
+    if {[$txt tag ranges sel] ne [list 4.8 4.24]} {
+      cleanup "inward balance called when no selection exists incorrect ([$txt tag ranges sel])"
+    }
+    if {[$txt index insert] ne "4.8"} {
+      cleanup "inward cursor incorrect ([$txt index insert])"
+    }
+
     # Cleanup
     cleanup
 
@@ -1367,10 +1402,11 @@ namespace eval emmet {
 <div id="page">
   <section class="content">
     <h1>Document example</h1>
-    <p>Lorem ipsum dolor sit amet.</p>
+    <p>Lorem ipsum <p>dolor</p> sit amet.</p>
+    <p>Nothing.
   </section>
 </div>}
-    $txt mark set insert 7.2
+    $txt mark set insert 8.2
     vim::adjust_insert $txt.t
 
     emmet::go_to_matching_pair
@@ -1379,7 +1415,7 @@ namespace eval emmet {
     }
 
     emmet::go_to_matching_pair
-    if {[$txt index insert] ne "7.0"} {
+    if {[$txt index insert] ne "8.0"} {
       cleanup "ending matching pair cursor incorrect ([$txt index insert])"
     }
 
@@ -1388,12 +1424,38 @@ namespace eval emmet {
       cleanup "starting matching pair cursor B incorrect ([$txt index insert])"
     }
 
+    # Attempt to go to matching pair when we are not within a tag
+    $txt mark set insert 3.0
+    emmet::go_to_matching_pair
+    if {[$txt index insert] ne "3.0"} {
+      cleanup "cursor moved when we are not within a tag ([$txt index insert])"
+    }
+
+    # Attempt to jump to a tag which does not have a matching pair
+    $txt mark set insert 6.4
+    emmet::go_to_matching_pair
+    if {[$txt index insert] ne "6.4"} {
+      cleanup "cursor moved when we are in a tag that doesn't have a match ([$txt index insert])"
+    }
+
+    # Attempt to go to a matching paire that passes through multiple tags of the same type
+    $txt mark set insert 5.4
+    emmet::go_to_matching_pair
+    if {[$txt index insert] ne "5.41"} {
+      cleanup "ending matching pair cursor C incorrect ([$txt index insert])"
+    }
+
+    emmet::go_to_matching_pair
+    if {[$txt index insert] ne "5.4"} {
+      cleanup "starting matching pair cursor C incorrect ([$txt index insert])"
+    }
+
     # Cleanup
     cleanup
 
   }
 
-  # Verify Go to Next/Previou Edit Point action
+  # Verify Go to Next/Previous Edit Point action
   proc run_test112 {} {
 
     # Initialize
@@ -1402,22 +1464,21 @@ namespace eval emmet {
     $txt insert end {
 <ul>
   <li><a href=""></a></li>
-  <li><a href="foo"></a></li>
+  <li><a href="foo" bar="nice"></a></li>
 </ul>
 <div>
 
 </div>}
-    $txt mark set insert 2.0
     vim::adjust_insert $txt.t
 
-    foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.20 4.24 4.24] { ;# 7.2 7.2
+    foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.31 4.35 4.35] { ;# 7.2 7.2
       emmet::go_to_edit_point next
       if {[$txt index insert] ne $cursor} {
         cleanup "next cursor is incorrect $cursor ([$txt index insert])"
       }
     }
 
-    foreach cursor [list 4.20 4.6 3.21 3.17 3.15 3.6 3.6] {
+    foreach cursor [list 4.31 4.6 3.21 3.17 3.15 3.6 3.6] {
       emmet::go_to_edit_point prev
       if {[$txt index insert] ne $cursor} {
         cleanup "prev cursor is incorrect $cursor ([$txt index insert])"
@@ -1441,7 +1502,7 @@ namespace eval emmet {
   <a href="http://foobar.com" target="parent child sibling">
     <img src="images/advanced.gif" width="32" height="32" />
     <ul>
-      <li class=""><p>Hello world</p></li>
+      <li class="" id=""><p>Hello world</p></li>
       <li></li>
       <li class="blah" />
     </ul>
@@ -1453,7 +1514,7 @@ namespace eval emmet {
     foreach {startpos endpos} [list 4.3 4.4 4.5 4.29 4.11 4.28 4.30 4.59 4.38 4.58 4.38 4.44 4.45 4.50 4.51 4.58 \
                                     5.5 5.8 5.9 5.34 5.14 5.33 5.35 5.45 5.42 5.44 5.46 5.57 5.54 5.56 \
                                     6.5 6.7 \
-                                    7.7 7.9 7.10 7.18 7.20 7.21 \
+                                    7.7 7.9 7.10 7.18 7.19 7.24 7.26 7.27 \
                                     8.7 8.9 \
                                     9.7 9.9 9.10 9.22 9.17 9.21 9.17 9.21] {
       emmet::select_item next
@@ -1467,7 +1528,7 @@ namespace eval emmet {
 
     foreach {startpos endpos} [list 9.10 9.22 9.7 9.9 \
                                     8.7 8.9 \
-                                    7.20 7.21 7.10 7.18 7.7 7.9 \
+                                    7.26 7.27 7.19 7.24 7.10 7.18 7.7 7.9 \
                                     6.5 6.7 \
                                     5.54 5.56 5.46 5.57 5.42 5.44 5.35 5.45 5.14 5.33 5.9 5.34 5.5 5.8 \
                                     4.51 4.58 4.45 4.50 4.38 4.44 4.38 4.58 4.30 4.59 4.11 4.28 4.5 4.29 4.3 4.4 \
@@ -1572,6 +1633,17 @@ namespace eval emmet {
       cleanup "body comment cursor incorrect C ([$txt index insert])"
     }
 
+    # Attempt to comment nothing and make sure that nothing happens
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
+    emmet::toggle_comment
+    if {[$txt get 1.0 end-1c] ne " \n[string range $body_value 1 end]"} {
+      cleanup "blank space was not left alone ([$txt get 1.0 end-1c])"
+    }
+    if {[$txt index insert] ne "1.0"} {
+      cleanup "cursor was not left on blank space ([$txt index insert])"
+    }
+
     # Cleanup
     cleanup
 
@@ -1600,6 +1672,14 @@ namespace eval emmet {
       cleanup "Tag split incorrect ([$txt get 1.0 end-1c])"
     }
 
+    # Make sure that nothing happens if we attempt to split/join when we are not within a node.
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
+    emmet::split_join_tag
+    if {[$txt get 1.0 end-1c] ne " \n<example></example>"} {
+      cleanup "Tag was joined when cursor is not within node/tag ([$txt get 1.0 end-1c])"
+    }
+
     # Cleanup
     cleanup
 
@@ -1615,7 +1695,10 @@ namespace eval emmet {
 <body>
   <div class="wrapper">
     <h1>Title</h1>
-    <p>Lorem ipsum dolor sit amet.</p>
+    <p>Lorem ipsum <p>dolor</p> sit amet.</p>
+    <p></p>
+    <p />
+    <p />Good
   </div>
 </body>}]
     $txt edit separator
@@ -1623,7 +1706,7 @@ namespace eval emmet {
     vim::adjust_insert $txt.t
 
     emmet::remove_tag
-    if {[$txt get 1.0 end-1c] ne [set remove_value "\n<body>\n  <h1>Title</h1>\n  <p>Lorem ipsum dolor sit amet.</p>\n</body>"]} {
+    if {[$txt get 1.0 end-1c] ne [set remove_value "\n<body>\n  <h1>Title</h1>\n  <p>Lorem ipsum <p>dolor</p> sit amet.</p>\n  <p></p>\n  <p />\n  <p />Good\n</body>"]} {
       cleanup "tag removed incorrectly ([$txt get 1.0 end-1c])"
     }
 
@@ -1636,6 +1719,67 @@ namespace eval emmet {
     emmet::remove_tag
     if {[$txt get 1.0 end-1c] ne $remove_value} {
       cleanup "tag removed incorrectly B ([$txt get 1.0 end-1c])"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    # Make sure that a single blank node can be removed properly
+    $txt mark set insert 6.4
+    emmet::remove_tag
+    if {[$txt get 1.0 end-1c] ne "\n<body>\n  <div class=\"wrapper\">\n    <h1>Title</h1>\n    <p>Lorem ipsum <p>dolor</p> sit amet.</p>\n    <p />\n    <p />Good\n  </div>\n</body>"} {
+      cleanup "Single blank tag removed incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    # Delete inner <p>
+    $txt mark set insert 5.20
+    emmet::remove_tag
+    if {[$txt get 1.0 end-1c] ne [set remove_value "\n<body>\n  <div class=\"wrapper\">\n    <h1>Title</h1>\n    <p>Lorem ipsum dolor sit amet.</p>\n    <p></p>\n    <p />\n    <p />Good\n  </div>\n</body>"]} {
+      cleanup "Deleting inner tag did not work ([$txt get 1.0 end-1c])($remove_value)"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    # Delete combo tag
+    $txt mark set insert 7.5
+    emmet::remove_tag
+    if {[$txt get 1.0 end-1c] ne "\n<body>\n  <div class=\"wrapper\">\n    <h1>Title</h1>\n    <p>Lorem ipsum <p>dolor</p> sit amet.</p>\n    <p></p>\n    <p />Good\n  </div>\n</body>"} {
+      cleanup "deleting combo tag did not work ([$txt get 1.0 end-1c])"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    # Delete combo tag that contains other stuff on the line
+    $txt mark set insert 8.5
+    emmet::remove_tag
+    if {[$txt get 1.0 end-1c] ne "\n<body>\n  <div class=\"wrapper\">\n    <h1>Title</h1>\n    <p>Lorem ipsum <p>dolor</p> sit amet.</p>\n    <p></p>\n    <p />\n    Good\n  </div>\n</body>"} {
+      cleanup "deleting combo tag with text on the line did not work ([$txt get 1.0 end-1c])"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "tag undo incorrectly ([$txt get 1.0 end-1c])"
+    }
+
+    # Attempt to delete empty space
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
+    emmet::remove_tag
+    if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
+      cleanup "deleting tag when we are not within a tag/node did not work ([$txt get 1.0 end-1c])"
     }
 
     # Cleanup
@@ -1652,6 +1796,7 @@ namespace eval emmet {
     $txt insert end [set value {
 <p>
   Line 1.
+
   <b>Line</b> 2.
 </p>}]
     $txt edit separator
@@ -1668,10 +1813,23 @@ namespace eval emmet {
       cleanup "merge undo incorrect ([$txt get 1.0 end-1c])"
     }
 
-    $txt mark set insert 4.0
+    $txt mark set insert 5.0
     emmet::merge_lines
     if {[$txt get 1.0 end-1c] ne $merge_value} {
       cleanup "merge lines incorrect B ([$txt get 1.0 end-1c])"
+    }
+
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "merge undo incorrect ([$txt get 1.0 end-1c])"
+    }
+
+    # Verify that merging a line that is not within a node does nothing
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
+    emmet::merge_lines
+    if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
+      cleanup "merge lines when not in a node changed text ([$txt get 1.0 end-1c])"
     }
 
     # Cleanup
@@ -1685,12 +1843,15 @@ namespace eval emmet {
     # Initialize
     set txt    [initialize]
     set url    "http://tke.sourceforge.net/screenshots_files/page2-1000-thumb.jpg"
+    set bad    "http://tke.sourceforge.net/blah.jpg"
     set width  145
     set height 144
     set tags   [list [list "\n<img src=\"$url\" alt=\"\" />"                             "\n<img src=\"$url\" width=\"$width\" height=\"$height\" alt=\"\" />"] \
                      [list "\n<img src=\"$url\" alt=\"\" width=\"10\" />"                "\n<img src=\"$url\" alt=\"\" width=\"$width\" height=\"$height\" />"] \
                      [list "\n<img src=\"$url\" alt=\"\" height=\"11\" />"               "\n<img src=\"$url\" alt=\"\" width=\"$width\" height=\"$height\" />"] \
-                     [list "\n<img src=\"$url\" alt=\"\" height=\"20\" width=\"100\" />" "\n<img src=\"$url\" alt=\"\" height=\"$height\" width=\"$width\" />"]]
+                     [list "\n<img src=\"$url\" alt=\"\" height=\"20\" width=\"100\" />" "\n<img src=\"$url\" alt=\"\" height=\"$height\" width=\"$width\" />"] \
+                     [list "\n<img src=\"$url\" alt=\"\" width=\"20\" height=\"100\" />" "\n<img src=\"$url\" alt=\"\" width=\"$width\" height=\"$height\" />"] \
+                     [list "\n<img src=\"$bad\" alt=\"\" height=\"20\" width=\"100\" />" "\n<img src=\"$bad\" alt=\"\" height=\"20\" width=\"100\" />"]]
 
     set i 0
     foreach tag $tags {
@@ -1708,6 +1869,18 @@ namespace eval emmet {
 
       incr i
 
+    }
+
+    # Verify that updating an image outside of an image tag does not work
+    $txt delete 1.0 end
+    $txt insert end [lindex $tags 0 0]
+    $txt edit separator
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
+
+    emmet::update_image_size
+    if {[$txt get 1.0 end-1c] ne " \n[string range [lindex $tags 0 0] 1 end]"} {
+      cleanup "image update did not work properly ([$txt get 1.0 end-1c])"
     }
 
     # Cleanup
@@ -1777,74 +1950,86 @@ namespace eval emmet {
     # Initialize
     set txt [initialize]
 
-    $txt insert end "\nx100x\nx-100x\nNothing"
+    $txt insert end "\nx100x\nx-100x\nNothing\n-x\n0x10"
     $txt mark set insert 2.1
     vim::adjust_insert $txt.t
 
     emmet::change_number 10
-    if {[$txt get 1.0 end-1c] ne "\nx110x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx110x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Increment by 10 did not work properly ([$txt get 1.0 end-1c])"
     }
 
     emmet::change_number 1
-    if {[$txt get 1.0 end-1c] ne "\nx111x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx111x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Increment by 1 did not work properly ([$txt get 1.0 end-1c])"
     }
 
     emmet::change_number 0.1
-    if {[$txt get 1.0 end-1c] ne "\nx111.1x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx111.1x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Increment by 0.1 did not work properly ([$txt get 1.0 end-1c])"
     }
 
     emmet::change_number -10
-    if {[$txt get 1.0 end-1c] ne "\nx101.1x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx101.1x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Decrement by 10 did not work properly ([$txt get 1.0 end-1c])"
     }
 
     emmet::change_number -1
-    if {[$txt get 1.0 end-1c] ne "\nx100.1x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100.1x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Decrement by 1 did not work properly ([$txt get 1.0 end-1c])"
     }
 
     emmet::change_number -0.1
-    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Decrement by 0.1 did not work properly ([$txt get 1.0 end-1c])"
     }
 
     $txt mark set insert 2.0
     emmet::change_number 1
-    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Changing non-number did not work properly ([$txt get 1.0 end-1c])"
     }
 
     $txt mark set insert 2.4
     emmet::change_number 1
-    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-100x\nNothing\n-x\n0x10"} {
       cleanup "Changing non-number did not work properly 2 ([$txt get 1.0 end-1c])"
     }
 
     $txt mark set insert 3.1
     emmet::change_number 1
-    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-99x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-99x\nNothing\n-x\n0x10"} {
       cleanup "Changing negative number did not work properly ([$txt get 1.0 end-1c])"
     }
 
     $txt mark set insert 3.2
     emmet::change_number 1
-    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-98x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-98x\nNothing\n-x\n0x10"} {
       cleanup "Changing negative number did not work properly B ([$txt get 1.0 end-1c])"
     }
 
     $txt mark set insert 3.3
     emmet::change_number 1
-    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing\n-x\n0x10"} {
       cleanup "Changing negative number did not work properly C ([$txt get 1.0 end-1c])"
     }
 
     $txt mark set insert 4.0
     emmet::change_number 1
-    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing"} {
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing\n-x\n0x10"} {
       cleanup "Changing non-number did not work properly 3 ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 5.0
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing\n-x\n0x10"} {
+      cleanup "Changing non-number did not work properly 4 ([$txt get 1.0 end-1c])"
+    }
+
+    $txt mark set insert 6.3
+    emmet::change_number 1
+    if {[$txt get 1.0 end-1c] ne "\nx100x\nx-97x\nNothing\n-x\n0x10"} {
+      cleanup "Changing hexidecimal number should do nothing ([$txt get 1.0 end-1c])"
     }
 
     # Cleanup
@@ -1871,7 +2056,7 @@ namespace eval emmet {
     if {![file exists "foobar.gif"]} {
       cleanup "foobar.gif was not created"
     }
-    file remove -force "foobar.gif"
+    file delete -force "foobar.gif"
     if {[$txt get 1.0 end-1c] ne "\n<img src=\"./foobar.gif\" width=\"11\" height=\"11\" />"} {
       cleanup "Data not decoded properly ([$txt get 1.0 end-1c])"
     }

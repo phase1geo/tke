@@ -402,7 +402,7 @@ namespace eval emmet {
     set others 0
     while {1} {
       if {[set retval [get_tag $txt -dir $dir($type) -name $name -type $other($type) -start [lindex $retval $index($type)]]] eq ""} {
-        return
+        return ""
       }
       if {[incr others [llength [lsearch -all [lindex $retval 4] $name,$type]]] == 0} {
         switch $type {
@@ -1012,14 +1012,14 @@ namespace eval emmet {
         }
 
         # These are the number of characters that will be removed from the start
-        set count [$txt count -chars {*}[lrange $retval 0 1]]
+        set count [$txt count -lines {*}[lrange $retval 1 2]]
 
         # Delete the tags
         $txt delete {*}[lrange $retval 2 3]
         $txt delete {*}[lrange $retval 0 1]
 
         # Just use the indentation algorithm
-        indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 2]-${count}c" 0
+        indent::format_text $txt.t [lindex $retval 0] "[lindex $retval 0]+${count}l linestart" 0
 
       }
 
