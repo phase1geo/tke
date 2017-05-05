@@ -9,6 +9,10 @@ reference
   {{Language Reference} https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference?redirectlocale=en-US&redirectslug=JavaScript%2FReference}
 }
 
+embedded {
+  {JSON}
+}
+
 matchcharsallowed
 {curly square paren double single btick}
 
