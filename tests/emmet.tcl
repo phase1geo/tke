@@ -1461,24 +1461,25 @@ namespace eval emmet {
     # Initialize
     set txt [initialize]
 
-    $txt insert end {
+    $txt insert end [string map {XX {  }} {
 <ul>
   <li><a href=""></a></li>
   <li><a href="foo" bar="nice"></a></li>
 </ul>
 <div>
-
-</div>}
+XX
+</div>}]
     vim::adjust_insert $txt.t
 
-    foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.31 4.35 4.35] { ;# 7.2 7.2
+    foreach cursor [list 3.6 3.15 3.17 3.21 4.6 4.31 4.35 7.1 7.1] {
       emmet::go_to_edit_point next
       if {[$txt index insert] ne $cursor} {
         cleanup "next cursor is incorrect $cursor ([$txt index insert])"
       }
     }
 
-    foreach cursor [list 4.31 4.6 3.21 3.17 3.15 3.6 3.6] {
+    $txt mark set insert 8.0
+    foreach cursor [list 7.1 4.35 4.31 4.6 3.21 3.17 3.15 3.6 3.6] {
       emmet::go_to_edit_point prev
       if {[$txt index insert] ne $cursor} {
         cleanup "prev cursor is incorrect $cursor ([$txt index insert])"
