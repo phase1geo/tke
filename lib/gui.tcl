@@ -2336,7 +2336,9 @@ namespace eval gui {
 
     # Perform save check on close
     if {$opts(-check)} {
-      close_check $tab $opts(-force) $opts(-exiting)
+      if {![close_check $tab $opts(-force) $opts(-exiting)]} {
+        return
+      }
     }
 
     # Unhighlight the file in the file browser (if the file was not a difference view)
