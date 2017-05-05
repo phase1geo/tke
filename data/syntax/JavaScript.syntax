@@ -43,7 +43,7 @@ keywords
   case class const continue
   debugger default delete do
   else export extends
-  finally for function
+  finally for from function
   if import in instanceof
   new
   return
@@ -54,7 +54,7 @@ keywords
   yield
   enum implements interface let package private protected public static await
   abstract boolean byte char double final float goto int long native short
-  synchronized throws transient volatile null true false
+  synchronized throws transient volatile
 }
 
 symbols {
@@ -64,6 +64,9 @@ symbols {
 numbers
 {
   HighlightRegexp {\m[0-9]+|[0-9]+\.[0-9e]+|0[bB][01]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+|Infinity|NaN} {}
+  HighlightKeywords {
+    null true false
+  }
 }
 
 punctuation
@@ -75,4 +78,12 @@ miscellaneous1 {
   HighlightKeywords {
     document
   }
+}
+
+advanced
+{
+  HighlightClass tag       miscellaneous3 {}
+  HighlightClass attribute miscellaneous2 {}
+
+  HighlightRegexp {<.*?>} syntax::get_xml_tag
 }
