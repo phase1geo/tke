@@ -33,3 +33,7 @@ punctuation
 {
   HighlightRegexp {[][\{\};:,()#=.@&!?<>%|^~+*/-]} {}
 }
+
+miscellaneous3 {
+  HighlightRegexp {\w+\s*:} {}
+}
