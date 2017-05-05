@@ -2042,8 +2042,11 @@ namespace eval emmet {
 
     # Initialize
     set txt [initialize]
+    set url "http://tke.sourceforge.net/resources/unchecked.gif"
+    set ro  [file join $::tke_home readonly.png]
 
-    $txt insert end "\n<img src=\"http://tke.sourceforge.net/resources/unchecked.gif\" width=\"11\" height=\"11\" />"
+    $txt insert end [set value "\n<img src=\"$url\" width=\"11\" height=\"11\" />"]
+    $txt edit separator
     $txt mark set insert 2.20
     vim::adjust_insert $txt.t
 
@@ -2060,6 +2063,55 @@ namespace eval emmet {
     if {[$txt get 1.0 end-1c] ne "\n<img src=\"./foobar.gif\" width=\"11\" height=\"11\" />"} {
       cleanup "Data not decoded properly ([$txt get 1.0 end-1c])"
     }
+
+    gui::undo
+    gui::undo
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "Undo did not work ([$txt get 1.0 end-1c])"
+    }
+
+    # Make sure that the encode does not work even if insertion cursor is only within tag
+    $txt mark set insert 2.0
+    emmet::encode_decode_image_to_data_url
+    if {[$txt get 1.0 end-1c] ne $value} {
+      cleanup "cursor within tag does not encode ([$txt get 1.0 end-1c])"
+    }
+
+    # Verify that nothing happens when we are not in an image tag
+    $txt mark set insert 1.0
+    vim::adjust_insert $txt.t
+    emmet::encode_decode_image_to_data_url
+    if {[$txt get 1.0 end-1c] ne " \n[string range $value 1 end]"} {
+      cleanup "text changed even though we were not on an image tag ([$txt get 1.0 end-1c])"
+    }
+
+    set i     0
+    set tests [list "\n<img alt=\"foo\" src=\"\" />" 2.20 "" \
+                    "\n<img src=\"[file join $::tke_dir lib api.tcl]\" />" 2.10 "" \
+                    "\n<img src=\"data:image/png;base64,CABBAGE\" />" 2.10 $ro]
+
+    set rc [open $ro w]
+    puts $rc "Test"
+    close $rc
+
+    file attributes $ro -permissions r--------
+
+    foreach {line cursor fname} $tests {
+      $txt delete 1.0 end
+      $txt insert end $line
+      $txt mark set insert $cursor
+      vim::adjust_insert $txt.t
+      emmet::encode_decode_image_to_data_url -test $fname
+      if {[$txt get 1.0 end-1c] ne $line} {
+        file attributes $ro -permissions rw-------
+        file delete -force $ro
+        cleanup "text changed when there was an error $i ([$txt get 1.0 end-1c])"
+      }
+      incr i
+    }
+
+    file attributes $ro -permissions rw-------
+    file delete -force $ro
 
     # Cleanup
     cleanup

@@ -881,7 +881,13 @@ namespace eval emmet {
   # Perform next/previous item selection.
   proc select_item {dir} {
 
-    gui::get_info {} current txt lang
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Get the language of the current insertion cursor
+    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+      set lang [syntax::get_language $txt]
+    }
 
     if {$lang eq "CSS"} {
       select_css_item $txt $dir
@@ -943,7 +949,13 @@ namespace eval emmet {
   # Toggles the comment of a full HTML tag or CSS rule/property.
   proc toggle_comment {} {
 
-    gui::get_info {} current txt lang
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Get the language of the current insertion cursor
+    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+      set lang [syntax::get_language $txt]
+    }
 
     if {$lang eq "CSS"} {
       toggle_css_comment $txt
@@ -1146,7 +1158,13 @@ namespace eval emmet {
   # Updates the image size of the current tag.
   proc update_image_size {} {
 
-    gui::get_info {} current txt lang
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Get the language of the current insertion cursor
+    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+      set lang [syntax::get_language $txt]
+    }
 
     if {$lang eq "CSS"} {
       update_css_image_size $txt
@@ -1342,7 +1360,13 @@ namespace eval emmet {
   # Executes encode/decode image to data:URL functionality.
   proc encode_decode_image_to_data_url {args} {
 
-    gui::get_info {} current txt lang
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Get the language of the current insertion cursor
+    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+      set lang [syntax::get_language $txt]
+    }
 
     if {$lang eq "CSS"} {
       encode_decode_css_image_to_data_url $txt {*}$args
