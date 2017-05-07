@@ -8,6 +8,7 @@ reference {}
 
 embedded
 {
+  {Tcl {TclBegin} {TclEnd}}
   {Tcl {HighlightProc} {HighlightEndProc}}
 }
 
@@ -40,8 +41,6 @@ reindent {}
 icomment {{#}}
 
 lcomments {{^[ \t]*#}}
-
-bcomments {{{IgnoreBegin} {IgnoreEnd}}}
 
 strings {}
 
