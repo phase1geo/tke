@@ -322,6 +322,26 @@ In addition to writing the processing procedures outside of the syntax file, you
 
 All text between `HighlightProc` and `HighlightEndProc` will be highlighted by TKE as Tcl syntax.  The body of the function works the same as the processing procedure that was previously described.
 
+If you want to include additional Tcl syntax within the file that is not directly called by the TKE highlighter, you can include this code within the syntax advanced section by wrapping it with a `TclBegin`/`TclEnd` block as shown below.
+
+	TclBegin {
+	 var exampleVar;
+	 proc example_proc {} { ... }
+	} TclEnd
+
+The code inserted in the `TclBegin` block will be syntax highlighted and will be inserted into the syntax::`lang` namespace, where `lang` matches the lowercase base name of the language syntax file (i.e., HTML.syntax exists in the `syntax::html` namespace).
+
+Additionally, you can ignore any blocks within the advanced section by wrapping them with an `IgnoreBegin` and `IgnoreEnd` block as shown below.
+
+	advanced {
+	 IgnoreBegin {
+	   HighlightRegexp {...} {}
+	 } IgnoreEnd
+	 HighlightRegexp {...} {}
+	}
+
+The `IgnoreBegin`/`IgnoreEnd` block is useful when you are testing syntax code, especially when you are trying different strategies and would like the ability to "comment out" code temporarily.  It is good practice to remove all ignore blocks when you are using the syntax in production.
+
 #### formatting
 
 Specifies one or more supported syntax formatting by associating a TKE formatting type with language syntax that should be inserted before and/or after selected text (or line) within the editing buffer. The information specified in this section is used by TKE’s `Edit/Formatting` menu.
