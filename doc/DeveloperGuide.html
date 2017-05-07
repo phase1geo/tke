@@ -884,6 +884,28 @@ HighlightClassStartWithChar {character}          processing_procedure
 
 <p>All text between <code>HighlightProc</code> and <code>HighlightEndProc</code> will be highlighted by TKE as Tcl syntax. The body of the function works the same as the processing procedure that was previously described.</p>
 
+<p>If you want to include additional Tcl syntax within the file that is not directly called by the TKE highlighter, you can include this code within the syntax advanced section by wrapping it with a <code>TclBegin</code>/<code>TclEnd</code> block as shown below.</p>
+
+<pre><code>TclBegin {  
+ var exampleVar;  
+ proc example_proc {} { ... }  
+} TclEnd
+</code></pre>
+
+<p>The code inserted in the <code>TclBegin</code> block will be syntax highlighted and will be inserted into the syntax::<code>lang</code> namespace, where <code>lang</code> matches the lowercase base name of the language syntax file (i.e., HTML.syntax exists in the <code>syntax::html</code> namespace).</p>
+
+<p>Additionally, you can ignore any blocks within the advanced section by wrapping them with an <code>IgnoreBegin</code> and <code>IgnoreEnd</code> block as shown below.</p>
+
+<pre><code>advanced {  
+ IgnoreBegin {  
+   HighlightRegexp {...} {}  
+ } IgnoreEnd  
+ HighlightRegexp {...} {}  
+}
+</code></pre>
+
+<p>The <code>IgnoreBegin</code>/<code>IgnoreEnd</code> block is useful when you are testing syntax code, especially when you are trying different strategies and would like the ability to &#8220;comment out&#8221; code temporarily. It is good practice to remove all ignore blocks when you are using the syntax in production.</p>
+
 <h4 id="formatting">formatting</h4>
 
 <p>Specifies one or more supported syntax formatting by associating a TKE formatting type with language syntax that should be inserted before and/or after selected text (or line) within the editing buffer. The information specified in this section is used by TKE’s <code>Edit/Formatting</code> menu.</p>
