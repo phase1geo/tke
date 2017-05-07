@@ -615,7 +615,7 @@ namespace eval syntax {
               if {$section eq "advanced"} {
                 set section_list [lassign $section_list name color modifiers]
                 switch $color {
-                  none        { ctext::addHighlightClass $txt $name $theme(foreground) "" $modifiers }
+                  none        { ctext::addHighlightClass $txt $name "" "" $modifiers }
                   highlighter { ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers }
                   default     { ctext::addHighlightClass $txt $name $theme($color) "" $modifiers }
                 }
@@ -638,7 +638,9 @@ namespace eval syntax {
                 }
               }
             }
-            "HighlightEndProc" {
+            "HighlightEndProc" -
+            "TclEnd" -
+            "IgnoreEnd" {
               # This is not invalid syntax but is not used for anything in this namespace
             }
             "Highlight*" {
@@ -654,6 +656,13 @@ namespace eval syntax {
               } else {
                 ctext::add$type $txt $syntax class [expr {($section eq "symbols") ? "symbols" : "none"}] $lang
               }
+            }
+            "TclBegin" {
+              set section_list [lassign $section_list content]
+              namespace eval $lang_ns $content
+            }
+            "IgnoreBegin" {
+              set section_list [lrange $section_list 1 end]
             }
             default {
               return -code error "Syntax error found in $section section -- bad type $type"
@@ -929,18 +938,29 @@ namespace eval syntax {
   }
 
   ######################################################################
+  # XML tag check.
+  proc check_xml_tag {tag} {
+
+    return 1
+
+  }
+
+  ######################################################################
   # Parses an XML tag.
-  proc get_xml_tag {txt startpos endpos ins} {
+  proc get_xml_tag {txt startpos endpos ins {tag_check syntax::tag_good}} {
 
-    set str [string range [$txt get $startpos $endpos] 1 end-1]
+    set indices [lassign [$txt search -all -count lengths -regexp -- {[^/=\s]+} $startpos $endpos] tag_start]
+    set retval  [list]
 
-    if {[regexp -indices -- {^(/?)([a-zA-Z_][a-zA-Z0-9:_.-]*)} $str -> closing tag]} {
-      set start [expr [lindex $tag 1] + 2]
-      lappend retval [list tag [$txt index "$startpos+1c"] [$txt index "$startpos+${start}c"] [list]]
-      if {[lindex $closing 1] == -1} {
-        while {[regexp -indices -start $start {(\S+)=} $str -> attribute]} {
-          set start [expr [lindex $attribute 1] + 2]
-          lappend retval [list attribute [$txt index "$startpos+[lindex $attribute 0]c"] [$txt index "$startpos+${start}c"] [list]]
+    if {$tag_start ne ""} {
+      set tag_end [$txt index "$tag_start+[lindex $lengths 0]c"]
+      if {[uplevel #0 [list $tag_check [$txt get $tag_start $tag_end]]]} {
+        lappend retval [list tag $tag_start $tag_end [list]]
+        set ilen [llength $indices]
+        for {set i 1} {$i < $ilen} {incr i} {
+          set attr_start [lindex $indices $i]
+          set attr_end   [$txt index "$attr_start+[lindex $lengths $i]c"]
+          lappend retval [list attribute $attr_start $attr_end [list]]
         }
       }
     }

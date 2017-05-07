@@ -41,7 +41,7 @@ icomment {{#}}
 
 lcomments {{^[ \t]*#}}
 
-bcomments {}
+bcomments {{{IgnoreBegin} {IgnoreEnd}}}
 
 strings {}
 
@@ -73,7 +73,7 @@ punctuation
 precompile {
   HighlightKeywords {
     HighlightClass HighlightKeywords HighlightRegexp HighlightWithOnlyCharStart
-    HighlightProc HighlightEndProc
+    HighlightProc HighlightEndProc TclBegin TclEnd
   } {}
 }
 

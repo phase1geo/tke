@@ -556,6 +556,7 @@ namespace eval theme {
                 set labels(background)    $color
                 set labels(warning_width) [utils::auto_adjust_color $color 40]
                 set labels(meta)          [utils::auto_adjust_color $color 40]
+                set labels(embedded)      [utils::auto_adjust_color $color 10]
               }
             } elseif {$caret} {
               set caret 0
