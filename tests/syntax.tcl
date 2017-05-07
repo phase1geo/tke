@@ -51,8 +51,8 @@ namespace eval syntax {
 
     $txt insert end "\n[string trim $str]"
 
-    if {[$txt tag ranges _tag] ne [list 2.1 2.7 2.14 2.21]} {
-      cleanup "Tag tags are incorrect ([$txt tag ranges _tag])"
+    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.8 2.13 2.22]} {
+      cleanup "Tag tags are incorrect ([$txt tag ranges _miscellaneous10])"
     }
     if {[$txt tag ranges _bold] ne [list 2.25 2.30]} {
       cleanup "Bold tags are incorrect ([$txt tag ranges _bold])"
@@ -86,8 +86,8 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 6.4 6.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
-      cleanup "Tag miscompare ([$txt tag ranges _tag])"
+    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.6 3.2 3.20 10.0 10.7]} {
+      cleanup "Tag miscompare ([$txt tag ranges _miscellaneous10])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -127,8 +127,8 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
-      cleanup "Tag miscompare ([$txt tag ranges _tag])"
+    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.6 3.2 3.20 4.2 9.4 10.0 10.7]} {
+      cleanup "Tag miscompare ([$txt tag ranges _miscellaneous10])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -168,8 +168,8 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 6.4 6.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _tag] ne [list 2.1 2.5]} {
-      cleanup "Tag miscompare ([$txt tag ranges _tag])"
+    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.6 3.2 3.20]} {
+      cleanup "Tag miscompare ([$txt tag ranges _miscellaneous10])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -209,8 +209,8 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list 6.4 6.6]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
-      cleanup "Tag miscompare ([$txt tag ranges _tag])"
+    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.6 3.2 3.20 10.0 10.7]} {
+      cleanup "Tag miscompare ([$txt tag ranges _miscellaneous10])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment0 miscompare ([$txt tag ranges _comstr1c0])"
@@ -254,8 +254,8 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
-      cleanup "Tag miscompare ([$txt tag ranges _tag])"
+    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.6 3.2 3.20 10.0 10.7]} {
+      cleanup "Tag miscompare ([$txt tag ranges _miscellaneous10])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"
@@ -296,8 +296,8 @@ namespace eval syntax {
     if {[$txt tag ranges _keywords] ne [list]} {
       cleanup "Keyword miscompare ([$txt tag ranges _keywords])"
     }
-    if {[$txt tag ranges _tag] ne [list 2.1 2.5 10.1 10.6]} {
-      cleanup "Tag miscompare ([$txt tag ranges _tag])"
+    if {[$txt tag ranges _miscellaneous10] ne [list 2.0 2.6 3.2 3.20 10.0 10.7]} {
+      cleanup "Tag miscompare ([$txt tag ranges _miscellaneous10])"
     }
     if {[$txt tag ranges _comstr1c0] ne [list 3.2 3.20]} {
       cleanup "Block comment miscompare ([$txt tag ranges _comstr1c0])"

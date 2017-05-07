@@ -43,7 +43,7 @@ punctuation {
 }
 
 miscellaneous1 {
-  HighlightRegexp {<.+?>} {}
+  HighlightRegexp {<[^?>].*?>} {}
 }
 
 formatting {
