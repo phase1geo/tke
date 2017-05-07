@@ -550,7 +550,7 @@ namespace eval api {
     #  \param endpos     Ending index of range to modify.
     proc toggle_case {interp pname txt startpos endpos} {
 
-      edit::transform_toggle_case $txt.t $startpos $endpos insert
+      edit::transform_toggle_case $txt.t $startpos $endpos
 
     }
 
@@ -654,7 +654,7 @@ namespace eval api {
     #  \param txt  Text widget to comment.
     proc comment {interp pname txt} {
 
-      edit::comment $txt
+      edit::comment_text $txt
 
     }
 
@@ -664,7 +664,7 @@ namespace eval api {
     #  \param txt  Text widget to uncomment.
     proc uncomment {interp pname txt} {
 
-      edit::uncomment $txt
+      edit::uncomment_text $txt
 
     }
 
@@ -674,7 +674,7 @@ namespace eval api {
     #  \param txt  Text widget to change.
     proc toggle_comment {interp pname txt} {
 
-      edit::comment_toggle $txt
+      edit::comment_toggle_text $txt
 
     }
 

@@ -627,7 +627,7 @@ namespace eval edit {
 
   ######################################################################
   # Perform a case toggle operation.
-  proc transform_toggle_case {txtt startpos endpos cursorpos} {
+  proc transform_toggle_case {txtt startpos endpos {cursorpos insert}} {
 
     if {![transform_toggle_case_selected $txtt]} {
       convert_case_toggle $txtt $startpos $endpos
@@ -655,7 +655,7 @@ namespace eval edit {
 
   ######################################################################
   # Perform a lowercase conversion.
-  proc transform_to_lower_case {txtt startpos endpos cursorpos} {
+  proc transform_to_lower_case {txtt startpos endpos {cursorpos insert}} {
 
     if {![transform_to_lower_case_selected $txtt]} {
       convert_to_lower_case $txtt $startpos $endpos
@@ -683,7 +683,7 @@ namespace eval edit {
 
   ######################################################################
   # Perform an uppercase conversion.
-  proc transform_to_upper_case {txtt startpos endpos cursorpos} {
+  proc transform_to_upper_case {txtt startpos endpos {cursorpos insert}} {
 
     if {![transform_to_upper_case_selected $txtt]} {
       convert_to_upper_case $txtt $startpos $endpos
@@ -711,7 +711,7 @@ namespace eval edit {
 
   ######################################################################
   # Transforms all text in the given range to rot13.
-  proc transform_to_rot13 {txtt startpos endpos cursorpos} {
+  proc transform_to_rot13 {txtt startpos endpos {cursorpos insert}} {
 
     if {![transform_to_rot13_selected $txtt]} {
       convert_to_rot13 $txtt $startpos $endpos
@@ -722,7 +722,7 @@ namespace eval edit {
 
   ######################################################################
   # Perform a title case conversion.
-  proc transform_to_title_case {txtt startpos endpos cursorpos} {
+  proc transform_to_title_case {txtt startpos endpos {cursorpos insert}} {
 
     if {[llength [set sel_ranges [$txtt tag ranges sel]]] > 0} {
       foreach {endpos startpos} [lreverse $sel_ranges] {
@@ -895,10 +895,7 @@ namespace eval edit {
 
   ######################################################################
   # Comments out the currently selected text.
-  proc comment {} {
-
-    # Get the current text widget
-    set txt [gui::current_txt]
+  proc comment_text {txt} {
 
     # Create a separator
     $txt edit separator
@@ -940,12 +937,18 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Uncomments out the currently selected text in the current text
-  # widget.
-  proc uncomment {} {
+  # Comments out the currently selected text in the current text widget.
+  proc comment {} {
 
     # Get the current text widget
-    set txt [gui::current_txt]
+    comment_text [gui::current_txt]
+
+  }
+
+  ######################################################################
+  # Uncomments out the currently selected text in the specified text
+  # widget.
+  proc uncomment_text {txt} {
 
     # Create a separator
     $txt edit separator
@@ -979,12 +982,18 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Handles commenting/uncommenting either the currently selected code
-  # or the current cursor.
-  proc comment_toggle {} {
+  # Uncomments out the currently selected text in the current text widget.
+  proc uncomment {} {
 
     # Get the current text widget
-    set txt [gui::current_txt]
+    uncomment_text [gui::current_txt]
+
+  }
+
+  ######################################################################
+  # Handles commenting/uncommenting either the currently selected code
+  # or the current cursor.
+  proc comment_toggle_text {txt} {
 
     # Create a separator
     $txt edit separator
@@ -1045,6 +1054,16 @@ namespace eval edit {
 
     # Create a separator
     $txt edit separator
+
+  }
+
+  ######################################################################
+  # Toggles the toggle status of the currently selected lines in the current
+  # text widget.
+  proc comment_toggle {} {
+
+    # Get the current text widget
+    comment_toggle_text [gui::current_txt]
 
   }
 
