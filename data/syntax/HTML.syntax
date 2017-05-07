@@ -1,5 +1,5 @@
 filepatterns
-{*.htm *.html}
+{*.htm *.html2}
 
 vimsyntax
 {html}
@@ -39,85 +39,9 @@ bcomments {{{<!--} {-->}} {{<!\[CDATA\[} {\]\]>}}}
 strings {{"}}
 
 punctuation {
-  HighlightKeywords {=} {}
+  HighlightRegexp {=} {}
 }
 
-#miscellaneous1 {
-#  HighlightRegexp {<.+?>} {}
-#}
-
-advanced
-{
-  HighlightClass htag           keywords       {}
-  HighlightClass htag_name      keywords       {}
-  IgnoreBegin {
-  HighlightClass htag_angled    keywords       {}
-  } IgnoreEnd
-  HighlightClass htag_attribute miscellaneous2 {}
-
-  HighlightRegexp {<.+?>}                       handle_tag
-  HighlightRegexp {</?[a-zA-Z_][a-zA-Z0-9_:-]*} handle_tag_name
-  HighlightRegexp {\S+=}                        handle_tag_attr
-  
-  TclBegin {
-    array set tags {
-      b 1 i 1 del 1 big 1 small 1 sub 1 sup 1 xmp 1 a 1 span 1 div 1 img 1 br 1 hr 1 ul 1 li 1 ol 1
-      table 1 tr 1 td 1 th 1 !DOCTYPE 1 script 1 html 1 head 1 body 1 title 1 code 1 pre 1 abbr 1
-      acronym 1 address 1 area 1 base 1 bdo 1 blockquote 1 button 1 caption 1 cite 1 col 1 colgroup 1
-      dfn 1 dl 1 dt 1 em 1 fieldset 1 form 1 h1 1 h2 1 h3 1 h4 1 h5 1 h6 1 input 1 ins 1 kbd 1 label 1
-      legend 1 link 1 map 1 meta 1 noscript 1 object 1 optgroup 1 option 1 p 1 param 1 q 1 samp 1
-      select 1 small 1 strong 1 style 1 tbody 1 textarea 1 tfoot 1 thead 1 tt 1 var 1 
-    }
-  } TclEnd
-  
-  HighlightProc html_tag_check {tag} {
-    variable tags
-    return [info exists tags($tag)]
-  } HighlightEndProc
-
-  HighlightProc handle_tag {
-    return [list [list [list htag $startpos $endpos [list]]] [list]]
-  } HighlightEndProc
-  
-  HighlightProc handle_tag_name {
-    if {[lsearch [$txt tag names $startpos] _htag] == -1} {
-      return ""
-    }
-    if {[$txt get "$startpos+1c"] eq "/"} {
-      set name [$txt get "$startpos+2c" $endpos]
-    } else {
-      set name [$txt get "$startpos+1c" $endpos]
-    }
-    if {[html_tag_check $name]} {
-      return [list [list [list htag_name [$txt index "$startpos+1c"] $endpos [list]]] [list]]
-    }
-    return ""
-  } HighlightEndProc
-  
-  HighlightProc handle_tag_attr {
-    if {[lsearch [$txt tag names $startpos] _htag] == -1} {
-      return ""
-    }
-    return [list [list [list htag_attribute $startpos [$txt index "$endpos-1c"] [list]]] [list]]
-  } HighlightEndProc
-}
-
-formatting
-{
-  bold          {word <b>      </b>}
-  italics       {word <i>      </i>}
-  underline     {word <u>      </u>}
-  strikethrough {word <strike> </strike>}
-  highlight     {word <mark>   </mark>}
-  superscript   {word <super>  </super>}
-  subscript     {word <sub>    </sub>}
-  code          {word <code>   </code>}
-  header1       {word <h1>     </h1>}
-  header2       {word <h2>     </h2>}
-  header3       {word <h3>     </h3>}
-  header4       {word <h4>     </h4>}
-  header5       {word <h5>     </h5>}
-  header6       {word <h6>     </h6>}
-  unordered     {word <li>     </li>}
-  ordered       {word <li>     </li>}
+miscellaneous1 {
+  HighlightRegexp {<.+?>} {}
 }
