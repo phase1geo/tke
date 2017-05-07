@@ -45,3 +45,22 @@ punctuation {
 miscellaneous1 {
   HighlightRegexp {<.+?>} {}
 }
+
+formatting {
+  bold          {word <b>      </b>}
+  italics       {word <i>      </i>}
+  underline     {word <u>      </u>}
+  strikethrough {word <strike> </strike>}
+  highlight     {word <mark>   </mark>}
+  superscript   {word <super>  </super>}
+  subscript     {word <sub>    </sub>}
+  code          {word <code>   </code>}
+  header1       {word <h1>     </h1>}
+  header2       {word <h2>     </h2>}
+  header3       {word <h3>     </h3>}
+  header4       {word <h4>     </h4>}
+  header5       {word <h5>     </h5>}
+  header6       {word <h6>     </h6>}
+  unordered     {word <li>     </li>}
+  ordered       {word <li>     </li>}
+}

@@ -549,21 +549,16 @@ namespace eval edit {
   # Converts the case to the given type on a word basis.
   proc convert_case_to_title {txtt startpos endpos} {
 
-    # Get the string
-    set str [$txtt get $startpos $endpos]
-
-    # Adjust the string so that we don't add an extra new line
-    if {[string index $str end] eq "\n"} {
-      set str [string range $str 0 end-1]
+    set i 0
+    foreach index [$txtt search -all -count lengths -regexp -- {\w+} $startpos $endpos] {
+      set endpos   [$txtt index "$index+[lindex $lengths $i]c"]
+      set word     [$txtt get $index $endpos]
+      $txtt replace $index $endpos [string totitle $word]
+      incr i
     }
 
-    while {[regexp {^(\w+)(\W*)(.*)$} $str -> word wspace str]} {
-      set wordlen [string length $word]
-      set strlen  [expr $wordlen + [string length $wspace]]
-      $txtt replace $startpos "$startpos+${wordlen}c" [string totitle $word]
-      ::tk::TextSetCursor $txtt $startpos
-      set startpos [$txtt index "$startpos+${strlen}c"]
-    }
+    # Set the cursor
+    ::tk::TextSetCursor $txtt $startpos
 
   }
 
@@ -1151,7 +1146,7 @@ namespace eval edit {
 
     if {![indent_selected $txtt]} {
       do_indent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
     }
 
   }
@@ -1165,7 +1160,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_unindent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
       return 1
     }
 
@@ -1180,7 +1175,7 @@ namespace eval edit {
 
     if {![unindent_selected $txtt]} {
       do_unindent $txtt $startpos $endpos
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
     }
 
   }
