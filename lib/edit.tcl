@@ -1131,7 +1131,7 @@ namespace eval edit {
       foreach {endpos startpos} [lreverse $range] {
         do_indent $txtt $startpos $endpos
       }
-      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos]
+      ::tk::TextSetCursor $txtt [get_index $txtt firstchar -startpos $startpos -num 0]
       return 1
     }
 
