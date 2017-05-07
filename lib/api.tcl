@@ -523,7 +523,7 @@ namespace eval api {
     #                returning the result.
     proc get_index {interp pname txt position args} {
 
-      return [edit::get_index $txt.t $position {*}$args]
+      return [edit::get_index $txt $position {*}$args]
 
     }
 
@@ -536,7 +536,7 @@ namespace eval api {
     #  \param copy      Copies deleted text to the clipboard.
     proc delete {interp pname txt startpos endpos copy} {
 
-      edit::delete $txt.t $startpos $endpos $copy 1
+      edit::delete $txt $startpos $endpos $copy 1
 
     }
 
@@ -550,7 +550,7 @@ namespace eval api {
     #  \param endpos     Ending index of range to modify.
     proc toggle_case {interp pname txt startpos endpos} {
 
-      edit::transform_toggle_case $txt.t $startpos $endpos
+      edit::transform_toggle_case $txt $startpos $endpos
 
     }
 
@@ -564,7 +564,7 @@ namespace eval api {
     #  \param endpos     Ending index of range to modify.
     proc lower_case {interp pname txt startpos endpos} {
 
-      edit::transform_to_lower_case $txt.t $startpos $endpos
+      edit::transform_to_lower_case $txt $startpos $endpos
 
     }
 
@@ -578,7 +578,7 @@ namespace eval api {
     #  \param endpos     Ending index of range to modify.
     proc upper_case {interp pname txt startpos endpos} {
 
-      edit::transform_to_upper_case $txt.t $startpos $endpos
+      edit::transform_to_upper_case $txt $startpos $endpos
 
     }
 
@@ -592,7 +592,7 @@ namespace eval api {
     #  \param endpos     Ending index of range to modify.
     proc rot13 {interp pname txt startpos endpos} {
 
-      edit::transform_to_rot13 $txt.t $startpos $endpos
+      edit::transform_to_rot13 $txt $startpos $endpos
 
     }
 
@@ -606,7 +606,7 @@ namespace eval api {
     #  \param endpos     Ending index of range to modify.
     proc title_case {interp pname txt startpos endpos} {
 
-      edit::transform_to_title_case $txt.t $startpos $endpos
+      edit::transform_to_title_case $txt $startpos $endpos
 
     }
 
@@ -620,7 +620,7 @@ namespace eval api {
     #  \param num  Number of lines to join below current line.
     proc join_lines {interp pname txt {num 1}} {
 
-      edit::transform_join_lines $txt.t $num
+      edit::transform_join_lines $txt $num
 
     }
 
@@ -632,7 +632,7 @@ namespace eval api {
     # \param txt  Text widget to change.
     proc bubble_up {interp pname txt} {
 
-      edit::transform_bubble_up $txt.t
+      edit::transform_bubble_up $txt
 
     }
 
@@ -644,7 +644,7 @@ namespace eval api {
     # \param txt  Text widget to change.
     proc bubble_down {interp pname txt} {
 
-      edit::transform_bubble_down $txt.t
+      edit::transform_bubble_down $txt
 
     }
 
@@ -654,7 +654,7 @@ namespace eval api {
     #  \param txt  Text widget to comment.
     proc comment {interp pname txt} {
 
-      edit::comment_text $txt
+      edit::comment_text [winfo parent $txt]
 
     }
 
@@ -664,7 +664,7 @@ namespace eval api {
     #  \param txt  Text widget to uncomment.
     proc uncomment {interp pname txt} {
 
-      edit::uncomment_text $txt
+      edit::uncomment_text [winfo parent $txt]
 
     }
 
@@ -674,7 +674,7 @@ namespace eval api {
     #  \param txt  Text widget to change.
     proc toggle_comment {interp pname txt} {
 
-      edit::comment_toggle_text $txt
+      edit::comment_toggle_text [winfo parent $txt]
 
     }
 
@@ -688,7 +688,7 @@ namespace eval api {
     #  \param endpos    Ending position of range to indent.
     proc indent {interp pname txt {startpos insert} {endpos insert}} {
 
-      edit::indent $txt.t $startpos $endpos
+      edit::indent $txt $startpos $endpos
 
     }
 
@@ -702,7 +702,7 @@ namespace eval api {
     #  \param endpos    Ending position of range to unindent.
     proc unindent {interp pname txt {startpos insert} {endpos insert}} {
 
-      edit::unindent $txt.t $startpos $endpos
+      edit::unindent $txt $startpos $endpos
 
     }
 
@@ -715,7 +715,7 @@ namespace eval api {
     #  \param args      List of arguments based on position value (see \ref api::edit::get_index)
     proc move_cursor {interp pname txt position args} {
 
-      edit::move_cursor $txt.t $position {*}$args
+      edit::move_cursor $txt $position {*}$args
 
     }
 
@@ -747,7 +747,7 @@ namespace eval api {
     #   - ordered
     proc format {interp pname txt type} {
 
-      edit::format $txt.t $type
+      edit::format $txt $type
 
     }
 
@@ -757,7 +757,7 @@ namespace eval api {
     #  \param txt  Text widget to unformat.
     proc unformat {interp pname txt} {
 
-      edit::unformat $txt.t
+      edit::unformat $txt
 
     }
 
