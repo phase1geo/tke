@@ -3345,7 +3345,7 @@ proc ctext::deleteHighlightClass {win classToDelete} {
 
 }
 
-proc ctext::getHighlightClasses win {
+proc ctext::getHighlightClasses {win} {
 
   variable data
 
@@ -3383,9 +3383,9 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
   # Add the tag and possible binding
   if {[info exists data($win,highlight,click,$class)]} {
     set tag _$class[incr data($win,highlight,click_index)]
-    $win tag add      $tag $startpos $endpos
+    $win tag add       $tag $startpos $endpos
     $win tag configure $tag {*}$data($win,highlight,click,$class)
-    $win tag bind     $tag <Button-3> $cmd
+    $win tag bind      $tag <Button-3> $cmd
   } else {
     $win tag add _$class $startpos $endpos
   }
@@ -3457,7 +3457,7 @@ proc ctext::doHighlight {win start end ins} {
       lassign $data($win,highlight,$name) re re_opts
       set i 0
       if {$type eq "class"} {
-        foreach res [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end] {
+        foreach res [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $start $end] {
           if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
             set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
             lappend tags($value) $res $wordEnd
@@ -3465,7 +3465,7 @@ proc ctext::doHighlight {win start end ins} {
           incr i
         }
       } else {
-        set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $start $end]
+        set indices [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $start $end]
         while {[llength $indices]} {
           set indices [lassign $indices res]
           set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
@@ -3479,7 +3479,7 @@ proc ctext::doHighlight {win start end ins} {
               }
               if {[set restart_from [lindex $retval 1]] ne ""} {
                 set i       0
-                set indices [$twin search -count lengths -regexp {*}$re_opts -all -- $re $restart_from $end]
+                set indices [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $restart_from $end]
               }
             }
           }
