@@ -1,5 +1,5 @@
 filepatterns
-{*.htm *.html2}
+{*.htm *.html}
 
 vimsyntax
 {html}
