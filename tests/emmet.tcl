@@ -1265,8 +1265,7 @@ namespace eval emmet {
   <li>
     <p>Again</p>
   </li>
-</ul>
-}
+</ul>}
 
     if {$actual ne $expect} {
       cleanup "abbreviation not wrapped correctly ($actual)"
@@ -1304,8 +1303,7 @@ namespace eval emmet {
     Go
     <img alt="Go" src="$3" />
   </li>
-</ul>$0
-}
+</ul>$0}
 
     if {$actual ne $expect} {
       cleanup "abbreviation not wrapped correctly ($actual)"
