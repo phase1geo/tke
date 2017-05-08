@@ -205,6 +205,7 @@ namespace eval multicursor {
 
     # Select the first s and the last fo
     $txt tag add sel 2.7 2.8 3.7 3.9
+    multicursor::handle_selection $txt.t
 
     # Verify that multicursors are set
     if {[$txt tag ranges mcursor] ne [list 2.7 2.8 3.7 3.8]} {
@@ -239,6 +240,7 @@ namespace eval multicursor {
 
     # Select the text at the end of the line
     $txt tag add sel 2.6 2.9 3.6 3.9
+    multicursor::handle_selection $txt.t
 
     if {[$txt tag ranges mcursor] ne [list 2.6 2.7 3.6 3.7]} {
       cleanup "mcursor mismatched after selection ([$txt tag ranges mcursor])"
@@ -267,6 +269,7 @@ namespace eval multicursor {
     $txt insert end "\nfirst line\nsecond line"
 
     $txt tag add sel 2.0 2.end 3.0 3.end
+    multicursor::handle_selection $txt.t
 
     if {[$txt tag ranges mcursor] ne [list 2.0 2.1 3.0 3.1]} {
       cleanup "mcursor mismatched after selection ([$txt tag ranges mcursor])"
