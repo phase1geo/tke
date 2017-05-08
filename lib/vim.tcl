@@ -1709,13 +1709,19 @@ namespace eval vim {
   ######################################################################
   # Performs the current motion-specific operation on the text range specified
   # by startpos/endpos.
-  proc do_operation {txtt eposargs {sposargs {}} {cursorargs {none}}} {
+  proc do_operation {txtt eposargs {sposargs {}} args} {
 
     variable operator
     variable motion
     variable multiplier
     variable number
     variable multicursor
+
+    array set opts {
+      -cursor "none"
+      -object 0
+    }
+    array set opts $args
 
     switch $operator($txtt) {
       "" {
@@ -1729,16 +1735,16 @@ namespace eval vim {
         return 1
       }
       "delete" {
-        if {![multicursor::delete $txtt $eposargs $sposargs]} {
+        if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
           set copy [expr [lsearch [list spacestart spaceend] [lindex $eposargs 0]] == -1]
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] $copy 1
+          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object)] $copy 1
         }
         command_mode $txtt
         return 1
       }
       "change" {
-        if {![multicursor::delete $txtt $eposargs $sposargs]} {
-          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs] 0 0
+        if {![multicursor::delete $txtt $eposargs $sposargs $opts(-object)]} {
+          edit::delete $txtt {*}[edit::get_range $txtt $eposargs $sposargs $opts(-object)] 0 0
         }
         edit_mode $txtt
         set operator($txtt)   ""
@@ -1748,51 +1754,51 @@ namespace eval vim {
         return 1
       }
       "yank" {
-        lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
+        lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
         clipboard clear
         clipboard append [$txtt get $startpos $endpos]
-        if {$cursorargs ne ""} {
-          ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$cursorargs]
+        if {$opts(-cursor) ne ""} {
+          ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$opts(-cursor)]
         }
         vim::adjust_insert $txtt
         command_mode $txtt
         return 1
       }
       "swap" {
-        if {![multicursor::toggle_case $txtt $eposargs $sposargs]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_toggle_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
+        if {![multicursor::toggle_case $txtt $eposargs $sposargs $opts(-object)]} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
+          edit::transform_toggle_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
         }
         command_mode $txtt
         return 1
       }
       "upper" {
-        if {![multicursor::upper_case $txtt $eposargs $sposargs]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
+        if {![multicursor::upper_case $txtt $eposargs $sposargs $opts(-object)]} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
+          edit::transform_to_upper_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
         }
         command_mode $txtt
         return 1
       }
       "lower" {
-        if {![multicursor::lower_case $txtt $eposargs $sposargs]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
+        if {![multicursor::lower_case $txtt $eposargs $sposargs $opts(-object)]} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
+          edit::transform_to_lower_case $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
         }
         command_mode $txtt
         return 1
       }
       "rot13" {
-        if {![multicursor::rot13 $txtt $eposargs $sposargs]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
-          edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$cursorargs]]
+        if {![multicursor::rot13 $txtt $eposargs $sposargs $opts(-object)]} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
+          edit::transform_to_rot13 $txtt $startpos $endpos [$txtt index [edit::get_index $txtt {*}$opts(-cursor)]]
         }
         command_mode $txtt
         return 1
       }
       "format" {
-        if {![multicursor::format_text $txtt $eposargs $sposargs]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
+        if {![multicursor::format_text $txtt $eposargs $sposargs $opts(-object)]} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
           indent::format_text $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
@@ -1800,8 +1806,8 @@ namespace eval vim {
         return 1
       }
       "lshift" {
-        if {![multicursor::shift $txtt left $eposargs $sposargs]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
+        if {![multicursor::shift $txtt left $eposargs $sposargs $opts(-object)]} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
           edit::unindent $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
@@ -1809,8 +1815,8 @@ namespace eval vim {
         return 1
       }
       "rshift" {
-        if {![multicursor::shift $txtt right $eposargs $sposargs]} {
-          lassign [edit::get_range $txtt $eposargs $sposargs] startpos endpos
+        if {![multicursor::shift $txtt right $eposargs $sposargs $opts(-object)]} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] startpos endpos
           edit::indent $txtt $startpos $endpos
           ::tk::TextSetCursor $txtt [edit::get_index $txtt firstchar -num 0 -startpos $startpos]
         }
@@ -1847,7 +1853,7 @@ namespace eval vim {
     }
 
     if {($operator($txtt) eq "") || ($dir eq "prev")} {
-      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] {} $cursorargs]
+      return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl] {} -cursor $cursorargs]
     } else {
       return [do_operation $txtt [list findchar -dir $dir -char $char -num [get_number $txtt] -exclusive $excl -adjust "+1 display chars"]]
     }
@@ -1861,9 +1867,8 @@ namespace eval vim {
 
     variable motion
 
-    if {$motion($txtt) ne "i"} {
-      return 0
-    }
+    # TBD - We have some work to do here to support between characters
+    return 0
 
     return [do_operation $txtt [list betweenchar -dir prev -char $char] [list betweenchar -dir next -char $char]]
 
@@ -2022,7 +2027,7 @@ namespace eval vim {
           }
         }
         "rot13" {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
+          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
         }
         default {
           reset_state $txtt 1
@@ -2495,7 +2500,7 @@ namespace eval vim {
           set endargs [list left -num [get_number $txtt]]
         }
       }
-      return [do_operation $txtt $endargs $startargs $cursorargs]
+      return [do_operation $txtt $endargs $startargs -cursor $cursorargs]
     }
 
     return 0
@@ -2530,11 +2535,20 @@ namespace eval vim {
   proc handle_b {txtt} {
 
     variable mode
+    variable operator
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list wordstart -dir prev -num [get_number $txtt] -exclusive 1]]
+      switch $motion($txtt) {
+        "" {
+          return [do_operation $txtt [list wordstart -dir prev -num [get_number $txtt] -exclusive 1]]
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char )] [list findchar -dir prev -char (] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 1
       return 1
@@ -2549,11 +2563,20 @@ namespace eval vim {
   proc handle_B {txtt} {
 
     variable mode
+    variable operator
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list WORDstart -dir prev -num [get_number $txtt] -exclusive 1]]
+      switch $motion($txtt) {
+        "" {
+          return [do_operation $txtt [list WORDstart -dir prev -num [get_number $txtt] -exclusive 1]]
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \}] [list findchar -dir prev -char \{] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 1
       return 1
@@ -2643,11 +2666,19 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        switch $operator($txtt) {
-          ""       { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 1]] }
-          "change" { return [do_operation $txtt [list wordend   -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
-          default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
+      switch $motion($txtt) {
+        "" {
+          switch $operator($txtt) {
+            ""       { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 1]] }
+            "change" { return [do_operation $txtt [list wordend   -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
+            default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
+          }
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list wordend -dir next -num [get_number $txtt]] [list wordstart -dir prev] -object [expr {$motion($txtt) eq "a"}]]
+          }
         }
       }
       reset_state $txtt 1
@@ -2668,11 +2699,19 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        switch $operator($txtt) {
-          ""       { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 1]] }
-          "change" { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
-          default  { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0]] }
+      switch $motion($txtt) {
+        "" {
+          switch $operator($txtt) {
+            ""       { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 1]] }
+            "change" { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0 -adjust +1c]] }
+            default  { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0]] }
+          }
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt]] [list WORDstart -dir prev] -object [expr {$motion($txtt) eq "a"}]]
+          }
         }
       }
       reset_state $txtt 1
@@ -2799,16 +2838,15 @@ namespace eval vim {
         "folding" {
           folding::toggle_fold [winfo parent $txtt] [lindex [split [$txtt index insert] .] 0] [get_number $txtt]
         }
-        "change" {
-          set motion($txtt) "a"
-          return 1
-        }
         default {
-          reset_state $txtt 1
+          set motion($txtt) "a"
           return 1
         }
       }
       reset_state $txtt 0
+      return 1
+    } elseif {[in_visual_char $txtt]} {
+      set motion($txtt) "a"
       return 1
     }
 
@@ -2871,7 +2909,7 @@ namespace eval vim {
           return 1
         }
         "yank" {
-          return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart 0]
+          return [do_operation $txtt [list lineend -num [get_number $txtt] -adjust +1c] linestart -cursor 0]
         }
         default {
           reset_state $txtt 1
@@ -2951,11 +2989,23 @@ namespace eval vim {
   proc handle_p {txtt} {
 
     variable mode
+    variable operator
+    variable motion
 
-    if {$mode($txtt) eq "command"} {
-      do_post_paste $txtt [set clip [clipboard get]]
-      cliphist::add_from_clipboard
-      record $txtt p
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $motion($txtt) {
+        "" {
+          do_post_paste $txtt [set clip [clipboard get]]
+          cliphist::add_from_clipboard
+          record $txtt p
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list paragraph -dir prev] [list paragraph -dir next -num [get_number $txtt]] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
+      }
       reset_state $txtt 0
       return 1
     }
@@ -3062,7 +3112,7 @@ namespace eval vim {
           }
         }
         "lower" {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
+          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
         }
         default {
           reset_state $txtt 1
@@ -3099,7 +3149,7 @@ namespace eval vim {
           }
         }
         "upper" {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
+          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
         }
         default {
           reset_state $txtt 1
@@ -3494,12 +3544,25 @@ namespace eval vim {
 
     variable mode
     variable operator
+    variable motion
 
-    if {$mode($txtt) eq "command"} {
-      if {$operator($txtt) eq ""} {
-        multicursor::add_cursor $txtt [$txtt index insert]
-      } else {
-        return [do_operation $txtt spaceend]
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $motion($txtt) {
+        "" {
+          if {$mode($txtt) eq "command"} {
+            if {$operator($txtt) eq ""} {
+              multicursor::add_cursor $txtt [$txtt index insert]
+            } else {
+              return [do_operation $txtt spaceend]
+            }
+          }
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list sentence -dir next -num [get_number $txtt]] [list sentence -dir prev] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 0
       return 1
@@ -3616,12 +3679,14 @@ namespace eval vim {
     variable operator
     variable motion
 
-    if {$mode($txtt) eq "command"} {
-      if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
-        place_bracket $txtt \"
-      } else {
-        reset_state $txtt 1
-        return 1
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $motion($txtt) {
+        "i" -
+        "a" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \"] [list findchar -dir prev -char \"] [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 0
       return 1
@@ -3643,12 +3708,39 @@ namespace eval vim {
     variable operator
     variable motion
 
-    if {$mode($txtt) eq "command"} {
-      if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
-        place_bracket $txtt '
-      } else {
-        reset_state $txtt 1
-        return 1
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $motion($txtt) {
+        "i" -
+        "a" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \'] [list findchar -dir prev -char \'] [expr {$motion($txtt) eq "a"}]]
+          }
+        }
+      }
+      reset_state $txtt 0
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Handle a` and i` Vim motions.
+  proc handle_grave {txtt} {
+
+    variable mode
+    variable operator
+    variable motion
+
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $motion($txtt) {
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \`] [list findchar -dir prev -char \`] [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 0
       return 1
@@ -3670,12 +3762,39 @@ namespace eval vim {
     variable operator
     variable motion
 
-    if {$mode($txtt) eq "command"} {
-      if {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
-        place_bracket $txtt \[ \]
-      } else {
-        reset_state $txtt 1
-        return 1
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $motion($txtt) {
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \]] [list paragraph -dir prev -char \[] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
+      }
+      reset_state $txtt 0
+      return 1
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Handles a] or i] Vim command.
+  proc handle_bracketright {txtt} {
+
+    variable mode
+    variable operator
+    variable motion
+
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
+      switch $motion($txtt) {
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \]] [list paragraph -dir prev -char \[] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 0
       return 1
@@ -3698,13 +3817,16 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list paragraph -dir prev -num [get_number $txtt]]]
-      } elseif {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
-        place_bracket $txtt \{ \}
-      } else {
-        reset_state $txtt 1
-        return 1
+      switch $motion($txtt) {
+        "" {
+          return [do_operation $txtt [list paragraph -dir prev -num [get_number $txtt]]]
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \}] [list paragraph -dir prev -char \{] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 0
       return 1
@@ -3723,10 +3845,18 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt]]]
+      switch $motion($txtt) {
+        "" {
+          return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt]]]
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \}] [list paragraph -dir prev -char \{] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
-      reset_state $txtt 1
+      reset_state $txtt 0
       return 1
     }
 
@@ -3747,13 +3877,16 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list sentence -dir prev -num [get_number $txtt]]]
-      } elseif {($operator($txtt) eq "change") && ($motion($txtt) eq "a")} {
-        place_bracket $txtt ( )
-      } else {
-        reset_state $txtt 1
-        return 1
+      switch $motion($txtt) {
+        "" {
+          return [do_operation $txtt [list sentence -dir prev -num [get_number $txtt]]]
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \)] [list paragraph -dir prev -char \(] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
       reset_state $txtt 0
       return 1
@@ -3771,11 +3904,21 @@ namespace eval vim {
     variable operator
     variable motion
 
+    puts "In handle_parenright, mode: $mode($txtt), motion: $motion($txtt), operator: $operator($txtt)"
+
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        return [do_operation $txtt [list sentence -dir next -num [get_number $txtt]]]
+      switch $motion($txtt) {
+        "" {
+          return [do_operation $txtt [list sentence -dir next -num [get_number $txtt]]]
+        }
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \)] [list paragraph -dir prev -char \(] -object [expr {$motion($txtt) eq "a"}]]
+          }
+        }
       }
-      reset_state $txtt 1
+      reset_state $txtt 0
       return 1
     }
 
@@ -3809,17 +3952,14 @@ namespace eval vim {
           }
           return 1
         }
-        "change" {
-          if {$motion($txtt) eq "a"} {
-            place_bracket $txtt < >
-          }
-        }
         "lshift" {
           return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
         }
-        default {
-          reset_state $txtt 1
-          return 1
+        "a" -
+        "i" {
+          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            return [do_operation $txtt [list findchar -dir next -char >] [list paragraph -dir prev -num [get_number $txtt] -char <] -object [expr {$motion($txtt) eq "a"}]]
+          }
         }
       }
       reset_state $txtt 0
@@ -3837,6 +3977,7 @@ namespace eval vim {
 
     variable mode
     variable operator
+    variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
@@ -3991,7 +4132,7 @@ namespace eval vim {
         "" {
           if {$motion($txtt) eq ""} {
             set_operator $txtt "swap" {asciitilde}
-            return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} [list char -dir next -num [get_number $txtt]]]
+            return [do_operation $txtt [list char -dir next -num [get_number $txtt]] {} -cursor [list char -dir next -num [get_number $txtt]]]
           } elseif {$motion($txtt) eq "g"} {
             if {[edit::transform_toggle_case_selected $txtt]} {
               command_mode $txtt
@@ -4006,7 +4147,7 @@ namespace eval vim {
           }
         }
         "swap" {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart linestart]
+          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart -cursor linestart]
         }
         default {
           reset_state $txtt 1
@@ -4203,7 +4344,7 @@ namespace eval vim {
           }
         }
       }
-      return [do_operation $txtt $endargs $startargs $cursorargs]
+      return [do_operation $txtt $endargs $startargs -cursor $cursorargs]
     }
 
     return 0

@@ -1867,7 +1867,7 @@ namespace eval edit {
 
   ######################################################################
   # Returns the startpos/endpos range based on the supplied arguments.
-  proc get_range {txtt pos1args pos2args {cursor insert}} {
+  proc get_range {txtt pos1args pos2args object {cursor insert}} {
 
     set pos1 [$txtt index [edit::get_index $txtt {*}$pos1args -startpos $cursor]]
 
