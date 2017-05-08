@@ -636,7 +636,7 @@ namespace eval tabbar {
 
       # Check to see if the close is okay
       if {$data($w,option,-checkcommand) ne ""} {
-        if {![uplevel #0 $data($w,option,-checkcommand) $w $page]} {
+        if {![uplevel #0 [list $data($w,option,-checkcommand) $w $page]]} {
           return
         }
       }
@@ -654,7 +654,7 @@ namespace eval tabbar {
 
       # Run the close command if one was specified
       if {$data($w,option,-closecommand) ne ""} {
-        uplevel #0 $data($w,option,-closecommand) $w $page
+        uplevel #0 [list $data($w,option,-closecommand) $w $page]
       }
 
     } else {
@@ -684,7 +684,7 @@ namespace eval tabbar {
 
       # If the user has specified a command to run for the selection, run it now
       if {$data($w,option,-command) ne ""} {
-        uplevel #0 $data($w,option,-command) $w $data($w,current)
+        uplevel #0 [list $data($w,option,-command) $w $data($w,current)]
       }
 
       # Clear the moveto_index
