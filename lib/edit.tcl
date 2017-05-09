@@ -1877,7 +1877,19 @@ namespace eval edit {
       set pos2 [$txtt index $cursor]
     }
 
-    return [expr {[$txtt compare $pos1 < $pos2] ? [list $pos1 $pos2] : [list $pos2 $pos1]}]
+    set pos_list [expr {[$txtt compare $pos1 < $pos2] ? [list $pos1 $pos2] : [list $pos2 $pos1]}]
+
+    # If we are dealing with an object, adjust the start/end position to include whitespace.
+    if {$object} {
+      set index [$txtt search -regexp -- {\S} [lindex $pos_list 1] "[lindex $pos_list 1] lineend"]
+      if {[$txtt compare [lindex $pos_list 1] != $index]} {
+        lset pos_list 1 [$txtt index "$index-1c"]
+      } else {
+        lset pos_list 0 [$txtt search -backwards -regexp -- {\S} [lindex $pos_list 0] "[lindex $pos_list 0] linestart"]
+      }
+    }
+
+    return $pos_list
 
   }
 
