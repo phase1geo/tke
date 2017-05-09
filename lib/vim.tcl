@@ -1711,6 +1711,7 @@ namespace eval vim {
   # by startpos/endpos.
   proc do_operation {txtt eposargs {sposargs {}} args} {
 
+    variable mode
     variable operator
     variable motion
     variable multiplier
@@ -1727,6 +1728,12 @@ namespace eval vim {
       "" {
         if {$multicursor($txtt)} {
           multicursor::move $txtt $eposargs
+        } elseif {$sposargs ne ""} {
+          lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object)] spos epos
+          ::tk::TextSetCursor $txtt $spos
+          visual_mode $txtt char
+          ::tk::TextSetCursor $txtt $epos
+          vim::adjust_insert $txtt
         } else {
           ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$eposargs]
           vim::adjust_insert $txtt
@@ -2677,6 +2684,7 @@ namespace eval vim {
         "a" -
         "i" {
           if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
+            puts "HERE!, insert: [$txtt index insert], end: [edit::get_index $txtt wordend -dir next -num [get_number $txtt]], start: [edit::get_index $txtt wordstart -dir prev]"
             return [do_operation $txtt [list wordend -dir next -num [get_number $txtt]] [list wordstart -dir prev] -object [expr {$motion($txtt) eq "a"}]]
           }
         }
@@ -2822,6 +2830,7 @@ namespace eval vim {
 
     variable mode
     variable operator
+    variable motion
 
     if {$mode($txtt) eq "command"} {
       switch $operator($txtt) {
