@@ -2684,7 +2684,6 @@ namespace eval vim {
         "a" -
         "i" {
           if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            puts "HERE!, insert: [$txtt index insert], end: [edit::get_index $txtt wordend -dir next -num [get_number $txtt]], start: [edit::get_index $txtt wordstart -dir prev]"
             return [do_operation $txtt [list wordend -dir next -num [get_number $txtt]] [list wordstart -dir prev] -object [expr {$motion($txtt) eq "a"}]]
           }
         }
@@ -2854,7 +2853,7 @@ namespace eval vim {
       }
       reset_state $txtt 0
       return 1
-    } elseif {[in_visual_char $txtt]} {
+    } elseif {[in_visual_mode $txtt]} {
       set motion($txtt) "a"
       return 1
     }

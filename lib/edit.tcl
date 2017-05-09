@@ -1881,11 +1881,14 @@ namespace eval edit {
 
     # If we are dealing with an object, adjust the start/end position to include whitespace.
     if {$object} {
-      set index [$txtt search -regexp -- {\S} [lindex $pos_list 1] "[lindex $pos_list 1] lineend"]
-      if {[$txtt compare [lindex $pos_list 1] != $index]} {
+      set index [$txtt search -regexp -- {\S} "[lindex $pos_list 1]+1c" "[lindex $pos_list 1] lineend"]
+      if {($index ne "") && [$txtt compare "[lindex $pos_list 1]+1c" != $index]} {
         lset pos_list 1 [$txtt index "$index-1c"]
       } else {
-        lset pos_list 0 [$txtt search -backwards -regexp -- {\S} [lindex $pos_list 0] "[lindex $pos_list 0] linestart"]
+        set index [$txtt search -backwards -regexp -- {\S} [lindex $pos_list 0] "[lindex $pos_list 0] linestart"]
+        if {($index ne "") && [$txtt compare "[lindex $pos_list 0]-1c" != $index]} {
+          lset pos_list 0 [$txtt index "$index+1c"]
+        }
       }
     }
 
