@@ -1837,6 +1837,46 @@ namespace eval vim {
   }
 
   ######################################################################
+  # Perform the current operation on the given object.
+  proc do_object_operation {txtt startargs endargs} {
+
+    variable operator
+    variable motion
+
+    # If this is a block type, handle it correctly
+    if {[lindex $startargs 0] eq "findchar"} {
+      set exclusive [list -exclusive [expr {$motion($txtt) eq "i"}]]
+      set object    0
+    } else {
+      set exclusive [list]
+      set object    1
+    }
+
+    # Execute the operation
+    switch $motion($txtt) {
+      "a" {
+        if {[in_visual_mode $txtt]} {
+          return [do_operation $txtt [list {*}$endargs -dir next -num [get_number $txtt] {*}$exclusive] [list {*}$startargs -dir prev {*}$exclusive] -object $object]
+        } elseif {$operator($txtt) ne ""} {
+          return [do_operation $txtt [list {*}$endargs -dir next -num [get_number $txtt] {*}$exclusive -adjust +1c] [list {*}$startargs -dir prev {*}$exclusive] -object $object]
+        }
+      }
+      "i" {
+        if {[in_visual_mode $txtt]} {
+          return [do_operation $txtt [list {*}$endargs -dir next -num [get_number $txtt] {*}$exclusive] [list {*}$startargs -dir prev {*}$exclusive] -object 0]
+        } elseif {$operator($txtt) ne ""} {
+          return [do_operation $txtt [list {*}$endargs -dir next -num [get_number $txtt] {*}$exclusive -adjust +1c] [list {*}$startargs -dir prev {*}$exclusive] -object 0]
+        }
+      }
+    }
+
+    reset_state $txtt 0
+
+    return 1
+
+  }
+
+  ######################################################################
   # Checks the current mode and if we are in a find character motion,
   # handle the action.
   proc handle_find_motion {txtt char} {
@@ -2550,11 +2590,8 @@ namespace eval vim {
         "" {
           return [do_operation $txtt [list wordstart -dir prev -num [get_number $txtt] -exclusive 1]]
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char )] [list findchar -dir prev -char (] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt [list findchar -char "("] [list findchar -char ")"]]
         }
       }
       reset_state $txtt 1
@@ -2578,11 +2615,8 @@ namespace eval vim {
         "" {
           return [do_operation $txtt [list WORDstart -dir prev -num [get_number $txtt] -exclusive 1]]
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \}] [list findchar -dir prev -char \{] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt [list findchar -char "\{"] [list findchar -char "\}"]]
         }
       }
       reset_state $txtt 1
@@ -2681,11 +2715,8 @@ namespace eval vim {
             default  { return [do_operation $txtt [list wordstart -dir next -num [get_number $txtt] -exclusive 0]] }
           }
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list wordend -dir next -num [get_number $txtt]] [list wordstart -dir prev] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt wordstart wordend]
         }
       }
       reset_state $txtt 1
@@ -2714,11 +2745,8 @@ namespace eval vim {
             default  { return [do_operation $txtt [list WORDstart -dir next -num [get_number $txtt] -exclusive 0]] }
           }
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list WORDend -dir next -num [get_number $txtt]] [list WORDstart -dir prev] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt WORDstart WORDend]
         }
       }
       reset_state $txtt 1
@@ -3007,11 +3035,8 @@ namespace eval vim {
           cliphist::add_from_clipboard
           record $txtt p
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list paragraph -dir prev] [list paragraph -dir next -num [get_number $txtt]] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt paragraph paragraph]
         }
       }
       reset_state $txtt 0
@@ -3565,11 +3590,8 @@ namespace eval vim {
             }
           }
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list sentence -dir next -num [get_number $txtt]] [list sentence -dir prev] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt sentence sentence]
         }
       }
       reset_state $txtt 0
@@ -3688,16 +3710,7 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      switch $motion($txtt) {
-        "i" -
-        "a" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \"] [list findchar -dir prev -char \"] [expr {$motion($txtt) eq "a"}]]
-          }
-        }
-      }
-      reset_state $txtt 0
-      return 1
+      return [do_object_operation $txtt [list findchar -char \"] [list findchar -char \"]]
     }
 
     return 0
@@ -3717,16 +3730,7 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      switch $motion($txtt) {
-        "i" -
-        "a" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \'] [list findchar -dir prev -char \'] [expr {$motion($txtt) eq "a"}]]
-          }
-        }
-      }
-      reset_state $txtt 0
-      return 1
+      return [do_object_operation $txtt [list findchar -char \'] [list findchar -char \']]
     }
 
     return 0
@@ -3742,16 +3746,7 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      switch $motion($txtt) {
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \`] [list findchar -dir prev -char \`] [expr {$motion($txtt) eq "a"}]]
-          }
-        }
-      }
-      reset_state $txtt 0
-      return 1
+      return [do_object_operation $txtt [list findchar -char \`] [list findchar -char \`]]
     }
 
     return 0
@@ -3771,16 +3766,7 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      switch $motion($txtt) {
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \]] [list paragraph -dir prev -char \[] -object [expr {$motion($txtt) eq "a"}]]
-          }
-        }
-      }
-      reset_state $txtt 0
-      return 1
+      return [do_object_operation $txtt [list findchar -char "\["] [list findchar -char "\]"]]
     }
 
     return 0
@@ -3796,16 +3782,7 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      switch $motion($txtt) {
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \]] [list paragraph -dir prev -char \[] -object [expr {$motion($txtt) eq "a"}]]
-          }
-        }
-      }
-      reset_state $txtt 0
-      return 1
+      return [do_object_operation $txtt [list findchar -char "\["] [list findchar -char "\]"]]
     }
 
     return 0
@@ -3829,11 +3806,8 @@ namespace eval vim {
         "" {
           return [do_operation $txtt [list paragraph -dir prev -num [get_number $txtt]]]
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \}] [list paragraph -dir prev -char \{] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt [list findchar -char "\{"] [list findchar -char "\}"]]
         }
       }
       reset_state $txtt 0
@@ -3857,11 +3831,8 @@ namespace eval vim {
         "" {
           return [do_operation $txtt [list paragraph -dir next -num [get_number $txtt]]]
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \}] [list paragraph -dir prev -char \{] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt [list findchar -char "\{"] [list findchar -char "\}"]]
         }
       }
       reset_state $txtt 0
@@ -3889,11 +3860,8 @@ namespace eval vim {
         "" {
           return [do_operation $txtt [list sentence -dir prev -num [get_number $txtt]]]
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \)] [list paragraph -dir prev -char \(] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt [list findchar -char "("] [list findchar -char ")"]]
         }
       }
       reset_state $txtt 0
@@ -3912,18 +3880,13 @@ namespace eval vim {
     variable operator
     variable motion
 
-    puts "In handle_parenright, mode: $mode($txtt), motion: $motion($txtt), operator: $operator($txtt)"
-
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $motion($txtt) {
         "" {
           return [do_operation $txtt [list sentence -dir next -num [get_number $txtt]]]
         }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -num [get_number $txtt] -char \)] [list paragraph -dir prev -char \(] -object [expr {$motion($txtt) eq "a"}]]
-          }
+        default {
+          return [do_object_operation $txtt [list findchar -char "("] [list findchar -char ")"]]
         }
       }
       reset_state $txtt 0
@@ -3960,13 +3923,11 @@ namespace eval vim {
           }
           return 1
         }
-        "lshift" {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
-        }
-        "a" -
-        "i" {
-          if {[in_visual_mode $txtt] || ($operator($txtt) ne "")} {
-            return [do_operation $txtt [list findchar -dir next -char >] [list paragraph -dir prev -num [get_number $txtt] -char <] -object [expr {$motion($txtt) eq "a"}]]
+        default {
+          if {($operator($txtt) eq "lshift") && ($motion($txtt) eq "")} {
+            return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+          } else {
+            return [do_object_operation $txtt [list findchar -char "<"] [list findchar -char ">"]]
           }
         }
       }
@@ -3997,12 +3958,12 @@ namespace eval vim {
           }
           return 1
         }
-        "rshift" {
-          return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
-        }
         default {
-          reset_state $txtt 1
-          return 1
+          if {($operator($txtt) eq "rshift") && ($motion($txtt) eq "")} {
+            return [do_operation $txtt [list lineend -num [get_number $txtt]] linestart]
+          } else {
+            return [do_object_operation $txtt [list findchar -char "<"] [list findchar -char ">"]]
+          }
         }
       }
       reset_state $txtt 0
