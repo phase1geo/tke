@@ -2463,11 +2463,17 @@ namespace eval vim {
     variable motion
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
-      if {$motion($txtt) eq ""} {
-        set motion($txtt) "t"
-        return 1
+      switch $motion($txtt) {
+        "" {
+          set motion($txtt) "t"
+          return 1
+        }
+        default {
+          puts "HERE!"
+          return [do_object_operation $txtt tagstart tagend]
+        }
       }
-      reset_state $txtt 1
+      reset_state $txtt 0
       return 1
     }
 

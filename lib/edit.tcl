@@ -1854,6 +1854,35 @@ namespace eval edit {
           set index "$opts(-startpos)+[string length $match]c"
         }
       }
+      tagstart      {
+        puts "In tagstart"
+        set insert [$txtt index insert]
+        while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
+          puts "  ranges: $ranges"
+          if {[incr opts(-num) -1] == 0} {
+            set index [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]
+            break
+          } else {
+            $txtt mark set insert "[lindex $ranges 0]-1c"
+          }
+        }
+        $txtt mark set insert $insert
+      }
+      tagend        {
+        puts "In tagend"
+        set insert [$txtt index insert]
+        while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
+          puts "  ranges: $ranges"
+          if {[incr opts(-num) -1] == 0} {
+            set index [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]
+            break
+          } else {
+            $txtt mark set insert "[lindex $ranges 0]-1c"
+          }
+        }
+        $txtt mark set insert $insert
+        puts "  index: $index"
+      }
     }
 
     # Make any necessary adjustments, if needed
