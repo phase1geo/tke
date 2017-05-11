@@ -1,4 +1,4 @@
-#!tclsh8.5
+#!tclsh8.6
 
 # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
@@ -24,7 +24,7 @@
 # Brief:   Performs a release of TKE, creating packages for Linux and
 #          Mac OSX.  (Windows can be added here if we can get this to
 #          work.
-# Usage:   tclsh8.5 release.tcl
+# Usage:   tclsh8.6 release.tcl
 ######################################################################
 
 # Create a specl namespace so that we can generate an updated version of specl_version.tcl
@@ -42,7 +42,7 @@ source specl_version.tcl
 proc usage {} {
 
   puts ""
-  puts "Usage:  tclsh8.5 release.tcl -- \[options\]"
+  puts "Usage:  tclsh8.6 release.tcl -- \[options\]"
   puts ""
   puts "Options:"
   puts "  -h    Display this help information"
