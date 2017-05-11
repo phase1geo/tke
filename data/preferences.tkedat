@@ -371,6 +371,11 @@
 
 {View/EnableLineWrapping} {syntax}
 
+# If this option is set, displays the syntax menu as a list of first letters of supported
+# languages.
+
+{View/ShowLanguagesSubmenu} {0}
+
 # If a filename matches any of the patterns in the list, they will not be
 # displayed in the sidebar.
 
