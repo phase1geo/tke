@@ -738,6 +738,20 @@ namespace eval syntax {
 
     variable langs
 
+    # Clear the menu
+    $mnu delete 0 end
+
+    if {[preferences::get View/ShowLanguagesSubmenu]} {
+      foreach lang [lsort [string toupper $languages]] {
+        set letter [string index $lang 0]
+        if {![info exists letters($letter)]} {
+          $mnu add cascade -label $letter -menu $lang_submenu
+          set letters($letter) 1
+        }
+      }
+      return
+    }
+
     # Figure out the height of a menu entry
     menu .__tmpMenu
     .__tmpMenu add command -label "foobar"
@@ -755,9 +769,6 @@ namespace eval syntax {
 
     # If we are running in Aqua, don't perform the column break
     set dobreak [expr {[tk windowingsystem] ne "aqua"}]
-
-    # Clear the menu
-    $mnu delete 0 end
 
     # Populate the menu with the available languages
     $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]

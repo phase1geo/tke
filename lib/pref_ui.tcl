@@ -2630,6 +2630,7 @@ namespace eval pref_ui {
     make_cb $w.ats  [msgcat::mc "Allow scrolling in tab bar"]                       View/AllowTabScrolling
     make_cb $w.ota  [msgcat::mc "Sort tabs alphabetically on open"]                 View/OpenTabsAlphabetically
     make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
+    make_cb $w.sls  [msgcat::mc "Show language submenu"]                            View/ShowLanguagesSubmenu
 
     make_spacer $w
 
