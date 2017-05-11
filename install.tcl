@@ -1,4 +1,4 @@
-#!tclsh8.5
+#!tclsh8.6
 
 # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
@@ -28,10 +28,10 @@
 source [file join lib version.tcl]
 
 # Check to make sure that the Tcl version is okay
-puts -nonewline "Tcl version 8.5.x or higher is required...  "
+puts -nonewline "Tcl version 8.6.x or higher is required...  "
 flush stdout
 set version [info patchlevel]
-if {[string compare $version "8.5"] == -1} {
+if {[string compare $version "8.6"] == -1} {
   puts "Not Found! ($version)"
   exit 1
 } else {
