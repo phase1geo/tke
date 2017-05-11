@@ -1855,10 +1855,8 @@ namespace eval edit {
         }
       }
       tagstart      {
-        puts "In tagstart"
         set insert [$txtt index insert]
         while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
-          puts "  ranges: $ranges"
           if {[incr opts(-num) -1] == 0} {
             set index [expr {$opts(-exclusive) ? [lindex $ranges 1] : [lindex $ranges 0]}]
             break
@@ -1869,10 +1867,8 @@ namespace eval edit {
         $txtt mark set insert $insert
       }
       tagend        {
-        puts "In tagend"
         set insert [$txtt index insert]
         while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
-          puts "  ranges: $ranges"
           if {[incr opts(-num) -1] == 0} {
             set index [expr {$opts(-exclusive) ? [lindex $ranges 2] : [lindex $ranges 3]}]
             break
@@ -1881,7 +1877,6 @@ namespace eval edit {
           }
         }
         $txtt mark set insert $insert
-        puts "  index: $index"
       }
     }
 
@@ -1895,23 +1890,13 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Returns the startpos/endpos range based on the supplied arguments.
-  proc get_range {txtt pos1args pos2args object {cursor insert}} {
+  # Handles word, WORD, paragraph and sentence range motion.
+  proc get_range_chars {txtt start end num inner adjust} {
 
-    set pos1 [$txtt index [edit::get_index $txtt {*}$pos1args -startpos $cursor]]
+    set pos_list [list [get_index $txtt $start -dir prev] [get_index $txtt $end -dir next -num $num]]
 
-    if {$pos2args ne ""} {
-      set pos2 [$txtt index [edit::get_index $txtt {*}$pos2args -startpos $cursor]]
-    } else {
-      set pos2 [$txtt index $cursor]
-    }
-
-    # Return the start/end position in the correct order.
-    set pos_list [expr {[$txtt compare $pos1 < $pos2] ? [list $pos1 $pos2] : [list $pos2 $pos1]}]
-
-    # If we are dealing with an object, adjust the start/end position to include whitespace.
-    if {$object} {
-      set index [$txtt search -regexp -- {\S} "[lindex $pos_list 1]+1c" "[lindex $pos_list 1] lineend"]
+    if {!$inner} {
+      set index [$txtt search -forwards -regexp -- {\S} "[lindex $pos_list 1]+1c" "[lindex $pos_list 1] lineend"]
       if {($index ne "") && [$txtt compare "[lindex $pos_list 1]+1c" != $index]} {
         lset pos_list 1 [$txtt index "$index-1c"]
       } else {
@@ -1922,7 +1907,109 @@ namespace eval edit {
       }
     }
 
+    lset pos_list 1 [$txtt index "[lindex $pos_list 1]$adjust"]
+
     return $pos_list
+
+  }
+
+  ######################################################################
+  # Returns the text range for a bracketed block of text.
+  proc get_range_block {txtt type num inner adjust} {
+
+    # Search backwards
+    set txt      [winfo parent $txtt]
+    set number   $num
+    set startpos insert
+    while {[set index [ctext::get_match_bracket $txt ${type}L $startpos]] != -1} {
+      if {[incr number -1] == 0} {
+        set right [ctext::get_match_bracket $txt ${type}R $index]
+        return [expr {$inner ? [list [$txt index "$index+1c"] [$txt index "$right-1c$adjust"]] : [list $index [$txt index "$right$adjust"]]}]
+      } else {
+        set startpos $index
+      }
+    }
+
+    return [list "" ""]
+
+  }
+
+  ######################################################################
+  # Returns the text range for the given string type.
+  proc get_range_string {txtt char tag inner adjust} {
+
+    if {[$txtt get insert] eq $char} {
+      if {[lsearch [$txtt tag names insert-1c] $tag] == -1} {
+        set index [gui::find_match_char [winfo parent $txt] $char -forwards]
+        return [expr {$inner ? [list [$txtt index "insert+1c"] [$txtt index "$index-1c$adjust"]] : [list [$txtt index insert] [$txtt index "$index$adjust"]]}]
+      } else {
+        set index [gui::find_match_char [winfo parent $txt] $char -backwards]
+        return [expr {$inner ? [list [$txtt index "$index+1c"] [$txtt index "insert-1c$adjust"]] : [list $index [$txtt index "insert$adjust"]]}]
+      }
+    } elseif {[set tag [lsearch -inline [$txtt tag names insert] _${tag}*]] ne ""} {
+      lassign [$txtt tag prevrange $tag insert] startpos endpos
+      return [expr {$inner ? [list [$txtt index "$startpos+1c"] [$txtt index "$endpos-2c$adjust"]] : [list $startpos [$txtt index "$endpos-1c$adjust"]]}]
+    }
+
+    return [list "" ""]
+
+  }
+
+  ######################################################################
+  # Returns the startpos/endpos range based on the supplied arguments.
+  proc get_range {txtt pos1args pos2args object move {cursor insert}} {
+
+    if {$object ne ""} {
+
+      set type   [lindex $pos1args 0]
+      set num    [lindex $pos1args 1]
+      set inner  [expr {$object eq "i"}]
+      set adjust [expr {$move ? "" : "+1c"}]
+
+      switch [lindex $pos1args 0] {
+        "word"      { return [get_range_chars $txtt wordstart wordend   $num $inner $adjust] }
+        "WORD"      { return [get_range_chars $txtt WORDstart WORDend   $num $inner $adjust] }
+        "paragraph" { return [get_range_chars $txtt paragraph paragraph $num $inner $adjust] }
+        "sentence"  { return [get_range_chars $txtt sentence  sentence  $num $inner $adjust] }
+        "tag"       {
+          set insert [$txtt index insert]
+          while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
+            if {[incr num -1] == 0} {
+              $txtt mark set insert $insert
+              if {$inner} {
+                return [list [lindex $ranges 1] [$txtt index "[lindex $ranges 2]$adjust"]]
+              } else {
+                return [list [lindex $ranges 0] [$txtt index "[lindex $ranges 3]$adjust"]]
+              }
+            } else {
+              $txtt mark set insert "[lindex $ranges 0]-1c"
+            }
+          }
+          $txtt mark set insert $insert
+        }
+        "paren"  -
+        "curly"  -
+        "square" -
+        "angled" { return [get_range_block $txtt $type $num $inner $adjust] }
+        "double" { return [get_range_string $txtt \" comstr0d $inner $adjust] }
+        "single" { return [get_range_string $txtt \' comstr0s $inner $adjust] }
+        "btick"  { return [get_range_string $txtt \` comstr0b $inner $adjust] }
+      }
+
+    } else {
+
+      set pos1 [$txtt index [edit::get_index $txtt {*}$pos1args -startpos $cursor]]
+
+      if {$pos2args ne ""} {
+        set pos2 [$txtt index [edit::get_index $txtt {*}$pos2args -startpos $cursor]]
+      } else {
+        set pos2 [$txtt index $cursor]
+      }
+
+      # Return the start/end position in the correct order.
+      return [expr {[$txtt compare $pos1 < $pos2] ? [list $pos1 $pos2] : [list $pos2 $pos1]}]
+
+    }
 
   }
 
