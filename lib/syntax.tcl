@@ -743,14 +743,14 @@ namespace eval syntax {
     $mnu delete 0 end
 
     # If the user wants to view languages in a submenu, organize them that way
-    if {[preferences::get View/ShowLanguagesSubmenu] && [winfo exists $mnu.submenu]} {
+    if {[preferences::get View/ShowLanguagesSubmenu] && [winfo exists $mnu.submenuA]} {
       array unset letters
       foreach lang [lsort $languages] {
         lappend letters([string toupper [string index $lang 0]]) $lang
       }
       $mnu add radiobutton -label [format "<%s>" $dflt] -variable $varname -value $dflt -command [list {*}$command $dflt]
       foreach letter [lsort [array names letters]] {
-        $mnu add cascade -label $letter -menu $mnu.submenu
+        $mnu add cascade -label $letter -menu $mnu.submenu$letter
       }
       return
     }
@@ -786,22 +786,16 @@ namespace eval syntax {
 
   ######################################################################
   # Displays language submenu.
-  proc post_submenu {mnu} {
+  proc post_submenu {mnu letter} {
 
     variable letters
 
-    # Get the language letter to display
-    set letter  [$mnu entrycget active -label]
-    set submenu $mnu.submenu
-    set dflt    [msgcat::mc "None"]
-
     # Clear the menu
-    $mnu.submenu delete 0 end
+    $mnu delete 0 end
 
     # Populate the menu with the available languages
     foreach lang $letters($letter) {
-      $submenu add radiobutton -label $lang -variable syntax::current_lang \
-        -value $lang -command [list syntax::set_current_language $lang]
+      $mnu add radiobutton -label $lang -variable syntax::current_lang -value $lang -command [list syntax::set_current_language $lang]
     }
 
   }
@@ -815,8 +809,10 @@ namespace eval syntax {
     # Create the menubutton menu
     lappend syntax_menus [menu ${w}Menu -tearoff 0]
 
-    # Create submenu
-    menu ${w}Menu.submenu -tearoff 0 -postcommand [list syntax::post_submenu ${w}Menu]
+    # Create submenus
+    foreach letter [list A B C D E F G H I J K L M N O P Q R S T U V W X Y Z] {
+      menu ${w}Menu.submenu$letter -tearoff 0 -postcommand [list syntax::post_submenu ${w}Menu.submenu$letter $letter]
+    }
 
     # Populate the menu
     populate_syntax_menu ${w}Menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"] [get_enabled_languages]

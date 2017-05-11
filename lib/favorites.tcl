@@ -45,7 +45,7 @@ namespace eval favorites {
     for {set i 0} {$i < [llength $items]} {incr i} {
       lset items $i 2 [files::normalize {*}[lrange [lindex $items $i] 0 1]]
     }
-
+    
   }
 
   ######################################################################
@@ -107,7 +107,9 @@ namespace eval favorites {
     set item_list [list]
 
     foreach item $items {
-      lappend item_list [lindex $item 2]
+      if {[file exists [lindex $item 2]]} {
+        lappend item_list [lindex $item 2]
+      }
     }
 
     return [lsort $item_list]
