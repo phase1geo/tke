@@ -90,8 +90,9 @@ namespace eval syntax {
     # Add all of the syntax plugins
     plugins::add_all_syntax
 
-    # Create preference trace on language hiding
-    trace add variable preferences::prefs(General/DisabledLanguages) write [list syntax::handle_disabled_langs]
+    # Create preference trace on language hiding and syntax menu
+    trace add variable preferences::prefs(General/DisabledLanguages) write [list syntax::handle_syntax_menu]
+    trace add variable preferences::prefs(View/ShowLanguagesSubmenu) write [list syntax::handle_syntax_menu]
 
   }
 
@@ -110,7 +111,7 @@ namespace eval syntax {
   ######################################################################
   # Handle any changes to the General/DisabledLanguages preference
   # variable.
-  proc handle_disabled_langs {name1 name2 op} {
+  proc handle_syntax_menu {name1 name2 op} {
 
     variable syntax_menus
 
