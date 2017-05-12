@@ -512,4 +512,57 @@ namespace eval selection {
 
   }
 
+  # Verify iw/aw
+  proc run_test18 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nThis.is a line."]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {Escape 0 v i w}   $value {2.0 2.4}  visual:char
+    do_test $txtt 1 {Escape 0 V i w}   $value {2.0 2.4}  visual:char
+    do_test $txtt 2 {Escape 0 v 2 i w} $value {2.0 2.5}  visual:char
+
+    do_test $txtt 3 {Escape 0 v a w}   $value {2.0 2.4}  visual:char
+
+    do_test $txtt 4 {Escape 6 bar v a w}   $value {2.5 2.8}  visual:char
+    do_test $txtt 5 {Escape 6 bar V a w}   $value {2.5 2.8}  visual:char
+    do_test $txtt 6 {Escape 6 bar v 2 a w} $value {2.5 2.10} visual:char
+
+    do_test $txtt 7 {Escape 1 2 bar v a w}   $value {2.9 2.14} visual:char
+
+    # Cleanup
+    cleanup
+
+  }
+
+  proc run_test19 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nThis.is a line."]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {Escape 0 v i W}   $value {2.0 2.7}  visual:char
+    do_test $txtt 1 {Escape 0 V i W}   $value {2.0 2.7}  visual:char
+    do_test $txtt 2 {Escape 0 v 2 i W} $value {2.0 2.9}  visual:char
+
+    do_test $txtt 3 {Escape 0 v a W}   $value {2.0 2.8}  visual:char
+
+    do_test $txtt 4 {Escape 8 bar v a W}   $value {2.8 2.9}  visual:char
+    do_test $txtt 5 {Escape 8 bar V a W}   $value {2.8 2.9}  visual:char
+    do_test $txtt 6 {Escape 8 bar v 2 a W} $value {2.8 2.15} visual:char
+
+    do_test $txtt 7 {Escape 1 2 bar v a W} $value {2.9 2.15} visual:char
+
+    # Cleanup
+    cleanup
+
+  }
+
 }
