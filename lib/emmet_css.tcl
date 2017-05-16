@@ -1082,4 +1082,57 @@ namespace eval emmet_css {
 
   }
 
+  ######################################################################
+  # Returns a list structure containing positional information for the next
+  # or previous ruleset.
+  proc get_ruleset {txt args} {
+
+    array set opts {
+      -dir      "next"
+      -startpos "insert"
+    }
+    array set opts $args
+
+    set start $opts(-startpos)
+
+    if {$opts(-dir) eq "next"} {
+      while {([set index [$txt search -forward  -count length -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && ![ctext::inCommentString $txt $index]} {
+        set start [$txt index "$index+[lindex $length 0]c"]
+      }
+    } else {
+      while {([set index [$txt search -backward -count length -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && ![ctext::inCommentString $txt $index]} {
+        set start [$txt index "$index-[lindex $length 0]c"]
+      }
+    }
+
+    if {$index ne ""} {
+      return [list $index [$txt index "$index+[lindex $length 0]c"]]
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the current ruleset positional information if we are currently
+  # within a ruleset; otherwise, returns the empty string.
+  proc in_ruleset {txt} {
+
+    # Returns the previous ruleset
+    if {([set ruleset [get_ruleset $txt -dir prev -startpos "insert+1c"]] ne "") && [$txt compare insert < [lindex $ruleset 1]]} {
+      return $ruleset
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the CSS selector portion of the given ruleset.
+  proc get_selector {txt ruleset} {
+
+
+
+  }
+
 }
