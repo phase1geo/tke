@@ -1128,10 +1128,50 @@ namespace eval emmet_css {
   }
 
   ######################################################################
-  # Returns the CSS selector portion of the given ruleset.
+  # Returns the CSS selector portion of the given ruleset.  The ruleset must
+  # be a valid location within the text widget.
   proc get_selector {txt ruleset} {
 
+    set str [$txt get {*}$ruleset]
 
+    if {[regexp -indices {^\s*(\s.*?)\s*\{} [$txt get {*}$ruleset] -> selector]} {
+      return [list [$txt index "[lindex $ruleset 0]+[lindex $selector 0]c"] [$txt index "[lindex $ruleset 0]+[lindex $selector 1]c"]]
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Get the positional information for the ruleset property in the given
+  # direction.
+  proc get_property {txt ruleset args} {
+
+    array set opts {
+      -dir "next"
+    }
+    array set opts $args
+
+    # Get the ruleset positional information
+    if {[set ruleset [in_ruleset $txt]] eq ""} {
+      if {[set ruleset [get_ruleset $txt -dir next]] eq ""} {
+        return ""
+      }
+    }
+
+    if {$opts(-dir) eq "next"} {
+      set index [$txt search -forward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} insert [lindex $ruleset 1]]
+    } else {
+      set index [$txt search -backward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} insert [lindex $ruleset 0]]
+    }
+
+    if {$index ne ""} {
+      set startpos $index
+      set name     [string trim [string range [$txt get $index []]]]
+      if {$opts(-dir) eq "next"} {
+        set index [$txt search -forward -count lengths -exact -- {;} ]
+      }
+    }
 
   }
 
