@@ -1096,11 +1096,11 @@ namespace eval emmet_css {
     set start $opts(-startpos)
 
     if {$opts(-dir) eq "next"} {
-      while {([set index [$txt search -forward  -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && ![ctext::inCommentString $txt $index]} {
+      while {([set index [$txt search -forward  -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && [ctext::inCommentString $txt $index]} {
         set start [$txt index "$index+[lindex $lengths 0]c"]
       }
     } else {
-      while {([set index [$txt search -backward -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && ![ctext::inCommentString $txt $index]} {
+      while {([set index [$txt search -backward -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && [ctext::inCommentString $txt $index]} {
         set start [$txt index "$index-[lindex $lengths 0]c"]
       }
     }
@@ -1154,32 +1154,57 @@ namespace eval emmet_css {
     }
     array set opts $args
 
-    # Get the ruleset positional information
-    if {[set ruleset [in_ruleset $txt]] eq ""} {
-      if {[set ruleset [get_ruleset $txt -dir next]] eq ""} {
-        return ""
-      }
-    }
-
     # Get the positional information of the property name
     if {$opts(-dir) eq "next"} {
       set start [expr {[$txt compare insert < [lindex $ruleset 1]] ? [lindex $ruleset 1] : "insert"}]
-      set index [$txt search -forward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} $start [lindex $ruleset 1]]
+      set index [$txt search -forward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} $start [lindex $ruleset 2]]
     } elseif {[$txt compare insert < [lindex $ruleset 1]]} {
       return ""
     } else {
-      set index [$txt search -backward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} $start [lindex $ruleset 0]]
+      set index [$txt search -backward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} $start [lindex $ruleset 1]]
     }
 
     if {$index ne ""} {
-      set colon_index [$txt get "$index+[lindex $lengths 0]c"]
+      set colon_index [$txt index "$index+[lindex $lengths 0]c"]
       set name        [string trim [string range [$txt get $index $colon_index] 0 end-1]]
       set end_index   [$txt search -forward -- {;} $colon_index [lindex $ruleset 2]]
       set val_start   [$txt index "$colon_index+1c"]
-      return [list $name $index [$txt get $val_start $end_index] $val_start $end_index]
+      return [list $index [$txt index "$index+[string length $name]c"] $val_start $end_index]
     }
 
     return ""
+
+  }
+
+  ######################################################################
+  # Selects the next/previous CSS item.
+  proc select_item {txt dir} {
+
+    # Get the proper ruleset
+    if {[set ruleset [in_ruleset $txt]] eq ""} {
+      if {[set ruleset [get_ruleset $txt -dir $dir]] eq ""} {
+        return
+      }
+    }
+
+    if {$dir eq "next"} {
+
+      lassign [get_selector $txt $ruleset] selstart selend
+
+      if {[$txt compare insert <= $selstart]} {
+        ::tk::TextSetCursor $txt.t $selend
+        $txt tag add sel $selstart $selend
+      } else {
+        lassign [get_property $txt $ruleset -dir next] namestart nameend valstart valend
+        if {[$txt compare insert < $namestart]} {
+          ::tk::TextSetCursor $txt.t $nameend
+          $txt tag add sel $namestart $nameend
+        }
+      }
+
+    } else {
+
+    }
 
   }
 
