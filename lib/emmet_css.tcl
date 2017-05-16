@@ -1096,17 +1096,19 @@ namespace eval emmet_css {
     set start $opts(-startpos)
 
     if {$opts(-dir) eq "next"} {
-      while {([set index [$txt search -forward  -count length -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && ![ctext::inCommentString $txt $index]} {
-        set start [$txt index "$index+[lindex $length 0]c"]
+      while {([set index [$txt search -forward  -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && ![ctext::inCommentString $txt $index]} {
+        set start [$txt index "$index+[lindex $lengths 0]c"]
       }
     } else {
-      while {([set index [$txt search -backward -count length -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && ![ctext::inCommentString $txt $index]} {
-        set start [$txt index "$index-[lindex $length 0]c"]
+      while {([set index [$txt search -backward -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && ![ctext::inCommentString $txt $index]} {
+        set start [$txt index "$index-[lindex $lengths 0]c"]
       }
     }
 
     if {$index ne ""} {
-      return [list $index [$txt index "$index+[lindex $length 0]c"]]
+      set end_index   [$txt index "$index+[lindex $lengths 0]c"]
+      set curly_index [$txt search -forward -- "\{" $index $end_index]
+      return [list $index $curly_index $end_index]
     }
 
     return ""
@@ -1119,7 +1121,7 @@ namespace eval emmet_css {
   proc in_ruleset {txt} {
 
     # Returns the previous ruleset
-    if {([set ruleset [get_ruleset $txt -dir prev -startpos "insert+1c"]] ne "") && [$txt compare insert < [lindex $ruleset 1]]} {
+    if {([set ruleset [get_ruleset $txt -dir prev -startpos "insert+1c"]] ne "") && [$txt compare insert < [lindex $ruleset 2]]} {
       return $ruleset
     }
 
@@ -1132,10 +1134,10 @@ namespace eval emmet_css {
   # be a valid location within the text widget.
   proc get_selector {txt ruleset} {
 
-    set str [$txt get {*}$ruleset]
+    set str [string trim [$txt get {*}[lrange $ruleset 0 1]]]
 
-    if {[regexp -indices {^\s*(\s.*?)\s*\{} [$txt get {*}$ruleset] -> selector]} {
-      return [list [$txt index "[lindex $ruleset 0]+[lindex $selector 0]c"] [$txt index "[lindex $ruleset 0]+[lindex $selector 1]c"]]
+    if {[set index [$txt search -forward -count lengths -- $str [lindex $ruleset 0]]] ne ""} {
+      return [list $index [$txt index "$index+[lindex $lengths 0]c"]]
     }
 
     return ""
@@ -1159,19 +1161,25 @@ namespace eval emmet_css {
       }
     }
 
+    # Get the positional information of the property name
     if {$opts(-dir) eq "next"} {
-      set index [$txt search -forward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} insert [lindex $ruleset 1]]
+      set start [expr {[$txt compare insert < [lindex $ruleset 1]] ? [lindex $ruleset 1] : "insert"}]
+      set index [$txt search -forward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} $start [lindex $ruleset 1]]
+    } elseif {[$txt compare insert < [lindex $ruleset 1]]} {
+      return ""
     } else {
-      set index [$txt search -backward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} insert [lindex $ruleset 0]]
+      set index [$txt search -backward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} $start [lindex $ruleset 0]]
     }
 
     if {$index ne ""} {
-      set startpos $index
-      set name     [string trim [string range [$txt get $index []]]]
-      if {$opts(-dir) eq "next"} {
-        set index [$txt search -forward -count lengths -exact -- {;} ]
-      }
+      set colon_index [$txt get "$index+[lindex $lengths 0]c"]
+      set name        [string trim [string range [$txt get $index $colon_index] 0 end-1]]
+      set end_index   [$txt search -forward -- {;} $colon_index [lindex $ruleset 2]]
+      set val_start   [$txt index "$colon_index+1c"]
+      return [list $name $index [$txt get $val_start $end_index] $val_start $end_index]
     }
+
+    return ""
 
   }
 
