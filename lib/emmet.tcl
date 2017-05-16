@@ -890,7 +890,7 @@ namespace eval emmet {
     }
 
     if {$lang eq "CSS"} {
-      select_css_item $txt $dir
+      emmet_css::select_item $txt $dir
     } else {
       select_html_item $txt $dir
     }
