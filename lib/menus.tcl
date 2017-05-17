@@ -1851,7 +1851,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Balance Outward"]                 -state $intag_mode
       $mb entryconfigure [msgcat::mc "Balance Inward"]                  -state $intag_mode
       $mb entryconfigure [msgcat::mc "Go to Matching Pair"]             -state $intag_mode
-      $mb entryconfigure [msgcat::mc "Toggle Comment"]                  -state $html_mode
+      $mb entryconfigure [msgcat::mc "Toggle Comment"]                  -state normal
       $mb entryconfigure [msgcat::mc "Split/Join Tag"]                  -state $innode_mode
       $mb entryconfigure [msgcat::mc "Remove Tag"]                      -state $intag_mode
       $mb entryconfigure [msgcat::mc "Merge Lines"]                     -state $innode_mode

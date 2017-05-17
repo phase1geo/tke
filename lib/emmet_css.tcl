@@ -1188,6 +1188,7 @@ namespace eval emmet_css {
     } elseif {[$txt compare insert < [lindex $ruleset 1]]} {
       return ""
     } else {
+      set start [expr {[$txt compare [lindex $ruleset 2] < insert] ? [lindex $ruleset 2] : "insert"}]
       set index [$txt search -backward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} $start [lindex $ruleset 1]]
     }
 
@@ -1240,6 +1241,47 @@ namespace eval emmet_css {
       }
 
     } else {
+
+    }
+
+  }
+
+  ######################################################################
+  # Toggles comment of ruleset or property.
+  proc toggle_comment {txt} {
+
+    if {[ctext::inBlockComment $txt insert]} {
+
+      set tag [lsearch -inline [$txt tag names insert] _comstr1c*]
+      lassign [$txt tag prevrange $tag "insert+1c"] startpos endpos
+
+      if {[$txt get $endpos-3c] eq " "} {
+        $txt delete "$endpos-3c" $endpos
+      } else {
+        $txt delete "$endpos-2c" $endpos
+      }
+
+      if {[$txt get $startpos+2c] eq " "} {
+        $txt delete $startpos "$startpos+3c"
+      } else {
+        $txt delete $startpos "$startpos+2c"
+      }
+
+    } else {
+
+      # We will only comment something if we are within a ruleset
+      if {[set ruleset [in_ruleset $txt]] eq ""} {
+        return
+      }
+
+      # If the cursor is within the selector area, comment the entire ruleset
+      if {[$txt compare [lindex $ruleset 0] <= insert] && [$txt compare insert <= [lindex $ruleset 1]]} {
+        $txt insert [lindex $ruleset 2] " */"
+        $txt insert [lindex $ruleset 0] "/* "
+      } elseif {[set prop [get_property $txt $ruleset -dir prev]] ne ""} {
+        $txt insert "[lindex $prop 3]+1c" " */"
+        $txt insert [lindex $prop 0] "/* "
+      }
 
     }
 
