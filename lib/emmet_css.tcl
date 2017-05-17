@@ -1145,6 +1145,33 @@ namespace eval emmet_css {
   }
 
   ######################################################################
+  # Given the starting position of the property name and its corresponding
+  # colon
+  proc get_property_retval {txt namepos colonpos endpos} {
+
+    set name   [string trim [string range [$txt get $namepos $colonpos] 0 end-1]]
+    set endpos [$txt search -forward -- {;} $colonpos $endpos]
+
+    return [list $namepos [$txt index "$namepos+[string length $name]c"] $colonpos $endpos]
+
+  }
+
+  ######################################################################
+  # Returns a list containing all of the properties of the given ruleset.
+  proc get_properties {txt ruleset} {
+
+    set props [list]
+    set i     0
+    foreach index [$txt search -all -forward -count lengths -regexp -- {[a-zA-Z0-9_-]+\s*:} {*}[lrange $ruleset 1 2]] {
+      lappend props [get_property_retval $txt $index [$txt index "$index+[lindex $lengths $i]c"] [lindex $ruleset 2]]
+      incr i
+    }
+
+    return $props
+
+  }
+
+  ######################################################################
   # Get the positional information for the ruleset property in the given
   # direction.
   proc get_property {txt ruleset args} {
@@ -1165,14 +1192,24 @@ namespace eval emmet_css {
     }
 
     if {$index ne ""} {
-      set colon_index [$txt index "$index+[lindex $lengths 0]c"]
-      set name        [string trim [string range [$txt get $index $colon_index] 0 end-1]]
-      set end_index   [$txt search -forward -- {;} $colon_index [lindex $ruleset 2]]
-      set val_start   [$txt index "$colon_index+1c"]
-      return [list $index [$txt index "$index+[string length $name]c"] $val_start $end_index]
+      return [get_property_retval $txt $index [$txt index "$index+[lindex $lengths 0]c"] [lindex $ruleset 2]]
     }
 
     return ""
+
+  }
+
+  ######################################################################
+  # Returns true if the insertion cursor is within a url() call.
+  proc in_url {txt} {
+
+    if {[set ruleset [in_ruleset $txt]] ne ""} {
+      if {[set index [$txt search -forward -count lengths -regexp -- {url\(.+?\)} {*}[lrange $ruleset 2 3]]] ne ""} {
+        return [expr {[$txt compare "$index+4c" <= insert] && [$txt compare insert < "$index+[expr [lindex $lengths 0] - 1]c"]}]
+      }
+    }
+
+    return 0
 
   }
 
@@ -1204,6 +1241,68 @@ namespace eval emmet_css {
 
     } else {
 
+    }
+
+  }
+
+  ######################################################################
+  # If the cursor is within a url() call inside of a ruleset property
+  # value, adds/updates the height and width properties to match the
+  # image size.
+  proc update_image_size {txt} {
+
+    if {[set ruleset [in_ruleset $txt]] eq ""} {
+      return
+    }
+
+    # Get the list of properties associated with the ruleset
+    set props [get_properties $txt $ruleset]
+
+    # Check to see if the insertion cursor is within a url() call
+    foreach prop $props {
+      if {[set index [$txt search -count lengths -regexp -- {url\(.+?\)} {*}[lrange $prop 2 3]]] ne ""} {
+        if {[$txt compare "$index+4c" <= insert] && [$txt compare insert < "$index+[lindex $lengths 0]c"]} {
+          set url [string trim [$txt get "$index+4c" "$index+[expr [lindex $lengths 0] - 1]c"]]
+          if {![catch { exec php [file join $::tke_dir lib image_size.php] $url } rc]} {
+            lassign $rc width height
+            if {![string is integer $width]} {
+              return
+            }
+            set found(url) $prop
+          }
+        }
+      } else {
+        set name [$txt get {*}[lrange $prop 0 1]]
+        if {($name eq "height") || ($name eq "width")} {
+          set found($name) $prop
+        }
+      }
+    }
+
+    # If we didn't find our URL, just return
+    if {![info exists found(url)]} {
+      return
+    }
+
+    # Replace/insert width/height values
+    if {[info exists found(width)]} {
+      $txt replace {*}[lrange $found(width) 2 3] " ${width}px"
+      if {[info exists found(height)]} {
+        $txt replace {*}[lrange $found(height) 2 3] " ${height}px"
+      } else {
+        set num_spaces [lindex [split [lindex $found(width) 0] .] 1]
+        set spaces     [expr {($num_spaces > 0) ? [string repeat " " $num_spaces] : ""}]
+        $txt insert "[lindex $found(width) 3] lineend" "\n${spaces}height: ${height}px;"
+      }
+    } elseif {[info exists found(height)]} {
+      set num_spaces [lindex [split [lindex $found(height) 0] .] 1]
+      set spaces     [expr {($num_spaces > 0) ? [string repeat " " $num_spaces] : ""}]
+      $txt replace {*}[lrange $found(height) 2 3] " ${height}px"
+      $txt insert "[lindex $found(height) 0] linestart" "${spaces}width: ${width}px;\n"
+    } else {
+      set num_spaces [lindex [split [lindex $found(url) 0] .] 1]
+      set spaces     [expr {($num_spaces > 0) ? [string repeat " " $num_spaces] : ""}]
+      $txt insert "[lindex $found(url) 3] lineend" "\n${spaces}width: ${width}px;\n${spaces}height: ${height}px;"
     }
 
   }

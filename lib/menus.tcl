@@ -1838,10 +1838,13 @@ namespace eval menus {
 
       set intag       [emmet::inside_tag $txt 1]
       set innode      [emmet::get_node_range $txt]
-      set intag_mode  [expr {($intag eq "") ? "disabled" : "normal"}]
+      set inurl       [emmet_css::in_url $txt]
+      set intag_mode  [expr {($intag  eq "") ? "disabled" : "normal"}]
       set innode_mode [expr {($innode eq "") ? "disabled" : "normal"}]
+      set inurl_mode  [expr {$inurl ? "normal" : "disabled"}]
       set sel_mode    [expr {([llength [$txt tag ranges sel]] == 2) ? "normal" : $intag_mode}]
       set html_mode   [expr {($lang eq "HTML") ? "normal" : "disabled"}]
+      set url_mode    [expr {($lang eq "HTML") ? $intag_mode : $inurl_mode}]
 
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"]             -state normal
       $mb entryconfigure [msgcat::mc "Wrap With Abbreviation"]          -state $sel_mode
@@ -1852,8 +1855,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Split/Join Tag"]                  -state $innode_mode
       $mb entryconfigure [msgcat::mc "Remove Tag"]                      -state $intag_mode
       $mb entryconfigure [msgcat::mc "Merge Lines"]                     -state $innode_mode
-      $mb entryconfigure [msgcat::mc "Update Image Size"]               -state $intag_mode
-      $mb entryconfigure [msgcat::mc "Encode/Decode Image to Data:URL"] -state $intag_mode
+      $mb entryconfigure [msgcat::mc "Update Image Size"]               -state $url_mode
+      $mb entryconfigure [msgcat::mc "Encode/Decode Image to Data:URL"] -state $url_mode
       $mb entryconfigure [msgcat::mc "Next Edit Point"]                 -state $html_mode
       $mb entryconfigure [msgcat::mc "Previous Edit Point"]             -state $html_mode
       $mb entryconfigure [msgcat::mc "Select Next Item"]                -state $html_mode
