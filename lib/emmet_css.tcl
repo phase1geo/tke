@@ -1349,4 +1349,28 @@ namespace eval emmet_css {
 
   }
 
+  ######################################################################
+  # Runs encode/decode image to data:URL in CSS.
+  proc encode_decode_image_to_data_url {txt args} {
+
+    # Get the current ruleset
+    if {[set ruleset [in_ruleset $txt]] eq ""} {
+      return
+    }
+
+    if {[set ruleset [in_ruleset $txt]] ne ""} {
+      if {[set index [$txt search -forward -count lengths -regexp -- {url\(.+?\)} {*}[lrange $ruleset 2 3]]] ne ""} {
+        if {[$txt compare "$index+4c" <= insert] && [$txt compare insert < "$index+[expr [lindex $lengths 0] - 1]c"]} {
+          set startpos "$index+4c"
+          set endpos   "$index+[expr [lindex $lengths 0] - 1]c"
+          set url      [$txt get $startpos $endpos]
+          emmet::replace_data_url $txt $startpos $endpos $url {*}$args
+        }
+      }
+    }
+
+    # Perform the replacement
+
+  }
+
 }
