@@ -1167,7 +1167,7 @@ namespace eval emmet {
     }
 
     if {$lang eq "CSS"} {
-      update_css_image_size $txt
+      emmet_css::update_image_size $txt
     } else {
       update_html_image_size $txt
     }
