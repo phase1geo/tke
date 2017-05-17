@@ -870,14 +870,6 @@ namespace eval emmet {
   }
 
   ######################################################################
-  # Selects the next/previous CSS item.
-  proc select_css_item {txt dir} {
-
-    # TBD
-
-  }
-
-  ######################################################################
   # Perform next/previous item selection.
   proc select_item {dir} {
 
@@ -939,13 +931,6 @@ namespace eval emmet {
   }
 
   ######################################################################
-  proc toggle_css_comment {txt} {
-
-    # TBD
-
-  }
-
-  ######################################################################
   # Toggles the comment of a full HTML tag or CSS rule/property.
   proc toggle_comment {} {
 
@@ -958,7 +943,7 @@ namespace eval emmet {
     }
 
     if {$lang eq "CSS"} {
-      toggle_css_comment $txt
+      emmet_css::toggle_comment $txt
     } else {
       toggle_html_comment $txt
     }
@@ -1144,13 +1129,6 @@ namespace eval emmet {
       }
 
     }
-
-  }
-
-  ######################################################################
-  proc update_css_image_size {txt} {
-
-    # TBD
 
   }
 
