@@ -1452,6 +1452,9 @@ namespace eval menus {
     $mb.emmetPopup add command -label [msgcat::mc "Encode/Decode Image to Data:URL"] -command [list emmet::encode_decode_image_to_data_url]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Encode/Decode image to data:URL"]] [list emmet::encode_decode_image_to_data_url]
 
+    $mb.emmetPopup add command -label [msgcat::mc "Reflect CSS Value"] -command [list emmet_css::reflect_css_value]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Reflect current CSS value"]] [list emmet_css::reflect_css_value]
+
     $mb.emmetPopup add separator
 
     $mb.emmetPopup add command -label [msgcat::mc "Next Edit Point"] -command [list emmet::go_to_edit_point next]
@@ -1822,6 +1825,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Merge Lines"]                     -state disabled
       $mb entryconfigure [msgcat::mc "Update Image Size"]               -state disabled
       $mb entryconfigure [msgcat::mc "Encode/Decode Image to Data:URL"] -state disabled
+      $mb entryconfigure [msgcat::mc "Reflect CSS Value"]               -state disabled
       $mb entryconfigure [msgcat::mc "Next Edit Point"]                 -state disabled
       $mb entryconfigure [msgcat::mc "Previous Edit Point"]             -state disabled
       $mb entryconfigure [msgcat::mc "Select Next Item"]                -state disabled
@@ -1844,6 +1848,7 @@ namespace eval menus {
       set inurl_mode  [expr {$inurl ? "normal" : "disabled"}]
       set sel_mode    [expr {([llength [$txt tag ranges sel]] == 2) ? "normal" : $intag_mode}]
       set html_mode   [expr {($lang eq "HTML") ? "normal" : "disabled"}]
+      set css_mode    [expr {($lang eq "CSS")  ? "normal" : "disabled"}]
       set url_mode    [expr {($lang eq "HTML") ? $intag_mode : $inurl_mode}]
 
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"]             -state normal
@@ -1857,6 +1862,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Merge Lines"]                     -state $innode_mode
       $mb entryconfigure [msgcat::mc "Update Image Size"]               -state $url_mode
       $mb entryconfigure [msgcat::mc "Encode/Decode Image to Data:URL"] -state $url_mode
+      $mb entryconfigure [msgcat::mc "Reflect CSS Value"]               -state $css_mode
       $mb entryconfigure [msgcat::mc "Next Edit Point"]                 -state $html_mode
       $mb entryconfigure [msgcat::mc "Previous Edit Point"]             -state $html_mode
       $mb entryconfigure [msgcat::mc "Select Next Item"]                -state $html_mode
