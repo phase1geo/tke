@@ -1353,11 +1353,6 @@ namespace eval emmet_css {
   # Returns the basename of the given property name.
   proc get_basename {name} {
 
-#    w -webkit-
-#    m -moz-
-#    s -ms-
-#    o -o-
-
     regexp {^-(webkit|moz|ms|o)-(.*)$} [set basename $name] -> dummy basename
 
     return $basename
