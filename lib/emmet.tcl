@@ -1244,34 +1244,13 @@ namespace eval emmet {
   }
 
   ######################################################################
-  # Runs encode/decode image to data:URL in HTML.
-  proc encode_decode_html_image_to_data_url {txt args} {
+  # Perform the data:URL replacement.
+  proc replace_data_url {txt startpos endpos url args} {
 
     array set opts {
       -test ""
     }
     array set opts $args
-
-    if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
-      return
-    }
-
-    # Find the URL in the current img tag
-    set url ""
-    foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
-      if {($attr_name eq "src") && \
-          [$txt compare $attr_value_start <= insert] && \
-          [$txt compare insert <= "$attr_value_start+[string length $attr_value]c"]} {
-        set url $attr_value
-        set startpos $attr_value_start
-        set endpos   [$txt index "$attr_value_start+[string length $attr_value]c"]
-        break
-      }
-    }
-
-    if {$url eq ""} {
-      return
-    }
 
     # If we have base64 data, decode and save the information to a file
     if {[regexp {^data:image/(gif|png|jpg);base64,(.*)$} $url -> ext data]} {
@@ -1322,15 +1301,32 @@ namespace eval emmet {
   }
 
   ######################################################################
-  # Runs encode/decode image to data:URL in CSS.
-  proc encode_decode_css_image_to_data_url {txt args} {
+  # Runs encode/decode image to data:URL in HTML.
+  proc encode_decode_html_image_to_data_url {txt args} {
 
-    array set opts {
-      -test ""
+    if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
+      return
     }
-    array set opts $args
 
-    # TBD
+    # Find the URL in the current img tag
+    set url ""
+    foreach {attr_name attr_name_start attr_value attr_value_start} [get_tag_attributes $txt $retval] {
+      if {($attr_name eq "src") && \
+          [$txt compare $attr_value_start <= insert] && \
+          [$txt compare insert <= "$attr_value_start+[string length $attr_value]c"]} {
+        set url      $attr_value
+        set startpos $attr_value_start
+        set endpos   [$txt index "$attr_value_start+[string length $attr_value]c"]
+        break
+      }
+    }
+
+    if {$url eq ""} {
+      return
+    }
+
+    # Perform the replacement
+    replace_data_url $txt $startpos $endpos $url {*}$args
 
   }
 
@@ -1347,7 +1343,7 @@ namespace eval emmet {
     }
 
     if {$lang eq "CSS"} {
-      encode_decode_css_image_to_data_url $txt {*}$args
+      emmet_css::encode_decode_image_to_data_url $txt {*}$args
     } else {
       encode_decode_html_image_to_data_url $txt {*}$args
     }
