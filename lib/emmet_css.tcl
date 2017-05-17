@@ -1350,6 +1350,52 @@ namespace eval emmet_css {
   }
 
   ######################################################################
+  # Returns the basename of the given property name.
+  proc get_basename {name} {
+
+#    w -webkit-
+#    m -moz-
+#    s -ms-
+#    o -o-
+
+    regexp {^-(webkit|moz|ms|o)-(.*)$} [set basename $name] -> dummy basename
+
+    return $basename
+
+  }
+
+  ######################################################################
+  # Attempt to reflect the current value.
+  proc reflect_css_value {} {
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Get the current ruleset
+    if {[set ruleset [in_ruleset $txt]] eq ""} {
+      return
+    }
+
+    # Get the current property
+    if {[set prop [get_property $txt $ruleset -dir prev]] eq ""} {
+      return
+    }
+
+    if {[$txt compare [lindex $prop 0] < insert] && [$txt compare insert < [lindex $prop 3]]} {
+      set name     [$txt get {*}[lrange $prop 0 1]]
+      set basename [get_basename $name]
+      set value    [$txt get {*}[lrange $prop 2 3]]
+      foreach prop [lreverse [get_properties $txt $ruleset]] {
+        set pname [$txt get {*}[lrange $prop 0 1]]
+        if {($name ne $pname) && ([get_basename $pname] eq $basename)} {
+          $txt replace {*}[lrange $prop 2 3] $value
+        }
+      }
+    }
+
+  }
+
+  ######################################################################
   # Runs encode/decode image to data:URL in CSS.
   proc encode_decode_image_to_data_url {txt args} {
 
@@ -1358,6 +1404,7 @@ namespace eval emmet_css {
       return
     }
 
+    # Update the URL
     if {[set ruleset [in_ruleset $txt]] ne ""} {
       if {[set index [$txt search -forward -count lengths -regexp -- {url\(.+?\)} {*}[lrange $ruleset 2 3]]] ne ""} {
         if {[$txt compare "$index+4c" <= insert] && [$txt compare insert < "$index+[expr [lindex $lengths 0] - 1]c"]} {
@@ -1368,8 +1415,6 @@ namespace eval emmet_css {
         }
       }
     }
-
-    # Perform the replacement
 
   }
 
