@@ -1006,10 +1006,12 @@ proc ctext::undo {win} {
     $win._t tag delete hl
 
     # Perform the highlight
-    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
-      ctext::checkAllBrackets $win
-    } else {
-      ctext::checkAllBrackets $win $changed
+    if {[llength $ranges] > 0} {
+      if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
+        ctext::checkAllBrackets $win
+      } else {
+        ctext::checkAllBrackets $win $changed
+      }
     }
 
     set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
@@ -1090,10 +1092,12 @@ proc ctext::redo {win} {
     $win._t tag delete hl
 
     # Highlight the code
-    if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
-      ctext::checkAllBrackets $win
-    } else {
-      ctext::checkAllBrackets $win $changed
+    if {[llength $ranges] > 0} {
+      if {[ctext::highlightAll $win $ranges $insert $do_tags]} {
+        ctext::checkAllBrackets $win
+      } else {
+        ctext::checkAllBrackets $win $changed
+      }
     }
 
     set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
