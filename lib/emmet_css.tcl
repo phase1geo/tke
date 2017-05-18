@@ -1108,6 +1108,7 @@ namespace eval emmet_css {
     if {$index ne ""} {
       set end_index   [$txt index "$index+[lindex $lengths 0]c"]
       set curly_index [$txt search -forward -- "\{" $index $end_index]
+      puts "startpos: [$txt index $opts(-startpos)] index: $index, curly_index: $curly_index, end_index: $end_index"
       return [list $index $curly_index $end_index]
     }
 
@@ -1119,6 +1120,8 @@ namespace eval emmet_css {
   # Returns the current ruleset positional information if we are currently
   # within a ruleset; otherwise, returns the empty string.
   proc in_ruleset {txt} {
+
+    puts "In in_ruleset"
 
     # Returns the previous ruleset
     if {([set ruleset [get_ruleset $txt -dir prev -startpos "insert+1c"]] ne "") && [$txt compare insert < [lindex $ruleset 2]]} {
@@ -1220,24 +1223,45 @@ namespace eval emmet_css {
 
     # Get the proper ruleset
     if {[set ruleset [in_ruleset $txt]] eq ""} {
+      puts "We are not in a ruleset!!!"
       if {[set ruleset [get_ruleset $txt -dir $dir]] eq ""} {
         return
       }
     }
 
+    # Check to see if anything is selected
+    if {[llength [set selected [$txt tag ranges sel]]] != 2} {
+      set selected ""
+    }
+
     if {$dir eq "next"} {
 
-      lassign [get_selector $txt $ruleset] selstart selend
+      while {$ruleset ne ""} {
 
-      if {[$txt compare insert <= $selstart]} {
-        ::tk::TextSetCursor $txt.t $selend
-        $txt tag add sel $selstart $selend
-      } else {
-        lassign [get_property $txt $ruleset -dir next] namestart nameend valstart valend
-        if {[$txt compare insert < $namestart]} {
-          ::tk::TextSetCursor $txt.t $nameend
-          $txt tag add sel $namestart $nameend
+        puts "HERE A"
+        lassign [get_selector $txt $ruleset] selector_start selector_end
+
+        puts "HERE B"
+        if {[$txt compare insert <= $selector_start]} {
+          puts "HERE C"
+          ::tk::TextSetCursor $txt.t $selector_end
+          $txt tag add sel $selector_start $selector_end
+          return
+
+        } elseif {[set prop [get_property $txt $ruleset -dir next]] ne ""} {
+          puts "Found property, prop: $prop"
+          lassign $prop namestart nameend valstart valend
+          if {[$txt compare insert < $namestart]} {
+            ::tk::TextSetCursor $txt.t "$valend+1c"
+            $txt tag add sel $namestart "$valend+1c"
+            return
+          }
         }
+        puts "HERE D"
+
+        # Get the next ruleset
+        set ruleset [get_ruleset $txt -dir next -startpos [lindex $ruleset 2]]
+
       }
 
     } else {
