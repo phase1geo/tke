@@ -1096,19 +1096,19 @@ namespace eval emmet_css {
     set start $opts(-startpos)
 
     if {$opts(-dir) eq "next"} {
-      while {([set index [$txt search -forward  -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && [ctext::inCommentString $txt $index]} {
+      while {([set index [$txt search -forwards  -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && [ctext::inCommentString $txt $index]} {
         set start [$txt index "$index+[lindex $lengths 0]c"]
       }
     } else {
-      while {([set index [$txt search -backward -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && [ctext::inCommentString $txt $index]} {
-        set start [$txt index "$index-[lindex $lengths 0]c"]
+      while {([set index [$txt search -backwards -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && [ctext::inCommentString $txt $index]} {
+        set start $index
       }
     }
 
     if {$index ne ""} {
       set end_index   [$txt index "$index+[lindex $lengths 0]c"]
-      set curly_index [$txt search -forward -- "\{" $index $end_index]
-      puts "startpos: [$txt index $opts(-startpos)] index: $index, curly_index: $curly_index, end_index: $end_index"
+      set curly_index [$txt search -forwards -- "\{" $index $end_index]
+      puts "dir: $opts(-dir), startpos: [$txt index $opts(-startpos)] index: $index, curly_index: $curly_index, end_index: $end_index"
       return [list $index $curly_index $end_index]
     }
 

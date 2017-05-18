@@ -164,6 +164,7 @@ proc ctext {win args} {
   }
 
   bind $win.t <Configure>       [list ctext::linemapUpdate $win]
+  # bind $win.t <Configure>       [list ctext::doConfigure $win]
   bind $win.t <<CursorChanged>> [list ctext::linemapUpdate $win %D]
   bind $win.l <ButtonPress-1>   [list ctext::linemapToggleMark $win %y]
   bind $win.l <MouseWheel>      [list event generate $win.t <MouseWheel> -delta %D]
@@ -180,6 +181,7 @@ proc ctext {win args} {
 
   ctext::modified $win 0
   ctext::buildArgParseTable $win
+  ctext::adjust_rmargin $win
 
   return $win
 
@@ -219,6 +221,9 @@ proc ctext::event:xscroll {win clientData args} {
 
     # Move the vertical bar
     place $win.t.w -x $newx -relheight 1.0
+
+    # Adjust the rmargin
+    adjust_rmargin $win
 
   }
 
@@ -389,7 +394,9 @@ proc ctext::buildArgParseTable win {
     if {$value eq ""} {
       place forget $win.t.w
     } else {
-      place $win.t.w -x [font measure [$win.t cget -font] -displayof . [string repeat "m" $value]] -relheight 1.0
+      set newx [font measure [$win.t cget -font] -displayof . [string repeat "m" $value]]
+      place $win.t.w -x $newx -relheight 1.0
+      ctext::adjust_rmargin $win
     }
     break
   }
@@ -1572,15 +1579,17 @@ proc ctext::command_fastinsert {win args} {
 
   set startPos [$win._t index [lindex $args 0]]
   set chars    [string length [lindex $args 1]]
-  set endPos   [$win._t index "$startPos+${chars}c"]
   set cursor   [$win._t index insert]
 
   $win._t insert {*}$args
+
+  set endPos [$win._t index "$startPos+${chars}c"]
 
   if {$do_undo} {
     ctext::undo_insert $win $startPos $chars $cursor
   }
   ctext::handleInsertAt0 $win._t $startPos $chars
+  ctext::set_rmargin     $win $startPos $endPos
 
   if {$do_update} {
     ctext::modified $win 1 [list insert [list $startPos $endPos] $moddata]
@@ -1623,6 +1632,7 @@ proc ctext::command_fastreplace {win args} {
   $win._t replace {*}$args
 
   ctext::handleReplaceInsert $win $startPos $datlen $tags
+  ctext::set_rmargin         $win $startPos [$win._t index "$startPos+${datlen}c"]
 
   if {$do_undo} {
     ctext::undo_insert $win $startPos $datlen $cursor
@@ -1708,11 +1718,12 @@ proc ctext::command_insert {win args} {
 
   $win._t insert {*}$args
 
+  set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
+
   ctext::undo_insert     $win $insertPos $datlen $cursor
   ctext::handleInsertAt0 $win._t $insertPos $datlen
+  ctext::set_rmargin     $win $insertPos "$insertPos+${datlen}c"
   ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
-
-  set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
 
   # Highlight text and bracket auditing
   if {[ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]} {
@@ -1766,6 +1777,7 @@ proc ctext::command_replace {win args} {
   if {[llength $do_tags] == 0} {
     ctext::comments_do_tag $win $startPos "$startPos+${datlen}c" do_tags
   }
+  ctext::set_rmargin $win $startPos "$startPos+${datlen}c"
 
   set comstr [ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]
   if {$comstr == 2} {
@@ -3429,7 +3441,7 @@ proc ctext::doHighlight {win start end ins} {
     set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
     set word    [$twin get $res $wordEnd]
     set lang    [lindex [split [lindex [$twin tag names $res] 0] =] 1]
-    if {!$ctext::data($win,config,-casesensitive)} {
+    if {!$data($win,config,-casesensitive)} {
       set word [string tolower $word]
     }
     set firstOfWord [string index $word 0]
@@ -3785,6 +3797,42 @@ proc ctext::linemapMarkUpdate {win first last} {
       lset line_content 3 [lindex [lsort $lsizes] 0]
     }
     $win.l insert end {*}$line_content
+  }
+
+}
+
+proc ctext::doConfigure {win} {
+
+  # Update the linemap
+  linemapUpdate $win
+
+  # Update the rmargin
+  adjust_rmargin $win
+
+}
+
+proc ctext::set_rmargin {win startpos endpos} {
+
+  $win tag add rmargin $startpos $endpos
+
+}
+
+proc ctext::adjust_rmargin {win} {
+
+  # If the warning width indicator is absent, remove rmargin and return
+  if {[lsearch [place slaves $win.t] $win.t.w] == -1} {
+    $win tag configure rmargin -rmargin ""
+    return
+  }
+
+  # Calculate the rmargin value to use
+  set rmargin [expr [winfo width $win.t] - [lindex [place configure $win.t.w -x] 4]]
+
+  # Set the rmargin
+  if {$rmargin > 0} {
+    $win tag configure rmargin -rmargin $rmargin
+  } else {
+    $win tag configure rmargin -rmargin ""
   }
 
 }
