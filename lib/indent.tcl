@@ -406,6 +406,9 @@ namespace eval indent {
     # If the auto-indent feature was disabled, we are in vim start mode,
     # or the current language doesn't have an indent expression, quit now
     if {($indent_exprs($txtt,mode) eq "OFF") || [vim::in_vim_mode $txtt]} {
+      if {[$txtt cget -autoseparators]} {
+        $txtt edit separator
+      }
       return $index
     }
 
@@ -478,6 +481,11 @@ namespace eval indent {
     # If we need to restore the insertion cursor, do it now
     if {$restore_insert ne ""} {
       ::tk::TextSetCursor $txtt $restore_insert
+    }
+
+    # If autoseparators are called for, add it now
+    if {[$txtt cget -autoseparators]} {
+      $txtt edit separator
     }
 
     return [$txtt index "$index+[string length $indent_space]c"]
@@ -741,3 +749,8 @@ namespace eval indent {
   }
 
 }
+
+######################################################################
+# Disable the Text action for Return so that when we are not in Vim
+# mode, an auto-separator is not automatically added.
+bind Text <Return> { tk::TextInsert %W \n }
