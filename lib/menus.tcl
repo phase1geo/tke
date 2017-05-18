@@ -1849,6 +1849,7 @@ namespace eval menus {
       set sel_mode    [expr {([llength [$txt tag ranges sel]] == 2) ? "normal" : $intag_mode}]
       set html_mode   [expr {($lang eq "HTML") ? "normal" : "disabled"}]
       set css_mode    [expr {($lang eq "CSS")  ? "normal" : "disabled"}]
+      set html_or_css [expr {(($lang eq "HTML") || ($lang eq "CSS")) ? "normal" : "disabled"}]
       set url_mode    [expr {($lang eq "HTML") ? $intag_mode : $inurl_mode}]
 
       $mb entryconfigure [msgcat::mc "Expand Abbreviation"]             -state normal
@@ -1856,7 +1857,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Balance Outward"]                 -state $intag_mode
       $mb entryconfigure [msgcat::mc "Balance Inward"]                  -state $intag_mode
       $mb entryconfigure [msgcat::mc "Go to Matching Pair"]             -state $intag_mode
-      $mb entryconfigure [msgcat::mc "Toggle Comment"]                  -state normal
+      $mb entryconfigure [msgcat::mc "Toggle Comment"]                  -state $html_or_css
       $mb entryconfigure [msgcat::mc "Split/Join Tag"]                  -state $innode_mode
       $mb entryconfigure [msgcat::mc "Remove Tag"]                      -state $intag_mode
       $mb entryconfigure [msgcat::mc "Merge Lines"]                     -state $innode_mode
@@ -1865,8 +1866,8 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Reflect CSS Value"]               -state $css_mode
       $mb entryconfigure [msgcat::mc "Next Edit Point"]                 -state $html_mode
       $mb entryconfigure [msgcat::mc "Previous Edit Point"]             -state $html_mode
-      $mb entryconfigure [msgcat::mc "Select Next Item"]                -state $html_mode
-      $mb entryconfigure [msgcat::mc "Select Previous Item"]            -state $html_mode
+      $mb entryconfigure [msgcat::mc "Select Next Item"]                -state $html_or_css
+      $mb entryconfigure [msgcat::mc "Select Previous Item"]            -state $html_or_css
       $mb entryconfigure [msgcat::mc "Evaluate Math Expression"]        -state normal
       $mb entryconfigure [msgcat::mc "Increment by 10"]                 -state normal
       $mb entryconfigure [msgcat::mc "Increment by 1"]                  -state normal

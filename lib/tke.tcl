@@ -59,6 +59,7 @@ set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib ptwidgets1.2] \
                     [file join $tke_dir lib specl] \
                     [file join $tke_dir lib webdav] \
+                    [file join $tke_dir lib tkcon] \
                     {*}$auto_path]
 
 if {$tcl_platform(platform) eq "windows"} {
