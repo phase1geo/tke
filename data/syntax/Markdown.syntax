@@ -28,10 +28,10 @@ casesensitive
 {1}
 
 advanced {
-  HighlightClass bold    none           {bold}
-  HighlightClass italics none           {italics}
-  HighlightClass super   none           {superscript}
-  HighlightClass sub     none           {subscript}
+  HighlightClass bold    keywords       {bold}
+  HighlightClass italics keywords       {italics}
+  HighlightClass super   numbers        {superscript}
+  HighlightClass sub     numbers        {subscript}
   HighlightClass h1      miscellaneous2 {h1}
   HighlightClass h2      miscellaneous2 {h2}
   HighlightClass h3      miscellaneous2 {h3}
@@ -47,7 +47,7 @@ advanced {
 
   HighlightRegexp {``.+?``}                     ccode
   HighlightRegexp {`.+?`}                       code
-  HighlightRegexp {^#.*$}                       header
+  HighlightRegexp {^#.*?$}                      header
   HighlightRegexp {([*_]{2})(?=\S).+?\1}        bold
   HighlightRegexp {([*_])(?=\S).+?\1}           italics
   HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} link
@@ -56,7 +56,7 @@ advanced {
   HighlightRegexp {(~)(?=\S).+?\1}              subscript
   HighlightRegexp {(\^)(?=\S).+?\1}             superscript
   HighlightRegexp {(={2})(?=\S).+?\1}           highlight
-  HighlightRegexp {.*}                          list_check
+  HighlightRegexp {.*?$}                        list_check
 
   HighlightProc ccode {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {
