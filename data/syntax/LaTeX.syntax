@@ -44,8 +44,8 @@ advanced {
   HighlightClass arg_c miscellaneous3 {}
   HighlightClass arg_s miscellaneous1 {italics}
 
-  HighlightRegexp {\{.+?\}} arg_curly
-  HighlightRegexp {\[.+?\]} arg_square
+  HighlightRegexp {\{.*?\}} arg_curly
+  HighlightRegexp {\[.*?\]} arg_square
 
   HighlightProc arg_curly {
     return [list [list [list arg_c [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
