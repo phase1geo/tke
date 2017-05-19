@@ -1,0 +1,65 @@
+filepatterns
+{*.latex *.tex}
+
+vimsyntax
+{tex}
+
+reference {
+  {{User Guide} https://www.latex-project.org/help/documentation/usrguide.pdf}
+}
+
+matchcharsallowed
+{curly square}
+
+escapes
+{0}
+
+tabsallowed
+{0}
+
+linewrap
+{1}
+
+indent
+{\\\\begin}
+
+unindent
+{\\\\end}
+
+icomment {{%}}
+
+lcomments {%}
+
+punctuation
+{
+  HighlightRegexp {[][\{\},]} {}
+}
+
+miscellaneous2 {
+  HighlightWithOnlyCharStart \\ {}
+}
+
+advanced {
+
+  HighlightClass arg_c miscellaneous3 {}
+  HighlightClass arg_s miscellaneous1 {italics}
+
+  HighlightRegexp {\{.+?\}} arg_curly
+  HighlightRegexp {\[.+?\]} arg_square
+
+  HighlightProc arg_curly {
+    return [list [list [list arg_c [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
+  } HighlightEndProc
+
+  HighlightProc arg_square {
+    return [list [list [list arg_s [$txt index "$startpos+1c"] [$txt index "$endpos-1c"] [list]]] ""]
+  } HighlightEndProc
+
+}
+
+formatting {
+  bold        {word \\textbf\{          \}}
+  italics     {word \\emph\{            \}}
+  superscript {word \\textsuperscript\{ \}}
+  code        {word \\texttt\{          \}}
+}
