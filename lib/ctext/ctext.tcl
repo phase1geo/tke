@@ -876,9 +876,6 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
         set data($win,config,redo_hist) [list]
         return
       }
-      if {$data($win,config,-autoseparators)} {
-        ctext::undo_separator $win
-      }
     }
   }
 
@@ -920,9 +917,6 @@ proc ctext::undo_delete {win start_pos end_pos} {
         lset data($win,config,undo_hist) end 2 $start_pos
         lset data($win,config,redo_hist) [list]
         return
-      }
-      if {$data($win,config,-autoseparators)} {
-        ctext::undo_separator $win
       }
     }
   }
