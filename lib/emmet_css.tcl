@@ -1093,23 +1093,26 @@ namespace eval emmet_css {
     }
     array set opts $args
 
-    set start $opts(-startpos)
-
-    if {$opts(-dir) eq "next"} {
-      while {([set index [$txt search -forwards  -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start end]] ne "") && [ctext::inCommentString $txt $index]} {
-        set start [$txt index "$index+[lindex $lengths 0]c"]
+    # Find the starting position
+    if {$opts(-dir) eq "prev"} {
+      if {[set start_index [lindex [$txt tag prevrange _curlyR $opts(-startpos)-1c] 1]] eq ""} {
+        set start_index 1.0
       }
     } else {
-      while {([set index [$txt search -backwards -count lengths -nolinestop -regexp -- {^[^\{]+\{.*\}} $start 1.0]] ne "") && [ctext::inCommentString $txt $index]} {
-        set start $index
+      if {[set start_index [lindex [$txt tag nextrange _curlyR $opts(-startpos)] 1]] eq ""} {
+        return ""
       }
     }
 
-    if {$index ne ""} {
-      set end_index   [$txt index "$index+[lindex $lengths 0]c"]
-      set curly_index [$txt search -forwards -- "\{" $index $end_index]
-      puts "dir: $opts(-dir), startpos: [$txt index $opts(-startpos)] index: $index, curly_index: $curly_index, end_index: $end_index"
-      return [list $index $curly_index $end_index]
+    # Find the first non-commented, non-whitespace character
+    while {([set start_index [$txt search -forwards -regexp -- {\S} $start_index end]] ne "") && [ctext::inComment $txt $start_index]} {
+      set comment_tag [lsearch -inline [$txt tag names insert] _comstr*]
+      set start_index [lindex [$txt tag prevrange $comment_tag $start_index+1c] 1]
+    }
+
+    if {($start_index ne "") && ([set end_index [lindex [$txt tag nextrange _curlyR $start_index] 1]] ne "")} {
+      set curly_index [lindex [$txt tag nextrange _curlyL $start_index] 0]
+      return [list $start_index $curly_index $end_index]
     }
 
     return ""
@@ -1120,8 +1123,6 @@ namespace eval emmet_css {
   # Returns the current ruleset positional information if we are currently
   # within a ruleset; otherwise, returns the empty string.
   proc in_ruleset {txt} {
-
-    puts "In in_ruleset"
 
     # Returns the previous ruleset
     if {([set ruleset [get_ruleset $txt -dir prev -startpos "insert+1c"]] ne "") && [$txt compare insert < [lindex $ruleset 2]]} {
@@ -1223,7 +1224,6 @@ namespace eval emmet_css {
 
     # Get the proper ruleset
     if {[set ruleset [in_ruleset $txt]] eq ""} {
-      puts "We are not in a ruleset!!!"
       if {[set ruleset [get_ruleset $txt -dir $dir]] eq ""} {
         return
       }
@@ -1238,18 +1238,14 @@ namespace eval emmet_css {
 
       while {$ruleset ne ""} {
 
-        puts "HERE A"
         lassign [get_selector $txt $ruleset] selector_start selector_end
 
-        puts "HERE B"
         if {[$txt compare insert <= $selector_start]} {
-          puts "HERE C"
           ::tk::TextSetCursor $txt.t $selector_end
           $txt tag add sel $selector_start $selector_end
           return
 
         } elseif {[set prop [get_property $txt $ruleset -dir next]] ne ""} {
-          puts "Found property, prop: $prop"
           lassign $prop namestart nameend valstart valend
           if {[$txt compare insert < $namestart]} {
             ::tk::TextSetCursor $txt.t "$valend+1c"
@@ -1257,10 +1253,9 @@ namespace eval emmet_css {
             return
           }
         }
-        puts "HERE D"
 
         # Get the next ruleset
-        set ruleset [get_ruleset $txt -dir next -startpos [lindex $ruleset 2]]
+        set ruleset [get_ruleset $txt -dir next -startpos [lindex $ruleset 0]]
 
       }
 
