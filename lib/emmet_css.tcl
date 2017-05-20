@@ -1084,7 +1084,13 @@ namespace eval emmet_css {
 
   ######################################################################
   # Returns a list structure containing positional information for the next
-  # or previous ruleset.
+  # or previous ruleset.  This procedure returns a Tcl list containing the
+  # following contents:
+  #
+  #   - starting index of selector
+  #   - index of curly bracket starting the properties
+  #   - index of curly bracket ending the properties
+  #   - index of the beginning of the ruleset
   proc get_ruleset {txt args} {
 
     array set opts {
@@ -1105,14 +1111,15 @@ namespace eval emmet_css {
     }
 
     # Find the first non-commented, non-whitespace character
-    while {([set start_index [$txt search -forwards -regexp -- {\S} $start_index end]] ne "") && [ctext::inComment $txt $start_index]} {
-      set comment_tag [lsearch -inline [$txt tag names insert] _comstr*]
-      set start_index [lindex [$txt tag prevrange $comment_tag $start_index+1c] 1]
+    set start $start_index
+    while {([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [ctext::inComment $txt $start_index]} {
+      set comment_tag [lsearch -inline [$txt tag names $start] _comstr*]
+      set start [lindex [$txt tag prevrange $comment_tag $start+1c] 1]
     }
 
-    if {($start_index ne "") && ([set end_index [lindex [$txt tag nextrange _curlyR $start_index] 1]] ne "")} {
+    if {($start ne "") && ([set end_index [lindex [$txt tag nextrange _curlyR $start] 1]] ne "")} {
       set curly_index [lindex [$txt tag nextrange _curlyL $start_index] 0]
-      return [list $start_index $curly_index $end_index]
+      return [list $start $curly_index $end_index $start_index]
     }
 
     return ""
@@ -1219,6 +1226,55 @@ namespace eval emmet_css {
   }
 
   ######################################################################
+  # Select the next thing in the property list.
+  proc select_property_value {txt dir selected startpos endpos} {
+
+    puts "In select_property_value, dir: $dir, selected: $selected, startpos: $startpos, endpos: $endpos"
+
+    set select  0
+    set pattern [expr {($dir eq "next") ? {^\s*(\S+)} : {(\S+)\s*$}}]
+    set value   [$txt get $startpos $endpos]
+
+    puts -nonewline "  value: $value, pattern: "
+    puts $pattern
+
+    if {((($dir eq "next") && ($selected eq [list $startpos $endpos])) || \
+         (($dir eq "prev") && ($selected ne "") && [$txt compare [lindex $selected 0] > $endpos])) && [regexp {\s} $value]} {
+      set select 1
+    }
+
+    puts "  select: $select"
+
+    while {[regexp -indices $pattern $value -> match]} {
+      puts "    match: $match"
+      set value_start [$txt index "$startpos+[lindex $match 0]c"]
+      set value_end   [$txt index "$startpos+[expr [lindex $match 1] + 1]c"]
+      if {$select} {
+        ::tk::TextSetCursor $txt $value_end
+        $txt tag add sel $value_start $value_end
+        return 1
+      } elseif {$selected eq [list $value_start $value_end]} {
+        set select 1
+      }
+      if {$dir eq "next"} {
+        set value    [string range $value [expr [lindex $match 1] + 1] end]
+        set startpos [$txt index "$startpos+[expr [lindex $match 1] + 1]c"]
+      } else {
+        set value    [string range $value 0 [expr [lindex $match 0] - 1]]
+      }
+    }
+
+    if {$select} {
+      return 0
+    } else {
+      ::tk::TextSetCursor $txt $endpos
+      $txt tag add sel $startpos $endpos
+      return 1
+    }
+
+  }
+
+  ######################################################################
   # Selects the next/previous CSS item.
   proc select_item {txt dir} {
 
@@ -1245,12 +1301,22 @@ namespace eval emmet_css {
           $txt tag add sel $selector_start $selector_end
           return
 
-        } elseif {[set prop [get_property $txt $ruleset -dir next]] ne ""} {
-          lassign $prop namestart nameend valstart valend
-          if {[$txt compare insert < $namestart]} {
-            ::tk::TextSetCursor $txt.t "$valend+1c"
-            $txt tag add sel $namestart "$valend+1c"
-            return
+        } else {
+          foreach prop [get_properties $txt $ruleset] {
+            if {[$txt compare insert > [lindex $prop 3]]} {
+              continue
+            }
+            if {[$txt compare insert < [lindex $prop 2]]} {
+              ::tk::TextSetCursor $txt [lindex $prop 3]
+              $txt tag add sel [lindex $prop 0] [lindex $prop 3]
+              return
+            } elseif {($selected eq [list [lindex $prop 0] [lindex $prop 3]]) || ($selected eq "")} {
+              ::tk::TextSetCursor $txt [lindex $prop 3]
+              $txt tag add sel [lindex $prop 2] [lindex $prop 3]
+              return
+            } elseif {[select_property_value $txt next $selected {*}[lrange $prop 2 3]]} {
+              return
+            }
           }
         }
 
@@ -1260,6 +1326,40 @@ namespace eval emmet_css {
       }
 
     } else {
+
+      while {$ruleset ne ""} {
+
+        foreach prop [get_properties $txt $ruleset] {
+          if {($selected eq [list [lindex $prop 0] [lindex $prop 3]]) || [$txt compare insert < [lindex $prop 0]]} {
+            continue
+          }
+          if {($selected eq [list [lindex $prop 0] [$txt index [lindex $prop 3]]]) || \
+              [$txt compare insert > [lindex $prop 0]]} {
+            ::tk::TextSetCursor $txt [lindex $prop 3]
+            $txt tag add sel [lindex $prop 0] [lindex $prop 3]
+            return
+          } elseif {[select_property_value $txt prev $selected {*}[lrange $prop 2 3]]} {
+            return
+          } elseif {[$txt compare insert > [lindex $prop 2]]} {
+            ::tk::TextSetCursor $txt [lindex $prop 3]
+            $txt tag add sel [lindex $prop 0] [lindex $prop 3]
+            return
+          }
+        }
+
+        lassign [get_selector $txt $ruleset] selector_start selector_end
+
+        if {(($selected ne [list $selector_start $selector_end]) && [$txt compare insert > [lindex $ruleset 0]]) || \
+            ($selected eq [list [lindex $prop 0] [lindex $prop 3]])} {
+          ::tk::TextSetCursor $txt $selector_end
+          $txt tag add sel $selector_start $selector_end
+          return
+        }
+
+        # Get the previous ruleset
+        set ruleset [get_ruleset $txt -dir prev -startpos [lindex $ruleset 3]-1c]
+
+      }
 
     }
 
