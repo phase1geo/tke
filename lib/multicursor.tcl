@@ -381,6 +381,9 @@ namespace eval multicursor {
   # Moves all of the cursors using the positional arguments.
   proc move {txtt posargs} {
 
+    array set opts {
+      -num 1
+    }
     array set opts [lassign $posargs motion]
 
     # If the motion is not supported, return now

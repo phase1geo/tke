@@ -1101,7 +1101,9 @@ namespace eval emmet_css {
 
     # Find the starting position
     if {$opts(-dir) eq "prev"} {
-      if {[set start_index [lindex [$txt tag prevrange _curlyR $opts(-startpos)-1c] 1]] eq ""} {
+      if {[$txt compare $opts(-startpos) == 1.0]} {
+        return ""
+      } elseif {[set start_index [lindex [$txt tag prevrange _curlyR $opts(-startpos)-1c] 1]] eq ""} {
         set start_index 1.0
       }
     } else {
@@ -1157,13 +1159,16 @@ namespace eval emmet_css {
 
   ######################################################################
   # Given the starting position of the property name and its corresponding
-  # colon
+  # colon index, return a list containing the starting/ending index of the
+  # property name and the starting/ending index of the property value.
   proc get_property_retval {txt namepos colonpos endpos} {
 
-    set name   [string trim [string range [$txt get $namepos $colonpos] 0 end-1]]
-    set endpos [$txt search -forward -- {;} $colonpos $endpos]
+    set name         [string trim [string range [$txt get $namepos $colonpos] 0 end-1]]
+    set endpos       [$txt search -forward -- {;} $colonpos $endpos]
+    set full_value   [$txt get $colonpos+1c $endpos]
+    set start_offset [expr ([string length $full_value] - [string length [string trimleft $full_value]]) + 1]
 
-    return [list $namepos [$txt index "$namepos+[string length $name]c"] $colonpos $endpos]
+    return [list $namepos [$txt index "$namepos+[string length $name]c"] [$txt index "$colonpos+${start_offset}c"] $endpos]
 
   }
 
@@ -1226,27 +1231,26 @@ namespace eval emmet_css {
   }
 
   ######################################################################
+  proc select_property_token {txt dir selected startpos endpos} {
+
+    # TBD
+
+  }
+
+  ######################################################################
   # Select the next thing in the property list.
   proc select_property_value {txt dir selected startpos endpos} {
 
-    puts "In select_property_value, dir: $dir, selected: $selected, startpos: $startpos, endpos: $endpos"
-
     set select  0
-    set pattern [expr {($dir eq "next") ? {^\s*(\S+)} : {(\S+)\s*$}}]
+    set pattern [expr {($dir eq "next") ? {^\s*(\S+(\(.*?\))?)} : {(\S+(\(.*?\))?)\s*$}}]
     set value   [$txt get $startpos $endpos]
-
-    puts -nonewline "  value: $value, pattern: "
-    puts $pattern
 
     if {((($dir eq "next") && ($selected eq [list $startpos $endpos])) || \
          (($dir eq "prev") && ($selected ne "") && [$txt compare [lindex $selected 0] > $endpos])) && [regexp {\s} $value]} {
       set select 1
     }
 
-    puts "  select: $select"
-
     while {[regexp -indices $pattern $value -> match]} {
-      puts "    match: $match"
       set value_start [$txt index "$startpos+[lindex $match 0]c"]
       set value_end   [$txt index "$startpos+[expr [lindex $match 1] + 1]c"]
       if {$select} {
@@ -1329,12 +1333,12 @@ namespace eval emmet_css {
 
       while {$ruleset ne ""} {
 
-        foreach prop [get_properties $txt $ruleset] {
+        foreach prop [lreverse [get_properties $txt $ruleset]] {
           if {($selected eq [list [lindex $prop 0] [lindex $prop 3]]) || [$txt compare insert < [lindex $prop 0]]} {
             continue
           }
-          if {($selected eq [list [lindex $prop 0] [$txt index [lindex $prop 3]]]) || \
-              [$txt compare insert > [lindex $prop 0]]} {
+          if {($selected eq [list [lindex $prop 2] [$txt index [lindex $prop 3]]]) || \
+              (($selected eq "") && [$txt compare insert > [lindex $prop 0]])} {
             ::tk::TextSetCursor $txt [lindex $prop 3]
             $txt tag add sel [lindex $prop 0] [lindex $prop 3]
             return
@@ -1342,7 +1346,7 @@ namespace eval emmet_css {
             return
           } elseif {[$txt compare insert > [lindex $prop 2]]} {
             ::tk::TextSetCursor $txt [lindex $prop 3]
-            $txt tag add sel [lindex $prop 0] [lindex $prop 3]
+            $txt tag add sel [lindex $prop 2] [lindex $prop 3]
             return
           }
         }
