@@ -1233,13 +1233,19 @@ namespace eval emmet_css {
   ######################################################################
   proc select_property_token {txt dir selected startpos endpos} {
 
-    # TBD
+    set select  0
+    set pattern [expr {($dir eq "next") ? {^\s*(\S+)} : {(\S+)\s*$}}]
+    set value   [$txt get "$startpos+1c" "$endpos-1c"]
+
+
 
   }
 
   ######################################################################
   # Select the next thing in the property list.
   proc select_property_value {txt dir selected startpos endpos} {
+
+    puts "In select_property_value, txt: $txt, dir: $dir, selected: $selected, startpos: $startpos, endpos: $endpos"
 
     set select  0
     set pattern [expr {($dir eq "next") ? {^\s*(\S+(\(.*?\))?)} : {(\S+(\(.*?\))?)\s*$}}]
@@ -1250,15 +1256,30 @@ namespace eval emmet_css {
       set select 1
     }
 
-    while {[regexp -indices $pattern $value -> match]} {
+    while {[regexp -indices $pattern $value -> match fnargs]} {
       set value_start [$txt index "$startpos+[lindex $match 0]c"]
       set value_end   [$txt index "$startpos+[expr [lindex $match 1] + 1]c"]
+      if {[lindex $fnargs 0] != -1} {
+        set fnargs_start [$txt index "$startpos+[expr [lindex $fnargs 0] + 1]c"]
+        set fnargs_end   [$txt index "$startpos+[lindex $fnargs 1]c"]
+      }
+      puts "fnargs: $fnargs, selected: $selected"
       if {$select} {
         ::tk::TextSetCursor $txt $value_end
         $txt tag add sel $value_start $value_end
         return 1
       } elseif {$selected eq [list $value_start $value_end]} {
+        if {[lindex $fnargs 0] != -1} {
+          ::tk::TextSetCursor $txt $fnargs_end
+          $txt tag add sel $fnargs_start $fnargs_end
+          return 1
+        }
         set select 1
+      } elseif {([lindex $fnargs 0] != -1) && ($selected ne "") && \
+                [$txt compare $fnargs_start <= [lindex $selected 0]] && \
+                [$txt compare [lindex $selected 1] <= $fnargs_end] && \
+                [select_property_value $txt $dir $selected $fnargs_start $fnargs_end]} {
+        return 1
       }
       if {$dir eq "next"} {
         set value    [string range $value [expr [lindex $match 1] + 1] end]
