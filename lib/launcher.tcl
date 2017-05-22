@@ -727,7 +727,7 @@ namespace eval launcher {
         }
         default {
           unregister * * 1
-          if {([string first {[} $str] == -1) && [handle_calculation $str]} {
+          if {([string first {\[} $str] == -1) && [handle_calculation $str]} {
             # Nothing more to do
           } elseif {[regexp {^((https?://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str -> url]} {
             lappend matches [register_temp "" [list launcher::open_url_and_bookmark $url] "Open URL $url" 0 "" launcher::url_okay]
@@ -753,7 +753,7 @@ namespace eval launcher {
     sort_match_results $results 1
 
     # Make the string regular expression friendly
-    set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {[} {\[}} $str]
+    set tmpstr [string map {{.} {\.} {*} {\*} {+} {\+} {?} {\?} {\[} {\[}} $str]
 
     if {[string index $tmpstr 0] eq ">"} {
       set tmpstr ">.*[string range $tmpstr 1 end]"
@@ -766,7 +766,7 @@ namespace eval launcher {
     sort_match_results [get_match_results \{?$mode.*$tmpstr.*] 0
 
     # Get all of the fuzzy matches
-    sort_match_results [get_match_results \{?$mode.*[join [string map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?} {[} {\\\[}} [split $str {}]] .*].*] 1
+    sort_match_results [get_match_results \{?$mode.*[join [string map {{.} {\\\.} {*} {\\\*} {+} {\\\+} {?} {\\\?} {\[} {\\\[}} [split $str {}]] .*].*] 1
 
   }
 
