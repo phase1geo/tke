@@ -1,0 +1,80 @@
+filepatterns
+{*.idl}
+
+vimsyntax
+{idl}
+
+reference {
+  {{Language Reference} http://www.harrisgeospatial.com/docs/idl_programming.html}
+}
+
+matchcharsallowed
+{square paren}
+
+casesensitive
+{0}
+
+indent
+{begin case switch}
+
+unindent
+{endelse endfor endforeach endif endrep endwhile end endcase endswitch}
+
+reindent {}
+
+icomment {{;}}
+
+lcomments {{;}}
+
+strings {{'}}
+
+keywords
+{
+  begin break
+  case continue
+  do
+  else end endcase endelse endfor endif endrep endswitch endwhile
+  for foreach
+  goto gt
+  if
+  of
+  repeat
+  switch
+  then
+  until
+  while
+}
+
+symbols
+{
+  HighlightKeywords {
+  } syntax::get_syntax_symbol
+}
+
+numbers {
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)[dDlL]?} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}()#,=:*/+-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    help list print readf
+  }
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    bindgen
+    findgen
+    indgen intarr
+    n_elements
+  }
+}
+
+miscellaneous3 {}
+
+advanced {}
