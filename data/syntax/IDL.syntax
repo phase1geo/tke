@@ -1,5 +1,5 @@
 filepatterns
-{*.idl}
+{*.pro}
 
 vimsyntax
 {idl}
