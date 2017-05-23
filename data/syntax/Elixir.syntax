@@ -23,7 +23,7 @@ unindent
 {end {\)}}
 
 reindent {
-  {{{do\s} else} {{do\s} rescue} {{do\s} catch} {{do\s} after}}
+  {{do\s} else rescue catch after}
 }
 
 icomment {{#}}
@@ -35,7 +35,7 @@ strings {{"} {'}}
 keywords
 {
   after alias and
-  case cond
+  case catch cond
   def defimpl defmodule defp defprotocol defstruct do
   else end
   if import in
