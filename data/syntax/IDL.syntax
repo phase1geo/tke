@@ -9,13 +9,13 @@ reference {
 }
 
 matchcharsallowed
-{square paren}
+{square paren curly double single}
 
 casesensitive
 {0}
 
 indent
-{begin case switch}
+{begin case switch pro function}
 
 unindent
 {endelse endfor endforeach endif endrep endwhile end endcase endswitch}
@@ -26,52 +26,75 @@ icomment {{;}}
 
 lcomments {{;}}
 
-strings {{'}}
+strings {{"} {'}}
 
 keywords
 {
+  and
   begin break
-  case continue
+  case common compile_opt continue
   do
-  else end endcase endelse endfor endif endrep endswitch endwhile
-  for foreach
-  goto gt
-  if
-  of
+  else end endcase endelse endfor endforeach endif endrep endswitch endwhile eq
+  for foreach forward_function function
+  ge goto gt
+  if inherits
+  le lt
+  mod
+  ne not
+  of on_ioerror or
+  pro
   repeat
   switch
   then
   until
   while
+  xor
 }
 
 symbols
 {
   HighlightKeywords {
+    pro function
   } syntax::get_syntax_symbol
 }
 
 numbers {
-  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)[dDlL]?} {}
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)[bBdDlL]?} {}
 }
 
 punctuation
 {
-  HighlightRegexp {[][\{\}()#,=:*/+-]} {}
+  HighlightRegexp {[][\{\}()@#?,.=:\$&<>|~*/+^-]} {}
 }
 
 miscellaneous1 {
   HighlightKeywords {
-    help list print readf
+    close contour free_lun help list obj_destroy on_error openr openw plot print printf
+    read readf restore retall return save stop widget_control widget_displaycontextmenu
   }
 }
 
 miscellaneous2 {
   HighlightKeywords {
-    bindgen
-    findgen
-    indgen intarr
+    alog arg_present
+    bindgen bytarr byte
+    dblarr dictionary double
+    complex complexarr cos create_struct
+    dcomplex dcomplexarr dialog_message
+    eof exp
+    file_search findgen finite fix float fltarr
+    hash heap_refcount
+    indgen intarr isa
+    lonarr lon64arr long long64
     n_elements
+    objarr obj_isa obj_new obj_valid orderedhash
+    ptr_new
+    randomu replicate routine_filepath
+    sin sort strarr string systime
+    tag_names tan temporary total transpose
+    uint uintarr ulonarr ulon64arr ulong ulong64
+    where widget_base widget_button widget_draw widget_droplist widget_info
+    widget_list widget_slider widget_text
   }
 }
 
