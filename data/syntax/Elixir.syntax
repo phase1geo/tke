@@ -1,0 +1,89 @@
+filepatterns
+{*.ex *.exs}
+
+reference {
+  {{Language Reference} https://elixir-lang.org/getting-started/introduction.html}
+}
+
+delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;=\"'\|,<>]+}
+
+matchcharsallowed
+{curly square paren double single}
+
+tabsallowed
+{0}
+
+casesensitive
+{1}
+
+indent
+{fn {do\s} {\(}}
+
+unindent
+{end {\)}}
+
+reindent {
+  {{{do\s} else} {{do\s} rescue} {{do\s} catch} {{do\s} after}}
+}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+strings {{"} {'}}
+
+keywords
+{
+  after alias and
+  case cond
+  def defimpl defmodule defp defprotocol defstruct do
+  else end
+  if import in
+  fn for
+  not
+  or
+  receive require rescue
+  send
+  try
+  unless use
+  when
+}
+
+symbols
+{
+  HighlightKeywords {
+  } syntax::get_syntax_symbol
+}
+
+numbers {
+  HighlightKeywords {true false}
+  HighlightRegexp {\m([0-9_]+|0b[01_]+|0o[0-7_]+|0x[0-9a-fA-F_]+|[0-9_]+\.[0-9_]+[eE]-?[0-9]+)} {}
+  HighlightWithOnlyCharStart {:} {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\},.:<>^|%&!?~=*/+-]} {}
+}
+
+miscellaneous1 {
+  HighlightWithOnlyCharStart {@} {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    bit_size byte_size
+    elem exit
+    inspect is_atom is_binary is_bitstring is_boolean is_float is_function is_integer is_list is_number is_tuple
+    get_and_update_in
+    length
+    put_elem put_in
+    raise
+    self spawn spawn_link
+    to_charlist to_string tuple_size
+    update_in
+  }
+}
+
+miscellaneous3 {}
+
