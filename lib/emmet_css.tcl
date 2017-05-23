@@ -1245,8 +1245,6 @@ namespace eval emmet_css {
   # Select the next thing in the property list.
   proc select_property_value {txt dir selected startpos endpos} {
 
-    puts "In select_property_value, txt: $txt, dir: $dir, selected: $selected, startpos: $startpos, endpos: $endpos"
-
     set select  0
     set pattern [expr {($dir eq "next") ? {^\s*(\S+(\(.*?\))?)} : {(\S+(\(.*?\))?)\s*$}}]
     set value   [$txt get $startpos $endpos]
@@ -1263,7 +1261,6 @@ namespace eval emmet_css {
         set fnargs_start [$txt index "$startpos+[expr [lindex $fnargs 0] + 1]c"]
         set fnargs_end   [$txt index "$startpos+[lindex $fnargs 1]c"]
       }
-      puts "fnargs: $fnargs, selected: $selected"
       if {$select} {
         ::tk::TextSetCursor $txt $value_end
         $txt tag add sel $value_start $value_end
