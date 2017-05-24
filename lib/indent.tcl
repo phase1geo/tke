@@ -208,16 +208,26 @@ namespace eval indent {
   # Returns true if the reindent symbol is not the first in the parent statement.
   proc check_reindent_for_unindent {txtt index} {
 
-    if {([lassign [$txtt tag prevrange _reindent      $index] rpos] ne "") && \
-        ([lassign [$txtt tag prevrange _reindentStart $index] spos] ne "") && \
-        [$txtt compare $rpos > $spos]} {
+    if {[set spos [lindex [$txtt tag prevrange _reindentStart $index] 0]] ne ""} {
 
-      # Find the indent symbol that is just before the reindentStart symbol
-      while {([lassign [$txtt tag prevrange _indent $index] ipos] ne "") && [$txtt compare $ipos > $spos]} {
-        set index $ipos
+      # If the starting reindent is also an indent, return 1
+      if {[lsearch [$txtt tag names $spos] _indent*] != -1} {
+        return 2
       }
 
-      return [$txtt compare $index < $rpos]
+      # Get the starting position of the previous reindent string
+      set rpos [lindex [$txtt tag prevrange _reindent $index] 0]
+
+      if {($rpos ne "") && [$txtt compare $rpos > $spos]} {
+
+        # Find the indent symbol that is just before the reindentStart symbol
+        while {([lassign [$txtt tag prevrange _indent $index] ipos] ne "") && [$txtt compare $ipos > $spos]} {
+          set index $ipos
+        }
+
+        return [$txtt compare $index < $rpos]
+
+      }
 
     }
 
@@ -262,16 +272,25 @@ namespace eval indent {
 
       }
 
-    } elseif {(([set endpos [lassign [$txtt tag prevrange _reindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]) && [check_reindent_for_unindent $txtt $startpos]} {
+    } elseif {(([set endpos [lassign [$txtt tag prevrange _reindent $index] startpos]] ne "") && [$txtt compare $endpos == $index]) && [set type [check_reindent_for_unindent $txtt $startpos]]} {
 
       if {[string trim [set space [$txtt get "$index linestart" $startpos]]] eq ""} {
 
-        # Get the starting whitespace of the previous line
-        set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
+        if {$type == 1} {
 
-        # Check to see if the previous line contained a reindent
-        if {[$txtt compare "$index-1l linestart" > [lindex [$txtt tag prevrange _reindent "$index linestart"] 0]]} {
-          set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
+          # Get the starting whitespace of the previous line
+          set indent_space [get_start_of_line $txtt [$txtt index "$index-1l lineend"]]
+
+          # Check to see if the previous line contained a reindent
+          if {[$txtt compare "$index-1l linestart" > [lindex [$txtt tag prevrange _reindent "$index linestart"] 0]]} {
+            set indent_space [string range $indent_space [get_shiftwidth $txtt] end]
+          }
+
+        } else {
+
+          # Set the indentation space to the same as the reindentStart line
+          set indent_space [get_start_of_line $txtt [lindex [$txtt tag prevrange _reindentStart $index] 0]]
+
         }
 
         # Replace the whitespace with the appropriate amount of indentation space
