@@ -17,13 +17,13 @@ casesensitive
 {1}
 
 indent
-{fn {do\s} {\(}}
+{fn {do(?!:)} {\(}}
 
 unindent
 {end {\)}}
 
 reindent {
-  {{do\s} else rescue catch after}
+  {{do(?!:)} after catch else rescue}
 }
 
 icomment {{#}}
@@ -36,7 +36,7 @@ keywords
 {
   after alias and
   case catch cond
-  def defimpl defmodule defp defprotocol defstruct do
+  def defimpl defmodule defp defprotocol defstruct do do:
   else end
   if import in
   fn for
@@ -56,7 +56,7 @@ symbols
 }
 
 numbers {
-  HighlightKeywords {true false}
+  HighlightKeywords {true false} {}
   HighlightRegexp {\m([0-9_]+|0b[01_]+|0o[0-7_]+|0x[0-9a-fA-F_]+|[0-9_]+\.[0-9_]+[eE]-?[0-9]+)} {}
   HighlightWithOnlyCharStart {:} {}
 }
