@@ -1249,10 +1249,11 @@ namespace eval emmet_css {
     set pattern [expr {($dir eq "next") ? {^\s*(\S+(\(.*?\))?)} : {(\S+(\(.*?\))?)\s*$}}]
     set value   [$txt get $startpos $endpos]
 
+    # Figure out if we need to select the first selectable item in the value list
     if {((($dir eq "next") && ($selected eq [list $startpos $endpos])) || \
-         (($dir eq "prev") && ($selected ne "") && [$txt compare [lindex $selected 0] > $endpos])) && [regexp {\s} $value]} {
+         (($dir eq "prev") && ($selected ne "") && [$txt compare [lindex $selected 0] > $endpos])) && \
+        ([regexp -all -- $pattern $value] > 1)} {
       set select 1
-      puts "SELECT = 1"
     }
 
     while {[regexp -indices $pattern $value -> match fnargs]} {
@@ -1286,17 +1287,24 @@ namespace eval emmet_css {
         set value    [string range $value [expr [lindex $match 1] + 1] end]
         set startpos [$txt index "$startpos+[expr [lindex $match 1] + 1]c"]
       } else {
-        puts "PREVIOUS: value: $value, select: $select, fnargs: $fnargs, selected: $selected, value_start: $value_start, value_end: $value_end"
-        if {([lindex $fnargs 0] != -1) && ($selected ne "") && \
-            ($select || \
-             ([$txt compare $fnargs_start < [lindex $selected 0]] && \
-              [$txt compare [lindex $selected 1] < $fnargs_end]))} {
-          if {[select_property_value $txt $dir $selected $fnargs_start $fnargs_end]} {
+
+        # If the current item is a function call
+        if {([lindex $fnargs 0] != -1) && ($selected ne "")} {
+          if {[$txt compare $fnargs_start == [lindex $selected 0]] && \
+              [$txt compare $fnargs_end   == [lindex $selected 1]]} {
+            ::tk::TextSetCursor $txt $value_end
+            $txt tag add sel $value_start $value_end
             return 1
-          } else {
-            ::tk::TextSetCursor $txt $fnargs_end
-            $txt tag add sel $fnargs_start $fnargs_end
-            return 1
+          } elseif {$select || \
+                    ([$txt compare $fnargs_start <= [lindex $selected 0]] && \
+                     [$txt compare [lindex $selected 1] <= $fnargs_end])} {
+            if {[select_property_value $txt $dir $selected $fnargs_start $fnargs_end]} {
+              return 1
+            } else {
+              ::tk::TextSetCursor $txt $fnargs_end
+              $txt tag add sel $fnargs_start $fnargs_end
+              return 1
+            }
           }
         } elseif {$select} {
           ::tk::TextSetCursor $txt $value_end
@@ -1312,11 +1320,9 @@ namespace eval emmet_css {
         }
         set value [string range $value 0 [expr [lindex $match 0] - 1]]
       }
-      puts "HERE, value: $value, pattern: $pattern, select: $select, selected: $selected"
     }
 
     if {$select} {
-      puts "Returning 0"
       return 0
     } else {
       ::tk::TextSetCursor $txt $endpos
