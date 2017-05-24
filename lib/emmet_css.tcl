@@ -1242,8 +1242,30 @@ namespace eval emmet_css {
   }
 
   ######################################################################
+  # Returns the number of items that are found in the value string that
+  # will be parsed.
+  proc get_item_count {dir str depth} {
+
+    if {$dir eq "next"} {
+      if {$depth == 0} {
+        set retval [regexp -all -- {\S+(\(.*?\))?} $str]
+        return $retval
+      } else {
+        set retval [llength [split $str ,]]
+        return $retval
+      }
+    } else {
+      if {[string map {, {} { } {} \( {}} $str] ne $str} {
+        return 2
+      }
+      return 1
+    }
+
+  }
+
+  ######################################################################
   # Select the next thing in the property list.
-  proc select_property_value {txt dir selected startpos endpos} {
+  proc select_property_value {txt dir depth selected startpos endpos} {
 
     set select  0
     set pattern [expr {($dir eq "next") ? {^\s*(\S+(\(.*?\))?)} : {(\S+(\(.*?\))?)\s*$}}]
@@ -1252,7 +1274,7 @@ namespace eval emmet_css {
     # Figure out if we need to select the first selectable item in the value list
     if {((($dir eq "next") && ($selected eq [list $startpos $endpos])) || \
          (($dir eq "prev") && ($selected ne "") && [$txt compare [lindex $selected 0] > $endpos])) && \
-        ([regexp -all -- $pattern $value] > 1)} {
+        ([get_item_count $dir $value $depth] > 1)} {
       set select 1
     }
 
@@ -1264,6 +1286,7 @@ namespace eval emmet_css {
         set fnargs_end   [$txt index "$startpos+[lindex $fnargs 1]c"]
       }
       if {$dir eq "next"} {
+
         if {$select} {
           ::tk::TextSetCursor $txt $value_end
           $txt tag add sel $value_start $value_end
@@ -1278,7 +1301,7 @@ namespace eval emmet_css {
         } elseif {([lindex $fnargs 0] != -1) && ($selected ne "") && \
                   [$txt compare $fnargs_start <= [lindex $selected 0]] && \
                   [$txt compare [lindex $selected 1] <= $fnargs_end]} {
-          if {[select_property_value $txt $dir $selected $fnargs_start $fnargs_end]} {
+          if {[select_property_value $txt $dir [expr $depth + 1] $selected $fnargs_start $fnargs_end]} {
             return 1
           } else {
             set select 1
@@ -1286,6 +1309,7 @@ namespace eval emmet_css {
         }
         set value    [string range $value [expr [lindex $match 1] + 1] end]
         set startpos [$txt index "$startpos+[expr [lindex $match 1] + 1]c"]
+
       } else {
 
         # If the current item is a function call
@@ -1298,7 +1322,7 @@ namespace eval emmet_css {
           } elseif {$select || \
                     ([$txt compare $fnargs_start <= [lindex $selected 0]] && \
                      [$txt compare [lindex $selected 1] <= $fnargs_end])} {
-            if {[select_property_value $txt $dir $selected $fnargs_start $fnargs_end]} {
+            if {[select_property_value $txt $dir [expr $depth + 1] $selected $fnargs_start $fnargs_end]} {
               return 1
             } else {
               ::tk::TextSetCursor $txt $fnargs_end
@@ -1311,14 +1335,10 @@ namespace eval emmet_css {
           $txt tag add sel $value_start $value_end
           return 1
         } elseif {$selected eq [list $value_start $value_end]} {
-#          if {[lindex $fnargs 0] != -1} {
-#            ::tk::TextSetCursor $txt $fnargs_end
-#            $txt tag add sel $fnargs_start $fnargs_end
-#            return 1
-#          }
           set select 1
         }
         set value [string range $value 0 [expr [lindex $match 0] - 1]]
+
       }
     }
 
@@ -1372,7 +1392,7 @@ namespace eval emmet_css {
               ::tk::TextSetCursor $txt [lindex $prop 3]
               $txt tag add sel [lindex $prop 2] [lindex $prop 3]
               return
-            } elseif {[select_property_value $txt next $selected {*}[lrange $prop 2 3]]} {
+            } elseif {[select_property_value $txt next 0 $selected {*}[lrange $prop 2 3]]} {
               return
             }
           }
@@ -1396,7 +1416,7 @@ namespace eval emmet_css {
             ::tk::TextSetCursor $txt [lindex $prop 3]
             $txt tag add sel [lindex $prop 0] [lindex $prop 3]
             return
-          } elseif {[select_property_value $txt prev $selected {*}[lrange $prop 2 3]]} {
+          } elseif {[select_property_value $txt prev 0 $selected {*}[lrange $prop 2 3]]} {
             return
           } elseif {[$txt compare insert > [lindex $prop 2]]} {
             ::tk::TextSetCursor $txt [lindex $prop 3]
