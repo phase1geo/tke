@@ -453,7 +453,7 @@ namespace eval multicursor {
   ######################################################################
   # Handles multicursor deletion using the esposargs and sposargs parameters
   # for calculating the deletion ranges.
-  proc delete {txtt eposargs {sposargs ""} {object 0}} {
+  proc delete {txtt eposargs {sposargs ""} {object ""}} {
 
     variable selected
 
@@ -492,7 +492,7 @@ namespace eval multicursor {
       } else {
         set range [$txt tag nextrange mcursor $start]
         while {$range ne [list]} {
-          lassign [edit::get_range $txt $eposargs $sposargs $object [lindex $range 0]] start end
+          lassign [edit::get_range $txt $eposargs $sposargs $object 0 [lindex $range 0]] start end
           if {([set next [lindex [$txt tag nextrange mcursor [lindex $range 1]] 0]] ne "") && [$txt compare $end > $next]} {
             set end $next
           }
@@ -642,7 +642,7 @@ namespace eval multicursor {
       }
 
       foreach {start end} [$txtt tag ranges mcursor] {
-        edit::convert_case_toggle $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object $start]
+        edit::convert_case_toggle $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
         $txtt tag add mcursor $start
       }
 
@@ -666,7 +666,7 @@ namespace eval multicursor {
       }
 
       foreach {start end} [$txtt tag ranges mcursor] {
-        edit::convert_to_upper_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object $start]
+        edit::convert_to_upper_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
         $txtt tag add mcursor $start
       }
 
@@ -690,7 +690,7 @@ namespace eval multicursor {
       }
 
       foreach {start end} [$txtt tag ranges mcursor] {
-        edit::convert_to_lower_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object $start]
+        edit::convert_to_lower_case $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
         $txtt tag add mcursor $start
       }
 
@@ -714,7 +714,7 @@ namespace eval multicursor {
       }
 
       foreach {start end} [$txtt tag ranges mcursor] {
-        edit::convert_to_rot13 $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object $start]
+        edit::convert_to_rot13 $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
         $txtt tag add mcursor $start
       }
 
@@ -738,7 +738,7 @@ namespace eval multicursor {
       }
 
       foreach {start end} [$txtt tag ranges mcursor] {
-        indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object $start]
+        indent::format_text $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
         $txtt tag add mcursor $start
       }
 
@@ -763,11 +763,11 @@ namespace eval multicursor {
 
       if {$dir eq "right"} {
         foreach {start end} [$txtt tag ranges mcursor] {
-          edit::indent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object $start]
+          edit::indent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
         }
       } else {
         foreach {start end} [$txtt tag ranges mcursor] {
-          edit::unindent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object $start]
+          edit::unindent $txtt {*}[edit::get_range $txtt $eposargs $sposargs $object 0 $start]
         }
       }
 
