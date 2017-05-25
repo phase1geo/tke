@@ -2616,9 +2616,6 @@ namespace eval pref_ui {
 
     make_cb $w.sm   [msgcat::mc "Show menubar"]                                     View/ShowMenubar
     make_cb $w.ss   [msgcat::mc "Show sidebar"]                                     View/ShowSidebar
-    if {![string match "Linux*" $::tcl_platform(os)]} {
-      make_cb $w.sc   [msgcat::mc "Show console"]                                   View/ShowConsole
-    }
     make_cb $w.ssb  [msgcat::mc "Show status bar"]                                  View/ShowStatusBar
     make_cb $w.stb  [msgcat::mc "Show tab bar"]                                     View/ShowTabBar
     make_cb $w.sln  [msgcat::mc "Show line numbers"]                                View/ShowLineNumbers
@@ -4028,6 +4025,7 @@ namespace eval pref_ui {
 
     make_cb $b.dm  [msgcat::mc "Enable development mode"]            Debug/DevelopmentMode
     make_cb $b.sdl [msgcat::mc "Show diagnostic logfile at startup"] Debug/ShowDiagnosticLogfileAtStartup
+    make_cb $b.sc  [msgcat::mc "Show Tcl console at startup"]        View/ShowConsole
     make_spacer $b
 
     make_fp $b.ld [msgcat::mc "Logfile Directory"] Debug/LogDirectory dir [list -title [msgcat::mc "Choose Logfile Directory"]]
