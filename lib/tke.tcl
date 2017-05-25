@@ -81,13 +81,13 @@ package require struct::set
 package require comm
 package require ftp
 package require base64
+package require tkcon
 if {[catch { package require xml }]} {
   lappend auto_path [file join $tke_dir lib ptwidgets1.2 common Tclxml3.2]
 }
 catch { package require webdav }
 catch { package require tkdnd }
 catch { package require registry }
-catch { package require tkcon }
 
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib share.tcl]

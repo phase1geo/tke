@@ -111,6 +111,11 @@ namespace eval menus {
         $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command "menus::show_last_profiling_report"
         $mb add separator
         $mb add command -label [msgcat::mc "Show Diagnostic Logfile"]    -underline 5 -command "logger::view_log"
+        if {[preferences::get View/ShowConsole]} {
+          $mb add command -label [msgcat::mc "Hide Tcl Console"] -underline 5 -command [list menus::hide_console_view $mb]
+        } else {
+          $mb add command -label [msgcat::mc "Show Tcl Console"] -underline 5 -command [list menus::show_console_view $mb]
+        }
         $mb add separator
         $mb add command -label [format "%s %s" [msgcat::mc "Run"] "BIST"] -underline 4 -command "menus::run_bist"
         $mb add separator
@@ -120,6 +125,8 @@ namespace eval menus {
         launcher::register [make_menu_cmd "Tools" [msgcat::mc "Stop profiling"]]                 [list menus::stop_profiling_command $mb 1]
         launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show last profiling report"]]     [list menus::show_last_profiling_report]
         launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show diagnostic logfile"]]        [list logger::view_log]
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show Tcl console"]]               [list menus::show_console_view $mb]
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Hide Tcl console"]]               [list menus::hide_console_view $mb]
         launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]]    [list menus::run_bist]
         launcher::register [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] [list menus::restart_command]
 
@@ -150,6 +157,8 @@ namespace eval menus {
         launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Stop profiling"]] * *
         launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Show last profiling report"]] * *
         launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Show diagnostic logfile"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Show Tcl console"]] * *
+        launcher::unregister [make_menu_cmd "Tools" [msgcat::mc "Hide Tcl console"]] * *
         launcher::unregister [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Run"] "BIST"]] * *
         launcher::unregister [make_menu_cmd "Tools" [format "%s %s" [msgcat::mc "Restart"] "TKE"]] * *
 
@@ -2466,16 +2475,6 @@ namespace eval menus {
     launcher::register [make_menu_cmd "View" [msgcat::mc "Show sidebar"]] [list menus::show_sidebar_view $mb]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Hide sidebar"]] [list menus::hide_sidebar_view $mb]
 
-    if {![catch "tkcon hide"] || ![catch "console hide"]} {
-      if {[preferences::get View/ShowConsole]} {
-        $mb add command -label [msgcat::mc "Hide Console"] -underline 5 -command [list menus::hide_console_view $mb]
-      } else {
-        $mb add command -label [msgcat::mc "Show Console"] -underline 5 -command [list menus::show_console_view $mb]
-      }
-      launcher::register [make_menu_cmd "View" [msgcat::mc "Show console"]] [list menus::show_console_view $mb]
-      launcher::register [make_menu_cmd "View" [msgcat::mc "Hide console"]] [list menus::hide_console_view $mb]
-    }
-
     if {[preferences::get View/ShowTabBar]} {
       $mb add command -label [msgcat::mc "Hide Tab Bar"] -underline 5 -command [list menus::hide_tab_view $mb]
     } else {
@@ -2699,20 +2698,6 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Panes"] -state normal
     }
 
-    # Handle the state of the Show/Hide Console entry (if it exists)
-    if {![catch { tkcon version }]} {
-      set console_shown [winfo ismapped .tkcon]
-    } elseif {![catch { console eval "winfo ismapped ." } rc]} {
-      set console_shown $rc
-    }
-    if {[info exists console_shown]} {
-      if {$console_shown} {
-        catch { $mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command [list menus::hide_console_view $mb] }
-      } else {
-        catch { $mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command [list menus::show_console_view $mb]}
-      }
-    }
-
     if {[gui::current_txt] eq ""} {
       catch { $mb entryconfigure [msgcat::mc "Show Line Numbers"]    -state disabled }
       catch { $mb entryconfigure [msgcat::mc "Hide Line Numbers"]    -state disabled }
@@ -2870,7 +2855,7 @@ namespace eval menus {
   proc show_console_view {mb} {
 
     # Convert the menu command into the hide console command
-    if {![catch {$mb entryconfigure [msgcat::mc "Show Console"] -label [msgcat::mc "Hide Console"] -command "menus::hide_console_view $mb"}]} {
+    if {![catch {$mb entryconfigure [msgcat::mc "Show Tcl Console"] -label [msgcat::mc "Hide Tcl Console"] -command "menus::hide_console_view $mb"}]} {
       gui::show_console_view
     }
 
@@ -2881,7 +2866,7 @@ namespace eval menus {
   proc hide_console_view {mb} {
 
     # Convert the menu command into the show console command
-    if {![catch {$mb entryconfigure [msgcat::mc "Hide Console"] -label [msgcat::mc "Show Console"] -command "menus::show_console_view $mb"}]} {
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide Tcl Console"] -label [msgcat::mc "Show Tcl Console"] -command "menus::show_console_view $mb"}]} {
       gui::hide_console_view
     }
 
@@ -3160,6 +3145,7 @@ namespace eval menus {
     variable profile_report
 
     if {[::tke_development]} {
+
       catch {
         if {[file exists $profile_report]} {
           $mb entryconfigure [msgcat::mc "Show Last Profiling Report"] -state normal
@@ -3167,6 +3153,16 @@ namespace eval menus {
           $mb entryconfigure [msgcat::mc "Show Last Profiling Report"] -state disabled
         }
       }
+
+      # Handle the state of the Show/Hide Console entry (if it exists)
+      if {[winfo exists .tkcon]} {
+        if {[winfo ismapped .tkcon]} {
+          catch { $mb entryconfigure [msgcat::mc "Show Tcl Console"] -label [msgcat::mc "Hide Tcl Console"] -command [list menus::hide_console_view $mb] }
+        } else {
+          catch { $mb entryconfigure [msgcat::mc "Hide Tcl Console"] -label [msgcat::mc "Show Tcl Console"] -command [list menus::show_console_view $mb]}
+        }
+      }
+
     }
 
   }

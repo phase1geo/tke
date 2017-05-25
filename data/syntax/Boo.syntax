@@ -1,0 +1,63 @@
+filepatterns
+{*.boo}
+
+reference {}
+
+matchcharsallowed
+{curly paren square double single}
+
+tabsallowed
+{0}
+
+icomment {{//}}
+
+lcomments {{//} {#}}
+
+bcomments {{{/\*} {\*/}}}
+
+strings {{"} {'}}
+
+keywords
+{
+  and as
+  break
+  cast continue
+  def
+  elif else
+  for
+  if import in
+  not
+  or
+  pass print
+  unless using
+  while
+}
+
+symbols
+{
+  HighlightKeywords {
+  } syntax::get_syntax_symbol
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]+)} {}
+  HighlightKeywords {
+    true false
+  } {}
+}
+
+punctuation
+{
+  HighlightRegexp {[][\{\}(),.:=~!<>@*/+-]} {}
+}
+
+miscellaneous1 {
+  HighlightKeywords {
+    single double decimal byte short int long string char object bool date sbyte ushort uint ulong
+  } {}
+}
+
+miscellaneous2 {}
+
+miscellaneous3 {}
