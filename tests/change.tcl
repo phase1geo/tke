@@ -80,7 +80,7 @@ namespace eval change {
     }
 
     if {[$txtt get 1.0 end-1c] ne $value} {
-      cleanup "$id change did not work ([$txtt get 1.0 end-1c])"
+      cleanup "$id change did not work ([$txtt get 1.0 end-1c])\n($value)"
     }
     switch [lindex $cmdlist 0] {
       "r"     {
@@ -501,24 +501,6 @@ namespace eval change {
 
   }
 
-  # Verify ci Vim command
-  proc run_test16 {} {
-
-    # Initialize
-    set txtt [initialize]
-
-    $txtt insert end "\nThis \\is a line"
-    $txtt edit separator
-    $txtt mark set insert 2.4
-    vim::adjust_insert $txtt
-
-    do_test $txtt 0 {c i i} 2.3 "\nThiine"
-
-    # Cleanup
-    cleanup
-
-  }
-
   # Verify ci\{ Vim command
   proc run_test17 {} {
 
@@ -578,6 +560,8 @@ namespace eval change {
 
     # Initialize
     set txtt [initialize]
+
+    syntax::set_language [winfo parent $txtt] "HTML"
 
     $txtt insert end "\nset this <is good\\>>"
     $txtt edit separator

@@ -539,6 +539,7 @@ namespace eval selection {
 
   }
 
+  # Verify iW/aW
   proc run_test19 {} {
 
     # Initialize
