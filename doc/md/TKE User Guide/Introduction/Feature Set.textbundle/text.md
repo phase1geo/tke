@@ -8,7 +8,7 @@ The following is a high-level list of built-in features.
 		- Bash
 		- C#, C, C\+\+, Changelog, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
 		- D, Delphi, DesktopEntry, DocBook, Doxyfile
-		- Eiffel, Elm, Erlang
+		- Eiffel, Elixir, Elm, Erlang
 		- Fickle, Forth, Fortran, Fountain
 		- Gherkin, Go, Groovy
 		- HTML, Haml, Haskell, Haxe, HelpSystem
