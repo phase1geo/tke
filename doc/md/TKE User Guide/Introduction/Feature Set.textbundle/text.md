@@ -5,7 +5,7 @@ The following is a high-level list of built-in features.
 - **Syntax highlighting**
 	- Over 90 languages currently supported, including:
 		- ABAP, ActionScript, Ada, AppleScript, Assembly, Awk
-		- Bash
+		- Bash, Boo
 		- C#, C, C\+\+, Changelog, Clojure, CriticMarkup, Cobol, CoffeeScript, CSS, Cuda
 		- D, Delphi, DesktopEntry, DocBook, Doxyfile
 		- Eiffel, Elixir, Elm, Erlang
