@@ -10,5 +10,6 @@ The Tools menu contains various miscellaneous functions that are available withi
 | Stop Profiling | | | Development tool only. Stops the current profiling run.  After profiling information has been gathered, a profile report can be viewed within the editor. |
 | Show Last Profiling Report | | | Development tool only. Displays the results of the last profiling run within the editor. |
 | Show Diagnostic Logfile | | | Development tool only. Displays the diagnostic logfile for the current application. This file contains error information from the application and information useful for debugging transient tool issues. |
+| Show/Hide Tcl Console | | | Shows/hides the tkcon Tcl console window. |
 | Run BIST | | | Development tool only. Runs a built-in self test, displaying the resulting output to standard output. |
 | Restart TKE | | | Development tool only. Allows the editor to be quit, restarted and returned to the current editing state.  This is useful when TKE source code is modified and needs to be reloaded. |

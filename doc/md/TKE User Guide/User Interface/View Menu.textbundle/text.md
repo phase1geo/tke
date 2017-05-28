@@ -5,7 +5,6 @@ The View menu allows the user to change the interface as desired.  The following
 | Menu Item | Shortcut<br>(Mac) | Shortcut<br>(Other) | Description |
 | - | - |
 | Show/Hide Sidebar | Ctrl-Y | Ctrl-Y | Shows or hides the sidebar panel. |
-| Show/Hide Console | | | For operating systems that allow a Tcl/Tk console to be viewed, shows/hides this console window from view.  This menu item is only displayed if a console is available.  The console is mostly useful for TKE or TKE plugin development purposes only. If the `tkcon` utility is installed on your system, this console will be used instead of the standard console (has more debug features and will work on Mac, Windows and Linux systems). |
 | Show/Hide Tab Bar | | | Shows or hides the tab bar. |
 | Show/Hide Status Bar | | | Shows or hides the status bar at the bottom of the window. |
 | Show/Hide Line Numbers | | | Shows or hides the line numbers in the current buffer. |
