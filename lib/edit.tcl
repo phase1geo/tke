@@ -1742,14 +1742,16 @@ namespace eval edit {
         if {[set $opts(-column)] eq ""} {
           set $opts(-column) [lindex [split [$txtt index $opts(-startpos)] .] 1]
         }
-        set row   [lindex [split [$txtt index "$opts(-startpos)-$opts(-num) display lines"] .] 0]
-        set index $row.[set $opts(-column)]
+        set lstart [$txtt index "$opts(-startpos) linestart"]
+        set row    [lindex [split [$txtt index "$lstart-$opts(-num) display lines"] .] 0]
+        set index  $row.[set $opts(-column)]
       }
       down        {
         if {[set $opts(-column)] eq ""} {
           set $opts(-column) [lindex [split [$txtt index $opts(-startpos)] .] 1]
         }
-        if {[$txtt compare [set index [$txtt index "$opts(-startpos)+$opts(-num) display lines"]] == end]} {
+        set lend [$txtt index "$opts(-startpos) lineend"]
+        if {[$txtt compare [set index [$txtt index "$lend+$opts(-num) display lines"]] == end]} {
           set index [$txtt index "end-1c"]
         }
         set index [lindex [split $index .] 0].[set $opts(-column)]
