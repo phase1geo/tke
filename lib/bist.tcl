@@ -34,8 +34,9 @@ namespace eval bist {
   array set data {}
 
   # In case the UI is closed without running a regression...
-  set data(done)   1
-  set data(filter) "all"
+  set data(done)    1
+  set data(filter)  "all"
+  set data(runtype) "selected"
 
   ######################################################################
   # Populates the test list.
@@ -107,7 +108,7 @@ namespace eval bist {
     # Specify that the regression should run
     set data(run)    1
     set data(done)   0
-    
+
     # Initialize the filter
     set data(filter) "all"
     filter
@@ -130,12 +131,13 @@ namespace eval bist {
     $data(widgets,output) configure -state disabled
 
     # Initialize the pass and fail widgets
-    $data(widgets,pass)  configure -text 0
-    $data(widgets,fail)  configure -text 0
+    $data(widgets,pass) configure -text 0
+    $data(widgets,fail) configure -text 0
 
     # Configure UI components
     $data(widgets,refresh) configure -state disabled
     $data(widgets,run)     configure -text  "Cancel" -command [list bist::cancel]
+    $data(widgets,runtype) configure -state disabled
 
     update idletasks
 
@@ -211,6 +213,13 @@ namespace eval bist {
     # Configure UI components
     $data(widgets,refresh) configure -state normal
     $data(widgets,run)     configure -text "Run" -command [list bist::run]
+
+    if {$fail == 0} {
+      $data(widgets,runtype) configure -state disabled
+      set data(runtype) "selected"
+    } else {
+      $data(widgets,runtype) configure -state normal
+    }
 
     # Wrap things up
     finish
@@ -337,7 +346,18 @@ namespace eval bist {
         }
       }
     }
-    
+
+    # If we are only supposed to rerun failures, adjust the list
+    if {$data(runtype) eq "failed"} {
+      set failed_tests [list]
+      foreach {startpos endpos} [$data(widgets,output) tag ranges failed] {
+        if {[regexp {Running\s+(\S+)\.\.\.} [$data(widgets,output) get $startpos $endpos] -> test]} {
+          lappend failed_tests [list $test [lindex [lsearch -index 0 -inline $run_tests $test] 1]]
+        }
+      }
+      set run_tests $failed_tests
+    }
+
   }
 
   ######################################################################
@@ -519,6 +539,7 @@ namespace eval bist {
     set data(widgets,filter)  [ttk::menubutton .bistwin.bf.filter  -text "Filter" -width 12 -menu .bistwin.filterPopup]
     set data(widgets,refresh) [ttk::button     .bistwin.bf.refresh -style BButton -text "Refresh" -width 7 -command [list bist::refresh]]
     set data(widgets,run)     [ttk::button     .bistwin.bf.run     -style BButton -text "Run"     -width 7 -command [list bist::run]]
+    set data(widgets,runtype) [ttk::menubutton .bistwin.bf.runtype -menu .bistwin.runPopup -state disabled]
 
     # Pack the button frame
     ttk::label      .bistwin.bf.l0 -text "Total: "
@@ -534,6 +555,7 @@ namespace eval bist {
     pack .bistwin.bf.pass    -side left  -padx 2 -pady 2
     pack .bistwin.bf.l2      -side left  -padx 2 -pady 2
     pack .bistwin.bf.fail    -side left  -padx 2 -pady 2
+    pack .bistwin.bf.runtype -side right -padx 2 -pady 2
     pack .bistwin.bf.run     -side right -padx 2 -pady 2
     pack .bistwin.bf.refresh -side right -padx 2 -pady 2
     pack .bistwin.bf.filter  -side right -padx 2 -pady 2
@@ -541,7 +563,7 @@ namespace eval bist {
     # Pack the main UI elements
     pack .bistwin.nb -fill both -expand yes
     pack .bistwin.bf -fill x
-    
+
     # Create output tags
     $data(widgets,output) tag configure passed -elide 0
     $data(widgets,output) tag configure failed -elide 0
@@ -558,12 +580,16 @@ namespace eval bist {
 
     menu .bistwin.testPopup -tearoff 0
     .bistwin.testPopup add command -label "Edit Test"     -command [list bist::edit_test]
-    
+
     menu .bistwin.filterPopup -tearoff 0
     .bistwin.filterPopup add radiobutton -label "All"  -variable bist::data(filter) -value all -command [list bist::filter]
     .bistwin.filterPopup add separator
     .bistwin.filterPopup add radiobutton -label "Fail" -variable bist::data(filter) -value fail -command [list bist::filter]
     .bistwin.filterPopup add radiobutton -label "Pass" -variable bist::data(filter) -value pass -command [list bist::filter]
+
+    menu .bistwin.runPopup -tearoff 0
+    .bistwin.runPopup add radiobutton -label "Selected" -variable bist::data(runtype) -value selected
+    .bistwin.runPopup add radiobutton -label "Failed"   -variable bist::data(runtype) -value failed
 
     # Handle the window close event
     wm protocol .bistwin WM_DELETE_WINDOW [list bist::on_destroy]
@@ -855,6 +881,10 @@ namespace eval bist {
         $data(widgets,tbl) cellconfigure $child,selected -text $value -image $img
       }
 
+      # Set the run type to selected and disable the runtype
+      set data(runtype) "selected"
+      $data(widgets,runtype) configure -state disabled
+
     }
 
   }
@@ -926,8 +956,16 @@ namespace eval bist {
     lassign [$data(widgets,tbl) formatinfo] key row col
 
     switch [$data(widgets,tbl) columncget $col -name] {
-      "selected" { return "" }
-      "name"     { return [string totitle $value] }
+      "selected" {
+        return ""
+      }
+      "name" {
+        if {[$data(widgets,tbl) parentkey $key] eq "root"} {
+          return [string totitle $value]
+        } else {
+          return $value
+        }
+      }
     }
 
     return ""
@@ -1078,13 +1116,13 @@ namespace eval bist {
     }
 
   }
-  
+
   ######################################################################
   # Applies the current filter to the text field.
   proc filter {} {
-    
+
     variable data
-    
+
     switch $data(filter) {
       "all" {
         $data(widgets,output) tag configure passed -elide 0
@@ -1102,7 +1140,7 @@ namespace eval bist {
         $data(widgets,filter) configure -text "Filter: Fail"
       }
     }
-    
+
   }
 
 }
