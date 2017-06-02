@@ -1,4 +1,4 @@
-#!wish8.5
+#!wish8.6
 
 # TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
@@ -478,10 +478,13 @@ if {[catch {
     set tab ""
     foreach cl_file $cl_files {
       set name [file normalize $cl_file]
+      puts "name: $name"
       if {[file isdirectory $name]} {
         sidebar::add_directory $name
-      } else {
+      } elseif {[file exists $name]} {
         set tab [gui::add_file end $name -lazy 1]
+      } else {
+        set tab [gui::add_new_file end -name $name -sidebar 1]
       }
     }
     if {$tab ne ""} {

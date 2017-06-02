@@ -1573,6 +1573,8 @@ namespace eval gui {
       -remote     ""
     ]
     array set opts $args
+    
+    puts "opts: [array get opts]"
 
     # Perform untitled tab check
     if {[untitled_check]} {
@@ -1634,6 +1636,12 @@ namespace eval gui {
       # Change the tab text
       $tabbar tab $tab -text " [file tail $name]"
 
+      # Add the file's directory to the sidebar and highlight it
+      if {$opts(-sidebar)} {
+        sidebar::add_directory [file dirname $name] -remote $opts(-remote)
+        # sidebar::highlight_filename $name 0
+      }
+    
       # Make this tab the currently displayed tab
       if {!$opts(-background)} {
         set_current_tab $tabbar $tab
