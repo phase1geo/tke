@@ -1,328 +1,80 @@
-2017-05-07 16:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (38a5d2083e4e [stable-3.1])
+2017-05-24 22:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (310f68f785c7 [devel-3.1.1])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for stable-3.1 release
+	ChangeLog for devel-3.1.1 release
 
-2017-05-07 16:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3b04f9a0d5e7)
+2017-05-24 22:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8e8671f9c729)
 
 	* .hgtags:
-	Added tag stable-3.1 for changeset 38a5d2083e4e
+	Added tag devel-3.1.1 for changeset 310f68f785c7
 
-2017-05-07 22:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0f0f4607aaff)
+2017-05-25 00:42 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b255a6d27126)
 
-	* MacOSX/TKE.app/Contents/MacOS/Wish, lib/version.tcl,
-	tests/ctext.tcl, tests/emmet.tcl:
-	* Updating Wish for macOS to version 8.6.6.
-	* Updating BIST.
+	* lib/multicursor.tcl, lib/version.tcl, tests/change.tcl,
+	tests/selection.tcl:
+	* Fixing regression failures.
 
-2017-05-07 23:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (504fe7d5a86b)
+2017-05-25 00:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2ada45dc6e3e)
 
-	* lib/version.tcl, tests/multicursor.tcl:
-	* Fixing BIST failures.
-
-2017-05-08 09:18 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1dfcf7d3a67e)
-
-	* lib/ptwidgets1.2/library/tabbar.tcl, lib/version.tcl:
-	* Fixing syntax errors in tabbar when a tab is closed.
-
-2017-05-08 09:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ff6e78ec0753)
-
-	* data/syntax/HTML.syntax, lib/version.tcl:
-	* Fixing issue with automatic HTML syntax handling.
-
-2017-05-08 17:35 -0500  Trevor Williams  <phase1geo@gmail.com>  (a9f0fa78094d)
-
-	* lib/edit.tcl, lib/multicursor.tcl, lib/version.tcl, lib/vim.tcl:
-	* Starting to code in support for object motions.
-
-2017-05-08 23:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d13756fa74fd)
-
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Checkpointing work on object selection support.
-
-2017-05-09 17:02 -0500  Trevor Williams  <phase1geo@gmail.com>  (0be2895a46eb)
-
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Checkpointing work on a/i motions.
-
-2017-05-09 23:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5142fbe0ab7e)
-
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Improving support for inner/outer object selection.
-
-2017-05-10 17:05 -0500  Trevor Williams  <phase1geo@gmail.com>  (2d13e5f4d4b8)
-
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Adding initial support for `at` and `it` Vim motions.
-
-2017-05-11 00:35 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ddb6da9ee41b)
-
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Checkpointing work on Vim object selection/operation.
-
-2017-05-11 01:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (203ac35a6fa4)
-
-	* data/preferences.tkedat, lib/pref_ui.tcl, lib/syntax.tcl,
+	* doc/md/TKE User Guide/Introduction/Feature Set.textbundle/text.md,
 	lib/version.tcl:
-	* Checkpointing work on new syntax menu view option.
+	* Updating User Guide.
 
-2017-05-11 09:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (75bcf768ba1d)
+2017-05-25 11:39 -0500  Trevor Williams  <phase1geo@gmail.com>  (6995cbb021e7)
 
-	* lib/syntax.tcl, lib/version.tcl:
-	* Checkpointing work on new syntax submenu.
-
-2017-05-11 10:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (11206af6712e)
-
-	* install.tcl, lib/version.tcl, release.tcl:
-	* Updating install.tcl and release.tcl to use tclsh8.6
-
-2017-05-11 15:49 -0500  Trevor Williams  <phase1geo@gmail.com>  (ffd1b8b0db0a)
-
-	* lib/favorites.tcl, lib/syntax.tcl, lib/version.tcl:
-	* Finishing work on displaying syntax submenu option.
-	* Fixing issue with favorites when a favorited file/directory does not
-	exist.
-
-2017-05-11 22:03 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (aaee6d961e37)
-
-	* lib/syntax.tcl, lib/version.tcl:
-	* Adding handler for changing the syntax submenu preference value.
-
-2017-05-11 23:46 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8e988c009eeb)
-
-	* lib/edit.tcl, lib/version.tcl, tests/selection.tcl:
-	* Fixing object selection issues.
-	* Enhancing selection BIST.
-
-2017-05-15 20:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (061ca2ae6740)
-
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Staring to work on Emmet CSS support.
-
-2017-05-15 22:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (aa0eddfbedc1)
-
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing Emmet CSS action helper procs.
-
-2017-05-16 00:46 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d623ae01c5d1)
-
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing.
-
-2017-05-16 02:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0dafea5d5074)
-
-	* lib/emmet.tcl, lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing work on select next/previous item for CSS.
-
-2017-05-16 21:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (91f5c6c95030)
-
-	* lib/emmet.tcl, lib/emmet_css.tcl, lib/menus.tcl, lib/version.tcl:
-	* Adding `Update Image Size` Emmet action for CSS.
-
-2017-05-16 22:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5c4b1af10dff)
-
-	* lib/emmet.tcl, lib/emmet_css.tcl, lib/menus.tcl, lib/version.tcl:
-	* Adding support for Emmet `Toggle Comment` in CSS.
-
-2017-05-16 23:00 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7ec4ad963a85)
-
-	* lib/emmet.tcl, lib/emmet_css.tcl, lib/version.tcl:
-	* Adding Emmet `Encode/Decode Image to Data:URL` CSS action.
-
-2017-05-16 23:42 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b62f19ef16e4)
-
-	* lib/emmet_css.tcl, lib/menus.tcl, lib/version.tcl:
-	* Adding support for Emmet `Reflect CSS Value` action.
-
-2017-05-17 09:29 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1c33d31135a2)
-
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Removing unneeded comments.
-
-2017-05-17 20:31 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bb1f0b342b5c)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing issue with undo/redo cases.
-
-2017-05-17 23:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d4acbb18d0d7)
-
-	* lib/indent.tcl, lib/version.tcl:
-	* Changing behavior of undo capability when the Return key is
-	entered and indentation is enabled.
-
-2017-05-18 00:35 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e47f27efbbbd)
-
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing work on Emmet CSS `Select Next Item` functionality.
-
-2017-05-18 17:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (c2845ffb1a68)
-
-	* lib/tkcon/ChangeLog, lib/tkcon/README.txt,
-	lib/tkcon/docs/bindings.html, lib/tkcon/docs/changes.txt,
-	lib/tkcon/docs/demopic.png, lib/tkcon/docs/dump.html,
-	lib/tkcon/docs/dump.n.man, lib/tkcon/docs/idebug.html,
-	lib/tkcon/docs/idebug.n.man, lib/tkcon/docs/index.html,
-	lib/tkcon/docs/license.terms, lib/tkcon/docs/limits.html,
-	lib/tkcon/docs/nontcl.html, lib/tkcon/docs/observe.html,
-	lib/tkcon/docs/observe.n.man, lib/tkcon/docs/perl.txt,
-	lib/tkcon/docs/plugin.html, lib/tkcon/docs/procs.html,
-	lib/tkcon/docs/purpose.html, lib/tkcon/docs/start.html,
-	lib/tkcon/docs/style.css, lib/tkcon/docs/tkcon.1.man,
-	lib/tkcon/docs/tkcon.html, lib/tkcon/docs/tkcon.n.man,
-	lib/tkcon/docs/tkconrc.5.man, lib/tkcon/docs/todo.html,
-	lib/tkcon/extra/console1_1.tcl, lib/tkcon/extra/stripped.tcl,
-	lib/tkcon/icons/tkcon-small.svg, lib/tkcon/icons/tkcon-small48.png,
-	lib/tkcon/index.html, lib/tkcon/install-desktop-menu.sh,
-	lib/tkcon/pkgIndex.tcl, lib/tkcon/tkcon-console.desktop,
-	lib/tkcon/tkcon.tcl: new file.
-	* lib/ctext/ctext.tcl, lib/emmet_css.tcl, lib/menus.tcl,
-	lib/tkcon/ChangeLog, lib/tkcon/README.txt,
-	lib/tkcon/docs/bindings.html, lib/tkcon/docs/changes.txt,
-	lib/tkcon/docs/demopic.png, lib/tkcon/docs/dump.html,
-	lib/tkcon/docs/dump.n.man, lib/tkcon/docs/idebug.html,
-	lib/tkcon/docs/idebug.n.man, lib/tkcon/docs/index.html,
-	lib/tkcon/docs/license.terms, lib/tkcon/docs/limits.html,
-	lib/tkcon/docs/nontcl.html, lib/tkcon/docs/observe.html,
-	lib/tkcon/docs/observe.n.man, lib/tkcon/docs/perl.txt,
-	lib/tkcon/docs/plugin.html, lib/tkcon/docs/procs.html,
-	lib/tkcon/docs/purpose.html, lib/tkcon/docs/start.html,
-	lib/tkcon/docs/style.css, lib/tkcon/docs/tkcon.1.man,
-	lib/tkcon/docs/tkcon.html, lib/tkcon/docs/tkcon.n.man,
-	lib/tkcon/docs/tkconrc.5.man, lib/tkcon/docs/todo.html,
-	lib/tkcon/extra/console1_1.tcl, lib/tkcon/extra/stripped.tcl,
-	lib/tkcon/icons/tkcon-small.svg, lib/tkcon/icons/tkcon-small48.png,
-	lib/tkcon/index.html, lib/tkcon/install-desktop-menu.sh,
-	lib/tkcon/pkgIndex.tcl, lib/tkcon/tkcon-console.desktop,
-	lib/tkcon/tkcon.tcl, lib/tke.tcl, lib/version.tcl:
-	* Adding tkcon package to repository so that tkcon can be used on
-	all systems without additional installations.
-	* Adding right margin support for line-wrapped buffers.
-	* Fixing menu state for select next/previous item functionality and
-	toggle comment.
-
-2017-05-19 00:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3cb9fbd4c035)
-
-	* data/syntax/Markdown.syntax, data/syntax/MultiMarkdown.syntax,
+	* data/syntax/Boo.syntax: new file.
+	* data/syntax/Boo.syntax, lib/menus.tcl, lib/pref_ui.tcl, lib/tke.tcl,
 	lib/version.tcl:
-	* Fixing Markdown and MultiMarkdown syntax highlighting.
+	* Adding Boo syntax support.
+	* Moving `View/Show Console` menu option to `Tools/Show Tcl Console`
+	(only available in development mode).
+	* Moving `Show Console` preference option from `View` panel to
+	`Advanced - Development` preference panel.
+	* Now that tkcon comes installed with TKE, remove any OS-specific
+	reference to the console.
 
-2017-05-19 01:35 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5c582c4c228e)
+2017-05-26 02:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5ceccc6dfd57)
 
-	* lib/version.tcl:
-	* Adding support for Stylus syntax.
-
-2017-05-19 01:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (347a850c1aef)
-
-	* data/syntax/Stylus.syntax: new file.
-	* data/syntax/Stylus.syntax, lib/version.tcl:
-	* Adding support for Stylus syntax.
-
-2017-05-19 14:44 -0500  Trevor Williams  <phase1geo@gmail.com>  (fcd81c4dc3e2)
-
-	* data/syntax/LaTeX.syntax: new file.
-	* data/syntax/LaTeX.syntax, lib/ctext/ctext.tcl, lib/version.tcl:
-	* Adding LaTeX syntax support.
-	* Removing undo buffer separator calls in ctext when -autoseparators
-	is enabled (since the Text bindings are handling this correctly for
-	us).
-
-2017-05-19 17:36 -0500  Trevor Williams  <phase1geo@gmail.com>  (aa7f3bba5ee0)
-
-	* data/syntax/LaTeX.syntax, lib/emmet_css.tcl, lib/version.tcl:
-	* Fixing issue with determining the current ruleset.
-	* Fixing issue in LaTeX syntax file.
-
-2017-05-20 00:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7a854eedfad8)
-
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing work on Select Item.
-
-2017-05-21 22:45 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1202a22268ea)
-
-	* lib/emmet_css.tcl, lib/launcher.tcl, lib/multicursor.tcl,
+	* doc/md/TKE User Guide/Introduction/Feature Set.textbundle/text.md,
 	lib/version.tcl:
-	* Fixing multicursor syntax error.
-	* Checkpointing work on Emmet CSS `Select Item` functionality.
+	* Updating User Guide.
 
-2017-05-22 01:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (807cb36b767e)
+2017-05-27 21:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (19e8b66a0f6d)
 
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing work on Select Item support for CSS.
+	* doc/md/TKE User Guide/User Interface/Tools Menu.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/View Menu.textbundle/text.md,
+	lib/version.tcl:
+	* Updating User Guide.
 
-2017-05-22 09:03 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1c2b01a6c388)
+2017-05-30 00:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b97e3de181ed)
 
-	* data/syntax/IDL.syntax: new file.
-	* data/syntax/IDL.syntax, lib/version.tcl:
-	* Checkpointing work on IDL syntax.
+	* lib/edit.tcl, lib/version.tcl:
+	* Fixing issue with moving up/down files that are line wrapped.
 
-2017-05-22 21:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f0445135274b)
+2017-05-30 11:43 -0500  Trevor Williams  <phase1geo@gmail.com>  (cad2a08e37da)
 
-	* data/syntax/IDL.syntax, lib/version.tcl:
-	* Completing IDL syntax support.
+	* lib/edit.tcl, lib/version.tcl, plugins/regexp_checker/README.md:
+	* Fixing issues with using numbers when moving up/down in line-
+	wrapped mode.
+	* Removing newlines in regular expression checker README.md file.
 
-2017-05-22 21:20 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bd063b73398a)
+2017-05-31 22:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1f7fb330c6e9)
 
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Cleaning up debug output.
+	* lib/bist.tcl, lib/version.tcl:
+	* Adding BIST capability of rerunning BIST failures.
 
-2017-05-23 00:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (638c1aeb0931)
+2017-06-02 17:26 -0500  Trevor Williams  <phase1geo@gmail.com>  (e47f5c906380)
 
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing.
+	* Win/freewrap.files, lib/gui.tcl, lib/tke.tcl:
+	* Fixing syntax issue when an invalid filename is passed to tkdv on
+	the command-line.
+	* Adjusting tkdv to display sidebar when an invalid filename is passed
+	on the command-line.
+	* Fixing wish version in tke.tcl script line.
 
-2017-05-23 09:04 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4b0779f6b13a)
+2017-06-03 00:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0934513f8c28 [tip])
 
-	* data/syntax/IDL.syntax, doc/md/TKE User Guide/Introduction/Feature
-	Set.textbundle/text.md, lib/version.tcl:
-	* Fixing file pattern in IDL syntax description.
-	* Adding new supported syntaxes to User Guide feature list.
-
-2017-05-23 15:38 -0500  Trevor Williams  <phase1geo@gmail.com>  (6e6215d79e6b)
-
-	* data/syntax/Elixir.syntax: new file.
-	* data/syntax/Elixir.syntax, lib/version.tcl:
-	* Adding Elixir syntax support.
-
-2017-05-23 17:27 -0500  Trevor Williams  <phase1geo@gmail.com>  (14548ed285b9)
-
-	* data/syntax/Elixir.syntax, lib/version.tcl:
-	* Checkpointing.
-
-2017-05-23 21:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0832345e3c5b)
-
-	* data/syntax/Elixir.syntax, lib/indent.tcl, lib/version.tcl:
-	* Fixing issues with Elixir syntax description.
-	* Adding support for reindentation where starting reindent string is
-	also an indentation string.
-
-2017-05-23 21:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0d648bb83303)
-
-	* data/syntax/MathML.syntax: new file.
-	* data/syntax/MathML.syntax, lib/version.tcl:
-	* Adding MathML syntax.
-
-2017-05-24 00:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (59c071938628)
-
-	* lib/emmet_css.tcl, lib/version.tcl:
-	* Checkpointing.
-
-2017-05-24 15:45 -0500  Trevor Williams  <phase1geo@gmail.com>  (22bf3970dc0f)
-
-	* lib/emmet_css.tcl, lib/version.tcl, plugins/code_view/main.tcl:
-	* Finishing work on `Select Item` action for CSS.
-	* Fixing issue with code_view plugin.
-
-2017-05-24 17:30 -0500  Trevor Williams  <phase1geo@gmail.com>  (16015a87d32d)
-
-	* plugins/markdown_table_beautifier/header.tkedat,
-	plugins/markdown_table_beautifier/main.tcl: new file.
-	* lib/version.tcl, plugins/markdown_table_beautifier/header.tkedat,
-	plugins/markdown_table_beautifier/main.tcl:
-	* Adding initial partially-working version of `Markdown Table
-	Beautifier` plugin.
-
-2017-05-24 21:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e5ab77909f0b [tip])
-
-	* lib/version.tcl, plugins/markdown_table_beautifier/main.tcl:
-	* Completing work on Markdown Table Beautifier.
+	* lib/gui.tcl, lib/tke.tcl, lib/version.tcl:
+	* Fixing state of `Show in Sidebar` menu item when the current tab's
+	file does not exist.
 
