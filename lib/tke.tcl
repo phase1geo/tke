@@ -478,7 +478,6 @@ if {[catch {
     set tab ""
     foreach cl_file $cl_files {
       set name [file normalize $cl_file]
-      puts "name: $name"
       if {[file isdirectory $name]} {
         sidebar::add_directory $name
       } elseif {[file exists $name]} {

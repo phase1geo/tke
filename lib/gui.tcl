@@ -799,7 +799,7 @@ namespace eval gui {
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state normal
     }
-    if {$fname eq ""} {
+    if {![file exists $fname]} {
       $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state disabled
       $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state disabled
     } else {
@@ -1573,8 +1573,6 @@ namespace eval gui {
       -remote     ""
     ]
     array set opts $args
-    
-    puts "opts: [array get opts]"
 
     # Perform untitled tab check
     if {[untitled_check]} {
@@ -1641,7 +1639,7 @@ namespace eval gui {
         sidebar::add_directory [file dirname $name] -remote $opts(-remote)
         # sidebar::highlight_filename $name 0
       }
-    
+
       # Make this tab the currently displayed tab
       if {!$opts(-background)} {
         set_current_tab $tabbar $tab
