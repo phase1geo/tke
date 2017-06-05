@@ -1839,7 +1839,7 @@ namespace eval vim {
   ######################################################################
   # Perform the current operation on the given object.
   proc do_object_operation {txtt object} {
-
+v
     variable operator
     variable motion
 
@@ -2024,7 +2024,7 @@ namespace eval vim {
     variable mode
     variable search_dir
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       gui::search "next"
       set search_dir($txtt) "next"
       return 1
@@ -4153,7 +4153,13 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "command"} {
-      set word [$txtt get "insert wordstart" "insert wordend"]
+      puts "In handle_asterisk"
+      set word ""
+      catch { puts [edit::get_range $txtt "word" 1 "i" ""] } rc
+      puts "A rc: $rc"
+      catch { set word [$txtt get {*}[edit::get_range $txtt "word" 1 "i" ""]] } rc
+      puts "rc: $rc"
+      puts "word: ($word)"
       catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
       array set theme [theme::get_syntax_colors]
       ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word

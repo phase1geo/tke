@@ -3318,7 +3318,7 @@ proc ctext::addSearchClassForRegexp {win class fgcolor bgcolor modifiers re {re_
 
   addHighlightClass $win $class $fgcolor $bgcolor $modifiers
 
-  if {$re_opts ne ""} {
+  if {$re_opts eq ""} {
     set re_opts $data($win,config,re_opts)
   }
 
