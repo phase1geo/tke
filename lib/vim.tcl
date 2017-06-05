@@ -2024,7 +2024,7 @@ namespace eval vim {
     variable mode
     variable search_dir
 
-    if {$mode($txtt) eq "command"} {
+    if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       gui::search "next"
       set search_dir($txtt) "next"
       return 1

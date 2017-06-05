@@ -42,17 +42,10 @@ namespace eval search {
   }
 
   ######################################################################
-  # Performs a search of the current text widget in the given direction
-  # with the text specified in the specified entry widget.
-  proc find_start {direction} {
+  # Performs string search
+  proc do_find {txt search_data} {
 
-    variable data
-
-    # Get the current text widget
-    set txt [gui::current_txt]
-
-    # Get the search information
-    lassign [set search_data [gui::get_search_data find]] str case_sensitive saved
+    lassign $search_data str case_sensitive saved
 
     # If the user has specified a new search value, find all occurrences
     if {$str ne ""} {
@@ -84,15 +77,56 @@ namespace eval search {
 
     }
 
+  }
+
+  ######################################################################
+  # Performs a search of the current text widget in the given direction
+  # with the text specified in the specified entry widget.
+  proc find_start {direction} {
+
+    variable data
+
+    # Get the current text widget
+    set txt [gui::current_txt]
+
+    # Get the search information
+    do_find $txt [gui::get_search_data find]
+
     # Select the search term
     if {$direction eq "next"} {
       find_next $txt
     } else {
       find_prev $txt
     }
-    
+
     # Close the search panel
     gui::close_search
+
+  }
+
+  ######################################################################
+  # Performs a resilient find operation in the given directory.  Resilient
+  # searches keep the search panel visible and are started by clicking
+  # either the next or previous buttons.
+  proc find_resilient {dir} {
+
+    variable data
+
+    set txt [gui::current_txt]
+
+    # Get the search data
+    set search_data [gui::get_search_data find]
+
+    # Get the search information
+    if {$search_data ne [lindex $data(find,hist) end]} {
+      do_find $txt $search_data
+    }
+
+    if {$dir eq "next"} {
+      find_next $txt
+    } else {
+      find_prev $txt
+    }
 
   }
 
@@ -112,11 +146,11 @@ namespace eval search {
   # Returns true if the Find Next/Previous menu options should be enabled;
   # otherwise, returns false.
   proc enable_find_view {txt} {
-    
+
     return [expr {[$txt tag ranges _search] ne ""}]
-    
+
   }
-  
+
   ######################################################################
   # Searches for the next occurrence of the search item.
   proc find_next {txt} {
@@ -134,8 +168,7 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      $txt mark set insert $startpos
-      $txt see $startpos
+      ::tk::TextSetCursor $txt.t $startpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to beginning of file"]
       }
@@ -162,8 +195,7 @@ namespace eval search {
 
     # Select the next match
     if {$startpos ne ""} {
-      $txt mark set insert $startpos
-      $txt see $startpos
+      ::tk::TextSetCursor $txt.t $startpos
       if {$wrapped} {
         gui::set_info_message [msgcat::mc "Search wrapped to end of file"]
       }
@@ -172,30 +204,30 @@ namespace eval search {
     }
 
   }
-  
+
   ######################################################################
   # Returns true if the insertion cursor is currently located on a found
   # search item.
   proc enable_select_current {txt} {
-    
+
     return [expr [lsearch [$txt tag names insert] _search] != -1]
-    
+
   }
 
   ######################################################################
   # Appends the current search text to the selection.
   proc select_current {txt} {
-    
+
     # If the insertion cursor is not currently on a search item, return immediately
     if {![enable_select_current $txt]} {
       return
     }
-  
+
     # Add the search term to the selection
     $txt tag add sel {*}[$txt tag prevrange _search "insert+1c"]
-    
+
   }
-  
+
   ######################################################################
   # Selects all of the found text occurrences.
   proc select_all {txt} {
@@ -205,14 +237,14 @@ namespace eval search {
 
     # Get the search ranges
     if {[set ranges [$txt tag ranges _search]] ne ""} {
-      
+
       # Add the ranges to the selection
       $txt tag add sel {*}$ranges
 
       # Make the last matched item viewable
       $txt mark set insert [lindex $ranges end]
       $txt see [lindex $ranges end]
-      
+
     }
 
   }

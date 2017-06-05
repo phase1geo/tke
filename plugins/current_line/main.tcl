@@ -4,13 +4,11 @@ namespace eval current_line {
 
   proc do_cline {tag} {
 
-    bind $tag <FocusIn>        "current_line::update_line %W"
-    bind $tag <FocusOut>       "current_line::remove_line %W"
-    bind $tag <<Modified>>     "after idle [list current_line::update_line %W]"
-    bind $tag <ButtonPress-1>  "after idle [list current_line::update_line %W]"
-    bind $tag <B1-Motion>      "after idle [list current_line::update_line %W]"
-    bind $tag <KeyPress>       "after idle [list current_line::update_line %W]"
-    bind $tag <<ThemeChanged>> "current_line::update_color %W"
+    bind $tag <FocusIn>         "current_line::update_line %W"
+    bind $tag <FocusOut>        "current_line::remove_line %W"
+    bind $tag <B1-Motion>       "after idle [list current_line::update_line %W]"
+    bind $tag <<ThemeChanged>>  "current_line::update_color %W"
+    bind $tag <<CursorChanged>> "after idle [list current_line::update_line %W]"
 
   }
 
