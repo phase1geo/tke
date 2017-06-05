@@ -147,6 +147,18 @@ namespace eval gui {
       -maskfile [file join $::tke_dir lib images close.bmp] \
       -foreground 2
 
+    # Create next/previous button for search
+    theme::register_image search_next bitmap ttk_style background \
+      {msgcat::mc "Image displayed in find field to search for next match."} \
+      -file     [file join $::tke_dir lib images right.bmp] \
+      -maskfile [file join $::tke_dir lib images right.bmp] \
+      -foreground 2
+    theme::register_image search_prev bitmap ttk_style background \
+      {msgcat::mc "Image displayed in find field to search for previous match."} \
+      -file     [file join $::tke_dir lib images left.bmp] \
+      -maskfile [file join $::tke_dir lib images left.bmp] \
+      -foreground 2
+
     # Create main logo image
     image create photo logo -file [file join $::tke_dir lib images tke_logo_64.gif]
 
@@ -799,7 +811,7 @@ namespace eval gui {
     } else {
       $widgets(menu) entryconfigure [msgcat::mc "Locked"] -state normal
     }
-    if {$fname eq ""} {
+    if {![file exists $fname]} {
       $widgets(menu) entryconfigure [msgcat::mc "Favorited"]       -state disabled
       $widgets(menu) entryconfigure [msgcat::mc "Show in Sidebar"] -state disabled
     } else {
@@ -1573,8 +1585,6 @@ namespace eval gui {
       -remote     ""
     ]
     array set opts $args
-    
-    puts "opts: [array get opts]"
 
     # Perform untitled tab check
     if {[untitled_check]} {
@@ -1641,7 +1651,7 @@ namespace eval gui {
         sidebar::add_directory [file dirname $name] -remote $opts(-remote)
         # sidebar::highlight_filename $name 0
       }
-    
+
       # Make this tab the currently displayed tab
       if {!$opts(-background)} {
         set_current_tab $tabbar $tab
@@ -2951,7 +2961,6 @@ namespace eval gui {
 
     # Add bindings
     bind $tab.sf.e    <Return> [list search::find_start $dir]
-    bind $tab.sf.e    <Return> [list search::find_start $dir]
     bind $tab.sf.case <Return> [list search::find_start $dir]
     bind $tab.sf.save <Return> [list search::find_start $dir]
 
@@ -2969,6 +2978,9 @@ namespace eval gui {
     # Place the focus on the search bar
     focus $tab.sf.e
 
+    # Set the unfocussed insertion cursor to hollow
+    catch { $txt configure -insertunfocussed hollow }
+
   }
 
   ######################################################################
@@ -2983,6 +2995,9 @@ namespace eval gui {
 
     # Put the focus on the text widget
     set_txt_focus [last_txt_focus]
+
+    # Set the unfocussed insertion cursor to none
+    catch { $txt configure -insertunfocussed none }
 
   }
 
@@ -4088,10 +4103,14 @@ namespace eval gui {
     ttk::frame       $tab.sf
     ttk::label       $tab.sf.l1    -text [format "%s:" [msgcat::mc "Find"]]
     ttk::entry       $tab.sf.e
+    ttk::button      $tab.sf.next  -style BButton -image search_next -command [list search::find_resilient next]
+    ttk::button      $tab.sf.prev  -style BButton -image search_prev -command [list search::find_resilient prev]
     ttk::checkbutton $tab.sf.case  -text "Aa" -variable gui::case_sensitive
     ttk::checkbutton $tab.sf.save  -text [msgcat::mc "Save"] -variable gui::saved -command [list search::update_save find]
     ttk::label       $tab.sf.close -image form_close
 
+    tooltip::tooltip $tab.sf.next "Find next occurrence"
+    tooltip::tooltip $tab.sf.prev "Find previous occurrence"
     tooltip::tooltip $tab.sf.case "Case sensitivity"
 
     pack $tab.sf.l1    -side left  -padx 2 -pady 2
@@ -4099,6 +4118,8 @@ namespace eval gui {
     pack $tab.sf.close -side right -padx 2 -pady 2
     pack $tab.sf.save  -side right -padx 2 -pady 2
     pack $tab.sf.case  -side right -padx 2 -pady 2
+    pack $tab.sf.next  -side right -padx 2 -pady 2
+    pack $tab.sf.prev  -side right -padx 2 -pady 2
 
     bind $tab.sf.e     <Escape>    [list gui::close_search]
     bind $tab.sf.case  <Escape>    [list gui::close_search]
