@@ -203,7 +203,7 @@ namespace eval select {
           single    { set positions [list {char -char \'} {char -char \'}] }
           btick     { set positions [list {char -char \`} {char -char \`}] }
         }
-        lset range $index [edit::get_index $txtt {*}[lindex $positions $index] -dir $motion -startpos [lindex $sel $index]]
+        lset range $index [edit::get_index $txtt {*}[lindex $positions $index] -dir $motion -startpos [lindex $range $index]]
       }
       parent {
         # TBD
@@ -331,6 +331,15 @@ namespace eval select {
   }
 
   ######################################################################
+  # Handles the user hitting the "-" key which will cause the selection
+  # to only move on the non-anchored end of the selection.
+  proc handle_minus {txtt} {
+
+    check_item $txtt object none
+
+  }
+
+  ######################################################################
   # Handles the user hitting the "i" key which will adjust the selection
   # to include the "inner" portion of the current selection type.  This
   # is not valid for character, line or block selection.
@@ -415,10 +424,10 @@ namespace eval select {
   }
 
   ######################################################################
-  # Set the current selection type to square mode.
+  # Set the current selection type to curly mode.
   proc handle_braceleft {txtt} {
 
-    check_item $txtt type square
+    check_item $txtt type curly
 
   }
 
@@ -439,16 +448,16 @@ namespace eval select {
   }
 
   ######################################################################
-  # Set the current selection type to curly mode.
+  # Set the current selection type to square mode.
   proc handle_bracketleft {txtt} {
 
-    check_item $txtt type curly
+    check_item $txtt type square
 
   }
 
   ######################################################################
   # Set the current selection type to double quote mode.
-  proc handle_dblquote {txtt} {
+  proc handle_quotedbl {txtt} {
 
     check_item $txtt type double
 
@@ -456,7 +465,7 @@ namespace eval select {
 
   ######################################################################
   # Set the current selection type to single quote mode.
-  proc handle_apostrophe {txtt} {
+  proc handle_quoteright {txtt} {
 
     check_item $txtt type single
 
@@ -464,7 +473,7 @@ namespace eval select {
 
   ######################################################################
   # Set the current selection type to backtick mode.
-  proc handle_grave {txtt} {
+  proc handle_quoteleft {txtt} {
 
     check_item $txtt type btick
 
