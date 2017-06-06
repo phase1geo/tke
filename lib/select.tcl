@@ -40,6 +40,7 @@ namespace eval select {
     set data($txt.t,anchor)    1.0
     set data($txt.t,anchorend) 0
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
+    set data($txt.t,moved)     0
 
     bind select <Key>     "if {\[select::handle_any %W %K\]} break"
     bind select <Return>  "if {\[select::handle_return %W\]} break"
@@ -164,7 +165,13 @@ namespace eval select {
     variable data
 
     set range [list insert insert]
-
+    
+    # If we have already moved, change an init motion to a next/prev
+    # motion based on the anchorend.
+    if {$data($txtt,moved) && ($motion eq "init")} {
+      set motion [expr {$data($txtt,anchorend) ? "prev" : "next"}]
+    }
+    
     switch $motion {
       init {
         switch $data($txtt,object) {
@@ -188,13 +195,13 @@ namespace eval select {
         set range [$txtt tag ranges sel]
         set index [expr $data($txtt,anchorend) ^ 1]
         switch $data($txtt,type) {
-          char      { set positions [list dchar dchar] }
+          char      { set positions [list dchar     dchar] }
           line      { set positions [list linestart lineend] }
-          word      { set positions [list wordstart wordend] }
+          word      { set positions [list wordstart [list wordend -startpos "[lindex $range 1]-1 display chars" -adjust "+1 display chars"]] }
           nonws     { set positions [list WORDstart WORDend] }
-          sentence  { set positions [list sentence sentence] }
+          sentence  { set positions [list sentence  sentence] }
           paragraph { set positions [list paragraph paragraph] }
-          tag       { set positions [list tagstart tagend] }
+          tag       { set positions [list tagstart  tagend] }
           square    { set positions [list {char -char \[} {char -char \]}] }
           curly     { set positions [list {char -char \{} {char -char \}}] }
           paren     { set positions [list {char -char \(} {char -char \)}] }
@@ -204,6 +211,7 @@ namespace eval select {
           btick     { set positions [list {char -char \`} {char -char \`}] }
         }
         lset range $index [edit::get_index $txtt {*}[lindex $positions $index] -dir $motion -startpos [lindex $range $index]]
+        set data($txtt,moved) 1
       }
       parent {
         # TBD
@@ -268,6 +276,7 @@ namespace eval select {
       set data($txtt,mode) $value
       if {$value} {
         set data($txtt,anchor) [$txtt index insert]
+        set data($txtt,moved)  0
         update_selection $txtt init
       }
     }
@@ -483,7 +492,7 @@ namespace eval select {
   # Handles moving the selection back by the selection type amount.
   proc handle_Left {txtt} {
 
-    update_selection $txtt next
+    update_selection $txtt prev
 
   }
 
@@ -491,7 +500,7 @@ namespace eval select {
   # Handles moving the selection forward by the selection type amount.
   proc handle_Right {txtt} {
 
-    update_selection $txtt prev
+    update_selection $txtt next
 
   }
 
