@@ -24,7 +24,23 @@
 
 namespace eval select {
 
-  array set data [list]
+  array set data      {}
+  array set positions {
+    char      {dchar     dchar}
+    line      {linestart lineend}
+    word      {wordstart {wordend -adjust "+1 display chars"}}
+    nonws     {WORDstart {WORDend -adjust "+1 display chars"}}
+    sentence  {sentence  sentence}
+    paragraph {paragraph paragraph}
+    tag       {tagstart  {tagend  -adjust "+1 display chars"}}
+    square    {{char -char \[} {char -char \]}}
+    curly     {{char -char \{} {char -char \}}}
+    paren     {{char -char \(} {char -char \)}}
+    angled    {{char -char <}  {char -char >}}
+    double    {{char -char \"} {char -char \"}}
+    single    {{char -char \'} {char -char \'}}
+    btick     {{char -char \`} {char -char \`}}
+  }
 
   ######################################################################
   # Adds bindings for selection mode.  Returns the hierarchical reference
@@ -83,10 +99,12 @@ namespace eval select {
     create_item $txtt $w.type [msgcat::mc "Backticks"]       \` btick type
 
     ttk::labelframe $w.dir -text [msgcat::mc "Selection Motion"]
-    create_item $txtt $w.dir [msgcat::mc "Select Next"]        "\u2192" next
-    create_item $txtt $w.dir [msgcat::mc "Select Previous"]    "\u2190" prev
-    create_item $txtt $w.dir [msgcat::mc "Select Parent"]      "\u2191" parent
-    create_item $txtt $w.dir [msgcat::mc "Select First Child"] "\u2193" child
+    create_item $txtt $w.dir [msgcat::mc "Select Next"]           "\u2192" next
+    create_item $txtt $w.dir [msgcat::mc "Select Previous"]       "\u2190" prev
+    create_item $txtt $w.dir [msgcat::mc "Select Parent"]         "\u2191" parent
+    create_item $txtt $w.dir [msgcat::mc "Select First Child"]    "\u2193" child
+    create_item $txtt $w.dir [msgcat::mc "Shift Selection Left"]  "j"      lshift
+    create_item $txtt $w.dir [msgcat::mc "Shift Selection Right"] "k"      rshift
 
     ttk::button $w.anchor -text [msgcat::mc "Swap Selection Anchor"] -command [list select::handle_a $txtt]
 
@@ -163,15 +181,16 @@ namespace eval select {
   proc update_selection {txtt motion} {
 
     variable data
+    variable positions
 
     set range [list insert insert]
-    
+
     # If we have already moved, change an init motion to a next/prev
     # motion based on the anchorend.
     if {$data($txtt,moved) && ($motion eq "init")} {
       set motion [expr {$data($txtt,anchorend) ? "prev" : "next"}]
     }
-    
+
     switch $motion {
       init {
         switch $data($txtt,object) {
@@ -192,26 +211,26 @@ namespace eval select {
       }
       next -
       prev {
+        set pos   $positions($data($txtt,type))
         set range [$txtt tag ranges sel]
         set index [expr $data($txtt,anchorend) ^ 1]
-        switch $data($txtt,type) {
-          char      { set positions [list dchar     dchar] }
-          line      { set positions [list linestart lineend] }
-          word      { set positions [list wordstart [list wordend -startpos "[lindex $range 1]-1 display chars" -adjust "+1 display chars"]] }
-          nonws     { set positions [list WORDstart WORDend] }
-          sentence  { set positions [list sentence  sentence] }
-          paragraph { set positions [list paragraph paragraph] }
-          tag       { set positions [list tagstart  tagend] }
-          square    { set positions [list {char -char \[} {char -char \]}] }
-          curly     { set positions [list {char -char \{} {char -char \}}] }
-          paren     { set positions [list {char -char \(} {char -char \)}] }
-          angled    { set positions [list {char -char <}  {char -char >}] }
-          double    { set positions [list {char -char \"} {char -char \"}] }
-          single    { set positions [list {char -char \'} {char -char \'}] }
-          btick     { set positions [list {char -char \`} {char -char \`}] }
+        if {($motion eq "prev") && ($index == 1) && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
+          lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
         }
-        lset range $index [edit::get_index $txtt {*}[lindex $positions $index] -dir $motion -startpos [lindex $range $index]]
+        lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos [lindex $range $index]]
         set data($txtt,moved) 1
+      }
+      rshift -
+      lshift {
+        set pos   $positions($data($txtt,type))
+        set range [$txtt tag ranges sel]
+        set dir   [expr {($motion eq "rshift") ? "next" : "prev"}]
+        if {($motion eq "lshift") && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
+          lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
+        }
+        foreach index {0 1} {
+          lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $dir -startpos [lindex $range $index]]
+        }
       }
       parent {
         # TBD
@@ -519,6 +538,22 @@ namespace eval select {
   proc handle_Down {txtt} {
 
     update_selection $txtt child
+
+  }
+
+  ######################################################################
+  # Handles moving the entire selection to the left by the current type.
+  proc handle_j {txtt} {
+
+    update_selection $txtt lshift
+
+  }
+
+  ######################################################################
+  # Handles moving the entire selection to the right by the current type.
+  proc handle_k {txtt} {
+
+    update_selection $txtt rshift
 
   }
 

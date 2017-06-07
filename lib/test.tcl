@@ -1,4 +1,3 @@
-lappend auto_path [file join [pwd] tkcon]
 lappend auto_path [file join [pwd] ctext]
 
 package require tkcon
@@ -27,7 +26,8 @@ pack .f -fill both -expand yes
 
 bind all <Control-m> [list select::set_select_mode .f.t.t 1]
 
-.f.t insert end "This is some test text to use for selections."
+.f.t insert end \
+"This is some test text to use for selections.  We are going to give\neverything a run for its money.  What do you think?  I think that\nthis feature is going to rule!"
 
 ttk::style theme use clam
 
