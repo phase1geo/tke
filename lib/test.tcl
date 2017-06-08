@@ -1,3 +1,4 @@
+lappend auto_path [file join [pwd] tkcon]
 lappend auto_path [file join [pwd] ctext]
 
 package require tkcon
@@ -5,6 +6,7 @@ package require ctext
 
 source "edit.tcl"
 source "select.tcl"
+source "utils.tcl"
 
 ttk::frame .f
 ctext .f.t -xscrollcommand [list .f.hb set] -yscrollcommand [list .f.vb set]
