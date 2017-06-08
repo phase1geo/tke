@@ -58,12 +58,31 @@ namespace eval select {
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
     set data($txt.t,moved)     0
 
-    bind select <Key>     "if {\[select::handle_any %W %K\]} break"
-    bind select <Return>  "if {\[select::handle_return %W\]} break"
-    bind select <Escape>  "if {\[select::handle_escape %W\]} break"
+    bind select <Key>       "if {\[select::handle_any %W %K\]} break"
+    bind select <Return>    "if {\[select::handle_return %W\]} break"
+    bind select <Escape>    "if {\[select::handle_escape %W\]} break"
+    bind select <B1-Motion> "if {\[select::handle_motion %W %x %y\]} break"
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
+    
+    # Use the selection background color
+    set bg [$txt.t cget -selectbackground]
+    set fg [$txt.t cget -selectforeground]
 
+    # Configure the selection mode tags
+    $txt.t tag configure select_sel -background $bg -foreground $fg
+    
+    $txt.t tag bind select_sel   <ButtonPress-1>   [list select::press        $txt.t select_sel %x %y]
+    $txt.t tag bind select_sel   <ButtonRelease-1> [list select::release      $txt.t]
+    $txt.t tag bind select_begin <ButtonPress-1>   [list select::press        $txt.t select_begin %x %y]
+    $txt.t tag bind select_begin <ButtonRelease-1> [list select::release      $txt.t]
+    $txt.t tag bind select_begin <Enter>           [list select::handle_enter $txt.t select_begin]
+    $txt.t tag bind select_begin <Leave>           [list select::handle_leave $txt.t select_begin]
+    $txt.t tag bind select_end   <ButtonPress-1>   [list select::press        $txt.t select_end %x %y]
+    $txt.t tag bind select_end   <ButtonRelease-1> [list select::release      $txt.t]
+    $txt.t tag bind select_end   <Enter>           [list select::handle_enter $txt.t select_end]
+    $txt.t tag bind select_end   <Leave>           [list select::handle_leave $txt.t select_end]
+          
     # Make sure that our defaults are checked
     check_item $txt.t object none
     check_item $txt.t type   char
@@ -178,10 +197,15 @@ namespace eval select {
   # Updates the current selection based on the current object and type
   # selections along with the given motion type (init, next, prev, parent,
   # child).
-  proc update_selection {txtt motion} {
+  proc update_selection {txtt motion args} {
 
     variable data
     variable positions
+    
+    array set opts {
+      -startpos ""
+    }
+    array set opts $args
 
     set range [list insert insert]
 
@@ -212,18 +236,18 @@ namespace eval select {
       next -
       prev {
         set pos   $positions($data($txtt,type))
-        set range [$txtt tag ranges sel]
+        set range [$txtt tag ranges select_sel]
         set index [expr $data($txtt,anchorend) ^ 1]
         if {($motion eq "prev") && ($index == 1) && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
         }
-        lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos [lindex $range $index]]
+        lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos [expr {($opts(-startpos) eq "") ? [lindex $range $index] : $opts(-startpos)}]]
         set data($txtt,moved) 1
       }
       rshift -
       lshift {
         set pos   $positions($data($txtt,type))
-        set range [$txtt tag ranges sel]
+        set range [$txtt tag ranges select_sel]
         set dir   [expr {($motion eq "rshift") ? "next" : "prev"}]
         if {($motion eq "lshift") && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
@@ -244,12 +268,20 @@ namespace eval select {
 
     # Set the tag
     if {[$txtt compare [lindex $range 0] < [lindex $range 1]]} {
-      if {$data($txtt,anchorend) == 0} {
-        ::tk::TextSetCursor $txtt [lindex $range 0]
-      } else {
-        ::tk::TextSetCursor $txtt [lindex $range 1]
-      }
-      $txtt tag add sel {*}$range
+      
+      # Set the cursor
+      ::tk::TextSetCursor $txtt [lindex $range 1]
+      
+      # Clear the selection tags
+      $txtt tag remove select_sel   1.0 end
+      $txtt tag remove select_begin 1.0 end
+      $txtt tag remove select_end   1.0 end
+      
+      # Set the selection tags to their new ranges
+      $txtt tag add select_sel {*}$range
+      $txtt tag add select_end "[lindex $range 1]-1c" [lindex $range 1]
+      $txtt tag add select_begin [lindex $range 0] "[lindex $range 0]+1c"
+      
     }
 
   }
@@ -287,17 +319,55 @@ namespace eval select {
 
     # Set the mode
     if {$data($txtt,mode) != $value} {
+      
+      # Show/Hide the sidebar
       if {$value == 0} {
         close_sidebar $txtt
       } else {
         open_sidebar $txtt
       }
+      
+      # Set the mode to the given value
       set data($txtt,mode) $value
+      
+      # If we are enabled, do some initializing
       if {$value} {
+        
         set data($txtt,anchor) [$txtt index insert]
         set data($txtt,moved)  0
-        update_selection $txtt init
+        
+        # If text was previously selected, convert it to our special selection
+        if {[set sel [$txtt tag ranges sel]] ne ""} {
+          
+          $txtt tag remove sel 1.0 end
+          $txtt tag add select_sel   {*}$sel
+          $txtt tag add select_begin [lindex $sel 0] "[lindex $sel 0]+1c"
+          $txtt tag add select_end   [lindex $sel 1] "[lindex $sel 1]+1c"
+          
+        # Otherwise, initialize a selection
+        } else {
+          update_selection $txtt init
+        }
+        
+        # Configure the cursor
+        $txtt configure -cursor [ttk::cursor standard]
+        
+      # Otherwise, convert our selection to a normal selection
+      } else {
+        
+        if {[set sel [$txtt tag ranges select_sel]] ne ""} {
+          $txtt tag add sel {*}$sel
+        }
+        
+        $txtt tag remove select_sel   1.0 end
+        $txtt tag remove select_begin 1.0 end
+        $txtt tag remove select_end   1.0 end
+        
+        # Configure the cursor
+        $txtt configure -cursor ""
+        
       }
+      
     }
 
   }
@@ -331,14 +401,58 @@ namespace eval select {
       return 0
     }
 
+    # Clear the selection
+    $txtt tag remove select_sel 1.0 end
+
     # Disable selection mode
     set_select_mode $txtt 0
 
-    # Clear the selection
-    $txtt tag remove sel 1.0 end
-
     return 1
 
+  }
+  
+  ######################################################################
+  # Handles any B1-Motion events occurring inside the text widget.
+  proc handle_motion {txtt x y} {
+    
+    variable data
+    
+    # If we are not in selection mode, return immediately
+    if {$data($txtt,mode) == 0} {
+      return 0
+    }
+    
+    # If we are not dragging a selection tag, return immediately
+    if {![info exists data($txtt,drag)]} {
+      return 1
+    }
+    
+    # Get the last drag position
+    lassign $data($txtt,drag) tag lastx lasty
+    
+    # Figure out which direction we are moving
+    set left [$txtt compare @$x,$y < @$lastx,$lasty]
+      
+    # Update the selection
+    switch $tag {
+      select_sel {
+        update_selection $txtt [expr {$left ? "lshift" : "rshift"}]
+      }
+      select_begin {
+        set data($txtt,anchorend) 1
+        update_selection $txtt [expr {$left ? "prev" : "next"}] -startpos [$txtt index @$x,$y]
+      }
+      select_end {
+        set data($txtt,anchorend) 0
+        update_selection $txtt [expr {$left ? "prev" : "next"}] -startpos [$txtt index @$x,$y]
+      }
+    }
+    
+    # Save the last drag position
+    set data($txtt,drag) [list $tag $x $y]
+    
+    return 1
+    
   }
 
   ######################################################################
@@ -572,8 +686,48 @@ namespace eval select {
     set data($txtt,anchorend) [expr $data($txtt,anchorend) ^ 1]
 
     # Set the anchor
-    set data($txtt,anchor) [lindex [$txtt tag ranges sel] $data($txtt,anchorend)]
+    set data($txtt,anchor) [lindex [$txtt tag ranges select_sel] $data($txtt,anchorend)]
 
   }
-
+  
+  ######################################################################
+  # Handles a button press on a given tag.
+  proc press {txtt tag x y} {
+    
+    variable data
+    
+    set data($txtt,drag) [list $tag $x $y]
+    
+  }
+  
+  ######################################################################
+  # Handles a button release on a given tag.
+  proc release {txtt} {
+    
+    variable data
+    
+    unset -nocomplain data($txtt,drag)
+    
+  }
+  
+  ######################################################################
+  # Handles an enter event when the user enters the given tag.
+  proc handle_enter {txtt tag} {
+    
+    # Get the base color of the selection
+    set color [$txtt tag cget select_sel -background]
+    
+    $txtt tag configure $tag -background [utils::auto_adjust_color $color 40]
+    
+  }
+  
+  ######################################################################
+  # Handles a leave event when the user leaves the given tag.
+  proc handle_leave {txtt tag} {
+    
+    # Remove the background color of the tag
+    $txtt tag configure $tag -background ""
+    
+  }
+    
 }
