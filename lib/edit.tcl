@@ -1900,6 +1900,8 @@ namespace eval edit {
   # Handles word, WORD, paragraph and sentence range motion.
   proc get_range_chars {txtt start end num inner adjust} {
 
+    puts "In get_range_chars, txtt: $txtt, start: $start, end: $end, num: $num, inner: $inner, adjust: $adjust"
+
     set pos_list [list [get_index $txtt $start -dir prev -startpos "insert+1c"] [get_index $txtt $end -dir next -num $num]]
 
     if {!$inner} {

@@ -4155,9 +4155,9 @@ v
     if {$mode($txtt) eq "command"} {
       puts "In handle_asterisk"
       set word ""
-      catch { puts [edit::get_range $txtt "word" 1 "i" ""] } rc
+      catch { puts [edit::get_range $txtt {word 1} {} "i" ""] } rc
       puts "A rc: $rc"
-      catch { set word [$txtt get {*}[edit::get_range $txtt "word" 1 "i" ""]] } rc
+      catch { set word [$txtt get {*}[edit::get_range $txtt {word 1} {} "i" ""]] } rc
       puts "rc: $rc"
       puts "word: ($word)"
       catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
