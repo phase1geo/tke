@@ -1839,7 +1839,7 @@ namespace eval vim {
   ######################################################################
   # Perform the current operation on the given object.
   proc do_object_operation {txtt object} {
-v
+
     variable operator
     variable motion
 

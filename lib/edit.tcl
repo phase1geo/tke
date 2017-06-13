@@ -1900,9 +1900,9 @@ namespace eval edit {
   # Handles word, WORD, paragraph and sentence range motion.
   proc get_range_chars {txtt start end num inner adjust} {
 
-    puts "In get_range_chars, txtt: $txtt, start: $start, end: $end, num: $num, inner: $inner, adjust: $adjust"
-
     set pos_list [list [get_index $txtt $start -dir prev -startpos "insert+1c"] [get_index $txtt $end -dir next -num $num]]
+
+    puts "In get_range_chars, start: $start, end: $end, num: $num, inner: $inner, adjust: $adjust, pos_list: $pos_list"
 
     if {!$inner} {
       set index [$txtt search -forwards -regexp -- {\S} "[lindex $pos_list 1]+1c" "[lindex $pos_list 1] lineend"]
@@ -1917,6 +1917,25 @@ namespace eval edit {
     }
 
     lset pos_list 1 [$txtt index "[lindex $pos_list 1]$adjust"]
+
+    return $pos_list
+
+  }
+
+  ######################################################################
+  # Returns a range the is split by sentences.
+  proc get_range_sentences {txtt type num inner adjust} {
+
+    set pos_list [list [get_index $txtt $type -dir prev -startpos "insert+1c"] [get_index $txtt $type -dir next -num $num]]
+
+    if {$inner} {
+      set str  [$txtt get {*}$pos_list]
+      set less [expr ([string length $str] - [string length [string trimright $str]]) + 1]
+    } else {
+      set less 1
+    }
+
+    lset pos_list 1 [$txtt index "[lindex $pos_list 1]-${less}c"]
 
     return $pos_list
 
@@ -1978,8 +1997,8 @@ namespace eval edit {
       switch [lindex $pos1args 0] {
         "word"      { return [get_range_chars $txtt wordstart wordend   $num $inner $adjust] }
         "WORD"      { return [get_range_chars $txtt WORDstart WORDend   $num $inner $adjust] }
-        "paragraph" { return [get_range_chars $txtt paragraph paragraph $num $inner $adjust] }
-        "sentence"  { return [get_range_chars $txtt sentence  sentence  $num $inner $adjust] }
+        "paragraph" { return [get_range_sentences $txtt paragraph $num $inner $adjust] }
+        "sentence"  { return [get_range_sentences $txtt sentence  $num $inner $adjust] }
         "tag"       {
           set insert [$txtt index insert]
           while {[set ranges [emmet::get_node_range [winfo parent $txtt]]] ne ""} {
