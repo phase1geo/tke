@@ -566,4 +566,59 @@ namespace eval selection {
 
   }
 
+  # Verify is/as
+  proc run_test20 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nSentence 1.  Sentence 2?  Sentence 3!"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {Escape 0 v i s}   $value {2.0 2.11} visual:char
+    do_test $txtt 1 {Escape 1 V i s}   $value {2.0 2.11} visual:char
+    do_test $txtt 2 {Escape 2 v 2 i s} $value {2.0 2.24} visual:char
+
+    $txtt mark set insert 2.0
+
+    do_test $txtt 3 {Escape 3 v a s}   $value {2.0 2.13} visual:char
+    do_test $txtt 4 {Escape 4 V a s}   $value {2.0 2.13} visual:char
+    do_test $txtt 5 {Escape 5 v 2 a s} $value {2.0 2.26} visual:char
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify ip/ap
+  proc run_test21 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nThis is the first sentence.  This is the\nsecond.\n\nThis is the next paragraph.\n\nThis is the last."]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_test $txtt 0 {Escape 0 v i p}   $value {2.0 3.7}  visual:char
+    do_test $txtt 1 {Escape 1 V i p}   $value {2.0 3.7}  visual:char
+    do_test $txtt 2 {Escape 2 v 2 i p} $value {2.0 5.27} visual:char
+
+    $txtt mark set insert 2.0
+
+    set value2 [join [lreplace [split $value \n] 3 3 " "] \n]
+
+    do_test $txtt 3 {Escape 3 v a p}   $value2 {2.0 4.1} visual:char
+    do_test $txtt 4 {Escape 4 V a p}   $value2 {2.0 4.1} visual:char
+
+    set value2 [join [lreplace [split $value \n] 5 5 " "] \n]
+
+    do_test $txtt 5 {Escape 5 v 2 a p} $value2 {2.0 6.1} visual:char
+
+    # Cleanup
+    cleanup
+
+  }
+
 }

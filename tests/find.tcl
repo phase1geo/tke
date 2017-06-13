@@ -141,9 +141,7 @@ namespace eval find {
     $txtt mark set insert 2.5
     vim::adjust_insert $txtt
 
-    puts "HERE A"
     do_test $txtt 0 {asterisk} {} {2.5 2.7 3.5 3.7 4.5 4.7} {2.5}
-    puts "HERE B"
 
     do_test $txtt 1 {n} {} {2.5 2.7 3.5 3.7 4.5 4.7} {3.5}
     do_test $txtt 2 {n} {} {2.5 2.7 3.5 3.7 4.5 4.7} {4.5}
