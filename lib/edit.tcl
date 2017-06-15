@@ -1897,12 +1897,47 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Handles word, WORD, paragraph and sentence range motion.
-  proc get_range_chars {txtt start end num inner adjust} {
+  # Handles word/WORD range motions.
+  proc get_range_word {txtt type num inner adjust} {
 
-    set pos_list [list [get_index $txtt $start -dir prev -startpos "insert+1c"] [get_index $txtt $end -dir next -num $num]]
+    set start insert
 
-    puts "In get_range_chars, start: $start, end: $end, num: $num, inner: $inner, adjust: $adjust, pos_list: $pos_list"
+    if {$inner} {
+
+      if {[string is space [$txtt get insert]]} {
+        set startpos [get_index $txtt spacestart -dir prev -startpos "insert+1c"]
+      } else {
+        set startpos [get_index $txtt ${type}start -dir prev -startpos "insert+1c"]
+      }
+
+      # Count spaces and non-spaces
+      set endpos "insert-1c"
+      for {set i 0} {$i < $num} {incr i} {
+        set endpos [$txtt index "$endpos+1c"]
+        puts "i: $i, endpos: $endpos, endpos: [$txtt index $endpos]"
+        if {[string is space [$txtt get $endpos]]} {
+          puts "  in space"
+          set endpos [get_index $txtt spaceend   -dir next -startpos $endpos]
+        } else {
+          set endpos [get_index $txtt ${type}end -dir next -startpos $endpos]
+        }
+      }
+
+      puts "endpos: [$txtt index $endpos]"
+
+      set pos_list [list $startpos $endpos]
+      puts "pos_list: $pos_list"
+
+    } else {
+
+
+    }
+
+    if {[string is space [$txtt get insert]]} {
+      set pos_list [list [get_index $txtt spacestart -dir prev -startpos "insert+1c"] [get_index $txtt spaceend -dir next -adjust "-1c"]]
+    } else {
+      set pos_list [list [get_index $txtt $start -dir prev -startpos "insert+1c"] [get_index $txtt $end -dir next -num $num]]
+    }
 
     if {!$inner} {
       set index [$txtt search -forwards -regexp -- {\S} "[lindex $pos_list 1]+1c" "[lindex $pos_list 1] lineend"]
@@ -1922,6 +1957,33 @@ namespace eval edit {
 
   }
 
+  ######################################################################
+  # Handles WORD range motion.
+  proc get_range_WORD {txtt num inner adjust} {
+
+    if {[string is space [$txtt get insert]]} {
+      set pos_list [list [get_index $txtt spacestart -dir prev -startpos "insert+1c"] [get_index $txtt spaceend -dir next -adjust "-1c"]]
+    } else {
+      set pos_list [list [get_index $txtt $start -dir prev -startpos "insert+1c"] [get_index $txtt $end -dir next -num $num]]
+    }
+
+    if {!$inner} {
+      set index [$txtt search -forwards -regexp -- {\S} "[lindex $pos_list 1]+1c" "[lindex $pos_list 1] lineend"]
+      if {($index ne "") && [$txtt compare "[lindex $pos_list 1]+1c" != $index]} {
+        lset pos_list 1 [$txtt index "$index-1c"]
+      } else {
+        set index [$txtt search -backwards -regexp -- {\S} [lindex $pos_list 0] "[lindex $pos_list 0] linestart"]
+        if {($index ne "") && [$txtt compare "[lindex $pos_list 0]-1c" != $index]} {
+          lset pos_list 0 [$txtt index "$index+1c"]
+        }
+      }
+    }
+
+    lset pos_list 1 [$txtt index "[lindex $pos_list 1]$adjust"]
+
+    return $pos_list
+
+  }
   ######################################################################
   # Returns a range the is split by sentences.
   proc get_range_sentences {txtt type num inner adjust} {
@@ -1995,8 +2057,8 @@ namespace eval edit {
       set adjust [expr {$move ? "" : "+1c"}]
 
       switch [lindex $pos1args 0] {
-        "word"      { return [get_range_chars $txtt wordstart wordend   $num $inner $adjust] }
-        "WORD"      { return [get_range_chars $txtt WORDstart WORDend   $num $inner $adjust] }
+        "word"      { return [get_range_word $txtt word $num $inner $adjust] }
+        "WORD"      { return [get_range_word $txtt WORD $num $inner $adjust] }
         "paragraph" { return [get_range_sentences $txtt paragraph $num $inner $adjust] }
         "sentence"  { return [get_range_sentences $txtt sentence  $num $inner $adjust] }
         "tag"       {
