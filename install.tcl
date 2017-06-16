@@ -30,19 +30,12 @@ source [file join lib version.tcl]
 # Check to make sure that the Tcl version is okay
 puts -nonewline "Tcl version 8.6.x or higher is required...  "
 flush stdout
-set version [info patchlevel]
-if {[string compare $version "8.6"] == -1} {
+lassign [split [set version [info patchlevel]] .] major minor
+if {($major > 8) || (($major == 8) && ($minor >= 6))} {
+  puts "Found ($version)"
+} else {
   puts "Not Found! ($version)"
   exit 1
-} else {
-  puts "Found ($version)"
-}
-
-# Alert the user if they are running a version of Tcl/Tk that is less than 8.5.19
-if {[string compare $version "8.5.19"]} {
-  puts "INFO: If possible, upgrade your Tcl/Tk installation to version 8.5.19 or later"
-  puts "      which resolves some issues that could cause TKE to crash when performing"
-  puts "      some editing functions."
 }
 
 # Update the version to just the major/minor revision information
