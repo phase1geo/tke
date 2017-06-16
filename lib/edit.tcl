@@ -1904,6 +1904,7 @@ namespace eval edit {
 
     if {$inner} {
 
+      # Get the starting position of the selection
       if {[string is space [$txtt get insert]]} {
         set startpos [get_index $txtt spacestart -dir prev -startpos "insert+1c"]
       } else {
@@ -1913,13 +1914,12 @@ namespace eval edit {
       # Count spaces and non-spaces
       set endpos "insert-1c"
       for {set i 0} {$i < $num} {incr i} {
-        set endpos [$txtt index "$endpos+1c"]
-        puts "i: $i, endpos: $endpos, endpos: [$txtt index $endpos]"
+        puts "i: $i, endpos: [$txtt index $endpos]"
         if {[string is space [$txtt get $endpos]]} {
           puts "  in space"
-          set endpos [get_index $txtt spaceend   -dir next -startpos $endpos]
+          set endpos [get_index $txtt spaceend -dir next -startpos $endpos]
         } else {
-          set endpos [get_index $txtt ${type}end -dir next -startpos $endpos]
+          set endpos [$txtt index "[get_index $txtt ${type}end -dir next -startpos $endpos]+1c"]
         }
       }
 
