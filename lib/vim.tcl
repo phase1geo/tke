@@ -1730,10 +1730,12 @@ namespace eval vim {
           multicursor::move $txtt $eposargs
         } elseif {$opts(-object) ne ""} {
           lassign [edit::get_range $txtt $eposargs $sposargs $opts(-object) 1] spos epos
-          ::tk::TextSetCursor $txtt $spos
-          visual_mode $txtt char
-          ::tk::TextSetCursor $txtt $epos
-          vim::adjust_insert $txtt
+          if {$spos ne ""} {
+            ::tk::TextSetCursor $txtt $spos
+            visual_mode $txtt char
+            ::tk::TextSetCursor $txtt $epos
+            vim::adjust_insert $txtt
+          }
         } else {
           ::tk::TextSetCursor $txtt [edit::get_index $txtt {*}$eposargs]
           vim::adjust_insert $txtt
@@ -1842,6 +1844,8 @@ namespace eval vim {
 
     variable operator
     variable motion
+
+    puts "HERE!, motion: $motion($txtt)"
 
     # Execute the operation
     switch $motion($txtt) {
@@ -3721,6 +3725,8 @@ namespace eval vim {
     variable operator
     variable motion
 
+    puts "In handle_apostrophe"
+
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       return [do_object_operation $txtt single]
     }
@@ -3908,12 +3914,16 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          if {[edit::unindent_selected $txtt]} {
-            command_mode $txtt
+          if {$motion($txtt) eq ""} {
+            if {[edit::unindent_selected $txtt]} {
+              command_mode $txtt
+            } else {
+              set_operator $txtt "lshift" {less}
+            }
+            return 1
           } else {
-            set_operator $txtt "lshift" {less}
+            return [do_object_operation $txtt angled]
           }
-          return 1
         }
         default {
           if {($operator($txtt) eq "lshift") && ($motion($txtt) eq "")} {
@@ -3943,12 +3953,16 @@ namespace eval vim {
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       switch $operator($txtt) {
         "" {
-          if {[edit::indent_selected $txtt]} {
-            command_mode $txtt
+          if {$motion($txtt) eq ""} {
+            if {[edit::indent_selected $txtt]} {
+              command_mode $txtt
+            } else {
+              set_operator $txtt "rshift" {greater}
+            }
+            return 1
           } else {
-            set_operator $txtt "rshift" {greater}
+            return [do_object_operation $txtt angled]
           }
-          return 1
         }
         default {
           if {($operator($txtt) eq "rshift") && ($motion($txtt) eq "")} {
