@@ -1914,19 +1914,14 @@ namespace eval edit {
       # Count spaces and non-spaces
       set endpos "insert-1c"
       for {set i 0} {$i < $num} {incr i} {
-        puts "i: $i, endpos: [$txtt index $endpos]"
         if {[string is space [$txtt get $endpos]]} {
-          puts "  in space"
           set endpos [get_index $txtt spaceend -dir next -startpos $endpos]
         } else {
           set endpos [$txtt index "[get_index $txtt ${type}end -dir next -startpos $endpos]+1c"]
         }
       }
 
-      puts "endpos: [$txtt index $endpos]"
-
       set pos_list [list $startpos $endpos]
-      puts "pos_list: $pos_list"
 
     } else {
 
@@ -2010,11 +2005,16 @@ namespace eval edit {
     # Search backwards
     set txt      [winfo parent $txtt]
     set number   $num
-    set startpos insert
-    while {[set index [ctext::get_match_bracket $txt ${type}L $startpos]] != -1} {
+    set startpos [expr {([lsearch [$txtt tag names insert] _${type}L] == -1) ? "insert" : "insert+1c"}]
+
+    while {[set index [ctext::get_match_bracket $txt ${type}L $startpos]] ne ""} {
       if {[incr number -1] == 0} {
         set right [ctext::get_match_bracket $txt ${type}R $index]
-        return [expr {$inner ? [list [$txt index "$index+1c"] [$txt index "$right-1c$adjust"]] : [list $index [$txt index "$right$adjust"]]}]
+        if {($right eq "") || [$txtt compare $right < insert]} {
+          return [list "" ""]
+        } else {
+          return [expr {$inner ? [list [$txt index "$index+1c"] [$txt index "$right-1c$adjust"]] : [list $index [$txt index "$right$adjust"]]}]
+        }
       } else {
         set startpos $index
       }
@@ -2029,11 +2029,11 @@ namespace eval edit {
   proc get_range_string {txtt char tag inner adjust} {
 
     if {[$txtt get insert] eq $char} {
-      if {[lsearch [$txtt tag names insert-1c] $tag] == -1} {
-        set index [gui::find_match_char [winfo parent $txt] $char -forwards]
+      if {[lsearch [$txtt tag names insert-1c] _${tag}*] == -1} {
+        set index [gui::find_match_char [winfo parent $txtt] $char -forwards]
         return [expr {$inner ? [list [$txtt index "insert+1c"] [$txtt index "$index-1c$adjust"]] : [list [$txtt index insert] [$txtt index "$index$adjust"]]}]
       } else {
-        set index [gui::find_match_char [winfo parent $txt] $char -backwards]
+        set index [gui::find_match_char [winfo parent $txtt] $char -backwards]
         return [expr {$inner ? [list [$txtt index "$index+1c"] [$txtt index "insert-1c$adjust"]] : [list $index [$txtt index "insert$adjust"]]}]
       }
     } elseif {[set tag [lsearch -inline [$txtt tag names insert] _${tag}*]] ne ""} {

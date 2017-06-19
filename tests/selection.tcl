@@ -56,13 +56,15 @@ namespace eval selection {
 
   proc do_test {txtt id cmdlist value sel {mode "command"}} {
 
+    set cursor [$txtt index insert]
+
     enter $txtt $cmdlist
 
     if {[$txtt get 1.0 end-1c] ne $value} {
       cleanup "$id text mismatched ([$txtt get 1.0 end-1c])"
     }
     if {[$txtt tag ranges sel] ne $sel} {
-      cleanup "$id selection found ([$txtt tag ranges sel])"
+      cleanup "$id selection incorrect $cursor ([$txtt tag ranges sel])"
     }
     if {$vim::mode($txtt) ne $mode} {
       cleanup "$id mode incorrect ($vim::mode($txtt))"
@@ -77,6 +79,21 @@ namespace eval selection {
     if {($sel eq "") && ($mode eq "command") && ($cmdlist ne {y})} {
       enter $txtt u
     }
+
+  }
+
+  proc do_object_test {txtt id cmdlist value sel {mode "visual:char"}} {
+
+    set cursor [$txtt index insert]
+
+    do_test $txtt $id $cmdlist $value $sel $mode
+
+    if {($mode eq "visual:char") && [$txtt index insert] ne [$txtt index "[lindex $sel 1]-1c"]} {
+      cleanup "$id insertion cursor ([$txtt index insert])"
+    }
+
+    # Reset the insertion cursor
+    $txtt mark set insert $cursor
 
   }
 
@@ -522,17 +539,17 @@ namespace eval selection {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {Escape 0 v i w}   $value {2.0 2.4}  visual:char
-    do_test $txtt 1 {Escape 0 V i w}   $value {2.0 2.4}  visual:char
-    do_test $txtt 2 {Escape 0 v 2 i w} $value {2.0 2.5}  visual:char
+    do_object_test $txtt 0 {Escape 0 v i w}   $value {2.0 2.4}
+    do_object_test $txtt 1 {Escape 0 V i w}   $value {2.0 2.4}
+    do_object_test $txtt 2 {Escape 0 v 2 i w} $value {2.0 2.5}
 
-    do_test $txtt 3 {Escape 0 v a w}   $value {2.0 2.4}  visual:char
+    do_object_test $txtt 3 {Escape 0 v a w}   $value {2.0 2.4}
 
-    do_test $txtt 4 {Escape 6 bar v a w}   $value {2.5 2.8}  visual:char
-    do_test $txtt 5 {Escape 6 bar V a w}   $value {2.5 2.8}  visual:char
-    do_test $txtt 6 {Escape 6 bar v 2 a w} $value {2.5 2.10} visual:char
+    do_object_test $txtt 4 {Escape 6 bar v a w}   $value {2.5 2.8}
+    do_object_test $txtt 5 {Escape 6 bar V a w}   $value {2.5 2.8}
+    do_object_test $txtt 6 {Escape 6 bar v 2 a w} $value {2.5 2.10}
 
-    do_test $txtt 7 {Escape 1 2 bar v a w}   $value {2.9 2.14} visual:char
+    do_object_test $txtt 7 {Escape 1 2 bar v a w}   $value {2.9 2.14}
 
     # Cleanup
     cleanup
@@ -549,17 +566,17 @@ namespace eval selection {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {Escape 0 v i W}   $value {2.0 2.7}  visual:char
-    do_test $txtt 1 {Escape 0 V i W}   $value {2.0 2.7}  visual:char
-    do_test $txtt 2 {Escape 0 v 2 i W} $value {2.0 2.9}  visual:char
+    do_object_test $txtt 0 {Escape 0 v i W}   $value {2.0 2.7}
+    do_object_test $txtt 1 {Escape 0 V i W}   $value {2.0 2.7}
+    do_object_test $txtt 2 {Escape 0 v 2 i W} $value {2.0 2.9}
 
-    do_test $txtt 3 {Escape 0 v a W}   $value {2.0 2.8}  visual:char
+    do_object_test $txtt 3 {Escape 0 v a W}   $value {2.0 2.8}
 
-    do_test $txtt 4 {Escape 8 bar v a W}   $value {2.8 2.9}  visual:char
-    do_test $txtt 5 {Escape 8 bar V a W}   $value {2.8 2.9}  visual:char
-    do_test $txtt 6 {Escape 8 bar v 2 a W} $value {2.8 2.15} visual:char
+    do_object_test $txtt 4 {Escape 8 bar v a W}   $value {2.8 2.9}
+    do_object_test $txtt 5 {Escape 8 bar V a W}   $value {2.8 2.9}
+    do_object_test $txtt 6 {Escape 8 bar v 2 a W} $value {2.8 2.15}
 
-    do_test $txtt 7 {Escape 1 2 bar v a W} $value {2.9 2.15} visual:char
+    do_object_test $txtt 7 {Escape 1 2 bar v a W} $value {2.9 2.15}
 
     # Cleanup
     cleanup
@@ -576,15 +593,13 @@ namespace eval selection {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {Escape 0 v i s}   $value {2.0 2.11} visual:char
-    do_test $txtt 1 {Escape 1 V i s}   $value {2.0 2.11} visual:char
-    do_test $txtt 2 {Escape 2 v 2 i s} $value {2.0 2.24} visual:char
+    do_object_test $txtt 0 {Escape 0 v i s}   $value {2.0 2.11}
+    do_object_test $txtt 1 {Escape 1 V i s}   $value {2.0 2.11}
+    do_object_test $txtt 2 {Escape 2 v 2 i s} $value {2.0 2.24}
 
-    $txtt mark set insert 2.0
-
-    do_test $txtt 3 {Escape 3 v a s}   $value {2.0 2.13} visual:char
-    do_test $txtt 4 {Escape 4 V a s}   $value {2.0 2.13} visual:char
-    do_test $txtt 5 {Escape 5 v 2 a s} $value {2.0 2.26} visual:char
+    do_object_test $txtt 3 {Escape 3 v a s}   $value {2.0 2.13}
+    do_object_test $txtt 4 {Escape 4 V a s}   $value {2.0 2.13}
+    do_object_test $txtt 5 {Escape 5 v 2 a s} $value {2.0 2.26}
 
     # Cleanup
     cleanup
@@ -601,20 +616,305 @@ namespace eval selection {
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {Escape 0 v i p}   $value {2.0 3.7}  visual:char
-    do_test $txtt 1 {Escape 1 V i p}   $value {2.0 3.7}  visual:char
-    do_test $txtt 2 {Escape 2 v 2 i p} $value {2.0 5.27} visual:char
-
-    $txtt mark set insert 2.0
+    do_object_test $txtt 0 {Escape 0 v i p}   $value {2.0 3.7}
+    do_object_test $txtt 1 {Escape 1 V i p}   $value {2.0 3.7}
+    do_object_test $txtt 2 {Escape 2 v 2 i p} $value {2.0 5.27}
 
     set value2 [join [lreplace [split $value \n] 3 3 " "] \n]
 
-    do_test $txtt 3 {Escape 3 v a p}   $value2 {2.0 4.1} visual:char
-    do_test $txtt 4 {Escape 4 V a p}   $value2 {2.0 4.1} visual:char
+    do_object_test $txtt 3 {Escape 3 v a p}   $value2 {2.0 4.1}
+    do_object_test $txtt 4 {Escape 4 V a p}   $value2 {2.0 4.1}
 
     set value2 [join [lreplace [split $value \n] 5 5 " "] \n]
 
-    do_test $txtt 5 {Escape 5 v 2 a p} $value2 {2.0 6.1} visual:char
+    do_object_test $txtt 5 {Escape 5 v 2 a p} $value2 {2.0 6.1}
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify i[, i], a[, a] Vim commands
+  proc run_test22 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nset this \[this is \[really great\]\]"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0 {Escape v i bracketleft}  $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape v i bracketright} $value {2.0 2.1}
+    do_object_test $txtt 2 {Escape V i bracketleft}  $value {2.0 3.0} visual:line
+    do_object_test $txtt 3 {Escape V i bracketright} $value {2.0 3.0} visual:line
+    do_object_test $txtt 4 {Escape v a bracketleft}  $value {2.0 2.1}
+    do_object_test $txtt 5 {Escape v a bracketright} $value {2.0 2.1}
+    do_object_test $txtt 6 {Escape V a bracketleft}  $value {2.0 3.0} visual:line
+    do_object_test $txtt 7 {Escape V a bracketright} $value {2.0 3.0} visual:line
+
+    set seli  [list {2.10 2.32} {2.19 2.31}]
+    set sela  [list {2.9 2.33}  {2.18 2.32}]
+    set index 7
+
+    foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i bracketleft}  $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v i bracketright} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i bracketleft}  $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i bracketright} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v a bracketleft}  $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape v a bracketright} $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a bracketleft}  $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a bracketright} $value [lindex $sela $sel]
+    }
+
+    $txtt mark set insert 2.19
+
+    foreach i {2 3} {
+      do_object_test $txtt [incr index] [linsert {Escape v i bracketleft}  $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v i bracketright} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i bracketleft}  $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i bracketright} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a bracketleft}  $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a bracketright} $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a bracketleft}  $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a bracketright} $i 2] $value [lindex $sela 0]
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify i{, i}, a{, a} Vim commands
+  proc run_test23 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nset this {this is {really great}}"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0 {Escape v i braceleft}  $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape v i braceright} $value {2.0 2.1}
+    do_object_test $txtt 2 {Escape V i braceleft}  $value {2.0 3.0} visual:line
+    do_object_test $txtt 3 {Escape V i braceright} $value {2.0 3.0} visual:line
+    do_object_test $txtt 4 {Escape v a braceleft}  $value {2.0 2.1}
+    do_object_test $txtt 5 {Escape v a braceright} $value {2.0 2.1}
+    do_object_test $txtt 6 {Escape V a braceleft}  $value {2.0 3.0} visual:line
+    do_object_test $txtt 7 {Escape V a braceright} $value {2.0 3.0} visual:line
+
+    set seli  [list {2.10 2.32} {2.19 2.31}]
+    set sela  [list {2.9 2.33}  {2.18 2.32}]
+    set index 7
+
+    foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i braceleft}  $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v i braceright} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i braceleft}  $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i braceright} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v a braceleft}  $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape v a braceright} $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a braceleft}  $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a braceright} $value [lindex $sela $sel]
+    }
+
+    $txtt mark set insert 2.19
+
+    foreach i {2 3} {
+      do_object_test $txtt [incr index] [linsert {Escape v i braceleft}  $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v i braceright} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i braceleft}  $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i braceright} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a braceleft}  $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a braceright} $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a braceleft}  $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a braceright} $i 2] $value [lindex $sela 0]
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify i(, i), ib, a(, a), ab Vim commands
+  proc run_test24 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nset this (this is (really great))"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0  {Escape v i parenleft}  $value {2.0 2.1}
+    do_object_test $txtt 1  {Escape v i parenright} $value {2.0 2.1}
+    do_object_test $txtt 2  {Escape v i b}          $value {2.0 2.1}
+    do_object_test $txtt 3  {Escape V i parenleft}  $value {2.0 3.0} visual:line
+    do_object_test $txtt 4  {Escape V i parenright} $value {2.0 3.0} visual:line
+    do_object_test $txtt 5  {Escape V i b}          $value {2.0 3.0} visual:line
+    do_object_test $txtt 6  {Escape v a parenleft}  $value {2.0 2.1}
+    do_object_test $txtt 7  {Escape v a parenright} $value {2.0 2.1}
+    do_object_test $txtt 8  {Escape v a b}          $value {2.0 2.1}
+    do_object_test $txtt 9  {Escape V a parenleft}  $value {2.0 3.0} visual:line
+    do_object_test $txtt 10 {Escape V a parenright} $value {2.0 3.0} visual:line
+    do_object_test $txtt 11 {Escape V a b}          $value {2.0 3.0} visual:line
+
+    set seli  [list {2.10 2.32} {2.19 2.31}]
+    set sela  [list {2.9 2.33}  {2.18 2.32}]
+    set index 11
+
+    foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i parenleft}  $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v i parenright} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v i b}          $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i parenleft}  $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i parenright} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i b}          $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v a parenleft}  $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape v a parenright} $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape v a b}          $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a parenleft}  $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a parenright} $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a b}          $value [lindex $sela $sel]
+    }
+
+    $txtt mark set insert 2.19
+
+    foreach i {2 3} {
+      do_object_test $txtt [incr index] [linsert {Escape v i parenleft}  $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v i parenright} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v i b}          $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i parenleft}  $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i parenright} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i b}          $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a parenleft}  $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a parenright} $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a b}          $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a parenleft}  $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a parenright} $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a b}          $i 2] $value [lindex $sela 0]
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify i<, i>, a<, a> Vim commands
+  proc run_test25 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # Set the current syntax to Tcl
+    syntax::set_language [winfo parent $txtt] HTML
+
+    $txtt insert end [set value "\nset this <this is <really great>>"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0 {Escape v i less}    $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape v i greater} $value {2.0 2.1}
+    do_object_test $txtt 2 {Escape V i less}    $value {2.0 3.0} visual:line
+    do_object_test $txtt 3 {Escape V i greater} $value {2.0 3.0} visual:line
+    do_object_test $txtt 4 {Escape v a less}    $value {2.0 2.1}
+    do_object_test $txtt 5 {Escape v a greater} $value {2.0 2.1}
+    do_object_test $txtt 6 {Escape V a less}    $value {2.0 3.0} visual:line
+    do_object_test $txtt 7 {Escape V a greater} $value {2.0 3.0} visual:line
+
+    set seli  [list {2.10 2.32} {2.19 2.31}]
+    set sela  [list {2.9 2.33}  {2.18 2.32}]
+    set index 7
+
+    foreach {ins sel} [list 2.9 0 2.10 0 2.18 1 2.19 1 2.31 1 2.32 0] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i less}    $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v i greater} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i less}    $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape V i greater} $value [lindex $seli $sel]
+      do_object_test $txtt [incr index] {Escape v a less}    $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape v a greater} $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a less}    $value [lindex $sela $sel]
+      do_object_test $txtt [incr index] {Escape V a greater} $value [lindex $sela $sel]
+    }
+
+    $txtt mark set insert 2.19
+
+    foreach i {2 3} {
+      do_object_test $txtt [incr index] [linsert {Escape v i less}    $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v i greater} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i less}    $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape V i greater} $i 2] $value [lindex $seli 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a less}    $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape v a greater} $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a less}    $i 2] $value [lindex $sela 0]
+      do_object_test $txtt [incr index] [linsert {Escape V a greater} $i 2] $value [lindex $sela 0]
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify i", a" Vim command
+  proc run_test26 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nset this \"good\""]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0 {Escape v i quotedbl} $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape V i quotedbl} $value {2.0 3.0} "visual:line"
+    do_object_test $txtt 2 {Escape v a quotedbl} $value {2.0 2.1}
+    do_object_test $txtt 3 {Escape V a quotedbl} $value {2.0 3.0} "visual:line"
+
+    set index 3
+
+    foreach ins [list 2.9 2.10 2.14] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i quotedbl} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape V i quotedbl} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape v a quotedbl} $value {2.9 2.15}
+      do_object_test $txtt [incr index] {Escape V a quotedbl} $value {2.9 2.15}
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify i', a' Vim command
+  proc run_test27 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    $txtt insert end [set value "\nset this 'good'"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0 {Escape v i apostrophe} $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape V i apostrophe} $value {2.0 3.0} "visual:line"
+    do_object_test $txtt 2 {Escape v a apostrophe} $value {2.0 2.1}
+    do_object_test $txtt 3 {Escape V a apostrophe} $value {2.0 3.0} "visual:line"
+
+    set index 3
+
+    foreach ins [list 2.9 2.10 2.14] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i apostrophe} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape V i apostrophe} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape v a apostrophe} $value {2.9 2.15}
+      do_object_test $txtt [incr index] {Escape V a apostrophe} $value {2.9 2.15}
+    }
 
     # Cleanup
     cleanup
@@ -622,3 +922,4 @@ namespace eval selection {
   }
 
 }
+
