@@ -897,23 +897,93 @@ namespace eval selection {
     # Initialize
     set txtt [initialize]
 
+    # Set the current syntax to Tcl
+    syntax::set_language [winfo parent $txtt] JavaScript
+
     $txtt insert end [set value "\nset this 'good'"]
     $txtt mark set insert 2.0
     vim::adjust_insert $txtt
 
-    do_object_test $txtt 0 {Escape v i apostrophe} $value {2.0 2.1}
-    do_object_test $txtt 1 {Escape V i apostrophe} $value {2.0 3.0} "visual:line"
-    do_object_test $txtt 2 {Escape v a apostrophe} $value {2.0 2.1}
-    do_object_test $txtt 3 {Escape V a apostrophe} $value {2.0 3.0} "visual:line"
+    do_object_test $txtt 0 {Escape v i quoteright} $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape V i quoteright} $value {2.0 3.0} "visual:line"
+    do_object_test $txtt 2 {Escape v a quoteright} $value {2.0 2.1}
+    do_object_test $txtt 3 {Escape V a quoteright} $value {2.0 3.0} "visual:line"
 
     set index 3
 
     foreach ins [list 2.9 2.10 2.14] {
       $txtt mark set insert $ins
-      do_object_test $txtt [incr index] {Escape v i apostrophe} $value {2.10 2.14}
-      do_object_test $txtt [incr index] {Escape V i apostrophe} $value {2.10 2.14}
-      do_object_test $txtt [incr index] {Escape v a apostrophe} $value {2.9 2.15}
-      do_object_test $txtt [incr index] {Escape V a apostrophe} $value {2.9 2.15}
+      do_object_test $txtt [incr index] {Escape v i quoteright} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape V i quoteright} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape v a quoteright} $value {2.9 2.15}
+      do_object_test $txtt [incr index] {Escape V a quoteright} $value {2.9 2.15}
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify i`, a` Vim command
+  proc run_test28 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    # Set the current syntax to Tcl
+    syntax::set_language [winfo parent $txtt] JavaScript
+
+    $txtt insert end [set value "\nset this `good`"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0 {Escape v i quoteleft} $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape V i quoteleft} $value {2.0 3.0} "visual:line"
+    do_object_test $txtt 2 {Escape v a quoteleft} $value {2.0 2.1}
+    do_object_test $txtt 3 {Escape V a quoteleft} $value {2.0 3.0} "visual:line"
+
+    set index 3
+
+    foreach ins [list 2.9 2.10 2.14] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i quoteleft} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape V i quoteleft} $value {2.10 2.14}
+      do_object_test $txtt [incr index] {Escape v a quoteleft} $value {2.9 2.15}
+      do_object_test $txtt [incr index] {Escape V a quoteleft} $value {2.9 2.15}
+    }
+
+    # Cleanup
+    cleanup
+
+  }
+
+  # Verify it/at Vim command
+  proc run_test29 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    syntax::set_language [winfo parent $txtt] HTML
+
+    $txtt insert end [set value "\n <ul><li>List item</li>  </ul>"]
+    $txtt mark set insert 2.0
+    vim::adjust_insert $txtt
+
+    do_object_test $txtt 0 {Escape v i t} $value {2.0 2.1}
+    do_object_test $txtt 1 {Escape V i t} $value {2.0 3.0} visual:line
+    do_object_test $txtt 2 {Escape v a t} $value {2.0 2.1}
+    do_object_test $txtt 3 {Escape V a t} $value {2.0 3.0} visual:line
+
+    set seli  [list {2.5 2.25} {2.9 2.18}]
+    set sela  [list {2.1 2.30} {2.5 2.23}]
+    set index -1
+
+    foreach {ins i} [list 2.1 0 2.4 0 2.5 1 2.10 1 2.22 1 2.23 0 2.29 0] {
+      $txtt mark set insert $ins
+      do_object_test $txtt [incr index] {Escape v i t} $value [lindex $seli $i]
+      do_object_test $txtt [incr index] {Escape V i t} $value [lindex $seli $i]
+      do_object_test $txtt [incr index] {Escape v a t} $value [lindex $sela $i]
+      do_object_test $txtt [incr index] {Escape V a t} $value [lindex $sela $i]
     }
 
     # Cleanup
