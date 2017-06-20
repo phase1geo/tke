@@ -1845,8 +1845,6 @@ namespace eval vim {
     variable operator
     variable motion
 
-    puts "HERE!, motion: $motion($txtt)"
-
     # Execute the operation
     switch $motion($txtt) {
       "a" {
@@ -3714,18 +3712,12 @@ namespace eval vim {
   }
 
   ######################################################################
-  # If any text is selected, single quotes are placed around all
-  # selections.  If the insertion cursor is within a completed
-  # single string, the right-most quote of the completed string is moved one
-  # word to the end; otherwise, the current word is placed within
-  # single-quotes.
-  proc handle_apostrophe {txtt} {
+  # Handles single-quote object selection.
+  proc handle_quoteright {txtt} {
 
     variable mode
     variable operator
     variable motion
-
-    puts "In handle_apostrophe"
 
     if {($mode($txtt) eq "command") || [in_visual_mode $txtt]} {
       return [do_object_operation $txtt single]
@@ -3737,7 +3729,7 @@ namespace eval vim {
 
   ######################################################################
   # Handle a` and i` Vim motions.
-  proc handle_grave {txtt} {
+  proc handle_quoteleft {txtt} {
 
     variable mode
     variable operator
@@ -4167,13 +4159,8 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "command"} {
-      puts "In handle_asterisk"
       set word ""
-      catch { puts [edit::get_range $txtt {word 1} {} "i" ""] } rc
-      puts "A rc: $rc"
       catch { set word [$txtt get {*}[edit::get_range $txtt {word 1} {} "i" ""]] } rc
-      puts "rc: $rc"
-      puts "word: ($word)"
       catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
       array set theme [theme::get_syntax_colors]
       ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word

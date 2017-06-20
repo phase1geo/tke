@@ -2067,9 +2067,9 @@ namespace eval edit {
             if {[incr num -1] == 0} {
               $txtt mark set insert $insert
               if {$inner} {
-                return [list [lindex $ranges 1] [$txtt index "[lindex $ranges 2]$adjust"]]
+                return [list [lindex $ranges 1] [$txtt index "[lindex $ranges 2]-1c$adjust"]]
               } else {
-                return [list [lindex $ranges 0] [$txtt index "[lindex $ranges 3]$adjust"]]
+                return [list [lindex $ranges 0] [$txtt index "[lindex $ranges 3]-1c$adjust"]]
               }
             } else {
               $txtt mark set insert "[lindex $ranges 0]-1c"
