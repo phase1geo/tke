@@ -1473,14 +1473,12 @@ namespace eval edit {
 
     if {$dir eq "next"} {
       set diropt   "-forwards"
-      # set startpos "$start+1c"
       set startpos $start
       set endpos   "end"
       set suffix   "+1c"
     } else {
       set diropt   "-backwards"
-      # set startpos $start
-      set startpos "$start-1c"
+      set startpos $start
       set endpos   "1.0"
       set suffix   ""
     }
