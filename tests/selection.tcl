@@ -568,15 +568,15 @@ namespace eval selection {
 
     do_object_test $txtt 0 {Escape 0 v i W}   $value {2.0 2.7}
     do_object_test $txtt 1 {Escape 0 V i W}   $value {2.0 2.7}
-    do_object_test $txtt 2 {Escape 0 v 2 i W} $value {2.0 2.9}
+    do_object_test $txtt 2 {Escape 0 v 2 i W} $value {2.0 2.8}
 
     do_object_test $txtt 3 {Escape 0 v a W}   $value {2.0 2.8}
 
-    do_object_test $txtt 4 {Escape 8 bar v a W}   $value {2.8 2.9}
-    do_object_test $txtt 5 {Escape 8 bar V a W}   $value {2.8 2.9}
-    do_object_test $txtt 6 {Escape 8 bar v 2 a W} $value {2.8 2.15}
+    do_object_test $txtt 4 {Escape 8 bar v a W}   $value {2.7 2.9}
+    do_object_test $txtt 5 {Escape 8 bar V a W}   $value {2.7 2.9}
+    do_object_test $txtt 6 {Escape 8 bar v 2 a W} $value {2.7 2.15}
 
-    do_object_test $txtt 7 {Escape 1 2 bar v a W} $value {2.9 2.15}
+    do_object_test $txtt 7 {Escape 1 2 bar v a W} $value {2.10 2.15}
 
     # Cleanup
     cleanup

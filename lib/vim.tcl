@@ -3402,7 +3402,7 @@ namespace eval vim {
           folding::set_vim_foldenable [winfo parent $txtt] 0
         }
         default {
-          return [do_operation $txtt numberend]
+          return [do_operation $txtt [list numberend -adjust "+1c"]]
         }
       }
       reset_state $txtt 0
@@ -3580,7 +3580,7 @@ namespace eval vim {
             if {$operator($txtt) eq ""} {
               multicursor::add_cursor $txtt [$txtt index insert]
             } else {
-              return [do_operation $txtt spaceend]
+              return [do_operation $txtt [list spaceend -adjust "+1c"]]
             }
           }
         }
@@ -4159,13 +4159,13 @@ namespace eval vim {
     variable mode
 
     if {$mode($txtt) eq "command"} {
-      set word ""
-      catch { set word [$txtt get {*}[edit::get_range $txtt {word 1} {} "i" ""]] } rc
-      catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
-      array set theme [theme::get_syntax_colors]
-      ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word
-      $txtt tag lower _search sel
-      search::find_next [winfo parent $txtt]
+      if {[string trim [set word [$txtt get {*}[edit::get_range $txtt {word 1} {} "i" 0]]]] ne ""} {
+        catch { ctext::deleteHighlightClass [winfo parent $txtt] search }
+        array set theme [theme::get_syntax_colors]
+        ctext::addSearchClass [winfo parent $txtt] search $theme(search_foreground) $theme(search_background) "" $word
+        $txtt tag lower _search sel
+        search::find_next [winfo parent $txtt]
+      }
       reset_state $txtt 0
       return 1
     }
