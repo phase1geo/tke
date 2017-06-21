@@ -1473,12 +1473,14 @@ namespace eval edit {
 
     if {$dir eq "next"} {
       set diropt   "-forwards"
-      set startpos "$start+1c"
+      # set startpos "$start+1c"
+      set startpos $start
       set endpos   "end"
       set suffix   "+1c"
     } else {
       set diropt   "-backwards"
-      set startpos $start
+      # set startpos $start
+      set startpos "$start-1c"
       set endpos   "1.0"
       set suffix   ""
     }
@@ -1919,50 +1921,34 @@ namespace eval edit {
           set endpos [get_index $txtt ${type}end -dir next -startpos $endpos]
         }
       }
-      
+
     } else {
-      
-      set endpos [get_index $txtt ${type}end -dir next -num $num -startpos "insert-1c"]
-      
+
+      set endpos [get_index $txtt ${type}end -dir next -num $num]
+
+      # If the insertion cursor is within a space, make the startpos be the start of the space
       if {[string is space [$txtt get insert]]} {
         set startpos [get_index $txtt spacestart -dir prev -startpos "insert+1c"]
+
+      # Otherwise, the insertion cursor is within a word, if the character following
+      # the end of the word is a space, the start is the start of the word while the end is
+      # the whitspace after the word.
       } elseif {[string is space [$txtt get "$endpos+1c"]]} {
         set startpos [get_index $txtt ${type}start -dir prev -startpos "insert+1c"]
-        set endpos   [get_index $txtt spaceend -dir next -startpos $endpos]
+        set endpos   [get_index $txtt spaceend -dir next -startpos "$endpos+1c"]
+
+      # Otherwise, set the start of the selection to the be the start of the preceding
+      # whitespace.
       } else {
-        set startpos [get_index $txtt {$type}start -dir prev]
-        set startpos [get_index $txtt spacestart -dir prev -startpos "$startpos-1c"]
-      }
-
-    }
-    
-    puts "startpos: $startpos, endpos: $endpos"
-    
-    return [list $startpos $endpos]
-    
-    #---------------------------------------------------
-
-    if {[string is space [$txtt get insert]]} {
-      set pos_list [list [get_index $txtt spacestart -dir prev -startpos "insert+1c"] [get_index $txtt spaceend -dir next -adjust "-1c"]]
-    } else {
-      set pos_list [list [get_index $txtt $start -dir prev -startpos "insert+1c"] [get_index $txtt $end -dir next -num $num]]
-    }
-
-    if {!$inner} {
-      set index [$txtt search -forwards -regexp -- {\S} "[lindex $pos_list 1]+1c" "[lindex $pos_list 1] lineend"]
-      if {($index ne "") && [$txtt compare "[lindex $pos_list 1]+1c" != $index]} {
-        lset pos_list 1 [$txtt index "$index-1c"]
-      } else {
-        set index [$txtt search -backwards -regexp -- {\S} [lindex $pos_list 0] "[lindex $pos_list 0] linestart"]
-        if {($index ne "") && [$txtt compare "[lindex $pos_list 0]-1c" != $index]} {
-          lset pos_list 0 [$txtt index "$index+1c"]
+        set startpos [get_index $txtt ${type}start -dir prev -startpos "insert+1c"]
+        if {[$txtt compare $startpos > "$startpos linestart"] && [string is space [$txtt get "$startpos-1c"]]} {
+          set startpos [get_index $txtt spacestart -dir prev -startpos "$startpos-1c"]
         }
       }
+
     }
 
-    lset pos_list 1 [$txtt index "[lindex $pos_list 1]$adjust"]
-
-    return $pos_list
+    return [list $startpos [$txtt index "$endpos$adjust"]]
 
   }
 
