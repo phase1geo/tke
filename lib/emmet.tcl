@@ -1162,13 +1162,13 @@ namespace eval emmet {
     # Get the range of the number
     if {[$txt get insert] eq "-"} {
       set num_start "insert"
-      set num_end   [edit::get_index $txt.t numberend -startpos "insert+1c"]
+      set num_end   [edit::get_index $txt.t numberend -startpos "insert+1c" -adjust "+1c"]
       if {[$txt compare $num_end == "insert+1c"]} {
         return
       }
     } else {
       set num_start [edit::get_index $txt.t numberstart]
-      set num_end   [edit::get_index $txt.t numberend]
+      set num_end   [edit::get_index $txt.t numberend -adjust "+1c"]
       if {[$txt compare $num_start == $num_end] || [$txt compare insert == $num_end]} {
         return
       }
