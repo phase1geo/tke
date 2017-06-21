@@ -138,18 +138,22 @@ namespace eval find {
     set txtt [initialize]
 
     $txtt insert end "\nThis is a line.\nThis is a line.\nThis is a line."
-    $txtt mark set insert 2.5
+    $txtt mark set insert 2.1
     vim::adjust_insert $txtt
 
-    do_test $txtt 0 {asterisk} {} {2.5 2.7 3.5 3.7 4.5 4.7} {2.5}
+    set matches [list 2.0 2.4 3.0 3.4 4.0 4.4]
 
-    do_test $txtt 1 {n} {} {2.5 2.7 3.5 3.7 4.5 4.7} {3.5}
-    do_test $txtt 2 {n} {} {2.5 2.7 3.5 3.7 4.5 4.7} {4.5}
-    do_test $txtt 3 {n} {} {2.5 2.7 3.5 3.7 4.5 4.7} {2.5}
+    do_test $txtt 0 {asterisk} {} $matches {3.0}
+    do_test $txtt 1 {asterisk} {} $matches {4.0}
+    do_test $txtt 2 {asterisk} {} $matches {2.0}
 
-    do_test $txtt 4 {N} {} {2.5 2.7 3.5 3.7 4.5 4.7} {4.5}
-    do_test $txtt 5 {N} {} {2.5 2.7 3.5 3.7 4.5 4.7} {3.5}
-    do_test $txtt 6 {N} {} {2.5 2.7 3.5 3.7 4.5 4.7} {2.5}
+    do_test $txtt 3 {n} {} $matches {3.0}
+    do_test $txtt 4 {n} {} $matches {4.0}
+    do_test $txtt 5 {n} {} $matches {2.0}
+
+    do_test $txtt 6 {N} {} $matches {4.0}
+    do_test $txtt 7 {N} {} $matches {3.0}
+    do_test $txtt 8 {N} {} $matches {2.0}
 
     # Cleanup
     cleanup
