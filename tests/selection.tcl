@@ -576,7 +576,7 @@ namespace eval selection {
     do_object_test $txtt 5 {Escape 8 bar V a W}   $value {2.7 2.9}
     do_object_test $txtt 6 {Escape 8 bar v 2 a W} $value {2.7 2.15}
 
-    do_object_test $txtt 7 {Escape 1 2 bar v a W} $value {2.10 2.15}
+    do_object_test $txtt 7 {Escape 1 2 bar v a W} $value {2.9 2.15}
 
     # Cleanup
     cleanup
