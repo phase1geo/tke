@@ -1,80 +1,132 @@
-2017-05-24 22:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (310f68f785c7 [devel-3.1.1])
+2017-06-03 00:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e0e4b99ec5c2 [devel-3.1.2])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.1.1 release
+	ChangeLog for devel-3.1.2 release
 
-2017-05-24 22:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8e8671f9c729)
+2017-06-03 00:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (51feaf2b2b49)
 
 	* .hgtags:
-	Added tag devel-3.1.1 for changeset 310f68f785c7
+	Added tag devel-3.1.2 for changeset e0e4b99ec5c2
 
-2017-05-25 00:42 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b255a6d27126)
+2017-06-04 23:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (34c205d2d7e6)
 
-	* lib/multicursor.tcl, lib/version.tcl, tests/change.tcl,
+	* tests/find.tcl: new file.
+	* lib/gui.tcl, lib/search.tcl, lib/version.tcl, lib/vim.tcl,
+	plugins/current_line/main.tcl, tests/find.tcl:
+	* Changing find bar to allow for persistent state searching.
+	* Enhancing current_line plugin.
+
+2017-06-05 01:24 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0add29582e34)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl, lib/vim.tcl, tests/find.tcl:
+	* Fixing case-sensitivity for text searching.
+	* Enhancing find BIST.
+
+2017-06-05 17:44 -0500  Trevor Williams  <phase1geo@gmail.com>  (334ad9fdbe38)
+
+	* lib/select.tcl: new file.
+	* lib/select.tcl:
+	* Adding new select mode namespace.
+
+2017-06-05 17:45 -0500  Trevor Williams  <phase1geo@gmail.com>  (02f8c29268f3)
+
+	* tests/find.tcl: new file.
+	* Merge
+
+2017-06-06 00:01 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (44ceaeaaa394)
+
+	* lib/test.tcl: new file.
+	* lib/select.tcl, lib/test.tcl, lib/version.tcl:
+	* Checkpointing work on new selection mode UI.
+
+2017-06-06 08:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bcc0e5fff563)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-06-06 17:05 -0500  Trevor Williams  <phase1geo@gmail.com>  (f465233f74a8)
+
+	* lib/select.tcl:
+	* Checkpointing.
+
+2017-06-07 00:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (36ddd74b6621)
+
+	* lib/select.tcl, lib/test.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-06-08 14:42 -0500  Trevor Williams  <phase1geo@gmail.com>  (c6c4926a9a0d)
+
+	* lib/select.tcl, lib/test.tcl:
+	* Checkpointing.
+
+2017-06-10 01:29 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (54aef324e70a)
+
+	* lib/edit.tcl, lib/select.tcl, lib/version.tcl, lib/vim.tcl,
+	tests/find.tcl:
+	* Checkpointing.
+
+2017-06-13 00:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1cc7d8a3da53)
+
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/find.tcl,
 	tests/selection.tcl:
-	* Fixing regression failures.
+	* Fixing various BIST issues.
+	* Enhancing BIST testing.
 
-2017-05-25 00:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2ada45dc6e3e)
-
-	* doc/md/TKE User Guide/Introduction/Feature Set.textbundle/text.md,
-	lib/version.tcl:
-	* Updating User Guide.
-
-2017-05-25 11:39 -0500  Trevor Williams  <phase1geo@gmail.com>  (6995cbb021e7)
-
-	* data/syntax/Boo.syntax: new file.
-	* data/syntax/Boo.syntax, lib/menus.tcl, lib/pref_ui.tcl, lib/tke.tcl,
-	lib/version.tcl:
-	* Adding Boo syntax support.
-	* Moving `View/Show Console` menu option to `Tools/Show Tcl Console`
-	(only available in development mode).
-	* Moving `Show Console` preference option from `View` panel to
-	`Advanced - Development` preference panel.
-	* Now that tkcon comes installed with TKE, remove any OS-specific
-	reference to the console.
-
-2017-05-26 02:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5ceccc6dfd57)
-
-	* doc/md/TKE User Guide/Introduction/Feature Set.textbundle/text.md,
-	lib/version.tcl:
-	* Updating User Guide.
-
-2017-05-27 21:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (19e8b66a0f6d)
-
-	* doc/md/TKE User Guide/User Interface/Tools Menu.textbundle/text.md,
-	doc/md/TKE User Guide/User Interface/View Menu.textbundle/text.md,
-	lib/version.tcl:
-	* Updating User Guide.
-
-2017-05-30 00:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b97e3de181ed)
+2017-06-15 02:17 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2871685e6cbf)
 
 	* lib/edit.tcl, lib/version.tcl:
-	* Fixing issue with moving up/down files that are line wrapped.
+	* Checkpointing.
 
-2017-05-30 11:43 -0500  Trevor Williams  <phase1geo@gmail.com>  (cad2a08e37da)
+2017-06-16 00:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (60610f26be91)
 
-	* lib/edit.tcl, lib/version.tcl, plugins/regexp_checker/README.md:
-	* Fixing issues with using numbers when moving up/down in line-
-	wrapped mode.
-	* Removing newlines in regular expression checker README.md file.
+	* lib/edit.tcl, lib/version.tcl:
+	* Checkpointing.
 
-2017-05-31 22:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1f7fb330c6e9)
+2017-06-16 00:36 -0500  Trevor Williams  <phase1geo@gmail.com>  (94cacd22ce1d)
 
-	* lib/bist.tcl, lib/version.tcl:
-	* Adding BIST capability of rerunning BIST failures.
+	* install.tcl, lib/version.tcl:
+	* Fixing tclsh comparison code in installation script.
 
-2017-06-02 17:26 -0500  Trevor Williams  <phase1geo@gmail.com>  (e47f5c906380)
+2017-06-16 00:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (074e96118ae9)
 
-	* Win/freewrap.files, lib/gui.tcl, lib/tke.tcl:
-	* Fixing syntax issue when an invalid filename is passed to tkdv on
-	the command-line.
-	* Adjusting tkdv to display sidebar when an invalid filename is passed
-	on the command-line.
-	* Fixing wish version in tke.tcl script line.
+	* lib/version.tcl:
+	* Merging.
 
-2017-06-03 00:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0934513f8c28 [tip])
+2017-06-19 01:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dcbce02e3a01)
 
-	* lib/gui.tcl, lib/tke.tcl, lib/version.tcl:
-	* Fixing state of `Show in Sidebar` menu item when the current tab's
-	file does not exist.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/selection.tcl:
+	* Fixing BIST failures.
+	* Enhancing selection BIST.
+
+2017-06-19 23:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9fedd5cdc6b7)
+
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/selection.tcl:
+	* Fixing BIST issues.
+	* Enhancing selection BIST.
+
+2017-06-20 17:42 -0500  Trevor Williams  <phase1geo@gmail.com>  (1f49c2e7f956)
+
+	* lib/edit.tcl:
+	* Checkpointing work on word/WORD range selection procedure.
+
+2017-06-20 23:25 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f9ec407d9010)
+
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl, tests/selection.tcl:
+	* Finishing work on word/WORD object selection.
+	* Fixing BIST failures.
+
+2017-06-21 08:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ded4a12dff00)
+
+	* .DS_Store, lib/emmet.tcl, lib/version.tcl, tests/find.tcl:
+	* Fixing BIST failures.
+
+2017-06-21 10:58 -0500  Trevor Williams  <phase1geo@gmail.com>  (6f99026c583f)
+
+	* lib/edit.tcl, lib/version.tcl:
+	* Fixing BIST failures.
+
+2017-06-21 22:06 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5aeb061669d1 [tip])
+
+	* lib/edit.tcl, lib/version.tcl, tests/selection.tcl:
+	* Fixing BIST failures.
 
