@@ -1473,7 +1473,7 @@ namespace eval edit {
 
     if {$dir eq "next"} {
       set diropt   "-forwards"
-      set startpos $start
+      set startpos "$start+1c"
       set endpos   "end"
       set suffix   "+1c"
     } else {
@@ -1910,7 +1910,7 @@ namespace eval edit {
       }
 
       # Count spaces and non-spaces
-      set endpos "insert-1c"
+      set endpos [expr {($type eq "word") ? "insert-1c" : "insert"}]
       for {set i 0} {$i < $num} {incr i} {
         set endpos [$txtt index "$endpos+1c"]
         if {[string is space [$txtt get $endpos]]} {
@@ -1922,7 +1922,7 @@ namespace eval edit {
 
     } else {
 
-      set endpos [get_index $txtt ${type}end -dir next -num $num]
+      set endpos [get_index $txtt ${type}end -dir next -num $num -startpos [expr {($type eq "word") ? "insert" : "insert-1c"}]]
 
       # If the insertion cursor is within a space, make the startpos be the start of the space
       if {[string is space [$txtt get insert]]} {
@@ -1931,7 +1931,7 @@ namespace eval edit {
       # Otherwise, the insertion cursor is within a word, if the character following
       # the end of the word is a space, the start is the start of the word while the end is
       # the whitspace after the word.
-      } elseif {[string is space [$txtt get "$endpos+1c"]]} {
+      } elseif {[$txtt compare "$endpos+1c" < "$endpos lineend"] && [string is space [$txtt get "$endpos+1c"]]} {
         set startpos [get_index $txtt ${type}start -dir prev -startpos "insert+1c"]
         set endpos   [get_index $txtt spaceend -dir next -startpos "$endpos+1c"]
 
