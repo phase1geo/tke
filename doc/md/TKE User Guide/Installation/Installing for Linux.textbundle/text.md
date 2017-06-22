@@ -2,8 +2,6 @@
 
 Prior to downloading/installing the TKE package, you will need to make sure that you have all of the required packages installed on your system.  Because various Linux distributions have different package managers, I will leave the exact details of how to accomplish this up to you.  However, if you have an Ubuntu-based distribution, you can get the needed packages by performing the following command:
 
-`sudo apt-get install tcl8.5 tk8.5 tclx8.4 tcllib tklib tkdnd expect tcl-tls`
-OR
 `sudo apt-get install tcl8.6 tk8.6 tclx8.4 tcllib tklib tkdnd expect tcl-tls`
 
 The TKE installation package is downloaded in a gzipped tarball.  You can get the latest version of this tarball from the following URL:  [TKE Download](http://sourceforge.net/projects/tke/files/).
@@ -22,11 +20,9 @@ After all of the files have been uncompressed, change the working directory to t
 
 Once inside the TKE source directory, run the installation script found in that directory using the following command:
 
-`tclsh8.5 install.tcl`
-OR
 `tclsh8.6 install.tcl`
 
-At the beginning of the installation process, the install script will check to make sure that you have both Tcl and Tk 8.5 installed along with a usable version of TclX.  If all checks are good, the installation will continue; otherwise, it will provide an error message indicating the offending check.  After the checks occur, you will be asked to provide a root directory to install both the TKE library directories/files and the TKE binary file.  This can be any directory in your filesystem; however, popular directories are:
+At the beginning of the installation process, the install script will check to make sure that you have both Tcl and Tk 8.6 installed along with a usable version of TclX.  If all checks are good, the installation will continue; otherwise, it will provide an error message indicating the offending check.  After the checks occur, you will be asked to provide a root directory to install both the TKE library directories/files and the TKE binary file.  This can be any directory in your filesystem; however, popular directories are:
 
 - /usr/local
 - /usr

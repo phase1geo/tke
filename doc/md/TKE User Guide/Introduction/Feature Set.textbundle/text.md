@@ -46,7 +46,7 @@ The following is a high-level list of built-in features.
 	- HTML, XML, XSL and CSS abbreviation syntax supported.
 	- Support for custom Emmet commands.
 	- Support for abbreviation wrapping.
-	- Support for all Emmet actions that operate on HTML code (CSS is not currently supported at this time).
+	- Support for all Emmet actions.
 - **Auto and smart indentation features**
 	- Selected code can have indentation policies applied
 	- Pasted code can have indentation policies applied
