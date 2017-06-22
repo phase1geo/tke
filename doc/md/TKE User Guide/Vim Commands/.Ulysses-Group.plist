@@ -116,6 +116,16 @@
 					<integer>13</integer>
 				</dict>
 			</dict>
+			<key>Object Selection.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>519794903.40674698</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>30</integer>
+				</dict>
+			</dict>
 			<key>Pasting text.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -282,6 +292,9 @@
 			<string>Visual (Selection) mode.textbundle</string>
 		</array>
 		<array>
+			<string>Object Selection.textbundle</string>
+		</array>
+		<array>
 			<string>Code Folding.textbundle</string>
 		</array>
 		<array>
@@ -304,7 +317,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>25</integer>
+			<integer>31</integer>
 		</dict>
 	</dict>
 </dict>

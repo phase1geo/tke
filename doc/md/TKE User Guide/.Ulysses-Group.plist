@@ -4,6 +4,7 @@
 <dict>
 	<key>childOrder</key>
 	<array>
+		<string>New Folder</string>
 		<string>Prefix</string>
 		<string>Introduction</string>
 		<string>Installation</string>
@@ -94,6 +95,20 @@
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>15</integer>
+				</dict>
+			</dict>
+			<key>New Folder</key>
+			<dict>
+				<key>explicitUnassignment</key>
+				<true/>
+				<key>firstUnassignment</key>
+				<real>519794779.83650303</real>
+				<key>lastModification</key>
+				<real>519794779.83650303</real>
+				<key>version</key>
+				<dict>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>26</integer>
 				</dict>
 			</dict>
 			<key>Plugins</key>
@@ -205,7 +220,7 @@
 		<key>childOrder</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>23</integer>
+			<integer>26</integer>
 		</dict>
 	</dict>
 </dict>

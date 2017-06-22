@@ -4,8 +4,8 @@ The installation of TKE has a few dependencies that will need to be preinstalled
 
 | Package | Download URL |
 | - | - |
-| Tcl (8.5.x or 8.6.x versions) | http://sourceforge.net/projects/tcl/files/Tcl/ |
-| Tk (8.5.x or 8.6.x versions) | http://sourceforge.net/projects/tcl/files/Tcl/ |
+| Tcl (8.6.x versions) | http://sourceforge.net/projects/tcl/files/Tcl/ |
+| Tk (8.6.x versions) | http://sourceforge.net/projects/tcl/files/Tcl/ |
 | Tcllib | https://sourceforge.net/projects/tcllib/files/tcllib/ |
 | Tklib | https://sourceforge.net/projects/tcllib/files/tklib/ |
 | Extended Tcl (Library should be installed in one of the standard Tcl paths) | http://sourceforge.net/projects/tclx/files/TclX/ |
@@ -13,7 +13,5 @@ The installation of TKE has a few dependencies that will need to be preinstalled
 | Expect (optional - used to help provide SFTP support - not necessary for macOS) | https://sourceforge.net/projects/expect/files/ |
 | PuTTY PSFTP client (Windows only, optional - used for SFTP support) | http://www.chiark.greenend.org.uk/\~sgtatham/putty/download.html |
 | TLS | https://sourceforge.net/projects/tls/files/ |
-
-**Important Note:** Tcl/Tk version 8.5.19 or later is recommended to avoid application crashes during editing.
 
 All other Tcl/Tk packages required by TKE have been bundled in the TKE package.
