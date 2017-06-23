@@ -136,6 +136,12 @@ msgcat::mcmset ja {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "フォームUIを閉じフィルインの形で表示された画像。検索などの形で使用され、検索/置換、およびファイルで見つけます。"
 
+  "Image displayed in find field to search for next match."
+  "次の一致項目を検索する検索フィールドに表示されるイメージ。"
+
+  "Image displayed in find field to search for previous match."
+  "前の一致文字列を検索する検索フィールドに表示されるイメージ。"
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "イメージファイルは、差分ビューに関連付けられていることを示すために、タブメニューで使用。"
 
@@ -207,9 +213,6 @@ msgcat::mcmset ja {
 
   "License"
   "ナンバープレート"
-
-  "Line"
-  "直線"
 
   "Locked"
   "ロックする"
@@ -343,9 +346,6 @@ msgcat::mcmset ja {
 
   "Change working directory"
   "作業ディレクトリを変更"
-
-  "Character"
-  "性格"
 
   "Check for update"
   "アップデートの確認"
@@ -740,9 +740,6 @@ msgcat::mcmset ja {
   "Hide All Tabs"
   "すべて表示しない"
 
-  "Hide Console"
-  "コンソールを隠す"
-
   "Hide Current Tab"
   "現在のタブを非表示します。"
 
@@ -764,8 +761,11 @@ msgcat::mcmset ja {
   "Hide Tab Bar"
   "タブバーを非表示"
 
-  "Hide console"
-  "コンソールを非表示します。"
+  "Hide Tcl Console"
+  "Tcl コンソールを非表示します。"
+
+  "Hide Tcl console"
+  "Tcl コンソールを非表示します。"
 
   "Hide line numbers"
   "行番号を非表示します。"
@@ -1181,6 +1181,12 @@ msgcat::mcmset ja {
   "Redo"
   "やり直す"
 
+  "Reflect CSS Value"
+  "CSS 値を反映します。"
+
+  "Reflect current CSS value"
+  "現在の CSS 値を反映します。"
+
   "Relative"
   "パーセント表示"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset ja {
   "Show All Tabs"
   "すべて表示"
 
-  "Show Console"
-  "コンソールの表示"
-
   "Show Cursor"
   "カーソルを表示します。"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset ja {
 
   "Show Tab Bar"
   "表示タブバー"
+
+  "Show Tcl Console"
+  "Tcl コンソールを表示します。"
+
+  "Show Tcl console"
+  "Tcl コンソールを表示します。"
 
   "Show diagnostic logfile"
   "診断ログ ファイルを表示します。"
@@ -1890,9 +1899,6 @@ msgcat::mcmset ja {
   "Options"
   "オプション"
 
-  "Parenthesis"
-  "括弧"
-
   "Profiler Options"
   "「Profiler オプション"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset ja {
   "Show Move To Trash for local files/directories instead of Delete"
   "ゴミ箱に移動を削除ではなくローカルのファイル/ディレクトリの表示します。"
 
+  "Show Tcl console at startup"
+  "起動時に Tcl コンソールを表示します。"
+
   "Show bird's eye view"
   "鳥瞰図"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset ja {
 
   "Show folders at top"
   "上部のフォルダーを表示します。"
+
+  "Show language submenu"
+  "表示言語の選択]"
 
   "Show menubar"
   "メニューバーを表示(&M)"
@@ -2238,6 +2250,80 @@ msgcat::mcmset ja {
 
   "substitutions done"
   "置換実行"
+
+}
+
+# select.tcl
+msgcat::mcmset ja {
+
+  "Backticks"
+  "バッククォート"
+
+  "Block"
+  "ブロック"
+
+  "Curly Brackets"
+  "中かっこ"
+
+  "Double Quotes"
+  "ダブルクォーテーションマーク"
+
+  "Inner"
+  "内側"
+
+  "Non-Whitespace"
+  "空白以外"
+
+  "Object Mode"
+  "object"
+
+  "Outer"
+  "外側"
+
+  "Paragraph"
+  "段落"
+
+  "Select First Child"
+  "最初の子を選択します。"
+
+  "Select Next"
+  "次へを選択します。"
+
+  "Select Parent"
+  "親ページを選択します"
+
+  "Select Previous"
+  "選択前"
+
+  "Selection Motion"
+  "選択動作"
+
+  "Selection Type"
+  "選択タイプ"
+
+  "Sentence"
+  "文章"
+
+  "Shift Selection Left"
+  "Shift 選択-左"
+
+  "Shift Selection Right"
+  "右シフトの選択"
+
+  "Single Quotes"
+  "シングルクォーテーションマーク"
+
+  "Square Brackets"
+  "大かっこ"
+
+  "Swap Selection Anchor"
+  "選択範囲のアンカー位置を交換します。"
+
+  "Tag"
+  "タグ"
+
+  "Word"
+  "言葉"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset ja {
   "Cancel"
   "キャンセル"
 
+  "Character"
+  "性格"
+
   "Check for Update"
   "アップデートの確認"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset ja {
   "Launcher"
   "ランチャー"
 
+  "Line"
+  "直線"
+
   "Move To Trash"
   "ゴミ箱に移動"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset ja {
 
   "Open"
   "オープン"
+
+  "Parenthesis"
+  "括弧"
 
   "Plugin"
   "プラグイン"
@@ -3109,9 +3204,6 @@ msgcat::mcmset ja {
 
   "Sessions"
   "セッション"
-
-  "Show console"
-  "コンソールを表示します。"
 
   "Show line numbers"
   "行番号を表示します。"

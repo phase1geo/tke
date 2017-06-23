@@ -136,6 +136,12 @@ msgcat::mcmset ru {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Изображение, отображаемое в заполнения форм, которая закрывает форму пользовательского интерфейса.  Используется в формах, таких как поиск, поиск/замена и найти в файлах."
 
+  "Image displayed in find field to search for next match."
+  "Изображение, отображаемое в поле Поиск для поиска следующего совпадения."
+
+  "Image displayed in find field to search for previous match."
+  "Изображение, отображаемое в поле Поиск для поиска предыдущих матча."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Изображение, используемое в меню вкладку для указания, что файл связан с видом разница."
 
@@ -207,9 +213,6 @@ msgcat::mcmset ru {
 
   "License"
   "Лицензия"
-
-  "Line"
-  "Строка"
 
   "Locked"
   "запертый"
@@ -343,9 +346,6 @@ msgcat::mcmset ru {
 
   "Change working directory"
   "Изменить рабочий каталог"
-
-  "Character"
-  "Символ"
 
   "Check for update"
   "Проверьте на обновление"
@@ -740,9 +740,6 @@ msgcat::mcmset ru {
   "Hide All Tabs"
   "Скрыть всё"
 
-  "Hide Console"
-  "Скрыть Console"
-
   "Hide Current Tab"
   "Текущая вкладка"
 
@@ -764,8 +761,11 @@ msgcat::mcmset ru {
   "Hide Tab Bar"
   "Скрыть панель вкладок,"
 
-  "Hide console"
-  "Скрыть консоли"
+  "Hide Tcl Console"
+  "Скрыть Tcl консоли"
+
+  "Hide Tcl console"
+  "Скрыть Tcl консоли"
 
   "Hide line numbers"
   "Скрыть числа"
@@ -1181,6 +1181,12 @@ msgcat::mcmset ru {
   "Redo"
   "Вернуть"
 
+  "Reflect CSS Value"
+  "Отражать значение CSS"
+
+  "Reflect current CSS value"
+  "Отражает текущее значение CSS"
+
   "Relative"
   "Относительный"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset ru {
   "Show All Tabs"
   "Показать все вкладки"
 
-  "Show Console"
-  "Показать консоль"
-
   "Show Cursor"
   "Показать Курсор"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset ru {
 
   "Show Tab Bar"
   "Показать Панель вкладок"
+
+  "Show Tcl Console"
+  "Показать консоль Tcl"
+
+  "Show Tcl console"
+  "Показать консоль Tcl"
 
   "Show diagnostic logfile"
   "Показать диагностический лог"
@@ -1890,9 +1899,6 @@ msgcat::mcmset ru {
   "Options"
   "Опции"
 
-  "Parenthesis"
-  "Скобки"
-
   "Profiler Options"
   "Параметры профилировщика"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset ru {
   "Show Move To Trash for local files/directories instead of Delete"
   "Показать переместить в корзину для локальных файлов/каталогов вместо удаления"
 
+  "Show Tcl console at startup"
+  "Показать Tcl консоли при запуске"
+
   "Show bird's eye view"
   "Показать птичьего"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset ru {
 
   "Show folders at top"
   "Показать папки в верхней"
+
+  "Show language submenu"
+  "Показать подменю язык"
 
   "Show menubar"
   "Показать меню"
@@ -2238,6 +2250,80 @@ msgcat::mcmset ru {
 
   "substitutions done"
   "замен сделал"
+
+}
+
+# select.tcl
+msgcat::mcmset ru {
+
+  "Backticks"
+  "Обратные кавычки"
+
+  "Block"
+  "Блок"
+
+  "Curly Brackets"
+  "Фигурные скобки"
+
+  "Double Quotes"
+  "Двойные кавычки"
+
+  "Inner"
+  "Внутренний"
+
+  "Non-Whitespace"
+  "Непробельный"
+
+  "Object Mode"
+  "Режим объекта (Object Mode)"
+
+  "Outer"
+  "Внешний"
+
+  "Paragraph"
+  "Параграф"
+
+  "Select First Child"
+  "Выберите первый ребенок"
+
+  "Select Next"
+  "Выберите Далее."
+
+  "Select Parent"
+  "Выберите родителя"
+
+  "Select Previous"
+  "Выбрать предыдущий"
+
+  "Selection Motion"
+  "Выбор движения"
+
+  "Selection Type"
+  "Тип секции"
+
+  "Sentence"
+  "Предложение"
+
+  "Shift Selection Left"
+  "Выбор сдвига влево"
+
+  "Shift Selection Right"
+  "Выбор сдвиг вправо"
+
+  "Single Quotes"
+  "Одинарные кавычки"
+
+  "Square Brackets"
+  "Квадратные скобки"
+
+  "Swap Selection Anchor"
+  "Своп привязки выделения"
+
+  "Tag"
+  "Тег"
+
+  "Word"
+  "Word"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset ru {
   "Cancel"
   "Отмена"
 
+  "Character"
+  "Символ"
+
   "Check for Update"
   "Проверить обновления"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset ru {
   "Launcher"
   "Пусковая установка"
 
+  "Line"
+  "Строка"
+
   "Move To Trash"
   "Удалить"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset ru {
 
   "Open"
   "Открыть"
+
+  "Parenthesis"
+  "Скобки"
 
   "Plugin"
   "Плагин"
@@ -3109,9 +3204,6 @@ msgcat::mcmset ru {
 
   "Sessions"
   "сессий"
-
-  "Show console"
-  "Показать консоль"
 
   "Show line numbers"
   "Показать номера строк"

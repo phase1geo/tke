@@ -136,6 +136,12 @@ msgcat::mcmset nl {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Afbeelding in fill-in vormen die de vorm UI sluit. Gebruikt in de vorm zoals zoeken, zoeken / vervangen, en vinden van bestanden."
 
+  "Image displayed in find field to search for next match."
+  "De afbeelding die wordt weergegeven in het veld zoeken om te zoeken naar de volgende wedstrijd."
+
+  "Image displayed in find field to search for previous match."
+  "De afbeelding die wordt weergegeven in het veld zoeken om te zoeken naar de vorige wedstrijd."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Afbeelding gebruikt tab menu&#39;s aan te geven dat het bestand is gekoppeld met een verschil weergeven."
 
@@ -207,9 +213,6 @@ msgcat::mcmset nl {
 
   "License"
   "Licentie"
-
-  "Line"
-  "Regel"
 
   "Locked"
   "Afgesloten"
@@ -343,9 +346,6 @@ msgcat::mcmset nl {
 
   "Change working directory"
   "Verandering het werk folder"
-
-  "Character"
-  "Personages"
 
   "Check for update"
   "Controle voor update"
@@ -740,9 +740,6 @@ msgcat::mcmset nl {
   "Hide All Tabs"
   "Alles verbergen"
 
-  "Hide Console"
-  "Verbergen Console"
-
   "Hide Current Tab"
   "Huidig tabblad"
 
@@ -764,8 +761,11 @@ msgcat::mcmset nl {
   "Hide Tab Bar"
   "Hide Tab Bar"
 
-  "Hide console"
-  "Verbergen van de console"
+  "Hide Tcl Console"
+  "Verbergen van Tcl Console"
+
+  "Hide Tcl console"
+  "Verbergen van Tcl console"
 
   "Hide line numbers"
   "Verbergen van regelnummers"
@@ -1181,6 +1181,12 @@ msgcat::mcmset nl {
   "Redo"
   "Opnieuw"
 
+  "Reflect CSS Value"
+  "CSS-waarde weer te geven"
+
+  "Reflect current CSS value"
+  "Huidige CSS-waarde weer te geven"
+
   "Relative"
   "Relatief"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset nl {
   "Show All Tabs"
   "Alle tabbladen weergeven"
 
-  "Show Console"
-  "Show Console"
-
   "Show Cursor"
   "Toon Cursor"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset nl {
 
   "Show Tab Bar"
   "Show Tab Bar"
+
+  "Show Tcl Console"
+  "Toon Tcl Console"
+
+  "Show Tcl console"
+  "Toon Tcl console"
 
   "Show diagnostic logfile"
   "Toon diagnostische logfile"
@@ -1890,9 +1899,6 @@ msgcat::mcmset nl {
   "Options"
   "Opties"
 
-  "Parenthesis"
-  "Haakje"
-
   "Profiler Options"
   "Profiler opties"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset nl {
   "Show Move To Trash for local files/directories instead of Delete"
   "Verplaatsen naar Prullenbak weergeven voor lokale bestanden/mappen in plaats van verwijderen"
 
+  "Show Tcl console at startup"
+  "Tcl console weergeven bij opstarten"
+
   "Show bird's eye view"
   "Luchtfoto"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset nl {
 
   "Show folders at top"
   "Mappen boven weergeven"
+
+  "Show language submenu"
+  "Toon submenu taal"
 
   "Show menubar"
   "Menubalk tonen"
@@ -2238,6 +2250,80 @@ msgcat::mcmset nl {
 
   "substitutions done"
   "vervangingen gedaan"
+
+}
+
+# select.tcl
+msgcat::mcmset nl {
+
+  "Backticks"
+  "Backticks"
+
+  "Block"
+  "Blok"
+
+  "Curly Brackets"
+  "Haakje"
+
+  "Double Quotes"
+  "Dubbele aanhalingstekens"
+
+  "Inner"
+  "Binnen"
+
+  "Non-Whitespace"
+  "Niet-witruimte"
+
+  "Object Mode"
+  "Onderwerp"
+
+  "Outer"
+  "Buitenste"
+
+  "Paragraph"
+  "Alinea (p)"
+
+  "Select First Child"
+  "Selecteer eerste kind"
+
+  "Select Next"
+  "Kies naast <g id=\"
+
+  "Select Parent"
+  "Selecteer verzamelmap"
+
+  "Select Previous"
+  "Vorige tabblad selecteren"
+
+  "Selection Motion"
+  "Selectie Motion"
+
+  "Selection Type"
+  "Selectietype"
+
+  "Sentence"
+  "Zin"
+
+  "Shift Selection Left"
+  "Shift selectie links"
+
+  "Shift Selection Right"
+  "Shift selectie rechts"
+
+  "Single Quotes"
+  "Enkelvoudige aanhalingstekens"
+
+  "Square Brackets"
+  "Vierkante haken"
+
+  "Swap Selection Anchor"
+  "Swap selectie anker"
+
+  "Tag"
+  "Tag"
+
+  "Word"
+  "Woord"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset nl {
   "Cancel"
   "Annuleren"
 
+  "Character"
+  "Personages"
+
   "Check for Update"
   "Zoek naar nieuwe versies"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset nl {
   "Launcher"
   "Launcher"
 
+  "Line"
+  "Regel"
+
   "Move To Trash"
   "In de Prullenbak"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset nl {
 
   "Open"
   "Openen"
+
+  "Parenthesis"
+  "Haakje"
 
   "Plugin"
   "Plugin"
@@ -3109,9 +3204,6 @@ msgcat::mcmset nl {
 
   "Sessions"
   "Sessies"
-
-  "Show console"
-  "Toon console"
 
   "Show line numbers"
   "Regelnummering tonen"

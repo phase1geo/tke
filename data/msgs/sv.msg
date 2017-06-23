@@ -136,6 +136,12 @@ msgcat::mcmset sv {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Bilden visas i fylla former som stänger formuläret UI.  Används i former som Sök, Sök/Ersätt och hitta i filer."
 
+  "Image displayed in find field to search for next match."
+  "Bilden som visas i sökfältet för att söka efter nästa match."
+
+  "Image displayed in find field to search for previous match."
+  "Bilden som visas i sökfältet söka efter föregående match."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Bilden används i fliken menyer för att ange att filen är associerad med en skillnad."
 
@@ -207,9 +213,6 @@ msgcat::mcmset sv {
 
   "License"
   "Licens"
-
-  "Line"
-  "Linje"
 
   "Locked"
   "Spärrad"
@@ -343,9 +346,6 @@ msgcat::mcmset sv {
 
   "Change working directory"
   "Ändra arbetskatalogen"
-
-  "Character"
-  "Teckenattribut"
 
   "Check for update"
   "Sök efter uppdateringar"
@@ -740,9 +740,6 @@ msgcat::mcmset sv {
   "Hide All Tabs"
   "Dölj alla flikar"
 
-  "Hide Console"
-  "Dölj konsol"
-
   "Hide Current Tab"
   "Dölja den aktuella fliken"
 
@@ -764,8 +761,11 @@ msgcat::mcmset sv {
   "Hide Tab Bar"
   "Hide Tab Bar"
 
-  "Hide console"
-  "Dölja konsolen"
+  "Hide Tcl Console"
+  "Dölja Tcl-konsolen"
+
+  "Hide Tcl console"
+  "Dölja Tcl-konsolen"
 
   "Hide line numbers"
   "Dölj radnummer"
@@ -1181,6 +1181,12 @@ msgcat::mcmset sv {
   "Redo"
   "Återställ"
 
+  "Reflect CSS Value"
+  "Återspegla CSS värde"
+
+  "Reflect current CSS value"
+  "Återspegla aktuella CSS värdet"
+
   "Relative"
   "Relativ"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset sv {
   "Show All Tabs"
   "Visa alla flikar"
 
-  "Show Console"
-  "Visa konsol"
-
   "Show Cursor"
   "Visa markören"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset sv {
 
   "Show Tab Bar"
   "Visa Tab Bar"
+
+  "Show Tcl Console"
+  "Visa Tcl konsol"
+
+  "Show Tcl console"
+  "Visa Tcl konsol"
 
   "Show diagnostic logfile"
   "Visa diagnostisk loggfil"
@@ -1890,9 +1899,6 @@ msgcat::mcmset sv {
   "Options"
   "Alternativ"
 
-  "Parenthesis"
-  "Klammer"
-
   "Profiler Options"
   "Alternativ för profiler"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset sv {
   "Show Move To Trash for local files/directories instead of Delete"
   "Visa flytta till papperskorgen för lokala filer/kataloger istället för radera"
 
+  "Show Tcl console at startup"
+  "Visa Tcl-konsolen vid start"
+
   "Show bird's eye view"
   "Visa fågelperspektiv"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset sv {
 
   "Show folders at top"
   "Visa mappar längst upp"
+
+  "Show language submenu"
+  "Visa undermenyn språk"
 
   "Show menubar"
   "Visa menyrad"
@@ -2238,6 +2250,80 @@ msgcat::mcmset sv {
 
   "substitutions done"
   "substitutioner gjort"
+
+}
+
+# select.tcl
+msgcat::mcmset sv {
+
+  "Backticks"
+  "Backticks"
+
+  "Block"
+  "Block"
+
+  "Curly Brackets"
+  "Klammerparenteser"
+
+  "Double Quotes"
+  "Dubbla citationstecken"
+
+  "Inner"
+  "Inre"
+
+  "Non-Whitespace"
+  "Icke-blanktecken"
+
+  "Object Mode"
+  "objekt"
+
+  "Outer"
+  "Yttre"
+
+  "Paragraph"
+  "Stycke"
+
+  "Select First Child"
+  "Välj första barn"
+
+  "Select Next"
+  "Välj nästa flik"
+
+  "Select Parent"
+  "Välj överordnad"
+
+  "Select Previous"
+  "Välj föregående flik"
+
+  "Selection Motion"
+  "Val av Motion"
+
+  "Selection Type"
+  "Sorteringstyp"
+
+  "Sentence"
+  "Mening"
+
+  "Shift Selection Left"
+  "Skift urval vänster"
+
+  "Shift Selection Right"
+  "Skift urval höger"
+
+  "Single Quotes"
+  "Enkla citationstecken"
+
+  "Square Brackets"
+  "Hakparenteser"
+
+  "Swap Selection Anchor"
+  "Swap urval ankare"
+
+  "Tag"
+  "Tag"
+
+  "Word"
+  "Word"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset sv {
   "Cancel"
   "Avbryt"
 
+  "Character"
+  "Teckenattribut"
+
   "Check for Update"
   "Leta efter uppdatering"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset sv {
   "Launcher"
   "Launcher"
 
+  "Line"
+  "Linje"
+
   "Move To Trash"
   "Flytta till papperskorgen"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset sv {
 
   "Open"
   "Öppen"
+
+  "Parenthesis"
+  "Klammer"
 
   "Plugin"
   "Tillägg"
@@ -3109,9 +3204,6 @@ msgcat::mcmset sv {
 
   "Sessions"
   "Sessioner"
-
-  "Show console"
-  "Visa konsolen"
 
   "Show line numbers"
   "Visa radnummer"

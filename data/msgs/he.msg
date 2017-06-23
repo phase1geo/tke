@@ -136,6 +136,12 @@ msgcat::mcmset he {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "התמונה מוצגים במילוי טפסים אשר סוגר את הטופס UI.  שימוש בצורות כגון חיפוש, חיפוש/החלפה, למצוא קבצים."
 
+  "Image displayed in find field to search for next match."
+  "התמונה המוצגת בשדה חיפוש כדי לחפש התאמה הבא."
+
+  "Image displayed in find field to search for previous match."
+  "התמונה המוצגת בשדה חיפוש כדי לחפש התאמה הקודם."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "התמונה בשימוש בתפריטים tab כדי לציין שהקובץ המשויך תצוגה ההבדל."
 
@@ -207,9 +213,6 @@ msgcat::mcmset he {
 
   "License"
   "רישיון"
-
-  "Line"
-  "שורה"
 
   "Locked"
   "נעול"
@@ -343,9 +346,6 @@ msgcat::mcmset he {
 
   "Change working directory"
   "שינוי ספריית עבודה"
-
-  "Character"
-  "גרפמה"
 
   "Check for update"
   "הסימון עבור עדכון"
@@ -740,9 +740,6 @@ msgcat::mcmset he {
   "Hide All Tabs"
   "להסתיר את כל הכרטיסיות"
 
-  "Hide Console"
-  "להסתיר את המסוף"
-
   "Hide Current Tab"
   "כרטיסיה הנוכחית"
 
@@ -764,8 +761,11 @@ msgcat::mcmset he {
   "Hide Tab Bar"
   "הסתר סרגל הלשוניות"
 
-  "Hide console"
-  "להסתיר את המסוף"
+  "Hide Tcl Console"
+  "הסתר Tcl המסוף"
+
+  "Hide Tcl console"
+  "הסתר Tcl המסוף"
 
   "Hide line numbers"
   "הסתר מספרי שורות"
@@ -1181,6 +1181,12 @@ msgcat::mcmset he {
   "Redo"
   "בצע שוב"
 
+  "Reflect CSS Value"
+  "לשקף את ערך CSS"
+
+  "Reflect current CSS value"
+  "לשקף את הערך הנוכחי של CSS"
+
   "Relative"
   "יחסיות"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset he {
   "Show All Tabs"
   "הצג הכול"
 
-  "Show Console"
-  "הצג המסוף"
-
   "Show Cursor"
   "הצג את הסמן"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset he {
 
   "Show Tab Bar"
   "הצג סרגל הלשוניות"
+
+  "Show Tcl Console"
+  "הצג Tcl המסוף"
+
+  "Show Tcl console"
+  "הצג Tcl המסוף"
 
   "Show diagnostic logfile"
   "הצג יומן האבחון"
@@ -1890,9 +1899,6 @@ msgcat::mcmset he {
   "Options"
   "אפשרויות"
 
-  "Parenthesis"
-  "סוגריים"
-
   "Profiler Options"
   "אפשרויות פרופיילר"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset he {
   "Show Move To Trash for local files/directories instead of Delete"
   "הצג להזיז את האשפה עבור הקבצים/הספריות המקומי במקום למחוק"
 
+  "Show Tcl console at startup"
+  "מסוף Tcl הצג באתחול"
+
   "Show bird's eye view"
   "הצג ממעוף הציפור"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset he {
 
   "Show folders at top"
   "הצג תיקיות בחלק העליון"
+
+  "Show language submenu"
+  "הצג את תפריט המשנה שפה"
 
   "Show menubar"
   "הצג שורת תפריטים"
@@ -2238,6 +2250,80 @@ msgcat::mcmset he {
 
   "substitutions done"
   "נעשה החלפות"
+
+}
+
+# select.tcl
+msgcat::mcmset he {
+
+  "Backticks"
+  "Backticks"
+
+  "Block"
+  "בלוק"
+
+  "Curly Brackets"
+  "בסוגריים מסולסלים"
+
+  "Double Quotes"
+  "מרכאות כפולות"
+
+  "Inner"
+  "הפנימי"
+
+  "Non-Whitespace"
+  "שאינו רווח לבן"
+
+  "Object Mode"
+  "אובייקט"
+
+  "Outer"
+  "החיצוני"
+
+  "Paragraph"
+  "פסקה"
+
+  "Select First Child"
+  "בחר הילד הראשון"
+
+  "Select Next"
+  "בחר"
+
+  "Select Parent"
+  "בחר האב"
+
+  "Select Previous"
+  "בחר קודם"
+
+  "Selection Motion"
+  "הבחירה תנועה"
+
+  "Selection Type"
+  "סוג הבחירה"
+
+  "Sentence"
+  "משפט"
+
+  "Shift Selection Left"
+  "Shift הבחירה שמאלה"
+
+  "Shift Selection Right"
+  "Shift הבחירה."
+
+  "Single Quotes"
+  "בגרש יחיד"
+
+  "Square Brackets"
+  "מרובעים"
+
+  "Swap Selection Anchor"
+  "החלפת הבחירה עוגן"
+
+  "Tag"
+  "תגית"
+
+  "Word"
+  "מילה"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset he {
   "Cancel"
   "ביטול"
 
+  "Character"
+  "גרפמה"
+
   "Check for Update"
   "הסימון עבור עדכון"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset he {
   "Launcher"
   "משגר"
 
+  "Line"
+  "שורה"
+
   "Move To Trash"
   "להעביר לפח"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset he {
 
   "Open"
   "לִפְתוֹחַ"
+
+  "Parenthesis"
+  "סוגריים"
 
   "Plugin"
   "תוסף"
@@ -3109,9 +3204,6 @@ msgcat::mcmset he {
 
   "Sessions"
   "הפעלות"
-
-  "Show console"
-  "הצג המסוף"
 
   "Show line numbers"
   "הצג מספרי שורות"

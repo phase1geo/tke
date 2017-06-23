@@ -136,6 +136,12 @@ msgcat::mcmset el {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Εικόνα εμφανίζεται σε μορφές γεμίσματος που κλείνει τη φόρμα UI. Χρησιμοποιείται σε μορφές όπως η αναζήτηση, αναζήτηση / αντικατάσταση, και να βρείτε στα αρχεία."
 
+  "Image displayed in find field to search for next match."
+  "Εικόνα που εμφανίζεται στο πεδίο εύρεσης για την αναζήτηση για το επόμενο ματς."
+
+  "Image displayed in find field to search for previous match."
+  "Εικόνα που εμφανίζεται στο πεδίο Εύρεση για να αναζητήσετε το προηγούμενο ματς."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Εικόνας που χρησιμοποιείται στα μενού tab για να υποδείξει ότι το αρχείο συνδέεται με μια άποψη διαφορά."
 
@@ -207,9 +213,6 @@ msgcat::mcmset el {
 
   "License"
   "Άδεια"
-
-  "Line"
-  "Γραμμή"
 
   "Locked"
   "κλειδωμένος"
@@ -343,9 +346,6 @@ msgcat::mcmset el {
 
   "Change working directory"
   "Κατάλογο εργασίας αλλαγής"
-
-  "Character"
-  "Χαρακτήρας"
 
   "Check for update"
   "Ελέγχου για την ενημερωμένη έκδοση"
@@ -740,9 +740,6 @@ msgcat::mcmset el {
   "Hide All Tabs"
   "Απόκρυψη όλων"
 
-  "Hide Console"
-  "Απόκρυψη Console"
-
   "Hide Current Tab"
   "Απόκρυψη της τρέχουσας καρτέλας"
 
@@ -764,8 +761,11 @@ msgcat::mcmset el {
   "Hide Tab Bar"
   "Απόκρυψη Tab Bar"
 
-  "Hide console"
-  "Απόκρυψη κονσόλα"
+  "Hide Tcl Console"
+  "Απόκρυψη Tcl κονσόλα"
+
+  "Hide Tcl console"
+  "Απόκρυψη Tcl κονσόλα"
 
   "Hide line numbers"
   "Αριθμοί Γραμμής"
@@ -1181,6 +1181,12 @@ msgcat::mcmset el {
   "Redo"
   "Επανάληψη"
 
+  "Reflect CSS Value"
+  "Αντικατοπτρίζουν την αξία CSS"
+
+  "Reflect current CSS value"
+  "Αντικατοπτρίζουν την τρέχουσα αξία του CSS"
+
   "Relative"
   "Σχετική"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset el {
   "Show All Tabs"
   "Εμφάνιση όλων των καρτελών"
 
-  "Show Console"
-  "Εμφάνιση Console"
-
   "Show Cursor"
   "Εμφάνιση δρομέα"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset el {
 
   "Show Tab Bar"
   "Γραμμή καρτελών"
+
+  "Show Tcl Console"
+  "Εμφάνιση Tcl κονσόλα"
+
+  "Show Tcl console"
+  "Εμφάνιση Tcl κονσόλα"
 
   "Show diagnostic logfile"
   "Εμφάνιση διαγνωστικών logfile"
@@ -1890,9 +1899,6 @@ msgcat::mcmset el {
   "Options"
   "Eπιλογές"
 
-  "Parenthesis"
-  "Παρένθεση."
-
   "Profiler Options"
   "Profiler επιλογές"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset el {
   "Show Move To Trash for local files/directories instead of Delete"
   "Εμφάνιση μετακίνηση να απορριμμάτων για τοπικά αρχεία/καταλόγους αντί για διαγράψετε"
 
+  "Show Tcl console at startup"
+  "Κονσόλα Tcl εμφάνιση κατά την εκκίνηση"
+
   "Show bird's eye view"
   "Εμφάνιση πανοραμική θέα"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset el {
 
   "Show folders at top"
   "Εμφάνιση φακέλων στην κορυφή"
+
+  "Show language submenu"
+  "Εμφάνιση υπομενού γλώσσα"
 
   "Show menubar"
   "Εμφάνιση γραμμής μενού"
@@ -2238,6 +2250,80 @@ msgcat::mcmset el {
 
   "substitutions done"
   "αντικαταστάσεις γίνει"
+
+}
+
+# select.tcl
+msgcat::mcmset el {
+
+  "Backticks"
+  "Backticks"
+
+  "Block"
+  "Μπλοκ"
+
+  "Curly Brackets"
+  "Αγκύλες"
+
+  "Double Quotes"
+  "Διπλά εισαγωγικά"
+
+  "Inner"
+  "Εσωτερικό"
+
+  "Non-Whitespace"
+  "Μη-κενό"
+
+  "Object Mode"
+  "Αντικείμενο"
+
+  "Outer"
+  "Εξωτερικό"
+
+  "Paragraph"
+  "Παράγραφος"
+
+  "Select First Child"
+  "Επιλέξτε το πρώτο παιδί"
+
+  "Select Next"
+  "Επιλογή επόμενης καρτέλας"
+
+  "Select Parent"
+  "Επιλογή γονικής υπόθεσης."
+
+  "Select Previous"
+  "Επιλογή προηγούμενης καρτέλας"
+
+  "Selection Motion"
+  "Επιλογή κίνησης"
+
+  "Selection Type"
+  "Επιλογή"
+
+  "Sentence"
+  "Ποινή"
+
+  "Shift Selection Left"
+  "Shift επιλογή αριστερά"
+
+  "Shift Selection Right"
+  "Επιλογή μετατόπιση δεξιά"
+
+  "Single Quotes"
+  "Απλά εισαγωγικά"
+
+  "Square Brackets"
+  "Αγκύλες"
+
+  "Swap Selection Anchor"
+  "Εναλλαγή επιλογής άγκυρα"
+
+  "Tag"
+  "Ετικέτα."
+
+  "Word"
+  "Λέξη"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset el {
   "Cancel"
   "Ακύρωση"
 
+  "Character"
+  "Χαρακτήρας"
+
   "Check for Update"
   "Έλεγχος για ενημέρωση"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset el {
   "Launcher"
   "Προωθητής"
 
+  "Line"
+  "Γραμμή"
+
   "Move To Trash"
   "Μετακίνηση στο καλάθι αχρήστων"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset el {
 
   "Open"
   "Ανοιχτό"
+
+  "Parenthesis"
+  "Παρένθεση."
 
   "Plugin"
   "Πρόσθετο"
@@ -3109,9 +3204,6 @@ msgcat::mcmset el {
 
   "Sessions"
   "συνεδρίες"
-
-  "Show console"
-  "Δείχνουν κονσόλα"
 
   "Show line numbers"
   "Αριθμοί Γραμμής"
