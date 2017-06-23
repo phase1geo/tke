@@ -136,6 +136,12 @@ msgcat::mcmset zh {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "图像显示在填充窗体关闭窗体的用户界面。 用于形式，如搜索，搜索/替换，并在文件中查找。"
 
+  "Image displayed in find field to search for next match."
+  "若要搜索下一个匹配的查找字段中显示的图像。"
+
+  "Image displayed in find field to search for previous match."
+  "要搜索的上一个匹配的查找字段中显示的图像。"
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "在选项卡菜单用于指示该文件是与差异视图相关联的图像。"
 
@@ -207,9 +213,6 @@ msgcat::mcmset zh {
 
   "License"
   "许可证"
-
-  "Line"
-  "线条"
 
   "Locked"
   "已锁定"
@@ -343,9 +346,6 @@ msgcat::mcmset zh {
 
   "Change working directory"
   "改变工作目录"
-
-  "Character"
-  "字符"
 
   "Check for update"
   "檢查更新"
@@ -740,9 +740,6 @@ msgcat::mcmset zh {
   "Hide All Tabs"
   "隐藏所有"
 
-  "Hide Console"
-  "隐藏控制台"
-
   "Hide Current Tab"
   "当前标签页"
 
@@ -764,8 +761,11 @@ msgcat::mcmset zh {
   "Hide Tab Bar"
   "隐藏标签栏"
 
-  "Hide console"
-  "隐藏控制台"
+  "Hide Tcl Console"
+  "隐藏 Tcl 控制台"
+
+  "Hide Tcl console"
+  "隐藏 Tcl 控制台"
 
   "Hide line numbers"
   "行号"
@@ -1181,6 +1181,12 @@ msgcat::mcmset zh {
   "Redo"
   "重複"
 
+  "Reflect CSS Value"
+  "反映了 CSS 值"
+
+  "Reflect current CSS value"
+  "反映当前 CSS 值"
+
   "Relative"
   "亲戚"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset zh {
   "Show All Tabs"
   "显示所有选项卡"
 
-  "Show Console"
-  "显示控制台"
-
   "Show Cursor"
   "显示光标"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset zh {
 
   "Show Tab Bar"
   "显示标签栏"
+
+  "Show Tcl Console"
+  "显示 Tcl 控制台"
+
+  "Show Tcl console"
+  "显示 Tcl 控制台"
 
   "Show diagnostic logfile"
   "显示诊断日志文件"
@@ -1890,9 +1899,6 @@ msgcat::mcmset zh {
   "Options"
   "选项"
 
-  "Parenthesis"
-  "括号"
-
   "Profiler Options"
   "探查器选项"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset zh {
   "Show Move To Trash for local files/directories instead of Delete"
   "显示本地文件/目录而不是删除移到废纸篓"
 
+  "Show Tcl console at startup"
+  "启动时显示 Tcl 控制台"
+
   "Show bird's eye view"
   "俯视图"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset zh {
 
   "Show folders at top"
   "显示在顶部的文件夹"
+
+  "Show language submenu"
+  "显示语言菜单"
 
   "Show menubar"
   "显示菜单栏"
@@ -2238,6 +2250,80 @@ msgcat::mcmset zh {
 
   "substitutions done"
   "换人做"
+
+}
+
+# select.tcl
+msgcat::mcmset zh {
+
+  "Backticks"
+  "反引号"
+
+  "Block"
+  "屏蔽"
+
+  "Curly Brackets"
+  "大括号"
+
+  "Double Quotes"
+  "雙引號"
+
+  "Inner"
+  "内部"
+
+  "Non-Whitespace"
+  "非空白"
+
+  "Object Mode"
+  "对象模式"
+
+  "Outer"
+  "外部"
+
+  "Paragraph"
+  "段落"
+
+  "Select First Child"
+  "选择的第一个孩子"
+
+  "Select Next"
+  "选择下一步。"
+
+  "Select Parent"
+  "選擇父"
+
+  "Select Previous"
+  "选择上一个"
+
+  "Selection Motion"
+  "选择运动"
+
+  "Selection Type"
+  "选择类型"
+
+  "Sentence"
+  "句子"
+
+  "Shift Selection Left"
+  "+/-      换挡选择"
+
+  "Shift Selection Right"
+  "右 shift 选择"
+
+  "Single Quotes"
+  "单引号"
+
+  "Square Brackets"
+  "方括号"
+
+  "Swap Selection Anchor"
+  "选择定位点"
+
+  "Tag"
+  "标签"
+
+  "Word"
+  "字"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset zh {
   "Cancel"
   "取消"
 
+  "Character"
+  "字符"
+
   "Check for Update"
   "检查更新"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset zh {
   "Launcher"
   "发射台"
 
+  "Line"
+  "线条"
+
   "Move To Trash"
   "移动到回收站"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset zh {
 
   "Open"
   "打开"
+
+  "Parenthesis"
+  "括号"
 
   "Plugin"
   "插件"
@@ -3109,9 +3204,6 @@ msgcat::mcmset zh {
 
   "Sessions"
   "會議"
-
-  "Show console"
-  "显示航行控制台"
 
   "Show line numbers"
   "显示行号"

@@ -136,6 +136,12 @@ msgcat::mcmset hu {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "A kép megjelenik a nyomtatványok, amely lezárja a formában UI. Használt formák, mint a keresés, keresés / csere, és megtalálni a fájlokat."
 
+  "Image displayed in find field to search for next match."
+  "Kép jelenik meg a Keresés mező keresés a következő mérkőzést."
+
+  "Image displayed in find field to search for previous match."
+  "Kép jelenik meg a Keresés mező előző egyezés kereséséhez."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Kép használt lap menük, jelezve, hogy a fájl társítva van különbség kilátás."
 
@@ -207,9 +213,6 @@ msgcat::mcmset hu {
 
   "License"
   "Licenc"
-
-  "Line"
-  "Vonal"
 
   "Locked"
   "Zárolt"
@@ -343,9 +346,6 @@ msgcat::mcmset hu {
 
   "Change working directory"
   "Változás működő címtár"
-
-  "Character"
-  "Karakter"
 
   "Check for update"
   "Frissítések keresése most"
@@ -740,9 +740,6 @@ msgcat::mcmset hu {
   "Hide All Tabs"
   "Minden fül elrejtése"
 
-  "Hide Console"
-  "Elrejtése Console"
-
   "Hide Current Tab"
   "Aktuális fül"
 
@@ -764,8 +761,11 @@ msgcat::mcmset hu {
   "Hide Tab Bar"
   "A fülek elrejtése"
 
-  "Hide console"
-  "Konzol elrejtése"
+  "Hide Tcl Console"
+  "Tcl konzolhoz elrejtése"
+
+  "Hide Tcl console"
+  "Tcl konzolhoz elrejtése"
 
   "Hide line numbers"
   "Sorszámok elrejtése"
@@ -1181,6 +1181,12 @@ msgcat::mcmset hu {
   "Redo"
   "Ismét"
 
+  "Reflect CSS Value"
+  "CSS-értéket tükrözi"
+
+  "Reflect current CSS value"
+  "Tükrözi a jelenlegi CSS-értéket"
+
   "Relative"
   "Átlagos"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset hu {
   "Show All Tabs"
   "Minden lapfülek megjelenítése"
 
-  "Show Console"
-  "Megjelenítése Console"
-
   "Show Cursor"
   "Kurzor megjelenítése"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset hu {
 
   "Show Tab Bar"
   "A fülek megjelenítése"
+
+  "Show Tcl Console"
+  "Térkép-Tcl konzol"
+
+  "Show Tcl console"
+  "Térkép-Tcl konzol"
 
   "Show diagnostic logfile"
   "Diagnosztikai naplófájl megjelenítése"
@@ -1890,9 +1899,6 @@ msgcat::mcmset hu {
   "Options"
   "Beállítások"
 
-  "Parenthesis"
-  "Zárójel"
-
   "Profiler Options"
   "A profilozó beállításai:"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset hu {
   "Show Move To Trash for local files/directories instead of Delete"
   "Mutatják, mozog-hoz szemét helyett Delete helyi fájlok/könyvtárak"
 
+  "Show Tcl console at startup"
+  "Térkép-Tcl konzol indításkor"
+
   "Show bird's eye view"
   "Térkép madártávlatból"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset hu {
 
   "Show folders at top"
   "Térkép-mappák tetején"
+
+  "Show language submenu"
+  "Nyelv almenü"
 
   "Show menubar"
   "A menüsáv megjelenítése"
@@ -2238,6 +2250,80 @@ msgcat::mcmset hu {
 
   "substitutions done"
   "helyettesítések tenni"
+
+}
+
+# select.tcl
+msgcat::mcmset hu {
+
+  "Backticks"
+  "Backticks"
+
+  "Block"
+  "Blokk"
+
+  "Curly Brackets"
+  "Kapcsos zárójelekkel"
+
+  "Double Quotes"
+  "Kettős idézőjelek"
+
+  "Inner"
+  "Belül"
+
+  "Non-Whitespace"
+  "Nem-Whitespace"
+
+  "Object Mode"
+  "Tárgy"
+
+  "Outer"
+  "Kívül"
+
+  "Paragraph"
+  "Bekezdés"
+
+  "Select First Child"
+  "Válassza ki az első gyermek"
+
+  "Select Next"
+  "Következő lap"
+
+  "Select Parent"
+  "Szülő kiválasztása"
+
+  "Select Previous"
+  "Előző lap"
+
+  "Selection Motion"
+  "Mozgás kiválasztása"
+
+  "Selection Type"
+  "Kijelölés típusa"
+
+  "Sentence"
+  "Ítélet"
+
+  "Shift Selection Left"
+  "SHIFT kijelölés bal"
+
+  "Shift Selection Right"
+  "Jobb SHIFT-válogatás"
+
+  "Single Quotes"
+  "Egyszeres idézőjelek"
+
+  "Square Brackets"
+  "Szögletes zárójel"
+
+  "Swap Selection Anchor"
+  "Swap kiválasztási horgony"
+
+  "Tag"
+  "Címke"
+
+  "Word"
+  "Szó"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset hu {
   "Cancel"
   "Mégsem"
 
+  "Character"
+  "Karakter"
+
   "Check for Update"
   "Ellenőrizze a Frissítés"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset hu {
   "Launcher"
   "Rakétaindító állvány"
 
+  "Line"
+  "Vonal"
+
   "Move To Trash"
   "Kukába mozgatás"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset hu {
 
   "Open"
   "Nyissa"
+
+  "Parenthesis"
+  "Zárójel"
 
   "Plugin"
   "Bővítmény"
@@ -3109,9 +3204,6 @@ msgcat::mcmset hu {
 
   "Sessions"
   "Ülések"
-
-  "Show console"
-  "Térkép-konzol"
 
   "Show line numbers"
   "A sorszámok megjelenítése"

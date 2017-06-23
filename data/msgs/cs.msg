@@ -136,6 +136,12 @@ msgcat::mcmset cs {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Obrazy zobrazené v fill-in formách, které uzavírá formuláře UI. Používá se ve formách, jako je vyhledávání, hledání / nahrazování, a najít v souborech."
 
+  "Image displayed in find field to search for next match."
+  "Obrázek zobrazený v poli najít, hledat pro příští zápas."
+
+  "Image displayed in find field to search for previous match."
+  "Obrázek zobrazený v poli Najít vyhledejte předchozí zápas."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Obrázek použitý v záložce nabídkách znamená, že soubor je spojen s cílem rozdíl."
 
@@ -207,9 +213,6 @@ msgcat::mcmset cs {
 
   "License"
   "Licence"
-
-  "Line"
-  "Linka"
 
   "Locked"
   "zamčený, zamknutý"
@@ -343,9 +346,6 @@ msgcat::mcmset cs {
 
   "Change working directory"
   "Změnit pracovní adresář"
-
-  "Character"
-  "Postava"
 
   "Check for update"
   "Kontrola aktualizací"
@@ -740,9 +740,6 @@ msgcat::mcmset cs {
   "Hide All Tabs"
   "Skrýt všechny karty"
 
-  "Hide Console"
-  "Skrýt konzole"
-
   "Hide Current Tab"
   "Skrýt aktuální kartu"
 
@@ -764,8 +761,11 @@ msgcat::mcmset cs {
   "Hide Tab Bar"
   "Skrýt liště"
 
-  "Hide console"
-  "Skrýt konzole"
+  "Hide Tcl Console"
+  "Skrýt Tcl konzole"
+
+  "Hide Tcl console"
+  "Skrýt Tcl konzole"
 
   "Hide line numbers"
   "Skrýt čísla řádek"
@@ -1181,6 +1181,12 @@ msgcat::mcmset cs {
   "Redo"
   "Zrušit vrácení akce"
 
+  "Reflect CSS Value"
+  "Odrážejí hodnota šablon stylů CSS"
+
+  "Reflect current CSS value"
+  "Odrážejí aktuální hodnota šablon stylů CSS"
+
   "Relative"
   "Relativní"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset cs {
   "Show All Tabs"
   "Zobrazit všechny karty"
 
-  "Show Console"
-  "Zobrazit Console"
-
   "Show Cursor"
   "Show Cursor"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset cs {
 
   "Show Tab Bar"
   "Zobrazit Tab Bar"
+
+  "Show Tcl Console"
+  "Zobrazit Tcl konzole"
+
+  "Show Tcl console"
+  "Zobrazit Tcl konzole"
 
   "Show diagnostic logfile"
   "Zobrazit diagnostického protokolu"
@@ -1890,9 +1899,6 @@ msgcat::mcmset cs {
   "Options"
   "Možnosti"
 
-  "Parenthesis"
-  "Závorky"
-
   "Profiler Options"
   "Profiler možnosti"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset cs {
   "Show Move To Trash for local files/directories instead of Delete"
   "Zobrazit pro místní soubory/adresáře namísto odstranění přesunout do koše"
 
+  "Show Tcl console at startup"
+  "Při spuštění zobrazit Tcl konzole"
+
   "Show bird's eye view"
   "Nadhled"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset cs {
 
   "Show folders at top"
   "Zobrazit složky na vrcholu"
+
+  "Show language submenu"
+  "Zobrazit podnabídka jazyk"
 
   "Show menubar"
   "Zobrazit hlavní nabídku"
@@ -2238,6 +2250,80 @@ msgcat::mcmset cs {
 
   "substitutions done"
   "substituce hotovo"
+
+}
+
+# select.tcl
+msgcat::mcmset cs {
+
+  "Backticks"
+  "Zpětných apostrofů"
+
+  "Block"
+  "Blok textu"
+
+  "Curly Brackets"
+  "Složené závorky"
+
+  "Double Quotes"
+  "Dvojité uvozovky"
+
+  "Inner"
+  "Vnitřní"
+
+  "Non-Whitespace"
+  "Bez mezer"
+
+  "Object Mode"
+  "Objekt"
+
+  "Outer"
+  "Vnější"
+
+  "Paragraph"
+  "Odstavec"
+
+  "Select First Child"
+  "Vyberte první dítě"
+
+  "Select Next"
+  "Vybrat"
+
+  "Select Parent"
+  "vybrat rodiče"
+
+  "Select Previous"
+  "Vyberte předchozí řádek"
+
+  "Selection Motion"
+  "Výběr pohybu"
+
+  "Selection Type"
+  "Výběr"
+
+  "Sentence"
+  "Souvětí"
+
+  "Shift Selection Left"
+  "Posunout výběr doleva"
+
+  "Shift Selection Right"
+  "Posunout výběr doprava"
+
+  "Single Quotes"
+  "Jednoduché uvozovky"
+
+  "Square Brackets"
+  "Hranaté závorky"
+
+  "Swap Selection Anchor"
+  "Odkládací výběru kotva"
+
+  "Tag"
+  "Tag"
+
+  "Word"
+  "Slovo"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset cs {
   "Cancel"
   "Storno"
 
+  "Character"
+  "Postava"
+
   "Check for Update"
   "Zkontrolujte, zda aktualizaci"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset cs {
   "Launcher"
   "spouštěč"
 
+  "Line"
+  "Linka"
+
   "Move To Trash"
   "Přesunout do koše"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset cs {
 
   "Open"
   "Open"
+
+  "Parenthesis"
+  "Závorky"
 
   "Plugin"
   "Plugin"
@@ -3109,9 +3204,6 @@ msgcat::mcmset cs {
 
   "Sessions"
   "Návt?vy"
-
-  "Show console"
-  "Zobrazit konzole"
 
   "Show line numbers"
   "Zobrazovat čísla řádků"

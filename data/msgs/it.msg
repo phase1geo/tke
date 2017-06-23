@@ -136,6 +136,12 @@ msgcat::mcmset it {
   "Image displayed in fill-in forms which closes the form UI.  Used in forms such as search, search/replace, and find in files."
   "Immagine visualizzata in forme fill-in che chiude l&#39;interfaccia utente modulo. Utilizzato in forme quali la ricerca, ricerca / sostituzione, e trovare nei file."
 
+  "Image displayed in find field to search for next match."
+  "Immagine visualizzata nel campo di ricerca per cercare la corrispondenza successiva."
+
+  "Image displayed in find field to search for previous match."
+  "Immagine visualizzata nel campo di ricerca per cercare la corrispondenza precedente."
+
   "Image used in tab menus to indicate that the file is associated with a difference view."
   "Immagine utilizzata nei menu scheda per indicare che il file è associato con una vista differenza."
 
@@ -207,9 +213,6 @@ msgcat::mcmset it {
 
   "License"
   "Lidcenza"
-
-  "Line"
-  "Linea"
 
   "Locked"
   "Bloccato"
@@ -343,9 +346,6 @@ msgcat::mcmset it {
 
   "Change working directory"
   "Cambia la cartella di lavoro"
-
-  "Character"
-  "Carattere"
 
   "Check for update"
   "Controlla aggiornamenti"
@@ -740,9 +740,6 @@ msgcat::mcmset it {
   "Hide All Tabs"
   "Nascondere tutti"
 
-  "Hide Console"
-  "Hide Console"
-
   "Hide Current Tab"
   "Scheda Corrente"
 
@@ -764,8 +761,11 @@ msgcat::mcmset it {
   "Hide Tab Bar"
   "Hide Tab Bar"
 
-  "Hide console"
-  "Nascondere la console"
+  "Hide Tcl Console"
+  "Nascondere la Console di Tcl"
+
+  "Hide Tcl console"
+  "Nascondere la console di Tcl"
 
   "Hide line numbers"
   "Mostra i numeri di riga"
@@ -1181,6 +1181,12 @@ msgcat::mcmset it {
   "Redo"
   "Ripeti"
 
+  "Reflect CSS Value"
+  "Riflettere il valore CSS"
+
+  "Reflect current CSS value"
+  "Riflettere il valore corrente di CSS"
+
   "Relative"
   "Relativo"
 
@@ -1361,9 +1367,6 @@ msgcat::mcmset it {
   "Show All Tabs"
   "Mostra tutte le schede"
 
-  "Show Console"
-  "Mostra console"
-
   "Show Cursor"
   "Mostra cursore"
 
@@ -1399,6 +1402,12 @@ msgcat::mcmset it {
 
   "Show Tab Bar"
   "Mostra barra delle schede@info:whatsthis"
+
+  "Show Tcl Console"
+  "Visualizza Tcl Console"
+
+  "Show Tcl console"
+  "Visualizza Tcl console"
 
   "Show diagnostic logfile"
   "File di registro Diagnostica;"
@@ -1890,9 +1899,6 @@ msgcat::mcmset it {
   "Options"
   "Opzioni"
 
-  "Parenthesis"
-  "Parentesi"
-
   "Profiler Options"
   "Opzioni del profiler:"
 
@@ -1986,6 +1992,9 @@ msgcat::mcmset it {
   "Show Move To Trash for local files/directories instead of Delete"
   "Visualizza sposta nel cestino per file/directory locali anziché Elimina"
 
+  "Show Tcl console at startup"
+  "Visualizza Tcl console all'avvio"
+
   "Show bird's eye view"
   "angolazione a volo d'uccello; angolazione dall'alto"
 
@@ -2000,6 +2009,9 @@ msgcat::mcmset it {
 
   "Show folders at top"
   "Mostra cartelle nella superiore"
+
+  "Show language submenu"
+  "Sottomenu Lingua italiana"
 
   "Show menubar"
   "Mostra barra dei menu"
@@ -2238,6 +2250,80 @@ msgcat::mcmset it {
 
   "substitutions done"
   "sostituzioni di fatto"
+
+}
+
+# select.tcl
+msgcat::mcmset it {
+
+  "Backticks"
+  "Accento grave"
+
+  "Block"
+  "Blocco"
+
+  "Curly Brackets"
+  "Parentesi"
+
+  "Double Quotes"
+  "Doppi apici"
+
+  "Inner"
+  "Interno"
+
+  "Non-Whitespace"
+  "Non di spaziatura"
+
+  "Object Mode"
+  "Modalità oggetto"
+
+  "Outer"
+  "Esterno"
+
+  "Paragraph"
+  "Paragrafo"
+
+  "Select First Child"
+  "Selezionare il primo figlio"
+
+  "Select Next"
+  "Selezionare NEXT"
+
+  "Select Parent"
+  "Seleziona principale"
+
+  "Select Previous"
+  "\"
+
+  "Selection Motion"
+  "Movimento di selezione"
+
+  "Selection Type"
+  "Tipo selezione"
+
+  "Sentence"
+  "Pen."
+
+  "Shift Selection Left"
+  "Selezione di spostamento a sinistra"
+
+  "Shift Selection Right"
+  "Selezione MAIUSC destra"
+
+  "Single Quotes"
+  "Singoli apici"
+
+  "Square Brackets"
+  "Parentesi quadre"
+
+  "Swap Selection Anchor"
+  "Ancoraggio di selezione di swap"
+
+  "Tag"
+  "Etichetta"
+
+  "Word"
+  "Parola"
 
 }
 
@@ -2999,6 +3085,9 @@ msgcat::mcmset it {
   "Cancel"
   "Cancella"
 
+  "Character"
+  "Carattere"
+
   "Check for Update"
   "Ricerca aggiornamenti"
 
@@ -3065,6 +3154,9 @@ msgcat::mcmset it {
   "Launcher"
   "Utilità di avvio"
 
+  "Line"
+  "Linea"
+
   "Move To Trash"
   "Sposta nel cestino@action:inmenu"
 
@@ -3082,6 +3174,9 @@ msgcat::mcmset it {
 
   "Open"
   "Aprire il regalo"
+
+  "Parenthesis"
+  "Parentesi"
 
   "Plugin"
   "Plugin"
@@ -3109,9 +3204,6 @@ msgcat::mcmset it {
 
   "Sessions"
   "Sessioni"
-
-  "Show console"
-  "Mostra console"
 
   "Show line numbers"
   "Mostra i numeri di riga"
