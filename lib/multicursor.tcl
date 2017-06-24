@@ -794,12 +794,12 @@ namespace eval multicursor {
     variable selected
 
     # If the number string is a decimal number without a preceding 'd' character, add it now
-    if {[set d_added [regexp {^[0-9]+$} $numstr]]} {
+    if {[set d_added [regexp {^[0-9]+([+-]\d*)?$} $numstr]]} {
       set numstr "d$numstr"
     }
 
     # Parse the number string to verify that it's valid
-    if {[regexp {^(.*)((b[0-1]*)|(d[0-9]*)|(o[0-7]*)|([xh][0-9a-fA-F]*))$} $numstr -> prefix numstr]} {
+    if {[regexp -nocase {^(.*)(b[0-1]*|d[0-9]*|o[0-7]*|[xh][0-9a-fA-F]*)([+-]\d*)?$} $numstr -> prefix numstr increment]} {
 
       # Get the cursors
       set mcursors [lreverse [$txt tag ranges mcursor]]
@@ -822,37 +822,53 @@ namespace eval multicursor {
         set num 0
       }
 
+      # Initialize the value of increment if it was not specified by the user explicitly
+      if {$increment eq ""} {
+        set increment "+1"
+      } elseif {$increment eq "+"} {
+        set increment "+1"
+      } elseif {$increment eq "-"} {
+        set increment "-1"
+      }
+
+      # Calculate the num and increment values
+      if {[string index $increment 0] eq "+"} {
+        set increment [string range $increment 1 end]
+        set num       [expr $num + (($num_mcursors - 1) * $increment)]
+        set increment "-$increment"
+      } else {
+        set increment [string range $increment 1 end]
+        set num       [expr $num - (($num_mcursors - 1) * $increment)]
+        set increment "+$increment"
+      }
+
       # Handle the value insertions
       switch [string tolower [string index $numstr 0]] {
         b {
-          set num [expr 0b$num + ($num_mcursors - 1)]
           foreach {end start} $mcursors {
             set binRep [binary format c $num]
             binary scan $binRep B* binStr
-            $txt insert $start [format "%s%s%s%s" $prefix [string index $numstr 0] [string trimleft [string range $binStr 0 end-1] 0] [string index $binStr end]]
-            incr num -1
+            $txt insert $start [format "%s%s%s" $prefix [string trimleft [string range $binStr 0 end-1] 0] [string index $binStr end]]
+            incr num $increment
           }
         }
         d {
-          set num [expr $num + ($num_mcursors - 1)]
           foreach {end start} $mcursors {
-            $txt insert $start [format "%s%s%d" $prefix [expr {$d_added ? "" : [string index $numstr 0]}] $num]
-            incr num -1
+            $txt insert $start [format "%s%d" $prefix $num]
+            incr num $increment
           }
         }
         o {
-          set num [expr 0o$num + ($num_mcursors - 1)]
           foreach {end start} $mcursors {
-            $txt insert $start [format "%s%s%o" $prefix [string index $numstr 0] $num]
-            incr num -1
+            $txt insert $start [format "%s%o" $prefix $num]
+            incr num $increment
           }
         }
         h -
         x {
-          set num [expr 0x$num + ($num_mcursors - 1)]
           foreach {end start} $mcursors {
-            $txt insert $start [format "%s%s%x" $prefix [string index $numstr 0] $num]
-            incr num -1
+            $txt insert $start [format "%s%x" $prefix $num]
+            incr num $increment
           }
         }
       }
