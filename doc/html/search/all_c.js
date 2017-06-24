@@ -48,5 +48,6 @@ var searchData=
   ['lookup_5fabbr_5falias',['lookup_abbr_alias',['../namespaceemmet.html#afd151a36f9c985e33235b91465950e1d',1,'emmet']]],
   ['lookup_5falias_5fhelper',['lookup_alias_helper',['../namespaceemmet.html#a21335560483bfa6f61d73847b1fc9cb7',1,'emmet']]],
   ['lookup_5fnode_5falias',['lookup_node_alias',['../namespaceemmet.html#a01d8ba625f12b558d6fd2b3280932ed2',1,'emmet']]],
+  ['lower_5fcase',['lower_case',['../namespaceapi_1_1edit.html#a07ec74a4b972f363d53d5aff57ee2cc5',1,'api::edit::lower_case()'],['../namespacemulticursor.html#adc623d14447bec043d9be218e571f4ec',1,'multicursor::lower_case()']]],
   ['lshift_5fbetween_5fchar',['lshift_between_char',['../namespaceedit.html#abfb52302b1389f942af8897585056091',1,'edit']]]
 ];

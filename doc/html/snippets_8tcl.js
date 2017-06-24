@@ -11,7 +11,7 @@ var snippets_8tcl =
     [ "handle_destroy_txt", "snippets_8tcl.html#ab3010b3f92507e4ed2f3a0d3f6cd95f1", null ],
     [ "handle_tab", "snippets_8tcl.html#a9a6837768e150745baf1e5ca0bd8e3af", null ],
     [ "insert_snippet", "snippets_8tcl.html#a04bac3f347d62726f180d91be3df1cbc", null ],
-    [ "insert_snippet_into_current", "snippets_8tcl.html#aa4bf221222169db9982aa10df77e1f85", null ],
+    [ "insert_snippet_into_current", "snippets_8tcl.html#a59c459010f4f70d5af4652e189d324aa", null ],
     [ "load", "snippets_8tcl.html#a853068728f790d9b70c520193eeb4474", null ],
     [ "load_list", "snippets_8tcl.html#a7290686035b9e41e3d8605cfc218f31a", null ],
     [ "parse_snippet", "snippets_8tcl.html#adf9345c9ac1d550664596b6b1b68b45a", null ],
