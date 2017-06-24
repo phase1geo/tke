@@ -30,22 +30,74 @@ To provide additional functionality to the user, Vim command extensions have bee
 
 When the ‘#’ Vim command is entered after multiple cursors have been set, an entry field called  “Starting number:” will be displayed, allowing you to specify the numerical value to insert at the first cursor position. TKE will parse that number and use it for calculating all subsequent cursor positions, incrementing the value by one for each cursor. The following are valid starting number representations:
 
-- _prefix_ [0-9]+
+- _prefix_[0-9]+([**+-**][0-9]\*)
 	- Inserts prefix followed by a decimal value.
+	- If a plus (+) or minus (-) character follows the starting value, the enumeration will increase or decrease by the number following this character. If no number is specified after the +/-, a value of 1 will be assumed.
 
-- _prefix_**d**[0-9]+
-	- Inserts prefix followed by a decimal value preceded by “d”
+- _prefix_**d**[0-9]+([**+-**][0-9]\*)
+	- Inserts prefix followed by a decimal value.
+	- If a plus (+) or minus (-) character follows the starting value, the enumeration will increase or decrease by the number following this character. If no number is specified after the +/-, a value of 1 will be assumed.
 
-- _prefix_**b**[0-1]+
-	- Inserts prefix followed by a binary value preceded by “b”
+- _prefix_**b**[0-1]+([**+-**][0-9]\*)
+	- Inserts prefix followed by a binary value.
+	- If a plus (+) or minus (-) character follows the starting value, the enumeration will increase or decrease by the number following this character. If no number is specified after the +/-, a value of 1 will be assumed.
 
-- _prefix_**o**[0-7]+
-	- Inserts prefix followed by an octal value preceded by “o”
+- _prefix_**o**[0-7]+([**+-**][0-9]\*)
+	- Inserts prefix followed by an octal value.
+	- If a plus (+) or minus (-) character follows the starting value, the enumeration will increase or decrease by the number following this character. If no number is specified after the +/-, a value of 1 will be assumed.
 
-- _prefix_[**xh**][0-9a-fA-F]+
-	- Inserts prefix followed by a hexadecimal value preceded by either “x” or “h”.
+- _prefix_[**xh**][0-9a-fA-F]+([**+-**][0-9]\*)
+	- Inserts prefix followed by a hexadecimal value.
+	- If a plus (+) or minus (-) character follows the starting value, the enumeration will increase or decrease by the number following this character. If no number is specified after the +/-, a value of 1 will be assumed.
 
 Note: If a value is not specified, a value of zero is assumed.
+
+Some examples, suppose we have the following code that we need to enumerate, placing the numerical value after the string "Line " in each line:
+
+	 Line 
+	 Line 
+	 Line 
+
+**Example 1:**   Start at decimal zero and increment each by one.
+
+Command = "0"
+
+	Line 0
+	Line 1
+	Line 2
+
+**Example 2:**  Start a hexadecimal value 14 and increment each by one, outputting in hexadecimal format.
+
+Command = "0xxe"
+
+	Line 0xe
+	Line 0xf
+	Line 0x10
+
+**Example 3:**  Start at binary value 1 and increment by one, outputting a binary value without a prefix.
+
+Command = "b1"
+
+	Line 1
+	Line 10
+	Line 11
+
+**Example 4:**  Start at decimal 0 and increment by 10.
+
+Command = "0+10"
+
+	Line 0
+	Line 10
+	Line 20
+
+**Example 5:**  Start at octal value 8 and decrement by 2, outputting an octal value with a prefix of "0o".
+
+Command = "0oo10-2"
+
+	Line 0o10
+	Line 0o6
+	Line Oo4
+
 
 ### String/Bracket Insertion
 
@@ -73,7 +125,6 @@ Note: If a value is not specified, a value of zero is assumed.
 | **dN** | Deletes all preceding characters that are numbers. |
 | **ds** | Deletes all subsequent space and tab characters. |
 | **dS** | Deletes all preceding space and tab characters. |
-
 
 
 
