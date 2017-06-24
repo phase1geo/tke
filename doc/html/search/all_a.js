@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['join_5flines',['join_lines',['../namespaceapi_1_1edit.html#ac942f75d8b76ba826d60cf9861e2a72b',1,'api::edit']]],
   ['jump_5fto',['jump_to',['../namespacefolding.html#a77fba06c490d749158d637bb4a0105f4',1,'folding::jump_to()'],['../namespacegui.html#ad5bb3792a052a5b13f4b90cd97f1a16f',1,'gui::jump_to()']]],
   ['jump_5fto_5fcursor',['jump_to_cursor',['../namespacegui.html#a54ee4801ba3787e693376e8e592dc358',1,'gui']]],
   ['jump_5fto_5fdifference',['jump_to_difference',['../namespacegui.html#a4ec9af3b22bbeb2f7379defd917cd140',1,'gui']]],

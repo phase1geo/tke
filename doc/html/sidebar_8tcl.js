@@ -26,6 +26,7 @@ var sidebar_8tcl =
     [ "get_info", "sidebar_8tcl.html#ad424cbb9b22c4406b2e70458c2f3b915", null ],
     [ "get_last_opened", "sidebar_8tcl.html#adb0d706d2b94165569eaedf76a7429e0", null ],
     [ "get_menu_states", "sidebar_8tcl.html#aceafd3bf01c5dfeb30df54fda55dcc68", null ],
+    [ "get_opened_dirs", "sidebar_8tcl.html#a3de090e0c36a65edb7a7bd4a01848677", null ],
     [ "get_selected_indices", "sidebar_8tcl.html#a406718b8f64a31953c1adedf8840f5c4", null ],
     [ "get_shown_files", "sidebar_8tcl.html#a2bd4252ff59dc810ab45cf9eba62da33", null ],
     [ "handle_any", "sidebar_8tcl.html#af336436bee2db8a8d76f139b2cd43c68", null ],

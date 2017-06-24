@@ -31,6 +31,7 @@ var namespaces =
     [ "remote", "namespaceremote.html", null ],
     [ "scroller", "namespacescroller.html", null ],
     [ "search", "namespacesearch.html", null ],
+    [ "select", "namespaceselect.html", null ],
     [ "sessions", "namespacesessions.html", null ],
     [ "share", "namespaceshare.html", null ],
     [ "sidebar", "namespacesidebar.html", null ],

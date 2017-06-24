@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">3.0</span>
+   &#160;<span id="projectnumber">3.2</span>
    </div>
    <div id="projectbrief">Advanced code editor for programmers</div>
   </td>
@@ -207,6 +207,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>select_current()
 : <a class="el" href="namespacesearch.html#ac72cc2112e677c1e365bedca1f2adf7a">search</a>
 </li>
+<li>select_html_attr_value()
+: <a class="el" href="namespaceemmet.html#a1474159979dbd92e137b62e09d93ca36">emmet</a>
+</li>
+<li>select_html_item()
+: <a class="el" href="namespaceemmet.html#a7f89a6649620c4377507235eb80a9dd4">emmet</a>
+</li>
+<li>select_item()
+: <a class="el" href="namespaceemmet.html#a1eda1d506a3bf9ea9f87cf4cf54d4c92">emmet</a>
+, <a class="el" href="namespaceemmet__css.html#ad32f380d000b9ed7fa8a61bcecb2384c">emmet_css</a>
+, <a class="el" href="namespacemenus.html#a61544fdbe62122082d86afd6f4462e21">menus</a>
+</li>
 <li>select_line()
 : <a class="el" href="namespacegui.html#a4e0de3ffde2b315045f1887fc2a5c52c">gui</a>
 </li>
@@ -215,6 +226,12 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 </li>
 <li>select_motion()
 : <a class="el" href="namespacelauncher.html#a873b1ea71220dbe075587aaab76f7c02">launcher</a>
+</li>
+<li>select_property_token()
+: <a class="el" href="namespaceemmet__css.html#a5c67fb9a892582d69994ada5c64280fc">emmet_css</a>
+</li>
+<li>select_property_value()
+: <a class="el" href="namespaceemmet__css.html#ac0de5685999dbe55398968468f3d7371">emmet_css</a>
 </li>
 <li>select_search()
 : <a class="el" href="namespacethemer.html#a6b8fc58f306418d1f9204f53e9a19c76">themer</a>
@@ -369,12 +386,18 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>set_info_message()
 : <a class="el" href="namespacegui.html#a59617d0cfa5b8d9a709093ed829a4ced">gui</a>
 </li>
+<li>set_item_state()
+: <a class="el" href="namespaceselect.html#a67ee674fe9ccfc2632cdd55e16054f99">select</a>
+</li>
 <li>set_language()
 : <a class="el" href="namespacesnippets.html#aab23ac4444d1d8d1fedbe5e57a6388ba">snippets</a>
 , <a class="el" href="namespacesyntax.html#a6a71efc5a5bb3f9d5e14fbd60c0458ed">syntax</a>
 </li>
 <li>set_language_section()
 : <a class="el" href="namespacesyntax.html#a2dd46fee28a024792b373e9482788754">syntax</a>
+</li>
+<li>set_last_selection()
+: <a class="el" href="namespacevim.html#adb4d24e7db39c2ab975693ab18447303">vim</a>
 </li>
 <li>set_line_number_view()
 : <a class="el" href="namespacegui.html#a45e6568268570709ab8b4182446c8912">gui</a>
@@ -403,6 +426,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>set_nfs_mounts()
 : <a class="el" href="namespacepref__ui.html#a52ac56ea79e2b939e3ccfea3ff8a4906">pref_ui</a>
 </li>
+<li>set_operator()
+: <a class="el" href="namespacevim.html#a6d3728f0322b1f933915acd79b9af923">vim</a>
+</li>
 <li>set_pane_sync()
 : <a class="el" href="namespacegui.html#a1bb621345e8bdfb4620d1243c0f3fc78">gui</a>
 </li>
@@ -412,11 +438,17 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>set_release_type()
 : <a class="el" href="namespacepref__ui.html#a5a7cf5a7ae0159d5f1b221849e621005">pref_ui</a>
 </li>
+<li>set_rmargin()
+: <a class="el" href="namespacectext.html#a2621085dc26cba930e97de5bf14a0d31">ctext</a>
+</li>
 <li>set_search_data()
 : <a class="el" href="namespacegui.html#a7b3a9bcdee4e51a923caa70a4bdc7260">gui</a>
 </li>
 <li>set_select_anchors()
 : <a class="el" href="namespacevim.html#a06098d613d983c075362d5a670d32999">vim</a>
+</li>
+<li>set_select_mode()
+: <a class="el" href="namespaceselect.html#a354b4095a2b74018de2955b9314ef557">select</a>
 </li>
 <li>set_selections()
 : <a class="el" href="namespacebist.html#aeb3bc7550d24c2eda21c8405ea6e1d05">bist</a>
@@ -523,6 +555,9 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 , <a class="el" href="namespacetemplates.html#a461deb9f3adaa4e5b351285fed2d1565">templates</a>
 , <a class="el" href="namespacethemes.html#a1d1b4545b355ab661342291d069ee5e7">themes</a>
 </li>
+<li>shift()
+: <a class="el" href="namespacemulticursor.html#a90dc96775fff429c2503d74bfe673236">multicursor</a>
+</li>
 <li>shortcut_cancel()
 : <a class="el" href="namespacepref__ui.html#a19da2578195cc2c3b08524a692a01104">pref_ui</a>
 </li>
@@ -579,7 +614,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespacegui.html#a863bfe8f0f73fa5da1714999537997db">gui</a>
 </li>
 <li>show_birdseye()
-: <a class="el" href="namespacegui.html#a89748f0714f538517dab54806c94bb8a">gui</a>
+: <a class="el" href="namespacegui.html#a8f71eb1bdad936fdb400704abc83d277">gui</a>
 </li>
 <li>show_cliphist()
 : <a class="el" href="namespacecliphist.html#ac305b6a8c5f0817e063ffca34fa719bb">cliphist</a>
@@ -682,7 +717,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespacesnippets.html#a5348ebed8358e2881ba8abe915a34da1">snippets</a>
 </li>
 <li>show_split_pane()
-: <a class="el" href="namespacegui.html#a80ecebf1834520e27fd8e7045132628d">gui</a>
+: <a class="el" href="namespacegui.html#ac5021dd3be7974a8c2068c60242e582b">gui</a>
 </li>
 <li>show_status_view()
 : <a class="el" href="namespacegui.html#ac6fc4c114b35f7cc9d11241a7b686068">gui</a>
@@ -764,11 +799,11 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <li>sort_tabs()
 : <a class="el" href="namespacegui.html#a5cc6240a08f4a62bf1427aa3108d3e41">gui</a>
 </li>
+<li>split_join_tag()
+: <a class="el" href="namespaceemmet.html#acd5fad98e7343426dc8e5246d69f2408">emmet</a>
+</li>
 <li>stacktrace()
 : <a class="el" href="namespaceutils.html#a37bb69c30961eae2ef7cab8c309ee87e">utils</a>
-</li>
-<li>start_mode()
-: <a class="el" href="namespacevim.html#add653ec402a0636b07cdbb51ca1a24aa">vim</a>
 </li>
 <li>start_open_frame()
 : <a class="el" href="namespacethemer.html#abafe191483e2ec377b53e5cd3971576a">themer</a>
@@ -804,10 +839,10 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 : <a class="el" href="namespacelauncher.html#a5590602976fbb0553d7060879c18ab39">launcher</a>
 </li>
 <li>sync_birdseye()
-: <a class="el" href="namespacegui.html#a004b57dd5e586fc0d842975bf2a42941">gui</a>
+: <a class="el" href="namespacegui.html#a5c376b2df6b9ce382d8caaac78cecb3d">gui</a>
 </li>
 <li>sync_birdseye_helper()
-: <a class="el" href="namespacegui.html#a1f6c348bf83b319dcc252644ef648d47">gui</a>
+: <a class="el" href="namespacegui.html#a4b80343628b7b6ac11591c85a441e8d2">gui</a>
 </li>
 <li>sync_panes()
 : <a class="el" href="namespacemenus.html#aeb0d30b4eeb5e61b1ff5bfcd0cc6caee">menus</a>
@@ -830,7 +865,7 @@ $(document).ready(function(){initNavTree('namespacemembers_func_s.html','');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sun Apr 2 2017 17:27:01 for TKE by
+    <li class="footer">Generated on Fri Jun 23 2017 22:42:32 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

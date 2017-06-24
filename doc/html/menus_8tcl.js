@@ -119,6 +119,7 @@ var menus_8tcl =
     [ "save_as_remote_command", "menus_8tcl.html#aaa967d1515e655f524b84dcfce21c586", null ],
     [ "save_command", "menus_8tcl.html#aba702d0a437daa6842702efc08fe2a98", null ],
     [ "save_selection_as_command", "menus_8tcl.html#a7b89b1674424ae565e9d050985e07190", null ],
+    [ "select_item", "menus_8tcl.html#a61544fdbe62122082d86afd6f4462e21", null ],
     [ "sessions_close_current", "menus_8tcl.html#a678b02bfde9abfd453a455bd0c2c6992", null ],
     [ "sessions_delete_launcher", "menus_8tcl.html#ae5088bd6b2515e813b4849d4458f2ca8", null ],
     [ "sessions_posting", "menus_8tcl.html#a805b51e3ecd796030566b4e2bc92ca3b", null ],

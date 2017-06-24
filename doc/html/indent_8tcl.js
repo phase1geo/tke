@@ -5,7 +5,7 @@ var indent_8tcl =
     [ "check_indent", "indent_8tcl.html#ab0b6993111afe013ae31678ed3ef5853", null ],
     [ "check_reindent_for_unindent", "indent_8tcl.html#a64da10a090390a3aaeade7920113ca76", null ],
     [ "create_menu", "indent_8tcl.html#aa9b7e522bdf9c6688431e743d0266475", null ],
-    [ "format_text", "indent_8tcl.html#a1053af5f2d7e3ab4e150d31558a6546d", null ],
+    [ "format_text", "indent_8tcl.html#afdb2673b800fd75fc2880566556af2f6", null ],
     [ "get_indent_mode", "indent_8tcl.html#a0b60922e735b3ab47224bfb8c834e25d", null ],
     [ "get_match_indent", "indent_8tcl.html#aae1e85703e2ab4bc65c65ef648227d68", null ],
     [ "get_previous_indent_space", "indent_8tcl.html#a54e5f03831a97fa99d52227ea7bff4b9", null ],

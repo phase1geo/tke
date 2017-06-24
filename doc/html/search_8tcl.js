@@ -1,6 +1,7 @@
 var search_8tcl =
 [
     [ "add_history", "search_8tcl.html#ad04f415142a45b4db89f6a2897421e19", null ],
+    [ "do_find", "search_8tcl.html#a6a3df8391485a701f779eb9b12d0d184", null ],
     [ "enable_find_view", "search_8tcl.html#a5ab3a20faff48e5b3932705f5bdc481a", null ],
     [ "enable_select_current", "search_8tcl.html#acb07065dba2f57766adee26c0f3007db", null ],
     [ "fif_callback", "search_8tcl.html#a611ec292b6b383254aa8b6961fc03b1e", null ],
@@ -13,6 +14,7 @@ var search_8tcl =
     [ "find_clear", "search_8tcl.html#a53318e1bcc0b27ba06ba7caecbec3609", null ],
     [ "find_next", "search_8tcl.html#afad27f9218528fcd8dc71d519f7fba66", null ],
     [ "find_prev", "search_8tcl.html#ad4766384123cee0e8914ccd6921bccfc", null ],
+    [ "find_resilient", "search_8tcl.html#a81df95f508f6dbbe1fec54ea81a122f7", null ],
     [ "find_start", "search_8tcl.html#a1653a96dea402e6eb1cbc72d2d8d2e6b", null ],
     [ "load_session", "search_8tcl.html#aaeac280b5e436cb152cb40f89b599689", null ],
     [ "replace_do_raw", "search_8tcl.html#ad7a87e47f5abc8a0e0daf25dbe4ffe88", null ],
