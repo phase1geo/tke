@@ -455,7 +455,11 @@ namespace eval utils {
         }
       }
       *Win* {
-        return [catch { exec {*}[auto_execok start] {} [file nativename $fname] }]
+        if {[string range $fname 0 3] eq "http"} {
+          return [catch { exec {*}[auto_execok start] {} $fname }]
+        } else {
+          return [catch { exec {*}[auto_execok start] {} [file nativename $fname] }]
+        }
       }
     }
 

@@ -6,10 +6,10 @@ vimsyntax
 
 reference
 {
-  {{Language Reference} http://www.tcl.tk/man/tcl8.5/}
+  {{Language Reference} http://www.tcl.tk/man/tcl8.6/}
   {{Wiki} http://wiki.tcl.tk}
-  {{Tcl Command} http://www.tcl.tk/man/tcl8.5/TclCmd/{query}.htm}
-  {{Tk Command} http://www.tcl.tk/man/tcl8.5/TkCmd/{query}.htm}
+  {{Tcl Command} http://www.tcl.tk/man/tcl8.6/TclCmd/{query}.htm}
+  {{Tk Command} http://www.tcl.tk/man/tcl8.6/TkCmd/{query}.htm}
 }
 
 delimiters {[^\s\(\{\[\}\]\)\.\t\n\r;=\"'\|,<>]+}
