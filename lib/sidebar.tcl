@@ -870,7 +870,7 @@ namespace eval sidebar {
     }
 
     if {[preferences::get Sidebar/FoldersAtTop]} {
-      return "[lsort -index 0 [lsearch -inline -all -index 1 $items 1]] [lsort -index 0 [lsearch -inline -all -index 1 $items 0]]"
+      return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
     } else {
       return [lsort -unique -index 0 $items]
     }
