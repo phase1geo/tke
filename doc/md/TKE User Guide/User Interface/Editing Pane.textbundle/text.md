@@ -2,7 +2,7 @@
 
 The editing pane comprises the majority of the application window, displaying all files that are open for reading/writing.  The following image shows a representation of this pane.
 
-![][image-1]
+![](assets/Editing-Panel.png "Representation of Editing Panel")
 
 The pane is made up of four (or optionally five) main areas:
 
@@ -11,5 +11,3 @@ The pane is made up of four (or optionally five) main areas:
 3. Editing Buffer
 4. Scrollbars
 5. Bird’s Eye view
-
-[image-1]:	assets/DraggedImage.png

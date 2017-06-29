@@ -2,7 +2,7 @@
 
 The connection editor pane is displayed when adding a new connection or editing an existing connection.  The following is a depiction of this pane.
 
-![][image-1]
+![](assets/Remote-Site-Settings.png "Remote Filesystem Site Settings Panel")
 
 The “Type” field allows you to specify the protocol to use to connect to the remote server.  At present you can connect via FTP, SFTP or WebDAV (if your system supports it — see the installation chapter for details).
 
@@ -21,5 +21,3 @@ The “Port” field specifies the server port that where the connection request
 The “Remote Directory” field specifies the initial directory that will be displayed after successfully connecting to the server.  This field is optional.  If not specified, the server will automatically choose the directory to display.
 
 Once all required fields contain a value, you can use the “Test” button to check if the settings allow a successful connection or not.  The pass or fail status will be displayed in a popup window.  If you get a passing test status, click on the “Create”/“Update” button in the editor to save the connection settings and return the view to the main remote file dialog window.  Click on the “Cancel” button to skip saving the settings changes and return to the main remote file dialog window.
-
-[image-1]:	assets/DraggedImage.png

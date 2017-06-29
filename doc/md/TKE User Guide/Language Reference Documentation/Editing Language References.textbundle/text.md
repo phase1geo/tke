@@ -4,7 +4,7 @@ Each syntax description file that comes pre-installed with TKE contains at least
 
 To add, remove or edit language references, select the `Edit / Preferences / Edit Language - Global` menu option. This will display the preferences window for the current language’s syntax. In the sidebar, clicking on the `Documentation` tab will display the language reference editor. A representation of this panel is shown below.
 
-![](assets/docedit.png)
+![](assets/Preferences-Documentation.png "Preferences Language-Specific Documentation Editor")
 
 To add a new website, click on the `Add` button. This will display a dialog box prompting you to enter the URL of the website to add. After entering a valid URL and clicking on either the `Add` button or hitting the Return key, TKE will lookup the website and, if valid, will grab the title of the found webpage, use the title as the default name to add and then add that webpage to the documentation table.
 

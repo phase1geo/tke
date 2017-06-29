@@ -19,7 +19,7 @@ If you want to save the changes back to the current theme, either left-click on 
 
 To export the current theme to a theme package which can be shared with and imported by other TKE users, click the “Save” button in the open/preview/save button bar and then click the “Export” button. This will display a popup window which is represented in the following image.
 
-![](assets/export.png)
+![](assets/export.png "Theme Editor Export Dialog")
 
 The first three entries allow the user to enter attribution and license file information. The attribution information will be displayed in the title bar of the theme editor when a user imports the theme and views it within the theme editor. The license file will be bundled with the rest of the theme information and copied to the theme directory when it is imported by the user. All three fields are optional, but it is encouraged that at least the “Created By” field is filled in.
 

@@ -25,8 +25,6 @@ This procedure is responsible for creating and arranging the various GUI widgets
 
 This plugin creates a check button which allows the “Enable” preference item to be set. It also adds three radio buttons which allow the user to select one of three colors to set the “Color” preference item. The three radio buttons are placed into a ttk\::labelframe container widget. Between the check button and the radio buttons is vertical space. This code will result in a preference panel that will look something like the following:
 
-![][image-1]
+![](assets/Preference-Plugin.png "Preference Plugin Panel")
 
 If the do\_pref\_ui procedure creates any widgets outside of those provided for in the api\::preferences\::widget API procedure, it is the responsibility of the do\_pref\_ui procedure to handle packing. All widgets created with the api\::preferences\::widget API procedure will pack themselves in the order they are created, using either pack (default) or grid (using the -grid 1 option to api\::preferences\::widget). See the api\::preferences\::widget description for a full explanation of the available widgets that can be created with that procedure.
-
-[image-1]:	assets/DraggedImage.png

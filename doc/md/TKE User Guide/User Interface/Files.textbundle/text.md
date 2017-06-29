@@ -4,7 +4,7 @@ Files have different functions available to them than directories.  Double-click
 
 The following image depicts the sidebar with a file highlighted.
 
-![][image-1]
+![](assets/Sidebar-File.png "Sidebar File")
 
 The following table lists the available functions for files.
 
@@ -23,5 +23,3 @@ The following table lists the available functions for files.
 | Favorite/Unfavorite | Marks the selected file to be a favorite (if the Favorite command is selected) or removes it from the favorites list (if the Unfavorite command is selected).  Favorited files can be quickly opened in the editor via the File / Open Favorite menu or the command launcher.
 
 After these functions will be listed any file popup menu items that are added via plugins.  See the Plugins and Plugin Development chapters for how to create these plugin types.
-
-[image-1]:	assets/DraggedImage.png

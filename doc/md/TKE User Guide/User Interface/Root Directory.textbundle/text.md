@@ -4,7 +4,7 @@ A root directory in the sidebar is any directory that doesn’t have a parent di
 
 The following image is a depiction of the sidebar with the root directory highlighted.
 
-![][image-1]
+![](assets/Sidebar-Root.png "Sidebar Root Directory")
 
 The following table lists the available contextual menu functions available for root directories.
 
@@ -29,5 +29,3 @@ The following table lists the available contextual menu functions available for 
 | Refresh Directory Files | Updates the sidebar contents for the root directory. |
 
 In addition to these functions, plugins can also add functionality beneath these items in the menu.  See the Plugins and Plugin Development chapters for more information.
-
-[image-1]:	assets/DraggedImage.png

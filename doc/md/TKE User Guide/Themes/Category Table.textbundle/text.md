@@ -2,7 +2,7 @@
 
 The category table is displayed on the left side of the window and displays all of the UI elements that can be customized as part of the theme. They are organized in the table by category. Left-clicking on the disclosure triangle of the category will show/hide all options within the category. Left-clicking on a category option row will select the row and display the associated option information in the option detail pane which allows the options value to be changed. Each category option displays the name of the option as well as displays the current value (and potential representation of the value, if possible).
 
-![](assets/DraggedImage.png)
+![](assets/Theme-Category-Sidebar.png "Theme Editor Category Sidebar")
 
 There are a few operations that can be performed on the category table which are accessible by left-clicking on the header of the table. This will display a menu containing the following features:
 
