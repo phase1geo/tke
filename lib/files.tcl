@@ -361,6 +361,29 @@ namespace eval files {
   }
 
   ######################################################################
+  # gzips the given filename, adding the .gz file extension.
+  proc gzip {fname} {
+
+    set fin [open $file rb]
+    set header [dict create filename $file time [file mtime $file] comment "Created by Tclinfo patchlevel"]
+    set fout [open $file.gz wb]
+    puts "fin: $fin, fout: $fout"
+    zlib push gzip $fout -header $header
+    fcopy $fin $fout
+    close $fin
+    close $fout
+
+  }
+
+  ######################################################################
+  # gunzips the given filename, returning the contents of the file.
+  proc gunzip {fname} {
+
+    # TBD
+
+  }
+
+  ######################################################################
   # Returns the contents of the file located at the given tab.  Returns
   # a value of 1 if the file was successfully loaded; otherwise, returns
   # 0.
