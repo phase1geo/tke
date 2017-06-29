@@ -4,7 +4,7 @@ A non-root directory is any directory in the sidebar which has a parent director
 
 The following image depicts the sidebar with a non-root directory highlighted.
 
-![][image-1]
+![](assets/Sidebar-Directory.png "Sidebar Non-Root Directory")
 
 The following table lists the available contextual menu functions available for non-root directories.
 
@@ -28,5 +28,3 @@ The following table lists the available contextual menu functions available for 
 | Refresh Directory Files | Updates the sidebar contents for the selected directory. |
 
 After these functions will be listed any directory popup menu items that are added via plugins.  See the Plugins and Plugin Development chapters for how to create these plugin types.
-
-[image-1]:	assets/DraggedImage.png

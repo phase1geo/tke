@@ -13,7 +13,7 @@ Each detail pane type is described in the following subsections.
 
 The color pane allows for editing a single color by either selecting a color through a standard color chooser, selecting a swatch color and, optionally, modifying the selected color with some simple modifications. A representation of the color pane is shown below.
 
-![](assets/DraggedImage.png)
+![](assets/Theme-Color.png "Theme Editor Color Panel")
 
 The top image shows two colors. The background color is the base color that the given color will surrounded by. Showing the base color along with the color being edited should help in choosing an appropriate color. The foreground color is the color being selected.
 
@@ -27,13 +27,13 @@ Any color changes made in this pane will be immediately reflected in the categor
 
 The number pane allows you to modify the value of an option that has a numerical value. You can modify the value using the entry field and/or up/down arrows. Any changed made in this pane will be immediately reflected in the category option table. A representation of the number pane is displayed below.
 
-![](assets/DraggedImage-1.png)
+![](assets/Theme-Number.png "Theme Editor Number Panel")
 
 ##### Relief
 
 The relief pane displays a drop-down list allowing you to select from the available relief values. Any changes made will be immediately reflected in the category option table. A representation of this window is shown below.
 
-![](assets/DraggedImage-2.png)
+![](assets/Theme-Relief.png "Theme Editor Relief Panel")
 
 ##### Image
 
@@ -45,7 +45,7 @@ The one-color bitmap editor creates a simple bitmap image that can contain one c
 
 On the left side of the pane is the bitmap editor. The grid of squares represents the pixels in the bitmap image. To set a pixel, simply left-click on the given pixel. To make the pixel transparent, simply left-click on a given pixel that is set.
 
-![](assets/DraggedImage-3.png)
+![](assets/Theme-Bitmap.png "Theme Editor Bitmap Panel")
 
 On the right top is a preview of the image shown in actual size. Below the preview is the color chooser which allows you to change the color used in the image. You can select a color via a standard color chooser or you can select a color swatch value. Below the color picker are selection tools for setting the pixel width and height of the image.
 
@@ -59,7 +59,7 @@ On the left side, is the image editor. To set a pixel to a given color (or make 
 
 The image preview is shown in the upper right-hand corner in actual size. Below this preview are two color choosers to select the first and second colors of the image. With the color choosers, you can select a color via a standard color picker or use one of the swatch colors. Beneath the color selectors, are widgets to change the height and width of the image.
 
-![](assets/DraggedImage-4.png)
+![](assets/Theme-Bitmap2.png "Theme Editor 2-Color Bitmap Panel")
 
 If you already have a BMP image in a file, you can click on the “Import BMP Data” or “Import BMP Mask” buttons will set the image’s bitmap data or bitmap mask fields to the given value. The mask defines which pixels are drawn and which are transparent. The data defines which pixels are drawn in the first (pixel set) and second (pixel clear) colors.
 
@@ -71,5 +71,4 @@ At the top of the pane is a directory chooser for selecting an image. Three opti
 
 The grid view shows previews of the available images. The background color of the grid will match the background color that the image will be displayed onto. To select an image to use, simply select it with the mouse. This will immediately update the image in the category option table.
 
-![](assets/DraggedImage-5.png)
-
+![](assets/Theme-Gif.png "Theme Editor GIF Panel")

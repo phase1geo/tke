@@ -4,7 +4,7 @@ When a file is displayed in the editor, the “Show File Difference” option in
 
 The following image shows what a difference view looks like.
 
-![][image-1]
+![](assets/Difference-Viewer.png "Difference Viewer")
 
 The window is comprised of 4 main parts:
 
@@ -12,5 +12,3 @@ The window is comprised of 4 main parts:
 - Main file viewing area (middle)
 - Difference map (right)
 - Control panel (bottom)
-
-[image-1]:	assets/DraggedImage.png

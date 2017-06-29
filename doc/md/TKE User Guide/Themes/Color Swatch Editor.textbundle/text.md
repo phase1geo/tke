@@ -3,7 +3,7 @@
 To help with color editing, the theme editor provides 
 an area at the top of the window which can optionally contain one or more colors that are deemed to be important colors in the theme. These colors are saved as part of the theme file such that they will be displayed in the swatch area whenever the theme is viewed in the theme editor. Swatch colors can be used directly or indirectly in the color assignment of various UI elements. This means that all of these UI elements that are dependent on a swatch color will be changed whenever the swatch color is changed.
 
-![](assets/DraggedImage.png)
+![](assets/Theme-Swatch-Panel.png "Theme Editor Swatch Panel")
 
 Within the swatch editing area, each swatch is displayed by color and by color name. Within various theme editor menus, color swatches are only displayed by color name. The swatch area helps map the name to the color.
 
