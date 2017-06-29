@@ -4,27 +4,27 @@ The following is a list of of available packages to the plugin code that is alre
 
 ## Tclx
 
-Documentation for the tclx package can be found at [http://www.tcl.tk/man/tclx8.2/TclX.n.html][1]
+Documentation for the tclx package can be found at [http://www.tcl.tk/man/tclx8.2/TclX.n.html](http://www.tcl.tk/man/tclx8.2/TclX.n.html)
 
 ## Tablelist
 
-Documentation for the tablelist package can be found at [http://www.nemethi.de/tablelist/index.html][2].  TKE currently uses version 5.14.
+Documentation for the tablelist package can be found at [http://www.nemethi.de/tablelist/index.html](http://www.nemethi.de/tablelist/index.html).  TKE currently uses version 5.18.
 
 ## tooltip
 
-Documentation for the tooltip package can be found at [http://docs.activestate.com/activetcl/8.5/tklib/tooltip/tooltip.html][3]
+Documentation for the tooltip package can be found at [http://docs.activestate.com/activetcl/8.5/tklib/tooltip/tooltip.html](http://docs.activestate.com/activetcl/8.5/tklib/tooltip/tooltip.html)
 
 ## msgcat
 
-Documentation for the msgcat package can be found at [http://www.tcl.tk/man/tcl8.5/TclCmd/msgcat.htm][4]
+Documentation for the msgcat package can be found at [http://www.tcl.tk/man/tcl8.5/TclCmd/msgcat.htm](http://www.tcl.tk/man/tcl8.5/TclCmd/msgcat.htm)
 
 ## tokenentry
 
-Documentation for the tokenentry package can be found at [http://ptwidgets.sourceforge.net/page3/files/tokenentry.html][5]
+Documentation for the tokenentry package can be found at [http://ptwidgets.sourceforge.net/page3/files/tokenentry.html](http://ptwidgets.sourceforge.net/page3/files/tokenentry.html)
 
 ## tabbar
 
-Documentation for the tabbar package can be found at [http://ptwidgets.sourceforge.net/page3/files/tabbar.html][6]
+Documentation for the tabbar package can be found at [http://ptwidgets.sourceforge.net/page3/files/tabbar.html](http://ptwidgets.sourceforge.net/page3/files/tabbar.html)
 
 ## fontchooser
 
@@ -39,10 +39,3 @@ The available options are specified as follows:
 | **-parent** _window_ | Makes window the logical parent of the fontchooser dialog.  The file dialog is displayed on top of its parent window. |
 | **-initialfont** _font_ | Specifies the initial font to display in the window.  The value of font can be any legal Tcl font description. |
 | **-title** _titleString_ | Specifies a string to display as the title of the dialog box.  If this option is not specified, no title is displayed. |
-
-[1]:	http://www.tcl.tk/man/tclx8.2/TclX.n.html
-[2]:	http://www.nemethi.de/tablelist/index.html
-[3]:	http://docs.activestate.com/activetcl/8.5/tklib/tooltip/tooltip.html
-[4]:	http://www.tcl.tk/man/tcl8.5/TclCmd/msgcat.htm
-[5]:	http://ptwidgets.sourceforge.net/page3/files/tokenentry.html
-[6]:	http://ptwidgets.sourceforge.net/page3/files/tabbar.html
