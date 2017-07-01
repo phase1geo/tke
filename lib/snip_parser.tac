@@ -224,6 +224,9 @@ pattern: pattern CHAR {
        | pattern '?' {
            set _ "?"
          }
+       | pattern ':' {
+           set _ ":"
+         }
        | CHAR {
            set _ $1
          }
@@ -247,6 +250,9 @@ pattern: pattern CHAR {
          }
        | '?' {
            set _ "?"
+         }
+       | ':' {
+           set _ ":"
          }
          ;
 

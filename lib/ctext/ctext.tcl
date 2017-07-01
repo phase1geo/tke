@@ -13,7 +13,13 @@ namespace eval ctext {
   array set bracket_map  {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
   array set bracket_map2 {\( paren \) paren \{ curly \} curly \[ square \] square < angled > angled}
   array set data {}
+
   variable temporary {}
+  variable right_click 3
+
+  if {[tk windowingsystem] eq "aqua"} {
+    set right_click 2
+  }
 }
 
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
@@ -3389,13 +3395,14 @@ proc ctext::clearHighlightClasses {win} {
 proc ctext::handle_tag {win class startpos endpos cmd} {
 
   variable data
+  variable right_click
 
   # Add the tag and possible binding
   if {[info exists data($win,highlight,click,$class)]} {
     set tag _$class[incr data($win,highlight,click_index)]
     $win tag add       $tag $startpos $endpos
     $win tag configure $tag {*}$data($win,highlight,click,$class)
-    $win tag bind      $tag <Button-3> $cmd
+    $win tag bind      $tag <Button-$right_click> $cmd
   } else {
     $win tag add _$class $startpos $endpos
   }

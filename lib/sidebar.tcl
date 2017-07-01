@@ -1044,6 +1044,22 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Displays the thumbnail for the given row, if possible.
+  proc show_thumbnail {row x y} {
+
+    variable widgets
+
+    if {$row ne ""} {
+      set x [expr [winfo rootx $widgets(tl)] + [winfo width $widgets(tl)]]
+      set y [expr [winfo rooty $widgets(tl)] + $y]
+      thumbnail::show [$widgets(tl) set $row name] $x $y
+    } else {
+      thumbnail::hide
+    }
+
+  }
+
+  ######################################################################
   # Hides the tooltip associated with the root row.
   proc hide_tooltip {} {
 
@@ -1194,9 +1210,10 @@ namespace eval sidebar {
       after cancel $after_id
       if {$lastId ne ""} {
         hide_tooltip
+        thumbnail::hide
       }
       if {$id ne ""} {
-        set after_id [after 300 sidebar::show_tooltip $id]
+        set after_id [after 300 sidebar::show_tooltip $id; sidebar::show_thumbnail $id $x $y]
       }
     }
 

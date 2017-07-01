@@ -133,6 +133,7 @@ source [file join $tke_dir lib remote.tcl]
 source [file join $tke_dir lib socksend.tcl]
 source [file join $tke_dir lib ftp_wrapper.tcl]
 source [file join $tke_dir lib files.tcl]
+source [file join $tke_dir lib thumbnail.tcl]
 
 if {[tk windowingsystem] eq "aqua"} {
   source [file join $tke_dir lib windowlist.tcl]
