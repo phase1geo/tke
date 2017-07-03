@@ -349,6 +349,20 @@ namespace eval diff {
   }
 
   ######################################################################
+  # Returns the versioning system that handles the given filename.
+  proc get_default_cvs {fname} {
+
+    foreach cvs [get_cvs_names cvs] {
+      if {[[string tolower $cvs]::handles $fname]} {
+        return [string tolower $cvs]
+      }
+    }
+
+    return "diff"
+
+  }
+
+  ######################################################################
   # Attempts to determine the default CVS that is used to manage the
   # file associated with the text widget and updates the UI elements to match.
   proc set_default_cvs {txt} {
@@ -358,16 +372,8 @@ namespace eval diff {
     # Get the filename
     set fname [file tail [gui::get_info $txt txt fname]]
 
-    set data($txt,cvs) "diff"
+    set data($txt,cvs) [get_default_cvs $fname]
     set data($txt,v2)  "Current"
-
-    # Check each of the CVS
-    foreach cvs [get_cvs_names cvs] {
-      if {[[string tolower $cvs]::handles $fname]} {
-        set data($txt,cvs) $cvs
-        break
-      }
-    }
 
     # Update the UI to match the selected CVS
     update_diff_frame $txt
@@ -715,6 +721,16 @@ namespace eval diff {
       }
     }
 
+    proc get_current_version {fname} {
+      if {![catch { exec p4 have $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^\.\.\.\s+#(\d+)} $line -> version]} {
+            return $version
+          }
+        }
+      }
+    }
+
     proc find_version {fname v2 lnum} {
       if {$v2 eq "Current"} {
         if {![catch { exec p4 annotate $fname } rc]} {
@@ -779,6 +795,17 @@ namespace eval diff {
       } else {
         return "hg diff -r $v1 -r $v2 $fname"
       }
+    }
+
+    proc get_current_version {fname} {
+      if {![catch { exec hg parent $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {changeset:\s+(\d+):} $line -> version]} {
+            return $version
+          }
+        }
+      }
+      return ""
     }
 
     proc find_version {fname v2 lnum} {
@@ -848,6 +875,16 @@ namespace eval diff {
       }
     }
 
+    proc get_current_version {fname} {
+      if {![catch { exec git log --abbrev-commit $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^commit ([0-9a-fA-F]+)} $line -> version]} {
+            return $version
+          }
+        }
+      }
+    }
+
     proc find_version {fname v2 lnum} {
       if {$v2 eq "Current"} {
         if {![catch { exec git blame $fname } rc]} {
@@ -911,6 +948,16 @@ namespace eval diff {
         return "bzr diff -r$v1 $fname"
       } else {
         return "bzr diff -r$v1..$v2 $fname"
+      }
+    }
+
+    proc get_current_version {fname} {
+      if {![catch { exec bzr log $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {revno:\s+(\d+)} $line -> version]} {
+            lappend versions $version
+          }
+        }
       }
     }
 
@@ -1089,6 +1136,10 @@ namespace eval diff {
 
     proc get_diff_cmd {fname1 fname2} {
       return "diff -u $fname1 $fname2"
+    }
+
+    proc get_current_version {fname} {
+      return ""
     }
 
   }
