@@ -972,4 +972,22 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Returns a string giving the size of the given file using B, KB, MB, etc.
+  proc get_file_size {fname} {
+
+    set size [file size $fname]
+
+    if {$size < 1024} {
+      return "$size bytes"
+    } elseif {$size < pow(1024, 2)} {
+      return [format {%0.1f KB} [expr $size.0 / 1024]]
+    } elseif {$size < pow(1024, 3)} {
+      return [format {%0.1f MB} [expr $size.0 / pow(1024, 2)]]
+    } else {
+      return [format {%0.1f GB} [expr $size.0 / pow(1024, 3)]]
+    }
+
+  }
+
 }
