@@ -192,15 +192,17 @@ namespace eval sidebar {
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
 
+    frame $w
+
     # Create the top-level frame
-    set widgets(frame) [frame $w -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg]
+    set widgets(frame) [frame $w.tf -highlightthickness 1 -highlightbackground $bg -highlightcolor $bg]
 
     # Add the file tree elements
-    ttk::frame $w.tf -style SBFrame -padding {3 3 0 0}
+    ttk::frame $w.tf.tf -style SBFrame -padding {3 3 0 0}
     pack [set widgets(tl) \
-      [ttk::treeview $w.tf.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
-        -show tree -yscrollcommand "utils::set_yscrollbar $w.vb"]] -fill both -expand yes
-    set widgets(sb) [scroller::scroller $w.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
+      [ttk::treeview $w.tf.tf.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
+        -show tree -yscrollcommand "utils::set_yscrollbar $w.tf.vb"]] -fill both -expand yes
+    set widgets(sb) [scroller::scroller $w.tf.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
 
     $widgets(tl) column #0 -width 300
 
@@ -221,35 +223,40 @@ namespace eval sidebar {
     }
     bind $widgets(tl) <Key> [list sidebar::handle_any %K %A]
 
+    grid rowconfigure    $w.tf 0 -weight 1
+    grid columnconfigure $w.tf 0 -weight 1
+    grid $w.tf.tf -row 0 -column 0 -sticky news
+    grid $w.tf.vb -row 0 -column 1 -sticky ns
+
     # Create file info panel
-    set widgets(info)    [ttk::frame $w.if -style SBFrame -padding {3 3 0 0}]
-    ttk::separator       $w.if.sep -orient horizontal
+    set widgets(info)    [ttk::frame $w.if]
+    ttk::separator       $w.if.sep1 -orient horizontal
     set widgets(pimage)  [ttk::label $w.if.preview]
+    ttk::frame $w.if.f1
     set widgets(pname)   [ttk::label $w.if.name]
     set widgets(ptype)   [ttk::label $w.if.type]
-    ttk::label $w.if.l1  -text "Created: "
-    set widgets(pcreate) [ttk::label $w.if.created]
-    ttk::label $w.if.l2  -text "Modified: "
+    ttk::frame $w.if.f2
+    set widgets(lver)    [ttk::label $w.if.l1  -text [format "%s:" [msgcat::mc "Version"]]]
+    set widgets(pver)    [ttk::label $w.if.version]
+    ttk::label $w.if.l2  -text [format "%s:" [msgcat::mc "Modified"]]
     set widgets(pmod)    [ttk::label $w.if.modified]
+    ttk::separator       $w.if.sep2 -orient horizontal
 
     grid rowconfigure    $w.if 1 -weight 1
     grid columnconfigure $w.if 1 -weight 1
-    grid $w.if.sep      -row 0 -column 0 -sticky ew -columnspan 2
-    grid $w.if.preview  -row 1 -column 1 -sticky news
-    grid $w.if.name     -row 2 -column 1 -sticky ew
-    grid $w.if.type     -row 3 -column 1 -sticky ew
-    grid $w.if.l1       -row 4 -column 0 -sticky ew
-    grid $w.if.created  -row 4 -column 1 -sticky ew
-    grid $w.if.l2       -row 5 -column 0 -sticky ew
-    grid $w.if.modified -row 5 -column 1 -sticky ew
+    grid $w.if.sep1     -row 0 -column 0 -columnspan 2 -sticky ew
+    grid $w.if.preview  -row 1 -column 0 -columnspan 2 -pady 2 ;# -sticky news
+    grid $w.if.f1       -row 2 -column 0 -pady 2
+    grid $w.if.name     -row 3 -column 0 -columnspan 2 ;# -sticky ew
+    grid $w.if.type     -row 4 -column 0 -columnspan 2 ;# -sticky ew
+    grid $w.if.f2       -row 5 -column 0 -pady 2
+    grid $w.if.l1       -row 6 -column 0 -sticky ew
+    grid $w.if.version  -row 6 -column 1 -sticky ew
+    grid $w.if.l2       -row 7 -column 0 -sticky ew
+    grid $w.if.modified -row 7 -column 1 -sticky ew
+    grid $w.if.sep2     -row 8 -column 0 -sticky ew -columnspan 2
 
-    grid rowconfigure    $w 0 -weight 1
-    grid columnconfigure $w 0 -weight 1
-    grid $w.tf -row 0 -column 0 -sticky news
-    grid $w.vb -row 0 -column 1 -sticky ns
-    grid $w.if -row 1 -column 0 -sticky news -columnspan 2
-
-    grid remove $w.if
+    pack $w.tf -fill both -expand yes
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -2081,7 +2088,7 @@ namespace eval sidebar {
 
       if {[file isfile $fname]} {
 
-        grid $widgets(info)
+        pack $widgets(info) -fill both
 
         # Get the file information
         file stat $fname finfo
@@ -2089,8 +2096,12 @@ namespace eval sidebar {
         # Get the syntax information
         set syntax [syntax::get_default_language $fname]
 
-        # Get the name to display
-        set name [file tail $fname]
+        # Get the name and version to display
+        set name    [file tail $fname]
+        set cvs     [diff::get_default_cvs $fname]
+        set version [diff::${cvs}::get_current_version $fname]
+
+        puts "cvs: $cvs, version: ($version)"
 
         # Figure out if we can display the file based on extension
         if {[lsearch [list .gif .png .bmp] [file extension $fname]] == -1} {
@@ -2102,7 +2113,7 @@ namespace eval sidebar {
           grid $widgets(pimage)
           if {[file extension $fname] eq ".bmp"} {
             set orig  [image create bitmap -file $fname]
-            set image [image create bitmap -file $fname]
+            set image [image create bitmap -file $fname -foreground [utils::get_default_foreground]]
           } else {
             set orig  [image create photo -file $fname]
             set image [::image_scale $orig 64 64]
@@ -2113,20 +2124,26 @@ namespace eval sidebar {
           image delete $orig
         }
 
-        $widgets(pname)   configure -text $name
-        $widgets(ptype)   configure -text "$syntax - [utils::get_file_size $fname]"
-        $widgets(pcreate) configure -text [clock format $finfo(ctime)]
-        $widgets(pmod)    configure -text [clock format $finfo(mtime)]
+        $widgets(pname) configure -text $name
+        $widgets(ptype) configure -text "$syntax - [utils::get_file_size $fname]"
+        $widgets(pver)  configure -text $version
+        $widgets(pmod)  configure -text [clock format $finfo(mtime)]
+
+        if {$version eq ""} {
+          grid remove $widgets(lver) $widgets(pver)
+        } else {
+          grid $widgets(lver) $widgets(pver)
+        }
 
       } else {
 
-        grid remove $widgets(info)
+        pack forget $widgets(info)
 
       }
 
     } else {
 
-      grid remove $widgets(info)
+      pack forget $widgets(info)
 
     }
 
