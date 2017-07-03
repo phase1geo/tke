@@ -221,10 +221,35 @@ namespace eval sidebar {
     }
     bind $widgets(tl) <Key> [list sidebar::handle_any %K %A]
 
+    # Create file info panel
+    set widgets(info)    [ttk::frame $w.if -style SBFrame -padding {3 3 0 0}]
+    ttk::separator       $w.if.sep -orient horizontal
+    set widgets(pimage)  [ttk::label $w.if.preview]
+    set widgets(pname)   [ttk::label $w.if.name]
+    set widgets(ptype)   [ttk::label $w.if.type]
+    ttk::label $w.if.l1  -text "Created: "
+    set widgets(pcreate) [ttk::label $w.if.created]
+    ttk::label $w.if.l2  -text "Modified: "
+    set widgets(pmod)    [ttk::label $w.if.modified]
+
+    grid rowconfigure    $w.if 1 -weight 1
+    grid columnconfigure $w.if 1 -weight 1
+    grid $w.if.sep      -row 0 -column 0 -sticky ew -columnspan 2
+    grid $w.if.preview  -row 1 -column 1 -sticky news
+    grid $w.if.name     -row 2 -column 1 -sticky ew
+    grid $w.if.type     -row 3 -column 1 -sticky ew
+    grid $w.if.l1       -row 4 -column 0 -sticky ew
+    grid $w.if.created  -row 4 -column 1 -sticky ew
+    grid $w.if.l2       -row 5 -column 0 -sticky ew
+    grid $w.if.modified -row 5 -column 1 -sticky ew
+
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
     grid $w.tf -row 0 -column 0 -sticky news
     grid $w.vb -row 0 -column 1 -sticky ns
+    grid $w.if -row 1 -column 0 -sticky news -columnspan 2
+
+    grid remove $w.if
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -1047,6 +1072,9 @@ namespace eval sidebar {
   # Displays the thumbnail for the given row, if possible.
   proc show_thumbnail {row x y} {
 
+    # OBSOLETE - We are disabling this functionality
+    return
+
     variable widgets
 
     if {$row ne ""} {
@@ -1095,6 +1123,9 @@ namespace eval sidebar {
 
       # Colorize the selected items to be selected
       $widgets(tl) tag add sel [$widgets(tl) selection]
+
+      # Update the file information panel
+      update_file_info $selected
 
     }
 
@@ -2035,6 +2066,69 @@ namespace eval sidebar {
     variable widgets
 
     $widgets(tl) configure -customdragsource $value
+
+  }
+
+  ######################################################################
+  # Updates the file information panel to match the current selections
+  proc update_file_info {selected} {
+
+    variable widgets
+
+    if {[llength $selected] == 1} {
+
+      set fname [$widgets(tl) set [lindex $selected 0] name]
+
+      if {[file isfile $fname]} {
+
+        grid $widgets(info)
+
+        # Get the file information
+        file stat $fname finfo
+
+        # Get the syntax information
+        set syntax [syntax::get_default_language $fname]
+
+        # Get the name to display
+        set name [file tail $fname]
+
+        # Figure out if we can display the file based on extension
+        if {[lsearch [list .gif .png .bmp] [file extension $fname]] == -1} {
+          grid remove $widgets(pimage)
+          if {[utils::is_binary $fname]} {
+            set syntax "Binary"
+          }
+        } else {
+          grid $widgets(pimage)
+          if {[file extension $fname] eq ".bmp"} {
+            set orig  [image create bitmap -file $fname]
+            set image [image create bitmap -file $fname]
+          } else {
+            set orig  [image create photo -file $fname]
+            set image [::image_scale $orig 64 64]
+          }
+          $widgets(pimage) configure -image $image
+          set syntax "Unsupported"
+          append name " ([image width $orig] x [image height $orig])"
+          image delete $orig
+        }
+
+        $widgets(pname)   configure -text $name
+        $widgets(ptype)   configure -text "$syntax - [utils::get_file_size $fname]"
+        $widgets(pcreate) configure -text [clock format $finfo(ctime)]
+        $widgets(pmod)    configure -text [clock format $finfo(mtime)]
+
+      } else {
+
+        grid remove $widgets(info)
+
+      }
+
+    } else {
+
+      grid remove $widgets(info)
+
+    }
 
   }
 
