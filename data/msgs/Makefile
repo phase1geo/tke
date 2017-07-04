@@ -1,7 +1,7 @@
 .PHONEY : updateall update
 
 updateall :
-	tclsh8.5 update.tcl -- -a
+	tclsh8.6 update.tcl -- -a
 
 update :
-	tclsh8.5 update.tcl
+	tclsh8.6 update.tcl
