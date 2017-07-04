@@ -243,19 +243,19 @@ namespace eval sidebar {
     set widgets(info,v,mod)   [label $w.if.modified]
     set widgets(psep)         [ttk::separator $w.if.sep2 -orient horizontal]
 
-    grid rowconfigure    $w.if 1 -weight 1
+    grid rowconfigure    $w.if 3 -weight 1
     grid columnconfigure $w.if 1 -weight 1
     grid $w.if.sep1     -row 0 -column 0 -columnspan 2 -sticky ew
-    grid $w.if.preview  -row 1 -column 0 -columnspan 2 -pady 2 ;# -sticky news
-    grid $w.if.f1       -row 2 -column 0 -pady 2
-    grid $w.if.name     -row 3 -column 0 -columnspan 2 ;# -sticky ew
-    grid $w.if.type     -row 4 -column 0 -columnspan 2 ;# -sticky ew
-    grid $w.if.f2       -row 5 -column 0 -pady 2
-    grid $w.if.l1       -row 6 -column 0 -sticky e
-    grid $w.if.version  -row 6 -column 1 -sticky w
-    grid $w.if.l2       -row 7 -column 0 -sticky e
-    grid $w.if.modified -row 7 -column 1 -sticky w
-    grid $w.if.sep2     -row 8 -column 0 -sticky ew -columnspan 2
+    grid $w.if.preview  -row 1 -column 0 -rowspan 3 -padx 2 -pady 2 ;# -sticky news
+    grid $w.if.name     -row 1 -column 1 -sticky w ;# -columnspan 2 ;# -sticky ew
+    grid $w.if.type     -row 2 -column 1 -sticky w ;# -columnspan 2 ;# -sticky ew
+    ;# grid $w.if.f1       -row 3 -column 1
+    ;# grid $w.if.f2       -row 5 -column 0 -pady 2
+    grid $w.if.l1       -row 4 -column 0 -sticky e
+    grid $w.if.version  -row 4 -column 1 -sticky w
+    grid $w.if.l2       -row 5 -column 0 -sticky e
+    grid $w.if.modified -row 5 -column 1 -sticky w
+    grid $w.if.sep2     -row 6 -column 0 -sticky ew -columnspan 2
 
     # Insert any file information plugin information
     insert_file_info_plugins
