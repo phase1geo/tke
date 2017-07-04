@@ -10,7 +10,7 @@ If your plugin contains the vcs action, you will need to request permission from
 
 #### Tcl Registration
 
-`{vcs name handles versions get_file_cmd get_diff_cmd find_version get_version_log}`
+`{vcs name handles versions get_file_cmd get_diff_cmd find_version get_current_version get_version_log}`
 
 The _name_ option specifies the Version Control system name that will be displayed in the difference viewer version control list.  The name does not need to match the version control system; however, it is preferred that the name does match to avoid user confusion.
 
@@ -81,6 +81,21 @@ The “find\_version” procedure will return the file version that contained th
 	     }
 	  }
 	  return “”
+	}
+
+**The "get\_current\_version" Procedure**
+
+The "get\_current\_version" procedure returns the version number of the given file that exists in the current workspace. This information is output to the file information panel in the sidebar. The procedure takes a single argument, the filename of the file to get the version of. It should return a single string value containing a file version. If a version could not be found, return the empty string.
+
+		proc get_current_version {fname} {
+	  if {![catch { exec hg parent $fname } rc]} {
+	    foreach line [split $rc \n] {
+	      if {[regexp {changeset:\s+(\d+):} $line -> version]} {
+	        return $version
+	      }
+	    }
+	  }
+	  return ""
 	}
 
 **The “get\_version\_log” Procedure**
