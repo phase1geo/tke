@@ -45,6 +45,7 @@
 #  on_pref_ui   - Runs when the plugin preference panel needs to be displayed in the preferences window.
 #  syntax       - Adds the given syntax file to the list of available syntaxes
 #  vcs          - Adds support for a version control system to the difference viewer
+#  file_info    - Adds items to the file information panel in the sidebar.
 ######################################################################
 
 namespace eval plugins {
@@ -203,6 +204,9 @@ namespace eval plugins {
 
     # Update the preferences
     handle_on_pref_load
+
+    # Update the file information panel
+    sidebar::insert_file_info_plugins
 
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
@@ -506,6 +510,7 @@ namespace eval plugins {
             add_all_text_bindings
             add_all_syntax
             add_all_vcs_commands
+            sidebar::insert_file_info_plugins
             handle_on_pref_load
             return
           }
@@ -542,6 +547,9 @@ namespace eval plugins {
 
     # Add all VCS commands
     add_all_vcs_commands
+
+    # Update file information
+    sidebar::insert_file_info_plugins
 
     # Add all loaded preferences
     handle_on_pref_load
@@ -626,6 +634,9 @@ namespace eval plugins {
 
     # Add all of the VCS commands
     add_all_vcs_commands
+
+    # Update file information
+    sidebar::insert_file_info_plugins
 
     # Save the plugin information
     write_config
@@ -1367,7 +1378,7 @@ namespace eval plugins {
   proc add_all_vcs_commands {} {
 
     foreach entry [find_registry_entries "vcs"] {
-      lassign $entry index name handles versions file_cmd diff_cmd find_version version_log
+      lassign $entry index name handles versions file_cmd diff_cmd find_version current_version version_log
       set ns ::diff::[string map {{ } _} [string tolower $name]]
       namespace eval $ns "proc name            {}              { return \"$name\" }"
       namespace eval $ns "proc type            {}              { return cvs }"
@@ -1376,6 +1387,7 @@ namespace eval plugins {
       namespace eval $ns "proc get_file_cmd    {version fname} { return \[plugins::run_vcs $index $file_cmd     \$fname \$version\] }"
       namespace eval $ns "proc get_diff_cmd    {v1 v2 fname}   { return \[plugins::run_vcs $index $diff_cmd     \$fname \$v1 \$v2\] }"
       namespace eval $ns "proc find_version    {fname v2 lnum} { return \[plugins::run_vcs $index $find_version \$fname \$v2 \$lnum\] }"
+      namespace eval $ns "proc get_current_version {fname}     { return \[plugins::run_vcs $index $current_version \$fname] }"
       namespace eval $ns "proc get_version_log {fname version} { return \[plugins::run_vcs $index $version_log  \$fname \$version\] }"
     }
 
@@ -1404,6 +1416,46 @@ namespace eval plugins {
     }
 
     return $status
+
+  }
+
+  ######################################################################
+  # Returns file information titles to add.
+  proc get_file_info_titles {} {
+
+    set titles [list]
+    set i      0
+
+    foreach entry [find_registry_entries "file_info"] {
+      lassign $entry index title
+      lappend titles $i $title
+      incr i
+    }
+
+    return $titles
+
+  }
+
+  ######################################################################
+  # Retrieves the file information for the given filename.
+  proc handle_file_info_values {fname} {
+
+    variable registry
+
+    set values [list]
+    set i      0
+
+    foreach entry [find_registry_entries "file_info"] {
+      lassign $entry index title value_cmd
+      if {[catch { $registry($index,interp) eval $value_cmd $fname } status]} {
+        handle_status_error "handle_file_info_value" $index $status
+        set status ""
+      }
+      lappend values $i $status
+      incr i
+    }
+
+    return $values
 
   }
 
