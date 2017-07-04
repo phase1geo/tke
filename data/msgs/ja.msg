@@ -253,9 +253,6 @@ msgcat::mcmset ja {
   "Unable to successfully parse number string"
   "番号の文字列を正しく解析することができません。"
 
-  "Version"
-  "バージョン"
-
   "for"
   "から"
 
@@ -743,6 +740,9 @@ msgcat::mcmset ja {
   "Hide Current Tab"
   "現在のタブを非表示します。"
 
+  "Hide File Info"
+  "ファイル情報"
+
   "Hide Line Numbers"
   "行番号を非表示します。"
 
@@ -766,6 +766,9 @@ msgcat::mcmset ja {
 
   "Hide Tcl console"
   "Tcl コンソールを非表示します。"
+
+  "Hide file information panel"
+  "ファイル情報パネルを非表示します。"
 
   "Hide line numbers"
   "行番号を非表示します。"
@@ -1376,6 +1379,9 @@ msgcat::mcmset ja {
   "Show File Difference"
   "ファイルの相違点を表示します。"
 
+  "Show File Info"
+  "ファイル情報"
+
   "Show Installed"
   "インストール済み"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset ja {
 
   "Show file difference"
   "ファイルの相違点を表示します。"
+
+  "Show file information panel"
+  "情報パネルを表示to preview a file inside an archive"
 
   "Show installed plugins"
   "インストール済みのプラグイン"
@@ -2007,6 +2016,9 @@ msgcat::mcmset ja {
   "Show difference file version information"
   "ファイルのバージョン情報を表示します。"
 
+  "Show file information"
+  "ファイル情報"
+
   "Show folders at top"
   "上部のフォルダーを表示します。"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset ja {
 
   "Make Current Working Directory"
   "現在の作業ディレクトリを作る"
+
+  "Modified"
+  "変更日時"
 
   "New Directory"
   "新しいディレクトリ"
@@ -3246,6 +3261,9 @@ msgcat::mcmset ja {
 
   "Unfavorite"
   "気に入らない"
+
+  "Version"
+  "バージョン"
 
 }
 

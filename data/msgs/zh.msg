@@ -253,9 +253,6 @@ msgcat::mcmset zh {
   "Unable to successfully parse number string"
   "无法成功分析数字字符串"
 
-  "Version"
-  "版本"
-
   "for"
   "对于"
 
@@ -743,6 +740,9 @@ msgcat::mcmset zh {
   "Hide Current Tab"
   "当前标签页"
 
+  "Hide File Info"
+  "檔案資訊"
+
   "Hide Line Numbers"
   "隐藏行号"
 
@@ -766,6 +766,9 @@ msgcat::mcmset zh {
 
   "Hide Tcl console"
   "隐藏 Tcl 控制台"
+
+  "Hide file information panel"
+  "信息面板"
 
   "Hide line numbers"
   "行号"
@@ -1376,6 +1379,9 @@ msgcat::mcmset zh {
   "Show File Difference"
   "显示不同"
 
+  "Show File Info"
+  "檔案資訊"
+
   "Show Installed"
   "已安装"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset zh {
 
   "Show file difference"
   "显示不同"
+
+  "Show file information panel"
+  "显示信息面板to preview a file inside an archive"
 
   "Show installed plugins"
   "已安装的插件"
@@ -2007,6 +2016,9 @@ msgcat::mcmset zh {
   "Show difference file version information"
   "显示差异文件版本信息"
 
+  "Show file information"
+  "文件信息"
+
   "Show folders at top"
   "显示在顶部的文件夹"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset zh {
 
   "Make Current Working Directory"
   "使当前工作目录"
+
+  "Modified"
+  "修改"
 
   "New Directory"
   "新目录"
@@ -3246,6 +3261,9 @@ msgcat::mcmset zh {
 
   "Unfavorite"
   "不喜欢的"
+
+  "Version"
+  "版本"
 
 }
 

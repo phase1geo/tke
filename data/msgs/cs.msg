@@ -253,9 +253,6 @@ msgcat::mcmset cs {
   "Unable to successfully parse number string"
   "Nelze úspěšně analyzovat číselné řetězce"
 
-  "Version"
-  "Verze"
-
   "for"
   "za"
 
@@ -743,6 +740,9 @@ msgcat::mcmset cs {
   "Hide Current Tab"
   "Skrýt aktuální kartu"
 
+  "Hide File Info"
+  "Informace o souboru"
+
   "Hide Line Numbers"
   "Skrýt čísla řádek"
 
@@ -766,6 +766,9 @@ msgcat::mcmset cs {
 
   "Hide Tcl console"
   "Skrýt Tcl konzole"
+
+  "Hide file information panel"
+  "Skrýt panel informace o souboru"
 
   "Hide line numbers"
   "Skrýt čísla řádek"
@@ -1376,6 +1379,9 @@ msgcat::mcmset cs {
   "Show File Difference"
   "Zobrazit soubor rozdíl"
 
+  "Show File Info"
+  "Informace o souboru"
+
   "Show Installed"
   "Nainstalováno"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset cs {
 
   "Show file difference"
   "Zobrazit soubor rozdíl"
+
+  "Show file information panel"
+  "Zobrazit informační panelto preview a file inside an archive"
 
   "Show installed plugins"
   "Nainstalované moduly"
@@ -2007,6 +2016,9 @@ msgcat::mcmset cs {
   "Show difference file version information"
   "Zobrazit informace o verzi souboru rozdílu"
 
+  "Show file information"
+  "Zobrazit informace o souboru"
+
   "Show folders at top"
   "Zobrazit složky na vrcholu"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset cs {
 
   "Make Current Working Directory"
   "Ujistěte se aktuální pracovní adresář"
+
+  "Modified"
+  "Změněno"
 
   "New Directory"
   "Nový adresář"
@@ -3246,6 +3261,9 @@ msgcat::mcmset cs {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Version"
+  "Verze"
 
 }
 

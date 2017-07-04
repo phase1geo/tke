@@ -253,9 +253,6 @@ msgcat::mcmset ru {
   "Unable to successfully parse number string"
   "Не в состоянии успешно разбирать строку номера"
 
-  "Version"
-  "Версия"
-
   "for"
   "за"
 
@@ -743,6 +740,9 @@ msgcat::mcmset ru {
   "Hide Current Tab"
   "Текущая вкладка"
 
+  "Hide File Info"
+  "Информация о файле"
+
   "Hide Line Numbers"
   "Скрыть числа"
 
@@ -766,6 +766,9 @@ msgcat::mcmset ru {
 
   "Hide Tcl console"
   "Скрыть Tcl консоли"
+
+  "Hide file information panel"
+  "Ð¡Ð¿Ð¸ÑÐ¾Ðº@ action: inmenu View Mode"
 
   "Hide line numbers"
   "Скрыть числа"
@@ -1376,6 +1379,9 @@ msgcat::mcmset ru {
   "Show File Difference"
   "Показать файл разницы"
 
+  "Show File Info"
+  "Информация о файле"
+
   "Show Installed"
   "Установлено"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset ru {
 
   "Show file difference"
   "Показать файл разница"
+
+  "Show file information panel"
+  "Сведенияto preview a file inside an archive"
 
   "Show installed plugins"
   "Установленные плагины"
@@ -2007,6 +2016,9 @@ msgcat::mcmset ru {
   "Show difference file version information"
   "Показать сведения о версии файла различий"
 
+  "Show file information"
+  "Информация о файле"
+
   "Show folders at top"
   "Показать папки в верхней"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset ru {
 
   "Make Current Working Directory"
   "Сделать текущий рабочий каталог"
+
+  "Modified"
+  "Модифицированный"
 
   "New Directory"
   "Новый Справочник"
@@ -3246,6 +3261,9 @@ msgcat::mcmset ru {
 
   "Unfavorite"
   "Удалить из избранного"
+
+  "Version"
+  "Версия"
 
 }
 

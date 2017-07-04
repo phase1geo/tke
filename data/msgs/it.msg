@@ -253,9 +253,6 @@ msgcat::mcmset it {
   "Unable to successfully parse number string"
   "Grado di analizzare correttamente la stringa numerica"
 
-  "Version"
-  "Versione"
-
   "for"
   "per"
 
@@ -743,6 +740,9 @@ msgcat::mcmset it {
   "Hide Current Tab"
   "Scheda Corrente"
 
+  "Hide File Info"
+  "Informazioni File"
+
   "Hide Line Numbers"
   "Mostra i numeri di riga"
 
@@ -766,6 +766,9 @@ msgcat::mcmset it {
 
   "Hide Tcl console"
   "Nascondere la console di Tcl"
+
+  "Hide file information panel"
+  "Pannello informazioni"
 
   "Hide line numbers"
   "Mostra i numeri di riga"
@@ -1376,6 +1379,9 @@ msgcat::mcmset it {
   "Show File Difference"
   "Visualizza File differenza"
 
+  "Show File Info"
+  "Informazioni File"
+
   "Show Installed"
   "Installato"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset it {
 
   "Show file difference"
   "Visualizza file differenza"
+
+  "Show file information panel"
+  "Pannello informazionito preview a file inside an archive"
 
   "Show installed plugins"
   "Plugin installati"
@@ -2007,6 +2016,9 @@ msgcat::mcmset it {
   "Show difference file version information"
   "Visualizza informazioni sulla versione di file di differenza"
 
+  "Show file information"
+  "Informazioni sui file"
+
   "Show folders at top"
   "Mostra cartelle nella superiore"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset it {
 
   "Make Current Working Directory"
   "Directory di lavoro corrente"
+
+  "Modified"
+  "Modificato"
 
   "New Directory"
   "Nuova directory"
@@ -3246,6 +3261,9 @@ msgcat::mcmset it {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Version"
+  "Versione"
 
 }
 
