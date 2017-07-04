@@ -1,8 +1,8 @@
-#!tclsh8.5
+#!tclsh8.6
 
 proc usage {} {
   
-  puts "tclsh8.5 update.tcl -- <options>"
+  puts "tclsh8.6 update.tcl -- <options>"
   puts ""
   puts "Options:"
   puts "  -h  Display this usage information"
