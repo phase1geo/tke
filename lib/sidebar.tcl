@@ -241,7 +241,7 @@ namespace eval sidebar {
     set widgets(pver)    [label $w.if.version]
     set widgets(lmod)    [label $w.if.l2  -text [format "%s:" [msgcat::mc "Modified"]]]
     set widgets(pmod)    [label $w.if.modified]
-    ttk::separator       $w.if.sep2 -orient horizontal
+    set widgets(psep)    [ttk::separator $w.if.sep2 -orient horizontal]
 
     grid rowconfigure    $w.if 1 -weight 1
     grid columnconfigure $w.if 1 -weight 1
@@ -251,8 +251,8 @@ namespace eval sidebar {
     grid $w.if.name     -row 3 -column 0 -columnspan 2 ;# -sticky ew
     grid $w.if.type     -row 4 -column 0 -columnspan 2 ;# -sticky ew
     grid $w.if.f2       -row 5 -column 0 -pady 2
-    grid $w.if.l1       -row 6 -column 0 -sticky ew
-    grid $w.if.version  -row 6 -column 1 -sticky ew
+    grid $w.if.l1       -row 6 -column 0 -sticky e
+    grid $w.if.version  -row 6 -column 1 -sticky w
     grid $w.if.l2       -row 7 -column 0 -sticky e
     grid $w.if.modified -row 7 -column 1 -sticky w
     grid $w.if.sep2     -row 8 -column 0 -sticky ew -columnspan 2
@@ -2177,16 +2177,27 @@ namespace eval sidebar {
 
   ######################################################################
   # Update the information panel widgets with the given theme information.
-  proc update_theme {fgcolor bgcolor} {
+  proc update_theme {fgcolor bgcolor default_bgcolor} {
 
     variable widgets
 
+    # Colorize the frame widgets
     foreach f [list info pframe1 pframe2] {
       $widgets($f) configure -background $bgcolor
     }
 
+    # Colorize the non-frame widgets
     foreach w [list pimage pname ptype lver pver lmod pmod] {
       $widgets($w) configure -foreground $fgcolor -background $bgcolor
+    }
+
+    # If the background color of the information frame does not match the default
+    # background color, remove the final separator to cleanup the UI appearance;
+    # otherwise, make sure that it is there.
+    if {$bgcolor ne $default_bgcolor} {
+      grid remove $widgets(psep)
+    } else {
+      grid $widgets(psep)
     }
 
   }

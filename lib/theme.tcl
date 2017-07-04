@@ -1016,14 +1016,15 @@ namespace eval theme {
     variable widgets
 
     # Get the options
-    array set opts [get_category_options sidebar 1]
+    array set opts     [get_category_options sidebar 1]
+    array set ttk_opts [get_category_options ttk_style 1]
 
     foreach w $widgets(sidebar) {
       $w tag configure sel -background $opts(-selectbackground) -foreground $opts(-selectforeground)
       [winfo parent [winfo parent $w]] configure \
         -relief $opts(-relief) -highlightthickness $opts(-highlightthickness) \
         -highlightbackground $opts(-highlightbackground) -highlightcolor $opts(-highlightcolor)
-      sidebar::update_theme $opts(-foreground) $opts(-background)
+      sidebar::update_theme $opts(-foreground) $opts(-background) $ttk_opts(background)
     }
 
   }
