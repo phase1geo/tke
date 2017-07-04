@@ -230,18 +230,18 @@ namespace eval sidebar {
     grid $w.tf.vb -row 0 -column 1 -sticky ns
 
     # Create file info panel
-    set widgets(info)    [frame $w.if]
-    ttk::separator       $w.if.sep1 -orient horizontal
-    set widgets(pimage)  [label $w.if.preview]
-    set widgets(pframe1) [frame $w.if.f1]
-    set widgets(pname)   [label $w.if.name]
-    set widgets(ptype)   [label $w.if.type]
-    set widgets(pframe2) [frame $w.if.f2]
-    set widgets(lver)    [label $w.if.l1 -text [format "%s:" [msgcat::mc "Version"]]]
-    set widgets(pver)    [label $w.if.version]
-    set widgets(lmod)    [label $w.if.l2  -text [format "%s:" [msgcat::mc "Modified"]]]
-    set widgets(pmod)    [label $w.if.modified]
-    set widgets(psep)    [ttk::separator $w.if.sep2 -orient horizontal]
+    set widgets(info,f)       [frame $w.if]
+    ttk::separator            $w.if.sep1 -orient horizontal
+    set widgets(info,v,image) [label $w.if.preview]
+    set widgets(info,f,1)     [frame $w.if.f1]
+    set widgets(info,v,name)  [label $w.if.name]
+    set widgets(info,v,type)  [label $w.if.type]
+    set widgets(info,f,2)     [frame $w.if.f2]
+    set widgets(info,l,ver)   [label $w.if.l1 -text [format "%s:" [msgcat::mc "Version"]]]
+    set widgets(info,v,ver)   [label $w.if.version]
+    set widgets(info,l,mod)   [label $w.if.l2  -text [format "%s:" [msgcat::mc "Modified"]]]
+    set widgets(info,v,mod)   [label $w.if.modified]
+    set widgets(psep)         [ttk::separator $w.if.sep2 -orient horizontal]
 
     grid rowconfigure    $w.if 1 -weight 1
     grid columnconfigure $w.if 1 -weight 1
@@ -256,6 +256,9 @@ namespace eval sidebar {
     grid $w.if.l2       -row 7 -column 0 -sticky e
     grid $w.if.modified -row 7 -column 1 -sticky w
     grid $w.if.sep2     -row 8 -column 0 -sticky ew -columnspan 2
+
+    # Insert any file information plugin information
+    insert_file_info_plugins
 
     pack $w.tf -fill both -expand yes
 
@@ -284,6 +287,55 @@ namespace eval sidebar {
     trace variable preferences::prefs(View/ShowFileInfo)          w sidebar::handle_file_info_view
 
     return $w
+
+  }
+
+  ######################################################################
+  # Inserts the file information plugin labels into the file information panel.
+  proc insert_file_info_plugins {} {
+
+    variable widgets
+
+    set w $widgets(info,f)
+
+    # Remove any existing plugins
+    foreach name [array names widgets info,l,plug*] {
+      lassign [split $name ,] dummy1 dummy2 pname
+      grid forget $widgets(info,l,$pname) $widgets(info,v,$pname)
+      destroy $widgets(info,l,$pname) $widgets(info,v,$pname)
+    }
+
+    # Forget the previous plugin widgets
+    array unset widgets info,*,plug*
+
+    # Figure out which row we should start inserting
+    set row [expr [lindex [grid size $w] 1] - 1]
+
+    # Get the colors
+    set lfgcolor [$widgets(info,l,mod) cget -foreground]
+    set lbgcolor [$widgets(info,l,mod) cget -background]
+    set vfgcolor [$widgets(info,v,mod) cget -foreground]
+    set vbgcolor [$widgets(info,v,mod) cget -background]
+
+    # Get any file information plugin entries
+    foreach {index title} [plugins::get_file_info_titles] {
+
+      # Create the widgets
+      set widgets(info,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
+      set widgets(info,v,plug$index) [label $w.pv$index -foreground $vfgcolor -background $vbgcolor]
+
+      # Insert them into the grid
+      grid $w.pl$index -row $row -column 0 -sticky e
+      grid $w.pv$index -row $row -column 1 -sticky w
+      incr row
+
+    }
+
+    # Adjust the row of the last separator
+    grid $widgets(psep) -row $row
+
+    # Finally, call handle_selection in case we need to update the values in the file information panel
+    handle_selection
 
   }
 
@@ -2114,7 +2166,7 @@ namespace eval sidebar {
 
       if {[file isfile $fname]} {
 
-        pack $widgets(info) -fill both
+        pack $widgets(info,f) -fill both
 
         # Get the file information
         file stat $fname finfo
@@ -2127,16 +2179,14 @@ namespace eval sidebar {
         set cvs     [diff::get_default_cvs $fname]
         set version [diff::${cvs}::get_current_version $fname]
 
-        puts "cvs: $cvs, version: ($version)"
-
         # Figure out if we can display the file based on extension
         if {[lsearch [list .gif .png .bmp] [file extension $fname]] == -1} {
-          grid remove $widgets(pimage)
+          grid remove $widgets(info,v,image)
           if {[utils::is_binary $fname]} {
             set syntax "Binary"
           }
         } else {
-          grid $widgets(pimage)
+          grid $widgets(info,v,image)
           if {[file extension $fname] eq ".bmp"} {
             set orig  [image create bitmap -file $fname]
             set image [image create bitmap -file $fname -foreground [utils::get_default_foreground]]
@@ -2144,32 +2194,46 @@ namespace eval sidebar {
             set orig  [image create photo -file $fname]
             set image [::image_scale $orig 64 64]
           }
-          $widgets(pimage) configure -image $image
+          $widgets(info,v,image) configure -image $image
           set syntax "Unsupported"
           append name " ([image width $orig] x [image height $orig])"
           image delete $orig
         }
 
-        $widgets(pname) configure -text $name
-        $widgets(ptype) configure -text "$syntax - [utils::get_file_size $fname]"
-        $widgets(pver)  configure -text $version
-        $widgets(pmod)  configure -text [clock format $finfo(mtime)]
+        $widgets(info,v,name) configure -text $name
+        $widgets(info,v,type) configure -text "$syntax - [utils::get_file_size $fname]"
+        $widgets(info,v,ver)  configure -text $version
+        $widgets(info,v,mod)  configure -text [clock format $finfo(mtime)]
 
+        # Remove the version entry if it is not valid
         if {$version eq ""} {
-          grid remove $widgets(lver) $widgets(pver)
+          grid remove $widgets(info,l,ver) $widgets(info,v,ver)
         } else {
-          grid $widgets(lver) $widgets(pver)
+          grid $widgets(info,l,ver) $widgets(info,v,ver)
         }
+
+        # Insert plugin values
+        foreach {index value} [plugins::handle_file_info_values $fname] {
+          $widgets(info,v,plug$index) configure -text $value
+          if {$value eq ""} {
+            grid remove $widgets(info,l,plug$index) $widgets(info,v,plug$index)
+          } else {
+            grid $widgets(info,l,plug$index) $widgets(info,v,plug$index)
+          }
+        }
+
+        # Make sure that the sidebar item can be seen
+        $widgets(tl) see $selected
 
       } else {
 
-        pack forget $widgets(info)
+        pack forget $widgets(info,f)
 
       }
 
     } else {
 
-      pack forget $widgets(info)
+      pack forget $widgets(info,f)
 
     }
 
@@ -2177,18 +2241,23 @@ namespace eval sidebar {
 
   ######################################################################
   # Update the information panel widgets with the given theme information.
-  proc update_theme {fgcolor bgcolor default_bgcolor} {
+  proc update_theme {title_fgcolor value_fgcolor bgcolor default_bgcolor} {
 
     variable widgets
 
     # Colorize the frame widgets
-    foreach f [list info pframe1 pframe2] {
-      $widgets($f) configure -background $bgcolor
+    foreach w [array names widgets info,f*] {
+      $widgets($w) configure -background $bgcolor
     }
 
-    # Colorize the non-frame widgets
-    foreach w [list pimage pname ptype lver pver lmod pmod] {
-      $widgets($w) configure -foreground $fgcolor -background $bgcolor
+    # Colorize the title labels
+    foreach w [array names widgets info,l,*] {
+      $widgets($w) configure -foreground $title_fgcolor -background $bgcolor
+    }
+
+    # Colorize the value labels
+    foreach w [array names widgets info,v,*] {
+      $widgets($w) configure -foreground $value_fgcolor -background $bgcolor
     }
 
     # If the background color of the information frame does not match the default
