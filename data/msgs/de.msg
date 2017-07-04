@@ -253,9 +253,6 @@ msgcat::mcmset de {
   "Unable to successfully parse number string"
   "Nicht in der Lage, Anzahl Zeichenfolge erfolgreich analysiert"
 
-  "Version"
-  "Neue Font-Awesome-Version aktivieren"
-
   "for"
   "für"
 
@@ -743,6 +740,9 @@ msgcat::mcmset de {
   "Hide Current Tab"
   "Aktuelle Registerkarte ausblenden"
 
+  "Hide File Info"
+  "Dateiinfo"
+
   "Hide Line Numbers"
   "Ausblenden von Zeilennummern"
 
@@ -766,6 +766,9 @@ msgcat::mcmset de {
 
   "Hide Tcl console"
   "Tcl Konsole ausblenden"
+
+  "Hide file information panel"
+  "Informationskontrollleiste"
 
   "Hide line numbers"
   "zeilennummern zeilen nummern"
@@ -1376,6 +1379,9 @@ msgcat::mcmset de {
   "Show File Difference"
   "Karte Datei Unterschied"
 
+  "Show File Info"
+  "Datei anzeigen"
+
   "Show Installed"
   "installiert"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset de {
 
   "Show file difference"
   "Zeigen Datei Unterschied"
+
+  "Show file information panel"
+  "Informationskontrollleiste anzeigento preview a file inside an archive"
 
   "Show installed plugins"
   "已安装的插件"
@@ -2007,6 +2016,9 @@ msgcat::mcmset de {
   "Show difference file version information"
   "Dateiversionsinformationen Unterschied zeigen"
 
+  "Show file information"
+  "Dateiinformationen"
+
   "Show folders at top"
   "Ordner an Spitze anzeigen"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset de {
 
   "Make Current Working Directory"
   "Make Current Working Directory"
+
+  "Modified"
+  "Geändert"
 
   "New Directory"
   "Neues Verzeichnis"
@@ -3246,6 +3261,9 @@ msgcat::mcmset de {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Version"
+  "Neue Font-Awesome-Version aktivieren"
 
 }
 

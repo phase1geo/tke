@@ -253,9 +253,6 @@ msgcat::mcmset da {
   "Unable to successfully parse number string"
   "Ikke kan med held parse nummer streng"
 
-  "Version"
-  "Version"
-
   "for"
   "for"
 
@@ -743,6 +740,9 @@ msgcat::mcmset da {
   "Hide Current Tab"
   "Skjul aktuelle fane"
 
+  "Hide File Info"
+  "Filinfo"
+
   "Hide Line Numbers"
   "Skjul linjenumre"
 
@@ -766,6 +766,9 @@ msgcat::mcmset da {
 
   "Hide Tcl console"
   "Skjule Tcl konsol"
+
+  "Hide file information panel"
+  "Informationspanel"
 
   "Hide line numbers"
   "Skjul linjenumre"
@@ -1376,6 +1379,9 @@ msgcat::mcmset da {
   "Show File Difference"
   "Vis fil forskel"
 
+  "Show File Info"
+  "Filinfo"
+
   "Show Installed"
   "Installeret"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset da {
 
   "Show file difference"
   "Vis fil forskel"
+
+  "Show file information panel"
+  "Vis informationspanelto preview a file inside an archive"
 
   "Show installed plugins"
   "Installerede plugin"
@@ -2007,6 +2016,9 @@ msgcat::mcmset da {
   "Show difference file version information"
   "Vis forskellen filversionsoplysninger"
 
+  "Show file information"
+  "Filinformation"
+
   "Show folders at top"
   "Vis mapper øverst"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset da {
 
   "Make Current Working Directory"
   "Gør aktuelle arbejdsmappe"
+
+  "Modified"
+  "Redigeret"
 
   "New Directory"
   "Nyt bibliotek"
@@ -3246,6 +3261,9 @@ msgcat::mcmset da {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Version"
+  "Version"
 
 }
 

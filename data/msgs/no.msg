@@ -253,9 +253,6 @@ msgcat::mcmset no {
   "Unable to successfully parse number string"
   "Kan ikke analysere vellykket tallstreng"
 
-  "Version"
-  "Versjon"
-
   "for"
   "for"
 
@@ -743,6 +740,9 @@ msgcat::mcmset no {
   "Hide Current Tab"
   "Skjule gjeldende fane"
 
+  "Hide File Info"
+  "Filinfo"
+
   "Hide Line Numbers"
   "Skjul linjenumre"
 
@@ -766,6 +766,9 @@ msgcat::mcmset no {
 
   "Hide Tcl console"
   "Skjule Tcl konsollen"
+
+  "Hide file information panel"
+  "Informasjonspanel"
 
   "Hide line numbers"
   "Skjul linjenumre"
@@ -1376,6 +1379,9 @@ msgcat::mcmset no {
   "Show File Difference"
   "Vise filen forskjellen"
 
+  "Show File Info"
+  "Vis fil"
+
   "Show Installed"
   "Installert"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset no {
 
   "Show file difference"
   "Vise filen forskjellen"
+
+  "Show file information panel"
+  "to preview a file inside an archive"
 
   "Show installed plugins"
   "Installerte utvidelser"
@@ -2007,6 +2016,9 @@ msgcat::mcmset no {
   "Show difference file version information"
   "Vis forskjellen filversjonsinformasjon"
 
+  "Show file information"
+  "Filinformasjon"
+
   "Show folders at top"
   "Vis mapper øverst"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset no {
 
   "Make Current Working Directory"
   "Gjør nåværende arbeidskatalog"
+
+  "Modified"
+  "Endret"
 
   "New Directory"
   "Ny katalog"
@@ -3246,6 +3261,9 @@ msgcat::mcmset no {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Version"
+  "Versjon"
 
 }
 

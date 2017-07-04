@@ -253,9 +253,6 @@ msgcat::mcmset he {
   "Unable to successfully parse number string"
   "אין אפשרות לנתח בהצלחה מספר מיתרים"
 
-  "Version"
-  "גרסה"
-
   "for"
   "עבור"
 
@@ -743,6 +740,9 @@ msgcat::mcmset he {
   "Hide Current Tab"
   "כרטיסיה הנוכחית"
 
+  "Hide File Info"
+  "הסתר את דפדפן הקבצים"
+
   "Hide Line Numbers"
   "הסתר מספרי שורות"
 
@@ -766,6 +766,9 @@ msgcat::mcmset he {
 
   "Hide Tcl console"
   "הסתר Tcl המסוף"
+
+  "Hide file information panel"
+  "to preview a file inside an archive"
 
   "Hide line numbers"
   "הסתר מספרי שורות"
@@ -1376,6 +1379,9 @@ msgcat::mcmset he {
   "Show File Difference"
   "הצג קובץ ההבדל"
 
+  "Show File Info"
+  "הצגת תאריך קובץ"
+
   "Show Installed"
   "מותקן"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset he {
 
   "Show file difference"
   "הצג קובץ ההבדל"
+
+  "Show file information panel"
+  "to preview a file inside an archive"
 
   "Show installed plugins"
   "הצג תוספים מותקנים"
@@ -2007,6 +2016,9 @@ msgcat::mcmset he {
   "Show difference file version information"
   "הצג את פרטי הגירסה של הקובץ ההבדל"
 
+  "Show file information"
+  "מידע על הקובץ"
+
   "Show folders at top"
   "הצג תיקיות בחלק העליון"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset he {
 
   "Make Current Working Directory"
   "להפוך את הזרם ספריית עבודה"
+
+  "Modified"
+  "עדכון"
 
   "New Directory"
   "ספריה חדשה"
@@ -3246,6 +3261,9 @@ msgcat::mcmset he {
 
   "Unfavorite"
   "בטל סימון כמועדף"
+
+  "Version"
+  "גרסה"
 
 }
 

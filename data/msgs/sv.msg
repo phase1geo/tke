@@ -253,9 +253,6 @@ msgcat::mcmset sv {
   "Unable to successfully parse number string"
   "Inte att framgångsrikt parsa nummer sträng"
 
-  "Version"
-  "Version"
-
   "for"
   "för"
 
@@ -743,6 +740,9 @@ msgcat::mcmset sv {
   "Hide Current Tab"
   "Dölja den aktuella fliken"
 
+  "Hide File Info"
+  "Filinformation"
+
   "Hide Line Numbers"
   "Dölja radnummer"
 
@@ -766,6 +766,9 @@ msgcat::mcmset sv {
 
   "Hide Tcl console"
   "Dölja Tcl-konsolen"
+
+  "Hide file information panel"
+  "Dölja filen informationspanel"
 
   "Hide line numbers"
   "Dölj radnummer"
@@ -1376,6 +1379,9 @@ msgcat::mcmset sv {
   "Show File Difference"
   "Visa filen skillnaden"
 
+  "Show File Info"
+  "Filinformation"
+
   "Show Installed"
   "installerad"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset sv {
 
   "Show file difference"
   "Visa filen skillnaden"
+
+  "Show file information panel"
+  "Visa informationsrutato preview a file inside an archive"
 
   "Show installed plugins"
   "Installerade Tillägg"
@@ -2007,6 +2016,9 @@ msgcat::mcmset sv {
   "Show difference file version information"
   "Visa information om en differensfil version"
 
+  "Show file information"
+  "Filinformation"
+
   "Show folders at top"
   "Visa mappar längst upp"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset sv {
 
   "Make Current Working Directory"
   "Gör aktuell katalog"
+
+  "Modified"
+  "Ändrad"
 
   "New Directory"
   "Ny katalog"
@@ -3246,6 +3261,9 @@ msgcat::mcmset sv {
 
   "Unfavorite"
   "Bort från favoriter"
+
+  "Version"
+  "Version"
 
 }
 

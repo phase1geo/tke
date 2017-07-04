@@ -253,9 +253,6 @@ msgcat::mcmset hu {
   "Unable to successfully parse number string"
   "Nem lehet elemezni a biztonsági szám karakterlánc"
 
-  "Version"
-  "Verzió"
-
   "for"
   "mert"
 
@@ -743,6 +740,9 @@ msgcat::mcmset hu {
   "Hide Current Tab"
   "Aktuális fül"
 
+  "Hide File Info"
+  "Fájlinformációk elrejtése"
+
   "Hide Line Numbers"
   "Sorszámok elrejtése"
 
@@ -766,6 +766,9 @@ msgcat::mcmset hu {
 
   "Hide Tcl console"
   "Tcl konzolhoz elrejtése"
+
+  "Hide file information panel"
+  "Jellemzők panel"
 
   "Hide line numbers"
   "Sorszámok elrejtése"
@@ -1376,6 +1379,9 @@ msgcat::mcmset hu {
   "Show File Difference"
   "Térkép fájl különbség"
 
+  "Show File Info"
+  "FÃ¡jlinformÃ¡ciÃ³k"
+
   "Show Installed"
   "telepítve"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset hu {
 
   "Show file difference"
   "Térkép fájl különbség"
+
+  "Show file information panel"
+  "Jellemzők panelto preview a file inside an archive"
 
   "Show installed plugins"
   "Telepített bővítmények"
@@ -2007,6 +2016,9 @@ msgcat::mcmset hu {
   "Show difference file version information"
   "Különbség a fájl verzióadatok megjelenítése"
 
+  "Show file information"
+  "Fájlinformáció"
+
   "Show folders at top"
   "Térkép-mappák tetején"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset hu {
 
   "Make Current Working Directory"
   "Legyen aktuális könyvtár"
+
+  "Modified"
+  "Módosítva"
 
   "New Directory"
   "Új könyvtár"
@@ -3246,6 +3261,9 @@ msgcat::mcmset hu {
 
   "Unfavorite"
   "Nem kedvenc"
+
+  "Version"
+  "Verzió"
 
 }
 

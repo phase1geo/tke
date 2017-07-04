@@ -253,9 +253,6 @@ msgcat::mcmset nl {
   "Unable to successfully parse number string"
   "Kan niet met succes nummer tekenreeks parseren"
 
-  "Version"
-  "Versie"
-
   "for"
   "voor"
 
@@ -743,6 +740,9 @@ msgcat::mcmset nl {
   "Hide Current Tab"
   "Huidig tabblad"
 
+  "Hide File Info"
+  "Bestandsinfo"
+
   "Hide Line Numbers"
   "Regelnummers verbergen"
 
@@ -766,6 +766,9 @@ msgcat::mcmset nl {
 
   "Hide Tcl console"
   "Verbergen van Tcl console"
+
+  "Hide file information panel"
+  "Informatiebalk"
 
   "Hide line numbers"
   "Verbergen van regelnummers"
@@ -1376,6 +1379,9 @@ msgcat::mcmset nl {
   "Show File Difference"
   "Toon bestand verschil"
 
+  "Show File Info"
+  "Toon bestandsinformatie."
+
   "Show Installed"
   "Geïnstalleerd"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset nl {
 
   "Show file difference"
   "Toon bestand verschil"
+
+  "Show file information panel"
+  "Informatiepaneel tonento preview a file inside an archive"
 
   "Show installed plugins"
   "geïnstalleerde Plugins"
@@ -2007,6 +2016,9 @@ msgcat::mcmset nl {
   "Show difference file version information"
   "Verschil bestand versie-informatie weergeven"
 
+  "Show file information"
+  "Bestandsinformatie"
+
   "Show folders at top"
   "Mappen boven weergeven"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset nl {
 
   "Make Current Working Directory"
   "Make Current Working Directory"
+
+  "Modified"
+  "Gewijzigd"
 
   "New Directory"
   "Nieuwe directory"
@@ -3246,6 +3261,9 @@ msgcat::mcmset nl {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Version"
+  "Versie"
 
 }
 

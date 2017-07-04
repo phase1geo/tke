@@ -253,9 +253,6 @@ msgcat::mcmset el {
   "Unable to successfully parse number string"
   "Δυνατό να αναλύσει με επιτυχία αριθμός συμβολοσειρά"
 
-  "Version"
-  "Έκδοση"
-
   "for"
   "για"
 
@@ -743,6 +740,9 @@ msgcat::mcmset el {
   "Hide Current Tab"
   "Απόκρυψη της τρέχουσας καρτέλας"
 
+  "Hide File Info"
+  "Αποκρύψετε πληροφορίες αρχείου"
+
   "Hide Line Numbers"
   "Απόκρυψη αριθμών γραμμών"
 
@@ -766,6 +766,9 @@ msgcat::mcmset el {
 
   "Hide Tcl console"
   "Απόκρυψη Tcl κονσόλα"
+
+  "Hide file information panel"
+  "ÎÎ¹ÎºÎ¿Î½Î¯Î´Î¹Î±@ action: inmenu View Mode"
 
   "Hide line numbers"
   "Αριθμοί Γραμμής"
@@ -1376,6 +1379,9 @@ msgcat::mcmset el {
   "Show File Difference"
   "Εμφάνιση αρχείου διαφορά"
 
+  "Show File Info"
+  "Πληροφορίες αρχείου"
+
   "Show Installed"
   "Εγκαταστάθηκε"
 
@@ -1414,6 +1420,9 @@ msgcat::mcmset el {
 
   "Show file difference"
   "Εμφάνιση αρχείου διαφορά"
+
+  "Show file information panel"
+  "Πίνακας πληροφοριώνto preview a file inside an archive"
 
   "Show installed plugins"
   "Εγκατεστημένα πρόσθετα"
@@ -2007,6 +2016,9 @@ msgcat::mcmset el {
   "Show difference file version information"
   "Εμφάνιση διαφορά πληροφορίες έκδοσης του αρχείου"
 
+  "Show file information"
+  "Πληροφορίες αρχείων"
+
   "Show folders at top"
   "Εμφάνιση φακέλων στην κορυφή"
 
@@ -2423,6 +2435,9 @@ msgcat::mcmset el {
 
   "Make Current Working Directory"
   "Κάντε τρέχων κατάλογος εργασίας"
+
+  "Modified"
+  "Τροποποιημένο"
 
   "New Directory"
   "Νέα Directory"
@@ -3246,6 +3261,9 @@ msgcat::mcmset el {
 
   "Unfavorite"
   "Μη αγαπημένα"
+
+  "Version"
+  "Έκδοση"
 
 }
 
