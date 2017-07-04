@@ -1023,6 +1023,7 @@ namespace eval theme {
       [winfo parent [winfo parent $w]] configure \
         -relief $opts(-relief) -highlightthickness $opts(-highlightthickness) \
         -highlightbackground $opts(-highlightbackground) -highlightcolor $opts(-highlightcolor)
+      sidebar::update_theme $opts(-foreground) $opts(-background)
     }
 
   }

@@ -2475,6 +2475,14 @@ namespace eval menus {
     launcher::register [make_menu_cmd "View" [msgcat::mc "Show sidebar"]] [list menus::show_sidebar_view $mb]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Hide sidebar"]] [list menus::hide_sidebar_view $mb]
 
+    if {[preferences::get View/ShowFileInfo]} {
+      $mb add command -label [msgcat::mc "Hide File Info"] -underline 5 -command [list menus::hide_file_info_view $mb]
+    } else {
+      $mb add command -label [msgcat::mc "Show File Info"] -underline 5 -command [list menus::show_file_info_view $mb]
+    }
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Show file information panel"]] [list menus::show_file_info_view $mb]
+    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide file information panel"]] [list menus::hide_file_info_view $mb]
+
     if {[preferences::get View/ShowTabBar]} {
       $mb add command -label [msgcat::mc "Hide Tab Bar"] -underline 5 -command [list menus::hide_tab_view $mb]
     } else {
@@ -2846,6 +2854,26 @@ namespace eval menus {
     # Convert the menu command into the hide sidebar command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Sidebar"] -label [msgcat::mc "Show Sidebar"] -command "menus::show_sidebar_view $mb"}]} {
       gui::hide_sidebar_view
+    }
+
+  }
+
+  ######################################################################
+  # Shows the file information panel in the sidebar.
+  proc show_file_info_view {mb} {
+
+    if {![catch {$mb entryconfigure [msgcat::mc "Show File Info"] -label [msgcat::mc "Hide File Info"] -command "menus::hide_file_info_view $mb"}]} {
+      sidebar::set_file_info_view 1
+    }
+
+  }
+
+  ######################################################################
+  # Shows the file information panel in the sidebar.
+  proc hide_file_info_view {mb} {
+
+    if {![catch {$mb entryconfigure [msgcat::mc "Hide File Info"] -label [msgcat::mc "Show File Info"] -command "menus::show_file_info_view $mb"}]} {
+      sidebar::set_file_info_view 0
     }
 
   }

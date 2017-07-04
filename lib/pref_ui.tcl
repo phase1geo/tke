@@ -2616,6 +2616,7 @@ namespace eval pref_ui {
 
     make_cb $w.sm   [msgcat::mc "Show menubar"]                                     View/ShowMenubar
     make_cb $w.ss   [msgcat::mc "Show sidebar"]                                     View/ShowSidebar
+    make_cb $w.sfi  [msgcat::mc "Show file information"]                            View/ShowFileInfo
     make_cb $w.ssb  [msgcat::mc "Show status bar"]                                  View/ShowStatusBar
     make_cb $w.stb  [msgcat::mc "Show tab bar"]                                     View/ShowTabBar
     make_cb $w.sln  [msgcat::mc "Show line numbers"]                                View/ShowLineNumbers
