@@ -729,6 +729,7 @@ namespace eval diff {
           }
         }
       }
+      return ""
     }
 
     proc find_version {fname v2 lnum} {
@@ -883,6 +884,7 @@ namespace eval diff {
           }
         }
       }
+      return ""
     }
 
     proc find_version {fname v2 lnum} {
@@ -955,10 +957,11 @@ namespace eval diff {
       if {![catch { exec bzr log $fname } rc]} {
         foreach line [split $rc \n] {
           if {[regexp {revno:\s+(\d+)} $line -> version]} {
-            lappend versions $version
+            return $version
           }
         }
       }
+      return ""
     }
 
     proc find_version {fname v2 lnum} {
@@ -1027,6 +1030,17 @@ namespace eval diff {
       }
     }
 
+    proc get_current_version {fname} {
+      if {![catch { exec svn FOOBAR $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^r(\d+)\s*\|} $line -> version]} {
+            lappend versions $version
+          }
+        }
+      }
+      return ""
+    }
+
     proc find_version {fname v2 lnum} {
       if {$v2 eq "Current"} {
         if {![catch { exec svn annotate $fname } rc]} {
@@ -1091,6 +1105,17 @@ namespace eval diff {
       } else {
         return "cvs diff -u -r $v1 -r $v2 $fname"
       }
+    }
+
+    proc get_current_version {fname} {
+      if {![catch { exec cvs FOOBAR $fname } rc]} {
+        foreach line [split $rc \n] {
+          if {[regexp {^revision\s+(.*)$} $line -> version]} {
+            return $version
+          }
+        }
+      }
+      return ""
     }
 
     proc find_version {fname v2 lnum} {

@@ -31,6 +31,7 @@ namespace eval sidebar {
   variable after_id         ""
   variable jump_str         ""
   variable jump_after_id    ""
+  variable show_file_info   1
 
   array set widgets {}
 
@@ -229,17 +230,17 @@ namespace eval sidebar {
     grid $w.tf.vb -row 0 -column 1 -sticky ns
 
     # Create file info panel
-    set widgets(info)    [ttk::frame $w.if]
+    set widgets(info)    [frame $w.if]
     ttk::separator       $w.if.sep1 -orient horizontal
-    set widgets(pimage)  [ttk::label $w.if.preview]
-    ttk::frame $w.if.f1
-    set widgets(pname)   [ttk::label $w.if.name]
-    set widgets(ptype)   [ttk::label $w.if.type]
-    ttk::frame $w.if.f2
-    set widgets(lver)    [ttk::label $w.if.l1  -text [format "%s:" [msgcat::mc "Version"]]]
-    set widgets(pver)    [ttk::label $w.if.version]
-    ttk::label $w.if.l2  -text [format "%s:" [msgcat::mc "Modified"]]
-    set widgets(pmod)    [ttk::label $w.if.modified]
+    set widgets(pimage)  [label $w.if.preview]
+    set widgets(pframe1) [frame $w.if.f1]
+    set widgets(pname)   [label $w.if.name]
+    set widgets(ptype)   [label $w.if.type]
+    set widgets(pframe2) [frame $w.if.f2]
+    set widgets(lver)    [label $w.if.l1 -text [format "%s:" [msgcat::mc "Version"]]]
+    set widgets(pver)    [label $w.if.version]
+    set widgets(lmod)    [label $w.if.l2  -text [format "%s:" [msgcat::mc "Modified"]]]
+    set widgets(pmod)    [label $w.if.modified]
     ttk::separator       $w.if.sep2 -orient horizontal
 
     grid rowconfigure    $w.if 1 -weight 1
@@ -252,8 +253,8 @@ namespace eval sidebar {
     grid $w.if.f2       -row 5 -column 0 -pady 2
     grid $w.if.l1       -row 6 -column 0 -sticky ew
     grid $w.if.version  -row 6 -column 1 -sticky ew
-    grid $w.if.l2       -row 7 -column 0 -sticky ew
-    grid $w.if.modified -row 7 -column 1 -sticky ew
+    grid $w.if.l2       -row 7 -column 0 -sticky e
+    grid $w.if.modified -row 7 -column 1 -sticky w
     grid $w.if.sep2     -row 8 -column 0 -sticky ew -columnspan 2
 
     pack $w.tf -fill both -expand yes
@@ -280,6 +281,7 @@ namespace eval sidebar {
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_files
     trace variable preferences::prefs(Sidebar/IgnoreBinaries)     w sidebar::handle_ignore_files
+    trace variable preferences::prefs(View/ShowFileInfo)          w sidebar::handle_file_info_view
 
     return $w
 
@@ -1979,6 +1981,29 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Handles the file information view option.
+  proc handle_file_info_view {name1 name2 op} {
+
+    set_file_info_view [preferences::get View/ShowFileInfo]
+
+  }
+
+  ######################################################################
+  # Sets the file information view value and updates the UI state.
+  proc set_file_info_view {value} {
+
+    variable widgets
+    variable show_file_info
+
+    # Save the state of the View/ShowFileInfo preference option
+    set show_file_info $value
+
+    # Update the file info widget
+    update_file_info [$widgets(tl) selection]
+
+  }
+
+  ######################################################################
   # Returns the list of files that are currently visible.
   proc get_shown_files {} {
 
@@ -2081,8 +2106,9 @@ namespace eval sidebar {
   proc update_file_info {selected} {
 
     variable widgets
+    variable show_file_info
 
-    if {[llength $selected] == 1} {
+    if {([llength $selected] == 1) && $show_file_info} {
 
       set fname [$widgets(tl) set [lindex $selected 0] name]
 
@@ -2145,6 +2171,22 @@ namespace eval sidebar {
 
       pack forget $widgets(info)
 
+    }
+
+  }
+
+  ######################################################################
+  # Update the information panel widgets with the given theme information.
+  proc update_theme {fgcolor bgcolor} {
+
+    variable widgets
+
+    foreach f [list info pframe1 pframe2] {
+      $widgets($f) configure -background $bgcolor
+    }
+
+    foreach w [list pimage pname ptype lver pver lmod pmod] {
+      $widgets($w) configure -foreground $fgcolor -background $bgcolor
     }
 
   }

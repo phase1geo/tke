@@ -277,6 +277,12 @@
 
 {View/ShowSidebar}           {1}
 
+# If this value is set to 1, the sidebar file information panel will be displayed
+# on application start when a file is selected in the sidebar.  If this value is
+# set to 0, the sidebar file information panel will be hidden on application start.
+
+{View/ShowFileInfo}          {1}
+
 # If this value is set to 1 and the console is supported on the current platform,
 # the Tcl console window will be displayed on application start.
 
