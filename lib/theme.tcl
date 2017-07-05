@@ -43,6 +43,7 @@ namespace eval theme {
     text_scrollbar    [msgcat::mc "Text Scrollbar Options"] \
     sidebar           [msgcat::mc "Sidebar Options"] \
     sidebar_scrollbar [msgcat::mc "Sidebar Scrollbar Options"] \
+    file_info         [msgcat::mc "File Information Options"] \
     launcher          [msgcat::mc "Command Launcher Options"] \
     images            [msgcat::mc "Images"] \
   ]
@@ -121,6 +122,9 @@ namespace eval theme {
     sidebar_scrollbar,-background {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-foreground {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar."}}
     sidebar_scrollbar,-thickness  {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbar when it is active."}}
+    file_info,-background         {color {2} {} {0} {msgcat::mc "Background color to use for the file information panel."}}
+    file_info,-title_foreground   {color {1} {} {0} {msgcat::mc "Foreground color to use for title text in the information panel."}}
+    file_info,-value_foreground   {color {1} {} {0} {msgcat::mc "Foreground color to use for value text in the information panel."}}
     launcher,-background          {color {white} {} {0} {msgcat::mc "Specifies background color of command launcher entry and list"}}
     launcher,-foreground          {color {black} {} {0} {msgcat::mc "Specifies foreground color of command launcher entry and list"}}
     launcher,-selectbackground    {color {light blue} {} {0} {msgcat::mc "Background color of selection in command launcher"}}
@@ -1016,15 +1020,13 @@ namespace eval theme {
     variable widgets
 
     # Get the options
-    array set opts     [get_category_options sidebar 1]
-    array set ttk_opts [get_category_options ttk_style 1]
+    array set opts [get_category_options sidebar 1]
 
     foreach w $widgets(sidebar) {
       $w tag configure sel -background $opts(-selectbackground) -foreground $opts(-selectforeground)
       [winfo parent [winfo parent $w]] configure \
         -relief $opts(-relief) -highlightthickness $opts(-highlightthickness) \
         -highlightbackground $opts(-highlightbackground) -highlightcolor $opts(-highlightcolor)
-      sidebar::update_theme $opts(-foreground) $opts(-foreground) $opts(-background) $ttk_opts(background)
     }
 
   }
@@ -1034,6 +1036,17 @@ namespace eval theme {
   proc update_sidebar_scrollbar {} {
 
     update_widget sidebar_scrollbar
+
+  }
+
+  ######################################################################
+  # Updates the file information panel with the given theme settings.
+  proc update_file_info {} {
+
+    array set opts     [get_category_options file_info 1]
+    array set ttk_opts [get_category_options ttk_style 1]
+
+    sidebar::update_theme $opts(-title_foreground) $opts(-value_foreground) $opts(-background) $ttk_opts(background)
 
   }
 
