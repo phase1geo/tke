@@ -82,6 +82,7 @@ package require comm
 package require ftp
 package require base64
 package require tkcon
+catch { package require Img }
 if {[catch { package require xml }]} {
   lappend auto_path [file join $tke_dir lib ptwidgets1.2 common Tclxml3.2]
 }
