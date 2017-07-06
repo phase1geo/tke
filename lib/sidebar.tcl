@@ -2160,6 +2160,9 @@ namespace eval sidebar {
     variable widgets
     variable show_file_info
 
+    # Delete the information preview
+    catch { image delete info_preview }
+
     if {([llength $selected] == 1) && $show_file_info} {
 
       set fname [$widgets(tl) set [lindex $selected 0] name]
@@ -2180,24 +2183,19 @@ namespace eval sidebar {
         set version [diff::${cvs}::get_current_version $fname]
 
         # Figure out if we can display the file based on extension
-        if {[lsearch [list .gif .png .bmp] [file extension $fname]] == -1} {
+        if {![catch { image create photo -file $fname } orig]} {
+          grid $widgets(info,v,image)
+          ::image_scale $orig 64 64 [image create photo info_preview]
+          update_file_info_image $orig info_preview name syntax
+        } elseif {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
+          grid $widgets(info,v,image)
+          image create bitmap info_preview -file $fname -foreground [utils::get_default_foreground]
+          update_file_info_image $orig info_preview name syntax
+        } else {
           grid remove $widgets(info,v,image)
           if {[utils::is_binary $fname]} {
             set syntax "Binary"
           }
-        } else {
-          grid $widgets(info,v,image)
-          if {[file extension $fname] eq ".bmp"} {
-            set orig  [image create bitmap -file $fname]
-            set image [image create bitmap -file $fname -foreground [utils::get_default_foreground]]
-          } else {
-            set orig  [image create photo -file $fname]
-            set image [::image_scale $orig 64 64]
-          }
-          $widgets(info,v,image) configure -image $image
-          set syntax "Unsupported"
-          append name " ([image width $orig] x [image height $orig])"
-          image delete $orig
         }
 
         $widgets(info,v,name) configure -text $name
@@ -2236,6 +2234,27 @@ namespace eval sidebar {
       pack forget $widgets(info,f)
 
     }
+
+  }
+
+  ######################################################################
+  # Updates the file information image and related information.
+  proc update_file_info_image {orig image pname psyntax} {
+
+    variable widgets
+
+    upvar $pname   name
+    upvar $psyntax syntax
+
+    # Update the image
+    $widgets(info,v,image) configure -image $image
+
+    # Calculate the syntax and name values
+    set syntax "Unsupported"
+    append name " ([image width $orig] x [image height $orig])"
+
+    # Delete the original image
+    image delete $orig
 
   }
 
