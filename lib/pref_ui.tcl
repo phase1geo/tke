@@ -2629,6 +2629,7 @@ namespace eval pref_ui {
     make_cb $w.ota  [msgcat::mc "Sort tabs alphabetically on open"]                 View/OpenTabsAlphabetically
     make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
     make_cb $w.sls  [msgcat::mc "Show language submenu"]                            View/ShowLanguagesSubmenu
+    make_cb $w.kfiv [msgcat::mc "Keep file information panel visible when sidebar doesn't have focus"] View/KeepFileInfoVisible
 
     make_spacer $w
 

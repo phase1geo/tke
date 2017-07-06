@@ -283,6 +283,13 @@
 
 {View/ShowFileInfo}          {1}
 
+# If View/ShowFileInfo is set to true, this option, if set, will keep the file
+# information panel visible even when the sidebar does not have keyboard focus.
+# If it is set to 0, the file information panel will be hidden when sidebar
+# focus is lost.
+
+View/KeepFileInfoVisible     {0}
+
 # If this value is set to 1 and the console is supported on the current platform,
 # the Tcl console window will be displayed on application start.
 
