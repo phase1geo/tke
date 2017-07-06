@@ -222,7 +222,9 @@ namespace eval sidebar {
       sidebar::handle_return_space %W
       break
     }
-    bind $widgets(tl) <Key> [list sidebar::handle_any %K %A]
+    bind $widgets(tl) <Key>      [list sidebar::handle_any %K %A]
+    # bind $widgets(tl) <FocusIn>  [list sidebar::handle_focus_in]
+    bind $widgets(tl) <FocusOut> [list sidebar::handle_focus_out]
 
     grid rowconfigure    $w.tf 0 -weight 1
     grid columnconfigure $w.tf 0 -weight 1
@@ -1351,6 +1353,33 @@ namespace eval sidebar {
       set sidebar::jump_str      ""
       set sidebar::jump_after_id ""
     }]
+
+  }
+
+  ######################################################################
+  # Handles the sidebar gaining focus.
+  proc handle_focus_in {} {
+
+    variable widgets
+    variable show_file_info
+
+    set selected [$widgets(tl) selection]
+
+    if {$show_file_info && ([llength $selected] == 1) && [file isfile [$widgets(tl) set [lindex $selected 0] name]]} {
+      pack $widgets(info,f) -fill both
+    }
+
+  }
+
+  ######################################################################
+  # Handles the sidebar losing focus.
+  proc handle_focus_out {} {
+
+    variable widgets
+
+    if {![preferences::get View/KeepFileInfoVisible]} {
+      pack forget $widgets(info,f)
+    }
 
   }
 
