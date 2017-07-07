@@ -4193,6 +4193,8 @@ namespace eval gui {
       vim::set_vim_mode         $txt
       multicursor::add_bindings $txt
       completer::add_bindings   $txt
+      select::add               $txt $tab.pw.tf.sb
+      grid $tab.pw.tf.sb -row 0 -column 2 -rowspan 2 -sticky ns
     }
     plugins::handle_text_bindings $txt $opts(-tags)
     make_drop_target                   $txt
@@ -4304,8 +4306,11 @@ namespace eval gui {
     vim::set_vim_mode             $txt2
     multicursor::add_bindings     $txt2
     completer::add_bindings       $txt2
+    select::add               $txt $tab.pw.tb.sb
     plugins::handle_text_bindings $txt2 {}
     make_drop_target              $txt2
+
+    grid $pw.tf2.sb -row 0 -column 2 -rowspan 2 -sticky ns
 
     # Apply the appropriate syntax highlighting for the given extension
     syntax::set_language $txt2 [syntax::get_language $txt]
