@@ -1,576 +1,66 @@
-2017-06-24 13:24 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2e73ee273bdf [stable-3.2])
+2017-07-04 11:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (71e70e27d193 [devel-3.2.1])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for stable-3.2 release
+	ChangeLog for devel-3.2.1 release
 
-2017-06-24 13:24 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8152d29844b4)
+2017-07-04 11:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b281091add52)
 
 	* .hgtags:
-	Added tag stable-3.2 for changeset 2e73ee273bdf
+	Added tag devel-3.2.1 for changeset 71e70e27d193
 
-2017-06-27 11:24 -0500  Trevor Williams  <phase1geo@gmail.com>  (dae4b76a4829)
+2017-07-04 11:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c04254aa4d82)
 
-	* Win/freewrap.files, lib/sidebar.tcl:
-	* Fixing Windows issue with sidebar display.
+	* data/msgs/Makefile, data/msgs/update.tcl, lib/version.tcl:
+	* Updating translation updater to use tclsh8.6.
 
-2017-06-27 11:39 -0500  Trevor Williams  <phase1geo@gmail.com>  (03e350720064)
+2017-07-04 14:23 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9ea38b2ea966)
 
-	* data/syntax/Tcl.syntax, lib/utils.tcl:
-	* Updating Tcl reference documentation from 8.5 to 8.6.
-	* Fixing issue with viewing URLs in a web browser in Windows.
+	* doc/md/TKE Developer Guide/Plugin Action
+	Types/file_info.textbundle/info.json, doc/md/TKE Developer
+	Guide/Plugin Action Types/file_info.textbundle/text.md,
+	plugins/file_info/header.tkedat, plugins/file_info/main.tcl: new
+	file.
+	* doc/md/.Ulysses-favorites.plist, doc/md/TKE Developer Guide/Plugin
+	Action Types/.Ulysses-Group.plist, doc/md/TKE Developer Guide/Plugin
+	Action Types/file_info.textbundle/info.json, doc/md/TKE Developer
+	Guide/Plugin Action Types/file_info.textbundle/text.md,
+	lib/plugins.tcl, lib/sidebar.tcl, lib/theme.tcl, lib/version.tcl,
+	plugins/file_info/header.tkedat, plugins/file_info/main.tcl:
+	* Adding support for file_info plugins.
+	* Updating Developer Guide to include information about file_info
+	plugins.
+	* Checking in file_info test plugin (to demonstrate its usage).
 
-2017-06-28 21:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c3c243493bc0)
+2017-07-04 18:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c7a496449bb5)
 
-	* lib/tablelist5.18/CHANGES.txt, lib/tablelist5.18/COPYRIGHT.txt,
-	lib/tablelist5.18/README.txt, lib/tablelist5.18/pkgIndex.tcl,
-	lib/tablelist5.18/scripts/mwutil.tcl,
-	lib/tablelist5.18/scripts/pencil.cur,
-	lib/tablelist5.18/scripts/repair.tcl,
-	lib/tablelist5.18/scripts/tablelistBind.tcl,
-	lib/tablelist5.18/scripts/tablelistConfig.tcl,
-	lib/tablelist5.18/scripts/tablelistEdit.tcl,
-	lib/tablelist5.18/scripts/tablelistImages.tcl,
-	lib/tablelist5.18/scripts/tablelistMove.tcl,
-	lib/tablelist5.18/scripts/tablelistSort.tcl,
-	lib/tablelist5.18/scripts/tablelistThemes.tcl,
-	lib/tablelist5.18/scripts/tablelistUtil.tcl,
-	lib/tablelist5.18/scripts/tablelistWidget.tcl,
-	lib/tablelist5.18/scripts/tclIndex, lib/tablelist5.18/tablelist.tcl,
-	lib/tablelist5.18/tablelistPublic.tcl,
-	lib/tablelist5.18/tablelist_tile.tcl: new file.
-	* lib/tablelist5.17/CHANGES.txt, lib/tablelist5.17/COPYRIGHT.txt,
-	lib/tablelist5.17/README.txt, lib/tablelist5.17/demos/browse.tcl,
-	lib/tablelist5.17/demos/browseTree.tcl,
-	lib/tablelist5.17/demos/browseTree_tile.tcl,
-	lib/tablelist5.17/demos/browse_tile.tcl,
-	lib/tablelist5.17/demos/bwidget.tcl,
-	lib/tablelist5.17/demos/bwidget_tile.tcl,
-	lib/tablelist5.17/demos/checked.gif,
-	lib/tablelist5.17/demos/clsdFolder.gif,
-	lib/tablelist5.17/demos/comp.xbm,
-	lib/tablelist5.17/demos/config.tcl,
-	lib/tablelist5.17/demos/config_tile.tcl,
-	lib/tablelist5.17/demos/dirViewer.tcl,
-	lib/tablelist5.17/demos/dirViewer_tile.tcl,
-	lib/tablelist5.17/demos/embeddedWindows.tcl,
-	lib/tablelist5.17/demos/embeddedWindows_tile.tcl,
-	lib/tablelist5.17/demos/file.gif,
-	lib/tablelist5.17/demos/images.tcl,
-	lib/tablelist5.17/demos/iwidgets.tcl,
-	lib/tablelist5.17/demos/iwidgets_tile.tcl,
-	lib/tablelist5.17/demos/leaf.xbm,
-	lib/tablelist5.17/demos/miscWidgets.tcl,
-	lib/tablelist5.17/demos/miscWidgets_tile.tcl,
-	lib/tablelist5.17/demos/open.gif,
-	lib/tablelist5.17/demos/openFolder.gif,
-	lib/tablelist5.17/demos/option.tcl,
-	lib/tablelist5.17/demos/option_tile.tcl,
-	lib/tablelist5.17/demos/styles.tcl,
-	lib/tablelist5.17/demos/styles_tile.tcl,
-	lib/tablelist5.17/demos/tileWidgets.tcl,
-	lib/tablelist5.17/demos/unchecked.gif,
-	lib/tablelist5.17/doc/adwaita.png,
-	lib/tablelist5.17/doc/ambiance.png, lib/tablelist5.17/doc/aqua.png,
-	lib/tablelist5.17/doc/arc.png,
-	lib/tablelist5.17/doc/arrowStyles.png,
-	lib/tablelist5.17/doc/arrowStyles_vista.png,
-	lib/tablelist5.17/doc/baghira.png,
-	lib/tablelist5.17/doc/bicolor1.png,
-	lib/tablelist5.17/doc/bicolor2.png,
-	lib/tablelist5.17/doc/bicolor3.png,
-	lib/tablelist5.17/doc/bicolor4.png,
-	lib/tablelist5.17/doc/blueMenta.png,
-	lib/tablelist5.17/doc/browse.png,
-	lib/tablelist5.17/doc/browseTree.png,
-	lib/tablelist5.17/doc/bwidget.png,
-	lib/tablelist5.17/doc/classic1.png,
-	lib/tablelist5.17/doc/classic2.png,
-	lib/tablelist5.17/doc/classic3.png,
-	lib/tablelist5.17/doc/classic4.png,
-	lib/tablelist5.17/doc/config.png,
-	lib/tablelist5.17/doc/dirViewer.png, lib/tablelist5.17/doc/dust.png,
-	lib/tablelist5.17/doc/dustSand.png,
-	lib/tablelist5.17/doc/embeddedWindows.png,
-	lib/tablelist5.17/doc/embeddedWindows_tile.png,
-	lib/tablelist5.17/doc/gtk.png, lib/tablelist5.17/doc/index.html,
-	lib/tablelist5.17/doc/klearlooks.png,
-	lib/tablelist5.17/doc/mate.png, lib/tablelist5.17/doc/menta.png,
-	lib/tablelist5.17/doc/mint.png, lib/tablelist5.17/doc/mint2.png,
-	lib/tablelist5.17/doc/newWave.png,
-	lib/tablelist5.17/doc/oxygen1.png,
-	lib/tablelist5.17/doc/oxygen2.png, lib/tablelist5.17/doc/phase.png,
-	lib/tablelist5.17/doc/plain1.png, lib/tablelist5.17/doc/plain2.png,
-	lib/tablelist5.17/doc/plain3.png, lib/tablelist5.17/doc/plain4.png,
-	lib/tablelist5.17/doc/plastik.png,
-	lib/tablelist5.17/doc/plastique.png,
-	lib/tablelist5.17/doc/radiance.png,
-	lib/tablelist5.17/doc/styles.png,
-	lib/tablelist5.17/doc/stylesheet.css,
-	lib/tablelist5.17/doc/tablelist.html,
-	lib/tablelist5.17/doc/tablelistBWidget.html,
-	lib/tablelist5.17/doc/tablelistBinding.html,
-	lib/tablelist5.17/doc/tablelistColSort.html,
-	lib/tablelist5.17/doc/tablelistCombobox.html,
-	lib/tablelist5.17/doc/tablelistCtext.html,
-	lib/tablelist5.17/doc/tablelistIwidgets.html,
-	lib/tablelist5.17/doc/tablelistMentry.html,
-	lib/tablelist5.17/doc/tablelistThemes.html,
-	lib/tablelist5.17/doc/tablelistTile.html,
-	lib/tablelist5.17/doc/tablelistTkCore.html,
-	lib/tablelist5.17/doc/tablelistWidget.html,
-	lib/tablelist5.17/doc/tileWidgets.png,
-	lib/tablelist5.17/doc/ubuntu.png, lib/tablelist5.17/doc/ubuntu2.png,
-	lib/tablelist5.17/doc/ubuntu3.png,
-	lib/tablelist5.17/doc/ubuntuMate.png,
-	lib/tablelist5.17/doc/vistaAero.png,
-	lib/tablelist5.17/doc/vistaClassic.png,
-	lib/tablelist5.17/doc/win10.png, lib/tablelist5.17/doc/win7Aero.png,
-	lib/tablelist5.17/doc/win7Classic.png,
-	lib/tablelist5.17/doc/winnative.png,
-	lib/tablelist5.17/doc/winxpBlue.png,
-	lib/tablelist5.17/doc/winxpOlive.png,
-	lib/tablelist5.17/doc/winxpSilver.png,
-	lib/tablelist5.17/doc/yuyo.png, lib/tablelist5.17/pkgIndex.tcl,
-	lib/tablelist5.17/scripts/mwutil.tcl,
-	lib/tablelist5.17/scripts/pencil.cur,
-	lib/tablelist5.17/scripts/repair.tcl,
-	lib/tablelist5.17/scripts/tablelistBind.tcl,
-	lib/tablelist5.17/scripts/tablelistConfig.tcl,
-	lib/tablelist5.17/scripts/tablelistEdit.tcl,
-	lib/tablelist5.17/scripts/tablelistImages.tcl,
-	lib/tablelist5.17/scripts/tablelistMove.tcl,
-	lib/tablelist5.17/scripts/tablelistSort.tcl,
-	lib/tablelist5.17/scripts/tablelistThemes.tcl,
-	lib/tablelist5.17/scripts/tablelistUtil.tcl,
-	lib/tablelist5.17/scripts/tablelistWidget.tcl,
-	lib/tablelist5.17/scripts/tclIndex, lib/tablelist5.17/tablelist.tcl,
-	lib/tablelist5.17/tablelistPublic.tcl,
-	lib/tablelist5.17/tablelist_tile.tcl: deleted file.
-	* lib/tablelist5.17/CHANGES.txt, lib/tablelist5.17/COPYRIGHT.txt,
-	lib/tablelist5.17/README.txt, lib/tablelist5.17/demos/browse.tcl,
-	lib/tablelist5.17/demos/browseTree.tcl,
-	lib/tablelist5.17/demos/browseTree_tile.tcl,
-	lib/tablelist5.17/demos/browse_tile.tcl,
-	lib/tablelist5.17/demos/bwidget.tcl,
-	lib/tablelist5.17/demos/bwidget_tile.tcl,
-	lib/tablelist5.17/demos/checked.gif,
-	lib/tablelist5.17/demos/clsdFolder.gif,
-	lib/tablelist5.17/demos/comp.xbm,
-	lib/tablelist5.17/demos/config.tcl,
-	lib/tablelist5.17/demos/config_tile.tcl,
-	lib/tablelist5.17/demos/dirViewer.tcl,
-	lib/tablelist5.17/demos/dirViewer_tile.tcl,
-	lib/tablelist5.17/demos/embeddedWindows.tcl,
-	lib/tablelist5.17/demos/embeddedWindows_tile.tcl,
-	lib/tablelist5.17/demos/file.gif,
-	lib/tablelist5.17/demos/images.tcl,
-	lib/tablelist5.17/demos/iwidgets.tcl,
-	lib/tablelist5.17/demos/iwidgets_tile.tcl,
-	lib/tablelist5.17/demos/leaf.xbm,
-	lib/tablelist5.17/demos/miscWidgets.tcl,
-	lib/tablelist5.17/demos/miscWidgets_tile.tcl,
-	lib/tablelist5.17/demos/open.gif,
-	lib/tablelist5.17/demos/openFolder.gif,
-	lib/tablelist5.17/demos/option.tcl,
-	lib/tablelist5.17/demos/option_tile.tcl,
-	lib/tablelist5.17/demos/styles.tcl,
-	lib/tablelist5.17/demos/styles_tile.tcl,
-	lib/tablelist5.17/demos/tileWidgets.tcl,
-	lib/tablelist5.17/demos/unchecked.gif,
-	lib/tablelist5.17/doc/adwaita.png,
-	lib/tablelist5.17/doc/ambiance.png, lib/tablelist5.17/doc/aqua.png,
-	lib/tablelist5.17/doc/arc.png,
-	lib/tablelist5.17/doc/arrowStyles.png,
-	lib/tablelist5.17/doc/arrowStyles_vista.png,
-	lib/tablelist5.17/doc/baghira.png,
-	lib/tablelist5.17/doc/bicolor1.png,
-	lib/tablelist5.17/doc/bicolor2.png,
-	lib/tablelist5.17/doc/bicolor3.png,
-	lib/tablelist5.17/doc/bicolor4.png,
-	lib/tablelist5.17/doc/blueMenta.png,
-	lib/tablelist5.17/doc/browse.png,
-	lib/tablelist5.17/doc/browseTree.png,
-	lib/tablelist5.17/doc/bwidget.png,
-	lib/tablelist5.17/doc/classic1.png,
-	lib/tablelist5.17/doc/classic2.png,
-	lib/tablelist5.17/doc/classic3.png,
-	lib/tablelist5.17/doc/classic4.png,
-	lib/tablelist5.17/doc/config.png,
-	lib/tablelist5.17/doc/dirViewer.png, lib/tablelist5.17/doc/dust.png,
-	lib/tablelist5.17/doc/dustSand.png,
-	lib/tablelist5.17/doc/embeddedWindows.png,
-	lib/tablelist5.17/doc/embeddedWindows_tile.png,
-	lib/tablelist5.17/doc/gtk.png, lib/tablelist5.17/doc/index.html,
-	lib/tablelist5.17/doc/klearlooks.png,
-	lib/tablelist5.17/doc/mate.png, lib/tablelist5.17/doc/menta.png,
-	lib/tablelist5.17/doc/mint.png, lib/tablelist5.17/doc/mint2.png,
-	lib/tablelist5.17/doc/newWave.png,
-	lib/tablelist5.17/doc/oxygen1.png,
-	lib/tablelist5.17/doc/oxygen2.png, lib/tablelist5.17/doc/phase.png,
-	lib/tablelist5.17/doc/plain1.png, lib/tablelist5.17/doc/plain2.png,
-	lib/tablelist5.17/doc/plain3.png, lib/tablelist5.17/doc/plain4.png,
-	lib/tablelist5.17/doc/plastik.png,
-	lib/tablelist5.17/doc/plastique.png,
-	lib/tablelist5.17/doc/radiance.png,
-	lib/tablelist5.17/doc/styles.png,
-	lib/tablelist5.17/doc/stylesheet.css,
-	lib/tablelist5.17/doc/tablelist.html,
-	lib/tablelist5.17/doc/tablelistBWidget.html,
-	lib/tablelist5.17/doc/tablelistBinding.html,
-	lib/tablelist5.17/doc/tablelistColSort.html,
-	lib/tablelist5.17/doc/tablelistCombobox.html,
-	lib/tablelist5.17/doc/tablelistCtext.html,
-	lib/tablelist5.17/doc/tablelistIwidgets.html,
-	lib/tablelist5.17/doc/tablelistMentry.html,
-	lib/tablelist5.17/doc/tablelistThemes.html,
-	lib/tablelist5.17/doc/tablelistTile.html,
-	lib/tablelist5.17/doc/tablelistTkCore.html,
-	lib/tablelist5.17/doc/tablelistWidget.html,
-	lib/tablelist5.17/doc/tileWidgets.png,
-	lib/tablelist5.17/doc/ubuntu.png, lib/tablelist5.17/doc/ubuntu2.png,
-	lib/tablelist5.17/doc/ubuntu3.png,
-	lib/tablelist5.17/doc/ubuntuMate.png,
-	lib/tablelist5.17/doc/vistaAero.png,
-	lib/tablelist5.17/doc/vistaClassic.png,
-	lib/tablelist5.17/doc/win10.png, lib/tablelist5.17/doc/win7Aero.png,
-	lib/tablelist5.17/doc/win7Classic.png,
-	lib/tablelist5.17/doc/winnative.png,
-	lib/tablelist5.17/doc/winxpBlue.png,
-	lib/tablelist5.17/doc/winxpOlive.png,
-	lib/tablelist5.17/doc/winxpSilver.png,
-	lib/tablelist5.17/doc/yuyo.png, lib/tablelist5.17/pkgIndex.tcl,
-	lib/tablelist5.17/scripts/mwutil.tcl,
-	lib/tablelist5.17/scripts/pencil.cur,
-	lib/tablelist5.17/scripts/repair.tcl,
-	lib/tablelist5.17/scripts/tablelistBind.tcl,
-	lib/tablelist5.17/scripts/tablelistConfig.tcl,
-	lib/tablelist5.17/scripts/tablelistEdit.tcl,
-	lib/tablelist5.17/scripts/tablelistImages.tcl,
-	lib/tablelist5.17/scripts/tablelistMove.tcl,
-	lib/tablelist5.17/scripts/tablelistSort.tcl,
-	lib/tablelist5.17/scripts/tablelistThemes.tcl,
-	lib/tablelist5.17/scripts/tablelistUtil.tcl,
-	lib/tablelist5.17/scripts/tablelistWidget.tcl,
-	lib/tablelist5.17/scripts/tclIndex, lib/tablelist5.17/tablelist.tcl,
-	lib/tablelist5.17/tablelistPublic.tcl,
-	lib/tablelist5.17/tablelist_tile.tcl, lib/tablelist5.18/CHANGES.txt,
-	lib/tablelist5.18/COPYRIGHT.txt, lib/tablelist5.18/README.txt,
-	lib/tablelist5.18/pkgIndex.tcl,
-	lib/tablelist5.18/scripts/mwutil.tcl,
-	lib/tablelist5.18/scripts/pencil.cur,
-	lib/tablelist5.18/scripts/repair.tcl,
-	lib/tablelist5.18/scripts/tablelistBind.tcl,
-	lib/tablelist5.18/scripts/tablelistConfig.tcl,
-	lib/tablelist5.18/scripts/tablelistEdit.tcl,
-	lib/tablelist5.18/scripts/tablelistImages.tcl,
-	lib/tablelist5.18/scripts/tablelistMove.tcl,
-	lib/tablelist5.18/scripts/tablelistSort.tcl,
-	lib/tablelist5.18/scripts/tablelistThemes.tcl,
-	lib/tablelist5.18/scripts/tablelistUtil.tcl,
-	lib/tablelist5.18/scripts/tablelistWidget.tcl,
-	lib/tablelist5.18/scripts/tclIndex, lib/tablelist5.18/tablelist.tcl,
-	lib/tablelist5.18/tablelistPublic.tcl,
-	lib/tablelist5.18/tablelist_tile.tcl, lib/tke.tcl, lib/version.tcl:
-	* Updating tablelist from version 5.17 to 5.18.
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Attempting to improve the layout of the file information panel.
 
-2017-06-28 21:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (84360f7e7f21)
+2017-07-05 00:03 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (922b61c9689f)
 
-	* doc/md/TKE Developer Guide/Packages/Packages.textbundle/text.md,
+	* data/themes/Notebook.tketheme, data/themes/Quiverly.tketheme,
+	data/themes/Ruby Blue.tketheme, lib/theme.tcl, lib/version.tcl:
+	* Adding ability to theme the file information panel.
+	* Updating a few built-in themes to look better with the file
+	information panel.
+
+2017-07-05 23:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b2878f3e344a)
+
+	* lib/sidebar.tcl, lib/tke.tcl, lib/version.tcl:
+	* Adding support for Img package to improve file information image
+	viewer.
+
+2017-07-05 23:45 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (36f83e22c031)
+
+	* data/preferences.tkedat, lib/pref_ui.tcl, lib/sidebar.tcl,
 	lib/version.tcl:
-	* Updating development documentation.
+	* Adding ability to make the file information panel remain
+	persistent when sidebar loses focus.
 
-2017-06-28 23:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c758c085db44)
+2017-07-07 00:24 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4a983a9d439a [tip])
 
-	* doc/md/TKE Developer Guide/Plugin Action
-	Types/do_pref_ui.textbundle/assets/Preference-Plugin.png, doc/md/TKE
-	User Guide/Application Settings/Changing Sharing Setup via
-	Preferences GUI.textbundle/assets/Settings-Preferences.png,
-	doc/md/TKE User Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Complete.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Directory.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Settings.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Welcome.png, doc/md/TKE User
-	Guide/Language Reference Documentation/Editing Language
-	References.textbundle/assets/Preferences-Documentation.png,
-	doc/md/TKE User Guide/Menu Bindings/Menu Binding.textbundle/assets
-	/Preferences-Shortcuts.png, doc/md/TKE User
-	Guide/Preferences/Editing Preference Information.textbundle/assets
-	/Preferences-Window.png, doc/md/TKE User Guide/Remote File
-	Editing/Connection Editor.textbundle/assets/Remote-Site-
-	Settings.png, doc/md/TKE User Guide/Remote File Editing/Remote File
-	Editing.textbundle/assets/Remote-File-Dialog.png, doc/md/TKE User
-	Guide/Snippets/Creating Snippets.textbundle/assets/Preferences-
-	Snippets-Editor.png, doc/md/TKE User Guide/Snippets/Creating
-	Snippets.textbundle/assets/Preferences-Snippets.png, doc/md/TKE User
-	Guide/Themes/Category Table.textbundle/assets/Theme-Category-
-	Sidebar.png, doc/md/TKE User Guide/Themes/Color Swatch
-	Editor.textbundle/assets/Theme-Swatch-Panel.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/Theme-Bitmap.png,
-	doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets
-	/Theme-Bitmap2.png, doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/assets/Theme-Color.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/Theme-Gif.png,
-	doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets
-	/Theme-Number.png, doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/assets/Theme-Relief.png, doc/md/TKE User
-	Guide/Themes/Theme Editor.textbundle/assets/Theme-Editor.png,
-	doc/md/TKE User Guide/User Interface/Difference
-	Viewer.textbundle/assets/Difference-Viewer.png, doc/md/TKE User
-	Guide/User Interface/Directory.textbundle/assets/Sidebar-
-	Directory.png, doc/md/TKE User Guide/User Interface/Editing
-	Pane.textbundle/assets/Editing-Panel.png, doc/md/TKE User Guide/User
-	Interface/Files.textbundle/assets/Sidebar-File.png, doc/md/TKE User
-	Guide/User Interface/Root Directory.textbundle/assets/Sidebar-
-	Root.png, doc/md/TKE User Guide/User Interface/Status
-	Bar.textbundle/assets/Status-Bar.png, doc/md/TKE User Guide/User
-	Interface/User Interface.textbundle/assets/Application-Window.png:
-	new file.
-	* doc/md/TKE Developer Guide/Plugin Action
-	Types/do_pref_ui.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Application Settings/Changing Sharing Setup via Preferences
-	GUI.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Language Reference Documentation/Editing Language
-	References.textbundle/assets/docedit.png, doc/md/TKE User Guide/Menu
-	Bindings/Menu Binding.textbundle/assets/DraggedImage.png, doc/md/TKE
-	User Guide/Preferences/Editing Preference
-	Information.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Remote File Editing/Connection
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Remote File Editing/Remote File
-	Editing.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Snippets/Creating
-	Snippets.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Snippets/Creating Snippets.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Category
-	Table.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Themes/Color Swatch Editor.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-4.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-5.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Theme
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/Difference
-	Viewer.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/Directory.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/User Interface/Editing
-	Pane.textbundle/assets/DraggedImage.png, doc/md/TKE User Guide/User
-	Interface/Files.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/Root
-	Directory.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/Status Bar.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/User Interface/User
-	Interface.textbundle/assets/DraggedImage.png: deleted file.
-	* doc/md/TKE Developer Guide/Plugin Action
-	Types/do_pref_ui.textbundle/assets/DraggedImage.png, doc/md/TKE
-	Developer Guide/Plugin Action Types/do_pref_ui.textbundle/assets
-	/Preference-Plugin.png, doc/md/TKE Developer Guide/Plugin Action
-	Types/do_pref_ui.textbundle/text.md, doc/md/TKE User
-	Guide/Application Settings/Changing Sharing Setup via Preferences
-	GUI.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Application Settings/Changing Sharing Setup via Preferences
-	GUI.textbundle/assets/Settings-Preferences.png, doc/md/TKE User
-	Guide/Application Settings/Changing Sharing Setup via Preferences
-	GUI.textbundle/text.md, doc/md/TKE User Guide/Application
-	Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Complete.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Directory.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Settings.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/assets/Settings-Welcome.png, doc/md/TKE User
-	Guide/Application Settings/Setting Up On First
-	Install.textbundle/text.md, doc/md/TKE User Guide/Language Reference
-	Documentation/Editing Language References.textbundle/assets
-	/Preferences-Documentation.png, doc/md/TKE User Guide/Language
-	Reference Documentation/Editing Language
-	References.textbundle/assets/docedit.png, doc/md/TKE User
-	Guide/Language Reference Documentation/Editing Language
-	References.textbundle/text.md, doc/md/TKE User Guide/Language
-	Reference Documentation/Searching a Language-Specific
-	Website.textbundle/text.md, doc/md/TKE User Guide/Menu Bindings/Menu
-	Binding.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Menu Bindings/Menu Binding.textbundle/assets/Preferences-
-	Shortcuts.png, doc/md/TKE User Guide/Menu Bindings/Menu
-	Binding.textbundle/text.md, doc/md/TKE User
-	Guide/Preferences/Editing Preference
-	Information.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Preferences/Editing Preference Information.textbundle/assets
-	/Preferences-Window.png, doc/md/TKE User Guide/Preferences/Editing
-	Preference Information.textbundle/text.md, doc/md/TKE User
-	Guide/Preferences/Preferences.textbundle/text.md, doc/md/TKE User
-	Guide/Remote File Editing/Connection
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Remote File Editing/Connection Editor.textbundle/assets
-	/Remote-Site-Settings.png, doc/md/TKE User Guide/Remote File
-	Editing/Connection Editor.textbundle/text.md, doc/md/TKE User
-	Guide/Remote File Editing/Remote File
-	Editing.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Remote File Editing/Remote File Editing.textbundle/assets
-	/Remote-File-Dialog.png, doc/md/TKE User Guide/Remote File
-	Editing/Remote File Editing.textbundle/text.md, doc/md/TKE User
-	Guide/Snippets/Creating
-	Snippets.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Snippets/Creating Snippets.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Snippets/Creating Snippets.textbundle/assets
-	/Preferences-Snippets-Editor.png, doc/md/TKE User
-	Guide/Snippets/Creating Snippets.textbundle/assets/Preferences-
-	Snippets.png, doc/md/TKE User Guide/Snippets/Creating
-	Snippets.textbundle/text.md, doc/md/TKE User
-	Guide/Snippets/Templates.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Button Action Bar.textbundle/text.md, doc/md/TKE User
-	Guide/Themes/Category Table.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Category Table.textbundle/assets/Theme-
-	Category-Sidebar.png, doc/md/TKE User Guide/Themes/Category
-	Table.textbundle/text.md, doc/md/TKE User Guide/Themes/Color Swatch
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Themes/Color Swatch Editor.textbundle/assets/Theme-Swatch-
-	Panel.png, doc/md/TKE User Guide/Themes/Color Swatch
-	Editor.textbundle/text.md, doc/md/TKE User Guide/Themes/Option
-	Detail Pane.textbundle/assets/DraggedImage-1.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-2.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-3.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-4.png, doc/md/TKE User
-	Guide/Themes/Option Detail
-	Pane.textbundle/assets/DraggedImage-5.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets
-	/Theme-Bitmap.png, doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/assets/Theme-Bitmap2.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/Theme-Color.png,
-	doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets
-	/Theme-Gif.png, doc/md/TKE User Guide/Themes/Option Detail
-	Pane.textbundle/assets/Theme-Number.png, doc/md/TKE User
-	Guide/Themes/Option Detail Pane.textbundle/assets/Theme-Relief.png,
-	doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/text.md,
-	doc/md/TKE User Guide/Themes/Theme
-	Editor.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/Themes/Theme Editor.textbundle/assets/Theme-Editor.png,
-	doc/md/TKE User Guide/Themes/Theme Editor.textbundle/text.md,
-	doc/md/TKE User Guide/User Interface/Difference
-	Viewer.textbundle/assets/Difference-Viewer.png, doc/md/TKE User
-	Guide/User Interface/Difference
-	Viewer.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/Difference Viewer.textbundle/text.md,
-	doc/md/TKE User Guide/User
-	Interface/Directory.textbundle/assets/DraggedImage.png, doc/md/TKE
-	User Guide/User Interface/Directory.textbundle/assets/Sidebar-
-	Directory.png, doc/md/TKE User Guide/User
-	Interface/Directory.textbundle/text.md, doc/md/TKE User Guide/User
-	Interface/Editing Pane.textbundle/assets/DraggedImage.png,
-	doc/md/TKE User Guide/User Interface/Editing Pane.textbundle/assets
-	/Editing-Panel.png, doc/md/TKE User Guide/User Interface/Editing
-	Pane.textbundle/text.md, doc/md/TKE User Guide/User
-	Interface/Files.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/Files.textbundle/assets/Sidebar-File.png,
-	doc/md/TKE User Guide/User Interface/Files.textbundle/text.md,
-	doc/md/TKE User Guide/User Interface/Root
-	Directory.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/Root Directory.textbundle/assets/Sidebar-
-	Root.png, doc/md/TKE User Guide/User Interface/Root
-	Directory.textbundle/text.md, doc/md/TKE User Guide/User
-	Interface/Scrollbars.textbundle/text.md, doc/md/TKE User Guide/User
-	Interface/Status Bar.textbundle/assets/DraggedImage.png, doc/md/TKE
-	User Guide/User Interface/Status Bar.textbundle/assets/Status-
-	Bar.png, doc/md/TKE User Guide/User Interface/Status
-	Bar.textbundle/text.md, doc/md/TKE User Guide/User Interface/User
-	Interface.textbundle/assets/Application-Window.png, doc/md/TKE User
-	Guide/User Interface/User
-	Interface.textbundle/assets/DraggedImage.png, doc/md/TKE User
-	Guide/User Interface/User Interface.textbundle/text.md,
-	lib/version.tcl:
-	* Fixing images in User Guide and Development Guide.
-
-2017-06-28 23:25 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (52c42ee3f7f7)
-
-	* doc/DeveloperGuide.html, doc/UserGuide.html, lib/version.tcl:
-	* Updating User Guide.
-	* Updating Developer Guide.
-
-2017-06-29 00:00 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3080b3b797ff)
-
-	* lib/files.tcl, lib/version.tcl:
-	* Adding start of code to gzip/gunzip files.
-
-2017-07-01 01:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fcf2c415aad8)
-
-	* lib/thumbnail.tcl: new file.
-	* lib/ctext/ctext.tcl, lib/sidebar.tcl, lib/snip_lexer.fcl,
-	lib/snip_lexer.tcl, lib/snip_parser.tac, lib/snip_parser.tcl,
-	lib/thumbnail.tcl, lib/tke.tcl, lib/version.tcl:
-	* Fixing issue with using colon characters in snippet regexp
-	patterns.
-	* Fixing issue with escaping forward slash characters in snippets.
-	* Fixing ctext click event support for different platforms.
-	* Initial checkpointing support for image thumbnails (work in
-	progress).
-
-2017-07-02 19:02 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5946720aeff8)
-
-	* lib/sidebar.tcl, lib/utils.tcl, lib/version.tcl:
-	* Checking in initial working version of file information panel in
-	sidebar.
-
-2017-07-03 00:42 -0500  Trevor Williams  <phase1geo@gmail.com>  (446c85b11964)
-
-	* lib/diff.tcl, lib/sidebar.tcl, lib/version.tcl:
-	* Checkpointing work on file information view.
-
-2017-07-03 22:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ece74024f96e)
-
-	* data/preferences.tkedat, lib/diff.tcl, lib/menus.tcl,
-	lib/pref_ui.tcl, lib/sidebar.tcl, lib/theme.tcl, lib/version.tcl:
-	* Adding new View/ShowFileInfo preference option.
-	* Completing version control addition of get\_current\_version.
-	* Improving theme UI look of file information panel.
-
-2017-07-04 01:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fb08bb8a5f73)
-
-	* doc/md/TKE Developer Guide/Plugin Action
-	Types/vcs.textbundle/text.md, lib/sidebar.tcl, lib/theme.tcl,
-	lib/version.tcl:
-	* Updating developer guide, adding need for get_current_version for
-	vcs action types.
-	* Removing last separator widget when the UI does not require it.
-
-2017-07-04 11:29 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (266068bbcf59 [tip])
-
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, lib/lang.tcl, lib/version.tcl:
-	* Updating translations.
-	* Fixing issue with translation generator script.
+	* doc/md/TKE User Guide/Installation/Dependencies.textbundle/text.md,
+	install.tcl, lib/version.tcl:
+	* Adding installation check for the Img package.
+	* Updating installation requirements in User Guide.
 
