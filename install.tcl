@@ -109,6 +109,15 @@ if {[catch "package require Expect" rc]} {
   puts "Found"
 }
 
+# Check to see if Img package is available on the system
+puts -nonewline "Checking for Img package...                 "
+flush stdout
+if {[catch "package require Img" rc]} {
+  puts "Not Found (Only .gif, .bmp and .png images will be previewable in the file information panel)"
+} else {
+  puts "Found"
+}
+
 proc get_yes_or_no {question} {
 
   set answer "x"
