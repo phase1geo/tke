@@ -4195,6 +4195,7 @@ namespace eval gui {
       completer::add_bindings   $txt
       select::add               $txt $tab.pw.tf.sb
       grid $tab.pw.tf.sb -row 0 -column 2 -rowspan 2 -sticky ns
+      grid remove $tab.pw.tf.sb
     }
     plugins::handle_text_bindings $txt $opts(-tags)
     make_drop_target                   $txt
@@ -4311,6 +4312,7 @@ namespace eval gui {
     make_drop_target              $txt2
 
     grid $pw.tf2.sb -row 0 -column 2 -rowspan 2 -sticky ns
+    grid remove $pw.tf2.sb
 
     # Apply the appropriate syntax highlighting for the given extension
     syntax::set_language $txt2 [syntax::get_language $txt]
