@@ -4,7 +4,6 @@
 <dict>
 	<key>childOrder</key>
 	<array>
-		<string>New Folder</string>
 		<string>Prefix</string>
 		<string>Introduction</string>
 		<string>Installation</string>
@@ -95,20 +94,6 @@
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>15</integer>
-				</dict>
-			</dict>
-			<key>New Folder</key>
-			<dict>
-				<key>explicitUnassignment</key>
-				<true/>
-				<key>firstUnassignment</key>
-				<real>519794779.83650303</real>
-				<key>lastModification</key>
-				<real>519794779.83650303</real>
-				<key>version</key>
-				<dict>
-					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>26</integer>
 				</dict>
 			</dict>
 			<key>Plugins</key>
@@ -212,15 +197,24 @@
 				</dict>
 			</dict>
 		</dict>
+		<key>userIconName</key>
+		<real>521128566.71515602</real>
 	</dict>
 	<key>storeFormatVersion</key>
 	<integer>1</integer>
+	<key>userIconName</key>
+	<string>All</string>
 	<key>versioning</key>
 	<dict>
 		<key>childOrder</key>
 		<dict>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 			<integer>26</integer>
+		</dict>
+		<key>userIconName</key>
+		<dict>
+			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+			<integer>15</integer>
 		</dict>
 	</dict>
 </dict>
