@@ -2,43 +2,51 @@
 namespace eval calendar {
 
   ######################################################################
+  # Gets the date range from the user and returns the result as two clock
+  # times in seconds.
   proc get_date_range {} {
 
-    return [list August 2017 August 2017]
+    return [list [clock scan {August 1, 2017}] [clock scan {October 1, 2017}]]
 
   }
 
   ######################################################################
+  # Inserts a month calendar
   proc insert_month {txt start_date end_date} {
 
-    set dow [clock format $date -format {%u}]
+    set dow [expr [clock format $start_date -format {%u}] % 7]
     set day 1
 
-    $txt insert insert "\n[clock format $week_start -format {%B %Y}]\n"
-    $txt insert insert "S  M  T  W  T  F  S"
+    $txt insert insert "\n[clock format $start_date -format {%B %Y}]\n"
+    $txt insert insert "S  M  T  W  T  F  S\n"
 
-    $txt insert insert [string repeat {   } [expr ($week_start % 7) - 1]]
+    if {$dow > 0} {
+      $txt insert insert [string repeat {   } $dow]
+    }
 
-    while {$date < $next} {
+    while {$start_date < $end_date} {
+      $txt insert insert [format {%-3d} $day]
+      incr day
+      set dow        [expr ($dow + 1) % 7]
+      set start_date [clock add $start_date 1 day]
       if {$dow == 0} {
         $txt insert insert "\n"
       }
-      $txt insert insert [format {%2d } $day]
-      incr day
-      incr dow
     }
+
+    $txt replace insert-1c insert "\n"
 
   }
 
   ######################################################################
+  # Inserts the calendar.
   proc do_insert {} {
 
     if {[set date_range [get_date_range]] ne ""} {
-      set start_date [clock scan [lrange $date_range 0 1]]
-      set end_date   [clock add [clock scan [lrange $date_range 2 3]] 1 month]
-      set txt        [api::file::get_info [api::file::current_file_index] txt]
+      lassign $date_range start_date end_date
+      set txt [api::file::get_info [api::file::current_file_index] txt]
       while {$start_date < $end_date} {
-        insert_month $txt $start_date $end_date
+        insert_month $txt $start_date [clock add $start_date 1 month]
         set start_date [clock add $start_date 1 month]
       }
     }
