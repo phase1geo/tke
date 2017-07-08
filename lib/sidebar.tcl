@@ -223,7 +223,7 @@ namespace eval sidebar {
       break
     }
     bind $widgets(tl) <Key>      [list sidebar::handle_any %K %A]
-    # bind $widgets(tl) <FocusIn>  [list sidebar::handle_focus_in]
+    bind $widgets(tl) <FocusIn>  [list sidebar::handle_focus_in]
     bind $widgets(tl) <FocusOut> [list sidebar::handle_focus_out]
 
     grid rowconfigure    $w.tf 0 -weight 1
