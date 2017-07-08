@@ -231,6 +231,10 @@ namespace eval sidebar {
     grid $w.tf.tf -row 0 -column 0 -sticky news
     grid $w.tf.vb -row 0 -column 1 -sticky ns
 
+    # Create file info images
+    image create photo  photo_preview
+    image create bitmap bitmap_preview
+
     # Create file info panel
     set widgets(info,f)       [frame $w.if]
     ttk::separator            $w.if.sep1 -orient horizontal
@@ -2189,9 +2193,6 @@ namespace eval sidebar {
     variable widgets
     variable show_file_info
 
-    # Delete the information preview
-    catch { image delete info_preview }
-
     if {([llength $selected] == 1) && $show_file_info} {
 
       set fname [$widgets(tl) set [lindex $selected 0] name]
@@ -2212,14 +2213,15 @@ namespace eval sidebar {
         set version [diff::${cvs}::get_current_version $fname]
 
         # Figure out if we can display the file based on extension
-        if {![catch { image create photo -file $fname } orig]} {
+        if {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
           grid $widgets(info,v,image)
-          ::image_scale $orig 64 64 [image create photo info_preview]
-          update_file_info_image $orig info_preview name syntax
-        } elseif {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
+          bitmap_preview configure -file $fname -foreground [utils::get_default_foreground]
+          update_file_info_image $orig bitmap_preview name syntax
+        } elseif {![catch { image create photo -file $fname } orig]} {
           grid $widgets(info,v,image)
-          image create bitmap info_preview -file $fname -foreground [utils::get_default_foreground]
-          update_file_info_image $orig info_preview name syntax
+          photo_preview blank
+          ::image_scale $orig 64 64 photo_preview
+          update_file_info_image $orig photo_preview name syntax
         } else {
           grid remove $widgets(info,v,image)
           if {[utils::is_binary $fname]} {
