@@ -1,66 +1,76 @@
-2017-07-04 11:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (71e70e27d193 [devel-3.2.1])
+2017-07-07 01:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6d104710368b [devel-3.2.2])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.2.1 release
+	ChangeLog for devel-3.2.2 release
 
-2017-07-04 11:30 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b281091add52)
+2017-07-07 01:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0efaff90c3a5)
 
 	* .hgtags:
-	Added tag devel-3.2.1 for changeset 71e70e27d193
+	Added tag devel-3.2.2 for changeset 6d104710368b
 
-2017-07-04 11:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c04254aa4d82)
+2017-07-07 02:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5adbe653f0f5)
 
-	* data/msgs/Makefile, data/msgs/update.tcl, lib/version.tcl:
-	* Updating translation updater to use tclsh8.6.
+	* lib/gui.tcl, lib/tke.tcl, lib/version.tcl:
+	* Initial integration of selection namespace into TKE.
 
-2017-07-04 14:23 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9ea38b2ea966)
+2017-07-07 08:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5320073eaf72)
 
-	* doc/md/TKE Developer Guide/Plugin Action
-	Types/file_info.textbundle/info.json, doc/md/TKE Developer
-	Guide/Plugin Action Types/file_info.textbundle/text.md,
-	plugins/file_info/header.tkedat, plugins/file_info/main.tcl: new
+	* lib/gui.tcl, lib/version.tcl:
+	* Removing selection sidebar.
+
+2017-07-07 09:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4e8107515867)
+
+	* doc/md/TKE Developer Guide/.Ulysses-Group.plist, doc/md/TKE
+	Developer Guide/Packages/Packages.textbundle/text.md, doc/md/TKE
+	User Guide/.Ulysses-Group.plist, lib/version.tcl:
+	* Changing icons of the User Guide and Developer Guide in Ulysses.
+
+2017-07-07 20:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9ca20a954979)
+
+	* plugins/calendar/header.tkedat, plugins/calendar/main.tcl: new file.
+	* lib/version.tcl, plugins/calendar/header.tkedat,
+	plugins/calendar/main.tcl:
+	* Checkpointing work on new insert calendar plugin.
+
+2017-07-07 21:03 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6632b1a09527)
+
+	* lib/version.tcl, plugins/calendar/main.tcl:
+	* Checkpointing calendar work.
+
+2017-07-07 23:35 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (27d6e6280fbe)
+
+	* data/syntax/Tcl.syntax, lib/interpreter.tcl, lib/version.tcl,
+	plugins/calendar/main.tcl:
+	* Improving Tcl syntax highlighting.
+	* Adding tk::PlaceWindow, tk::SetFocusGrab, tk::RestoreFocusGrab and
+	tkwait commands to plugin namespace.
+	* Finishing up calendar plugin.
+
+2017-07-08 00:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (42ba0bd1af48)
+
+	* doc/md/TKE User Guide/User Interface/Sidebar File Information
+	Panel.textbundle/info.json, doc/md/TKE User Guide/User
+	Interface/Sidebar File Information Panel.textbundle/text.md: new
 	file.
 	* doc/md/.Ulysses-favorites.plist, doc/md/TKE Developer Guide/Plugin
-	Action Types/.Ulysses-Group.plist, doc/md/TKE Developer Guide/Plugin
-	Action Types/file_info.textbundle/info.json, doc/md/TKE Developer
-	Guide/Plugin Action Types/file_info.textbundle/text.md,
-	lib/plugins.tcl, lib/sidebar.tcl, lib/theme.tcl, lib/version.tcl,
-	plugins/file_info/header.tkedat, plugins/file_info/main.tcl:
-	* Adding support for file_info plugins.
-	* Updating Developer Guide to include information about file_info
-	plugins.
-	* Checking in file_info test plugin (to demonstrate its usage).
+	Development/Plugin GUI Element Creation.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/.Ulysses-Group.plist,
+	doc/md/TKE User Guide/User Interface/Sidebar File Information
+	Panel.textbundle/info.json, doc/md/TKE User Guide/User
+	Interface/Sidebar File Information Panel.textbundle/text.md,
+	lib/version.tcl:
+	* Updating User Guide.
+	* Updating Developer Guide.
 
-2017-07-04 18:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c7a496449bb5)
+2017-07-08 00:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (66c9cfe2b1e8)
 
 	* lib/sidebar.tcl, lib/version.tcl:
-	* Attempting to improve the layout of the file information panel.
-
-2017-07-05 00:03 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (922b61c9689f)
-
-	* data/themes/Notebook.tketheme, data/themes/Quiverly.tketheme,
-	data/themes/Ruby Blue.tketheme, lib/theme.tcl, lib/version.tcl:
-	* Adding ability to theme the file information panel.
-	* Updating a few built-in themes to look better with the file
+	* Fixing issue with sidebar gaining focus and displaying the
 	information panel.
 
-2017-07-05 23:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b2878f3e344a)
+2017-07-08 00:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (887b7e15f283 [tip])
 
-	* lib/sidebar.tcl, lib/tke.tcl, lib/version.tcl:
-	* Adding support for Img package to improve file information image
-	viewer.
-
-2017-07-05 23:45 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (36f83e22c031)
-
-	* data/preferences.tkedat, lib/pref_ui.tcl, lib/sidebar.tcl,
-	lib/version.tcl:
-	* Adding ability to make the file information panel remain
-	persistent when sidebar loses focus.
-
-2017-07-07 00:24 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4a983a9d439a [tip])
-
-	* doc/md/TKE User Guide/Installation/Dependencies.textbundle/text.md,
-	install.tcl, lib/version.tcl:
-	* Adding installation check for the Img package.
-	* Updating installation requirements in User Guide.
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Making a few small improvements to the image preview in the file
+	information panel.
 
