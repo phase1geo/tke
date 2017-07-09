@@ -1078,8 +1078,13 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Paste and Format"] -underline 10 -command [list gui::paste_and_format]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Paste and format text from clipboard"]] [list gui::paste_and_format]
 
+    $mb add separator
+
     $mb add command -label [msgcat::mc "Select All"] -underline 7 -command [list gui::select_all]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list gui::select_all]
+
+    $mb add command -label [msgcat::mc "Select Mode"] -underline 7 -command [list menus::select_mode]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enter selection mode"]] [list menus::select_mode]
 
     $mb add separator
 
@@ -1530,6 +1535,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
+      $mb entryconfigure [msgcat::mc "Select Mode"]      -state disabled
       $mb entryconfigure [msgcat::mc "Vim Mode"]         -state disabled
       $mb entryconfigure [msgcat::mc "Toggle Comment"]   -state disabled
       $mb entryconfigure [msgcat::mc "Indentation"]      -state disabled
@@ -1560,6 +1566,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
+      $mb entryconfigure [msgcat::mc "Select Mode"] -state normal
       $mb entryconfigure [msgcat::mc "Vim Mode"]    -state $readonly_state
       if {[lindex [syntax::get_comments [gui::current_txt]] 0] eq ""} {
         $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
@@ -1886,6 +1893,14 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Decrement by 0.1"]                -state normal
 
     }
+
+  }
+
+  ######################################################################
+  # Enables the selection mode.
+  proc select_mode {} {
+
+    select::set_select_mode [gui::current_txt].t 1
 
   }
 

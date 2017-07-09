@@ -431,6 +431,7 @@ namespace eval select {
     lassign $data($txtt,drag) tag
 
     # Figure out which direction we are moving
+    set left [$txtt compare @$x,$y < [lindex [$txtt tag ranges $tag] 0]]
 
     # Update the selection
     switch $tag {
