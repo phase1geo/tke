@@ -58,10 +58,11 @@ namespace eval select {
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
     set data($txt.t,moved)     0
 
-    bind select <Key>       "if {\[select::handle_any %W %K\]} break"
-    bind select <Return>    "if {\[select::handle_return %W\]} break"
-    bind select <Escape>    "if {\[select::handle_escape %W\]} break"
-    bind select <B1-Motion> "if {\[select::handle_motion %W %x %y\]} break"
+    bind select <Key>         "if {\[select::handle_any %W %K\]} break"
+    bind select <Return>      "if {\[select::handle_return %W\]} break"
+    bind select <Escape>      "if {\[select::handle_escape %W\]} break"
+    bind select <B1-Motion>   "if {\[select::handle_motion %W %x %y\]} break"
+    bind select <<Selection>> "if {\[select::handle_selection %W\]} break"
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
@@ -453,6 +454,16 @@ namespace eval select {
     }
 
     return 1
+
+  }
+
+  ######################################################################
+  # If text is manually selected by the user, automatically enable select
+  # mode.  If text is manually deselected by the user, automatically
+  # disable select mode.
+  proc handle_selection {txtt} {
+
+    set_select_mode $txtt [expr {[$txtt tag ranges sel] ne ""}]
 
   }
 
