@@ -62,7 +62,7 @@ namespace eval select {
     bind select <Return>      "if {\[select::handle_return %W\]} break"
     bind select <Escape>      "if {\[select::handle_escape %W\]} break"
     bind select <B1-Motion>   "if {\[select::handle_motion %W %x %y\]} break"
-    bind select <<Selection>> "if {\[select::handle_selection %W\]} break"
+    bind select <<Selection>> [list select::handle_selection %W]
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
@@ -318,8 +318,16 @@ namespace eval select {
 
     variable data
 
+    puts "In set_select_mode, txtt: $txtt, value: $value, mode: $data($txtt,mode)"
+
     # Set the mode
     if {$data($txtt,mode) != $value} {
+
+      puts "HERE A"
+
+      # Set the mode to the given value
+      set data($txtt,mode) $value
+      return
 
       # Show/Hide the sidebar
       if {$value == 0} {
@@ -328,8 +336,7 @@ namespace eval select {
         open_sidebar $txtt
       }
 
-      # Set the mode to the given value
-      set data($txtt,mode) $value
+      puts "HERE B"
 
       # If we are enabled, do some initializing
       if {$value} {
@@ -463,7 +470,11 @@ namespace eval select {
   # disable select mode.
   proc handle_selection {txtt} {
 
+    puts "In handle_selection, txtt: $txtt, sel: [$txtt tag ranges sel]"
+
     set_select_mode $txtt [expr {[$txtt tag ranges sel] ne ""}]
+
+    puts "  DONE"
 
   }
 
