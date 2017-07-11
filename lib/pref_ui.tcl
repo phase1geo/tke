@@ -2588,6 +2588,7 @@ namespace eval pref_ui {
 
     make_cb $a.rralc [msgcat::mc "Remove root directory after last sub-file is closed"] Sidebar/RemoveRootAfterLastClose
     make_cb $a.fat   [msgcat::mc "Show folders at top"] Sidebar/FoldersAtTop
+    make_cb $a.shf   [msgcat::mc "Show hidden files"]   Sidebar/ShowHiddenFiles
     make_spacer $a
     make_sb $a.kst   [msgcat::mc "Append characters to search string if entered within"] Sidebar/KeySearchTimeout 100 3000 100 0 [msgcat::mc "milliseconds"]
 

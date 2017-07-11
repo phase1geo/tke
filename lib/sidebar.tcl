@@ -956,12 +956,24 @@ namespace eval sidebar {
   # Gathers the given directory's contents and handles directory/file
   # ordering issues.
   proc order_files_dirs {dir remote} {
-
-    set items [list]
+    
+    set items       [list]
+    set show_hidden [preferences::get Sidebar/ShowHiddenFiles]
 
     if {$remote ne ""} {
       remote::dir_contents $remote $dir items
+    } elseif {$::tcl_platform(platform) eq "windows"} {
+      foreach fname [glob -nocomplain -directory $dir *] {
+        if {$show_hidden || ([string index [file tail $fname] 0] ne ".")} {
+          lappend items [list $fname [file isdirectory $fname]]
+        }
+      }
     } else {
+      if {$show_hidden} {
+        foreach fname [glob -nocomplain -directory $dir -types hidden *] {
+          lappend items [list $fname [file isdirectory $fname]]
+        }
+      }
       foreach fname [glob -nocomplain -directory $dir *] {
         lappend items [list $fname [file isdirectory $fname]]
       }
