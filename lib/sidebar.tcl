@@ -1197,9 +1197,6 @@ namespace eval sidebar {
       # Colorize the selected items to be selected
       $widgets(tl) tag add sel [$widgets(tl) selection]
 
-      # Update the file information panel
-      update_file_info $selected
-
     }
 
   }
@@ -1219,6 +1216,13 @@ namespace eval sidebar {
       set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       gui::get_info $fileindex fileindex tabbar tab
       gui::set_current_tab $tabbar $tab
+      if {[preferences::get View/KeepFileInfoVisible]} {
+        sidebar::update_file_info [$sidebar::widgets(tl) selection]
+      }
+    } else {
+      after idle {
+        sidebar::update_file_info [$sidebar::widgets(tl) selection]
+      }
     }
 
   }
@@ -1266,6 +1270,9 @@ namespace eval sidebar {
       # Open the file in the viewer
       gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
+      # Update the file information panel
+      # update_file_info [$widgets(tl) selection]
+
     }
 
   }
@@ -1276,12 +1283,20 @@ namespace eval sidebar {
 
     variable widgets
 
+    # Get the selected rows
+    set selected [$widgets(tl) selection]
+
     # Get the currently selected rows
-    foreach row [$widgets(tl) selection] {
+    foreach row $selected {
 
       # Open the file in the viewer
       if {[$widgets(tl) tag has f $row]} {
+
+        # Add the file
         gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
+
+        # Update the file information panel
+        update_file_info $selected
 
       # Otherwise, toggle the open status
       } else {
@@ -1314,10 +1329,9 @@ namespace eval sidebar {
       after cancel $after_id
       if {$lastId ne ""} {
         hide_tooltip
-        thumbnail::hide
       }
       if {$id ne ""} {
-        set after_id [after 300 sidebar::show_tooltip $id; sidebar::show_thumbnail $id $x $y]
+        set after_id [after 300 sidebar::show_tooltip $id]
       }
     }
 
