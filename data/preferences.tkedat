@@ -419,6 +419,11 @@ View/KeepFileInfoVisible     {0}
 
 {Sidebar/KeySearchTimeout} {1000}
 
+# If set to 1, shows hidden files in the sidebar along with other files/directories.
+# If set to 0, hidden files will not be visible in the sidebar.
+
+{Sidebar/ShowHiddenFiles} {0}
+
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:
 #  - calls
