@@ -1,76 +1,68 @@
-2017-07-07 01:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6d104710368b [devel-3.2.2])
+2017-07-08 00:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (630a17293695 [devel-3.2.3])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.2.2 release
+	ChangeLog for devel-3.2.3 release
 
-2017-07-07 01:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0efaff90c3a5)
+2017-07-08 00:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f8704364d311)
 
 	* .hgtags:
-	Added tag devel-3.2.2 for changeset 6d104710368b
+	Added tag devel-3.2.3 for changeset 630a17293695
 
-2017-07-07 02:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5adbe653f0f5)
+2017-07-09 00:02 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a3423847b57f)
 
-	* lib/gui.tcl, lib/tke.tcl, lib/version.tcl:
-	* Initial integration of selection namespace into TKE.
+	* data/bindings/menu_bindings.aqua.tkedat,
+	data/bindings/menu_bindings.classic.tkedat,
+	data/bindings/menu_bindings.win32.tkedat,
+	data/bindings/menu_bindings.x11.tkedat, lib/menus.tcl,
+	lib/select.tcl, lib/version.tcl:
+	* Adding new `View / Select Mode` menu option.
+	* Fixing issues within select namespace.
 
-2017-07-07 08:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5320073eaf72)
+2017-07-09 14:25 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3886e89a7add)
 
-	* lib/gui.tcl, lib/version.tcl:
-	* Removing selection sidebar.
+	* lib/select.tcl, lib/version.tcl:
+	* Adding ability to automatically enter/leave select mode when user
+	manually changes selection.
 
-2017-07-07 09:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4e8107515867)
+2017-07-10 00:57 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (20ac2d913ee3)
 
-	* doc/md/TKE Developer Guide/.Ulysses-Group.plist, doc/md/TKE
-	Developer Guide/Packages/Packages.textbundle/text.md, doc/md/TKE
-	User Guide/.Ulysses-Group.plist, lib/version.tcl:
-	* Changing icons of the User Guide and Developer Guide in Ulysses.
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
 
-2017-07-07 20:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9ca20a954979)
-
-	* plugins/calendar/header.tkedat, plugins/calendar/main.tcl: new file.
-	* lib/version.tcl, plugins/calendar/header.tkedat,
-	plugins/calendar/main.tcl:
-	* Checkpointing work on new insert calendar plugin.
-
-2017-07-07 21:03 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6632b1a09527)
-
-	* lib/version.tcl, plugins/calendar/main.tcl:
-	* Checkpointing calendar work.
-
-2017-07-07 23:35 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (27d6e6280fbe)
-
-	* data/syntax/Tcl.syntax, lib/interpreter.tcl, lib/version.tcl,
-	plugins/calendar/main.tcl:
-	* Improving Tcl syntax highlighting.
-	* Adding tk::PlaceWindow, tk::SetFocusGrab, tk::RestoreFocusGrab and
-	tkwait commands to plugin namespace.
-	* Finishing up calendar plugin.
-
-2017-07-08 00:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (42ba0bd1af48)
-
-	* doc/md/TKE User Guide/User Interface/Sidebar File Information
-	Panel.textbundle/info.json, doc/md/TKE User Guide/User
-	Interface/Sidebar File Information Panel.textbundle/text.md: new
-	file.
-	* doc/md/.Ulysses-favorites.plist, doc/md/TKE Developer Guide/Plugin
-	Development/Plugin GUI Element Creation.textbundle/text.md,
-	doc/md/TKE User Guide/User Interface/.Ulysses-Group.plist,
-	doc/md/TKE User Guide/User Interface/Sidebar File Information
-	Panel.textbundle/info.json, doc/md/TKE User Guide/User
-	Interface/Sidebar File Information Panel.textbundle/text.md,
-	lib/version.tcl:
-	* Updating User Guide.
-	* Updating Developer Guide.
-
-2017-07-08 00:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (66c9cfe2b1e8)
+2017-07-10 22:53 -0500  Trevor Williams  <phase1geo@gmail.com>  (3a2bfcaa2ef3)
 
 	* lib/sidebar.tcl, lib/version.tcl:
-	* Fixing issue with sidebar gaining focus and displaying the
-	information panel.
+	* Adding file permissions and favorite status in file information
+	panel.
 
-2017-07-08 00:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (887b7e15f283 [tip])
+2017-07-11 01:23 -0500  Trevor Williams  <phase1geo@gmail.com>  (b15c14688ae0)
 
 	* lib/sidebar.tcl, lib/version.tcl:
-	* Making a few small improvements to the image preview in the file
-	information panel.
+	* Checkpointing work on cleaning up file information panel.
+
+2017-07-11 17:20 -0500  Trevor Williams  <phase1geo@gmail.com>  (9678b51d542f)
+
+	* data/preferences.tkedat, lib/pref_ui.tcl, lib/sidebar.tcl:
+	* Adding ability to show/hide hidden files in the sidebar.
+	* Adding Sidebar/ShowHiddenFiles preference item.
+
+2017-07-12 01:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (142c0f1871bd)
+
+	* data/preferences.tkedat, lib/menus.tcl, lib/pref_ui.tcl,
+	lib/sidebar.tcl, lib/utils.tcl, lib/version.tcl:
+	* Adding sidebar information panel preferences tab in Sidebar
+	preferences panel.
+	* Cleaning up information panel code.
+
+2017-07-12 09:00 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fec7dd8f35a9)
+
+	* data/themes/Notebook.tketheme, data/themes/Quiverly.tketheme,
+	data/themes/Ruby Blue.tketheme, lib/theme.tcl, lib/version.tcl:
+	* Renaming file_info to sidebar_info within theme for consistency.
+
+2017-07-12 09:04 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dcdfa54d769d [tip])
+
+	* lib/select.tcl, lib/version.tcl:
+	* Commenting out line in select namespace so that selections can
+	work properly until we get the functionality fixed later.
 
