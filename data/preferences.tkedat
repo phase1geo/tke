@@ -277,19 +277,6 @@
 
 {View/ShowSidebar}           {1}
 
-# If this value is set to 1, the sidebar file information panel will be displayed
-# on application start when a file is selected in the sidebar.  If this value is
-# set to 0, the sidebar file information panel will be hidden on application start.
-
-{View/ShowFileInfo}          {1}
-
-# If View/ShowFileInfo is set to true, this option, if set, will keep the file
-# information panel visible even when the sidebar does not have keyboard focus.
-# If it is set to 0, the file information panel will be hidden when sidebar
-# focus is lost.
-
-View/KeepFileInfoVisible     {0}
-
 # If this value is set to 1 and the console is supported on the current platform,
 # the Tcl console window will be displayed on application start.
 
@@ -423,6 +410,33 @@ View/KeepFileInfoVisible     {0}
 # If set to 0, hidden files will not be visible in the sidebar.
 
 {Sidebar/ShowHiddenFiles} {0}
+
+# Shows the information panel in the sidebar when set to 1 and a file is selected in the sidebar.
+
+{Sidebar/ShowInfoPanel} {1}
+
+# If View/ShowFileInfo is set to true, this option, if set, will keep the file
+# information panel visible even when the sidebar does not have keyboard focus.
+# If it is set to 0, the file information panel will be hidden when sidebar
+# focus is lost.
+
+{Sidebar/KeepInfoPanelVisible} {0}
+
+# Specifies which file attributes will be displayed in the sidebar information panel.  The legal
+# values that can be specified are as follows:
+#
+#  - preview      (controls if the image preview is displayed)
+#  - syntax       (default syntax that is automatically detected by TKE)
+#  - filesize     (size of the file)
+#  - imagesize    (only valid for images, specifies the width x height information of the image)
+#  - modified     (date the file was last modified)
+#  - permissions  (file permissions in the form of rwxrwxrwx (owner, group, global permissions)
+#  - owner        (username of person who owns the file)
+#  - group        (Unix group name of file - not valid on Windows)
+#  - version      (Current version of file within the version control system defined by file)
+#  - favorite     (Specifies if the file is a TKE favorited file)
+
+{Sidebar/InfoPanelAttributes} {preview syntax filesize imagesize modified permissions owner group version favorite}
 
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:
