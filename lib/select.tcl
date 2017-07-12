@@ -62,7 +62,7 @@ namespace eval select {
     bind select <Return>      "if {\[select::handle_return %W\]} break"
     bind select <Escape>      "if {\[select::handle_escape %W\]} break"
     bind select <B1-Motion>   "if {\[select::handle_motion %W %x %y\]} break"
-    bind select <<Selection>> [list select::handle_selection %W]
+    # bind select <<Selection>> [list select::handle_selection %W]
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
