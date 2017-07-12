@@ -1,7 +1,7 @@
 swatch {{#121e31} #213659 #ffffff #7694b5}
-file_info,-background {#121e31}
-file_info,-title_foreground {#7694b5}
-file_info,-value_foreground {#ffffff}
+sidebar_info,-background {#121e31}
+sidebar_info,-title_foreground {#7694b5}
+sidebar_info,-value_foreground {#ffffff}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
