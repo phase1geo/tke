@@ -31,7 +31,7 @@ namespace eval sidebar {
   variable after_id         ""
   variable jump_str         ""
   variable jump_after_id    ""
-  variable show_file_info   1
+  variable show_info        1
 
   array set widgets {}
 
@@ -245,8 +245,8 @@ namespace eval sidebar {
     set widgets(info,f,2)     [frame $w.if.f2]
     set widgets(info,l,mod)   [label $w.if.l1 -text [format "%s:" [msgcat::mc "Modified"]]]
     set widgets(info,v,mod)   [label $w.if.modified]
-    set widgets(info,l,perm)  [label $w.if.l2 -text [format "%s:" [msgcat::mc "Permissions"]]]
-    set widgets(info,v,perm)  [label $w.if.perm]
+    set widgets(info,l,attrs) [label $w.if.l2 -text [format "%s:" [msgcat::mc "Attributes"]]]
+    set widgets(info,v,attrs) [label $w.if.attrs]
     set widgets(info,l,ver)   [label $w.if.l3 -text [format "%s:" [msgcat::mc "Version"]]]
     set widgets(info,v,ver)   [label $w.if.version]
     set widgets(info,l,fav)   [label $w.if.l4 -text [format "%s:" [msgcat::mc "Favorite"]]]
@@ -262,7 +262,7 @@ namespace eval sidebar {
     grid $w.if.l1       -row 4 -column 0 -sticky e
     grid $w.if.modified -row 4 -column 1 -sticky w
     grid $w.if.l2       -row 5 -column 0 -sticky e
-    grid $w.if.perm     -row 5 -column 1 -sticky w
+    grid $w.if.attrs    -row 5 -column 1 -sticky w
     grid $w.if.l3       -row 6 -column 0 -sticky e
     grid $w.if.version  -row 6 -column 1 -sticky w
     grid $w.if.l4       -row 7 -column 0 -sticky e
@@ -294,9 +294,10 @@ namespace eval sidebar {
     theme::register_widget $widgets(sb) sidebar_scrollbar
 
     # Handle traces
-    trace variable preferences::prefs(Sidebar/IgnoreFilePatterns) w sidebar::handle_ignore_files
-    trace variable preferences::prefs(Sidebar/IgnoreBinaries)     w sidebar::handle_ignore_files
-    trace variable preferences::prefs(View/ShowFileInfo)          w sidebar::handle_file_info_view
+    trace variable preferences::prefs(Sidebar/IgnoreFilePatterns)  w sidebar::handle_ignore_files
+    trace variable preferences::prefs(Sidebar/IgnoreBinaries)      w sidebar::handle_ignore_files
+    trace variable preferences::prefs(Sidebar/ShowInfoPanel)       w sidebar::handle_info_panel_view
+    trace variable preferences::prefs(Sidebar/InfoPanelAttributes) w sidebar::handle_info_panel_view
 
     return $w
 
@@ -956,7 +957,7 @@ namespace eval sidebar {
   # Gathers the given directory's contents and handles directory/file
   # ordering issues.
   proc order_files_dirs {dir remote} {
-    
+
     set items       [list]
     set show_hidden [preferences::get Sidebar/ShowHiddenFiles]
 
@@ -1228,12 +1229,12 @@ namespace eval sidebar {
       set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       gui::get_info $fileindex fileindex tabbar tab
       gui::set_current_tab $tabbar $tab
-      if {[preferences::get View/KeepFileInfoVisible]} {
-        sidebar::update_file_info [$sidebar::widgets(tl) selection]
+      if {[preferences::get Sidebar/KeepInfoPanelVisible]} {
+        sidebar::update_info_panel [$sidebar::widgets(tl) selection]
       }
     } else {
       after idle {
-        sidebar::update_file_info [$sidebar::widgets(tl) selection]
+        sidebar::update_info_panel [$sidebar::widgets(tl) selection]
       }
     }
 
@@ -1283,7 +1284,7 @@ namespace eval sidebar {
       gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
       # Update the file information panel
-      # update_file_info [$widgets(tl) selection]
+      # update_info_panel [$widgets(tl) selection]
 
     }
 
@@ -1308,7 +1309,7 @@ namespace eval sidebar {
         gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
 
         # Update the file information panel
-        update_file_info $selected
+        update_info_panel $selected
 
       # Otherwise, toggle the open status
       } else {
@@ -1397,11 +1398,11 @@ namespace eval sidebar {
   proc handle_focus_in {} {
 
     variable widgets
-    variable show_file_info
+    variable show_info
 
     set selected [$widgets(tl) selection]
 
-    if {$show_file_info && ([llength $selected] == 1) && [file isfile [$widgets(tl) set [lindex $selected 0] name]]} {
+    if {$show_info && ([llength $selected] == 1) && [file isfile [$widgets(tl) set [lindex $selected 0] name]]} {
       pack $widgets(info,f) -fill both
     }
 
@@ -1413,7 +1414,7 @@ namespace eval sidebar {
 
     variable widgets
 
-    if {![preferences::get View/KeepFileInfoVisible]} {
+    if {![preferences::get Sidebar/KeepInfoPanelVisible]} {
       pack forget $widgets(info,f)
     }
 
@@ -2099,24 +2100,24 @@ namespace eval sidebar {
 
   ######################################################################
   # Handles the file information view option.
-  proc handle_file_info_view {name1 name2 op} {
+  proc handle_info_panel_view {name1 name2 op} {
 
-    set_file_info_view [preferences::get View/ShowFileInfo]
+    set_info_panel_view [preferences::get Sidebar/ShowInfoPanel]
 
   }
 
   ######################################################################
   # Sets the file information view value and updates the UI state.
-  proc set_file_info_view {value} {
+  proc set_info_panel_view {value} {
 
     variable widgets
-    variable show_file_info
+    variable show_info
 
-    # Save the state of the View/ShowFileInfo preference option
-    set show_file_info $value
+    # Save the state of the Sidebar/ShowInfoPanel preference option
+    set show_info $value
 
     # Update the file info widget
-    update_file_info [$widgets(tl) selection]
+    update_info_panel [$widgets(tl) selection]
 
   }
 
@@ -2220,12 +2221,12 @@ namespace eval sidebar {
 
   ######################################################################
   # Updates the file information panel to match the current selections
-  proc update_file_info {selected} {
+  proc update_info_panel {selected} {
 
     variable widgets
-    variable show_file_info
+    variable show_info
 
-    if {([llength $selected] == 1) && $show_file_info} {
+    if {([llength $selected] == 1) && $show_info} {
 
       set fname [$widgets(tl) set [lindex $selected 0] name]
 
@@ -2233,46 +2234,102 @@ namespace eval sidebar {
 
         pack $widgets(info,f) -fill both
 
+        # Get the list of attributes
+        array set attrs [concat {*}[lmap a [preferences::get Sidebar/InfoPanelAttributes] {list $a 1}]]
+
         # Get the file information
         file stat $fname finfo
 
-        # Get the syntax information
-        set syntax [syntax::get_default_language $fname]
-
         # Get the name and version to display
-        set name    [file tail $fname]
-        set cvs     [diff::get_default_cvs $fname]
-        set version [diff::${cvs}::get_current_version $fname]
+        set name   [file tail $fname]
+        set syntax ""
 
         # Figure out if we can display the file based on extension
-        if {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
-          grid $widgets(info,v,image)
-          bitmap_preview configure -file $fname -foreground [utils::get_default_foreground]
-          update_file_info_image $orig bitmap_preview name syntax
-        } elseif {![catch { image create photo -file $fname } orig]} {
-          grid $widgets(info,v,image)
-          photo_preview blank
-          ::image_scale $orig 64 64 photo_preview
-          update_file_info_image $orig photo_preview name syntax
+        if {[info exists attrs(preview)] || [info exists attrs(imagesize)]} {
+          if {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
+            bitmap_preview configure -file $fname -foreground [utils::get_default_foreground]
+            update_info_image $orig bitmap_preview [info exists attrs(preview)] [info exists attrs(imagesize)] name syntax
+          } elseif {![catch { image create photo -file $fname } orig]} {
+            photo_preview blank
+            ::image_scale $orig 64 64 photo_preview
+            update_info_image $orig photo_preview [info exists attrs(preview)] [info exists attrs(imagesize)] name syntax
+          } else {
+            grid remove $widgets(info,v,image)
+          }
         } else {
           grid remove $widgets(info,v,image)
-          if {[utils::is_binary $fname]} {
-            set syntax "Binary"
-          }
         }
 
+        # Always display the file name
         $widgets(info,v,name) configure -text $name
-        $widgets(info,v,type) configure -text "$syntax - [utils::get_file_size $fname]"
-        $widgets(info,v,ver)  configure -text $version
-        $widgets(info,v,mod)  configure -text [clock format $finfo(mtime)]
-        $widgets(info,v,perm) configure -text [file attributes $fname -permissions]
-        $widgets(info,v,fav)  configure -text [expr {[favorites::is_favorite $fname] ? [msgcat::mc "Yes"]: [msgcat::mc "No"]}]
 
-        # Remove the version entry if it is not valid
-        if {$version eq ""} {
-          grid remove $widgets(info,l,ver) $widgets(info,v,ver)
+        # Display the syntax and file size, if necessary
+        if {[info exists attrs(syntax)] || [info exists attrs(filesize)]} {
+          if {[info exists attrs(syntax)]} {
+            if {$syntax eq ""} {
+              lappend typelist [expr {[utils::is_binary $fname] ? "Binary" : [syntax::get_default_language $fname]}]
+            } else {
+              lappend typelist $syntax
+            }
+          }
+          if {[info exists attrs(filesize)]} {
+            lappend typelist [utils::get_file_size $fname]
+          }
+          $widgets(info,v,type) configure -text [join $typelist ", "]
+          grid $widgets(info,v,type)
         } else {
-          grid $widgets(info,l,ver) $widgets(info,v,ver)
+          grid remove $widgets(info,v,type)
+        }
+
+        # Display the file attributes, if necessary
+        if {[info exists attrs(permissions)] || [info exists attrs(owner)] || [info exists attrs(group)]} {
+          set attrlist [list]
+          if {[info exists attrs(permissions)] && ([set perms [utils::get_file_permissions $fname]] ne "")} {
+            lappend attrlist $perms
+          }
+          if {[info exists attrs(owner)] && ([set owner [utils::get_file_owner $fname]] ne "")} {
+            lappend attrlist $owner
+          }
+          if {[info exists attrs(group)] && ([set group [utils::get_file_group $fname]] ne "")} {
+            lappend attrlist $group
+          }
+          if {$attrlist ne [list]} {
+            $widgets(info,v,attrs) configure -text [join $attrlist ", "]
+            grid $widgets(info,l,attrs) $widgets(info,v,attrs)
+          } else {
+            grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
+          }
+        } else {
+          grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
+        }
+
+        # Display the modified status, if necessary
+        if {[info exists attrs(modified)]} {
+          $widgets(info,v,mod) configure -text [clock format $finfo(mtime)]
+          grid $widgets(info,l,mod) $widgets(info,v,mod)
+        } else {
+          grid remove $widgets(info,l,mod) $widgets(info,v,mod)
+        }
+
+        # Display the version, if necessary
+        if {[info exists attrs(version)]} {
+          set cvs     [diff::get_default_cvs $fname]
+          if {[set version [diff::${cvs}::get_current_version $fname]] ne ""} {
+            $widgets(info,v,ver) configure -text $version
+            grid $widgets(info,l,ver) $widgets(info,v,ver)
+          } else {
+            grid remove $widgets(info,l,ver) $widgets(info,v,ver)
+          }
+        } else {
+          grid remove $widgets(info,l,ver) $widgets(info,v,ver)
+        }
+
+        # Display the favorite status, if necessary
+        if {[info exists attrs(favorite)]} {
+          $widgets(info,v,fav) configure -text [expr {[favorites::is_favorite $fname] ? [msgcat::mc "Yes"]: [msgcat::mc "No"]}]
+          grid $widgets(info,l,fav) $widgets(info,v,fav)
+        } else {
+          grid remove $widgets(info,l,fav) $widgets(info,v,fav)
         }
 
         # Insert plugin values
@@ -2304,7 +2361,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Updates the file information image and related information.
-  proc update_file_info_image {orig image pname psyntax} {
+  proc update_info_image {orig image preview imagesize pname psyntax} {
 
     variable widgets
 
@@ -2312,14 +2369,23 @@ namespace eval sidebar {
     upvar $psyntax syntax
 
     # Update the image
-    $widgets(info,v,image) configure -image $image
+    if {$preview} {
+      $widgets(info,v,image) configure -image $image
+      grid $widgets(info,v,image)
+    } else {
+      grid remove $widgets(info,v,image)
+    }
 
     # Calculate the syntax and name values
-    set syntax "Unsupported"
-    append name " ([image width $orig] x [image height $orig])"
+    if {$imagesize} {
+      append name " ([image width $orig] x [image height $orig])"
+    }
 
     # Delete the original image
     image delete $orig
+
+    # Set the syntax to Unsupported
+    set syntax "Unsupported"
 
   }
 

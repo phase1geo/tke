@@ -990,4 +990,43 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Returns the file permissions a string in the form of "rwxrwxrwx".
+  proc get_file_permissions {fname} {
+
+    if {$::tcl_platform(platform) eq "windows"} {
+      append str [expr {[file readable   $fname] ? "r" : "-"}]
+      append str [expr {[file writeable  $fname] ? "w" : "-"}]
+      append str [expr {[file executable $fname] ? "w" : "-"}]
+      return [string repeat $str 3]
+    }
+
+    array set perms [list 0 "---" 1 "--x" 2 "-w-" 3 "-wx" 4 "r--" 5 "r-x" 6 "rw-" 7 "rwx"]
+
+    set perm [file attributes $fname -permissions]
+
+    return "$perms([string index $perm end-2])$perms([string index $perm end-1])$perms([string index $perm end])"
+
+  }
+
+  ######################################################################
+  # Returns the owner of the given file.
+  proc get_file_owner {fname} {
+
+    array set attrs [file attributes $fname]
+
+    return [expr {[info exists attrs(-owner)] ? $attrs(-owner) : ""}]
+
+  }
+
+  ######################################################################
+  # Returns the group associated with the given file.
+  proc get_file_group {fname} {
+
+    array set attrs [file attributes $fname]
+
+    return [expr {[info exists attrs(-group)] ? $attrs(-group) : ""}]
+
+  }
+
 }

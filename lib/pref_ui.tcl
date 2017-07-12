@@ -49,6 +49,18 @@ namespace eval pref_ui {
     miscellaneous2 0
     miscellaneous3 0
   }
+  array set attributes {
+    preview     0
+    syntax      0
+    filesize    0
+    imagesize   0
+    modified    0
+    permissions 0
+    owner       0
+    group       0
+    favorite    0
+    version     0
+  }
 
   if {[catch { ttk::spinbox .__tmp }]} {
     set bg               [utils::get_default_background]
@@ -2577,6 +2589,7 @@ namespace eval pref_ui {
 
     variable widgets
     variable prefs
+    variable attributes
 
     ttk::notebook $w.nb
 
@@ -2588,7 +2601,6 @@ namespace eval pref_ui {
 
     make_cb $a.rralc [msgcat::mc "Remove root directory after last sub-file is closed"] Sidebar/RemoveRootAfterLastClose
     make_cb $a.fat   [msgcat::mc "Show folders at top"] Sidebar/FoldersAtTop
-    make_cb $a.shf   [msgcat::mc "Show hidden files"]   Sidebar/ShowHiddenFiles
     make_spacer $a
     make_sb $a.kst   [msgcat::mc "Append characters to search string if entered within"] Sidebar/KeySearchTimeout 100 3000 100 0 [msgcat::mc "milliseconds"]
 
@@ -2598,12 +2610,57 @@ namespace eval pref_ui {
 
     $w.nb add [set b [ttk::frame $w.nb.b]] -text [msgcat::mc "Hiding"]
 
-    make_cb     $b.ib [msgcat::mc "Hide binary files"] Sidebar/IgnoreBinaries
+    make_cb     $b.shf [msgcat::mc "Show hidden files"] Sidebar/ShowHiddenFiles
+    make_cb     $b.ib  [msgcat::mc "Hide binary files"] Sidebar/IgnoreBinaries
     make_spacer $b
     set win [make_token $b.hp [msgcat::mc "Hide Patterns"] Sidebar/IgnoreFilePatterns ""]
     $win configure -height 6
 
+    ##################
+    # INFO PANEL TAB #
+    ##################
+
+    $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Info Panel"]]
+
+    make_cb $c.enable [msgcat::mc "Show information panel when file/directory is selected"]              Sidebar/ShowInfoPanel
+    make_cb $c.kfiv   [msgcat::mc "Keep file information panel visible when sidebar doesn't have focus"] Sidebar/KeepInfoPanelVisible
+    make_spacer $c
+
+    ttk::labelframe $c.if -text [set wstr [msgcat::mc "Displayed Information"]]
+
+    # Pack the colorizer frame
+    set attrs $prefs(Sidebar/InfoPanelAttributes)
+    set i     0
+    foreach attr [lsort [array names attributes]] {
+      set attributes($attr) [expr {[lsearch $attrs $attr] != -1}]
+      pack [ttk::checkbutton $c.if.$attr -text " $attr" -variable pref_ui::attributes($attr) -command [list pref_ui::set_attributes]] -anchor w -padx 2 -pady 2
+      incr i
+    }
+
+    # Register the widget
+    register $c.if.$attr $wstr Sidebar/InfoPanelAttributes
+
+    pack $w.nb.c.if -fill x -padx 2 -pady 2
+
     pack $w.nb -fill both -expand yes
+
+  }
+
+  ######################################################################
+  # Sets the displayed file information attributes preference item.
+  proc set_attributes {} {
+
+    variable attributes
+    variable prefs
+
+    set attrs [list]
+    foreach {attr value} [array get attributes] {
+      if {$value} {
+        lappend attrs $attr
+      }
+    }
+
+    set prefs(Sidebar/InfoPanelAttributes) [lsort $attrs]
 
   }
 
@@ -2617,7 +2674,6 @@ namespace eval pref_ui {
 
     make_cb $w.sm   [msgcat::mc "Show menubar"]                                     View/ShowMenubar
     make_cb $w.ss   [msgcat::mc "Show sidebar"]                                     View/ShowSidebar
-    make_cb $w.sfi  [msgcat::mc "Show file information"]                            View/ShowFileInfo
     make_cb $w.ssb  [msgcat::mc "Show status bar"]                                  View/ShowStatusBar
     make_cb $w.stb  [msgcat::mc "Show tab bar"]                                     View/ShowTabBar
     make_cb $w.sln  [msgcat::mc "Show line numbers"]                                View/ShowLineNumbers
@@ -2630,7 +2686,6 @@ namespace eval pref_ui {
     make_cb $w.ota  [msgcat::mc "Sort tabs alphabetically on open"]                 View/OpenTabsAlphabetically
     make_cb $w.ecf  [msgcat::mc "Enable code folding"]                              View/EnableCodeFolding
     make_cb $w.sls  [msgcat::mc "Show language submenu"]                            View/ShowLanguagesSubmenu
-    make_cb $w.kfiv [msgcat::mc "Keep file information panel visible when sidebar doesn't have focus"] View/KeepFileInfoVisible
 
     make_spacer $w
 
