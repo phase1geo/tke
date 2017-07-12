@@ -1,5 +1,5 @@
 set specl::appname      "tke"
 set specl::version      "3.2.4"
-set specl::release      "Unable to insert into database: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Info Panel" tab to Sidebar preference panel and moving all sidebar info panel op' at line 1"
+set specl::release      "358"
 set specl::rss_url      "http://tke.sourceforge.net/releases"
 set specl::download_url "http://tke.sourceforge.net/releases"
