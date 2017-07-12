@@ -996,8 +996,8 @@ namespace eval utils {
 
     if {$::tcl_platform(platform) eq "windows"} {
       append str [expr {[file readable   $fname] ? "r" : "-"}]
-      append str [expr {[file writeable  $fname] ? "w" : "-"}]
-      append str [expr {[file executable $fname] ? "w" : "-"}]
+      append str [expr {[file writable   $fname] ? "w" : "-"}]
+      append str [expr {[file executable $fname] ? "x" : "-"}]
       return [string repeat $str 3]
     }
 
