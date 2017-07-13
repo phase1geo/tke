@@ -1,68 +1,72 @@
-2017-07-08 00:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (630a17293695 [devel-3.2.3])
+2017-07-12 09:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a9c0beb53ecc [devel-3.2.4])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.2.3 release
+	ChangeLog for devel-3.2.4 release
 
-2017-07-08 00:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f8704364d311)
+2017-07-12 09:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e804392e9b79)
 
 	* .hgtags:
-	Added tag devel-3.2.3 for changeset 630a17293695
+	Added tag devel-3.2.4 for changeset a9c0beb53ecc
 
-2017-07-09 00:02 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a3423847b57f)
+2017-07-12 09:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (15d7bb3cbb3f)
 
-	* data/bindings/menu_bindings.aqua.tkedat,
-	data/bindings/menu_bindings.classic.tkedat,
-	data/bindings/menu_bindings.win32.tkedat,
-	data/bindings/menu_bindings.x11.tkedat, lib/menus.tcl,
-	lib/select.tcl, lib/version.tcl:
-	* Adding new `View / Select Mode` menu option.
-	* Fixing issues within select namespace.
+	* lib/version.tcl, specl_version.tcl:
+	* Fixing release information.
 
-2017-07-09 14:25 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3886e89a7add)
+2017-07-12 10:53 -0500  Trevor Williams  <phase1geo@gmail.com>  (72e3bc92e7a8)
 
-	* lib/select.tcl, lib/version.tcl:
-	* Adding ability to automatically enter/leave select mode when user
-	manually changes selection.
+	* lib/utils.tcl:
+	* Fixing syntax issue with calculating file permissions on Windows.
 
-2017-07-10 00:57 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (20ac2d913ee3)
+2017-07-13 00:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (03b325dcb13c)
 
-	* lib/select.tcl, lib/version.tcl:
-	* Checkpointing.
+	* lib/plugins.tcl, lib/sidebar.tcl, lib/utils.tcl, lib/version.tcl,
+	plugins/file_info/header.tkedat, plugins/file_info/main.tcl:
+	* Adding sidebar info panel support for directories.
+	* Improving interaction in sidebar when info panel is being displayed.
+	* Adding directory information into permissions string.
 
-2017-07-10 22:53 -0500  Trevor Williams  <phase1geo@gmail.com>  (3a2bfcaa2ef3)
+2017-07-13 00:19 -0500  Trevor Williams  <phase1geo@gmail.com>  (bfb134a125c4)
 
-	* lib/sidebar.tcl, lib/version.tcl:
-	* Adding file permissions and favorite status in file information
-	panel.
+	* lib/version.tcl, plugins/file_info/header.tkedat:
+	* Reversing changes to file_info panel.
 
-2017-07-11 01:23 -0500  Trevor Williams  <phase1geo@gmail.com>  (b15c14688ae0)
+2017-07-13 01:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2574d326c7f9 [tip])
 
-	* lib/sidebar.tcl, lib/version.tcl:
-	* Checkpointing work on cleaning up file information panel.
-
-2017-07-11 17:20 -0500  Trevor Williams  <phase1geo@gmail.com>  (9678b51d542f)
-
-	* data/preferences.tkedat, lib/pref_ui.tcl, lib/sidebar.tcl:
-	* Adding ability to show/hide hidden files in the sidebar.
-	* Adding Sidebar/ShowHiddenFiles preference item.
-
-2017-07-12 01:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (142c0f1871bd)
-
-	* data/preferences.tkedat, lib/menus.tcl, lib/pref_ui.tcl,
-	lib/sidebar.tcl, lib/utils.tcl, lib/version.tcl:
-	* Adding sidebar information panel preferences tab in Sidebar
-	preferences panel.
-	* Cleaning up information panel code.
-
-2017-07-12 09:00 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fec7dd8f35a9)
-
-	* data/themes/Notebook.tketheme, data/themes/Quiverly.tketheme,
-	data/themes/Ruby Blue.tketheme, lib/theme.tcl, lib/version.tcl:
-	* Renaming file_info to sidebar_info within theme for consistency.
-
-2017-07-12 09:04 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dcdfa54d769d [tip])
-
-	* lib/select.tcl, lib/version.tcl:
-	* Commenting out line in select namespace so that selections can
-	work properly until we get the functionality fixed later.
+	* doc/md/TKE Developer Guide/Plugin Action
+	Types/info_panel.textbundle/info.json, doc/md/TKE Developer
+	Guide/Plugin Action Types/info_panel.textbundle/text.md, doc/md/TKE
+	User Guide/User Interface/Sidebar Information
+	Panel.textbundle/info.json, doc/md/TKE User Guide/User
+	Interface/Sidebar Information Panel.textbundle/text.md: new file.
+	* doc/md/TKE Developer Guide/Plugin Action
+	Types/file_info.textbundle/info.json, doc/md/TKE Developer
+	Guide/Plugin Action Types/file_info.textbundle/text.md, doc/md/TKE
+	User Guide/User Interface/Sidebar File Information
+	Panel.textbundle/info.json, doc/md/TKE User Guide/User
+	Interface/Sidebar File Information Panel.textbundle/text.md: deleted
+	file.
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, doc/md/.Ulysses-favorites.plist,
+	doc/md/TKE Developer Guide/Plugin Action Types/.Ulysses-Group.plist,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/file_info.textbundle/info.json, doc/md/TKE Developer
+	Guide/Plugin Action Types/file_info.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/info_panel.textbundle/info.json,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/info_panel.textbundle/text.md, doc/md/TKE User Guide/User
+	Interface/.Ulysses-Group.plist, doc/md/TKE User Guide/User
+	Interface/Sidebar File Information Panel.textbundle/info.json,
+	doc/md/TKE User Guide/User Interface/Sidebar File Information
+	Panel.textbundle/text.md, doc/md/TKE User Guide/User
+	Interface/Sidebar Information Panel.textbundle/info.json, doc/md/TKE
+	User Guide/User Interface/Sidebar Information
+	Panel.textbundle/text.md, lib/version.tcl:
+	* Updating user guide.
+	* Updating developer guide.
+	* Updating translations.
 
