@@ -599,6 +599,9 @@ msgcat::mcmset zh {
   "Encode/Decode image to data:URL"
   "到数据︰ URL 编码/解码图像"
 
+  "Enter selection mode"
+  "进入选择模式"
+
   "Enumeration"
   "列举法"
 
@@ -740,9 +743,6 @@ msgcat::mcmset zh {
   "Hide Current Tab"
   "当前标签页"
 
-  "Hide File Info"
-  "檔案資訊"
-
   "Hide Line Numbers"
   "隐藏行号"
 
@@ -754,6 +754,9 @@ msgcat::mcmset zh {
 
   "Hide Sidebar"
   "隐藏边栏"
+
+  "Hide Sidebar Info Panel"
+  "隐藏侧边栏信息面板"
 
   "Hide Status Bar"
   "隐藏状态栏"
@@ -767,9 +770,6 @@ msgcat::mcmset zh {
   "Hide Tcl console"
   "隐藏 Tcl 控制台"
 
-  "Hide file information panel"
-  "信息面板"
-
   "Hide line numbers"
   "行号"
 
@@ -781,6 +781,9 @@ msgcat::mcmset zh {
 
   "Hide sidebar"
   "隱藏側邊攔"
+
+  "Hide sidebar information panel"
+  "信息面板"
 
   "Hide status bar"
   "显示/隐藏状态栏"
@@ -1319,6 +1322,9 @@ msgcat::mcmset zh {
   "Select Current Match"
   "选择当前匹配"
 
+  "Select Mode"
+  "选择模式"
+
   "Select Next Item"
   "选择下一项"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset zh {
   "Show File Difference"
   "显示不同"
 
-  "Show File Info"
-  "檔案資訊"
-
   "Show Installed"
   "已安装"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset zh {
   "Show Sidebar"
   "显示侧边栏"
 
+  "Show Sidebar Info Panel"
+  "显示侧边栏信息面板"
+
   "Show Status Bar"
   "显示状态"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset zh {
   "Show file difference"
   "显示不同"
 
-  "Show file information panel"
-  "显示信息面板to preview a file inside an archive"
-
   "Show installed plugins"
   "已安装的插件"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset zh {
 
   "Show selected line change"
   "显示所选的行的变化"
+
+  "Show sidebar information panel"
+  "显示侧边栏信息面板"
 
   "Smart Indent"
   "智能缩进"
@@ -1809,6 +1815,9 @@ msgcat::mcmset zh {
   "Development"
   "开发"
 
+  "Displayed Information"
+  "已显示信息"
+
   "Double-quote"
   "\"
 
@@ -1862,6 +1871,9 @@ msgcat::mcmset zh {
 
   "Indentation spaces"
   "缩进空格"
+
+  "Info Panel"
+  "信息面板"
 
   "Insertion cursor width"
   "插入光标宽度"
@@ -2016,11 +2028,14 @@ msgcat::mcmset zh {
   "Show difference file version information"
   "显示差异文件版本信息"
 
-  "Show file information"
-  "文件信息"
-
   "Show folders at top"
   "显示在顶部的文件夹"
+
+  "Show hidden files"
+  "显示隐藏文件"
+
+  "Show information panel when file/directory is selected"
+  "显示的信息面板选中文件/目录"
 
   "Show language submenu"
   "显示语言菜单"
@@ -2379,6 +2394,9 @@ msgcat::mcmset zh {
   "Add Parent Directory"
   "母目錄"
 
+  "Attributes"
+  "属性"
+
   "Close Directory Files"
   "关闭目录文件"
 
@@ -2445,6 +2463,9 @@ msgcat::mcmset zh {
   "New File From Template"
   "模板新建的文件"
 
+  "No"
+  "不"
+
   "Open Directory Files"
   "打开目录文件"
 
@@ -2468,6 +2489,9 @@ msgcat::mcmset zh {
 
   "Unable to duplicate file"
   "无法复制文件"
+
+  "Yes"
+  "是"
 
 }
 
@@ -2635,6 +2659,9 @@ msgcat::mcmset zh {
   "Background color to use for selected text."
   "要用于所选文本的背景色。"
 
+  "Background color to use for the file information panel."
+  "用于文件信息面板的背景颜色。"
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "用其他的选项卡，是不是在 tabbar 电流/活动选项卡的背景颜色。"
 
@@ -2731,6 +2758,12 @@ msgcat::mcmset zh {
   "Foreground color of textual display in command launcher"
   "前景颜色的文本显示在命令启动程序"
 
+  "Foreground color to use for title text in the information panel."
+  "要使用信息面板中的标题文本的前景颜色。"
+
+  "Foreground color to use for value text in the information panel."
+  "使用信息面板中的值文本的前景颜色。"
+
   "Foreground color used in menu items with checks or buttons."
   "在用支票或按钮的菜单项所用的前景颜色。"
 
@@ -2820,6 +2853,9 @@ msgcat::mcmset zh {
 
   "Scrollbar slider color used in the command launcher results list"
   "使用命令启动程序结果列表中的滚动条滑块颜色"
+
+  "Sidebar Info Panel Options"
+  "侧边栏信息面板选项"
 
   "Sidebar Options"
   "侧边栏选项"

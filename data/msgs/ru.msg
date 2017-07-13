@@ -599,6 +599,9 @@ msgcat::mcmset ru {
   "Encode/Decode image to data:URL"
   "Кодирования/декодирования изображения URL данных:"
 
+  "Enter selection mode"
+  "Введите режим выделения"
+
   "Enumeration"
   "перечисление"
 
@@ -740,9 +743,6 @@ msgcat::mcmset ru {
   "Hide Current Tab"
   "Текущая вкладка"
 
-  "Hide File Info"
-  "Информация о файле"
-
   "Hide Line Numbers"
   "Скрыть числа"
 
@@ -754,6 +754,9 @@ msgcat::mcmset ru {
 
   "Hide Sidebar"
   "Скрыть боковую панель"
+
+  "Hide Sidebar Info Panel"
+  "Скрытие боковой панели информация"
 
   "Hide Status Bar"
   "Скрыть Status Bar"
@@ -767,9 +770,6 @@ msgcat::mcmset ru {
   "Hide Tcl console"
   "Скрыть Tcl консоли"
 
-  "Hide file information panel"
-  "Ð¡Ð¿Ð¸ÑÐ¾Ðº@ action: inmenu View Mode"
-
   "Hide line numbers"
   "Скрыть числа"
 
@@ -781,6 +781,9 @@ msgcat::mcmset ru {
 
   "Hide sidebar"
   "Спрятать сайдбар"
+
+  "Hide sidebar information panel"
+  "Скрыть панель информации боковой панели"
 
   "Hide status bar"
   "Строка состояния"
@@ -1319,6 +1322,9 @@ msgcat::mcmset ru {
   "Select Current Match"
   "Выберите текущий матч"
 
+  "Select Mode"
+  "Выбор режима"
+
   "Select Next Item"
   "Выберите Далее."
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset ru {
   "Show File Difference"
   "Показать файл разницы"
 
-  "Show File Info"
-  "Информация о файле"
-
   "Show Installed"
   "Установлено"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset ru {
   "Show Sidebar"
   "Показать боковую панель"
 
+  "Show Sidebar Info Panel"
+  "Показать информация боковой панели"
+
   "Show Status Bar"
   "Панель состояния (Status bar)"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset ru {
   "Show file difference"
   "Показать файл разница"
 
-  "Show file information panel"
-  "Сведенияto preview a file inside an archive"
-
   "Show installed plugins"
   "Установленные плагины"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset ru {
 
   "Show selected line change"
   "Показать выбранные линии изменения"
+
+  "Show sidebar information panel"
+  "Показать панель Боковая панель информации"
 
   "Smart Indent"
   "Смарт отступа"
@@ -1809,6 +1815,9 @@ msgcat::mcmset ru {
   "Development"
   "Разработка"
 
+  "Displayed Information"
+  "Отображаемые сведения"
+
   "Double-quote"
   "Двойные кавычки"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset ru {
   "Indentation spaces"
   "Отступ пространств"
 
+  "Info Panel"
+  "Инфо Панель"
+
   "Insertion cursor width"
   "Ширина курсора вставки"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Сохранить файл сведений видимыми при боковой панели не имеет фокус"
 
   "Keyword"
   "Ключевое слово"
@@ -2016,11 +2031,14 @@ msgcat::mcmset ru {
   "Show difference file version information"
   "Показать сведения о версии файла различий"
 
-  "Show file information"
-  "Информация о файле"
-
   "Show folders at top"
   "Показать папки в верхней"
+
+  "Show hidden files"
+  "Показывать скрытые файлы"
+
+  "Show information panel when file/directory is selected"
+  "Показать панель сведений, когда выбран файл/каталог"
 
   "Show language submenu"
   "Показать подменю язык"
@@ -2379,6 +2397,9 @@ msgcat::mcmset ru {
   "Add Parent Directory"
   "Каталог"
 
+  "Attributes"
+  "Атрибуты"
+
   "Close Directory Files"
   "Закрыть Каталог файлов"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset ru {
   "New File From Template"
   "Новый файл из шаблона"
 
+  "No"
+  "Нет"
+
   "Open Directory Files"
   "Открытие файлов Каталог"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset ru {
 
   "Unable to duplicate file"
   "Не удается дублировать файл"
+
+  "Yes"
+  "Да"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset ru {
   "Background color to use for selected text."
   "Цвет фона для выбранного текста."
 
+  "Background color to use for the file information panel."
+  "Цвет фона для информационной панели файлов."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Цвет фона для всех вкладок, которые не являются на вкладку текущий активный в tabbar."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset ru {
   "Foreground color of textual display in command launcher"
   "Цвет переднего плана для текстового дисплея в команде запуска"
 
+  "Foreground color to use for title text in the information panel."
+  "Цвет переднего плана для текста заголовка на панели информации."
+
+  "Foreground color to use for value text in the information panel."
+  "Цвет переднего плана для текста значение в информационной панели."
+
   "Foreground color used in menu items with checks or buttons."
   "Цвет, используемый в меню кнопок или проверки."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset ru {
 
   "Scrollbar slider color used in the command launcher results list"
   "Цвет ползунок полосы прокрутки, используемый в списке результатов запуска команды"
+
+  "Sidebar Info Panel Options"
+  "Параметры панели информация боковой панели"
 
   "Sidebar Options"
   "Параметры боковой панели"

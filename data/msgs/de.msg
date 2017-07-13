@@ -599,6 +599,9 @@ msgcat::mcmset de {
   "Encode/Decode image to data:URL"
   "Bild, Daten: URL Codieren/Decodieren"
 
+  "Enter selection mode"
+  "Auswahl-Modus wählen"
+
   "Enumeration"
   "Liste"
 
@@ -740,9 +743,6 @@ msgcat::mcmset de {
   "Hide Current Tab"
   "Aktuelle Registerkarte ausblenden"
 
-  "Hide File Info"
-  "Dateiinfo"
-
   "Hide Line Numbers"
   "Ausblenden von Zeilennummern"
 
@@ -754,6 +754,9 @@ msgcat::mcmset de {
 
   "Hide Sidebar"
   "Navigationsbereich ausblenden"
+
+  "Hide Sidebar Info Panel"
+  "Bedienfeld \"
 
   "Hide Status Bar"
   "Statusanzeige ausblenden"
@@ -767,9 +770,6 @@ msgcat::mcmset de {
   "Hide Tcl console"
   "Tcl Konsole ausblenden"
 
-  "Hide file information panel"
-  "Informationskontrollleiste"
-
   "Hide line numbers"
   "zeilennummern zeilen nummern"
 
@@ -781,6 +781,9 @@ msgcat::mcmset de {
 
   "Hide sidebar"
   "Sidebar ausblenden"
+
+  "Hide sidebar information panel"
+  "Informationstafel Seitenleiste ausblenden"
 
   "Hide status bar"
   "Statusleiste"
@@ -1319,6 +1322,9 @@ msgcat::mcmset de {
   "Select Current Match"
   "Wählen Sie aktuelle Match"
 
+  "Select Mode"
+  "Modus wählen"
+
   "Select Next Item"
   "Als nächster Punkt auswählen"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset de {
   "Show File Difference"
   "Karte Datei Unterschied"
 
-  "Show File Info"
-  "Datei anzeigen"
-
   "Show Installed"
   "installiert"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset de {
   "Show Sidebar"
   "Seitenleiste anzeigen"
 
+  "Show Sidebar Info Panel"
+  "Sidebar-Info-Panel anzeigen"
+
   "Show Status Bar"
   "Status einblenden"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset de {
   "Show file difference"
   "Zeigen Datei Unterschied"
 
-  "Show file information panel"
-  "Informationskontrollleiste anzeigento preview a file inside an archive"
-
   "Show installed plugins"
   "已安装的插件"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset de {
 
   "Show selected line change"
   "Anzeigen der markierten Zeile ändern"
+
+  "Show sidebar information panel"
+  "Seitenleiste Informationstafel zeigen"
 
   "Smart Indent"
   "Smart Gedankenstrich"
@@ -1809,6 +1815,9 @@ msgcat::mcmset de {
   "Development"
   "Entwicklung"
 
+  "Displayed Information"
+  "Angezeigte Informationen"
+
   "Double-quote"
   "Doppeltes Anführungszeichen"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset de {
   "Indentation spaces"
   "Einrückung Räume"
 
+  "Info Panel"
+  "信息面板"
+
   "Insertion cursor width"
   "Einfügen-Cursor-breite"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Bleiben Sie Datei-Info-Tafel sichtbar, wenn Seitenleiste nicht im Fokus"
 
   "Keyword"
   "Suchbegriff"
@@ -2016,11 +2031,14 @@ msgcat::mcmset de {
   "Show difference file version information"
   "Dateiversionsinformationen Unterschied zeigen"
 
-  "Show file information"
-  "Dateiinformationen"
-
   "Show folders at top"
   "Ordner an Spitze anzeigen"
+
+  "Show hidden files"
+  "Versteckte Dateien anzeigen"
+
+  "Show information panel when file/directory is selected"
+  "Info-Tafel zu zeigen, wenn Datei/Verzeichnis ausgewählt ist"
 
   "Show language submenu"
   "Untermenü Sprache zeigen"
@@ -2379,6 +2397,9 @@ msgcat::mcmset de {
   "Add Parent Directory"
   "Übergeordnetes Verzeichnis hinzufügen"
 
+  "Attributes"
+  "Attribute"
+
   "Close Directory Files"
   "Enge Verzeichnisdateien"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset de {
   "New File From Template"
   "Neue Datei aus Vorlage"
 
+  "No"
+  "Nein"
+
   "Open Directory Files"
   "Open Directory-Dateien"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset de {
 
   "Unable to duplicate file"
   "Doppelte Datei konnte nicht"
+
+  "Yes"
+  "Ja"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset de {
   "Background color to use for selected text."
   "Hintergrundfarbe für ausgewählten Text zu verwenden."
 
+  "Background color to use for the file information panel."
+  "Hintergrundfarbe für die Datei-Informations-Panel verwenden."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Hintergrundfarbe für alle anderen Registerkarten, die nicht die aktuelle / aktive Registerkarte in der Fensterleiste verwendet."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset de {
   "Foreground color of textual display in command launcher"
   "Vordergrundfarbe des textuellen Anzeige im Befehl launcher"
 
+  "Foreground color to use for title text in the information panel."
+  "Vordergrundfarbe für Titeltext im Informationsbereich zu verwenden."
+
+  "Foreground color to use for value text in the information panel."
+  "Vordergrundfarbe für Werttext im Informationsbereich."
+
   "Foreground color used in menu items with checks or buttons."
   "Vordergrundfarbe Menüpunkten mit Schecks oder Schaltflächen."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset de {
 
   "Scrollbar slider color used in the command launcher results list"
   "ScrollBar Slider Farbe in der Befehlsliste Launcher Ergebnisse"
+
+  "Sidebar Info Panel Options"
+  "Sidebar-Info-Panel-Optionen"
 
   "Sidebar Options"
   "Siebar Optionen"

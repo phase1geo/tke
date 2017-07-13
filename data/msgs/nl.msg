@@ -599,6 +599,9 @@ msgcat::mcmset nl {
   "Encode/Decode image to data:URL"
   "Coderen/decoderen van gegevens: URL afbeelding"
 
+  "Enter selection mode"
+  "Modus selectie"
+
   "Enumeration"
   "telling"
 
@@ -740,9 +743,6 @@ msgcat::mcmset nl {
   "Hide Current Tab"
   "Huidig tabblad"
 
-  "Hide File Info"
-  "Bestandsinfo"
-
   "Hide Line Numbers"
   "Regelnummers verbergen"
 
@@ -754,6 +754,9 @@ msgcat::mcmset nl {
 
   "Hide Sidebar"
   "Zijbalk verbergen"
+
+  "Hide Sidebar Info Panel"
+  "Verberg zijbalk infovenster"
 
   "Hide Status Bar"
   "Verberg Status Bar"
@@ -767,9 +770,6 @@ msgcat::mcmset nl {
   "Hide Tcl console"
   "Verbergen van Tcl console"
 
-  "Hide file information panel"
-  "Informatiebalk"
-
   "Hide line numbers"
   "Verbergen van regelnummers"
 
@@ -781,6 +781,9 @@ msgcat::mcmset nl {
 
   "Hide sidebar"
   "Zijbalk verbergen"
+
+  "Hide sidebar information panel"
+  "Verberg zijbalk documentinformatiepaneel"
 
   "Hide status bar"
   "Verberg status balk"
@@ -1319,6 +1322,9 @@ msgcat::mcmset nl {
   "Select Current Match"
   "Selecteer huidige Match"
 
+  "Select Mode"
+  "Modus kiezen"
+
   "Select Next Item"
   "Volgende Item selecteren"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset nl {
   "Show File Difference"
   "Toon bestand verschil"
 
-  "Show File Info"
-  "Toon bestandsinformatie."
-
   "Show Installed"
   "Geïnstalleerd"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset nl {
   "Show Sidebar"
   "Zijbalk tonen"
 
+  "Show Sidebar Info Panel"
+  "Toon sidebar"
+
   "Show Status Bar"
   "Statusbalk tonen"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset nl {
   "Show file difference"
   "Toon bestand verschil"
 
-  "Show file information panel"
-  "Informatiepaneel tonento preview a file inside an archive"
-
   "Show installed plugins"
   "geïnstalleerde Plugins"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset nl {
 
   "Show selected line change"
   "Toon geselecteerde regel wijzigen"
+
+  "Show sidebar information panel"
+  "Informatiepaneel tonento preview a file inside an archive"
 
   "Smart Indent"
   "Slimme streepje"
@@ -1809,6 +1815,9 @@ msgcat::mcmset nl {
   "Development"
   "Development"
 
+  "Displayed Information"
+  "Getoonde informatie"
+
   "Double-quote"
   "Aanhalingsteken"
 
@@ -1862,6 +1871,9 @@ msgcat::mcmset nl {
 
   "Indentation spaces"
   "Spaties voor inspringen"
+
+  "Info Panel"
+  "Open INFO-Paneel..."
 
   "Insertion cursor width"
   "Invoeging cursor breedte"
@@ -2016,11 +2028,14 @@ msgcat::mcmset nl {
   "Show difference file version information"
   "Verschil bestand versie-informatie weergeven"
 
-  "Show file information"
-  "Bestandsinformatie"
-
   "Show folders at top"
   "Mappen boven weergeven"
+
+  "Show hidden files"
+  "Verborgen bestanden tonen"
+
+  "Show information panel when file/directory is selected"
+  "Informatiepaneel weergeven als bestand/directory is geselecteerd"
 
   "Show language submenu"
   "Toon submenu taal"
@@ -2379,6 +2394,9 @@ msgcat::mcmset nl {
   "Add Parent Directory"
   "Bovenliggende map"
 
+  "Attributes"
+  "Attributen"
+
   "Close Directory Files"
   "Sluiten Directory Bestanden"
 
@@ -2445,6 +2463,9 @@ msgcat::mcmset nl {
   "New File From Template"
   "Nieuw van sjabloon"
 
+  "No"
+  "Nee"
+
   "Open Directory Files"
   "Open Directory Bestanden"
 
@@ -2468,6 +2489,9 @@ msgcat::mcmset nl {
 
   "Unable to duplicate file"
   "Geen kopie vijl"
+
+  "Yes"
+  "Ja"
 
 }
 
@@ -2635,6 +2659,9 @@ msgcat::mcmset nl {
   "Background color to use for selected text."
   "Achtergrondkleur te gebruiken voor geselecteerde tekst."
 
+  "Background color to use for the file information panel."
+  "De kleur van de achtergrond te gebruiken voor het documentinformatiepaneel bestand."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Achtergrondkleur gebruikt voor alle andere tabbladen die niet de huidige / actieve tab in de tabbalk."
 
@@ -2731,6 +2758,12 @@ msgcat::mcmset nl {
   "Foreground color of textual display in command launcher"
   "Voorgrondkleur van tekstuele weergave in opdracht starten"
 
+  "Foreground color to use for title text in the information panel."
+  "Voorgrondkleur te gebruiken voor de tekst van de titel in het documentinformatiepaneel."
+
+  "Foreground color to use for value text in the information panel."
+  "Voorgrondkleur voor waarde tekst in het documentinformatiepaneel."
+
   "Foreground color used in menu items with checks or buttons."
   "Voorgrondkleur die wordt gebruikt in menu-items met cheques of knoppen."
 
@@ -2820,6 +2853,9 @@ msgcat::mcmset nl {
 
   "Scrollbar slider color used in the command launcher results list"
   "ScrollBar schuifregelaar kleur die wordt gebruikt in de resultatenlijst van command launcher"
+
+  "Sidebar Info Panel Options"
+  "Opties in het deelvenster Info zijbalk"
 
   "Sidebar Options"
   "Opslaan"

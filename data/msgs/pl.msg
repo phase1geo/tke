@@ -599,6 +599,9 @@ msgcat::mcmset pl {
   "Encode/Decode image to data:URL"
   "Kodowania/dekodowania obrazu danych: adres URL"
 
+  "Enter selection mode"
+  "Trybu wyboru"
+
   "Enumeration"
   "wyliczenie"
 
@@ -740,9 +743,6 @@ msgcat::mcmset pl {
   "Hide Current Tab"
   "Ukryć bieżącą kartę"
 
-  "Hide File Info"
-  "Informacja"
-
   "Hide Line Numbers"
   "Ukryj numery linii"
 
@@ -754,6 +754,9 @@ msgcat::mcmset pl {
 
   "Hide Sidebar"
   "Ukryj pasek"
+
+  "Hide Sidebar Info Panel"
+  "Ukryj pasek boczny Panel Informacje"
 
   "Hide Status Bar"
   "Ukryj na pasku stanu"
@@ -767,9 +770,6 @@ msgcat::mcmset pl {
   "Hide Tcl console"
   "Ukrywanie konsoli Tcl"
 
-  "Hide file information panel"
-  "Ukrywanie panelu informacji o pliku"
-
   "Hide line numbers"
   "Ukryj numery linii"
 
@@ -781,6 +781,9 @@ msgcat::mcmset pl {
 
   "Hide sidebar"
   "Ukryj pasek"
+
+  "Hide sidebar information panel"
+  "Panel informacyjny"
 
   "Hide status bar"
   "Ukryj na pasku stanu"
@@ -1319,6 +1322,9 @@ msgcat::mcmset pl {
   "Select Current Match"
   "Zaznacz bieżące Match"
 
+  "Select Mode"
+  "Tryb wyboru"
+
   "Select Next Item"
   "Wybierz następną pozycję."
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset pl {
   "Show File Difference"
   "Pokaż plik różnica"
 
-  "Show File Info"
-  "Informacja"
-
   "Show Installed"
   "Zainstalowano"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset pl {
   "Show Sidebar"
   "Pokaż pasek"
 
+  "Show Sidebar Info Panel"
+  "Pokaż pasek boczny Panel Informacje"
+
   "Show Status Bar"
   "Pasek stanu"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset pl {
   "Show file difference"
   "Pokaż plik różnica"
 
-  "Show file information panel"
-  "Pokaż panel informacyjnyto preview a file inside an archive"
-
   "Show installed plugins"
   "Zainstalowane wtyczki"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset pl {
 
   "Show selected line change"
   "Pokaż zmiany wybranej linii"
+
+  "Show sidebar information panel"
+  "Pokaż panel informacyjnyto preview a file inside an archive"
 
   "Smart Indent"
   "Inteligentnego wcięcia"
@@ -1809,6 +1815,9 @@ msgcat::mcmset pl {
   "Development"
   "Development"
 
+  "Displayed Information"
+  "Pokazywane informacje"
+
   "Double-quote"
   "Cudzysłów"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset pl {
   "Indentation spaces"
   "Spacji wcięcia"
 
+  "Info Panel"
+  "Informacja"
+
   "Insertion cursor width"
   "Szerokość kursora wstawiania"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Zachować plik panel informacji widoczne przy bocznym nie ma fokus"
 
   "Keyword"
   "Słowo Kluczowe"
@@ -2016,11 +2031,14 @@ msgcat::mcmset pl {
   "Show difference file version information"
   "Pokaż informacje o wersji pliku różnica"
 
-  "Show file information"
-  "Informacje o pliku"
-
   "Show folders at top"
   "Pokaż foldery, w góry"
+
+  "Show hidden files"
+  "Pokaż pliki ukryte"
+
+  "Show information panel when file/directory is selected"
+  "Pokaż panel informacji po wybraniu pliku/katalogu"
 
   "Show language submenu"
   "Pokaż podmenu język"
@@ -2379,6 +2397,9 @@ msgcat::mcmset pl {
   "Add Parent Directory"
   "Katalog nadrzędny"
 
+  "Attributes"
+  "Atrybuty"
+
   "Close Directory Files"
   "Zamknij katalog plików"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset pl {
   "New File From Template"
   "Nowy z szablonu"
 
+  "No"
+  "Nie"
+
   "Open Directory Files"
   "Pliki katalog otwarty"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset pl {
 
   "Unable to duplicate file"
   "Stanie zduplikowanych plików"
+
+  "Yes"
+  "Tak"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset pl {
   "Background color to use for selected text."
   "Kolor tła dla zaznaczonego tekstu."
 
+  "Background color to use for the file information panel."
+  "Kolor tła dla panelu Informacje pliku."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Kolor tła używane dla wszystkich innych kart, które są nie prąd/aktywnej karty w tabbar."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset pl {
   "Foreground color of textual display in command launcher"
   "Kolor pierwszego planu, wyświetlacz tekstowy w uruchamianiu polecenia"
 
+  "Foreground color to use for title text in the information panel."
+  "Kolor pierwszego planu dla tekstu tytułu w panelu informacje."
+
+  "Foreground color to use for value text in the information panel."
+  "Kolor tła używany w przeglądarce miniaturek"
+
   "Foreground color used in menu items with checks or buttons."
   "Kolor pierwszoplanowy w elementy menu z przycisków lub kontroli."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset pl {
 
   "Scrollbar slider color used in the command launcher results list"
   "Pasek przewijania suwaka kolor używany na liście wyników polecenia launcher"
+
+  "Sidebar Info Panel Options"
+  "Opcje panelu bocznym"
 
   "Sidebar Options"
   "Opcje bocznego panelu"
