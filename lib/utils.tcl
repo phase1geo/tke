@@ -995,17 +995,21 @@ namespace eval utils {
   proc get_file_permissions {fname} {
 
     if {$::tcl_platform(platform) eq "windows"} {
+
       append str [expr {[file readable   $fname] ? "r" : "-"}]
       append str [expr {[file writable   $fname] ? "w" : "-"}]
       append str [expr {[file executable $fname] ? "x" : "-"}]
-      return [string repeat $str 3]
+      set str [string repeat $str 3]
+
+    } else {
+
+      array set perms [list 0 "---" 1 "--x" 2 "-w-" 3 "-wx" 4 "r--" 5 "r-x" 6 "rw-" 7 "rwx"]
+      set perm [file attributes $fname -permissions]
+      set str  "$perms([string index $perm end-2])$perms([string index $perm end-1])$perms([string index $perm end])"
+
     }
 
-    array set perms [list 0 "---" 1 "--x" 2 "-w-" 3 "-wx" 4 "r--" 5 "r-x" 6 "rw-" 7 "rwx"]
-
-    set perm [file attributes $fname -permissions]
-
-    return "$perms([string index $perm end-2])$perms([string index $perm end-1])$perms([string index $perm end])"
+    return [format "%s%s" [expr {[file isdirectory $fname] ? "d" : ""}] $str]
 
   }
 

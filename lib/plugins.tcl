@@ -45,7 +45,7 @@
 #  on_pref_ui   - Runs when the plugin preference panel needs to be displayed in the preferences window.
 #  syntax       - Adds the given syntax file to the list of available syntaxes
 #  vcs          - Adds support for a version control system to the difference viewer
-#  file_info    - Adds items to the file information panel in the sidebar.
+#  info_panel   - Adds items to the sidebar information panel.
 ######################################################################
 
 namespace eval plugins {
@@ -206,7 +206,7 @@ namespace eval plugins {
     handle_on_pref_load
 
     # Update the file information panel
-    sidebar::insert_file_info_plugins
+    sidebar::insert_info_panel_plugins
 
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
@@ -510,7 +510,7 @@ namespace eval plugins {
             add_all_text_bindings
             add_all_syntax
             add_all_vcs_commands
-            sidebar::insert_file_info_plugins
+            sidebar::insert_info_panel_plugins
             handle_on_pref_load
             return
           }
@@ -549,7 +549,7 @@ namespace eval plugins {
     add_all_vcs_commands
 
     # Update file information
-    sidebar::insert_file_info_plugins
+    sidebar::insert_info_panel_plugins
 
     # Add all loaded preferences
     handle_on_pref_load
@@ -636,7 +636,7 @@ namespace eval plugins {
     add_all_vcs_commands
 
     # Update file information
-    sidebar::insert_file_info_plugins
+    sidebar::insert_info_panel_plugins
 
     # Save the plugin information
     write_config
@@ -1421,12 +1421,12 @@ namespace eval plugins {
 
   ######################################################################
   # Returns file information titles to add.
-  proc get_file_info_titles {} {
+  proc get_sidebar_info_titles {} {
 
     set titles [list]
     set i      0
 
-    foreach entry [find_registry_entries "file_info"] {
+    foreach entry [find_registry_entries "info_panel"] {
       lassign $entry index title
       lappend titles $i $title
       incr i
@@ -1438,17 +1438,17 @@ namespace eval plugins {
 
   ######################################################################
   # Retrieves the file information for the given filename.
-  proc handle_file_info_values {fname} {
+  proc get_sidebar_info_values {fname} {
 
     variable registry
 
     set values [list]
     set i      0
 
-    foreach entry [find_registry_entries "file_info"] {
+    foreach entry [find_registry_entries "info_panel"] {
       lassign $entry index title value_cmd
       if {[catch { $registry($index,interp) eval $value_cmd $fname } status]} {
-        handle_status_error "handle_file_info_value" $index $status
+        handle_status_error "get_sidebar_info_values" $index $status
         set status ""
       }
       lappend values $i $status

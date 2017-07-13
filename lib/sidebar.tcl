@@ -32,6 +32,7 @@ namespace eval sidebar {
   variable jump_str         ""
   variable jump_after_id    ""
   variable show_info        1
+  variable select_id        ""
 
   array set widgets {}
 
@@ -270,7 +271,7 @@ namespace eval sidebar {
     grid $w.if.sep2     -row 8 -column 0 -sticky ew -columnspan 2
 
     # Insert any file information plugin information
-    insert_file_info_plugins
+    insert_info_panel_plugins
 
     pack $w.tf -fill both -expand yes
 
@@ -305,7 +306,7 @@ namespace eval sidebar {
 
   ######################################################################
   # Inserts the file information plugin labels into the file information panel.
-  proc insert_file_info_plugins {} {
+  proc insert_info_panel_plugins {} {
 
     variable widgets
 
@@ -331,7 +332,7 @@ namespace eval sidebar {
     set vbgcolor [$widgets(info,v,mod) cget -background]
 
     # Get any file information plugin entries
-    foreach {index title} [plugins::get_file_info_titles] {
+    foreach {index title} [plugins::get_sidebar_info_titles] {
 
       # Create the widgets
       set widgets(info,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
@@ -1187,6 +1188,12 @@ namespace eval sidebar {
 
     variable widgets
     variable selection_anchor
+    variable select_id
+
+    if {$select_id != -1} {
+      after cancel $select_id
+      set select_id ""
+    }
 
     # Clear the selection
     $widgets(tl) tag remove sel
@@ -1210,6 +1217,9 @@ namespace eval sidebar {
       # Colorize the selected items to be selected
       $widgets(tl) tag add sel [$widgets(tl) selection]
 
+      # Update the information panel
+      set select_id [after 50 "sidebar::update_info_panel [list $selected]; set sidebar::select_id -1"]
+
     }
 
   }
@@ -1229,13 +1239,6 @@ namespace eval sidebar {
       set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
       gui::get_info $fileindex fileindex tabbar tab
       gui::set_current_tab $tabbar $tab
-      if {[preferences::get Sidebar/KeepInfoPanelVisible]} {
-        sidebar::update_info_panel [$sidebar::widgets(tl) selection]
-      }
-    } else {
-      after idle {
-        sidebar::update_info_panel [$sidebar::widgets(tl) selection]
-      }
     }
 
   }
@@ -1270,6 +1273,11 @@ namespace eval sidebar {
   proc handle_double_click {W x y} {
 
     variable widgets
+    variable select_id
+
+    if {$select_id ne ""} {
+      after cancel $select_id
+    }
 
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
@@ -1282,9 +1290,6 @@ namespace eval sidebar {
 
       # Open the file in the viewer
       gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
-
-      # Update the file information panel
-      # update_info_panel [$widgets(tl) selection]
 
     }
 
@@ -1307,9 +1312,6 @@ namespace eval sidebar {
 
         # Add the file
         gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
-
-        # Update the file information panel
-        update_info_panel $selected
 
       # Otherwise, toggle the open status
       } else {
@@ -2228,23 +2230,21 @@ namespace eval sidebar {
 
     if {([llength $selected] == 1) && $show_info} {
 
-      set fname [$widgets(tl) set [lindex $selected 0] name]
+      set fname  [$widgets(tl) set [lindex $selected 0] name]
+      set isfile [file isfile $fname]
 
-      if {[file isfile $fname]} {
+      # Get the list of attributes
+      array set attrs [concat {*}[lmap a [preferences::get Sidebar/InfoPanelAttributes] {list $a 1}]]
 
-        pack $widgets(info,f) -fill both
+      # Get the file information
+      file stat $fname finfo
 
-        # Get the list of attributes
-        array set attrs [concat {*}[lmap a [preferences::get Sidebar/InfoPanelAttributes] {list $a 1}]]
+      # Get the name and version to display
+      set name   [file tail $fname]
+      set syntax ""
 
-        # Get the file information
-        file stat $fname finfo
-
-        # Get the name and version to display
-        set name   [file tail $fname]
-        set syntax ""
-
-        # Figure out if we can display the file based on extension
+      # Figure out if we can display the file based on extension
+      if {$isfile} {
         if {[info exists attrs(preview)] || [info exists attrs(imagesize)]} {
           if {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
             bitmap_preview configure -file $fname -foreground [utils::get_default_foreground]
@@ -2259,97 +2259,97 @@ namespace eval sidebar {
         } else {
           grid remove $widgets(info,v,image)
         }
+      } else {
+        grid remove $widgets(info,v,image)
+      }
 
-        # Always display the file name
-        $widgets(info,v,name) configure -text $name
+      # Always display the file name
+      $widgets(info,v,name) configure -text $name
 
-        # Display the syntax and file size, if necessary
-        if {[info exists attrs(syntax)] || [info exists attrs(filesize)]} {
-          if {[info exists attrs(syntax)]} {
-            if {$syntax eq ""} {
-              lappend typelist [expr {[utils::is_binary $fname] ? "Binary" : [syntax::get_default_language $fname]}]
-            } else {
-              lappend typelist $syntax
-            }
-          }
-          if {[info exists attrs(filesize)]} {
-            lappend typelist [utils::get_file_size $fname]
-          }
-          $widgets(info,v,type) configure -text [join $typelist ", "]
-          grid $widgets(info,v,type)
-        } else {
-          grid remove $widgets(info,v,type)
-        }
-
-        # Display the file attributes, if necessary
-        if {[info exists attrs(permissions)] || [info exists attrs(owner)] || [info exists attrs(group)]} {
-          set attrlist [list]
-          if {[info exists attrs(permissions)] && ([set perms [utils::get_file_permissions $fname]] ne "")} {
-            lappend attrlist $perms
-          }
-          if {[info exists attrs(owner)] && ([set owner [utils::get_file_owner $fname]] ne "")} {
-            lappend attrlist $owner
-          }
-          if {[info exists attrs(group)] && ([set group [utils::get_file_group $fname]] ne "")} {
-            lappend attrlist $group
-          }
-          if {$attrlist ne [list]} {
-            $widgets(info,v,attrs) configure -text [join $attrlist ", "]
-            grid $widgets(info,l,attrs) $widgets(info,v,attrs)
+      # Display the syntax and file size, if necessary
+      if {([info exists attrs(syntax)] || [info exists attrs(filesize)]) && $isfile} {
+        if {[info exists attrs(syntax)]} {
+          if {$syntax eq ""} {
+            lappend typelist [expr {[utils::is_binary $fname] ? "Binary" : [syntax::get_default_language $fname]}]
           } else {
-            grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
+            lappend typelist $syntax
           }
+        }
+        if {[info exists attrs(filesize)]} {
+          lappend typelist [utils::get_file_size $fname]
+        }
+        $widgets(info,v,type) configure -text [join $typelist ", "]
+        grid $widgets(info,v,type)
+      } else {
+        grid remove $widgets(info,v,type)
+      }
+
+      # Display the file attributes, if necessary
+      if {[info exists attrs(permissions)] || [info exists attrs(owner)] || [info exists attrs(group)]} {
+        set attrlist [list]
+        if {[info exists attrs(permissions)] && ([set perms [utils::get_file_permissions $fname]] ne "")} {
+          lappend attrlist $perms
+        }
+        if {[info exists attrs(owner)] && ([set owner [utils::get_file_owner $fname]] ne "")} {
+          lappend attrlist $owner
+        }
+        if {[info exists attrs(group)] && ([set group [utils::get_file_group $fname]] ne "")} {
+          lappend attrlist $group
+        }
+        if {$attrlist ne [list]} {
+          $widgets(info,v,attrs) configure -text [join $attrlist ", "]
+          grid $widgets(info,l,attrs) $widgets(info,v,attrs)
         } else {
           grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
         }
+      } else {
+        grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
+      }
 
-        # Display the modified status, if necessary
-        if {[info exists attrs(modified)]} {
-          $widgets(info,v,mod) configure -text [clock format $finfo(mtime)]
-          grid $widgets(info,l,mod) $widgets(info,v,mod)
-        } else {
-          grid remove $widgets(info,l,mod) $widgets(info,v,mod)
-        }
+      # Display the modified status, if necessary
+      if {[info exists attrs(modified)]} {
+        $widgets(info,v,mod) configure -text [clock format $finfo(mtime)]
+        grid $widgets(info,l,mod) $widgets(info,v,mod)
+      } else {
+        grid remove $widgets(info,l,mod) $widgets(info,v,mod)
+      }
 
-        # Display the version, if necessary
-        if {[info exists attrs(version)]} {
-          set cvs     [diff::get_default_cvs $fname]
-          if {[set version [diff::${cvs}::get_current_version $fname]] ne ""} {
-            $widgets(info,v,ver) configure -text $version
-            grid $widgets(info,l,ver) $widgets(info,v,ver)
-          } else {
-            grid remove $widgets(info,l,ver) $widgets(info,v,ver)
-          }
+      # Display the version, if necessary
+      if {[info exists attrs(version)] && $isfile} {
+        set cvs     [diff::get_default_cvs $fname]
+        if {[set version [diff::${cvs}::get_current_version $fname]] ne ""} {
+          $widgets(info,v,ver) configure -text $version
+          grid $widgets(info,l,ver) $widgets(info,v,ver)
         } else {
           grid remove $widgets(info,l,ver) $widgets(info,v,ver)
         }
-
-        # Display the favorite status, if necessary
-        if {[info exists attrs(favorite)]} {
-          $widgets(info,v,fav) configure -text [expr {[favorites::is_favorite $fname] ? [msgcat::mc "Yes"]: [msgcat::mc "No"]}]
-          grid $widgets(info,l,fav) $widgets(info,v,fav)
-        } else {
-          grid remove $widgets(info,l,fav) $widgets(info,v,fav)
-        }
-
-        # Insert plugin values
-        foreach {index value} [plugins::handle_file_info_values $fname] {
-          $widgets(info,v,plug$index) configure -text $value
-          if {$value eq ""} {
-            grid remove $widgets(info,l,plug$index) $widgets(info,v,plug$index)
-          } else {
-            grid $widgets(info,l,plug$index) $widgets(info,v,plug$index)
-          }
-        }
-
-        # Make sure that the sidebar item can be seen
-        $widgets(tl) see $selected
-
       } else {
-
-        pack forget $widgets(info,f)
-
+        grid remove $widgets(info,l,ver) $widgets(info,v,ver)
       }
+
+      # Display the favorite status, if necessary
+      if {[info exists attrs(favorite)]} {
+        $widgets(info,v,fav) configure -text [expr {[favorites::is_favorite $fname] ? [msgcat::mc "Yes"]: [msgcat::mc "No"]}]
+        grid $widgets(info,l,fav) $widgets(info,v,fav)
+      } else {
+        grid remove $widgets(info,l,fav) $widgets(info,v,fav)
+      }
+
+      # Insert plugin values
+      foreach {index value} [plugins::get_sidebar_info_values $fname] {
+        $widgets(info,v,plug$index) configure -text $value
+        if {$value eq ""} {
+          grid remove $widgets(info,l,plug$index) $widgets(info,v,plug$index)
+        } else {
+          grid $widgets(info,l,plug$index) $widgets(info,v,plug$index)
+        }
+      }
+
+      # Make sure that the sidebar item can be seen
+      $widgets(tl) see $selected
+
+      # Pack the information panel
+      pack $widgets(info,f) -fill both
 
     } else {
 
