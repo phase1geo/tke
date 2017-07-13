@@ -36,18 +36,6 @@
 					<integer>24</integer>
 				</dict>
 			</dict>
-			<key>file_info.textbundle</key>
-			<dict>
-				<key>lastModification</key>
-				<real>520886766.90275699</real>
-				<key>version</key>
-				<dict>
-					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
-					<integer>3</integer>
-					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>24</integer>
-				</dict>
-			</dict>
 			<key>file_popup.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -56,6 +44,18 @@
 				<dict>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 					<integer>7</integer>
+				</dict>
+			</dict>
+			<key>info_panel.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>521617312.21990901</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>4</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>25</integer>
 				</dict>
 			</dict>
 			<key>menu.textbundle</key>
@@ -271,7 +271,7 @@
 			<string>file_popup.textbundle</string>
 		</array>
 		<array>
-			<string>file_info.textbundle</string>
+			<string>info_panel.textbundle</string>
 		</array>
 		<array>
 			<string>text_binding.textbundle</string>
@@ -334,7 +334,7 @@
 			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
 			<integer>4</integer>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-			<integer>24</integer>
+			<integer>26</integer>
 		</dict>
 	</dict>
 </dict>

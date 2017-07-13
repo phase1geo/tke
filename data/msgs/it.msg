@@ -599,6 +599,9 @@ msgcat::mcmset it {
   "Encode/Decode image to data:URL"
   "Immagine di codificare/decodificare dati: URL"
 
+  "Enter selection mode"
+  "Attivare la modalità di selezione"
+
   "Enumeration"
   "Enumerazione"
 
@@ -740,9 +743,6 @@ msgcat::mcmset it {
   "Hide Current Tab"
   "Scheda Corrente"
 
-  "Hide File Info"
-  "Informazioni File"
-
   "Hide Line Numbers"
   "Mostra i numeri di riga"
 
@@ -754,6 +754,9 @@ msgcat::mcmset it {
 
   "Hide Sidebar"
   "Nascondi barra laterale"
+
+  "Hide Sidebar Info Panel"
+  "Nascondere il pannello Info Sidebar"
 
   "Hide Status Bar"
   "Nascondi barra di stato"
@@ -767,9 +770,6 @@ msgcat::mcmset it {
   "Hide Tcl console"
   "Nascondere la console di Tcl"
 
-  "Hide file information panel"
-  "Pannello informazioni"
-
   "Hide line numbers"
   "Mostra i numeri di riga"
 
@@ -781,6 +781,9 @@ msgcat::mcmset it {
 
   "Hide sidebar"
   "Nascondi barra laterale"
+
+  "Hide sidebar information panel"
+  "Nascondere il pannello informazioni sidebar"
 
   "Hide status bar"
   "Nascondi barra di stato"
@@ -1319,6 +1322,9 @@ msgcat::mcmset it {
   "Select Current Match"
   "Selezionare la partita corrente"
 
+  "Select Mode"
+  "Modalità di _selezione"
+
   "Select Next Item"
   "Selezionare l'elemento successivo"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset it {
   "Show File Difference"
   "Visualizza File differenza"
 
-  "Show File Info"
-  "Informazioni File"
-
   "Show Installed"
   "Installato"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset it {
   "Show Sidebar"
   "Mostra barra laterale"
 
+  "Show Sidebar Info Panel"
+  "Visualizza il pannello Info Sidebar"
+
   "Show Status Bar"
   "Mostra barra di stato"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset it {
   "Show file difference"
   "Visualizza file differenza"
 
-  "Show file information panel"
-  "Pannello informazionito preview a file inside an archive"
-
   "Show installed plugins"
   "Plugin installati"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset it {
 
   "Show selected line change"
   "Mostrare il cambiamento di linea selezionata"
+
+  "Show sidebar information panel"
+  "Pannello di informazioni Visualizza sidebar"
 
   "Smart Indent"
   "Trattino intelligente"
@@ -1809,6 +1815,9 @@ msgcat::mcmset it {
   "Development"
   "Sviluppo"
 
+  "Displayed Information"
+  "Informazioni visualizzate"
+
   "Double-quote"
   "Virgolette"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset it {
   "Indentation spaces"
   "Indentazione con spazi"
 
+  "Info Panel"
+  "Pannello Info"
+
   "Insertion cursor width"
   "Larghezza del cursore di inserimento"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Tenere il pannello informazioni file visibile quando sidebar non ha lo stato attivo"
 
   "Keyword"
   "Parola chiave"
@@ -2016,11 +2031,14 @@ msgcat::mcmset it {
   "Show difference file version information"
   "Visualizza informazioni sulla versione di file di differenza"
 
-  "Show file information"
-  "Informazioni sui file"
-
   "Show folders at top"
   "Mostra cartelle nella superiore"
+
+  "Show hidden files"
+  "Mostrare i file nascosti"
+
+  "Show information panel when file/directory is selected"
+  "Pannello informazionito preview a file inside an archive"
 
   "Show language submenu"
   "Sottomenu Lingua italiana"
@@ -2379,6 +2397,9 @@ msgcat::mcmset it {
   "Add Parent Directory"
   "indirizzario parent"
 
+  "Attributes"
+  "Attributi"
+
   "Close Directory Files"
   "Chiudi Directory Files"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset it {
   "New File From Template"
   "Nuovo File da modello"
 
+  "No"
+  "No"
+
   "Open Directory Files"
   "File indirizzario"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset it {
 
   "Unable to duplicate file"
   "Grado di file duplicati"
+
+  "Yes"
+  "Si"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset it {
   "Background color to use for selected text."
   "Colore di sfondo da utilizzare per il testo selezionato."
 
+  "Background color to use for the file information panel."
+  "Colore di sfondo da utilizzare per il pannello di informazioni del file."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Colore di sfondo utilizzato per tutte le altre schede che non sono la scheda corrente / attiva nella barra delle linguette."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset it {
   "Foreground color of textual display in command launcher"
   "Colore di primo piano del display testuale nel lanciatore di comandi"
 
+  "Foreground color to use for title text in the information panel."
+  "Colore di primo piano da utilizzare per il testo del titolo nel riquadro informazioni."
+
+  "Foreground color to use for value text in the information panel."
+  "Colore di primo piano da utilizzare per il testo di valore nel pannello informazioni."
+
   "Foreground color used in menu items with checks or buttons."
   "Colore di primo piano utilizzato nelle voci di menu con pulsanti o controlli."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset it {
 
   "Scrollbar slider color used in the command launcher results list"
   "Colore del dispositivo di scorrimento ScrollBar utilizzato nell'elenco dei risultati di comando di avvio"
+
+  "Sidebar Info Panel Options"
+  "Opzioni del pannello Info Sidebar"
 
   "Sidebar Options"
   "Opzioni Sidebar"

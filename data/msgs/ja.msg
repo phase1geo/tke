@@ -599,6 +599,9 @@ msgcat::mcmset ja {
   "Encode/Decode image to data:URL"
   "データ: URL に画像のエンコード/デコード"
 
+  "Enter selection mode"
+  "選択モードを入力してください。"
+
   "Enumeration"
   "数え上げ"
 
@@ -740,9 +743,6 @@ msgcat::mcmset ja {
   "Hide Current Tab"
   "現在のタブを非表示します。"
 
-  "Hide File Info"
-  "ファイル情報"
-
   "Hide Line Numbers"
   "行番号を非表示します。"
 
@@ -754,6 +754,9 @@ msgcat::mcmset ja {
 
   "Hide Sidebar"
   "隠すサイドバー"
+
+  "Hide Sidebar Info Panel"
+  "サイドバーを隠す(S)"
 
   "Hide Status Bar"
   "隠すステータスバー"
@@ -767,9 +770,6 @@ msgcat::mcmset ja {
   "Hide Tcl console"
   "Tcl コンソールを非表示します。"
 
-  "Hide file information panel"
-  "ファイル情報パネルを非表示します。"
-
   "Hide line numbers"
   "行番号を非表示します。"
 
@@ -781,6 +781,9 @@ msgcat::mcmset ja {
 
   "Hide sidebar"
   "サイドバーを非表示します。"
+
+  "Hide sidebar information panel"
+  "情報パネル"
 
   "Hide status bar"
   "ステータス バーを非表示します。"
@@ -1319,6 +1322,9 @@ msgcat::mcmset ja {
   "Select Current Match"
   "現在の一致項目を選択します。"
 
+  "Select Mode"
+  "モード選択"
+
   "Select Next Item"
   "次の項目を選択します。"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset ja {
   "Show File Difference"
   "ファイルの相違点を表示します。"
 
-  "Show File Info"
-  "ファイル情報"
-
   "Show Installed"
   "インストール済み"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset ja {
   "Show Sidebar"
   "表示するサイドバー"
 
+  "Show Sidebar Info Panel"
+  "サイドバーを表示(S)"
+
   "Show Status Bar"
   "表示ステータスバー"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset ja {
   "Show file difference"
   "ファイルの相違点を表示します。"
 
-  "Show file information panel"
-  "情報パネルを表示to preview a file inside an archive"
-
   "Show installed plugins"
   "インストール済みのプラグイン"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset ja {
 
   "Show selected line change"
   "選択した行の変更を表示します。"
+
+  "Show sidebar information panel"
+  "サイドバーの情報パネルを表示します。"
 
   "Smart Indent"
   "スマート インデント"
@@ -1809,6 +1815,9 @@ msgcat::mcmset ja {
   "Development"
   "開発"
 
+  "Displayed Information"
+  "コマンドラインオプションを表示"
+
   "Double-quote"
   "引用符"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset ja {
   "Indentation spaces"
   "インデント スペース"
 
+  "Info Panel"
+  "[情報] パネル"
+
   "Insertion cursor width"
   "挿入カーソルの幅"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "サイドバーにフォーカスがあるないときにファイル情報パネルを表示したままにします。"
 
   "Keyword"
   "キーワード"
@@ -2016,11 +2031,14 @@ msgcat::mcmset ja {
   "Show difference file version information"
   "ファイルのバージョン情報を表示します。"
 
-  "Show file information"
-  "ファイル情報"
-
   "Show folders at top"
   "上部のフォルダーを表示します。"
+
+  "Show hidden files"
+  "表示 隠し"
+
+  "Show information panel when file/directory is selected"
+  "情報パネルを表示するファイル/ディレクトリを選択した場合"
 
   "Show language submenu"
   "表示言語の選択]"
@@ -2379,6 +2397,9 @@ msgcat::mcmset ja {
   "Add Parent Directory"
   "親ディレクトリ"
 
+  "Attributes"
+  "属性"
+
   "Close Directory Files"
   "閉じるディレクトリファイル"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset ja {
   "New File From Template"
   "テンプレートから新しいファイル"
 
+  "No"
+  "いいえ"
+
   "Open Directory Files"
   "オープンディレクトリのファイル"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset ja {
 
   "Unable to duplicate file"
   "重複するファイルを開けません"
+
+  "Yes"
+  "はい"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset ja {
   "Background color to use for selected text."
   "選択したテキストに使用する背景色です。"
 
+  "Background color to use for the file information panel."
+  "ファイル情報パネルで使用する背景色。"
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "タブバーで現在/アクティブなタブでない他のすべてのタブに使用する背景色です。"
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset ja {
   "Foreground color of textual display in command launcher"
   "コマンド ランチャーでテキスト表示の背景色"
 
+  "Foreground color to use for title text in the information panel."
+  "枠線の色"
+
+  "Foreground color to use for value text in the information panel."
+  "枠線の色"
+
   "Foreground color used in menu items with checks or buttons."
   "チェックやボタンとメニュー項目で使用される前景色です。"
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset ja {
 
   "Scrollbar slider color used in the command launcher results list"
   "コマンド起動プログラムの結果一覧で使用されるスクロール バー スライダーの色"
+
+  "Sidebar Info Panel Options"
+  "サイドバーの情報パネルのオプション"
 
   "Sidebar Options"
   "﻿サイドバーオプション"

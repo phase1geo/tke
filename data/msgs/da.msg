@@ -599,6 +599,9 @@ msgcat::mcmset da {
   "Encode/Decode image to data:URL"
   "Encode/Decode billede til data: URL"
 
+  "Enter selection mode"
+  "Angiv markering-tilstand"
+
   "Enumeration"
   "tælling af bakterier"
 
@@ -740,9 +743,6 @@ msgcat::mcmset da {
   "Hide Current Tab"
   "Skjul aktuelle fane"
 
-  "Hide File Info"
-  "Filinfo"
-
   "Hide Line Numbers"
   "Skjul linjenumre"
 
@@ -754,6 +754,9 @@ msgcat::mcmset da {
 
   "Hide Sidebar"
   "Skjul sidebjælke"
+
+  "Hide Sidebar Info Panel"
+  "Skjul sidebjælke infopanelet"
 
   "Hide Status Bar"
   "Skjul statuslinje"
@@ -767,9 +770,6 @@ msgcat::mcmset da {
   "Hide Tcl console"
   "Skjule Tcl konsol"
 
-  "Hide file information panel"
-  "Informationspanel"
-
   "Hide line numbers"
   "Skjul linjenumre"
 
@@ -781,6 +781,9 @@ msgcat::mcmset da {
 
   "Hide sidebar"
   "Skjul sidemenu"
+
+  "Hide sidebar information panel"
+  "Skjul sidebjælke dokumentoplysningspanelet"
 
   "Hide status bar"
   "Skjul statuslinje"
@@ -1319,6 +1322,9 @@ msgcat::mcmset da {
   "Select Current Match"
   "Vælg Nuværende Match"
 
+  "Select Mode"
+  "Vælg tilstand"
+
   "Select Next Item"
   "Markere næste element"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset da {
   "Show File Difference"
   "Vis fil forskel"
 
-  "Show File Info"
-  "Filinfo"
-
   "Show Installed"
   "Installeret"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset da {
   "Show Sidebar"
   "Vis sidebjælke"
 
+  "Show Sidebar Info Panel"
+  "Vis Sidepanel infopanelet"
+
   "Show Status Bar"
   "Vis statuslinje"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset da {
   "Show file difference"
   "Vis fil forskel"
 
-  "Show file information panel"
-  "Vis informationspanelto preview a file inside an archive"
-
   "Show installed plugins"
   "Installerede plugin"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset da {
 
   "Show selected line change"
   "Vis valgte linje ændring"
+
+  "Show sidebar information panel"
+  "Vis Sidepanel information panel"
 
   "Smart Indent"
   "Smart led"
@@ -1809,6 +1815,9 @@ msgcat::mcmset da {
   "Development"
   "Udvikling"
 
+  "Displayed Information"
+  "Vist information"
+
   "Double-quote"
   "Citationstegn"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset da {
   "Indentation spaces"
   "Indrykning rum"
 
+  "Info Panel"
+  "PANEL"
+
   "Insertion cursor width"
   "Indsættelse markørens bredde"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Holde filen dokumentoplysningspanelet synlige når indholdsoversigten ikke har fokus"
 
   "Keyword"
   "Nøgleord"
@@ -2016,11 +2031,14 @@ msgcat::mcmset da {
   "Show difference file version information"
   "Vis forskellen filversionsoplysninger"
 
-  "Show file information"
-  "Filinformation"
-
   "Show folders at top"
   "Vis mapper øverst"
+
+  "Show hidden files"
+  "Vis skjulte filer"
+
+  "Show information panel when file/directory is selected"
+  "Vise informationspanelet når fil/mappe er markeret"
 
   "Show language submenu"
   "Vise undermenuen sprog"
@@ -2379,6 +2397,9 @@ msgcat::mcmset da {
   "Add Parent Directory"
   "Moderkatalog"
 
+  "Attributes"
+  "Attributter"
+
   "Close Directory Files"
   "Luk Bliv Files"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset da {
   "New File From Template"
   "Ny fra skabelon"
 
+  "No"
+  "Nej"
+
   "Open Directory Files"
   "Open Directory filer"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset da {
 
   "Unable to duplicate file"
   "Afskåret fra mangfoldiggøre fil"
+
+  "Yes"
+  "Ja"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset da {
   "Background color to use for selected text."
   "Baggrundsfarve til brug for markeret tekst."
 
+  "Background color to use for the file information panel."
+  "Baggrundsfarven til brug for informationspanelet fil."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Baggrundsfarve anvendes til alle andre faneblade, som ikke er den aktuelle / aktive fane i fanebladslinjen."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset da {
   "Foreground color of textual display in command launcher"
   "Forgrundsfarven af tekstuelle vises i befale løfteraket"
 
+  "Foreground color to use for title text in the information panel."
+  "Forgrundsfarven til brug for titelteksten i informationspanelet."
+
+  "Foreground color to use for value text in the information panel."
+  "Forgrundsfarven til brug for værdi tekst i informationspanelet."
+
   "Foreground color used in menu items with checks or buttons."
   "Forgrundsfarven bruges menupunkter med checks eller knapper."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset da {
 
   "Scrollbar slider color used in the command launcher results list"
   "Scrollbar skyderen farve anvendes på listen kommandoen launcher resultater"
+
+  "Sidebar Info Panel Options"
+  "Indholdsoversigten Info Panelindstillinger"
 
   "Sidebar Options"
   "Sidebar options"

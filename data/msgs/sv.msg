@@ -599,6 +599,9 @@ msgcat::mcmset sv {
   "Encode/Decode image to data:URL"
   "Koda/Avkoda bild till data: URL"
 
+  "Enter selection mode"
+  "Ange läget för val av"
+
   "Enumeration"
   "räkning"
 
@@ -740,9 +743,6 @@ msgcat::mcmset sv {
   "Hide Current Tab"
   "Dölja den aktuella fliken"
 
-  "Hide File Info"
-  "Filinformation"
-
   "Hide Line Numbers"
   "Dölja radnummer"
 
@@ -754,6 +754,9 @@ msgcat::mcmset sv {
 
   "Hide Sidebar"
   "Dölj sidorad"
+
+  "Hide Sidebar Info Panel"
+  "Dölja sidofältet informationspanelen"
 
   "Hide Status Bar"
   "Dölj statusrad"
@@ -767,9 +770,6 @@ msgcat::mcmset sv {
   "Hide Tcl console"
   "Dölja Tcl-konsolen"
 
-  "Hide file information panel"
-  "Dölja filen informationspanel"
-
   "Hide line numbers"
   "Dölj radnummer"
 
@@ -781,6 +781,9 @@ msgcat::mcmset sv {
 
   "Hide sidebar"
   "Göm Sidokolumn?"
+
+  "Hide sidebar information panel"
+  "Dölja sidofältet informationspanelen"
 
   "Hide status bar"
   "Dölja statusfältet"
@@ -1319,6 +1322,9 @@ msgcat::mcmset sv {
   "Select Current Match"
   "Välj aktuell Match"
 
+  "Select Mode"
+  "Välj läge"
+
   "Select Next Item"
   "Markera nästa objekt"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset sv {
   "Show File Difference"
   "Visa filen skillnaden"
 
-  "Show File Info"
-  "Filinformation"
-
   "Show Installed"
   "installerad"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset sv {
   "Show Sidebar"
   "Visa sidorad"
 
+  "Show Sidebar Info Panel"
+  "Visa sidofältet informationspanelen"
+
   "Show Status Bar"
   "Visa statusrad"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset sv {
   "Show file difference"
   "Visa filen skillnaden"
 
-  "Show file information panel"
-  "Visa informationsrutato preview a file inside an archive"
-
   "Show installed plugins"
   "Installerade Tillägg"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset sv {
 
   "Show selected line change"
   "Visa markerad rad förändringar"
+
+  "Show sidebar information panel"
+  "Visa sidofältet informationspanel"
 
   "Smart Indent"
   "Smart strecksatsen"
@@ -1809,6 +1815,9 @@ msgcat::mcmset sv {
   "Development"
   "Utveckling"
 
+  "Displayed Information"
+  "Visad information"
+
   "Double-quote"
   "Dubbel-offert"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset sv {
   "Indentation spaces"
   "Indrag utrymmen"
 
+  "Info Panel"
+  "Informationspanelen"
+
   "Insertion cursor width"
   "Insättningspunkten markören bredd"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Hålla filen informationspanel synlig när sidofältet inte har fokus"
 
   "Keyword"
   "Nyckelord"
@@ -2016,11 +2031,14 @@ msgcat::mcmset sv {
   "Show difference file version information"
   "Visa information om en differensfil version"
 
-  "Show file information"
-  "Filinformation"
-
   "Show folders at top"
   "Visa mappar längst upp"
+
+  "Show hidden files"
+  "Ladda de anvÃ¤ndardefinierade katalogikonerna"
+
+  "Show information panel when file/directory is selected"
+  "Visa informationspanelen när filen eller katalogen är markerad"
 
   "Show language submenu"
   "Visa undermenyn språk"
@@ -2379,6 +2397,9 @@ msgcat::mcmset sv {
   "Add Parent Directory"
   "Moderkatalog"
 
+  "Attributes"
+  "Attribut"
+
   "Close Directory Files"
   "Stäng Directory filer"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset sv {
   "New File From Template"
   "Ny från mall"
 
+  "No"
+  "Nej"
+
   "Open Directory Files"
   "Open Directory filer"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset sv {
 
   "Unable to duplicate file"
   "Det gick inte att duplicera arkivera"
+
+  "Yes"
+  "Ja"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset sv {
   "Background color to use for selected text."
   "Bakgrundsfärgen för markerad text."
 
+  "Background color to use for the file information panel."
+  "Bakgrundsfärg för panelen filen information."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Bakgrundsfärgen används för alla andra flikar som inte fliken ström/aktiv i tabbar."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset sv {
   "Foreground color of textual display in command launcher"
   "Förgrundsfärgen för textbaserade display i kommandot launcher"
 
+  "Foreground color to use for title text in the information panel."
+  "Förgrundsfärgen för rubriktexten i informationspanelen."
+
+  "Foreground color to use for value text in the information panel."
+  "Förgrundsfärgen för värde text på informationspanelen."
+
   "Foreground color used in menu items with checks or buttons."
   "Förgrundsfärgen används i menypunkterna med kontroller eller knappar."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset sv {
 
   "Scrollbar slider color used in the command launcher results list"
   "Rullningslist slider färg används i kommandot launcher resultatlistan"
+
+  "Sidebar Info Panel Options"
+  "Sidofältet Info Panelalternativ"
 
   "Sidebar Options"
   "Sidopanelens alternativ"

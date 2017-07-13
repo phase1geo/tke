@@ -599,6 +599,9 @@ msgcat::mcmset el {
   "Encode/Decode image to data:URL"
   "Κωδικοποίησης/αποκωδικοποίησης εικόνων σε δεδομένα: διεύθυνση URL"
 
+  "Enter selection mode"
+  "Μετάβαση σε λειτουργία επιλογής"
+
   "Enumeration"
   "Καταμέτρηση"
 
@@ -740,9 +743,6 @@ msgcat::mcmset el {
   "Hide Current Tab"
   "Απόκρυψη της τρέχουσας καρτέλας"
 
-  "Hide File Info"
-  "Αποκρύψετε πληροφορίες αρχείου"
-
   "Hide Line Numbers"
   "Απόκρυψη αριθμών γραμμών"
 
@@ -754,6 +754,9 @@ msgcat::mcmset el {
 
   "Hide Sidebar"
   "Απόκρυψη πλευρικής μπάρας"
+
+  "Hide Sidebar Info Panel"
+  "Απόκρυψη πλευρικής εργαλειοθήκης Φίλιας"
 
   "Hide Status Bar"
   "Απόκρυψη Status Bar"
@@ -767,9 +770,6 @@ msgcat::mcmset el {
   "Hide Tcl console"
   "Απόκρυψη Tcl κονσόλα"
 
-  "Hide file information panel"
-  "ÎÎ¹ÎºÎ¿Î½Î¯Î´Î¹Î±@ action: inmenu View Mode"
-
   "Hide line numbers"
   "Αριθμοί Γραμμής"
 
@@ -781,6 +781,9 @@ msgcat::mcmset el {
 
   "Hide sidebar"
   "Απόκρυψη Πλευρικής Εργαλειοθήκης"
+
+  "Hide sidebar information panel"
+  "Απόκρυψη πίνακα πλαϊνή μπάρα πληροφοριών"
 
   "Hide status bar"
   "Απόκρυψη γραμμής κατάστασης"
@@ -1319,6 +1322,9 @@ msgcat::mcmset el {
   "Select Current Match"
   "Επιλέξτε την τρέχουσα αντιστοιχία"
 
+  "Select Mode"
+  "Κατάσταση επιλογής"
+
   "Select Next Item"
   "Επιλογή επόμενου στοιχείου"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset el {
   "Show File Difference"
   "Εμφάνιση αρχείου διαφορά"
 
-  "Show File Info"
-  "Πληροφορίες αρχείου"
-
   "Show Installed"
   "Εγκαταστάθηκε"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset el {
   "Show Sidebar"
   "Εμφάνιση πλευρικής μπάρας"
 
+  "Show Sidebar Info Panel"
+  "Εμφάνιση Sidebar πίνακα \"
+
   "Show Status Bar"
   "Γραμμή κατάστασης"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset el {
   "Show file difference"
   "Εμφάνιση αρχείου διαφορά"
 
-  "Show file information panel"
-  "Πίνακας πληροφοριώνto preview a file inside an archive"
-
   "Show installed plugins"
   "Εγκατεστημένα πρόσθετα"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset el {
 
   "Show selected line change"
   "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
+
+  "Show sidebar information panel"
+  "Εμφάνιση sidebar πίνακα πληροφοριών"
 
   "Smart Indent"
   "Έξυπνες περίπτωση"
@@ -1809,6 +1815,9 @@ msgcat::mcmset el {
   "Development"
   "Ανάπτυξη"
 
+  "Displayed Information"
+  "Εμφάνιση επιλογών γραμμής εντολών"
+
   "Double-quote"
   "Διπλών"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset el {
   "Indentation spaces"
   "Διαμόρφωση χώρων"
 
+  "Info Panel"
+  "Πίνακας \"
+
   "Insertion cursor width"
   "Πλάτος δρομέα εισαγωγής"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Κρατάτε αρχείο πίνακα πληροφοριών ορατά όταν πλαϊνή μπάρα δεν έχει εστίαση"
 
   "Keyword"
   "ΛΕΞΕΙΣ-ΚΛΕΙΔΙΑ"
@@ -2016,11 +2031,14 @@ msgcat::mcmset el {
   "Show difference file version information"
   "Εμφάνιση διαφορά πληροφορίες έκδοσης του αρχείου"
 
-  "Show file information"
-  "Πληροφορίες αρχείων"
-
   "Show folders at top"
   "Εμφάνιση φακέλων στην κορυφή"
+
+  "Show hidden files"
+  "Εμφάνιση κρυφών αρχείων"
+
+  "Show information panel when file/directory is selected"
+  "Εμφάνιση πίνακα πληροφοριών όταν επιλέγεται αρχείου/καταλόγου"
 
   "Show language submenu"
   "Εμφάνιση υπομενού γλώσσα"
@@ -2379,6 +2397,9 @@ msgcat::mcmset el {
   "Add Parent Directory"
   "Μητρικός Κατάλογος"
 
+  "Attributes"
+  "Χαρακτηριστικά"
+
   "Close Directory Files"
   "Κλείσιμο Κατάλογος αρχείων"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset el {
   "New File From Template"
   "Νέο αρχείο από πρότυπο"
 
+  "No"
+  "Όχι"
+
   "Open Directory Files"
   "Αρχεία Open Directory"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset el {
 
   "Unable to duplicate file"
   "Δεν είναι δυνατή η διπλότυπων αρχείων"
+
+  "Yes"
+  "Ναι"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset el {
   "Background color to use for selected text."
   "Χρώμα φόντου που θα χρησιμοποιηθεί για το επιλεγμένο κείμενο."
 
+  "Background color to use for the file information panel."
+  "Χρώμα φόντου θα χρησιμοποιηθεί για τον πίνακα πληροφοριών αρχείου."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Χρώμα φόντου που χρησιμοποιείται για όλες τις άλλες καρτέλες που δεν είναι η τρέχουσα / ενεργή καρτέλα στο tabbar."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset el {
   "Foreground color of textual display in command launcher"
   "Το χρώμα προσκηνίου της κειμενικής επίδειξης στην εντολή εκκίνησης"
 
+  "Foreground color to use for title text in the information panel."
+  "Χρώμα προσκηνίου σε χρήση για κείμενο τίτλου στον πίνακα πληροφοριών."
+
+  "Foreground color to use for value text in the information panel."
+  "Χρώμα προσκηνίου για τιμή κειμένου στον πίνακα πληροφοριών."
+
   "Foreground color used in menu items with checks or buttons."
   "Χρώμα προσκηνίου που χρησιμοποιείται σε αντικείμενα μενού με ελέγχους ή κουμπιά."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset el {
 
   "Scrollbar slider color used in the command launcher results list"
   "Γραμμή κύλισης ρυθμιστικό χρώμα που χρησιμοποιείται στη εντολή εκκίνησης λίστα αποτελεσμάτων"
+
+  "Sidebar Info Panel Options"
+  "Πλαϊνή μπάρα επιλογές πίνακα πληροφοριών"
 
   "Sidebar Options"
   "Sidebar Επιλογές"

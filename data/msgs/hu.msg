@@ -599,6 +599,9 @@ msgcat::mcmset hu {
   "Encode/Decode image to data:URL"
   "Adatok: az URL-kódolás/dekódolás kép"
 
+  "Enter selection mode"
+  "Adja meg a kijelölési mód"
+
   "Enumeration"
   "számláló"
 
@@ -740,9 +743,6 @@ msgcat::mcmset hu {
   "Hide Current Tab"
   "Aktuális fül"
 
-  "Hide File Info"
-  "Fájlinformációk elrejtése"
-
   "Hide Line Numbers"
   "Sorszámok elrejtése"
 
@@ -754,6 +754,9 @@ msgcat::mcmset hu {
 
   "Hide Sidebar"
   "Az oldalsáv elrejtése"
+
+  "Hide Sidebar Info Panel"
+  "A csoport & felbontÃ¡sa"
 
   "Hide Status Bar"
   "Az állapotsor elrejtése"
@@ -767,9 +770,6 @@ msgcat::mcmset hu {
   "Hide Tcl console"
   "Tcl konzolhoz elrejtése"
 
-  "Hide file information panel"
-  "Jellemzők panel"
-
   "Hide line numbers"
   "Sorszámok elrejtése"
 
@@ -781,6 +781,9 @@ msgcat::mcmset hu {
 
   "Hide sidebar"
   "Az oldalsáv elrejtése"
+
+  "Hide sidebar information panel"
+  "Hide tálaló adatai"
 
   "Hide status bar"
   "Az állapotsor elrejtése"
@@ -1319,6 +1322,9 @@ msgcat::mcmset hu {
   "Select Current Match"
   "Válassza ki az aktuális mérkőzés"
 
+  "Select Mode"
+  "Válassz"
+
   "Select Next Item"
   "Következő elem kijelölése"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset hu {
   "Show File Difference"
   "Térkép fájl különbség"
 
-  "Show File Info"
-  "FÃ¡jlinformÃ¡ciÃ³k"
-
   "Show Installed"
   "telepítve"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset hu {
   "Show Sidebar"
   "Az oldalpanel megjelenítése"
 
+  "Show Sidebar Info Panel"
+  "Tálaló információk Panel megjelenítése"
+
   "Show Status Bar"
   "Az állapotsor megjelenítése"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset hu {
   "Show file difference"
   "Térkép fájl különbség"
 
-  "Show file information panel"
-  "Jellemzők panelto preview a file inside an archive"
-
   "Show installed plugins"
   "Telepített bővítmények"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset hu {
 
   "Show selected line change"
   "Megjelenítése a kijelölt sor módosítása"
+
+  "Show sidebar information panel"
+  "Sidebar show adatai"
 
   "Smart Indent"
   "Intelligens francia"
@@ -1809,6 +1815,9 @@ msgcat::mcmset hu {
   "Development"
   "Fejlesztés"
 
+  "Displayed Information"
+  "Megjelenített információk"
+
   "Double-quote"
   "Idézőjel"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset hu {
   "Indentation spaces"
   "Szóközök behúzása"
 
+  "Info Panel"
+  "hálómező"
+
   "Insertion cursor width"
   "Beszúrási kurzor szélessége"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Tartsa fájl adatai láthatók, amikor tálaló nincs fókusz"
 
   "Keyword"
   "Kulcsszó"
@@ -2016,11 +2031,14 @@ msgcat::mcmset hu {
   "Show difference file version information"
   "Különbség a fájl verzióadatok megjelenítése"
 
-  "Show file information"
-  "Fájlinformáció"
-
   "Show folders at top"
   "Térkép-mappák tetején"
+
+  "Show hidden files"
+  "Rejtett fájlok megjelenítése"
+
+  "Show information panel when file/directory is selected"
+  "Ajtólap információs fájl vagy könyvtár kijelölésekor"
 
   "Show language submenu"
   "Nyelv almenü"
@@ -2379,6 +2397,9 @@ msgcat::mcmset hu {
   "Add Parent Directory"
   "Szülő mappa"
 
+  "Attributes"
+  "Attribútumok"
+
   "Close Directory Files"
   "Bezárása Directory fájlok"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset hu {
   "New File From Template"
   "Új sablonból"
 
+  "No"
+  "Nem"
+
   "Open Directory Files"
   "Open Directory fájlok"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset hu {
 
   "Unable to duplicate file"
   "Nem lehet másolat reszelő"
+
+  "Yes"
+  "Igen"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset hu {
   "Background color to use for selected text."
   "Háttérszínt használja a kiválasztott szöveget."
 
+  "Background color to use for the file information panel."
+  "A fájl adatai használandó háttérszíne."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Háttér színe mint az összes többi fülek, amelyek nem a jelenlegi / aktív lap tabbar."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset hu {
   "Foreground color of textual display in command launcher"
   "Előtér színét szöveges kijelző az indító parancs"
 
+  "Foreground color to use for title text in the information panel."
+  "A kiválasztott szöveg előterének színe a szerkesztő területen."
+
+  "Foreground color to use for value text in the information panel."
+  "Használandó érték szöveg az információ panel előtérszíne."
+
   "Foreground color used in menu items with checks or buttons."
   "A festőszín használt menüpontok ellenőrzéseket és a gombok."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset hu {
 
   "Scrollbar slider color used in the command launcher results list"
   "Görgetősáv csúszka színe indító parancs eredménylistájában"
+
+  "Sidebar Info Panel Options"
+  "Tálaló információ Panel beállításai"
 
   "Sidebar Options"
   "Oldalsáv beállítások"

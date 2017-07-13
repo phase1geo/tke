@@ -599,6 +599,9 @@ msgcat::mcmset he {
   "Encode/Decode image to data:URL"
   "קידוד/פענוח התמונה לכתובת: נתונים"
 
+  "Enter selection mode"
+  "הזן את מצב בחירה"
+
   "Enumeration"
   "ספירה"
 
@@ -740,9 +743,6 @@ msgcat::mcmset he {
   "Hide Current Tab"
   "כרטיסיה הנוכחית"
 
-  "Hide File Info"
-  "הסתר את דפדפן הקבצים"
-
   "Hide Line Numbers"
   "הסתר מספרי שורות"
 
@@ -754,6 +754,9 @@ msgcat::mcmset he {
 
   "Hide Sidebar"
   "להסתיר את הסרגל הצידי"
+
+  "Hide Sidebar Info Panel"
+  "להסתיר את הסרגל הצידי של החלונית ' מידע '"
 
   "Hide Status Bar"
   "הסתר שורת מצב"
@@ -767,9 +770,6 @@ msgcat::mcmset he {
   "Hide Tcl console"
   "הסתר Tcl המסוף"
 
-  "Hide file information panel"
-  "to preview a file inside an archive"
-
   "Hide line numbers"
   "הסתר מספרי שורות"
 
@@ -781,6 +781,9 @@ msgcat::mcmset he {
 
   "Hide sidebar"
   "הסתרת סרגל צדדי"
+
+  "Hide sidebar information panel"
+  "להסתיר את לוח המידע של הסרגל הצידי"
 
   "Hide status bar"
   "להסתיר את שורת המצב"
@@ -1319,6 +1322,9 @@ msgcat::mcmset he {
   "Select Current Match"
   "בחר התאמה נוכחי"
 
+  "Select Mode"
+  "בחר"
+
   "Select Next Item"
   "בחירת הפריט הבא"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset he {
   "Show File Difference"
   "הצג קובץ ההבדל"
 
-  "Show File Info"
-  "הצגת תאריך קובץ"
-
   "Show Installed"
   "מותקן"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset he {
   "Show Sidebar"
   "הצג תיבה צידית"
 
+  "Show Sidebar Info Panel"
+  "הצג את הסרגל הצידי של החלונית ' מידע '"
+
   "Show Status Bar"
   "הצג שורת מצב"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset he {
   "Show file difference"
   "הצג קובץ ההבדל"
 
-  "Show file information panel"
-  "to preview a file inside an archive"
-
   "Show installed plugins"
   "הצג תוספים מותקנים"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset he {
 
   "Show selected line change"
   "להראות שינוי הקו הנבחר"
+
+  "Show sidebar information panel"
+  "להציג לוח פרטי הצידי"
 
   "Smart Indent"
   "כניסה חכמה"
@@ -1809,6 +1815,9 @@ msgcat::mcmset he {
   "Development"
   "פיתוח"
 
+  "Displayed Information"
+  "מידע המוצג"
+
   "Double-quote"
   "כפולות"
 
@@ -1862,6 +1871,9 @@ msgcat::mcmset he {
 
   "Indentation spaces"
   "הכניסה רווחים"
+
+  "Info Panel"
+  "פאנל (לוח)"
 
   "Insertion cursor width"
   "רוחב הסמן ההכנסה"
@@ -2016,11 +2028,14 @@ msgcat::mcmset he {
   "Show difference file version information"
   "הצג את פרטי הגירסה של הקובץ ההבדל"
 
-  "Show file information"
-  "מידע על הקובץ"
-
   "Show folders at top"
   "הצג תיקיות בחלק העליון"
+
+  "Show hidden files"
+  "הצג קבצים מוסתרים"
+
+  "Show information panel when file/directory is selected"
+  "להציג לוח פרטי כשנבחר קובץ/מדריך"
 
   "Show language submenu"
   "הצג את תפריט המשנה שפה"
@@ -2379,6 +2394,9 @@ msgcat::mcmset he {
   "Add Parent Directory"
   "הוסף ספריית האב"
 
+  "Attributes"
+  "מאפיינים"
+
   "Close Directory Files"
   "קבצי הספריה קרוב"
 
@@ -2445,6 +2463,9 @@ msgcat::mcmset he {
   "New File From Template"
   "קובץ חדש מתבנית"
 
+  "No"
+  "לא"
+
   "Open Directory Files"
   "קבצי הספריה פתוחה"
 
@@ -2468,6 +2489,9 @@ msgcat::mcmset he {
 
   "Unable to duplicate file"
   "קובץ כפולים לא הצליחה"
+
+  "Yes"
+  "כן"
 
 }
 
@@ -2635,6 +2659,9 @@ msgcat::mcmset he {
   "Background color to use for selected text."
   "צבע הרקע לשימוש עבור הטקסט הנבחר."
 
+  "Background color to use for the file information panel."
+  "צבע הרקע לשימוש עבור לוח פרטי הקובץ."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "צבע הרקע משמש כל כרטיסיות אחרות שאינן הכרטיסיה הנוכחית/פעיל tabbar."
 
@@ -2731,6 +2758,12 @@ msgcat::mcmset he {
   "Foreground color of textual display in command launcher"
   "צבע הקידמה של טקסטואליים בתצוגת הפקודה משגר"
 
+  "Foreground color to use for title text in the information panel."
+  "צבע הקידמה לשימוש עבור טקסט הכותרת בחלונית ' מידע '."
+
+  "Foreground color to use for value text in the information panel."
+  "צבע הקידמה לשימוש עבור ערך טקסט בחלונית ' מידע '."
+
   "Foreground color used in menu items with checks or buttons."
   "צבע הקידמה בשימוש פריטי תפריט עם צ'קים או לחצנים."
 
@@ -2820,6 +2853,9 @@ msgcat::mcmset he {
 
   "Scrollbar slider color used in the command launcher results list"
   "פס גלילה מחוון הצבע המשמש ברשימת התוצאות מפעיל פקודה"
+
+  "Sidebar Info Panel Options"
+  "אפשרויות החלונית מידע הצידי"
 
   "Sidebar Options"
   "אפשרויות סרגל צידי"

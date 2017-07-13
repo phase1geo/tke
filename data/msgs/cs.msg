@@ -599,6 +599,9 @@ msgcat::mcmset cs {
   "Encode/Decode image to data:URL"
   "Kódování a dekódování obrazu na údaje: adresu URL"
 
+  "Enter selection mode"
+  "Přepínací tlačítko pro synchronizované prohlížení"
+
   "Enumeration"
   "Výčet"
 
@@ -740,9 +743,6 @@ msgcat::mcmset cs {
   "Hide Current Tab"
   "Skrýt aktuální kartu"
 
-  "Hide File Info"
-  "Informace o souboru"
-
   "Hide Line Numbers"
   "Skrýt čísla řádek"
 
@@ -754,6 +754,9 @@ msgcat::mcmset cs {
 
   "Hide Sidebar"
   "Skrýt Sidebar"
+
+  "Hide Sidebar Info Panel"
+  "Skrýt postranní panel Panel informace"
 
   "Hide Status Bar"
   "Skrýt Status Bar"
@@ -767,9 +770,6 @@ msgcat::mcmset cs {
   "Hide Tcl console"
   "Skrýt Tcl konzole"
 
-  "Hide file information panel"
-  "Skrýt panel informace o souboru"
-
   "Hide line numbers"
   "Skrýt čísla řádek"
 
@@ -781,6 +781,9 @@ msgcat::mcmset cs {
 
   "Hide sidebar"
   "Schovat postranní panel"
+
+  "Hide sidebar information panel"
+  "Skrýt panel informace o postranní panel"
 
   "Hide status bar"
   "Skrýt stavový řádek"
@@ -1319,6 +1322,9 @@ msgcat::mcmset cs {
   "Select Current Match"
   "Vyberte aktuální zápas"
 
+  "Select Mode"
+  "Vybrat"
+
   "Select Next Item"
   "Vyberte další položku"
 
@@ -1379,9 +1385,6 @@ msgcat::mcmset cs {
   "Show File Difference"
   "Zobrazit soubor rozdíl"
 
-  "Show File Info"
-  "Informace o souboru"
-
   "Show Installed"
   "Nainstalováno"
 
@@ -1403,6 +1406,9 @@ msgcat::mcmset cs {
   "Show Sidebar"
   "Zobrazit Sidebar"
 
+  "Show Sidebar Info Panel"
+  "Zobrazit postranní panel"
+
   "Show Status Bar"
   "Show Status Bar"
 
@@ -1421,9 +1427,6 @@ msgcat::mcmset cs {
   "Show file difference"
   "Zobrazit soubor rozdíl"
 
-  "Show file information panel"
-  "Zobrazit informační panelto preview a file inside an archive"
-
   "Show installed plugins"
   "Nainstalované moduly"
 
@@ -1438,6 +1441,9 @@ msgcat::mcmset cs {
 
   "Show selected line change"
   "Zobrazit vybranou linku změnu"
+
+  "Show sidebar information panel"
+  "Zobrazit postranní panel informační panel"
 
   "Smart Indent"
   "Chytré odsazení"
@@ -1809,6 +1815,9 @@ msgcat::mcmset cs {
   "Development"
   "Vývoj"
 
+  "Displayed Information"
+  "Informace"
+
   "Double-quote"
   "Uvozovky"
 
@@ -1863,8 +1872,14 @@ msgcat::mcmset cs {
   "Indentation spaces"
   "Odsazení mezer"
 
+  "Info Panel"
+  "Panel informace"
+
   "Insertion cursor width"
   "Šířka kurzoru kurzor"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Panel informace o souboru zachovat viditelné, když postranní panel nemá zaměření"
 
   "Keyword"
   "Klíčové slovo"
@@ -2016,11 +2031,14 @@ msgcat::mcmset cs {
   "Show difference file version information"
   "Zobrazit informace o verzi souboru rozdílu"
 
-  "Show file information"
-  "Zobrazit informace o souboru"
-
   "Show folders at top"
   "Zobrazit složky na vrcholu"
+
+  "Show hidden files"
+  "Používat lidmi čitelné velikosti souborů"
+
+  "Show information panel when file/directory is selected"
+  "Zobrazit informační panelto preview a file inside an archive"
 
   "Show language submenu"
   "Zobrazit podnabídka jazyk"
@@ -2379,6 +2397,9 @@ msgcat::mcmset cs {
   "Add Parent Directory"
   "Nadřazená složka"
 
+  "Attributes"
+  "Atributy"
+
   "Close Directory Files"
   "Zavřít Directory soubory"
 
@@ -2445,6 +2466,9 @@ msgcat::mcmset cs {
   "New File From Template"
   "Nový soubor šablony"
 
+  "No"
+  "Ne"
+
   "Open Directory Files"
   "Open Directory soubory"
 
@@ -2468,6 +2492,9 @@ msgcat::mcmset cs {
 
   "Unable to duplicate file"
   "Duplicitní soubor nelze"
+
+  "Yes"
+  "Ano"
 
 }
 
@@ -2635,6 +2662,9 @@ msgcat::mcmset cs {
   "Background color to use for selected text."
   "Barva pozadí použít pro vybraný text."
 
+  "Background color to use for the file information panel."
+  "Barva pozadí pro panel informace o souboru."
+
   "Background color used for all other tabs that are not the current/active tab in the tabbar."
   "Barva pozadí používají pro všechny ostatní karty, které nejsou aktuální / aktivní záložka v liště karet."
 
@@ -2731,6 +2761,12 @@ msgcat::mcmset cs {
   "Foreground color of textual display in command launcher"
   "Barva popředí textový displej v příkaz spouštěč"
 
+  "Foreground color to use for title text in the information panel."
+  "Barva popředí, kterou použít pro text nadpisu v panelu informace."
+
+  "Foreground color to use for value text in the information panel."
+  "Barva popředí, kterou použít pro hodnotu text v informačním panelu."
+
   "Foreground color used in menu items with checks or buttons."
   "Barva popředí používaná v položkách nabídky s šeky nebo tlačítka."
 
@@ -2820,6 +2856,9 @@ msgcat::mcmset cs {
 
   "Scrollbar slider color used in the command launcher results list"
   "Barva jezdec posuvníku v seznamu výsledků spouštěč příkazů"
+
+  "Sidebar Info Panel Options"
+  "Možnosti vysuvného panelu"
 
   "Sidebar Options"
   "Nastavení sidebaru"
