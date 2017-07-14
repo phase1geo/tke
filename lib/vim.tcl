@@ -152,7 +152,6 @@ namespace eval vim {
           "visual:char"  { return "VISUAL MODE$record" }
           "visual:line"  { return "VISUAL LINE MODE$record"}
           "visual:block" { return "VISUAL BLOCK MODE$record"}
-          "format"       { return "FORMAT$record" }
           default        {
             if {[info exists multicursor($txt.t)] && $multicursor($txt.t)} {
               return "MULTIMOVE MODE"
@@ -1153,7 +1152,7 @@ namespace eval vim {
 
     # If were in the edit or replace_all state, move the insertion cursor back
     # one character.
-    if {(($mode($txtt) eq "edit") || ($mode($txtt) eq "replace_all")) && \
+    if {(($mode($txtt) eq "edit") || ([string compare -length 7 $mode($txtt) "replace"] == 0)) && \
         ([$txtt index insert] ne [$txtt index "insert linestart"])} {
       if {[multicursor::enabled $txtt]} {
         multicursor::move $txtt left
@@ -1575,45 +1574,61 @@ namespace eval vim {
     # Lookup the keysym
     if {[catch { get_keysym $keycode $keysym } keysym]} {
       return 0
-    }
 
     # If the key does not have a printable char representation, quit now
-    if {([string compare -length 5 $keysym "Shift"]   == 0) || \
-        ([string compare -length 7 $keysym "Control"] == 0) || \
-        ([string compare -length 3 $keysym "Alt"]     == 0) || \
-        ($keysym eq "??")} {
+    } elseif {([string compare -length 5 $keysym "Shift"]   == 0) || \
+              ([string compare -length 7 $keysym "Control"] == 0) || \
+              ([string compare -length 3 $keysym "Alt"]     == 0) || \
+              ($keysym eq "??")} {
       return 1
     }
 
-    # Handle a character when recording a macro
-    if {$mode($txtt) eq "record_reg"} {
-      command_mode $txtt
-      if {[regexp {^[a-zA-Z\"]$} $keysym]} {
-        record_start $txtt {} $keysym
+    # Record the character, if necessary
+    if {[in_recording]} {
+      record_add $keysym
+    }
+
+    # If the current character needs to be used by the current mode, handle it now
+    switch $mode($txtt) {
+      "edit" {
+        return 0
+      }
+      "replace" {
+        do_replace $txtt $char
+        command_mode $txtt
         return 1
       }
-    } elseif {$mode($txtt) eq "playback_reg"} {
-      command_mode $txtt
-      if {[regexp {^[a-z]$} $keysym]} {
-        playback $txtt $keysym
+      "replace_all" {
+        do_replace $txtt $char
         return 1
-      } elseif {$keysym eq "at"} {
-        if {$recording(curr_reg) ne ""} {
-          playback $txtt $recording(curr_reg)
+      }
+      "record_reg" {
+        command_mode $txtt
+        if {[regexp {^[a-zA-Z\"]$} $keysym]} {
+          record_start $txtt {} $keysym
+          return 1
         }
-        return 1
-      } elseif {$keysym eq "colon"} {
-        for {set i 0} {$i < [get_number $txtt]} {incr i} {
-          playback_colon $txtt
+      }
+      "playback_reg" {
+        command_mode $txtt
+        if {[regexp {^[a-z]$} $keysym]} {
+          playback $txtt $keysym
+          return 1
+        } elseif {$keysym eq "at"} {
+          if {$recording(curr_reg) ne ""} {
+            playback $txtt $recording(curr_reg)
+          }
+          return 1
+        } elseif {$keysym at "colon"} {
+          for {set i 0} {$i < [get_number $txtt]} {incr i} {
+            playback_colon $txtt
+          }
+          return 1
         }
-        return 1
       }
     }
 
-    # Record the character
-    if {![in_recording] || ($keysym ne "q") || ($mode($txtt) eq "command")} {
-      record_add $keysym
-    }
+    # Everything past this point
 
     if {[handle_find_motion $txtt $char]} {
       return 1
@@ -1634,77 +1649,27 @@ namespace eval vim {
     } elseif {[string is integer $keysym] && [handle_number $txtt $char]} {
       return 1
 
-    # If we are in start, visual, record or format modes, stop character processing
-    } elseif {($mode($txtt) eq "command")  || \
-              ([in_visual_mode $txtt])   || \
-              ($mode($txtt) eq "record") || \
-              ($operator($txtt) eq "format")} {
-      return 1
-
-    # Append the text to the insertion buffer
-    } elseif {[string equal -length 7 $mode($txtt) "replace"]} {
-      if {[multicursor::enabled $txtt]} {
-        multicursor::replace $txtt $char indent::check_indent
-      } else {
-        $txtt replace insert "insert+1c" $char
-        $txtt highlight "insert linestart" "insert lineend"
-      }
-      if {$mode($txtt) eq "replace"} {
-        if {[multicursor::enabled $txtt]} {
-          multicursor::move $txtt left
-        } else {
-          ::tk::TextSetCursor $txtt "insert-1c"
-        }
-        command_mode $txtt
-      }
-      return 1
-
-    # Remove all text within the current character
-    } elseif {$mode($txtt) eq "changein"} {
-      if {[edit::delete_between_char $txtt $char 0]} {
-        edit_mode $txtt
-      } else {
-        command_mode $txtt
-      }
-      return 1
-
-    # Select all text within the current character
-    } elseif {[lindex [split $mode($txtt) :] 0] eq "visualin"} {
-      if {[edit::select_between_char $txtt $char]} {
-        set mode($txtt) "visual:[lindex [split $mode($txtt) :] 1]"
-      } else {
-        command_mode $txtt
-      }
-      return 1
-
-    # Format all text within the current character
-    } elseif {$mode($txtt) eq "formatin"} {
-      edit::format_between_char $txtt $char
-      command_mode $txtt
-      return 1
-
-    # Left shift all text within the current character
-    } elseif {$mode($txtt) eq "lshiftin"} {
-      edit::lshift_between_char $txtt $char
-      command_mode $txtt
-      return 1
-
-    # Right shift all text within the current character
-    } elseif {$mode($txtt) eq "rshiftin"} {
-      edit::rshift_between_char $txtt $char
-      command_mode $txtt
-      return 1
-
-    # If we are not in edit mode, switch to command mode (an illegal command was executed)
-    } elseif {$mode($txtt) ne "edit"} {
-      command_mode $txtt
-      return 1
     }
 
-    return 0
+    # Reset the state because we ran into some bad state
+    command_mode $txtt
+
+    return 1
 
   }
 
+  ######################################################################
+  # Perform text replacement.
+  proc do_replace {txtt char} {
+
+    if {[multicursor::enabled $txtt]} {
+      multicursor::replace $txtt $char indent::check_indent
+    } else {
+      $txtt replace insert "insert+1c" $char
+      $txtt highlight "insert linestart" "insert lineend"
+    }
+
+  }
 
   ######################################################################
   # Performs the current motion-specific operation on the text range specified

@@ -463,65 +463,6 @@ namespace eval edit {
   }
 
   ######################################################################
-  # Selects all of the text between the pair of characters.  Returns 1
-  # if a match occurred (and the text was selected); otherwise, return 0.
-  proc select_between_char {txtt char} {
-
-    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
-      $txtt tag remove sel 1.0 end
-      ::tk::TextSetCursor $txtt $end_index
-      $txtt tag add sel $start_index+1c $end_index
-      vim::set_select_anchors $txtt $start_index+1c
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Formats all text between the pair of characters.  Returns 1 if a match
-  # occurred (and the text was formatted); otherwise, returns 0.
-  proc format_between_char {txtt char} {
-
-    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
-      indent::format_text $txtt $start_index+1c $end_index
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Left shifts all text between the pair of characters.  Returns 1 if a
-  # match occurred (and the text was formatted); otherwise, returns 0.
-  proc lshift_between_char {txtt char} {
-
-    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
-      unindent $txtt $start_index+1l $end_index-1l
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
-  # Right shifts all text between the pair of characters.  Returns 1 if a
-  # match occurred (and the text was formatted); otherwise, returns 0.
-  proc rshift_between_char {txtt char} {
-
-    if {[lassign [get_char_positions $txtt $char] start_index end_index]} {
-      indent $txtt $start_index+1l $end_index-1l
-      return 1
-    }
-
-    return 0
-
-  }
-
-  ######################################################################
   # Converts a character-by-character case inversion of the given text.
   proc convert_case_toggle {txtt startpos endpos} {
 
