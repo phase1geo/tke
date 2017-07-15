@@ -1616,7 +1616,7 @@ namespace eval vim {
       return 1
     }
 
-    # Reset the state because we ran into some bad state
+    # Reset the state
     reset_state $txtt 1
 
     return 1
