@@ -291,8 +291,9 @@ namespace eval sidebar {
     }
 
     # Register the sidebar and sidebar scrollbar for theming purposes
-    theme::register_widget $widgets(tl) sidebar
-    theme::register_widget $widgets(sb) sidebar_scrollbar
+    theme::register_widget $widgets(tl)   sidebar
+    theme::register_widget $widgets(sb)   sidebar_scrollbar
+    theme::register_widget $widgets(menu) menus
 
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns)  w sidebar::handle_ignore_files
