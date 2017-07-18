@@ -394,6 +394,10 @@ namespace eval gui {
     $widgets(menu) add command -label [msgcat::mc "Show in Sidebar"]    -command gui::show_current_in_sidebar
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command gui::move_to_pane
+    
+    # Add the menu to the themable widgets
+    theme::register_widget $widgets(menu) menus
+    theme::register_widget .doc.docPopup  menus
 
     # Add plugins to tab popup
     plugins::handle_tab_popup $widgets(menu)
@@ -3897,8 +3901,9 @@ namespace eval gui {
     # Handle tooltips
     bind [$nb.tbf.tb btag] <Motion> [list gui::handle_notebook_motion %W %x %y]
 
-    # Register the tabbar for theming
-    theme::register_widget $nb.tbf.tb tabs
+    # Register the tabbar and menu for theming
+    theme::register_widget $nb.tbf.tb     tabs
+    theme::register_widget $nb.tbf.tb.mnu menus
 
   }
 
