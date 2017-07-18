@@ -594,12 +594,12 @@ namespace eval selection {
     vim::adjust_insert $txtt
 
     do_object_test $txtt 0 {Escape 0 v i s}   $value {2.0 2.11}
-    do_object_test $txtt 1 {Escape 1 V i s}   $value {2.0 2.11}
-    do_object_test $txtt 2 {Escape 2 v 2 i s} $value {2.0 2.24}
+    do_object_test $txtt 1 {Escape 0 V i s}   $value {2.0 2.11}
+    do_object_test $txtt 2 {Escape 0 v 2 i s} $value {2.0 2.24}
 
-    do_object_test $txtt 3 {Escape 3 v a s}   $value {2.0 2.13}
-    do_object_test $txtt 4 {Escape 4 V a s}   $value {2.0 2.13}
-    do_object_test $txtt 5 {Escape 5 v 2 a s} $value {2.0 2.26}
+    do_object_test $txtt 3 {Escape 0 v a s}   $value {2.0 2.13}
+    do_object_test $txtt 4 {Escape 0 V a s}   $value {2.0 2.13}
+    do_object_test $txtt 5 {Escape 0 v 2 a s} $value {2.0 2.26}
 
     # Cleanup
     cleanup
@@ -617,17 +617,17 @@ namespace eval selection {
     vim::adjust_insert $txtt
 
     do_object_test $txtt 0 {Escape 0 v i p}   $value {2.0 3.7}
-    do_object_test $txtt 1 {Escape 1 V i p}   $value {2.0 3.7}
-    do_object_test $txtt 2 {Escape 2 v 2 i p} $value {2.0 5.27}
+    do_object_test $txtt 1 {Escape 0 V i p}   $value {2.0 3.7}
+    do_object_test $txtt 2 {Escape 0 v 2 i p} $value {2.0 5.27}
 
     set value2 [join [lreplace [split $value \n] 3 3 " "] \n]
 
-    do_object_test $txtt 3 {Escape 3 v a p}   $value2 {2.0 4.1}
-    do_object_test $txtt 4 {Escape 4 V a p}   $value2 {2.0 4.1}
+    do_object_test $txtt 3 {Escape 0 v a p}   $value2 {2.0 4.1}
+    do_object_test $txtt 4 {Escape 0 V a p}   $value2 {2.0 4.1}
 
     set value2 [join [lreplace [split $value \n] 5 5 " "] \n]
 
-    do_object_test $txtt 5 {Escape 5 v 2 a p} $value2 {2.0 6.1}
+    do_object_test $txtt 5 {Escape 0 v 2 a p} $value2 {2.0 6.1}
 
     # Cleanup
     cleanup
