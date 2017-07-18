@@ -202,7 +202,7 @@ namespace eval select {
 
     variable data
     variable positions
-
+    
     array set opts {
       -startpos ""
     }
@@ -242,7 +242,11 @@ namespace eval select {
         if {($motion eq "prev") && ($index == 1) && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
         }
-        lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos [expr {($opts(-startpos) eq "") ? [lindex $range $index] : $opts(-startpos)}]]
+        if {$opts(-startpos) ne ""} {
+          lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos $opts(-startpos)]
+        } else {
+          lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos [lindex $range $index]]
+        }
         set data($txtt,moved) 1
       }
       rshift -
@@ -265,11 +269,9 @@ namespace eval select {
       }
     }
 
-    puts "range: $range"
-
     # Set the tag
     if {[$txtt compare [lindex $range 0] < [lindex $range 1]]} {
-
+      
       # Set the cursor
       ::tk::TextSetCursor $txtt [lindex $range 1]
 
@@ -318,16 +320,11 @@ namespace eval select {
 
     variable data
 
-    puts "In set_select_mode, txtt: $txtt, value: $value, mode: $data($txtt,mode)"
-
     # Set the mode
     if {$data($txtt,mode) != $value} {
 
-      puts "HERE A"
-
       # Set the mode to the given value
       set data($txtt,mode) $value
-      return
 
       # Show/Hide the sidebar
       if {$value == 0} {
@@ -335,8 +332,6 @@ namespace eval select {
       } else {
         open_sidebar $txtt
       }
-
-      puts "HERE B"
 
       # If we are enabled, do some initializing
       if {$value} {
@@ -346,7 +341,7 @@ namespace eval select {
 
         # If text was previously selected, convert it to our special selection
         if {[set sel [$txtt tag ranges sel]] ne ""} {
-
+          
           $txtt tag remove sel 1.0 end
           $txtt tag add select_sel   {*}$sel
           $txtt tag add select_begin [lindex $sel 0] "[lindex $sel 0]+1c"
@@ -470,11 +465,7 @@ namespace eval select {
   # disable select mode.
   proc handle_selection {txtt} {
 
-    puts "In handle_selection, txtt: $txtt, sel: [$txtt tag ranges sel]"
-
     set_select_mode $txtt [expr {[$txtt tag ranges sel] ne ""}]
-
-    puts "  DONE"
 
   }
 
@@ -488,8 +479,10 @@ namespace eval select {
       return 0
     }
 
-    # Handle the specified key
-    catch { handle_$keysym $txtt }
+    # Handle the specified key, if a handler exists for it
+    if {[info procs handle_$keysym] ne ""} {
+      handle_$keysym $txtt
+    }
 
     return 1
 
