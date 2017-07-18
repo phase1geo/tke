@@ -1583,10 +1583,8 @@ namespace eval vim {
       return 1
     }
 
-    # Record the character, if necessary
-    if {[in_recording]} {
-      record_add $keysym
-    }
+    # Record the character
+    record_add $keysym
 
     # If the current character needs to be used by the current mode, handle it now
     if {[info procs do_mode_$mode($txtt)] ne ""} {
