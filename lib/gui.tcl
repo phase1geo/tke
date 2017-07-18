@@ -1652,7 +1652,7 @@ namespace eval gui {
 
       # Add the file's directory to the sidebar and highlight it
       if {$opts(-sidebar)} {
-        sidebar::add_directory [file dirname $name] -remote $opts(-remote)
+        sidebar::add_directory [file normalize [file dirname $name]] -remote $opts(-remote)
         # sidebar::highlight_filename $name 0
       }
 
