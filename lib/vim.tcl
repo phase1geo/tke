@@ -3295,6 +3295,7 @@ namespace eval vim {
   # If we are in "command" mode, add a cursor.
   proc handle_s {txtt} {
 
+    variable mode
     variable operator
     variable motion
 
@@ -3325,10 +3326,12 @@ namespace eval vim {
     variable mode
     variable operator
 
-    if {$operator($txtt) eq ""} {
-      multicursor::add_cursors $txtt [$txtt index insert]
-    } else {
-      return [do_operation $txtt spacestart]
+    if {$mode($txtt) eq "command"} {
+      if {$operator($txtt) eq ""} {
+        multicursor::add_cursors $txtt [$txtt index insert]
+      } else {
+        return [do_operation $txtt spacestart]
+      }
     }
 
     return 0
