@@ -240,7 +240,7 @@ namespace eval multicursor {
     if {[set first [lindex [$W tag ranges mcursor] 0]] ne ""} {
 
       # If we are not in a multimove, delete the mcursors
-      if {![vim::in_multimove $W]} {
+      if {![vim::in_multimove $W] && ([vim::get_edit_mode $W] eq "")} {
         disable $W
 
       # Otherwise, position the insertion cursor on the first multicursor position
