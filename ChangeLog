@@ -1,72 +1,76 @@
-2017-07-12 09:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a9c0beb53ecc [devel-3.2.4])
+2017-07-13 02:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a46de449bdc2 [devel-3.2.5])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.2.4 release
+	ChangeLog for devel-3.2.5 release
 
-2017-07-12 09:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e804392e9b79)
+2017-07-13 02:42 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a0b11af4ef0d)
 
 	* .hgtags:
-	Added tag devel-3.2.4 for changeset a9c0beb53ecc
+	Added tag devel-3.2.5 for changeset a46de449bdc2
 
-2017-07-12 09:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (15d7bb3cbb3f)
+2017-07-14 00:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (82f99d3cb550)
 
-	* lib/version.tcl, specl_version.tcl:
-	* Fixing release information.
+	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
+	* Attempting to streamline vim::handle_any.
+	* Cleaning up unnecessary functionality from edit.tcl.
 
-2017-07-12 10:53 -0500  Trevor Williams  <phase1geo@gmail.com>  (72e3bc92e7a8)
+2017-07-15 01:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (809f2e3ff305)
 
-	* lib/utils.tcl:
-	* Fixing syntax issue with calculating file permissions on Windows.
+	* lib/version.tcl, lib/vim.tcl:
+	* Checkpointing work on refactoring vim code.
 
-2017-07-13 00:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (03b325dcb13c)
+2017-07-15 10:31 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (396afd48ffa1)
 
-	* lib/plugins.tcl, lib/sidebar.tcl, lib/utils.tcl, lib/version.tcl,
-	plugins/file_info/header.tkedat, plugins/file_info/main.tcl:
-	* Adding sidebar info panel support for directories.
-	* Improving interaction in sidebar when info panel is being displayed.
-	* Adding directory information into permissions string.
+	* lib/version.tcl, lib/vim.tcl:
+	* Change a comment.
 
-2017-07-13 00:19 -0500  Trevor Williams  <phase1geo@gmail.com>  (bfb134a125c4)
+2017-07-17 21:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c04094597f55)
 
-	* lib/version.tcl, plugins/file_info/header.tkedat:
-	* Reversing changes to file_info panel.
+	* lib/version.tcl, lib/vim.tcl:
+	* Vim cleanup and fixing bug with 's' command.
 
-2017-07-13 01:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2574d326c7f9 [tip])
+2017-07-17 17:25 -0500  Trevor Williams  <phase1geo@gmail.com>  (47945d24c9c2)
 
-	* doc/md/TKE Developer Guide/Plugin Action
-	Types/info_panel.textbundle/info.json, doc/md/TKE Developer
-	Guide/Plugin Action Types/info_panel.textbundle/text.md, doc/md/TKE
-	User Guide/User Interface/Sidebar Information
-	Panel.textbundle/info.json, doc/md/TKE User Guide/User
-	Interface/Sidebar Information Panel.textbundle/text.md: new file.
-	* doc/md/TKE Developer Guide/Plugin Action
-	Types/file_info.textbundle/info.json, doc/md/TKE Developer
-	Guide/Plugin Action Types/file_info.textbundle/text.md, doc/md/TKE
-	User Guide/User Interface/Sidebar File Information
-	Panel.textbundle/info.json, doc/md/TKE User Guide/User
-	Interface/Sidebar File Information Panel.textbundle/text.md: deleted
-	file.
-	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
-	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
-	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
-	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
-	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
-	data/msgs/sv.msg, data/msgs/zh.msg, doc/md/.Ulysses-favorites.plist,
-	doc/md/TKE Developer Guide/Plugin Action Types/.Ulysses-Group.plist,
-	doc/md/TKE Developer Guide/Plugin Action
-	Types/file_info.textbundle/info.json, doc/md/TKE Developer
-	Guide/Plugin Action Types/file_info.textbundle/text.md, doc/md/TKE
-	Developer Guide/Plugin Action Types/info_panel.textbundle/info.json,
-	doc/md/TKE Developer Guide/Plugin Action
-	Types/info_panel.textbundle/text.md, doc/md/TKE User Guide/User
-	Interface/.Ulysses-Group.plist, doc/md/TKE User Guide/User
-	Interface/Sidebar File Information Panel.textbundle/info.json,
-	doc/md/TKE User Guide/User Interface/Sidebar File Information
-	Panel.textbundle/text.md, doc/md/TKE User Guide/User
-	Interface/Sidebar Information Panel.textbundle/info.json, doc/md/TKE
-	User Guide/User Interface/Sidebar Information
-	Panel.textbundle/text.md, lib/version.tcl:
-	* Updating user guide.
-	* Updating developer guide.
-	* Updating translations.
+	* data/themes/Starlight.tketheme, lib/gui.tcl, lib/sidebar.tcl:
+	* Adding menus to theming engine.
+	* Improving menu active foreground color in the Starlight theme.
+
+2017-07-17 21:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (43d76a06f2e2)
+
+	* lib/version.tcl:
+	* Merging.
+
+2017-07-18 01:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c8f86ffb8b22)
+
+	* lib/version.tcl, lib/vim.tcl:
+	* Fixing issue with key recording in Vim mode.
+
+2017-07-18 08:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (daf1543f42cb)
+
+	* lib/version.tcl, tests/selection.tcl:
+	* Fixing a few selection tests.
+
+2017-07-18 12:04 -0500  Trevor Williams  <phase1geo@gmail.com>  (e313ef8db7bf)
+
+	* data/themes/Anatomy of Grey.tketheme, data/themes/Cool
+	Glow.tketheme, data/themes/Ruby Blue.tketheme, data/themes/Turn of
+	the Century.tketheme:
+	* Updating menu colors in themes to make them more readable.
+
+2017-07-18 16:12 -0500  Trevor Williams  <phase1geo@gmail.com>  (e613a751be98)
+
+	* lib/gui.tcl:
+	* Fixing issue with handling Untitled tabs and the sidebar on
+	Windows.
+
+2017-07-18 17:09 -0500  Trevor Williams  <phase1geo@gmail.com>  (d0c9243fc7d6)
+
+	* lib/select.tcl:
+	* Fixing various issues with select namespace to get things
+	basically working again.
+
+2017-07-18 22:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e80cd1aa24aa [tip])
+
+	* lib/multicursor.tcl, lib/version.tcl:
+	* Fixing behavior of multicursor disable.
 
