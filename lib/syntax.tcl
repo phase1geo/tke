@@ -818,6 +818,9 @@ namespace eval syntax {
     # Populate the menu
     populate_syntax_menu ${w}Menu syntax::set_current_language syntax::current_lang [msgcat::mc "None"] [get_enabled_languages]
 
+    # Register the menu
+    theme::register_widget ${w}Menu menus
+
     return ${w}Menu
 
   }
