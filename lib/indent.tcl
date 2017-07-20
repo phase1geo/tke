@@ -746,6 +746,9 @@ namespace eval indent {
     # Populate the indent menu
     populate_indent_menu $mnu
 
+    # Register the menu
+    theme::register_widget $mnu menus
+
     return $mnu
 
   }

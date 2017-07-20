@@ -1005,6 +1005,11 @@ namespace eval theme {
 
     variable widgets
 
+    # macOS will not allow menus to be fully themed, so just skip it
+    if {[tk windowingsystem] eq "aqua"} {
+      return
+    }
+
     set opts [get_category_options menus]
 
     foreach mnu $widgets(menus) {
