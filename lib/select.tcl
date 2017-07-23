@@ -58,11 +58,13 @@ namespace eval select {
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
     set data($txt.t,moved)     0
 
-    bind select <Key>         "if {\[select::handle_any %W %K\]} break"
-    bind select <Return>      "if {\[select::handle_return %W\]} break"
-    bind select <Escape>      "if {\[select::handle_escape %W\]} break"
-    bind select <B1-Motion>   "if {\[select::handle_motion %W %x %y\]} break"
-    # bind select <<Selection>> [list select::handle_selection %W]
+    bind select <Key>             "if {\[select::handle_any %W %K\]} break"
+    bind select <Return>          "if {\[select::handle_return %W\]} break"
+    bind select <Escape>          "if {\[select::handle_escape %W\]} break"
+    # bind select <Button-1>        "if {\[select::handle_single_click %W %x %y\]} break"
+    bind select <Double-Button-1> "if {\[select::handle_double_click %W %x %y\]} break"
+    bind select <Triple-Button-1> "if {\[select::handle_triple_click %W %x %y\]} break"
+    bind select <B1-Motion>       "if {\[select::handle_motion %W %x %y\]} break"
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
@@ -202,7 +204,7 @@ namespace eval select {
 
     variable data
     variable positions
-    
+
     array set opts {
       -startpos ""
     }
@@ -215,6 +217,8 @@ namespace eval select {
     if {$data($txtt,moved) && ($motion eq "init")} {
       set motion [expr {$data($txtt,anchorend) ? "prev" : "next"}]
     }
+
+    puts "motion: $motion, object: $data($txtt,object), type: $data($txtt,type)"
 
     switch $motion {
       init {
@@ -271,7 +275,7 @@ namespace eval select {
 
     # Set the tag
     if {[$txtt compare [lindex $range 0] < [lindex $range 1]]} {
-      
+
       # Set the cursor
       ::tk::TextSetCursor $txtt [lindex $range 1]
 
@@ -341,7 +345,7 @@ namespace eval select {
 
         # If text was previously selected, convert it to our special selection
         if {[set sel [$txtt tag ranges sel]] ne ""} {
-          
+
           $txtt tag remove sel 1.0 end
           $txtt tag add select_sel   {*}$sel
           $txtt tag add select_begin [lindex $sel 0] "[lindex $sel 0]+1c"
@@ -415,6 +419,54 @@ namespace eval select {
   }
 
   ######################################################################
+  # Handles a double-click event within the editing buffer.
+  proc handle_double_click {txtt x y} {
+
+    variable data
+
+    if {$data($txtt,mode)} {
+      return 1
+    }
+
+    # Set the insertion cursor
+    $txtt mark set insert @$x,$y
+
+    # Enable selection mode
+    set_select_mode $txtt 1
+
+    # Set the selection type to inner word
+    check_item $txtt type   nonws
+    check_item $txtt object inner
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Handles a triple-click event within the editing buffer.
+  proc handle_triple_click {txtt x y} {
+
+    variable data
+
+    if {$data($txtt,mode) && ($data($txtt,type) eq "line")} {
+      return 1
+    }
+
+    # Set the insertion cursor
+    $txtt mark set insert @$x,$y
+
+    # Enable selection mode
+    set_select_mode $txtt 1
+
+    # Set the selection type to inner line
+    check_item $txtt type   line
+    check_item $txtt object inner
+
+    return 1
+
+  }
+
+  ######################################################################
   # Handles any B1-Motion events occurring inside the text widget.
   proc handle_motion {txtt x y} {
 
@@ -422,7 +474,10 @@ namespace eval select {
 
     # If we are not in selection mode, return immediately
     if {$data($txtt,mode) == 0} {
-      return 0
+      $txtt mark set insert @$x,$y
+      set_select_mode $txtt 1
+      check_item $txtt type char
+      return 1
     }
 
     # If we are not dragging a selection tag, return immediately
@@ -456,16 +511,6 @@ namespace eval select {
     }
 
     return 1
-
-  }
-
-  ######################################################################
-  # If text is manually selected by the user, automatically enable select
-  # mode.  If text is manually deselected by the user, automatically
-  # disable select mode.
-  proc handle_selection {txtt} {
-
-    set_select_mode $txtt [expr {[$txtt tag ranges sel] ne ""}]
 
   }
 
