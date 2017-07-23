@@ -132,6 +132,43 @@ namespace eval css_colorize {
   }
 
   ######################################################################
+  # Uncolorizes the current editing buffer.
+  proc uncolorize_do {} {
+
+    variable colorized
+
+    # Get the current editing buffer index.
+    set index [api::file::current_file_index]
+    set txt   [api::file::get_info $index txt]
+
+    # Indicate that this editing buffer has been colorized
+    set colorized($txt) 0
+
+    # Remove the colors
+    remove_colors $txt
+
+  }
+
+  ######################################################################
+  # Returns 1 if the uncolorize option should be enabled in the menu.
+  proc uncolorize_handle_state {} {
+
+    variable colorized
+
+    # Get the current file index, if there is one
+    if {[set index [api::file::current_file_index]] == -1} {
+      return 0
+    }
+
+    # Get the current text widget and language
+    set txt  [api::file::get_info $index txt]
+    set lang [api::file::get_info $index lang]
+
+    return [expr ([lsearch [list CSS SCSS HTML] $lang] != -1) && $colorized($txt)]
+
+  }
+
+  ######################################################################
   # This is only needed so that we can interact with the text
   # widget.  We are not going to do anything right now.
   proc do_binding {tag} {
@@ -176,7 +213,8 @@ namespace eval css_colorize {
 # Register all plugin actions
 api::register css_colorize {
   {text_binding pretext attach all css_colorize::do_binding}
-  {menu command "CSS Colorize/Colorize" css_colorize::colorize_do css_colorize::colorize_handle_state}
+  {menu command "CSS Colorize/Colorize"   css_colorize::colorize_do   css_colorize::colorize_handle_state}
+  {menu command "CSS Colorize/Uncolorize" css_colorize::uncolorize_do css_colorize::uncolorize_handle_state}
   {on_save css_colorize::save_do}
   {on_reload css_colorize::store_do css_colorize::restore_do}
 }
