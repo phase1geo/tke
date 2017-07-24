@@ -61,7 +61,8 @@ namespace eval select {
     bind select <Key>             "if {\[select::handle_any %W %K\]} break"
     bind select <Return>          "if {\[select::handle_return %W\]} break"
     bind select <Escape>          "if {\[select::handle_escape %W\]} break"
-    # bind select <Button-1>        "if {\[select::handle_single_click %W %x %y\]} break"
+    bind select <ButtonPress-1>   "if {\[select::handle_single_press %W %x %y\]} break"
+    bind select <ButtonRelease-1> "if {\[select::handle_single_release %W %x %y\]} break"
     bind select <Double-Button-1> "if {\[select::handle_double_click %W %x %y\]} break"
     bind select <Triple-Button-1> "if {\[select::handle_triple_click %W %x %y\]} break"
     bind select <B1-Motion>       "if {\[select::handle_motion %W %x %y\]} break"
@@ -320,12 +321,17 @@ namespace eval select {
   ######################################################################
   # Sets the selection mode for the given text widget to the given value.
   # This will cause the selection sidebar to appear or disappear as needed.
-  proc set_select_mode {txtt value} {
+  proc set_select_mode {txtt value args} {
 
     variable data
 
     # Set the mode
     if {$data($txtt,mode) != $value} {
+
+      array set opts {
+        -sidebar 1
+      }
+      array set opts $args
 
       # Set the mode to the given value
       set data($txtt,mode) $value
@@ -333,7 +339,7 @@ namespace eval select {
       # Show/Hide the sidebar
       if {$value == 0} {
         close_sidebar $txtt
-      } else {
+      } elseif {$opts(-sidebar)} {
         open_sidebar $txtt
       }
 
@@ -419,6 +425,40 @@ namespace eval select {
   }
 
   ######################################################################
+  # Handle a single click event press event.
+  proc handle_single_press {txtt x y} {
+
+    variable data
+
+    # Change the anchor end
+    set data($txtt,anchorend) 0
+
+    # Set the anchor
+    set data($txtt,anchor) [$txtt index @$x,$y]
+
+    # Set the insertion cursor
+    $txtt mark set insert $data($txtt,anchor)
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Handle a single click event release event.
+  proc handle_single_release {txtt x y} {
+
+    variable data
+
+    # If selection mode is enabled, display the sidebar
+    if {$data($txtt,mode)} {
+      open_sidebar $txtt
+    }
+
+    return 1
+
+  }
+
+  ######################################################################
   # Handles a double-click event within the editing buffer.
   proc handle_double_click {txtt x y} {
 
@@ -475,21 +515,32 @@ namespace eval select {
     # If we are not in selection mode, return immediately
     if {$data($txtt,mode) == 0} {
       $txtt mark set insert @$x,$y
-      set_select_mode $txtt 1
+      set_select_mode $txtt 1 -sidebar 0
       check_item $txtt type char
       return 1
     }
 
+    puts "HERE!, drag exists: [info exists data($txtt,drag)]"
+
     # If we are not dragging a selection tag, return immediately
     if {![info exists data($txtt,drag)]} {
+      if {[$txtt compare @$x,$y < $data($txtt,anchor)]} {
+        update_selection $txtt prev -startpos [$txtt index @$x,$y]
+      } else {
+        update_selection $txtt next -startpos [$txtt index @$x,$y]
+      }
       return 1
     }
 
     # Get the last drag position
     lassign $data($txtt,drag) tag
 
+    puts "tag: $tag, drag: $data($txtt,drag)"
+
     # Figure out which direction we are moving
     set left [$txtt compare @$x,$y < [lindex [$txtt tag ranges $tag] 0]]
+
+    puts "tag: $tag, left: $left"
 
     # Update the selection
     switch $tag {
