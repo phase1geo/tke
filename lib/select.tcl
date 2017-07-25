@@ -51,7 +51,6 @@ namespace eval select {
     variable data
 
     set data($txt.t,mode)      0
-    set data($txt.t,object)    none
     set data($txt.t,type)      char
     set data($txt.t,anchor)    1.0
     set data($txt.t,anchorend) 0
@@ -88,8 +87,7 @@ namespace eval select {
     $txt.t tag bind select_end   <Leave>           [list select::handle_leave $txt.t select_end]
 
     # Make sure that our defaults are checked
-    check_item $txt.t object none
-    check_item $txt.t type   char
+    check_item $txt.t type char
 
   }
 
@@ -99,11 +97,6 @@ namespace eval select {
   proc create_sidebar {txtt w} {
 
     ttk::frame $w
-
-    ttk::labelframe $w.object -text [msgcat::mc "Object Mode"]
-    create_item $txtt $w.object [msgcat::mc "None"]  - none  object
-    create_item $txtt $w.object [msgcat::mc "Inner"] i inner object
-    create_item $txtt $w.object [msgcat::mc "Outer"] o outer object
 
     ttk::labelframe $w.type -text [msgcat::mc "Selection Type"]
     create_item $txtt $w.type [msgcat::mc "Character"]       c  char type
@@ -131,7 +124,6 @@ namespace eval select {
 
     ttk::button $w.anchor -text [msgcat::mc "Swap Selection Anchor"] -command [list select::handle_a $txtt]
 
-    pack $w.object -fill x -padx 2 -pady 2
     pack $w.type   -fill x -padx 2 -pady 2
     pack $w.dir    -fill x -padx 2 -pady 2
     pack $w.anchor -padx 2 -pady 2
@@ -198,7 +190,7 @@ namespace eval select {
   }
 
   ######################################################################
-  # Updates the current selection based on the current object and type
+  # Updates the current selection based on the current type
   # selections along with the given motion type (init, next, prev, parent,
   # child).
   proc update_selection {txtt motion args} {
@@ -219,24 +211,13 @@ namespace eval select {
       set motion [expr {$data($txtt,anchorend) ? "prev" : "next"}]
     }
 
-    puts "motion: $motion, object: $data($txtt,object), type: $data($txtt,type)"
-
     switch $motion {
       init {
-        switch $data($txtt,object) {
-          none {
-            switch $data($txtt,type) {
-              char { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
-            }
-          }
-          inner -
-          outer {
-            switch $data($txtt,type) {
-              char    { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
-              nonws   { set range [edit::get_range $txtt [list WORD 1] [list] [string index $data($txtt,object) 0] 0] }
-              default { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] [string index $data($txtt,object) 0] 0] }
-            }
-          }
+        switch $data($txtt,type) {
+          char    { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
+          nonws   { set range [edit::get_range $txtt [list WORD 1] [list] i 0] }
+          line    { set range [edit::get_range $txtt linestart lineend "" 0] }
+          default { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
         }
       }
       next -
@@ -244,6 +225,7 @@ namespace eval select {
         set pos   $positions($data($txtt,type))
         set range [$txtt tag ranges select_sel]
         set index [expr $data($txtt,anchorend) ^ 1]
+        puts "motion: $motion, pos: $pos, range: $range, index: $index"
         if {($motion eq "prev") && ($index == 1) && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
         }
@@ -274,11 +256,13 @@ namespace eval select {
       }
     }
 
+    puts "motion: $motion, type: $data($txtt,type), range: $range"
+
     # Set the tag
     if {[$txtt compare [lindex $range 0] < [lindex $range 1]]} {
 
       # Set the cursor
-      ::tk::TextSetCursor $txtt [lindex $range 1]
+      ::tk::TextSetCursor $txtt [lindex $range [expr $data($txtt,anchorend) ^ 1]]
 
       # Clear the selection tags
       $txtt tag remove select_sel   1.0 end
@@ -364,6 +348,13 @@ namespace eval select {
 
         # Configure the cursor
         $txtt configure -cursor [ttk::cursor standard]
+
+        # Use the selection background color
+        set bg [$txtt cget -selectbackground]
+        set fg [$txtt cget -selectforeground]
+
+        # Configure the selection mode tags
+        $txtt tag configure select_sel -background $bg -foreground $fg
 
       # Otherwise, convert our selection to a normal selection
       } else {
@@ -475,8 +466,7 @@ namespace eval select {
     set_select_mode $txtt 1
 
     # Set the selection type to inner word
-    check_item $txtt type   nonws
-    check_item $txtt object inner
+    check_item $txtt type word
 
     return 1
 
@@ -499,8 +489,7 @@ namespace eval select {
     set_select_mode $txtt 1
 
     # Set the selection type to inner line
-    check_item $txtt type   line
-    check_item $txtt object inner
+    check_item $txtt type line
 
     return 1
 
@@ -520,8 +509,6 @@ namespace eval select {
       return 1
     }
 
-    puts "HERE!, drag exists: [info exists data($txtt,drag)]"
-
     # If we are not dragging a selection tag, return immediately
     if {![info exists data($txtt,drag)]} {
       if {[$txtt compare @$x,$y < $data($txtt,anchor)]} {
@@ -535,12 +522,8 @@ namespace eval select {
     # Get the last drag position
     lassign $data($txtt,drag) tag
 
-    puts "tag: $tag, drag: $data($txtt,drag)"
-
     # Figure out which direction we are moving
     set left [$txtt compare @$x,$y < [lindex [$txtt tag ranges $tag] 0]]
-
-    puts "tag: $tag, left: $left"
 
     # Update the selection
     switch $tag {
@@ -581,35 +564,6 @@ namespace eval select {
     }
 
     return 1
-
-  }
-
-  ######################################################################
-  # Handles the user hitting the "-" key which will cause the selection
-  # to only move on the non-anchored end of the selection.
-  proc handle_minus {txtt} {
-
-    check_item $txtt object none
-
-  }
-
-  ######################################################################
-  # Handles the user hitting the "i" key which will adjust the selection
-  # to include the "inner" portion of the current selection type.  This
-  # is not valid for character, line or block selection.
-  proc handle_i {txtt} {
-
-    check_item $txtt object inner
-
-  }
-
-  ######################################################################
-  # Handles the user hitting the "o" key which will adjust the selection
-  # to include the "outer" portion of the current selection type.  This
-  # is not valid for character, line or block selection.
-  proc handle_o {txtt} {
-
-    check_item $txtt object outer
 
   }
 
