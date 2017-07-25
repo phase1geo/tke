@@ -1796,6 +1796,9 @@ namespace eval sidebar {
     # Delete the row and its children
     $widgets(tl) delete $rows
 
+    # Update the information panel
+    update_info_panel [$widgets(tl) selection]
+
   }
 
   ######################################################################
@@ -1815,6 +1818,9 @@ namespace eval sidebar {
 
     # Delete the child tree
     $widgets(tl) delete $child
+
+    # Update the information panel
+    update_info_panel [$widgets(tl) selection]
 
   }
 
