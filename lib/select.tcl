@@ -57,14 +57,21 @@ namespace eval select {
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
     set data($txt.t,moved)     0
 
-    bind select <Key>             "if {\[select::handle_any %W %K\]} break"
-    bind select <Return>          "if {\[select::handle_return %W\]} break"
-    bind select <Escape>          "if {\[select::handle_escape %W\]} break"
-    bind select <ButtonPress-1>   "if {\[select::handle_single_press %W %x %y\]} break"
-    bind select <ButtonRelease-1> "if {\[select::handle_single_release %W %x %y\]} break"
-    bind select <Double-Button-1> "if {\[select::handle_double_click %W %x %y\]} break"
-    bind select <Triple-Button-1> "if {\[select::handle_triple_click %W %x %y\]} break"
-    bind select <B1-Motion>       "if {\[select::handle_motion %W %x %y\]} break"
+    bind select <Key>                     "if {\[select::handle_any %W %K\]} break"
+    bind select <Return>                  "if {\[select::handle_return %W\]} break"
+    bind select <Escape>                  "if {\[select::handle_escape %W\]} break"
+    bind select <ButtonPress-1>           "if {\[select::handle_single_press %W %x %y\]} break"
+    bind select <ButtonRelease-1>         "if {\[select::handle_single_release %W %x %y\]} break"
+    bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
+    bind select <Double-Button-1>         "if {\[select::handle_double_click %W %x %y\]} break"
+    bind select <Triple-Button-1>         "if {\[select::handle_triple_click %W %x %y\]} break"
+    bind select <Alt-ButtonPress-1>       "if {\[select::handle_alt_single_press %W %x %y\]} break"
+    bind select <Alt-ButtonRelease-1>     "if {\[select::handle_alt_single_release %W %x %y\]} break"
+    bind select <Alt-B1-Motion>           "if {\[select::handle_alt_motion %W %x %y\]} break"
+    bind select <Alt-Double-Button-1>     "if {\[select::handle_alt_double_click %W %x %y\]} break"
+    bind select <Alt-Triple-Button-1>     "if {\[select::handle_alt_triple_click %W %x %y\]} break"
+    bind select <Control-Double-Button-1> "if {\[select::handle_control_double_click %W %x %y\]} break"
+    bind select <Control-Triple-Button-1> "if {\[select::handle_control_triple_click %W %x %y\]} break"
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
@@ -473,7 +480,57 @@ namespace eval select {
   }
 
   ######################################################################
-  # Handles a triple-click event within the editing buffer.
+  # Handles a double-click while the Alt key is pressed.  Selects the
+  # current sentence.
+  proc handle_alt_double_click {txtt x y} {
+
+    variable data
+
+    if {$data($txtt,mode)} {
+      return 1
+    }
+
+    # Set the insertion cursor
+    $txtt mark set insert @$x,$y
+
+    # Enable selection mode
+    set_select_mode $txtt 1
+
+    # Set the selection type to sentence
+    check_item $txtt type sentence
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Handles a double-click event while the Control key is held.  Selects
+  # the current square, curly, paren, single, double, backtick or tag.
+  proc handle_control_double_click {txtt x y} {
+
+    variable data
+
+    if {$data($txtt,mode)} {
+      return 1
+    }
+
+    # Set the insertion cursor
+    $txtt mark set insert @$x,$y
+
+    # Enable the selection mode
+    set_select_mode $txtt 1
+
+    # Set the selection type to the appropriate type based on the current
+    # syntax.
+    # check_item $txtt type TBD
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Handles a triple-click event within the editing buffer.  Selects a
+  # line of text.
   proc handle_triple_click {txtt x y} {
 
     variable data
@@ -490,6 +547,54 @@ namespace eval select {
 
     # Set the selection type to inner line
     check_item $txtt type line
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Handles a triple-click when the Alt key is down.  Selects a paragraph
+  # of text.
+  proc handle_alt_triple_click {txtt x y} {
+
+    variable data
+
+    if {$data($txtt,mode) && ($data($txtt,type) eq "paragraph")} {
+      return 1
+    }
+
+    # Set the insertion cursor
+    $txtt mark set insert @$x,$y
+
+    # Enable selection mode
+    set_select_mode $txtt 1
+
+    # Set the selection type to paragraph
+    check_item $txtt type paragraph
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Handles a triple-click while the Control key is held.  Selects the
+  # current XML node.
+  proc handle_control_triple_click {txtt x y} {
+
+    variable data
+
+    if {$data($txtt,mode) && ($data($txtt,type) eq "node")} {
+      return 1
+    }
+
+    # Set the insertion cursor
+    $txtt mark set insert @$x,$y
+
+    # Enable selection mode
+    set_select_mode $txtt 1
+
+    # Set the selection type to node
+    check_item $txtt type node
 
     return 1
 
@@ -543,6 +648,16 @@ namespace eval select {
         update_selection $txtt [expr {$left ? "prev" : "next"}] -startpos [$txtt index @$x,$y]
       }
     }
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Performs a block selection.
+  proc handle_alt_motion {txtt x y} {
+
+    # TBD
 
     return 1
 
