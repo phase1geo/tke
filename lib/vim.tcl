@@ -817,9 +817,9 @@ namespace eval vim {
 
     if {$type eq "block"} {
       if {$seltype eq "exclusive"} {
-        multicursor::handle_block_selection $txtt $anchor [$txtt index $pos]
+        select::handle_block_selection $txtt $anchor [$txtt index $pos]
       } else {
-        multicursor::handle_block_selection $txtt $anchor [$txtt index $pos+1c]
+        select::handle_block_selection $txtt $anchor [$txtt index $pos+1c]
       }
     } elseif {[$txtt compare $anchor < $pos]} {
       if {$type eq "line"} {
