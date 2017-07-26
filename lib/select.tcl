@@ -27,6 +27,7 @@ namespace eval select {
   array set data      {}
   array set positions {
     char      {dchar     dchar}
+    block     {dchar     dchar}
     line      {linestart lineend}
     word      {wordstart {wordend -adjust "+1 display chars"}}
     nonws     {WORDstart {WORDend -adjust "+1 display chars"}}
@@ -65,11 +66,11 @@ namespace eval select {
     bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
     bind select <Double-Button-1>         "if {\[select::handle_double_click %W %x %y\]} break"
     bind select <Triple-Button-1>         "if {\[select::handle_triple_click %W %x %y\]} break"
-    bind select <Alt-ButtonPress-1>       "if {\[select::handle_alt_single_press %W %x %y\]} break"
-    bind select <Alt-ButtonRelease-1>     "if {\[select::handle_alt_single_release %W %x %y\]} break"
-    bind select <Alt-B1-Motion>           "if {\[select::handle_alt_motion %W %x %y\]} break"
-    bind select <Alt-Double-Button-1>     "if {\[select::handle_alt_double_click %W %x %y\]} break"
-    bind select <Alt-Triple-Button-1>     "if {\[select::handle_alt_triple_click %W %x %y\]} break"
+    bind select <Mod2-ButtonPress-1>      "if {\[select::handle_single_press %W %x %y\]} break"
+    bind select <Mod2-ButtonRelease-1>    "if {\[select::handle_single_release %W %x %y\]} break"
+    bind select <Mod2-B1-Motion>          "if {\[select::handle_alt_motion %W %x %y\]} break"
+    bind select <Mod2-Double-Button-1>    "if {\[select::handle_alt_double_click %W %x %y\]} break"
+    bind select <Mod2-Triple-Button-1>    "if {\[select::handle_alt_triple_click %W %x %y\]} break"
     bind select <Control-Double-Button-1> "if {\[select::handle_control_double_click %W %x %y\]} break"
     bind select <Control-Triple-Button-1> "if {\[select::handle_control_triple_click %W %x %y\]} break"
 
@@ -254,6 +255,10 @@ namespace eval select {
         foreach index {0 1} {
           lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $dir -startpos [lindex $range $index]]
         }
+      }
+      up -
+      down {
+        # TBD
       }
       parent {
         # TBD
@@ -654,10 +659,48 @@ namespace eval select {
   }
 
   ######################################################################
+  # Performs the block selection.
+  proc handle_block_selection {txtt anchor current} {
+
+    # Get the anchor and current row/col, but if either is invalid, return immediately
+    if {[set acol [lassign [split $anchor  .] arow]] eq ""} {
+      return
+    }
+    if {[set ccol [lassign [split $current .] crow]] eq ""} {
+      return
+    }
+
+    if {$arow < $crow} {
+      set srow $arow
+      set erow $crow
+    } else {
+      set srow $crow
+      set erow $arow
+    }
+
+    if {$acol < $ccol} {
+      set scol $acol
+      set ecol $ccol
+    } else {
+      set scol $ccol
+      set ecol $acol
+    }
+
+    # Set the selection
+    $txtt tag remove sel 1.0 end
+    for {set i $srow} {$i <= $erow} {incr i} {
+      $txtt tag add select_sel $i.$scol $i.$ecol
+    }
+
+  }
+
+  ######################################################################
   # Performs a block selection.
   proc handle_alt_motion {txtt x y} {
 
-    # TBD
+    variable data
+
+    handle_block_selection $txtt $data($txtt,anchor) [$txtt index @$x,$y]
 
     return 1
 
@@ -823,7 +866,13 @@ namespace eval select {
   # currently selected text.
   proc handle_Up {txtt} {
 
-    update_selection $txtt parent
+    variable data
+
+    if {$data($txtt,type) eq "block"} {
+      update_selection $txtt up
+    } else {
+      update_selection $txtt parent
+    }
 
   }
 
@@ -832,7 +881,13 @@ namespace eval select {
   # of the currently selected text.
   proc handle_Down {txtt} {
 
-    update_selection $txtt child
+    variable data
+
+    if {$data($txtt,type) eq "block"} {
+      update_selection $txtt down
+    } else {
+      update_selection $txtt child
+    }
 
   }
 
@@ -858,16 +913,15 @@ namespace eval select {
 
     variable data
 
-    # If the selection type is block mode, don't change anything
-    if {$data($txtt,type) eq "block"} {
-      return
-    }
-
     # Change the anchor end
     set data($txtt,anchorend) [expr $data($txtt,anchorend) ^ 1]
 
     # Set the anchor
-    set data($txtt,anchor) [lindex [$txtt tag ranges select_sel] $data($txtt,anchorend)]
+    if {$data($txtt,anchorend)} {
+      set data($txtt,anchor) [lindex [$txtt tag ranges select_sel] end]
+    } else {
+      set data($txtt,anchor) [lindex [$txtt tag ranges select_sel] 0]
+    }
 
   }
 
