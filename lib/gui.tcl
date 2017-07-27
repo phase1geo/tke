@@ -394,7 +394,7 @@ namespace eval gui {
     $widgets(menu) add command -label [msgcat::mc "Show in Sidebar"]    -command gui::show_current_in_sidebar
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Move to Other Pane"] -command gui::move_to_pane
-    
+
     # Add the menu to the themable widgets
     theme::register_widget $widgets(menu) menus
     theme::register_widget .doc.docPopup  menus
@@ -716,7 +716,7 @@ namespace eval gui {
     set spacing [preferences::get Appearance/ExtraLineSpacing]
 
     foreach txt [get_all_texts] {
-      $txt configure -spacing3 $spacing
+      $txt configure -spacing2 $spacing -spacing3 $spacing
     }
 
   }
@@ -4050,6 +4050,7 @@ namespace eval gui {
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] \
       -insertwidth [preferences::get Appearance/CursorWidth] \
+      -spacing2 [preferences::get Appearance/ExtraLineSpacing] \
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
       -diff_mode $opts(-diff) -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
@@ -4270,6 +4271,7 @@ namespace eval gui {
     $pw insert 0 [frame $pw.tf2 -background $sb_opts(-background)]
     ctext $txt2 -wrap none -undo 1 -autoseparators 1 -insertofftime 0 -font editor_font \
       -insertwidth [preferences::get Appearance/CursorWidth] \
+      -spacing2 [preferences::get Appearance/ExtraLineSpacing] \
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
       -highlightcolor orange -warnwidth [preferences::get Editor/WarningWidth] \
       -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
