@@ -61,6 +61,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-linemap_minwidth)       1
   set ctext::data($win,config,-linemap_type)           absolute
   set ctext::data($win,config,-highlight)              1
+  set ctext::data($win,config,-lmargin)                0
   set ctext::data($win,config,-warnwidth)              ""
   set ctext::data($win,config,-warnwidth_bg)           red
   set ctext::data($win,config,-casesensitive)          1
@@ -102,7 +103,7 @@ proc ctext {win args} {
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg \
   -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
-  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3]
+  -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin]
 
   # Set args
   foreach {name value} $args {
@@ -149,7 +150,7 @@ proc ctext {win args} {
   frame $win.t.w -width 1 -bd 0 -relief flat -bg $ctext::data($win,config,-warnwidth_bg)
 
   if {$ctext::data($win,config,-warnwidth) ne ""} {
-    place $win.t.w -x [font measure [$win.t cget -font] -displayof . [string repeat "m" $ctext::data($win,config,-warnwidth)]] -relheight 1.0
+    place $win.t.w -x [expr $ctext::data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $ctext::data($win,config,-warnwidth)]]] -relheight 1.0
   }
 
   grid rowconfigure    $win 0 -weight 100
@@ -395,12 +396,27 @@ proc ctext::buildArgParseTable win {
     break
   }
 
+  lappend argTable any -lmargin {
+    if {[string is integer $value] && ($value >= 0)} {
+      set data($win,config,-lmargin) $value
+      if {$data($win,config,-warnwidth) ne ""} {
+        set newx [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $data($win,config,-warnwidth)]]]
+        place $win.t.w -x $newx -relheight 1.0
+        ctext::adjust_rmargin $win
+        $win tag configure lmargin -lmargin1 $value -lmargin2 $value
+      }
+    } else {
+      return -code error "Error: -lmargin option must be an integer value greater or equal to zero"
+    }
+    break
+  }
+
   lappend argTable any -warnwidth {
     set data($win,config,-warnwidth) $value
     if {$value eq ""} {
       place forget $win.t.w
     } else {
-      set newx [font measure [$win.t cget -font] -displayof . [string repeat "m" $value]]
+      set newx [expr $data($win,config,-lmargin) + [font measure [$win.t cget -font] -displayof . [string repeat "m" $value]]]
       place $win.t.w -x $newx -relheight 1.0
       ctext::adjust_rmargin $win
     }
@@ -3815,6 +3831,7 @@ proc ctext::doConfigure {win} {
 proc ctext::set_rmargin {win startpos endpos} {
 
   $win tag add rmargin $startpos $endpos
+  $win tag add lmargin $startpos $endpos
 
 }
 
