@@ -248,27 +248,43 @@ namespace eval sidebar {
     set widgets(info,v,mod)   [label $w.if.modified]
     set widgets(info,l,attrs) [label $w.if.l2 -text [format "%s:" [msgcat::mc "Attributes"]]]
     set widgets(info,v,attrs) [label $w.if.attrs]
-    set widgets(info,l,ver)   [label $w.if.l3 -text [format "%s:" [msgcat::mc "Version"]]]
+    set widgets(info,l,cksum) [label $w.if.l3 -text [format "%s:" [msgcat::mc "Checksum"]]]
+    set widgets(info,v,cksum) [label $w.if.cksum]
+    set widgets(info,l,sha1)  [label $w.if.l4 -text [format "%s:" [msgcat::mc "SHA1"]]]
+    set widgets(info,v,sha1)  [label $w.if.sha1]
+    set widgets(info,l,cnts)  [label $w.if.l5 -text [format "%s:" [msgcat::mc "Counts"]]]
+    set widgets(info,v,cnts)  [label $w.if.counts]
+    set widgets(info,l,rtime) [label $w.if.l6 -text [format "%s:" [msgcat::mc "Read Time"]]]
+    set widgets(info,v,rtime) [label $w.if.rtime]
+    set widgets(info,l,ver)   [label $w.if.l7 -text [format "%s:" [msgcat::mc "Version"]]]
     set widgets(info,v,ver)   [label $w.if.version]
-    set widgets(info,l,fav)   [label $w.if.l4 -text [format "%s:" [msgcat::mc "Favorite"]]]
+    set widgets(info,l,fav)   [label $w.if.l8 -text [format "%s:" [msgcat::mc "Favorite"]]]
     set widgets(info,v,fav)   [label $w.if.favorite]
     set widgets(psep)         [ttk::separator $w.if.sep2 -orient horizontal]
 
     grid rowconfigure    $w.if 3 -weight 1
     grid columnconfigure $w.if 1 -weight 1
-    grid $w.if.sep1     -row 0 -column 0 -columnspan 2 -sticky ew
-    grid $w.if.preview  -row 1 -column 0 -rowspan 3 -padx 2 -pady 2
-    grid $w.if.name     -row 1 -column 1 -sticky w
-    grid $w.if.type     -row 2 -column 1 -sticky w
-    grid $w.if.l1       -row 4 -column 0 -sticky e
-    grid $w.if.modified -row 4 -column 1 -sticky w
-    grid $w.if.l2       -row 5 -column 0 -sticky e
-    grid $w.if.attrs    -row 5 -column 1 -sticky w
-    grid $w.if.l3       -row 6 -column 0 -sticky e
-    grid $w.if.version  -row 6 -column 1 -sticky w
-    grid $w.if.l4       -row 7 -column 0 -sticky e
-    grid $w.if.favorite -row 7 -column 1 -sticky w
-    grid $w.if.sep2     -row 8 -column 0 -sticky ew -columnspan 2
+    grid $w.if.sep1     -row 0  -column 0 -columnspan 2 -sticky ew
+    grid $w.if.preview  -row 1  -column 0 -rowspan 3 -padx 2 -pady 2
+    grid $w.if.name     -row 1  -column 1 -sticky w
+    grid $w.if.type     -row 2  -column 1 -sticky w
+    grid $w.if.l1       -row 4  -column 0 -sticky e
+    grid $w.if.modified -row 4  -column 1 -sticky w
+    grid $w.if.l2       -row 5  -column 0 -sticky e
+    grid $w.if.attrs    -row 5  -column 1 -sticky w
+    grid $w.if.l3       -row 6  -column 0 -sticky e
+    grid $w.if.cksum    -row 6  -column 1 -sticky w
+    grid $w.if.l4       -row 7  -column 0 -sticky e
+    grid $w.if.sha1     -row 7  -column 1 -sticky w
+    grid $w.if.l5       -row 8  -column 0 -sticky e
+    grid $w.if.counts   -row 8  -column 1 -sticky w
+    grid $w.if.l6       -row 9  -column 0 -sticky e
+    grid $w.if.rtime    -row 9  -column 1 -sticky w
+    grid $w.if.l7       -row 10 -column 0 -sticky e
+    grid $w.if.version  -row 10 -column 1 -sticky w
+    grid $w.if.l8       -row 11 -column 0 -sticky e
+    grid $w.if.favorite -row 11 -column 1 -sticky w
+    grid $w.if.sep2     -row 12 -column 0 -sticky ew -columnspan 2
 
     # Insert any file information plugin information
     insert_info_panel_plugins
@@ -2311,6 +2327,65 @@ namespace eval sidebar {
         }
       } else {
         grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
+      }
+
+      # Display the count information, if necessary
+      if {[info exists attrs(linecount)] || [info exists attrs(wordcount)] || [info exists attrs(charcount)]} {
+        set attrlist [list]
+        if {[info exists attrs(linecount)] && ([set count [utils::get_file_count $fname line]] ne "")} {
+          lappend attrlist "$count lines"
+        }
+        if {[info exists attrs(wordcount)] && ([set count [utils::get_file_count $fname word]] ne "")} {
+          lappend attrlist "$count words"
+        }
+        if {[info exists attrs(charcount)] && ([set count [utils::get_file_count $fname char]] ne "")} {
+          lappend attrlist "$count chars"
+        }
+        if {$attrlist ne [list]} {
+          $widgets(info,v,cnts) configure -text [join $attrlist ", "]
+          grid $widgets(info,l,cnts) $widgets(info,v,cnts)
+        } else {
+          grid remove $widgets(info,l,cnts) $widgets(info,v,cnts)
+        }
+      } else {
+        grid remove $widgets(info,l,cnts) $widgets(info,v,cnts)
+      }
+
+      # Display the reading time, if necessary
+      if {[info exists attrs(readtime)]} {
+        if {[set words [utils::get_file_count $fname word]] ne ""} {
+          set words_per_min [expr round( $words / 275.0 )]
+          $widgets(info,v,rtime) configure -text "$words_per_min minutes"
+          grid $widgets(info,l,rtime) $widgets(info,v,rtime)
+        } else {
+          grid remove $widgets(info,l,rtime) $widgets(info,v,rtime)
+        }
+      } else {
+        grid remove $widgets(info,l,rtime) $widgets(info,v,rtime)
+      }
+
+      # Display MD5 checksum
+      if {[info exists attrs(checksum)]} {
+        if {[set cksum [utils::get_file_checksum $fname]] ne ""} {
+          $widgets(info,v,cksum) configure -text $cksum
+          grid $widgets(info,l,cksum) $widgets(info,v,cksum)
+        } else {
+          grid remove $widgets(info,l,cksum) $widgets(info,v,cksum)
+        }
+      } else {
+        grid remove $widgets(info,l,cksum) $widgets(info,v,cksum)
+      }
+
+      # Display SHA1 hash
+      if {[info exists attrs(sha1)]} {
+        if {[set sha1 [utils::get_file_sha1 $fname]] ne ""} {
+          $widgets(info,v,sha1) configure -text $sha1
+          grid $widgets(info,l,sha1) $widgets(info,v,sha1)
+        } else {
+          grid remove $widgets(info,l,sha1) $widgets(info,v,sha1)
+        }
+      } else {
+        grid remove $widgets(info,l,sha1) $widgets(info,v,sha1)
       }
 
       # Display the modified status, if necessary
