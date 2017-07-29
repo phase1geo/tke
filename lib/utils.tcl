@@ -1033,4 +1033,61 @@ namespace eval utils {
 
   }
 
+  ######################################################################
+  # Returns the given file count information.  The value values for type
+  # are:
+  #  - line  (counts the number of lines in the file)
+  #  - word  (counts the number of words in the file)
+  #  - char  (counts the number of characters in the file)
+  proc get_file_count {fname type} {
+
+    if {[file isfile $fname] && ![is_binary $fname]} {
+
+      # Open the file
+      set rc       [open $fname r]
+      set contents [read $rc]
+      close $rc
+
+      switch $type {
+        line {
+          return [expr [string length $contents] - [string length [string map {\n {}} $contents]]]
+        }
+        word {
+          return [llength [string map {\{ {} \} {} \" {} \[ {} \] {}} $contents]]
+        }
+        char {
+          return [string length $contents]
+        }
+      }
+
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the MD5 checksum value in hexidecimal format.
+  proc get_file_checksum {fname} {
+
+    if {[file isfile $fname]} {
+      return [::md5::md5 -hex -file $fname]
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the SHA-1 hash value for the given filename.
+  proc get_file_sha1 {fname} {
+
+    if {[file isfile $fname]} {
+      return [::sha1::sha1 -hex -file $fname]
+    }
+
+    return ""
+
+  }
+
 }

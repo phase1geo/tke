@@ -58,6 +58,12 @@ namespace eval pref_ui {
     permissions 0
     owner       0
     group       0
+    linecount   0
+    wordcount   0
+    charcount   0
+    readtime    0
+    checksum    0
+    sha1        0
     favorite    0
     version     0
   }

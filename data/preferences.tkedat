@@ -433,6 +433,12 @@
 #  - permissions  (file permissions in the form of rwxrwxrwx (owner, group, global permissions)
 #  - owner        (username of person who owns the file)
 #  - group        (Unix group name of file - not valid on Windows)
+#  - linecount    (Count of number of lines within file)
+#  - wordcount    (Count of number of words within file)
+#  - charcount    (Count of number of chars within file)
+#  - readtime     (Average number of minutes required to read article)
+#  - checksum     (MD5 checksum of file contents)
+#  - sha1         (SHA1 hash of file contents)
 #  - version      (Current version of file within the version control system defined by file)
 #  - favorite     (Specifies if the file is a TKE favorited file)
 
