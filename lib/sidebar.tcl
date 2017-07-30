@@ -191,6 +191,12 @@ namespace eval sidebar {
       -maskfile [file join $::tke_dir lib images right10.bmp] \
       -foreground 2
 
+    theme::register_image sidebar_info_close bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar information panel for closing the panel"} \
+      -file [file join $::tke_dir lib images close.bmp] \
+      -maskfile [file join $::tke_dir lib images close.bmp] \
+      -foreground 2
+
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
 
@@ -216,6 +222,8 @@ namespace eval sidebar {
     bind $widgets(tl) <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl) <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
     bind $widgets(tl) <Motion>                [list sidebar::handle_motion %W %x %y]
+    bind $widgets(tl) <Control-Return>        [list sidebar::handle_control_return_space %W]
+    bind $widgets(tl) <Control-Key-space>     [list sidebar::handle_control_return_space %W]
     bind $widgets(tl) <Return> {
       sidebar::handle_return_space %W
       break
@@ -240,6 +248,7 @@ namespace eval sidebar {
     # Create file info panel
     set widgets(info,f)       [frame $w.if]
     ttk::separator            $w.if.sep1 -orient horizontal
+    set widgets(info,fclose)  [label $w.if.close -image sidebar_info_close]
     set widgets(info,v,image) [label $w.if.preview]
     set widgets(info,f,1)     [frame $w.if.f1]
     set widgets(info,v,name)  [label $w.if.name]
@@ -247,11 +256,14 @@ namespace eval sidebar {
     set widgets(info,f,2)     [frame $w.if.f2]
     set widgets(psep)         [ttk::separator $w.if.sep2 -orient horizontal]
 
+    bind $widgets(info,fclose) <Button-1> [list pack forget $widgets(info,f)]
+
     grid rowconfigure    $w.if 3 -weight 1
     grid columnconfigure $w.if 1 -weight 1
-    grid $w.if.sep1     -row 0  -column 0 -columnspan 2 -sticky ew
+    grid $w.if.sep1     -row 0  -column 0 -columnspan 3 -sticky ew
     grid $w.if.preview  -row 1  -column 0 -rowspan 3 -padx 2 -pady 2
     grid $w.if.name     -row 1  -column 1 -sticky w
+    grid $w.if.close    -row 1  -column 2 -sticky ne -padx 2 -pady 2
     grid $w.if.type     -row 2  -column 1 -sticky w
 
     set row 4
@@ -265,11 +277,11 @@ namespace eval sidebar {
         bind $widgets(info,v,$name) <Button-1> [list sidebar::copy_info $name]
       }
       grid $widgets(info,l,$name) -row $row -column 0 -sticky e
-      grid $widgets(info,v,$name) -row $row -column 1 -sticky w
+      grid $widgets(info,v,$name) -row $row -column 1 -sticky w -columnspan 2
       incr row
     }
 
-    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 2
+    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 3
 
     # Insert any file information plugin information
     insert_info_panel_plugins
@@ -1341,6 +1353,20 @@ namespace eval sidebar {
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Handles a Control-Return or Control-Space event.
+  proc handle_control_return_space {W} {
+
+    variable widgets
+
+    # Get the selected rows
+    set selected [$widgets(tl) selection]
+
+    # Update the information panel
+    update_info_panel $selected
 
   }
 
