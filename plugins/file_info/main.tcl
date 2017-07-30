@@ -13,6 +13,6 @@ namespace eval file_info {
 
 # Register all plugin actions
 api::register file_info {
-  {info_panel "Reverse" file_info::do_reverse}
-  {info_panel "Length"  file_info::do_length}
+  {info_panel "Reverse" 1 file_info::do_reverse}
+  {info_panel "Length"  0 file_info::do_length}
 }

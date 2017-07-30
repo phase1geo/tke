@@ -1427,8 +1427,8 @@ namespace eval plugins {
     set i      0
 
     foreach entry [find_registry_entries "info_panel"] {
-      lassign $entry index title
-      lappend titles $i $title
+      lassign $entry index title copyable
+      lappend titles $i $title $copyable
       incr i
     }
 
@@ -1446,7 +1446,7 @@ namespace eval plugins {
     set i      0
 
     foreach entry [find_registry_entries "info_panel"] {
-      lassign $entry index title value_cmd
+      lassign $entry index title copyable value_cmd
       if {[catch { $registry($index,interp) eval $value_cmd $fname } status]} {
         handle_status_error "get_sidebar_info_values" $index $status
         set status ""
