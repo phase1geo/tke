@@ -347,15 +347,20 @@ namespace eval sidebar {
     set vbgcolor [$widgets(info,v,mod) cget -background]
 
     # Get any file information plugin entries
-    foreach {index title} [plugins::get_sidebar_info_titles] {
+    foreach {index title copy} [plugins::get_sidebar_info_titles] {
 
       # Create the widgets
       set widgets(info,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
       set widgets(info,v,plug$index) [label $w.pv$index -foreground $vfgcolor -background $vbgcolor]
 
+      # If the item is copyable, make it so now
+      if {$copy} {
+        bind $widgets(info,v,plug$index) <Button-1> [list sidebar::copy_info plug$index]
+      }
+
       # Insert them into the grid
       grid $w.pl$index -row $row -column 0 -sticky e
-      grid $w.pv$index -row $row -column 1 -sticky w
+      grid $w.pv$index -row $row -column 1 -sticky w -columnspan 2
       incr row
 
     }
@@ -2278,8 +2283,6 @@ namespace eval sidebar {
 
     variable widgets
     variable show_info
-
-    puts [utils::stacktrace]
 
     if {([llength $selected] == 1) && $show_info} {
 
