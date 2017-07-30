@@ -49,96 +49,97 @@ namespace eval theme {
   ]
 
   array set orig_data {
-    ttk_style,disabled_foreground  {color {#999999} {} {0} {msgcat::mc "Default foreground text color to use for all ttk widgets that are in a disabled state."}}
-    ttk_style,disabled_background  {color {1} {} {0} {msgcat::mc "Default background color to use for all ttk widgets that are in a disabled state."}}
-    ttk_style,background           {color {1} {} {0} {msgcat::mc "Default background color to use for all ttk widgets."}}
-    ttk_style,foreground           {color {2} {} {0} {msgcat::mc "Default foreground text color to use for all ttk widgets."}}
-    ttk_style,active_color         {color {0} {} {0} {msgcat::mc "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."}}
-    ttk_style,dark_color           {color {#cfcdc8} {} {0} {msgcat::mc "Default 'darkcolor' for all ttk widgets."}}
-    ttk_style,pressed_color        {color {#bab5ab} {} {0} {msgcat::mc "Background color to display when a button-like ttk widget is pressed."}}
-    ttk_style,border_color         {color {#9e9a91} {} {0} {msgcat::mc "Default border color for all ttk widgets."}}
-    ttk_style,entry_border         {color {#4a6984} {} {0} {msgcat::mc "Color of ttk entry widget text border when the entry has keyboard focus."}}
-    ttk_style,select_background    {color {#4a6984} {} {0} {msgcat::mc "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."}}
-    ttk_style,select_foreground    {color {#ffffff} {} {0} {msgcat::mc "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."}}
-    ttk_style,relief               {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Specifies the default relief to use when drawing ttk widgets."}}
-    ttk_style,grip_thickness       {{number {2 10}} {5} {} {0} {msgcat::mc "Determines the thickness of the grip area between resizable panes."}}
-    ttk_style,grip_count           {{number {0 20}} {10} {} {0} {msgcat::mc "Determines the number of grips strips to display in the grip area between resizable panes."}}
-    menus,-background              {color {white} {} {0} {msgcat::mc "Background color used in menus."}}
-    menus,-foreground              {color {black} {} {0} {msgcat::mc "Foreground text color used in menus."}}
-    menus,-activebackground        {color {light blue} {} {0} {msgcat::mc "Background color used for the current/active menu item."}}
-    menus,-activeforeground        {color {white} {} {0} {msgcat::mc "Foreground text color used for the current/active menu item."}}
-    menus,-disabledforeground      {color {grey}  {} {0} {msgcat::mc "Foreground text color used for menus item that are disabled."}}
-    menus,-selectcolor             {color {black} {} {0} {msgcat::mc "Foreground color used in menu items with checks or buttons."}}
-    menus,-relief                  {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Menu relief value."}}
-    tabs,-background               {color {1} {} {0} {msgcat::mc "Background color used in the tabbar area."}}
-    tabs,-foreground               {color {2} {} {0} {msgcat::mc "Foreground text/image color used in tabbar and tabs."}}
-    tabs,-activebackground         {color {0} {} {0} {msgcat::mc "Background color used for the current/active tab in the tabbar."}}
-    tabs,-activeforeground         {color {2} {} {0} {msgcat::mc "Foreground text color used for the current/active tab in the tabbar."}}
-    tabs,-inactivebackground       {color {1} {} {0} {msgcat::mc "Background color used for all other tabs that are not the current/active tab in the tabbar."}}
-    tabs,-inactiveforeground       {color {2} {} {0} {msgcat::mc "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."}}
-    tabs,-bordercolor              {color {0} {} {0} {msgcat::mc "Color of space between tabs."}}
-    tabs,-height                   {{number {20 40}} {25} {} {0} {msgcat::mc "Pixel height of the tabbar widget."}}
-    tabs,-relief                   {{relief {flat raised}} {flat} {} {0} {msgcat::mc "Relief used in drawing the tabs."}}
-    text_scrollbar,-background     {color {0} {} {0} {msgcat::mc "Background (trough) color used in the text scrollbars."}}
-    text_scrollbar,-foreground     {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars."}}
-    text_scrollbar,-altforeground  {color {red} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."}}
-    text_scrollbar,-thickness      {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbars when they are active."}}
-    syntax,background              {color {black} {} {0} {msgcat::mc "Background color of the editing buffer."}}
-    syntax,border_highlight        {color {black} {} {0} {msgcat::mc "Color of border drawn around active editing buffer."}}
-    syntax,comments                {color {white} {} {0} {msgcat::mc "Foreground text color to use for comments."}}
-    syntax,cursor                  {color {grey} {} {0} {msgcat::mc "Background color of insertion cursor and background marker colors."}}
-    syntax,difference_add          {color {dark green} {} {0} {msgcat::mc "Background color in difference viewer that shows added lines."}}
-    syntax,difference_sub          {color {dark red} {} {0} {msgcat::mc "Background color in difference viewer that shows deleted lines."}}
-    syntax,foreground              {color {white} {} {0} {msgcat::mc "Default color for non-syntax highlighted text."}}
-    syntax,highlighter             {color {yellow} {} {0} {msgcat::mc "Background color used in highlighted text."}}
-    syntax,keywords                {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific keywords."}}
-    syntax,line_number             {color {grey} {} {0} {msgcat::mc "Foreground text color to use for displaying line numbers."}}
-    syntax,meta                    {color {grey} {} {0} {msgcat::mc "Foreground text color to use for meta syntax."}}
-    syntax,miscellaneous1          {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous1 labeled text."}}
-    syntax,miscellaneous2          {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous2 labeled text."}}
-    syntax,miscellaneous3          {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous3 labeled text."}}
-    syntax,numbers                 {color {white} {} {0} {msgcat::mc "Foreground text color to use for displaying numbers."}}
-    syntax,precompile              {color {white} {} {0} {msgcat::mc "Foreground text color to use for precompiler syntax."}}
-    syntax,punctuation             {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific punctuation."}}
-    syntax,select_background       {color {blue} {} {0} {msgcat::mc "Background color to use for selected text."}}
-    syntax,select_foreground       {color {white} {} {0} {msgcat::mc "Foreground text color to use for selected text."}}
-    syntax,strings                 {color {grey} {} {0} {msgcat::mc "Foreground text color for strings."}}
-    syntax,warning_width           {color {grey} {} {0} {msgcat::mc "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."}}
-    syntax,embedded                {color {#141414} {} {0} {msgcat::mc "Background color displayed in embedded language code."}}
-    syntax,attention               {color {red} {} {0} {msgcat::mc "Background color to use for displaying character information that requires the user's attention."}}
-    syntax,search_background       {color {yellow} {} {0} {msgcat::mc "Background color for matching search text"}}
-    syntax,search_foreground       {color {black} {} {0} {msgcat::mc "Foreground color for matching search text"}}
-    syntax,marker                  {color {orange} {} {0} {msgcat::mc "Background color for markers in the line gutter and scrollbar"}}
-    syntax,closed_fold             {color {orange} {} {0} {msgcat::mc "Color to use for highlighting closed folds in the line number gutter"}}
-    sidebar,-background            {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
-    sidebar,-foreground            {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
-    sidebar,-selectbackground      {color {1} {} {0} {msgcat::mc "Background color for all sidebar items that are selected."}}
-    sidebar,-selectforeground      {color {2} {} {0} {msgcat::mc "Text color for all sidebar items that are selected."}}
-    sidebar,-highlightbackground   {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar does not have the focus."}}
-    sidebar,-highlightcolor        {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar has the focus."}}
-    sidebar,-dropcolor             {color {green} {} {0} {msgcat::mc "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"}}
-    sidebar,-highlightthickness    {{number {1 5}} {1} {} {0} {msgcat::mc "Specifies the pixel thickness of the highlight line."}}
-    sidebar,-relief                {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Relief value of the sidebar area."}}
-    sidebar_scrollbar,-background  {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
-    sidebar_scrollbar,-foreground  {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar."}}
-    sidebar_scrollbar,-thickness   {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbar when it is active."}}
-    sidebar_info,-background       {color {2} {} {0} {msgcat::mc "Background color to use for the file information panel."}}
-    sidebar_info,-title_foreground {color {1} {} {0} {msgcat::mc "Foreground color to use for title text in the information panel."}}
-    sidebar_info,-value_foreground {color {1} {} {0} {msgcat::mc "Foreground color to use for value text in the information panel."}}
-    launcher,-background           {color {white} {} {0} {msgcat::mc "Specifies background color of command launcher entry and list"}}
-    launcher,-foreground           {color {black} {} {0} {msgcat::mc "Specifies foreground color of command launcher entry and list"}}
-    launcher,-selectbackground     {color {light blue} {} {0} {msgcat::mc "Background color of selection in command launcher"}}
-    launcher,-selectforeground     {color {black} {} {0} {msgcat::mc "Foreground color of selection in command launcher"}}
-    launcher,-listbackground       {color {white} {} {0} {msgcat::mc "Background color of list items when not selected"}}
-    launcher,-listforeground       {color {black} {} {0} {msgcat::mc "Foreground color of list items when not selected"}}
-    launcher,-textbackground       {color {0} {} {0} {msgcat::mc "Background color of textual display in command launcher"}}
-    launcher,-textforeground       {color {2} {} {0} {msgcat::mc "Foreground color of textual display in command launcher"}}
-    launcher,-bordercolor          {color {grey90} {} {0} {msgcat::mc "Color of border around command launcher"}}
-    launcher,-borderwidth          {{number {0 20}} {5} {} {0} {msgcat::mc "Amount of border to display around command launcher in pixels"}}
-    launcher,-spacercolor          {color {white} {} {0} {msgcat::mc "Color of the spacer between the command launcher entry field and the result list"}}
-    launcher,-spacerheight         {{number {0 20}} {5} {} {0} {msgcat::mc "Pixel height of the spacer between the command launcher entry field and the result list"}}
-    launcher,-scrollcolor          {color {grey90} {} {0} {msgcat::mc "Scrollbar slider color used in the command launcher results list"}}
-    launcher,-scrollwidth          {{number {5 20}} {10} {} {0} {msgcat::mc "Maximum thickness of the command launcher scrollbar when it is active."}}
+    ttk_style,disabled_foreground   {color {#999999} {} {0} {msgcat::mc "Default foreground text color to use for all ttk widgets that are in a disabled state."}}
+    ttk_style,disabled_background   {color {1} {} {0} {msgcat::mc "Default background color to use for all ttk widgets that are in a disabled state."}}
+    ttk_style,background            {color {1} {} {0} {msgcat::mc "Default background color to use for all ttk widgets."}}
+    ttk_style,foreground            {color {2} {} {0} {msgcat::mc "Default foreground text color to use for all ttk widgets."}}
+    ttk_style,active_color          {color {0} {} {0} {msgcat::mc "Default background color to use for all ttk widgets when the mouse cursor hovers over the widget."}}
+    ttk_style,dark_color            {color {#cfcdc8} {} {0} {msgcat::mc "Default 'darkcolor' for all ttk widgets."}}
+    ttk_style,pressed_color         {color {#bab5ab} {} {0} {msgcat::mc "Background color to display when a button-like ttk widget is pressed."}}
+    ttk_style,border_color          {color {#9e9a91} {} {0} {msgcat::mc "Default border color for all ttk widgets."}}
+    ttk_style,entry_border          {color {#4a6984} {} {0} {msgcat::mc "Color of ttk entry widget text border when the entry has keyboard focus."}}
+    ttk_style,select_background     {color {#4a6984} {} {0} {msgcat::mc "Specifies the default background color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."}}
+    ttk_style,select_foreground     {color {#ffffff} {} {0} {msgcat::mc "Specifies the default foreground text color to use for text that is selected in a standard ttk widget (this does not include the editing buffer)."}}
+    ttk_style,relief                {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Specifies the default relief to use when drawing ttk widgets."}}
+    ttk_style,grip_thickness        {{number {2 10}} {5} {} {0} {msgcat::mc "Determines the thickness of the grip area between resizable panes."}}
+    ttk_style,grip_count            {{number {0 20}} {10} {} {0} {msgcat::mc "Determines the number of grips strips to display in the grip area between resizable panes."}}
+    menus,-background               {color {white} {} {0} {msgcat::mc "Background color used in menus."}}
+    menus,-foreground               {color {black} {} {0} {msgcat::mc "Foreground text color used in menus."}}
+    menus,-activebackground         {color {light blue} {} {0} {msgcat::mc "Background color used for the current/active menu item."}}
+    menus,-activeforeground         {color {white} {} {0} {msgcat::mc "Foreground text color used for the current/active menu item."}}
+    menus,-disabledforeground       {color {grey}  {} {0} {msgcat::mc "Foreground text color used for menus item that are disabled."}}
+    menus,-selectcolor              {color {black} {} {0} {msgcat::mc "Foreground color used in menu items with checks or buttons."}}
+    menus,-relief                   {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Menu relief value."}}
+    tabs,-background                {color {1} {} {0} {msgcat::mc "Background color used in the tabbar area."}}
+    tabs,-foreground                {color {2} {} {0} {msgcat::mc "Foreground text/image color used in tabbar and tabs."}}
+    tabs,-activebackground          {color {0} {} {0} {msgcat::mc "Background color used for the current/active tab in the tabbar."}}
+    tabs,-activeforeground          {color {2} {} {0} {msgcat::mc "Foreground text color used for the current/active tab in the tabbar."}}
+    tabs,-inactivebackground        {color {1} {} {0} {msgcat::mc "Background color used for all other tabs that are not the current/active tab in the tabbar."}}
+    tabs,-inactiveforeground        {color {2} {} {0} {msgcat::mc "Foreground text color used for all other tabs that are not the current/active tab in the tabbar."}}
+    tabs,-bordercolor               {color {0} {} {0} {msgcat::mc "Color of space between tabs."}}
+    tabs,-height                    {{number {20 40}} {25} {} {0} {msgcat::mc "Pixel height of the tabbar widget."}}
+    tabs,-relief                    {{relief {flat raised}} {flat} {} {0} {msgcat::mc "Relief used in drawing the tabs."}}
+    text_scrollbar,-background      {color {0} {} {0} {msgcat::mc "Background (trough) color used in the text scrollbars."}}
+    text_scrollbar,-foreground      {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars."}}
+    text_scrollbar,-altforeground   {color {red} {} {0} {msgcat::mc "Foreground (slider) color used in the text scrollbars when pane synchronization is enabled."}}
+    text_scrollbar,-thickness       {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbars when they are active."}}
+    syntax,background               {color {black} {} {0} {msgcat::mc "Background color of the editing buffer."}}
+    syntax,border_highlight         {color {black} {} {0} {msgcat::mc "Color of border drawn around active editing buffer."}}
+    syntax,comments                 {color {white} {} {0} {msgcat::mc "Foreground text color to use for comments."}}
+    syntax,cursor                   {color {grey} {} {0} {msgcat::mc "Background color of insertion cursor and background marker colors."}}
+    syntax,difference_add           {color {dark green} {} {0} {msgcat::mc "Background color in difference viewer that shows added lines."}}
+    syntax,difference_sub           {color {dark red} {} {0} {msgcat::mc "Background color in difference viewer that shows deleted lines."}}
+    syntax,foreground               {color {white} {} {0} {msgcat::mc "Default color for non-syntax highlighted text."}}
+    syntax,highlighter              {color {yellow} {} {0} {msgcat::mc "Background color used in highlighted text."}}
+    syntax,keywords                 {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific keywords."}}
+    syntax,line_number              {color {grey} {} {0} {msgcat::mc "Foreground text color to use for displaying line numbers."}}
+    syntax,meta                     {color {grey} {} {0} {msgcat::mc "Foreground text color to use for meta syntax."}}
+    syntax,miscellaneous1           {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous1 labeled text."}}
+    syntax,miscellaneous2           {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous2 labeled text."}}
+    syntax,miscellaneous3           {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous3 labeled text."}}
+    syntax,numbers                  {color {white} {} {0} {msgcat::mc "Foreground text color to use for displaying numbers."}}
+    syntax,precompile               {color {white} {} {0} {msgcat::mc "Foreground text color to use for precompiler syntax."}}
+    syntax,punctuation              {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific punctuation."}}
+    syntax,select_background        {color {blue} {} {0} {msgcat::mc "Background color to use for selected text."}}
+    syntax,select_foreground        {color {white} {} {0} {msgcat::mc "Foreground text color to use for selected text."}}
+    syntax,strings                  {color {grey} {} {0} {msgcat::mc "Foreground text color for strings."}}
+    syntax,warning_width            {color {grey} {} {0} {msgcat::mc "Color used to draw the warning width line in the editing buffer (as well as the line separating the gutter from the editing buffer)."}}
+    syntax,embedded                 {color {#141414} {} {0} {msgcat::mc "Background color displayed in embedded language code."}}
+    syntax,attention                {color {red} {} {0} {msgcat::mc "Background color to use for displaying character information that requires the user's attention."}}
+    syntax,search_background        {color {yellow} {} {0} {msgcat::mc "Background color for matching search text"}}
+    syntax,search_foreground        {color {black} {} {0} {msgcat::mc "Foreground color for matching search text"}}
+    syntax,marker                   {color {orange} {} {0} {msgcat::mc "Background color for markers in the line gutter and scrollbar"}}
+    syntax,closed_fold              {color {orange} {} {0} {msgcat::mc "Color to use for highlighting closed folds in the line number gutter"}}
+    sidebar,-background             {color {2} {} {0} {msgcat::mc "Background color for all sidebar items that are not selected."}}
+    sidebar,-foreground             {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
+    sidebar,-selectbackground       {color {1} {} {0} {msgcat::mc "Background color for all sidebar items that are selected."}}
+    sidebar,-selectforeground       {color {2} {} {0} {msgcat::mc "Text color for all sidebar items that are selected."}}
+    sidebar,-highlightbackground    {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar does not have the focus."}}
+    sidebar,-highlightcolor         {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar has the focus."}}
+    sidebar,-dropcolor              {color {green} {} {0} {msgcat::mc "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"}}
+    sidebar,-highlightthickness     {{number {1 5}} {1} {} {0} {msgcat::mc "Specifies the pixel thickness of the highlight line."}}
+    sidebar,-relief                 {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Relief value of the sidebar area."}}
+    sidebar_scrollbar,-background   {color {2} {} {0} {msgcat::mc "Background (trough) color used in the sidebar scrollbar."}}
+    sidebar_scrollbar,-foreground   {color {1} {} {0} {msgcat::mc "Foreground (slider) color used in the sidebar scrollbar."}}
+    sidebar_scrollbar,-thickness    {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbar when it is active."}}
+    sidebar_info,-background        {color {2} {} {0} {msgcat::mc "Background color to use for the file information panel."}}
+    sidebar_info,-active_background {color {0} {} {0} {msgcat::mc "Background color to use for active information values to indicate they are clickable."}}
+    sidebar_info,-title_foreground  {color {1} {} {0} {msgcat::mc "Foreground color to use for title text in the information panel."}}
+    sidebar_info,-value_foreground  {color {1} {} {0} {msgcat::mc "Foreground color to use for value text in the information panel."}}
+    launcher,-background            {color {white} {} {0} {msgcat::mc "Specifies background color of command launcher entry and list"}}
+    launcher,-foreground            {color {black} {} {0} {msgcat::mc "Specifies foreground color of command launcher entry and list"}}
+    launcher,-selectbackground      {color {light blue} {} {0} {msgcat::mc "Background color of selection in command launcher"}}
+    launcher,-selectforeground      {color {black} {} {0} {msgcat::mc "Foreground color of selection in command launcher"}}
+    launcher,-listbackground        {color {white} {} {0} {msgcat::mc "Background color of list items when not selected"}}
+    launcher,-listforeground        {color {black} {} {0} {msgcat::mc "Foreground color of list items when not selected"}}
+    launcher,-textbackground        {color {0} {} {0} {msgcat::mc "Background color of textual display in command launcher"}}
+    launcher,-textforeground        {color {2} {} {0} {msgcat::mc "Foreground color of textual display in command launcher"}}
+    launcher,-bordercolor           {color {grey90} {} {0} {msgcat::mc "Color of border around command launcher"}}
+    launcher,-borderwidth           {{number {0 20}} {5} {} {0} {msgcat::mc "Amount of border to display around command launcher in pixels"}}
+    launcher,-spacercolor           {color {white} {} {0} {msgcat::mc "Color of the spacer between the command launcher entry field and the result list"}}
+    launcher,-spacerheight          {{number {0 20}} {5} {} {0} {msgcat::mc "Pixel height of the spacer between the command launcher entry field and the result list"}}
+    launcher,-scrollcolor           {color {grey90} {} {0} {msgcat::mc "Scrollbar slider color used in the command launcher results list"}}
+    launcher,-scrollwidth           {{number {5 20}} {10} {} {0} {msgcat::mc "Maximum thickness of the command launcher scrollbar when it is active."}}
   }
 
   array set tm_scope_map {
@@ -1051,7 +1052,7 @@ namespace eval theme {
     array set opts     [get_category_options sidebar_info 1]
     array set ttk_opts [get_category_options ttk_style 1]
 
-    sidebar::update_theme $opts(-title_foreground) $opts(-value_foreground) $opts(-background) $ttk_opts(background)
+    sidebar::update_theme $opts(-title_foreground) $opts(-value_foreground) $opts(-background) $ttk_opts(background) $opts(-active_background)
 
   }
 
