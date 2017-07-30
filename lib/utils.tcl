@@ -1067,23 +1067,21 @@ namespace eval utils {
   }
 
   ######################################################################
-  # Returns the MD5 checksum value in hexidecimal format.
-  proc get_file_checksum {fname} {
+  # Returns the specified checksum value in hexidecimal format.  Supported
+  # values for type include:
+  #  - md5
+  #  - sha1
+  #  - sha224
+  #  - sha256
+  proc get_file_checksum {fname type} {
 
     if {[file isfile $fname]} {
-      return [::md5::md5 -hex -file $fname]
-    }
-
-    return ""
-
-  }
-
-  ######################################################################
-  # Returns the SHA-1 hash value for the given filename.
-  proc get_file_sha1 {fname} {
-
-    if {[file isfile $fname]} {
-      return [::sha1::sha1 -hex -file $fname]
+      switch $type {
+        md5    { return [::md5::md5 -hex -file $fname] }
+        sha1   { return [::sha1::sha1 -hex -file $fname] }
+        sha224 { return [::sha2::sha224 -hex -file $fname] }
+        sha256 { return [::sha2::sha256 -hex -file $fname] }
+      }
     }
 
     return ""

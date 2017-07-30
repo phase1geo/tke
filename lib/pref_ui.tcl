@@ -62,8 +62,10 @@ namespace eval pref_ui {
     wordcount   0
     charcount   0
     readtime    0
-    checksum    0
+    md5         0
     sha1        0
+    sha224      0
+    sha256      0
     favorite    0
     version     0
   }
@@ -1977,13 +1979,16 @@ namespace eval pref_ui {
 
     register $w.mcf.sr $wstr Editor/AutoMatchChars
 
+    grid columnconfigure $w.mcf 1 -weight 1
+    grid columnconfigure $w.mcf 3 -weight 1
+    grid columnconfigure $w.mcf 5 -weight 1
     grid $w.mcf.sr -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.mcf.cu -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.mcf.an -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.mcf.pa -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.mcf.dq -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.mcf.sq -row 0 -column 2 -sticky news -padx 2 -pady 2
-    grid $w.mcf.bt -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid $w.mcf.cu -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid $w.mcf.an -row 0 -column 4 -sticky news -padx 2 -pady 2
+    grid $w.mcf.pa -row 0 -column 6 -sticky news -padx 2 -pady 2
+    grid $w.mcf.dq -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.mcf.sq -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid $w.mcf.bt -row 1 -column 4 -sticky news -padx 2 -pady 2
 
     ttk::frame $w.cf
     make_cb $w.cf.vm   [msgcat::mc "Enable Vim Mode"]                              Editor/VimMode
@@ -2634,12 +2639,18 @@ namespace eval pref_ui {
 
     ttk::labelframe $c.if -text [set wstr [msgcat::mc "Displayed Information"]]
 
+    grid columnconfigure $c.if 1 -weight 1
+    grid columnconfigure $c.if 3 -weight 1
+    grid columnconfigure $c.if 5 -weight 1
+
     # Pack the colorizer frame
     set attrs $prefs(Sidebar/InfoPanelAttributes)
     set i     0
     foreach attr [lsort [array names attributes]] {
       set attributes($attr) [expr {[lsearch $attrs $attr] != -1}]
-      pack [ttk::checkbutton $c.if.$attr -text " $attr" -variable pref_ui::attributes($attr) -command [list pref_ui::set_attributes]] -anchor w -padx 2 -pady 2
+      set row [expr $i % 4]
+      set col [expr ($i / 4) * 2]
+      grid [ttk::checkbutton $c.if.$attr -text " $attr" -variable pref_ui::attributes($attr) -command [list pref_ui::set_attributes]] -row $row -column $col -sticky news -padx 2 -pady 2
       incr i
     }
 

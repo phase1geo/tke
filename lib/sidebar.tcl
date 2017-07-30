@@ -212,6 +212,7 @@ namespace eval sidebar {
     bind $widgets(tl) <<TreeviewOpen>>        [list sidebar::expand_directory]
     bind $widgets(tl) <<TreeviewClose>>       [list sidebar::collapse]
     bind $widgets(tl) <Button-1>              [list sidebar::handle_left_click %W %x %y]
+    bind $widgets(tl) <Control-Button-1>      [list sidebar::handle_control_left_click %W %x %y]
     bind $widgets(tl) <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl) <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
     bind $widgets(tl) <Motion>                [list sidebar::handle_motion %W %x %y]
@@ -244,22 +245,6 @@ namespace eval sidebar {
     set widgets(info,v,name)  [label $w.if.name]
     set widgets(info,v,type)  [label $w.if.type]
     set widgets(info,f,2)     [frame $w.if.f2]
-    set widgets(info,l,mod)   [label $w.if.l1 -text [format "%s:" [msgcat::mc "Modified"]]]
-    set widgets(info,v,mod)   [label $w.if.modified]
-    set widgets(info,l,attrs) [label $w.if.l2 -text [format "%s:" [msgcat::mc "Attributes"]]]
-    set widgets(info,v,attrs) [label $w.if.attrs]
-    set widgets(info,l,cksum) [label $w.if.l3 -text [format "%s:" [msgcat::mc "Checksum"]]]
-    set widgets(info,v,cksum) [label $w.if.cksum]
-    set widgets(info,l,sha1)  [label $w.if.l4 -text [format "%s:" [msgcat::mc "SHA1"]]]
-    set widgets(info,v,sha1)  [label $w.if.sha1]
-    set widgets(info,l,cnts)  [label $w.if.l5 -text [format "%s:" [msgcat::mc "Counts"]]]
-    set widgets(info,v,cnts)  [label $w.if.counts]
-    set widgets(info,l,rtime) [label $w.if.l6 -text [format "%s:" [msgcat::mc "Read Time"]]]
-    set widgets(info,v,rtime) [label $w.if.rtime]
-    set widgets(info,l,ver)   [label $w.if.l7 -text [format "%s:" [msgcat::mc "Version"]]]
-    set widgets(info,v,ver)   [label $w.if.version]
-    set widgets(info,l,fav)   [label $w.if.l8 -text [format "%s:" [msgcat::mc "Favorite"]]]
-    set widgets(info,v,fav)   [label $w.if.favorite]
     set widgets(psep)         [ttk::separator $w.if.sep2 -orient horizontal]
 
     grid rowconfigure    $w.if 3 -weight 1
@@ -268,23 +253,23 @@ namespace eval sidebar {
     grid $w.if.preview  -row 1  -column 0 -rowspan 3 -padx 2 -pady 2
     grid $w.if.name     -row 1  -column 1 -sticky w
     grid $w.if.type     -row 2  -column 1 -sticky w
-    grid $w.if.l1       -row 4  -column 0 -sticky e
-    grid $w.if.modified -row 4  -column 1 -sticky w
-    grid $w.if.l2       -row 5  -column 0 -sticky e
-    grid $w.if.attrs    -row 5  -column 1 -sticky w
-    grid $w.if.l3       -row 6  -column 0 -sticky e
-    grid $w.if.cksum    -row 6  -column 1 -sticky w
-    grid $w.if.l4       -row 7  -column 0 -sticky e
-    grid $w.if.sha1     -row 7  -column 1 -sticky w
-    grid $w.if.l5       -row 8  -column 0 -sticky e
-    grid $w.if.counts   -row 8  -column 1 -sticky w
-    grid $w.if.l6       -row 9  -column 0 -sticky e
-    grid $w.if.rtime    -row 9  -column 1 -sticky w
-    grid $w.if.l7       -row 10 -column 0 -sticky e
-    grid $w.if.version  -row 10 -column 1 -sticky w
-    grid $w.if.l8       -row 11 -column 0 -sticky e
-    grid $w.if.favorite -row 11 -column 1 -sticky w
-    grid $w.if.sep2     -row 12 -column 0 -sticky ew -columnspan 2
+
+    set row 4
+    foreach {lbl name copy} [list [msgcat::mc "Modified"] mod 1 [msgcat::mc "Attributes"] attrs 0 \
+                                  "MD5" md5 1 "SHA-1" sha1 1 "SHA-224" sha224 1 "SHA-256" sha256 1 \
+                                  [msgcat::mc "Counts"] cnts 0 [msgcat::mc "Read Time"] rtime 0 \
+                                  [msgcat::mc "Version"] ver 1 [msgcat::mc "Favorite"] fav 0] {
+      set widgets(info,l,$name) [label $w.if.l$name -text [format "%s:" $lbl]]
+      set widgets(info,v,$name) [label $w.if.v$name]
+      if {$copy} {
+        bind $widgets(info,v,$name) <Button-1> [list sidebar::copy_info $name]
+      }
+      grid $widgets(info,l,$name) -row $row -column 0 -sticky e
+      grid $widgets(info,v,$name) -row $row -column 1 -sticky w
+      incr row
+    }
+
+    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 2
 
     # Insert any file information plugin information
     insert_info_panel_plugins
@@ -1234,9 +1219,6 @@ namespace eval sidebar {
       # Colorize the selected items to be selected
       $widgets(tl) tag add sel [$widgets(tl) selection]
 
-      # Update the information panel
-      set select_id [after 50 "sidebar::update_info_panel [list $selected]; set sidebar::select_id -1"]
-
     }
 
   }
@@ -1257,6 +1239,25 @@ namespace eval sidebar {
       gui::get_info $fileindex fileindex tabbar tab
       gui::set_current_tab $tabbar $tab
     }
+
+  }
+
+  ######################################################################
+  # Handles a control left click on a sidebar item, displaying the information
+  # panel.
+  proc handle_control_left_click {W x y} {
+
+    variable widgets
+
+    if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
+      return
+    }
+
+    # Select the file at the given row
+    # TBD
+
+    # Update the information panel
+    update_info_panel $row
 
   }
 
@@ -2251,6 +2252,8 @@ namespace eval sidebar {
     variable widgets
     variable show_info
 
+    puts [utils::stacktrace]
+
     if {([llength $selected] == 1) && $show_info} {
 
       set fname  [$widgets(tl) set [lindex $selected 0] name]
@@ -2364,28 +2367,18 @@ namespace eval sidebar {
         grid remove $widgets(info,l,rtime) $widgets(info,v,rtime)
       }
 
-      # Display MD5 checksum
-      if {[info exists attrs(checksum)]} {
-        if {[set cksum [utils::get_file_checksum $fname]] ne ""} {
-          $widgets(info,v,cksum) configure -text $cksum
-          grid $widgets(info,l,cksum) $widgets(info,v,cksum)
+      # Display MD5, SHA1, SHA224 and SHA256 checksum values
+      foreach type [list md5 sha1 sha224 sha256] {
+        if {[info exists attrs($type)]} {
+          if {[set value [utils::get_file_checksum $fname $type]] ne ""} {
+            $widgets(info,v,$type) configure -text $value
+            grid $widgets(info,l,$type) $widgets(info,v,$type)
+          } else {
+            grid remove $widgets(info,l,$type) $widgets(info,v,$type)
+          }
         } else {
-          grid remove $widgets(info,l,cksum) $widgets(info,v,cksum)
+          grid remove $widgets(info,l,$type) $widgets(info,v,$type)
         }
-      } else {
-        grid remove $widgets(info,l,cksum) $widgets(info,v,cksum)
-      }
-
-      # Display SHA1 hash
-      if {[info exists attrs(sha1)]} {
-        if {[set sha1 [utils::get_file_sha1 $fname]] ne ""} {
-          $widgets(info,v,sha1) configure -text $sha1
-          grid $widgets(info,l,sha1) $widgets(info,v,sha1)
-        } else {
-          grid remove $widgets(info,l,sha1) $widgets(info,v,sha1)
-        }
-      } else {
-        grid remove $widgets(info,l,sha1) $widgets(info,v,sha1)
       }
 
       # Display the modified status, if necessary
@@ -2398,7 +2391,7 @@ namespace eval sidebar {
 
       # Display the version, if necessary
       if {[info exists attrs(version)] && $isfile} {
-        set cvs     [diff::get_default_cvs $fname]
+        set cvs [diff::get_default_cvs $fname]
         if {[set version [diff::${cvs}::get_current_version $fname]] ne ""} {
           $widgets(info,v,ver) configure -text $version
           grid $widgets(info,l,ver) $widgets(info,v,ver)
@@ -2472,8 +2465,26 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Copies the information from the given label to the clipboard.
+  proc copy_info {name} {
+
+    variable widgets
+
+    # Copy the value to the clipboard
+    clipboard clear
+    clipboard append [$widgets(info,v,$name) cget -text]
+
+    # Get the information label name
+    set name [string range [$widgets(info,l,$name) cget -text] 0 end-1]
+
+    # Output the copy status
+    gui::set_info_message [format "%s %s" $name [msgcat::mc "value copied to clipboard"]]
+
+  }
+
+  ######################################################################
   # Update the information panel widgets with the given theme information.
-  proc update_theme {title_fgcolor value_fgcolor bgcolor default_bgcolor} {
+  proc update_theme {title_fgcolor value_fgcolor bgcolor default_bgcolor active_bgcolor} {
 
     variable widgets
 
@@ -2490,6 +2501,10 @@ namespace eval sidebar {
     # Colorize the value labels
     foreach w [array names widgets info,v,*] {
       $widgets($w) configure -foreground $value_fgcolor -background $bgcolor
+      if {[bind $widgets($w) <Button-1>] ne ""} {
+        bind $widgets($w) <Enter> [list %W configure -background $active_bgcolor]
+        bind $widgets($w) <Leave> [list %W configure -background $bgcolor]
+      }
     }
 
     # If the background color of the information frame does not match the default
