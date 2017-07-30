@@ -224,6 +224,7 @@ namespace eval sidebar {
     bind $widgets(tl) <Motion>                [list sidebar::handle_motion %W %x %y]
     bind $widgets(tl) <Control-Return>        [list sidebar::handle_control_return_space %W]
     bind $widgets(tl) <Control-Key-space>     [list sidebar::handle_control_return_space %W]
+    bind $widgets(tl) <Escape>                [list pack forget $w.if]
     bind $widgets(tl) <Return> {
       sidebar::handle_return_space %W
       break
@@ -1449,7 +1450,7 @@ namespace eval sidebar {
     set selected [$widgets(tl) selection]
 
     if {$show_info && ([llength $selected] == 1) && [file isfile [$widgets(tl) set [lindex $selected 0] name]]} {
-      pack $widgets(info,f) -fill both
+      # pack $widgets(info,f) -fill both
     }
 
   }
@@ -2446,11 +2447,11 @@ namespace eval sidebar {
         }
       }
 
-      # Make sure that the sidebar item can be seen
-      $widgets(tl) see $selected
-
       # Pack the information panel
       pack $widgets(info,f) -fill both
+
+      # Make sure that the sidebar item can be seen
+      $widgets(tl) see $selected
 
     } else {
 
