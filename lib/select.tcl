@@ -233,7 +233,6 @@ namespace eval select {
         set pos   $positions($data($txtt,type))
         set range [$txtt tag ranges select_sel]
         set index [expr $data($txtt,anchorend) ^ 1]
-        puts "motion: $motion, pos: $pos, range: $range, index: $index"
         if {($motion eq "prev") && ($index == 1) && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
         }
@@ -267,8 +266,6 @@ namespace eval select {
         # TBD
       }
     }
-
-    puts "motion: $motion, type: $data($txtt,type), range: $range"
 
     # Set the tag
     if {[$txtt compare [lindex $range 0] < [lindex $range 1]]} {
@@ -442,7 +439,7 @@ namespace eval select {
     # Set the insertion cursor
     $txtt mark set insert $data($txtt,anchor)
 
-    return 1
+    return 0
 
   }
 
