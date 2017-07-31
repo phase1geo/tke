@@ -2537,6 +2537,10 @@ namespace eval sidebar {
       }
     }
 
+    # Colorize the close button background using the active color
+    bind $widgets(info,fclose) <Enter> [list %W configure -background $active_bgcolor]
+    bind $widgets(info,fclose) <Leave> [list %W configure -background $bgcolor]
+
     # If the background color of the information frame does not match the default
     # background color, remove the final separator to cleanup the UI appearance;
     # otherwise, make sure that it is there.
