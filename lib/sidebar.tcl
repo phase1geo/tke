@@ -32,6 +32,7 @@ namespace eval sidebar {
   variable jump_str         ""
   variable jump_after_id    ""
   variable show_info        1
+  variable last_info        ""
   variable select_id        ""
 
   array set widgets {}
@@ -197,6 +198,12 @@ namespace eval sidebar {
       -maskfile [file join $::tke_dir lib images close.bmp] \
       -foreground 2
 
+    theme::register_image sidebar_info_refresh bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar information panel for refreshing content"} \
+      -file [file join $::tke_dir lib images refresh.bmp] \
+      -maskfile [file join $::tke_dir lib images refresh.bmp] \
+      -foreground 2
+
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
 
@@ -247,25 +254,33 @@ namespace eval sidebar {
     image create bitmap bitmap_preview
 
     # Create file info panel
-    set widgets(info,f)       [frame $w.if]
-    ttk::separator            $w.if.sep1 -orient horizontal
-    set widgets(info,fclose)  [label $w.if.close -image sidebar_info_close]
-    set widgets(info,v,image) [label $w.if.preview]
-    set widgets(info,f,1)     [frame $w.if.f1]
-    set widgets(info,v,name)  [label $w.if.name]
-    set widgets(info,v,type)  [label $w.if.type]
-    set widgets(info,f,2)     [frame $w.if.f2]
-    set widgets(psep)         [ttk::separator $w.if.sep2 -orient horizontal]
+    set widgets(info,f)        [frame $w.if -class info_panel]
+    ttk::separator             $w.if.sep1 -orient horizontal
+    set widgets(info,frefresh) [label $w.if.refresh -image sidebar_info_refresh]
+    set widgets(info,fclose)   [label $w.if.close -image sidebar_info_close]
+    set widgets(info,v,image)  [label $w.if.preview]
+    set widgets(info,f,1)      [frame $w.if.f1]
+    set widgets(info,v,name)   [label $w.if.name]
+    set widgets(info,v,type)   [label $w.if.type]
+    set widgets(info,f,2)      [frame $w.if.f2]
+    set widgets(psep)          [ttk::separator $w.if.sep2 -orient horizontal]
 
-    bind $widgets(info,fclose) <Button-1> [list pack forget $widgets(info,f)]
+    bind $widgets(info,frefresh) <Button-1> [list sidebar::update_info_panel]
+    bind $widgets(info,fclose)   <Button-1> [list pack forget $widgets(info,f)]
+    bind info_panel              <Enter>    [list grid $w.if.refresh $w.if.close]
+    bind info_panel              <Leave>    [list grid remove $w.if.refresh $w.if.close]
+    bind info_panel              <Button-1> [list $widgets(tl) see $sidebar::last_info]
 
     grid rowconfigure    $w.if 3 -weight 1
     grid columnconfigure $w.if 1 -weight 1
-    grid $w.if.sep1     -row 0  -column 0 -columnspan 3 -sticky ew
+    grid $w.if.sep1     -row 0  -column 0 -columnspan 4 -sticky ew
     grid $w.if.preview  -row 1  -column 0 -rowspan 3 -padx 2 -pady 2
     grid $w.if.name     -row 1  -column 1 -sticky w
-    grid $w.if.close    -row 1  -column 2 -sticky ne -padx 2 -pady 2
+    grid $w.if.refresh  -row 1  -column 2 -sticky ne -padx 2 -pady 2
+    grid $w.if.close    -row 1  -column 3 -sticky ne -padx 2 -pady 2
     grid $w.if.type     -row 2  -column 1 -sticky w
+
+    grid remove $w.if.refresh $w.if.close
 
     set row 4
     foreach {lbl name copy} [list [msgcat::mc "Modified"] mod 1 [msgcat::mc "Attributes"] attrs 0 \
@@ -278,11 +293,11 @@ namespace eval sidebar {
         bind $widgets(info,v,$name) <Button-1> [list sidebar::copy_info $name]
       }
       grid $widgets(info,l,$name) -row $row -column 0 -sticky e
-      grid $widgets(info,v,$name) -row $row -column 1 -sticky w -columnspan 2
+      grid $widgets(info,v,$name) -row $row -column 1 -sticky w -columnspan 3
       incr row
     }
 
-    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 3
+    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 4
 
     # Insert any file information plugin information
     insert_info_panel_plugins
@@ -360,7 +375,7 @@ namespace eval sidebar {
 
       # Insert them into the grid
       grid $w.pl$index -row $row -column 0 -sticky e
-      grid $w.pv$index -row $row -column 1 -sticky w -columnspan 2
+      grid $w.pv$index -row $row -column 1 -sticky w -columnspan 3
       incr row
 
     }
@@ -1849,7 +1864,7 @@ namespace eval sidebar {
     $widgets(tl) delete $rows
 
     # Update the information panel
-    update_info_panel [$widgets(tl) selection]
+    update_info_panel
 
   }
 
@@ -1872,7 +1887,7 @@ namespace eval sidebar {
     $widgets(tl) delete $child
 
     # Update the information panel
-    update_info_panel [$widgets(tl) selection]
+    update_info_panel
 
   }
 
@@ -2178,7 +2193,7 @@ namespace eval sidebar {
     set show_info $value
 
     # Update the file info widget
-    update_info_panel [$widgets(tl) selection]
+    update_info_panel
 
   }
 
@@ -2282,15 +2297,21 @@ namespace eval sidebar {
 
   ######################################################################
   # Updates the file information panel to match the current selections
-  proc update_info_panel {selected} {
+  proc update_info_panel {{selected ""}} {
 
     variable widgets
     variable show_info
+    variable last_info
+
+    if {$selected eq ""} {
+      set selected $last_info
+    }
 
     if {([llength $selected] == 1) && $show_info} {
 
-      set fname  [$widgets(tl) set [lindex $selected 0] name]
-      set isfile [file isfile $fname]
+      set fname     [$widgets(tl) set [lindex $selected 0] name]
+      set isfile    [file isfile $fname]
+      set last_info $selected
 
       # Get the list of attributes
       array set attrs [concat {*}[lmap a [preferences::get Sidebar/InfoPanelAttributes] {list $a 1}]]
@@ -2541,8 +2562,10 @@ namespace eval sidebar {
     }
 
     # Colorize the close button background using the active color
-    bind $widgets(info,fclose) <Enter> [list %W configure -background $active_bgcolor]
-    bind $widgets(info,fclose) <Leave> [list %W configure -background $bgcolor]
+    bind $widgets(info,frefresh) <Enter> [list %W configure -background $active_bgcolor]
+    bind $widgets(info,frefresh) <Leave> [list %W configure -background $bgcolor]
+    bind $widgets(info,fclose)   <Enter> [list %W configure -background $active_bgcolor]
+    bind $widgets(info,fclose)   <Leave> [list %W configure -background $bgcolor]
 
     # If the background color of the information frame does not match the default
     # background color, remove the final separator to cleanup the UI appearance;
