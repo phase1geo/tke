@@ -273,25 +273,26 @@ namespace eval sidebar {
     set widgets(info,f,2)      [frame $w.if.f2]
     set widgets(psep)          [ttk::separator $w.if.sep2 -orient horizontal]
 
+    bind $widgets(info,fshow)    <Button-1> [list $widgets(tl) see $sidebar::last_info]
     bind $widgets(info,frefresh) <Button-1> [list sidebar::update_info_panel]
     bind $widgets(info,fclose)   <Button-1> [list pack forget $widgets(info,f)]
-    bind info_panel              <Enter>    [list grid $w.if.refresh $w.if.close]
-    bind info_panel              <Leave>    [list grid remove $w.if.refresh $w.if.close]
-    bind info_panel              <Button-1> [list $widgets(tl) see $sidebar::last_info]
+    bind info_panel              <Enter>    [list grid $w.if.bf]
+    bind info_panel              <Leave>    [list grid remove $w.if.bf]
+    # bind info_panel              <Button-1> [list $widgets(tl) see $sidebar::last_info]
     
-    pack $widgets(info,fclose)   -side right
-    pack $widgets(info,frefresh) -side right
-    pack $widgets(info,fshow)    -side right
+    pack $widgets(info,fclose)   -side right -padx 2 -pady 2
+    pack $widgets(info,frefresh) -side right -padx 2 -pady 2
+    pack $widgets(info,fshow)    -side right -padx 2 -pady 2
 
     grid rowconfigure    $w.if 4 -weight 1
     grid columnconfigure $w.if 1 -weight 1
-    grid $w.if.sep1     -row 0 -column 0 -columnspan 4 -sticky ew
-    grid $w.if.preview  -row 1 -column 0 -rowspan 3 -padx 2 -pady 2
+    grid $w.if.sep1     -row 0 -column 0 -columnspan 2 -sticky ew
+    grid $w.if.preview  -row 1 -column 0 -rowspan 4 -padx 2 -pady 2
     grid $w.if.bf       -row 1 -column 1 -sticky ne -padx 2 -pady 2
     grid $w.if.name     -row 2 -column 1 -sticky w
     grid $w.if.type     -row 3 -column 1 -sticky w
 
-    grid remove $w.if.refresh $w.if.close
+    grid remove $w.if.bf
 
     set row 5
     foreach {lbl name copy} [list [msgcat::mc "Modified"] mod 1 [msgcat::mc "Attributes"] attrs 0 \
@@ -304,11 +305,11 @@ namespace eval sidebar {
         bind $widgets(info,v,$name) <Button-1> [list sidebar::copy_info $name]
       }
       grid $widgets(info,l,$name) -row $row -column 0 -sticky e
-      grid $widgets(info,v,$name) -row $row -column 1 -sticky w -columnspan 3
+      grid $widgets(info,v,$name) -row $row -column 1 -sticky w
       incr row
     }
 
-    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 4
+    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 2
 
     # Insert any file information plugin information
     insert_info_panel_plugins
@@ -2573,10 +2574,10 @@ namespace eval sidebar {
     }
 
     # Colorize the close button background using the active color
-    bind $widgets(info,frefresh) <Enter> [list %W configure -background $active_bgcolor]
-    bind $widgets(info,frefresh) <Leave> [list %W configure -background $bgcolor]
-    bind $widgets(info,fclose)   <Enter> [list %W configure -background $active_bgcolor]
-    bind $widgets(info,fclose)   <Leave> [list %W configure -background $bgcolor]
+    foreach btn [list fshow frefresh fclose] {
+      bind $widgets(info,$btn) <Enter> [list %W configure -background $active_bgcolor]
+      bind $widgets(info,$btn) <Leave> [list %W configure -background $bgcolor]
+    }
 
     # If the background color of the information frame does not match the default
     # background color, remove the final separator to cleanup the UI appearance;
