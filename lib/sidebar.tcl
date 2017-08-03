@@ -570,6 +570,7 @@ namespace eval sidebar {
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Show Info"]     -command [list sidebar::update_info_panel $first_row] -state $one_state
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
     if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
@@ -647,6 +648,7 @@ namespace eval sidebar {
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Show Info"]     -command [list sidebar::update_info_panel $first_row] -state $one_state
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
     if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
@@ -718,8 +720,9 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Show"] -command [list sidebar::show_file $rows] -state $show_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command [list sidebar::show_file_diff $first_row] -state $diff_state
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"]   -command [list sidebar::copy_pathname $first_row]  -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Show Difference"] -command [list sidebar::show_file_diff $first_row] -state $diff_state
+    $widgets(menu) add command -label [msgcat::mc "Show Info"]       -command [list sidebar::update_info_panel $first_row] -state $one_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Rename"]    -command [list sidebar::rename_file $first_row]    -state $one_state
