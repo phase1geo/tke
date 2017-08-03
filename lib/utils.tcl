@@ -1074,13 +1074,17 @@ namespace eval utils {
   #  - sha224
   #  - sha256
   proc get_file_checksum {fname type} {
+    
+    array set cmds {
+      md5    ::md5::md5
+      sha1   ::sha1::sha1
+      sha224 ::sha2::sha224
+      sha256 ::sha2::sha256
+    }
 
-    if {[file isfile $fname]} {
-      switch $type {
-        md5    { return [::md5::md5 -hex -file $fname] }
-        sha1   { return [::sha1::sha1 -hex -file $fname] }
-        sha224 { return [::sha2::sha224 -hex -file $fname] }
-        sha256 { return [::sha2::sha256 -hex -file $fname] }
+    if {[file isfile $fname] && [info exists cmds($type)]} {
+      if {![catch { $cmds($type) -hex -file $fname } rc]} {
+        return $rc
       }
     }
 

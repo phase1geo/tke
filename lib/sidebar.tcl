@@ -196,13 +196,19 @@ namespace eval sidebar {
       {msgcat::mc "Image displayed in sidebar information panel for closing the panel"} \
       -file [file join $::tke_dir lib images close.bmp] \
       -maskfile [file join $::tke_dir lib images close.bmp] \
-      -foreground 2
+      -foreground 1
 
     theme::register_image sidebar_info_refresh bitmap sidebar -background \
       {msgcat::mc "Image displayed in sidebar information panel for refreshing content"} \
       -file [file join $::tke_dir lib images refresh.bmp] \
       -maskfile [file join $::tke_dir lib images refresh.bmp] \
-      -foreground 2
+      -foreground 1
+
+    theme::register_image sidebar_info_show bitmap sidebar -background \
+      {msgcat::mc "Image displayed in sidebar information panel for showing file in sidebar"} \
+      -file [file join $::tke_dir lib images show.bmp] \
+      -maskfile [file join $::tke_dir lib images show.bmp] \
+      -foreground 1
 
     set fg [utils::get_default_foreground]
     set bg [utils::get_default_background]
@@ -256,8 +262,10 @@ namespace eval sidebar {
     # Create file info panel
     set widgets(info,f)        [frame $w.if -class info_panel]
     ttk::separator             $w.if.sep1 -orient horizontal
-    set widgets(info,frefresh) [label $w.if.refresh -image sidebar_info_refresh]
-    set widgets(info,fclose)   [label $w.if.close -image sidebar_info_close]
+    set widgets(info,fbframe)  [frame $w.if.bf]
+    set widgets(info,fshow)    [label $w.if.bf.show    -image sidebar_info_show]
+    set widgets(info,frefresh) [label $w.if.bf.refresh -image sidebar_info_refresh]
+    set widgets(info,fclose)   [label $w.if.bf.close   -image sidebar_info_close]
     set widgets(info,v,image)  [label $w.if.preview]
     set widgets(info,f,1)      [frame $w.if.f1]
     set widgets(info,v,name)   [label $w.if.name]
@@ -270,19 +278,22 @@ namespace eval sidebar {
     bind info_panel              <Enter>    [list grid $w.if.refresh $w.if.close]
     bind info_panel              <Leave>    [list grid remove $w.if.refresh $w.if.close]
     bind info_panel              <Button-1> [list $widgets(tl) see $sidebar::last_info]
+    
+    pack $widgets(info,fclose)   -side right
+    pack $widgets(info,frefresh) -side right
+    pack $widgets(info,fshow)    -side right
 
-    grid rowconfigure    $w.if 3 -weight 1
+    grid rowconfigure    $w.if 4 -weight 1
     grid columnconfigure $w.if 1 -weight 1
-    grid $w.if.sep1     -row 0  -column 0 -columnspan 4 -sticky ew
-    grid $w.if.preview  -row 1  -column 0 -rowspan 3 -padx 2 -pady 2
-    grid $w.if.name     -row 1  -column 1 -sticky w
-    grid $w.if.refresh  -row 1  -column 2 -sticky ne -padx 2 -pady 2
-    grid $w.if.close    -row 1  -column 3 -sticky ne -padx 2 -pady 2
-    grid $w.if.type     -row 2  -column 1 -sticky w
+    grid $w.if.sep1     -row 0 -column 0 -columnspan 4 -sticky ew
+    grid $w.if.preview  -row 1 -column 0 -rowspan 3 -padx 2 -pady 2
+    grid $w.if.bf       -row 1 -column 1 -sticky ne -padx 2 -pady 2
+    grid $w.if.name     -row 2 -column 1 -sticky w
+    grid $w.if.type     -row 3 -column 1 -sticky w
 
     grid remove $w.if.refresh $w.if.close
 
-    set row 4
+    set row 5
     foreach {lbl name copy} [list [msgcat::mc "Modified"] mod 1 [msgcat::mc "Attributes"] attrs 0 \
                                   "MD5" md5 1 "SHA-1" sha1 1 "SHA-224" sha224 1 "SHA-256" sha256 1 \
                                   [msgcat::mc "Counts"] cnts 0 [msgcat::mc "Read Time"] rtime 0 \
