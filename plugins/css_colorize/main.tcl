@@ -164,7 +164,7 @@ namespace eval css_colorize {
     set txt  [api::file::get_info $index txt]
     set lang [api::file::get_info $index lang]
 
-    return [expr ([lsearch [list CSS SCSS HTML] $lang] != -1) && $colorized($txt)]
+    return [expr ([lsearch [list CSS SCSS HTML] $lang] != -1) && [info exists colorized($txt)] && $colorized($txt)]
 
   }
 
