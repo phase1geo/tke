@@ -4118,9 +4118,9 @@ namespace eval gui {
     ttk::checkbutton $tab.sf.save  -text [msgcat::mc "Save"] -variable gui::saved -command [list search::update_save find]
     ttk::label       $tab.sf.close -image form_close
 
-    tooltip::tooltip $tab.sf.next "Find next occurrence"
-    tooltip::tooltip $tab.sf.prev "Find previous occurrence"
-    tooltip::tooltip $tab.sf.case "Case sensitivity"
+    tooltip::tooltip $tab.sf.next [msgcat::mc "Find next occurrence"]
+    tooltip::tooltip $tab.sf.prev [msgcat::mc "Find previous occurrence"]
+    tooltip::tooltip $tab.sf.case [msgcat::mc "Case sensitivity"]
 
     pack $tab.sf.l1    -side left  -padx 2 -pady 2
     pack $tab.sf.e     -side left  -padx 2 -pady 2 -fill x -expand yes
