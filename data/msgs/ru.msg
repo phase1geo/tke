@@ -235,9 +235,6 @@ msgcat::mcmset ru {
   "Save request"
   "Запрос"
 
-  "Show in Sidebar"
-  "Показать на боковой панели"
-
   "Starting number:"
   "Стартовый номер:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset ru {
   "Find next mismatching bracket"
   "Найти следующий кронштейн"
 
-  "Find next occurrence"
-  "Найти следующее вхождение"
-
   "Find previous mismatching bracket"
   "Найти ранее кронштейн"
-
-  "Find previous occurrence"
-  "Найти предыдущего вхождения"
 
   "Folding"
   "складной"
@@ -2469,6 +2460,9 @@ msgcat::mcmset ru {
   "Unable to duplicate file"
   "Не удается дублировать файл"
 
+  "Update Info"
+  "Обновить информацию"
+
   "Yes"
   "Да"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset ru {
   "Find"
   "Находить"
 
+  "Find next occurrence"
+  "Найти следующее вхождение"
+
+  "Find previous occurrence"
+  "Найти предыдущего вхождения"
+
   "Insert"
   "Вставить"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset ru {
 
   "Sessions"
   "сессий"
+
+  "Show in Sidebar"
+  "Показать на боковой панели"
 
   "Show line numbers"
   "Показать номера строк"

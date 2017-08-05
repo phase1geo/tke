@@ -235,9 +235,6 @@ msgcat::mcmset cs {
   "Save request"
   "Uložte žádost"
 
-  "Show in Sidebar"
-  "Zobrazit v postranním panelu"
-
   "Starting number:"
   "Startovní číslo:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset cs {
   "Find next mismatching bracket"
   "Najít další neodpovídající závorky"
 
-  "Find next occurrence"
-  "Najít další výskyt"
-
   "Find previous mismatching bracket"
   "Najít předchozí neodpovídající závorky"
-
-  "Find previous occurrence"
-  "Najít předchozí výskyt"
 
   "Folding"
   "p?ehnutí"
@@ -2469,6 +2460,9 @@ msgcat::mcmset cs {
   "Unable to duplicate file"
   "Duplicitní soubor nelze"
 
+  "Update Info"
+  "UPDATE INFO=Aktualizujte údaje"
+
   "Yes"
   "Ano"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset cs {
   "Find"
   "Find"
 
+  "Find next occurrence"
+  "Najít další výskyt"
+
+  "Find previous occurrence"
+  "Najít předchozí výskyt"
+
   "Insert"
   "Vložit"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset cs {
 
   "Sessions"
   "Návt?vy"
+
+  "Show in Sidebar"
+  "Zobrazit v postranním panelu"
 
   "Show line numbers"
   "Zobrazovat čísla řádků"

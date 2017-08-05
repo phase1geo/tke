@@ -235,9 +235,6 @@ msgcat::mcmset he {
   "Save request"
   "להציל את הבקשה"
 
-  "Show in Sidebar"
-  "הצג בסרגל הצידי"
-
   "Starting number:"
   "המספר ההתחלתי:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset he {
   "Find next mismatching bracket"
   "למצוא סוגר המאולתר הבא"
 
-  "Find next occurrence"
-  "למצוא את המופע הבא"
-
   "Find previous mismatching bracket"
   "למצוא סוגר המאולתר הקודם"
-
-  "Find previous occurrence"
-  "למצוא את המופע הקודם"
 
   "Folding"
   "מִתקַפֵּל"
@@ -2469,6 +2460,9 @@ msgcat::mcmset he {
   "Unable to duplicate file"
   "קובץ כפולים לא הצליחה"
 
+  "Update Info"
+  "עדכון פרטים"
+
   "Yes"
   "כן"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset he {
   "Find"
   "לימצו (limtzo)"
 
+  "Find next occurrence"
+  "למצוא את המופע הבא"
+
+  "Find previous occurrence"
+  "למצוא את המופע הקודם"
+
   "Insert"
   "הוסף"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset he {
 
   "Sessions"
   "הפעלות"
+
+  "Show in Sidebar"
+  "הצג בסרגל הצידי"
 
   "Show line numbers"
   "הצג מספרי שורות"

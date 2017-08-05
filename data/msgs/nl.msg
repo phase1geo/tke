@@ -235,9 +235,6 @@ msgcat::mcmset nl {
   "Save request"
   "Sparen verzoek"
 
-  "Show in Sidebar"
-  "Show in Sidebar"
-
   "Starting number:"
   "Begin Pagina Nummer"
 
@@ -629,14 +626,8 @@ msgcat::mcmset nl {
   "Find next mismatching bracket"
   "Vinden van de volgende verschillen beugel"
 
-  "Find next occurrence"
-  "Volgende exemplaar zoeken"
-
   "Find previous mismatching bracket"
   "Vinden vorige verschillen beugel"
-
-  "Find previous occurrence"
-  "Vorige exemplaar zoeken"
 
   "Folding"
   "Invouwen"
@@ -2469,6 +2460,9 @@ msgcat::mcmset nl {
   "Unable to duplicate file"
   "Geen kopie vijl"
 
+  "Update Info"
+  "Info bijwerken"
+
   "Yes"
   "Ja"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset nl {
   "Find"
   "Query"
 
+  "Find next occurrence"
+  "Volgende exemplaar zoeken"
+
+  "Find previous occurrence"
+  "Vorige exemplaar zoeken"
+
   "Insert"
   "Invoegen"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset nl {
 
   "Sessions"
   "Sessies"
+
+  "Show in Sidebar"
+  "Show in Sidebar"
 
   "Show line numbers"
   "Regelnummering tonen"

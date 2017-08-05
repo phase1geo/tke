@@ -235,9 +235,6 @@ msgcat::mcmset it {
   "Save request"
   "Salva richiesta"
 
-  "Show in Sidebar"
-  "Mostra in Sidebar"
-
   "Starting number:"
   "Primo numero"
 
@@ -629,14 +626,8 @@ msgcat::mcmset it {
   "Find next mismatching bracket"
   "Trovare la staffa non corrisponde a quella successiva"
 
-  "Find next occurrence"
-  "Trovare l'occorrenza successiva"
-
   "Find previous mismatching bracket"
   "Trovare la staffa non corrisponde a quella precedente"
-
-  "Find previous occurrence"
-  "Trovare l'occorrenza precedente"
 
   "Folding"
   "Piegatura"
@@ -2469,6 +2460,9 @@ msgcat::mcmset it {
   "Unable to duplicate file"
   "Grado di file duplicati"
 
+  "Update Info"
+  "Aggiorna le Informazioni"
+
   "Yes"
   "Si"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset it {
   "Find"
   "Find"
 
+  "Find next occurrence"
+  "Trovare l'occorrenza successiva"
+
+  "Find previous occurrence"
+  "Trovare l'occorrenza precedente"
+
   "Insert"
   "Inserisci"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset it {
 
   "Sessions"
   "Sessioni"
+
+  "Show in Sidebar"
+  "Mostra in Sidebar"
 
   "Show line numbers"
   "Mostra i numeri di riga"
