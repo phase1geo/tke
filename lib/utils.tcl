@@ -1074,7 +1074,7 @@ namespace eval utils {
   #  - sha224
   #  - sha256
   proc get_file_checksum {fname type} {
-    
+
     array set cmds {
       md5    ::md5::md5
       sha1   ::sha1::sha1
