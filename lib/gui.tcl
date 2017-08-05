@@ -2180,6 +2180,9 @@ namespace eval gui {
 
     }
 
+    # If the information panel needs to be updated for this file, do it now
+    sidebar::update_info_panel_for_file $fname $opts(-remote)
+
     # Set the modified state to 0
     set_current_modified 0
 

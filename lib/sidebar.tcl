@@ -262,6 +262,7 @@ namespace eval sidebar {
     # Create file info panel
     set widgets(info,f)        [frame $w.if -class info_panel]
     ttk::separator             $w.if.sep1 -orient horizontal
+    set widgets(info,fblank)   [label $w.if.blank -image [image create bitmap -file [file join $::tke_dir lib images blank.bmp]]]
     set widgets(info,fbframe)  [frame $w.if.bf]
     set widgets(info,fshow)    [label $w.if.bf.show    -image sidebar_info_show]
     set widgets(info,frefresh) [label $w.if.bf.refresh -image sidebar_info_refresh]
@@ -279,22 +280,23 @@ namespace eval sidebar {
     bind info_panel              <Enter>    [list grid $w.if.bf]
     bind info_panel              <Leave>    [list grid remove $w.if.bf]
     # bind info_panel              <Button-1> [list $widgets(tl) see $sidebar::last_info]
-    
+
     pack $widgets(info,fclose)   -side right -padx 2 -pady 2
     pack $widgets(info,frefresh) -side right -padx 2 -pady 2
     pack $widgets(info,fshow)    -side right -padx 2 -pady 2
 
-    grid rowconfigure    $w.if 4 -weight 1
+    grid rowconfigure    $w.if 5 -weight 1
     grid columnconfigure $w.if 1 -weight 1
     grid $w.if.sep1     -row 0 -column 0 -columnspan 2 -sticky ew
-    grid $w.if.preview  -row 1 -column 0 -rowspan 4 -padx 2 -pady 2
+    grid $w.if.blank    -row 1 -column 0 -sticky w  -padx 2 -pady 4
     grid $w.if.bf       -row 1 -column 1 -sticky ne -padx 2 -pady 2
-    grid $w.if.name     -row 2 -column 1 -sticky w
-    grid $w.if.type     -row 3 -column 1 -sticky w
+    grid $w.if.preview  -row 2 -column 0 -rowspan 3 -padx 2 -pady 2
+    grid $w.if.name     -row 3 -column 1 -sticky w
+    grid $w.if.type     -row 4 -column 1 -sticky w
 
     grid remove $w.if.bf
 
-    set row 5
+    set row 6
     foreach {lbl name copy} [list [msgcat::mc "Modified"] mod 1 [msgcat::mc "Attributes"] attrs 0 \
                                   "MD5" md5 1 "SHA-1" sha1 1 "SHA-224" sha224 1 "SHA-256" sha256 1 \
                                   [msgcat::mc "Counts"] cnts 0 [msgcat::mc "Read Time"] rtime 0 \
@@ -2496,6 +2498,28 @@ namespace eval sidebar {
 
       pack forget $widgets(info,f)
 
+    }
+
+  }
+
+  ######################################################################
+  # If the information panel is open and displaying the given file,
+  # update the information panel contents.
+  proc update_info_panel_for_file {fname remote} {
+
+    variable widgets
+    variable last_info
+
+    # If the given file doesn't exist in the sidebar or the information panel
+    # does not exist, return immediately.
+    if {![winfo ismapped $widgets(info,f)] || ([set index [get_index $fname $remote]] eq "") || ($last_info eq "")} {
+      return
+    }
+
+    # If the given filename matches the update info panel, update the information
+    # in the info panel.
+    if {$index eq $last_info} {
+      update_info_panel
     }
 
   }
