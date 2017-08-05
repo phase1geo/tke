@@ -431,15 +431,6 @@ msgcat::mcmset ja {
   "Create new plugin"
   "新しいプラグインを作成します。"
 
-  "Current Number"
-  "現在の番号"
-
-  "Cursor from Line Start"
-  "カーソルを行の先頭から"
-
-  "Cursor to Line End"
-  "線の端点にカーソル"
-
   "Cut"
   "CUT"
 
@@ -488,20 +479,8 @@ msgcat::mcmset ja {
   "Delete current file"
   "現在のファイルを削除します。"
 
-  "Delete current line"
-  "現在の行を削除します。"
-
-  "Delete current word"
-  "現在の単語を削除します。"
-
   "Delete fold at current line"
   "現在の行に倍を削除します。"
-
-  "Delete from cursor to end of line"
-  "終わりへのカーソルから削除する行の"
-
-  "Delete from start of line to cursor"
-  "行の先頭からカーソルまでを削除します。"
 
   "Delete language preferences?"
   "言語設定を削除しますか。"
@@ -514,18 +493,6 @@ msgcat::mcmset ja {
 
   "Delete template"
   "テンプレートの削除"
-
-  "Delete text between character"
-  "文字の間のテキストを削除します。"
-
-  "Delete the current number"
-  "現在の番号を削除します。"
-
-  "Delete the whitespace to left of cursor"
-  "カーソルの左側の空白を削除します。"
-
-  "Delete the whitespace to right of cursor"
-  "カーソルの右側の空白を削除します。"
 
   "Disable Vim mode"
   "Vim モードを無効にします。"
@@ -1493,9 +1460,6 @@ msgcat::mcmset ja {
   "Tabs"
   "タブ"
 
-  "Text Between Character"
-  "文字の間のテキスト"
-
   "Tips & Tricks"
   "ヒント＆トリック"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset ja {
 
   "Vim Mode"
   "Vimのモード"
-
-  "Whitespace Backward"
-  "後方の空白"
-
-  "Whitespace Forward"
-  "空白フォワード"
 
   "Windows"
   "窓"
@@ -1776,11 +1734,17 @@ msgcat::mcmset ja {
   "Current Filename"
   "現在のファイル名"
 
+  "Current Line"
+  "現在の行"
+
   "Current Line Column"
   "現在の行の列"
 
   "Current Line Number"
   "現在の行番号"
+
+  "Current Word"
+  "現在の単語"
 
   "Current editing buffer directory"
   "現在の編集バッファーのディレクトリ"
@@ -2292,23 +2256,17 @@ msgcat::mcmset ja {
   "Block"
   "ブロック"
 
+  "Character"
+  "性格"
+
   "Curly Brackets"
   "中かっこ"
 
   "Double Quotes"
   "ダブルクォーテーションマーク"
 
-  "Inner"
-  "内側"
-
   "Non-Whitespace"
   "空白以外"
-
-  "Object Mode"
-  "object"
-
-  "Outer"
-  "外側"
 
   "Paragraph"
   "段落"
@@ -2406,6 +2364,9 @@ msgcat::mcmset ja {
   "Copy Pathname"
   "コピーのパス名"
 
+  "Counts"
+  "伯爵"
+
   "Delete directories?"
   "ディレクトリを削除しますか。"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset ja {
 
   "Hide Directory Files"
   "ディレクトリのファイルを隠す"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "パネルを閉じるのサイドバー情報パネルに表示されるイメージ"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "コンテンツ更新のサイドバー情報パネルに表示されるイメージ"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "サイドバーに表示ファイルのサイドバー情報パネルに表示されるイメージ"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "折りたたまれているディレクトリを指定するためにサイドバーに表示されるイメージ"
@@ -2472,6 +2442,9 @@ msgcat::mcmset ja {
   "Open Directory Files"
   "オープンディレクトリのファイル"
 
+  "Read Time"
+  "読み取り時間"
+
   "Refresh Directory Files"
   "リフレッシュディレクトリファイル"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset ja {
   "Show Directory Files"
   "ディレクトリのファイルを表示します。"
 
+  "Show Info"
+  "説明を表示"
+
   "Unable to duplicate file"
   "重複するファイルを開けません"
 
   "Yes"
   "はい"
+
+  "value copied to clipboard"
+  "値をクリップボードにコピー"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset ja {
 
   "Background color to display when a button-like ttk widget is pressed."
   "ボタンのようなTTKウィジェットが押されたときに表示する背景色です。"
+
+  "Background color to use for active information values to indicate they are clickable."
+  "クリックを示すため積極的な情報値に使用する背景色です。"
 
   "Background color to use for displaying character information that requires the user's attention."
   "ユーザーの注意を必要とする文字情報の表示に使用する背景色。"
@@ -3139,9 +3121,6 @@ msgcat::mcmset ja {
   "Cancel"
   "キャンセル"
 
-  "Character"
-  "性格"
-
   "Check for Update"
   "アップデートの確認"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset ja {
 
   "Create"
   "作成"
-
-  "Current Line"
-  "現在の行"
-
-  "Current Word"
-  "現在の単語"
 
   "Cursor"
   "カーソル"

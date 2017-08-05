@@ -431,15 +431,6 @@ msgcat::mcmset ru {
   "Create new plugin"
   "Создать новый плагин"
 
-  "Current Number"
-  "Номер текущей строки"
-
-  "Cursor from Line Start"
-  "Курсор из начала строки"
-
-  "Cursor to Line End"
-  "Курсор в конец строки"
-
   "Cut"
   "Вырезать"
 
@@ -488,20 +479,8 @@ msgcat::mcmset ru {
   "Delete current file"
   "Удалить текущий файл"
 
-  "Delete current line"
-  "Удалить текущую строку."
-
-  "Delete current word"
-  "Удаление текущего слова"
-
   "Delete fold at current line"
   "Удалять складки на текущую строку"
-
-  "Delete from cursor to end of line"
-  "Удаление от курсора до конца строки"
-
-  "Delete from start of line to cursor"
-  "Удаление от начала строки до курсора"
 
   "Delete language preferences?"
   "Удалить настройки языка?"
@@ -514,18 +493,6 @@ msgcat::mcmset ru {
 
   "Delete template"
   "Удалить шаблон"
-
-  "Delete text between character"
-  "Удаление текста между символов"
-
-  "Delete the current number"
-  "Удалить текущий номер"
-
-  "Delete the whitespace to left of cursor"
-  "Удалить пробелы слева от курсора"
-
-  "Delete the whitespace to right of cursor"
-  "Удалить пробелы справа от курсора"
 
   "Disable Vim mode"
   "Отключить режим Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset ru {
   "Tabs"
   "Флажки"
 
-  "Text Between Character"
-  "Текст между персонажа"
-
   "Tips & Tricks"
   "Советы и хитрости"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset ru {
 
   "Vim Mode"
   "Режим Вим"
-
-  "Whitespace Backward"
-  "Пробелы обратной"
-
-  "Whitespace Forward"
-  "Пробела вперед"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset ru {
   "Current Filename"
   "Текущее имя файла"
 
+  "Current Line"
+  "Текущая строка"
+
   "Current Line Column"
   "Текущий столбец строки"
 
   "Current Line Number"
   "Номер текущей строки"
+
+  "Current Word"
+  "Текущее слово"
 
   "Current editing buffer directory"
   "Текущий каталог редактирования буфера"
@@ -2292,23 +2256,17 @@ msgcat::mcmset ru {
   "Block"
   "Блок"
 
+  "Character"
+  "Символ"
+
   "Curly Brackets"
   "Фигурные скобки"
 
   "Double Quotes"
   "Двойные кавычки"
 
-  "Inner"
-  "Внутренний"
-
   "Non-Whitespace"
   "Непробельный"
-
-  "Object Mode"
-  "Режим объекта (Object Mode)"
-
-  "Outer"
-  "Внешний"
 
   "Paragraph"
   "Параграф"
@@ -2406,6 +2364,9 @@ msgcat::mcmset ru {
   "Copy Pathname"
   "Копировать Pathname"
 
+  "Counts"
+  "Число отсчетов"
+
   "Delete directories?"
   "Удалите каталоги?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset ru {
 
   "Hide Directory Files"
   "Скрыть файлы каталога"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Изображение, отображаемое в боковой панели сведений для закрытия панели"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Изображение, отображаемое в боковой панели сведений для обновления содержимого"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Изображение, отображаемое в боковой панели сведений для файлов показаны в боковой панели"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Изображение, отображаемое в боковой панели, чтобы указать каталог, который рухнул"
@@ -2472,6 +2442,9 @@ msgcat::mcmset ru {
   "Open Directory Files"
   "Открытие файлов Каталог"
 
+  "Read Time"
+  "Время Читать"
+
   "Refresh Directory Files"
   "Обновить каталог файлов"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset ru {
   "Show Directory Files"
   "Показать файлы каталога"
 
+  "Show Info"
+  "Показать Информацию"
+
   "Unable to duplicate file"
   "Не удается дублировать файл"
 
   "Yes"
   "Да"
+
+  "value copied to clipboard"
+  "значение, скопированное в буфер обмена"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset ru {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Цвет фона для отображения при нажатии кнопка как ТТК виджета."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Цвет фона, чтобы использовать для активной информационной значений, чтобы указать, что они являются интерактивными."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Цвет фона, используемый для отображения символов информации, которая требует внимания пользователя."
@@ -3139,9 +3121,6 @@ msgcat::mcmset ru {
   "Cancel"
   "Отмена"
 
-  "Character"
-  "Символ"
-
   "Check for Update"
   "Проверить обновления"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset ru {
 
   "Create"
   "Создать"
-
-  "Current Line"
-  "Текущая строка"
-
-  "Current Word"
-  "Текущее слово"
 
   "Cursor"
   "Кусок"

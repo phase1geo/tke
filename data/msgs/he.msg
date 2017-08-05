@@ -431,15 +431,6 @@ msgcat::mcmset he {
   "Create new plugin"
   "ליצור תוסף חדש"
 
-  "Current Number"
-  "מספר נוכחי"
-
-  "Cursor from Line Start"
-  "סמן קו ההתחלה"
-
-  "Cursor to Line End"
-  "הסמן לסוף הקו"
-
   "Cut"
   "לחתוך"
 
@@ -488,20 +479,8 @@ msgcat::mcmset he {
   "Delete current file"
   "מחיקת הקובץ הנוכחי"
 
-  "Delete current line"
-  "מחיקת השורה הנוכחית"
-
-  "Delete current word"
-  "מחיקת המילה הנוכחית"
-
   "Delete fold at current line"
   "מחיקת קפל השורה הנוכחית"
-
-  "Delete from cursor to end of line"
-  "מחיקת הסמן כדי לסיים קו"
-
-  "Delete from start of line to cursor"
-  "מחק מתחילתו של קו כדי הסמן"
 
   "Delete language preferences?"
   "האם למחוק את העדפות השפה?"
@@ -514,18 +493,6 @@ msgcat::mcmset he {
 
   "Delete template"
   "למחוק תבנית"
-
-  "Delete text between character"
-  "מחיקת טקסט בין תו"
-
-  "Delete the current number"
-  "מחק את המספר הנוכחי"
-
-  "Delete the whitespace to left of cursor"
-  "למחוק את רווח משמאל הסמן"
-
-  "Delete the whitespace to right of cursor"
-  "למחוק את רווח מימין הסמן"
 
   "Disable Vim mode"
   "בטל את מצב Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset he {
   "Tabs"
   "טאב"
 
-  "Text Between Character"
-  "טקסט בין תו"
-
   "Tips & Tricks"
   "טיפים וטריקים &"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset he {
 
   "Vim Mode"
   "מצב vim"
-
-  "Whitespace Backward"
-  "רווח לבן לאחור"
-
-  "Whitespace Forward"
-  "רווח לבן קדימה"
 
   "Windows"
   "חלונות"
@@ -1776,11 +1734,17 @@ msgcat::mcmset he {
   "Current Filename"
   "שם הקובץ הנוכחי"
 
+  "Current Line"
+  "השורה הנוכחית"
+
   "Current Line Column"
   "עמודה בשורה הנוכחית"
 
   "Current Line Number"
   "מספר הקו הנוכחי"
+
+  "Current Word"
+  "המילה הנוכחית"
 
   "Current editing buffer directory"
   "הספריה מאגר העריכה הנוכחית"
@@ -1877,6 +1841,9 @@ msgcat::mcmset he {
 
   "Insertion cursor width"
   "רוחב הסמן ההכנסה"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "להשאיר את לוח המידע של הקובץ גלוי כאשר הסרגל הצידי אין מיקוד"
 
   "Keyword"
   "מילות מפתח"
@@ -2289,23 +2256,17 @@ msgcat::mcmset he {
   "Block"
   "בלוק"
 
+  "Character"
+  "גרפמה"
+
   "Curly Brackets"
   "בסוגריים מסולסלים"
 
   "Double Quotes"
   "מרכאות כפולות"
 
-  "Inner"
-  "הפנימי"
-
   "Non-Whitespace"
   "שאינו רווח לבן"
-
-  "Object Mode"
-  "אובייקט"
-
-  "Outer"
-  "החיצוני"
 
   "Paragraph"
   "פסקה"
@@ -2403,6 +2364,9 @@ msgcat::mcmset he {
   "Copy Pathname"
   "נתיב העתק"
 
+  "Counts"
+  "מניית"
+
   "Delete directories?"
   "מחיקת ספריות?"
 
@@ -2429,6 +2393,15 @@ msgcat::mcmset he {
 
   "Hide Directory Files"
   "להסתיר את קבצי הספריה"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "התמונה המוצגת בחלונית המידע הצידי לסגירת הלוח"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "התמונה המוצגת בחלונית המידע הצידי לרענון התוכן"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "התמונה המוצגת בחלונית המידע הצידי מציג קובץ בסרגל הצידי"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "התמונה המוצגת בסרגל הצידי להצביע ספרייה מכווצת"
@@ -2469,6 +2442,9 @@ msgcat::mcmset he {
   "Open Directory Files"
   "קבצי הספריה פתוחה"
 
+  "Read Time"
+  "זמן קריאה"
+
   "Refresh Directory Files"
   "רענון קבצי הספריה"
 
@@ -2487,11 +2463,17 @@ msgcat::mcmset he {
   "Show Directory Files"
   "הצג ספריית קבצים"
 
+  "Show Info"
+  "הצג מידע"
+
   "Unable to duplicate file"
   "קובץ כפולים לא הצליחה"
 
   "Yes"
   "כן"
+
+  "value copied to clipboard"
+  "הערך יועתק אל הלוח"
 
 }
 
@@ -2652,6 +2634,9 @@ msgcat::mcmset he {
 
   "Background color to display when a button-like ttk widget is pressed."
   "צבע הרקע כדי להציג בעת וידג'ט ttk כמו הלחצן נלחץ."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "צבע הרקע כדי להשתמש עבור מידע פעיל ערכים לציון שהם ללחיצה."
 
   "Background color to use for displaying character information that requires the user's attention."
   "צבע הרקע לשימוש לשם הצגת מידע תו דורש תשומת לב של המשתמש."
@@ -3136,9 +3121,6 @@ msgcat::mcmset he {
   "Cancel"
   "ביטול"
 
-  "Character"
-  "גרפמה"
-
   "Check for Update"
   "הסימון עבור עדכון"
 
@@ -3153,12 +3135,6 @@ msgcat::mcmset he {
 
   "Create"
   "צור"
-
-  "Current Line"
-  "השורה הנוכחית"
-
-  "Current Word"
-  "המילה הנוכחית"
 
   "Cursor"
   "סמן"

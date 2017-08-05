@@ -431,15 +431,6 @@ msgcat::mcmset sv {
   "Create new plugin"
   "Skapa nya plugin"
 
-  "Current Number"
-  "Aktuellt radnummer"
-
-  "Cursor from Line Start"
-  "Markören från linje Start"
-
-  "Cursor to Line End"
-  "Markören till linjens ände"
-
   "Cut"
   "Klipp ut"
 
@@ -488,20 +479,8 @@ msgcat::mcmset sv {
   "Delete current file"
   "Ta bort aktuell fil"
 
-  "Delete current line"
-  "Radera aktuell rad"
-
-  "Delete current word"
-  "Radera aktuellt ord"
-
   "Delete fold at current line"
   "Ta bort luckan på aktuell rad"
-
-  "Delete from cursor to end of line"
-  "Ta bort från markören till slutet av raden"
-
-  "Delete from start of line to cursor"
-  "Ta bort från början av linje till markören"
 
   "Delete language preferences?"
   "Ta bort språkinställningar?"
@@ -514,18 +493,6 @@ msgcat::mcmset sv {
 
   "Delete template"
   "Radera mall"
-
-  "Delete text between character"
-  "Ta bort texten mellan karaktär"
-
-  "Delete the current number"
-  "Ta bort aktuellt nummer"
-
-  "Delete the whitespace to left of cursor"
-  "Ta bort tomt utrymme till vänster om markören"
-
-  "Delete the whitespace to right of cursor"
-  "Ta bort blanksteg till höger om markören"
 
   "Disable Vim mode"
   "Inaktivera Vim läge"
@@ -1493,9 +1460,6 @@ msgcat::mcmset sv {
   "Tabs"
   "Tabbar"
 
-  "Text Between Character"
-  "Text mellan karaktär"
-
   "Tips & Tricks"
   "Tips och trick"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset sv {
 
   "Vim Mode"
   "Vim Läge"
-
-  "Whitespace Backward"
-  "Whitespace bakåt"
-
-  "Whitespace Forward"
-  "Whitespace framåt"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset sv {
   "Current Filename"
   "Nuvarande filnamn"
 
+  "Current Line"
+  "Aktuell rad:"
+
   "Current Line Column"
   "Aktuell rad kolumn"
 
   "Current Line Number"
   "Aktuella radnumret"
+
+  "Current Word"
+  "Aktuella ord"
 
   "Current editing buffer directory"
   "Aktuella redigering buffert katalogen"
@@ -2292,23 +2256,17 @@ msgcat::mcmset sv {
   "Block"
   "Block"
 
+  "Character"
+  "Teckenattribut"
+
   "Curly Brackets"
   "Klammerparenteser"
 
   "Double Quotes"
   "Dubbla citationstecken"
 
-  "Inner"
-  "Inre"
-
   "Non-Whitespace"
   "Icke-blanktecken"
-
-  "Object Mode"
-  "objekt"
-
-  "Outer"
-  "Yttre"
 
   "Paragraph"
   "Stycke"
@@ -2406,6 +2364,9 @@ msgcat::mcmset sv {
   "Copy Pathname"
   "Kopiera sökväg"
 
+  "Counts"
+  "Beräknar"
+
   "Delete directories?"
   "Ta bort kataloger?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset sv {
 
   "Hide Directory Files"
   "Dölja katalogfiler"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Bilden visas i sidofältet informationspanel för att stänga panelen"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Bilden som visas i sidofältet informationspanelen för uppfriskande innehåll"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Bilden som visas i sidofältet informationspanelen för visar filen i sidofältet"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Bilden som visas i sidofältet för att ange en katalog som är komprimerad"
@@ -2472,6 +2442,9 @@ msgcat::mcmset sv {
   "Open Directory Files"
   "Open Directory filer"
 
+  "Read Time"
+  "Lästid"
+
   "Refresh Directory Files"
   "Refresh register-filer"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset sv {
   "Show Directory Files"
   "Visa katalogfiler"
 
+  "Show Info"
+  "Visa Info"
+
   "Unable to duplicate file"
   "Det gick inte att duplicera arkivera"
 
   "Yes"
   "Ja"
+
+  "value copied to clipboard"
+  "Värdet kopieras till Urklipp"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset sv {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Bakgrundsfärgen visas när du trycker på en knapp-liknande ttk widget."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Bakgrundsfärgen kan använda för aktiv information värden för att ange de är klickbara."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Bakgrundsfärgen som ska använda för visning karaktär som kräver användarens uppmärksamhet."
@@ -3139,9 +3121,6 @@ msgcat::mcmset sv {
   "Cancel"
   "Avbryt"
 
-  "Character"
-  "Teckenattribut"
-
   "Check for Update"
   "Leta efter uppdatering"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset sv {
 
   "Create"
   "Skapa"
-
-  "Current Line"
-  "Aktuell rad:"
-
-  "Current Word"
-  "Aktuella ord"
 
   "Cursor"
   "markör"

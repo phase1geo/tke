@@ -431,15 +431,6 @@ msgcat::mcmset zh {
   "Create new plugin"
   "创建新的插件"
 
-  "Current Number"
-  "当前数量"
-
-  "Cursor from Line Start"
-  "光标从行开始"
-
-  "Cursor to Line End"
-  "光标移动到行尾"
-
   "Cut"
   "剪切"
 
@@ -488,20 +479,8 @@ msgcat::mcmset zh {
   "Delete current file"
   "删除当前文件"
 
-  "Delete current line"
-  "删除当前行"
-
-  "Delete current word"
-  "删除当前的单词"
-
   "Delete fold at current line"
   "删除当前行折叠"
-
-  "Delete from cursor to end of line"
-  "删除从光标结束的行"
-
-  "Delete from start of line to cursor"
-  "删除行的起始处到光标处"
 
   "Delete language preferences?"
   "删除语言首选项？"
@@ -514,18 +493,6 @@ msgcat::mcmset zh {
 
   "Delete template"
   "删除模板"
-
-  "Delete text between character"
-  "删除字符之间的文本"
-
-  "Delete the current number"
-  "删除当前号码"
-
-  "Delete the whitespace to left of cursor"
-  "删除光标左侧的空白处"
-
-  "Delete the whitespace to right of cursor"
-  "删除光标右边的空白"
 
   "Disable Vim mode"
   "禁用 Vim 模式"
@@ -1493,9 +1460,6 @@ msgcat::mcmset zh {
   "Tabs"
   "標籤"
 
-  "Text Between Character"
-  "字符之间的文本"
-
   "Tips & Tricks"
   "自定义"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset zh {
 
   "Vim Mode"
   "Vim的模式"
-
-  "Whitespace Backward"
-  "落后的空白"
-
-  "Whitespace Forward"
-  "空格前"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset zh {
   "Current Filename"
   "当前文件名"
 
+  "Current Line"
+  "当前行"
+
   "Current Line Column"
   "当前列"
 
   "Current Line Number"
   "当前行号"
+
+  "Current Word"
+  "当前的单词"
 
   "Current editing buffer directory"
   "当前编辑缓冲区目录"
@@ -1877,6 +1841,9 @@ msgcat::mcmset zh {
 
   "Insertion cursor width"
   "插入光标宽度"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "保持文件信息面板可见，当侧边栏不具有焦点时"
 
   "Keyword"
   "关键词"
@@ -2289,23 +2256,17 @@ msgcat::mcmset zh {
   "Block"
   "屏蔽"
 
+  "Character"
+  "字符"
+
   "Curly Brackets"
   "大括号"
 
   "Double Quotes"
   "雙引號"
 
-  "Inner"
-  "内部"
-
   "Non-Whitespace"
   "非空白"
-
-  "Object Mode"
-  "对象模式"
-
-  "Outer"
-  "外部"
 
   "Paragraph"
   "段落"
@@ -2403,6 +2364,9 @@ msgcat::mcmset zh {
   "Copy Pathname"
   "複製路徑名"
 
+  "Counts"
+  "计数"
+
   "Delete directories?"
   "删除目录吗?"
 
@@ -2429,6 +2393,15 @@ msgcat::mcmset zh {
 
   "Hide Directory Files"
   "隐藏目录文件"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "在侧边栏信息面板关闭面板中显示图像"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "在侧边栏的刷新内容信息面板中显示图像"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "在侧边栏显示文件的侧边栏信息面板中显示的图像"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "在侧边栏来指示折叠目录中显示图像"
@@ -2469,6 +2442,9 @@ msgcat::mcmset zh {
   "Open Directory Files"
   "打开目录文件"
 
+  "Read Time"
+  "阅读时间"
+
   "Refresh Directory Files"
   "刷新目录文件"
 
@@ -2487,11 +2463,17 @@ msgcat::mcmset zh {
   "Show Directory Files"
   "显示目录文件"
 
+  "Show Info"
+  "显示信息"
+
   "Unable to duplicate file"
   "无法复制文件"
 
   "Yes"
   "是"
+
+  "value copied to clipboard"
+  "值复制到剪贴板"
 
 }
 
@@ -2652,6 +2634,9 @@ msgcat::mcmset zh {
 
   "Background color to display when a button-like ttk widget is pressed."
   "要显示按下一个按钮类似 ttk 小部件时的背景颜色。"
+
+  "Background color to use for active information values to indicate they are clickable."
+  "要用于主动信息值，以指示它们是可点击的背景颜色。"
 
   "Background color to use for displaying character information that requires the user's attention."
   "用来显示字符信息，需要用户注意的背景色。"
@@ -3136,9 +3121,6 @@ msgcat::mcmset zh {
   "Cancel"
   "取消"
 
-  "Character"
-  "字符"
-
   "Check for Update"
   "检查更新"
 
@@ -3153,12 +3135,6 @@ msgcat::mcmset zh {
 
   "Create"
   "创建"
-
-  "Current Line"
-  "当前行"
-
-  "Current Word"
-  "当前的单词"
 
   "Cursor"
   "光标"

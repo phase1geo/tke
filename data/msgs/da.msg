@@ -431,15 +431,6 @@ msgcat::mcmset da {
   "Create new plugin"
   "Oprette nye plugin"
 
-  "Current Number"
-  "Dette rækkenummer"
-
-  "Cursor from Line Start"
-  "Markøren fra linje Start"
-
-  "Cursor to Line End"
-  "Markøren til stregafslutning"
-
   "Cut"
   "Klip"
 
@@ -488,20 +479,8 @@ msgcat::mcmset da {
   "Delete current file"
   "Slet nuværende"
 
-  "Delete current line"
-  "Slet nuværende"
-
-  "Delete current word"
-  "Slet nuværende"
-
   "Delete fold at current line"
   "Slette fold på nuværende linje"
-
-  "Delete from cursor to end of line"
-  "Slet fra markøren til ende af linjen"
-
-  "Delete from start of line to cursor"
-  "Slet fra starten af linjen til markør"
 
   "Delete language preferences?"
   "Slette indstillinger for sprog?"
@@ -514,18 +493,6 @@ msgcat::mcmset da {
 
   "Delete template"
   "Slet skabelon"
-
-  "Delete text between character"
-  "Slet tekst mellem karakter"
-
-  "Delete the current number"
-  "Slet det aktuelle nummer"
-
-  "Delete the whitespace to left of cursor"
-  "Slet mellemrum til venstre for markøren"
-
-  "Delete the whitespace to right of cursor"
-  "Slet mellemrum til højre for markøren"
 
   "Disable Vim mode"
   "Deaktivere Vim tilstand"
@@ -1493,9 +1460,6 @@ msgcat::mcmset da {
   "Tabs"
   "Tab"
 
-  "Text Between Character"
-  "Tekst mellem karakter"
-
   "Tips & Tricks"
   "Tips & Tricks"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset da {
 
   "Vim Mode"
   "Vim-tilstand"
-
-  "Whitespace Backward"
-  "Whitespace bagud"
-
-  "Whitespace Forward"
-  "Mellemrum frem"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset da {
   "Current Filename"
   "Nuværende filnavn"
 
+  "Current Line"
+  "Aktuel linje:"
+
   "Current Line Column"
   "Nuværende linje kolonne"
 
   "Current Line Number"
   "Aktuelle linjenummer"
+
+  "Current Word"
+  "Aktuelle ord"
 
   "Current editing buffer directory"
   "Nuværende redigering buffer Register"
@@ -2292,23 +2256,17 @@ msgcat::mcmset da {
   "Block"
   "Bloker"
 
+  "Character"
+  "Karakter"
+
   "Curly Brackets"
   "Krøllede parenteser"
 
   "Double Quotes"
   "Dobbelte citationstegn"
 
-  "Inner"
-  "Indre"
-
   "Non-Whitespace"
   "Ikke-mellemrum"
-
-  "Object Mode"
-  "Objekt"
-
-  "Outer"
-  "Yderplads"
 
   "Paragraph"
   "Paragraphs"
@@ -2406,6 +2364,9 @@ msgcat::mcmset da {
   "Copy Pathname"
   "Kopiere stinavn"
 
+  "Counts"
+  "Antal"
+
   "Delete directories?"
   "Slette mapper?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset da {
 
   "Hide Directory Files"
   "Skjule register filer"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Billedet vises i indholdsoversigten panel for dokumentoplysninger til at lukke panelet"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Billedet vises i indholdsoversigten panel for dokumentoplysninger til at opdatere indhold"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Billedet vises i indholdsoversigten dokumentoplysningspanelet for viser filen i indholdsoversigten"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Billedet vises i indholdsoversigten for at angive en mappe, der er skjult"
@@ -2472,6 +2442,9 @@ msgcat::mcmset da {
   "Open Directory Files"
   "Open Directory filer"
 
+  "Read Time"
+  "læsetid"
+
   "Refresh Directory Files"
   "Refresh directory-filer"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset da {
   "Show Directory Files"
   "Vis register filer"
 
+  "Show Info"
+  "Vis info"
+
   "Unable to duplicate file"
   "Afskåret fra mangfoldiggøre fil"
 
   "Yes"
   "Ja"
+
+  "value copied to clipboard"
+  "Værdien kopieres til Udklipsholder"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset da {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Baggrundsfarve skal vises, når der trykkes på en knap-lignende TTK widget."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Baggrundsfarven til brug for aktive oplysninger værdier til at angive de er klikbare."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Baggrundsfarve til at bruge til visning af tegn oplysninger, der kræver brugerens opmærksomhed."
@@ -3139,9 +3121,6 @@ msgcat::mcmset da {
   "Cancel"
   "Annuller"
 
-  "Character"
-  "Karakter"
-
   "Check for Update"
   "Søg efter opdatering"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset da {
 
   "Create"
   "Opret"
-
-  "Current Line"
-  "Aktuel linje:"
-
-  "Current Word"
-  "Aktuelle ord"
 
   "Cursor"
   "Markør"

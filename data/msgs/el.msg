@@ -431,15 +431,6 @@ msgcat::mcmset el {
   "Create new plugin"
   "Δημιουργήστε νέο plugin"
 
-  "Current Number"
-  "Τρέχων αριθμός"
-
-  "Cursor from Line Start"
-  "Δρομέα από την αρχή γραμμής"
-
-  "Cursor to Line End"
-  "Δρομέα να άκρο της γραμμής"
-
   "Cut"
   "Αποκοπή"
 
@@ -488,20 +479,8 @@ msgcat::mcmset el {
   "Delete current file"
   "Διαγραφή του τρέχοντος αρχείου"
 
-  "Delete current line"
-  "Διαγραφή τρέχουσας γραμμής"
-
-  "Delete current word"
-  "Διαγραφή τρέχουσας λέξης"
-
   "Delete fold at current line"
   "Διαγραφή φορές στην τρέχουσα γραμμή"
-
-  "Delete from cursor to end of line"
-  "Διαγραφή του από το δρομέα στο τέλος της γραμμής"
-
-  "Delete from start of line to cursor"
-  "Διαγραφή του δρομέα από την αρχή της γραμμής"
 
   "Delete language preferences?"
   "Για να διαγράψετε τις προτιμήσεις γλώσσας;"
@@ -514,18 +493,6 @@ msgcat::mcmset el {
 
   "Delete template"
   "Διαγράψτε το αρχείο περιγράμματος"
-
-  "Delete text between character"
-  "Διαγραφή κειμένου μεταξύ χαρακτήρα"
-
-  "Delete the current number"
-  "Διαγράψετε τον τρέχοντα αριθμό"
-
-  "Delete the whitespace to left of cursor"
-  "Διαγράψτε το κενό διάστημα αριστερά του δρομέα"
-
-  "Delete the whitespace to right of cursor"
-  "Διαγράψτε το κενό διάστημα δεξιά του δρομέα"
 
   "Disable Vim mode"
   "Απενεργοποίηση της λειτουργίας Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset el {
   "Tabs"
   "Δισκία"
 
-  "Text Between Character"
-  "Κείμενο μεταξύ χαρακτήρα"
-
   "Tips & Tricks"
   "& Κόλπα συμβουλές"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset el {
 
   "Vim Mode"
   "Λειτουργία Vim"
-
-  "Whitespace Backward"
-  "Whitespace προς τα πίσω"
-
-  "Whitespace Forward"
-  "Whitespace προς τα εμπρός"
 
   "Windows"
   "Παράθυρα"
@@ -1776,11 +1734,17 @@ msgcat::mcmset el {
   "Current Filename"
   "Τρέχον όνομα αρχείου"
 
+  "Current Line"
+  "Τρέχουσα γραμμή"
+
   "Current Line Column"
   "Τρέχουσα γραμμή στήλη"
 
   "Current Line Number"
   "Τρέχων αριθμός γραμμής"
+
+  "Current Word"
+  "Τρέχουσας λέξης"
 
   "Current editing buffer directory"
   "Τρέχοντα επεξεργασίας buffer κατάλογο"
@@ -2292,23 +2256,17 @@ msgcat::mcmset el {
   "Block"
   "Μπλοκ"
 
+  "Character"
+  "Χαρακτήρας"
+
   "Curly Brackets"
   "Αγκύλες"
 
   "Double Quotes"
   "Διπλά εισαγωγικά"
 
-  "Inner"
-  "Εσωτερικό"
-
   "Non-Whitespace"
   "Μη-κενό"
-
-  "Object Mode"
-  "Αντικείμενο"
-
-  "Outer"
-  "Εξωτερικό"
 
   "Paragraph"
   "Παράγραφος"
@@ -2406,6 +2364,9 @@ msgcat::mcmset el {
   "Copy Pathname"
   "Pathname Copy"
 
+  "Counts"
+  "Μετρήσεις"
+
   "Delete directories?"
   "Διαγραφή καταλόγους;"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset el {
 
   "Hide Directory Files"
   "Κρύψει τα αρχεία καταλόγου"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για το κλείσιμο του πίνακα"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για ανανέωση περιεχομένου"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για εμφάνιση αρχείου στην πλαϊνή μπάρα"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Εικόνα που εμφανίζεται στο sidebar να υποδείξει έναν κατάλογο που έχει συμπτυχθεί"
@@ -2472,6 +2442,9 @@ msgcat::mcmset el {
   "Open Directory Files"
   "Αρχεία Open Directory"
 
+  "Read Time"
+  "Διαβάστε φορά"
+
   "Refresh Directory Files"
   "Ανανέωση Κατάλογος αρχείων"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset el {
   "Show Directory Files"
   "Εμφάνιση κατάλογος αρχείων"
 
+  "Show Info"
+  "Εμφάνιση πληροφοριών"
+
   "Unable to duplicate file"
   "Δεν είναι δυνατή η διπλότυπων αρχείων"
 
   "Yes"
   "Ναι"
+
+  "value copied to clipboard"
+  "τιμή αντιγράφεται στο Πρόχειρο"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset el {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Χρώμα φόντου στην οθόνη όταν ένα κουμπί, όπως το widget TTK πιέζεται."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Χρώμα φόντου για να το χρησιμοποιήσετε για ενεργό πληροφορίες τιμές για να υποδείξετε είναι clickable."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Χρώμα φόντου θα χρησιμοποιηθεί για την εμφάνιση πληροφοριών χαρακτήρα που απαιτεί την προσοχή του χρήστη."
@@ -3139,9 +3121,6 @@ msgcat::mcmset el {
   "Cancel"
   "Ακύρωση"
 
-  "Character"
-  "Χαρακτήρας"
-
   "Check for Update"
   "Έλεγχος για ενημέρωση"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset el {
 
   "Create"
   "Δημιουργία"
-
-  "Current Line"
-  "Τρέχουσα γραμμή"
-
-  "Current Word"
-  "Τρέχουσας λέξης"
 
   "Cursor"
   "Δρομέα"

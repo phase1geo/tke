@@ -431,15 +431,6 @@ msgcat::mcmset cs {
   "Create new plugin"
   "Vytvořit nový plugin"
 
-  "Current Number"
-  "Aktuální číslo"
-
-  "Cursor from Line Start"
-  "Kurzor od začátku řádku"
-
-  "Cursor to Line End"
-  "Kurzor na konec řádku"
-
   "Cut"
   "Snížit"
 
@@ -488,20 +479,8 @@ msgcat::mcmset cs {
   "Delete current file"
   "Odstranit aktuální soubor"
 
-  "Delete current line"
-  "Odstranit aktuální řádek"
-
-  "Delete current word"
-  "Odstranit aktuální slovo"
-
   "Delete fold at current line"
   "Odstranit řasy v aktuálním řádku"
-
-  "Delete from cursor to end of line"
-  "Odstranit z kurzoru do konce řádku"
-
-  "Delete from start of line to cursor"
-  "Odstranit ze začátku řádku kurzoru"
 
   "Delete language preferences?"
   "Smazat předvolby jazyka?"
@@ -514,18 +493,6 @@ msgcat::mcmset cs {
 
   "Delete template"
   "Smazat šablonu"
-
-  "Delete text between character"
-  "Odstranit text mezi znaky"
-
-  "Delete the current number"
-  "Odstranit aktuální číslo"
-
-  "Delete the whitespace to left of cursor"
-  "Odstranit mezery nalevo od kurzoru"
-
-  "Delete the whitespace to right of cursor"
-  "Odstranit mezery napravo od kurzoru"
 
   "Disable Vim mode"
   "Zakázat režim, Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset cs {
   "Tabs"
   "Karty"
 
-  "Text Between Character"
-  "Text mezi znaky"
-
   "Tips & Tricks"
   "Tipy & triky"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset cs {
 
   "Vim Mode"
   "Režim Vim"
-
-  "Whitespace Backward"
-  "Whitespace dozadu"
-
-  "Whitespace Forward"
-  "Prázdný znak vpřed"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset cs {
   "Current Filename"
   "Aktuální název souboru"
 
+  "Current Line"
+  "Aktuální řádek"
+
   "Current Line Column"
   "Aktuální řádek sloupec"
 
   "Current Line Number"
   "Číslo aktuálního řádku"
+
+  "Current Word"
+  "Aktuální slovo"
 
   "Current editing buffer directory"
   "Aktuální úpravy vyrovnávací paměti adresář"
@@ -2292,23 +2256,17 @@ msgcat::mcmset cs {
   "Block"
   "Blok textu"
 
+  "Character"
+  "Postava"
+
   "Curly Brackets"
   "Složené závorky"
 
   "Double Quotes"
   "Dvojité uvozovky"
 
-  "Inner"
-  "Vnitřní"
-
   "Non-Whitespace"
   "Bez mezer"
-
-  "Object Mode"
-  "Objekt"
-
-  "Outer"
-  "Vnější"
 
   "Paragraph"
   "Odstavec"
@@ -2406,6 +2364,9 @@ msgcat::mcmset cs {
   "Copy Pathname"
   "Kopírovat cestu"
 
+  "Counts"
+  "Počty"
+
   "Delete directories?"
   "Odstranění adresáře?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset cs {
 
   "Hide Directory Files"
   "Skrýt soubory adresáře"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Obrázek zobrazený v panelu informací o postranním panelu pro zavření panelu"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Obrázek zobrazený v panelu informací o postranním panelu pro aktualizaci obsahu"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Obrázek zobrazený v panelu informace postranní panel pro zobrazení souboru v postranním panelu"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Obrázek zobrazený v postranním panelu označuje adresář, který je sbaleno"
@@ -2472,6 +2442,9 @@ msgcat::mcmset cs {
   "Open Directory Files"
   "Open Directory soubory"
 
+  "Read Time"
+  "číst čas"
+
   "Refresh Directory Files"
   "Obnovit soubory adresáře"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset cs {
   "Show Directory Files"
   "Zobrazit soubory adresáře"
 
+  "Show Info"
+  "Zobrazit & info"
+
   "Unable to duplicate file"
   "Duplicitní soubor nelze"
 
   "Yes"
   "Ano"
+
+  "value copied to clipboard"
+  "hodnota zkopírována do schránky"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset cs {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Barva pozadí se zobrazí při stisknutí tlačítka podobný TTK widget."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Barva pozadí, kterou použít pro aktivní informační hodnoty označující, že jsou klikací."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Barva pozadí pro zobrazení informací o znacích, které vyžaduje pozornost uživatele."
@@ -3139,9 +3121,6 @@ msgcat::mcmset cs {
   "Cancel"
   "Storno"
 
-  "Character"
-  "Postava"
-
   "Check for Update"
   "Zkontrolujte, zda aktualizaci"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset cs {
 
   "Create"
   "Vytvořit"
-
-  "Current Line"
-  "Aktuální řádek"
-
-  "Current Word"
-  "Aktuální slovo"
 
   "Cursor"
   "Kurzor"

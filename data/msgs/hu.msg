@@ -431,15 +431,6 @@ msgcat::mcmset hu {
   "Create new plugin"
   "Hozzon létre új plugin"
 
-  "Current Number"
-  "Az aktuális sor száma"
-
-  "Cursor from Line Start"
-  "A kurzort az elejétől sor"
-
-  "Cursor to Line End"
-  "Kurzort a vonal végét"
-
   "Cut"
   "Kivágás"
 
@@ -488,20 +479,8 @@ msgcat::mcmset hu {
   "Delete current file"
   "Az aktuális törlése"
 
-  "Delete current line"
-  "Az aktuális törlése"
-
-  "Delete current word"
-  "Az aktuális törlése"
-
   "Delete fold at current line"
   "Szeres aktuális sor törlése"
-
-  "Delete from cursor to end of line"
-  "Törli a kurzor, hogy vessen véget a sor"
-
-  "Delete from start of line to cursor"
-  "Törlés a sor elejére kurzor"
 
   "Delete language preferences?"
   "Nyelv beállítások törlése?"
@@ -514,18 +493,6 @@ msgcat::mcmset hu {
 
   "Delete template"
   "Sablon törlése"
-
-  "Delete text between character"
-  "Szöveg közötti karakter törlése"
-
-  "Delete the current number"
-  "Törli az aktuális száma"
-
-  "Delete the whitespace to left of cursor"
-  "A kurzor balra szóközt törölni"
-
-  "Delete the whitespace to right of cursor"
-  "A whitespace-a kurzor jobbra törlése"
 
   "Disable Vim mode"
   "Vim mód letiltása"
@@ -1493,9 +1460,6 @@ msgcat::mcmset hu {
   "Tabs"
   "Lapfülek"
 
-  "Text Between Character"
-  "Karakter közé szöveget helyezünk"
-
   "Tips & Tricks"
   "Tippek és trükkök"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset hu {
 
   "Vim Mode"
   "Vim Mode"
-
-  "Whitespace Backward"
-  "Szóköz visszafelé"
-
-  "Whitespace Forward"
-  "Szóköz-előre"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset hu {
   "Current Filename"
   "Jelenlegi fájlnév"
 
+  "Current Line"
+  "Az aktuális sor:"
+
   "Current Line Column"
   "Aktuális sor-oszlop"
 
   "Current Line Number"
   "Aktuális sor száma"
+
+  "Current Word"
+  "Aktuális szó"
 
   "Current editing buffer directory"
   "Aktuális szerkesztési puffer könyvtár"
@@ -2292,23 +2256,17 @@ msgcat::mcmset hu {
   "Block"
   "Blokk"
 
+  "Character"
+  "Karakter"
+
   "Curly Brackets"
   "Kapcsos zárójelekkel"
 
   "Double Quotes"
   "Kettős idézőjelek"
 
-  "Inner"
-  "Belül"
-
   "Non-Whitespace"
   "Nem-Whitespace"
-
-  "Object Mode"
-  "Tárgy"
-
-  "Outer"
-  "Kívül"
 
   "Paragraph"
   "Bekezdés"
@@ -2406,6 +2364,9 @@ msgcat::mcmset hu {
   "Copy Pathname"
   "Elérési út másolása"
 
+  "Counts"
+  "Statisztika"
+
   "Delete directories?"
   "Törli a könyvtárakat?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset hu {
 
   "Hide Directory Files"
   "Elrejteni fájlokat címtár"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Tálaló adatai munkaablak bezárása a panelen megjelenített kép"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Frissítő tartalmának tálaló információk panelen megjelenített kép"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Tálaló adatai a fájl megjelenítése az oldalsávon megjelenő kép"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Kép bemutatás-ban tálaló jelzi, egy könyvtár, amely össze van csukva"
@@ -2472,6 +2442,9 @@ msgcat::mcmset hu {
   "Open Directory Files"
   "Open Directory fájlok"
 
+  "Read Time"
+  "Olvasási idő"
+
   "Refresh Directory Files"
   "Frissítés Directory fájlok"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset hu {
   "Show Directory Files"
   "Könyvtár-fájlok megjelenítése"
 
+  "Show Info"
+  "A jellemzÅk elrejtÃ©se"
+
   "Unable to duplicate file"
   "Nem lehet másolat reszelő"
 
   "Yes"
   "Igen"
+
+  "value copied to clipboard"
+  "érték másolása vágólapra"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset hu {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Háttérszínt jelenik meg, amikor egy gomb-szerű TTK widgetet van nyomva."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Háttérszín feltüntetik kattintható aktív információs értékek segítségével."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Jellegű információt, a felhasználó a figyelmet igénylő megjelenítésére használt háttérszín."
@@ -3139,9 +3121,6 @@ msgcat::mcmset hu {
   "Cancel"
   "Mégsem"
 
-  "Character"
-  "Karakter"
-
   "Check for Update"
   "Ellenőrizze a Frissítés"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset hu {
 
   "Create"
   "Létrehozás"
-
-  "Current Line"
-  "Az aktuális sor:"
-
-  "Current Word"
-  "Aktuális szó"
 
   "Cursor"
   "Kurzor"

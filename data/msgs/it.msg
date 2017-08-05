@@ -431,15 +431,6 @@ msgcat::mcmset it {
   "Create new plugin"
   "Creare nuovo plugin"
 
-  "Current Number"
-  "Numero corrente"
-
-  "Cursor from Line Start"
-  "Cursore dall'inizio linea"
-
-  "Cursor to Line End"
-  "Cursore a fine riga"
-
   "Cut"
   "Taglia"
 
@@ -488,20 +479,8 @@ msgcat::mcmset it {
   "Delete current file"
   "Cancella corrente"
 
-  "Delete current line"
-  "Cancella corrente"
-
-  "Delete current word"
-  "Cancella corrente"
-
   "Delete fold at current line"
   "Eliminare la piega nella riga corrente"
-
-  "Delete from cursor to end of line"
-  "Elimina dal cursore alla fine della linea"
-
-  "Delete from start of line to cursor"
-  "Eliminare dall'inizio della linea fino al cursore"
 
   "Delete language preferences?"
   "Eliminare le preferenze di lingua?"
@@ -514,18 +493,6 @@ msgcat::mcmset it {
 
   "Delete template"
   "Elimina modello"
-
-  "Delete text between character"
-  "Eliminare il testo tra carattere"
-
-  "Delete the current number"
-  "Eliminare il numero corrente"
-
-  "Delete the whitespace to left of cursor"
-  "Eliminare lo spazio vuoto a sinistra del cursore"
-
-  "Delete the whitespace to right of cursor"
-  "Eliminare lo spazio vuoto a destra del cursore"
 
   "Disable Vim mode"
   "Disattivare la modalità di Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset it {
   "Tabs"
   "Tabelle"
 
-  "Text Between Character"
-  "Testo tra carattere"
-
   "Tips & Tricks"
   "Suggerimenti e trucchi"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset it {
 
   "Vim Mode"
   "Modalità di Vim"
-
-  "Whitespace Backward"
-  "Spazi vuoti con le versioni precedenti"
-
-  "Whitespace Forward"
-  "Whitespace Forward"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset it {
   "Current Filename"
   "Nome del file corrente"
 
+  "Current Line"
+  "Riga corrente"
+
   "Current Line Column"
   "Colonna corrente"
 
   "Current Line Number"
   "Numero di riga corrente"
+
+  "Current Word"
+  "Parola corrente"
 
   "Current editing buffer directory"
   "Directory corrente di buffer editing"
@@ -2292,23 +2256,17 @@ msgcat::mcmset it {
   "Block"
   "Blocco"
 
+  "Character"
+  "Carattere"
+
   "Curly Brackets"
   "Parentesi"
 
   "Double Quotes"
   "Doppi apici"
 
-  "Inner"
-  "Interno"
-
   "Non-Whitespace"
   "Non di spaziatura"
-
-  "Object Mode"
-  "Modalità oggetto"
-
-  "Outer"
-  "Esterno"
 
   "Paragraph"
   "Paragrafo"
@@ -2406,6 +2364,9 @@ msgcat::mcmset it {
   "Copy Pathname"
   "Copiare il percorso"
 
+  "Counts"
+  "Conte"
+
   "Delete directories?"
   "Eliminare le directory?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset it {
 
   "Hide Directory Files"
   "File indirizzario"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Immagine visualizzata nel pannello informazioni sidebar per il pannello di chiusura"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Immagine visualizzata nel pannello informazioni sidebar per l'aggiornamento di contenuto"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Immagine visualizzata nel pannello informazioni sidebar per file che mostra nella barra laterale"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Immagine visualizzata nella barra laterale per indicare una directory che è compresso"
@@ -2472,6 +2442,9 @@ msgcat::mcmset it {
   "Open Directory Files"
   "File indirizzario"
 
+  "Read Time"
+  "Tempo di lettura"
+
   "Refresh Directory Files"
   "Aggiorna Directory Files"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset it {
   "Show Directory Files"
   "File indirizzario"
 
+  "Show Info"
+  "Mostra info"
+
   "Unable to duplicate file"
   "Grado di file duplicati"
 
   "Yes"
   "Si"
+
+  "value copied to clipboard"
+  "valore copiato negli Appunti"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset it {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Colore di sfondo da visualizzare quando viene premuto un tasto widget di TTK-like."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Colore di sfondo da utilizzare per i valori di informazione attiva per indicare che sono cliccabili."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Colore di sfondo da utilizzare per la visualizzazione di informazioni di carattere che richiede l'attenzione dell'utente."
@@ -3139,9 +3121,6 @@ msgcat::mcmset it {
   "Cancel"
   "Cancella"
 
-  "Character"
-  "Carattere"
-
   "Check for Update"
   "Ricerca aggiornamenti"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset it {
 
   "Create"
   "Crea"
-
-  "Current Line"
-  "Riga corrente"
-
-  "Current Word"
-  "Parola corrente"
 
   "Cursor"
   "Cursore"
