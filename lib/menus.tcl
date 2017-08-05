@@ -1103,7 +1103,6 @@ namespace eval menus {
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Insert"]    -menu [make_menu $mb.insertPopup    -tearoff 0 -postcommand [list menus::edit_insert_posting $mb.insertPopup]]
-    $mb add cascade -label [msgcat::mc "Delete"]    -menu [make_menu $mb.deletePopup    -tearoff 0 -postcommand [list menus::edit_delete_posting $mb.deletePopup]]
     $mb add cascade -label [msgcat::mc "Transform"] -menu [make_menu $mb.transformPopup -tearoff 0 -postcommand [list menus::edit_transform_posting $mb.transformPopup]]
     $mb add cascade -label [msgcat::mc "Format"]    -menu [make_menu $mb.formatPopup    -tearoff 0 -postcommand [list menus::edit_format_posting $mb.formatPopup]]
 
@@ -1236,40 +1235,6 @@ namespace eval menus {
 
     $mb.insertPopup add command -label [msgcat::mc "Enumeration"] -underline 7 -command [list edit::insert_enumeration]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert enumeration"]] [list edit::insert_enumeration]
-
-    ########################
-    # Populate deletion menu
-    ########################
-
-    $mb.deletePopup add command -label [msgcat::mc "Current Line"] -command [list menus::edit_delete_current_line]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete current line"]] [list menus::edit_delete_current_line]
-
-    $mb.deletePopup add command -label [msgcat::mc "Current Word"] -command [list menus::edit_delete_current_word]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete current word"]] [list menus::edit_delete_current_word]
-
-    $mb.deletePopup add command -label [msgcat::mc "Current Number"] -command [list menus::edit_delete_current_number]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete the current number"]] [list menus::edit_delete_current_number]
-
-    $mb.deletePopup add separator
-
-    $mb.deletePopup add command -label [msgcat::mc "Cursor to Line End"] -command [list menus::edit_delete_to_end]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete from cursor to end of line"]] [list menus::edit_delete_to_end]
-
-    $mb.deletePopup add command -label [msgcat::mc "Cursor from Line Start"] -command [list menus::edit_delete_from_start]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete from start of line to cursor"]] [list menus::edit_delete_from_start]
-
-    $mb.deletePopup add separator
-
-    $mb.deletePopup add command -label [msgcat::mc "Whitespace Forward"] -command [list menus::edit_delete_next_space]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete the whitespace to right of cursor"]] [list menus::edit_delete_next_space]
-
-    $mb.deletePopup add command -label [msgcat::mc "Whitespace Backward"] -command [list menus::edit_delete_prev_space]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete the whitespace to left of cursor"]] [list menus::edit_delete_prev_space]
-
-    $mb.deletePopup add separator
-
-    $mb.deletePopup add command -label [msgcat::mc "Text Between Character"] -command [list menus::edit_delete_between_char]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Delete text between character"]] [list menus::edit_delete_between_char]
 
     #########################
     # Populate transform menu
@@ -1691,25 +1656,6 @@ namespace eval menus {
   }
 
   ######################################################################
-  # Called just prior to posting the edit/delete menu option.  Sets the
-  # menu option states to match the current UI state.
-  proc edit_delete_posting {mb} {
-
-    # Get the state
-    set state [expr {([gui::current_txt] eq "") ? "disabled" : "normal"}]
-
-    $mb entryconfigure [msgcat::mc "Current Line"]           -state $state
-    $mb entryconfigure [msgcat::mc "Current Word"]           -state $state
-    $mb entryconfigure [msgcat::mc "Current Number"]         -state $state
-    $mb entryconfigure [msgcat::mc "Cursor to Line End"]     -state $state
-    $mb entryconfigure [msgcat::mc "Cursor from Line Start"] -state $state
-    $mb entryconfigure [msgcat::mc "Whitespace Forward"]     -state $state
-    $mb entryconfigure [msgcat::mc "Whitespace Backward"]    -state $state
-    $mb entryconfigure [msgcat::mc "Text Between Character"] -state $state
-
-  }
-
-  ######################################################################
   # Called just prior to posting the edit/transform menu option.  Sets
   # the menu option states to match the current UI state.
   proc edit_transform_posting {mb} {
@@ -2001,89 +1947,6 @@ namespace eval menus {
 
     if {[gui::get_user_response [format "%s:" [msgcat::mc "Command"]] cmd -allow_vars 1]} {
       edit::insert_file [gui::current_txt].t "|$cmd"
-    }
-
-  }
-
-  ######################################################################
-  # Deletes the current line.
-  proc edit_delete_current_line {} {
-
-    set txtt [gui::current_txt].t
-
-    if {![edit::delete_selected $txtt]} {
-      edit::delete $txtt linestart lineend 1 1
-    }
-
-  }
-
-  ######################################################################
-  # Deletes the current word.
-  proc edit_delete_current_word {} {
-
-    edit::delete_current_word [gui::current_txt].t 1
-
-  }
-
-  ######################################################################
-  # Deletes from the current cursor position to the end of the line.
-  proc edit_delete_to_end {} {
-
-    set txtt [gui::current_txt].t
-
-    if {![edit::delete_selected $txtt]} {
-      edit::delete $txtt insert lineend 1 1
-    }
-
-  }
-
-  ######################################################################
-  # Deletes from the start of the current line to just before the cursor.
-  proc edit_delete_from_start {} {
-
-    set txtt [gui::current_txt].t
-
-    if {![edit::delete_selected $txtt]} {
-      edit::delete $txtt insert linestart 1 1
-    }
-
-  }
-
-  ######################################################################
-  # Deletes the current number.
-  proc edit_delete_current_number {} {
-
-    edit::delete_prev_number [gui::current_txt].t 1
-    edit::delete_next_number [gui::current_txt].t 1
-
-  }
-
-  ######################################################################
-  # Deletes all consecutive whitespace starting from cursor to the end of
-  # the line.
-  proc edit_delete_next_space {} {
-
-    edit::delete_next_space [gui::current_txt].t
-
-  }
-
-  ######################################################################
-  # Deletes all consecutive whitespace prior to the cursor.
-  proc edit_delete_prev_space {} {
-
-    edit::delete_prev_space [gui::current_txt].t
-
-  }
-
-  ######################################################################
-  # Deletes all text between the character set that surrounds the current
-  # insertion cursor.
-  proc edit_delete_between_char {} {
-
-    set char ""
-
-    if {[gui::get_user_response [format "%s:" [msgcat::mc "Character"]] char] && ([string length $char] == 1)} {
-      edit::delete_between_char [gui::current_txt].t $char 1
     }
 
   }
