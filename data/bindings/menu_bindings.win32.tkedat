@@ -49,14 +49,6 @@
 {Edit/Insert/From Clipboard}              Alt-C
 {Edit/Insert/Snippet}                     Alt-S
 {Edit/Insert/Enumeration}                 Alt-1
-{Edit/Delete/Current Line}                Ctrl-Alt-D
-{Edit/Delete/Current Word}                Ctrl-Alt-R
-{Edit/Delete/Current Number}              Ctrl-Alt-N
-{Edit/Delete/Cursor to Line End}          Ctrl-Alt-E
-{Edit/Delete/Cursor from Line Start}      Ctrl-Alt-B
-{Edit/Delete/Whitespace Forward}          Ctrl-Alt-S
-{Edit/Delete/Whitespace Backward}         Shift-Ctrl-Alt-S
-{Edit/Delete/Text Between Character}      Ctrl-Alt-C
 {Edit/Transform/Lower Case}               Alt-L
 {Edit/Transform/Upper Case}               Alt-U
 {Edit/Transform/Title Case}               Alt-T
