@@ -13,6 +13,7 @@ namespace eval tabbar {
   array set widget_options {
     -activebackground       {activeBackground       Background}
     -activeforeground       {activeForeground       Foreground}
+    -activecloseimage       {activeCloseImage       Image}
     -anchor                 {anchor                 Anchor}
     -background             {background             Background}
     -bg                     -background
@@ -91,6 +92,7 @@ namespace eval tabbar {
       # Initialize default options
       option add *Tabbar.activeBackground    grey90    widgetDefault
       option add *Tabbar.activeForeground    black     widgetDefault
+      option add *Tabbar.activeCloseImage    ""        widgetDefault
       option add *Tabbar.anchor              center    widgetDefault
       option add *Tabbar.background          grey90    widgetDefault
       option add *Tabbar.borderColor         grey50    widgetDefault
@@ -116,9 +118,10 @@ namespace eval tabbar {
 
     # Create any images
     set imgdir [file join [DIR] library images]
-    set data($w,image,close) [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
-    set data($w,image,left)  [image create bitmap -file [file join $imgdir left.bmp]  -maskfile [file join $imgdir left.bmp]  -foreground black]
-    set data($w,image,right) [image create bitmap -file [file join $imgdir right.bmp] -maskfile [file join $imgdir right.bmp] -foreground black]
+    set data($w,image,close)       [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
+    set data($w,image,activeclose) [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
+    set data($w,image,left)        [image create bitmap -file [file join $imgdir left.bmp]  -maskfile [file join $imgdir left.bmp]  -foreground black]
+    set data($w,image,right)       [image create bitmap -file [file join $imgdir right.bmp] -maskfile [file join $imgdir right.bmp] -foreground black]
     for {set i 1} {$i <= 8} {incr i} {
       set data($w,image,busy$i) [image create bitmap -file [file join $imgdir busy$i.bmp] -maskfile [file join $imgdir busy$i.bmp] -foreground black]
     }

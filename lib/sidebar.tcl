@@ -279,7 +279,10 @@ namespace eval sidebar {
     bind $widgets(info,fclose)   <Button-1> [list pack forget $widgets(info,f)]
     bind info_panel              <Enter>    [list grid $w.if.bf]
     bind info_panel              <Leave>    [list grid remove $w.if.bf]
-    # bind info_panel              <Button-1> [list $widgets(tl) see $sidebar::last_info]
+
+    tooltip::tooltip $widgets(info,fshow)    [msgcat::mc "Show in Sidebar"]
+    tooltip::tooltip $widgets(info,frefresh) [msgcat::mc "Update Info"]
+    tooltip::tooltip $widgets(info,fclose)   [msgcat::mc "Close"]
 
     pack $widgets(info,fclose)   -side right -padx 2 -pady 2
     pack $widgets(info,frefresh) -side right -padx 2 -pady 2
