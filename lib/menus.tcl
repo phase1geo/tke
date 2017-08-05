@@ -1506,7 +1506,6 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Indentation"]      -state disabled
       $mb entryconfigure [msgcat::mc "Cursor"]           -state disabled
       $mb entryconfigure [msgcat::mc "Insert"]           -state disabled
-      $mb entryconfigure [msgcat::mc "Delete"]           -state disabled
       $mb entryconfigure [msgcat::mc "Transform"]        -state disabled
       $mb entryconfigure [msgcat::mc "Format"]           -state disabled
     } else {
@@ -1542,11 +1541,9 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Cursor"]      -state $readonly_state
       if {[gui::editable]} {
         $mb entryconfigure [msgcat::mc "Insert"]    -state $readonly_state
-        $mb entryconfigure [msgcat::mc "Delete"]    -state $readonly_state
         $mb entryconfigure [msgcat::mc "Transform"] -state $readonly_state
       } else {
         $mb entryconfigure [msgcat::mc "Insert"]    -state disabled
-        $mb entryconfigure [msgcat::mc "Delete"]    -state disabled
         $mb entryconfigure [msgcat::mc "Transform"] -state disabled
       }
       if {[gui::editable] && ([llength [syntax::get_formatting $txt]] > 0)} {
