@@ -622,6 +622,7 @@ namespace eval syntax {
                 }
                 if {$color eq "meta"} {
                   lappend meta_tags($txt) $name
+                  $txt tag raise _$name
                 }
               }
             }

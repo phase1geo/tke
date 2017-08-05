@@ -52,10 +52,10 @@ advanced {
   HighlightRegexp {([*_])(?=\S).+?\1}           italics
   HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} link
   HighlightRegexp {^\s*\[.+?\]:\s+\S+}          linkref
-  HighlightRegexp {(~{2})(?=\S).+?\1}           overstrike
+  HighlightRegexp {([~|]{2})(?=\S).+?\1}        overstrike
   HighlightRegexp {(~)(?=\S).+?\1}              subscript
   HighlightRegexp {(\^)(?=\S).+?\1}             superscript
-  HighlightRegexp {(={2})(?=\S).+?\1}           highlight
+  HighlightRegexp {([=:]{2})(?=\S).+?\1}        highlight
   HighlightRegexp {.*?$}                        list_check
 
   HighlightProc ccode {
