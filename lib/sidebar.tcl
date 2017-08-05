@@ -280,6 +280,7 @@ namespace eval sidebar {
     bind info_panel              <Enter>    [list grid $w.if.bf]
     bind info_panel              <Leave>    [list grid remove $w.if.bf]
 
+    # Add tooltips to the buttons
     tooltip::tooltip $widgets(info,fshow)    [msgcat::mc "Show in Sidebar"]
     tooltip::tooltip $widgets(info,frefresh) [msgcat::mc "Update Info"]
     tooltip::tooltip $widgets(info,fclose)   [msgcat::mc "Close"]
@@ -1205,7 +1206,7 @@ namespace eval sidebar {
       }
       event generate $widgets(tl) <Enter>
     } else {
-      tooltip::tooltip clear
+      tooltip::tooltip clear $widgets(tl)
     }
 
   }
@@ -1233,7 +1234,9 @@ namespace eval sidebar {
   # Hides the tooltip associated with the root row.
   proc hide_tooltip {} {
 
-    tooltip::tooltip clear
+    variable widgets
+
+    tooltip::tooltip clear $widgets(tl)
 
   }
 
