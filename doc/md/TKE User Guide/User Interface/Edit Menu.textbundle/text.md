@@ -10,7 +10,8 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Copy | Cmd-C | Ctrl-C | Copies the selected text to the clipboard.  If no text is currently selected, the current line is copied to the clipboard. |
 | Paste | Cmd-V | Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is copied “as is”. |
 | Paste and Format | Shift-Cmd-V | Shift-Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is indented to fit into the current insertion point. |
-| Select All | Cmd-A | Ctrl-A | Selects all of the text in the current editor. |
+| Select All | Cmd-Shift-A | Ctrl-Shift-A | Selects all of the text in the current editor. |
+| Select Mode | Cmd-A | Ctrl-A | Enables selection mode for fine-grained, keyboard-centric selection editing. |
 | Vim Mode | | | When selected, changes the editing environment to use Vim-style interaction.  When deselected, changes the editing environment back to “normal” editing mode. |
 | Toggle Comment | Ctrl-/ | Ctrl-/ | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
 | Indentation / Indent | Ctrl-] | Ctrl-] | Indents the selected text by one level of indentation. |
@@ -43,14 +44,6 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Insert / From Clipboard | Alt-C | Alt-C | Displays the command launcher in clipboard mode to allow the user to view and select one of the clipboard history elements to insert into the current editor. |
 | Insert / Snippet | Alt-S | Alt-S | Displays the command launcher in snippet mode to allow the user to view and select one of the language-specific snippets to insert into the current editor. |
 | Insert / Enumeration | Alt-1 | Alt-1 | When one or more multicursors are set, allows the user to insert ascending numerical values at each cursor insertion position. |
-| Delete / Current Line | Ctrl-Alt-D | Ctrl-Alt-D | Deletes the current line and places the cursor at the beginning of the next line.  The deleted line is placed into the clipboard. |
-| Delete / Current Word | Ctrl-Alt-R | Ctrl-Alt-R | Deletes the current word and places the cursor at the beginning of the next word.  The deleted word is placed into the clipboard. |
-| Delete / Current Number | Ctrl-Alt-N | Ctrl-Alt-N | Deletes the current number and places the cursor just after the deleted text.  The deleted number is placed into the clipboard. |
-| Delete / Cursor to Line End | Ctrl-Alt-E | Ctrl-Alt-E | Deletes all characters between the current cursor and the end of the line, placing the cursor on the character previous to the current character. |
-| Delete / Cursor to Line Start | Ctrl-Alt-B | Ctrl-Alt-B | Deletes all characters between the start of the current line and up to (but not including) the current cursor. |
-| Delete / Whitespace Forward | Ctrl-Alt-S | Ctrl-Alt-S | Deletes all consecutive whitespace (i.e., space and tab) characters from the current cursor towards the end of the current line. |
-| Delete / Whitespace Backward | Shift-Ctrl-Alt-S | Shift-Ctrl-Alt-S | Deletes all consecutive whitespace characters from the current cursor towards the start of the current line. |
-| Delete / Text Between Character | Ctrl-Alt-C | Ctrl-Alt-C | Displays an input field allowing a single character to be entered.  The character is searched for the first occurrence before the current cursor and the first occurrence after the current cursor. All characters between these two characters is deleted and placed in the clipboard. |
 | Transform / Toggle Case | | | Toggles the case of the character at the current insertion cursor or of all selected characters. |
 | Transform / Lower Case | Ctrl-Alt-L | Alt-L | Sets the case of the character at the current cursor or all selected characters to lower case. |
 | Transform / Upper Case | Ctrl-Alt-U | Alt-U | Sets the case of the character at the current cursor or all selected characters to upper case. |
