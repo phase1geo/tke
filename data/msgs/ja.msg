@@ -235,9 +235,6 @@ msgcat::mcmset ja {
   "Save request"
   "リクエストを保存"
 
-  "Show in Sidebar"
-  "サイドバーで表示"
-
   "Starting number:"
   "開始番号:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset ja {
   "Find next mismatching bracket"
   "次の組合わせを誤まるかっこを検索します。"
 
-  "Find next occurrence"
-  "次の出現を検索します。"
-
   "Find previous mismatching bracket"
   "以前の組合わせを誤まるラケットを見つける"
-
-  "Find previous occurrence"
-  "前の出現箇所を見つける"
 
   "Folding"
   "折り畳み式の"
@@ -2469,6 +2460,9 @@ msgcat::mcmset ja {
   "Unable to duplicate file"
   "重複するファイルを開けません"
 
+  "Update Info"
+  "更新情報"
+
   "Yes"
   "はい"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset ja {
   "Find"
   "見つけます"
 
+  "Find next occurrence"
+  "次の出現を検索します。"
+
+  "Find previous occurrence"
+  "前の出現箇所を見つける"
+
   "Insert"
   "挿入"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset ja {
 
   "Sessions"
   "セッション"
+
+  "Show in Sidebar"
+  "サイドバーで表示"
 
   "Show line numbers"
   "行番号を表示します。"

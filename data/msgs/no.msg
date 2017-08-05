@@ -235,9 +235,6 @@ msgcat::mcmset no {
   "Save request"
   "Lagre forespørsel"
 
-  "Show in Sidebar"
-  "Vis i Sidebar"
-
   "Starting number:"
   "Startnummeret:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset no {
   "Find next mismatching bracket"
   "Finn neste inkompatible brakett"
 
-  "Find next occurrence"
-  "Finne neste forekomst"
-
   "Find previous mismatching bracket"
   "Finn forrige inkompatible brakett"
-
-  "Find previous occurrence"
-  "Finne forrige forekomst"
 
   "Folding"
   "Folding"
@@ -2469,6 +2460,9 @@ msgcat::mcmset no {
   "Unable to duplicate file"
   "Kan ikke kopiere arkiv"
 
+  "Update Info"
+  "Update Info"
+
   "Yes"
   "Ja"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset no {
   "Find"
   "Søk"
 
+  "Find next occurrence"
+  "Finne neste forekomst"
+
+  "Find previous occurrence"
+  "Finne forrige forekomst"
+
   "Insert"
   "Sett inn"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset no {
 
   "Sessions"
   "Sessions"
+
+  "Show in Sidebar"
+  "Vis i Sidebar"
 
   "Show line numbers"
   "Vis linjenumre"

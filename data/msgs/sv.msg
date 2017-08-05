@@ -235,9 +235,6 @@ msgcat::mcmset sv {
   "Save request"
   "Spara begäran"
 
-  "Show in Sidebar"
-  "Show i Sidebar"
-
   "Starting number:"
   "Sidnummer för första sidan:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset sv {
   "Find next mismatching bracket"
   "Hitta nästa inte matchar fäste"
 
-  "Find next occurrence"
-  "Hitta nästa förekomst"
-
   "Find previous mismatching bracket"
   "Hitta tidigare inte matchar fäste"
-
-  "Find previous occurrence"
-  "Hitta föregående förekomst"
 
   "Folding"
   "tvinning"
@@ -2469,6 +2460,9 @@ msgcat::mcmset sv {
   "Unable to duplicate file"
   "Det gick inte att duplicera arkivera"
 
+  "Update Info"
+  "Uppdatera information"
+
   "Yes"
   "Ja"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset sv {
   "Find"
   "Sök i"
 
+  "Find next occurrence"
+  "Hitta nästa förekomst"
+
+  "Find previous occurrence"
+  "Hitta föregående förekomst"
+
   "Insert"
   "Infoga"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset sv {
 
   "Sessions"
   "Sessioner"
+
+  "Show in Sidebar"
+  "Show i Sidebar"
 
   "Show line numbers"
   "Visa radnummer"

@@ -235,9 +235,6 @@ msgcat::mcmset hu {
   "Save request"
   "Mentés kérése"
 
-  "Show in Sidebar"
-  "Show Sidebar"
-
   "Starting number:"
   "A kezdő dia száma:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset hu {
   "Find next mismatching bracket"
   "Még a következő nem megfelelő zárójel"
 
-  "Find next occurrence"
-  "Talál a következő alkalom emlékeztetője"
-
   "Find previous mismatching bracket"
   "Még a korábbi hibás konzol"
-
-  "Find previous occurrence"
-  "Még a korábbi előfordulása"
 
   "Folding"
   "Összecsukható"
@@ -2469,6 +2460,9 @@ msgcat::mcmset hu {
   "Unable to duplicate file"
   "Nem lehet másolat reszelő"
 
+  "Update Info"
+  "Információ frissítése"
+
   "Yes"
   "Igen"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset hu {
   "Find"
   "Keresés"
 
+  "Find next occurrence"
+  "Talál a következő alkalom emlékeztetője"
+
+  "Find previous occurrence"
+  "Még a korábbi előfordulása"
+
   "Insert"
   "Beillesztés"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset hu {
 
   "Sessions"
   "Ülések"
+
+  "Show in Sidebar"
+  "Show Sidebar"
 
   "Show line numbers"
   "A sorszámok megjelenítése"

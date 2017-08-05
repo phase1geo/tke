@@ -235,9 +235,6 @@ msgcat::mcmset da {
   "Save request"
   "Spar anmodning"
 
-  "Show in Sidebar"
-  "Vis i Sidebar"
-
   "Starting number:"
   "Starttal"
 
@@ -629,14 +626,8 @@ msgcat::mcmset da {
   "Find next mismatching bracket"
   "Find næste forkert beslag"
 
-  "Find next occurrence"
-  "Finde næste forekomst"
-
   "Find previous mismatching bracket"
   "Find forrige forkert beslag"
-
-  "Find previous occurrence"
-  "Find forrige forekomst"
 
   "Folding"
   "Fold"
@@ -2469,6 +2460,9 @@ msgcat::mcmset da {
   "Unable to duplicate file"
   "Afskåret fra mangfoldiggøre fil"
 
+  "Update Info"
+  "Opdater informationer"
+
   "Yes"
   "Ja"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset da {
   "Find"
   "Søg"
 
+  "Find next occurrence"
+  "Finde næste forekomst"
+
+  "Find previous occurrence"
+  "Find forrige forekomst"
+
   "Insert"
   "Indsæt"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset da {
 
   "Sessions"
   "Sessioner"
+
+  "Show in Sidebar"
+  "Vis i Sidebar"
 
   "Show line numbers"
   "Vis linjenumre"

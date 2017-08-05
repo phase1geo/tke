@@ -235,9 +235,6 @@ msgcat::mcmset fr {
   "Save request"
   "Enregistrer la demande"
 
-  "Show in Sidebar"
-  "Afficher dans la barre latérale"
-
   "Starting number:"
   "Changer le numéro de page de démarrage :"
 
@@ -629,14 +626,8 @@ msgcat::mcmset fr {
   "Find next mismatching bracket"
   "Trouver le prochain support incompatible"
 
-  "Find next occurrence"
-  "Trouver l'occurrence suivante"
-
   "Find previous mismatching bracket"
   "Trouver le précédent support incompatible"
-
-  "Find previous occurrence"
-  "Trouver l'occurrence précédente"
 
   "Folding"
   "Pliage"
@@ -2469,6 +2460,9 @@ msgcat::mcmset fr {
   "Unable to duplicate file"
   "Incapable de doublons de fichiers"
 
+  "Update Info"
+  "Mettre à jour votre profil"
+
   "Yes"
   "Oui"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset fr {
   "Find"
   "Trouvez"
 
+  "Find next occurrence"
+  "Trouver l'occurrence suivante"
+
+  "Find previous occurrence"
+  "Trouver l'occurrence précédente"
+
   "Insert"
   "Insérer"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset fr {
 
   "Sessions"
   "Sessions"
+
+  "Show in Sidebar"
+  "Afficher dans la barre latérale"
 
   "Show line numbers"
   "Afficher les numéros de ligne"

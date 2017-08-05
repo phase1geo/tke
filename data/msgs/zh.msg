@@ -235,9 +235,6 @@ msgcat::mcmset zh {
   "Save request"
   "保存请求"
 
-  "Show in Sidebar"
-  "显示在侧栏"
-
   "Starting number:"
   "开始点编号:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset zh {
   "Find next mismatching bracket"
   "查找下一个匹配括号"
 
-  "Find next occurrence"
-  "查找下一个实例"
-
   "Find previous mismatching bracket"
   "发现以前不匹配的括号"
-
-  "Find previous occurrence"
-  "查找上一个"
 
   "Folding"
   "摺頁"
@@ -2469,6 +2460,9 @@ msgcat::mcmset zh {
   "Unable to duplicate file"
   "无法复制文件"
 
+  "Update Info"
+  "更新资料"
+
   "Yes"
   "是"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset zh {
   "Find"
   "查找"
 
+  "Find next occurrence"
+  "查找下一个实例"
+
+  "Find previous occurrence"
+  "查找上一个"
+
   "Insert"
   "插入"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset zh {
 
   "Sessions"
   "會議"
+
+  "Show in Sidebar"
+  "显示在侧栏"
 
   "Show line numbers"
   "显示行号"

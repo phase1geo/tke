@@ -235,9 +235,6 @@ msgcat::mcmset de {
   "Save request"
   "Speichern Anfrage"
 
-  "Show in Sidebar"
-  "Show in Sidebar"
-
   "Starting number:"
   "Startnummer:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset de {
   "Find next mismatching bracket"
   "Nächste unpassende Klammer finden"
 
-  "Find next occurrence"
-  "Nächstes Vorkommen"
-
   "Find previous mismatching bracket"
   "Vorherigen unpassende Halterung zu finden"
-
-  "Find previous occurrence"
-  "Finden vorherige Vorkommen"
 
   "Folding"
   "Folding"
@@ -2469,6 +2460,9 @@ msgcat::mcmset de {
   "Unable to duplicate file"
   "Doppelte Datei konnte nicht"
 
+  "Update Info"
+  "Informationen aktualisieren"
+
   "Yes"
   "Ja"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset de {
   "Find"
   "Finden"
 
+  "Find next occurrence"
+  "Nächstes Vorkommen"
+
+  "Find previous occurrence"
+  "Finden vorherige Vorkommen"
+
   "Insert"
   "Einfügen"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset de {
 
   "Sessions"
   "zur Verfügung steht."
+
+  "Show in Sidebar"
+  "Show in Sidebar"
 
   "Show line numbers"
   "zeilennummern zeilen nummern"

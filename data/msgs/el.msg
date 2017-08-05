@@ -235,9 +235,6 @@ msgcat::mcmset el {
   "Save request"
   "Αποθηκεύστε το αίτημα"
 
-  "Show in Sidebar"
-  "Εμφάνιση στο Sidebar"
-
   "Starting number:"
   "Αρχικό αριθμό:"
 
@@ -629,14 +626,8 @@ msgcat::mcmset el {
   "Find next mismatching bracket"
   "Βρείτε επόμενο αμφίδρομα αγκύλη"
 
-  "Find next occurrence"
-  "Βρείτε την επόμενη εμφάνιση"
-
   "Find previous mismatching bracket"
   "Βρείτε προηγούμενο αμφίδρομα αγκύλη"
-
-  "Find previous occurrence"
-  "Βρείτε την προηγούμενη εμφάνιση"
 
   "Folding"
   "Πτυσσόμενος"
@@ -2469,6 +2460,9 @@ msgcat::mcmset el {
   "Unable to duplicate file"
   "Δεν είναι δυνατή η διπλότυπων αρχείων"
 
+  "Update Info"
+  "ΕΝΗΜΕΡΩΣΗ ΠΛΗΡΟΦΟΡΙΩΝ"
+
   "Yes"
   "Ναι"
 
@@ -3169,6 +3163,12 @@ msgcat::mcmset el {
   "Find"
   "Find"
 
+  "Find next occurrence"
+  "Βρείτε την επόμενη εμφάνιση"
+
+  "Find previous occurrence"
+  "Βρείτε την προηγούμενη εμφάνιση"
+
   "Insert"
   "Εισαγωγή"
 
@@ -3231,6 +3231,9 @@ msgcat::mcmset el {
 
   "Sessions"
   "συνεδρίες"
+
+  "Show in Sidebar"
+  "Εμφάνιση στο Sidebar"
 
   "Show line numbers"
   "Αριθμοί Γραμμής"
