@@ -207,7 +207,7 @@ advanced {
       if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
         if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
-            $txt._t delete "insert-1l linestart" insert
+            $txt._t replace "insert-1l linestart" insert "\n"
           } elseif {![regexp {^\\s*([+*>-]|(\\d+)\\.|\\[[ xX]\\])} [$txt get insert "insert lineend"]]} {
             if {($num ne "")} {
               $txt._t insert insert "[expr $num + 1]. "
