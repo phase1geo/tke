@@ -431,15 +431,6 @@ msgcat::mcmset nl {
   "Create new plugin"
   "Nieuwe plugin maken"
 
-  "Current Number"
-  "Huidige rijnummer"
-
-  "Cursor from Line Start"
-  "Cursor vanaf begin van de lijn"
-
-  "Cursor to Line End"
-  "Cursor lijneinde"
-
   "Cut"
   "Knip"
 
@@ -488,20 +479,8 @@ msgcat::mcmset nl {
   "Delete current file"
   "Huidige verwijderen"
 
-  "Delete current line"
-  "Huidige verwijderen"
-
-  "Delete current word"
-  "Huidige verwijderen"
-
   "Delete fold at current line"
   "Vouw op de huidige regel verwijderen"
-
-  "Delete from cursor to end of line"
-  "Verwijderen van cursor tot einde van regel"
-
-  "Delete from start of line to cursor"
-  "Begin van regel verwijderen met de cursor"
 
   "Delete language preferences?"
   "Taalvoorkeuren verwijderen?"
@@ -514,18 +493,6 @@ msgcat::mcmset nl {
 
   "Delete template"
   "Sjabloon verwijderen"
-
-  "Delete text between character"
-  "Tekst tussen tekens verwijderen"
-
-  "Delete the current number"
-  "Verwijdert u het huidige nummer"
-
-  "Delete the whitespace to left of cursor"
-  "De witruimte links van de cursor verwijderen"
-
-  "Delete the whitespace to right of cursor"
-  "De witruimte naar rechts van de cursor verwijderen"
 
   "Disable Vim mode"
   "Vim-modus uitschakelen"
@@ -1493,9 +1460,6 @@ msgcat::mcmset nl {
   "Tabs"
   "Tab"
 
-  "Text Between Character"
-  "Tekst tussen karakter"
-
   "Tips & Tricks"
   "Tips & trics"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset nl {
 
   "Vim Mode"
   "Vim Mode"
-
-  "Whitespace Backward"
-  "Whitespace achteruit"
-
-  "Whitespace Forward"
-  "Whitespace Forward"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset nl {
   "Current Filename"
   "Huidige bestandsnaam"
 
+  "Current Line"
+  "Huidige regel:"
+
   "Current Line Column"
   "Huidige lijn kolom"
 
   "Current Line Number"
   "Huidige regelnummer"
+
+  "Current Word"
+  "Huidige woord"
 
   "Current editing buffer directory"
   "Huidige bewerken buffer map"
@@ -1877,6 +1841,9 @@ msgcat::mcmset nl {
 
   "Insertion cursor width"
   "Invoeging cursor breedte"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Deelvenster van file informatie zichtbaar te houden wanneer de zijbalk niet focus"
 
   "Keyword"
   "Zoekwoord"
@@ -2289,23 +2256,17 @@ msgcat::mcmset nl {
   "Block"
   "Blok"
 
+  "Character"
+  "Personages"
+
   "Curly Brackets"
   "Haakje"
 
   "Double Quotes"
   "Dubbele aanhalingstekens"
 
-  "Inner"
-  "Binnen"
-
   "Non-Whitespace"
   "Niet-witruimte"
-
-  "Object Mode"
-  "Onderwerp"
-
-  "Outer"
-  "Buitenste"
 
   "Paragraph"
   "Alinea (p)"
@@ -2403,6 +2364,9 @@ msgcat::mcmset nl {
   "Copy Pathname"
   "Padnaam kopiëren"
 
+  "Counts"
+  "Aantallen"
+
   "Delete directories?"
   "Verwijder mappen?"
 
@@ -2429,6 +2393,15 @@ msgcat::mcmset nl {
 
   "Hide Directory Files"
   "Map bestanden verbergen"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het sluiten van het paneel"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het vernieuwen van de inhoud"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor bestand weergeven in de zijbalk"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Afbeelding die wordt weergegeven in de zijbalk om aan te geven van een map die is samengevouwen"
@@ -2469,6 +2442,9 @@ msgcat::mcmset nl {
   "Open Directory Files"
   "Open Directory Bestanden"
 
+  "Read Time"
+  "leestijd"
+
   "Refresh Directory Files"
   "Vernieuwen Directory Bestanden"
 
@@ -2487,11 +2463,17 @@ msgcat::mcmset nl {
   "Show Directory Files"
   "Bestanden van de map weergeven"
 
+  "Show Info"
+  "Toon info"
+
   "Unable to duplicate file"
   "Geen kopie vijl"
 
   "Yes"
   "Ja"
+
+  "value copied to clipboard"
+  "waarde gekopieerd naar het Klembord"
 
 }
 
@@ -2652,6 +2634,9 @@ msgcat::mcmset nl {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Achtergrondkleur wordt weergegeven wanneer een knop-achtige TTK widget wordt gedrukt."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "De kleur van de achtergrond te gebruiken voor de waarden van de active informatie om aan te geven dat ze zijn aanklikbaar."
 
   "Background color to use for displaying character information that requires the user's attention."
   "De kleur van de achtergrond te gebruiken voor het weergeven van tekeninformatie waarvoor de aandacht van de gebruiker."
@@ -3136,9 +3121,6 @@ msgcat::mcmset nl {
   "Cancel"
   "Annuleren"
 
-  "Character"
-  "Personages"
-
   "Check for Update"
   "Zoek naar nieuwe versies"
 
@@ -3153,12 +3135,6 @@ msgcat::mcmset nl {
 
   "Create"
   "Creëren"
-
-  "Current Line"
-  "Huidige regel:"
-
-  "Current Word"
-  "Huidige woord"
 
   "Cursor"
   "Muiscursor"

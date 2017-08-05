@@ -431,15 +431,6 @@ msgcat::mcmset fr {
   "Create new plugin"
   "Créer nouveau plugin"
 
-  "Current Number"
-  "Numéro de page actuel"
-
-  "Cursor from Line Start"
-  "Curseur du début de la ligne"
-
-  "Cursor to Line End"
-  "Curseur à la fin de la ligne"
-
   "Cut"
   "Couper"
 
@@ -488,20 +479,8 @@ msgcat::mcmset fr {
   "Delete current file"
   "Supprimer le fichier en cours"
 
-  "Delete current line"
-  "Supprimer l'évènement sélectionné"
-
-  "Delete current word"
-  "Supprimer l'évènement sélectionné"
-
   "Delete fold at current line"
   "Supprimer le pli à la ligne courante"
-
-  "Delete from cursor to end of line"
-  "Supprimez du curseur à la fin de ligne"
-
-  "Delete from start of line to cursor"
-  "Supprimer de début de ligne au curseur"
 
   "Delete language preferences?"
   "Supprimer les préférences de langue ?"
@@ -514,18 +493,6 @@ msgcat::mcmset fr {
 
   "Delete template"
   "Supprimer le modèle"
-
-  "Delete text between character"
-  "Supprimer le texte entre les caractères"
-
-  "Delete the current number"
-  "Supprimer le numéro actuel"
-
-  "Delete the whitespace to left of cursor"
-  "Supprimer les espaces à gauche du curseur"
-
-  "Delete the whitespace to right of cursor"
-  "Supprimer les espaces à droite du curseur"
 
   "Disable Vim mode"
   "Désactiver le mode Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset fr {
   "Tabs"
   "Tab"
 
-  "Text Between Character"
-  "Texte entre les caractères"
-
   "Tips & Tricks"
   "Trucs et astuces"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset fr {
 
   "Vim Mode"
   "Vim mode"
-
-  "Whitespace Backward"
-  "Espace blanc vers l'arrière"
-
-  "Whitespace Forward"
-  "Espace blanc avant"
 
   "Windows"
   "Fenêtres"
@@ -1776,11 +1734,17 @@ msgcat::mcmset fr {
   "Current Filename"
   "Nom du fichier actuel"
 
+  "Current Line"
+  "Ligne courante"
+
   "Current Line Column"
   "Colonne de ligne actuelle"
 
   "Current Line Number"
   "Numéro de la ligne actuelle"
+
+  "Current Word"
+  "Mot courant"
 
   "Current editing buffer directory"
   "Répertoire de tampon édition actuel"
@@ -2292,23 +2256,17 @@ msgcat::mcmset fr {
   "Block"
   "Bloc"
 
+  "Character"
+  "Personnage"
+
   "Curly Brackets"
   "Accolades"
 
   "Double Quotes"
   "Guillemets doubles"
 
-  "Inner"
-  "Intérieur"
-
   "Non-Whitespace"
   "Autre"
-
-  "Object Mode"
-  "Mode pour objet :"
-
-  "Outer"
-  "Intérieur"
 
   "Paragraph"
   "Paragraphe"
@@ -2406,6 +2364,9 @@ msgcat::mcmset fr {
   "Copy Pathname"
   "Copiez le chemin d'accès"
 
+  "Counts"
+  "Comptes"
+
   "Delete directories?"
   "Supprimez les répertoires ?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset fr {
 
   "Hide Directory Files"
   "Masquer les fichiers du répertoire"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Image affichée dans le panneau informations sur le panneau latéral pour fermer le panneau"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Image affichée dans le panneau informations sur le panneau latéral pour rafraîchir le contenu"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Image affichée dans le panneau informations sur le panneau latéral pour l’affichage du fichier dans la barre latérale"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Image affichée dans la barre latérale pour indiquer un répertoire qui est affaissé"
@@ -2472,6 +2442,9 @@ msgcat::mcmset fr {
   "Open Directory Files"
   "Open Files Annuaire"
 
+  "Read Time"
+  "Heure de lecture"
+
   "Refresh Directory Files"
   "Actualiser fichiers d'un répertoire"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset fr {
   "Show Directory Files"
   "Afficher des fichiers d’annuaire"
 
+  "Show Info"
+  "Afficher info"
+
   "Unable to duplicate file"
   "Incapable de doublons de fichiers"
 
   "Yes"
   "Oui"
+
+  "value copied to clipboard"
+  "valeur copiée dans le presse-papiers"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset fr {
 
   "Background color to display when a button-like ttk widget is pressed."
   "La couleur de fond à afficher lorsque un widget ttk type bouton est pressé."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Couleur d’arrière-plan à utiliser pour les valeurs de l’actif d’informations pour indiquer qu’ils sont cliquables."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Couleur d’arrière-plan à utiliser pour l’affichage des informations de caractère qui requiert l’attention de l’utilisateur."
@@ -3139,9 +3121,6 @@ msgcat::mcmset fr {
   "Cancel"
   "Résilier"
 
-  "Character"
-  "Personnage"
-
   "Check for Update"
   "Vérifier les mises à jour"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset fr {
 
   "Create"
   "Créer"
-
-  "Current Line"
-  "Ligne courante"
-
-  "Current Word"
-  "Mot courant"
 
   "Cursor"
   "Curseur"

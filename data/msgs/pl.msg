@@ -431,15 +431,6 @@ msgcat::mcmset pl {
   "Create new plugin"
   "Utwórz nowy plugin"
 
-  "Current Number"
-  "Numer bieżącego wiersza"
-
-  "Cursor from Line Start"
-  "Kursor z linii Start"
-
-  "Cursor to Line End"
-  "Kursora do końca linii"
-
   "Cut"
   "Cięcie"
 
@@ -488,20 +479,8 @@ msgcat::mcmset pl {
   "Delete current file"
   "Usuń bieżący plik"
 
-  "Delete current line"
-  "Usuń bieżącą linię"
-
-  "Delete current word"
-  "Usuń bieżące słowo"
-
   "Delete fold at current line"
   "Usuń krotnie w bieżącym wierszu"
-
-  "Delete from cursor to end of line"
-  "Usuwanie od kursora do końca linii"
-
-  "Delete from start of line to cursor"
-  "Usuń z początku wiersza kursor"
 
   "Delete language preferences?"
   "Usuń preferencje językowe?"
@@ -514,18 +493,6 @@ msgcat::mcmset pl {
 
   "Delete template"
   "Usuń szablon"
-
-  "Delete text between character"
-  "Usuń tekst między znak"
-
-  "Delete the current number"
-  "Usuń bieżący numer"
-
-  "Delete the whitespace to left of cursor"
-  "Usuń spacje na lewo od kursora"
-
-  "Delete the whitespace to right of cursor"
-  "Usuń spacje na prawo od kursora"
 
   "Disable Vim mode"
   "Wyłączenie trybu Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset pl {
   "Tabs"
   "Tab"
 
-  "Text Between Character"
-  "Tekst pomiędzy znaków"
-
   "Tips & Tricks"
   "Idealna Tricks porady"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset pl {
 
   "Vim Mode"
   "Tryb vim"
-
-  "Whitespace Backward"
-  "Spacji do tyłu"
-
-  "Whitespace Forward"
-  "Spacji do przodu"
 
   "Windows"
   "Windows"
@@ -1776,11 +1734,17 @@ msgcat::mcmset pl {
   "Current Filename"
   "Nazwa bieżącego pliku"
 
+  "Current Line"
+  "Bieżąca linia"
+
   "Current Line Column"
   "Bieżącego wiersza kolumna"
 
   "Current Line Number"
   "Numer bieżącego wiersza"
+
+  "Current Word"
+  "Aktualne słowa"
 
   "Current editing buffer directory"
   "Bieżący katalog buforu edycji"
@@ -2292,23 +2256,17 @@ msgcat::mcmset pl {
   "Block"
   "Blok"
 
+  "Character"
+  "Charakter"
+
   "Curly Brackets"
   "Nawiasach klamrowych"
 
   "Double Quotes"
   "Podwójne cudzysłowy"
 
-  "Inner"
-  "Wewnętrzny"
-
   "Non-Whitespace"
   "Bez odstępu"
-
-  "Object Mode"
-  "Obiekt"
-
-  "Outer"
-  "Zewnętrzny"
 
   "Paragraph"
   "Paragraf"
@@ -2406,6 +2364,9 @@ msgcat::mcmset pl {
   "Copy Pathname"
   "Kopiowanie ścieżka"
 
+  "Counts"
+  "Naliczanie"
+
   "Delete directories?"
   "Usuwanie katalogów?"
 
@@ -2432,6 +2393,15 @@ msgcat::mcmset pl {
 
   "Hide Directory Files"
   "Ukryj pliki w katalogu"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Obraz wyświetlany w bocznym panelu informacji do zamykania panelu"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Obraz wyświetlany w bocznym panelu informacji dla odświeżanie zawartości"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Obraz wyświetlany w bocznym panelu informacji dla pliku wyświetlone na pasku bocznym"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Obraz wyświetlany w pasku bocznym, aby wskazać katalog, który jest zwinięty"
@@ -2472,6 +2442,9 @@ msgcat::mcmset pl {
   "Open Directory Files"
   "Pliki katalog otwarty"
 
+  "Read Time"
+  "Pokaż czas czytania"
+
   "Refresh Directory Files"
   "Odśwież pliki katalogu"
 
@@ -2490,11 +2463,17 @@ msgcat::mcmset pl {
   "Show Directory Files"
   "Pokaż katalog plików"
 
+  "Show Info"
+  "Wyświetl info"
+
   "Unable to duplicate file"
   "Stanie zduplikowanych plików"
 
   "Yes"
   "Tak"
+
+  "value copied to clipboard"
+  "wartość skopiowane do schowka"
 
 }
 
@@ -2655,6 +2634,9 @@ msgcat::mcmset pl {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Kolor tła do wyświetlenia, gdy widget ttk jak przycisk jest naciśnięty."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Kolor tła na potrzeby aktywny informacje o wartości, aby wskazać, że są klikalne."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Kolor tła dla wyświetlanie informacje o postaci, które wymaga użytkownika uwagi."
@@ -3139,9 +3121,6 @@ msgcat::mcmset pl {
   "Cancel"
   "Anuluj"
 
-  "Character"
-  "Charakter"
-
   "Check for Update"
   "Sprawdź aktualizacje"
 
@@ -3156,12 +3135,6 @@ msgcat::mcmset pl {
 
   "Create"
   "Utwórz"
-
-  "Current Line"
-  "Bieżąca linia"
-
-  "Current Word"
-  "Aktualne słowa"
 
   "Cursor"
   "Kursor"

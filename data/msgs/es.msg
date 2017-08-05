@@ -431,15 +431,6 @@ msgcat::mcmset es {
   "Create new plugin"
   "Crear nuevo plugin"
 
-  "Current Number"
-  "Número de página corriente"
-
-  "Cursor from Line Start"
-  "Cursor desde principio de línea"
-
-  "Cursor to Line End"
-  "Cursor al final de línea"
-
   "Cut"
   "Cortar"
 
@@ -488,20 +479,8 @@ msgcat::mcmset es {
   "Delete current file"
   "Eliminar la actual"
 
-  "Delete current line"
-  "Eliminar la actual"
-
-  "Delete current word"
-  "Eliminar la actual"
-
   "Delete fold at current line"
   "Eliminar el pliegue en la línea actual"
-
-  "Delete from cursor to end of line"
-  "Borrar desde cursor a fin de línea"
-
-  "Delete from start of line to cursor"
-  "Borrar desde principio de línea hasta el cursor"
 
   "Delete language preferences?"
   "¿Eliminar preferencias de idioma?"
@@ -514,18 +493,6 @@ msgcat::mcmset es {
 
   "Delete template"
   "Eliminar plantilla"
-
-  "Delete text between character"
-  "Elimine el texto entre el carácter"
-
-  "Delete the current number"
-  "Eliminar el número actual"
-
-  "Delete the whitespace to left of cursor"
-  "Eliminar el espacio en blanco a la izquierda del cursor"
-
-  "Delete the whitespace to right of cursor"
-  "Eliminar el espacio en blanco a la derecha del cursor"
 
   "Disable Vim mode"
   "Desactivar el modo de Vim"
@@ -1493,9 +1460,6 @@ msgcat::mcmset es {
   "Tabs"
   "Tablas"
 
-  "Text Between Character"
-  "Texto entre el carácter"
-
   "Tips & Tricks"
   "Consells i trucs"
 
@@ -1591,12 +1555,6 @@ msgcat::mcmset es {
 
   "Vim Mode"
   "Modo de Vim"
-
-  "Whitespace Backward"
-  "Espacio en blanco al revés"
-
-  "Whitespace Forward"
-  "Espacio en blanco adelante"
 
   "Windows"
   "Ventanas"
@@ -1776,11 +1734,17 @@ msgcat::mcmset es {
   "Current Filename"
   "Nombre de archivo actual"
 
+  "Current Line"
+  "Línea actual:"
+
   "Current Line Column"
   "Columna de línea actual"
 
   "Current Line Number"
   "Número de línea actual"
+
+  "Current Word"
+  "Palabra actual"
 
   "Current editing buffer directory"
   "Directorio de buffer de edición actual"
@@ -1877,6 +1841,9 @@ msgcat::mcmset es {
 
   "Insertion cursor width"
   "Anchura del cursor de inserción"
+
+  "Keep file information panel visible when sidebar doesn't have focus"
+  "Mantenga panel de información del archivo visible cuando la barra lateral no tiene foco"
 
   "Keyword"
   "Palabra clave"
@@ -2286,23 +2253,17 @@ msgcat::mcmset es {
   "Block"
   "Block"
 
+  "Character"
+  "Carácter"
+
   "Curly Brackets"
   "Llaves"
 
   "Double Quotes"
   "Comillas dobles"
 
-  "Inner"
-  "Interior"
-
   "Non-Whitespace"
   "No espacios en blanco"
-
-  "Object Mode"
-  "Modo objeto"
-
-  "Outer"
-  "Acondicionamiento exterior"
 
   "Paragraph"
   "Párrafo"
@@ -2400,6 +2361,9 @@ msgcat::mcmset es {
   "Copy Pathname"
   "Copiar ruta de acceso"
 
+  "Counts"
+  "Conteos"
+
   "Delete directories?"
   "¿Borrar directorios?"
 
@@ -2426,6 +2390,15 @@ msgcat::mcmset es {
 
   "Hide Directory Files"
   "Ocultar archivos de directorio"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Imagen que se muestra en el panel de información de barra lateral para cerrar el panel"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Imagen que se muestra en el panel de información del sidebar para actualizar contenido"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Imagen que se muestra en el panel de información del sidebar para archivo Mostrar en barra lateral"
 
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Imagen que se muestra en la barra lateral para indicar un directorio que se contrae"
@@ -2466,6 +2439,9 @@ msgcat::mcmset es {
   "Open Directory Files"
   "Abrir archivos Directorio"
 
+  "Read Time"
+  "Tiempo de Lectura"
+
   "Refresh Directory Files"
   "Actualizar los archivos de directorio"
 
@@ -2484,11 +2460,17 @@ msgcat::mcmset es {
   "Show Directory Files"
   "Mostrar los archivos del directorio"
 
+  "Show Info"
+  "Mostrar Información"
+
   "Unable to duplicate file"
   "No se puede archivos duplicados"
 
   "Yes"
   "Sí"
+
+  "value copied to clipboard"
+  "valor copiado en el portapapeles"
 
 }
 
@@ -2649,6 +2631,9 @@ msgcat::mcmset es {
 
   "Background color to display when a button-like ttk widget is pressed."
   "Color de fondo para mostrar cuando se pulsa un widget ttk forma de botón."
+
+  "Background color to use for active information values to indicate they are clickable."
+  "Color de fondo a utilizar para los valores de información activa para indicar que puede hacer clic."
 
   "Background color to use for displaying character information that requires the user's attention."
   "Color de fondo a utilizar para la visualización de información de carácter que requiere la atención del usuario."
@@ -3133,9 +3118,6 @@ msgcat::mcmset es {
   "Cancel"
   "Cancelar"
 
-  "Character"
-  "Carácter"
-
   "Check for Update"
   "Buscar actualización"
 
@@ -3150,12 +3132,6 @@ msgcat::mcmset es {
 
   "Create"
   "Crear"
-
-  "Current Line"
-  "Línea actual:"
-
-  "Current Word"
-  "Palabra actual"
 
   "Cursor"
   "Cursor"
