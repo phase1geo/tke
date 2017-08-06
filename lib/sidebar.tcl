@@ -257,7 +257,14 @@ namespace eval sidebar {
     pack $w.tf -fill both -expand yes
 
     # Create sidebar info panel user interface
-    set widgets(info) [ipanel::create $w.if]
+    set widgets(info)       [frame $w.if]
+    set widgets(info,psep1) [ttk::separator $w.if.psep1]
+    set widgets(info,panel) [ipanel::create $w.if.panel]
+    set widgets(info,psep2) [ttk::separator $w.if.psep2]
+
+    pack $widgets(info,psep1) -fill x
+    pack $widgets(info,panel) -fill both
+    pack $widgets(info,psep2) -fill x
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -2204,10 +2211,11 @@ namespace eval sidebar {
 
     if {$show_info} {
       if {[winfo ismapped $widgets(info)]} {
-        ipanel::update $widgets(info)
+        ipanel::update $widgets(info,panel)
       } elseif {[llength $selected] == 1} {
-        ipanel::update $widgets(info) [$widgets(tl) set [lindex $selected 0] name]
+        ipanel::update $widgets(info,panel) [$widgets(tl) set [lindex $selected 0] name]
         pack $widgets(info) -fill both
+        $widgets(tl) see [lindex $selected 0]
       }
     } else {
       pack forget $widgets(info)
@@ -2230,7 +2238,7 @@ namespace eval sidebar {
 
     # If the given filename matches the update info panel, update the information
     # in the info panel.
-    ipanel::update
+    ipanel::update $widgets(info,panel)
 
   }
 
