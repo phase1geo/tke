@@ -1052,7 +1052,7 @@ namespace eval theme {
     array set opts     [get_category_options sidebar_info 1]
     array set ttk_opts [get_category_options ttk_style 1]
 
-    sidebar::update_theme $opts(-title_foreground) $opts(-value_foreground) $opts(-background) $ttk_opts(background) $opts(-active_background)
+    ipanel::update_theme $opts(-title_foreground) $opts(-value_foreground) $opts(-background) $ttk_opts(background) $opts(-active_background)
 
   }
 

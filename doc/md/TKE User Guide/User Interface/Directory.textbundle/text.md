@@ -18,6 +18,7 @@ The following table lists the available contextual menu functions available for 
 | Hide Directory Files | Hides all opened file tabs within the selected directory in the tabbar.  Useful for focused workflows. |
 | Show Directory Files | Shows all hidden tabs in the tabbar whose associated files exist within the selected directory. |
 | Copy Pathname | Copies the selected directory pathname to the clipboard. |
+| Show Info | Displays the information panel at the bottom of the sidebar, displaying the directory information for the selected directory. |
 | Rename | Renames the directory in the file system.  The current full pathname will be specified in an entry field at the bottom of the application window.  Once filename editing is complete, hit the RETURN key to cause the rename to occur.  Hit the ESCAPE key to cancel the renaming operation. |
 | Delete | Deletes the directory from the filesystem and removes the directory from the sidebar.  If this item is selected, an affirmation prompt will be displayed to confirm or cancel the deletion. This option will be displayed if the “Use Move to Trash” general preference option is unset. |
 | Move to trash | Moves the selected directories to the trash. Directories will be moved without a user prompt. This option will be displayed if the “Use Move to Trash” general preference option is set. |
