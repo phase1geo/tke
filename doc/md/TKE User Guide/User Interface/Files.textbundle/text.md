@@ -14,8 +14,9 @@ The following table lists the available functions for files.
 | Close | Closes the selected file in the editor.  If the file has been modified, a prompt will be displayed asking if the changes should be saved or not. |
 | Hide | Hides the tab of the selected file in the tabbar. |
 | Show | Unhides the tab of the selected file in the tabbar. |
-| Show Difference | Displays a difference view of the currently selected file. |
 | Copy Pathname | Copies the selected file pathname to the clipboard. |
+| Show Difference | Displays a difference view of the currently selected file. |
+| Show Info | Displays the information panel at the bottom of the sidebar, displaying the file information for the selected file. |
 | Rename | Renames the selected file in the file system.  The current full pathname will be specified in an entry field at the bottom of the application window.  Once filename editing is complete, hit the RETURN key to cause the rename to occur.  Hit the ESCAPE key to cancel the renaming operation. |
 | Duplicate | Will create a duplicate file of the selected file in the same directory.  The file will be named with a unique name and will be editable.  Use the ‘Rename’ command to change the name, if necessary. |
 | Delete | Deletes the file from the filesystem and removes the file from the sidebar.  If this item is selected, an affirmation prompt will be displayed to confirm or cancel the deletion. This option will be displayed if the “Use Move to Trash” general preference option is unset. |

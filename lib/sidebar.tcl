@@ -32,7 +32,6 @@ namespace eval sidebar {
   variable jump_str         ""
   variable jump_after_id    ""
   variable show_info        1
-  variable last_info        ""
   variable select_id        ""
 
   array set widgets {}
@@ -255,72 +254,10 @@ namespace eval sidebar {
     grid $w.tf.tf -row 0 -column 0 -sticky news
     grid $w.tf.vb -row 0 -column 1 -sticky ns
 
-    # Create file info images
-    image create photo  photo_preview
-    image create bitmap bitmap_preview
-
-    # Create file info panel
-    set widgets(info,f)        [frame $w.if -class info_panel]
-    ttk::separator             $w.if.sep1 -orient horizontal
-    set widgets(info,fblank)   [label $w.if.blank -image [image create bitmap -file [file join $::tke_dir lib images blank.bmp]]]
-    set widgets(info,fbframe)  [frame $w.if.bf]
-    set widgets(info,fshow)    [label $w.if.bf.show    -image sidebar_info_show]
-    set widgets(info,frefresh) [label $w.if.bf.refresh -image sidebar_info_refresh]
-    set widgets(info,fclose)   [label $w.if.bf.close   -image sidebar_info_close]
-    set widgets(info,v,image)  [label $w.if.preview]
-    set widgets(info,f,1)      [frame $w.if.f1]
-    set widgets(info,v,name)   [label $w.if.name]
-    set widgets(info,v,type)   [label $w.if.type]
-    set widgets(info,f,2)      [frame $w.if.f2]
-    set widgets(psep)          [ttk::separator $w.if.sep2 -orient horizontal]
-
-    bind $widgets(info,fshow)    <Button-1> [list $widgets(tl) see $sidebar::last_info]
-    bind $widgets(info,frefresh) <Button-1> [list sidebar::update_info_panel]
-    bind $widgets(info,fclose)   <Button-1> [list pack forget $widgets(info,f)]
-    bind info_panel              <Enter>    [list grid $w.if.bf]
-    bind info_panel              <Leave>    [list grid remove $w.if.bf]
-
-    # Add tooltips to the buttons
-    tooltip::tooltip $widgets(info,fshow)    [msgcat::mc "Show in Sidebar"]
-    tooltip::tooltip $widgets(info,frefresh) [msgcat::mc "Update Info"]
-    tooltip::tooltip $widgets(info,fclose)   [msgcat::mc "Close"]
-
-    pack $widgets(info,fclose)   -side right -padx 2 -pady 2
-    pack $widgets(info,frefresh) -side right -padx 2 -pady 2
-    pack $widgets(info,fshow)    -side right -padx 2 -pady 2
-
-    grid rowconfigure    $w.if 5 -weight 1
-    grid columnconfigure $w.if 1 -weight 1
-    grid $w.if.sep1     -row 0 -column 0 -columnspan 2 -sticky ew
-    grid $w.if.blank    -row 1 -column 0 -sticky w  -padx 2 -pady 4
-    grid $w.if.bf       -row 1 -column 1 -sticky ne -padx 2 -pady 2
-    grid $w.if.preview  -row 2 -column 0 -rowspan 3 -padx 2 -pady 2
-    grid $w.if.name     -row 3 -column 1 -sticky w
-    grid $w.if.type     -row 4 -column 1 -sticky w
-
-    grid remove $w.if.bf
-
-    set row 6
-    foreach {lbl name copy} [list [msgcat::mc "Modified"] mod 1 [msgcat::mc "Attributes"] attrs 0 \
-                                  "MD5" md5 1 "SHA-1" sha1 1 "SHA-224" sha224 1 "SHA-256" sha256 1 \
-                                  [msgcat::mc "Counts"] cnts 0 [msgcat::mc "Read Time"] rtime 0 \
-                                  [msgcat::mc "Version"] ver 1 [msgcat::mc "Favorite"] fav 0] {
-      set widgets(info,l,$name) [label $w.if.l$name -text [format "%s:" $lbl]]
-      set widgets(info,v,$name) [label $w.if.v$name]
-      if {$copy} {
-        bind $widgets(info,v,$name) <Button-1> [list sidebar::copy_info $name]
-      }
-      grid $widgets(info,l,$name) -row $row -column 0 -sticky e
-      grid $widgets(info,v,$name) -row $row -column 1 -sticky w
-      incr row
-    }
-
-    grid $w.if.sep2 -row $row -column 0 -sticky ew -columnspan 2
-
-    # Insert any file information plugin information
-    insert_info_panel_plugins
-
     pack $w.tf -fill both -expand yes
+
+    # Create sidebar info panel user interface
+    set widgets(info) [ipanel::create $w.if -showcmd sidebar::]
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -349,60 +286,6 @@ namespace eval sidebar {
     trace variable preferences::prefs(Sidebar/InfoPanelAttributes) w sidebar::handle_info_panel_view
 
     return $w
-
-  }
-
-  ######################################################################
-  # Inserts the file information plugin labels into the file information panel.
-  proc insert_info_panel_plugins {} {
-
-    variable widgets
-
-    set w $widgets(info,f)
-
-    # Remove any existing plugins
-    foreach name [array names widgets info,l,plug*] {
-      lassign [split $name ,] dummy1 dummy2 pname
-      grid forget $widgets(info,l,$pname) $widgets(info,v,$pname)
-      destroy $widgets(info,l,$pname) $widgets(info,v,$pname)
-    }
-
-    # Forget the previous plugin widgets
-    array unset widgets info,*,plug*
-
-    # Figure out which row we should start inserting
-    set row [expr [lindex [grid size $w] 1] - 1]
-
-    # Get the colors
-    set lfgcolor [$widgets(info,l,mod) cget -foreground]
-    set lbgcolor [$widgets(info,l,mod) cget -background]
-    set vfgcolor [$widgets(info,v,mod) cget -foreground]
-    set vbgcolor [$widgets(info,v,mod) cget -background]
-
-    # Get any file information plugin entries
-    foreach {index title copy} [plugins::get_sidebar_info_titles] {
-
-      # Create the widgets
-      set widgets(info,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
-      set widgets(info,v,plug$index) [label $w.pv$index -foreground $vfgcolor -background $vbgcolor]
-
-      # If the item is copyable, make it so now
-      if {$copy} {
-        bind $widgets(info,v,plug$index) <Button-1> [list sidebar::copy_info plug$index]
-      }
-
-      # Insert them into the grid
-      grid $w.pl$index -row $row -column 0 -sticky e
-      grid $w.pv$index -row $row -column 1 -sticky w -columnspan 3
-      incr row
-
-    }
-
-    # Adjust the row of the last separator
-    grid $widgets(psep) -row $row
-
-    # Finally, call handle_selection in case we need to update the values in the file information panel
-    handle_selection
 
   }
 
@@ -1308,9 +1191,6 @@ namespace eval sidebar {
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-
-    # Select the file at the given row
-    # TBD
 
     # Update the information panel
     update_info_panel $row
@@ -2321,189 +2201,15 @@ namespace eval sidebar {
 
     variable widgets
     variable show_info
-    variable last_info
 
-    if {$selected eq ""} {
-      set selected $last_info
-    }
-
-    if {([llength $selected] == 1) && $show_info} {
-
-      set fname     [$widgets(tl) set [lindex $selected 0] name]
-      set isfile    [file isfile $fname]
-      set last_info $selected
-
-      # Get the list of attributes
-      array set attrs [concat {*}[lmap a [preferences::get Sidebar/InfoPanelAttributes] {list $a 1}]]
-
-      # Get the file information
-      file stat $fname finfo
-
-      # Get the name and version to display
-      set name   [file tail $fname]
-      set syntax ""
-
-      # Figure out if we can display the file based on extension
-      if {$isfile} {
-        if {[info exists attrs(preview)] || [info exists attrs(imagesize)]} {
-          if {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
-            bitmap_preview configure -file $fname -foreground [utils::get_default_foreground]
-            update_info_image $orig bitmap_preview [info exists attrs(preview)] [info exists attrs(imagesize)] name syntax
-          } elseif {![catch { image create photo -file $fname } orig]} {
-            photo_preview blank
-            ::image_scale $orig 64 64 photo_preview
-            update_info_image $orig photo_preview [info exists attrs(preview)] [info exists attrs(imagesize)] name syntax
-          } else {
-            grid remove $widgets(info,v,image)
-          }
-        } else {
-          grid remove $widgets(info,v,image)
-        }
-      } else {
-        grid remove $widgets(info,v,image)
+    if {$show_info} {
+      if {[winfo ismapped $widgets(info)]} {
+        ipanel::update $widgets(info)
+      } elseif {[llength $selected] == 1} {
+        ipanel::update $widgets(info) [$widgets(tl) set [lindex $selected 0] name]
       }
-
-      # Always display the file name
-      $widgets(info,v,name) configure -text $name
-
-      # Display the syntax and file size, if necessary
-      if {([info exists attrs(syntax)] || [info exists attrs(filesize)]) && $isfile} {
-        if {[info exists attrs(syntax)]} {
-          if {$syntax eq ""} {
-            lappend typelist [expr {[utils::is_binary $fname] ? "Binary" : [syntax::get_default_language $fname]}]
-          } else {
-            lappend typelist $syntax
-          }
-        }
-        if {[info exists attrs(filesize)]} {
-          lappend typelist [utils::get_file_size $fname]
-        }
-        $widgets(info,v,type) configure -text [join $typelist ", "]
-        grid $widgets(info,v,type)
-      } else {
-        grid remove $widgets(info,v,type)
-      }
-
-      # Display the file attributes, if necessary
-      if {[info exists attrs(permissions)] || [info exists attrs(owner)] || [info exists attrs(group)]} {
-        set attrlist [list]
-        if {[info exists attrs(permissions)] && ([set perms [utils::get_file_permissions $fname]] ne "")} {
-          lappend attrlist $perms
-        }
-        if {[info exists attrs(owner)] && ([set owner [utils::get_file_owner $fname]] ne "")} {
-          lappend attrlist $owner
-        }
-        if {[info exists attrs(group)] && ([set group [utils::get_file_group $fname]] ne "")} {
-          lappend attrlist $group
-        }
-        if {$attrlist ne [list]} {
-          $widgets(info,v,attrs) configure -text [join $attrlist ", "]
-          grid $widgets(info,l,attrs) $widgets(info,v,attrs)
-        } else {
-          grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
-        }
-      } else {
-        grid remove $widgets(info,l,attrs) $widgets(info,v,attrs)
-      }
-
-      # Display the count information, if necessary
-      if {[info exists attrs(linecount)] || [info exists attrs(wordcount)] || [info exists attrs(charcount)]} {
-        set attrlist [list]
-        if {[info exists attrs(linecount)] && ([set count [utils::get_file_count $fname line]] ne "")} {
-          lappend attrlist "$count lines"
-        }
-        if {[info exists attrs(wordcount)] && ([set count [utils::get_file_count $fname word]] ne "")} {
-          lappend attrlist "$count words"
-        }
-        if {[info exists attrs(charcount)] && ([set count [utils::get_file_count $fname char]] ne "")} {
-          lappend attrlist "$count chars"
-        }
-        if {$attrlist ne [list]} {
-          $widgets(info,v,cnts) configure -text [join $attrlist ", "]
-          grid $widgets(info,l,cnts) $widgets(info,v,cnts)
-        } else {
-          grid remove $widgets(info,l,cnts) $widgets(info,v,cnts)
-        }
-      } else {
-        grid remove $widgets(info,l,cnts) $widgets(info,v,cnts)
-      }
-
-      # Display the reading time, if necessary
-      if {[info exists attrs(readtime)]} {
-        if {[set words [utils::get_file_count $fname word]] ne ""} {
-          set words_per_min [expr round( $words / 275.0 )]
-          $widgets(info,v,rtime) configure -text "$words_per_min minutes"
-          grid $widgets(info,l,rtime) $widgets(info,v,rtime)
-        } else {
-          grid remove $widgets(info,l,rtime) $widgets(info,v,rtime)
-        }
-      } else {
-        grid remove $widgets(info,l,rtime) $widgets(info,v,rtime)
-      }
-
-      # Display MD5, SHA1, SHA224 and SHA256 checksum values
-      foreach type [list md5 sha1 sha224 sha256] {
-        if {[info exists attrs($type)]} {
-          if {[set value [utils::get_file_checksum $fname $type]] ne ""} {
-            $widgets(info,v,$type) configure -text $value
-            grid $widgets(info,l,$type) $widgets(info,v,$type)
-          } else {
-            grid remove $widgets(info,l,$type) $widgets(info,v,$type)
-          }
-        } else {
-          grid remove $widgets(info,l,$type) $widgets(info,v,$type)
-        }
-      }
-
-      # Display the modified status, if necessary
-      if {[info exists attrs(modified)]} {
-        $widgets(info,v,mod) configure -text [clock format $finfo(mtime)]
-        grid $widgets(info,l,mod) $widgets(info,v,mod)
-      } else {
-        grid remove $widgets(info,l,mod) $widgets(info,v,mod)
-      }
-
-      # Display the version, if necessary
-      if {[info exists attrs(version)] && $isfile} {
-        set cvs [diff::get_default_cvs $fname]
-        if {[set version [diff::${cvs}::get_current_version $fname]] ne ""} {
-          $widgets(info,v,ver) configure -text $version
-          grid $widgets(info,l,ver) $widgets(info,v,ver)
-        } else {
-          grid remove $widgets(info,l,ver) $widgets(info,v,ver)
-        }
-      } else {
-        grid remove $widgets(info,l,ver) $widgets(info,v,ver)
-      }
-
-      # Display the favorite status, if necessary
-      if {[info exists attrs(favorite)]} {
-        $widgets(info,v,fav) configure -text [expr {[favorites::is_favorite $fname] ? [msgcat::mc "Yes"]: [msgcat::mc "No"]}]
-        grid $widgets(info,l,fav) $widgets(info,v,fav)
-      } else {
-        grid remove $widgets(info,l,fav) $widgets(info,v,fav)
-      }
-
-      # Insert plugin values
-      foreach {index value} [plugins::get_sidebar_info_values $fname] {
-        $widgets(info,v,plug$index) configure -text $value
-        if {$value eq ""} {
-          grid remove $widgets(info,l,plug$index) $widgets(info,v,plug$index)
-        } else {
-          grid $widgets(info,l,plug$index) $widgets(info,v,plug$index)
-        }
-      }
-
-      # Pack the information panel
-      pack $widgets(info,f) -fill both
-
-      # Make sure that the sidebar item can be seen
-      $widgets(tl) see $selected
-
     } else {
-
-      pack forget $widgets(info,f)
-
+      pack forget $widgets(info)
     }
 
   }
@@ -2514,109 +2220,16 @@ namespace eval sidebar {
   proc update_info_panel_for_file {fname remote} {
 
     variable widgets
-    variable last_info
 
     # If the given file doesn't exist in the sidebar or the information panel
     # does not exist, return immediately.
-    if {![winfo ismapped $widgets(info,f)] || ([set index [get_index $fname $remote]] eq "") || ($last_info eq "")} {
+    if {![winfo ismapped $widgets(info)] || ($remote ne "") || ([set index [get_index $fname $remote]] eq "")} {
       return
     }
 
     # If the given filename matches the update info panel, update the information
     # in the info panel.
-    if {$index eq $last_info} {
-      update_info_panel
-    }
-
-  }
-
-  ######################################################################
-  # Updates the file information image and related information.
-  proc update_info_image {orig image preview imagesize pname psyntax} {
-
-    variable widgets
-
-    upvar $pname   name
-    upvar $psyntax syntax
-
-    # Update the image
-    if {$preview} {
-      $widgets(info,v,image) configure -image $image
-      grid $widgets(info,v,image)
-    } else {
-      grid remove $widgets(info,v,image)
-    }
-
-    # Calculate the syntax and name values
-    if {$imagesize} {
-      append name " ([image width $orig] x [image height $orig])"
-    }
-
-    # Delete the original image
-    image delete $orig
-
-    # Set the syntax to Unsupported
-    set syntax "Unsupported"
-
-  }
-
-  ######################################################################
-  # Copies the information from the given label to the clipboard.
-  proc copy_info {name} {
-
-    variable widgets
-
-    # Copy the value to the clipboard
-    clipboard clear
-    clipboard append [$widgets(info,v,$name) cget -text]
-
-    # Get the information label name
-    set name [string range [$widgets(info,l,$name) cget -text] 0 end-1]
-
-    # Output the copy status
-    gui::set_info_message [format "%s %s" $name [msgcat::mc "value copied to clipboard"]]
-
-  }
-
-  ######################################################################
-  # Update the information panel widgets with the given theme information.
-  proc update_theme {title_fgcolor value_fgcolor bgcolor default_bgcolor active_bgcolor} {
-
-    variable widgets
-
-    # Colorize the frame widgets
-    foreach w [array names widgets info,f*] {
-      $widgets($w) configure -background $bgcolor
-    }
-
-    # Colorize the title labels
-    foreach w [array names widgets info,l,*] {
-      $widgets($w) configure -foreground $title_fgcolor -background $bgcolor
-    }
-
-    # Colorize the value labels
-    foreach w [array names widgets info,v,*] {
-      $widgets($w) configure -foreground $value_fgcolor -background $bgcolor
-      if {[bind $widgets($w) <Button-1>] ne ""} {
-        bind $widgets($w) <Enter> [list %W configure -background $active_bgcolor]
-        bind $widgets($w) <Leave> [list %W configure -background $bgcolor]
-      }
-    }
-
-    # Colorize the close button background using the active color
-    foreach btn [list fshow frefresh fclose] {
-      bind $widgets(info,$btn) <Enter> [list %W configure -background $active_bgcolor]
-      bind $widgets(info,$btn) <Leave> [list %W configure -background $bgcolor]
-    }
-
-    # If the background color of the information frame does not match the default
-    # background color, remove the final separator to cleanup the UI appearance;
-    # otherwise, make sure that it is there.
-    if {$bgcolor ne $default_bgcolor} {
-      grid remove $widgets(psep)
-    } else {
-      grid $widgets(psep)
-    }
+    ipanel::update
 
   }
 

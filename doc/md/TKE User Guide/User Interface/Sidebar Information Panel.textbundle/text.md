@@ -1,6 +1,6 @@
 ### Sidebar Information Panel
 
-When a single file or directory is selected within the sidebar, a special panel will be displayed at the bottom of the sidebar, displaying additional information about the selected item, including the following:
+When a single file or directory is Control-clicked within the sidebar (or the **Show Info** menu option is selected in the sidebar contextual menu for a single item), a special panel will be displayed at the bottom of the sidebar, displaying additional information about the selected item, including the following:
 
 - Basename of the file/directory
 - Default syntax of the given file
