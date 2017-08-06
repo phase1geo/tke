@@ -257,7 +257,7 @@ namespace eval sidebar {
     pack $w.tf -fill both -expand yes
 
     # Create sidebar info panel user interface
-    set widgets(info) [ipanel::create $w.if -showcmd sidebar::]
+    set widgets(info) [ipanel::create $w.if]
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -2207,6 +2207,7 @@ namespace eval sidebar {
         ipanel::update $widgets(info)
       } elseif {[llength $selected] == 1} {
         ipanel::update $widgets(info) [$widgets(tl) set [lindex $selected 0] name]
+        pack $widgets(info) -fill both
       }
     } else {
       pack forget $widgets(info)
