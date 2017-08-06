@@ -136,6 +136,8 @@ namespace eval ipanel {
     # Insert any file information plugin information
     insert_info_panel_plugins $w
 
+    return $w
+
   }
 
   ######################################################################
@@ -243,10 +245,10 @@ namespace eval ipanel {
         ::image_scale $orig 64 64 photo_preview
         update_info_image $orig photo_preview $preview $imagesize
       } else {
-        grid remove $widgets(info,v,image)
+        grid remove $widgets($w,v,image)
       }
     } else {
-      grid remove $widgets(info,v,image)
+      grid remove $widgets($w,v,image)
     }
 
   }
@@ -530,17 +532,19 @@ namespace eval ipanel {
 
     # Colorize the close button background using the active color
     foreach btn [list fshow frefresh fclose] {
-      bind $widgets($w,$btn) <Enter> [list %W configure -background $active_bgcolor]
-      bind $widgets($w,$btn) <Leave> [list %W configure -background $bgcolor]
+      foreach w [array names widgets *,$btn] {
+        bind $widgets($w) <Enter> [list %W configure -background $active_bgcolor]
+        bind $widgets($w) <Leave> [list %W configure -background $bgcolor]
+      }
     }
 
     # If the background color of the information frame does not match the default
     # background color, remove the final separator to cleanup the UI appearance;
     # otherwise, make sure that it is there.
     if {$bgcolor ne $default_bgcolor} {
-      grid remove $widgets(psep)
+#      grid remove $widgets(psep)
     } else {
-      grid $widgets(psep)
+#      grid $widgets(psep)
     }
 
   }
