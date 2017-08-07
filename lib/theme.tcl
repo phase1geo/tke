@@ -1379,6 +1379,30 @@ namespace eval theme {
   }
 
   ######################################################################
+  # Returns true if the given category and option contain a color value
+  # that matches the given color.
+  proc contains_color {category opt color} {
+
+    if {![meta_do exists $category $opt]} {
+      return 0
+    }
+
+    set value [split [theme::meta_do get $category $opt] ,]
+
+    switch [get_type $category $opt] {
+      color {
+        return [expr {[get_value $category $opt] eq $color}]
+      }
+      image {
+        lassign [get_value $category $opt] FOOBAR
+      }
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Initializes the themes list.
   proc create_ttk_theme {name} {
 

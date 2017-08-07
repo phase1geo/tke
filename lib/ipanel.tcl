@@ -124,7 +124,7 @@ namespace eval ipanel {
                                   [msgcat::mc "Counts"] cnts 0 [msgcat::mc "Read Time"] rtime 0 \
                                   [msgcat::mc "Version"] ver 1 [msgcat::mc "Favorite"] fav 0] {
       set widgets($w,l,$name) [label $w.l$name -text [format "%s:" $lbl]]
-      set widgets($w,v,$name) [label $w.v$name]
+      set widgets($w,v,$name) [label $w.v$name -anchor w]
       if {$copy} {
         bind $widgets($w,v,$name) <Button-1> [list sidebar::copy_info $w $name]
       }
@@ -170,7 +170,7 @@ namespace eval ipanel {
 
       # Create the widgets
       set widgets($w,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
-      set widgets($w,v,plug$index) [label $w.pv$index -foreground $vfgcolor -background $vbgcolor]
+      set widgets($w,v,plug$index) [label $w.pv$index -anchor w -foreground $vfgcolor -background $vbgcolor]
 
       # If the item is copyable, make it so now
       if {$copy} {
