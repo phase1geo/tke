@@ -1198,9 +1198,11 @@ namespace eval sidebar {
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
+    
+    $widgets(tl) selection add $row
 
     # Update the information panel
-    update_info_panel $row
+    update_info_panel [$widgets(tl) selection]
 
   }
 
@@ -1380,7 +1382,7 @@ namespace eval sidebar {
     set selected [$widgets(tl) selection]
 
     if {$show_info && ([llength $selected] == 1) && [file isfile [$widgets(tl) set [lindex $selected 0] name]]} {
-      # pack $widgets(info,f) -fill both
+      # pack $widgets(info) -fill both
     }
 
   }
@@ -1392,7 +1394,7 @@ namespace eval sidebar {
     variable widgets
 
     if {![preferences::get Sidebar/KeepInfoPanelVisible]} {
-      pack forget $widgets(info,f)
+      pack forget $widgets(info)
     }
 
   }
@@ -2208,14 +2210,14 @@ namespace eval sidebar {
 
     variable widgets
     variable show_info
-
+    
     if {$show_info} {
-      if {[winfo ismapped $widgets(info)]} {
-        ipanel::update $widgets(info,panel)
-      } elseif {[llength $selected] == 1} {
+      if {[llength $selected] == 1} {
         ipanel::update $widgets(info,panel) [$widgets(tl) set [lindex $selected 0] name]
         pack $widgets(info) -fill both
         $widgets(tl) see [lindex $selected 0]
+      } elseif {[winfo ismapped $widgets(info)]} {
+        ipanel::update $widgets(info,panel)
       }
     } else {
       pack forget $widgets(info)
