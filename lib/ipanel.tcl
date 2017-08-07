@@ -112,13 +112,13 @@ namespace eval ipanel {
     grid columnconfigure $w 1 -weight 1
     grid $w.blank    -row 0 -column 0 -sticky w  -padx 2 -pady 4
     grid $w.bf       -row 0 -column 1 -sticky ne -padx 2 -pady 2
-    grid $w.preview  -row 1 -column 0 -rowspan 3 -padx 2 -pady 2
+    grid $w.preview  -row 1 -column 0 -rowspan 4 -padx 2 -pady 2
     grid $w.name     -row 2 -column 1 -sticky w
     grid $w.type     -row 3 -column 1 -sticky w
 
     grid remove $w.bf
 
-    set row 4
+    set row 5
     foreach {lbl name copy} [list [msgcat::mc "Modified"] mod 1 [msgcat::mc "Attributes"] attrs 0 \
                                   "MD5" md5 1 "SHA-1" sha1 1 "SHA-224" sha224 1 "SHA-256" sha256 1 \
                                   [msgcat::mc "Counts"] cnts 0 [msgcat::mc "Read Time"] rtime 0 \
@@ -134,7 +134,7 @@ namespace eval ipanel {
     }
 
     # Insert any file information plugin information
-    insert_info_panel_plugins $w
+    # insert_info_panel_plugins $w
 
     return $w
 
@@ -142,46 +142,50 @@ namespace eval ipanel {
 
   ######################################################################
   # Inserts the file information plugin labels into the file information panel.
-  proc insert_info_panel_plugins {w} {
+  proc insert_info_panel_plugins {} {
 
     variable widgets
-
-    # Remove any existing plugins
-    foreach name [array names widgets $w,l,plug*] {
-      lassign [split $name ,] dummy1 dummy2 pname
-      grid forget $widgets($w,l,$pname) $widgets($w,v,$pname)
-      destroy $widgets($w,l,$pname) $widgets($w,v,$pname)
-    }
-
-    # Forget the previous plugin widgets
-    array unset widgets $w,*,plug*
-
-    # Figure out which row we should start inserting
-    set row [lindex [grid size $w] 1]
-
-    # Get the colors
-    set lfgcolor [$widgets($w,l,mod) cget -foreground]
-    set lbgcolor [$widgets($w,l,mod) cget -background]
-    set vfgcolor [$widgets($w,v,mod) cget -foreground]
-    set vbgcolor [$widgets($w,v,mod) cget -background]
-
-    # Get any file information plugin entries
-    foreach {index title copy} [plugins::get_sidebar_info_titles] {
-
-      # Create the widgets
-      set widgets($w,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
-      set widgets($w,v,plug$index) [label $w.pv$index -anchor w -foreground $vfgcolor -background $vbgcolor]
-
-      # If the item is copyable, make it so now
-      if {$copy} {
-        bind $widgets($w,v,plug$index) <Button-1> [list sidebar::copy_info $w plug$index]
+    
+    foreach {name w} [array get widgets *,f] {
+      
+      # Remove any existing plugins
+      foreach name [array names widgets $w,l,plug*] {
+        lassign [split $name ,] dummy1 dummy2 pname
+        grid forget $widgets($w,l,$pname) $widgets($w,v,$pname)
+        destroy $widgets($w,l,$pname) $widgets($w,v,$pname)
       }
-
-      # Insert them into the grid
-      grid $w.pl$index -row $row -column 0 -sticky e
-      grid $w.pv$index -row $row -column 1 -sticky w -columnspan 3
-      incr row
-
+   
+      # Forget the previous plugin widgets
+      array unset widgets $w,*,plug*
+   
+      # Figure out which row we should start inserting
+      set row [lindex [grid size $w] 1]
+   
+      # Get the colors
+      set lfgcolor [$widgets($w,l,mod) cget -foreground]
+      set lbgcolor [$widgets($w,l,mod) cget -background]
+      set vfgcolor [$widgets($w,v,mod) cget -foreground]
+      set vbgcolor [$widgets($w,v,mod) cget -background]
+   
+      # Get any file information plugin entries
+      foreach {index title copy} [plugins::get_sidebar_info_titles] {
+   
+        # Create the widgets
+        set widgets($w,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
+        set widgets($w,v,plug$index) [label $w.pv$index -anchor w -foreground $vfgcolor -background $vbgcolor]
+   
+        # If the item is copyable, make it so now
+        if {$copy} {
+          bind $widgets($w,v,plug$index) <Button-1> [list sidebar::copy_info $w plug$index]
+        }
+   
+        # Insert them into the grid
+        grid $w.pl$index -row $row -column 0 -sticky e
+        grid $w.pv$index -row $row -column 1 -sticky w -columnspan 3
+        incr row
+   
+      }
+      
     }
 
   }
@@ -192,7 +196,7 @@ namespace eval ipanel {
 
     variable widgets
     variable current
-
+    
     # Update the current filename
     if {$fname ne ""} {
       set current($w) $fname
@@ -200,9 +204,9 @@ namespace eval ipanel {
 
     # Get the list of attributes
     array set attrs [concat {*}[lmap a [preferences::get Sidebar/InfoPanelAttributes] {list $a 1}]]
-
+    
     # Always display the file name
-    $widgets($w,v,name) configure -text [file tail $fname]
+    $widgets($w,v,name) configure -text [file tail $current($w)]
 
     # Update all of the fields
     update_image    $w [info exists attrs(preview)] [info exists attrs(imagesize)]
@@ -216,7 +220,7 @@ namespace eval ipanel {
     update_favorite $w [info exists attrs(favorite)]
 
     # Insert plugin values
-    foreach {index value} [plugins::get_sidebar_info_values $fname] {
+    foreach {index value} [plugins::get_sidebar_info_values $current($w)] {
       $widgets($w,v,plug$index) configure -text $value
       if {$value eq ""} {
         grid remove $widgets($w,l,plug$index) $widgets($w,v,plug$index)
@@ -238,12 +242,12 @@ namespace eval ipanel {
 
     if {($preview || $imagesize) && [file isfile $fname]} {
       if {([file extension $fname] eq ".bmp") && ![catch { image create bitmap -file $fname } orig]} {
-        bitmap_preview configure -file $fname -foreground [utils::get_default_foreground]
-        update_info_image $orig bitmap_preview $preview $imagesize
+        $w,bitmap_preview configure -file $fname -foreground [utils::get_default_foreground]
+        update_info_image $w $orig $w,bitmap_preview $preview $imagesize
       } elseif {![catch { image create photo -file $fname } orig]} {
-        photo_preview blank
-        ::image_scale $orig 64 64 photo_preview
-        update_info_image $orig photo_preview $preview $imagesize
+        $w,photo_preview blank
+        ::image_scale $orig 64 64 $w,photo_preview
+        update_info_image $w $orig $w,photo_preview $preview $imagesize
       } else {
         grid remove $widgets($w,v,image)
       }
@@ -507,7 +511,7 @@ namespace eval ipanel {
 
   ######################################################################
   # Update the information panel widgets with the given theme information.
-  proc update_theme {title_fgcolor value_fgcolor bgcolor default_bgcolor active_bgcolor} {
+  proc update_theme {title_fgcolor value_fgcolor bgcolor active_bgcolor} {
 
     variable widgets
 
@@ -537,16 +541,12 @@ namespace eval ipanel {
         bind $widgets($w) <Leave> [list %W configure -background $bgcolor]
       }
     }
-
-    # If the background color of the information frame does not match the default
-    # background color, remove the final separator to cleanup the UI appearance;
-    # otherwise, make sure that it is there.
-    if {$bgcolor ne $default_bgcolor} {
-#      grid remove $widgets(psep)
-    } else {
-#      grid $widgets(psep)
+    
+    # Tell anyone who cares that the theme changed
+    foreach {name w} [array get widgets *,f] {
+      event generate $w <<ThemeChanged>> -data $bgcolor
     }
-
+    
   }
 
 }

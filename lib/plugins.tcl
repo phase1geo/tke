@@ -206,7 +206,7 @@ namespace eval plugins {
     handle_on_pref_load
 
     # Update the file information panel
-    sidebar::insert_info_panel_plugins
+    ipanel::insert_info_panel_plugins
 
     # Tell the user that the plugins have been successfully reloaded
     gui::set_info_message [msgcat::mc "Plugins successfully reloaded"]
@@ -510,7 +510,7 @@ namespace eval plugins {
             add_all_text_bindings
             add_all_syntax
             add_all_vcs_commands
-            sidebar::insert_info_panel_plugins
+            ipanel::insert_info_panel_plugins
             handle_on_pref_load
             return
           }
@@ -549,7 +549,7 @@ namespace eval plugins {
     add_all_vcs_commands
 
     # Update file information
-    sidebar::insert_info_panel_plugins
+    ipanel::insert_info_panel_plugins
 
     # Add all loaded preferences
     handle_on_pref_load
@@ -636,7 +636,7 @@ namespace eval plugins {
     add_all_vcs_commands
 
     # Update file information
-    sidebar::insert_info_panel_plugins
+    ipanel::insert_info_panel_plugins
 
     # Save the plugin information
     write_config

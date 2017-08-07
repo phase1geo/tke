@@ -1049,10 +1049,9 @@ namespace eval theme {
   # Updates the file information panel with the given theme settings.
   proc update_sidebar_info {} {
 
-    array set opts     [get_category_options sidebar_info 1]
-    array set ttk_opts [get_category_options ttk_style 1]
+    array set opts [get_category_options sidebar_info 1]
 
-    ipanel::update_theme $opts(-title_foreground) $opts(-value_foreground) $opts(-background) $ttk_opts(background) $opts(-active_background)
+    ipanel::update_theme $opts(-title_foreground) $opts(-value_foreground) $opts(-background) $opts(-active_background)
 
   }
 
