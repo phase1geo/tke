@@ -1582,12 +1582,29 @@ namespace eval themer {
     for {set i 0} {$i < [$data(widgets,cat) size]} {incr i} {
       if {[set category [$data(widgets,cat) cellcget $i,category -text]] ne ""} {
         set opt [$data(widgets,cat) cellcget $i,opt -text]
-        if {([theme::get_type $category $opt] eq "color") && [theme::meta_do exists $category $opt]} {
-          set value [split [theme::meta_do get $category $opt] ,]
-          if {[lindex $value 0] eq $orig_color} {
-            lset value 0 $color
-            theme::meta_do set $category $opt [join $value ,]
-            theme::set_themer_category_table_row $data(widgets,cat) $i [get_color [join $value ,]]
+        switch [theme::get_type $category $opt] {
+          color {
+            if {[theme::meta_do exists $category $opt]} {
+              set value [split [theme::meta_do get $category $opt] ,]
+              if {[lindex $value 0] eq $orig_color} {
+                lset value 0 $color
+                theme::meta_do set $category $opt [join $value ,]
+                theme::set_themer_category_table_row $data(widgets,cat) $i [get_color [join $value ,]]
+              }
+            } elseif {[theme::get_value $category $opt] eq $orig_color} {
+              theme::set_themer_category_table_row $data(widgets,cat) $i $color
+            }
+          }
+          image {
+            array set values [theme::get_value $category $opt]
+            if {[info exists values(fg)] && ($values(fg) eq $orig_color)} {
+              set values(fg) $color
+            }
+            if {[info exists values(bg)] && ($values(bg) eq $orig_color)} {
+              set values(bg) $color
+            }
+            theme::set_themer_category_table_row $data(widgets,cat) $i [array get values]
+            array unset values
           }
         }
       }
