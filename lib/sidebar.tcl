@@ -1198,8 +1198,12 @@ namespace eval sidebar {
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-    
-    $widgets(tl) selection add $row
+
+    if {[tk windowingsystem] eq "aqua"} {
+      $widgets(tl) selection set $row
+    } else {
+      $widgets(tl) selection add $row
+    }
 
     # Update the information panel
     update_info_panel [$widgets(tl) selection]
@@ -2210,13 +2214,13 @@ namespace eval sidebar {
 
     variable widgets
     variable show_info
-    
+
     if {$show_info} {
       if {[llength $selected] == 1} {
         ipanel::update $widgets(info,panel) [$widgets(tl) set [lindex $selected 0] name]
         pack $widgets(info) -fill both
         $widgets(tl) see [lindex $selected 0]
-      } elseif {[winfo ismapped $widgets(info)]} {
+      } elseif {($selected eq "") && [winfo ismapped $widgets(info)]} {
         ipanel::update $widgets(info,panel)
       }
     } else {

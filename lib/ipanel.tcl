@@ -145,47 +145,47 @@ namespace eval ipanel {
   proc insert_info_panel_plugins {} {
 
     variable widgets
-    
+
     foreach {name w} [array get widgets *,f] {
-      
+
       # Remove any existing plugins
       foreach name [array names widgets $w,l,plug*] {
         lassign [split $name ,] dummy1 dummy2 pname
         grid forget $widgets($w,l,$pname) $widgets($w,v,$pname)
         destroy $widgets($w,l,$pname) $widgets($w,v,$pname)
       }
-   
+
       # Forget the previous plugin widgets
       array unset widgets $w,*,plug*
-   
+
       # Figure out which row we should start inserting
       set row [lindex [grid size $w] 1]
-   
+
       # Get the colors
       set lfgcolor [$widgets($w,l,mod) cget -foreground]
       set lbgcolor [$widgets($w,l,mod) cget -background]
       set vfgcolor [$widgets($w,v,mod) cget -foreground]
       set vbgcolor [$widgets($w,v,mod) cget -background]
-   
+
       # Get any file information plugin entries
       foreach {index title copy} [plugins::get_sidebar_info_titles] {
-   
+
         # Create the widgets
         set widgets($w,l,plug$index) [label $w.pl$index -text "$title:" -foreground $lfgcolor -background $lbgcolor]
         set widgets($w,v,plug$index) [label $w.pv$index -anchor w -foreground $vfgcolor -background $vbgcolor]
-   
+
         # If the item is copyable, make it so now
         if {$copy} {
           bind $widgets($w,v,plug$index) <Button-1> [list sidebar::copy_info $w plug$index]
         }
-   
+
         # Insert them into the grid
         grid $w.pl$index -row $row -column 0 -sticky e
         grid $w.pv$index -row $row -column 1 -sticky w -columnspan 3
         incr row
-   
+
       }
-      
+
     }
 
   }
@@ -196,7 +196,7 @@ namespace eval ipanel {
 
     variable widgets
     variable current
-    
+
     # Update the current filename
     if {$fname ne ""} {
       set current($w) $fname
@@ -204,7 +204,7 @@ namespace eval ipanel {
 
     # Get the list of attributes
     array set attrs [concat {*}[lmap a [preferences::get Sidebar/InfoPanelAttributes] {list $a 1}]]
-    
+
     # Always display the file name
     $widgets($w,v,name) configure -text [file tail $current($w)]
 
@@ -271,7 +271,7 @@ namespace eval ipanel {
         if {[set type [$widgets($w,v,type) cget -text]] eq ""} {
           lappend typelist [expr {[utils::is_binary $fname] ? "Binary" : [syntax::get_default_language $fname]}]
         } else {
-          lappend typelist $type
+          lappend typelist [lindex [split $type ,] 0]
         }
       }
       if {$filesize} {
@@ -541,12 +541,12 @@ namespace eval ipanel {
         bind $widgets($w) <Leave> [list %W configure -background $bgcolor]
       }
     }
-    
+
     # Tell anyone who cares that the theme changed
     foreach {name w} [array get widgets *,f] {
       event generate $w <<ThemeChanged>> -data $bgcolor
     }
-    
+
   }
 
 }
