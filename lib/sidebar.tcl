@@ -259,12 +259,16 @@ namespace eval sidebar {
     # Create sidebar info panel user interface
     set widgets(info)       [frame $w.if]
     set widgets(info,psep1) [ttk::separator $w.if.psep1]
-    set widgets(info,panel) [ipanel::create $w.if.panel]
+    set widgets(info,panel) [ipanel::create $w.if.panel -showcmd sidebar::view_file]
     set widgets(info,psep2) [ttk::separator $w.if.psep2]
 
-    pack $widgets(info,psep1) -fill x
-    pack $widgets(info,panel) -fill both
-    pack $widgets(info,psep2) -fill x
+    bind $widgets(info,panel) <<ThemeChange>> [list sidebar::panel_theme_change %d]
+
+    grid rowconfigure $widgets(info)    1 -weight 1
+    grid columnconfigure $widgets(info) 0 -weight 1
+    grid $widgets(info,psep1) -row 0 -column 0 -sticky ew
+    grid $widgets(info,panel) -row 1 -column 0 -sticky news
+    grid $widgets(info,psep2) -row 2 -column 0 -sticky ew
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -293,6 +297,30 @@ namespace eval sidebar {
     trace variable preferences::prefs(Sidebar/InfoPanelAttributes) w sidebar::handle_info_panel_view
 
     return $w
+
+  }
+
+  ######################################################################
+  # Called when the panel theme changes.  Takes care to show/hide the
+  # information panel divider widgets based on colors.
+  proc panel_theme_change {panel_color} {
+
+    variable widgets
+
+    array set ttk_opts     [theme::get_category_options ttk_style 1]
+    array set sidebar_opts [theme::get_category_options sidebar   1]
+
+    if {$panel_color eq $sidebar_opts(-background)} {
+      grid $widgets(info,psep1)
+    } else {
+      grid remove $widgets(info,psep1)
+    }
+
+    if {$panel_color eq $ttk_opts(background)} {
+      grid $widgets(info,psep2)
+    } else {
+      grid remove $widgets(info,psep2)
+    }
 
   }
 
@@ -2180,7 +2208,7 @@ namespace eval sidebar {
   ######################################################################
   # Shows the given filename in the sidebar browser.  Adds parent
   # directory if the file does not exist in the sidebar.
-  proc view_file {fname remote} {
+  proc view_file {fname {remote ""}} {
 
     variable widgets
 

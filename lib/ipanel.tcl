@@ -103,7 +103,7 @@ namespace eval ipanel {
     # If the user has provided a show command
     if {$opts(-showcmd) ne ""} {
       set widgets($w,fshow) [label $w.bf.show -image sidebar_info_show]
-      bind $widgets($w,fshow) <Button-1> [list ipanel::run_show_command $opts(-showcmd)]
+      bind $widgets($w,fshow) <Button-1> [list ipanel::run_show_command $w $opts(-showcmd)]
       tooltip::tooltip $widgets($w,fshow) [msgcat::mc "Show in Sidebar"]
       pack $widgets($w,fshow) -side right -padx 2 -pady 2
     }
@@ -501,11 +501,11 @@ namespace eval ipanel {
 
   ######################################################################
   # Run the user show command.
-  proc run_show_command {cmd} {
+  proc run_show_command {w cmd} {
 
-    variable last_file
+    variable current
 
-    uplevel #0 {*}$cmd $last_file
+    uplevel #0 {*}$cmd $current($w)
 
   }
 
@@ -544,7 +544,7 @@ namespace eval ipanel {
 
     # Tell anyone who cares that the theme changed
     foreach {name w} [array get widgets *,f] {
-      event generate $w <<ThemeChanged>> -data $bgcolor
+      event generate $w <<ThemeChange>> -data $bgcolor
     }
 
   }
