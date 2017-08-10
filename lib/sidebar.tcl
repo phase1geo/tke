@@ -259,7 +259,7 @@ namespace eval sidebar {
     # Create sidebar info panel user interface
     set widgets(info)       [frame $w.if]
     set widgets(info,psep1) [ttk::separator $w.if.psep1]
-    set widgets(info,panel) [ipanel::create $w.if.panel -showcmd sidebar::view_file]
+    set widgets(info,panel) [ipanel::create $w.if.panel -closecmd sidebar::close_info_panel -showcmd sidebar::view_file]
     set widgets(info,psep2) [ttk::separator $w.if.psep2]
 
     bind $widgets(info,panel) <<ThemeChange>> [list sidebar::panel_theme_change %d]
@@ -2273,6 +2273,16 @@ namespace eval sidebar {
     # If the given filename matches the update info panel, update the information
     # in the info panel.
     ipanel::update $widgets(info,panel)
+
+  }
+
+  ######################################################################
+  # Closes the information panel.
+  proc close_info_panel {fname} {
+
+    variable widgets
+
+    pack forget $widgets(info)
 
   }
 

@@ -64,6 +64,7 @@ namespace eval ipanel {
     variable current
 
     array set opts {
+      -closecmd ""
       -showcmd  ""
       -lastfile ""
     }
@@ -81,7 +82,6 @@ namespace eval ipanel {
     set widgets($w,fblank)   [label $w.blank -image [image create bitmap -file [file join $::tke_dir lib images blank.bmp]]]
     set widgets($w,fbframe)  [frame $w.bf]
     set widgets($w,frefresh) [label $w.bf.refresh -image sidebar_info_refresh]
-    set widgets($w,fclose)   [label $w.bf.close   -image sidebar_info_close]
     set widgets($w,v,image)  [label $w.preview]
     set widgets($w,f,1)      [frame $w.f1]
     set widgets($w,v,name)   [label $w.name]
@@ -89,21 +89,25 @@ namespace eval ipanel {
     set widgets($w,f,2)      [frame $w.f2]
 
     bind $widgets($w,frefresh) <Button-1> [list ipanel::update $w]
-    bind $widgets($w,fclose)   <Button-1> [list pack forget $widgets($w,f)]
     bind $widgets($w,f)        <Enter>    [list grid $w.bf]
     bind $widgets($w,f)        <Leave>    [list grid remove $w.bf]
 
     # Add tooltips to the buttons
     tooltip::tooltip $widgets($w,frefresh) [msgcat::mc "Update Info"]
-    tooltip::tooltip $widgets($w,fclose)   [msgcat::mc "Close"]
 
-    pack $widgets($w,fclose)   -side right -padx 2 -pady 2
+    if {$opts(-closecmd) ne ""} {
+      set widgets($w,fclose) [label $w.bf.close -image sidebar_info_close]
+      bind $widgets($w,fclose) <Button-1> [list ipanel::run_command $w $opts(-closecmd)]
+      tooltip::tooltip $widgets($w,fclose) [msgcat::mc "Close Panel"]
+      pack $widgets($w,fclose) -side right -padx 2 -pady 2
+    }
+
     pack $widgets($w,frefresh) -side right -padx 2 -pady 2
 
     # If the user has provided a show command
     if {$opts(-showcmd) ne ""} {
       set widgets($w,fshow) [label $w.bf.show -image sidebar_info_show]
-      bind $widgets($w,fshow) <Button-1> [list ipanel::run_show_command $w $opts(-showcmd)]
+      bind $widgets($w,fshow) <Button-1> [list ipanel::run_command $w $opts(-showcmd)]
       tooltip::tooltip $widgets($w,fshow) [msgcat::mc "Show in Sidebar"]
       pack $widgets($w,fshow) -side right -padx 2 -pady 2
     }
@@ -501,7 +505,7 @@ namespace eval ipanel {
 
   ######################################################################
   # Run the user show command.
-  proc run_show_command {w cmd} {
+  proc run_command {w cmd} {
 
     variable current
 
