@@ -411,10 +411,6 @@
 
 {Sidebar/ShowHiddenFiles} {0}
 
-# Shows the information panel in the sidebar when set to 1 and a file is selected in the sidebar.
-
-{Sidebar/ShowInfoPanel} {1}
-
 # If View/ShowFileInfo is set to true, this option, if set, will keep the file
 # information panel visible even when the sidebar does not have keyboard focus.
 # If it is set to 0, the file information panel will be hidden when sidebar

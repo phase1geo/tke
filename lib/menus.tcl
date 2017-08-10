@@ -2350,14 +2350,6 @@ namespace eval menus {
     launcher::register [make_menu_cmd "View" [msgcat::mc "Show sidebar"]] [list menus::show_sidebar_view $mb]
     launcher::register [make_menu_cmd "View" [msgcat::mc "Hide sidebar"]] [list menus::hide_sidebar_view $mb]
 
-    if {[preferences::get Sidebar/ShowInfoPanel]} {
-      $mb add command -label [msgcat::mc "Hide Sidebar Info Panel"] -underline 5 -command [list menus::hide_info_panel_view $mb]
-    } else {
-      $mb add command -label [msgcat::mc "Show Sidebar Info Panel"] -underline 5 -command [list menus::show_info_panel_view $mb]
-    }
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Show sidebar information panel"]] [list menus::show_info_panel_view $mb]
-    launcher::register [make_menu_cmd "View" [msgcat::mc "Hide sidebar information panel"]] [list menus::hide_info_panel_view $mb]
-
     if {[preferences::get View/ShowTabBar]} {
       $mb add command -label [msgcat::mc "Hide Tab Bar"] -underline 5 -command [list menus::hide_tab_view $mb]
     } else {
@@ -2729,26 +2721,6 @@ namespace eval menus {
     # Convert the menu command into the hide sidebar command
     if {![catch {$mb entryconfigure [msgcat::mc "Hide Sidebar"] -label [msgcat::mc "Show Sidebar"] -command "menus::show_sidebar_view $mb"}]} {
       gui::hide_sidebar_view
-    }
-
-  }
-
-  ######################################################################
-  # Shows the sidebar information panel.
-  proc show_info_panel_view {mb} {
-
-    if {![catch {$mb entryconfigure [msgcat::mc "Show Sidebar Info Panel"] -label [msgcat::mc "Hide Sidebar Info Panel"] -command "menus::hide_info_panel_view $mb"}]} {
-      sidebar::set_info_panel_view 1
-    }
-
-  }
-
-  ######################################################################
-  # Hides the sidebar information panel.
-  proc hide_info_panel_view {mb} {
-
-    if {![catch {$mb entryconfigure [msgcat::mc "Hide Sidebar Info Panel"] -label [msgcat::mc "Show Sidebar Info Panel"] -command "menus::show_info_panel_view $mb"}]} {
-      sidebar::set_info_panel_view 0
     }
 
   }

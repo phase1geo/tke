@@ -63,6 +63,9 @@ namespace eval ipanel {
     variable widgets
     variable current
 
+    # Initialize variables
+    set current($w) ""
+
     array set opts {
       -closecmd ""
       -showcmd  ""
@@ -500,6 +503,28 @@ namespace eval ipanel {
 
     # Output the copy status
     gui::set_info_message [format "%s %s" $name [msgcat::mc "value copied to clipboard"]]
+
+  }
+
+  ######################################################################
+  # Returns true if the information panel contains information that can
+  # be immediately viewed.
+  proc is_viewable {w} {
+
+    variable current
+
+    return [expr {$current($w) ne ""}]
+
+  }
+
+  ######################################################################
+  # Executes the given close command.
+  proc close {w} {
+
+    variable current
+
+    # Clear current
+    set current($w) ""
 
   }
 

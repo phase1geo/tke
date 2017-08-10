@@ -2633,8 +2633,7 @@ namespace eval pref_ui {
 
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Info Panel"]]
 
-    make_cb $c.enable [msgcat::mc "Show information panel when file/directory is selected"]              Sidebar/ShowInfoPanel
-    make_cb $c.kfiv   [msgcat::mc "Keep file information panel visible when sidebar doesn't have focus"] Sidebar/KeepInfoPanelVisible
+    make_cb $c.kfiv [msgcat::mc "Keep file information panel visible when sidebar doesn't have focus"] Sidebar/KeepInfoPanelVisible
     make_spacer $c
 
     ttk::labelframe $c.if -text [set wstr [msgcat::mc "Displayed Information"]]
