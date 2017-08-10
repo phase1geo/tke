@@ -31,7 +31,6 @@ namespace eval sidebar {
   variable after_id         ""
   variable jump_str         ""
   variable jump_after_id    ""
-  variable show_info        1
   variable select_id        ""
 
   array set widgets {}
@@ -293,7 +292,6 @@ namespace eval sidebar {
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns)  w sidebar::handle_ignore_files
     trace variable preferences::prefs(Sidebar/IgnoreBinaries)      w sidebar::handle_ignore_files
-    trace variable preferences::prefs(Sidebar/ShowInfoPanel)       w sidebar::handle_info_panel_view
     trace variable preferences::prefs(Sidebar/InfoPanelAttributes) w sidebar::handle_info_panel_view
 
     return $w
@@ -1409,12 +1407,9 @@ namespace eval sidebar {
   proc handle_focus_in {} {
 
     variable widgets
-    variable show_info
 
-    set selected [$widgets(tl) selection]
-
-    if {$show_info && ([llength $selected] == 1) && [file isfile [$widgets(tl) set [lindex $selected 0] name]]} {
-      # pack $widgets(info) -fill both
+    if {[ipanel::is_viewable $widgets(info,panel)]} {
+      pack $widgets(info) -fill both
     }
 
   }
@@ -2119,21 +2114,6 @@ namespace eval sidebar {
   # Handles the file information view option.
   proc handle_info_panel_view {name1 name2 op} {
 
-    set_info_panel_view [preferences::get Sidebar/ShowInfoPanel]
-
-  }
-
-  ######################################################################
-  # Sets the file information view value and updates the UI state.
-  proc set_info_panel_view {value} {
-
-    variable widgets
-    variable show_info
-
-    # Save the state of the Sidebar/ShowInfoPanel preference option
-    set show_info $value
-
-    # Update the file info widget
     update_info_panel
 
   }
@@ -2241,18 +2221,13 @@ namespace eval sidebar {
   proc update_info_panel {{selected ""}} {
 
     variable widgets
-    variable show_info
 
-    if {$show_info} {
-      if {[llength $selected] == 1} {
-        ipanel::update $widgets(info,panel) [$widgets(tl) set [lindex $selected 0] name]
-        pack $widgets(info) -fill both
-        $widgets(tl) see [lindex $selected 0]
-      } elseif {($selected eq "") && [winfo ismapped $widgets(info)]} {
-        ipanel::update $widgets(info,panel)
-      }
-    } else {
-      pack forget $widgets(info)
+    if {[llength $selected] == 1} {
+      ipanel::update $widgets(info,panel) [$widgets(tl) set [lindex $selected 0] name]
+      pack $widgets(info) -fill both
+      $widgets(tl) see [lindex $selected 0]
+    } elseif {($selected eq "") && [winfo ismapped $widgets(info)]} {
+      ipanel::update $widgets(info,panel)
     }
 
   }
@@ -2282,6 +2257,10 @@ namespace eval sidebar {
 
     variable widgets
 
+    # Close the information panel content
+    ipanel::close $widgets(info,panel)
+
+    # Remove the panel from view
     pack forget $widgets(info)
 
   }
