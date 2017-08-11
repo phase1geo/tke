@@ -1,76 +1,290 @@
-2017-07-13 02:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a46de449bdc2 [devel-3.2.5])
+2017-07-19 00:37 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2e3db365cbe7 [devel-3.2.6])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.2.5 release
+	ChangeLog for devel-3.2.6 release
 
-2017-07-13 02:42 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a0b11af4ef0d)
+2017-07-19 00:37 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5caa9c2404e5)
 
 	* .hgtags:
-	Added tag devel-3.2.5 for changeset a46de449bdc2
+	Added tag devel-3.2.6 for changeset 2e3db365cbe7
 
-2017-07-14 00:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (82f99d3cb550)
+2017-07-19 23:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (19ee9198b6dc)
 
-	* lib/edit.tcl, lib/version.tcl, lib/vim.tcl:
-	* Attempting to streamline vim::handle_any.
-	* Cleaning up unnecessary functionality from edit.tcl.
+	* lib/indent.tcl, lib/syntax.tcl, lib/theme.tcl, lib/version.tcl:
+	* Theming indentation and syntax menus.
+	* Removing menu theming on macOS.
 
-2017-07-15 01:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (809f2e3ff305)
+2017-07-23 01:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (06c815fea4ec)
 
-	* lib/version.tcl, lib/vim.tcl:
-	* Checkpointing work on refactoring vim code.
+	* lib/select.tcl, lib/version.tcl, plugins/css_colorize/README.md,
+	plugins/css_colorize/main.tcl:
+	* Adding Uncolorize feature to CSS Colorize plugin.
+	* Fixing documentation for CSS Colorize plugin.
+	* Checkpointing selection work.
 
-2017-07-15 10:31 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (396afd48ffa1)
+2017-07-24 00:25 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bc124b458397)
 
-	* lib/version.tcl, lib/vim.tcl:
-	* Change a comment.
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
 
-2017-07-17 21:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c04094597f55)
+2017-07-24 19:56 -0500  Trevor Williams  <phase1geo@gmail.com>  (5686dfec3af3)
 
-	* lib/version.tcl, lib/vim.tcl:
-	* Vim cleanup and fixing bug with 's' command.
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Update information panel when a directory is removed from the
+	panel.
 
-2017-07-17 17:25 -0500  Trevor Williams  <phase1geo@gmail.com>  (47945d24c9c2)
+2017-07-24 22:45 -0500  Trevor Williams  <phase1geo@gmail.com>  (36831a626c5f)
 
-	* data/themes/Starlight.tketheme, lib/gui.tcl, lib/sidebar.tcl:
-	* Adding menus to theming engine.
-	* Improving menu active foreground color in the Starlight theme.
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
 
-2017-07-17 21:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (43d76a06f2e2)
+2017-07-25 09:45 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e7e08ee1fa6d)
 
-	* lib/version.tcl:
-	* Merging.
+	* lib/select.tcl, lib/version.tcl:
+	* Blocking in support for initial selection of other types.
 
-2017-07-18 01:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c8f86ffb8b22)
+2017-07-26 00:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (cb2884d3e015)
 
-	* lib/version.tcl, lib/vim.tcl:
-	* Fixing issue with key recording in Vim mode.
+	* lib/select.tcl, lib/version.tcl, lib/vim.tcl:
+	* Checkpointing.
 
-2017-07-18 08:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (daf1543f42cb)
+2017-07-27 00:09 -0500  Trevor Williams  <phase1geo@gmail.com>  (97d35559dbcc)
 
-	* lib/version.tcl, tests/selection.tcl:
-	* Fixing a few selection tests.
+	* lib/gui.tcl, lib/version.tcl:
+	* Fixing issue with line spacing in line-wrapped files.
 
-2017-07-18 12:04 -0500  Trevor Williams  <phase1geo@gmail.com>  (e313ef8db7bf)
+2017-07-27 01:11 -0500  Trevor Williams  <phase1geo@gmail.com>  (29f48b3347ec)
 
-	* data/themes/Anatomy of Grey.tketheme, data/themes/Cool
-	Glow.tketheme, data/themes/Ruby Blue.tketheme, data/themes/Turn of
-	the Century.tketheme:
-	* Updating menu colors in themes to make them more readable.
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Adding -lmargin option to ctext to add left margin to the text
+	widget.
 
-2017-07-18 16:12 -0500  Trevor Williams  <phase1geo@gmail.com>  (e613a751be98)
+2017-07-28 23:32 -0500  Trevor Williams  <phase1geo@gmail.com>  (8ea119de443e)
 
-	* lib/gui.tcl:
-	* Fixing issue with handling Untitled tabs and the sidebar on
-	Windows.
+	* data/preferences.tkedat, lib/pref_ui.tcl, lib/sidebar.tcl,
+	lib/tke.tcl, lib/utils.tcl, lib/version.tcl:
+	* Adding line count, word count, char count, read time, MD5 and
+	SHA-1 information options to information panel.
 
-2017-07-18 17:09 -0500  Trevor Williams  <phase1geo@gmail.com>  (d0c9243fc7d6)
+2017-07-30 00:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (58fbd73ebfbd)
 
-	* lib/select.tcl:
-	* Fixing various issues with select namespace to get things
-	basically working again.
+	* doc/md/TKE User Guide/User Interface/Sidebar Information
+	Panel.textbundle/text.md, lib/pref_ui.tcl, lib/sidebar.tcl,
+	lib/theme.tcl, lib/tke.tcl, lib/utils.tcl, lib/version.tcl:
+	* Adding SHA-224 and SHA-256 information panel information.
+	* Adding ability to copy various info panel values to the clipboard.
+	* Starting to work on support for Control-clicking sidebar items to
+	display information panel (work in progress).
 
-2017-07-18 22:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e80cd1aa24aa [tip])
+2017-07-30 08:09 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e82a1b08a9ef)
 
-	* lib/multicursor.tcl, lib/version.tcl:
-	* Fixing behavior of multicursor disable.
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing information panel changes.
+
+2017-07-30 08:17 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7b54f357dfe9)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing information panel behavior.
+
+2017-07-30 18:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (adb9307bac83)
+
+	* lib/plugins.tcl, lib/sidebar.tcl, lib/version.tcl,
+	plugins/file_info/main.tcl:
+	* Enhancing information panel plugin.
+	* Fixing issues with information panel plugins.
+
+2017-07-31 00:53 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d23127990e9a)
+
+	* lib/select.tcl, lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-08-02 00:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1e00d10c88de)
+
+	* lib/version.tcl, plugins/url_validator/README.md:
+	* Fixing syntax issues with URL validator README file.
+
+2017-08-02 23:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (def7cdeb14ca)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Adding "Get Info" menu option to sidebar contextual menus.
+
+2017-08-03 09:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d49f94224151)
+
+	* lib/images/refresh.bmp: new file.
+	* lib/images/refresh.bmp, lib/sidebar.tcl, lib/version.tcl:
+	* Adding ability to manually refresh information panel.
+	* Hiding refresh and close buttons until the mouse cursor enter the
+	information panel (to clean things up).
+	* If information panel is clicked, it will make sure that the
+	associated file is within view.
+
+2017-08-03 16:46 -0500  Trevor Williams  <phase1geo@gmail.com>  (e47d0000599d)
+
+	* lib/images/show.bmp: new file.
+	* lib/images/show.bmp, lib/sidebar.tcl, lib/tke.tcl, lib/utils.tcl:
+	* Checkpointing.
+
+2017-08-03 17:21 -0500  Trevor Williams  <phase1geo@gmail.com>  (9d70bf9bbbb6)
+
+	* lib/sidebar.tcl:
+	* Checkpointing.
+
+2017-08-04 15:59 -0500  Trevor Williams  <phase1geo@gmail.com>  (66e48602faee)
+
+	* plugins/css_colorize/main.tcl:
+	* Fixing syntax issue within CSS Colorizer plugin.
+
+2017-08-04 23:00 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9f6d1237b82a)
+
+	* data/syntax/Markdown.syntax, data/syntax/MultiMarkdown.syntax,
+	lib/version.tcl:
+	* Changing behavior of Markdown/MultiMarkdown to insert blank line
+	when hitting enter on a list item line that contains no content.
+
+2017-08-04 23:38 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8841d96c691b)
+
+	* data/syntax/Markdown.syntax, lib/syntax.tcl, lib/version.tcl:
+	* Adding support to Markdown syntax to support ::highlight:: and
+	||strikethrough|| syntax.
+	* Fixing issue where the '=' character in Markdown documents when used
+	in highlights was not being colorized as a meta character.
+
+2017-08-05 00:18 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9b49270af660)
+
+	* lib/menus.tcl, lib/version.tcl:
+	* Removing `Edit / Delete` submenu and related code.
+
+2017-08-05 00:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7448d70a06bb)
+
+	* data/bindings/menu_bindings.aqua.tkedat,
+	data/bindings/menu_bindings.classic.tkedat,
+	data/bindings/menu_bindings.win32.tkedat,
+	data/bindings/menu_bindings.x11.tkedat, lib/menus.tcl,
+	lib/version.tcl:
+	* Additional cleanup related to removal of `Edit / Delete` menu.
+
+2017-08-05 01:37 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dca7f36d9abf)
+
+	* lib/gui.tcl, lib/sidebar.tcl, lib/utils.tcl, lib/version.tcl:
+	* If file displayed in info panel is saved, automatically update the
+	info panel contents.
+	* Fixing display of information panel when the mouse cursor is moved
+	into/out of panel.
+
+2017-08-05 02:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fdc321be1cd4)
+
+	* doc/md/TKE User Guide/User Interface/Edit Menu.textbundle/text.md,
+	lib/version.tcl:
+	* Removing `Edit / Delete` submenu documentation from the User
+	Guide.
+
+2017-08-05 11:01 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ae422227c871)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2017-08-05 12:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fb367b502d92)
+
+	* lib/gui.tcl, lib/images/refresh.bmp,
+	lib/ptwidgets1.2/library/tabbar.tcl, lib/sidebar.tcl,
+	lib/version.tcl:
+	* Fixing text in find panel to be translatable.
+	* Adding tooltips to info panel buttons (not working at this time).
+	* Improved look of info panel update button image.
+	* Checkpointing work on new -activecloseimage option support (not
+	working yet).
+
+2017-08-05 12:42 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c05799d3c8ef)
+
+	* data/themes/Aurora.tketheme, lib/version.tcl:
+	* Updating Aurora theme info panel.
+
+2017-08-05 13:53 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2b4345a4e0f6)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Fixing issue with disappearing tooltips.
+
+2017-08-05 14:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6968ba7a6e12)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2017-08-06 01:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (24f7da5a4611)
+
+	* lib/ipanel.tcl: new file.
+	* doc/md/TKE User Guide/User Interface/Directory.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/Files.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/Root
+	Directory.textbundle/text.md, doc/md/TKE User Guide/User
+	Interface/Sidebar Information Panel.textbundle/text.md,
+	lib/ipanel.tcl, lib/sidebar.tcl, lib/theme.tcl, lib/tke.tcl,
+	lib/version.tcl:
+	* Updating user guide.
+	* Checkpointing work on new ipanel namespace.
+
+2017-08-06 08:04 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3de8d5c77336)
+
+	* lib/ipanel.tcl, lib/sidebar.tcl, lib/version.tcl:
+	* Fixing syntax errors with ipanel to get things basically working
+	again.
+
+2017-08-06 17:32 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (92e5f6e88fbb)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-08-07 00:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (afc935b73495)
+
+	* lib/ipanel.tcl, lib/theme.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-08-07 17:51 -0500  Trevor Williams  <phase1geo@gmail.com>  (6f8e7164669b)
+
+	* lib/ipanel.tcl, lib/plugins.tcl, lib/sidebar.tcl, lib/theme.tcl,
+	plugins/css_colorize/main.tcl:
+	* Various fixes to ipanel.
+	* Fixing syntax error in CSS Colorize plugin.
+
+2017-08-07 22:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f51dc3e1c10e)
+
+	* lib/ipanel.tcl, lib/sidebar.tcl, lib/theme.tcl, lib/themer.tcl,
+	lib/version.tcl:
+	* Improving swatch edit function to update bitmap image colors.
+	* Fixing info panel behavior on non-aqua systems.
+
+2017-08-09 01:01 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f6a17afa043f)
+
+	* lib/ipanel.tcl, lib/sidebar.tcl, lib/version.tcl:
+	* Adding support for "Show in Sidebar" functionality in information
+	panel.
+	* Adding support for theme changing in sidebar for information panel.
+
+2017-08-09 23:35 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d7fdc0edd771)
+
+	* lib/ipanel.tcl, lib/sidebar.tcl, lib/version.tcl:
+	* Adding -closecmd to information panel to allow panel to be closed.
+
+2017-08-10 07:56 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6f88c18b2bd4)
+
+	* data/preferences.tkedat, lib/ipanel.tcl, lib/menus.tcl,
+	lib/pref_ui.tcl, lib/sidebar.tcl, lib/version.tcl:
+	* Cleaning up UI for information panel.
+	* Fixing information panel display issue when sidebar receives focus.
+
+2017-08-11 01:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (239f97555d7e [tip])
+
+	* data/syntax/Markdown.syntax, data/syntax/MultiMarkdown.syntax,
+	lib/version.tcl:
+	* Adding syntax highlighting for quoted text in Markdown and
+	MultiMarkdown syntaxes.
 
