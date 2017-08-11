@@ -35,6 +35,7 @@ advanced {
   HighlightClass h4      miscellaneous2 {h4}
   HighlightClass h5      miscellaneous2 {h5}
   HighlightClass h6      miscellaneous2 {h6}
+  HighlightClass quote   punctuation    {}
   HighlightClass link    miscellaneous1 {underline click}
   HighlightClass code    precompile     {code}
   HighlightClass ccode   precompile     {code}
@@ -46,6 +47,7 @@ advanced {
   HighlightRegexp {(`{3}).+?\1}                  ccode
   HighlightRegexp {`.+?`}                        code
   HighlightRegexp {^#.*?$}                       header
+  HighlightRegexp {^>.*?$}                       quote
   HighlightRegexp {([*_]{2})(?=\S).+?\1}         bold
   HighlightRegexp {([*_])(?=\S).+?\1}            italics
   HighlightRegexp {!\[.+?\](\s*\[.*?\]|\(.*?\))} image
@@ -96,6 +98,14 @@ advanced {
       set num [string length $hashes]
       return [list [list [list h$num [$txt index "$startpos+${num}c"] [$txt index "$startpos+[string length $all]c"] [list]] \
                          [list grey  $startpos [$txt index "$startpos+${num}c"] [list]]] ""]
+    }
+    return ""
+  } HighlightEndProc
+
+  HighlightProc quote {
+    if {![ctext::isEscaped $txt $startpos]} {
+      return [list [list [list quote [$txt index "$startpos+1c"] $endpos [list]] \
+                         [list grey  $startpos [$txt index "$startpos+1c"] [list]]] ""]
     }
     return ""
   } HighlightEndProc
@@ -328,6 +338,7 @@ advanced {
         }
       }
     }
+    return ""
   } HighlightEndProc
 
 }
