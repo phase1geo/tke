@@ -244,6 +244,10 @@ namespace eval sidebar {
       sidebar::handle_return_space %W
       break
     }
+    bind $widgets(tl) <BackSpace> {
+      sidebar::handle_backspace %W
+      break
+    }
     bind $widgets(tl) <Key>      [list sidebar::handle_any %K %A]
     bind $widgets(tl) <FocusIn>  [list sidebar::handle_focus_in]
     bind $widgets(tl) <FocusOut> [list sidebar::handle_focus_out]
@@ -1319,6 +1323,18 @@ namespace eval sidebar {
 
   }
 
+  ######################################################################
+  # Handles a BackSpace key in the sidebar.  Closes the currently selected
+  # files if they are opened.
+  proc handle_backspace {W} {
+    
+    variable widgets
+    
+    # Close the currently selected rows
+    close_file [$widgets(tl) selection]
+    
+  }
+  
   ######################################################################
   # Handles a Control-Return or Control-Space event.
   proc handle_control_return_space {W} {
