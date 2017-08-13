@@ -534,7 +534,7 @@ namespace eval ipanel {
 
     variable current
 
-    uplevel #0 {*}$cmd $current($w)
+    uplevel #0 {*}$cmd [list $current($w)]
 
   }
 
