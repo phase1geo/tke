@@ -61,18 +61,18 @@ namespace eval select {
     bind select <Key>                     "if {\[select::handle_any %W %K\]} break"
     bind select <Return>                  "if {\[select::handle_return %W\]} break"
     bind select <Escape>                  "if {\[select::handle_escape %W\]} break"
-    bind select <ButtonPress-1>           "if {\[select::handle_single_press %W %x %y\]} break"
-    bind select <ButtonRelease-1>         "if {\[select::handle_single_release %W %x %y\]} break"
-    bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
-    bind select <Double-Button-1>         "if {\[select::handle_double_click %W %x %y\]} break"
-    bind select <Triple-Button-1>         "if {\[select::handle_triple_click %W %x %y\]} break"
-    bind select <Mod2-ButtonPress-1>      "if {\[select::handle_single_press %W %x %y\]} break"
-    bind select <Mod2-ButtonRelease-1>    "if {\[select::handle_single_release %W %x %y\]} break"
-    bind select <Mod2-B1-Motion>          "if {\[select::handle_alt_motion %W %x %y\]} break"
-    bind select <Mod2-Double-Button-1>    "if {\[select::handle_alt_double_click %W %x %y\]} break"
-    bind select <Mod2-Triple-Button-1>    "if {\[select::handle_alt_triple_click %W %x %y\]} break"
-    bind select <Control-Double-Button-1> "if {\[select::handle_control_double_click %W %x %y\]} break"
-    bind select <Control-Triple-Button-1> "if {\[select::handle_control_triple_click %W %x %y\]} break"
+    # bind select <ButtonPress-1>           "if {\[select::handle_single_press %W %x %y\]} break"
+    # bind select <ButtonRelease-1>         "if {\[select::handle_single_release %W %x %y\]} break"
+    # bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
+    # bind select <Double-Button-1>         "if {\[select::handle_double_click %W %x %y\]} break"
+    # bind select <Triple-Button-1>         "if {\[select::handle_triple_click %W %x %y\]} break"
+    # bind select <Mod2-ButtonPress-1>      "if {\[select::handle_single_press %W %x %y\]} break"
+    # bind select <Mod2-ButtonRelease-1>    "if {\[select::handle_single_release %W %x %y\]} break"
+    # bind select <Mod2-B1-Motion>          "if {\[select::handle_alt_motion %W %x %y\]} break"
+    # bind select <Mod2-Double-Button-1>    "if {\[select::handle_alt_double_click %W %x %y\]} break"
+    # bind select <Mod2-Triple-Button-1>    "if {\[select::handle_alt_triple_click %W %x %y\]} break"
+    # bind select <Control-Double-Button-1> "if {\[select::handle_control_double_click %W %x %y\]} break"
+    # bind select <Control-Triple-Button-1> "if {\[select::handle_control_triple_click %W %x %y\]} break"
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
@@ -472,7 +472,7 @@ namespace eval select {
     $txtt mark set insert @$x,$y
 
     # Enable selection mode
-    set_select_mode $txtt 1
+    # set_select_mode $txtt 1
 
     # Set the selection type to inner word
     check_item $txtt type word
