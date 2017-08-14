@@ -64,13 +64,13 @@ namespace eval select {
     # bind select <ButtonPress-1>           "if {\[select::handle_single_press %W %x %y\]} break"
     # bind select <ButtonRelease-1>         "if {\[select::handle_single_release %W %x %y\]} break"
     # bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
-    # bind select <Double-Button-1>         "if {\[select::handle_double_click %W %x %y\]} break"
-    # bind select <Triple-Button-1>         "if {\[select::handle_triple_click %W %x %y\]} break"
+    bind select <Double-Button-1>         "if {\[select::handle_double_click %W %x %y\]} break"
+    bind select <Triple-Button-1>         "if {\[select::handle_triple_click %W %x %y\]} break"
     # bind select <Mod2-ButtonPress-1>      "if {\[select::handle_single_press %W %x %y\]} break"
     # bind select <Mod2-ButtonRelease-1>    "if {\[select::handle_single_release %W %x %y\]} break"
     # bind select <Mod2-B1-Motion>          "if {\[select::handle_alt_motion %W %x %y\]} break"
-    # bind select <Mod2-Double-Button-1>    "if {\[select::handle_alt_double_click %W %x %y\]} break"
-    # bind select <Mod2-Triple-Button-1>    "if {\[select::handle_alt_triple_click %W %x %y\]} break"
+    bind select <Mod2-Double-Button-1>    "if {\[select::handle_alt_double_click %W %x %y\]} break"
+    bind select <Mod2-Triple-Button-1>    "if {\[select::handle_alt_triple_click %W %x %y\]} break"
     # bind select <Control-Double-Button-1> "if {\[select::handle_control_double_click %W %x %y\]} break"
     # bind select <Control-Triple-Button-1> "if {\[select::handle_control_triple_click %W %x %y\]} break"
 
@@ -274,14 +274,10 @@ namespace eval select {
       ::tk::TextSetCursor $txtt [lindex $range [expr $data($txtt,anchorend) ^ 1]]
 
       # Clear the selection tags
-      $txtt tag remove select_sel   1.0 end
-      $txtt tag remove select_begin 1.0 end
-      $txtt tag remove select_end   1.0 end
+      $txtt tag remove sel 1.0 end
 
       # Set the selection tags to their new ranges
-      $txtt tag add select_sel {*}$range
-      $txtt tag add select_end "[lindex $range 1]-1c" [lindex $range 1]
-      $txtt tag add select_begin [lindex $range 0] "[lindex $range 0]+1c"
+      $txtt tag add sel {*}$range
 
     }
 
@@ -462,22 +458,10 @@ namespace eval select {
   # Handles a double-click event within the editing buffer.
   proc handle_double_click {txtt x y} {
 
-    variable data
-
-    if {$data($txtt,mode)} {
-      return 1
-    }
-
-    # Set the insertion cursor
-    $txtt mark set insert @$x,$y
-
-    # Enable selection mode
-    # set_select_mode $txtt 1
-
     # Set the selection type to inner word
     check_item $txtt type word
 
-    return 1
+    return 0
 
   }
 
@@ -486,20 +470,11 @@ namespace eval select {
   # current sentence.
   proc handle_alt_double_click {txtt x y} {
 
-    variable data
-
-    if {$data($txtt,mode)} {
-      return 1
-    }
-
-    # Set the insertion cursor
-    $txtt mark set insert @$x,$y
-
-    # Enable selection mode
-    set_select_mode $txtt 1
-
     # Set the selection type to sentence
     check_item $txtt type sentence
+
+    # Perform the selection
+    update_selection $txtt init
 
     return 1
 
@@ -535,22 +510,10 @@ namespace eval select {
   # line of text.
   proc handle_triple_click {txtt x y} {
 
-    variable data
-
-    if {$data($txtt,mode) && ($data($txtt,type) eq "line")} {
-      return 1
-    }
-
-    # Set the insertion cursor
-    $txtt mark set insert @$x,$y
-
-    # Enable selection mode
-    set_select_mode $txtt 1
-
     # Set the selection type to inner line
     check_item $txtt type line
 
-    return 1
+    return 0
 
   }
 
@@ -559,22 +522,10 @@ namespace eval select {
   # of text.
   proc handle_alt_triple_click {txtt x y} {
 
-    variable data
-
-    if {$data($txtt,mode) && ($data($txtt,type) eq "paragraph")} {
-      return 1
-    }
-
-    # Set the insertion cursor
-    $txtt mark set insert @$x,$y
-
-    # Enable selection mode
-    set_select_mode $txtt 1
-
     # Set the selection type to paragraph
     check_item $txtt type paragraph
 
-    return 1
+    return 0
 
   }
 
