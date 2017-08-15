@@ -225,19 +225,20 @@ namespace eval sidebar {
 
     $widgets(tl) column #0 -width 300
 
-    bind $widgets(tl) <<TreeviewSelect>>      [list sidebar::handle_selection]
-    bind $widgets(tl) <<TreeviewOpen>>        [list sidebar::expand_directory]
-    bind $widgets(tl) <<TreeviewClose>>       [list sidebar::collapse]
-    bind $widgets(tl) <ButtonPress-1>         "sidebar::handle_left_press %W %x %y; break"
-    bind $widgets(tl) <ButtonRelease-1>       [list sidebar::handle_left_release %W %x %y]
-    bind $widgets(tl) <Control-Button-1>      [list sidebar::handle_control_left_click %W %x %y]
-    bind $widgets(tl) <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
-    bind $widgets(tl) <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
-    bind $widgets(tl) <Motion>                [list sidebar::handle_motion %W %x %y]
-    bind $widgets(tl) <B1-Motion>             [list sidebar::handle_b1_motion %W %x %y]
-    bind $widgets(tl) <Control-Return>        [list sidebar::handle_control_return_space %W]
-    bind $widgets(tl) <Control-Key-space>     [list sidebar::handle_control_return_space %W]
-    bind $widgets(tl) <Escape>                [list pack forget $w.if]
+    bind $widgets(tl) <<TreeviewSelect>>              [list sidebar::handle_selection]
+    bind $widgets(tl) <<TreeviewOpen>>                [list sidebar::expand_directory]
+    bind $widgets(tl) <<TreeviewClose>>               [list sidebar::collapse]
+    bind $widgets(tl) <ButtonPress-1>                 "if {\[sidebar::handle_left_press %W %x %y\]} break"
+    bind $widgets(tl) <ButtonRelease-1>               [list sidebar::handle_left_release %W %x %y]
+    bind $widgets(tl) <Control-Button-1>              "sidebar::handle_control_left_click %W %x %y; break"
+    bind $widgets(tl) <Control-Button-$::right_click> [list sidebar::handle_control_right_click %W %x %y]
+    bind $widgets(tl) <Button-$::right_click>         [list sidebar::handle_right_click %W %x %y]
+    bind $widgets(tl) <Double-Button-1>               [list sidebar::handle_double_click %W %x %y]
+    bind $widgets(tl) <Motion>                        [list sidebar::handle_motion %W %x %y]
+    bind $widgets(tl) <B1-Motion>                     [list sidebar::handle_b1_motion %W %x %y]
+    bind $widgets(tl) <Control-Return>                [list sidebar::handle_control_return_space %W]
+    bind $widgets(tl) <Control-Key-space>             [list sidebar::handle_control_return_space %W]
+    bind $widgets(tl) <Escape>                        [list pack forget $w.if]
     bind $widgets(tl) <Return> {
       sidebar::handle_return_space %W
       break
@@ -274,6 +275,9 @@ namespace eval sidebar {
     grid $widgets(info,psep1) -row 0 -column 0 -sticky ew
     grid $widgets(info,panel) -row 1 -column 0 -sticky news
     grid $widgets(info,psep2) -row 2 -column 0 -sticky ew
+    
+    # Create move insertion frame
+    set widgets(insert) [frame $w.ins -background black -height 2]
 
     # Create directory popup
     set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
@@ -959,19 +963,22 @@ namespace eval sidebar {
       }
     }
 
-    if {![catch { tkedat::read [file join $dir .tkesort] } rc]} {
+    if {($remote eq "") && ![catch { tkedat::read [file join $dir .tkesort] } rc]} {
       array set contents $rc
       set new_items [list]
       set max       0
       foreach item $items {
-        if {[set index [lsearch $contents(items) [lindex $item 0]]] != -1} {
+        set tail [file tail [lindex $item 0]]
+        if {[set index [lsearch $contents(items) $tail]] != -1} {
           lset items $index $item
           set max [expr max($index,$max)]
-        } else {
+        } elseif {$tail ne ".tkesort"} {
           lappend new_items $item
         }
       }
-      set items [lreplace $items [expr $max + 1] end {*}$new_items]
+      if {[llength $new_items] > 0} {
+        set items [lreplace $items [expr $max + 1] end {*}$new_items]
+      }
       return $items
     } elseif {[preferences::get Sidebar/FoldersAtTop]} {
       return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
@@ -1221,53 +1228,74 @@ namespace eval sidebar {
 
     variable widgets
     variable mover
-
+    
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
-      return
+      return 0
     }
-
-    if {[lsearch [$widgets(tl) selection] $row] == -1} {
-      $widgets(tl) selection set $row
+    
+    # If the user clicks on the disclosure triangle, let the treeview
+    # handle the left press event
+    switch -glob -- [$widgets(tl) identify element $x $y] {
+      *.indicator -
+      *.disclosure {
+        return 0
+      }
     }
-
+    
+    # Get the information that we need for moving the selections to
+    # a new location
+    set selected        [$widgets(tl) selection]
     set mover(start)    [list [$widgets(tl) parent $row] $row]
-    set mover(rows)     [$widgets(tl) selection]
+    set mover(rows)     [expr {($selected eq "") ? $row : $selected}]
     set mover(detached) 0
+    
+    # If the clicked row is not within the current selection
+    return [expr {([llength $selected] > 1) && ([lsearch $selected $row] != -1)}]
 
   }
 
   ######################################################################
+  # Handles a left-click button release event.  If we were doing a drag
+  # and drop file move motion, move the files/folders to the new location.
   proc handle_left_release {W x y} {
 
     variable widgets
     variable mover
-
+    
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-
+    
     set parent    [$widgets(tl) parent $row]
-    set parentdir [$widgets(tl) set $row name]
+    set parentdir [$widgets(tl) set $parent name]
     set index     [$widgets(tl) index $row]
 
     # If we are moving rows, handle them now
     if {$mover(detached)} {
-
+      
+      # Remove the insertion bar
+      place forget $widgets(insert)
+      
+      # Move the files in the file system and in the sidebar treeview
       foreach item [lreverse $mover(rows)] {
-        $widgets(tl) move $item $parent $index
-        file rename -force [$widgets(tl) set $item name] $parentdir
+        if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir }]} {
+          $widgets(tl) detach $item
+          $widgets(tl) move $item $parent $index
+        }
       }
 
       # Create the sort file
       write_sort_file $parent
 
-    # Otherwise, select the row and show it in the tabbar (if applicable)
+    # If the file is currently in the notebook, make it the current tab
     } else {
-
-      $widgets(tl) selection set $row
-
-      # If the file is currently in the notebook, make it the current tab
-      if {([llength $row] == 1) && ([$widgets(tl) item $row -image] ne "")} {
+      
+      # Select the row if we did not move the selection
+      if {[lsearch $mover(rows) $row] != -1} {
+        $widgets(tl) selection set $row
+      }
+      
+      if {[$widgets(tl) item $row -image] ne ""} {
         set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
         gui::get_info $fileindex fileindex tabbar tab
         gui::set_current_tab $tabbar $tab
@@ -1276,26 +1304,35 @@ namespace eval sidebar {
     }
 
   }
+  
+  ######################################################################
+  # Add the clicked row to the selection and make it the new selection anchor.
+  proc handle_control_left_click {W x y} {
+    
+    variable widgets
+    
+    if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
+      return
+    }
+    
+    $widgets(tl) selection add $row
+    $widgets(tl) focus $row
+    
+  }
 
   ######################################################################
-  # Handles a control left click on a sidebar item, displaying the information
+  # Handles a control right click on a sidebar item, displaying the information
   # panel.
-  proc handle_control_left_click {W x y} {
+  proc handle_control_right_click {W x y} {
 
     variable widgets
 
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-
-    if {[tk windowingsystem] eq "aqua"} {
-      $widgets(tl) selection set $row
-    } else {
-      $widgets(tl) selection add $row
-    }
-
+ 
     # Update the information panel
-    update_info_panel [$widgets(tl) selection]
+    update_info_panel $row
 
   }
 
@@ -1418,7 +1455,7 @@ namespace eval sidebar {
     variable last_id
     variable after_id
 
-    set id      [$W identify row $x $y]
+    set id      [$W identify item $x $y]
     set lastId  $last_id
     set last_id $id
 
@@ -1442,12 +1479,14 @@ namespace eval sidebar {
     variable widgets
     variable mover
 
-    if {[set row [$W identify row $x $y]] eq ""} {
+    if {[set id [$W identify item $x $y]] eq ""} {
       return
     }
 
-    if {($row ne [lindex $mover(start) 1]) && !$mover(detached)} {
-      $widgets(tl) detach $mover(rows)
+    if {$mover(detached)} {
+      lassign [$widgets(tl) bbox $id] bx by bw bh
+      place $widgets(insert) -in $widgets(tl) -y [expr $by + $bh] -width $bw
+    } elseif {$id ne [lindex $mover(start) 1]} {
       set mover(detached) 1
     }
 
