@@ -961,18 +961,18 @@ namespace eval sidebar {
 
     if {![catch { tkedat::read [file join $dir .tkesort] } rc]} {
       array set contents $rc
-      if {0} {
-      set i 0
-      foreach item $contents(items) {
-        if {[lsearch -index 0 $items $item] != -1} {
+      set new_items [list]
+      set max       0
+      foreach item $items {
+        if {[set index [lsearch $contents(items) [lindex $item 0]]] != -1} {
+          lset items $index $item
+          set max [expr max($index,$max)]
+        } else {
           lappend new_items $item
-          set contents(items) [lreplace $contents(items) $i $i]
         }
-        incr i
       }
-      lassign [struct::set intersect3 $contents(items) $items] isect diff
-      return [concat $isect $diff]
-      }
+      set items [lreplace $items [expr $max + 1] end {*}$new_items]
+      return $items
     } elseif {[preferences::get Sidebar/FoldersAtTop]} {
       return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
     } else {
