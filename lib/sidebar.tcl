@@ -228,11 +228,13 @@ namespace eval sidebar {
     bind $widgets(tl) <<TreeviewSelect>>      [list sidebar::handle_selection]
     bind $widgets(tl) <<TreeviewOpen>>        [list sidebar::expand_directory]
     bind $widgets(tl) <<TreeviewClose>>       [list sidebar::collapse]
-    bind $widgets(tl) <Button-1>              [list sidebar::handle_left_click %W %x %y]
+    bind $widgets(tl) <ButtonPress-1>         "sidebar::handle_left_press %W %x %y; break"
+    bind $widgets(tl) <ButtonRelease-1>       [list sidebar::handle_left_release %W %x %y]
     bind $widgets(tl) <Control-Button-1>      [list sidebar::handle_control_left_click %W %x %y]
     bind $widgets(tl) <Button-$::right_click> [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl) <Double-Button-1>       [list sidebar::handle_double_click %W %x %y]
     bind $widgets(tl) <Motion>                [list sidebar::handle_motion %W %x %y]
+    bind $widgets(tl) <B1-Motion>             [list sidebar::handle_b1_motion %W %x %y]
     bind $widgets(tl) <Control-Return>        [list sidebar::handle_control_return_space %W]
     bind $widgets(tl) <Control-Key-space>     [list sidebar::handle_control_return_space %W]
     bind $widgets(tl) <Escape>                [list pack forget $w.if]
@@ -957,7 +959,21 @@ namespace eval sidebar {
       }
     }
 
-    if {[preferences::get Sidebar/FoldersAtTop]} {
+    if {![catch { tkedat::read [file join $dir .tkesort] } rc]} {
+      array set contents $rc
+      if {0} {
+      set i 0
+      foreach item $contents(items) {
+        if {[lsearch -index 0 $items $item] != -1} {
+          lappend new_items $item
+          set contents(items) [lreplace $contents(items) $i $i]
+        }
+        incr i
+      }
+      lassign [struct::set intersect3 $contents(items) $items] isect diff
+      return [concat $isect $diff]
+      }
+    } elseif {[preferences::get Sidebar/FoldersAtTop]} {
       return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
     } else {
       return [lsort -unique -index 0 $items]
@@ -1201,19 +1217,62 @@ namespace eval sidebar {
 
   ######################################################################
   # Handles a left-click on the sidebar.
-  proc handle_left_click {W x y} {
+  proc handle_left_press {W x y} {
 
     variable widgets
+    variable mover
 
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
 
-    # If the file is currently in the notebook, make it the current tab
-    if {([llength $row] == 1) && ([$widgets(tl) item $row -image] ne "")} {
-      set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
-      gui::get_info $fileindex fileindex tabbar tab
-      gui::set_current_tab $tabbar $tab
+    if {[lsearch [$widgets(tl) selection] $row] == -1} {
+      $widgets(tl) selection set $row
+    }
+
+    set mover(start)    [list [$widgets(tl) parent $row] $row]
+    set mover(rows)     [$widgets(tl) selection]
+    set mover(detached) 0
+
+  }
+
+  ######################################################################
+  proc handle_left_release {W x y} {
+
+    variable widgets
+    variable mover
+
+    if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
+      return
+    }
+
+    set parent    [$widgets(tl) parent $row]
+    set parentdir [$widgets(tl) set $row name]
+    set index     [$widgets(tl) index $row]
+
+    # If we are moving rows, handle them now
+    if {$mover(detached)} {
+
+      foreach item [lreverse $mover(rows)] {
+        $widgets(tl) move $item $parent $index
+        file rename -force [$widgets(tl) set $item name] $parentdir
+      }
+
+      # Create the sort file
+      write_sort_file $parent
+
+    # Otherwise, select the row and show it in the tabbar (if applicable)
+    } else {
+
+      $widgets(tl) selection set $row
+
+      # If the file is currently in the notebook, make it the current tab
+      if {([llength $row] == 1) && ([$widgets(tl) item $row -image] ne "")} {
+        set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
+        gui::get_info $fileindex fileindex tabbar tab
+        gui::set_current_tab $tabbar $tab
+      }
+
     }
 
   }
@@ -1327,14 +1386,14 @@ namespace eval sidebar {
   # Handles a BackSpace key in the sidebar.  Closes the currently selected
   # files if they are opened.
   proc handle_backspace {W} {
-    
+
     variable widgets
-    
+
     # Close the currently selected rows
     close_file [$widgets(tl) selection]
-    
+
   }
-  
+
   ######################################################################
   # Handles a Control-Return or Control-Space event.
   proc handle_control_return_space {W} {
@@ -1371,6 +1430,25 @@ namespace eval sidebar {
       if {$id ne ""} {
         set after_id [after 300 sidebar::show_tooltip $id]
       }
+    }
+
+  }
+
+  ######################################################################
+  # Handles button-1 motion events.  Causes selected files to be detached
+  # so that they can be placed in a different location.
+  proc handle_b1_motion {W x y} {
+
+    variable widgets
+    variable mover
+
+    if {[set row [$W identify row $x $y]] eq ""} {
+      return
+    }
+
+    if {($row ne [lindex $mover(start) 1]) && !$mover(detached)} {
+      $widgets(tl) detach $mover(rows)
+      set mover(detached) 1
     }
 
   }
@@ -2278,6 +2356,28 @@ namespace eval sidebar {
 
     # Remove the panel from view
     pack forget $widgets(info)
+
+  }
+
+  ######################################################################
+  # Writes the sorted contents of the given parent directory in the
+  # sidebar to the parent's directory so that TKE will remember the
+  # current sorting.
+  proc write_sort_file {parent} {
+
+    variable widgets
+
+    set parentdir [$widgets(tl) set $parent name]
+
+    set items [list]
+    foreach child [$widgets(tl) children $parent] {
+      lappend items [file tail [$widgets(tl) set $child name]]
+    }
+
+    set contents(items) $items
+
+    # Write the file
+    catch { tkedat::write [file join $parentdir .tkesort] [list items $items] 0 }
 
   }
 
