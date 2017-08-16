@@ -275,7 +275,7 @@ namespace eval sidebar {
     grid $widgets(info,psep1) -row 0 -column 0 -sticky ew
     grid $widgets(info,panel) -row 1 -column 0 -sticky news
     grid $widgets(info,psep2) -row 2 -column 0 -sticky ew
-    
+
     # Create move insertion frame
     set widgets(insert) [frame $w.ins -background black -height 2]
 
@@ -1228,11 +1228,13 @@ namespace eval sidebar {
 
     variable widgets
     variable mover
-    
+
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return 0
     }
-    
+
+    set mover(detached) 0
+
     # If the user clicks on the disclosure triangle, let the treeview
     # handle the left press event
     switch -glob -- [$widgets(tl) identify element $x $y] {
@@ -1241,14 +1243,13 @@ namespace eval sidebar {
         return 0
       }
     }
-    
+
     # Get the information that we need for moving the selections to
     # a new location
-    set selected        [$widgets(tl) selection]
-    set mover(start)    [list [$widgets(tl) parent $row] $row]
-    set mover(rows)     [expr {($selected eq "") ? $row : $selected}]
-    set mover(detached) 0
-    
+    set selected     [$widgets(tl) selection]
+    set mover(start) [list [$widgets(tl) parent $row] $row]
+    set mover(rows)  [expr {($selected eq "") ? $row : $selected}]
+
     # If the clicked row is not within the current selection
     return [expr {([llength $selected] > 1) && ([lsearch $selected $row] != -1)}]
 
@@ -1261,21 +1262,21 @@ namespace eval sidebar {
 
     variable widgets
     variable mover
-    
+
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-    
+
     set parent    [$widgets(tl) parent $row]
     set parentdir [$widgets(tl) set $parent name]
     set index     [$widgets(tl) index $row]
 
     # If we are moving rows, handle them now
     if {$mover(detached)} {
-      
+
       # Remove the insertion bar
       place forget $widgets(insert)
-      
+
       # Move the files in the file system and in the sidebar treeview
       foreach item [lreverse $mover(rows)] {
         if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir }]} {
@@ -1289,12 +1290,12 @@ namespace eval sidebar {
 
     # If the file is currently in the notebook, make it the current tab
     } else {
-      
+
       # Select the row if we did not move the selection
       if {[lsearch $mover(rows) $row] != -1} {
         $widgets(tl) selection set $row
       }
-      
+
       if {[$widgets(tl) item $row -image] ne ""} {
         set fileindex [files::get_index [$widgets(tl) set $row name] [$widgets(tl) set $row remote]]
         gui::get_info $fileindex fileindex tabbar tab
@@ -1304,20 +1305,20 @@ namespace eval sidebar {
     }
 
   }
-  
+
   ######################################################################
   # Add the clicked row to the selection and make it the new selection anchor.
   proc handle_control_left_click {W x y} {
-    
+
     variable widgets
-    
+
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
-    
+
     $widgets(tl) selection add $row
     $widgets(tl) focus $row
-    
+
   }
 
   ######################################################################
@@ -1330,7 +1331,7 @@ namespace eval sidebar {
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
     }
- 
+
     # Update the information panel
     update_info_panel $row
 
