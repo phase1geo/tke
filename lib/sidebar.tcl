@@ -32,6 +32,7 @@ namespace eval sidebar {
   variable jump_str         ""
   variable jump_after_id    ""
   variable select_id        ""
+  variable sortby           "name"
 
   array set widgets {}
 
@@ -219,7 +220,7 @@ namespace eval sidebar {
     # Add the file tree elements
     ttk::frame $w.tf.tf -style SBFrame -padding {3 3 0 0}
     pack [set widgets(tl) \
-      [ttk::treeview $w.tf.tf.tl -style SBTreeview -columns {name ocount remote} -displaycolumns {} \
+      [ttk::treeview $w.tf.tf.tl -style SBTreeview -columns {name ocount remote sortby} -displaycolumns {} \
         -show tree -yscrollcommand "utils::set_yscrollbar $w.tf.vb"]] -fill both -expand yes
     set widgets(sb) [scroller::scroller $w.tf.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
 
@@ -280,24 +281,29 @@ namespace eval sidebar {
     set widgets(insert) [frame $w.ins -background black -height 2]
 
     # Create directory popup
-    set widgets(menu) [menu $w.popupMenu -tearoff 0 -postcommand "sidebar::menu_post"]
+    set widgets(menu)     [menu $w.popupMenu       -tearoff 0 -postcommand "sidebar::menu_post"]
+    set widgets(sortmenu) [menu $w.popupSortbyMenu -tearoff 0 -postcommand "sidebar::sort_menu_post"]
+
+    # Setup the sort menu
+    setup_sort_menu
 
     # Make ourselves a drop target (if Tkdnd is available)
     catch {
 
       tkdnd::drop_target register $widgets(tl) DND_Files
 
-      bind $widgets(tl) <<DropEnter>>    "sidebar::handle_drop_enter_or_pos %W %X %Y %a %b"
-      bind $widgets(tl) <<DropPosition>> "sidebar::handle_drop_enter_or_pos %W %X %Y %a %b"
-      bind $widgets(tl) <<DropLeave>>    "sidebar::handle_drop_leave %W"
-      bind $widgets(tl) <<Drop>>         "sidebar::handle_drop %W %A %D"
+      bind $widgets(tl) <<DropEnter>>    [list sidebar::handle_drop_enter_or_pos %W %X %Y %a %b]
+      bind $widgets(tl) <<DropPosition>> [list sidebar::handle_drop_enter_or_pos %W %X %Y %a %b]
+      bind $widgets(tl) <<DropLeave>>    [list sidebar::handle_drop_leave %W]
+      bind $widgets(tl) <<Drop>>         [list sidebar::handle_drop %W %A %D]
 
     }
 
     # Register the sidebar and sidebar scrollbar for theming purposes
-    theme::register_widget $widgets(tl)   sidebar
-    theme::register_widget $widgets(sb)   sidebar_scrollbar
-    theme::register_widget $widgets(menu) menus
+    theme::register_widget $widgets(tl)       sidebar
+    theme::register_widget $widgets(sb)       sidebar_scrollbar
+    theme::register_widget $widgets(menu)     menus
+    theme::register_widget $widgets(sortmenu) menus
 
     # Handle traces
     trace variable preferences::prefs(Sidebar/IgnoreFilePatterns)  w sidebar::handle_ignore_files
@@ -466,6 +472,18 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Handles the contents of the sort popup menu prior to it being posted.
+  proc sort_menu_post {} {
+
+    variable widgets
+    variable selection_anchor
+    variable sortby
+
+    set sortby [$widgets(tl) set $selection_anchor sortby]
+
+  }
+
+  ######################################################################
   # Return a list of menu states to use for directories.  The returned
   # list is:  <open_state> <close_state> <hide_state> <show_state>
   proc get_menu_states {rows} {
@@ -499,6 +517,7 @@ namespace eval sidebar {
 
     set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
     set fav_state    $one_state
+    set sort_state   $one_state
     set first_row    [lindex $rows 0]
     set remote_found 0
 
@@ -508,6 +527,12 @@ namespace eval sidebar {
       if {[$widgets(tl) set $row remote] ne ""} {
         set fav_state    "disabled"
         set remote_found 1
+        break
+      }
+    }
+    foreach row $rows {
+      if {[$widgets(tl) item $row -open] == 0} {
+        set sort_state "disabled"
         break
       }
     }
@@ -551,6 +576,9 @@ namespace eval sidebar {
     $widgets(menu) add separator
     $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $fav_state
     $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"]        -command [list sidebar::refresh_directory_files $rows]
+    $widgets(menu) add separator
+
+    $widgets(menu) add cascade -label [msgcat::mc "Sort"] -menu $widgets(sortmenu) -state $sort_state
 
     # Add plugins to sidebar directory popup
     plugins::handle_dir_popup $widgets(menu)
@@ -566,6 +594,7 @@ namespace eval sidebar {
     set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
     set fav_state    $one_state
     set parent_state $one_state
+    set sort_state   $one_state
     set first_row    [lindex $rows 0]
     set remote_found 0
 
@@ -581,6 +610,12 @@ namespace eval sidebar {
     foreach row $rows {
       if {[file tail [$widgets(tl) set $row name]] eq ""} {
         set parent_state "disabled"
+        break
+      }
+    }
+    foreach row $rows {
+      if {[$widgets(tl) item $row -open] == 0} {
+        set sort_state "disabled"
         break
       }
     }
@@ -630,6 +665,9 @@ namespace eval sidebar {
 
     $widgets(menu) add command -label [msgcat::mc "Make Current Working Directory"] -command [list sidebar::set_current_working_directory $first_row] -state $fav_state
     $widgets(menu) add command -label [msgcat::mc "Refresh Directory Files"]        -command [list sidebar::refresh_directory_files $rows]
+    $widgets(menu) add separator
+
+    $widgets(menu) add cascade -label [msgcat::mc "Sort"] -menu $widgets(sortmenu) -state $sort_state
 
     # Add plugins to sidebar root popup
     plugins::handle_root_popup $widgets(menu)
@@ -701,6 +739,41 @@ namespace eval sidebar {
 
     # Add plugins to sidebar file popup
     plugins::handle_file_popup $widgets(menu)
+
+  }
+
+  ######################################################################
+  # Setup the sortby menu that is associated with directories.
+  proc setup_sort_menu {} {
+
+    variable widgets
+
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Name"]  -variable sidebar::sortby -value "name"   -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add separator
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "Manually"] -variable sidebar::sortby -value "manual" -command [list sidebar::sort_updated]
+
+  }
+
+  ######################################################################
+  # Called whenever the sort menu value is changed for one or more
+  # directories.
+  proc sort_updated {} {
+
+    variable widgets
+    variable sortby
+    variable selection_anchor
+
+    if {$sortby eq "manual"} {
+      foreach row [$widgets(tl) selection] {
+        $widgets(tl) set $row sortby $sortby
+        write_sort_file $row
+      }
+    } else {
+      foreach row [$widgets(tl) selection] {
+        $widgets(tl) set $row sortby $sortby
+        file delete -force [file join [$widgets(tl) set $row name] .tkesort]
+      }
+    }
 
   }
 
@@ -826,7 +899,8 @@ namespace eval sidebar {
     # If the directory was not found, insert the directory as a root directory
     if {$found eq ""} {
       set roots  [$widgets(tl) children {}]
-      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote)] -open 0 -tags [list d $dir,$opts(-remote)]]
+      set sortby [get_default_sortby $dir]
+      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote) $sortby] -open 0 -tags [list d $dir,$opts(-remote)]]
 
     # Otherwise, add missing hierarchy to make directory visible
     } else {
@@ -896,13 +970,14 @@ namespace eval sidebar {
       lassign $name fname dir
 
       if {$dir} {
-        set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 0 -tags [list d $fname,$remote]]
+        set sortby [get_default_sortby $fname]
+        set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote $sortby] -open 0 -tags [list d $fname,$remote]]
         if {[file tail $fname] eq $fdir} {
           set frow $child
         }
       } else {
         if {($remote ne "") || ![ignore_file $fname]} {
-          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote] -open 1 -tags [list f $fname,$remote]]
+          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote ""] -open 1 -tags [list f $fname,$remote]]
           if {[files::is_opened $fname $remote]} {
             set_image $key sidebar_open
             update_root_count $key 1
@@ -1118,7 +1193,7 @@ namespace eval sidebar {
             update_root_count $child 1
             return
           } elseif {$compare == -1} {
-            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags [list f $fname,$remote]]
+            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote ""] -tags [list f $fname,$remote]]
             update_root_count $node 1
             return
           }
@@ -1127,7 +1202,7 @@ namespace eval sidebar {
       }
 
       # Insert the file at the end of the parent
-      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote] -tags [list f $fname,$remote]]
+      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote ""] -tags [list f $fname,$remote]]
       update_root_count $node 1
 
     }
@@ -1284,6 +1359,9 @@ namespace eval sidebar {
           $widgets(tl) move $item $parent $index
         }
       }
+
+      # Specify that the directory should be sorted manually
+      $widgets(tl) set $parent sortby "manual"
 
       # Create the sort file
       write_sort_file $parent
@@ -2163,7 +2241,7 @@ namespace eval sidebar {
 
     # Add the file to the sidebar just below the row
     set new_row [$widgets(tl) insert [$widgets(tl) parent $row] [expr [$widgets(tl) index $row] + 1] \
-      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote] -open 1 -tags [list f $dup_fname,$remote]]
+      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote ""] -open 1 -tags [list f $dup_fname,$remote]]
 
   }
 
@@ -2418,6 +2496,16 @@ namespace eval sidebar {
 
     # Write the file
     catch { tkedat::write [file join $parentdir .tkesort] [list items $items] 0 }
+
+  }
+
+  ######################################################################
+  # Gets the default sortby state for the given directory.
+  proc get_default_sortby {dir} {
+
+    variable widgets
+
+    return [expr {[file exists [file join $dir .tkesort]] ? "manual" : "name"}]
 
   }
 
