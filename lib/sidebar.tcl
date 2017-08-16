@@ -1308,6 +1308,11 @@ namespace eval sidebar {
       return 0
     }
 
+    # Get the information that we need for moving the selections to
+    # a new location
+    set selected        [$widgets(tl) selection]
+    set mover(start)    [list [$widgets(tl) parent $row] $row]
+    set mover(rows)     [expr {($selected eq "") ? $row : $selected}]
     set mover(detached) 0
 
     # If the user clicks on the disclosure triangle, let the treeview
@@ -1318,12 +1323,6 @@ namespace eval sidebar {
         return 0
       }
     }
-
-    # Get the information that we need for moving the selections to
-    # a new location
-    set selected     [$widgets(tl) selection]
-    set mover(start) [list [$widgets(tl) parent $row] $row]
-    set mover(rows)  [expr {($selected eq "") ? $row : $selected}]
 
     # If the clicked row is not within the current selection
     return [expr {([llength $selected] > 1) && ([lsearch $selected $row] != -1)}]
