@@ -772,6 +772,7 @@ namespace eval sidebar {
       foreach row [$widgets(tl) selection] {
         $widgets(tl) set $row sortby $sortby
         file delete -force [file join [$widgets(tl) set $row name] .tkesort]
+        update_directory $row
       }
     }
 
@@ -1311,8 +1312,8 @@ namespace eval sidebar {
     # Get the information that we need for moving the selections to
     # a new location
     set selected        [$widgets(tl) selection]
-    set mover(start)    [list [$widgets(tl) parent $row] $row]
-    set mover(rows)     [expr {($selected eq "") ? $row : $selected}]
+    set mover(start)    $row
+    set mover(rows)     [expr {([lsearch $selected $row] == -1) ? $row : $selected}]
     set mover(detached) 0
 
     # If the user clicks on the disclosure triangle, let the treeview
@@ -1341,29 +1342,59 @@ namespace eval sidebar {
       return
     }
 
-    set parent    [$widgets(tl) parent $row]
-    set parentdir [$widgets(tl) set $parent name]
-    set index     [$widgets(tl) index $row]
-
     # If we are moving rows, handle them now
     if {$mover(detached)} {
 
-      # Remove the insertion bar
-      place forget $widgets(insert)
-
-      # Move the files in the file system and in the sidebar treeview
-      foreach item [lreverse $mover(rows)] {
-        if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir }]} {
-          $widgets(tl) detach $item
-          $widgets(tl) move $item $parent $index
+      if {[get_info $row is_dir]} {
+        
+        set dir [$widgets(tl) set $row name]
+        
+        $widgets(tl) selection remove $row
+        
+        if {[$widgets(tl) item $row -open] == 0} {
+          foreach item $mover(rows) {
+            if {![catch { file rename -force -- [$widgets(tl) set $item name] $dir }]} {
+              $widgets(tl) detach $item
+            }
+          }
+        } else {
+          foreach item $mover(rows) {
+            if {![catch { file rename -force -- [$widgets(tl) set $item name] $dir }]} {
+              $widgets(tl) detach $item
+              $widgets(tl) move $item $row end
+            }
+          }
+          if {[$widgets(tl) set $row sortby] eq "manual"} {
+            write_sort_file $row
+          } else {
+            update_directory $row
+          }
         }
+        
+      } else {
+        
+        set parent    [$widgets(tl) parent $row]
+        set parentdir [$widgets(tl) set $parent name]
+        set index     [$widgets(tl) index $row]
+
+        # Remove the insertion bar
+        place forget $widgets(insert)
+
+        # Move the files in the file system and in the sidebar treeview
+        foreach item [lreverse $mover(rows)] {
+          if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir } rc]} {
+            $widgets(tl) detach $item
+            $widgets(tl) move $item $parent $index
+          }
+        }
+   
+        # Specify that the directory should be sorted manually
+        $widgets(tl) set $parent sortby "manual"
+   
+        # Create the sort file
+        write_sort_file $parent
+        
       }
-
-      # Specify that the directory should be sorted manually
-      $widgets(tl) set $parent sortby "manual"
-
-      # Create the sort file
-      write_sort_file $parent
 
     # If the file is currently in the notebook, make it the current tab
     } else {
@@ -1562,9 +1593,15 @@ namespace eval sidebar {
     }
 
     if {$mover(detached)} {
-      lassign [$widgets(tl) bbox $id] bx by bw bh
-      place $widgets(insert) -in $widgets(tl) -y [expr $by + $bh] -width $bw
-    } elseif {$id ne [lindex $mover(start) 1]} {
+      if {[get_info $id is_dir]} {
+        $widgets(tl) selection set $id
+        place forget $widgets(insert)
+      } else {
+        $widgets(tl) selection remove [$widgets(tl) selection]
+        lassign [$widgets(tl) bbox $id] bx by bw bh
+        place $widgets(insert) -in $widgets(tl) -y [expr $by + $bh] -width $bw
+      }
+    } elseif {$id ne $mover(start)} {
       set mover(detached) 1
     }
 
