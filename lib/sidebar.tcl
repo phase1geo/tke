@@ -456,6 +456,34 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Returns a value of 1 if row1 is found before row2 in the treeview;
+  # otherwise, returns a value of 0.
+  proc row_before {row1 row2} {
+
+    variable widgets
+
+    return [row_before_helper $widgets(tl) $row1 $row2 {}]
+
+  }
+
+  ######################################################################
+  # Helper procedure for the row_before procedure.
+  proc row_before_helper {tl row1 row2 item} {
+
+    if {$item eq $row1} { return 1 }
+    if {$item eq $row2} { return 0 }
+
+    foreach child [$tl children $item] {
+      if {[set status [row_before_helper $tl $row1 $row2 $child]] != -1} {
+        return $status
+      }
+    }
+
+    return -1
+
+  }
+
+  ######################################################################
   # Handles the contents of the sidebar popup menu prior to it being posted.
   proc menu_post {} {
 
@@ -1346,11 +1374,11 @@ namespace eval sidebar {
     if {$mover(detached)} {
 
       if {[get_info $row is_dir]} {
-        
+
         set dir [$widgets(tl) set $row name]
-        
+
         $widgets(tl) selection remove $row
-        
+
         if {[$widgets(tl) item $row -open] == 0} {
           foreach item $mover(rows) {
             if {![catch { file rename -force -- [$widgets(tl) set $item name] $dir }]} {
@@ -1370,9 +1398,9 @@ namespace eval sidebar {
             update_directory $row
           }
         }
-        
+
       } else {
-        
+
         set parent    [$widgets(tl) parent $row]
         set parentdir [$widgets(tl) set $parent name]
         set index     [$widgets(tl) index $row]
@@ -1387,13 +1415,13 @@ namespace eval sidebar {
             $widgets(tl) move $item $parent $index
           }
         }
-   
+
         # Specify that the directory should be sorted manually
         $widgets(tl) set $parent sortby "manual"
-   
+
         # Create the sort file
         write_sort_file $parent
-        
+
       }
 
     # If the file is currently in the notebook, make it the current tab
@@ -1599,7 +1627,11 @@ namespace eval sidebar {
       } else {
         $widgets(tl) selection remove [$widgets(tl) selection]
         lassign [$widgets(tl) bbox $id] bx by bw bh
-        place $widgets(insert) -in $widgets(tl) -y [expr $by + $bh] -width $bw
+        if {[row_before $id $mover(start)]} {
+          place $widgets(insert) -in $widgets(tl) -y $by -width $bw
+        } else {
+          place $widgets(insert) -in $widgets(tl) -y [expr $by + $bh] -width $bw
+        }
       }
     } elseif {$id ne $mover(start)} {
       set mover(detached) 1
