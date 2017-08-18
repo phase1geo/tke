@@ -233,6 +233,8 @@ namespace eval sidebar {
     bind $widgets(tl) <ButtonRelease-1>               [list sidebar::handle_left_release %W %x %y]
     bind $widgets(tl) <Control-Button-1>              "sidebar::handle_control_left_click %W %x %y; break"
     bind $widgets(tl) <Control-Button-$::right_click> [list sidebar::handle_control_right_click %W %x %y]
+    bind $widgets(tl) <Shift-ButtonPress-1>           [list sidebar::do_nothing]
+    bind $widgets(tl) <Shift-ButtonRelease-1>         [list sidebar::do_nothing]
     bind $widgets(tl) <Button-$::right_click>         [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl) <Double-Button-1>               [list sidebar::handle_double_click %W %x %y]
     bind $widgets(tl) <Motion>                        [list sidebar::handle_motion %W %x %y]
@@ -313,6 +315,10 @@ namespace eval sidebar {
     return $w
 
   }
+  
+  ######################################################################
+  # Does just what the name suggests.  Used by sidebar bindings.
+  proc do_nothing {} {}
 
   ######################################################################
   # Called when the panel theme changes.  Takes care to show/hide the
@@ -1456,7 +1462,7 @@ namespace eval sidebar {
     $widgets(tl) focus $row
 
   }
-
+  
   ######################################################################
   # Handles a control right click on a sidebar item, displaying the information
   # panel.
@@ -1619,14 +1625,15 @@ namespace eval sidebar {
     if {[set id [$W identify item $x $y]] eq ""} {
       return
     }
+    
+    lassign [$widgets(tl) bbox $id] bx by bw bh
 
     if {$mover(detached)} {
-      if {[get_info $id is_dir]} {
+      if {[get_info $id is_dir] && ($y >= [expr $by + int($bh * 0.25)]) && ($y <= [expr $by + int($bh * 0.75)]) } {
         $widgets(tl) selection set $id
         place forget $widgets(insert)
       } else {
-        $widgets(tl) selection remove [$widgets(tl) selection]
-        lassign [$widgets(tl) bbox $id] bx by bw bh
+        # $widgets(tl) selection remove [$widgets(tl) selection]
         if {[row_before $id $mover(start)]} {
           place $widgets(insert) -in $widgets(tl) -y $by -width $bw
         } else {
