@@ -1029,10 +1029,12 @@ namespace eval theme {
     array set opts [get_category_options sidebar 1]
 
     foreach w $widgets(sidebar) {
-      $w tag configure sel -background $opts(-selectbackground) -foreground $opts(-selectforeground)
+      $w tag configure sel    -background $opts(-selectbackground) -foreground $opts(-selectforeground)
+      $w tag configure moveto -background red -foreground black
       [winfo parent [winfo parent $w]] configure \
         -relief $opts(-relief) -highlightthickness $opts(-highlightthickness) \
         -highlightbackground $opts(-highlightbackground) -highlightcolor $opts(-highlightcolor)
+      $w.ins configure -background red
     }
 
   }
