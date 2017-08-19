@@ -11,4 +11,4 @@ The status bar is the area located at the bottom of the application window.  Itâ
 
 The following image is a representation of the status bar.
 
-![](assets/Status-Bar.png "Status Bar")
+![Status Bar](assets/Status-Bar.png "Status Bar")

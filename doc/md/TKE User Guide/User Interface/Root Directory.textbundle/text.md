@@ -4,7 +4,7 @@ A root directory in the sidebar is any directory that doesn’t have a parent di
 
 The following image is a depiction of the sidebar with the root directory highlighted.
 
-![](assets/Sidebar-Root.png "Sidebar Root Directory")
+![Sidebar Root Directory](assets/Sidebar-Root.png "Sidebar Root Directory")
 
 The following table lists the available contextual menu functions available for root directories.
 

@@ -4,7 +4,7 @@ Files have different functions available to them than directories.  Double-click
 
 The following image depicts the sidebar with a file highlighted.
 
-![](assets/Sidebar-File.png "Sidebar File")
+![Sidebar File](assets/Sidebar-File.png "Sidebar File")
 
 The following table lists the available functions for files.
 

@@ -6,6 +6,6 @@ The Sharing panel displays the location of the share directory.  If the field is
 
 If the shared directory is empty and you would like to cause your application data to be stored in a shared directory, click on the checkbox to the right of the directory name.  This will display a directory chooser window.  If a directory is selected, its pathname will be displayed in the directory field.  When the preferences window is closed, the sharing changes will be applied.
 
-![](assets/Settings-Preferences.png "Settings Sharing Preferences Panel")
+![Settings Sharing Preferences Panel](assets/Settings-Preferences.png "Settings Sharing Preferences Panel")
 
 If the sharing directory was changed from local to shared, TKE will copy any local files/directories that were selected for sharing to the shared directory if those files/directories do not currently exist in the shared directory.  If the sharing directory was changed from shared to local, TKE will copy the selected shared items from the sharing directory to the local directory, overriding any files/directories in the local directory.

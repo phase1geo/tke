@@ -4,7 +4,7 @@ When a file is displayed in the editor, the “Show File Difference” option in
 
 The following image shows what a difference view looks like.
 
-![](assets/Difference-Viewer.png "Difference Viewer")
+![Difference Viewer](assets/Difference-Viewer.png "Difference Viewer")
 
 The window is comprised of 4 main parts:
 
