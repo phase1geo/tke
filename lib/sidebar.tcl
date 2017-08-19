@@ -222,7 +222,8 @@ namespace eval sidebar {
     pack [set widgets(tl) \
       [ttk::treeview $w.tf.tf.tl -style SBTreeview -columns {name ocount remote sortby} -displaycolumns {} \
         -show tree -yscrollcommand "utils::set_yscrollbar $w.tf.vb"]] -fill both -expand yes
-    set widgets(sb) [scroller::scroller $w.tf.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
+    set widgets(sb)     [scroller::scroller $w.tf.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
+    set widgets(insert) [frame $widgets(tl).ins -background black -height 2]
 
     $widgets(tl) column #0 -width 300
 
@@ -279,9 +280,6 @@ namespace eval sidebar {
     grid $widgets(info,panel) -row 1 -column 0 -sticky news
     grid $widgets(info,psep2) -row 2 -column 0 -sticky ew
 
-    # Create move insertion frame
-    set widgets(insert) [frame $w.ins -background black -height 2]
-
     # Create directory popup
     set widgets(menu)     [menu $w.popupMenu       -tearoff 0 -postcommand "sidebar::menu_post"]
     set widgets(sortmenu) [menu $w.popupSortbyMenu -tearoff 0 -postcommand "sidebar::sort_menu_post"]
@@ -315,7 +313,7 @@ namespace eval sidebar {
     return $w
 
   }
-  
+
   ######################################################################
   # Does just what the name suggests.  Used by sidebar bindings.
   proc do_nothing {} {}
@@ -922,7 +920,7 @@ namespace eval sidebar {
     if {$opts(-record) && ($opts(-remote) eq "")} {
       add_to_recently_opened $dir
     }
-
+   
     # Search for the directory or an ancestor
     set last_tdir ""
     set tdir      $dir
@@ -930,7 +928,7 @@ namespace eval sidebar {
       set last_tdir $tdir
       set tdir      [file dirname $tdir]
     }
-
+    
     # If the directory was not found, insert the directory as a root directory
     if {$found eq ""} {
       set roots  [$widgets(tl) children {}]
@@ -949,7 +947,7 @@ namespace eval sidebar {
     if {[$widgets(tl) item $parent -open] == 0} {
       add_subdirectory $parent $opts(-remote)
     }
-
+ 
     # If we just inserted a root directory, check for other rooted directories
     # that may be children of this directory and merge them.
     if {$found eq ""} {
@@ -1383,7 +1381,7 @@ namespace eval sidebar {
 
         set dir [$widgets(tl) set $row name]
 
-        $widgets(tl) selection remove $row
+        $widgets(tl) tag remove moveto
 
         if {[$widgets(tl) item $row -open] == 0} {
           foreach item $mover(rows) {
@@ -1462,7 +1460,7 @@ namespace eval sidebar {
     $widgets(tl) focus $row
 
   }
-  
+
   ######################################################################
   # Handles a control right click on a sidebar item, displaying the information
   # panel.
@@ -1625,19 +1623,19 @@ namespace eval sidebar {
     if {[set id [$W identify item $x $y]] eq ""} {
       return
     }
-    
+
     lassign [$widgets(tl) bbox $id] bx by bw bh
 
     if {$mover(detached)} {
       if {[get_info $id is_dir] && ($y >= [expr $by + int($bh * 0.25)]) && ($y <= [expr $by + int($bh * 0.75)]) } {
-        $widgets(tl) selection set $id
+        $widgets(tl) tag add moveto $id
         place forget $widgets(insert)
       } else {
-        # $widgets(tl) selection remove [$widgets(tl) selection]
+        $widgets(tl) tag remove moveto
         if {[row_before $id $mover(start)]} {
-          place $widgets(insert) -in $widgets(tl) -y $by -width $bw
+          place $widgets(insert) -y $by -width $bw
         } else {
-          place $widgets(insert) -in $widgets(tl) -y [expr $by + $bh] -width $bw
+          place $widgets(insert) -y [expr $by + $bh] -width $bw
         }
       }
     } elseif {$id ne $mover(start)} {
