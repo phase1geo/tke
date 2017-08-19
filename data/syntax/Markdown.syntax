@@ -237,6 +237,7 @@ formatting
 {
   bold          {word ** **}
   italics       {word _  _}
+  underline     {word <u> </u>}
   strikethrough {word ~~ ~~}
   highlight     {word == ==}
   superscript   {word ^  ^}
