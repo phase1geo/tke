@@ -1411,16 +1411,19 @@ namespace eval sidebar {
         set parentdir [$widgets(tl) set $parent name]
 
         # If the insertion point is after the current row, we need to adjust the index
-        set next [expr {$by != [place configure $widgets(insert) -y]}]
+        set irow [expr {($by != [lindex [place configure $widgets(insert) -y] 4]) ? [$widgets(tl) next $row] : $row}]
 
         # Remove the insertion bar
         place forget $widgets(insert)
 
         # Move the files in the file system and in the sidebar treeview
         foreach item [lreverse $mover(rows)] {
-          if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir } rc]} {
-            $widgets(tl) detach $item
-            $widgets(tl) move $item $parent [$widgets(tl) index [expr {$next ? [$widgets(tl) next $row] : $row}]]
+          if {$item ne $irow} {
+            if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir } rc]} {
+              $widgets(tl) detach $item
+              $widgets(tl) move $item $parent [expr {($irow eq "") ? "end" : [$widgets(tl) index $irow]}]
+              set irow $item
+            }
           }
         }
 
