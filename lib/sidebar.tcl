@@ -920,7 +920,7 @@ namespace eval sidebar {
     if {$opts(-record) && ($opts(-remote) eq "")} {
       add_to_recently_opened $dir
     }
-   
+
     # Search for the directory or an ancestor
     set last_tdir ""
     set tdir      $dir
@@ -928,7 +928,7 @@ namespace eval sidebar {
       set last_tdir $tdir
       set tdir      [file dirname $tdir]
     }
-    
+
     # If the directory was not found, insert the directory as a root directory
     if {$found eq ""} {
       set roots  [$widgets(tl) children {}]
@@ -947,7 +947,7 @@ namespace eval sidebar {
     if {[$widgets(tl) item $parent -open] == 0} {
       add_subdirectory $parent $opts(-remote)
     }
- 
+
     # If we just inserted a root directory, check for other rooted directories
     # that may be children of this directory and merge them.
     if {$found eq ""} {
@@ -1377,11 +1377,11 @@ namespace eval sidebar {
     # If we are moving rows, handle them now
     if {$mover(detached)} {
 
-      if {[get_info $row is_dir]} {
+      if {[$widgets(tl) tag has moveto $row]} {
 
         set dir [$widgets(tl) set $row name]
 
-        $widgets(tl) tag remove moveto
+        $widgets(tl) tag remove moveto $row
 
         if {[$widgets(tl) item $row -open] == 0} {
           foreach item $mover(rows) {
@@ -1403,11 +1403,15 @@ namespace eval sidebar {
           }
         }
 
-      } else {
+      } elseif {[winfo ismapped $widgets(insert)]} {
+
+        lassign [$widgets(tl) bbox $row] bx by bw bh
 
         set parent    [$widgets(tl) parent $row]
         set parentdir [$widgets(tl) set $parent name]
-        set index     [$widgets(tl) index $row]
+
+        # If the insertion point is after the current row, we need to adjust the index
+        set next [expr {$by != [place configure $widgets(insert) -y]}]
 
         # Remove the insertion bar
         place forget $widgets(insert)
@@ -1416,7 +1420,7 @@ namespace eval sidebar {
         foreach item [lreverse $mover(rows)] {
           if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir } rc]} {
             $widgets(tl) detach $item
-            $widgets(tl) move $item $parent $index
+            $widgets(tl) move $item $parent [$widgets(tl) index [expr {$next ? [$widgets(tl) next $row] : $row}]]
           }
         }
 
@@ -1624,19 +1628,26 @@ namespace eval sidebar {
       return
     }
 
+    if {[lsearch $mover(rows) $id] != -1} {
+      $widgets(tl) tag remove moveto
+      place forget $widgets(insert)
+      return
+    }
+
     lassign [$widgets(tl) bbox $id] bx by bw bh
 
     if {$mover(detached)} {
-      if {[get_info $id is_dir] && ($y >= [expr $by + int($bh * 0.25)]) && ($y <= [expr $by + int($bh * 0.75)]) } {
+      if {$y < ($by + int($bh * 0.25))} {
+        $widgets(tl) tag remove moveto
+        place $widgets(insert) -y $by -width $bw
+      } elseif {$y > ($by + int($bh * 0.75))} {
+        $widgets(tl) tag remove moveto
+        place $widgets(insert) -y [expr $by + $bh] -width $bw
+      } elseif {[get_info $id is_dir]} {
         $widgets(tl) tag add moveto $id
         place forget $widgets(insert)
       } else {
         $widgets(tl) tag remove moveto
-        if {[row_before $id $mover(start)]} {
-          place $widgets(insert) -y $by -width $bw
-        } else {
-          place $widgets(insert) -y [expr $by + $bh] -width $bw
-        }
       }
     } elseif {$id ne $mover(start)} {
       set mover(detached) 1
