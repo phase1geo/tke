@@ -33,6 +33,7 @@ namespace eval sidebar {
   variable jump_after_id    ""
   variable select_id        ""
   variable sortby           "name"
+  variable spring_id        ""
 
   array set widgets {}
 
@@ -1369,6 +1370,10 @@ namespace eval sidebar {
 
     variable widgets
     variable mover
+    variable spring_id
+
+    # Cancel a pending spring operation
+    spring_cancel
 
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
@@ -1386,7 +1391,7 @@ namespace eval sidebar {
         if {[$widgets(tl) item $row -open] == 0} {
           foreach item $mover(rows) {
             if {![catch { file rename -force -- [$widgets(tl) set $item name] $dir }]} {
-              $widgets(tl) detach $item
+              $widgets(tl) delete $item
             }
           }
         } else {
@@ -1518,6 +1523,7 @@ namespace eval sidebar {
 
     if {$select_id ne ""} {
       after cancel $select_id
+      set select_id ""
     }
 
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
@@ -1626,6 +1632,7 @@ namespace eval sidebar {
 
     variable widgets
     variable mover
+    variable spring_id
 
     if {[set id [$W identify item $x $y]] eq ""} {
       return
@@ -1640,6 +1647,7 @@ namespace eval sidebar {
     lassign [$widgets(tl) bbox $id] bx by bw bh
 
     if {$mover(detached)} {
+      spring_cancel
       if {$y < ($by + int($bh * 0.25))} {
         $widgets(tl) tag remove moveto
         place $widgets(insert) -y $by -width $bw
@@ -1649,11 +1657,46 @@ namespace eval sidebar {
       } elseif {[get_info $id is_dir]} {
         $widgets(tl) tag add moveto $id
         place forget $widgets(insert)
+        if {($spring_id eq "") && ([$widgets(tl) item $id -open] == 0)} {
+          puts "Set spring action"
+          set spring_id [after 2000 [list sidebar::spring_directory $id]]
+        }
       } else {
         $widgets(tl) tag remove moveto
       }
     } elseif {$id ne $mover(start)} {
       set mover(detached) 1
+    }
+
+  }
+
+  ######################################################################
+  # Perform a spring open.
+  proc spring_directory {row} {
+
+    variable spring_id
+
+    puts "In spring_directory, row: $row"
+
+    # Clear the spring ID
+    set spring_id ""
+
+    # Open the directory
+    expand_directory $row
+
+  }
+
+  ######################################################################
+  # Cancel a spring operation.
+  proc spring_cancel {} {
+
+    variable spring_id
+
+    puts [utils::stacktrace]
+
+    if {$spring_id ne ""} {
+      after cancel $spring_id
+      set spring_id ""
     }
 
   }
