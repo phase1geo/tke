@@ -1067,30 +1067,26 @@ namespace eval sidebar {
           lappend items [list $fname [file isdirectory $fname]]
         }
       }
-      foreach fname [glob -nocomplain -directory $dir *] {
-        lappend items [list $fname [file isdirectory $fname]]
+      foreach fname [glob -nocomplain -directory $dir *] { lappend items [list $fname [file isdirectory $fname]]
       }
     }
 
     if {($remote eq "") && ![catch { tkedat::read [file join $dir .tkesort] } rc]} {
       array set contents $rc
-      set new_items [list]
-      set max       0
+      set new_items   [lrepeat [llength $items] ""]
+      set extra_items [list]
       foreach item $items {
         set tail [file tail [lindex $item 0]]
         if {[set index [lsearch $contents(items) $tail]] != -1} {
-          lset items $index $item
-          set max [expr max($index,$max)]
+          lset new_items $index $item
         } elseif {$tail ne ".tkesort"} {
-          lappend new_items $item
+          lappend extra_items $item
         }
       }
-      if {[llength $new_items] > 0} {
-        set items [lreplace $items [expr $max + 1] end {*}$new_items]
-      }
-      return $items
+      return [lmap item [concat $new_items $extra_items] {expr {($item ne "") ? $item : [break]}}]
     } elseif {[preferences::get Sidebar/FoldersAtTop]} {
-      return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
+      return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] \
+                   {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
     } else {
       return [lsort -unique -index 0 $items]
     }
@@ -1370,7 +1366,6 @@ namespace eval sidebar {
 
     variable widgets
     variable mover
-    variable spring_id
 
     # Cancel a pending spring operation
     spring_cancel
@@ -1411,12 +1406,20 @@ namespace eval sidebar {
       } elseif {[winfo ismapped $widgets(insert)]} {
 
         lassign [$widgets(tl) bbox $row] bx by bw bh
-
+        
         set parent    [$widgets(tl) parent $row]
         set parentdir [$widgets(tl) set $parent name]
 
-        # If the insertion point is after the current row, we need to adjust the index
-        set irow [expr {($by != [lindex [place configure $widgets(insert) -y] 4]) ? [$widgets(tl) next $row] : $row}]
+        if {$by != [lindex [place configure $widgets(insert) -y] 4]} {
+          set irow [$widgets(tl) next $row]
+          if {[get_info $row is_dir]} {
+            set parent    $row
+            set parentdir [$widgets(tl) set $row name]
+            set irow      [lindex [$widgets(tl) children $row] 0]
+          }
+        } else {
+          set irow $row
+        }
 
         # Remove the insertion bar
         place forget $widgets(insert)
@@ -1424,7 +1427,7 @@ namespace eval sidebar {
         # Move the files in the file system and in the sidebar treeview
         foreach item [lreverse $mover(rows)] {
           if {$item ne $irow} {
-            if {![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir } rc]} {
+            if {($parent eq [$widgets(tl) parent $item]) || ![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir } rc]} {
               $widgets(tl) detach $item
               $widgets(tl) move $item $parent [expr {($irow eq "") ? "end" : [$widgets(tl) index $irow]}]
               set irow $item
@@ -1647,22 +1650,23 @@ namespace eval sidebar {
     lassign [$widgets(tl) bbox $id] bx by bw bh
 
     if {$mover(detached)} {
-      spring_cancel
       if {$y < ($by + int($bh * 0.25))} {
         $widgets(tl) tag remove moveto
         place $widgets(insert) -y $by -width $bw
+        spring_cancel
       } elseif {$y > ($by + int($bh * 0.75))} {
         $widgets(tl) tag remove moveto
         place $widgets(insert) -y [expr $by + $bh] -width $bw
+        spring_cancel
       } elseif {[get_info $id is_dir]} {
-        $widgets(tl) tag add moveto $id
-        place forget $widgets(insert)
-        if {($spring_id eq "") && ([$widgets(tl) item $id -open] == 0)} {
-          puts "Set spring action"
+        if {($spring_id eq "") && ![$widgets(tl) item $id -open] && [lsearch [$widgets(tl) item $id -tags] moveto] == -1} {
           set spring_id [after 2000 [list sidebar::spring_directory $id]]
         }
+        $widgets(tl) tag add moveto $id
+        place forget $widgets(insert)
       } else {
         $widgets(tl) tag remove moveto
+        spring_cancel
       }
     } elseif {$id ne $mover(start)} {
       set mover(detached) 1
@@ -1675,8 +1679,6 @@ namespace eval sidebar {
   proc spring_directory {row} {
 
     variable spring_id
-
-    puts "In spring_directory, row: $row"
 
     # Clear the spring ID
     set spring_id ""
@@ -1691,8 +1693,6 @@ namespace eval sidebar {
   proc spring_cancel {} {
 
     variable spring_id
-
-    puts [utils::stacktrace]
 
     if {$spring_id ne ""} {
       after cancel $spring_id
@@ -2615,15 +2615,18 @@ namespace eval sidebar {
 
     variable widgets
 
+    # Get the parent directory pathname
     set parentdir [$widgets(tl) set $parent name]
 
+    # Gather the list of items in the parent
     set items [list]
     foreach child [$widgets(tl) children $parent] {
       lappend items [file tail [$widgets(tl) set $child name]]
     }
 
+    # Set the file contents
     set contents(items) $items
-
+    
     # Write the file
     catch { tkedat::write [file join $parentdir .tkesort] [list items $items] 0 }
 
