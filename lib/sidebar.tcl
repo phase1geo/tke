@@ -225,7 +225,7 @@ namespace eval sidebar {
     # Add the file tree elements
     ttk::frame $w.tf.tf -style SBFrame -padding {3 3 0 0}
     pack [set widgets(tl) \
-      [ttk::treeview $w.tf.tf.tl -style SBTreeview -columns {name ocount remote sortby} -displaycolumns {} \
+      [ttk::treeview $w.tf.tf.tl -style SBTreeview -columns {name remote sortby} -displaycolumns {} \
         -show tree -yscrollcommand "utils::set_yscrollbar $w.tf.vb"]] -fill both -expand yes
     set widgets(sb)     [scroller::scroller $w.tf.vb -orient vertical -foreground $fg -background $bg -command [list $widgets(tl) yview]]
     set widgets(insert) [frame $widgets(tl).ins -background black -height 2]
@@ -896,11 +896,7 @@ namespace eval sidebar {
         }
         if {[expr ($highlight_mode % 2) == 0]} {
           if {$highlighted || ($highlight_mode == 2)} {
-            update_root_count $row -1
-          }
-        } else {
-          if {!$highlighted || ($highlight_mode == 3)} {
-            update_root_count $row 1
+            check_root_removal $widgets(tl) $row
           }
         }
         return
@@ -938,7 +934,7 @@ namespace eval sidebar {
     if {$found eq ""} {
       set roots  [$widgets(tl) children {}]
       set sortby [get_default_sortby $dir]
-      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir 0 $opts(-remote) $sortby] -open 0 -tags [list d $dir,$opts(-remote)]]
+      set parent [$widgets(tl) insert "" end -text [file tail $dir] -values [list $dir $opts(-remote) $sortby] -open 0 -tags [list d $dir,$opts(-remote)]]
 
     # Otherwise, add missing hierarchy to make directory visible
     } else {
@@ -959,7 +955,6 @@ namespace eval sidebar {
 
       # Remove any rooted directories that exist within this directory
       set dirlen [string length $dir]
-      set ocount [$widgets(tl) set $parent ocount]
       foreach root $roots {
         set remote [$widgets(tl) set $root remote]
         set name   [$widgets(tl) set $root name]
@@ -970,12 +965,8 @@ namespace eval sidebar {
           set index [$widgets(tl) index $row]
           $widgets(tl) delete $row
           $widgets(tl) move $root $prow $index
-          incr ocount [$widgets(tl) set $root ocount]
         }
       }
-
-      # Set the ocount
-      $widgets(tl) set $parent ocount $ocount
 
     }
 
@@ -1009,16 +1000,15 @@ namespace eval sidebar {
 
       if {$dir} {
         set sortby [get_default_sortby $fname]
-        set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote $sortby] -open 0 -tags [list d $fname,$remote]]
+        set child [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname $remote $sortby] -open 0 -tags [list d $fname,$remote]]
         if {[file tail $fname] eq $fdir} {
           set frow $child
         }
       } else {
         if {($remote ne "") || ![ignore_file $fname]} {
-          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname 0 $remote ""] -open 1 -tags [list f $fname,$remote]]
+          set key [$widgets(tl) insert $parent end -text [file tail $fname] -values [list $fname $remote ""] -open 1 -tags [list f $fname,$remote]]
           if {[files::is_opened $fname $remote]} {
             set_image $key sidebar_open
-            update_root_count $key 1
           }
         }
       }
@@ -1153,23 +1143,17 @@ namespace eval sidebar {
   ######################################################################
   # Finds the root directory of the given descendent and updates its
   # value +/- the value.
-  proc update_root_count {descendant value} {
-
-    variable widgets
+  proc check_root_removal {w item} {
 
     # Get the root directory in the table
-    while {[set parent [$widgets(tl) parent $descendant]] ne ""} {
-      set descendant $parent
+    while {[set parent [$w parent $item]] ne ""} {
+      set item $parent
     }
-
-    # Increment/decrement the descendant row by the given value
-    set ocount [expr [$widgets(tl) set $descendant ocount] + $value]
-    $widgets(tl) set $descendant ocount $ocount
 
     # If the user wants us to auto-remove when the open file count reaches 0,
     # remove it from the sidebar
-    if {[preferences::get Sidebar/RemoveRootAfterLastClose] && ($ocount == 0)} {
-      $widgets(tl) delete $descendant
+    if {[preferences::get Sidebar/RemoveRootAfterLastClose] && ([files::num_opened [$w get $item name] [$w get $item remote]] == 0)} {
+      $w delete $item
     }
 
   }
@@ -1224,11 +1208,9 @@ namespace eval sidebar {
           set compare [string compare $fname [$widgets(tl) set $child name]]
           if {$compare == 0} {
             set_image $child sidebar_open
-            update_root_count $child 1
             return
           } elseif {$compare == -1} {
-            set node [$widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote ""] -tags [list f $fname,$remote]]
-            update_root_count $node 1
+            $widgets(tl) insert $parent $i -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname $remote ""] -tags [list f $fname,$remote]
             return
           }
         }
@@ -1236,8 +1218,7 @@ namespace eval sidebar {
       }
 
       # Insert the file at the end of the parent
-      set node [$widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname 0 $remote ""] -tags [list f $fname,$remote]]
-      update_root_count $node 1
+      $widgets(tl) insert $parent end -text [file tail $fname] -image sidebar_open -open 1 -values [list $fname $remote ""] -tags [list f $fname,$remote]
 
     }
 
@@ -1411,7 +1392,7 @@ namespace eval sidebar {
         }
 
       } elseif {[winfo ismapped $widgets(insert)]} {
-
+        
         lassign [$widgets(tl) bbox $row] bx by bw bh
 
         set parent    [$widgets(tl) parent $row]
@@ -1430,7 +1411,7 @@ namespace eval sidebar {
 
         # Remove the insertion bar
         place forget $widgets(insert)
-
+        
         # Move the files in the file system and in the sidebar treeview
         foreach item [lreverse $mover(rows)] {
           if {$item ne $irow} {
@@ -1472,13 +1453,13 @@ namespace eval sidebar {
   ######################################################################
   # Attempts to move the given item to the parent directory
   proc move_item {w item parent} {
-
+    
     if {$parent eq [$w parent $item]} {
 
       return 1
 
     } else {
-
+      
       set fname     [$w set $item name]
       set remote    [$w set $item remote]
       set parentdir [$w set $parent name]
@@ -1498,6 +1479,20 @@ namespace eval sidebar {
     return 0
 
   }
+  
+  ######################################################################
+  # Counts the number of opened files in the given node tree.
+  proc count_opened {w item} {
+    
+    set count [expr {[$w item $item -image] ne ""}]
+    
+    foreach child [$w children $item] {
+      incr count [count_opened $w $child]
+    }
+    
+    return $count
+    
+  }
 
   ######################################################################
   # Updates all of the filenames
@@ -1512,11 +1507,6 @@ namespace eval sidebar {
     # Update the children
     foreach child [$w children $item] {
       update_filenames $w $child $dir
-    }
-
-    # Update the root count
-    if {[files::is_opened $old_name ""]} {
-      update_root_count $item 1
     }
 
   }
@@ -1711,13 +1701,14 @@ namespace eval sidebar {
     variable mover
     variable spring_id
 
+    # Get the current row
     if {[set id [$W identify item $x $y]] eq ""} {
       return
     }
 
-    if {[set bbox [$widgets(tl) bbox $id]] eq ""} {}
-
-    if {[within_selection $widgets(tl) $id]} {
+    # If the current row exists within one of the selected files or the target
+    # directory is a remote directory, don't allow the file/directory to be moved there.
+    if {[within_selection $widgets(tl) $id] || ([$widgets(tl) set $id remote] ne "")} {
       $widgets(tl) tag remove moveto
       place forget $widgets(insert)
       return
@@ -2534,7 +2525,7 @@ namespace eval sidebar {
 
     # Add the file to the sidebar just below the row
     set new_row [$widgets(tl) insert [$widgets(tl) parent $row] [expr [$widgets(tl) index $row] + 1] \
-      -text [file tail $dup_fname] -values [list $dup_fname 0 $remote ""] -open 1 -tags [list f $dup_fname,$remote]]
+      -text [file tail $dup_fname] -values [list $dup_fname $remote ""] -open 1 -tags [list f $dup_fname,$remote]]
 
   }
 
