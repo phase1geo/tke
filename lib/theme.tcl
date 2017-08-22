@@ -114,6 +114,8 @@ namespace eval theme {
     sidebar,-foreground             {color {1} {} {0} {msgcat::mc "Text color for all sidebar items that are not selected."}}
     sidebar,-selectbackground       {color {1} {} {0} {msgcat::mc "Background color for all sidebar items that are selected."}}
     sidebar,-selectforeground       {color {2} {} {0} {msgcat::mc "Text color for all sidebar items that are selected."}}
+    sidebar,-movebackground         {color {black} {} {0} {msgcat::mc "Background color of move bar."}}
+    sidebar,-moveforeground         {color {white} {} {0} {msgcat::mc "Foreground color of move bar."}}
     sidebar,-highlightbackground    {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar does not have the focus."}}
     sidebar,-highlightcolor         {color {2} {} {0} {msgcat::mc "Specifies the color to display around the sidebar when the sidebar has the focus."}}
     sidebar,-dropcolor              {color {green} {} {0} {msgcat::mc "Specifies the color drawn around the border of the sidebar when a dragged file is droppable"}}
@@ -1030,11 +1032,11 @@ namespace eval theme {
 
     foreach w $widgets(sidebar) {
       $w tag configure sel    -background $opts(-selectbackground) -foreground $opts(-selectforeground)
-      $w tag configure moveto -background red -foreground black
+      $w tag configure moveto -background $opts(-movebackground)   -foreground $opts(-moveforeground)
       [winfo parent [winfo parent $w]] configure \
         -relief $opts(-relief) -highlightthickness $opts(-highlightthickness) \
         -highlightbackground $opts(-highlightbackground) -highlightcolor $opts(-highlightcolor)
-      $w.ins configure -background red
+      $w.ins configure -background $opts(-movebackground)
     }
 
   }

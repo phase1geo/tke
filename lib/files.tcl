@@ -183,6 +183,23 @@ namespace eval files {
     return [expr [get_index $fname $remote] != -1]
 
   }
+  
+  ######################################################################
+  # Counts the number of opened files in the given directory.
+  proc num_opened {fname remote} {
+    
+    variable files
+    variable fields
+    
+    set count 0
+    
+    foreach index [lsearch -all -index $fields(fname) $files $fname*] {
+      incr count [expr {[lindex $files $index $fields(remote)] eq $remote}]
+    }
+    
+    return $count
+    
+  }
 
   ######################################################################
   # Returns the index of the matching filename.
@@ -536,6 +553,7 @@ namespace eval files {
     foreach index [lsearch -all -index $fields(fname) $files $old_name*] {
       set old_fname [lindex $files $index $fields(fname)]
       lset files $index $fields(fname) "$new_name[string range $old_fname [string length $old_name] end]"
+      lset files $index $fields(mtime) [modtime $index]
       gui::get_info $index fileindex tab
       gui::update_tab $tab
     }
@@ -569,11 +587,12 @@ namespace eval files {
   ######################################################################
   # Move the given filename to the given directory.
   proc move_file {fname remote dir} {
-
+    
+    variable files
+    variable fields
+    
     # Create the new name
     set new_name [file join $dir [file tail $fname]]
-
-    puts "In move_file, fname: $fname, remote: $remote, dir: $dir, new_name: $new_name"
 
     # Handle the move like a rename
     plugins::handle_on_rename $fname $new_name
@@ -588,16 +607,13 @@ namespace eval files {
         return -code error ""
       }
     }
-
-    puts "HERE!"
-
+    
     # Find the matching file in the files list and change its filename to the new name
     if {[set index [get_index $fname $remote]] != -1} {
-
-      puts "index: $index"
-
-      # Update the stored name to the new name
+      
+      # Update the stored name to the new name and modification time
       lset files $index $fields(fname) $new_name
+      lset files $index $fields(mtime) [modtime $index]
 
       # Get some information about the current file
       gui::get_info $index fileindex tab
@@ -645,8 +661,9 @@ namespace eval files {
     # Find the matching file in the files list and change its filename to the new name
     if {[set index [get_index $old_name $remote]] != -1} {
 
-      # Update the stored name to the new name
+      # Update the stored name to the new name and modification time
       lset files $index $fields(fname) $new_name
+      lset files $index $fields(mtime) [modtime $index]
 
       # Get some information about the current file
       gui::get_info $index fileindex tab txt lang
