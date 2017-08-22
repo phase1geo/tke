@@ -36,6 +36,10 @@ namespace eval sidebar {
   variable spring_id        ""
 
   array set widgets {}
+  array set scan_id {
+    up ""
+    down ""
+  }
 
   ######################################################################
   # Returns a list containing information that the sidebar will save to the
@@ -1367,8 +1371,10 @@ namespace eval sidebar {
     variable widgets
     variable mover
 
-    # Cancel a pending spring operation
+    # Cancel a pending spring and/or scan operation
     spring_cancel
+    tree_scan_cancel up
+    tree_scan_cancel down
 
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
       return
@@ -1405,8 +1411,10 @@ namespace eval sidebar {
 
       } elseif {[winfo ismapped $widgets(insert)]} {
 
+        puts "HERE A"
+
         lassign [$widgets(tl) bbox $row] bx by bw bh
-        
+
         set parent    [$widgets(tl) parent $row]
         set parentdir [$widgets(tl) set $parent name]
 
@@ -1629,6 +1637,20 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Returns 1 if the given id is within the currently selected rows.
+  proc within_selection {w id} {
+
+    variable mover
+
+    while {($id ne "") && ([lsearch $mover(rows) $id] == -1)} {
+      set id [$w parent $id]
+    }
+
+    return [expr {$id ne ""}]
+
+  }
+
+  ######################################################################
   # Handles button-1 motion events.  Causes selected files to be detached
   # so that they can be placed in a different location.
   proc handle_b1_motion {W x y} {
@@ -1641,7 +1663,9 @@ namespace eval sidebar {
       return
     }
 
-    if {[lsearch $mover(rows) $id] != -1} {
+    if {[set bbox [$widgets(tl) bbox $id]] eq ""} {}
+
+    if {[within_selection $widgets(tl) $id]} {
       $widgets(tl) tag remove moveto
       place forget $widgets(insert)
       return
@@ -1650,7 +1674,21 @@ namespace eval sidebar {
     lassign [$widgets(tl) bbox $id] bx by bw bh
 
     if {$mover(detached)} {
-      if {$y < ($by + int($bh * 0.25))} {
+      if {([set first [$widgets(tl) identify item 0 0]] ne "") && ($first eq $id)} {
+        tree_scan_start $widgets(tl) up
+      } else {
+        tree_scan_cancel up
+      }
+      if {([set last [$widgets(tl) identify item 0 [winfo height $widgets(tl)]]] ne "") && ($last eq $id)} {
+        tree_scan_start $widgets(tl) down
+      } else {
+        tree_scan_cancel down
+      }
+      if {$by eq ""} {
+        $widgets(tl) tag remove moveto
+        place forget $widgets(insert)
+        spring_cancel
+      } elseif {$y < ($by + int($bh * 0.25))} {
         $widgets(tl) tag remove moveto
         place $widgets(insert) -y $by -width $bw
         spring_cancel
@@ -1660,7 +1698,7 @@ namespace eval sidebar {
         spring_cancel
       } elseif {[get_info $id is_dir]} {
         if {($spring_id eq "") && ![$widgets(tl) item $id -open] && [lsearch [$widgets(tl) item $id -tags] moveto] == -1} {
-          set spring_id [after 2000 [list sidebar::spring_directory $id]]
+          set spring_id [after 1000 [list sidebar::spring_directory $id]]
         }
         $widgets(tl) tag add moveto $id
         place forget $widgets(insert)
@@ -1670,6 +1708,79 @@ namespace eval sidebar {
       }
     } elseif {$id ne $mover(start)} {
       set mover(detached) 1
+    }
+
+  }
+
+  ######################################################################
+  # Start a tree scan.
+  proc tree_scan_start {w dir} {
+
+    variable scan_id
+
+    if {$scan_id($dir) ne ""} {
+      return
+    }
+
+    set scan_id($dir) [after 900 [list sidebar::tree_scan $w $dir [expr int(900 * 0.3)]]]
+
+  }
+
+  ######################################################################
+  # Perform a tree scan operation.
+  proc tree_scan {w dir {delay ""}} {
+
+    variable scan_id
+
+    switch $dir {
+      up {
+        set focus [$w identify item 0 0]
+        if {[set up [$w prev $focus]] eq ""} {
+          set focus [$w parent $focus]
+        } else {
+          while {[$w item $up -open] && [llength [$w children $up]]} {
+            set up [lindex [$w children $up] end]
+          }
+          set focus $up
+        }
+      }
+      down {
+        set focus [$w identify item 0 [winfo height $w]]
+        if {[$w item $focus -open] && [llength [$w children $focus]]} {
+          set focus [lindex [$w children $focus] 0]
+        } else {
+          set up   $focus
+          set down ""
+          while {($up ne "") && ([set down [$w next $up]] eq "")} {
+            set up [$w parent $up]
+          }
+          set focus $down
+        }
+      }
+    }
+
+    # If the next row was not found, exit
+    if {$focus eq ""} {
+      return
+    }
+
+    # Make sure that the given row is in view
+    $w see $focus
+
+    # Set the scan directory
+    set scan_id($dir) [after [expr ($delay < 30) ? 30 : $delay] [list sidebar::tree_scan $w $dir [expr int($delay * 0.3)]]]
+
+  }
+
+  ######################################################################
+  # Cancel the tree scan
+  proc tree_scan_cancel {dir} {
+
+    variable scan_id
+
+    if {$scan_id($dir) ne ""} {
+      after cancel $scan_id($dir)
+      set scan_id($dir) ""
     }
 
   }
@@ -2626,7 +2737,7 @@ namespace eval sidebar {
 
     # Set the file contents
     set contents(items) $items
-    
+
     # Write the file
     catch { tkedat::write [file join $parentdir .tkesort] [list items $items] 0 }
 
