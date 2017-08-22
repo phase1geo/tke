@@ -495,6 +495,14 @@ namespace eval files {
   }
 
   ######################################################################
+  # Move the given folder to the given directory.
+  proc move_folder {fname remote dir} {
+
+    return [rename_folder $fname [file join $dir [file tail $fname]] $remote]
+
+  }
+
+  ######################################################################
   # Renames the given folder to the new name.
   proc rename_folder {old_name new_name remote} {
 
@@ -509,7 +517,7 @@ namespace eval files {
       # Allow any plugins to handle the rename
       plugins::handle_on_rename $old_name $new_name
 
-      if {[catch { file rename -force $old_name $new_name } rc]} {
+      if {[catch { file rename -force -- $old_name $new_name } rc]} {
         return -code error $rc
       }
 
@@ -528,6 +536,8 @@ namespace eval files {
     foreach index [lsearch -all -index $fields(fname) $files $old_name*] {
       set old_fname [lindex $files $index $fields(fname)]
       lset files $index $fields(fname) "$new_name[string range $old_fname [string length $old_name] end]"
+      gui::get_info $index fileindex tab
+      gui::update_tab $tab
     }
 
     return $new_name
@@ -542,7 +552,7 @@ namespace eval files {
     plugins::handle_on_delete $dir
 
     if {$remote eq ""} {
-      if {[catch { file delete -force $dir } rc]} {
+      if {[catch { file delete -force -- $dir } rc]} {
         return -code error $rc
       }
     } else {
@@ -553,6 +563,51 @@ namespace eval files {
 
     # Close any opened files within one of the deleted directories
     gui::close_dir_files [list $dir]
+
+  }
+
+  ######################################################################
+  # Move the given filename to the given directory.
+  proc move_file {fname remote dir} {
+
+    # Create the new name
+    set new_name [file join $dir [file tail $fname]]
+
+    puts "In move_file, fname: $fname, remote: $remote, dir: $dir, new_name: $new_name"
+
+    # Handle the move like a rename
+    plugins::handle_on_rename $fname $new_name
+
+    # Perform the move
+    if {$remote eq ""} {
+      if {[catch { file rename -force -- $fname $new_name } rc]} {
+        return -code error $rc
+      }
+    } else {
+      if {![remote::rename_file $remote $fname $new_name]} {
+        return -code error ""
+      }
+    }
+
+    puts "HERE!"
+
+    # Find the matching file in the files list and change its filename to the new name
+    if {[set index [get_index $fname $remote]] != -1} {
+
+      puts "index: $index"
+
+      # Update the stored name to the new name
+      lset files $index $fields(fname) $new_name
+
+      # Get some information about the current file
+      gui::get_info $index fileindex tab
+
+      # Update the tab text
+      gui::update_tab $tab
+
+    }
+
+    return $new_name
 
   }
 
@@ -572,7 +627,7 @@ namespace eval files {
       plugins::handle_on_rename $old_name $new_name
 
       # Perform the rename operation
-      if {[catch { file rename -force $old_name $new_name } rc]} {
+      if {[catch { file rename -force -- $old_name $new_name } rc]} {
         return -code error $rc
       }
 
