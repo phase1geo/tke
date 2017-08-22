@@ -1087,7 +1087,7 @@ namespace eval sidebar {
           lappend extra_items $item
         }
       }
-      return [lmap item [concat $new_items $extra_items] {expr {($item ne "") ? $item : [break]}}]
+      return [lmap item [concat $new_items $extra_items] {expr {($item ne "") ? $item : [continue]}}]
     } elseif {[preferences::get Sidebar/FoldersAtTop]} {
       return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] \
                    {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
@@ -1391,15 +1391,16 @@ namespace eval sidebar {
 
         if {[$widgets(tl) item $row -open] == 0} {
           foreach item $mover(rows) {
-            if {![catch { file rename -force -- [$widgets(tl) set $item name] $dir }]} {
+            if {[move_item $widgets(tl) $item $row]} {
               $widgets(tl) delete $item
             }
           }
         } else {
           foreach item $mover(rows) {
-            if {![catch { file rename -force -- [$widgets(tl) set $item name] $dir }]} {
+            if {[move_item $widgets(tl) $item $row]} {
               $widgets(tl) detach $item
               $widgets(tl) move $item $row end
+              update_filenames $widgets(tl) $item $dir
             }
           }
           if {[$widgets(tl) set $row sortby] eq "manual"} {
@@ -1410,8 +1411,6 @@ namespace eval sidebar {
         }
 
       } elseif {[winfo ismapped $widgets(insert)]} {
-
-        puts "HERE A"
 
         lassign [$widgets(tl) bbox $row] bx by bw bh
 
@@ -1435,9 +1434,10 @@ namespace eval sidebar {
         # Move the files in the file system and in the sidebar treeview
         foreach item [lreverse $mover(rows)] {
           if {$item ne $irow} {
-            if {($parent eq [$widgets(tl) parent $item]) || ![catch { file rename -force -- [$widgets(tl) set $item name] $parentdir } rc]} {
+            if {[move_item $widgets(tl) $item $parent]} {
               $widgets(tl) detach $item
               $widgets(tl) move $item $parent [expr {($irow eq "") ? "end" : [$widgets(tl) index $irow]}]
+              update_filenames $widgets(tl) $item $parentdir
               set irow $item
             }
           }
@@ -1465,6 +1465,58 @@ namespace eval sidebar {
         gui::set_current_tab $tabbar $tab
       }
 
+    }
+
+  }
+
+  ######################################################################
+  # Attempts to move the given item to the parent directory
+  proc move_item {w item parent} {
+
+    if {$parent eq [$w parent $item]} {
+
+      return 1
+
+    } else {
+
+      set fname     [$w set $item name]
+      set remote    [$w set $item remote]
+      set parentdir [$w set $parent name]
+
+      if {[get_info $item is_dir]} {
+        if {![catch { files::move_folder $fname $remote $parentdir } rc]} {
+          return 1
+        }
+      } else {
+        if {![catch { files::move_file $fname $remote $parentdir } rc]} {
+          return 1
+        }
+      }
+
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
+  # Updates all of the filenames
+  proc update_filenames {w item dir} {
+
+    # Get the original name
+    set old_name [$w set $item name]
+
+    # Update the name of the item
+    $w set $item name [set dir [file join $dir [file tail $old_name]]]
+
+    # Update the children
+    foreach child [$w children $item] {
+      update_filenames $w $child $dir
+    }
+
+    # Update the root count
+    if {[files::is_opened $old_name ""]} {
+      update_root_count $item 1
     }
 
   }
