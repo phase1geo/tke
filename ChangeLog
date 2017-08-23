@@ -3,13 +3,325 @@
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
 	ChangeLog for devel-3.2.7 release
 
+2017-08-11 19:20 -0500  Trevor Williams  <phase1geo@gmail.com>  (847f2c522eb0)
+
+	* lib/sidebar.tcl:
+	* Adding sidebar support for BackSpace key (closes the currently
+	selected file(s)).
+
 2017-08-11 02:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6f3b7fe5a346)
 
 	* .hgtags:
 	Added tag devel-3.2.7 for changeset 5a7b2ae24c06
 
-2017-08-11 02:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (969c87ed9a23 [tip])
+2017-08-11 02:12 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (969c87ed9a23)
 
 	* lib/version.tcl, specl_version.tcl:
 	* Fixing specl_version.tcl
+
+2017-08-11 02:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (195bd5d1c073)
+
+	* ChangeLog, lib/version.tcl, specl_version.tcl:
+	ChangeLog for devel-3.2.8 release
+
+2017-08-12 00:43 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (515553eb5eb9)
+
+	* * Merging.
+
+2017-08-12 22:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (db3f03504969)
+
+	* lib/ipanel.tcl, lib/select.tcl, lib/version.tcl:
+	* Fixing bug with ipanel closing when the filename contains spaces.
+	* Removing selection mode for mouse selections for the time being.
+
+2017-08-14 00:20 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (01c8821245b3)
+
+	* data/syntax/DocBook.syntax, lib/version.tcl:
+	* Adding formatting to DocBook syntax.
+	* Improving DocBook syntax highlighting.
+
+2017-08-14 01:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (914688a15f89)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-08-15 00:53 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e26ae04fb5f9)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing work to support moving files/directories within
+	sidebar via drag and drop.
+	* Checkpointing work to support manual directory ordering.
+
+2017-08-15 07:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (29651808c693)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Attempting to fix issue with manual ordering in sidebar.
+
+2017-08-15 16:41 -0500  Trevor Williams  <phase1geo@gmail.com>  (2d11d8a0a7d4)
+
+	* lib/sidebar.tcl:
+	* Checkpointing work on sidebar.
+
+2017-08-15 23:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e2351da12400)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Fixing syntax error in sidebar.
+
+2017-08-16 00:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (07b67c187ce9)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Adding "Sort" sidebar directory contextual menu support.
+
+2017-08-16 09:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ec9ca8e0e3f9)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Fixing syntax error in sidebar.
+
+2017-08-16 16:06 -0500  Trevor Williams  <phase1geo@gmail.com>  (8610bb8ecdad)
+
+	* lib/sidebar.tcl:
+	* Checkpointing manual sorting fixes.
+
+2017-08-17 01:11 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7bc3416822b4)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Fixing location of insertion bar when items are dragged over a
+	file row.
+
+2017-08-17 09:53 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dee09e3d8d63)
+
+	* doc/md/TKE Developer Guide/.tkesort, doc/md/TKE User Guide/.tkesort:
+	new file.
+	* doc/md/TKE Developer Guide/.tkesort, doc/md/TKE User Guide/.tkesort,
+	lib/version.tcl:
+	* Adding .tkesort files for the main documentation directories.
+
+2017-08-18 17:37 -0500  Trevor Williams  <phase1geo@gmail.com>  (d80fc8ad2060)
+
+	* lib/sidebar.tcl:
+	* Checkpointing work on file movement.
+
+2017-08-19 01:20 -0500  Trevor Williams  <phase1geo@gmail.com>  (2c66b0d639e3)
+
+	* lib/sidebar.tcl, lib/theme.tcl, lib/version.tcl:
+	* Checkpointing sidebar work.
+
+2017-08-19 12:17 -0500  Trevor Williams  <phase1geo@gmail.com>  (facad509b99d)
+
+	* data/syntax/Markdown.syntax, lib/version.tcl:
+	* Adding underline capability to Markdown syntax using HTML
+	underline markup.
+
+2017-08-19 18:48 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d49743f8b57c)
+
+	* doc/md/TKE User Guide/Application Settings/Changing Sharing Setup
+	via Preferences GUI.textbundle/text.md, doc/md/TKE User Guide/User
+	Interface/Difference Viewer.textbundle/text.md, doc/md/TKE User
+	Guide/User Interface/Directory.textbundle/text.md, doc/md/TKE User
+	Guide/User Interface/Editing Pane.textbundle/text.md, doc/md/TKE
+	User Guide/User Interface/Files.textbundle/text.md, doc/md/TKE User
+	Guide/User Interface/Root Directory.textbundle/text.md, doc/md/TKE
+	User Guide/User Interface/Status Bar.textbundle/text.md, doc/md/TKE
+	User Guide/User Interface/User Interface.textbundle/text.md,
+	lib/version.tcl:
+	* Documentation enhancements to images.
+
+2017-08-20 00:21 -0500  Trevor Williams  <phase1geo@gmail.com>  (d2927f215805)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing work on file movement algorithm (not quite there yet
+	but close).
+
+2017-08-20 08:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (96e717780636)
+
+	* lib/sidebar.tcl:
+	* Checkpointing.
+
+2017-08-20 22:44 -0500  Trevor Williams  <phase1geo@gmail.com>  (93a34441205b)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-08-21 17:50 -0500  Trevor Williams  <phase1geo@gmail.com>  (bec2f91f374d)
+
+	* lib/sidebar.tcl:
+	* Checkpointing.
+
+2017-08-22 00:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1a8495438f48)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-08-22 02:33 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5567eab83386)
+
+	* lib/files.tcl, lib/sidebar.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-08-22 17:31 -0500  Trevor Williams  <phase1geo@gmail.com>  (848f6a5b203e)
+
+	* lib/files.tcl, lib/sidebar.tcl, lib/theme.tcl:
+	* Finishing majority of work on file/folder moving within the
+	sidebar.
+
+2017-08-22 20:33 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d3c294259f62)
+
+	* doc/md/TKE Developer Guide/Ctext Widget/.tkesort, doc/md/TKE
+	Developer Guide/Plugin API/.tkesort, doc/md/TKE Developer
+	Guide/Plugin API/Plugin API.textbundle/.tkesort, doc/md/TKE
+	Developer Guide/Plugin API/api--
+	color_difference.textbundle/.tkesort, doc/md/TKE Developer
+	Guide/Plugin Action Types/.tkesort, doc/md/TKE Developer
+	Guide/Plugin Action Types/on_focusin.textbundle/.tkesort, doc/md/TKE
+	Developer Guide/Plugin Development/.tkesort, doc/md/TKE Developer
+	Guide/Prefix/.tkesort, doc/md/TKE Developer Guide/Syntax
+	Handling/.tkesort, doc/md/TKE User Guide/Application
+	Settings/.tkesort, doc/md/TKE User Guide/Difference Map/.tkesort,
+	doc/md/TKE User Guide/Installation/.tkesort, doc/md/TKE User
+	Guide/Introduction/.tkesort, doc/md/TKE User Guide/Language
+	Reference Documentation/.tkesort, doc/md/TKE User
+	Guide/Plugins/.tkesort, doc/md/TKE User Guide/Preferences/.tkesort,
+	doc/md/TKE User Guide/Prefix/.tkesort, doc/md/TKE User Guide/Remote
+	File Editing/.tkesort, doc/md/TKE User Guide/Snippets/.tkesort,
+	doc/md/TKE User Guide/Starting the Application/.tkesort, doc/md/TKE
+	User Guide/Themes/.tkesort, doc/md/TKE User Guide/Themes/Option
+	Detail Pane.textbundle/.tkesort, doc/md/TKE User Guide/User
+	Interface/.tkesort, doc/md/TKE User Guide/User Interface/Title
+	Bar.textbundle/.tkesort, doc/md/TKE User Guide/User Interface/User
+	Interface.textbundle/.tkesort, doc/md/TKE User Guide/Vim
+	Commands/.tkesort: new file.
+	* doc/md/.Ulysses-favorites.plist, doc/md/TKE Developer Guide/Ctext
+	Widget/.tkesort, doc/md/TKE Developer Guide/Plugin API/.Ulysses-
+	Group.plist, doc/md/TKE Developer Guide/Plugin API/.tkesort,
+	doc/md/TKE Developer Guide/Plugin API/Plugin
+	API.textbundle/.tkesort, doc/md/TKE Developer Guide/Plugin API/api--
+	color_difference.textbundle/.tkesort, doc/md/TKE Developer
+	Guide/Plugin Action Types/.Ulysses-Group.plist, doc/md/TKE Developer
+	Guide/Plugin Action Types/.tkesort, doc/md/TKE Developer
+	Guide/Plugin Action Types/on_focusin.textbundle/.tkesort, doc/md/TKE
+	Developer Guide/Plugin Development/.tkesort, doc/md/TKE Developer
+	Guide/Prefix/.tkesort, doc/md/TKE Developer Guide/Syntax
+	Handling/.tkesort, doc/md/TKE User Guide/Application
+	Settings/.tkesort, doc/md/TKE User Guide/Difference Map/.tkesort,
+	doc/md/TKE User Guide/Installation/.tkesort, doc/md/TKE User
+	Guide/Introduction/.tkesort, doc/md/TKE User Guide/Language
+	Reference Documentation/.tkesort, doc/md/TKE User
+	Guide/Plugins/.tkesort, doc/md/TKE User Guide/Preferences/.tkesort,
+	doc/md/TKE User Guide/Prefix/.tkesort, doc/md/TKE User Guide/Remote
+	File Editing/.tkesort, doc/md/TKE User Guide/Snippets/.tkesort,
+	doc/md/TKE User Guide/Starting the Application/.tkesort, doc/md/TKE
+	User Guide/Themes/.Ulysses-Group.plist, doc/md/TKE User
+	Guide/Themes/.tkesort, doc/md/TKE User Guide/Themes/Option Detail
+	Pane.textbundle/.tkesort, doc/md/TKE User Guide/User Interface
+	/.Ulysses-Group.plist, doc/md/TKE User Guide/User
+	Interface/.tkesort, doc/md/TKE User Guide/User Interface/Title
+	Bar.textbundle/.tkesort, doc/md/TKE User Guide/User Interface/User
+	Interface.textbundle/.tkesort, doc/md/TKE User Guide/Vim
+	Commands/.tkesort, lib/version.tcl:
+	* Adding ordering information to documentation directories.
+
+2017-08-22 20:54 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (68f8363a9844)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Adding support for hitting Escape key during a drag operation to
+	cancel the operation.
+
+2017-08-22 22:24 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e68c011a541f)
+
+	* data/themes/Aurora.tketheme, data/themes/Cool Glow.tketheme,
+	data/themes/Fluidvision.tketheme, data/themes/Monokai.tketheme,
+	data/themes/Notebook.tketheme, data/themes/Quiverly.tketheme,
+	data/themes/Ruby Blue.tketheme, data/themes/Turn of the
+	Century.tketheme, data/themes/choco.tketheme,
+	data/themes/idleFingers.tketheme,
+	data/themes/minimal_Theme.tketheme, data/themes/oscuro.tketheme,
+	lib/sidebar.tcl, lib/version.tcl:
+	* Updating built-in themes to colorize the sidebar move colors.
+	* Finishing up sidebar move functionality.
+
+2017-08-22 22:45 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5ef447691443)
+
+	* data/themes/Anatomy of Grey.tketheme, data/themes/Juicy.tketheme,
+	data/themes/Made of Code.tketheme, data/themes/yellowStone.tketheme,
+	lib/version.tcl:
+	* Updating the rest of the built-in themes.
+
+2017-08-23 02:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (ab33ef85d51f [tip])
+
+	* doc/md/TKE Developer Guide/Plugin API/api--sidebar--
+	set_info.textbundle/info.json, doc/md/TKE Developer Guide/Plugin
+	API/api--sidebar--set_info.textbundle/text.md: new file.
+	* doc/md/.Ulysses-favorites.plist, doc/md/TKE Developer Guide/Ctext
+	Widget/diff reset.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin API/.Ulysses-Group.plist, doc/md/TKE Developer
+	Guide/Plugin API/api--edit--bubble_down.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin API/api--edit--
+	bubble_up.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	API/api--edit--comment.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin API/api--edit--delete.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin API/api--edit--format.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin API/api--edit--
+	get_index.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	API/api--edit--indent.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin API/api--edit--join_lines.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin API/api--edit--
+	lower_case.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	API/api--edit--move_cursor.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin API/api--edit--rot13.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin API/api--edit--title_case.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin API/api--edit--
+	toggle_case.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	API/api--edit--toggle_comment.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin API/api--edit--uncomment.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin API/api--edit--
+	unformat.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	API/api--edit--unindent.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin API/api--edit--upper_case.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin API/api--
+	get_user_input.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	API/api--sidebar--get_info.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin API/api--sidebar--set_info.textbundle/info.json,
+	doc/md/TKE Developer Guide/Plugin API/api--sidebar--
+	set_info.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	Action Types/dir_popup.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin Action Types/do_pref_ui.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/file_popup.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/info_panel.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin Action Types/menu.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/on_close.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/on_delete.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin Action Types/on_duplicate.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/on_focusin.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin Action Types/on_open.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/on_pref_load.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/on_quit.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	Action Types/on_reload.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin Action Types/on_rename.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/on_save.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/on_trash.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	Action Types/on_uninstall.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin Action Types/root_popup.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin Action Types/tab_popup.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin Action
+	Types/text_binding.textbundle/text.md, doc/md/TKE Developer
+	Guide/Plugin Action Types/vcs.textbundle/text.md, doc/md/TKE
+	Developer Guide/Plugin Development/Creating Launcher
+	Commands.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	Development/Creating a New Plugin Template.textbundle/text.md,
+	doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle
+	Structure.textbundle/text.md, doc/md/TKE Developer Guide/Plugin
+	Development/Plugin GUI Element Creation.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/Directory.textbundle/text.md,
+	doc/md/TKE User Guide/User Interface/Root
+	Directory.textbundle/text.md, lib/api.tcl, lib/sidebar.tcl,
+	lib/version.tcl:
+	* Adding api::sidebar::set_info API procedure.
+	* Adding is_dir, is_open and children attributes to
+	api::sidebar::get_info API procedure.
+	* Enhancing developer documentation to match these changes as well as
+	improve Tcl code examples.
 
