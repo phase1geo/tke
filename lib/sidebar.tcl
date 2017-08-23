@@ -247,7 +247,7 @@ namespace eval sidebar {
     bind $widgets(tl) <B1-Motion>                     [list sidebar::handle_b1_motion %W %x %y]
     bind $widgets(tl) <Control-Return>                [list sidebar::handle_control_return_space %W]
     bind $widgets(tl) <Control-Key-space>             [list sidebar::handle_control_return_space %W]
-    bind $widgets(tl) <Escape>                        [list pack forget $w.if]
+    bind $widgets(tl) <Escape>                        [list sidebar::handle_escape %W]
     bind $widgets(tl) <Return> {
       sidebar::handle_return_space %W
       break
@@ -1392,7 +1392,7 @@ namespace eval sidebar {
         }
 
       } elseif {[winfo ismapped $widgets(insert)]} {
-        
+
         lassign [$widgets(tl) bbox $row] bx by bw bh
 
         set parent    [$widgets(tl) parent $row]
@@ -1411,7 +1411,7 @@ namespace eval sidebar {
 
         # Remove the insertion bar
         place forget $widgets(insert)
-        
+
         # Move the files in the file system and in the sidebar treeview
         foreach item [lreverse $mover(rows)] {
           if {$item ne $irow} {
@@ -1453,13 +1453,13 @@ namespace eval sidebar {
   ######################################################################
   # Attempts to move the given item to the parent directory
   proc move_item {w item parent} {
-    
+
     if {$parent eq [$w parent $item]} {
 
       return 1
 
     } else {
-      
+
       set fname     [$w set $item name]
       set remote    [$w set $item remote]
       set parentdir [$w set $parent name]
@@ -1479,19 +1479,19 @@ namespace eval sidebar {
     return 0
 
   }
-  
+
   ######################################################################
   # Counts the number of opened files in the given node tree.
   proc count_opened {w item} {
-    
+
     set count [expr {[$w item $item -image] ne ""}]
-    
+
     foreach child [$w children $item] {
       incr count [count_opened $w $child]
     }
-    
+
     return $count
-    
+
   }
 
   ######################################################################
@@ -1627,6 +1627,24 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Handles the press of an escape key.
+  proc handle_escape {W} {
+
+    variable widgets
+    variable mover
+
+    if {$mover(detached)} {
+      set mover(detached) 0
+      set mover(start)    ""
+      $widgets(tl) tag remove moveto
+      place forget $widgets(insert)
+    } else {
+      pack forget $widgets(info)
+    }
+
+  }
+
+  ######################################################################
   # Handles a BackSpace key in the sidebar.  Closes the currently selected
   # files if they are opened.
   proc handle_backspace {W} {
@@ -1749,7 +1767,7 @@ namespace eval sidebar {
         $widgets(tl) tag remove moveto
         spring_cancel
       }
-    } elseif {$id ne $mover(start)} {
+    } elseif {($mover(start) ne "") && ($id ne $mover(start))} {
       set mover(detached) 1
     }
 
