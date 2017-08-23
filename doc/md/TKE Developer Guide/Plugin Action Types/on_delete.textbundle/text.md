@@ -18,6 +18,8 @@ The “do” procedure is called when this event occurs.  One parameter is passe
 
 The following example displays the deleted filename.
 
-	proc foobar_do {name} {
-	  puts “File $name is deleted”
-	}
+```Tcl
+proc foobar_do {name} {
+  puts “File $name is deleted”
+}
+```

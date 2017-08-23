@@ -18,5 +18,7 @@ None.
 
 **Example**
 
-	# Move the current line up
-	api::edit::bubble_up $txt
+```Tcl
+# Move the current line up
+api::edit::bubble_up $txt
+```

@@ -20,8 +20,10 @@ None.
 
 **Example**
 
-	# Indent the current paragraph
-	set startpos [api::edit::get_index $txt paragraph -dir prev]
-	set endpos [api::edit::get_index $txt paragraph -dir next -startpos $startpos]
+```Tcl
+# Indent the current paragraph
+set startpos [api::edit::get_index $txt paragraph -dir prev]
+set endpos   [api::edit::get_index $txt paragraph -dir next -startpos $startpos]
 	
-	api::edit::indent $txt $startpos $endpos
+api::edit::indent $txt $startpos $endpos
+```

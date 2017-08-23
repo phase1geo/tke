@@ -57,9 +57,9 @@ The following is an example of what a plugin header might look like:
 	include        {yes}
 	trust_required {no}
 	description    {Adds a function to the sidebar menu popup for
-	files that, when selected, displays the entire
-	Perforce filelog history for that file in a
-	new editor tab.}
+	                files that, when selected, displays the entire
+	                Perforce filelog history for that file in a
+	                new editor tab.}
 
 #### Registration
 
@@ -73,11 +73,11 @@ The _action\_type\_list_ is a Tcl list that contains all of the plugin action ty
 
 As an example of what a call to the api\::register procedure looks like, consider the following example.  This example shows what a fairly complex plugin can do.
 
-	api::register word_count {
-	  {menu command "Display word count"
-	      word_count::menu_do
-	      word_count::menu_handle_state}
-	}
+```Tcl
+api::register word_count {
+  {menu command "Display word count" word_count::menu_do word_count::menu_handle_state}
+}
+```
 
 This plugin's purpose is going to display the number of words the exist in the current text widget in the information bar.  The menu command will be available in the “Plugins” menu.  The menu element is a command type where the word\_count\::menu\_do will be run when the command is selected.  The word\_count\::menu\_handle\_state call be executed to set the menu state to disabled if no text widget currently is displayed or it will be enabled if there is a current text widget displayed.
 

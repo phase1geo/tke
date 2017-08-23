@@ -14,14 +14,20 @@ The “do\_pref\_ui” action is called when the preferences window needs to bui
 
 This procedure is responsible for creating and arranging the various GUI widgets that control the layout of the plugin’s preferences panel.  The following is a representation of what the body of the procedure might look like:
 
-	proc do_pref_ui {w} {
-	  api::preferences::widget checkbutton $w "Enable" "Enables this plugin”
-	  api::preferences::widget spacer $w
-	  pack [ttk::labelframe $w.lf -text "Color"] -fill x
-	  api::preferences::widget radiobutton $w.lf "Color" "red" -value “red”
-	  api::preferences::widget radiobutton $w.lf "Color" "white" -value “white”
-	  api::preferences::widget radiobutton $w.lf "Color" "blue" -value “blue”
-	}
+```Tcl
+proc do_pref_ui {w} {
+
+  api::preferences::widget checkbutton $w "Enable" "Enables this plugin”
+  api::preferences::widget spacer $w
+
+  pack [ttk::labelframe $w.lf -text "Color"] -fill x
+  
+  api::preferences::widget radiobutton $w.lf "Color" "red" -value “red”
+  api::preferences::widget radiobutton $w.lf "Color" "white" -value “white”
+  api::preferences::widget radiobutton $w.lf "Color" "blue" -value “blue”
+  
+}
+```
 
 This plugin creates a check button which allows the “Enable” preference item to be set. It also adds three radio buttons which allow the user to select one of three colors to set the “Color” preference item. The three radio buttons are placed into a ttk\::labelframe container widget. Between the check button and the radio buttons is vertical space. This code will result in a preference panel that will look something like the following:
 

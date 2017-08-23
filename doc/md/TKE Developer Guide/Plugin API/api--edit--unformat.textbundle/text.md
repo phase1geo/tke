@@ -18,6 +18,8 @@ None.
 
 **Example**
 
-	Remove all formatting applied to the current line
-	$txt tag add sel "insert linestart" "insert lineend"
-	api::edit::unformat $txt
+```Tcl
+# Remove all formatting applied to the current line
+$txt tag add sel "insert linestart" "insert lineend"
+api::edit::unformat $txt
+```

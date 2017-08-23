@@ -18,10 +18,12 @@ None.
 
 **Example**
 
-	# Comment out the current paragraph
-	set startpos [api::edit::get_index $txt paragraph -dir prev]
-	set endpos [api::edit::get_index $txt paragraph -dir next -startpos $startpos]
+```Tcl
+# Comment out the current paragraph
+set startpos [api::edit::get_index $txt paragraph -dir prev]
+set endpos [api::edit::get_index $txt paragraph -dir next -startpos $startpos]
 	
-	# Select the text and comment it out
-	$txt tag add sel $startpos $endpos
-	api::edit::comment $txt
+# Select the text and comment it out
+$txt tag add sel $startpos $endpos
+api::edit::comment $txt
+```

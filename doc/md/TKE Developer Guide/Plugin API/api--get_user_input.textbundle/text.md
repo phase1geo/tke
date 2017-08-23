@@ -20,11 +20,13 @@ Returns a value of 1 if the user hit the RETURN key in the text entry field to i
 
 **Example**
 
-	set filename “”
-	if {[api::get_user_input “Filename:” filename 1]} {
-	  puts “File $filename was given”
-	} else {
-	  puts “No filename specified”
-	}
+```Tcl
+set filename “”
+if {[api::get_user_input “Filename:” filename 1]} {
+  puts “File $filename was given”
+} else {
+  puts “No filename specified”
+}
+```
 
 

@@ -18,6 +18,8 @@ The “do” procedure is called when this event occurs.  Two arguments are pass
 
 The following example displays the new filename.
 
-	proc foobar_do {orig_name new_name} {
-	  puts “File $orig_name has been duplicated ($new_name)”
-	}
+```Tcl
+proc foobar_do {orig_name new_name} {
+  puts “File $orig_name has been duplicated ($new_name)”
+}
+```

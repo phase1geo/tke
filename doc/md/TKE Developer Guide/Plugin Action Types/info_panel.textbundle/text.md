@@ -20,7 +20,9 @@ The "file\_value" procedure contains the code that will be executed when the use
  
 Example:
 
-	# Returns the reversed string representation of the given filename
-	proc value_reverse {fname} {
-	 return [string reverse [file tail $fname]]
-	}
+```Tcl
+# Returns the reversed string representation of the given filename
+proc value_reverse {fname} {
+  return [string reverse [file tail $fname]]
+}
+```

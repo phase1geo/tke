@@ -849,7 +849,28 @@ namespace eval sidebar {
       fname      { return [$widgets(tl) set $index name] }
       file_index { return [files::get_index [$widgets(tl) set $index name] [$widgets(tl) set $index remote]] }
       is_dir     { return [$widgets(tl) tag has d $index] }
+      is_open    { return [$widgets(tl) item $index -open] }
+      children   { return [$widgets(tl) children $index] }
       default    {
+        return -code error "Illegal sidebar attribute specified ($attr)"
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Sets the sidebar item attribute to the given value.
+  proc set_info {index attr value} {
+
+    variable widgets
+
+    switch $attr {
+      open {
+        if {[get_info $index is_dir]} {
+          $widgets(tl) item $index -open $value
+        }
+      }
+      default {
         return -code error "Illegal sidebar attribute specified ($attr)"
       }
     }

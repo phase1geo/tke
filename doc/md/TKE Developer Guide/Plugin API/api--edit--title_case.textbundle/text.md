@@ -20,8 +20,10 @@ None.
 
 **Example**
 
-	# Titlecase all text within the next set of double-quotes
-	set startpos [api::edit::get_index $txt findchar -char \" -dir next -num 1]
-	set endpos [api::edit::get_index $txt findchar -char \" -dir next -num 2]
+```Tcl
+# Titlecase all text within the next set of double-quotes
+set startpos [api::edit::get_index $txt findchar -char \" -dir next -num 1]
+set endpos   [api::edit::get_index $txt findchar -char \" -dir next -num 2]
 	
-	api::edit::title_case $txt $startpos $endpos 
+api::edit::title_case $txt $startpos $endpos
+```

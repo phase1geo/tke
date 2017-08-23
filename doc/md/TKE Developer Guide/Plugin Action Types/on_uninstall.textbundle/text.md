@@ -18,7 +18,9 @@ The “do” procedure is called when this event occurs.  No arguments are passe
 
 The following example removes a text tag called “foobar” that was previously added.
 
-	proc foobar_do {} {
-	  variable txt
-	  $txt tag delete foobar
-	}
+```Tcl
+proc foobar_do {} {
+  variable txt
+  $txt tag delete foobar
+}
+```

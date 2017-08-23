@@ -18,6 +18,8 @@ None.
 
 **Example**
 
-	# Toggle comments of the currently selected line
-	$txt tag add sel insert "insert lineend"
-	api::edit::toggle_comment $txt
+```Tcl
+# Toggle comments of the currently selected line
+$txt tag add sel insert "insert lineend"
+api::edit::toggle_comment $txt
+```

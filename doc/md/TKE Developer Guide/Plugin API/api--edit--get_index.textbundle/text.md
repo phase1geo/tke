@@ -70,15 +70,19 @@ Returns a text widget index.
 
 **Example**
 
-	proc foobar {} {
-	  set file_index [api::file::current_file_index]
-	  set txt [api::file::get_info $file_index txt]
+```Tcl
+proc foobar {} {
+
+  set file_index [api::file::current_file_index]
+  set txt        [api::file::get_info $file_index txt]
 	
-	  # Get the index of the 10'th character to the right of the insertion cursor
-	  set index [api::edit::get_index $txt right -num 10]
+  # Get the index of the 10'th character to the right of the insertion cursor
+  set index [api::edit::get_index $txt right -num 10]
 	
-	  # Move the cursor to the calculated index
-	  api::edit::move_cursor $txt $index
-	}
+  # Move the cursor to the calculated index
+  api::edit::move_cursor $txt $index
+  
+}
+```
 
 

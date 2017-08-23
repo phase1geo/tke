@@ -22,5 +22,7 @@ None.
 
 **Example**
 
-	# Encode the entire file using rot13
-	api::edit::rot13 $txt 1.0 end
+```Tcl
+# Encode the entire file using rot13
+api::edit::rot13 $txt 1.0 end
+```

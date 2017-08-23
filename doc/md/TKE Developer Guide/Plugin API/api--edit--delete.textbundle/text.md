@@ -23,5 +23,7 @@ None.
 
 **Example**
 
-	# Deletes from the current insertion cursor to the end of the current line
-	api::edit::delete $txt insert [api::edit::get_index $txt lineend] 1
+```Tcl
+# Deletes from the current insertion cursor to the end of the current line
+api::edit::delete $txt insert [api::edit::get_index $txt lineend] 1
+```

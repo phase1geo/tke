@@ -19,5 +19,7 @@ None.
 
 **Example**
 
-	# Move the insertion cursor to the first non-whitespace character of the next line.
-	api::edit::move_cursor $txt firstchar -dir next
+```Tcl
+# Move the insertion cursor to the first non-whitespace character of the next line.
+api::edit::move_cursor $txt firstchar -dir next
+```

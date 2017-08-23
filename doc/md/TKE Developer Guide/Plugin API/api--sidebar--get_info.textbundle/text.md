@@ -24,4 +24,7 @@ index value for the sidebar, an empty string will be returned.
 | - | - |
 | fname | Normalized filename. |
 | file\_index | The file index of the file.  This value can be used in the api\::file\::get\_info API call to get other information about the file. |
+| is\_dir | Returns 1 if the given sidebar item is a directory; otherwise, returns 0. |
+| is\_open | Returns 1 if the given sidebar item is opened; otherwise, returns 0. | 
+| children | Returns an ordered list of sidebar indices that are children of the specified sidebar index. |
 

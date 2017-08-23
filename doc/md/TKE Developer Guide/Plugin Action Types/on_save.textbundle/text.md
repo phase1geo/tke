@@ -18,7 +18,9 @@ The “do” procedure is called when this event occurs.  It is passed a single 
 
 The following example displays the name of the file being saved.
 
-	proc foobar_do {file_index} {
-	  set fname [api::file::get_info $file_index fname]
-	  puts “File $fname is being saved”
-	}
+```Tcl
+proc foobar_do {file_index} {
+  set fname [api::file::get_info $file_index fname]
+  puts “File $fname is being saved”
+}
+```

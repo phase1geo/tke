@@ -18,7 +18,9 @@ The “do” procedure is called when the file has been added to the editor.   T
 
 The following example will display the full pathname of a file that was just added to the editor.
 
-	proc foobar_do {file_index} {
-	 set fname [api::file::get_info $file_index fname]
-	 puts “File $fname was just opened”
-	}
+```Tcl
+proc foobar_do {file_index} {
+  set fname [api::file::get_info $file_index fname]
+  puts “File $fname was just opened”
+}
+```

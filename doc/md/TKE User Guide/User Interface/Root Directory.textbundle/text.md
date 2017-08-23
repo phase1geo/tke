@@ -28,5 +28,7 @@ The following table lists the available contextual menu functions available for 
 | Add Parent Directory | Adds the parent directory in the filesystem of the root directory.  The current root directory will no longer be a root directory (replaced by the parent directory) but will become a standard directory underneath the parent. |
 | Make Current Working Directory | Changes the current working directory to the root directory.  Selecting this item will make all file operations within the editor relative to the selected directory.  Additionally, the working directory information in the title bar will be updated to match this directory. |
 | Refresh Directory Files | Updates the sidebar contents for the root directory. |
+| Sort / By Name | Sorts the contents of the directory in alphabetical order. Removes any manually ordered information from the directory. |
+| Sort / Manually | Allows you to change the displayed order of the contents of the directory by dragging and dropping files within/into the directory. This will create a .tkesort file in the directory which TKE uses to remember the manual sort order between application launches. |
 
-In addition to these functions, plugins can also add functionality beneath these items in the menu.  See the Plugins and Plugin Development chapters for more information.
+In addition to these functions, plugins can also add functionality beneath these items in the menu.  See the Plugins and Plugin Development chapters for more information

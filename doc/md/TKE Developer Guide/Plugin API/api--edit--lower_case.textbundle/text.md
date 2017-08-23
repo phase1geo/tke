@@ -20,5 +20,7 @@ None.
 
 **Example**
 
-	# Make the current character lowercased
-	api::edit::lower_case $txt insert "insert+1c"
+```Tcl
+# Make the current character lowercased
+api::edit::lower_case $txt insert "insert+1c"
+```

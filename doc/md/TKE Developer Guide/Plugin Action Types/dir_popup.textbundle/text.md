@@ -6,10 +6,12 @@ The dir\_popup plugin type allows the user to add a new menu command to the popu
 
 #### Tcl Registration
 
-	{dir_popup command hierarchy do_procname handle_state_procname}
-	{dir_popup {checkbutton variable} hierarchy do_procname handle_state_procname}
-	{dir_popup {radiobutton variable value} hierarchy do_procname handle_state_procname}
-	{dir_popup separator hierarchy}
+```Tcl
+{dir_popup command hierarchy do_procname handle_state_procname}
+{dir_popup {checkbutton variable} hierarchy do_procname handle_state_procname}
+{dir_popup {radiobutton variable value} hierarchy do_procname handle_state_procname}
+{dir_popup separator hierarchy}
+```
 
 The “dir\_popup command” type creates a menu command that, when clicked, runs the procedure called _do\_procname_.  The _hierarchy_ value specifies the menu hierarchy (optional) and string text in the menu (joined with periods).  The hierarchy will be created if it does not exist.
 
@@ -27,9 +29,11 @@ The "do" procedure contains the code that will be executed when the user invokes
  
 Example:
 
-	proc foobar_dir_popup_do {} {
-	 puts "Foobar directory popup item has been clicked!"
-	}
+```Tcl
+proc foobar_dir_popup_do {} {
+  puts "Foobar directory popup item has been clicked!"
+}
+```
 
 **The "handle\_state" Procedure**
 
@@ -37,6 +41,8 @@ The "handle\_state" procedure is called when the popup menu is created (when a r
 
 Example:
 
-	proc foobar_dir_popup_handle_state {} {
-	 return $some_test_condition
-	}
+```Tcl
+proc foobar_dir_popup_handle_state {} {
+  return $some_test_condition
+}
+```

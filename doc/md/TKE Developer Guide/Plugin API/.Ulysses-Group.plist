@@ -566,6 +566,18 @@
 					<integer>20</integer>
 				</dict>
 			</dict>
+			<key>api--sidebar--set_info.textbundle</key>
+			<dict>
+				<key>lastModification</key>
+				<real>525162200.302975</real>
+				<key>version</key>
+				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>88</integer>
+					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
+					<integer>44</integer>
+				</dict>
+			</dict>
 			<key>api--tke_development.textbundle</key>
 			<dict>
 				<key>lastModification</key>
@@ -717,6 +729,9 @@
 			<string>api--sidebar--get_info.textbundle</string>
 		</array>
 		<array>
+			<string>api--sidebar--set_info.textbundle</string>
+		</array>
+		<array>
 			<string>api--plugin--save_variable.textbundle</string>
 		</array>
 		<array>
@@ -775,7 +790,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
-			<integer>81</integer>
+			<integer>89</integer>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 			<integer>44</integer>
 		</dict>

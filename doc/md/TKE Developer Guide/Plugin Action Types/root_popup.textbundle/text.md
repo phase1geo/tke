@@ -6,10 +6,12 @@ The root\_popup plugin type allows the user to add a new menu command to the pop
 
 #### Tcl Registration
 
-	{root_popup command hierarchy do_procname handle_state_procname}
-	{root_popup {checkbutton variable} hierarchy do_procname handle_state_procname}
-	{root_popup {radiobutton variable value} hierarchy do_procname handle_state_procname}
-	{root_popup separator hierarchy}
+```Tcl
+{root_popup command hierarchy do_procname handle_state_procname}
+{root_popup {checkbutton variable} hierarchy do_procname handle_state_procname}
+{root_popup {radiobutton variable value} hierarchy do_procname handle_state_procname}
+{root_popup separator hierarchy}
+```
 
 The “root\_popup command” type creates a menu command that, when clicked, runs the procedure called _do\_procname_.  The _hierarchy_ value specifies the menu hierarchy (optional) and string text in the menu (joined with periods).  The hierarchy will be created if it does not exist.
 
@@ -27,9 +29,11 @@ The "do" procedure contains the code that will be executed when the user invokes
  
 Example:
 
-	proc foobar_root_popup_do {} {
-	 puts "Foobar root popup item has been clicked!"
-	}
+```Tcl
+proc foobar_root_popup_do {} {
+  puts "Foobar root popup item has been clicked!"
+}
+```
 
 **The "handle\_state" Procedure**
 
@@ -37,6 +41,8 @@ The "handle\_state" procedure is called when the popup menu is created (when a r
 
 Example:
 
-	proc foobar_root_popup_handle_state {} {
-	 return $some_test_condition
-	}
+```Tcl
+proc foobar_root_popup_handle_state {} {
+  return $some_test_condition
+}
+```
