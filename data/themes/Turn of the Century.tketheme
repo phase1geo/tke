@@ -112,6 +112,35 @@ static char img_bits[] = {
 #define img_height 15
 static char img_bits[] = {
 0x1f, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1f};}}
+images,sidebar_info_close {dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} fg 1 msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
+images,sidebar_info_refresh {dat {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+} fg 1 msk {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+}}
+images,sidebar_info_show {dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+} fg 1 msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+}}
 images,sidebar_open {bg #ae9f94 fg gold dat {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
@@ -177,9 +206,12 @@ sidebar,-foreground {#ae9f94}
 sidebar,-highlightbackground {#333333}
 sidebar,-highlightcolor {#333333}
 sidebar,-highlightthickness {1}
+sidebar,-movebackground {black}
+sidebar,-moveforeground {#d6c4b6}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#ae9f94}
 sidebar,-selectforeground {#333333}
+sidebar_info,-active_background {#d6c4b6}
 sidebar_info,-background {#333333}
 sidebar_info,-title_foreground {#ae9f94}
 sidebar_info,-value_foreground {#ae9f94}

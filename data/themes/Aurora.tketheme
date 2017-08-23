@@ -208,6 +208,8 @@ sidebar,-foreground {#302e40}
 sidebar,-highlightbackground {#ececec}
 sidebar,-highlightcolor {#ececec}
 sidebar,-highlightthickness {1}
+sidebar,-movebackground {#302e40}
+sidebar,-moveforeground {#ececec}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#4e4b68}
 sidebar,-selectforeground {#ececec}

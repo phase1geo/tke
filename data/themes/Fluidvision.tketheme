@@ -33,6 +33,7 @@ images,pref_advanced {file advanced.gif dir install}
 images,pref_appearance {file appearance.gif dir install}
 images,pref_check {file check.gif dir install}
 images,pref_checked {file checked.gif dir install}
+images,pref_documentation {file documentation.gif dir install}
 images,pref_editor {file editor.gif dir install}
 images,pref_emmet {file emmet.gif dir install}
 images,pref_find {file find.gif dir install}
@@ -43,6 +44,32 @@ images,pref_sidebar {file sidebar.gif dir install}
 images,pref_snippets {file snippets.gif dir install}
 images,pref_unchecked {file unchecked.gif dir install}
 images,pref_view {file view.gif dir install}
+images,search_next {dat {#define right_width 18
+#define right_height 10
+static unsigned char right_bits[] = {
+   0xc0, 0x00, 0x00, 0xc0, 0x01, 0x00, 0xc0, 0x03, 0x00, 0xc0, 0x07, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0xc0, 0x07, 0x00, 0xc0, 0x03, 0x00,
+   0xc0, 0x01, 0x00, 0xc0, 0x00, 0x00};
+} fg 2 msk {#define right_width 18
+#define right_height 10
+static unsigned char right_bits[] = {
+   0xc0, 0x00, 0x00, 0xc0, 0x01, 0x00, 0xc0, 0x03, 0x00, 0xc0, 0x07, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0xc0, 0x07, 0x00, 0xc0, 0x03, 0x00,
+   0xc0, 0x01, 0x00, 0xc0, 0x00, 0x00};
+}}
+images,search_prev {dat {#define left_width 18
+#define left_height 10
+static unsigned char left_bits[] = {
+   0x00, 0x0c, 0x00, 0x00, 0x0e, 0x00, 0x00, 0x0f, 0x00, 0x80, 0x0f, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0x80, 0x0f, 0x00, 0x00, 0x0f, 0x00,
+   0x00, 0x0e, 0x00, 0x00, 0x0c, 0x00};
+} fg 2 msk {#define left_width 18
+#define left_height 10
+static unsigned char left_bits[] = {
+   0x00, 0x0c, 0x00, 0x00, 0x0e, 0x00, 0x00, 0x0f, 0x00, 0x80, 0x0f, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0x80, 0x0f, 0x00, 0x00, 0x0f, 0x00,
+   0x00, 0x0e, 0x00, 0x00, 0x0c, 0x00};
+}}
 images,sidebar_collapsed {dat {#define img_width 10
 #define img_height 10
 static char img_bits[] = {
@@ -91,6 +118,35 @@ static char img_bits[] = {
 #define img_height 15
 static char img_bits[] = {
 0x1f, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1f};}}
+images,sidebar_info_close {dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} fg 1 msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
+images,sidebar_info_refresh {dat {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+} fg 1 msk {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+}}
+images,sidebar_info_show {dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+} fg 1 msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+}}
 images,sidebar_open {dat {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
@@ -151,19 +207,27 @@ menus,-relief {flat}
 menus,-selectcolor {black}
 meta,syntax,embedded {#f4f4f4,v,16}
 sidebar,-background {#000000}
+sidebar,-dropcolor {green}
 sidebar,-foreground {#f4f4f4}
 sidebar,-highlightbackground {#000000}
 sidebar,-highlightcolor {#000000}
 sidebar,-highlightthickness {1}
+sidebar,-movebackground {#295a7e}
+sidebar,-moveforeground {#f4f4f4}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#cccccc}
 sidebar,-selectforeground {#000000}
+sidebar_info,-active_background {#f4f4f4}
+sidebar_info,-background {#000000}
+sidebar_info,-title_foreground {#cccccc}
+sidebar_info,-value_foreground {#cccccc}
 sidebar_scrollbar,-background {#000000}
 sidebar_scrollbar,-foreground {#cccccc}
 sidebar_scrollbar,-thickness {15}
 syntax,attention {red}
 syntax,background {#f4f4f4}
 syntax,border_highlight {gold}
+syntax,closed_fold {orange}
 syntax,comments {#386f90}
 syntax,cursor {#999999}
 syntax,difference_add {#ebffeb}
@@ -173,6 +237,7 @@ syntax,foreground {#000000}
 syntax,highlighter {yellow}
 syntax,keywords {#5b91e1}
 syntax,line_number {#cccccc}
+syntax,marker {orange}
 syntax,meta {#cccccc}
 syntax,miscellaneous1 {#1c3981}
 syntax,miscellaneous2 {#20498d}
@@ -180,6 +245,8 @@ syntax,miscellaneous3 {#c34f0a}
 syntax,numbers {#c5060b}
 syntax,precompile {#fc83fc}
 syntax,punctuation {#001d56}
+syntax,search_background {yellow}
+syntax,search_foreground {black}
 syntax,select_background {blue}
 syntax,select_foreground {white}
 syntax,strings {#26b31a}
@@ -187,6 +254,7 @@ syntax,warning_width {#cccccc}
 tabs,-activebackground {#f4f4f4}
 tabs,-activeforeground {#000000}
 tabs,-background {#cccccc}
+tabs,-bordercolor {#f4f4f4}
 tabs,-foreground {#000000}
 tabs,-height {25}
 tabs,-inactivebackground {#cccccc}
