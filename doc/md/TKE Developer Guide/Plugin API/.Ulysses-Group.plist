@@ -475,11 +475,13 @@
 			<key>api--preferences--widget.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779715.63493901</real>
+				<real>525144644.11137098</real>
 				<key>version</key>
 				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>81</integer>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>37</integer>
+					<integer>44</integer>
 				</dict>
 			</dict>
 			<key>api--register_launcher.textbundle</key>
@@ -567,11 +569,13 @@
 			<key>api--tke_development.textbundle</key>
 			<dict>
 				<key>lastModification</key>
-				<real>504779713.863415</real>
+				<real>525144130.688173</real>
 				<key>version</key>
 				<dict>
+					<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
+					<integer>80</integer>
 					<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
-					<integer>3</integer>
+					<integer>44</integer>
 				</dict>
 			</dict>
 			<key>api--unregister_launcher.textbundle</key>
@@ -771,7 +775,7 @@
 		<key>sheetClusters</key>
 		<dict>
 			<key>91501ec2481d0413936dd32f17740cb83a91366690ff5bdefe9336fcccb61606</key>
-			<integer>79</integer>
+			<integer>81</integer>
 			<key>dc4184af129b5cdff5d85a06d3d599a1e4167a013362fad6ed9b7032494fe238</key>
 			<integer>44</integer>
 		</dict>
