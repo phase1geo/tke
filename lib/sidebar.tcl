@@ -1723,12 +1723,9 @@ namespace eval sidebar {
 
     variable mover
 
-    # Get the ID of the target directory
-    set dir_id [expr {[get_info $id is_dir] ? $id : [$w parent $id]}]
-
-    # If the file is remote or the sortby type is not set to manual, we are not
+    # If the file is remote or the target is not a file and the sortby type is not set to manual, we are not
     # droppable
-    if {([$w set $id remote] ne "") || ([$w set $dir_id sortby] ne "manual")} {
+    if {([$w set $id remote] ne "") || (![get_info $id is_dir] && ([$w set [$w parent $id] sortby] ne "manual"))} {
       return 0
     }
 
@@ -1760,6 +1757,7 @@ namespace eval sidebar {
     if {![is_droppable $widgets(tl) $id]} {
       $widgets(tl) tag remove moveto
       place forget $widgets(insert)
+      spring_cancel
       return
     }
 
