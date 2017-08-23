@@ -16,10 +16,14 @@ None.
 
 **Example**
 
-	proc apply_diff {txt} {
-	  # Reset the widget for difference display
-	  $txt diff reset
-	  # Show that the second file had two lines added, starting
-	  # at line 5
-	  $txt diff add 5 2 
-	}
+```Tcl
+proc apply_diff {txt} {
+
+  # Reset the widget for difference display
+  $txt diff reset
+
+  # Show that the second file had two lines added, starting at line 5
+  $txt diff add 5 2
+   
+}
+```

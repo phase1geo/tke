@@ -20,5 +20,7 @@ None.
 
 **Example**
 
-	# Make the previous character uppercase
-	api::edit::upper_case $txt insert-1c insert
+```Tcl
+# Make the previous character uppercase
+api::edit::upper_case $txt insert-1c insert
+```

@@ -16,9 +16,11 @@ Take a look at the text\_binding example plugin in the plugin installation direc
 
 The creation and manipulation of Tk windows (widgets) by a plugin is actually handled within the master.  When the plugin interpreter needs to create a Tk widget, the widget is specified just as though the widget was being created in the plugin interpreter.  For example, to create a top-level window with a single button in the window, the plugin would perform the following:
 
-	toplevel .mywin
-	ttk::button .mywin.b -text “Click Me” -command { foo::click_me }
-	pack .mywin.b
+```Tcl
+toplevel .mywin
+ttk::button .mywin.b -text “Click Me” -command { foo::click_me }
+pack .mywin.b
+```
 
 In this example, a single button will be created in a new toplevel window with the text “Click Me”.  If the button is clicked, the procedure foo\::click\_me (which would exist in the plugin interpreter) would be executed.  Since all Tk commands are run in the master, a restricted set of the Tk command set is provided.  However, all widgets will be themed and configured to match the look and feel of the rest of the Tk window (and they will change to match the UI theme if the user changes the UI theme).  The following table lists the available Tk commands and any usage differences between the plugin Tk command set and the standard Tk command set.
 

@@ -40,5 +40,7 @@ None.
 
 **Example**
 
-	# Add <b></b> (bold) around the current HTML word
-	api::edit::format $txt bold
+```Tcl
+# Add <b></b> (bold) around the current HTML word
+api::edit::format $txt bold
+```

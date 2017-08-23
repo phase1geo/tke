@@ -20,5 +20,7 @@ None.
 
 **Example**
 
-	# Unindent the line above the current line
-	api::edit::unindent $txt [api::edit::get_index $txt up]
+```Tcl
+# Unindent the line above the current line
+api::edit::unindent $txt [api::edit::get_index $txt up]
+```

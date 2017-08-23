@@ -22,11 +22,13 @@ header.tkedat
 
 main.tcl
 
-	namespace eval foobar {
-	}
+```Tcl
+namespace eval foobar {
+}
 	
-	api::register foobar {
-	}
+api::register foobar {
+}
+```
 
 It is advisable for you to also create a file called README.md in the directory as well which should primarily contain plugin usage information. A user can display the contents of this file within TKE in a read-only buffer by using the Plugins / Show Installed… menu option and selecting one of the installed plugins from the resulting window.
 

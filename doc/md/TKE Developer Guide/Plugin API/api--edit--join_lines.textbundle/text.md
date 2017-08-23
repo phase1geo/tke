@@ -19,5 +19,7 @@ None.
 
 **Example**
 
-	# Join the next three lines to the current line
-	api::join_lines $txt 3
+```Tcl
+# Join the next three lines to the current line
+api::join_lines $txt 3
+```

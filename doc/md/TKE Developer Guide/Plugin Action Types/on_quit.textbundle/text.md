@@ -18,6 +18,8 @@ The "do" procedure contains the code that will be executed when the tkdv session
 
 Example:
 
-	proc foobar_on_quit_do {} {
-	 file delete -force foobar.txt
-	}
+```Tcl
+proc foobar_on_quit_do {} {
+  file delete -force foobar.txt
+}
+```

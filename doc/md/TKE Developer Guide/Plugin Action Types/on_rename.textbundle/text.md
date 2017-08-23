@@ -18,6 +18,8 @@ The “do” procedure is called when this event occurs.  Two arguments are pass
 
 The following example displays the original and new filenames.
 
-	proc foobar_do {old_name new_name} {
-	  puts “File $old_name has been renamed to $new_name”
-	}
+```Tcl
+proc foobar_do {old_name new_name} {
+  puts “File $old_name has been renamed to $new_name”
+}
+```

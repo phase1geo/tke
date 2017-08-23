@@ -8,16 +8,19 @@ The _description_ argument is a short description of the launcher command.  This
 
 Here is a brief example of how to use this command:
 
-	namespace eval foobar {
-	  ...
-	  proc launcher_command {} {
-	      puts "FOOBAR"
-	  }
-	  proc do {} {
-	      api::register_launcher "Print FOOBAR” foobar::launcher_command
-	  }
-	  ...
-	}
+```Tcl
+namespace eval foobar {
+  ...
+  proc launcher_command {} {
+      puts "FOOBAR"
+  }
+  
+  proc do {} {
+      api::register_launcher "Print FOOBAR” foobar::launcher_command
+  }
+  ...
+}
+```
 
 The above code will create a launcher that will print the string "FOOBAR" to standard output when invoked in the command launcher.
 

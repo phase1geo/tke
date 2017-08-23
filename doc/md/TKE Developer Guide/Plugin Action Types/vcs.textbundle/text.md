@@ -22,89 +22,103 @@ The “handles” procedure is given the full pathname of a file and must return
 
 The following example is from the vcs\_example plugin which represents how a Mercurial plugin would operate.
 
-	proc handles {fname} {
-	  return [expr {![catch hg status $fname]}]
-	}
+```Tcl
+proc handles {fname} {
+  return [expr {![catch hg status $fname]}]
+}
+```
 
 **The “versions” Procedure**
 
 The “versions” procedure will return a Tcl list containing the version identifiers that are associated with the filename that is passed to the procedure.
 
-	proc versions {fname} {
-	   set versions [list]
-	   if {![catch { exec hg log $fname } rc]} {
-	       foreach line [split $rc \n] {
-	           if {[regexp {changeset:\s+(\d+):} $line -> version]} {
-	               lappend versions $version
-	           }
-	       }
-	   }
-	   return $versions
-	}
+```Tcl
+proc versions {fname} {
+  set versions [list]
+  if {![catch { exec hg log $fname } rc]} {
+    foreach line [split $rc \n] {
+      if {[regexp {changeset:\s+(\d+):} $line -> version]} {
+        lappend versions $version
+      }
+    }
+  }
+  return $versions
+}
+```
 
 **The “get\_file\_cmd” Procedure**
 
 Given the specified filename and version identifier, returns the command to execute which will return the full contents of the given version of the given filename.
 
-	proc get_file_cmd {fname version} {
-	  return “|hg cat -r $version $fname”
-	}
+```Tcl
+proc get_file_cmd {fname version} {
+  return “|hg cat -r $version $fname”
+}
+```
 
 **The “get\_diff\_cmd” Procedure**
 
 Given the specified filename and two versions, return the difference command that will output a unified difference between the two versions of the given file.  The value of the v2 parameter can be a value of “Current” which should be interpreted as the version of the file that is currently being edited.
 
-	proc get_diff_cmd {fname v1 v2} {
-	  if {$v2 eq “Current”} {
-	     return “hg diff -r $v1 $fname”
-	  } else {
-	     return “hg diff -r $v1 -r $v2 $fname”
-	  }
-	}
+```Tcl
+proc get_diff_cmd {fname v1 v2} {
+  if {$v2 eq “Current”} {
+    return “hg diff -r $v1 $fname”
+  } else {
+    return “hg diff -r $v1 -r $v2 $fname”
+  }
+}
+```
 
 **The “find\_version” Procedure**
 
 The “find\_version” procedure will return the file version that contained the last change to the specified line number which is no later than the given version number.  Keep in mind that the value of the v2 input parameter may be a value of “Current” which should be interpreted to be the version of the file that is currently being edited.  If the change could not be found, return an empty string.
 
-	proc find_version {fname v2 linenum} {
-	  if {$v2 eq “Current”} {
-	     if {![catch { exec hg annotate $fname } rc]} {
-	        if {[regexp {^\s*(\d+):} [lindex [split $rc \n] [expr $linenum-1]] -> version]} {
-	           return $version
-	        }
-	     }
-	  } else {
-	     if {![catch { exec hg annotate -r $v2 $fname } rc]} {
-	        if {[regexp {^\s*(\d+):} [lindex [split $rc \n] [expr $linenum-1]] -> version]} {
-	           return $version
-	        }
-	     }
-	  }
-	  return “”
-	}
+```Tcl
+proc find_version {fname v2 linenum} {
+  if {$v2 eq “Current”} {
+    if {![catch { exec hg annotate $fname } rc]} {
+      if {[regexp {^\s*(\d+):} [lindex [split $rc \n] [expr $linenum-1]] -> version]} {
+        return $version
+      }
+    }
+  } else {
+    if {![catch { exec hg annotate -r $v2 $fname } rc]} {
+      if {[regexp {^\s*(\d+):} [lindex [split $rc \n] [expr $linenum-1]] -> version]} {
+        return $version
+      }
+    }
+  }
+  return “”
+}
+```
 
 **The "get\_current\_version" Procedure**
 
 The "get\_current\_version" procedure returns the version number of the given file that exists in the current workspace. This information is output to the file information panel in the sidebar. The procedure takes a single argument, the filename of the file to get the version of. It should return a single string value containing a file version. If a version could not be found, return the empty string.
 
-		proc get_current_version {fname} {
-	  if {![catch { exec hg parent $fname } rc]} {
-	    foreach line [split $rc \n] {
-	      if {[regexp {changeset:\s+(\d+):} $line -> version]} {
-	        return $version
-	      }
-	    }
-	  }
-	  return ""
-	}
+```Tcl
+proc get_current_version {fname} {
+  if {![catch { exec hg parent $fname } rc]} {
+    foreach line [split $rc \n] {
+      if {[regexp {changeset:\s+(\d+):} $line -> version]} {
+        return $version
+      }
+    }
+  }
+  return ""
+}
+```
 
 **The “get\_version\_log” Procedure**
 
 The “get\_version\_log” procedure returns the change descriptions for the specified version of the specified filename.  If no change description could be found, return the empty string.
 
-	proc get_version_log {fname version} {
-	  if {![catch { exec hg log -r $version $fname } rc]} {
-	     return $rc
-	  }
-	  return “”
-	}
+```Tcl
+proc get_version_log {fname version} {
+  if {![catch { exec hg log -r $version $fname } rc]} {
+    return $rc
+  }
+  return “”
+}
+```

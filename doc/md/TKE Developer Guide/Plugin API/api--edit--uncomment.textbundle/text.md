@@ -18,6 +18,8 @@ None.
 
 **Example**
 
-	Remove comment from current line
-	$txt tag add sel insert "insert lineend"
-	api::edit::uncomment $txt
+```Tcl
+# Remove comment from current line
+$txt tag add sel insert "insert lineend"
+api::edit::uncomment $txt
+```

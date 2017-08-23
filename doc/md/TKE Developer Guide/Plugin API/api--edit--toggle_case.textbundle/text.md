@@ -20,8 +20,10 @@ None.
 
 **Example**
 
-	# Toggle the case of the current sentence
-	set sentence_start [api::edit::get_index $txt sentence -dir prev]
-	set sentence_end [api::edit::get_index $txt sentence -dir next -startpos $sentence_start]
+```Tcl
+# Toggle the case of the current sentence
+set sentence_start [api::edit::get_index $txt sentence -dir prev]
+set sentence_end   [api::edit::get_index $txt sentence -dir next -startpos $sentence_start]
 	
-	api::edit::toggle_case $txt $sentence_start $sentence_end
+api::edit::toggle_case $txt $sentence_start $sentence_end
+```

@@ -785,9 +785,29 @@ namespace eval api {
     #                                     not been opened in the editor; otherwise,
     #                                     specifies the file index of the opened
     #                                     file.
+    #                   - \b is_dir     : True if the given sidebar item is a directory.
+    #                   - \b is_open    : True if the given sidebar item is in the
+    #                                     open state.
+    #                   - \b children   : Ordered list of children items of the given
+    #                                     sidebar directory.
     proc get_info {interp pname sb_index attr} {
 
       return [::sidebar::get_info $sb_index $attr]
+
+    }
+
+    ######################################################################
+    ## Changes the state of the specified sidebar item to the given value.
+    #
+    #  \param sb_index  Sidebar index of file/directory in the sidebar
+    #  \param attr      Attribute to set the value of.  Valid attribute names
+    #                   are:
+    #                   - \b open : If set to 1, causes the sidebar item to be
+    #                               opened; otherwise, if set to 0, causes the sidebar
+    #                               item to be closed.
+    proc set_info {interp pname sb_index attr value} {
+
+      ::sidebar::set_info $sb_index $attr $value
 
     }
 

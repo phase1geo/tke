@@ -24,18 +24,23 @@ The “do” procedure is called when the associated text bindtag is being initi
 
 The following example allows any changes to the cursor to invoke the procedure called “update\_line”.
 
-	namespace eval current_line {
-	 proc do_cline {btag} {
-		      bind $btag <<Modified>>    “after idle [list current_line::update_line %W]”
-		      bind $btag <ButtonPress-1> “after idle [list current_line::update_line %W]”
-		      bind $btag <B1-Motion>     “after idle [list current_line::update_line %W]”
-		      bind $btag <KeyPress>      “after idle [list current_line::update_line %W]”
-	 }
-	 proc update_line {txt} {
-		      …
-	 }
-	}
+```Tcl
+namespace eval current_line {
+
+  proc do_cline {btag} {
+    bind $btag <<Modified>>    “after idle [list current_line::update_line %W]”
+    bind $btag <ButtonPress-1> “after idle [list current_line::update_line %W]”
+    bind $btag <B1-Motion>     “after idle [list current_line::update_line %W]”
+    bind $btag <KeyPress>      “after idle [list current_line::update_line %W]”
+  }
+  
+  proc update_line {txt} {
+    …
+  }
+  
+}
 	
-	api::register current_line {
-	 {text_binding pretext cline all current_line::do_cline}
-	}
+api::register current_line {
+  {text_binding pretext cline all current_line::do_cline}
+}
+```

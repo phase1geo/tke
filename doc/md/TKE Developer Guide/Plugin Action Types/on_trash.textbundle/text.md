@@ -18,6 +18,8 @@ The “do” procedure is called when this event occurs.  One parameter is passe
 
 The following example displays the trashed filename.
 
-	proc foobar_do {name} {
-	  puts “File $name is being moved to the trash”
-	}
+```Tcl
+proc foobar_do {name} {
+  puts “File $name is being moved to the trash”
+}
+```

@@ -18,5 +18,7 @@ None.
 
 **Example**
 
-	Move the current row down
-	api::edit::bubble_down $txt
+```Tcl
+# Move the current row down
+api::edit::bubble_down $txt
+```

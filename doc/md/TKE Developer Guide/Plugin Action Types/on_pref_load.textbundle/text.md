@@ -16,9 +16,11 @@ The _do\_procedure_ is a Tcl procedure that will be called when TKE needs to get
 
 The “do” procedure must return a valid Tcl list which contains pairs of name and default value values (thus it must contain an even number of elements). The following example creates two preference values and specifies that their default values should be 0 and “red”:
 
-	proc do_pref_load {} {
-	  return {
-	     Enable 0
-	     Color  “red”
-	  }
-	}
+```Tcl
+proc do_pref_load {} {
+  return {
+    Enable 0
+    Color  “red”
+  }
+}
+```

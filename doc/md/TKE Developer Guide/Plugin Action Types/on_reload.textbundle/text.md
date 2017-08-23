@@ -17,16 +17,22 @@ The "store" procedure contains code that saves any necessary internal data/state
 
 Example:
 
-	proc foobar_on_reload_store {index} {
-	  variable some_data
-	  # Save the value of some_data to non-corruptible memory
-	  api::plugin::save_variable $index "some_data" $some_data
-	  # Save the geometry of a plugin window if it exists
-	  if {[winfo exists .mywindow]} {
-	     api::plugin::save_variable $index "mywindow_geometry" [winfo geometry .mywindow]
-	     destroy .mywindow
-	  }
-	}
+```Tcl
+proc foobar_on_reload_store {index} {
+
+  variable some_data
+  
+  # Save the value of some_data to non-corruptible memory
+  api::plugin::save_variable $index "some_data" $some_data
+  
+  # Save the geometry of a plugin window if it exists
+  if {[winfo exists .mywindow]} {
+    api::plugin::save_variable $index "mywindow_geometry" [winfo geometry .mywindow]
+    destroy .mywindow
+  }
+  
+}
+```
 
 In this example, we have a local namespace variable called "some\_data" that contains some information that we want to preserve during a plugin reload.  The example uses a user-available procedure within the plugin architecture called “api\::plugin\::save\_variable” which takes three arguments:  the unique identifier for the plugin (which is the value of the parameter called “index"), the string name of the value that we want to save, and the value to save.  Note that the value must be given in a "pass by value" format.  The example also saves the geometry of a plugin window if it currently exists.
 

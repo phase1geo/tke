@@ -18,11 +18,13 @@ The “do” procedure is called whenever focus is given to a text widget.  It i
 
 The following example displays the read-only status of the currently selected file.
 
-	proc focus_do {file_index} {
-	  if {[api::file::get_info $file_index readonly]} {
-		      puts “Selected file is readonly”
-	  } else {
-		      puts “Selected file is read/write”
-	  }
-	}
+```Tcl
+proc focus_do {file_index} {
+  if {[api::file::get_info $file_index readonly]} {
+    puts “Selected file is readonly”
+  } else {
+    puts “Selected file is read/write”
+  }
+}
+```
 

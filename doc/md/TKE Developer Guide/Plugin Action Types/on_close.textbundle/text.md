@@ -18,7 +18,9 @@ The “do” procedure is called after a file is updated in the UI.  It is passe
 
 The following example displays the name of the file that was updated.
 
-	proc foobar_do {file_index} {
-	 set fname [api::file::get_info $file_index fname]
-	 puts “File $fname has been updated”
-	}
+```Tcl
+proc foobar_do {file_index} {
+  set fname [api::file::get_info $file_index fname]
+  puts “File $fname has been updated”
+}
+```
