@@ -1,4 +1,4 @@
-swatch {#323232 #5a5a5a #ffffff}
+swatch {{#323232} #5a5a5a #ffffff}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -31,16 +31,45 @@ static char img_bits[] = {
 0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};} fg #323232}
 images,pref_advanced {file advanced.gif dir install}
 images,pref_appearance {file appearance.gif dir install}
+images,pref_check {file check.gif dir install}
 images,pref_checked {file checked.gif dir install}
+images,pref_documentation {file documentation.gif dir install}
 images,pref_editor {file editor.gif dir install}
 images,pref_emmet {file emmet.gif dir install}
 images,pref_find {file find.gif dir install}
 images,pref_general {file general.gif dir install}
+images,pref_plugins {file plugins.gif dir install}
 images,pref_shortcuts {file shortcut.gif dir install}
 images,pref_sidebar {file sidebar.gif dir install}
 images,pref_snippets {file snippets.gif dir install}
 images,pref_unchecked {file unchecked.gif dir install}
 images,pref_view {file view.gif dir install}
+images,search_next {dat {#define right_width 18
+#define right_height 10
+static unsigned char right_bits[] = {
+   0xc0, 0x00, 0x00, 0xc0, 0x01, 0x00, 0xc0, 0x03, 0x00, 0xc0, 0x07, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0xc0, 0x07, 0x00, 0xc0, 0x03, 0x00,
+   0xc0, 0x01, 0x00, 0xc0, 0x00, 0x00};
+} fg 2 msk {#define right_width 18
+#define right_height 10
+static unsigned char right_bits[] = {
+   0xc0, 0x00, 0x00, 0xc0, 0x01, 0x00, 0xc0, 0x03, 0x00, 0xc0, 0x07, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0xc0, 0x07, 0x00, 0xc0, 0x03, 0x00,
+   0xc0, 0x01, 0x00, 0xc0, 0x00, 0x00};
+}}
+images,search_prev {dat {#define left_width 18
+#define left_height 10
+static unsigned char left_bits[] = {
+   0x00, 0x0c, 0x00, 0x00, 0x0e, 0x00, 0x00, 0x0f, 0x00, 0x80, 0x0f, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0x80, 0x0f, 0x00, 0x00, 0x0f, 0x00,
+   0x00, 0x0e, 0x00, 0x00, 0x0c, 0x00};
+} fg 2 msk {#define left_width 18
+#define left_height 10
+static unsigned char left_bits[] = {
+   0x00, 0x0c, 0x00, 0x00, 0x0e, 0x00, 0x00, 0x0f, 0x00, 0x80, 0x0f, 0x00,
+   0xc0, 0x0f, 0x00, 0xc0, 0x0f, 0x00, 0x80, 0x0f, 0x00, 0x00, 0x0f, 0x00,
+   0x00, 0x0e, 0x00, 0x00, 0x0c, 0x00};
+}}
 images,sidebar_collapsed {bg black fg #323232 dat {#define img_width 10
 #define img_height 10
 static char img_bits[] = {
@@ -85,6 +114,35 @@ static char img_bits[] = {
 #define img_height 15
 static char img_bits[] = {
 0x1f, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1f};}}
+images,sidebar_info_close {dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} fg 1 msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
+images,sidebar_info_refresh {dat {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+} fg 1 msk {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+}}
+images,sidebar_info_show {dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+} fg 1 msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+}}
 images,sidebar_open {dat {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
@@ -130,6 +188,20 @@ static unsigned char lock_bits[] = {
 static unsigned char lock_bits[] = {
    0x3e, 0x7f, 0x63, 0x7f, 0x7f, 0x77, 0x77, 0x7f};
 }}
+launcher,-background {white}
+launcher,-bordercolor {grey90}
+launcher,-borderwidth {5}
+launcher,-foreground {black}
+launcher,-listbackground {white}
+launcher,-listforeground {black}
+launcher,-scrollcolor {grey90}
+launcher,-scrollwidth {10}
+launcher,-selectbackground {light blue}
+launcher,-selectforeground {black}
+launcher,-spacercolor {white}
+launcher,-spacerheight {5}
+launcher,-textbackground {#323232}
+launcher,-textforeground {#ffffff}
 menus,-activebackground {light blue}
 menus,-activeforeground {black}
 menus,-background {white}
@@ -140,20 +212,27 @@ menus,-selectcolor {black}
 meta,syntax,cursor {#d7e9c3,v,0}
 meta,ttk_style,active_color {#5a5a5a,v,22}
 sidebar,-background {#ffffff}
+sidebar,-dropcolor {green}
 sidebar,-foreground {#323232}
 sidebar,-highlightbackground {#ffffff}
 sidebar,-highlightcolor {#ffffff}
 sidebar,-highlightthickness {1}
+sidebar,-movebackground {#323232}
+sidebar,-moveforeground {white}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#5a5a5a}
 sidebar,-selectforeground {#ffffff}
-sidebar,-treestyle {aqua}
+sidebar_info,-active_background {#323232}
+sidebar_info,-background {#ffffff}
+sidebar_info,-title_foreground {#5a5a5a}
+sidebar_info,-value_foreground {#5a5a5a}
 sidebar_scrollbar,-background {#ffffff}
 sidebar_scrollbar,-foreground {#5a5a5a}
 sidebar_scrollbar,-thickness {15}
 syntax,attention {red}
 syntax,background {#323232}
 syntax,border_highlight {gold}
+syntax,closed_fold {orange}
 syntax,comments {#bc9458}
 syntax,cursor {#d7e9c3}
 syntax,difference_add {#325032}
@@ -163,6 +242,7 @@ syntax,foreground {#ffffff}
 syntax,highlighter {yellow}
 syntax,keywords {#cc7833}
 syntax,line_number {#5a5a5a}
+syntax,marker {orange}
 syntax,meta {#5a5a5a}
 syntax,miscellaneous1 {#b83426}
 syntax,miscellaneous2 {#b7dff8}
@@ -170,6 +250,8 @@ syntax,miscellaneous3 {#99cf50}
 syntax,numbers {#6c99bb}
 syntax,precompile {#d0d0ff}
 syntax,punctuation {#fedcc5}
+syntax,search_background {yellow}
+syntax,search_foreground {black}
 syntax,select_background {blue}
 syntax,select_foreground {white}
 syntax,strings {#8f9d6a}
@@ -177,6 +259,7 @@ syntax,warning_width {#5a5a5a}
 tabs,-activebackground {#323232}
 tabs,-activeforeground {#ffffff}
 tabs,-background {#5a5a5a}
+tabs,-bordercolor {#323232}
 tabs,-foreground {#ffffff}
 tabs,-height {25}
 tabs,-inactivebackground {#5a5a5a}

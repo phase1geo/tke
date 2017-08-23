@@ -1698,15 +1698,25 @@ namespace eval sidebar {
 
   ######################################################################
   # Returns 1 if the given id is within the currently selected rows.
-  proc within_selection {w id} {
+  proc is_droppable {w id} {
 
     variable mover
 
+    # Get the ID of the target directory
+    set dir_id [expr {[get_info $id is_dir] ? $id : [$w parent $id]}]
+
+    # If the file is remote or the sortby type is not set to manual, we are not
+    # droppable
+    if {([$w set $id remote] ne "") || ([$w set $dir_id sortby] ne "manual")} {
+      return 0
+    }
+
+    # Check to see if the target is within anything this is currently selected
     while {($id ne "") && ([lsearch $mover(rows) $id] == -1)} {
       set id [$w parent $id]
     }
 
-    return [expr {$id ne ""}]
+    return [expr {$id eq ""}]
 
   }
 
@@ -1726,7 +1736,7 @@ namespace eval sidebar {
 
     # If the current row exists within one of the selected files or the target
     # directory is a remote directory, don't allow the file/directory to be moved there.
-    if {[within_selection $widgets(tl) $id] || ([$widgets(tl) set $id remote] ne "")} {
+    if {![is_droppable $widgets(tl) $id]} {
       $widgets(tl) tag remove moveto
       place forget $widgets(insert)
       return

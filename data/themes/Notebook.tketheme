@@ -1,7 +1,4 @@
 swatch {{#beb69d} #96907c #000000 #15155b}
-sidebar_info,-background {#000000}
-sidebar_info,-title_foreground {#beb69d}
-sidebar_info,-value_foreground {#96907c}
 images,form_close {dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
@@ -121,6 +118,35 @@ static char img_bits[] = {
 #define img_height 15
 static char img_bits[] = {
 0x1f, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1f};}}
+images,sidebar_info_close {dat {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+} fg 1 msk {#define close_width 8
+#define close_height 8
+static unsigned char close_bits[] = {
+   0x44, 0xee, 0x7c, 0x38, 0x7c, 0xee, 0x44, 0x00};
+}}
+images,sidebar_info_refresh {dat {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+} fg 1 msk {#define refresh_width 8
+#define refresh_height 8
+static unsigned char refresh_bits[] = {
+   0x3c, 0x7c, 0xe0, 0xe2, 0x47, 0x07, 0x3e, 0x3c};
+}}
+images,sidebar_info_show {dat {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+} fg 1 msk {#define bullet_width 8
+#define bullet_height 8
+static char bullet_bits = {
+  0x00, 0x3c, 0x66, 0xdb, 0xdb, 0x66, 0x3c, 0x00
+}
+}}
 images,sidebar_open {bg #96907c fg gold dat {#define img_width 5
 #define img_height 15
 static char img_bits[] = {
@@ -187,6 +213,7 @@ menus,-disabledforeground {grey}
 menus,-foreground {black}
 menus,-relief {flat}
 menus,-selectcolor {black}
+meta,sidebar,-movebackground {#000000,v,45}
 meta,syntax,comments {#996633,v,48}
 meta,syntax,embedded {#beb69d,v,15}
 meta,ttk_style,active_color {#96907c,v,22}
@@ -196,9 +223,15 @@ sidebar,-foreground {#beb69d}
 sidebar,-highlightbackground {#000000}
 sidebar,-highlightcolor {#000000}
 sidebar,-highlightthickness {1}
+sidebar,-movebackground {#2d2d2d}
+sidebar,-moveforeground {#beb69d}
 sidebar,-relief {flat}
 sidebar,-selectbackground {#96907c}
 sidebar,-selectforeground {#000000}
+sidebar_info,-active_background {#beb69d}
+sidebar_info,-background {#000000}
+sidebar_info,-title_foreground {#beb69d}
+sidebar_info,-value_foreground {#96907c}
 sidebar_scrollbar,-background {#000000}
 sidebar_scrollbar,-foreground {#96907c}
 sidebar_scrollbar,-thickness {15}
