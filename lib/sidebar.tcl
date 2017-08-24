@@ -815,7 +815,7 @@ namespace eval sidebar {
 
     if {$sortby eq "manual"} {
       foreach row [$widgets(tl) selection] {
-        $widgets(tl) set $row sortby $sortby:$sortdir
+        $widgets(tl) set $row sortby $sortby
         update_directory $row
         write_sort_file $row 1
       }
@@ -1029,7 +1029,7 @@ namespace eval sidebar {
     $widgets(tl) delete [$widgets(tl) children $parent]
 
     # Get the folder contents and sort them
-    foreach name [order_files_dirs [$widgets(tl) set $parent name] $remote [lindex [split [$widgets(tl) set $parent sortby] :] 1]] {
+    foreach name [order_files_dirs [$widgets(tl) set $parent name] $remote {*}[split [$widgets(tl) set $parent sortby] :]] {
 
       lassign $name fname dir
 
@@ -1077,7 +1077,7 @@ namespace eval sidebar {
   ######################################################################
   # Gathers the given directory's contents and handles directory/file
   # ordering issues.
-  proc order_files_dirs {dir remote {order -increasing}} {
+  proc order_files_dirs {dir remote sortby {sortdir -increasing}} {
 
     set items       [list]
     set show_hidden [preferences::get Sidebar/ShowHiddenFiles]
@@ -1104,7 +1104,7 @@ namespace eval sidebar {
     # If a sortfile exists and is marked to be used, perform a manual sort
     if {($remote eq "") && ![catch { tkedat::read [file join $dir .tkesort] } rc]} {
       array set contents $rc
-      if {![info exists contents(use)] || $contents(use)} {
+      if {![info exists contents(use)] || $contents(use) || ($sortby eq "manual")} {
         set new_items   [lrepeat [llength $items] ""]
         set extra_items [list]
         foreach item $items {
@@ -1125,11 +1125,11 @@ namespace eval sidebar {
 
     # If we are supposed to sort with folders at the top, return that listing
     if {[preferences::get Sidebar/FoldersAtTop]} {
-      return [list {*}[lsort $order -unique -index 0 [lsearch -inline -all -index 1 $items 1]] \
-                   {*}[lsort $order -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
+      return [list {*}[lsort $sortdir -unique -index 0 [lsearch -inline -all -index 1 $items 1]] \
+                   {*}[lsort $sortdir -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
     }
 
-    return [lsort $order -unique -index 0 $items]
+    return [lsort $sortdir -unique -index 0 $items]
 
   }
 
