@@ -5,8 +5,6 @@ namespace eval publish_markdown {
   # Perform the publish operation.
   proc publish_do {} {
 
-    puts "In publish_do"
-
     foreach index [api::sidebar::get_selected_indices] {
 
       set str ""
@@ -14,13 +12,11 @@ namespace eval publish_markdown {
       # Collate the Markdown content into a single string
       publish_collate $index str
 
-      puts "str: $str"
-
       # Get the directory name
-      set dname [api::sidebar::get_info $index fname]
-
+      set dname [file tail [api::sidebar::get_info $index fname]]
+      
       # Write the contents to a file
-      if {![catch { open [file join ~ Desktop $dname.md] w } rc]} {
+      if {![catch { open [file join ~ Documents $dname.md] w } rc]} {
         puts $rc $str
         close $rc
       }
@@ -37,10 +33,10 @@ namespace eval publish_markdown {
     upvar $pstr str
 
     if {[api::sidebar::get_info $index is_dir]} {
-
+      
       # Open the directory if it isn't already
       if {[set was_opened [api::sidebar::get_info $index is_open]] == 0} {
-        api::set_info $index open 1
+        api::sidebar::set_info $index open 1
       }
 
       # Collate the children
@@ -51,7 +47,7 @@ namespace eval publish_markdown {
       # Close the directory contents when we are done with it if it was previously
       # closed.
       if {!$was_opened} {
-        api::set_info $index open 0
+        api::sidebar::set_info $index open 0
       }
 
     } else {

@@ -235,7 +235,7 @@ namespace eval sidebar {
 
     bind $widgets(tl) <<TreeviewSelect>>              [list sidebar::handle_selection]
     bind $widgets(tl) <<TreeviewOpen>>                [list sidebar::expand_directory]
-    bind $widgets(tl) <<TreeviewClose>>               [list sidebar::collapse]
+    bind $widgets(tl) <<TreeviewClose>>               [list sidebar::collapse_directory]
     bind $widgets(tl) <ButtonPress-1>                 "if {\[sidebar::handle_left_press %W %x %y\]} break"
     bind $widgets(tl) <ButtonRelease-1>               [list sidebar::handle_left_release %W %x %y]
     bind $widgets(tl) <Control-Button-1>              "sidebar::handle_control_left_click %W %x %y; break"
@@ -882,8 +882,12 @@ namespace eval sidebar {
 
     switch $attr {
       open {
-        if {[get_info $index is_dir]} {
-          $widgets(tl) item $index -open $value
+        if {[get_info $index is_dir] && ([$widgets(tl) item $index -open] != $value)} {
+          if {$value} {
+            expand_directory $index
+          } else {
+            collapse_directory $index
+          }
         }
       }
       default {
@@ -1226,12 +1230,13 @@ namespace eval sidebar {
 
   ######################################################################
   # Called when a row is collapsed in the table.
-  proc collapse {} {
+  proc collapse_directory {{row ""}} {
 
     variable widgets
 
-    # Get the row
-    set row [$widgets(tl) focus]
+    if {$row eq ""} {
+      set row [$widgets(tl) focus]
+    }
 
     # If the row contains a file, make sure that the state remains open
     if {[$widgets(tl) tag has f $row]} {
