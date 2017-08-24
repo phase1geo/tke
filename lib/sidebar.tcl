@@ -864,7 +864,9 @@ namespace eval sidebar {
       file_index { return [files::get_index [$widgets(tl) set $index name] [$widgets(tl) set $index remote]] }
       is_dir     { return [$widgets(tl) tag has d $index] }
       is_open    { return [$widgets(tl) item $index -open] }
+      parent     { return [$widgets(tl) parent $index] }
       children   { return [$widgets(tl) children $index] }
+      sortby     { return [lindex [split [$widgets(tl) set $index sortby] :] 0] }
       default    {
         return -code error "Illegal sidebar attribute specified ($attr)"
       }
