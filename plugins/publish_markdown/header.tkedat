@@ -1,0 +1,10 @@
+name           {publish_markdown}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+description    {
+  Sidebar directory plugin that collates all of the Markdown files in the entire directory tree and
+  either exports them to HTML or saves the collated content to the file system for further processing.
+}
