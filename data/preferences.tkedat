@@ -399,6 +399,12 @@
 
 {Sidebar/FoldersAtTop} {1}
 
+# If a directory is specified to be sorted manually, this option will determine
+# whether new unsorted files added to the directory are inserted at the top (1) of the
+# directory list or at the bottom (0).
+
+{Sidebar/ManualInsertNewAtTop} {0}
+
 # Specifies the amount of time (in milliseconds) after a key is entered when the
 # sidebar has keyboard focus before the current search string is forgotton.  If
 # the user enters a key prior to the timeout, the character will be appended to
