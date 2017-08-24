@@ -33,6 +33,7 @@ namespace eval sidebar {
   variable jump_after_id    ""
   variable select_id        ""
   variable sortby           "name"
+  variable sortdir          "-increasing"
   variable spring_id        ""
 
   array set widgets {}
@@ -515,8 +516,16 @@ namespace eval sidebar {
     variable widgets
     variable selection_anchor
     variable sortby
+    variable sortdir
 
-    set sortby [$widgets(tl) set $selection_anchor sortby]
+    if {[set sortby [$widgets(tl) set $selection_anchor sortby]] eq "manual"} {
+      $widgets(sortmenu) entryconfigure [msgcat::mc "Increasing"] -state disabled
+      $widgets(sortmenu) entryconfigure [msgcat::mc "Decreasing"] -state disabled
+    } else {
+      lassign [split $sortby :] sortby sortdir
+      $widgets(sortmenu) entryconfigure [msgcat::mc "Increasing"] -state normal
+      $widgets(sortmenu) entryconfigure [msgcat::mc "Decreasing"] -state normal
+    }
 
   }
 
@@ -785,9 +794,12 @@ namespace eval sidebar {
 
     variable widgets
 
-    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Name"]  -variable sidebar::sortby -value "name"   -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "By Name"]    -variable sidebar::sortby  -value "name"        -command [list sidebar::sort_updated]
     $widgets(sortmenu) add separator
-    $widgets(sortmenu) add radiobutton -label [msgcat::mc "Manually"] -variable sidebar::sortby -value "manual" -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "Increasing"] -variable sidebar::sortdir -value "-increasing" -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "Decreasing"] -variable sidebar::sortdir -value "-decreasing" -command [list sidebar::sort_updated]
+    $widgets(sortmenu) add separator
+    $widgets(sortmenu) add radiobutton -label [msgcat::mc "Manually"]   -variable sidebar::sortby  -value "manual"      -command [list sidebar::sort_updated]
 
   }
 
@@ -798,17 +810,19 @@ namespace eval sidebar {
 
     variable widgets
     variable sortby
+    variable sortdir
     variable selection_anchor
 
     if {$sortby eq "manual"} {
       foreach row [$widgets(tl) selection] {
-        $widgets(tl) set $row sortby $sortby
-        write_sort_file $row
+        $widgets(tl) set $row sortby $sortby:$sortdir
+        update_directory $row
+        write_sort_file $row 1
       }
     } else {
       foreach row [$widgets(tl) selection] {
-        $widgets(tl) set $row sortby $sortby
-        file delete -force [file join [$widgets(tl) set $row name] .tkesort]
+        write_sort_file $row 0
+        $widgets(tl) set $row sortby $sortby:$sortdir
         update_directory $row
       }
     }
@@ -1015,7 +1029,7 @@ namespace eval sidebar {
     $widgets(tl) delete [$widgets(tl) children $parent]
 
     # Get the folder contents and sort them
-    foreach name [order_files_dirs [$widgets(tl) set $parent name] $remote] {
+    foreach name [order_files_dirs [$widgets(tl) set $parent name] $remote [lindex [split [$widgets(tl) set $parent sortby] :] 1]] {
 
       lassign $name fname dir
 
@@ -1063,7 +1077,7 @@ namespace eval sidebar {
   ######################################################################
   # Gathers the given directory's contents and handles directory/file
   # ordering issues.
-  proc order_files_dirs {dir remote} {
+  proc order_files_dirs {dir remote {order -increasing}} {
 
     set items       [list]
     set show_hidden [preferences::get Sidebar/ShowHiddenFiles]
@@ -1082,29 +1096,40 @@ namespace eval sidebar {
           lappend items [list $fname [file isdirectory $fname]]
         }
       }
-      foreach fname [glob -nocomplain -directory $dir *] { lappend items [list $fname [file isdirectory $fname]]
+      foreach fname [glob -nocomplain -directory $dir *] {
+        lappend items [list $fname [file isdirectory $fname]]
       }
     }
 
+    # If a sortfile exists and is marked to be used, perform a manual sort
     if {($remote eq "") && ![catch { tkedat::read [file join $dir .tkesort] } rc]} {
       array set contents $rc
-      set new_items   [lrepeat [llength $items] ""]
-      set extra_items [list]
-      foreach item $items {
-        set tail [file tail [lindex $item 0]]
-        if {[set index [lsearch $contents(items) $tail]] != -1} {
-          lset new_items $index $item
-        } elseif {$tail ne ".tkesort"} {
-          lappend extra_items $item
+      if {![info exists contents(use)] || $contents(use)} {
+        set new_items   [lrepeat [llength $items] ""]
+        set extra_items [list]
+        foreach item $items {
+          set tail [file tail [lindex $item 0]]
+          if {[set index [lsearch $contents(items) $tail]] != -1} {
+            lset new_items $index $item
+          } elseif {$tail ne ".tkesort"} {
+            lappend extra_items $item
+          }
+        }
+        if {[preferences::get Sidebar/ManualInsertNewAtTop]} {
+          return [lmap item [concat $extra_items $new_items] {expr {($item ne "") ? $item : [continue]}}]
+        } else {
+          return [lmap item [concat $new_items $extra_items] {expr {($item ne "") ? $item : [continue]}}]
         }
       }
-      return [lmap item [concat $new_items $extra_items] {expr {($item ne "") ? $item : [continue]}}]
-    } elseif {[preferences::get Sidebar/FoldersAtTop]} {
-      return [list {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 1]] \
-                   {*}[lsort -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
-    } else {
-      return [lsort -unique -index 0 $items]
     }
+
+    # If we are supposed to sort with folders at the top, return that listing
+    if {[preferences::get Sidebar/FoldersAtTop]} {
+      return [list {*}[lsort $order -unique -index 0 [lsearch -inline -all -index 1 $items 1]] \
+                   {*}[lsort $order -unique -index 0 [lsearch -inline -all -index 1 $items 0]]]
+    }
+
+    return [lsort $order -unique -index 0 $items]
 
   }
 
@@ -2812,7 +2837,7 @@ namespace eval sidebar {
   # Writes the sorted contents of the given parent directory in the
   # sidebar to the parent's directory so that TKE will remember the
   # current sorting.
-  proc write_sort_file {parent} {
+  proc write_sort_file {parent {use 1}} {
 
     variable widgets
 
@@ -2825,11 +2850,8 @@ namespace eval sidebar {
       lappend items [file tail [$widgets(tl) set $child name]]
     }
 
-    # Set the file contents
-    set contents(items) $items
-
     # Write the file
-    catch { tkedat::write [file join $parentdir .tkesort] [list items $items] 0 }
+    catch { tkedat::write [file join $parentdir .tkesort] [list items $items use $use] 0 }
 
   }
 
@@ -2839,7 +2861,14 @@ namespace eval sidebar {
 
     variable widgets
 
-    return [expr {[file exists [file join $dir .tkesort]] ? "manual" : "name"}]
+    if {![catch { tkedat::read [file join $dir .tkesort] } rc]} {
+      array set contents $rc
+      if {![info exists contents(use)] || $contents(use)} {
+        return "manual"
+      }
+    }
+
+    return "name:-increasing"
 
   }
 
