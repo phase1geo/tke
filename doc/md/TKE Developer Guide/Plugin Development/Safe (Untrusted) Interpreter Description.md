@@ -1,6 +1,6 @@
 ### Safe (Untrusted) Interpreter Description
 
-Safe interpreters all their plugins to view and modify files within three directories:
+Safe interpreters allow their plugins to view and modify files within three directories:
 
 - \~/.tke/plugins/\_plugin\_name\_
 - _installation\_directory_/plugins/\_plugin\_name\_
