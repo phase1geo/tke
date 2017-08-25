@@ -1091,5 +1091,32 @@ namespace eval utils {
     return ""
 
   }
+  
+  ######################################################################
+  # Exports the given string to the given filename.
+  proc export {str lang fname} {
+    
+    # Perform any snippet substitutions
+    set str [snippets::substitute $str $lang]
+
+    if {$lang eq "Markdown"} {
+      set md [file join $::tke_dir lib ptwidgets1.2 common Markdown_1.0.1 Markdown.pl]
+      if {[file extension $fname] eq ".xhtml"} {
+        set str [exec echo $str | $md -]
+      } else {
+        set str [exec echo $str | $md --html4tags -]
+      }
+    }
+
+    # Open the file for writing
+    if {[catch { open $fname w } rc]} {
+      return -code error $rc
+    }
+
+    # Write and the close the file
+    puts $rc $str
+    close $rc
+    
+  }
 
 }
