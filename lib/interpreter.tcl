@@ -154,16 +154,16 @@ namespace eval interpreter {
     return $win
 
   }
-  
+
   ######################################################################
   # Called whenever the variable changes -- updates the matching variable
   # in the plugin interpreter.
   proc set_variable {pname varname name1 name2 op} {
-    
+
     variable interps
-    
+
     $interps($pname,interp) eval [list set $varname $interps($name2)]
-    
+
   }
 
   ######################################################################
@@ -220,7 +220,7 @@ namespace eval interpreter {
           default {
             foreach {opt value} $args {
               if {[lsearch $command_args $opt] != -1} {
-                set value "$interps($pname,interp) eval $value"
+                set value [list $interps($pname,interp) eval $value]
               }
               lappend retval $opt $value
             }
@@ -253,7 +253,7 @@ namespace eval interpreter {
           default {
             foreach {opt value} $args {
               if {[lsearch $command_args $opt] != -1} {
-                set value [list $interps($pname,interp) eval {*}$value]
+                set value [list $interps($pname,interp) eval $value]
               }
               lappend retval $opt $value
             }
@@ -267,7 +267,7 @@ namespace eval interpreter {
         set args [lassign $args retval]
         foreach {opt value} $args {
           if {[lsearch $command_args $opt] != -1} {
-            set value [list $interps($pname,interp) eval {*}$value]
+            set value [list $interps($pname,interp) eval $value]
           }
           lappend retval $opt $value
         }
