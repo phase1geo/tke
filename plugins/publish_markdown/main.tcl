@@ -15,18 +15,18 @@ namespace eval publish_markdown {
     variable html
     variable command
     variable output_dir
-    
+
     if {![create_dialog]} {
       return
     }
-    
+
     foreach index [set indices [api::sidebar::get_selected_indices]] {
 
       set str ""
 
       # Collate the Markdown content into a single string
       publish_collate $index str
-      
+
       # Write the contents to a temporary file
       if {($type ne "export") || !$html} {
         if {![catch { file tempfile tfile } rc]} {
@@ -42,24 +42,23 @@ namespace eval publish_markdown {
       switch $type {
         export {
           set dname  [file tail [api::sidebar::get_info $index fname]]
-          set output [file join $output_dir $dname.md]
           if {$html} {
-            if {[catch { api::export $str "Markdown" $output } rc]} {
+            if {[catch { api::export $str "Markdown" [file join $output_dir $dname.html] } rc]} {
               api::show_error "Unable to export file contents"
               api::log "rc: $rc"
               return
             }
           } else {
-            file rename -force $tfile $output
+            file rename -force $tfile [file join $output_dir $dname.md]
           }
         }
         openin {
-          exec -ignorestderr [string map [list MDFILE $tfile] $command] &
+          exec -ignorestderr {*}[string map [list MDFILE $tfile] $command] &
         }
       }
 
     }
-    
+
     if {[llength $indices] == 1} {
       api::show_info "Markdown file successfully published"
     } else {
@@ -106,6 +105,7 @@ namespace eval publish_markdown {
       ttk::radiobutton .pubmd.tf.write -text "Publish To: " -variable publish_markdown::type -value "export" -command {
         .pubmd.tf.browse configure -state normal
         .pubmd.tf.html   configure -state normal
+        .pubmd.tf.apps   configure -state disabled
         if {[.pubmd.tf.dir get] eq ""} {
           .pubmd.bf.publish configure -state disabled
         } else {
@@ -130,13 +130,14 @@ namespace eval publish_markdown {
     ttk::radiobutton .pubmd.tf.openin -text " Open In: "      -variable publish_markdown::type -value "openin" -command {
       .pubmd.tf.browse configure -state disabled
       .pubmd.tf.html   configure -state disabled
+      .pubmd.tf.apps   configure -state normal
       if {[.pubmd.tf.apps cget -text] eq "Choose Application"} {
         .pubmd.bf.publish configure -state disabled
       } else {
         .pubmd.bf.publish configure -state normal
       }
     }
-    ttk::menubutton .pubmd.tf.apps -text "Choose Application" -menu [menu .pubmd.tf.appsMenu -tearoff 0]
+    ttk::menubutton .pubmd.tf.apps -text "Choose Application" -menu [menu .pubmd.tf.appsMenu -tearoff 0] -state disabled
 
     grid rowconfigure    .pubmd.tf 0 -weight 1
     grid columnconfigure .pubmd.tf 1 -weight 1
@@ -144,7 +145,7 @@ namespace eval publish_markdown {
     grid .pubmd.tf.dir    -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid .pubmd.tf.browse -row 0 -column 2 -sticky news -padx 2 -pady 2
     grid .pubmd.tf.html   -row 1 -column 1 -sticky news -padx 2 -pady 2
-    
+
     if {[llength $apps] > 0} {
       grid .pubmd.tf.openin -row 2 -column 0 -sticky news -padx 2 -pady 2
       grid .pubmd.tf.apps   -row 2 -column 1 -sticky nws  -padx 2 -pady 2
@@ -164,7 +165,7 @@ namespace eval publish_markdown {
 
     pack .pubmd.tf -fill both -expand yes
     pack .pubmd.bf -fill x
-    
+
     # Create the openin menu
     foreach {app cmd} $apps {
       .pubmd.tf.appsMenu add command -label $app -command [list publish_markdown::set_app $app $cmd]
@@ -179,22 +180,22 @@ namespace eval publish_markdown {
     return $publish
 
   }
-  
+
   ######################################################################
   # Set the application command.
   proc set_app {app cmd} {
-    
+
     variable command
-    
+
     # Remember the command
     set command $cmd
-    
+
     # Set the application name in the menubutton
     .pubmd.tf.apps configure -text $app
-    
+
     # Enable the publish button
     .pubmd.bf.publish configure -state normal
-    
+
   }
 
   ######################################################################
