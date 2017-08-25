@@ -780,34 +780,15 @@ namespace eval menus {
       return
     }
 
-    # Get the export name file extension
-    set ext [file extension $fname]
-
     # Get the scrubbed contents of the current buffer
     set contents [gui::scrub_text $txt]
 
-    # Perform any snippet substitutions
-    set contents [snippets::substitute $contents [syntax::get_language $txt]]
-
-    if {$lang eq "Markdown"} {
-      set md [file join $::tke_dir lib ptwidgets1.2 common Markdown_1.0.1 Markdown.pl]
-      if {$ext eq ".xhtml"} {
-        set contents [exec echo $contents | $md -]
-      } else {
-        set contents [exec echo $contents | $md --html4tags -]
-      }
-    }
-
-    # Open the file for writing
-    if {[catch { open $fname w } rc]} {
-      gui::set_error_message [msgcat::mc "Unable to write export file"] $rc
+    # Export the string contents
+    if {[catch { utils::export $contents $lang $fname } rc]} {
+      gui::set_error_message [msgcat::mc "Unable to write export file"]
       return
     }
-
-    # Write and the close the file
-    puts $rc $contents
-    close $rc
-
+ 
     # Let the user know that the operation has completed
     gui::set_info_message [msgcat::mc "Export complete"]
 

@@ -12,28 +12,58 @@ namespace eval publish_markdown {
   proc publish_do {} {
 
     variable type
+    variable html
+    variable command
     variable output_dir
-
+    
     if {![create_dialog]} {
       return
     }
-
-    foreach index [api::sidebar::get_selected_indices] {
+    
+    foreach index [set indices [api::sidebar::get_selected_indices]] {
 
       set str ""
 
       # Collate the Markdown content into a single string
       publish_collate $index str
-
-      # Get the directory name
-      set dname [file tail [api::sidebar::get_info $index fname]]
-
-      # Write the contents to a file
-      if {![catch { open [file join ~ Documents $dname.md] w } rc]} {
-        puts $rc $str
-        close $rc
+      
+      # Write the contents to a temporary file
+      if {($type ne "export") || !$html} {
+        if {![catch { file tempfile tfile } rc]} {
+          puts $rc $str
+          close $rc
+        } else {
+          api::show_error "Unable to write file contents"
+          return
+        }
       }
 
+      # Generate the output file
+      switch $type {
+        export {
+          set dname  [file tail [api::sidebar::get_info $index fname]]
+          set output [file join $output_dir $dname.md]
+          if {$html} {
+            if {[catch { api::export $str "Markdown" $output } rc]} {
+              api::show_error "Unable to export file contents"
+              api::log "rc: $rc"
+              return
+            }
+          } else {
+            file rename -force $tfile $output
+          }
+        }
+        openin {
+          exec -ignorestderr [string map [list MDFILE $tfile] $command] &
+        }
+      }
+
+    }
+    
+    if {[llength $indices] == 1} {
+      api::show_info "Markdown file successfully published"
+    } else {
+      api::show_info "Markdown files successfully published"
     }
 
   }
@@ -53,47 +83,60 @@ namespace eval publish_markdown {
     set html       0
     set command    ""
     set output_dir ""
+    set apps       [list]
 
-    array set apps {}
+    switch -glob $::tcl_platform(os) {
+      Darwin {
+        set apps {
+          {Marked 2} {open -a {Marked 2.app} {MDFILE}}
+        }
+      }
+      Linux* {
+      }
+      *Win* {
+      }
+    }
 
     toplevel .pubmd
     wm title .pubmd "Publish Markdown"
     wm transient .pubmd .
 
     ttk::frame .pubmd.tf
-    ttk::radiobutton .pubmd.tf.write -text "Publish To: " -variable publish_markdown::type -value "export" -command {
-      .pubmd.tf.browse configure -state normal
-      .pubmd.tf.html   configure -state normal
+    if {[llength $apps] > 0} {
+      ttk::radiobutton .pubmd.tf.write -text "Publish To: " -variable publish_markdown::type -value "export" -command {
+        .pubmd.tf.browse configure -state normal
+        .pubmd.tf.html   configure -state normal
+        if {[.pubmd.tf.dir get] eq ""} {
+          .pubmd.bf.publish configure -state disabled
+        } else {
+          .pubmd.bf.publish configure -state normal
+        }
+      }
+    } else {
+      ttk::label .pubmd.tf.write -text " Publish To: "
     }
-    ttk::entry .pubmd.tf.dir -state disabled
+    ttk::entry  .pubmd.tf.dir -width 40 -state disabled
     ttk::button .pubmd.tf.browse -text "Browse" -command {
-      if {[set publish_markdown::output_dir [tk_chooseDirectory -parent .pubmd]] ne ""} {
+      set publish_markdown::output_dir [tk_chooseDirectory -parent .pubmd]
+      if {$publish_markdown::output_dir ne ""} {
         .pubmd.tf.dir configure -state normal
         .pubmd.tf.dir delete 0 end
         .pubmd.tf.dir insert end $publish_markdown::output_dir
         .pubmd.tf.dir configure -state disabled
+        .pubmd.bf.publish configure -state normal
       }
     }
-    ttk::checkbutton .pubmd.tf.html   -text "Export As HTML" -variable publish_markdown::html
-    ttk::radiobutton .pubmd.tf.openin -text "Open In: "      -variable publish_markdown::type -value "openin" -command {
+    ttk::checkbutton .pubmd.tf.html   -text " Export As HTML" -variable publish_markdown::html
+    ttk::radiobutton .pubmd.tf.openin -text " Open In: "      -variable publish_markdown::type -value "openin" -command {
       .pubmd.tf.browse configure -state disabled
       .pubmd.tf.html   configure -state disabled
-    }
-    ttk::menubutton .pubmd.tf.apps -menu [menu .pubmd.tf.appsMenu -tearoff 0]
-
-    switch -glob $tcl_platform(os) {
-      Darwin {
-        array set apps {
-          {Marked 2} {open -a {Marked 2.app} {MDFILE}}
-        }
-      }
-      Linux* {
-
-      }
-      *Win* {
-
+      if {[.pubmd.tf.apps cget -text] eq "Choose Application"} {
+        .pubmd.bf.publish configure -state disabled
+      } else {
+        .pubmd.bf.publish configure -state normal
       }
     }
+    ttk::menubutton .pubmd.tf.apps -text "Choose Application" -menu [menu .pubmd.tf.appsMenu -tearoff 0]
 
     grid rowconfigure    .pubmd.tf 0 -weight 1
     grid columnconfigure .pubmd.tf 1 -weight 1
@@ -101,14 +144,17 @@ namespace eval publish_markdown {
     grid .pubmd.tf.dir    -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid .pubmd.tf.browse -row 0 -column 2 -sticky news -padx 2 -pady 2
     grid .pubmd.tf.html   -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid .pubmd.tf.openin -row 2 -column 0 -sticky news -padx 2 -pady 2
-    grid .pubmd.tf.apps   -row 2 -column 1 -sticky nws  -padx 2 -pady 2
+    
+    if {[llength $apps] > 0} {
+      grid .pubmd.tf.openin -row 2 -column 0 -sticky news -padx 2 -pady 2
+      grid .pubmd.tf.apps   -row 2 -column 1 -sticky nws  -padx 2 -pady 2
+    }
 
     ttk::frame .pubmd.bf
     ttk::button .pubmd.bf.publish -text "Publish" -width 7 -command {
       set publish_markdown::publish 1
       destroy .pubmd
-    }
+    } -state disabled
     ttk::button .pubmd.bf.cancel -text "Cancel" -width 7 -command {
       destroy .pubmd
     }
@@ -118,15 +164,37 @@ namespace eval publish_markdown {
 
     pack .pubmd.tf -fill both -expand yes
     pack .pubmd.bf -fill x
+    
+    # Create the openin menu
+    foreach {app cmd} $apps {
+      .pubmd.tf.appsMenu add command -label $app -command [list publish_markdown::set_app $app $cmd]
+    }
 
     # Get the focus and wait for the window to be closed
-    tk::PlaceWindow widget .pubmd .
+    tk::PlaceWindow .pubmd widget .
     tk::SetFocusGrab .pubmd .pubmd.tf.export
     tkwait window .pubmd
     tk::RestoreFocusGrab .pubmd .pubmd.rf.export
 
     return $publish
 
+  }
+  
+  ######################################################################
+  # Set the application command.
+  proc set_app {app cmd} {
+    
+    variable command
+    
+    # Remember the command
+    set command $cmd
+    
+    # Set the application name in the menubutton
+    .pubmd.tf.apps configure -text $app
+    
+    # Enable the publish button
+    .pubmd.bf.publish configure -state normal
+    
   }
 
   ######################################################################

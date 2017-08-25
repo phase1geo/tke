@@ -126,12 +126,18 @@ namespace eval interpreter {
       -command -postcommand -validatecommand -invalidcommand -xscrollcommand \
       -yscrollcommand \
     ]
+    set variable_args [list -variable -textvariable]
 
     # Substitute any commands with the appropriate interpreter eval statement
     set opts [list]
     foreach {opt value} $args {
       if {[lsearch $command_args $opt] != -1} {
-        set value [list $interps($pname,interp) eval {*}$value]
+        set value [list $interps($pname,interp) eval $value]
+      }
+      if {[lsearch $variable_args $opt] != -1} {
+        set interps($pname,var,$value) [$interps($pname,interp) eval [list set $value]]
+        trace variable interpreter::interps($pname,var,$value) w [list interpreter::set_variable $pname $value]
+        set value "interpreter::interps($pname,var,$value)"
       }
       lappend opts $opt $value
     }
@@ -147,6 +153,17 @@ namespace eval interpreter {
 
     return $win
 
+  }
+  
+  ######################################################################
+  # Called whenever the variable changes -- updates the matching variable
+  # in the plugin interpreter.
+  proc set_variable {pname varname name1 name2 op} {
+    
+    variable interps
+    
+    $interps($pname,interp) eval [list set $varname $interps($name2)]
+    
   }
 
   ######################################################################
@@ -804,6 +821,7 @@ namespace eval interpreter {
     $interp alias api::color_difference             utils::color_difference
     $interp alias api::set_xscrollbar               utils::set_xscrollbar
     $interp alias api::set_yscrollbar               utils::set_yscrollbar
+    $interp alias api::export                       utils::export
 
     return $interp
 
