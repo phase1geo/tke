@@ -246,7 +246,7 @@ namespace eval publish_markdown {
       set fname [api::sidebar::get_info $index fname]
 
       # If the filename extension is a markdown file, continue
-      if {[lsearch {.md .mmd .markdown} [file extension $fname]] == -1} {
+      if {[lsearch [api::preferences::get_value extensions] [file extension $fname]] == -1} {
         return
       }
 
@@ -272,8 +272,12 @@ namespace eval publish_markdown {
   # Handle the state of the Publish Markdown option.
   proc publish_handle_state {} {
 
+    # Get the list of extensions to consider
+    set extensions [api::preferences::get_value extensions]
+
     foreach index [api::sidebar::get_selected_indices] {
-      if {[api::sidebar::get_info $index sortby] eq "manual"} {
+      if {([api::sidebar::get_info $index sortby] eq "manual") || \
+          (![api::sidebar::get_info $index is_dir] && ([lsearch $extensions [file extension [api::sidebar::get_info $index fname]]] != -1))} {
         return 1
       }
     }
@@ -289,6 +293,7 @@ namespace eval publish_markdown {
     return {
       "ignore"    ""
       "processor" ""
+      "extensions" {.md .markdown}
       "openin"    ""
     }
 
@@ -300,7 +305,8 @@ namespace eval publish_markdown {
 
     api::preferences::widget entry  $w "processor" "Processor Command"
     api::preferences::widget spacer $w
-    api::preferences::widget token  $w "ignore" "File Patterns to Ignore"
+    api::preferences::widget token  $w "extensions" "Markdown File Extensions"
+    api::preferences::widget token  $w "ignore"     "File Patterns to Ignore"
     api::preferences::widget spacer $w
     api::preferences::widget table  $w "openin" "'Open In' Applications" -columns [list 0 "AppName" 0 "Command"] -height 4
 
@@ -312,6 +318,7 @@ namespace eval publish_markdown {
 api::register publish_markdown {
   {root_popup command {Publish Markdown} publish_markdown::publish_do publish_markdown::publish_handle_state}
   {dir_popup  command {Publish Markdown} publish_markdown::publish_do publish_markdown::publish_handle_state}
+  {file_popup command {Publish Markdown} publish_markdown::publish_do publish_markdown::publish_handle_state}
   {on_pref_load publish_markdown::on_pref_load}
   {on_pref_ui   publish_markdown::on_pref_ui}
 }
