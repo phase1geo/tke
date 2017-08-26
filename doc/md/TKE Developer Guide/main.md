@@ -64,6 +64,7 @@
 /Plugin API/api--edit--unformat.md
 /Plugin API/api--edit--unindent.md
 /Plugin API/api--edit--upper_case.md
+/Plugin API/api--export.md
 /Plugin API/api--file--add_buffer.md
 /Plugin API/api--file--add_file.md
 /Plugin API/api--file--current_file_index.md
