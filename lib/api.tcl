@@ -882,6 +882,9 @@ namespace eval api {
           -to        ""
           -increment 1
           -ending    ""
+          -color     "white"
+          -height    4
+          -columns   ""
         }
         array set opts [lrange $args 2 end]
 
@@ -919,7 +922,7 @@ namespace eval api {
             return [pref_ui::make_token $win.te$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid)]
           }
           text {
-            return [pref_ui::make_text $win.t$index $msg Plugins/$pname/$pref $opts(-grid)]
+            return [pref_ui::make_text $win.t$index $msg Plugins/$pname/$pref $opts(-height) $opts(-grid)]
           }
           spinbox {
             if {$opts(-from) eq ""} {
@@ -929,6 +932,15 @@ namespace eval api {
               return -code error "Spinbox widget must have -to option set"
             }
             return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref $opts(-from) $opts(-to) $opts(-increment) $opts(-grid) -opts(-ending)]
+          }
+          colorpicker {
+            return [pref_ui::make_cp $win.cp$index $msg Plugins/$pname/$pref $opts(-color) $opts(-grid)]
+          }
+          table {
+            if {$opts(-columns) eq ""} {
+              return -code error "Table widget must have -columns option set"
+            }
+            return [pref_ui::make_table $win.tl$index $msg Plugins/$pname/$pref $opts(-columns) $opts(-height) $opts(-grid)]
           }
           default {
             return -error code "Unsupported preference widget type ($type)"
@@ -950,7 +962,7 @@ namespace eval api {
     # \param varname Name of the preference value to retrieve
     proc get_value {interp pname varname} {
 
-      return $preferences::prefs($varname)
+      return $preferences::prefs(Plugins/$pname/$varname)
 
     }
 

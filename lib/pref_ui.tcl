@@ -282,18 +282,23 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make a text field.
-  proc make_text {w msg varname {grid 0}} {
+  proc make_text {w msg varname height {grid 0}} {
 
     ttk::labelframe $w -text $msg
-    text            $w.t  -xscrollcommand [list utils::set_xscrollbar $w.hb] -yscrollcommand [list utils::set_yscrollbar $w.vb]
+    text            $w.t  -height $height -xscrollcommand [list utils::set_xscrollbar $w.hb] -yscrollcommand [list utils::set_yscrollbar $w.vb]
     ttk::scrollbar  $w.vb -orient vertical   -command [list $w.t yview]
     ttk::scrollbar  $w.hb -orient horizontal -command [list $w.t xview]
+    ttk::frame      $w.bf
+    pack [ttk::button $w.bf.save -style BButton -text [msgcat::mc "Save"] -command [list pref_ui::text_save $w.t $varname] -state disabled] -side left -padx 2 -pady 2
+
+    bind $w.t <<Modified>> [list pref_ui::text_modified $w]
 
     grid rowconfigure    $w 0 -weight 1
     grid columnconfigure $w 0 -weight 1
     grid $w.t  -row 0 -column 0 -sticky news
     grid $w.vb -row 0 -column 1 -sticky ns
     grid $w.hb -row 1 -column 0 -sticky ew
+    grid $w.bf -row 2 -column 0 -sticky ew
 
     # Register the widget for initialization
     register_initialization [list pref_ui::init_text $w.t $varname]
@@ -315,8 +320,40 @@ namespace eval pref_ui {
   # Initializes the given text widget.
   proc init_text {w varname} {
 
+    # Inser the text
     $w delete 1.0 end
     $w insert end $pref_ui::prefs($varname)
+
+    # Set the edit status to false
+    $w edit modified 0
+
+    # Redisable the Save button
+    [winfo parent $w].bf.save configure -state disabled
+
+  }
+
+  ######################################################################
+  # Make the Save button visible.
+  proc text_modified {w} {
+
+    if {[$w.t edit modified]} {
+      $w.bf.save configure -state normal
+    }
+
+  }
+
+  ######################################################################
+  # Causes the text to be saved.
+  proc text_save {w varname} {
+
+    # Clear the modified state
+    $w edit modified 0
+
+    # Disable the save button
+    [winfo parent $w].bf.save configure -state disabled
+
+    # Set the preferences
+    set pref_ui::prefs($varname) [$w get 1.0 end-1c]
 
   }
 
@@ -369,6 +406,58 @@ namespace eval pref_ui {
   proc handle_sb_change {w varname} {
 
     set pref_ui::prefs($varname) [$w get]
+
+  }
+
+  ######################################################################
+  # Create a color-picker widget.
+  proc make_cp {w msg varname start_color {grid 0}} {
+
+    # Create the bitmap containing the color
+    set img [image create bitmap -file [file join $::tke_dir lib images color_box.bmp] -background $start_color -foreground black]
+
+    # Create the widget
+    if {$grid} {
+      ttk::label ${w}l -text [format "%s: " $msg]
+      set win [ttk::button ${w}b -style BButton -image $img -command [list pref_ui::change_cp ${w}b $varname]]
+      set row [get_grid_row ${w}l]
+      grid ${w}l -row $row -column 0 -sticky news -padx 2 -pady 2
+      grid ${w}b -row $row -column 1 -sticky news -padx 2 -pady 2
+    } else {
+      pack [ttk::label $w] -fill x
+      pack [ttk::label $w.l -text [format "%s: " $msg]] -side left -padx 2 -pady 2
+      pack [set win [ttk::button $w.b -style BButton -image $img -command [list pref_ui::change_cp $w.b $varname]]] -side left -padx 2 -pady 2
+    }
+
+    # Add the widget to the initialize_callbacks array
+    register_initialization [list pref_ui::init_cp $win $varname]
+
+    # Register the widget
+    register $win $msg $varname
+
+    return $win
+
+  }
+
+  ######################################################################
+  # Initializes the given color picker widget.
+  proc init_cp {w varname} {
+
+    [$w cget -image] configure -background $pref_ui::prefs($varname)
+
+  }
+
+  ######################################################################
+  # Allows the user to change the color for the color picket widget.
+  proc change_cp {w varname} {
+
+    # Get the default color
+    set color [tk_chooseColor -initialcolor [[$w cget -image] cget -background] -parent .prefwin -title [msgcat::mc "Choose Color"]]
+
+    if {$color ne ""} {
+      set pref_ui::prefs($varname) $color
+      init_cp $w $varname
+    }
 
   }
 
@@ -457,6 +546,119 @@ namespace eval pref_ui {
 
     # Set the filepicker state
     init_fp $win $varname
+
+  }
+
+  ######################################################################
+  # Creates a simple table widget that allows the user to add, delete
+  # and edit table cells that contain text.
+  proc make_table {w msg varname columns height {grid 0}} {
+
+    ttk::labelframe $w -text $msg
+    set win [tablelist::tablelist $w.tl -columns $columns \
+      -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
+      -height $height \
+      -editendcommand [list pref_ui::table_edit_end_command $varname] \
+      -xscrollcommand [list utils::set_xscrollbar $w.hb] \
+      -yscrollcommand [list utils::set_yscrollbar $w.vb]]
+    ttk::scrollbar $w.vb -orient vertical   -command [list $w.tl yview]
+    ttk::scrollbar $w.hb -orient horizontal -command [list $w.tl xview]
+    ttk::frame $w.bf
+    pack [ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::table_add $win]]                            -side left -padx 2 -pady 2
+    pack [ttk::button $w.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::table_delete $win $varname] -state disabled] -side left -padx 2 -pady 2
+
+    utils::tablelist_configure $win
+
+    for {set i 0} {$i < [$win columncount]} {incr i} {
+      $win columnconfigure $i -editable 1 -stretchable 1
+    }
+
+    bind $win <<TablelistSelect>> [list pref_ui::table_selected $win]
+
+    grid rowconfigure    $w 0 -weight 1
+    grid columnconfigure $w 0 -weight 1
+    grid $w.tl -row 0 -column 0 -sticky news
+    grid $w.vb -row 0 -column 1 -sticky ns
+    grid $w.hb -row 1 -column 0 -sticky ew
+    grid $w.bf -row 2 -column 0 -sticky ew -columnspan 2
+
+    if {$grid} {
+      grid $w -row [get_grid_row $w] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
+    } else {
+      pack $w -fill both -expand yes -padx 2 -pady 2
+    }
+
+    # Add the widget to the initialize_callbacks array
+    register_initialization [list pref_ui::init_table $win $varname]
+
+    # Register the widget
+    register $win $msg $varname
+
+    return $win
+
+  }
+
+  ######################################################################
+  # Initialize the table
+  proc init_table {w varname} {
+
+    # Clear the table
+    $w delete 0 end
+
+    # Insert the contents into the table
+    foreach row $pref_ui::prefs($varname) {
+      $w insert end $row
+    }
+
+  }
+
+  ######################################################################
+  # Adds a new entry to the table and makes the first cell editable.
+  proc table_add {w} {
+
+    # Add the entry to the table at the end
+    set row [$w insert end [lrepeat [$w columncount] ""]]
+
+    # Make the first cell editable
+    $w editcell $row,0
+
+  }
+
+  ######################################################################
+  # Deletes the currently selected table row.
+  proc table_delete {w varname} {
+
+    # Delete the currently selected row
+    $w delete [$w curselection]
+
+    # Disable the delete button
+    [winfo parent $w].bf.del configure -state disabled
+
+    # Save the preferences
+    set pref_ui::prefs($varname) [$w get 0 end]
+
+  }
+
+  ######################################################################
+  # Called when the table is selected.
+  proc table_selected {w} {
+
+    [winfo parent $w].bf.del configure -state normal
+
+  }
+
+  ######################################################################
+  # Called when a table cell has been edited.
+  proc table_edit_end_command {varname w row col value} {
+
+    # Get the table contents
+    set contents [$w get 0 end]
+    lset contents $row $col $value
+
+    # Save the changes to the preferences
+    set pref_ui::prefs($varname) $contents
+
+    return $value
 
   }
 
