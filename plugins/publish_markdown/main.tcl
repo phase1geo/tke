@@ -2,10 +2,11 @@
 namespace eval publish_markdown {
 
   variable publish
-  variable type
-  variable html
-  variable command
-  variable output_dir
+  variable type       "export"
+  variable html       0
+  variable appname    ""
+  variable command    ""
+  variable output_dir ""
 
   ######################################################################
   # Perform the publish operation.
@@ -20,6 +21,9 @@ namespace eval publish_markdown {
       return
     }
 
+    # Get the processor
+    set processor [string trim [api::preferences::get_value "processor"]]
+
     foreach index [set indices [api::sidebar::get_selected_indices]] {
 
       set str ""
@@ -28,12 +32,12 @@ namespace eval publish_markdown {
       publish_collate $index str
 
       # Write the contents to a temporary file
-      if {($type ne "export") || !$html} {
+      if {($type ne "export") || !$html || ($processor ne "")} {
         if {![catch { file tempfile tfile } rc]} {
           puts $rc $str
           close $rc
         } else {
-          api::show_error "Unable to write file contents"
+          api::show_error "Unable to write file contents" $rc
           return
         }
       }
@@ -43,10 +47,16 @@ namespace eval publish_markdown {
         export {
           set dname  [file tail [api::sidebar::get_info $index fname]]
           if {$html} {
-            if {[catch { api::export $str "Markdown" [file join $output_dir $dname.html] } rc]} {
-              api::show_error "Unable to export file contents"
-              api::log "rc: $rc"
-              return
+            if {$processor ne ""} {
+              if {[catch { exec -ignorestderr {*}[string map [list MDFILE $tfile] $processor] } rc]} {
+                api::show_error "Unable to export file contents" $rc
+                return
+              }
+            } else{
+              if {[catch { api::export $str "Markdown" [file join $output_dir $dname.html] } rc]} {
+                api::show_error "Unable to export file contents" $rc
+                return
+              }
             }
           } else {
             file rename -force $tfile [file join $output_dir $dname.md]
@@ -74,27 +84,22 @@ namespace eval publish_markdown {
     variable publish
     variable type
     variable html
+    variable appname
     variable command
     variable output_dir
 
-    set publish    0
-    set type       "export"
-    set html       0
-    set command    ""
-    set output_dir ""
-    set apps       [list]
+    set publish 0
+    set apps    [list]
 
     switch -glob $::tcl_platform(os) {
       Darwin {
         set apps {
-          {Marked 2} {open -a {Marked 2.app} {MDFILE}}
+          {{Marked 2} {open -a {Marked 2.app} {MDFILE}}}
         }
       }
-      Linux* {
-      }
-      *Win* {
-      }
     }
+
+    lappend apps {*}[api::preferences::get_value "openin"]
 
     toplevel .pubmd
     wm title .pubmd "Publish Markdown"
@@ -167,8 +172,18 @@ namespace eval publish_markdown {
     pack .pubmd.bf -fill x
 
     # Create the openin menu
-    foreach {app cmd} $apps {
-      .pubmd.tf.appsMenu add command -label $app -command [list publish_markdown::set_app $app $cmd]
+    foreach appcmd $apps {
+      .pubmd.tf.appsMenu add command -label [lindex $appcmd 0] -command [list publish_markdown::set_app {*}$appcmd]
+    }
+
+    # Use the last settings
+    if {$type eq "openin"} {
+      if {$appname ne ""} {
+        .pubmd.tf.browse configure -state disabled
+        .pubmd.tf.html   configure -state disabled
+        .pubmd.tf.apps   configure -state normal
+        set_app $appname $command
+      }
     }
 
     # Get the focus and wait for the window to be closed
@@ -185,9 +200,11 @@ namespace eval publish_markdown {
   # Set the application command.
   proc set_app {app cmd} {
 
+    variable appname
     variable command
 
     # Remember the command
+    set appname $app
     set command $cmd
 
     # Set the application name in the menubutton
@@ -225,23 +242,29 @@ namespace eval publish_markdown {
 
     } else {
 
-      if {[lsearch {.md .mmd .markdown} [file extension [set fname [api::sidebar::get_info $index fname]]]] != -1} {
-        if {![catch { open $fname r } rc]} {
-          append str [string trim [read $rc]]
-          append str "\n\n"
-          close $rc
+      # Get the filename
+      set fname [api::sidebar::get_info $index fname]
+
+      # If the filename extension is a markdown file, continue
+      if {[lsearch {.md .mmd .markdown} [file extension $fname]] == -1} {
+        return
+      }
+
+      # If the filename matches an ignore item, don't include it
+      foreach ignore [api::preferences::get_value "ignore"] {
+        if {[string match *$ignore $fname]} {
+          return
         }
       }
 
+      # Append the file contents to the string
+      if {![catch { open $fname r } rc]} {
+        append str [string trim [read $rc]]
+        append str "\n\n"
+        close $rc
+      }
+
     }
-
-  }
-
-  ######################################################################
-  # Open the Markdown output in Marked 2.
-  proc open_in_marked2 {fname} {
-
-    exec -ignorestderr open -a {Marked 2.app} $fname &
 
   }
 
@@ -259,10 +282,36 @@ namespace eval publish_markdown {
 
   }
 
+  ######################################################################
+  # Lists the preferences that are stored for this plugin.
+  proc on_pref_load {} {
+
+    return {
+      "ignore"    ""
+      "processor" ""
+      "openin"    ""
+    }
+
+  }
+
+  ######################################################################
+  # Setup the preferences window.
+  proc on_pref_ui {w} {
+
+    api::preferences::widget entry  $w "processor" "Processor Command"
+    api::preferences::widget spacer $w
+    api::preferences::widget token  $w "ignore" "File Patterns to Ignore"
+    api::preferences::widget spacer $w
+    api::preferences::widget table  $w "openin" "'Open In' Applications" -columns [list 0 "AppName" 0 "Command"] -height 4
+
+  }
+
 }
 
 # Register all plugin actions
 api::register publish_markdown {
   {root_popup command {Publish Markdown} publish_markdown::publish_do publish_markdown::publish_handle_state}
   {dir_popup  command {Publish Markdown} publish_markdown::publish_do publish_markdown::publish_handle_state}
+  {on_pref_load publish_markdown::on_pref_load}
+  {on_pref_ui   publish_markdown::on_pref_ui}
 }

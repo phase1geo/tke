@@ -1415,7 +1415,7 @@ namespace eval sidebar {
     }
 
     # If we are moving rows, handle them now
-    if {$mover(detached)} {
+    if {[info exists mover(detached)] && $mover(detached)} {
 
       if {[$widgets(tl) tag has moveto $row]} {
 
@@ -1489,7 +1489,7 @@ namespace eval sidebar {
     } else {
 
       # Select the row if we did not move the selection
-      if {[lsearch $mover(rows) $row] != -1} {
+      if {[info exists mover(rows)] && ([lsearch $mover(rows) $row] != -1)} {
         $widgets(tl) selection set $row
       }
 
