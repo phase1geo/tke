@@ -255,6 +255,38 @@ msgcat::mcmset ja {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset ja {
+
+  "Attributes"
+  "属性"
+
+  "Close Panel"
+  "パネルを閉じる"
+
+  "Counts"
+  "伯爵"
+
+  "Modified"
+  "変更日時"
+
+  "No"
+  "いいえ"
+
+  "Read Time"
+  "読み取り時間"
+
+  "Update Info"
+  "更新情報"
+
+  "Yes"
+  "はい"
+
+  "value copied to clipboard"
+  "値をクリップボードにコピー"
+
+}
+
 # markers.tcl
 msgcat::mcmset ja {
 
@@ -713,9 +745,6 @@ msgcat::mcmset ja {
   "Hide Sidebar"
   "隠すサイドバー"
 
-  "Hide Sidebar Info Panel"
-  "サイドバーを隠す(S)"
-
   "Hide Status Bar"
   "隠すステータスバー"
 
@@ -739,9 +768,6 @@ msgcat::mcmset ja {
 
   "Hide sidebar"
   "サイドバーを非表示します。"
-
-  "Hide sidebar information panel"
-  "情報パネル"
 
   "Hide status bar"
   "ステータス バーを非表示します。"
@@ -1364,9 +1390,6 @@ msgcat::mcmset ja {
   "Show Sidebar"
   "表示するサイドバー"
 
-  "Show Sidebar Info Panel"
-  "サイドバーを表示(S)"
-
   "Show Status Bar"
   "表示ステータスバー"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset ja {
 
   "Show selected line change"
   "選択した行の変更を表示します。"
-
-  "Show sidebar information panel"
-  "サイドバーの情報パネルを表示します。"
 
   "Smart Indent"
   "スマート インデント"
@@ -1680,6 +1700,9 @@ msgcat::mcmset ja {
   "Buffer"
   "バッファー"
 
+  "Choose Color"
+  "色を選択"
+
   "Choose Logfile Directory"
   "ログ ファイルのディレクトリを選択します。"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset ja {
 
   "Info Panel"
   "[情報] パネル"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "手動で並べ替えられたディレクトリの先頭にソートされていないファイルを挿入します。"
 
   "Insertion cursor width"
   "挿入カーソルの幅"
@@ -1991,9 +2017,6 @@ msgcat::mcmset ja {
 
   "Show hidden files"
   "表示 隠し"
-
-  "Show information panel when file/directory is selected"
-  "情報パネルを表示するファイル/ディレクトリを選択した場合"
 
   "Show language submenu"
   "表示言語の選択]"
@@ -2346,8 +2369,8 @@ msgcat::mcmset ja {
   "Add Parent Directory"
   "親ディレクトリ"
 
-  "Attributes"
-  "属性"
+  "By Name"
+  "名前で"
 
   "Close Directory Files"
   "閉じるディレクトリファイル"
@@ -2355,8 +2378,8 @@ msgcat::mcmset ja {
   "Copy Pathname"
   "コピーのパス名"
 
-  "Counts"
-  "伯爵"
+  "Decreasing"
+  "単調写像"
 
   "Delete directories?"
   "ディレクトリを削除しますか。"
@@ -2385,15 +2408,6 @@ msgcat::mcmset ja {
   "Hide Directory Files"
   "ディレクトリのファイルを隠す"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "パネルを閉じるのサイドバー情報パネルに表示されるイメージ"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "コンテンツ更新のサイドバー情報パネルに表示されるイメージ"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "サイドバーに表示ファイルのサイドバー情報パネルに表示されるイメージ"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "折りたたまれているディレクトリを指定するためにサイドバーに表示されるイメージ"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset ja {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "サイドバーに表示される画像はファイルが現在編集バッファで開かれることを示します。"
 
+  "Increasing"
+  "増加"
+
   "Make Current Working Directory"
   "現在の作業ディレクトリを作る"
 
-  "Modified"
-  "変更日時"
+  "Manually"
+  "手動"
 
   "New Directory"
   "新しいディレクトリ"
@@ -2427,14 +2444,8 @@ msgcat::mcmset ja {
   "New File From Template"
   "テンプレートから新しいファイル"
 
-  "No"
-  "いいえ"
-
   "Open Directory Files"
   "オープンディレクトリのファイル"
-
-  "Read Time"
-  "読み取り時間"
 
   "Refresh Directory Files"
   "リフレッシュディレクトリファイル"
@@ -2457,17 +2468,11 @@ msgcat::mcmset ja {
   "Show Info"
   "説明を表示"
 
+  "Sort"
+  "ソート"
+
   "Unable to duplicate file"
   "重複するファイルを開けません"
-
-  "Update Info"
-  "更新情報"
-
-  "Yes"
-  "はい"
-
-  "value copied to clipboard"
-  "値をクリップボードにコピー"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset ja {
   "Background color of list items when not selected"
   "選択されていない場合、リスト アイテムの背景色"
 
+  "Background color of move bar."
+  "移動バーの背景色。"
+
   "Background color of selection in command launcher"
   "コマンド起動ツールの選択の背景色"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset ja {
 
   "Foreground color of list items when not selected"
   "選択されていない場合、リスト アイテムの前景の色"
+
+  "Foreground color of move bar."
+  "移動バーの前景色。"
 
   "Foreground color of selection in command launcher"
   "コマンド起動ツールの選択の前景色"
@@ -3168,6 +3179,15 @@ msgcat::mcmset ja {
 
   "Find previous occurrence"
   "前の出現箇所を見つける"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "パネルを閉じるのサイドバー情報パネルに表示されるイメージ"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "コンテンツ更新のサイドバー情報パネルに表示されるイメージ"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "サイドバーに表示ファイルのサイドバー情報パネルに表示されるイメージ"
 
   "Insert"
   "挿入"

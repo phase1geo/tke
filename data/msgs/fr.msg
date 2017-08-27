@@ -255,6 +255,38 @@ msgcat::mcmset fr {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset fr {
+
+  "Attributes"
+  "Attributs"
+
+  "Close Panel"
+  "Choisir un panel"
+
+  "Counts"
+  "Comptes"
+
+  "Modified"
+  "Modifié"
+
+  "No"
+  "Non"
+
+  "Read Time"
+  "Heure de lecture"
+
+  "Update Info"
+  "Mettre à jour votre profil"
+
+  "Yes"
+  "Oui"
+
+  "value copied to clipboard"
+  "valeur copiée dans le presse-papiers"
+
+}
+
 # markers.tcl
 msgcat::mcmset fr {
 
@@ -713,9 +745,6 @@ msgcat::mcmset fr {
   "Hide Sidebar"
   "Cacher la barre latérale"
 
-  "Hide Sidebar Info Panel"
-  "Masquer le panneau informations Sidebar"
-
   "Hide Status Bar"
   "Masquer la barre d’état"
 
@@ -739,9 +768,6 @@ msgcat::mcmset fr {
 
   "Hide sidebar"
   "Masquer la barre latérale"
-
-  "Hide sidebar information panel"
-  "Masquer le panneau informations sur le panneau latéral"
 
   "Hide status bar"
   "Masquer la barre d’état"
@@ -1364,9 +1390,6 @@ msgcat::mcmset fr {
   "Show Sidebar"
   "Afficher la barre latérale"
 
-  "Show Sidebar Info Panel"
-  "Afficher le panneau Info Sidebar"
-
   "Show Status Bar"
   "Barre d'état"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset fr {
 
   "Show selected line change"
   "Montrer le changement de la ligne sélectionnée"
-
-  "Show sidebar information panel"
-  "Panneau d’information voir la barre latérale"
 
   "Smart Indent"
   "Smart tiret"
@@ -1680,6 +1700,9 @@ msgcat::mcmset fr {
   "Buffer"
   "Buffer"
 
+  "Choose Color"
+  "Choisissez la couleur"
+
   "Choose Logfile Directory"
   "Choisir le répertoire du fichier journal"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset fr {
 
   "Info Panel"
   "Panneau d'information"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Insérer des fichiers non triés en haut d’un répertoire manuellement trié"
 
   "Insertion cursor width"
   "Largeur du curseur d’insertion"
@@ -1991,9 +2017,6 @@ msgcat::mcmset fr {
 
   "Show hidden files"
   "Afficher les fichiers cachés"
-
-  "Show information panel when file/directory is selected"
-  "Afficher le panneau d’information lorsque vous sélectionnez fichier/répertoire"
 
   "Show language submenu"
   "Afficher le sous-menu langue"
@@ -2346,8 +2369,8 @@ msgcat::mcmset fr {
   "Add Parent Directory"
   "Dossier parent"
 
-  "Attributes"
-  "Attributs"
+  "By Name"
+  "Par nom"
 
   "Close Directory Files"
   "Fermer Les fichiers Directory"
@@ -2355,8 +2378,8 @@ msgcat::mcmset fr {
   "Copy Pathname"
   "Copiez le chemin d'accès"
 
-  "Counts"
-  "Comptes"
+  "Decreasing"
+  "Diminue"
 
   "Delete directories?"
   "Supprimez les répertoires ?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset fr {
   "Hide Directory Files"
   "Masquer les fichiers du répertoire"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Image affichée dans le panneau informations sur le panneau latéral pour fermer le panneau"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Image affichée dans le panneau informations sur le panneau latéral pour rafraîchir le contenu"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Image affichée dans le panneau informations sur le panneau latéral pour l’affichage du fichier dans la barre latérale"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Image affichée dans la barre latérale pour indiquer un répertoire qui est affaissé"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset fr {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Image affichée dans la barre latérale pour indiquer qu`un fichier est actuellement ouvert dans un tampon d`édition."
 
+  "Increasing"
+  "Croissant"
+
   "Make Current Working Directory"
   "Assurez-répertoire de travail courant"
 
-  "Modified"
-  "Modifié"
+  "Manually"
+  "Manuellement"
 
   "New Directory"
   "Nouveau répertoire"
@@ -2427,14 +2444,8 @@ msgcat::mcmset fr {
   "New File From Template"
   "Nouveau fichier de Template"
 
-  "No"
-  "Non"
-
   "Open Directory Files"
   "Open Files Annuaire"
-
-  "Read Time"
-  "Heure de lecture"
 
   "Refresh Directory Files"
   "Actualiser fichiers d'un répertoire"
@@ -2457,17 +2468,11 @@ msgcat::mcmset fr {
   "Show Info"
   "Afficher info"
 
+  "Sort"
+  "Trier"
+
   "Unable to duplicate file"
   "Incapable de doublons de fichiers"
-
-  "Update Info"
-  "Mettre à jour votre profil"
-
-  "Yes"
-  "Oui"
-
-  "value copied to clipboard"
-  "valeur copiée dans le presse-papiers"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset fr {
   "Background color of list items when not selected"
   "Couleur d’arrière-plan des éléments de liste lorsque ne pas sélectionné"
 
+  "Background color of move bar."
+  "Couleur d’arrière-plan de la barre de déplacement."
+
   "Background color of selection in command launcher"
   "Couleur d’arrière-plan de la sélection dans le lanceur de commande"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset fr {
 
   "Foreground color of list items when not selected"
   "Couleur de premier plan des éléments de liste lorsque ne pas sélectionné"
+
+  "Foreground color of move bar."
+  "Couleur de premier plan de la barre de déplacement."
 
   "Foreground color of selection in command launcher"
   "Couleur de premier plan de la sélection dans le lanceur de commande"
@@ -3168,6 +3179,15 @@ msgcat::mcmset fr {
 
   "Find previous occurrence"
   "Trouver l'occurrence précédente"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Image affichée dans le panneau informations sur le panneau latéral pour fermer le panneau"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Image affichée dans le panneau informations sur le panneau latéral pour rafraîchir le contenu"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Image affichée dans le panneau informations sur le panneau latéral pour l’affichage du fichier dans la barre latérale"
 
   "Insert"
   "Insérer"

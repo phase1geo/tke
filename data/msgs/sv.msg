@@ -255,6 +255,38 @@ msgcat::mcmset sv {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset sv {
+
+  "Attributes"
+  "Attribut"
+
+  "Close Panel"
+  "STÄNG"
+
+  "Counts"
+  "Beräknar"
+
+  "Modified"
+  "Ändrad"
+
+  "No"
+  "Nej"
+
+  "Read Time"
+  "Lästid"
+
+  "Update Info"
+  "Uppdatera information"
+
+  "Yes"
+  "Ja"
+
+  "value copied to clipboard"
+  "Värdet kopieras till Urklipp"
+
+}
+
 # markers.tcl
 msgcat::mcmset sv {
 
@@ -713,9 +745,6 @@ msgcat::mcmset sv {
   "Hide Sidebar"
   "Dölj sidorad"
 
-  "Hide Sidebar Info Panel"
-  "Dölja sidofältet informationspanelen"
-
   "Hide Status Bar"
   "Dölj statusrad"
 
@@ -739,9 +768,6 @@ msgcat::mcmset sv {
 
   "Hide sidebar"
   "Göm Sidokolumn?"
-
-  "Hide sidebar information panel"
-  "Dölja sidofältet informationspanelen"
 
   "Hide status bar"
   "Dölja statusfältet"
@@ -1364,9 +1390,6 @@ msgcat::mcmset sv {
   "Show Sidebar"
   "Visa sidorad"
 
-  "Show Sidebar Info Panel"
-  "Visa sidofältet informationspanelen"
-
   "Show Status Bar"
   "Visa statusrad"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset sv {
 
   "Show selected line change"
   "Visa markerad rad förändringar"
-
-  "Show sidebar information panel"
-  "Visa sidofältet informationspanel"
 
   "Smart Indent"
   "Smart strecksatsen"
@@ -1680,6 +1700,9 @@ msgcat::mcmset sv {
   "Buffer"
   "Buffert"
 
+  "Choose Color"
+  "Välj färg"
+
   "Choose Logfile Directory"
   "Välj loggfil katalog"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset sv {
 
   "Info Panel"
   "Informationspanelen"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Infoga osorterade filer överst i en manuellt sorterade katalog"
 
   "Insertion cursor width"
   "Insättningspunkten markören bredd"
@@ -1991,9 +2017,6 @@ msgcat::mcmset sv {
 
   "Show hidden files"
   "Ladda de anvÃ¤ndardefinierade katalogikonerna"
-
-  "Show information panel when file/directory is selected"
-  "Visa informationspanelen när filen eller katalogen är markerad"
 
   "Show language submenu"
   "Visa undermenyn språk"
@@ -2346,8 +2369,8 @@ msgcat::mcmset sv {
   "Add Parent Directory"
   "Moderkatalog"
 
-  "Attributes"
-  "Attribut"
+  "By Name"
+  "Efter namn@ item: inlistbox Sort"
 
   "Close Directory Files"
   "Stäng Directory filer"
@@ -2355,8 +2378,8 @@ msgcat::mcmset sv {
   "Copy Pathname"
   "Kopiera sökväg"
 
-  "Counts"
-  "Beräknar"
+  "Decreasing"
+  "Monoton funktion"
 
   "Delete directories?"
   "Ta bort kataloger?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset sv {
   "Hide Directory Files"
   "Dölja katalogfiler"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Bilden visas i sidofältet informationspanel för att stänga panelen"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Bilden som visas i sidofältet informationspanelen för uppfriskande innehåll"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Bilden som visas i sidofältet informationspanelen för visar filen i sidofältet"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Bilden som visas i sidofältet för att ange en katalog som är komprimerad"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset sv {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Bild som visas i sidofältet som anger att en fil för närvarande öppnas i en redigering buffert."
 
+  "Increasing"
+  "Ökande"
+
   "Make Current Working Directory"
   "Gör aktuell katalog"
 
-  "Modified"
-  "Ändrad"
+  "Manually"
+  "Manuellt"
 
   "New Directory"
   "Ny katalog"
@@ -2427,14 +2444,8 @@ msgcat::mcmset sv {
   "New File From Template"
   "Ny från mall"
 
-  "No"
-  "Nej"
-
   "Open Directory Files"
   "Open Directory filer"
-
-  "Read Time"
-  "Lästid"
 
   "Refresh Directory Files"
   "Refresh register-filer"
@@ -2457,17 +2468,11 @@ msgcat::mcmset sv {
   "Show Info"
   "Visa Info"
 
+  "Sort"
+  "Sortera"
+
   "Unable to duplicate file"
   "Det gick inte att duplicera arkivera"
-
-  "Update Info"
-  "Uppdatera information"
-
-  "Yes"
-  "Ja"
-
-  "value copied to clipboard"
-  "Värdet kopieras till Urklipp"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset sv {
   "Background color of list items when not selected"
   "Bakgrundsfärgen för listobjekt när inte markerad"
 
+  "Background color of move bar."
+  "Bakgrundsfärgen på inaktivitetsstapeln."
+
   "Background color of selection in command launcher"
   "Bakgrundsfärgen för urval i kommandot launcher"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset sv {
 
   "Foreground color of list items when not selected"
   "Förgrundsfärgen för listobjekt när inte markerad"
+
+  "Foreground color of move bar."
+  "Förgrundsfärgen för inaktivitetsstapeln."
 
   "Foreground color of selection in command launcher"
   "Förgrundsfärgen för urval i kommandot launcher"
@@ -3168,6 +3179,15 @@ msgcat::mcmset sv {
 
   "Find previous occurrence"
   "Hitta föregående förekomst"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Bilden visas i sidofältet informationspanel för att stänga panelen"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Bilden som visas i sidofältet informationspanelen för uppfriskande innehåll"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Bilden som visas i sidofältet informationspanelen för visar filen i sidofältet"
 
   "Insert"
   "Infoga"

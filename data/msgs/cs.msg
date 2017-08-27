@@ -255,6 +255,38 @@ msgcat::mcmset cs {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset cs {
+
+  "Attributes"
+  "Atributy"
+
+  "Close Panel"
+  "Zavřít Panel"
+
+  "Counts"
+  "Počty"
+
+  "Modified"
+  "Změněno"
+
+  "No"
+  "Ne"
+
+  "Read Time"
+  "číst čas"
+
+  "Update Info"
+  "UPDATE INFO=Aktualizujte údaje"
+
+  "Yes"
+  "Ano"
+
+  "value copied to clipboard"
+  "hodnota zkopírována do schránky"
+
+}
+
 # markers.tcl
 msgcat::mcmset cs {
 
@@ -713,9 +745,6 @@ msgcat::mcmset cs {
   "Hide Sidebar"
   "Skrýt Sidebar"
 
-  "Hide Sidebar Info Panel"
-  "Skrýt postranní panel Panel informace"
-
   "Hide Status Bar"
   "Skrýt Status Bar"
 
@@ -739,9 +768,6 @@ msgcat::mcmset cs {
 
   "Hide sidebar"
   "Schovat postranní panel"
-
-  "Hide sidebar information panel"
-  "Skrýt panel informace o postranní panel"
 
   "Hide status bar"
   "Skrýt stavový řádek"
@@ -1364,9 +1390,6 @@ msgcat::mcmset cs {
   "Show Sidebar"
   "Zobrazit Sidebar"
 
-  "Show Sidebar Info Panel"
-  "Zobrazit postranní panel"
-
   "Show Status Bar"
   "Show Status Bar"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset cs {
 
   "Show selected line change"
   "Zobrazit vybranou linku změnu"
-
-  "Show sidebar information panel"
-  "Zobrazit postranní panel informační panel"
 
   "Smart Indent"
   "Chytré odsazení"
@@ -1680,6 +1700,9 @@ msgcat::mcmset cs {
   "Buffer"
   "pufr,"
 
+  "Choose Color"
+  "Vybrat barvu"
+
   "Choose Logfile Directory"
   "Zvolte adresář souboru protokolu"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset cs {
 
   "Info Panel"
   "Panel informace"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Vložit neseřazené soubory v horní části ručně tříděny adresáře"
 
   "Insertion cursor width"
   "Šířka kurzoru kurzor"
@@ -1991,9 +2017,6 @@ msgcat::mcmset cs {
 
   "Show hidden files"
   "Používat lidmi čitelné velikosti souborů"
-
-  "Show information panel when file/directory is selected"
-  "Zobrazit informační panelto preview a file inside an archive"
 
   "Show language submenu"
   "Zobrazit podnabídka jazyk"
@@ -2346,8 +2369,8 @@ msgcat::mcmset cs {
   "Add Parent Directory"
   "Nadřazená složka"
 
-  "Attributes"
-  "Atributy"
+  "By Name"
+  "Podle názvu"
 
   "Close Directory Files"
   "Zavřít Directory soubory"
@@ -2355,8 +2378,8 @@ msgcat::mcmset cs {
   "Copy Pathname"
   "Kopírovat cestu"
 
-  "Counts"
-  "Počty"
+  "Decreasing"
+  "Monotónní funkce"
 
   "Delete directories?"
   "Odstranění adresáře?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset cs {
   "Hide Directory Files"
   "Skrýt soubory adresáře"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Obrázek zobrazený v panelu informací o postranním panelu pro zavření panelu"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Obrázek zobrazený v panelu informací o postranním panelu pro aktualizaci obsahu"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Obrázek zobrazený v panelu informace postranní panel pro zobrazení souboru v postranním panelu"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Obrázek zobrazený v postranním panelu označuje adresář, který je sbaleno"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset cs {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Obrazy zobrazené v bočním panelu, čímž naznačují, že soubor je aktuálně otevřen v editačním vyrovnávací paměti."
 
+  "Increasing"
+  "Rostoucí"
+
   "Make Current Working Directory"
   "Ujistěte se aktuální pracovní adresář"
 
-  "Modified"
-  "Změněno"
+  "Manually"
+  "Ručně"
 
   "New Directory"
   "Nový adresář"
@@ -2427,14 +2444,8 @@ msgcat::mcmset cs {
   "New File From Template"
   "Nový soubor šablony"
 
-  "No"
-  "Ne"
-
   "Open Directory Files"
   "Open Directory soubory"
-
-  "Read Time"
-  "číst čas"
 
   "Refresh Directory Files"
   "Obnovit soubory adresáře"
@@ -2457,17 +2468,11 @@ msgcat::mcmset cs {
   "Show Info"
   "Zobrazit & info"
 
+  "Sort"
+  "Seřadit"
+
   "Unable to duplicate file"
   "Duplicitní soubor nelze"
-
-  "Update Info"
-  "UPDATE INFO=Aktualizujte údaje"
-
-  "Yes"
-  "Ano"
-
-  "value copied to clipboard"
-  "hodnota zkopírována do schránky"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset cs {
   "Background color of list items when not selected"
   "Barva pozadí položek seznamu, když není vybrán"
 
+  "Background color of move bar."
+  "Barva pozadí z panelu Tah."
+
   "Background color of selection in command launcher"
   "Barva pozadí výběru příkazu spouštěč"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset cs {
 
   "Foreground color of list items when not selected"
   "Barva popředí seznamu položek, pokud není vybrána"
+
+  "Foreground color of move bar."
+  "Barva popředí z panelu Tah."
 
   "Foreground color of selection in command launcher"
   "Barva popředí výběru v příkaz spouštěč"
@@ -3168,6 +3179,15 @@ msgcat::mcmset cs {
 
   "Find previous occurrence"
   "Najít předchozí výskyt"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Obrázek zobrazený v panelu informací o postranním panelu pro zavření panelu"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Obrázek zobrazený v panelu informací o postranním panelu pro aktualizaci obsahu"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Obrázek zobrazený v panelu informace postranní panel pro zobrazení souboru v postranním panelu"
 
   "Insert"
   "Vložit"

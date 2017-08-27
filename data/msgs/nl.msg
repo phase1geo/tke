@@ -255,6 +255,38 @@ msgcat::mcmset nl {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset nl {
+
+  "Attributes"
+  "Attributen"
+
+  "Close Panel"
+  "Paneel sluiten"
+
+  "Counts"
+  "Aantallen"
+
+  "Modified"
+  "Gewijzigd"
+
+  "No"
+  "Nee"
+
+  "Read Time"
+  "leestijd"
+
+  "Update Info"
+  "Info bijwerken"
+
+  "Yes"
+  "Ja"
+
+  "value copied to clipboard"
+  "waarde gekopieerd naar het Klembord"
+
+}
+
 # markers.tcl
 msgcat::mcmset nl {
 
@@ -713,9 +745,6 @@ msgcat::mcmset nl {
   "Hide Sidebar"
   "Zijbalk verbergen"
 
-  "Hide Sidebar Info Panel"
-  "Verberg zijbalk infovenster"
-
   "Hide Status Bar"
   "Verberg Status Bar"
 
@@ -739,9 +768,6 @@ msgcat::mcmset nl {
 
   "Hide sidebar"
   "Zijbalk verbergen"
-
-  "Hide sidebar information panel"
-  "Verberg zijbalk documentinformatiepaneel"
 
   "Hide status bar"
   "Verberg status balk"
@@ -1364,9 +1390,6 @@ msgcat::mcmset nl {
   "Show Sidebar"
   "Zijbalk tonen"
 
-  "Show Sidebar Info Panel"
-  "Toon sidebar"
-
   "Show Status Bar"
   "Statusbalk tonen"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset nl {
 
   "Show selected line change"
   "Toon geselecteerde regel wijzigen"
-
-  "Show sidebar information panel"
-  "Informatiepaneel tonento preview a file inside an archive"
 
   "Smart Indent"
   "Slimme streepje"
@@ -1680,6 +1700,9 @@ msgcat::mcmset nl {
   "Buffer"
   "Buffer"
 
+  "Choose Color"
+  "Kies Kleur"
+
   "Choose Logfile Directory"
   "Kies Logfile Directory"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset nl {
 
   "Info Panel"
   "Open INFO-Paneel..."
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Ongesorteerde bestanden invoegen boven aan een handmatig gesorteerde directory"
 
   "Insertion cursor width"
   "Invoeging cursor breedte"
@@ -1991,9 +2017,6 @@ msgcat::mcmset nl {
 
   "Show hidden files"
   "Verborgen bestanden tonen"
-
-  "Show information panel when file/directory is selected"
-  "Informatiepaneel weergeven als bestand/directory is geselecteerd"
 
   "Show language submenu"
   "Toon submenu taal"
@@ -2346,8 +2369,8 @@ msgcat::mcmset nl {
   "Add Parent Directory"
   "Bovenliggende map"
 
-  "Attributes"
-  "Attributen"
+  "By Name"
+  "﻿Naam *"
 
   "Close Directory Files"
   "Sluiten Directory Bestanden"
@@ -2355,8 +2378,8 @@ msgcat::mcmset nl {
   "Copy Pathname"
   "Padnaam kopiëren"
 
-  "Counts"
-  "Aantallen"
+  "Decreasing"
+  "Monotone functie"
 
   "Delete directories?"
   "Verwijder mappen?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset nl {
   "Hide Directory Files"
   "Map bestanden verbergen"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het sluiten van het paneel"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het vernieuwen van de inhoud"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor bestand weergeven in de zijbalk"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Afbeelding die wordt weergegeven in de zijbalk om aan te geven van een map die is samengevouwen"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset nl {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Afbeelding in zijbalk geven dat actueel in een editing buffer wordt geopend."
 
+  "Increasing"
+  "Toenemend"
+
   "Make Current Working Directory"
   "Make Current Working Directory"
 
-  "Modified"
-  "Gewijzigd"
+  "Manually"
+  "Handmatig"
 
   "New Directory"
   "Nieuwe directory"
@@ -2427,14 +2444,8 @@ msgcat::mcmset nl {
   "New File From Template"
   "Nieuw van sjabloon"
 
-  "No"
-  "Nee"
-
   "Open Directory Files"
   "Open Directory Bestanden"
-
-  "Read Time"
-  "leestijd"
 
   "Refresh Directory Files"
   "Vernieuwen Directory Bestanden"
@@ -2457,17 +2468,11 @@ msgcat::mcmset nl {
   "Show Info"
   "Toon info"
 
+  "Sort"
+  "Sorteer"
+
   "Unable to duplicate file"
   "Geen kopie vijl"
-
-  "Update Info"
-  "Info bijwerken"
-
-  "Yes"
-  "Ja"
-
-  "value copied to clipboard"
-  "waarde gekopieerd naar het Klembord"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset nl {
   "Background color of list items when not selected"
   "Achtergrondkleur van lijstitems als niet geselecteerd"
 
+  "Background color of move bar."
+  "De achtergrondkleur van de van beweging balk."
+
   "Background color of selection in command launcher"
   "Achtergrondkleur van de selectie in opdracht starten"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset nl {
 
   "Foreground color of list items when not selected"
   "Voorgrondkleur van lijstitems als niet geselecteerd"
+
+  "Foreground color of move bar."
+  "De voorgrondkleur van de van beweging balk."
 
   "Foreground color of selection in command launcher"
   "Voorgrondkleur van de selectie in opdracht starten"
@@ -3168,6 +3179,15 @@ msgcat::mcmset nl {
 
   "Find previous occurrence"
   "Vorige exemplaar zoeken"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het sluiten van het paneel"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het vernieuwen van de inhoud"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor bestand weergeven in de zijbalk"
 
   "Insert"
   "Invoegen"

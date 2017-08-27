@@ -255,6 +255,38 @@ msgcat::mcmset no {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset no {
+
+  "Attributes"
+  "Attributter"
+
+  "Close Panel"
+  "Steng panel"
+
+  "Counts"
+  "Syn antal"
+
+  "Modified"
+  "Endret"
+
+  "No"
+  "Nei"
+
+  "Read Time"
+  "Les tid"
+
+  "Update Info"
+  "Update Info"
+
+  "Yes"
+  "Ja"
+
+  "value copied to clipboard"
+  "verdien kopieres til utklippstavlen"
+
+}
+
 # markers.tcl
 msgcat::mcmset no {
 
@@ -713,9 +745,6 @@ msgcat::mcmset no {
   "Hide Sidebar"
   "Skjul Sidebar"
 
-  "Hide Sidebar Info Panel"
-  "Skjul sidebar"
-
   "Hide Status Bar"
   "Skjul Status Bar"
 
@@ -739,9 +768,6 @@ msgcat::mcmset no {
 
   "Hide sidebar"
   "Skjul sidebar"
-
-  "Hide sidebar information panel"
-  "Informasjonspanel"
 
   "Hide status bar"
   "Skjule statuslinjen"
@@ -1364,9 +1390,6 @@ msgcat::mcmset no {
   "Show Sidebar"
   "Vis Sidebar"
 
-  "Show Sidebar Info Panel"
-  "Vis Sidepanel Info-panelet"
-
   "Show Status Bar"
   "Vis statuslinje"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset no {
 
   "Show selected line change"
   "Vis valgte linjen endring"
-
-  "Show sidebar information panel"
-  "to preview a file inside an archive"
 
   "Smart Indent"
   "Smart innrykk"
@@ -1680,6 +1700,9 @@ msgcat::mcmset no {
   "Buffer"
   "Buffer"
 
+  "Choose Color"
+  "Vel farge"
+
   "Choose Logfile Directory"
   "Velg loggfil katalog"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset no {
 
   "Info Panel"
   "panel"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Sette inn usortert filer på toppen av en manuelt sorterte katalog"
 
   "Insertion cursor width"
   "Innsetting markøren bredde"
@@ -1991,9 +2017,6 @@ msgcat::mcmset no {
 
   "Show hidden files"
   "Vis skjulte filer"
-
-  "Show information panel when file/directory is selected"
-  "Vis skjermbilde når filen/mappen er merket"
 
   "Show language submenu"
   "Vise undermenyen språk"
@@ -2346,8 +2369,8 @@ msgcat::mcmset no {
   "Add Parent Directory"
   "Legg Parent Directory"
 
-  "Attributes"
-  "Attributter"
+  "By Name"
+  "Etter navn"
 
   "Close Directory Files"
   "Lukk Directory filer"
@@ -2355,8 +2378,8 @@ msgcat::mcmset no {
   "Copy Pathname"
   "Kopiere banenavn"
 
-  "Counts"
-  "Syn antal"
+  "Decreasing"
+  "Redusere"
 
   "Delete directories?"
   "Slette kataloger?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset no {
   "Hide Directory Files"
   "Skjul mappe filer"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Bildet som vises i sidepanelet dokumentinformasjonspanel for å lukke panelet"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Bildet som vises i sidepanelet dokumentinformasjonspanel for å oppdatere innhold"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Bildet som vises i sidepanelet dokumentinformasjonspanelet viser filen i sidepanelet"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Bildet som vises i sidepanelet for å vise en mappe som er skjult"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset no {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Bildet vises i sidepanelet for å angi at en fil er åpen for øyeblikket i en redigering buffer."
 
+  "Increasing"
+  "økende"
+
   "Make Current Working Directory"
   "Gjør nåværende arbeidskatalog"
 
-  "Modified"
-  "Endret"
+  "Manually"
+  "Manuelt"
 
   "New Directory"
   "Ny katalog"
@@ -2427,14 +2444,8 @@ msgcat::mcmset no {
   "New File From Template"
   "Ny fil fra mal"
 
-  "No"
-  "Nei"
-
   "Open Directory Files"
   "Open Directory filer"
-
-  "Read Time"
-  "Les tid"
 
   "Refresh Directory Files"
   "Oppdater Directory filer"
@@ -2457,17 +2468,11 @@ msgcat::mcmset no {
   "Show Info"
   "Vis info"
 
+  "Sort"
+  "Sorter"
+
   "Unable to duplicate file"
   "Kan ikke kopiere arkiv"
-
-  "Update Info"
-  "Update Info"
-
-  "Yes"
-  "Ja"
-
-  "value copied to clipboard"
-  "verdien kopieres til utklippstavlen"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset no {
   "Background color of list items when not selected"
   "Bakgrunnsfargen for listeelementer når ikke"
 
+  "Background color of move bar."
+  "Bakgrunnsfargen for flytte bar."
+
   "Background color of selection in command launcher"
   "Bakgrunnsfargen for valget i kommandoen bærerakett"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset no {
 
   "Foreground color of list items when not selected"
   "Forgrunnsfargen for listeelementer når ikke"
+
+  "Foreground color of move bar."
+  "Forgrunnsfargen for flytte bar."
 
   "Foreground color of selection in command launcher"
   "Forgrunnsfargen for valget i kommandoen bærerakett"
@@ -3168,6 +3179,15 @@ msgcat::mcmset no {
 
   "Find previous occurrence"
   "Finne forrige forekomst"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Bildet som vises i sidepanelet dokumentinformasjonspanel for å lukke panelet"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Bildet som vises i sidepanelet dokumentinformasjonspanel for å oppdatere innhold"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Bildet som vises i sidepanelet dokumentinformasjonspanelet viser filen i sidepanelet"
 
   "Insert"
   "Sett inn"
