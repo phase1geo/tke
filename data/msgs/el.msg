@@ -255,6 +255,38 @@ msgcat::mcmset el {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset el {
+
+  "Attributes"
+  "Χαρακτηριστικά"
+
+  "Close Panel"
+  "Κλείσιμο πάνελ"
+
+  "Counts"
+  "Μετρήσεις"
+
+  "Modified"
+  "Τροποποιημένο"
+
+  "No"
+  "Όχι"
+
+  "Read Time"
+  "Διαβάστε φορά"
+
+  "Update Info"
+  "ΕΝΗΜΕΡΩΣΗ ΠΛΗΡΟΦΟΡΙΩΝ"
+
+  "Yes"
+  "Ναι"
+
+  "value copied to clipboard"
+  "τιμή αντιγράφεται στο Πρόχειρο"
+
+}
+
 # markers.tcl
 msgcat::mcmset el {
 
@@ -713,9 +745,6 @@ msgcat::mcmset el {
   "Hide Sidebar"
   "Απόκρυψη πλευρικής μπάρας"
 
-  "Hide Sidebar Info Panel"
-  "Απόκρυψη πλευρικής εργαλειοθήκης Φίλιας"
-
   "Hide Status Bar"
   "Απόκρυψη Status Bar"
 
@@ -739,9 +768,6 @@ msgcat::mcmset el {
 
   "Hide sidebar"
   "Απόκρυψη Πλευρικής Εργαλειοθήκης"
-
-  "Hide sidebar information panel"
-  "Απόκρυψη πίνακα πλαϊνή μπάρα πληροφοριών"
 
   "Hide status bar"
   "Απόκρυψη γραμμής κατάστασης"
@@ -1364,9 +1390,6 @@ msgcat::mcmset el {
   "Show Sidebar"
   "Εμφάνιση πλευρικής μπάρας"
 
-  "Show Sidebar Info Panel"
-  "Εμφάνιση Sidebar πίνακα \"
-
   "Show Status Bar"
   "Γραμμή κατάστασης"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset el {
 
   "Show selected line change"
   "Παρουσιάζουν επιλεγμένη γραμμή αλλαγή"
-
-  "Show sidebar information panel"
-  "Εμφάνιση sidebar πίνακα πληροφοριών"
 
   "Smart Indent"
   "Έξυπνες περίπτωση"
@@ -1680,6 +1700,9 @@ msgcat::mcmset el {
   "Buffer"
   "Ρυθμιστής"
 
+  "Choose Color"
+  "Επιλογή χρώματος"
+
   "Choose Logfile Directory"
   "Επιλέξτε κατάλογο Logfile"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset el {
 
   "Info Panel"
   "Πίνακας \"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Εισαγωγή μη ταξινομημένα αρχεία στην κορυφή του ένα χέρι ταξινομημένο κατάλογο"
 
   "Insertion cursor width"
   "Πλάτος δρομέα εισαγωγής"
@@ -1991,9 +2017,6 @@ msgcat::mcmset el {
 
   "Show hidden files"
   "Εμφάνιση κρυφών αρχείων"
-
-  "Show information panel when file/directory is selected"
-  "Εμφάνιση πίνακα πληροφοριών όταν επιλέγεται αρχείου/καταλόγου"
 
   "Show language submenu"
   "Εμφάνιση υπομενού γλώσσα"
@@ -2346,8 +2369,8 @@ msgcat::mcmset el {
   "Add Parent Directory"
   "Μητρικός Κατάλογος"
 
-  "Attributes"
-  "Χαρακτηριστικά"
+  "By Name"
+  "Κατ'όνομα"
 
   "Close Directory Files"
   "Κλείσιμο Κατάλογος αρχείων"
@@ -2355,8 +2378,8 @@ msgcat::mcmset el {
   "Copy Pathname"
   "Pathname Copy"
 
-  "Counts"
-  "Μετρήσεις"
+  "Decreasing"
+  "Μονοτονία συνάρτησης"
 
   "Delete directories?"
   "Διαγραφή καταλόγους;"
@@ -2385,15 +2408,6 @@ msgcat::mcmset el {
   "Hide Directory Files"
   "Κρύψει τα αρχεία καταλόγου"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για το κλείσιμο του πίνακα"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για ανανέωση περιεχομένου"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για εμφάνιση αρχείου στην πλαϊνή μπάρα"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Εικόνα που εμφανίζεται στο sidebar να υποδείξει έναν κατάλογο που έχει συμπτυχθεί"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset el {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Εικόνα που εμφανίζεται στην πλαϊνή γραμμή για να δείξει ότι ένα αρχείο που έχετε ανοίξει σε ένα ρυθμιστικό μοντάζ."
 
+  "Increasing"
+  "Αυξανόμενος"
+
   "Make Current Working Directory"
   "Κάντε τρέχων κατάλογος εργασίας"
 
-  "Modified"
-  "Τροποποιημένο"
+  "Manually"
+  "Χειροκίνητα"
 
   "New Directory"
   "Νέα Directory"
@@ -2427,14 +2444,8 @@ msgcat::mcmset el {
   "New File From Template"
   "Νέο αρχείο από πρότυπο"
 
-  "No"
-  "Όχι"
-
   "Open Directory Files"
   "Αρχεία Open Directory"
-
-  "Read Time"
-  "Διαβάστε φορά"
 
   "Refresh Directory Files"
   "Ανανέωση Κατάλογος αρχείων"
@@ -2457,17 +2468,11 @@ msgcat::mcmset el {
   "Show Info"
   "Εμφάνιση πληροφοριών"
 
+  "Sort"
+  "Ταξινόμηση"
+
   "Unable to duplicate file"
   "Δεν είναι δυνατή η διπλότυπων αρχείων"
-
-  "Update Info"
-  "ΕΝΗΜΕΡΩΣΗ ΠΛΗΡΟΦΟΡΙΩΝ"
-
-  "Yes"
-  "Ναι"
-
-  "value copied to clipboard"
-  "τιμή αντιγράφεται στο Πρόχειρο"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset el {
   "Background color of list items when not selected"
   "Χρώμα φόντου των στοιχείων λίστας όταν δεν είναι επιλεγμένο"
 
+  "Background color of move bar."
+  "Χρώμα φόντου του κίνηση bar."
+
   "Background color of selection in command launcher"
   "Χρώμα φόντου της επιλογής στην εντολή εκκίνησης"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset el {
 
   "Foreground color of list items when not selected"
   "Χρώμα προσκηνίου στοιχείων λίστας όταν δεν είναι επιλεγμένο"
+
+  "Foreground color of move bar."
+  "Χρώμα προσκηνίου της γραμμής μετακίνησης."
 
   "Foreground color of selection in command launcher"
   "Το χρώμα προσκηνίου της επιλογής στην εντολή εκκίνησης"
@@ -3168,6 +3179,15 @@ msgcat::mcmset el {
 
   "Find previous occurrence"
   "Βρείτε την προηγούμενη εμφάνιση"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για το κλείσιμο του πίνακα"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για ανανέωση περιεχομένου"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για εμφάνιση αρχείου στην πλαϊνή μπάρα"
 
   "Insert"
   "Εισαγωγή"

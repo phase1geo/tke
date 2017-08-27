@@ -255,6 +255,38 @@ msgcat::mcmset he {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset he {
+
+  "Attributes"
+  "מאפיינים"
+
+  "Close Panel"
+  "סגור פנל"
+
+  "Counts"
+  "מניית"
+
+  "Modified"
+  "עדכון"
+
+  "No"
+  "לא"
+
+  "Read Time"
+  "זמן קריאה"
+
+  "Update Info"
+  "עדכון פרטים"
+
+  "Yes"
+  "כן"
+
+  "value copied to clipboard"
+  "הערך יועתק אל הלוח"
+
+}
+
 # markers.tcl
 msgcat::mcmset he {
 
@@ -713,9 +745,6 @@ msgcat::mcmset he {
   "Hide Sidebar"
   "להסתיר את הסרגל הצידי"
 
-  "Hide Sidebar Info Panel"
-  "להסתיר את הסרגל הצידי של החלונית ' מידע '"
-
   "Hide Status Bar"
   "הסתר שורת מצב"
 
@@ -739,9 +768,6 @@ msgcat::mcmset he {
 
   "Hide sidebar"
   "הסתרת סרגל צדדי"
-
-  "Hide sidebar information panel"
-  "להסתיר את לוח המידע של הסרגל הצידי"
 
   "Hide status bar"
   "להסתיר את שורת המצב"
@@ -1364,9 +1390,6 @@ msgcat::mcmset he {
   "Show Sidebar"
   "הצג תיבה צידית"
 
-  "Show Sidebar Info Panel"
-  "הצג את הסרגל הצידי של החלונית ' מידע '"
-
   "Show Status Bar"
   "הצג שורת מצב"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset he {
 
   "Show selected line change"
   "להראות שינוי הקו הנבחר"
-
-  "Show sidebar information panel"
-  "להציג לוח פרטי הצידי"
 
   "Smart Indent"
   "כניסה חכמה"
@@ -1680,6 +1700,9 @@ msgcat::mcmset he {
   "Buffer"
   "Buffer"
 
+  "Choose Color"
+  "בחר צבע"
+
   "Choose Logfile Directory"
   "לבחור מדריך יומן"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset he {
 
   "Info Panel"
   "פאנל (לוח)"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "הוספת קבצים ממוינת בחלק העליון של ספריה ממוינים באופן ידני"
 
   "Insertion cursor width"
   "רוחב הסמן ההכנסה"
@@ -1991,9 +2017,6 @@ msgcat::mcmset he {
 
   "Show hidden files"
   "הצג קבצים מוסתרים"
-
-  "Show information panel when file/directory is selected"
-  "להציג לוח פרטי כשנבחר קובץ/מדריך"
 
   "Show language submenu"
   "הצג את תפריט המשנה שפה"
@@ -2346,8 +2369,8 @@ msgcat::mcmset he {
   "Add Parent Directory"
   "הוסף ספריית האב"
 
-  "Attributes"
-  "מאפיינים"
+  "By Name"
+  "לפי שם"
 
   "Close Directory Files"
   "קבצי הספריה קרוב"
@@ -2355,8 +2378,8 @@ msgcat::mcmset he {
   "Copy Pathname"
   "נתיב העתק"
 
-  "Counts"
-  "מניית"
+  "Decreasing"
+  "פונקציה עולה"
 
   "Delete directories?"
   "מחיקת ספריות?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset he {
   "Hide Directory Files"
   "להסתיר את קבצי הספריה"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "התמונה המוצגת בחלונית המידע הצידי לסגירת הלוח"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "התמונה המוצגת בחלונית המידע הצידי לרענון התוכן"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "התמונה המוצגת בחלונית המידע הצידי מציג קובץ בסרגל הצידי"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "התמונה המוצגת בסרגל הצידי להצביע ספרייה מכווצת"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset he {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "התמונה המוצגת בסרגל הצידי כדי לציין כי קובץ כעת נפתח מאגר העריכה."
 
+  "Increasing"
+  "סדר עולה"
+
   "Make Current Working Directory"
   "להפוך את הזרם ספריית עבודה"
 
-  "Modified"
-  "עדכון"
+  "Manually"
+  "ידנית"
 
   "New Directory"
   "ספריה חדשה"
@@ -2427,14 +2444,8 @@ msgcat::mcmset he {
   "New File From Template"
   "קובץ חדש מתבנית"
 
-  "No"
-  "לא"
-
   "Open Directory Files"
   "קבצי הספריה פתוחה"
-
-  "Read Time"
-  "זמן קריאה"
 
   "Refresh Directory Files"
   "רענון קבצי הספריה"
@@ -2457,17 +2468,11 @@ msgcat::mcmset he {
   "Show Info"
   "הצג מידע"
 
+  "Sort"
+  "מיין"
+
   "Unable to duplicate file"
   "קובץ כפולים לא הצליחה"
-
-  "Update Info"
-  "עדכון פרטים"
-
-  "Yes"
-  "כן"
-
-  "value copied to clipboard"
-  "הערך יועתק אל הלוח"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset he {
   "Background color of list items when not selected"
   "צבע הרקע של פריטי רשימה כאשר לא נבחר"
 
+  "Background color of move bar."
+  "צבע הרקע של מהלך בר."
+
   "Background color of selection in command launcher"
   "צבע הרקע של בחירה ב הפקודה משגר"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset he {
 
   "Foreground color of list items when not selected"
   "צבע הקידמה של פריטי רשימה כאשר לא נבחר"
+
+  "Foreground color of move bar."
+  "צבע הקידמה של מהלך בר."
 
   "Foreground color of selection in command launcher"
   "צבע הקידמה של בחירה ב הפקודה משגר"
@@ -3168,6 +3179,15 @@ msgcat::mcmset he {
 
   "Find previous occurrence"
   "למצוא את המופע הקודם"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "התמונה המוצגת בחלונית המידע הצידי לסגירת הלוח"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "התמונה המוצגת בחלונית המידע הצידי לרענון התוכן"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "התמונה המוצגת בחלונית המידע הצידי מציג קובץ בסרגל הצידי"
 
   "Insert"
   "הוסף"

@@ -255,6 +255,38 @@ msgcat::mcmset it {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset it {
+
+  "Attributes"
+  "Attributi"
+
+  "Close Panel"
+  "Chiudere il pannello"
+
+  "Counts"
+  "Conte"
+
+  "Modified"
+  "Modificato"
+
+  "No"
+  "No"
+
+  "Read Time"
+  "Tempo di lettura"
+
+  "Update Info"
+  "Aggiorna le Informazioni"
+
+  "Yes"
+  "Si"
+
+  "value copied to clipboard"
+  "valore copiato negli Appunti"
+
+}
+
 # markers.tcl
 msgcat::mcmset it {
 
@@ -713,9 +745,6 @@ msgcat::mcmset it {
   "Hide Sidebar"
   "Nascondi barra laterale"
 
-  "Hide Sidebar Info Panel"
-  "Nascondere il pannello Info Sidebar"
-
   "Hide Status Bar"
   "Nascondi barra di stato"
 
@@ -739,9 +768,6 @@ msgcat::mcmset it {
 
   "Hide sidebar"
   "Nascondi barra laterale"
-
-  "Hide sidebar information panel"
-  "Nascondere il pannello informazioni sidebar"
 
   "Hide status bar"
   "Nascondi barra di stato"
@@ -1364,9 +1390,6 @@ msgcat::mcmset it {
   "Show Sidebar"
   "Mostra barra laterale"
 
-  "Show Sidebar Info Panel"
-  "Visualizza il pannello Info Sidebar"
-
   "Show Status Bar"
   "Mostra barra di stato"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset it {
 
   "Show selected line change"
   "Mostrare il cambiamento di linea selezionata"
-
-  "Show sidebar information panel"
-  "Pannello di informazioni Visualizza sidebar"
 
   "Smart Indent"
   "Trattino intelligente"
@@ -1680,6 +1700,9 @@ msgcat::mcmset it {
   "Buffer"
   "Buffer"
 
+  "Choose Color"
+  "Scegli colore"
+
   "Choose Logfile Directory"
   "Scegliere la Directory di file di log"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset it {
 
   "Info Panel"
   "Pannello Info"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Inserire file indifferenziati nella parte superiore di una directory manualmente ordinata"
 
   "Insertion cursor width"
   "Larghezza del cursore di inserimento"
@@ -1991,9 +2017,6 @@ msgcat::mcmset it {
 
   "Show hidden files"
   "Mostrare i file nascosti"
-
-  "Show information panel when file/directory is selected"
-  "Pannello informazionito preview a file inside an archive"
 
   "Show language submenu"
   "Sottomenu Lingua italiana"
@@ -2346,8 +2369,8 @@ msgcat::mcmset it {
   "Add Parent Directory"
   "indirizzario parent"
 
-  "Attributes"
-  "Attributi"
+  "By Name"
+  "Nome*"
 
   "Close Directory Files"
   "Chiudi Directory Files"
@@ -2355,8 +2378,8 @@ msgcat::mcmset it {
   "Copy Pathname"
   "Copiare il percorso"
 
-  "Counts"
-  "Conte"
+  "Decreasing"
+  "Discendente"
 
   "Delete directories?"
   "Eliminare le directory?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset it {
   "Hide Directory Files"
   "File indirizzario"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Immagine visualizzata nel pannello informazioni sidebar per il pannello di chiusura"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Immagine visualizzata nel pannello informazioni sidebar per l'aggiornamento di contenuto"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Immagine visualizzata nel pannello informazioni sidebar per file che mostra nella barra laterale"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Immagine visualizzata nella barra laterale per indicare una directory che è compresso"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset it {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Immagine visualizzata nella barra laterale per indicare che un file è attualmente aperto in un buffer di modifica."
 
+  "Increasing"
+  "Crescente"
+
   "Make Current Working Directory"
   "Directory di lavoro corrente"
 
-  "Modified"
-  "Modificato"
+  "Manually"
+  "Manuale"
 
   "New Directory"
   "Nuova directory"
@@ -2427,14 +2444,8 @@ msgcat::mcmset it {
   "New File From Template"
   "Nuovo File da modello"
 
-  "No"
-  "No"
-
   "Open Directory Files"
   "File indirizzario"
-
-  "Read Time"
-  "Tempo di lettura"
 
   "Refresh Directory Files"
   "Aggiorna Directory Files"
@@ -2457,17 +2468,11 @@ msgcat::mcmset it {
   "Show Info"
   "Mostra info"
 
+  "Sort"
+  "Ordina"
+
   "Unable to duplicate file"
   "Grado di file duplicati"
-
-  "Update Info"
-  "Aggiorna le Informazioni"
-
-  "Yes"
-  "Si"
-
-  "value copied to clipboard"
-  "valore copiato negli Appunti"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset it {
   "Background color of list items when not selected"
   "Colore di sfondo degli elementi di elenco quando non selezionata"
 
+  "Background color of move bar."
+  "Colore di sfondo della barra di spostamento."
+
   "Background color of selection in command launcher"
   "Colore di sfondo della selezione nella schermata di avvio comando"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset it {
 
   "Foreground color of list items when not selected"
   "Colore di primo piano degli elementi di elenco quando non selezionata"
+
+  "Foreground color of move bar."
+  "Colore di primo piano della barra di spostamento."
 
   "Foreground color of selection in command launcher"
   "Colore di primo piano della selezione nella schermata di avvio comando"
@@ -3168,6 +3179,15 @@ msgcat::mcmset it {
 
   "Find previous occurrence"
   "Trovare l'occorrenza precedente"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Immagine visualizzata nel pannello informazioni sidebar per il pannello di chiusura"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Immagine visualizzata nel pannello informazioni sidebar per l'aggiornamento di contenuto"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Immagine visualizzata nel pannello informazioni sidebar per file che mostra nella barra laterale"
 
   "Insert"
   "Inserisci"

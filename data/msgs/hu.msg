@@ -255,6 +255,38 @@ msgcat::mcmset hu {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset hu {
+
+  "Attributes"
+  "Attribútumok"
+
+  "Close Panel"
+  "Panel bezárása"
+
+  "Counts"
+  "Statisztika"
+
+  "Modified"
+  "Módosítva"
+
+  "No"
+  "Nem"
+
+  "Read Time"
+  "Olvasási idő"
+
+  "Update Info"
+  "Információ frissítése"
+
+  "Yes"
+  "Igen"
+
+  "value copied to clipboard"
+  "érték másolása vágólapra"
+
+}
+
 # markers.tcl
 msgcat::mcmset hu {
 
@@ -713,9 +745,6 @@ msgcat::mcmset hu {
   "Hide Sidebar"
   "Az oldalsáv elrejtése"
 
-  "Hide Sidebar Info Panel"
-  "A csoport & felbontÃ¡sa"
-
   "Hide Status Bar"
   "Az állapotsor elrejtése"
 
@@ -739,9 +768,6 @@ msgcat::mcmset hu {
 
   "Hide sidebar"
   "Az oldalsáv elrejtése"
-
-  "Hide sidebar information panel"
-  "Hide tálaló adatai"
 
   "Hide status bar"
   "Az állapotsor elrejtése"
@@ -1364,9 +1390,6 @@ msgcat::mcmset hu {
   "Show Sidebar"
   "Az oldalpanel megjelenítése"
 
-  "Show Sidebar Info Panel"
-  "Tálaló információk Panel megjelenítése"
-
   "Show Status Bar"
   "Az állapotsor megjelenítése"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset hu {
 
   "Show selected line change"
   "Megjelenítése a kijelölt sor módosítása"
-
-  "Show sidebar information panel"
-  "Sidebar show adatai"
 
   "Smart Indent"
   "Intelligens francia"
@@ -1680,6 +1700,9 @@ msgcat::mcmset hu {
   "Buffer"
   "Buffer"
 
+  "Choose Color"
+  "Színválasztás"
+
   "Choose Logfile Directory"
   "Válassza ki a Logfile könyvtár"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset hu {
 
   "Info Panel"
   "hálómező"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Helyezze be a szétválogatás nélküli fájlokat kézzel rendezett könyvtár tetején"
 
   "Insertion cursor width"
   "Beszúrási kurzor szélessége"
@@ -1991,9 +2017,6 @@ msgcat::mcmset hu {
 
   "Show hidden files"
   "Rejtett fájlok megjelenítése"
-
-  "Show information panel when file/directory is selected"
-  "Ajtólap információs fájl vagy könyvtár kijelölésekor"
 
   "Show language submenu"
   "Nyelv almenü"
@@ -2346,8 +2369,8 @@ msgcat::mcmset hu {
   "Add Parent Directory"
   "Szülő mappa"
 
-  "Attributes"
-  "Attribútumok"
+  "By Name"
+  "Név szerint"
 
   "Close Directory Files"
   "Bezárása Directory fájlok"
@@ -2355,8 +2378,8 @@ msgcat::mcmset hu {
   "Copy Pathname"
   "Elérési út másolása"
 
-  "Counts"
-  "Statisztika"
+  "Decreasing"
+  "Zsírtalanítás"
 
   "Delete directories?"
   "Törli a könyvtárakat?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset hu {
   "Hide Directory Files"
   "Elrejteni fájlokat címtár"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Tálaló adatai munkaablak bezárása a panelen megjelenített kép"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Frissítő tartalmának tálaló információk panelen megjelenített kép"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Tálaló adatai a fájl megjelenítése az oldalsávon megjelenő kép"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Kép bemutatás-ban tálaló jelzi, egy könyvtár, amely össze van csukva"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset hu {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "A kép megjelenik a sidebar, jelezve, hogy a fájl jelenleg megnyitott egy szerkesztési puffer."
 
+  "Increasing"
+  "Növekvő"
+
   "Make Current Working Directory"
   "Legyen aktuális könyvtár"
 
-  "Modified"
-  "Módosítva"
+  "Manually"
+  "Manuális"
 
   "New Directory"
   "Új könyvtár"
@@ -2427,14 +2444,8 @@ msgcat::mcmset hu {
   "New File From Template"
   "Új sablonból"
 
-  "No"
-  "Nem"
-
   "Open Directory Files"
   "Open Directory fájlok"
-
-  "Read Time"
-  "Olvasási idő"
 
   "Refresh Directory Files"
   "Frissítés Directory fájlok"
@@ -2457,17 +2468,11 @@ msgcat::mcmset hu {
   "Show Info"
   "A jellemzÅk elrejtÃ©se"
 
+  "Sort"
+  "Rendezés"
+
   "Unable to duplicate file"
   "Nem lehet másolat reszelő"
-
-  "Update Info"
-  "Információ frissítése"
-
-  "Yes"
-  "Igen"
-
-  "value copied to clipboard"
-  "érték másolása vágólapra"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset hu {
   "Background color of list items when not selected"
   "Háttérszín lista elem, ha nincs kijelölve"
 
+  "Background color of move bar."
+  "Lépés bár háttérszíne."
+
   "Background color of selection in command launcher"
   "Háttérszínt a kijelölés parancs launcher"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset hu {
 
   "Foreground color of list items when not selected"
   "Listaelemek, ha nincs kijelölve előtérszíne"
+
+  "Foreground color of move bar."
+  "Sáv áthelyezése előtérszíne."
 
   "Foreground color of selection in command launcher"
   "Festőszín kiválasztása az indító parancs"
@@ -3168,6 +3179,15 @@ msgcat::mcmset hu {
 
   "Find previous occurrence"
   "Még a korábbi előfordulása"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Tálaló adatai munkaablak bezárása a panelen megjelenített kép"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Frissítő tartalmának tálaló információk panelen megjelenített kép"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Tálaló adatai a fájl megjelenítése az oldalsávon megjelenő kép"
 
   "Insert"
   "Beillesztés"

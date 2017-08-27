@@ -255,6 +255,38 @@ msgcat::mcmset zh {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset zh {
+
+  "Attributes"
+  "属性"
+
+  "Close Panel"
+  "关闭"
+
+  "Counts"
+  "计数"
+
+  "Modified"
+  "修改"
+
+  "No"
+  "不"
+
+  "Read Time"
+  "阅读时间"
+
+  "Update Info"
+  "更新资料"
+
+  "Yes"
+  "是"
+
+  "value copied to clipboard"
+  "值复制到剪贴板"
+
+}
+
 # markers.tcl
 msgcat::mcmset zh {
 
@@ -713,9 +745,6 @@ msgcat::mcmset zh {
   "Hide Sidebar"
   "隐藏边栏"
 
-  "Hide Sidebar Info Panel"
-  "隐藏侧边栏信息面板"
-
   "Hide Status Bar"
   "隐藏状态栏"
 
@@ -739,9 +768,6 @@ msgcat::mcmset zh {
 
   "Hide sidebar"
   "隱藏側邊攔"
-
-  "Hide sidebar information panel"
-  "信息面板"
 
   "Hide status bar"
   "显示/隐藏状态栏"
@@ -1364,9 +1390,6 @@ msgcat::mcmset zh {
   "Show Sidebar"
   "显示侧边栏"
 
-  "Show Sidebar Info Panel"
-  "显示侧边栏信息面板"
-
   "Show Status Bar"
   "显示状态"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset zh {
 
   "Show selected line change"
   "显示所选的行的变化"
-
-  "Show sidebar information panel"
-  "显示侧边栏信息面板"
 
   "Smart Indent"
   "智能缩进"
@@ -1680,6 +1700,9 @@ msgcat::mcmset zh {
   "Buffer"
   "缓冲区"
 
+  "Choose Color"
+  "选择颜色"
+
   "Choose Logfile Directory"
   "选择日志文件目录"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset zh {
 
   "Info Panel"
   "信息面板"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "插入排序的文件顶部的手动排序目录"
 
   "Insertion cursor width"
   "插入光标宽度"
@@ -1991,9 +2017,6 @@ msgcat::mcmset zh {
 
   "Show hidden files"
   "显示隐藏文件"
-
-  "Show information panel when file/directory is selected"
-  "显示的信息面板选中文件/目录"
 
   "Show language submenu"
   "显示语言菜单"
@@ -2346,8 +2369,8 @@ msgcat::mcmset zh {
   "Add Parent Directory"
   "母目錄"
 
-  "Attributes"
-  "属性"
+  "By Name"
+  "按名字"
 
   "Close Directory Files"
   "关闭目录文件"
@@ -2355,8 +2378,8 @@ msgcat::mcmset zh {
   "Copy Pathname"
   "複製路徑名"
 
-  "Counts"
-  "计数"
+  "Decreasing"
+  "下降"
 
   "Delete directories?"
   "删除目录吗?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset zh {
   "Hide Directory Files"
   "隐藏目录文件"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "在侧边栏信息面板关闭面板中显示图像"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "在侧边栏的刷新内容信息面板中显示图像"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "在侧边栏显示文件的侧边栏信息面板中显示的图像"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "在侧边栏来指示折叠目录中显示图像"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset zh {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "在侧边栏来指示在编辑缓冲区中当前打开文件中显示的图像。"
 
+  "Increasing"
+  "上升"
+
   "Make Current Working Directory"
   "使当前工作目录"
 
-  "Modified"
-  "修改"
+  "Manually"
+  "手动"
 
   "New Directory"
   "新目录"
@@ -2427,14 +2444,8 @@ msgcat::mcmset zh {
   "New File From Template"
   "模板新建的文件"
 
-  "No"
-  "不"
-
   "Open Directory Files"
   "打开目录文件"
-
-  "Read Time"
-  "阅读时间"
 
   "Refresh Directory Files"
   "刷新目录文件"
@@ -2457,17 +2468,11 @@ msgcat::mcmset zh {
   "Show Info"
   "显示信息"
 
+  "Sort"
+  "分类"
+
   "Unable to duplicate file"
   "无法复制文件"
-
-  "Update Info"
-  "更新资料"
-
-  "Yes"
-  "是"
-
-  "value copied to clipboard"
-  "值复制到剪贴板"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset zh {
   "Background color of list items when not selected"
   "当未选中的列表项的背景色"
 
+  "Background color of move bar."
+  "移动栏的背景颜色。"
+
   "Background color of selection in command launcher"
   "背景色选择的命令启动程序"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset zh {
 
   "Foreground color of list items when not selected"
   "当未选中的列表项的前景色"
+
+  "Foreground color of move bar."
+  "移动栏的前景颜色。"
 
   "Foreground color of selection in command launcher"
   "命令启动程序选择前景色"
@@ -3168,6 +3179,15 @@ msgcat::mcmset zh {
 
   "Find previous occurrence"
   "查找上一个"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "在侧边栏信息面板关闭面板中显示图像"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "在侧边栏的刷新内容信息面板中显示图像"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "在侧边栏显示文件的侧边栏信息面板中显示的图像"
 
   "Insert"
   "插入"

@@ -255,6 +255,38 @@ msgcat::mcmset ru {
 
 }
 
+# ipanel.tcl
+msgcat::mcmset ru {
+
+  "Attributes"
+  "Атрибуты"
+
+  "Close Panel"
+  "Закрыть панель"
+
+  "Counts"
+  "Число отсчетов"
+
+  "Modified"
+  "Модифицированный"
+
+  "No"
+  "Нет"
+
+  "Read Time"
+  "Время Читать"
+
+  "Update Info"
+  "Обновить информацию"
+
+  "Yes"
+  "Да"
+
+  "value copied to clipboard"
+  "значение, скопированное в буфер обмена"
+
+}
+
 # markers.tcl
 msgcat::mcmset ru {
 
@@ -713,9 +745,6 @@ msgcat::mcmset ru {
   "Hide Sidebar"
   "Скрыть боковую панель"
 
-  "Hide Sidebar Info Panel"
-  "Скрытие боковой панели информация"
-
   "Hide Status Bar"
   "Скрыть Status Bar"
 
@@ -739,9 +768,6 @@ msgcat::mcmset ru {
 
   "Hide sidebar"
   "Спрятать сайдбар"
-
-  "Hide sidebar information panel"
-  "Скрыть панель информации боковой панели"
 
   "Hide status bar"
   "Строка состояния"
@@ -1364,9 +1390,6 @@ msgcat::mcmset ru {
   "Show Sidebar"
   "Показать боковую панель"
 
-  "Show Sidebar Info Panel"
-  "Показать информация боковой панели"
-
   "Show Status Bar"
   "Панель состояния (Status bar)"
 
@@ -1399,9 +1422,6 @@ msgcat::mcmset ru {
 
   "Show selected line change"
   "Показать выбранные линии изменения"
-
-  "Show sidebar information panel"
-  "Показать панель Боковая панель информации"
 
   "Smart Indent"
   "Смарт отступа"
@@ -1680,6 +1700,9 @@ msgcat::mcmset ru {
   "Buffer"
   "Буфер"
 
+  "Choose Color"
+  "Выберите цвет"
+
   "Choose Logfile Directory"
   "Выберите каталог файла журнала"
 
@@ -1829,6 +1852,9 @@ msgcat::mcmset ru {
 
   "Info Panel"
   "Инфо Панель"
+
+  "Insert unsorted files at the top of a manually sorted directory"
+  "Вставить без сортировки файлов в верхней части вручную отсортированный каталог"
 
   "Insertion cursor width"
   "Ширина курсора вставки"
@@ -1991,9 +2017,6 @@ msgcat::mcmset ru {
 
   "Show hidden files"
   "Показывать скрытые файлы"
-
-  "Show information panel when file/directory is selected"
-  "Показать панель сведений, когда выбран файл/каталог"
 
   "Show language submenu"
   "Показать подменю язык"
@@ -2346,8 +2369,8 @@ msgcat::mcmset ru {
   "Add Parent Directory"
   "Каталог"
 
-  "Attributes"
-  "Атрибуты"
+  "By Name"
+  "Имени"
 
   "Close Directory Files"
   "Закрыть Каталог файлов"
@@ -2355,8 +2378,8 @@ msgcat::mcmset ru {
   "Copy Pathname"
   "Копировать Pathname"
 
-  "Counts"
-  "Число отсчетов"
+  "Decreasing"
+  "Понижение"
 
   "Delete directories?"
   "Удалите каталоги?"
@@ -2385,15 +2408,6 @@ msgcat::mcmset ru {
   "Hide Directory Files"
   "Скрыть файлы каталога"
 
-  "Image displayed in sidebar information panel for closing the panel"
-  "Изображение, отображаемое в боковой панели сведений для закрытия панели"
-
-  "Image displayed in sidebar information panel for refreshing content"
-  "Изображение, отображаемое в боковой панели сведений для обновления содержимого"
-
-  "Image displayed in sidebar information panel for showing file in sidebar"
-  "Изображение, отображаемое в боковой панели сведений для файлов показаны в боковой панели"
-
   "Image displayed in sidebar to indicate a directory that is collapsed"
   "Изображение, отображаемое в боковой панели, чтобы указать каталог, который рухнул"
 
@@ -2415,11 +2429,14 @@ msgcat::mcmset ru {
   "Image displayed in sidebar to indicate that a file is currently opened in an editing buffer."
   "Изображение, отображаемое в боковой панели, чтобы указать, что файл открыт в настоящее время в буфер редактирования."
 
+  "Increasing"
+  "Возрастающий"
+
   "Make Current Working Directory"
   "Сделать текущий рабочий каталог"
 
-  "Modified"
-  "Модифицированный"
+  "Manually"
+  "Вручную"
 
   "New Directory"
   "Новый Справочник"
@@ -2427,14 +2444,8 @@ msgcat::mcmset ru {
   "New File From Template"
   "Новый файл из шаблона"
 
-  "No"
-  "Нет"
-
   "Open Directory Files"
   "Открытие файлов Каталог"
-
-  "Read Time"
-  "Время Читать"
 
   "Refresh Directory Files"
   "Обновить каталог файлов"
@@ -2457,17 +2468,11 @@ msgcat::mcmset ru {
   "Show Info"
   "Показать Информацию"
 
+  "Sort"
+  "Сортировать"
+
   "Unable to duplicate file"
   "Не удается дублировать файл"
-
-  "Update Info"
-  "Обновить информацию"
-
-  "Yes"
-  "Да"
-
-  "value copied to clipboard"
-  "значение, скопированное в буфер обмена"
 
 }
 
@@ -2617,6 +2622,9 @@ msgcat::mcmset ru {
   "Background color of list items when not selected"
   "Цвет фона элементов списка, если не выбран"
 
+  "Background color of move bar."
+  "Цвет фона полосы двигаться."
+
   "Background color of selection in command launcher"
   "Цвет фона для выбора команды запуска"
 
@@ -2730,6 +2738,9 @@ msgcat::mcmset ru {
 
   "Foreground color of list items when not selected"
   "Цвет переднего плана для элементов списка, если не выбран"
+
+  "Foreground color of move bar."
+  "Цвет переднего плана перемещения бара."
 
   "Foreground color of selection in command launcher"
   "Основной цвет выделения в команде запуска"
@@ -3168,6 +3179,15 @@ msgcat::mcmset ru {
 
   "Find previous occurrence"
   "Найти предыдущего вхождения"
+
+  "Image displayed in sidebar information panel for closing the panel"
+  "Изображение, отображаемое в боковой панели сведений для закрытия панели"
+
+  "Image displayed in sidebar information panel for refreshing content"
+  "Изображение, отображаемое в боковой панели сведений для обновления содержимого"
+
+  "Image displayed in sidebar information panel for showing file in sidebar"
+  "Изображение, отображаемое в боковой панели сведений для файлов показаны в боковой панели"
 
   "Insert"
   "Вставить"
