@@ -1334,8 +1334,14 @@ namespace eval plugins {
     set plugins [list]
 
     foreach entry [find_registry_entries "on_pref_ui"] {
-      ttk::frame [set w $w.$registry([lindex $entry 0],name)]
-      if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] $w } status]} {
+      ttk::frame [set win $w.$registry([lindex $entry 0],name)]
+      scrolledframe::scrolledframe $win.f  -yscrollcommand [list $win.vb set]
+      scroller::scroller           $win.vb -orient vertical -command [list $win.f yview]
+      grid rowconfigure    $win 0 -weight 1
+      grid columnconfigure $win 0 -weight 1
+      grid $win.f  -row 0 -column 0 -sticky news
+      grid $win.vb -row 0 -column 1 -sticky ns
+      if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] $win.f.scrolled } status]} {
         handle_status_error "handle_on_pref_ui" [lindex $entry 0] $status
       } else {
         lappend plugins $registry([lindex $entry 0],name)
