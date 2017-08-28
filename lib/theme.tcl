@@ -185,6 +185,11 @@ namespace eval theme {
     ttk::style map       BButton [ttk::style map TButton]
     ttk::style layout    BButton [ttk::style layout TButton]
 
+    # HLabel
+    ttk::style configure HLabel [ttk::style configure TLabel]
+    ttk::style map       HLabel [ttk::style map TLabel]
+    ttk::style layout    HLabel [ttk::style layout TLabel]
+
     # Sidebar
     foreach {old new} [list Treeview SBTreeview Treeview.Item SBTreeview.Item] {
       ttk::style configure $new [ttk::style configure $old]
@@ -1159,6 +1164,10 @@ namespace eval theme {
         -lightcolor  [list pressed   $opts(pressed_color)] \
         -darkcolor   [list pressed   $opts(pressed_color)] \
         -bordercolor [list alternate "#000000"]
+
+      # Configure HLabel widgets
+      ttk::style configure HLabel \
+        -foreground $opts(disabled_foreground)
 
       # Configure ttk::menubutton widgets
       ttk::style configure TMenubutton \
