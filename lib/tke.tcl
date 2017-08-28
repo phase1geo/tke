@@ -93,6 +93,11 @@ catch { package require webdav }
 catch { package require tkdnd }
 catch { package require registry }
 
+if {[catch { package require Scrolledframe }]} {
+  source [file join $tke_dir lib scrolledframe.tcl]
+  package require Scrolledframe
+}
+
 source [file join $tke_dir lib version.tcl]
 source [file join $tke_dir lib share.tcl]
 source [file join $tke_dir lib startup.tcl]
