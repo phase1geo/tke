@@ -864,95 +864,108 @@ namespace eval api {
     #             provide additional information required by the widget.
     proc widget {interp pname type win args} {
 
-      if {$type ne "spacer"} {
+      # Figure out a unique identifier for the widget within the parent frame
+      set index [llength [winfo children $win]]
 
-        if {([llength $args] < 2) || [expr ([llength $args] % 2) == 1]} {
-          return -code error "api::preferences::widget sent an incorrect number of parameters"
-        }
-
-        set pref [lindex $args 0]
-        set msg  [lindex $args 1]
-
-        array set opts {
-          -value     ""
-          -values    ""
-          -watermark ""
-          -grid      0
-          -from      ""
-          -to        ""
-          -increment 1
-          -ending    ""
-          -color     "white"
-          -height    4
-          -columns   ""
-        }
-        array set opts [lrange $args 2 end]
-
-        # Figure out a unique identifier for the widget within the parent frame
-        set index [llength [winfo children $win]]
-
-        # Calculate the full preference pathname
-        set pref_path "Plugins/$pname/$pref"
-
-        # Make sure that the preference was loaded prior to creating the UI
-        if {![info exists [preferences::ref $pref_path]]} {
-          return -code error "Plugin preference $pref for $pname not previously loaded"
-        }
-
-        switch $type {
-          checkbutton {
-            return [pref_ui::make_cb $win.cb$index $msg Plugins/$pname/$pref $opts(-grid)]
-          }
-          radiobutton {
-            if {$opts(-value) eq ""} {
-              return -code error "Radiobutton widget must have -value option set"
-            }
-            return [pref_ui::make_rb $win.rb$index $msg Plugins/$pname/$pref $opts(-value) $opts(-grid)]
-          }
-          menubutton {
-            if {$opts(-values) eq ""} {
-              return -code error "Menubutton widget must have -values option set"
-            }
-            return [pref_ui::make_mb $win.mb$index $msg Plugins/$pname/$pref $opts(-values) $opts(-grid)]
-          }
-          entry {
-            return [pref_ui::make_entry $win.e$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid)]
-          }
-          token {
-            return [pref_ui::make_token $win.te$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid)]
-          }
-          text {
-            return [pref_ui::make_text $win.t$index $msg Plugins/$pname/$pref $opts(-height) $opts(-grid)]
-          }
-          spinbox {
-            if {$opts(-from) eq ""} {
-              return -code error "Spinbox widget must have -from option set"
-            }
-            if {$opts(-to) eq ""} {
-              return -code error "Spinbox widget must have -to option set"
-            }
-            return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref $opts(-from) $opts(-to) $opts(-increment) $opts(-grid) -opts(-ending)]
-          }
-          colorpicker {
-            return [pref_ui::make_cp $win.cp$index $msg Plugins/$pname/$pref $opts(-color) $opts(-grid)]
-          }
-          table {
-            if {$opts(-columns) eq ""} {
-              return -code error "Table widget must have -columns option set"
-            }
-            return [pref_ui::make_table $win.tl$index $msg Plugins/$pname/$pref $opts(-columns) $opts(-height) $opts(-grid)]
-          }
-          default {
-            return -error code "Unsupported preference widget type ($type)"
-          }
-        }
-
+      array set opts {
+        -grid 0
       }
 
-      # Otherwise, just make a spacer (spacers are not associated with a preference value
-      pref_ui::make_spacer $win
+      switch $type {
+        spacer {
+          array set opts $args
+          return [pref_ui::make_spacer $win $opts(-grid)]
+        }
+        help {
+          if {([llength $args] < 1) || (([llength $args] % 2) == 0)} {
+            return -code error "api::preferences::widget $type sent an incorrect number of parameters"
+          }
+          set args [lassign $args msg]
+          array set opts $args
+          return [pref_ui::make_help $win $msg $opts(-grid)]
+        }
+        default {
 
-      return ""
+          if {([llength $args] < 2) || (([llength $args] % 2) == 1)} {
+            return -code error "api::preferences::widget $type sent an incorrect number of parameters"
+          }
+
+          set args [lassign $args pref msg]
+
+          array set opts {
+            -value     ""
+            -values    ""
+            -watermark ""
+            -grid      0
+            -from      ""
+            -to        ""
+            -increment 1
+            -ending    ""
+            -color     "white"
+            -height    4
+            -columns   ""
+            -help      ""
+          }
+          array set opts $args
+
+          # Calculate the full preference pathname
+          set pref_path "Plugins/$pname/$pref"
+
+          # Make sure that the preference was loaded prior to creating the UI
+          if {![info exists [preferences::ref $pref_path]]} {
+            return -code error "Plugin preference $pref for $pname not previously loaded"
+          }
+
+          switch $type {
+            checkbutton {
+              return [pref_ui::make_cb $win.cb$index $msg Plugins/$pname/$pref $opts(-grid)]
+            }
+            radiobutton {
+              if {$opts(-value) eq ""} {
+                return -code error "Radiobutton widget must have -value option set"
+              }
+              return [pref_ui::make_rb $win.rb$index $msg Plugins/$pname/$pref $opts(-value) $opts(-grid)]
+            }
+            menubutton {
+              if {$opts(-values) eq ""} {
+                return -code error "Menubutton widget must have -values option set"
+              }
+              return [pref_ui::make_mb $win.mb$index $msg Plugins/$pname/$pref $opts(-values) $opts(-grid)]
+            }
+            entry {
+              return [pref_ui::make_entry $win.e$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid) $opts(-help)]
+            }
+            token {
+              return [pref_ui::make_token $win.te$index $msg Plugins/$pname/$pref $opts(-watermark) $opts(-grid) $opts(-help)]
+            }
+            text {
+              return [pref_ui::make_text $win.t$index $msg Plugins/$pname/$pref $opts(-height) $opts(-grid) $opts(-help)]
+            }
+            spinbox {
+              if {$opts(-from) eq ""} {
+                return -code error "Spinbox widget must have -from option set"
+              }
+              if {$opts(-to) eq ""} {
+                return -code error "Spinbox widget must have -to option set"
+              }
+              return [pref_ui::make_sb $win.sb$index $msg Plugins/$pname/$pref $opts(-from) $opts(-to) $opts(-increment) $opts(-grid) $opts(-ending)]
+            }
+            colorpicker {
+              return [pref_ui::make_cp $win.cp$index $msg Plugins/$pname/$pref $opts(-color) $opts(-grid)]
+            }
+            table {
+              if {$opts(-columns) eq ""} {
+                return -code error "Table widget must have -columns option set"
+              }
+              return [pref_ui::make_table $win.tl$index $msg Plugins/$pname/$pref $opts(-columns) $opts(-height) $opts(-grid) $opts(-help)]
+            }
+            default {
+              return -error code "Unsupported preference widget type ($type)"
+            }
+          }
+
+        }
+      }
 
     }
 

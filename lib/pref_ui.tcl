@@ -225,11 +225,14 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make an entry.
-  proc make_entry {w msg varname watermark {grid 0}} {
+  proc make_entry {w msg varname watermark {grid 0} {help ""}} {
 
     # Create the widget
     ttk::labelframe $w -text $msg
     pack [wmarkentry::wmarkentry $w.e -textvariable pref_ui::prefs($varname) -watermark $watermark] -fill x
+    if {$help ne ""} {
+      make_help $w $help
+    }
 
     # Pack the widget
     if {$grid} {
@@ -247,12 +250,16 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make a tokenentry field.
-  proc make_token {w msg varname watermark {grid 0}} {
+  proc make_token {w msg varname watermark {grid 0} {help ""}} {
 
     # Create the widget
     ttk::labelframe $w -text $msg
     pack [tokenentry::tokenentry $w.te -tokenvar pref_ui::prefs($varname) \
       -watermark $watermark -tokenshape square] -fill x
+
+    if {$help ne ""} {
+      make_help $w $help
+    }
 
     # Pack the widget
     if {$grid} {
@@ -282,7 +289,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make a text field.
-  proc make_text {w msg varname height {grid 0}} {
+  proc make_text {w msg varname height {grid 0} {help ""}} {
 
     ttk::labelframe $w -text $msg
     text            $w.t  -height $height -xscrollcommand [list utils::set_xscrollbar $w.hb] -yscrollcommand [list utils::set_yscrollbar $w.vb]
@@ -299,6 +306,10 @@ namespace eval pref_ui {
     grid $w.vb -row 0 -column 1 -sticky ns
     grid $w.hb -row 1 -column 0 -sticky ew
     grid $w.bf -row 2 -column 0 -sticky ew
+
+    if {$help ne ""} {
+      make_help $w $help 1
+    }
 
     # Register the widget for initialization
     register_initialization [list pref_ui::init_text $w.t $varname]
@@ -463,13 +474,17 @@ namespace eval pref_ui {
 
   ######################################################################
   # Make a file picker widget.
-  proc make_fp {w msg varname type {type_args {}} {grid 0}} {
+  proc make_fp {w msg varname type {type_args {}} {grid 0} {help ""}} {
 
     # Create the widget
     set frame [ttk::labelframe $w -text $msg]
     pack [set win [ttk::label $w.l]] -side left -fill x -padx 2 -pady 2
     pack [ttk::button $w.c -style BButton -text [msgcat::mc "Clear"]                   -command [list pref_ui::fp_clear  $w $varname]]                   -side right -padx 2 -pady 2
     pack [ttk::button $w.b -style BButton -text [format "%s..." [msgcat::mc "Browse"]] -command [list pref_ui::fp_browse $w $varname $type $type_args]] -side right -padx 2 -pady 2
+
+    if {$help ne ""} {
+      make_help $w $help
+    }
 
     if {$grid} {
       grid $w -row [get_grid_row $w] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
@@ -552,7 +567,7 @@ namespace eval pref_ui {
   ######################################################################
   # Creates a simple table widget that allows the user to add, delete
   # and edit table cells that contain text.
-  proc make_table {w msg varname columns height {grid 0}} {
+  proc make_table {w msg varname columns height {grid 0} {help ""}} {
 
     ttk::labelframe $w -text $msg
     set win [tablelist::tablelist $w.tl -columns $columns \
@@ -581,6 +596,10 @@ namespace eval pref_ui {
     grid $w.vb -row 0 -column 1 -sticky ns
     grid $w.hb -row 1 -column 0 -sticky ew
     grid $w.bf -row 2 -column 0 -sticky ew -columnspan 2
+
+    if {$help ne ""} {
+      make_help $w $help 1
+    }
 
     if {$grid} {
       grid $w -row [get_grid_row $w] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
@@ -659,6 +678,26 @@ namespace eval pref_ui {
     set pref_ui::prefs($varname) $contents
 
     return $value
+
+  }
+
+  ######################################################################
+  # Creates a documentation widget.  This displays textual help information
+  # to describe a particular option or otherwise provide helpful information
+  # to the user.
+  proc make_help {w msg {grid 0}} {
+
+    set win [ttk::frame $w.help[llength [lsearch -all [winfo children $w] $w.help*]]]
+    pack [ttk::label $win.t -text "   "]                              -side left -padx 2 -pady 2
+    pack [ttk::label $win.l -style HLabel -wraplength 500 -text $msg] -side left -padx 2 -pady 2
+
+    if {$grid} {
+      grid $win -row [get_grid_row $win] -column 0 -sticky news -columnspan 4 -padx 2 -pady 2
+    } else {
+      pack $win -fill x
+    }
+
+    return $win
 
   }
 
