@@ -211,6 +211,9 @@ menus,-relief {flat}
 menus,-selectcolor {black}
 meta,syntax,cursor {#272822,v,117}
 meta,ttk_style,active_color {#4e5044,v,22}
+misc_scrollbar,-background {#4e5044}
+misc_scrollbar,-foreground {#272822}
+misc_scrollbar,-thickness {15}
 sidebar,-background {#f8f8f2}
 sidebar,-dropcolor {green}
 sidebar,-foreground {#4e5044}

@@ -303,12 +303,15 @@ namespace eval publish_markdown {
   # Setup the preferences window.
   proc on_pref_ui {w} {
 
-    api::preferences::widget entry  $w "processor" "Processor Command"
+    api::preferences::widget entry  $w "processor" "Processor Command" \
+      -help "By default, the standard Markdown processor will be used; however, if this field is non-empty, the specified command will be run.  Use the string {MDFILE} to specify the location in the command-line to insert the Markdown file to be parsed."
     api::preferences::widget spacer $w
-    api::preferences::widget token  $w "extensions" "Markdown File Extensions"
-    api::preferences::widget token  $w "ignore"     "File Patterns to Ignore"
+    api::preferences::widget token  $w "extensions" "Markdown File Extensions" \
+      -help "List of file extensions that will be concatenated together to formulate the input file to the Markdown processor."
+    api::preferences::widget token  $w "ignore" "File Patterns to Ignore" \
+      -help "Pattern string used to remove files from Markdown processing.  Question marks (?) will match any single character while asterisks (*) will match any number of characters (including no characters)."
     api::preferences::widget spacer $w
-    api::preferences::widget table  $w "openin" "'Open In' Applications" -columns [list 0 "AppName" 0 "Command"] -height 4
+    api::preferences::widget table  $w "openin" "'Open In' Applications" -columns [list 0 "Application Name" 0 "Command"] -height 4
 
   }
 

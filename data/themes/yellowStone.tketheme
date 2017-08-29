@@ -201,6 +201,9 @@ menus,-relief {flat}
 menus,-selectcolor {black}
 meta,syntax,cursor {#d5d2af,v,80}
 meta,syntax,embedded {#fdf9d0,v,15}
+misc_scrollbar,-background {#d5d2af}
+misc_scrollbar,-foreground {#00003c}
+misc_scrollbar,-thickness {15}
 sidebar,-background {#00003c}
 sidebar,-dropcolor {green}
 sidebar,-foreground {#fdf9d0}

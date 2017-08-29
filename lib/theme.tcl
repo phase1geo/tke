@@ -38,6 +38,7 @@ namespace eval theme {
   variable category_titles [list \
     syntax            [msgcat::mc "Syntax Colors"] \
     ttk_style         [msgcat::mc "ttk Widget Colors"] \
+    misc_scrollbar    [msgcat::mc "Standard Scrollbars"] \
     menus             [msgcat::mc "Menu Options"] \
     tabs              [msgcat::mc "Tab Options"] \
     text_scrollbar    [msgcat::mc "Text Scrollbar Options"] \
@@ -63,6 +64,9 @@ namespace eval theme {
     ttk_style,relief                {{relief {raised sunken flat ridge solid groove}} {flat} {} {0} {msgcat::mc "Specifies the default relief to use when drawing ttk widgets."}}
     ttk_style,grip_thickness        {{number {2 10}} {5} {} {0} {msgcat::mc "Determines the thickness of the grip area between resizable panes."}}
     ttk_style,grip_count            {{number {0 20}} {10} {} {0} {msgcat::mc "Determines the number of grips strips to display in the grip area between resizable panes."}}
+    misc_scrollbar,-background      {color {1} {} {0} {msgcat::mc "Background (trough) color used in a standard scrollbar."}}
+    misc_scrollbar,-foreground      {color {0} {} {0} {msgcat::mc "Foreground (slider) color used in a standard scrollbar."}}
+    misc_scrollbar,-thickness       {{number {5 20}} {15} {} {0} {msgcat::mc "Maximum thickness of the text scrollbars when they are active."}}
     menus,-background               {color {white} {} {0} {msgcat::mc "Background color used in menus."}}
     menus,-foreground               {color {black} {} {0} {msgcat::mc "Foreground text color used in menus."}}
     menus,-activebackground         {color {light blue} {} {0} {msgcat::mc "Background color used for the current/active menu item."}}
@@ -1283,6 +1287,14 @@ namespace eval theme {
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Updates the miscellaneous scrollbar widgets.
+  proc update_misc_scrollbar {} {
+
+    update_widget misc_scrollbar
 
   }
 
