@@ -479,6 +479,9 @@ if {[catch {
   # Create GUI
   gui::create
 
+  # Initialize the remote namespace
+  remote::initialize
+
   # Update the UI
   themes::handle_theme_change
 

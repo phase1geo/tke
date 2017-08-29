@@ -33,8 +33,8 @@ namespace eval scroller {
     variable data
 
     array set opts {
-      -background    "black"
-      -foreground    "white"
+      -background    "white"
+      -foreground    "black"
       -altforeground "red"
       -orient        "vertical"
       -command       ""

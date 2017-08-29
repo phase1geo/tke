@@ -217,8 +217,8 @@ namespace eval remote {
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
       -xscrollcommand [list utils::set_xscrollbar .ftp.pw.rf.vf.ff.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.rf.vf.ff.vb]]
-    scroller::scroller .ftp.pw.rf.vf.ff.vb -orient vertical   -command [list .ftp.pw.rf.vf.ff.tl yview] -background white -foreground black
-    scroller::scroller .ftp.pw.rf.vf.ff.hb -orient horizontal -command [list .ftp.pw.rf.vf.ff.tl xview] -background white -foreground black
+    scroller::scroller .ftp.pw.rf.vf.ff.vb -orient vertical   -command [list .ftp.pw.rf.vf.ff.tl yview]
+    scroller::scroller .ftp.pw.rf.vf.ff.hb -orient horizontal -command [list .ftp.pw.rf.vf.ff.tl xview]
 
     $widgets(tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list remote::format_name]
     $widgets(tl) columnconfigure 1 -name dir   -hide 1
