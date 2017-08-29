@@ -549,8 +549,8 @@ namespace eval snippets {
         -highlightthickness 0 \
         -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
         -xscrollcommand { .snipwin.f.hb set } -yscrollcommand { .snipwin.f.vb set }
-      ttk::scrollbar .snipwin.f.vb -orient vertical   -command { .snipwin.f.t xview }
-      ttk::scrollbar .snipwin.f.hb -orient horizontal -command { .snipwin.f.t yview }
+      scroller::scroller .snipwin.f.vb -orient vertical   -command { .snipwin.f.t xview }
+      scroller::scroller .snipwin.f.hb -orient horizontal -command { .snipwin.f.t yview }
 
       grid rowconfigure    .snipwin.f 0 -weight 1
       grid columnconfigure .snipwin.f 0 -weight 1

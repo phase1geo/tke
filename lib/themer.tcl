@@ -234,10 +234,11 @@ namespace eval themer {
 
       set data(widgets,cat) [tablelist::tablelist .thmwin.pw.lf.tbl \
         -columns {0 Options 0 Value 0 {} 0 {}} -treecolumn 0 -exportselection 0 -width 0 \
+        -borderwidth 0 -highlightthickness 0 \
         -labelcommand [list themer::show_filter_menu] \
         -yscrollcommand { .thmwin.pw.lf.vb set } \
       ]
-      ttk::scrollbar .thmwin.pw.lf.vb -orient vertical -command { .thmwin.pw.lf.tbl yview }
+      scroller::scroller .thmwin.pw.lf.vb -orient vertical -command { .thmwin.pw.lf.tbl yview }
 
       $data(widgets,cat) columnconfigure 0 -name opt
       $data(widgets,cat) columnconfigure 1 -name value    -formatcommand [list themer::format_category_value]
@@ -253,12 +254,13 @@ namespace eval themer {
       pack $data(widgets,copy_frame).copy   -side left  -padx 2 -pady 2
       pack $data(widgets,copy_frame).cancel -side right -padx 2 -pady 2
 
-      grid rowconfigure    .thmwin.pw.lf 1 -weight 1
+      grid rowconfigure    .thmwin.pw.lf 2 -weight 1
       grid columnconfigure .thmwin.pw.lf 0 -weight 1
       grid .thmwin.pw.lf.search -row 0 -column 0 -sticky ew -columnspan 2
-      grid .thmwin.pw.lf.tbl    -row 1 -column 0 -sticky news
-      grid .thmwin.pw.lf.vb     -row 1 -column 1 -sticky ns
-      grid .thmwin.pw.lf.cf     -row 2 -column 0 -sticky ew -columnspan 2
+      grid .thmwin.pw.lf.tbl    -row 1 -column 0 -sticky news -rowspan 2
+      grid [.thmwin.pw.lf.tbl cornerpath] -row 1 -column 1 -sticky news
+      grid .thmwin.pw.lf.vb     -row 2 -column 1 -sticky ns
+      grid .thmwin.pw.lf.cf     -row 3 -column 0 -sticky ew -columnspan 2
 
       # Hide the search and copy frames
       grid remove $data(widgets,search)
@@ -276,7 +278,9 @@ namespace eval themer {
         -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
         -borderwidth 0 -highlightthickness 0 -wrap word -state disabled \
         -yscrollcommand { utils::set_yscrollbar .thmwin.pw.rf.def.vb }]
-      ttk::scrollbar .thmwin.pw.rf.def.vb -orient vertical -command { .thmwin.pw.rf.def.t yview }
+      scroller::scroller .thmwin.pw.rf.def.vb -orient vertical -command { .thmwin.pw.rf.def.t yview }
+
+      theme::register_widget .thmwin.pw.rf.def.vb misc_scrollbar
 
       grid rowconfigure    .thmwin.pw.rf.def 0 -weight 1
       grid columnconfigure .thmwin.pw.rf.def 0 -weight 1
@@ -877,9 +881,12 @@ namespace eval themer {
     set data(widgets,image_pf_mb_dir)  [ttk::menubutton $data(widgets,image).pf.mb -menu [menu $data(widgets,image).pf.mnu -tearoff 0]]
     set data(widgets,image_pf_tl_file) [tablelist::tablelist $data(widgets,image).pf.tl \
       -columns {0 {} center 0 {} center 0 {} center} -showlabels 0 -selecttype cell -stretch all \
+      -borderwidth 0 -highlightthickness 0 \
       -yscrollcommand [list $data(widgets,image).pf.vb set] -exportselection 0 \
     ]
-    ttk::scrollbar $data(widgets,image).pf.vb -orient vertical -command [list $data(widgets,image_pf_tl_file) yview]
+    scroller::scroller $data(widgets,image).pf.vb -orient vertical -command [list $data(widgets,image_pf_tl_file) yview]
+
+    theme::register_widget $data(widgets,image).pf.vb misc_scrollbar
 
     # Configure the table columns
     for {set i 0} {$i < 3} {incr i} {
