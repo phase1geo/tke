@@ -291,11 +291,12 @@ namespace eval pref_ui {
   # Make a text field.
   proc make_text {w msg varname height {grid 0} {help ""}} {
 
-    ttk::labelframe $w -text $msg
-    text            $w.t  -height $height -xscrollcommand [list utils::set_xscrollbar $w.hb] -yscrollcommand [list utils::set_yscrollbar $w.vb]
-    ttk::scrollbar  $w.vb -orient vertical   -command [list $w.t yview]
-    ttk::scrollbar  $w.hb -orient horizontal -command [list $w.t xview]
-    ttk::frame      $w.bf
+    ttk::labelframe    $w -text $msg
+    text               $w.t -height $height -borderwidth 0 -highlightthickness 0 \
+      -xscrollcommand [list utils::set_xscrollbar $w.hb] -yscrollcommand [list utils::set_yscrollbar $w.vb]
+    scroller::scroller $w.vb -orient vertical   -command [list $w.t yview]
+    scroller::scroller $w.hb -orient horizontal -command [list $w.t xview]
+    ttk::frame         $w.bf
     pack [ttk::button $w.bf.save -style BButton -text [msgcat::mc "Save"] -command [list pref_ui::text_save $w.t $varname] -state disabled] -side left -padx 2 -pady 2
 
     bind $w.t <<Modified>> [list pref_ui::text_modified $w]
@@ -572,14 +573,14 @@ namespace eval pref_ui {
     ttk::labelframe $w -text $msg
     set win [tablelist::tablelist $w.tl -columns $columns \
       -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
-      -height $height \
+      -height $height -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::table_edit_end_command $varname] \
       -xscrollcommand [list utils::set_xscrollbar $w.hb] \
       -yscrollcommand [list utils::set_yscrollbar $w.vb]]
-    ttk::scrollbar $w.vb -orient vertical   -command [list $w.tl yview]
-    ttk::scrollbar $w.hb -orient horizontal -command [list $w.tl xview]
+    scroller::scroller $w.vb -orient vertical   -command [list $w.tl yview]
+    scroller::scroller $w.hb -orient horizontal -command [list $w.tl xview]
     ttk::frame $w.bf
-    pack [ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::table_add $win]]                            -side left -padx 2 -pady 2
+    pack [ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::table_add $win]]                             -side left -padx 2 -pady 2
     pack [ttk::button $w.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::table_delete $win $varname] -state disabled] -side left -padx 2 -pady 2
 
     utils::tablelist_configure $win
@@ -590,12 +591,13 @@ namespace eval pref_ui {
 
     bind $win <<TablelistSelect>> [list pref_ui::table_selected $win]
 
-    grid rowconfigure    $w 0 -weight 1
+    grid rowconfigure    $w 1 -weight 1
     grid columnconfigure $w 0 -weight 1
-    grid $w.tl -row 0 -column 0 -sticky news
-    grid $w.vb -row 0 -column 1 -sticky ns
-    grid $w.hb -row 1 -column 0 -sticky ew
-    grid $w.bf -row 2 -column 0 -sticky ew -columnspan 2
+    grid $w.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$w.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $w.vb              -row 1 -column 1 -sticky ns
+    grid $w.hb              -row 2 -column 0 -sticky ew
+    grid $w.bf              -row 3 -column 0 -sticky ew -columnspan 2
 
     if {$help ne ""} {
       make_help $w $help 1
@@ -876,8 +878,10 @@ namespace eval pref_ui {
       set widgets(frame) [ttk::frame .prefwin.f.pf]
 
       set widgets(match_f)  [ttk::frame .prefwin.f.mf]
-      set widgets(match_lb) [listbox .prefwin.f.mf.lb -relief flat -height 10 -yscrollcommand [list utils::set_yscrollbar .prefwin.f.mf.vb]]
-      ttk::scrollbar .prefwin.f.mf.vb -orient vertical -command [list .pref.f.mf.matches yview]
+      set widgets(match_lb) [listbox .prefwin.f.mf.lb -relief flat -height 10 \
+        -borderwidth 0 -highlightthickness 0 \
+        -yscrollcommand [list utils::set_yscrollbar .prefwin.f.mf.vb]]
+      scroller::scroller .prefwin.f.mf.vb -orient vertical -command [list .pref.f.mf.matches yview]
 
       bind [.prefwin.sf.e entrytag] <Return> [list pref_ui::search_select]
       bind [.prefwin.sf.e entrytag] <Escape> [list pref_ui::search_clear]
@@ -1387,12 +1391,13 @@ namespace eval pref_ui {
     ttk::frame $b.f
     set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
       -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
+      -borderwidth 0 -highlightthickness 0 \
       -height 25 \
       -editendcommand [list pref_ui::var_edit_end_command] \
       -xscrollcommand [list utils::set_xscrollbar $b.f.hb] \
       -yscrollcommand [list utils::set_yscrollbar $b.f.vb]]
-    ttk::scrollbar $b.f.vb -orient vertical   -command [list $b.f.tl yview]
-    ttk::scrollbar $b.f.hb -orient horizontal -command [list $b.f.tl xview]
+    scroller::scroller $b.f.vb -orient vertical   -command [list $b.f.tl yview]
+    scroller::scroller $b.f.hb -orient horizontal -command [list $b.f.tl xview]
 
     utils::tablelist_configure $widgets(var_table)
 
@@ -1401,11 +1406,12 @@ namespace eval pref_ui {
 
     bind $widgets(var_table) <<TablelistSelect>> [list pref_ui::handle_var_select]
 
-    grid rowconfigure    $b.f 0 -weight 1
+    grid rowconfigure    $b.f 1 -weight 1
     grid columnconfigure $b.f 0 -weight 1
-    grid $b.f.tl -row 0 -column 0 -sticky news
-    grid $b.f.vb -row 0 -column 1 -sticky ns
-    grid $b.f.hb -row 1 -column 0 -sticky ew
+    grid $b.f.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$b.f.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $b.f.vb              -row 1 -column 1 -sticky ns
+    grid $b.f.hb              -row 2 -column 0 -sticky ew
 
     register $widgets(var_table) $wstr General/Variables
 
@@ -1432,12 +1438,12 @@ namespace eval pref_ui {
 
     set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
       -stretch all -exportselection 1 -showseparators 1 \
-      -height 25 \
+      -height 25 -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::lang_edit_end_command] \
       -xscrollcommand [list utils::set_xscrollbar $c.hb] \
       -yscrollcommand [list utils::set_yscrollbar $c.vb]]
-    ttk::scrollbar $c.vb -orient vertical   -command [list $c.tl yview]
-    ttk::scrollbar $c.hb -orient horizontal -command [list $c.tl xview]
+    scroller::scroller $c.vb -orient vertical   -command [list $c.tl yview]
+    scroller::scroller $c.hb -orient horizontal -command [list $c.tl xview]
 
     utils::tablelist_configure $widgets(lang_table)
 
@@ -1451,11 +1457,12 @@ namespace eval pref_ui {
     register $widgets(lang_table) $wstr General/DisabledLanguages
     register $widgets(lang_table) $wstr General/LanguagePatternOverrides
 
-    grid rowconfigure    $c 0 -weight 1
+    grid rowconfigure    $c 1 -weight 1
     grid columnconfigure $c 0 -weight 1
-    grid $c.tl -row 0 -column 0 -sticky news
-    grid $c.vb -row 0 -column 1 -sticky ns
-    grid $c.hb -row 1 -column 0 -sticky ew
+    grid $c.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$c.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $c.vb              -row 1 -column 1 -sticky ns
+    grid $c.hb              -row 2 -column 0 -sticky ew
 
     # Populate the language table
     populate_lang_table
@@ -1915,12 +1922,12 @@ namespace eval pref_ui {
     ttk::frame $b.tf
     set widgets(themes_tl) [tablelist::tablelist $b.tf.tl \
       -columns {0 Name 0 Visible center 0 Imported center 0 Creator 0 Website} \
-      -exportselection 0 -stretch all \
+      -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
       -labelcommand tablelist::sortByColumn \
       -xscrollcommand [list utils::set_xscrollbar $b.tf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $b.tf.vb]]
-    ttk::scrollbar $b.tf.vb -orient vertical   -command [list $b.tf.tl yview]
-    ttk::scrollbar $b.tf.hb -orient horizontal -command [list $b.tf.tl xview]
+    scroller::scroller $b.tf.vb -orient vertical   -command [list $b.tf.tl yview]
+    scroller::scroller $b.tf.hb -orient horizontal -command [list $b.tf.tl xview]
 
     utils::tablelist_configure $b.tf.tl
 
@@ -1933,11 +1940,12 @@ namespace eval pref_ui {
     bind $widgets(themes_tl)           <<TablelistSelect>> [list pref_ui::themes_selected]
     bind [$widgets(themes_tl) bodytag] <Button-1>          [list pref_ui::themes_left_click %W %x %y]
 
-    grid rowconfigure    $b.tf 0 -weight 1
+    grid rowconfigure    $b.tf 1 -weight 1
     grid columnconfigure $b.tf 0 -weight 1
-    grid $b.tf.tl -row 0 -column 0 -sticky news
-    grid $b.tf.vb -row 0 -column 1 -sticky ns
-    grid $b.tf.hb -row 1 -column 0 -sticky ew
+    grid $b.tf.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$b.tf.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $b.tf.vb              -row 1 -column 1 -sticky ns
+    grid $b.tf.hb              -row 2 -column 0 -sticky ew
 
     ttk::frame  $b.bf
     ttk::button $b.bf.add  -style BButton -text [msgcat::mc "Add"]  -command [list pref_ui::themes_add]
@@ -2377,12 +2385,13 @@ namespace eval pref_ui {
     set widgets(emmet_na_tl) [tablelist::tablelist $c.tf.tl \
       -columns {0 {Alias} 0 {Node} 0 {Closing} 0 {Attributes}} \
       -exportselection 0 -editselectedonly 1 -stretch all \
+      -borderwidth 0 -highlightthickness 0 \
       -editstartcommand [list pref_ui::emmet_na_edit_start_command] \
       -editendcommand   [list pref_ui::emmet_na_edit_end_command] \
       -xscrollcommand [list utils::set_xscrollbar $c.tf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $c.tf.vb]]
-    ttk::scrollbar $c.tf.vb -orient vertical   -command [list $widgets(emmet_na_tl) yview]
-    ttk::scrollbar $c.tf.hb -orient horizontal -command [list $widgets(emmet_na_tl) xview]
+    scroller::scroller $c.tf.vb -orient vertical   -command [list $widgets(emmet_na_tl) yview]
+    scroller::scroller $c.tf.hb -orient horizontal -command [list $widgets(emmet_na_tl) xview]
 
     $widgets(emmet_na_tl) columnconfigure 0 -name alias  -editable 1 -stretchable 1 -resizable 1
     $widgets(emmet_na_tl) columnconfigure 1 -name name   -editable 1 -stretchable 1 -resizable 1
@@ -2392,11 +2401,12 @@ namespace eval pref_ui {
 
     bind $widgets(emmet_na_tl) <<TablelistSelect>> [list pref_ui::handle_emmet_na_select]
 
-    grid rowconfigure    $c.tf 0 -weight 1
+    grid rowconfigure    $c.tf 1 -weight 1
     grid columnconfigure $c.tf 0 -weight 1
-    grid $c.tf.tl -row 0 -column 0 -sticky news
-    grid $c.tf.vb -row 0 -column 1 -sticky ns
-    grid $c.tf.hb -row 1 -column 0 -sticky ew
+    grid $c.tf.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$c.tf.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $c.tf.vb              -row 1 -column 1 -sticky ns
+    grid $c.tf.hb              -row 2 -column 0 -sticky ew
 
     ttk::frame $c.bf
     ttk::button $c.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::emmet_na_add]
@@ -2446,22 +2456,24 @@ namespace eval pref_ui {
     ttk::frame $d.tf
     set widgets(emmet_aa_tl) [tablelist::tablelist $d.tf.tl -columns {0 {Alias} 0 {Value}} \
       -exportselection 0 -stretch all -editselectedonly 1 \
+      -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::emmet_aa_edit_end_command] \
       -xscrollcommand [list utils::set_xscrollbar $d.tf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $d.tf.vb]]
-    ttk::scrollbar $d.tf.vb -orient vertical   -command [list $d.tf.tl yview]
-    ttk::scrollbar $d.tf.hb -orient horizontal -command [list $d.tf.tl xview]
+    scroller::scroller $d.tf.vb -orient vertical   -command [list $d.tf.tl yview]
+    scroller::scroller $d.tf.hb -orient horizontal -command [list $d.tf.tl xview]
 
     $widgets(emmet_aa_tl) columnconfigure 0 -name alias -editable 1 -resizable 1 -stretchable 0
     $widgets(emmet_aa_tl) columnconfigure 1 -name value -editable 1 -resizable 1 -stretchable 1
 
     bind $widgets(emmet_aa_tl) <<TablelistSelect>> [list pref_ui::handle_emmet_aa_select]
 
-    grid rowconfigure    $d.tf 0 -weight 1
+    grid rowconfigure    $d.tf 1 -weight 1
     grid columnconfigure $d.tf 0 -weight 1
-    grid $d.tf.tl -row 0 -column 0 -sticky news
-    grid $d.tf.vb -row 0 -column 1 -sticky ns
-    grid $d.tf.hb -row 1 -column 0 -sticky ew
+    grid $d.tf.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$d.tf.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $d.tf.vb              -row 1 -column 1 -sticky ns
+    grid $d.tf.hb              -row 2 -column 0 -sticky ew
 
     ttk::frame $d.bf
     ttk::button $d.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::emmet_aa_add]
@@ -2994,11 +3006,11 @@ namespace eval pref_ui {
 
     ttk::frame $w.sf.tf.tf
     set widgets(snippets_tl) [tablelist::tablelist $w.sf.tf.tf.tl -columns {0 {Keyword} 0 {Snippet}} \
-      -exportselection 0 -stretch all \
+      -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
       -xscrollcommand [list utils::set_xscrollbar $w.sf.tf.tf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $w.sf.tf.tf.vb]]
-    ttk::scrollbar $w.sf.tf.tf.vb -orient vertical   -command [list $w.sf.tf.tf.tl yview]
-    ttk::scrollbar $w.sf.tf.tf.hb -orient horizontal -command [list $w.sf.tf.tf.tl xview]
+    scroller::scroller $w.sf.tf.tf.vb -orient vertical   -command [list $w.sf.tf.tf.tl yview]
+    scroller::scroller $w.sf.tf.tf.hb -orient horizontal -command [list $w.sf.tf.tf.tl xview]
 
     utils::tablelist_configure $widgets(snippets_tl)
 
@@ -3009,11 +3021,12 @@ namespace eval pref_ui {
     bind $widgets(snippets_tl)           <<TablelistSelect>> [list pref_ui::snippets_select]
     bind [$widgets(snippets_tl) bodytag] <Double-Button-1>   [list pref_ui::snippets_edit]
 
-    grid rowconfigure    $w.sf.tf.tf 0 -weight 1
+    grid rowconfigure    $w.sf.tf.tf 1 -weight 1
     grid columnconfigure $w.sf.tf.tf 0 -weight 1
-    grid $w.sf.tf.tf.tl -row 0 -column 0 -sticky news
-    grid $w.sf.tf.tf.vb -row 0 -column 1 -sticky ns
-    grid $w.sf.tf.tf.hb -row 1 -column 0 -sticky ew
+    grid $w.sf.tf.tf.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$w.sf.tf.tf.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $w.sf.tf.tf.vb              -row 1 -column 1 -sticky ns
+    grid $w.sf.tf.tf.hb              -row 2 -column 0 -sticky ew
 
     ttk::frame  $w.sf.tf.bf
     ttk::button $w.sf.tf.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::snippets_add]
@@ -3496,9 +3509,9 @@ namespace eval pref_ui {
 
     ttk::frame $w.tf
     set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut} 0 {}} \
-      -height 20 -exportselection 0 -stretch all \
+      -height 20 -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
       -yscrollcommand [list $w.tf.vb set]]
-    ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
+    scroller::scroller $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
 
     utils::tablelist_configure $widgets(shortcut_tl)
 
@@ -3526,11 +3539,12 @@ namespace eval pref_ui {
     pack $w.tf.sf.update -side right -padx 2 -pady 2
     pack $w.tf.sf.clear  -side right -padx 2 -pady 2
 
-    grid rowconfigure    $w.tf 0 -weight 1
+    grid rowconfigure    $w.tf 1 -weight 1
     grid columnconfigure $w.tf 0 -weight 1
-    grid $w.tf.tl -row 0 -column 0 -sticky news
-    grid $w.tf.vb -row 0 -column 1 -sticky ns
-    grid $w.tf.sf -row 1 -column 0 -sticky ew -columnspan 2
+    grid $w.tf.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$w.tf.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $w.tf.vb              -row 1 -column 1 -sticky ns
+    grid $w.tf.sf              -row 2 -column 0 -sticky ew -columnspan 2
 
     # Hide the shortcut frame
     grid remove $w.tf.sf
@@ -4082,9 +4096,10 @@ namespace eval pref_ui {
     ttk::frame $w.tf
     set widgets(doc,table) [tablelist::tablelist $w.tf.tl -columns {0 Name 0 URL} \
       -exportselection 0 -stretch all -editselectedonly 1 \
+      -borderwidth 0 -highlightthickness 0 \
       -movablerows 1 -movecursor [ttk::cursor move] -selectmode single \
       -yscrollcommand [list utils::set_yscrollbar $w.tf.vb]]
-    ttk::scrollbar $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
+    scroller::scroller $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
 
     utils::tablelist_configure $w.tf.tl
 
@@ -4095,10 +4110,11 @@ namespace eval pref_ui {
     bind $w.tf.tl <<TablelistCellUpdated>> [list pref_ui::documentation_save]
     bind $w.tf.tl <<TablelistRowMoved>>    [list pref_ui::documentation_save]
 
-    grid rowconfigure    $w.tf 0 -weight 1
+    grid rowconfigure    $w.tf 1 -weight 1
     grid columnconfigure $w.tf 0 -weight 1
-    grid $w.tf.tl -row 0 -column 0 -sticky news
-    grid $w.tf.vb -row 0 -column 1 -sticky ns
+    grid $w.tf.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$w.tf.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $w.tf.vb              -row 1 -column 1 -sticky ns
 
     ttk::frame  $w.bf
     ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"] -command [list pref_ui::documentation_add]
@@ -4363,11 +4379,12 @@ namespace eval pref_ui {
     ttk::frame $c.f
     set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
       -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
+      -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::nfs_edit_end_command] \
       -xscrollcommand [list utils::set_xscrollbar $c.f.hb] \
       -yscrollcommand [list utils::set_yscrollbar $c.f.vb]]
-    ttk::scrollbar $c.f.vb -orient vertical   -command [list $c.f.tl yview]
-    ttk::scrollbar $c.f.hb -orient horizontal -command [list $c.f.tl xview]
+    scroller::scroller $c.f.vb -orient vertical   -command [list $c.f.tl yview]
+    scroller::scroller $c.f.hb -orient horizontal -command [list $c.f.tl xview]
 
     register $widgets(advanced_tl) $wstr NFSMounts
 
@@ -4379,11 +4396,12 @@ namespace eval pref_ui {
 
     bind $widgets(advanced_tl) <<TablelistSelect>> [list pref_ui::handle_nfs_select]
 
-    grid rowconfigure    $c.f 0 -weight 1
+    grid rowconfigure    $c.f 1 -weight 1
     grid columnconfigure $c.f 0 -weight 1
-    grid $c.f.tl -row 0 -column 0 -sticky news
-    grid $c.f.vb -row 0 -column 1 -sticky ns
-    grid $c.f.hb -row 1 -column 0 -sticky ew
+    grid $c.f.tl              -row 0 -column 0 -sticky news -rowspan 2
+    grid [$c.f.tl cornerpath] -row 0 -column 1 -sticky news
+    grid $c.f.vb              -row 1 -column 1 -sticky ns
+    grid $c.f.hb              -row 2 -column 0 -sticky ew
 
     ttk::frame $c.bf
     set widgets(advanced_nfs_add) [ttk::button $c.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::nfs_add]]

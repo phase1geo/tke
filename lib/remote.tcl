@@ -158,7 +158,7 @@ namespace eval remote {
     bind $widgets(sb)           <<TablelistRowMoved>>   [list remote::handle_row_moved %d]
 
     grid rowconfigure    .ftp.pw.lf.sf 1 -weight 1
-    grid columnconfigure .ftp.pw.lf.sf 1 -weight 1
+    grid columnconfigure .ftp.pw.lf.sf 0 -weight 1
     grid .ftp.pw.lf.sf.tl          -row 0 -column 0 -sticky news -rowspan 2
     grid [$widgets(sb) cornerpath] -row 0 -column 1 -sticky ew
     grid .ftp.pw.lf.sf.vb          -row 1 -column 1 -sticky ns
