@@ -1341,6 +1341,7 @@ namespace eval plugins {
       grid columnconfigure $win 0 -weight 1
       grid $win.f  -row 0 -column 0 -sticky news
       grid $win.vb -row 0 -column 1 -sticky ns
+      theme::register_widget $win.vb misc_scrollbar
       if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] $win.f.scrolled } status]} {
         handle_status_error "handle_on_pref_ui" [lindex $entry 0] $status
       } else {

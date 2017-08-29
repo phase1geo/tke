@@ -217,6 +217,9 @@ meta,syntax,difference_add {#09281b,v,50}
 meta,syntax,difference_sub {#270a1b,v,50}
 meta,syntax,embedded {#090a1b,v,20}
 meta,ttk_style,active_color {#00348c,v,40}
+misc_scrollbar,-background {#00348c}
+misc_scrollbar,-foreground {#090a1b}
+misc_scrollbar,-thickness {15}
 sidebar,-background {#f8f8f8}
 sidebar,-dropcolor {green}
 sidebar,-foreground {#090a1b}
