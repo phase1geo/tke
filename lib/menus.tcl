@@ -788,7 +788,7 @@ namespace eval menus {
       gui::set_error_message [msgcat::mc "Unable to write export file"]
       return
     }
- 
+
     # Let the user know that the operation has completed
     gui::set_info_message [msgcat::mc "Export complete"]
 
@@ -1064,8 +1064,8 @@ namespace eval menus {
     $mb add command -label [msgcat::mc "Select All"] -underline 7 -command [list gui::select_all]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list gui::select_all]
 
-    $mb add command -label [msgcat::mc "Select Mode"] -underline 7 -command [list menus::select_mode]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enter selection mode"]] [list menus::select_mode]
+    # $mb add command -label [msgcat::mc "Select Mode"] -underline 7 -command [list menus::select_mode]
+    # launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enter selection mode"]] [list menus::select_mode]
 
     $mb add separator
 
@@ -1481,7 +1481,7 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
-      $mb entryconfigure [msgcat::mc "Select Mode"]      -state disabled
+      # $mb entryconfigure [msgcat::mc "Select Mode"]      -state disabled
       $mb entryconfigure [msgcat::mc "Vim Mode"]         -state disabled
       $mb entryconfigure [msgcat::mc "Toggle Comment"]   -state disabled
       $mb entryconfigure [msgcat::mc "Indentation"]      -state disabled
@@ -1511,7 +1511,7 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
       $mb entryconfigure [msgcat::mc "Select All"]  -state normal
-      $mb entryconfigure [msgcat::mc "Select Mode"] -state normal
+      # $mb entryconfigure [msgcat::mc "Select Mode"] -state normal
       $mb entryconfigure [msgcat::mc "Vim Mode"]    -state $readonly_state
       if {[lindex [syntax::get_comments [gui::current_txt]] 0] eq ""} {
         $mb entryconfigure [msgcat::mc "Toggle Comment"] -state disabled
