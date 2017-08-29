@@ -64,12 +64,14 @@ namespace eval fontchooser {
         -validate key -validatecommand {string is double %P}
 
     listbox $w.lfonts -listvariable fontchooser::data($w,fonts) -height 7 \
+        -borderwidth 0 -highlightthickness 0 \
         -yscrollcommand [list $w.sbfonts set] -height 7 -exportselection 0
-    ttk::scrollbar $w.sbfonts -command [list $w.lfonts yview]
+    scroller::scroller $w.sbfonts -command [list $w.lfonts yview]
     listbox $w.lstyles -listvariable fontchooser::data($w,styles) -height 7 -exportselection 0
     listbox $w.lsizes  -listvariable fontchooser::data($w,sizes) \
+        -borderwidth 0 -highlightthickness 0 \
         -yscroll [list $w.sbsizes set] -width 6 -height 7 -exportselection 0
-    ttk::scrollbar $w.sbsizes -command [list $w.lsizes yview]
+    scroller::scroller $w.sbsizes -command [list $w.lsizes yview]
 
     bind $w.lfonts  <<ListboxSelect>> [list fontchooser::click $w font]
     bind $w.lstyles <<ListboxSelect>> [list fontchooser::click $w style]
