@@ -22,7 +22,7 @@
 {Edit/Paste}                              Ctrl-V
 {Edit/Paste and Format}                   Shift-Ctrl-V
 {Edit/Select All}                         Shift-Ctrl-A
-{Edit/Select Mode}                        Ctrl-A
+# {Edit/Select Mode}                        Ctrl-A
 {Edit/Toggle Comment}                     Ctrl-/
 {Edit/Indentation/Indent}                 Ctrl-]
 {Edit/Indentation/Unindent}               Ctrl-[
