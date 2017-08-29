@@ -3593,11 +3593,15 @@ namespace eval gui {
     grid .aboutwin.f.if.v7 -row 7 -column 1 -sticky news -padx 2 -pady 2
 
     ttk::labelframe .aboutwin.f.cf -text [msgcat::mc "Credits"] -labelanchor n
-    set txt [text .aboutwin.f.cf.t -wrap word -height 5 -relief flat \
+    set txt [text .aboutwin.f.cf.t -wrap word -height 5 -relief flat -highlightthickness 0 \
+      -font "TkDefaultFont" \
       -background [utils::get_default_background] \
       -foreground [utils::get_default_foreground] \
       -yscrollcommand { utils::set_yscrollbar .aboutwin.f.cf.vb }]
-    ttk::scrollbar .aboutwin.f.cf.vb -orient vertical -command { .aboutwin.f.cf.t yview }
+    scroller::scroller .aboutwin.f.cf.vb -orient vertical -command { .aboutwin.f.cf.t yview }
+
+    # Register the widget for theming
+    theme::register_widget .aboutwin.f.cf.vb misc_scrollbar
 
     grid rowconfigure    .aboutwin.f.cf 0 -weight 1
     grid columnconfigure .aboutwin.f.cf 0 -weight 1
@@ -3615,7 +3619,7 @@ namespace eval gui {
         .aboutwin.f.credits configure -text [msgcat::mc "Credits"]
       }
     }
-    ttk::label  .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 17]
+    ttk::label .aboutwin.f.copyright -text [format "%s %d-%d" [msgcat::mc "Copyright"] 2013 17]
 
     pack .aboutwin.f.logo      -padx 2 -pady 8 -anchor w
     pack .aboutwin.f.if        -padx 2 -pady 2
@@ -3642,6 +3646,9 @@ namespace eval gui {
     $txt tag bind tllink <Enter>    [list $txt configure -cursor [ttk::cursor link]]
     $txt tag bind tllink <Leave>    [list $txt configure -cursor [ttk::cursor standard]]
     $txt tag bind tllink <Button-1> [list utils::open_file_externally "http://www.nemethi.de"]
+
+    # Make sure that the user cannot change the text.
+    $txt configure -state disabled
 
   }
 
