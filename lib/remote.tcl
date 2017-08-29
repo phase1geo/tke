@@ -143,7 +143,10 @@ namespace eval remote {
       -acceptchildcommand [list remote::accept_child_command] \
       -background [utils::get_default_background] -foreground [utils::get_default_foreground] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.lf.sf.vb]]
-    ttk::scrollbar .ftp.pw.lf.sf.vb -orient vertical   -command [list .ftp.pw.lf.sf.tl yview]
+    scroller::scroller .ftp.pw.lf.sf.vb -orient vertical -command [list .ftp.pw.lf.sf.tl yview]
+
+    # Register the scroller for theming
+    theme::register_widget .ftp.pw.lf.sf.vb misc_scrollbar
 
     $widgets(sb) columnconfigure 0 -name name     -editable 0 -resizable 1 -stretchable 1
     $widgets(sb) columnconfigure 1 -name settings -hide 1
@@ -154,10 +157,11 @@ namespace eval remote {
     bind [$widgets(sb) bodytag] <Button-$::right_click> [list remote::show_sidebar_menu %W %x %y %X %Y]
     bind $widgets(sb)           <<TablelistRowMoved>>   [list remote::handle_row_moved %d]
 
-    grid rowconfigure    .ftp.pw.lf.sf 0 -weight 1
-    grid columnconfigure .ftp.pw.lf.sf 0 -weight 1
-    grid .ftp.pw.lf.sf.tl -row 0 -column 0 -sticky news
-    grid .ftp.pw.lf.sf.vb -row 0 -column 1 -sticky ns
+    grid rowconfigure    .ftp.pw.lf.sf 1 -weight 1
+    grid columnconfigure .ftp.pw.lf.sf 1 -weight 1
+    grid .ftp.pw.lf.sf.tl          -row 0 -column 0 -sticky news -rowspan 2
+    grid [$widgets(sb) cornerpath] -row 0 -column 1 -sticky ew
+    grid .ftp.pw.lf.sf.vb          -row 1 -column 1 -sticky ns
 
     ttk::frame  .ftp.pw.lf.bf
     set widgets(new_b) [ttk::button .ftp.pw.lf.bf.edit -style BButton -text "+" -width 2 -command [list remote::show_new_menu]]
@@ -209,12 +213,12 @@ namespace eval remote {
     pack $widgets(dir_mb)      -side left -padx 2 -pady 2 -fill x -expand yes
 
     set widgets(tl) [tablelist::tablelist .ftp.pw.rf.vf.ff.tl \
-      -columns {0 {File System} 0 {}} -exportselection 0 \
+      -columns {0 {File System} 0 {}} -exportselection 0 -borderwidth 0 -highlightthickness 0 -showlabels 0 \
       -selectmode [expr {($type eq "save") ? "browse" : "extended"}] \
       -xscrollcommand [list utils::set_xscrollbar .ftp.pw.rf.vf.ff.hb] \
       -yscrollcommand [list utils::set_yscrollbar .ftp.pw.rf.vf.ff.vb]]
-    ttk::scrollbar .ftp.pw.rf.vf.ff.vb -orient vertical   -command [list .ftp.pw.rf.vf.ff.tl yview]
-    ttk::scrollbar .ftp.pw.rf.vf.ff.hb -orient horizontal -command [list .ftp.pw.rf.vf.ff.tl xview]
+    scroller::scroller .ftp.pw.rf.vf.ff.vb -orient vertical   -command [list .ftp.pw.rf.vf.ff.tl yview] -background white -foreground black
+    scroller::scroller .ftp.pw.rf.vf.ff.hb -orient horizontal -command [list .ftp.pw.rf.vf.ff.tl xview] -background white -foreground black
 
     $widgets(tl) columnconfigure 0 -name fname -resizable 1 -stretchable 1 -editable 0 -formatcommand [list remote::format_name]
     $widgets(tl) columnconfigure 1 -name dir   -hide 1
