@@ -2589,6 +2589,9 @@ msgcat::mcmset cs {
   "Amount of border to display around command launcher in pixels"
   "Velikost okraje zobrazení kolem příkaz spouštěč v pixelech"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Barva pozadí (koryta) použité v standardní posuvník."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Souvislosti (žlábek), barvy použité v postranním panelu posuvníku."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset cs {
 
   "ERROR:  Unable to read"
   "Chyba: Nelze přečíst"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Barva popředí (posuvník) používaná v standardní posuvník."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Popředí (slider), barvy použité v postranním panelu posuvníku."
@@ -2879,6 +2885,9 @@ msgcat::mcmset cs {
 
   "Specifies the pixel thickness of the highlight line."
   "Určuje tloušťku pixelů zvýraznění linie."
+
+  "Standard Scrollbars"
+  "Standardní posuvníky"
 
   "Syntax Colors"
   "Syntaxe Barvy"

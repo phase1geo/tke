@@ -2589,6 +2589,9 @@ msgcat::mcmset pt {
   "Amount of border to display around command launcher in pixels"
   "Quantidade de borda para exibir em torno de lançador de comando em pixels"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Cor de fundo (calha) usado em uma padrão barra de rolagem."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Cor de fundo (calha) usado na barra de rolagem lateral."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset pt {
 
   "ERROR:  Unable to read"
   "ERRO: Não é possível ler"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Cor (utilizado em (...) )"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Cor de primeiro plano (slider) usado na barra de rolagem lateral."
@@ -2879,6 +2885,9 @@ msgcat::mcmset pt {
 
   "Specifies the pixel thickness of the highlight line."
   "Especifica a espessura de pixel da linha de destaque."
+
+  "Standard Scrollbars"
+  "Barras de deslocamento"
 
   "Syntax Colors"
   "Sintaxe Colors"

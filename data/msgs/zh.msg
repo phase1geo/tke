@@ -2589,6 +2589,9 @@ msgcat::mcmset zh {
   "Amount of border to display around command launcher in pixels"
   "量的边界周围命令发射器以像素为单位显示"
 
+  "Background (trough) color used in a standard scrollbar."
+  "用在一个标准的滚动条的背景 （槽） 颜色。"
+
   "Background (trough) color used in the sidebar scrollbar."
   "用在侧边栏滚动条的背景 (槽) 颜色。"
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset zh {
 
   "ERROR:  Unable to read"
   "错误: 无法读取"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "（滑块） 使用前景色在一个标准的滚动条。"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "(滑块) 使用前景色在侧边栏滚动条。"
@@ -2879,6 +2885,9 @@ msgcat::mcmset zh {
 
   "Specifies the pixel thickness of the highlight line."
   "指定像素的突出显示线的粗细。"
+
+  "Standard Scrollbars"
+  "标准的滚动条"
 
   "Syntax Colors"
   "语法颜色"

@@ -2589,6 +2589,9 @@ msgcat::mcmset pl {
   "Amount of border to display around command launcher in pixels"
   "Ilość obramowania, aby wyświetlić w okolicy: command launcher w pikselach"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Kolor tła (koryta), używane w standardowych scrollbar."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Kolor tła (koryta), stosowany na pasku przewijania paska bocznego."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset pl {
 
   "ERROR:  Unable to read"
   "BŁĄD: Nie można odczytać"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Kolor pierwszego planu (suwak) używane w standardowych scrollbar."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Kolor pierwszoplanowy (suwak) używane na pasku przewijania paska bocznego."
@@ -2879,6 +2885,9 @@ msgcat::mcmset pl {
 
   "Specifies the pixel thickness of the highlight line."
   "Określa grubość pikseli linii podkreślenia."
+
+  "Standard Scrollbars"
+  "Standardowe paski przewijania"
 
   "Syntax Colors"
   "Składnia Kolory"

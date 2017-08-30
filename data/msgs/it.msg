@@ -2589,6 +2589,9 @@ msgcat::mcmset it {
   "Amount of border to display around command launcher in pixels"
   "Spessore del bordo da visualizzare intorno lanciatore di comandi in pixel"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Colore di sfondo (depressione) utilizzato in una barra di scorrimento standard."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Contesto (depressione) colore utilizzato nella barra di scorrimento barra laterale."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset it {
 
   "ERROR:  Unable to read"
   "ERRORE: Impossibile leggere"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Colore di primo piano (a scorrimento) utilizzato in una barra di scorrimento standard."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Primo piano (slider) colore utilizzato nella barra di scorrimento barra laterale."
@@ -2879,6 +2885,9 @@ msgcat::mcmset it {
 
   "Specifies the pixel thickness of the highlight line."
   "Specifica lo spessore dei pixel della linea di evidenziazione."
+
+  "Standard Scrollbars"
+  "Barre di scorrimento standard"
 
   "Syntax Colors"
   "Colori sintassi"

@@ -2589,6 +2589,9 @@ msgcat::mcmset fr {
   "Amount of border to display around command launcher in pixels"
   "Montant de bordure pour afficher autour de lanceur de la commande en pixels"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Couleur d'en-tête (utilisé dans mega menu)"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Contexte (creux) couleur utilisée dans la barre de défilement de la barre latérale."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset fr {
 
   "ERROR:  Unable to read"
   "ERREUR: Impossible de lire"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Couleur de premier plan (curseur) utilisé dans une barre de défilement standard."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Premier plan (curseur) couleur utilisée dans la barre de défilement de la barre latérale."
@@ -2879,6 +2885,9 @@ msgcat::mcmset fr {
 
   "Specifies the pixel thickness of the highlight line."
   "Indique l'épaisseur de pixel de la ligne de surbrillance."
+
+  "Standard Scrollbars"
+  "Barres de défilement"
 
   "Syntax Colors"
   "Syntaxe Couleurs"

@@ -2589,6 +2589,9 @@ msgcat::mcmset nl {
   "Amount of border to display around command launcher in pixels"
   "Bedrag van de rand wilt weergeven rondom command launcher in pixels"
 
+  "Background (trough) color used in a standard scrollbar."
+  "(Via) achtergrondkleur gebruikt in een standaard scrollbar."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Achtergrond (dal) kleur gebruikt in de zijbalk scrollbar."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset nl {
 
   "ERROR:  Unable to read"
   "Fout: kan ruw bestand niet lezen"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "(Schuif) voorgrondkleur in een standaard scrollbar gebruikt."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Voorgrond (schuif) kleur gebruikt in de zijbalk scrollbar."
@@ -2879,6 +2885,9 @@ msgcat::mcmset nl {
 
   "Specifies the pixel thickness of the highlight line."
   "Specificeert de pixel dikte van het hoogtepunt lijn."
+
+  "Standard Scrollbars"
+  "Standaard Scrollbars"
 
   "Syntax Colors"
   "Syntax Kleuren"
