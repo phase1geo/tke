@@ -2589,6 +2589,9 @@ msgcat::mcmset ru {
   "Amount of border to display around command launcher in pixels"
   "Размер границы для отображения вокруг команды запуска в пикселях"
 
+  "Background (trough) color used in a standard scrollbar."
+  "e) по стандартной форме;"
+
   "Background (trough) color used in the sidebar scrollbar."
   "Цвет фона (корыто) в боковой панели прокрутки."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset ru {
 
   "ERROR:  Unable to read"
   "Ошибка: невозможно прочитать профиль"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "e) по стандартной форме;"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Цвет переднего плана (ползунок) в боковой панели прокрутки."
@@ -2879,6 +2885,9 @@ msgcat::mcmset ru {
 
   "Specifies the pixel thickness of the highlight line."
   "Определяет толщину линии выделения пикселей."
+
+  "Standard Scrollbars"
+  "Стандартный"
 
   "Syntax Colors"
   "Синтаксис цвета"

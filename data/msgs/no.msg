@@ -2589,6 +2589,9 @@ msgcat::mcmset no {
   "Amount of border to display around command launcher in pixels"
   "Mengden kantlinje vises rundt kommandoen bærerakett i piksler"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Bakgrunnsfarge (trau) brukes i en standard rullefeltet."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Bakgrunn (trough) fargen som brukes i sidepanelet scrollbar."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset no {
 
   "ERROR:  Unable to read"
   "FEIL: Kan ikke lese"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "(Skyveknappen) forgrunnsfargen brukes i en standard rullefeltet."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "(Skyveknappen) forgrunnsfargen brukes i sidepanelet rullefeltet."
@@ -2879,6 +2885,9 @@ msgcat::mcmset no {
 
   "Specifies the pixel thickness of the highlight line."
   "Angir pixel tykkelsen av høydepunkt linjen."
+
+  "Standard Scrollbars"
+  "Standard rullefelt"
 
   "Syntax Colors"
   "Syntaks Farger"

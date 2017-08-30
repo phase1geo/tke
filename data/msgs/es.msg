@@ -2586,6 +2586,9 @@ msgcat::mcmset es {
   "Amount of border to display around command launcher in pixels"
   "Cantidad de frontera para mostrar alrededor de lanzador comando en píxeles"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Implementada en el estándar PDF."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Antecedentes (valle) de color utilizado en la barra de desplazamiento de la barra lateral."
 
@@ -2720,6 +2723,9 @@ msgcat::mcmset es {
 
   "ERROR:  Unable to read"
   "ERROR: No se puede leer"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Color de primer plano (cursor) en una barra de desplazamiento estándar."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Primer Plano (slider) de color utilizado en la barra de desplazamiento de la barra lateral."
@@ -2876,6 +2882,9 @@ msgcat::mcmset es {
 
   "Specifies the pixel thickness of the highlight line."
   "Especifica el grosor de píxeles de la línea culminante."
+
+  "Standard Scrollbars"
+  "Barras de desplazamiento estándar"
 
   "Syntax Colors"
   "Sintaxis Colores"

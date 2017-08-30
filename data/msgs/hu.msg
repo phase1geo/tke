@@ -2589,6 +2589,9 @@ msgcat::mcmset hu {
   "Amount of border to display around command launcher in pixels"
   "Összeg szegély megjelenítéséhez, ezen a környéken: parancs launcher pixelben"
 
+  "Background (trough) color used in a standard scrollbar."
+  "(Vályú) használt háttérszín egy szabványos kézirattekercs-ban."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Háttér (maradék) használt szín a tálaló görgetősáv."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset hu {
 
   "ERROR:  Unable to read"
   "HIBA: Nem lehet olvasni"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "(Csúszka) használt előtérszín egy szabványos kézirattekercs-ban."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Előtér (slider) használt szín a tálaló görgetősáv."
@@ -2879,6 +2885,9 @@ msgcat::mcmset hu {
 
   "Specifies the pixel thickness of the highlight line."
   "Meghatározza a pixel vastagságú fénypontja sor."
+
+  "Standard Scrollbars"
+  "Standard Scrollbars"
 
   "Syntax Colors"
   "Syntax színek"

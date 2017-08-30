@@ -2589,6 +2589,9 @@ msgcat::mcmset ja {
   "Amount of border to display around command launcher in pixels"
   "コマンドランチャー ピクセルの周囲に表示する境界線の量"
 
+  "Background (trough) color used in a standard scrollbar."
+  "標準のスクロール バーで使用される (トラフ) の背景色。"
+
   "Background (trough) color used in the sidebar scrollbar."
   "サイドバーのスクロールバーで使用される背景（トラフ）色。"
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset ja {
 
   "ERROR:  Unable to read"
   "エラー: を読み取れません。"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "標準のスクロール バーで使用されるフォア グラウンド (スライダー) 色。"
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "サイドバーのスクロールバーで使用される前景（スライダー）カラー。"
@@ -2879,6 +2885,9 @@ msgcat::mcmset ja {
 
   "Specifies the pixel thickness of the highlight line."
   "ハイライト線のピクセルの太さを指定します。"
+
+  "Standard Scrollbars"
+  "標準"
 
   "Syntax Colors"
   "構文の色"

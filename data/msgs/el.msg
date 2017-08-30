@@ -2589,6 +2589,9 @@ msgcat::mcmset el {
   "Amount of border to display around command launcher in pixels"
   "Ποσό των συνόρων να εμφανίσει γύρω από την εντολή εκκίνησης σε εικονοστοιχεία"
 
+  "Background (trough) color used in a standard scrollbar."
+  "υποβάλλονται με τυποποιημένο μορφότυπο."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Ιστορικό (trough) χρωμάτων που χρησιμοποιείται στην πλαϊνή μπάρα κύλισης."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset el {
 
   "ERROR:  Unable to read"
   "ΣΦΆΛΜΑ: Δεν είναι δυνατή η ανάγνωση"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Χρώμα προσκηνίου (slider) χρησιμοποιούνται σε μια τυπική γραμμή κύλισης."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Προσκήνιο (slider) χρωμάτων που χρησιμοποιείται στην πλαϊνή μπάρα κύλισης."
@@ -2879,6 +2885,9 @@ msgcat::mcmset el {
 
   "Specifies the pixel thickness of the highlight line."
   "Καθορίζει το πάχος pixel της γραμμής αποκορύφωμα."
+
+  "Standard Scrollbars"
+  "Τυπική κύλισης"
 
   "Syntax Colors"
   "Σύνταξη Χρώματα"

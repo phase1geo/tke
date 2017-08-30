@@ -2589,6 +2589,9 @@ msgcat::mcmset sv {
   "Amount of border to display around command launcher in pixels"
   "Mängden kantlinje visas runt kommandot launcher i pixlar"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Bakgrundsfärg (tråg) används i en standard rullningslist."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Bakgrundsfärg (tråg) används i sidofältet rullningslisten."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset sv {
 
   "ERROR:  Unable to read"
   "FEL: Det gick inte att läsa"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "Förgrundsfärgen (skjutreglage) används i en standard rullningslist."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Förgrundsfärgen (reglaget) används i sidofältet rullningslisten."
@@ -2879,6 +2885,9 @@ msgcat::mcmset sv {
 
   "Specifies the pixel thickness of the highlight line."
   "Anger pixel tjocklek Markera raden."
+
+  "Standard Scrollbars"
+  "Standard"
 
   "Syntax Colors"
   "Syntax Färger"

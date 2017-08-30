@@ -2589,6 +2589,9 @@ msgcat::mcmset he {
   "Amount of border to display around command launcher in pixels"
   "כמות הגבול כדי להציג סביב הפקודה משגר בפיקסלים"
 
+  "Background (trough) color used in a standard scrollbar."
+  "צבע רקע (שוקת) בשימוש ופס גלילה סטנדרטית."
+
   "Background (trough) color used in the sidebar scrollbar."
   "צבע רקע (שוקת) להשתמש בפס הגלילה הצידי."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset he {
 
   "ERROR:  Unable to read"
   "שגיאה: אין אפשרות לקרוא"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "צבע הקידמה (המחוון) בשימוש ופס גלילה סטנדרטית."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "צבע הקידמה (המחוון) להשתמש בפס הגלילה הצידי."
@@ -2879,6 +2885,9 @@ msgcat::mcmset he {
 
   "Specifies the pixel thickness of the highlight line."
   "ציון פיקסל עובי הקו האר."
+
+  "Standard Scrollbars"
+  "סטנדרט"
 
   "Syntax Colors"
   "צבעים התחביר"

@@ -2589,6 +2589,9 @@ msgcat::mcmset de {
   "Amount of border to display around command launcher in pixels"
   "Höhe der Grenze um Befehl Launcher in Pixel anzeigen"
 
+  "Background (trough) color used in a standard scrollbar."
+  "Er war in einer Standardschriftart gedruckt."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Hintergrund (Trog) Farbe in der Seitenleiste Bildlaufleiste verwendet wird."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset de {
 
   "ERROR:  Unable to read"
   "Fehler: Datei kann Code Datei lesen"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "(Schieberegler) Vordergrundfarbe in eine standard-Bildlaufleiste verwendet."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Vordergrund (Schieberegler) Farbe in der Seitenleiste Bildlaufleiste verwendet wird."
@@ -2879,6 +2885,9 @@ msgcat::mcmset de {
 
   "Specifies the pixel thickness of the highlight line."
   "Gibt das Pixeldicke der Highlight Linie."
+
+  "Standard Scrollbars"
+  "Standard Scrollbars"
 
   "Syntax Colors"
   "Syntax Farben"

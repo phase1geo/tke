@@ -2589,6 +2589,9 @@ msgcat::mcmset da {
   "Amount of border to display around command launcher in pixels"
   "Mængden af grænsen til at vise rundt kommando launcher i pixels"
 
+  "Background (trough) color used in a standard scrollbar."
+  "(Lavpunktet) baggrundsfarve, der bruges i en standard scrollbar."
+
   "Background (trough) color used in the sidebar scrollbar."
   "Baggrund (trough) farve, der anvendes i indholdsoversigten rullebjælken."
 
@@ -2723,6 +2726,9 @@ msgcat::mcmset da {
 
   "ERROR:  Unable to read"
   "FEJL: Kan ikke læses"
+
+  "Foreground (slider) color used in a standard scrollbar."
+  "De skal forelægges i et standardformat."
 
   "Foreground (slider) color used in the sidebar scrollbar."
   "Forgrund (skyder) farve, der anvendes i indholdsoversigten rullebjælken."
@@ -2879,6 +2885,9 @@ msgcat::mcmset da {
 
   "Specifies the pixel thickness of the highlight line."
   "Angiver pixel tykkelse højdepunktet linje."
+
+  "Standard Scrollbars"
+  "Standard"
 
   "Syntax Colors"
   "Syntaks Farver"
