@@ -600,7 +600,7 @@ namespace eval pref_ui {
     scroller::scroller $w.vb -orient vertical   -command [list $w.tl yview]
     scroller::scroller $w.hb -orient horizontal -command [list $w.tl xview]
     ttk::frame $w.bf
-    pack [ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::table_add $win $cols]]                       -side left -padx 2 -pady 2
+    pack [ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::table_add $win $cols $varname]]              -side left -padx 2 -pady 2
     pack [ttk::button $w.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::table_delete $win $varname] -state disabled] -side left -padx 2 -pady 2
 
     utils::tablelist_configure $win
@@ -609,13 +609,13 @@ namespace eval pref_ui {
       array set opts [lindex $cols $i]
       switch $opts(-type) {
         text        { $win columnconfigure $i -editable $opts(-editable) -stretchable 1 }
-        checkbutton { $win columnconfigure $i -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::checkbutton_format $win] }
+        checkbutton { $win columnconfigure $i -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::empty_string] }
         menubutton  { $win columnconfigure $i -editable 1 -resizable 0 -stretchable 1 -editwindow menubutton }
       }
     }
 
     bind $win <<TablelistSelect>>  [list pref_ui::table_selected $win]
-    bind [$win bodytag] <Button-1> [list pref_ui::table_left_click %W $cols %x %y]
+    bind [$win bodytag] <Button-1> [list pref_ui::table_left_click %W $cols %x %y $varname]
 
     grid rowconfigure    $w 1 -weight 1
     grid columnconfigure $w 0 -weight 1
@@ -646,20 +646,6 @@ namespace eval pref_ui {
   }
 
   ######################################################################
-  # Formats the given cell for a checkbutton.
-  proc checkbutton_format {w value} {
-
-    lassign [$w formatinfo] key row col
-
-    puts "In checkbutton_format, w: $w, row: $row, col: $col, value: $value"
-
-    $w cellconfigure $row,$col -image [expr {$value ? "pref_checked" : "pref_unchecked"}]
-
-    return ""
-
-  }
-
-  ######################################################################
   # Initialize the table
   proc init_table {w varname cols} {
 
@@ -671,33 +657,51 @@ namespace eval pref_ui {
       $w insert end $row
     }
 
+    # Set checkbutton images, if necessary
+    set column 0
+    foreach col $cols {
+      array set opts $col
+      if {$opts(-type) eq "checkbutton"} {
+        for {set i 0} {$i < [$w size]} {incr i} {
+          $w cellconfigure $i,$column -image [expr {[$w cellcget $i,$column -text] ? "pref_checked" : "pref_unchecked"}]
+        }
+      }
+      incr column
+    }
+
   }
 
   ######################################################################
   # Adds a new entry to the table and makes the first cell editable.
-  proc table_add {w cols} {
+  proc table_add {w cols varname} {
 
-    puts "HERE!!!!"
-    flush stdout
-    puts "In table_add, w: $w, cols: $cols"
+    set index 0
+    set ccols [list]
 
     # Get the list of values to insert
     foreach col $cols {
       array set opts $col
       lappend values $opts(-value)
+      if {$opts(-type) eq "checkbutton"} {
+        lappend ccols $index
+      }
+      incr index
     }
-
-    puts "  values: $values"
 
     # Add the entry to the table at the end
     set row [$w insert end $values]
 
-    puts "  HERE! row: $row"
+    # Make all of the checkboxes look right
+    foreach ccol $ccols {
+      $w cellconfigure $row,$ccol -image [expr {[$w cellcget $row,$ccol -text] ? "pref_checked" : "pref_unchecked"}]
+    }
 
-    # Make the first cell editable
+    # Make the first cell editable and in view
+    $w see $row
     $w editcell $row,0
 
-    puts "  DONE!"
+    # Save the contents to a file in case nothing is edited
+    set pref_ui::prefs($varname) [$w get 0 end]
 
   }
 
@@ -726,7 +730,7 @@ namespace eval pref_ui {
 
   ######################################################################
   # Handles a left click on the table.
-  proc table_left_clicked {w cols x y} {
+  proc table_left_clicked {w cols x y varname} {
 
     lassign [tablelist::convEventFields $w $x $y] tbl x y
     lassign [split [$tbl containingcell $x $y] ,] row col
@@ -739,6 +743,7 @@ namespace eval pref_ui {
         } else {
           $tbl cellconfigure $row,$col -text 1 -image pref_checked
         }
+        set pref_ui::prefs($varname) [$tbl get 0 end]
       }
     }
 
