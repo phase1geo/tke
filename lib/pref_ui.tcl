@@ -578,7 +578,7 @@ namespace eval pref_ui {
       set args [lassign $column title]
       array set opts {
         -width    0
-        -type     entry
+        -type     "text"
         -editable 1
         -value    ""
         -values   {}

@@ -332,7 +332,7 @@ namespace eval scroller {
     switch [tk windowingsystem] {
       x11 -
       aqua  { uplevel #0 [list {*}$data($W,-command) scroll [expr -($d)] units] }
-      win32 { uplevel #0 [list {*}$data($W,-command) scroll [expr int( pow( %d / -120, 3))]] }
+      win32 { uplevel #0 [list {*}$data($W,-command) scroll [expr int( pow( $d / -120, 3 ) )] units] }
     }
 
   }
