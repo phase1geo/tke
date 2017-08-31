@@ -570,26 +570,49 @@ namespace eval pref_ui {
   # and edit table cells that contain text.
   proc make_table {w msg varname columns height {grid 0} {help ""}} {
 
+    # Sort out the column information
+    foreach column $columns {
+      set args [lassign $column title]
+      array set opts {
+        -width    0
+        -type     entry
+        -editable 1
+        -value    ""
+        -values   {}
+      }
+      array set opts $args
+      lappend cols [array get opts]
+      lappend tl_cols $opts(-width) $title
+      array unset opts
+    }
+
     ttk::labelframe $w -text $msg
-    set win [tablelist::tablelist $w.tl -columns $columns \
+    set win [tablelist::tablelist $w.tl -columns $tl_cols \
       -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
       -height $height -borderwidth 0 -highlightthickness 0 \
-      -editendcommand [list pref_ui::table_edit_end_command $varname] \
-      -xscrollcommand [list utils::set_xscrollbar $w.hb] \
-      -yscrollcommand [list utils::set_yscrollbar $w.vb]]
+      -editstartcommand [list pref_ui::table_edit_start_command $varname $cols] \
+      -editendcommand   [list pref_ui::table_edit_end_command $varname $cols] \
+      -xscrollcommand   [list utils::set_xscrollbar $w.hb] \
+      -yscrollcommand   [list utils::set_yscrollbar $w.vb]]
     scroller::scroller $w.vb -orient vertical   -command [list $w.tl yview]
     scroller::scroller $w.hb -orient horizontal -command [list $w.tl xview]
     ttk::frame $w.bf
-    pack [ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::table_add $win]]                             -side left -padx 2 -pady 2
+    pack [ttk::button $w.bf.add -style BButton -text [msgcat::mc "Add"]    -command [list pref_ui::table_add $win $cols]]                       -side left -padx 2 -pady 2
     pack [ttk::button $w.bf.del -style BButton -text [msgcat::mc "Delete"] -command [list pref_ui::table_delete $win $varname] -state disabled] -side left -padx 2 -pady 2
 
     utils::tablelist_configure $win
 
     for {set i 0} {$i < [$win columncount]} {incr i} {
-      $win columnconfigure $i -editable 1 -stretchable 1
+      array set opts [lindex $cols $i]
+      switch $opts(-type) {
+        text        { $win columnconfigure $i -editable $opts(-editable) -stretchable 1 }
+        checkbutton { $win columnconfigure $i -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::checkbutton_format $win] }
+        menubutton  { $win columnconfigure $i -editable 1 -resizable 0 -stretchable 1 -editwindow menubutton }
+      }
     }
 
-    bind $win <<TablelistSelect>> [list pref_ui::table_selected $win]
+    bind $win <<TablelistSelect>>  [list pref_ui::table_selected $win]
+    bind [$win bodytag] <Button-1> [list pref_ui::table_left_click %W $cols %x %y]
 
     grid rowconfigure    $w 1 -weight 1
     grid columnconfigure $w 0 -weight 1
@@ -610,7 +633,7 @@ namespace eval pref_ui {
     }
 
     # Add the widget to the initialize_callbacks array
-    register_initialization [list pref_ui::init_table $win $varname]
+    register_initialization [list pref_ui::init_table $win $varname $cols]
 
     # Register the widget
     register $win $msg $varname
@@ -620,8 +643,20 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Formats the given cell for a checkbutton.
+  proc checkbutton_format {w value} {
+
+    lassign [$w formatinfo] key row col
+
+    $w cellconfigure $row,$col -image [expr {$value ? "pref_checked" : "pref_unchecked"}]
+
+    return ""
+
+  }
+
+  ######################################################################
   # Initialize the table
-  proc init_table {w varname} {
+  proc init_table {w varname cols} {
 
     # Clear the table
     $w delete 0 end
@@ -635,10 +670,16 @@ namespace eval pref_ui {
 
   ######################################################################
   # Adds a new entry to the table and makes the first cell editable.
-  proc table_add {w} {
+  proc table_add {w cols} {
+
+    # Get the list of values to insert
+    foreach col $cols {
+      array set opts $col
+      lappend values $opts(-value)
+    }
 
     # Add the entry to the table at the end
-    set row [$w insert end [lrepeat [$w columncount] ""]]
+    set row [$w insert end $values]
 
     # Make the first cell editable
     $w editcell $row,0
@@ -669,8 +710,43 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Handles a left click on the table.
+  proc table_left_clicked {w cols x y} {
+
+    lassign [tablelist::convEventFields $w $x $y] tbl x y
+    lassign [split [$tbl containingcell $x $y] ,] row col
+
+    if {$row >= 0} {
+      array set opts [lindex $cols $col]
+      if {$opts(-type) eq "checkbutton"} {
+        $tbl cellconfigure $row,$col -image [expr {[$tbl cellcget $row,$col -text] ? "pref_unchecked" : "pref_checked"}]
+      }
+    }
+
+  }
+
+  ######################################################################
+  # Called when a table cell is going to start being edited.
+  proc table_edit_start_command {varname cols w row col value} {
+
+    array set opts [lindex $cols $col]
+
+    switch $opts(-type) {
+      menubutton {
+        set mnu [[$w editwinpath] cget -menu]
+        foreach value $opts(-values) {
+          $mnu add radiobutton -label $value
+        }
+      }
+    }
+
+    return $value
+
+  }
+
+  ######################################################################
   # Called when a table cell has been edited.
-  proc table_edit_end_command {varname w row col value} {
+  proc table_edit_end_command {varname cols w row col value} {
 
     # Get the table contents
     set contents [$w get 0 end]

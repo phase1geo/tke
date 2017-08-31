@@ -38,12 +38,17 @@ namespace eval pref_test {
     api::preferences::widget spinbox     $w.sf "Google"  "A lot of stuff"        -from 0 -to 20 -grid 1
     api::preferences::widget spinbox     $w.sf "Goober"  "Hardly anything"       -from 0 -to 2  -ending "nothings" -grid 1
 
-    api::preferences::widget menubutton  $w "Status"  "Status of this plugin" -values [list slow medium fast]
-    api::preferences::widget entry       $w "Value"   "Enter a value here" -watermark "Optional"
-    api::preferences::widget token       $w "Tokens"  "Enter some tokens" -watermark "Non-optional"
-    api::preferences::widget text        $w "Message" "Enter a message here" -height 2 -help "This is just a test message of the text widget.  See how nice it is and how well this documentation looks!"
-    api::preferences::widget help        $w "This is some sort of text message to check that the help text is displayed properly and will line wrap at the appropriate times.  I have no idea if this will work or not."
-    api::preferences::widget table       $w "Table" "Nice Table" -height 3 -columns [list 0 "Column A" 0 "Column B"]
+    # api::preferences::widget menubutton  $w "Status"  "Status of this plugin" -values [list slow medium fast]
+    # api::preferences::widget entry       $w "Value"   "Enter a value here" -watermark "Optional"
+    # api::preferences::widget token       $w "Tokens"  "Enter some tokens" -watermark "Non-optional"
+    # api::preferences::widget text        $w "Message" "Enter a message here" -height 2 -help "This is just a test message of the text widget.  See how nice it is and how well this documentation looks!"
+    # api::preferences::widget help        $w "This is some sort of text message to check that the help text is displayed properly and will line wrap at the appropriate times.  I have no idea if this will work or not."
+    api::preferences::widget table       $w "Table" "Nice Table" -height 3 \
+      -columns {
+        {"Enable" -type checkbutton -value 1}
+        {"Column A" -type menubutton -value "test" -values {test nice good}}
+        {"Column B"}
+      }
 
     pack [ttk::labelframe $w.cf -text "Colors"] -fill x
     api::preferences::widget colorpicker $w.cf "Color" "Pick a color" -color "blue" -grid 1
