@@ -570,6 +570,9 @@ namespace eval pref_ui {
   # and edit table cells that contain text.
   proc make_table {w msg varname columns height {grid 0} {help ""}} {
 
+    set tl_cols [list]
+    set cols    [list]
+
     # Sort out the column information
     foreach column $columns {
       set args [lassign $column title]
@@ -648,6 +651,8 @@ namespace eval pref_ui {
 
     lassign [$w formatinfo] key row col
 
+    puts "In checkbutton_format, w: $w, row: $row, col: $col, value: $value"
+
     $w cellconfigure $row,$col -image [expr {$value ? "pref_checked" : "pref_unchecked"}]
 
     return ""
@@ -672,17 +677,27 @@ namespace eval pref_ui {
   # Adds a new entry to the table and makes the first cell editable.
   proc table_add {w cols} {
 
+    puts "HERE!!!!"
+    flush stdout
+    puts "In table_add, w: $w, cols: $cols"
+
     # Get the list of values to insert
     foreach col $cols {
       array set opts $col
       lappend values $opts(-value)
     }
 
+    puts "  values: $values"
+
     # Add the entry to the table at the end
     set row [$w insert end $values]
 
+    puts "  HERE! row: $row"
+
     # Make the first cell editable
     $w editcell $row,0
+
+    puts "  DONE!"
 
   }
 
@@ -719,7 +734,11 @@ namespace eval pref_ui {
     if {$row >= 0} {
       array set opts [lindex $cols $col]
       if {$opts(-type) eq "checkbutton"} {
-        $tbl cellconfigure $row,$col -image [expr {[$tbl cellcget $row,$col -text] ? "pref_unchecked" : "pref_checked"}]
+        if {[$tbl cellcget $row,$col -text]} {
+          $tbl cellconfigure $row,$col -text 0 -image pref_unchecked
+        } else {
+          $tbl cellconfigure $row,$col -text 1 -image pref_checked
+        }
       }
     }
 
