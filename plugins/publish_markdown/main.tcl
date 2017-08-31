@@ -311,7 +311,7 @@ namespace eval publish_markdown {
     api::preferences::widget token  $w "ignore" "File Patterns to Ignore" \
       -help "Pattern string used to remove files from Markdown processing.  Question marks (?) will match any single character while asterisks (*) will match any number of characters (including no characters)."
     api::preferences::widget spacer $w
-    api::preferences::widget table  $w "openin" "'Open In' Applications" -columns [list 0 "Application Name" 0 "Command"] -height 4
+    api::preferences::widget table  $w "openin" "'Open In' Applications" -columns {{"Application Name"} {"Command"}} -height 4
 
   }
 
