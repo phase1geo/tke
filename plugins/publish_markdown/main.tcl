@@ -259,12 +259,27 @@ namespace eval publish_markdown {
 
       # Append the file contents to the string
       if {![catch { open $fname r } rc]} {
-        append str [string trim [read $rc]]
+        append str [condition_string [read $rc] [file dirname $fname]]
         append str "\n\n"
         close $rc
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Handles any relative image paths within the file string and removes
+  # beginning/ending whitespace from the file string.
+  proc condition_string {str dir} {
+
+    while {[regexp -indices {(!\[[^\]]*\]\s*)\(([^/~\"][^\) ]*)} $str all prefix imgpath]} {
+      set prefix  [string range $str {*}$prefix]
+      set imgpath [string range $str {*}$imgpath]
+      set str     [string replace $str {*}$all "$prefix\(\"$dir/$imgpath\""]
+    }
+
+    return [string trim $str]
 
   }
 
