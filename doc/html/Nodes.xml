@@ -150,6 +150,10 @@
             <Path>namespaceinterpreter.html</Path>
            </Node>
            <Node>
+            <Name>ipanel</Name>
+            <Path>namespaceipanel.html</Path>
+           </Node>
+           <Node>
             <Name>lang</Name>
             <Path>namespacelang.html</Path>
            </Node>
@@ -194,6 +198,10 @@
            <Node>
             <Name>remote</Name>
             <Path>namespaceremote.html</Path>
+           </Node>
+           <Node>
+            <Name>scrolledframe</Name>
+            <Path>namespacescrolledframe.html</Path>
            </Node>
            <Node>
             <Name>scroller</Name>
@@ -252,6 +260,10 @@
            <Node>
             <Name>themes</Name>
             <Path>namespacethemes.html</Path>
+           </Node>
+           <Node>
+            <Name>thumbnail</Name>
+            <Path>namespacethumbnail.html</Path>
            </Node>
            <Node>
             <Name>tk</Name>
@@ -382,6 +394,10 @@
               <Path>namespacemembers_w.html</Path>
              </Node>
              <Node>
+              <Name>x</Name>
+              <Path>namespacemembers_x.html</Path>
+             </Node>
+             <Node>
               <Name>y</Name>
               <Path>namespacemembers_y.html</Path>
              </Node>
@@ -482,6 +498,10 @@
              <Node>
               <Name>w</Name>
               <Path>namespacemembers_func_w.html</Path>
+             </Node>
+             <Node>
+              <Name>x</Name>
+              <Path>namespacemembers_func_x.html</Path>
              </Node>
              <Node>
               <Name>y</Name>
@@ -1272,6 +1292,11 @@
                 <Anchor>ae98577e8c2577e6bd5abc1effc4812ed</Anchor>
                </Node>
                <Node>
+                <Name>set_info</Name>
+                <Path>api_8tcl.html</Path>
+                <Anchor>adde7a92a3585af2e5ecda329539ddcaa</Anchor>
+               </Node>
+               <Node>
                 <Name>show_error</Name>
                 <Path>api_8tcl.html</Path>
                 <Anchor>af986a4bee016402e7118a63d9d15d999</Anchor>
@@ -1888,9 +1913,49 @@
                 <Anchor>a2b7ff5514967fdfe71e3ce181af5cd04</Anchor>
                </Node>
                <Node>
+                <Name>get_current_version</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>ae465e24131b3798e394a09c02ab7b009</Anchor>
+               </Node>
+               <Node>
+                <Name>get_current_version</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>ab1f18c976fc004d78b31a7308593d12d</Anchor>
+               </Node>
+               <Node>
+                <Name>get_current_version</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>a21d187963377ba4335c07c0128f5ce22</Anchor>
+               </Node>
+               <Node>
+                <Name>get_current_version</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>a0668bcf57bd1042706301ea43deac5bd</Anchor>
+               </Node>
+               <Node>
+                <Name>get_current_version</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>a05238ace7dfd6c828c881a8fd9df09a8</Anchor>
+               </Node>
+               <Node>
+                <Name>get_current_version</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>a56ec30591ef76ec41de9623c54fdef1b</Anchor>
+               </Node>
+               <Node>
+                <Name>get_current_version</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>a6d2b6b7fc3094038dde102690d34b8c4</Anchor>
+               </Node>
+               <Node>
                 <Name>get_cvs_names</Name>
                 <Path>diff_8tcl.html</Path>
                 <Anchor>ae6d8a6e667722236ae66ca3815df29fb</Anchor>
+               </Node>
+               <Node>
+                <Name>get_default_cvs</Name>
+                <Path>diff_8tcl.html</Path>
+                <Anchor>ac914bd0174f6a505532ef66c3a10cf38</Anchor>
                </Node>
                <Node>
                 <Name>get_diff_cmd</Name>
@@ -2394,11 +2459,6 @@
                 <Anchor>ad05491b254b0ad95fca27034aa62047b</Anchor>
                </Node>
                <Node>
-                <Name>format_between_char</Name>
-                <Path>edit_8tcl.html</Path>
-                <Anchor>a49b1f6b4a2555c42e73b48b8a46f61f9</Anchor>
-               </Node>
-               <Node>
                 <Name>get_char</Name>
                 <Path>edit_8tcl.html</Path>
                 <Anchor>aaceafa9d1d45a5a465874334c4851caf</Anchor>
@@ -2509,11 +2569,6 @@
                 <Anchor>a23b559ea1835b6112509442619c73592</Anchor>
                </Node>
                <Node>
-                <Name>lshift_between_char</Name>
-                <Path>edit_8tcl.html</Path>
-                <Anchor>abfb52302b1389f942af8897585056091</Anchor>
-               </Node>
-               <Node>
                 <Name>move_cursor</Name>
                 <Path>edit_8tcl.html</Path>
                 <Anchor>aef2fb9779a0e9c0aeed5ccc2271a165b</Anchor>
@@ -2534,19 +2589,9 @@
                 <Anchor>ab235dbe1b027de74fa795f650edb9388</Anchor>
                </Node>
                <Node>
-                <Name>rshift_between_char</Name>
-                <Path>edit_8tcl.html</Path>
-                <Anchor>a052691f9e4a13119da70b295fea4a692</Anchor>
-               </Node>
-               <Node>
                 <Name>save_selection</Name>
                 <Path>edit_8tcl.html</Path>
                 <Anchor>a886ef755ff5d5e88e1e7ab76985eba77</Anchor>
-               </Node>
-               <Node>
-                <Name>select_between_char</Name>
-                <Path>edit_8tcl.html</Path>
-                <Anchor>ada7e1c47847d9658b8cdfacbb049c85c</Anchor>
                </Node>
                <Node>
                 <Name>transform_bubble_down</Name>
@@ -3083,6 +3128,16 @@
                 <Anchor>ad2aa7c49e9d9ec7cb6dd26a0c5660516</Anchor>
                </Node>
                <Node>
+                <Name>gunzip</Name>
+                <Path>files_8tcl.html</Path>
+                <Anchor>aec1e273244aa44dfd459043dfce7d281</Anchor>
+               </Node>
+               <Node>
+                <Name>gzip</Name>
+                <Path>files_8tcl.html</Path>
+                <Anchor>aae9a44777ad7e184050a421e0670c6a6</Anchor>
+               </Node>
+               <Node>
                 <Name>is_opened</Name>
                 <Path>files_8tcl.html</Path>
                 <Anchor>a75692f11dbb826b157dbb1d950fdc56f</Anchor>
@@ -3093,6 +3148,16 @@
                 <Anchor>a28923ddfef8dd8a191c6e32cbd123d76</Anchor>
                </Node>
                <Node>
+                <Name>move_file</Name>
+                <Path>files_8tcl.html</Path>
+                <Anchor>accecc70da8951a493c50069ed0d543a6</Anchor>
+               </Node>
+               <Node>
+                <Name>move_folder</Name>
+                <Path>files_8tcl.html</Path>
+                <Anchor>a549fc7df0d3a4d4e71169ae8968b9dd2</Anchor>
+               </Node>
+               <Node>
                 <Name>move_to_trash</Name>
                 <Path>files_8tcl.html</Path>
                 <Anchor>af474a594d6295a5b31b3ae45e14d2c12</Anchor>
@@ -3101,6 +3166,11 @@
                 <Name>normalize</Name>
                 <Path>files_8tcl.html</Path>
                 <Anchor>afd303a056c6f540f7a974fc8b4d7cfbd</Anchor>
+               </Node>
+               <Node>
+                <Name>num_opened</Name>
+                <Path>files_8tcl.html</Path>
+                <Anchor>a8f14d82d44f293230f65b1f6d38750e1</Anchor>
                </Node>
                <Node>
                 <Name>remove</Name>
@@ -4614,6 +4684,11 @@
                 <Anchor>acb870a205c701ebec5c516e5eb8bd745</Anchor>
                </Node>
                <Node>
+                <Name>set_variable</Name>
+                <Path>interpreter_8tcl.html</Path>
+                <Anchor>a2668b2a7d759e7b24f8c1b04f9b5172e</Anchor>
+               </Node>
+               <Node>
                 <Name>widget_command</Name>
                 <Path>interpreter_8tcl.html</Path>
                 <Anchor>a3af5906f1038a93e00bf56118325eb4f</Anchor>
@@ -4632,6 +4707,107 @@
                 <Name>wm_command</Name>
                 <Path>interpreter_8tcl.html</Path>
                 <Anchor>a3915536c9c16359161aef46682d22ee1</Anchor>
+               </Node>
+              </Subnodes>
+             </Node>
+             <Node>
+              <Name>ipanel.tcl</Name>
+              <Path>ipanel_8tcl.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>close</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a3c81e755ca995d65271f3f0dfcf01709</Anchor>
+               </Node>
+               <Node>
+                <Name>copy_info</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a00d3ee5e9a25143367fadccb8123bcd7</Anchor>
+               </Node>
+               <Node>
+                <Name>create</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a5350069c2b740b43599cf876df5fb588</Anchor>
+               </Node>
+               <Node>
+                <Name>create_images</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>aa66c31e282e145adad1907b8db3212b2</Anchor>
+               </Node>
+               <Node>
+                <Name>insert_info_panel_plugins</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a5d01ef63367edc69dbb514c012a81109</Anchor>
+               </Node>
+               <Node>
+                <Name>is_viewable</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>af24fe080c27143c490052372caa7976b</Anchor>
+               </Node>
+               <Node>
+                <Name>run_command</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>af3afd2f1d51995d719f66096b54112d5</Anchor>
+               </Node>
+               <Node>
+                <Name>update</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a318767d641e209c47bd9a00a2732ef6a</Anchor>
+               </Node>
+               <Node>
+                <Name>update_attrs</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a32689d9215a69c3a142b174efdae70b3</Anchor>
+               </Node>
+               <Node>
+                <Name>update_checks</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>abc60e97d879653483811bd6a5f4cbe41</Anchor>
+               </Node>
+               <Node>
+                <Name>update_counts</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a28c78783b68417f83e823246b2a25758</Anchor>
+               </Node>
+               <Node>
+                <Name>update_favorite</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>afc189513a6ac4ae791afc559a7289da4</Anchor>
+               </Node>
+               <Node>
+                <Name>update_image</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>ac3faade9f13f8e80e0fa904800fdc94c</Anchor>
+               </Node>
+               <Node>
+                <Name>update_info_image</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a2fa90aa1b86e5ae892fcd5954716aee5</Anchor>
+               </Node>
+               <Node>
+                <Name>update_mod</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a66db35419760a2b66fcf97c87e00e389</Anchor>
+               </Node>
+               <Node>
+                <Name>update_rtime</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>acb39267487a56f5bef1413f48d436492</Anchor>
+               </Node>
+               <Node>
+                <Name>update_theme</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>aa9fb2f0257a07d9b4c5ba5476106a02c</Anchor>
+               </Node>
+               <Node>
+                <Name>update_type</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>af7afa0ac6dc5ba046d515391816b911a</Anchor>
+               </Node>
+               <Node>
+                <Name>update_version</Name>
+                <Path>ipanel_8tcl.html</Path>
+                <Anchor>a586a870739c4468752cfe03c0af9722b</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -5184,51 +5360,6 @@
                 <Anchor>a5e9b18e55a62cd6bd8d9c00204c90640</Anchor>
                </Node>
                <Node>
-                <Name>edit_delete_between_char</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>aa52eb68e00c6721614a4a188e6e7d382</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_current_line</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>a9dcdb9bed79de7157e9dbba1b663acec</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_current_number</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>a183ac1d982ceab1b76b6db8210ec68c5</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_current_word</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>a16b2ba9c934b2eb0faedad75040d92df</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_from_start</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>ac6e166c0ff79c6517e0855d0a2d1c0e4</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_next_space</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>a153a6eaac4a8d998a83886865c8b5c2d</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_posting</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>a8c35e8f4c47b3b090d7f4128b9eba373</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_prev_space</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>a92f544f96f3ad3f99a6d5ae4d4b81e21</Anchor>
-               </Node>
-               <Node>
-                <Name>edit_delete_to_end</Name>
-                <Path>menus_8tcl.html</Path>
-                <Anchor>a9de8b668e2af1fec3df09139ed774674</Anchor>
-               </Node>
-               <Node>
                 <Name>edit_emmet_posting</Name>
                 <Path>menus_8tcl.html</Path>
                 <Anchor>a5124881cd7ae86ab27423342a6b1ecf8</Anchor>
@@ -5649,6 +5780,11 @@
                 <Anchor>a61544fdbe62122082d86afd6f4462e21</Anchor>
                </Node>
                <Node>
+                <Name>select_mode</Name>
+                <Path>menus_8tcl.html</Path>
+                <Anchor>aaf368182f3e810f2df82fe9a7be950f5</Anchor>
+               </Node>
+               <Node>
                 <Name>sessions_close_current</Name>
                 <Path>menus_8tcl.html</Path>
                 <Anchor>a678b02bfde9abfd453a455bd0c2c6992</Anchor>
@@ -6051,6 +6187,11 @@
                 <Anchor>a8e226b16b3de4dfd9cf9bc4b52481516</Anchor>
                </Node>
                <Node>
+                <Name>get_current_version</Name>
+                <Path>plugins_8tcl.html</Path>
+                <Anchor>a9899cf34e0eccd4371ed30b7d8072b8f</Anchor>
+               </Node>
+               <Node>
                 <Name>get_diff_cmd</Name>
                 <Path>plugins_8tcl.html</Path>
                 <Anchor>a602aa18c3437940a2883f38643cdfa40</Anchor>
@@ -6064,6 +6205,16 @@
                 <Name>get_share_items</Name>
                 <Path>plugins_8tcl.html</Path>
                 <Anchor>aa13aa537fa9c99ea3bc3007adc3eddad</Anchor>
+               </Node>
+               <Node>
+                <Name>get_sidebar_info_titles</Name>
+                <Path>plugins_8tcl.html</Path>
+                <Anchor>ad436cafd4055007ccd0ea2da6924aa40</Anchor>
+               </Node>
+               <Node>
+                <Name>get_sidebar_info_values</Name>
+                <Path>plugins_8tcl.html</Path>
+                <Anchor>a6c2440216533e7b80d16409774cb3b2c</Anchor>
                </Node>
                <Node>
                 <Name>get_version_log</Name>
@@ -6347,6 +6498,11 @@
                 <Anchor>ac141433ed542e87650b6dffd6e445ee3</Anchor>
                </Node>
                <Node>
+                <Name>change_cp</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>aa2a4c6ea9d9579fea623bfd907f743fb</Anchor>
+               </Node>
+               <Node>
                 <Name>check_on_close</Name>
                 <Path>pref__ui_8tcl.html</Path>
                 <Anchor>a31935fa23563b051009e9bcb8bc32846</Anchor>
@@ -6587,6 +6743,11 @@
                 <Anchor>a453b3ff20eb2c9185d716aea55b4d565</Anchor>
                </Node>
                <Node>
+                <Name>init_cp</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a103dc17acc8beb526419b0e18c60a750</Anchor>
+               </Node>
+               <Node>
                 <Name>init_fp</Name>
                 <Path>pref__ui_8tcl.html</Path>
                 <Anchor>a9860b3f84559f4b72955fc521aee0f5a</Anchor>
@@ -6600,6 +6761,11 @@
                 <Name>init_sb</Name>
                 <Path>pref__ui_8tcl.html</Path>
                 <Anchor>a8a91e8c447c2a58b491e91b06e74e6aa</Anchor>
+               </Node>
+               <Node>
+                <Name>init_table</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a2383e8422d8326dbe80e39e7d2229c22</Anchor>
                </Node>
                <Node>
                 <Name>init_text</Name>
@@ -6627,14 +6793,24 @@
                 <Anchor>aad6f1849984780f97a27d81db87845be</Anchor>
                </Node>
                <Node>
+                <Name>make_cp</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>afaedb61b326be4ddaa5d4f3556387086</Anchor>
+               </Node>
+               <Node>
                 <Name>make_entry</Name>
                 <Path>pref__ui_8tcl.html</Path>
-                <Anchor>a22dc03f00e2d7f766dbe9f3ea4ffc8d9</Anchor>
+                <Anchor>a5d22ef5ed9e13f8066eb53113a831d58</Anchor>
                </Node>
                <Node>
                 <Name>make_fp</Name>
                 <Path>pref__ui_8tcl.html</Path>
-                <Anchor>a5899a6ef9467cac112c4e45eec5bca5e</Anchor>
+                <Anchor>a0e8843807be8b6ba14d8f479f48bfe62</Anchor>
+               </Node>
+               <Node>
+                <Name>make_help</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>ae9d6268c2d0d22f21468bdeb0b887a7f</Anchor>
                </Node>
                <Node>
                 <Name>make_mb</Name>
@@ -6657,14 +6833,19 @@
                 <Anchor>a99f05a369988d6955a39f704a2182081</Anchor>
                </Node>
                <Node>
+                <Name>make_table</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a3f8eda566cc3c3ffd05dfbb1904087cc</Anchor>
+               </Node>
+               <Node>
                 <Name>make_text</Name>
                 <Path>pref__ui_8tcl.html</Path>
-                <Anchor>ab8c76d1e07b651147ba4f30eefb479a0</Anchor>
+                <Anchor>a5e4afe6b02e916bcfcb973b4d89f29c4</Anchor>
                </Node>
                <Node>
                 <Name>make_token</Name>
                 <Path>pref__ui_8tcl.html</Path>
-                <Anchor>a2bcbbb5918f8717c28ec9ceac459e09f</Anchor>
+                <Anchor>a2384fbc83eeb105730ad9d3b0be250ee</Anchor>
                </Node>
                <Node>
                 <Name>nfs_add</Name>
@@ -6745,6 +6926,11 @@
                 <Name>set_aliases</Name>
                 <Path>pref__ui_8tcl.html</Path>
                 <Anchor>a2554d4b8b16254b90a7230eb62b65ede</Anchor>
+               </Node>
+               <Node>
+                <Name>set_attributes</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a4fcc8e3cbc0c70423c8cb8f3dde5fbe8</Anchor>
                </Node>
                <Node>
                 <Name>set_browse_dir</Name>
@@ -6955,6 +7141,46 @@
                 <Name>snippets_text_changed</Name>
                 <Path>pref__ui_8tcl.html</Path>
                 <Anchor>a4dd31b74b11119c940d452c74fb8ed13</Anchor>
+               </Node>
+               <Node>
+                <Name>table_add</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a78d11605a61762fc60d0ad2500d0e161</Anchor>
+               </Node>
+               <Node>
+                <Name>table_delete</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a3a0bbfc13a887a6ef38a7cdd246d4259</Anchor>
+               </Node>
+               <Node>
+                <Name>table_edit_end_command</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>ab48532f375ed0bad1a1c4276384973eb</Anchor>
+               </Node>
+               <Node>
+                <Name>table_edit_start_command</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a2601669cc1f371c71ab48c59913522f2</Anchor>
+               </Node>
+               <Node>
+                <Name>table_left_clicked</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a1041cc069bc976fe05adbd7691817b82</Anchor>
+               </Node>
+               <Node>
+                <Name>table_selected</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>a113279591e5819ae948b2b172d7d6c7e</Anchor>
+               </Node>
+               <Node>
+                <Name>text_modified</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>ad9fce827d25d6a770184431dd4121f97</Anchor>
+               </Node>
+               <Node>
+                <Name>text_save</Name>
+                <Path>pref__ui_8tcl.html</Path>
+                <Anchor>ad952b232878659739c31b0b0cd34881d</Anchor>
                </Node>
                <Node>
                 <Name>themes_add</Name>
@@ -7440,6 +7666,57 @@
               <Path>restart_8tcl.html</Path>
              </Node>
              <Node>
+              <Name>scrolledframe.tcl</Name>
+              <Path>scrolledframe_8tcl.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>config</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>a1b9e5ff3ac308e975231e7302852d9ac</Anchor>
+               </Node>
+               <Node>
+                <Name>dispatch</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>a791844a6079636d6fe85fe7cef8ffe3b</Anchor>
+               </Node>
+               <Node>
+                <Name>resize</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>aef5aeae7393c682cb003333f39a8d7e3</Anchor>
+               </Node>
+               <Node>
+                <Name>scrolledframe</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>abaa83f5ded9266d813abe73769dc49b0</Anchor>
+               </Node>
+               <Node>
+                <Name>vresize</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>a158b7493487696af56192f3dbb62a2a2</Anchor>
+               </Node>
+               <Node>
+                <Name>xset</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>a01f80a1a7d8894a88cec2f0d185ce961</Anchor>
+               </Node>
+               <Node>
+                <Name>xview</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>a84e86919d2c5994c44e101b5f933a267</Anchor>
+               </Node>
+               <Node>
+                <Name>yset</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>a53dca40362f8ee182c41aa2c12cbb13d</Anchor>
+               </Node>
+               <Node>
+                <Name>yview</Name>
+                <Path>scrolledframe_8tcl.html</Path>
+                <Anchor>a613599e77563e047ac5af6309193401b</Anchor>
+               </Node>
+              </Subnodes>
+             </Node>
+             <Node>
               <Name>scroller.tcl</Name>
               <Path>scroller_8tcl.html</Path>
               <Subnodes>
@@ -7671,6 +7948,21 @@
                 <Anchor>ac04859708a25571dcc552b26a8f8f2d9</Anchor>
                </Node>
                <Node>
+                <Name>handle_alt_double_click</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>ab0c43555342f9b6a7fafbe3939f60505</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_alt_motion</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>a5ff448e7508a50531a09b0a86b10280e</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_alt_triple_click</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>abbfff6e4b82bd1777b5a58c23ccc1d53</Anchor>
+               </Node>
+               <Node>
                 <Name>handle_any</Name>
                 <Path>select_8tcl.html</Path>
                 <Anchor>ac57eec963d75e6474873c59d5ae6bb86</Anchor>
@@ -7679,6 +7971,11 @@
                 <Name>handle_b</Name>
                 <Path>select_8tcl.html</Path>
                 <Anchor>aaf143852524f3803f97d0228c6a27260</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_block_selection</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>aed8e9f45c39ba8ea15a49024dedf3c72</Anchor>
                </Node>
                <Node>
                 <Name>handle_braceleft</Name>
@@ -7696,6 +7993,21 @@
                 <Anchor>a4acdb1d99d4fb084910a70bfd2268eeb</Anchor>
                </Node>
                <Node>
+                <Name>handle_control_double_click</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>a7d1e4d8527740436c92a2bc61f5ffc1d</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_control_triple_click</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>a2c14097c26ddee8f5297759d12c4b85d</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_double_click</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>a1a0d328861f48d4eae48befceb590b6f</Anchor>
+               </Node>
+               <Node>
                 <Name>handle_Down</Name>
                 <Path>select_8tcl.html</Path>
                 <Anchor>a40ca2daf5bb21d3870bcd9d0067bd263</Anchor>
@@ -7709,11 +8021,6 @@
                 <Name>handle_escape</Name>
                 <Path>select_8tcl.html</Path>
                 <Anchor>a176fba2034ccfe295247e447b675054c</Anchor>
-               </Node>
-               <Node>
-                <Name>handle_i</Name>
-                <Path>select_8tcl.html</Path>
-                <Anchor>ab8bcce8be9503541b0f2f9045c71517b</Anchor>
                </Node>
                <Node>
                 <Name>handle_j</Name>
@@ -7746,11 +8053,6 @@
                 <Anchor>aad3cd048bc1492c1eaf77ab6871015d7</Anchor>
                </Node>
                <Node>
-                <Name>handle_minus</Name>
-                <Path>select_8tcl.html</Path>
-                <Anchor>ae13c5788bd2695bf73aeb624e23c501d</Anchor>
-               </Node>
-               <Node>
                 <Name>handle_motion</Name>
                 <Path>select_8tcl.html</Path>
                 <Anchor>af8f4eb23db2321afa4386022331eacec</Anchor>
@@ -7759,11 +8061,6 @@
                 <Name>handle_n</Name>
                 <Path>select_8tcl.html</Path>
                 <Anchor>a5eaa7b19b9e859ca548ce5c1b2b63771</Anchor>
-               </Node>
-               <Node>
-                <Name>handle_o</Name>
-                <Path>select_8tcl.html</Path>
-                <Anchor>a9836ab3871ac70a554f1a25b8e9b7ee0</Anchor>
                </Node>
                <Node>
                 <Name>handle_p</Name>
@@ -7806,9 +8103,24 @@
                 <Anchor>a298d96ef983e4be5dcdbc8dd38d1caf7</Anchor>
                </Node>
                <Node>
+                <Name>handle_single_press</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>a0a09f0df9eb7db60a751821a32ec376e</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_single_release</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>a5221abe22617b75669cd8c492cae362a</Anchor>
+               </Node>
+               <Node>
                 <Name>handle_t</Name>
                 <Path>select_8tcl.html</Path>
                 <Anchor>aacaa2dadc269b93f488d305636a215f1</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_triple_click</Name>
+                <Path>select_8tcl.html</Path>
+                <Anchor>acab8c871b69ed72de9a844c3eb25e61a</Anchor>
                </Node>
                <Node>
                 <Name>handle_Up</Name>
@@ -7843,7 +8155,7 @@
                <Node>
                 <Name>set_select_mode</Name>
                 <Path>select_8tcl.html</Path>
-                <Anchor>a354b4095a2b74018de2955b9314ef557</Anchor>
+                <Anchor>abfb5ffb2591b667a49248e63c55be373</Anchor>
                </Node>
                <Node>
                 <Name>update_selection</Name>
@@ -8034,6 +8346,11 @@
                 <Anchor>a04a188ea1c143bf792f93f6a14c5655b</Anchor>
                </Node>
                <Node>
+                <Name>check_root_removal</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>abd3dc81cff390984ee692d1e1959dacd</Anchor>
+               </Node>
+               <Node>
                 <Name>clear</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a8fe7957804bb59c1a02a96eaf06fa541</Anchor>
@@ -8054,14 +8371,24 @@
                 <Anchor>a8059dbcaffd1712ea6a7ed3b50984e0f</Anchor>
                </Node>
                <Node>
-                <Name>collapse</Name>
+                <Name>close_info_panel</Name>
                 <Path>sidebar_8tcl.html</Path>
-                <Anchor>a389b884bc875f8f6e568ceb5b46b5bd9</Anchor>
+                <Anchor>aa5df807924a8d227925a7e677ebf6e07</Anchor>
+               </Node>
+               <Node>
+                <Name>collapse_directory</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a955c9818e43690df5d831170dcdc280a</Anchor>
                </Node>
                <Node>
                 <Name>copy_pathname</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a18cebc1c439a4a3a60ab1c67dfe78005</Anchor>
+               </Node>
+               <Node>
+                <Name>count_opened</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a77aa20d0fef5d7874dbf308b3e51cede</Anchor>
                </Node>
                <Node>
                 <Name>create</Name>
@@ -8089,6 +8416,11 @@
                 <Anchor>a8489402533f87b009a938bbca86afd78</Anchor>
                </Node>
                <Node>
+                <Name>do_nothing</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a75eeece83d30666a2dd4a8baf50f4a6c</Anchor>
+               </Node>
+               <Node>
                 <Name>duplicate_file</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a6ad31fd2c0962b92fbcafa9f0e47e399</Anchor>
@@ -8102,6 +8434,11 @@
                 <Name>favorite</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a4c21bf6630b8f13d2f40a9f50100410e</Anchor>
+               </Node>
+               <Node>
+                <Name>get_default_sortby</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a64b555ade45ee76b34ba728ff9cb36c8</Anchor>
                </Node>
                <Node>
                 <Name>get_fif_files</Name>
@@ -8149,6 +8486,31 @@
                 <Anchor>af336436bee2db8a8d76f139b2cd43c68</Anchor>
                </Node>
                <Node>
+                <Name>handle_b1_motion</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a07ce20acb4513eeb0739fd42d9b97ae0</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_backspace</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a007c539bea8ddc8807194938321b91d6</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_control_left_click</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a333aed92f45556b0471e5e80af85f609</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_control_return_space</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a6d9444407075df7256e3cac0bb6b2751</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_control_right_click</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>ad875917dcc81ffa615f2961065d7c843</Anchor>
+               </Node>
+               <Node>
                 <Name>handle_double_click</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a5e6c36e5072a514f633172a734330e27</Anchor>
@@ -8169,14 +8531,39 @@
                 <Anchor>a65aed0c77c384f1c677b06b39e5032a4</Anchor>
                </Node>
                <Node>
+                <Name>handle_escape</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a4fe60641f682dc1c78c7427fe53af467</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_focus_in</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>ae258e96b4501a57f918fc1a160722276</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_focus_out</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a66b659727d286eeeb9f36699cb2c987d</Anchor>
+               </Node>
+               <Node>
                 <Name>handle_ignore_files</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>ae8888c547a5d3c1374f8f40a9051613f</Anchor>
                </Node>
                <Node>
-                <Name>handle_left_click</Name>
+                <Name>handle_info_panel_view</Name>
                 <Path>sidebar_8tcl.html</Path>
-                <Anchor>a935641ef7623866612054082b09f771f</Anchor>
+                <Anchor>a35327fd3a01568f1fbfcce3bd580d2fa</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_left_press</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a011e12cacfcef8ede8f20be46de54b48</Anchor>
+               </Node>
+               <Node>
+                <Name>handle_left_release</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>af1185144009196c2f91a1dadc4a7d8f1</Anchor>
                </Node>
                <Node>
                 <Name>handle_motion</Name>
@@ -8234,6 +8621,11 @@
                 <Anchor>a351d6e5fe91a5e1869c92c9dfeb42c50</Anchor>
                </Node>
                <Node>
+                <Name>is_droppable</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>ac9fbefbd5f72ed71c61ace577d96bf90</Anchor>
+               </Node>
+               <Node>
                 <Name>load_session</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a0aee38c48342d0dd7b8fb998a1cc912e</Anchor>
@@ -8242,6 +8634,11 @@
                 <Name>menu_post</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a2919008ef474f15dc5f21b7326b0b4c5</Anchor>
+               </Node>
+               <Node>
+                <Name>move_item</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a8b2efb9beaf4f415efd10404e39d579d</Anchor>
                </Node>
                <Node>
                 <Name>move_to_trash</Name>
@@ -8261,7 +8658,12 @@
                <Node>
                 <Name>order_files_dirs</Name>
                 <Path>sidebar_8tcl.html</Path>
-                <Anchor>ac6014f42285dea6448e8e606c9904437</Anchor>
+                <Anchor>a34c2845d5f509c446871fa1f5459501e</Anchor>
+               </Node>
+               <Node>
+                <Name>panel_theme_change</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a016760f1bc4a8fceade80aae5aca38df</Anchor>
                </Node>
                <Node>
                 <Name>refresh_directory_files</Name>
@@ -8287,6 +8689,16 @@
                 <Name>rename_folder</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a00988c035a304b76aaa8c7b8c945fa9f</Anchor>
+               </Node>
+               <Node>
+                <Name>row_before</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>abdd912c8ba6ad868fa5997b33f72731d</Anchor>
+               </Node>
+               <Node>
+                <Name>row_before_helper</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a27b894d8f3188a790043a30608819075</Anchor>
                </Node>
                <Node>
                 <Name>row_type</Name>
@@ -8319,6 +8731,11 @@
                 <Anchor>af1e90a03298298619dae13481ba07b84</Anchor>
                </Node>
                <Node>
+                <Name>set_info</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a73818ab507c8a8db11046d753e029c92</Anchor>
+               </Node>
+               <Node>
                 <Name>setup_dir_menu</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>a3d9e5e8f78457e2487eb35dcdd9acff1</Anchor>
@@ -8332,6 +8749,11 @@
                 <Name>setup_root_menu</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>aa70c3a1f67c76653429822047e3e8488</Anchor>
+               </Node>
+               <Node>
+                <Name>setup_sort_menu</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>aa3523f201909817fd7c7e14f583b0a8f</Anchor>
                </Node>
                <Node>
                 <Name>show_file</Name>
@@ -8349,9 +8771,49 @@
                 <Anchor>a92c85f5bb45855af7c509d273c7186bd</Anchor>
                </Node>
                <Node>
+                <Name>show_thumbnail</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a85045708bb73d8566d92864bd15e860b</Anchor>
+               </Node>
+               <Node>
                 <Name>show_tooltip</Name>
                 <Path>sidebar_8tcl.html</Path>
                 <Anchor>aed189782919e789a2c61f8166c9f8332</Anchor>
+               </Node>
+               <Node>
+                <Name>sort_menu_post</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a2ec0c323bde219f572b22530c6ef30d1</Anchor>
+               </Node>
+               <Node>
+                <Name>sort_updated</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a44f5305de30cbce84d70fea91cfde604</Anchor>
+               </Node>
+               <Node>
+                <Name>spring_cancel</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a46de1a06abaf9fac67e9cd5e6e4fa6c9</Anchor>
+               </Node>
+               <Node>
+                <Name>spring_directory</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>ac0a205bd244d7b48d98c089a96648bf4</Anchor>
+               </Node>
+               <Node>
+                <Name>tree_scan</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>ae2a4f3b23b15b5069591a2cb3fb56a18</Anchor>
+               </Node>
+               <Node>
+                <Name>tree_scan_cancel</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a8af829b7867f1607c26ef89e899b4ef7</Anchor>
+               </Node>
+               <Node>
+                <Name>tree_scan_start</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a8b46a84755253875b68d28d524e13f43</Anchor>
                </Node>
                <Node>
                 <Name>unfavorite</Name>
@@ -8374,14 +8836,29 @@
                 <Anchor>a042ceeb8bd20ffb2b75773972c47b43b</Anchor>
                </Node>
                <Node>
-                <Name>update_root_count</Name>
+                <Name>update_filenames</Name>
                 <Path>sidebar_8tcl.html</Path>
-                <Anchor>a9b33a284ccb9722364de9e89c59882d8</Anchor>
+                <Anchor>aa747d26413e0a4f05821fc3398c07bb4</Anchor>
+               </Node>
+               <Node>
+                <Name>update_info_panel</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>a4ad130d22506bf91afa87791b44bf941</Anchor>
+               </Node>
+               <Node>
+                <Name>update_info_panel_for_file</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>acbae97f5d7351c4a884541994a884808</Anchor>
                </Node>
                <Node>
                 <Name>view_file</Name>
                 <Path>sidebar_8tcl.html</Path>
-                <Anchor>a3b15b2149bb617b348aac9713bc344b9</Anchor>
+                <Anchor>ada4d238e45999b8693b688c9560b69bb</Anchor>
+               </Node>
+               <Node>
+                <Name>write_sort_file</Name>
+                <Path>sidebar_8tcl.html</Path>
+                <Anchor>aa91918d4e30de27512b7afa1671b9581</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -9099,9 +9576,19 @@
                 <Anchor>a4bb34964e943e50ae97be55cea362efd</Anchor>
                </Node>
                <Node>
+                <Name>update_misc_scrollbar</Name>
+                <Path>theme_8tcl.html</Path>
+                <Anchor>a939f433560805b078601b1b98e9e66ae</Anchor>
+               </Node>
+               <Node>
                 <Name>update_sidebar</Name>
                 <Path>theme_8tcl.html</Path>
                 <Anchor>ad2520d43bc7f228dd89d333b3e2e3279</Anchor>
+               </Node>
+               <Node>
+                <Name>update_sidebar_info</Name>
+                <Path>theme_8tcl.html</Path>
+                <Anchor>a67b7c1e682a077b36460ccc3b328791e</Anchor>
                </Node>
                <Node>
                 <Name>update_sidebar_scrollbar</Name>
@@ -9643,6 +10130,22 @@
               </Subnodes>
              </Node>
              <Node>
+              <Name>thumbnail.tcl</Name>
+              <Path>thumbnail_8tcl.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>hide</Name>
+                <Path>thumbnail_8tcl.html</Path>
+                <Anchor>aa630dc6cf31f2517c6e4570729aa248e</Anchor>
+               </Node>
+               <Node>
+                <Name>show</Name>
+                <Path>thumbnail_8tcl.html</Path>
+                <Anchor>ae4b7ea06cca65c9c2dfd56b13671dcd9</Anchor>
+               </Node>
+              </Subnodes>
+             </Node>
+             <Node>
               <Name>tke.tcl</Name>
               <Path>tke_8tcl.html</Path>
               <Subnodes>
@@ -9789,6 +10292,11 @@
                 <Anchor>a600cc6dfd9f1072748db7e17f85e72f0</Anchor>
                </Node>
                <Node>
+                <Name>export</Name>
+                <Path>utils_8tcl.html</Path>
+                <Anchor>a8e97c167cd1177ee8d25cbfb98e91f4c</Anchor>
+               </Node>
+               <Node>
                 <Name>get_color_values</Name>
                 <Path>utils_8tcl.html</Path>
                 <Anchor>a13f8549f8e0c8fe9f99fcfaeb6a85926</Anchor>
@@ -9817,6 +10325,36 @@
                 <Name>get_eol_char</Name>
                 <Path>utils_8tcl.html</Path>
                 <Anchor>a15c242be08bb3e65549f658e311a6997</Anchor>
+               </Node>
+               <Node>
+                <Name>get_file_checksum</Name>
+                <Path>utils_8tcl.html</Path>
+                <Anchor>a129f35d49feb1fe79a630568d8b342af</Anchor>
+               </Node>
+               <Node>
+                <Name>get_file_count</Name>
+                <Path>utils_8tcl.html</Path>
+                <Anchor>a2f19fb1b2a8b17b0bd67c7c49a9389e0</Anchor>
+               </Node>
+               <Node>
+                <Name>get_file_group</Name>
+                <Path>utils_8tcl.html</Path>
+                <Anchor>a41ee90b339ad040e79ae4b8aa5427a4b</Anchor>
+               </Node>
+               <Node>
+                <Name>get_file_owner</Name>
+                <Path>utils_8tcl.html</Path>
+                <Anchor>a53f0046a5ee1f2e1845e1381964e5f06</Anchor>
+               </Node>
+               <Node>
+                <Name>get_file_permissions</Name>
+                <Path>utils_8tcl.html</Path>
+                <Anchor>a11ff1b301f28ada96b7a710b741eb66f</Anchor>
+               </Node>
+               <Node>
+                <Name>get_file_size</Name>
+                <Path>utils_8tcl.html</Path>
+                <Anchor>ad65f14c3390f4b55c89a7a4cad2a2651</Anchor>
                </Node>
                <Node>
                 <Name>glob_install</Name>
@@ -9964,6 +10502,31 @@
                 <Anchor>a529d358527fb836dfcc68953c8177e96</Anchor>
                </Node>
                <Node>
+                <Name>do_mode_edit</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a1fb5b995e7425011c046c079f188f23a</Anchor>
+               </Node>
+               <Node>
+                <Name>do_mode_playback_reg</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a101e924eeb77a811b7a9b6c6a5dd372f</Anchor>
+               </Node>
+               <Node>
+                <Name>do_mode_record_reg</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a1e7f4153f6ce13d63f51740c922fb5b6</Anchor>
+               </Node>
+               <Node>
+                <Name>do_mode_replace</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>af327375a40c7cb465990fac9fe515ce9</Anchor>
+               </Node>
+               <Node>
+                <Name>do_mode_replace_all</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a4ad5c210289a24d702909e6aa45bce2f</Anchor>
+               </Node>
+               <Node>
                 <Name>do_object_operation</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>a8b57240690304d4684cdda12c2faad07</Anchor>
@@ -9982,6 +10545,11 @@
                 <Name>do_pre_paste</Name>
                 <Path>vim_8tcl.html</Path>
                 <Anchor>aa6c231ca03e504af55d0a9024acccd2b</Anchor>
+               </Node>
+               <Node>
+                <Name>do_replace</Name>
+                <Path>vim_8tcl.html</Path>
+                <Anchor>a9f813e6a51b2be7c4ef65619f5677b74</Anchor>
                </Node>
                <Node>
                 <Name>do_set_autochdir</Name>

@@ -39,3 +39,7 @@ The available options are specified as follows:
 | **-parent** _window_ | Makes window the logical parent of the fontchooser dialog.  The file dialog is displayed on top of its parent window. |
 | **-initialfont** _font_ | Specifies the initial font to display in the window.  The value of font can be any legal Tcl font description. |
 | **-title** _titleString_ | Specifies a string to display as the title of the dialog box.  If this option is not specified, no title is displayed. |
+
+## base64
+
+Documentation for the base64 package can be found at [http://core.tcl.tk/tcllib/doc/trunk/embedded/www/tcllib/files/modules/base64/base64.html](http://core.tcl.tk/tcllib/doc/trunk/embedded/www/tcllib/files/modules/base64/base64.html)

@@ -22,6 +22,6 @@ var searchData=
   ['open_5furl',['open_url',['../namespacelauncher.html#ae62944c720f7c1d7531a1854f8a1870a',1,'launcher']]],
   ['open_5furl_5fand_5fbookmark',['open_url_and_bookmark',['../namespacelauncher.html#ae267e1c387465799686f3c2ea882d527',1,'launcher']]],
   ['opendocument',['OpenDocument',['../namespacetk_1_1mac.html#a531a41432a6dd5b23544e76788ccb3a2',1,'tk::mac']]],
-  ['order_5ffiles_5fdirs',['order_files_dirs',['../namespacesidebar.html#ac6014f42285dea6448e8e606c9904437',1,'sidebar']]],
+  ['order_5ffiles_5fdirs',['order_files_dirs',['../namespacesidebar.html#a34c2845d5f509c446871fa1f5459501e',1,'sidebar']]],
   ['output',['output',['../namespacebist.html#a516c36e005e9b4a640d1d6947bd89c25',1,'bist']]]
 ];

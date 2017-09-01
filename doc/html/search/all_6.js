@@ -58,7 +58,6 @@ var searchData=
   ['fontchooser',['fontchooser',['../namespacefontchooser.html',1,'fontchooser'],['../fontchooser_8tcl.html#a4de23714c81d006b9cfaed84770e072e',1,'fontchooserargs:&#160;fontchooser.tcl']]],
   ['fontchooser_2etcl',['fontchooser.tcl',['../fontchooser_8tcl.html',1,'']]],
   ['format',['format',['../namespaceapi_1_1edit.html#ab94e10649c98f8baa34d3b991be6cde5',1,'api::edit::format()'],['../namespaceedit.html#ad05491b254b0ad95fca27034aa62047b',1,'edit::format()']]],
-  ['format_5fbetween_5fchar',['format_between_char',['../namespaceedit.html#a49b1f6b4a2555c42e73b48b8a46f61f9',1,'edit']]],
   ['format_5fcategory_5fvalue',['format_category_value',['../namespacethemer.html#a4b79e6f477560f78a36fe605f2ff53a6',1,'themer']]],
   ['format_5fcell',['format_cell',['../namespacebist.html#ab450ea9411f758f4f34f8771f3089cd9',1,'bist']]],
   ['format_5fimage_5fcell',['format_image_cell',['../namespacethemer.html#a4e86f66c81dae9284430e5dba9efa85c',1,'themer']]],

@@ -16,5 +16,6 @@ var searchData=
   ['write_5fconfig',['write_config',['../namespaceplugins.html#a5406a6ff2ab439e73b7c6be1acdebea3',1,'plugins']]],
   ['write_5ffile',['write_file',['../namespaceshare.html#a881b8e1ce1721cbc9b759f5db2489037',1,'share']]],
   ['write_5flang',['write_lang',['../namespacelang.html#a8e80e288101ccb8ab5c20388e348b550',1,'lang']]],
+  ['write_5fsort_5ffile',['write_sort_file',['../namespacesidebar.html#aa91918d4e30de27512b7afa1671b9581',1,'sidebar']]],
   ['write_5ftketheme',['write_tketheme',['../namespacetheme.html#a8728c56ac93997775eb7d8fcf7752a3b',1,'theme']]]
 ];

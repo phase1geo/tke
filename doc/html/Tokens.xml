@@ -409,6 +409,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>set_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>api::sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespaceapi_1_1sidebar.html</Path>
+    <Anchor>adde7a92a3585af2e5ecda329539ddcaa</Anchor>
+    <DeclaredIn>api.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>save_variable</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -2916,6 +2927,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_default_cvs</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff.html</Path>
+    <Anchor>ac914bd0174f6a505532ef66c3a10cf38</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>set_default_cvs</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -3125,6 +3147,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::perforce</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1perforce.html</Path>
+    <Anchor>ae465e24131b3798e394a09c02ab7b009</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -3209,6 +3242,17 @@
     </TokenIdentifier>
     <Path>namespacediff_1_1mercurial.html</Path>
     <Anchor>a8d34996d3af6088df3e1279e2da28ded</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::mercurial</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1mercurial.html</Path>
+    <Anchor>ab1f18c976fc004d78b31a7308593d12d</Anchor>
     <DeclaredIn>diff.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3301,6 +3345,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::git</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1git.html</Path>
+    <Anchor>a21d187963377ba4335c07c0128f5ce22</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -3385,6 +3440,17 @@
     </TokenIdentifier>
     <Path>namespacediff_1_1bazaar.html</Path>
     <Anchor>a74cf206d2cb6dee45a635c82c1e0c825</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::bazaar</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1bazaar.html</Path>
+    <Anchor>a0668bcf57bd1042706301ea43deac5bd</Anchor>
     <DeclaredIn>diff.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3477,6 +3543,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::subversion</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1subversion.html</Path>
+    <Anchor>a05238ace7dfd6c828c881a8fd9df09a8</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -3565,6 +3642,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::cvs</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1cvs.html</Path>
+    <Anchor>a56ec30591ef76ec41de9623c54fdef1b</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -3627,6 +3715,17 @@
     </TokenIdentifier>
     <Path>namespacediff_1_1diff.html</Path>
     <Anchor>a99a02a72ce94532dfa2415527aa49d68</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::diff</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1diff.html</Path>
+    <Anchor>a6d2b6b7fc3094038dde102690d34b8c4</Anchor>
     <DeclaredIn>diff.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -3847,50 +3946,6 @@
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
     <Anchor>a013f391b5b3d80fc2be29bf083ce4ed7</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>select_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>ada7e1c47847d9658b8cdfacbb049c85c</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>format_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>a49b1f6b4a2555c42e73b48b8a46f61f9</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>lshift_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>abfb52302b1389f942af8897585056091</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>rshift_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>a052691f9e4a13119da70b295fea4a692</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -5380,6 +5435,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>num_opened</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>a8f14d82d44f293230f65b1f6d38750e1</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_index</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -5446,6 +5512,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>gzip</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>aae9a44777ad7e184050a421e0670c6a6</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>gunzip</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>aec1e273244aa44dfd459043dfce7d281</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_file</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -5490,6 +5578,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>move_folder</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>a549fc7df0d3a4d4e71169ae8968b9dd2</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>rename_folder</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -5508,6 +5607,17 @@
     </TokenIdentifier>
     <Path>namespacefiles.html</Path>
     <Anchor>ad18ad5ba7a479662f0735f3138396c16</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>move_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>accecc70da8951a493c50069ed0d543a6</Anchor>
     <DeclaredIn>files.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -8627,6 +8737,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>set_variable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>interpreter</Scope>
+    </TokenIdentifier>
+    <Path>namespaceinterpreter.html</Path>
+    <Anchor>a2668b2a7d759e7b24f8c1b04f9b5172e</Anchor>
+    <DeclaredIn>interpreter.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>widget_win</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -8789,6 +8910,215 @@
     <Path>namespaceinterpreter.html</Path>
     <Anchor>a0ee6cc542117a4b8c436d59fb3b69208</Anchor>
     <DeclaredIn>interpreter.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>create_images</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>aa66c31e282e145adad1907b8db3212b2</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>create</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a5350069c2b740b43599cf876df5fb588</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>insert_info_panel_plugins</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a5d01ef63367edc69dbb514c012a81109</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a318767d641e209c47bd9a00a2732ef6a</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_image</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>ac3faade9f13f8e80e0fa904800fdc94c</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_type</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>af7afa0ac6dc5ba046d515391816b911a</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_attrs</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a32689d9215a69c3a142b174efdae70b3</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_counts</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a28c78783b68417f83e823246b2a25758</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_rtime</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>acb39267487a56f5bef1413f48d436492</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_checks</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>abc60e97d879653483811bd6a5f4cbe41</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_mod</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a66db35419760a2b66fcf97c87e00e389</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a586a870739c4468752cfe03c0af9722b</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_favorite</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>afc189513a6ac4ae791afc559a7289da4</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_info_image</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a2fa90aa1b86e5ae892fcd5954716aee5</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>copy_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a00d3ee5e9a25143367fadccb8123bcd7</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>is_viewable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>af24fe080c27143c490052372caa7976b</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a3c81e755ca995d65271f3f0dfcf01709</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>run_command</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>af3afd2f1d51995d719f66096b54112d5</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_theme</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>aa9fb2f0257a07d9b4c5ba5476106a02c</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -10143,17 +10473,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>edit_delete_posting</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a8c35e8f4c47b3b090d7f4128b9eba373</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>edit_transform_posting</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -10216,6 +10535,17 @@
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
     <Anchor>a5124881cd7ae86ab27423342a6b1ecf8</Anchor>
+    <DeclaredIn>menus.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>select_mode</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>menus</Scope>
+    </TokenIdentifier>
+    <Path>namespacemenus.html</Path>
+    <Anchor>aaf368182f3e810f2df82fe9a7be950f5</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -10315,94 +10645,6 @@
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
     <Anchor>aa32598f0caa9a27364f321a804bb0f43</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_current_line</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a9dcdb9bed79de7157e9dbba1b663acec</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_current_word</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a16b2ba9c934b2eb0faedad75040d92df</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_to_end</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a9de8b668e2af1fec3df09139ed774674</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_from_start</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>ac6e166c0ff79c6517e0855d0a2d1c0e4</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_current_number</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a183ac1d982ceab1b76b6db8210ec68c5</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_next_space</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a153a6eaac4a8d998a83886865c8b5c2d</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_prev_space</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a92f544f96f3ad3f99a6d5ae4d4b81e21</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>aa52eb68e00c6721614a4a188e6e7d382</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12332,6 +12574,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_sidebar_info_titles</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>plugins</Scope>
+    </TokenIdentifier>
+    <Path>namespaceplugins.html</Path>
+    <Anchor>ad436cafd4055007ccd0ea2da6924aa40</Anchor>
+    <DeclaredIn>plugins.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_sidebar_info_values</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>plugins</Scope>
+    </TokenIdentifier>
+    <Path>namespaceplugins.html</Path>
+    <Anchor>a6c2440216533e7b80d16409774cb3b2c</Anchor>
+    <DeclaredIn>plugins.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_share_items</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -12427,6 +12691,17 @@
     </TokenIdentifier>
     <Path>namespaceplugins_1_1_0Bns.html</Path>
     <Anchor>a8e226b16b3de4dfd9cf9bc4b52481516</Anchor>
+    <DeclaredIn>plugins.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>plugins::$ns</Scope>
+    </TokenIdentifier>
+    <Path>namespaceplugins_1_1_0Bns.html</Path>
+    <Anchor>a9899cf34e0eccd4371ed30b7d8072b8f</Anchor>
     <DeclaredIn>plugins.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12536,7 +12811,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a22dc03f00e2d7f766dbe9f3ea4ffc8d9</Anchor>
+    <Anchor>a5d22ef5ed9e13f8066eb53113a831d58</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12547,7 +12822,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a2bcbbb5918f8717c28ec9ceac459e09f</Anchor>
+    <Anchor>a2384fbc83eeb105730ad9d3b0be250ee</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12569,7 +12844,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>ab8c76d1e07b651147ba4f30eefb479a0</Anchor>
+    <Anchor>a5e4afe6b02e916bcfcb973b4d89f29c4</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12581,6 +12856,28 @@
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
     <Anchor>a049a289a057a59eda55102149f8f0a05</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>text_modified</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ad9fce827d25d6a770184431dd4121f97</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>text_save</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ad952b232878659739c31b0b0cd34881d</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12618,13 +12915,46 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>make_cp</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>afaedb61b326be4ddaa5d4f3556387086</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>init_cp</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a103dc17acc8beb526419b0e18c60a750</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>change_cp</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>aa2a4c6ea9d9579fea623bfd907f743fb</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>make_fp</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a5899a6ef9467cac112c4e45eec5bca5e</Anchor>
+    <Anchor>a0e8843807be8b6ba14d8f479f48bfe62</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -12658,6 +12988,105 @@
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
     <Anchor>a9999c9b80136a745dd6fa1b61e3fae5e</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_table</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a3f8eda566cc3c3ffd05dfbb1904087cc</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>init_table</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a2383e8422d8326dbe80e39e7d2229c22</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_add</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a78d11605a61762fc60d0ad2500d0e161</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_delete</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a3a0bbfc13a887a6ef38a7cdd246d4259</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_selected</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a113279591e5819ae948b2b172d7d6c7e</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_left_clicked</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a1041cc069bc976fe05adbd7691817b82</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_edit_start_command</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a2601669cc1f371c71ab48c59913522f2</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_edit_end_command</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ab48532f375ed0bad1a1c4276384973eb</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_help</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ae9d6268c2d0d22f21468bdeb0b887a7f</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -13340,6 +13769,17 @@
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
     <Anchor>a850888ced239552a42583be9947b0321</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_attributes</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a4fcc8e3cbc0c70423c8cb8f3dde5fbe8</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -14818,6 +15258,105 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>scrolledframe</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>abaa83f5ded9266d813abe73769dc49b0</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>dispatch</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a791844a6079636d6fe85fe7cef8ffe3b</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>config</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a1b9e5ff3ac308e975231e7302852d9ac</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>resize</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>aef5aeae7393c682cb003333f39a8d7e3</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>vresize</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a158b7493487696af56192f3dbb62a2a2</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>xset</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a01f80a1a7d8894a88cec2f0d185ce961</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>yset</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a53dca40362f8ee182c41aa2c12cbb13d</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>xview</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a84e86919d2c5994c44e101b5f933a267</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>yview</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a613599e77563e047ac5af6309193401b</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>scroller</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -15319,7 +15858,7 @@
       <Scope>select</Scope>
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
-    <Anchor>a354b4095a2b74018de2955b9314ef557</Anchor>
+    <Anchor>abfb5ffb2591b667a49248e63c55be373</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -15346,6 +15885,94 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_single_press</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a0a09f0df9eb7db60a751821a32ec376e</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_single_release</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a5221abe22617b75669cd8c492cae362a</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_double_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a1a0d328861f48d4eae48befceb590b6f</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_alt_double_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>ab0c43555342f9b6a7fafbe3939f60505</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_double_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a7d1e4d8527740436c92a2bc61f5ffc1d</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_triple_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>acab8c871b69ed72de9a844c3eb25e61a</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_alt_triple_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>abbfff6e4b82bd1777b5a58c23ccc1d53</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_triple_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a2c14097c26ddee8f5297759d12c4b85d</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_motion</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -15357,6 +15984,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_block_selection</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>aed8e9f45c39ba8ea15a49024dedf3c72</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_alt_motion</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a5ff448e7508a50531a09b0a86b10280e</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_any</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -15364,39 +16013,6 @@
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
     <Anchor>ac57eec963d75e6474873c59d5ae6bb86</Anchor>
-    <DeclaredIn>select.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>handle_minus</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>select</Scope>
-    </TokenIdentifier>
-    <Path>namespaceselect.html</Path>
-    <Anchor>ae13c5788bd2695bf73aeb624e23c501d</Anchor>
-    <DeclaredIn>select.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>handle_i</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>select</Scope>
-    </TokenIdentifier>
-    <Path>namespaceselect.html</Path>
-    <Anchor>ab8bcce8be9503541b0f2f9045c71517b</Anchor>
-    <DeclaredIn>select.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>handle_o</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>select</Scope>
-    </TokenIdentifier>
-    <Path>namespaceselect.html</Path>
-    <Anchor>a9836ab3871ac70a554f1a25b8e9b7ee0</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16050,6 +16666,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>do_nothing</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a75eeece83d30666a2dd4a8baf50f4a6c</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>panel_theme_change</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a016760f1bc4a8fceade80aae5aca38df</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>set_image</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16138,6 +16776,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>row_before</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>abdd912c8ba6ad868fa5997b33f72731d</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>row_before_helper</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a27b894d8f3188a790043a30608819075</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>menu_post</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16145,6 +16805,17 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>a2919008ef474f15dc5f21b7326b0b4c5</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>sort_menu_post</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a2ec0c323bde219f572b22530c6ef30d1</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16193,6 +16864,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>setup_sort_menu</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa3523f201909817fd7c7e14f583b0a8f</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>sort_updated</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a44f5305de30cbce84d70fea91cfde604</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_index</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16222,6 +16915,17 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>ad424cbb9b22c4406b2e70458c2f3b915</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a73818ab507c8a8db11046d753e029c92</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16287,7 +16991,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>ac6014f42285dea6448e8e606c9904437</Anchor>
+    <Anchor>a34c2845d5f509c446871fa1f5459501e</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16314,13 +17018,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>update_root_count</Name>
+      <Name>check_root_removal</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a9b33a284ccb9722364de9e89c59882d8</Anchor>
+    <Anchor>abd3dc81cff390984ee692d1e1959dacd</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16336,13 +17040,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>collapse</Name>
+      <Name>collapse_directory</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a389b884bc875f8f6e568ceb5b46b5bd9</Anchor>
+    <Anchor>a955c9818e43690df5d831170dcdc280a</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16369,6 +17073,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>show_thumbnail</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a85045708bb73d8566d92864bd15e860b</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>hide_tooltip</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16391,13 +17106,79 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>handle_left_click</Name>
+      <Name>handle_left_press</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a935641ef7623866612054082b09f771f</Anchor>
+    <Anchor>a011e12cacfcef8ede8f20be46de54b48</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_left_release</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>af1185144009196c2f91a1dadc4a7d8f1</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>move_item</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a8b2efb9beaf4f415efd10404e39d579d</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>count_opened</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a77aa20d0fef5d7874dbf308b3e51cede</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_filenames</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa747d26413e0a4f05821fc3398c07bb4</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_left_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a333aed92f45556b0471e5e80af85f609</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_right_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ad875917dcc81ffa615f2961065d7c843</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16435,6 +17216,39 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_escape</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a4fe60641f682dc1c78c7427fe53af467</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_backspace</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a007c539bea8ddc8807194938321b91d6</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_return_space</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a6d9444407075df7256e3cac0bb6b2751</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_motion</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16446,6 +17260,83 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>is_droppable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ac9fbefbd5f72ed71c61ace577d96bf90</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_b1_motion</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a07ce20acb4513eeb0739fd42d9b97ae0</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>tree_scan_start</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a8b46a84755253875b68d28d524e13f43</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>tree_scan</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ae2a4f3b23b15b5069591a2cb3fb56a18</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>tree_scan_cancel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a8af829b7867f1607c26ef89e899b4ef7</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>spring_directory</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ac0a205bd244d7b48d98c089a96648bf4</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>spring_cancel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a46de1a06abaf9fac67e9cd5e6e4fa6c9</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_any</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16453,6 +17344,28 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>af336436bee2db8a8d76f139b2cd43c68</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_focus_in</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ae258e96b4501a57f918fc1a160722276</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_focus_out</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a66b659727d286eeeb9f36699cb2c987d</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16776,6 +17689,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_info_panel_view</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a35327fd3a01568f1fbfcce3bd580d2fa</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_shown_files</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -16804,7 +17728,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a3b15b2149bb617b348aac9713bc344b9</Anchor>
+    <Anchor>ada4d238e45999b8693b688c9560b69bb</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -16816,6 +17740,61 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>a1f7e7f7a688cbfdec7eb2dee2b923a17</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_info_panel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a4ad130d22506bf91afa87791b44bf941</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_info_panel_for_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>acbae97f5d7351c4a884541994a884808</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close_info_panel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa5df807924a8d227925a7e677ebf6e07</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>write_sort_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa91918d4e30de27512b7afa1671b9581</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_default_sortby</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a64b555ade45ee76b34ba728ff9cb36c8</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -18272,6 +19251,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>update_sidebar_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>theme</Scope>
+    </TokenIdentifier>
+    <Path>namespacetheme.html</Path>
+    <Anchor>a67b7c1e682a077b36460ccc3b328791e</Anchor>
+    <DeclaredIn>theme.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>update_launcher</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -18312,6 +19302,17 @@
     </TokenIdentifier>
     <Path>namespacetheme.html</Path>
     <Anchor>ae81f2e4a06d945f227bc1cba59c527f9</Anchor>
+    <DeclaredIn>theme.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_misc_scrollbar</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>theme</Scope>
+    </TokenIdentifier>
+    <Path>namespacetheme.html</Path>
+    <Anchor>a939f433560805b078601b1b98e9e66ae</Anchor>
     <DeclaredIn>theme.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -19460,6 +20461,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>show</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>thumbnail</Scope>
+    </TokenIdentifier>
+    <Path>namespacethumbnail.html</Path>
+    <Anchor>ae4b7ea06cca65c9c2dfd56b13671dcd9</Anchor>
+    <DeclaredIn>thumbnail.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>hide</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>thumbnail</Scope>
+    </TokenIdentifier>
+    <Path>namespacethumbnail.html</Path>
+    <Anchor>aa630dc6cf31f2517c6e4570729aa248e</Anchor>
+    <DeclaredIn>thumbnail.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>adjust_fname</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -20017,6 +21040,83 @@
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
     <Anchor>aa882721b1d7a65d479cd627571bfc09d</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_size</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>ad65f14c3390f4b55c89a7a4cad2a2651</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_permissions</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a11ff1b301f28ada96b7a710b741eb66f</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_owner</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a53f0046a5ee1f2e1845e1381964e5f06</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_group</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a41ee90b339ad040e79ae4b8aa5427a4b</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_count</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a2f19fb1b2a8b17b0bd67c7c49a9389e0</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_checksum</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a129f35d49feb1fe79a630568d8b342af</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>export</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a8e97c167cd1177ee8d25cbfb98e91f4c</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -20798,6 +21898,72 @@
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
     <Anchor>a3b25fa380498cf9dc5acc82484970ab9</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_edit</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a1fb5b995e7425011c046c079f188f23a</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_replace</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>af327375a40c7cb465990fac9fe515ce9</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_replace_all</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a4ad5c210289a24d702909e6aa45bce2f</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_record_reg</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a1e7f4153f6ce13d63f51740c922fb5b6</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_playback_reg</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a101e924eeb77a811b7a9b6c6a5dd372f</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_replace</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a9f813e6a51b2be7c4ef65619f5677b74</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -22447,6 +23613,17 @@
     </TokenIdentifier>
     <Path>namespaceapi_1_1sidebar.html</Path>
     <Anchor>a243ce64b30a1fe2c26a826d2c6480c83</Anchor>
+    <DeclaredIn>api.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>api::sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespaceapi_1_1sidebar.html</Path>
+    <Anchor>adde7a92a3585af2e5ecda329539ddcaa</Anchor>
     <DeclaredIn>api.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -24974,6 +26151,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_default_cvs</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff.html</Path>
+    <Anchor>ac914bd0174f6a505532ef66c3a10cf38</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>set_default_cvs</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -25192,6 +26380,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::bazaar</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1bazaar.html</Path>
+    <Anchor>a0668bcf57bd1042706301ea43deac5bd</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -25331,6 +26530,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::cvs</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1cvs.html</Path>
+    <Anchor>a56ec30591ef76ec41de9623c54fdef1b</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -25406,6 +26616,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::diff</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1diff.html</Path>
+    <Anchor>a6d2b6b7fc3094038dde102690d34b8c4</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>diff::git</Name>
       <APILanguage>tcl</APILanguage>
       <Type>ns</Type>
@@ -25477,6 +26698,17 @@
     </TokenIdentifier>
     <Path>namespacediff_1_1git.html</Path>
     <Anchor>a56550241a698ad6f5f91739f5827227f</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::git</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1git.html</Path>
+    <Anchor>a21d187963377ba4335c07c0128f5ce22</Anchor>
     <DeclaredIn>diff.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -25578,6 +26810,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::mercurial</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1mercurial.html</Path>
+    <Anchor>ab1f18c976fc004d78b31a7308593d12d</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -25675,6 +26918,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::perforce</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1perforce.html</Path>
+    <Anchor>ae465e24131b3798e394a09c02ab7b009</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>find_version</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -25768,6 +27022,17 @@
     </TokenIdentifier>
     <Path>namespacediff_1_1subversion.html</Path>
     <Anchor>a1fc8a9d05d388d215cfcb19869aff79c</Anchor>
+    <DeclaredIn>diff.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>diff::subversion</Scope>
+    </TokenIdentifier>
+    <Path>namespacediff_1_1subversion.html</Path>
+    <Anchor>a05238ace7dfd6c828c881a8fd9df09a8</Anchor>
     <DeclaredIn>diff.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -25986,50 +27251,6 @@
     </TokenIdentifier>
     <Path>namespaceedit.html</Path>
     <Anchor>a013f391b5b3d80fc2be29bf083ce4ed7</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>select_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>ada7e1c47847d9658b8cdfacbb049c85c</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>format_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>a49b1f6b4a2555c42e73b48b8a46f61f9</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>lshift_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>abfb52302b1389f942af8897585056091</Anchor>
-    <DeclaredIn>edit.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>rshift_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>edit</Scope>
-    </TokenIdentifier>
-    <Path>namespaceedit.html</Path>
-    <Anchor>a052691f9e4a13119da70b295fea4a692</Anchor>
     <DeclaredIn>edit.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -27555,6 +28776,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>num_opened</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>a8f14d82d44f293230f65b1f6d38750e1</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_index</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -27621,6 +28853,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>gzip</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>aae9a44777ad7e184050a421e0670c6a6</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>gunzip</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>aec1e273244aa44dfd459043dfce7d281</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_file</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -27665,6 +28919,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>move_folder</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>a549fc7df0d3a4d4e71169ae8968b9dd2</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>rename_folder</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -27683,6 +28948,17 @@
     </TokenIdentifier>
     <Path>namespacefiles.html</Path>
     <Anchor>ad18ad5ba7a479662f0735f3138396c16</Anchor>
+    <DeclaredIn>files.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>move_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>files</Scope>
+    </TokenIdentifier>
+    <Path>namespacefiles.html</Path>
+    <Anchor>accecc70da8951a493c50069ed0d543a6</Anchor>
     <DeclaredIn>files.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -30757,6 +32033,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>set_variable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>interpreter</Scope>
+    </TokenIdentifier>
+    <Path>namespaceinterpreter.html</Path>
+    <Anchor>a2668b2a7d759e7b24f8c1b04f9b5172e</Anchor>
+    <DeclaredIn>interpreter.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>widget_win</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -30919,6 +32206,224 @@
     <Path>namespaceinterpreter.html</Path>
     <Anchor>a0ee6cc542117a4b8c436d59fb3b69208</Anchor>
     <DeclaredIn>interpreter.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>ipanel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>ns</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>create_images</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>aa66c31e282e145adad1907b8db3212b2</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>create</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a5350069c2b740b43599cf876df5fb588</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>insert_info_panel_plugins</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a5d01ef63367edc69dbb514c012a81109</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a318767d641e209c47bd9a00a2732ef6a</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_image</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>ac3faade9f13f8e80e0fa904800fdc94c</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_type</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>af7afa0ac6dc5ba046d515391816b911a</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_attrs</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a32689d9215a69c3a142b174efdae70b3</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_counts</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a28c78783b68417f83e823246b2a25758</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_rtime</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>acb39267487a56f5bef1413f48d436492</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_checks</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>abc60e97d879653483811bd6a5f4cbe41</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_mod</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a66db35419760a2b66fcf97c87e00e389</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a586a870739c4468752cfe03c0af9722b</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_favorite</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>afc189513a6ac4ae791afc559a7289da4</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_info_image</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a2fa90aa1b86e5ae892fcd5954716aee5</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>copy_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a00d3ee5e9a25143367fadccb8123bcd7</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>is_viewable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>af24fe080c27143c490052372caa7976b</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>a3c81e755ca995d65271f3f0dfcf01709</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>run_command</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>af3afd2f1d51995d719f66096b54112d5</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_theme</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>ipanel</Scope>
+    </TokenIdentifier>
+    <Path>namespaceipanel.html</Path>
+    <Anchor>aa9fb2f0257a07d9b4c5ba5476106a02c</Anchor>
+    <DeclaredIn>ipanel.tcl</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -32298,17 +33803,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>edit_delete_posting</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a8c35e8f4c47b3b090d7f4128b9eba373</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>edit_transform_posting</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -32371,6 +33865,17 @@
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
     <Anchor>a5124881cd7ae86ab27423342a6b1ecf8</Anchor>
+    <DeclaredIn>menus.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>select_mode</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>menus</Scope>
+    </TokenIdentifier>
+    <Path>namespacemenus.html</Path>
+    <Anchor>aaf368182f3e810f2df82fe9a7be950f5</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -32470,94 +33975,6 @@
     </TokenIdentifier>
     <Path>namespacemenus.html</Path>
     <Anchor>aa32598f0caa9a27364f321a804bb0f43</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_current_line</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a9dcdb9bed79de7157e9dbba1b663acec</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_current_word</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a16b2ba9c934b2eb0faedad75040d92df</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_to_end</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a9de8b668e2af1fec3df09139ed774674</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_from_start</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>ac6e166c0ff79c6517e0855d0a2d1c0e4</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_current_number</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a183ac1d982ceab1b76b6db8210ec68c5</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_next_space</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a153a6eaac4a8d998a83886865c8b5c2d</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_prev_space</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>a92f544f96f3ad3f99a6d5ae4d4b81e21</Anchor>
-    <DeclaredIn>menus.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>edit_delete_between_char</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>menus</Scope>
-    </TokenIdentifier>
-    <Path>namespacemenus.html</Path>
-    <Anchor>aa52eb68e00c6721614a4a188e6e7d382</Anchor>
     <DeclaredIn>menus.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34505,6 +35922,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>get_sidebar_info_titles</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>plugins</Scope>
+    </TokenIdentifier>
+    <Path>namespaceplugins.html</Path>
+    <Anchor>ad436cafd4055007ccd0ea2da6924aa40</Anchor>
+    <DeclaredIn>plugins.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_sidebar_info_values</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>plugins</Scope>
+    </TokenIdentifier>
+    <Path>namespaceplugins.html</Path>
+    <Anchor>a6c2440216533e7b80d16409774cb3b2c</Anchor>
+    <DeclaredIn>plugins.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_share_items</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -34609,6 +36048,17 @@
     </TokenIdentifier>
     <Path>namespaceplugins_1_1_0Bns.html</Path>
     <Anchor>a8e226b16b3de4dfd9cf9bc4b52481516</Anchor>
+    <DeclaredIn>plugins.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_current_version</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>plugins::$ns</Scope>
+    </TokenIdentifier>
+    <Path>namespaceplugins_1_1_0Bns.html</Path>
+    <Anchor>a9899cf34e0eccd4371ed30b7d8072b8f</Anchor>
     <DeclaredIn>plugins.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34727,7 +36177,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a22dc03f00e2d7f766dbe9f3ea4ffc8d9</Anchor>
+    <Anchor>a5d22ef5ed9e13f8066eb53113a831d58</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34738,7 +36188,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a2bcbbb5918f8717c28ec9ceac459e09f</Anchor>
+    <Anchor>a2384fbc83eeb105730ad9d3b0be250ee</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34760,7 +36210,7 @@
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>ab8c76d1e07b651147ba4f30eefb479a0</Anchor>
+    <Anchor>a5e4afe6b02e916bcfcb973b4d89f29c4</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34772,6 +36222,28 @@
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
     <Anchor>a049a289a057a59eda55102149f8f0a05</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>text_modified</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ad9fce827d25d6a770184431dd4121f97</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>text_save</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ad952b232878659739c31b0b0cd34881d</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34809,13 +36281,46 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>make_cp</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>afaedb61b326be4ddaa5d4f3556387086</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>init_cp</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a103dc17acc8beb526419b0e18c60a750</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>change_cp</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>aa2a4c6ea9d9579fea623bfd907f743fb</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>make_fp</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>pref_ui</Scope>
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
-    <Anchor>a5899a6ef9467cac112c4e45eec5bca5e</Anchor>
+    <Anchor>a0e8843807be8b6ba14d8f479f48bfe62</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -34849,6 +36354,105 @@
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
     <Anchor>a9999c9b80136a745dd6fa1b61e3fae5e</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_table</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a3f8eda566cc3c3ffd05dfbb1904087cc</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>init_table</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a2383e8422d8326dbe80e39e7d2229c22</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_add</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a78d11605a61762fc60d0ad2500d0e161</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_delete</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a3a0bbfc13a887a6ef38a7cdd246d4259</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_selected</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a113279591e5819ae948b2b172d7d6c7e</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_left_clicked</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a1041cc069bc976fe05adbd7691817b82</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_edit_start_command</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a2601669cc1f371c71ab48c59913522f2</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>table_edit_end_command</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ab48532f375ed0bad1a1c4276384973eb</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_help</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>ae9d6268c2d0d22f21468bdeb0b887a7f</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -35531,6 +37135,17 @@
     </TokenIdentifier>
     <Path>namespacepref__ui.html</Path>
     <Anchor>a850888ced239552a42583be9947b0321</Anchor>
+    <DeclaredIn>pref_ui.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_attributes</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>pref_ui</Scope>
+    </TokenIdentifier>
+    <Path>namespacepref__ui.html</Path>
+    <Anchor>a4fcc8e3cbc0c70423c8cb8f3dde5fbe8</Anchor>
     <DeclaredIn>pref_ui.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37027,6 +38642,114 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>scrolledframe</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>ns</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>scrolledframe</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>abaa83f5ded9266d813abe73769dc49b0</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>dispatch</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a791844a6079636d6fe85fe7cef8ffe3b</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>config</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a1b9e5ff3ac308e975231e7302852d9ac</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>resize</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>aef5aeae7393c682cb003333f39a8d7e3</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>vresize</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a158b7493487696af56192f3dbb62a2a2</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>xset</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a01f80a1a7d8894a88cec2f0d185ce961</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>yset</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a53dca40362f8ee182c41aa2c12cbb13d</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>xview</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a84e86919d2c5994c44e101b5f933a267</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>yview</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>scrolledframe</Scope>
+    </TokenIdentifier>
+    <Path>namespacescrolledframe.html</Path>
+    <Anchor>a613599e77563e047ac5af6309193401b</Anchor>
+    <DeclaredIn>scrolledframe.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>scroller</Name>
       <APILanguage>tcl</APILanguage>
       <Type>ns</Type>
@@ -37555,7 +39278,7 @@
       <Scope>select</Scope>
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
-    <Anchor>a354b4095a2b74018de2955b9314ef557</Anchor>
+    <Anchor>abfb5ffb2591b667a49248e63c55be373</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -37582,6 +39305,94 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_single_press</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a0a09f0df9eb7db60a751821a32ec376e</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_single_release</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a5221abe22617b75669cd8c492cae362a</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_double_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a1a0d328861f48d4eae48befceb590b6f</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_alt_double_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>ab0c43555342f9b6a7fafbe3939f60505</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_double_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a7d1e4d8527740436c92a2bc61f5ffc1d</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_triple_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>acab8c871b69ed72de9a844c3eb25e61a</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_alt_triple_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>abbfff6e4b82bd1777b5a58c23ccc1d53</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_triple_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a2c14097c26ddee8f5297759d12c4b85d</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_motion</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -37593,6 +39404,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_block_selection</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>aed8e9f45c39ba8ea15a49024dedf3c72</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_alt_motion</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>select</Scope>
+    </TokenIdentifier>
+    <Path>namespaceselect.html</Path>
+    <Anchor>a5ff448e7508a50531a09b0a86b10280e</Anchor>
+    <DeclaredIn>select.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_any</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -37600,39 +39433,6 @@
     </TokenIdentifier>
     <Path>namespaceselect.html</Path>
     <Anchor>ac57eec963d75e6474873c59d5ae6bb86</Anchor>
-    <DeclaredIn>select.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>handle_minus</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>select</Scope>
-    </TokenIdentifier>
-    <Path>namespaceselect.html</Path>
-    <Anchor>ae13c5788bd2695bf73aeb624e23c501d</Anchor>
-    <DeclaredIn>select.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>handle_i</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>select</Scope>
-    </TokenIdentifier>
-    <Path>namespaceselect.html</Path>
-    <Anchor>ab8bcce8be9503541b0f2f9045c71517b</Anchor>
-    <DeclaredIn>select.tcl</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>handle_o</Name>
-      <APILanguage>tcl</APILanguage>
-      <Type>func</Type>
-      <Scope>select</Scope>
-    </TokenIdentifier>
-    <Path>namespaceselect.html</Path>
-    <Anchor>a9836ab3871ac70a554f1a25b8e9b7ee0</Anchor>
     <DeclaredIn>select.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38313,6 +40113,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>do_nothing</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a75eeece83d30666a2dd4a8baf50f4a6c</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>panel_theme_change</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a016760f1bc4a8fceade80aae5aca38df</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>set_image</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -38401,6 +40223,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>row_before</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>abdd912c8ba6ad868fa5997b33f72731d</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>row_before_helper</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a27b894d8f3188a790043a30608819075</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>menu_post</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -38408,6 +40252,17 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>a2919008ef474f15dc5f21b7326b0b4c5</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>sort_menu_post</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a2ec0c323bde219f572b22530c6ef30d1</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38456,6 +40311,28 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>setup_sort_menu</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa3523f201909817fd7c7e14f583b0a8f</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>sort_updated</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a44f5305de30cbce84d70fea91cfde604</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_index</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -38485,6 +40362,17 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>ad424cbb9b22c4406b2e70458c2f3b915</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>set_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a73818ab507c8a8db11046d753e029c92</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38550,7 +40438,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>ac6014f42285dea6448e8e606c9904437</Anchor>
+    <Anchor>a34c2845d5f509c446871fa1f5459501e</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38577,13 +40465,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>update_root_count</Name>
+      <Name>check_root_removal</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a9b33a284ccb9722364de9e89c59882d8</Anchor>
+    <Anchor>abd3dc81cff390984ee692d1e1959dacd</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38599,13 +40487,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>collapse</Name>
+      <Name>collapse_directory</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a389b884bc875f8f6e568ceb5b46b5bd9</Anchor>
+    <Anchor>a955c9818e43690df5d831170dcdc280a</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38632,6 +40520,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>show_thumbnail</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a85045708bb73d8566d92864bd15e860b</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>hide_tooltip</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -38654,13 +40553,79 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>handle_left_click</Name>
+      <Name>handle_left_press</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a935641ef7623866612054082b09f771f</Anchor>
+    <Anchor>a011e12cacfcef8ede8f20be46de54b48</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_left_release</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>af1185144009196c2f91a1dadc4a7d8f1</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>move_item</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a8b2efb9beaf4f415efd10404e39d579d</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>count_opened</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a77aa20d0fef5d7874dbf308b3e51cede</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_filenames</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa747d26413e0a4f05821fc3398c07bb4</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_left_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a333aed92f45556b0471e5e80af85f609</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_right_click</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ad875917dcc81ffa615f2961065d7c843</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -38698,6 +40663,39 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_escape</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a4fe60641f682dc1c78c7427fe53af467</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_backspace</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a007c539bea8ddc8807194938321b91d6</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_control_return_space</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a6d9444407075df7256e3cac0bb6b2751</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_motion</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -38709,6 +40707,83 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>is_droppable</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ac9fbefbd5f72ed71c61ace577d96bf90</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_b1_motion</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a07ce20acb4513eeb0739fd42d9b97ae0</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>tree_scan_start</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a8b46a84755253875b68d28d524e13f43</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>tree_scan</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ae2a4f3b23b15b5069591a2cb3fb56a18</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>tree_scan_cancel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a8af829b7867f1607c26ef89e899b4ef7</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>spring_directory</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ac0a205bd244d7b48d98c089a96648bf4</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>spring_cancel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a46de1a06abaf9fac67e9cd5e6e4fa6c9</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>handle_any</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -38716,6 +40791,28 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>af336436bee2db8a8d76f139b2cd43c68</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_focus_in</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>ae258e96b4501a57f918fc1a160722276</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>handle_focus_out</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a66b659727d286eeeb9f36699cb2c987d</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -39039,6 +41136,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>handle_info_panel_view</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a35327fd3a01568f1fbfcce3bd580d2fa</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>get_shown_files</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -39067,7 +41175,7 @@
       <Scope>sidebar</Scope>
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
-    <Anchor>a3b15b2149bb617b348aac9713bc344b9</Anchor>
+    <Anchor>ada4d238e45999b8693b688c9560b69bb</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -39079,6 +41187,61 @@
     </TokenIdentifier>
     <Path>namespacesidebar.html</Path>
     <Anchor>a1f7e7f7a688cbfdec7eb2dee2b923a17</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_info_panel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a4ad130d22506bf91afa87791b44bf941</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_info_panel_for_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>acbae97f5d7351c4a884541994a884808</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>close_info_panel</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa5df807924a8d227925a7e677ebf6e07</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>write_sort_file</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>aa91918d4e30de27512b7afa1671b9581</Anchor>
+    <DeclaredIn>sidebar.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_default_sortby</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>sidebar</Scope>
+    </TokenIdentifier>
+    <Path>namespacesidebar.html</Path>
+    <Anchor>a64b555ade45ee76b34ba728ff9cb36c8</Anchor>
     <DeclaredIn>sidebar.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -40479,6 +42642,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>update_sidebar_info</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>theme</Scope>
+    </TokenIdentifier>
+    <Path>namespacetheme.html</Path>
+    <Anchor>a67b7c1e682a077b36460ccc3b328791e</Anchor>
+    <DeclaredIn>theme.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>update_launcher</Name>
       <APILanguage>tcl</APILanguage>
       <Type>func</Type>
@@ -40519,6 +42693,17 @@
     </TokenIdentifier>
     <Path>namespacetheme.html</Path>
     <Anchor>ae81f2e4a06d945f227bc1cba59c527f9</Anchor>
+    <DeclaredIn>theme.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_misc_scrollbar</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>theme</Scope>
+    </TokenIdentifier>
+    <Path>namespacetheme.html</Path>
+    <Anchor>a939f433560805b078601b1b98e9e66ae</Anchor>
     <DeclaredIn>theme.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -41685,6 +43870,37 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>thumbnail</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>ns</Type>
+      <Scope>thumbnail</Scope>
+    </TokenIdentifier>
+    <Path>namespacethumbnail.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>show</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>thumbnail</Scope>
+    </TokenIdentifier>
+    <Path>namespacethumbnail.html</Path>
+    <Anchor>ae4b7ea06cca65c9c2dfd56b13671dcd9</Anchor>
+    <DeclaredIn>thumbnail.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>hide</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>thumbnail</Scope>
+    </TokenIdentifier>
+    <Path>namespacethumbnail.html</Path>
+    <Anchor>aa630dc6cf31f2517c6e4570729aa248e</Anchor>
+    <DeclaredIn>thumbnail.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>tk</Name>
       <APILanguage>tcl</APILanguage>
       <Type>ns</Type>
@@ -42190,6 +44406,83 @@
     </TokenIdentifier>
     <Path>namespaceutils.html</Path>
     <Anchor>aa882721b1d7a65d479cd627571bfc09d</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_size</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>ad65f14c3390f4b55c89a7a4cad2a2651</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_permissions</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a11ff1b301f28ada96b7a710b741eb66f</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_owner</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a53f0046a5ee1f2e1845e1381964e5f06</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_group</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a41ee90b339ad040e79ae4b8aa5427a4b</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_count</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a2f19fb1b2a8b17b0bd67c7c49a9389e0</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_file_checksum</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a129f35d49feb1fe79a630568d8b342af</Anchor>
+    <DeclaredIn>utils.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>export</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>utils</Scope>
+    </TokenIdentifier>
+    <Path>namespaceutils.html</Path>
+    <Anchor>a8e97c167cd1177ee8d25cbfb98e91f4c</Anchor>
     <DeclaredIn>utils.tcl</DeclaredIn>
   </Token>
   <Token>
@@ -42980,6 +45273,72 @@
     </TokenIdentifier>
     <Path>namespacevim.html</Path>
     <Anchor>a3b25fa380498cf9dc5acc82484970ab9</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_edit</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a1fb5b995e7425011c046c079f188f23a</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_replace</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>af327375a40c7cb465990fac9fe515ce9</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_replace_all</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a4ad5c210289a24d702909e6aa45bce2f</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_record_reg</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a1e7f4153f6ce13d63f51740c922fb5b6</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_mode_playback_reg</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a101e924eeb77a811b7a9b6c6a5dd372f</Anchor>
+    <DeclaredIn>vim.tcl</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>do_replace</Name>
+      <APILanguage>tcl</APILanguage>
+      <Type>func</Type>
+      <Scope>vim</Scope>
+    </TokenIdentifier>
+    <Path>namespacevim.html</Path>
+    <Anchor>a9f813e6a51b2be7c4ef65619f5677b74</Anchor>
     <DeclaredIn>vim.tcl</DeclaredIn>
   </Token>
   <Token>

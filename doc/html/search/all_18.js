@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['yscrollcommand',['yscrollcommand',['../namespacegui.html#a772bad6d620711209f3a7c8d43f4ebc2',1,'gui']]],
-  ['yview',['yview',['../namespacegui.html#ad104acad5f042770c09deaa4c2d13715',1,'gui']]]
+  ['xset',['xset',['../namespacescrolledframe.html#a01f80a1a7d8894a88cec2f0d185ce961',1,'scrolledframe']]],
+  ['xview',['xview',['../namespacescrolledframe.html#a84e86919d2c5994c44e101b5f933a267',1,'scrolledframe']]]
 ];

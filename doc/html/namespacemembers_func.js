@@ -23,5 +23,6 @@ var namespacemembers_func =
     [ "u", "namespacemembers_func_u.html", null ],
     [ "v", "namespacemembers_func_v.html", null ],
     [ "w", "namespacemembers_func_w.html", null ],
+    [ "x", "namespacemembers_func_x.html", null ],
     [ "y", "namespacemembers_func_y.html", null ]
 ];

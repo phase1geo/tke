@@ -30,6 +30,7 @@ var api_8tcl =
     [ "reset_text_focus", "api_8tcl.html#aa517a42355eb6cccae71569fa5273d32", null ],
     [ "rot13", "api_8tcl.html#a25f871e408b3c9a76fa4680617a45be2", null ],
     [ "save_variable", "api_8tcl.html#ae98577e8c2577e6bd5abc1effc4812ed", null ],
+    [ "set_info", "api_8tcl.html#adde7a92a3585af2e5ecda329539ddcaa", null ],
     [ "show_error", "api_8tcl.html#af986a4bee016402e7118a63d9d15d999", null ],
     [ "show_info", "api_8tcl.html#a14afda708b0389cd13906216203a4bf1", null ],
     [ "title_case", "api_8tcl.html#a572577c1b8edb622c869ebdb1130e015", null ],
