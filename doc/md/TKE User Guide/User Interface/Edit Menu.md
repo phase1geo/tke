@@ -11,7 +11,6 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Paste | Cmd-V | Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is copied “as is”. |
 | Paste and Format | Shift-Cmd-V | Shift-Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is indented to fit into the current insertion point. |
 | Select All | Cmd-Shift-A | Ctrl-Shift-A | Selects all of the text in the current editor. |
-| Select Mode | Cmd-A | Ctrl-A | Enables selection mode for fine-grained, keyboard-centric selection editing. |
 | Vim Mode | | | When selected, changes the editing environment to use Vim-style interaction.  When deselected, changes the editing environment back to “normal” editing mode. |
 | Toggle Comment | Ctrl-/ | Ctrl-/ | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
 | Indentation / Indent | Ctrl-] | Ctrl-] | Indents the selected text by one level of indentation. |

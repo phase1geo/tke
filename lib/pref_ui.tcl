@@ -608,7 +608,7 @@ namespace eval pref_ui {
     for {set i 0} {$i < [$win columncount]} {incr i} {
       array set opts [lindex $cols $i]
       switch $opts(-type) {
-        text        { $win columnconfigure $i -editable $opts(-editable) -stretchable 1 }
+        text        { $win columnconfigure $i -editable $opts(-editable) -resizable 1 -stretchable 1 }
         checkbutton { $win columnconfigure $i -editable 0 -resizable 0 -stretchable 0 -formatcommand [list pref_ui::empty_string] }
         menubutton  { $win columnconfigure $i -editable 1 -resizable 0 -stretchable 1 -editwindow menubutton }
       }
