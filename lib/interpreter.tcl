@@ -782,12 +782,12 @@ namespace eval interpreter {
       $interp alias $widget interpreter::widget_command $pname $widget
     }
 
-    # Create Tk commands
+    # Create Tcl/Tk commands
     foreach cmd [list clipboard event focus font grid pack place tk_messageBox \
                       tk_chooseColor fontchooser tk_getOpenFile tk_getSaveFile \
                       tk_chooseDirectory tk::TextSetCursor tk::TextUpDownLine \
                       tk::PlaceWindow tk::SetFocusGrab tk::RestoreFocusGrab \
-                      tkwait] {
+                      tkwait base64::encode base64::decode] {
       $interp alias $cmd $cmd
     }
 
