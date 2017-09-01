@@ -52,7 +52,7 @@ namespace eval publish_markdown {
                 api::show_error "Unable to export file contents" $rc
                 return
               }
-            } else{
+            } else {
               if {[catch { api::export $str "Markdown" [file join $output_dir $dname.html] } rc]} {
                 api::show_error "Unable to export file contents" $rc
                 return
@@ -273,10 +273,24 @@ namespace eval publish_markdown {
   # beginning/ending whitespace from the file string.
   proc condition_string {str dir} {
 
-    while {[regexp -indices {(!\[[^\]]*\]\s*)\(([^/~\"][^\) ]*)} $str all prefix imgpath]} {
-      set prefix  [string range $str {*}$prefix]
-      set imgpath [string range $str {*}$imgpath]
-      set str     [string replace $str {*}$all "$prefix\(\"$dir/$imgpath\""]
+    set start 0
+    
+    while {[regexp -indices -start $start {!\[[^\]]*\]\s*\(\s*([^/~][^\) ]*)} $str -> imgpathi]} {
+      set imgpath [file join $dir [string range $str {*}$imgpathi]]
+      switch [file extension $imgpath] {
+        .gif  { set type "image/gif" }
+        .png  { set type "image/png" }
+        .jpg  -
+        .jpeg { set type "image/jpg" }
+      }
+      if {![catch { open $imgpath r } rc]} {
+        fconfigure $rc -translation binary
+        set data [read $rc]
+        close $rc
+        set imgdata "data:$type;base64,[base64::encode -maxlen 0 $data]"
+        set str     [string replace $str {*}$imgpathi $imgdata]
+        set start   [expr [lindex $imgpathi 0] + [string length $imgdata]]
+      }
     }
 
     return [string trim $str]

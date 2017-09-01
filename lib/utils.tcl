@@ -1100,12 +1100,21 @@ namespace eval utils {
     set str [snippets::substitute $str $lang]
 
     if {$lang eq "Markdown"} {
-      set md [file join $::tke_dir lib ptwidgets1.2 common Markdown_1.0.1 Markdown.pl]
-      if {[file extension $fname] eq ".xhtml"} {
-        set str [exec echo $str | $md -]
-      } else {
-        set str [exec echo $str | $md --html4tags -]
+      set md   [file join $::tke_dir lib ptwidgets1.2 common Markdown_1.0.1 Markdown.pl]
+      set opts [list]
+      if {[file extension $fname] ne ".xhtml"} {
+        lappend opts "--html4tags"
       }
+      if {[catch { file tempfile tfile } rc]} {
+        return -code error $rc
+      }
+      puts $rc $str
+      close $rc
+      if {[catch { exec perl $md {*}$opts $tfile } str]} {
+        file delete -force $tfile
+        return -code error $str
+      }
+      file delete -force $tfile
     }
 
     # Open the file for writing
