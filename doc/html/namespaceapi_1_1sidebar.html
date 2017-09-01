@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">3.2</span>
+   &#160;<span id="projectnumber">3.3</span>
    </div>
    <div id="projectbrief">Advanced code editor for programmers</div>
   </td>
@@ -95,6 +95,8 @@ Functions</h2></td></tr>
 <tr class="separator:abdc3d3cd4b4e2047e1a8fb38d1817ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a243ce64b30a1fe2c26a826d2c6480c83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceapi_1_1sidebar.html#a243ce64b30a1fe2c26a826d2c6480c83">get_info</a> interp pname sb_index attr</td></tr>
 <tr class="separator:a243ce64b30a1fe2c26a826d2c6480c83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adde7a92a3585af2e5ecda329539ddcaa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceapi_1_1sidebar.html#adde7a92a3585af2e5ecda329539ddcaa">set_info</a> interp pname sb_index attr value</td></tr>
+<tr class="separator:adde7a92a3585af2e5ecda329539ddcaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a243ce64b30a1fe2c26a826d2c6480c83"></a>
@@ -122,15 +124,18 @@ Functions</h2></td></tr>
     <tr><td class="paramname">sb_index</td><td>Sidebar index of file/directory in the sidebar </td></tr>
     <tr><td class="paramname">attr</td><td>Attribute to return the value of. Valid attribute names are:<ul>
 <li><b>fname</b> : Normalized name file or directory</li>
-<li><b>file_index</b> : If not set, indicates the file has not been opened in the editor; otherwise, specifies the file index of the opened file. </li>
+<li><b>file_index</b> : If not set, indicates the file has not been opened in the editor; otherwise, specifies the file index of the opened file.</li>
+<li><b>is_dir</b> : True if the given sidebar item is a directory.</li>
+<li><b>is_open</b> : True if the given sidebar item is in the open state.</li>
+<li><b>children</b> : Ordered list of children items of the given sidebar directory. </li>
 </ul>
 </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="api_8tcl_source.html#l00788">788</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    <span class="keyword">proc</span> get_info {interp pname sb_index attr} {</div><div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;</div><div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacesidebar.html#ad424cbb9b22c4406b2e70458c2f3b915" title="sidebar::get_info">::sidebar::get_info</a> $sb_index $attr]<span class="comment"></span></div><div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="api_8tcl_source.html#l00793">793</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;    <span class="keyword">proc</span> get_info {interp pname sb_index attr} {</div><div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;</div><div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacesidebar.html#ad424cbb9b22c4406b2e70458c2f3b915" title="sidebar::get_info">::sidebar::get_info</a> $sb_index $attr]<span class="comment"></span></div><div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 <a id="abdc3d3cd4b4e2047e1a8fb38d1817ee7"></a>
@@ -158,13 +163,48 @@ Functions</h2></td></tr>
 <div class="fragment"><div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;    <span class="keyword">proc</span> get_selected_indices {interp pname} {</div><div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;</div><div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;      <span class="keyword">return</span> [<a class="code" href="namespacesidebar.html#a406718b8f64a31953c1adedf8840f5c4" title="sidebar::get_selected_indices">::sidebar::get_selected_indices</a>]<span class="comment"></span></div><div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
+<a id="adde7a92a3585af2e5ecda329539ddcaa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adde7a92a3585af2e5ecda329539ddcaa">&#9670;&nbsp;</a></span>set_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">api::sidebar::set_info</td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">interp pname sb_index attr value &#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Changes the state of the specified sidebar item to the given value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sb_index</td><td>Sidebar index of file/directory in the sidebar </td></tr>
+    <tr><td class="paramname">attr</td><td>Attribute to set the value of. Valid attribute names are:<ul>
+<li><b>open</b> : If set to 1, causes the sidebar item to be opened; otherwise, if set to 0, causes the sidebar item to be closed. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="api_8tcl_source.html#l00808">808</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;    <span class="keyword">proc</span> set_info {interp pname sb_index attr value} {</div><div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;</div><div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;      <a class="code" href="namespacesidebar.html#a73818ab507c8a8db11046d753e029c92" title="sidebar::set_info">::sidebar::set_info</a> $sb_index $attr $value<span class="comment"></span></div><div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;<span class="comment"></span></div><div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    }</div></div><!-- fragment -->
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="namespaceapi.html">api</a></li><li class="navelem"><a class="el" href="namespaceapi_1_1sidebar.html">sidebar</a></li>
-    <li class="footer">Generated on Fri Jun 23 2017 22:42:26 for TKE by
+    <li class="footer">Generated on Fri Sep 1 2017 18:19:15 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>

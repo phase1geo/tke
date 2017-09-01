@@ -15,5 +15,6 @@ var searchData=
   ['nil',['nil',['../namespacevim.html#a497ebd10458af921b8241f11678d4df4',1,'vim']]],
   ['normalize',['normalize',['../namespacefiles.html#afd303a056c6f540f7a974fc8b4d7cfbd',1,'files']]],
   ['normalize_5fcolor',['normalize_color',['../namespacetheme.html#af2c54c066109e0a2be0c72cd48c0faf2',1,'theme']]],
-  ['normalize_5ffilename',['normalize_filename',['../namespaceapi.html#a721c189f06523428e19bf94ceb165a7b',1,'api::normalize_filename()'],['../namespacevim.html#a3dde75450ea5fee2224bc9aa24c3ad46',1,'vim::normalize_filename()']]]
+  ['normalize_5ffilename',['normalize_filename',['../namespaceapi.html#a721c189f06523428e19bf94ceb165a7b',1,'api::normalize_filename()'],['../namespacevim.html#a3dde75450ea5fee2224bc9aa24c3ad46',1,'vim::normalize_filename()']]],
+  ['num_5fopened',['num_opened',['../namespacefiles.html#a8f14d82d44f293230f65b1f6d38750e1',1,'files']]]
 ];

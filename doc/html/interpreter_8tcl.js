@@ -16,6 +16,7 @@ var interpreter_8tcl =
     [ "image_command", "interpreter_8tcl.html#a447b9d8ee8fbf4bc93954c6eb1ace06a", null ],
     [ "image_win", "interpreter_8tcl.html#ae40bb42e796c8b271d2c112575462393", null ],
     [ "open_command", "interpreter_8tcl.html#acb870a205c701ebec5c516e5eb8bd745", null ],
+    [ "set_variable", "interpreter_8tcl.html#a2668b2a7d759e7b24f8c1b04f9b5172e", null ],
     [ "widget_command", "interpreter_8tcl.html#a3af5906f1038a93e00bf56118325eb4f", null ],
     [ "widget_win", "interpreter_8tcl.html#a63d53241af4b5e27861e9011859ddecc", null ],
     [ "winfo_command", "interpreter_8tcl.html#a9bea0692a0ce05dff7c73c7192ca20b7", null ],

@@ -30,7 +30,7 @@
   <td id="projectlogo"><img alt="Logo" src="tke_logo_128.gif"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">TKE
-   &#160;<span id="projectnumber">3.2</span>
+   &#160;<span id="projectnumber">3.3</span>
    </div>
    <div id="projectbrief">Advanced code editor for programmers</div>
   </td>
@@ -177,17 +177,33 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 : <a class="el" href="namespacetheme.html#add2925a35bd66e592461bccb3859e6b5">theme</a>
 , <a class="el" href="namespacethemes.html#a1eda16efc686c9fb7012347de0f1f72a">themes</a>
 </li>
+<li>get_current_version()
+: <a class="el" href="namespacediff_1_1bazaar.html#a0668bcf57bd1042706301ea43deac5bd">diff::bazaar</a>
+, <a class="el" href="namespacediff_1_1cvs.html#a56ec30591ef76ec41de9623c54fdef1b">diff::cvs</a>
+, <a class="el" href="namespacediff_1_1diff.html#a6d2b6b7fc3094038dde102690d34b8c4">diff::diff</a>
+, <a class="el" href="namespacediff_1_1git.html#a21d187963377ba4335c07c0128f5ce22">diff::git</a>
+, <a class="el" href="namespacediff_1_1mercurial.html#ab1f18c976fc004d78b31a7308593d12d">diff::mercurial</a>
+, <a class="el" href="namespacediff_1_1perforce.html#ae465e24131b3798e394a09c02ab7b009">diff::perforce</a>
+, <a class="el" href="namespacediff_1_1subversion.html#a05238ace7dfd6c828c881a8fd9df09a8">diff::subversion</a>
+, <a class="el" href="namespaceplugins_1_1_0Bns.html#a9899cf34e0eccd4371ed30b7d8072b8f">plugins::$ns</a>
+</li>
 <li>get_cvs_names()
 : <a class="el" href="namespacediff.html#ae6d8a6e667722236ae66ca3815df29fb">diff</a>
 </li>
 <li>get_default_background()
 : <a class="el" href="namespaceutils.html#a175f71dd5ac8ba87e6f926e628b318c8">utils</a>
 </li>
+<li>get_default_cvs()
+: <a class="el" href="namespacediff.html#ac914bd0174f6a505532ef66c3a10cf38">diff</a>
+</li>
 <li>get_default_foreground()
 : <a class="el" href="namespaceutils.html#ac8d1a83a1463da5378b6d7f4259c0e5c">utils</a>
 </li>
 <li>get_default_language()
 : <a class="el" href="namespacesyntax.html#aaccedd1dc6422835635e679b3af2f1fa">syntax</a>
+</li>
+<li>get_default_sortby()
+: <a class="el" href="namespacesidebar.html#a64b555ade45ee76b34ba728ff9cb36c8">sidebar</a>
 </li>
 <li>get_diff_cmd()
 : <a class="el" href="namespacediff_1_1bazaar.html#a74cf206d2cb6dee45a635c82c1e0c825">diff::bazaar</a>
@@ -228,6 +244,9 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_file_attributions()
 : <a class="el" href="namespacetheme.html#a2cd013bf583afbcbfdbe0f12ac278af3">theme</a>
 </li>
+<li>get_file_checksum()
+: <a class="el" href="namespaceutils.html#a129f35d49feb1fe79a630568d8b342af">utils</a>
+</li>
 <li>get_file_cmd()
 : <a class="el" href="namespacediff_1_1bazaar.html#aa35512bbd2da1f43c77f77dcc4c3130c">diff::bazaar</a>
 , <a class="el" href="namespacediff_1_1cvs.html#ac145b50006ec7f4976fdacff9f4bd7eb">diff::cvs</a>
@@ -237,11 +256,26 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 , <a class="el" href="namespacediff_1_1subversion.html#a9ac9a7de8ad74b1c8225f24c3480b0b0">diff::subversion</a>
 , <a class="el" href="namespaceplugins_1_1_0Bns.html#ae8ef7b83da454b8b5a77a7123176b066">plugins::$ns</a>
 </li>
+<li>get_file_count()
+: <a class="el" href="namespaceutils.html#a2f19fb1b2a8b17b0bd67c7c49a9389e0">utils</a>
+</li>
+<li>get_file_group()
+: <a class="el" href="namespaceutils.html#a41ee90b339ad040e79ae4b8aa5427a4b">utils</a>
+</li>
 <li>get_file_info()
 : <a class="el" href="namespacegui.html#a8b121253da2fa95b8c1fd59f3f1e5d34">gui</a>
 </li>
 <li>get_file_num()
 : <a class="el" href="namespacefiles.html#a2aa67b058254e782182d465ee6da25e9">files</a>
+</li>
+<li>get_file_owner()
+: <a class="el" href="namespaceutils.html#a53f0046a5ee1f2e1845e1381964e5f06">utils</a>
+</li>
+<li>get_file_permissions()
+: <a class="el" href="namespaceutils.html#a11ff1b301f28ada96b7a710b741eb66f">utils</a>
+</li>
+<li>get_file_size()
+: <a class="el" href="namespaceutils.html#ad65f14c3390f4b55c89a7a4cad2a2651">utils</a>
 </li>
 <li>get_filename()
 : <a class="el" href="namespacevim.html#a440075785aff320572a5cbcf1a000313">vim</a>
@@ -492,6 +526,12 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_shown_files()
 : <a class="el" href="namespacesidebar.html#a2bd4252ff59dc810ab45cf9eba62da33">sidebar</a>
 </li>
+<li>get_sidebar_info_titles()
+: <a class="el" href="namespaceplugins.html#ad436cafd4055007ccd0ea2da6924aa40">plugins</a>
+</li>
+<li>get_sidebar_info_values()
+: <a class="el" href="namespaceplugins.html#a6c2440216533e7b80d16409774cb3b2c">plugins</a>
+</li>
 <li>get_snippet_text_pos()
 : <a class="el" href="namespaceemmet.html#a3a8557d1c9527bab9aa5c2c1f901d7d8">emmet</a>
 </li>
@@ -581,11 +621,11 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>get_WORDend()
 : <a class="el" href="namespaceedit.html#a65bfd7d7ca0dad20a428a6f1c04dd029">edit</a>
 </li>
-<li>get_wordstart()
-: <a class="el" href="namespaceedit.html#a81abd30a7c2c3b16168bea00120dc49e">edit</a>
-</li>
 <li>get_WORDstart()
 : <a class="el" href="namespaceedit.html#a2f16b86b095efc3b4a8c20cf575b474a">edit</a>
+</li>
+<li>get_wordstart()
+: <a class="el" href="namespaceedit.html#a81abd30a7c2c3b16168bea00120dc49e">edit</a>
 </li>
 <li>get_xml_attribute()
 : <a class="el" href="namespacesyntax.html#aa35a5edcf51f42ae6c3037e1c7a027cb">syntax</a>
@@ -629,13 +669,19 @@ $(document).ready(function(){initNavTree('namespacemembers_g.html','');});
 <li>group_post()
 : <a class="el" href="namespaceremote.html#ac65f43fdf2047d500927187035e3f856">remote</a>
 </li>
+<li>gunzip()
+: <a class="el" href="namespacefiles.html#aec1e273244aa44dfd459043dfce7d281">files</a>
+</li>
+<li>gzip()
+: <a class="el" href="namespacefiles.html#aae9a44777ad7e184050a421e0670c6a6">files</a>
+</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jun 23 2017 22:42:32 for TKE by
+    <li class="footer">Generated on Fri Sep 1 2017 18:19:20 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.13 </li>
   </ul>
