@@ -4,7 +4,7 @@ title: TKE Developer Guide
 
 <br><br><br><br><br><br><br>
 
-#### Version: 3.2
+#### Version: 3.3
 
 <br><br>
 
