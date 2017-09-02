@@ -89,17 +89,7 @@ namespace eval publish_markdown {
     variable output_dir
 
     set publish 0
-    set apps    [list]
-
-    switch -glob $::tcl_platform(os) {
-      Darwin {
-        set apps {
-          {{Marked 2} {open -a {Marked 2.app} {MDFILE}}}
-        }
-      }
-    }
-
-    lappend apps {*}[api::preferences::get_value "openin"]
+    set apps    [api::preferences::get_value "openin"]
 
     toplevel .pubmd
     wm title .pubmd "Publish Markdown"
@@ -274,7 +264,7 @@ namespace eval publish_markdown {
   proc condition_string {str dir} {
 
     set start 0
-    
+
     while {[regexp -indices -start $start {!\[[^\]]*\]\s*\(\s*([^/~][^\) ]*)} $str -> imgpathi]} {
       set imgpath [file join $dir [string range $str {*}$imgpathi]]
       switch [file extension $imgpath] {
@@ -340,7 +330,8 @@ namespace eval publish_markdown {
     api::preferences::widget token  $w "ignore" "File Patterns to Ignore" \
       -help "Pattern string used to remove files from Markdown processing.  Question marks (?) will match any single character while asterisks (*) will match any number of characters (including no characters)."
     api::preferences::widget spacer $w
-    api::preferences::widget table  $w "openin" "'Open In' Applications" -columns {{"Application Name"} {"Command"}} -height 4
+    api::preferences::widget table  $w "openin" "'Open In' Applications" -columns {{"Application Name"} {"Command"}} -height 4 \
+      -help "The application name is name displayed within the plugin dialog window.  The command should be the command-line used to pass the generated file to the application.  Use the string \"{MDFILE}\" (without the double-quotes) as a placeholder for the given file to pass."
 
   }
 
