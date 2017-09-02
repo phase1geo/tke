@@ -4089,8 +4089,28 @@
 	* .hgtags:
 	Removed tag stable-3.3
 
-2017-09-02 00:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (43746c7d9e97 [tip])
+2017-09-02 00:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (43746c7d9e97)
 
 	* specl_version.tcl:
 	* Fixing file.
+
+2017-09-02 00:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (45631fe4c0d2)
+
+	* ChangeLog, lib/version.tcl, specl_version.tcl:
+	ChangeLog for stable-3.3 release
+
+2017-09-02 00:27 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (6af935b519ed)
+
+	* .hgtags:
+	Added tag stable-3.3 for changeset 45631fe4c0d2
+
+2017-09-02 00:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (52d2e624fac3)
+
+	* .hgtags:
+	Removed tag stable-3.3
+
+2017-09-02 00:29 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (caad8caf194a [tip])
+
+	* specl_version.tcl:
+	* Fixing.
 
