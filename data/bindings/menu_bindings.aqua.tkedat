@@ -21,7 +21,7 @@
 {Edit/Paste}                              Cmd-V
 {Edit/Paste and Format}                   Shift-Cmd-V
 {Edit/Select All}                         Shift-Cmd-A
-# {Edit/Select Mode}                        Cmd-A
+{Edit/Select Mode}                        Cmd-A
 {Edit/Toggle Comment}                     Ctrl-/
 {Edit/Indentation/Indent}                 Ctrl-]
 {Edit/Indentation/Unindent}               Ctrl-[

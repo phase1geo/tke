@@ -58,7 +58,6 @@ namespace eval select {
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
     set data($txt.t,moved)     0
 
-    if {0} {
     bind select <Key>                     "if {\[select::handle_any %W %K\]} break"
     bind select <Return>                  "if {\[select::handle_return %W\]} break"
     bind select <Escape>                  "if {\[select::handle_escape %W\]} break"
@@ -97,7 +96,6 @@ namespace eval select {
 
     # Make sure that our defaults are checked
     check_item $txt.t type char
-    }
 
   }
 
