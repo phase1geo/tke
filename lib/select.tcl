@@ -80,9 +80,7 @@ namespace eval select {
     set bg [$txt.t cget -selectbackground]
     set fg [$txt.t cget -selectforeground]
 
-    # Configure the selection mode tags
-    $txt.t tag configure select_sel -background $bg -foreground $fg
-
+    if {0} {
     $txt.t tag bind select_sel   <ButtonPress-1>   [list select::press        $txt.t select_sel]
     $txt.t tag bind select_sel   <ButtonRelease-1> [list select::release      $txt.t]
     $txt.t tag bind select_begin <ButtonPress-1>   [list select::press        $txt.t select_begin]
@@ -93,6 +91,7 @@ namespace eval select {
     $txt.t tag bind select_end   <ButtonRelease-1> [list select::release      $txt.t]
     $txt.t tag bind select_end   <Enter>           [list select::handle_enter $txt.t select_end]
     $txt.t tag bind select_end   <Leave>           [list select::handle_leave $txt.t select_end]
+    }
 
     # Make sure that our defaults are checked
     check_item $txt.t type char
@@ -231,7 +230,7 @@ namespace eval select {
       next -
       prev {
         set pos   $positions($data($txtt,type))
-        set range [$txtt tag ranges select_sel]
+        set range [$txtt tag ranges sel]
         set index [expr $data($txtt,anchorend) ^ 1]
         if {($motion eq "prev") && ($index == 1) && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
@@ -246,7 +245,7 @@ namespace eval select {
       rshift -
       lshift {
         set pos   $positions($data($txtt,type))
-        set range [$txtt tag ranges select_sel]
+        set range [$txtt tag ranges sel]
         set dir   [expr {($motion eq "rshift") ? "next" : "prev"}]
         if {($motion eq "lshift") && ([lsearch [list word nonws tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
@@ -338,16 +337,8 @@ namespace eval select {
         set data($txtt,anchor) [$txtt index insert]
         set data($txtt,moved)  0
 
-        # If text was previously selected, convert it to our special selection
-        if {[set sel [$txtt tag ranges sel]] ne ""} {
-
-          $txtt tag remove sel 1.0 end
-          $txtt tag add select_sel   {*}$sel
-          $txtt tag add select_begin [lindex $sel 0] "[lindex $sel 0]+1c"
-          $txtt tag add select_end   [lindex $sel 1] "[lindex $sel 1]+1c"
-
-        # Otherwise, initialize a selection
-        } else {
+        # If text was not previously selected, select it
+        if {[set sel [$txtt tag ranges sel]] eq ""} {
           update_selection $txtt init
         }
 
@@ -358,21 +349,9 @@ namespace eval select {
         set bg [$txtt cget -selectbackground]
         set fg [$txtt cget -selectforeground]
 
-        # Configure the selection mode tags
-        $txtt tag configure select_sel -background $bg -foreground $fg
-
-      # Otherwise, convert our selection to a normal selection
+      # Otherwise, configure the cursor
       } else {
 
-        if {[set sel [$txtt tag ranges select_sel]] ne ""} {
-          $txtt tag add sel {*}$sel
-        }
-
-        $txtt tag remove select_sel   1.0 end
-        $txtt tag remove select_begin 1.0 end
-        $txtt tag remove select_end   1.0 end
-
-        # Configure the cursor
         $txtt configure -cursor ""
 
       }
@@ -411,7 +390,7 @@ namespace eval select {
     }
 
     # Clear the selection
-    $txtt tag remove select_sel 1.0 end
+    $txtt tag remove sel 1.0 end
 
     # Disable selection mode
     set_select_mode $txtt 0
@@ -577,6 +556,7 @@ namespace eval select {
       return 1
     }
 
+    if {0} {
     # Get the last drag position
     lassign $data($txtt,drag) tag
 
@@ -600,6 +580,7 @@ namespace eval select {
         set data($txtt,anchorend) 0
         update_selection $txtt [expr {$left ? "prev" : "next"}] -startpos [$txtt index @$x,$y]
       }
+    }
     }
 
     return 1
@@ -637,7 +618,7 @@ namespace eval select {
     # Set the selection
     $txtt tag remove sel 1.0 end
     for {set i $srow} {$i <= $erow} {incr i} {
-      $txtt tag add select_sel $i.$scol $i.$ecol
+      $txtt tag add sel $i.$scol $i.$ecol
     }
 
   }
@@ -866,9 +847,9 @@ namespace eval select {
 
     # Set the anchor
     if {$data($txtt,anchorend)} {
-      set data($txtt,anchor) [lindex [$txtt tag ranges select_sel] end]
+      set data($txtt,anchor) [lindex [$txtt tag ranges sel] end]
     } else {
-      set data($txtt,anchor) [lindex [$txtt tag ranges select_sel] 0]
+      set data($txtt,anchor) [lindex [$txtt tag ranges sel] 0]
     }
 
   }
@@ -898,7 +879,7 @@ namespace eval select {
   proc handle_enter {txtt tag} {
 
     # Get the base color of the selection
-    set color [$txtt tag cget select_sel -background]
+    set color [$txtt tag cget sel -background]
 
     # Set the color of the start/end tag to an adjusted color from the selection color
     $txtt tag configure $tag -background [utils::auto_adjust_color $color 40]
