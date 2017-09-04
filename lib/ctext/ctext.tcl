@@ -3425,10 +3425,9 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
 
   # Add the lsize
   if {[info exists data($win,highlight,lsize,$class)]} {
-    set startline [lindex [split $startpos .] 0]
-    set endline   [lindex [split $startpos .] 0]
-    for {set line $startline} {$line <= $endline} {incr line} {
-      $win tag add $data($win,highlight,lsize,$class) $line.0
+    while {[$win compare $startpos <= $endpos]} {
+      $win tag add $data($win,highlight,lsize,$class) [set startpos "$startpos display linestart"]
+      set startpos [$win index "$startpos+1 display lines"]
     }
     linemapUpdate $win
   }
@@ -3637,8 +3636,8 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
     return
   }
 
-  set first_line    [lindex [split [$win.t index @0,0] .] 0]
-  set last_line     [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
+  set first         [$win.t index @0,0]
+  set last          [$win.t index @0,[winfo height $win.t]]
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
   set linenum_width [expr max( $data($win,config,-linemap_minwidth), $line_width )]
   set gutter_width  [llength [lsearch -index 2 -all -inline $data($win,config,gutters) 0]]
@@ -3652,20 +3651,20 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
   $win.l delete 1.0 end
 
   if {$data($win,config,-diff_mode)} {
-    linemapDiffUpdate $win $first_line $last_line $linenum_width $gutter_items
+    linemapDiffUpdate $win $first $last $linenum_width $gutter_items
     set full_width [expr ($linenum_width * 2) + 1 + $gutter_width]
   } elseif {$data($win,config,-linemap)} {
-    linemapLineUpdate $win $first_line $last_line $linenum_width $gutter_items
+    linemapLineUpdate $win $first $last $linenum_width $gutter_items
     set full_width [expr $linenum_width + $gutter_width]
   } elseif {$gutter_width > 0} {
-    linemapGutterUpdate $win $first_line $last_line $linenum_width $gutter_items
+    linemapGutterUpdate $win $first $last $linenum_width $gutter_items
     set full_width [expr $data($win,config,-linemap_markable) + $gutter_width]
   } elseif {$data($win,config,-linemap_markable)} {
-    linemapMarkUpdate $win $first_line $last_line
+    linemapMarkUpdate $win $first $last
     set full_width $gutter_width
   }
 
-  linemapUpdateOffset $win $first_line $last_line
+  linemapUpdateOffset $win $first $last
 
   # Resize the linemap window, if necessary
   if {[$win.l cget -width] != $full_width} {
@@ -3706,7 +3705,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
 
   # Calculate the starting line numbers for both files
   array set currline {A 0 B 0}
-  foreach diff_tag [lsearch -inline -all -glob [$win.t tag names $first.0] diff:*] {
+  foreach diff_tag [lsearch -inline -all -glob [$win.t tag names $first] diff:*] {
     lassign [split $diff_tag :] dummy index type start
     set currline($index) [expr $start - 1]
     if {$type eq "S"} {
@@ -3714,9 +3713,9 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
     }
   }
 
-  for {set line $first} {$line <= $last} {incr line} {
+  while {[$win._t compare $first <= $last]} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    set ltags [$win.t tag names $line.0]
+    set ltags [$win.t tag names $first]
     set lineA ""
     if {[lsearch -glob $ltags diff:A:S:*] != -1} {
       set lineA [incr currline(A)]
@@ -3734,6 +3733,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
     }
     ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
+    set first [$win._t index "$first+1 display lines"]
   }
 
 }
@@ -3745,13 +3745,12 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
   set abs       [expr {$data($win,config,-linemap_type) eq "absolute"}]
   set curr      [lindex [split [$win.t index insert] .] 0]
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
-  set wrapped   [expr {[$win._t cget -wrap] ne "none"}]
-  set fchar     [lindex [split [$win._t index @0,0] .] 1]
 
-  for {set line $first} {$line <= $last} {incr line} {
-    if {[$win._t count -displaychars $line.$fchar [expr $line + 1].0] == 0} { continue }
-    set ltags        [$win.t tag names $line.0]
-    set linenum      [expr $abs ? $line : abs( $line - $curr )]
+  while {[$win._t compare $first <= $last]} {
+    if {[$win._t count -displaychars $first "$first+1 display lines"] == 0} { continue }
+    set ltags        [$win.t tag names $first]
+    set line         [lindex [split $first .] 0]
+    set linenum      [expr {([$win._t compare $first == "$first linestart"]) ? ($abs ? $line : abs( $line - $curr )) : ""}]
     set largest      [list]
     set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
@@ -3762,13 +3761,7 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     }
     ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
-    if {$wrapped && ([set blanks [$win._t count -displaylines $line.$fchar $line.end]] > 0)} {
-      set linenum [format "%-*s" $linenum_width ""]
-      for {set i 0} {$i < $blanks} {incr i} {
-        $win.l insert end $linenum [list] {*}$gutter_items " " $largest "\n"
-      }
-    }
-    set fchar 0
+    set first [$win._t index "$first+1 display lines"]
   }
 
 }
@@ -3787,9 +3780,9 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
 
   set lsize_pos [expr [llength $gutter_items] + $line_items + 1]
 
-  for {set line $first} {$line <= $last} {incr line} {
-    if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    set ltags [$win.t tag names $line.0]
+  while {[$win._t compare $first <= $last]} {
+    if {[$win._t count -displaychars $first "$first+1 display lines"] == 0} { continue }
+    set ltags        [$win.t tag names $first]
     set line_content [list " " [list] {*}$gutter_items " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
@@ -3799,15 +3792,16 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
     }
     ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
+    set first [$win._t index "$first+1 display lines"]
   }
 
 }
 
 proc ctext::linemapMarkUpdate {win first last} {
 
-  for {set line $first} {$line <= $last} {incr line} {
-    if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    set ltags        [$win.t tag names $line.0]
+  while {[$win._t compare $first <= $last]} {
+    if {[$win._t count -displaychars $first "$first+1 display lines"] == 0} { continue }
+    set ltags        [$win.t tag names $first]
     set line_content [list " " [list] " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
       lset line_content 1 lmark
@@ -3816,6 +3810,7 @@ proc ctext::linemapMarkUpdate {win first last} {
       lset line_content 3 [lindex [lsort $lsizes] 0]
     }
     $win.l insert end {*}$line_content
+    set first [$win._t index "$first+1 display lines"]
   }
 
 }
@@ -3860,19 +3855,19 @@ proc ctext::adjust_rmargin {win} {
 # Starting with Tk 8.5 the text widget allows smooth scrolling; this
 # code calculates the offset for the line numbering text widget and
 # scrolls by the specified amount of pixels
-
+if {0} {
 if {![catch {
   package require Tk 8.5
 }]} {
-  proc ctext::linemapUpdateOffset {win first_line last_line} {
+  proc ctext::linemapUpdateOffset {win first last} {
     # reset view for line numbering widget
     $win.l yview 0.0
 
     # find the first line that is visible and calculate the
     # corresponding line in the line numbers widget
     set lline 1
-    for {set line $first_line} {$line <= $last_line} {incr line} {
-      set tystart [lindex [$win.t bbox $line.0] 1]
+    while {[$win._t compare $first <= $last]} {
+      set tystart [lindex [$win.t bbox $first] 1]
       if {$tystart != ""} {
         break
       }
@@ -3899,6 +3894,8 @@ if {![catch {
   # Do not try to perform smooth scrolling if Tk is 8.4 or less.
   proc ctext::linemapUpdateOffset {args} {}
 }
+}
+proc ctext::linemapUpdateOffset {args} {}
 
 proc ctext::modified {win value {dat ""}} {
 
