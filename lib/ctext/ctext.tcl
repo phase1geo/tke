@@ -3621,6 +3621,20 @@ proc ctext::linemapClearMark {win line} {
 
 }
 
+proc ctext::linemapUpdateNeeded {win} {
+
+  variable data
+
+  if {[info exists data($win,yview)] && ($data($win,yview) eq [$win yview])} {
+    return 0
+  }
+
+  set data($win,yview) [$win yview]
+
+  return 1
+
+}
+
 #args is here because -yscrollcommand may call it
 proc ctext::linemapUpdate {win {old_pos ""}} {
 
@@ -3631,8 +3645,8 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
     ctext::matchBracket $win
   }
 
-  if {![winfo exists $win.l] || \
-      (($old_pos ne "") && ([lindex [split [$win._t index insert] .] 0] eq [lindex [split $old_pos .] 0]))} {
+  # If there is no need to update, return now
+  if {![winfo exists $win.l] || ![linemapUpdateNeeded $win]} {
     return
   }
 
@@ -3907,3 +3921,4 @@ proc ctext::modified {win value {dat ""}} {
   return $value
 
 }
+
