@@ -3425,9 +3425,10 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
 
   # Add the lsize
   if {[info exists data($win,highlight,lsize,$class)]} {
+    set modifier [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
     while {[$win compare $startpos <= $endpos]} {
-      $win tag add $data($win,highlight,lsize,$class) [set startpos "$startpos display linestart"]
-      set startpos [$win index "$startpos+1 display lines"]
+      $win tag add $data($win,highlight,lsize,$class) [set startpos "$startpos $modifier linestart"]
+      set startpos [$win index "$startpos+1 $modifier lines"]
     }
     linemapUpdate $win
   }
@@ -3716,6 +3717,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
   variable data
 
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
+  set modifier  [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
 
   # Calculate the starting line numbers for both files
   array set currline {A 0 B 0}
@@ -3747,7 +3749,7 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
     }
     ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
-    set first [$win._t index "$first+1 display lines"]
+    set first [$win._t index "$first+1 $modifier lines"]
   }
 
 }
@@ -3759,9 +3761,10 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
   set abs       [expr {$data($win,config,-linemap_type) eq "absolute"}]
   set curr      [lindex [split [$win.t index insert] .] 0]
   set lsize_pos [expr 2 + [llength $gutter_items] + 1]
+  set modifier  [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
 
   while {[$win._t compare $first <= $last]} {
-    if {[$win._t count -displaychars $first "$first+1 display lines"] == 0} { continue }
+    if {[$win._t count -displaychars $first "$first+1 $modifier lines"] == 0} { continue }
     set ltags        [$win.t tag names $first]
     set line         [lindex [split $first .] 0]
     set linenum      [expr {([$win._t compare $first == "$first linestart"]) ? ($abs ? $line : abs( $line - $curr )) : ""}]
@@ -3775,7 +3778,7 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
     }
     ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
-    set first [$win._t index "$first+1 display lines"]
+    set first [$win._t index "$first+1 $modifier lines"]
   }
 
 }
@@ -3793,9 +3796,10 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
   }
 
   set lsize_pos [expr [llength $gutter_items] + $line_items + 1]
+  set modifier  [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
 
   while {[$win._t compare $first <= $last]} {
-    if {[$win._t count -displaychars $first "$first+1 display lines"] == 0} { continue }
+    if {[$win._t count -displaychars $first "$first+1 $modifier lines"] == 0} { continue }
     set ltags        [$win.t tag names $first]
     set line_content [list " " [list] {*}$gutter_items " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
@@ -3806,15 +3810,17 @@ proc ctext::linemapGutterUpdate {win first last linenum_width gutter_items} {
     }
     ctext::linemapUpdateGutter $win ltags line_content
     $win.l insert end {*}$line_content
-    set first [$win._t index "$first+1 display lines"]
+    set first [$win._t index "$first+1 $modifier lines"]
   }
 
 }
 
 proc ctext::linemapMarkUpdate {win first last} {
 
+  set modifier [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
+
   while {[$win._t compare $first <= $last]} {
-    if {[$win._t count -displaychars $first "$first+1 display lines"] == 0} { continue }
+    if {[$win._t count -displaychars $first "$first+1 $modifier lines"] == 0} { continue }
     set ltags        [$win.t tag names $first]
     set line_content [list " " [list] " " [list] "\n"]
     if {[lsearch -glob $ltags lmark*] != -1} {
@@ -3824,7 +3830,7 @@ proc ctext::linemapMarkUpdate {win first last} {
       lset line_content 3 [lindex [lsort $lsizes] 0]
     }
     $win.l insert end {*}$line_content
-    set first [$win._t index "$first+1 display lines"]
+    set first [$win._t index "$first+1 $modifier lines"]
   }
 
 }
