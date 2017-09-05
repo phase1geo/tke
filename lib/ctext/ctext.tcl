@@ -3418,7 +3418,7 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
     set tag _$class[incr data($win,highlight,click_index)]
     $win tag add       $tag $startpos $endpos
     $win tag configure $tag {*}$data($win,highlight,click,$class)
-    $win tag bind      $tag <Button-$right_click> $cmd
+    $win tag bind      $tag <Button-$right_click> [list {*}$cmd $tag]
   } else {
     $win tag add _$class $startpos $endpos
   }
