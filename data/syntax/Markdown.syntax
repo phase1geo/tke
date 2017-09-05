@@ -45,6 +45,7 @@ advanced {
   HighlightClass strike  none           {overstrike}
   HighlightClass hilite  highlighter    {}
   HighlightClass grey    meta           {}
+  HighlightClass check   none           {click}
 
   HighlightRegexp {``.+?``}                     ccode
   HighlightRegexp {`.+?`}                       code
@@ -58,6 +59,7 @@ advanced {
   HighlightRegexp {(~)(?=\S).+?\1}              subscript
   HighlightRegexp {(\^)(?=\S).+?\1}             superscript
   HighlightRegexp {([=:]{2})(?=\S).+?\1}        highlight
+  HighlightRegexp {\[[ xX]\]}                   checkbox
   HighlightRegexp {.*?$}                        list_check
 
   HighlightProc ccode {
@@ -205,11 +207,21 @@ advanced {
     return ""
   } HighlightEndProc
 
-  HighlightProc handle_reflink_click {txt ref} {
+  HighlightProc handle_reflink_click {txt ref tag} {
     variable linkrefs
     if {[info exists linkrefs($txt,$ref)]} {
       utils::open_file_externally $linkrefs($txt,$ref)
     }
+  } HighlightEndProc
+
+  HighlightProc checkbox {
+    set cmd [list syntax::markdown::handle_checkbox_click $txt]
+    return [list [list [list check $startpos $endpos $cmd]] ""]
+  } HighlightEndProc
+
+  HighlightProc handle_checkbox_click {txt tag} {
+    lassign [$txt tag ranges $tag] startpos endpos
+    $txt replace "$startpos+1c" "$startpos+2c" [expr {([$txt get "$startpos+1c"] eq " ") ? "x" : " "}]
   } HighlightEndProc
 
   HighlightProc list_check {
