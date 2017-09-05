@@ -43,6 +43,7 @@ advanced {
   HighlightClass hilite  highlighter    {}
   HighlightClass grey    meta           {}
   HighlightClass math    miscellaneous3 {}
+  HighlightClass check   none           {click}
 
   HighlightRegexp {(`{3}).+?\1}                  ccode
   HighlightRegexp {`.+?`}                        code
@@ -65,6 +66,7 @@ advanced {
   HighlightRegexp {\\\\\(\s+.+?\s+\\\\\)}        math2
   HighlightRegexp {(\$\$).+?\1}                  math3
   HighlightRegexp {\$.+?\$ }                     math4
+  HighlightRegexp {\[[ xX]\]}                    checkbox
   HighlightRegexp {.*?$}                         list_check
 
   HighlightProc ccode {
@@ -320,6 +322,16 @@ advanced {
                          [list grey [$txt index "$endpos-2c"] $endpos [list]]] ""]
     }
     return ""
+  } HighlightEndProc
+
+  HighlightProc checkbox {
+    set cmd [list syntax::multimarkdown::handle_checkbox_click $txt]
+    return [list [list [list check $startpos $endpos $cmd]] ""]
+  } HighlightEndProc
+
+  HighlightProc handle_checkbox_click {txt tag} {
+    lassign [$txt tag ranges $tag] startpos endpos
+    $txt replace "$startpos+1c" "$startpos+2c" [expr {([$txt get "$startpos+1c"] eq " ") ? "x" : " "}]
   } HighlightEndProc
 
   HighlightProc list_check {
