@@ -609,15 +609,15 @@ namespace eval folding {
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows
 
-    # Hide the text
-    $txt tag add _folded $startpos $endpos
-
     # Replace the open/eopen symbol with the close/eclose symbol
     foreach line $belows {
       set type [$txt gutter get folding $line]
       $txt gutter clear folding $line
       $txt gutter set folding $map($type) $line
     }
+
+    # Hide the text
+    $txt tag add _folded $startpos $endpos
 
     return $endpos
 
@@ -674,12 +674,12 @@ namespace eval folding {
 
     if {[llength $ranges] > 0} {
 
-      # Adds folds
-      $txt tag add _folded {*}$ranges
-
       # Close the folds
       $txt gutter set folding close  [$txt gutter get folding open]
       $txt gutter set folding eclose [$txt gutter get folding eopen]
+
+      # Adds folds
+      $txt tag add _folded {*}$ranges
 
     }
 
@@ -704,14 +704,14 @@ namespace eval folding {
     # Get the fold range
     lassign [get_fold_range $txt $line [expr ($depth == 0) ? 100000 : $depth]] startpos endpos belows aboves closed
 
-    # Remove the folded tag
-    $txt tag remove _folded $startpos $endpos
-
     foreach tline [concat $belows $aboves] {
       set type [$txt gutter get folding $line]
       $txt gutter clear folding $tline
       $txt gutter set folding $map($type) $tline
     }
+
+    # Remove the folded tag
+    $txt tag remove _folded $startpos $endpos
 
     # Close all of the previous folds
     if {$depth > 0} {
