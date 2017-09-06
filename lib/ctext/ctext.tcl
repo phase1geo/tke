@@ -128,13 +128,15 @@ proc ctext {win args} {
   # Initialize the starting linemap ID
   set ctext::data($win,linemap,id) 0
 
-  text $win.l -font $ctext::data($win,config,-font) -width $ctext::data($win,config,-linemap_minwidth) -height 1 \
-    -relief $ctext::data($win,config,-relief) -bd 0 -fg $ctext::data($win,config,-linemapfg) -cursor $ctext::data($win,config,-linemap_cursor) \
-    -bg $ctext::data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0 -wrap none
+  canvas $win.l -relief $ctext::data($win,config,-relief) -bd 0 \
+    -bg $ctext::data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0
+  # text $win.l -font $ctext::data($win,config,-font) -width $ctext::data($win,config,-linemap_minwidth) -height 1 \
+  #   -relief $ctext::data($win,config,-relief) -bd 0 -fg $ctext::data($win,config,-linemapfg) -cursor $ctext::data($win,config,-linemap_cursor) \
+  #   -bg $ctext::data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0 -wrap none
   frame $win.f -width 1 -bd 0 -relief flat -bg $ctext::data($win,config,-warnwidth_bg)
 
   set topWin [winfo toplevel $win]
-  bindtags $win.l [list $win.l $topWin all]
+  # bindtags $win.l [list $win.l $topWin all]
 
   set args [concat $args [list -yscrollcommand [list ctext::event:yscroll $win $ctext::data($win,config,-yscrollcommand)]] \
                          [list -xscrollcommand [list ctext::event:xscroll $win $ctext::data($win,config,-xscrollcommand)]]]
@@ -173,7 +175,7 @@ proc ctext {win args} {
   bind $win.t <Configure>       [list ctext::linemapUpdate $win]
   # bind $win.t <Configure>       [list ctext::doConfigure $win]
   bind $win.t <<CursorChanged>> [list ctext::linemapUpdate $win %D]
-  bind $win.l <ButtonPress-1>   [list ctext::linemapToggleMark $win %y]
+  # bind $win.l <ButtonPress-1>   [list ctext::linemapToggleMark $win %y]
   bind $win.l <MouseWheel>      [list event generate $win.t <MouseWheel> -delta %D]
   bind $win.l <4>               [list event generate $win.t <4>]
   bind $win.l <5>               [list event generate $win.t <5>]
@@ -346,16 +348,13 @@ proc ctext::buildArgParseTable win {
     if {[catch { $win._t config -spacing3 $value } res]} {
       return $res
     }
-    if {[catch { $win.l config -spacing3 $value } res]} {
-      return $res
-    }
   }
 
   lappend argTable any -linemapfg {
     if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    $win.l config -fg $value
+    $win.l itemconfigure line -fill $value
     set data($win,config,-linemapfg) $value
     break
   }
@@ -378,11 +377,10 @@ proc ctext::buildArgParseTable win {
   }
 
   lappend argTable any -font {
-    if {[catch {$win.l config -font $value} res]} {
-      return -code error $res
-    }
+    $win.l itemconfigure line -font $value
     $win._t config -font $value
     set data($win,config,-font) $value
+    set data($win,fontwidth)    [font measure $value -displayof $win "0"]
     break
   }
 
@@ -456,7 +454,7 @@ proc ctext::buildArgParseTable win {
       return -code error $res
     }
     set data($win,config,-linemap_select_fg) $value
-    $win.l tag configure lmark -foreground $value
+    $win.l itemconfigure lmarked -fill $value
     break
   }
 
@@ -465,7 +463,7 @@ proc ctext::buildArgParseTable win {
       return -code error $res
     }
     set data($win,config,-linemap_select_bg) $value
-    $win.l tag configure lmark -background $value
+    $win.l itemconfigure lmark -fill $value
     break
   }
 
@@ -2059,26 +2057,23 @@ proc ctext::command_gutter {win args} {
         array set sym_opts $opts
         set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
         set gutter_tag "gutter:$gutter_name:$name:$sym"
-        if {[info exists sym_opts(-bg)]} {
-          $win.l tag configure $gutter_tag -background $sym_opts(-bg)
-        }
         if {[info exists sym_opts(-fg)]} {
-          $win.l tag configure $gutter_tag -foreground $sym_opts(-fg)
+          $win.l itemconfigure $gutter_tag -fill $sym_opts(-fg)
         }
         if {[info exists sym_opts(-onenter)]} {
-          $win.l tag bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onenter)]
+          $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onenter)]
         }
         if {[info exists sym_opts(-onleave)]} {
-          $win.l tag bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onleave)]
+          $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onleave)]
         }
         if {[info exists sym_opts(-onclick)]} {
-          $win.l tag bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onclick)]
+          $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onclick)]
         }
         if {[info exists sym_opts(-onshiftclick)]} {
-          $win.l tag bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onshiftclick)]
+          $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onshiftclick)]
         }
         if {[info exists sym_opts(-oncontrolclick)]} {
-          $win.l tag bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-oncontrolclick)]
+          $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $sym_opts(-oncontrolclick)]
         }
         lappend gutter_tags $gutter_tag
         array unset sym_opts
@@ -2208,13 +2203,12 @@ proc ctext::command_gutter {win args} {
       }
       switch $opt {
         -symbol         { return [lindex [split $gutter_tag :] 3] }
-        -bg             { return [$win.l tag cget $gutter_tag -background] }
-        -fg             { return [$win.l tag cget $gutter_tag -foreground] }
-        -onenter        { return [lrange [$win.l tag bind $gutter_tag <Enter>] 0 end-1] }
-        -onleave        { return [lrange [$win.l tag bind $gutter_tag <Leave>] 0 end-1] }
-        -onclick        { return [lrange [$win.l tag bind $gutter_tag <Button-1>] 0 end-1] }
-        -onshiftclick   { return [lrange [$win.l tag bind $gutter_tag <Shift-Button-1>] 0 end-1] }
-        -oncontrolclick { return [lrange [$win.l tag bind $gutter_tag <Control-Button-1>] 0 end-1] }
+        -fg             { return [$win.l itemcget $gutter_tag -fill] }
+        -onenter        { return [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1] }
+        -onleave        { return [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1] }
+        -onclick        { return [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1] }
+        -onshiftclick   { return [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1] }
+        -oncontrolclick { return [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1] }
         default         {
           return -code error "Unknown gutter option ($opt) specified"
         }
@@ -2237,25 +2231,22 @@ proc ctext::command_gutter {win args} {
           if {$sym ne ""} {
             lappend symopts -symbol $sym
           }
-          if {[set bg [$win.l tag cget $gutter_tag -background]] ne ""} {
-            lappend symopts -bg $bg
-          }
-          if {[set fg [$win.l tag cget $gutter_tag -foreground]] ne ""} {
+          if {[set fg [$win.l itemcget $gutter_tag -fill]] ne ""} {
             lappend symopts -fg $fg
           }
-          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
+          if {[set cmd [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
             lappend symopts -onenter $cmd
           }
-          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
+          if {[set cmd [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1]] ne ""} {
             lappend symopts -onleave $cmd
           }
-          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
+          if {[set cmd [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1]] ne ""} {
             lappend symopts -onclick $cmd
           }
-          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Shift-Button-1>] 0 end-1]] ne ""} {
+          if {[set cmd [lrange [$win.l bind $gutter_tag <Shift-Button-1>] 0 end-1]] ne ""} {
             lappend symopts -onshiftclick $cmd
           }
-          if {[set cmd [lrange [$win.l tag bind $gutter_tag <Control-Button-1>] 0 end-1]] ne ""} {
+          if {[set cmd [lrange [$win.l bind $gutter_tag <Control-Button-1>] 0 end-1]] ne ""} {
             lappend symopts -oncontrolclick $cmd
           }
           lappend gutters $symname $symopts
@@ -2278,26 +2269,23 @@ proc ctext::command_gutter {win args} {
               $win._t tag add       $gutter_tag {*}$ranges
               set update_needed 1
             }
-            -bg {
-              $win.l tag configure $gutter_tag -background $value
-            }
             -fg {
-              $win.l tag configure $gutter_tag -foreground $value
+              $win.l itemconfigure $gutter_tag -fill $value
             }
             -onenter {
-              $win.l tag bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $value]
+              $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $value]
             }
             -onleave {
-              $win.l tag bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $value]
+              $win.l bind $gutter_tag <Leave> [list ctext::execute_gutter_cmd $win %y $value]
             }
             -onclick {
-              $win.l tag bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+              $win.l bind $gutter_tag <Button-1> [list ctext::execute_gutter_cmd $win %y $value]
             }
             -onshiftclick {
-              $win.l tag bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+              $win.l bind $gutter_tag <Shift-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
             }
             -oncontrolclick {
-              $win.l tag bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
+              $win.l bind $gutter_tag <Control-Button-1> [list ctext::execute_gutter_cmd $win %y $value]
             }
             default {
               return -code error "Unknown gutter option ($opt) specified"
@@ -3235,11 +3223,6 @@ proc ctext::add_font_opt {win class modifiers popts} {
       font create $fontname {*}[array get font_opts]
     }
 
-    if {$lsize ne ""} {
-      set data($win,highlight,lsize,$class) "lsize$lsize"
-      $win.l tag configure $data($win,highlight,lsize,$class) {*}[array get line_opts] -font $fontname
-    }
-
     lappend opts -font $fontname {*}[array get tag_opts] {*}[array get line_opts]
 
     if {$click} {
@@ -3421,16 +3404,6 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
     $win tag bind      $tag <Button-$right_click> [list {*}$cmd $tag]
   } else {
     $win tag add _$class $startpos $endpos
-  }
-
-  # Add the lsize
-  if {[info exists data($win,highlight,lsize,$class)]} {
-    set modifier [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
-    while {[$win compare $startpos <= $endpos]} {
-      $win tag add $data($win,highlight,lsize,$class) [set startpos "$startpos $modifier linestart"]
-      set startpos [$win index "$startpos+1 $modifier lines"]
-    }
-    linemapUpdate $win
   }
 
 }
@@ -3651,11 +3624,15 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
     return
   }
 
-  set first         [$win.t index @0,0]
-  set last          [$win.t index @0,[winfo height $win.t]]
+  set first         [lindex [split [$win.t index @0,0] .] 0]
+  set last          [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
   set linenum_width [expr max( $data($win,config,-linemap_minwidth), $line_width )]
   set gutter_width  [llength [lsearch -index 2 -all -inline $data($win,config,gutters) 0]]
+
+  if {[$win._t compare "@0,0 linestart" != @0,0]} {
+    incr first
+  }
 
   if {$gutter_width > 0} {
     set gutter_items [lrepeat $gutter_width " " [list]]
@@ -3663,7 +3640,7 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
     set gutter_items ""
   }
 
-  $win.l delete 1.0 end
+  $win.l delete all
 
   if {$data($win,config,-diff_mode)} {
     linemapDiffUpdate $win $first $last $linenum_width $gutter_items
@@ -3679,32 +3656,30 @@ proc ctext::linemapUpdate {win {old_pos ""}} {
     set full_width $gutter_width
   }
 
-  linemapUpdateOffset $win $first $last
-
   # Resize the linemap window, if necessary
-  if {[$win.l cget -width] != $full_width} {
-    $win.l configure -width $full_width
+  if {[$win.l cget -width] != (($full_width * $data($win,fontwidth)) + 2)} {
+    $win.l configure -width [expr ($full_width * $data($win,fontwidth)) + 2]
   }
 
 }
 
-proc ctext::linemapUpdateGutter {win ptags pline_content} {
+proc ctext::linemapUpdateGutter {win ptags x y} {
 
   variable data
 
-  upvar $ptags         tags
-  upvar $pline_content line_content
+  upvar $ptags tags
 
-  set index 0
+  set index     0
+  set fontwidth $data($win,fontwidth)
+  set font      $data($win,config,-font)
+  set fill      $data($win,config,-linemapfg)
 
   foreach gutter_data $data($win,config,gutters) {
     if {[lindex $gutter_data 2]} { continue }
     foreach gutter_tag [lsearch -inline -all -glob $tags gutter:[lindex $gutter_data 0]:*] {
       lassign [split $gutter_tag :] dummy dummy gutter_symname gutter_sym
       if {$gutter_sym ne ""} {
-        set gutter_index [expr ($index * 2) + 2]
-        lset line_content $gutter_index            $gutter_sym
-        lset line_content [expr $gutter_index + 1] $gutter_tag
+        $win.l create text [expr $x + ($index * $fontwidth)] $y -anchor sw -text $gutter_sym -fill $fill -font $font -tags $gutter_tag
       }
     }
     incr index
@@ -3716,12 +3691,15 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
 
   variable data
 
-  set lsize_pos [expr 2 + [llength $gutter_items] + 1]
-  set modifier  [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
+  set fill    $data($win,config,-linemapfg)
+  set font    $data($win,config,-font)
+  set tags    [list]
+  set linebx  [expr (($linenum_width + 1) * $data($win,fontwidth)) + 1]
+  set gutterx [expr $linebx + (($linenum_width * $data($win,fontwidth)) + 1)]
 
   # Calculate the starting line numbers for both files
   array set currline {A 0 B 0}
-  foreach diff_tag [lsearch -inline -all -glob [$win.t tag names $first] diff:*] {
+  foreach diff_tag [lsearch -inline -all -glob [$win.t tag names $first.0] diff:*] {
     lassign [split $diff_tag :] dummy index type start
     set currline($index) [expr $start - 1]
     if {$type eq "S"} {
@@ -3729,27 +3707,19 @@ proc ctext::linemapDiffUpdate {win first last linenum_width gutter_items} {
     }
   }
 
-  while {[$win._t compare $first <= $last]} {
+  for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    set ltags [$win.t tag names $first]
-    set lineA ""
+    lassign [$win._t bbox $line.0] x y w h
+    set ltags [$win._t tag names $line.0]
     if {[lsearch -glob $ltags diff:A:S:*] != -1} {
       set lineA [incr currline(A)]
+      $win.l create text 1 $y -anchor sw -text [format "%-*s" $linenum_width $lineA] -fill $fill -font $font -tags $tags
     }
-    set lineB ""
     if {[lsearch -glob $ltags diff:B:S:*] != -1} {
       set lineB [incr currline(B)]
+      $win.l create text $linebx $y -anchor sw -text [format "%-*s" $linenum_width $lineB] -fill $fill -font $font -tags $tags
     }
-    set line_content [list [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] [list] {*}$gutter_items " " [list] "\n"]
-    if {[lsearch -glob $ltags lmark*] != -1} {
-      lset line_content 1 lmark
-    }
-    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
-      lset line_content $lsize_pos [lindex [lsort $lsizes] 0]
-    }
-    ctext::linemapUpdateGutter $win ltags line_content
-    $win.l insert end {*}$line_content
-    set first [$win._t index "$first+1 $modifier lines"]
+    ctext::linemapUpdateGutter $win ltags $gutterx $y
   }
 
 }
@@ -3760,25 +3730,22 @@ proc ctext::linemapLineUpdate {win first last linenum_width gutter_items} {
 
   set abs       [expr {$data($win,config,-linemap_type) eq "absolute"}]
   set curr      [lindex [split [$win.t index insert] .] 0]
-  set lsize_pos [expr 2 + [llength $gutter_items] + 1]
-  set modifier  [expr {([$win cget -wrap] ne "none") ? "display" : ""}]
+  set lmark     $data($win,config,-linemap_select_bg)
+  set normal    $data($win,config,-linemapfg)
+  set font      $data($win,config,-font)
+  set gutterx   [expr $linenum_width * $data($win,fontwidth) + 1]
 
-  while {[$win._t compare $first <= $last]} {
-    if {[$win._t count -displaychars $first "$first+1 $modifier lines"] == 0} { continue }
-    set ltags        [$win.t tag names $first]
-    set line         [lindex [split $first .] 0]
-    set linenum      [expr {([$win._t compare $first == "$first linestart"]) ? ($abs ? $line : abs( $line - $curr )) : ""}]
-    set largest      [list]
-    set line_content [list [format "%-*s" $linenum_width $linenum] [list] {*}$gutter_items " " [list] "\n"]
-    if {[lsearch -glob $ltags lmark*] != -1} {
-      lset line_content 1 lmark
-    }
-    if {[set lsizes [lsearch -inline -glob -all $ltags lsize*]] ne ""} {
-      lset line_content $lsize_pos [set largest [lindex [lsort $lsizes] 0]]
-    }
-    ctext::linemapUpdateGutter $win ltags line_content
-    $win.l insert end {*}$line_content
-    set first [$win._t index "$first+1 $modifier lines"]
+  for {set line $first} {$line <= $last} {incr line} {
+    if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
+    lassign [$win._t bbox $line.0] x y w h
+    set ltags   [$win.t tag names $line.0]
+    set linenum [expr $abs ? $line : abs( $line - $curr )]
+    set marked  [expr {[lsearch -glob $ltags lmark*] != -1}]
+    set fill    [expr {$marked ? $lmark : $normal}]
+    set tags    [expr {$marked ? [list line lmark] : [list line]}]
+    set y       [expr $y + $h]
+    $win.l create text 1 $y -anchor sw -text [format "%-*s" $linenum_width $linenum] -fill $fill -font $font -tags $tags
+    ctext::linemapUpdateGutter $win ltags $gutterx $y
   }
 
 }
@@ -3871,51 +3838,6 @@ proc ctext::adjust_rmargin {win} {
   }
 
 }
-
-# Starting with Tk 8.5 the text widget allows smooth scrolling; this
-# code calculates the offset for the line numbering text widget and
-# scrolls by the specified amount of pixels
-if {0} {
-if {![catch {
-  package require Tk 8.5
-}]} {
-  proc ctext::linemapUpdateOffset {win first last} {
-    # reset view for line numbering widget
-    $win.l yview 0.0
-
-    # find the first line that is visible and calculate the
-    # corresponding line in the line numbers widget
-    set lline 1
-    while {[$win._t compare $first <= $last]} {
-      set tystart [lindex [$win.t bbox $first] 1]
-      if {$tystart != ""} {
-        break
-      }
-      incr lline
-    }
-
-    # return in case the line numbers text widget is not up-to-date
-    if {[catch { set lystart [lindex [$win.l bbox $lline.0] 1] }]} {
-      return
-    }
-
-    # return in case the bbox for any of the lines returned an
-    # empty value
-    if {($tystart == "") || ($lystart == "")} {
-      return
-    }
-
-    # calculate the offset and then scroll by specified number of
-    # pixels
-    set offset [expr {$lystart - $tystart}]
-    $win.l yview scroll $offset pixels
-  }
-}  else  {
-  # Do not try to perform smooth scrolling if Tk is 8.4 or less.
-  proc ctext::linemapUpdateOffset {args} {}
-}
-}
-proc ctext::linemapUpdateOffset {args} {}
 
 proc ctext::modified {win value {dat ""}} {
 
