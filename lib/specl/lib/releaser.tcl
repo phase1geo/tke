@@ -342,6 +342,9 @@ namespace eval specl::releaser {
     # Get the content from the description
     set content [$widgets(item_desc) get 1.0 end-1c]
 
+    # Remove characters that are going to cause us potential trouble
+    set content [string map {' {&apos;}} $content]
+
     # If we need to run markdown, do it now
     if {$data(item_markdown)} {
 
