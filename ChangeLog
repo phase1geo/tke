@@ -1,63 +1,28 @@
-2017-09-02 00:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8735e703daca [stable-3.3])
+2017-09-05 17:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c2238dbfe8e1 [devel-3.3.1])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for stable-3.3 release
+	ChangeLog for devel-3.3.1 release
 
-2017-09-02 00:34 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d1b9749c1419)
+2017-09-05 17:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bc04d2019548)
 
 	* .hgtags:
-	Added tag stable-3.3 for changeset 8735e703daca
+	Added tag devel-3.3.1 for changeset c2238dbfe8e1
 
-2017-09-02 00:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2f232c885008)
+2017-09-06 01:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0e2d4808f425)
 
-	* lib/tablelist5.18/tablelistPublic.tcl, lib/version.tcl:
-	* Fixing issue with tablelist package.
+	* lib/ctext/ctext.tcl, lib/folding.tcl, lib/version.tcl:
+	* Checkpointing work on converting linemap from a text widget to a
+	canvas to improve linemap drawing performance and display issues.
 
-2017-09-03 01:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (e18e9c1dab2f)
+2017-09-06 17:41 -0500  Trevor Williams  <phase1geo@gmail.com>  (3a350d0f3c0e)
 
-	* data/bindings/menu_bindings.aqua.tkedat,
-	data/bindings/menu_bindings.classic.tkedat,
-	data/bindings/menu_bindings.win32.tkedat,
-	data/bindings/menu_bindings.x11.tkedat, lib/menus.tcl,
-	lib/select.tcl, lib/version.tcl:
-	* Re-enabling selection mode.
+	* lib/ctext/ctext.tcl:
+	* Checkpointing work on improved line number bar.
 
-2017-09-03 07:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (680107e84ac9)
+2017-09-07 01:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7d70bec94ddd [tip])
 
-	* lib/select.tcl, lib/version.tcl:
-	* Fixing some issues with selection mode.
-
-2017-09-03 21:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (642024af7191)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Fixing issue with alignment of line numbers for line-wrapped
-	scrolling.
-
-2017-09-04 01:23 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9ef6f6476b18)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Checkpointing work on improving ctext line numbering performance
-	and accuracy.
-
-2017-09-04 10:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dbd1efd8c01f)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Slight tweak to line number redrawing to help speed things up.
-
-2017-09-04 20:51 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (33a5c547ee78)
-
-	* lib/ctext/ctext.tcl, lib/version.tcl:
-	* Improving line numbering performance for non-wrapped buffers.
-
-2017-09-05 02:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7b60aa762753)
-
-	* data/syntax/Markdown.syntax, lib/ctext/ctext.tcl, lib/version.tcl:
-	* Adding tag name to click commands.
-	* Initial work to add support for clicking checkboxes in Markdown
-	files.
-
-2017-09-05 08:20 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0fd79ade9c69 [tip])
-
-	* data/syntax/MultiMarkdown.syntax, lib/version.tcl:
-	* Adding clickable checkbox support to MultiMarkdown.
+	* data/syntax/Markdown.syntax, lib/ctext/ctext.tcl, lib/gui.tcl,
+	lib/syntax.tcl, lib/version.tcl:
+	* Fixing the rest of the issues with the new linemap.
+	* Fixing syntax highlighting issue in Markdown syntax.
 
