@@ -33,7 +33,7 @@ proc ::tk::TextSetCursor {w pos args} {
 proc ctext {win args} {
 
   variable right_click
-  
+
   if {[llength $args] & 1} {
     return -code error "Invalid number of arguments given to ctext (uneven number after window) : $args"
   }
@@ -56,8 +56,7 @@ proc ctext {win args} {
   set ctext::data($win,config,-linemapbg)              $ctext::data($win,config,-bg)
   set ctext::data($win,config,-linemap_mark_command)   {}
   set ctext::data($win,config,-linemap_markable)       1
-  set ctext::data($win,config,-linemap_select_fg)      black
-  set ctext::data($win,config,-linemap_select_bg)      yellow
+  set ctext::data($win,config,-linemap_mark_color)     orange
   set ctext::data($win,config,-linemap_cursor)         left_ptr
   set ctext::data($win,config,-linemap_relief)         $ctext::data($win,config,-relief)
   set ctext::data($win,config,-linemap_minwidth)       1
@@ -104,13 +103,16 @@ proc ctext {win args} {
   set ctext::data($win,config,ctextFlags) [list -xscrollcommand -yscrollcommand -linemap -linemapfg -linemapbg \
   -font -linemap_mark_command -highlight -warnwidth -warnwidth_bg -linemap_markable \
   -linemap_cursor -highlightcolor -folding -delimiters -matchchar -matchchar_bg -matchchar_fg -matchaudit -matchaudit_bg \
-  -linemap_select_fg -linemap_select_bg -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
+  -linemap_mark_color -linemap_relief -linemap_minwidth -linemap_type -casesensitive -peer \
   -undo -maxundo -autoseparators -diff_mode -diffsubbg -diffaddbg -escapes -spacing3 -lmargin]
 
   # Set args
   foreach {name value} $args {
     set ctext::data($win,config,$name) $value
   }
+
+  set ctext::data($win,fontwidth)   [font measure $ctext::data($win,config,-font) -displayof . "0"]
+  set ctext::data($win,fontdescent) [font metrics $ctext::data($win,config,-font) -displayof . -descent]
 
   foreach flag {foreground background} short {fg bg} {
     if {[info exists ctext::data($win,config,-$flag)] == 1} {
@@ -132,22 +134,14 @@ proc ctext {win args} {
 
   canvas $win.l -relief $ctext::data($win,config,-relief) -bd 0 \
     -bg $ctext::data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0
-  # text $win.l -font $ctext::data($win,config,-font) -width $ctext::data($win,config,-linemap_minwidth) -height 1 \
-  #   -relief $ctext::data($win,config,-relief) -bd 0 -fg $ctext::data($win,config,-linemapfg) -cursor $ctext::data($win,config,-linemap_cursor) \
-  #   -bg $ctext::data($win,config,-linemapbg) -takefocus 0 -highlightthickness 0 -wrap none
   frame $win.f -width 1 -bd 0 -relief flat -bg $ctext::data($win,config,-warnwidth_bg)
-
-  set topWin [winfo toplevel $win]
-  # bindtags $win.l [list $win.l $topWin all]
 
   set args [concat $args [list -yscrollcommand [list ctext::event:yscroll $win $ctext::data($win,config,-yscrollcommand)]] \
                          [list -xscrollcommand [list ctext::event:xscroll $win $ctext::data($win,config,-xscrollcommand)]]]
 
-  #escape $win, because it could have a space
   if {$ctext::data($win,config,-peer) eq ""} {
     text $win.t -font $ctext::data($win,config,-font) -bd 0 -highlightthickness 0 {*}$args
   } else {
-    # TBD - We should probably verify that -peer is a ctext widget path
     $ctext::data($win,config,-peer)._t peer create $win.t -font $ctext::data($win,config,-font) -bd 0 -highlightthickness 0 {*}$args
   }
 
@@ -173,16 +167,13 @@ proc ctext {win args} {
   if {$ctext::data($win,config,-matchchar)} {
     $win.t tag configure matchchar -foreground $ctext::data($win,config,-matchchar_fg) -background $ctext::data($win,config,-matchchar_bg)
   }
-  
-  # $win.l bind line <ButtonPress-$right_click> [list ctext::linemapToggleMark $win %x %y]
 
-  bind $win.t <Configure>       [list ctext::linemapUpdate $win]
-  # bind $win.t <Configure>       [list ctext::doConfigure $win]
-  bind $win.t <<CursorChanged>> [list ctext::linemapUpdate $win]
-  bind $win.l <ButtonPress-$right_click> [list ctext::linemapToggleMark $win %x %y]
-  bind $win.l <MouseWheel>      [list event generate $win.t <MouseWheel> -delta %D]
-  bind $win.l <4>               [list event generate $win.t <4>]
-  bind $win.l <5>               [list event generate $win.t <5>]
+  bind $win.t <Configure>           [list ctext::linemapUpdate $win]
+  bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win]
+  bind $win.l <Button-$right_click> [list ctext::linemapToggleMark $win %x %y]
+  bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
+  bind $win.l <4>                   [list event generate $win.t <4>]
+  bind $win.l <5>                   [list event generate $win.t <5>]
   rename $win __ctextJunk$win
   rename $win.t $win._t
 
@@ -279,18 +270,13 @@ proc ctext::buildArgParseTable win {
 
   set argTable [list]
 
-  lappend argTable any -linemap_mark_command {
-    set data($win,config,-linemap_mark_command) $value
-    break
-  }
-
   lappend argTable {1 true yes} -linemap {
     set data($win,config,-linemap) 1
     catch {
       grid $win.l
       grid $win.f
     }
-    ctext::linemapUpdate $win 1
+    set update_linemap 1
     break
   }
 
@@ -302,8 +288,13 @@ proc ctext::buildArgParseTable win {
         grid remove $win.f
       }
     } else {
-      ctext::linemapUpdate $win 1
+      set update_linemap 1
     }
+    break
+  }
+
+  lappend argTable any -linemap_mark_command {
+    set data($win,config,-linemap_mark_command) $value
     break
   }
 
@@ -313,7 +304,7 @@ proc ctext::buildArgParseTable win {
       grid $win.l
       grid $win.f
     }
-    ctext::linemapUpdate $win 1
+    set update_linemap 1
     break
   }
 
@@ -325,7 +316,7 @@ proc ctext::buildArgParseTable win {
         grid remove $win.f
       }
     } else {
-      ctext::linemapUpdate $win 1
+      set update_linemap 1
     }
     break
   }
@@ -358,7 +349,7 @@ proc ctext::buildArgParseTable win {
     if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    $win.l itemconfigure line -fill $value
+    $win.l itemconfigure unmarked -fill $value
     set data($win,config,-linemapfg) $value
     break
   }
@@ -381,10 +372,11 @@ proc ctext::buildArgParseTable win {
   }
 
   lappend argTable any -font {
-    $win.l itemconfigure line -font $value
     $win._t config -font $value
     set data($win,config,-font) $value
     set data($win,fontwidth)    [font measure $value -displayof $win "0"]
+    set data($win,fontdescent)  [font metrics $ctext::data($win,config,-font) -displayof $win -descent]
+    set update_linemap 1
     break
   }
 
@@ -453,21 +445,12 @@ proc ctext::buildArgParseTable win {
     break
   }
 
-  lappend argTable any -linemap_select_fg {
+  lappend argTable any -linemap_mark_color {
     if {[catch {winfo rgb $win $value} res]} {
       return -code error $res
     }
-    set data($win,config,-linemap_select_fg) $value
-    $win.l itemconfigure lmarked -fill $value
-    break
-  }
-
-  lappend argTable any -linemap_select_bg {
-    if {[catch {winfo rgb $win $value} res]} {
-      return -code error $res
-    }
-    set data($win,config,-linemap_select_bg) $value
-    $win.l itemconfigure lmark -fill $value
+    set data($win,config,-linemap_mark_color) $value
+    set update_linemap 1
     break
   }
 
@@ -497,10 +480,8 @@ proc ctext::buildArgParseTable win {
     if {![string is integer $value]} {
       return -code error "-linemap_minwidth argument must be an integer value"
     }
-    if {[$win.l cget -width] < $value} {
-      $win.l configure -width $value
-    }
     set data($win,config,-linemap_minwidth) $value
+    set update_linemap 1
     break
   }
 
@@ -509,7 +490,7 @@ proc ctext::buildArgParseTable win {
       return -code error "-linemap_type argument must be either 'absolute' or 'relative'"
     }
     set data($win,config,-linemap_type) $value
-    ctext::linemapUpdate $win 1
+    set update_linemap 1
     break
   }
 
@@ -1323,6 +1304,8 @@ proc ctext::command_configure {win args} {
     set flags($flag) $flagArg
   }
 
+  # Parse the argument list and process the value changes
+  set update_linemap 0
   foreach {valueList flag cmd} $data($win,config,argTable) {
     if {[info exists flags($flag)]} {
       foreach valueToCheckFor $valueList {
@@ -1331,6 +1314,11 @@ proc ctext::command_configure {win args} {
         elseif {[string equal $valueToCheckFor [set flags($flag)]]} $cmd
       }
     }
+  }
+
+  # If we need to update the linemap, do it now
+  if {$update_linemap} {
+    linemapUpdate $win 1
   }
 
   if {[llength $args]} {
@@ -2365,7 +2353,7 @@ proc ctext::setAutoMatchChars {win lang matchChars} {
 proc ctext::matchBracket {win} {
 
   variable data
-  
+
   # Remove the match cursor
   catch { $win tag remove matchchar 1.0 end }
 
@@ -3406,9 +3394,10 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
     $win tag add       $tag $startpos $endpos
     $win tag configure $tag {*}$data($win,highlight,click,$class)
     $win tag bind      $tag <Button-$right_click> [list {*}$cmd $tag]
-  } else {
-    $win tag add _$class $startpos $endpos
+    return ""
   }
+
+  return [list _$class $startpos $endpos]
 
 }
 
@@ -3446,16 +3435,22 @@ proc ctext::doHighlight {win start end ins} {
     }
     if {[info exists data($win,highlight,keyword,command,$lang,$word)] && \
         ![catch { {*}$data($win,highlight,keyword,command,$lang,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-      handle_tag $win {*}$retval
+      if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+        lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
+      }
     } elseif {[info exists data($win,highlight,charstart,command,$lang,$firstOfWord)] && \
               ![catch { {*}$data($win,highlight,charstart,command,$lang,$firstOfWord) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-      handle_tag $win {*}$retval
+      if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+        lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
+      }
     }
     if {[info exists data($win,highlight,searchword,class,$word)]} {
       $twin tag add $data($win,highlight,searchword,class,$word) $res $wordEnd
     } elseif {[info exists data($win,highlight,searchword,command,$word)] && \
               ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-      handle_tag $win {*}$retval
+      if {[set ret [handle_tag $win {*}$retval]] ne ""} {
+        lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
+      }
     }
     incr i
   }
@@ -3483,8 +3478,8 @@ proc ctext::doHighlight {win start end ins} {
           if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
             if {![catch { {*}$value $win $res $wordEnd $ins } retval] && ([llength $retval] == 2)} {
               foreach sub [lindex $retval 0] {
-                if {[llength $sub] == 4} {
-                  handle_tag $win {*}$sub
+                if {([llength $sub] == 4) && ([set ret [handle_tag $win {*}$sub]] ne "")} {
+                  lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
                 }
               }
               if {[set restart_from [lindex $retval 1]] ne ""} {
@@ -3536,15 +3531,13 @@ proc ctext::linemapCheckOnDelete {win startpos {endpos ""}} {
 proc ctext::linemapToggleMark {win x y} {
 
   variable data
-  
-  puts "In linemapToggleMark"
 
   if {!$data($win,config,-linemap_markable)} {
     return
   }
-  
+
   set tline [lindex [split [set tmarkChar [$win.t index @0,$y]] .] 0]
-  
+
   if {[set lmark [lsearch -inline -glob [$win.t tag names $tline.0] lmark*]] ne ""} {
     $win.t tag delete $lmark
     set type unmarked
@@ -3554,15 +3547,15 @@ proc ctext::linemapToggleMark {win x y} {
     set type marked
   }
 
+  # Update the linemap
   linemapUpdate $win 1
-  
+
   # Call the mark command, if one exists.  If it returns a value of 0, remove
   # the mark.
-  if {[string length $data($win,config,-linemap_mark_command)]} {
-    if {![uplevel #0 [linsert $data($win,config,-linemap_mark_command) end $win $type $lmark]]} {
-      $win.t tag delete $lmark
-      linemapUpdate $win 1
-    }
+  set cmd $data($win,config,-linemap_mark_command)
+  if {[string length $cmd] && ![uplevel #0 [linsert $cmd end $win $type $lmark]]} {
+    $win.t tag delete $lmark
+    linemapUpdate $win 1
   }
 
 }
@@ -3594,27 +3587,26 @@ proc ctext::linemapClearMark {win line} {
 proc ctext::linemapUpdateNeeded {win} {
 
   variable data
-  
-  set yview    [$win yview]
-  set lastline [lindex [split [$win bbox end-1c] .] 0]
 
-  if {[info exists data($win,yview)]    && ($data($win,yview)    eq $yview) && \
-      [info exists data($win,lastline)] && ($data($win,lastline) eq $lastline)} {
+  set yview [$win yview]
+  set lasty [lindex [$win dlineinfo end-1c] 1]
+
+  if {[info exists data($win,yview)] && ($data($win,yview) eq $yview) && \
+      [info exists data($win,lasty)] && ($data($win,lasty) eq $lasty)} {
     return 0
   }
 
-  set data($win,yview)    $yview
-  set data($win,lastline) $lastline
+  set data($win,yview) $yview
+  set data($win,lasty) $lasty
 
   return 1
 
 }
 
-#args is here because -yscrollcommand may call it
 proc ctext::linemapUpdate {win {forceUpdate 0}} {
 
   variable data
-  
+
   # Check to see if the current cursor is on a bracket and match it
   if {$data($win,config,-matchchar)} {
     ctext::matchBracket $win
@@ -3624,7 +3616,7 @@ proc ctext::linemapUpdate {win {forceUpdate 0}} {
   if {![winfo exists $win.l] || (![linemapUpdateNeeded $win] && !$forceUpdate)} {
     return
   }
-  
+
   set first         [lindex [split [$win.t index @0,0] .] 0]
   set last          [lindex [split [$win.t index @0,[winfo height $win.t]] .] 0]
   set line_width    [string length [lindex [split [$win._t index end-1c] .] 0]]
@@ -3686,11 +3678,12 @@ proc ctext::linemapDiffUpdate {win first last linenum_width} {
 
   variable data
 
-  set fill    $data($win,config,-linemapfg)
+  set normal  $data($win,config,-linemapfg)
+  set lmark   $data($win,config,-linemap_mark_color)
   set font    $data($win,config,-font)
-  set tags    [list]
   set linebx  [expr (($linenum_width + 1) * $data($win,fontwidth)) + 1]
   set gutterx [expr $linebx + (($linenum_width * $data($win,fontwidth)) + 1)]
+  set descent $data($win,fontdescent)
 
   # Calculate the starting line numbers for both files
   array set currline {A 0 B 0}
@@ -3704,17 +3697,14 @@ proc ctext::linemapDiffUpdate {win first last linenum_width} {
 
   for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    lassign [$win._t bbox $line.0] x y w h
-    set ltags [$win._t tag names $line.0]
-    set y     [expr $y + $h]
-    if {[lsearch -glob $ltags diff:A:S:*] != -1} {
-      set lineA [incr currline(A)]
-      $win.l create text 1 $y -anchor sw -text [format "%-*s" $linenum_width $lineA] -fill $fill -font $font -tags $tags
-    }
-    if {[lsearch -glob $ltags diff:B:S:*] != -1} {
-      set lineB [incr currline(B)]
-      $win.l create text $linebx $y -anchor sw -text [format "%-*s" $linenum_width $lineB] -fill $fill -font $font -tags $tags
-    }
+    lassign [$win._t dlineinfo $line.0] x y w h b
+    set ltags  [$win._t tag names $line.0]
+    set y      [expr $y + $b + $descent]
+    set lineA  [expr {([lsearch -glob $ltags diff:A:S:*] != -1) ? [incr currline(A)] : ""}]
+    set lineB  [expr {([lsearch -glob $ltags diff:B:S:*] != -1) ? [incr currline(B)] : ""}]
+    set marked [expr {[lsearch -glob $ltags lmark*] != -1}]
+    set fill   [expr {$marked ? $lmark : $normal}]
+    $win.l create text 1 $y -anchor sw -text [format "%-*s %-*s" $linenum_width $lineA $linenum_width $lineB] -fill $fill -font $font
     ctext::linemapUpdateGutter $win ltags $gutterx $y
   }
 
@@ -3724,23 +3714,23 @@ proc ctext::linemapLineUpdate {win first last linenum_width} {
 
   variable data
 
-  set abs       [expr {$data($win,config,-linemap_type) eq "absolute"}]
-  set curr      [lindex [split [$win.t index insert] .] 0]
-  set lmark     $data($win,config,-linemap_select_bg)
-  set normal    $data($win,config,-linemapfg)
-  set font      $data($win,config,-font)
-  set gutterx   [expr $linenum_width * $data($win,fontwidth) + 1]
+  set abs     [expr {$data($win,config,-linemap_type) eq "absolute"}]
+  set curr    [lindex [split [$win.t index insert] .] 0]
+  set lmark   $data($win,config,-linemap_mark_color)
+  set normal  $data($win,config,-linemapfg)
+  set font    $data($win,config,-font)
+  set gutterx [expr $linenum_width * $data($win,fontwidth) + 1]
+  set descent $data($win,fontdescent)
 
   for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    lassign [$win._t bbox $line.0] x y w h
+    lassign [$win._t dlineinfo $line.0] x y w h b
     set ltags   [$win.t tag names $line.0]
     set linenum [expr $abs ? $line : abs( $line - $curr )]
     set marked  [expr {[lsearch -glob $ltags lmark*] != -1}]
     set fill    [expr {$marked ? $lmark : $normal}]
-    set tags    [expr {$marked ? [list line lmark] : [list line]}]
-    set y       [expr $y + $h]
-    $win.l create text 1 $y -anchor sw -text [format "%-*s" $linenum_width $linenum] -fill $fill -font $font -tags $tags
+    set y       [expr $y + $b + $descent]
+    $win.l create text 1 $y -anchor sw -text [format "%-*s" $linenum_width $linenum] -fill $fill -font $font
     ctext::linemapUpdateGutter $win ltags $gutterx $y
   }
 
@@ -3751,14 +3741,15 @@ proc ctext::linemapGutterUpdate {win first last linenum_width} {
   variable data
 
   set gutterx [expr {$data($win,config,-linemap_markable) ? ($data($win,fontwidth) + 2) : 1}]
-  set fill    $data($win,config,-linemap_select_bg)
+  set fill    $data($win,config,-linemap_mark_color)
   set font    $data($win,config,-font)
+  set descent $data($win,fontdescent)
 
   for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    lassign [$win._t bbox $line.0] x y w h
+    lassign [$win._t dlineinfo $line.0] x y w h b
     set ltags [$win.t tag names $line.0]
-    set y     [expr $y + $h]
+    set y     [expr $y + $b + $descent]
     if {[lsearch -glob $ltags lmark*] != -1} {
       $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font
     }
@@ -3768,18 +3759,20 @@ proc ctext::linemapGutterUpdate {win first last linenum_width} {
 }
 
 proc ctext::linemapMarkUpdate {win first last} {
-  
+
   variable data
-  
-  set fill $data($win,config,-linemap_select_bg)
-  set font $data($win,config,-font)
+
+  set fill    $data($win,config,-linemap_mark_color)
+  set font    $data($win,config,-font)
+  set descent $data($win,fontdescent)
 
   for {set line $first} {$line <= $last} {incr line} {
     if {[$win._t count -displaychars $line.0 [expr $line + 1].0] == 0} { continue }
-    lassign [$win._t bbox $line.0] x y w h
+    lassign [$win._t dlineinfo $line.0] x y w h b
     set ltags [$win.t tag names $line.0]
+    set y     [expr $y + $b + $descent]
     if {[lsearch -glob $ltags lmark*] != -1} {
-      $win.l create text 1 [expr $y + $h] -anchor sw -text "M" -fill $fill -font $font
+      $win.l create text 1 $y -anchor sw -text "M" -fill $fill -font $font
     }
   }
 

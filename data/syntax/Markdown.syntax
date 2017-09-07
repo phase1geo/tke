@@ -47,20 +47,20 @@ advanced {
   HighlightClass grey    meta           {}
   HighlightClass check   none           {click}
 
-  HighlightRegexp {``.+?``}                     ccode
-  HighlightRegexp {`.+?`}                       code
-  HighlightRegexp {^#.*?$}                      header
-  HighlightRegexp {^>.*?$}                      quote
-  HighlightRegexp {([*_]{2})(?=\S).+?\1}        bold
-  HighlightRegexp {([*_])(?=\S).+?\1}           italics
-  HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))} link
-  HighlightRegexp {^\s*\[.+?\]:\s+\S+}          linkref
-  HighlightRegexp {([~|]{2})(?=\S).+?\1}        overstrike
-  HighlightRegexp {(~)(?=\S).+?\1}              subscript
-  HighlightRegexp {(\^)(?=\S).+?\1}             superscript
-  HighlightRegexp {([=:]{2})(?=\S).+?\1}        highlight
-  HighlightRegexp {\[[ xX]\]}                   checkbox
-  HighlightRegexp {.*?$}                        list_check
+  HighlightRegexp {``.+?``}                        ccode
+  HighlightRegexp {`.+?`}                          code
+  HighlightRegexp {^#.*?$}                         header
+  HighlightRegexp {^>.*?$}                         quote
+  HighlightRegexp {([*_]{2})(?=\S).+?\1}           bold
+  HighlightRegexp {([*_])(?=\S).+?\1}              italics
+  HighlightRegexp {\[[^\]]+\](\s*\[.*?\]|\(.*?\))} link
+  HighlightRegexp {^\s*\[.+?\]:\s+\S+}             linkref
+  HighlightRegexp {([~|]{2})(?=\S).+?\1}           overstrike
+  HighlightRegexp {(~)(?=\S).+?\1}                 subscript
+  HighlightRegexp {(\^)(?=\S).+?\1}                superscript
+  HighlightRegexp {([=:]{2})(?=\S).+?\1}           highlight
+  HighlightRegexp {\[[ xX]\]}                      checkbox
+  HighlightRegexp {.*?$}                           list_check
 
   HighlightProc ccode {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-2c"]} {

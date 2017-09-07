@@ -382,7 +382,7 @@ namespace eval syntax {
       -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
       -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
       -linemapbg $theme(background) -linemapfg $theme(line_number) \
-      -linemap_select_bg $theme(marker) -linemap_select_fg $theme(background) \
+      -linemap_mark_color $theme(marker) \
       -warnwidth_bg $theme(warning_width) -relief flat \
       -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
       -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
