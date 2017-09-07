@@ -1,7 +1,7 @@
 #!/bin/sh
 # \
 exec wish "$0" ${1+"$@"}
-       
+
 # CONFIGURATION DETAIL: SET THIS FOR YOUR IMAGE VIEWER:
 #  (xli, xv, ee, etc)
 set HMGlobal(imageViewer) ee
@@ -13,14 +13,14 @@ set HMGlobal(imageViewer) ee
 #
 # Modified to support some 8.0 and 8.1 font conventions by Clif Flynt
 #	(clif@cflynt.com)
-#   Modifications copyright (c) 1998 by Flynt Consulting Services, 
+#   Modifications copyright (c) 1998 by Flynt Consulting Services,
 # Version 0.3.1 Jan 10, 1999
 #
-#   Modifications copyright (c) 1999 by Flynt Consulting Services, 
+#   Modifications copyright (c) 1999 by Flynt Consulting Services,
 # Added table support (another new idea).  7/31/99
 #   Version 0.3.2 July, 31, 1999
 #
-#   Modifications copyright (c) 1999 by Flynt Consulting Services, 
+#   Modifications copyright (c) 1999 by Flynt Consulting Services,
 # Modified table support - support for lists in tables
 #                          beginning of support for nested tables.
 #                          fixed italics
@@ -208,7 +208,7 @@ proc HMinit_win {win {win2 {} } } {
 	# configure the text insertion point
 	$win mark set $var(S_insert) 1.0
 
-        # trace variable var(style) w what 
+        # trace variable var(style) w what
 
 	# for horizontal rules
 	set size 1;
@@ -217,7 +217,7 @@ proc HMinit_win {win {win2 {} } } {
 	  global errorCode errorInfo
 	  puts "$errorCode -- $errorInfo"
 	  incr size;
-	} 
+	}
 
 	$win tag configure hr -relief sunken -borderwidth 2 -wrap none \
 		-tabs [winfo width $win]
@@ -258,7 +258,7 @@ proc HMreset_win {win} {
 	# configure the text insertion point
 	$win mark set $var(S_insert) 1.0
 
-	# remove form state.  If any check/radio buttons still exists, 
+	# remove form state.  If any check/radio buttons still exists,
 	# their variables will be magically re-created, and never get
 	# cleaned up.
 	catch unset [info globals HM$win.form*]
@@ -412,7 +412,7 @@ proc HMrender {win tag not param text} {
 
 # html tags requiring special processing
 # Procs of the form HMtag_<tag> or HMtag_</tag> get called just before
-# the text for this tag is displayed.  These procs are called inside a 
+# the text for this tag is displayed.  These procs are called inside a
 # "catch" so it is OK to fail.
 #   win:   The name of the text widget to render into
 #   param: The un-interpreted parameter list
@@ -640,7 +640,7 @@ proc HMtag_img {win param text} {
 		pack $label -expand 1 -fill both
 	} else {
 		set label $item
-		label $label 
+		label $label
 	}
 
 	$label configure -text $alt
@@ -664,7 +664,7 @@ proc HMtag_img {win param text} {
 			bind $label <$i> "catch \{%W configure $HMevents($i)\}"
 		}
 		bind $label <1> "+HMlink_callback $win $link2?%x,%y"
-	} 
+	}
 
 	# now callback to the application
 	set src ""
@@ -759,7 +759,7 @@ proc HMextract_param {param key {val ""}} {
 		upvar $val result
 	}
     set ws "    \n\r"
- 
+
     # look for name=value combinations.  Either (') or (") are valid delimeters
     if {
       [regsub -nocase [format {.*%s[%s]*=[%s]*"([^"]*).*} $key $ws $ws] $param {\1} value] ||
@@ -865,7 +865,7 @@ proc HMx_font {family size weight {style {}} {adjust_size 0}} {
 
 	set size [expr $size + $HM_globals(S_adjust_size)]
 	set size [expr $size + $adjust_size]
-        
+
 	if {$tcl_version < 8.0} {
             return "-*-$family-$weight-$style-normal-*-*-${size}0-*-*-*-*-*-*"
 	} else {
@@ -941,9 +941,10 @@ proc HMdo_map {text {unknown ?}} {
 # table of escape characters (ISO latin-1 esc's are in a different table)
 
 array set HMesc_map {
-   lt <   gt >   amp &   quot \"   copy \xa9
+   lt <   gt >   apos ' amp &   quot \"   copy \xa9
    reg \xae   ob \x7b   cb \x7d   nbsp \xa0
 }
+
 #############################################################
 # ISO Latin-1 escape codes
 
@@ -1308,7 +1309,7 @@ proc HMinput_submit {win param} {
 # They all go into a list box.  We don't what to do with the listbox until
 # we know how many items end up in it.  Gather up the data for the "options"
 # and finish up in the /select tag
-# params: NAME (reqd), MULTIPLE, SIZE 
+# params: NAME (reqd), MULTIPLE, SIZE
 
 proc HMtag_select {win param text} {
 	upvar #0 HM$win var
@@ -1356,7 +1357,7 @@ proc HMtag_option {win param text} {
 	lappend form(select_values) $value
 	set data ""
 }
- 
+
 # do most of the work here!
 # if SIZE>1, make the listbox.  Otherwise make a "drop-down"
 # listbox with a label in it
@@ -1500,7 +1501,7 @@ proc HMsubmit_form {win param query} {
 
 # do x-www-urlencoded character mapping
 # The spec says: "non-alphanumeric characters are replaced by '%HH'"
- 
+
 set HMalphanumeric	a-zA-Z0-9	;# definition of alphanumeric character class
 for {set i 1} {$i <= 256} {incr i} {
     set c [format %c $i]
@@ -1518,7 +1519,7 @@ array set HMform_map {
 # 2 Convert every other character to an array lookup
 # 3 Escape constructs that are "special" to the tcl parser
 # 4 "subst" the result, doing all the array substitutions
- 
+
 proc HMmap_reply {string} {
     global HMform_map HMalphanumeric
     regsub -all \[^$HMalphanumeric\] $string {$HMform_map(&)} string
@@ -1599,16 +1600,16 @@ set HMtable(level) 0
 #   param	Any parameters in the <TABLE ...> tag
 #   text	The name of a variable with associated text
 # Results
-#   
-# 
+#
+#
 proc HMtag_table {win param text} {
     global HMtable
 
     upvar #0 HM$win var
-    
+
     set HMtable(mustPurge) 0
-    
-    # Define a unique name for the text widget 
+
+    # Define a unique name for the text widget
     #   that will contain this table
 
     set newTable $win.tbl_$HMtable(unique)
@@ -1628,7 +1629,7 @@ proc HMtag_table {win param text} {
 
     HMinit_state $newTable
 
-    # trace variable newvar(style) w what 
+    # trace variable newvar(style) w what
 
     set newvar(S_insert) end
     set newvar(oldWindow) $win
@@ -1645,11 +1646,11 @@ proc HMtag_table {win param text} {
 #    This procedure resets the window to receive text to the master
 #    window.
 # Arguments
-#   
+#
 #   table	The window that holds the table
 #   param	Any parameters in the </TABLE ...> tag
 #   text	The name of a variable with associated text
-# 
+#
 # Results
 #   Maps the new window into the master text window.
 #   Sets tab locations in new window
@@ -1663,9 +1664,9 @@ proc HMtag_/table {win param text} {
 
     # Set the var pointer for the table text widget
     upvar #0 HM$parentWin var
-    
 
-    # unset var(divert) so that text will no longer be diverted to 
+
+    # unset var(divert) so that text will no longer be diverted to
     #  the table window
 
 
@@ -1679,7 +1680,7 @@ proc HMtag_/table {win param text} {
     }
 
     update; update idle;
-    
+
     foreach w [grid slaves $parentFrame] {
         if {[string match [winfo class $w] "Text"]} {
             # puts "DUMP: $w [$w dump 0.0 end]\n"
@@ -1693,7 +1694,7 @@ proc HMtag_/table {win param text} {
 	}
     }
 
-    
+
 #    set columns [lindex [grid size $parentFrame] 0]
     catch {lindex [grid size $parentFrame] 0} columns
 
@@ -1714,7 +1715,7 @@ proc HMtag_/table {win param text} {
     set aTextWidget [lindex $txtwinLst(0) 0]
     set parentPixelWidth [winfo width $win]
 	;# To account for the borders, shouldn't be hardcoded
-    incr parentPixelWidth -30 
+    incr parentPixelWidth -30
     set tablePixelWidth [winfo width $aTextWidget]
     set charWidth [expr $tablePixelWidth / [$aTextWidget cget -width]]
 
@@ -1724,11 +1725,11 @@ proc HMtag_/table {win param text} {
         set pixReq($c) [expr $txtSize($c) * $charWidth]
 	incr totalPixWid $pixReq($c)
     }
-    
+
     # Decide which columns get how many pixels/chars
     # Start by dividing the requested width by what's available.
     # Then jiggle it a bit for aesthetics.
-    
+
     for {set c 0} {$c < $columns} {incr c} {
         set colWidth($c) [expr int (((double($pixReq($c)) / $totalPixWid) * \
 	     $parentPixelWidth) / $charWidth)]
@@ -1738,11 +1739,11 @@ proc HMtag_/table {win param text} {
     }
 
     set shrink 0
-    
+
     # Aesthetics, hardcoded rules.
-    
+
     for {set c 0} {$c < $columns} {incr c} {
-        if {(($txtSize($c) > $colWidth($c)) && 
+        if {(($txtSize($c) > $colWidth($c)) &&
 	   (($txtSize($c) - $colWidth($c)) < 5)) ||
 	   ( $pixReq($c) < [expr $totalPixWid / 10])  } {
 	   set shrink [expr $shrink + $txtSize($c) - $colWidth($c) + 1]
@@ -1752,7 +1753,7 @@ proc HMtag_/table {win param text} {
 	   set shrink 0;
 	}
     }
-    
+
     for {set c 0} {$c < $columns} {incr c} {
 #       puts "WIDTH: $c $colWidth($c)"
     }
@@ -1790,15 +1791,15 @@ proc HMtag_/table {win param text} {
 #    Process the <TR> tag
 #    This begins a new row by setting the row and column values.
 # Arguments
-#   
+#
 #   win		The window that holds the table
 #   param	Any parameters in the </TR ...> tag
 #   text	The name of a variable with associated text
-# 
+#
 # Results
 #   Increments the row position.
 #   Sets the column to 0.
-# 
+#
  proc HMtag_tr {win param text} {
     global HMtable
 upvar $text t
@@ -1814,21 +1815,21 @@ upvar $text t
 # proc HMtag_td {win param text}--
 #    Process the <TD> tag
 # Arguments
-#   
+#
 #   win		The window that holds the table
 #   param	Any parameters in the <TD ...> tag
 #   text	The name of a variable with associated text
-# 
+#
 # Results
-#   Sets a tag for the start of this table entry to be used to 
+#   Sets a tag for the start of this table entry to be used to
 #   set tab positions
-# 
+#
 proc HMtag_td {win param text} {
 
     global HMtable
 
     upvar #0 HM$win var
-    
+
     if {$HMtable(mustPurge) == 1} {
         set l [lreplace $var(divert) end end]
         # puts "NEW L: ..$l.."
@@ -1849,13 +1850,13 @@ proc HMtag_td {win param text} {
     catch {set newTable $parentFrame.txt_$HMtable(unique)}
 
    # tag resolution for items in the table happen after
-   #  the <TD> tag - but before the text is inserted - It's 
+   #  the <TD> tag - but before the text is inserted - It's
    #  inserted with appropriate tags.
 
     set curFont [HMx_font times 16 medium r $var(S_adjust_size)]
 
     # puts "CURFONT: $curFont :: $newTable :: $var(S_adjust_size)"
-    
+
     catch {
     text $newTable -width 20 -height 1 -background $HMtable(Background) \
         -font $curFont -relief flat -borderwidth 0 -insertborderwidth 0 \
@@ -1867,7 +1868,7 @@ proc HMtag_td {win param text} {
 #    $newTable configure -background $col($HMtable(unique))
 
     incr HMtable(unique)
-    
+
     HMinit_win $newTable $parentWin
 
     # Divert output to the new window.
@@ -1877,7 +1878,7 @@ proc HMtag_td {win param text} {
     # Make a new global state variable for the new text widget
 
     upvar #0 HM$newTable newvar
-   
+
     # and initialize it
 
     HMinit_state $newTable
@@ -1894,8 +1895,8 @@ proc HMtag_td {win param text} {
     set newvar(S_insert) end
     set newvar(oldWindow) $win
 
-    # trace variable newvar(style) w what 
-    
+    # trace variable newvar(style) w what
+
     # Create the new text widget
     update; update idle;
     # puts "PARENT: ($win) [expr [$win cget -width] -2]"
@@ -1915,15 +1916,15 @@ proc HMtag_td {win param text} {
 
 ################################################################
 # proc HMtag_/td {win param text}--
-#    
+#
 # Arguments
 #
 #   win		The window that holds the table
 #   param	Any parameters in the </TD ...> tag
 #   text	The name of a variable with associated text
-# 
+#
 # Results
-#   Increments the column position.  
+#   Increments the column position.
 #   If there are more columns in this table row than in previous
 #      rows, set the max column
 
@@ -1934,7 +1935,7 @@ upvar $text t
 
 ################################################################
 # proc HMlink_callback {win href}--
-#    This proc is called by the html_library code to parse a 
+#    This proc is called by the html_library code to parse a
 #	hypertext reference.
 #
 # Arguments
@@ -1964,7 +1965,7 @@ if {[string first "htmlview" $argv0] >= 0} {
 
 ################################################################
 # proc HMlink_callback {win href}--
-#    This proc is called by the html_library code to parse a 
+#    This proc is called by the html_library code to parse a
 #	hypertext reference.
 #
 # Arguments
@@ -1982,16 +1983,16 @@ proc HMlink_callback {win href} {
 
     set HMGlobal(href) $href
     # puts "HMlink_callback was invoked with WIN: $win HREF: $href"
-    
+
     upvar #0 HM$win var
-    
+
     # Clear the old contents from the window.
 
     HMreset_win $win
-    
+
     if {[string first "http" $href] == 0} {
     # Get the url:
-    
+
     set token [http::geturl $href]
     set data [http::data $token]
 
@@ -2009,16 +2010,16 @@ proc HMlink_callback {win href} {
 
  ################################################################
  # proc HMset_image {win handle src}--
- #    Acquire image data, create a Tcl image object, 
+ #    Acquire image data, create a Tcl image object,
  #    and return the image handle.
  #
  # Arguments
  #   win         The text window in which the html is rendered.
  #   handle      A handle to return to the html library with the image handle
- #   src         The description of the image from: <IMG src=XX> 
+ #   src         The description of the image from: <IMG src=XX>
  #   speed 	 Optional value for a list of images that will cycle.
  #               Only used in TclPoint.
- # 
+ #
  # Results
  #   Loads an image from a local file.  Does not download images
  #   Invokes HMgot_image with the handle for the image created.
@@ -2061,7 +2062,7 @@ proc HMimageRequest {win handle url } {
      } else {
      set fail [catch {image create photo -file $url} img]
      }
- 
+
      HMgot_image $handle $img
 
      return ""
