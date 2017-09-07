@@ -1021,8 +1021,8 @@ namespace eval menus {
   # Exits the application.
   proc exit_command {} {
 
-    # Clean up the application
-    exit_cleanup
+    # Clean up the application (if there are any errors, ignore them)
+    catch { exit_cleanup }
 
     # If we are doing code coverage, call cleanup directly
     if {[namespace exists ::_instrument_]} {
