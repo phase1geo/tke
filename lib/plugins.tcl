@@ -43,6 +43,7 @@
 #  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
 #  on_pref_load - Runs when the plugin preference items need to be added.
 #  on_pref_ui   - Runs when the plugin preference panel needs to be displayed in the preferences window.
+#  on_drop      - Runs when a file or text is dropped in an editing buffer.
 #  syntax       - Adds the given syntax file to the list of available syntaxes
 #  vcs          - Adds support for a version control system to the difference viewer
 #  info_panel   - Adds items to the sidebar information panel.
@@ -1351,6 +1352,26 @@ namespace eval plugins {
 
     return $plugins
 
+  }
+  
+  ######################################################################
+  # Handles a file/text drop event.
+  proc handle_on_drop {file_index type data} {
+    
+    set owned 0
+    
+    foreach entry [find_registry_entries "on_drop"] {
+      if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] $file_index $type $data } status]} {
+        handle_status_error "handle_on_drop" [lindex $entry 0] $status
+      } elseif {![string is boolean $status]} {
+        handle_status_error "handle_on_drop" [lindex $entry 0] "Callback procedure for handle_on_drop_enter did not return a boolean value"
+      } else {
+        set owned 1
+      }
+    }
+    
+    return $owned
+    
   }
 
   ######################################################################
