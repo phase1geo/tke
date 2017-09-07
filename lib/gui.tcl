@@ -3902,7 +3902,7 @@ namespace eval gui {
       }
       set pane            [winfo parent [winfo parent [winfo parent %W]]]
       set gui::pw_current [lsearch [$gui::widgets(nb_pw) panes] [winfo parent [winfo parent [winfo parent %W]]]]
-      if {![catch "[winfo parent %W] select @%x,%y"]} {
+      if {![catch { [winfo parent %W] select @%x,%y }]} {
         gui::set_current_tab [winfo parent %W] [[winfo parent %W] select]
         tk_popup $gui::widgets(menu) %X %Y
       }
@@ -4064,7 +4064,7 @@ namespace eval gui {
       -spacing3 [preferences::get Appearance/ExtraLineSpacing] \
       -diff_mode $opts(-diff) -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
-      -linemap_mark_command [list gui::mark_command $tab] -linemap_select_bg orange \
+      -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange \
       -linemap_relief flat -linemap_minwidth $numberwidth \
       -linemap_type [expr {[preferences::get Editor/RelativeLineNumbers] ? "relative" : "absolute"}] \
       -xscrollcommand [list $tab.pw.tf.hb set] -yscrollcommand [list gui::yscrollcommand $tab $txt $tab.pw.tf.vb]
@@ -4085,20 +4085,19 @@ namespace eval gui {
 
     $txt configure -font editor_font
 
-    bind Ctext  <<Modified>>                 [list gui::text_changed %W %d]
-    bind $txt.t <FocusIn>                    [list +gui::handle_txt_focus %W]
-    bind $txt.t <<CursorChanged>>            [list +gui::update_position $txt]
-    bind $txt.l <ButtonPress-$::right_click> [bind $txt.l <ButtonPress-1>]
-    bind $txt.l <ButtonPress-1>              [list gui::select_line %W %x %y]
-    bind $txt.l <B1-Motion>                  [list gui::select_lines %W %x %y]
-    bind $txt.l <Shift-ButtonPress-1>        [list gui::select_lines %W %x %y]
-    bind $txt   <<Selection>>                [list gui::selection_changed $txt]
-    bind $txt   <Motion>                     [list gui::clear_tab_tooltip $tb]
-    bind Text   <<Cut>>                      ""
-    bind Text   <<Copy>>                     ""
-    bind Text   <<Paste>>                    ""
-    bind Text   <Control-d>                  ""
-    bind Text   <Control-i>                  ""
+    bind Ctext  <<Modified>>          [list gui::text_changed %W %d]
+    bind $txt.t <FocusIn>             [list +gui::handle_txt_focus %W]
+    bind $txt.t <<CursorChanged>>     [list +gui::update_position $txt]
+    bind $txt.l <ButtonPress-1>       [list gui::select_line %W %x %y]
+    bind $txt.l <B1-Motion>           [list gui::select_lines %W %x %y]
+    bind $txt.l <Shift-ButtonPress-1> [list gui::select_lines %W %x %y]
+    bind $txt   <<Selection>>         [list gui::selection_changed $txt]
+    bind $txt   <Motion>              [list gui::clear_tab_tooltip $tb]
+    bind Text   <<Cut>>               ""
+    bind Text   <<Copy>>              ""
+    bind Text   <<Paste>>             ""
+    bind Text   <Control-d>           ""
+    bind Text   <Control-i>           ""
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt.t] Text]
@@ -4287,7 +4286,7 @@ namespace eval gui {
       -maxundo [preferences::get Editor/MaxUndo] -matchchar $show_match_chars \
       -matchaudit [preferences::get Editor/HighlightMismatchingChar] \
       -linemap [preferences::get View/ShowLineNumbers] \
-      -linemap_mark_command [list gui::mark_command $tab] -linemap_select_bg orange -peer $txt \
+      -linemap_mark_command [list gui::mark_command $tab] -linemap_mark_color orange -peer $txt \
       -xscrollcommand "$pw.tf2.hb set" \
       -yscrollcommand "$pw.tf2.vb set"
     scroller::scroller $pw.tf2.hb {*}$scrollbar_opts -orient horizontal -autohide 0 -command "$txt2 xview"
@@ -4295,14 +4294,13 @@ namespace eval gui {
       -markcommand1 [list markers::get_positions $tab] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list diff::get_marks $txt] : ""}]
 
-    bind $txt2.t <FocusIn>                    [list +gui::handle_txt_focus %W]
-    bind $txt2.t <<CursorChanged>>            [list +gui::update_position $txt2]
-    bind $txt2.l <ButtonPress-$::right_click> [bind $txt2.l <ButtonPress-1>]
-    bind $txt2.l <ButtonPress-1>              [list gui::select_line %W %x %y]
-    bind $txt2.l <B1-Motion>                  [list gui::select_lines %W %x %y]
-    bind $txt2.l <Shift-ButtonPress-1>        [list gui::select_lines %W %x %y]
-    bind $txt2   <<Selection>>                [list gui::selection_changed $txt2]
-    bind $txt2   <Motion>                     [list gui::clear_tab_tooltip $tabbar]
+    bind $txt2.t <FocusIn>             [list +gui::handle_txt_focus %W]
+    bind $txt2.t <<CursorChanged>>     [list +gui::update_position $txt2]
+    bind $txt2.l <ButtonPress-1>       [list gui::select_line %W %x %y]
+    bind $txt2.l <B1-Motion>           [list gui::select_lines %W %x %y]
+    bind $txt2.l <Shift-ButtonPress-1> [list gui::select_lines %W %x %y]
+    bind $txt2   <<Selection>>         [list gui::selection_changed $txt2]
+    bind $txt2   <Motion>              [list gui::clear_tab_tooltip $tabbar]
 
     # Move the all bindtag ahead of the Text bindtag
     set text_index [lsearch [bindtags $txt2.t] Text]
