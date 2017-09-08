@@ -247,6 +247,9 @@ namespace eval syntax {
     # Get the list of extension overrides
     array set overrides [preferences::get {General/LanguagePatternOverrides}]
 
+    set maxlen     0
+    set best_match [msgcat::mc "None"]
+
     foreach lang [array names langs] {
       array set lang_array $langs($lang)
       set patterns $lang_array(filepatterns)
@@ -268,14 +271,17 @@ namespace eval syntax {
       }
       if {!$excluded} {
         foreach pattern $patterns {
-          if {[string match -nocase $pattern [file tail $filename]]} {
-            return $lang
+          if {[string match -nocase $pattern $filename]} {
+            if {[string length $pattern] > $maxlen} {
+              set maxlen     [string length $pattern]
+              set best_match $lang
+            }
           }
         }
       }
     }
 
-    return [msgcat::mc "None"]
+    return $best_match
 
   }
 

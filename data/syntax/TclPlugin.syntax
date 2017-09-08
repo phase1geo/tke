@@ -1,0 +1,44 @@
+filepatterns
+{*/plugins/*.tcl *\\plugins\\*.tcl}
+
+embedded
+{
+  {Tcl}
+}
+
+matchcharsallowed
+{curly square paren double}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{#}}
+
+lcomments {{^[ \t]*#} {;#}}
+
+strings {{"}}
+
+keywords
+{
+  pvariable parray pdict
+}
+
+numbers
+{
+  HighlightRegexp {\m([0-9]+|[0-9]+\.[0-9]*|0x[0-9a-fA-F]+)} {}
+}
+
+miscellaneous2 {
+  HighlightKeywords {
+    tab_popup root_popup dir_popup file_popup text_binding on_start on_open on_close
+    on_focusin on_update on_quite on_reload on_save on_rename on_duplicate on_delete
+    on_trash on_uninstall on_pref_load on_pref_ui on_drop syntax vcs info_panel
+  }
+}
+
+miscellaneous3 {
+  HighlightRegexp {api::\\S+} {}
+}

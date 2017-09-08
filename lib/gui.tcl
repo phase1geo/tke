@@ -2089,7 +2089,7 @@ namespace eval gui {
     array set opts $args
 
     # Get current information
-    get_info {} current tabbar tab txt fileindex fname buffer save_cmd diff buffer mtime sidebar
+    get_info {} current tabbar tab txt fileindex fname buffer save_cmd diff buffer mtime sidebar lang
 
     # If the current file is a buffer and it has a save command, run the save command
     if {$buffer && ($save_cmd ne "")} {
@@ -2189,6 +2189,10 @@ namespace eval gui {
     # If there is a save command, run it now
     if {$save_cmd ne ""} {
       eval {*}$save_cmd $fileindex
+
+    # Otherwise, if the file type is TclPlugin, automatically reload the plugin
+    } elseif {$lang eq "TclPlugin"} {
+      plugins::reload
     }
 
     return 1
