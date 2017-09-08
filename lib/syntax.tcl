@@ -28,6 +28,7 @@ namespace eval syntax {
   variable current_lang [msgcat::mc "None"]
   variable assoc_file
   variable syntax_menus {}
+  variable sindex       0
 
   array set lang_template {
     filepatterns       {}
@@ -608,6 +609,7 @@ namespace eval syntax {
 
     variable theme
     variable meta_tags
+    variable sindex
 
     # Get the current syntax theme
     array set theme [theme::get_syntax_colors]
@@ -679,23 +681,21 @@ namespace eval syntax {
         }
       }
       "highlighter" {
-        set i 0
         foreach {type syntax modifiers} $section_list {
           if {$syntax ne ""} {
-            ctext::addHighlightClass $txt $section$i $theme(background) $theme($section) $modifiers
-            ctext::add$type $txt $syntax class $section$i $lang
+            ctext::addHighlightClass $txt $section$sindex $theme(background) $theme($section) $modifiers
+            ctext::add$type $txt $syntax class $section$sindex $lang
           }
-          incr i
+          incr sindex
         }
       }
       default {
-        set i 0
         foreach {type syntax modifiers} $section_list {
           if {$syntax ne ""} {
-            ctext::addHighlightClass $txt $section$i $theme($section) "" $modifiers
-            ctext::add$type $txt $syntax class $section$i $lang
+            ctext::addHighlightClass $txt $section$sindex $theme($section) "" $modifiers
+            ctext::add$type $txt $syntax class $section$sindex $lang
           }
-          incr i
+          incr sindex
         }
       }
     }
