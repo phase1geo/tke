@@ -4660,6 +4660,8 @@ namespace eval gui {
   ######################################################################
   # Handles a drop event.  Adds the given files/directories to the sidebar.
   proc handle_drop {txt action modifier type data} {
+    
+    puts "In handle_drop"
 
     gui::get_info $txt txt fileindex
     

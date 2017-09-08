@@ -91,6 +91,8 @@ C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/OCaml.syntax
 C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/Pascal.syntax
 C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/Perl.syntax
 C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/PHP.syntax
+C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/PluginHeader.syntax
+C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/PluginTcl.syntax
 C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/Prolog.syntax
 C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/PropertyList.syntax
 C:/Users/wiltrevo/Documents/projects/tke-code/data/syntax/Python.syntax
@@ -142,554 +144,313 @@ C:/Users/wiltrevo/Documents/projects/tke-code/data/themes/Starlight.tketheme
 C:/Users/wiltrevo/Documents/projects/tke-code/data/themes/Turn of the Century.tketheme
 C:/Users/wiltrevo/Documents/projects/tke-code/data/themes/yellowStone.tketheme
 C:/Users/wiltrevo/Documents/projects/tke-code/data/todo.list
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/.DS_Store
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/DeveloperGuide.html
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/Doxyfile
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/errors.txt
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/.Ulysses-favorites.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/.UlyssesRoot
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/md.marked
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Command API.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Command API.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Ctext Widget.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Ctext Widget.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/delete.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/delete.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff add.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff add.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff ranges.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff ranges.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff reset.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff reset.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff sub.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff sub.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Differences from the original Ctext widget.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Differences from the original Ctext widget.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit cursorhist.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit cursorhist.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit redoable.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit redoable.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit undoable.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit undoable.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastdelete.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastdelete.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastinsert.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastinsert.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastreplace.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastreplace.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter cget.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter cget.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter clear.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter clear.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter configure.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter configure.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter create.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter create.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter delete.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter delete.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter destroy.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter destroy.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter get.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter get.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter hide.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter hide.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter names.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter names.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter set.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter set.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/highlight.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/highlight.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBackTick - inBackTickRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBackTick - inBackTickRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBlockComment - inBlockCommentRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBlockComment - inBlockCommentRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inComment - inCommentRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inComment - inCommentRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inCommentString - inCommentStringRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inCommentString - inCommentStringRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inDoubleQuote - inDoubleQuoteRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inDoubleQuote - inDoubleQuoteRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inLineComment - inLineCommentRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inLineComment - inLineCommentRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/insert.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/insert.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inSingleQuote - inSingleQuoteRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inSingleQuote - inSingleQuoteRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inString - inStringRange.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inString - inStringRange.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/isEscaped.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/isEscaped.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Options.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Options.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/replace.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/replace.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Packages/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Packages/Packages.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Packages/Packages.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/dir_popup.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/dir_popup.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/do_pref_ui.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/do_pref_ui.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/do_pref_ui.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/file_popup.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/file_popup.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_close.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_close.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_delete.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_delete.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_duplicate.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_duplicate.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_focusin.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_focusin.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_open.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_open.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_pref_load.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_pref_load.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_quit.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_quit.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_reload.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_reload.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_rename.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_rename.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_save.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_save.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_start.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_start.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_trash.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_trash.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_uninstall.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_uninstall.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/Plugin Action Types.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/Plugin Action Types.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/root_popup.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/root_popup.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/syntax.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/syntax.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/tab_popup.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/tab_popup.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/text_binding.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/text_binding.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/vcs.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/vcs.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_adjust_color.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_adjust_color.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_mix_colors.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_mix_colors.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_difference.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_difference.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_to_rgb.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_to_rgb.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_down.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_down.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_up.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_up.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--comment.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--comment.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--delete.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--delete.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--format.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--format.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--get_index.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--get_index.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--indent.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--indent.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--join_lines.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--join_lines.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--lower_case.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--lower_case.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--move_cursor.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--move_cursor.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--rot13.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--rot13.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--title_case.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--title_case.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_case.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_case.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_comment.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_comment.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--uncomment.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--uncomment.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unformat.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unformat.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unindent.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unindent.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--upper_case.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--upper_case.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_buffer.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_buffer.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_file.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_file.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--current_file_index.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--current_file_index.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--get_info.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--get_info.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_color_values.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_color_values.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_complementary_mono_color.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_complementary_mono_color.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_background.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_background.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_foreground.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_foreground.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_home_directory.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_home_directory.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_images_directory.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_images_directory.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_plugin_directory.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_plugin_directory.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_user_input.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_user_input.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsl_to_rgb.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsl_to_rgb.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsv_to_rgb.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsv_to_rgb.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--invoke_menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--invoke_menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--log.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--log.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--normalize_filename.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--normalize_filename.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--load_variable.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--load_variable.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--save_variable.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--save_variable.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--get_value.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--get_value.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--widget.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--widget.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--register_launcher.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--register_launcher.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--reset_txt_focus.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--reset_txt_focus.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsl.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsl.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsv.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsv.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_error.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_error.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_info.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_info.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_info.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_info.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_selected_indices.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_selected_indices.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--tke_development.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--tke_development.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--unregister_launcher.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--unregister_launcher.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--utils--open_file.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--utils--open_file.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/Plugin API.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/Plugin API.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating a New Plugin Template.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating a New Plugin Template.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating Launcher Commands.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating Launcher Commands.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Interpreter Creation.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Interpreter Creation.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle Structure.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle Structure.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Development.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Development.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Framework.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Framework.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin GUI Element Creation.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin GUI Element Creation.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin management.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin management.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Safe (Untrusted) Interpreter Description.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Safe (Untrusted) Interpreter Description.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Starting up.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Starting up.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/Table of Contents.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/Table of Contents.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/title- TKE Developer Guide.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/title- TKE Developer Guide.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Example.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Example.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/File Format.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/File Format.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Syntax Handling.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Syntax Handling.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Application Settings.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Application Settings.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Changing Sharing Setup via Preferences GUI.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Changing Sharing Setup via Preferences GUI.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Changing Sharing Setup via Preferences GUI.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up a Share Directory.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up a Share Directory.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.textbundle/assets/DraggedImage-1.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.textbundle/assets/DraggedImage-2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.textbundle/assets/DraggedImage-3.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Command Launcher/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Command Launcher/Command Launcher.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Command Launcher/Command Launcher.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/Control Panel.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/Control Panel.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/Difference Map.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/Difference Map.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Dependencies.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Dependencies.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installation.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installation.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Linux.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Linux.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for MacOS.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for MacOS.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Windows.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Windows.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/Feature Set.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/Feature Set.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/Introduction.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/Introduction.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Editing Language References.textbundle/assets/docedit.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Editing Language References.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Editing Language References.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Language Reference Documentation.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Language Reference Documentation.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Searching a Language-Specific Website.textbundle/assets/docsearch.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Searching a Language-Specific Website.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Searching a Language-Specific Website.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Viewing a Language-Specific Website.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Viewing a Language-Specific Website.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/Menu Binding.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/Menu Binding.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/Menu Binding.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Installing a Plugin.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Installing a Plugin.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Plugins.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Plugins.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Reloading Plugins.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Reloading Plugins.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Showing Installed Plugin Usage Information.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Showing Installed Plugin Usage Information.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Uninstalling a Plugin.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Uninstalling a Plugin.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/Editing Preference Information.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/Editing Preference Information.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/Editing Preference Information.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/Preferences.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/Preferences.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/Table of Contents.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/Table of Contents.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/title- TKE User Guide.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/title- TKE User Guide.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Bookmark Sidebar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Bookmark Sidebar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Editor.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Editor.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Editor.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Main Sidebar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Main Sidebar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Editing.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Editing.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Editing.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Viewer.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Viewer.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote Save File Dialog.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote Save File Dialog.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Sessions/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Sessions/Sessions.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Sessions/Sessions.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Creating Snippets.textbundle/assets/DraggedImage-1.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Creating Snippets.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Creating Snippets.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Creating Snippets.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Emmet.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Emmet.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippet Variables.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippet Variables.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippets, Emmet and Templates.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippets, Emmet and Templates.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Templates.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Templates.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Transform Format.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Transform Format.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/MacOS Desktop.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/MacOS Desktop.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Starting the Application.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Starting the Application.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/The Command-Line.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/The Command-Line.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Windows.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Windows.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Button Action Bar.textbundle/assets/export.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Button Action Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Button Action Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Category Table.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Category Table.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Category Table.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Color Swatch Editor.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Color Swatch Editor.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Color Swatch Editor.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Interface.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Interface.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Description Pane.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Description Pane.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage-1.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage-2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage-3.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage-4.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage-5.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Sharing New Themes.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Sharing New Themes.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Theme Editor.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Theme Editor.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Theme Editor.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Themes.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Themes.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Title Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Title Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Auto-Indent Indicator.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Auto-Indent Indicator.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Bird’s Eye View.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Bird’s Eye View.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Cursor Position Status.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Cursor Position Status.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Line Number Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Line Number Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Viewer.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Viewer.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Viewer.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Directory.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Directory.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Directory.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Edit Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Edit Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Buffer.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Buffer.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Pane.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Pane.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Pane.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/File Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/File Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Files.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Files.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Files.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Highlighting.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Highlighting.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find in Files.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find in Files.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Help Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Help Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Line Number Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Line Number Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Main File Viewing Area.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Main File Viewing Area.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Menu Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Menu Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Message Display.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Message Display.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Plugins Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Plugins Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Root Directory.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Root Directory.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Root Directory.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Scrollbars.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Scrollbars.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sessions Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sessions Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Status Bar.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Status Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Status Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Syntax Display.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Syntax Display.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Tab Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Tab Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Title Bar.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Title Bar.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Tools Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Tools Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/User Interface.textbundle/assets/DraggedImage.png
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/User Interface.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/User Interface.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/View Menu.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/View Menu.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Macro Recording Status.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Macro Recording Status.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Mode.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Mode.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/.Ulysses-Group.plist
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Code Folding.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Code Folding.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Copying text.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Copying text.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Deleting text.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Deleting text.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Editing a file.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Editing a file.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Extended Vim Commands.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Extended Vim Commands.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Indentation.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Indentation.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Inserting-Replacing text.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Inserting-Replacing text.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Joining text.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Joining text.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Line Numbers.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Line Numbers.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Miscellaneous.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Miscellaneous.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Moving around in a file.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Moving around in a file.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Object Selection.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Object Selection.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Pasting text.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Pasting text.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Repeating a command.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Repeating a command.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Saving-Closing a file.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Saving-Closing a file.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Searching-Replacing.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Searching-Replacing.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Standard Vim Commands.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Standard Vim Commands.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Text Transformation.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Text Transformation.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Undoing-Cancelling commands.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Undoing-Cancelling commands.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Commands.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Commands.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Modelines.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Modelines.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Options.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Options.textbundle/text.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Visual (Selection) mode.textbundle/info.json
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Visual (Selection) mode.textbundle/text.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Command API.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Ctext Widget.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/delete.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff add.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff ranges.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff reset.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff sub.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Differences from the original Ctext widget.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit cursorhist.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit redoable.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/edit undoable.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastdelete.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastinsert.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastreplace.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter cget.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter clear.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter configure.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter create.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter delete.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter destroy.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter get.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter hide.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter names.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter set.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/highlight.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBackTick - inBackTickRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inBlockComment - inBlockCommentRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inComment - inCommentRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inCommentString - inCommentStringRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inDoubleQuote - inDoubleQuoteRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inLineComment - inLineCommentRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/insert.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inSingleQuote - inSingleQuoteRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/inString - inStringRange.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/isEscaped.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Options.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/replace.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/main.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Packages/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Packages/Packages.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/assets/Preference-Plugin.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/dir_popup.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/do_pref_ui.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/file_popup.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/info_panel.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_close.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_delete.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_duplicate.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_focusin.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_open.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_pref_load.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_quit.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_reload.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_rename.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_save.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_start.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_trash.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_uninstall.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/Plugin Action Types.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/root_popup.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/syntax.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/tab_popup.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/text_binding.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/vcs.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_adjust_color.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--auto_mix_colors.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_difference.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--color_to_rgb.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_down.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--bubble_up.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--comment.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--delete.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--format.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--get_index.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--indent.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--join_lines.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--lower_case.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--move_cursor.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--rot13.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--title_case.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_case.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--toggle_comment.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--uncomment.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unformat.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--unindent.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--edit--upper_case.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--export.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_buffer.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_file.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--current_file_index.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--get_info.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_color_values.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_complementary_mono_color.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_background.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_default_foreground.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_home_directory.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_images_directory.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_plugin_directory.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_user_input.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsl_to_rgb.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--hsv_to_rgb.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--invoke_menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--log.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--normalize_filename.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--load_variable.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--plugin--save_variable.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--get_value.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--preferences--widget.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--register_launcher.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--reset_txt_focus.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsl.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--rgb_to_hsv.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_error.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--show_info.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_info.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_selected_indices.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--set_info.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--tke_development.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--unregister_launcher.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--utils--open_file.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/Plugin API.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating a New Plugin Template.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Creating Launcher Commands.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Interpreter Creation.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Bundle Structure.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Development.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin Framework.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin GUI Element Creation.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Plugin management.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Safe (Untrusted) Interpreter Description.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Development/Starting up.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/Table of Contents.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Prefix/title- TKE Developer Guide.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Example.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/File Format.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Syntax Handling/Syntax Handling.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Application Settings.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Complete.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Directory.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Preferences.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Settings.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/assets/Settings-Welcome.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Changing Sharing Setup via Preferences GUI.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up a Share Directory.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Application Settings/Setting Up On First Install.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Command Launcher/Command Launcher.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/Control Panel.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Difference Map/Difference Map.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Dependencies.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installation.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Linux.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for MacOS.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Installation/Installing for Windows.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/Feature Set.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Introduction/Introduction.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/assets/docsearch.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/assets/Preferences-Documentation.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Editing Language References.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Language Reference Documentation.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Searching a Language-Specific Website.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Language Reference Documentation/Viewing a Language-Specific Website.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/main.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/assets/Preferences-Shortcuts.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Menu Bindings/Menu Binding.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Installing a Plugin.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Plugins.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Reloading Plugins.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Showing Installed Plugin Usage Information.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Plugins/Uninstalling a Plugin.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/assets/Preferences-Window.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/Editing Preference Information.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Preferences/Preferences.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/Table of Contents.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Prefix/title- TKE User Guide.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/assets/Remote-File-Dialog.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/assets/Remote-Site-Settings.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Bookmark Sidebar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Connection Editor.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Main Sidebar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Editing.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Viewer.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote Save File Dialog.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Sessions/Sessions.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/assets/Preferences-Snippets-Editor.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/assets/Preferences-Snippets.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Creating Snippets.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Emmet.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippet Variables.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Snippets, Emmet and Templates.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Templates.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/Transform Format.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/MacOS Desktop.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Starting the Application.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/The Command-Line.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Starting the Application/Windows.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/export.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Bitmap.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Bitmap2.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Category-Sidebar.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Color.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Editor.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Gif.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Number.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Relief.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/assets/Theme-Swatch-Panel.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Button Action Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Category Table.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Color Swatch Editor.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Interface.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Description Pane.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Option Detail Pane.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Sharing New Themes.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Theme Editor.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Themes.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Themes/Title Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Application-Window.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Difference-Viewer.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Editing-Panel.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Directory.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-File.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Root.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Status-Bar.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Auto-Indent Indicator.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Bird’s Eye View.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Cursor Position Status.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Line Number Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Difference Viewer.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Directory.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Edit Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Buffer.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Editing Pane.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/File Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Files.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Highlighting.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find in Files.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Find Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Help Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Line Number Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Main File Viewing Area.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Menu Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Message Display.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Plugins Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Root Directory.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Scrollbars.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sessions Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar Information Panel.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar Move-Reorder.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Sidebar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Status Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Syntax Display.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Tab Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Title Bar.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Tools Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/User Interface.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/View Menu.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Macro Recording Status.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/Vim Mode.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Code Folding.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Copying text.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Deleting text.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Editing a file.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Extended Vim Commands.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Indentation.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Inserting-Replacing text.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Joining text.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Line Numbers.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Miscellaneous.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Moving around in a file.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Object Selection.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Pasting text.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Repeating a command.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Saving-Closing a file.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Searching-Replacing.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Standard Vim Commands.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Text Transformation.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Undoing-Cancelling commands.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Commands.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Modelines.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Vim Options.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Vim Commands/Visual (Selection) mode.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/UserGuide.html
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/.DS_Store
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/api.tcl
@@ -748,6 +509,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/check.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/checked.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/close.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/color.bmp
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/color_box.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/connected.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/connecting.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/diff.bmp
@@ -766,10 +528,12 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/left10.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/lock.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/plugins.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/plus.bmp
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/refresh.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/right.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/right10.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/right12.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/shortcut.gif
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/show.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/sidebar.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/smask.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/snippets.gif
@@ -786,6 +550,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/view.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/image_size.php
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/indent.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/interpreter.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/ipanel.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/lang.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/launcher.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/logger.tcl
@@ -854,6 +619,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/remote/README
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/remote/sftp.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/remote.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/restart.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/scrolledframe.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/scroller.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/search.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/select.tcl
@@ -904,133 +670,32 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/specl/lib/utils.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/specl/pkgIndex.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/startup.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/syntax.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/CHANGES.txt
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/COPYRIGHT.txt
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/browse.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/browseTree.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/browseTree_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/browse_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/bwidget.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/bwidget_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/checked.gif
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/clsdFolder.gif
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/comp.xbm
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/config.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/config_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/dirViewer.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/dirViewer_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/embeddedWindows.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/embeddedWindows_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/file.gif
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/images.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/iwidgets.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/iwidgets_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/leaf.xbm
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/miscWidgets.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/miscWidgets_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/open.gif
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/openFolder.gif
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/option.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/option_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/styles.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/styles_tile.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/tileWidgets.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/demos/unchecked.gif
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/adwaita.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/ambiance.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/aqua.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/arc.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/arrowStyles.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/arrowStyles_vista.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/baghira.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/bicolor1.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/bicolor2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/bicolor3.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/bicolor4.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/blueMenta.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/browse.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/browseTree.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/bwidget.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/classic1.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/classic2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/classic3.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/classic4.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/config.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/dirViewer.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/dust.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/dustSand.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/embeddedWindows.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/embeddedWindows_tile.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/gtk.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/index.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/klearlooks.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/mate.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/menta.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/mint.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/mint2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/newWave.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/oxygen1.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/oxygen2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/phase.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/plain1.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/plain2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/plain3.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/plain4.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/plastik.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/plastique.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/radiance.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/styles.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/stylesheet.css
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelist.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistBinding.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistBWidget.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistColSort.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistCombobox.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistCtext.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistIwidgets.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistMentry.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistThemes.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistTile.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistTkCore.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tablelistWidget.html
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/tileWidgets.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/ubuntu.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/ubuntu2.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/ubuntu3.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/ubuntuMate.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/vistaAero.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/vistaClassic.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/win10.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/win7Aero.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/win7Classic.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/winnative.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/winxpBlue.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/winxpOlive.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/winxpSilver.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/doc/yuyo.png
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/pkgIndex.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/README.txt
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/mwutil.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/pencil.cur
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/repair.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistBind.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistConfig.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistEdit.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistImages.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistMove.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistSort.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistThemes.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistUtil.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tablelistWidget.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/scripts/tclIndex
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/tablelist.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/tablelistPublic.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.17/tablelist_tile.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/CHANGES.txt
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/COPYRIGHT.txt
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/README.txt
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/mwutil.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/pencil.cur
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/repair.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistBind.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistConfig.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistEdit.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistImages.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistMove.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistSort.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistThemes.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistUtil.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tablelistWidget.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/scripts/tclIndex
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/tablelist.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/tablelistPublic.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/tablelist5.18/tablelist_tile.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/templates.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/test.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/theme.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/themer.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/themes.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/thumbnail.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/tkcon/ChangeLog
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/tkcon/docs/bindings.html
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/tkcon/docs/changes.txt
@@ -1084,6 +749,8 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/webdav/webdav.test
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/windowlist.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/browser_me/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/browser_me/main.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/calendar/header.tkedat
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/calendar/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/changebar/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/changebar/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/choosers/header.tkedat
@@ -1097,6 +764,10 @@ C:/Users/wiltrevo/Documents/projects/tke-code/plugins/current_line/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/current_line/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/dired/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/dired/main.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/drop_test/header.tkedat
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/drop_test/main.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/file_info/header.tkedat
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/file_info/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/images/checked.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/images/unchecked.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/lorem/header.tkedat
@@ -1114,6 +785,9 @@ C:/Users/wiltrevo/Documents/projects/tke-code/plugins/perforce/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/perforce/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/pref_test/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/pref_test/main.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/publish_markdown/header.tkedat
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/publish_markdown/main.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/publish_markdown/README.md
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/regexp_checker/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/regexp_checker/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/regexp_checker/README.md
