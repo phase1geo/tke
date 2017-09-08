@@ -4625,7 +4625,7 @@ namespace eval gui {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {txt rootx rooty actions buttons} {
 
-    get_info {} current readonly lock diff
+    get_info $txt txt readonly lock diff
 
     # If the file is readonly, refuse the drop
     if {$readonly || $lock || $diff} {
@@ -4661,9 +4661,14 @@ namespace eval gui {
   # Handles a drop event.  Adds the given files/directories to the sidebar.
   proc handle_drop {txt action modifier type data} {
 
+    gui::get_info $txt txt fileindex
+    
     # If the data is text or the Alt key modifier is held during the drop, insert the data at the
     # current insertion point
-    if {$type || ($modifier eq "alt")} {
+    if {[plugins::handle_on_drop $fileindex $type $data]} {
+      # Do nothing
+      
+    } elseif {$type || ($modifier eq "alt")} {
       $txt insert insert $data
 
     # Otherwise, insert the content of the file(s) after the insertion line
