@@ -98,6 +98,8 @@ namespace eval plugins {
       }
     }
 
+    puts "registry: [array get registry]"
+
   }
 
   ######################################################################
@@ -804,7 +806,7 @@ namespace eval plugins {
   proc find_registry_entries {type} {
 
     variable registry
-
+    
     set plugin_list [list]
     foreach action [lsort -dictionary [array names registry *,action,$type,*]] {
       lassign [split $action ,] index
@@ -1358,9 +1360,12 @@ namespace eval plugins {
   # Handles a file/text drop event.
   proc handle_on_drop {file_index type data} {
     
+    puts "In handle_on_drop, file_index: $file_index, type: $type, data: $data"
+    
     set owned 0
     
     foreach entry [find_registry_entries "on_drop"] {
+      puts "entry: $entry"
       if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] $file_index $type $data } status]} {
         handle_status_error "handle_on_drop" [lindex $entry 0] $status
       } elseif {![string is boolean $status]} {

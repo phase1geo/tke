@@ -63,7 +63,7 @@ set auto_path [list [file join $tke_dir lib ctext] \
                     {*}$auto_path]
 
 if {$tcl_platform(platform) eq "windows"} {
-  set auto_path [list [file join $tke_dir Win tkdnd2.8] [file join $tke_dir Win expect] {*}$auto_path]
+  set auto_path [list [file join $tke_dir Win tkdnd2.8-64] [file join $tke_dir Win expect] {*}$auto_path]
 } else {
   package require Tclx
 }
@@ -235,6 +235,34 @@ proc parse_cmdline {argc argv} {
 
 }
 
+######################################################################
+# Checks the given filename to see if it is something that we should
+# request to import.  Returns 0 if the file is not importable and can
+# be handled as a regular file; otherwise, returns 1 to indicate that
+# the file should not be treated as a normal file.
+proc check_file_for_import {fname} {
+
+  switch -exact -- [string tolower [file extension $fname]] {
+    .tmtheme {
+      set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TextMate theme?"] -parent . -type yesnocancel]
+      if {$ans eq "yes"} {
+        themer::import_tm $fname
+        return 1
+      }
+    }
+    .tkethemz {
+      set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TKE theme?"] -parent . -type yesnocancel]
+      if {$ans eq "yes"} {
+        themer::import_tke $fname
+      }
+      return 1
+    }
+  }
+
+  return 0
+
+}
+ 
 if {$tcl_platform(platform) eq "windows"} {
 
   ######################################################################
@@ -278,34 +306,6 @@ if {$tcl_platform(platform) eq "windows"} {
   proc window_geometry {{w .}} {
 
     return [wm geometry $w]
-
-  }
-
-  ######################################################################
-  # Checks the given filename to see if it is something that we should
-  # request to import.  Returns 0 if the file is not importable and can
-  # be handled as a regular file; otherwise, returns 1 to indicate that
-  # the file should not be treated as a normal file.
-  proc check_file_for_import {fname} {
-
-    switch -exact -- [string tolower [file extension $fname]] {
-      .tmtheme {
-        set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TextMate theme?"] -parent . -type yesnocancel]
-        if {$ans eq "yes"} {
-          themer::import_tm $fname
-          return 1
-        }
-      }
-      .tkethemz {
-        set ans [tk_messageBox -default yes -icon question -message [msgcat::mc "Import TKE theme?"] -parent . -type yesnocancel]
-        if {$ans eq "yes"} {
-          themer::import_tke $fname
-        }
-        return 1
-      }
-    }
-
-    return 0
 
   }
 
