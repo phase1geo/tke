@@ -773,7 +773,7 @@ namespace eval plugins {
       close $rc
 
       # Add the new file to the editor
-      gui::add_file end $main -savecommand plugins::reload
+      gui::add_file end $main
 
       # Create the header file
       if {[catch { open $header w } rc]} {
