@@ -793,7 +793,7 @@ namespace eval plugins {
       close $rc
 
       # Add the file to the editor
-      gui::add_file end $header -savecommand plugins::reload
+      gui::add_file end $header
 
     }
 

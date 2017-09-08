@@ -2191,7 +2191,7 @@ namespace eval gui {
       eval {*}$save_cmd $fileindex
 
     # Otherwise, if the file type is TclPlugin, automatically reload the plugin
-    } elseif {[lsearch [list TclPlugin HdrPlugin] $lang] != -1} {
+    } elseif {[lsearch [list PluginTcl PluginHeader] $lang] != -1} {
       plugins::reload
     }
 
