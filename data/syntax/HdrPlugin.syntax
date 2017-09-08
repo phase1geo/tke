@@ -1,0 +1,30 @@
+filepatterns
+{*/plugins/*/header.tkedat *\\plugins\\*\\header.tkedat}
+
+matchcharsallowed
+{curly double single}
+
+indent
+{\{}
+
+unindent
+{\}}
+
+icomment {{#}}
+
+lcomments {{#}}
+
+keywords {
+  name author email version include trust_required description
+}
+
+punctuation
+{
+  HighlightRegexp {[\{\}]} {}
+}
+
+miscellaneous3 {
+  HighlightKeywords {
+    yes no
+  }
+}
