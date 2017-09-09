@@ -98,8 +98,6 @@ namespace eval plugins {
       }
     }
 
-    puts "registry: [array get registry]"
-
   }
 
   ######################################################################
@@ -806,7 +804,7 @@ namespace eval plugins {
   proc find_registry_entries {type} {
 
     variable registry
-    
+
     set plugin_list [list]
     foreach action [lsort -dictionary [array names registry *,action,$type,*]] {
       lassign [split $action ,] index
@@ -1355,28 +1353,27 @@ namespace eval plugins {
     return $plugins
 
   }
-  
+
   ######################################################################
   # Handles a file/text drop event.
   proc handle_on_drop {file_index type data} {
-    
-    puts "In handle_on_drop, file_index: $file_index, type: $type, data: $data"
-    
+
+    variable registry
+
     set owned 0
-    
+
     foreach entry [find_registry_entries "on_drop"] {
-      puts "entry: $entry"
       if {[catch { $registry([lindex $entry 0],interp) eval [lindex $entry 1] $file_index $type $data } status]} {
         handle_status_error "handle_on_drop" [lindex $entry 0] $status
       } elseif {![string is boolean $status]} {
         handle_status_error "handle_on_drop" [lindex $entry 0] "Callback procedure for handle_on_drop_enter did not return a boolean value"
-      } else {
+      } elseif {$status} {
         set owned 1
       }
     }
-    
+
     return $owned
-    
+
   }
 
   ######################################################################
