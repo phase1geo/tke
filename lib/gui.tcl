@@ -4660,21 +4660,19 @@ namespace eval gui {
   ######################################################################
   # Handles a drop event.  Adds the given files/directories to the sidebar.
   proc handle_drop {txt action modifier type data} {
-    
-    puts "In handle_drop"
 
     gui::get_info $txt txt fileindex
-    
+
     # If the data is text or the Alt key modifier is held during the drop, insert the data at the
     # current insertion point
     if {[plugins::handle_on_drop $fileindex $type $data]} {
       # Do nothing
-      
+
     } elseif {$type || ($modifier eq "alt")} {
       $txt insert insert $data
 
     # Otherwise, insert the content of the file(s) after the insertion line
-    } elseif {![::check_file_for_import $data]} {
+    } elseif {![::check_file_for_import $data] && ![utils::is_binary $data]} {
       set str "\n"
       foreach ifile $data {
         if {[file isfile $ifile]} {
