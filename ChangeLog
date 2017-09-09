@@ -1,28 +1,93 @@
-2017-09-05 17:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c2238dbfe8e1 [devel-3.3.1])
+2017-09-07 01:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f7a485b10580 [devel-3.3.2])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.3.1 release
+	ChangeLog for devel-3.3.2 release
 
-2017-09-05 17:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bc04d2019548)
+2017-09-07 01:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a3b5e98264c2)
 
 	* .hgtags:
-	Added tag devel-3.3.1 for changeset c2238dbfe8e1
+	Added tag devel-3.3.2 for changeset f7a485b10580
 
-2017-09-06 01:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0e2d4808f425)
+2017-09-07 02:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a8ca28d801fa)
 
-	* lib/ctext/ctext.tcl, lib/folding.tcl, lib/version.tcl:
-	* Checkpointing work on converting linemap from a text widget to a
-	canvas to improve linemap drawing performance and display issues.
+	* lib/specl/lib/htmllib.tcl, lib/specl/lib/releaser.tcl,
+	lib/version.tcl:
+	* Fixing issues with apostrophe characters in specl release notes.
 
-2017-09-06 17:41 -0500  Trevor Williams  <phase1geo@gmail.com>  (3a350d0f3c0e)
+2017-09-07 20:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b68a963eba12)
 
-	* lib/ctext/ctext.tcl:
-	* Checkpointing work on improved line number bar.
-
-2017-09-07 01:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7d70bec94ddd [tip])
-
-	* data/syntax/Markdown.syntax, lib/ctext/ctext.tcl, lib/gui.tcl,
+	* data/syntax/TclPlugin.syntax: new file.
+	* data/syntax/TclPlugin.syntax, lib/gui.tcl, lib/plugins.tcl,
 	lib/syntax.tcl, lib/version.tcl:
-	* Fixing the rest of the issues with the new linemap.
-	* Fixing syntax highlighting issue in Markdown syntax.
+	* Adding support for TclPlugin syntax.
+
+2017-09-08 00:31 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (59daa3964667)
+
+	* data/syntax/TclPlugin.syntax, lib/syntax.tcl, lib/version.tcl:
+	* Fixing issue with mixed syntax where various sections won't mix
+	properly.
+
+2017-09-08 00:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8c0d7a43e10a)
+
+	* data/syntax/HdrPlugin.syntax: new file.
+	* data/syntax/HdrPlugin.syntax, lib/gui.tcl, lib/version.tcl:
+	* Adding HdrPlugin syntax.
+
+2017-09-07 17:46 -0500  Trevor Williams  <phase1geo@gmail.com>  (476fb88ca27c)
+
+	* lib/gui.tcl, lib/menus.tcl, lib/plugins.tcl:
+	* If there is an error during application exit, allow the
+	application to close.
+	* Starting to add support for file/text dropping in editing buffer.
+
+2017-09-08 15:51 -0500  Trevor Williams  <phase1geo@gmail.com>  (86dc02a946d2)
+
+	* data/syntax/HdrPlugin.syntax, data/syntax/TclPlugin.syntax: new
+	file.
+	* lib/gui.tcl, lib/plugins.tcl:
+	Merge
+
+2017-09-08 15:59 -0500  Trevor Williams  <phase1geo@gmail.com>  (9ef21e978b6d)
+
+	* data/syntax/PluginHeader.syntax, data/syntax/PluginTcl.syntax: new
+	file.
+	* data/syntax/HdrPlugin.syntax, data/syntax/TclPlugin.syntax: deleted
+	file.
+	* data/syntax/HdrPlugin.syntax, data/syntax/PluginHeader.syntax,
+	data/syntax/PluginTcl.syntax, data/syntax/TclPlugin.syntax,
+	lib/gui.tcl, lib/plugins.tcl:
+	* Renaming syntax TclPlugin to PluginTcl.
+	* Renaming syntax HdrPlugin to PluginHeader.
+	* Fixing issue with plugin header.tkedat file.
+
+2017-09-08 17:27 -0500  Trevor Williams  <phase1geo@gmail.com>  (240169b72c55)
+
+	* Win/tkdnd2.8-64/pkgIndex.tcl, Win/tkdnd2.8-64/tkdnd.tcl,
+	Win/tkdnd2.8-64/tkdnd28.dll, Win/tkdnd2.8-64/tkdnd_compat.tcl,
+	Win/tkdnd2.8-64/tkdnd_generic.tcl, Win/tkdnd2.8-64/tkdnd_macosx.tcl,
+	Win/tkdnd2.8-64/tkdnd_unix.tcl, Win/tkdnd2.8-64/tkdnd_windows.tcl,
+	plugins/drop_test/header.tkedat, plugins/drop_test/main.tcl: new
+	file.
+	* Win/freewrap.files, Win/tkdnd2.8-64/pkgIndex.tcl,
+	Win/tkdnd2.8-64/tkdnd.tcl, Win/tkdnd2.8-64/tkdnd28.dll,
+	Win/tkdnd2.8-64/tkdnd_compat.tcl, Win/tkdnd2.8-64/tkdnd_generic.tcl,
+	Win/tkdnd2.8-64/tkdnd_macosx.tcl, Win/tkdnd2.8-64/tkdnd_unix.tcl,
+	Win/tkdnd2.8-64/tkdnd_windows.tcl, lib/gui.tcl, lib/plugins.tcl,
+	lib/tke.tcl, plugins/drop_test/header.tkedat,
+	plugins/drop_test/main.tcl:
+	* Adding 64-bit build of tkDND for Windows.
+	* Adding test plugin to verify `on_drop` plugin functionality.
+
+2017-09-09 01:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9aafb754feff)
+
+	* lib/gui.tcl, lib/plugins.tcl, lib/version.tcl,
+	plugins/drop_test/header.tkedat, plugins/drop_test/main.tcl:
+	* Completing work on new "on_drop" plugin action support.
+
+2017-09-09 01:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a1f28650541a [tip])
+
+	* doc/md/TKE Developer Guide/Plugin Action Types/on_drop.md: new file.
+	* doc/md/TKE Developer Guide/Plugin Action Types/.tkesort, doc/md/TKE
+	Developer Guide/Plugin Action Types/on_drop.md, lib/version.tcl:
+	* Adding developer documentation for the new on_drop plugin action.
 
