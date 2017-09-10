@@ -5,30 +5,46 @@ namespace eval number_converter {
   # Returns a decimal representation of the given number.
   proc get_number {txt startpos endpos} {
 
+    array set charmap [list 0 0 1 1 2 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 a 10 b 11 c 12 d 13 e 14 f 15]
+
+    # Get the selected text
     set str [$txt get $startpos $endpos]
 
-    if {[regexp {^((0d)?[0-9_]+|0[oO][0-7_]+|0[bB][01_]+|0[xX][0-9a-fA-F_]+)$} $str -> value]} {
-      return [format %lld [string map {_ {}} $value]]
+    # Look for a valid numerical format
+    if {[regexp {^(0[xX]|'[sS]?[hH])([0-9a-fA-F_]+)$} $str -> value]} {
+      set shift 4
+    } elseif {[regexp {^(0[dD]|'[sS][dD])?([0-9_]+)$} $str -> prefix value]} {
+      return [string map {_ {}} $value]
+    } elseif {[regexp {^(0[oO]|'[sS][oO])([0-7_]+)$} $str -> value]} {
+      set shift 3
+    } elseif {[regexp {^(0[bB]|'[sS][bB])([01_]+)$} $str -> value]} {
+      set shift 1
+    } else {
+      return ""
     }
 
-    return ""
+    # Calculate the decimal value
+    set val 0
+    foreach c [split [string map {_ {}} $value] {}] {
+      set val [expr ($val << $shift) | $charmap($c)]
+    }
+
+    return $val
 
   }
 
   ######################################################################
   # Inserts underscores every X characters where X is a value specified
   # within the plugin preferences.
-  proc insert_underscores {str} {
-
-    set underscore 3
+  proc insert_underscores {str underscore} {
 
     if {$underscore > 0} {
       set words [list]
       while {$str ne ""} {
-        lappend words [string range $str end-$underscore end]
+        lappend words [string range $str end-[expr $underscore - 1] end]
         set str [string range $str 0 end-$underscore]
       }
-      return [string reverse [join $words "_"]]
+      return [join [lreverse $words] "_"]
     }
 
     return $str
@@ -36,16 +52,48 @@ namespace eval number_converter {
   }
 
   ######################################################################
-  # Converts the current number to binary format.
-  proc do_to_binary {} {
+  # Perform numerical replacement as required.
+  proc do_replace {prefix fmt {underscore 4}} {
 
     set txt [api::file::get_info [api::file::current_file_index] txt]
 
     foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
       if {[set num [get_number $txt $startpos $endpos]] ne ""} {
-        $txt replace $startpos $endpos "0b[insert_underscores [format %b $num]]"
+        $txt replace $startpos $endpos "$prefix[insert_underscores [format $fmt $num] $underscore]"
       }
     }
+
+  }
+
+  ######################################################################
+  # Converts the current number to binary format.
+  proc do_to_binary {} {
+
+    do_replace "0b" "%llb" 4
+
+  }
+
+  ######################################################################
+  # Converts the current number to an octal format.
+  proc do_to_octal {} {
+
+    do_replace "0o" "%llo" 3
+
+  }
+
+  ######################################################################
+  # Converts the current number to a decimal format.
+  proc do_to_decimal {} {
+
+    do_replace "" "%lld" 0
+
+  }
+
+  ######################################################################
+  # Converts the current number to a hexidecimal format.
+  proc do_to_hexidecimal {} {
+
+    do_replace "0x" "%llx" 4
 
   }
 
@@ -69,5 +117,8 @@ namespace eval number_converter {
 
 # Register all plugin actions
 api::register number_converter {
-  {menu command {Number Converter/To Binary} number_converter::do_to_binary number_converter::handle_all_state}
+  {menu command {Number Converter/To Binary}      number_converter::do_to_binary      number_converter::handle_all_state}
+  {menu command {Number Converter/To Octal}       number_converter::do_to_octal       number_converter::handle_all_state}
+  {menu command {Number Converter/To Decimal}     number_converter::do_to_decimal     number_converter::handle_all_state}
+  {menu command {Number Converter/To Hexidecimal} number_converter::do_to_hexidecimal number_converter::handle_all_state}
 }
