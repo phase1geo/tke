@@ -265,7 +265,6 @@ namespace eval plugins {
               set registry($i,interp) $interpreter
               handle_reloading $i
             }
-              # add_all_text_bindings
           }
         }
 
