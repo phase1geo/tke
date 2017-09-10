@@ -37,7 +37,7 @@ namespace eval folding {
   }
 
   ######################################################################
-  # Returns the current value of volue enable
+  # Returns the current value of fold enable
   proc get_vim_foldenable {txt} {
 
     return [expr [$txt gutter hide folding] ^ 1]

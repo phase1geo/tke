@@ -2090,6 +2090,8 @@ proc ctext::command_gutter {win args} {
           lset data($win,config,gutters) $index 2 [lindex $args 1]
           ctext::linemapUpdate $win 1
         }
+      } elseif {[llength $args] == 1} {
+        return -code error "Unable to find gutter name ($gutter_name)"
       }
     }
     del* {

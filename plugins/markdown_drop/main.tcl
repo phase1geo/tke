@@ -26,7 +26,7 @@ namespace eval markdown_drop {
 
   ######################################################################
   # Gets optional image information to include in the image insertion.
-  proc get_user_image_info {index fname mddir} {
+  proc get_user_image_info {index istext fname mddir} {
 
     variable assets
 
@@ -42,7 +42,8 @@ namespace eval markdown_drop {
     wmarkentry::wmarkentry .imgwin.tf.et -watermark "Optional" -width 40
     ttk::label             .imgwin.tf.la -text "Alt Text: "
     wmarkentry::wmarkentry .imgwin.tf.ea -watermark "Optional" -width 40
-    ttk::checkbutton       .imgwin.tf.cb -text " Create and copy image to local assets directory" -variable markdown_drop::assets
+    ttk::checkbutton       .imgwin.tf.cb -text " Create and copy image to local assets directory" \
+      -variable markdown_drop::assets -state [expr {$istext ? "disabled" : "normal"}]
 
     grid columnconfigure .imgwin.tf 1 -weight 1
     grid .imgwin.tf.lt -row 0 -column 0 -sticky news -padx 2 -pady 2
@@ -52,7 +53,7 @@ namespace eval markdown_drop {
     grid .imgwin.tf.cb -row 2 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
 
     ttk::frame  .imgwin.bf
-    ttk::button .imgwin.bf.insert -style BButton -text "Insert" -width 6 -command [list markdown_drop::insert_image $index $fname $mddir]
+    ttk::button .imgwin.bf.insert -style BButton -text "Insert" -width 6 -command [list markdown_drop::insert_image $index $istext $fname $mddir]
     ttk::button .imgwin.bf.cancel -style BButton -text "Cancel" -width 6 -command {
       destroy .imgwin
     }
@@ -73,7 +74,7 @@ namespace eval markdown_drop {
 
   ######################################################################
   # Handles the image insertion process.
-  proc insert_image {index fname mddir} {
+  proc insert_image {index istext fname mddir} {
 
     variable assets
 
@@ -83,7 +84,7 @@ namespace eval markdown_drop {
 
     # If we are copying the image to the assets directory, do it now
     # and update the pathname of the fname variable.
-    if {$assets} {
+    if {$assets && !$istext} {
       file mkdir [set assets_dir [file join $mddir assets]]
       if {[catch { file copy $fname $assets_dir } rc]} {
         show_error "Unable to copy the image" $rc
@@ -110,8 +111,10 @@ namespace eval markdown_drop {
   # string to be an image syntax.
   proc handle_image {index istext data mddir} {
 
-    if {!$istext && ([lsearch [list .gif .png .jpg .jpeg] [file extension $data]] != -1)} {
-      after idle [list markdown_drop::get_user_image_info $index $data $mddir]
+    api::log "In handle_image, data: $data, extension: [file extension $data]"
+
+    if {[lsearch [list .gif .png .jpg .jpeg] [string tolower [file extension $data]]] != -1} {
+      after idle [list markdown_drop::get_user_image_info $index $istext $data $mddir]
       return 1
     }
 

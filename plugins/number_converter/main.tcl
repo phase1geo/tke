@@ -11,13 +11,13 @@ namespace eval number_converter {
     set str [$txt get $startpos $endpos]
 
     # Look for a valid numerical format
-    if {[regexp {^(0[xX]|'[sS]?[hH])([0-9a-fA-F_]+)$} $str -> value]} {
+    if {[regexp {^(0[xX]|'[sS]?[hH])([0-9a-fA-F_]+)$} $str -> prefix value]} {
       set shift 4
     } elseif {[regexp {^(0[dD]|'[sS][dD])?([0-9_]+)$} $str -> prefix value]} {
       return [string map {_ {}} $value]
-    } elseif {[regexp {^(0[oO]|'[sS][oO])([0-7_]+)$} $str -> value]} {
+    } elseif {[regexp {^(0[oO]|'[sS][oO])([0-7_]+)$} $str -> prefix value]} {
       set shift 3
-    } elseif {[regexp {^(0[bB]|'[sS][bB])([01_]+)$} $str -> value]} {
+    } elseif {[regexp {^(0[bB]|'[sS][bB])([01_]+)$} $str -> prefix value]} {
       set shift 1
     } else {
       return ""
@@ -25,7 +25,7 @@ namespace eval number_converter {
 
     # Calculate the decimal value
     set val 0
-    foreach c [split [string map {_ {}} $value] {}] {
+    foreach c [split [string map {_ {}} [string tolower $value]] {}] {
       set val [expr ($val << $shift) | $charmap($c)]
     }
 

@@ -133,7 +133,7 @@ namespace eval ipanel {
       set widgets($w,l,$name) [label $w.l$name -text [format "%s:" $lbl]]
       set widgets($w,v,$name) [label $w.v$name -anchor w]
       if {$copy} {
-        bind $widgets($w,v,$name) <Button-1> [list sidebar::copy_info $w $name]
+        bind $widgets($w,v,$name) <Button-1> [list ipanel::copy_info $w $name]
       }
       grid $widgets($w,l,$name) -row $row -column 0 -sticky e
       grid $widgets($w,v,$name) -row $row -column 1 -sticky w
@@ -183,7 +183,7 @@ namespace eval ipanel {
 
         # If the item is copyable, make it so now
         if {$copy} {
-          bind $widgets($w,v,plug$index) <Button-1> [list sidebar::copy_info $w plug$index]
+          bind $widgets($w,v,plug$index) <Button-1> [list ipanel::copy_info $w plug$index]
         }
 
         # Insert them into the grid
