@@ -1,0 +1,10 @@
+name           {markdown_drop}
+author         {Trevor Williams}
+email          {phase1geo@gmail.com}
+version        {1.0}
+include        {yes}
+trust_required {yes}
+description    {
+  Handles drag and drop events on a Markdown document.  Allows the insertion of
+  links and images.
+}
