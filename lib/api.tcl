@@ -230,7 +230,13 @@ namespace eval api {
     #                     - \b lang     : Returns the syntax language.
     proc get_info {interp pname file_index attr} {
 
-      return [gui::get_file_info $file_index $attr]
+      set value [gui::get_file_info $file_index $attr]
+
+      if {$attr eq "txt"} {
+        interpreter::add_ctext $interp $pname [winfo parent $value]
+      }
+
+      return $value
 
     }
 
