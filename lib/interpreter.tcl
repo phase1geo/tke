@@ -778,7 +778,8 @@ namespace eval interpreter {
     foreach widget [list canvas listbox menu text toplevel ttk::button ttk::checkbutton ttk::combobox \
                          ttk::entry ttk::frame ttk::label ttk::labelframe ttk::menubutton ttk::notebook \
                          ttk::panedwindow ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar \
-                         ttk::separator ttk::spinbox ttk::treeview ctext tokenentry] {
+                         ttk::separator ttk::spinbox ttk::treeview ctext tokenentry::tokenentry \
+                         wmarkentry::wmarkentry] {
       $interp alias $widget interpreter::widget_command $pname $widget
     }
 
