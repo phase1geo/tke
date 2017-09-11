@@ -40,7 +40,11 @@ namespace eval folding {
   # Returns the current value of fold enable
   proc get_vim_foldenable {txt} {
 
-    return [expr [$txt gutter hide folding] ^ 1]
+    if {[catch { $txt gutter hide folding } rc] || ($rc == 1)} {
+      return 0
+    }
+
+    return 1
 
   }
 
