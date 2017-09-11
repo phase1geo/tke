@@ -482,6 +482,9 @@ namespace eval select {
     # Disable selection mode
     set_select_mode $txtt 0
 
+    # Allow Vim to remember this selection
+    vim::set_last_selection $txtt
+
     return 1
 
   }
