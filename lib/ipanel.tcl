@@ -276,7 +276,7 @@ namespace eval ipanel {
     if {($syntax || $filesize) && [file isfile $fname]} {
       if {$syntax} {
         if {[set type [$widgets($w,v,type) cget -text]] eq ""} {
-          lappend typelist [expr {[utils::is_binary $fname] ? "Binary" : [syntax::get_default_language $fname]}]
+          lappend typelist [expr {[utils::is_binary $fname] ? [msgcat::mc "Binary"] : [syntax::get_default_language $fname]}]
         } else {
           lappend typelist [lindex [split $type ,] 0]
         }
@@ -285,6 +285,9 @@ namespace eval ipanel {
         lappend typelist [utils::get_file_size $fname]
       }
       $widgets($w,v,type) configure -text [join $typelist ", "]
+      grid $widgets($w,v,type)
+    } elseif {[file isdirectory $fname]} {
+      $widgets($w,v,type) configure -text [msgcat::mc "Directory"]
       grid $widgets($w,v,type)
     } else {
       grid remove $widgets($w,v,type)

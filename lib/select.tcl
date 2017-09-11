@@ -162,7 +162,7 @@ namespace eval select {
 
     grid [ttk::label $w.${value}_cb   -text " "]   -row $row -column 0 -sticky news -pady 2
     grid [ttk::label $w.${value}_key  -text $key]  -row $row -column 1 -sticky news -pady 2
-    grid [ttk::label $w.${value}_name -text $name] -row $row -column 2 -sticky news -pady 2
+    grid [ttk::label $w.${value}_name -text $name -width 20] -row $row -column 2 -sticky news -pady 2
 
     if {$var ne ""} {
       bind $w.${value}_cb   <Enter>    [list select::set_item_state $w.$value active]
@@ -234,7 +234,8 @@ namespace eval select {
     }
     array set opts $args
 
-    set range [list insert insert]
+    # Get the current selection ranges
+    set range [$txtt tag ranges sel]
 
     # If we have already moved, change an init motion to a next/prev
     # motion based on the anchorend.
@@ -245,7 +246,8 @@ namespace eval select {
     switch $motion {
       init {
         switch $data($txtt,type) {
-          char    { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
+          char -
+          block   { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
           line    { set range [edit::get_range $txtt linestart lineend "" 0] }
           default { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
         }
@@ -253,7 +255,6 @@ namespace eval select {
       next -
       prev {
         set pos   $positions($data($txtt,type))
-        set range [$txtt tag ranges sel]
         set index [expr $data($txtt,anchorend) ^ 1]
         if {($motion eq "prev") && ($index == 1) && ([lsearch [list word tag] $data($txtt,type)] != -1)} {
           lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
@@ -267,27 +268,112 @@ namespace eval select {
       }
       rshift -
       lshift {
-        set pos   $positions($data($txtt,type))
-        set range [$txtt tag ranges sel]
-        set dir   [expr {($motion eq "rshift") ? "next" : "prev"}]
-        if {($motion eq "lshift") && ([lsearch [list word tag] $data($txtt,type)] != -1)} {
-          lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
-        }
-        foreach index {0 1} {
-          lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $dir -startpos [lindex $range $index]]
+        if {$data($txtt,type) eq "block"} {
+          set trange $range
+          if {$motion eq "rshift"} {
+            set range [list]
+            foreach {startpos endpos} $trange {
+              lappend range [$txtt index "$startpos+1 display chars"]
+              if {[$txtt compare "$endpos+1 display chars" < "$endpos lineend"]} {
+                lappend range [$txtt index "$endpos+1 display chars"]
+              } else {
+                lappend range [$txtt index "$endpos lineend"]
+              }
+            }
+          } elseif {[$txtt compare "[lindex $range 0]-1 display chars" >= "[lindex $range 0] linestart"]} {
+            set range [list]
+            foreach {startpos endpos} $trange {
+              lappend range [$txtt index "$startpos-1 display chars"] [$txtt index "$endpos-1 display chars"]
+            }
+          }
+        } else {
+          set pos   $positions($data($txtt,type))
+          set dir   [expr {($motion eq "rshift") ? "next" : "prev"}]
+          if {($motion eq "lshift") && ([lsearch [list word tag] $data($txtt,type)] != -1)} {
+            lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
+          }
+          foreach index {0 1} {
+            lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $dir -startpos [lindex $range $index]]
+          }
         }
       }
-      ushift -
+      ushift {
+        if {[$txtt compare "[lindex $range 0]-1 display lines" < [lindex $range 0]]} {
+          set trange $range
+          set range  [list]
+          foreach {pos} $trange {
+            lappend range [$txtt index "$pos-1 display lines"]
+          }
+        }
+      }
       dshift {
-        # TBD
+        if {[$txtt compare "[lindex $range end]+1 display lines" > "[lindex $range end] lineend"]} {
+          set trange $range
+          set range  [list]
+          foreach {pos} $trange {
+            lappend range [$txtt index "$pos+1 display lines"]
+          }
+        }
       }
-      left -
+      left {
+        if {$data($txtt,anchorend) == 1} {
+          set i 0
+          foreach {startpos endpos} $range {
+            if {[$txtt compare "$startpos-1 display chars" >= "$startpos linestart"]} {
+              lset range $i [$txtt index "$startpos-1 display chars"]
+              incr i 2
+            }
+          }
+        } else {
+          set i 1
+          foreach {startpos endpos} $range {
+            if {[$txtt compare "$endpos-1 display chars" > $startpos]} {
+              lset range $i [$txtt index "$endpos-1 display chars"]
+            }
+            incr i 2
+          }
+        }
+      }
       right {
-        # TBD
+        if {$data($txtt,anchorend) == 1} {
+          set i 0
+          foreach {startpos endpos} $range {
+            if {[$txtt compare "$startpos+1 display chars" < $endpos]} {
+              lset range $i [$txtt index "$startpos+1 display chars"]
+            }
+            incr i 2
+          }
+        } else {
+          set i 1
+          foreach {startpos endpos} $range {
+            if {[$txtt compare "$endpos+1 display chars" <= "$endpos lineend"]} {
+              lset range $i [$txtt index "$endpos+1 display chars"]
+            }
+            incr i 2
+          }
+        }
       }
-      up -
+      up {
+        if {$data($txtt,anchorend) == 1} {
+          if {[$txtt compare "[lindex $range 0]-1 display lines" > 1.0]} {
+            set range [list [$txtt index "[lindex $range 0]-1 display lines"] [$txtt index "[lindex $range 1]-1 display lines"] {*}$range]
+          }
+        } else {
+          if {[$txtt compare "[lindex $range end-1]-1 display lines" >= [lindex $range 0]]} {
+            set range [lreplace $range end-1 end]
+          }
+        }
+      }
       down {
-        # TBD
+        if {$data($txtt,anchorend) == 1} {
+          if {[$txtt compare "[lindex $range 0]+1 display lines" <= [lindex $range end-1]]} {
+            set range [lreplace $range 0 1]
+          }
+        } else {
+          if {[$txtt compare "[lindex $range end-1]+1 display lines" < end]} {
+            lappend range [$txtt index "[lindex $range end-1]+1 display lines"] [$txtt index "[lindex $range end]+1 display lines"]
+          }
+        }
       }
       parent {
         # TBD
@@ -297,19 +383,10 @@ namespace eval select {
       }
     }
 
-    # Set the tag
-    if {[$txtt compare [lindex $range 0] < [lindex $range 1]]} {
-
-      # Set the cursor
-      ::tk::TextSetCursor $txtt [lindex $range [expr $data($txtt,anchorend) ^ 1]]
-
-      # Clear the selection tags
-      $txtt tag remove sel 1.0 end
-
-      # Set the selection tags to their new ranges
-      $txtt tag add sel {*}$range
-
-    }
+    # Set the cursor and selection
+    ::tk::TextSetCursor $txtt [lindex $range [expr {$data($txtt,anchorend) ? 0 : "end"}]]
+    $txtt tag remove sel 1.0 end
+    $txtt tag add sel {*}$range
 
   }
 
@@ -852,15 +929,27 @@ namespace eval select {
   # Handles moving the entire selection to the left by the current type.
   proc handle_j {txtt} {
 
-    update_selection $txtt prev
+    variable data
+    
+    if {$data($txtt,type) eq "block"} {
+      update_selection $txtt left
+    } else {
+      update_selection $txtt prev
+    }
 
   }
 
   ######################################################################
   # Handles moving the entire selection to the right by the current type.
   proc handle_k {txtt} {
+    
+    variable data
 
-    update_selection $txtt next
+    if {$data($txtt,type) eq "block"} {
+      update_selection $txtt right
+    } else {
+      update_selection $txtt next
+    }
 
   }
 
