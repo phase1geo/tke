@@ -2279,14 +2279,17 @@ msgcat::mcmset el {
   "Double Quotes"
   "Διπλά εισαγωγικά"
 
-  "Non-Whitespace"
-  "Μη-κενό"
-
   "Paragraph"
   "Παράγραφος"
 
+  "Select Down"
+  "Επιλογή μια σελίδα κάτω"
+
   "Select First Child"
   "Επιλέξτε το πρώτο παιδί"
+
+  "Select Left"
+  "Επιλογή"
 
   "Select Next"
   "Επιλογή επόμενης καρτέλας"
@@ -2297,6 +2300,15 @@ msgcat::mcmset el {
   "Select Previous"
   "Επιλογή προηγούμενης καρτέλας"
 
+  "Select Right"
+  "Επιλογή λέξης δεξιά"
+
+  "Select Up"
+  "Επιλογή"
+
+  "Selection Anchor"
+  "Επιλογή άγκυρα"
+
   "Selection Motion"
   "Επιλογή κίνησης"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset el {
   "Sentence"
   "Ποινή"
 
+  "Shift Selection Down"
+  "Επιλογή μετατόπιση προς τα κάτω"
+
   "Shift Selection Left"
   "Shift επιλογή αριστερά"
 
   "Shift Selection Right"
   "Επιλογή μετατόπιση δεξιά"
+
+  "Shift Selection Up"
+  "Επιλογή από στροφή"
 
   "Single Quotes"
   "Απλά εισαγωγικά"
@@ -2318,8 +2336,8 @@ msgcat::mcmset el {
   "Square Brackets"
   "Αγκύλες"
 
-  "Swap Selection Anchor"
-  "Εναλλαγή επιλογής άγκυρα"
+  "Swap"
+  "Swap"
 
   "Tag"
   "Ετικέτα."

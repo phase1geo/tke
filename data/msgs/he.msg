@@ -2279,14 +2279,17 @@ msgcat::mcmset he {
   "Double Quotes"
   "מרכאות כפולות"
 
-  "Non-Whitespace"
-  "שאינו רווח לבן"
-
   "Paragraph"
   "פסקה"
 
+  "Select Down"
+  "בחירה"
+
   "Select First Child"
   "בחר הילד הראשון"
+
+  "Select Left"
+  "בחירה"
 
   "Select Next"
   "בחר"
@@ -2297,6 +2300,15 @@ msgcat::mcmset he {
   "Select Previous"
   "בחר קודם"
 
+  "Select Right"
+  "בחר נכון"
+
+  "Select Up"
+  "בחירה"
+
+  "Selection Anchor"
+  "הבחירה עוגן"
+
   "Selection Motion"
   "הבחירה תנועה"
 
@@ -2306,10 +2318,16 @@ msgcat::mcmset he {
   "Sentence"
   "משפט"
 
+  "Shift Selection Down"
+  "Shift הבחירה למטה"
+
   "Shift Selection Left"
   "Shift הבחירה שמאלה"
 
   "Shift Selection Right"
+  "Shift הבחירה."
+
+  "Shift Selection Up"
   "Shift הבחירה."
 
   "Single Quotes"
@@ -2318,8 +2336,8 @@ msgcat::mcmset he {
   "Square Brackets"
   "מרובעים"
 
-  "Swap Selection Anchor"
-  "החלפת הבחירה עוגן"
+  "Swap"
+  "החלף"
 
   "Tag"
   "תגית"

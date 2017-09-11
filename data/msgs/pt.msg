@@ -2279,14 +2279,17 @@ msgcat::mcmset pt {
   "Double Quotes"
   "Aspas duplas"
 
-  "Non-Whitespace"
-  "Diferente de espaço"
-
   "Paragraph"
   "Parágrafo"
 
+  "Select Down"
+  "Selecionar Abaixo"
+
   "Select First Child"
   "Selecione o primeiro filho"
+
+  "Select Left"
+  "Selecionar à esquerda"
 
   "Select Next"
   "Seleccione <g x=1 id=\"
@@ -2297,6 +2300,15 @@ msgcat::mcmset pt {
   "Select Previous"
   "Selecciona o ficheiro anterior"
 
+  "Select Right"
+  "Selecionar à Direita"
+
+  "Select Up"
+  "Selecionar Acima"
+
+  "Selection Anchor"
+  "Âncora de seleção"
+
   "Selection Motion"
   "Movimento de seleção"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset pt {
   "Sentence"
   "Frase"
 
+  "Shift Selection Down"
+  "Seleção de deslocamento para baixo"
+
   "Shift Selection Left"
   "Seleção de SHIFT esquerda"
 
   "Shift Selection Right"
   "Seleção de turno bem"
+
+  "Shift Selection Up"
+  "Seleção de turno acima"
 
   "Single Quotes"
   "Aspas Simples"
@@ -2318,8 +2336,8 @@ msgcat::mcmset pt {
   "Square Brackets"
   "Colchete"
 
-  "Swap Selection Anchor"
-  "Âncora de seleção de swap"
+  "Swap"
+  "Permutar"
 
   "Tag"
   "Tag"

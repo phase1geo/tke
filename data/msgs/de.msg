@@ -2279,14 +2279,17 @@ msgcat::mcmset de {
   "Double Quotes"
   "Doppelte Anführungszeichen"
 
-  "Non-Whitespace"
-  "Nicht-Leerzeichen"
-
   "Paragraph"
   "Absatz"
 
+  "Select Down"
+  "Bis Zeile unten selektieren"
+
   "Select First Child"
   "Wählen Sie erstes Kind"
+
+  "Select Left"
+  "Nach links selektieren"
 
   "Select Next"
   "Wählen Sie Next (Weiter) aus."
@@ -2297,6 +2300,15 @@ msgcat::mcmset de {
   "Select Previous"
   "Vorheriges Unterfenster auswählen"
 
+  "Select Right"
+  "Nach rechts selektieren"
+
+  "Select Up"
+  "Nach oben selektieren"
+
+  "Selection Anchor"
+  "Auswahl-Anker"
+
   "Selection Motion"
   "Auswahl-Bewegung"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset de {
   "Sentence"
   "Meinung"
 
+  "Shift Selection Down"
+  "Auswahl der Verschiebung nach unten"
+
   "Shift Selection Left"
   "Verschiebung Auswahl links"
 
   "Shift Selection Right"
   "Shift-Auswahl rechts"
+
+  "Shift Selection Up"
+  "Shift-Auswahl oben"
 
   "Single Quotes"
   "Einfache Anführungszeichen"
@@ -2318,8 +2336,8 @@ msgcat::mcmset de {
   "Square Brackets"
   "eckige Klammern"
 
-  "Swap Selection Anchor"
-  "Swap-Auswahl-Anker"
+  "Swap"
+  "Swap"
 
   "Tag"
   "Schlagwort"

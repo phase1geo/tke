@@ -2279,14 +2279,17 @@ msgcat::mcmset nl {
   "Double Quotes"
   "Dubbele aanhalingstekens"
 
-  "Non-Whitespace"
-  "Niet-witruimte"
-
   "Paragraph"
   "Alinea (p)"
 
+  "Select Down"
+  "Tot aan regel beneden selecteren"
+
   "Select First Child"
   "Selecteer eerste kind"
+
+  "Select Left"
+  "Naar links selecteren"
 
   "Select Next"
   "Kies naast <g id=\"
@@ -2297,6 +2300,15 @@ msgcat::mcmset nl {
   "Select Previous"
   "Vorige tabblad selecteren"
 
+  "Select Right"
+  "Naar rechts selecteren"
+
+  "Select Up"
+  "Naar boven selecteren"
+
+  "Selection Anchor"
+  "Selectie anker"
+
   "Selection Motion"
   "Selectie Motion"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset nl {
   "Sentence"
   "Zin"
 
+  "Shift Selection Down"
+  "Shift selectie naar beneden"
+
   "Shift Selection Left"
   "Shift selectie links"
 
   "Shift Selection Right"
   "Shift selectie rechts"
+
+  "Shift Selection Up"
+  "Shift selectie omhoog"
 
   "Single Quotes"
   "Enkelvoudige aanhalingstekens"
@@ -2318,8 +2336,8 @@ msgcat::mcmset nl {
   "Square Brackets"
   "Vierkante haken"
 
-  "Swap Selection Anchor"
-  "Swap selectie anker"
+  "Swap"
+  "Wisselen"
 
   "Tag"
   "Tag"

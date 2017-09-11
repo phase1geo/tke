@@ -2279,14 +2279,17 @@ msgcat::mcmset ru {
   "Double Quotes"
   "Двойные кавычки"
 
-  "Non-Whitespace"
-  "Непробельный"
-
   "Paragraph"
   "Параграф"
 
+  "Select Down"
+  "Выделить до нижней строки"
+
   "Select First Child"
   "Выберите первый ребенок"
+
+  "Select Left"
+  "Выделить влево"
 
   "Select Next"
   "Выберите Далее."
@@ -2297,6 +2300,15 @@ msgcat::mcmset ru {
   "Select Previous"
   "Выбрать предыдущий"
 
+  "Select Right"
+  "Выделить вправо"
+
+  "Select Up"
+  "Выделить вверх"
+
+  "Selection Anchor"
+  "Выбор привязки"
+
   "Selection Motion"
   "Выбор движения"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset ru {
   "Sentence"
   "Предложение"
 
+  "Shift Selection Down"
+  "Выбор сдвиг вниз"
+
   "Shift Selection Left"
   "Выбор сдвига влево"
 
   "Shift Selection Right"
   "Выбор сдвиг вправо"
+
+  "Shift Selection Up"
+  "Выбор сдвиг вверх"
 
   "Single Quotes"
   "Одинарные кавычки"
@@ -2318,8 +2336,8 @@ msgcat::mcmset ru {
   "Square Brackets"
   "Квадратные скобки"
 
-  "Swap Selection Anchor"
-  "Своп привязки выделения"
+  "Swap"
+  "Замена"
 
   "Tag"
   "Тег"

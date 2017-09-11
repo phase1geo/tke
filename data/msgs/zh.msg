@@ -2279,14 +2279,17 @@ msgcat::mcmset zh {
   "Double Quotes"
   "雙引號"
 
-  "Non-Whitespace"
-  "非空白"
-
   "Paragraph"
   "段落"
 
+  "Select Down"
+  "向下选择"
+
   "Select First Child"
   "选择的第一个孩子"
+
+  "Select Left"
+  "向右選取"
 
   "Select Next"
   "选择下一步。"
@@ -2297,6 +2300,15 @@ msgcat::mcmset zh {
   "Select Previous"
   "选择上一个"
 
+  "Select Right"
+  "向右選取"
+
+  "Select Up"
+  "选择"
+
+  "Selection Anchor"
+  "选择定位点"
+
   "Selection Motion"
   "选择运动"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset zh {
   "Sentence"
   "句子"
 
+  "Shift Selection Down"
+  "+/-      换挡选择"
+
   "Shift Selection Left"
   "+/-      换挡选择"
 
   "Shift Selection Right"
   "右 shift 选择"
+
+  "Shift Selection Up"
+  "+/-      换挡选择"
 
   "Single Quotes"
   "单引号"
@@ -2318,8 +2336,8 @@ msgcat::mcmset zh {
   "Square Brackets"
   "方括号"
 
-  "Swap Selection Anchor"
-  "选择定位点"
+  "Swap"
+  "交替"
 
   "Tag"
   "标签"

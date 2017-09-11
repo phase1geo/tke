@@ -2276,14 +2276,17 @@ msgcat::mcmset es {
   "Double Quotes"
   "Comillas dobles"
 
-  "Non-Whitespace"
-  "No espacios en blanco"
-
   "Paragraph"
   "Párrafo"
 
+  "Select Down"
+  "Seleccionar hacia abajo"
+
   "Select First Child"
   "Seleccionar el primer hijo"
+
+  "Select Left"
+  "Seleccionar hacia la izquierda"
 
   "Select Next"
   "Seleccionar la solapa siguiente"
@@ -2294,6 +2297,15 @@ msgcat::mcmset es {
   "Select Previous"
   "Seleccionar la solapa anterior"
 
+  "Select Right"
+  "Seleccionar hacia la derecha"
+
+  "Select Up"
+  "Seleccionar hacia arriba"
+
+  "Selection Anchor"
+  "Anclaje de selección"
+
   "Selection Motion"
   "Movimiento de selección"
 
@@ -2303,11 +2315,17 @@ msgcat::mcmset es {
   "Sentence"
   "Condena"
 
+  "Shift Selection Down"
+  "Selección de cambio hacia abajo"
+
   "Shift Selection Left"
   "Cambio selección hacia la izquierda"
 
   "Shift Selection Right"
   "Selección de cambio derecha"
+
+  "Shift Selection Up"
+  "Selección de cambio hasta"
 
   "Single Quotes"
   "Comillas sencillas"
@@ -2315,8 +2333,8 @@ msgcat::mcmset es {
   "Square Brackets"
   "Corchetes"
 
-  "Swap Selection Anchor"
-  "Intercambio selección ancla"
+  "Swap"
+  "Intercambiar"
 
   "Tag"
   "Etiqueta"
