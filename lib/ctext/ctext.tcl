@@ -1,4 +1,4 @@
-# By George Peter Staplin
+# by george peter Staplin
 # See also the README for a list of contributors
 # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
@@ -2074,7 +2074,7 @@ proc ctext::command_gutter {win args} {
       ctext::linemapUpdate $win 1
     }
     destroy {
-      set gutter_name    [lindex $args 0]
+      set gutter_name [lindex $args 0]
       if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
         $win._t tag delete {*}[lindex $data($win,config,gutters) $index 1]
         set data($win,config,gutters) [lreplace $data($win,config,gutters) $index $index]
