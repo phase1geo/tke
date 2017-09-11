@@ -2279,14 +2279,17 @@ msgcat::mcmset sv {
   "Double Quotes"
   "Dubbla citationstecken"
 
-  "Non-Whitespace"
-  "Icke-blanktecken"
-
   "Paragraph"
   "Stycke"
 
+  "Select Down"
+  "Markera till raden under"
+
   "Select First Child"
   "Välj första barn"
+
+  "Select Left"
+  "Markera åt vänster"
 
   "Select Next"
   "Välj nästa flik"
@@ -2297,6 +2300,15 @@ msgcat::mcmset sv {
   "Select Previous"
   "Välj föregående flik"
 
+  "Select Right"
+  "Markera åt höger"
+
+  "Select Up"
+  "Markera uppåt"
+
+  "Selection Anchor"
+  "Val av ankare"
+
   "Selection Motion"
   "Val av Motion"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset sv {
   "Sentence"
   "Mening"
 
+  "Shift Selection Down"
+  "Skift markeringen nedåt"
+
   "Shift Selection Left"
   "Skift urval vänster"
 
   "Shift Selection Right"
   "Skift urval höger"
+
+  "Shift Selection Up"
+  "Skift markeringen uppåt"
 
   "Single Quotes"
   "Enkla citationstecken"
@@ -2318,8 +2336,8 @@ msgcat::mcmset sv {
   "Square Brackets"
   "Hakparenteser"
 
-  "Swap Selection Anchor"
-  "Swap urval ankare"
+  "Swap"
+  "Flytta"
 
   "Tag"
   "Tag"

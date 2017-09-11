@@ -2279,14 +2279,17 @@ msgcat::mcmset ja {
   "Double Quotes"
   "ダブルクォーテーションマーク"
 
-  "Non-Whitespace"
-  "空白以外"
-
   "Paragraph"
   "段落"
 
+  "Select Down"
+  "下を選択します。"
+
   "Select First Child"
   "最初の子を選択します。"
+
+  "Select Left"
+  "左方向に選択"
 
   "Select Next"
   "次へを選択します。"
@@ -2297,6 +2300,15 @@ msgcat::mcmset ja {
   "Select Previous"
   "選択前"
 
+  "Select Right"
+  "右方向に選択"
+
+  "Select Up"
+  "選択"
+
+  "Selection Anchor"
+  "選択アンカー"
+
   "Selection Motion"
   "選択動作"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset ja {
   "Sentence"
   "文章"
 
+  "Shift Selection Down"
+  "ダウン シフト選択"
+
   "Shift Selection Left"
   "Shift 選択-左"
 
   "Shift Selection Right"
   "右シフトの選択"
+
+  "Shift Selection Up"
+  "シフト選択"
 
   "Single Quotes"
   "シングルクォーテーションマーク"
@@ -2318,8 +2336,8 @@ msgcat::mcmset ja {
   "Square Brackets"
   "大かっこ"
 
-  "Swap Selection Anchor"
-  "選択範囲のアンカー位置を交換します。"
+  "Swap"
+  "交換"
 
   "Tag"
   "タグ"

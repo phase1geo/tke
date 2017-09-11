@@ -2279,14 +2279,17 @@ msgcat::mcmset pl {
   "Double Quotes"
   "Podwójne cudzysłowy"
 
-  "Non-Whitespace"
-  "Bez odstępu"
-
   "Paragraph"
   "Paragraf"
 
+  "Select Down"
+  "Zaznacz w dół"
+
   "Select First Child"
   "Wybierz pierwsze dziecko"
+
+  "Select Left"
+  "Zaznacz do lewej"
 
   "Select Next"
   "Zaznacz następną kartę"
@@ -2297,6 +2300,15 @@ msgcat::mcmset pl {
   "Select Previous"
   "Zaznacz poprzednią kartę"
 
+  "Select Right"
+  "Zaznacz do prawej"
+
+  "Select Up"
+  "Wybierz"
+
+  "Selection Anchor"
+  "Zakotwiczenie zaznaczenia"
+
   "Selection Motion"
   "Wybór ruchu"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset pl {
   "Sentence"
   "Zdanie"
 
+  "Shift Selection Down"
+  "Zaznaczanie klawiszem Shift w dół"
+
   "Shift Selection Left"
   "Zaznaczenie Shift Strzałka w lewo"
 
   "Shift Selection Right"
   "Zaznaczanie klawiszem Shift tuż"
+
+  "Shift Selection Up"
+  "Zaznaczanie klawiszem Shift się"
 
   "Single Quotes"
   "Pojedyncze cudzysłowy"
@@ -2318,8 +2336,8 @@ msgcat::mcmset pl {
   "Square Brackets"
   "Nawiasy kwadratowe"
 
-  "Swap Selection Anchor"
-  "Zakotwiczenie zaznaczenia do wymiany"
+  "Swap"
+  "Podmień"
 
   "Tag"
   "Tag"

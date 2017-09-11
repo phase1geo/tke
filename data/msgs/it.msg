@@ -2279,14 +2279,17 @@ msgcat::mcmset it {
   "Double Quotes"
   "Doppi apici"
 
-  "Non-Whitespace"
-  "Non di spaziatura"
-
   "Paragraph"
   "Paragrafo"
 
+  "Select Down"
+  "Seleziona verso il basso"
+
   "Select First Child"
   "Selezionare il primo figlio"
+
+  "Select Left"
+  "Seleziona a sinistra"
 
   "Select Next"
   "Selezionare NEXT"
@@ -2297,6 +2300,15 @@ msgcat::mcmset it {
   "Select Previous"
   "\"
 
+  "Select Right"
+  "Seleziona verso destra"
+
+  "Select Up"
+  "Seleziona verso l&apos;alto"
+
+  "Selection Anchor"
+  "Ancoraggio di selezione"
+
   "Selection Motion"
   "Movimento di selezione"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset it {
   "Sentence"
   "Pen."
 
+  "Shift Selection Down"
+  "Selezione di spostamento verso il basso"
+
   "Shift Selection Left"
   "Selezione di spostamento a sinistra"
 
   "Shift Selection Right"
   "Selezione MAIUSC destra"
+
+  "Shift Selection Up"
+  "Selezione di spostamento verso"
 
   "Single Quotes"
   "Singoli apici"
@@ -2318,8 +2336,8 @@ msgcat::mcmset it {
   "Square Brackets"
   "Parentesi quadre"
 
-  "Swap Selection Anchor"
-  "Ancoraggio di selezione di swap"
+  "Swap"
+  "Scambia"
 
   "Tag"
   "Etichetta"

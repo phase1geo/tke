@@ -2279,14 +2279,17 @@ msgcat::mcmset cs {
   "Double Quotes"
   "Dvojité uvozovky"
 
-  "Non-Whitespace"
-  "Bez mezer"
-
   "Paragraph"
   "Odstavec"
 
+  "Select Down"
+  "zvolte"
+
   "Select First Child"
   "Vyberte první dítě"
+
+  "Select Left"
+  "zvolte"
 
   "Select Next"
   "Vybrat"
@@ -2297,6 +2300,15 @@ msgcat::mcmset cs {
   "Select Previous"
   "Vyberte předchozí řádek"
 
+  "Select Right"
+  "Vyberte vpravo"
+
+  "Select Up"
+  "zvolte"
+
+  "Selection Anchor"
+  "Výběr kotva"
+
   "Selection Motion"
   "Výběr pohybu"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset cs {
   "Sentence"
   "Souvětí"
 
+  "Shift Selection Down"
+  "Posunout výběr dolů"
+
   "Shift Selection Left"
   "Posunout výběr doleva"
 
   "Shift Selection Right"
   "Posunout výběr doprava"
+
+  "Shift Selection Up"
+  "Posunout výběr nahoru"
 
   "Single Quotes"
   "Jednoduché uvozovky"
@@ -2318,8 +2336,8 @@ msgcat::mcmset cs {
   "Square Brackets"
   "Hranaté závorky"
 
-  "Swap Selection Anchor"
-  "Odkládací výběru kotva"
+  "Swap"
+  "Výměna"
 
   "Tag"
   "Tag"

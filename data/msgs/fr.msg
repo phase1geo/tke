@@ -2279,14 +2279,17 @@ msgcat::mcmset fr {
   "Double Quotes"
   "Guillemets doubles"
 
-  "Non-Whitespace"
-  "Autre"
-
   "Paragraph"
   "Paragraphe"
 
+  "Select Down"
+  "Sélection vers le bas"
+
   "Select First Child"
   "Sélectionner le premier enfant"
+
+  "Select Left"
+  "Sélectionner vers la gauche"
 
   "Select Next"
   "Sélectionnez NEXT."
@@ -2297,6 +2300,15 @@ msgcat::mcmset fr {
   "Select Previous"
   "Sélectionner la tuile précédente"
 
+  "Select Right"
+  "Sélectionner vers la droite"
+
+  "Select Up"
+  "Sélectionner vers le haut"
+
+  "Selection Anchor"
+  "Ancre de sélection"
+
   "Selection Motion"
   "Requête de sélection"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset fr {
   "Sentence"
   "Peine"
 
+  "Shift Selection Down"
+  "Sélection de déplacement vers le bas"
+
   "Shift Selection Left"
   "Maj gauche de sélection"
 
   "Shift Selection Right"
   "Sélection de Maj droite"
+
+  "Shift Selection Up"
+  "Sélection de déplacement vers le haut"
 
   "Single Quotes"
   "Guillemets simples"
@@ -2318,8 +2336,8 @@ msgcat::mcmset fr {
   "Square Brackets"
   "Crochets"
 
-  "Swap Selection Anchor"
-  "Ancre de sélection swap"
+  "Swap"
+  "Permuter"
 
   "Tag"
   "Tag"

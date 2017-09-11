@@ -2279,14 +2279,17 @@ msgcat::mcmset no {
   "Double Quotes"
   "Anførselstegn"
 
-  "Non-Whitespace"
-  "Ikke er mellomromstegn"
-
   "Paragraph"
   "Avsnitt"
 
+  "Select Down"
+  "Nedtrekksmeny"
+
   "Select First Child"
   "Velg første"
+
+  "Select Left"
+  "Velg venstre"
 
   "Select Next"
   "Velg (Next) (Neste)."
@@ -2297,6 +2300,15 @@ msgcat::mcmset no {
   "Select Previous"
   "Velg forrige"
 
+  "Select Right"
+  "Velg høyre"
+
+  "Select Up"
+  "Nedtrekksmeny"
+
+  "Selection Anchor"
+  "Valget Anker"
+
   "Selection Motion"
   "Utvalg bevegelse"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset no {
   "Sentence"
   "Setning"
 
+  "Shift Selection Down"
+  "Skift utvalget nedover"
+
   "Shift Selection Left"
   "Skift utvalg venstre"
 
   "Shift Selection Right"
   "Skift utvalg rett"
+
+  "Shift Selection Up"
+  "Skift utvalg opp"
 
   "Single Quotes"
   "Enkle anførselstegn"
@@ -2318,8 +2336,8 @@ msgcat::mcmset no {
   "Square Brackets"
   "Hakeparenteser"
 
-  "Swap Selection Anchor"
-  "Bytte valg anker"
+  "Swap"
+  "Bytt"
 
   "Tag"
   "Stikkord"

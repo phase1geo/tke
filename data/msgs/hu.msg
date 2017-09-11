@@ -2279,14 +2279,17 @@ msgcat::mcmset hu {
   "Double Quotes"
   "Kettős idézőjelek"
 
-  "Non-Whitespace"
-  "Nem-Whitespace"
-
   "Paragraph"
   "Bekezdés"
 
+  "Select Down"
+  "Kijelölés lefelé"
+
   "Select First Child"
   "Válassza ki az első gyermek"
+
+  "Select Left"
+  "Kijelölés balra"
 
   "Select Next"
   "Következő lap"
@@ -2297,6 +2300,15 @@ msgcat::mcmset hu {
   "Select Previous"
   "Előző lap"
 
+  "Select Right"
+  "Jobb oldal kijelölése"
+
+  "Select Up"
+  "Kijelölés felfelé"
+
+  "Selection Anchor"
+  "Kijelölés horgony"
+
   "Selection Motion"
   "Mozgás kiválasztása"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset hu {
   "Sentence"
   "Ítélet"
 
+  "Shift Selection Down"
+  "Lefelé SHIFT-válogatás"
+
   "Shift Selection Left"
   "SHIFT kijelölés bal"
 
   "Shift Selection Right"
   "Jobb SHIFT-válogatás"
+
+  "Shift Selection Up"
+  "SHIFT kiválasztása"
 
   "Single Quotes"
   "Egyszeres idézőjelek"
@@ -2318,8 +2336,8 @@ msgcat::mcmset hu {
   "Square Brackets"
   "Szögletes zárójel"
 
-  "Swap Selection Anchor"
-  "Swap kiválasztási horgony"
+  "Swap"
+  "Kicserél"
 
   "Tag"
   "Címke"

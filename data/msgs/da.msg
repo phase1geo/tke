@@ -2279,14 +2279,17 @@ msgcat::mcmset da {
   "Double Quotes"
   "Dobbelte citationstegn"
 
-  "Non-Whitespace"
-  "Ikke-mellemrum"
-
   "Paragraph"
   "Paragraphs"
 
+  "Select Down"
+  "Vælg"
+
   "Select First Child"
   "Vælg første barn"
+
+  "Select Left"
+  "Vælg"
 
   "Select Next"
   "Vælg næste faneblad"
@@ -2297,6 +2300,15 @@ msgcat::mcmset da {
   "Select Previous"
   "Vælg foregående faneblad"
 
+  "Select Right"
+  "Vælg højre"
+
+  "Select Up"
+  "Vælg"
+
+  "Selection Anchor"
+  "Udvalg anker"
+
   "Selection Motion"
   "Valg af bevægelse"
 
@@ -2306,11 +2318,17 @@ msgcat::mcmset da {
   "Sentence"
   "Sætning"
 
+  "Shift Selection Down"
+  "Skift markering ned"
+
   "Shift Selection Left"
   "Skift valg venstre"
 
   "Shift Selection Right"
   "Skift markering lige"
+
+  "Shift Selection Up"
+  "Skift markering op"
 
   "Single Quotes"
   "Enkelte citationstegn"
@@ -2318,8 +2336,8 @@ msgcat::mcmset da {
   "Square Brackets"
   "Parentes"
 
-  "Swap Selection Anchor"
-  "Swap valg anker"
+  "Swap"
+  "Byt"
 
   "Tag"
   "Tag"
