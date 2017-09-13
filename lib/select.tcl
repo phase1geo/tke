@@ -94,7 +94,7 @@ namespace eval select {
     variable motions
 
     ttk::frame                   $w
-    ttk::label                   $w.l    -width 30 
+    ttk::label                   $w.l    -width 30
     scrolledframe::scrolledframe $w.sf   -fill x -yscrollcommand [list utils::set_yscrollbar $w.vb]
     scroller::scroller           $w.vb   -orient vertical -command [list $w.sf yview]
     ttk::separator               $w.sep2 -orient horizontal
@@ -259,7 +259,7 @@ namespace eval select {
     if {$data($txtt,moved) && ($motion eq "init")} {
       set motion [expr {$data($txtt,anchorend) ? "prev" : "next"}]
     }
-    
+
     switch $motion {
       init {
         $txtt mark set insert $data($txtt,anchor)
@@ -429,7 +429,7 @@ namespace eval select {
     if {[set cursor [lindex $range [expr {$data($txtt,anchorend) ? 0 : "end"}]]] eq ""} {
       return
     }
-    
+
     # Set the cursor and selection
     $txtt mark set insert $cursor
     $txtt see $cursor
@@ -437,20 +437,20 @@ namespace eval select {
     $txtt tag add sel {*}$range
 
   }
-  
+
   ######################################################################
   # Clears the selection in such a way that will keep selection mode
   # enabled.
   proc clear_selection {txtt} {
-    
+
     variable data
-    
+
     # Indicate to handle_selection that we don't want to exit selection mode
     set data($txtt,dont_close) 1
-    
+
     # Clear the selection
     $txtt tag remove sel 1.0 end
-    
+
   }
 
   ######################################################################
@@ -461,7 +461,7 @@ namespace eval select {
     variable data
 
     # Make the sidebar visible
-    grid $data($txtt,sidebar)
+    place $data($txtt,sidebar) -in [winfo parent $data($txtt,sidebar)] -relx 1.0 -rely 0.0 -relheight 1.0 -anchor ne
 
   }
 
@@ -473,7 +473,7 @@ namespace eval select {
     variable data
 
     # Hide the sidebar
-    grid remove $data($txtt,sidebar)
+    place forget $data($txtt,sidebar)
 
   }
 
@@ -554,7 +554,7 @@ namespace eval select {
   ######################################################################
   # If we ever lose the selection, automatically exit selection mode.
   proc handle_selection {txtt} {
-    
+
     variable data
 
     if {([$txtt tag ranges sel] eq "") && !$data($txtt,dont_close)} {
@@ -563,7 +563,7 @@ namespace eval select {
 
     # Clear the dont_close indicator
     set data($txtt,dont_close) 0
-    
+
   }
 
   ######################################################################
