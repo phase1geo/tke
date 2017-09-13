@@ -4193,16 +4193,15 @@ namespace eval gui {
       pack [ttk::separator $tab.df.sep -orient horizontal] -fill x
     }
 
-    select::add $txt $tab.sb
     grid rowconfigure    $tab 0 -weight 1
     grid columnconfigure $tab 0 -weight 1
     grid $tab.pw   -row 0 -column 0 -sticky news
-    grid $tab.sb   -row 0 -column 2 -sticky news
+    # grid $tab.sb   -row 0 -column 2 -sticky news
     if {$opts(-diff)} {
       grid $tab.df -row 1 -column 0 -sticky ew -columnspan 2
     }
 
-    grid remove $tab.sb
+    # grid remove $tab.sb
 
     # Separator
     ttk::separator $tab.sep -orient horizontal
@@ -4217,6 +4216,7 @@ namespace eval gui {
       multicursor::add_bindings $txt
       completer::add_bindings   $txt
     }
+    select::add $txt $tab.sb
     plugins::handle_text_bindings $txt $opts(-tags)
     make_drop_target                   $txt
 
