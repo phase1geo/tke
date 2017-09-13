@@ -4197,7 +4197,7 @@ namespace eval gui {
     grid rowconfigure    $tab 0 -weight 1
     grid columnconfigure $tab 0 -weight 1
     grid $tab.pw   -row 0 -column 0 -sticky news
-    grid $tab.sb   -row 0 -column 2 -sticky ns
+    grid $tab.sb   -row 0 -column 2 -sticky news
     if {$opts(-diff)} {
       grid $tab.df -row 1 -column 0 -sticky ew -columnspan 2
     }

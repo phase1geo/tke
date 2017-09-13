@@ -93,63 +93,72 @@ namespace eval select {
 
     variable motions
 
-    scrolledframe::scrolledframe $w
+    ttk::frame $w
+    scrolledframe::scrolledframe $w.sf -yscrollcommand [list utils::set_yscrollbar $w.vb]
+    scroller::scroller           $w.vb -orient vertical -command [list $w.sf yview]
 
-    ttk::labelframe $w.scrolled.type -text [msgcat::mc "Selection Type"]
-    create_item $txtt $w.scrolled.type [msgcat::mc "Character"]       c  char type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Word"]            w  word type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Line"]            l  line type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Sentence"]        s  sentence type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Paragraph"]       p  paragraph type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Tag"]             t  tag type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Square Brackets"] \[ square type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Parenthesis"]     \( paren type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Curly Brackets"]  \{ curly type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Double Quotes"]   \" double type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Single Quotes"]   \' single type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Backticks"]       \` btick type
-    create_item $txtt $w.scrolled.type [msgcat::mc "Block"]           b  block type
+    ttk::labelframe $w.sf.scrolled.type -text [msgcat::mc "Selection Type"]
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Character"]       c  char type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Word"]            w  word type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Line"]            l  line type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Sentence"]        s  sentence type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Paragraph"]       p  paragraph type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Tag"]             t  tag type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Square Brackets"] \[ square type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Parenthesis"]     \( paren type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Curly Brackets"]  \{ curly type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Double Quotes"]   \" double type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Single Quotes"]   \' single type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Backticks"]       \` btick type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Block"]           b  block type
 
     # Create motions suitable for characters
-    set motions(char) [ttk::labelframe $w.scrolled.cdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Left"]           "j"      left
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Right"]          "k"      right
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Up"]             "i"      up
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Down"]           "m"      down
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Up"]    "\u2191" ushift
-    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Down"]  "\u2193" dshift
+    set motions(char) [ttk::labelframe $w.sf.scrolled.cdir -text [msgcat::mc "Selection Motion"]]
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Left"]           "j"      left
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Right"]          "k"      right
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Up"]             "i"      up
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Down"]           "m"      down
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Up"]    "\u2191" ushift
+    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Down"]  "\u2193" dshift
     set motions(block) $motions(char)
 
     # Create motions suitable for words
-    set motions(word) [ttk::labelframe $w.scrolled.wdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.scrolled.wdir [msgcat::mc "Select Next"]           "k"      next
-    create_item $txtt $w.scrolled.wdir [msgcat::mc "Select Previous"]       "j"      prev
-    create_item $txtt $w.scrolled.wdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
-    create_item $txtt $w.scrolled.wdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
+    set motions(word) [ttk::labelframe $w.sf.scrolled.wdir -text [msgcat::mc "Selection Motion"]]
+    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Select Next"]           "k"      next
+    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Select Previous"]       "j"      prev
+    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
+    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
     set motions(sentence)  $motions(word)
     set motions(paragraph) $motions(word)
 
     # Create motions suitable for tags
-    set motions(tag) [ttk::labelframe $w.scrolled.tdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select Next"]           "k" next
-    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select Previous"]       "j" prev
-    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select Parent"]         "i" parent
-    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select First Child"]    "m" child
+    set motions(tag) [ttk::labelframe $w.sf.scrolled.tdir -text [msgcat::mc "Selection Motion"]]
+    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select Next"]           "k" next
+    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select Previous"]       "j" prev
+    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select Parent"]         "i" parent
+    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select First Child"]    "m" child
 
-    ttk::labelframe $w.scrolled.anchor -text [msgcat::mc "Selection Anchor"]
-    create_item $txtt $w.scrolled.anchor [msgcat::mc "Swap"] "a" swap
+    ttk::labelframe $w.sf.scrolled.anchor -text [msgcat::mc "Selection Anchor"]
+    create_item $txtt $w.sf.scrolled.anchor [msgcat::mc "Swap"] "a" swap
 
-    grid rowconfigure $w.scrolled 0 -weight 0
-    grid $w.scrolled.type   -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.scrolled.cdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.scrolled.wdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.scrolled.tdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.scrolled.anchor -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid rowconfigure $w.sf.scrolled 0 -weight 0
+    grid $w.sf.scrolled.type   -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.scrolled.cdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.scrolled.wdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.scrolled.tdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.sf.scrolled.anchor -row 2 -column 0 -sticky news -padx 2 -pady 2
 
-    grid remove $w.scrolled.cdir
-    grid remove $w.scrolled.tdir
+    grid remove $w.sf.scrolled.cdir
+    grid remove $w.sf.scrolled.tdir
+
+    grid rowconfigure    $w 0 -weight 1
+    grid columnconfigure $w 0 -weight 1
+    grid $w.sf -row 0 -column 0 -sticky news
+    grid $w.vb -row 0 -column 1 -sticky ns
+
+    theme::register_widget $w.vb misc_scrollbar
 
     return $w
 
@@ -198,10 +207,10 @@ namespace eval select {
     variable motions
 
     # Clear the last checkmark
-    $data($txtt,sidebar).scrolled.$var.$data($txtt,$var)_cb configure -text ""
+    $data($txtt,sidebar).sf.scrolled.$var.$data($txtt,$var)_cb configure -text ""
 
     # Set our checkmark
-    $data($txtt,sidebar).scrolled.$var.${value}_cb configure -text "\u2713"
+    $data($txtt,sidebar).sf.scrolled.$var.${value}_cb configure -text "\u2713"
 
     # Sets the variable to the given value
     set data($txtt,$var) $value
@@ -248,6 +257,7 @@ namespace eval select {
 
     switch $motion {
       init {
+        $txtt mark set insert $data($txtt,anchor)
         switch $data($txtt,type) {
           char -
           block   { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
