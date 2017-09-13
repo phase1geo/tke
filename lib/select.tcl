@@ -93,9 +93,11 @@ namespace eval select {
 
     variable motions
 
-    ttk::frame $w
-    scrolledframe::scrolledframe $w.sf -yscrollcommand [list utils::set_yscrollbar $w.vb]
-    scroller::scroller           $w.vb -orient vertical -command [list $w.sf yview]
+    ttk::frame                   $w
+    ttk::label                   $w.l    -width 30 
+    scrolledframe::scrolledframe $w.sf   -fill x -yscrollcommand [list utils::set_yscrollbar $w.vb]
+    scroller::scroller           $w.vb   -orient vertical -command [list $w.sf yview]
+    ttk::separator               $w.sep2 -orient horizontal
 
     ttk::labelframe $w.sf.scrolled.type -text [msgcat::mc "Selection Type"]
     create_item $txtt $w.sf.scrolled.type [msgcat::mc "Character"]       c  char type
@@ -143,20 +145,23 @@ namespace eval select {
     ttk::labelframe $w.sf.scrolled.anchor -text [msgcat::mc "Selection Anchor"]
     create_item $txtt $w.sf.scrolled.anchor [msgcat::mc "Swap"] "a" swap
 
-    grid rowconfigure $w.sf.scrolled 0 -weight 0
-    grid $w.sf.scrolled.type   -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sf.scrolled.cdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sf.scrolled.wdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sf.scrolled.tdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.sf.scrolled.anchor -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid rowconfigure    $w.sf.scrolled 3 -weight 1
+    grid columnconfigure $w.sf.scrolled 0 -weight 1
+    grid $w.sf.scrolled.type   -row 0 -column 0 -sticky news -padx 4 -pady 2
+    grid $w.sf.scrolled.cdir   -row 1 -column 0 -sticky news -padx 4 -pady 2
+    grid $w.sf.scrolled.wdir   -row 1 -column 0 -sticky news -padx 4 -pady 2
+    grid $w.sf.scrolled.tdir   -row 1 -column 0 -sticky news -padx 4 -pady 2
+    grid $w.sf.scrolled.anchor -row 2 -column 0 -sticky news -padx 4 -pady 2
 
     grid remove $w.sf.scrolled.cdir
     grid remove $w.sf.scrolled.tdir
 
-    grid rowconfigure    $w 0 -weight 1
+    grid rowconfigure    $w 1 -weight 1
     grid columnconfigure $w 0 -weight 1
-    grid $w.sf -row 0 -column 0 -sticky news
-    grid $w.vb -row 0 -column 1 -sticky ns
+    grid $w.l    -row 0 -column 0 -sticky ew
+    grid $w.sf   -row 1 -column 0 -sticky news
+    grid $w.vb   -row 1 -column 1 -sticky ns
+    grid $w.sep2 -row 2 -column 0 -sticky ew -columnspan 2
 
     theme::register_widget $w.vb misc_scrollbar
 
@@ -254,7 +259,7 @@ namespace eval select {
     if {$data($txtt,moved) && ($motion eq "init")} {
       set motion [expr {$data($txtt,anchorend) ? "prev" : "next"}]
     }
-
+    
     switch $motion {
       init {
         $txtt mark set insert $data($txtt,anchor)
@@ -262,10 +267,17 @@ namespace eval select {
           char -
           block   { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
           line    { set range [edit::get_range $txtt linestart lineend "" 0] }
+          word    {
+            if {[string is space [$txtt get insert]]} {
+              set wstart [edit::get_index $txtt wordstart -dir next]
+              if {[$txtt compare $wstart > "insert lineend"]} {
+                set wstart [edit::get_index $txtt wordstart -dir prev]
+              }
+              $txtt mark set insert $wstart
+            }
+            set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0]
+          }
           default { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
-        }
-        if {[lindex $range 0] eq ""} {
-          return
         }
       }
       next -
@@ -274,7 +286,10 @@ namespace eval select {
         set index [expr $data($txtt,anchorend) ^ 1]
         switch $data($txtt,type) {
           line {
-            set count [expr {($motion eq "next") ? "+1 display lines" : "-1 display lines"}]
+            set count ""
+            if {[$txtt compare [lindex $range $index] == "[lindex $range $index] [lindex $pos $index]"]} {
+              set count [expr {($motion eq "next") ? "+1 display lines" : "-1 display lines"}]
+            }
             lset range $index [$txtt index "[lindex $range $index]$count [lindex $pos $index]"]
           }
           default {
@@ -410,11 +425,32 @@ namespace eval select {
       }
     }
 
+    # If the range was not set to a valid range, return now
+    if {[set cursor [lindex $range [expr {$data($txtt,anchorend) ? 0 : "end"}]]] eq ""} {
+      return
+    }
+    
     # Set the cursor and selection
-    ::tk::TextSetCursor $txtt [lindex $range [expr {$data($txtt,anchorend) ? 0 : "end"}]]
-    $txtt tag remove sel 1.0 end
+    $txtt mark set insert $cursor
+    $txtt see $cursor
+    clear_selection $txtt
     $txtt tag add sel {*}$range
 
+  }
+  
+  ######################################################################
+  # Clears the selection in such a way that will keep selection mode
+  # enabled.
+  proc clear_selection {txtt} {
+    
+    variable data
+    
+    # Indicate to handle_selection that we don't want to exit selection mode
+    set data($txtt,dont_close) 1
+    
+    # Clear the selection
+    $txtt tag remove sel 1.0 end
+    
   }
 
   ######################################################################
@@ -518,11 +554,16 @@ namespace eval select {
   ######################################################################
   # If we ever lose the selection, automatically exit selection mode.
   proc handle_selection {txtt} {
+    
+    variable data
 
-    if {[$txtt tag ranges sel] eq ""} {
+    if {([$txtt tag ranges sel] eq "") && !$data($txtt,dont_close)} {
       set_select_mode $txtt 0
     }
 
+    # Clear the dont_close indicator
+    set data($txtt,dont_close) 0
+    
   }
 
   ######################################################################
@@ -781,7 +822,7 @@ namespace eval select {
     }
 
     # Set the selection
-    $txtt tag remove sel 1.0 end
+    clear_selection $txtt
     for {set i $srow} {$i <= $erow} {incr i} {
       $txtt tag add sel $i.$scol $i.$ecol
     }
@@ -824,7 +865,7 @@ namespace eval select {
   proc handle_c {txtt} {
 
     # Make sure that char is selected
-    check_item $txtt type char 0
+    check_item $txtt type char
 
   }
 
@@ -832,7 +873,7 @@ namespace eval select {
   # Sets the current selection type to line mode.
   proc handle_l {txtt} {
 
-    check_item $txtt type line 0
+    check_item $txtt type line
 
   }
 
