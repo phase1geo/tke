@@ -4193,12 +4193,16 @@ namespace eval gui {
       pack [ttk::separator $tab.df.sep -orient horizontal] -fill x
     }
 
+    select::add $txt $tab.sb
     grid rowconfigure    $tab 0 -weight 1
     grid columnconfigure $tab 0 -weight 1
     grid $tab.pw   -row 0 -column 0 -sticky news
+    grid $tab.sb   -row 0 -column 2 -sticky ns
     if {$opts(-diff)} {
       grid $tab.df -row 1 -column 0 -sticky ew -columnspan 2
     }
+
+    grid remove $tab.sb
 
     # Separator
     ttk::separator $tab.sep -orient horizontal
@@ -4212,9 +4216,6 @@ namespace eval gui {
       vim::set_vim_mode         $txt
       multicursor::add_bindings $txt
       completer::add_bindings   $txt
-      select::add               $txt $tab.pw.tf.sb
-      grid $tab.pw.tf.sb -row 0 -column 2 -rowspan 2 -sticky ns
-      grid remove $tab.pw.tf.sb
     }
     plugins::handle_text_bindings $txt $opts(-tags)
     make_drop_target                   $txt
@@ -4326,12 +4327,8 @@ namespace eval gui {
     vim::set_vim_mode             $txt2
     multicursor::add_bindings     $txt2
     completer::add_bindings       $txt2
-    select::add               $txt $tab.pw.tb.sb
     plugins::handle_text_bindings $txt2 {}
     make_drop_target              $txt2
-
-    grid $pw.tf2.sb -row 0 -column 2 -rowspan 2 -sticky ns
-    grid remove $pw.tf2.sb
 
     # Apply the appropriate syntax highlighting for the given extension
     syntax::set_language $txt2 [syntax::get_language $txt]
@@ -4953,7 +4950,7 @@ namespace eval gui {
     lassign [split [$txt index insert] .] line column
 
     # Update the information widgets
-    if {[set vim_mode [vim::get_mode $txt]] ne ""} {
+    if {[set vim_mode [expr {[select::in_select_mode $txt.t] ? "SELECT MODE" : [vim::get_mode $txt]}]] ne ""} {
       if {$vim_mode eq "MULTIMOVE MODE"} {
         $widgets(info_state) configure -text [format "%s" $vim_mode]
       } else {
