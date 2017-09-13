@@ -101,11 +101,12 @@ namespace eval number_converter {
   # Returns 1 if any of the selections contains a numerical value.
   proc handle_all_state {} {
 
-    set txt [api::file::get_info [api::file::current_file_index] txt]
-
-    foreach {startpos endpos} [$txt tag ranges sel] {
-      if {[get_number $txt $startpos $endpos] ne ""} {
-        return 1
+    if {[set index [api::file::current_file_index]] != -1} {
+      set txt [api::file::get_info $index txt]
+      foreach {startpos endpos} [$txt tag ranges sel] {
+        if {[get_number $txt $startpos $endpos] ne ""} {
+          return 1
+        }
       }
     }
 

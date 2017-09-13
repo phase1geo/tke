@@ -30,10 +30,10 @@ namespace eval select {
     char      {dchar     dchar}
     block     {dchar     dchar}
     line      {linestart lineend}
-    word      {wordstart {wordend -adjust "+1 display chars"}}
+    word      {wordstart {wordend -forceadjust "+1 display chars"}}
     sentence  {sentence  sentence}
     paragraph {paragraph paragraph}
-    tag       {tagstart  {tagend  -adjust "+1 display chars"}}
+    tag       {tagstart  {tagend  -forceadjust "+1 display chars"}}
     square    {{char -char \[} {char -char \]}}
     curly     {{char -char \{} {char -char \}}}
     paren     {{char -char \(} {char -char \)}}
@@ -58,6 +58,7 @@ namespace eval select {
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
     set data($txt.t,moved)     0
 
+    bind select <<Selection>>             [list select::handle_selection %W]
     bind select <Key>                     "if {\[select::handle_any %W %K\]} break"
     bind select <Return>                  "if {\[select::handle_return %W\]} break"
     bind select <Escape>                  "if {\[select::handle_escape %W\]} break"
@@ -92,63 +93,63 @@ namespace eval select {
 
     variable motions
 
-    ttk::frame $w
+    scrolledframe::scrolledframe $w
 
-    ttk::labelframe $w.type -text [msgcat::mc "Selection Type"]
-    create_item $txtt $w.type [msgcat::mc "Character"]       c  char type
-    create_item $txtt $w.type [msgcat::mc "Word"]            w  word type
-    create_item $txtt $w.type [msgcat::mc "Line"]            l  line type
-    create_item $txtt $w.type [msgcat::mc "Sentence"]        s  sentence type
-    create_item $txtt $w.type [msgcat::mc "Paragraph"]       p  paragraph type
-    create_item $txtt $w.type [msgcat::mc "Tag"]             t  tag type
-    create_item $txtt $w.type [msgcat::mc "Square Brackets"] \[ square type
-    create_item $txtt $w.type [msgcat::mc "Parenthesis"]     \( paren type
-    create_item $txtt $w.type [msgcat::mc "Curly Brackets"]  \{ curly type
-    create_item $txtt $w.type [msgcat::mc "Double Quotes"]   \" double type
-    create_item $txtt $w.type [msgcat::mc "Single Quotes"]   \' single type
-    create_item $txtt $w.type [msgcat::mc "Backticks"]       \` btick type
-    create_item $txtt $w.type [msgcat::mc "Block"]           b  block type
+    ttk::labelframe $w.scrolled.type -text [msgcat::mc "Selection Type"]
+    create_item $txtt $w.scrolled.type [msgcat::mc "Character"]       c  char type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Word"]            w  word type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Line"]            l  line type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Sentence"]        s  sentence type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Paragraph"]       p  paragraph type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Tag"]             t  tag type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Square Brackets"] \[ square type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Parenthesis"]     \( paren type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Curly Brackets"]  \{ curly type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Double Quotes"]   \" double type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Single Quotes"]   \' single type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Backticks"]       \` btick type
+    create_item $txtt $w.scrolled.type [msgcat::mc "Block"]           b  block type
 
     # Create motions suitable for characters
-    set motions(char) [ttk::labelframe $w.cdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.cdir [msgcat::mc "Select Left"]           "j"      left
-    create_item $txtt $w.cdir [msgcat::mc "Select Right"]          "k"      right
-    create_item $txtt $w.cdir [msgcat::mc "Select Up"]             "i"      up
-    create_item $txtt $w.cdir [msgcat::mc "Select Down"]           "m"      down
-    create_item $txtt $w.cdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
-    create_item $txtt $w.cdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
-    create_item $txtt $w.cdir [msgcat::mc "Shift Selection Up"]    "\u2191" ushift
-    create_item $txtt $w.cdir [msgcat::mc "Shift Selection Down"]  "\u2193" dshift
+    set motions(char) [ttk::labelframe $w.scrolled.cdir -text [msgcat::mc "Selection Motion"]]
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Left"]           "j"      left
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Right"]          "k"      right
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Up"]             "i"      up
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Select Down"]           "m"      down
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Up"]    "\u2191" ushift
+    create_item $txtt $w.scrolled.cdir [msgcat::mc "Shift Selection Down"]  "\u2193" dshift
     set motions(block) $motions(char)
 
     # Create motions suitable for words
-    set motions(word) [ttk::labelframe $w.wdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.wdir [msgcat::mc "Select Next"]           "k"      next
-    create_item $txtt $w.wdir [msgcat::mc "Select Previous"]       "j"      prev
-    create_item $txtt $w.wdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
-    create_item $txtt $w.wdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
+    set motions(word) [ttk::labelframe $w.scrolled.wdir -text [msgcat::mc "Selection Motion"]]
+    create_item $txtt $w.scrolled.wdir [msgcat::mc "Select Next"]           "k"      next
+    create_item $txtt $w.scrolled.wdir [msgcat::mc "Select Previous"]       "j"      prev
+    create_item $txtt $w.scrolled.wdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
+    create_item $txtt $w.scrolled.wdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
     set motions(sentence)  $motions(word)
     set motions(paragraph) $motions(word)
 
     # Create motions suitable for tags
-    set motions(tag) [ttk::labelframe $w.tdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.tdir [msgcat::mc "Select Next"]           "k" next
-    create_item $txtt $w.tdir [msgcat::mc "Select Previous"]       "j" prev
-    create_item $txtt $w.tdir [msgcat::mc "Select Parent"]         "i" parent
-    create_item $txtt $w.tdir [msgcat::mc "Select First Child"]    "m" child
+    set motions(tag) [ttk::labelframe $w.scrolled.tdir -text [msgcat::mc "Selection Motion"]]
+    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select Next"]           "k" next
+    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select Previous"]       "j" prev
+    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select Parent"]         "i" parent
+    create_item $txtt $w.scrolled.tdir [msgcat::mc "Select First Child"]    "m" child
 
-    ttk::labelframe $w.anchor -text [msgcat::mc "Selection Anchor"]
-    create_item $txtt $w.anchor [msgcat::mc "Swap"] "a" swap
+    ttk::labelframe $w.scrolled.anchor -text [msgcat::mc "Selection Anchor"]
+    create_item $txtt $w.scrolled.anchor [msgcat::mc "Swap"] "a" swap
 
-    grid rowconfigure $w 0 -weight 0
-    grid $w.type   -row 0 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.cdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.wdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.tdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $w.anchor -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid rowconfigure $w.scrolled 0 -weight 0
+    grid $w.scrolled.type   -row 0 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.scrolled.cdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.scrolled.wdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.scrolled.tdir   -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid $w.scrolled.anchor -row 2 -column 0 -sticky news -padx 2 -pady 2
 
-    grid remove $w.cdir
-    grid remove $w.tdir
+    grid remove $w.scrolled.cdir
+    grid remove $w.scrolled.tdir
 
     return $w
 
@@ -191,30 +192,32 @@ namespace eval select {
   ######################################################################
   # Toggles the state of the given item, deselecting any other selected
   # item.
-  proc check_item {txtt var value} {
+  proc check_item {txtt var value {init 1}} {
 
     variable data
     variable motions
 
     # Clear the last checkmark
-    $data($txtt,sidebar).$var.$data($txtt,$var)_cb configure -text ""
+    $data($txtt,sidebar).scrolled.$var.$data($txtt,$var)_cb configure -text ""
 
     # Set our checkmark
-    $data($txtt,sidebar).$var.${value}_cb configure -text "\u2713"
+    $data($txtt,sidebar).scrolled.$var.${value}_cb configure -text "\u2713"
 
     # Sets the variable to the given value
     set data($txtt,$var) $value
 
     # Make sure that the correct selection motion chars are displayed
-    foreach win [array names motions] {
-      grid remove $motions($win)
-    }
-    if {[info exists motions($value)]} {
-      grid $motions($value)
+    if {$var eq "type"} {
+      foreach win [array names motions] {
+        grid remove $motions($win)
+      }
+      if {[info exists motions($value)]} {
+        grid $motions($value)
+      }
     }
 
     # Update the selection
-    if {$data($txtt,mode)} {
+    if {$data($txtt,mode) && $init} {
       update_selection $txtt init
     }
 
@@ -251,18 +254,32 @@ namespace eval select {
           line    { set range [edit::get_range $txtt linestart lineend "" 0] }
           default { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
         }
+        if {[lindex $range 0] eq ""} {
+          return
+        }
       }
       next -
       prev {
         set pos   $positions($data($txtt,type))
         set index [expr $data($txtt,anchorend) ^ 1]
-        if {($motion eq "prev") && ($index == 1) && ([lsearch [list word tag] $data($txtt,type)] != -1)} {
-          lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
+        switch $data($txtt,type) {
+          line {
+            set count [expr {($motion eq "next") ? "+1 display lines" : "-1 display lines"}]
+            lset range $index [$txtt index "[lindex $range $index]$count [lindex $pos $index]"]
+          }
+          default {
+            if {($index == 1) && ($motion eq "prev") && ([lsearch [list word tag] $data($txtt,type)] != -1)} {
+              lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
+            }
+            if {$opts(-startpos) ne ""} {
+              lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos $opts(-startpos)]
+            } else {
+              lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos [lindex $range $index]]
+            }
+          }
         }
-        if {$opts(-startpos) ne ""} {
-          lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos $opts(-startpos)]
-        } else {
-          lset range $index [edit::get_index $txtt {*}[lindex $pos $index] -dir $motion -startpos [lindex $range $index]]
+        if {([lindex $range $index] eq "") || [$txtt compare [lindex $range 0] >= [lindex $range 1]]} {
+          return
         }
         set data($txtt,moved) 1
       }
@@ -415,6 +432,21 @@ namespace eval select {
   }
 
   ######################################################################
+  # Returns true if the given text widget is currently in selection mode;
+  # otherwise, returns false.
+  proc in_select_mode {txtt} {
+
+    variable data
+
+    if {![info exists data($txtt,mode)]} {
+      return 0
+    }
+
+    return $data($txtt,mode)
+
+  }
+
+  ######################################################################
   # Sets the selection mode for the given text widget to the given value.
   # This will cause the selection sidebar to appear or disappear as needed.
   proc set_select_mode {txtt value args} {
@@ -445,9 +477,11 @@ namespace eval select {
         set data($txtt,anchor) [$txtt index insert]
         set data($txtt,moved)  0
 
-        # If text was not previously selected, select it
+        # If text was not previously selected, select it by word
         if {[set sel [$txtt tag ranges sel]] eq ""} {
-          update_selection $txtt init
+          check_item $txtt type "word" 1
+        } else {
+          check_item $txtt type "char" 0
         }
 
         # Configure the cursor
@@ -464,6 +498,19 @@ namespace eval select {
 
       }
 
+      # Make sure that the information bar is updated appropriately
+      gui::update_position [winfo parent $txtt]
+
+    }
+
+  }
+
+  ######################################################################
+  # If we ever lose the selection, automatically exit selection mode.
+  proc handle_selection {txtt} {
+
+    if {[$txtt tag ranges sel] eq ""} {
+      set_select_mode $txtt 0
     }
 
   }
@@ -502,9 +549,6 @@ namespace eval select {
 
     # Clear the selection
     $txtt tag remove sel 1.0 end
-
-    # Disable selection mode
-    set_select_mode $txtt 0
 
     return 1
 
@@ -770,7 +814,7 @@ namespace eval select {
   proc handle_c {txtt} {
 
     # Make sure that char is selected
-    check_item $txtt type char
+    check_item $txtt type char 0
 
   }
 
@@ -778,7 +822,7 @@ namespace eval select {
   # Sets the current selection type to line mode.
   proc handle_l {txtt} {
 
-    check_item $txtt type line
+    check_item $txtt type line 0
 
   }
 
@@ -933,7 +977,7 @@ namespace eval select {
   proc handle_j {txtt} {
 
     variable data
-    
+
     if {$data($txtt,type) eq "block"} {
       update_selection $txtt left
     } else {
@@ -945,7 +989,7 @@ namespace eval select {
   ######################################################################
   # Handles moving the entire selection to the right by the current type.
   proc handle_k {txtt} {
-    
+
     variable data
 
     if {$data($txtt,type) eq "block"} {
@@ -994,11 +1038,13 @@ namespace eval select {
 
     variable data
 
+    # Get the selected ranges (if none is set, return immediately)
+    if {[set sel [$txtt tag ranges sel]] eq ""} {
+      return
+    }
+
     # Change the anchor end
     set data($txtt,anchorend) [expr $data($txtt,anchorend) ^ 1]
-
-    # Get the selected ranges
-    set sel [$txtt tag ranges sel]
 
     # Set the anchor
     if {$data($txtt,anchorend)} {

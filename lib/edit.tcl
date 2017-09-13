@@ -1650,13 +1650,14 @@ namespace eval edit {
     variable patterns
 
     array set opts {
-      -dir       "next"
-      -startpos  "insert"
-      -num       1
-      -char      ""
-      -exclusive 0
-      -column    ""
-      -adjust    ""
+      -dir         "next"
+      -startpos    "insert"
+      -num         1
+      -char        ""
+      -exclusive   0
+      -column      ""
+      -adjust      ""
+      -forceadjust ""
     }
     array set opts $args
 
@@ -1829,7 +1830,9 @@ namespace eval edit {
     }
 
     # Make any necessary adjustments, if needed
-    if {($index ne $opts(-startpos)) && ($opts(-adjust) ne "")} {
+    if {$opts(-forceadjust) ne ""} {
+      set index [$txtt index "$index$opts(-forceadjust)"]
+    } elseif {($index ne $opts(-startpos)) && ($opts(-adjust) ne "")} {
       set index [$txtt index "$index$opts(-adjust)"]
     }
 
