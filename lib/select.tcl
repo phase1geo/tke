@@ -42,10 +42,26 @@ namespace eval select {
     single    {{char -char \'} {char -char \'}}
     btick     {{char -char \`} {char -char \`}}
   }
+  variable types [list \
+    [msgcat::mc "Character"]       c  char \
+    [msgcat::mc "Word"]            w  word \
+    [msgcat::mc "Line"]            l  line \
+    [msgcat::mc "Sentence"]        s  sentence \
+    [msgcat::mc "Paragraph"]       p  paragraph \
+    [msgcat::mc "Tag"]             t  tag \
+    [msgcat::mc "Square Brackets"] \[ square \
+    [msgcat::mc "Parenthesis"]     \( paren \
+    [msgcat::mc "Curly Brackets"]  \{ curly \
+    [msgcat::mc "Angled Brackets"] \< angled \
+    [msgcat::mc "Double Quotes"]   \" double \
+    [msgcat::mc "Single Quotes"]   \' single \
+    [msgcat::mc "Backticks"]       \` btick \
+    [msgcat::mc "Block"]           b  block \
+  ]
 
   ######################################################################
   # Adds bindings for selection mode.  Returns the hierarchical reference
-  # to the select mode sidebar widget which needs to be packed into a grid
+  # to the select mode bar widget which needs to be packed into a grid
   # controlled layout manager and hidden from view.
   proc add {txt frame} {
 
@@ -55,7 +71,7 @@ namespace eval select {
     set data($txt.t,type)      none
     set data($txt.t,anchor)    1.0
     set data($txt.t,anchorend) 0
-    set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
+    set data($txt.t,bar)       [create_bar $txt.t $frame]
     set data($txt.t,moved)     0
 
     bind select <<Selection>>             [list select::handle_selection %W]
@@ -84,157 +100,107 @@ namespace eval select {
   }
 
   ######################################################################
-  # Creates the selection mode sidebar which displays the currently selected
+  # Creates the selection mode bar which displays the currently selected
   # modes, their key bindings and their description.
-  proc create_sidebar {txtt w} {
+  proc create_bar {txtt w} {
 
     variable motions
-
-    ttk::frame                   $w
-    ttk::label                   $w.l    -width 30
-    scrolledframe::scrolledframe $w.sf   -fill x -yscrollcommand [list utils::set_yscrollbar $w.vb]
-    scroller::scroller           $w.vb   -orient vertical -command [list $w.sf yview]
-    ttk::separator               $w.sep2 -orient horizontal
-
-    ttk::labelframe $w.sf.scrolled.type -text [msgcat::mc "Selection Type"]
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Character"]       c  char type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Word"]            w  word type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Line"]            l  line type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Sentence"]        s  sentence type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Paragraph"]       p  paragraph type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Tag"]             t  tag type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Square Brackets"] \[ square type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Parenthesis"]     \( paren type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Curly Brackets"]  \{ curly type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Angled Brackets"] \< angled type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Double Quotes"]   \" double type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Single Quotes"]   \' single type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Backticks"]       \` btick type
-    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Block"]           b  block type
-
-    # Create motions suitable for characters
-    set motions(char) [ttk::labelframe $w.sf.scrolled.cdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Left"]           "j"      left
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Right"]          "k"      right
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Up"]             "i"      up
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Select Down"]           "m"      down
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Up"]    "\u2191" ushift
-    create_item $txtt $w.sf.scrolled.cdir [msgcat::mc "Shift Selection Down"]  "\u2193" dshift
-    set motions(block) $motions(char)
-
-    # Create motions suitable for words
-    set motions(word) [ttk::labelframe $w.sf.scrolled.wdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Select Next"]           "k"      next
-    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Select Previous"]       "j"      prev
-    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Shift Selection Left"]  "\u2190" lshift
-    create_item $txtt $w.sf.scrolled.wdir [msgcat::mc "Shift Selection Right"] "\u2192" rshift
+    variable types
+    variable data
+    
+    # Create the UI
+    ttk::frame      $w
+    ttk::label      $w.l    -text [msgcat::mc "SELECT MODE"]
+    ttk::menubutton $w.type -text "" -menu [menu $w.typeMenu -tearoff 0]
+    ttk::label      $w.help -text ""
+    ttk::button     $w.close -style BButton -image form_close
+    
+    pack $w.l     -side left -padx 2 -pady 2
+    pack $w.type  -side left -padx 2 -pady 2
+    pack $w.help  -side left -padx 2 -pady 2 -fill x
+    pack $w.close -side right -padx 2 -pady 2
+    
+    # Populate the type menu
+    $w.typeMenu add command -label [msgcat::mc "Selection Modes"] -state disabled
+    $w.typeMenu add separator
+    foreach {lbl accel value} $types {
+      $w.typeMenu add radiobutton -label $lbl -accelerator $accel \
+        -variable select::data($txtt,type) -value $value -command [list select::set_type $txtt $value]
+    }
+    
+    set left   [list [msgcat::mc "Left"]        "j"]
+    set right  [list [msgcat::mc "Right"]       "k"]
+    set up     [list [msgcat::mc "Up"]          "i"]
+    set down   [list [msgcat::mc "Down"]        "m"]
+    set lshift [list [msgcat::mc "Shift Left"]  "\u2190"]
+    set rshift [list [msgcat::mc "Shift Right"] "\u2192"]
+    set ushift [list [msgcat::mc "Shift Up"]    "\u2191"]
+    set dshift [list [msgcat::mc "Shift Down"]  "\u2193"]
+    set next   [list [msgcat::mc "Next"]        "k"]
+    set prev   [list [msgcat::mc "Previous"]    "j"]
+    set parent [list [msgcat::mc "Parent"]      "i"]
+    set child  [list [msgcat::mc "FirstChild"]  "m"]
+    
+    # Create motion help
+    set motions(char)      [create_help $left $right $up $down $lshift $rshift $ushift $dshift]
+    set motions(word)      [create_help $next $prev $lshift $rshift]
+    set motions(line)      [create_help $next $prev $ushift $dshift]
     set motions(sentence)  $motions(word)
     set motions(paragraph) $motions(word)
-
-    # Create motions suitable for tags
-    set motions(tag) [ttk::labelframe $w.sf.scrolled.tdir -text [msgcat::mc "Selection Motion"]]
-    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select Next"]           "k" next
-    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select Previous"]       "j" prev
-    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select Parent"]         "i" parent
-    create_item $txtt $w.sf.scrolled.tdir [msgcat::mc "Select First Child"]    "m" child
-
-    ttk::labelframe $w.sf.scrolled.anchor -text [msgcat::mc "Selection Anchor"]
-    create_item $txtt $w.sf.scrolled.anchor [msgcat::mc "Swap"] "a" swap
-
-    grid rowconfigure    $w.sf.scrolled 3 -weight 1
-    grid columnconfigure $w.sf.scrolled 0 -weight 1
-    grid $w.sf.scrolled.type   -row 0 -column 0 -sticky news -padx 4 -pady 2
-    grid $w.sf.scrolled.cdir   -row 1 -column 0 -sticky news -padx 4 -pady 2
-    grid $w.sf.scrolled.wdir   -row 1 -column 0 -sticky news -padx 4 -pady 2
-    grid $w.sf.scrolled.tdir   -row 1 -column 0 -sticky news -padx 4 -pady 2
-    grid $w.sf.scrolled.anchor -row 2 -column 0 -sticky news -padx 4 -pady 2
-
-    grid remove $w.sf.scrolled.cdir
-    grid remove $w.sf.scrolled.tdir
-
-    grid rowconfigure    $w 1 -weight 1
-    grid columnconfigure $w 0 -weight 1
-    grid $w.l    -row 0 -column 0 -sticky ew
-    grid $w.sf   -row 1 -column 0 -sticky news
-    grid $w.vb   -row 1 -column 1 -sticky ns
-    grid $w.sep2 -row 2 -column 0 -sticky ew -columnspan 2
-
-    theme::register_widget $w.vb misc_scrollbar
+    set motions(curly)     ""
+    set motions(square)    ""
+    set motions(paren)     ""
+    set motions(angled)    ""
+    set motions(single)    ""
+    set motions(double)    ""
+    set motions(btick)     ""
+    set motions(tag)       [create_help $next $prev $parent $child]
+    set motions(block)     $motions(char)
 
     return $w
 
   }
-
+  
   ######################################################################
-  # Creates an item that will be displayed in the selection sidebar.
-  proc create_item {txtt w name key value {var ""}} {
-
-    set row [lindex [grid size $w] 1]
-
-    grid [ttk::label $w.${value}_cb   -text " "]   -row $row -column 0 -sticky news -pady 2
-    grid [ttk::label $w.${value}_key  -text $key]  -row $row -column 1 -sticky news -pady 2
-    grid [ttk::label $w.${value}_name -text $name -width 20] -row $row -column 2 -sticky news -pady 2
-
-    if {$var ne ""} {
-      bind $w.${value}_cb   <Enter>    [list select::set_item_state $w.$value active]
-      bind $w.${value}_cb   <Leave>    [list select::set_item_state $w.$value !active]
-      bind $w.${value}_key  <Enter>    [list select::set_item_state $w.$value active]
-      bind $w.${value}_key  <Leave>    [list select::set_item_state $w.$value !active]
-      bind $w.${value}_name <Enter>    [list select::set_item_state $w.$value active]
-      bind $w.${value}_name <Leave>    [list select::set_item_state $w.$value !active]
-      bind $w.${value}_cb   <Button-1> [list select::check_item $txtt $var $value]
-      bind $w.${value}_key  <Button-1> [list select::check_item $txtt $var $value]
-      bind $w.${value}_name <Button-1> [list select::check_item $txtt $var $value]
+  # Creates a help string.
+  proc create_help {args} {
+    
+    set help ""
+    
+    foreach item $args {
+      lassign $item lbl shortcut
+      append help [format " \[%s\] %s, " $shortcut $lbl]
     }
-
+    
+    append help [format " \[%s\] %s" "a" [msgcat::mc "Swap Anchor"]]
+    
+    return $help
+    
   }
-
+  
   ######################################################################
-  # Sets the state of the entire item
-  proc set_item_state {item state} {
-
-    ${item}_cb   state $state
-    ${item}_key  state $state
-    ${item}_name state $state
-
-  }
-
-  ######################################################################
-  # Toggles the state of the given item, deselecting any other selected
-  # item.
-  proc check_item {txtt var value {init 1}} {
-
-    variable data
+  # Set the type information
+  proc set_type {txtt value {init 1}} {
+    
     variable motions
-
-    # Clear the last checkmark
-    if {$data($txtt,$var) ne "none"} {
-      $data($txtt,sidebar).sf.scrolled.$var.$data($txtt,$var)_cb configure -text ""
-    }
-
-    # Set our checkmark
-    $data($txtt,sidebar).sf.scrolled.$var.${value}_cb configure -text "\u2713"
-
-    # Sets the variable to the given value
-    set data($txtt,$var) $value
-
-    # Make sure that the correct selection motion chars are displayed
-    if {$var eq "type"} {
-      foreach win [array names motions] {
-        grid remove $motions($win)
-      }
-      if {[info exists motions($value)]} {
-        grid $motions($value)
-      }
-    }
-
+    variable data
+    variable types
+    
+    # Find the matching label
+    set lbl [lindex $types [expr [lsearch $types $value] - 2]]
+    
+    # Update the bar UI
+    $data($txtt,bar).type configure -text $lbl
+    $data($txtt,bar).help configure -text $motions($value)
+    
+    # Set the type
+    set data($txtt,type) $value
+    
     # Update the selection
     if {$data($txtt,mode) && $init} {
       update_selection $txtt init
     }
-
+    
   }
 
   ######################################################################
@@ -460,26 +426,26 @@ namespace eval select {
   }
 
   ######################################################################
-  # Open the sidebar for view.  This should only be called by the
+  # Open the bar for view.  This should only be called by the
   # set_select_mode internal procedure.
-  proc open_sidebar {txtt} {
+  proc open_bar {txtt} {
 
     variable data
 
-    # Make the sidebar visible
-    place $data($txtt,sidebar) -in [winfo parent $data($txtt,sidebar)] -relx 1.0 -rely 0.0 -relheight 1.0 -anchor ne
+    # Make the bar visible
+    place $data($txtt,bar) -in [winfo parent $data($txtt,bar)] -relx 0.0 -rely 1.0 -relwidth 1.0 -anchor sw
 
   }
 
   ######################################################################
-  # Closes the selection mode sidebar from view.  This should only be
+  # Closes the selection mode bar from view.  This should only be
   # called by the set_select_mode internal procedure.
-  proc close_sidebar {txtt} {
+  proc close_bar {txtt} {
 
     variable data
 
-    # Hide the sidebar
-    place forget $data($txtt,sidebar)
+    # Hide the bar
+    place forget $data($txtt,bar)
 
   }
 
@@ -500,7 +466,7 @@ namespace eval select {
 
   ######################################################################
   # Sets the selection mode for the given text widget to the given value.
-  # This will cause the selection sidebar to appear or disappear as needed.
+  # This will cause the selection bar to appear or disappear as needed.
   proc set_select_mode {txtt value args} {
 
     variable data
@@ -509,18 +475,18 @@ namespace eval select {
     if {$data($txtt,mode) != $value} {
 
       array set opts {
-        -sidebar 1
+        -bar 1
       }
       array set opts $args
 
       # Set the mode to the given value
       set data($txtt,mode) $value
 
-      # Show/Hide the sidebar
+      # Show/Hide the bar
       if {$value == 0} {
-        close_sidebar $txtt
-      } elseif {$opts(-sidebar)} {
-        open_sidebar $txtt
+        close_bar $txtt
+      } elseif {$opts(-bar)} {
+        open_bar $txtt
       }
 
       # If we are enabled, do some initializing
@@ -531,9 +497,9 @@ namespace eval select {
 
         # If text was not previously selected, select it by word
         if {[set sel [$txtt tag ranges sel]] eq ""} {
-          check_item $txtt type "word" 1
+          set_type $txtt "word" 1
         } elseif {$data($txtt,type) eq "none"} {
-          check_item $txtt type "char" 0
+          set_type $txtt "char" 0
         }
 
         # Configure the cursor
@@ -636,9 +602,9 @@ namespace eval select {
 
     variable data
 
-    # If selection mode is enabled, display the sidebar
+    # If selection mode is enabled, display the bar
     if {$data($txtt,mode)} {
-      open_sidebar $txtt
+      open_bar $txtt
     }
 
     return 1
@@ -650,7 +616,7 @@ namespace eval select {
   proc handle_double_click {txtt x y} {
 
     # Set the selection type to inner word
-    check_item $txtt type word
+    set_type $txtt word
 
     return 0
 
@@ -662,7 +628,7 @@ namespace eval select {
   proc handle_control_double_click {txtt x y} {
 
     # Set the selection type to sentence
-    check_item $txtt type sentence
+    set_type $txtt sentence
 
     # Update the selection
     update_selection $txtt init -startpos [$txtt index @$x,$y]
@@ -687,7 +653,7 @@ namespace eval select {
       } elseif {[ctext::inDoubleQuote $txtt @$x,$y]} {
         set type double
       } else {
-        set type backtick
+        set type btick
       }
     } else {
       set closest ""
@@ -706,7 +672,7 @@ namespace eval select {
 
     # If we found a type, select the block
     if {$type ne ""} {
-      check_item $txtt type $type
+      set_type $txtt $type
       update_selection $txtt init -startpos [$txtt index @$x,$y]
     }
 
@@ -720,7 +686,7 @@ namespace eval select {
   proc handle_triple_click {txtt x y} {
 
     # Set the selection type to inner line
-    check_item $txtt type line
+    set_type $txtt line
 
     return 0
 
@@ -732,7 +698,7 @@ namespace eval select {
   proc handle_control_triple_click {txtt x y} {
 
     # Set the selection type to paragraph
-    check_item $txtt type paragraph
+    set_type $txtt paragraph
 
     # Update the selection
     update_selection $txtt init -startpos [$txtt index @$x,$y]
@@ -759,7 +725,7 @@ namespace eval select {
     set_select_mode $txtt 1
 
     # Set the selection type to node
-    check_item $txtt type node
+    set_type $txtt node
 
     return 1
 
@@ -774,8 +740,8 @@ namespace eval select {
     # If we are not in selection mode, return immediately
     if {$data($txtt,mode) == 0} {
       $txtt mark set insert @$x,$y
-      set_select_mode $txtt 1 -sidebar 0
-      check_item $txtt type char
+      set_select_mode $txtt 1 -bar 0
+      set_type $txtt char
       return 1
     }
 
@@ -892,7 +858,7 @@ namespace eval select {
   proc handle_c {txtt} {
 
     # Make sure that char is selected
-    check_item $txtt type char
+    set_type $txtt char
 
   }
 
@@ -900,7 +866,7 @@ namespace eval select {
   # Sets the current selection type to line mode.
   proc handle_l {txtt} {
 
-    check_item $txtt type line
+    set_type $txtt line
 
   }
 
@@ -908,7 +874,7 @@ namespace eval select {
   # Sets the current selection type to block mode.
   proc handle_b {txtt} {
 
-    check_item $txtt type block
+    set_type $txtt block
 
   }
 
@@ -916,7 +882,7 @@ namespace eval select {
   # Set the current selection type to word mode.
   proc handle_w {txtt} {
 
-    check_item $txtt type word
+    set_type $txtt word
 
   }
 
@@ -924,7 +890,7 @@ namespace eval select {
   # Set the current selection type to sentence mode.
   proc handle_s {txtt} {
 
-    check_item $txtt type sentence
+    set_type $txtt sentence
 
   }
 
@@ -932,7 +898,7 @@ namespace eval select {
   # Set the current selection type to paragraph mode.
   proc handle_p {txtt} {
 
-    check_item $txtt type paragraph
+    set_type $txtt paragraph
 
   }
 
@@ -940,7 +906,7 @@ namespace eval select {
   # Set the current selection type to tag mode.
   proc handle_t {txtt} {
 
-    check_item $txtt type tag
+    set_type $txtt tag
 
   }
 
@@ -948,7 +914,7 @@ namespace eval select {
   # Set the current selection type to curly mode.
   proc handle_braceleft {txtt} {
 
-    check_item $txtt type curly
+    set_type $txtt curly
 
   }
 
@@ -956,7 +922,7 @@ namespace eval select {
   # Set the current selection type to parenthesis mode.
   proc handle_parenleft {txtt} {
 
-    check_item $txtt type paren
+    set_type $txtt paren
 
   }
 
@@ -964,7 +930,7 @@ namespace eval select {
   # Set the current selection type to angled mode.
   proc handle_less {txtt} {
 
-    check_item $txtt type angled
+    set_type $txtt angled
 
   }
 
@@ -972,7 +938,7 @@ namespace eval select {
   # Set the current selection type to square mode.
   proc handle_bracketleft {txtt} {
 
-    check_item $txtt type square
+    set_type $txtt square
 
   }
 
@@ -980,7 +946,7 @@ namespace eval select {
   # Set the current selection type to double quote mode.
   proc handle_quotedbl {txtt} {
 
-    check_item $txtt type double
+    set_type $txtt double
 
   }
 
@@ -988,7 +954,7 @@ namespace eval select {
   # Set the current selection type to single quote mode.
   proc handle_quoteright {txtt} {
 
-    check_item $txtt type single
+    set_type $txtt single
 
   }
 
@@ -996,7 +962,7 @@ namespace eval select {
   # Set the current selection type to backtick mode.
   proc handle_quoteleft {txtt} {
 
-    check_item $txtt type btick
+    set_type $txtt btick
 
   }
 
