@@ -3745,6 +3745,7 @@ namespace eval gui {
   #   - fileindex
   #   - txt
   #   - txt2
+  #   - focus
   #   - beye
   #   - fname
   #   - lang
@@ -3755,6 +3756,7 @@ namespace eval gui {
 
     variable widgets
     variable pw_current
+    variable txt_current
 
     # Convert from to a tab
     switch $from_type {
@@ -3834,6 +3836,12 @@ namespace eval gui {
             return -code error "Unable to get txt2 information"
           }
           set type$i "$tab.pw.tf2.txt"
+        }
+        focus {
+          if {($tab eq "") || ![info exists txt_current($tab)]} {
+            return -code error "Unable to get focus information"
+          }
+          set type$i $txt_current($tab)
         }
         beye {
           if {$tab eq ""} {
@@ -4925,7 +4933,11 @@ namespace eval gui {
   # there is no current text widget).
   proc current_txt {} {
 
-    return [expr {[catch { get_info {} current txt } txt] ? "" : $txt}]
+    if {[catch { get_info {} current focus } focus]} {
+      return [expr {[catch { get_info {} current txt } txt] ? "" : $txt}]
+    }
+
+    return $focus
 
   }
 

@@ -2021,11 +2021,8 @@ namespace eval menus {
   # Adds the specified formatting around the selected text.
   proc edit_format {type} {
 
-    # Get the current text widget
-    set txt [gui::get_info {} current txt]
-
     # Perform the editing
-    edit::format $txt.t $type
+    edit::format [gui::current_txt].t $type
 
   }
 
@@ -2033,10 +2030,8 @@ namespace eval menus {
   # Removes all formatting within the selected text.
   proc edit_format_remove {} {
 
-    set txt [gui::get_info {} current txt]
-
     # Unapply any formatting found in the selected text
-    edit::unformat $txt.t
+    edit::unformat [gui::current_txt].t
 
   }
 
