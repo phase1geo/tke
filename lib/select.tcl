@@ -30,10 +30,10 @@ namespace eval select {
     char      {dchar     dchar}
     block     {dchar     dchar}
     line      {linestart lineend}
-    word      {wordstart {wordend -forceadjust "+1 display chars"}}
+    word      {wordstart {wordend   -forceadjust "+1 display chars"}}
     sentence  {sentence  sentence}
     paragraph {paragraph paragraph}
-    tag       {tagstart  {tagend  -forceadjust "+1 display chars"}}
+    tag       {tagstart  {tagend    -forceadjust "+1 display chars"}}
     square    {{char -char \[} {char -char \]}}
     curly     {{char -char \{} {char -char \}}}
     paren     {{char -char \(} {char -char \)}}
@@ -52,7 +52,7 @@ namespace eval select {
     variable data
 
     set data($txt.t,mode)      0
-    set data($txt.t,type)      word
+    set data($txt.t,type)      none
     set data($txt.t,anchor)    1.0
     set data($txt.t,anchorend) 0
     set data($txt.t,sidebar)   [create_sidebar $txt.t $frame]
@@ -70,19 +70,16 @@ namespace eval select {
     # bind select <Mod2-ButtonPress-1>      "if {\[select::handle_single_press %W %x %y\]} break"
     # bind select <Mod2-ButtonRelease-1>    "if {\[select::handle_single_release %W %x %y\]} break"
     # bind select <Mod2-B1-Motion>          "if {\[select::handle_alt_motion %W %x %y\]} break"
-    bind select <Mod2-Double-Button-1>    "if {\[select::handle_alt_double_click %W %x %y\]} break"
-    bind select <Mod2-Triple-Button-1>    "if {\[select::handle_alt_triple_click %W %x %y\]} break"
-    # bind select <Control-Double-Button-1> "if {\[select::handle_control_double_click %W %x %y\]} break"
-    # bind select <Control-Triple-Button-1> "if {\[select::handle_control_triple_click %W %x %y\]} break"
+    bind select <Control-Double-Button-1>       "if {\[select::handle_control_double_click %W %x %y\]} break"
+    bind select <Control-Triple-Button-1>       "if {\[select::handle_control_triple_click %W %x %y\]} break"
+    bind select <Shift-Control-Double-Button-1> "if {\[select::handle_shift_control_double_click %W %x %y\]} break"
+    bind select <Shift-Control-Triple-Button-1> "if {\[select::handle_shift_control_triple_click %W %x %y\]} break"
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
     # Use the selection background color
     set bg [$txt.t cget -selectbackground]
     set fg [$txt.t cget -selectforeground]
-
-    # Make sure that our defaults are checked
-    check_item $txt.t type word
 
   }
 
@@ -109,6 +106,7 @@ namespace eval select {
     create_item $txtt $w.sf.scrolled.type [msgcat::mc "Square Brackets"] \[ square type
     create_item $txtt $w.sf.scrolled.type [msgcat::mc "Parenthesis"]     \( paren type
     create_item $txtt $w.sf.scrolled.type [msgcat::mc "Curly Brackets"]  \{ curly type
+    create_item $txtt $w.sf.scrolled.type [msgcat::mc "Angled Brackets"] \< angled type
     create_item $txtt $w.sf.scrolled.type [msgcat::mc "Double Quotes"]   \" double type
     create_item $txtt $w.sf.scrolled.type [msgcat::mc "Single Quotes"]   \' single type
     create_item $txtt $w.sf.scrolled.type [msgcat::mc "Backticks"]       \` btick type
@@ -212,7 +210,9 @@ namespace eval select {
     variable motions
 
     # Clear the last checkmark
-    $data($txtt,sidebar).sf.scrolled.$var.$data($txtt,$var)_cb configure -text ""
+    if {$data($txtt,$var) ne "none"} {
+      $data($txtt,sidebar).sf.scrolled.$var.$data($txtt,$var)_cb configure -text ""
+    }
 
     # Set our checkmark
     $data($txtt,sidebar).sf.scrolled.$var.${value}_cb configure -text "\u2713"
@@ -262,7 +262,11 @@ namespace eval select {
 
     switch $motion {
       init {
-        $txtt mark set insert $data($txtt,anchor)
+        if {$opts(-startpos) eq ""} {
+          $txtt mark set insert $data($txtt,anchor)
+        } else {
+          $txtt mark set insert $opts(-startpos)
+        }
         switch $data($txtt,type) {
           char -
           block   { set range [list $data($txtt,anchor) "$data($txtt,anchor)+1 display chars"] }
@@ -277,7 +281,9 @@ namespace eval select {
             }
             set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0]
           }
-          default { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
+          sentence -
+          paragraph { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0] }
+          default   { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
         }
       }
       next -
@@ -526,7 +532,7 @@ namespace eval select {
         # If text was not previously selected, select it by word
         if {[set sel [$txtt tag ranges sel]] eq ""} {
           check_item $txtt type "word" 1
-        } else {
+        } elseif {$data($txtt,type) eq "none"} {
           check_item $txtt type "char" 0
         }
 
@@ -651,40 +657,58 @@ namespace eval select {
   }
 
   ######################################################################
-  # Handles a double-click while the Alt key is pressed.  Selects the
+  # Handles a double-click while the Control key is pressed.  Selects the
   # current sentence.
-  proc handle_alt_double_click {txtt x y} {
+  proc handle_control_double_click {txtt x y} {
 
     # Set the selection type to sentence
     check_item $txtt type sentence
 
-    # Perform the selection
-    update_selection $txtt init
+    # Update the selection
+    update_selection $txtt init -startpos [$txtt index @$x,$y]
 
     return 1
 
   }
 
   ######################################################################
-  # Handles a double-click event while the Control key is held.  Selects
-  # the current square, curly, paren, single, double, backtick or tag.
-  proc handle_control_double_click {txtt x y} {
+  # Handles a double-click event while the Shift-Control keys are held.
+  # Selects the current square, curly, paren, single, double, backtick or tag.
+  proc handle_shift_control_double_click {txtt x y} {
 
-    variable data
+    set type ""
 
-    if {$data($txtt,mode)} {
-      return 1
+    # If we are within a comment, return
+    if {[ctext::inComment $txtt @$x,$y]} {
+      return
+    } elseif {[ctext::inString $txtt @$x,$y]} {
+      if {[ctext::inSingleQuote $txtt @$x,$y]} {
+        set type single
+      } elseif {[ctext::inDoubleQuote $txtt @$x,$y]} {
+        set type double
+      } else {
+        set type backtick
+      }
+    } else {
+      set closest ""
+      foreach t [list square curly paren angled] {
+        if {[lsearch -regexp [$txtt tag names @$x,$y] "_${t}\[LR\]"] != -1} {
+          set type $t
+          break
+        } elseif {[set index [ctext::get_match_bracket [winfo parent $txtt] ${t}L [$txtt index @$x,$y]]] ne ""} {
+          if {($closest eq "") || [$txtt compare $index > $closest]} {
+            set type    $t
+            set closest $index
+          }
+        }
+      }
     }
 
-    # Set the insertion cursor
-    $txtt mark set insert @$x,$y
-
-    # Enable the selection mode
-    set_select_mode $txtt 1
-
-    # Set the selection type to the appropriate type based on the current
-    # syntax.
-    # check_item $txtt type TBD
+    # If we found a type, select the block
+    if {$type ne ""} {
+      check_item $txtt type $type
+      update_selection $txtt init -startpos [$txtt index @$x,$y]
+    }
 
     return 1
 
@@ -703,21 +727,24 @@ namespace eval select {
   }
 
   ######################################################################
-  # Handles a triple-click when the Alt key is down.  Selects a paragraph
+  # Handles a triple-click when the Control key is down.  Selects a paragraph
   # of text.
-  proc handle_alt_triple_click {txtt x y} {
+  proc handle_control_triple_click {txtt x y} {
 
     # Set the selection type to paragraph
     check_item $txtt type paragraph
 
-    return 0
+    # Update the selection
+    update_selection $txtt init -startpos [$txtt index @$x,$y]
+
+    return 1
 
   }
 
   ######################################################################
-  # Handles a triple-click while the Control key is held.  Selects the
-  # current XML node.
-  proc handle_control_triple_click {txtt x y} {
+  # Handles a triple-click while the Shift-Control keys are held.  Selects
+  # the current XML node.
+  proc handle_shift_control_triple_click {txtt x y} {
 
     variable data
 
