@@ -43,20 +43,20 @@ namespace eval select {
     btick     {{char -char \`} {char -char \`}}
   }
   variable types [list \
-    [msgcat::mc "Character"]       c  char \
-    [msgcat::mc "Word"]            w  word \
-    [msgcat::mc "Line"]            l  line \
-    [msgcat::mc "Sentence"]        s  sentence \
-    [msgcat::mc "Paragraph"]       p  paragraph \
-    [msgcat::mc "Tag"]             t  tag \
-    [msgcat::mc "Square Brackets"] \[ square \
-    [msgcat::mc "Parenthesis"]     \( paren \
-    [msgcat::mc "Curly Brackets"]  \{ curly \
-    [msgcat::mc "Angled Brackets"] \< angled \
-    [msgcat::mc "Double Quotes"]   \" double \
-    [msgcat::mc "Single Quotes"]   \' single \
-    [msgcat::mc "Backticks"]       \` btick \
-    [msgcat::mc "Block"]           b  block \
+    [list [msgcat::mc "Character"]       c  char] \
+    [list [msgcat::mc "Word"]            w  word] \
+    [list [msgcat::mc "Line"]            l  line] \
+    [list [msgcat::mc "Sentence"]        s  sentence] \
+    [list [msgcat::mc "Paragraph"]       p  paragraph] \
+    [list [msgcat::mc "Tag"]             t  tag] \
+    [list [msgcat::mc "Square Brackets"] \[ square] \
+    [list [msgcat::mc "Parenthesis"]     \( paren] \
+    [list [msgcat::mc "Curly Brackets"]  \{ curly] \
+    [list [msgcat::mc "Angled Brackets"] \< angled] \
+    [list [msgcat::mc "Double Quotes"]   \" double] \
+    [list [msgcat::mc "Single Quotes"]   \' single] \
+    [list [msgcat::mc "Backticks"]       \` btick] \
+    [list [msgcat::mc "Block"]           b  block] \
   ]
 
   ######################################################################
@@ -71,7 +71,6 @@ namespace eval select {
     set data($txt.t,type)      none
     set data($txt.t,anchor)    1.0
     set data($txt.t,anchorend) 0
-    set data($txt.t,bar)       [create_bar $txt.t $frame]
     set data($txt.t,moved)     0
 
     bind select <<Selection>>             [list select::handle_selection %W]
@@ -102,32 +101,16 @@ namespace eval select {
   ######################################################################
   # Creates the selection mode bar which displays the currently selected
   # modes, their key bindings and their description.
-  proc create_bar {txtt w} {
+  proc show_help {txtt} {
 
-    variable motions
     variable types
     variable data
-    
-    # Create the UI
-    ttk::frame      $w
-    ttk::label      $w.l    -text [msgcat::mc "SELECT MODE"]
-    ttk::menubutton $w.type -text "" -menu [menu $w.typeMenu -tearoff 0]
-    ttk::label      $w.help -text ""
-    ttk::button     $w.close -style BButton -image form_close
-    
-    pack $w.l     -side left -padx 2 -pady 2
-    pack $w.type  -side left -padx 2 -pady 2
-    pack $w.help  -side left -padx 2 -pady 2 -fill x
-    pack $w.close -side right -padx 2 -pady 2
-    
-    # Populate the type menu
-    $w.typeMenu add command -label [msgcat::mc "Selection Modes"] -state disabled
-    $w.typeMenu add separator
-    foreach {lbl accel value} $types {
-      $w.typeMenu add radiobutton -label $lbl -accelerator $accel \
-        -variable select::data($txtt,type) -value $value -command [list select::set_type $txtt $value]
+
+    if {[winfo exists .selhelp]} {
+      return
     }
-    
+
+    # Create labels and their shortcuts
     set left   [list [msgcat::mc "Left"]        "j"]
     set right  [list [msgcat::mc "Right"]       "k"]
     set up     [list [msgcat::mc "Up"]          "i"]
@@ -139,68 +122,113 @@ namespace eval select {
     set next   [list [msgcat::mc "Next"]        "k"]
     set prev   [list [msgcat::mc "Previous"]    "j"]
     set parent [list [msgcat::mc "Parent"]      "i"]
-    set child  [list [msgcat::mc "FirstChild"]  "m"]
-    
-    # Create motion help
-    set motions(char)      [create_help $left $right $up $down $lshift $rshift $ushift $dshift]
-    set motions(word)      [create_help $next $prev $lshift $rshift]
-    set motions(line)      [create_help $next $prev $ushift $dshift]
-    set motions(sentence)  $motions(word)
-    set motions(paragraph) $motions(word)
-    set motions(curly)     ""
-    set motions(square)    ""
-    set motions(paren)     ""
-    set motions(angled)    ""
-    set motions(single)    ""
-    set motions(double)    ""
-    set motions(btick)     ""
-    set motions(tag)       [create_help $next $prev $parent $child]
-    set motions(block)     $motions(char)
+    set child  [list [msgcat::mc "First Child"] "m"]
+    set swap   [list [msgcat::mc "Swap Anchor"] "a"]
+    set help   [list [msgcat::mc "Toggle Help"] "?"]
+    set ret    [list [msgcat::mc "Keep Selection and Exit"]  "\u21b5"]
+    set esc    [list [msgcat::mc "Clear Selection and Exit"] "Esc"]
 
-    return $w
+    toplevel            .selhelp
+    wm transient        .selhelp .
+    wm overrideredirect .selhelp 1
 
-  }
-  
-  ######################################################################
-  # Creates a help string.
-  proc create_help {args} {
-    
-    set help ""
-    
-    foreach item $args {
-      lassign $item lbl shortcut
-      append help [format " \[%s\] %s, " $shortcut $lbl]
+    ttk::label     .selhelp.title -text [msgcat::mc "Selection Mode Command Help"] -anchor center -padding 4
+    ttk::separator .selhelp.sep -orient horizontal
+    ttk::frame     .selhelp.f
+
+    ttk::labelframe .selhelp.f.types -text [msgcat::mc "Modes"]
+    create_list .selhelp.f.types $types $txtt
+
+    ttk::labelframe .selhelp.f.motions -text [msgcat::mc "Motions"]
+    switch $data($txtt,type) {
+      char -
+      block {
+        create_list .selhelp.f.motions [list $left $right $up $down $lshift $rshift $ushift $dshift]
+      }
+      word -
+      sentence -
+      paragraph {
+        create_list .selhelp.f.motions [list $next $prev $lshift $rshift]
+      }
+      line {
+        create_list .selhelp.f.motions [list $next $prev $ushift $dshift]
+      }
+      tag {
+        create_list .selhelp.f.motions [list $next $prev $parent $child]
+      }
+      default {
+        # Nothing to display
+      }
     }
-    
-    append help [format " \[%s\] %s" "a" [msgcat::mc "Swap Anchor"]]
-    
-    return $help
-    
+
+    ttk::labelframe .selhelp.f.anchors -text [msgcat::mc "Anchor"]
+    create_list .selhelp.f.anchors [list $swap]
+
+    ttk::labelframe .selhelp.f.misc -text [msgcat::mc "Miscellaneous"]
+    create_list .selhelp.f.misc [list $help $ret $esc]
+
+    # Pack the labelframes
+    grid .selhelp.f.types   -row 0 -column 0 -sticky news -padx 2 -pady 2 -rowspan 3
+    grid .selhelp.f.motions -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid .selhelp.f.anchors -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid .selhelp.f.misc    -row 2 -column 1 -sticky news -padx 2 -pady 2
+
+    ttk::button .selhelp.close -style BButton -image form_close -command [list select::hide_help]
+
+    pack .selhelp.title -fill x
+    pack .selhelp.sep   -fill x
+    pack .selhelp.f     -fill both -expand yes
+
+    # place .selhelp.close -relx 1.0 -rely 0.0 -anchor ne
+
+    # Place the window in the middle of the main window
+    ::tk::PlaceWindow .selhelp widget .
+
   }
-  
+
+  ######################################################################
+  # Hide the help window from view.
+  proc hide_help {} {
+
+    # Destroy the help window if it is displayed
+    catch { destroy .selhelp }
+
+  }
+
+  ######################################################################
+  # Create the motions list.
+  proc create_list {w items {txtt ""}} {
+
+    variable data
+
+    set i 0
+
+    foreach item $items {
+      lassign $item lbl shortcut type
+      if {$type ne ""} {
+        grid [ttk::label $w.c$i -text [expr {($data($txtt,type) eq $type) ? "\u2713" : " "}]] -row $i -column 0 -sticky news -padx 2 -pady 2
+      }
+      grid [ttk::label $w.s$i -text $shortcut -anchor e -width 3] -row $i -column 1 -sticky news -padx 4 -pady 2
+      grid [ttk::label $w.l$i -text $lbl -anchor w -width 20]     -row $i -column 2 -sticky news -padx 2 -pady 2
+      incr i
+    }
+
+  }
+
   ######################################################################
   # Set the type information
   proc set_type {txtt value {init 1}} {
-    
-    variable motions
+
     variable data
-    variable types
-    
-    # Find the matching label
-    set lbl [lindex $types [expr [lsearch $types $value] - 2]]
-    
-    # Update the bar UI
-    $data($txtt,bar).type configure -text $lbl
-    $data($txtt,bar).help configure -text $motions($value)
-    
+
     # Set the type
     set data($txtt,type) $value
-    
+
     # Update the selection
     if {$data($txtt,mode) && $init} {
       update_selection $txtt init
     }
-    
+
   }
 
   ######################################################################
@@ -426,30 +454,6 @@ namespace eval select {
   }
 
   ######################################################################
-  # Open the bar for view.  This should only be called by the
-  # set_select_mode internal procedure.
-  proc open_bar {txtt} {
-
-    variable data
-
-    # Make the bar visible
-    place $data($txtt,bar) -in [winfo parent $data($txtt,bar)] -relx 0.0 -rely 1.0 -relwidth 1.0 -anchor sw
-
-  }
-
-  ######################################################################
-  # Closes the selection mode bar from view.  This should only be
-  # called by the set_select_mode internal procedure.
-  proc close_bar {txtt} {
-
-    variable data
-
-    # Hide the bar
-    place forget $data($txtt,bar)
-
-  }
-
-  ######################################################################
   # Returns true if the given text widget is currently in selection mode;
   # otherwise, returns false.
   proc in_select_mode {txtt} {
@@ -467,27 +471,15 @@ namespace eval select {
   ######################################################################
   # Sets the selection mode for the given text widget to the given value.
   # This will cause the selection bar to appear or disappear as needed.
-  proc set_select_mode {txtt value args} {
+  proc set_select_mode {txtt value} {
 
     variable data
 
     # Set the mode
     if {$data($txtt,mode) != $value} {
 
-      array set opts {
-        -bar 1
-      }
-      array set opts $args
-
       # Set the mode to the given value
       set data($txtt,mode) $value
-
-      # Show/Hide the bar
-      if {$value == 0} {
-        close_bar $txtt
-      } elseif {$opts(-bar)} {
-        open_bar $txtt
-      }
 
       # If we are enabled, do some initializing
       if {$value} {
@@ -509,10 +501,16 @@ namespace eval select {
         set bg [$txtt cget -selectbackground]
         set fg [$txtt cget -selectforeground]
 
+        # Display a help message
+        gui::set_info_message [msgcat::mc "For available selection mode commands, type '?'"] 0
+
       # Otherwise, configure the cursor
       } else {
 
         $txtt configure -cursor ""
+
+        # Clear the help message
+        gui::set_info_message ""
 
       }
 
@@ -555,6 +553,9 @@ namespace eval select {
     # Allow Vim to remember this selection
     vim::set_last_selection $txtt
 
+    # Hide the help window if it is displayed
+    hide_help
+
     return 1
 
   }
@@ -572,6 +573,9 @@ namespace eval select {
 
     # Clear the selection
     $txtt tag remove sel 1.0 end
+
+    # Hide the help window if it is displayed
+    hide_help
 
     return 1
 
@@ -599,13 +603,6 @@ namespace eval select {
   ######################################################################
   # Handle a single click event release event.
   proc handle_single_release {txtt x y} {
-
-    variable data
-
-    # If selection mode is enabled, display the bar
-    if {$data($txtt,mode)} {
-      open_bar $txtt
-    }
 
     return 1
 
@@ -740,7 +737,7 @@ namespace eval select {
     # If we are not in selection mode, return immediately
     if {$data($txtt,mode) == 0} {
       $txtt mark set insert @$x,$y
-      set_select_mode $txtt 1 -bar 0
+      set_select_mode $txtt 1
       set_type $txtt char
       return 1
     }
@@ -844,9 +841,17 @@ namespace eval select {
       return 0
     }
 
+    # Check to see if the selection window exists
+    set help_existed [winfo exists .selhelp]
+
     # Handle the specified key, if a handler exists for it
     if {[info procs handle_$keysym] ne ""} {
       handle_$keysym $txtt
+    }
+
+    # Hide the help window if it is displayed
+    if {$help_existed} {
+      hide_help
     }
 
     return 1
@@ -1102,6 +1107,14 @@ namespace eval select {
     # Move the insertion cursor to the new anchor position
     $txtt mark set insert $cursor
     $txtt see $cursor
+
+  }
+
+  ######################################################################
+  # Displays the cheatsheet.
+  proc handle_question {txtt} {
+
+    show_help $txtt
 
   }
 

@@ -3235,10 +3235,12 @@ namespace eval gui {
       }
 
       # Call ourselves
-      set info_clear [after $clear_delay \
-                       [list gui::clear_info_message $hide_info \
-                         [expr $fr >> 8] [expr $fg >> 8] [expr $fb >> 8] \
-                         [expr $br >> 8] [expr $bg >> 8] [expr $bb >> 8]]]
+      if {$clear_delay > 0} {
+        set info_clear [after $clear_delay \
+                         [list gui::clear_info_message $hide_info \
+                           [expr $fr >> 8] [expr $fg >> 8] [expr $fb >> 8] \
+                           [expr $br >> 8] [expr $bg >> 8] [expr $bb >> 8]]]
+      }
 
     } else {
 
