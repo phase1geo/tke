@@ -1,4 +1,3 @@
-# TKE - Advanced Programmer's Editor
 # Copyright (C) 2014-2017  Trevor Williams (phase1geo@gmail.com)
 #
 # This program is free software; you can redistribute it and/or modify
@@ -34,6 +33,7 @@ namespace eval select {
     sentence  {sentence  sentence}
     paragraph {paragraph paragraph}
     tag       {tagstart  {tagend    -forceadjust "+1 display chars"}}
+    node      {tagstart  {tagend    -forceadjust "+1 display chars"}}
     square    {{char -char \[} {char -char \]}}
     curly     {{char -char \{} {char -char \}}}
     paren     {{char -char \(} {char -char \)}}
@@ -49,6 +49,7 @@ namespace eval select {
     [list [msgcat::mc "Sentence"]        s  sentence] \
     [list [msgcat::mc "Paragraph"]       p  paragraph] \
     [list [msgcat::mc "Tag"]             t  tag] \
+    [list [msgcat::mc "Node"]            n  node] \
     [list [msgcat::mc "Square Brackets"] \[ square] \
     [list [msgcat::mc "Parenthesis"]     \( paren] \
     [list [msgcat::mc "Curly Brackets"]  \{ curly] \
@@ -67,24 +68,28 @@ namespace eval select {
 
     variable data
 
-    set data($txt.t,mode)      0
-    set data($txt.t,type)      none
-    set data($txt.t,anchor)    1.0
-    set data($txt.t,anchorend) 0
-    set data($txt.t,moved)     0
+    set data($txt.t,mode)       0
+    set data($txt.t,type)       none
+    set data($txt.t,anchor)     1.0
+    set data($txt.t,anchorend)  0
+    set data($txt.t,moved)      0
+    set data($txt.t,dont_close) 0
 
-    bind select <<Selection>>             [list select::handle_selection %W]
-    bind select <Key>                     "if {\[select::handle_any %W %K\]} break"
-    bind select <Return>                  "if {\[select::handle_return %W\]} break"
-    bind select <Escape>                  "if {\[select::handle_escape %W\]} break"
+    bind select <<Selection>>                   [list select::handle_selection %W]
+    bind select <FocusOut>                      [list select::handle_focusout %W]
+    bind select <Key>                           "if {\[select::handle_any %W %K\]} break"
+    bind select <Return>                        "if {\[select::handle_return %W\]} break"
+    bind select <Escape>                        "if {\[select::handle_escape %W\]} break"
+    bind select <BackSpace>                     "if {\[select::handle_backspace %W\]} break"
+    bind select <Delete>                        "if {\[select::handle_delete %W\]} break"
     # bind select <ButtonPress-1>           "if {\[select::handle_single_press %W %x %y\]} break"
     # bind select <ButtonRelease-1>         "if {\[select::handle_single_release %W %x %y\]} break"
     # bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
-    bind select <Double-Button-1>         "if {\[select::handle_double_click %W %x %y\]} break"
-    bind select <Triple-Button-1>         "if {\[select::handle_triple_click %W %x %y\]} break"
-    # bind select <Mod2-ButtonPress-1>      "if {\[select::handle_single_press %W %x %y\]} break"
-    # bind select <Mod2-ButtonRelease-1>    "if {\[select::handle_single_release %W %x %y\]} break"
-    # bind select <Mod2-B1-Motion>          "if {\[select::handle_alt_motion %W %x %y\]} break"
+    bind select <Double-Button-1>               "if {\[select::handle_double_click %W %x %y\]} break"
+    bind select <Triple-Button-1>               "if {\[select::handle_triple_click %W %x %y\]} break"
+    bind select <Alt-ButtonPress-1>             "if {\[select::handle_single_press %W %x %y\]} break"
+    bind select <Alt-ButtonRelease-1>           "if {\[select::handle_single_release %W %x %y\]} break"
+    bind select <Alt-B1-Motion>                 "if {\[select::handle_alt_motion %W %x %y\]} break"
     bind select <Control-Double-Button-1>       "if {\[select::handle_control_double_click %W %x %y\]} break"
     bind select <Control-Triple-Button-1>       "if {\[select::handle_control_triple_click %W %x %y\]} break"
     bind select <Shift-Control-Double-Button-1> "if {\[select::handle_shift_control_double_click %W %x %y\]} break"
@@ -125,8 +130,9 @@ namespace eval select {
     set child  [list [msgcat::mc "First Child"] "m"]
     set swap   [list [msgcat::mc "Swap Anchor"] "a"]
     set help   [list [msgcat::mc "Toggle Help"] "?"]
-    set ret    [list [msgcat::mc "Keep Selection and Exit"]  "\u21b5"]
-    set esc    [list [msgcat::mc "Clear Selection and Exit"] "Esc"]
+    set ret    [list [msgcat::mc "Keep Selection"]       "\u21b5"]
+    set esc    [list [msgcat::mc "Clear Selection"]      "Esc"]
+    set del    [list [msgcat::mc "Delete Selected Text"] "Del"]
 
     toplevel            .selhelp
     wm transient        .selhelp .
@@ -153,7 +159,8 @@ namespace eval select {
       line {
         create_list .selhelp.f.motions [list $next $prev $ushift $dshift]
       }
-      tag {
+      tag -
+      node {
         create_list .selhelp.f.motions [list $next $prev $parent $child]
       }
       default {
@@ -164,22 +171,22 @@ namespace eval select {
     ttk::labelframe .selhelp.f.anchors -text [msgcat::mc "Anchor"]
     create_list .selhelp.f.anchors [list $swap]
 
-    ttk::labelframe .selhelp.f.misc -text [msgcat::mc "Miscellaneous"]
-    create_list .selhelp.f.misc [list $help $ret $esc]
+    ttk::labelframe .selhelp.f.help -text [msgcat::mc "Help"]
+    create_list .selhelp.f.help [list $help]
+    
+    ttk::labelframe .selhelp.f.exit -text [msgcat::mc "Exit Selection Mode"]
+    create_list .selhelp.f.exit [list $ret $esc $del]
 
     # Pack the labelframes
-    grid .selhelp.f.types   -row 0 -column 0 -sticky news -padx 2 -pady 2 -rowspan 3
+    grid .selhelp.f.types   -row 0 -column 0 -sticky news -padx 2 -pady 2 -rowspan 4
     grid .selhelp.f.motions -row 0 -column 1 -sticky news -padx 2 -pady 2
     grid .selhelp.f.anchors -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid .selhelp.f.misc    -row 2 -column 1 -sticky news -padx 2 -pady 2
-
-    ttk::button .selhelp.close -style BButton -image form_close -command [list select::hide_help]
+    grid .selhelp.f.help    -row 2 -column 1 -sticky news -padx 2 -pady 2
+    grid .selhelp.f.exit    -row 3 -column 1 -sticky news -padx 2 -pady 2
 
     pack .selhelp.title -fill x
     pack .selhelp.sep   -fill x
     pack .selhelp.f     -fill both -expand yes
-
-    # place .selhelp.close -relx 1.0 -rely 0.0 -anchor ne
 
     # Place the window in the middle of the main window
     ::tk::PlaceWindow .selhelp widget .
@@ -226,6 +233,10 @@ namespace eval select {
 
     # Update the selection
     if {$data($txtt,mode) && $init} {
+      if {$value eq "paragraph"} {
+        puts "Calling update_selection for paragraph"
+        return
+      }
       update_selection $txtt init
     }
 
@@ -276,7 +287,12 @@ namespace eval select {
             set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0]
           }
           sentence -
-          paragraph { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0] }
+          paragraph {
+            return
+            set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0]
+          }
+          tag       { set range [edit::get_range $txtt [list "tag" 1] [list] i 0] }
+          node      { set range [edit::get_range $txtt [list "tag" 1] [list] o 0] }
           default   { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
         }
       }
@@ -291,6 +307,18 @@ namespace eval select {
               set count [expr {($motion eq "next") ? "+1 display lines" : "-1 display lines"}]
             }
             lset range $index [$txtt index "[lindex $range $index]$count [lindex $pos $index]"]
+          }
+          tag {
+            # TBD
+          }
+          node {
+            if {[set tag [emmet::get_tag [winfo parent $txtt] -dir $motion -type 1*0 -start [lindex $range [expr {$motion eq "next"}]]]] ne ""} {
+              $txtt mark set insert [lindex $tag 0]
+              set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+              if {($motion eq "next") || [$txtt compare [lindex $range 0] > [lindex $outer 1]]} {
+                set range $outer
+              }
+            }
           }
           default {
             if {($index == 1) && ($motion eq "prev") && ([lsearch [list word tag] $data($txtt,type)] != -1)} {
@@ -418,10 +446,35 @@ namespace eval select {
         }
       }
       parent {
-        # TBD
+        $txtt mark set insert [lindex $range 0]
+        if {$data($txtt,type) eq "tag"} {
+          set node_range [emmet::get_node_range_within [winfo parent $txtt]]
+          puts "node_rangeA: $node_range"
+          $txtt mark set insert "[lindex $node_range 0]-1c"
+          set node_range [emmet::get_node_range_within [winfo parent $txtt]]
+          puts "node_rangeB: $node_range"
+        } else {
+          if {[set node_range [emmet::get_node_range_within [winfo parent $txtt]]] ne ""} {
+            set range [list [lindex $node_range 0] [lindex $node_range 3]]
+          }
+        }
       }
       child {
-        # TBD
+        $txtt mark set insert [lindex $range 0]
+        if {$data($txtt,type) eq "node"} {
+          set inner [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
+          puts "inner: $inner"
+          $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 0]
+        }
+        if {([set retval [emmet::get_tag [winfo parent $txtt] -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
+          puts "retval: $retval"
+          $txtt mark set insert [lindex $retval 0]
+          if {$motion eq "tag"} {
+            set range [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
+          } else {
+            set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+          }
+        }
       }
     }
 
@@ -502,7 +555,7 @@ namespace eval select {
         set fg [$txtt cget -selectforeground]
 
         # Display a help message
-        gui::set_info_message [msgcat::mc "For available selection mode commands, type '?'"] 0
+        gui::set_info_message [msgcat::mc "Type '?' for help.  Hit the ESCAPE key to exit selection mode"] 0
 
       # Otherwise, configure the cursor
       } else {
@@ -526,14 +579,26 @@ namespace eval select {
   proc handle_selection {txtt} {
 
     variable data
-
+    
     if {([$txtt tag ranges sel] eq "") && !$data($txtt,dont_close)} {
       set_select_mode $txtt 0
     }
 
     # Clear the dont_close indicator
     set data($txtt,dont_close) 0
+    
+    # Hide the help display if it is in view
+    hide_help
 
+  }
+  
+  ######################################################################
+  # Handles a FocusOut event on the given text widget.
+  proc handle_focusout {txtt} {
+    
+    # Hide the help window if we lose focus
+    hide_help
+    
   }
 
   ######################################################################
@@ -573,12 +638,61 @@ namespace eval select {
 
     # Clear the selection
     $txtt tag remove sel 1.0 end
-
-    # Hide the help window if it is displayed
-    hide_help
-
+    
     return 1
 
+  }
+  
+  ######################################################################
+  # Handles the BackSpace key when in selection mode.  Ends selection
+  # mode and deletes the selected text.
+  proc handle_backspace {txtt} {
+    
+    variable data
+    
+    if {$data($txtt,mode) == 0} {
+      return 0
+    }
+    
+    # Delete the text
+    if {![multicursor::delete $txtt [list char -dir prev] ""]} {
+      edit::delete $txtt {*}[lrange [$txtt tag ranges sel] 0 1] 1 1
+    }
+    
+    # Disable selection mode
+    set_select_mode $txtt 0
+    
+    # Hide the help window
+    hide_help
+    
+    return 1
+    
+  }
+  
+  ######################################################################
+  # Handles the BackSpace or Delete key when in selection mode.  Ends
+  # selection mode and deletes the selected text.
+  proc handle_delete {txtt} {
+    
+    variable data
+    
+    if {$data($txtt,mode) == 0} {
+      return 0
+    }
+    
+    # Delete the text
+    if {![multicursor::delete $txtt [list char -dir next] ""]} {
+      edit::delete $txtt {*}[lrange [$txtt tag ranges sel] 0 1] 1 1
+    }
+
+    # Disable selection mode
+    set_select_mode $txtt 0
+    
+    # Hide the help window
+    hide_help
+    
+    return 1
+    
   }
 
   ######################################################################
@@ -643,7 +757,7 @@ namespace eval select {
 
     # If we are within a comment, return
     if {[ctext::inComment $txtt @$x,$y]} {
-      return
+      return 0
     } elseif {[ctext::inString $txtt @$x,$y]} {
       if {[ctext::inSingleQuote $txtt @$x,$y]} {
         set type single
@@ -914,6 +1028,14 @@ namespace eval select {
     set_type $txtt tag
 
   }
+  
+  ######################################################################
+  # Set the current selection type to node mode.
+  proc handle_n {txtt} {
+    
+    set_type $txtt node
+    
+  }
 
   ######################################################################
   # Set the current selection type to curly mode.
@@ -1057,7 +1179,7 @@ namespace eval select {
 
     variable data
 
-    if {$data($txtt,type) eq "tag"} {
+    if {[lsearch [list tag node] $data($txtt,type)] != -1} {
       update_selection $txtt parent
     } elseif {[lsearch [list char block] $data($txtt,type)] != -1} {
       update_selection $txtt up
@@ -1073,7 +1195,7 @@ namespace eval select {
 
     variable data
 
-    if {$data($txtt,type) eq "tag"} {
+    if {[lsearch [list tag node] $data($txtt,type)] != -1} {
       update_selection $txtt child
     } elseif {[lsearch [list char block] $data($txtt,type)] != -1} {
       update_selection $txtt down
