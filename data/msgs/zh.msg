@@ -261,6 +261,9 @@ msgcat::mcmset zh {
   "Attributes"
   "属性"
 
+  "Binary"
+  "二进制"
+
   "Close Panel"
   "关闭"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset zh {
 # select.tcl
 msgcat::mcmset zh {
 
+  "Anchor"
+  "锚"
+
+  "Angled Brackets"
+  "尖括号"
+
   "Backticks"
   "反引号"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset zh {
   "Character"
   "字符"
 
+  "Clear Selection and Exit"
+  "清除选择并退出"
+
   "Curly Brackets"
   "大括号"
 
   "Double Quotes"
   "雙引號"
 
+  "Down"
+  "沮丧"
+
+  "First Child"
+  "第一子对象"
+
+  "For available selection mode commands, type '?'"
+  "可用的选择模式命令，请键入 '？ '"
+
+  "Keep Selection and Exit"
+  "继续选择并退出"
+
+  "Left"
+  "居左"
+
+  "Miscellaneous"
+  "其他"
+
+  "Modes"
+  "模式"
+
+  "Motions"
+  "运动"
+
   "Paragraph"
   "段落"
 
-  "Select Down"
-  "向下选择"
+  "Parent"
+  "上層"
 
-  "Select First Child"
-  "选择的第一个孩子"
+  "Previous"
+  "前一个"
 
-  "Select Left"
-  "向右選取"
+  "Right"
+  "右边"
 
-  "Select Next"
-  "选择下一步。"
-
-  "Select Parent"
-  "選擇父"
-
-  "Select Previous"
-  "选择上一个"
-
-  "Select Right"
-  "向右選取"
-
-  "Select Up"
-  "选择"
-
-  "Selection Anchor"
-  "选择定位点"
-
-  "Selection Motion"
-  "选择运动"
-
-  "Selection Type"
-  "选择类型"
+  "Selection Mode Command Help"
+  "選取模式"
 
   "Sentence"
   "句子"
 
-  "Shift Selection Down"
-  "+/-      换挡选择"
+  "Shift Down"
+  "下移"
 
-  "Shift Selection Left"
-  "+/-      换挡选择"
+  "Shift Left"
+  "左移"
 
-  "Shift Selection Right"
-  "右 shift 选择"
+  "Shift Right"
+  "右移"
 
-  "Shift Selection Up"
-  "+/-      换挡选择"
+  "Shift Up"
+  "上移"
 
   "Single Quotes"
   "单引号"
@@ -2336,11 +2351,17 @@ msgcat::mcmset zh {
   "Square Brackets"
   "方括号"
 
-  "Swap"
-  "交替"
+  "Swap Anchor"
+  "锚"
 
   "Tag"
   "标签"
+
+  "Toggle Help"
+  "切换"
+
+  "Up"
+  "上"
 
   "Word"
   "字"
@@ -2531,9 +2552,6 @@ msgcat::mcmset zh {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "选定的项将与其他计算机共享。未选中的项目将存储在本地，并不会被共享。"
-
-  "Next"
-  "下一个"
 
   "Select Settings Directory"
   "选择设置目录"
@@ -3239,6 +3257,9 @@ msgcat::mcmset zh {
 
   "New File"
   "新文件"
+
+  "Next"
+  "下一个"
 
   "None"
   "无"

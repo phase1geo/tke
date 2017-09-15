@@ -1,6 +1,6 @@
-## api\::sidebar\::get\_selected\_indices
+## api::sidebar::get\_selected\_indices
 
-Returns the index of the currently selected files/directories in the sidebar.  This value is useful for future calls to the api\::sidebar\::get\_info procedure.
+Returns the index of the currently selected files/directories in the sidebar.  This value is useful for future calls to the `api::sidebar::get_info` procedure.
 
 **Call structure**
 

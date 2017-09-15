@@ -1,4 +1,4 @@
-## api\::sidebar\::set\_info
+## api::sidebar::set\_info
 
 Sets the sidebar state of the given sidebar item to a specified value.
 

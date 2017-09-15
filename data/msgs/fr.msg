@@ -261,6 +261,9 @@ msgcat::mcmset fr {
   "Attributes"
   "Attributs"
 
+  "Binary"
+  "Binaire"
+
   "Close Panel"
   "Choisir un panel"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset fr {
 # select.tcl
 msgcat::mcmset fr {
 
+  "Anchor"
+  "Ancre"
+
+  "Angled Brackets"
+  "Coudé"
+
   "Backticks"
   "guillemets"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset fr {
   "Character"
   "Personnage"
 
+  "Clear Selection and Exit"
+  "Effacer la sélection et la sortie"
+
   "Curly Brackets"
   "Accolades"
 
   "Double Quotes"
   "Guillemets doubles"
 
+  "Down"
+  "Bas"
+
+  "First Child"
+  "Premier enfant"
+
+  "For available selection mode commands, type '?'"
+  "Mode de sélection"
+
+  "Keep Selection and Exit"
+  "Garder la sélection et la sortie"
+
+  "Left"
+  "Gauche"
+
+  "Miscellaneous"
+  "Divers"
+
+  "Modes"
+  "de la machine"
+
+  "Motions"
+  "Mouvements"
+
   "Paragraph"
   "Paragraphe"
 
-  "Select Down"
-  "Sélection vers le bas"
+  "Parent"
+  "Parent"
 
-  "Select First Child"
-  "Sélectionner le premier enfant"
+  "Previous"
+  "Onglet précédent"
 
-  "Select Left"
-  "Sélectionner vers la gauche"
+  "Right"
+  "Droite"
 
-  "Select Next"
-  "Sélectionnez NEXT."
-
-  "Select Parent"
-  "Sélection Parent"
-
-  "Select Previous"
-  "Sélectionner la tuile précédente"
-
-  "Select Right"
-  "Sélectionner vers la droite"
-
-  "Select Up"
-  "Sélectionner vers le haut"
-
-  "Selection Anchor"
-  "Ancre de sélection"
-
-  "Selection Motion"
-  "Requête de sélection"
-
-  "Selection Type"
-  "Sélection Type"
+  "Selection Mode Command Help"
+  "Mode de sélection"
 
   "Sentence"
   "Peine"
 
-  "Shift Selection Down"
-  "Sélection de déplacement vers le bas"
+  "Shift Down"
+  "Déplacer vers le bas"
 
-  "Shift Selection Left"
-  "Maj gauche de sélection"
+  "Shift Left"
+  "Maj. gauche"
 
-  "Shift Selection Right"
-  "Sélection de Maj droite"
+  "Shift Right"
+  "Maj. droite"
 
-  "Shift Selection Up"
-  "Sélection de déplacement vers le haut"
+  "Shift Up"
+  "Décaler vers le haut"
 
   "Single Quotes"
   "Guillemets simples"
@@ -2336,11 +2351,17 @@ msgcat::mcmset fr {
   "Square Brackets"
   "Crochets"
 
-  "Swap"
-  "Permuter"
+  "Swap Anchor"
+  "Ancre de swap"
 
   "Tag"
   "Tag"
+
+  "Toggle Help"
+  "Activer"
+
+  "Up"
+  "Haut"
 
   "Word"
   "Word"
@@ -2531,9 +2552,6 @@ msgcat::mcmset fr {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Éléments sélectionnés seront partagés avec d’autres ordinateurs. Éléments qui ne sont pas sélectionnés seront stockés localement et ne seront pas partagées."
-
-  "Next"
-  "Suivant"
 
   "Select Settings Directory"
   "Sélectionnez Paramètres répertoire"
@@ -3239,6 +3257,9 @@ msgcat::mcmset fr {
 
   "New File"
   "Nouveau fichier"
+
+  "Next"
+  "Suivant"
 
   "None"
   "Aucun"

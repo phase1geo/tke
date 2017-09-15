@@ -1,4 +1,4 @@
-## api\::tke\_development
+## api::tke\_development
 
 Specifies if the application is being run in development mode or normal user mode.  This can be useful if your plugin is meant to be used for TKE development purposes only.
 

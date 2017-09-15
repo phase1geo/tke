@@ -261,6 +261,9 @@ msgcat::mcmset no {
   "Attributes"
   "Attributter"
 
+  "Binary"
+  "Binær"
+
   "Close Panel"
   "Steng panel"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset no {
 # select.tcl
 msgcat::mcmset no {
 
+  "Anchor"
+  "Anker"
+
+  "Angled Brackets"
+  "Angled"
+
   "Backticks"
   "Backticks"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset no {
   "Character"
   "Tegn"
 
+  "Clear Selection and Exit"
+  "Slett utvalg og avslutte"
+
   "Curly Brackets"
   "Klammeparenteser"
 
   "Double Quotes"
   "Anførselstegn"
 
+  "Down"
+  "Downs"
+
+  "First Child"
+  "Første barn"
+
+  "For available selection mode commands, type '?'"
+  "Tilgjengelige valg kommandoer, skriver du inn '?'"
+
+  "Keep Selection and Exit"
+  "Holde utvalg og Exit"
+
+  "Left"
+  "Venstre"
+
+  "Miscellaneous"
+  "Diverse"
+
+  "Modes"
+  "Modus"
+
+  "Motions"
+  "Bevegelse"
+
   "Paragraph"
   "Avsnitt"
 
-  "Select Down"
-  "Nedtrekksmeny"
+  "Parent"
+  "Overordnet"
 
-  "Select First Child"
-  "Velg første"
+  "Previous"
+  "Forrige"
 
-  "Select Left"
-  "Velg venstre"
+  "Right"
+  "Høyre"
 
-  "Select Next"
-  "Velg (Next) (Neste)."
-
-  "Select Parent"
-  "Velg foresatt"
-
-  "Select Previous"
-  "Velg forrige"
-
-  "Select Right"
-  "Velg høyre"
-
-  "Select Up"
-  "Nedtrekksmeny"
-
-  "Selection Anchor"
-  "Valget Anker"
-
-  "Selection Motion"
-  "Utvalg bevegelse"
-
-  "Selection Type"
-  "Selection Type/Utvalgstype"
+  "Selection Mode Command Help"
+  "Utvalg modus kommandohjelp"
 
   "Sentence"
   "Setning"
 
-  "Shift Selection Down"
-  "Skift utvalget nedover"
+  "Shift Down"
+  "Flytt ned"
 
-  "Shift Selection Left"
-  "Skift utvalg venstre"
+  "Shift Left"
+  "Skift venstre"
 
-  "Shift Selection Right"
-  "Skift utvalg rett"
+  "Shift Right"
+  "Skift høgre"
 
-  "Shift Selection Up"
-  "Skift utvalg opp"
+  "Shift Up"
+  "Flytt opp"
 
   "Single Quotes"
   "Enkle anførselstegn"
@@ -2336,11 +2351,17 @@ msgcat::mcmset no {
   "Square Brackets"
   "Hakeparenteser"
 
-  "Swap"
-  "Bytt"
+  "Swap Anchor"
+  "anker"
 
   "Tag"
   "Stikkord"
+
+  "Toggle Help"
+  "Toggle"
+
+  "Up"
+  "Opp"
 
   "Word"
   "Ord"
@@ -2531,9 +2552,6 @@ msgcat::mcmset no {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Elementer som er merket deles med andre datamaskiner. Elementer som ikke er valgt skal lagres lokalt og kan ikke deles."
-
-  "Next"
-  "Neste"
 
   "Select Settings Directory"
   "Velg innstillinger katalog"
@@ -3239,6 +3257,9 @@ msgcat::mcmset no {
 
   "New File"
   "Ny fil"
+
+  "Next"
+  "Neste"
 
   "None"
   "Ingen"

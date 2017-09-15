@@ -1,4 +1,4 @@
-## api\::plugin\::save\_variable
+## api::plugin::save\_variable
 
 Saves the value of the given variable name to non-corruptible memory so that it can be later retrieved when the plugin is reloaded.
 

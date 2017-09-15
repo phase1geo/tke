@@ -261,6 +261,9 @@ msgcat::mcmset nl {
   "Attributes"
   "Attributen"
 
+  "Binary"
+  "Binair"
+
   "Close Panel"
   "Paneel sluiten"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset nl {
 # select.tcl
 msgcat::mcmset nl {
 
+  "Anchor"
+  "Anker"
+
+  "Angled Brackets"
+  "Schuine haken"
+
   "Backticks"
   "Backticks"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset nl {
   "Character"
   "Personages"
 
+  "Clear Selection and Exit"
+  "Selectie wissen en Exit"
+
   "Curly Brackets"
   "Haakje"
 
   "Double Quotes"
   "Dubbele aanhalingstekens"
 
+  "Down"
+  "Omlaag"
+
+  "First Child"
+  "Eerste subobject"
+
+  "For available selection mode commands, type '?'"
+  "Selectie van de beschikbare opdrachten in de modus, typt u '? \"
+
+  "Keep Selection and Exit"
+  "Houden van de selectie- en uitgiftemodules"
+
+  "Left"
+  "Links"
+
+  "Miscellaneous"
+  "Diversen"
+
+  "Modes"
+  "Modi"
+
+  "Motions"
+  "Beweging"
+
   "Paragraph"
   "Alinea (p)"
 
-  "Select Down"
-  "Tot aan regel beneden selecteren"
+  "Parent"
+  "Bovenliggend frameset"
 
-  "Select First Child"
-  "Selecteer eerste kind"
+  "Previous"
+  "Vorige"
 
-  "Select Left"
-  "Naar links selecteren"
+  "Right"
+  "Rechts"
 
-  "Select Next"
-  "Kies naast <g id=\"
-
-  "Select Parent"
-  "Selecteer verzamelmap"
-
-  "Select Previous"
-  "Vorige tabblad selecteren"
-
-  "Select Right"
-  "Naar rechts selecteren"
-
-  "Select Up"
-  "Naar boven selecteren"
-
-  "Selection Anchor"
-  "Selectie anker"
-
-  "Selection Motion"
-  "Selectie Motion"
-
-  "Selection Type"
-  "Selectietype"
+  "Selection Mode Command Help"
+  "Selectie Mode commando Help"
 
   "Sentence"
   "Zin"
 
-  "Shift Selection Down"
-  "Shift selectie naar beneden"
+  "Shift Down"
+  "terugschakelen"
 
-  "Shift Selection Left"
-  "Shift selectie links"
+  "Shift Left"
+  "Shift links"
 
-  "Shift Selection Right"
-  "Shift selectie rechts"
+  "Shift Right"
+  "Shift rechts"
 
-  "Shift Selection Up"
-  "Shift selectie omhoog"
+  "Shift Up"
+  "Shift-omhoog"
 
   "Single Quotes"
   "Enkelvoudige aanhalingstekens"
@@ -2336,11 +2351,17 @@ msgcat::mcmset nl {
   "Square Brackets"
   "Vierkante haken"
 
-  "Swap"
-  "Wisselen"
+  "Swap Anchor"
+  "anker"
 
   "Tag"
   "Tag"
+
+  "Toggle Help"
+  "Wissel"
+
+  "Up"
+  "Omhoog"
 
   "Word"
   "Woord"
@@ -2531,9 +2552,6 @@ msgcat::mcmset nl {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Items die zijn geselecteerd zullen worden gedeeld met andere computers. Items die niet geselecteerd zijn lokaal worden opgeslagen en zullen niet worden gedeeld."
-
-  "Next"
-  "Volgende"
 
   "Select Settings Directory"
   "Selecteer instellingen map"
@@ -3239,6 +3257,9 @@ msgcat::mcmset nl {
 
   "New File"
   "Nieuw bestand"
+
+  "Next"
+  "Volgende"
 
   "None"
   "Geen"

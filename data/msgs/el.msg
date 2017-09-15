@@ -261,6 +261,9 @@ msgcat::mcmset el {
   "Attributes"
   "Χαρακτηριστικά"
 
+  "Binary"
+  "Δυαδικό"
+
   "Close Panel"
   "Κλείσιμο πάνελ"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset el {
 # select.tcl
 msgcat::mcmset el {
 
+  "Anchor"
+  "Άγκυρα πλοίου"
+
+  "Angled Brackets"
+  "Αγκύλες σε σχήμα βέλους"
+
   "Backticks"
   "Backticks"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset el {
   "Character"
   "Χαρακτήρας"
 
+  "Clear Selection and Exit"
+  "Καταργήστε την επιλογή και την έξοδο"
+
   "Curly Brackets"
   "Αγκύλες"
 
   "Double Quotes"
   "Διπλά εισαγωγικά"
 
+  "Down"
+  "Κάτω"
+
+  "First Child"
+  "Πρώτος απόγονος"
+
+  "For available selection mode commands, type '?'"
+  "Διαθέσιμη επιλογή λειτουργίας τις εντολές, πληκτρολογήστε «;»"
+
+  "Keep Selection and Exit"
+  "Κρατήστε την επιλογή και την έξοδο"
+
+  "Left"
+  "Αριστερά"
+
+  "Miscellaneous"
+  "Διάφορα"
+
+  "Modes"
+  "ÎÎµÎ¹ÏÎ¿ÏÏÎ³Î¯ÎµÏ"
+
+  "Motions"
+  "Προτάσεις ψηφίσματος"
+
   "Paragraph"
   "Παράγραφος"
 
-  "Select Down"
-  "Επιλογή μια σελίδα κάτω"
+  "Parent"
+  "Γονική"
 
-  "Select First Child"
-  "Επιλέξτε το πρώτο παιδί"
+  "Previous"
+  "Προηγούμενο"
 
-  "Select Left"
-  "Επιλογή"
+  "Right"
+  "Δεξιά"
 
-  "Select Next"
-  "Επιλογή επόμενης καρτέλας"
-
-  "Select Parent"
-  "Επιλογή γονικής υπόθεσης."
-
-  "Select Previous"
-  "Επιλογή προηγούμενης καρτέλας"
-
-  "Select Right"
-  "Επιλογή λέξης δεξιά"
-
-  "Select Up"
-  "Επιλογή"
-
-  "Selection Anchor"
-  "Επιλογή άγκυρα"
-
-  "Selection Motion"
-  "Επιλογή κίνησης"
-
-  "Selection Type"
-  "Επιλογή"
+  "Selection Mode Command Help"
+  "Επιλογή λειτουργίας εντολή Βοήθεια"
 
   "Sentence"
   "Ποινή"
 
-  "Shift Selection Down"
-  "Επιλογή μετατόπιση προς τα κάτω"
+  "Shift Down"
+  "κατέβασμα ταχύτητας"
 
-  "Shift Selection Left"
-  "Shift επιλογή αριστερά"
+  "Shift Left"
+  "Μετακίνηση αριστερά"
 
-  "Shift Selection Right"
-  "Επιλογή μετατόπιση δεξιά"
+  "Shift Right"
+  "Μετακίνηση δεξιά"
 
-  "Shift Selection Up"
-  "Επιλογή από στροφή"
+  "Shift Up"
+  "Μετακίνηση πάνω"
 
   "Single Quotes"
   "Απλά εισαγωγικά"
@@ -2336,11 +2351,17 @@ msgcat::mcmset el {
   "Square Brackets"
   "Αγκύλες"
 
-  "Swap"
-  "Swap"
+  "Swap Anchor"
+  "αγκυρα"
 
   "Tag"
   "Ετικέτα."
+
+  "Toggle Help"
+  "Εναλλαγή"
+
+  "Up"
+  "Πάνω"
 
   "Word"
   "Λέξη"
@@ -2531,9 +2552,6 @@ msgcat::mcmset el {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Στοιχεία που έχουν επιλεγεί θα είναι κοινόχρηστο με άλλους υπολογιστές. Αντικείμενα που δεν έχουν επιλεγεί θα πρέπει να αποθηκεύονται τοπικά και δεν θα κοινοποιηθούν."
-
-  "Next"
-  "Επόμενο"
 
   "Select Settings Directory"
   "Επιλέξτε Ρυθμίσεις καταλόγου"
@@ -3239,6 +3257,9 @@ msgcat::mcmset el {
 
   "New File"
   "Νέο αρχείο"
+
+  "Next"
+  "Επόμενο"
 
   "None"
   "Κανένα"

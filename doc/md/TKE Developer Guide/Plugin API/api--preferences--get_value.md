@@ -1,4 +1,4 @@
-## api\::preferences\::get\_value
+## api::preferences::get\_value
 
 Returns the current value of the input plugin preference.
 

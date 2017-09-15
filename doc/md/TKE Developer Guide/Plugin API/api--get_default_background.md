@@ -1,4 +1,4 @@
-## api\::get\_default\_background
+## api::get\_default\_background
 
 Returns the color associated with the background color of a standard UI element (i.e., a button).
 

@@ -1,6 +1,6 @@
-## api\::reset\_txt\_focus
+## api::reset\_txt\_focus
 
-Causes the keyboard focus to be set back to the last editing buffer that received focus. If the textwidget parameter is specified, TKE will give the provided text widget
+Causes the keyboard focus to be set back to the last editing buffer that received focus. If the textwidget parameter is specified, TKE will give the provided text widget keyboard focus.
 
 **Call structure**
 

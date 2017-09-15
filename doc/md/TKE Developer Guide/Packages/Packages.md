@@ -22,6 +22,10 @@ Documentation for the msgcat package can be found at [http://www.tcl.tk/man/tcl8
 
 Documentation for the tokenentry package can be found at [http://ptwidgets.sourceforge.net/page3/files/tokenentry.html](http://ptwidgets.sourceforge.net/page3/files/tokenentry.html)
 
+## wmarkentry
+
+Documentation for the wmarkentry package can be found at [http://ptwidgets.sourceforge.net/page3/files/wmarkentry.html](http://ptwidgets.sourceforge.net/page3/files/wmarkentry.html)
+
 ## tabbar
 
 Documentation for the tabbar package can be found at [http://ptwidgets.sourceforge.net/page3/files/tabbar.html](http://ptwidgets.sourceforge.net/page3/files/tabbar.html)

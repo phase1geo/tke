@@ -1,4 +1,4 @@
-## api\::get\_user\_input
+## api::get\_user\_input
 
 Displays a prompt message and an entry field, placing the cursor into the entry field for immediate text entry.  Once a value has been input, the value will be assigned to the variable passed to this procedure.  Allows the plugin to get user input.
 

@@ -261,6 +261,9 @@ msgcat::mcmset es {
   "Attributes"
   "Atributos"
 
+  "Binary"
+  "Binario"
+
   "Close Panel"
   "Cerrar panel"
 
@@ -2264,11 +2267,20 @@ msgcat::mcmset es {
 # select.tcl
 msgcat::mcmset es {
 
+  "Anchor"
+  "Ancla"
+
+  "Angled Brackets"
+  "soportes"
+
   "Block"
   "Block"
 
   "Character"
   "Carácter"
+
+  "Clear Selection and Exit"
+  "Limpiar selección"
 
   "Curly Brackets"
   "Llaves"
@@ -2276,56 +2288,59 @@ msgcat::mcmset es {
   "Double Quotes"
   "Comillas dobles"
 
+  "Down"
+  "Abajo"
+
+  "First Child"
+  "Primer hijo"
+
+  "For available selection mode commands, type '?'"
+  "Comandos del modo de selección, escriba '?'"
+
+  "Keep Selection and Exit"
+  "Selección y zoom"
+
+  "Left"
+  "Izquierda"
+
+  "Miscellaneous"
+  "Misceláneos"
+
+  "Modes"
+  "Modos"
+
+  "Motions"
+  "Movimiento"
+
   "Paragraph"
   "Párrafo"
 
-  "Select Down"
-  "Seleccionar hacia abajo"
+  "Parent"
+  "Familia %s"
 
-  "Select First Child"
-  "Seleccionar el primer hijo"
+  "Previous"
+  "Anterior"
 
-  "Select Left"
-  "Seleccionar hacia la izquierda"
+  "Right"
+  "Derecha"
 
-  "Select Next"
-  "Seleccionar la solapa siguiente"
-
-  "Select Parent"
-  "Seleccionar padres"
-
-  "Select Previous"
-  "Seleccionar la solapa anterior"
-
-  "Select Right"
-  "Seleccionar hacia la derecha"
-
-  "Select Up"
-  "Seleccionar hacia arriba"
-
-  "Selection Anchor"
-  "Anclaje de selección"
-
-  "Selection Motion"
-  "Movimiento de selección"
-
-  "Selection Type"
-  "Tipo de Selección"
+  "Selection Mode Command Help"
+  "Selección modo comando ayuda"
 
   "Sentence"
   "Condena"
 
-  "Shift Selection Down"
-  "Selección de cambio hacia abajo"
+  "Shift Down"
+  "Desplazar hacia abajo"
 
-  "Shift Selection Left"
-  "Cambio selección hacia la izquierda"
+  "Shift Left"
+  "Desplazamiento a la izquierda"
 
-  "Shift Selection Right"
-  "Selección de cambio derecha"
+  "Shift Right"
+  "Hacia la derecha"
 
-  "Shift Selection Up"
-  "Selección de cambio hasta"
+  "Shift Up"
+  "Desplazar hacia arriba"
 
   "Single Quotes"
   "Comillas sencillas"
@@ -2333,11 +2348,17 @@ msgcat::mcmset es {
   "Square Brackets"
   "Corchetes"
 
-  "Swap"
-  "Intercambiar"
+  "Swap Anchor"
+  "Cambiar ancla"
 
   "Tag"
   "Etiqueta"
+
+  "Toggle Help"
+  "Desplegar texto de ayuda"
+
+  "Up"
+  "Yukarı"
 
   "Word"
   "Palabra"
@@ -2528,9 +2549,6 @@ msgcat::mcmset es {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Elementos que están seleccionados se compartirán con otros ordenadores. Elementos que están seleccionados no se almacenarán localmente y no serán compartidos."
-
-  "Next"
-  "Siguiente"
 
   "Select Settings Directory"
   "Seleccione el directorio de configuración"
@@ -3236,6 +3254,9 @@ msgcat::mcmset es {
 
   "New File"
   "Nuevo archivo"
+
+  "Next"
+  "Siguiente"
 
   "None"
   "Ninguno"

@@ -261,6 +261,9 @@ msgcat::mcmset sv {
   "Attributes"
   "Attribut"
 
+  "Binary"
+  "Binär"
+
   "Close Panel"
   "STÄNG"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset sv {
 # select.tcl
 msgcat::mcmset sv {
 
+  "Anchor"
+  "Ankare"
+
+  "Angled Brackets"
+  "Klamrar"
+
   "Backticks"
   "Backticks"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset sv {
   "Character"
   "Teckenattribut"
 
+  "Clear Selection and Exit"
+  "Rensa urval och Exit"
+
   "Curly Brackets"
   "Klammerparenteser"
 
   "Double Quotes"
   "Dubbla citationstecken"
 
+  "Down"
+  "Ner"
+
+  "First Child"
+  "Första delobjekt"
+
+  "For available selection mode commands, type '?'"
+  "Markeringsläge"
+
+  "Keep Selection and Exit"
+  "Hålla valet och gå ut"
+
+  "Left"
+  "Vänster"
+
+  "Miscellaneous"
+  "Övrigt"
+
+  "Modes"
+  "Lägen"
+
+  "Motions"
+  "Rörlighet"
+
   "Paragraph"
   "Stycke"
 
-  "Select Down"
-  "Markera till raden under"
+  "Parent"
+  "Förälder"
 
-  "Select First Child"
-  "Välj första barn"
+  "Previous"
+  "Föregående"
 
-  "Select Left"
-  "Markera åt vänster"
+  "Right"
+  "Höger"
 
-  "Select Next"
-  "Välj nästa flik"
-
-  "Select Parent"
-  "Välj överordnad"
-
-  "Select Previous"
-  "Välj föregående flik"
-
-  "Select Right"
-  "Markera åt höger"
-
-  "Select Up"
-  "Markera uppåt"
-
-  "Selection Anchor"
-  "Val av ankare"
-
-  "Selection Motion"
-  "Val av Motion"
-
-  "Selection Type"
-  "Sorteringstyp"
+  "Selection Mode Command Help"
+  "Val av Mode kommandot Help"
 
   "Sentence"
   "Mening"
 
-  "Shift Selection Down"
-  "Skift markeringen nedåt"
+  "Shift Down"
+  "Flytta nedåt"
 
-  "Shift Selection Left"
-  "Skift urval vänster"
+  "Shift Left"
+  "Flytta åt vänster"
 
-  "Shift Selection Right"
-  "Skift urval höger"
+  "Shift Right"
+  "Åt höger"
 
-  "Shift Selection Up"
-  "Skift markeringen uppåt"
+  "Shift Up"
+  "Flytta uppåt"
 
   "Single Quotes"
   "Enkla citationstecken"
@@ -2336,11 +2351,17 @@ msgcat::mcmset sv {
   "Square Brackets"
   "Hakparenteser"
 
-  "Swap"
-  "Flytta"
+  "Swap Anchor"
+  "Ankare"
 
   "Tag"
   "Tag"
+
+  "Toggle Help"
+  "Växla"
+
+  "Up"
+  "Upp"
 
   "Word"
   "Word"
@@ -2531,9 +2552,6 @@ msgcat::mcmset sv {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Objekt som är markerade kommer att delas med andra datorer. Objekt som inte är markerade kommer att lagras lokalt och kommer inte att delas."
-
-  "Next"
-  "Nästa"
 
   "Select Settings Directory"
   "Välj inställningar katalog"
@@ -3239,6 +3257,9 @@ msgcat::mcmset sv {
 
   "New File"
   "Ny fil"
+
+  "Next"
+  "Nästa"
 
   "None"
   "Ingen"

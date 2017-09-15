@@ -1,4 +1,4 @@
-## api\::get\_complementary\_mono\_color
+## api::get\_complementary\_mono\_color
 
 Assuming that the specified RGB color is a background color, determines whether a black or white foreground color would show up best.
 

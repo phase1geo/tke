@@ -261,6 +261,9 @@ msgcat::mcmset de {
   "Attributes"
   "Attribute"
 
+  "Binary"
+  "Binär"
+
   "Close Panel"
   "Schließen"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset de {
 # select.tcl
 msgcat::mcmset de {
 
+  "Anchor"
+  "Moderator&#x0D;"
+
+  "Angled Brackets"
+  "Spitzen Klammern"
+
   "Backticks"
   "einfache Anführungszeichen"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset de {
   "Character"
   "Zeichen"
 
+  "Clear Selection and Exit"
+  "Auswahl aufheben und Exit"
+
   "Curly Brackets"
   "Klammer"
 
   "Double Quotes"
   "Doppelte Anführungszeichen"
 
+  "Down"
+  "Nach unten"
+
+  "First Child"
+  "Erstes Unterobjekt"
+
+  "For available selection mode commands, type '?'"
+  "Geben Sie unter verfügbare Auswahl-Mode-Befehlen, \"
+
+  "Keep Selection and Exit"
+  "Halten Sie Auswahl und Exit"
+
+  "Left"
+  "Links"
+
+  "Miscellaneous"
+  "Sonstiges"
+
+  "Modes"
+  "Modi"
+
+  "Motions"
+  "ANTRAGE:"
+
   "Paragraph"
   "Absatz"
 
-  "Select Down"
-  "Bis Zeile unten selektieren"
+  "Parent"
+  "Eltern"
 
-  "Select First Child"
-  "Wählen Sie erstes Kind"
+  "Previous"
+  "Vorher"
 
-  "Select Left"
-  "Nach links selektieren"
+  "Right"
+  "Rechts"
 
-  "Select Next"
-  "Wählen Sie Next (Weiter) aus."
-
-  "Select Parent"
-  "Wählen Sie Haupt"
-
-  "Select Previous"
-  "Vorheriges Unterfenster auswählen"
-
-  "Select Right"
-  "Nach rechts selektieren"
-
-  "Select Up"
-  "Nach oben selektieren"
-
-  "Selection Anchor"
-  "Auswahl-Anker"
-
-  "Selection Motion"
-  "Auswahl-Bewegung"
-
-  "Selection Type"
-  "Auswahlart"
+  "Selection Mode Command Help"
+  "Auswahl-Modus Befehl Hilfe"
 
   "Sentence"
   "Meinung"
 
-  "Shift Selection Down"
-  "Auswahl der Verschiebung nach unten"
+  "Shift Down"
+  "Nach unten verschieben"
 
-  "Shift Selection Left"
-  "Verschiebung Auswahl links"
+  "Shift Left"
+  "Nach links schieben"
 
-  "Shift Selection Right"
-  "Shift-Auswahl rechts"
+  "Shift Right"
+  "Nach rechts"
 
-  "Shift Selection Up"
-  "Shift-Auswahl oben"
+  "Shift Up"
+  "Shift Up"
 
   "Single Quotes"
   "Einfache Anführungszeichen"
@@ -2336,11 +2351,17 @@ msgcat::mcmset de {
   "Square Brackets"
   "eckige Klammern"
 
-  "Swap"
-  "Swap"
+  "Swap Anchor"
+  "Anker"
 
   "Tag"
   "Schlagwort"
+
+  "Toggle Help"
+  "Umschalten"
+
+  "Up"
+  "Nach oben"
 
   "Word"
   "Word"
@@ -2531,9 +2552,6 @@ msgcat::mcmset de {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Ausgewählten Elemente werden mit anderen Computern geteilt werden. Elemente, die nicht ausgewählt sind werden lokal gespeichert und nicht weitergegeben."
-
-  "Next"
-  "Weiter"
 
   "Select Settings Directory"
   "Wählen Sie Einstellungen-Verzeichnis"
@@ -3239,6 +3257,9 @@ msgcat::mcmset de {
 
   "New File"
   "Neue Datei"
+
+  "Next"
+  "Weiter"
 
   "None"
   "Ohne"

@@ -261,6 +261,9 @@ msgcat::mcmset hu {
   "Attributes"
   "Attribútumok"
 
+  "Binary"
+  "Bináris"
+
   "Close Panel"
   "Panel bezárása"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset hu {
 # select.tcl
 msgcat::mcmset hu {
 
+  "Anchor"
+  "Horgony"
+
+  "Angled Brackets"
+  "Zárójelek"
+
   "Backticks"
   "Backticks"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset hu {
   "Character"
   "Karakter"
 
+  "Clear Selection and Exit"
+  "Clear Selection és kilépés"
+
   "Curly Brackets"
   "Kapcsos zárójelekkel"
 
   "Double Quotes"
   "Kettős idézőjelek"
 
+  "Down"
+  "Down"
+
+  "First Child"
+  "első alárendelt objektum"
+
+  "For available selection mode commands, type '?'"
+  "Kijelölési mód"
+
+  "Keep Selection and Exit"
+  "Kiválasztási és kilépés"
+
+  "Left"
+  "Bal"
+
+  "Miscellaneous"
+  "Muhtelif Konular"
+
+  "Modes"
+  "& Módok"
+
+  "Motions"
+  "Defaecatio emelkedett frekvenciája"
+
   "Paragraph"
   "Bekezdés"
 
-  "Select Down"
-  "Kijelölés lefelé"
+  "Parent"
+  "Szülő"
 
-  "Select First Child"
-  "Válassza ki az első gyermek"
+  "Previous"
+  "Előző"
 
-  "Select Left"
-  "Kijelölés balra"
+  "Right"
+  "Jobb"
 
-  "Select Next"
-  "Következő lap"
-
-  "Select Parent"
-  "Szülő kiválasztása"
-
-  "Select Previous"
-  "Előző lap"
-
-  "Select Right"
-  "Jobb oldal kijelölése"
-
-  "Select Up"
-  "Kijelölés felfelé"
-
-  "Selection Anchor"
-  "Kijelölés horgony"
-
-  "Selection Motion"
-  "Mozgás kiválasztása"
-
-  "Selection Type"
-  "Kijelölés típusa"
+  "Selection Mode Command Help"
+  "Kijelölési mód"
 
   "Sentence"
   "Ítélet"
 
-  "Shift Selection Down"
-  "Lefelé SHIFT-válogatás"
+  "Shift Down"
+  "Lefelé tolás"
 
-  "Shift Selection Left"
-  "SHIFT kijelölés bal"
+  "Shift Left"
+  "Balra tolás"
 
-  "Shift Selection Right"
-  "Jobb SHIFT-válogatás"
+  "Shift Right"
+  "Jobbra tolás"
 
-  "Shift Selection Up"
-  "SHIFT kiválasztása"
+  "Shift Up"
+  "Felfelé tolás"
 
   "Single Quotes"
   "Egyszeres idézőjelek"
@@ -2336,11 +2351,17 @@ msgcat::mcmset hu {
   "Square Brackets"
   "Szögletes zárójel"
 
-  "Swap"
-  "Kicserél"
+  "Swap Anchor"
+  "Devizaswap horgony"
 
   "Tag"
   "Címke"
+
+  "Toggle Help"
+  "Összezárás"
+
+  "Up"
+  "Fel"
 
   "Word"
   "Szó"
@@ -2531,9 +2552,6 @@ msgcat::mcmset hu {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "A kijelölt elem lesz osztva más számítógépekkel. Nem kijelölt elem helyileg tárolni, és nem lesz megosztva."
-
-  "Next"
-  "Következő"
 
   "Select Settings Directory"
   "Válassza ki Settings könyvtárában"
@@ -3239,6 +3257,9 @@ msgcat::mcmset hu {
 
   "New File"
   "Új fájl"
+
+  "Next"
+  "Következő"
 
   "None"
   "Egysem"

@@ -1,4 +1,4 @@
-## api\::auto\_mix\_colors
+## api::auto\_mix\_colors
 
 Adjusts the hue of the given RGB color by the value of the specified difference.
 

@@ -1,4 +1,4 @@
-## api\::export
+## api::export
 
 This procedure can be used to export a given string to a file, performing snippet substitutions and Markdown to HTML conversion on the string if the specified language is set to a value of **Markdown**. This is the same functionality that is used by TKE's built-in export.
 

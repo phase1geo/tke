@@ -261,6 +261,9 @@ msgcat::mcmset cs {
   "Attributes"
   "Atributy"
 
+  "Binary"
+  "Bilineární"
+
   "Close Panel"
   "Zavřít Panel"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset cs {
 # select.tcl
 msgcat::mcmset cs {
 
+  "Anchor"
+  "Kotva"
+
+  "Angled Brackets"
+  "Lomené závorky"
+
   "Backticks"
   "Zpětných apostrofů"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset cs {
   "Character"
   "Postava"
 
+  "Clear Selection and Exit"
+  "Zrušte výběr a Exit"
+
   "Curly Brackets"
   "Složené závorky"
 
   "Double Quotes"
   "Dvojité uvozovky"
 
+  "Down"
+  "Dolů"
+
+  "First Child"
+  "První potomek"
+
+  "For available selection mode commands, type '?'"
+  "Dostupný výběr režimu příkazy, zadejte '? \"
+
+  "Keep Selection and Exit"
+  "Výběr a schránka"
+
+  "Left"
+  "Vlevo"
+
+  "Miscellaneous"
+  "Různé"
+
+  "Modes"
+  "Mód"
+
+  "Motions"
+  "pohyb těles"
+
   "Paragraph"
   "Odstavec"
 
-  "Select Down"
-  "zvolte"
+  "Parent"
+  "Nadřazený"
 
-  "Select First Child"
-  "Vyberte první dítě"
+  "Previous"
+  "Předchozí"
 
-  "Select Left"
-  "zvolte"
+  "Right"
+  "Vpravo"
 
-  "Select Next"
-  "Vybrat"
-
-  "Select Parent"
-  "vybrat rodiče"
-
-  "Select Previous"
-  "Vyberte předchozí řádek"
-
-  "Select Right"
-  "Vyberte vpravo"
-
-  "Select Up"
-  "zvolte"
-
-  "Selection Anchor"
-  "Výběr kotva"
-
-  "Selection Motion"
-  "Výběr pohybu"
-
-  "Selection Type"
-  "Výběr"
+  "Selection Mode Command Help"
+  "Výběr režimu příkazu Nápověda"
 
   "Sentence"
   "Souvětí"
 
-  "Shift Selection Down"
-  "Posunout výběr dolů"
+  "Shift Down"
+  "Posunout dolů"
 
-  "Shift Selection Left"
-  "Posunout výběr doleva"
+  "Shift Left"
+  "Posun vlevo"
 
-  "Shift Selection Right"
-  "Posunout výběr doprava"
+  "Shift Right"
+  "Posun vpravo"
 
-  "Shift Selection Up"
-  "Posunout výběr nahoru"
+  "Shift Up"
+  "Posunout nahoru"
 
   "Single Quotes"
   "Jednoduché uvozovky"
@@ -2336,11 +2351,17 @@ msgcat::mcmset cs {
   "Square Brackets"
   "Hranaté závorky"
 
-  "Swap"
-  "Výměna"
+  "Swap Anchor"
+  "Kotva"
 
   "Tag"
   "Tag"
+
+  "Toggle Help"
+  "Přepínač"
+
+  "Up"
+  "Nahoru"
 
   "Word"
   "Slovo"
@@ -2531,9 +2552,6 @@ msgcat::mcmset cs {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Položky, které jsou vybrány, budou sdíleny s ostatními počítači. Položky, které nejsou vybrány se uloží místně a nebudou sdíleny."
-
-  "Next"
-  "Další"
 
   "Select Settings Directory"
   "Vyberte adresář, nastavení"
@@ -3239,6 +3257,9 @@ msgcat::mcmset cs {
 
   "New File"
   "Nový soubor"
+
+  "Next"
+  "Další"
 
   "None"
   "Žádné"

@@ -1,4 +1,4 @@
-## api\::plugin\::load\_variable
+## api::plugin::load\_variable
 
 Retrieves the value of the named variable from non-corruptible memory (from a previous save\_variable call).
 

@@ -261,6 +261,9 @@ msgcat::mcmset ja {
   "Attributes"
   "属性"
 
+  "Binary"
+  "バイナリ"
+
   "Close Panel"
   "パネルを閉じる"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset ja {
 # select.tcl
 msgcat::mcmset ja {
 
+  "Anchor"
+  "アンカー"
+
+  "Angled Brackets"
+  "っこ"
+
   "Backticks"
   "バッククォート"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset ja {
   "Character"
   "性格"
 
+  "Clear Selection and Exit"
+  "選択をクリアして終了"
+
   "Curly Brackets"
   "中かっこ"
 
   "Double Quotes"
   "ダブルクォーテーションマーク"
 
+  "Down"
+  "下"
+
+  "First Child"
+  "最初の子"
+
+  "For available selection mode commands, type '?'"
+  "選択モード"
+
+  "Keep Selection and Exit"
+  "選択とクリップボード"
+
+  "Left"
+  "左向き"
+
+  "Miscellaneous"
+  "その他"
+
+  "Modes"
+  "モード"
+
+  "Motions"
+  "動"
+
   "Paragraph"
   "段落"
 
-  "Select Down"
-  "下を選択します。"
+  "Parent"
+  "親"
 
-  "Select First Child"
-  "最初の子を選択します。"
+  "Previous"
+  "前へ"
 
-  "Select Left"
-  "左方向に選択"
+  "Right"
+  "右向き"
 
-  "Select Next"
-  "次へを選択します。"
-
-  "Select Parent"
-  "親ページを選択します"
-
-  "Select Previous"
-  "選択前"
-
-  "Select Right"
-  "右方向に選択"
-
-  "Select Up"
-  "選択"
-
-  "Selection Anchor"
-  "選択アンカー"
-
-  "Selection Motion"
-  "選択動作"
-
-  "Selection Type"
-  "選択タイプ"
+  "Selection Mode Command Help"
+  "選択モード コマンドのヘルプ"
 
   "Sentence"
   "文章"
 
-  "Shift Selection Down"
-  "ダウン シフト選択"
+  "Shift Down"
+  "下にシフト"
 
-  "Shift Selection Left"
-  "Shift 選択-左"
+  "Shift Left"
+  "左にシフト"
 
-  "Shift Selection Right"
-  "右シフトの選択"
+  "Shift Right"
+  "右に"
 
-  "Shift Selection Up"
-  "シフト選択"
+  "Shift Up"
+  "上にシフト"
 
   "Single Quotes"
   "シングルクォーテーションマーク"
@@ -2336,11 +2351,17 @@ msgcat::mcmset ja {
   "Square Brackets"
   "大かっこ"
 
-  "Swap"
-  "交換"
+  "Swap Anchor"
+  "アンカー"
 
   "Tag"
   "タグ"
+
+  "Toggle Help"
+  "トグル"
+
+  "Up"
+  "上向き"
 
   "Word"
   "言葉"
@@ -2531,9 +2552,6 @@ msgcat::mcmset ja {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "選択されている項目は、他のコンピューターと共有されます。選択されていない項目は、ローカルに格納して共有されません。"
-
-  "Next"
-  "次へ"
 
   "Select Settings Directory"
   "設定ディレクトリを選択します。"
@@ -3239,6 +3257,9 @@ msgcat::mcmset ja {
 
   "New File"
   "新規ファイル"
+
+  "Next"
+  "次へ"
 
   "None"
   "なし"

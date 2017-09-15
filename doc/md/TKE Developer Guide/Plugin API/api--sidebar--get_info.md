@@ -1,4 +1,4 @@
-## api\::sidebar\::get\_info
+## api::sidebar::get\_info
 
 Returns information for the sidebar file/directory at the given index.
 
@@ -15,7 +15,7 @@ index value for the sidebar, an empty string will be returned.
 
 | Parameter | Description |
 | - | - |
-| sb\_index | Index of file/directory in the sidebar.  Calling api\::sidebar\::get\_current\_index will provide the currently selected element in the sidebar. |
+| sb\_index | Index of file/directory in the sidebar.  Calling `api::sidebar::get_current_index` will provide the currently selected element in the sidebar. |
 | attribute | Specifies the type of information to obtain for the given index. See the list of valid values in the table below. |
 
 **Attributes**
@@ -23,7 +23,7 @@ index value for the sidebar, an empty string will be returned.
 | Attribute | Description |
 | - | - |
 | fname | Normalized filename. |
-| file\_index | The file index of the file.  This value can be used in the api\::file\::get\_info API call to get other information about the file. |
+| file\_index | The file index of the file.  This value can be used in the `api::file::get_info` API call to get other information about the file. |
 | is\_dir | Returns 1 if the given sidebar item is a directory; otherwise, returns 0. |
 | is\_open | Returns 1 if the given sidebar item is opened; otherwise, returns 0. |
 | parent | Returns the index of the specified index parent node in the tree. |

@@ -1,4 +1,4 @@
-## api\::hsl\_to\_rgb
+## api::hsl\_to\_rgb
 
 Converts the given HSL color to an equivalent RGB color value.
 

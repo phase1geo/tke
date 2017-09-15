@@ -1,4 +1,4 @@
-## api\::get\_images\_directory
+## api::get\_images\_directory
 
 Returns the full pathname to the directory which contains all of the plugin images used by TKE in the installation directory.
 

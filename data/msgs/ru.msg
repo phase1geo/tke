@@ -261,6 +261,9 @@ msgcat::mcmset ru {
   "Attributes"
   "Атрибуты"
 
+  "Binary"
+  "Двойной"
+
   "Close Panel"
   "Закрыть панель"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset ru {
 # select.tcl
 msgcat::mcmset ru {
 
+  "Anchor"
+  "Якорь"
+
+  "Angled Brackets"
+  "Угловые скобки"
+
   "Backticks"
   "Обратные кавычки"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset ru {
   "Character"
   "Символ"
 
+  "Clear Selection and Exit"
+  "Очистить выбор"
+
   "Curly Brackets"
   "Фигурные скобки"
 
   "Double Quotes"
   "Двойные кавычки"
 
+  "Down"
+  "Вниз"
+
+  "First Child"
+  "Первый потомок"
+
+  "For available selection mode commands, type '?'"
+  "Команды режима имеющиеся выбора, введите '?'"
+
+  "Keep Selection and Exit"
+  "Держите выбора и выхода"
+
+  "Left"
+  "Влево"
+
+  "Miscellaneous"
+  "Разное"
+
+  "Modes"
+  "Режимы моделирования"
+
+  "Motions"
+  "DEISTVIE"
+
   "Paragraph"
   "Параграф"
 
-  "Select Down"
-  "Выделить до нижней строки"
+  "Parent"
+  "Родительский."
 
-  "Select First Child"
-  "Выберите первый ребенок"
+  "Previous"
+  "Предыдущий"
 
-  "Select Left"
-  "Выделить влево"
+  "Right"
+  "Справа"
 
-  "Select Next"
-  "Выберите Далее."
-
-  "Select Parent"
-  "Выберите родителя"
-
-  "Select Previous"
-  "Выбрать предыдущий"
-
-  "Select Right"
-  "Выделить вправо"
-
-  "Select Up"
-  "Выделить вверх"
-
-  "Selection Anchor"
-  "Выбор привязки"
-
-  "Selection Motion"
-  "Выбор движения"
-
-  "Selection Type"
-  "Тип секции"
+  "Selection Mode Command Help"
+  "Выбор режима команды Справка"
 
   "Sentence"
   "Предложение"
 
-  "Shift Selection Down"
-  "Выбор сдвиг вниз"
+  "Shift Down"
+  "Сдвиг вниз"
 
-  "Shift Selection Left"
-  "Выбор сдвига влево"
+  "Shift Left"
+  "Shift left"
 
-  "Shift Selection Right"
-  "Выбор сдвиг вправо"
+  "Shift Right"
+  "Shift right"
 
-  "Shift Selection Up"
-  "Выбор сдвиг вверх"
+  "Shift Up"
+  "Сдвиг вверх"
 
   "Single Quotes"
   "Одинарные кавычки"
@@ -2336,11 +2351,17 @@ msgcat::mcmset ru {
   "Square Brackets"
   "Квадратные скобки"
 
-  "Swap"
-  "Замена"
+  "Swap Anchor"
+  "Якорь"
 
   "Tag"
   "Тег"
+
+  "Toggle Help"
+  "Переключатель"
+
+  "Up"
+  "Вверх"
 
   "Word"
   "Word"
@@ -2531,9 +2552,6 @@ msgcat::mcmset ru {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Элементы, выбранные будут совместно с другими компьютерами. Элементы, которые не выбраны будут храниться локально и не будет передаваться."
-
-  "Next"
-  "Следующий"
 
   "Select Settings Directory"
   "Выберите настройки каталога"
@@ -3239,6 +3257,9 @@ msgcat::mcmset ru {
 
   "New File"
   "Новый файл"
+
+  "Next"
+  "Следующий"
 
   "None"
   "Нет"

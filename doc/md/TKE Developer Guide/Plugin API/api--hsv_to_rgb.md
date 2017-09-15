@@ -1,4 +1,4 @@
-## api\::hsv\_to\_rgb
+## api::hsv\_to\_rgb
 
 Converts the given HSV color into an RGB value.
 
