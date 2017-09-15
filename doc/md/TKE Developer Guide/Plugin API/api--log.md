@@ -1,4 +1,4 @@
-## api\::log
+## api::log
 
 Displays a logging message to standard output.  This is useful for debugging plugin issues.
 

@@ -1,4 +1,4 @@
-## api\::file\::add\_file
+## api::file::add\_file
 
 Adds a new tab to the editor.  If a filename is specified, the contents of the file are added to the editor.  If no filename is specified, the new tab file will be blanked and named “Untitled”.
 

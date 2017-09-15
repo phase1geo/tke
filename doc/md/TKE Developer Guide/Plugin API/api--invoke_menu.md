@@ -1,4 +1,4 @@
-## api\::invoke\_menu
+## api::invoke\_menu
 
 Invokes the functionality associated with a menu item.  This allows plugins to perform “workflows”.  The menu hierarchy is defined by taking the names of all menus in the hierarchy (case is important) and joining them with the “/“ character.  Therefore, to invoke the File -\> Format Text -\> All command, you would pass the following:
 

@@ -261,6 +261,9 @@ msgcat::mcmset da {
   "Attributes"
   "Attributter"
 
+  "Binary"
+  "Bilineær"
+
   "Close Panel"
   "Luk"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset da {
 # select.tcl
 msgcat::mcmset da {
 
+  "Anchor"
+  "Anker"
+
+  "Angled Brackets"
+  "Konsoller"
+
   "Backticks"
   "Backticks"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset da {
   "Character"
   "Karakter"
 
+  "Clear Selection and Exit"
+  "Klart valg og Exit"
+
   "Curly Brackets"
   "Krøllede parenteser"
 
   "Double Quotes"
   "Dobbelte citationstegn"
 
+  "Down"
+  "Ned"
+
+  "First Child"
+  "Første barn"
+
+  "For available selection mode commands, type '?'"
+  "Tilgængelige udvalg kommandoer, skal du skrive '?'"
+
+  "Keep Selection and Exit"
+  "Holde udvælgelse og Exit"
+
+  "Left"
+  "Venstre"
+
+  "Miscellaneous"
+  "Diverse"
+
+  "Modes"
+  "Tilstande"
+
+  "Motions"
+  "Aktuel og uopsættelig debat (indsigelser)"
+
   "Paragraph"
   "Paragraphs"
 
-  "Select Down"
-  "Vælg"
+  "Parent"
+  "Overkategori"
 
-  "Select First Child"
-  "Vælg første barn"
+  "Previous"
+  "Forrige"
 
-  "Select Left"
-  "Vælg"
+  "Right"
+  "Højre"
 
-  "Select Next"
-  "Vælg næste faneblad"
-
-  "Select Parent"
-  "Vælg overordnet"
-
-  "Select Previous"
-  "Vælg foregående faneblad"
-
-  "Select Right"
-  "Vælg højre"
-
-  "Select Up"
-  "Vælg"
-
-  "Selection Anchor"
-  "Udvalg anker"
-
-  "Selection Motion"
-  "Valg af bevægelse"
-
-  "Selection Type"
-  "Valg"
+  "Selection Mode Command Help"
+  "Klik og trÃ¦k for at placere tekst i en bestemt retning."
 
   "Sentence"
   "Sætning"
 
-  "Shift Selection Down"
-  "Skift markering ned"
+  "Shift Down"
+  "geare ned"
 
-  "Shift Selection Left"
-  "Skift valg venstre"
+  "Shift Left"
+  "Skift til venstre"
 
-  "Shift Selection Right"
-  "Skift markering lige"
+  "Shift Right"
+  "Skift til højre"
 
-  "Shift Selection Up"
-  "Skift markering op"
+  "Shift Up"
+  "Skift op"
 
   "Single Quotes"
   "Enkelte citationstegn"
@@ -2336,11 +2351,17 @@ msgcat::mcmset da {
   "Square Brackets"
   "Parentes"
 
-  "Swap"
-  "Byt"
+  "Swap Anchor"
+  "Anker"
 
   "Tag"
   "Tag"
+
+  "Toggle Help"
+  "Toggle"
+
+  "Up"
+  "Op"
 
   "Word"
   "Ord"
@@ -2531,9 +2552,6 @@ msgcat::mcmset da {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Elementer der er markeret vil blive delt med andre computere. Varer, der ikke er valgt skal gemmes lokalt og vil ikke blive delt."
-
-  "Next"
-  "Næste"
 
   "Select Settings Directory"
   "Vælg indstillinger for bibliotek"
@@ -3239,6 +3257,9 @@ msgcat::mcmset da {
 
   "New File"
   "Ny fil"
+
+  "Next"
+  "Næste"
 
   "None"
   "Ingen"

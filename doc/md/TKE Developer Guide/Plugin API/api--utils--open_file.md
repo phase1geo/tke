@@ -1,4 +1,4 @@
-## api\::utils\::open\_file
+## api::utils::open\_file
 
 Opens a file in the default external web browser.
 

@@ -1,4 +1,4 @@
-## api\::get\_color\_values
+## api::get\_color\_values
 
 Returns a number of different versions of the given RGB color value.
 

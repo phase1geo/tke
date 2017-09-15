@@ -1,4 +1,4 @@
-## api\::unregister\_launcher
+## api::unregister\_launcher
 
 Unregisters a previously registered command from the command launcher.
 
@@ -14,5 +14,5 @@ None
 
 | Parameter | Description |
 | - | - |
-| description | The initial description string that was passed to the api\::register\_launcher command.
+| description | The initial description string that was passed to the `api::register_launcher` command.
 

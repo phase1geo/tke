@@ -1,4 +1,4 @@
-## api\::file\::add\_buffer
+## api::file::add\_buffer
 
 Adds a new tab to the editor which is a blank editing buffer (no file is associated with the contents of the editing buffer).
 

@@ -261,6 +261,9 @@ msgcat::mcmset pl {
   "Attributes"
   "Atrybuty"
 
+  "Binary"
+  "Binarny"
+
   "Close Panel"
   "Zamknij panel"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset pl {
 # select.tcl
 msgcat::mcmset pl {
 
+  "Anchor"
+  "Anchor"
+
+  "Angled Brackets"
+  "Kątowe"
+
   "Backticks"
   "Lewym apostrofem"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset pl {
   "Character"
   "Charakter"
 
+  "Clear Selection and Exit"
+  "Wyczyść zaznaczenie"
+
   "Curly Brackets"
   "Nawiasach klamrowych"
 
   "Double Quotes"
   "Podwójne cudzysłowy"
 
+  "Down"
+  "W dół"
+
+  "First Child"
+  "Pierwszy potomek"
+
+  "For available selection mode commands, type '?'"
+  "Dostępny wybór trybu poleceń, wpisz '?'"
+
+  "Keep Selection and Exit"
+  "Zachowaj wybór i wyjścia"
+
+  "Left"
+  "Lewa"
+
+  "Miscellaneous"
+  "Różne"
+
+  "Modes"
+  "Moda"
+
+  "Motions"
+  "Wnioski"
+
   "Paragraph"
   "Paragraf"
 
-  "Select Down"
-  "Zaznacz w dół"
+  "Parent"
+  "Rodzic"
 
-  "Select First Child"
-  "Wybierz pierwsze dziecko"
+  "Previous"
+  "Poprzedni"
 
-  "Select Left"
-  "Zaznacz do lewej"
+  "Right"
+  "Po prawej"
 
-  "Select Next"
-  "Zaznacz następną kartę"
-
-  "Select Parent"
-  "Wybierz jednostkę nadrzędną"
-
-  "Select Previous"
-  "Zaznacz poprzednią kartę"
-
-  "Select Right"
-  "Zaznacz do prawej"
-
-  "Select Up"
-  "Wybierz"
-
-  "Selection Anchor"
-  "Zakotwiczenie zaznaczenia"
-
-  "Selection Motion"
-  "Wybór ruchu"
-
-  "Selection Type"
-  "Typ zaznaczania"
+  "Selection Mode Command Help"
+  "Tryb wyboru"
 
   "Sentence"
   "Zdanie"
 
-  "Shift Selection Down"
-  "Zaznaczanie klawiszem Shift w dół"
+  "Shift Down"
+  "Przesuń w dół"
 
-  "Shift Selection Left"
-  "Zaznaczenie Shift Strzałka w lewo"
+  "Shift Left"
+  "Przesunięcie w lewo"
 
-  "Shift Selection Right"
-  "Zaznaczanie klawiszem Shift tuż"
+  "Shift Right"
+  "Przesuń w prawo"
 
-  "Shift Selection Up"
-  "Zaznaczanie klawiszem Shift się"
+  "Shift Up"
+  "Przesuń w górę"
 
   "Single Quotes"
   "Pojedyncze cudzysłowy"
@@ -2336,11 +2351,17 @@ msgcat::mcmset pl {
   "Square Brackets"
   "Nawiasy kwadratowe"
 
-  "Swap"
-  "Podmień"
+  "Swap Anchor"
+  "Anchor"
 
   "Tag"
   "Tag"
+
+  "Toggle Help"
+  "Przełącz"
+
+  "Up"
+  "Do góry"
 
   "Word"
   "Word"
@@ -2531,9 +2552,6 @@ msgcat::mcmset pl {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "Elementy, które są wybrane zostaną udostępnione z innymi komputerami. Elementy, które nie są zaznaczone będą przechowywane lokalnie i nie będą udostępniane."
-
-  "Next"
-  "Następny"
 
   "Select Settings Directory"
   "Wybierz ustawienia katalogu"
@@ -3239,6 +3257,9 @@ msgcat::mcmset pl {
 
   "New File"
   "Nowy plik"
+
+  "Next"
+  "Następny"
 
   "None"
   "Brak"

@@ -261,6 +261,9 @@ msgcat::mcmset he {
   "Attributes"
   "מאפיינים"
 
+  "Binary"
+  "בינארי"
+
   "Close Panel"
   "סגור פנל"
 
@@ -2264,6 +2267,12 @@ msgcat::mcmset he {
 # select.tcl
 msgcat::mcmset he {
 
+  "Anchor"
+  "אנדורה"
+
+  "Angled Brackets"
+  "סוגריים אוטומטיים"
+
   "Backticks"
   "Backticks"
 
@@ -2273,62 +2282,68 @@ msgcat::mcmset he {
   "Character"
   "גרפמה"
 
+  "Clear Selection and Exit"
+  "נקה בחירה"
+
   "Curly Brackets"
   "בסוגריים מסולסלים"
 
   "Double Quotes"
   "מרכאות כפולות"
 
+  "Down"
+  "נגד"
+
+  "First Child"
+  "בן ראשון"
+
+  "For available selection mode commands, type '?'"
+  "עבור פקודות מצב הבחירה זמין, הקלד '?'"
+
+  "Keep Selection and Exit"
+  "לשמור על הבחירה ויציאה"
+
+  "Left"
+  "שמאל"
+
+  "Miscellaneous"
+  "שונות"
+
+  "Modes"
+  "מצבים"
+
+  "Motions"
+  "shilshul"
+
   "Paragraph"
   "פסקה"
 
-  "Select Down"
-  "בחירה"
+  "Parent"
+  "הורה"
 
-  "Select First Child"
-  "בחר הילד הראשון"
+  "Previous"
+  "הקודם"
 
-  "Select Left"
-  "בחירה"
+  "Right"
+  "ימין"
 
-  "Select Next"
-  "בחר"
-
-  "Select Parent"
-  "בחר האב"
-
-  "Select Previous"
-  "בחר קודם"
-
-  "Select Right"
-  "בחר נכון"
-
-  "Select Up"
-  "בחירה"
-
-  "Selection Anchor"
-  "הבחירה עוגן"
-
-  "Selection Motion"
-  "הבחירה תנועה"
-
-  "Selection Type"
-  "סוג הבחירה"
+  "Selection Mode Command Help"
+  "עזרה הפקודה מצב בחירה"
 
   "Sentence"
   "משפט"
 
-  "Shift Selection Down"
-  "Shift הבחירה למטה"
+  "Shift Down"
+  "הזז למטה"
 
-  "Shift Selection Left"
-  "Shift הבחירה שמאלה"
+  "Shift Left"
+  "הזז שמאלה"
 
-  "Shift Selection Right"
-  "Shift הבחירה."
+  "Shift Right"
+  "הזז ימינה"
 
-  "Shift Selection Up"
-  "Shift הבחירה."
+  "Shift Up"
+  "הזז למעלה"
 
   "Single Quotes"
   "בגרש יחיד"
@@ -2336,11 +2351,17 @@ msgcat::mcmset he {
   "Square Brackets"
   "מרובעים"
 
-  "Swap"
-  "החלף"
+  "Swap Anchor"
+  "אנדורה"
 
   "Tag"
   "תגית"
+
+  "Toggle Help"
+  "מתג"
+
+  "Up"
+  "בעד"
 
   "Word"
   "מילה"
@@ -2531,9 +2552,6 @@ msgcat::mcmset he {
 
   "Items that are selected will be shared with other computers. Items that are not selected will be stored locally and will not be shared."
   "הפריטים שנבחרו ישותפו עם מחשבים אחרים. הפריטים שנבחרו לא יאוחסנו באופן מקומי, לא ישותף."
-
-  "Next"
-  "הבא"
 
   "Select Settings Directory"
   "בחר הגדרות מדריך"
@@ -3239,6 +3257,9 @@ msgcat::mcmset he {
 
   "New File"
   "קובץ חדש"
+
+  "Next"
+  "הבא"
 
   "None"
   "ללא"

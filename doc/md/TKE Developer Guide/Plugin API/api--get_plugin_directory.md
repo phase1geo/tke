@@ -1,4 +1,4 @@
-## api\::get\_plugin\_directory
+## api::get\_plugin\_directory
 
 Returns the full pathname of the TKE installation directory.
 

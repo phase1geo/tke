@@ -1,4 +1,4 @@
-## api\::preferences\::widget
+## api::preferences::widget
 
 Creates a preferences widget which controls the display and manipulation of one plugin preference value. The created widget is automatically added for searching within the preferences window and it is packed into the plugin’s preference panel using either pack (default) or grid (using the **-grid 1** option). Several types of widgets are supported:
 

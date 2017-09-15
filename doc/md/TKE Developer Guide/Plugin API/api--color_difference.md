@@ -1,4 +1,4 @@
-## api\::color\_difference
+## api::color\_difference
 
 Returns the RGB color value which is exactly between two specified RGB colors.
 

@@ -1,4 +1,4 @@
-## api\::auto\_adjust\_color
+## api::auto\_adjust\_color
 
 Automatically adjusts the given RGB color by a value equal to diff such that if the color is a darker color, the value will be lightened or if a color is a lighter color, the value will be darkened.
 

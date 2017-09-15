@@ -1,4 +1,4 @@
-## api\::color\_to\_rgb
+## api::color\_to\_rgb
 
 Returns a list containing three values, the R, G and B integer values of the specified color.
 

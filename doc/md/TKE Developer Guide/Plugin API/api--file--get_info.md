@@ -1,4 +1,4 @@
-## api\::file\::get\_info
+## api::file::get\_info
 
 Returns information about the file specified by the given index based on the attribute that this passed.
 

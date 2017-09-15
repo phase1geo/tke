@@ -1,4 +1,4 @@
-## api\::file\::current\_file\_index
+## api::file::current\_file\_index
 
 Returns a unique index to the currently displayed file in the editor.  This index can be used for getting information about the file.
 

@@ -1,4 +1,4 @@
-## api\::normalize\_filename
+## api::normalize\_filename
 
 Takes a NFS-attached host where the file resides along with the pathname on that host where the file resides and returns the normalized filename to access the file on the current host.
 
