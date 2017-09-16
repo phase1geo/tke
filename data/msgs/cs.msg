@@ -727,9 +727,6 @@ msgcat::mcmset cs {
   "Header"
   "Záhlaví"
 
-  "Help"
-  "Nápověda"
-
   "Hide All Tabs"
   "Skrýt všechny karty"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset cs {
   "Character"
   "Postava"
 
-  "Clear Selection and Exit"
-  "Zrušte výběr a Exit"
+  "Clear Selection"
+  "Smazat výběr"
 
   "Curly Brackets"
   "Složené závorky"
+
+  "Delete Selected Text"
+  "Smazat vybrané"
 
   "Double Quotes"
   "Dvojité uvozovky"
@@ -2294,26 +2294,26 @@ msgcat::mcmset cs {
   "Down"
   "Dolů"
 
+  "Exit Selection Mode"
+  "Ukončit režim výběru"
+
   "First Child"
   "První potomek"
 
-  "For available selection mode commands, type '?'"
-  "Dostupný výběr režimu příkazy, zadejte '? \"
-
-  "Keep Selection and Exit"
-  "Výběr a schránka"
+  "Keep Selection"
+  "Výběr"
 
   "Left"
   "Vlevo"
-
-  "Miscellaneous"
-  "Různé"
 
   "Modes"
   "Mód"
 
   "Motions"
   "pohyb těles"
+
+  "Node"
+  "Uzel"
 
   "Paragraph"
   "Odstavec"
@@ -2359,6 +2359,9 @@ msgcat::mcmset cs {
 
   "Toggle Help"
   "Přepínač"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Typ '?' o pomoc.  Stiskněte klávesy ESC ukončíte režim výběru"
 
   "Up"
   "Nahoru"
@@ -3224,6 +3227,9 @@ msgcat::mcmset cs {
 
   "Find previous occurrence"
   "Najít předchozí výskyt"
+
+  "Help"
+  "Nápověda"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Obrázek zobrazený v panelu informací o postranním panelu pro zavření panelu"

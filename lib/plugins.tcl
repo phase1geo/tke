@@ -22,31 +22,32 @@
 # Brief:   Namespace to support the plugin framework.
 #
 # List of available plugin actions:
-#  menu         - Adds a menu to the main menubar
-#  tab_popup    - Adds items to the tab popup menu
-#  root_popup   - Adds items to a root directory sidebar popup menu
-#  dir_popup    - Adds items to a non-root directory sidebar popup menu
-#  file_popup   - Adds items to a file sidebar popup menu
-#  text_binding - Adds one or more bindings to a created text field.
-#  on_start     - Runs when the editor is started or when the plugin is installed
-#  on_open      - Runs when a tab is opened
-#  on_focusin   - Runs when a tab receives focus
-#  on_close     - Runs when a tab is closed
-#  on_update    - Runs when a tab is updated
-#  on_quit      - Runs when the editor is exited
-#  on_reload    - Takes action when the plugin is reloaded
-#  on_save      - Runs prior to a file being saved
-#  on_rename    - Runs when a file/folder is being renamed
-#  on_duplicate - Runs when a file is being duplicated
-#  on_delete    - Runs when a file/folder is being deleted
-#  on_trash     - Runs when a file/folder is moved to the trash
-#  on_uninstall - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
-#  on_pref_load - Runs when the plugin preference items need to be added.
-#  on_pref_ui   - Runs when the plugin preference panel needs to be displayed in the preferences window.
-#  on_drop      - Runs when a file or text is dropped in an editing buffer.
-#  syntax       - Adds the given syntax file to the list of available syntaxes
-#  vcs          - Adds support for a version control system to the difference viewer
-#  info_panel   - Adds items to the sidebar information panel.
+#  menu            - Adds a menu to the main menubar
+#  tab_popup       - Adds items to the tab popup menu
+#  root_popup      - Adds items to a root directory sidebar popup menu
+#  dir_popup       - Adds items to a non-root directory sidebar popup menu
+#  file_popup      - Adds items to a file sidebar popup menu
+#  text_binding    - Adds one or more bindings to a created text field.
+#  on_start        - Runs when the editor is started or when the plugin is installed
+#  on_open         - Runs when a tab is opened
+#  on_focusin      - Runs when a tab receives focus
+#  on_close        - Runs when a tab is closed
+#  on_update       - Runs when a tab is updated
+#  on_quit         - Runs when the editor is exited
+#  on_reload       - Takes action when the plugin is reloaded
+#  on_save         - Runs prior to a file being saved
+#  on_rename       - Runs when a file/folder is being renamed
+#  on_duplicate    - Runs when a file is being duplicated
+#  on_delete       - Runs when a file/folder is being deleted
+#  on_trash        - Runs when a file/folder is moved to the trash
+#  on_uninstall    - Runs when the plugin is uninstalled by the user.  Allows UI cleanup, etc.
+#  on_pref_load    - Runs when the plugin preference items need to be added.
+#  on_pref_ui      - Runs when the plugin preference panel needs to be displayed in the preferences window.
+#  on_drop         - Runs when a file or text is dropped in an editing buffer.
+#  on_theme_change - Runs after the user has changed themes.
+#  syntax          - Adds the given syntax file to the list of available syntaxes
+#  vcs             - Adds support for a version control system to the difference viewer
+#  info_panel      - Adds items to the sidebar information panel.
 ######################################################################
 
 namespace eval plugins {
@@ -1384,6 +1385,14 @@ namespace eval plugins {
 
     # Finally, write the plugin information file
     write_config
+
+  }
+
+  ######################################################################
+  # Called when the theme has changed.
+  proc handle_on_theme_changed {} {
+
+    handle_event "on_theme_changed"
 
   }
 

@@ -727,9 +727,6 @@ msgcat::mcmset hu {
   "Header"
   "Fejléc"
 
-  "Help"
-  "Segítség"
-
   "Hide All Tabs"
   "Minden fül elrejtése"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset hu {
   "Character"
   "Karakter"
 
-  "Clear Selection and Exit"
-  "Clear Selection és kilépés"
+  "Clear Selection"
+  "A kijelölés megszüntetése"
 
   "Curly Brackets"
   "Kapcsos zárójelekkel"
+
+  "Delete Selected Text"
+  "A kijelölt szöveg törlése"
 
   "Double Quotes"
   "Kettős idézőjelek"
@@ -2294,26 +2294,26 @@ msgcat::mcmset hu {
   "Down"
   "Down"
 
+  "Exit Selection Mode"
+  "Kijelölési mód"
+
   "First Child"
   "első alárendelt objektum"
 
-  "For available selection mode commands, type '?'"
-  "Kijelölési mód"
-
-  "Keep Selection and Exit"
-  "Kiválasztási és kilépés"
+  "Keep Selection"
+  "kiválasztás"
 
   "Left"
   "Bal"
-
-  "Miscellaneous"
-  "Muhtelif Konular"
 
   "Modes"
   "& Módok"
 
   "Motions"
   "Defaecatio emelkedett frekvenciája"
+
+  "Node"
+  "Csomópont"
 
   "Paragraph"
   "Bekezdés"
@@ -2359,6 +2359,9 @@ msgcat::mcmset hu {
 
   "Toggle Help"
   "Összezárás"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Típus '?' segítségért.  Az ESCAPE billentyű kijelölési módból való kilépéshez nyomja"
 
   "Up"
   "Fel"
@@ -3224,6 +3227,9 @@ msgcat::mcmset hu {
 
   "Find previous occurrence"
   "Még a korábbi előfordulása"
+
+  "Help"
+  "Segítség"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Tálaló adatai munkaablak bezárása a panelen megjelenített kép"

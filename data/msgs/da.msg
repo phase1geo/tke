@@ -727,9 +727,6 @@ msgcat::mcmset da {
   "Header"
   "Header"
 
-  "Help"
-  "Hjælp"
-
   "Hide All Tabs"
   "Skjule alle faner"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset da {
   "Character"
   "Karakter"
 
-  "Clear Selection and Exit"
-  "Klart valg og Exit"
+  "Clear Selection"
+  "Indsæt detaljeret afsnit"
 
   "Curly Brackets"
   "Krøllede parenteser"
+
+  "Delete Selected Text"
+  "Slet Valgte"
 
   "Double Quotes"
   "Dobbelte citationstegn"
@@ -2294,26 +2294,26 @@ msgcat::mcmset da {
   "Down"
   "Ned"
 
+  "Exit Selection Mode"
+  "Exit markeringstilstanden"
+
   "First Child"
   "Første barn"
 
-  "For available selection mode commands, type '?'"
-  "Tilgængelige udvalg kommandoer, skal du skrive '?'"
-
-  "Keep Selection and Exit"
-  "Holde udvælgelse og Exit"
+  "Keep Selection"
+  "Valg"
 
   "Left"
   "Venstre"
-
-  "Miscellaneous"
-  "Diverse"
 
   "Modes"
   "Tilstande"
 
   "Motions"
   "Aktuel og uopsættelig debat (indsigelser)"
+
+  "Node"
+  "Node"
 
   "Paragraph"
   "Paragraphs"
@@ -2359,6 +2359,9 @@ msgcat::mcmset da {
 
   "Toggle Help"
   "Toggle"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Type '?' for at få hjælp.  Slå ESC-tasten for at afslutte markeringstilstanden"
 
   "Up"
   "Op"
@@ -3224,6 +3227,9 @@ msgcat::mcmset da {
 
   "Find previous occurrence"
   "Find forrige forekomst"
+
+  "Help"
+  "Hjælp"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Billedet vises i indholdsoversigten panel for dokumentoplysninger til at lukke panelet"

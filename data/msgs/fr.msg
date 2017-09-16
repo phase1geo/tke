@@ -727,9 +727,6 @@ msgcat::mcmset fr {
   "Header"
   "En-tête"
 
-  "Help"
-  "Aide"
-
   "Hide All Tabs"
   "Tout cacher"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset fr {
   "Character"
   "Personnage"
 
-  "Clear Selection and Exit"
-  "Effacer la sélection et la sortie"
+  "Clear Selection"
+  "پاک  کردن انتخاب ها"
 
   "Curly Brackets"
   "Accolades"
+
+  "Delete Selected Text"
+  "Effacer la sélection"
 
   "Double Quotes"
   "Guillemets doubles"
@@ -2294,26 +2294,26 @@ msgcat::mcmset fr {
   "Down"
   "Bas"
 
+  "Exit Selection Mode"
+  "Sortir du mode de sélection"
+
   "First Child"
   "Premier enfant"
 
-  "For available selection mode commands, type '?'"
-  "Mode de sélection"
-
-  "Keep Selection and Exit"
-  "Garder la sélection et la sortie"
+  "Keep Selection"
+  "Garder la sélection"
 
   "Left"
   "Gauche"
-
-  "Miscellaneous"
-  "Divers"
 
   "Modes"
   "de la machine"
 
   "Motions"
   "Mouvements"
+
+  "Node"
+  "nœud"
 
   "Paragraph"
   "Paragraphe"
@@ -2359,6 +2359,9 @@ msgcat::mcmset fr {
 
   "Toggle Help"
   "Activer"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Type ' ?' pour de l’aide.  Appuyez sur la touche Echap pour quitter le mode de sélection"
 
   "Up"
   "Haut"
@@ -3224,6 +3227,9 @@ msgcat::mcmset fr {
 
   "Find previous occurrence"
   "Trouver l'occurrence précédente"
+
+  "Help"
+  "Aide"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Image affichée dans le panneau informations sur le panneau latéral pour fermer le panneau"

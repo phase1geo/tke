@@ -55,7 +55,7 @@ namespace eval number_converter {
   # Perform numerical replacement as required.
   proc do_replace {prefix fmt {underscore 4}} {
 
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     foreach {endpos startpos} [lreverse [$txt tag ranges sel]] {
       if {[set num [get_number $txt $startpos $endpos]] ne ""} {
@@ -101,7 +101,7 @@ namespace eval number_converter {
   # Returns 1 if any of the selections contains a numerical value.
   proc handle_all_state {} {
 
-    if {[set index [api::file::current_file_index]] != -1} {
+    if {[set index [api::file::current_index]] != -1} {
       set txt [api::file::get_info $index txt]
       foreach {startpos endpos} [$txt tag ranges sel] {
         if {[get_number $txt $startpos $endpos] ne ""} {

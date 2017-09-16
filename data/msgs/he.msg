@@ -727,9 +727,6 @@ msgcat::mcmset he {
   "Header"
   "כותרת"
 
-  "Help"
-  "עזרה"
-
   "Hide All Tabs"
   "להסתיר את כל הכרטיסיות"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset he {
   "Character"
   "גרפמה"
 
-  "Clear Selection and Exit"
+  "Clear Selection"
   "נקה בחירה"
 
   "Curly Brackets"
   "בסוגריים מסולסלים"
+
+  "Delete Selected Text"
+  "מחיקת הבחירה"
 
   "Double Quotes"
   "מרכאות כפולות"
@@ -2294,26 +2294,26 @@ msgcat::mcmset he {
   "Down"
   "נגד"
 
+  "Exit Selection Mode"
+  "בחירה"
+
   "First Child"
   "בן ראשון"
 
-  "For available selection mode commands, type '?'"
-  "עבור פקודות מצב הבחירה זמין, הקלד '?'"
-
-  "Keep Selection and Exit"
-  "לשמור על הבחירה ויציאה"
+  "Keep Selection"
+  "לשמור על הבחירה"
 
   "Left"
   "שמאל"
-
-  "Miscellaneous"
-  "שונות"
 
   "Modes"
   "מצבים"
 
   "Motions"
   "shilshul"
+
+  "Node"
+  "צומת"
 
   "Paragraph"
   "פסקה"
@@ -2359,6 +2359,9 @@ msgcat::mcmset he {
 
   "Toggle Help"
   "מתג"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "סוג '?' לקבלת עזרה.  ללחוץ על מקש ESCAPE כדי לצאת ממצב בחירה"
 
   "Up"
   "בעד"
@@ -3224,6 +3227,9 @@ msgcat::mcmset he {
 
   "Find previous occurrence"
   "למצוא את המופע הקודם"
+
+  "Help"
+  "עזרה"
 
   "Image displayed in sidebar information panel for closing the panel"
   "התמונה המוצגת בחלונית המידע הצידי לסגירת הלוח"

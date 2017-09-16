@@ -779,7 +779,7 @@ namespace eval interpreter {
                          ttk::entry ttk::frame ttk::label ttk::labelframe ttk::menubutton ttk::notebook \
                          ttk::panedwindow ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar \
                          ttk::separator ttk::spinbox ttk::treeview ctext tokenentry::tokenentry \
-                         wmarkentry::wmarkentry] {
+                         wmarkentry::wmarkentry tabbar::tabbar] {
       $interp alias $widget interpreter::widget_command $pname $widget
     }
 

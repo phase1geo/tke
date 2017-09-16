@@ -996,6 +996,22 @@ namespace eval tabbar {
   }
 
   ######################################################################
+  # Returns 1 if the cursor currently is located within the specified tab.
+  proc cursor_within_tab {w tabid} {
+
+    # Get the cursor coordinates
+    if {[set xy [winfo pointerxy $w]] != -1} {
+      set x [expr [lindex $xy 0] - [winfo rootx $w.c]]
+      set y [expr [lindex $xy 1] - [winfo rooty $w.c]]
+      lassign [$w.c bbox f$tabid] fx1 fy1 fx2 fy2
+      return [expr ($fx1 <= $x) && ($x <= $fx2) && ($fy1 <= $y) && ($y <= $fy2)]
+    }
+
+    return 0
+
+  }
+
+  ######################################################################
   # Redraw the tabbar.
   proc redraw {w {force 0}} {
 
@@ -1070,7 +1086,7 @@ namespace eval tabbar {
       if {$page_index == $data($w,current)} {
         $w.c itemconfigure f$tabid -fill $data($w,option,-activebackground) -outline $data($w,option,-activebackground)
         $w.c itemconfigure x$tabid -fill $data($w,option,-activeforeground)
-        if {$data($w,option,-closeshow) eq "current"} {
+        if {($data($w,option,-closeshow) eq "current") || (($data($w,option,-closeshow) eq "enter") && [cursor_within_tab $w $tabid])} {
           $w.c itemconfigure c$tabid -state normal
         }
       } else {

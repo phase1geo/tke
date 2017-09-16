@@ -356,6 +356,9 @@ namespace eval theme {
     # Update all UI widgets
     update_theme
 
+    # Allow any plugins waiting for this event
+    plugins::handle_on_theme_changed
+
   }
 
   ######################################################################

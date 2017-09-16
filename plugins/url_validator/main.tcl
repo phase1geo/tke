@@ -139,7 +139,7 @@ namespace eval url_validator {
     variable langs
     variable checked
 
-    set file_index [api::file::current_file_index]
+    set file_index [api::file::current_index]
     set checked    [list]
 
     # Parse the file for URLs
@@ -156,7 +156,7 @@ namespace eval url_validator {
 
     variable langs
 
-    if {[set file_index [api::file::current_file_index]] == -1} {
+    if {[set file_index [api::file::current_index]] == -1} {
       return 0
     }
 
@@ -170,7 +170,7 @@ namespace eval url_validator {
 
     variable checked
 
-    set file_index [api::file::current_file_index]
+    set file_index [api::file::current_index]
     set txt        [api::file::get_info $file_index txt]
     set checked    [list]
 
@@ -189,7 +189,7 @@ namespace eval url_validator {
   # Handles the state of the validate URL selection menu command.
   proc handle_select_state {} {
 
-    if {[set file_index [api::file::current_file_index]] == -1} {
+    if {[set file_index [api::file::current_index]] == -1} {
       return 0
     }
 

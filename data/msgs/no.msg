@@ -727,9 +727,6 @@ msgcat::mcmset no {
   "Header"
   "Header"
 
-  "Help"
-  "Help!"
-
   "Hide All Tabs"
   "Skjul alle"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset no {
   "Character"
   "Tegn"
 
-  "Clear Selection and Exit"
-  "Slett utvalg og avslutte"
+  "Clear Selection"
+  "Tøm utval"
 
   "Curly Brackets"
   "Klammeparenteser"
+
+  "Delete Selected Text"
+  "Slett den merka teksten"
 
   "Double Quotes"
   "Anførselstegn"
@@ -2294,26 +2294,26 @@ msgcat::mcmset no {
   "Down"
   "Downs"
 
+  "Exit Selection Mode"
+  "Utvalgsmodus"
+
   "First Child"
   "Første barn"
 
-  "For available selection mode commands, type '?'"
-  "Tilgjengelige valg kommandoer, skriver du inn '?'"
-
-  "Keep Selection and Exit"
-  "Holde utvalg og Exit"
+  "Keep Selection"
+  "Behold utvalg"
 
   "Left"
   "Venstre"
-
-  "Miscellaneous"
-  "Diverse"
 
   "Modes"
   "Modus"
 
   "Motions"
   "Bevegelse"
+
+  "Node"
+  "Node"
 
   "Paragraph"
   "Avsnitt"
@@ -2359,6 +2359,9 @@ msgcat::mcmset no {
 
   "Toggle Help"
   "Toggle"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Type '?' for hjelp.  Trykk ESC for å avslutte modus for merking"
 
   "Up"
   "Opp"
@@ -3224,6 +3227,9 @@ msgcat::mcmset no {
 
   "Find previous occurrence"
   "Finne forrige forekomst"
+
+  "Help"
+  "Help!"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Bildet som vises i sidepanelet dokumentinformasjonspanel for å lukke panelet"

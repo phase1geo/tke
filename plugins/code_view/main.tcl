@@ -13,7 +13,7 @@ namespace eval code_view {
   # Runs the code view workflow.
   proc run {} {
 
-    if {![api::file::get_info [api::file::current_file_index] lock]} {
+    if {![api::file::get_info [api::file::current_index] lock]} {
       api::invoke_menu "File/Lock"
       api::invoke_menu "Edit/Indentation/Format Text"
     }

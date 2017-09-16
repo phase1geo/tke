@@ -727,9 +727,6 @@ msgcat::mcmset ja {
   "Header"
   "Header"
 
-  "Help"
-  "ヘルプ"
-
   "Hide All Tabs"
   "すべて表示しない"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset ja {
   "Character"
   "性格"
 
-  "Clear Selection and Exit"
-  "選択をクリアして終了"
+  "Clear Selection"
+  "選択を解除"
 
   "Curly Brackets"
   "中かっこ"
+
+  "Delete Selected Text"
+  "選択したアイテムを削除"
 
   "Double Quotes"
   "ダブルクォーテーションマーク"
@@ -2294,26 +2294,26 @@ msgcat::mcmset ja {
   "Down"
   "下"
 
+  "Exit Selection Mode"
+  "選択モード"
+
   "First Child"
   "最初の子"
 
-  "For available selection mode commands, type '?'"
-  "選択モード"
-
-  "Keep Selection and Exit"
-  "選択とクリップボード"
+  "Keep Selection"
+  "選択"
 
   "Left"
   "左向き"
-
-  "Miscellaneous"
-  "その他"
 
   "Modes"
   "モード"
 
   "Motions"
   "動"
+
+  "Node"
+  "ノード"
 
   "Paragraph"
   "段落"
@@ -2359,6 +2359,9 @@ msgcat::mcmset ja {
 
   "Toggle Help"
   "トグル"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "型 '?' の助け。 選択モードを終了するエスケープ キーを押す"
 
   "Up"
   "上向き"
@@ -3224,6 +3227,9 @@ msgcat::mcmset ja {
 
   "Find previous occurrence"
   "前の出現箇所を見つける"
+
+  "Help"
+  "ヘルプ"
 
   "Image displayed in sidebar information panel for closing the panel"
   "パネルを閉じるのサイドバー情報パネルに表示されるイメージ"

@@ -11,6 +11,7 @@ namespace eval css_colorize {
   }
 
   array set colorized {}
+  array set txts      {}
 
   ######################################################################
   # Returns the RGB color associated with the given value
@@ -72,7 +73,7 @@ namespace eval css_colorize {
     variable colorized
 
     # Get the current editing buffer index.
-    set index [api::file::current_file_index]
+    set index [api::file::current_index]
     set txt   [api::file::get_info $index txt]
 
     # Indicate that this editing buffer has been colorized
@@ -121,7 +122,7 @@ namespace eval css_colorize {
   # CSS and HTML files.
   proc colorize_handle_state {} {
 
-    if {[set index [api::file::current_file_index]] == -1} {
+    if {[set index [api::file::current_index]] == -1} {
       return 0
     }
 
@@ -138,7 +139,7 @@ namespace eval css_colorize {
     variable colorized
 
     # Get the current editing buffer index.
-    set index [api::file::current_file_index]
+    set index [api::file::current_index]
     set txt   [api::file::get_info $index txt]
 
     # Indicate that this editing buffer has been colorized
@@ -156,7 +157,7 @@ namespace eval css_colorize {
     variable colorized
 
     # Get the current file index, if there is one
-    if {[set index [api::file::current_file_index]] == -1} {
+    if {[set index [api::file::current_index]] == -1} {
       return 0
     }
 
@@ -169,15 +170,6 @@ namespace eval css_colorize {
     } else {
       return [expr ([lsearch [list CSS SCSS HTML] $lang] != -1) && $colorized($txt)]
     }
-
-  }
-
-  ######################################################################
-  # This is only needed so that we can interact with the text
-  # widget.  We are not going to do anything right now.
-  proc do_binding {tag} {
-
-    bind $tag <<ThemeChanged>> [list css_colorize::colorize %W]
 
   }
 
@@ -212,13 +204,25 @@ namespace eval css_colorize {
 
   }
 
+  ######################################################################
+  # Called if the theme changes.  Updates the colors.
+  proc theme_changed {} {
+
+    variable txts
+
+    foreach index [api::file::all_indices] {
+      colorize [api::file::get_info $index txt]
+    }
+
+  }
+
 }
 
 # Register all plugin actions
 api::register css_colorize {
-  {text_binding pretext attach all css_colorize::do_binding}
   {menu command "CSS Colorize/Colorize"   css_colorize::colorize_do   css_colorize::colorize_handle_state}
   {menu command "CSS Colorize/Uncolorize" css_colorize::uncolorize_do css_colorize::uncolorize_handle_state}
-  {on_save css_colorize::save_do}
-  {on_reload css_colorize::store_do css_colorize::restore_do}
+  {on_save          css_colorize::save_do}
+  {on_reload        css_colorize::store_do css_colorize::restore_do}
+  {on_theme_changed css_colorize::theme_changed}
 }
