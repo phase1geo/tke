@@ -34,7 +34,7 @@ html,body,#wrapper{font-size:10pt!important}
 
 
 </head>
-<body class="normal">
+<body class="normal firstload">
   <div id="wrapper">
       <h1 id="tkedeveloperguide">TKE Developer Guide</h1>
 
@@ -3183,11 +3183,8 @@ api::edit::title_case $txt $startpos $endpos</code></pre>
 </table>
 
 <p><strong>Example</strong></p>
-<pre><code class="Tcl"># Output all of the opened filenames
-api::log &quot;Opened filenames:&quot;
-foreach index [api::file::all_indices] {
-  api::log &quot;  [api::file::get_info $index fname]&quot;
-}</code></pre>
+<pre><code class="Tcl"># Join the next three lines to the current line
+api::join_lines $txt 3</code></pre>
 
 <h2 id="api::edit::bubble_up">api::edit::bubble_up</h2>
 
