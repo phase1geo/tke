@@ -173,7 +173,7 @@ namespace eval select {
 
     ttk::labelframe .selhelp.f.help -text [msgcat::mc "Help"]
     create_list .selhelp.f.help [list $help]
-    
+
     ttk::labelframe .selhelp.f.exit -text [msgcat::mc "Exit Selection Mode"]
     create_list .selhelp.f.exit [list $ret $esc $del]
 
@@ -312,7 +312,14 @@ namespace eval select {
             # TBD
           }
           node {
-            if {[set tag [emmet::get_tag [winfo parent $txtt] -dir $motion -type 1*0 -start [lindex $range [expr {$motion eq "next"}]]]] ne ""} {
+            if {$motion eq "next"} {
+              set start [lindex $range 1]
+              set type  1*0
+            } else {
+              set start [lindex $range 0]
+              set type  0*1
+            }
+            if {[set tag [emmet::get_tag [winfo parent $txtt] -dir $motion -type $type -start $start]] ne ""} {
               $txtt mark set insert [lindex $tag 0]
               set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
               if {($motion eq "next") || [$txtt compare [lindex $range 0] > [lindex $outer 1]]} {
@@ -449,10 +456,8 @@ namespace eval select {
         $txtt mark set insert [lindex $range 0]
         if {$data($txtt,type) eq "tag"} {
           set node_range [emmet::get_node_range_within [winfo parent $txtt]]
-          puts "node_rangeA: $node_range"
           $txtt mark set insert "[lindex $node_range 0]-1c"
           set node_range [emmet::get_node_range_within [winfo parent $txtt]]
-          puts "node_rangeB: $node_range"
         } else {
           if {[set node_range [emmet::get_node_range_within [winfo parent $txtt]]] ne ""} {
             set range [list [lindex $node_range 0] [lindex $node_range 3]]
@@ -463,11 +468,9 @@ namespace eval select {
         $txtt mark set insert [lindex $range 0]
         if {$data($txtt,type) eq "node"} {
           set inner [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
-          puts "inner: $inner"
           $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 0]
         }
         if {([set retval [emmet::get_tag [winfo parent $txtt] -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
-          puts "retval: $retval"
           $txtt mark set insert [lindex $retval 0]
           if {$motion eq "tag"} {
             set range [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
@@ -579,26 +582,26 @@ namespace eval select {
   proc handle_selection {txtt} {
 
     variable data
-    
+
     if {([$txtt tag ranges sel] eq "") && !$data($txtt,dont_close)} {
       set_select_mode $txtt 0
     }
 
     # Clear the dont_close indicator
     set data($txtt,dont_close) 0
-    
+
     # Hide the help display if it is in view
     hide_help
 
   }
-  
+
   ######################################################################
   # Handles a FocusOut event on the given text widget.
   proc handle_focusout {txtt} {
-    
+
     # Hide the help window if we lose focus
     hide_help
-    
+
   }
 
   ######################################################################
@@ -638,48 +641,48 @@ namespace eval select {
 
     # Clear the selection
     $txtt tag remove sel 1.0 end
-    
+
     return 1
 
   }
-  
+
   ######################################################################
   # Handles the BackSpace key when in selection mode.  Ends selection
   # mode and deletes the selected text.
   proc handle_backspace {txtt} {
-    
+
     variable data
-    
+
     if {$data($txtt,mode) == 0} {
       return 0
     }
-    
+
     # Delete the text
     if {![multicursor::delete $txtt [list char -dir prev] ""]} {
       edit::delete $txtt {*}[lrange [$txtt tag ranges sel] 0 1] 1 1
     }
-    
+
     # Disable selection mode
     set_select_mode $txtt 0
-    
+
     # Hide the help window
     hide_help
-    
+
     return 1
-    
+
   }
-  
+
   ######################################################################
   # Handles the BackSpace or Delete key when in selection mode.  Ends
   # selection mode and deletes the selected text.
   proc handle_delete {txtt} {
-    
+
     variable data
-    
+
     if {$data($txtt,mode) == 0} {
       return 0
     }
-    
+
     # Delete the text
     if {![multicursor::delete $txtt [list char -dir next] ""]} {
       edit::delete $txtt {*}[lrange [$txtt tag ranges sel] 0 1] 1 1
@@ -687,12 +690,12 @@ namespace eval select {
 
     # Disable selection mode
     set_select_mode $txtt 0
-    
+
     # Hide the help window
     hide_help
-    
+
     return 1
-    
+
   }
 
   ######################################################################
@@ -1028,13 +1031,13 @@ namespace eval select {
     set_type $txtt tag
 
   }
-  
+
   ######################################################################
   # Set the current selection type to node mode.
   proc handle_n {txtt} {
-    
+
     set_type $txtt node
-    
+
   }
 
   ######################################################################
