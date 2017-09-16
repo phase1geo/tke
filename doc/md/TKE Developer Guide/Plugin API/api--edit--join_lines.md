@@ -20,9 +20,6 @@ None.
 **Example**
 
 ```Tcl
-# Output all of the opened filenames
-api::log "Opened filenames:"
-foreach index [api::file::all_indices] {
-  api::log "  [api::file::get_info $index fname]"
-}
+# Join the next three lines to the current line
+api::join_lines $txt 3
 ```
