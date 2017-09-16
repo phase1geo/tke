@@ -727,9 +727,6 @@ msgcat::mcmset it {
   "Header"
   "Intestazione"
 
-  "Help"
-  "Aiuto"
-
   "Hide All Tabs"
   "Nascondere tutti"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset it {
   "Character"
   "Carattere"
 
-  "Clear Selection and Exit"
-  "Cancellare la selezione ed uscire"
+  "Clear Selection"
+  "Cancella selezione"
 
   "Curly Brackets"
   "Parentesi"
+
+  "Delete Selected Text"
+  "Rimuovere riga(e) selezionata(e)"
 
   "Double Quotes"
   "Doppi apici"
@@ -2294,26 +2294,26 @@ msgcat::mcmset it {
   "Down"
   "Giù di morale"
 
+  "Exit Selection Mode"
+  "Esce dalla modalità selezione"
+
   "First Child"
   "Primo Figlio"
 
-  "For available selection mode commands, type '?'"
-  "Per i comandi di modalità di selezione disponibili, digitare '?'"
-
-  "Keep Selection and Exit"
+  "Keep Selection"
   "Mantieni la selezione"
 
   "Left"
   "Sinistra"
-
-  "Miscellaneous"
-  "Varie"
 
   "Modes"
   "Modi"
 
   "Motions"
   "Moto"
+
+  "Node"
+  "Nodo"
 
   "Paragraph"
   "Paragrafo"
@@ -2359,6 +2359,9 @@ msgcat::mcmset it {
 
   "Toggle Help"
   "Seleziona"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Tipo '?' per aiuto.  Premere il tasto ESC per uscire dalla modalità di selezione"
 
   "Up"
   "Su"
@@ -3224,6 +3227,9 @@ msgcat::mcmset it {
 
   "Find previous occurrence"
   "Trovare l'occorrenza precedente"
+
+  "Help"
+  "Aiuto"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Immagine visualizzata nel pannello informazioni sidebar per il pannello di chiusura"

@@ -34,7 +34,7 @@ html,body,#wrapper{font-size:10pt!important}
 
 
 </head>
-<body class="normal poetry firstload">
+<body class="normal">
   <div id="wrapper">
       <h1 id="tkedeveloperguide">TKE Developer Guide</h1>
 
@@ -49,7 +49,7 @@ html,body,#wrapper{font-size:10pt!important}
 <h1 id="tableofcontents">Table of Contents</h1>
 
 
-<ul style="display: block;" id="mkreplaced-toc" class="max-3"><li class="notmissing"><a href="#plugindevelopment" class="wiki-link">Plugin Development</a><ul><li class="notmissing"><a href="#pluginframework" class="wiki-link">Plugin Framework</a><ul><li class="notmissing"><a href="#startingup" class="wiki-link">Starting up</a></li><li class="notmissing"><a href="#pluginmanagement" class="wiki-link">Plugin management</a></li><li class="notmissing"><a href="#interpretercreation" class="wiki-link">Interpreter Creation</a></li><li class="notmissing"><a href="#safeuntrustedinterpreterdescription" class="wiki-link">Safe (Untrusted) Interpreter Description</a></li><li class="notmissing"><a href="#pluginguielementcreation" class="wiki-link">Plugin GUI Element Creation</a></li><li class="notmissing"><a href="#creatinglaunchercommands" class="wiki-link">Creating Launcher Commands</a></li></ul></li><li class="notmissing"><a href="#pluginbundlestructure" class="wiki-link">Plugin Bundle Structure</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#header.tkedat" data-orig-id="header.tkedat" class="wiki-link">header.tkedat</a></li><li class="notmissing"><a href="#registration" class="wiki-link">Registration</a></li><li class="notmissing"><a href="#pluginactionnamespaceandprocedures" class="wiki-link">Plugin Action Namespace and Procedures</a></li><li class="notmissing"><a href="#otherelements" class="wiki-link">Other Elements</a></li></ul></li></ul></li><li class="notmissing"><a href="#creatinganewplugintemplate" class="wiki-link">Creating a New Plugin Template</a></li></ul></li><li class="notmissing"><a href="#syntaxhandling" class="wiki-link">Syntax Handling</a><ul><li class="notmissing"><a href="#fileformat" class="wiki-link">File Format</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#filepatterns" class="wiki-link">filepatterns</a></li><li class="notmissing"><a href="#vimsyntax" class="wiki-link">vimsyntax</a></li><li class="notmissing"><a href="#reference" class="wiki-link">reference</a></li><li class="notmissing"><a href="#embedded" class="wiki-link">embedded</a></li><li class="notmissing"><a href="#matchcharsallowed" class="wiki-link">matchcharsallowed</a></li><li class="notmissing"><a href="#escapes" class="wiki-link">escapes</a></li><li class="notmissing"><a href="#tabsallowed" class="wiki-link">tabsallowed</a></li><li class="notmissing"><a href="#linewrap" class="wiki-link">linewrap</a></li><li class="notmissing"><a href="#casesensitive" class="wiki-link">casesensitive</a></li><li class="notmissing"><a href="#delimiters" class="wiki-link">delimiters</a></li><li class="notmissing"><a href="#indent" class="wiki-link">indent</a></li><li class="notmissing"><a href="#unindent" class="wiki-link">unindent</a></li><li class="notmissing"><a href="#reindent" class="wiki-link">reindent</a></li><li class="notmissing"><a href="#icomment" class="wiki-link">icomment</a></li><li class="notmissing"><a href="#lcomments" class="wiki-link">lcomments</a></li><li class="notmissing"><a href="#bcomments" class="wiki-link">bcomments</a></li><li class="notmissing"><a href="#strings" class="wiki-link">strings</a></li><li class="notmissing"><a href="#keywords" class="wiki-link">keywords</a></li><li class="notmissing"><a href="#symbols" class="wiki-link">symbols</a></li><li class="notmissing"><a href="#numbers" class="wiki-link">numbers</a></li><li class="notmissing"><a href="#punctuation" class="wiki-link">punctuation</a></li><li class="notmissing"><a href="#precompile" class="wiki-link">precompile</a></li><li class="notmissing"><a href="#miscellaneous1miscellaneous2miscellaneous3" class="wiki-link">miscellaneous1, miscellaneous2, miscellaneous3</a></li><li class="notmissing"><a href="#highlight" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#meta" class="wiki-link">meta</a></li><li class="notmissing"><a href="#advanced" class="wiki-link">advanced</a><ul><li class="notmissing"><a href="#highlightclasses" class="wiki-link">Highlight Classes</a></li><li class="notmissing"><a href="#regularexpressions" class="wiki-link">Regular Expressions</a></li><li class="notmissing"><a href="#processingprocedures" class="wiki-link">Processing Procedures</a></li></ul></li><li class="notmissing"><a href="#formatting" class="wiki-link">formatting</a></li></ul></li></ul></li><li class="notmissing"><a href="#example" class="wiki-link">Example</a></li></ul></li><li class="notmissing"><a href="#pluginactiontypes" class="wiki-link">Plugin Action Types</a><ul><li class="notmissing"><a href="#menu" class="wiki-link">menu</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#tab_popup" data-orig-id="tab_popup" class="wiki-link">tab_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description2" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration2" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures2" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#root_popup" data-orig-id="root_popup" class="wiki-link">root_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description3" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration3" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures3" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#dir_popup" data-orig-id="dir_popup" class="wiki-link">dir_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description4" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration4" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures4" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#file_popup" data-orig-id="file_popup" class="wiki-link">file_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description5" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration5" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures5" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#info_panel" data-orig-id="info_panel" class="wiki-link">info_panel</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description6" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration6" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures6" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#text_binding" data-orig-id="text_binding" class="wiki-link">text_binding</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description7" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration7" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures7" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_start" data-orig-id="on_start" class="wiki-link">on_start</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description8" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration8" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures8" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_open" data-orig-id="on_open" class="wiki-link">on_open</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description9" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration9" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures9" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_focusin" data-orig-id="on_focusin" class="wiki-link">on_focusin</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description10" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration10" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures10" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_close" data-orig-id="on_close" class="wiki-link">on_close</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description11" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration11" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures11" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_quit" data-orig-id="on_quit" class="wiki-link">on_quit</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description12" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration12" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures12" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_reload" data-orig-id="on_reload" class="wiki-link">on_reload</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description13" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclprocedures13" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_save" data-orig-id="on_save" class="wiki-link">on_save</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description14" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration13" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures14" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_uninstall" data-orig-id="on_uninstall" class="wiki-link">on_uninstall</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description15" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration14" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures15" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_rename" data-orig-id="on_rename" class="wiki-link">on_rename</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description16" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration15" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures16" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_duplicate" data-orig-id="on_duplicate" class="wiki-link">on_duplicate</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description17" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration16" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures17" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_delete" data-orig-id="on_delete" class="wiki-link">on_delete</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description18" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration17" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures18" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_trash" data-orig-id="on_trash" class="wiki-link">on_trash</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description19" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration18" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures19" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#syntax" class="wiki-link">syntax</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description20" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration19" class="wiki-link">Tcl Registration</a></li></ul></li></ul></li><li class="notmissing"><a href="#vcs" class="wiki-link">vcs</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description21" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration20" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures20" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_pref_load" data-orig-id="on_pref_load" class="wiki-link">on_pref_load</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description22" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration21" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures21" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#do_pref_ui" data-orig-id="do_pref_ui" class="wiki-link">do_pref_ui</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description23" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration22" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures22" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li></ul></li><li class="notmissing"><a href="#pluginapi" class="wiki-link">Plugin API</a><ul><li class="notmissing"><a href="#api::tke_development" data-orig-id="api::tke_development" class="wiki-link">api\::tke_development</a></li><li class="notmissing"><a href="#api::get_plugin_directory" data-orig-id="api::get_plugin_directory" class="wiki-link">api\::get_plugin_directory</a></li><li class="notmissing"><a href="#api::get_images_directory" data-orig-id="api::get_images_directory" class="wiki-link">api\::get_images_directory</a></li><li class="notmissing"><a href="#api::get_home_directory" data-orig-id="api::get_home_directory" class="wiki-link">api\::get_home_directory</a></li><li class="notmissing"><a href="#api::normalize_filename" data-orig-id="api::normalize_filename" class="wiki-link">api\::normalize_filename</a></li><li class="notmissing"><a href="#api::register_launcher" data-orig-id="api::register_launcher" class="wiki-link">api\::register_launcher</a></li><li class="notmissing"><a href="#api::unregister_launcher" data-orig-id="api::unregister_launcher" class="wiki-link">api\::unregister_launcher</a></li><li class="notmissing"><a href="#api::invoke_menu" data-orig-id="api::invoke_menu" class="wiki-link">api\::invoke_menu</a></li><li class="notmissing"><a href="#api::log" data-orig-id="api::log" class="wiki-link">api\::log</a></li><li class="notmissing"><a href="#api::show_info" data-orig-id="api::show_info" class="wiki-link">api\::show_info</a></li><li class="notmissing"><a href="#api::show_error" data-orig-id="api::show_error" class="wiki-link">api\::show_error</a></li><li class="notmissing"><a href="#api::get_user_input" data-orig-id="api::get_user_input" class="wiki-link">api\::get_user_input</a></li><li class="notmissing"><a href="#api::reset_txt_focus" data-orig-id="api::reset_txt_focus" class="wiki-link">api\::reset_txt_focus</a></li><li class="notmissing"><a href="#api::file::current_file_index" data-orig-id="api::file::current_file_index" class="wiki-link">api\::file\::current_file_index</a></li><li class="notmissing"><a href="#api::file::get_info" data-orig-id="api::file::get_info" class="wiki-link">api\::file\::get_info</a></li><li class="notmissing"><a href="#api::file::add_buffer" data-orig-id="api::file::add_buffer" class="wiki-link">api\::file\::add_buffer</a></li><li class="notmissing"><a href="#api::file::add_file" data-orig-id="api::file::add_file" class="wiki-link">api\::file\::add_file</a></li><li class="notmissing"><a href="#api::edit::get_index" data-orig-id="api::edit::get_index" class="wiki-link">api::edit::get_index</a></li><li class="notmissing"><a href="#api::edit::delete" data-orig-id="api::edit::delete" class="wiki-link">api::edit::delete</a></li><li class="notmissing"><a href="#api::edit::toggle_case" data-orig-id="api::edit::toggle_case" class="wiki-link">api::edit::toggle_case</a></li><li class="notmissing"><a href="#api::edit::lower_case" data-orig-id="api::edit::lower_case" class="wiki-link">api::edit::lower_case</a></li><li class="notmissing"><a href="#api::edit::upper_case" data-orig-id="api::edit::upper_case" class="wiki-link">api::edit::upper_case</a></li><li class="notmissing"><a href="#api::edit::rot13" data-orig-id="api::edit::rot13" class="wiki-link">api::edit::rot13</a></li><li class="notmissing"><a href="#api::edit::title_case" data-orig-id="api::edit::title_case" class="wiki-link">api::edit::title_case</a></li><li class="notmissing"><a href="#api::edit::join_lines" data-orig-id="api::edit::join_lines" class="wiki-link">api::edit::join_lines</a></li><li class="notmissing"><a href="#api::edit::bubble_up" data-orig-id="api::edit::bubble_up" class="wiki-link">api::edit::bubble_up</a></li><li class="notmissing"><a href="#api::edit::bubble_down" data-orig-id="api::edit::bubble_down" class="wiki-link">api::edit::bubble_down</a></li><li class="notmissing"><a href="#api::edit::comment" data-orig-id="api::edit::comment" class="wiki-link">api::edit::comment</a></li><li class="notmissing"><a href="#api::edit::uncomment" data-orig-id="api::edit::uncomment" class="wiki-link">api::edit::uncomment</a></li><li class="notmissing"><a href="#api::edit::toggle_comment" data-orig-id="api::edit::toggle_comment" class="wiki-link">api::edit::toggle_comment</a></li><li class="notmissing"><a href="#api::edit::indent" data-orig-id="api::edit::indent" class="wiki-link">api::edit::indent</a></li><li class="notmissing"><a href="#api::edit::unindent" data-orig-id="api::edit::unindent" class="wiki-link">api::edit::unindent</a></li><li class="notmissing"><a href="#api::edit::move_cursor" data-orig-id="api::edit::move_cursor" class="wiki-link">api::edit::move_cursor</a></li><li class="notmissing"><a href="#api::edit::format" data-orig-id="api::edit::format" class="wiki-link">api::edit::format</a></li><li class="notmissing"><a href="#api::edit::unformat" data-orig-id="api::edit::unformat" class="wiki-link">api::edit::unformat</a></li><li class="notmissing"><a href="#api::export" data-orig-id="api::export" class="wiki-link">api\::export</a></li><li class="notmissing"><a href="#api::sidebar::get_selected_indices" data-orig-id="api::sidebar::get_selected_indices" class="wiki-link">api\::sidebar\::get_selected_indices</a></li><li class="notmissing"><a href="#api::sidebar::get_info" data-orig-id="api::sidebar::get_info" class="wiki-link">api\::sidebar\::get_info</a></li><li class="notmissing"><a href="#api::sidebar::set_info" data-orig-id="api::sidebar::set_info" class="wiki-link">api\::sidebar\::set_info</a></li><li class="notmissing"><a href="#api::plugin::save_variable" data-orig-id="api::plugin::save_variable" class="wiki-link">api\::plugin\::save_variable</a></li><li class="notmissing"><a href="#api::plugin::load_variable" data-orig-id="api::plugin::load_variable" class="wiki-link">api\::plugin\::load_variable</a></li><li class="notmissing"><a href="#api::utils::open_file" data-orig-id="api::utils::open_file" class="wiki-link">api\::utils\::open_file</a></li><li class="notmissing"><a href="#api::get_default_foreground" data-orig-id="api::get_default_foreground" class="wiki-link">api\::get_default_foreground</a></li><li class="notmissing"><a href="#api::get_default_background" data-orig-id="api::get_default_background" class="wiki-link">api\::get_default_background</a></li><li class="notmissing"><a href="#api::color_to_rgb" data-orig-id="api::color_to_rgb" class="wiki-link">api\::color_to_rgb</a></li><li class="notmissing"><a href="#api::get_complementary_mono_color" data-orig-id="api::get_complementary_mono_color" class="wiki-link">api\::get_complementary_mono_color</a></li><li class="notmissing"><a href="#api::rgb_to_hsv" data-orig-id="api::rgb_to_hsv" class="wiki-link">api\::rgb_to_hsv</a></li><li class="notmissing"><a href="#api::hsv_to_rgb" data-orig-id="api::hsv_to_rgb" class="wiki-link">api\::hsv_to_rgb</a></li><li class="notmissing"><a href="#api::rgb_to_hsl" data-orig-id="api::rgb_to_hsl" class="wiki-link">api\::rgb_to_hsl</a></li><li class="notmissing"><a href="#api::hsl_to_rgb" data-orig-id="api::hsl_to_rgb" class="wiki-link">api\::hsl_to_rgb</a></li><li class="notmissing"><a href="#api::get_color_values" data-orig-id="api::get_color_values" class="wiki-link">api\::get_color_values</a></li><li class="notmissing"><a href="#api::auto_adjust_color" data-orig-id="api::auto_adjust_color" class="wiki-link">api\::auto_adjust_color</a></li><li class="notmissing"><a href="#api::auto_mix_colors" data-orig-id="api::auto_mix_colors" class="wiki-link">api\::auto_mix_colors</a></li><li class="notmissing"><a href="#api::color_difference" data-orig-id="api::color_difference" class="wiki-link">api\::color_difference</a></li><li class="notmissing"><a href="#api::preferences::widget" data-orig-id="api::preferences::widget" class="wiki-link">api\::preferences\::widget</a></li><li class="notmissing"><a href="#api::preferences::get_value" data-orig-id="api::preferences::get_value" class="wiki-link">api\::preferences\::get_value</a></li></ul></li><li class="notmissing"><a href="#ctextwidget" class="wiki-link">Ctext Widget</a><ul><li class="notmissing"><a href="#differencesfromtheoriginalctextwidget" class="wiki-link">Differences from the original Ctext widget</a></li><li class="notmissing"><a href="#options" class="wiki-link">Options</a></li><li class="notmissing"><a href="#commandapi" class="wiki-link">Command API</a><ul><li class="notmissing"><a href="#delete" class="wiki-link">delete</a></li><li class="notmissing"><a href="#diffadd" class="wiki-link">diff add</a></li><li class="notmissing"><a href="#diffranges" class="wiki-link">diff ranges</a></li><li class="notmissing"><a href="#diffreset" class="wiki-link">diff reset</a></li><li class="notmissing"><a href="#diffsub" class="wiki-link">diff sub</a></li><li class="notmissing"><a href="#editcursorhist" class="wiki-link">edit cursorhist</a></li><li class="notmissing"><a href="#editredoable" class="wiki-link">edit redoable</a></li><li class="notmissing"><a href="#editundoable" class="wiki-link">edit undoable</a></li><li class="notmissing"><a href="#fastdelete" class="wiki-link">fastdelete</a></li><li class="notmissing"><a href="#fastinsert" class="wiki-link">fastinsert</a></li><li class="notmissing"><a href="#fastreplace" class="wiki-link">fastreplace</a></li><li class="notmissing"><a href="#guttercget" class="wiki-link">gutter cget</a></li><li class="notmissing"><a href="#gutterclear" class="wiki-link">gutter clear</a></li><li class="notmissing"><a href="#gutterconfigure" class="wiki-link">gutter configure</a></li><li class="notmissing"><a href="#guttercreate" class="wiki-link">gutter create</a></li><li class="notmissing"><a href="#gutterdelete" class="wiki-link">gutter delete</a></li><li class="notmissing"><a href="#gutterdestroy" class="wiki-link">gutter destroy</a></li><li class="notmissing"><a href="#gutterget" class="wiki-link">gutter get</a></li><li class="notmissing"><a href="#gutterhide" class="wiki-link">gutter hide</a></li><li class="notmissing"><a href="#gutternames" class="wiki-link">gutter names</a></li><li class="notmissing"><a href="#gutterset" class="wiki-link">gutter set</a></li><li class="notmissing"><a href="#highlight2" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#inbacktickinbacktickrange" class="wiki-link">inBackTick / inBackTickRange</a></li><li class="notmissing"><a href="#inblockcommentinblockcommentrange" class="wiki-link">inBlockComment / inBlockCommentRange</a></li><li class="notmissing"><a href="#incommentincommentrange" class="wiki-link">inComment / inCommentRange</a></li><li class="notmissing"><a href="#incommentstringincommentstringrange" class="wiki-link">inCommentString / inCommentStringRange</a></li><li class="notmissing"><a href="#indoublequoteindoublequoterange" class="wiki-link">inDoubleQuote / inDoubleQuoteRange</a></li><li class="notmissing"><a href="#inlinecommentinlinecommentrange" class="wiki-link">inLineComment / inLineCommentRange</a></li><li class="notmissing"><a href="#insinglequoteinsinglequoterange" class="wiki-link">inSingleQuote / inSingleQuoteRange</a></li><li class="notmissing"><a href="#instringinstringrange" class="wiki-link">inString / inStringRange</a></li><li class="notmissing"><a href="#insert" class="wiki-link">insert</a></li><li class="notmissing"><a href="#isescaped" class="wiki-link">isEscaped</a></li><li class="notmissing"><a href="#replace" class="wiki-link">replace</a></li></ul></li></ul></li><li class="notmissing"><a href="#packages" class="wiki-link">Packages</a><ul><li class="notmissing"><a href="#tclx" class="wiki-link">Tclx</a></li><li class="notmissing"><a href="#tablelist" class="wiki-link">Tablelist</a></li><li class="notmissing"><a href="#tooltip" class="wiki-link">tooltip</a></li><li class="notmissing"><a href="#msgcat" class="wiki-link">msgcat</a></li><li class="notmissing"><a href="#tokenentry" class="wiki-link">tokenentry</a></li><li class="notmissing"><a href="#tabbar" class="wiki-link">tabbar</a></li><li class="notmissing"><a href="#fontchooser" class="wiki-link">fontchooser</a></li><li class="notmissing"><a href="#base64" class="wiki-link">base64</a></li></ul></li></ul>
+<ul style="display: block;" id="mkreplaced-toc" class="max-3"><li class="notmissing"><a href="#plugindevelopment" class="wiki-link">Plugin Development</a><ul><li class="notmissing"><a href="#pluginframework" class="wiki-link">Plugin Framework</a><ul><li class="notmissing"><a href="#startingup" class="wiki-link">Starting up</a></li><li class="notmissing"><a href="#pluginmanagement" class="wiki-link">Plugin management</a></li><li class="notmissing"><a href="#interpretercreation" class="wiki-link">Interpreter Creation</a></li><li class="notmissing"><a href="#safeuntrustedinterpreterdescription" class="wiki-link">Safe (Untrusted) Interpreter Description</a></li><li class="notmissing"><a href="#pluginguielementcreation" class="wiki-link">Plugin GUI Element Creation</a></li><li class="notmissing"><a href="#creatinglaunchercommands" class="wiki-link">Creating Launcher Commands</a></li></ul></li><li class="notmissing"><a href="#pluginbundlestructure" class="wiki-link">Plugin Bundle Structure</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#header.tkedat" data-orig-id="header.tkedat" class="wiki-link">header.tkedat</a></li><li class="notmissing"><a href="#registration" class="wiki-link">Registration</a></li><li class="notmissing"><a href="#pluginactionnamespaceandprocedures" class="wiki-link">Plugin Action Namespace and Procedures</a></li><li class="notmissing"><a href="#otherelements" class="wiki-link">Other Elements</a></li></ul></li></ul></li><li class="notmissing"><a href="#creatinganewplugintemplate" class="wiki-link">Creating a New Plugin Template</a></li></ul></li><li class="notmissing"><a href="#syntaxhandling" class="wiki-link">Syntax Handling</a><ul><li class="notmissing"><a href="#fileformat" class="wiki-link">File Format</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#filepatterns" class="wiki-link">filepatterns</a></li><li class="notmissing"><a href="#vimsyntax" class="wiki-link">vimsyntax</a></li><li class="notmissing"><a href="#reference" class="wiki-link">reference</a></li><li class="notmissing"><a href="#embedded" class="wiki-link">embedded</a></li><li class="notmissing"><a href="#matchcharsallowed" class="wiki-link">matchcharsallowed</a></li><li class="notmissing"><a href="#escapes" class="wiki-link">escapes</a></li><li class="notmissing"><a href="#tabsallowed" class="wiki-link">tabsallowed</a></li><li class="notmissing"><a href="#linewrap" class="wiki-link">linewrap</a></li><li class="notmissing"><a href="#casesensitive" class="wiki-link">casesensitive</a></li><li class="notmissing"><a href="#delimiters" class="wiki-link">delimiters</a></li><li class="notmissing"><a href="#indent" class="wiki-link">indent</a></li><li class="notmissing"><a href="#unindent" class="wiki-link">unindent</a></li><li class="notmissing"><a href="#reindent" class="wiki-link">reindent</a></li><li class="notmissing"><a href="#icomment" class="wiki-link">icomment</a></li><li class="notmissing"><a href="#lcomments" class="wiki-link">lcomments</a></li><li class="notmissing"><a href="#bcomments" class="wiki-link">bcomments</a></li><li class="notmissing"><a href="#strings" class="wiki-link">strings</a></li><li class="notmissing"><a href="#keywords" class="wiki-link">keywords</a></li><li class="notmissing"><a href="#symbols" class="wiki-link">symbols</a></li><li class="notmissing"><a href="#numbers" class="wiki-link">numbers</a></li><li class="notmissing"><a href="#punctuation" class="wiki-link">punctuation</a></li><li class="notmissing"><a href="#precompile" class="wiki-link">precompile</a></li><li class="notmissing"><a href="#miscellaneous1miscellaneous2miscellaneous3" class="wiki-link">miscellaneous1, miscellaneous2, miscellaneous3</a></li><li class="notmissing"><a href="#highlight" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#meta" class="wiki-link">meta</a></li><li class="notmissing"><a href="#advanced" class="wiki-link">advanced</a><ul><li class="notmissing"><a href="#highlightclasses" class="wiki-link">Highlight Classes</a></li><li class="notmissing"><a href="#regularexpressions" class="wiki-link">Regular Expressions</a></li><li class="notmissing"><a href="#processingprocedures" class="wiki-link">Processing Procedures</a></li></ul></li><li class="notmissing"><a href="#formatting" class="wiki-link">formatting</a></li></ul></li></ul></li><li class="notmissing"><a href="#example" class="wiki-link">Example</a></li></ul></li><li class="notmissing"><a href="#pluginactiontypes" class="wiki-link">Plugin Action Types</a><ul><li class="notmissing"><a href="#menu" class="wiki-link">menu</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#tab_popup" data-orig-id="tab_popup" class="wiki-link">tab_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description2" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration2" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures2" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#root_popup" data-orig-id="root_popup" class="wiki-link">root_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description3" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration3" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures3" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#dir_popup" data-orig-id="dir_popup" class="wiki-link">dir_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description4" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration4" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures4" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#file_popup" data-orig-id="file_popup" class="wiki-link">file_popup</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description5" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration5" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures5" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#info_panel" data-orig-id="info_panel" class="wiki-link">info_panel</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description6" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration6" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures6" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#text_binding" data-orig-id="text_binding" class="wiki-link">text_binding</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description7" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration7" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures7" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_start" data-orig-id="on_start" class="wiki-link">on_start</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description8" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration8" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures8" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_open" data-orig-id="on_open" class="wiki-link">on_open</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description9" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration9" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures9" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_focusin" data-orig-id="on_focusin" class="wiki-link">on_focusin</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description10" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration10" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures10" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_close" data-orig-id="on_close" class="wiki-link">on_close</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description11" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration11" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures11" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_quit" data-orig-id="on_quit" class="wiki-link">on_quit</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description12" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration12" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures12" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_reload" data-orig-id="on_reload" class="wiki-link">on_reload</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description13" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclprocedures13" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_save" data-orig-id="on_save" class="wiki-link">on_save</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description14" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration13" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures14" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_uninstall" data-orig-id="on_uninstall" class="wiki-link">on_uninstall</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description15" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration14" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures15" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_rename" data-orig-id="on_rename" class="wiki-link">on_rename</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description16" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration15" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures16" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_duplicate" data-orig-id="on_duplicate" class="wiki-link">on_duplicate</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description17" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration16" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures17" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_delete" data-orig-id="on_delete" class="wiki-link">on_delete</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description18" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration17" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures18" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_trash" data-orig-id="on_trash" class="wiki-link">on_trash</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description19" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration18" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures19" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_drop" data-orig-id="on_drop" class="wiki-link">on_drop</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description20" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration19" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures20" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_theme_changed" data-orig-id="on_theme_changed" class="wiki-link">on_theme_changed</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description21" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration20" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures21" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#syntax" class="wiki-link">syntax</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description22" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration21" class="wiki-link">Tcl Registration</a></li></ul></li></ul></li><li class="notmissing"><a href="#vcs" class="wiki-link">vcs</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description23" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration22" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures22" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#on_pref_load" data-orig-id="on_pref_load" class="wiki-link">on_pref_load</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description24" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration23" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures23" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li><li class="notmissing"><a href="#do_pref_ui" data-orig-id="do_pref_ui" class="wiki-link">do_pref_ui</a><ul><li class="missing" style="list-style-type: none;"><ul><li class="notmissing"><a href="#description25" class="wiki-link">Description</a></li><li class="notmissing"><a href="#tclregistration24" class="wiki-link">Tcl Registration</a></li><li class="notmissing"><a href="#tclprocedures24" class="wiki-link">Tcl Procedures</a></li></ul></li></ul></li></ul></li><li class="notmissing"><a href="#pluginapi" class="wiki-link">Plugin API</a><ul><li class="notmissing"><a href="#api::tke_development" data-orig-id="api::tke_development" class="wiki-link">api::tke_development</a></li><li class="notmissing"><a href="#api::get_plugin_directory" data-orig-id="api::get_plugin_directory" class="wiki-link">api::get_plugin_directory</a></li><li class="notmissing"><a href="#api::get_images_directory" data-orig-id="api::get_images_directory" class="wiki-link">api::get_images_directory</a></li><li class="notmissing"><a href="#api::get_home_directory" data-orig-id="api::get_home_directory" class="wiki-link">api::get_home_directory</a></li><li class="notmissing"><a href="#api::normalize_filename" data-orig-id="api::normalize_filename" class="wiki-link">api::normalize_filename</a></li><li class="notmissing"><a href="#api::register_launcher" data-orig-id="api::register_launcher" class="wiki-link">api::register_launcher</a></li><li class="notmissing"><a href="#api::unregister_launcher" data-orig-id="api::unregister_launcher" class="wiki-link">api::unregister_launcher</a></li><li class="notmissing"><a href="#api::invoke_menu" data-orig-id="api::invoke_menu" class="wiki-link">api::invoke_menu</a></li><li class="notmissing"><a href="#api::log" data-orig-id="api::log" class="wiki-link">api::log</a></li><li class="notmissing"><a href="#api::show_info" data-orig-id="api::show_info" class="wiki-link">api::show_info</a></li><li class="notmissing"><a href="#api::show_error" data-orig-id="api::show_error" class="wiki-link">api::show_error</a></li><li class="notmissing"><a href="#api::get_user_input" data-orig-id="api::get_user_input" class="wiki-link">api::get_user_input</a></li><li class="notmissing"><a href="#api::reset_txt_focus" data-orig-id="api::reset_txt_focus" class="wiki-link">api::reset_txt_focus</a></li><li class="notmissing"><a href="#api::file::all_indices" data-orig-id="api::file::all_indices" class="wiki-link">api::file::all_indices</a></li><li class="notmissing"><a href="#api::file::current_index" data-orig-id="api::file::current_index" class="wiki-link">api::file::current_index</a></li><li class="notmissing"><a href="#api::file::get_info" data-orig-id="api::file::get_info" class="wiki-link">api::file::get_info</a></li><li class="notmissing"><a href="#api::file::add_buffer" data-orig-id="api::file::add_buffer" class="wiki-link">api::file::add_buffer</a></li><li class="notmissing"><a href="#api::file::add_file" data-orig-id="api::file::add_file" class="wiki-link">api::file::add_file</a></li><li class="notmissing"><a href="#api::edit::get_index" data-orig-id="api::edit::get_index" class="wiki-link">api::edit::get_index</a></li><li class="notmissing"><a href="#api::edit::delete" data-orig-id="api::edit::delete" class="wiki-link">api::edit::delete</a></li><li class="notmissing"><a href="#api::edit::toggle_case" data-orig-id="api::edit::toggle_case" class="wiki-link">api::edit::toggle_case</a></li><li class="notmissing"><a href="#api::edit::lower_case" data-orig-id="api::edit::lower_case" class="wiki-link">api::edit::lower_case</a></li><li class="notmissing"><a href="#api::edit::upper_case" data-orig-id="api::edit::upper_case" class="wiki-link">api::edit::upper_case</a></li><li class="notmissing"><a href="#api::edit::rot13" data-orig-id="api::edit::rot13" class="wiki-link">api::edit::rot13</a></li><li class="notmissing"><a href="#api::edit::title_case" data-orig-id="api::edit::title_case" class="wiki-link">api::edit::title_case</a></li><li class="notmissing"><a href="#api::edit::join_lines" data-orig-id="api::edit::join_lines" class="wiki-link">api::edit::join_lines</a></li><li class="notmissing"><a href="#api::edit::bubble_up" data-orig-id="api::edit::bubble_up" class="wiki-link">api::edit::bubble_up</a></li><li class="notmissing"><a href="#api::edit::bubble_down" data-orig-id="api::edit::bubble_down" class="wiki-link">api::edit::bubble_down</a></li><li class="notmissing"><a href="#api::edit::comment" data-orig-id="api::edit::comment" class="wiki-link">api::edit::comment</a></li><li class="notmissing"><a href="#api::edit::uncomment" data-orig-id="api::edit::uncomment" class="wiki-link">api::edit::uncomment</a></li><li class="notmissing"><a href="#api::edit::toggle_comment" data-orig-id="api::edit::toggle_comment" class="wiki-link">api::edit::toggle_comment</a></li><li class="notmissing"><a href="#api::edit::indent" data-orig-id="api::edit::indent" class="wiki-link">api::edit::indent</a></li><li class="notmissing"><a href="#api::edit::unindent" data-orig-id="api::edit::unindent" class="wiki-link">api::edit::unindent</a></li><li class="notmissing"><a href="#api::edit::move_cursor" data-orig-id="api::edit::move_cursor" class="wiki-link">api::edit::move_cursor</a></li><li class="notmissing"><a href="#api::edit::format" data-orig-id="api::edit::format" class="wiki-link">api::edit::format</a></li><li class="notmissing"><a href="#api::edit::unformat" data-orig-id="api::edit::unformat" class="wiki-link">api::edit::unformat</a></li><li class="notmissing"><a href="#api::export" data-orig-id="api::export" class="wiki-link">api::export</a></li><li class="notmissing"><a href="#api::sidebar::get_selected_indices" data-orig-id="api::sidebar::get_selected_indices" class="wiki-link">api::sidebar::get_selected_indices</a></li><li class="notmissing"><a href="#api::sidebar::get_info" data-orig-id="api::sidebar::get_info" class="wiki-link">api::sidebar::get_info</a></li><li class="notmissing"><a href="#api::sidebar::set_info" data-orig-id="api::sidebar::set_info" class="wiki-link">api::sidebar::set_info</a></li><li class="notmissing"><a href="#api::plugin::save_variable" data-orig-id="api::plugin::save_variable" class="wiki-link">api::plugin::save_variable</a></li><li class="notmissing"><a href="#api::plugin::load_variable" data-orig-id="api::plugin::load_variable" class="wiki-link">api::plugin::load_variable</a></li><li class="notmissing"><a href="#api::utils::open_file" data-orig-id="api::utils::open_file" class="wiki-link">api::utils::open_file</a></li><li class="notmissing"><a href="#api::get_default_foreground" data-orig-id="api::get_default_foreground" class="wiki-link">api::get_default_foreground</a></li><li class="notmissing"><a href="#api::get_default_background" data-orig-id="api::get_default_background" class="wiki-link">api::get_default_background</a></li><li class="notmissing"><a href="#api::color_to_rgb" data-orig-id="api::color_to_rgb" class="wiki-link">api::color_to_rgb</a></li><li class="notmissing"><a href="#api::get_complementary_mono_color" data-orig-id="api::get_complementary_mono_color" class="wiki-link">api::get_complementary_mono_color</a></li><li class="notmissing"><a href="#api::rgb_to_hsv" data-orig-id="api::rgb_to_hsv" class="wiki-link">api::rgb_to_hsv</a></li><li class="notmissing"><a href="#api::hsv_to_rgb" data-orig-id="api::hsv_to_rgb" class="wiki-link">api::hsv_to_rgb</a></li><li class="notmissing"><a href="#api::rgb_to_hsl" data-orig-id="api::rgb_to_hsl" class="wiki-link">api::rgb_to_hsl</a></li><li class="notmissing"><a href="#api::hsl_to_rgb" data-orig-id="api::hsl_to_rgb" class="wiki-link">api::hsl_to_rgb</a></li><li class="notmissing"><a href="#api::get_color_values" data-orig-id="api::get_color_values" class="wiki-link">api::get_color_values</a></li><li class="notmissing"><a href="#api::auto_adjust_color" data-orig-id="api::auto_adjust_color" class="wiki-link">api::auto_adjust_color</a></li><li class="notmissing"><a href="#api::auto_mix_colors" data-orig-id="api::auto_mix_colors" class="wiki-link">api::auto_mix_colors</a></li><li class="notmissing"><a href="#api::color_difference" data-orig-id="api::color_difference" class="wiki-link">api::color_difference</a></li><li class="notmissing"><a href="#api::preferences::widget" data-orig-id="api::preferences::widget" class="wiki-link">api::preferences::widget</a></li><li class="notmissing"><a href="#api::preferences::get_value" data-orig-id="api::preferences::get_value" class="wiki-link">api::preferences::get_value</a></li></ul></li><li class="notmissing"><a href="#ctextwidget" class="wiki-link">Ctext Widget</a><ul><li class="notmissing"><a href="#differencesfromtheoriginalctextwidget" class="wiki-link">Differences from the original Ctext widget</a></li><li class="notmissing"><a href="#options" class="wiki-link">Options</a></li><li class="notmissing"><a href="#commandapi" class="wiki-link">Command API</a><ul><li class="notmissing"><a href="#delete" class="wiki-link">delete</a></li><li class="notmissing"><a href="#diffadd" class="wiki-link">diff add</a></li><li class="notmissing"><a href="#diffranges" class="wiki-link">diff ranges</a></li><li class="notmissing"><a href="#diffreset" class="wiki-link">diff reset</a></li><li class="notmissing"><a href="#diffsub" class="wiki-link">diff sub</a></li><li class="notmissing"><a href="#editcursorhist" class="wiki-link">edit cursorhist</a></li><li class="notmissing"><a href="#editredoable" class="wiki-link">edit redoable</a></li><li class="notmissing"><a href="#editundoable" class="wiki-link">edit undoable</a></li><li class="notmissing"><a href="#fastdelete" class="wiki-link">fastdelete</a></li><li class="notmissing"><a href="#fastinsert" class="wiki-link">fastinsert</a></li><li class="notmissing"><a href="#fastreplace" class="wiki-link">fastreplace</a></li><li class="notmissing"><a href="#guttercget" class="wiki-link">gutter cget</a></li><li class="notmissing"><a href="#gutterclear" class="wiki-link">gutter clear</a></li><li class="notmissing"><a href="#gutterconfigure" class="wiki-link">gutter configure</a></li><li class="notmissing"><a href="#guttercreate" class="wiki-link">gutter create</a></li><li class="notmissing"><a href="#gutterdelete" class="wiki-link">gutter delete</a></li><li class="notmissing"><a href="#gutterdestroy" class="wiki-link">gutter destroy</a></li><li class="notmissing"><a href="#gutterget" class="wiki-link">gutter get</a></li><li class="notmissing"><a href="#gutterhide" class="wiki-link">gutter hide</a></li><li class="notmissing"><a href="#gutternames" class="wiki-link">gutter names</a></li><li class="notmissing"><a href="#gutterset" class="wiki-link">gutter set</a></li><li class="notmissing"><a href="#highlight2" class="wiki-link">highlight</a></li><li class="notmissing"><a href="#inbacktickinbacktickrange" class="wiki-link">inBackTick / inBackTickRange</a></li><li class="notmissing"><a href="#inblockcommentinblockcommentrange" class="wiki-link">inBlockComment / inBlockCommentRange</a></li><li class="notmissing"><a href="#incommentincommentrange" class="wiki-link">inComment / inCommentRange</a></li><li class="notmissing"><a href="#incommentstringincommentstringrange" class="wiki-link">inCommentString / inCommentStringRange</a></li><li class="notmissing"><a href="#indoublequoteindoublequoterange" class="wiki-link">inDoubleQuote / inDoubleQuoteRange</a></li><li class="notmissing"><a href="#inlinecommentinlinecommentrange" class="wiki-link">inLineComment / inLineCommentRange</a></li><li class="notmissing"><a href="#insinglequoteinsinglequoterange" class="wiki-link">inSingleQuote / inSingleQuoteRange</a></li><li class="notmissing"><a href="#instringinstringrange" class="wiki-link">inString / inStringRange</a></li><li class="notmissing"><a href="#insert" class="wiki-link">insert</a></li><li class="notmissing"><a href="#isescaped" class="wiki-link">isEscaped</a></li><li class="notmissing"><a href="#replace" class="wiki-link">replace</a></li></ul></li></ul></li><li class="notmissing"><a href="#packages" class="wiki-link">Packages</a><ul><li class="notmissing"><a href="#tclx" class="wiki-link">Tclx</a></li><li class="notmissing"><a href="#tablelist" class="wiki-link">Tablelist</a></li><li class="notmissing"><a href="#tooltip" class="wiki-link">tooltip</a></li><li class="notmissing"><a href="#msgcat" class="wiki-link">msgcat</a></li><li class="notmissing"><a href="#tokenentry" class="wiki-link">tokenentry</a></li><li class="notmissing"><a href="#wmarkentry" class="wiki-link">wmarkentry</a></li><li class="notmissing"><a href="#tabbar" class="wiki-link">tabbar</a></li><li class="notmissing"><a href="#fontchooser" class="wiki-link">fontchooser</a></li><li class="notmissing"><a href="#base64" class="wiki-link">base64</a></li></ul></li></ul>
 
 
 
@@ -267,11 +267,11 @@ pack .mywin.b</code></pre>
 
 <tbody>
 <tr>
-	<td style="text-align:left;">canvas<br>listbox<br>menu<br>text<br>toplevel<br>ttk::button<br>ttk::checkbutton<br>ttk::combobox<br>ttk::entry<br>ttk::frame<br>ttk::label<br>ttk::labelframe<br>ttk::menubutton<br>ttk::notebook<br>ttk::panedwindow<br>ttk::progressbar<br>ttk::radiobutton<br>ttk::scale<br>ttk::scrollbar<br>ttk::separator<br>ttk::spinbox<br>ttk::treeview</td>
+	<td style="text-align:left;">canvas<br>listbox<br>menu<br>text<br>toplevel<br>ttk::button<br>ttk::checkbutton<br>ttk::combobox<br>ttk::entry<br>ttk::frame<br>ttk::label<br>ttk::labelframe<br>ttk::menubutton<br>ttk::notebook<br>ttk::panedwindow<br>ttk::progressbar<br>ttk::radiobutton<br>ttk::scale<br>ttk::scrollbar<br>ttk::separator<br>ttk::spinbox<br>ttk::treeview<br>ctext<br>tokenentry::tokenentry<br>wmarkentry::wmarkentry</td>
 	<td style="text-align:left;">None. All commands are executed in the plugin interpreter and any variables referenced are variables which exist in the plugin interpreter. Any Tk widgets that are created on behalf of the plugin are destroyable by that plugin. Any other widgets that are passed to the plugin may not be destroyed by the plugin.</td>
 </tr>
 <tr>
-	<td style="text-align:left;">clipboard<br>event<br>focus<br>font<br>grid<br>pack<br>place<br>tk_messageBox<br> tkwait</td>
+	<td style="text-align:left;">clipboard<br>event<br>focus<br>font<br>grid<br>pack<br>place<br>tk_messageBox<br>tk_chooseColor<br>fontchooser<br>tk_getOpenFile<br>tk_getSaveFile<br>tk_chooseDirectory<br>tkwait</td>
 	<td style="text-align:left;">None. All commands are executed in the plugin interpreter and any variables referenced are variables which exist in the plugin interpreter. Any Tk widgets that are created on behalf of the plugin are destroyable by that plugin. Any other widgets that are passed to the plugin may not be destroyed by the plugin.</td>
 </tr>
 <tr>
@@ -1648,6 +1648,56 @@ Tcl Registration</p>
   puts &ldquo;File $name is being moved to the trash&rdquo;
 }</code></pre>
 
+<h2 id="on_drop">on_drop</h2>
+
+<h4 id="description">Description</h4>
+
+<p>The on_drop plugin type allows the plugin to take action whenever a file or piece of text is dragged and dropped on an editing buffer. The plugin is given the type of data dropped on the buffer and allows the plugin to handle the dropped information or not.</p>
+
+<h4 id="tclregistration">Tcl Registration</h4>
+
+<p><code>{on_drop do-procname}</code></p>
+
+<p>The value of <em>do-procname</em> is the name of the procedure that will be called when the file/text is dropped on the editing buffer.</p>
+
+<h4 id="tclprocedures">Tcl Procedures</h4>
+
+<p><strong>The “do” Procedure</strong></p>
+
+<p>The “do” procedure is called once a file or text is dropped on an editing buffer. It is passed three arguments, the file index of the editing buffer, a boolean value that specifies if the dropped content is a file (0) or piece of text (1), and the name of the file or the string of dropped text. </p>
+
+<p>Within this procedure, the plugin can take whatever action with the dropped data that it would like to take.</p>
+
+<p>The procedure must return a value of 1 if it is taking action on the dropped information; otherwise, it should return a value of 0. If no plugin takes action on the dropped text, TKE will perform the built-in behavior.</p>
+
+<p>The following example checks to see if the dropped content was a file and, if so, inserts the name of the file surrounded by parenthesis; otherwise, it indicates that no action was taken.</p>
+<pre><code class="Tcl">proc foobar_do {file_index istext data} {
+  if {!$istext} {
+    set txt [api::file::get_info $file_index txt]
+    $txt insert insert &quot;($data)&quot;
+    return 1
+  }
+  return 0
+}</code></pre>
+
+<h2 id="on_theme_changed">on_theme_changed</h2>
+
+<h4 id="description">Description</h4>
+
+<p>The on_theme_changed action calls a procedure that is called after the user has changed the application theme. Use this plugin action if your plugin manipulates colors that are based on the current theme colors.</p>
+
+<h4 id="tclregistration">Tcl Registration</h4>
+
+<p><code>{on_theme_changed do_procname}</code></p>
+
+<p>The <em>do_procname</em> value is a procedure that is called when this event occurs.</p>
+
+<h4 id="tclprocedures">Tcl Procedures</h4>
+
+<p><strong>The “do” Procedure</strong></p>
+
+<p>The “do” procedure is called when this event occurs. No parameters are passed. The return value is ignored.</p>
+
 <h2 id="syntax">syntax</h2>
 
 <h4 id="description">Description</h4>
@@ -1826,7 +1876,7 @@ Tcl Registration</p>
 
 <h1 id="pluginapi">Plugin API</h1>
 
-<h2 id="api::tke_development">api\::tke_development</h2>
+<h2 id="api::tke_development">api::tke_development</h2>
 
 <p>Specifies if the application is being run in development mode or normal user mode. This can be useful if your plugin is meant to be used for TKE development purposes only.</p>
 
@@ -1838,7 +1888,7 @@ Tcl Registration</p>
 
 <p>Returns a value of 1 if the application is being run in development mode; otherwise, returns a value of 0.</p>
 
-<h2 id="api::get_plugin_directory">api\::get_plugin_directory</h2>
+<h2 id="api::get_plugin_directory">api::get_plugin_directory</h2>
 
 <p>Returns the full pathname of the TKE installation directory.</p>
 
@@ -1850,7 +1900,7 @@ Tcl Registration</p>
 
 <p>Returns the full pathname of the TKE plugin installation directory for the calling plugin.</p>
 
-<h2 id="api::get_images_directory">api\::get_images_directory</h2>
+<h2 id="api::get_images_directory">api::get_images_directory</h2>
 
 <p>Returns the full pathname to the directory which contains all of the plugin images used by TKE in the installation directory.</p>
 
@@ -1862,7 +1912,7 @@ Tcl Registration</p>
 
 <p>Returns the full pathname to the directory which contains all of the plugin images used by TKE in the installation directory.</p>
 
-<h2 id="api::get_home_directory">api\::get_home_directory</h2>
+<h2 id="api::get_home_directory">api::get_home_directory</h2>
 
 <p>This procedure returns the full pathname to the plugin-specific home directory. If the directory does not currently exist, it will be automatically created when this procedure is called. The plugin-specific home directory exists in the user’s TKE home directory under ~/.tke/plugins/name_of_plugin. This directory will be unique for each plugin so you may store any plugin-specific files in this directory.</p>
 
@@ -1874,7 +1924,7 @@ Tcl Registration</p>
 
 <p>Returns the full pathname to the plugin-specific home directory.</p>
 
-<h2 id="api::normalize_filename">api\::normalize_filename</h2>
+<h2 id="api::normalize_filename">api::normalize_filename</h2>
 
 <p>Takes a NFS-attached host where the file resides along with the pathname on that host where the file resides and returns the normalized filename to access the file on the current host.</p>
 
@@ -1913,7 +1963,7 @@ Tcl Registration</p>
 </tbody>
 </table>
 
-<h2 id="api::register_launcher">api\::register_launcher</h2>
+<h2 id="api::register_launcher">api::register_launcher</h2>
 
 <p>Registers a plugin command with the TKE command launcher. Once a command is registered, the user can invoke the command from the command launcher by entering a portion of the description string that is passed via this command.</p>
 
@@ -1952,7 +2002,7 @@ Tcl Registration</p>
 </tbody>
 </table>
 
-<h2 id="api::unregister_launcher">api\::unregister_launcher</h2>
+<h2 id="api::unregister_launcher">api::unregister_launcher</h2>
 
 <p>Unregisters a previously registered command from the command launcher.</p>
 
@@ -1982,12 +2032,12 @@ Tcl Registration</p>
 <tbody>
 <tr>
 	<td style="text-align:left;">description</td>
-	<td style="text-align:left;">The initial description string that was passed to the api\::register_launcher command.</td>
+	<td style="text-align:left;">The initial description string that was passed to the <code>api::register_launcher</code> command.</td>
 </tr>
 </tbody>
 </table>
 
-<h2 id="api::invoke_menu">api\::invoke_menu</h2>
+<h2 id="api::invoke_menu">api::invoke_menu</h2>
 
 <p>Invokes the functionality associated with a menu item. This allows plugins to perform “workflows”. The menu hierarchy is defined by taking the names of all menus in the hierarchy (case is important) and joining them with the “/“ character. Therefore, to invoke the File -&gt; Format Text -&gt; All command, you would pass the following:</p>
 
@@ -2024,7 +2074,7 @@ Tcl Registration</p>
 </tbody>
 </table>
 
-<h2 id="api::log">api\::log</h2>
+<h2 id="api::log">api::log</h2>
 
 <p>Displays a logging message to standard output. This is useful for debugging plugin issues.</p>
 
@@ -2059,9 +2109,9 @@ Tcl Registration</p>
 </tbody>
 </table>
 
-<h2 id="api::show_info">api\::show_info</h2>
+<h2 id="api::show_info">api::show_info</h2>
 
-<p>Takes a user message and a delay time and displays the message in the bottom status bar which will automatically clear from the status bar after the specified period of time has elapsed. This is useful for communicating status information to the user, but should not be used to indicate error information (the api\::show_error procedure should be used for this purpose).</p>
+<p>Takes a user message and a delay time and displays the message in the bottom status bar which will automatically clear from the status bar after the specified period of time has elapsed. This is useful for communicating status information to the user, but should not be used to indicate error information (the <code>api::show_error</code> procedure should be used for this purpose).</p>
 
 <p><strong>Call structure</strong></p>
 
@@ -2093,12 +2143,12 @@ Tcl Registration</p>
 </tr>
 <tr>
 	<td style="text-align:left;">clear_delay</td>
-	<td style="text-align:left;">Optional value. Allows for the message to be cleared in “clear_delay” milliseconds. By default, this value is set to 3000 milliseconds (i.e., 3 seconds).</td>
+	<td style="text-align:left;">Optional value. Allows for the message to be cleared in a given number of milliseconds. By default, this value is set to 3000 milliseconds (i.e., 3 seconds). If this value is set to 0, the displayed message will remain in the information bar until another message is displayed.</td>
 </tr>
 </tbody>
 </table>
 
-<h2 id="api::show_error">api\::show_error</h2>
+<h2 id="api::show_error">api::show_error</h2>
 
 <p>Takes a user message and optional detail information and displays the message in a popover window. This window is the standard error window used by TKE internal code and, therefore, is the recommended way to display error information to the user.</p>
 
@@ -2137,7 +2187,7 @@ Tcl Registration</p>
 </tbody>
 </table>
 
-<h2 id="api::get_user_input">api\::get_user_input</h2>
+<h2 id="api::get_user_input">api::get_user_input</h2>
 
 <p>Displays a prompt message and an entry field, placing the cursor into the entry field for immediate text entry. Once a value has been input, the value will be assigned to the variable passed to this procedure. Allows the plugin to get user input.</p>
 
@@ -2188,9 +2238,9 @@ if {[api::get_user_input &ldquo;Filename:&rdquo; filename 1]} {
   puts &ldquo;No filename specified&rdquo;
 }</code></pre>
 
-<h2 id="api::reset_txt_focus">api\::reset_txt_focus</h2>
+<h2 id="api::reset_txt_focus">api::reset_txt_focus</h2>
 
-<p>Causes the keyboard focus to be set back to the last editing buffer that received focus. If the textwidget parameter is specified, TKE will give the provided text widget</p>
+<p>Causes the keyboard focus to be set back to the last editing buffer that received focus. If the textwidget parameter is specified, TKE will give the provided text widget keyboard focus.</p>
 
 <p><strong>Call structure</strong></p>
 
@@ -2223,19 +2273,42 @@ if {[api::get_user_input &ldquo;Filename:&rdquo; filename 1]} {
 </tbody>
 </table>
 
-<h2 id="api::file::current_file_index">api\::file\::current_file_index</h2>
+<h2 id="api::file::all_indices">api::file::all_indices</h2>
 
-<p>Returns a unique index to the currently displayed file in the editor. This index can be used for getting information about the file.</p>
+<p>This API procedure will return the list of all currently opened files within the application. This procedure can be useful when used within plugin actions that do not operate on a single file (i.e., on_theme_changed).</p>
 
 <p><strong>Call structure</strong></p>
 
-<p><code>api::file::current_file_index</code></p>
+<p><code>api::file::all_indices</code></p>
 
 <p><strong>Return value</strong></p>
 
-<p>Returns a unique index to the currently displayed file in the editor panel.</p>
+<p>Returns a list containing the file indices of all currently opened files within the application. If no files are currently opened, an empty list will be returned.</p>
 
-<h2 id="api::file::get_info">api\::file\::get_info</h2>
+<p><strong>Parameters</strong></p>
+
+<p>None.</p>
+
+<p><strong>Example</strong></p>
+<pre><code class="Tcl"># Output all of the opened filenames
+api::log &quot;Opened filenames:&quot;
+foreach index [api::file::all_indices] {
+  api::log &quot;  [api::file::get_info $index fname]&quot;
+}</code></pre>
+
+<h2 id="api::file::current_index">api::file::current_index</h2>
+
+<p>Returns a unique index that is used to reference the currently displayed file in the editor. This index can be used for getting information about the file.</p>
+
+<p><strong>Call structure</strong></p>
+
+<p><code>api::file::current_index</code></p>
+
+<p><strong>Return value</strong></p>
+
+<p>Returns a unique index to the currently displayed file in the editor panel. If no file is currently displayed, a value of &#8211;1 will be returned.</p>
+
+<h2 id="api::file::get_info">api::file::get_info</h2>
 
 <p>Returns information about the file specified by the given index based on the attribute that this passed.</p>
 
@@ -2333,7 +2406,7 @@ if {[api::get_user_input &ldquo;Filename:&rdquo; filename 1]} {
 </tbody>
 </table>
 
-<h2 id="api::file::add_buffer">api\::file\::add_buffer</h2>
+<h2 id="api::file::add_buffer">api::file::add_buffer</h2>
 
 <p>Adds a new tab to the editor which is a blank editing buffer (no file is associated with the contents of the editing buffer).</p>
 
@@ -2423,7 +2496,7 @@ if {[api::get_user_input &ldquo;Filename:&rdquo; filename 1]} {
 </tbody>
 </table>
 
-<h2 id="api::file::add_file">api\::file\::add_file</h2>
+<h2 id="api::file::add_file">api::file::add_file</h2>
 
 <p>Adds a new tab to the editor. If a filename is specified, the contents of the file are added to the editor. If no filename is specified, the new tab file will be blanked and named “Untitled”.</p>
 
@@ -3110,8 +3183,11 @@ api::edit::title_case $txt $startpos $endpos</code></pre>
 </table>
 
 <p><strong>Example</strong></p>
-<pre><code class="Tcl"># Join the next three lines to the current line
-api::join_lines $txt 3</code></pre>
+<pre><code class="Tcl"># Output all of the opened filenames
+api::log &quot;Opened filenames:&quot;
+foreach index [api::file::all_indices] {
+  api::log &quot;  [api::file::get_info $index fname]&quot;
+}</code></pre>
 
 <h2 id="api::edit::bubble_up">api::edit::bubble_up</h2>
 
@@ -3621,7 +3697,7 @@ api::edit::format $txt bold</code></pre>
 $txt tag add sel &quot;insert linestart&quot; &quot;insert lineend&quot;
 api::edit::unformat $txt</code></pre>
 
-<h2 id="api::export">api\::export</h2>
+<h2 id="api::export">api::export</h2>
 
 <p>This procedure can be used to export a given string to a file, performing snippet substitutions and Markdown to HTML conversion on the string if the specified language is set to a value of <strong>Markdown</strong>. This is the same functionality that is used by TKE&#8217;s built-in export.</p>
 
@@ -3670,9 +3746,9 @@ api::edit::unformat $txt</code></pre>
 # Export the string as Markdown
 api::export $str Markdown [file join ~ Documents output.html]</code></pre>
 
-<h2 id="api::sidebar::get_selected_indices">api\::sidebar\::get_selected_indices</h2>
+<h2 id="api::sidebar::get_selected_indices">api::sidebar::get_selected_indices</h2>
 
-<p>Returns the index of the currently selected files/directories in the sidebar. This value is useful for future calls to the api\::sidebar\::get_info procedure.</p>
+<p>Returns the index of the currently selected files/directories in the sidebar. This value is useful for future calls to the <code>api::sidebar::get_info</code> procedure.</p>
 
 <p><strong>Call structure</strong></p>
 
@@ -3686,7 +3762,7 @@ api::export $str Markdown [file join ~ Documents output.html]</code></pre>
 
 <p>None.</p>
 
-<h2 id="api::sidebar::get_info">api\::sidebar\::get_info</h2>
+<h2 id="api::sidebar::get_info">api::sidebar::get_info</h2>
 
 <p>Returns information for the sidebar file/directory at the given index.</p>
 
@@ -3717,7 +3793,7 @@ index value for the sidebar, an empty string will be returned.</p>
 <tbody>
 <tr>
 	<td style="text-align:left;">sb_index</td>
-	<td style="text-align:left;">Index of file/directory in the sidebar. Calling api\::sidebar\::get_current_index will provide the currently selected element in the sidebar.</td>
+	<td style="text-align:left;">Index of file/directory in the sidebar. Calling <code>api::sidebar::get_current_index</code> will provide the currently selected element in the sidebar.</td>
 </tr>
 <tr>
 	<td style="text-align:left;">attribute</td>
@@ -3748,7 +3824,7 @@ index value for the sidebar, an empty string will be returned.</p>
 </tr>
 <tr>
 	<td style="text-align:left;">file_index</td>
-	<td style="text-align:left;">The file index of the file. This value can be used in the api\::file\::get_info API call to get other information about the file.</td>
+	<td style="text-align:left;">The file index of the file. This value can be used in the <code>api::file::get_info</code> API call to get other information about the file.</td>
 </tr>
 <tr>
 	<td style="text-align:left;">is_dir</td>
@@ -3773,7 +3849,7 @@ index value for the sidebar, an empty string will be returned.</p>
 </tbody>
 </table>
 
-<h2 id="api::sidebar::set_info">api\::sidebar\::set_info</h2>
+<h2 id="api::sidebar::set_info">api::sidebar::set_info</h2>
 
 <p>Sets the sidebar state of the given sidebar item to a specified value.</p>
 
@@ -3846,7 +3922,7 @@ set sb_index [api::sidebar::get_selected_indices]
 # Make the contents of the directory visible
 api::sidebar::set_info $sb_index open 1</code></pre>
 
-<h2 id="api::plugin::save_variable">api\::plugin\::save_variable</h2>
+<h2 id="api::plugin::save_variable">api::plugin::save_variable</h2>
 
 <p>Saves the value of the given variable name to non-corruptible memory so that it can be later retrieved when the plugin is reloaded.</p>
 
@@ -3889,7 +3965,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 </tbody>
 </table>
 
-<h2 id="api::plugin::load_variable">api\::plugin\::load_variable</h2>
+<h2 id="api::plugin::load_variable">api::plugin::load_variable</h2>
 
 <p>Retrieves the value of the named variable from non-corruptible memory (from a previous save_variable call).</p>
 
@@ -3928,7 +4004,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 </tbody>
 </table>
 
-<h2 id="api::utils::open_file">api\::utils\::open_file</h2>
+<h2 id="api::utils::open_file">api::utils::open_file</h2>
 
 <p>Opens a file in the default external web browser.</p>
 
@@ -3967,7 +4043,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 </tbody>
 </table>
 
-<h2 id="api::get_default_foreground">api\::get_default_foreground</h2>
+<h2 id="api::get_default_foreground">api::get_default_foreground</h2>
 
 <p>Returns the color associated with the foreground color of a standard UI element (i.e., a button).</p>
 
@@ -3983,7 +4059,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>None.</p>
 
-<h2 id="api::get_default_background">api\::get_default_background</h2>
+<h2 id="api::get_default_background">api::get_default_background</h2>
 
 <p>Returns the color associated with the background color of a standard UI element (i.e., a button).</p>
 
@@ -3999,7 +4075,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>None.</p>
 
-<h2 id="api::color_to_rgb">api\::color_to_rgb</h2>
+<h2 id="api::color_to_rgb">api::color_to_rgb</h2>
 
 <p>Returns a list containing three values, the R, G and B integer values of the specified color.</p>
 
@@ -4015,7 +4091,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>Either an RGB color value (i.e., #RRGGBB or #RGB) or a valid color name as specified in the TK colors list.</p>
 
-<h2 id="api::get_complementary_mono_color">api\::get_complementary_mono_color</h2>
+<h2 id="api::get_complementary_mono_color">api::get_complementary_mono_color</h2>
 
 <p>Assuming that the specified RGB color is a background color, determines whether a black or white foreground color would show up best.</p>
 
@@ -4031,7 +4107,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The value of color should be a valid RGB color.</p>
 
-<h2 id="api::rgb_to_hsv">api\::rgb_to_hsv</h2>
+<h2 id="api::rgb_to_hsv">api::rgb_to_hsv</h2>
 
 <p>Converts the given RGB color into an HSV value.</p>
 
@@ -4047,7 +4123,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The R, G and B values must be a value between 0 and 255, inclusive.</p>
 
-<h2 id="api::hsv_to_rgb">api\::hsv_to_rgb</h2>
+<h2 id="api::hsv_to_rgb">api::hsv_to_rgb</h2>
 
 <p>Converts the given HSV color into an RGB value.</p>
 
@@ -4063,7 +4139,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The H, S and V values must be an integer value.</p>
 
-<h2 id="api::rgb_to_hsl">api\::rgb_to_hsl</h2>
+<h2 id="api::rgb_to_hsl">api::rgb_to_hsl</h2>
 
 <p>Converts the given RGB color to an equivalent HSL color value.</p>
 
@@ -4079,7 +4155,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The R, G and B colors must be an integer value between 0 and 255, inclusive.</p>
 
-<h2 id="api::hsl_to_rgb">api\::hsl_to_rgb</h2>
+<h2 id="api::hsl_to_rgb">api::hsl_to_rgb</h2>
 
 <p>Converts the given HSL color to an equivalent RGB color value.</p>
 
@@ -4095,7 +4171,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The H, S and L color values must be integer values.</p>
 
-<h2 id="api::get_color_values">api\::get_color_values</h2>
+<h2 id="api::get_color_values">api::get_color_values</h2>
 
 <p>Returns a number of different versions of the given RGB color value.</p>
 
@@ -4119,7 +4195,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The color can be any legal RGB value accepted by TK.</p>
 
-<h2 id="api::auto_adjust_color">api\::auto_adjust_color</h2>
+<h2 id="api::auto_adjust_color">api::auto_adjust_color</h2>
 
 <p>Automatically adjusts the given RGB color by a value equal to diff such that if the color is a darker color, the value will be lightened or if a color is a lighter color, the value will be darkened.</p>
 
@@ -4135,7 +4211,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The color value is any legal RGB color value. The diff value is an integer value that describes the value difference to create from the color value. The mode value can be either “auto” (default) or “manual”. The auto mode will automatically discern the darkness of the color value and lighten or darken the color by the given value of diff. The manual mode will change the color value by the amount specified by diff (a negative value will darken the value while a positive value will lighten the value).</p>
 
-<h2 id="api::auto_mix_colors">api\::auto_mix_colors</h2>
+<h2 id="api::auto_mix_colors">api::auto_mix_colors</h2>
 
 <p>Adjusts the hue of the given RGB color by the value of the specified difference.</p>
 
@@ -4151,7 +4227,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>The color value is any legal TK RGB color. The value of type can be either “r”, “g” or “b” which will adjust the RGB color value by the given diff amount.</p>
 
-<h2 id="api::color_difference">api\::color_difference</h2>
+<h2 id="api::color_difference">api::color_difference</h2>
 
 <p>Returns the RGB color value which is exactly between two specified RGB colors.</p>
 
@@ -4167,7 +4243,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <p>Both color1 and color2 must be valid RGB TK values.</p>
 
-<h2 id="api::preferences::widget">api\::preferences\::widget</h2>
+<h2 id="api::preferences::widget">api::preferences::widget</h2>
 
 <p>Creates a preferences widget which controls the display and manipulation of one plugin preference value. The created widget is automatically added for searching within the preferences window and it is packed into the plugin’s preference panel using either pack (default) or grid (using the <strong>-grid 1</strong> option). Several types of widgets are supported:</p>
 
@@ -4473,7 +4549,7 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 </tbody>
 </table>
 
-<h2 id="api::preferences::get_value">api\::preferences\::get_value</h2>
+<h2 id="api::preferences::get_value">api::preferences::get_value</h2>
 
 <p>Returns the current value of the input plugin preference.</p>
 
@@ -5724,11 +5800,15 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 
 <h2 id="tokenentry">tokenentry</h2>
 
-<p>Documentation for the tokenentry package can be found at <a href="http://ptwidgets.sourceforge.net/page3/files/tokenentry.html">http://ptwidgets.sourceforge.net/page3/files/tokenentry.html</a></p>
+<p>Documentation for the tokenentry package can be found at <a href="http://ptwidgets.sourceforge.net/resources/tokenentry.html">http://ptwidgets.sourceforge.net/resources/tokenentry.html</a></p>
+
+<h2 id="wmarkentry">wmarkentry</h2>
+
+<p>Documentation for the wmarkentry package can be found at <a href="http://ptwidgets.sourceforge.net/resources/wmarkentry.html">http://ptwidgets.sourceforge.net/resources/wmarkentry.html</a></p>
 
 <h2 id="tabbar">tabbar</h2>
 
-<p>Documentation for the tabbar package can be found at <a href="http://ptwidgets.sourceforge.net/page3/files/tabbar.html">http://ptwidgets.sourceforge.net/page3/files/tabbar.html</a></p>
+<p>Documentation for the tabbar package can be found at <a href="http://ptwidgets.sourceforge.net/resources/tabbar.html">http://ptwidgets.sourceforge.net/resources/tabbar.html</a></p>
 
 <h2 id="fontchooser">fontchooser</h2>
 
@@ -5770,6 +5850,147 @@ api::sidebar::set_info $sb_index open 1</code></pre>
 <h2 id="base64">base64</h2>
 
 <p>Documentation for the base64 package can be found at <a href="http://core.tcl.tk/tcllib/doc/trunk/embedded/www/tcllib/files/modules/base64/base64.html">http://core.tcl.tk/tcllib/doc/trunk/embedded/www/tcllib/files/modules/base64/base64.html</a></p>
+
+<p>/Prefix/title- TKE Developer Guide.md<br/>
+/Prefix/Table of Contents.md</p>
+
+<p>/Plugin Development/Plugin Development.md<br/>
+/Plugin Development/Plugin Framework.md<br/>
+/Plugin Development/Starting up.md<br/>
+/Plugin Development/Plugin management.md<br/>
+/Plugin Development/Interpreter Creation.md<br/>
+/Plugin Development/Safe (Untrusted) Interpreter Description.md<br/>
+/Plugin Development/Plugin GUI Element Creation.md<br/>
+/Plugin Development/Creating Launcher Commands.md<br/>
+/Plugin Development/Plugin Bundle Structure.md<br/>
+/Plugin Development/Creating a New Plugin Template.md</p>
+
+<p>/Syntax Handling/Syntax Handling.md<br/>
+/Syntax Handling/File Format.md<br/>
+/Syntax Handling/Example.md</p>
+
+<p>/Plugin Action Types/Plugin Action Types.md<br/>
+/Plugin Action Types/menu.md<br/>
+/Plugin Action Types/tab_popup.md<br/>
+/Plugin Action Types/root_popup.md<br/>
+/Plugin Action Types/dir_popup.md<br/>
+/Plugin Action Types/file_popup.md<br/>
+/Plugin Action Types/info_panel.md<br/>
+/Plugin Action Types/text_binding.md<br/>
+/Plugin Action Types/on_start.md<br/>
+/Plugin Action Types/on_open.md<br/>
+/Plugin Action Types/on_focusin.md<br/>
+/Plugin Action Types/on_close.md<br/>
+/Plugin Action Types/on_quit.md<br/>
+/Plugin Action Types/on_reload.md<br/>
+/Plugin Action Types/on_save.md<br/>
+/Plugin Action Types/on_uninstall.md<br/>
+/Plugin Action Types/on_rename.md<br/>
+/Plugin Action Types/on_duplicate.md<br/>
+/Plugin Action Types/on_delete.md<br/>
+/Plugin Action Types/on_trash.md<br/>
+/Plugin Action Types/syntax.md<br/>
+/Plugin Action Types/vcs.md<br/>
+/Plugin Action Types/on_pref_load.md<br/>
+/Plugin Action Types/do_pref_ui.md</p>
+
+<p>/Plugin API/Plugin API.md<br/>
+/Plugin API/api&#8211;auto_adjust_color.md<br/>
+/Plugin API/api&#8211;auto_mix_colors.md<br/>
+/Plugin API/api&#8211;color_difference.md<br/>
+/Plugin API/api&#8211;color_to_rgb.md<br/>
+/Plugin API/api&#8211;edit&#8211;bubble_down.md<br/>
+/Plugin API/api&#8211;edit&#8211;bubble_up.md<br/>
+/Plugin API/api&#8211;edit&#8211;comment.md<br/>
+/Plugin API/api&#8211;edit&#8211;delete.md<br/>
+/Plugin API/api&#8211;edit&#8211;format.md<br/>
+/Plugin API/api&#8211;edit&#8211;get_index.md<br/>
+/Plugin API/api&#8211;edit&#8211;indent.md<br/>
+/Plugin API/api&#8211;edit&#8211;join_lines.md<br/>
+/Plugin API/api&#8211;edit&#8211;lower_case.md<br/>
+/Plugin API/api&#8211;edit&#8211;move_cursor.md<br/>
+/Plugin API/api&#8211;edit&#8211;rot13.md<br/>
+/Plugin API/api&#8211;edit&#8211;title_case.md<br/>
+/Plugin API/api&#8211;edit&#8211;toggle_case.md<br/>
+/Plugin API/api&#8211;edit&#8211;toggle_comment.md<br/>
+/Plugin API/api&#8211;edit&#8211;uncomment.md<br/>
+/Plugin API/api&#8211;edit&#8211;unformat.md<br/>
+/Plugin API/api&#8211;edit&#8211;unindent.md<br/>
+/Plugin API/api&#8211;edit&#8211;upper_case.md<br/>
+/Plugin API/api&#8211;export.md<br/>
+/Plugin API/api&#8211;file&#8211;add_buffer.md<br/>
+/Plugin API/api&#8211;file&#8211;add_file.md<br/>
+/Plugin API/api&#8211;file&#8211;current_file_index.md<br/>
+/Plugin API/api&#8211;file&#8211;get_info.md<br/>
+/Plugin API/api&#8211;get_color_values.md<br/>
+/Plugin API/api&#8211;get_complementary_mono_color.md<br/>
+/Plugin API/api&#8211;get_default_background.md<br/>
+/Plugin API/api&#8211;get_default_foreground.md<br/>
+/Plugin API/api&#8211;get_home_directory.md<br/>
+/Plugin API/api&#8211;get_images_directory.md<br/>
+/Plugin API/api&#8211;get_plugin_directory.md<br/>
+/Plugin API/api&#8211;get_user_input.md<br/>
+/Plugin API/api&#8211;hsl_to_rgb.md<br/>
+/Plugin API/api&#8211;hsv_to_rgb.md<br/>
+/Plugin API/api&#8211;invoke_menu.md<br/>
+/Plugin API/api&#8211;log.md<br/>
+/Plugin API/api&#8211;normalize_filename.md<br/>
+/Plugin API/api&#8211;plugin&#8211;load_variable.md<br/>
+/Plugin API/api&#8211;plugin&#8211;save_variable.md<br/>
+/Plugin API/api&#8211;preferences&#8211;get_value.md<br/>
+/Plugin API/api&#8211;preferences&#8211;widget.md<br/>
+/Plugin API/api&#8211;register_launcher.md<br/>
+/Plugin API/api&#8211;reset_txt_focus.md<br/>
+/Plugin API/api&#8211;rgb_to_hsl.md<br/>
+/Plugin API/api&#8211;rgb_to_hsv.md<br/>
+/Plugin API/api&#8211;show_error.md<br/>
+/Plugin API/api&#8211;show_info.md<br/>
+/Plugin API/api&#8211;sidebar&#8211;get_info.md<br/>
+/Plugin API/api&#8211;sidebar&#8211;get_selected_indices.md<br/>
+/Plugin API/api&#8211;sidebar&#8211;set_info.md<br/>
+/Plugin API/api&#8211;tke_development.md<br/>
+/Plugin API/api&#8211;unregister_launcher.md<br/>
+/Plugin API/api&#8211;utils&#8211;open_file.md</p>
+
+<p>/Ctext Widget/Ctext Widget.md<br/>
+/Ctext Widget/Differences from the original Ctext widget.md<br/>
+/Ctext Widget/Options.md<br/>
+/Ctext Widget/Command API.md<br/>
+/Ctext Widget/delete.md<br/>
+/Ctext Widget/diff add.md<br/>
+/Ctext Widget/diff ranges.md<br/>
+/Ctext Widget/diff reset.md<br/>
+/Ctext Widget/diff sub.md<br/>
+/Ctext Widget/edit cursorhist.md<br/>
+/Ctext Widget/edit redoable.md<br/>
+/Ctext Widget/edit undoable.md<br/>
+/Ctext Widget/fastdelete.md<br/>
+/Ctext Widget/fastinsert.md<br/>
+/Ctext Widget/fastreplace.md<br/>
+/Ctext Widget/gutter cget.md<br/>
+/Ctext Widget/gutter clear.md<br/>
+/Ctext Widget/gutter configure.md<br/>
+/Ctext Widget/gutter create.md<br/>
+/Ctext Widget/gutter delete.md<br/>
+/Ctext Widget/gutter destroy.md<br/>
+/Ctext Widget/gutter get.md<br/>
+/Ctext Widget/gutter hide.md<br/>
+/Ctext Widget/gutter names.md<br/>
+/Ctext Widget/gutter set.md<br/>
+/Ctext Widget/highlight.md<br/>
+/Ctext Widget/inBackTick - inBackTickRange.md<br/>
+/Ctext Widget/inBlockComment - inBlockCommentRange.md<br/>
+/Ctext Widget/inComment - inCommentRange.md<br/>
+/Ctext Widget/inCommentString - inCommentStringRange.md<br/>
+/Ctext Widget/inDoubleQuote - inDoubleQuoteRange.md<br/>
+/Ctext Widget/inLineComment - inLineCommentRange.md<br/>
+/Ctext Widget/insert.md<br/>
+/Ctext Widget/inSingleQuote - inSingleQuoteRange.md<br/>
+/Ctext Widget/inString - inStringRange.md<br/>
+/Ctext Widget/isEscaped.md<br/>
+/Ctext Widget/replace.md</p>
+
+<p>/Packages/Packages.md</p>
 <!-- ##END MARKED WRAPPER## -->
     </div>
 

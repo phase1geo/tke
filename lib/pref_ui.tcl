@@ -109,7 +109,7 @@ namespace eval pref_ui {
   # to be placed.
   proc get_grid_row {w} {
 
-    set row [llength [grid slaves [winfo parent $w] -column 0]]
+    lassign [grid size [winfo parent $w]] col row
 
     # If we are the first row, configure the grid
     if {$row == 0} {

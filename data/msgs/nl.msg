@@ -727,9 +727,6 @@ msgcat::mcmset nl {
   "Header"
   "Koptekst"
 
-  "Help"
-  "Help"
-
   "Hide All Tabs"
   "Alles verbergen"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset nl {
   "Character"
   "Personages"
 
-  "Clear Selection and Exit"
-  "Selectie wissen en Exit"
+  "Clear Selection"
+  "Selectie verwijderen"
 
   "Curly Brackets"
   "Haakje"
+
+  "Delete Selected Text"
+  "Geselecteerde tekst verwijderen"
 
   "Double Quotes"
   "Dubbele aanhalingstekens"
@@ -2294,26 +2294,26 @@ msgcat::mcmset nl {
   "Down"
   "Omlaag"
 
+  "Exit Selection Mode"
+  "Selectiemodus verlaten"
+
   "First Child"
   "Eerste subobject"
 
-  "For available selection mode commands, type '?'"
-  "Selectie van de beschikbare opdrachten in de modus, typt u '? \"
-
-  "Keep Selection and Exit"
-  "Houden van de selectie- en uitgiftemodules"
+  "Keep Selection"
+  "Bewaar selectie"
 
   "Left"
   "Links"
-
-  "Miscellaneous"
-  "Diversen"
 
   "Modes"
   "Modi"
 
   "Motions"
   "Beweging"
+
+  "Node"
+  "Knooppunt"
 
   "Paragraph"
   "Alinea (p)"
@@ -2359,6 +2359,9 @@ msgcat::mcmset nl {
 
   "Toggle Help"
   "Wissel"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Type '?' voor hulp.  Druk op de ESCAPE-toets om af te sluiten van de selectie-uitbreidingsmodus"
 
   "Up"
   "Omhoog"
@@ -3224,6 +3227,9 @@ msgcat::mcmset nl {
 
   "Find previous occurrence"
   "Vorige exemplaar zoeken"
+
+  "Help"
+  "Help"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het sluiten van het paneel"

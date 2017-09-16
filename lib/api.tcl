@@ -203,9 +203,18 @@ namespace eval api {
   namespace eval file {
 
     ######################################################################
+    ## \return Returns a list containing indices for all of the currently
+    #          opened files.
+    proc all_indices {interp pname} {
+
+      return [files::get_indices fname]
+
+    }
+
+    ######################################################################
     ## \return Returns the file index of the file being currently edited.  If no
     #          such file exists, returns a value of -1.
-    proc current_file_index {interp pname} {
+    proc current_index {interp pname} {
 
       return [expr {[catch { gui::get_info {} current fileindex } index] ? -1 : $index}]
 

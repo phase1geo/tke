@@ -85,7 +85,7 @@ namespace eval perforce {
   proc revert_file_do {} {
 
     # Get the index of the current file being edited
-    if {[set index [api::file::current_file_index]] != -1} {
+    if {[set index [api::file::current_index]] != -1} {
 
       # Get the name of the file
       set fname [api::file::get_info $index fname]
@@ -101,7 +101,7 @@ namespace eval perforce {
   # This option should always be available.
   proc revert_file_state {} {
 
-    return [expr [api::file::current_file_index] != -1]
+    return [expr [api::file::current_index] != -1]
 
   }
 

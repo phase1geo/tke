@@ -55,7 +55,7 @@ namespace eval lorem {
     variable ipsum
 
     # Get the current text widget
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     # Get the warning width
     set warn_width [$txt cget -warnwidth]

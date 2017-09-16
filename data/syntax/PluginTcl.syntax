@@ -35,7 +35,8 @@ miscellaneous2 {
   HighlightKeywords {
     tab_popup root_popup dir_popup file_popup text_binding on_start on_open on_close
     on_focusin on_update on_quite on_reload on_save on_rename on_duplicate on_delete
-    on_trash on_uninstall on_pref_load on_pref_ui on_drop syntax vcs info_panel
+    on_trash on_uninstall on_pref_load on_pref_ui on_drop on_theme_changed syntax
+    vcs info_panel
   }
 }
 

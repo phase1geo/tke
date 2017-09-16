@@ -40,7 +40,7 @@ namespace eval choosers {
   proc do_color_picker {} {
 
     # Get the current text widget
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     # Get the current word
     set word [get_current_word $txt]
@@ -71,7 +71,7 @@ namespace eval choosers {
   proc do_font_picker {} {
 
     # Get the current text widget
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     # Get the current word
     set word [get_current_word $txt]
@@ -104,7 +104,7 @@ namespace eval choosers {
   proc do_dir_picker {} {
 
     # Get the current text widget
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     # Gets any options to pass to directory chooser
     set opts [list]
@@ -134,7 +134,7 @@ namespace eval choosers {
   proc do_file_picker {} {
 
     # Get the current text widget
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     # Get the current filename
     set fname [get_current_word $txt]

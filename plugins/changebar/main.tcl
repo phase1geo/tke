@@ -8,7 +8,7 @@ namespace eval changebar {
 
   proc current_txt {} {
 
-    if {[set file_index [api::file::current_file_index]] != -1} {
+    if {[set file_index [api::file::current_index]] != -1} {
       return [api::file::get_info $file_index txt]
     } else {
       return ""

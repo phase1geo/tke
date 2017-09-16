@@ -727,9 +727,6 @@ msgcat::mcmset sv {
   "Header"
   "Titel"
 
-  "Help"
-  "Hjälp"
-
   "Hide All Tabs"
   "Dölj alla flikar"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset sv {
   "Character"
   "Teckenattribut"
 
-  "Clear Selection and Exit"
-  "Rensa urval och Exit"
+  "Clear Selection"
+  "Rensa markering"
 
   "Curly Brackets"
   "Klammerparenteser"
+
+  "Delete Selected Text"
+  "Radera markerade"
 
   "Double Quotes"
   "Dubbla citationstecken"
@@ -2294,26 +2294,26 @@ msgcat::mcmset sv {
   "Down"
   "Ner"
 
+  "Exit Selection Mode"
+  "Markeringsläge"
+
   "First Child"
   "Första delobjekt"
 
-  "For available selection mode commands, type '?'"
-  "Markeringsläge"
-
-  "Keep Selection and Exit"
-  "Hålla valet och gå ut"
+  "Keep Selection"
+  "VAL"
 
   "Left"
   "Vänster"
-
-  "Miscellaneous"
-  "Övrigt"
 
   "Modes"
   "Lägen"
 
   "Motions"
   "Rörlighet"
+
+  "Node"
+  "Nod"
 
   "Paragraph"
   "Stycke"
@@ -2359,6 +2359,9 @@ msgcat::mcmset sv {
 
   "Toggle Help"
   "Växla"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Typ '?' för hjälp.  Tryck på ESC för att avsluta markeringsläget"
 
   "Up"
   "Upp"
@@ -3224,6 +3227,9 @@ msgcat::mcmset sv {
 
   "Find previous occurrence"
   "Hitta föregående förekomst"
+
+  "Help"
+  "Hjälp"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Bilden visas i sidofältet informationspanel för att stänga panelen"

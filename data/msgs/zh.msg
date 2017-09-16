@@ -727,9 +727,6 @@ msgcat::mcmset zh {
   "Header"
   "顶部"
 
-  "Help"
-  "帮助"
-
   "Hide All Tabs"
   "隐藏所有"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset zh {
   "Character"
   "字符"
 
-  "Clear Selection and Exit"
-  "清除选择并退出"
+  "Clear Selection"
+  "清空选项"
 
   "Curly Brackets"
   "大括号"
+
+  "Delete Selected Text"
+  "删除所选"
 
   "Double Quotes"
   "雙引號"
@@ -2294,26 +2294,26 @@ msgcat::mcmset zh {
   "Down"
   "沮丧"
 
+  "Exit Selection Mode"
+  "選取模式"
+
   "First Child"
   "第一子对象"
 
-  "For available selection mode commands, type '?'"
-  "可用的选择模式命令，请键入 '？ '"
-
-  "Keep Selection and Exit"
-  "继续选择并退出"
+  "Keep Selection"
+  "保留选项"
 
   "Left"
   "居左"
-
-  "Miscellaneous"
-  "其他"
 
   "Modes"
   "模式"
 
   "Motions"
   "运动"
+
+  "Node"
+  "節點"
 
   "Paragraph"
   "段落"
@@ -2359,6 +2359,9 @@ msgcat::mcmset zh {
 
   "Toggle Help"
   "切换"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "类型 '？ ' 的帮助。 使用 ESC 键退出选择模式"
 
   "Up"
   "上"
@@ -3224,6 +3227,9 @@ msgcat::mcmset zh {
 
   "Find previous occurrence"
   "查找上一个"
+
+  "Help"
+  "帮助"
 
   "Image displayed in sidebar information panel for closing the panel"
   "在侧边栏信息面板关闭面板中显示图像"

@@ -28,7 +28,6 @@ namespace eval syntax {
   variable current_lang [msgcat::mc "None"]
   variable assoc_file
   variable syntax_menus {}
-  variable sindex       0
 
   array set lang_template {
     filepatterns       {}
@@ -512,9 +511,6 @@ namespace eval syntax {
       folding::restart $txt
     }
 
-    # Generate a <<ThemeChanged>> event on the text widget
-    event generate $txt.t <<ThemeChanged>>
-
     # Set the menubutton text
     if {[info exists gui::widgets(info_syntax)]} {
       [set gui::widgets(info_syntax)] configure -text $language
@@ -609,7 +605,6 @@ namespace eval syntax {
 
     variable theme
     variable meta_tags
-    variable sindex
 
     # Get the current syntax theme
     array set theme [theme::get_syntax_colors]
@@ -683,19 +678,25 @@ namespace eval syntax {
       "highlighter" {
         foreach {type syntax modifiers} $section_list {
           if {$syntax ne ""} {
-            ctext::addHighlightClass $txt $section$sindex $theme(background) $theme($section) $modifiers
-            ctext::add$type $txt $syntax class $section$sindex $lang
+            set class $section
+            if {[llength $modifiers] > 0} {
+              append class -[join $modifiers -]
+            }
+            ctext::addHighlightClass $txt $class $theme(background) $theme($section) $modifiers
+            ctext::add$type $txt $syntax class $class $lang
           }
-          incr sindex
         }
       }
       default {
         foreach {type syntax modifiers} $section_list {
           if {$syntax ne ""} {
-            ctext::addHighlightClass $txt $section$sindex $theme($section) "" $modifiers
-            ctext::add$type $txt $syntax class $section$sindex $lang
+            set class $section
+            if {[llength $modifiers] > 0} {
+              append class -[join $modifiers -]
+            }
+            ctext::addHighlightClass $txt $class $theme($section) "" $modifiers
+            ctext::add$type $txt $syntax class $class $lang
           }
-          incr sindex
         }
       }
     }

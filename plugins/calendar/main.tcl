@@ -119,7 +119,7 @@ namespace eval calendar {
       lassign $date_range start_date end_date
 
       # Get the current text widget
-      set txt [api::file::get_info [api::file::current_file_index] txt]
+      set txt [api::file::get_info [api::file::current_index] txt]
 
       # Insert each month
       while {$start_date < $end_date} {

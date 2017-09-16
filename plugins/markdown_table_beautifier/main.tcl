@@ -6,7 +6,7 @@ namespace eval markdown_table_beautifier {
   proc beautify_all_do {} {
 
     # Get the text widget
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     foreach {endpos startpos} [lreverse [find_all_tables $txt]] {
       beautify_table $txt $startpos $endpos
@@ -24,7 +24,7 @@ namespace eval markdown_table_beautifier {
   # Handle the state of the Beautify command
   proc beautify_all_handle_state {} {
 
-    if {![catch { api::file::get_info [api::file::current_file_index] lang } lang]} {
+    if {![catch { api::file::get_info [api::file::current_index] lang } lang]} {
       return [expr {($lang eq "Markdown") || ($lang eq "MultiMarkdown")}]
     }
 
@@ -36,7 +36,7 @@ namespace eval markdown_table_beautifier {
   # Beautify the current table
   proc beautify_current_do {} {
 
-    set txt [api::file::get_info [api::file::current_file_index] txt]
+    set txt [api::file::get_info [api::file::current_index] txt]
 
     if {[set selected [$txt tag ranges sel]] ne ""} {
       foreach {endpos startpos} [lreverse [find_all_tables $txt]] {
@@ -66,7 +66,7 @@ namespace eval markdown_table_beautifier {
   # Handles the state of the beautify current state menu option.
   proc beautify_current_handle_state {} {
 
-    if {![catch { api::file::get_info [api::file::current_file_index] lang } lang]} {
+    if {![catch { api::file::get_info [api::file::current_index] lang } lang]} {
       return [expr {($lang eq "Markdown") || ($lang eq "MultiMarkdown")}]
     }
 

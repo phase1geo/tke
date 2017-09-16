@@ -7,7 +7,6 @@ namespace eval current_line {
     bind $tag <FocusIn>         "current_line::update_line %W"
     bind $tag <FocusOut>        "current_line::remove_line %W"
     bind $tag <B1-Motion>       "after idle [list current_line::update_line %W]"
-    bind $tag <<ThemeChanged>>  "current_line::update_color %W"
     bind $tag <<CursorChanged>> "after idle [list current_line::update_line %W]"
 
   }
@@ -92,9 +91,22 @@ namespace eval current_line {
 
   }
 
+  ######################################################################
+  # Update the current line colors to match the new theme.
+  proc do_theme_changed {} {
+
+    variable configured
+
+    foreach txt [array names configured] {
+      current_line::update_color $txt
+    }
+
+  }
+
 }
 
 api::register current_line {
   {text_binding pretext cline all current_line::do_cline}
   {on_uninstall current_line::do_uninstall}
+  {on_theme_changed current_line::do_theme_changed}
 }

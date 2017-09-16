@@ -727,9 +727,6 @@ msgcat::mcmset de {
   "Header"
   "Kopfzeile"
 
-  "Help"
-  "Hilfe"
-
   "Hide All Tabs"
   "Alle ausblenden"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset de {
   "Character"
   "Zeichen"
 
-  "Clear Selection and Exit"
-  "Auswahl aufheben und Exit"
+  "Clear Selection"
+  "Auswahl zurücksetzen"
 
   "Curly Brackets"
   "Klammer"
+
+  "Delete Selected Text"
+  "Ausgewählte löschen"
 
   "Double Quotes"
   "Doppelte Anführungszeichen"
@@ -2294,26 +2294,26 @@ msgcat::mcmset de {
   "Down"
   "Nach unten"
 
+  "Exit Selection Mode"
+  "Auswahlmodus"
+
   "First Child"
   "Erstes Unterobjekt"
 
-  "For available selection mode commands, type '?'"
-  "Geben Sie unter verfügbare Auswahl-Mode-Befehlen, \"
-
-  "Keep Selection and Exit"
-  "Halten Sie Auswahl und Exit"
+  "Keep Selection"
+  "Auswahl beibehalten"
 
   "Left"
   "Links"
-
-  "Miscellaneous"
-  "Sonstiges"
 
   "Modes"
   "Modi"
 
   "Motions"
   "ANTRAGE:"
+
+  "Node"
+  "Knoten"
 
   "Paragraph"
   "Absatz"
@@ -2359,6 +2359,9 @@ msgcat::mcmset de {
 
   "Toggle Help"
   "Umschalten"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Typ '?' um Hilfe.  Drücken Sie die ESC-Taste um die Auswahlmodus zu verlassen"
 
   "Up"
   "Nach oben"
@@ -3224,6 +3227,9 @@ msgcat::mcmset de {
 
   "Find previous occurrence"
   "Finden vorherige Vorkommen"
+
+  "Help"
+  "Hilfe"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Bild im Sidebar-Info-Tafel für das Schließen des Panels angezeigt"

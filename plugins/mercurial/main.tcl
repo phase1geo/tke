@@ -37,7 +37,7 @@ namespace eval mercurial {
   proc diff_do {} {
 
     # Get the filename
-    set fname [api::file::get_info [api::file::current_file_index] fname]
+    set fname [api::file::get_info [api::file::current_index] fname]
 
     # Display the difference
     api::file::add_file $fname -diff [list hg diff $fname]
@@ -131,7 +131,7 @@ namespace eval mercurial {
   # Reverts the current file.
   proc revert_do {} {
 
-    if {[catch { exec hg revert -C [api::file::get_info [api::file::current_file_index] fname] } rc]} {
+    if {[catch { exec hg revert -C [api::file::get_info [api::file::current_index] fname] } rc]} {
       api::show_info "Mercurial revert failed: [lindex [split $rc \n] 0]"
     } else {
       api::show_info "Mercurial revert successful"

@@ -727,9 +727,6 @@ msgcat::mcmset ru {
   "Header"
   "Заголовок"
 
-  "Help"
-  "Помощь"
-
   "Hide All Tabs"
   "Скрыть всё"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset ru {
   "Character"
   "Символ"
 
-  "Clear Selection and Exit"
-  "Очистить выбор"
+  "Clear Selection"
+  "Очистить выбранное"
 
   "Curly Brackets"
   "Фигурные скобки"
+
+  "Delete Selected Text"
+  "Удалить выбранное"
 
   "Double Quotes"
   "Двойные кавычки"
@@ -2294,26 +2294,26 @@ msgcat::mcmset ru {
   "Down"
   "Вниз"
 
+  "Exit Selection Mode"
+  "Режим выбора"
+
   "First Child"
   "Первый потомок"
 
-  "For available selection mode commands, type '?'"
-  "Команды режима имеющиеся выбора, введите '?'"
-
-  "Keep Selection and Exit"
-  "Держите выбора и выхода"
+  "Keep Selection"
+  "Выбор"
 
   "Left"
   "Влево"
-
-  "Miscellaneous"
-  "Разное"
 
   "Modes"
   "Режимы моделирования"
 
   "Motions"
   "DEISTVIE"
+
+  "Node"
+  "Узел"
 
   "Paragraph"
   "Параграф"
@@ -2359,6 +2359,9 @@ msgcat::mcmset ru {
 
   "Toggle Help"
   "Переключатель"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Тип '?' для справки.  Нажмите клавишу ESCAPE, чтобы выйти из режима выделения"
 
   "Up"
   "Вверх"
@@ -3224,6 +3227,9 @@ msgcat::mcmset ru {
 
   "Find previous occurrence"
   "Найти предыдущего вхождения"
+
+  "Help"
+  "Помощь"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Изображение, отображаемое в боковой панели сведений для закрытия панели"

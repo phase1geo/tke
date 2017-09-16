@@ -76,7 +76,7 @@ namespace eval regexp_checker {
     }
 
     # If text was selected in the file, put it into the text widget automatically
-    if {[set file_index [api::file::current_file_index]] != -1} {
+    if {[set file_index [api::file::current_index]] != -1} {
       set txt [api::file::get_info $file_index txt]
       catch {
         if {[llength [set sel [$txt tag ranges sel]]] > 0} {

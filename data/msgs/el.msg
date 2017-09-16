@@ -727,9 +727,6 @@ msgcat::mcmset el {
   "Header"
   "Επικεφαλίδα"
 
-  "Help"
-  "Βοήθεια"
-
   "Hide All Tabs"
   "Απόκρυψη όλων"
 
@@ -2282,11 +2279,14 @@ msgcat::mcmset el {
   "Character"
   "Χαρακτήρας"
 
-  "Clear Selection and Exit"
-  "Καταργήστε την επιλογή και την έξοδο"
+  "Clear Selection"
+  "Αφαίρεση Επιλογής"
 
   "Curly Brackets"
   "Αγκύλες"
+
+  "Delete Selected Text"
+  "Διαγραφή επιλεγμένων"
 
   "Double Quotes"
   "Διπλά εισαγωγικά"
@@ -2294,26 +2294,26 @@ msgcat::mcmset el {
   "Down"
   "Κάτω"
 
+  "Exit Selection Mode"
+  "Έξοδος από τη λειτουργία επιλογής"
+
   "First Child"
   "Πρώτος απόγονος"
 
-  "For available selection mode commands, type '?'"
-  "Διαθέσιμη επιλογή λειτουργίας τις εντολές, πληκτρολογήστε «;»"
-
-  "Keep Selection and Exit"
-  "Κρατήστε την επιλογή και την έξοδο"
+  "Keep Selection"
+  "Επιλογή"
 
   "Left"
   "Αριστερά"
-
-  "Miscellaneous"
-  "Διάφορα"
 
   "Modes"
   "ÎÎµÎ¹ÏÎ¿ÏÏÎ³Î¯ÎµÏ"
 
   "Motions"
   "Προτάσεις ψηφίσματος"
+
+  "Node"
+  "Κόμβος"
 
   "Paragraph"
   "Παράγραφος"
@@ -2359,6 +2359,9 @@ msgcat::mcmset el {
 
   "Toggle Help"
   "Εναλλαγή"
+
+  "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
+  "Τύπος '; ' για βοήθεια.  Χτύπησε το πλήκτρο ESCAPE για να εξέλθετε από τη λειτουργία επιλογής"
 
   "Up"
   "Πάνω"
@@ -3224,6 +3227,9 @@ msgcat::mcmset el {
 
   "Find previous occurrence"
   "Βρείτε την προηγούμενη εμφάνιση"
+
+  "Help"
+  "Βοήθεια"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για το κλείσιμο του πίνακα"

@@ -10,7 +10,7 @@ namespace eval dired {
     variable data
 
     if {$file_index eq ""} {
-      set file_index [api::file::current_file_index]
+      set file_index [api::file::current_index]
     }
 
     return [expr {[info exists data(file)] && ($data(file) eq [api::file::get_info $file_index fname])}]
@@ -75,7 +75,7 @@ namespace eval dired {
     } elseif {[file isdirectory $elem]} {
 
       # If the file underwent changes, ask to save and then proceed
-      on_save [api::file::current_file_index]
+      on_save [api::file::current_index]
 
       # Save the directory (we need to figure out the native name)
       set data(dirs) $elem
@@ -103,7 +103,7 @@ namespace eval dired {
 
     # Delete the buffer
     $txt delete -moddata ignore 1.0 end
-    
+
     # Get the currently selected directories
     foreach dirname $data(dirs) {
 
@@ -118,7 +118,7 @@ namespace eval dired {
       $txt insert -moddata ignore end "\n"
 
     }
-    
+
   }
 
   ######################################################################
@@ -135,7 +135,7 @@ namespace eval dired {
       if {[tk_messageBox -parent . -message "Apply changes?" -type yesno -default yes]} {
 
         set txt [api::file::get_info $index txt]
-        
+
         # Apply the changes
         apply_changes $txt
 
@@ -201,7 +201,7 @@ namespace eval dired {
   proc handle_any_pretext {w keysym} {
 
     variable data
-    
+
     # If the escape key is hit, clear the mode
     if {($keysym eq "Escape") || (($keysym eq "Return") && ($data(mode) ne ""))} {
       set data(mode) ""
@@ -209,7 +209,7 @@ namespace eval dired {
     }
 
     # Get the current Vim mode
-    set vim_mode [api::file::get_info [api::file::current_file_index] vimmode]
+    set vim_mode [api::file::get_info [api::file::current_index] vimmode]
 
     # If we are editing text in Vim mode, set the current line to rename
     switch $data(mode) {
@@ -224,7 +224,7 @@ namespace eval dired {
     }
 
     puts "In handle_any_pretext, keysym: $keysym"
-    
+
     switch $keysym {
       Return -
       Space {
@@ -314,8 +314,8 @@ namespace eval dired {
     variable data
 
     # Get the current Vim mode
-    set vim_mode [api::file::get_info [api::file::current_file_index] vimmode]
-    
+    set vim_mode [api::file::get_info [api::file::current_index] vimmode]
+
     puts "In handle_any_posttext, keysym: $keysym, vim_mode: $vim_mode"
 
     return 0
