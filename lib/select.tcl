@@ -32,7 +32,6 @@ namespace eval select {
     word      {wordstart {wordend   -forceadjust "+1 display chars"}}
     sentence  {sentence  sentence}
     paragraph {paragraph paragraph}
-    tag       {tagstart  {tagend    -forceadjust "+1 display chars"}}
     node      {tagstart  {tagend    -forceadjust "+1 display chars"}}
     square    {{char -char \[} {char -char \]}}
     curly     {{char -char \{} {char -char \}}}
@@ -48,7 +47,6 @@ namespace eval select {
     [list [msgcat::mc "Line"]            e  line] \
     [list [msgcat::mc "Sentence"]        s  sentence] \
     [list [msgcat::mc "Paragraph"]       p  paragraph] \
-    [list [msgcat::mc "Tag"]             t  tag] \
     [list [msgcat::mc "Node"]            n  node] \
     [list [msgcat::mc "Square Brackets"] \[ square] \
     [list [msgcat::mc "Parenthesis"]     \( paren] \
@@ -159,7 +157,6 @@ namespace eval select {
       line {
         create_list .selhelp.f.motions [list $next $prev $ushift $dshift]
       }
-      tag -
       node {
         create_list .selhelp.f.motions [list $next $prev $parent $child]
       }
@@ -290,7 +287,6 @@ namespace eval select {
             return
             set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0]
           }
-          tag       { set range [edit::get_range $txtt [list "tag" 1] [list] i 0] }
           node      { set range [edit::get_range $txtt [list "tag" 1] [list] o 0] }
           default   { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
         }
@@ -306,9 +302,6 @@ namespace eval select {
               set count [expr {($motion eq "next") ? "+1 display lines" : "-1 display lines"}]
             }
             lset range $index [$txtt index "[lindex $range $index]$count [lindex $pos $index]"]
-          }
-          tag {
-            # TBD
           }
           node {
             if {$motion eq "next"} {
@@ -375,19 +368,57 @@ namespace eval select {
       }
       ushift {
         if {[$txtt compare "[lindex $range 0]-1 display lines" < [lindex $range 0]]} {
-          set trange $range
-          set range  [list]
-          foreach {pos} $trange {
-            lappend range [$txtt index "$pos-1 display lines"]
+          switch $data($txtt,type) {
+            line {
+              if {[$txtt compare [lindex $range 0] > 1.0]} {
+                lset range 0 [$txtt index "[lindex $range 0]-1 display lines linestart"]
+                lset range 1 [$txtt index "[lindex $range 1]-1 display lines lineend"]
+              }
+            }
+            node {
+              if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $range 0]]] ne ""} {
+                $txtt mark set insert [lindex $tag 0]
+                set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                if {[$txtt compare [lindex $range 0] > [lindex $outer 1]]} {
+                  set range $outer
+                }
+              }
+            }
+            default {
+              set trange $range
+              set range  [list]
+              foreach {pos} $trange {
+                lappend range [$txtt index "$pos-1 display lines"]
+              }
+            }
           }
         }
       }
       dshift {
         if {[$txtt compare "[lindex $range end]+1 display lines" > "[lindex $range end] lineend"]} {
-          set trange $range
-          set range  [list]
-          foreach {pos} $trange {
-            lappend range [$txtt index "$pos+1 display lines"]
+          switch $data($txtt,type) {
+            line {
+              if {[$txtt compare [lindex $range 1] < "end-1 display lines lineend"]} {
+                lset range 1 [$txtt index "[lindex $range 1]+1 display lines lineend"]
+                lset range 0 [$txtt index "[lindex $range 0]+1 display lines linestart"]
+              }
+            }
+            node {
+              if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $range 1]]] ne ""} {
+                $txtt mark set insert [lindex $tag 0]
+                set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                if {[$txtt compare [lindex $range 1] < [lindex $outer 0]]} {
+                  set range $outer
+                }
+              }
+            }
+            default {
+              set trange $range
+              set range  [list]
+              foreach {pos} $trange {
+                lappend range [$txtt index "$pos+1 display lines"]
+              }
+            }
           }
         }
       }
@@ -1024,14 +1055,6 @@ namespace eval select {
   }
 
   ######################################################################
-  # Set the current selection type to tag mode.
-  proc handle_t {txtt} {
-
-    set_type $txtt tag
-
-  }
-
-  ######################################################################
   # Set the current selection type to node mode.
   proc handle_n {txtt} {
 
@@ -1126,8 +1149,11 @@ namespace eval select {
 
     variable data
 
-    if {[lsearch [list char block] $data($txtt,type)] != -1} {
-      update_selection $txtt ushift
+    switch $data($txtt,type) {
+      char  -
+      block -
+      node  -
+      line  { update_selection $txtt ushift }
     }
 
   }
@@ -1139,8 +1165,11 @@ namespace eval select {
 
     variable data
 
-    if {[lsearch [list char block] $data($txtt,type)] != -1} {
-      update_selection $txtt dshift
+    switch $data($txtt,type) {
+      char  -
+      block -
+      node  -
+      line  { update_selection $txtt dshift }
     }
 
   }
@@ -1151,10 +1180,10 @@ namespace eval select {
 
     variable data
 
-    if {$data($txtt,type) eq "block"} {
-      update_selection $txtt left
-    } else {
-      update_selection $txtt prev
+    switch $data($txtt,type) {
+      node    { update_selection $txtt parent }
+      block   { update_selection $txtt left }
+      default { update_selection $txtt prev }
     }
 
   }
@@ -1165,42 +1194,42 @@ namespace eval select {
 
     variable data
 
-    if {$data($txtt,type) eq "block"} {
-      update_selection $txtt right
-    } else {
-      update_selection $txtt next
+    switch $data($txtt,type) {
+      node    { update_selection $txtt child }
+      block   { update_selection $txtt right }
+      default { update_selection $txtt next }
     }
 
   }
 
   ######################################################################
   # If the selection mode is char or block, handles moving the cursor up
-  # a line (carries the selection with it).  If the selection mode is
-  # tag, sets the selection to the parent tag.
+  # a line (carries the selection with it).
   proc handle_k {txtt} {
 
     variable data
 
-    if {[lsearch [list tag node] $data($txtt,type)] != -1} {
-      update_selection $txtt parent
-    } elseif {[lsearch [list char block] $data($txtt,type)] != -1} {
-      update_selection $txtt up
+    switch $data($txtt,type) {
+      char  -
+      block { update_selection $txtt up }
+      node  -
+      line  { update_selection $txtt prev }
     }
 
   }
 
   ######################################################################
   # If the selection mode is char or block, handles moving the cursor
-  # down a line (carries the selection with it).  If the selection mode
-  # is tag, sets the selection to the first child tag.
+  # down a line (carries the selection with it).
   proc handle_j {txtt} {
 
     variable data
 
-    if {[lsearch [list tag node] $data($txtt,type)] != -1} {
-      update_selection $txtt child
-    } elseif {[lsearch [list char block] $data($txtt,type)] != -1} {
-      update_selection $txtt down
+    switch $data($txtt,type) {
+      char  -
+      block { update_selection $txtt down }
+      node  -
+      line  { update_selection $txtt next }
     }
 
   }
