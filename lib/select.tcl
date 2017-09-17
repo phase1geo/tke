@@ -45,7 +45,7 @@ namespace eval select {
   variable types [list \
     [list [msgcat::mc "Character"]       c  char] \
     [list [msgcat::mc "Word"]            w  word] \
-    [list [msgcat::mc "Line"]            l  line] \
+    [list [msgcat::mc "Line"]            e  line] \
     [list [msgcat::mc "Sentence"]        s  sentence] \
     [list [msgcat::mc "Paragraph"]       p  paragraph] \
     [list [msgcat::mc "Tag"]             t  tag] \
@@ -116,20 +116,20 @@ namespace eval select {
     }
 
     # Create labels and their shortcuts
-    set left   [list [msgcat::mc "Left"]        "j"]
-    set right  [list [msgcat::mc "Right"]       "k"]
-    set up     [list [msgcat::mc "Up"]          "i"]
-    set down   [list [msgcat::mc "Down"]        "m"]
-    set lshift [list [msgcat::mc "Shift Left"]  "\u2190"]
-    set rshift [list [msgcat::mc "Shift Right"] "\u2192"]
-    set ushift [list [msgcat::mc "Shift Up"]    "\u2191"]
-    set dshift [list [msgcat::mc "Shift Down"]  "\u2193"]
-    set next   [list [msgcat::mc "Next"]        "k"]
-    set prev   [list [msgcat::mc "Previous"]    "j"]
-    set parent [list [msgcat::mc "Parent"]      "i"]
-    set child  [list [msgcat::mc "First Child"] "m"]
-    set swap   [list [msgcat::mc "Swap Anchor"] "a"]
-    set help   [list [msgcat::mc "Toggle Help"] "?"]
+    set left   [list [msgcat::mc "Left"]                 "j"]
+    set right  [list [msgcat::mc "Right"]                "k"]
+    set up     [list [msgcat::mc "Up"]                   "i"]
+    set down   [list [msgcat::mc "Down"]                 "m"]
+    set lshift [list [msgcat::mc "Shift Left"]           "H"]
+    set rshift [list [msgcat::mc "Shift Right"]          "L"]
+    set ushift [list [msgcat::mc "Shift Up"]             "K"]
+    set dshift [list [msgcat::mc "Shift Down"]           "J"]
+    set next   [list [msgcat::mc "Next"]                 "l"]
+    set prev   [list [msgcat::mc "Previous"]             "h"]
+    set parent [list [msgcat::mc "Parent"]               "k"]
+    set child  [list [msgcat::mc "First Child"]          "j"]
+    set swap   [list [msgcat::mc "Swap Anchor"]          "a"]
+    set help   [list [msgcat::mc "Toggle Help"]          "?"]
     set ret    [list [msgcat::mc "Keep Selection"]       "\u21b5"]
     set esc    [list [msgcat::mc "Clear Selection"]      "Esc"]
     set del    [list [msgcat::mc "Delete Selected Text"] "Del"]
@@ -234,7 +234,6 @@ namespace eval select {
     # Update the selection
     if {$data($txtt,mode) && $init} {
       if {$value eq "paragraph"} {
-        puts "Calling update_selection for paragraph"
         return
       }
       update_selection $txtt init
@@ -986,7 +985,7 @@ namespace eval select {
 
   ######################################################################
   # Sets the current selection type to line mode.
-  proc handle_l {txtt} {
+  proc handle_e {txtt} {
 
     set_type $txtt line
 
@@ -1098,7 +1097,7 @@ namespace eval select {
 
   ######################################################################
   # Handles moving the selection back by the selection type amount.
-  proc handle_Left {txtt} {
+  proc handle_H {txtt} {
 
     variable data
 
@@ -1110,7 +1109,7 @@ namespace eval select {
 
   ######################################################################
   # Handles moving the selection forward by the selection type amount.
-  proc handle_Right {txtt} {
+  proc handle_L {txtt} {
 
     variable data
 
@@ -1123,7 +1122,7 @@ namespace eval select {
   ######################################################################
   # Handles moving the entire selection to include the parent of the
   # currently selected text.
-  proc handle_Up {txtt} {
+  proc handle_K {txtt} {
 
     variable data
 
@@ -1136,7 +1135,7 @@ namespace eval select {
   ######################################################################
   # Handles moving the entire selection to include just the first child
   # of the currently selected text.
-  proc handle_Down {txtt} {
+  proc handle_J {txtt} {
 
     variable data
 
@@ -1148,7 +1147,7 @@ namespace eval select {
 
   ######################################################################
   # Handles moving the entire selection to the left by the current type.
-  proc handle_j {txtt} {
+  proc handle_h {txtt} {
 
     variable data
 
@@ -1162,7 +1161,7 @@ namespace eval select {
 
   ######################################################################
   # Handles moving the entire selection to the right by the current type.
-  proc handle_k {txtt} {
+  proc handle_l {txtt} {
 
     variable data
 
@@ -1178,7 +1177,7 @@ namespace eval select {
   # If the selection mode is char or block, handles moving the cursor up
   # a line (carries the selection with it).  If the selection mode is
   # tag, sets the selection to the parent tag.
-  proc handle_i {txtt} {
+  proc handle_k {txtt} {
 
     variable data
 
@@ -1194,7 +1193,7 @@ namespace eval select {
   # If the selection mode is char or block, handles moving the cursor
   # down a line (carries the selection with it).  If the selection mode
   # is tag, sets the selection to the first child tag.
-  proc handle_m {txtt} {
+  proc handle_j {txtt} {
 
     variable data
 
