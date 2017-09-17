@@ -304,18 +304,39 @@ namespace eval select {
             lset range $index [$txtt index "[lindex $range $index]$count [lindex $pos $index]"]
           }
           node {
-            if {$motion eq "next"} {
-              set start [lindex $range 1]
-              set type  1*0
-            } else {
-              set start [lindex $range 0]
-              set type  0*1
-            }
-            if {[set tag [emmet::get_tag [winfo parent $txtt] -dir $motion -type $type -start $start]] ne ""} {
-              $txtt mark set insert [lindex $tag 0]
-              set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-              if {($motion eq "next") || [$txtt compare [lindex $range 0] > [lindex $outer 1]]} {
-                set range $outer
+            $txtt mark set insert [lindex $range 0]
+            if {[set parent [emmet::get_outer [emmet::get_node_range_within [winfo parent $txtt]]]] ne ""} {
+              if {$motion eq "next"} {
+                if {$data($txtt,anchorend) == 1} {
+                  set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                }
+                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $range 1]]] ne ""} {
+                  $txtt mark set insert [lindex $tag 0]
+                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                  if {[$txtt compare [lindex $parent 1] > [lindex $outer 1]]} {
+                    if {$data($txtt,anchorend) == 0} {
+                      lset range 1 [lindex $outer 1]
+                    } else {
+                      lset range 0 [lindex $outer 0]
+                    }
+                  }
+                }
+              } else {
+                if {$data($txtt,anchorend) == 0} {
+                  $txtt mark set insert "[lindex $range 1]-1c"
+                  set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                }
+                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $range 0]]] ne ""} {
+                  $txtt mark set insert [lindex $tag 0]
+                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                  if {[$txtt compare [lindex $parent 0] < [lindex $outer 0]]} {
+                    if {$data($txtt,anchorend) == 0} {
+                      lset range 1 [lindex $outer 1]
+                    } else {
+                      lset range 0 [lindex $outer 0]
+                    }
+                  }
+                }
               }
             }
           }
@@ -376,11 +397,14 @@ namespace eval select {
               }
             }
             node {
-              if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $range 0]]] ne ""} {
-                $txtt mark set insert [lindex $tag 0]
-                set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                if {[$txtt compare [lindex $range 0] > [lindex $outer 1]]} {
-                  set range $outer
+              $txtt mark set insert [lindex $range 0]
+              if {[set parent [emmet::get_outer [emmet::get_node_range_within [winfo parent $txtt]]]] ne ""} {
+                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $range 0]]] ne ""} {
+                  $txtt mark set insert [lindex $tag 0]
+                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                  if {[$txtt compare [lindex $parent 0] < [lindex $outer 0]]} {
+                    set range $outer
+                  }
                 }
               }
             }
@@ -404,11 +428,14 @@ namespace eval select {
               }
             }
             node {
-              if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $range 1]]] ne ""} {
-                $txtt mark set insert [lindex $tag 0]
-                set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                if {[$txtt compare [lindex $range 1] < [lindex $outer 0]]} {
-                  set range $outer
+              $txtt mark set insert [lindex $range 0]
+              if {[set parent [emmet::get_outer [emmet::get_node_range_within [winfo parent $txtt]]]] ne ""} {
+                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $range 1]]] ne ""} {
+                  $txtt mark set insert [lindex $tag 0]
+                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                  if {[$txtt compare [lindex $parent 1] > [lindex $outer 1]]} {
+                    set range $outer
+                  }
                 }
               }
             }
@@ -484,29 +511,17 @@ namespace eval select {
       }
       parent {
         $txtt mark set insert [lindex $range 0]
-        if {$data($txtt,type) eq "tag"} {
-          set node_range [emmet::get_node_range_within [winfo parent $txtt]]
-          $txtt mark set insert "[lindex $node_range 0]-1c"
-          set node_range [emmet::get_node_range_within [winfo parent $txtt]]
-        } else {
-          if {[set node_range [emmet::get_node_range_within [winfo parent $txtt]]] ne ""} {
-            set range [list [lindex $node_range 0] [lindex $node_range 3]]
-          }
+        if {[set node_range [emmet::get_node_range_within [winfo parent $txtt]]] ne ""} {
+          set range [list [lindex $node_range 0] [lindex $node_range 3]]
         }
       }
       child {
         $txtt mark set insert [lindex $range 0]
-        if {$data($txtt,type) eq "node"} {
-          set inner [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
-          $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 0]
-        }
+        set inner [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
+        $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 0]
         if {([set retval [emmet::get_tag [winfo parent $txtt] -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
           $txtt mark set insert [lindex $retval 0]
-          if {$motion eq "tag"} {
-            set range [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
-          } else {
-            set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-          }
+          set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
         }
       }
     }
@@ -1124,8 +1139,10 @@ namespace eval select {
 
     variable data
 
-    if {$data($txtt,type) ne "line"} {
-      update_selection $txtt lshift
+    switch $data($txtt,type) {
+      line    {}
+      node    { update_selection $txtt parent }
+      default { update_selection $txtt lshift }
     }
 
   }
@@ -1136,8 +1153,10 @@ namespace eval select {
 
     variable data
 
-    if {$data($txtt,type) ne "line"} {
-      update_selection $txtt rshift
+    switch $data($txtt,type) {
+      line    {}
+      node    { update_selection $txtt child }
+      default { update_selection $txtt rshift }
     }
 
   }
