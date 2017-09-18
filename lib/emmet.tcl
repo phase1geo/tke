@@ -327,11 +327,17 @@ namespace eval emmet {
   ######################################################################
   # If the insertion cursor is currently inside of a tag element, returns
   # the tag information; otherwise, returns the empty string
-  proc inside_tag {txt {allow_010 0}} {
+  proc inside_tag {txt args} {
+    
+    array set opts {
+      -startpos insert
+      -allow010 0
+    }
+    array set opts $args
 
-    set retval [get_tag $txt -dir prev -start "insert+1c"]
+    set retval [get_tag $txt -dir prev -start "$opts(-startpos)+1c"]
 
-    if {($retval ne "") && [$txt compare insert < [lindex $retval 1]] && (([lindex $retval 3] ne "010") || $allow_010)} {
+    if {($retval ne "") && [$txt compare $opts(-startpos) < [lindex $retval 1]] && (([lindex $retval 3] ne "010") || $opts(-allow010))} {
       return $retval
     }
 
@@ -342,10 +348,15 @@ namespace eval emmet {
   ######################################################################
   # Assumes that the insertion cursor is somewhere between a start and end
   # tag.
-  proc get_node_range_within {txt} {
+  proc get_node_range_within {txt args} {
+    
+    array set opts {
+      -startpos insert
+    }
+    array set opts $args
 
     # Find the beginning tag that we are currently inside of
-    set retval [list insert]
+    set retval [list $opts(-startpos)]
     set count  0
 
     while {1} {
@@ -361,7 +372,7 @@ namespace eval emmet {
     }
 
     # Find the ending tag based on the beginning tag
-    set retval [list {} insert]
+    set retval [list {} $opts(-startpos)]
     set count 0
 
     while {1} {
@@ -379,18 +390,23 @@ namespace eval emmet {
   ######################################################################
   # Returns the character range for the current node based on the given
   # outer type.
-  proc get_node_range {txt} {
+  proc get_node_range {txt args} {
 
     variable data
+    
+    array set opts {
+      -startpos insert
+    }
+    array set opts $args
 
     array set other $data(other_map)
     array set dir   $data(dir_map)
     array set index $data(index_map)
 
-    # Check to see if the current insertion cursor is within a tag and if it is
-    # not, find the tags surrounding the insertion cursor.
-    if {[set itag [inside_tag $txt 1]] eq ""} {
-      return [get_node_range_within $txt]
+    # Check to see if the starting position is within a tag and if it is
+    # not, find the tags surrounding the starting position.
+    if {[set itag [inside_tag $txt -startpos $opts(-startpos) -allow010 1]] eq ""} {
+      return [get_node_range_within $txt -startpos $opts(-startpos)]
     } elseif {[lindex $itag 3] eq "010"} {
       return ""
     }
@@ -774,7 +790,7 @@ namespace eval emmet {
     set startpos "insert"
 
     # If the cursor is not within a start tag, go find the next start tag
-    if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]]} {
+    if {([set retval [inside_tag $txt -allow010 1]] eq "") || [string match "001" [lindex $retval 3]]} {
       set retval [get_tag $txt -dir $dir -type "??0"]
     }
 
@@ -910,7 +926,7 @@ namespace eval emmet {
 
       if {[set node_range [get_node_range $txt]] ne ""} {
         lassign [get_outer $node_range] comment_start comment_end
-      } elseif {[set retval [inside_tag $txt 1]] ne ""} {
+      } elseif {[set retval [inside_tag $txt -allow010 1]] ne ""} {
         lassign $retval comment_start comment_end
       } else {
         return
@@ -963,7 +979,7 @@ namespace eval emmet {
       $txt insert "[lindex $retval 1]-1c" " /"
 
     # Otherwise, split the tag
-    } elseif {[set retval [inside_tag $txt 1]] ne ""} {
+    } elseif {[set retval [inside_tag $txt -allow010 1]] ne ""} {
 
       set index [$txt search -regexp -- {\s*/>$} [lindex $retval 0] [lindex $retval 1]]
       $txt replace $index [lindex $retval 1] "></[lindex $retval 2]>"
@@ -1023,7 +1039,7 @@ namespace eval emmet {
       # Add a separator
       $txt edit separator
 
-    } elseif {[set retval [inside_tag $txt 1]] ne ""} {
+    } elseif {[set retval [inside_tag $txt -allow010 1]] ne ""} {
 
       # Delete the tag
       if {([string trim [$txt get "[lindex $retval 0] linestart" [lindex $retval 0]]] eq "") && \
@@ -1070,7 +1086,7 @@ namespace eval emmet {
   # available attributes.
   proc update_html_image_size {txt} {
 
-    if {([set retval [inside_tag $txt 1]] ne "") && ([lindex $retval 2] eq "img") && [string match "??0" [lindex $retval 3]]} {
+    if {([set retval [inside_tag $txt -allow010 1]] ne "") && ([lindex $retval 2] eq "img") && [string match "??0" [lindex $retval 3]]} {
 
       set width        ""
       set height       ""
@@ -1304,7 +1320,7 @@ namespace eval emmet {
   # Runs encode/decode image to data:URL in HTML.
   proc encode_decode_html_image_to_data_url {txt args} {
 
-    if {([set retval [inside_tag $txt 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
+    if {([set retval [inside_tag $txt -allow010 1]] eq "") || [string match "001" [lindex $retval 3]] || ([lindex $retval 2] ne "img")} {
       return
     }
 

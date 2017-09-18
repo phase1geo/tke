@@ -304,43 +304,13 @@ namespace eval select {
             lset range $index [$txtt index "[lindex $range $index]$count [lindex $pos $index]"]
           }
           node {
-            $txtt mark set insert [lindex $range 0]
-            if {[set parent [emmet::get_outer [emmet::get_node_range_within [winfo parent $txtt]]]] ne ""} {
-              if {$motion eq "next"} {
-                if {$data($txtt,anchorend) == 1} {
-                  set trange [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                } else {
-                  set trange $range
-                }
-                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $trange 1]]] ne ""} {
-                  $txtt mark set insert [lindex $tag 0]
-                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                  if {[$txtt compare [lindex $parent 1] > [lindex $outer 1]]} {
-                    if {$data($txtt,anchorend) == 0} {
-                      lset range 1 [lindex $outer 1]
-                    } else {
-                      lset range 0 [lindex $outer 0]
-                    }
-                  }
-                }
-              } else {
-                if {$data($txtt,anchorend) == 0} {
-                  $txtt mark set insert "[lindex $range 1]-1c"
-                  set trange [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                } else {
-                  set trange $range
-                }
-                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $trange 0]]] ne ""} {
-                  $txtt mark set insert [lindex $tag 0]
-                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                  if {[$txtt compare [lindex $parent 0] < [lindex $outer 0]]} {
-                    if {$data($txtt,anchorend) == 0} {
-                      lset range 1 [lindex $outer 1]
-                    } else {
-                      lset range 0 [lindex $outer 0]
-                    }
-                  }
-                }
+            if {$data($txtt,anchorend) == 0} {
+              if {[set node_range [dom_${motion}_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+                lset range 1 [lindex $node_range 1]
+              }
+            } else {
+              if {[set node_range [dom_${motion}_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+                lset range 0 [lindex $node_range 0]
               }
             }
           }
@@ -401,14 +371,10 @@ namespace eval select {
               }
             }
             node {
-              $txtt mark set insert [lindex $range 0]
-              if {[set parent [emmet::get_outer [emmet::get_node_range_within [winfo parent $txtt]]]] ne ""} {
-                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $range 0]]] ne ""} {
-                  $txtt mark set insert [lindex $tag 0]
-                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                  if {[$txtt compare [lindex $parent 0] < [lindex $outer 0]]} {
-                    set range $outer
-                  }
+              if {[set node_range0 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+                if {[set node_range1 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+                  lset range 0 [lindex $node_range0 0]
+                  lset range 1 [lindex $node_range1 1]
                 }
               }
             }
@@ -432,14 +398,10 @@ namespace eval select {
               }
             }
             node {
-              $txtt mark set insert [lindex $range 0]
-              if {[set parent [emmet::get_outer [emmet::get_node_range_within [winfo parent $txtt]]]] ne ""} {
-                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $range 1]]] ne ""} {
-                  $txtt mark set insert [lindex $tag 0]
-                  set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
-                  if {[$txtt compare [lindex $parent 1] > [lindex $outer 1]]} {
-                    set range $outer
-                  }
+              if {[set node_range1 [dom_next_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+                if {[set node_range0 [dom_next_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+                  lset range 0 [lindex $node_range0 0]
+                  lset range 1 [lindex $node_range1 1]
                 }
               }
             }
@@ -514,25 +476,18 @@ namespace eval select {
         }
       }
       parent {
-        $txtt mark set insert [lindex $range 0]
-        if {[set node_range [emmet::get_node_range_within [winfo parent $txtt]]] ne ""} {
-          set range [list [lindex $node_range 0] [lindex $node_range 3]]
+        if {[set node_range [dom_parent [winfo parent $txtt] [lindex $range 0]]] ne ""} {
+          set range $node_range
         }
       }
       child {
-        $txtt mark set insert [lindex $range 0]
-        set inner [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
         if {$data($txtt,anchorend) == 0} {
-          $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 0]
-          if {([set retval [emmet::get_tag [winfo parent $txtt] -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
-            $txtt mark set insert [lindex $retval 0]
-            set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+          if {[set node_range [dom_first_child [winfo parent $txtt] [lindex $range 0]]] ne ""} {
+            set range $node_range
           }
         } else {
-          $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 1]
-          if {([set retval [emmet::get_tag [winfo parent $txtt] -dir prev -type 001]] ne "") && ([lindex $retval 4] eq "")} {
-            $txtt mark set insert [lindex $retval 0]
-            set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+          if {[set node_range [dom_last_child [winfo parent $txtt] [lindex $range 0]]] ne ""} {
+            set range $node_range
           }
         }
       }
@@ -1341,6 +1296,107 @@ namespace eval select {
     # Remove the background color of the tag
     $txtt tag configure $tag -background ""
 
+  }
+  
+  ######################################################################
+  # Returns the starting and ending positions of the parent HTML node given
+  # the starting cursor position.
+  proc dom_parent {txt startpos} {
+    
+    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+      return [emmet::get_outer [emmet::get_node_range_within $txt -startpos $startpos]]
+    } else {
+      return [emmet::get_inner [emmet::get_node_range_within $txt -startpos $startpos]]
+    }
+    
+  }
+  
+  ######################################################################
+  # Returns the starting and ending positions of the first child node in the
+  # DOM.  The startpos parameter should be the index of the start of the parent
+  # node.
+  proc dom_first_child {txt startpos} {
+    
+    set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
+    
+    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+      if {[set tag [emmet::get_tag $txt -dir next -type 1*0 -start [lindex $parent_range 0]]] ne ""} {
+        if {[$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
+          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+        }
+      }
+    } elseif {[$txt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
+      return ""
+    }
+    
+    return $parent_range
+    
+  }
+  
+  ######################################################################
+  # Returns the starting and ending positions of the last child node in the
+  # DOM.  The startpos parameter should be the index of the start of the
+  # parent node.
+  proc dom_last_child {txt startpos} {
+    
+    set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
+    
+    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+      if {[set tag [emmet::get_tag $txt -dir prev -type 1*0 -start [lindex $parent_range 1]]] ne ""} {
+        if {[$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
+          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+        }
+      }
+    } elseif {[$txt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
+      return ""
+    }
+    
+    return $parent_range
+    
+  }
+  
+  ######################################################################
+  # Returns the starting and ending positions of the next sibling node of
+  # the node containing the given starting position.
+  proc dom_next_sibling {txt startpos} {
+    
+    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+      return ""
+    }
+    
+    set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+    set parent_range  [dom_parent $txt [lindex $current_range 0]]
+    
+    if {[set tag [emmet::get_tag $txt -dir next -type 1*0 -start [lindex $current_range 1]]] ne ""} {
+      if {[$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
+        return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]      
+      }
+    }
+    
+    return ""
+    
+  }
+  
+  ######################################################################
+  # Returns the starting and ending positions of the next sibling node of
+  # the node containing the given starting position.
+  proc dom_prev_sibling {txt startpos} {
+    
+    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+      return ""
+    }
+    
+    set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+    set parent_range  [dom_parent $txt [lindex $current_range 0]]
+    
+    if {[set tag [emmet::get_tag $txt -dir prev -type 0*1 -start [lindex $current_range 0]]] ne ""} {
+      if {[$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
+        return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]      
+      }
+    }
+    
+    return ""
+    
   }
 
 }
