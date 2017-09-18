@@ -287,7 +287,7 @@ namespace eval select {
             return
             set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0]
           }
-          node      { set range [edit::get_range $txtt [list "tag" 1] [list] o 0] }
+          node      { set range [dom_current [winfo parent $txtt] insert] }
           default   { set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0] }
         }
       }
@@ -838,20 +838,11 @@ namespace eval select {
   # the current XML node.
   proc handle_shift_control_triple_click {txtt x y} {
 
-    variable data
-
-    if {$data($txtt,mode) && ($data($txtt,type) eq "node")} {
-      return 1
-    }
-
-    # Set the insertion cursor
-    $txtt mark set insert @$x,$y
-
-    # Enable selection mode
-    set_select_mode $txtt 1
-
     # Set the selection type to node
     set_type $txtt node
+
+    # Update the selection
+    update_selection $txtt init -startpos [$txtt index @$x,$y]
 
     return 1
 
@@ -1297,106 +1288,143 @@ namespace eval select {
     $txtt tag configure $tag -background ""
 
   }
-  
+
+  ######################################################################
+  # Returns the range of the current DOM.
+  proc dom_current {txt startpos} {
+
+    if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
+      return [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
+    } elseif {[lindex $tag 3] eq "010"} {
+      return [lrange $tag 0 1]
+    } else {
+      return [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+    }
+  }
+
   ######################################################################
   # Returns the starting and ending positions of the parent HTML node given
   # the starting cursor position.
   proc dom_parent {txt startpos} {
-    
-    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+
+    if {([set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq "") && ([lindex $tag 3] ne "010")} {
       return [emmet::get_outer [emmet::get_node_range_within $txt -startpos $startpos]]
     } else {
       return [emmet::get_inner [emmet::get_node_range_within $txt -startpos $startpos]]
     }
-    
+
   }
-  
+
   ######################################################################
   # Returns the starting and ending positions of the first child node in the
   # DOM.  The startpos parameter should be the index of the start of the parent
   # node.
   proc dom_first_child {txt startpos} {
-    
+
     set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
-    
+
     if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
-      if {[set tag [emmet::get_tag $txt -dir next -type 1*0 -start [lindex $parent_range 0]]] ne ""} {
+      if {[set tag [emmet::get_tag $txt -dir next -type ??0 -start [lindex $parent_range 0]]] ne ""} {
         if {[$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
-          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+          if {[lindex $tag 3] eq "010"} {
+            return [lrange $tag 0 1]
+          } else {
+            return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+          }
         }
       }
-    } elseif {[$txt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
+    } elseif {($parent_range eq "") || [$txt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
       return ""
     }
-    
+
     return $parent_range
-    
+
   }
-  
+
   ######################################################################
   # Returns the starting and ending positions of the last child node in the
   # DOM.  The startpos parameter should be the index of the start of the
   # parent node.
   proc dom_last_child {txt startpos} {
-    
+
     set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
-    
+
     if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
-      if {[set tag [emmet::get_tag $txt -dir prev -type 1*0 -start [lindex $parent_range 1]]] ne ""} {
+      if {[set tag [emmet::get_tag $txt -dir prev -type ??0 -start [lindex $parent_range 1]]] ne ""} {
         if {[$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
-          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+          if {[lindex $tag 3] eq "010"} {
+            return [lrange $tag 0 1]
+          } else {
+            return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+          }
         }
       }
-    } elseif {[$txt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
+    } elseif {($parent_range eq "") || [$txt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
       return ""
     }
-    
+
     return $parent_range
-    
+
   }
-  
+
   ######################################################################
   # Returns the starting and ending positions of the next sibling node of
   # the node containing the given starting position.
   proc dom_next_sibling {txt startpos} {
-    
-    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+
+    if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
     }
-    
-    set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
-    set parent_range  [dom_parent $txt [lindex $current_range 0]]
-    
-    if {[set tag [emmet::get_tag $txt -dir next -type 1*0 -start [lindex $current_range 1]]] ne ""} {
+
+    if {[lindex $tag 3] eq "010"} {
+      set current_range [lrange $tag 0 1]
+    } else {
+      set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+    }
+    set parent_range [dom_parent $txt [lindex $current_range 0]]
+
+    if {[set tag [emmet::get_tag $txt -dir next -type ??0 -start [lindex $current_range 1]]] ne ""} {
       if {[$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
-        return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]      
+        if {[lindex $tag 3] eq "010"} {
+          return [lrange $tag 0 1]
+        } else {
+          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+        }
       }
     }
-    
+
     return ""
-    
+
   }
-  
+
   ######################################################################
   # Returns the starting and ending positions of the next sibling node of
   # the node containing the given starting position.
   proc dom_prev_sibling {txt startpos} {
-    
-    if {[emmet::inside_tag $txt -startpos $startpos -allow010 1] eq ""} {
+
+    if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
     }
-    
-    set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
-    set parent_range  [dom_parent $txt [lindex $current_range 0]]
-    
-    if {[set tag [emmet::get_tag $txt -dir prev -type 0*1 -start [lindex $current_range 0]]] ne ""} {
+
+    if {[lindex $tag 3] eq "010"} {
+      set current_range [lrange $tag 0 1]
+    } else {
+      set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
+    }
+    set parent_range [dom_parent $txt [lindex $current_range 0]]
+
+    if {[set tag [emmet::get_tag $txt -dir prev -type 0?? -start "[lindex $current_range 0]-1c"]] ne ""} {
       if {[$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
-        return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]      
+        if {[lindex $tag 3] eq "010"} {
+          return [lrange $tag 0 1]
+        } else {
+          return [emmet::get_outer [emmet::get_node_range $txt -startpos [lindex $tag 0]]]
+        }
       }
     }
-    
+
     return ""
-    
+
   }
 
 }
