@@ -308,9 +308,11 @@ namespace eval select {
             if {[set parent [emmet::get_outer [emmet::get_node_range_within [winfo parent $txtt]]]] ne ""} {
               if {$motion eq "next"} {
                 if {$data($txtt,anchorend) == 1} {
-                  set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                  set trange [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                } else {
+                  set trange $range
                 }
-                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $range 1]]] ne ""} {
+                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir next -type 1*0 -start [lindex $trange 1]]] ne ""} {
                   $txtt mark set insert [lindex $tag 0]
                   set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
                   if {[$txtt compare [lindex $parent 1] > [lindex $outer 1]]} {
@@ -324,9 +326,11 @@ namespace eval select {
               } else {
                 if {$data($txtt,anchorend) == 0} {
                   $txtt mark set insert "[lindex $range 1]-1c"
-                  set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                  set trange [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+                } else {
+                  set trange $range
                 }
-                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $range 0]]] ne ""} {
+                if {[set tag [emmet::get_tag [winfo parent $txtt] -dir prev -type 0*1 -start [lindex $trange 0]]] ne ""} {
                   $txtt mark set insert [lindex $tag 0]
                   set outer [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
                   if {[$txtt compare [lindex $parent 0] < [lindex $outer 0]]} {
@@ -518,10 +522,18 @@ namespace eval select {
       child {
         $txtt mark set insert [lindex $range 0]
         set inner [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]]
-        $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 0]
-        if {([set retval [emmet::get_tag [winfo parent $txtt] -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
-          $txtt mark set insert [lindex $retval 0]
-          set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+        if {$data($txtt,anchorend) == 0} {
+          $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 0]
+          if {([set retval [emmet::get_tag [winfo parent $txtt] -dir next -type 100]] ne "") && ([lindex $retval 4] eq "")} {
+            $txtt mark set insert [lindex $retval 0]
+            set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+          }
+        } else {
+          $txtt mark set insert [lindex [emmet::get_inner [emmet::get_node_range [winfo parent $txtt]]] 1]
+          if {([set retval [emmet::get_tag [winfo parent $txtt] -dir prev -type 001]] ne "") && ([lindex $retval 4] eq "")} {
+            $txtt mark set insert [lindex $retval 0]
+            set range [emmet::get_outer [emmet::get_node_range [winfo parent $txtt]]]
+          }
         }
       }
     }
