@@ -455,30 +455,54 @@ namespace eval select {
         }
       }
       up {
-        if {$data($txtt,anchorend) == 1} {
-          if {[$txtt compare "insert-1 display lines" < [lindex $range 0]]} {
-            set nrow  [lindex [split [$txtt index "insert-1 display lines"] .] 0]
-            set ocol1 [$txtt count -displaychars "[lindex $range end-1] linestart" [lindex $range end-1]]
-            set ocol2 [$txtt count -displaychars "[lindex $range end]   linestart" [lindex $range end]]
-            set range [list $nrow.$ocol1 $nrow.$ocol2 {*}$range]
+        if {$data($txtt,type) eq "block"} {
+          if {$data($txtt,anchorend) == 1} {
+            if {[$txtt compare "insert-1 display lines" < [lindex $range 0]]} {
+              set nrow  [lindex [split [$txtt index "insert-1 display lines"] .] 0]
+              set ocol1 [$txtt count -displaychars "[lindex $range end-1] linestart" [lindex $range end-1]]
+              set ocol2 [$txtt count -displaychars "[lindex $range end]   linestart" [lindex $range end]]
+              set range [list $nrow.$ocol1 $nrow.$ocol2 {*}$range]
+            }
+          } else {
+            if {[$txtt compare "insert-1 display lines" >= [lindex $range 0]]} {
+              set range [lreplace $range end-1 end]
+            }
           }
         } else {
-          if {[$txtt compare "insert-1 display lines" >= [lindex $range 0]]} {
-            set range [lreplace $range end-1 end]
+          if {$data($txtt,anchorend) == 1} {
+            if {[$txtt compare "[lindex $range 0]-1 display lines" < [lindex $range 0]]} {
+              lset range 0 [$txtt index "[lindex $range 0]-1 display lines"]
+            }
+          } else {
+            if {[$txtt compare "[lindex $range 1]-1 display lines" > [lindex $range 0]]} {
+              lset range 1 [$txtt index "[lindex $range 1]-1 display lines"]
+            }
           }
         }
       }
       down {
-        if {$data($txtt,anchorend) == 1} {
-          if {[$txtt compare "insert+1 display lines" <= [lindex $range end-1]]} {
-            set range [lreplace $range 0 1]
+        if {$data($txtt,type) eq "block"} {
+          if {$data($txtt,anchorend) == 1} {
+            if {[$txtt compare "insert+1 display lines" <= [lindex $range end-1]]} {
+              set range [lreplace $range 0 1]
+            }
+          } else {
+            if {[$txtt compare "insert+1 display lines" < end]} {
+              set nrow  [lindex [split [$txtt index "insert+1 display lines"] .] 0]
+              set ocol1 [$txtt count -displaychars "[lindex $range 0] linestart" [lindex $range 0]]
+              set ocol2 [$txtt count -displaychars "[lindex $range 1] linestart" [lindex $range 1]]
+              lappend range $nrow.$ocol1 $nrow.$ocol2
+            }
           }
         } else {
-          if {[$txtt compare "insert+1 display lines" < end]} {
-            set nrow  [lindex [split [$txtt index "insert+1 display lines"] .] 0]
-            set ocol1 [$txtt count -displaychars "[lindex $range 0] linestart" [lindex $range 0]]
-            set ocol2 [$txtt count -displaychars "[lindex $range 1] linestart" [lindex $range 1]]
-            lappend range $nrow.$ocol1 $nrow.$ocol2
+          if {$data($txtt,anchorend) == 1} {
+            if {[$txtt compare "[lindex $range 0]+1 display lines" < [lindex $range 1]]} {
+              lset range 0 [$txtt index "[lindex $range 0]+1 display lines"]
+            }
+          } else {
+            if {[$txtt compare "[lindex $range 1]+1 display lines" < end]} {
+              lset range 1 [$txtt index "[lindex $range 1]+1 display lines"]
+            }
           }
         }
       }
