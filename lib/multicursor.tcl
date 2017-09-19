@@ -41,9 +41,6 @@ namespace eval multicursor {
     bind mcursor$txt <<Selection>>                [list multicursor::handle_selection %W]
     bind mcursor$txt <Mod2-Button-1>              [list multicursor::handle_alt_button1 %W %x %y]
     bind mcursor$txt <Mod2-Button-$::right_click> [list multicursor::handle_alt_button3 %W %x %y]
-    bind mcursor$txt <Shift-Mod2-ButtonPress-1>   "multicursor::handle_shift_alt_buttonpress1 %W %x %y; break"
-    bind mcursor$txt <Shift-Mod2-B1-Motion>       "multicursor::handle_shift_alt_motion %W %x %y; break"
-    bind mcursor$txt <Shift-Mod2-ButtonRelease-1> "multicursor::handle_shift_alt_buttonrelease1 %W %x %y; break"
     bind mcursor$txt <Key-Delete>                 "if {\[multicursor::handle_delete %W\]} { break }"
     bind mcursor$txt <Key-BackSpace>              "if {\[multicursor::handle_backspace %W\]} { break }"
     bind mcursor$txt <Return>                     "if {\[multicursor::handle_return %W\]} { break }"
@@ -103,79 +100,6 @@ namespace eval multicursor {
   proc handle_alt_button3 {W x y} {
 
     add_cursors $W [$W index @$x,$y]
-
-  }
-
-  ######################################################################
-  # Handles a Shift-Alt-Buttonpress-1 event when in multicursor mode.
-  proc handle_shift_alt_buttonpress1 {W x y} {
-
-    variable select_anchor
-
-    # Set the anchor point
-    set select_anchor [$W index @$x,$y]
-
-    # Clear the current selection
-    $W tag remove sel 1.0 end
-
-  }
-
-  ######################################################################
-  # Performs the block selection.
-  proc handle_block_selection {txtt anchor current} {
-
-    # Get the anchor and current row/col, but if either is invalid, return immediately
-    if {[set acol [lassign [split $anchor  .] arow]] eq ""} {
-      return
-    }
-    if {[set ccol [lassign [split $current .] crow]] eq ""} {
-      return
-    }
-
-    if {$arow < $crow} {
-      set srow $arow
-      set erow $crow
-    } else {
-      set srow $crow
-      set erow $arow
-    }
-
-    if {$acol < $ccol} {
-      set scol $acol
-      set ecol $ccol
-    } else {
-      set scol $ccol
-      set ecol $acol
-    }
-
-    # Set the selection
-    $txtt tag remove sel 1.0 end
-    for {set i $srow} {$i <= $erow} {incr i} {
-      $txtt tag add sel $i.$scol $i.$ecol
-    }
-
-  }
-
-  ######################################################################
-  # Handles a Shift-Alt-Button1-Motion event when in multicursor mode.
-  proc handle_shift_alt_motion {W x y} {
-
-    variable select_anchor
-
-    handle_block_selection $W $select_anchor [$W index @$x,$y]
-
-  }
-
-  ######################################################################
-  # Handles a Shift-Alt-Buttonrelease-1 event when in multicursor mode.
-  proc handle_shift_alt_buttonrelease1 {W x y} {
-
-    variable select_anchor
-
-    set select_anchor ""
-
-    # Save the selection in Vim
-    vim::set_last_selection $W
 
   }
 
