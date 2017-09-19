@@ -73,6 +73,8 @@ namespace eval select {
     set data($txt.t,moved)      0
     set data($txt.t,dont_close) 0
 
+    set alt [expr {([tk windowingsystem] eq "aqua") ? "Mod2" : "Alt"}]
+
     bind select <<Selection>>                   [list select::handle_selection %W]
     bind select <FocusOut>                      [list select::handle_focusout %W]
     bind select <Key>                           "if {\[select::handle_any %W %K\]} break"
@@ -85,9 +87,9 @@ namespace eval select {
     # bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
     bind select <Double-Button-1>               "if {\[select::handle_double_click %W %x %y\]} break"
     bind select <Triple-Button-1>               "if {\[select::handle_triple_click %W %x %y\]} break"
-    bind select <Alt-ButtonPress-1>             "if {\[select::handle_single_press %W %x %y\]} break"
-    bind select <Alt-ButtonRelease-1>           "if {\[select::handle_single_release %W %x %y\]} break"
-    bind select <Alt-B1-Motion>                 "if {\[select::handle_alt_motion %W %x %y\]} break"
+    bind select <$alt-ButtonPress-1>            "if {\[select::handle_single_press %W %x %y\]} break"
+    bind select <$alt-ButtonRelease-1>          "if {\[select::handle_single_release %W %x %y\]} break"
+    bind select <$alt-B1-Motion>                "if {\[select::handle_alt_motion %W %x %y\]} break"
     bind select <Control-Double-Button-1>       "if {\[select::handle_control_double_click %W %x %y\]} break"
     bind select <Control-Triple-Button-1>       "if {\[select::handle_control_triple_click %W %x %y\]} break"
     bind select <Shift-Control-Double-Button-1> "if {\[select::handle_shift_control_double_click %W %x %y\]} break"
@@ -284,7 +286,6 @@ namespace eval select {
           }
           sentence -
           paragraph {
-            return
             set range [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0]
           }
           node      { set range [dom_current [winfo parent $txtt] insert] }

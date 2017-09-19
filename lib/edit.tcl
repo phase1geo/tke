@@ -1594,14 +1594,17 @@ namespace eval edit {
 
     } else {
 
+      set last_start "end"
+
       # If the start position is in the first column adjust the starting
       # line to the line above to avoid matching ourselves
       if {[$txtt compare $start == "$start linestart"]} {
-        set start [$txtt index "$start-1 display lines"]
+        set last_start $start
+        set start      [$txtt index "$start-1 display lines"]
       }
 
       set nl 1
-      while {[$txtt compare $start > 1.0]} {
+      while {[$txtt compare $start < $last_start]} {
         if {([$txtt get "$start linestart" "$start lineend"] ne "") && \
             ([lsearch [$txtt tag names $start] dspace] == -1)} {
           set nl 0
@@ -1610,7 +1613,8 @@ namespace eval edit {
         } else {
           set nl 1
         }
-        set start [$txtt index "$start-1 display lines"]
+        set last_start $start
+        set start      [$txtt index "$start-1 display lines"]
       }
 
       if {(([$txtt get "$start linestart" "$start lineend"] eq "") || \
