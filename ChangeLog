@@ -1,93 +1,331 @@
-2017-09-07 01:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f7a485b10580 [devel-3.3.2])
+2017-09-09 01:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4b835ae615f6 [devel-3.3.3])
 
 	* ChangeLog, lib/version.tcl, specl_version.tcl:
-	ChangeLog for devel-3.3.2 release
+	ChangeLog for devel-3.3.3 release
 
-2017-09-07 01:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a3b5e98264c2)
+2017-09-09 01:58 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (36ba41e30ef1)
 
 	* .hgtags:
-	Added tag devel-3.3.2 for changeset f7a485b10580
+	Added tag devel-3.3.3 for changeset 4b835ae615f6
 
-2017-09-07 02:13 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a8ca28d801fa)
+2017-09-09 20:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a52b84cb4d70)
 
-	* lib/specl/lib/htmllib.tcl, lib/specl/lib/releaser.tcl,
+	* plugins/number_converter/header.tkedat,
+	plugins/number_converter/main.tcl: new file.
+	* lib/api.tcl, lib/version.tcl,
+	plugins/number_converter/header.tkedat,
+	plugins/number_converter/main.tcl:
+	* Adding start of number_converter plugin.
+	* Enhancing api::file::get_info to create a text command if the txt
+	attribute is requested.
+
+2017-09-09 21:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (fa612521a881)
+
+	* lib/version.tcl, plugins/number_converter/main.tcl:
+	* Fixing issues with number_converter plugin.
+
+2017-09-09 22:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (1207f3c34fb4)
+
+	* lib/plugins.tcl, lib/version.tcl:
+	* Code cleanup.
+
+2017-09-10 00:43 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (60adbc31d06f)
+
+	* plugins/markdown_drop/header.tkedat, plugins/markdown_drop/main.tcl:
+	new file.
+	* lib/interpreter.tcl, lib/version.tcl,
+	plugins/drop_test/header.tkedat,
+	plugins/markdown_drop/header.tkedat, plugins/markdown_drop/main.tcl:
+	* Adding new `markdown_drop` plugin to handle drop of Markdown
+	images and links.
+	* Adding wmarkentry::wmarkentry widget to plugin widgets.
+	* Fixing tokenentry widget within plugins.
+	* Disabling drop_test plugin.
+
+2017-09-10 14:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (264ae23615da)
+
+	* lib/ctext/ctext.tcl, lib/folding.tcl, lib/ipanel.tcl,
+	lib/version.tcl, plugins/markdown_drop/main.tcl,
+	plugins/number_converter/main.tcl:
+	* Fixing issue with copying information panel values to the
+	clipboard.
+	* Fixing issue when calling ctext `gutter hide` command without a
+	value such that no value could be returned.
+	* Improving markdown_drop when handling image files from the web.
+	* Improving markdown_drop to handle image extensions that are
+	capitalized.
+	* Improving number_converter to handle hexidecimal values with
+	capitalized values.
+
+2017-09-10 19:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (55dffde7f03a)
+
+	* lib/folding.tcl, lib/version.tcl:
+	* Fixing issue caused by disabling code folding.
+
+2017-09-11 00:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (52a54b98b97f)
+
+	* lib/ctext/ctext.tcl, lib/select.tcl, lib/version.tcl:
+	* Making lots of adjustments to selection mode.
+
+2017-09-11 08:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5e4069a00dbb)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, doc/md/TKE Developer
+	Guide/Plugin Development/Plugin GUI Element Creation.md,
 	lib/version.tcl:
-	* Fixing issues with apostrophe characters in specl release notes.
+	* Updating translations.
+	* Updating developer guide.
 
-2017-09-07 20:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b68a963eba12)
+2017-09-11 16:30 -0500  Trevor Williams  <phase1geo@gmail.com>  (bee9907b7e04)
 
-	* data/syntax/TclPlugin.syntax: new file.
-	* data/syntax/TclPlugin.syntax, lib/gui.tcl, lib/plugins.tcl,
-	lib/syntax.tcl, lib/version.tcl:
-	* Adding support for TclPlugin syntax.
+	* lib/ipanel.tcl, lib/select.tcl:
+	* Checkpointing more work on select namespace.
+	* Adding "Directory" type to information panel when a directory is
+	displayed.
 
-2017-09-08 00:31 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (59daa3964667)
+2017-09-11 17:42 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9f742e944449)
 
-	* data/syntax/TclPlugin.syntax, lib/syntax.tcl, lib/version.tcl:
-	* Fixing issue with mixed syntax where various sections won't mix
-	properly.
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing work.
 
-2017-09-08 00:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (8c0d7a43e10a)
+2017-09-13 01:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b6a898ecffc7)
 
-	* data/syntax/HdrPlugin.syntax: new file.
-	* data/syntax/HdrPlugin.syntax, lib/gui.tcl, lib/version.tcl:
-	* Adding HdrPlugin syntax.
+	* lib/edit.tcl, lib/gui.tcl, lib/select.tcl, lib/version.tcl,
+	plugins/number_converter/main.tcl:
+	* Changing selection sidebar to be associated with the tab instead
+	of the text widget (split panes will share the same sidebar).
+	* Updating information bar when we switch into/out of selection mode.
+	* Fixing selection mode traversal issues associated with words and
+	lines.
+	* Attempting to move sidebar to use a scrolledframe (this is currently
+	not displaying correctly).
+	* Fixing various other issues associated with selection mode.
+	* Defaulting selection to use word selection when started.
+	* When selection is lost, automatically disable selection mode.
+	* Fixing errors in number_converter plugin that occur on application
+	startup.
 
-2017-09-07 17:46 -0500  Trevor Williams  <phase1geo@gmail.com>  (476fb88ca27c)
+2017-09-13 08:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (336c22856505)
 
-	* lib/gui.tcl, lib/menus.tcl, lib/plugins.tcl:
-	* If there is an error during application exit, allow the
-	application to close.
-	* Starting to add support for file/text dropping in editing buffer.
+	* lib/gui.tcl, lib/select.tcl, lib/version.tcl:
+	* Checkpointing select window work.
+	* Fixing issue with changing selection type before it is adjusted.
 
-2017-09-08 15:51 -0500  Trevor Williams  <phase1geo@gmail.com>  (86dc02a946d2)
+2017-09-13 17:11 -0500  Trevor Williams  <phase1geo@gmail.com>  (2b7efe252edd)
 
-	* data/syntax/HdrPlugin.syntax, data/syntax/TclPlugin.syntax: new
-	file.
-	* lib/gui.tcl, lib/plugins.tcl:
-	Merge
+	* lib/scrolledframe.tcl, lib/select.tcl:
+	* Updating scrolledframe widget which contains fixes and -fill
+	configuration option.
+	* Checkpointing selection work.
 
-2017-09-08 15:59 -0500  Trevor Williams  <phase1geo@gmail.com>  (9ef21e978b6d)
+2017-09-13 17:55 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2d32ec0037e6)
 
-	* data/syntax/PluginHeader.syntax, data/syntax/PluginTcl.syntax: new
-	file.
-	* data/syntax/HdrPlugin.syntax, data/syntax/TclPlugin.syntax: deleted
-	file.
-	* data/syntax/HdrPlugin.syntax, data/syntax/PluginHeader.syntax,
-	data/syntax/PluginTcl.syntax, data/syntax/TclPlugin.syntax,
-	lib/gui.tcl, lib/plugins.tcl:
-	* Renaming syntax TclPlugin to PluginTcl.
-	* Renaming syntax HdrPlugin to PluginHeader.
-	* Fixing issue with plugin header.tkedat file.
+	* lib/gui.tcl, lib/select.tcl, lib/version.tcl:
+	* Improving drawing speed of selection mode sidebar.
 
-2017-09-08 17:27 -0500  Trevor Williams  <phase1geo@gmail.com>  (240169b72c55)
+2017-09-14 00:07 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a0e19b30ace4)
 
-	* Win/tkdnd2.8-64/pkgIndex.tcl, Win/tkdnd2.8-64/tkdnd.tcl,
-	Win/tkdnd2.8-64/tkdnd28.dll, Win/tkdnd2.8-64/tkdnd_compat.tcl,
-	Win/tkdnd2.8-64/tkdnd_generic.tcl, Win/tkdnd2.8-64/tkdnd_macosx.tcl,
-	Win/tkdnd2.8-64/tkdnd_unix.tcl, Win/tkdnd2.8-64/tkdnd_windows.tcl,
-	plugins/drop_test/header.tkedat, plugins/drop_test/main.tcl: new
-	file.
-	* Win/freewrap.files, Win/tkdnd2.8-64/pkgIndex.tcl,
-	Win/tkdnd2.8-64/tkdnd.tcl, Win/tkdnd2.8-64/tkdnd28.dll,
-	Win/tkdnd2.8-64/tkdnd_compat.tcl, Win/tkdnd2.8-64/tkdnd_generic.tcl,
-	Win/tkdnd2.8-64/tkdnd_macosx.tcl, Win/tkdnd2.8-64/tkdnd_unix.tcl,
-	Win/tkdnd2.8-64/tkdnd_windows.tcl, lib/gui.tcl, lib/plugins.tcl,
-	lib/tke.tcl, plugins/drop_test/header.tkedat,
-	plugins/drop_test/main.tcl:
-	* Adding 64-bit build of tkDND for Windows.
-	* Adding test plugin to verify `on_drop` plugin functionality.
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing selection work.
 
-2017-09-09 01:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (9aafb754feff)
+2017-09-14 08:22 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5fc13e2c81b0)
 
-	* lib/gui.tcl, lib/plugins.tcl, lib/version.tcl,
-	plugins/drop_test/header.tkedat, plugins/drop_test/main.tcl:
-	* Completing work on new "on_drop" plugin action support.
+	* lib/gui.tcl, lib/menus.tcl, lib/version.tcl:
+	* Fixing issues with menu commands not targetting the correct text
+	widget when in split view.
 
-2017-09-09 01:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a1f28650541a [tip])
+2017-09-14 16:57 -0500  Trevor Williams  <phase1geo@gmail.com>  (184a24e7247b)
 
-	* doc/md/TKE Developer Guide/Plugin Action Types/on_drop.md: new file.
-	* doc/md/TKE Developer Guide/Plugin Action Types/.tkesort, doc/md/TKE
-	Developer Guide/Plugin Action Types/on_drop.md, lib/version.tcl:
-	* Adding developer documentation for the new on_drop plugin action.
+	* lib/select.tcl:
+	* Checkpointing work on changing select UI (still a work in
+	progress).
+
+2017-09-14 23:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b1c83bf90062)
+
+	* lib/gui.tcl, lib/select.tcl, lib/version.tcl:
+	* Changing gui::set_info_message such that if the clear_delay
+	argument is set to 0, the message will not be automatically cleared.
+	* Changing selection help panel UI.
+
+2017-09-15 00:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (063667242b3b)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, doc/md/TKE Developer
+	Guide/Packages/Packages.md, doc/md/TKE Developer Guide/Plugin
+	API/api--auto_adjust_color.md, doc/md/TKE Developer Guide/Plugin
+	API/api--auto_mix_colors.md, doc/md/TKE Developer Guide/Plugin
+	API/api--color_difference.md, doc/md/TKE Developer Guide/Plugin
+	API/api--color_to_rgb.md, doc/md/TKE Developer Guide/Plugin API/api
+	--export.md, doc/md/TKE Developer Guide/Plugin API/api--file--
+	add_buffer.md, doc/md/TKE Developer Guide/Plugin API/api--file--
+	add_file.md, doc/md/TKE Developer Guide/Plugin API/api--file--
+	current_file_index.md, doc/md/TKE Developer Guide/Plugin API/api--
+	file--get_info.md, doc/md/TKE Developer Guide/Plugin API/api--
+	get_color_values.md, doc/md/TKE Developer Guide/Plugin API/api--
+	get_complementary_mono_color.md, doc/md/TKE Developer Guide/Plugin
+	API/api--get_default_background.md, doc/md/TKE Developer
+	Guide/Plugin API/api--get_default_foreground.md, doc/md/TKE
+	Developer Guide/Plugin API/api--get_home_directory.md, doc/md/TKE
+	Developer Guide/Plugin API/api--get_images_directory.md, doc/md/TKE
+	Developer Guide/Plugin API/api--get_plugin_directory.md, doc/md/TKE
+	Developer Guide/Plugin API/api--get_user_input.md, doc/md/TKE
+	Developer Guide/Plugin API/api--hsl_to_rgb.md, doc/md/TKE Developer
+	Guide/Plugin API/api--hsv_to_rgb.md, doc/md/TKE Developer
+	Guide/Plugin API/api--invoke_menu.md, doc/md/TKE Developer
+	Guide/Plugin API/api--log.md, doc/md/TKE Developer Guide/Plugin
+	API/api--normalize_filename.md, doc/md/TKE Developer Guide/Plugin
+	API/api--plugin--load_variable.md, doc/md/TKE Developer Guide/Plugin
+	API/api--plugin--save_variable.md, doc/md/TKE Developer Guide/Plugin
+	API/api--preferences--get_value.md, doc/md/TKE Developer
+	Guide/Plugin API/api--preferences--widget.md, doc/md/TKE Developer
+	Guide/Plugin API/api--register_launcher.md, doc/md/TKE Developer
+	Guide/Plugin API/api--reset_txt_focus.md, doc/md/TKE Developer
+	Guide/Plugin API/api--rgb_to_hsl.md, doc/md/TKE Developer
+	Guide/Plugin API/api--rgb_to_hsv.md, doc/md/TKE Developer
+	Guide/Plugin API/api--show_error.md, doc/md/TKE Developer
+	Guide/Plugin API/api--show_info.md, doc/md/TKE Developer
+	Guide/Plugin API/api--sidebar--get_info.md, doc/md/TKE Developer
+	Guide/Plugin API/api--sidebar--get_selected_indices.md, doc/md/TKE
+	Developer Guide/Plugin API/api--sidebar--set_info.md, doc/md/TKE
+	Developer Guide/Plugin API/api--tke_development.md, doc/md/TKE
+	Developer Guide/Plugin API/api--unregister_launcher.md, doc/md/TKE
+	Developer Guide/Plugin API/api--utils--open_file.md,
+	lib/version.tcl:
+	* Updating translations.
+	* Fixing TKE developer guide syntax issues.
+
+2017-09-15 17:46 -0500  Trevor Williams  <phase1geo@gmail.com>  (698db68bf6be)
+
+	* lib/select.tcl:
+	* Checkpointing select mode work.
+
+2017-09-16 01:01 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (58d17e6654b2)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-09-16 14:15 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3e1773f076bf)
+
+	* doc/md/TKE Developer Guide/Plugin API/api--file--all_indices.md,
+	doc/md/TKE Developer Guide/Plugin API/api--file--current_index.md,
+	doc/md/TKE Developer Guide/Plugin Action Types/on_theme_changed.md:
+	new file.
+	* doc/md/TKE Developer Guide/Plugin API/api--file--
+	current_file_index.md: deleted file.
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, data/syntax/PluginTcl.syntax,
+	doc/DeveloperGuide.html, doc/md/TKE Developer
+	Guide/Packages/Packages.md, doc/md/TKE Developer Guide/Plugin
+	API/.tkesort, doc/md/TKE Developer Guide/Plugin API/api--edit--
+	join_lines.md, doc/md/TKE Developer Guide/Plugin API/api--file--
+	all_indices.md, doc/md/TKE Developer Guide/Plugin API/api--file--
+	current_file_index.md, doc/md/TKE Developer Guide/Plugin API/api--
+	file--current_index.md, doc/md/TKE Developer Guide/Plugin Action
+	Types/.tkesort, doc/md/TKE Developer Guide/Plugin Action
+	Types/on_theme_changed.md, lib/api.tcl, lib/interpreter.tcl,
+	lib/plugins.tcl, lib/pref_ui.tcl,
+	lib/ptwidgets1.2/library/tabbar.tcl, lib/syntax.tcl, lib/theme.tcl,
+	lib/version.tcl, plugins/calendar/main.tcl,
+	plugins/changebar/main.tcl, plugins/choosers/main.tcl,
+	plugins/code_view/main.tcl, plugins/css_colorize/main.tcl,
+	plugins/current_line/main.tcl, plugins/dired/main.tcl,
+	plugins/lorem/main.tcl, plugins/markdown_table_beautifier/main.tcl,
+	plugins/mercurial/main.tcl, plugins/number_converter/main.tcl,
+	plugins/perforce/main.tcl, plugins/regexp_checker/main.tcl,
+	plugins/render/main.tcl, plugins/url_validator/main.tcl:
+	* Updated translations.
+	* Added `api::file::all_indices` plugin API procedure.
+	* Renamed API plugin procedure `api::file::current_file_index` to
+	`api::file_current_index`.
+	* Added `on_theme_changed` plugin action.
+	* Removed `<<ThemeChanged>>` text widget event support since this
+	could be misleading and can lead to performance issues.
+	* Adding tabbar::tabbar to plugin interpreter namespace.
+	* Fixing URLs to PTWidgets widget documentation.
+	* Updated all of the plugins per the above changed.
+	* Updated Developer Guide per the above changes.
+	* Fixing calculation issues with pref_ui::get_grid_row.
+	* Fixing issue where a tab is selected in the tabbar and the close
+	button disappears while the cursor remains in the tab space.
+
+2017-09-16 14:17 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (141f5b4866ce)
+
+	* doc/DeveloperGuide.html, doc/md/TKE Developer Guide/Plugin API/api--
+	edit--join_lines.md, lib/version.tcl:
+	* Fixing `api::edit::join_lines` example code.
+	* Updating Developer Guide per this change.
+
+2017-09-16 20:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f076a25fccff)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-09-16 23:59 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f27d16d31221)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-09-17 18:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (800bbdf01d80)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-09-17 23:05 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dd40e0544580)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-09-18 16:28 -0500  Trevor Williams  <phase1geo@gmail.com>  (6747927dca23)
+
+	* lib/emmet.tcl, lib/menus.tcl, lib/select.tcl:
+	* Checkpointing node selection work.
+
+2017-09-18 18:49 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (012609a36d30)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Completing work on node selections.
+
+2017-09-18 21:21 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (85b3f039ff0f)
+
+	* lib/edit.tcl, lib/select.tcl, lib/version.tcl:
+	* Fixing paragraph selection issue when paragraph is at the top of
+	the file.
+	* Attempting to fix block selection on macOS.
+
+2017-09-18 23:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (63f86cf72c56)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Fixing more issues with selection mode.
+
+2017-09-19 00:39 -0500  Trevor Williams  <phase1geo@gmail.com>  (bf586dbfc653)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Fixing character up/down selection movements.
+
+2017-09-19 01:23 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (201467e0d304)
+
+	* lib/multicursor.tcl, lib/version.tcl:
+	* Removing block selection code from multicursor namespace.
+
+2017-09-19 01:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a37044cc8491 [tip])
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/select.tcl, lib/version.tcl:
+	* Updating translations.
 
