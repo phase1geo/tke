@@ -2279,6 +2279,9 @@ msgcat::mcmset nl {
   "Character"
   "Personages"
 
+  "Child"
+  "Kind"
+
   "Clear Selection"
   "Selectie verwijderen"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset nl {
   "Exit Selection Mode"
   "Selectiemodus verlaten"
 
-  "First Child"
-  "Eerste subobject"
-
   "Keep Selection"
   "Bewaar selectie"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset nl {
   "Motions"
   "Beweging"
 
+  "Next Sibling"
+  "Volgende broer of zus"
+
   "Node"
   "Knooppunt"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset nl {
 
   "Previous"
   "Vorige"
+
+  "Previous Sibling"
+  "Vorige broer/zus"
 
   "Right"
   "Rechts"
@@ -2353,9 +2359,6 @@ msgcat::mcmset nl {
 
   "Swap Anchor"
   "anker"
-
-  "Tag"
-  "Tag"
 
   "Toggle Help"
   "Wissel"

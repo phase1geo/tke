@@ -2279,6 +2279,9 @@ msgcat::mcmset hu {
   "Character"
   "Karakter"
 
+  "Child"
+  "Gyermek"
+
   "Clear Selection"
   "A kijelölés megszüntetése"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset hu {
   "Exit Selection Mode"
   "Kijelölési mód"
 
-  "First Child"
-  "első alárendelt objektum"
-
   "Keep Selection"
   "kiválasztás"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset hu {
   "Motions"
   "Defaecatio emelkedett frekvenciája"
 
+  "Next Sibling"
+  "Következő testvér"
+
   "Node"
   "Csomópont"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset hu {
 
   "Previous"
   "Előző"
+
+  "Previous Sibling"
+  "Korábbi testvér"
 
   "Right"
   "Jobb"
@@ -2353,9 +2359,6 @@ msgcat::mcmset hu {
 
   "Swap Anchor"
   "Devizaswap horgony"
-
-  "Tag"
-  "Címke"
 
   "Toggle Help"
   "Összezárás"

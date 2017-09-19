@@ -2279,6 +2279,9 @@ msgcat::mcmset ru {
   "Character"
   "Символ"
 
+  "Child"
+  "Ребенок"
+
   "Clear Selection"
   "Очистить выбранное"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset ru {
   "Exit Selection Mode"
   "Режим выбора"
 
-  "First Child"
-  "Первый потомок"
-
   "Keep Selection"
   "Выбор"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset ru {
   "Motions"
   "DEISTVIE"
 
+  "Next Sibling"
+  "одноуровневый"
+
   "Node"
   "Узел"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset ru {
 
   "Previous"
   "Предыдущий"
+
+  "Previous Sibling"
+  "Предыдущий одноуровневый элемент"
 
   "Right"
   "Справа"
@@ -2353,9 +2359,6 @@ msgcat::mcmset ru {
 
   "Swap Anchor"
   "Якорь"
-
-  "Tag"
-  "Тег"
 
   "Toggle Help"
   "Переключатель"

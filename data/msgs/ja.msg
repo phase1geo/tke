@@ -2279,6 +2279,9 @@ msgcat::mcmset ja {
   "Character"
   "性格"
 
+  "Child"
+  "子供"
+
   "Clear Selection"
   "選択を解除"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset ja {
   "Exit Selection Mode"
   "選択モード"
 
-  "First Child"
-  "最初の子"
-
   "Keep Selection"
   "選択"
 
@@ -2312,6 +2312,10 @@ msgcat::mcmset ja {
   "Motions"
   "動"
 
+  "Next Sibling"
+  "家族構成
+（兄弟姉妹）"
+
   "Node"
   "ノード"
 
@@ -2323,6 +2327,9 @@ msgcat::mcmset ja {
 
   "Previous"
   "前へ"
+
+  "Previous Sibling"
+  "前の兄弟"
 
   "Right"
   "右向き"
@@ -2353,9 +2360,6 @@ msgcat::mcmset ja {
 
   "Swap Anchor"
   "アンカー"
-
-  "Tag"
-  "タグ"
 
   "Toggle Help"
   "トグル"

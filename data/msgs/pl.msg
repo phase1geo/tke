@@ -2279,6 +2279,9 @@ msgcat::mcmset pl {
   "Character"
   "Charakter"
 
+  "Child"
+  "Dziecko3-6 l"
+
   "Clear Selection"
   "Wyczyść zaznaczenie"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset pl {
   "Exit Selection Mode"
   "Tryb wyboru"
 
-  "First Child"
-  "Pierwszy potomek"
-
   "Keep Selection"
   "Zaznaczenie"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset pl {
   "Motions"
   "Wnioski"
 
+  "Next Sibling"
+  "Rodzeństwo"
+
   "Node"
   "Węzeł"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset pl {
 
   "Previous"
   "Poprzedni"
+
+  "Previous Sibling"
+  "Poprzedni element równorzędny"
 
   "Right"
   "Po prawej"
@@ -2353,9 +2359,6 @@ msgcat::mcmset pl {
 
   "Swap Anchor"
   "Anchor"
-
-  "Tag"
-  "Tag"
 
   "Toggle Help"
   "Przełącz"

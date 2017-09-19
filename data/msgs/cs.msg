@@ -2279,6 +2279,9 @@ msgcat::mcmset cs {
   "Character"
   "Postava"
 
+  "Child"
+  "dítě"
+
   "Clear Selection"
   "Smazat výběr"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset cs {
   "Exit Selection Mode"
   "Ukončit režim výběru"
 
-  "First Child"
-  "První potomek"
-
   "Keep Selection"
   "Výběr"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset cs {
   "Motions"
   "pohyb těles"
 
+  "Next Sibling"
+  "Další sourozenec"
+
   "Node"
   "Uzel"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset cs {
 
   "Previous"
   "Předchozí"
+
+  "Previous Sibling"
+  "Předchozí člen na stejné úrovni"
 
   "Right"
   "Vpravo"
@@ -2353,9 +2359,6 @@ msgcat::mcmset cs {
 
   "Swap Anchor"
   "Kotva"
-
-  "Tag"
-  "Tag"
 
   "Toggle Help"
   "Přepínač"

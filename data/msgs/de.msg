@@ -2279,6 +2279,9 @@ msgcat::mcmset de {
   "Character"
   "Zeichen"
 
+  "Child"
+  "Child"
+
   "Clear Selection"
   "Auswahl zurücksetzen"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset de {
   "Exit Selection Mode"
   "Auswahlmodus"
 
-  "First Child"
-  "Erstes Unterobjekt"
-
   "Keep Selection"
   "Auswahl beibehalten"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset de {
   "Motions"
   "ANTRAGE:"
 
+  "Next Sibling"
+  "Nächsten Sibling"
+
   "Node"
   "Knoten"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset de {
 
   "Previous"
   "Vorher"
+
+  "Previous Sibling"
+  "Vorheriges gleichgeordnetes Element"
 
   "Right"
   "Rechts"
@@ -2353,9 +2359,6 @@ msgcat::mcmset de {
 
   "Swap Anchor"
   "Anker"
-
-  "Tag"
-  "Schlagwort"
 
   "Toggle Help"
   "Umschalten"

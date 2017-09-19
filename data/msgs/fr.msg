@@ -2279,6 +2279,9 @@ msgcat::mcmset fr {
   "Character"
   "Personnage"
 
+  "Child"
+  "Enfant"
+
   "Clear Selection"
   "پاک  کردن انتخاب ها"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset fr {
   "Exit Selection Mode"
   "Sortir du mode de sélection"
 
-  "First Child"
-  "Premier enfant"
-
   "Keep Selection"
   "Garder la sélection"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset fr {
   "Motions"
   "Mouvements"
 
+  "Next Sibling"
+  "Sœur"
+
   "Node"
   "nœud"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset fr {
 
   "Previous"
   "Onglet précédent"
+
+  "Previous Sibling"
+  "Frère précédent"
 
   "Right"
   "Droite"
@@ -2353,9 +2359,6 @@ msgcat::mcmset fr {
 
   "Swap Anchor"
   "Ancre de swap"
-
-  "Tag"
-  "Tag"
 
   "Toggle Help"
   "Activer"

@@ -2279,6 +2279,9 @@ msgcat::mcmset el {
   "Character"
   "Χαρακτήρας"
 
+  "Child"
+  "Παιδί"
+
   "Clear Selection"
   "Αφαίρεση Επιλογής"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset el {
   "Exit Selection Mode"
   "Έξοδος από τη λειτουργία επιλογής"
 
-  "First Child"
-  "Πρώτος απόγονος"
-
   "Keep Selection"
   "Επιλογή"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset el {
   "Motions"
   "Προτάσεις ψηφίσματος"
 
+  "Next Sibling"
+  "Αδέλφια"
+
   "Node"
   "Κόμβος"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset el {
 
   "Previous"
   "Προηγούμενο"
+
+  "Previous Sibling"
+  "Προηγούμενο ομοειδές"
 
   "Right"
   "Δεξιά"
@@ -2353,9 +2359,6 @@ msgcat::mcmset el {
 
   "Swap Anchor"
   "αγκυρα"
-
-  "Tag"
-  "Ετικέτα."
 
   "Toggle Help"
   "Εναλλαγή"
