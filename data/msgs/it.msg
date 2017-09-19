@@ -2279,6 +2279,9 @@ msgcat::mcmset it {
   "Character"
   "Carattere"
 
+  "Child"
+  "Chid"
+
   "Clear Selection"
   "Cancella selezione"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset it {
   "Exit Selection Mode"
   "Esce dalla modalità selezione"
 
-  "First Child"
-  "Primo Figlio"
-
   "Keep Selection"
   "Mantieni la selezione"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset it {
   "Motions"
   "Moto"
 
+  "Next Sibling"
+  "Fratello o Sorella"
+
   "Node"
   "Nodo"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset it {
 
   "Previous"
   "Precedente"
+
+  "Previous Sibling"
+  "Di pari livello precedente"
 
   "Right"
   "Destra"
@@ -2353,9 +2359,6 @@ msgcat::mcmset it {
 
   "Swap Anchor"
   "Scambia punto di aggancio"
-
-  "Tag"
-  "Etichetta"
 
   "Toggle Help"
   "Seleziona"

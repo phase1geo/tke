@@ -2279,6 +2279,9 @@ msgcat::mcmset da {
   "Character"
   "Karakter"
 
+  "Child"
+  "Barn"
+
   "Clear Selection"
   "Indsæt detaljeret afsnit"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset da {
   "Exit Selection Mode"
   "Exit markeringstilstanden"
 
-  "First Child"
-  "Første barn"
-
   "Keep Selection"
   "Valg"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset da {
   "Motions"
   "Aktuel og uopsættelig debat (indsigelser)"
 
+  "Next Sibling"
+  "søskende"
+
   "Node"
   "Node"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset da {
 
   "Previous"
   "Forrige"
+
+  "Previous Sibling"
+  "Tidligere søskende"
 
   "Right"
   "Højre"
@@ -2353,9 +2359,6 @@ msgcat::mcmset da {
 
   "Swap Anchor"
   "Anker"
-
-  "Tag"
-  "Tag"
 
   "Toggle Help"
   "Toggle"

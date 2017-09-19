@@ -2279,6 +2279,9 @@ msgcat::mcmset he {
   "Character"
   "גרפמה"
 
+  "Child"
+  "ילד"
+
   "Clear Selection"
   "נקה בחירה"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset he {
   "Exit Selection Mode"
   "בחירה"
 
-  "First Child"
-  "בן ראשון"
-
   "Keep Selection"
   "לשמור על הבחירה"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset he {
   "Motions"
   "shilshul"
 
+  "Next Sibling"
+  "אחים הבא"
+
   "Node"
   "צומת"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset he {
 
   "Previous"
   "הקודם"
+
+  "Previous Sibling"
+  "אחים הקודם"
 
   "Right"
   "ימין"
@@ -2353,9 +2359,6 @@ msgcat::mcmset he {
 
   "Swap Anchor"
   "אנדורה"
-
-  "Tag"
-  "תגית"
 
   "Toggle Help"
   "מתג"

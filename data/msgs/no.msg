@@ -2279,6 +2279,9 @@ msgcat::mcmset no {
   "Character"
   "Tegn"
 
+  "Child"
+  "Barn"
+
   "Clear Selection"
   "Tøm utval"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset no {
   "Exit Selection Mode"
   "Utvalgsmodus"
 
-  "First Child"
-  "Første barn"
-
   "Keep Selection"
   "Behold utvalg"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset no {
   "Motions"
   "Bevegelse"
 
+  "Next Sibling"
+  "Neste sideordnede"
+
   "Node"
   "Node"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset no {
 
   "Previous"
   "Forrige"
+
+  "Previous Sibling"
+  "Forrige sideordnede"
 
   "Right"
   "Høyre"
@@ -2353,9 +2359,6 @@ msgcat::mcmset no {
 
   "Swap Anchor"
   "anker"
-
-  "Tag"
-  "Stikkord"
 
   "Toggle Help"
   "Toggle"

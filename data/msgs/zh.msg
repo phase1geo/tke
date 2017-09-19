@@ -2279,6 +2279,9 @@ msgcat::mcmset zh {
   "Character"
   "字符"
 
+  "Child"
+  "孩子"
+
   "Clear Selection"
   "清空选项"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset zh {
   "Exit Selection Mode"
   "選取模式"
 
-  "First Child"
-  "第一子对象"
-
   "Keep Selection"
   "保留选项"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset zh {
   "Motions"
   "运动"
 
+  "Next Sibling"
+  "兄弟姊妹"
+
   "Node"
   "節點"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset zh {
 
   "Previous"
   "前一个"
+
+  "Previous Sibling"
+  "上一个同级"
 
   "Right"
   "右边"
@@ -2353,9 +2359,6 @@ msgcat::mcmset zh {
 
   "Swap Anchor"
   "锚"
-
-  "Tag"
-  "标签"
 
   "Toggle Help"
   "切换"

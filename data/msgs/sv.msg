@@ -2279,6 +2279,9 @@ msgcat::mcmset sv {
   "Character"
   "Teckenattribut"
 
+  "Child"
+  "Barn"
+
   "Clear Selection"
   "Rensa markering"
 
@@ -2297,9 +2300,6 @@ msgcat::mcmset sv {
   "Exit Selection Mode"
   "Markeringsläge"
 
-  "First Child"
-  "Första delobjekt"
-
   "Keep Selection"
   "VAL"
 
@@ -2312,6 +2312,9 @@ msgcat::mcmset sv {
   "Motions"
   "Rörlighet"
 
+  "Next Sibling"
+  "Nästa syskon"
+
   "Node"
   "Nod"
 
@@ -2323,6 +2326,9 @@ msgcat::mcmset sv {
 
   "Previous"
   "Föregående"
+
+  "Previous Sibling"
+  "Föregående syskon"
 
   "Right"
   "Höger"
@@ -2353,9 +2359,6 @@ msgcat::mcmset sv {
 
   "Swap Anchor"
   "Ankare"
-
-  "Tag"
-  "Tag"
 
   "Toggle Help"
   "Växla"

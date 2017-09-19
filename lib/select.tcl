@@ -82,9 +82,6 @@ namespace eval select {
     bind select <Escape>                        "if {\[select::handle_escape %W\]} break"
     bind select <BackSpace>                     "if {\[select::handle_backspace %W\]} break"
     bind select <Delete>                        "if {\[select::handle_delete %W\]} break"
-    # bind select <ButtonPress-1>           "if {\[select::handle_single_press %W %x %y\]} break"
-    # bind select <ButtonRelease-1>         "if {\[select::handle_single_release %W %x %y\]} break"
-    # bind select <B1-Motion>               "if {\[select::handle_motion %W %x %y\]} break"
     bind select <Double-Button-1>               "if {\[select::handle_double_click %W %x %y\]} break"
     bind select <Triple-Button-1>               "if {\[select::handle_triple_click %W %x %y\]} break"
     bind select <$alt-ButtonPress-1>            "if {\[select::handle_single_press %W %x %y\]} break"
@@ -126,8 +123,10 @@ namespace eval select {
     set dshift [list [msgcat::mc "Shift Down"]           "J"]
     set next   [list [msgcat::mc "Next"]                 "l"]
     set prev   [list [msgcat::mc "Previous"]             "h"]
-    set parent [list [msgcat::mc "Parent"]               "k"]
-    set child  [list [msgcat::mc "First Child"]          "j"]
+    set parent [list [msgcat::mc "Parent"]               "h"]
+    set child  [list [msgcat::mc "Child"]                "l"]
+    set nsib   [list [msgcat::mc "Next Sibling"]         "j"]
+    set psib   [list [msgcat::mc "Previous Sibling"]     "k"]
     set swap   [list [msgcat::mc "Swap Anchor"]          "a"]
     set help   [list [msgcat::mc "Toggle Help"]          "?"]
     set ret    [list [msgcat::mc "Keep Selection"]       "\u21b5"]
@@ -157,10 +156,10 @@ namespace eval select {
         create_list .selhelp.f.motions [list $next $prev $lshift $rshift]
       }
       line {
-        create_list .selhelp.f.motions [list $next $prev $ushift $dshift]
+        create_list .selhelp.f.motions [list $next $prev $dshift $ushift]
       }
       node {
-        create_list .selhelp.f.motions [list $next $prev $parent $child]
+        create_list .selhelp.f.motions [list $parent $child $nsib $psib $dshift $ushift]
       }
       default {
         # Nothing to display
@@ -876,61 +875,6 @@ namespace eval select {
 
     # Update the selection
     update_selection $txtt init -startpos [$txtt index @$x,$y]
-
-    return 1
-
-  }
-
-  ######################################################################
-  # Handles any B1-Motion events occurring inside the text widget.
-  proc handle_motion {txtt x y} {
-
-    variable data
-
-    # If we are not in selection mode, return immediately
-    if {$data($txtt,mode) == 0} {
-      $txtt mark set insert @$x,$y
-      set_select_mode $txtt 1
-      set_type $txtt char
-      return 1
-    }
-
-    # If we are not dragging a selection tag, return immediately
-    if {![info exists data($txtt,drag)]} {
-      if {[$txtt compare @$x,$y < $data($txtt,anchor)]} {
-        update_selection $txtt prev -startpos [$txtt index @$x,$y]
-      } else {
-        update_selection $txtt next -startpos [$txtt index @$x,$y]
-      }
-      return 1
-    }
-
-    if {0} {
-    # Get the last drag position
-    lassign $data($txtt,drag) tag
-
-    # Figure out which direction we are moving
-    set left [$txtt compare @$x,$y < [lindex [$txtt tag ranges $tag] 0]]
-
-    # Update the selection
-    switch $tag {
-      select_sel {
-        update_selection $txtt [expr {$left ? "lshift" : "rshift"}]
-      }
-      select_begin {
-        set data($txtt,anchorend) 1
-        if {[$txtt compare @$x,$y < [lindex [$txtt tag ranges $tag] 0]]} {
-          update_selection $txtt prev -startpos [$txtt index @$x,$y]
-        } else {
-          update_selection $txtt [expr {$left ? "prev" : "next"}] -startpos [$txtt index @$x,$y]
-        }
-      }
-      select_end {
-        set data($txtt,anchorend) 0
-        update_selection $txtt [expr {$left ? "prev" : "next"}] -startpos [$txtt index @$x,$y]
-      }
-    }
-    }
 
     return 1
 
