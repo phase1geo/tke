@@ -94,10 +94,6 @@ namespace eval select {
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
 
-    # Use the selection background color
-    set bg [$txt.t cget -selectbackground]
-    set fg [$txt.t cget -selectforeground]
-
   }
 
   ######################################################################
@@ -231,11 +227,11 @@ namespace eval select {
 
     # Update the selection
     if {$data($txtt,mode) && $init} {
-      if {$value eq "paragraph"} {
-        return
-      }
       update_selection $txtt init
     }
+    
+    # Update the position
+    gui::update_position [winfo parent $txtt]
 
   }
 
@@ -556,13 +552,17 @@ namespace eval select {
   ######################################################################
   # Returns true if the given text widget is currently in selection mode;
   # otherwise, returns false.
-  proc in_select_mode {txtt} {
+  proc in_select_mode {txtt ptype} {
+    
+    upvar $ptype type
 
     variable data
 
     if {![info exists data($txtt,mode)]} {
       return 0
     }
+    
+    set type $data($txtt,type)
 
     return $data($txtt,mode)
 
@@ -597,10 +597,6 @@ namespace eval select {
         # Configure the cursor
         $txtt configure -cursor [ttk::cursor standard]
 
-        # Use the selection background color
-        set bg [$txtt cget -selectbackground]
-        set fg [$txtt cget -selectforeground]
-
         # Display a help message
         gui::set_info_message [msgcat::mc "Type '?' for help.  Hit the ESCAPE key to exit selection mode"] 0
 
@@ -608,7 +604,7 @@ namespace eval select {
       } else {
 
         $txtt configure -cursor ""
-
+        
         # Clear the help message
         gui::set_info_message ""
 
@@ -629,6 +625,7 @@ namespace eval select {
 
     if {([$txtt tag ranges sel] eq "") && !$data($txtt,dont_close)} {
       set_select_mode $txtt 0
+      set data($txtt,type) "none"
     }
 
     # Clear the dont_close indicator
@@ -708,6 +705,7 @@ namespace eval select {
 
     # Disable selection mode
     set_select_mode $txtt 0
+    set data($txtt,type) "none"
 
     # Hide the help window
     hide_help
@@ -734,6 +732,7 @@ namespace eval select {
 
     # Disable selection mode
     set_select_mode $txtt 0
+    set data($txtt,type) "none"
 
     # Hide the help window
     hide_help
@@ -1135,9 +1134,13 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      node    { update_selection $txtt parent }
-      block   { update_selection $txtt left }
-      default { update_selection $txtt prev }
+      node      { update_selection $txtt parent }
+      block     { update_selection $txtt left }
+      char      -
+      line      -
+      word      -
+      sentence  -
+      paragraph { update_selection $txtt prev }
     }
 
   }
@@ -1149,9 +1152,13 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      node    { update_selection $txtt child }
-      block   { update_selection $txtt right }
-      default { update_selection $txtt next }
+      node      { update_selection $txtt child }
+      block     { update_selection $txtt right }
+      char      -
+      line      -
+      word      -
+      sentence  -
+      paragraph { update_selection $txtt next }
     }
 
   }

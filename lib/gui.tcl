@@ -4964,7 +4964,7 @@ namespace eval gui {
     lassign [split [$txt index insert] .] line column
 
     # Update the information widgets
-    if {[set vim_mode [expr {[select::in_select_mode $txt.t] ? "SELECT MODE" : [vim::get_mode $txt]}]] ne ""} {
+    if {[set vim_mode [expr {[select::in_select_mode $txt.t stype] ? "[string toupper $stype] SELECT MODE" : [vim::get_mode $txt]}]] ne ""} {
       if {$vim_mode eq "MULTIMOVE MODE"} {
         $widgets(info_state) configure -text [format "%s" $vim_mode]
       } else {
