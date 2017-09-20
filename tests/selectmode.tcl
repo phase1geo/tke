@@ -745,6 +745,51 @@ namespace eval selectmode {
 
     # Initialize
     set txtt [initialize]
+    
+    $txtt insert end [join [lrepeat 9 "This is a line."] \n]
+    vim::adjust_insert $txtt
+    $txtt mark set insert 5.5
+    
+    select::set_select_mode $txtt 1
+    
+    do_test $txtt 0  {}    {5.5 5.7} 0 word
+    do_test $txtt 1  b     {5.5 5.6} 0 block
+    do_test $txtt 2  j     {5.5 5.6 6.5 6.6} 0 block
+    do_test $txtt 3  {3 j} {5.5 5.6 6.5 6.6 7.5 7.6 8.5 8.6 9.5 9.6} 0 block
+    do_test $txtt 4  l     {5.5 5.7 6.5 6.7 7.5 7.7 8.5 8.7 9.5 9.7} 0 block
+    do_test $txtt 5  {2 l} {5.5 5.9 6.5 6.9 7.5 7.9 8.5 8.9 9.5 9.9} 0 block
+    do_test $txtt 6  k     {5.5 5.9 6.5 6.9 7.5 7.9 8.5 8.9} 0 block
+    do_test $txtt 7  {2 k} {5.5 5.9 6.5 6.9} 0 block
+    do_test $txtt 8  h     {5.5 5.8 6.5 6.8} 0 block
+    do_test $txtt 8  {2 h} {5.5 5.6 6.5 6.6} 0 block
+    do_test $txtt 9  a     {5.5 5.6 6.5 6.6} 1 block
+    do_test $txtt 10 k     {4.5 4.6 5.5 5.6 6.5 6.6} 1 block
+    do_test $txtt 11 {2 k} {2.5 2.6 3.5 3.6 4.5 4.6 5.5 5.6 6.5 6.6} 1 block
+    do_test $txtt 12 h     {2.4 2.6 3.4 3.6 4.4 4.6 5.4 5.6 6.4 6.6} 1 block
+    do_test $txtt 13 {2 h} {2.2 2.6 3.2 3.6 4.2 4.6 5.2 5.6 6.2 6.6} 1 block
+    do_test $txtt 14 j     {3.2 3.6 4.2 4.6 5.2 5.6 6.2 6.6} 1 block
+    do_test $txtt 15 {2 j} {5.2 5.6 6.2 6.6} 1 block
+    do_test $txtt 16 l     {5.3 5.6 6.3 6.6} 1 block
+    do_test $txtt 17 {2 l} {5.5 5.6 6.5 6.6} 1 block
+    do_test $txtt 18 a     {5.5 5.6 6.5 6.6} 0 block
+    do_test $txtt 19 L     {5.6 5.7 6.6 6.7} 0 block
+    do_test $txtt 20 {2 L} {5.8 5.9 6.8 6.9} 0 block
+    do_test $txtt 21 J     {6.8 6.9 7.8 7.9} 0 block
+    do_test $txtt 22 {2 J} {8.8 8.9 9.8 9.9} 0 block
+    do_test $txtt 23 H     {8.7 8.8 9.7 9.8} 0 block
+    do_test $txtt 24 {2 H} {8.5 8.6 9.5 9.6} 0 block
+    do_test $txtt 25 K     {7.5 7.6 8.5 8.6} 0 block
+    do_test $txtt 26 {2 K} {5.5 5.6 6.5 6.6} 0 block
+    do_test $txtt 27 a     {5.5 5.6 6.5 6.6} 1 block
+    do_test $txtt 28 L     {5.6 5.7 6.6 6.7} 1 block
+    do_test $txtt 29 {2 L} {5.8 5.9 6.8 6.9} 1 block
+    do_test $txtt 30 J     {6.8 6.9 7.8 7.9} 1 block
+    do_test $txtt 31 {2 J} {8.8 8.9 9.8 9.9} 1 block
+    do_test $txtt 32 H     {8.7 8.8 9.7 9.8} 1 block
+    do_test $txtt 33 {2 H} {8.5 8.6 9.5 9.6} 1 block
+    do_test $txtt 34 K     {7.5 7.6 8.5 8.6} 1 block
+    do_test $txtt 35 {2 K} {5.5 5.6 6.5 6.6} 1 block
+    do_test $txtt 36 Escape {} 1 none
 
     # Clean things up
     cleanup
@@ -756,10 +801,112 @@ namespace eval selectmode {
 
     # Initialize
     set txtt [initialize]
+    
+    syntax::set_language [winfo parent $txtt] "HTML"
+    
+    $txtt insert end "<body>\n  <ul>\n    <li>Good <b>grief</b> sir</li>\n    <li>Nice</li>\n    <li>Okay</li>\n    <li>Fine</li>\n  </ul>\n"
+    $txtt insert end "  <p></p>\n  <ul>\n    <li>Bad</li>\n    <li>Ugly</li>\n  </ul>\n  <br/>\n</body>"
+    vim::adjust_insert $txtt
+    $txtt mark set insert 1.1
+    
+    select::set_select_mode $txtt 1
+    
+    do_test $txtt 0 {} {1.0 1.5}   0 word
+    do_test $txtt 1 n  {1.0 14.7}  0 node
+    do_test $txtt 2 l  {1.6 14.0}  0 node
+    do_test $txtt 3 l  {2.2 7.7}   0 node
+    do_test $txtt 4 l  {2.6 7.2}   0 node
+    do_test $txtt 5 l  {3.4 3.34}  0 node
+    do_test $txtt 6 l  {3.8 3.29}  0 node
+    do_test $txtt 7 l  {3.13 3.25} 0 node
+    do_test $txtt 8 l  {3.16 3.21} 0 node
+    do_test $txtt 9 l  {3.16 3.21} 0 node
+    do_test $txtt 10 j {3.16 3.21} 0 node
+    do_test $txtt 11 k {3.16 3.21} 0 node
+    do_test $txtt 12 J {3.16 3.21} 0 node
+    do_test $txtt 13 K {3.16 3.21} 0 node
+    do_test $txtt 14 h {3.13 3.25} 0 node
+    do_test $txtt 15 j {3.13 3.25} 0 node
+    do_test $txtt 16 k {3.13 3.25} 0 node
+    do_test $txtt 17 J {3.13 3.25} 0 node
+    do_test $txtt 18 K {3.13 3.25} 0 node
+    do_test $txtt 19 h {3.8 3.29}  0 node
+    do_test $txtt 20 h {3.4 3.34}  0 node
+    do_test $txtt 21 j {3.4 4.17}  0 node
+    do_test $txtt 22 j {3.4 5.17}  0 node
+    do_test $txtt 23 j {3.4 6.17}  0 node
+    do_test $txtt 24 j {3.4 6.17}  0 node
+    do_test $txtt 25 k {3.4 5.17}  0 node
+    do_test $txtt 26 k {3.4 4.17}  0 node
+    do_test $txtt 27 k {3.4 3.34}  0 node
+    do_test $txtt 28 J {4.4 4.17}  0 node
+    do_test $txtt 29 J {5.4 5.17}  0 node
+    do_test $txtt 30 J {6.4 6.17}  0 node
+    do_test $txtt 31 J {6.4 6.17}  0 node
+    do_test $txtt 32 k {6.4 6.17}  0 node
+    do_test $txtt 33 h {2.6 7.2}   0 node
+    do_test $txtt 34 j {2.6 7.2}   0 node
+    do_test $txtt 35 h {2.2 7.7}   0 node
+    do_test $txtt 36 j {2.2 8.9}   0 node
+    do_test $txtt 37 j {2.2 12.7}  0 node
+    do_test $txtt 38 j {2.2 13.7}  0 node
+    do_test $txtt 39 j {2.2 13.7}  0 node
+    do_test $txtt 40 l {2.6 7.2}   0 node
+    do_test $txtt 41 h {2.2 7.7}   0 node
+    do_test $txtt 42 J {8.2 8.9}   0 node
+    do_test $txtt 43 l {8.2 8.9}   0 node
+    do_test $txtt 44 J {9.2 12.7}  0 node
+    do_test $txtt 45 J {13.2 13.7} 0 node
+    do_test $txtt 46 l {13.2 13.7} 0 node
+    do_test $txtt 47 J {13.2 13.7} 0 node
+    do_test $txtt 48 k {13.2 13.7} 0 node
+    do_test $txtt 49 a {13.2 13.7} 1 node
+    do_test $txtt 50 k {9.2 13.7}  1 node
+    do_test $txtt 51 K {8.2 12.7}  1 node
+    do_test $txtt 52 K {2.2 8.9}   1 node
+    do_test $txtt 52 K {2.2 8.9}   1 node
+    do_test $txtt 53 j {8.2 8.9}   1 node
+    do_test $txtt 54 j {8.2 8.9}   1 node
+    do_test $txtt 55 h {1.6 14.0}  1 node
+    do_test $txtt 56 l {13.2 13.7} 1 node
+    do_test $txtt 55 Escape {} 1 none
 
     # Clean things up
     cleanup
 
+  }
+  
+  # Verify node selection when the HTML is compressed
+  proc run_test18 {} {
+    
+    # Initialize
+    set txtt [initialize]
+    
+    syntax::set_language [winfo parent $txtt] "HTML"
+    
+    $txtt insert end "<body><ul><li>Good</li><li>Bad</li></ul><br/></body>"
+    vim::adjust_insert $txtt
+    
+    $txtt mark set insert 1.0
+    
+    select::set_select_mode $txtt 1
+    
+    do_test $txtt 0 {} {1.0 1.5}   0 word
+    do_test $txtt 1 n  {1.0 1.52}  0 node
+    do_test $txtt 2 l  {1.6 1.45}  0 node
+    do_test $txtt 3 l  {1.10 1.35} 0 node
+    do_test $txtt 4 l  {1.14 1.18} 0 node
+    do_test $txtt 5 l  {1.14 1.18} 0 node
+    do_test $txtt 6 h  {1.10 1.23} 0 node
+    do_test $txtt 7 h  {1.10 1.35} 0 node
+    do_test $txtt 8 h  {1.6 1.40}  0 node
+    do_test $txtt 9 j  {1.6 1.45}  0 node
+    do_test $txtt 10 h {1.0 1.52}  0 node
+    do_test $txtt 11 Escape {} 0 none
+    
+    # Clean things up
+    cleanup
+    
   }
 
 }

@@ -352,17 +352,17 @@ namespace eval select {
           if {$motion eq "rshift"} {
             set range [list]
             foreach {startpos endpos} $trange {
-              lappend range [$txtt index "$startpos+1 display chars"]
-              if {[$txtt compare "$endpos+1 display chars" < "$endpos lineend"]} {
-                lappend range [$txtt index "$endpos+1 display chars"]
+              lappend range [$txtt index "$startpos+$number display chars"]
+              if {[$txtt compare "$endpos+$number display chars" < "$endpos lineend"]} {
+                lappend range [$txtt index "$endpos+$number display chars"]
               } else {
                 lappend range [$txtt index "$endpos lineend"]
               }
             }
-          } elseif {[$txtt compare "[lindex $range 0]-1 display chars" >= "[lindex $range 0] linestart"]} {
+          } elseif {[$txtt compare "[lindex $range 0]-$number display chars" >= "[lindex $range 0] linestart"]} {
             set range [list]
             foreach {startpos endpos} $trange {
-              lappend range [$txtt index "$startpos-1 display chars"] [$txtt index "$endpos-1 display chars"]
+              lappend range [$txtt index "$startpos-$number display chars"] [$txtt index "$endpos-$number display chars"]
             }
           }
         } else {
@@ -377,23 +377,25 @@ namespace eval select {
         }
       }
       ushift {
-        if {[$txtt compare "[lindex $range 0]-$number display lines" < [lindex $range 0]]} {
-          switch $data($txtt,type) {
-            line {
+        switch $data($txtt,type) {
+          line {
+            if {[$txtt compare "[lindex $range 0]-$number display lines" < [lindex $range 0]]} {
               if {[$txtt compare [lindex $range 0] > 1.0]} {
                 lset range 0 [$txtt index "[lindex $range 0]-$number display lines linestart"]
                 lset range 1 [$txtt index "[lindex $range 1]-$number display lines lineend"]
               }
             }
-            node {
-              if {[set node_range0 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
-                if {[set node_range1 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
-                  lset range 0 [lindex $node_range0 0]
-                  lset range 1 [lindex $node_range1 1]
-                }
+          }
+          node {
+            if {[set node_range0 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+              if {[set node_range1 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+                lset range 0 [lindex $node_range0 0]
+                lset range 1 [lindex $node_range1 1]
               }
             }
-            default {
+          }
+          default {
+            if {[$txtt compare "[lindex $range 0]-$number display lines" < [lindex $range 0]]} {
               set trange $range
               set range  [list]
               foreach {pos} $trange {
@@ -404,23 +406,25 @@ namespace eval select {
         }
       }
       dshift {
-        if {[$txtt compare "[lindex $range end]+$number display lines" > "[lindex $range end] lineend"]} {
-          switch $data($txtt,type) {
-            line {
+        switch $data($txtt,type) {
+          line {
+            if {[$txtt compare "[lindex $range end]+$number display lines" > "[lindex $range end] lineend"]} {
               if {[$txtt compare [lindex $range 1] < "end-1 display lines lineend"]} {
                 lset range 1 [$txtt index "[lindex $range 1]+$number display lines lineend"]
                 lset range 0 [$txtt index "[lindex $range 0]+$number display lines linestart"]
               }
             }
-            node {
-              if {[set node_range1 [dom_next_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
-                if {[set node_range0 [dom_next_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
-                  lset range 0 [lindex $node_range0 0]
-                  lset range 1 [lindex $node_range1 1]
-                }
+          }
+          node {
+            if {[set node_range1 [dom_next_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+              if {[set node_range0 [dom_next_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+                lset range 0 [lindex $node_range0 0]
+                lset range 1 [lindex $node_range1 1]
               }
             }
-            default {
+          }
+          default {
+            if {[$txtt compare "[lindex $range end]+$number display lines" > "[lindex $range end] lineend"]} {
               set trange $range
               set range  [list]
               foreach {pos} $trange {
@@ -434,16 +438,16 @@ namespace eval select {
         if {$data($txtt,anchorend) == 1} {
           set i 0
           foreach {startpos endpos} $range {
-            if {[$txtt compare "$startpos-1 display chars" >= "$startpos linestart"]} {
-              lset range $i [$txtt index "$startpos-1 display chars"]
+            if {[$txtt compare "$startpos-$number display chars" >= "$startpos linestart"]} {
+              lset range $i [$txtt index "$startpos-$number display chars"]
               incr i 2
             }
           }
         } else {
           set i 1
           foreach {startpos endpos} $range {
-            if {[$txtt compare "$endpos-1 display chars" > $startpos]} {
-              lset range $i [$txtt index "$endpos-1 display chars"]
+            if {[$txtt compare "$endpos-$number display chars" > $startpos]} {
+              lset range $i [$txtt index "$endpos-$number display chars"]
             }
             incr i 2
           }
@@ -453,16 +457,16 @@ namespace eval select {
         if {$data($txtt,anchorend) == 1} {
           set i 0
           foreach {startpos endpos} $range {
-            if {[$txtt compare "$startpos+1 display chars" < $endpos]} {
-              lset range $i [$txtt index "$startpos+1 display chars"]
+            if {[$txtt compare "$startpos+$number display chars" < $endpos]} {
+              lset range $i [$txtt index "$startpos+$number display chars"]
             }
             incr i 2
           }
         } else {
           set i 1
           foreach {startpos endpos} $range {
-            if {[$txtt compare "$endpos+1 display chars" <= "$endpos lineend"]} {
-              lset range $i [$txtt index "$endpos+1 display chars"]
+            if {[$txtt compare "$endpos+$number display chars" <= "$endpos lineend"]} {
+              lset range $i [$txtt index "$endpos+$number display chars"]
             }
             incr i 2
           }
@@ -471,15 +475,19 @@ namespace eval select {
       up {
         if {$data($txtt,type) eq "block"} {
           if {$data($txtt,anchorend) == 1} {
-            if {[$txtt compare "insert-1 display lines" < [lindex $range 0]]} {
-              set nrow  [lindex [split [$txtt index "insert-1 display lines"] .] 0]
+            if {[$txtt compare "insert-$number display lines" < [lindex $range 0]]} {
+              set nrow  [lindex [split [$txtt index "insert-$number display lines"] .] 0]
               set ocol1 [$txtt count -displaychars "[lindex $range end-1] linestart" [lindex $range end-1]]
               set ocol2 [$txtt count -displaychars "[lindex $range end]   linestart" [lindex $range end]]
-              set range [list $nrow.$ocol1 $nrow.$ocol2 {*}$range]
+              for {set i 0} {$i < $number} {incr i} {
+                lappend trange $nrow.$ocol1 $nrow.$ocol2
+                incr nrow
+              }
+              set range [list {*}$trange {*}$range]
             }
           } else {
-            if {[$txtt compare "insert-1 display lines" >= [lindex $range 0]]} {
-              set range [lreplace $range end-1 end]
+            if {[$txtt compare "insert-$number display lines" >= [lindex $range 0]]} {
+              set range [lreplace $range end-[expr ($number * 2) - 1] end]
             }
           }
         } else {
@@ -497,15 +505,19 @@ namespace eval select {
       down {
         if {$data($txtt,type) eq "block"} {
           if {$data($txtt,anchorend) == 1} {
-            if {[$txtt compare "insert+1 display lines" <= [lindex $range end-1]]} {
-              set range [lreplace $range 0 1]
+            if {[$txtt compare "insert+$number display lines" <= [lindex $range end-1]]} {
+              set range [lreplace $range 0 [expr ($number * 2) - 1]]
             }
           } else {
-            if {[$txtt compare "insert+1 display lines" < end]} {
-              set nrow  [lindex [split [$txtt index "insert+1 display lines"] .] 0]
+            if {[$txtt compare "insert+$number display lines" < end]} {
+              set nrow  [lindex [split [$txtt index "insert+$number display lines"] .] 0]
               set ocol1 [$txtt count -displaychars "[lindex $range 0] linestart" [lindex $range 0]]
               set ocol2 [$txtt count -displaychars "[lindex $range 1] linestart" [lindex $range 1]]
-              lappend range $nrow.$ocol1 $nrow.$ocol2
+              for {set i 0} {$i < $number} {incr i} {
+                lappend trange $nrow.$ocol2 $nrow.$ocol1
+                incr nrow -1
+              }
+              lappend range {*}[lreverse $trange]
             }
           }
         } else {
@@ -521,7 +533,7 @@ namespace eval select {
         }
       }
       parent {
-        if {[set node_range [dom_parent [winfo parent $txtt] [lindex $range 0]]] ne ""} {
+        if {[set node_range [dom_parent [winfo parent $txtt] {*}$range]] ne ""} {
           set range $node_range
         }
       }
@@ -1346,12 +1358,15 @@ namespace eval select {
   ######################################################################
   # Returns the starting and ending positions of the parent HTML node given
   # the starting cursor position.
-  proc dom_parent {txt startpos} {
-
-    if {([set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq "") && ([lindex $tag 3] ne "010")} {
-      return [emmet::get_outer [emmet::get_node_range_within $txt -startpos $startpos]]
+  proc dom_parent {txt startpos endpos} {
+    
+    set within [emmet::get_node_range_within $txt -startpos $startpos]
+    
+    if {(([set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq "") && ([lindex $tag 3] ne "010")) || \
+        ([emmet::get_inner $within] eq [list $startpos $endpos])} {
+      return [emmet::get_outer $within]
     } else {
-      return [emmet::get_inner [emmet::get_node_range_within $txt -startpos $startpos]]
+      return [emmet::get_inner $within]
     }
 
   }
@@ -1422,10 +1437,10 @@ namespace eval select {
     } else {
       set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
-    set parent_range [dom_parent $txt [lindex $current_range 0]]
-
+    set parent_range [dom_parent $txt {*}$current_range]
+    
     if {[set tag [emmet::get_tag $txt -dir next -type ??0 -start [lindex $current_range 1]]] ne ""} {
-      if {[$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
+      if {($parent_range eq "") || [$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
         if {[lindex $tag 3] eq "010"} {
           return [lrange $tag 0 1]
         } else {
@@ -1446,16 +1461,16 @@ namespace eval select {
     if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
     }
-
+    
     if {[lindex $tag 3] eq "010"} {
       set current_range [lrange $tag 0 1]
     } else {
       set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
-    set parent_range [dom_parent $txt [lindex $current_range 0]]
-
+    set parent_range [dom_parent $txt {*}$current_range]
+    
     if {[set tag [emmet::get_tag $txt -dir prev -type 0?? -start "[lindex $current_range 0]-1c"]] ne ""} {
-      if {[$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
+      if {($parent_range eq "") || [$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
         if {[lindex $tag 3] eq "010"} {
           return [lrange $tag 0 1]
         } else {
