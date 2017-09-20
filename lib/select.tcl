@@ -157,7 +157,7 @@ namespace eval select {
       }
       line   -
       lineto {
-        create_list .selhelp.f.motions [list $next $prev $dshift $ushift]
+        create_list .selhelp.f.motions [list $down $up $dshift $ushift]
       }
       node {
         create_list .selhelp.f.motions [list $parent $child $nsib $psib $dshift $ushift]
@@ -226,7 +226,7 @@ namespace eval select {
   proc set_type {txtt value {init 1}} {
 
     variable data
-    
+
     # Set the type
     set data($txtt,type) $value
 
@@ -234,7 +234,7 @@ namespace eval select {
     if {$data($txtt,mode) && $init} {
       update_selection $txtt init
     }
-    
+
     # Update the position
     gui::update_position [winfo parent $txtt]
 
@@ -261,10 +261,12 @@ namespace eval select {
 
     switch $motion {
       init {
-        if {$opts(-startpos) eq ""} {
-          $txtt mark set insert $data($txtt,anchor)
-        } else {
+        if {$opts(-startpos) ne ""} {
           $txtt mark set insert $opts(-startpos)
+        } elseif {[llength $range] == 0} {
+          $txtt mark set insert $data($txtt,anchor)
+        } elseif {$data($txtt,anchorend) == 0} {
+          $txtt mark set insert "insert-1 display chars"
         }
         switch $data($txtt,type) {
           char    -
@@ -278,11 +280,7 @@ namespace eval select {
           }
           word    {
             if {[string is space [$txtt get insert]]} {
-              set wstart [edit::get_index $txtt wordstart -dir next]
-              if {[$txtt compare $wstart > "insert lineend"]} {
-                set wstart [edit::get_index $txtt wordstart -dir prev]
-              }
-              $txtt mark set insert $wstart
+              $txtt mark set insert [edit::get_index $txtt wordstart -dir [expr {($data($txtt,anchorend) == 0) ? "prev" : "next"}]]
             }
             set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] i 0]
           }
@@ -293,15 +291,19 @@ namespace eval select {
           node      { set trange [dom_current [winfo parent $txtt] insert] }
           default   { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}] 0] }
         }
-        if {$range eq ""} {
-          set range $trange
+        if {[lsearch [list char line lineto word sentence paragraph] $data($txtt,type)] != -1} {
+          if {$range eq ""} {
+            set range $trange
+          } else {
+            if {[$txtt compare [lindex $trange 0] < [lindex $range 0]]} {
+              lset range 0 [lindex $trange 0]
+            }
+            if {[$txtt compare [lindex $range  1] < [lindex $trange 1]]} {
+              lset range 1 [lindex $trange 1]
+            }
+          }
         } else {
-          if {[$txtt compare [lindex $trange 0] < [lindex $range 0]]} {
-            lset range 0 [lindex $trange 0]
-          }
-          if {[$txtt compare [lindex $range  1] < [lindex $trange 1]]} {
-            lset range 1 [lindex $trange 1]
-          }
+          set range $trange
         }
       }
       next -
@@ -482,12 +484,12 @@ namespace eval select {
           }
         } else {
           if {$data($txtt,anchorend) == 1} {
-            if {[$txtt compare "[lindex $range 0]-1 display lines" < [lindex $range 0]]} {
-              lset range 0 [$txtt index "[lindex $range 0]-1 display lines"]
+            if {[$txtt compare "[lindex $range 0]-$number display lines" < [lindex $range 0]]} {
+              lset range 0 [$txtt index "[lindex $range 0]-$number display lines"]
             }
           } else {
-            if {[$txtt compare "[lindex $range 1]-1 display lines" > [lindex $range 0]]} {
-              lset range 1 [$txtt index "[lindex $range 1]-1 display lines"]
+            if {[$txtt compare "[lindex $range 1]-$number display lines" > [lindex $range 0]]} {
+              lset range 1 [$txtt index "[lindex $range 1]-$number display lines"]
             }
           }
         }
@@ -508,12 +510,12 @@ namespace eval select {
           }
         } else {
           if {$data($txtt,anchorend) == 1} {
-            if {[$txtt compare "[lindex $range 0]+1 display lines" < [lindex $range 1]]} {
-              lset range 0 [$txtt index "[lindex $range 0]+1 display lines"]
+            if {[$txtt compare "[lindex $range 0]+$number display lines" < [lindex $range 1]]} {
+              lset range 0 [$txtt index "[lindex $range 0]+$number display lines"]
             }
           } else {
-            if {[$txtt compare "[lindex $range 1]+1 display lines" < end]} {
-              lset range 1 [$txtt index "[lindex $range 1]+1 display lines"]
+            if {[$txtt compare "[lindex $range 1]+$number display lines" < end]} {
+              lset range 1 [$txtt index "[lindex $range 1]+$number display lines"]
             }
           }
         }
@@ -543,7 +545,8 @@ namespace eval select {
 
     # Set the cursor and selection
     set data($txtt,dont_close) 1
-    set data($txtt,anchor)     [expr {($data($txtt,anchorend) == 0) ? [lindex $range 0] : [lindex $range end]}]
+    set index                  [expr {($data($txtt,anchorend) == 0) ? 0 : "end"}]
+    set data($txtt,anchor)     [lindex $range $index]
     ::tk::TextSetCursor $txtt $cursor
     foreach {startpos endpos} $range {
       $txtt tag add sel $startpos $endpos
@@ -570,7 +573,7 @@ namespace eval select {
   # Returns true if the given text widget is currently in selection mode;
   # otherwise, returns false.
   proc in_select_mode {txtt ptype} {
-    
+
     upvar $ptype type
 
     variable data
@@ -578,7 +581,7 @@ namespace eval select {
     if {![info exists data($txtt,mode)]} {
       return 0
     }
-    
+
     set type $data($txtt,type)
 
     return $data($txtt,mode)
@@ -601,7 +604,8 @@ namespace eval select {
       # If we are enabled, do some initializing
       if {$value} {
 
-        set data($txtt,anchor) [$txtt index insert]
+        set data($txtt,anchor)    [$txtt index insert]
+        set data($txtt,anchorend) 0
 
         # If text was not previously selected, select it by word
         if {[set sel [$txtt tag ranges sel]] eq ""} {
@@ -620,7 +624,7 @@ namespace eval select {
       } else {
 
         $txtt configure -cursor ""
-        
+
         # Clear the help message
         gui::set_info_message ""
 
@@ -955,13 +959,13 @@ namespace eval select {
 
     # Check to see if the selection window exists
     set help_existed [winfo exists .selhelp]
-    
+
     # If the keysym is a number, append the number to the current one.
     if {[string is integer $keysym]} {
       if {($keysym ne "0") || ($data($txtt,number) ne "")} {
         append data($txtt,number) $keysym
       }
-      
+
     # Handle the specified key, if a handler exists for it
     } elseif {[info procs handle_$keysym] ne ""} {
       handle_$keysym $txtt
@@ -992,13 +996,13 @@ namespace eval select {
     set_type $txtt line
 
   }
-  
+
   ######################################################################
   # Sets the current selection type from anchor to beginning/end of line.
   proc handle_E {txtt} {
-    
+
     set_type $txtt lineto
-    
+
   }
 
   ######################################################################
@@ -1104,7 +1108,8 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      line    {}
+      line    -
+      lineto  {}
       node    { update_selection $txtt parent }
       default { update_selection $txtt lshift }
     }
@@ -1118,7 +1123,8 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      line    {}
+      line    -
+      lineto  {}
       node    { update_selection $txtt child }
       default { update_selection $txtt rshift }
     }
@@ -1133,10 +1139,11 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      char  -
-      block -
-      node  -
-      line  { update_selection $txtt ushift }
+      char   -
+      block  -
+      node   -
+      line   -
+      lineto { update_selection $txtt ushift }
     }
 
   }
@@ -1149,10 +1156,11 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      char  -
-      block -
-      node  -
-      line  { update_selection $txtt dshift }
+      char   -
+      block  -
+      node   -
+      line   -
+      lineto { update_selection $txtt dshift }
     }
 
   }
@@ -1168,6 +1176,7 @@ namespace eval select {
       block     { update_selection $txtt left }
       char      -
       line      -
+      lineto    -
       word      -
       sentence  -
       paragraph { update_selection $txtt prev }
@@ -1186,6 +1195,7 @@ namespace eval select {
       block     { update_selection $txtt right }
       char      -
       line      -
+      lineto    -
       word      -
       sentence  -
       paragraph { update_selection $txtt next }
@@ -1201,10 +1211,11 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      char  -
-      block { update_selection $txtt up }
-      node  -
-      line  { update_selection $txtt prev }
+      char   -
+      block  { update_selection $txtt up }
+      node   -
+      line   -
+      lineto { update_selection $txtt prev }
     }
 
   }
@@ -1217,10 +1228,11 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      char  -
-      block { update_selection $txtt down }
-      node  -
-      line  { update_selection $txtt next }
+      char   -
+      block  { update_selection $txtt down }
+      node   -
+      line   -
+      lineto { update_selection $txtt next }
     }
 
   }
@@ -1253,20 +1265,20 @@ namespace eval select {
     $txtt see $cursor
 
   }
-  
+
   ######################################################################
   # Causes the surrounding characters to be included/excluded from the
   # selection.  This is only valid for types which include surrounding
   # characters.
   proc handle_i {txtt} {
-    
+
     variable data
-    
+
     if {[lsearch [list curly square paren angled single double btick] $data($txtt,type)] != -1} {
       set data($txtt,inner) [expr {$data($txtt,inner) ^ 1}]
       update_selection $txtt init
     }
-    
+
   }
 
   ######################################################################
