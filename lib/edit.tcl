@@ -1925,6 +1925,7 @@ namespace eval edit {
     return $pos_list
 
   }
+
   ######################################################################
   # Returns a range the is split by sentences.
   proc get_range_sentences {txtt type num inner adjust} {
@@ -1934,11 +1935,9 @@ namespace eval edit {
     if {$inner} {
       set str  [$txtt get {*}$pos_list]
       set less [expr ([string length $str] - [string length [string trimright $str]]) + 1]
-    } else {
-      set less 1
+      lset pos_list 1 [$txtt index "[lindex $pos_list 1]-${less}c"]
     }
 
-    lset pos_list 1 [$txtt index "[lindex $pos_list 1]-${less}c"]
 
     return $pos_list
 
