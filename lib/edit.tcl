@@ -756,10 +756,40 @@ namespace eval edit {
 
     # If lines are selected, move all selected lines up one line
     if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-      foreach {end_range start_range} [lreverse $selected] {
-        set str [$txtt get "$start_range-1l linestart" "$start_range linestart"]
-        $txtt delete "$start_range-1l linestart" "$start_range linestart"
-        $txtt insert "$end_range+1l linestart" $str
+
+      switch [set type [select::get_type $txtt]] {
+        none -
+        line {
+          foreach {end_range start_range} [lreverse $selected] {
+            set str [$txtt get "$start_range-1l linestart" "$start_range linestart"]
+            $txtt delete "$start_range-1l linestart" "$start_range linestart"
+            $txtt insert "$end_range+1l linestart" $str
+          }
+        }
+        sentence {
+          # TBD
+          set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
+          regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
+          if {([string length $between] - [string length [string map {\n {}} $between]]) >= 2} {
+            set between "  "
+          }
+          $txtt insert [lindex $selected end] $between$str
+          $txtt delete $startpos [lindex $selected 0]
+        }
+        paragraph {
+          set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
+          regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
+          $txtt insert [lindex $selected end] $between$str
+          $txtt delete $startpos [lindex $selected 0]
+        }
+        node {
+          if {[set range [select::dom_prev_sibling $txtt [lindex $selected 0]]] ne ""} {
+            set str     [$txtt get {*}$range]
+            set between [$txtt get [lindex $range 1] [lindex $selected 0]]
+            $txtt insert [lindex $selected end] $between$str
+            $txtt delete [lindex $range 0] [lindex $selected 0]
+          }
+        }
       }
 
     # Otherwise, move the current line up by one line
@@ -786,10 +816,39 @@ namespace eval edit {
 
     # If lines are selected, move all selected lines down one line
     if {[llength [set selected [$txtt tag ranges sel]]] > 0} {
-      foreach {end_range start_range} [lreverse $selected] {
-        set str [$txtt get "$end_range+1l linestart" "$end_range+2l linestart"]
-        $txtt delete "$end_range lineend" "$end_range+1l lineend"
-        $txtt insert "$start_range linestart" $str
+
+      switch [set type [select::get_type $txtt]] {
+        none -
+        line {
+          foreach {end_range start_range} [lreverse $selected] {
+            set str [$txtt get "$end_range+1l linestart" "$end_range+2l linestart"]
+            $txtt delete "$end_range lineend" "$end_range+1l lineend"
+            $txtt insert "$start_range linestart" $str
+          }
+        }
+        sentence {
+          # TBD
+          set endpos [get_index $txtt $type -dir next -startpos "[lindex $selected end]+1 display chars"]
+          set str [string trimright [$txtt get [lindex $selected end] $endpos]]
+          regexp {(\s*)$} [$txtt get {*}$selected] -> between
+          $txtt delete [lindex $selected end] $endpos
+          $txtt insert [lindex $selected 0] $str$between
+        }
+        paragraph {
+          set endpos [get_index $txtt $type -dir next -startpos "[lindex $selected end]+1 display chars"]
+          set str [string trimright [$txtt get [lindex $selected end] $endpos]]
+          regexp {(\s*)$} [$txtt get {*}$selected] -> between
+          $txtt delete [lindex $selected end] $endpos
+          $txtt insert [lindex $selected 0] $str$between
+        }
+        node {
+          if {[set range [select::dom_next_sibling $txtt "[lindex $selected end]-1c"]] ne ""} {
+            set str     [$txtt get {*}$range]
+            set between [$txtt get [lindex $selected end] [lindex $range 0]]
+            $txtt delete [lindex $selected end] [lindex $range end]
+            $txtt insert [lindex $selected 0] $str$between
+          }
+        }
       }
 
     # Otherwise, move the current line down by one line
