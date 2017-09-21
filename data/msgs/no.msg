@@ -727,6 +727,9 @@ msgcat::mcmset no {
   "Header"
   "Header"
 
+  "Help"
+  "Help!"
+
   "Hide All Tabs"
   "Skjul alle"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset no {
   "Left"
   "Venstre"
 
+  "Line To"
+  "Linjen til"
+
+  "Miscellaneous"
+  "Diverse"
+
   "Modes"
   "Modus"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset no {
   "Toggle Help"
   "Toggle"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Vis/Skjul Surrounding\nCharacter inkludering"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Type '?' for hjelp.  Trykk ESC for å avslutte modus for merking"
+
+  "Undo Last Change"
+  "Angre siste endring & # 160; …"
 
   "Up"
   "Opp"
@@ -3230,9 +3245,6 @@ msgcat::mcmset no {
 
   "Find previous occurrence"
   "Finne forrige forekomst"
-
-  "Help"
-  "Help!"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Bildet som vises i sidepanelet dokumentinformasjonspanel for å lukke panelet"

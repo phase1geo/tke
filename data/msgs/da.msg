@@ -727,6 +727,9 @@ msgcat::mcmset da {
   "Header"
   "Header"
 
+  "Help"
+  "Hjælp"
+
   "Hide All Tabs"
   "Skjule alle faner"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset da {
   "Left"
   "Venstre"
 
+  "Line To"
+  "mødeafvikling"
+
+  "Miscellaneous"
+  "Diverse"
+
   "Modes"
   "Tilstande"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset da {
   "Toggle Help"
   "Toggle"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Skifte Surrounding\nCharacter optagelse"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Type '?' for at få hjælp.  Slå ESC-tasten for at afslutte markeringstilstanden"
+
+  "Undo Last Change"
+  "Fortryd sidste ændring..."
 
   "Up"
   "Op"
@@ -3230,9 +3245,6 @@ msgcat::mcmset da {
 
   "Find previous occurrence"
   "Find forrige forekomst"
-
-  "Help"
-  "Hjælp"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Billedet vises i indholdsoversigten panel for dokumentoplysninger til at lukke panelet"

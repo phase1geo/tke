@@ -727,6 +727,9 @@ msgcat::mcmset zh {
   "Header"
   "顶部"
 
+  "Help"
+  "帮助"
+
   "Hide All Tabs"
   "隐藏所有"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset zh {
   "Left"
   "居左"
 
+  "Line To"
+  "至   行"
+
+  "Miscellaneous"
+  "复杂度"
+
   "Modes"
   "模式"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset zh {
   "Toggle Help"
   "切换"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "切换 Surrounding\nCharacter 列入"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "类型 '？ ' 的帮助。 使用 ESC 键退出选择模式"
+
+  "Undo Last Change"
+  "取消最后的改变..."
 
   "Up"
   "上"
@@ -3230,9 +3245,6 @@ msgcat::mcmset zh {
 
   "Find previous occurrence"
   "查找上一个"
-
-  "Help"
-  "帮助"
 
   "Image displayed in sidebar information panel for closing the panel"
   "在侧边栏信息面板关闭面板中显示图像"

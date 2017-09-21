@@ -727,6 +727,9 @@ msgcat::mcmset cs {
   "Header"
   "Záhlaví"
 
+  "Help"
+  "Nápověda"
+
   "Hide All Tabs"
   "Skrýt všechny karty"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset cs {
   "Left"
   "Vlevo"
 
+  "Line To"
+  "Vedení k"
+
+  "Miscellaneous"
+  "Různé"
+
   "Modes"
   "Mód"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset cs {
   "Toggle Help"
   "Přepínač"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Přepnout Surrounding\nCharacter zařazení"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Typ '?' o pomoc.  Stiskněte klávesy ESC ukončíte režim výběru"
+
+  "Undo Last Change"
+  "Vracím poslední změnu..."
 
   "Up"
   "Nahoru"
@@ -3230,9 +3245,6 @@ msgcat::mcmset cs {
 
   "Find previous occurrence"
   "Najít předchozí výskyt"
-
-  "Help"
-  "Nápověda"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Obrázek zobrazený v panelu informací o postranním panelu pro zavření panelu"

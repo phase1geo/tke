@@ -727,6 +727,9 @@ msgcat::mcmset ja {
   "Header"
   "Header"
 
+  "Help"
+  "ヘルプ"
+
   "Hide All Tabs"
   "すべて表示しない"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset ja {
   "Left"
   "左向き"
 
+  "Line To"
+  "行します。"
+
+  "Miscellaneous"
+  "その他"
+
   "Modes"
   "モード"
 
@@ -2313,14 +2322,13 @@ msgcat::mcmset ja {
   "動"
 
   "Next Sibling"
-  "家族構成
-（兄弟姉妹）"
+  "家族構"
 
   "Node"
   "ノード"
 
   "Paragraph"
-  "段落"
+  "段落のテキスト範囲"
 
   "Parent"
   "親"
@@ -2353,7 +2361,7 @@ msgcat::mcmset ja {
   "上にシフト"
 
   "Single Quotes"
-  "シングルクォーテーションマーク"
+  "単引用符"
 
   "Square Brackets"
   "大かっこ"
@@ -2364,8 +2372,14 @@ msgcat::mcmset ja {
   "Toggle Help"
   "トグル"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "切り替え Surrounding\nCharacter 封入"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "型 '?' の助け。 選択モードを終了するエスケープ キーを押す"
+
+  "Undo Last Change"
+  "最後の変更を元に戻す..."
 
   "Up"
   "上向き"
@@ -3231,9 +3245,6 @@ msgcat::mcmset ja {
 
   "Find previous occurrence"
   "前の出現箇所を見つける"
-
-  "Help"
-  "ヘルプ"
 
   "Image displayed in sidebar information panel for closing the panel"
   "パネルを閉じるのサイドバー情報パネルに表示されるイメージ"

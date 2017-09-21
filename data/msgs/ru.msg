@@ -727,6 +727,9 @@ msgcat::mcmset ru {
   "Header"
   "Заголовок"
 
+  "Help"
+  "Помощь"
+
   "Hide All Tabs"
   "Скрыть всё"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset ru {
   "Left"
   "Влево"
 
+  "Line To"
+  "Линия"
+
+  "Miscellaneous"
+  "Разное"
+
   "Modes"
   "Режимы моделирования"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset ru {
   "Toggle Help"
   "Переключатель"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Рычаг включения Surrounding\nCharacter"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Тип '?' для справки.  Нажмите клавишу ESCAPE, чтобы выйти из режима выделения"
+
+  "Undo Last Change"
+  "Отменить последнее изменение"
 
   "Up"
   "Вверх"
@@ -3230,9 +3245,6 @@ msgcat::mcmset ru {
 
   "Find previous occurrence"
   "Найти предыдущего вхождения"
-
-  "Help"
-  "Помощь"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Изображение, отображаемое в боковой панели сведений для закрытия панели"

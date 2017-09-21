@@ -727,6 +727,9 @@ msgcat::mcmset he {
   "Header"
   "כותרת"
 
+  "Help"
+  "עזרה"
+
   "Hide All Tabs"
   "להסתיר את כל הכרטיסיות"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset he {
   "Left"
   "שמאל"
 
+  "Line To"
+  "קו ל"
+
+  "Miscellaneous"
+  "שונות"
+
   "Modes"
   "מצבים"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset he {
   "Toggle Help"
   "מתג"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "הכללה Surrounding\nCharacter דו-מצבי"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "סוג '?' לקבלת עזרה.  ללחוץ על מקש ESCAPE כדי לצאת ממצב בחירה"
+
+  "Undo Last Change"
+  "בטל את השינוי האחרון..."
 
   "Up"
   "בעד"
@@ -3230,9 +3245,6 @@ msgcat::mcmset he {
 
   "Find previous occurrence"
   "למצוא את המופע הקודם"
-
-  "Help"
-  "עזרה"
 
   "Image displayed in sidebar information panel for closing the panel"
   "התמונה המוצגת בחלונית המידע הצידי לסגירת הלוח"
