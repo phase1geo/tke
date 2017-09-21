@@ -272,6 +272,22 @@ namespace eval select {
   }
 
   ######################################################################
+  # Returns the current selection mode in use.  The selection mode is
+  # remembered even after we exit selection mode (until the selection
+  # forgotten.
+  proc get_type {txtt} {
+
+    variable data
+
+    if {[info exists data($txtt,type)]} {
+      return $data($txtt,type)
+    }
+
+    return "none"
+
+  }
+
+  ######################################################################
   # Updates the current selection based on the current type
   # selections along with the given motion type (init, next, prev, parent,
   # child).
