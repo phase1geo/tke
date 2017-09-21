@@ -75,6 +75,7 @@ namespace eval select {
     set data($txt.t,dont_close) 0
     set data($txt.t,inner)      1
     set data($txt.t,number)     ""
+    set data($txt.t,undo)       [list]
 
     set alt [expr {([tk windowingsystem] eq "aqua") ? "Mod2" : "Alt"}]
 
@@ -96,6 +97,35 @@ namespace eval select {
     bind select <Shift-Control-Triple-Button-1> "if {\[select::handle_shift_control_triple_click %W %x %y\]} break"
 
     bindtags $txt.t [linsert [bindtags $txt.t] [expr [lsearch [bindtags $txt.t] $txt.t] + 1] select]
+
+  }
+
+  ######################################################################
+  # Performs an undo of the selection buffer.
+  proc undo {txtt} {
+
+    variable data
+
+    if {[llength $data($txtt,undo)] > 1} {
+
+      lassign [lindex $data($txtt,undo) end-1] type anchorend ranges
+
+      # Set variables
+      set data($txtt,undo)       [lrange $data($txtt,undo) 0 end-1]
+      set data($txtt,dont_close) 1
+      set data($txtt,type)       $type
+      set data($txtt,anchorend)  $anchorend
+
+      # Calculate the insertion cursor index in the ranges list
+      set index [expr {$anchorend ? 0 : "end"}]
+
+      # Clear the current selection and set the cursor
+      ::tk::TextSetCursor $txtt [lindex $ranges $index]
+
+      # Add the selection
+      $txtt tag add sel {*}$ranges
+
+    }
 
   }
 
@@ -127,6 +157,7 @@ namespace eval select {
     set nsib   [list [msgcat::mc "Next Sibling"]         "j"]
     set psib   [list [msgcat::mc "Previous Sibling"]     "k"]
     set swap   [list [msgcat::mc "Swap Anchor"]          "a"]
+    set undo   [list [msgcat::mc "Undo Last Change"]     "u"]
     set help   [list [msgcat::mc "Toggle Help"]          "?"]
     set ret    [list [msgcat::mc "Keep Selection"]       "\u21b5"]
     set esc    [list [msgcat::mc "Clear Selection"]      "Esc"]
@@ -170,8 +201,8 @@ namespace eval select {
     ttk::labelframe .selhelp.f.anchors -text [msgcat::mc "Anchor"]
     create_list .selhelp.f.anchors [list $swap]
 
-    ttk::labelframe .selhelp.f.help -text [msgcat::mc "Help"]
-    create_list .selhelp.f.help [list $help]
+    ttk::labelframe .selhelp.f.help -text [msgcat::mc "Miscellaneous"]
+    create_list .selhelp.f.help [list $undo $help]
 
     ttk::labelframe .selhelp.f.exit -text [msgcat::mc "Exit Selection Mode"]
     create_list .selhelp.f.exit [list $ret $esc $del]
@@ -564,6 +595,9 @@ namespace eval select {
       $txtt tag add sel $startpos $endpos
     }
 
+    # Add the information to the undo buffer
+    lappend data($txtt,undo) [list $data($txtt,type) $data($txtt,anchorend) $range]
+
   }
 
   ######################################################################
@@ -618,6 +652,7 @@ namespace eval select {
 
         set data($txtt,anchor)    [$txtt index insert]
         set data($txtt,anchorend) 0
+        set data($txtt,undo)      [list]
 
         # If text was not previously selected, select it by word
         if {[set sel [$txtt tag ranges sel]] eq ""} {
@@ -1294,6 +1329,14 @@ namespace eval select {
   }
 
   ######################################################################
+  # Undo selection.
+  proc handle_u {txtt} {
+
+    undo $txtt
+
+  }
+
+  ######################################################################
   # Displays the cheatsheet.
   proc handle_question {txtt} {
 
@@ -1359,9 +1402,9 @@ namespace eval select {
   # Returns the starting and ending positions of the parent HTML node given
   # the starting cursor position.
   proc dom_parent {txt startpos endpos} {
-    
+
     set within [emmet::get_node_range_within $txt -startpos $startpos]
-    
+
     if {(([set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq "") && ([lindex $tag 3] ne "010")) || \
         ([emmet::get_inner $within] eq [list $startpos $endpos])} {
       return [emmet::get_outer $within]
@@ -1438,7 +1481,7 @@ namespace eval select {
       set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
     set parent_range [dom_parent $txt {*}$current_range]
-    
+
     if {[set tag [emmet::get_tag $txt -dir next -type ??0 -start [lindex $current_range 1]]] ne ""} {
       if {($parent_range eq "") || [$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
         if {[lindex $tag 3] eq "010"} {
@@ -1461,14 +1504,14 @@ namespace eval select {
     if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
     }
-    
+
     if {[lindex $tag 3] eq "010"} {
       set current_range [lrange $tag 0 1]
     } else {
       set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
     set parent_range [dom_parent $txt {*}$current_range]
-    
+
     if {[set tag [emmet::get_tag $txt -dir prev -type 0?? -start "[lindex $current_range 0]-1c"]] ne ""} {
       if {($parent_range eq "") || [$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
         if {[lindex $tag 3] eq "010"} {
