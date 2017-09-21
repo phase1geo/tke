@@ -58,6 +58,8 @@ namespace eval select {
     [list [msgcat::mc "Single Quotes"]   \' single] \
     [list [msgcat::mc "Backticks"]       \` btick] \
     [list [msgcat::mc "Block"]           b  block] \
+    [list [msgcat::mc "All"]             *  all] \
+    [list [msgcat::mc "All To"]          .  allto] \
   ]
 
   ######################################################################
@@ -162,6 +164,7 @@ namespace eval select {
     set ret    [list [msgcat::mc "Keep Selection"]       "\u21b5"]
     set esc    [list [msgcat::mc "Clear Selection"]      "Esc"]
     set del    [list [msgcat::mc "Delete Selected Text"] "Del"]
+    set inv    [list [msgcat::mc "Invert Selected Text"] "~"]
     set inc    [list [msgcat::mc "Toggle Surrounding\nCharacter Inclusion"] "i"]
 
     toplevel            .selhelp
@@ -193,6 +196,8 @@ namespace eval select {
       node {
         create_list .selhelp.f.motions [list $parent $child $nsib $psib $dshift $ushift]
       }
+      all   -
+      allto {}
       default {
         create_list .selhelp.f.motions [list $inc]
       }
@@ -205,7 +210,7 @@ namespace eval select {
     create_list .selhelp.f.help [list $undo $help]
 
     ttk::labelframe .selhelp.f.exit -text [msgcat::mc "Exit Selection Mode"]
-    create_list .selhelp.f.exit [list $ret $esc $del]
+    create_list .selhelp.f.exit [list $ret $esc $del $inv]
 
     # Pack the labelframes
     grid .selhelp.f.types   -row 0 -column 0 -sticky news -padx 2 -pady 2 -rowspan 4
@@ -336,6 +341,13 @@ namespace eval select {
             set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0]
           }
           node      { set trange [dom_current [winfo parent $txtt] insert] }
+          all       -
+          allto     {
+            set trange [list 1.0 end]
+            if {$data($txtt,type) eq "allto"} {
+              lset trange $data($txtt,anchorend) [lindex $range $data($txtt,anchorend)]
+            }
+          }
           default   { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}] 0] }
         }
         if {[lsearch [list char line lineto word sentence paragraph] $data($txtt,type)] != -1} {
@@ -823,6 +835,34 @@ namespace eval select {
     return 1
 
   }
+  
+  ######################################################################
+  # Inverts the current selection and ends selection mode.
+  proc handle_asciitilde {txtt} {
+    
+    variable data
+    
+    if {$data($txtt,mode) == 0} {
+      return 0
+    }
+    
+    # Get the current selection
+    set ranges [$txtt tag ranges sel]
+    
+    # Select everything and remove the given ranges
+    $txtt tag add sel 1.0 end
+    $txtt tag remove sel {*}$ranges
+    
+    # Disable selection mode
+    set_select_mode $txtt 0
+    set data($txtt,type)  "none"
+    
+    # Hide the help window
+    hide_help
+    
+    return 1
+    
+  }
 
   ######################################################################
   # Handle a single click event press event.
@@ -876,21 +916,20 @@ namespace eval select {
     return 1
 
   }
-
+  
   ######################################################################
-  # Handles a double-click event while the Shift-Control keys are held.
-  # Selects the current square, curly, paren, single, double, backtick or tag.
-  proc handle_shift_control_double_click {txtt x y} {
-
+  # Returns the current bracket type based on the position of startpos.
+  proc get_bracket_type {txtt startpos} {
+    
     set type ""
 
     # If we are within a comment, return
-    if {[ctext::inComment $txtt @$x,$y]} {
+    if {[ctext::inComment $txtt $startpos]} {
       return 0
-    } elseif {[ctext::inString $txtt @$x,$y]} {
-      if {[ctext::inSingleQuote $txtt @$x,$y]} {
+    } elseif {[ctext::inString $txtt $startpos]} {
+      if {[ctext::inSingleQuote $txtt $startpos]} {
         set type single
-      } elseif {[ctext::inDoubleQuote $txtt @$x,$y]} {
+      } elseif {[ctext::inDoubleQuote $txtt $startpos]} {
         set type double
       } else {
         set type btick
@@ -898,10 +937,10 @@ namespace eval select {
     } else {
       set closest ""
       foreach t [list square curly paren angled] {
-        if {[lsearch -regexp [$txtt tag names @$x,$y] "_${t}\[LR\]"] != -1} {
+        if {[lsearch -regexp [$txtt tag names $startpos] "_${t}\[LR\]"] != -1} {
           set type $t
           break
-        } elseif {[set index [ctext::get_match_bracket [winfo parent $txtt] ${t}L [$txtt index @$x,$y]]] ne ""} {
+        } elseif {[set index [ctext::get_match_bracket [winfo parent $txtt] ${t}L $startpos]] ne ""} {
           if {($closest eq "") || [$txtt compare $index > $closest]} {
             set type    $t
             set closest $index
@@ -909,11 +948,25 @@ namespace eval select {
         }
       }
     }
+    
+    return $type
+    
+  }
 
-    # If we found a type, select the block
-    if {$type ne ""} {
+  ######################################################################
+  # Handles a double-click event while the Shift-Control keys are held.
+  # Selects the current square, curly, paren, single, double, backtick or tag.
+  proc handle_shift_control_double_click {txtt x y} {
+
+    # Get the bracket type closest to the mouse cursor
+    if {[set type [get_bracket_type $txtt [$txtt index @$x,$y]]] ne ""} {
+      
+      # Set the type
       set_type $txtt $type
+      
+      # Update the selection
       update_selection $txtt init -startpos [$txtt index @$x,$y]
+      
     }
 
     return 1
@@ -1163,6 +1216,22 @@ namespace eval select {
     set_type $txtt btick
 
   }
+  
+  ######################################################################
+  # Set the current selection type to all.
+  proc handle_asterisk {txtt} {
+    
+    set_type $txtt all
+    
+  }
+  
+  ######################################################################
+  # Set the current selection type to allto.
+  proc handle_period {txtt} {
+    
+    set_type $txtt allto
+    
+  }
 
   ######################################################################
   # Handles moving the selection back by the selection type amount.
@@ -1171,6 +1240,8 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
+      all     -
+      allto   -
       line    -
       lineto  {}
       node    { update_selection $txtt parent }
@@ -1186,6 +1257,8 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
+      all     -
+      allto   -
       line    -
       lineto  {}
       node    { update_selection $txtt child }
@@ -1540,6 +1613,53 @@ namespace eval select {
 
     return ""
 
+  }
+  
+  ######################################################################
+  # Quickly selects the given type of text for the current editing buffer.
+  # This functionality is meant to allow us to provide similar functionality
+  # to other editors via the menus.
+  proc quick_select {type} {
+    
+    variable data
+    
+    set txtt [gui::current_txt].t
+    
+    # Make sure that we lose our current selection
+    $txtt tag remove sel 1.0 end
+    
+    # If the type is brackets, figure out the closest bracket to the insertion cursor.  If we
+    # are not detected to be within a bracket, return without doing anything
+    if {($type eq "bracket") && ([set type [get_bracket_type $txtt [$txtt index insert]]] eq "")} {
+      return
+    }
+    
+    # Set the type
+    set data($txtt,type) $type
+    
+    # Perform the selection
+    update_selection $txtt init -startpos insert
+    
+  }
+  
+  ######################################################################
+  # Quickly adds the line above/below the currently selected line to the
+  # selection.  This meant to provide backward compatibility with other
+  # editors via the menus.
+  proc quick_add_line {dir} {
+    
+    variable data
+    
+    # Get the current editing buffer
+    set txtt [gui::current_txt].t
+    
+    # Set the current selection type to line
+    set data($txtt,type)      "line"
+    set data($txtt,anchorend) [expr {($dir eq "next") ? 0 : 1}]
+    
+    # Add the given line
+    update_selection $txtt $dir -startpos insert
+    
   }
 
 }

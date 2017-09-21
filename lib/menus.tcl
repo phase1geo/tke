@@ -1061,8 +1061,7 @@ namespace eval menus {
 
     $mb add separator
 
-    $mb add command -label [msgcat::mc "Select All"] -underline 7 -command [list gui::select_all]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list gui::select_all]
+    $mb add cascade -label [msgcat::mc "Select"] -underline 0 -menu [make_menu $mb.selectPopup -tearoff 0 -postcommand [list menus::edit_select_posting $mb.selectPopup]]
 
     $mb add command -label [msgcat::mc "Select Mode"] -underline 7 -command [list menus::select_mode]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Enter selection mode"]] [list menus::select_mode]
@@ -1096,6 +1095,36 @@ namespace eval menus {
     $mb add separator
 
     $mb add cascade -label [msgcat::mc "Preferences"]   -menu [make_menu $mb.prefPopup  -tearoff 0 -postcommand [list menus::edit_preferences_posting $mb.prefPopup]]
+    
+    #########################
+    # Populate selection menu
+    #########################
+    
+    $mb.selectPopup add command -label [msgcat::mc "All"] -underline 0 -command [list select::quick_select all]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select all text"]] [list select::quick_select all]
+    
+    $mb.selectPopup add command -label [msgcat::mc "Current Line"] -underline 8 -command [list select::quick_select line]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current line"]] [list select::quick_select line]
+    
+    $mb.selectPopup add command -label [msgcat::mc "Current Word"] -underline 8 -command [list select::quick_select word]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current word"]] [list select::quick_select word]
+    
+    $mb.selectPopup add command -label [msgcat::mc "Current Sentence"] -underline 8 -command [list select::quick_select sentence]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current sentence"]] [list select::quick_select sentence]
+    
+    $mb.selectPopup add command -label [msgcat::mc "Current Paragraph"] -underline 8 -command [list select::quick_select paragraph]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current paragraph"]] [list select::quick_select paragraph]
+    
+    $mb.selectPopup add command -label [msgcat::mc "Current Brackets"] -underline 8 -command [list select::quick_select bracket]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select current brackets/string"]] [list select::quick_select bracket]
+    
+    $mb.selectPopup add separator
+    
+    $mb.selectPopup add command -label [msgcat::mc "Add Next Line"] -underline 4 -command [list select::quick_add_line next]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Add next line to selection"]] [list select::quick_add_line next]
+    
+    $mb.selectPopup add command -label [msgcat::mc "Add Previous Line"] -underline 5 -command [list select::quick_add_line prev]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Add previous line to selection"]] [list select::quick_add_line prev]
 
     ###########################
     # Populate indentation menu
@@ -1425,7 +1454,7 @@ namespace eval menus {
 
     $mb.emmetPopup add separator
 
-    $mb.emmetPopup add command -label [msgcat::mc "Select Next Item"] -command [list menus::select_item next]
+    $mb.emmetPopup add command -label [msgcat::mc "Select Next Item"] -command [list emmet::select_item next]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Select next tag item"]] [list emmet::select_item next]
 
     $mb.emmetPopup add command -label [msgcat::mc "Select Previous Item"] -command [list emmet::select_item prev]
@@ -1463,11 +1492,6 @@ namespace eval menus {
 
   }
 
-  # TEMPORARY
-  proc select_item {dir} {
-    emmet::select_item $dir
-  }
-
   ######################################################################
   # Called just prior to posting the edit menu.  Sets the state of all
   # menu items to match the proper state of the UI.
@@ -1480,7 +1504,6 @@ namespace eval menus {
       $mb entryconfigure [msgcat::mc "Copy"]             -state disabled
       $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
       $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
-      $mb entryconfigure [msgcat::mc "Select All"]       -state disabled
       $mb entryconfigure [msgcat::mc "Select Mode"]      -state disabled
       $mb entryconfigure [msgcat::mc "Vim Mode"]         -state disabled
       $mb entryconfigure [msgcat::mc "Toggle Comment"]   -state disabled
@@ -1510,7 +1533,6 @@ namespace eval menus {
         $mb entryconfigure [msgcat::mc "Paste"]            -state disabled
         $mb entryconfigure [msgcat::mc "Paste and Format"] -state disabled
       }
-      $mb entryconfigure [msgcat::mc "Select All"]  -state normal
       $mb entryconfigure [msgcat::mc "Select Mode"] -state normal
       $mb entryconfigure [msgcat::mc "Vim Mode"]    -state $readonly_state
       if {[lindex [syntax::get_comments [gui::current_txt]] 0] eq ""} {
@@ -1534,6 +1556,24 @@ namespace eval menus {
       }
     }
 
+  }
+  
+  ######################################################################
+  # Called just prior to posting the edit/selection menu option.  Sets
+  # the menu option states to match the current UI state.
+  proc edit_select_posting {mb} {
+    
+    set state [expr {([gui::current_txt] eq "") ? "disabled" : "normal"}]
+    
+    $mb entryconfigure [msgcat::mc "All"]               -state $state
+    $mb entryconfigure [msgcat::mc "Current Line"]      -state $state
+    $mb entryconfigure [msgcat::mc "Current Word"]      -state $state
+    $mb entryconfigure [msgcat::mc "Current Sentence"]  -state $state
+    $mb entryconfigure [msgcat::mc "Current Paragraph"] -state $state
+    $mb entryconfigure [msgcat::mc "Current Brackets"]  -state $state
+    $mb entryconfigure [msgcat::mc "Add Next Line"]     -state $state
+    $mb entryconfigure [msgcat::mc "Add Previous Line"] -state $state
+    
   }
 
   ######################################################################
