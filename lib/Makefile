@@ -1,6 +1,11 @@
 FICKLE = ../scripts/fickle.tcl
 TACCLE = ../scripts/taccle.tcl
+
+ifeq ($(OS),Windows_NT)
 TCLSH = tclsh86
+else
+TCLSH = tclsh8.6
+endif
 
 NAGELFAR_FILES = version.tcl \
                  share.tcl \
