@@ -727,6 +727,9 @@ msgcat::mcmset hu {
   "Header"
   "Fejléc"
 
+  "Help"
+  "Segítség"
+
   "Hide All Tabs"
   "Minden fül elrejtése"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset hu {
   "Left"
   "Bal"
 
+  "Line To"
+  "Vonal"
+
+  "Miscellaneous"
+  "Muhtelif Konular"
+
   "Modes"
   "& Módok"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset hu {
   "Toggle Help"
   "Összezárás"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Váltás Surrounding\nCharacter felvétele"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Típus '?' segítségért.  Az ESCAPE billentyű kijelölési módból való kilépéshez nyomja"
+
+  "Undo Last Change"
+  "Az utolsó módosítás visszavonása..."
 
   "Up"
   "Fel"
@@ -3230,9 +3245,6 @@ msgcat::mcmset hu {
 
   "Find previous occurrence"
   "Még a korábbi előfordulása"
-
-  "Help"
-  "Segítség"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Tálaló adatai munkaablak bezárása a panelen megjelenített kép"

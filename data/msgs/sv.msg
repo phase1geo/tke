@@ -727,6 +727,9 @@ msgcat::mcmset sv {
   "Header"
   "Titel"
 
+  "Help"
+  "Hjälp"
+
   "Hide All Tabs"
   "Dölj alla flikar"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset sv {
   "Left"
   "Vänster"
 
+  "Line To"
+  "Linje till"
+
+  "Miscellaneous"
+  "Övrigt"
+
   "Modes"
   "Lägen"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset sv {
   "Toggle Help"
   "Växla"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Växla Surrounding\nCharacter integration"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Typ '?' för hjälp.  Tryck på ESC för att avsluta markeringsläget"
+
+  "Undo Last Change"
+  "Ångra senaste ändring..."
 
   "Up"
   "Upp"
@@ -3230,9 +3245,6 @@ msgcat::mcmset sv {
 
   "Find previous occurrence"
   "Hitta föregående förekomst"
-
-  "Help"
-  "Hjälp"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Bilden visas i sidofältet informationspanel för att stänga panelen"

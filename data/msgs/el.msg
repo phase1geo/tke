@@ -727,6 +727,9 @@ msgcat::mcmset el {
   "Header"
   "Επικεφαλίδα"
 
+  "Help"
+  "Βοήθεια"
+
   "Hide All Tabs"
   "Απόκρυψη όλων"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset el {
   "Left"
   "Αριστερά"
 
+  "Line To"
+  "Γραμμή"
+
+  "Miscellaneous"
+  "Διάφορα"
+
   "Modes"
   "ÎÎµÎ¹ÏÎ¿ÏÏÎ³Î¯ÎµÏ"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset el {
   "Toggle Help"
   "Εναλλαγή"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Εναλλαγή Surrounding\nCharacter ένταξη"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Τύπος '; ' για βοήθεια.  Χτύπησε το πλήκτρο ESCAPE για να εξέλθετε από τη λειτουργία επιλογής"
+
+  "Undo Last Change"
+  "Αναίρεση τελευταίας αλλαγής..."
 
   "Up"
   "Πάνω"
@@ -3230,9 +3245,6 @@ msgcat::mcmset el {
 
   "Find previous occurrence"
   "Βρείτε την προηγούμενη εμφάνιση"
-
-  "Help"
-  "Βοήθεια"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Εικόνα που εμφανίζεται στο sidebar πίνακα πληροφοριών για το κλείσιμο του πίνακα"

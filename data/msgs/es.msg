@@ -727,6 +727,9 @@ msgcat::mcmset es {
   "Header"
   "Encabezado"
 
+  "Help"
+  "Help!"
+
   "Hide All Tabs"
   "Ocultar Todo"
 
@@ -2303,6 +2306,12 @@ msgcat::mcmset es {
   "Left"
   "Izquierda"
 
+  "Line To"
+  "De la línea a"
+
+  "Miscellaneous"
+  "Misceláneos"
+
   "Modes"
   "Modos"
 
@@ -2360,8 +2369,14 @@ msgcat::mcmset es {
   "Toggle Help"
   "Desplegar texto de ayuda"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Inclusión de Surrounding\nCharacter de palanca"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Tipo '?' para obtener ayuda.  Pulse la tecla ESCAPE para salir del modo de selección"
+
+  "Undo Last Change"
+  "Deshacer el último cambio..."
 
   "Up"
   "Yukarı"
@@ -3227,9 +3242,6 @@ msgcat::mcmset es {
 
   "Find previous occurrence"
   "Buscar anterior aparición"
-
-  "Help"
-  "Help!"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Imagen que se muestra en el panel de información de barra lateral para cerrar el panel"

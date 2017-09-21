@@ -727,6 +727,9 @@ msgcat::mcmset nl {
   "Header"
   "Koptekst"
 
+  "Help"
+  "Help"
+
   "Hide All Tabs"
   "Alles verbergen"
 
@@ -2306,6 +2309,12 @@ msgcat::mcmset nl {
   "Left"
   "Links"
 
+  "Line To"
+  "Lijn aan"
+
+  "Miscellaneous"
+  "Diversen"
+
   "Modes"
   "Modi"
 
@@ -2363,8 +2372,14 @@ msgcat::mcmset nl {
   "Toggle Help"
   "Wissel"
 
+  "Toggle Surrounding\nCharacter Inclusion"
+  "Knevel Surrounding\nCharacter opname"
+
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Type '?' voor hulp.  Druk op de ESCAPE-toets om af te sluiten van de selectie-uitbreidingsmodus"
+
+  "Undo Last Change"
+  "Laatste wijziging ongedaan maken."
 
   "Up"
   "Omhoog"
@@ -3230,9 +3245,6 @@ msgcat::mcmset nl {
 
   "Find previous occurrence"
   "Vorige exemplaar zoeken"
-
-  "Help"
-  "Help"
 
   "Image displayed in sidebar information panel for closing the panel"
   "Afbeelding die wordt weergegeven in de zijbalk documentinformatiepaneel voor het sluiten van het paneel"
