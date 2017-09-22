@@ -54,6 +54,7 @@ namespace eval select {
     [list [msgcat::mc "Parenthesis"]     \( paren] \
     [list [msgcat::mc "Curly Brackets"]  \{ curly] \
     [list [msgcat::mc "Angled Brackets"] \< angled] \
+    [list [msgcat::mc "Comment"]         #  comment] \
     [list [msgcat::mc "Double Quotes"]   \" double] \
     [list [msgcat::mc "Single Quotes"]   \' single] \
     [list [msgcat::mc "Backticks"]       \` btick] \
@@ -196,8 +197,8 @@ namespace eval select {
       node {
         create_list .selhelp.f.motions [list $parent $child $nsib $psib $dshift $ushift]
       }
-      all   -
-      allto {}
+      all     -
+      allto   -
       default {
         create_list .selhelp.f.motions [list $inc]
       }
@@ -346,6 +347,17 @@ namespace eval select {
             set trange [list 1.0 end]
             if {$data($txtt,type) eq "allto"} {
               lset trange $data($txtt,anchorend) [lindex $range $data($txtt,anchorend)]
+            }
+          }
+          comment   {
+            if {[set ranges [ctext::commentCharRanges [winfo parent $txtt] insert]] ne ""} {
+              if {$data($txtt,inner)} {
+                set trange [lrange $ranges 1 2]
+              } else {
+                set trange [list [lindex $ranges 0] [lindex $ranges end]]
+              }
+            } else {
+              set trange $range
             }
           }
           default   { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}] 0] }
@@ -775,6 +787,11 @@ namespace eval select {
       return 0
     }
 
+    # This is only necessary for BIST testing on MacOS, but it should not hurt
+    # anything to clear the type anyways
+    set data($txtt,type) "none"
+    set data($txtt,mode) 0
+
     # Clear the selection
     $txtt tag remove sel 1.0 end
 
@@ -835,33 +852,33 @@ namespace eval select {
     return 1
 
   }
-  
+
   ######################################################################
   # Inverts the current selection and ends selection mode.
   proc handle_asciitilde {txtt} {
-    
+
     variable data
-    
+
     if {$data($txtt,mode) == 0} {
       return 0
     }
-    
+
     # Get the current selection
     set ranges [$txtt tag ranges sel]
-    
+
     # Select everything and remove the given ranges
     $txtt tag add sel 1.0 end
     $txtt tag remove sel {*}$ranges
-    
+
     # Disable selection mode
     set_select_mode $txtt 0
     set data($txtt,type)  "none"
-    
+
     # Hide the help window
     hide_help
-    
+
     return 1
-    
+
   }
 
   ######################################################################
@@ -916,16 +933,16 @@ namespace eval select {
     return 1
 
   }
-  
+
   ######################################################################
   # Returns the current bracket type based on the position of startpos.
   proc get_bracket_type {txtt startpos} {
-    
+
     set type ""
 
     # If we are within a comment, return
     if {[ctext::inComment $txtt $startpos]} {
-      return 0
+      return comment
     } elseif {[ctext::inString $txtt $startpos]} {
       if {[ctext::inSingleQuote $txtt $startpos]} {
         set type single
@@ -948,9 +965,9 @@ namespace eval select {
         }
       }
     }
-    
+
     return $type
-    
+
   }
 
   ######################################################################
@@ -960,13 +977,13 @@ namespace eval select {
 
     # Get the bracket type closest to the mouse cursor
     if {[set type [get_bracket_type $txtt [$txtt index @$x,$y]]] ne ""} {
-      
+
       # Set the type
       set_type $txtt $type
-      
+
       # Update the selection
       update_selection $txtt init -startpos [$txtt index @$x,$y]
-      
+
     }
 
     return 1
@@ -1216,21 +1233,29 @@ namespace eval select {
     set_type $txtt btick
 
   }
-  
+
+  ######################################################################
+  # Set the current selection type to comment.
+  proc handle_numbersign {txtt} {
+
+    set_type $txtt comment
+
+  }
+
   ######################################################################
   # Set the current selection type to all.
   proc handle_asterisk {txtt} {
-    
+
     set_type $txtt all
-    
+
   }
-  
+
   ######################################################################
   # Set the current selection type to allto.
   proc handle_period {txtt} {
-    
+
     set_type $txtt allto
-    
+
   }
 
   ######################################################################
@@ -1243,7 +1268,8 @@ namespace eval select {
       all     -
       allto   -
       line    -
-      lineto  {}
+      lineto  -
+      comment {}
       node    { update_selection $txtt parent }
       default { update_selection $txtt lshift }
     }
@@ -1260,7 +1286,8 @@ namespace eval select {
       all     -
       allto   -
       line    -
-      lineto  {}
+      lineto  -
+      comment {}
       node    { update_selection $txtt child }
       default { update_selection $txtt rshift }
     }
@@ -1410,7 +1437,7 @@ namespace eval select {
 
     variable data
 
-    if {[lsearch [list curly square paren angled single double btick] $data($txtt,type)] != -1} {
+    if {[lsearch [list curly square paren angled single double btick comment] $data($txtt,type)] != -1} {
       set data($txtt,inner) [expr {$data($txtt,inner) ^ 1}]
       update_selection $txtt init
     }
@@ -1614,52 +1641,52 @@ namespace eval select {
     return ""
 
   }
-  
+
   ######################################################################
   # Quickly selects the given type of text for the current editing buffer.
   # This functionality is meant to allow us to provide similar functionality
   # to other editors via the menus.
   proc quick_select {type} {
-    
+
     variable data
-    
+
     set txtt [gui::current_txt].t
-    
+
     # Make sure that we lose our current selection
     $txtt tag remove sel 1.0 end
-    
+
     # If the type is brackets, figure out the closest bracket to the insertion cursor.  If we
     # are not detected to be within a bracket, return without doing anything
     if {($type eq "bracket") && ([set type [get_bracket_type $txtt [$txtt index insert]]] eq "")} {
       return
     }
-    
+
     # Set the type
     set data($txtt,type) $type
-    
+
     # Perform the selection
     update_selection $txtt init -startpos insert
-    
+
   }
-  
+
   ######################################################################
   # Quickly adds the line above/below the currently selected line to the
   # selection.  This meant to provide backward compatibility with other
   # editors via the menus.
   proc quick_add_line {dir} {
-    
+
     variable data
-    
+
     # Get the current editing buffer
     set txtt [gui::current_txt].t
-    
+
     # Set the current selection type to line
     set data($txtt,type)      "line"
     set data($txtt,anchorend) [expr {($dir eq "next") ? 0 : 1}]
-    
+
     # Add the given line
     update_selection $txtt $dir -startpos insert
-    
+
   }
 
 }
