@@ -863,16 +863,19 @@ namespace eval themer {
 
     # Create mono frame
     set data(widgets,image_mf) [ttk::frame $data(widgets,image).mf]
-    pack [set data(widgets,image_mf_bm) [bitmap::create $data(widgets,image_mf).bm mono]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,image_mf).di -text [msgcat::mc "Import BMP Data"] -command [list bitmap::import $data(widgets,image_mf_bm) 3]] -padx 2 -pady 2 -fill x -expand yes
+    grid [set data(widgets,image_mf_bm) [bitmap::create $data(widgets,image_mf).bm mono]] -row 0 -column 0 -sticky news -padx 2 -pady 2 -columnspan 2
+    grid [ttk::button $data(widgets,image_mf).di -text [msgcat::mc "Import Bitmap Data"] -command [list bitmap::import $data(widgets,image_mf_bm) 3]]    -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::button $data(widgets,image_mf).de -text [msgcat::mc "Export Bitmap Data"] -command [list bitmap::export $data(widgets,image_mf_bm) data]] -row 1 -column 1 -sticky news -padx 2 -pady 2
 
     bind $data(widgets,image_mf_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
 
     # Create dual frame
     set data(widgets,image_df) [ttk::frame $data(widgets,image).df]
-    pack [set data(widgets,image_df_bm) [bitmap::create $data(widgets,image_df).bm dual]] -padx 2 -pady 2
-    pack [ttk::button $data(widgets,image_df).di -text [msgcat::mc "Import BMP Data"] -command [list bitmap::import $data(widgets,image_df_bm) 1]] -padx 2 -pady 2 -fill x -expand yes
-    pack [ttk::button $data(widgets,image_df).mi -text [msgcat::mc "Import BMP Mask"] -command [list bitmap::import $data(widgets,image_df_bm) 2]] -padx 2 -pady 2 -fill x -expand yes
+    grid [set data(widgets,image_df_bm) [bitmap::create $data(widgets,image_df).bm dual]] -row 0 -column 0 -padx 2 -pady 2 -columnspan 2
+    grid [ttk::button $data(widgets,image_df).di -text [msgcat::mc "Import BMP Data"] -command [list bitmap::import $data(widgets,image_df_bm) 1]]    -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::button $data(widgets,image_df).mi -text [msgcat::mc "Import BMP Mask"] -command [list bitmap::import $data(widgets,image_df_bm) 2]]    -row 2 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::button $data(widgets,image_df).de -text [msgcat::mc "Export BMP Data"] -command [list bitmap::export $data(widgets,image_df_bm) data]] -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid [ttk::button $data(widgets,image_df).me -text [msgcat::mc "Export BMP Mask"] -command [list bitmap::export $data(widgets,image_df_bm) mask]] -row 2 -column 1 -sticky news -padx 2 -pady 2
 
     bind $data(widgets,image_df_bm) <<BitmapChanged>> [list themer::handle_bitmap_changed %d]
 

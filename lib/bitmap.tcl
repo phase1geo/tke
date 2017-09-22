@@ -91,14 +91,18 @@ namespace eval bitmap {
 
     # Create the right frame
     ttk::frame $w.rf
-    set data($w,plabel) [ttk::label $w.rf.p -relief solid -padding 10]
-    ttk::frame $w.rf.mf
-    grid columnconfigure $w.rf.mf 3 -weight 1
-    grid [ttk::button $w.rf.mf.up     -style BButton -text "\u25b2" -command [list bitmap::move $w up]]     -row 0 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::button $w.rf.mf.left   -style BButton -text "\u25c0" -command [list bitmap::move $w left]]   -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid [ttk::button $w.rf.mf.center -style BButton -text "\u25fc" -command [list bitmap::move $w center]] -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::button $w.rf.mf.right  -style BButton -text "\u25b6" -command [list bitmap::move $w right]]  -row 1 -column 2 -sticky news -padx 2 -pady 2
-    grid [ttk::button $w.rf.mf.down   -style BButton -text "\u25bc" -command [list bitmap::move $w down]]   -row 2 -column 1 -sticky news -padx 2 -pady 2
+    set data($w,plabel) [ttk::label $w.rf.p -relief solid -padding 10 -anchor center]
+    ttk::labelframe $w.rf.mf -text [msgcat::mc "Transform Tools"]
+    grid columnconfigure $w.rf.mf 0 -weight 1
+    grid columnconfigure $w.rf.mf 4 -weight 1
+    grid [ttk::button $w.rf.mf.up     -style BButton -text "\u25b2" -command [list bitmap::move $w up]]         -row 0 -column 2 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.left   -style BButton -text "\u25c0" -command [list bitmap::move $w left]]       -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.center -style BButton -text "\u2b1b" -command [list bitmap::move $w center]]     -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.right  -style BButton -text "\u25b6" -command [list bitmap::move $w right]]      -row 1 -column 3 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.down   -style BButton -text "\u25bc" -command [list bitmap::move $w down]]       -row 2 -column 2 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.flipv  -style BButton -text "\u2b0c" -command [list bitmap::flip $w vertical]]   -row 3 -column 1 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.rot    -style BButton -text "\u21ba" -command [list bitmap::rotate $w]]          -row 3 -column 2 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.fliph  -style BButton -text "\u2b0d" -command [list bitmap::flip $w horizontal]] -row 3 -column 3 -sticky news -padx 2 -pady 2
     set data($w,c1_lbl) [ttk::label $w.rf.l1 -text "Color-1:" -background [lindex $data($w,colors) 1]]
     set data($w,color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data($w,colors) 1] -menu [set data($w,color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
     if {$type eq "mono"} {
@@ -401,7 +405,7 @@ namespace eval bitmap {
         array set msk_info [parse_bmp $info(msk)]
       }
     } rc]} {
-      return -code error "Error parsing BMP file"
+      return -code error "Error parsing BMP file ($rc)"
     }
 
     # Set the variables
@@ -458,16 +462,16 @@ namespace eval bitmap {
   proc parse_bmp {bmp_str} {
 
     array set bmp_data [list]
-
+    
     # Parse out the width and height
-    if {[regexp {#define\s+\w+\s+(\d+).*#define\s+\w+\s+(\d+).*\{(.*)\}} $bmp_str -> bmp_data(width) bmp_data(height) values]} {
-      if {$bmp_data(width) > 16} {
-        return -code error "BMP data width is greater than 16"
+    if {[regexp {#define\s+\w+\s+(\d+).*#define\s+\w+\s+(\d+).*\{(.*)\}} [string map {\n { }} $bmp_str] -> bmp_data(width) bmp_data(height) values]} {
+      if {$bmp_data(width) > 32} {
+        return -code error "BMP data width is greater than 32"
       }
-      if {$bmp_data(height) > 16} {
-        return -code error "BMP data height is greater than 16"
+      if {$bmp_data(height) > 32} {
+        return -code error "BMP data height is greater than 32"
       }
-      set values [split [string map {{,} {}} [string trim $values]]]
+      set values [string map {{,} {}} [string trim $values]]
       switch [expr ($bmp_data(width) - 1) / 8] {
         0 {
           foreach val $values {
@@ -477,6 +481,16 @@ namespace eval bitmap {
         1 {
           foreach {val1 val2} $values {
             lappend bmp_data(rows) [expr ($val2 << 8) | $val1]
+          }
+        }
+        2 {
+          foreach {val1 val2 val3} $values {
+            lappend bmp_data(rows) [expr ($val3 << 16) | ($val2 << 8) | $val1]
+          }
+        }
+        3 {
+          foreach {val1 val2 val3 val4} $value {
+            lappend bmp_data(rows) [expr ($val4 << 24) | ($val3 << 16) | ($val2 << 8) | $val1]
           }
         }
       }
@@ -561,7 +575,7 @@ namespace eval bitmap {
     variable data
 
     # Prompt the user for a BMP filename
-    if {[set fname [tk_getOpenFile -parent $w -filetypes {{{BMP files} {.bmp}}}]] ne ""} {
+    if {[set fname [tk_getOpenFile -parent $w -filetypes {{{Bitmap files} {.bmp}}}]] ne ""} {
 
       # Open the file for reading
       if {[catch { open $fname r } rc]} {
@@ -584,8 +598,41 @@ namespace eval bitmap {
         tk_messageBox -parent $w -icon error -message "Unable to parse BMP file $fname"
       }
 
+      # Generate the event
+      event generate $w <<BitmapChanged>> -data [array get info]
+
     }
 
+  }
+  
+  ######################################################################
+  # Exports the current bitmap information to a file.  The value of type
+  # can be 'data' or 'mask'.
+  proc export {w type} {
+    
+    # Prompt the user for a BMP filename to save to
+    if {[set fname [tk_getSaveFile -parent $w -filetypes {{{Bitmap files} {.bmp}}}]] ne ""} {
+      
+      # Open the file for writing
+      if {[catch { open $fname w } rc]} {
+        return -code error "Unable to open $fname for writing"
+      }
+      
+      # Get the bitmap information
+      array set info [get_info $w]
+      
+      # Write the information
+      if {$type eq "data"} {
+        puts $rc $info(dat)
+      } else {
+        puts $rc $info(msk)
+      }
+      
+      # Close the file
+      close $rc
+      
+    }
+    
   }
 
   ######################################################################
@@ -669,9 +716,103 @@ namespace eval bitmap {
       }
     }
 
-    # Generate the event
-    event generate $w <<BitmapChanged>> -data [get_info $w]
+    # Update the preview
+    array set info [get_info $w]
+    $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
 
+    # Generate the event
+    event generate $w <<BitmapChanged>> -data [array get info]
+
+  }
+  
+  ######################################################################
+  # Flips the image horizontally or vertically.
+  proc flip {w orient} {
+    
+    variable data
+    
+    for {set i 0} {$i < $data($w,-height)} {incr i} { lappend rows $i }
+    for {set i 0} {$i < $data($w,-width)}  {incr i} { lappend cols $i }
+
+    if {$orient eq "vertical"} {
+      foreach row $rows {
+        foreach lcol $cols rcol [lreverse $cols] {
+          if {$lcol >= $rcol} {
+            break
+          } else {
+            set fill [$data($w,grid) itemcget $data($w,$row,$lcol) -fill]
+            set tags [$data($w,grid) itemcget $data($w,$row,$lcol) -tags]
+            $data($w,grid) itemconfigure $data($w,$row,$lcol) \
+              -fill [$data($w,grid) itemcget $data($w,$row,$rcol) -fill] \
+              -tags [$data($w,grid) itemcget $data($w,$row,$rcol) -tags]
+            $data($w,grid) itemconfigure $data($w,$row,$rcol) -fill $fill -tags $tags
+          }
+        }
+      }
+    } else {
+      foreach col $cols {
+        foreach trow $rows brow [lreverse $rows] {
+          if {$trow >= $brow} {
+            break
+          } else {
+            set fill [$data($w,grid) itemcget $data($w,$trow,$col) -fill]
+            set tags [$data($w,grid) itemcget $data($w,$trow,$col) -tags]
+            $data($w,grid) itemconfigure $data($w,$trow,$col) \
+              -fill [$data($w,grid) itemcget $data($w,$brow,$col) -fill] \
+              -tags [$data($w,grid) itemcget $data($w,$brow,$col) -tags]
+            $data($w,grid) itemconfigure $data($w,$brow,$col) -fill $fill -tags $tags
+          }
+        }
+      }
+    }
+    
+    # Update the preview
+    array set info [get_info $w]
+    $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
+
+    # Generate the event
+    event generate $w <<BitmapChanged>> -data [array get info]
+    
+  }
+  
+  ######################################################################
+  # Rotates the image by 90 degrees.
+  proc rotate {w} {
+    
+    variable data
+    
+    for {set i 0} {$i < $data($w,-height)} {incr i} { lappend rows $i }
+    for {set i 0} {$i < $data($w,-width)}  {incr i} { lappend cols $i }
+    
+    # Copy the image to a source array and clear the destination
+    foreach row $rows {
+      set src_row [list]
+      foreach col $cols {
+        lappend src_row [list -fill [$data($w,grid) itemcget $data($w,$row,$col) -fill] -tags [$data($w,grid) itemcget $data($w,$row,$col) -tags]]
+        $data($w,grid) itemconfigure $data($w,$row,$col) -fill "" -tags ""
+      }
+      lappend src $src_row
+    }
+    
+    foreach col $cols src_row $rows {
+      if {($col eq "") || ($src_row eq "")} {
+        return
+      }
+      foreach row [lreverse $rows] src_col $cols {
+        if {($row eq "") || ($src_col eq "")} {
+          break
+        }
+        $data($w,grid) itemconfigure $data($w,$row,$col) {*}[lindex $src $src_row $src_col]
+      }
+    }
+    
+    # Update the preview
+    array set info [get_info $w]
+    $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
+
+    # Generate the event
+    event generate $w <<BitmapChanged>> -data [array get info]
+    
   }
 
 }
