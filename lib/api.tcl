@@ -138,12 +138,19 @@ namespace eval api {
   ## Displays the given message string in the information bar.  The
   #  message must not contain any newline characters.
   #
-  #  \param msg          Message to display in the information bar
-  #  \param clear_delay  Specifies the amount of time to wait before clearing the message
-  proc show_info {interp pname msg {clear_delay 3000}} {
+  #  \param msg   Message to display in the information bar
+  #  \param args  Optional arguments:
+  #
+  #    -clear_delay  Specifies the number of milliseconds before the message
+  #                  be automatically removed from sight.
+  #    -win          If specified, the associated text widget path will be
+  #                  associated with the message such that if the text
+  #                  loses focus and then later regains the focus, the message
+  #                  will be redisplayed.
+  proc show_info {interp pname msg args} {
 
     # Displays the given message
-    gui::set_info_message $msg $clear_delay
+    gui::set_info_message $msg {*}$args
 
   }
 
