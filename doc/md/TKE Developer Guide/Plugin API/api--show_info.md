@@ -4,7 +4,7 @@ Takes a user message and a delay time and displays the message in the bottom sta
 
 **Call structure**
 
-`api::show_info message ?clear_delay?`
+`api::show_info message ?-clear_delay milliseconds? ?-win path?`
 
 **Return value**
 
@@ -15,5 +15,6 @@ None
 | Parameter | Description |
 | - | - |
 | message | Message to display to user.  It is important that no newline characters are present in this message and that the message is no more than 100 or so characters in length. |
-| clear\_delay | Optional value.  Allows for the message to be cleared in a given number of milliseconds.  By default, this value is set to 3000 milliseconds (i.e., 3 seconds). If this value is set to 0, the displayed message will remain in the information bar until another message is displayed. |
+| **-clear\_delay** _milliseconds_ | Optional value.  Allows for the message to be cleared in a given number of milliseconds.  By default, this value is set to 3000 milliseconds (i.e., 3 seconds). If this value is set to 0, the displayed message will remain in the information bar until another message is displayed. |
+| **-win** _path_ | Optional value. If specified, the given message will be remembered for the associated text widget such that if the associated text widget loses input focus and then later regains input focus, the message will automatically be redisplayed to the user. |
 

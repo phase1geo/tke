@@ -705,7 +705,7 @@ namespace eval select {
         $txtt configure -cursor [ttk::cursor standard]
 
         # Display a help message
-        gui::set_info_message [msgcat::mc "Type '?' for help.  Hit the ESCAPE key to exit selection mode"] 0
+        gui::set_info_message [msgcat::mc "Type '?' for help.  Hit the ESCAPE key to exit selection mode"] -win [winfo parent $txtt] -clear_delay 0
 
       # Otherwise, configure the cursor
       } else {

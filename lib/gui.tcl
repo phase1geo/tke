@@ -3216,10 +3216,17 @@ namespace eval gui {
 
   ######################################################################
   # Sets the current information message to the given string.
-  proc set_info_message {msg {clear_delay 3000}} {
+  proc set_info_message {msg args} {
 
     variable widgets
     variable info_clear
+    variable info_msgs
+
+    array set opts {
+      -clear_delay 3000
+      -win         ""
+    }
+    array set opts $args
 
     if {[info exists widgets(info_msg)]} {
 
@@ -3231,6 +3238,11 @@ namespace eval gui {
       lassign [winfo rgb . [utils::get_default_background]] br bg bb
       $widgets(info_msg) configure -text $msg -foreground $foreground
 
+      # Remember the message for the window, if necessary
+      if {$opts(-win) ne ""} {
+        set info_msgs($opts(-win)) [list $msg $opts(-clear_delay)]
+      }
+
       # If the status bar is supposed to be hidden, show it now
       if {![winfo ismapped $widgets(info)]} {
         show_status_view
@@ -3240,11 +3252,11 @@ namespace eval gui {
       }
 
       # Call ourselves
-      if {$clear_delay > 0} {
-        set info_clear [after $clear_delay \
+      if {($opts(-clear_delay) > 0) && ([string trim $msg] ne "")} {
+        set info_clear [after $opts(-clear_delay) \
                          [list gui::clear_info_message $hide_info \
                            [expr $fr >> 8] [expr $fg >> 8] [expr $fb >> 8] \
-                           [expr $br >> 8] [expr $bg >> 8] [expr $bb >> 8]]]
+                           [expr $br >> 8] [expr $bg >> 8] [expr $bb >> 8] -win $opts(-win)]]
       }
 
     } else {
@@ -3257,15 +3269,25 @@ namespace eval gui {
 
   ######################################################################
   # Clears the info message.
-  proc clear_info_message {hide_info fr fg fb br bg bb {fade_count 0}} {
+  proc clear_info_message {hide_info fr fg fb br bg bb args} {
 
     variable widgets
     variable info_clear
+    variable info_msgs
 
-    if {$fade_count == 10} {
+    array set opts {
+      -fade_count 0
+      -win        ""
+    }
+    array set opts $args
+
+    if {$opts(-fade_count) == 10} {
 
       # Clear the text
       $widgets(info_msg) configure -text ""
+
+      # Clear the message memory
+      unset -nocomplain info_msgs($opts(-win))
 
       # Clear the info_clear variable
       set info_clear ""
@@ -3279,14 +3301,14 @@ namespace eval gui {
 
       # Calculate the color
       set color [format {#%02x%02x%02x} \
-                  [expr $fr - ((($fr - $br) / 10) * $fade_count)] \
-                  [expr $fg - ((($fg - $bg) / 10) * $fade_count)] \
-                  [expr $fb - ((($fb - $bb) / 10) * $fade_count)]]
+                  [expr $fr - ((($fr - $br) / 10) * $opts(-fade_count))] \
+                  [expr $fg - ((($fg - $bg) / 10) * $opts(-fade_count))] \
+                  [expr $fb - ((($fb - $bb) / 10) * $opts(-fade_count))]]
 
       # Set the foreground color to simulate the fade effect
       $widgets(info_msg) configure -foreground $color
 
-      set info_clear [after 100 [list gui::clear_info_message $hide_info $fr $fg $fb $br $bg $bb [incr fade_count]]]
+      set info_clear [after 100 [list gui::clear_info_message $hide_info $fr $fg $fb $br $bg $bb [incr opts(-fade_count)]]]
 
     }
 
@@ -5405,6 +5427,7 @@ namespace eval gui {
     variable widgets
     variable pw_current
     variable txt_current
+    variable info_msgs
 
     # It is possible that getting the parent of txtt could cause errors, so just
     # silently catch them and move on
@@ -5422,6 +5445,13 @@ namespace eval gui {
 
       # Save the text widget
       set txt_current($tab) [winfo parent $txtt]
+
+      # Update the informational message if one exists for the text widget
+      if {[info exists info_msgs($txt)]} {
+        set_info_message [lindex $info_msgs($txt) 0] -clear_delay [lindex $info_msgs($txt) 1]
+      } else {
+        set_info_message ""
+      }
 
       # Let the plugins know about the FocusIn event
       plugins::handle_on_focusin $tab
