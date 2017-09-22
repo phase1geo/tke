@@ -589,6 +589,38 @@ namespace eval bitmap {
   }
 
   ######################################################################
+  # Counts the number of blanks for the given orientation.
+  proc count_blanks {w orient rows cols} {
+
+    variable data
+
+    set blanks 0
+
+    if {$orient eq "row"} {
+      foreach row $rows {
+        foreach col $cols {
+          if {[$data($w,grid) itemcget $data($w,$row,$col) -tags] ne "s0"} {
+            return $blanks
+          }
+        }
+        incr blanks
+      }
+    } else {
+      foreach col $cols {
+        foreach row $rows {
+          if {[$data($w,grid) itemcget $data($w,$row,$col) -tags] ne "s0"} {
+            return $blanks
+          }
+        }
+        incr blanks
+      }
+    }
+
+    return $blanks
+
+  }
+
+  ######################################################################
   # Moves all of the pixels in the canvas in the given direction by one
   # pixel.
   proc move {w dir} {
@@ -606,7 +638,21 @@ namespace eval bitmap {
       down   { set row_adjust -1; set rows [lreverse $rows] }
       left   { set col_adjust  1 }
       right  { set col_adjust -1; set cols [lreverse $cols] }
-      center {}
+      center {
+        set top    [count_blanks $w row $rows $cols]
+        set bottom [count_blanks $w row [lreverse $rows] $cols]
+        set left   [count_blanks $w col $rows $cols]
+        set right  [count_blanks $w col $rows [lreverse $cols]]
+        if {[set row_adjust [expr $top - (($top + $bottom) / 2)]] < 0} {
+          set rows [lreverse $rows]
+        }
+        if {[set col_adjust [expr $left - (($left + $right) / 2)]] < 0} {
+          set cols [lreverse $cols]
+        }
+        if {($row_adjust == 0) && ($col_adjust == 0)} {
+          return
+        }
+      }
     }
 
     foreach row $rows {
