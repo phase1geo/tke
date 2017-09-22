@@ -92,6 +92,13 @@ namespace eval bitmap {
     # Create the right frame
     ttk::frame $w.rf
     set data($w,plabel) [ttk::label $w.rf.p -relief solid -padding 10]
+    ttk::frame $w.rf.mf
+    grid columnconfigure $w.rf.mf 3 -weight 1
+    grid [ttk::button $w.rf.mf.up     -style BButton -text "\u25b2" -command [list bitmap::move $w up]]     -row 0 -column 1 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.left   -style BButton -text "\u25c0" -command [list bitmap::move $w left]]   -row 1 -column 0 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.center -style BButton -text "\u25fc" -command [list bitmap::move $w center]] -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.right  -style BButton -text "\u25b6" -command [list bitmap::move $w right]]  -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.down   -style BButton -text "\u25bc" -command [list bitmap::move $w down]]   -row 2 -column 1 -sticky news -padx 2 -pady 2
     set data($w,c1_lbl) [ttk::label $w.rf.l1 -text "Color-1:" -background [lindex $data($w,colors) 1]]
     set data($w,color1) [ttk::menubutton $w.rf.sb1 -text [lindex $data($w,colors) 1] -menu [set data($w,color1_mnu) [menu $w.rf.mnu1 -tearoff 0]]]
     if {$type eq "mono"} {
@@ -110,19 +117,21 @@ namespace eval bitmap {
     $data($w,width)  {*}$data(sb_readonly)
     $data($w,height) {*}$data(sb_readonly)
 
-    grid rowconfigure    $w.rf 0 -weight 1
+    grid rowconfigure    $w.rf 1 -weight 1
+    grid rowconfigure    $w.rf 3 -weight 1
     grid columnconfigure $w.rf 1 -weight 1
     grid $data($w,plabel) -row 0 -column 0 -padx 2 -pady 2 -columnspan 2
-    grid $data($w,c1_lbl) -row 1 -column 0 -sticky news -padx 2 -pady 2
-    grid $data($w,color1) -row 1 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.rf.mf         -row 2 -column 0 -padx 2 -pady 2 -columnspan 2
+    grid $data($w,c1_lbl) -row 4 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,color1) -row 4 -column 1 -sticky news -padx 2 -pady 2
     if {$type ne "mono"} {
-      grid $data($w,c2_lbl) -row 2 -column 0 -sticky news -padx 2 -pady 2
-      grid $data($w,color2) -row 2 -column 1 -sticky news -padx 2 -pady 2
+      grid $data($w,c2_lbl) -row 5 -column 0 -sticky news -padx 2 -pady 2
+      grid $data($w,color2) -row 5 -column 1 -sticky news -padx 2 -pady 2
     }
-    grid $w.rf.l3         -row 3 -column 0 -sticky news -padx 2 -pady 2
-    grid $data($w,width)  -row 3 -column 1 -sticky news -padx 2 -pady 2
-    grid $w.rf.l4         -row 4 -column 0 -sticky news -padx 2 -pady 2
-    grid $data($w,height) -row 4 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.rf.l3         -row 6 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,width)  -row 6 -column 1 -sticky news -padx 2 -pady 2
+    grid $w.rf.l4         -row 7 -column 0 -sticky news -padx 2 -pady 2
+    grid $data($w,height) -row 7 -column 1 -sticky news -padx 2 -pady 2
 
     pack $w.c  -side left -padx 2 -pady 2
     pack $w.rf -side left -padx 2 -pady 2 -fill y
@@ -576,6 +585,46 @@ namespace eval bitmap {
       }
 
     }
+
+  }
+
+  ######################################################################
+  # Moves all of the pixels in the canvas in the given direction by one
+  # pixel.
+  proc move {w dir} {
+
+    variable data
+
+    set row_adjust 0
+    set col_adjust 0
+
+    for {set i 0} {$i < $data($w,-height)} {incr i} { lappend rows $i }
+    for {set i 0} {$i < $data($w,-width)}  {incr i} { lappend cols $i }
+
+    switch $dir {
+      up     { set row_adjust  1 }
+      down   { set row_adjust -1; set rows [lreverse $rows] }
+      left   { set col_adjust  1 }
+      right  { set col_adjust -1; set cols [lreverse $cols] }
+      center {}
+    }
+
+    foreach row $rows {
+      set old_row [expr $row + $row_adjust]
+      foreach col $cols {
+        set old_col [expr $col + $col_adjust]
+        if {($old_row < 0) || ($old_row >= $data($w,-height)) || ($old_col < 0) || ($old_col >= $data($w,-width))} {
+          $data($w,grid) itemconfigure $data($w,$row,$col) -fill "" -tags s0
+        } else {
+          $data($w,grid) itemconfigure $data($w,$row,$col) \
+            -fill [$data($w,grid) itemcget $data($w,$old_row,$old_col) -fill] \
+            -tags [$data($w,grid) itemcget $data($w,$old_row,$old_col) -tags]
+        }
+      }
+    }
+
+    # Generate the event
+    event generate $w <<BitmapChanged>> -data [get_info $w]
 
   }
 

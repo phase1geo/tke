@@ -118,10 +118,9 @@ namespace eval tabbar {
 
     # Create any images
     set imgdir [file join [DIR] library images]
-    set data($w,image,close)       [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
-    set data($w,image,activeclose) [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
-    set data($w,image,left)        [image create bitmap -file [file join $imgdir left.bmp]  -maskfile [file join $imgdir left.bmp]  -foreground black]
-    set data($w,image,right)       [image create bitmap -file [file join $imgdir right.bmp] -maskfile [file join $imgdir right.bmp] -foreground black]
+    set data($w,image,close) [image create bitmap -file [file join $imgdir close.bmp] -maskfile [file join $imgdir close.bmp] -foreground black]
+    set data($w,image,left)  [image create bitmap -file [file join $imgdir left.bmp]  -maskfile [file join $imgdir left.bmp]  -foreground black]
+    set data($w,image,right) [image create bitmap -file [file join $imgdir right.bmp] -maskfile [file join $imgdir right.bmp] -foreground black]
     for {set i 1} {$i <= 8} {incr i} {
       set data($w,image,busy$i) [image create bitmap -file [file join $imgdir busy$i.bmp] -maskfile [file join $imgdir busy$i.bmp] -foreground black]
     }
@@ -746,6 +745,10 @@ namespace eval tabbar {
         lappend resizable [set cid [$w.c create image [incr x1 [expr 0 - ([image width $closeimage] + $opts(-padx))]] $y0 -anchor w -image $closeimage -tags [list t$id c$id]]]
         incr x1 -$opts(-padx)
       }
+      if {$data($w,option,-activecloseimage) ne ""} {
+        $w.c bind $cid <Enter> [list $w.c itemconfigure $cid -image $data($w,option,-activecloseimage)]
+        $w.c bind $cid <Leave> [list $w.c itemconfigure $cid -image $closeimage]
+      }
       if {$data($w,option,-closeshow) eq "enter"} {
         $w.c itemconfigure $cid -state hidden
       }
@@ -881,7 +884,7 @@ namespace eval tabbar {
     array set orig_opts $orig_opts_list
 
     # If any options have changed that will require a complete redraw, do it now
-    foreach opt [list -busy -close -closeimage -closeshow -font -state -padx -pady -height -margin -anchor \
+    foreach opt [list -busy -close -activecloseimage -closeimage -closeshow -font -state -padx -pady -height -margin -anchor \
                       -activebackground -activeforeground -inactivebackground -inactiveforeground] {
       if {$orig_opts($w,option,$opt) ne $data($w,option,$opt)} {
         redraw_all_tabs $w 0
@@ -896,8 +899,11 @@ namespace eval tabbar {
     }
 
     if {$orig_opts($w,option,-foreground) ne $data($w,option,-foreground)} {
+      if {[set closeimage $data($w,option,-closeimage)] eq ""} {
+        set closeimage $data($w,image,close)
+      }
       foreach page $data($w,pages) {
-        $w.c itemconfigure c[lindex $page 1 0] -image $data($w,image,close)
+        $w.c itemconfigure c[lindex $page 1 0] -image $closeimage
       }
     }
 
@@ -1078,10 +1084,15 @@ namespace eval tabbar {
 
     }
 
+    # Get the image to use for closing the tab
+    if {[set closeimage $data($w,option,-closeimage)] eq ""} {
+      set closeimage $data($w,image,close)
+    }
+
     # Display the tabs so that they represent the current state (if the current state has changed)
     foreach page_index $data($w,tab_order) {
       set tabid [lindex $data($w,pages) $page_index 1 0]
-      $w.c itemconfigure c$tabid -image $data($w,image,close)
+      $w.c itemconfigure c$tabid -image $closeimage
       array set opts [lindex $data($w,pages) $page_index 1 2]
       if {$page_index == $data($w,current)} {
         $w.c itemconfigure f$tabid -fill $data($w,option,-activebackground) -outline $data($w,option,-activebackground)
