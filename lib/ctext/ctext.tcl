@@ -1005,8 +1005,9 @@ proc ctext::undo {win} {
         i {
           $win._t insert $val1 $val2
           append changed $val2
-          comments_do_tag $win $val1 "$val1+[string length val2]c" do_tags
           set val2 [$win index "$val1+[string length $val2]c"]
+          comments_do_tag $win $val1 $val2 do_tags
+          set_rmargin $win $val1 $val2
           lappend data($win,config,redo_hist) [list d $val1 $val2 $cursor $sep]
           set insert 1
         }
@@ -1083,8 +1084,9 @@ proc ctext::redo {win} {
         i {
           $win._t insert $val1 $val2
           append changed $val2
-          comments_do_tag $win.t $val1 "$val1+[string length val2]c" do_tags
           set val2 [$win index "$val1+[string length $val2]c"]
+          comments_do_tag $win.t $val1 $val2 do_tags
+          set_rmargin $win $val1 $val2
           lappend data($win,config,undo_hist) [list d $val1 $val2 $cursor $sep]
           if {$cursor != $val2} {
             set cursor $val2
