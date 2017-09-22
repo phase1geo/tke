@@ -696,6 +696,26 @@ proc ctext::inCommentRange {win index prange} {
 
 }
 
+proc ctext::commentCharRanges {win index} {
+
+  if {[set curr_tag [lsearch -inline -glob [$win tag names $index] _comstr1*]] ne ""} {
+    set range [$win tag prevrange $curr_tag $index+1c]
+    if {[string index $curr_tag 8] eq "l"} {
+      set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]] _lCommentStart:*]
+      lappend ranges {*}[$win tag prevrange $start_tag [lindex $range 0]+1c] [lindex $range 1]
+    } else {
+      set start_tag [lsearch -inline -glob [$win tag names [lindex $range 0]]    _cCommentStart:*]
+      set end_tag   [lsearch -inline -glob [$win tag names [lindex $range 1]-1c] _cCommentEnd:*]
+      lappend ranges {*}[$win tag prevrange $start_tag [lindex $range 0]+1c]
+      lappend ranges {*}[$win tag prevrange $end_tag [lindex $range 1]]
+    }
+    return $ranges
+  }
+
+  return [list]
+
+}
+
 proc ctext::inBackTickRange {win index prange} {
 
   return [inCommentStringRangeHelper $win $index _comstr0b* $prange]
