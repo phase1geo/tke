@@ -139,6 +139,11 @@ namespace eval gui {
       -file     [file join $::tke_dir lib images close.bmp] \
       -maskfile [file join $::tke_dir lib images close.bmp] \
       -foreground 2
+    theme::register_image tab_activeclose bitmap tabs -background \
+      {msgcat::mc "Images used in tab which will be displayed when the mouse enters the close button area"} \
+      -file     [file join $::tke_dir lib images active_close.bmp] \
+      -maskfile [file join $::tke_dir lib images active_close.bmp] \
+      -foreground 2
 
     # Create close button for forms
     theme::register_image form_close bitmap ttk_style background \
@@ -3884,7 +3889,7 @@ namespace eval gui {
 
     # Add the tabbar frame
     ttk::frame $nb.tbf
-    tabbar::tabbar $nb.tbf.tb -closeimage tab_close \
+    tabbar::tabbar $nb.tbf.tb -closeimage tab_close -activecloseimage tab_activeclose \
       -command      [list gui::handle_tabbar_select] \
       -checkcommand [list gui::close_check_by_tabbar] \
       -closecommand [list gui::close_tab_by_tabbar]
