@@ -1578,40 +1578,60 @@ namespace eval edit {
     variable patterns
 
     # Search for the end of the previous sentence
-    set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos 1.0]
+    set index    [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos 1.0]
+    set beginpos "1.0"
+    set endpos   "end-1c"
+
+    # If the startpos is within a comment block and the found index lies outside of that
+    # block, set the sentence starting point on the first non-whitespace character within the
+    # comment block.
+    if {[set comment [ctext::commentCharRanges [winfo parent $txtt] $startpos]] ne ""} {
+      lassign [lrange $comment 1 2] beginpos endpos
+      if {($index ne "") && [$txtt compare $index < [lindex $comment 1]]} {
+        set index ""
+      }
+
+    # If the end of the found sentence is within a comment block, set the beginning position
+    # to the end of that comment and clear the index.
+    } elseif {($index ne "") && ([set comment [ctext::commentCharRanges [winfo parent $txtt] $index]] ne "")} {
+      set beginpos [lindex $comment end]
+      set index    ""
+    }
 
     if {$dir eq "next"} {
 
       # If we could not find the end of a previous sentence, find the first
       # non-whitespace character in the file and if it is after the startpos,
       # return the index.
-      if {($index eq "") && ([set index [$txtt search -forwards -regexp -- {\S} 1.0 end-1c]] ne "")} {
+      if {($index eq "") && ([set index [$txtt search -forwards -count lengths -regexp -- {\S} $beginpos $endpos]] ne "")} {
         if {[$txtt compare $index > $startpos] && ([incr num -1] == 0)} {
           return $index
         }
         set index ""
       }
 
+      # If the insertion cursor is just before the beginning of the sentence.
       if {($index ne "") && [$txtt compare $startpos < "$index+[expr [lindex $lengths 0] - 1]c"]} {
         set startpos $index
       }
 
-      while {[set index [$txtt search -forwards -count lengths -regexp -- $patterns(sentence) $startpos end]] ne ""} {
+      while {[set index [$txtt search -forwards -count lengths -regexp -- $patterns(sentence) $startpos $endpos]] ne ""} {
         set startpos [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
         if {[incr num -1] == 0} {
           return $startpos
         }
       }
 
-      return "end-1c"
+      return $endpos
 
     } else {
 
+      # If the insertion cursor is between sentences, adjust the starting position
       if {($index ne "") && [$txtt compare $startpos <= "$index+[expr [lindex $lengths 0] - 1]c"]} {
         set startpos $index
       }
 
-      while {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos-1c 1.0]] ne ""} {
+      while {[set index [$txtt search -backwards -count lengths -regexp -- $patterns(sentence) $startpos-1c $beginpos]] ne ""} {
         set startpos $index
         if {[incr num -1] == 0} {
           return [$txtt index "$index+[expr [lindex $lengths 0] - 1]c"]
@@ -1619,11 +1639,11 @@ namespace eval edit {
       }
 
       if {([incr num -1] == 0) && \
-          ([set index [$txtt search -forwards -regexp -- {\S} 1.0 end-1c]] ne "") && \
+          ([set index [$txtt search -forwards -regexp -- {\S} $beginpos $endpos]] ne "") && \
           ([$txtt compare $index < $startpos])} {
         return $index
       } else {
-        return "1.0"
+        return $beginpos
       }
 
     }
