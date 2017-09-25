@@ -3308,7 +3308,7 @@ namespace eval gui {
       # Set the foreground color to simulate the fade effect
       $widgets(info_msg) configure -foreground $color
 
-      set info_clear [after 100 [list gui::clear_info_message $hide_info $fr $fg $fb $br $bg $bb [incr opts(-fade_count)]]]
+      set info_clear [after 100 [list gui::clear_info_message $hide_info $fr $fg $fb $br $bg $bb -fade_count [incr opts(-fade_count)] -win $opts(-win)]]
 
     }
 
