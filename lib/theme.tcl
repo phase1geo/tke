@@ -176,7 +176,7 @@ namespace eval theme {
   array set basecolor_map {}
 
   # Initialize the widgets array
-  foreach {category dummy} $category_titles {
+  foreach {category dummy} [list {*}$category_titles syntax_split] {
     set widgets($category) [list]
   }
 
@@ -965,6 +965,16 @@ namespace eval theme {
   proc update_theme {} {
 
     variable widgets
+    variable syntax
+    variable colorizers
+
+    # Get the given syntax information
+    array set syntax [get_category_options syntax 1]
+
+    # Remove theme values that aren't in the Appearance/Colorize array
+    foreach name [::struct::set difference $colorizers [preferences::get Appearance/Colorize]] {
+      set syntax($name) ""
+    }
 
     # Update the widgets
     foreach category [array names widgets] {
@@ -978,20 +988,26 @@ namespace eval theme {
   proc update_syntax {} {
 
     variable widgets
-    variable syntax
-    variable colorizers
-
-    # Get the given syntax information
-    array set syntax [get_category_options syntax 1]
-
-    # Remove theme values that aren't in the Appearance/Colorize array
-    foreach name [::struct::set difference $colorizers [preferences::get Appearance/Colorize]] {
-      set syntax($name) ""
-    }
 
     # Update all of the syntax and scrollers
     foreach txt $widgets(syntax) {
+      gui::update_theme $txt
       syntax::set_language $txt [syntax::get_language $txt] -highlight 0
+      scroller::update_markers [winfo parent $txt].vb
+      folding::update_closed $txt
+    }
+
+  }
+
+  ######################################################################
+  # Update the theme for all split views.
+  proc update_syntax_split {} {
+
+    variable widgets
+
+    # Update the split views
+    foreach txt $widgets(syntax_split) {
+      gui::update_theme $txt
       scroller::update_markers [winfo parent $txt].vb
       folding::update_closed $txt
     }

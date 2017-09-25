@@ -4114,6 +4114,9 @@ namespace eval gui {
       -markcommand1 [list markers::get_positions $tab] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$opts(-diff) ? [list diff::get_marks $txt] : ""}]
 
+    # Update the widgets to match the current theme
+    update_theme $txt
+
     # Register the widgets
     theme::register_widget $txt          syntax
     theme::register_widget $tab.pw.tf.vb text_scrollbar
@@ -4335,6 +4338,14 @@ namespace eval gui {
     scroller::scroller $pw.tf2.vb {*}$scrollbar_opts -orient vertical   -autohide 1 -command "$txt2 yview" \
       -markcommand1 [list markers::get_positions $tab] -markhide1 [expr [preferences::get View/ShowMarkerMap] ^ 1] \
       -markcommand2 [expr {$diff ? [list diff::get_marks $txt] : ""}]
+
+    # Update the widgets to match the current theme
+    update_theme $txt2
+
+    # Register the widgets
+    theme::register_widget $txt2      syntax_split
+    theme::register_widget $pw.tf2.vb text_scrollbar
+    theme::register_widget $pw.tf2.hb text_scrollbar
 
     bind $txt2.t <FocusIn>             [list +gui::handle_txt_focus %W]
     bind $txt2.t <<CursorChanged>>     [list +gui::update_position $txt2]
@@ -5749,6 +5760,43 @@ namespace eval gui {
     set rsplist [list str [$widgets(doc).e get] name $name url $url save $saved]
 
     return [set gui::user_exit_status]
+
+  }
+
+  ######################################################################
+  # This procedure should be called whenever the theme changes.  Updates
+  # the given text widget.
+  proc update_theme {txt} {
+
+    # Get the current syntax theme
+    array set theme [theme::get_syntax_colors]
+
+    [winfo parent $txt] configure -background $theme(background)
+
+    # Set the text background color to the current theme
+    $txt configure -background $theme(background) -foreground $theme(foreground) \
+      -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
+      -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
+      -linemapbg $theme(background) -linemapfg $theme(line_number) \
+      -linemap_mark_color $theme(marker) \
+      -warnwidth_bg $theme(warning_width) -relief flat \
+      -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
+      -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
+      -matchaudit_bg $theme(attention)
+
+    # If the bird's eye view exists, update it
+    get_info $txt txt beye
+
+    if {[winfo exists $beye]} {
+
+      # Calculate the background color
+      set background [utils::auto_adjust_color [$txt cget -background] 25]
+
+      # Create the bird's eye viewer
+      $beye configure -background $theme(background) -foreground $theme(foreground) \
+        -inactiveselectbackground $background -selectbackground $background
+
+    }
 
   }
 
