@@ -381,26 +381,6 @@ namespace eval syntax {
       ctext::setAutoMatchChars       $txt {} {}
     }
 
-    [winfo parent $txt] configure -background $theme(background)
-
-    # Set the text background color to the current theme
-    $txt configure -background $theme(background) -foreground $theme(foreground) \
-      -selectbackground $theme(select_background) -selectforeground $theme(select_foreground) \
-      -insertbackground $theme(cursor) -highlightcolor $theme(border_highlight) \
-      -linemapbg $theme(background) -linemapfg $theme(line_number) \
-      -linemap_mark_color $theme(marker) \
-      -warnwidth_bg $theme(warning_width) -relief flat \
-      -diffaddbg $theme(difference_add) -diffsubbg $theme(difference_sub) \
-      -matchchar_fg $theme(background) -matchchar_bg $theme(foreground) \
-      -matchaudit_bg $theme(attention)
-
-    # Set the bird's eye text widget
-    gui::get_info $txt txt beye
-    if {[winfo exists $beye]} {
-      $beye configure -background $theme(background) -foreground $theme(foreground) \
-        -inactiveselectbackground [utils::auto_adjust_color $theme(background) 25]
-    }
-
     # Set default indent/unindent strings
     indent::set_indent_expressions $txt.t {} {} {}
 
