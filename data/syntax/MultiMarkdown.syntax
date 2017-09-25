@@ -21,6 +21,9 @@ embedded
 tabsallowed
 {1}
 
+linewrap
+{1}
+
 casesensitive
 {1}
 
@@ -339,12 +342,12 @@ advanced {
       if {([set prevend [lassign [$txt tag prevrange _prewhite insert] prevstart]] ne "") && [$txt compare $prevstart == "insert-1l linestart"]} {
         if {[regexp {^([+*>-]|(\\d+)\\.|\\[[ xX]\\]) (.*)$} [$txt get $prevend-1c "$prevend lineend"] -> match num rest]} {
           if {[string trim $rest] eq ""} {
-            $txt._t replace "insert-1l linestart" insert "\n"
+            $txt fastreplace "insert-1l linestart" insert "\n"
           } elseif {![regexp {^\\s*([+*>-]|(\\d+)\\.|\\[[ xX]\\])} [$txt get insert "insert lineend"]]} {
             if {($num ne "")} {
-              $txt._t insert insert "[expr $num + 1]. "
+              $txt fastinsert insert "[expr $num + 1]. "
             } else {
-              $txt._t insert insert "$match "
+              $txt fastinsert insert "$match "
             }
           }
         }
