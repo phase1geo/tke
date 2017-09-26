@@ -60,6 +60,7 @@ set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib specl] \
                     [file join $tke_dir lib webdav] \
                     [file join $tke_dir lib tkcon] \
+                    [file join $tke_dir lib zipper] \
                     {*}$auto_path]
 
 if {$tcl_platform(platform) eq "windows"} {
@@ -92,6 +93,7 @@ if {[catch { package require xml }]} {
 catch { package require webdav }
 catch { package require tkdnd }
 catch { package require registry }
+catch { package require zipper }
 
 if {[catch { package require Scrolledframe }]} {
   source [file join $tke_dir lib scrolledframe.tcl]
@@ -262,7 +264,7 @@ proc check_file_for_import {fname} {
   return 0
 
 }
- 
+
 if {$tcl_platform(platform) eq "windows"} {
 
   ######################################################################
