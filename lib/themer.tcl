@@ -1749,7 +1749,7 @@ namespace eval themer {
     }
 
     # Perform the tkethemz import
-    set theme_file [themes::import .thmwin $theme]
+    set theme_file [themes::import $parent $theme]
 
     # Set the theme
     if {[check_for_save]} {

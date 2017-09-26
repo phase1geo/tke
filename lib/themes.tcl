@@ -194,7 +194,7 @@ namespace eval themes {
     variable themes_dir
 
     # Unzip the file contents
-    if {[catch { exec -ignorestderr unzip -u $fname -d $themes_dir } rc]} {
+    if {[catch { zipper::unzip $fname $themes_dir } rc]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to unzip theme file" -detail $rc
       return ""
@@ -229,7 +229,7 @@ namespace eval themes {
     cd $odir
 
     # Perform the archive
-    if {[catch { exec -ignorestderr zip -r [file join $theme.tkethemz] $theme } rc]} {
+    if {[catch { zipper::list2zip $theme [glob -directory $theme -tails *] [file join $theme.tkethemz] } rc]} {
       tk_messageBox -parent $parent_win -icon error -type ok -default ok \
         -message "Unable to zip theme file"
     }
