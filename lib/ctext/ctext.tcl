@@ -2072,7 +2072,7 @@ proc ctext::command_gutter {win args} {
         set sym        [expr {[info exists sym_opts(-symbol)] ? $sym_opts(-symbol) : ""}]
         set gutter_tag "gutter:$gutter_name:$name:$sym"
         if {[info exists sym_opts(-fg)]} {
-          $win.l itemconfigure $gutter_tag -fill $sym_opts(-fg)
+          set data($win,gutterfg,$gutter_tag) $sym_opts(-fg)
         }
         if {[info exists sym_opts(-onenter)]} {
           $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $sym_opts(-onenter)]
@@ -2100,6 +2100,7 @@ proc ctext::command_gutter {win args} {
       if {[set index [lsearch -index 0 $data($win,config,gutters) $gutter_name]] != -1} {
         $win._t tag delete {*}[lindex $data($win,config,gutters) $index 1]
         set data($win,config,gutters) [lreplace $data($win,config,gutters) $index $index]
+        array unset data $win,gutterfg,gutter:$gutter_name:*
         ctext::linemapUpdate $win 1
       }
     }
@@ -2127,6 +2128,7 @@ proc ctext::command_gutter {win args} {
         if {[set index [lsearch -glob $gutters "gutter:$gutter_name:$symname:*"]] != -1} {
           $win._t tag delete [lindex $gutters $index]
           set gutters [lreplace $gutters $index $index]
+          array unset data $win,gutterfg,gutter:$gutter_name:$symname:*
           lset data($win,config,gutters) $gutter_index 1 $gutters
           set update_needed 1
         }
@@ -2214,12 +2216,12 @@ proc ctext::command_gutter {win args} {
       if {[set index [lsearch -exact -index 0 $data($win,config,gutters) $gutter_name]] == -1} {
         return -code error "Unable to find gutter name ($gutter_name)"
       }
-      if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] == -1} {
+      if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$sym_name:*"]] eq ""} {
         return -code error "Unknown symbol ($sym_name) specified"
       }
       switch $opt {
         -symbol         { return [lindex [split $gutter_tag :] 3] }
-        -fg             { return [$win.l itemcget $gutter_tag -fill] }
+        -fg             { return [expr {[info exists data($win,gutterfg,$gutter_tag)] ? $data($win,gutterfg,$gutter_tag) : ""}] }
         -onenter        { return [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1] }
         -onleave        { return [lrange [$win.l bind $gutter_tag <Leave>] 0 end-1] }
         -onclick        { return [lrange [$win.l bind $gutter_tag <Button-1>] 0 end-1] }
@@ -2247,8 +2249,8 @@ proc ctext::command_gutter {win args} {
           if {$sym ne ""} {
             lappend symopts -symbol $sym
           }
-          if {[set fg [$win.l itemcget $gutter_tag -fill]] ne ""} {
-            lappend symopts -fg $fg
+          if {[info exists data($win,gutterfg,$gutter_tag)]} {
+            lappend symopts -fg $data($win,gutterfg,$gutter_tag)
           }
           if {[set cmd [lrange [$win.l bind $gutter_tag <Enter>] 0 end-1]] ne ""} {
             lappend symopts -onenter $cmd
@@ -2271,7 +2273,7 @@ proc ctext::command_gutter {win args} {
       } else {
         set args          [lassign $args symname]
         set update_needed 0
-        if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] == -1} {
+        if {[set gutter_tag [lsearch -inline -glob [lindex $data($win,config,gutters) $index 1] "gutter:$gutter_name:$symname:*"]] eq ""} {
           return -code error "Unable to find gutter symbol name ($symname)"
         }
         foreach {opt value} $args {
@@ -2286,7 +2288,12 @@ proc ctext::command_gutter {win args} {
               set update_needed 1
             }
             -fg {
-              $win.l itemconfigure $gutter_tag -fill $value
+              if {$value ne ""} {
+                set data($win,gutterfg,$gutter_tag) $value
+              } else {
+                array unset data $win,gutterfg,$gutter_tag
+              }
+              set update_needed 1
             }
             -onenter {
               $win.l bind $gutter_tag <Enter> [list ctext::execute_gutter_cmd $win %y $value]
@@ -3690,7 +3697,8 @@ proc ctext::linemapUpdateGutter {win ptags x y} {
     foreach gutter_tag [lsearch -inline -all -glob $tags gutter:[lindex $gutter_data 0]:*] {
       lassign [split $gutter_tag :] dummy dummy gutter_symname gutter_sym
       if {$gutter_sym ne ""} {
-        $win.l create text [expr $x + ($index * $fontwidth)] $y -anchor sw -text $gutter_sym -fill $fill -font $font -tags $gutter_tag
+        set color [expr {[info exists data($win,gutterfg,$gutter_tag)] ? $data($win,gutterfg,$gutter_tag) : $fill}]
+        $win.l create text [expr $x + ($index * $fontwidth)] $y -anchor sw -text $gutter_sym -fill $color -font $font -tags $gutter_tag
       }
     }
     incr index
