@@ -370,8 +370,9 @@ namespace eval ipanel {
 
     if {$readtime} {
       if {[set words [utils::get_file_count $fname word]] ne ""} {
-        set words_per_min [expr round( $words / 275.0 )]
-        $widgets($w,v,rtime) configure -text "$words_per_min minutes"
+        set wpm  [preferences::get Sidebar/InfoPanelReadingTimeWordsPerMinute]
+        set mins [expr round( $words / $wpm.0 )]
+        $widgets($w,v,rtime) configure -text "$mins minutes"
         grid $widgets($w,l,rtime) $widgets($w,v,rtime)
       } else {
         grid remove $widgets($w,l,rtime) $widgets($w,v,rtime)

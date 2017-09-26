@@ -2989,6 +2989,8 @@ namespace eval pref_ui {
 
     make_cb $c.kfiv [msgcat::mc "Keep file information panel visible when sidebar doesn't have focus"] Sidebar/KeepInfoPanelVisible
     make_spacer $c
+    make_sb $c.rtwpm [msgcat::mc "Reading time words per minute"] Sidebar/InfoPanelReadingTimeWordsPerMinute 100 400 5
+    make_spacer $c
 
     ttk::labelframe $c.if -text [set wstr [msgcat::mc "Displayed Information"]]
 
