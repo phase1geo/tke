@@ -446,6 +446,11 @@
 
 {Sidebar/InfoPanelAttributes} {preview syntax filesize imagesize modified permissions owner group version favorite}
 
+# Specifies the number of words per minute to use in the calculation of reading time displayed within
+# the sidebar information panel.
+
+{Sidebar/InfoPanelReadingTimeWordsPerMinute} 275
+
 # This option is only valid when we are running in developer mode.  Specifies
 # how the profile report will be displayed.  Valid values are:
 #  - calls
