@@ -105,7 +105,7 @@ namespace eval zipper {
         set mode [dict get ${sdict} mode]
         set mtime [dict get ${sdict} mtime]
         set atime [dict get ${sdict} atime]
-        file attributes ${to} -permissions ${mode}
+        catch { file attributes ${to} -permissions ${mode} }
         file mtime ${to} ${mtime}
         file atime ${to} ${atime}
         ::vfs::zip::Unmount ${zid} ${zmount}
