@@ -748,6 +748,14 @@ namespace eval edit {
   }
 
   ######################################################################
+  # Returns the number of newlines contained in the given string.
+  proc newline_count {str} {
+
+    return [expr {[string length $str] - [string length [string map {\n {}} $str]]}]
+
+  }
+
+  ######################################################################
   # Moves selected lines or the current line up by one line.
   proc transform_bubble_up {txtt} {
 
@@ -767,14 +775,27 @@ namespace eval edit {
           }
         }
         sentence {
-          # TBD
           set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
-          regexp {^(.*)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> str between
-          if {([string length $between] - [string length [string map {\n {}} $between]]) >= 2} {
-            set between "  "
+          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
+          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
+          if {$cbetween eq ""} {
+            set cbetween "  "
           }
-          $txtt insert [lindex $selected end] $between$str
-          $txtt delete $startpos [lindex $selected 0]
+          if {[newline_count $pbetween] >= 2} {
+            set wo_ws [string trimright [set full [$txtt get [lindex $selected 0] [lindex $selected end]]]]
+            set eos   [$txtt index "[lindex $selected 0]+[string length $wo_ws]c"]
+            $txtt delete  $eos [lindex $selected end]
+            $txtt insert  $eos $pbetween sel
+            $txtt replace "[lindex $selected 0]-[string length $pbetween]c" [lindex $selected 0] "  "
+          } elseif {[newline_count $cbetween] >= 2} {
+            set index [$txtt index "[lindex $selected end]-[string length $cbetween]c"]
+            $txtt insert $index $pbetween$pstr
+            $txtt tag remove sel "$index+[string length $pbetween]c" [lindex $selected end]
+            $txtt delete $startpos [lindex $selected 0]
+          } else {
+            $txtt insert [lindex $selected end] $pstr$pbetween
+            $txtt delete $startpos [lindex $selected 0]
+          }
         }
         paragraph {
           set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
@@ -827,12 +848,32 @@ namespace eval edit {
           }
         }
         sentence {
-          # TBD
-          set endpos [get_index $txtt $type -dir next -startpos "[lindex $selected end]+1 display chars"]
-          set str [string trimright [$txtt get [lindex $selected end] $endpos]]
-          regexp {(\s*)$} [$txtt get {*}$selected] -> between
-          $txtt delete [lindex $selected end] $endpos
-          $txtt insert [lindex $selected 0] $str$between
+          set startpos [get_index $txtt $type -dir prev -startpos [lindex $selected 0]]
+          set endpos   [get_index $txtt $type -dir next -startpos "[lindex $selected end]+1 display chars"]
+          regexp {^(.*?)(\s*)$} [$txtt get $startpos [lindex $selected 0]] -> pstr pbetween
+          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected 0] [lindex $selected end]] -> cstr cbetween
+          regexp {^(.*?)(\s*)$} [$txtt get [lindex $selected end] $endpos] -> astr abetween
+          if {[newline_count $cbetween] >= 2} {
+            set index [$txtt index "[lindex $selected 0]+[string length $cstr]c"]
+            $txtt tag remove sel $index [lindex $selected end]
+            if {$astr eq ""} {
+              $txtt insert [lindex $selected end] $cstr sel
+            } else {
+              $txtt insert [lindex $selected end] "$cstr  " sel
+            }
+            $txtt delete "[lindex $selected 0]-[string length $pbetween]c" $index
+          } elseif {[newline_count $abetween] >= 2} {
+            set index [$txtt index "[lindex $selected end]+[string length $astr]c"]
+            $txtt tag add sel $index $endpos
+            $txtt insert $index $cbetween {} $cstr sel
+            $txtt delete [lindex $selected 0] [lindex $selected end]
+          } elseif {$abetween eq ""} {
+            $txtt delete "[lindex $selected end]-[string length $cbetween]c" $endpos
+            $txtt insert [lindex $selected 0] $astr$cbetween
+          } else {
+            $txtt delete [lindex $selected end] $endpos
+            $txtt insert [lindex $selected 0] $astr$cbetween
+          }
         }
         paragraph {
           set endpos [get_index $txtt $type -dir next -startpos "[lindex $selected end]+1 display chars"]
