@@ -341,7 +341,7 @@ namespace eval select {
           paragraph {
             set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] o 0]
           }
-          node      { set trange [dom_current [winfo parent $txtt] insert] }
+          node      { set trange [node_current [winfo parent $txtt] insert] }
           all       -
           allto     {
             set trange [list 1.0 end]
@@ -360,7 +360,10 @@ namespace eval select {
               set trange $range
             }
           }
-          default   { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}] 0] }
+          single    -
+          double    -
+          btick     { set trange [edit::get_range $txtt [list $data($txtt,type) 1] [list] [expr {$data($txtt,inner) ? "i" : "o"}] 0]] }
+          default   { set trange [bracket_current $txtt $data($txtt,type) insert] }
         }
         if {[lsearch [list char line lineto word sentence paragraph] $data($txtt,type)] != -1} {
           if {$range eq ""} {
@@ -392,11 +395,11 @@ namespace eval select {
           }
           node {
             if {$data($txtt,anchorend) == 0} {
-              if {[set node_range [dom_${motion}_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+              if {[set node_range [node_${motion}_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
                 lset range 1 [lindex $node_range 1]
               }
             } else {
-              if {[set node_range [dom_${motion}_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+              if {[set node_range [node_${motion}_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
                 lset range 0 [lindex $node_range 0]
               }
             }
@@ -458,8 +461,8 @@ namespace eval select {
             }
           }
           node {
-            if {[set node_range0 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
-              if {[set node_range1 [dom_prev_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+            if {[set node_range0 [node_prev_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+              if {[set node_range1 [node_prev_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
                 lset range 0 [lindex $node_range0 0]
                 lset range 1 [lindex $node_range1 1]
               }
@@ -487,8 +490,8 @@ namespace eval select {
             }
           }
           node {
-            if {[set node_range1 [dom_next_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
-              if {[set node_range0 [dom_next_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
+            if {[set node_range1 [node_next_sibling [winfo parent $txtt] "[lindex $range 1]-1c"]] ne ""} {
+              if {[set node_range0 [node_next_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
                 lset range 0 [lindex $node_range0 0]
                 lset range 1 [lindex $node_range1 1]
               }
@@ -604,19 +607,28 @@ namespace eval select {
         }
       }
       parent {
-        if {[set node_range [dom_parent [winfo parent $txtt] {*}$range]] ne ""} {
-          set range $node_range
+        switch $data($txtt,type) {
+          node    { set trange [node_parent [winfo parent $txtt] {*}$range] }
+          default { set trange [bracket_parent $txtt $data($txtt,type) {*}$range] }
+        }
+        if {$trange ne ""} {
+          set range $trange
         }
       }
       child {
         if {$data($txtt,anchorend) == 0} {
-          if {[set node_range [dom_first_child [winfo parent $txtt] [lindex $range 0]]] ne ""} {
-            set range $node_range
+          switch $data($txtt,type) {
+            node    { set trange [node_first_child [winfo parent $txtt] [lindex $range 0]] }
+            default { set trange [bracket_first_child $txtt $data($txtt,type) {*}$range] }
           }
         } else {
-          if {[set node_range [dom_last_child [winfo parent $txtt] [lindex $range 0]]] ne ""} {
-            set range $node_range
+          switch $data($txtt,type) {
+            node    { set trange [node_last_child [winfo parent $txtt] [lindex $range 0]] }
+            default { set trange [bracket_last_child $txtt $data($txtt,type) {*}$range]] }
           }
+        }
+        if {$trange ne ""} {
+          set range $trange
         }
       }
     }
@@ -1335,7 +1347,11 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      node      { update_selection $txtt parent }
+      node      -
+      square    -
+      curly     -
+      paren     -
+      angled    { update_selection $txtt parent }
       block     { update_selection $txtt left }
       char      -
       line      -
@@ -1354,7 +1370,11 @@ namespace eval select {
     variable data
 
     switch $data($txtt,type) {
-      node      { update_selection $txtt child }
+      node      -
+      curly     -
+      square    -
+      paren     -
+      angled    { update_selection $txtt child }
       block     { update_selection $txtt right }
       char      -
       line      -
@@ -1503,7 +1523,7 @@ namespace eval select {
 
   ######################################################################
   # Returns the range of the current DOM.
-  proc dom_current {txt startpos} {
+  proc node_current {txt startpos} {
 
     if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
@@ -1517,7 +1537,7 @@ namespace eval select {
   ######################################################################
   # Returns the starting and ending positions of the parent HTML node given
   # the starting cursor position.
-  proc dom_parent {txt startpos endpos} {
+  proc node_parent {txt startpos endpos} {
 
     set within [emmet::get_node_range_within $txt -startpos $startpos]
 
@@ -1534,7 +1554,7 @@ namespace eval select {
   # Returns the starting and ending positions of the first child node in the
   # DOM.  The startpos parameter should be the index of the start of the parent
   # node.
-  proc dom_first_child {txt startpos} {
+  proc node_first_child {txt startpos} {
 
     set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
 
@@ -1560,7 +1580,7 @@ namespace eval select {
   # Returns the starting and ending positions of the last child node in the
   # DOM.  The startpos parameter should be the index of the start of the
   # parent node.
-  proc dom_last_child {txt startpos} {
+  proc node_last_child {txt startpos} {
 
     set parent_range [emmet::get_inner [emmet::get_node_range $txt -startpos $startpos]]
 
@@ -1585,7 +1605,7 @@ namespace eval select {
   ######################################################################
   # Returns the starting and ending positions of the next sibling node of
   # the node containing the given starting position.
-  proc dom_next_sibling {txt startpos} {
+  proc node_next_sibling {txt startpos} {
 
     if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
@@ -1596,7 +1616,7 @@ namespace eval select {
     } else {
       set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
-    set parent_range [dom_parent $txt {*}$current_range]
+    set parent_range [node_parent $txt {*}$current_range]
 
     if {[set tag [emmet::get_tag $txt -dir next -type ??0 -start [lindex $current_range 1]]] ne ""} {
       if {($parent_range eq "") || [$txt compare [lindex $tag 0] < [lindex $parent_range 1]]} {
@@ -1615,7 +1635,7 @@ namespace eval select {
   ######################################################################
   # Returns the starting and ending positions of the next sibling node of
   # the node containing the given starting position.
-  proc dom_prev_sibling {txt startpos} {
+  proc node_prev_sibling {txt startpos} {
 
     if {[set tag [emmet::inside_tag $txt -startpos $startpos -allow010 1]] eq ""} {
       return ""
@@ -1626,7 +1646,7 @@ namespace eval select {
     } else {
       set current_range [emmet::get_outer [emmet::get_node_range $txt -startpos $startpos]]
     }
-    set parent_range [dom_parent $txt {*}$current_range]
+    set parent_range [node_parent $txt {*}$current_range]
 
     if {[set tag [emmet::get_tag $txt -dir prev -type 0?? -start "[lindex $current_range 0]-1c"]] ne ""} {
       if {($parent_range eq "") || [$txt compare [lindex $tag 0] > [lindex $parent_range 0]]} {
@@ -1639,6 +1659,71 @@ namespace eval select {
     }
 
     return ""
+
+  }
+
+  ######################################################################
+  # Returns the range of the specified bracket.
+  proc bracket_current {txtt type startpos} {
+
+    if {[lsearch -regexp [$txtt tag names $startpos] "_${type}\[LR\]"] != -1} {
+      return [edit::get_range $txtt [list $type 1] [list] o 0]
+    } else {
+      return [edit::get_range $txtt [list $type 1] [list] i 0]
+    }
+
+  }
+
+  ######################################################################
+  # Returns the range of the specified bracket's parent bracket.
+  proc bracket_parent {txtt type startpos endpos} {
+
+    return [bracket_current $txtt $type [$txtt index "$startpos-1 display chars"]]
+
+  }
+
+  ######################################################################
+  # Returns the range of the first child within the given parent range.
+  proc bracket_first_child {txtt type startpos endpos} {
+
+    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+      return [list [$txtt index "$startpos+1 display chars"] [$txtt index "$endpos-1 display chars"]]
+    } else {
+      set left [ctext::get_next_bracket [winfo parent $txtt] ${type}L $startpos]
+      if {($left ne "") && [$txtt compare $left < $endpos]} {
+        return [bracket_current $txtt $type $left]
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  # Returns the range of the last child within the given parent range.
+  proc bracket_last_child {txtt type startpos endpos} {
+
+    if {[lsearch [$txtt tag names $endpos] _${type}R] != -1} {
+      return [list [$txtt index "$startpos+1 display chars"] [$txtt index "$endpos-1 display chars"]]
+    } else {
+      set right [ctext::get_prev_bracket [winfo parent $txtt] ${type}R $endpos]
+      if {($right ne "") && [$txtt compare $startpos < $right]} {
+        return [bracket_current $txtt $type $right]
+      }
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
+  proc bracket_next_sibling {txtt type startpos} {
+
+  }
+
+  ######################################################################
+  proc bracket_prev_sibling {txtt type startpos} {
+
 
   }
 
