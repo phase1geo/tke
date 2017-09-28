@@ -804,7 +804,7 @@ namespace eval edit {
           $txtt delete $startpos [lindex $selected 0]
         }
         node {
-          if {[set range [select::dom_prev_sibling $txtt [lindex $selected 0]]] ne ""} {
+          if {[set range [select::node_prev_sibling $txtt [lindex $selected 0]]] ne ""} {
             set str     [$txtt get {*}$range]
             set between [$txtt get [lindex $range 1] [lindex $selected 0]]
             $txtt insert [lindex $selected end] $between$str
@@ -883,7 +883,7 @@ namespace eval edit {
           $txtt insert [lindex $selected 0] $str$between
         }
         node {
-          if {[set range [select::dom_next_sibling $txtt "[lindex $selected end]-1c"]] ne ""} {
+          if {[set range [select::node_next_sibling $txtt "[lindex $selected end]-1c"]] ne ""} {
             set str     [$txtt get {*}$range]
             set between [$txtt get [lindex $selected end] [lindex $range 0]]
             $txtt delete [lindex $selected end] [lindex $range end]
