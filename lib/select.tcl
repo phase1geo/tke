@@ -404,6 +404,20 @@ namespace eval select {
               }
             }
           }
+          curly -
+          square -
+          paren  -
+          angled {
+            if {$data($txtt,anchorend) == 0} {
+              if {[set bracket_range [bracket_${motion}_sibling $txtt $data($txtt,type) {*}$range]] ne ""} {
+                lset range 1 [lindex $bracket_range 1]
+              }
+            } else {
+              if {[set bracket_range [bracket_${motion}_sibling $txtt $data($txtt,type) {*}$range]] ne ""} {
+                lset range 0 [lindex $bracket_range 0]
+              }
+            }
+          }
           default {
             if {($index == 1) && ($motion eq "prev") && ($data($txtt,type) eq "word")} {
               lset range 1 [$txtt index "[lindex $range 1]-1 display chars"]
@@ -802,7 +816,7 @@ namespace eval select {
     # This is only necessary for BIST testing on MacOS, but it should not hurt
     # anything to clear the type anyways
     set data($txtt,type) "none"
-    set data($txtt,mode) 0
+    set_select_mode $txtt 0
 
     # Clear the selection
     $txtt tag remove sel 1.0 end
@@ -1398,7 +1412,11 @@ namespace eval select {
       block  { update_selection $txtt up }
       node   -
       line   -
-      lineto { update_selection $txtt prev }
+      lineto -
+      curly  -
+      square -
+      paren  -
+      angled { update_selection $txtt prev }
     }
 
   }
@@ -1415,7 +1433,11 @@ namespace eval select {
       block  { update_selection $txtt down }
       node   -
       line   -
-      lineto { update_selection $txtt next }
+      lineto -
+      curly  -
+      square -
+      paren  -
+      angled { update_selection $txtt next }
     }
 
   }
@@ -1667,9 +1689,9 @@ namespace eval select {
   proc bracket_current {txtt type startpos} {
 
     if {[lsearch -regexp [$txtt tag names $startpos] "_${type}\[LR\]"] != -1} {
-      return [edit::get_range $txtt [list $type 1] [list] o 0]
+      return [edit::get_range $txtt [list $type 1] [list] o 0 $startpos]
     } else {
-      return [edit::get_range $txtt [list $type 1] [list] i 0]
+      return [edit::get_range $txtt [list $type 1] [list] i 0 $startpos]
     }
 
   }
@@ -1686,16 +1708,19 @@ namespace eval select {
   # Returns the range of the first child within the given parent range.
   proc bracket_first_child {txtt type startpos endpos} {
 
-    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
-      return [list [$txtt index "$startpos+1 display chars"] [$txtt index "$endpos-1 display chars"]]
-    } else {
-      set left [ctext::get_next_bracket [winfo parent $txtt] ${type}L $startpos]
-      if {($left ne "") && [$txtt compare $left < $endpos]} {
-        return [bracket_current $txtt $type $left]
+    set parent_range [edit::get_range $txtt [list $type 1] [list] i 0 $startpos]
+
+    if {[lsearch [$txtt tag names $startpos] _${type}L] == -1} {
+      if {[set left [ctext::get_next_bracket [winfo parent $txtt] ${type}L $startpos]] ne ""} {
+        if {[$txtt compare $left < [lindex $parent_range 1]]} {
+          return [list $left [ctext::get_match_bracket [winfo parent $txtt] ${type}R $left]]
+        }
       }
+    } elseif {($parent_range eq "") || [$txtt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
+      return ""
     }
 
-    return ""
+    return $parent_range
 
   }
 
@@ -1717,13 +1742,34 @@ namespace eval select {
   }
 
   ######################################################################
-  proc bracket_next_sibling {txtt type startpos} {
+  # Return the range of the next sibling bracket type.
+  proc bracket_next_sibling {txtt type startpos endpos} {
+
+    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+      set parent [bracket_parent $txtt $type $startpos $endpos]
+      set left   [ctext::get_next_bracket [winfo parent $txtt] ${type}L $endpos+1c]
+      if {($left ne "") && [$txtt compare $left < [lindex $parent 1]]} {
+        return [list $left [ctext::get_match_bracket [winfo parent $txtt] ${type}R $left]]
+      }
+    }
+
+    return ""
 
   }
 
   ######################################################################
-  proc bracket_prev_sibling {txtt type startpos} {
+  # Return the range of the previous sibling bracket type.
+  proc bracket_prev_sibling {txtt type startpos endpos} {
 
+    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+      set parent [bracket_parent $txtt $type $startpos $endpos]
+      set right  [ctext::get_next_bracket [winfo parent $txtt] ${type}R $startpos-1c]
+      if {($right ne "") && [$txtt compare [lindex $parent 0] < $right]} {
+        return [list [ctext::get_match_bracket [winfo parent $txtt] ${type}L $right] $right]
+      }
+    }
+
+    return ""
 
   }
 
