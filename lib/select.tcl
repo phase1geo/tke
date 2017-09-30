@@ -1765,7 +1765,7 @@ namespace eval select {
           return [list $left [ctext::get_match_bracket [winfo parent $txtt] ${type}R $left]+1c]
         }
       }
-    } elseif {($parent_range eq "") || [$txtt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
+    } elseif {($parent_range eq [list "" ""]) || [$txtt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
       return ""
     }
 
