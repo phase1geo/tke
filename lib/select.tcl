@@ -482,6 +482,17 @@ namespace eval select {
               }
             }
           }
+          curly -
+          square -
+          paren  -
+          angled {
+            if {[set bracket_range0 [bracket_prev_sibling $txtt $data($txtt,type) {*}$range]] ne ""} {
+              if {[set bracket_range1 [bracket_prev_sibling $txtt $data($txtt,type) {*}$range]] ne ""} {
+                lset range 0 [lindex $bracket_range0 0]
+                lset range 1 [lindex $bracket_range1 1]
+              }
+            }
+          }
           default {
             if {[$txtt compare "[lindex $range 0]-$number display lines" < [lindex $range 0]]} {
               set trange $range
@@ -508,6 +519,17 @@ namespace eval select {
               if {[set node_range0 [node_next_sibling [winfo parent $txtt] "[lindex $range 0]+1c"]] ne ""} {
                 lset range 0 [lindex $node_range0 0]
                 lset range 1 [lindex $node_range1 1]
+              }
+            }
+          }
+          curly -
+          square -
+          paren  -
+          angled {
+            if {[set bracket_range0 [bracket_next_sibling $txtt $data($txtt,type) {*}$range]] ne ""} {
+              if {[set bracket_range1 [bracket_next_sibling $txtt $data($txtt,type) {*}$range]] ne ""} {
+                lset range 0 [lindex $bracket_range0 0]
+                lset range 1 [lindex $bracket_range1 1]
               }
             }
           }
@@ -1332,7 +1354,11 @@ namespace eval select {
       block  -
       node   -
       line   -
-      lineto { update_selection $txtt ushift }
+      lineto -
+      curly  -
+      square -
+      paren  -
+      angled { update_selection $txtt ushift }
     }
 
   }
@@ -1349,7 +1375,11 @@ namespace eval select {
       block  -
       node   -
       line   -
-      lineto { update_selection $txtt dshift }
+      lineto -
+      curly  -
+      square -
+      paren  -
+      angled { update_selection $txtt dshift }
     }
 
   }
@@ -1700,7 +1730,20 @@ namespace eval select {
   # Returns the range of the specified bracket's parent bracket.
   proc bracket_parent {txtt type startpos endpos} {
 
-    return [bracket_current $txtt $type [$txtt index "$startpos-1 display chars"]]
+    if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
+      set right [ctext::get_match_bracket [winfo parent $txtt] ${type}R $startpos]
+      if {[$txtt compare $right == $endpos-1c]} {
+        if {[lsearch [$txtt tag names $startpos-1c] _${type}L] != -1} {
+          return [list $startpos [ctext::get_match_bracket [winfo parent $txtt] ${type}R $startpos-1c]]
+        } else {
+          return [edit::get_range $txtt [list $type 1] [list] i 0 "$startpos-1c"]
+        }
+      } elseif {[lsearch [$txtt tag names $startpos-1c] _${type}L] != -1} {
+        return [list [$txtt index $startpos-1c] [ctext::get_match_bracket [winfo parent $txtt] ${type}R $startpos-1c]+1c]
+      }
+    }
+
+    return [edit::get_range $txtt [list $type 1] [list] o 0 "$startpos-1c"]
 
   }
 
@@ -1708,12 +1751,18 @@ namespace eval select {
   # Returns the range of the first child within the given parent range.
   proc bracket_first_child {txtt type startpos endpos} {
 
-    set parent_range [edit::get_range $txtt [list $type 1] [list] i 0 $startpos]
+    puts "In bracket_first_child, startpos: $startpos, endpos: $endpos"
+
+    set parent_range [bracket_parent $txtt $type $startpos $endpos]
+
+    puts "  parent_range: $parent_range"
 
     if {[lsearch [$txtt tag names $startpos] _${type}L] == -1} {
+      puts "  HERE A"
       if {[set left [ctext::get_next_bracket [winfo parent $txtt] ${type}L $startpos]] ne ""} {
+        puts "    left: $left"
         if {[$txtt compare $left < [lindex $parent_range 1]]} {
-          return [list $left [ctext::get_match_bracket [winfo parent $txtt] ${type}R $left]]
+          return [list $left [ctext::get_match_bracket [winfo parent $txtt] ${type}R $left]+1c]
         }
       }
     } elseif {($parent_range eq "") || [$txtt compare [lindex $parent_range 0] == [lindex $parent_range 1]]} {
@@ -1747,9 +1796,9 @@ namespace eval select {
 
     if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
       set parent [bracket_parent $txtt $type $startpos $endpos]
-      set left   [ctext::get_next_bracket [winfo parent $txtt] ${type}L $endpos+1c]
-      if {($left ne "") && [$txtt compare $left < [lindex $parent 1]]} {
-        return [list $left [ctext::get_match_bracket [winfo parent $txtt] ${type}R $left]]
+      set left   [ctext::get_next_bracket [winfo parent $txtt] ${type}L $startpos+1c]
+      if {($left ne "") && ([lindex $parent 1] ne "") && [$txtt compare $left < [lindex $parent 1]]} {
+        return [list $left [ctext::get_match_bracket [winfo parent $txtt] ${type}R $left]+1c]
       }
     }
 
@@ -1763,9 +1812,9 @@ namespace eval select {
 
     if {[lsearch [$txtt tag names $startpos] _${type}L] != -1} {
       set parent [bracket_parent $txtt $type $startpos $endpos]
-      set right  [ctext::get_next_bracket [winfo parent $txtt] ${type}R $startpos-1c]
-      if {($right ne "") && [$txtt compare [lindex $parent 0] < $right]} {
-        return [list [ctext::get_match_bracket [winfo parent $txtt] ${type}L $right] $right]
+      set right  [ctext::get_prev_bracket [winfo parent $txtt] ${type}R $endpos-1c]
+      if {($right ne "") && ([lindex $parent 0] ne "") && [$txtt compare [lindex $parent 0] < $right]} {
+        return [list [ctext::get_match_bracket [winfo parent $txtt] ${type}L $right] $right+1c]
       }
     }
 
