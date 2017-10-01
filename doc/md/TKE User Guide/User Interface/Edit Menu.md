@@ -10,7 +10,15 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Copy | Cmd-C | Ctrl-C | Copies the selected text to the clipboard.  If no text is currently selected, the current line is copied to the clipboard. |
 | Paste | Cmd-V | Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is copied “as is”. |
 | Paste and Format | Shift-Cmd-V | Shift-Ctrl-V | Pastes the content in the clipboard, inserting the text before the insertion cursor.  The content is indented to fit into the current insertion point. |
-| Select All | Cmd-Shift-A | Ctrl-Shift-A | Selects all of the text in the current editor. |
+| Select / All | | | Selects all of the text in the current editor. |
+| Select / Current Line | | | Selects the entire line that the insertion cursor is on. |
+| Select / Current Word | | | Selects the word that the insertion cursor is on or closest to. |
+| Select / Current Sentence | | | Selects the sentence that the insertion cursor is on or closest to. |
+| Select / Current Paragraph | | | Selects the paragraph that the insertion cursor is on or closest to. |
+| Select / Current Bounded Text | | | Selects all text between the closest curly bracket, square bracket, parenthesis, angled bracket, double-quoted string, single-quoted string or backtick pair. |
+| Select / Add Next Line | | | Adds the line immediately following the current selection to the selection. |
+| Select / Add Previous Line | | | Adds the line immediately preceding the current selection to the selection. |
+| Select Mode | Cmd-A | Ctrl-A | Enters [selection mode](#selection_mode) which provides fine-grained selection control via the keyboard. |
 | Vim Mode | | | When selected, changes the editing environment to use Vim-style interaction.  When deselected, changes the editing environment back to “normal” editing mode. |
 | Toggle Comment | Ctrl-/ | Ctrl-/ | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
 | Indentation / Indent | Ctrl-] | Ctrl-] | Indents the selected text by one level of indentation. |
