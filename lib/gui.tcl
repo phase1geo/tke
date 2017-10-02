@@ -1824,12 +1824,17 @@ namespace eval gui {
   proc add_tab_content {tab} {
 
     # Get some of the file information
-    get_info $tab tab tabbar txt fname diff loaded xview yview cursor
+    get_info $tab tab tabbar txt fname diff loaded lock readonly xview yview cursor
 
     # Indicate that we are loading the tab
     $tabbar tab $tab -busy 1
 
     if {!$loaded && [files::get_file $tab contents]} {
+
+      # If we are locked, make sure that we enable the text widget for insertion
+      if {$lock || $readonly} {
+        $txt configure -state normal
+      }
 
       # Delete any dspace characters
       vim::remove_dspace $txt
@@ -1872,6 +1877,11 @@ namespace eval gui {
       # If a diff command was specified, run and parse it now
       if {$diff} {
         diff::show $txt
+      }
+
+      # If we are locked, make sure that we disable the text widget
+      if {$lock || $readonly} {
+        $txt configure -state disabled
       }
 
       # Update tab
