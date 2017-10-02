@@ -396,12 +396,15 @@ namespace eval preferences {
         unset plugin_prefs($name)
       }
     }
-
+    
     # Add any new plugin preference values
     array set global_prefs [array get plugin_prefs]
-
+    
     # Replace the global user preferences
     set loaded_prefs(user,global) [array get global_prefs]
+    
+    # Update the global user preferences
+    update_prefs
 
   }
 
