@@ -1417,6 +1417,8 @@ namespace eval sidebar {
     # If we are moving rows, handle them now
     if {[info exists mover(detached)] && $mover(detached)} {
 
+      $widgets(tl) configure -cursor ""
+
       if {[$widgets(tl) tag has moveto $row]} {
 
         set dir [$widgets(tl) set $row name]
@@ -1830,6 +1832,7 @@ namespace eval sidebar {
       }
     } elseif {($mover(start) ne "") && ($id ne $mover(start))} {
       set mover(detached) 1
+      $widgets(tl) configure -cursor [ttk::cursor move]
     }
 
   }
