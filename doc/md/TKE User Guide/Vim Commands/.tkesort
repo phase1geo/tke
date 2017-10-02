@@ -1,1 +1,2 @@
-{items} {{Vim Commands.md} {Standard Vim Commands.md} {Line Numbers.md} {Undoing-Cancelling commands.md} {Repeating a command.md} {Editing a file.md} {Saving-Closing a file.md} Searching-Replacing.md {Inserting-Replacing text.md} {Joining text.md} {Text Transformation.md} {Moving around in a file.md} {Deleting text.md} {Copying text.md} {Pasting text.md} Indentation.md {Visual (Selection) mode.md} {Object Selection.md} {Code Folding.md} Miscellaneous.md {Extended Vim Commands.md} {Vim Options.md} {Vim Modelines.md}}
+{items} {{Select Mode}}
+{use} {1}
