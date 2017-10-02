@@ -129,26 +129,32 @@ namespace eval markdown_table_beautifier {
 
     foreach rowstr [split [$txt get $startpos $endpos] \n] {
       set row [list]
-      foreach item [lrange [split $rowstr |] 0 end-1] {
-        lappend row [string trim $item]
+      lappend row [list "" 0]
+      set col 1
+      foreach item [lrange [split $rowstr |] 1 end-1] {
+        if {$item ne ""} {
+          lappend row [list [string trim $item] $col]
+        }
+        incr col
       }
-      if {[llength $row] > $max} {
-        set max [llength $row]
+      if {$col > $max} {
+        set max $col
       }
-      lappend rows $row
+      lappend rows [list $row $col]
     }
 
     # Perform any table adjustments to account for row number mismatches
     set i 0
     foreach row $rows {
-      if {[llength $row] < $max} {
-        lappend row {*}[lrepeat [expr $max - [llength $row]] [expr {($i == 1) ? "?" : ""}]]
-        lset rows $i $row
+      lassign $row cells cols
+      for {set col $cols} {$col < $max} {incr col} {
+        lappend cells [list [expr {($i == 1) ? "?" : ""}] $col]
       }
+      lset rows $i $cells
       incr i
     }
-
-    return $rows
+    
+    return [list $rows $max]
 
   }
 
@@ -160,8 +166,8 @@ namespace eval markdown_table_beautifier {
     set col_widths [list]
 
     set min 10000
-    foreach row $matrix {
-      set col_width [string length [lindex $row 0]]
+    foreach row [lindex $matrix 0] {
+      set col_width [string length [lindex $row 0 0]]
       if {$col_width < $min} {
         set min $col_width
       }
@@ -169,13 +175,15 @@ namespace eval markdown_table_beautifier {
 
     lappend col_widths $min
 
-    for {set col 1} {$col < [llength [lindex $matrix 0]]} {incr col} {
+    for {set col 1} {$col < [lindex $matrix 1]} {incr col} {
       set max 0
       set num 0
-      foreach row $matrix {
-        set col_width [expr {($num == 1) ? 0 : [string length [lindex $row $col]]}]
-        if {$col_width > $max} {
-          set max $col_width
+      foreach row [lindex $matrix 0] {
+        if {$col == [lindex $row $col 1]} {
+          set col_width [expr {($num == 1) ? 0 : [string length [lindex $row $col 0]]}]
+          if {$col_width > $max} {
+            set max $col_width
+          }
         }
         incr num
       }
@@ -192,17 +200,18 @@ namespace eval markdown_table_beautifier {
 
     set aligns [list]
 
-    foreach item [lindex $matrix 1] {
-      if {[string index $item 0] eq ":"} {
-        if {[string index $item end] eq ":"} {
+    foreach item [lindex $matrix 0 1] {
+      set str [lindex $item 0]
+      if {[string index $str 0] eq ":"} {
+        if {[string index $str end] eq ":"} {
           lappend aligns "center"
         } else {
           lappend aligns "left"
         }
       } else {
-        if {[string index $item end] eq ":"} {
+        if {[string index $str end] eq ":"} {
           lappend aligns "right"
-        } elseif {[string index $item 0] eq "?"} {
+        } elseif {[string index $str 0] eq "?"} {
           if {[llength [lsearch -all $aligns "none"]] == [llength $aligns]} {
             lappend aligns "none"
           } else {
@@ -221,14 +230,14 @@ namespace eval markdown_table_beautifier {
   ######################################################################
   # Adjust the spacing of all rows in the given table.
   proc adjust_rows {txt startpos endpos matrix col_widths col_aligns} {
-
+    
     set rows   [list]
     set rownum 0
-    foreach row $matrix {
+    foreach row [lindex $matrix 0] {
       if {$rownum == 1} {
         lappend rows [create_align_row $col_widths $col_aligns]
       } else {
-        lappend rows [adjust_data_row $row $col_widths $col_aligns]
+        lappend rows [adjust_data_row $row [lindex $matrix 1] $col_widths $col_aligns]
       }
       incr rownum
     }
@@ -240,28 +249,34 @@ namespace eval markdown_table_beautifier {
 
   ######################################################################
   # Adjusts the spacing of the given row.
-  proc adjust_data_row {row widths aligns} {
-
+  proc adjust_data_row {row cols widths aligns} {
+    
     lset row 0 [expr {([lindex $widths 0] > 0) ? [string repeat " " [lindex $widths 0]] : ""}]
 
-    for {set col 1} {$col < [llength $row]} {incr col} {
-      if {[set spaces [expr [lindex $widths $col] - [string length [lindex $row $col]]]] > 0} {
-        switch [lindex $aligns $col] {
-          "left" -
-          "none" {
-            lset row $col " [lindex $row $col][string repeat { } $spaces] "
+    set colptr 1
+    for {set col 1} {$col < $cols} {incr col} {
+      if {$col == [lindex $row $colptr 1]} {
+        if {[set spaces [expr [lindex $widths $col] - [string length [lindex $row $colptr 0]]]] > 0} {
+          switch [lindex $aligns $col] {
+            "left" -
+            "none" {
+              lset row $colptr " [lindex $row $colptr 0][string repeat { } $spaces] "
+            }
+            "right" {
+              lset row $colptr " [string repeat { } $spaces][lindex $row $colptr 0] "
+            }
+            "center" {
+              set rspaces [expr $spaces / 2]
+              set lspaces [expr $spaces - $rspaces]
+              lset row $colptr " [expr {($lspaces > 0) ? [string repeat { } $lspaces] : {}}][lindex $row $colptr 0][expr {($lspaces > 0) ? [string repeat { } $rspaces] : {}}] "
+            }
           }
-          "right" {
-            lset row $col " [string repeat { } $spaces][lindex $row $col] "
-          }
-          "center" {
-            set rspaces [expr $spaces / 2]
-            set lspaces [expr $spaces - $rspaces]
-            lset row $col " [expr {($lspaces > 0) ? [string repeat { } $lspaces] : {}}][lindex $row $col][expr {($lspaces > 0) ? [string repeat { } $rspaces] : {}}] "
-          }
+        } else {
+          lset row $colptr " [lindex $row $colptr 0] "
         }
+        incr colptr
       } else {
-        lset row $col " [lindex $row $col] "
+        lset row [expr $colptr - 1] "[lindex $row [expr $colptr - 1]]  [string repeat { } [lindex $widths $col]] "
       }
     }
 
