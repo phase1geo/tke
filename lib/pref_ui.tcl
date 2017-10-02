@@ -959,7 +959,7 @@ namespace eval pref_ui {
       ttk::frame .prefwin.sf
       set widgets(select_s) [ttk::menubutton        .prefwin.sf.sels -menu [set widgets(selsmenu) [menu .prefwin.sf.selectSessionMenu -tearoff 0]]]
       set widgets(select_l) [ttk::menubutton        .prefwin.sf.sell -menu [set widgets(sellmenu) [menu .prefwin.sf.selectLangMenu    -tearoff 0]]]
-      set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 20 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
+      set widgets(match_e)  [wmarkentry::wmarkentry .prefwin.sf.e    -width 30 -watermark "Search" -validate key -validatecommand [list pref_ui::perform_search %P]]
 
       # Initialize the syntax menu
       set selected_session  [expr {($session  eq "") ? "None" : $session}]
