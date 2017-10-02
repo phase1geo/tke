@@ -133,7 +133,9 @@ namespace eval markdown_table_beautifier {
       set col 1
       foreach item [lrange [split $rowstr |] 1 end-1] {
         if {$item ne ""} {
-          lappend row [list [string trim $item] $col]
+          lappend row [list [string trim $item] $col 1]
+        } else {
+          lset row end 2 [expr [lindex $row end 2] + 1]
         }
         incr col
       }
@@ -148,7 +150,7 @@ namespace eval markdown_table_beautifier {
     foreach row $rows {
       lassign $row cells cols
       for {set col $cols} {$col < $max} {incr col} {
-        lappend cells [list [expr {($i == 1) ? "?" : ""}] $col]
+        lappend cells [list [expr {($i == 1) ? "?" : ""}] $col 1]
       }
       lset rows $i $cells
       incr i
@@ -156,6 +158,21 @@ namespace eval markdown_table_beautifier {
     
     return [list $rows $max]
 
+  }
+  
+  ######################################################################
+  # Returns the width of a single column based on the number of columns
+  # that it exists within.
+  proc get_col_width {str cols} {
+    
+    set strlen [string length $str]
+    
+    if {$cols == 1} {
+      return $strlen
+    } else {
+      return [expr ($strlen - (($cols - 1) * 3)) / $cols]
+    }
+    
   }
 
   ######################################################################
