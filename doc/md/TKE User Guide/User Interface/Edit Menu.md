@@ -3,7 +3,7 @@
 The Edit menu contains menu items that affect the contents within the current file.  The following table describes the items available within this menu.
 
 | Menu Item | Shortcut<br>(Mac) | Shortcut<br>(Other) | Description |
-| - | - |
+| - | - | - | - |
 | Undo | Cmd-Z | Ctrl-Z | Undoes the last change made to the file content.  Each file can have an unlimited number of items that can be undone.  Saving a file clears the undo stack for that file. |
 | Redo | Cmd-R | Ctrl-R | Re-applies the last undone change made to the file content.  Saving a file clears the redo stack for that file. |
 | Cut | Cmd-X | Ctrl-X | Deletes the selected text, copying the deleted content to the clipboard.  If no text is currently selected, the current line is deleted and sent to the clipboard. |
@@ -18,7 +18,7 @@ The Edit menu contains menu items that affect the contents within the current fi
 | Select / Current Bounded Text | | | Selects all text between the closest curly bracket, square bracket, parenthesis, angled bracket, double-quoted string, single-quoted string or backtick pair. |
 | Select / Add Next Line | | | Adds the line immediately following the current selection to the selection. |
 | Select / Add Previous Line | | | Adds the line immediately preceding the current selection to the selection. |
-| Select Mode | Cmd-A | Ctrl-A | Enters [selection mode](#selection_mode) which provides fine-grained selection control via the keyboard. |
+| Select Mode | Cmd-A | Ctrl-A | Enters [selection mode](#select_mode) which provides fine-grained selection control via the keyboard. |
 | Vim Mode | | | When selected, changes the editing environment to use Vim-style interaction.  When deselected, changes the editing environment back to “normal” editing mode. |
 | Toggle Comment | Ctrl-/ | Ctrl-/ | Detects the comment state of the current selection.  If the selected text is not commented out, places a line comment in front of any selected text in the current file.  If the selected text is commented out, the comments are removed from the selected lines.  If a selection does not exist, the current line (or lines, if multicursors are enabled) is commented/uncommented in a similar fashion. |
 | Indentation / Indent | Ctrl-] | Ctrl-] | Indents the selected text by one level of indentation. |

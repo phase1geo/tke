@@ -1322,7 +1322,11 @@ namespace eval select {
       line    -
       lineto  -
       comment {}
-      node    { update_selection $txtt parent }
+      node    -
+      curly   -
+      square  -
+      paren   -
+      angled  { update_selection $txtt parent }
       default { update_selection $txtt lshift }
     }
 
@@ -1340,7 +1344,11 @@ namespace eval select {
       line    -
       lineto  -
       comment {}
-      node    { update_selection $txtt child }
+      node    -
+      curly   -
+      square  -
+      paren   -
+      angled  { update_selection $txtt child }
       default { update_selection $txtt rshift }
     }
 
