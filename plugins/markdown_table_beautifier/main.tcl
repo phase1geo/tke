@@ -155,24 +155,24 @@ namespace eval markdown_table_beautifier {
       lset rows $i $cells
       incr i
     }
-    
+
     return [list $rows $max]
 
   }
-  
+
   ######################################################################
   # Returns the width of a single column based on the number of columns
   # that it exists within.
   proc get_col_width {str cols} {
-    
+
     set strlen [string length $str]
-    
+
     if {$cols == 1} {
       return $strlen
     } else {
-      return [expr ($strlen - (($cols - 1) * 3)) / $cols]
+      return [expr round( ($strlen - (($cols - 1) * 2)) / $cols.0 )]
     }
-    
+
   }
 
   ######################################################################
@@ -190,21 +190,22 @@ namespace eval markdown_table_beautifier {
       }
     }
 
-    lappend col_widths $min
+    set col_widths [lrepeat [lindex $matrix 1] 0]
+    lset col_widths 0 $min
 
-    for {set col 1} {$col < [lindex $matrix 1]} {incr col} {
-      set max 0
-      set num 0
-      foreach row [lindex $matrix 0] {
-        if {$col == [lindex $row $col 1]} {
-          set col_width [expr {($num == 1) ? 0 : [string length [lindex $row $col 0]]}]
-          if {$col_width > $max} {
-            set max $col_width
+    set rownum 0
+    foreach row [lindex $matrix 0] {
+      if {$rownum != 1} {
+        foreach cell [lrange $row 1 end] {
+          lassign $cell str col cols
+          set col_width [get_col_width $str $cols]
+          for {set i 0} {$i < $cols} {incr i} {
+            set c [expr $col + $i]
+            lset col_widths $c [expr max( $col_width, [lindex $col_widths $c] )]
           }
         }
-        incr num
       }
-      lappend col_widths $max
+      incr rownum
     }
 
     return $col_widths
@@ -247,7 +248,7 @@ namespace eval markdown_table_beautifier {
   ######################################################################
   # Adjust the spacing of all rows in the given table.
   proc adjust_rows {txt startpos endpos matrix col_widths col_aligns} {
-    
+
     set rows   [list]
     set rownum 0
     foreach row [lindex $matrix 0] {
@@ -265,35 +266,55 @@ namespace eval markdown_table_beautifier {
   }
 
   ######################################################################
+  # Returns the total amount of space required to pad out the cell.
+  proc get_space {cell widths} {
+
+    lassign $cell str col cols
+
+    # Calculate the total amount of space required for the cell
+    for {set i 0} {$i < $cols} {incr i} {
+      incr total [lindex $widths [expr $i + $col]]
+    }
+
+    if {$cols > 1} {
+      incr total [expr ($cols - 1) * 2]
+    }
+
+    if {[set spaces [expr $total - [string length $str]]] == 0} {
+      return ""
+    } else {
+      return [string repeat { } $spaces]
+    }
+
+  }
+
+  ######################################################################
   # Adjusts the spacing of the given row.
-  proc adjust_data_row {row cols widths aligns} {
-    
+  proc adjust_data_row {row numcols widths aligns} {
+
     lset row 0 [expr {([lindex $widths 0] > 0) ? [string repeat " " [lindex $widths 0]] : ""}]
 
     set colptr 1
-    for {set col 1} {$col < $cols} {incr col} {
-      if {$col == [lindex $row $colptr 1]} {
-        if {[set spaces [expr [lindex $widths $col] - [string length [lindex $row $colptr 0]]]] > 0} {
-          switch [lindex $aligns $col] {
-            "left" -
-            "none" {
-              lset row $colptr " [lindex $row $colptr 0][string repeat { } $spaces] "
-            }
-            "right" {
-              lset row $colptr " [string repeat { } $spaces][lindex $row $colptr 0] "
-            }
-            "center" {
-              set rspaces [expr $spaces / 2]
-              set lspaces [expr $spaces - $rspaces]
-              lset row $colptr " [expr {($lspaces > 0) ? [string repeat { } $lspaces] : {}}][lindex $row $colptr 0][expr {($lspaces > 0) ? [string repeat { } $rspaces] : {}}] "
-            }
+    lassign [lindex $row $colptr] str col cols
+    for {set i 1} {$i < $numcols} {incr i} {
+      if {$i == $col} {
+        set space [get_space [lindex $row $colptr] $widths]
+        set lines [expr {($cols == 1) ? "" : [string repeat | [expr $cols - 1]]}]
+        switch [lindex $aligns $col] {
+          "left" -
+          "none" {
+            lset row $colptr " $str$space $lines"
           }
-        } else {
-          lset row $colptr " [lindex $row $colptr 0] "
+          "right" {
+            lset row $colptr " $space$str $lines"
+          }
+          "center" {
+            set lspace [string range $space 0 [expr [string length $space] / 2]]
+            set rspace [string range $space [expr ([string length $space] / 2) + 1] end]
+            lset row $colptr " $lspace$str$rspace $lines"
+          }
         }
-        incr colptr
-      } else {
-        lset row [expr $colptr - 1] "[lindex $row [expr $colptr - 1]]  [string repeat { } [lindex $widths $col]] "
+        lassign [lindex $row [incr colptr]] str col cols
       }
     }
 
