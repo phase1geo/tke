@@ -58,8 +58,8 @@ advanced {
 }
 
 formatting {
-  bold        {word \\textbf\{          \}}
-  italics     {word \\emph\{            \}}
-  superscript {word \\textsuperscript\{ \}}
-  code        {word \\texttt\{          \}}
+  bold        {word \\textbf\{{TEXT}\}}
+  italics     {word \\emph\{{TEXT}\}}
+  superscript {word \\textsuperscript\{{TEXT}\}}
+  code        {word \\texttt\{{TEXT}\}}
 }

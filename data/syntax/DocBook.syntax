@@ -85,16 +85,16 @@ advanced
 
 formatting
 {
-  bold          {word {<emphasis role="bold">} </emphasis>}
-  italics       {word <emphasis> </emphasis>}
-  superscript   {word <superscript> </superscript>}
-  subscript     {word <subscript>   </subscript>}
-  code          {word <code> </code>}
-  header1       {word <sect1> </sect1>}
-  header2       {word <sect2> </sect2>}
-  header3       {word <sect3> </sect3>}
-  header4       {word <sect4> </sect4>}
-  header5       {word <sect5> </sect5>}
-  ordered       {word <listitem> </listitem>}
-  unordered     {line <listitem> </listitem>}
+  bold          {word {<emphasis role="bold">{TEXT}</emphasis>}}
+  italics       {word <emphasis>{TEXT}</emphasis>}
+  superscript   {word <superscript>{TEXT}</superscript>}
+  subscript     {word <subscript>{TEXT}</subscript>}
+  code          {word <code>{TEXT}</code>}
+  header1       {word <sect1>{TEXT}</sect1>}
+  header2       {word <sect2>{TEXT}</sect2>}
+  header3       {word <sect3>{TEXT}</sect3>}
+  header4       {word <sect4>{TEXT}</sect4>}
+  header5       {word <sect5>{TEXT}</sect5>}
+  ordered       {word <listitem>{TEXT}</listitem>}
+  unordered     {line <listitem>{TEXT}</listitem>}
 }

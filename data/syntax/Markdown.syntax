@@ -247,20 +247,22 @@ advanced {
 
 formatting
 {
-  bold          {word ** **}
-  italics       {word _  _}
-  underline     {word <u> </u>}
-  strikethrough {word ~~ ~~}
-  highlight     {word == ==}
-  superscript   {word ^  ^}
-  subscript     {word ~  ~}
-  code          {word `  `}
-  header1       {line {# }}
-  header2       {line {## }}
-  header3       {line {### }}
-  header4       {line {#### }}
-  header5       {line {##### }}
-  header6       {line {###### }}
-  unordered     {line {* }}
-  checkbox      {line {[ ] }}
+  bold          {word **{TEXT}**}
+  italics       {word _{TEXT}_}
+  underline     {word <u>{TEXT}</u>}
+  strikethrough {word ~~{TEXT}~~}
+  highlight     {word =={TEXT}==}
+  superscript   {word ^{TEXT}^}
+  subscript     {word ~{TEXT}~}
+  code          {word `{TEXT}`}
+  header1       {line {# {TEXT}}}
+  header2       {line {## {TEXT}}}
+  header3       {line {### {TEXT}}}
+  header4       {line {#### {TEXT}}}
+  header5       {line {##### {TEXT}}}
+  header6       {line {###### {TEXT}}}
+  unordered     {line {* {TEXT}}}
+  checkbox      {line {[ ] {TEXT}}}
+  link          {word [{TEXT}]({REF})}
+  image         {word ![{TEXT}]({REF})}
 }

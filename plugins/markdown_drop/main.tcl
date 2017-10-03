@@ -111,8 +111,6 @@ namespace eval markdown_drop {
   # string to be an image syntax.
   proc handle_image {index istext data mddir} {
 
-    api::log "In handle_image, data: $data, extension: [file extension $data]"
-
     if {[lsearch [list .gif .png .jpg .jpeg] [string tolower [file extension $data]]] != -1} {
       after idle [list markdown_drop::get_user_image_info $index $istext $data $mddir]
       return 1

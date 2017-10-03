@@ -1338,6 +1338,14 @@ namespace eval menus {
 
     $mb.formatPopup add command -label [msgcat::mc "Checkbox"] -command [list menus::edit_format checkbox]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line a checklist item"]] [list menus::edit_format checkbox]
+    
+    $mb.formatPopup add separator
+    
+    $mb.formatPopup add command -label [msgcat::mc "Link"] -command [list menus::edit_format link]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text a link"]] [list menus::edit_format link]
+
+    $mb.formatPopup add command -label [msgcat::mc "Image"] -command [list menus::edit_format image]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text an image"]] [list menus::edit_format image]
 
     $mb.formatPopup add separator
 
@@ -1723,6 +1731,8 @@ namespace eval menus {
     $mb entryconfigure [msgcat::mc "Unordered Bullet"]       -state [expr {[info exists formatting(unordered)]     ? "normal" : "disabled"}]
     $mb entryconfigure [msgcat::mc "Ordered Bullet"]         -state [expr {[info exists formatting(ordered)]       ? "normal" : "disabled"}]
     $mb entryconfigure [msgcat::mc "Checkbox"]               -state [expr {[info exists formatting(checkbox)]      ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Link"]                   -state [expr {[info exists formatting(link)]          ? "normal" : "disabled"}]
+    $mb entryconfigure [msgcat::mc "Image"]                  -state [expr {[info exists formatting(image)]         ? "normal" : "disabled"}]
 
   }
 

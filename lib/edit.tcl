@@ -2232,41 +2232,68 @@ namespace eval edit {
       }
     }
 
-    if {[llength $ranges] > 0} {
+    if {[set ranges_len [llength $ranges]] > 0} {
 
       # Get the formatting information for the current text widget
       array set formatting [syntax::get_formatting [winfo parent $txtt]]
 
       if {[info exists formatting($type)]} {
 
-        lassign $formatting($type) stype startchars endchars
+        lassign $formatting($type) stype pattern
+        
+        # Figure out the string to use when asking the user for a reference
+        switch $type {
+          link    { set refmsg [msgcat::mc "Link URL"] }
+          image   { set refmsg [msgcat::mc "Image URL/pathname"] }
+          default { set refmsg "" }
+        }
+        
+        # If we need to resolve a reference do that now
+        if {$refmsg ne ""} {
+          set ref ""
+          if {[gui::get_user_response $refmsg ref -allow_vars 1]} {
+            set pattern [string map [list \{REF\} $ref] $pattern]
+          }
+        }
+        
+        # Find the position of the {TEXT} substring
+        set textpos [string first \{TEXT\} $pattern]
+        
+        # Remove any multicursors
+        multicursor::disable $txtt
 
         $txtt edit separator
-
-        set insert [$txtt index insert]
 
         if {$stype eq "line"} {
           set last ""
           foreach {end start} [lreverse $ranges] {
             if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
               while {[$txtt compare $start < $end]} {
-                $txtt insert "$start linestart" $startchars
+                set oldstr [$txtt get "$start linestart" "$start lineend"]
+                $txtt replace "$start linestart" "$start lineend" [string map [list \{TEXT\} $oldstr] $pattern]
+                if {$oldstr eq ""} {
+                  if {($ranges_len == 2) && [$txtt compare $start+1l >= $end]} {
+                    $txtt mark set insert "$start linestart+${textpos}c"
+                  } else {
+                    multicursor::add_cursor $txtt "$start linestart+${textpos}c"
+                  }
+                }
                 set last  $start
                 set start [$txtt index "$start+1l"]
               }
             }
           }
-        } elseif {$endchars ne ""} {
-          foreach {end start} [lreverse $ranges] {
-            $txtt insert $end $endchars
-            if {[$txtt compare $insert != insert]} {
-              $txtt mark set insert $insert
-            }
-            $txtt insert $start $startchars
-          }
         } else {
           foreach {end start} [lreverse $ranges] {
-            $txtt insert $start $startchars
+            set oldstr [$txtt get $start $end]
+            $txtt replace $start $end [string map [list \{TEXT\} $oldstr] $pattern]
+            if {$oldstr eq ""} {
+              if {$ranges_len == 2} {
+                $txtt mark set insert "$start+${textpos}c"
+              } else {
+                multicursor::add_cursor $txtt [$txtt index "$start+${textpos}c"]
+              }
+            }
           }
         }
 
