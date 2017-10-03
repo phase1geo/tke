@@ -80,12 +80,15 @@ miscellaneous1 {
   HighlightRegexp {https?://[^ \t\n\}]+} {}
 }
 
-miscellaneous2 {}
+miscellaneous2 {
+  HighlightRegexp {\{(TEXT|REF)\}} {}
+}
 
 miscellaneous3 {
   HighlightKeywords {
     bold italics underline strikethrough highlight superscript subscript code
     header1 header2 header3 header4 header5 header6 unordered ordered checkbox
+    link image
   }
 }
 

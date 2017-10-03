@@ -45,16 +45,18 @@ miscellaneous1 {
 }
 
 formatting {
-  bold          {word <b>      </b>}
-  italics       {word <i>      </i>}
-  underline     {word <u>      </u>}
-  code          {word <code>   </code>}
-  header1       {word <h1>     </h1>}
-  header2       {word <h2>     </h2>}
-  header3       {word <h3>     </h3>}
-  header4       {word <h4>     </h4>}
-  header5       {word <h5>     </h5>}
-  header6       {word <h6>     </h6>}
-  unordered     {word <li>     </li>}
-  ordered       {word <li>     </li>}
+  bold          {word <b>{TEXT}</b>}
+  italics       {word <i>{TEXT}</i>}
+  underline     {word <u>{TEXT}</u>}
+  code          {word <code>{TEXT}</code>}
+  header1       {word <h1>{TEXT}</h1>}
+  header2       {word <h2>{TEXT}</h2>}
+  header3       {word <h3>{TEXT}</h3>}
+  header4       {word <h4>{TEXT}</h4>}
+  header5       {word <h5>{TEXT}</h5>}
+  header6       {word <h6>{TEXT}</h6>}
+  unordered     {word <li>{TEXT}</li>}
+  ordered       {word <li>{TEXT}</li>}
+  link          {word {<a href="{REF}">{TEXT}</a>}}
+  image         {word {<img src="{REF}" alt="{TEXT}"/>}}
 }

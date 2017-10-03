@@ -143,13 +143,13 @@ advanced {
 
 formatting
 {
-  bold      {word ** **}
-  italics   {word *  *}
-  underline {word _  _}
-  header1   {line {# }}
-  header2   {line {## }}
-  header3   {line {### }}
-  header4   {line {#### }}
-  header5   {line {##### }}
-  header6   {line {###### }}
+  bold      {word **{TEXT}**}
+  italics   {word *{TEXT}*}
+  underline {word _{TEXT}_}
+  header1   {line {# {TEXT}}}
+  header2   {line {## {TEXT}}}
+  header3   {line {### {TEXT}}}
+  header4   {line {#### {TEXT}}}
+  header5   {line {##### {TEXT}}}
+  header6   {line {###### {TEXT}}}
 }

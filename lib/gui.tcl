@@ -360,6 +360,9 @@ namespace eval gui {
     bind $widgets(ursp_entry) <Escape>    [list set gui::user_exit_status 0]
     bind .rf.close            <Button-1>  [list set gui::user_exit_status 0]
     bind .rf.close            <Key-space> [list set gui::user_exit_status 0]
+  
+    # Make the user field a drag and drop target
+    make_drop_target $widgets(ursp_entry) entry
 
     grid rowconfigure    .rf 0 -weight 1
     grid columnconfigure .rf 1 -weight 1
@@ -4268,7 +4271,7 @@ namespace eval gui {
     }
     select::add $txt $tab.sb
     plugins::handle_text_bindings $txt $opts(-tags)
-    make_drop_target                   $txt
+    make_drop_target                   $txt text
 
     # Apply the appropriate syntax highlighting for the given extension
     syntax::set_language $txt [expr {($opts(-lang) eq "") ? [syntax::get_default_language $fname] : $opts(-lang)}]
@@ -4386,7 +4389,7 @@ namespace eval gui {
     multicursor::add_bindings     $txt2
     completer::add_bindings       $txt2
     plugins::handle_text_bindings $txt2 {}
-    make_drop_target              $txt2
+    make_drop_target              $txt2 text
 
     # Apply the appropriate syntax highlighting for the given extension
     syntax::set_language $txt2 [syntax::get_language $txt]
@@ -4656,20 +4659,19 @@ namespace eval gui {
   }
 
   ######################################################################
-  # Adds the necessary bindings to make the given text widget a drop
-  # target for TkDND.
-  proc make_drop_target {txt} {
+  # Adds the necessary bindings to make the given text/entry widget a drop
+  # target for TkDND.  Type should be set to text or entry.
+  proc make_drop_target {win type} {
 
     # Make ourselves a drop target (if Tkdnd is available)
     catch {
 
-      tkdnd::drop_target register $txt [list DND_Files DND_Text]
+      tkdnd::drop_target register $win [list DND_Files DND_Text]
 
-      bind $txt <<DropEnter>>      [list gui::handle_drop_enter_or_pos %W %X %Y %a %b]
-      bind $txt <<DropPosition>>   [list gui::handle_drop_enter_or_pos %W %X %Y %a %b]
-      bind $txt <<DropLeave>>      [list gui::handle_drop_leave %W]
-      bind $txt <<Drop:DND_Files>> [list gui::handle_drop %W %A %m 0 %D]
-      bind $txt <<Drop:DND_Text>>  [list gui::handle_drop %W %A %m 1 %D]
+      bind $win <<DropEnter>>      [list gui::handle_${type}_drop_enter %W %a %b]
+      bind $win <<DropLeave>>      [list gui::handle_${type}_drop_leave %W]
+      bind $win <<Drop:DND_Files>> [list gui::handle_${type}_drop %W %A %m 0 %D]
+      bind $win <<Drop:DND_Text>>  [list gui::handle_${type}_drop %W %A %m 1 %D]
 
     }
 
@@ -4678,7 +4680,7 @@ namespace eval gui {
   ######################################################################
   # Handles a drag-and-drop enter/position event.  Draws UI to show that
   # the file drop request would be excepted or rejected.
-  proc handle_drop_enter_or_pos {txt rootx rooty actions buttons} {
+  proc handle_text_drop_enter {txt actions buttons} {
 
     get_info $txt txt readonly lock diff
 
@@ -4693,28 +4695,44 @@ namespace eval gui {
     # Set the highlight color to green
     ctext::set_border_color $txt green
 
-    # Move the insertion point to the location of rootx/y
-    set x [expr $rootx - [winfo rootx $txt.t]]
-    set y [expr $rooty - [winfo rooty $txt.t]]
-    ::tk::TextSetCursor $txt.t @$x,$y
-    vim::adjust_insert $txt.t
-
     return "link"
 
+  }
+  
+  ######################################################################
+  # Called when the user drags a droppable item over the given entry widget.
+  proc handle_entry_drop_enter {win actions buttons} {
+    
+    # Make sure that the text window has the focus
+    focus -force $win
+    
+    # Cause the entry field to display that it can accept the data
+    $win state alternate
+    
+    return "link"
+    
   }
 
   ######################################################################
   # Handles a drop leave event.
-  proc handle_drop_leave {txt} {
+  proc handle_text_drop_leave {txt} {
 
     # Set the highlight color to green
     ctext::set_border_color $txt white
 
   }
+  
+  ######################################################################
+  # Handles a drag leave event.
+  proc handle_entry_drop_leave {win} {
+    
+    $win state focus
+    
+  }
 
   ######################################################################
   # Handles a drop event.  Adds the given files/directories to the sidebar.
-  proc handle_drop {txt action modifier type data} {
+  proc handle_text_drop {txt action modifier type data} {
 
     gui::get_info $txt txt fileindex
 
@@ -4741,10 +4759,26 @@ namespace eval gui {
     }
 
     # Indicate that the drop event has completed
-    handle_drop_leave $txt
+    handle_text_drop_leave $txt
 
     return "link"
 
+  }
+  
+  ######################################################################
+  # Called if the user drops the given data into the entry field.  If the
+  # data is text, insert the text at the current insertion point.  If the
+  # data is a file, insert the filename at the current insertion point.
+  proc handle_entry_drop {win action modifier type data} {
+    
+    # Insert the information
+    $win insert insert $data
+    
+    # Indicate that the drop event has completed
+    handle_entry_drop_leave $win
+    
+    return "link"
+    
   }
 
   ######################################################################
