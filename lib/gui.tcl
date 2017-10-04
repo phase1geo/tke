@@ -4696,8 +4696,13 @@ namespace eval gui {
     if {[plugins::handle_on_drop $fileindex $type $data]} {
       # Do nothing
 
+    # If we are inserting text or the file name, do that now
     } elseif {$type || ($modifier eq "alt")} {
-      $txt insert insert $data
+      if {[multicursor::enabled $txt.t]} {
+        multicursor::insert $txt.t $data
+      } else {
+        $txt insert insert $data
+      }
 
     # Otherwise, insert the content of the file(s) after the insertion line
     } elseif {![::check_file_for_import $data] && ![utils::is_binary $data]} {
@@ -4710,7 +4715,11 @@ namespace eval gui {
           }
         }
       }
-      $txt insert "insert lineend" $str
+      if {[multicursor::enabled $txt.t]} {
+        multicursor::insert $txt.t $str
+      } else {
+        $txt insert "insert lineend" $str
+      }
     }
 
     # Indicate that the drop event has completed
