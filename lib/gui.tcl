@@ -3335,12 +3335,47 @@ namespace eval gui {
     tk_messageBox -parent . -icon error -title [msgcat::mc "Error"] -type ok -default ok -message $msg -detail $detail
 
   }
+  
+  ######################################################################
+  # Sets the entire application UI state to either the normal or disabled
+  # state which will allow the user to drag/drop information into the panel
+  # without allowing the editor state to change.  This procedure is automatically
+  # called by the panel_place and panel_forget procedures so it should
+  # not need to be called directly by any other code.
+  proc panel_set_ui_state {state} {
+
+    variable widgets
+    
+    set markable [expr {($state eq "normal")}]
+    
+    # Disable the tabbars
+    foreach pane [$widgets(nb_pw) panes] {
+      get_info $pane pane tabbar txt txt2
+      $tabbar configure -state $state
+      $txt    configure -state $state -linemap_markable $markable
+      if {[winfo exists $txt2]} {
+        $txt2 configure -state $state -linemap_markable $markable
+      }
+    }
+    
+    # For good measure, we'll even disable the information bar items
+    $widgets(info_indent) configure -state $state
+    $widgets(info_syntax) configure -state $state
+    
+    # Disable the menubar
+    menus::set_state $state
+    
+    # Disable the sidebar from executing
+    sidebar::set_state [expr {($state eq "normal") ? "normal" : "viewonly"}]
+    
+  }
 
   ######################################################################
   # Places the panel in the window.
   proc panel_place {w} {
 
     variable widgets
+    variable panel_focus
 
     if {[winfo parent $w] eq "."} {
       set top [winfo height $widgets(info)]
@@ -3360,12 +3395,20 @@ namespace eval gui {
     # Place the window and make sure that the window is raised above all others
     place $w -relwidth 1.0 -rely 1.0 -y [expr 0 - ($top + $stop + $wtop)]
     raise $w
+    
+    # Disable the UI
+    panel_set_ui_state disabled
+    
+    # Remember who has the focus
+    set panel_focus [focus]
 
   }
 
   ######################################################################
   # Forget the pnael.
   proc panel_forget {w} {
+    
+    variable panel_focus
 
     if {[winfo parent $w] eq "."} {
       set sep .sep
@@ -3376,6 +3419,12 @@ namespace eval gui {
     # Remove the given panels from display
     place forget $w
     place forget $sep
+    
+    # Enable the UI
+    panel_set_ui_state normal
+    
+    # Return the focus
+    focus $panel_focus
 
   }
 
@@ -3409,9 +3458,8 @@ namespace eval gui {
     panel_place $widgets(ursp)
 
     # Wait for the ursp_entry widget to be closed
-    ::tk::SetFocusGrab $widgets(ursp) $widgets(ursp_entry)
+    focus $widgets(ursp_entry)
     tkwait variable gui::user_exit_status
-    ::tke::RestoreFocusGrab $widgets(ursp) $widgets(ursp_entry)
 
     # Hide the user input widget
     panel_forget $widgets(ursp)
@@ -3491,9 +3539,8 @@ namespace eval gui {
     panel_place $widgets(fif)
 
     # Wait for the panel to be exited
-    ::tk::SetFocusGrab $widgets(fif) $widgets(fif_find)
+    focus $widgets(fif_find)
     tkwait variable gui::user_exit_status
-    ::tke::RestoreFocusGrab $widgets(fif) $widgets(fif_find)
 
     # Hide the widget
     panel_forget $widgets(fif)
@@ -3904,6 +3951,9 @@ namespace eval gui {
     pack $nb.tf  -fill both -expand yes
 
     bind [$nb.tbf.tb btag] <ButtonPress-$::right_click> {
+      if {[%W cget -state] eq "disabled"} {
+        return
+      }
       if {[info exists gui::tab_tip(%W)]} {
         unset gui::tab_tip(%W)
         tooltip::tooltip clear %W
@@ -4657,7 +4707,7 @@ namespace eval gui {
   ######################################################################
   # Called when the user drags a droppable item over the given entry widget.
   proc handle_entry_drop_enter {win actions buttons} {
-
+    
     # Make sure that the text window has the focus
     focus -force $win
 
@@ -5389,6 +5439,11 @@ namespace eval gui {
   ######################################################################
   # Displays all of the unhidden tabs.
   proc show_tabs {tb side} {
+    
+    # If the tabbar is disabled, don't show the tab menu
+    if {[$tb cget -state] eq "disabled"} {
+      return
+    }
 
     set mnu $tb.mnu
 
@@ -5733,9 +5788,8 @@ namespace eval gui {
     panel_place $widgets(doc)
 
     # Wait for the panel to be done
-    ::tk::SetFocusGrab $widgets(doc) $widgets(doc).mb
+    focus $widgets(doc).mb
     tkwait variable gui::user_exit_status
-    ::tke::RestoreFocusGrab $widgets(doc) $widgets(doc).mb
 
     # Hide the user input widget
     panel_forget $widgets(doc)

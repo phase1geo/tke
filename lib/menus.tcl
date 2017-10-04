@@ -76,6 +76,11 @@ namespace eval menus {
   # Invokes the given index in the given menu, executing the menu's postcommand
   # if one exists.
   proc invoke {mnu index} {
+    
+    # If the menubar is disabled, don't allow any menu invocations
+    if {[.menubar entrycget 0 -state] eq "disabled"} {
+      return
+    }
 
     # If the menu contains a postcommand, execute it first
     if {[$mnu cget -postcommand] ne ""} {
@@ -85,6 +90,18 @@ namespace eval menus {
     # Next, invoke the menu
     $mnu invoke $index
 
+  }
+  
+  ######################################################################
+  # Sets the given state on all menus in the menubar.
+  proc set_state {state} {
+    
+    set last [.menubar index end]
+    
+    for {set i 0} {$i <= $last} {incr i} {
+      .menubar entryconfigure $i -state $state
+    }
+    
   }
 
   ######################################################################

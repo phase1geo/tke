@@ -37,6 +37,7 @@ namespace eval sidebar {
   variable spring_id        ""
   variable tkdnd_id         ""
   variable tkdnd_drag       0
+  variable state            "normal"
 
   array set widgets {}
   array set scan_id {
@@ -96,6 +97,27 @@ namespace eval sidebar {
       }
     }
 
+  }
+  
+  ######################################################################
+  # Sets the state of the sidebar to the given value.  The legal values
+  # are:  normal, disabled, viewonly.
+  proc set_state {value} {
+    
+    variable widgets
+    variable state
+    
+    switch $state {
+      normal   -
+      viewonly { $widgets(tl) state !disabled }
+      disabled { $widgets(tl) state  disabled }
+      default {
+        return -code error "Attempting to set sidebar state to an unsupported value ($value)"
+      }
+    }
+    
+    set state $value
+    
   }
 
   ######################################################################
@@ -320,7 +342,7 @@ namespace eval sidebar {
       bindtags $widgets(tl) [lreplace [bindtags $widgets(tl)] $index $index drag]
 
       bind $widgets(tl) <<DragInitCmd>> [list sidebar::handle_drag_init %W]
-      bind $widgets(tl) <<DragEndCmd>>  [list set sidebar::tkdnd_drag 0]
+      bind $widgets(tl) <<DragEndCmd>>  [list sidebar::handle_drag_end %W %A]
 
     }
 
@@ -500,10 +522,32 @@ namespace eval sidebar {
       }
     }
 
-    return [list copy DND_Files $files]
+    return [list {copy move link} DND_Files $files]
 
   }
-
+  
+  ######################################################################
+  # Handle the end of drag event, if the action was a move event, update
+  # the sidebar state.
+  proc handle_drag_end {w action} {
+    
+    variable tkdnd_drag
+    
+    # End the sidebar drag/drop tracking
+    set tkdnd_drag 0
+    
+    # Update the directories containing the selected files
+    foreach item [$w selection] {
+      set dirs([file dirname [$w set $item name]]) [$w parent $item]
+    }
+    
+    # Reload the unique directories
+    foreach {dir item} [array get dirs] {
+      expand_directory $item
+    }
+    
+  }
+  
   ######################################################################
   # Hides the given scrollbar.
   proc hide_scrollbar {} {
@@ -621,18 +665,21 @@ namespace eval sidebar {
   proc get_menu_states {rows} {
 
     variable widgets
+    variable state
 
     set opened "disabled"
     set closed "disabled"
     set hide   "disabled"
     set show   "disabled"
 
-    foreach row $rows {
-      foreach child [$widgets(tl) children $row] {
-        switch [$widgets(tl) item $child -image] {
-          "sidebar_hidden" { set closed "normal"; set show "normal" }
-          "sidebar_open"   { set closed "normal"; set hide "normal" }
-          default          { set opened "normal" }
+    if {$state eq "normal"} {
+      foreach row $rows {
+        foreach child [$widgets(tl) children $row] {
+          switch [$widgets(tl) item $child -image] {
+            "sidebar_hidden" { set closed "normal"; set show "normal" }
+            "sidebar_open"   { set closed "normal"; set hide "normal" }
+            default          { set opened "normal" }
+          }
         }
       }
     }
@@ -646,12 +693,15 @@ namespace eval sidebar {
   proc setup_dir_menu {rows} {
 
     variable widgets
+    variable state
 
-    set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
-    set fav_state    $one_state
-    set sort_state   $one_state
-    set first_row    [lindex $rows 0]
-    set remote_found 0
+    set one_state     [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set one_act_state [expr {($state eq "normal") ? $one_state : "disabled"}]
+    set act_state     [expr {($state eq "normal") ? "normal" : "disabled"}]
+    set fav_state     $one_act_state
+    set sort_state    $one_act_state
+    set first_row     [lindex $rows 0]
+    set remote_found  0
 
     lassign [get_menu_states $rows] open_state close_state hide_state show_state
 
@@ -672,9 +722,9 @@ namespace eval sidebar {
     # Clear the menu
     $widgets(menu) delete 0 end
 
-    $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "New File From Template"] -command [list sidebar::add_file_from_template $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_act_state
+    $widgets(menu) add command -label [msgcat::mc "New File From Template"] -command [list sidebar::add_file_from_template $first_row] -state $one_act_state
+    $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_act_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state $open_state
@@ -688,11 +738,11 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add command -label [msgcat::mc "Show Info"]     -command [list sidebar::update_info_panel $first_row] -state $one_state
     $widgets(menu) add separator
-    $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_act_state
     if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
-      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows]
+      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows] -state $act_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
+      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows] -state $act_state
     }
     $widgets(menu) add separator
 
@@ -722,13 +772,16 @@ namespace eval sidebar {
   proc setup_root_menu {rows} {
 
     variable widgets
+    variable state
 
-    set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
-    set fav_state    $one_state
-    set parent_state $one_state
-    set sort_state   $one_state
-    set first_row    [lindex $rows 0]
-    set remote_found 0
+    set one_state     [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set one_act_state [expr {($state eq "normal") ? $one_state : "disabled"}]
+    set act_state     [expr {($state eq "normal") ? "normal" : "disabled"}]
+    set fav_state     $one_act_state
+    set parent_state  $one_state
+    set sort_state    $one_act_state
+    set first_row     [lindex $rows 0]
+    set remote_found  0
 
     lassign [get_menu_states $rows] open_state close_state hide_state show_state
 
@@ -755,9 +808,9 @@ namespace eval sidebar {
     # Clear the menu
     $widgets(menu) delete 0 end
 
-    $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "New File From Template"] -command [list sidebar::add_file_from_template $first_row] -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "New File"]               -command [list sidebar::add_file_to_folder $first_row]     -state $one_act_state
+    $widgets(menu) add command -label [msgcat::mc "New File From Template"] -command [list sidebar::add_file_from_template $first_row] -state $one_act_state
+    $widgets(menu) add command -label [msgcat::mc "New Directory"]          -command [list sidebar::add_folder_to_folder $first_row]   -state $one_act_state
     $widgets(menu) add separator
 
     $widgets(menu) add command -label [msgcat::mc "Open Directory Files"]  -command [list sidebar::open_folder_files $rows]  -state $open_state
@@ -776,11 +829,11 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Copy Pathname"] -command [list sidebar::copy_pathname $first_row] -state $one_state
     $widgets(menu) add command -label [msgcat::mc "Show Info"]     -command [list sidebar::update_info_panel $first_row] -state $one_state
     $widgets(menu) add separator
-    $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Rename"] -command [list sidebar::rename_folder $first_row] -state $one_act_state
     if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
-      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows]
+      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows] -state $act_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows]
+      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_folder $rows] -state $act_state
     }
     $widgets(menu) add separator
 
@@ -811,22 +864,27 @@ namespace eval sidebar {
   proc setup_file_menu {rows} {
 
     variable widgets
+    variable state
 
-    set one_state    [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
-    set hide_state   "disabled"
-    set show_state   "disabled"
-    set open_state   "disabled"
-    set close_state  "disabled"
-    set first_row    [lindex $rows 0]
-    set diff_state   [expr {([$widgets(tl) set $first_row remote] eq "") ? $one_state : "disabled"}]
-    set remote_found 0
+    set one_state     [expr {([llength $rows] == 1) ? "normal" : "disabled"}]
+    set one_act_state [expr {($state eq "normal") ? $one_state : "disabled"}]
+    set act_state     [expr {($state eq "normal") ? "normal" : "disabled"}]
+    set hide_state    "disabled"
+    set show_state    "disabled"
+    set open_state    "disabled"
+    set close_state   "disabled"
+    set first_row     [lindex $rows 0]
+    set diff_state    [expr {([$widgets(tl) set $first_row remote] eq "") ? $one_act_state : "disabled"}]
+    set remote_found  0
 
     # Calculate the hide and show menu states
-    foreach row $rows {
-      switch [$widgets(tl) item $row -image] {
-        "sidebar_hidden" { set close_state "normal"; set show_state "normal" }
-        "sidebar_open"   { set close_state "normal"; set hide_state "normal" }
-        default          { set open_state  "normal" }
+    if {$state eq "normal"} {
+      foreach row $rows {
+        switch [$widgets(tl) item $row -image] {
+          "sidebar_hidden" { set close_state "normal"; set show_state "normal" }
+          "sidebar_open"   { set close_state "normal"; set hide_state "normal" }
+          default          { set open_state  "normal" }
+        }
       }
     }
 
@@ -854,19 +912,19 @@ namespace eval sidebar {
     $widgets(menu) add command -label [msgcat::mc "Show Info"]       -command [list sidebar::update_info_panel $first_row] -state $one_state
     $widgets(menu) add separator
 
-    $widgets(menu) add command -label [msgcat::mc "Rename"]    -command [list sidebar::rename_file $first_row]    -state $one_state
-    $widgets(menu) add command -label [msgcat::mc "Duplicate"] -command [list sidebar::duplicate_file $first_row] -state $one_state
+    $widgets(menu) add command -label [msgcat::mc "Rename"]    -command [list sidebar::rename_file $first_row]    -state $one_act_state
+    $widgets(menu) add command -label [msgcat::mc "Duplicate"] -command [list sidebar::duplicate_file $first_row] -state $one_act_state
     if {[preferences::get General/UseMoveToTrash] && !$remote_found} {
-      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows]
+      $widgets(menu) add command -label [msgcat::mc "Move To Trash"] -command [list sidebar::move_to_trash $rows] -state $act_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_file $rows]
+      $widgets(menu) add command -label [msgcat::mc "Delete"] -command [list sidebar::delete_file $rows] -state $act_state
     }
     $widgets(menu) add separator
 
     if {[favorites::is_favorite [$widgets(tl) set $first_row name]]} {
-      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_state
+      $widgets(menu) add command -label [msgcat::mc "Unfavorite"] -command [list sidebar::unfavorite $first_row] -state $one_act_state
     } else {
-      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_state
+      $widgets(menu) add command -label [msgcat::mc "Favorite"] -command [list sidebar::favorite $first_row] -state $one_act_state
     }
 
     # Add plugins to sidebar file popup
@@ -1714,10 +1772,15 @@ namespace eval sidebar {
 
     variable widgets
     variable select_id
+    variable state
 
     if {$select_id ne ""} {
       after cancel $select_id
       set select_id ""
+    }
+    
+    if {$state eq "viewonly"} {
+      return
     }
 
     if {[set row [$widgets(tl) identify item $x $y]] eq ""} {
