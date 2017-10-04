@@ -237,11 +237,11 @@ namespace eval vim {
 
     if {$txt ne ""} {
 
-      # Set the focus back to the text widget
-      gui::set_txt_focus $txt
-
       # Hide the command entry widget
       gui::panel_forget $w
+
+      # Set the focus back to the text widget
+      gui::set_txt_focus $txt
 
     }
 

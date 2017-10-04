@@ -113,6 +113,7 @@ namespace eval tabbar {
       option add *Tabbar.relief              "flat"    widgetDefault
       option add *Tabbar.width               500       widgetDefault
       option add *Tabbar.xScrollIncrement    100       widgetDefault
+      option add *Tabbar.state               "normal"  widgetDefault
 
     }
 
@@ -192,6 +193,10 @@ namespace eval tabbar {
   proc scroll_left {w} {
 
     variable data
+    
+    if {$data($w,option,-state) eq "disabled"} {
+      return
+    }
 
     if {[winfo ismapped $w.sl] && ([$data($w,image,left) cget -foreground] eq $data($w,option,-foreground))} {
 
@@ -213,6 +218,10 @@ namespace eval tabbar {
   proc scroll_right {w} {
 
     variable data
+
+    if {$data($w,option,-state) eq "disabled"} {
+      return
+    }
 
     if {[winfo ismapped $w.sr] && ([$data($w,image,right) cget -foreground] eq $data($w,option,-foreground))} {
 
@@ -322,6 +331,10 @@ namespace eval tabbar {
   proc handle_tabbar_leave {w x y} {
 
     variable data
+    
+    if {$data($w,option,-state) eq "disabled"} {
+      return
+    }
 
     if {($data($w,option,-closeshow) eq "enter") && \
         ($data($w,last_tab) != -1) && \
@@ -337,6 +350,10 @@ namespace eval tabbar {
   proc handle_tabbar_motion {w x y} {
 
     variable data
+    
+    if {$data($w,option,-state) eq "disabled"} {
+      return
+    }
 
     if {$data($w,option,-closeshow) eq "enter"} {
 
@@ -362,7 +379,7 @@ namespace eval tabbar {
   proc handle_tabbar_mousewheel {w d} {
 
     if {[tk windowingsystem] eq "win32"} {
-      set d [expr int( pow( %d / -120, 3))]
+      set d [expr int( pow( $d / -120, 3))]
     }
 
     if {$d == -1} {
@@ -1365,7 +1382,7 @@ namespace eval tabbar {
       # Update the GUI widgets
       $w    configure -width $data($w,option,-width) -height $data($w,option,-height) -relief $data($w,option,-relief)
       $w.c  configure -bg $data($w,option,-background) -xscrollincrement $data($w,option,-xscrollincrement) \
-        -height $data($w,option,-height)
+        -height $data($w,option,-height) -state $data($w,option,-state)
       $w.sl configure -bg $data($w,option,-background) -fg $data($w,option,-foreground) -relief flat \
         -disabledforeground $data($w,option,-disabledforeground)
       $w.sr configure -bg $data($w,option,-background) -fg $data($w,option,-foreground) -relief flat \
