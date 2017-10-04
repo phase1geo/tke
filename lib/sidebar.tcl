@@ -35,6 +35,8 @@ namespace eval sidebar {
   variable sortby           "name"
   variable sortdir          "-increasing"
   variable spring_id        ""
+  variable tkdnd_id         ""
+  variable tkdnd_drag       0
 
   array set widgets {}
   array set scan_id {
@@ -303,9 +305,22 @@ namespace eval sidebar {
       bind $widgets(tl) <<DropLeave>>    [list sidebar::handle_drop_leave %W]
       bind $widgets(tl) <<Drop>>         [list sidebar::handle_drop %W %A %D]
 
-      tkdnd::drag_source register $widgets(tl) DND_Files 3
+      tkdnd::drag_source register $widgets(tl) DND_Files
 
-      bind $widgets(tl) <<DragInitCmd>>  [list sidebar::handle_drag_init %W]
+      # We need to handle some things differently since we do file moves in the sidebar
+      set orig_press  [bind TkDND_Drag1 <ButtonPress-1>]
+      set orig_motion [bind TkDND_Drag1 <B1-Motion>]
+
+      # Create the new bindings
+      bind drag <ButtonPress-1> [list sidebar::tkdnd_press  {*}$orig_press]
+      bind drag <B1-Motion>     [list sidebar::tkdnd_motion {*}$orig_motion]
+
+      # Substitute the TkDND_Drag1 binding with the drag binding
+      set index [lsearch [bindtags $widgets(tl)] TkDND_Drag1]
+      bindtags $widgets(tl) [lreplace [bindtags $widgets(tl)] $index $index drag]
+
+      bind $widgets(tl) <<DragInitCmd>> [list sidebar::handle_drag_init %W]
+      bind $widgets(tl) <<DragEndCmd>>  [list set sidebar::tkdnd_drag 0]
 
     }
 
@@ -408,6 +423,14 @@ namespace eval sidebar {
   # Handles a drop event.  Adds the given files/directories to the sidebar.
   proc handle_drop {tbl action files} {
 
+    variable tkdnd_drag
+
+    # If we are dragging to ourselves, do nothing
+    if {$tkdnd_drag} {
+      set tkdnd_drag 0
+      return
+    }
+
     foreach fname $files {
       if {[file isdirectory $fname]} {
         add_directory $fname
@@ -423,10 +446,51 @@ namespace eval sidebar {
   }
 
   ######################################################################
+  # Perform the TkDND button-1 press event.
+  proc tkdnd_press {cmd args} {
+
+    variable tkdnd_id
+
+    set tkdnd_id [after 1000 [list sidebar::tkdnd_call_press $cmd {*}$args]]
+
+  }
+
+  ######################################################################
+  # Call the tkdnd press command.
+  proc tkdnd_call_press {cmd args} {
+
+    variable tkdnd_id
+    variable tkdnd_drag
+
+    # Clear the ID
+    set tkdnd_id   ""
+    set tkdnd_drag 1
+
+    # Execute the command
+    uplevel #0 [list $cmd {*}$args]
+
+  }
+
+  ######################################################################
+  # Perform the TkDND button-1 motion event.
+  proc tkdnd_motion {cmd args} {
+
+    variable tkdnd_id
+
+    # Cancel the button press event
+    if {$tkdnd_id ne ""} {
+      after cancel $tkdnd_id
+      set tkdnd_id ""
+    }
+
+    # Execute the TkDND command
+    uplevel #0 [list $cmd {*}$args]
+
+  }
+
+  ######################################################################
   # Called when the user attempts to drag items from the sidebar.
   proc handle_drag_init {w} {
-
-    puts "In handle_drag_init, w: $w"
 
     # Figure out the file that the user has
     set files [list]
