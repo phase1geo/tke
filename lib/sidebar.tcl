@@ -303,6 +303,10 @@ namespace eval sidebar {
       bind $widgets(tl) <<DropLeave>>    [list sidebar::handle_drop_leave %W]
       bind $widgets(tl) <<Drop>>         [list sidebar::handle_drop %W %A %D]
 
+      tkdnd::drag_source register $widgets(tl) DND_Files 3
+
+      bind $widgets(tl) <<DragInitCmd>>  [list sidebar::handle_drag_init %W]
+
     }
 
     # Register the sidebar and sidebar scrollbar for theming purposes
@@ -415,6 +419,24 @@ namespace eval sidebar {
     handle_drop_leave $tbl
 
     return "link"
+
+  }
+
+  ######################################################################
+  # Called when the user attempts to drag items from the sidebar.
+  proc handle_drag_init {w} {
+
+    puts "In handle_drag_init, w: $w"
+
+    # Figure out the file that the user has
+    set files [list]
+    foreach item [$w selection] {
+      if {[$w set $item remote] eq ""} {
+        lappend files [$w set $item name]
+      }
+    }
+
+    return [list copy DND_Files $files]
 
   }
 

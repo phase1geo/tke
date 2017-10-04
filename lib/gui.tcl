@@ -360,7 +360,7 @@ namespace eval gui {
     bind $widgets(ursp_entry) <Escape>    [list set gui::user_exit_status 0]
     bind .rf.close            <Button-1>  [list set gui::user_exit_status 0]
     bind .rf.close            <Key-space> [list set gui::user_exit_status 0]
-  
+
     # Make the user field a drag and drop target
     make_drop_target $widgets(ursp_entry) entry
 
@@ -3408,33 +3408,10 @@ namespace eval gui {
     # Display the user input widget
     panel_place $widgets(ursp)
 
-    # Get current focus and grab
-    set old_focus [focus]
-    set old_grab  [grab current $widgets(ursp)]
-    if {$old_grab ne ""} {
-      set grab_status [grab status $old_grab]
-    }
-
-    # Set focus to the ursp_entry widget
-    focus $widgets(ursp_entry)
-
-    # Wait for the ursp_entry widget to be visible and then grab it
-    tkwait visibility $widgets(ursp)
-    grab $widgets(ursp)
-
-    # Wait for the widget to be closed
-    vwait gui::user_exit_status
-
-    # Reset the original focus and grab
-    catch { focus $old_focus }
-    catch { grab release $widgets(ursp) }
-    if {$old_grab ne ""} {
-      if {$grab_status ne "global"} {
-        grab $old_grab
-      } else {
-        grab -global $old_grab
-      }
-    }
+    # Wait for the ursp_entry widget to be closed
+    ::tk::SetFocusGrab $widgets(ursp) $widgets(ursp_entry)
+    tkwait variable gui::user_exit_status
+    ::tke::RestoreFocusGrab $widgets(ursp) $widgets(ursp_entry)
 
     # Hide the user input widget
     panel_forget $widgets(ursp)
@@ -3513,32 +3490,10 @@ namespace eval gui {
     # Display the FIF widget
     panel_place $widgets(fif)
 
-    # Get current focus and grab
-    set old_focus [focus]
-    set old_grab  [grab current $widgets(fif)]
-    if {$old_grab ne ""} {
-      set grab_status [grab status $old_grab]
-    }
-
-    # Set focus to the ursp_entry widget
-    focus $widgets(fif_find)
-
-    # Wait for the fif frame to be visible and then grab it
-    tkwait visibility $widgets(fif)
-    grab $widgets(fif)
-
-    vwait gui::user_exit_status
-
-    # Reset the original focus and grab
-    catch { focus $old_focus }
-    catch { grab release $widgets(fif) }
-    if {$old_grab ne ""} {
-      if {$grab_status ne "global"} {
-        grab $old_grab
-      } else {
-        grab -global $old_grab
-      }
-    }
+    # Wait for the panel to be exited
+    ::tk::SetFocusGrab $widgets(fif) $widgets(fif_find)
+    tkwait variable gui::user_exit_status
+    ::tke::RestoreFocusGrab $widgets(fif) $widgets(fif_find)
 
     # Hide the widget
     panel_forget $widgets(fif)
@@ -4698,19 +4653,19 @@ namespace eval gui {
     return "link"
 
   }
-  
+
   ######################################################################
   # Called when the user drags a droppable item over the given entry widget.
   proc handle_entry_drop_enter {win actions buttons} {
-    
+
     # Make sure that the text window has the focus
     focus -force $win
-    
+
     # Cause the entry field to display that it can accept the data
     $win state alternate
-    
+
     return "link"
-    
+
   }
 
   ######################################################################
@@ -4721,13 +4676,13 @@ namespace eval gui {
     ctext::set_border_color $txt white
 
   }
-  
+
   ######################################################################
   # Handles a drag leave event.
   proc handle_entry_drop_leave {win} {
-    
+
     $win state focus
-    
+
   }
 
   ######################################################################
@@ -4764,21 +4719,21 @@ namespace eval gui {
     return "link"
 
   }
-  
+
   ######################################################################
   # Called if the user drops the given data into the entry field.  If the
   # data is text, insert the text at the current insertion point.  If the
   # data is a file, insert the filename at the current insertion point.
   proc handle_entry_drop {win action modifier type data} {
-    
+
     # Insert the information
     $win insert insert $data
-    
+
     # Indicate that the drop event has completed
     handle_entry_drop_leave $win
-    
+
     return "link"
-    
+
   }
 
   ######################################################################
@@ -5768,33 +5723,10 @@ namespace eval gui {
     # Display the user input widget
     panel_place $widgets(doc)
 
-    # Get current focus and grab
-    set old_focus [focus]
-    set old_grab  [grab current $widgets(doc)]
-    if {$old_grab ne ""} {
-      set grab_status [grab status $old_grab]
-    }
-
-    # Set focus to the ursp_entry widget
-    focus $widgets(doc).mb
-
-    # Wait for the ursp_entry widget to be visible and then grab it
-    tkwait visibility $widgets(doc)
-    grab $widgets(doc)
-
-    # Wait for the widget to be closed
-    vwait gui::user_exit_status
-
-    # Reset the original focus and grab
-    catch { focus $old_focus }
-    catch { grab release $widgets(doc) }
-    if {$old_grab ne ""} {
-      if {$grab_status ne "global"} {
-        grab $old_grab
-      } else {
-        grab -global $old_grab
-      }
-    }
+    # Wait for the panel to be done
+    ::tk::SetFocusGrab $widgets(doc) $widgets(doc).mb
+    tkwait variable gui::user_exit_status
+    ::tke::RestoreFocusGrab $widgets(doc) $widgets(doc).mb
 
     # Hide the user input widget
     panel_forget $widgets(doc)
