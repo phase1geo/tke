@@ -63,11 +63,19 @@ set auto_path [list [file join $tke_dir lib ctext] \
                     [file join $tke_dir lib zipper] \
                     {*}$auto_path]
 
-if {$tcl_platform(platform) eq "windows"} {
-  set auto_path [list [file join $tke_dir Win tkdnd2.8-64] [file join $tke_dir Win expect] {*}$auto_path]
-} else {
-  package require Tclx
+switch -glob $tcl_platform(os) {
+  Darwin {
+    lappend auto_path [file join $tke_dir lib macOS tkdnd2.8] [file join $tke_dir lib macOS expect]
+    package require Tclx
+  }
+  Linux* {
+    package require Tclx
+  }
+  *Win* {
+    set auto_path [list [file join $tke_dir lib win tkdnd2.8-64] [file join $tke_dir lib win expect] {*}$auto_path]
+  }
 }
+
 package require -exact ctext 5.0
 package require -exact tablelist 5.18
 package require tooltip

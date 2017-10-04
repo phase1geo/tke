@@ -2240,25 +2240,27 @@ namespace eval edit {
       if {[info exists formatting($type)]} {
 
         lassign $formatting($type) stype pattern
-        
+
         # Figure out the string to use when asking the user for a reference
         switch $type {
           link    { set refmsg [msgcat::mc "Link URL"] }
           image   { set refmsg [msgcat::mc "Image URL/pathname"] }
           default { set refmsg "" }
         }
-        
+
         # If we need to resolve a reference do that now
         if {$refmsg ne ""} {
           set ref ""
           if {[gui::get_user_response $refmsg ref -allow_vars 1]} {
             set pattern [string map [list \{REF\} $ref] $pattern]
+          } else {
+            return
           }
         }
-        
+
         # Find the position of the {TEXT} substring
         set textpos [string first \{TEXT\} $pattern]
-        
+
         # Remove any multicursors
         multicursor::disable $txtt
 
