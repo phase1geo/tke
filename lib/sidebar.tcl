@@ -334,8 +334,9 @@ namespace eval sidebar {
       set orig_motion [bind TkDND_Drag1 <B1-Motion>]
 
       # Create the new bindings
-      bind drag <ButtonPress-1> [list sidebar::tkdnd_press  {*}$orig_press]
-      bind drag <B1-Motion>     [list sidebar::tkdnd_motion {*}$orig_motion]
+      bind drag <ButtonPress-1>   [list sidebar::tkdnd_press  {*}$orig_press]
+      bind drag <B1-Motion>       [list sidebar::tkdnd_motion {*}$orig_motion]
+      bind drag <ButtonRelease-1> [list sidebar::tkdnd_release]
 
       # Substitute the TkDND_Drag1 binding with the drag binding
       set index [lsearch [bindtags $widgets(tl)] TkDND_Drag1]
@@ -453,6 +454,7 @@ namespace eval sidebar {
   proc handle_drop {tbl action files} {
 
     variable tkdnd_drag
+    variable state
 
     # If we are dragging to ourselves, do nothing
     if {$tkdnd_drag} {
@@ -463,7 +465,7 @@ namespace eval sidebar {
     foreach fname $files {
       if {[file isdirectory $fname]} {
         add_directory $fname
-      } elseif {![::check_file_for_import $fname]} {
+      } elseif {($state eq "normal") && ![::check_file_for_import $fname]} {
         gui::add_file end $fname
       }
     }
@@ -488,6 +490,25 @@ namespace eval sidebar {
   # Call the tkdnd press command.
   proc tkdnd_call_press {cmd args} {
 
+    variable widgets
+
+    set sel_fg [$widgets(tl) tag configure sel    -foreground]
+    set sel_bg [$widgets(tl) tag configure sel    -background]
+    set fg     [$widgets(tl) tag configure moveto -foreground]
+    set bg     [$widgets(tl) tag configure moveto -background]
+
+    # Blink the selection so the user knows when we can drag the selection
+    $widgets(tl) tag configure sel -foreground $fg -background $bg
+
+    after 100 [list sidebar::tkdnd_call_press2 $cmd $args $sel_fg $sel_bg]
+
+  }
+
+  ######################################################################
+  # Call the tkdnd press command.
+  proc tkdnd_call_press2 {cmd opts fg bg} {
+
+    variable widgets
     variable tkdnd_id
     variable tkdnd_drag
 
@@ -495,8 +516,10 @@ namespace eval sidebar {
     set tkdnd_id   ""
     set tkdnd_drag 1
 
+    $widgets(tl) tag configure sel -foreground $fg -background $bg
+
     # Execute the command
-    uplevel #0 [list $cmd {*}$args]
+    uplevel #0 [list $cmd {*}$opts]
 
   }
 
@@ -514,6 +537,20 @@ namespace eval sidebar {
 
     # Execute the TkDND command
     uplevel #0 [list $cmd {*}$args]
+
+  }
+
+  ######################################################################
+  # Perform the TkDND button-1 release.
+  proc tkdnd_release {} {
+
+    variable tkdnd_id
+
+    # Cancel the button press event
+    if {$tkdnd_id ne ""} {
+      after cancel $tkdnd_id
+      set tkdnd_id ""
+    }
 
   }
 
@@ -1786,7 +1823,7 @@ namespace eval sidebar {
       set select_id ""
     }
 
-    if {$state eq "viewonly"} {
+    if {$state ne "normal"} {
       return
     }
 
@@ -1811,6 +1848,7 @@ namespace eval sidebar {
   proc handle_return_space {W} {
 
     variable widgets
+    variable state
 
     # Get the selected rows
     set selected [$widgets(tl) selection]
@@ -1822,7 +1860,9 @@ namespace eval sidebar {
       if {[$widgets(tl) tag has f $row]} {
 
         # Add the file
-        gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
+        if {$state eq "normal"} {
+          gui::add_file end [$widgets(tl) set $row name] -remote [$widgets(tl) set $row remote]
+        }
 
       # Otherwise, toggle the open status
       } else {
@@ -1861,6 +1901,11 @@ namespace eval sidebar {
   proc handle_backspace {W} {
 
     variable widgets
+    variable state
+
+    if {$state ne "normal"} {
+      return
+    }
 
     # Close the currently selected rows
     close_file [$widgets(tl) selection]
