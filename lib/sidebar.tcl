@@ -257,12 +257,13 @@ namespace eval sidebar {
 
     $widgets(tl) column #0 -width 300
     
-    set orig_press  ""
-    set orig_motion ""
+    set tkdnd_press_cmd  ""
+    set tkdnd_motion_cmd ""
 
     # Make ourselves a drop target (if Tkdnd is available)
     catch {
 
+      # Register ourselves as a drop target
       tkdnd::drop_target register $widgets(tl) DND_Files
 
       bind $widgets(tl) <<DropEnter>>    [list sidebar::handle_drop_enter_or_pos %W %X %Y %a %b]
@@ -270,25 +271,26 @@ namespace eval sidebar {
       bind $widgets(tl) <<DropLeave>>    [list sidebar::handle_drop_leave %W]
       bind $widgets(tl) <<Drop>>         [list sidebar::handle_drop %W %A %D]
 
+      # Register ourselves as a drag source
       tkdnd::drag_source register $widgets(tl) DND_Files
 
-      # We need to handle some things differently since we do file moves in the sidebar
-      set orig_press  [bind TkDND_Drag1 <ButtonPress-1>]
-      set orig_motion [bind TkDND_Drag1 <B1-Motion>]
-
-      # Substitute the TkDND_Drag1 binding with the drag binding
-      set index [lsearch [bindtags $widgets(tl)] TkDND_Drag1]
-      bindtags $widgets(tl) [lreplace [bindtags $widgets(tl)] $index $index]
-      
       bind $widgets(tl) <<DragInitCmd>> [list sidebar::handle_drag_init %W]
       bind $widgets(tl) <<DragEndCmd>>  [list sidebar::handle_drag_end %W %A]
 
+      # We need to handle some things differently since we do file moves in the sidebar
+      set tkdnd_press_cmd  [bind TkDND_Drag1 <ButtonPress-1>]
+      set tkdnd_motion_cmd [bind TkDND_Drag1 <B1-Motion>]
+
+      # Remove the TkDND_Drag1 binding from the sidebar bindtags
+      set index [lsearch [bindtags $widgets(tl)] TkDND_Drag1]
+      bindtags $widgets(tl) [lreplace [bindtags $widgets(tl)] $index $index]
+      
     }
     
     bind $widgets(tl) <<TreeviewSelect>>              [list sidebar::handle_selection]
     bind $widgets(tl) <<TreeviewOpen>>                [list sidebar::expand_directory]
     bind $widgets(tl) <<TreeviewClose>>               [list sidebar::collapse_directory]
-    bind $widgets(tl) <ButtonPress-1>                 "if {\[sidebar::handle_left_press %W %x %y [list $orig_press]\]} break"
+    bind $widgets(tl) <ButtonPress-1>                 "if {\[sidebar::handle_left_press %W %x %y [list $tkdnd_press_cmd]\]} break"
     bind $widgets(tl) <ButtonRelease-1>               [list sidebar::handle_left_release %W %x %y]
     bind $widgets(tl) <Control-Button-1>              "sidebar::handle_control_left_click %W %x %y; break"
     bind $widgets(tl) <Control-Button-$::right_click> [list sidebar::handle_control_right_click %W %x %y]
@@ -297,7 +299,7 @@ namespace eval sidebar {
     bind $widgets(tl) <Button-$::right_click>         [list sidebar::handle_right_click %W %x %y]
     bind $widgets(tl) <Double-Button-1>               [list sidebar::handle_double_click %W %x %y]
     bind $widgets(tl) <Motion>                        [list sidebar::handle_motion %W %x %y]
-    bind $widgets(tl) <B1-Motion>                     [list sidebar::handle_b1_motion %W %x %y $orig_motion]
+    bind $widgets(tl) <B1-Motion>                     [list sidebar::handle_b1_motion %W %x %y $tkdnd_motion_cmd]
     bind $widgets(tl) <Control-Return>                [list sidebar::handle_control_return_space %W]
     bind $widgets(tl) <Control-Key-space>             [list sidebar::handle_control_return_space %W]
     bind $widgets(tl) <Escape>                        [list sidebar::handle_escape %W]
