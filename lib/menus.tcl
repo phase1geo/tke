@@ -1301,68 +1301,70 @@ namespace eval menus {
     # Populate formatting menu
     ##########################
 
+    set fmtstr [msgcat::mc "formatting"]
+    
     $mb.formatPopup add command -label [msgcat::mc "Bold"] -command [list menus::edit_format bold]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text bold"]] [list menus::edit_format bold]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert bold formatting"]] [list menus::edit_format bold]
 
     $mb.formatPopup add command -label [msgcat::mc "Italics"] -command [list menus::edit_format italics]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text italicized"]] [list menus::edit_format italics]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert italics formatting"]] [list menus::edit_format italics]
 
     $mb.formatPopup add command -label [msgcat::mc "Underline"] -command [list menus::edit_format underline]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text underlined"]] [list menus::edit_format underline]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert underline formatting"]] [list menus::edit_format underline]
 
     $mb.formatPopup add command -label [msgcat::mc "Strikethrough"] -command [list menus::edit_format strikethrough]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text stricken"]] [list menus::edit_format strikethrough]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert strikethrough formatting"]] [list menus::edit_format strikethrough]
 
     $mb.formatPopup add command -label [msgcat::mc "Highlight"] -command [list menus::edit_format highlight]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text highlighted"]] [list menus::edit_format highlight]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert highlight formatting"]] [list menus::edit_format highlight]
 
     $mb.formatPopup add command -label [msgcat::mc "Superscript"] -command [list menus::edit_format superscript]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text superscript"]] [list menus::edit_format superscript]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert superscript formatting"]] [list menus::edit_format superscript]
 
     $mb.formatPopup add command -label [msgcat::mc "Subscript"] -command [list menus::edit_format subscript]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text subscript"]] [list menus::edit_format subscript]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert subscript formatting"]] [list menus::edit_format subscript]
 
     $mb.formatPopup add command -label [msgcat::mc "Code"] -command [list menus::edit_format code]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text monospaced"]] [list menus::edit_format code]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert code formatting"]] [list menus::edit_format code]
 
     $mb.formatPopup add separator
 
     $mb.formatPopup add command -label [format "%s 1" [msgcat::mc "Header"]] -command [list menus::edit_format header1]
-    launcher::register [make_menu_cmd "Edit" [format "%s 1" [msgcat::mc "Make line header style"]]] [list menus::edit_format header1]
+    launcher::register [make_menu_cmd "Edit" [format "%s 1 %s" [msgcat::mc "Insert header style"] $fmtstr]] [list menus::edit_format header1]
 
     $mb.formatPopup add command -label [format "%s 2" [msgcat::mc "Header"]] -command [list menus::edit_format header2]
-    launcher::register [make_menu_cmd "Edit" [format "%s 2" [msgcat::mc "Make line header style"]]] [list menus::edit_format header2]
+    launcher::register [make_menu_cmd "Edit" [format "%s 2 %s" [msgcat::mc "Insert header style"] $fmtstr]] [list menus::edit_format header2]
 
     $mb.formatPopup add command -label [format "%s 3" [msgcat::mc "Header"]] -command [list menus::edit_format header3]
-    launcher::register [make_menu_cmd "Edit" [format "%s 3" [msgcat::mc "Make line header style"]]] [list menus::edit_format header3]
+    launcher::register [make_menu_cmd "Edit" [format "%s 3 %s" [msgcat::mc "Insert header style"] $fmtstr]] [list menus::edit_format header3]
 
     $mb.formatPopup add command -label [format "%s 4" [msgcat::mc "Header"]] -command [list menus::edit_format header4]
-    launcher::register [make_menu_cmd "Edit" [format "%s 4" [msgcat::mc "Make line header style"]]] [list menus::edit_format header4]
+    launcher::register [make_menu_cmd "Edit" [format "%s 4 %s" [msgcat::mc "Insert header style"] $fmtstr]] [list menus::edit_format header4]
 
     $mb.formatPopup add command -label [format "%s 5" [msgcat::mc "Header"]] -command [list menus::edit_format header5]
-    launcher::register [make_menu_cmd "Edit" [format "%s 5" [msgcat::mc "Make line header style"]]] [list menus::edit_format header5]
+    launcher::register [make_menu_cmd "Edit" [format "%s 5 %s" [msgcat::mc "Insert header style"] $fmtstr]] [list menus::edit_format header5]
 
     $mb.formatPopup add command -label [format "%s 6" [msgcat::mc "Header"]] -command [list menus::edit_format header6]
-    launcher::register [make_menu_cmd "Edit" [format "%s 6" [msgcat::mc "Make line header style"]]] [list menus::edit_format header6]
+    launcher::register [make_menu_cmd "Edit" [format "%s 6 %s" [msgcat::mc "Insert header style"] $fmtstr]] [list menus::edit_format header6]
 
     $mb.formatPopup add separator
 
     $mb.formatPopup add command -label [msgcat::mc "Unordered Bullet"] -command [list menus::edit_format unordered]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line an unordered bullet"]] [list menus::edit_format unordered]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert unordered list formatting"]] [list menus::edit_format unordered]
 
     $mb.formatPopup add command -label [msgcat::mc "Ordered Bullet"] -command [list menus::edit_format ordered]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line an ordered bullet"]] [list menus::edit_format ordered]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert ordered list formatting"]] [list menus::edit_format ordered]
 
     $mb.formatPopup add command -label [msgcat::mc "Checkbox"] -command [list menus::edit_format checkbox]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make line a checklist item"]] [list menus::edit_format checkbox]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert checklist formatting"]] [list menus::edit_format checkbox]
     
     $mb.formatPopup add separator
     
     $mb.formatPopup add command -label [msgcat::mc "Link"] -command [list menus::edit_format link]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text a link"]] [list menus::edit_format link]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert link formatting"]] [list menus::edit_format link]
 
     $mb.formatPopup add command -label [msgcat::mc "Image"] -command [list menus::edit_format image]
-    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Make text an image"]] [list menus::edit_format image]
+    launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert image formatting"]] [list menus::edit_format image]
 
     $mb.formatPopup add separator
 

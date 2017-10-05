@@ -1,7 +1,13 @@
 .PHONEY : updateall update
 
+ifeq ($(OS),Windows_NT)
+TCLSH = tclsh86
+else
+TCLSH = tclsh8.6
+endif
+
 updateall :
-	tclsh8.6 update.tcl -- -a
+	$(TCLSH) update.tcl -- -a
 
 update :
-	tclsh8.6 update.tcl
+	$(TCLSH) update.tcl

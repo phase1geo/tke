@@ -945,48 +945,6 @@ msgcat::mcmset cs {
   "Lower Case"
   "Malá písmena"
 
-  "Make line a checklist item"
-  "Vytvořit řádek položka kontrolního seznamu"
-
-  "Make line an ordered bullet"
-  "Veďte čáru objednané bullet"
-
-  "Make line an unordered bullet"
-  "Veďte čáru neuspořádané bullet"
-
-  "Make line header style"
-  "Vytvořit styl záhlaví řádku"
-
-  "Make text a link"
-  "Vytvořte text odkaz"
-
-  "Make text an image"
-  "Vytvořte text obrázek"
-
-  "Make text bold"
-  "Změna textu na tučný"
-
-  "Make text highlighted"
-  "Aby text zvýrazněn"
-
-  "Make text italicized"
-  "Změna textu na kurzívu"
-
-  "Make text monospaced"
-  "Aby text neproporcionálním"
-
-  "Make text stricken"
-  "Aby text zasažený"
-
-  "Make text subscript"
-  "Vytvořit textový index"
-
-  "Make text superscript"
-  "Aby text jako horní index"
-
-  "Make text underlined"
-  "Změna textu na podtržený"
-
   "Markers"
   "Značky"
 

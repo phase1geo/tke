@@ -945,48 +945,6 @@ msgcat::mcmset ja {
   "Lower Case"
   "小文字"
 
-  "Make line a checklist item"
-  "チェックリスト項目のラインを作る"
-
-  "Make line an ordered bullet"
-  "順序付けられた弾丸のラインを作る"
-
-  "Make line an unordered bullet"
-  "行番号なしの箇条書きを作る"
-
-  "Make line header style"
-  "行ヘッダーのスタイルを作る"
-
-  "Make text a link"
-  "テキストをリンクにする"
-
-  "Make text an image"
-  "テキストをイメージにする"
-
-  "Make text bold"
-  "テキストを太字にします。"
-
-  "Make text highlighted"
-  "テキストを強調表示します。"
-
-  "Make text italicized"
-  "斜体のテキストします。"
-
-  "Make text monospaced"
-  "テキストの幅を作る"
-
-  "Make text stricken"
-  "襲われたテキストします。"
-
-  "Make text subscript"
-  "テキストを下付き"
-
-  "Make text superscript"
-  "テキストを上付き"
-
-  "Make text underlined"
-  "テキストに下線を作る"
-
   "Markers"
   "マーカー"
 

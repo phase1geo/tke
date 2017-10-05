@@ -945,48 +945,6 @@ msgcat::mcmset da {
   "Lower Case"
   "Små bogstaver"
 
-  "Make line a checklist item"
-  "Gøre linje en tjekliste vare"
-
-  "Make line an ordered bullet"
-  "Gøre linje en bestilt bullet"
-
-  "Make line an unordered bullet"
-  "Gøre linje en uordnet bullet"
-
-  "Make line header style"
-  "Gør stregtypen header"
-
-  "Make text a link"
-  "Lav tekst et link"
-
-  "Make text an image"
-  "Lav tekst et billede"
-
-  "Make text bold"
-  "Lav tekst om til fed"
-
-  "Make text highlighted"
-  "Gøre teksten fremhævet"
-
-  "Make text italicized"
-  "Gør tekst kursiv"
-
-  "Make text monospaced"
-  "Gøre tekst monospaced"
-
-  "Make text stricken"
-  "Gøre tekst ramte"
-
-  "Make text subscript"
-  "Gør tekst sænket"
-
-  "Make text superscript"
-  "Gør tekst hævet"
-
-  "Make text underlined"
-  "Gør teksten understreget"
-
   "Markers"
   "Markører"
 

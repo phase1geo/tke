@@ -945,48 +945,6 @@ msgcat::mcmset sv {
   "Lower Case"
   "Små bokstäver"
 
-  "Make line a checklist item"
-  "Gör linje en checklistepunkten"
-
-  "Make line an ordered bullet"
-  "Gör linje en beställda kula"
-
-  "Make line an unordered bullet"
-  "Gör linje en oordnad kula"
-
-  "Make line header style"
-  "Göra header linjeformat"
-
-  "Make text a link"
-  "Gör text en länk"
-
-  "Make text an image"
-  "Gör text till en bild"
-
-  "Make text bold"
-  "Gör texten fet"
-
-  "Make text highlighted"
-  "Göra text markeras"
-
-  "Make text italicized"
-  "Gör texten kursiv"
-
-  "Make text monospaced"
-  "Göra text med fast bredd"
-
-  "Make text stricken"
-  "Göra texten drabbade"
-
-  "Make text subscript"
-  "Göra text nedsänkt"
-
-  "Make text superscript"
-  "Gör text upphöjd"
-
-  "Make text underlined"
-  "Gör texten understruken"
-
   "Markers"
   "Marker"
 

@@ -945,48 +945,6 @@ msgcat::mcmset zh {
   "Lower Case"
   "小写字母"
 
-  "Make line a checklist item"
-  "使行核对清单项"
-
-  "Make line an ordered bullet"
-  "使线序的子弹"
-
-  "Make line an unordered bullet"
-  "使线无序的子弹"
-
-  "Make line header style"
-  "使行标题样式"
-
-  "Make text a link"
-  "使文本链接"
-
-  "Make text an image"
-  "使文字成为图像"
-
-  "Make text bold"
-  "使文本加粗"
-
-  "Make text highlighted"
-  "使突出显示文本"
-
-  "Make text italicized"
-  "使文本变为斜体"
-
-  "Make text monospaced"
-  "使文本等宽"
-
-  "Make text stricken"
-  "使文本受灾"
-
-  "Make text subscript"
-  "使文本变为下标"
-
-  "Make text superscript"
-  "使文本成为上标"
-
-  "Make text underlined"
-  "使文本加下划线"
-
   "Markers"
   "标记"
 

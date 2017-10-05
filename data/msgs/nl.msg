@@ -945,48 +945,6 @@ msgcat::mcmset nl {
   "Lower Case"
   "Kleineletters"
 
-  "Make line a checklist item"
-  "Regel een controlelijst-item maken"
-
-  "Make line an ordered bullet"
-  "Maak de lijn een geordende kogel"
-
-  "Make line an unordered bullet"
-  "Maak de lijn een ongeordende kogel"
-
-  "Make line header style"
-  "Koptekst lijnstijl maken"
-
-  "Make text a link"
-  "Maak tekst een link"
-
-  "Make text an image"
-  "Maak een afbeelding een tekst"
-
-  "Make text bold"
-  "Tekst vet maken"
-
-  "Make text highlighted"
-  "Gemarkeerde tekst maken"
-
-  "Make text italicized"
-  "Tekst cursief maken"
-
-  "Make text monospaced"
-  "Maken met vaste spatiëring van tekst"
-
-  "Make text stricken"
-  "Tekst getroffen maken"
-
-  "Make text subscript"
-  "Tekst subscript maken"
-
-  "Make text superscript"
-  "Tekst superscript maken"
-
-  "Make text underlined"
-  "Tekst onderstrepen"
-
   "Markers"
   "markeerders"
 

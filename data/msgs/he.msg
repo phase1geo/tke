@@ -945,48 +945,6 @@ msgcat::mcmset he {
   "Lower Case"
   "באותיות קטנות"
 
-  "Make line a checklist item"
-  "להפוך שורות של פריט רשימת פעולות לביצוע"
-
-  "Make line an ordered bullet"
-  "לעשות קו כדור מסודרת"
-
-  "Make line an unordered bullet"
-  "לעשות קו כדור לא מסודרים"
-
-  "Make line header style"
-  "להפוך סגנון כותרת שורה"
-
-  "Make text a link"
-  "הפיכת טקסט קישור"
-
-  "Make text an image"
-  "הפיכת טקסט תמונה"
-
-  "Make text bold"
-  "הפיכת טקסט למודגש"
-
-  "Make text highlighted"
-  "הפיכת טקסט מודגש"
-
-  "Make text italicized"
-  "הפיכת טקסט לנטוי"
-
-  "Make text monospaced"
-  "להפוך טקסט ברוחב אחיד"
-
-  "Make text stricken"
-  "הפיכת טקסט מוכה"
-
-  "Make text subscript"
-  "להפוך טקסט תחתי"
-
-  "Make text superscript"
-  "להפוך טקסט עילי"
-
-  "Make text underlined"
-  "הפיכת טקסט מסומן בקו תחתון"
-
   "Markers"
   "סמנים"
 
