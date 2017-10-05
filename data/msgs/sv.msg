@@ -14,6 +14,14 @@ msgcat::mcmset sv {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset sv {
+
+  "Transform Tools"
+  "Transformverktyg"
+
+}
+
 # diff.tcl
 msgcat::mcmset sv {
 
@@ -42,6 +50,12 @@ msgcat::mcmset sv {
 
   "Filename already exists"
   "Filnamn finns redan"
+
+  "Image URL/pathname"
+  "Bildadress / söknamn"
+
+  "Link URL"
+  "Länk URL"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset sv {
 
 # gui.tcl
 msgcat::mcmset sv {
-
-  "All"
-  "ALL"
 
   "Case sensitivity"
   "Skiftlägeskänslighet"
@@ -208,6 +219,9 @@ msgcat::mcmset sv {
   "Image used in the preferences window to indicate that something is true."
   "Bilden används i inställningsfönstret för att ange att något är sant."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Bilder som används i fliken som kommer att visas när musen kommer in i området nära stängning"
+
   "In"
   "In"
 
@@ -309,6 +323,18 @@ msgcat::mcmset sv {
 
   "Absolute line numbering"
   "Absoluta radnumrering"
+
+  "Add Next Line"
+  "Lägg till nästa rad"
+
+  "Add Previous Line"
+  "Lägg till tidigare rad"
+
+  "Add next line to selection"
+  "Lägg till nästa rad i urvalet"
+
+  "Add previous line to selection"
+  "Lägg till tidigare rad till valet"
 
   "Align Cursors Only"
   "Justera markörer endast"
@@ -462,6 +488,15 @@ msgcat::mcmset sv {
 
   "Create new plugin"
   "Skapa nya plugin"
+
+  "Current Bounded Text"
+  "Aktuell gränsad text"
+
+  "Current Paragraph"
+  "Aktuell punkt"
+
+  "Current Sentence"
+  "Nuvarande mening"
 
   "Cut"
   "Klipp ut"
@@ -781,6 +816,9 @@ msgcat::mcmset sv {
   "Highlight"
   "Markera"
 
+  "Image"
+  "Bild"
+
   "Increment by 0.1"
   "Ökning med 0,1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset sv {
   "Line Wrapping"
   "Radbrytning"
 
+  "Link"
+  "Länk"
+
   "Lock"
   "Lock"
 
@@ -915,6 +956,12 @@ msgcat::mcmset sv {
 
   "Make line header style"
   "Göra header linjeformat"
+
+  "Make text a link"
+  "Gör text en länk"
+
+  "Make text an image"
+  "Gör text till en bild"
 
   "Make text bold"
   "Gör texten fet"
@@ -1300,8 +1347,8 @@ msgcat::mcmset sv {
   "Search reference documentation"
   "Sök referensdokumentation"
 
-  "Select All"
-  "Markera alla"
+  "Select"
+  "Välj"
 
   "Select All Matches"
   "Välj alla matcher"
@@ -1323,6 +1370,21 @@ msgcat::mcmset sv {
 
   "Select all text"
   "Markera all text"
+
+  "Select current bracketed text, strings or comment block"
+  "Välj aktuell fäst text, strängar eller kommentarblock"
+
+  "Select current line"
+  "Välj aktuell rad"
+
+  "Select current paragraph"
+  "Välj aktuell paragraf"
+
+  "Select current sentence"
+  "Välj nuvarande mening"
+
+  "Select current word"
+  "Välj aktuellt ord"
 
   "Select next tag item"
   "Välj nästa tagg"
@@ -1751,17 +1813,11 @@ msgcat::mcmset sv {
   "Current Filename"
   "Nuvarande filnamn"
 
-  "Current Line"
-  "Aktuell rad:"
-
   "Current Line Column"
   "Aktuell rad kolumn"
 
   "Current Line Number"
   "Aktuella radnumret"
-
-  "Current Word"
-  "Aktuella ord"
 
   "Current editing buffer directory"
   "Aktuella redigering buffert katalogen"
@@ -1915,6 +1971,9 @@ msgcat::mcmset sv {
 
   "Properties"
   "Egenskaper"
+
+  "Reading time words per minute"
+  "Läser tid ord per minut"
 
   "Recently opened history depth"
   "Nyligen öppnade historia djup"
@@ -2267,6 +2326,12 @@ msgcat::mcmset sv {
 # select.tcl
 msgcat::mcmset sv {
 
+  "Add Selection Matches"
+  "Lägg till urvalskampanjer"
+
+  "All To"
+  "Allt till"
+
   "Anchor"
   "Ankare"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset sv {
   "Clear Selection"
   "Rensa markering"
 
+  "Comment"
+  "Kommentar"
+
   "Curly Brackets"
   "Klammerparenteser"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset sv {
 
   "Exit Selection Mode"
   "Markeringsläge"
+
+  "Invert Selected Text"
+  "Invertera vald text"
 
   "Keep Selection"
   "VAL"
@@ -2342,6 +2413,9 @@ msgcat::mcmset sv {
   "Right"
   "Höger"
 
+  "Selected"
+  "Valda"
+
   "Selection Mode Command Help"
   "Val av Mode kommandot Help"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset sv {
   "Toggle Help"
   "Växla"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Växla Surrounding\nCharacter integration"
+  "Toggle Quote Inclusion"
+  "Byt citat inkludering"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Typ '?' för hjälp.  Tryck på ESC för att avsluta markeringsläget"
@@ -2386,6 +2460,9 @@ msgcat::mcmset sv {
 
   "Word"
   "Word"
+
+  "matching instances"
+  "matchande instanser"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset sv {
   "Enable Copy Mode"
   "Aktivera kopieringsläget"
 
+  "Export BMP Data"
+  "Exportera BMP-data"
+
+  "Export BMP Mask"
+  "Exportera BMP Mask"
+
+  "Export Bitmap Data"
+  "Exportera bitmappsdata"
+
   "Export Theme As"
   "Exportera temat som"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset sv {
 
   "Import BMP Mask"
   "Importera BMP maskerar"
+
+  "Import Bitmap Data"
+  "Importera bitmappsdata"
 
   "Import Error"
   "Fel vid import"
@@ -3180,6 +3269,9 @@ msgcat::mcmset sv {
 # General
 msgcat::mcmset sv {
 
+  "All"
+  "ALL"
+
   "Back"
   "Tillbaka"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset sv {
 
   "Create"
   "Skapa"
+
+  "Current Line"
+  "Aktuell rad:"
+
+  "Current Word"
+  "Aktuella ord"
 
   "Cursor"
   "markör"

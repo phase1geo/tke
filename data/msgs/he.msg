@@ -14,6 +14,14 @@ msgcat::mcmset he {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset he {
+
+  "Transform Tools"
+  "כלים"
+
+}
+
 # diff.tcl
 msgcat::mcmset he {
 
@@ -42,6 +50,12 @@ msgcat::mcmset he {
 
   "Filename already exists"
   "שם הקובץ כבר קיים"
+
+  "Image URL/pathname"
+  "כתובת url של תמונה/נתיב"
+
+  "Link URL"
+  "כתובת URL של הקישור"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset he {
 
 # gui.tcl
 msgcat::mcmset he {
-
-  "All"
-  "כל"
 
   "Case sensitivity"
   "תלות ברישיות"
@@ -208,6 +219,9 @@ msgcat::mcmset he {
   "Image used in the preferences window to indicate that something is true."
   "תמונת שימוש בחלון ההעדפות כדי לציין כי משהו נכון."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "התמונות שבהן נעשה שימוש בכרטיסיה אשר יוצג כאשר העכבר נכנס לאזור הלחצן ' סגור '"
+
   "In"
   "ב"
 
@@ -309,6 +323,18 @@ msgcat::mcmset he {
 
   "Absolute line numbering"
   "מספור שורות מוחלטת"
+
+  "Add Next Line"
+  "הוסף את השורה הבאה"
+
+  "Add Previous Line"
+  "הוסף את השורה הקודמת"
+
+  "Add next line to selection"
+  "להוסיף את השורה הבאה לבחירה"
+
+  "Add previous line to selection"
+  "להוסיף את השורה הקודמת לבחירה"
 
   "Align Cursors Only"
   "ליישר סמנים בלבד"
@@ -462,6 +488,15 @@ msgcat::mcmset he {
 
   "Create new plugin"
   "ליצור תוסף חדש"
+
+  "Current Bounded Text"
+  "זרם ותחום טקסט"
+
+  "Current Paragraph"
+  "הפיסקה הנוכחית"
+
+  "Current Sentence"
+  "×ª×××ªÖ¾ ×©××× ×× × ××¢×× ×××××¨××ª ××¡× ×ª× ××××××¨ Festival ×××¦× ××× ××¨××§××××."
 
   "Cut"
   "לחתוך"
@@ -781,6 +816,9 @@ msgcat::mcmset he {
   "Highlight"
   "הבלטה"
 
+  "Image"
+  "תמונה"
+
   "Increment by 0.1"
   "הגדל ב 0.1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset he {
   "Line Wrapping"
   "גלישת שורות"
 
+  "Link"
+  "קישור"
+
   "Lock"
   "מנעול"
 
@@ -915,6 +956,12 @@ msgcat::mcmset he {
 
   "Make line header style"
   "להפוך סגנון כותרת שורה"
+
+  "Make text a link"
+  "הפיכת טקסט קישור"
+
+  "Make text an image"
+  "הפיכת טקסט תמונה"
 
   "Make text bold"
   "הפיכת טקסט למודגש"
@@ -1300,8 +1347,8 @@ msgcat::mcmset he {
   "Search reference documentation"
   "חפש הפניה לתיעוד"
 
-  "Select All"
-  "בחר את כל"
+  "Select"
+  "בחר"
 
   "Select All Matches"
   "בחר כל ההתאמות"
@@ -1323,6 +1370,21 @@ msgcat::mcmset he {
 
   "Select all text"
   "לבחור את הכל"
+
+  "Select current bracketed text, strings or comment block"
+  "בחר טקסט שמוקף בסוגריים הנוכחי, מחרוזות או בלוק הערה"
+
+  "Select current line"
+  "בחר את השורה הנוכחית"
+
+  "Select current paragraph"
+  "בחר את הפיסקה הנוכחית"
+
+  "Select current sentence"
+  "×ª×××ªÖ¾ ×©××× ×× × ××¢×× ×××××¨××ª ××¡× ×ª× ××××××¨ Festival ×××¦× ××× ××¨××§××××."
+
+  "Select current word"
+  "××××¨××ª"
 
   "Select next tag item"
   "בחירת הפריט הבא תג"
@@ -1751,17 +1813,11 @@ msgcat::mcmset he {
   "Current Filename"
   "שם הקובץ הנוכחי"
 
-  "Current Line"
-  "השורה הנוכחית"
-
   "Current Line Column"
   "עמודה בשורה הנוכחית"
 
   "Current Line Number"
   "מספר הקו הנוכחי"
-
-  "Current Word"
-  "המילה הנוכחית"
 
   "Current editing buffer directory"
   "הספריה מאגר העריכה הנוכחית"
@@ -1915,6 +1971,9 @@ msgcat::mcmset he {
 
   "Properties"
   "נכסים"
+
+  "Reading time words per minute"
+  "קריאת הזמן מילים בדקה"
 
   "Recently opened history depth"
   "לאחרונה נפתח עומק היסטוריה"
@@ -2267,6 +2326,12 @@ msgcat::mcmset he {
 # select.tcl
 msgcat::mcmset he {
 
+  "Add Selection Matches"
+  "הוספת הבחירה גפרורים"
+
+  "All To"
+  "הכל כדי"
+
   "Anchor"
   "אנדורה"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset he {
   "Clear Selection"
   "נקה בחירה"
 
+  "Comment"
+  "תגובה"
+
   "Curly Brackets"
   "בסוגריים מסולסלים"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset he {
 
   "Exit Selection Mode"
   "בחירה"
+
+  "Invert Selected Text"
+  "היפוך טקסט נבחר"
 
   "Keep Selection"
   "לשמור על הבחירה"
@@ -2342,6 +2413,9 @@ msgcat::mcmset he {
   "Right"
   "ימין"
 
+  "Selected"
+  "נבחר"
+
   "Selection Mode Command Help"
   "עזרה הפקודה מצב בחירה"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset he {
   "Toggle Help"
   "מתג"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "הכללה Surrounding\nCharacter דו-מצבי"
+  "Toggle Quote Inclusion"
+  "החלף מצב הצעת מחיר הכללה"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "סוג '?' לקבלת עזרה.  ללחוץ על מקש ESCAPE כדי לצאת ממצב בחירה"
@@ -2386,6 +2460,9 @@ msgcat::mcmset he {
 
   "Word"
   "מילה"
+
+  "matching instances"
+  "התאמת מופעים"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset he {
   "Enable Copy Mode"
   "לאפשר מצב העתקה"
 
+  "Export BMP Data"
+  "ייצוא נתונים BMP"
+
+  "Export BMP Mask"
+  "ייצוא BMP מסיכה"
+
+  "Export Bitmap Data"
+  "ייצוא נתוני Bitmap"
+
   "Export Theme As"
   "לייצוא ערכת נושא כמו"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset he {
 
   "Import BMP Mask"
   "ייבוא BMP מסיכה"
+
+  "Import Bitmap Data"
+  "ייבוא מפת סיביות נתונים"
 
   "Import Error"
   "שגיאת ייבוא"
@@ -3180,6 +3269,9 @@ msgcat::mcmset he {
 # General
 msgcat::mcmset he {
 
+  "All"
+  "כל"
+
   "Back"
   "חזרה"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset he {
 
   "Create"
   "צור"
+
+  "Current Line"
+  "השורה הנוכחית"
+
+  "Current Word"
+  "המילה הנוכחית"
 
   "Cursor"
   "סמן"

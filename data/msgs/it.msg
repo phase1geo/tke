@@ -14,6 +14,14 @@ msgcat::mcmset it {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset it {
+
+  "Transform Tools"
+  "Strumenti di trasformazione"
+
+}
+
 # diff.tcl
 msgcat::mcmset it {
 
@@ -42,6 +50,12 @@ msgcat::mcmset it {
 
   "Filename already exists"
   "Nome file esiste già"
+
+  "Image URL/pathname"
+  "URL immagine / nome percorso"
+
+  "Link URL"
+  "URL del Collegamento"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset it {
 
 # gui.tcl
 msgcat::mcmset it {
-
-  "All"
-  "Tutti"
 
   "Case sensitivity"
   "Sensibile alle maiuscole"
@@ -208,6 +219,9 @@ msgcat::mcmset it {
   "Image used in the preferences window to indicate that something is true."
   "Immagine utilizzata nella finestra Preferenze per indicare che c'è qualcosa di vero."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Immagini utilizzate nella scheda che verranno visualizzate quando il mouse entra nell&#39;area del pulsante di chiusura"
+
   "In"
   "Oltre"
 
@@ -309,6 +323,18 @@ msgcat::mcmset it {
 
   "Absolute line numbering"
   "Numerazione di riga assoluta"
+
+  "Add Next Line"
+  "Riga successiva"
+
+  "Add Previous Line"
+  "Riga precedete&#x0D;"
+
+  "Add next line to selection"
+  "Aggiungere la riga successiva alla selezione"
+
+  "Add previous line to selection"
+  "Aggiungere la riga precedente alla selezione"
 
   "Align Cursors Only"
   "Allineare i cursori solo"
@@ -462,6 +488,15 @@ msgcat::mcmset it {
 
   "Create new plugin"
   "Creare nuovo plugin"
+
+  "Current Bounded Text"
+  "Testo limitato corrente"
+
+  "Current Paragraph"
+  "Paragrafo corrente"
+
+  "Current Sentence"
+  "Configurazione di Festival & Lite (flite)"
 
   "Cut"
   "Taglia"
@@ -781,6 +816,9 @@ msgcat::mcmset it {
   "Highlight"
   "Evidenziare"
 
+  "Image"
+  "Immagine"
+
   "Increment by 0.1"
   "Aumenta di"
 
@@ -895,6 +933,9 @@ msgcat::mcmset it {
   "Line Wrapping"
   "Wrap della linea"
 
+  "Link"
+  "Link"
+
   "Lock"
   "Lucchetto"
 
@@ -915,6 +956,12 @@ msgcat::mcmset it {
 
   "Make line header style"
   "Fare stile dell'intestazione di riga"
+
+  "Make text a link"
+  "Crea un testo un collegamento"
+
+  "Make text an image"
+  "Crea testo un&#39;immagine"
 
   "Make text bold"
   "Rendi il testo in grassetto"
@@ -1300,8 +1347,8 @@ msgcat::mcmset it {
   "Search reference documentation"
   "Documentazione di riferimento di ricerca"
 
-  "Select All"
-  "Seleziona Tutto"
+  "Select"
+  "Seleziona"
 
   "Select All Matches"
   "Selezionare tutte le partite"
@@ -1323,6 +1370,21 @@ msgcat::mcmset it {
 
   "Select all text"
   "Seleziona tutto il testo"
+
+  "Select current bracketed text, strings or comment block"
+  "Seleziona il testo corrente a bracket, le stringhe o il blocco di commento"
+
+  "Select current line"
+  "- Seleziona corrente"
+
+  "Select current paragraph"
+  "Seleziona il paragrafo corrente"
+
+  "Select current sentence"
+  "Seleziona la frase corrente"
+
+  "Select current word"
+  "Parola corrente"
 
   "Select next tag item"
   "Selezionare l'elemento successivo tag"
@@ -1751,17 +1813,11 @@ msgcat::mcmset it {
   "Current Filename"
   "Nome del file corrente"
 
-  "Current Line"
-  "Riga corrente"
-
   "Current Line Column"
   "Colonna corrente"
 
   "Current Line Number"
   "Numero di riga corrente"
-
-  "Current Word"
-  "Parola corrente"
 
   "Current editing buffer directory"
   "Directory corrente di buffer editing"
@@ -1915,6 +1971,9 @@ msgcat::mcmset it {
 
   "Properties"
   "Proprietà"
+
+  "Reading time words per minute"
+  "Lettura delle parole del tempo al minuto"
 
   "Recently opened history depth"
   "Recentemente aperto profondità di storia"
@@ -2267,6 +2326,12 @@ msgcat::mcmset it {
 # select.tcl
 msgcat::mcmset it {
 
+  "Add Selection Matches"
+  "Aggiungi partite di selezione"
+
+  "All To"
+  "Tutto a"
+
   "Anchor"
   "Ancora"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset it {
   "Clear Selection"
   "Cancella selezione"
 
+  "Comment"
+  "Commento"
+
   "Curly Brackets"
   "Parentesi"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset it {
 
   "Exit Selection Mode"
   "Esce dalla modalità selezione"
+
+  "Invert Selected Text"
+  "Inverti il ​​testo selezionato"
 
   "Keep Selection"
   "Mantieni la selezione"
@@ -2342,6 +2413,9 @@ msgcat::mcmset it {
   "Right"
   "Destra"
 
+  "Selected"
+  "Selezionato"
+
   "Selection Mode Command Help"
   "Selezione modalità comando Help"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset it {
   "Toggle Help"
   "Seleziona"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Toggle Surrounding\nCharacter inclusione"
+  "Toggle Quote Inclusion"
+  "Toggle Inclusion inclusione"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Tipo '?' per aiuto.  Premere il tasto ESC per uscire dalla modalità di selezione"
@@ -2386,6 +2460,9 @@ msgcat::mcmset it {
 
   "Word"
   "Parola"
+
+  "matching instances"
+  "istanze di corrispondenza"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset it {
   "Enable Copy Mode"
   "Attivare la modalità di copia"
 
+  "Export BMP Data"
+  "Esporta i dati BMP"
+
+  "Export BMP Mask"
+  "Esportazione maschera BMP"
+
+  "Export Bitmap Data"
+  "Esportare i dati bitmap"
+
   "Export Theme As"
   "Tema di esportazione come"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset it {
 
   "Import BMP Mask"
   "Maschera Importa BMP"
+
+  "Import Bitmap Data"
+  "Importare i dati bitmap"
 
   "Import Error"
   "Errore di importazione"
@@ -3180,6 +3269,9 @@ msgcat::mcmset it {
 # General
 msgcat::mcmset it {
 
+  "All"
+  "Tutti"
+
   "Back"
   "Indietro"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset it {
 
   "Create"
   "Crea"
+
+  "Current Line"
+  "Riga corrente"
+
+  "Current Word"
+  "Parola corrente"
 
   "Cursor"
   "Cursore"

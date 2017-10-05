@@ -14,6 +14,14 @@ msgcat::mcmset el {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset el {
+
+  "Transform Tools"
+  "Εργαλεία μετασχηματισμού"
+
+}
+
 # diff.tcl
 msgcat::mcmset el {
 
@@ -42,6 +50,12 @@ msgcat::mcmset el {
 
   "Filename already exists"
   "Όνομα αρχείου που υπάρχει ήδη"
+
+  "Image URL/pathname"
+  "Διεύθυνση URL / όνομα διαδρομής εικόνας"
+
+  "Link URL"
+  "URL Συνδέσμου"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset el {
 
 # gui.tcl
 msgcat::mcmset el {
-
-  "All"
-  "All"
 
   "Case sensitivity"
   "αναζήτηση βάσει πλήρους αντιστοίχισης"
@@ -208,6 +219,9 @@ msgcat::mcmset el {
   "Image used in the preferences window to indicate that something is true."
   "Εικόνα που χρησιμοποιείται στο παράθυρο προτιμήσεων για να δείξει ότι κάτι είναι αληθινό."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Εικόνες που χρησιμοποιούνται στην καρτέλα που θα εμφανιστούν όταν το ποντίκι εισέλθει στην περιοχή του κουμπιού κλεισίματος"
+
   "In"
   "Σε"
 
@@ -309,6 +323,18 @@ msgcat::mcmset el {
 
   "Absolute line numbering"
   "Απόλυτη γραμμή αρίθμηση"
+
+  "Add Next Line"
+  "Προσθέστε την επόμενη γραμμή"
+
+  "Add Previous Line"
+  "Προσθήκη προηγούμενης γραμμής"
+
+  "Add next line to selection"
+  "Προσθέστε την επόμενη γραμμή στην επιλογή"
+
+  "Add previous line to selection"
+  "Προσθέστε την προηγούμενη γραμμή στην επιλογή"
 
   "Align Cursors Only"
   "Ευθυγραμμίστε τους δρομείς μόνο"
@@ -462,6 +488,15 @@ msgcat::mcmset el {
 
   "Create new plugin"
   "Δημιουργήστε νέο plugin"
+
+  "Current Bounded Text"
+  "Τρέχον όριο κείμενο"
+
+  "Current Paragraph"
+  "Τρέχουσα παράγραφος"
+
+  "Current Sentence"
+  "Τρέχουσα πρόταση"
 
   "Cut"
   "Αποκοπή"
@@ -781,6 +816,9 @@ msgcat::mcmset el {
   "Highlight"
   "Στιγμιότυπο"
 
+  "Image"
+  "Εικόνα"
+
   "Increment by 0.1"
   "Διαβάθμιση από 0,1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset el {
   "Line Wrapping"
   "Αναδίπλωση γραμμών"
 
+  "Link"
+  "Σύνδεσμος"
+
   "Lock"
   "Κλείδωμα"
 
@@ -915,6 +956,12 @@ msgcat::mcmset el {
 
   "Make line header style"
   "Κάνει το στυλ γραμμής κεφαλίδας"
+
+  "Make text a link"
+  "Κάνετε κείμενο σύνδεσμο"
+
+  "Make text an image"
+  "Κάνετε κείμενο μια εικόνα"
 
   "Make text bold"
   "Κάνετε ένα κείμενο έντονο"
@@ -1300,8 +1347,8 @@ msgcat::mcmset el {
   "Search reference documentation"
   "Τεκμηρίωση αναφοράς αναζήτηση"
 
-  "Select All"
-  "Επιλογή όλων"
+  "Select"
+  "Επιλογή"
 
   "Select All Matches"
   "Επιλέξτε όλους τους αγώνες"
@@ -1323,6 +1370,21 @@ msgcat::mcmset el {
 
   "Select all text"
   "Επιλογή όλων"
+
+  "Select current bracketed text, strings or comment block"
+  "Επιλέξτε τρέχον κωδικευμένο κείμενο, συμβολοσειρές ή μπλοκ σχολίων"
+
+  "Select current line"
+  "Επιλέξτε την τρέχουσα γραμμή"
+
+  "Select current paragraph"
+  "Επιλέξτε την τρέχουσα παράγραφο"
+
+  "Select current sentence"
+  "Επιλέξτε τρέχουσα πρόταση"
+
+  "Select current word"
+  "Επιλέξτε την τρέχουσα λέξη"
 
   "Select next tag item"
   "Επιλέξτε ετικέτα ημερήσια"
@@ -1751,17 +1813,11 @@ msgcat::mcmset el {
   "Current Filename"
   "Τρέχον όνομα αρχείου"
 
-  "Current Line"
-  "Τρέχουσα γραμμή"
-
   "Current Line Column"
   "Τρέχουσα γραμμή στήλη"
 
   "Current Line Number"
   "Τρέχων αριθμός γραμμής"
-
-  "Current Word"
-  "Τρέχουσας λέξης"
 
   "Current editing buffer directory"
   "Τρέχοντα επεξεργασίας buffer κατάλογο"
@@ -1915,6 +1971,9 @@ msgcat::mcmset el {
 
   "Properties"
   "Ιδιότητες"
+
+  "Reading time words per minute"
+  "Χρόνοι ανάγνωσης χρόνου ανάγνωσης"
 
   "Recently opened history depth"
   "Άνοιξε πρόσφατα το ιστορικό βάθος"
@@ -2267,6 +2326,12 @@ msgcat::mcmset el {
 # select.tcl
 msgcat::mcmset el {
 
+  "Add Selection Matches"
+  "Προσθήκη επιλογών επιλογής"
+
+  "All To"
+  "Όλοι"
+
   "Anchor"
   "Άγκυρα πλοίου"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset el {
   "Clear Selection"
   "Αφαίρεση Επιλογής"
 
+  "Comment"
+  "Σχόλιο"
+
   "Curly Brackets"
   "Αγκύλες"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset el {
 
   "Exit Selection Mode"
   "Έξοδος από τη λειτουργία επιλογής"
+
+  "Invert Selected Text"
+  "Επαναφορά επιλεγμένου κειμένου"
 
   "Keep Selection"
   "Επιλογή"
@@ -2342,6 +2413,9 @@ msgcat::mcmset el {
   "Right"
   "Δεξιά"
 
+  "Selected"
+  "Επιλεγμένο"
+
   "Selection Mode Command Help"
   "Επιλογή λειτουργίας εντολή Βοήθεια"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset el {
   "Toggle Help"
   "Εναλλαγή"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Εναλλαγή Surrounding\nCharacter ένταξη"
+  "Toggle Quote Inclusion"
+  "Εναλλαγή συμπερίληψης παραπόνων"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Τύπος '; ' για βοήθεια.  Χτύπησε το πλήκτρο ESCAPE για να εξέλθετε από τη λειτουργία επιλογής"
@@ -2386,6 +2460,9 @@ msgcat::mcmset el {
 
   "Word"
   "Λέξη"
+
+  "matching instances"
+  "αντιστοίχιση περιπτώσεων"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset el {
   "Enable Copy Mode"
   "Ενεργοποιήστε τη λειτουργία αντίγραφο"
 
+  "Export BMP Data"
+  "Εξαγωγή δεδομένων BMP"
+
+  "Export BMP Mask"
+  "Εξαγωγή μάσκας BMP"
+
+  "Export Bitmap Data"
+  "Εξαγωγή δεδομένων bitmap"
+
   "Export Theme As"
   "Εξαγάγετε το θέμα ως"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset el {
 
   "Import BMP Mask"
   "Εισαγωγή BMP Μάσκα"
+
+  "Import Bitmap Data"
+  "Εισαγωγή δεδομένων Bitmap"
 
   "Import Error"
   "Σφάλμα εισαγωγής"
@@ -3180,6 +3269,9 @@ msgcat::mcmset el {
 # General
 msgcat::mcmset el {
 
+  "All"
+  "All"
+
   "Back"
   "Πίσω"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset el {
 
   "Create"
   "Δημιουργία"
+
+  "Current Line"
+  "Τρέχουσα γραμμή"
+
+  "Current Word"
+  "Τρέχουσας λέξης"
 
   "Cursor"
   "Δρομέα"
