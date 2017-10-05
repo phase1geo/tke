@@ -945,48 +945,6 @@ msgcat::mcmset el {
   "Lower Case"
   "Πεζά"
 
-  "Make line a checklist item"
-  "Κάνετε γραμμή ένα στοιχείο του πίνακα ελέγχου"
-
-  "Make line an ordered bullet"
-  "Κάνετε γραμμή μια ταξινομημένη σφαίρα"
-
-  "Make line an unordered bullet"
-  "Κάνετε γραμμή μια μη διατεταγμένη σφαίρα"
-
-  "Make line header style"
-  "Κάνει το στυλ γραμμής κεφαλίδας"
-
-  "Make text a link"
-  "Κάνετε κείμενο σύνδεσμο"
-
-  "Make text an image"
-  "Κάνετε κείμενο μια εικόνα"
-
-  "Make text bold"
-  "Κάνετε ένα κείμενο έντονο"
-
-  "Make text highlighted"
-  "Κάνει την επισήμανση του κειμένου"
-
-  "Make text italicized"
-  "Κείμενο με πλάγια γραφή"
-
-  "Make text monospaced"
-  "Κάνουν κειμένου σταθερού πλάτους"
-
-  "Make text stricken"
-  "Κείμενο που επλήγησαν"
-
-  "Make text subscript"
-  "Κάνει το κείμενο εκθέτη"
-
-  "Make text superscript"
-  "Κάνουν κειμένου σε εκθέτη"
-
-  "Make text underlined"
-  "Κάνει το επιλεγμένο κείμενο υπογραμμίζεται"
-
   "Markers"
   "Σημεία"
 

@@ -945,48 +945,6 @@ msgcat::mcmset hu {
   "Lower Case"
   "Alsó-ügy"
 
-  "Make line a checklist item"
-  "Ellenőrzőlista-elem, hogy vonal"
-
-  "Make line an ordered bullet"
-  "Hogy sor egy megrendelt golyó"
-
-  "Make line an unordered bullet"
-  "Hogy sor egy rendezetlen golyó"
-
-  "Make line header style"
-  "Fejléc stílusa, hogy"
-
-  "Make text a link"
-  "Szöveg létrehozása link"
-
-  "Make text an image"
-  "Szöveg létrehozása"
-
-  "Make text bold"
-  "Félkövér betűstílus használata"
-
-  "Make text highlighted"
-  "Kijelölt szöveg"
-
-  "Make text italicized"
-  "Dőlt szöveg"
-
-  "Make text monospaced"
-  "Hogy a nyomtatott szöveg"
-
-  "Make text stricken"
-  "Sújtotta szöveg"
-
-  "Make text subscript"
-  "A szöveg alsó indexbe"
-
-  "Make text superscript"
-  "A szöveg felső indexbe"
-
-  "Make text underlined"
-  "Szöveg formázása aláhúzottra"
-
   "Markers"
   "Markerek"
 

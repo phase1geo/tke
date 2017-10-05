@@ -28,5 +28,4 @@ foreach msg [glob *.msg] {
   lappend langs [file rootname $msg]
 }
   
-
-exec wish8.5 [file join .. .. lib lang.tcl] {*}$lang_args {*}$langs
+exec [string map {tclsh wish} [info nameofexecutable]] [file join .. .. lib lang.tcl] {*}$lang_args {*}$langs

@@ -945,48 +945,6 @@ msgcat::mcmset ru {
   "Lower Case"
   "Минускул"
 
-  "Make line a checklist item"
-  "Сделать линии элемент контрольного списка"
-
-  "Make line an ordered bullet"
-  "Сделать линию упорядоченный пуля"
-
-  "Make line an unordered bullet"
-  "Сделать линию неупорядоченных пуля"
-
-  "Make line header style"
-  "Сделать линии стиль заголовка"
-
-  "Make text a link"
-  "Создать ссылку."
-
-  "Make text an image"
-  "Сделать текст изображением"
-
-  "Make text bold"
-  "Жирный текст"
-
-  "Make text highlighted"
-  "Сделать текст выделен"
-
-  "Make text italicized"
-  "Сделать текст курсивом"
-
-  "Make text monospaced"
-  "Сделать текст моноширинный"
-
-  "Make text stricken"
-  "Сделать текст пострадавших"
-
-  "Make text subscript"
-  "Сделать текст подстрочного"
-
-  "Make text superscript"
-  "Сделать текст надстрочным"
-
-  "Make text underlined"
-  "Подчеркивание текста"
-
   "Markers"
   "Указатели"
 

@@ -945,48 +945,6 @@ msgcat::mcmset fr {
   "Lower Case"
   "lettre du bas de casse"
 
-  "Make line a checklist item"
-  "Aligner un élément de liste de contrôle"
-
-  "Make line an ordered bullet"
-  "Aligner une balle ordonnée"
-
-  "Make line an unordered bullet"
-  "Aligner une puce non ordonnée"
-
-  "Make line header style"
-  "Faire style d’en-tête de ligne"
-
-  "Make text a link"
-  "Créer un lien texte"
-
-  "Make text an image"
-  "Faire du texte une image"
-
-  "Make text bold"
-  "Mettre le texte en gras"
-
-  "Make text highlighted"
-  "Faire du texte mis en surbrillance"
-
-  "Make text italicized"
-  "Faire du texte en italique"
-
-  "Make text monospaced"
-  "Rendre le texte monospaced"
-
-  "Make text stricken"
-  "Rendre le texte frappé"
-
-  "Make text subscript"
-  "Passer le texte en indice"
-
-  "Make text superscript"
-  "Passer le texte en exposant"
-
-  "Make text underlined"
-  "Rendre le texte souligné"
-
   "Markers"
   "Marqueur"
 

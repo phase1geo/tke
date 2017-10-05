@@ -945,48 +945,6 @@ msgcat::mcmset es {
   "Lower Case"
   "Minúsculas"
 
-  "Make line a checklist item"
-  "Hacer línea un elemento de lista"
-
-  "Make line an ordered bullet"
-  "Hacer línea una bala pedida"
-
-  "Make line an unordered bullet"
-  "Hacer línea una bala sin ordenar"
-
-  "Make line header style"
-  "Estilo de encabezado de línea"
-
-  "Make text a link"
-  "Hacer un enlace de texto"
-
-  "Make text an image"
-  "Hacer del texto una imagen"
-
-  "Make text bold"
-  "Poner el texto en negrita"
-
-  "Make text highlighted"
-  "Texto resaltado"
-
-  "Make text italicized"
-  "Hacer texto en cursiva"
-
-  "Make text monospaced"
-  "Hacer texto monoespaciado"
-
-  "Make text stricken"
-  "Texto por"
-
-  "Make text subscript"
-  "Hacer subíndice texto"
-
-  "Make text superscript"
-  "Hacer superíndice de texto"
-
-  "Make text underlined"
-  "Texto subrayado"
-
   "Markers"
   "Marcadores"
 
