@@ -3255,9 +3255,13 @@ namespace eval gui {
       lassign [winfo rgb . [utils::get_default_background]] br bg bb
       $widgets(info_msg) configure -text $msg -foreground $foreground
 
-      # Remember the message for the window, if necessary
+      # Remember or clear the message for the window, if necessary
       if {$opts(-win) ne ""} {
-        set info_msgs($opts(-win)) [list $msg $opts(-clear_delay)]
+        if {$msg eq ""} {
+          unset -nocomplain info_msgs($opts(-win))
+        } else {
+          set info_msgs($opts(-win)) [list $msg $opts(-clear_delay)]
+        }
       }
 
       # If the status bar is supposed to be hidden, show it now

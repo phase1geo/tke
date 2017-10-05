@@ -145,36 +145,40 @@ namespace eval select {
     }
 
     # Create labels and their shortcuts
-    set left   [list [msgcat::mc "Left"]                 "j"]
-    set right  [list [msgcat::mc "Right"]                "k"]
-    set up     [list [msgcat::mc "Up"]                   "i"]
-    set down   [list [msgcat::mc "Down"]                 "m"]
-    set lshift [list [msgcat::mc "Shift Left"]           "H"]
-    set rshift [list [msgcat::mc "Shift Right"]          "L"]
-    set ushift [list [msgcat::mc "Shift Up"]             "K"]
-    set dshift [list [msgcat::mc "Shift Down"]           "J"]
-    set next   [list [msgcat::mc "Next"]                 "l"]
-    set prev   [list [msgcat::mc "Previous"]             "h"]
-    set parent [list [msgcat::mc "Parent"]               "h"]
-    set child  [list [msgcat::mc "Child"]                "l"]
-    set nsib   [list [msgcat::mc "Next Sibling"]         "j"]
-    set psib   [list [msgcat::mc "Previous Sibling"]     "k"]
-    set swap   [list [msgcat::mc "Swap Anchor"]          "a"]
-    set undo   [list [msgcat::mc "Undo Last Change"]     "u"]
-    set help   [list [msgcat::mc "Toggle Help"]          "?"]
-    set ret    [list [msgcat::mc "Keep Selection"]       "\u21b5"]
-    set esc    [list [msgcat::mc "Clear Selection"]      "Esc"]
-    set del    [list [msgcat::mc "Delete Selected Text"] "Del"]
-    set inv    [list [msgcat::mc "Invert Selected Text"] "~"]
-    set inc    [list [msgcat::mc "Toggle Surrounding\nCharacter Inclusion"] "i"]
+    set left   [list [msgcat::mc "Left"]                   "j"]
+    set right  [list [msgcat::mc "Right"]                  "k"]
+    set up     [list [msgcat::mc "Up"]                     "i"]
+    set down   [list [msgcat::mc "Down"]                   "m"]
+    set lshift [list [msgcat::mc "Shift Left"]             "H"]
+    set rshift [list [msgcat::mc "Shift Right"]            "L"]
+    set ushift [list [msgcat::mc "Shift Up"]               "K"]
+    set dshift [list [msgcat::mc "Shift Down"]             "J"]
+    set next   [list [msgcat::mc "Next"]                   "l"]
+    set prev   [list [msgcat::mc "Previous"]               "h"]
+    set parent [list [msgcat::mc "Parent"]                 "h"]
+    set child  [list [msgcat::mc "Child"]                  "l"]
+    set nsib   [list [msgcat::mc "Next Sibling"]           "j"]
+    set psib   [list [msgcat::mc "Previous Sibling"]       "k"]
+    set swap   [list [msgcat::mc "Swap Anchor"]            "a"]
+    set undo   [list [msgcat::mc "Undo Last Change"]       "u"]
+    set help   [list [msgcat::mc "Toggle Help"]            "?"]
+    set ret    [list [msgcat::mc "Keep Selection"]         "\u21b5"]
+    set esc    [list [msgcat::mc "Clear Selection"]        "Esc"]
+    set del    [list [msgcat::mc "Delete Selected Text"]   "Del"]
+    set inv    [list [msgcat::mc "Invert Selected Text"]   "~"]
+    set find   [list [msgcat::mc "Add Selection Matches"]  "/"]
+    set inc    [list [msgcat::mc "Toggle Quote Inclusion"] "i"]
 
     toplevel            .selhelp
     wm transient        .selhelp .
     wm overrideredirect .selhelp 1
 
-    ttk::label     .selhelp.title -text [msgcat::mc "Selection Mode Command Help"] -anchor center -padding 4
+    ttk::label     .selhelp.title -text  [msgcat::mc "Selection Mode Command Help"] -anchor center -padding 4
+    ttk::label     .selhelp.close -image form_close -padding {8 0}
     ttk::separator .selhelp.sep -orient horizontal
     ttk::frame     .selhelp.f
+
+    bind .selhelp.close <Button-1> [list select::hide_help]
 
     ttk::labelframe .selhelp.f.types -text [msgcat::mc "Modes"]
     create_list .selhelp.f.types $types $txtt
@@ -215,7 +219,10 @@ namespace eval select {
     create_list .selhelp.f.help [list $undo $help]
 
     ttk::labelframe .selhelp.f.exit -text [msgcat::mc "Exit Selection Mode"]
-    create_list .selhelp.f.exit [list $ret $esc $del $inv]
+    switch $data($txtt,type) {
+      block   { create_list .selhelp.f.exit [list $ret $esc $del $inv] }
+      default { create_list .selhelp.f.exit [list $ret $esc $del $inv $find] }
+    }
 
     # Pack the labelframes
     grid .selhelp.f.types   -row 0 -column 0 -sticky news -padx 2 -pady 2 -rowspan 4
@@ -224,9 +231,12 @@ namespace eval select {
     grid .selhelp.f.help    -row 2 -column 1 -sticky news -padx 2 -pady 2
     grid .selhelp.f.exit    -row 3 -column 1 -sticky news -padx 2 -pady 2
 
-    pack .selhelp.title -fill x
-    pack .selhelp.sep   -fill x
-    pack .selhelp.f     -fill both -expand yes
+    grid rowconfigure    .selhelp 2 -weight 1
+    grid columnconfigure .selhelp 0 -weight 1
+    grid .selhelp.title -row 0 -column 0 -sticky ew
+    grid .selhelp.close -row 0 -column 1 -sticky news
+    grid .selhelp.sep   -row 1 -column 0 -sticky ew   -columnspan 2
+    grid .selhelp.f     -row 2 -column 0 -sticky news -columnspan 2
 
     # Place the window in the middle of the main window
     ::tk::PlaceWindow .selhelp widget .
@@ -765,7 +775,7 @@ namespace eval select {
         $txtt configure -cursor ""
 
         # Clear the help message
-        gui::set_info_message ""
+        gui::set_info_message "" -win [winfo parent $txtt]
 
       }
 
@@ -928,6 +938,41 @@ namespace eval select {
 
     # Hide the help window
     hide_help
+
+    return 1
+
+  }
+
+  ######################################################################
+  # Selection mode completion command which finds all text that matches
+  # currently selected text and includes those in the selection.
+  proc handle_slash {txtt} {
+
+    variable data
+
+    if {$data($txtt,mode) == 0} {
+      return 0
+    }
+
+    # Get the selection string to match against
+    set str [$txtt get sel.first sel.last]
+
+    # Find all text in the editing buffer that matches the selected text
+    set i 0
+    foreach index [$txtt search -all -count lengths -forward -- $str 1.0 end] {
+      $txtt tag add sel $index "$index+[lindex $lengths $i]c"
+      incr i
+    }
+
+    # Disable selection mode
+    set_select_mode $txtt 0
+    set data($txtt,type)  "none"
+
+    # Hide the help window
+    hide_help
+
+    # Tell the user how many matches we found
+    gui::set_info_message [format "%s %d %s" [msgcat::mc "Selected"] [expr $i - 1] [msgcat::mc "matching instances"]]
 
     return 1
 
