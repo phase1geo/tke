@@ -145,10 +145,10 @@ namespace eval select {
     }
 
     # Create labels and their shortcuts
-    set left   [list [msgcat::mc "Left"]                   "j"]
-    set right  [list [msgcat::mc "Right"]                  "k"]
-    set up     [list [msgcat::mc "Up"]                     "i"]
-    set down   [list [msgcat::mc "Down"]                   "m"]
+    set left   [list [msgcat::mc "Left"]                   "h"]
+    set right  [list [msgcat::mc "Right"]                  "l"]
+    set up     [list [msgcat::mc "Up"]                     "k"]
+    set down   [list [msgcat::mc "Down"]                   "j"]
     set lshift [list [msgcat::mc "Shift Left"]             "H"]
     set rshift [list [msgcat::mc "Shift Right"]            "L"]
     set ushift [list [msgcat::mc "Shift Up"]               "K"]
@@ -1366,6 +1366,9 @@ namespace eval select {
       allto   -
       line    -
       lineto  -
+      single  -
+      double  -
+      btick   -
       comment {}
       node    -
       curly   -
@@ -1388,6 +1391,9 @@ namespace eval select {
       allto   -
       line    -
       lineto  -
+      single  -
+      double  -
+      btick   -
       comment {}
       node    -
       curly   -
