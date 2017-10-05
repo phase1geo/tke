@@ -6,3 +6,5 @@ When you enter selection mode (with the `Edit / Select Mode` menu option), botto
 
 ![](assets/infobar.png "Information Bar in Select Mode")
 
+Because select mode is keyboard-centric, it will take a bit of time and muscle memory to become proficient with this powerful feature. Feel free to start up selection mode and play around with it, learning how to select anything in the editing buffer without removing your fingers from the keyboard home row will make you a more efficient programmer and writer.
+
