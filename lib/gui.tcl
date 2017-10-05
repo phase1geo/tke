@@ -4766,6 +4766,37 @@ namespace eval gui {
     # $win configure -background white
 
   }
+  
+  ######################################################################
+  # If the editing buffer has formatting support for links/images, adjusts
+  # the supplied data to be formatted.
+  proc format_dropped_data {txt pdata pcursor} {
+    
+    upvar $pdata   data
+    upvar $pcursor cursor
+    
+    # Get the formatting information for the current editing buffer
+    array set formatting [syntax::get_formatting $txt]
+
+    # If the data is an image, adjust for an image if we can
+    if {[lsearch [list .png .jpg .jpeg .gif .bmp .tiff .svg] [string tolower [file extension $data]]] != -1} {
+      if {[info exists formatting(image)]} {
+        set pattern [lindex $formatting(image) 1]
+        set cursor  [string first \{TEXT\} $pattern]
+        set data    [string map [list \{REF\} $data \{TEXT\} {}] $pattern]
+      }
+      
+    # Otherwise, if the data looks like a URL reference, change the data to a
+    # link if we can
+    } elseif {[utils::is_url $data]} {
+      if {[info exists formatting(link)]} {
+        set pattern [lindex $formatting(link) 1]
+        set cursor  [string first \{TEXT\} $pattern]
+        set data    [string map [list \{REF\} $data \{TEXT\} {}] $pattern]
+      }
+    }
+    
+  }
 
   ######################################################################
   # Handles a drop event.  Adds the given files/directories to the sidebar.
@@ -4780,10 +4811,22 @@ namespace eval gui {
 
     # If we are inserting text or the file name, do that now
     } elseif {$type || ($modifier eq "alt")} {
+      
+      set cursor 0
+      
+      # Attempt to format the data
+      format_dropped_data $txt data cursor
+      
+      # Insert the data
       if {[multicursor::enabled $txt.t]} {
         multicursor::insert $txt.t $data
       } else {
         $txt insert insert $data
+      }
+      
+      # If we need to adjust the cursor(s) do it now.
+      if {$cursor != 0} {
+        # TBD
       }
 
     # Otherwise, insert the content of the file(s) after the insertion line

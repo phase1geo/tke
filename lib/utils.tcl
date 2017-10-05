@@ -367,6 +367,14 @@ namespace eval utils {
     array set ::env [array get vars]
 
   }
+  
+  ######################################################################
+  # Returns true if the given string looks like a URL.
+  proc is_url {str} {
+    
+    return [regexp {^(([a-zA-Z0-9]+://)?[a-z0-9\-]+\.[a-z0-9\-\.]+(?:/|(?:/[a-zA-Z0-9!#\$%&'\*\+,\-\.:;=\?@\[\]_~]+)*))$} $str]
+    
+  }
 
   ######################################################################
   # Returns true if the specified URL returns a status of ok and an ncode

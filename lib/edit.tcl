@@ -2244,7 +2244,7 @@ namespace eval edit {
         # Figure out the string to use when asking the user for a reference
         switch $type {
           link    { set refmsg [msgcat::mc "Link URL"] }
-          image   { set refmsg [msgcat::mc "Image URL/pathname"] }
+          image   { set refmsg [msgcat::mc "Image URL"] }
           default { set refmsg "" }
         }
 
