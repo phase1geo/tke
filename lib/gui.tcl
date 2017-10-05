@@ -270,7 +270,8 @@ namespace eval gui {
     set widgets(fif_find)  [ttk::entry $widgets(fif).ef]
     set widgets(fif_case)  [ttk::checkbutton $widgets(fif).case -text "Aa" -variable gui::case_sensitive]
     ttk::label $widgets(fif).li -text [format "%s: " [msgcat::mc "In"]]
-    set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font] -tokenshape square]
+    set widgets(fif_in)    [tokenentry::tokenentry $widgets(fif).ti -font [$widgets(fif_find) cget -font] \
+      -tokenshape square -highlightthickness 2 -highlightbackground white -highlightcolor white]
     set widgets(fif_save)  [ttk::checkbutton $widgets(fif).save -text [msgcat::mc "Save"] \
       -variable gui::saved -command [list search::update_save fif]]
     set widgets(fif_close) [ttk::label $widgets(fif).close -image form_close]
@@ -289,6 +290,9 @@ namespace eval gui {
     bind $widgets(fif_find)          <Up>        "search::traverse_history fif  1; break"
     bind $widgets(fif_find)          <Down>      "search::traverse_history fif -1; break"
     bind $widgets(fif_close)         <Key-space> [list set gui::user_exit_status 0]
+
+    # Make the fif_in field a drop target
+    make_drop_target $widgets(fif_in) tokenentry
 
     grid columnconfigure $widgets(fif) 1 -weight 1
     grid $widgets(fif).lf    -row 0 -column 0 -sticky ew -pady 2
@@ -3335,7 +3339,7 @@ namespace eval gui {
     tk_messageBox -parent . -icon error -title [msgcat::mc "Error"] -type ok -default ok -message $msg -detail $detail
 
   }
-  
+
   ######################################################################
   # Sets the entire application UI state to either the normal or disabled
   # state which will allow the user to drag/drop information into the panel
@@ -3345,9 +3349,9 @@ namespace eval gui {
   proc panel_set_ui_state {state} {
 
     variable widgets
-    
+
     set markable [expr {($state eq "normal")}]
-    
+
     # Disable the tabbars
     foreach pane [$widgets(nb_pw) panes] {
       get_info $pane pane tabbar txt txt2
@@ -3357,17 +3361,17 @@ namespace eval gui {
         $txt2 configure -state $state -linemap_markable $markable
       }
     }
-    
+
     # For good measure, we'll even disable the information bar items
     $widgets(info_indent) configure -state $state
     $widgets(info_syntax) configure -state $state
-    
+
     # Disable the menubar
     menus::set_state $state
-    
+
     # Disable the sidebar from executing
     sidebar::set_state [expr {($state eq "normal") ? "normal" : "viewonly"}]
-    
+
   }
 
   ######################################################################
@@ -3395,10 +3399,10 @@ namespace eval gui {
     # Place the window and make sure that the window is raised above all others
     place $w -relwidth 1.0 -rely 1.0 -y [expr 0 - ($top + $stop + $wtop)]
     raise $w
-    
+
     # Disable the UI
     panel_set_ui_state disabled
-    
+
     # Remember who has the focus
     set panel_focus [focus]
 
@@ -3407,7 +3411,7 @@ namespace eval gui {
   ######################################################################
   # Forget the pnael.
   proc panel_forget {w} {
-    
+
     variable panel_focus
 
     if {[winfo parent $w] eq "."} {
@@ -3419,10 +3423,10 @@ namespace eval gui {
     # Remove the given panels from display
     place forget $w
     place forget $sep
-    
+
     # Enable the UI
     panel_set_ui_state normal
-    
+
     # Return the focus
     focus $panel_focus
 
@@ -4707,12 +4711,27 @@ namespace eval gui {
   ######################################################################
   # Called when the user drags a droppable item over the given entry widget.
   proc handle_entry_drop_enter {win actions buttons} {
-    
+
     # Make sure that the text window has the focus
     focus -force $win
 
     # Cause the entry field to display that it can accept the data
     $win state alternate
+
+    return "link"
+
+  }
+
+  ######################################################################
+  # Indicates that an item can be dropped in the tokentry.
+  proc handle_tokenentry_drop_enter {win actions buttons} {
+
+    # Display the highlight color
+    $win configure -highlightbackground green -highlightcolor green
+    # $win configure -background green
+
+    # Make sure the entry received focus
+    focus -force $win
 
     return "link"
 
@@ -4732,6 +4751,15 @@ namespace eval gui {
   proc handle_entry_drop_leave {win} {
 
     $win state focus
+
+  }
+
+  ######################################################################
+  # Handles a drag leave event.
+  proc handle_tokenentry_drop_leave {win} {
+
+    $win configure -highlightbackground white -highlightcolor white
+    # $win configure -background white
 
   }
 
@@ -4790,6 +4818,20 @@ namespace eval gui {
 
     # Indicate that the drop event has completed
     handle_entry_drop_leave $win
+
+    return "link"
+
+  }
+
+  ######################################################################
+  # Called if the user drops the given data into the tokenentry field.
+  proc handle_tokenentry_drop {win action modifier type data} {
+
+    # Insert the information
+    $win tokeninsert end $data
+
+    # Indicate that the drop event has completed
+    handle_tokenentry_drop_leave $win
 
     return "link"
 
@@ -5439,7 +5481,7 @@ namespace eval gui {
   ######################################################################
   # Displays all of the unhidden tabs.
   proc show_tabs {tb side} {
-    
+
     # If the tabbar is disabled, don't show the tab menu
     if {[$tb cget -state] eq "disabled"} {
       return

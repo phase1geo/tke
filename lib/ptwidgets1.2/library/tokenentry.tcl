@@ -2174,7 +2174,11 @@ namespace eval tokenentry {
       return -code error "Incorrect number of options to the tokeninsert command"
     }
 
-    set index [index_to_position $w [lindex $args 0]]
+    if {[lindex $args 0] eq "end"} {
+      set index "end-1c"
+    } else {
+      set index [index_to_position $w [lindex $args 0]]
+    }
 
     if {$index eq ""} {
       set index [$w.txt index "1.[lindex $args 0]"]

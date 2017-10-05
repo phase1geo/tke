@@ -98,15 +98,15 @@ namespace eval sidebar {
     }
 
   }
-  
+
   ######################################################################
   # Sets the state of the sidebar to the given value.  The legal values
   # are:  normal, disabled, viewonly.
   proc set_state {value} {
-    
+
     variable widgets
     variable state
-    
+
     switch $state {
       normal   -
       viewonly { $widgets(tl) state !disabled }
@@ -115,9 +115,9 @@ namespace eval sidebar {
         return -code error "Attempting to set sidebar state to an unsupported value ($value)"
       }
     }
-    
+
     set state $value
-    
+
   }
 
   ######################################################################
@@ -423,6 +423,13 @@ namespace eval sidebar {
   # the file drop request would be excepted or rejected.
   proc handle_drop_enter_or_pos {tbl rootx rooty actions buttons} {
 
+    variable tkdnd_drag
+
+    # If we are dragging from ourselves, don't change the highlight color
+    if {$tkdnd_drag} {
+      return "refuse_drop"
+    }
+
     array set opts [theme::get_category_options sidebar 1]
 
     [winfo parent [winfo parent $tbl]] configure -highlightbackground $opts(-dropcolor)
@@ -525,29 +532,29 @@ namespace eval sidebar {
     return [list {copy move link} DND_Files $files]
 
   }
-  
+
   ######################################################################
   # Handle the end of drag event, if the action was a move event, update
   # the sidebar state.
   proc handle_drag_end {w action} {
-    
+
     variable tkdnd_drag
-    
+
     # End the sidebar drag/drop tracking
     set tkdnd_drag 0
-    
+
     # Update the directories containing the selected files
     foreach item [$w selection] {
       set dirs([file dirname [$w set $item name]]) [$w parent $item]
     }
-    
+
     # Reload the unique directories
     foreach {dir item} [array get dirs] {
       expand_directory $item
     }
-    
+
   }
-  
+
   ######################################################################
   # Hides the given scrollbar.
   proc hide_scrollbar {} {
@@ -1778,7 +1785,7 @@ namespace eval sidebar {
       after cancel $select_id
       set select_id ""
     }
-    
+
     if {$state eq "viewonly"} {
       return
     }
