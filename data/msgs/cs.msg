@@ -14,6 +14,14 @@ msgcat::mcmset cs {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset cs {
+
+  "Transform Tools"
+  "Nástroje pro transformaci"
+
+}
+
 # diff.tcl
 msgcat::mcmset cs {
 
@@ -42,6 +50,12 @@ msgcat::mcmset cs {
 
   "Filename already exists"
   "Název souboru již existuje."
+
+  "Image URL/pathname"
+  "Adresa URL / název cesty obrázku"
+
+  "Link URL"
+  "URL odkazu"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset cs {
 
 # gui.tcl
 msgcat::mcmset cs {
-
-  "All"
-  "Všichni"
 
   "Case sensitivity"
   "Rozlišování"
@@ -208,6 +219,9 @@ msgcat::mcmset cs {
   "Image used in the preferences window to indicate that something is true."
   "Obrázek v okně Předvolby k označení, že něco je pravda."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Snímky používané na kartě, které se zobrazí, když se myši vloží do oblasti zavření tlačítka"
+
   "In"
   "v"
 
@@ -309,6 +323,18 @@ msgcat::mcmset cs {
 
   "Absolute line numbering"
   "Absolutní číslování"
+
+  "Add Next Line"
+  "Přidat další řádek"
+
+  "Add Previous Line"
+  "Přidat předchozí řádek"
+
+  "Add next line to selection"
+  "Přidejte další řádek k výběru"
+
+  "Add previous line to selection"
+  "Přidat předchozí řádek do výběru"
 
   "Align Cursors Only"
   "Zarovnat kurzory pouze"
@@ -462,6 +488,15 @@ msgcat::mcmset cs {
 
   "Create new plugin"
   "Vytvořit nový plugin"
+
+  "Current Bounded Text"
+  "Současný ohraničený text"
+
+  "Current Paragraph"
+  "Současný odstavec"
+
+  "Current Sentence"
+  "Aktuální věta"
 
   "Cut"
   "Snížit"
@@ -781,6 +816,9 @@ msgcat::mcmset cs {
   "Highlight"
   "Zvýraznění"
 
+  "Image"
+  "Obrázek"
+
   "Increment by 0.1"
   "Přírůstek po 0,1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset cs {
   "Line Wrapping"
   "Zalomení řádku"
 
+  "Link"
+  "Odkaz"
+
   "Lock"
   "Uzamknout"
 
@@ -915,6 +956,12 @@ msgcat::mcmset cs {
 
   "Make line header style"
   "Vytvořit styl záhlaví řádku"
+
+  "Make text a link"
+  "Vytvořte text odkaz"
+
+  "Make text an image"
+  "Vytvořte text obrázek"
 
   "Make text bold"
   "Změna textu na tučný"
@@ -1300,8 +1347,8 @@ msgcat::mcmset cs {
   "Search reference documentation"
   "Vyhledávání Referenční dokumentace"
 
-  "Select All"
-  "Vybrat vše"
+  "Select"
+  "Zvolte"
 
   "Select All Matches"
   "Vybrat všechny výskyty"
@@ -1323,6 +1370,21 @@ msgcat::mcmset cs {
 
   "Select all text"
   "Vybrat vše"
+
+  "Select current bracketed text, strings or comment block"
+  "Vyberte aktuální text, řetězce nebo blok komentářů"
+
+  "Select current line"
+  "Vyberte aktuální řádek"
+
+  "Select current paragraph"
+  "Vyberte aktuální odstavec"
+
+  "Select current sentence"
+  "Vyberte aktuální větu"
+
+  "Select current word"
+  "Vyberte aktuální slovo"
 
   "Select next tag item"
   "Vybrat další tag položky"
@@ -1751,17 +1813,11 @@ msgcat::mcmset cs {
   "Current Filename"
   "Aktuální název souboru"
 
-  "Current Line"
-  "Aktuální řádek"
-
   "Current Line Column"
   "Aktuální řádek sloupec"
 
   "Current Line Number"
   "Číslo aktuálního řádku"
-
-  "Current Word"
-  "Aktuální slovo"
 
   "Current editing buffer directory"
   "Aktuální úpravy vyrovnávací paměti adresář"
@@ -1915,6 +1971,9 @@ msgcat::mcmset cs {
 
   "Properties"
   "Nemovitosti"
+
+  "Reading time words per minute"
+  "Čas čtení za minutu"
 
   "Recently opened history depth"
   "Nedávno otevřeli historie hloubky"
@@ -2267,6 +2326,12 @@ msgcat::mcmset cs {
 # select.tcl
 msgcat::mcmset cs {
 
+  "Add Selection Matches"
+  "Přidat výběrové shody"
+
+  "All To"
+  "All To"
+
   "Anchor"
   "Kotva"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset cs {
   "Clear Selection"
   "Smazat výběr"
 
+  "Comment"
+  "Komentář"
+
   "Curly Brackets"
   "Složené závorky"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset cs {
 
   "Exit Selection Mode"
   "Ukončit režim výběru"
+
+  "Invert Selected Text"
+  "Invertujte vybraný text"
 
   "Keep Selection"
   "Výběr"
@@ -2342,6 +2413,9 @@ msgcat::mcmset cs {
   "Right"
   "Vpravo"
 
+  "Selected"
+  "Vybráno"
+
   "Selection Mode Command Help"
   "Výběr režimu příkazu Nápověda"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset cs {
   "Toggle Help"
   "Přepínač"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Přepnout Surrounding\nCharacter zařazení"
+  "Toggle Quote Inclusion"
+  "Přepnout zařazení citace"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Typ '?' o pomoc.  Stiskněte klávesy ESC ukončíte režim výběru"
@@ -2386,6 +2460,9 @@ msgcat::mcmset cs {
 
   "Word"
   "Slovo"
+
+  "matching instances"
+  "odpovídající instance"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset cs {
   "Enable Copy Mode"
   "Povolit režim kopírování"
 
+  "Export BMP Data"
+  "Exportovat data BMP"
+
+  "Export BMP Mask"
+  "Exportovat BMP masku"
+
+  "Export Bitmap Data"
+  "Export bitmapových dat"
+
   "Export Theme As"
   "Exportovat motiv jako"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset cs {
 
   "Import BMP Mask"
   "Importovat BMP Mask"
+
+  "Import Bitmap Data"
+  "Import bitmapových dat"
 
   "Import Error"
   "Chyba při importu"
@@ -3180,6 +3269,9 @@ msgcat::mcmset cs {
 # General
 msgcat::mcmset cs {
 
+  "All"
+  "Všichni"
+
   "Back"
   "Zpět"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset cs {
 
   "Create"
   "Vytvořit"
+
+  "Current Line"
+  "Aktuální řádek"
+
+  "Current Word"
+  "Aktuální slovo"
 
   "Cursor"
   "Kurzor"

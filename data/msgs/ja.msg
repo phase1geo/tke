@@ -14,6 +14,14 @@ msgcat::mcmset ja {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset ja {
+
+  "Transform Tools"
+  "トランスフォームツール"
+
+}
+
 # diff.tcl
 msgcat::mcmset ja {
 
@@ -42,6 +50,12 @@ msgcat::mcmset ja {
 
   "Filename already exists"
   "ファイル名が既に存在します。"
+
+  "Image URL/pathname"
+  "画像URL /パス名"
+
+  "Link URL"
+  "リンク先URL"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset ja {
 
 # gui.tcl
 msgcat::mcmset ja {
-
-  "All"
-  "ALL"
 
   "Case sensitivity"
   "大文字と小文字を区別する"
@@ -208,6 +219,9 @@ msgcat::mcmset ja {
   "Image used in the preferences window to indicate that something is true."
   "何かが真であることを示すに設定ウィンドウで使用するイメージ。"
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "マウスが閉じるボタン領域に入ったときに表示されるタブで使用される画像"
+
   "In"
   "イン"
 
@@ -309,6 +323,18 @@ msgcat::mcmset ja {
 
   "Absolute line numbering"
   "絶対行番号"
+
+  "Add Next Line"
+  "次の行を追加"
+
+  "Add Previous Line"
+  "前の行を追加"
+
+  "Add next line to selection"
+  "選択に次の行を追加する"
+
+  "Add previous line to selection"
+  "前の行を選択に追加"
 
   "Align Cursors Only"
   "のみカーソルの位置合わせ"
@@ -462,6 +488,15 @@ msgcat::mcmset ja {
 
   "Create new plugin"
   "新しいプラグインを作成します。"
+
+  "Current Bounded Text"
+  "現在のバインドされたテキスト"
+
+  "Current Paragraph"
+  "現在の段落"
+
+  "Current Sentence"
+  "現在の文章"
 
   "Cut"
   "CUT"
@@ -781,6 +816,9 @@ msgcat::mcmset ja {
   "Highlight"
   "ハイライト"
 
+  "Image"
+  "画像"
+
   "Increment by 0.1"
   "0.1 ずつインクリメント"
 
@@ -895,6 +933,9 @@ msgcat::mcmset ja {
   "Line Wrapping"
   "行の折り返し"
 
+  "Link"
+  "リンク名"
+
   "Lock"
   "固定"
 
@@ -915,6 +956,12 @@ msgcat::mcmset ja {
 
   "Make line header style"
   "行ヘッダーのスタイルを作る"
+
+  "Make text a link"
+  "テキストをリンクにする"
+
+  "Make text an image"
+  "テキストをイメージにする"
 
   "Make text bold"
   "テキストを太字にします。"
@@ -1300,8 +1347,8 @@ msgcat::mcmset ja {
   "Search reference documentation"
   "検索リファレンス ドキュメント"
 
-  "Select All"
-  "すべて選択"
+  "Select"
+  "選択"
 
   "Select All Matches"
   "すべての一致項目を選択します。"
@@ -1323,6 +1370,21 @@ msgcat::mcmset ja {
 
   "Select all text"
   "すべて選択"
+
+  "Select current bracketed text, strings or comment block"
+  "現在の括弧で囲まれたテキスト、文字列またはコメントブロックを選択する"
+
+  "Select current line"
+  "現在の行を選択"
+
+  "Select current paragraph"
+  "現在の段落を選択"
+
+  "Select current sentence"
+  "現在の文章を選択"
+
+  "Select current word"
+  "現在の単語を選択"
 
   "Select next tag item"
   "タグの次の項目を選択します。"
@@ -1751,17 +1813,11 @@ msgcat::mcmset ja {
   "Current Filename"
   "現在のファイル名"
 
-  "Current Line"
-  "現在の行"
-
   "Current Line Column"
   "現在の行の列"
 
   "Current Line Number"
   "現在の行番号"
-
-  "Current Word"
-  "現在の単語"
 
   "Current editing buffer directory"
   "現在の編集バッファーのディレクトリ"
@@ -1915,6 +1971,9 @@ msgcat::mcmset ja {
 
   "Properties"
   "プロパティ"
+
+  "Reading time words per minute"
+  "毎分の時間の単語を読む"
 
   "Recently opened history depth"
   "最近の履歴の深さを開いた"
@@ -2267,6 +2326,12 @@ msgcat::mcmset ja {
 # select.tcl
 msgcat::mcmset ja {
 
+  "Add Selection Matches"
+  "選択一致を追加"
+
+  "All To"
+  "すべてのTo"
+
   "Anchor"
   "アンカー"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset ja {
   "Clear Selection"
   "選択を解除"
 
+  "Comment"
+  "コメント"
+
   "Curly Brackets"
   "中かっこ"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset ja {
 
   "Exit Selection Mode"
   "選択モード"
+
+  "Invert Selected Text"
+  "選択したテキストを反転する"
 
   "Keep Selection"
   "選択"
@@ -2342,6 +2413,9 @@ msgcat::mcmset ja {
   "Right"
   "右向き"
 
+  "Selected"
+  "選択した画像はありません。"
+
   "Selection Mode Command Help"
   "選択モード コマンドのヘルプ"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset ja {
   "Toggle Help"
   "トグル"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "切り替え Surrounding\nCharacter 封入"
+  "Toggle Quote Inclusion"
+  "見積もりをトグルする"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "型 '?' の助け。 選択モードを終了するエスケープ キーを押す"
@@ -2386,6 +2460,9 @@ msgcat::mcmset ja {
 
   "Word"
   "言葉"
+
+  "matching instances"
+  "一致するインスタンス"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset ja {
   "Enable Copy Mode"
   "コピー モードを有効にします。"
 
+  "Export BMP Data"
+  "BMPデータのエクスポート"
+
+  "Export BMP Mask"
+  "輸出BMPマスク"
+
+  "Export Bitmap Data"
+  "ビットマップデータを書き出す"
+
   "Export Theme As"
   "テーマとしてのエクスポートします。"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset ja {
 
   "Import BMP Mask"
   "インポートBMPマスク"
+
+  "Import Bitmap Data"
+  "ビットマップデータをインポートする"
 
   "Import Error"
   "インポートエラー"
@@ -3180,6 +3269,9 @@ msgcat::mcmset ja {
 # General
 msgcat::mcmset ja {
 
+  "All"
+  "ALL"
+
   "Back"
   "戻る"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset ja {
 
   "Create"
   "作成"
+
+  "Current Line"
+  "現在の行"
+
+  "Current Word"
+  "現在の単語"
 
   "Cursor"
   "カーソル"

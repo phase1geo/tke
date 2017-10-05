@@ -14,6 +14,14 @@ msgcat::mcmset ru {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset ru {
+
+  "Transform Tools"
+  "Инструменты преобразования"
+
+}
+
 # diff.tcl
 msgcat::mcmset ru {
 
@@ -42,6 +50,12 @@ msgcat::mcmset ru {
 
   "Filename already exists"
   "Имя файла уже существует"
+
+  "Image URL/pathname"
+  "URL-адрес изображения / путь"
+
+  "Link URL"
+  "URL ссылки"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset ru {
 
 # gui.tcl
 msgcat::mcmset ru {
-
-  "All"
-  "Все"
 
   "Case sensitivity"
   "Чувствительность к регистру символов"
@@ -208,6 +219,9 @@ msgcat::mcmset ru {
   "Image used in the preferences window to indicate that something is true."
   "Изображение, используемое в окне настройки для указания, что что-то правда."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Изображения, используемые в закладке, которые будут отображаться, когда мышь входит в область кнопки закрытия"
+
   "In"
   "In"
 
@@ -309,6 +323,18 @@ msgcat::mcmset ru {
 
   "Absolute line numbering"
   "Абсолютная нумерация"
+
+  "Add Next Line"
+  "Следующая строка"
+
+  "Add Previous Line"
+  "Добавить предыдущую строку"
+
+  "Add next line to selection"
+  "Добавить следующую строку для выбора"
+
+  "Add previous line to selection"
+  "Добавить предыдущую строку для выбора"
 
   "Align Cursors Only"
   "Выровнять курсоры только"
@@ -462,6 +488,15 @@ msgcat::mcmset ru {
 
   "Create new plugin"
   "Создать новый плагин"
+
+  "Current Bounded Text"
+  "Текущий ограниченный текст"
+
+  "Current Paragraph"
+  "Текущий пункт"
+
+  "Current Sentence"
+  "Текущее предложение"
 
   "Cut"
   "Вырезать"
@@ -781,6 +816,9 @@ msgcat::mcmset ru {
   "Highlight"
   "Выделить"
 
+  "Image"
+  "Картинка"
+
   "Increment by 0.1"
   "Увеличение на 0,1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset ru {
   "Line Wrapping"
   "Проекция"
 
+  "Link"
+  "Ссылка"
+
   "Lock"
   "шлюз"
 
@@ -915,6 +956,12 @@ msgcat::mcmset ru {
 
   "Make line header style"
   "Сделать линии стиль заголовка"
+
+  "Make text a link"
+  "Создать ссылку."
+
+  "Make text an image"
+  "Сделать текст изображением"
 
   "Make text bold"
   "Жирный текст"
@@ -1300,9 +1347,6 @@ msgcat::mcmset ru {
   "Search reference documentation"
   "Поиск справочной документации"
 
-  "Select All"
-  "Выбрать все"
-
   "Select All Matches"
   "Выберите все матчи"
 
@@ -1323,6 +1367,21 @@ msgcat::mcmset ru {
 
   "Select all text"
   "Выберите текст"
+
+  "Select current bracketed text, strings or comment block"
+  "Выберите текущий текст в скобках, строки или блок комментариев"
+
+  "Select current line"
+  "Выберите текущую строку"
+
+  "Select current paragraph"
+  "Выберите текущий пункт"
+
+  "Select current sentence"
+  "Выберите текущее предложение"
+
+  "Select current word"
+  "Выберите текущее слово"
 
   "Select next tag item"
   "Выбор следующего элемента тега"
@@ -1751,17 +1810,11 @@ msgcat::mcmset ru {
   "Current Filename"
   "Текущее имя файла"
 
-  "Current Line"
-  "Текущая строка"
-
   "Current Line Column"
   "Текущий столбец строки"
 
   "Current Line Number"
   "Номер текущей строки"
-
-  "Current Word"
-  "Текущее слово"
 
   "Current editing buffer directory"
   "Текущий каталог редактирования буфера"
@@ -1915,6 +1968,9 @@ msgcat::mcmset ru {
 
   "Properties"
   "Недвижимость"
+
+  "Reading time words per minute"
+  "Чтение слов в минуту"
 
   "Recently opened history depth"
   "Недавно открывшийся глубина истории"
@@ -2267,6 +2323,12 @@ msgcat::mcmset ru {
 # select.tcl
 msgcat::mcmset ru {
 
+  "Add Selection Matches"
+  "Добавить матчи выбора"
+
+  "All To"
+  "Все для"
+
   "Anchor"
   "Якорь"
 
@@ -2288,6 +2350,9 @@ msgcat::mcmset ru {
   "Clear Selection"
   "Очистить выбранное"
 
+  "Comment"
+  "Комментарий"
+
   "Curly Brackets"
   "Фигурные скобки"
 
@@ -2302,6 +2367,9 @@ msgcat::mcmset ru {
 
   "Exit Selection Mode"
   "Режим выбора"
+
+  "Invert Selected Text"
+  "Обратить выделение"
 
   "Keep Selection"
   "Выбор"
@@ -2342,6 +2410,9 @@ msgcat::mcmset ru {
   "Right"
   "Справа"
 
+  "Selected"
+  "Выбранные"
+
   "Selection Mode Command Help"
   "Выбор режима команды Справка"
 
@@ -2372,8 +2443,8 @@ msgcat::mcmset ru {
   "Toggle Help"
   "Переключатель"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Рычаг включения Surrounding\nCharacter"
+  "Toggle Quote Inclusion"
+  "Включить включение комментариев"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Тип '?' для справки.  Нажмите клавишу ESCAPE, чтобы выйти из режима выделения"
@@ -2386,6 +2457,9 @@ msgcat::mcmset ru {
 
   "Word"
   "Word"
+
+  "matching instances"
+  "сопоставление экземпляров"
 
 }
 
@@ -3008,6 +3082,15 @@ msgcat::mcmset ru {
   "Enable Copy Mode"
   "Включить режим копирования"
 
+  "Export BMP Data"
+  "Экспорт данных BMP"
+
+  "Export BMP Mask"
+  "Экспорт BMP-маски"
+
+  "Export Bitmap Data"
+  "Экспорт растровых данных"
+
   "Export Theme As"
   "Экспорт Темы"
 
@@ -3022,6 +3105,9 @@ msgcat::mcmset ru {
 
   "Import BMP Mask"
   "Импорт BMP Маска"
+
+  "Import Bitmap Data"
+  "Импорт данных растровых изображений"
 
   "Import Error"
   "ошибка импорта:"
@@ -3180,6 +3266,9 @@ msgcat::mcmset ru {
 # General
 msgcat::mcmset ru {
 
+  "All"
+  "Все"
+
   "Back"
   "Назад"
 
@@ -3206,6 +3295,12 @@ msgcat::mcmset ru {
 
   "Create"
   "Создать"
+
+  "Current Line"
+  "Текущая строка"
+
+  "Current Word"
+  "Текущее слово"
 
   "Cursor"
   "Кусок"

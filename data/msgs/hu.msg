@@ -14,6 +14,14 @@ msgcat::mcmset hu {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset hu {
+
+  "Transform Tools"
+  "Átalakító eszközök"
+
+}
+
 # diff.tcl
 msgcat::mcmset hu {
 
@@ -42,6 +50,12 @@ msgcat::mcmset hu {
 
   "Filename already exists"
   "Fájlnév már létezik"
+
+  "Image URL/pathname"
+  "Kép URL / elérési út"
+
+  "Link URL"
+  "Hivatkozás webcíme"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset hu {
 
 # gui.tcl
 msgcat::mcmset hu {
-
-  "All"
-  "Minden"
 
   "Case sensitivity"
   "Kisbetű-nagybetű érzékenység"
@@ -208,6 +219,9 @@ msgcat::mcmset hu {
   "Image used in the preferences window to indicate that something is true."
   "Azt jelzi, hogy valami igaz a beállítások ablakban használt kép."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "A lapon használt képek, amelyek akkor jelennek meg, amikor az egér belép a bezárás gomb területére"
+
   "In"
   "Azokban"
 
@@ -309,6 +323,18 @@ msgcat::mcmset hu {
 
   "Absolute line numbering"
   "Abszolút sorszámozás"
+
+  "Add Next Line"
+  "Következő sor hozzáadása"
+
+  "Add Previous Line"
+  "Előző sor hozzáadása"
+
+  "Add next line to selection"
+  "A következő sor hozzáadása a kiválasztáshoz"
+
+  "Add previous line to selection"
+  "Adja hozzá az előző sort a kiválasztáshoz"
 
   "Align Cursors Only"
   "Igazítás kurzorok csak"
@@ -462,6 +488,15 @@ msgcat::mcmset hu {
 
   "Create new plugin"
   "Hozzon létre új plugin"
+
+  "Current Bounded Text"
+  "Jelenlegi határolt szöveg"
+
+  "Current Paragraph"
+  "Aktuális bekezdés"
+
+  "Current Sentence"
+  "Aktuális mondat"
 
   "Cut"
   "Kivágás"
@@ -781,6 +816,9 @@ msgcat::mcmset hu {
   "Highlight"
   "Kiemel"
 
+  "Image"
+  "Kép"
+
   "Increment by 0.1"
   "Növekmény 0,1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset hu {
   "Line Wrapping"
   "Sortörés"
 
+  "Link"
+  "Hivatkozás"
+
   "Lock"
   "Zárolás"
 
@@ -915,6 +956,12 @@ msgcat::mcmset hu {
 
   "Make line header style"
   "Fejléc stílusa, hogy"
+
+  "Make text a link"
+  "Szöveg létrehozása link"
+
+  "Make text an image"
+  "Szöveg létrehozása"
 
   "Make text bold"
   "Félkövér betűstílus használata"
@@ -1300,8 +1347,8 @@ msgcat::mcmset hu {
   "Search reference documentation"
   "Szálláshelyek keresése referencia dokumentáció"
 
-  "Select All"
-  "Összes kijelölése"
+  "Select"
+  "Kiválasztás"
 
   "Select All Matches"
   "Jelölje be a minden mérkőzés"
@@ -1323,6 +1370,21 @@ msgcat::mcmset hu {
 
   "Select all text"
   "Az összes szöveg kijelölése"
+
+  "Select current bracketed text, strings or comment block"
+  "Válassza ki a jelenlegi bracketed szöveget, karakterláncokat vagy megjegyzésblokkot"
+
+  "Select current line"
+  "Válassza ki az aktuális sort"
+
+  "Select current paragraph"
+  "Válassza ki az aktuális bekezdést"
+
+  "Select current sentence"
+  "Válassza ki az aktuális mondatot"
+
+  "Select current word"
+  "Válassza ki az aktuális szót"
 
   "Select next tag item"
   "Következő címke elem kijelölése"
@@ -1751,17 +1813,11 @@ msgcat::mcmset hu {
   "Current Filename"
   "Jelenlegi fájlnév"
 
-  "Current Line"
-  "Az aktuális sor:"
-
   "Current Line Column"
   "Aktuális sor-oszlop"
 
   "Current Line Number"
   "Aktuális sor száma"
-
-  "Current Word"
-  "Aktuális szó"
 
   "Current editing buffer directory"
   "Aktuális szerkesztési puffer könyvtár"
@@ -1915,6 +1971,9 @@ msgcat::mcmset hu {
 
   "Properties"
   "Ingatlanok"
+
+  "Reading time words per minute"
+  "Leolvasási idő percenként"
 
   "Recently opened history depth"
   "A közelmúltban megnyílt történelem mélység"
@@ -2267,6 +2326,12 @@ msgcat::mcmset hu {
 # select.tcl
 msgcat::mcmset hu {
 
+  "Add Selection Matches"
+  "Választási mérkőzések hozzáadása"
+
+  "All To"
+  "Mindet ide: [%]"
+
   "Anchor"
   "Horgony"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset hu {
   "Clear Selection"
   "A kijelölés megszüntetése"
 
+  "Comment"
+  "Hozzászólás"
+
   "Curly Brackets"
   "Kapcsos zárójelekkel"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset hu {
 
   "Exit Selection Mode"
   "Kijelölési mód"
+
+  "Invert Selected Text"
+  "A kiválasztott szöveg megfordítása"
 
   "Keep Selection"
   "kiválasztás"
@@ -2342,6 +2413,9 @@ msgcat::mcmset hu {
   "Right"
   "Jobb"
 
+  "Selected"
+  "Kiválasztva"
+
   "Selection Mode Command Help"
   "Kijelölési mód"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset hu {
   "Toggle Help"
   "Összezárás"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Váltás Surrounding\nCharacter felvétele"
+  "Toggle Quote Inclusion"
+  "Toggle Quote Inclusion"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Típus '?' segítségért.  Az ESCAPE billentyű kijelölési módból való kilépéshez nyomja"
@@ -2386,6 +2460,9 @@ msgcat::mcmset hu {
 
   "Word"
   "Szó"
+
+  "matching instances"
+  "illeszkedő példányok"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset hu {
   "Enable Copy Mode"
   "Másolási üzemmód engedélyezése"
 
+  "Export BMP Data"
+  "BMP adatok exportálása"
+
+  "Export BMP Mask"
+  "BMP maszk exportálása"
+
+  "Export Bitmap Data"
+  "Bitmap adatok exportálása"
+
   "Export Theme As"
   "Export téma mint"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset hu {
 
   "Import BMP Mask"
   "Import BMP Mask"
+
+  "Import Bitmap Data"
+  "Bitmapadatok importálása"
 
   "Import Error"
   "Import Error"
@@ -3180,6 +3269,9 @@ msgcat::mcmset hu {
 # General
 msgcat::mcmset hu {
 
+  "All"
+  "Minden"
+
   "Back"
   "Vissza"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset hu {
 
   "Create"
   "Létrehozás"
+
+  "Current Line"
+  "Az aktuális sor:"
+
+  "Current Word"
+  "Aktuális szó"
 
   "Cursor"
   "Kurzor"

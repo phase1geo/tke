@@ -14,6 +14,14 @@ msgcat::mcmset zh {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset zh {
+
+  "Transform Tools"
+  "变换工具"
+
+}
+
 # diff.tcl
 msgcat::mcmset zh {
 
@@ -42,6 +50,12 @@ msgcat::mcmset zh {
 
   "Filename already exists"
   "文件名已经存在"
+
+  "Image URL/pathname"
+  "图像URL /路径名"
+
+  "Link URL"
+  "链接URL"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset zh {
 
 # gui.tcl
 msgcat::mcmset zh {
-
-  "All"
-  "所有"
 
   "Case sensitivity"
   "区分大小写"
@@ -208,6 +219,9 @@ msgcat::mcmset zh {
   "Image used in the preferences window to indicate that something is true."
   "在首选项窗口用于指示某事是真实的图像。"
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "在鼠标进入关闭按钮区域时将显示的选项卡中使用的图像"
+
   "In"
   "归档于"
 
@@ -309,6 +323,18 @@ msgcat::mcmset zh {
 
   "Absolute line numbering"
   "绝对行编号"
+
+  "Add Next Line"
+  "下一行"
+
+  "Add Previous Line"
+  "添加上一行"
+
+  "Add next line to selection"
+  "添加下一行到选择"
+
+  "Add previous line to selection"
+  "将上一行添加到选择"
 
   "Align Cursors Only"
   "只调整光标"
@@ -462,6 +488,15 @@ msgcat::mcmset zh {
 
   "Create new plugin"
   "创建新的插件"
+
+  "Current Bounded Text"
+  "当前有界文本"
+
+  "Current Paragraph"
+  "现行段落"
+
+  "Current Sentence"
+  "当前句子"
 
   "Cut"
   "剪切"
@@ -781,6 +816,9 @@ msgcat::mcmset zh {
   "Highlight"
   "高亮"
 
+  "Image"
+  "图片"
+
   "Increment by 0.1"
   "增量由 0.1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset zh {
   "Line Wrapping"
   "换行"
 
+  "Link"
+  "链接"
+
   "Lock"
   "鎖定"
 
@@ -915,6 +956,12 @@ msgcat::mcmset zh {
 
   "Make line header style"
   "使行标题样式"
+
+  "Make text a link"
+  "使文本链接"
+
+  "Make text an image"
+  "使文字成为图像"
 
   "Make text bold"
   "使文本加粗"
@@ -1300,8 +1347,8 @@ msgcat::mcmset zh {
   "Search reference documentation"
   "搜索参考文档"
 
-  "Select All"
-  "全选"
+  "Select"
+  "选择"
 
   "Select All Matches"
   "选择的所有匹配项"
@@ -1323,6 +1370,21 @@ msgcat::mcmset zh {
 
   "Select all text"
   "选择文本"
+
+  "Select current bracketed text, strings or comment block"
+  "选择当前括号内的文本，字符串或注释块"
+
+  "Select current line"
+  "选择当前行"
+
+  "Select current paragraph"
+  "选择当前段落"
+
+  "Select current sentence"
+  "选择当前句子"
+
+  "Select current word"
+  "选择当前字"
 
   "Select next tag item"
   "选择下一个标记项目"
@@ -1751,17 +1813,11 @@ msgcat::mcmset zh {
   "Current Filename"
   "当前文件名"
 
-  "Current Line"
-  "当前行"
-
   "Current Line Column"
   "当前列"
 
   "Current Line Number"
   "当前行号"
-
-  "Current Word"
-  "当前的单词"
 
   "Current editing buffer directory"
   "当前编辑缓冲区目录"
@@ -1915,6 +1971,9 @@ msgcat::mcmset zh {
 
   "Properties"
   "房源"
+
+  "Reading time words per minute"
+  "每分钟读取时间字"
 
   "Recently opened history depth"
   "最近打开历史深度"
@@ -2267,6 +2326,12 @@ msgcat::mcmset zh {
 # select.tcl
 msgcat::mcmset zh {
 
+  "Add Selection Matches"
+  "添加选择匹配"
+
+  "All To"
+  "全部到"
+
   "Anchor"
   "锚"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset zh {
   "Clear Selection"
   "清空选项"
 
+  "Comment"
+  "评论"
+
   "Curly Brackets"
   "大括号"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset zh {
 
   "Exit Selection Mode"
   "選取模式"
+
+  "Invert Selected Text"
+  "反转所选文本"
 
   "Keep Selection"
   "保留选项"
@@ -2342,6 +2413,9 @@ msgcat::mcmset zh {
   "Right"
   "右边"
 
+  "Selected"
+  "選"
+
   "Selection Mode Command Help"
   "選取模式"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset zh {
   "Toggle Help"
   "切换"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "切换 Surrounding\nCharacter 列入"
+  "Toggle Quote Inclusion"
+  "切换报价包含"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "类型 '？ ' 的帮助。 使用 ESC 键退出选择模式"
@@ -2386,6 +2460,9 @@ msgcat::mcmset zh {
 
   "Word"
   "字"
+
+  "matching instances"
+  "匹配实例"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset zh {
   "Enable Copy Mode"
   "启用复制模式"
 
+  "Export BMP Data"
+  "导出BMP数据"
+
+  "Export BMP Mask"
+  "导出BMP面具"
+
+  "Export Bitmap Data"
+  "导出位图数据"
+
   "Export Theme As"
   "导出主题"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset zh {
 
   "Import BMP Mask"
   "导入BMP面膜"
+
+  "Import Bitmap Data"
+  "导入位图数据"
 
   "Import Error"
   "﻿导入错误"
@@ -3180,6 +3269,9 @@ msgcat::mcmset zh {
 # General
 msgcat::mcmset zh {
 
+  "All"
+  "所有"
+
   "Back"
   "返回"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset zh {
 
   "Create"
   "创建"
+
+  "Current Line"
+  "当前行"
+
+  "Current Word"
+  "当前的单词"
 
   "Cursor"
   "光标"

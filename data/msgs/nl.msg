@@ -14,6 +14,14 @@ msgcat::mcmset nl {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset nl {
+
+  "Transform Tools"
+  "Transform Tools"
+
+}
+
 # diff.tcl
 msgcat::mcmset nl {
 
@@ -42,6 +50,12 @@ msgcat::mcmset nl {
 
   "Filename already exists"
   "Bestandsnaam bestaat al"
+
+  "Image URL/pathname"
+  "Beeld URL / padnaam"
+
+  "Link URL"
+  "URL-adreskoppeling"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset nl {
 
 # gui.tcl
 msgcat::mcmset nl {
-
-  "All"
-  "Alle"
 
   "Case sensitivity"
   "Hoofdletters/kleine letters"
@@ -208,6 +219,9 @@ msgcat::mcmset nl {
   "Image used in the preferences window to indicate that something is true."
   "De afbeelding die wordt gebruikt in het voorkeurenvenster om aan te geven dat iets waar is."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Afbeeldingen die in het tabblad worden gebruikt, dat wordt weergegeven wanneer de muis in het sluitknopgebied komt"
+
   "In"
   "In"
 
@@ -309,6 +323,18 @@ msgcat::mcmset nl {
 
   "Absolute line numbering"
   "Absolute regelnummering"
+
+  "Add Next Line"
+  "Voeg volgende regel toe"
+
+  "Add Previous Line"
+  "Voeg vorige regel toe"
+
+  "Add next line to selection"
+  "Voeg volgende regel toe aan selectie"
+
+  "Add previous line to selection"
+  "Voeg vorige regel toe aan selectie"
 
   "Align Cursors Only"
   "Alleen Cursors uitlijnen"
@@ -462,6 +488,15 @@ msgcat::mcmset nl {
 
   "Create new plugin"
   "Nieuwe plugin maken"
+
+  "Current Bounded Text"
+  "Huidige begrensde tekst"
+
+  "Current Paragraph"
+  "Huidige paragraaf"
+
+  "Current Sentence"
+  "Apparaat:"
 
   "Cut"
   "Knip"
@@ -781,6 +816,9 @@ msgcat::mcmset nl {
   "Highlight"
   "Highlight"
 
+  "Image"
+  "Afbeelding"
+
   "Increment by 0.1"
   "Toename met 0,1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset nl {
   "Line Wrapping"
   "Lijn Verpakking"
 
+  "Link"
+  "Link"
+
   "Lock"
   "Vergrendelen"
 
@@ -915,6 +956,12 @@ msgcat::mcmset nl {
 
   "Make line header style"
   "Koptekst lijnstijl maken"
+
+  "Make text a link"
+  "Maak tekst een link"
+
+  "Make text an image"
+  "Maak een afbeelding een tekst"
 
   "Make text bold"
   "Tekst vet maken"
@@ -1300,8 +1347,8 @@ msgcat::mcmset nl {
   "Search reference documentation"
   "Zoek referentie documentatie"
 
-  "Select All"
-  "Alles selecteren"
+  "Select"
+  "Selecteren"
 
   "Select All Matches"
   "Selecteer alle wedstrijden"
@@ -1323,6 +1370,21 @@ msgcat::mcmset nl {
 
   "Select all text"
   "Alle tekst selecteren"
+
+  "Select current bracketed text, strings or comment block"
+  "Selecteer de huidige opgeslagen tekst, strings of commentaarblok"
+
+  "Select current line"
+  "Selecteer de huidige regel"
+
+  "Select current paragraph"
+  "Selecteer huidige paragraaf"
+
+  "Select current sentence"
+  "Selecteer huidige zin"
+
+  "Select current word"
+  "Selecteer het huidige woord"
 
   "Select next tag item"
   "Selecteer Label orde"
@@ -1751,17 +1813,11 @@ msgcat::mcmset nl {
   "Current Filename"
   "Huidige bestandsnaam"
 
-  "Current Line"
-  "Huidige regel:"
-
   "Current Line Column"
   "Huidige lijn kolom"
 
   "Current Line Number"
   "Huidige regelnummer"
-
-  "Current Word"
-  "Huidige woord"
 
   "Current editing buffer directory"
   "Huidige bewerken buffer map"
@@ -1915,6 +1971,9 @@ msgcat::mcmset nl {
 
   "Properties"
   "Vastgoed"
+
+  "Reading time words per minute"
+  "Leestijd woorden per minuut"
 
   "Recently opened history depth"
   "Onlangs opende geschiedenis diepte"
@@ -2267,6 +2326,12 @@ msgcat::mcmset nl {
 # select.tcl
 msgcat::mcmset nl {
 
+  "Add Selection Matches"
+  "Selectie wedstrijden toevoegen"
+
+  "All To"
+  "Allen naar"
+
   "Anchor"
   "Anker"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset nl {
   "Clear Selection"
   "Selectie verwijderen"
 
+  "Comment"
+  "Reactie"
+
   "Curly Brackets"
   "Haakje"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset nl {
 
   "Exit Selection Mode"
   "Selectiemodus verlaten"
+
+  "Invert Selected Text"
+  "Inverteer geselecteerde tekst"
 
   "Keep Selection"
   "Bewaar selectie"
@@ -2342,6 +2413,9 @@ msgcat::mcmset nl {
   "Right"
   "Rechts"
 
+  "Selected"
+  "Geselecteerd"
+
   "Selection Mode Command Help"
   "Selectie Mode commando Help"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset nl {
   "Toggle Help"
   "Wissel"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Knevel Surrounding\nCharacter opname"
+  "Toggle Quote Inclusion"
+  "Invoegen citaat invoeren"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Type '?' voor hulp.  Druk op de ESCAPE-toets om af te sluiten van de selectie-uitbreidingsmodus"
@@ -2386,6 +2460,9 @@ msgcat::mcmset nl {
 
   "Word"
   "Woord"
+
+  "matching instances"
+  "bijpassende voorbeelden"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset nl {
   "Enable Copy Mode"
   "Inschakelen van de modus kopiëren"
 
+  "Export BMP Data"
+  "BMP-gegevens exporteren"
+
+  "Export BMP Mask"
+  "Export BMP Mask"
+
+  "Export Bitmap Data"
+  "Bitmapgegevens exporteren"
+
   "Export Theme As"
   "Exporteer thema"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset nl {
 
   "Import BMP Mask"
   "Importeer BMP Mask"
+
+  "Import Bitmap Data"
+  "Bitmapgegevens importeren"
 
   "Import Error"
   "Import Error"
@@ -3180,6 +3269,9 @@ msgcat::mcmset nl {
 # General
 msgcat::mcmset nl {
 
+  "All"
+  "Alle"
+
   "Back"
   "Achterkant"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset nl {
 
   "Create"
   "Creëren"
+
+  "Current Line"
+  "Huidige regel:"
+
+  "Current Word"
+  "Huidige woord"
 
   "Cursor"
   "Muiscursor"

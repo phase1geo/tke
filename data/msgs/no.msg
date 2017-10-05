@@ -14,6 +14,14 @@ msgcat::mcmset no {
 
 }
 
+# bitmap.tcl
+msgcat::mcmset no {
+
+  "Transform Tools"
+  "Transformeringsverktøya"
+
+}
+
 # diff.tcl
 msgcat::mcmset no {
 
@@ -42,6 +50,12 @@ msgcat::mcmset no {
 
   "Filename already exists"
   "Filnavnet finnes allerede"
+
+  "Image URL/pathname"
+  "Bildeadresse / stienavn"
+
+  "Link URL"
+  "Lenke-URL"
 
 }
 
@@ -81,9 +95,6 @@ msgcat::mcmset no {
 
 # gui.tcl
 msgcat::mcmset no {
-
-  "All"
-  "Alle"
 
   "Case sensitivity"
   "Bokstaver"
@@ -208,6 +219,9 @@ msgcat::mcmset no {
   "Image used in the preferences window to indicate that something is true."
   "Bildet som brukes i vinduet innstillinger for å angi at noe er sant."
 
+  "Images used in tab which will be displayed when the mouse enters the close button area"
+  "Bilder som brukes i kategorien som vises når musen kommer inn i lukkeknappen"
+
   "In"
   "I"
 
@@ -309,6 +323,18 @@ msgcat::mcmset no {
 
   "Absolute line numbering"
   "Absolutt linjenummerering"
+
+  "Add Next Line"
+  "Legg til neste linje"
+
+  "Add Previous Line"
+  "Legg til tidligere linje"
+
+  "Add next line to selection"
+  "Legg til neste linje til utvalg"
+
+  "Add previous line to selection"
+  "Legg til forrige linje til utvalg"
 
   "Align Cursors Only"
   "Justere markører bare"
@@ -462,6 +488,15 @@ msgcat::mcmset no {
 
   "Create new plugin"
   "Opprette ny plugin"
+
+  "Current Bounded Text"
+  "Gjeldende bundet tekst"
+
+  "Current Paragraph"
+  "Nåværende paragraf"
+
+  "Current Sentence"
+  "Nåværende setning"
 
   "Cut"
   "Kutt"
@@ -781,6 +816,9 @@ msgcat::mcmset no {
   "Highlight"
   "Uthev"
 
+  "Image"
+  "Bilde"
+
   "Increment by 0.1"
   "Øk med 0,1"
 
@@ -895,6 +933,9 @@ msgcat::mcmset no {
   "Line Wrapping"
   "Linjebryting"
 
+  "Link"
+  "Lenke"
+
   "Lock"
   "Lås"
 
@@ -915,6 +956,12 @@ msgcat::mcmset no {
 
   "Make line header style"
   "Gjøre hodet linjestil"
+
+  "Make text a link"
+  "Lag tekst en lenke"
+
+  "Make text an image"
+  "Lag tekst et bilde"
 
   "Make text bold"
   "Gjøre tekst fet"
@@ -1300,8 +1347,8 @@ msgcat::mcmset no {
   "Search reference documentation"
   "Søk referansedokumentasjon"
 
-  "Select All"
-  "Merk alt"
+  "Select"
+  "Velg"
 
   "Select All Matches"
   "Velg alle kampene"
@@ -1323,6 +1370,21 @@ msgcat::mcmset no {
 
   "Select all text"
   "Velg tekst"
+
+  "Select current bracketed text, strings or comment block"
+  "Velg gjeldende brakett tekst, strenger eller kommentarblokk"
+
+  "Select current line"
+  "Velg gjeldende linje"
+
+  "Select current paragraph"
+  "Velg nåværende avsnitt"
+
+  "Select current sentence"
+  "Velg nåværende setning"
+
+  "Select current word"
+  "Velg nåværende ord"
 
   "Select next tag item"
   "Velg neste tag element"
@@ -1751,17 +1813,11 @@ msgcat::mcmset no {
   "Current Filename"
   "Gjeldende filnavn"
 
-  "Current Line"
-  "Gjeldende linje"
-
   "Current Line Column"
   "Gjeldende linje kolonne"
 
   "Current Line Number"
   "Gjeldende linjenummer"
-
-  "Current Word"
-  "Gjeldende ord"
 
   "Current editing buffer directory"
   "Gjeldende redigering buffer katalogen"
@@ -1915,6 +1971,9 @@ msgcat::mcmset no {
 
   "Properties"
   "Egenskaper"
+
+  "Reading time words per minute"
+  "Lese tid ord per minutt"
 
   "Recently opened history depth"
   "Nylig åpnet historie dybde"
@@ -2267,6 +2326,12 @@ msgcat::mcmset no {
 # select.tcl
 msgcat::mcmset no {
 
+  "Add Selection Matches"
+  "Legg til utvalgsspill"
+
+  "All To"
+  "Alt til"
+
   "Anchor"
   "Anker"
 
@@ -2288,6 +2353,9 @@ msgcat::mcmset no {
   "Clear Selection"
   "Tøm utval"
 
+  "Comment"
+  "Kommentar"
+
   "Curly Brackets"
   "Klammeparenteser"
 
@@ -2302,6 +2370,9 @@ msgcat::mcmset no {
 
   "Exit Selection Mode"
   "Utvalgsmodus"
+
+  "Invert Selected Text"
+  "Inverter valgt tekst"
 
   "Keep Selection"
   "Behold utvalg"
@@ -2342,6 +2413,9 @@ msgcat::mcmset no {
   "Right"
   "Høyre"
 
+  "Selected"
+  "Valgt"
+
   "Selection Mode Command Help"
   "Utvalg modus kommandohjelp"
 
@@ -2372,8 +2446,8 @@ msgcat::mcmset no {
   "Toggle Help"
   "Toggle"
 
-  "Toggle Surrounding\nCharacter Inclusion"
-  "Vis/Skjul Surrounding\nCharacter inkludering"
+  "Toggle Quote Inclusion"
+  "Veksle inn notering av tilbud"
 
   "Type '?' for help.  Hit the ESCAPE key to exit selection mode"
   "Type '?' for hjelp.  Trykk ESC for å avslutte modus for merking"
@@ -2386,6 +2460,9 @@ msgcat::mcmset no {
 
   "Word"
   "Ord"
+
+  "matching instances"
+  "matchende forekomster"
 
 }
 
@@ -3008,6 +3085,15 @@ msgcat::mcmset no {
   "Enable Copy Mode"
   "Aktiver kopieringsmodus"
 
+  "Export BMP Data"
+  "Eksporter BMP-data"
+
+  "Export BMP Mask"
+  "Eksporter BMP Mask"
+
+  "Export Bitmap Data"
+  "Eksporter Bitmap Data"
+
   "Export Theme As"
   "Eksportere tema som"
 
@@ -3022,6 +3108,9 @@ msgcat::mcmset no {
 
   "Import BMP Mask"
   "Import BMP Mask"
+
+  "Import Bitmap Data"
+  "Importer Bitmap Data"
 
   "Import Error"
   "Import Feil"
@@ -3180,6 +3269,9 @@ msgcat::mcmset no {
 # General
 msgcat::mcmset no {
 
+  "All"
+  "Alle"
+
   "Back"
   "Tilbake"
 
@@ -3206,6 +3298,12 @@ msgcat::mcmset no {
 
   "Create"
   "Opprett"
+
+  "Current Line"
+  "Gjeldende linje"
+
+  "Current Word"
+  "Gjeldende ord"
 
   "Cursor"
   "markør"
