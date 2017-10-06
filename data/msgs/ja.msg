@@ -51,9 +51,6 @@ msgcat::mcmset ja {
   "Filename already exists"
   "ファイル名が既に存在します。"
 
-  "Image URL/pathname"
-  "画像URL /パス名"
-
   "Link URL"
   "リンク先URL"
 

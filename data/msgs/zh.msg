@@ -51,9 +51,6 @@ msgcat::mcmset zh {
   "Filename already exists"
   "文件名已经存在"
 
-  "Image URL/pathname"
-  "图像URL /路径名"
-
   "Link URL"
   "链接URL"
 

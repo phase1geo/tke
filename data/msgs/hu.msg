@@ -51,9 +51,6 @@ msgcat::mcmset hu {
   "Filename already exists"
   "Fájlnév már létezik"
 
-  "Image URL/pathname"
-  "Kép URL / elérési út"
-
   "Link URL"
   "Hivatkozás webcíme"
 
