@@ -45,32 +45,32 @@ advanced {
   HighlightClass strike  none           {overstrike}
   HighlightClass hilite  highlighter    {}
   HighlightClass grey    meta           {}
+  HighlightClass ref     readmeta       {}
   HighlightClass math    miscellaneous3 {}
   HighlightClass check   none           {click}
 
-  HighlightRegexp {(`{3}).+?\1}                  ccode
-  HighlightRegexp {`.+?`}                        code
-  HighlightRegexp {^#.*?$}                       header
-  HighlightRegexp {^>.*?$}                       quote
-  HighlightRegexp {([*_]{2})(?=\S).+?\1}         bold
-  HighlightRegexp {([*_])(?=\S).+?\1}            italics
-  HighlightRegexp {!\[.+?\](\s*\[.*?\]|\(.*?\))} image
-  HighlightRegexp {\[.+?\](\s*\[.*?\]|\(.*?\))}  link
-  HighlightRegexp {<.+?>}                        link2
-  HighlightRegexp {^\s*\[.+?\]:\s+\S+}           linkref
-  HighlightRegexp {\{(\-{2})(?=\S).+?\1\}}       overstrike
-  HighlightRegexp {\{(\+{2})(?=\S).+?\1\}}       underline
-  HighlightRegexp {\{(~{2}).+?~>.+?\1\}}         correction
-  HighlightRegexp {\{(={2})(?=\S).+?\1\}}        highlight
-  HighlightRegexp {\{>{2}.+?<{2}\}}              ignore
-  HighlightRegexp {(~)(?=\S).+?\1}               subscript
-  HighlightRegexp {(\^)(?=\S).+?\1}              superscript
-  HighlightRegexp {\\\\\[\s+.+?\s+\\\\\]}        math1
-  HighlightRegexp {\\\\\(\s+.+?\s+\\\\\)}        math2
-  HighlightRegexp {(\$\$).+?\1}                  math3
-  HighlightRegexp {\$.+?\$ }                     math4
-  HighlightRegexp {\[[ xX]\]}                    checkbox
-  HighlightRegexp {.*?$}                         list_check
+  HighlightRegexp {(`{3}).+?\1}                   ccode
+  HighlightRegexp {`.+?`}                         code
+  HighlightRegexp {^#.*?$}                        header
+  HighlightRegexp {^>.*?$}                        quote
+  HighlightRegexp {([*_]{2})(?=\S).+?\1}          bold
+  HighlightRegexp {([*_])(?=\S).+?\1}             italics
+  HighlightRegexp {!?\[.+?\](\s*\[.*?\]|\(.*?\))} link
+  HighlightRegexp {<.+?>}                         link2
+  HighlightRegexp {^\s*\[.+?\]:\s+\S+}            linkref
+  HighlightRegexp {\{(\-{2})(?=\S).+?\1\}}        overstrike
+  HighlightRegexp {\{(\+{2})(?=\S).+?\1\}}        underline
+  HighlightRegexp {\{(~{2}).+?~>.+?\1\}}          correction
+  HighlightRegexp {\{(={2})(?=\S).+?\1\}}         highlight
+  HighlightRegexp {\{>{2}.+?<{2}\}}               ignore
+  HighlightRegexp {(~)(?=\S).+?\1}                subscript
+  HighlightRegexp {(\^)(?=\S).+?\1}               superscript
+  HighlightRegexp {\\\\\[\s+.+?\s+\\\\\]}         math1
+  HighlightRegexp {\\\\\(\s+.+?\s+\\\\\)}         math2
+  HighlightRegexp {(\$\$).+?\1}                   math3
+  HighlightRegexp {\$.+?\$ }                      math4
+  HighlightRegexp {\[[ xX]\]}                     checkbox
+  HighlightRegexp {.*?$}                          list_check
 
   HighlightProc ccode {
     if {![ctext::isEscaped $txt $startpos] && ![ctext::isEscaped $txt "$endpos-3c"]} {
@@ -217,47 +217,26 @@ advanced {
     return ""
   } HighlightEndProc
 
-  HighlightProc image {
-    if {![ctext::isEscaped $txt $startpos]} {
-      set str [$txt get $startpos $endpos]
-      if {[regexp {!\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> label ref space linkref url]} {
-        set start2a [expr [string length $label] + 2]
-        set start2b [expr [string length $label] + [string length $space] + 4]
-        if {[string index [string trim $ref] 0] eq "\\["} {
-          if {$linkref eq ""} {
-            set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $label]"
-          } else {
-            set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $linkref]"
-          }
-        } else {
-          set cmd ""
-        }
-        return [list [list [list link [$txt index "$startpos+2c"] [$txt index "$startpos+[expr [string length $label] + 2]c"] $cmd] \
-                           [list grey $startpos [$txt index "$startpos+2c"] [list]] \
-                           [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
-                           [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
-      }
-    }
-    return ""
-  } HighlightEndProc
-
   HighlightProc link {
     if {![ctext::isEscaped $txt $startpos]} {
-      if {[regexp {^\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> label ref space linkref url]} {
+      if {[regexp {^(!)?\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> img label ref space linkref url]} {
+        set cmd        ""
+        set startchars [expr {($img eq "") ? 1 : 2}]
         if {[string index [string trim $ref] 0] eq "\\["} {
           if {$linkref eq ""} {
             set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $label]"
           } else {
             set cmd "syntax::multimarkdown::handle_reflink_click $txt [string tolower $linkref]"
           }
-        } else {
+        } elseif {$img eq ""} {
           set cmd "utils::open_file_externally [lindex $url 0]"
         }
-        set start2a [expr [string length $label] + 1]
-        set start2b [expr [string length $label] + [string length $space] + 3]
-        return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd] \
-                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+        set start2a [expr $startchars + [string length $label]]
+        set start2b [expr $startchars + [string length $label] + 1 + [string length $space] + 1]
+        return [list [list [list link [$txt index "$startpos+${startchars}c"] [$txt index "$startpos+[expr [string length $label] + $startchars]c"] $cmd] \
+                           [list grey $startpos [$txt index "$startpos+${startchars}c"] [list]] \
                            [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
+                           [list ref  [$txt index "$startpos+${start2b}c"] [$txt index "$endpos-1c"] [list]] \
                            [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
       }
     }

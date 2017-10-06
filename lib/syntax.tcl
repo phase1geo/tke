@@ -57,6 +57,7 @@ namespace eval syntax {
     miscellaneous3     {}
     highlighter        {}
     meta               {}
+    readmeta           {}
     advanced           {}
     formatting         {}
   }
@@ -402,7 +403,7 @@ namespace eval syntax {
         }
 
         # Initialize the meta tags
-        set meta_tags($txt) "meta"
+        set meta_tags($txt) [list meta readmeta]
 
         # Set the case sensitivity, delimiter characters and wrap mode
         $txt configure -casesensitive $lang_array(casesensitive) -escapes $lang_array(escapes)
@@ -431,6 +432,7 @@ namespace eval syntax {
         set_language_section $txt miscellaneous3 $lang_array(miscellaneous3) ""
         set_language_section $txt highlighter    $lang_array(highlighter) ""
         set_language_section $txt meta           $lang_array(meta) ""
+        set_language_section $txt readmeta       $lang_array(readmeta) ""
         set_language_section $txt advanced       $lang_array(advanced) "" $cmd_prefix $lang_ns
 
         # Add the comments, strings and indentations
@@ -527,6 +529,7 @@ namespace eval syntax {
     set_language_section $txt miscellaneous3 $lang_array(miscellaneous3) $language
     set_language_section $txt highlighter    $lang_array(highlighter) $language
     set_language_section $txt meta           $lang_array(meta) $language
+    set_language_section $txt readmeta       $lang_array(readmeta) $language
     set_language_section $txt advanced       $lang_array(advanced) $language $cmd_prefix $lang_ns
 
     if {$embed_start ne ""} {
@@ -603,7 +606,7 @@ namespace eval syntax {
                   highlighter { ctext::addHighlightClass $txt $name $theme(background) $theme($color) $modifiers }
                   default     { ctext::addHighlightClass $txt $name $theme($color) "" $modifiers }
                 }
-                if {$color eq "meta"} {
+                if {[lsearch {meta readmeta} $color] != -1} {
                   lappend meta_tags($txt) $name
                   $txt tag raise _$name
                 }

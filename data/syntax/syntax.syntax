@@ -49,7 +49,7 @@ keywords
   filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
   casesensitive delimiters indent unindent reindent keywords symbols icomment
   lcomments bcomments strings numbers punctuation precompile miscellaneous1
-  miscellaneous2 miscellaneous3 highlighter meta advanced escapes formatting
+  miscellaneous2 miscellaneous3 highlighter meta readmeta advanced escapes formatting
 }
 
 symbols
@@ -58,7 +58,7 @@ symbols
     filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed
     linewrap casesensitive delimiters indent unindent reindent icomment lcomments
     bcomments strings symbols numbers punctuation precompile miscellaneous1
-    miscellaneous2 miscellaneous3 meta advanced escapes formatting
+    miscellaneous2 miscellaneous3 meta readmeta advanced escapes formatting
   } syntax::get_syntax_symbol
 }
 
