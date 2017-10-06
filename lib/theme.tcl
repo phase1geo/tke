@@ -98,6 +98,7 @@ namespace eval theme {
     syntax,keywords                 {color {white} {} {0} {msgcat::mc "Foreground text color to use for language-specific keywords."}}
     syntax,line_number              {color {grey} {} {0} {msgcat::mc "Foreground text color to use for displaying line numbers."}}
     syntax,meta                     {color {grey} {} {0} {msgcat::mc "Foreground text color to use for meta syntax."}}
+    syntax,readmeta                 {color {grey80} {} {0} {msgcat::mc "Foreground text color to use for readable meta syntax."}}
     syntax,miscellaneous1           {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous1 labeled text."}}
     syntax,miscellaneous2           {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous2 labeled text."}}
     syntax,miscellaneous3           {color {white} {} {0} {msgcat::mc "Foreground text color to use for all miscellaneous3 labeled text."}}

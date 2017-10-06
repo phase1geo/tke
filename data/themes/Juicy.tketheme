@@ -267,6 +267,7 @@ menus,-selectcolor {black}
 meta,syntax,cursor {#ccff66,v,50}
 meta,syntax,embedded {#f1f1f1,v,15}
 meta,syntax,precompile {#ffffff,v,100}
+meta,syntax,readmeta {grey80,v,50}
 misc_scrollbar,-background {#c9c9c9}
 misc_scrollbar,-foreground {#000000}
 misc_scrollbar,-thickness {15}
@@ -309,6 +310,7 @@ syntax,miscellaneous3 {#f73142}
 syntax,numbers {#336699}
 syntax,precompile {#9b9b9b}
 syntax,punctuation {#7bacca}
+syntax,readmeta {#9a9a9a}
 syntax,search_background {yellow}
 syntax,search_foreground {black}
 syntax,select_background {blue}

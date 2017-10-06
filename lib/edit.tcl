@@ -2336,43 +2336,22 @@ namespace eval edit {
       $txtt edit separator
 
       foreach {type chars} [array get formatting] {
-        lassign $chars stype startchars endchars
+        lassign $chars stype pattern
+        set new_ranges [list]
+        set metalen    [string length [string map {\{REF\} {} \{TEXT\} {}} $pattern]]
+        set pattern    [string map {\{REF\} {.*?} \{TEXT\} {(.*?)} \{ \\\{ \} \\\} * \\* + \\+ \\ \\\\ \( \\\( \) \\\) \[ \\\[ \] \\\] \. \\\. \? \\\? ^ \\\^ \$ \\\$} $pattern]
         if {$stype eq "line"} {
-          set startlen [string length $startchars]
-          foreach {end start} [lreverse $ranges] {
-            if {[$txtt get "$start linestart" "$start linestart+${startlen}c"] eq $startchars} {
-              $txtt delete "$start linestart" "$start linestart+${startlen}c"
-              lappend new_ranges [$txtt index $end-${startlen}c] $start
-            } else {
-              lappend new_ranges $end $start
-            }
+          set pattern "^$pattern\$"
+        }
+        puts "ranges: $ranges, metalen: $metalen, pattern: $pattern"
+        foreach {end start} [lreverse $ranges] {
+          set i 0
+          foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
+            regexp $pattern [$txtt get $index "$index+[lindex $lengths $i]c"] -> str
+            $txtt replace $index "$index+[lindex $lengths $i]c" $str
+            incr i
           }
-        } elseif {$endchars ne ""} {
-          set pattern  ""
-          set startlen [string length $startchars]
-          set endlen   [string length $endchars]
-          append pattern [string map {\{ \\\{ \} \\\} * \\* + \\+ \\ \\\\} $startchars] ".+?" [string map {\{ \\\{ \} \\\} * \\* + \\+ \\ \\\\} $endchars]
-          foreach {end start} [lreverse $ranges] {
-            set i 0
-            foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
-              set format_end [$txtt index $index+[lindex $lengths $i]c]
-              $txtt delete $format_end-${endlen}c $format_end
-              $txtt delete $index $index+${startlen}c
-              incr i
-            }
-            lappend new_ranges [$txtt index $end-[expr ($endlen + $startlen) * $i]c] $start
-          }
-        } else {
-          set pattern  [string map {\{ \\\{ \} \\\} * \\* + \\+ \\ \\\\} $startchars]
-          set startlen [string length $startchars]
-          foreach {end start} [lreverse $ranges] {
-            set i 0
-            foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
-              $txtt delete $index "$index+[lindex $lengths $i]c"
-              incr i
-            }
-            lappend new_ranges [$txtt index $end-[expr $startlen * $i]c] $start
-          }
+          lappend new_ranges [$txtt index "$end-[expr $metalen * $i]c"] $start
         }
         set ranges     [lreverse $new_ranges]
         set new_ranges [list]

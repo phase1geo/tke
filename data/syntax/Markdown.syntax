@@ -45,6 +45,7 @@ advanced {
   HighlightClass strike  none           {overstrike}
   HighlightClass hilite  highlighter    {}
   HighlightClass grey    meta           {}
+  HighlightClass ref     readmeta       {}
   HighlightClass check   none           {click}
 
   HighlightRegexp {``.+?``}                        ccode
@@ -53,7 +54,7 @@ advanced {
   HighlightRegexp {^>.*?$}                         quote
   HighlightRegexp {([*_]{2})(?=\S).+?\1}           bold
   HighlightRegexp {([*_])(?=\S).+?\1}              italics
-  HighlightRegexp {\[[^\]]+\](\s*\[.*?\]|\(.*?\))} link
+  HighlightRegexp {!?\[[^\]]+\](\s*\[.*?\]|\(.*?\))} link
   HighlightRegexp {^\s*\[.+?\]:\s+\S+}             linkref
   HighlightRegexp {([~|]{2})(?=\S).+?\1}           overstrike
   HighlightRegexp {(~)(?=\S).+?\1}                 subscript
@@ -176,21 +177,24 @@ advanced {
 
   HighlightProc link {
     if {![ctext::isEscaped $txt $startpos]} {
-      if {[regexp {^\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> label dummy ref linkref url]} {
+      if {[regexp {^(!)?\\[(.+?)\\]((\\s*)\\[(.*?)\\]|\\((.*?)\\))} [$txt get $startpos $endpos] -> img label ref space linkref url]} {
+        set cmd        ""
+        set startchars [expr {($img eq "") ? 1 : 2}]
         if {[string index [string trim $ref] 0] eq "\\["} {
           if {$linkref eq ""} {
             set cmd "syntax::markdown::handle_reflink_click $txt [string tolower $label]"
           } else {
             set cmd "syntax::markdown::handle_reflink_click $txt [string tolower $linkref]"
           }
-        } else {
+        } elseif {$cmd eq ""} {
           set cmd "utils::open_file_externally [lindex $url 0]"
         }
-        set start2a [expr [string length $label] + 1]
-        set start2b [expr [string length $label] + [string length $dummy] + 2]
-        return [list [list [list link [$txt index "$startpos+1c"] [$txt index "$startpos+[expr [string length $label] + 1]c"] $cmd] \
-                           [list grey $startpos [$txt index "$startpos+1c"] [list]] \
+        set start2a [expr $startchars + [string length $label]]
+        set start2b [expr $startchars + [string length $label] + 1 + [string length $space] + 1]
+        return [list [list [list link [$txt index "$startpos+${startchars}c"] [$txt index "$startpos+[expr [string length $label] + $startchars]c"] $cmd] \
+                           [list grey $startpos [$txt index "$startpos+${startchars}c"] [list]] \
                            [list grey [$txt index "$startpos+${start2a}c"] [$txt index "$startpos+${start2b}c"] [list]] \
+                           [list ref  [$txt index "$startpos+${start2b}c"] [$txt index "$endpos-1c"] [list]] \
                            [list grey [$txt index "$endpos-1c"] $endpos [list]]] ""]
       }
     }
