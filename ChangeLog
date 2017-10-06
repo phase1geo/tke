@@ -319,7 +319,7 @@
 	* lib/multicursor.tcl, lib/version.tcl:
 	* Removing block selection code from multicursor namespace.
 
-2017-09-19 01:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a37044cc8491 [tip])
+2017-09-19 01:36 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (a37044cc8491)
 
 	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
 	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
@@ -328,4 +328,508 @@
 	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
 	data/msgs/sv.msg, data/msgs/zh.msg, lib/select.tcl, lib/version.tcl:
 	* Updating translations.
+
+2017-09-19 01:51 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b77d73177141)
+
+	* ChangeLog, lib/version.tcl, specl_version.tcl:
+	ChangeLog for devel-3.3.4 release
+
+2017-09-19 12:03 -0500  Trevor Williams  <phase1geo@gmail.com>  (104af93afa20)
+
+	* tests/selectmode.tcl: new file.
+	* lib/gui.tcl, lib/select.tcl, tests/selectmode.tcl:
+	* Minor fixes/changes to selection mode.
+	* Checkpointing work on selectmode BIST.
+
+2017-09-19 16:15 -0500  Trevor Williams  <phase1geo@gmail.com>  (65f0308f3047)
+
+	* lib/select.tcl:
+	* Checkpointing enhancements and fixes to selection mode.
+
+2017-09-19 18:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (d7dd831237df)
+
+	* tests/selectmode.tcl: new file.
+	* lib/version.tcl:
+	* Merging.
+
+2017-09-20 00:38 -0500  Trevor Williams  <phase1geo@gmail.com>  (002f374b90b3)
+
+	* lib/edit.tcl, lib/select.tcl, lib/version.tcl, tests/selectmode.tcl:
+	* Fixing issue with selecting a paragraph range when selecting an
+	outer paragraph.
+	* Fixing various regression issues with selection mode.
+	* Checkpointing work on selection mode BIST.
+
+2017-09-20 17:14 -0500  Trevor Williams  <phase1geo@gmail.com>  (4a5eb730f32e)
+
+	* lib/Makefile, lib/select.tcl, lib/version.tcl, tests/selectmode.tcl:
+	* Completing selectmode BIST.
+	* Fixing selection mode issues found in BIST testing.
+
+2017-09-20 22:47 -0500  Trevor Williams  <phase1geo@gmail.com>  (7ba26b24164c)
+
+	* lib/Makefile, lib/select.tcl, lib/version.tcl:
+	* Attempting to fix Makefile to work in both Windows and non-Windows
+	environments.
+	* Adding selection mode undo support.
+
+2017-09-20 22:53 -0500  Trevor Williams  <phase1geo@gmail.com>  (e66a5eff4c94)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2017-09-21 02:04 -0500  Trevor Williams  <phase1geo@gmail.com>  (453eaa0e0227)
+
+	* lib/edit.tcl, lib/select.tcl, lib/version.tcl:
+	* Checkpointing enhanced bubble up/down support.
+
+2017-09-21 17:52 -0500  Trevor Williams  <phase1geo@gmail.com>  (4e9cc00b1681)
+
+	* lib/menus.tcl, lib/select.tcl, lib/version.tcl:
+	* Adding new `Edit/Select` menu.
+	* Adding ability to invert the selection from selection mode. # Adding
+	ability to select to the beginning or end of file in selection mode.
+
+2017-09-21 21:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (943fb701c2ad)
+
+	* doc/md/TKE Developer Guide/Ctext Widget/commentCharRanges.md: new
+	file.
+	* doc/md/TKE Developer Guide/Ctext Widget/.tkesort, doc/md/TKE
+	Developer Guide/Ctext Widget/commentCharRanges.md,
+	lib/ctext/ctext.tcl, lib/select.tcl, lib/version.tcl:
+	* Adding new `ctext::commentCharRanges` procedure to ctext widget.
+	* Documenting new ctext procedure in developer guide.
+	* Adding comment block selection support to Shift-Control double click
+	and selection mode.
+
+2017-09-21 23:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (2a7458da13fc)
+
+	* lib/images/active_close.bmp: new file.
+	* lib/bitmap.tcl, lib/gui.tcl, lib/images/active_close.bmp,
+	lib/images/close.bmp, lib/menus.tcl,
+	lib/ptwidgets1.2/library/tabbar.tcl, lib/version.tcl:
+	* Changing `Edit / Select / Current Brackets` menu option to `Edit /
+	Select / Current Bounded Text`.
+	* Adding bitmap ability to move image up, down, left and right.
+	* Adding `tab_activeclose` image to themes.
+	* Enhancing tabbar widget by adding a new `-activecloseimage` option
+	which will render the close button differently when it becomes
+	active.
+	* Adding an extra pixel of padding to the close image.
+
+2017-09-22 00:23 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (aa80e9de2719)
+
+	* lib/bitmap.tcl, lib/version.tcl:
+	* Adding support for automatically centering a bitmap image.
+
+2017-09-22 00:53 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (7e11f2d411e1)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Attempting to fix issue where a line does not wrap do to
+	undo/redo.
+	* Fixing potential issue with undo/redo when data is being inserted
+	into the editing buffer.
+
+2017-09-22 01:35 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f10d594878f9)
+
+	* doc/md/TKE Developer Guide/Plugin API/api--show_info.md,
+	lib/api.tcl, lib/gui.tcl, lib/select.tcl, lib/version.tcl:
+	* Adding support for text-associated information messages such that
+	if a text widget loses input focus and later regains that focus, the
+	message will be automatically redisplayed to the user.
+	* Updating developer guide per this change.
+
+2017-09-22 12:49 -0500  Trevor Williams  <phase1geo@gmail.com>  (bcf96bc0940a)
+
+	* data/themes/Starlight.tketheme, lib/bitmap.tcl,
+	lib/images/active_close.bmp, lib/images/close.bmp,
+	lib/images/connecting.bmp, lib/themer.tcl, lib/version.tcl:
+	* Fixing syntax issue with connecting bitmap file.
+	* Adding bitmap rotation and flip transform tools.
+	* Adding bitmap export function.
+	* Improving bitmap parser.
+	* Adding support for up to 32-bit images in bitmap parser.
+	* Fixing bitmap import function to generate BitmapChanged virtual
+	event.
+
+2017-09-22 19:04 -0500  Trevor Williams  <phase1geo@gmail.com>  (7ebd042a65ce)
+
+	* lib/edit.tcl, lib/version.tcl:
+	* Adding comment-aware code to sentence indexer.
+
+2017-09-24 20:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (b56a03f91728)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Fixing syntax issue in information displayer.
+
+2017-09-25 00:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (f18a00ee2433)
+
+	* lib/gui.tcl, lib/syntax.tcl, lib/theme.tcl, lib/version.tcl:
+	* Fixing theme update issue in split view and bird's eye view.
+
+2017-09-25 02:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (4e344e32efda)
+
+	* data/syntax/Markdown.syntax, data/syntax/MultiMarkdown.syntax,
+	lib/version.tcl:
+	* Fixing issues with Markdown and MultiMarkdown syntaxes.
+
+2017-09-25 21:40 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (974267f4777f)
+
+	* lib/zipper/pkgIndex.tcl, lib/zipper/zipper.tcl: new file.
+	* lib/themer.tcl, lib/themes.tcl, lib/tke.tcl, lib/version.tcl,
+	lib/zipper/pkgIndex.tcl, lib/zipper/zipper.tcl:
+	* Adding improved zip/unzip support.
+
+2017-09-25 21:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (00bea84697d8)
+
+	* * Merging.
+
+2017-09-25 21:44 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (3f7147410340)
+
+	* lib/zipper/pkgIndex.tcl, lib/zipper/zipper.tcl: new file.
+	* * Merging.
+
+2017-09-25 22:00 -0500  Trevor Williams  <phase1geo@gmail.com>  (ce55693d05ed)
+
+	* lib/version.tcl, lib/zipper/zipper.tcl:
+	* Fixing syntax error on Windows in zipper library (we can't change
+	permissions on Windows).
+
+2017-09-25 22:19 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (5782a99b0c61)
+
+	* data/preferences.tkedat, lib/ipanel.tcl, lib/pref_ui.tcl,
+	lib/version.tcl:
+	* Allowing the reading time words per minute value to be modified
+	within preferences.
+
+2017-09-25 23:23 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (0dfa3b9e0e23)
+
+	* lib/ctext/ctext.tcl, lib/version.tcl:
+	* Fixing gutter foreground coloring issue.
+
+2017-09-27 23:19 -0500  Trevor Williams  <phase1geo@gmail.com>  (d9afad9135fd)
+
+	* lib/edit.tcl, lib/version.tcl:
+	* Enhancing sentence bubble up/down functionality.
+
+2017-09-28 00:32 -0500  Trevor Williams  <phase1geo@gmail.com>  (26a9fd55a807)
+
+	* lib/edit.tcl, lib/select.tcl, lib/version.tcl:
+	* Checkpointing rework of brackets.
+
+2017-09-29 12:02 -0500  Trevor Williams  <phase1geo@gmail.com>  (fa49d61c8924)
+
+	* data/syntax/Vala.syntax, lib/edit.tcl, lib/select.tcl,
+	lib/version.tcl:
+	* Adding true/false keyword highlighting to Vala syntax.
+	* Allowing edit::get_range to use a cursor position that is not
+	insert.
+	* Checkpointing bracket traversal changes.
+
+2017-09-30 01:08 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (59a9fecba9d6)
+
+	* data/themes/Juicy.tketheme, lib/select.tcl, lib/version.tcl:
+	* Improving Juicy theme.
+	* Checkpointing selection work.
+
+2017-09-30 13:14 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (faa0914e5bae)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Checkpointing.
+
+2017-10-01 00:43 -0500  Trevor Williams  <phase1geo@gmail.com>  (840dd64d316a)
+
+	* lib/select.tcl, lib/version.tcl:
+	* Completing work on bracket traversal.
+
+2017-10-01 08:10 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c98a5c4df0f4)
+
+	* doc/md/TKE User Guide/Select Mode/Select Mode.md: new file.
+	* doc/md/TKE User Guide/Select Mode/Select Mode.md, doc/md/TKE User
+	Guide/User Interface/Edit Menu.md, lib/version.tcl:
+	* Checkpointing work on User Guide updates for selection mode.
+
+2017-10-01 23:28 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (51b6018132ca)
+
+	* doc/md/TKE User Guide/Select Mode/Selection Anchor.md, doc/md/TKE
+	User Guide/Select Mode/Selection Motions.md, doc/md/TKE User
+	Guide/Select Mode/Selection Object Types.md, doc/md/TKE User
+	Guide/Select Mode/assets/infobar.png: new file.
+	* data/themes/Juicy.tketheme, doc/md/TKE User Guide/Select Mode/Select
+	Mode.md, doc/md/TKE User Guide/Select Mode/Selection Anchor.md,
+	doc/md/TKE User Guide/Select Mode/Selection Motions.md, doc/md/TKE
+	User Guide/Select Mode/Selection Object Types.md, doc/md/TKE User
+	Guide/Select Mode/assets/infobar.png, doc/md/TKE User Guide/User
+	Interface/Edit Menu.md, lib/gui.tcl, lib/select.tcl,
+	lib/version.tcl:
+	* Checkpointing work on select mode user guide chapter.
+	* Fixing precompile coloring issue with Juicy theme.
+	* Fixing issue with loading a locked file upon session start.
+
+2017-10-01 23:50 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (c31e04863912)
+
+	* doc/md/TKE User Guide/Select Mode/.tkesort: new file.
+	* doc/md/TKE User Guide/.tkesort, doc/md/TKE User Guide/Select
+	Mode/.tkesort, doc/md/TKE User Guide/Vim Commands/.tkesort,
+	lib/sidebar.tcl, lib/version.tcl:
+	* Ordering select mode chapter.
+	* Changing cursor to a move cursor within the sidebar when files are
+	being moved.
+
+2017-10-02 14:00 -0500  Trevor Williams  <phase1geo@gmail.com>  (85bf34ae864f)
+
+	* lib/pref_ui.tcl, lib/preferences.tcl, lib/version.tcl:
+	* Fixing issue with installing a plugin with preferences without
+	restarting the application.
+	* Increasing width of search field in the preferences window.
+
+2017-10-02 16:41 -0500  Trevor Williams  <phase1geo@gmail.com>  (fadee844210b)
+
+	* lib/version.tcl, plugins/markdown_table_beautifier/main.tcl:
+	* Checkpointing fix to Markdown table beautifier plugin to improve
+	for multi-column cells.
+
+2017-10-02 16:56 -0500  Trevor Williams  <phase1geo@gmail.com>  (2b5f3de7b6cc)
+
+	* lib/version.tcl, plugins/markdown_table_beautifier/main.tcl:
+	* Checkpointing.
+
+2017-10-02 21:26 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (be3dd761f14b)
+
+	* lib/version.tcl, plugins/markdown_table_beautifier/main.tcl:
+	* Adding support for multi-column table cells in Markdown Table
+	Beautifier plugin.
+
+2017-10-03 17:43 -0500  Trevor Williams  <phase1geo@gmail.com>  (e7eb32238bf1)
+
+	* data/syntax/DocBook.syntax, data/syntax/Fountain.syntax,
+	data/syntax/HTML.syntax, data/syntax/HelpSystem.syntax,
+	data/syntax/LaTeX.syntax, data/syntax/ManPage.syntax,
+	data/syntax/Markdown.syntax, data/syntax/MultiMarkdown.syntax,
+	data/syntax/syntax.syntax, lib/edit.tcl, lib/gui.tcl, lib/menus.tcl,
+	lib/theme.tcl, lib/version.tcl, plugins/markdown_drop/main.tcl:
+	* Adding initial support for link and image formatting.
+	* Changing syntax descriptions to use a pattern to describe the image
+	formatting.
+	* Adding ability to drag and drop text/files into the user response
+	entry field.
+
+2017-10-03 21:18 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (53e2eb64727b)
+
+	* lib/macOS/expect/libexpect5.45.dylib,
+	lib/macOS/expect/license.terms, lib/macOS/expect/pkgIndex.tcl,
+	lib/macOS/tkdnd2.8/libtkdnd2.8.dylib,
+	lib/macOS/tkdnd2.8/pkgIndex.tcl, lib/macOS/tkdnd2.8/tkdnd.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_compat.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_generic.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_macosx.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_unix.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_windows.tcl, lib/win/expect/expect.tcl,
+	lib/win/expect/expect543.dll, lib/win/expect/injector.dll,
+	lib/win/expect/pkgIndex.tcl, lib/win/expect/teapot.txt,
+	lib/win/tkdnd2.8-64/pkgIndex.tcl, lib/win/tkdnd2.8-64/tkdnd.tcl,
+	lib/win/tkdnd2.8-64/tkdnd28.dll,
+	lib/win/tkdnd2.8-64/tkdnd_compat.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_generic.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_macosx.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_unix.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_windows.tcl,
+	lib/win/tkdnd2.8/libtkdnd2.8.dll, lib/win/tkdnd2.8/pkgIndex.tcl,
+	lib/win/tkdnd2.8/tkdnd.tcl, lib/win/tkdnd2.8/tkdnd_compat.tcl,
+	lib/win/tkdnd2.8/tkdnd_generic.tcl,
+	lib/win/tkdnd2.8/tkdnd_macosx.tcl, lib/win/tkdnd2.8/tkdnd_unix.tcl,
+	lib/win/tkdnd2.8/tkdnd_windows.tcl: new file.
+	* MacOSX/TKE.app/Contents/lib/expect/libexpect5.45.dylib,
+	MacOSX/TKE.app/Contents/lib/expect/license.terms,
+	MacOSX/TKE.app/Contents/lib/expect/pkgIndex.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/libtkdnd2.8.dylib,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/pkgIndex.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_compat.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_generic.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_macosx.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_unix.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_windows.tcl,
+	Win/expect/expect.tcl, Win/expect/expect543.dll,
+	Win/expect/injector.dll, Win/expect/pkgIndex.tcl,
+	Win/expect/teapot.txt, Win/tkdnd2.8-64/pkgIndex.tcl,
+	Win/tkdnd2.8-64/tkdnd.tcl, Win/tkdnd2.8-64/tkdnd28.dll,
+	Win/tkdnd2.8-64/tkdnd_compat.tcl, Win/tkdnd2.8-64/tkdnd_generic.tcl,
+	Win/tkdnd2.8-64/tkdnd_macosx.tcl, Win/tkdnd2.8-64/tkdnd_unix.tcl,
+	Win/tkdnd2.8-64/tkdnd_windows.tcl, Win/tkdnd2.8/libtkdnd2.8.dll,
+	Win/tkdnd2.8/pkgIndex.tcl, Win/tkdnd2.8/tkdnd.tcl,
+	Win/tkdnd2.8/tkdnd_compat.tcl, Win/tkdnd2.8/tkdnd_generic.tcl,
+	Win/tkdnd2.8/tkdnd_macosx.tcl, Win/tkdnd2.8/tkdnd_unix.tcl,
+	Win/tkdnd2.8/tkdnd_windows.tcl: deleted file.
+	* MacOSX/TKE.app/Contents/lib/expect/libexpect5.45.dylib,
+	MacOSX/TKE.app/Contents/lib/expect/license.terms,
+	MacOSX/TKE.app/Contents/lib/expect/pkgIndex.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/libtkdnd2.8.dylib,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/pkgIndex.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_compat.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_generic.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_macosx.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_unix.tcl,
+	MacOSX/TKE.app/Contents/lib/tkdnd2.8/tkdnd_windows.tcl,
+	Win/expect/expect.tcl, Win/expect/expect543.dll,
+	Win/expect/injector.dll, Win/expect/pkgIndex.tcl,
+	Win/expect/teapot.txt, Win/tkdnd2.8-64/pkgIndex.tcl,
+	Win/tkdnd2.8-64/tkdnd.tcl, Win/tkdnd2.8-64/tkdnd28.dll,
+	Win/tkdnd2.8-64/tkdnd_compat.tcl, Win/tkdnd2.8-64/tkdnd_generic.tcl,
+	Win/tkdnd2.8-64/tkdnd_macosx.tcl, Win/tkdnd2.8-64/tkdnd_unix.tcl,
+	Win/tkdnd2.8-64/tkdnd_windows.tcl, Win/tkdnd2.8/libtkdnd2.8.dll,
+	Win/tkdnd2.8/pkgIndex.tcl, Win/tkdnd2.8/tkdnd.tcl,
+	Win/tkdnd2.8/tkdnd_compat.tcl, Win/tkdnd2.8/tkdnd_generic.tcl,
+	Win/tkdnd2.8/tkdnd_macosx.tcl, Win/tkdnd2.8/tkdnd_unix.tcl,
+	Win/tkdnd2.8/tkdnd_windows.tcl, lib/edit.tcl, lib/gui.tcl,
+	lib/macOS/expect/libexpect5.45.dylib,
+	lib/macOS/expect/license.terms, lib/macOS/expect/pkgIndex.tcl,
+	lib/macOS/tkdnd2.8/libtkdnd2.8.dylib,
+	lib/macOS/tkdnd2.8/pkgIndex.tcl, lib/macOS/tkdnd2.8/tkdnd.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_compat.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_generic.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_macosx.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_unix.tcl,
+	lib/macOS/tkdnd2.8/tkdnd_windows.tcl, lib/sidebar.tcl, lib/tke.tcl,
+	lib/version.tcl, lib/win/expect/expect.tcl,
+	lib/win/expect/expect543.dll, lib/win/expect/injector.dll,
+	lib/win/expect/pkgIndex.tcl, lib/win/expect/teapot.txt,
+	lib/win/tkdnd2.8-64/pkgIndex.tcl, lib/win/tkdnd2.8-64/tkdnd.tcl,
+	lib/win/tkdnd2.8-64/tkdnd28.dll,
+	lib/win/tkdnd2.8-64/tkdnd_compat.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_generic.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_macosx.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_unix.tcl,
+	lib/win/tkdnd2.8-64/tkdnd_windows.tcl,
+	lib/win/tkdnd2.8/libtkdnd2.8.dll, lib/win/tkdnd2.8/pkgIndex.tcl,
+	lib/win/tkdnd2.8/tkdnd.tcl, lib/win/tkdnd2.8/tkdnd_compat.tcl,
+	lib/win/tkdnd2.8/tkdnd_generic.tcl,
+	lib/win/tkdnd2.8/tkdnd_macosx.tcl, lib/win/tkdnd2.8/tkdnd_unix.tcl,
+	lib/win/tkdnd2.8/tkdnd_windows.tcl:
+	* Reorganizing macOS and Windows helper libraries to make them more
+	accessible from with source code.
+	* Checkpointing work on making the sidebar a drag source.
+	* Fixing drag and drop on macOS when tkdnd is not installed on the
+	system.
+	* Attempting to improve code in bottom panels.
+
+2017-10-04 00:51 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (29075f4c90c3)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Completing work on making the sidebar a drag source.
+
+2017-10-04 01:39 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (bc304ce31e30)
+
+	* lib/gui.tcl, lib/version.tcl:
+	* Adding support for inserting dropped text/files at multicursors if
+	they are enabled.
+
+2017-10-04 17:56 -0500  Trevor Williams  <phase1geo@gmail.com>  (3f40b6971678)
+
+	* lib/gui.tcl, lib/menus.tcl, lib/ptwidgets1.2/library/tabbar.tcl,
+	lib/sidebar.tcl, lib/version.tcl, lib/vim.tcl:
+	* Fixing issues with panel recent panel changes that caused Tcl
+	errors.
+	* When panels are shown/cleared, implemented new way to disable most
+	of the UI, allowing limited sidebar functionality for drag/drop
+	support as well as a few other functions.
+	* Added ability to disable the menu bar.
+	* Fixed issues with tabbar -state usage.
+	* Adding sidebar support for states of normal, disabled and viewonly.
+	* Enhancing sidebar drag source support for move and link actions.
+
+2017-10-04 20:41 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (dc70d23b0505)
+
+	* lib/gui.tcl, lib/ptwidgets1.2/library/tokenentry.tcl,
+	lib/sidebar.tcl, lib/version.tcl:
+	* Making the `In` field of the find in files panel a drop target.
+	* Fixing issue in sidebar where the drop color would be displayed when
+	we were dragging content from its own sidebar.
+	* Fixing use of `end` index in tokenentry `tokeninsert` method that
+	would not cause the insertion to happen at the end.
+
+2017-10-04 22:22 -0500  Trevor Williams  <phase1geo@gmail.com>  (853190a14dd7)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Adding sidebar blink when a file is ready to be dragged from the
+	sidebar.
+
+2017-10-05 00:03 -0500  Trevor Williams  <phase1geo@gmail.com>  (b030ff90417f)
+
+	* lib/gui.tcl, lib/select.tcl, lib/version.tcl:
+	* Fixing issue with text widget-specific messages being displayed
+	incorrectly.
+	* Adding support for selection matching in select mode.
+	* Adding close button to select mode help window.
+
+2017-10-05 02:00 -0500  Trevor Williams  <phase1geo@gmail.com>  (3b45aeefbadc)
+
+	* doc/md/TKE User Guide/Select Mode/Miscellaneous Commands.md,
+	doc/md/TKE User Guide/Select Mode/Selection Exit Commands.md: new
+	file.
+	* doc/md/TKE User Guide/Select Mode/Miscellaneous Commands.md,
+	doc/md/TKE User Guide/Select Mode/Select Mode.md, doc/md/TKE User
+	Guide/Select Mode/Selection Exit Commands.md, doc/md/TKE User
+	Guide/Select Mode/Selection Motions.md, lib/select.tcl,
+	lib/version.tcl:
+	* Completing initial version of select mode chapter.
+	* Fixing command help output.
+
+2017-10-05 02:18 -0500  Trevor Williams  <phase1geo@gmail.com>  (002f3606edb3)
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Updating translations.
+
+2017-10-05 16:34 -0500  Trevor Williams  <phase1geo@gmail.com>  (6d7b19b81535)
+
+	* lib/sidebar.tcl, lib/version.tcl:
+	* Fixing issue with dragging and dropping multiple files from the
+	sidebar.
+
+2017-10-05 16:44 -0500  Trevor Williams  <phase1geo@gmail.com>  (f1fe70ef41d9)
+
+	* doc/md/TKE User Guide/Select Mode/.tkesort, lib/sidebar.tcl,
+	lib/version.tcl:
+	* Sidebar code cleanup
+	* Correcting order of the Select Mode chapter in the User Guide.
+
+2017-10-05 17:04 -0500  Trevor Williams  <phase1geo@gmail.com>  (635c1e7e51c7)
+
+	* data/msgs/Makefile, data/msgs/cs.msg, data/msgs/da.msg,
+	data/msgs/de.msg, data/msgs/el.msg, data/msgs/es.msg,
+	data/msgs/fr.msg, data/msgs/he.msg, data/msgs/hu.msg,
+	data/msgs/it.msg, data/msgs/ja.msg, data/msgs/nl.msg,
+	data/msgs/no.msg, data/msgs/pl.msg, data/msgs/pt.msg,
+	data/msgs/ru.msg, data/msgs/sv.msg, data/msgs/update.tcl,
+	data/msgs/zh.msg, lib/menus.tcl, lib/version.tcl:
+	* Adjusting command launcher verbiage for the formatting commands.
+	* Changing translation makefile and script to work on Windows.
+
+2017-10-05 17:48 -0500  Trevor Williams  <phase1geo@gmail.com>  (0e14a90caa2f)
+
+	* lib/edit.tcl, lib/gui.tcl, lib/utils.tcl, lib/version.tcl:
+	* Checkpointing work on dropping image/link on an editing buffer.
+	* Added `is_url` procedure to utils to test a string to see if it is a
+	link.
+
+2017-10-05 19:52 -0500  Trevor Williams  <phase1geo@users.sourceforge.net>  (aed80eb99428 [tip])
+
+	* data/msgs/cs.msg, data/msgs/da.msg, data/msgs/de.msg,
+	data/msgs/el.msg, data/msgs/es.msg, data/msgs/fr.msg,
+	data/msgs/he.msg, data/msgs/hu.msg, data/msgs/it.msg,
+	data/msgs/ja.msg, data/msgs/nl.msg, data/msgs/no.msg,
+	data/msgs/pl.msg, data/msgs/pt.msg, data/msgs/ru.msg,
+	data/msgs/sv.msg, data/msgs/zh.msg, lib/version.tcl:
+	* Checkpointing.
 
