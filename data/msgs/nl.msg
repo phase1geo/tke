@@ -51,9 +51,6 @@ msgcat::mcmset nl {
   "Filename already exists"
   "Bestandsnaam bestaat al"
 
-  "Image URL/pathname"
-  "Beeld URL / padnaam"
-
   "Link URL"
   "URL-adreskoppeling"
 

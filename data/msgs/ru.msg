@@ -51,9 +51,6 @@ msgcat::mcmset ru {
   "Filename already exists"
   "Имя файла уже существует"
 
-  "Image URL/pathname"
-  "URL-адрес изображения / путь"
-
   "Link URL"
   "URL ссылки"
 

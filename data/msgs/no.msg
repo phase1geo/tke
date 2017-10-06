@@ -51,9 +51,6 @@ msgcat::mcmset no {
   "Filename already exists"
   "Filnavnet finnes allerede"
 
-  "Image URL/pathname"
-  "Bildeadresse / stienavn"
-
   "Link URL"
   "Lenke-URL"
 

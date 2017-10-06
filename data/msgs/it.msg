@@ -51,9 +51,6 @@ msgcat::mcmset it {
   "Filename already exists"
   "Nome file esiste già"
 
-  "Image URL/pathname"
-  "URL immagine / nome percorso"
-
   "Link URL"
   "URL del Collegamento"
 
