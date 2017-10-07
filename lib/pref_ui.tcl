@@ -1489,7 +1489,8 @@ namespace eval pref_ui {
     $w.nb add [set b [ttk::frame $w.nb.b]] -text [set wstr [msgcat::mc "Variables"]]
 
     ttk::frame $b.f
-    set widgets(var_table) [tablelist::tablelist $b.f.tl -columns {0 {Variable} 0 {Value}} \
+    set widgets(var_table) [tablelist::tablelist $b.f.tl \
+      -columns [list 0 [msgcat::mc "Variable"] 0 [msgcat::mc "Value"]] \
       -stretch all -editselectedonly 1 -exportselection 0 -showseparators 1 \
       -borderwidth 0 -highlightthickness 0 \
       -height 25 \
@@ -1536,7 +1537,8 @@ namespace eval pref_ui {
 
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [msgcat::mc "Languages"]]
 
-    set widgets(lang_table) [tablelist::tablelist $c.tl -columns {0 Enabled 0 Language 0 Extensions} \
+    set widgets(lang_table) [tablelist::tablelist $c.tl \
+      -columns [list 0 [msgcat::mc "Enabled"] 0 [msgcat::mc "Language"] 0 [msgcat::mc "Extensions"]] \
       -stretch all -exportselection 1 -showseparators 1 \
       -height 25 -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::lang_edit_end_command] \
@@ -2021,7 +2023,7 @@ namespace eval pref_ui {
 
     ttk::frame $b.tf
     set widgets(themes_tl) [tablelist::tablelist $b.tf.tl \
-      -columns {0 Name 0 Visible center 0 Imported center 0 Creator 0 Version} \
+      -columns [list 0 [msgcat::mc "Name"] 0 [msgcat::mc "Visible"] center 0 [msgcat::mc "Imported"] center 0 [msgcat::mc "Creator"] 0 [msgcat::mc "Date"]] \
       -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
       -labelcommand tablelist::sortByColumn \
       -xscrollcommand [list utils::set_xscrollbar $b.tf.hb] \
@@ -2035,7 +2037,7 @@ namespace eval pref_ui {
     $widgets(themes_tl) columnconfigure 1 -name visible  -editable 0 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_visible]
     $widgets(themes_tl) columnconfigure 2 -name imported -editable 0 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_imported]
     $widgets(themes_tl) columnconfigure 3 -name creator  -editable 0
-    $widgets(themes_tl) columnconfigure 4 -name version  -editable 0
+    $widgets(themes_tl) columnconfigure 4 -name date     -editable 0 -formatcommand [list pref_ui::themes_format_date]
 
     bind $widgets(themes_tl)           <<TablelistSelect>> [list pref_ui::themes_selected]
     bind [$widgets(themes_tl) bodytag] <Button-1>          [list pref_ui::themes_left_click %W %x %y]
@@ -2126,6 +2128,18 @@ namespace eval pref_ui {
   }
 
   ######################################################################
+  # Displays the version value.
+  proc themes_format_date {value} {
+
+    if {$value ne ""} {
+      return [clock format $value -format "%D"]
+    }
+
+    return ""
+
+  }
+
+  ######################################################################
   # Populates the themes table with the list of existing themes.
   proc themes_populate_table {} {
 
@@ -2144,7 +2158,7 @@ namespace eval pref_ui {
       set visible  [expr [lsearch [themes::get_visible_themes] $name] != -1]
       set imported [themes::get_imported $name]
       array set attrs [themes::get_attributions $name]
-      set row [$widgets(themes_tl) insert end [list $name $visible $imported $attrs(creator) $attrs(version)]]
+      set row [$widgets(themes_tl) insert end [list $name $visible $imported $attrs(creator) $attrs(date)]]
       if {$visible} {
         $widgets(themes_tl) cellconfigure $row,visible -image pref_checked
       } else {
@@ -2483,7 +2497,7 @@ namespace eval pref_ui {
 
     ttk::frame $c.tf
     set widgets(emmet_na_tl) [tablelist::tablelist $c.tf.tl \
-      -columns {0 {Alias} 0 {Node} 0 {Closing} 0 {Attributes}} \
+      -columns [list 0 [msgcat::mc "Alias"] 0 [msgcat::mc "Node"] 0 [msgcat::mc "Closing"] 0 [msgcat::mc "Attributes"]] \
       -exportselection 0 -editselectedonly 1 -stretch all \
       -borderwidth 0 -highlightthickness 0 \
       -editstartcommand [list pref_ui::emmet_na_edit_start_command] \
@@ -2554,7 +2568,8 @@ namespace eval pref_ui {
     $w.nb add [set widgets(abbr_aliases) [set d [ttk::frame $w.nb.vf]]] -text [set wstr [msgcat::mc "Abbreviation Aliases"]]
 
     ttk::frame $d.tf
-    set widgets(emmet_aa_tl) [tablelist::tablelist $d.tf.tl -columns {0 {Alias} 0 {Value}} \
+    set widgets(emmet_aa_tl) [tablelist::tablelist $d.tf.tl \
+      -columns [list 0 [msgcat::mc "Alias"] 0 [msgcat::mc "Value"]] \
       -exportselection 0 -stretch all -editselectedonly 1 \
       -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::emmet_aa_edit_end_command] \
@@ -3107,7 +3122,8 @@ namespace eval pref_ui {
     pack $w.sf.tf.sf.lf -side right -padx 2 -pady 2
 
     ttk::frame $w.sf.tf.tf
-    set widgets(snippets_tl) [tablelist::tablelist $w.sf.tf.tf.tl -columns {0 {Keyword} 0 {Snippet}} \
+    set widgets(snippets_tl) [tablelist::tablelist $w.sf.tf.tf.tl \
+      -columns [list 0 [msgcat::mc "Keyword"] 0 [msgcat::mc "Snippet"]] \
       -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
       -xscrollcommand [list utils::set_xscrollbar $w.sf.tf.tf.hb] \
       -yscrollcommand [list utils::set_yscrollbar $w.sf.tf.tf.vb]]
@@ -3610,7 +3626,8 @@ namespace eval pref_ui {
     pack $w.sf.revert -side right -padx 2 -pady 2
 
     ttk::frame $w.tf
-    set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl -columns {0 {Menu Item} 0 {Shortcut} 0 {}} \
+    set widgets(shortcut_tl) [tablelist::tablelist $w.tf.tl \
+      -columns [list 0 [msgcat::mc "Menu Item"] 0 [msgcat::mc "Shortcut"] 0 {}] \
       -height 20 -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
       -yscrollcommand [list $w.tf.vb set]]
     scroller::scroller $w.tf.vb -orient vertical -command [list $w.tf.tl yview]
@@ -4196,7 +4213,8 @@ namespace eval pref_ui {
     variable prefs
 
     ttk::frame $w.tf
-    set widgets(doc,table) [tablelist::tablelist $w.tf.tl -columns {0 Name 0 URL} \
+    set widgets(doc,table) [tablelist::tablelist $w.tf.tl \
+      -columns [list 0 [msgcat::mc "Name"] 0 URL] \
       -exportselection 0 -stretch all -editselectedonly 1 \
       -borderwidth 0 -highlightthickness 0 \
       -movablerows 1 -movecursor [ttk::cursor move] -selectmode single \
@@ -4479,7 +4497,8 @@ namespace eval pref_ui {
     $w.nb add [set c [ttk::frame $w.nb.c]] -text [set wstr [format "NFS %s" [msgcat::mc "Mounts"]]]
 
     ttk::frame $c.f
-    set widgets(advanced_tl) [tablelist::tablelist $c.f.tl -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
+    set widgets(advanced_tl) [tablelist::tablelist $c.f.tl \
+      -columns [list 0 [msgcat::mc "Host"] 0 [format "NFS %s" [msgcat::mc "Base Directory"]] 0 [msgcat::mc "Remote Base Directory"]] \
       -exportselection 0 -stretch all -editselectedonly 1 -showseparators 1 \
       -borderwidth 0 -highlightthickness 0 \
       -editendcommand [list pref_ui::nfs_edit_end_command] \

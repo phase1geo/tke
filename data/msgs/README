@@ -1,6 +1,6 @@
 To create a translation, run the following command:
 
-tclsh8.5 update.tcl
+tclsh8.6 update.tcl
 
 Click the "Add Translations" button and when all translations have been
 updated, click the "Update" button to save the file and exit the translation

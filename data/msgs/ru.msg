@@ -17,6 +17,30 @@ msgcat::mcmset ru {
 # bitmap.tcl
 msgcat::mcmset ru {
 
+  "Center image"
+  "Центр изображения"
+
+  "Flip image horizontally"
+  "Переворачивает изображение в горизонтальной плоскости на 180 градусов"
+
+  "Flip image vertically"
+  "Переворачивает изображение в вертикальной плоскости на 180 градусов"
+
+  "Move image down"
+  "Переместить изображение"
+
+  "Move image left"
+  "Изображение слева"
+
+  "Move image right"
+  "Изображение справа"
+
+  "Move image up"
+  "Переместить изображение"
+
+  "Rotate image 90 degrees"
+  "Повернуть на 90 градусов"
+
   "Transform Tools"
   "Инструменты преобразования"
 
@@ -50,6 +74,9 @@ msgcat::mcmset ru {
 
   "Filename already exists"
   "Имя файла уже существует"
+
+  "Image URL"
+  "URL изображения"
 
   "Link URL"
   "URL ссылки"
@@ -268,9 +295,6 @@ msgcat::mcmset ru {
 
 # ipanel.tcl
 msgcat::mcmset ru {
-
-  "Attributes"
-  "Атрибуты"
 
   "Binary"
   "Двойной"
@@ -651,6 +675,9 @@ msgcat::mcmset ru {
   "Export As"
   "Експорт в CSV"
 
+  "Export Custom Themes"
+  "Экспорт пользовательских темы"
+
   "Export complete"
   "Экспорт полной"
 
@@ -846,6 +873,15 @@ msgcat::mcmset ru {
   "Indentation"
   "Отступ (абзац)"
 
+  "Insert bold formatting"
+  "Вставка форматирования полужирным шрифтом"
+
+  "Insert checklist formatting"
+  "Вставка форматирования контрольный список"
+
+  "Insert code formatting"
+  "Вставьте код форматирования"
+
   "Insert command result after current line"
   "Вставить команду результат после текущей строки"
 
@@ -858,14 +894,47 @@ msgcat::mcmset ru {
   "Insert from clipboard"
   "Вставка из буфера обмена"
 
+  "Insert header style"
+  "Вставить стиль заголовка"
+
+  "Insert highlight formatting"
+  "Вставка форматирования голы"
+
+  "Insert image formatting"
+  "Вставка форматирования изображения"
+
+  "Insert italics formatting"
+  "Вставка форматирования курсивом"
+
   "Insert line above current line"
   "Вставка строки над текущей строки"
 
   "Insert line below current line"
   "Вставить строку ниже текущей строки"
 
+  "Insert link formatting"
+  "Вставить ссылку форматирования"
+
+  "Insert ordered list formatting"
+  "Вставка форматирования упорядоченный список"
+
   "Insert snippet"
   "Вставить фрагмент"
+
+  "Insert strikethrough formatting"
+  "Добавить зачеркивание текста"
+
+  "Insert subscript formatting"
+  "Вставить подстрочного форматирования"
+
+  "Insert superscript formatting"
+  "Включить Форматирование надстрочными знаками"
+
+  "Insert underline formatting"
+  "Вставка форматирования подчеркиванием"
+
+  "Insert unordered list formatting"
+  "Вставка форматирования маркированного списка"
 
   "Install"
   "Установить"
@@ -1302,6 +1371,9 @@ msgcat::mcmset ru {
   "Search reference documentation"
   "Поиск справочной документации"
 
+  "Select"
+  "Выбрать"
+
   "Select All Matches"
   "Выберите все матчи"
 
@@ -1442,9 +1514,6 @@ msgcat::mcmset ru {
 
   "Smart Indent"
   "Смарт отступа"
-
-  "Snippet"
-  "Фрагмента"
 
   "Sort Tabs"
   "Сортировка Вкладки"
@@ -1593,6 +1662,9 @@ msgcat::mcmset ru {
   "Wrap tag with Emmet abbreviation"
   "Оберните тег с Emmet аббревиатура"
 
+  "formatting"
+  "форматирование"
+
 }
 
 # plugins.tcl
@@ -1669,6 +1741,9 @@ msgcat::mcmset ru {
   "Addons"
   "Аддоны"
 
+  "Alias"
+  "Псевдоним"
+
   "Allow scrolling in tab bar"
   "Позволить прокрутки в панели вкладок"
 
@@ -1735,6 +1810,9 @@ msgcat::mcmset ru {
   "Clipboard history depth"
   "Глубина истории буфера обмена"
 
+  "Closing"
+  "Закрытие"
+
   "Color value case"
   "Значение цвета"
 
@@ -1749,6 +1827,9 @@ msgcat::mcmset ru {
 
   "Convert to uppercase"
   "Преобразовать в прописные"
+
+  "Creator"
+  "Создатель"
 
   "Curly bracket"
   "Фигурная скобка"
@@ -1828,6 +1909,9 @@ msgcat::mcmset ru {
   "Enable relative line numbering"
   "Включение нумерации строк относительной"
 
+  "Enabled"
+  "Включено"
+
   "End-of-line character when saving"
   "Символ конца строки при сохранении"
 
@@ -1836,6 +1920,9 @@ msgcat::mcmset ru {
 
   "Export Settings"
   "Экспорт настроек"
+
+  "Extensions"
+  "Расширения"
 
   "Format snippet indentation after insert"
   "Формат фрагмент отступа после вставки"
@@ -1857,6 +1944,9 @@ msgcat::mcmset ru {
 
   "Host"
   "Хост"
+
+  "Imported"
+  "Импортирован"
 
   "Indentation spaces"
   "Отступ пространств"
@@ -1902,6 +1992,9 @@ msgcat::mcmset ru {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Максимальная отмены истории (установить в 0 для неограниченное)"
+
+  "Menu Item"
+  "Пункт меню"
 
   "Menu bindings"
   "Меню привязки"
@@ -2116,8 +2209,14 @@ msgcat::mcmset ru {
   "Use single carriage return character"
   "Использовать символ возврата каретки один"
 
+  "Variable"
+  "Вариативный товар"
+
   "Variables"
   "Параметры"
+
+  "Visible"
+  "Видимый"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Вы изменились глобальные предпочтения, которые не будут видны, потому что вы находитесь в настоящее время в рамках сеанса именованные."
@@ -2195,9 +2294,6 @@ msgcat::mcmset ru {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Изображение, используемое в селектор удаленных файлов, чтобы указать, что подключение будет открыто."
-
-  "Name"
-  "Имя"
 
   "New Connection"
   "Новое подключение"
@@ -2346,9 +2442,6 @@ msgcat::mcmset ru {
 
   "Next Sibling"
   "одноуровневый"
-
-  "Node"
-  "Узел"
 
   "Paragraph"
   "Параграф"
@@ -2882,6 +2975,9 @@ msgcat::mcmset ru {
   "Foreground text color to use for precompiler syntax."
   "Цвет текста для использования предкомпилированного синтаксиса."
 
+  "Foreground text color to use for readable meta syntax."
+  "Цвет текста для чтения мета синтаксиса."
+
   "Foreground text color to use for selected text."
   "Цвет текста для выбранного текста."
 
@@ -3145,9 +3241,6 @@ msgcat::mcmset ru {
   "User Directory"
   "Каталог пользователя"
 
-  "Value"
-  "Значение"
-
   "Value: "
   "Значение:"
 
@@ -3158,6 +3251,9 @@ msgcat::mcmset ru {
 
 # themes.tcl
 msgcat::mcmset ru {
+
+  "Batch custom theme export completed successfully"
+  "Экспорт пользовательской темы партии успешно завершена"
 
   "Theme"
   "Тема"
@@ -3223,6 +3319,9 @@ msgcat::mcmset ru {
 
   "All"
   "Все"
+
+  "Attributes"
+  "Атрибуты"
 
   "Back"
   "Назад"
@@ -3326,11 +3425,17 @@ msgcat::mcmset ru {
   "Move to Other Pane"
   "Переехать в другой панели"
 
+  "Name"
+  "Имя"
+
   "New File"
   "Новый файл"
 
   "Next"
   "Следующий"
+
+  "Node"
+  "Узел"
 
   "None"
   "Нет"
@@ -3389,6 +3494,9 @@ msgcat::mcmset ru {
   "Show tab bar"
   "Показать панель вкладок"
 
+  "Snippet"
+  "Фрагмента"
+
   "Snippets"
   "Обрывки"
 
@@ -3415,6 +3523,9 @@ msgcat::mcmset ru {
 
   "Unfavorite"
   "Удалить из избранного"
+
+  "Value"
+  "Значение"
 
   "Version"
   "Версия"

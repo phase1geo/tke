@@ -1858,6 +1858,9 @@ namespace eval themer {
     }
     ttk::separator .expwin.f.sep -orient horizontal
 
+    # Make some of the fields drop targets
+    gui::make_drop_target .expwin.f.le entry
+
     grid rowconfigure    .expwin.f 5 -weight 1
     grid columnconfigure .expwin.f 1 -weight 1
     grid .expwin.f.cl  -row 0 -column 0 -sticky e    -padx 2 -pady 2

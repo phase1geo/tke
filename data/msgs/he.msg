@@ -17,6 +17,30 @@ msgcat::mcmset he {
 # bitmap.tcl
 msgcat::mcmset he {
 
+  "Center image"
+  "מרכז תמונה"
+
+  "Flip image horizontally"
+  "להפוך תמונה אופקית"
+
+  "Flip image vertically"
+  "להפוך את התמונה בצורה אנכית"
+
+  "Move image down"
+  "הזזת התמונה למטה"
+
+  "Move image left"
+  "מעבר התמונה שמאלה"
+
+  "Move image right"
+  "להזיז ימינה תמונה"
+
+  "Move image up"
+  "לעלות תמונה"
+
+  "Rotate image 90 degrees"
+  "סובב את התמונה 90 מעלות"
+
   "Transform Tools"
   "כלים"
 
@@ -50,6 +74,9 @@ msgcat::mcmset he {
 
   "Filename already exists"
   "שם הקובץ כבר קיים"
+
+  "Image URL"
+  "URL תמונה"
 
   "Link URL"
   "כתובת URL של הקישור"
@@ -268,9 +295,6 @@ msgcat::mcmset he {
 
 # ipanel.tcl
 msgcat::mcmset he {
-
-  "Attributes"
-  "מאפיינים"
 
   "Binary"
   "בינארי"
@@ -651,6 +675,9 @@ msgcat::mcmset he {
   "Export As"
   "לייצא"
 
+  "Export Custom Themes"
+  "ערכות נושא מותאמות אישית ייצוא"
+
   "Export complete"
   "ייצוא מלאה"
 
@@ -846,6 +873,15 @@ msgcat::mcmset he {
   "Indentation"
   "הזחה"
 
+  "Insert bold formatting"
+  "הוספת עיצוב מודגש"
+
+  "Insert checklist formatting"
+  "הוספת רשימת פעולות לביצוע עיצוב"
+
+  "Insert code formatting"
+  "הכנס קוד העיצוב"
+
   "Insert command result after current line"
   "הוספת הפקודה התוצאה לאחר השורה הנוכחית"
 
@@ -858,14 +894,47 @@ msgcat::mcmset he {
   "Insert from clipboard"
   "הכנס מהלוח"
 
+  "Insert header style"
+  "הוספת סגנון כותרת עליונה:"
+
+  "Insert highlight formatting"
+  "הוספת עיצוב האר"
+
+  "Insert image formatting"
+  "הוספת תמונת עיצוב"
+
+  "Insert italics formatting"
+  "הוספת עיצוב נטוי"
+
   "Insert line above current line"
   "הוספת קו מעל השורה הנוכחית"
 
   "Insert line below current line"
   "הוסף שורה מתחת השורה הנוכחית"
 
+  "Insert link formatting"
+  "הוספת הקישור עיצוב"
+
+  "Insert ordered list formatting"
+  "הוספת רשימה מסודרת עיצוב"
+
   "Insert snippet"
   "להוסיף מקטע"
+
+  "Insert strikethrough formatting"
+  "הוספת עיצוב קו חוצה"
+
+  "Insert subscript formatting"
+  "הוספת עיצוב של כתב תחתי"
+
+  "Insert superscript formatting"
+  "הוספת עיצוב כתב עילי"
+
+  "Insert underline formatting"
+  "הוספת עיצוב קו תחתון"
+
+  "Insert unordered list formatting"
+  "הוספת עיצוב של רשימה לא מסודרים"
 
   "Install"
   "התקן"
@@ -1446,9 +1515,6 @@ msgcat::mcmset he {
   "Smart Indent"
   "כניסה חכמה"
 
-  "Snippet"
-  "גזיר"
-
   "Sort Tabs"
   "מיון כרטיסיות"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset he {
   "Wrap tag with Emmet abbreviation"
   "גלישת תג עם ראשי תבות אמט"
 
+  "formatting"
+  "עיצוב"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset he {
   "Addons"
   "הרחבות"
 
+  "Alias"
+  "כינוי"
+
   "Allow scrolling in tab bar"
   "לאפשר גלילה ברחבי סרגל הלשוניות"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset he {
   "Clipboard history depth"
   "הלוח היסטוריה עומק"
 
+  "Closing"
+  "נסגר"
+
   "Color value case"
   "ערך הצבע"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset he {
 
   "Convert to uppercase"
   "להמיר לאותיות רישיות"
+
+  "Creator"
+  "יוצר"
 
   "Curly bracket"
   "סוגר מסולסל"
@@ -1831,6 +1909,9 @@ msgcat::mcmset he {
   "Enable relative line numbering"
   "לאפשר מספור שורות היחסי"
 
+  "Enabled"
+  "מאופשר"
+
   "End-of-line character when saving"
   "תו סוף שורה בעת שמירת"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset he {
 
   "Export Settings"
   "יצא הגדרות"
+
+  "Extensions"
+  "הרחבות"
 
   "Format snippet indentation after insert"
   "כניסת מקטע בתבנית לאחר הוספה"
@@ -1860,6 +1944,9 @@ msgcat::mcmset he {
 
   "Host"
   "שרת מארח"
+
+  "Imported"
+  "יובא"
 
   "Indentation spaces"
   "הכניסה רווחים"
@@ -1905,6 +1992,9 @@ msgcat::mcmset he {
 
   "Maximum undo history (set to 0 for unlimited)"
   "ביטול מרבית ההיסטוריה (מוגדר כ- 0 עבור ללא הגבלה)"
+
+  "Menu Item"
+  "פריט תפריט"
 
   "Menu bindings"
   "תפריט איגודי"
@@ -2119,8 +2209,14 @@ msgcat::mcmset he {
   "Use single carriage return character"
   "השתמש תו return הכרכרה יחיד"
 
+  "Variable"
+  "משתנה"
+
   "Variables"
   "משתנים"
+
+  "Visible"
+  "אפשרות ראיה"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   ". שינית את ההעדפות הכללית אשר לא יהיו גלויים כי אתה כעת בתוך מושב בשם."
@@ -2198,9 +2294,6 @@ msgcat::mcmset he {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "תמונת שימוש בבורר קובץ מרוחק כדי לציין כי חיבור זה נפתח."
-
-  "Name"
-  "שם"
 
   "New Connection"
   "חיבור חדש"
@@ -2349,9 +2442,6 @@ msgcat::mcmset he {
 
   "Next Sibling"
   "אחים הבא"
-
-  "Node"
-  "צומת"
 
   "Paragraph"
   "פסקה"
@@ -2885,6 +2975,9 @@ msgcat::mcmset he {
   "Foreground text color to use for precompiler syntax."
   "צבע טקסט הקידמה לשימוש עבור תחביר precompiler."
 
+  "Foreground text color to use for readable meta syntax."
+  "צבע טקסט הקידמה לשימוש עבור תחביר meta קריא."
+
   "Foreground text color to use for selected text."
   "צבע הקידמה טקסט לשימוש עבור טקסט נבחר."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset he {
   "User Directory"
   "מדריך למשתמש"
 
-  "Value"
-  "ערך"
-
   "Value: "
   "ערך"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset he {
 
 # themes.tcl
 msgcat::mcmset he {
+
+  "Batch custom theme export completed successfully"
+  "אצווה נושא מותאמת אישית הייצוא הושלם בהצלחה"
 
   "Theme"
   "ערכת עיצוב"
@@ -3226,6 +3319,9 @@ msgcat::mcmset he {
 
   "All"
   "כל"
+
+  "Attributes"
+  "מאפיינים"
 
   "Back"
   "חזרה"
@@ -3329,11 +3425,17 @@ msgcat::mcmset he {
   "Move to Other Pane"
   "לעבור לחלונית אחרת"
 
+  "Name"
+  "שם"
+
   "New File"
   "קובץ חדש"
 
   "Next"
   "הבא"
+
+  "Node"
+  "צומת"
 
   "None"
   "ללא"
@@ -3392,6 +3494,9 @@ msgcat::mcmset he {
   "Show tab bar"
   "הצג סרגל הלשוניות"
 
+  "Snippet"
+  "גזיר"
+
   "Snippets"
   "גזירים"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset he {
 
   "Unfavorite"
   "בטל סימון כמועדף"
+
+  "Value"
+  "ערך"
 
   "Version"
   "גרסה"

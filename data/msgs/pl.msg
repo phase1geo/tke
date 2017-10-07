@@ -17,6 +17,30 @@ msgcat::mcmset pl {
 # bitmap.tcl
 msgcat::mcmset pl {
 
+  "Center image"
+  "Obraz na środku"
+
+  "Flip image horizontally"
+  "Odbicie lustrzane zdjęcia w poziomie"
+
+  "Flip image vertically"
+  "Odbicie lustrzane zdjęcia w pionie"
+
+  "Move image down"
+  "Przenieś obraz"
+
+  "Move image left"
+  "Przenieś obraz"
+
+  "Move image right"
+  "Zdjęcie z prawej"
+
+  "Move image up"
+  "Przenieś obraz"
+
+  "Rotate image 90 degrees"
+  "Obróć obrazek o 90 stopni"
+
   "Transform Tools"
   "Narzędzia transformacji"
 
@@ -50,6 +74,9 @@ msgcat::mcmset pl {
 
   "Filename already exists"
   "Nazwa pliku już istnieje"
+
+  "Image URL"
+  "Adres URL obrazka"
 
   "Link URL"
   "Adres URL"
@@ -268,9 +295,6 @@ msgcat::mcmset pl {
 
 # ipanel.tcl
 msgcat::mcmset pl {
-
-  "Attributes"
-  "Atrybuty"
 
   "Binary"
   "Binarny"
@@ -651,6 +675,9 @@ msgcat::mcmset pl {
   "Export As"
   "Eksportuj jako"
 
+  "Export Custom Themes"
+  "Eksportowanie niestandardowych motywów"
+
   "Export complete"
   "Eksportowanie zakończone."
 
@@ -846,6 +873,15 @@ msgcat::mcmset pl {
   "Indentation"
   "Wcięcia"
 
+  "Insert bold formatting"
+  "Wstawić pogrubioną czcionką"
+
+  "Insert checklist formatting"
+  "Wstaw formatowanie listy kontrolnej"
+
+  "Insert code formatting"
+  "Wstaw kod formatowania"
+
   "Insert command result after current line"
   "Wstaw wynik polecenia po bieżącym wierszu"
 
@@ -858,14 +894,47 @@ msgcat::mcmset pl {
   "Insert from clipboard"
   "Wstawianie ze schowka"
 
+  "Insert header style"
+  "Wstaw nagłówek stylu"
+
+  "Insert highlight formatting"
+  "Wstaw zaznacz formatowanie"
+
+  "Insert image formatting"
+  "Wstaw Formatowanie obrazu"
+
+  "Insert italics formatting"
+  "Wstaw formatowania kursywa"
+
   "Insert line above current line"
   "Wstaw wiersz powyżej bieżącej linii"
 
   "Insert line below current line"
   "Wstaw wiersz poniżej bieżącej linii"
 
+  "Insert link formatting"
+  "Wstaw łącze formatowanie"
+
+  "Insert ordered list formatting"
+  "Wstawianie uporządkowanej listy formatowanie"
+
   "Insert snippet"
   "Wstawianie urywków"
+
+  "Insert strikethrough formatting"
+  "Wstaw tekst przekreślony"
+
+  "Insert subscript formatting"
+  "Wstaw formatowanie w indeksie dolnym"
+
+  "Insert superscript formatting"
+  "Wstaw formatowania indeksu górnego"
+
+  "Insert underline formatting"
+  "Wstaw, podkreślenie"
+
+  "Insert unordered list formatting"
+  "Wstaw listę nieuporządkowaną formatowanie"
 
   "Install"
   "Instaluj"
@@ -1446,9 +1515,6 @@ msgcat::mcmset pl {
   "Smart Indent"
   "Inteligentnego wcięcia"
 
-  "Snippet"
-  "Urywek"
-
   "Sort Tabs"
   "Sortuj Tabs"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset pl {
   "Wrap tag with Emmet abbreviation"
   "Otocz znacznikiem z skrót Emmet"
 
+  "formatting"
+  "Formatowanie"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset pl {
   "Addons"
   "Dodatki"
 
+  "Alias"
+  "Alias"
+
   "Allow scrolling in tab bar"
   "Umożliwia przewijanie w pasku karty"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset pl {
   "Clipboard history depth"
   "Schowka historia Głębokość"
 
+  "Closing"
+  "Zamykanie"
+
   "Color value case"
   "Jeśli wartość koloru"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset pl {
 
   "Convert to uppercase"
   "Konwertuj na wielkie litery"
+
+  "Creator"
+  "Twórca"
 
   "Curly bracket"
   "Nawias klamrowy"
@@ -1831,6 +1909,9 @@ msgcat::mcmset pl {
   "Enable relative line numbering"
   "Po względnym numerację"
 
+  "Enabled"
+  "Włączone"
+
   "End-of-line character when saving"
   "Znak końca linii podczas zapisywania"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset pl {
 
   "Export Settings"
   "Eksportuj ustawienia..."
+
+  "Extensions"
+  "Rozszerzenia"
 
   "Format snippet indentation after insert"
   "Formacie fragment wcięcia po insert"
@@ -1860,6 +1944,9 @@ msgcat::mcmset pl {
 
   "Host"
   "Host"
+
+  "Imported"
+  "Zaimportowano"
 
   "Indentation spaces"
   "Spacji wcięcia"
@@ -1905,6 +1992,9 @@ msgcat::mcmset pl {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maksymalne zmiany historii (ustawiona na 0 dla nieograniczony)"
+
+  "Menu Item"
+  "Element menu"
 
   "Menu bindings"
   "Powiązania menu"
@@ -2119,8 +2209,14 @@ msgcat::mcmset pl {
   "Use single carriage return character"
   "Użyj znaku powrotu karetki pojedynczy"
 
+  "Variable"
+  "Zmienna"
+
   "Variables"
   "Zmienne"
+
+  "Visible"
+  "Widoczny/-a/-e"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Zmieniłeś preferencje globalne, które nie będą widoczne, ponieważ są obecnie w ramach sesji nazwanych."
@@ -2198,9 +2294,6 @@ msgcat::mcmset pl {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Obraz używany w pliku zdalnego selektor wskazuje, że połączenie jest otwarte."
-
-  "Name"
-  "Imię/Nick"
 
   "New Connection"
   "Nowe połączenie"
@@ -2349,9 +2442,6 @@ msgcat::mcmset pl {
 
   "Next Sibling"
   "Rodzeństwo"
-
-  "Node"
-  "Węzeł"
 
   "Paragraph"
   "Paragraf"
@@ -2885,6 +2975,9 @@ msgcat::mcmset pl {
   "Foreground text color to use for precompiler syntax."
   "Kolorem tekstu, aby użyć składni precompiler."
 
+  "Foreground text color to use for readable meta syntax."
+  "Kolor pierwszego planu tekstu na potrzeby czytelny meta składni."
+
   "Foreground text color to use for selected text."
   "Kolorem tekstu dla zaznaczonego tekstu."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset pl {
   "User Directory"
   "Katalog użytkownika"
 
-  "Value"
-  "Wartość"
-
   "Value: "
   "Wartość:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset pl {
 
 # themes.tcl
 msgcat::mcmset pl {
+
+  "Batch custom theme export completed successfully"
+  "Eksport wsadowy niestandardowy motyw, zakończona pomyślnie"
 
   "Theme"
   "Temat"
@@ -3226,6 +3319,9 @@ msgcat::mcmset pl {
 
   "All"
   "Wszystko"
+
+  "Attributes"
+  "Atrybuty"
 
   "Back"
   "Cofnij"
@@ -3329,11 +3425,17 @@ msgcat::mcmset pl {
   "Move to Other Pane"
   "Przejść do innych okienku"
 
+  "Name"
+  "Imię/Nick"
+
   "New File"
   "Nowy plik"
 
   "Next"
   "Następny"
+
+  "Node"
+  "Węzeł"
 
   "None"
   "Brak"
@@ -3392,6 +3494,9 @@ msgcat::mcmset pl {
   "Show tab bar"
   "Pasek kart"
 
+  "Snippet"
+  "Urywek"
+
   "Snippets"
   "Urywki"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset pl {
 
   "Unfavorite"
   "Usuń z ulub"
+
+  "Value"
+  "Wartość"
 
   "Version"
   "Wersja"

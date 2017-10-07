@@ -121,6 +121,15 @@ namespace eval bitmap {
     $data($w,width)  {*}$data(sb_readonly)
     $data($w,height) {*}$data(sb_readonly)
 
+    tooltip::tooltip $w.rf.mf.up     [msgcat::mc "Move image up"]
+    tooltip::tooltip $w.rf.mf.left   [msgcat::mc "Move image left"]
+    tooltip::tooltip $w.rf.mf.center [msgcat::mc "Center image"]
+    tooltip::tooltip $w.rf.mf.right  [msgcat::mc "Move image right"]
+    tooltip::tooltip $w.rf.mf.down   [msgcat::mc "Move image down"]
+    tooltip::tooltip $w.rf.mf.flipv  [msgcat::mc "Flip image vertically"]
+    tooltip::tooltip $w.rf.mf.rot    [msgcat::mc "Rotate image 90 degrees"]
+    tooltip::tooltip $w.rf.mf.fliph  [msgcat::mc "Flip image horizontally"]
+
     grid rowconfigure    $w.rf 1 -weight 1
     grid rowconfigure    $w.rf 3 -weight 1
     grid columnconfigure $w.rf 1 -weight 1

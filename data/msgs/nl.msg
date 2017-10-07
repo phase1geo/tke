@@ -17,6 +17,30 @@ msgcat::mcmset nl {
 # bitmap.tcl
 msgcat::mcmset nl {
 
+  "Center image"
+  "Afbeelding centreren"
+
+  "Flip image horizontally"
+  "Afbeelding horizontaal spiegelen"
+
+  "Flip image vertically"
+  "Afbeelding verticaal spiegelen"
+
+  "Move image down"
+  "Verplaats afbeelding"
+
+  "Move image left"
+  "Afbeelding links"
+
+  "Move image right"
+  "Afbeelding rechts"
+
+  "Move image up"
+  "Verplaats afbeelding"
+
+  "Rotate image 90 degrees"
+  "Afbeelding rechtsom draaien"
+
   "Transform Tools"
   "Transform Tools"
 
@@ -50,6 +74,9 @@ msgcat::mcmset nl {
 
   "Filename already exists"
   "Bestandsnaam bestaat al"
+
+  "Image URL"
+  "Url van de afbeelding"
 
   "Link URL"
   "URL-adreskoppeling"
@@ -268,9 +295,6 @@ msgcat::mcmset nl {
 
 # ipanel.tcl
 msgcat::mcmset nl {
-
-  "Attributes"
-  "Attributen"
 
   "Binary"
   "Binair"
@@ -651,6 +675,9 @@ msgcat::mcmset nl {
   "Export As"
   "Exporteren als"
 
+  "Export Custom Themes"
+  "Exporteren van aangepaste thema 's"
+
   "Export complete"
   "Export voltooid."
 
@@ -846,6 +873,15 @@ msgcat::mcmset nl {
   "Indentation"
   "inkerving"
 
+  "Insert bold formatting"
+  "Invoegen opmaak vet"
+
+  "Insert checklist formatting"
+  "Invoegen opmaak van controlelijst"
+
+  "Insert code formatting"
+  "Invoegen codeopmaak"
+
   "Insert command result after current line"
   "Resultaat van de opdracht invoegen na de huidige regel"
 
@@ -858,14 +894,47 @@ msgcat::mcmset nl {
   "Insert from clipboard"
   "Invoegen vanaf klembord"
 
+  "Insert header style"
+  "Kopstijl invoegen"
+
+  "Insert highlight formatting"
+  "Invoegen markeerstiftopmaak"
+
+  "Insert image formatting"
+  "Invoegen afbeelding opmaken"
+
+  "Insert italics formatting"
+  "Cursieve opmaak invoegen"
+
   "Insert line above current line"
   "lijn invoegen boven de huidige lijn"
 
   "Insert line below current line"
   "Regel onder de huidige regel invoegen"
 
+  "Insert link formatting"
+  "Invoegen opmaak van de link"
+
+  "Insert ordered list formatting"
+  "Invoegen geordende lijstopmaak"
+
   "Insert snippet"
   "snippet insert"
+
+  "Insert strikethrough formatting"
+  "Invoegen doorhalen"
+
+  "Insert subscript formatting"
+  "Invoegen van de selectie als subscript weergeven"
+
+  "Insert superscript formatting"
+  "Invoegen de opmaak superscript"
+
+  "Insert underline formatting"
+  "Invoegen van onderstreping"
+
+  "Insert unordered list formatting"
+  "Invoegen opmaak van de ongeordende lijsten"
 
   "Install"
   "Installeer"
@@ -1446,9 +1515,6 @@ msgcat::mcmset nl {
   "Smart Indent"
   "Slimme streepje"
 
-  "Snippet"
-  "Snippet"
-
   "Sort Tabs"
   "Sorteren Tabs"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset nl {
   "Wrap tag with Emmet abbreviation"
   "Wikkel tag met Emmet afkorting"
 
+  "formatting"
+  "opmaakbeschrijving"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset nl {
   "Addons"
   "Addons"
 
+  "Alias"
+  "Alias"
+
   "Allow scrolling in tab bar"
   "Laten schuiven in de tabbalk"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset nl {
   "Clipboard history depth"
   "Klembord geschiedenis diepte"
 
+  "Closing"
+  "Afsluiting"
+
   "Color value case"
   "Kleur waarde geval"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset nl {
 
   "Convert to uppercase"
   "Converteren naar hoofdletters"
+
+  "Creator"
+  "Maker"
 
   "Curly bracket"
   "accolade"
@@ -1831,6 +1909,9 @@ msgcat::mcmset nl {
   "Enable relative line numbering"
   "Inschakelen van de relatieve regelnummering"
 
+  "Enabled"
+  "Geactiveerd"
+
   "End-of-line character when saving"
   "End-of-line karakter bij het opslaan"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset nl {
 
   "Export Settings"
   "Import / Export iCalendar feeds"
+
+  "Extensions"
+  "Extensies"
 
   "Format snippet indentation after insert"
   "Indeling fragment inspringing na invoegen"
@@ -1860,6 +1944,9 @@ msgcat::mcmset nl {
 
   "Host"
   "Host"
+
+  "Imported"
+  "Geïmporteerd"
 
   "Indentation spaces"
   "Spaties voor inspringen"
@@ -1905,6 +1992,9 @@ msgcat::mcmset nl {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximale ongedaan maken geschiedenis (ingesteld op 0 voor onbeperkt)"
+
+  "Menu Item"
+  "Menu item"
 
   "Menu bindings"
   "Menu bindingen"
@@ -2119,8 +2209,14 @@ msgcat::mcmset nl {
   "Use single carriage return character"
   "Gebruik één terugloopteken"
 
+  "Variable"
+  "Variabele"
+
   "Variables"
   "Variabelen"
+
+  "Visible"
+  "Zichtbaar"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "U kunt globale voorkeuren die niet zichtbaar zijn zal omdat u zich momenteel binnen een benoemde sessie hebt gewijzigd."
@@ -2198,9 +2294,6 @@ msgcat::mcmset nl {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "De afbeelding die wordt gebruikt in een extern bestand selector om aan te geven dat er een verbinding is geopend."
-
-  "Name"
-  "Naam"
 
   "New Connection"
   "Nieuwe verbinding"
@@ -2349,9 +2442,6 @@ msgcat::mcmset nl {
 
   "Next Sibling"
   "Volgende broer of zus"
-
-  "Node"
-  "Knooppunt"
 
   "Paragraph"
   "Alinea (p)"
@@ -2885,6 +2975,9 @@ msgcat::mcmset nl {
   "Foreground text color to use for precompiler syntax."
   "Voorgrond tekstkleur te gebruiken voor precompiler syntax."
 
+  "Foreground text color to use for readable meta syntax."
+  "Voorgrond tekstkleur gebruiken voor leesbare meta-syntaxis."
+
   "Foreground text color to use for selected text."
   "Voorgrond tekstkleur te gebruiken voor geselecteerde tekst."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset nl {
   "User Directory"
   "Gebruikersmap"
 
-  "Value"
-  "Een record matching '%value%' is gevonden."
-
   "Value: "
   "Waarde:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset nl {
 
 # themes.tcl
 msgcat::mcmset nl {
+
+  "Batch custom theme export completed successfully"
+  "Batch douanethema exporteren is voltooid"
 
   "Theme"
   "Thema"
@@ -3226,6 +3319,9 @@ msgcat::mcmset nl {
 
   "All"
   "Alle"
+
+  "Attributes"
+  "Attributen"
 
   "Back"
   "Achterkant"
@@ -3329,11 +3425,17 @@ msgcat::mcmset nl {
   "Move to Other Pane"
   "Verplaatsen naar andere Pane"
 
+  "Name"
+  "Naam"
+
   "New File"
   "Nieuw bestand"
 
   "Next"
   "Volgende"
+
+  "Node"
+  "Knooppunt"
 
   "None"
   "Geen"
@@ -3392,6 +3494,9 @@ msgcat::mcmset nl {
   "Show tab bar"
   "Toon tabbalk"
 
+  "Snippet"
+  "Snippet"
+
   "Snippets"
   "Snippets"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset nl {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Value"
+  "Een record matching '%value%' is gevonden."
 
   "Version"
   "Versie"

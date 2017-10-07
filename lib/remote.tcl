@@ -52,13 +52,13 @@ namespace eval remote {
         {msgcat::mc "Image used in remote file selector to indicate that a connection is being opened."} \
         -file     [file join $::tke_dir lib images connecting.bmp] \
         -maskfile [file join $::tke_dir lib images connecting.bmp] \
-        -foreground 1
+        -foreground 2
 
       theme::register_image remote_connected bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector to indicate that a connection is opened."} \
         -file     [file join $::tke_dir lib images connected.bmp] \
         -maskfile [file join $::tke_dir lib images connected.bmp] \
-        -foreground 1
+        -foreground 2
 
       theme::register_image remote_directory bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector to indicate a folder."} \
@@ -70,31 +70,31 @@ namespace eval remote {
         {msgcat::mc "Image used in remote file selector to indicate a file."} \
         -file     [file join $::tke_dir lib images blank.bmp] \
         -maskfile [file join $::tke_dir lib images blank.bmp] \
-        -foreground 2
+        -foreground 0
 
       theme::register_image remote_back bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector for the history back button."} \
         -file     [file join $::tke_dir lib images left.bmp] \
         -maskfile [file join $::tke_dir lib images left.bmp] \
-        -foreground 1
+        -foreground 2
 
       theme::register_image remote_back_disabled bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector for the history back button."} \
         -file     [file join $::tke_dir lib images left.bmp] \
         -maskfile [file join $::tke_dir lib images left.bmp] \
-        -foreground 2
+        -foreground 0
 
       theme::register_image remote_next bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector for the history forward button."} \
         -file     [file join $::tke_dir lib images right.bmp] \
         -maskfile [file join $::tke_dir lib images right.bmp] \
-        -foreground 1
+        -foreground 2
 
       theme::register_image remote_next_disabled bitmap ttk_style background \
         {msgcat::mc "Image used in remote file selector for the history forward button."} \
         -file     [file join $::tke_dir lib images right.bmp] \
         -maskfile [file join $::tke_dir lib images right.bmp] \
-        -foreground 2
+        -foreground 0
 
       set initialized 1
 

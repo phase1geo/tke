@@ -17,6 +17,30 @@ msgcat::mcmset cs {
 # bitmap.tcl
 msgcat::mcmset cs {
 
+  "Center image"
+  "Vystředit obraz"
+
+  "Flip image horizontally"
+  "Překlopit obrázek horizontálně"
+
+  "Flip image vertically"
+  "Překlopit obrázek vertikálně"
+
+  "Move image down"
+  "Přesunout obrázek"
+
+  "Move image left"
+  "Přesunout obrázek"
+
+  "Move image right"
+  "Obrázek vpravo"
+
+  "Move image up"
+  "Přesunout obrázek"
+
+  "Rotate image 90 degrees"
+  "Rotovat obrázek o 90 stupňů"
+
   "Transform Tools"
   "Nástroje pro transformaci"
 
@@ -50,6 +74,9 @@ msgcat::mcmset cs {
 
   "Filename already exists"
   "Název souboru již existuje."
+
+  "Image URL"
+  "URL obrázku"
 
   "Link URL"
   "URL odkazu"
@@ -268,9 +295,6 @@ msgcat::mcmset cs {
 
 # ipanel.tcl
 msgcat::mcmset cs {
-
-  "Attributes"
-  "Atributy"
 
   "Binary"
   "Bilineární"
@@ -651,6 +675,9 @@ msgcat::mcmset cs {
   "Export As"
   "Exportovat jako"
 
+  "Export Custom Themes"
+  "Exportovat vlastní témata"
+
   "Export complete"
   "Export dokončen"
 
@@ -846,6 +873,15 @@ msgcat::mcmset cs {
   "Indentation"
   "Odsazení"
 
+  "Insert bold formatting"
+  "Vložení formátování tučným písmem"
+
+  "Insert checklist formatting"
+  "Vložení formátování kontrolní seznam"
+
+  "Insert code formatting"
+  "Vložení formátování kódu"
+
   "Insert command result after current line"
   "Vložit výsledek příkazu za aktuálním řádkem"
 
@@ -858,14 +894,47 @@ msgcat::mcmset cs {
   "Insert from clipboard"
   "Vložit ze schránky"
 
+  "Insert header style"
+  "Vložit styl záhlaví"
+
+  "Insert highlight formatting"
+  "Vložení formátování zvýraznění"
+
+  "Insert image formatting"
+  "Vložit obrázek formátování"
+
+  "Insert italics formatting"
+  "Vložení formátování kurzívou"
+
   "Insert line above current line"
   "Vložit řádek nad aktuální řádek"
 
   "Insert line below current line"
   "Vložit řádek pod aktuálním řádkem"
 
+  "Insert link formatting"
+  "Vložit odkaz formátování"
+
+  "Insert ordered list formatting"
+  "Vložení formátování seřazený seznam"
+
   "Insert snippet"
   "Vložit fragment"
+
+  "Insert strikethrough formatting"
+  "Vložit přeškrtnutím"
+
+  "Insert subscript formatting"
+  "Vložit formát dolního indexu"
+
+  "Insert superscript formatting"
+  "Vložení formátování jako horní index"
+
+  "Insert underline formatting"
+  "Vložit, podtržení"
+
+  "Insert unordered list formatting"
+  "Vložení formátování neuspořádaný seznam"
 
   "Install"
   "Instalovat"
@@ -1446,9 +1515,6 @@ msgcat::mcmset cs {
   "Smart Indent"
   "Chytré odsazení"
 
-  "Snippet"
-  "úryvek"
-
   "Sort Tabs"
   "Seřadit Záložky"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset cs {
   "Wrap tag with Emmet abbreviation"
   "Uzavřít do tagu se zkratkou Emmet"
 
+  "formatting"
+  "Formátovaní"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset cs {
   "Addons"
   "Addony"
 
+  "Alias"
+  "Přezdívka"
+
   "Allow scrolling in tab bar"
   "Povolit přecházení v liště"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset cs {
   "Clipboard history depth"
   "Hloubka historie schránky"
 
+  "Closing"
+  "Uzavření"
+
   "Color value case"
   "Hodnota barvy"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset cs {
 
   "Convert to uppercase"
   "Převést na velká písmena"
+
+  "Creator"
+  "Autor"
 
   "Curly bracket"
   "Složená závorka"
@@ -1831,6 +1909,9 @@ msgcat::mcmset cs {
   "Enable relative line numbering"
   "Povolit, číslování řádků relativní"
 
+  "Enabled"
+  "Povolen"
+
   "End-of-line character when saving"
   "Znak konce řádku při ukládání"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset cs {
 
   "Export Settings"
   "Exportovat nastavení"
+
+  "Extensions"
+  "Rozšíření"
 
   "Format snippet indentation after insert"
   "Odsazení fragment formát po vložení"
@@ -1860,6 +1944,9 @@ msgcat::mcmset cs {
 
   "Host"
   "Hostitel"
+
+  "Imported"
+  "Importováno"
 
   "Indentation spaces"
   "Odsazení mezer"
@@ -1905,6 +1992,9 @@ msgcat::mcmset cs {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximální zpět historie (nastavte na 0 pro neomezený počet)"
+
+  "Menu Item"
+  "Položka menu"
 
   "Menu bindings"
   "Nabídka vazby"
@@ -2119,8 +2209,14 @@ msgcat::mcmset cs {
   "Use single carriage return character"
   "Použít jednotné znakem návratu"
 
+  "Variable"
+  "Proměnlivý"
+
   "Variables"
   "Proměnné"
+
+  "Visible"
+  "Viditelné"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Změnili jste globální nastavení, které nebude viditelný, protože se v současné době v rámci relace pojmenované."
@@ -2198,9 +2294,6 @@ msgcat::mcmset cs {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Obrázek použitý v vzdálených souborů pro výběr tohoto políčka označíte, že připojení je otevřen."
-
-  "Name"
-  "Jméno"
 
   "New Connection"
   "Přidat nové připojení"
@@ -2349,9 +2442,6 @@ msgcat::mcmset cs {
 
   "Next Sibling"
   "Další sourozenec"
-
-  "Node"
-  "Uzel"
 
   "Paragraph"
   "Odstavec"
@@ -2885,6 +2975,9 @@ msgcat::mcmset cs {
   "Foreground text color to use for precompiler syntax."
   "Popředí Barva textu použít pro prekompilátorem syntaxi."
 
+  "Foreground text color to use for readable meta syntax."
+  "Barva popředí textu pro čitelné meta syntaxe."
+
   "Foreground text color to use for selected text."
   "Popředí textu barva se použije pro vybraný text."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset cs {
   "User Directory"
   "Uživatel Directory"
 
-  "Value"
-  "Hodnota"
-
   "Value: "
   "Hodnota:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset cs {
 
 # themes.tcl
 msgcat::mcmset cs {
+
+  "Batch custom theme export completed successfully"
+  "Hromadný export vlastní motiv byl úspěšně dokončen"
 
   "Theme"
   "Šablona"
@@ -3226,6 +3319,9 @@ msgcat::mcmset cs {
 
   "All"
   "Všichni"
+
+  "Attributes"
+  "Atributy"
 
   "Back"
   "Zpět"
@@ -3329,11 +3425,17 @@ msgcat::mcmset cs {
   "Move to Other Pane"
   "Přesunout do jiné tabule"
 
+  "Name"
+  "Jméno"
+
   "New File"
   "Nový soubor"
 
   "Next"
   "Další"
+
+  "Node"
+  "Uzel"
 
   "None"
   "Žádné"
@@ -3392,6 +3494,9 @@ msgcat::mcmset cs {
   "Show tab bar"
   "Zobrazovat lištu karet"
 
+  "Snippet"
+  "úryvek"
+
   "Snippets"
   "Snippet"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset cs {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Value"
+  "Hodnota"
 
   "Version"
   "Verze"

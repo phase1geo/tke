@@ -17,6 +17,30 @@ msgcat::mcmset zh {
 # bitmap.tcl
 msgcat::mcmset zh {
 
+  "Center image"
+  "图像居中"
+
+  "Flip image horizontally"
+  "水平翻转图像"
+
+  "Flip image vertically"
+  "垂直翻转图像"
+
+  "Move image down"
+  "移动图像"
+
+  "Move image left"
+  "图像左"
+
+  "Move image right"
+  "图片居右"
+
+  "Move image up"
+  "移动图像"
+
+  "Rotate image 90 degrees"
+  "图像旋转 90 度"
+
   "Transform Tools"
   "变换工具"
 
@@ -50,6 +74,9 @@ msgcat::mcmset zh {
 
   "Filename already exists"
   "文件名已经存在"
+
+  "Image URL"
+  "图片网址"
 
   "Link URL"
   "链接URL"
@@ -268,9 +295,6 @@ msgcat::mcmset zh {
 
 # ipanel.tcl
 msgcat::mcmset zh {
-
-  "Attributes"
-  "属性"
 
   "Binary"
   "二进制"
@@ -651,6 +675,9 @@ msgcat::mcmset zh {
   "Export As"
   "匯出為："
 
+  "Export Custom Themes"
+  "导出自定义主题"
+
   "Export complete"
   "导出完成"
 
@@ -846,6 +873,15 @@ msgcat::mcmset zh {
   "Indentation"
   "缩进"
 
+  "Insert bold formatting"
+  "插入加粗格式"
+
+  "Insert checklist formatting"
+  "插入清单格式"
+
+  "Insert code formatting"
+  "插入代码格式"
+
   "Insert command result after current line"
   "在当前行之后插入命令结果"
 
@@ -858,14 +894,47 @@ msgcat::mcmset zh {
   "Insert from clipboard"
   "通过剪贴板插入内容"
 
+  "Insert header style"
+  "插入标题样式"
+
+  "Insert highlight formatting"
+  "插入突出显示格式"
+
+  "Insert image formatting"
+  "插入图像格式"
+
+  "Insert italics formatting"
+  "插入斜体格式"
+
   "Insert line above current line"
   "当前行前面插入一行"
 
   "Insert line below current line"
   "插入当前行下方"
 
+  "Insert link formatting"
+  "插入链接格式"
+
+  "Insert ordered list formatting"
+  "插入排序的列表格式"
+
   "Insert snippet"
   "插入代码段"
+
+  "Insert strikethrough formatting"
+  "插入删除线格式"
+
+  "Insert subscript formatting"
+  "插入下标格式"
+
+  "Insert superscript formatting"
+  "插入上标格式"
+
+  "Insert underline formatting"
+  "插入下划线格式"
+
+  "Insert unordered list formatting"
+  "插入无序的列表格式"
 
   "Install"
   "安装"
@@ -1446,9 +1515,6 @@ msgcat::mcmset zh {
   "Smart Indent"
   "智能缩进"
 
-  "Snippet"
-  "片段"
-
   "Sort Tabs"
   "分类标签"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset zh {
   "Wrap tag with Emmet abbreviation"
   "包装与埃米特缩写标记"
 
+  "formatting"
+  "文稿格式"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset zh {
   "Addons"
   "插件"
 
+  "Alias"
+  "别名"
+
   "Allow scrolling in tab bar"
   "允许在标签栏中滚动"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset zh {
   "Clipboard history depth"
   "剪贴板历史深度"
 
+  "Closing"
+  "正在关闭"
+
   "Color value case"
   "颜色值"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset zh {
 
   "Convert to uppercase"
   "轉換為大寫"
+
+  "Creator"
+  "创建者"
 
   "Curly bracket"
   "花括号"
@@ -1831,6 +1909,9 @@ msgcat::mcmset zh {
   "Enable relative line numbering"
   "启用相对行号"
 
+  "Enabled"
+  "激活"
+
   "End-of-line character when saving"
   "行尾字符保存时"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset zh {
 
   "Export Settings"
   "导出设置"
+
+  "Extensions"
+  "扩展"
 
   "Format snippet indentation after insert"
   "格式代码段缩进后插入"
@@ -1860,6 +1944,9 @@ msgcat::mcmset zh {
 
   "Host"
   "主机"
+
+  "Imported"
+  "导入"
 
   "Indentation spaces"
   "缩进空格"
@@ -1905,6 +1992,9 @@ msgcat::mcmset zh {
 
   "Maximum undo history (set to 0 for unlimited)"
   "最大撤消历史记录 (设置为 0 表示无限制)"
+
+  "Menu Item"
+  "選單項目"
 
   "Menu bindings"
   "菜单绑定"
@@ -2119,8 +2209,14 @@ msgcat::mcmset zh {
   "Use single carriage return character"
   "使用单个回车符"
 
+  "Variable"
+  "变量"
+
   "Variables"
   "變量"
+
+  "Visible"
+  "顯示"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "你改变了全球的首选项，因为你是命名会话中当前不可见。"
@@ -2198,9 +2294,6 @@ msgcat::mcmset zh {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "在远程文件选择器中用于指示连接打开的图像。"
-
-  "Name"
-  "您的姓名"
 
   "New Connection"
   "新建连接"
@@ -2349,9 +2442,6 @@ msgcat::mcmset zh {
 
   "Next Sibling"
   "兄弟姊妹"
-
-  "Node"
-  "節點"
 
   "Paragraph"
   "段落"
@@ -2885,6 +2975,9 @@ msgcat::mcmset zh {
   "Foreground text color to use for precompiler syntax."
   "用于预编译器语法的前景文本颜色。"
 
+  "Foreground text color to use for readable meta syntax."
+  "用于可读元语法的前景文本颜色。"
+
   "Foreground text color to use for selected text."
   "要用于所选文本的前景文本颜色。"
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset zh {
   "User Directory"
   "用户目录"
 
-  "Value"
-  "數值"
-
   "Value: "
   "值:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset zh {
 
 # themes.tcl
 msgcat::mcmset zh {
+
+  "Batch custom theme export completed successfully"
+  "已成功完成的批处理自定义主题出口"
 
   "Theme"
   "主题"
@@ -3226,6 +3319,9 @@ msgcat::mcmset zh {
 
   "All"
   "所有"
+
+  "Attributes"
+  "属性"
 
   "Back"
   "返回"
@@ -3329,11 +3425,17 @@ msgcat::mcmset zh {
   "Move to Other Pane"
   "移动到另一个窗格"
 
+  "Name"
+  "您的姓名"
+
   "New File"
   "新文件"
 
   "Next"
   "下一个"
+
+  "Node"
+  "節點"
 
   "None"
   "无"
@@ -3392,6 +3494,9 @@ msgcat::mcmset zh {
   "Show tab bar"
   "显示选项栏"
 
+  "Snippet"
+  "片段"
+
   "Snippets"
   "片段"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset zh {
 
   "Unfavorite"
   "不喜欢的"
+
+  "Value"
+  "數值"
 
   "Version"
   "版本"

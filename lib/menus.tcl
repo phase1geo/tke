@@ -76,7 +76,7 @@ namespace eval menus {
   # Invokes the given index in the given menu, executing the menu's postcommand
   # if one exists.
   proc invoke {mnu index} {
-    
+
     # If the menubar is disabled, don't allow any menu invocations
     if {[.menubar entrycget 0 -state] eq "disabled"} {
       return
@@ -91,17 +91,17 @@ namespace eval menus {
     $mnu invoke $index
 
   }
-  
+
   ######################################################################
   # Sets the given state on all menus in the menubar.
   proc set_state {state} {
-    
+
     set last [.menubar index end]
-    
+
     for {set i 0} {$i <= $last} {incr i} {
       .menubar entryconfigure $i -state $state
     }
-    
+
   }
 
   ######################################################################
@@ -123,6 +123,8 @@ namespace eval menus {
 
         set mb ".menubar.tools"
         $mb add separator
+        $mb add command -label [msgcat::mc "Export Custom Themes"] -command [list themes::export_custom]
+        $mb add separator
         $mb add command -label [msgcat::mc "Start Profiling"]            -underline 0 -command "menus::start_profiling_command $mb"
         $mb add command -label [msgcat::mc "Stop Profiling"]             -underline 1 -command "menus::stop_profiling_command $mb 1" -state disabled
         $mb add command -label [msgcat::mc "Show Last Profiling Report"] -underline 5 -command "menus::show_last_profiling_report"
@@ -138,6 +140,7 @@ namespace eval menus {
         $mb add separator
         $mb add command -label [format "%s %s" [msgcat::mc "Restart"] "TKE"] -underline 0 -command "menus::restart_command"
 
+        launcher::register [make_menu_cmd "Tools" [msgcat::mc "Export Custom Themes"]]           [list themes::export_custom]
         launcher::register [make_menu_cmd "Tools" [msgcat::mc "Start profiling"]]                [list menus::start_profiling_command $mb]
         launcher::register [make_menu_cmd "Tools" [msgcat::mc "Stop profiling"]]                 [list menus::stop_profiling_command $mb 1]
         launcher::register [make_menu_cmd "Tools" [msgcat::mc "Show last profiling report"]]     [list menus::show_last_profiling_report]
@@ -1302,7 +1305,7 @@ namespace eval menus {
     ##########################
 
     set fmtstr [msgcat::mc "formatting"]
-    
+
     $mb.formatPopup add command -label [msgcat::mc "Bold"] -command [list menus::edit_format bold]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert bold formatting"]] [list menus::edit_format bold]
 
@@ -1357,9 +1360,9 @@ namespace eval menus {
 
     $mb.formatPopup add command -label [msgcat::mc "Checkbox"] -command [list menus::edit_format checkbox]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert checklist formatting"]] [list menus::edit_format checkbox]
-    
+
     $mb.formatPopup add separator
-    
+
     $mb.formatPopup add command -label [msgcat::mc "Link"] -command [list menus::edit_format link]
     launcher::register [make_menu_cmd "Edit" [msgcat::mc "Insert link formatting"]] [list menus::edit_format link]
 

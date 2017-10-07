@@ -17,6 +17,30 @@ msgcat::mcmset sv {
 # bitmap.tcl
 msgcat::mcmset sv {
 
+  "Center image"
+  "Centrera bild"
+
+  "Flip image horizontally"
+  "Vänd bilden horisontellt."
+
+  "Flip image vertically"
+  "Vänd bilden vertikalt."
+
+  "Move image down"
+  "Flytta bild"
+
+  "Move image left"
+  "Flytta bild"
+
+  "Move image right"
+  "Bilden åt Höger"
+
+  "Move image up"
+  "Flytta bild"
+
+  "Rotate image 90 degrees"
+  "Rotera bild 90 grader"
+
   "Transform Tools"
   "Transformverktyg"
 
@@ -50,6 +74,9 @@ msgcat::mcmset sv {
 
   "Filename already exists"
   "Filnamn finns redan"
+
+  "Image URL"
+  "Bild-URL"
 
   "Link URL"
   "Länk URL"
@@ -268,9 +295,6 @@ msgcat::mcmset sv {
 
 # ipanel.tcl
 msgcat::mcmset sv {
-
-  "Attributes"
-  "Attribut"
 
   "Binary"
   "Binär"
@@ -651,6 +675,9 @@ msgcat::mcmset sv {
   "Export As"
   "Exportera som"
 
+  "Export Custom Themes"
+  "Exportera anpassade teman"
+
   "Export complete"
   "Export klar."
 
@@ -846,6 +873,15 @@ msgcat::mcmset sv {
   "Indentation"
   "Indentering"
 
+  "Insert bold formatting"
+  "Infoga fetstilsformatering"
+
+  "Insert checklist formatting"
+  "Infoga checklista formatering"
+
+  "Insert code formatting"
+  "Infoga kodformatering"
+
   "Insert command result after current line"
   "Infoga kommandot resultatet efter aktuell rad"
 
@@ -858,14 +894,47 @@ msgcat::mcmset sv {
   "Insert from clipboard"
   "Infoga via urklipp"
 
+  "Insert header style"
+  "Infoga rubrik stil"
+
+  "Insert highlight formatting"
+  "Infoga höjdpunkt formatering"
+
+  "Insert image formatting"
+  "Infoga bild formatering"
+
+  "Insert italics formatting"
+  "Infoga kursiv formatering"
+
   "Insert line above current line"
   "Infoga rad ovanför aktuell rad"
 
   "Insert line below current line"
   "Infoga rad under aktuell rad"
 
+  "Insert link formatting"
+  "Infoga länk formatering"
+
+  "Insert ordered list formatting"
+  "Infoga beställda listformatering"
+
   "Insert snippet"
   "Infoga kodavsnittet"
+
+  "Insert strikethrough formatting"
+  "Infoga genomstrykning"
+
+  "Insert subscript formatting"
+  "Infoga nedsänkt formatering"
+
+  "Insert superscript formatting"
+  "Infoga upphöjd"
+
+  "Insert underline formatting"
+  "Infoga understrykningen"
+
+  "Insert unordered list formatting"
+  "Infoga oordnad lista formatering"
 
   "Install"
   "Installera"
@@ -1446,9 +1515,6 @@ msgcat::mcmset sv {
   "Smart Indent"
   "Smart strecksatsen"
 
-  "Snippet"
-  "Fragment"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset sv {
   "Wrap tag with Emmet abbreviation"
   "Linda in taggen med Emmet förkortning"
 
+  "formatting"
+  "formatering"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset sv {
   "Addons"
   "Tillägg"
 
+  "Alias"
+  "Alias"
+
   "Allow scrolling in tab bar"
   "Tillåta rullning i flikraden"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset sv {
   "Clipboard history depth"
   "Klippborden historia djup"
 
+  "Closing"
+  "Stänger"
+
   "Color value case"
   "Färg värde fall"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset sv {
 
   "Convert to uppercase"
   "Konvertera till versaler"
+
+  "Creator"
+  "Skapare"
 
   "Curly bracket"
   "klammer"
@@ -1831,6 +1909,9 @@ msgcat::mcmset sv {
   "Enable relative line numbering"
   "Aktivera relativ radnumrering"
 
+  "Enabled"
+  "Aktiverad"
+
   "End-of-line character when saving"
   "End-of-line tecken när du sparar"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset sv {
 
   "Export Settings"
   "Exportera Inställningar"
+
+  "Extensions"
+  "Tillägg"
 
   "Format snippet indentation after insert"
   "Formatet snutt indrag efter infoga"
@@ -1860,6 +1944,9 @@ msgcat::mcmset sv {
 
   "Host"
   "Host"
+
+  "Imported"
+  "Importerad"
 
   "Indentation spaces"
   "Indrag utrymmen"
@@ -1905,6 +1992,9 @@ msgcat::mcmset sv {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximal ångringshistoriken (satt till 0 för obegränsad)"
+
+  "Menu Item"
+  "Menyobjekt"
 
   "Menu bindings"
   "Meny-bindningar"
@@ -2119,8 +2209,14 @@ msgcat::mcmset sv {
   "Use single carriage return character"
   "Använda enda vagnsretur"
 
+  "Variable"
+  "Variabel"
+
   "Variables"
   "Variabler"
+
+  "Visible"
+  "Synlig"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Du har ändrat globala inställningar som inte är synliga eftersom du är för närvarande i en namngiven session."
@@ -2198,9 +2294,6 @@ msgcat::mcmset sv {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Bilden används i fjärrfilen selector för att indikera att en anslutning öppnas."
-
-  "Name"
-  "Namn"
 
   "New Connection"
   "Ny anslutning"
@@ -2349,9 +2442,6 @@ msgcat::mcmset sv {
 
   "Next Sibling"
   "Nästa syskon"
-
-  "Node"
-  "Nod"
 
   "Paragraph"
   "Stycke"
@@ -2885,6 +2975,9 @@ msgcat::mcmset sv {
   "Foreground text color to use for precompiler syntax."
   "Förgrundsfärgen text att använda för förkompilator syntax."
 
+  "Foreground text color to use for readable meta syntax."
+  "Text på förgrundsfärgen för att använda för läsbar meta syntax."
+
   "Foreground text color to use for selected text."
   "Förgrundsfärgen text ska användas för markerad text."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset sv {
   "User Directory"
   "Användarkatalog"
 
-  "Value"
-  "Värde"
-
   "Value: "
   "Värde: "
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset sv {
 
 # themes.tcl
 msgcat::mcmset sv {
+
+  "Batch custom theme export completed successfully"
+  "Batch anpassat tema export slutfördes"
 
   "Theme"
   "Tema"
@@ -3226,6 +3319,9 @@ msgcat::mcmset sv {
 
   "All"
   "ALL"
+
+  "Attributes"
+  "Attribut"
 
   "Back"
   "Tillbaka"
@@ -3329,11 +3425,17 @@ msgcat::mcmset sv {
   "Move to Other Pane"
   "Flytta till andra Pane"
 
+  "Name"
+  "Namn"
+
   "New File"
   "Ny fil"
 
   "Next"
   "Nästa"
+
+  "Node"
+  "Nod"
 
   "None"
   "Ingen"
@@ -3392,6 +3494,9 @@ msgcat::mcmset sv {
   "Show tab bar"
   "Visa flikfältet"
 
+  "Snippet"
+  "Fragment"
+
   "Snippets"
   "Utdrag"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset sv {
 
   "Unfavorite"
   "Bort från favoriter"
+
+  "Value"
+  "Värde"
 
   "Version"
   "Version"

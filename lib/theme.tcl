@@ -25,7 +25,7 @@
 namespace eval theme {
 
   variable colorizers    {keywords comments strings numbers punctuation precompile miscellaneous1 miscellaneous2 miscellaneous3}
-  variable extra_content {swatch creator website version}
+  variable extra_content {swatch creator website date}
 
   array set fields {
     type    0
@@ -363,7 +363,7 @@ namespace eval theme {
   }
 
   ######################################################################
-  # Reads the contents of the tketheme and stores the results
+  # Reads the contents of the tketheme and stores the results.
   proc read_tketheme {theme_file} {
 
     variable data
@@ -401,6 +401,11 @@ namespace eval theme {
       if {[info exists contents($item)]} {
         set data($item) $contents($item)
       }
+    }
+
+    # Set the date from either the contents of the file or the file's modification time
+    if {![info exists contents(date)]} {
+      set data(date) [file mtime $theme_file]
     }
 
     # Load the meta data
@@ -476,6 +481,7 @@ namespace eval theme {
     # Update the name and fname attributes
     set data(name)  [file rootname [file tail $theme_file]]
     set data(fname) $theme_file
+    set data(date)  [clock seconds]
 
     # Open the file for writing
     if {[catch { open $theme_file w } rc]} {
@@ -603,6 +609,7 @@ namespace eval theme {
     set data(name)    [file rootname [file tail $theme_file]]
     set data(fname)   $theme_file
     set data(creator) $creator
+    set data(date)    [clock seconds]
 
     # Setup a default swatch and clear the meta data
     set data(swatch) [list $labels(background) $labels(warning_width) $labels(foreground)]
@@ -677,12 +684,6 @@ namespace eval theme {
       return 0
     }
 
-    # Create the version number
-    if {![info exists data(version)]} {
-      set data(version) 0
-    }
-    incr data(version)
-
     # Write the contents
     if {$creator ne ""} {
       puts $rc "creator {$creator}"
@@ -690,7 +691,7 @@ namespace eval theme {
     if {$website ne ""} {
       puts $rc "website {$website}"
     }
-    puts $rc "version {$data(version)}"
+    puts $rc "date {$export_data(date)}"
     puts $rc "swatch {$export_data(swatch)}"
     foreach key [lsort [array names export_data *,*]] {
       puts $rc "$key {[lindex $export_data($key) $fields(value)]}"
@@ -911,14 +912,14 @@ namespace eval theme {
   # The valid attribution keys are:
   #   - creator
   #   - website
-  #   - version
+  #   - date
   proc get_attributions {} {
 
     variable data
 
     set attr [list]
 
-    foreach item [list creator website version] {
+    foreach item [list creator website date] {
       if {[info exists data($item)]} {
         lappend attr $item $data($item)
       }
@@ -942,7 +943,7 @@ namespace eval theme {
 
     # Gather the file attributions that are found
     array set attrs [list]
-    foreach attr [list creator website version] {
+    foreach attr [list creator website date] {
       if {[info exists contents($attr)]} {
         set attrs($attr) $contents($attr)
       }
