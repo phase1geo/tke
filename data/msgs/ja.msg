@@ -17,6 +17,30 @@ msgcat::mcmset ja {
 # bitmap.tcl
 msgcat::mcmset ja {
 
+  "Center image"
+  "画像の中央揃え"
+
+  "Flip image horizontally"
+  "イメージを水平方向に反転します。"
+
+  "Flip image vertically"
+  "イメージを垂直方向に反転します。"
+
+  "Move image down"
+  "画像を移動"
+
+  "Move image left"
+  "画像左"
+
+  "Move image right"
+  "画像右"
+
+  "Move image up"
+  "画像を移動"
+
+  "Rotate image 90 degrees"
+  "画像を 90 度回転"
+
   "Transform Tools"
   "トランスフォームツール"
 
@@ -50,6 +74,9 @@ msgcat::mcmset ja {
 
   "Filename already exists"
   "ファイル名が既に存在します。"
+
+  "Image URL"
+  "画像 URL"
 
   "Link URL"
   "リンク先URL"
@@ -268,9 +295,6 @@ msgcat::mcmset ja {
 
 # ipanel.tcl
 msgcat::mcmset ja {
-
-  "Attributes"
-  "属性"
 
   "Binary"
   "バイナリ"
@@ -651,6 +675,9 @@ msgcat::mcmset ja {
   "Export As"
   "CSV形式でエクスポート"
 
+  "Export Custom Themes"
+  "カスタム テーマをエクスポートします。"
+
   "Export complete"
   "サイト出力が完了しました。"
 
@@ -846,6 +873,15 @@ msgcat::mcmset ja {
   "Indentation"
   "字下げ"
 
+  "Insert bold formatting"
+  "太字の書式を挿入します。"
+
+  "Insert checklist formatting"
+  "チェックリスト書式を挿入します。"
+
+  "Insert code formatting"
+  "コードの書式設定を挿入します。"
+
   "Insert command result after current line"
   "現在の行の後にコマンドの結果を挿入します。"
 
@@ -858,14 +894,47 @@ msgcat::mcmset ja {
   "Insert from clipboard"
   "クリップボードからの挿入"
 
+  "Insert header style"
+  "ヘッダー スタイルを挿入します。"
+
+  "Insert highlight formatting"
+  "蛍光ペン書式を挿入します。"
+
+  "Insert image formatting"
+  "挿入画像の書式設定"
+
+  "Insert italics formatting"
+  "斜体の書式を挿入します。"
+
   "Insert line above current line"
   "現在の行の上に行を挿入します。"
 
   "Insert line below current line"
   "現在の行の下に行を挿入します。"
 
+  "Insert link formatting"
+  "リンクの書式設定を挿入します。"
+
+  "Insert ordered list formatting"
+  "順序付きリストの書式設定を挿入します。"
+
   "Insert snippet"
   "スニペットを挿入します。"
+
+  "Insert strikethrough formatting"
+  "取り消し線の書式を挿入します。"
+
+  "Insert subscript formatting"
+  "下付き文字の書式を挿入します。"
+
+  "Insert superscript formatting"
+  "上付き文字の書式を挿入します。"
+
+  "Insert underline formatting"
+  "下線の書式を挿入します。"
+
+  "Insert unordered list formatting"
+  "箇条書きの書式設定を挿入します。"
 
   "Install"
   "インストール"
@@ -1446,9 +1515,6 @@ msgcat::mcmset ja {
   "Smart Indent"
   "スマート インデント"
 
-  "Snippet"
-  "スニペット"
-
   "Sort Tabs"
   "並べタブ"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset ja {
   "Wrap tag with Emmet abbreviation"
   "エメットの略語でタグを囲む"
 
+  "formatting"
+  "서식"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset ja {
   "Addons"
   "アドオン"
 
+  "Alias"
+  "Alias"
+
   "Allow scrolling in tab bar"
   "タブ ・ バーでスクロール可能します。"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset ja {
   "Clipboard history depth"
   "クリップボードの履歴の深さ"
 
+  "Closing"
+  "交渉をまとめる"
+
   "Color value case"
   "色の値"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset ja {
 
   "Convert to uppercase"
   "大文字に変換します。"
+
+  "Creator"
+  "作成者"
 
   "Curly bracket"
   "中かっこ"
@@ -1831,6 +1909,9 @@ msgcat::mcmset ja {
   "Enable relative line numbering"
   "相対行番号の表示を有効にします。"
 
+  "Enabled"
+  "有効化"
+
   "End-of-line character when saving"
   "行の最後の文字を保存するとき"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset ja {
 
   "Export Settings"
   "エクスポートを設定"
+
+  "Extensions"
+  "追加エクステンション"
 
   "Format snippet indentation after insert"
   "形式スニペット インデント挿入後"
@@ -1860,6 +1944,9 @@ msgcat::mcmset ja {
 
   "Host"
   "ホスト"
+
+  "Imported"
+  "輸入品。"
 
   "Indentation spaces"
   "インデント スペース"
@@ -1905,6 +1992,9 @@ msgcat::mcmset ja {
 
   "Maximum undo history (set to 0 for unlimited)"
   "最大元に戻す履歴 (0 に設定無制限)"
+
+  "Menu Item"
+  "このホーム ・ ページは、ホーム ページのサイドバーのウィジェットを介してセットアップです。これは、外観 [ウィジェット] メニュー項目を介してアクセスすることができます。"
 
   "Menu bindings"
   "メニューのバインディング"
@@ -2119,8 +2209,14 @@ msgcat::mcmset ja {
   "Use single carriage return character"
   "単一のキャリッジ リターン文字を使用します。"
 
+  "Variable"
+  "変数を追加"
+
   "Variables"
   "変数"
+
+  "Visible"
+  "管理者とモデレータのみに表示されます"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "名前付きセッション内の現在、あなたは表示されません、グローバル設定を変更しました。"
@@ -2198,9 +2294,6 @@ msgcat::mcmset ja {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "接続が開かれることを示すリモート ファイル セレクターで使用する画像。"
-
-  "Name"
-  "名"
 
   "New Connection"
   "接続"
@@ -2349,9 +2442,6 @@ msgcat::mcmset ja {
 
   "Next Sibling"
   "家族構"
-
-  "Node"
-  "ノード"
 
   "Paragraph"
   "段落のテキスト範囲"
@@ -2885,6 +2975,9 @@ msgcat::mcmset ja {
   "Foreground text color to use for precompiler syntax."
   "前景テキストの色は、プリコンパイラの構文に使用します。"
 
+  "Foreground text color to use for readable meta syntax."
+  "読解可能なメタ構文を使用して前景のテキストの色。"
+
   "Foreground text color to use for selected text."
   "前景テキストの色は、選択したテキストに使用します。"
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset ja {
   "User Directory"
   "ユーザーのディレクトリ"
 
-  "Value"
-  "明度"
-
   "Value: "
   "価格:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset ja {
 
 # themes.tcl
 msgcat::mcmset ja {
+
+  "Batch custom theme export completed successfully"
+  "正常に完了したバッチのカスタム テーマのエクスポート"
 
   "Theme"
   "テーマ"
@@ -3226,6 +3319,9 @@ msgcat::mcmset ja {
 
   "All"
   "ALL"
+
+  "Attributes"
+  "属性"
 
   "Back"
   "戻る"
@@ -3329,11 +3425,17 @@ msgcat::mcmset ja {
   "Move to Other Pane"
   "他のペインに移動します"
 
+  "Name"
+  "名"
+
   "New File"
   "新規ファイル"
 
   "Next"
   "次へ"
+
+  "Node"
+  "ノード"
 
   "None"
   "なし"
@@ -3392,6 +3494,9 @@ msgcat::mcmset ja {
   "Show tab bar"
   "タブ バーを表示します。"
 
+  "Snippet"
+  "スニペット"
+
   "Snippets"
   "スニペット"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset ja {
 
   "Unfavorite"
   "気に入らない"
+
+  "Value"
+  "明度"
 
   "Version"
   "バージョン"

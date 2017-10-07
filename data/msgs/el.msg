@@ -17,6 +17,30 @@ msgcat::mcmset el {
 # bitmap.tcl
 msgcat::mcmset el {
 
+  "Center image"
+  "Εικόνα κέντρο"
+
+  "Flip image horizontally"
+  "Οριζόντια αναστροφή εικόνας"
+
+  "Flip image vertically"
+  "Κάθετη αναστροφή εικόνας"
+
+  "Move image down"
+  "Μετακίνηση της εικόνας προς τα κάτω"
+
+  "Move image left"
+  "Μετακίνηση αριστερά εικόνα"
+
+  "Move image right"
+  "Μετακίνηση προς τα δεξιά εικόνα"
+
+  "Move image up"
+  "Ανεβάσουμε εικόνας"
+
+  "Rotate image 90 degrees"
+  "Περιστροφή εικόνας κατά 90 μοίρες"
+
   "Transform Tools"
   "Εργαλεία μετασχηματισμού"
 
@@ -50,6 +74,9 @@ msgcat::mcmset el {
 
   "Filename already exists"
   "Όνομα αρχείου που υπάρχει ήδη"
+
+  "Image URL"
+  "URL εικόνας"
 
   "Link URL"
   "URL Συνδέσμου"
@@ -268,9 +295,6 @@ msgcat::mcmset el {
 
 # ipanel.tcl
 msgcat::mcmset el {
-
-  "Attributes"
-  "Χαρακτηριστικά"
 
   "Binary"
   "Δυαδικό"
@@ -651,6 +675,9 @@ msgcat::mcmset el {
   "Export As"
   "Εξαγωγή ως"
 
+  "Export Custom Themes"
+  "Προσαρμοσμένα θέματα εξαγωγής"
+
   "Export complete"
   "Η εξαγωγή ολοκληρώθηκε."
 
@@ -846,6 +873,15 @@ msgcat::mcmset el {
   "Indentation"
   "κόλπωση"
 
+  "Insert bold formatting"
+  "Τοποθετήστε τη μορφοποίηση με έντονη γραφή"
+
+  "Insert checklist formatting"
+  "Εισαγάγετε πίνακας ελέγχου μορφοποίησης"
+
+  "Insert code formatting"
+  "Εισαγωγή κώδικα μορφοποίησης"
+
   "Insert command result after current line"
   "Εισάγετε την εντολή αποτέλεσμα μετά από την τρέχουσα γραμμή"
 
@@ -858,14 +894,47 @@ msgcat::mcmset el {
   "Insert from clipboard"
   "Εισαγωγή από το Πρόχειρο"
 
+  "Insert header style"
+  "Εισάγετε επικεφαλίδα στυλ"
+
+  "Insert highlight formatting"
+  "Εισαγωγή της μορφοποίησης επισήμανσης"
+
+  "Insert image formatting"
+  "Εισαγωγή εικόνας, μορφοποίηση"
+
+  "Insert italics formatting"
+  "Εισαγωγή πλάγια μορφοποίηση"
+
   "Insert line above current line"
   "Εισαγωγή γραμμής επάνω από τρέχουσα γραμμή"
 
   "Insert line below current line"
   "Εισαγωγή γραμμής κάτω από την τρέχουσα γραμμή"
 
+  "Insert link formatting"
+  "Εισαγωγή μορφοποίηση συνδέσμων"
+
+  "Insert ordered list formatting"
+  "Εισαγωγή ταξινομημένη λίστα μορφοποίηση"
+
   "Insert snippet"
   "Εισάγετε απόσπασμα"
+
+  "Insert strikethrough formatting"
+  "Εισαγωγή μορφοποίηση διακριτής διαγραφής"
+
+  "Insert subscript formatting"
+  "Εισαγωγή μορφοποίηση δείκτη"
+
+  "Insert superscript formatting"
+  "Εισαγωγή μορφοποίηση εκθέτη"
+
+  "Insert underline formatting"
+  "Εισαγωγή μορφοποίηση υπογράμμισης"
+
+  "Insert unordered list formatting"
+  "Εισαγωγή μη ταξινομημένη λίστα μορφοποίηση"
 
   "Install"
   "Εγκατάσταση"
@@ -1446,9 +1515,6 @@ msgcat::mcmset el {
   "Smart Indent"
   "Έξυπνες περίπτωση"
 
-  "Snippet"
-  "Απόσπασμα"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset el {
   "Wrap tag with Emmet abbreviation"
   "Αναδίπλωση ετικέτας με Emmet συντομογραφία"
 
+  "formatting"
+  "μορφοτύπηση"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset el {
   "Addons"
   "Addons"
 
+  "Alias"
+  "Άλλως"
+
   "Allow scrolling in tab bar"
   "Επιτρέπουν την κύλιση στο φραγμό ετικεττών"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset el {
   "Clipboard history depth"
   "Βάθος ιστορίας Πρόχειρο"
 
+  "Closing"
+  "петырымаш"
+
   "Color value case"
   "Υπόθεση χρώμα τιμή"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset el {
 
   "Convert to uppercase"
   "Μετατροπή σε κεφαλαία"
+
+  "Creator"
+  "Δημιουργός"
 
   "Curly bracket"
   "άγκιστρο"
@@ -1831,6 +1909,9 @@ msgcat::mcmset el {
   "Enable relative line numbering"
   "Ενεργοποιήσετε την σχετική γραμμή αρίθμηση"
 
+  "Enabled"
+  "Ενεργοποιημένο"
+
   "End-of-line character when saving"
   "End-of-line χαρακτήρα κατά την αποθήκευση"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset el {
 
   "Export Settings"
   "Εξαγωγή ρυθμίσεων"
+
+  "Extensions"
+  "Επεκτάσεις"
 
   "Format snippet indentation after insert"
   "Εσοχή απόσπασμα μορφή μετά από το ένθετο"
@@ -1860,6 +1944,9 @@ msgcat::mcmset el {
 
   "Host"
   "Διακομιστής"
+
+  "Imported"
+  "Εισήχθει"
 
   "Indentation spaces"
   "Διαμόρφωση χώρων"
@@ -1905,6 +1992,9 @@ msgcat::mcmset el {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Ιστορικό αναιρέσεων μέγιστη (ορίζεται στο 0 για απεριόριστο)"
+
+  "Menu Item"
+  "меню элемент"
 
   "Menu bindings"
   "Μενού συνδέσεις"
@@ -2119,8 +2209,14 @@ msgcat::mcmset el {
   "Use single carriage return character"
   "Χρήση ενιαίου χαρακτήρα"
 
+  "Variable"
+  "Μεταβλητή"
+
   "Variables"
   "Μεταβλητές"
+
+  "Visible"
+  "Ορατός"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Έχετε αλλάξει σφαιρικές προτιμήσεις που δεν θα είναι ορατή επειδή είστε επί του παρόντος στο πλαίσιο ένα όνομα περιόδου λειτουργίας."
@@ -2198,9 +2294,6 @@ msgcat::mcmset el {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Εικόνα χρησιμοποιείται σε απομακρυσμένο αρχείο επιλογέα για να υποδείξει ότι ανοίγει μια σύνδεση."
-
-  "Name"
-  "Όνομα"
 
   "New Connection"
   "Νέα σύνδεση"
@@ -2349,9 +2442,6 @@ msgcat::mcmset el {
 
   "Next Sibling"
   "Αδέλφια"
-
-  "Node"
-  "Κόμβος"
 
   "Paragraph"
   "Παράγραφος"
@@ -2885,6 +2975,9 @@ msgcat::mcmset el {
   "Foreground text color to use for precompiler syntax."
   "Χρώμα κειμένου στο προσκήνιο να χρησιμοποιήσετε για precompiler σύνταξη."
 
+  "Foreground text color to use for readable meta syntax."
+  "Χρώμα προσκηνίου κείμενο να χρησιμοποιήσετε για αναγνώσιμη μετα σύνταξη."
+
   "Foreground text color to use for selected text."
   "Χρώμα κειμένου στο προσκήνιο για να χρησιμοποιήσετε για το επιλεγμένο κείμενο."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset el {
   "User Directory"
   "Χρήστης Κατάλογος"
 
-  "Value"
-  "Τιμή"
-
   "Value: "
   "Τιμή:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset el {
 
 # themes.tcl
 msgcat::mcmset el {
+
+  "Batch custom theme export completed successfully"
+  "Μαζική εξαγωγή προσαρμοσμένο θέμα ολοκληρώθηκε με επιτυχία"
 
   "Theme"
   "Θέμα"
@@ -3226,6 +3319,9 @@ msgcat::mcmset el {
 
   "All"
   "All"
+
+  "Attributes"
+  "Χαρακτηριστικά"
 
   "Back"
   "Πίσω"
@@ -3329,11 +3425,17 @@ msgcat::mcmset el {
   "Move to Other Pane"
   "Μετακίνηση σε άλλες Παράθυρο"
 
+  "Name"
+  "Όνομα"
+
   "New File"
   "Νέο αρχείο"
 
   "Next"
   "Επόμενο"
+
+  "Node"
+  "Κόμβος"
 
   "None"
   "Κανένα"
@@ -3392,6 +3494,9 @@ msgcat::mcmset el {
   "Show tab bar"
   "Εμφάνιση γραμμής καρτελών"
 
+  "Snippet"
+  "Απόσπασμα"
+
   "Snippets"
   "Αποσπάσματα"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset el {
 
   "Unfavorite"
   "Μη αγαπημένα"
+
+  "Value"
+  "Τιμή"
 
   "Version"
   "Έκδοση"

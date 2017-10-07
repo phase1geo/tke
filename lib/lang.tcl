@@ -29,6 +29,7 @@ lappend auto_path [file join $tke_dir lib]
 
 package require -exact tablelist 5.18
 package require http
+package require tls
 
 array set tablelistopts {
   selectbackground   RoyalBlue1
@@ -349,7 +350,7 @@ namespace eval lang {
 
     # Prepare the search string for URL usage
     set str [http::formatQuery q [$widgets(tbl) cellcget $row,str -text]]
-    set str "http://mymemory.translated.net/api/get?$str&langpair=en|$lang&de=phase1geo@gmail.com"
+    set str "https://mymemory.translated.net/api/get?$str&langpair=en|$lang&de=phase1geo@gmail.com"
 
     # Perform http request
     set token [http::geturl $str -strict 0]
@@ -471,6 +472,9 @@ if {[llength $langs] == 0} {
 
 # Use the clam theme
 ttk::style theme use clam
+
+# Allow ourselves to make https calls
+http::register https 443 tls::socket
 
 # Create the UI
 lang::create_ui

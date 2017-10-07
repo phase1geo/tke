@@ -17,6 +17,30 @@ msgcat::mcmset hu {
 # bitmap.tcl
 msgcat::mcmset hu {
 
+  "Center image"
+  "Kép közepén"
+
+  "Flip image horizontally"
+  "Kép vízszintes tükrözése"
+
+  "Flip image vertically"
+  "Megfricskáz kép függőlegesen"
+
+  "Move image down"
+  "Kép áthelyezés"
+
+  "Move image left"
+  "Kép balra"
+
+  "Move image right"
+  "Kép jobbra"
+
+  "Move image up"
+  "Kép áthelyezés"
+
+  "Rotate image 90 degrees"
+  "A kép elforgatása 90 fokkal"
+
   "Transform Tools"
   "Átalakító eszközök"
 
@@ -50,6 +74,9 @@ msgcat::mcmset hu {
 
   "Filename already exists"
   "Fájlnév már létezik"
+
+  "Image URL"
+  "Kép URL"
 
   "Link URL"
   "Hivatkozás webcíme"
@@ -268,9 +295,6 @@ msgcat::mcmset hu {
 
 # ipanel.tcl
 msgcat::mcmset hu {
-
-  "Attributes"
-  "Attribútumok"
 
   "Binary"
   "Bináris"
@@ -651,6 +675,9 @@ msgcat::mcmset hu {
   "Export As"
   "Exportálás mint"
 
+  "Export Custom Themes"
+  "Export egyéni témák"
+
   "Export complete"
   "Az exportálás befejeződött."
 
@@ -846,6 +873,15 @@ msgcat::mcmset hu {
   "Indentation"
   "benyomódás"
 
+  "Insert bold formatting"
+  "Félkövér formázás beillesztése"
+
+  "Insert checklist formatting"
+  "Feladatlista formázás beillesztése"
+
+  "Insert code formatting"
+  "Helyezze be a Kódformázás"
+
   "Insert command result after current line"
   "Aktuális sor után helyezze be a parancs eredménye"
 
@@ -858,14 +894,47 @@ msgcat::mcmset hu {
   "Insert from clipboard"
   "Beszúrás a vágólapról"
 
+  "Insert header style"
+  "Helyezze be a fejléc stílusa"
+
+  "Insert highlight formatting"
+  "Helyezze be a kijelölés formázása"
+
+  "Insert image formatting"
+  "Beszúrás, kép formázása"
+
+  "Insert italics formatting"
+  "Dőlt formázás beillesztése"
+
   "Insert line above current line"
   "Aktuális sor fölött sor beszúrása"
 
   "Insert line below current line"
   "Helyezze be a sorral lejjebb a sort"
 
+  "Insert link formatting"
+  "Beszúrás a hivatkozás-formázás"
+
+  "Insert ordered list formatting"
+  "Helyezze be a rendezett lista formázása"
+
   "Insert snippet"
   "Kódrészlet beszúrása"
+
+  "Insert strikethrough formatting"
+  "Helyezze be az áthúzás"
+
+  "Insert subscript formatting"
+  "Alsó index formázás beillesztése"
+
+  "Insert superscript formatting"
+  "Beszúrása, felső index"
+
+  "Insert underline formatting"
+  "Aláhúzás formázás beillesztése"
+
+  "Insert unordered list formatting"
+  "Helyezze be a Rendezetlen lista formázása"
 
   "Install"
   "Telepítés"
@@ -1446,9 +1515,6 @@ msgcat::mcmset hu {
   "Smart Indent"
   "Intelligens francia"
 
-  "Snippet"
-  "Töredék"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset hu {
   "Wrap tag with Emmet abbreviation"
   "Körülzárás címkével a Emmet rövidítése"
 
+  "formatting"
+  "formázás"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset hu {
   "Addons"
   "Kiegészítők"
 
+  "Alias"
+  "Álnév"
+
   "Allow scrolling in tab bar"
   "Lehetővé teszi, hogy görgetés a fülsávon"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset hu {
   "Clipboard history depth"
   "Csipeszes írótábla történelem mélység"
 
+  "Closing"
+  "Befejezés"
+
   "Color value case"
   "Szín érték esetén"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset hu {
 
   "Convert to uppercase"
   "Konvertálása nagybetűs"
+
+  "Creator"
+  "Készítő"
 
   "Curly bracket"
   "Kapcsos zárójel hozzáadása"
@@ -1831,6 +1909,9 @@ msgcat::mcmset hu {
   "Enable relative line numbering"
   "Engedélyezi a relatív sorszámozás"
 
+  "Enabled"
+  "Engedélyezve"
+
   "End-of-line character when saving"
   "A sor végén karakter mentésekor"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset hu {
 
   "Export Settings"
   "Beállítások exportálása"
+
+  "Extensions"
+  "Kiterjesztések"
 
   "Format snippet indentation after insert"
   "Formátum részlet behúzás után beszúrása"
@@ -1860,6 +1944,9 @@ msgcat::mcmset hu {
 
   "Host"
   "Munkaállomás"
+
+  "Imported"
+  "Importálva"
 
   "Indentation spaces"
   "Szóközök behúzása"
@@ -1905,6 +1992,9 @@ msgcat::mcmset hu {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximális visszavonás történelem (készlet-hoz 0 részére határtalan)"
+
+  "Menu Item"
+  "Menüelem"
 
   "Menu bindings"
   "Menü kötések"
@@ -2119,8 +2209,14 @@ msgcat::mcmset hu {
   "Use single carriage return character"
   "Használ egy kocsivissza karakternek"
 
+  "Variable"
+  "Változó"
+
   "Variables"
   "Változók"
+
+  "Visible"
+  "Láthatóság"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Globális beállítások, ami nem látható, mert jelenleg egy névvel ellátott munkameneten belül változott."
@@ -2198,9 +2294,6 @@ msgcat::mcmset hu {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Megjelenítéséhez használt kép a távoli fájl kiválasztó jelezze, hogy a kapcsolat meg van nyitva."
-
-  "Name"
-  "Név"
 
   "New Connection"
   "Új kapcsolat"
@@ -2349,9 +2442,6 @@ msgcat::mcmset hu {
 
   "Next Sibling"
   "Következő testvér"
-
-  "Node"
-  "Csomópont"
 
   "Paragraph"
   "Bekezdés"
@@ -2885,6 +2975,9 @@ msgcat::mcmset hu {
   "Foreground text color to use for precompiler syntax."
   "Előtér szöveg színe használni előfordítóra szintaxist."
 
+  "Foreground text color to use for readable meta syntax."
+  "Festőszín szöveg olvasható meta-szintaxis használata."
+
   "Foreground text color to use for selected text."
   "Előtér szöveg színe használni a kiválasztott szöveget."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset hu {
   "User Directory"
   "Saját könyvtár"
 
-  "Value"
-  "Érték"
-
   "Value: "
   "Érték:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset hu {
 
 # themes.tcl
 msgcat::mcmset hu {
+
+  "Batch custom theme export completed successfully"
+  "Tétel egyéni téma export sikeresen befejeződött"
 
   "Theme"
   "Sablon"
@@ -3226,6 +3319,9 @@ msgcat::mcmset hu {
 
   "All"
   "Minden"
+
+  "Attributes"
+  "Attribútumok"
 
   "Back"
   "Vissza"
@@ -3329,11 +3425,17 @@ msgcat::mcmset hu {
   "Move to Other Pane"
   "Áthelyezni más ablak"
 
+  "Name"
+  "Név"
+
   "New File"
   "Új fájl"
 
   "Next"
   "Következő"
+
+  "Node"
+  "Csomópont"
 
   "None"
   "Egysem"
@@ -3392,6 +3494,9 @@ msgcat::mcmset hu {
   "Show tab bar"
   "A fülek megjelenítése"
 
+  "Snippet"
+  "Töredék"
+
   "Snippets"
   "Snippets"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset hu {
 
   "Unfavorite"
   "Nem kedvenc"
+
+  "Value"
+  "Érték"
 
   "Version"
   "Verzió"

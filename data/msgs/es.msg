@@ -17,6 +17,30 @@ msgcat::mcmset es {
 # bitmap.tcl
 msgcat::mcmset es {
 
+  "Center image"
+  "Imagen central"
+
+  "Flip image horizontally"
+  "Voltea la imagen horizontalmente."
+
+  "Flip image vertically"
+  "Voltea la imagen verticalmente."
+
+  "Move image down"
+  "Mover imagen"
+
+  "Move image left"
+  "Imagen a la izquierda"
+
+  "Move image right"
+  "Imagen a derecha"
+
+  "Move image up"
+  "Mover imagen"
+
+  "Rotate image 90 degrees"
+  "Rotar imagen 90 grados"
+
   "Transform Tools"
   "Herramientas de transformación"
 
@@ -50,6 +74,9 @@ msgcat::mcmset es {
 
   "Filename already exists"
   "Nombre de archivo ya existe"
+
+  "Image URL"
+  "URL de la imagen"
 
   "Link URL"
   "Enlace URL"
@@ -268,9 +295,6 @@ msgcat::mcmset es {
 
 # ipanel.tcl
 msgcat::mcmset es {
-
-  "Attributes"
-  "Atributos"
 
   "Binary"
   "Binario"
@@ -651,6 +675,9 @@ msgcat::mcmset es {
   "Export As"
   "Exportar como"
 
+  "Export Custom Themes"
+  "Exportación de temas personalizados"
+
   "Export complete"
   "Exportación completa."
 
@@ -846,6 +873,15 @@ msgcat::mcmset es {
   "Indentation"
   "Sangría"
 
+  "Insert bold formatting"
+  "Insertar formato de negrita"
+
+  "Insert checklist formatting"
+  "Insertar formato lista de verificación"
+
+  "Insert code formatting"
+  "Insertar código de formato"
+
   "Insert command result after current line"
   "Inserte el resultado del comando después de la línea actual"
 
@@ -858,14 +894,47 @@ msgcat::mcmset es {
   "Insert from clipboard"
   "Insertar mediante el Portapapeles"
 
+  "Insert header style"
+  "Insertar estilo de encabezado"
+
+  "Insert highlight formatting"
+  "Insertar formato de resaltado"
+
+  "Insert image formatting"
+  "Insertar imagen de formato"
+
+  "Insert italics formatting"
+  "Insertar formato de cursiva"
+
   "Insert line above current line"
   "Insertar línea por encima de la línea actual"
 
   "Insert line below current line"
   "Insertar línea por debajo de la línea actual"
 
+  "Insert link formatting"
+  "Insertar enlace formato"
+
+  "Insert ordered list formatting"
+  "Insertar formato de lista ordenada"
+
   "Insert snippet"
   "Insertar fragmento de código"
+
+  "Insert strikethrough formatting"
+  "Insertar formato de tachado"
+
+  "Insert subscript formatting"
+  "Insertar formato subíndice"
+
+  "Insert superscript formatting"
+  "Insertar formato de superíndice"
+
+  "Insert underline formatting"
+  "Insertar formato de subrayado"
+
+  "Insert unordered list formatting"
+  "Insertar formato de lista desordenada"
 
   "Install"
   "Instalar"
@@ -1446,9 +1515,6 @@ msgcat::mcmset es {
   "Smart Indent"
   "Guión inteligente"
 
-  "Snippet"
-  "De fragmentos"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset es {
   "Wrap tag with Emmet abbreviation"
   "Envolver la etiqueta con la abreviatura de Emmet"
 
+  "formatting"
+  "formateo"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset es {
   "Addons"
   "Complementos"
 
+  "Alias"
+  "Alias"
+
   "Allow scrolling in tab bar"
   "Permiten el desplazamiento en la barra de pestañas"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset es {
   "Clipboard history depth"
   "Profundidad de la historia de Portapapeles"
 
+  "Closing"
+  "Cierre"
+
   "Color value case"
   "Color valor caso"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset es {
 
   "Convert to uppercase"
   "Convertir a caja alta"
+
+  "Creator"
+  "Creador"
 
   "Curly bracket"
   "Paréntesis"
@@ -1831,6 +1909,9 @@ msgcat::mcmset es {
   "Enable relative line numbering"
   "Activar numeración de línea relativa"
 
+  "Enabled"
+  "Habilitado"
+
   "End-of-line character when saving"
   "Carácter de fin de línea al guardar"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset es {
 
   "Export Settings"
   "Exportar Ajustes"
+
+  "Extensions"
+  "Extensiones"
 
   "Format snippet indentation after insert"
   "Sangría de fragmento de código de formato después de insertar"
@@ -1860,6 +1944,9 @@ msgcat::mcmset es {
 
   "Host"
   "Host"
+
+  "Imported"
+  "Importado"
 
   "Indentation spaces"
   "Espacios de indentación"
@@ -1905,6 +1992,9 @@ msgcat::mcmset es {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Historia de deshacer máximo (el valor 0 para ilimitado)"
+
+  "Menu Item"
+  "Menú Item"
 
   "Menu bindings"
   "Enlaces de menú"
@@ -2119,8 +2209,14 @@ msgcat::mcmset es {
   "Use single carriage return character"
   "Utilice el carácter de retorno del carro solo"
 
+  "Variable"
+  "Variable"
+
   "Variables"
   "Variables"
+
+  "Visible"
+  "Visible"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Han cambiado las preferencias globales que no será visibles porque está actualmente en una sesión con nombre."
@@ -2198,9 +2294,6 @@ msgcat::mcmset es {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Imagen utilizada en el selector de archivos remoto para indicar que una conexión se abre."
-
-  "Name"
-  "Nombre"
 
   "New Connection"
   "Nueva conexión"
@@ -2346,9 +2439,6 @@ msgcat::mcmset es {
 
   "Next Sibling"
   "Hermanos"
-
-  "Node"
-  "Nodo"
 
   "Paragraph"
   "Párrafo"
@@ -2882,6 +2972,9 @@ msgcat::mcmset es {
   "Foreground text color to use for precompiler syntax."
   "Color del texto primer plano que se utilizará para la sintaxis precompilador."
 
+  "Foreground text color to use for readable meta syntax."
+  "Color de texto de primer plano para sintaxis legible de meta."
+
   "Foreground text color to use for selected text."
   "Color del texto primer plano a utilizar para el texto seleccionado."
 
@@ -3145,9 +3238,6 @@ msgcat::mcmset es {
   "User Directory"
   "Directorio de usuarios"
 
-  "Value"
-  "Valor"
-
   "Value: "
   "Valor:"
 
@@ -3158,6 +3248,9 @@ msgcat::mcmset es {
 
 # themes.tcl
 msgcat::mcmset es {
+
+  "Batch custom theme export completed successfully"
+  "Exportación de tema personalizado por lotes ha completado con éxito"
 
   "Theme"
   "Tema"
@@ -3223,6 +3316,9 @@ msgcat::mcmset es {
 
   "All"
   "Todo"
+
+  "Attributes"
+  "Atributos"
 
   "Back"
   "Atrás"
@@ -3326,11 +3422,17 @@ msgcat::mcmset es {
   "Move to Other Pane"
   "Mover a otro panel"
 
+  "Name"
+  "Nombre"
+
   "New File"
   "Nuevo archivo"
 
   "Next"
   "Siguiente"
+
+  "Node"
+  "Nodo"
 
   "None"
   "Ninguno"
@@ -3389,6 +3491,9 @@ msgcat::mcmset es {
   "Show tab bar"
   "Barra de solapas"
 
+  "Snippet"
+  "De fragmentos"
+
   "Snippets"
   "Fragmentos"
 
@@ -3415,6 +3520,9 @@ msgcat::mcmset es {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Value"
+  "Valor"
 
   "Version"
   "Versión"

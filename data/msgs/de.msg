@@ -17,6 +17,30 @@ msgcat::mcmset de {
 # bitmap.tcl
 msgcat::mcmset de {
 
+  "Center image"
+  "Bild zentrieren"
+
+  "Flip image horizontally"
+  "Das Bild horizontal spiegeln."
+
+  "Flip image vertically"
+  "Das Bild vertikal spiegeln."
+
+  "Move image down"
+  "Bild verschieben"
+
+  "Move image left"
+  "Bild linksbündig"
+
+  "Move image right"
+  "Bild rechts"
+
+  "Move image up"
+  "Bild verschieben"
+
+  "Rotate image 90 degrees"
+  "Bild um 90 Grad drehen"
+
   "Transform Tools"
   "Transformiere Werkzeuge"
 
@@ -50,6 +74,9 @@ msgcat::mcmset de {
 
   "Filename already exists"
   "Dateiname ist bereits vorhanden."
+
+  "Image URL"
+  "Bild URL"
 
   "Link URL"
   "Link URL"
@@ -268,9 +295,6 @@ msgcat::mcmset de {
 
 # ipanel.tcl
 msgcat::mcmset de {
-
-  "Attributes"
-  "Attribute"
 
   "Binary"
   "Binär"
@@ -651,6 +675,9 @@ msgcat::mcmset de {
   "Export As"
   "Exportieren als"
 
+  "Export Custom Themes"
+  "Exportieren von benutzerdefinierten Designs"
+
   "Export complete"
   "Export abgeschlossen."
 
@@ -846,6 +873,15 @@ msgcat::mcmset de {
   "Indentation"
   "Einrückung"
 
+  "Insert bold formatting"
+  "Einfügen, Fettformatierung"
+
+  "Insert checklist formatting"
+  "Checkliste Formatierung einfügen"
+
+  "Insert code formatting"
+  "Fügen Sie Codeformatierung"
+
   "Insert command result after current line"
   "Befehl nach der aktuellen Zeile einfügen"
 
@@ -858,14 +894,47 @@ msgcat::mcmset de {
   "Insert from clipboard"
   "Aus Zwischenablage einfügen"
 
+  "Insert header style"
+  "Headerformat einfügen"
+
+  "Insert highlight formatting"
+  "Einfügen Formatierung markieren"
+
+  "Insert image formatting"
+  "Fügen Sie Bild formatieren"
+
+  "Insert italics formatting"
+  "Legen Sie kursiv formatieren"
+
   "Insert line above current line"
   "Zeile oberhalb der aktuellen Zeile einfügen"
 
   "Insert line below current line"
   "Fügen Sie die Zeile unterhalb der aktuellen Zeile"
 
+  "Insert link formatting"
+  "Legen Sie Linkformatierung"
+
+  "Insert ordered list formatting"
+  "Geordnete Liste Formatierung einfügen"
+
   "Insert snippet"
   "Ausschnitt einfügen"
+
+  "Insert strikethrough formatting"
+  "Legen Sie durchgestrichen formatieren"
+
+  "Insert subscript formatting"
+  "Tiefgestellten Formatierung einfügen"
+
+  "Insert superscript formatting"
+  "Hochgestellte Formatierung einfügen"
+
+  "Insert underline formatting"
+  "Legen Sie die Unterstreichung"
+
+  "Insert unordered list formatting"
+  "Ungeordnete Liste Formatierung einfügen"
 
   "Install"
   "Installieren"
@@ -1446,9 +1515,6 @@ msgcat::mcmset de {
   "Smart Indent"
   "Smart Gedankenstrich"
 
-  "Snippet"
-  "Snippet"
-
   "Sort Tabs"
   "Tabs sortieren"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset de {
   "Wrap tag with Emmet abbreviation"
   "Verpacken Sie-Tag mit Emmet Abkürzung"
 
+  "formatting"
+  "Formatisierung"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset de {
   "Addons"
   "Erweiterungen"
 
+  "Alias"
+  "Alias"
+
   "Allow scrolling in tab bar"
   "Scrollen in der Tableiste zu ermöglichen"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset de {
   "Clipboard history depth"
   "Zwischenablage-Geschichte-Tiefe"
 
+  "Closing"
+  "Abschluss"
+
   "Color value case"
   "Farbe Wert Fall"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset de {
 
   "Convert to uppercase"
   "Konvertieren Sie in Großbuchstaben"
+
+  "Creator"
+  "Ersteller"
 
   "Curly bracket"
   "Geschweifte Klammer"
@@ -1831,6 +1909,9 @@ msgcat::mcmset de {
   "Enable relative line numbering"
   "Aktivieren Sie relative Zeilennummerierung"
 
+  "Enabled"
+  "Aktiviert"
+
   "End-of-line character when saving"
   "Zeilenende Zeichen beim Speichern"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset de {
 
   "Export Settings"
   "Einstellungen exportieren"
+
+  "Extensions"
+  "Erweiterungen"
 
   "Format snippet indentation after insert"
   "Format-Snippet Einzug nach einfügen"
@@ -1860,6 +1944,9 @@ msgcat::mcmset de {
 
   "Host"
   "Serveradresse"
+
+  "Imported"
+  "Importiert"
 
   "Indentation spaces"
   "Einrückung Räume"
@@ -1905,6 +1992,9 @@ msgcat::mcmset de {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maximale rückgängig (eingestellt auf 0 für unbegrenzt)"
+
+  "Menu Item"
+  "Menüelement"
 
   "Menu bindings"
   "Menü-Bindungen"
@@ -2119,8 +2209,14 @@ msgcat::mcmset de {
   "Use single carriage return character"
   "Verwenden Sie einzelne Wagenrücklaufzeichen"
 
+  "Variable"
+  "Variable"
+
   "Variables"
   "Variablen"
+
+  "Visible"
+  "Sichtbar"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Sie haben globale Einstellungen geändert, die nicht angezeigt werden, weil Sie derzeit innerhalb einer benannten Sitzung sind."
@@ -2198,9 +2294,6 @@ msgcat::mcmset de {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Bild in Remotedatei Selektor verwendet, um anzugeben, dass eine Verbindung hergestellt wird."
-
-  "Name"
-  "Name"
 
   "New Connection"
   "Neue Verbindung"
@@ -2349,9 +2442,6 @@ msgcat::mcmset de {
 
   "Next Sibling"
   "Nächsten Sibling"
-
-  "Node"
-  "Knoten"
 
   "Paragraph"
   "Absatz"
@@ -2885,6 +2975,9 @@ msgcat::mcmset de {
   "Foreground text color to use for precompiler syntax."
   "Vordergrund Textfarbe für Precompiler Syntax verwenden."
 
+  "Foreground text color to use for readable meta syntax."
+  "Vordergrundfarbe Text lesbar Meta-Syntax verwenden."
+
   "Foreground text color to use for selected text."
   "Vordergrund Textfarbe für ausgewählten Text zu verwenden."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset de {
   "User Directory"
   "Benutzerverzeichnis"
 
-  "Value"
-  "Wert"
-
   "Value: "
   "Wert:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset de {
 
 # themes.tcl
 msgcat::mcmset de {
+
+  "Batch custom theme export completed successfully"
+  "Batch benutzerdefiniertes Design Export erfolgreich abgeschlossen"
 
   "Theme"
   "﻿Theme"
@@ -3226,6 +3319,9 @@ msgcat::mcmset de {
 
   "All"
   "Alle"
+
+  "Attributes"
+  "Attribute"
 
   "Back"
   "Zurück"
@@ -3329,11 +3425,17 @@ msgcat::mcmset de {
   "Move to Other Pane"
   "Verschieben in andere Pane"
 
+  "Name"
+  "Name"
+
   "New File"
   "Neue Datei"
 
   "Next"
   "Weiter"
+
+  "Node"
+  "Knoten"
 
   "None"
   "Ohne"
@@ -3392,6 +3494,9 @@ msgcat::mcmset de {
   "Show tab bar"
   "Tab-Leiste anzeigen"
 
+  "Snippet"
+  "Snippet"
+
   "Snippets"
   "Snippet"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset de {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Value"
+  "Wert"
 
   "Version"
   "Neue Font-Awesome-Version aktivieren"

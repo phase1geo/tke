@@ -222,10 +222,6 @@ namespace eval themes {
         -message "Unable to export theme contents"
     }
 
-    # Copy the theme file back into the user's directory so that we preserve the
-    # version number
-    file copy -force [file join $theme_dir $theme.tketheme] [file join [get_user_directory] $theme $theme.tketheme]
-
     # Get the current working directory
     set pwd [pwd]
 
@@ -244,6 +240,56 @@ namespace eval themes {
     # Delete the theme directory and its contents
     file delete {*}[glob -nocomplain -directory $theme_dir *]
     file delete -force $theme_dir
+
+  }
+
+  ######################################################################
+  # Batch exports all custom themes to a directory on the Desktop.
+  proc export_custom {{parent_win .}} {
+
+    variable files
+    variable themes_dir
+
+    # Create the themes directory
+    set output_dir [file join ~ Desktop UpdatedThemes]
+    set current    [theme::get_current_theme]
+
+    # If the output directory exists, delete it
+    if {[file exists $output_dir]} {
+      file delete -force $output_dir
+    }
+
+    # Make the output directory
+    file mkdir $output_dir
+
+    # Load each theme and then export it
+    foreach {name theme_file} [array get files] {
+
+      # Only consider themes from the themes_dir
+      if {[string compare -length [string length $themes_dir] $theme_file $themes_dir] != 0} {
+        continue
+      }
+
+      # Initialize some variables
+      set license [file join [file dirname $theme_file] LICENSE]
+
+      # Load the theme
+      theme::read_tketheme $theme_file
+
+      # Export the theme to the output directory
+      array set attrs [list creator "" website "" date ""]
+      array set attrs [theme::get_attributions]
+
+      # Export the loaded theme
+      export $parent_win $name $output_dir $attrs(creator) $attrs(website) $license
+
+    }
+
+    # Restore the theme namespace with the current theme contents
+    theme::load_theme $files($current)
+
+    # Tell the user that the export was successful
+    gui::set_info_message [msgcat::mc "Batch custom theme export completed successfully"]
 
   }
 
@@ -298,12 +344,12 @@ namespace eval themes {
   }
 
   ######################################################################
-  # Returns the creator/version information from the file in array format.
+  # Returns the creator, website and/or date information from the file in array format.
   proc get_attributions {name} {
 
     variable files
 
-    array set attrs [list creator "" version "" website ""]
+    array set attrs [list creator "" website "" date ""]
 
     if {[info exists files($name)]} {
       array set attrs [theme::get_file_attributions $files($name)]

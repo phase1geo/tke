@@ -17,6 +17,30 @@ msgcat::mcmset da {
 # bitmap.tcl
 msgcat::mcmset da {
 
+  "Center image"
+  "Centrer billede"
+
+  "Flip image horizontally"
+  "Spejlvend billedet vandret"
+
+  "Flip image vertically"
+  "Spejlvende billedet lodret"
+
+  "Move image down"
+  "Flyt billedet ned"
+
+  "Move image left"
+  "Flyt billedet venstre"
+
+  "Move image right"
+  "Billede til højre"
+
+  "Move image up"
+  "Flytte billedet"
+
+  "Rotate image 90 degrees"
+  "Rotér billede 90 grader"
+
   "Transform Tools"
   "Transform Værktøjer"
 
@@ -50,6 +74,9 @@ msgcat::mcmset da {
 
   "Filename already exists"
   "Filnavnet findes allerede"
+
+  "Image URL"
+  "Billede URL"
 
   "Link URL"
   "Link URL"
@@ -268,9 +295,6 @@ msgcat::mcmset da {
 
 # ipanel.tcl
 msgcat::mcmset da {
-
-  "Attributes"
-  "Attributter"
 
   "Binary"
   "Bilineær"
@@ -651,6 +675,9 @@ msgcat::mcmset da {
   "Export As"
   "Eksportér som"
 
+  "Export Custom Themes"
+  "Eksportere brugerdefineret temaer"
+
   "Export complete"
   "Eksport færdig."
 
@@ -846,6 +873,15 @@ msgcat::mcmset da {
   "Indentation"
   "gennemtryk"
 
+  "Insert bold formatting"
+  "Indsæt fed formatering"
+
+  "Insert checklist formatting"
+  "Indsæt tjekliste formatering"
+
+  "Insert code formatting"
+  "Indsæt kodeformatering"
+
   "Insert command result after current line"
   "Indsæt kommando resultatet efter den aktuelle linje"
 
@@ -858,14 +894,47 @@ msgcat::mcmset da {
   "Insert from clipboard"
   "Indsætte fra Udklipsholder"
 
+  "Insert header style"
+  "Indsæt sidehoved stil"
+
+  "Insert highlight formatting"
+  "Indsæt fremhæve formatering"
+
+  "Insert image formatting"
+  "Indsæt billede formatering"
+
+  "Insert italics formatting"
+  "Indsæt kursiv formatering"
+
   "Insert line above current line"
   "Indsæt linje over nuværende linje"
 
   "Insert line below current line"
   "Indsæt linjen under aktuel linje"
 
+  "Insert link formatting"
+  "Indsæt link formatering"
+
+  "Insert ordered list formatting"
+  "Indsæt bestilt listeformatering"
+
   "Insert snippet"
   "Indsæt kodestykket"
+
+  "Insert strikethrough formatting"
+  "Indsæt gennemstreget formatering"
+
+  "Insert subscript formatting"
+  "Indsæt sænket skrift"
+
+  "Insert superscript formatting"
+  "Indsæt hævet skrift"
+
+  "Insert underline formatting"
+  "Indsæt understregning formatering"
+
+  "Insert unordered list formatting"
+  "Indsæt uordnet listeformatering"
 
   "Install"
   "Installer"
@@ -1446,9 +1515,6 @@ msgcat::mcmset da {
   "Smart Indent"
   "Smart led"
 
-  "Snippet"
-  "Snippet"
-
   "Sort Tabs"
   "Sort Tabs"
 
@@ -1596,6 +1662,9 @@ msgcat::mcmset da {
   "Wrap tag with Emmet abbreviation"
   "Wrap tag med Emmet forkortelse"
 
+  "formatting"
+  "formatere"
+
 }
 
 # plugins.tcl
@@ -1672,6 +1741,9 @@ msgcat::mcmset da {
   "Addons"
   "Addons"
 
+  "Alias"
+  "Kaldenavn (alias)"
+
   "Allow scrolling in tab bar"
   "Giver mulighed for rulning i fanebjælken"
 
@@ -1738,6 +1810,9 @@ msgcat::mcmset da {
   "Clipboard history depth"
   "Clipboard historie dybde"
 
+  "Closing"
+  "Lukker"
+
   "Color value case"
   "Farven værdi sag"
 
@@ -1752,6 +1827,9 @@ msgcat::mcmset da {
 
   "Convert to uppercase"
   "Konvertere til store bogstaver"
+
+  "Creator"
+  "Skaber"
 
   "Curly bracket"
   "tuborgklamme"
@@ -1831,6 +1909,9 @@ msgcat::mcmset da {
   "Enable relative line numbering"
   "Aktivere relative linjenummerering"
 
+  "Enabled"
+  "Aktiveret"
+
   "End-of-line character when saving"
   "End-of-line karakter når du gemmer"
 
@@ -1839,6 +1920,9 @@ msgcat::mcmset da {
 
   "Export Settings"
   "Indstillinger for REST-eksport"
+
+  "Extensions"
+  "Udvidelser"
 
   "Format snippet indentation after insert"
   "Format snippet indrykning efter Indsæt"
@@ -1860,6 +1944,9 @@ msgcat::mcmset da {
 
   "Host"
   "Arrangør"
+
+  "Imported"
+  "Importeret"
 
   "Indentation spaces"
   "Indrykning rum"
@@ -1905,6 +1992,9 @@ msgcat::mcmset da {
 
   "Maximum undo history (set to 0 for unlimited)"
   "Maksimale Fortryd historie (sat til 0 for ubegrænset)"
+
+  "Menu Item"
+  "menuindgang"
 
   "Menu bindings"
   "Menuen bindinger"
@@ -2119,8 +2209,14 @@ msgcat::mcmset da {
   "Use single carriage return character"
   "Bruge enkelt vognreturtegn"
 
+  "Variable"
+  "Variabel"
+
   "Variables"
   "Variabler"
+
+  "Visible"
+  "Synlig"
 
   "You have changed global preferences which will not be visible because you are currently within a named session."
   "Du har ændret globale indstillinger, der ikke vil være synlig, fordi du er i øjeblikket i en navngivet session."
@@ -2198,9 +2294,6 @@ msgcat::mcmset da {
 
   "Image used in remote file selector to indicate that a connection is opened."
   "Billedet i remote arkivvælgeren til at angive, at en forbindelse åbnes."
-
-  "Name"
-  "Navn"
 
   "New Connection"
   "Ny forbindelse"
@@ -2349,9 +2442,6 @@ msgcat::mcmset da {
 
   "Next Sibling"
   "søskende"
-
-  "Node"
-  "Node"
 
   "Paragraph"
   "Paragraphs"
@@ -2885,6 +2975,9 @@ msgcat::mcmset da {
   "Foreground text color to use for precompiler syntax."
   "Forgrund tekstfarve bruge til præ-compileren syntaks."
 
+  "Foreground text color to use for readable meta syntax."
+  "Forgrundsfarven tekst til brug for læsbar meta syntaks."
+
   "Foreground text color to use for selected text."
   "Forgrund tekstfarve til at bruge den valgte tekst."
 
@@ -3148,9 +3241,6 @@ msgcat::mcmset da {
   "User Directory"
   "User Directory"
 
-  "Value"
-  "Værdi"
-
   "Value: "
   "Værdi:"
 
@@ -3161,6 +3251,9 @@ msgcat::mcmset da {
 
 # themes.tcl
 msgcat::mcmset da {
+
+  "Batch custom theme export completed successfully"
+  "Batch brugerdefinerede tema eksport fuldført"
 
   "Theme"
   "Tema"
@@ -3226,6 +3319,9 @@ msgcat::mcmset da {
 
   "All"
   "Alle"
+
+  "Attributes"
+  "Attributter"
 
   "Back"
   "Tillbage"
@@ -3329,11 +3425,17 @@ msgcat::mcmset da {
   "Move to Other Pane"
   "Flytter til andre Pane"
 
+  "Name"
+  "Navn"
+
   "New File"
   "Ny fil"
 
   "Next"
   "Næste"
+
+  "Node"
+  "Node"
 
   "None"
   "Ingen"
@@ -3392,6 +3494,9 @@ msgcat::mcmset da {
   "Show tab bar"
   "Vis tab-linje"
 
+  "Snippet"
+  "Snippet"
+
   "Snippets"
   "Snippets"
 
@@ -3418,6 +3523,9 @@ msgcat::mcmset da {
 
   "Unfavorite"
   "Unfavorite"
+
+  "Value"
+  "Værdi"
 
   "Version"
   "Version"
