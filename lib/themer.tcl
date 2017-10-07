@@ -1398,10 +1398,12 @@ namespace eval themer {
       mono {
         $data(widgets,image_mb)    configure -text [msgcat::mc "One-Color Bitmap"]
         $data(widgets,image_mf_bm) configure -swatches [theme::swatch_do get] -background $base_color
-        if {[info exists value_array(dat)]} {
-          bitmap::set_from_info $data(widgets,image_mf_bm) [array get value_array]
-          if {$orig_value eq ""} {
-            handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
+        catch {
+          if {[info exists value_array(dat)]} {
+            bitmap::set_from_info $data(widgets,image_mf_bm) [array get value_array]
+            if {$orig_value eq ""} {
+              handle_bitmap_changed [bitmap::get_info $data(widgets,image_mf_bm)]
+            }
           }
         }
         pack $data(widgets,image_mf) -padx 2 -pady 2
@@ -1409,10 +1411,12 @@ namespace eval themer {
       dual {
         $data(widgets,image_mb)    configure -text [msgcat::mc "Two-Color Bitmap"]
         $data(widgets,image_df_bm) configure -swatches [theme::swatch_do get] -background $base_color
-        if {[info exists value_array(dat)]} {
-          bitmap::set_from_info $data(widgets,image_df_bm) [array get value_array]
-          if {$orig_value eq ""} {
-            handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
+        catch {
+          if {[info exists value_array(dat)]} {
+            bitmap::set_from_info $data(widgets,image_df_bm) [array get value_array]
+            if {$orig_value eq ""} {
+              handle_bitmap_changed [bitmap::get_info $data(widgets,image_df_bm)]
+            }
           }
         }
         pack $data(widgets,image_df) -padx 2 -pady 2
