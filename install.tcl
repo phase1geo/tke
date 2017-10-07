@@ -243,7 +243,7 @@ if {[file exists [set app_dir [file join / usr share applications]]]} {
     puts $rc "Type=Application"
     puts $rc "Comment=Advanced code editor"
     puts $rc "Categories=Programming;Development;Utility;TextEditor"
-    puts $rc "GenericName=Programming Text Editor"
+    puts $rc "GenericName=Text Editor"
     puts $rc "MimeTypes=text/plain;text/html;text/css;text/x-script.csh;text/x-fortran;text/x-java-source;text/javascript;text/x-pascal;text/pascal;text/x-script.python;text/x-asm;text/xml;text/x-script.tcl"
     close $rc
     puts "done."
