@@ -292,7 +292,7 @@ namespace eval gui {
     bind $widgets(fif_close)         <Key-space> [list set gui::user_exit_status 0]
 
     # Make the fif_in field a drop target
-    make_drop_target $widgets(fif_in) tokenentry
+    make_drop_target $widgets(fif_in) tokenentry -types {files dirs}
 
     grid columnconfigure $widgets(fif) 1 -weight 1
     grid $widgets(fif).lf    -row 0 -column 0 -sticky ew -pady 2
@@ -4674,32 +4674,93 @@ namespace eval gui {
   ######################################################################
   # Adds the necessary bindings to make the given text/entry widget a drop
   # target for TkDND.  Type should be set to text or entry.
-  proc make_drop_target {win type} {
+  proc make_drop_target {win type args} {
+
+    array set opts {
+      -types {files dirs text}
+      -force 0
+    }
+    array set opts $args
+
+    set types [list]
+    if {[lsearch $opts(-types) *s]   != -1} { lappend types DND_Files }
+    if {[lsearch $opts(-types) text] != -1} { lappend types DND_Text }
 
     # Make ourselves a drop target (if Tkdnd is available)
     catch {
 
-      tkdnd::drop_target register $win [list DND_Files DND_Text]
+      tkdnd::drop_target register $win $types
 
-      bind $win <<DropEnter>>      [list gui::handle_${type}_drop_enter %W %a %b]
-      bind $win <<DropLeave>>      [list gui::handle_${type}_drop_leave %W]
-      bind $win <<Drop:DND_Files>> [list gui::handle_${type}_drop %W %A %m 0 %D]
-      bind $win <<Drop:DND_Text>>  [list gui::handle_${type}_drop %W %A %m 1 %D]
+      bind $win <<DropEnter>>      [list gui::handle_drop_enter %W $type %a %b $opts(-force)]
+      bind $win <<DropLeave>>      [list gui::handle_drop_leave %W $type]
+      bind $win <<Drop:DND_Files>> [list gui::handle_drop %W $type %A %m 0 %D $opts(-types)]
+      bind $win <<Drop:DND_Text>>  [list gui::handle_drop %W $type %A %m 1 %D $opts(-types)]
 
     }
 
   }
 
   ######################################################################
+  # Front-end handler for the drop_enter method.
+  proc handle_drop_enter {win type actions buttons force} {
+
+    if {!$force && ([$win cget -state] ne "normal")} {
+      return "refuse_drop"
+    }
+
+    if {[catch { handle_${type}_drop_enter $win $actions $buttons } rc] || ($rc == 0)} {
+      return "refuse_drop"
+    }
+
+    return "link"
+
+  }
+
+  ######################################################################
+  # Front-end handler for the drop method.
+  proc handle_drop {win type actions modifiers dtype data types} {
+
+    # If we are attempting to drop a file, check to see if it is the proper type
+    if {$dtype == 0} {
+      set tdata [list]
+      set files [expr {[lsearch $types files] != -1}]
+      set dirs  [expr {[lsearch $types dirs]  != -1}]
+      foreach item $data {
+        if {($files && [file isfile $item]) || ($dirs && [file isdirectory $item])} {
+          lappend tdata $item
+        }
+      }
+      set data $tdata
+    }
+
+    if {$data ne ""} {
+      catch { handle_${type}_drop $win $actions $modifiers $dtype $data {*}[array get opts] }
+    }
+
+    catch { handle_${type}_drop_leave $win }
+
+    return "link"
+
+  }
+
+  ######################################################################
+  # Front-end handler for the drop leave method.
+  proc handle_drop_leave {win type} {
+
+    catch { handle_${type}_drop_leave $win }
+
+  }
+
+  ######################################################################
   # Handles a drag-and-drop enter/position event.  Draws UI to show that
   # the file drop request would be excepted or rejected.
-  proc handle_text_drop_enter {txt actions buttons} {
+  proc handle_text_drop_enter {txt actions buttons args} {
 
     get_info $txt txt readonly lock diff
 
     # If the file is readonly, refuse the drop
     if {$readonly || $lock || $diff} {
-      return "refuse_drop"
+      return 0
     }
 
     # Make sure the text widget has the focus
@@ -4708,13 +4769,13 @@ namespace eval gui {
     # Set the highlight color to green
     ctext::set_border_color $txt green
 
-    return "link"
+    return 1
 
   }
 
   ######################################################################
   # Called when the user drags a droppable item over the given entry widget.
-  proc handle_entry_drop_enter {win actions buttons} {
+  proc handle_entry_drop_enter {win actions buttons args} {
 
     # Make sure that the text window has the focus
     focus -force $win
@@ -4722,22 +4783,21 @@ namespace eval gui {
     # Cause the entry field to display that it can accept the data
     $win state alternate
 
-    return "link"
+    return 1
 
   }
 
   ######################################################################
   # Indicates that an item can be dropped in the tokentry.
-  proc handle_tokenentry_drop_enter {win actions buttons} {
+  proc handle_tokenentry_drop_enter {win actions buttons args} {
 
     # Display the highlight color
     $win configure -highlightbackground green -highlightcolor green
-    # $win configure -background green
 
     # Make sure the entry received focus
     focus -force $win
 
-    return "link"
+    return 1
 
   }
 
@@ -4763,18 +4823,17 @@ namespace eval gui {
   proc handle_tokenentry_drop_leave {win} {
 
     $win configure -highlightbackground white -highlightcolor white
-    # $win configure -background white
 
   }
-  
+
   ######################################################################
   # If the editing buffer has formatting support for links/images, adjusts
   # the supplied data to be formatted.
   proc format_dropped_data {txt pdata pcursor} {
-    
+
     upvar $pdata   data
     upvar $pcursor cursor
-    
+
     # Get the formatting information for the current editing buffer
     array set formatting [syntax::get_formatting $txt]
 
@@ -4785,7 +4844,7 @@ namespace eval gui {
         set cursor  [string first \{TEXT\} $pattern]
         set data    [string map [list \{REF\} $data \{TEXT\} {}] $pattern]
       }
-      
+
     # Otherwise, if the data looks like a URL reference, change the data to a
     # link if we can
     } elseif {[utils::is_url $data]} {
@@ -4795,35 +4854,35 @@ namespace eval gui {
         set data    [string map [list \{REF\} $data \{TEXT\} {}] $pattern]
       }
     }
-    
+
   }
 
   ######################################################################
   # Handles a drop event.  Adds the given files/directories to the sidebar.
-  proc handle_text_drop {txt action modifier type data} {
+  proc handle_text_drop {txt action modifier dtype data args} {
 
     gui::get_info $txt txt fileindex
 
     # If the data is text or the Alt key modifier is held during the drop, insert the data at the
     # current insertion point
-    if {[plugins::handle_on_drop $fileindex $type $data]} {
+    if {[plugins::handle_on_drop $fileindex $dtype $data]} {
       # Do nothing
 
     # If we are inserting text or the file name, do that now
-    } elseif {$type || ($modifier eq "alt")} {
-      
+    } elseif {$dtype || ($modifier eq "alt")} {
+
       set cursor 0
-      
+
       # Attempt to format the data
       format_dropped_data $txt data cursor
-      
+
       # Insert the data
       if {[multicursor::enabled $txt.t]} {
         multicursor::insert $txt.t $data
       } else {
         $txt insert insert $data
       }
-      
+
       # If we need to adjust the cursor(s) do it now.
       if {$cursor != 0} {
         # TBD
@@ -4847,40 +4906,40 @@ namespace eval gui {
       }
     }
 
-    # Indicate that the drop event has completed
-    handle_text_drop_leave $txt
-
-    return "link"
-
   }
 
   ######################################################################
   # Called if the user drops the given data into the entry field.  If the
   # data is text, insert the text at the current insertion point.  If the
   # data is a file, insert the filename at the current insertion point.
-  proc handle_entry_drop {win action modifier type data} {
+  proc handle_entry_drop {win action modifier dtype data args} {
+
+    # We are not going to allow
+    if {($dtype == 0) && ([llength $data] > 1)} {
+      return
+    }
+
+    # Get the state before the drop
+    set state [$win cget -state]
+
+    # Allow the entry field to be modified and clear the field
+    $win configure -state normal
+    $win delete 0 end
 
     # Insert the information
-    $win insert insert $data
+    $win insert insert {*}$data
 
-    # Indicate that the drop event has completed
-    handle_entry_drop_leave $win
-
-    return "link"
+    # Return the state of the entry field
+    $win configure -state $state
 
   }
 
   ######################################################################
   # Called if the user drops the given data into the tokenentry field.
-  proc handle_tokenentry_drop {win action modifier type data} {
+  proc handle_tokenentry_drop {win action modifier dtype data args} {
 
     # Insert the information
     $win tokeninsert end $data
-
-    # Indicate that the drop event has completed
-    handle_tokenentry_drop_leave $win
-
-    return "link"
 
   }
 
