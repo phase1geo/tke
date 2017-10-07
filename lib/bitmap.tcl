@@ -97,7 +97,7 @@ namespace eval bitmap {
     grid columnconfigure $w.rf.mf 4 -weight 1
     grid [ttk::button $w.rf.mf.up     -style BButton -text "\u25b2" -command [list bitmap::move $w up]]         -row 0 -column 2 -sticky news -padx 2 -pady 2
     grid [ttk::button $w.rf.mf.left   -style BButton -text "\u25c0" -command [list bitmap::move $w left]]       -row 1 -column 1 -sticky news -padx 2 -pady 2
-    grid [ttk::button $w.rf.mf.center -style BButton -text "\u2b1b" -command [list bitmap::move $w center]]     -row 1 -column 2 -sticky news -padx 2 -pady 2
+    grid [ttk::button $w.rf.mf.center -style BButton -text "\u25fc" -command [list bitmap::move $w center]]     -row 1 -column 2 -sticky news -padx 2 -pady 2
     grid [ttk::button $w.rf.mf.right  -style BButton -text "\u25b6" -command [list bitmap::move $w right]]      -row 1 -column 3 -sticky news -padx 2 -pady 2
     grid [ttk::button $w.rf.mf.down   -style BButton -text "\u25bc" -command [list bitmap::move $w down]]       -row 2 -column 2 -sticky news -padx 2 -pady 2
     grid [ttk::button $w.rf.mf.flipv  -style BButton -text "\u2b0c" -command [list bitmap::flip $w vertical]]   -row 3 -column 1 -sticky news -padx 2 -pady 2
@@ -462,7 +462,7 @@ namespace eval bitmap {
   proc parse_bmp {bmp_str} {
 
     array set bmp_data [list]
-    
+
     # Parse out the width and height
     if {[regexp {#define\s+\w+\s+(\d+).*#define\s+\w+\s+(\d+).*\{(.*)\}} [string map {\n { }} $bmp_str] -> bmp_data(width) bmp_data(height) values]} {
       if {$bmp_data(width) > 32} {
@@ -604,35 +604,35 @@ namespace eval bitmap {
     }
 
   }
-  
+
   ######################################################################
   # Exports the current bitmap information to a file.  The value of type
   # can be 'data' or 'mask'.
   proc export {w type} {
-    
+
     # Prompt the user for a BMP filename to save to
     if {[set fname [tk_getSaveFile -parent $w -filetypes {{{Bitmap files} {.bmp}}}]] ne ""} {
-      
+
       # Open the file for writing
       if {[catch { open $fname w } rc]} {
         return -code error "Unable to open $fname for writing"
       }
-      
+
       # Get the bitmap information
       array set info [get_info $w]
-      
+
       # Write the information
       if {$type eq "data"} {
         puts $rc $info(dat)
       } else {
         puts $rc $info(msk)
       }
-      
+
       # Close the file
       close $rc
-      
+
     }
-    
+
   }
 
   ######################################################################
@@ -724,13 +724,13 @@ namespace eval bitmap {
     event generate $w <<BitmapChanged>> -data [array get info]
 
   }
-  
+
   ######################################################################
   # Flips the image horizontally or vertically.
   proc flip {w orient} {
-    
+
     variable data
-    
+
     for {set i 0} {$i < $data($w,-height)} {incr i} { lappend rows $i }
     for {set i 0} {$i < $data($w,-width)}  {incr i} { lappend cols $i }
 
@@ -765,25 +765,25 @@ namespace eval bitmap {
         }
       }
     }
-    
+
     # Update the preview
     array set info [get_info $w]
     $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
 
     # Generate the event
     event generate $w <<BitmapChanged>> -data [array get info]
-    
+
   }
-  
+
   ######################################################################
   # Rotates the image by 90 degrees.
   proc rotate {w} {
-    
+
     variable data
-    
+
     for {set i 0} {$i < $data($w,-height)} {incr i} { lappend rows $i }
     for {set i 0} {$i < $data($w,-width)}  {incr i} { lappend cols $i }
-    
+
     # Copy the image to a source array and clear the destination
     foreach row $rows {
       set src_row [list]
@@ -793,7 +793,7 @@ namespace eval bitmap {
       }
       lappend src $src_row
     }
-    
+
     foreach col $cols src_row $rows {
       if {($col eq "") || ($src_row eq "")} {
         return
@@ -805,14 +805,14 @@ namespace eval bitmap {
         $data($w,grid) itemconfigure $data($w,$row,$col) {*}[lindex $src $src_row $src_col]
       }
     }
-    
+
     # Update the preview
     array set info [get_info $w]
     $data($w,preview) configure -data $info(dat) -maskdata $info(msk)
 
     # Generate the event
     event generate $w <<BitmapChanged>> -data [array get info]
-    
+
   }
 
 }
