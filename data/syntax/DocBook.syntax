@@ -96,5 +96,14 @@ formatting
   header4       {word <sect4>{TEXT}</sect4>}
   header5       {word <sect5>{TEXT}</sect5>}
   ordered       {word <listitem>{TEXT}</listitem>}
-  unordered     {line <listitem>{TEXT}</listitem>}
+  unordered     {word <listitem>{TEXT}</listitem>}
+  link          {word {<link linkend="{REF}" linkend="{TEXT}"/>}}
+  image         {word {<mediaobject>
+    <imageobject>
+      <imagedata fileref="{REF}"/>
+    </imageobject>
+    <textobject>
+      <alt>{TEXT}</alt>
+    </textobject>
+  </mediaobject>}}
 }

@@ -2272,13 +2272,17 @@ namespace eval edit {
             if {($last eq "") || [$txtt compare "$start linestart" != "$last linestart"]} {
               while {[$txtt compare $start < $end]} {
                 set oldstr [$txtt get "$start linestart" "$start lineend"]
-                $txtt replace "$start linestart" "$start lineend" [string map [list \{TEXT\} $oldstr] $pattern]
+                set newstr [string map [list \{TEXT\} $oldstr] $pattern]
+                $txtt replace "$start linestart" "$start lineend" $newstr
                 if {$oldstr eq ""} {
                   if {($ranges_len == 2) && [$txtt compare $start+1l >= $end]} {
                     $txtt mark set insert "$start linestart+${textpos}c"
                   } else {
                     multicursor::add_cursor $txtt "$start linestart+${textpos}c"
                   }
+                }
+                if {[string first \n $newstr]} {
+                  indent::format_text $txtt "$start linestart" "$start linestart+[string length $newstr]c" 0
                 }
                 set last  $start
                 set start [$txtt index "$start+1l"]
@@ -2288,13 +2292,17 @@ namespace eval edit {
         } else {
           foreach {end start} [lreverse $ranges] {
             set oldstr [$txtt get $start $end]
-            $txtt replace $start $end [string map [list \{TEXT\} $oldstr] $pattern]
+            set newstr [string map [list \{TEXT\} $oldstr] $pattern]
+            $txtt replace $start $end $newstr
             if {$oldstr eq ""} {
               if {$ranges_len == 2} {
                 $txtt mark set insert "$start+${textpos}c"
               } else {
                 multicursor::add_cursor $txtt [$txtt index "$start+${textpos}c"]
               }
+            }
+            if {[string first \n $newstr]} {
+              indent::format_text $txtt $start "$start+[string length $newstr]c" 0
             }
           }
         }
@@ -2340,10 +2348,10 @@ namespace eval edit {
         set new_ranges [list]
         set metalen    [string length [string map {\{REF\} {} \{TEXT\} {}} $pattern]]
         set pattern    [string map {\{REF\} {.*?} \{TEXT\} {(.*?)} \{ \\\{ \} \\\} * \\* + \\+ \\ \\\\ \( \\\( \) \\\) \[ \\\[ \] \\\] \. \\\. \? \\\? ^ \\\^ \$ \\\$} $pattern]
+        set pattern    [regsub -all {\n\s*} $pattern {\s+}]
         if {$stype eq "line"} {
           set pattern "^$pattern\$"
         }
-        puts "ranges: $ranges, metalen: $metalen, pattern: $pattern"
         foreach {end start} [lreverse $ranges] {
           set i 0
           foreach index [$txtt search -all -count lengths -regexp -- $pattern $start $end] {
