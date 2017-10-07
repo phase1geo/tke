@@ -1828,8 +1828,8 @@ namespace eval themer {
     ttk::button    .expwin.f.lb  -style BButton -text [msgcat::mc "Choose"] -command {
       lappend opts -parent .expwin
       if {[set license [.expwin.f.le get]] ne ""} {
-        lappend opts -initialfile $dir
-        lappend opts -initialdir  [file dirname $dir]
+        lappend opts -initialfile $license
+        lappend opts -initialdir  [file dirname $license]
       }
       if {[set license [tk_getOpenFile {*}$opts]] ne ""} {
         .expwin.f.le configure -state normal
@@ -1859,7 +1859,9 @@ namespace eval themer {
     ttk::separator .expwin.f.sep -orient horizontal
 
     # Make some of the fields drop targets
-    gui::make_drop_target .expwin.f.le entry
+    gui::make_drop_target .expwin.f.we entry -types {text}
+    gui::make_drop_target .expwin.f.le entry -force 1 -types {files}
+    gui::make_drop_target .expwin.f.de entry -force 1 -types {dirs}
 
     grid rowconfigure    .expwin.f 5 -weight 1
     grid columnconfigure .expwin.f 1 -weight 1
