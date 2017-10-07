@@ -677,6 +677,12 @@ namespace eval theme {
       return 0
     }
 
+    # Create the version number
+    if {![info exists data(version)]} {
+      set data(version) 0
+    }
+    incr data(version)
+
     # Write the contents
     if {$creator ne ""} {
       puts $rc "creator {$creator}"
@@ -684,6 +690,7 @@ namespace eval theme {
     if {$website ne ""} {
       puts $rc "website {$website}"
     }
+    puts $rc "version {$data(version)}"
     puts $rc "swatch {$export_data(swatch)}"
     foreach key [lsort [array names export_data *,*]] {
       puts $rc "$key {[lindex $export_data($key) $fields(value)]}"

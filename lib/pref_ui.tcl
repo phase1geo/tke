@@ -2021,7 +2021,7 @@ namespace eval pref_ui {
 
     ttk::frame $b.tf
     set widgets(themes_tl) [tablelist::tablelist $b.tf.tl \
-      -columns {0 Name 0 Visible center 0 Imported center 0 Creator 0 Website} \
+      -columns {0 Name 0 Visible center 0 Imported center 0 Creator 0 Version} \
       -exportselection 0 -stretch all -borderwidth 0 -highlightthickness 0 \
       -labelcommand tablelist::sortByColumn \
       -xscrollcommand [list utils::set_xscrollbar $b.tf.hb] \
@@ -2035,7 +2035,7 @@ namespace eval pref_ui {
     $widgets(themes_tl) columnconfigure 1 -name visible  -editable 0 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_visible]
     $widgets(themes_tl) columnconfigure 2 -name imported -editable 0 -stretchable 0 -resizable 0 -formatcommand [list pref_ui::themes_format_imported]
     $widgets(themes_tl) columnconfigure 3 -name creator  -editable 0
-    $widgets(themes_tl) columnconfigure 4 -name website  -editable 0 -hide 1
+    $widgets(themes_tl) columnconfigure 4 -name version  -editable 0
 
     bind $widgets(themes_tl)           <<TablelistSelect>> [list pref_ui::themes_selected]
     bind [$widgets(themes_tl) bodytag] <Button-1>          [list pref_ui::themes_left_click %W %x %y]

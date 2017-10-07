@@ -222,6 +222,10 @@ namespace eval themes {
         -message "Unable to export theme contents"
     }
 
+    # Copy the theme file back into the user's directory so that we preserve the
+    # version number
+    file copy -force [file join $theme_dir $theme.tketheme] [file join [get_user_directory] $theme $theme.tketheme]
+
     # Get the current working directory
     set pwd [pwd]
 
