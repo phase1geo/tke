@@ -1,4 +1,5 @@
 swatch {{#f4f4f4} #cccccc #000000 #295a7e #848484}
+date {1507436616}
 images,form_close {fg black dat {#define close_width 8
 #define close_height 8
 static unsigned char close_bits[] = {
