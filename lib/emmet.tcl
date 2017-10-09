@@ -112,7 +112,7 @@ namespace eval emmet {
     set txt [gui::current_txt]
 
     # Get the language of the current insertion cursor
-    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+    if {[set lang [ctext::getLang $txt insert]] eq ""} {
       set lang [syntax::get_language $txt]
     }
 
@@ -893,7 +893,7 @@ namespace eval emmet {
     set txt [gui::current_txt]
 
     # Get the language of the current insertion cursor
-    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+    if {[set lang [ctext::getLang $txt insert]] eq ""} {
       set lang [syntax::get_language $txt]
     }
 
@@ -954,7 +954,7 @@ namespace eval emmet {
     set txt [gui::current_txt]
 
     # Get the language of the current insertion cursor
-    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+    if {[set lang [ctext::getLang $txt insert]] eq ""} {
       set lang [syntax::get_language $txt]
     }
 
@@ -1156,7 +1156,7 @@ namespace eval emmet {
     set txt [gui::current_txt]
 
     # Get the language of the current insertion cursor
-    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+    if {[set lang [ctext::getLang $txt insert]] eq ""} {
       set lang [syntax::get_language $txt]
     }
 
@@ -1354,7 +1354,7 @@ namespace eval emmet {
     set txt [gui::current_txt]
 
     # Get the language of the current insertion cursor
-    if {[set lang [ctext::get_lang $txt insert]] eq ""} {
+    if {[set lang [ctext::getLang $txt insert]] eq ""} {
       set lang [syntax::get_language $txt]
     }
 

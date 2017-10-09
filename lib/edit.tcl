@@ -2072,9 +2072,9 @@ namespace eval edit {
     set number   $num
     set startpos [expr {([lsearch [$txtt tag names $cursor] _${type}L] == -1) ? $cursor : "$cursor+1c"}]
 
-    while {[set index [ctext::get_match_bracket $txt ${type}L $startpos]] ne ""} {
+    while {[set index [ctext::getMatchBracket $txt ${type}L $startpos]] ne ""} {
       if {[incr number -1] == 0} {
-        set right [ctext::get_match_bracket $txt ${type}R $index]
+        set right [ctext::getMatchBracket $txt ${type}R $index]
         if {($right eq "") || [$txtt compare $right < $cursor]} {
           return [list "" ""]
         } else {
