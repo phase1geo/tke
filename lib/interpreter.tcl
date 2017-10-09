@@ -824,6 +824,8 @@ namespace eval interpreter {
     $interp alias api::set_yscrollbar               utils::set_yscrollbar
     $interp alias api::export                       utils::export
 
+    $interp alias ctext::get_lang                   ctext::get_lang
+
     return $interp
 
   }

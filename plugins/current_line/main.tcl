@@ -23,7 +23,7 @@ namespace eval current_line {
     }
 
     # Get the current color
-    set color [expr {([lsearch [$txt tag names insert] _Lang=*] != -1) ? $colors(embed) : $colors(normal)}]
+    set color [expr {([ctext::get_lang $txt insert] eq "") ? $colors(normal) : $colors(embed)}]
 
     # Configure the current_line tag
     $txt tag configure current_line -background $color
