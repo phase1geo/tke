@@ -982,7 +982,7 @@ namespace eval api {
               return [pref_ui::make_table $win.tl$index $msg Plugins/$pname/$pref $opts(-columns) $opts(-height) $opts(-grid) $opts(-help)]
             }
             default {
-              return -error code "Unsupported preference widget type ($type)"
+              return -code error "Unsupported preference widget type ($type)"
             }
           }
 
@@ -998,6 +998,26 @@ namespace eval api {
     proc get_value {interp pname varname} {
 
       return $preferences::prefs(Plugins/$pname/$varname)
+
+    }
+
+  }
+
+  namespace eval theme {
+
+    ######################################################################
+    ## Returns the given theme value as specified by the category and option
+    #  value.  If no value exists, we will return an error.
+    proc get_value {interp pname category option} {
+
+      # Get the category options
+      array set opts [theme::get_category_options $category 1]
+
+      if {![info exists opts($option)]} {
+        return -code error "Unable to find theme category option ($category, $option)"
+      }
+
+      return $opts($option)
 
     }
 

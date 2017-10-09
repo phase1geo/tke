@@ -1,6 +1,9 @@
 namespace eval current_line {
 
-  array set configured {}
+  array set colors {
+    normal "black"
+    embed  "black"
+  }
 
   proc do_cline {tag} {
 
@@ -13,25 +16,21 @@ namespace eval current_line {
 
   proc update_color {txt} {
 
-    variable configured
+    variable colors
 
     if {![winfo exists $txt]} {
       return
     }
 
-    # Configure the current_line tag
-    $txt tag configure current_line -background [api::auto_adjust_color [$txt cget -background] 25]
-    $txt tag lower     current_line
+    # Get the current color
+    set color [expr {([lsearch [$txt tag names insert] _Lang=*] != -1) ? $colors(embed) : $colors(normal)}]
 
-    # Specify that we have been previously configured
-    unset -nocomplain configured($txt)
-    set configured($txt) 1
+    # Configure the current_line tag
+    $txt tag configure current_line -background $color
 
   }
 
   proc update_line {txt} {
-
-    variable configured
 
     # If the text window no longer exists, exit now
     if {![winfo exists $txt]} {
@@ -44,10 +43,8 @@ namespace eval current_line {
       return
     }
 
-    # Configure the current line, if has not been configured yet
-    if {![info exists configured($txt)]} {
-      update_color $txt
-    }
+    # Update the current line color
+    update_color $txt
 
     # Get the current cursor line number
     set line [lindex [split [$txt index insert] .] 0]
@@ -79,15 +76,38 @@ namespace eval current_line {
 
   }
 
+  proc do_reload_store {index} {
+
+    variable colors
+
+    api::plugin::save_variable $index "colors" [array get colors]
+
+  }
+
+  proc do_reload_restore {index} {
+
+    variable colors
+
+    array set colors [api::plugin::load_variable $index "colors"]
+
+  }
+
+  proc do_open {index} {
+
+    variable colors
+
+    set txt [api::file::get_info $index txt]
+
+    $txt tag configure current_line -background $colors(normal)
+    $txt tag lower     current_line
+
+  }
+
   proc do_uninstall {} {
 
-    variable configured
-
-    foreach txt [array names configured] {
-      $txt tag delete current_line
+    foreach index [api::file::all_indices] {
+      [api::file::get_info $index txt] tag delete current_line
     }
-
-    array unset configured
 
   }
 
@@ -95,10 +115,14 @@ namespace eval current_line {
   # Update the current line colors to match the new theme.
   proc do_theme_changed {} {
 
-    variable configured
+    variable colors
 
-    foreach txt [array names configured] {
-      current_line::update_color $txt
+    # Get the new background and embedded background colors
+    set colors(normal) [api::auto_adjust_color [api::theme::get_value "syntax" "background"] 25]
+    set colors(embed)  [api::auto_adjust_color [api::theme::get_value "syntax" "embedded"]   25]
+
+    foreach index [api::file::all_indices] {
+      current_line::update_color [api::file::get_info $index txt]
     }
 
   }
@@ -107,6 +131,8 @@ namespace eval current_line {
 
 api::register current_line {
   {text_binding pretext cline all current_line::do_cline}
+  {on_reload current_line::do_reload_store current_line::do_reload_restore}
+  {on_open current_line::do_open}
   {on_uninstall current_line::do_uninstall}
   {on_theme_changed current_line::do_theme_changed}
 }

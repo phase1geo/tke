@@ -3499,7 +3499,7 @@ namespace eval menus {
     # Add the syntax items
     foreach item $syntax {
       lassign $item name url
-      $mb add command -label [format "$lang %s" $name] -command [list utils::open_file_externally $url 1]
+      $mb add command -label $name -command [list utils::open_file_externally $url 1]
     }
 
     if {([llength $syntax] > 0) && ([llength $user] > 0)} {
