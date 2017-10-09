@@ -319,18 +319,50 @@ namespace eval syntax {
   }
 
   ######################################################################
-  # Returns the language's reference URL if the language has one; otherwise,
-  # returns the empty string.
+  # Returns the language information for just the given language.
+  proc get_lang_references {language} {
+
+    variable langs
+
+    array set lang_array $langs($language)
+
+    set refs [list]
+    foreach item $lang_array(reference) {
+      lassign $item name url
+      lappend refs [list "$language: $name" $url]
+    }
+
+    return $refs
+
+  }
+
+  ######################################################################
+  # Returns the language's reference information, including any embedded
+  # language reference information.  If no reference documentation is
+  # available, returns the empty string.
   proc get_references {language} {
 
     variable langs
 
+    set refs [list]
+
     if {[info exists langs($language)]} {
+
+      # Add primary language references
+      set refs [get_lang_references $language]
+
+      # Add embedded language references
       array set lang_array $langs($language)
-      return $lang_array(reference)
+      foreach embedded $lang_array(embedded) {
+        set sublang [lindex $embedded 0]
+        if {[info exists langs($sublang)]} {
+          lappend refs {*}[get_lang_references $sublang]
+        }
+      }
+
     }
 
-    return ""
+    return $refs
 
   }
 

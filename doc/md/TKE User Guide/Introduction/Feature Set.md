@@ -33,6 +33,10 @@ The following is a high-level list of built-in features.
 - **Multi-cursor support**
 	- Cursor alignment
 	- Enumeration insertion
+- **Keyboard-centric, fine-grained text selection**
+      - Select characters, words, lines, sentences, paragraphs, XML nodes, bracketed text, strings, comments, and block selections.
+      - Invert selection
+      - Add all text which matches the current selection to the selection (allows quick search/replace functionality).
 - **Built-in file difference viewer**
 	- Built-in support for Perforce, Git, Mercurial, Bazaar, Subversion and file diff. Also supports a custom difference command. Includes ability to jump to the file version where a given line was last changed.
 - **Internationalization support**
