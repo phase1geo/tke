@@ -404,7 +404,7 @@ namespace eval indent {
     # do the search again.
     } else {
       array set other_type [list curlyR curlyL parenR parenL squareR squareL angledR angledL]
-      if {[set match_index [ctext::get_match_bracket [winfo parent $txtt] $other_type($win_type) $startpos($win_type)]] ne ""} {
+      if {[set match_index [ctext::getMatchBracket [winfo parent $txtt] $other_type($win_type) $startpos($win_type)]] ne ""} {
         return [get_start_of_line $txtt $match_index]
       } elseif {[lsearch [$txtt tag names "$index linestart"] _prewhite] != -1} {
         return [string range [$txtt get {*}[$txtt tag nextrange _prewhite "$index linestart"]] 0 end-1]

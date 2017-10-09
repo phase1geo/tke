@@ -605,7 +605,7 @@ namespace eval vim {
 
     # Get the current text widget
     set txt  [gui::current_txt]
-    set lang [ctext::get_lang $txt insert]
+    set lang [ctext::getLang $txt insert]
 
     # Get the current match characters
     set match_chars [ctext::getAutoMatchChars $txt $lang]

@@ -1735,7 +1735,7 @@ proc ctext::command_insert {win args} {
   set datlen [string length $dat]
 
   # Add the embedded language tag to the arguments if taglists are present
-  if {([llength $args] >= 3) && ([set lang [get_lang $win $insertPos]] ne "")} {
+  if {([llength $args] >= 3) && ([set lang [getLang $win $insertPos]] ne "")} {
     set tag_index 2
     foreach {chars taglist} [lrange $args 1 end] {
       lappend taglist _Lang:$lang
@@ -2401,7 +2401,7 @@ proc ctext::matchBracket {win} {
   }
 
   # Get the current language
-  set lang [ctext::get_lang $win $pos]
+  set lang [ctext::getLang $win $pos]
 
   switch -- [$win get $pos] {
     "\}" { ctext::matchPair  $win $lang $pos curlyL }
@@ -2421,7 +2421,7 @@ proc ctext::matchBracket {win} {
 
 ######################################################################
 # Returns the index of the bracket type previous to the given index.
-proc ctext::get_prev_bracket {win stype {index insert}} {
+proc ctext::getPrevBracket {win stype {index insert}} {
 
   lassign [$win tag prevrange _$stype $index] first last
 
@@ -2437,7 +2437,7 @@ proc ctext::get_prev_bracket {win stype {index insert}} {
 
 ######################################################################
 # Returns the index of the bracket type after the given index.
-proc ctext::get_next_bracket {win stype {index insert}} {
+proc ctext::getNextBracket {win stype {index insert}} {
 
   lassign [$win tag prevrange _$stype "$index+1c"] first last
 
@@ -2454,8 +2454,8 @@ proc ctext::get_next_bracket {win stype {index insert}} {
 # Returns the index of the matching bracket type where 'type' is the
 # type of bracket to find.  For example, if the current bracket is
 # a left square bracket, call this procedure as:
-#   ctext::get_match_bracket $txt squareR
-proc ctext::get_match_bracket {win stype {index insert}} {
+#   ctext::getMatchBracket $txt squareR
+proc ctext::getMatchBracket {win stype {index insert}} {
 
   set count 1
 
@@ -2535,7 +2535,7 @@ proc ctext::matchPair {win lang pos type} {
     return
   }
 
-  if {[set pos [get_match_bracket $win $type [$win index $pos]]] ne ""} {
+  if {[set pos [getMatchBracket $win $type [$win index $pos]]] ne ""} {
     $win tag add matchchar $pos
   }
 
@@ -2636,7 +2636,7 @@ proc ctext::checkBracketType {win stype} {
   # Highlight all brackets that are missing right stypes
   while {$count > 0} {
     lappend missing $start "$start+1c"
-    set start [get_next_bracket $win ${stype}L $start]
+    set start [getNextBracket $win ${stype}L $start]
     incr count -1
   }
 
@@ -2696,7 +2696,7 @@ proc ctext::gotoBracketMismatch {win dir args} {
 
 }
 
-proc ctext::get_lang {win index} {
+proc ctext::getLang {win index} {
 
   return [lindex [split [lindex [$win tag names $index] 0] =] 1]
 
@@ -2903,7 +2903,7 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
 
 }
 
-proc ctext::get_tag_in_range {win tag start end} {
+proc ctext::getTagInRange {win tag start end} {
 
   set indices [list]
 
@@ -2976,7 +2976,7 @@ proc ctext::comments {win ranges do_tags} {
         incr i
       }
       foreach j {0 1} {
-        if {$indices($j) ne [ctext::get_tag_in_range $win $tag$j $start $end]} {
+        if {$indices($j) ne [ctext::getTagInRange $win $tag$j $start $end]} {
           $win tag remove $tag$j $start $end
           catch { $win tag add $tag$j {*}$indices($j) }
           set tag_changed($tag) 1
@@ -3143,7 +3143,7 @@ proc ctext::brackets {twin start end} {
 
   # Handle special character matching
   foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-    lappend indices(_$bracket_map([$twin get $res]),[get_lang $twin $res]) $res "$res+1c"
+    lappend indices(_$bracket_map([$twin get $res]),[getLang $twin $res]) $res "$res+1c"
   }
 
   foreach key [array names indices] {
@@ -3183,7 +3183,7 @@ proc ctext::indentation {twin start end} {
     set i     0
     array unset indices
     foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
-      lappend indices([expr $i & 1],[get_lang $twin $res]) $res "$res+[lindex $lengths $i]c"
+      lappend indices([expr $i & 1],[getLang $twin $res]) $res "$res+[lindex $lengths $i]c"
       incr i
     }
     foreach i {0 1} {

@@ -5423,14 +5423,14 @@ namespace eval gui {
     # If the current character is a matchable character, change the
     # insertion cursor to the matching character.
     switch -- [$txt get insert] {
-      "\{"    { set index [ctext::get_match_bracket $txt curlyR] }
-      "\}"    { set index [ctext::get_match_bracket $txt curlyL] }
-      "\["    { set index [ctext::get_match_bracket $txt squareR] }
-      "\]"    { set index [ctext::get_match_bracket $txt squareL] }
-      "\("    { set index [ctext::get_match_bracket $txt parenR] }
-      "\)"    { set index [ctext::get_match_bracket $txt parenL] }
-      "\<"    { set index [ctext::get_match_bracket $txt angledR] }
-      "\>"    { set index [ctext::get_match_bracket $txt angledL] }
+      "\{"    { set index [ctext::getMatchBracket $txt curlyR] }
+      "\}"    { set index [ctext::getMatchBracket $txt curlyL] }
+      "\["    { set index [ctext::getMatchBracket $txt squareR] }
+      "\]"    { set index [ctext::getMatchBracket $txt squareL] }
+      "\("    { set index [ctext::getMatchBracket $txt parenR] }
+      "\)"    { set index [ctext::getMatchBracket $txt parenL] }
+      "\<"    { set index [ctext::getMatchBracket $txt angledR] }
+      "\>"    { set index [ctext::getMatchBracket $txt angledL] }
       "\""    { set index [find_match_char $txt "\"" [expr {([lsearch [$txt tag names insert-1c] _dString*] == -1) ? "-forwards" : "-backwards"}]] }
       "'"     { set index [find_match_char $txt "'"  [expr {([lsearch [$txt tag names insert-1c] _sString*] == -1) ? "-forwards" : "-backwards"}]] }
       "`"     { set index [find_match_char $txt "`"  [expr {([lsearch [$txt tag names insert-1c] _bString*] == -1) ? "-forwards" : "-backwards"}]]}

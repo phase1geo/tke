@@ -74,7 +74,7 @@ miscellaneous1
     ttk::button ttk::checkbutton ttk::combobox ttk::entry ttk::frame ttk::label
     ttk::labelframe ttk::menubutton ttk::notebook ttk::panedwindow
     ttk::progressbar ttk::radiobutton ttk::scale ttk::scrollbar ttk::separator
-    ttk::sizegrip ttk::spinbox ttk::treeview pack place grid tkwait
+    ttk::sizegrip ttk::spinbox ttk::treeview pack place grid tkwait winfo wm
   } {}
 }
 

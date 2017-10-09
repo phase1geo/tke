@@ -224,8 +224,8 @@ namespace eval selectmode {
     select::set_select_mode $txtt 1
 
     do_test $txtt 27 parenleft {2.11 2.15} 0 paren
-    do_test $txtt 28 i         {2.10 2.16} 0 paren
-    do_test $txtt 29 i         {2.11 2.15} 0 paren
+    do_test $txtt 28 h         {2.10 2.16} 0 paren
+    do_test $txtt 29 l         {2.11 2.15} 0 paren
     do_test $txtt 30 a         {2.11 2.15} 1 paren
     do_test $txtt 31 E         {2.0 2.15}  1 lineto
     do_test $txtt 32 e         {2.0 2.16}  1 line
@@ -523,28 +523,46 @@ namespace eval selectmode {
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end "{this is a {curly} bracket}"
+    $txtt insert end "{this is a {curly} {bracket}}"
     vim::adjust_insert $txtt
 
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0 {}        {1.0 1.5}  0 word
-    do_test $txtt 1 braceleft {1.1 1.26} 0 curly
-    do_test $txtt 2 i         {1.0 1.27} 0 curly
-    do_test $txtt 3 i         {1.1 1.26} 0 curly
-    do_test $txtt 4 a         {1.1 1.26} 1 curly
-    do_test $txtt 5 i         {1.0 1.27} 1 curly
-    do_test $txtt 6 i         {1.1 1.26} 1 curly
-    do_test $txtt 7 Escape {} 1 none
+    do_test $txtt 0  {}        {1.0 1.5}   0 word
+    do_test $txtt 1  braceleft {1.1 1.28}  0 curly
+    do_test $txtt 2  h         {1.0 1.29}  0 curly
+    do_test $txtt 3  l         {1.1 1.28}  0 curly
+    do_test $txtt 4  l         {1.11 1.18} 0 curly
+    do_test $txtt 5  l         {1.12 1.17} 0 curly
+    do_test $txtt 6  j         {1.12 1.17} 0 curly
+    do_test $txtt 7  k         {1.12 1.17} 0 curly
+    do_test $txtt 8  h         {1.11 1.18} 0 curly
+    do_test $txtt 9  J         {1.19 1.28} 0 curly
+    do_test $txtt 10 l         {1.20 1.27} 0 curly
+    do_test $txtt 11 J         {1.20 1.27} 0 curly
+    do_test $txtt 12 K         {1.20 1.27} 0 curly
+    do_test $txtt 13 h         {1.19 1.28} 0 curly
+    do_test $txtt 14 J         {1.19 1.28} 0 curly
+    do_test $txtt 15 k         {1.19 1.28} 0 curly
+    do_test $txtt 16 K         {1.11 1.18} 0 curly
+    do_test $txtt 17 j         {1.11 1.28} 0 curly
+    do_test $txtt 18 j         {1.11 1.28} 0 curly
+    do_test $txtt 19 k         {1.11 1.18} 0 curly
+    do_test $txtt 20 a         {1.11 1.18} 1 curly
+    do_test $txtt 21 j         {1.11 1.18} 1 curly
+    do_test $txtt 22 J         {1.19 1.28} 1 curly
+    do_test $txtt 23 k         {1.11 1.28} 1 curly
+    do_test $txtt 24 j         {1.19 1.28} 1 curly
+    do_test $txtt 25 Escape {} 1 none
 
     $txtt mark set insert 1.13
     select::set_select_mode $txtt 1
 
-    do_test $txtt 8  braceleft {1.12 1.17} 0 curly
-    do_test $txtt 9  i         {1.11 1.18} 0 curly
-    do_test $txtt 10 i         {1.12 1.17} 0 curly
-    do_test $txtt 11 Escape {} 0 none
+    do_test $txtt 26 braceleft {1.12 1.17} 0 curly
+    do_test $txtt 27 h         {1.11 1.18} 0 curly
+    do_test $txtt 28 l         {1.12 1.17} 0 curly
+    do_test $txtt 29 Escape {} 0 none
 
     # Clean things up
     cleanup
@@ -557,28 +575,46 @@ namespace eval selectmode {
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end "\[this is a \[square\] bracket\]"
+    $txtt insert end "\[this is a \[square\] \[bracket\]\]"
     vim::adjust_insert $txtt
 
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0 {}          {1.0 1.5}  0 word
-    do_test $txtt 1 bracketleft {1.1 1.27} 0 square
-    do_test $txtt 2 i           {1.0 1.28} 0 square
-    do_test $txtt 3 i           {1.1 1.27} 0 square
-    do_test $txtt 4 a           {1.1 1.27} 1 square
-    do_test $txtt 5 i           {1.0 1.28} 1 square
-    do_test $txtt 6 i           {1.1 1.27} 1 square
-    do_test $txtt 7 Escape {} 1 none
+    do_test $txtt 0  {}          {1.0 1.5}   0 word
+    do_test $txtt 1  bracketleft {1.1 1.29}  0 square
+    do_test $txtt 2  h           {1.0 1.30}  0 square 
+    do_test $txtt 3  l           {1.1 1.29}  0 square 
+    do_test $txtt 4  l           {1.11 1.19} 0 square 
+    do_test $txtt 5  l           {1.12 1.18} 0 square 
+    do_test $txtt 6  j           {1.12 1.18} 0 square 
+    do_test $txtt 7  k           {1.12 1.18} 0 square 
+    do_test $txtt 8  h           {1.11 1.19} 0 square 
+    do_test $txtt 9  J           {1.20 1.29} 0 square 
+    do_test $txtt 10 l           {1.21 1.28} 0 square 
+    do_test $txtt 11 J           {1.21 1.28} 0 square 
+    do_test $txtt 12 K           {1.21 1.28} 0 square 
+    do_test $txtt 13 h           {1.20 1.29} 0 square 
+    do_test $txtt 14 J           {1.20 1.29} 0 square 
+    do_test $txtt 15 k           {1.20 1.29} 0 square 
+    do_test $txtt 16 K           {1.11 1.19} 0 square 
+    do_test $txtt 17 j           {1.11 1.29} 0 square 
+    do_test $txtt 18 j           {1.11 1.29} 0 square 
+    do_test $txtt 19 k           {1.11 1.19} 0 square 
+    do_test $txtt 20 a           {1.11 1.19} 1 square 
+    do_test $txtt 21 j           {1.11 1.19} 1 square 
+    do_test $txtt 22 J           {1.20 1.29} 1 square 
+    do_test $txtt 23 k           {1.11 1.29} 1 square 
+    do_test $txtt 24 j           {1.20 1.29} 1 square 
+    do_test $txtt 25 Escape {} 1 none
 
     $txtt mark set insert 1.13
     select::set_select_mode $txtt 1
 
-    do_test $txtt 8  bracketleft {1.12 1.18} 0 square
-    do_test $txtt 9  i           {1.11 1.19} 0 square
-    do_test $txtt 10 i           {1.12 1.18} 0 square
-    do_test $txtt 11 Escape {} 0 none
+    do_test $txtt 26 bracketleft {1.12 1.18} 0 square
+    do_test $txtt 27 h           {1.11 1.19} 0 square
+    do_test $txtt 28 l           {1.12 1.18} 0 square
+    do_test $txtt 29 Escape {} 0 none
 
     # $txtt insert end "this is a 'single' quote\n"
     # $txtt insert end "this is a `backtick` quote"
@@ -594,28 +630,46 @@ namespace eval selectmode {
     # Initialize
     set txtt [initialize]
 
-    $txtt insert end "(this is a (paren) bracket)"
+    $txtt insert end "(this is a (paren) (bracket))"
     vim::adjust_insert $txtt
 
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0 {}        {1.0 1.5}  0 word
-    do_test $txtt 1 parenleft {1.1 1.26} 0 paren
-    do_test $txtt 2 i         {1.0 1.27} 0 paren
-    do_test $txtt 3 i         {1.1 1.26} 0 paren
-    do_test $txtt 4 a         {1.1 1.26} 1 paren
-    do_test $txtt 5 i         {1.0 1.27} 1 paren
-    do_test $txtt 6 i         {1.1 1.26} 1 paren
-    do_test $txtt 7 Escape {} 1 none
+    do_test $txtt 0  {}        {1.0 1.5}   0 word
+    do_test $txtt 1  parenleft {1.1 1.28}  0 paren
+    do_test $txtt 2  h         {1.0 1.29}  0 paren 
+    do_test $txtt 3  l         {1.1 1.28}  0 paren 
+    do_test $txtt 4  l         {1.11 1.18} 0 paren 
+    do_test $txtt 5  l         {1.12 1.17} 0 paren 
+    do_test $txtt 6  j         {1.12 1.17} 0 paren 
+    do_test $txtt 7  k         {1.12 1.17} 0 paren 
+    do_test $txtt 8  h         {1.11 1.18} 0 paren 
+    do_test $txtt 9  J         {1.19 1.28} 0 paren 
+    do_test $txtt 10 l         {1.20 1.27} 0 paren 
+    do_test $txtt 11 J         {1.20 1.27} 0 paren 
+    do_test $txtt 12 K         {1.20 1.27} 0 paren 
+    do_test $txtt 13 h         {1.19 1.28} 0 paren 
+    do_test $txtt 14 J         {1.19 1.28} 0 paren 
+    do_test $txtt 15 k         {1.19 1.28} 0 paren 
+    do_test $txtt 16 K         {1.11 1.18} 0 paren 
+    do_test $txtt 17 j         {1.11 1.28} 0 paren 
+    do_test $txtt 18 j         {1.11 1.28} 0 paren 
+    do_test $txtt 19 k         {1.11 1.18} 0 paren 
+    do_test $txtt 20 a         {1.11 1.18} 1 paren 
+    do_test $txtt 21 j         {1.11 1.18} 1 paren 
+    do_test $txtt 22 J         {1.19 1.28} 1 paren 
+    do_test $txtt 23 k         {1.11 1.28} 1 paren 
+    do_test $txtt 24 j         {1.19 1.28} 1 paren 
+    do_test $txtt 25 Escape {} 1 none
 
     $txtt mark set insert 1.13
     select::set_select_mode $txtt 1
 
-    do_test $txtt 8  parenleft {1.12 1.17} 0 paren
-    do_test $txtt 9  i         {1.11 1.18} 0 paren
-    do_test $txtt 10 i         {1.12 1.17} 0 paren
-    do_test $txtt 11 Escape {} 0 none
+    do_test $txtt 26 parenleft {1.12 1.17} 0 paren
+    do_test $txtt 27 h         {1.11 1.18} 0 paren
+    do_test $txtt 28 l         {1.12 1.17} 0 paren
+    do_test $txtt 29 Escape {} 0 none
 
     # Clean things up
     cleanup
@@ -630,28 +684,46 @@ namespace eval selectmode {
 
     syntax::set_language [winfo parent $txtt] HTML
 
-    $txtt insert end "<this is an <angled> bracket>"
+    $txtt insert end "<this is a <angled> <bracket>>"
     vim::adjust_insert $txtt
 
     $txtt mark set insert 1.2
     select::set_select_mode $txtt 1
 
-    do_test $txtt 0 {}   {1.0 1.5}  0 word
-    do_test $txtt 1 less {1.1 1.28} 0 angled
-    do_test $txtt 2 i    {1.0 1.29} 0 angled
-    do_test $txtt 3 i    {1.1 1.28} 0 angled
-    do_test $txtt 4 a    {1.1 1.28} 1 angled
-    do_test $txtt 5 i    {1.0 1.29} 1 angled
-    do_test $txtt 6 i    {1.1 1.28} 1 angled
-    do_test $txtt 7 Escape {} 1 none
+    do_test $txtt 0  {}   {1.0 1.5}   0 word
+    do_test $txtt 1  less {1.1 1.29}  0 angled
+    do_test $txtt 2  h    {1.0 1.30}  0 angled 
+    do_test $txtt 3  l    {1.1 1.29}  0 angled 
+    do_test $txtt 4  l    {1.11 1.19} 0 angled 
+    do_test $txtt 5  l    {1.12 1.18} 0 angled 
+    do_test $txtt 6  j    {1.12 1.18} 0 angled 
+    do_test $txtt 7  k    {1.12 1.18} 0 angled 
+    do_test $txtt 8  h    {1.11 1.19} 0 angled 
+    do_test $txtt 9  J    {1.20 1.29} 0 angled 
+    do_test $txtt 10 l    {1.21 1.28} 0 angled 
+    do_test $txtt 11 J    {1.21 1.28} 0 angled 
+    do_test $txtt 12 K    {1.21 1.28} 0 angled 
+    do_test $txtt 13 h    {1.20 1.29} 0 angled 
+    do_test $txtt 14 J    {1.20 1.29} 0 angled 
+    do_test $txtt 15 k    {1.20 1.29} 0 angled 
+    do_test $txtt 16 K    {1.11 1.19} 0 angled 
+    do_test $txtt 17 j    {1.11 1.29} 0 angled 
+    do_test $txtt 18 j    {1.11 1.29} 0 angled 
+    do_test $txtt 19 k    {1.11 1.19} 0 angled 
+    do_test $txtt 20 a    {1.11 1.19} 1 angled 
+    do_test $txtt 21 j    {1.11 1.19} 1 angled 
+    do_test $txtt 22 J    {1.20 1.29} 1 angled 
+    do_test $txtt 23 k    {1.11 1.29} 1 angled 
+    do_test $txtt 24 j    {1.20 1.29} 1 angled 
+    do_test $txtt 25 Escape {} 1 none
 
     $txtt mark set insert 1.13
     select::set_select_mode $txtt 1
 
-    do_test $txtt 8  less {1.13 1.19} 0 angled
-    do_test $txtt 9  i    {1.12 1.20} 0 angled
-    do_test $txtt 10 i    {1.13 1.19} 0 angled
-    do_test $txtt 11 Escape {} 0 none
+    do_test $txtt 26 less {1.12 1.18} 0 angled
+    do_test $txtt 27 h    {1.11 1.19} 0 angled
+    do_test $txtt 28 l    {1.12 1.18} 0 angled
+    do_test $txtt 29 Escape {} 0 none
 
     # Clean things up
     cleanup
@@ -740,8 +812,48 @@ namespace eval selectmode {
 
   }
 
-  # Verify block selection mode
+  # Verify comment selection mode
   proc run_test16 {} {
+
+    # Initialize
+    set txtt [initialize]
+
+    syntax::set_language [winfo parent $txtt] "JavaScript"
+
+    $txtt insert end "this is a /* cool */ comment // like thing\n"
+    vim::adjust_insert $txtt
+
+    $txtt mark set insert 1.14
+    select::set_select_mode $txtt 1
+
+    do_test $txtt 0 {}         {1.13 1.17} 0 word
+    do_test $txtt 1 numbersign {1.12 1.18} 0 comment
+    do_test $txtt 2 i          {1.10 1.20} 0 comment
+    do_test $txtt 3 i          {1.12 1.18} 0 comment
+    do_test $txtt 4 a          {1.12 1.18} 1 comment
+    do_test $txtt 5 i          {1.10 1.20} 1 comment
+    do_test $txtt 6 i          {1.12 1.18} 1 comment
+    do_test $txtt 7 Escape {} 1 none
+
+    $txtt mark set insert 1.33
+    select::set_select_mode $txtt 1
+    
+    do_test $txtt 8  {}         {1.32 1.36} 0 word
+    do_test $txtt 9  numbersign {1.31 2.0} 0 comment
+    do_test $txtt 10 i          {1.29 2.0} 0 comment
+    do_test $txtt 11 i          {1.31 2.0} 0 comment
+    do_test $txtt 12 a          {1.31 2.0} 1 comment
+    do_test $txtt 13 i          {1.29 2.0} 1 comment
+    do_test $txtt 14 i          {1.31 2.0} 1 comment
+    do_test $txtt 15 Escape {} 1 none
+
+    # Clean things up
+    cleanup
+
+  }
+  
+  # Verify block selection mode
+  proc run_test17 {} {
 
     # Initialize
     set txtt [initialize]
@@ -797,7 +909,7 @@ namespace eval selectmode {
   }
 
   # Verify node selection mode
-  proc run_test17 {} {
+  proc run_test18 {} {
 
     # Initialize
     set txtt [initialize]
@@ -877,7 +989,7 @@ namespace eval selectmode {
   }
   
   # Verify node selection when the HTML is compressed
-  proc run_test18 {} {
+  proc run_test19 {} {
     
     # Initialize
     set txtt [initialize]
