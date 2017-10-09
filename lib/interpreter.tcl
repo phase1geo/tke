@@ -824,7 +824,29 @@ namespace eval interpreter {
     $interp alias api::set_yscrollbar               utils::set_yscrollbar
     $interp alias api::export                       utils::export
 
+    # Add ctext calls
+    $interp alias ctext::inBackTick                 ctext::inBackTick
+    $interp alias ctext::inBackTickRange            ctext::inBackTickRange
+    $interp alias ctext::inBlockComment             ctext::inBlockComment
+    $interp alias ctext::inBlockCommentRange        ctext::inBlockCommentRange
+    $interp alias ctext::inComment                  ctext::inComment
+    $interp alias ctext::inCommentRange             ctext::inCommentRange
+    $interp alias ctext::inCommentString            ctext::inCommentString
+    $interp alias ctext::inCommentStringRange       ctext::inCommentStringRange
+    $interp alias ctext::inDoubleQuote              ctext::inDoubleQuote
+    $interp alias ctext::inDoubleQuoteRange         ctext::inDoubleQuoteRange
+    $interp alias ctext::inLineComment              ctext::inLineComment
+    $interp alias ctext::inLineCommentRange         ctext::inLineCommentRange
+    $interp alias ctext::inSingleQuote              ctext::inSingleQuote
+    $interp alias ctext::inSingleQuoteRange         ctext::inSingleQuoteRange
+    $interp alias ctext::inString                   ctext::inString
+    $interp alias ctext::inStringRange              ctext::inStringRange
+    $interp alias ctext::isEscaped                  ctext::isEscaped
     $interp alias ctext::getLang                    ctext::getLang
+    $interp alias ctext::getNextBracket             ctext::getNextBracket
+    $interp alias ctext::getPrevBracket             ctext::getPrevBracket
+    $interp alias ctext::getMatchBracket            ctext::getMatchBracket
+    $interp alias ctext::getTagInRange              ctext::getTagInRange
 
     return $interp
 
