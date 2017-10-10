@@ -2,7 +2,7 @@
 
 #### Description
 
-The on\_theme\_changed action calls a procedure that is called after the user has changed the application theme. Use this plugin action if your plugin manipulates colors that are based on the current theme colors.
+The `on_theme_changed` action calls a procedure that is called after the user has changed the application theme. Use this plugin action if your plugin manipulates colors that are based on the current theme colors.
 
 #### Tcl Registration
 
