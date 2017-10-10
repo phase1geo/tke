@@ -3,7 +3,9 @@
 # unzip code found at http://wiki.tcl.tk/17433
 
 package provide zipper 0.2
-package require vfs::zip
+if {[catch { package require vfs::zip }]} {
+  package require zvfs
+}
 
 namespace eval zipper {
 
@@ -67,7 +69,7 @@ namespace eval zipper {
 
       set items [zstat ${zname}]
 
-      foreach item [dict keys ${items}] {
+      foreach item [lsort [dict keys ${items}]] {
         set target [file join ${to} ${item}]
         set type [dict get ${items} ${item} type]
         if { ${type} eq "directory" } {
@@ -99,16 +101,24 @@ namespace eval zipper {
         set from [file join ${zmount} ${path}]
         set to [file normalize [file join ${to} ${path}]]
         file mkdir [file dirname ${to}]
-        set zid [vfs::zip::Mount ${zmount} ${zmount}]
+        if {[namespace exists ::vfs]} {
+          set zid [vfs::zip::Mount ${zmount} ${zmount}]
+        } else {
+          ::zvfs::mount ${zmount} ${zmount}
+        }
         file copy ${from} ${to}
-        set sdict [::vfs::zip::stat ${zid} ${path}]
-        set mode [dict get ${sdict} mode]
-        set mtime [dict get ${sdict} mtime]
-        set atime [dict get ${sdict} atime]
-        catch { file attributes ${to} -permissions ${mode} }
-        file mtime ${to} ${mtime}
-        file atime ${to} ${atime}
-        ::vfs::zip::Unmount ${zid} ${zmount}
+        if {[namespace exists ::vfs]} {
+          set sdict [::vfs::zip::stat ${zid} ${path}]
+          set mode [dict get ${sdict} mode]
+          set mtime [dict get ${sdict} mtime]
+          set atime [dict get ${sdict} atime]
+          catch { file attributes ${to} -permissions ${mode} }
+          file mtime ${to} ${mtime}
+          file atime ${to} ${atime}
+          ::vfs::zip::Unmount ${zid} ${zmount}
+        } else {
+          ::zvfs::unmount ${zmount}
+        }
     }
 
     # -- zstat
@@ -122,23 +132,39 @@ namespace eval zipper {
     #  dict  - keys are paths and their values are dicts of stat info
     #
     proc zstat { zname } {
-        set zfile [file normalize ${zname}]
-        set fd [::zip::open ${zfile}]
         set items [dict create]
-        foreach item [lsort [array names ::zip::$fd.toc]] {
+        if {[namespace exists ::vfs]} {
+          set zfile [file normalize ${zname}]
+          set fd [::zip::open ${zfile}]
+          foreach item [lsort [array names ::zip::$fd.toc]] {
             ::zip::stat ${fd} ${item} stat
             if { $stat(name) ne "" && $stat(ctime) > 0 } {
-                set vdict [dict create {*}[array get stat]]
-                set name $stat(name)
-                dict unset vdict name
-                if { [string index ${name} end] eq "/" } {
-                    dict set vdict type directory
-                    set name [string trimright ${name} "/"]
-                }
-                dict set items ${name} ${vdict}
+              set vdict [dict create {*}[array get stat]]
+              set name $stat(name)
+              dict unset vdict name
+              if { [string index ${name} end] eq "/" } {
+                dict set vdict type directory
+                set name [string trimright ${name} "/"]
+              }
+              dict set items ${name} ${vdict}
             }
+          }
+          ::zip::_close ${fd}
+        } else {
+          set baselen [expr [string length ${zname}] + 1]
+          zvfs::mount ${zname} ${zname}
+          foreach item [zvfs::list -glob ${zname}*] {
+            set name  [string range $item $baselen end]
+            set vdict [dict create]
+            if {[file isdirectory $item]} {
+              dict set vdict type directory
+            } else {
+              dict set vdict type file
+            }
+            dict set items ${name} ${vdict}
+          }
+          zvfs::unmount ${zname}
         }
-        ::zip::_close ${fd}
         return ${items}
     }
 
