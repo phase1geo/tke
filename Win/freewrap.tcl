@@ -74,7 +74,7 @@ proc create_freewrap_files {} {
   }
 
   # Add tkdnd package files
-  lappend files {*}[get_files [file join $::tke_dir Win tkdnd2.8]]
+  lappend files {*}[get_files [file join $::tke_dir lib win tkdnd2.8-64]]
 
   # Add expect package files
   # DISABLING - lappend files {*}[get_files [file join $::tke_dir Win expect]]
@@ -146,7 +146,7 @@ flush stdout
 if {$::tcl_platform(platform) eq "windows"} {
 
   # Generate the TKE executable using freewrap
-  if {![catch { exec -ignorestderr [file join freewrap664 win32 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
+  if {![catch { exec -ignorestderr [file join freewrap664 win64 freewrap.exe] [file join $tke_dir lib tke.tcl] -debug -f freewrap.files -i [file join $tke_dir lib images tke.ico] -1 } rc]} {
     puts "Success!"
   } else {
     puts "Failed!"
