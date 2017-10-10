@@ -26,6 +26,7 @@ var utils_8tcl =
     [ "hsl_to_rgb", "utils_8tcl.html#abd4b1a5bb2dfc7df51db5eeeb3b20f7e", null ],
     [ "hsv_to_rgb", "utils_8tcl.html#a6ba72039b659afee4217fe215246d42c", null ],
     [ "is_binary", "utils_8tcl.html#adc6bc1f5b9727f87e0c7c0968d0f9d4d", null ],
+    [ "is_url", "utils_8tcl.html#a44f24d13e8b345f2a527d712987ad383", null ],
     [ "open_file_externally", "utils_8tcl.html#a269f228f6962170c9655ffc9819035af", null ],
     [ "perform_substitutions", "utils_8tcl.html#a1e9a4156cea22ee80d216b5a9977a24a", null ],
     [ "relative_to", "utils_8tcl.html#a9f7e4c65edc6d994109c4a04d92b3a57", null ],

@@ -5,5 +5,6 @@ var namespaceapi =
     [ "plugin", "namespaceapi_1_1plugin.html", null ],
     [ "preferences", "namespaceapi_1_1preferences.html", null ],
     [ "sidebar", "namespaceapi_1_1sidebar.html", null ],
+    [ "theme", "namespaceapi_1_1theme.html", null ],
     [ "utils", "namespaceapi_1_1utils.html", null ]
 ];

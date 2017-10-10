@@ -16,6 +16,5 @@ var searchData=
   ['view_5ftabs_5fposting',['view_tabs_posting',['../namespacemenus.html#ab82ebc3369d96177ec1cec0df7d3ba19',1,'menus']]],
   ['vim',['vim',['../namespacevim.html',1,'']]],
   ['vim_2etcl',['vim.tcl',['../vim_8tcl.html',1,'']]],
-  ['visual_5fmode',['visual_mode',['../namespacevim.html#ac062f0432114b5d93a7c5eeb3dbf1850',1,'vim']]],
-  ['vresize',['vresize',['../namespacescrolledframe.html#a158b7493487696af56192f3dbb62a2a2',1,'scrolledframe']]]
+  ['visual_5fmode',['visual_mode',['../namespacevim.html#ac062f0432114b5d93a7c5eeb3dbf1850',1,'vim']]]
 ];

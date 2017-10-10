@@ -2,6 +2,7 @@ var themes_8tcl =
 [
     [ "delete_theme", "themes_8tcl.html#a4f5d131a12df2c28bad2cb9000ad0a7e", null ],
     [ "export", "themes_8tcl.html#a52628e71283eb597704f581bcb6ee6ee", null ],
+    [ "export_custom", "themes_8tcl.html#adb4416db61273c22ed941b7a8b626f9a", null ],
     [ "get_all_themes", "themes_8tcl.html#ac7bcc251a6006630798647294bc79173", null ],
     [ "get_attributions", "themes_8tcl.html#a91719f9e8a41082a7f6910ede0d3ba92", null ],
     [ "get_current_theme", "themes_8tcl.html#a1eda16efc686c9fb7012347de0f1f72a", null ],

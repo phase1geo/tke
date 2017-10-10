@@ -14,6 +14,7 @@ var syntax_8tcl =
     [ "get_filetypes", "syntax_8tcl.html#ac1fab4570b385b273782845f8e8e74e8", null ],
     [ "get_formatting", "syntax_8tcl.html#a911034d92678800df8dbb316736af681", null ],
     [ "get_indentation_expressions", "syntax_8tcl.html#ad17be834483a8b000e84611432bd3f6c", null ],
+    [ "get_lang_references", "syntax_8tcl.html#a616db957f2e273452a88693fdc25c171", null ],
     [ "get_language", "syntax_8tcl.html#af346ad0c2e849796ef9297a6e7e44f48", null ],
     [ "get_prefixed_symbol", "syntax_8tcl.html#abd6a83060a9e14426ed4e8fb85740b8b", null ],
     [ "get_references", "syntax_8tcl.html#a3022a4915a6e7f8310e1202d2b6d3261", null ],
