@@ -4869,7 +4869,7 @@ namespace eval gui {
       # Do nothing
 
     # If we are inserting text or the file name, do that now
-    } elseif {$dtype || ($modifier eq "alt")} {
+    } elseif {$dtype} {
 
       set cursor 0
 
