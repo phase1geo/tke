@@ -4,7 +4,7 @@ The inSingleQuote and inSingleQuoteRange commands return a value of true if the 
 
 **Call structure**
 
-`ctext::inSingleQuote pathname index`
+`ctext::inSingleQuote pathname index`<br>
 `ctext::inSingleQuoteRange pathname index rangeref`
 
 **Return value**

@@ -4,7 +4,7 @@ The inLineComment and inLineCommentRange commands return a value of true if the 
 
 **Call structure**
 
-`ctext::inLineComment pathname index`
+`ctext::inLineComment pathname index`<br>
 `ctext::inLineCommentRange pathname index rangeref`
 
 **Return value**

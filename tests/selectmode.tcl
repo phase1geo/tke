@@ -164,12 +164,40 @@ namespace eval selectmode {
       cleanup "B Undo did not put cursor back properly ([$txtt index insert])"
     }
 
+    # Make sure that selection is inverted
+    select::set_select_mode $txtt 1
+    do_test $txtt 8 {}         {1.5 1.7} 0 word
+    do_test $txtt 9 asciitilde {1.0 1.5 1.7 2.0} 0 none 1.7
+
+    if {$select::data($txtt,mode)} {
+      cleanup "Tilde did not cause mode to clear"
+    }
+    if {[$txtt get 1.0 end-1c] ne "This is a line "} {
+      cleanup "Tilde did cause text to be changed"
+    }
+
+    $txtt tag remove sel 1.0 end
+
+    # Make sure that all matching occurrences are selected
+    $txtt insert end "\nLines make a line liner"
+    $txtt mark set insert 1.11
+
+    select::set_select_mode $txtt 1
+    do_test $txtt 10 {}   {1.10 1.14} 0 word
+    do_test $txtt 11 slash {1.10 1.14 2.13 2.17 2.18 2.22} 0 none 1.14
+
+    if {$select::data($txtt,mode)} {
+      cleanup "Slash did not cause mode to clear"
+    }
+
+    $txtt tag remove sel 1.0 end
+
     # Make sure that selection mode is correct when text is preselected
     $txtt tag add sel 1.0 1.4
     $txtt mark set insert 1.4
     select::set_select_mode $txtt 1
-    do_test $txtt 8 {}     {1.0 1.4} 0 char
-    do_test $txtt 9 Escape {}        0 none
+    do_test $txtt 12 {}     {1.0 1.4} 0 char
+    do_test $txtt 13 Escape {}        0 none
 
     # Clean things up
     cleanup
@@ -583,29 +611,29 @@ namespace eval selectmode {
 
     do_test $txtt 0  {}          {1.0 1.5}   0 word
     do_test $txtt 1  bracketleft {1.1 1.29}  0 square
-    do_test $txtt 2  h           {1.0 1.30}  0 square 
-    do_test $txtt 3  l           {1.1 1.29}  0 square 
-    do_test $txtt 4  l           {1.11 1.19} 0 square 
-    do_test $txtt 5  l           {1.12 1.18} 0 square 
-    do_test $txtt 6  j           {1.12 1.18} 0 square 
-    do_test $txtt 7  k           {1.12 1.18} 0 square 
-    do_test $txtt 8  h           {1.11 1.19} 0 square 
-    do_test $txtt 9  J           {1.20 1.29} 0 square 
-    do_test $txtt 10 l           {1.21 1.28} 0 square 
-    do_test $txtt 11 J           {1.21 1.28} 0 square 
-    do_test $txtt 12 K           {1.21 1.28} 0 square 
-    do_test $txtt 13 h           {1.20 1.29} 0 square 
-    do_test $txtt 14 J           {1.20 1.29} 0 square 
-    do_test $txtt 15 k           {1.20 1.29} 0 square 
-    do_test $txtt 16 K           {1.11 1.19} 0 square 
-    do_test $txtt 17 j           {1.11 1.29} 0 square 
-    do_test $txtt 18 j           {1.11 1.29} 0 square 
-    do_test $txtt 19 k           {1.11 1.19} 0 square 
-    do_test $txtt 20 a           {1.11 1.19} 1 square 
-    do_test $txtt 21 j           {1.11 1.19} 1 square 
-    do_test $txtt 22 J           {1.20 1.29} 1 square 
-    do_test $txtt 23 k           {1.11 1.29} 1 square 
-    do_test $txtt 24 j           {1.20 1.29} 1 square 
+    do_test $txtt 2  h           {1.0 1.30}  0 square
+    do_test $txtt 3  l           {1.1 1.29}  0 square
+    do_test $txtt 4  l           {1.11 1.19} 0 square
+    do_test $txtt 5  l           {1.12 1.18} 0 square
+    do_test $txtt 6  j           {1.12 1.18} 0 square
+    do_test $txtt 7  k           {1.12 1.18} 0 square
+    do_test $txtt 8  h           {1.11 1.19} 0 square
+    do_test $txtt 9  J           {1.20 1.29} 0 square
+    do_test $txtt 10 l           {1.21 1.28} 0 square
+    do_test $txtt 11 J           {1.21 1.28} 0 square
+    do_test $txtt 12 K           {1.21 1.28} 0 square
+    do_test $txtt 13 h           {1.20 1.29} 0 square
+    do_test $txtt 14 J           {1.20 1.29} 0 square
+    do_test $txtt 15 k           {1.20 1.29} 0 square
+    do_test $txtt 16 K           {1.11 1.19} 0 square
+    do_test $txtt 17 j           {1.11 1.29} 0 square
+    do_test $txtt 18 j           {1.11 1.29} 0 square
+    do_test $txtt 19 k           {1.11 1.19} 0 square
+    do_test $txtt 20 a           {1.11 1.19} 1 square
+    do_test $txtt 21 j           {1.11 1.19} 1 square
+    do_test $txtt 22 J           {1.20 1.29} 1 square
+    do_test $txtt 23 k           {1.11 1.29} 1 square
+    do_test $txtt 24 j           {1.20 1.29} 1 square
     do_test $txtt 25 Escape {} 1 none
 
     $txtt mark set insert 1.13
@@ -638,29 +666,29 @@ namespace eval selectmode {
 
     do_test $txtt 0  {}        {1.0 1.5}   0 word
     do_test $txtt 1  parenleft {1.1 1.28}  0 paren
-    do_test $txtt 2  h         {1.0 1.29}  0 paren 
-    do_test $txtt 3  l         {1.1 1.28}  0 paren 
-    do_test $txtt 4  l         {1.11 1.18} 0 paren 
-    do_test $txtt 5  l         {1.12 1.17} 0 paren 
-    do_test $txtt 6  j         {1.12 1.17} 0 paren 
-    do_test $txtt 7  k         {1.12 1.17} 0 paren 
-    do_test $txtt 8  h         {1.11 1.18} 0 paren 
-    do_test $txtt 9  J         {1.19 1.28} 0 paren 
-    do_test $txtt 10 l         {1.20 1.27} 0 paren 
-    do_test $txtt 11 J         {1.20 1.27} 0 paren 
-    do_test $txtt 12 K         {1.20 1.27} 0 paren 
-    do_test $txtt 13 h         {1.19 1.28} 0 paren 
-    do_test $txtt 14 J         {1.19 1.28} 0 paren 
-    do_test $txtt 15 k         {1.19 1.28} 0 paren 
-    do_test $txtt 16 K         {1.11 1.18} 0 paren 
-    do_test $txtt 17 j         {1.11 1.28} 0 paren 
-    do_test $txtt 18 j         {1.11 1.28} 0 paren 
-    do_test $txtt 19 k         {1.11 1.18} 0 paren 
-    do_test $txtt 20 a         {1.11 1.18} 1 paren 
-    do_test $txtt 21 j         {1.11 1.18} 1 paren 
-    do_test $txtt 22 J         {1.19 1.28} 1 paren 
-    do_test $txtt 23 k         {1.11 1.28} 1 paren 
-    do_test $txtt 24 j         {1.19 1.28} 1 paren 
+    do_test $txtt 2  h         {1.0 1.29}  0 paren
+    do_test $txtt 3  l         {1.1 1.28}  0 paren
+    do_test $txtt 4  l         {1.11 1.18} 0 paren
+    do_test $txtt 5  l         {1.12 1.17} 0 paren
+    do_test $txtt 6  j         {1.12 1.17} 0 paren
+    do_test $txtt 7  k         {1.12 1.17} 0 paren
+    do_test $txtt 8  h         {1.11 1.18} 0 paren
+    do_test $txtt 9  J         {1.19 1.28} 0 paren
+    do_test $txtt 10 l         {1.20 1.27} 0 paren
+    do_test $txtt 11 J         {1.20 1.27} 0 paren
+    do_test $txtt 12 K         {1.20 1.27} 0 paren
+    do_test $txtt 13 h         {1.19 1.28} 0 paren
+    do_test $txtt 14 J         {1.19 1.28} 0 paren
+    do_test $txtt 15 k         {1.19 1.28} 0 paren
+    do_test $txtt 16 K         {1.11 1.18} 0 paren
+    do_test $txtt 17 j         {1.11 1.28} 0 paren
+    do_test $txtt 18 j         {1.11 1.28} 0 paren
+    do_test $txtt 19 k         {1.11 1.18} 0 paren
+    do_test $txtt 20 a         {1.11 1.18} 1 paren
+    do_test $txtt 21 j         {1.11 1.18} 1 paren
+    do_test $txtt 22 J         {1.19 1.28} 1 paren
+    do_test $txtt 23 k         {1.11 1.28} 1 paren
+    do_test $txtt 24 j         {1.19 1.28} 1 paren
     do_test $txtt 25 Escape {} 1 none
 
     $txtt mark set insert 1.13
@@ -692,29 +720,29 @@ namespace eval selectmode {
 
     do_test $txtt 0  {}   {1.0 1.5}   0 word
     do_test $txtt 1  less {1.1 1.29}  0 angled
-    do_test $txtt 2  h    {1.0 1.30}  0 angled 
-    do_test $txtt 3  l    {1.1 1.29}  0 angled 
-    do_test $txtt 4  l    {1.11 1.19} 0 angled 
-    do_test $txtt 5  l    {1.12 1.18} 0 angled 
-    do_test $txtt 6  j    {1.12 1.18} 0 angled 
-    do_test $txtt 7  k    {1.12 1.18} 0 angled 
-    do_test $txtt 8  h    {1.11 1.19} 0 angled 
-    do_test $txtt 9  J    {1.20 1.29} 0 angled 
-    do_test $txtt 10 l    {1.21 1.28} 0 angled 
-    do_test $txtt 11 J    {1.21 1.28} 0 angled 
-    do_test $txtt 12 K    {1.21 1.28} 0 angled 
-    do_test $txtt 13 h    {1.20 1.29} 0 angled 
-    do_test $txtt 14 J    {1.20 1.29} 0 angled 
-    do_test $txtt 15 k    {1.20 1.29} 0 angled 
-    do_test $txtt 16 K    {1.11 1.19} 0 angled 
-    do_test $txtt 17 j    {1.11 1.29} 0 angled 
-    do_test $txtt 18 j    {1.11 1.29} 0 angled 
-    do_test $txtt 19 k    {1.11 1.19} 0 angled 
-    do_test $txtt 20 a    {1.11 1.19} 1 angled 
-    do_test $txtt 21 j    {1.11 1.19} 1 angled 
-    do_test $txtt 22 J    {1.20 1.29} 1 angled 
-    do_test $txtt 23 k    {1.11 1.29} 1 angled 
-    do_test $txtt 24 j    {1.20 1.29} 1 angled 
+    do_test $txtt 2  h    {1.0 1.30}  0 angled
+    do_test $txtt 3  l    {1.1 1.29}  0 angled
+    do_test $txtt 4  l    {1.11 1.19} 0 angled
+    do_test $txtt 5  l    {1.12 1.18} 0 angled
+    do_test $txtt 6  j    {1.12 1.18} 0 angled
+    do_test $txtt 7  k    {1.12 1.18} 0 angled
+    do_test $txtt 8  h    {1.11 1.19} 0 angled
+    do_test $txtt 9  J    {1.20 1.29} 0 angled
+    do_test $txtt 10 l    {1.21 1.28} 0 angled
+    do_test $txtt 11 J    {1.21 1.28} 0 angled
+    do_test $txtt 12 K    {1.21 1.28} 0 angled
+    do_test $txtt 13 h    {1.20 1.29} 0 angled
+    do_test $txtt 14 J    {1.20 1.29} 0 angled
+    do_test $txtt 15 k    {1.20 1.29} 0 angled
+    do_test $txtt 16 K    {1.11 1.19} 0 angled
+    do_test $txtt 17 j    {1.11 1.29} 0 angled
+    do_test $txtt 18 j    {1.11 1.29} 0 angled
+    do_test $txtt 19 k    {1.11 1.19} 0 angled
+    do_test $txtt 20 a    {1.11 1.19} 1 angled
+    do_test $txtt 21 j    {1.11 1.19} 1 angled
+    do_test $txtt 22 J    {1.20 1.29} 1 angled
+    do_test $txtt 23 k    {1.11 1.29} 1 angled
+    do_test $txtt 24 j    {1.20 1.29} 1 angled
     do_test $txtt 25 Escape {} 1 none
 
     $txtt mark set insert 1.13
@@ -837,7 +865,7 @@ namespace eval selectmode {
 
     $txtt mark set insert 1.33
     select::set_select_mode $txtt 1
-    
+
     do_test $txtt 8  {}         {1.32 1.36} 0 word
     do_test $txtt 9  numbersign {1.31 2.0} 0 comment
     do_test $txtt 10 i          {1.29 2.0} 0 comment
@@ -851,19 +879,19 @@ namespace eval selectmode {
     cleanup
 
   }
-  
+
   # Verify block selection mode
   proc run_test17 {} {
 
     # Initialize
     set txtt [initialize]
-    
+
     $txtt insert end [join [lrepeat 9 "This is a line."] \n]
     vim::adjust_insert $txtt
     $txtt mark set insert 5.5
-    
+
     select::set_select_mode $txtt 1
-    
+
     do_test $txtt 0  {}    {5.5 5.7} 0 word
     do_test $txtt 1  b     {5.5 5.6} 0 block
     do_test $txtt 2  j     {5.5 5.6 6.5 6.6} 0 block
@@ -913,16 +941,16 @@ namespace eval selectmode {
 
     # Initialize
     set txtt [initialize]
-    
+
     syntax::set_language [winfo parent $txtt] "HTML"
-    
+
     $txtt insert end "<body>\n  <ul>\n    <li>Good <b>grief</b> sir</li>\n    <li>Nice</li>\n    <li>Okay</li>\n    <li>Fine</li>\n  </ul>\n"
     $txtt insert end "  <p></p>\n  <ul>\n    <li>Bad</li>\n    <li>Ugly</li>\n  </ul>\n  <br/>\n</body>"
     vim::adjust_insert $txtt
     $txtt mark set insert 1.1
-    
+
     select::set_select_mode $txtt 1
-    
+
     do_test $txtt 0 {} {1.0 1.5}   0 word
     do_test $txtt 1 n  {1.0 14.7}  0 node
     do_test $txtt 2 l  {1.6 14.0}  0 node
@@ -987,22 +1015,22 @@ namespace eval selectmode {
     cleanup
 
   }
-  
+
   # Verify node selection when the HTML is compressed
   proc run_test19 {} {
-    
+
     # Initialize
     set txtt [initialize]
-    
+
     syntax::set_language [winfo parent $txtt] "HTML"
-    
+
     $txtt insert end "<body><ul><li>Good</li><li>Bad</li></ul><br/></body>"
     vim::adjust_insert $txtt
-    
+
     $txtt mark set insert 1.0
-    
+
     select::set_select_mode $txtt 1
-    
+
     do_test $txtt 0 {} {1.0 1.5}   0 word
     do_test $txtt 1 n  {1.0 1.52}  0 node
     do_test $txtt 2 l  {1.6 1.45}  0 node
@@ -1015,10 +1043,10 @@ namespace eval selectmode {
     do_test $txtt 9 j  {1.6 1.45}  0 node
     do_test $txtt 10 h {1.0 1.52}  0 node
     do_test $txtt 11 Escape {} 0 none
-    
+
     # Clean things up
     cleanup
-    
+
   }
 
 }
