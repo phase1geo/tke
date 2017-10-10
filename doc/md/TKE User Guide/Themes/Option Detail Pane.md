@@ -47,9 +47,13 @@ On the left side of the pane is the bitmap editor. The grid of squares represent
 
 ![](assets/Theme-Bitmap.png "Theme Editor Bitmap Panel")
 
-On the right top is a preview of the image shown in actual size. Below the preview is the color chooser which allows you to change the color used in the image. You can select a color via a standard color chooser or you can select a color swatch value. Below the color picker are selection tools for setting the pixel width and height of the image.
+On the right top is a preview of the image shown in actual size.
 
-If you already have a BMP file containing the image, you can click the “Import BMP Data” button, select the file in the file chooser, and the bitmap image will be displayed in the selected color.
+Below the preview is the image transformation panel. With the buttons in the panel, you can move the image up, down, left or right. If your image contains transparent pixels on any side of the image, clicking the center button will automatically caused the image to be centered within the pixel viewer. Additionally, you can flip the image horizontally or vertically as well as rotate image by 90 degrees.
+
+Below the transformation panel is the color chooser which allows you to change the color used in the image. You can select a color via a standard color chooser or you can select a color swatch value. Below the color picker are selection tools for setting the pixel width and height of the image.
+
+If you already have a BMP file containing the image, you can click the “Import BMP Data” button, select the file in the file chooser, and the bitmap image will be displayed in the selected color. You can also export the current bitmap image to a file by clicking the "Export BMP Data" button and choosing a filename to save to.
 
 **Two-Color Bitmap Editor**
 
@@ -57,11 +61,17 @@ The two-color bitmap editor is much like the single-color bitmap editor except t
 
 On the left side, is the image editor. To set a pixel to a given color (or make it transparent), left or right-click on a pixel to change the pixel’s display.
 
-The image preview is shown in the upper right-hand corner in actual size. Below this preview are two color choosers to select the first and second colors of the image. With the color choosers, you can select a color via a standard color picker or use one of the swatch colors. Beneath the color selectors, are widgets to change the height and width of the image.
+The image preview is shown in the upper right-hand corner in actual size.
+
+Below the preview is the same image transformation panel that is available for the one-color bitmap editor.
+
+Below the transformation panel are two color choosers to select the first and second colors of the image. With the color choosers, you can select a color via a standard color picker or use one of the swatch colors. Beneath the color selectors, are widgets to change the height and width of the image.
 
 ![](assets/Theme-Bitmap2.png "Theme Editor 2-Color Bitmap Panel")
 
 If you already have a BMP image in a file, you can click on the “Import BMP Data” or “Import BMP Mask” buttons will set the image’s bitmap data or bitmap mask fields to the given value. The mask defines which pixels are drawn and which are transparent. The data defines which pixels are drawn in the first (pixel set) and second (pixel clear) colors.
+
+Additionally, you can export the BMP data or mask information to files by clicking on the "Export BMP Data" or "Export BMP Mask" buttons and selecting a file to save to in the resulting save dialog window.
 
 **GIF Photo**
 

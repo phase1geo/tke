@@ -259,6 +259,10 @@ The following specifies the syntax for this element:
 	  {HighlightClassStartWithChar {character} {processing_procedure}} *
 	}
 
+#### readmeta
+
+The readmeta section acts exactly the same as the meta section described above with the only exception being that the theme coloring used to color the foreground of tagged text will differ from meta syntax. The idea is that the meta color should be only slightly different than the background color but the readmeta color should have a higher contrast to the background to make it more readable. Typically, things like Markdown URLs or image file locations would be marked with this type instead of meta. Both meta and readmeta classes are hidden or shown with the "View / Show/Hide Meta Characters" menu option.
+
 #### advanced
 
 The advanced section allows for more complex language parsing scenarios (beyond what can be handled with a regular expression only) and allows the user to change the font rendering (i.e., bold, italics, underline, overstrike, superscript, subscript, and font size) and handle mouse clicks.
@@ -344,12 +348,12 @@ The `IgnoreBegin`/`IgnoreEnd` block is useful when you are testing syntax code, 
 
 #### formatting
 
-Specifies one or more supported syntax formatting by associating a TKE formatting type with language syntax that should be inserted before and/or after selected text (or line) within the editing buffer. The information specified in this section is used by TKE’s `Edit/Formatting` menu.
+Specifies one or more supported syntax formatting by associating a TKE formatting template. The information specified in this section is used by TKE’s `Edit/Formatting` menu.
 
 This section must be specified as follows:
 
 	formatting {
-	 type {(word|line) start_syntax ?end_syntax?}+
+	 type {(word|line) text_template}+
 	}
 
 The valid values for `type` are as follows:
@@ -366,5 +370,14 @@ The valid values for `type` are as follows:
 - ordered
 - unordered
 - checkbox
+- link
+- image
 
-A value of `word` should be used if the `start_syntax` and, if specified, `end_syntax` should be placed around the selected text. A value of `line` should be used if the `start_syntax` should be placed at the beginning of a selected line and, if specified, the `end_syntax` be placed at the end of a selected line.
+A value of `word` should be used if the currently selected text should be inserted into the template. A value of `line` should be used if the entire line should be inserted into the template.
+
+The template is a single string containing all of the formatting syntax required. It may include two special strings within it:
+
+- `{TEXT}` = Replaces this string with the selected or dropped text in the editing buffer. If no text is selected or dropped, TKE will place the insertion cursor at this point.
+- `{REF}` = Replaces this string with information that is requested from the user. Only formatting types of "link" and "image" may use this string within the formatting template. In the case of "link", the {REF} value will be the link URL value. In the case of "image", the {REF} value will be the URL of the image file.
+
+The formatting template may contain newlines (using the Enter key and not '\n'). When the formatting template is inserted into the text, TKE will perform auto-indentation based on the syntax and user preference information.
