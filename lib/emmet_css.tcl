@@ -1111,10 +1111,10 @@ namespace eval emmet_css {
         return ""
       }
     }
-
+    
     # Find the first non-commented, non-whitespace character
     set start $start_index
-    while {([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [ctext::inComment $txt $start_index]} {
+    while {($start ne "") && ([set start [$txt search -forwards -regexp -- {\S} $start end]] ne "") && [ctext::inComment $txt $start_index]} {
       set comment_tag [lsearch -inline [$txt tag names $start] _comstr*]
       set start [lindex [$txt tag prevrange $comment_tag $start+1c] 1]
     }

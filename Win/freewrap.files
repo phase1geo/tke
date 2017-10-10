@@ -151,6 +151,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/errors.txt
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/.tkesort
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/.tkesort
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Command API.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/commentCharRanges.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/Ctext Widget.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/delete.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/diff add.md
@@ -164,6 +165,9 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext W
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastdelete.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastinsert.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/fastreplace.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getLang.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getMatchBracket.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/getNextBracket - getPrevBracket.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter cget.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter clear.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Ctext Widget/gutter configure.md
@@ -199,6 +203,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin 
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/menu.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_close.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_delete.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_drop.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_duplicate.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_focusin.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_open.md
@@ -208,6 +213,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin 
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_rename.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_save.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_start.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_theme_changed.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_trash.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/on_uninstall.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin Action Types/Plugin Action Types.md
@@ -242,7 +248,8 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin 
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--export.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_buffer.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--add_file.md
-C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--current_file_index.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--all_indices.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--current_index.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--file--get_info.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_color_values.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--get_complementary_mono_color.md
@@ -270,6 +277,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin 
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_info.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--get_selected_indices.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--sidebar--set_info.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--theme--get_value.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--tke_development.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--unregister_launcher.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE Developer Guide/Plugin API/api--utils--open_file.md
@@ -348,6 +356,14 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File 
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Editing.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote File Viewer.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Remote File Editing/Remote Save File Dialog.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/.tkesort
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/assets/infobar.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/Miscellaneous Commands.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/Select Mode.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Anchor.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Exit Commands.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Motions.md
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Select Mode/Selection Object Types.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Sessions/Sessions.md
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/.tkesort
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/Snippets/assets/Preferences-Snippets-Editor.png
@@ -388,6 +404,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interfa
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Application-Window.png
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Difference-Viewer.png
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Editing-Panel.png
+C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Find-in-Files.png
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Directory.png
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-File.png
 C:/Users/wiltrevo/Documents/projects/tke-code/doc/md/TKE User Guide/User Interface/assets/Sidebar-Root.png
@@ -500,6 +517,7 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/format_parser.tac
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/format_parser.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/ftp_wrapper.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/gui.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/active_close.bmp
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/advanced.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/appearance.gif
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/images/blank.bmp
@@ -554,6 +572,17 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/ipanel.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/lang.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/launcher.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/logger.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/expect/libexpect5.45.dylib
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/expect/license.terms
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/expect/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/libtkdnd2.8.dylib
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_compat.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_generic.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_macosx.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_unix.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/macOS/tkdnd2.8/tkdnd_windows.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/Makefile
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/markers.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/menus.tcl
@@ -746,7 +775,30 @@ C:/Users/wiltrevo/Documents/projects/tke-code/lib/webdav/webdav.html
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/webdav/webdav.man
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/webdav/webdav.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/webdav/webdav.test
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/expect/expect.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/expect/expect543.dll
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/expect/injector.dll
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/expect/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/expect/teapot.txt
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/libtkdnd2.8.dll
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/tkdnd.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/tkdnd_compat.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/tkdnd_generic.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/tkdnd_macosx.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/tkdnd_unix.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8/tkdnd_windows.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd28.dll
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_compat.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_generic.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_macosx.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_unix.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/win/tkdnd2.8-64/tkdnd_windows.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/lib/windowlist.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/zipper/pkgIndex.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/lib/zipper/zipper.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/browser_me/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/browser_me/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/calendar/header.tkedat
@@ -775,12 +827,16 @@ C:/Users/wiltrevo/Documents/projects/tke-code/plugins/lorem/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/markdown_color/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/markdown_color/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/markdown_color/Markdown_color.syntax
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/markdown_drop/header.tkedat
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/markdown_drop/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/markdown_table_beautifier/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/markdown_table_beautifier/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/mercurial/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/mercurial/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/notes/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/notes/main.tcl
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/number_converter/header.tkedat
+C:/Users/wiltrevo/Documents/projects/tke-code/plugins/number_converter/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/perforce/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/perforce/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/pref_test/header.tkedat
@@ -812,12 +868,4 @@ C:/Users/wiltrevo/Documents/projects/tke-code/plugins/url_validator/main.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/url_validator/README.md
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/vcs_example/header.tkedat
 C:/Users/wiltrevo/Documents/projects/tke-code/plugins/vcs_example/main.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/libtkdnd2.8.dll
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/pkgIndex.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/tkdnd.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/tkdnd_compat.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/tkdnd_generic.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/tkdnd_macosx.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/tkdnd_unix.tcl
-C:/Users/wiltrevo/Documents/projects/tke-code/Win/tkdnd2.8/tkdnd_windows.tcl
 C:/Users/wiltrevo/Documents/projects/tke-code/Win/binit/binit.exe
