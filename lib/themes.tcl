@@ -195,9 +195,11 @@ namespace eval themes {
 
     # Unzip the file contents
     if {[catch { zipper::unzip $fname $themes_dir } rc]} {
-      tk_messageBox -parent $parent_win -icon error -type ok -default ok \
-        -message "Unable to unzip theme file" -detail $rc
-      return ""
+      if {[catch { exec -ignorestderr unzip -u $fname -d $themes_dir } rc]} {
+        tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+          -message "Unable to unzip theme file" -detail $rc
+        return ""
+      }
     }
 
     # Reload the available themes
@@ -230,8 +232,10 @@ namespace eval themes {
 
     # Perform the archive
     if {[catch { zipper::list2zip $theme [glob -directory $theme -tails *] [file join $theme.tkethemz] } rc]} {
-      tk_messageBox -parent $parent_win -icon error -type ok -default ok \
-        -message "Unable to zip theme file"
+      if {[catch { exec -ignorestderr zip -r [file join $theme.tkethemz] $theme } rc]} {
+        tk_messageBox -parent $parent_win -icon error -type ok -default ok \
+          -message "Unable to zip theme file"
+      }
     }
 
     # Restore the current working directory
