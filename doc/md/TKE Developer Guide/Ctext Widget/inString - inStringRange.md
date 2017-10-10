@@ -4,7 +4,7 @@ The inString command returns a value of true if the specified index exists withi
 
 **Call structure**
 
-`ctext::inString pathname index`
+`ctext::inString pathname index`<br>
 `ctext::inStringRange pathname index rangeref`
 
 **Return value**

@@ -4,7 +4,7 @@ The inCommentString and inCommentStringRange commands return a value of true if 
 
 **Call structure**
 
-`ctext::inCommentString pathname index`
+`ctext::inCommentString pathname index`<br>
 `ctext::inCommentStringRange pathname index rangeref`
 
 **Return value**

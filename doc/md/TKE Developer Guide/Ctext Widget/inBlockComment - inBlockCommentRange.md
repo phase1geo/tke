@@ -4,7 +4,7 @@ The inBlockComment and inBlockCommentRange commands return a value of true if th
 
 **Call structure**
 
-`ctext::inBlockComment pathname index`
+`ctext::inBlockComment pathname index`<br>
 `ctext::inBlockCommentRange pathname index rangeref`
 
 **Return value**

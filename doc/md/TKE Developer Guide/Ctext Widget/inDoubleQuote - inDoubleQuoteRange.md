@@ -4,7 +4,7 @@ The inDoubleQuote and inDoubleQuoteRange commands return a value of true if the 
 
 **Call structure**
 
-`ctext::inDoubleQuote pathname index`
+`ctext::inDoubleQuote pathname index`<br>
 `ctext::inDoubleQuoteRange pathname index rangeref`
 
 **Return value**
