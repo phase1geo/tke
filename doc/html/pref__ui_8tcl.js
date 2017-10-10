@@ -141,6 +141,7 @@ var pref__ui_8tcl =
     [ "themes_add", "pref__ui_8tcl.html#a68aeff27f15defeabe42d112c922df9a", null ],
     [ "themes_delete", "pref__ui_8tcl.html#a705743f78a06fd9364d84c63af572de0", null ],
     [ "themes_edit", "pref__ui_8tcl.html#a4cc9932cb5e53bf55b3f9dfa60e297a3", null ],
+    [ "themes_format_date", "pref__ui_8tcl.html#a769bf7306838b81069553b9f08c5188b", null ],
     [ "themes_format_imported", "pref__ui_8tcl.html#a0c54e227408457099a412c612dc616d0", null ],
     [ "themes_format_visible", "pref__ui_8tcl.html#af2869472f064d7d18e33fb0cc416159f", null ],
     [ "themes_get_more", "pref__ui_8tcl.html#ac7c1ac31bec2e9c489b345e45759d059", null ],

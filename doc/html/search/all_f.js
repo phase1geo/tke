@@ -16,7 +16,6 @@ var searchData=
   ['open_5ffolds',['open_folds',['../namespacemenus.html#a56e1578a261d2d481286a0ac1fb9eb52',1,'menus']]],
   ['open_5ffolds_5fin_5frange',['open_folds_in_range',['../namespacefolding.html#a063677a35e3d343fa7180e771b0f2e3a',1,'folding']]],
   ['open_5fremote_5fcommand',['open_remote_command',['../namespacemenus.html#ad7d1b978050852852100f2d76d15a83a',1,'menus']]],
-  ['open_5fsidebar',['open_sidebar',['../namespaceselect.html#a16f4eb82af857a4f4dda04946bff4e2a',1,'select']]],
   ['open_5furi',['open_uri',['../namespacelauncher.html#a01be421c9123caa926698c9d65cb6d07',1,'launcher']]],
   ['open_5furi_5fand_5fbookmark',['open_uri_and_bookmark',['../namespacelauncher.html#a100a192679617311de14252ea5b43a45',1,'launcher']]],
   ['open_5furl',['open_url',['../namespacelauncher.html#ae62944c720f7c1d7531a1854f8a1870a',1,'launcher']]],

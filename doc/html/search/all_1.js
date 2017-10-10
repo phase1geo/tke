@@ -75,6 +75,7 @@ var searchData=
   ['align_5flines',['align_lines',['../namespacegui.html#a33d3422dc347b80889449db2566ad6da',1,'gui']]],
   ['align_5fpanes',['align_panes',['../namespacegui.html#a0898f952b9c74506a101e5f41742696d',1,'gui']]],
   ['align_5fwith_5ftext',['align_with_text',['../namespacemulticursor.html#a0ce32b690a0b52fa833430dc7e6b1400',1,'multicursor']]],
+  ['all_5findices',['all_indices',['../namespaceapi_1_1file.html#a8a2aa54bb3fdffcb83adb342b0b12fba',1,'api::file']]],
   ['api',['api',['../namespaceapi.html',1,'']]],
   ['api_2etcl',['api.tcl',['../api_8tcl.html',1,'']]],
   ['apply_5fall_5fbindings',['apply_all_bindings',['../namespacebindings.html#a376f0da53fe0d132a0fbedfe2ba0c2d7',1,'bindings']]],
@@ -86,5 +87,6 @@ var searchData=
   ['plugin',['plugin',['../namespaceapi_1_1plugin.html',1,'api']]],
   ['preferences',['preferences',['../namespaceapi_1_1preferences.html',1,'api']]],
   ['sidebar',['sidebar',['../namespaceapi_1_1sidebar.html',1,'api']]],
+  ['theme',['theme',['../namespaceapi_1_1theme.html',1,'api']]],
   ['utils',['utils',['../namespaceapi_1_1utils.html',1,'api']]]
 ];

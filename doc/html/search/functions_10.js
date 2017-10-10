@@ -5,6 +5,7 @@ var searchData=
   ['pane_5fsync_5ftab_5fchange',['pane_sync_tab_change',['../namespacegui.html#a8598c377e4d61e1ae1b2629cc6c749f9',1,'gui']]],
   ['panel_5fforget',['panel_forget',['../namespacegui.html#af21bb39fed507842adf09db083021563',1,'gui']]],
   ['panel_5fplace',['panel_place',['../namespacegui.html#ad329878c4031ff898d52b31053ff6e74',1,'gui']]],
+  ['panel_5fset_5fui_5fstate',['panel_set_ui_state',['../namespacegui.html#a88337c244f1a9942c606ddc45ce336c6',1,'gui']]],
   ['panel_5ftheme_5fchange',['panel_theme_change',['../namespacesidebar.html#a016760f1bc4a8fceade80aae5aca38df',1,'sidebar']]],
   ['panes',['panes',['../namespacegui.html#a589a4a2beb2d4d13a296d423227939f8',1,'gui']]],
   ['parse',['parse',['../namespaceemmet__css.html#af0f86c297fe8b0d3ebb13d89f6f8a093',1,'emmet_css::parse()'],['../namespacetkedat.html#a08fb398e141982c3dccda6229055696d',1,'tkedat::parse()']]],

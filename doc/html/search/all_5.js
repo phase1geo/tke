@@ -24,6 +24,7 @@ var searchData=
   ['edit_5fmode',['edit_mode',['../namespacevim.html#a01f35f70050e5c5320c2692c1f7afc9d',1,'vim']]],
   ['edit_5fposting',['edit_posting',['../namespacemenus.html#a754b690bc6f116f772bc80a344c481f1',1,'menus']]],
   ['edit_5fpreferences_5fposting',['edit_preferences_posting',['../namespacemenus.html#aa5629bcb3dc311f5339d6c6f5a2f0110',1,'menus']]],
+  ['edit_5fselect_5fposting',['edit_select_posting',['../namespacemenus.html#a27cd043aa00664d9e40b85faa5e4541e',1,'menus']]],
   ['edit_5fsession_5fglobal',['edit_session_global',['../namespacemenus.html#a11c93bdb358a99e6ed5dc7d5c06447ee',1,'menus']]],
   ['edit_5fsession_5flanguage',['edit_session_language',['../namespacemenus.html#ae911ce317ce5deabf5bef0827cb4b834',1,'menus']]],
   ['edit_5fsidebar',['edit_sidebar',['../namespaceremote.html#aacd48ff5713f9763db7efa10637ecff7',1,'remote']]],
@@ -84,7 +85,8 @@ var searchData=
   ['expand_5fabbreviation',['expand_abbreviation',['../namespaceemmet.html#a0613356cebc787fd371ab50cb7fd0634',1,'emmet']]],
   ['expand_5fdirectory',['expand_directory',['../namespacesidebar.html#a445f95e292db7874f9645d5238094dfb',1,'sidebar']]],
   ['expand_5fslider',['expand_slider',['../namespacescroller.html#af5e54ff1949b559625e757829dc1a821',1,'scroller']]],
-  ['export',['export',['../namespacetheme.html#a34d0ab1423373b2149ee32009ef963bf',1,'theme::export()'],['../namespacethemer.html#a8da5404b5c6b540a8c7f90572b51ef8b',1,'themer::export()'],['../namespacethemes.html#a52628e71283eb597704f581bcb6ee6ee',1,'themes::export()'],['../namespaceutils.html#a8e97c167cd1177ee8d25cbfb98e91f4c',1,'utils::export()']]],
+  ['export',['export',['../namespacebitmap.html#acb41a2ddd41e47b3ee4c3b6e80d0512f',1,'bitmap::export()'],['../namespacetheme.html#a34d0ab1423373b2149ee32009ef963bf',1,'theme::export()'],['../namespacethemer.html#a8da5404b5c6b540a8c7f90572b51ef8b',1,'themer::export()'],['../namespacethemes.html#a52628e71283eb597704f581bcb6ee6ee',1,'themes::export()'],['../namespaceutils.html#a8e97c167cd1177ee8d25cbfb98e91f4c',1,'utils::export()']]],
   ['export_5fcommand',['export_command',['../namespacemenus.html#a7e5e4443a03406f8ae4a5552d6c1b56d',1,'menus']]],
+  ['export_5fcustom',['export_custom',['../namespacethemes.html#adb4416db61273c22ed941b7a8b626f9a',1,'themes']]],
   ['export_5fwin',['export_win',['../namespacethemer.html#a2e2c6ece8bc25098ebfd38b6570f2293',1,'themer']]]
 ];

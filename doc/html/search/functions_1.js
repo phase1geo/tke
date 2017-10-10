@@ -75,6 +75,7 @@ var searchData=
   ['align_5flines',['align_lines',['../namespacegui.html#a33d3422dc347b80889449db2566ad6da',1,'gui']]],
   ['align_5fpanes',['align_panes',['../namespacegui.html#a0898f952b9c74506a101e5f41742696d',1,'gui']]],
   ['align_5fwith_5ftext',['align_with_text',['../namespacemulticursor.html#a0ce32b690a0b52fa833430dc7e6b1400',1,'multicursor']]],
+  ['all_5findices',['all_indices',['../namespaceapi_1_1file.html#a8a2aa54bb3fdffcb83adb342b0b12fba',1,'api::file']]],
   ['apply_5fall_5fbindings',['apply_all_bindings',['../namespacebindings.html#a376f0da53fe0d132a0fbedfe2ba0c2d7',1,'bindings']]],
   ['apply_5ftheme',['apply_theme',['../namespacethemer.html#a0e8a91f22f7a6dbf92c2e81b0c0e0361',1,'themer']]],
   ['auto_5fadjust_5fcolor',['auto_adjust_color',['../namespaceutils.html#ae67b92ab7f8d7401b82a5ee5e211cc5d',1,'utils']]],

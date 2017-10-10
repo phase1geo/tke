@@ -11,6 +11,7 @@ var searchData=
   ['in_5fmultimove',['in_multimove',['../namespacevim.html#a688f234e011b754b8b5621fbf795c46b',1,'vim']]],
   ['in_5frecording',['in_recording',['../namespacevim.html#ad2022206c4a6e725c352662c2425218b',1,'vim']]],
   ['in_5fruleset',['in_ruleset',['../namespaceemmet__css.html#a0a7aa51ea75696cf9834dfda74db7e16',1,'emmet_css']]],
+  ['in_5fselect_5fmode',['in_select_mode',['../namespaceselect.html#af8a4aa9d014e8653e2a7d973b0c72dfc',1,'select']]],
   ['in_5furl',['in_url',['../namespaceemmet__css.html#a214757a6cf435dd6db3d861f27716eb8',1,'emmet_css']]],
   ['in_5fvim_5fmode',['in_vim_mode',['../namespacevim.html#a8b8353e1be34ccceba9f0c838687bbe1',1,'vim']]],
   ['in_5fvisual_5fmode',['in_visual_mode',['../namespacevim.html#a04b7c344ae65d382ec41288a6421f9e5',1,'vim']]],
@@ -52,7 +53,7 @@ var searchData=
   ['insert_5fsnippet_5finto_5fcurrent',['insert_snippet_into_current',['../namespacesnippets.html#a59c459010f4f70d5af4652e189d324aa',1,'snippets']]],
   ['insert_5ftab',['insert_tab',['../namespacegui.html#ad92485eb57694ac4654777eae6fddc2e',1,'gui']]],
   ['insert_5fvalue',['insert_value',['../namespaceemmet__css.html#a2c9efdf843194e15c4d5d26feea47c0e',1,'emmet_css']]],
-  ['inside_5ftag',['inside_tag',['../namespaceemmet.html#a897a0200c9b3fa647130178954971a26',1,'emmet']]],
+  ['inside_5ftag',['inside_tag',['../namespaceemmet.html#a601e7022025c5cd8612af5635dff67ca',1,'emmet']]],
   ['insinglequote',['inSingleQuote',['../namespacectext.html#a23220dba93e5a078db2bcb71e5534389',1,'ctext']]],
   ['insinglequoterange',['inSingleQuoteRange',['../namespacectext.html#aa388e7fb8356e825a5343eaf7d393c75',1,'ctext']]],
   ['install',['install',['../namespaceplugins.html#a98f7fbd2a998f61b939df9a7af51b585',1,'plugins']]],
@@ -70,6 +71,7 @@ var searchData=
   ['is_5ffavorite',['is_favorite',['../namespacefavorites.html#a52469338a908ccd162b74dc3117f8f69',1,'favorites']]],
   ['is_5ffolded',['is_folded',['../namespacefolding.html#a426b5811761f5d77db649a109f9b3499',1,'folding']]],
   ['is_5fopened',['is_opened',['../namespacefiles.html#a75692f11dbb826b157dbb1d950fdc56f',1,'files']]],
+  ['is_5furl',['is_url',['../namespaceutils.html#a44f24d13e8b345f2a527d712987ad383',1,'utils']]],
   ['is_5fviewable',['is_viewable',['../namespaceipanel.html#af24fe080c27143c490052372caa7976b',1,'ipanel']]],
   ['isescaped',['isEscaped',['../namespacectext.html#ab2f5f03e32ca87e3c6a0b7d5b97be1c7',1,'ctext']]]
 ];

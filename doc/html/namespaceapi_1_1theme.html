@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.12"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TKE: tk Namespace Reference</title>
+<title>TKE: api::theme Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('namespacetk.html','');});
+$(document).ready(function(){initNavTree('namespaceapi_1_1theme.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -83,35 +83,29 @@ $(document).ready(function(){initNavTree('namespacetk.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">tk Namespace Reference</div>  </div>
+<div class="title">api::theme Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacetk_1_1mac"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetk_1_1mac.html">mac</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8a018a4867efa0698fbb8f10940d647a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacetk.html#a8a018a4867efa0698fbb8f10940d647a">TextSetCursor</a> w pos args</td></tr>
-<tr class="separator:a8a018a4867efa0698fbb8f10940d647a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef435d9ebae88636ccfe7b0c1fe4f9d8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceapi_1_1theme.html#aef435d9ebae88636ccfe7b0c1fe4f9d8">get_value</a> interp pname category option</td></tr>
+<tr class="separator:aef435d9ebae88636ccfe7b0c1fe4f9d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a8a018a4867efa0698fbb8f10940d647a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a018a4867efa0698fbb8f10940d647a">&sect;&nbsp;</a></span>TextSetCursor()</h2>
+<a id="aef435d9ebae88636ccfe7b0c1fe4f9d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef435d9ebae88636ccfe7b0c1fe4f9d8">&sect;&nbsp;</a></span>get_value()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">tk::TextSetCursor</td>
+          <td class="memname">api::theme::get_value</td>
           <td></td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname">w pos args &#160;</td>
+          <td class="paramname">interp pname category option &#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -120,9 +114,10 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Returns the given theme value as specified by the category and option value. If no value exists, we will return an error. </p>
 
-<p>Definition at line <a class="el" href="ctext_8tcl_source.html#l00027">27</a> of file <a class="el" href="ctext_8tcl_source.html">ctext.tcl</a>.</p>
-<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">proc</span> ::tk::TextSetCursor {w pos args} {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">set</span> ins [$w index insert]<span class="comment"></span></div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"></span>  ::tk::TextSetCursorOrig $w $pos<span class="comment"></span></div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"></span>  <span class="keyword">event</span> generate $w &lt;&lt;CursorChanged&gt;&gt; -data [list $ins {*}$args]<span class="comment"></span></div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment"></span>}</div></div><!-- fragment -->
+<p>Definition at line <a class="el" href="api_8tcl_source.html#l01011">1011</a> of file <a class="el" href="api_8tcl_source.html">api.tcl</a>.</p>
+<div class="fragment"><div class="line"><a name="l01011"></a><span class="lineno"> 1011</span>&#160;    <span class="keyword">proc</span> get_value {interp pname category option} {</div><div class="line"><a name="l01012"></a><span class="lineno"> 1012</span>&#160;</div><div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;      <span class="comment"># Get the category options</span></div><div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;<span class="comment"></span><span class="comment">      </span><span class="keyword">array</span> set opts [<a class="code" href="namespacetheme.html#a3d0c815cf50f8ef1ec80bc7425d39286" title="theme::get_category_options">theme::get_category_options</a> $category 1]<span class="comment"></span></div><div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;<span class="comment"></span></div><div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;      <span class="keyword">if</span> {![<span class="keyword">info</span> exists opts($option)]} {</div><div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;        <span class="keyword">return</span> -code error &quot;Unable to find theme category option ($category, $option)&quot;<span class="comment"></span></div><div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;<span class="comment"></span>      }<span class="comment"></span></div><div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;<span class="comment"></span></div><div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;      <span class="keyword">return</span> $opts($option)<span class="comment"></span></div><div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;<span class="comment"></span></div><div class="line"><a name="l01022"></a><span class="lineno"> 1022</span>&#160;    }</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
@@ -130,8 +125,8 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacetk.html">tk</a></li>
-    <li class="footer">Generated on Mon Oct 9 2017 23:23:21 for TKE by
+    <li class="navelem"><a class="el" href="namespaceapi.html">api</a></li><li class="navelem"><a class="el" href="namespaceapi_1_1theme.html">theme</a></li>
+    <li class="footer">Generated on Mon Oct 9 2017 23:23:14 for TKE by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.12 </li>
   </ul>
