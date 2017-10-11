@@ -40,7 +40,6 @@ proc adjust_fname {fname} {
 
 }
 
-puts [time {
 set tke_dir  [adjust_fname [file dirname [file dirname [file normalize [info script]]]]]
 set tke_home [file normalize [file join ~ .tke]]
 
@@ -78,9 +77,6 @@ switch -glob $tcl_platform(os) {
   }
 }
 
-}]
-
-puts [time {
 package require -exact ctext 5.0
 package require -exact tablelist 5.18
 package require tooltip
@@ -165,10 +161,6 @@ if {[tk windowingsystem] eq "aqua"} {
 
 # Load the message file that is needed
 msgcat::mcload [file join $::tke_dir data msgs]
-
-}]
-
-puts [time {
 
 # Set the default right click button number
 set right_click 3
@@ -551,5 +543,3 @@ if {[catch {
 } rc]} {
   bgerror $rc
 }
-
-}]
