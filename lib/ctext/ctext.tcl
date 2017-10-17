@@ -3,6 +3,7 @@
 # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
 package require Tk
+package require Thread
 package provide ctext 5.0
 
 namespace eval ctext {
@@ -27,7 +28,7 @@ rename ::tk::TextSetCursor ::tk::TextSetCursorOrig
 proc ::tk::TextSetCursor {w pos args} {
   set ins [$w index insert]
   ::tk::TextSetCursorOrig $w $pos
-  event generate $w <<CursorChanged>> -data [list $ins {*}$args]
+  event generate $w <<CursorChanged>> -data [list $ins {*}$args] -when mark
 }
 
 proc ctext {win args} {
@@ -882,7 +883,7 @@ proc ctext::undo_manage {win} {
 
 }
 
-proc ctext::undo_insert {win insert_pos str_len cursor} {
+proc ctext::undo_insert {win startpos endpos cursor} {
 
   variable data
 
@@ -890,14 +891,12 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
     return
   }
 
-  set end_pos [$win index "$insert_pos+${str_len}c"]
-
   # Combine elements, if possible
   if {[llength $data($win,config,undo_hist)] > 0} {
     lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 hcursor sep
     if {$sep == 0} {
-      if {($cmd eq "d") && ($val2 == $insert_pos)} {
-        lset data($win,config,undo_hist) end 2 $end_pos
+      if {($cmd eq "d") && ($val2 == $startpos)} {
+        lset data($win,config,undo_hist) end 2 $endpos
         set data($win,config,redo_hist) [list]
         return
       }
@@ -905,7 +904,7 @@ proc ctext::undo_insert {win insert_pos str_len cursor} {
   }
 
   # Add to the undo history
-  lappend data($win,config,undo_hist) [list d $insert_pos $end_pos $cursor 0]
+  lappend data($win,config,undo_hist) [list d $startpos $endpos $cursor 0]
   incr data($win,config,undo_hist_size)
 
   # Clear the redo history
@@ -1151,7 +1150,7 @@ proc ctext::redo {win} {
 
 proc ctext::getGutterTags {win pos} {
 
-  set alltags [$win tag names $pos]
+  set alltags [$win._t tag names $pos]
   set tags    [lsearch -inline -all -glob $alltags gutter:*]
   lappend tags {*}[lsearch -inline -all -glob $alltags lmark*]
 
@@ -1162,22 +1161,13 @@ proc ctext::getGutterTags {win pos} {
 ######################################################################
 # Move all gutter tags from the old column 0 of the given row to the new
 # column 0 character.
-proc ctext::handleInsertAt0 {win startpos datalen} {
+proc ctext::handleInsertAt0 {win startpos endpos} {
 
-  if {[lindex [split $startpos .] 1] == 0} {
-    set endpos [$win index "$startpos+${datalen}c"]
+  if {[$win._t compare $startpos == "$startpos linestart"]} {
     foreach tag [getGutterTags $win $endpos] {
-      $win tag add $tag $startpos
-      $win tag remove $tag $endpos
+      $win._t tag add $tag $startpos
+      $win._t tag remove $tag $endpos
     }
-  }
-
-}
-
-proc ctext::handleDeleteAt0Helper {win firstpos endpos} {
-
-  foreach tag [getGutterTags $win $firstpos] {
-    $win._t tag add $tag $endpos
   }
 
 }
@@ -1187,15 +1177,12 @@ proc ctext::handleDeleteAt0Helper {win firstpos endpos} {
 # what will be the new column 0 after the deletion takes place.
 proc ctext::handleDeleteAt0 {win startpos endpos} {
 
-  lassign [split $startpos .] startrow startcol
-  lassign [split $endpos   .] endrow   endcol
-
-  if {$startrow == $endrow} {
-    if {$startcol == 0} {
-      handleDeleteAt0Helper $win $startrow.0 $endpos
+  if {([$win._t compare "$startpos linestart" == "$endpos linestart"] && \
+       [$win._t compare $startpos == "$startpos linestart"]) ||
+      [$win._t compare $endpos != "$endpos linestart"]} {
+    foreach tag [getGutterTags $win "$endpos linestart"] {
+      $win._t tag add $tag $endpos
     }
-  } elseif {$endcol != 0} {
-    handleDeleteAt0Helper $win $endrow.0 $endpos
   }
 
 }
@@ -1419,9 +1406,9 @@ proc ctext::command_delete {win args} {
   } else {
     ctext::checkAllBrackets $win $deldata
   }
+  
   ctext::modified $win 1 [list delete $ranges $moddata]
-
-  event generate $win.t <<CursorChanged>>
+  event generate $win.t <<CursorChanged>> -when mark
 
 }
 
@@ -1585,43 +1572,47 @@ proc ctext::command_fastdelete {win args} {
 
   if {$do_update} {
     ctext::modified $win 1 [list delete [list $startPos $endPos] $moddata]
-    event generate $win.t <<CursorChanged>>
+    event generate $win.t <<CursorChanged>> -when mark
   }
 
 }
 
 proc ctext::command_fastinsert {win args} {
 
+  set i 0
+  while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
+
+  command_fastinserti $win [lrange $args 0 [expr $i - 1]] {*}[lrange $args $i end]
+
+}
+  
+proc ctext::command_fastinserti {win clopts startpos dat {tags {}}} {
+
   variable data
-
-  set moddata   [list]
-  set do_update 1
-  set do_undo   1
-  while {[string index [lindex $args 0] 0] eq "-"} {
-    switch [lindex $args 0] {
-      "-moddata" { set args [lassign $args dummy moddata] }
-      "-update"  { set args [lassign $args dummy do_update] }
-      "-undo"    { set args [lassign $args dummy do_undo] }
-    }
+  
+  array set opts {
+    -moddata {}
+    -update  1
+    -undo    1
   }
+  array set opts $clopts
 
-  set startPos [$win._t index [lindex $args 0]]
-  set chars    [string length [lindex $args 1]]
+  set startPos [$win._t index $startpos]
   set cursor   [$win._t index insert]
+  lappend tags lmargin rmargin
 
-  $win._t insert {*}$args
+  $win._t insert $startPos $dat $tags
 
-  set endPos [$win._t index "$startPos+${chars}c"]
+  set endPos [$win._t index "$startPos+[string length $dat]c"]
 
-  if {$do_undo} {
-    ctext::undo_insert $win $startPos $chars $cursor
+  if {$opts(-undo)} {
+    ctext::undo_insert $win $startPos $endPos $cursor
   }
-  ctext::handleInsertAt0 $win._t $startPos $chars
-  ctext::set_rmargin     $win $startPos $endPos
+  ctext::handleInsertAt0 $win $startPos $endPos
 
-  if {$do_update} {
-    ctext::modified $win 1 [list insert [list $startPos $endPos] $moddata]
-    event generate $win.t <<CursorChanged>>
+  if {$opts(-update)} {
+    ctext::modified $win 1 [list insert [list $startPos $endPos] $opts(-moddata)]
+    event generate $win.t <<CursorChanged>> -when mark
   }
 
 }
@@ -1663,12 +1654,12 @@ proc ctext::command_fastreplace {win args} {
   ctext::set_rmargin         $win $startPos [$win._t index "$startPos+${datlen}c"]
 
   if {$do_undo} {
-    ctext::undo_insert $win $startPos $datlen $cursor
+    ctext::undo_insert $win $startPos [$win._t index "$startPos+${datlen}c"] $cursor
   }
 
   if {$do_update} {
     ctext::modified $win 1 [list replace [list $startPos $endPos] $moddata]
-    event generate $win.t <<CursorChanged>>
+    event generate $win.t <<CursorChanged>> -when mark
   }
 
 }
@@ -1746,12 +1737,13 @@ proc ctext::command_insert {win args} {
 
   $win._t insert {*}$args
 
+  set endPos  [$win._t index "$insertPos+${datlen}c"]
   set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
 
-  ctext::undo_insert     $win $insertPos $datlen $cursor
-  ctext::handleInsertAt0 $win._t $insertPos $datlen
-  ctext::set_rmargin     $win $insertPos "$insertPos+${datlen}c"
-  ctext::comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
+  ctext::undo_insert     $win $insertPos $endPos $cursor
+  ctext::handleInsertAt0 $win $insertPos $endPos
+  ctext::set_rmargin     $win $insertPos $endPos
+  ctext::comments_do_tag $win $insertPos $endPos do_tags
 
   # Highlight text and bracket auditing
   if {[ctext::highlightAll $win [list $lineStart $lineEnd] 1 $do_tags]} {
@@ -1761,7 +1753,7 @@ proc ctext::command_insert {win args} {
   }
   ctext::modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
-  event generate $win.t <<CursorChanged>>
+  event generate $win.t <<CursorChanged>> -when mark
 
 }
 
@@ -1797,7 +1789,7 @@ proc ctext::command_replace {win args} {
   $win._t replace {*}$args
 
   ctext::handleReplaceInsert $win $startPos $datlen $tags
-  ctext::undo_insert $win $startPos $datlen $cursor
+  ctext::undo_insert $win $startPos [$win._t index "$startPos+${datlen}c"] $cursor
 
   set lineStart [$win._t index "$startPos linestart"]
   set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
@@ -1817,7 +1809,7 @@ proc ctext::command_replace {win args} {
   }
   ctext::modified $win 1 [list replace [list $startPos $endPos] $moddata]
 
-  event generate $win.t <<CursorChanged>>
+  event generate $win.t <<CursorChanged>> -when mark
 
 }
 
@@ -1833,13 +1825,14 @@ proc ctext::command_paste {win args} {
   set insertPos [$win._t index insert]
   set datalen   [string length [clipboard get]]
 
-  ctext::undo_insert $win $insertPos $datalen [$win._t index insert]
-
   tk_textPaste $win
 
-  ctext::handleInsertAt0 $win._t $insertPos $datalen
-  ctext::modified $win 1 [list insert [list $insertPos [$win._t index "$insertPos+${datalen}c"]] $moddata]
-  event generate $win.t <<CursorChanged>>
+  set endPos [$win._t index "insert+${datalen}c"]
+
+  ctext::undo_insert     $win $insertPos $endPos $insertPos
+  ctext::handleInsertAt0 $win $insertPos $endPos
+  ctext::modified $win 1 [list insert [list $insertPos $endPos] $moddata]
+  event generate $win.t <<CursorChanged>> -when mark
 
 }
 
@@ -2896,7 +2889,7 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
   }
 
   if {$all} {
-    event generate $win.t <<StringCommentChanged>>
+    event generate $win.t <<StringCommentChanged>> -when mark
   }
 
   return $all
@@ -3852,7 +3845,7 @@ proc ctext::modified {win value {dat ""}} {
   variable data
 
   set data($win,config,modified) $value
-  event generate $win <<Modified>> -data $dat
+  event generate $win <<Modified>> -data $dat -when mark
 
   return $value
 
