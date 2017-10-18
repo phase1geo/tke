@@ -3,9 +3,11 @@
 # RCS: @(#) $Id: ctext.tcl,v 1.9 2011/04/18 19:49:48 andreas_kupries Exp $
 
 package require Tk
+package require Thread
 package provide ctext 6.0
 
 namespace eval ctext {
+  
   array set REs {
     words    {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
     brackets {[][()\{\}<>]}
@@ -17,11 +19,15 @@ namespace eval ctext {
   variable temporary {}
   variable right_click 3
   # Create a thread pool to handle the various tasks required
-  variable tpool [tpool::create -minworkers 5 -maxworkers 15]
+  variable tpool
+  
+  set parser [file join [file dirname [file normalize [info script]]] parsers.tcl]
+  set tpool [tpool::create -minworkers 5 -maxworkers 15 -initcmd [list source $parser]]
 
   if {[tk windowingsystem] eq "aqua"} {
     set right_click 2
   }
+  
 }
 
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
@@ -3416,6 +3422,25 @@ proc ctext::clearHighlightClasses {win} {
 
 }
 
+######################################################################
+# Helper procedure that allows us to generate debug messages from within
+# the threads.
+proc ctext::thread_log {id msg} {
+  
+  puts "$id: $msg"
+  
+}
+
+######################################################################
+# Renders the given tag with the specified ranges in the given widget.
+proc ctext::render {win tag ranges} {
+  
+  if {[llength $ranges]} {
+    $win._t tag add $tag {*}$ranges
+  }
+  
+}
+
 proc ctext::handle_tag {win class startpos endpos cmd} {
 
   variable data
@@ -3434,11 +3459,9 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
 
 }
 
-proc ctext::doHighlight {win start end ins} {
+proc ctext::doHighlight {win start end ins {block 0}} {
 
   variable data
-  variable REs
-  variable restart_from
   variable tpool
 
   if {![winfo exists $win]} {
@@ -3449,93 +3472,43 @@ proc ctext::doHighlight {win start end ins} {
     return
   }
 
-  set twin "$win._t"
-  array set tags [list]
-
-  # Handle word-based matching
-  tpool::post -detached $tpool {
-    set i 0
-    foreach res [$twin search -count lengths -regexp {*}$data($win,config,re_opts) -all -- $data($win,config,-delimiters) $start $end] {
-      set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-      set word    [$twin get $res $wordEnd]
-      set lang    [lindex [split [lindex [$twin tag names $res] 0] =] 1]
-      if {!$data($win,config,-casesensitive)} {
-        set word [string tolower $word]
-      }
-      set firstOfWord [string index $word 0]
-      if {[info exists data($win,highlight,keyword,class,$lang,$word)]} {
-        lappend tags($data($win,highlight,keyword,class,$lang,$word)) $res $wordEnd
-      } elseif {[info exists data($win,highlight,charstart,class,$lang,$firstOfWord)]} {
-        lappend tags($data($win,highlight,charstart,class,$lang,$firstOfWord)) $res $wordEnd
-      }
-      if {[info exists data($win,highlight,keyword,command,$lang,$word)] && \
-          ![catch { {*}$data($win,highlight,keyword,command,$lang,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-        if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-          lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-        }
-      } elseif {[info exists data($win,highlight,charstart,command,$lang,$firstOfWord)] && \
-                ![catch { {*}$data($win,highlight,charstart,command,$lang,$firstOfWord) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-        if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-          lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-        }
-      }
-      if {[info exists data($win,highlight,searchword,class,$word)]} {
-        $twin tag add $data($win,highlight,searchword,class,$word) $res $wordEnd
-      } elseif {[info exists data($win,highlight,searchword,command,$word)] && \
-                ![catch { {*}$data($win,highlight,searchword,command,$word) $win $res $wordEnd $ins } retval] && ([llength $retval] == 4)} {
-        if {[set ret [handle_tag $win {*}$retval]] ne ""} {
-          lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-        }
-      }
-      incr i
-    }
-  }
-
-  # Handle regular expression matching
+  set jobids   [list]
+  set startrow [lindex [split [$win._t index $start] .] 0]
+  set str      [$win._t get $start $end]
+  set tid      [thread::id]
+  
+  # Perform keyword/startchars parsing
+  lappend jobids [tpool::post $tpool \
+    [list parsers::keyword_startchars $tid $win $str $startrow TBD TBD $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
+  ]
+  
+  # Handle regular expression parsing
   if {[info exists data($win,highlight,regexps)]} {
     foreach name $data($win,highlight,regexps) {
       lassign [split $name ,] dummy type lang value
       lassign $data($win,highlight,$name) re re_opts
-      set i 0
       if {$type eq "class"} {
-        foreach res [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $start $end] {
-          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
-            set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-            lappend tags($value) $res $wordEnd
-          }
-          incr i
-        }
+        lappend jobids [tpool::post $tpool \
+          [list parsers::regexp_class $tid $win $str $startrow $re $value] \
+        ]
       } else {
-        set indices [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $start $end]
-        while {[llength $indices]} {
-          set indices [lassign $indices res]
-          set wordEnd [$twin index "$res + [lindex $lengths $i] chars"]
-          incr i
-          if {$lang eq [lindex [split [lindex [$twin tag names $res] 0] =] 1]} {
-            if {![catch { {*}$value $win $res $wordEnd $ins } retval] && ([llength $retval] == 2)} {
-              foreach sub [lindex $retval 0] {
-                if {([llength $sub] == 4) && ([set ret [handle_tag $win {*}$sub]] ne "")} {
-                  lappend tags([lindex $ret 0]) {*}[lrange $ret 1 end]
-                }
-              }
-              if {[set restart_from [lindex $retval 1]] ne ""} {
-                set i       0
-                set indices [$twin search -count lengths -regexp {*}$re_opts -all -nolinestop -- $re $restart_from $end]
-              }
-            }
-          }
-        }
+        # TBD - Need to add command
+        lappend jobids [tpool::post $tpool \
+          [list parsers::regexp_command $tid $win $str $startrow $re $value $ins] \
+        ]
       }
     }
   }
-
-  # Add the tags
-  foreach tag [array names tags] {
-    $twin tag add $tag {*}$tags($tag)
+  
+  # If we need to block for some reason, do it here
+  if {$block} {
+    while {[llength $jobids]} {
+      tpool::wait $tpool $jobids jobids
+    }
   }
-
+  
 }
-
+  
 # Called when the given lines are about to be deleted.  Allows the linemap_mark_command call to
 # be made when this occurs.
 proc ctext::linemapCheckOnDelete {win startpos {endpos ""}} {
