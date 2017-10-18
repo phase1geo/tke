@@ -445,7 +445,7 @@ namespace eval files {
 
       # Save the file contents to the remote file
       if {![remote::save_file $remote $fname $contents modtime]} {
-        set_error_message [msgcat::mc "Unable to write remote file"] ""
+        gui::set_error_message [msgcat::mc "Unable to write remote file"] ""
         return 0
       }
 
@@ -462,7 +462,7 @@ namespace eval files {
 
     } else {
 
-      set_error_message [msgcat::mc "Unable to write file"] $rc
+      gui::set_error_message [msgcat::mc "Unable to write file"] $rc
       return 0
 
     }
