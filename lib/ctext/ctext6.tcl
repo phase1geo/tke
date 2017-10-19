@@ -206,19 +206,9 @@ namespace eval ctext {
     bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                   [list event generate $win.t <4>]
     bind $win.l <5>                   [list event generate $win.t <5>]
-
-    rename $win __ctextJunk$win
-    rename $win.t $win._t
-
     bind $win <Destroy> [list ctext::event:Destroy $win %W]
+
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
-
-    interp alias {} $::win {} ctext::instanceCmd $win
-    interp alias {} $::win.t {} $win
-
-    modified $win 0
-    buildArgParseTable $win
-    adjust_rmargin $win
 
     return $win
 
@@ -936,6 +926,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Adds an insertion to the undo buffer.  We also will combine insertion
+  # elements, if possible, to make the undo buffer more efficient.
   proc undo_insert {win insert_pos str_len cursor} {
 
     variable data
@@ -968,6 +960,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Adds an deletion to the undo buffer.  We also will combine deletion
+  # elements, if possible, to make the undo buffer more efficient.
   proc undo_delete {win start_pos end_pos} {
 
     variable data
@@ -1011,6 +1005,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Retrieves the cursor position history from the undo buffer.
   proc undo_get_cursor_hist {win} {
 
     variable data
@@ -1034,6 +1029,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs a single undo operation from the undo buffer and adjusts the
+  # buffers accordingly.
   proc undo {win} {
 
     variable data
@@ -1122,6 +1119,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs a single redo operation, adjusting the contents of the undo
+  # and redo buffers accordingly.
   proc redo {win} {
 
     variable data
@@ -1208,6 +1207,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Returns the tags that are used by the gutter (including linemark
+  # information) for the given text position.
   proc getGutterTags {win pos} {
 
     set alltags [$win tag names $pos]
@@ -1234,6 +1235,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Helper procedure for the handleDeleteAt0 procedure.
   proc handleDeleteAt0Helper {win firstpos endpos} {
 
     foreach tag [getGutterTags $win $firstpos] {
@@ -1295,6 +1297,9 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # This procedure is the main command handler when the ctext widget is
+  # used as a command.  This basically just calls the associated command
+  # procedure and returns its result to the caller.
   proc instanceCmd {win cmd args} {
 
     variable data
@@ -1325,6 +1330,10 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # If called with no arguments, appends the currently selected text to
+  # the clipboard.  If called with a single index argument, appends the
+  # character at the given position to the clipboard.  If called with
+  # two arguments, appends the text range to the clipboard.
   proc command_append {win args} {
 
     variable data
@@ -1415,6 +1424,9 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # If text is currently selected, clears the clipboard and adds the selected
+  # text to the clipboard; otherwise, clears the clipboard and adds the contents
+  # of the current line to the clipboard.
   proc command_copy {win args} {
 
     variable data
@@ -1434,6 +1446,10 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # If text is currently selected, clears the clipboard, adds the selected
+  # text to the clipboard and deletes the selected text.  If no text is
+  # selected, performs the same procedure with the contents of the current
+  # line.
   proc command_cut {win args} {
 
     variable data
@@ -1661,91 +1677,93 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs a text insertion without performing immediate text highlighting.
   proc command_fastinsert {win args} {
 
     variable data
 
-    set moddata   [list]
-    set do_update 1
-    set do_undo   1
-    while {[string index [lindex $args 0] 0] eq "-"} {
-      switch [lindex $args 0] {
-        "-moddata" { set args [lassign $args dummy moddata] }
-        "-update"  { set args [lassign $args dummy do_update] }
-        "-undo"    { set args [lassign $args dummy do_undo] }
-      }
-    }
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
-    set startPos [$win._t index [lindex $args 0]]
-    set chars    [string length [lindex $args 1]]
+    array set opts {
+      -moddata {}
+      -update  1
+      -undo    1
+    }
+    array set opts [lrange $args 0 [expr $i - 1]]
+    
+    lassign [lrange $args $i end] startPos content tags
+    
+    set startPos [$win._t index $startPos]
+    set chars    [string length $content]
+    set tags     [list {*}$tags lmargin rmargin]
     set cursor   [$win._t index insert]
 
-    $win._t insert {*}$args
+    $win._t insert $startPos $content $tags
 
     set endPos [$win._t index "$startPos+${chars}c"]
 
-    if {$do_undo} {
+    if {$opts(-undo)} {
       undo_insert $win $startPos $chars $cursor
     }
     handleInsertAt0 $win._t $startPos $chars
-    set_rmargin     $win $startPos $endPos
 
-    if {$do_update} {
-      modified $win 1 [list insert [list $startPos $endPos] $moddata]
+    if {$opts(-update)} {
+      modified $win 1 [list insert [list $startPos $endPos] $opts(-moddata)]
       event generate $win.t <<CursorChanged>>
     }
 
   }
 
   ######################################################################
+  # Performs a text replacement without performing immediate text
+  # highlighting.
   proc command_fastreplace {win args} {
 
     variable data
 
-    if {[llength $args] < 3} {
-      return -code error "please use at least 3 arguments to $win replace"
-    }
+    set i 0
+    while {[string index [lindex $args $i] 0] eq "-"} { incr i 2 }
 
-    set moddata   [list]
-    set do_update 1
-    set do_undo   1
-    while {[string index [lindex $args 0] 0] eq "-"} {
-      switch [lindex $args 0] {
-        "-moddata" { set args [lassign $args dummy moddata] }
-        "-update"  { set args [lassign $args dummy do_update] }
-        "-undo"    { set args [lassign $args dummy do_undo] }
-      }
+    array set opts {
+      -moddata {}
+      -update  1
+      -undo    1
     }
-
-    set startPos [$win._t index [lindex $args 0]]
-    set endPos   [$win._t index [lindex $args 1]]
-    set datlen   [string length [lindex $args 2]]
+    array set opts [lrange $args 0 [expr $i - 1]]
+    
+    lassign [lrange $args $i end] startPos endPos content tags
+    
+    set startPos [$win._t index $startPos]
+    set endPos   [$win._t index $endPos]
+    set datlen   [string length $content]
+    set tags     [list {*}$tags lmargin rmargin]
     set cursor   [$win._t index insert]
 
-    if {$do_undo} {
+    if {$opts(-undo)} {
       undo_delete $win $startPos $endPos
     }
 
-    set tags [handleReplaceDeleteAt0 $win $startPos $endPos]
+    set gtags [handleReplaceDeleteAt0 $win $startPos $endPos]
 
     # Perform the text replacement
-    $win._t replace {*}$args
+    $win._t replace $startPos $endPos $content $tags
 
-    handleReplaceInsert $win $startPos $datlen $tags
-    set_rmargin         $win $startPos [$win._t index "$startPos+${datlen}c"]
+    handleReplaceInsert $win $startPos $datlen $gtags
 
-    if {$do_undo} {
+    if {$opts(-undo)} {
       undo_insert $win $startPos $datlen $cursor
     }
 
-    if {$do_update} {
-      modified $win 1 [list replace [list $startPos $endPos] $moddata]
+    if {$opts(-update)} {
+      modified $win 1 [list replace [list $startPos $endPos] $opts(-moddata)]
       event generate $win.t <<CursorChanged>>
     }
 
   }
 
   ######################################################################
+  # Performs text highlighting on the given ranges.
   proc command_highlight {win args} {
 
     variable data
@@ -1768,27 +1786,27 @@ namespace eval ctext {
     }
 
     highlightAll $win $ranges $opts(-insert) $opts(-block) $opts(-dotags)
-    modified $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
+    modified     $win $opts(-modified) [list highlight $ranges $opts(-moddata)]
 
   }
 
   ######################################################################
+  # Inserts text and performs highlighting on that text.
   proc command_insert {win args} {
 
     variable data
-
-    if {[llength $args] < 2} {
-      return -code error "please use at least 2 arguments to $win insert"
-    }
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
       set args [lassign $args dummy moddata]
     }
+    
+    lassign $args insertPos content tags
 
-    set insertPos [$win._t index [lindex $args 0]]
+    set insertPos [$win._t index $insertPos]
+    set chars     [string length $content]
+    set tags      [list {*}$tags lmargin rmargin]
     set cursor    [$win._t index insert]
-    set dat       ""
     set do_tags   [list]
 
     if {[lindex $args 0] eq "end"} {
@@ -1797,30 +1815,13 @@ namespace eval ctext {
       set lineStart [$win._t index "$insertPos linestart"]
     }
 
-    # Gather the data
-    foreach {chars taglist} [lrange $args 1 end] {
-      append dat $chars
-    }
-    set datlen [string length $dat]
+    $win._t insert $insertPos $content $tags
 
-    # Add the embedded language tag to the arguments if taglists are present
-    if {([llength $args] >= 3) && ([set lang [getLang $win $insertPos]] ne "")} {
-      set tag_index 2
-      foreach {chars taglist} [lrange $args 1 end] {
-        lappend taglist _Lang:$lang
-        lset args $tag_index $taglist
-        incr tag_index 2
-      }
-    }
-
-    $win._t insert {*}$args
-
-    set lineEnd [$win._t index "${insertPos}+${datlen}c lineend"]
+    set lineEnd [$win._t index "${insertPos}+${chars}c lineend"]
 
     undo_insert     $win $insertPos $datlen $cursor
     handleInsertAt0 $win._t $insertPos $datlen
-    set_rmargin     $win $insertPos "$insertPos+${datlen}c"
-    comments_do_tag $win $insertPos "$insertPos+${datlen}c" do_tags
+    comments_do_tag $win $insertPos "$insertPos+${chars}c" do_tags
 
     # Highlight text and bracket auditing
     if {[highlightAll $win [list $lineStart $lineEnd] 1 1 $do_tags]} {
@@ -2680,6 +2681,9 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Checks the given bracket type to make sure that it has a match.  Highlights
+  # any mismatched brackets using the "missing:*" color that is configured
+  # for this widget.
   proc checkBracketType {win stype} {
 
     variable data
@@ -2780,6 +2784,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Returns the language the is being represented at the given index.
+  # If the primary language is being used, the empty string is returned.
   proc getLang {win index} {
 
     return [lindex [split [lindex [$win tag names $index] 0] =] 1]
@@ -2787,6 +2793,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Clears all of the data storage used for syntax highlighting for
+  # comments, strings and languages.
   proc clearCommentStringPatterns {win} {
 
     variable data
@@ -2801,6 +2809,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Adds the given block comment regular expressions to the parser and
+  # configures block comment coloring to the given color.
   proc setBlockCommentPatterns {win lang patterns {color "khaki"}} {
 
     variable data
@@ -2838,6 +2848,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Adds the given line comment regular expressions to the parser and
+  # configures line comment coloring to the given color.
   proc setLineCommentPatterns {win lang patterns {color "khaki"}} {
 
     variable data
@@ -2863,34 +2875,50 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Adds the given string regular expressions to the parser and
+  # configures string coloring to the given color.
   proc setStringPatterns {win lang patterns {color "green"}} {
 
     variable data
+    
+    array set tags {}
 
     foreach pattern $patterns {
       switch $pattern {
-        \"      { lappend data($win,config,csl_patterns) "_dQuote:$lang" $pattern }
-        `       { lappend data($win,config,csl_patterns) "_bQuote:$lang" $pattern }
-        default { lappend data($win,config,csl_patterns) "_sQuote:$lang" $pattern }
+        \"\"\"  {
+          lappend data($win,config,csl_patterns) "_DQuote:$lang" $pattern
+          array set tags [list _DQuote:${lang}0 1 _DQuote:${lang}1 1 _comstr0D0 1 _comstr0D1 1]
+        }
+        \"      {
+          lappend data($win,config,csl_patterns) "_dQuote:$lang" $pattern
+          array set tags [list _dQuote:${lang}0 1 _dQuote:${lang}1 1 _comstr0d0 1 _comstr0d1 1]
+        }
+        ```     {
+          lappend data($win,config,csl_patterns) "_BQuote:$lang" $pattern
+          array set tags [list _BQuote:${lang}0 1 _BQuote:${lang}1 1 _comstr0B0 1 _comstr0B1 1]
+        }
+        `       {
+          lappend data($win,config,csl_patterns) "_bQuote:$lang" $pattern
+          array set tags [list _bQuote:${lang}0 1 _bQuote:${lang}1 1 _comstr0b0 1 _comstr0b1 1]
+        }
+        '''     {
+          lappend data($win,config,csl_patterns) "_SQuote:$lang" $pattern
+          array set tags [list _SQuote:${lang}0 1 _SQuote:${lang}1 1 _comstr0S0 1 _comstr0S1 1]
+        }
+        default {
+          lappend data($win,config,csl_patterns) "_sQuote:$lang" $pattern
+          array set tags [list _sQuote:${lang}0 1 _sQuote:${lang}1 1 _comstr0s0 1 _comstr0s1 1]
+        }
       }
     }
 
-    array set tags [list \
-      _sQuote:${lang}0 1 _sQuote:${lang}1 1 \
-      _dQuote:${lang}0 1 _dQuote:${lang}1 1 \
-      _bQuote:${lang}0 1 _bQuote:${lang}1 1 \
-      _comstr0s0 1 _comstr0s1 1 \
-      _comstr0d0 1 _comstr0d1 1 \
-      _comstr0b0 1 _comstr0b1 1 \
-    ]
-
     if {[llength $patterns] > 0} {
-      foreach tag [list _comstr0s0 _comstr0s1 _comstr0d0 _comstr0d1 _comstr0b0 _comstr0b1] {
+      foreach tag [array names tags _comstr*] {
         $win tag configure $tag -foreground $color
         $win tag lower $tag sel
       }
       lappend data($win,config,csl_char_tags) _sQuote:$lang _dQuote:$lang _bQuote:$lang
-      lappend data($win,config,csl_tags)      _comstr0s0 _comstr0s1 _comstr0d0 _comstr0d1 _comstr0b0 _comstr0b1
+      lappend data($win,config,csl_tags)      {*}[array names tags _comstr*]
       lappend data($win,config,csl_array)     {*}[array get tags]
       lappend data($win,config,csl_tag_pair)  _sQuote:$lang _comstr0s _dQuote:$lang _comstr0d _bQuote:$lang _comstr0b
     } else {
@@ -2902,6 +2930,9 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Sets the given regular expression for determining the start and end
+  # positions for a given embedded language.  Also provides the background
+  # color to be used for the language syntax.
   proc setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} {
 
     variable data
@@ -2926,6 +2957,14 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Main procedure used for performing all necessary syntax tagging and
+  # highlighting.  This 'ins' parameter should be set to 1 if we are being
+  # called after inserting the text that is being highlighted; otherwise, it
+  # should be set to 0.  The 'block' parameter causes this call to wait for
+  # all syntax highlighting to be applied prior to returning.  The 'do_tag'
+  # list should be derived from the list of tags that were deleted that
+  # would cause us to re-evaluate the comment parser.  This highlight
+  # procedure can automatically highlight one or more ranges of text.
   proc highlightAll {win lineranges ins block {do_tag ""}} {
 
     variable data
@@ -2990,17 +3029,14 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Returns the indices of the given tag that are found within the given
+  # text range.
   proc getTagInRange {win tag start end} {
 
     set indices [list]
 
-    while {1} {
-      lassign [$win tag nextrange $tag $start] tag_start tag_end
-      if {($tag_start ne "") && [$win compare $tag_start < $end]} {
-        lappend indices $tag_start $tag_end
-      } else {
-        break
-      }
+    while {[set tag_end [lassign [$win tag nextrange $tag $start $end] tag_start]] ne ""} {
+      lappend indices $tag_start $tag_end
       set start $tag_end
     }
 
@@ -3009,15 +3045,22 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Returns the list of comments/strings/language tags found in the given
+  # text range.  This should be called just prior to deleting the given
+  # text range.  The returned result should be passed to the "comments"
+  # procedure to help it determine if comment/string/language highlighting
+  # needs to be applied.
   proc comments_chars_deleted {win start end pdo_tags} {
 
     variable data
 
     upvar $pdo_tags do_tags
+    
+    set start_tags [$win tag names $start]
+    set end_tags   [$win tag names $end-1c]
 
     foreach {tag dummy} $data($win,config,csl_array) {
-      lassign [$win tag nextrange $tag $start] tag_start tag_end
-      if {($tag_start ne "") && [$win compare $tag_start < $end]} {
+      if {[lsearch $start_tags $tag] != [lsearch $end_tags $tag]} {
         lappend do_tags $tag
         return
       }
@@ -3026,6 +3069,8 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Called after text has been inserted.  Adds a dummy tag to do_tags
+  # if the text range starts within a line comment and includes a newline.
   proc comments_do_tag {win start end pdo_tags} {
 
     upvar $pdo_tags do_tags
@@ -3037,6 +3082,17 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs comment, string and language parsing and highlighting.  The
+  # algorithm starts by identifying all syntax that starts/ends any of these
+  # syntax blocks.  If any syntax was found in this step (or our passed
+  # in set of tags is non-empty), we will re-apply highlighting.
+  #
+  # This method can be a bit time-consuming since we basically need to
+  # evaluate the entire file (or at least all code following the current
+  # text range).  Additionally, we can't just apply highlighting regardless
+  # of other syntax.  This would cause problems if we had code like:
+  #
+  # /* This is a " double quote */ set foobar "cool"
   proc comments {win ranges do_tags} {
 
     variable data
@@ -3934,8 +3990,23 @@ namespace eval ctext {
 
 }
 
+######################################################################
+# Creates a ctext widget and initializes it for use based on the given
+# settings.
 proc ctext {win args} {
 
-  return [ctext::create $win {*}$args]
+  set win [ctext::create $win {*}$args]
+
+  rename $win __ctextJunk$win
+  rename $win.t $win._t
+
+  interp alias {} $win {} ctext::instanceCmd $win
+  interp alias {} $win.t {} $win
+
+  ctext::modified           $win 0
+  ctext::buildArgParseTable $win
+  ctext::adjust_rmargin     $win
+
+  return $win
 
 }
