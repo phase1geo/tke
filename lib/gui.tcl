@@ -1850,7 +1850,7 @@ namespace eval gui {
       $txt fastinsert end $contents
 
       # Highlight text and add update code folds
-      $txt highlight 1.0 end -block 0
+      $txt highlight -block 0 1.0 end
       $txt see 1.0
 
       # Add any previous markers saved for this text widget
