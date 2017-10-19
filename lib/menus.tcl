@@ -1018,6 +1018,9 @@ namespace eval menus {
     # Close all of the tabs
     gui::close_all -force 1 -exiting 1
 
+    # Destroy the ctext namespace
+    catch { ctext::destroy }
+
     # Save the clipboard history
     cliphist::save
 
