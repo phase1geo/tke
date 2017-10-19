@@ -19,20 +19,24 @@ namespace eval ctext {
   array set data {}
 
   variable right_click 3
+  variable parser      ""
   variable tpool       ""
 
   if {[tk windowingsystem] eq "aqua"} {
     set right_click 2
   }
 
+  # We need to set this while we are sourcing the file
+  set parser [file join [file dirname [file normalize [info script]]] parsers.tcl]
+
   ######################################################################
   # Initialize the namespace for threading.
   proc initialize {{min 5} {max 15}} {
 
     variable tpool
+    variable parser
 
     if {$tpool eq ""} {
-      set parser [file join [file dirname [file normalize [info script]]] parsers.tcl]
       set tpool  [tpool::create -minworkers $min -maxworkers $max -initcmd [list source $parser]]
     }
 
@@ -72,7 +76,7 @@ namespace eval ctext {
     set data($win,config,-font)                   [$tmp cget -font]
     set data($win,config,-relief)                 [$tmp cget -relief]
     set data($win,config,-unhighlightcolor)       [$win cget -bg]
-    destroy $tmp
+    ::destroy $tmp
     set data($win,config,-xscrollcommand)         ""
     set data($win,config,-yscrollcommand)         ""
     set data($win,config,-highlightcolor)         "yellow"
@@ -202,11 +206,11 @@ namespace eval ctext {
     bind $win.l <MouseWheel>          [list event generate $win.t <MouseWheel> -delta %D]
     bind $win.l <4>                   [list event generate $win.t <4>]
     bind $win.l <5>                   [list event generate $win.t <5>]
-    bind $win   <Destroy>             [list ctext::event:Destroy $win %W]
 
     rename $win __ctextJunk$win
     rename $win.t $win._t
 
+    bind $win <Destroy> [list ctext::event:Destroy $win %W]
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
 
     interp alias {} $win {} ctext::instanceCmd $win
