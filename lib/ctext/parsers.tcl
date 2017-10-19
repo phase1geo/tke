@@ -1,42 +1,42 @@
 namespace eval parsers {
-  
+
   ######################################################################
   # Allows thread code to send log messages to standard output.
-  proc log {id msg} {
-    
-    thread::send -async $id [list ctext::log $id $msg] 
-    
+  proc log {tid msg} {
+
+    thread::send -async $tid [list ctext::log [thread::id] $msg]
+
   }
-  
+
   ######################################################################
   # Renders the given tag with the specified ranges.
   proc render {tid txt tag ranges} {
-    
+
     thread::send -async $tid [list ctext::render $txt $tag $ranges]
-    
+
   }
-  
+
   ######################################################################
   # This is used by parsers to handle case manipulation when no case
   # change should occur.
   proc nochange {value} {
-    
+
     return $value
-    
+
   }
-  
+
   ######################################################################
   # Parses the given string for keywords and names that start with a
   # given character.  Runs within a thread which calls the main application
   # thread to render the highlighting.
-  proc keywords_startchars {tid txt str startrow namelist startlist pattern nocase} {
-    
-    array set names  $namelist
+  proc keywords_startchars {tid txt str startrow wordslist startlist pattern nocase} {
+
+    array set words  $wordslist
     array set starts $startlist
     array set tags   [list]
-    
+
     set transform [expr {$nocase ? "string tolower" : "nochange"}]
-    
+
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
       set start 0
@@ -44,31 +44,31 @@ namespace eval parsers {
         set word   [{*}$transform [string range $line {*}$indices]]
         set first  [string index $word 0]
         set endpos [expr [lindex $indices 1] + 1]
-        if {[info exists names($word)]} {
-          lappend tags($names($word)) $startrow.[lindex $indices 0] $startrow.$endpos
-        } elseif {[info exists starts($first)]} {
-          lappend tags($starts($first)) $startrow.[lindex $indices 0] $startrow.$endpos
+        if {[info exists words($txt,highlight,keyword,class,,$word)]} {
+          lappend tags($words($txt,highlight,keyword,class,,$word)) $startrow.[lindex $indices 0] $startrow.$endpos
+        } elseif {[info exists starts($txt,highlight,charstart,class,,$first)]} {
+          lappend tags($starts($txt,highlight,charstart,class,,$first)) $startrow.[lindex $indices 0] $startrow.$endpos
         }
         set start $endpos
       }
       incr startrow
     }
-    
+
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
       render $tid $txt $tag $ranges
     }
-    
+
   }
-  
+
   ######################################################################
   # Parses the given string for a single regular expression which is
   # handled as a class.  Runs within a thread which calls the main
   # application thread to render the highlighting.
   proc regexp_class {tid txt str startrow pattern tag} {
-    
+
     set ranges [list]
-    
+
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
       set start 0
@@ -79,18 +79,18 @@ namespace eval parsers {
       }
       incr startrow
     }
-    
+
     # Have the main application thread render the tag ranges
     render $tid $txt $tag $ranges
-    
+
   }
-  
+
   ######################################################################
   # Parses the given string for a single regular expression which calls
   # a handling command for further processing.  Runs within a thread which
   # calls the main application thread to render the highlighting.
   proc regexp_command {tid txt str startrow pattern cmd ins} {
-    
+
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
       set start 0
@@ -110,13 +110,13 @@ namespace eval parsers {
       }
       incr startrow
     }
-    
+
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
       render $tid $txt $tag $ranges
     }
-    
+
   }
-  
+
 }
 
