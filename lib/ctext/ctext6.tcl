@@ -213,8 +213,8 @@ namespace eval ctext {
     bind $win <Destroy> [list ctext::event:Destroy $win %W]
     bindtags $win.t [linsert [bindtags $win.t] 0 $win]
 
-    interp alias {} $win {} ctext::instanceCmd $win
-    interp alias {} $win.t {} $win
+    interp alias {} $::win {} ctext::instanceCmd $win
+    interp alias {} $::win.t {} $win
 
     modified $win 0
     buildArgParseTable $win
