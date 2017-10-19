@@ -29,21 +29,21 @@ namespace eval parsers {
     words    {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
     brackets {[][()\{\}<>]}
   }
-  array set bracket_map  {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
+  array set bracket_map {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
 
   ######################################################################
   # Allows thread code to send log messages to standard output.
   proc log {tid msg} {
 
-    thread::send -async $tid [list ctext::log [thread::id] $msg]
+    thread::send -async $tid [list ctext::thread_log [thread::id] $msg]
 
   }
 
   ######################################################################
   # Renders the given tag with the specified ranges.
-  proc render {tid txt tag ranges} {
+  proc render {tid txt tag ranges restricted} {
 
-    thread::send -async $tid [list ctext::render $txt $tag $ranges]
+    thread::send -async $tid [list ctext::render $txt $tag $ranges $restricted]
 
   }
 
@@ -87,7 +87,7 @@ namespace eval parsers {
 
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
-      render $tid $txt $tag $ranges
+      render $tid $txt $tag $ranges 0
     }
 
   }
@@ -112,7 +112,7 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    render $tid $txt $tag $ranges
+    render $tid $txt $tag $ranges 0
 
   }
 
@@ -122,7 +122,7 @@ namespace eval parsers {
   # calls the main application thread to render the highlighting.
   proc regexp_command {tid txt str startrow pattern cmd ins} {
 
-    array set ranges [list]
+    array set tags [list]
 
     # Perform the parsing on a line basis
     foreach line [split $str \n] {
@@ -131,7 +131,7 @@ namespace eval parsers {
         if {![catch { {*}$cmd [list $line] [array get var] [list] $ins } retval] && ([llength $retval] == 2)} {
           foreach sub [lindex $retval 0] {
             if {([llength $sub] == 4) && ([set ret [handle_tag $win {*}$sub]] ne "")} {
-              lappend ranges([lindex $ret 0]) $startrow.[lindex $ret 1] $startrow.[lindex $ret 2]
+              lappend tags([lindex $ret 0]) $startrow.[lindex $ret 1] $startrow.[lindex $ret 2]
             }
           }
           set start [expr {([lindex $retval 1] ne "") ? [lindex $retval 1] : ([lindex $var[0] 1] + 1)}]
@@ -142,7 +142,7 @@ namespace eval parsers {
 
     # Have the main application thread render the tag ranges
     foreach {tag ranges} [array get tags] {
-      render $tid $txt $tag $ranges
+      render $tid $txt $tag $ranges 0
     }
 
   }
@@ -168,7 +168,7 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    render $tid $txt _escape $ranges
+    render $tid $txt _escape $ranges 0
 
   }
 
@@ -189,7 +189,7 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    render $tid $txt _prewhite $ranges
+    render $tid $txt _prewhite $ranges 0
 
   }
 
@@ -197,14 +197,15 @@ namespace eval parsers {
   # Tag all of the indentation characters for quick indentation handling.
   proc indentation {tid txt str startrow pattern type} {
 
-    array set ranges [list]
+    array set tags [list]
 
     # Parse the ranges
     foreach line [split $str \n] {
       set start 0
+      set i     0
       while {[regexp -indices -start $start $pattern $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
-        lappend ranges(_$type[expr $i & 1]) $startrow.[lindex $indices 0] $startrow.$endpos
+        lappend tags(_$type[expr $i & 1]) $startrow.[lindex $indices 0] $startrow.$endpos
         set start $endpos
         incr i
       }
@@ -212,8 +213,8 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    foreach {tag ranges} [array get ranges] {
-      render $tid $txt $tag $ranges
+    foreach {tag ranges} [array get tags] {
+      render $tid $txt $tag $ranges 1
     }
 
   }
@@ -226,7 +227,7 @@ namespace eval parsers {
     variable bracket_map
 
     array set brackets $bracketlist
-    array set ranges   [list]
+    array set tags     [list]
 
     # Parse the string
     foreach line [split $str \n] {
@@ -235,7 +236,7 @@ namespace eval parsers {
         set tag    _$bracket_map([string index $line [lindex $indices 0]])
         set endpos [expr [lindex $indices 1] + 1]
         if {[info exists brackets($txt,config,matchChar,,[string range $tag 1 end-1])]} {
-          lappend ranges($tag) $startrow.[lindex $indices 0] $startrow.$endpos
+          lappend tags($tag) $startrow.[lindex $indices 0] $startrow.$endpos
         }
         set start $endpos
       }
@@ -243,8 +244,8 @@ namespace eval parsers {
     }
 
     # Have the main application thread render the tag ranges
-    foreach {tag ranges} [array get ranges] {
-      render $tid $txt $tag $ranges
+    foreach {tag ranges} [array get tags] {
+      render $tid $txt $tag $ranges 1
     }
 
   }
