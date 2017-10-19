@@ -754,20 +754,6 @@ proc ctext::inCommentStringRange {win index prange} {
 
 }
 
-proc ctext::highlight {win lineStart lineEnd ins} {
-
-  variable data
-
-  # If highlighting has been disabled, return immediately
-  if {!$data($win,config,-highlight)} {
-    return
-  }
-
-  # Perform the highlight in the background
-  ctext::doHighlight $win $lineStart $lineEnd $ins
-
-}
-
 proc ctext::handleFocusIn {win} {
 
   variable data
@@ -2892,14 +2878,10 @@ proc ctext::highlightAll {win lineranges ins {do_tag ""}} {
         $win._t tag remove $tag [lindex $lineranges 1] end
       }
     }
-    ctext::brackets    $win [lindex $lineranges 0] end
-    ctext::indentation $win [lindex $lineranges 0] end
     ctext::highlight   $win [lindex $lineranges 0] end $ins
   } else {
     foreach {linestart lineend} $ranges {
-      ctext::brackets    $win $linestart $lineend
-      ctext::indentation $win $linestart $lineend
-      ctext::highlight   $win $linestart $lineend $ins
+      ctext::highlight $win $linestart $lineend $ins
     }
   }
 
@@ -3142,27 +3124,6 @@ proc ctext::escapes {twin start end} {
 
 }
 
-proc ctext::brackets {twin start end} {
-
-  variable data
-  variable REs
-  variable bracket_map
-  variable bracket_map2
-
-  # Handle special character matching
-  foreach res [$twin search -regexp -all -- $REs(brackets) $start $end] {
-    lappend indices(_$bracket_map([$twin get $res]),[getLang $twin $res]) $res "$res+1c"
-  }
-
-  foreach key [array names indices] {
-    lassign [split $key ,] tag lang
-    if {[info exists data($twin,config,matchChar,$lang,[string range $tag 1 end-1])]} {
-      $twin tag add $tag {*}$indices($key)
-    }
-  }
-
-}
-
 # This procedure tags all of the whitespace from the beginning of a line.  This
 # must be called prior to invoking the ctext::indentation procedure.
 proc ctext::prewhite {twin start end} {
@@ -3176,28 +3137,6 @@ proc ctext::prewhite {twin start end} {
   }
 
   catch { $twin tag add _prewhite {*}$indices }
-
-}
-
-proc ctext::indentation {twin start end} {
-
-  variable data
-
-  # Add indentation
-  foreach key [array names data $twin,config,indentation,*,*] {
-    set elems [split $key ,]
-    set lang  [lindex $elems 3]
-    set type  [lindex $elems 4]
-    set i     0
-    array unset indices
-    foreach res [$twin search -regexp -all -count lengths -- $data($key) $start $end] {
-      lappend indices([expr $i & 1],[getLang $twin $res]) $res "$res+[lindex $lengths $i]c"
-      incr i
-    }
-    foreach i {0 1} {
-      catch { $twin tag add _$type$i {*}$indices($i,$lang) }
-    }
-  }
 
 }
 
@@ -3459,7 +3398,7 @@ proc ctext::handle_tag {win class startpos endpos cmd} {
 
 }
 
-proc ctext::doHighlight {win start end ins {block 0}} {
+proc ctext::highlight {win start end ins {block 0}} {
 
   variable data
   variable tpool
@@ -3472,12 +3411,26 @@ proc ctext::doHighlight {win start end ins {block 0}} {
     return
   }
 
-  set jobids    [list]
-  set startrow  [lindex [split [$win._t index $start] .] 0]
-  set str       [$win._t get $start $end]
-  set tid       [thread::id]
-  set namelist  [array get data $win,highlight,keyword,class,,*]
-  set startlist [array get data $win,highlight,charstart,class,,*]
+  set jobids      [list]
+  set startrow    [lindex [split [$win._t index $start] .] 0]
+  set str         [$win._t get $start $end]
+  set tid         [thread::id]
+  set namelist    [array get data $win,highlight,keyword,class,,*]
+  set startlist   [array get data $win,highlight,charstart,class,,*]
+  set bracketlist [array get data $win,config,matchChar,,*]
+
+  # Perform bracket parsing
+  lappend jobids [tpool::post $tpool \
+    [list parsers::brackets $tid $win $str $startrow $bracketlist] \
+  ]
+
+  # Perform indentation parsing
+  foreach {key pattern} [array names data $win,config,indentation,,*] {
+    lassign [split $key ,] d0 d1 d2 lang type
+    lappend jobids [tpool::post $tpool \
+      [list parsers::indentation $tid $win $str $startrow $pattern $type] \
+    ]
+  }
 
   # Perform keyword/startchars parsing
   lappend jobids [tpool::post $tpool \
