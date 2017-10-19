@@ -7,7 +7,7 @@ package require Thread
 package provide ctext 6.0
 
 namespace eval ctext {
-  
+
   array set REs {
     words    {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
     brackets {[][()\{\}<>]}
@@ -20,14 +20,14 @@ namespace eval ctext {
   variable right_click 3
   # Create a thread pool to handle the various tasks required
   variable tpool
-  
+
   set parser [file join [file dirname [file normalize [info script]]] parsers.tcl]
   set tpool [tpool::create -minworkers 5 -maxworkers 15 -initcmd [list source $parser]]
 
   if {[tk windowingsystem] eq "aqua"} {
     set right_click 2
   }
-  
+
 }
 
 # Override the tk::TextSetCursor to add a <<CursorChanged>> event
@@ -3426,19 +3426,19 @@ proc ctext::clearHighlightClasses {win} {
 # Helper procedure that allows us to generate debug messages from within
 # the threads.
 proc ctext::thread_log {id msg} {
-  
+
   puts "$id: $msg"
-  
+
 }
 
 ######################################################################
 # Renders the given tag with the specified ranges in the given widget.
 proc ctext::render {win tag ranges} {
-  
+
   if {[llength $ranges]} {
     $win._t tag add $tag {*}$ranges
   }
-  
+
 }
 
 proc ctext::handle_tag {win class startpos endpos cmd} {
@@ -3472,16 +3472,18 @@ proc ctext::doHighlight {win start end ins {block 0}} {
     return
   }
 
-  set jobids   [list]
-  set startrow [lindex [split [$win._t index $start] .] 0]
-  set str      [$win._t get $start $end]
-  set tid      [thread::id]
-  
+  set jobids    [list]
+  set startrow  [lindex [split [$win._t index $start] .] 0]
+  set str       [$win._t get $start $end]
+  set tid       [thread::id]
+  set namelist  [array get data $win,highlight,keyword,class,,*]
+  set startlist [array get data $win,highlight,charstart,class,,*]
+
   # Perform keyword/startchars parsing
   lappend jobids [tpool::post $tpool \
-    [list parsers::keyword_startchars $tid $win $str $startrow TBD TBD $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
+    [list parsers::keywords_startchars $tid $win $str $startrow $namelist $startlist $data($win,config,-delimiters) $data($win,config,-casesensitive)] \
   ]
-  
+
   # Handle regular expression parsing
   if {[info exists data($win,highlight,regexps)]} {
     foreach name $data($win,highlight,regexps) {
@@ -3499,16 +3501,16 @@ proc ctext::doHighlight {win start end ins {block 0}} {
       }
     }
   }
-  
+
   # If we need to block for some reason, do it here
   if {$block} {
     while {[llength $jobids]} {
       tpool::wait $tpool $jobids jobids
     }
   }
-  
+
 }
-  
+
 # Called when the given lines are about to be deleted.  Allows the linemap_mark_command call to
 # be made when this occurs.
 proc ctext::linemapCheckOnDelete {win startpos {endpos ""}} {
