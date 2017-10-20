@@ -1691,9 +1691,9 @@ namespace eval ctext {
       -undo    1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
-    
+
     lassign [lrange $args $i end] startPos content tags
-    
+
     set startPos [$win._t index $startPos]
     set chars    [string length $content]
     set tags     [list {*}$tags lmargin rmargin]
@@ -1731,9 +1731,9 @@ namespace eval ctext {
       -undo    1
     }
     array set opts [lrange $args 0 [expr $i - 1]]
-    
+
     lassign [lrange $args $i end] startPos endPos content tags
-    
+
     set startPos [$win._t index $startPos]
     set endPos   [$win._t index $endPos]
     set datlen   [string length $content]
@@ -1800,7 +1800,7 @@ namespace eval ctext {
     if {[lindex $args 0] eq "-moddata"} {
       set args [lassign $args dummy moddata]
     }
-    
+
     lassign $args insertPos content tags
 
     set insertPos [$win._t index $insertPos]
@@ -1819,15 +1819,15 @@ namespace eval ctext {
 
     set lineEnd [$win._t index "${insertPos}+${chars}c lineend"]
 
-    undo_insert     $win $insertPos $datlen $cursor
-    handleInsertAt0 $win._t $insertPos $datlen
+    undo_insert     $win $insertPos $chars $cursor
+    handleInsertAt0 $win._t $insertPos $chars
     comments_do_tag $win $insertPos "$insertPos+${chars}c" do_tags
 
     # Highlight text and bracket auditing
     if {[highlightAll $win [list $lineStart $lineEnd] 1 1 $do_tags]} {
       checkAllBrackets $win
     } else {
-      checkAllBrackets $win $dat
+      checkAllBrackets $win $content
     }
     modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
 
@@ -2880,7 +2880,7 @@ namespace eval ctext {
   proc setStringPatterns {win lang patterns {color "green"}} {
 
     variable data
-    
+
     array set tags {}
 
     foreach pattern $patterns {
@@ -3055,7 +3055,7 @@ namespace eval ctext {
     variable data
 
     upvar $pdo_tags do_tags
-    
+
     set start_tags [$win tag names $start]
     set end_tags   [$win tag names $end-1c]
 
