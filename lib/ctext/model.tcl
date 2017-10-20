@@ -156,9 +156,42 @@ namespace eval model {
   }
 
   ######################################################################
+  # Gets an index list of all nodes in the tree that are not matched.
+  proc get_mismatched {win} {
+
+    # Get the tree information
+    ::struct::tree tree deserialize [tsv::get trees $win]
+
+    # Find all of the nodes that are mismatched and create a list of them
+    set ranges [list]
+    foreach node [tree descendents root filter model::mismatched] {
+      if {[tree keyexists $node start]} {
+        set index [tree get $node start]
+      } else {
+        set index [tree get $node end]
+      }
+      lappend ranges $index "$index+1c"
+    }
+
+    # Destroy the tree
+    tree destroy
+
+    return $ranges
+
+  }
+
+  ######################################################################
+  # Returns 1 if the given node is a mismatched node.
+  proc mismatched {tree node} {
+
+    expr {![$tree keyexists $node start] || ![$tree keyexists $node end]}
+
+  }
+
+  ######################################################################
   # Finds the lowest level node that contains the given index.  This is
   # meant to be a helper function for a higher level function.
-  proc container {tree index {parent root}} {
+  proc find_container {tree index {parent root}} {
 
     foreach node [$tree children $parent] {
       if {[$tree get $node start] eq $index} {
@@ -172,6 +205,38 @@ namespace eval model {
     }
 
     return $parent
+
+  }
+
+  ######################################################################
+  # Returns the depth of the given node.
+  proc get_depth {win index type} {
+
+    # Get the tree information
+    ::struct::tree tree deserialize [tsv::get trees $win]
+
+    # Get the node that contains the given index
+    set depth [tree depth [find_match tree $index $type]]
+
+    # Destroy the tree
+    tree destroy
+
+    return $depth
+
+  }
+
+  ######################################################################
+  # Returns the node that contains the given index and matches the given
+  # type.  If no match was found, we will return the root node.
+  proc find_match {tree index type} {
+
+    set node [find_container $tree $index]
+
+    while {($node ne "root") && ([$tree get $node type] ne $type)} {
+      set node [$tree parent $node]
+    }
+
+    return $node
 
   }
 
