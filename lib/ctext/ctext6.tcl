@@ -34,10 +34,13 @@ namespace eval ctext {
   proc initialize {{min 5} {max 15}} {
 
     variable tpool
-    variable parser
 
     if {$tpool eq ""} {
-      set tpool  [tpool::create -minworkers $min -maxworkers $max -initcmd [list source $parser]]
+      set dir   [list [file dirname [file normalize [info script]]]]
+      set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
+        source [file join %s parsers.tcl]
+        source [file join %s model.tcl]
+      } $dir $dir]]
     }
 
   }

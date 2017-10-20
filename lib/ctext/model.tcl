@@ -35,13 +35,13 @@ namespace eval model {
   proc create {win} {
 
     # Create the tree
-    ::struct::tree newtree
+    ::struct::tree tree
 
     # Save the tree in the new shared memory
-    tsv::set trees $win [newtree serialize]
+    set_tree $win
 
     # Destroy the tree
-    newtree destroy
+    tree destroy
 
   }
 
@@ -56,103 +56,222 @@ namespace eval model {
   }
 
   ######################################################################
+  # Retrieves the given tree from shared memory and returns it to the
+  # calling procedure.
+  proc get_tree {win} {
+    
+    ::struct::tree tree deserialize [tsv::get trees $win]
+    
+    return tree
+    
+  }
+  
+  ######################################################################
+  # Saves the tree back to shared memory.
+  proc set_tree {win} {
+    
+    tsv::set trees $win [tree serialize]
+    
+  }
+  
+  ######################################################################
   # Outputs the current contents of the tree to standard output.
-  proc debug_show {win} {
+  proc debug_show {win {msg "Tree"}} {
 
-    puts [tsv::get trees $win]
+    ::struct::tree tree deserialize [tsv::get trees $win]
+    
+    puts -nonewline "$msg: [tree_string tree root [expr [string length $msg] + 2]]"
+    
+    tree destroy
 
+  }
+  
+  ######################################################################
+  # Displays the given tree in a hierarchical format.
+  proc tree_string {tree node prefix_len} {
+  
+    if {($node ne "root") && [$tree index $node] > 0} {
+      set str [string repeat { } [expr ([$tree depth $node] * 25) + $prefix_len]]
+    }
+    
+    append str [format "%-25s" [node_string tree $node]]
+    
+    if {[$tree isleaf $node]} {
+      append str "\n"
+    }
+    
+    foreach child [$tree children $node] {
+      append str [tree_string $tree $child $prefix_len]
+    }
+    
+    return $str
+    
+  }
+  
+  ######################################################################
+  # Displays the information for a single node.
+  proc debug_show_node {tree node {msg "Node"}} {
+    
+    puts "$msg: [node_string $tree $node]"
+      
   }
 
   ######################################################################
-  # Compares to index values.  Returns -1 if a comes before b.  Returns 1
-  # if b comes before a.
-  proc index_compare {a b} {
+  # Returns a string version of the given node for display purposes.
+  proc node_string {tree node} {
+    
+    if {$node eq "root"} {
+      return "(root)"
+    }
+    
+    set left  "NA"
+    set right "NA"
+    set type  [$tree get $node type]
+    
+    if {[$tree keyexists $node left]}  { set left  [$tree get $node left] }
+    if {[$tree keyexists $node right]} { set right [$tree get $node right] }
+    
+    return [format "(%s-%s %s)" [position $left] [position $right] $type]
+    
+  }
+  
+  ######################################################################
+  # Creates an index out of the given position.
+  proc index {pos} {
+    
+    split $pos .
+    
+  }
+  
+  ######################################################################
+  # Returns the text widget position from the given tree index.
+  proc position {index {adjust 0}} {
+    
+    if {$adjust != 0} {
+      lset index 1 [expr [lindex $index 1] + $adjust]
+    }
+    
+    join $index .
+    
+  }
+    
+  ######################################################################
+  # Compares to index values.  Returns 1 if a is less than b; otherwise,
+  # returns 0.
+  proc iless {a b} {
 
-    return [expr {[string equal $a [lindex [lsort -dictionary [list $a $b]] 0]] ? -1 : 1}]
+    lassign $a arow acol
+    lassign $b brow bcol
+    
+    expr {($arow < $brow) || (($arow == $brow) && ($acol < $bcol))}
 
+  }
+  
+  ######################################################################
+  # Adjusts all of the model indices based on the inserted text position.
+  proc adjust_insert_indices {win startpos endpos} {
+    
+    # Get a copy of the tree from shared memory
+    set tree [get_tree $win]
+    
+    $tree descendants root filter [list model::adjust_greater_than {*}[index $startpos] {*}[index $endpos]]
+    
+    # Save the modified tree
+    set_tree $win
+    
+    # Destroy the tree
+    $tree destroy
+    
+  }
+  
+  ######################################################################
+  # Adjusts the affected indices of the given node based on the inserted
+  # text positions.
+  proc adjust_greater_than {srow scol erow ecol tree node} {
+    
+    foreach side {right left} {
+      if {[$tree keyexists $node $side]} {
+        lassign [$tree get $node $side] row col
+        if {($srow == $row) && ($scol <= $col)} {
+          $tree set $node $side [list $erow [expr ($col - $scol) + $ecol]]
+        } elseif {$srow > $row} {
+          $tree set $node $side [list [expr ($row - $srow) + $erow] $col]
+        } else {
+          return 0
+        }
+      }
+    }
+    
+    return 0
+    
   }
 
   ######################################################################
   # Inserts the given items into the tree.
-  proc insert {win elements} {
+  proc insert {win elements block} {
 
+    variable current
+    
     # Get a copy of the tree from shared memory
-    ::struct::tree tree deserialize [tsv::get trees $win]
+    set tree [get_tree $win]
+    
+    # Find the node to start the insertion
+    set current [find_container $tree [lindex $elements 2]]
+    debug_show_node $tree $current "Current"
 
-    foreach {type pos index} $elements {
-      insert_$pos tree $index $type
+    foreach {type side pos} $elements {
+      insert_$side $tree $current [index $pos] $type $block
     }
 
     # Put the tree back into shared memory
-    tsv::set trees $win [tree serialize]
-
+    set_tree $win
+    
     # Get rid of the tree
     tree destroy
 
   }
-
+  
   ######################################################################
-  # Inserts a starting character type into the tree.
-  proc insert_start {tree index type {parent root}} {
+  # Inserts a left character type into the tree.
+  proc insert_left {tree node index type block} {
 
-    foreach node [$tree children $parent] {
-      if {[index_compare [$tree get $node start] $index] == -1} {
-        if {![$tree keyexists $node end] || ([index_compare $index [$tree get $node end]] == -1)} {
-          insert_start $tree $index $type $node
-          return
-        }
-      } else {
-        set new [$tree insert $parent [$tree index $node]]
-        $tree set $new start $index
-        $tree set $new type  $type
-        return
-      }
+    if {($node eq "root") || ![$tree keyexists $node right]} {
+      add_node $tree $node end left $index $type $block
+    } elseif {![$tree keyexists $node left] && ([$tree get $node type] eq $type)} {
+      $tree set $node left $index
     }
-
-    set new [$tree insert $parent end]
-    $tree set $new start $index
-    $tree set $new type  $type
 
   }
 
   ######################################################################
   # Inserts an ending character type into the tree.
-  proc insert_end {tree index type {parent root}} {
+  proc insert_right {tree node index type block} {
+    
+    variable current
 
-    puts "In insert_end, index: $index, type: $type, parent: $parent"
-
-    foreach node [$tree children $parent] {
-      if {[index_compare [$tree get $node start] $index] == -1} {
-        if {[$tree get $node type] eq $type} {
-          if {![$tree keyexists $node end]} {
-            if {[$tree isleaf $node]} {
-              $tree set $node end $index
-            } else {
-              insert_end $tree $index $type $node
-            }
-            return
-          } elseif {[index_compare $index [$tree get $node end] == -1]} {
-            insert_end $tree $index $type $node
-            return
-          }
-        } else {
-          if {![$tree keyexists $node end] || ([index_compare $index [$tree get $node end]] == -1)} {
-            insert_end $tree $index $type $node
-            return
-          }
-        }
-      } else {
-        set new [$tree insert $parent [$tree index $node]]
-        $tree set $new end  $index
-        $tree set $new type $type
-        return
-      }
+    if {($node eq "root") || [$tree keyexists $node right]} {
+      add_node $tree $node end right $index $type $block
+    } elseif {[$tree get $node type] eq $type} {
+      $tree set $node right $index
+      set current [$tree parent $node]
     }
+    
+  }
 
-    set new [$tree insert $parent end]
-    $tree set $new end  $index
-    $tree set $new type $type
-
+  ######################################################################
+  # Adds the given node contents to the parent node
+  proc add_node {tree parent cindex pos index type block} {
+    
+    variable current
+    
+    set current [$tree insert $parent $cindex]
+    
+    # Initialize the node
+    $tree set $current $pos   $index
+    $tree set $current type   $type
+    $tree set $current block  $block
+    $tree set $current hidden 0
+    
   }
 
   ######################################################################
@@ -160,21 +279,21 @@ namespace eval model {
   proc get_mismatched {win} {
 
     # Get the tree information
-    ::struct::tree tree deserialize [tsv::get trees $win]
+    set tree [get_tree $win]
 
     # Find all of the nodes that are mismatched and create a list of them
     set ranges [list]
-    foreach node [tree descendents root filter model::mismatched] {
-      if {[tree keyexists $node start]} {
-        set index [tree get $node start]
+    foreach node [$tree descendents root filter model::mismatched] {
+      if {[$tree keyexists $node left]} {
+        set index [$tree get $node left]
       } else {
-        set index [tree get $node end]
+        set index [$tree get $node right]
       }
-      lappend ranges $index "$index+1c"
+      lappend ranges [position $index] [position $index 1]
     }
 
     # Destroy the tree
-    tree destroy
+    $tree destroy
 
     return $ranges
 
@@ -184,42 +303,41 @@ namespace eval model {
   # Returns 1 if the given node is a mismatched node.
   proc mismatched {tree node} {
 
-    expr {![$tree keyexists $node start] || ![$tree keyexists $node end]}
+    expr {![$tree keyexists $node left] || ![$tree keyexists $node right]}
 
   }
 
   ######################################################################
   # Finds the lowest level node that contains the given index.  This is
   # meant to be a helper function for a higher level function.
-  proc find_container {tree index {parent root}} {
+  proc find_container {tree index {node root}} {
 
-    foreach node [$tree children $parent] {
-      if {[$tree get $node start] eq $index} {
-        return $node
-      }
-      if {![$tree keyexists $node start] || ([index_compare [$tree get $node start] $index] == -1)} {
-        if {[$tree keyexists $node end] && [index_compare $index [$tree get $node end]] == -1} {
-          return [container $tree $index $node]
+    foreach child [$tree children $node] {
+      if {![$tree keyexists $child left] || [iless [$tree get $child left] $index]} {
+        if {[$tree keyexists $child right] && [iless $index [$tree get $child right]]} {
+          return [find_container $tree $index $child]
         }
+      } elseif {[$tree get $child left] eq $index} {
+        return $child
       }
     }
 
-    return $parent
+    return $node
 
   }
 
   ######################################################################
   # Returns the depth of the given node.
-  proc get_depth {win index type} {
+  proc get_depth {win pos type} {
 
     # Get the tree information
-    ::struct::tree tree deserialize [tsv::get trees $win]
+    set tree [get_tree $win]
 
     # Get the node that contains the given index
-    set depth [tree depth [find_match tree $index $type]]
+    set depth [$tree depth [find_match $tree [index $pos] $type]]
 
     # Destroy the tree
-    tree destroy
+    $tree destroy
 
     return $depth
 

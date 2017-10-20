@@ -29,7 +29,16 @@ namespace eval parsers {
     words    {[^\s\(\{\[\}\]\)\.\t\n\r;:=\"'\|,<>]+}
     brackets {[][()\{\}<>]}
   }
-  array set bracket_map {\( parenL \) parenR \{ curlyL \} curlyR \[ squareL \] squareR < angledL > angledR}
+  array set bracket_map {
+    \( {paren left}
+    \) {paren right}
+    \{ {curly left}
+    \} {curly right}
+    \[ {square left}
+    \] {square right}
+    <  {angled left}
+    >  {angled right}
+  }
 
   ######################################################################
   # Allows thread code to send log messages to standard output.
@@ -192,6 +201,51 @@ namespace eval parsers {
     render $tid $txt _prewhite $ranges 0
 
   }
+  
+  ######################################################################
+  # Tag all of the comments, strings, and other contextual blocks.
+  proc contexts {tid txt str startrow patterns} {
+    
+    foreach {tag pattern} $patterns {
+      foreach line [split $str \n] {
+        set start 0
+        while {[regexp -indices -start $start $pattern $line indices]} {
+          set endpos [expr [lindex $indices 1] + 1]
+          lappend ranges $tag ;# TBD
+          set start $endpos
+        }
+        incr startrow
+      }
+    }
+   
+    foreach {tag pattern} $data($win,config,csl_patterns) {
+      foreach {start end} $ranges {
+        array set indices {0 {} 1 {}}
+        set i 0
+        foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
+          if {![isEscaped $win $index]} {
+            set end_index [$win index "$index+[lindex $lengths $i]c"]
+            if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
+              set match [$win get $index $end_index]
+              set diff  [expr [string length $match] - [string length [string trimleft $match]]]
+              lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
+            } else {
+              lappend indices([expr $i & 1]) $index $end_index
+            }
+          }
+          incr i
+        }
+        foreach j {0 1} {
+          if {$indices($j) ne [getTagInRange $win $tag$j $start $end]} {
+            $win tag remove $tag$j $start $end
+            catch { $win tag add $tag$j {*}$indices($j) }
+            set tag_changed($tag) 1
+          }
+        }
+      }
+    }
+    
+  }
 
   ######################################################################
   # Tag all of the indentation characters for quick indentation handling.
@@ -221,33 +275,43 @@ namespace eval parsers {
 
   ######################################################################
   # Handles tagging brackets found within the text string.
-  proc brackets {tid txt str startrow bracketlist} {
+  proc brackets {tid txt str startrow bracketlist ptags} {
+    
+    upvar $ptags tags
 
     variable REs
     variable bracket_map
 
     array set brackets $bracketlist
-    array set tags     [list]
 
     # Parse the string
     foreach line [split $str \n] {
       set start 0
       while {[regexp -indices -start $start $REs(brackets) $line indices]} {
-        set tag    _$bracket_map([string index $line [lindex $indices 0]])
+        lassign $bracket_map([string index $line [lindex $indices 0]]) tag side
         set endpos [expr [lindex $indices 1] + 1]
-        if {[info exists brackets($txt,config,matchChar,,[string range $tag 1 end-1])]} {
-          lappend tags($tag) $startrow.[lindex $indices 0] $startrow.$endpos
+        if {[info exists brackets($txt,config,matchChar,,$tag)]} {
+          lappend tags [list $tag $side $startrow.[lindex $indices 0]]
         }
         set start $endpos
       }
       incr startrow
     }
-
-    # Have the main application thread render the tag ranges
-    foreach {tag ranges} [array get tags] {
-      render $tid $txt $tag $ranges 1
-    }
-
+    
+  }
+  
+  ######################################################################
+  # Parse all of the positional information in the given string.
+  proc positionals {tid txt str startrow bracketlist} {
+    
+    set tags [list]
+    
+    # Parse the brackets
+    brackets $tid $txt $str $startrow $bracketlist tags
+    
+    # Insert the positional information into the data model
+    model::insert $txt [concat {*}[lsort -dictionary -index 2 $tags]] 0
+    
   }
 
 }
