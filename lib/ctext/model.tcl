@@ -125,7 +125,7 @@ namespace eval model {
       if {[index_compare [$tree get $node start] $index] == -1} {
         if {[$tree get $node type] eq $type} {
           if {![$tree keyexists $node end]} {
-            if {[$tree numchildren $node] == 0} {
+            if {[$tree isleaf $node]} {
               $tree set $node end $index
             } else {
               insert_end $tree $index $type $node
