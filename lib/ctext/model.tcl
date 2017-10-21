@@ -283,7 +283,7 @@ namespace eval model {
 
     # Find all of the nodes that are mismatched and create a list of them
     set ranges [list]
-    foreach node [$tree descendents root filter model::mismatched] {
+    foreach node [$tree descendants root filter model::mismatched] {
       if {[$tree keyexists $node left]} {
         set index [$tree get $node left]
       } else {
