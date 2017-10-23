@@ -16,7 +16,7 @@ lappend bracketlist $txt,config,matchChar,,curly  1
 lappend bracketlist $txt,config,matchChar,,square 1
 lappend bracketlist $txt,config,matchChar,,paren  1
 
-puts [time { parsers::positionals [thread::id] $txt $contents 1 $bracketlist }]
+puts [time { parsers::positionals [thread::id] $txt $contents 1 $bracketlist \{ \} }]
 model::debug_show $txt
 
 puts [time { set mismatched [model::get_mismatched $txt] }]
