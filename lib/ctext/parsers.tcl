@@ -201,11 +201,11 @@ namespace eval parsers {
     render $tid $txt _prewhite $ranges 0
 
   }
-  
+
   ######################################################################
   # Tag all of the comments, strings, and other contextual blocks.
   proc contexts {tid txt str startrow patterns} {
-    
+
     foreach {tag pattern} $patterns {
       foreach line [split $str \n] {
         set start 0
@@ -217,7 +217,7 @@ namespace eval parsers {
         incr startrow
       }
     }
-   
+
     foreach {tag pattern} $data($win,config,csl_patterns) {
       foreach {start end} $ranges {
         array set indices {0 {} 1 {}}
@@ -244,39 +244,34 @@ namespace eval parsers {
         }
       }
     }
-    
+
   }
 
   ######################################################################
   # Tag all of the indentation characters for quick indentation handling.
-  proc indentation {tid txt str startrow pattern type} {
+  proc indentation {txt str startrow pattern type ptags} {
 
-    array set tags [list]
+    upvar $ptags tags
+
+    set side [expr {($type eq "indent") ? "left" : "right"}]
 
     # Parse the ranges
     foreach line [split $str \n] {
       set start 0
-      set i     0
       while {[regexp -indices -start $start $pattern $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
-        lappend tags(_$type[expr $i & 1]) $startrow.[lindex $indices 0] $startrow.$endpos
+        lappend tags [list indent $side $startrow.[lindex $indices 0]]
         set start $endpos
-        incr i
       }
       incr startrow
-    }
-
-    # Have the main application thread render the tag ranges
-    foreach {tag ranges} [array get tags] {
-      render $tid $txt $tag $ranges 1
     }
 
   }
 
   ######################################################################
   # Handles tagging brackets found within the text string.
-  proc brackets {tid txt str startrow bracketlist ptags} {
-    
+  proc brackets {txt str startrow bracketlist ptags} {
+
     upvar $ptags tags
 
     variable REs
@@ -297,21 +292,23 @@ namespace eval parsers {
       }
       incr startrow
     }
-    
+
   }
-  
+
   ######################################################################
   # Parse all of the positional information in the given string.
-  proc positionals {tid txt str startrow bracketlist} {
-    
+  proc positionals {tid txt str startrow bracketlist indentpattern unindentpattern} {
+
     set tags [list]
-    
-    # Parse the brackets
-    brackets $tid $txt $str $startrow $bracketlist tags
-    
+
+    # Perform parsing
+    indentation $txt $str $startrow $indentpattern indent tags
+    indentation $txt $str $startrow $unindentpattern unindent tags
+    brackets    $txt $str $startrow $bracketlist tags
+
     # Insert the positional information into the data model
     model::insert $txt [concat {*}[lsort -dictionary -index 2 $tags]] 0
-    
+
   }
 
 }

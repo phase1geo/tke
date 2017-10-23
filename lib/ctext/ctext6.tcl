@@ -19,7 +19,7 @@ namespace eval ctext {
   array set data {}
 
   variable right_click 3
-  variable parser      ""
+  variable this_dir    ""
   variable tpool       ""
 
   if {[tk windowingsystem] eq "aqua"} {
@@ -27,20 +27,20 @@ namespace eval ctext {
   }
 
   # We need to set this while we are sourcing the file
-  set parser [file join [file dirname [file normalize [info script]]] parsers.tcl]
+  set this_dir [file dirname [file normalize [info script]]]
 
   ######################################################################
   # Initialize the namespace for threading.
   proc initialize {{min 5} {max 15}} {
 
     variable tpool
+    variable this_dir
 
     if {$tpool eq ""} {
-      set dir   [list [file dirname [file normalize [info script]]]]
       set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
         source [file join %s parsers.tcl]
         source [file join %s model.tcl]
-      } $dir $dir]]
+      } $this_dir $this_dir]]
     }
 
   }
