@@ -159,25 +159,21 @@ namespace eval parsers {
   ######################################################################
   # Parses the given string for escape characters.  Runs within a thread
   # which calls the main application thread to render the tagging.
-  proc escapes {tid txt str startrow} {
+  proc escapes {txt str startrow ptags} {
 
-    set ranges [list]
+    upvar $ptags tags
 
     foreach line [split $str \n] {
       set start 0
       while {[regexp -indices -start $start "\\" $line indices]} {
-        set startpos $startrow.[lindex $indices 0]
         set endpos   [expr [lindex $indices 1] + 1]
         if {[lindex $ranges end] ne $startpos} {
-          lappend ranges $startpos $startrow.$endpos
+          lappend tags [list escape none $startrow.[lindex $indices 0]]
         }
         set start $endpos
       }
       incr startrow
     }
-
-    # Have the main application thread render the tag ranges
-    render $tid $txt _escape $ranges 0
 
   }
 
@@ -204,44 +200,19 @@ namespace eval parsers {
 
   ######################################################################
   # Tag all of the comments, strings, and other contextual blocks.
-  proc contexts {tid txt str startrow patterns} {
+  proc contexts {tid txt str startrow patterns ptags} {
 
-    foreach {tag pattern} $patterns {
+    upvar $ptags tags
+
+    foreach {tag side pattern} $patterns {
       foreach line [split $str \n] {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend ranges $tag ;# TBD
+          lappend tags [list $tag $side $startrow.[lindex $indices 0]]
           set start $endpos
         }
         incr startrow
-      }
-    }
-
-    foreach {tag pattern} $data($win,config,csl_patterns) {
-      foreach {start end} $ranges {
-        array set indices {0 {} 1 {}}
-        set i 0
-        foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
-          if {![isEscaped $win $index]} {
-            set end_index [$win index "$index+[lindex $lengths $i]c"]
-            if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
-              set match [$win get $index $end_index]
-              set diff  [expr [string length $match] - [string length [string trimleft $match]]]
-              lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
-            } else {
-              lappend indices([expr $i & 1]) $index $end_index
-            }
-          }
-          incr i
-        }
-        foreach j {0 1} {
-          if {$indices($j) ne [getTagInRange $win $tag$j $start $end]} {
-            $win tag remove $tag$j $start $end
-            catch { $win tag add $tag$j {*}$indices($j) }
-            set tag_changed($tag) 1
-          }
-        }
       }
     }
 
@@ -297,17 +268,19 @@ namespace eval parsers {
 
   ######################################################################
   # Parse all of the positional information in the given string.
-  proc positionals {tid txt str startrow bracketlist indentpattern unindentpattern} {
+  proc positionals {tid txt str startrow bracketlist indentpattern unindentpattern contextpatterns} {
 
     set tags [list]
 
     # Perform parsing
+    escapes     $txt $str $startrow tags
+    contexts    $txt $str $startrow $contextpatterns tags
     indentation $txt $str $startrow $indentpattern indent tags
     indentation $txt $str $startrow $unindentpattern unindent tags
     brackets    $txt $str $startrow $bracketlist tags
 
     # Insert the positional information into the data model
-    model::insert $txt [concat {*}[lsort -dictionary -index 2 $tags]] 0
+    model::insert $txt $startrow.0 [concat {*}[lsort -dictionary -index 2 $tags]]
 
   }
 
