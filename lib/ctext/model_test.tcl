@@ -5,7 +5,7 @@ source parsers.tcl
 
 model::create [set txt "foo"]
 
-if {[catch { open example.tcl r } rc]} {
+if {[catch { open ../gui.tcl r } rc]} {
   puts "ERROR:  Unable to read parsers.tcl"
 }
 

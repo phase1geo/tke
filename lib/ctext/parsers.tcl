@@ -270,6 +270,7 @@ namespace eval parsers {
   # Parse all of the positional information in the given string.
   proc markers {tid txt insertpos str bracketlist indentpattern unindentpattern contextpatterns} {
 
+    puts [time {
     lassign [split $insertpos .] srow scol
 
     set tags   [list]
@@ -308,8 +309,12 @@ namespace eval parsers {
       set scol 0
     }
 
+    }]
+
     # Insert the positional information into the data model
+    puts [time {
     model::insert $txt $insertpos $endpos $tags
+    }]
 
   }
 
