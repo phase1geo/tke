@@ -213,11 +213,9 @@ namespace eval model {
     upvar $pstack stack
     upvar $ppairs pairs
 
-    if {[llength $pairs] % 2} {
-      build_pairing_right $win $index $tag stack pairs
-    } else {
-      build_pairing_left $win $index $tag stack pairs
-    }
+    set side [lindex [list left right] [expr [llength $pairs] % 2]]
+
+    build_pairing_$side $win $index $tag stack pairs
 
   }
 
