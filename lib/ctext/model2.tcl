@@ -123,8 +123,10 @@ namespace eval model {
     # Adjust the indices
     adjust_indices $win $startpos $endpos $insertpos
 
-    # Insert the indices
-    tsv::linsert serial $win $insertpos {*}$elements
+    # Insert the new indices if any
+    if {[llength $elements] > 0} {
+      tsv::linsert serial $win $insertpos {*}$elements
+    }
 
     # Build the pairing data structure
     tsv::set pairs $win [build_pairings $win]
@@ -135,24 +137,33 @@ namespace eval model {
   # Adjusts the indices in the serial list based on what was inserted.
   proc adjust_indices {win startpos endpos insertpos} {
 
-    set size [tsv::llength serial $win]
-    set i    $insertpos
+    set serial [tsv::get serial $win]
+    set size   [llength $serial]
+    set i      $insertpos
+
+    # If we are inserting text at the end, there's nothing left to do here
+    if {$i == $size} {
+      return
+    }
 
     lassign [split $startpos .] srow scol
     lassign [split $endpos   .] erow ecol
 
-    while {($i < $size) && ([lindex [tsv::lindex serial $win] $i 0 0] <= $erow)} {
-      tsv::lset serial $win $i 0 1 [expr ([tsv::lindex serial $win $i 0 1] - $scol) + $ecol]
+    while {($i < $size) && ([lindex $serial $i 2] <= $erow)} {
+      lset serial $i 3 [expr ([lindex $serial $i 3] - $scol) + $ecol]
       incr i
     }
 
     if {$srow != $erow} {
       set line_incr [expr $erow - $srow]
+      set i         0
       while {$i < $size} {
-        tsv::lset serial $win $i 0 0 [expr [tsv::lindex serial $win $i 0 0] + $line_incr]
+        lset serial $i 2 [expr [lindex $serial $i 2] + $line_incr]
         incr i
       }
     }
+
+    tsv::set serial $win $serial
 
   }
 
@@ -162,8 +173,8 @@ namespace eval model {
 
     set pairs [list]
     foreach item [tsv::get serial $win] {
-      lassign $item tag side index context
-      build_pairing_$side $win $index $tag stack$context pairs$context
+      lassign $item tag side row col context
+      build_pairing_$side $win $row.$col $tag stack$context pairs$context
     }
 
     return $pairs
