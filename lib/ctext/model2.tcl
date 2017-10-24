@@ -118,18 +118,22 @@ namespace eval model {
   proc insert {win startpos endpos elements} {
 
     # Find the node to start the insertion
-    set insertpos [find_index $win $startpos]
+    puts -nonewline "find_index time: "
+    puts [time { set insertpos [find_index $win $startpos] }]
 
     # Adjust the indices
-    adjust_indices $win $startpos $endpos $insertpos
+    puts -nonewline "adjust time: "
+    puts [time { adjust_indices $win $startpos $endpos $insertpos }]
 
     # Insert the new indices if any
     if {[llength $elements] > 0} {
-      tsv::linsert serial $win $insertpos {*}$elements
-    }
 
-    # Build the pairing data structure
-    tsv::set pairs $win [build_pairings $win]
+      tsv::linsert serial $win $insertpos {*}$elements
+
+      # Build the pairing data structure
+      tsv::set pairs $win [build_pairings $win]
+
+    }
 
   }
 
@@ -172,9 +176,13 @@ namespace eval model {
   proc build_pairings {win} {
 
     set pairs [list]
+    set stack [list]
+
+    set index 0
     foreach item [tsv::get serial $win] {
       lassign $item tag side row col context
-      build_pairing_$side $win $row.$col $tag stack$context pairs$context
+      build_pairing_$side $win $index $tag stack$context pairs$context
+      incr index
     }
 
     return $pairs

@@ -261,11 +261,16 @@ namespace eval model {
 
     variable current
 
-    # Get a copy of the tree from shared memory
-    set tree [get_tree $win]
-
     # Find the node to start the insertion
-    set current [find_container $tree [lindex $elements 2]]
+    set insertpos [find_index $win $startpos]
+
+    # Adjust the indices
+    adjust_indices $win $startpos $endpos $insertpos
+
+    # Insert the new indices if any
+    if {[llength $elements] > 0} {
+      tsv::linsert serial $win $insertpos {*}$elements
+    }
 
     foreach {type side pos} $elements {
       insert_position $tree $current $side [index $pos] $type $block
@@ -378,12 +383,12 @@ namespace eval model {
   ######################################################################
   # Finds the lowest level node that contains the given index.  This is
   # meant to be a helper function for a higher level function.
-  proc find_container {tree index {node root}} {
+  proc find_node {tree index {node root}} {
 
     foreach child [$tree children $node] {
       if {![$tree keyexists $child left] || [iless [$tree get $child left] $index]} {
         if {[$tree keyexists $child right] && [iless $index [$tree get $child right]]} {
-          return [find_container $tree $index $child]
+          return [find_node $tree $index $child]
         }
       } elseif {[$tree get $child left] eq $index} {
         return $child
@@ -416,7 +421,7 @@ namespace eval model {
   # type.  If no match was found, we will return the root node.
   proc find_match {tree index type} {
 
-    set node [find_container $tree $index]
+    set node [find_node $tree $index]
 
     while {($node ne "root") && ([$tree get $node type] ne $type)} {
       set node [$tree parent $node]

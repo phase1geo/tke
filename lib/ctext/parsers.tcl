@@ -268,15 +268,22 @@ namespace eval parsers {
 
   proc positionals {tid txt str startrow bracketlist indentpattern unindentpattern contextpatterns} {
 
+    puts -nonewline "parsing time: "
+    puts [time {
     set tags [list]
 
-    escapes    $txt $str $startrow tags
-    contexts   $txt $str $startrow $contextpatterns tags
+    escapes     $txt $str $startrow tags
+    contexts    $txt $str $startrow $contextpatterns tags
     indentation $txt $str $startrow $indentpattern indent tags
     indentation $txt $str $startrow $unindentpattern unindent tags
     brackets    $txt $str $startrow $bracketlist tags
 
-    model::insert $txt $startrow.0 [concat {*}[lsort -dictionary -index 2 $tags]]
+    set elements [lsort -dictionary -index 2 $tags]
+    }]
+
+    puts "elements: [llength $elements]"
+
+    # model::insert $txt $startrow.0 [concat {*}[lsort -dictionary -index 2 $tags]]
 
   }
 
@@ -308,19 +315,22 @@ namespace eval parsers {
       >      {angled  right}
     }
 
-    set pattern {\\|\"|'|`|\"\"\"|'''|```|\(|\)|\{|\}|\[|\]|<|>}
+    # set pattern {\\|\"|'|`|\"\"\"|'''|```|\(|\)|\{|\}|\[|\]|<|>}
+    set pattern {[][\\\"'`()\{\}]}
 
     # Parse the ranges
     foreach line [split $str \n] {
       set start 0
       while {[regexp -indices -start $start $pattern $line indices]} {
         set end [expr [lindex $indices 1] + 1]
-        lappend tags [list {*}$patterns([string range $line {*}$indices]) $srow [expr $scol + [lindex $indices 0]]]
+        lappend tags [list {*}$patterns([string range $line {*}$indices]) $srow [expr $scol + [lindex $indices 0]] {}]
         set start $end
       }
       incr srow
       set scol 0
     }
+
+    # puts "elements: [llength $tags]"
 
     # Insert the positional information into the data model
     model::insert $txt $insertpos $endpos $tags

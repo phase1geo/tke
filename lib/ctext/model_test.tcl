@@ -16,11 +16,11 @@ lappend bracketlist $txt,config,matchChar,,curly  1
 lappend bracketlist $txt,config,matchChar,,square 1
 lappend bracketlist $txt,config,matchChar,,paren  1
 
-puts [time { parsers::positionals [thread::id] $txt $contents 1 $bracketlist \{ \} {\" ' `} }]
-model::debug_show $txt
+puts [time { parsers::positionals [thread::id] $txt $contents 1 $bracketlist \{ \} {double any \" single any ' btick any `} }]
+# model::debug_show $txt
 
-puts [time { set mismatched [model::get_mismatched $txt] }]
-puts "mismatched: $mismatched"
+# puts [time { set mismatched [model::get_mismatched $txt] }]
+# puts "mismatched: $mismatched"
 
 # Create the tree
 if {0} {
