@@ -270,12 +270,11 @@ namespace eval parsers {
   # Parse all of the positional information in the given string.
   proc markers {tid txt insertpos str bracketlist indentpattern unindentpattern contextpatterns} {
 
-    puts [time {
     lassign [split $insertpos .] srow scol
 
     set tags   [list]
     set lines  [split $str \n]
-    set endpos [join [list [expr $srow + ([llength $lines] - 1)] [expr $scol + ([string length [lindex $lines end]] - 1)]] .]
+    set endpos [expr $srow + ([llength $lines] - 1)].[expr $scol + [string length [lindex $lines end]]]
 
     array set patterns {
       \\     {escape  none}
@@ -301,20 +300,16 @@ namespace eval parsers {
     foreach line [split $str \n] {
       set start 0
       while {[regexp -indices -start $start $pattern $line indices]} {
-        set endpos [expr [lindex $indices 1] + 1]
-        lappend tags [list {*}$patterns([string range $line {*}$indices]) $srow.[expr $scol + [lindex $indices 0]]]
-        set start $endpos
+        set end [expr [lindex $indices 1] + 1]
+        lappend tags [list {*}$patterns([string range $line {*}$indices]) $srow [expr $scol + [lindex $indices 0]]]
+        set start $end
       }
-      incr startrow
+      incr srow
       set scol 0
     }
 
-    }]
-
     # Insert the positional information into the data model
-    puts [time {
     model::insert $txt $insertpos $endpos $tags
-    }]
 
   }
 

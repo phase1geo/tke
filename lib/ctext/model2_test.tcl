@@ -11,6 +11,7 @@ set contents [read $rc]
 close $rc
 
 model::create foo
-parsers::markers [thread::id] foo 1.0 $contents {} {} {} {}
+puts [time {parsers::markers [thread::id] foo 1.0 $contents {} {} {} {}}]
+puts [time {parsers::markers [thread::id] foo 3.1 "a" {} {} {} {}}]
 # puts [time { parsers::markers [thread::id] foo 1.0 $contents {} {} {} {} }]
 model::destroy foo
