@@ -114,7 +114,7 @@ namespace eval model {
 
   ######################################################################
   # Inserts the given items into the tree.  The parameter 'same' should
-  # be set 
+  # be set
   proc insert {win startpos endpos elements} {
 
     # Find the node to start the insertion
@@ -127,7 +127,7 @@ namespace eval model {
     tsv::linsert serial $win $insertpos {*}$elements
 
     # Build the pairing data structure
-    build_pairings $win
+    tsv::set pairs $win [build_pairings $win]
 
   }
 
@@ -160,54 +160,59 @@ namespace eval model {
   # Build pairings lists from the serial list.
   proc build_pairings {win} {
 
-    tsv::set pairs $win [list]
-
+    set pairs [list]
     foreach item [tsv::get serial $win] {
       lassign $item tag side index context
-      build_pairing_$side $win $index $tag $context stack$context
+      build_pairing_$side $win $index $tag stack$context pairs$context
     }
+
+    return $pairs
 
   }
 
   ######################################################################
-  proc build_pairing_left {win index tag context pstack} {
+  proc build_pairing_left {win index tag pstack ppairs} {
 
     upvar $pstack stack
 
+    # Add the item to the stack
     lappend stack [list $index $tag]
 
   }
 
   ######################################################################
-  proc build_pairing_right {win index tag context pstack} {
+  proc build_pairing_right {win index tag pstack ppairs} {
 
     upvar $pstack stack
+    upvar $ppairs pairs
 
     set top [lindex $stack end 0]
 
-    tsv::lappend pairs$context $win [list $top $index $tag]
+    # Add the pair to the list of pairs for the given context
+    lappend pairs $win [list $top $index $tag]
 
     # Update the stack
     set stack [lreplace $stack end end]
 
-  } 
+  }
 
   ######################################################################
-  proc build_pairing_any {win index tag context pstack} {
+  proc build_pairing_any {win index tag pstack ppairs} {
 
     upvar $pstack stack
+    upvar $ppairs pairs
 
-    if {[tsv::llength pairs$context $win] % 2} {
-      build_pairing_right $win $index $tag $context stack
+    if {[llength $pairs] % 2} {
+      build_pairing_right $win $index $tag stack pairs
     } else {
-      build_pairing_left $win $index $tag $context stack
+      build_pairing_left $win $index $tag stack pairs
     }
 
   }
 
   ######################################################################
   # Handles characters that don't indicate position.
-  proc build_pairing_none {win index tag context pstack} {
+  proc build_pairing_none {win index tag pstack ppairs} {
 
     # Do nothing
 
