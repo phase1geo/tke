@@ -268,19 +268,48 @@ namespace eval parsers {
 
   ######################################################################
   # Parse all of the positional information in the given string.
-  proc positionals {tid txt str startrow bracketlist indentpattern unindentpattern contextpatterns} {
+  proc markers {tid txt insertpos str bracketlist indentpattern unindentpattern contextpatterns} {
 
-    set tags [list]
+    lassign [split $insertpos .] srow scol
 
-    # Perform parsing
-    escapes     $txt $str $startrow tags
-    contexts    $txt $str $startrow $contextpatterns tags
-    indentation $txt $str $startrow $indentpattern indent tags
-    indentation $txt $str $startrow $unindentpattern unindent tags
-    brackets    $txt $str $startrow $bracketlist tags
+    set tags   [list]
+    set lines  [split $str \n]
+    set endpos [join [list [expr $srow + ([llength $lines] - 1)] [expr $scol + ([string length [lindex $lines end]] - 1)]] .]
+
+    array set patterns {
+      \\     {escape  none}
+      \"     {double  any}
+      '      {single  any}
+      `      {btick   any}
+      \"\"\" {tdouble any}
+      '''    {tsingle any}
+      ```    {tbtick  any}
+      \(     {paren   left}
+      \)     {paren   right}
+      \{     {curly   left}
+      \}     {curly   right}
+      \[     {square  left}
+      \]     {square  right}
+      <      {angled  left}
+      >      {angled  right}
+    }
+
+    set pattern {\\|\"|'|`|\"\"\"|'''|```|\(|\)|\{|\}|\[|\]|<|>}
+
+    # Parse the ranges
+    foreach line [split $str \n] {
+      set start 0
+      while {[regexp -indices -start $start $pattern $line indices]} {
+        set endpos [expr [lindex $indices 1] + 1]
+        lappend tags [list {*}$patterns([string range $line {*}$indices]) $srow.[expr $scol + [lindex $indices 0]]]
+        set start $endpos
+      }
+      incr startrow
+      set scol 0
+    }
 
     # Insert the positional information into the data model
-    model::insert $txt $startrow.0 [concat {*}[lsort -dictionary -index 2 $tags]]
+    model::insert $txt $insertpos $endpos $tags
 
   }
 

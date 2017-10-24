@@ -30,11 +30,6 @@ package require Thread
 
 namespace eval model {
 
-  array set data {
-    linear {}
-    pairs  {}
-  }
-
   ######################################################################
   # Creates a new tree for the given window
   proc create {win} {
@@ -42,7 +37,8 @@ namespace eval model {
     variable data
 
     # Save the tree in the new shared memory
-    tsv::array set model$win [array get data]
+    tsv::set serial $win [list]
+    tsv::set pairs  $win [list]
 
   }
 
@@ -50,7 +46,8 @@ namespace eval model {
   # Removes the memory associated with the model.
   proc destroy {win} {
 
-    tsv::array unset model$win
+    tsv::unset serial $win
+    tsv::unset pairs  $win
 
   }
 
@@ -160,20 +157,20 @@ namespace eval model {
   }
 
   ######################################################################
-  # Build pairings.
+  # Build pairings lists from the serial list.
   proc build_pairings {win} {
 
     tsv::set pairs $win [list]
 
     foreach item [tsv::get serial $win] {
-      lassign $item index tag side context
-      build_pairing_$side $win $index $tag stack$context
+      lassign $item tag side index context
+      build_pairing_$side $win $index $tag $context stack$context
     }
 
   }
 
   ######################################################################
-  proc build_pairing_left {win index tag pstack} {
+  proc build_pairing_left {win index tag context pstack} {
 
     upvar $pstack stack
 
@@ -182,13 +179,13 @@ namespace eval model {
   }
 
   ######################################################################
-  proc build_pairing_right {win index tag pstack} {
+  proc build_pairing_right {win index tag context pstack} {
 
     upvar $pstack stack
 
-    set [lindex $stack end 0]
+    set top [lindex $stack end 0]
 
-    tsv::lappend pairs$context $win [list [join [lindex $stack($context) end 0] .] $index $tag]
+    tsv::lappend pairs$context $win [list $top $index $tag]
 
     # Update the stack
     set stack [lreplace $stack end end]
@@ -196,15 +193,23 @@ namespace eval model {
   } 
 
   ######################################################################
-  proc build_pairing_any {win index tag pstack} {
+  proc build_pairing_any {win index tag context pstack} {
 
     upvar $pstack stack
 
-    if {[llength $pairs($context)] % 2]} {
-      build_pairing_right $win $index $tag stack
+    if {[tsv::llength pairs$context $win] % 2} {
+      build_pairing_right $win $index $tag $context stack
     } else {
-      build_pairing_left $win $index $tag stack
+      build_pairing_left $win $index $tag $context stack
     }
+
+  }
+
+  ######################################################################
+  # Handles characters that don't indicate position.
+  proc build_pairing_none {win index tag context pstack} {
+
+    # Do nothing
 
   }
 
