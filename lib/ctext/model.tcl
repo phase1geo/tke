@@ -344,7 +344,7 @@ namespace eval model {
 
   ######################################################################
   # Gets an index list of all nodes in the tree that are not matched.
-  proc get_mismatched {win types} {
+  proc get_mismatched {win} {
 
     # Get the tree information
     set tree [get_tree $win]

@@ -3,7 +3,7 @@ package require Thread
 source parsers.tcl
 source model2.tcl
 
-if {[catch { open ../gui.tcl r } rc]} {
+if {[catch { open ../menus.tcl r } rc]} {
   puts "ERROR:  Unable to read example.tcl"
 }
 
@@ -12,6 +12,6 @@ close $rc
 
 model::create foo
 puts [time {parsers::markers [thread::id] foo 1.0 $contents {} {} {} {}}]
-puts [time {parsers::markers [thread::id] foo 3.1 "a" {} {} {} {}}]
-# puts [time { parsers::markers [thread::id] foo 1.0 $contents {} {} {} {} }]
+# puts [time {parsers::markers [thread::id] foo 3.1 "a" {} {} {} {}}]
+puts [time { parsers::markers [thread::id] foo 1.0 $contents {} {} {} {} }]
 model::destroy foo

@@ -165,9 +165,9 @@ namespace eval parsers {
 
     foreach line [split $str \n] {
       set start 0
-      while {[regexp -indices -start $start "\\" $line indices]} {
+      while {[regexp -indices -start $start {\\} $line indices]} {
         set endpos   [expr [lindex $indices 1] + 1]
-        if {[lindex $ranges end] ne $startpos} {
+        if {[lindex $tags end] ne $start} {
           lappend tags [list escape none $startrow.[lindex $indices 0]]
         }
         set start $endpos
@@ -200,7 +200,7 @@ namespace eval parsers {
 
   ######################################################################
   # Tag all of the comments, strings, and other contextual blocks.
-  proc contexts {tid txt str startrow patterns ptags} {
+  proc contexts {txt str startrow patterns ptags} {
 
     upvar $ptags tags
 
@@ -263,6 +263,20 @@ namespace eval parsers {
       }
       incr startrow
     }
+
+  }
+
+  proc positionals {tid txt str startrow bracketlist indentpattern unindentpattern contextpatterns} {
+
+    set tags [list]
+
+    escapes    $txt $str $startrow tags
+    contexts   $txt $str $startrow $contextpatterns tags
+    indentation $txt $str $startrow $indentpattern indent tags
+    indentation $txt $str $startrow $unindentpattern unindent tags
+    brackets    $txt $str $startrow $bracketlist tags
+
+    model::insert $txt $startrow.0 [concat {*}[lsort -dictionary -index 2 $tags]]
 
   }
 
