@@ -15,8 +15,14 @@ close $rc
 lappend bracketlist $txt,config,matchChar,,curly  1
 lappend bracketlist $txt,config,matchChar,,square 1
 lappend bracketlist $txt,config,matchChar,,paren  1
+lappend contextlist [list double any \" single any ' btick any `]
 
-puts [time { parsers::positionals [thread::id] $txt $contents 1 $bracketlist \{ \} {double any \" single any ' btick any `} }]
+puts [time { parsers::positionals [thread::id] $txt $contents 1 $bracketlist \{ \} $contextlist }]
+puts [time {
+foreach char [split [string range $contents 1000 1300] {}] {
+  parsers::positionals [thread::id] $txt $char 1000 $bracketlist \{ \} $contextlist
+}
+}]
 # model::debug_show $txt
 
 # puts [time { set mismatched [model::get_mismatched $txt] }]
