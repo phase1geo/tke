@@ -165,8 +165,9 @@ namespace eval parsers {
 
     foreach line [split $str \n] {
       set start 0
+      lappend tags [list linestart none $startrow.0]
       while {[regexp -indices -start $start {\\} $line indices]} {
-        set endpos   [expr [lindex $indices 1] + 1]
+        set endpos [expr [lindex $indices 1] + 1]
         if {[lindex $tags end] ne $start} {
           lappend tags [list escape none $startrow.[lindex $indices 0]]
         }
@@ -277,6 +278,7 @@ namespace eval parsers {
     indentation $txt $str $startrow $indentpattern indent tags
     indentation $txt $str $startrow $unindentpattern unindent tags
     brackets    $txt $str $startrow $bracketlist tags
+    linemarks   $txt $str $startrow tags
 
     set elements [lsort -dictionary -index 2 $tags]
     }]

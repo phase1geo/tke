@@ -256,6 +256,13 @@ namespace eval model {
   }
 
   ######################################################################
+  proc find_index {pserial row col} {
+
+    set start [lsearch -index 2 $serial [list $row 0]]
+
+  }
+
+  ######################################################################
   # Inserts the given items into the tree.
   proc insert {win elements block} {
 

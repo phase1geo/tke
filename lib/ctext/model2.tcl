@@ -106,9 +106,11 @@ namespace eval model {
 
   ######################################################################
   # Finds the index in the serial list.
-  proc find_index {win index} {
+  proc find_index {pserial index} {
 
-    return [lsearch [lsort -dictionary -index 0 [list {*}[tsv::get serial $win] $index]] $index]
+    upvar $pserial serial
+
+    return [lsearch [lsort -dictionary -index 0 [concat $serial $index]] $index]
 
   }
 
@@ -117,33 +119,38 @@ namespace eval model {
   # be set
   proc insert {win startpos endpos elements} {
 
+    # Get the shared data
+    set serial [tsv::get serial $win]
+
     # Find the node to start the insertion
-    puts -nonewline "find_index time: "
-    puts [time { set insertpos [find_index $win $startpos] }]
+    set insertpos [find_index serial $startpos]
 
     # Adjust the indices
-    puts -nonewline "adjust time: "
-    puts [time { adjust_indices $win $startpos $endpos $insertpos }]
+    adjust_indices serial $startpos $endpos $insertpos
 
-    # Insert the new indices if any
+    # If the serial list has changed indices, we need to update it and rebuild the pairings lists
     if {[llength $elements] > 0} {
 
-      tsv::linsert serial $win $insertpos {*}$elements
+      set serial [linsert $serial $insertpos {*}$elements]
 
       # Build the pairing data structure
-      tsv::set pairs $win [build_pairings $win]
+      tsv::set pairs $win [build_pairings serial]
 
     }
+
+    # Store the serial list
+    tsv::set serial $win $serial
 
   }
 
   ######################################################################
   # Adjusts the indices in the serial list based on what was inserted.
-  proc adjust_indices {win startpos endpos insertpos} {
+  proc adjust_indices {pserial startpos endpos insertpos} {
 
-    set serial [tsv::get serial $win]
-    set size   [llength $serial]
-    set i      $insertpos
+    upvar $pserial serial
+
+    set size [llength $serial]
+    set i    $insertpos
 
     # If we are inserting text at the end, there's nothing left to do here
     if {$i == $size} {
@@ -167,21 +174,21 @@ namespace eval model {
       }
     }
 
-    tsv::set serial $win $serial
-
   }
 
   ######################################################################
   # Build pairings lists from the serial list.
-  proc build_pairings {win} {
+  proc build_pairings {pserial} {
+
+    upvar $pserial serial
 
     set pairs [list]
     set stack [list]
 
     set index 0
-    foreach item [tsv::get serial $win] {
+    foreach item $serial {
       lassign $item tag side row col context
-      build_pairing_$side $win $index $tag stack$context pairs$context
+      build_pairing_$side $index $tag stack$context pairs$context
       incr index
     }
 
@@ -190,7 +197,7 @@ namespace eval model {
   }
 
   ######################################################################
-  proc build_pairing_left {win index tag pstack ppairs} {
+  proc build_pairing_left {index tag pstack ppairs} {
 
     upvar $pstack stack
 
@@ -200,7 +207,7 @@ namespace eval model {
   }
 
   ######################################################################
-  proc build_pairing_right {win index tag pstack ppairs} {
+  proc build_pairing_right {index tag pstack ppairs} {
 
     upvar $pstack stack
     upvar $ppairs pairs
@@ -208,7 +215,7 @@ namespace eval model {
     set top [lindex $stack end 0]
 
     # Add the pair to the list of pairs for the given context
-    lappend pairs $win [list $top $index $tag]
+    lappend pairs [list $top $index $tag]
 
     # Update the stack
     set stack [lreplace $stack end end]
@@ -216,20 +223,20 @@ namespace eval model {
   }
 
   ######################################################################
-  proc build_pairing_any {win index tag pstack ppairs} {
+  proc build_pairing_any {index tag pstack ppairs} {
 
     upvar $pstack stack
     upvar $ppairs pairs
 
     set side [lindex [list left right] [expr [llength $pairs] % 2]]
 
-    build_pairing_$side $win $index $tag stack pairs
+    build_pairing_$side $index $tag stack pairs
 
   }
 
   ######################################################################
   # Handles characters that don't indicate position.
-  proc build_pairing_none {win index tag pstack ppairs} {
+  proc build_pairing_none {index tag pstack ppairs} {
 
     # Do nothing
 
