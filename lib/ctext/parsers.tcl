@@ -165,11 +165,10 @@ namespace eval parsers {
 
     foreach line [split $str \n] {
       set start 0
-      lappend tags [list linestart none $startrow.0]
       while {[regexp -indices -start $start {\\} $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
         if {[lindex $tags end] ne $start} {
-          lappend tags [list escape none $startrow.[lindex $indices 0]]
+          lappend tags [list escape none [list $startrow [lindex $indices 0]]]
         }
         set start $endpos
       }
@@ -210,7 +209,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $tag $side $startrow.[lindex $indices 0]]
+          lappend tags [list $tag $side [list $startrow [lindex $indices 0]]]
           set start $endpos
         }
         incr startrow
@@ -232,7 +231,7 @@ namespace eval parsers {
       set start 0
       while {[regexp -indices -start $start $pattern $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
-        lappend tags [list indent $side $startrow.[lindex $indices 0]]
+        lappend tags [list indent $side [list $startrow [lindex $indices 0]]]
         set start $endpos
       }
       incr startrow
@@ -258,7 +257,7 @@ namespace eval parsers {
         lassign $bracket_map([string index $line [lindex $indices 0]]) tag side
         set endpos [expr [lindex $indices 1] + 1]
         if {[info exists brackets($txt,config,matchChar,,$tag)]} {
-          lappend tags [list $tag $side $startrow.[lindex $indices 0]]
+          lappend tags [list $tag $side [list $startrow [lindex $indices 0]]]
         }
         set start $endpos
       }
@@ -267,75 +266,26 @@ namespace eval parsers {
 
   }
 
-  proc positionals {tid txt str startrow bracketlist indentpattern unindentpattern contextpatterns} {
-
-    puts -nonewline "parsing time: "
-    puts [time {
-    set tags [list]
-
-    escapes     $txt $str $startrow tags
-    contexts    $txt $str $startrow $contextpatterns tags
-    indentation $txt $str $startrow $indentpattern indent tags
-    indentation $txt $str $startrow $unindentpattern unindent tags
-    brackets    $txt $str $startrow $bracketlist tags
-    linemarks   $txt $str $startrow tags
-
-    set elements [lsort -dictionary -index 2 $tags]
-    }]
-
-    puts "elements: [llength $elements]"
-
-    # model::insert $txt $startrow.0 [concat {*}[lsort -dictionary -index 2 $tags]]
-
-  }
-
   ######################################################################
-  # Parse all of the positional information in the given string.
-  proc markers {tid txt insertpos str bracketlist indentpattern unindentpattern contextpatterns} {
+  # Store all file markers in a model for fast processing.
+  proc markers {tid txt str insertpos bracketlist indentpattern unindentpattern contextpatterns} {
 
     lassign [split $insertpos .] srow scol
 
-    set tags   [list]
+    set tags [list]
+
+    # Find all marker characters in the inserted text
+    escapes     $txt $str $srow tags
+    contexts    $txt $str $srow $contextpatterns tags
+    indentation $txt $str $srow $indentpattern indent tags
+    indentation $txt $str $srow $unindentpattern unindent tags
+    brackets    $txt $str $srow $bracketlist tags
+
     set lines  [split $str \n]
-    set endpos [expr $srow + ([llength $lines] - 1)].[expr $scol + [string length [lindex $lines end]]]
+    set endpos [list [expr $srow + ([llength $lines] - 1)] [expr $scol + [string length [lindex $lines end]]]]
 
-    array set patterns {
-      \\     {escape  none}
-      \"     {double  any}
-      '      {single  any}
-      `      {btick   any}
-      \"\"\" {tdouble any}
-      '''    {tsingle any}
-      ```    {tbtick  any}
-      \(     {paren   left}
-      \)     {paren   right}
-      \{     {curly   left}
-      \}     {curly   right}
-      \[     {square  left}
-      \]     {square  right}
-      <      {angled  left}
-      >      {angled  right}
-    }
-
-    # set pattern {\\|\"|'|`|\"\"\"|'''|```|\(|\)|\{|\}|\[|\]|<|>}
-    set pattern {[][\\\"'`()\{\}]}
-
-    # Parse the ranges
-    foreach line [split $str \n] {
-      set start 0
-      while {[regexp -indices -start $start $pattern $line indices]} {
-        set end [expr [lindex $indices 1] + 1]
-        lappend tags [list {*}$patterns([string range $line {*}$indices]) $srow [expr $scol + [lindex $indices 0]] {}]
-        set start $end
-      }
-      incr srow
-      set scol 0
-    }
-
-    # puts "elements: [llength $tags]"
-
-    # Insert the positional information into the data model
-    model::insert $txt $insertpos $endpos $tags
+    # Update the model
+    model::insert $txt [list $srow 0] $endpos [lsort -dictionary -index 2 $tags] 0
 
   }
 
