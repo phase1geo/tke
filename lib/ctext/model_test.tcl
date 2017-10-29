@@ -5,7 +5,7 @@ source parsers.tcl
 
 model::create [set txt "foo"]
 
-if {[catch { open ../menus.tcl r } rc]} {
+if {[catch { open example.tcl r } rc]} {
   puts "ERROR:  Unable to read parsers.tcl"
 }
 
@@ -19,8 +19,9 @@ lappend contextlist double any \" single any ' btick any `
 
 puts [time { parsers::markers [thread::id] $txt $contents 1 $bracketlist \{ \} $contextlist }]
 puts [time {
-foreach char [split [string range $contents 1000 1300] {}] {
-  parsers::markers [thread::id] $txt $char 1000 $bracketlist \{ \} $contextlist
+# foreach char [split [string range $contents 1000 1300] {}]
+foreach char [split [string range $contents 1000 1000] {}] {
+  puts [time { parsers::markers [thread::id] $txt $char 1000 $bracketlist \{ \} $contextlist }]
 }
 }]
 # model::debug_show $txt
