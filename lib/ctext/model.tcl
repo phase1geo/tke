@@ -280,13 +280,8 @@ namespace eval model {
 
     # If we have any positional characters to insert, do it now
     if {[llength $elements]} {
-
-      # Insert the new indices if any
       set serial [linsert $serial $insert_index {*}$elements]
-
-      # Rebuild the tree
       make_tree
-
     }
 
     # Put the tree back into shared memory
@@ -365,6 +360,8 @@ namespace eval model {
       insert_position tree $current $side $index $type 0
     }
 
+    debug_show_tree
+
   }
 
   ######################################################################
@@ -372,6 +369,8 @@ namespace eval model {
   proc insert_position {tree node side index type block} {
 
     variable current
+
+    puts "In insert_position, side: $side, index: $index, type: $type, block: $block"
 
     # If the current node is root, add a new node as a chilid
     if {$node eq "root"} {
@@ -383,9 +382,10 @@ namespace eval model {
         right {
           if {[tree get $node type] eq $type} {
             if {[tree keyexists $node $side]} {
-              set current [add_sibling_node $node $side $index $type $block]
+              set current [add_child_node $node end $side $index $type $block]
             } else {
               tree set $node $side $index
+              set current [tree parent $node]
             }
           } else {
             set current [add_child_node $node end $side $index $type $block]
@@ -394,6 +394,7 @@ namespace eval model {
         any {
           if {![tree keyexists $node right] && ([tree get $node type] eq $type)} {
             tree set $node right $index
+            set current [tree parent $node]
           } else {
             set current [add_sibling_node $node left $index $type $block]
           }
@@ -403,7 +404,7 @@ namespace eval model {
 
     # puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
     # puts "Inserted index: $index, type: $type"
-    # debug_show_tree
+    debug_show_tree
 
   }
 
