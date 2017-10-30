@@ -39,17 +39,19 @@ namespace eval model {
     # Create the tree
     ::struct::tree tree
 
-    # Save the tree in the new shared memory
-    save $win
+    # Save the serial list in the new shared memory
+    save_serial $win
 
-    # Destroy the tree
-    tree destroy
+    # Save the tree in the new shared memory
+    save_tree $win
 
   }
 
   ######################################################################
   # Removes the memory associated with the model.
   proc destroy {win} {
+
+    tsv::unset serial $win
 
     if {[tsv::exists tree $win]} {
       tsv::unset tree $win
@@ -60,12 +62,21 @@ namespace eval model {
   ######################################################################
   # Retrieves the given tree from shared memory and returns it to the
   # calling procedure.
-  proc load {win} {
+  proc load_serial {win} {
 
     variable serial
 
     # Get the serial list
     set serial [tsv::get serial $win]
+
+  }
+
+  ######################################################################
+  # Loads the tree structure from memory.
+  proc load_all {win} {
+
+    # Load the serial list
+    load_serial
 
     # Get the tree
     ::struct::tree tree deserialize [tsv::get tree $win]
@@ -74,13 +85,23 @@ namespace eval model {
 
   ######################################################################
   # Saves the tree back to shared memory.
-  proc save {win} {
+  proc save_serial {win} {
 
     variable serial
 
     # Save the serial list and tree to shared memory.
     tsv::set serial $win $serial
-    tsv::set tree   $win [tree serialize]
+
+  }
+
+  ######################################################################
+  # Saves the tree to shared memory.
+  proc save_tree {win} {
+
+    catch {
+      tsv::set tree $win [tree serialize]
+      tree destroy
+    }
 
   }
 
@@ -265,12 +286,12 @@ namespace eval model {
 
   ######################################################################
   # Inserts the given items into the tree.
-  proc insert {win startpos endpos elements block} {
+  proc insert {win startpos endpos elements} {
 
     variable serial 
 
     # Load the shared information
-    load $win
+    load_serial $win
 
     # Find the node to start the insertion
     set insert_index [find_serial_index $startpos]
@@ -280,15 +301,12 @@ namespace eval model {
 
     # If we have any positional characters to insert, do it now
     if {[llength $elements]} {
-      set serial [linsert $serial $insert_index {*}$elements]
-      make_tree
+      set serial [linsert $serial[set serial {}] $insert_index {*}$elements]
+      make_tree $win
     }
 
     # Put the tree back into shared memory
-    save $win
-
-    # Get rid of the tree
-    tree destroy
+    save_serial $win
 
   }
 
@@ -298,7 +316,7 @@ namespace eval model {
 
     variable serial
 
-    load $win
+    load_serial $win
 
     # Calculate the indices in the serial list
     set start_index [find_serial_index $startpos]
@@ -310,12 +328,10 @@ namespace eval model {
     # Update the stored data
     if {$start_index != $end_index} {
       set serial [lreplace $serial $start_index $end_index]
-      make_tree
+      make_tree $win
     }
 
-    save $win
-
-    tree destroy
+    save_serial $win
 
   }
 
@@ -325,7 +341,7 @@ namespace eval model {
 
     variable serial
 
-    load $win
+    load_serial $win
 
     # Calculate the indices in the serial list
     set start_index [find_serial_index $startpos]
@@ -337,44 +353,48 @@ namespace eval model {
     # Adjust the serial list and rebuild the tree
     if {[llength $elements] > 0} {
       set serial [lreplace $serial $start_index $end_index {*}$elements]
-      make_tree
+      make_tree $win
     }
 
     # Save the results of the replacement
-    save $win
-    tree destroy
+    save_serial $win
 
   }
 
   ######################################################################
   # Rebuilds the entire pairs tree based on the current serial tree.
-  proc make_tree {} {
+  proc make_tree {win} {
 
     variable serial
     variable current
 
+    # Clear the tree
+    ::struct::tree tree
+
     set current root
+    set i       0
 
     foreach item $serial {
       lassign $item type side index
-      insert_position tree $current $side $index $type 0
+      insert_position tree $current $side $i $type
+      incr i
     }
 
-    debug_show_tree
+    # debug_show_tree
+
+    save_tree $win
 
   }
 
   ######################################################################
   # Inserts a character type into the tree.
-  proc insert_position {tree node side index type block} {
+  proc insert_position {tree node side index type} {
 
     variable current
 
-    puts "In insert_position, side: $side, index: $index, type: $type, block: $block"
-
     # If the current node is root, add a new node as a chilid
     if {$node eq "root"} {
-      set current [add_child_node $node end $side $index $type $block]
+      set current [add_child_node $node end $side $index $type]
 
     } else {
       switch $side {
@@ -382,13 +402,13 @@ namespace eval model {
         right {
           if {[tree get $node type] eq $type} {
             if {[tree keyexists $node $side]} {
-              set current [add_child_node $node end $side $index $type $block]
+              set current [add_child_node $node end $side $index $type]
             } else {
               tree set $node $side $index
               set current [tree parent $node]
             }
           } else {
-            set current [add_child_node $node end $side $index $type $block]
+            set current [add_child_node $node end $side $index $type]
           }
         }
         any {
@@ -396,7 +416,7 @@ namespace eval model {
             tree set $node right $index
             set current [tree parent $node]
           } else {
-            set current [add_sibling_node $node left $index $type $block]
+            set current [add_sibling_node $node left $index $type]
           }
         }
       }
@@ -404,20 +424,19 @@ namespace eval model {
 
     # puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
     # puts "Inserted index: $index, type: $type"
-    debug_show_tree
+    # debug_show_tree
 
   }
 
   ######################################################################
   # Adds the given node contents to the parent node
-  proc add_child_node {parent cindex side index type block} {
+  proc add_child_node {parent cindex side index type} {
 
     set new [tree insert $parent $cindex]
 
     # Initialize the node
     tree set $new $side  $index
     tree set $new type   $type
-    tree set $new block  $block
     tree set $new hidden 0
 
     return $new
@@ -427,13 +446,13 @@ namespace eval model {
   ######################################################################
   # Adds a sibling node of the given node in the tree and initializes the
   # node with the given values.
-  proc add_sibling_node {node side index type block} {
+  proc add_sibling_node {node side index type} {
 
     set parent     [tree parent $node]
     set node_index [tree index $node]
     set cindex     [expr {($side eq "left") ? $node_index : ($node_index+1)}]
 
-    return [add_child_node $parent $cindex $side $index $type $block]
+    return [add_child_node $parent $cindex $side $index $type]
 
   }
 
@@ -442,7 +461,7 @@ namespace eval model {
   proc get_mismatched {win} {
 
     # Get the tree information
-    load $win
+    load_all $win
 
     # Find all of the nodes that are mismatched and create a list of them
     set ranges [list]
@@ -494,7 +513,7 @@ namespace eval model {
   proc get_depth {win pos type} {
 
     # Get the tree information
-    load $win
+    load_all $win
 
     # Get the node that contains the given index
     set depth [tree depth [find_match tree [index $pos] $type]]
