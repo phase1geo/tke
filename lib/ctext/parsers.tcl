@@ -224,6 +224,10 @@ namespace eval parsers {
 
     upvar $ptags tags
 
+    if {$pattern eq ""} {
+      return
+    }
+
     set side [expr {($type eq "indent") ? "left" : "right"}]
 
     # Parse the ranges
@@ -285,7 +289,7 @@ namespace eval parsers {
     set endpos [list [expr $srow + ([llength $lines] - 1)] [expr $scol + [string length [lindex $lines end]]]]
 
     # Update the model
-    model::insert $txt [list $srow 0] $endpos [lsort -dictionary -index 2 $tags] 0
+    model::insert $txt [list $srow 0] $endpos [lsort -dictionary -index 2 $tags]
 
   }
 
