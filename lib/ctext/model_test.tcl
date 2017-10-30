@@ -17,10 +17,10 @@ lappend bracketlist $txt,config,matchChar,,square 1
 lappend bracketlist $txt,config,matchChar,,paren  1
 lappend contextlist double any \" single any ' btick any `
 
-puts [time { parsers::markers [thread::id] $txt $contents 1 $bracketlist {} {} $contextlist }]
+puts [time { parsers::markers [thread::id] $txt $contents 1.0 $bracketlist {} {} $contextlist }]
 puts [time {
 foreach char [split [string range $contents 1000 1300] {}] {
-  parsers::markers [thread::id] $txt $char 1000 $bracketlist \{ \} $contextlist
+  parsers::markers [thread::id] $txt $char 1000.0 $bracketlist \{ \} $contextlist
 }
 }]
 # model::debug_show $txt

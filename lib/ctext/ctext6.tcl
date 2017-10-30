@@ -1706,6 +1706,9 @@ namespace eval ctext {
 
     set endPos [$win._t index "$startPos+${chars}c"]
 
+    # Update the model with the insertion
+    tpool::post $tpool [list model::insert $win $startPos $endPos]
+
     if {$opts(-undo)} {
       undo_insert $win $startPos $chars $cursor
     }
@@ -1798,6 +1801,7 @@ namespace eval ctext {
   proc command_insert {win args} {
 
     variable data
+    variable tpool
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
@@ -1806,25 +1810,24 @@ namespace eval ctext {
 
     lassign $args insertPos content tags
 
-    set insertPos [$win._t index $insertPos]
-    set chars     [string length $content]
-    set tags      [list {*}$tags lmargin rmargin]
-    set cursor    [$win._t index insert]
-    set do_tags   [list]
+    set ranges [list]
+    set chars  [string length $content]
+    set tags   [list {*}$tags lmargin rmargin]
 
-    if {[lindex $args 0] eq "end"} {
-      set lineStart [$win._t index "$insertPos-1c linestart"]
+    # Insert the text
+    if {[set cursors [$win._t tag ranges mcursor]]} {
+      foreach {endPos startPos} [lreverse $cursors] {
+        $win._t insert $startPos $content $tags
+        lappend ranges $startPos [$win._t index "$startPos+${chars}c"]
+      }
     } else {
-      set lineStart [$win._t index "$insertPos linestart"]
+      set cursors [$win._t index insert]
+      $win._t insert $insertPos $content $tags
+      lappend [$win._t index $insertPos] [$win._t index "$insertPos+${chars}c"]
     }
 
-    $win._t insert $insertPos $content $tags
-
-    set lineEnd [$win._t index "${insertPos}+${chars}c lineend"]
-
-    undo_insert     $win $insertPos $chars $cursor
-    handleInsertAt0 $win._t $insertPos $chars
-    comments_do_tag $win $insertPos "$insertPos+${chars}c" do_tags
+    tpool::post $tpool [list model::insert $win $ranges]
+    tpool::post $tpool [list ctext::undo_insert $win $ranges $chars $cursors]
 
     # Highlight text and bracket auditing
     if {[highlightAll $win [list $lineStart $lineEnd] 1 1 $do_tags]} {
@@ -3596,17 +3599,28 @@ namespace eval ctext {
       return
     }
 
-    set jobids      [list]
-    set startrow    [lindex [split [$win._t index $start] .] 0]
-    set str         [$win._t get $start $end]
-    set tid         [thread::id]
-    set namelist    [array get data $win,highlight,keyword,class,,*]
-    set startlist   [array get data $win,highlight,charstart,class,,*]
-    set bracketlist [array get data $win,config,matchChar,,*]
+    set jobids    [list]
+    set startrow  [lindex [split [$win._t index $start] .] 0]
+    set str       [$win._t get $start $end]
+    set tid       [thread::id]
+    set namelist  [array get data $win,highlight,keyword,class,,*]
+    set startlist [array get data $win,highlight,charstart,class,,*]
+
+    # TBD - This needs to be optimized
+    set patterns(brackets) [array get data $win,config,matchChar,,*]
+    set patterns(indent)   ""
+    set patterns(unindent) ""
+    foreach {key pattern} [array get data $win,config,indentation,,*] {
+      lassign [split $key ,] d0 d1 d2 lang type
+      set ipattern($type) $pattern
+    }
+    foreach {tag pattern} $data($win,config,csl_patterns) {
+    }
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
-      [list parsers::brackets $tid $win $str $startrow $bracketlist] \
+      [list parsers::markers $tpool $tid $win $str $startrow $patterns(brackets) $ipattern(indent) $ipattern(unindent)] \
+  proc markers {tid txt str insertpos bracketlist indentpattern unindentpattern contextpatterns} {
     ]
 
     # Perform indentation parsing

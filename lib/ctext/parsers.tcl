@@ -281,6 +281,12 @@ namespace eval parsers {
     # Find all marker characters in the inserted text
     escapes     $txt $str $srow tags
     contexts    $txt $str $srow $contextpatterns tags
+
+    # If we have any escapes or contexts found in the given string, re-render the contexts
+    if {[llength $tags]} {
+      tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
+    }
+
     indentation $txt $str $srow $indentpattern indent tags
     indentation $txt $str $srow $unindentpattern unindent tags
     brackets    $txt $str $srow $bracketlist tags
@@ -290,6 +296,17 @@ namespace eval parsers {
 
     # Update the model
     model::insert $txt [list $srow 0] $endpos [lsort -dictionary -index 2 $tags]
+
+  }
+
+  ######################################################################
+  # Handles rendering any contexts that we have (i.e., strings, comments,
+  # embedded language blocks, etc.)
+  proc render_contexts {tid txt tags} {
+
+    # TBD
+
+    render $tid $txt TAG $ranges 0
 
   }
 

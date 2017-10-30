@@ -286,7 +286,7 @@ namespace eval model {
 
   ######################################################################
   # Inserts the given items into the tree.
-  proc insert {win startpos endpos elements} {
+  proc insert {win startpos endpos} {
 
     variable serial 
 
@@ -298,12 +298,6 @@ namespace eval model {
 
     # Adjust the indices
     adjust_indices $startpos $endpos $insert_index
-
-    # If we have any positional characters to insert, do it now
-    if {[llength $elements]} {
-      set serial [linsert $serial[set serial {}] $insert_index {*}$elements]
-      make_tree $win
-    }
 
     # Put the tree back into shared memory
     save_serial $win
@@ -357,6 +351,30 @@ namespace eval model {
     }
 
     # Save the results of the replacement
+    save_serial $win
+
+  }
+
+  ######################################################################
+  # Updates the model, inserting the given parsed elements prior to rebuilding
+  # the model tree.
+  proc update {win elements} {
+
+    variable serial
+
+    # Load the serial list from shared memory
+    load_serial $win
+
+    # If we have something to insert into the serial list, do it now
+    if {[llength $elements] > 0} {
+      set insert_index [find_serial_index [lindex $elements 0 2]]
+      set serial       [linsert $serial[set $serial {}] $insert_index {*}$elements]
+    }
+
+    # Rebuild the model tree
+    make_tree $win
+
+    # Save the serial list to shared memory
     save_serial $win
 
   }
