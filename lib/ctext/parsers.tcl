@@ -162,7 +162,7 @@ namespace eval parsers {
       while {[regexp -indices -start $start {\\} $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
         if {[lindex $tags end] ne $start} {
-          lappend tags [list escape none [list $startrow [lindex $indices 0]] 1]
+          lappend tags [list escape none [list $startrow $indices] 1]
         }
         set start $endpos
       }
@@ -194,7 +194,7 @@ namespace eval parsers {
 
   ######################################################################
   # Tag all of the comments, strings, and other contextual blocks.
-  proc contexts {tid txt str startrow ptags} {
+  proc contexts {txt str startrow ptags} {
 
     upvar $ptags tags
 
@@ -207,7 +207,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $type $side [list $srow [lindex $indices 0]] 1 $ctx $tag]
+          lappend tags [list $type $side [list $srow $indices] 1 $ctx $tag]
           set start $endpos
         }
         incr srow
@@ -230,7 +230,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list indent $side [list $srow [lindex $indices 0]] 0 $ctx]
+          lappend tags [list indent $side [list $srow $indices] 0 $ctx]
           set start $endpos
         }
         incr srow
@@ -251,7 +251,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $tag $side [list $srow [lindex $indices 0]] 0 $ctx]
+          lappend tags [list $tag $side [list $srow $indices] 0 $ctx]
           set start $endpos
         }
         incr srow
@@ -270,7 +270,7 @@ namespace eval parsers {
 
     # Find all marker characters in the inserted text
     escapes  $txt $str $srow tags
-    contexts $tid $txt $str $srow tags
+    contexts $txt $str $srow tags
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags]} {
@@ -278,12 +278,15 @@ namespace eval parsers {
       # tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
     }
 
+    catch {
     # Add indentation and bracket markers to the tags list
     indentation $txt $str $srow tags
     brackets    $txt $str $srow tags
 
     # Update the model
     model::update $tid $txt [lsort -dictionary -index 2 $tags]
+    } rc
+    puts "markers rc: $rc"
 
   }
 
@@ -298,7 +301,9 @@ namespace eval parsers {
     utils::log "In render_contexts"
 
     # Retrieve, merge and sort the context tags
-    set ctags [lsearch -inline -index 3 [tsv::get serial $txt] 1]
+    utils::log [tsv::get serial $txt]
+    set ctags [lsearch -all -inline -index 3 -exact [tsv::get serial $txt] 1]
+    utils::log "ctags: $ctags"
     set tags  [lsort -dictionary -index 2 [list {*}$ctags {*}$tags]]
 
     utils::log "tags: $tags"
@@ -312,18 +317,18 @@ namespace eval parsers {
     # Create the non-overlapping ranges for each of the context tags
     foreach tag $tags {
       lassign $tag   type side index dummy ctx tag
-      lassign $index row col
-      if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ($col - 1)))} {
+      lassign $index row cols
+      if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ([lindex $cols 0] - 1)))} {
         set current [context peek]
         if {($current eq $ctx) && (($side eq "any") || ($side eq "left"))} {
           context push $type
-          lappend ranges($tag) $row.$col
+          lappend ranges($tag) $row.[lindex $cols 0]
         } elseif {($current eq $type) && (($side eq "any") || ($side eq "right"))} {
           context pop
-          lappend ranges($tag) $row.$col
+          lappend ranges($tag) $row.[expr [lindex $cols 1] + 1]
         }
       }
-      lassign [list $type $row $col] ltype lrow lcol
+      lassign [list $type $row [lindex $cols 0]] ltype lrow lcol
     }
 
     # Render the tags
@@ -334,7 +339,7 @@ namespace eval parsers {
     # Destroy the stack
     context destroy
     } rc
-    utils::log "rc: $rc"
+    utils::log "render_contexts rc: $rc"
 
   }
 

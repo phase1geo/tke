@@ -2855,18 +2855,18 @@ namespace eval ctext {
   proc setBrackets {win lang types {fg "green"} {bg ""}} {
 
     array set btag_types {
-      curly  {curly  left \{ "%s" curly  right \} "%s"}
-      square {square left \[ "%s" square right \] "%s"}
-      paren  {square left \( "%s" paren  right \) "%s"}
-      angled {angled left <  "%s" angled right >  "%s"}
+      curly  {curly  left {\{} "%s" curly  right {\}} "%s"}
+      square {square left {\[} "%s" square right {\]} "%s"}
+      paren  {square left {\(} "%s" paren  right {\)} "%s"}
+      angled {angled left <    "%s" angled right >    "%s"}
     }
     array set ctag_types {
-      double  {double  any \"     "%s" _string}
-      single  {single  any \'     "%s" _string}
-      btick   {btick   any `      "%s" _string}
-      tdouble {tdouble any \"\"\" "%s" _string}
-      tsingle {tsingle any '''    "%s" _string}
-      tbtick  {tbtick  any ```    "%s" _string}
+      double  {double  any {\"}     "%s" _string}
+      single  {single  any '        "%s" _string}
+      btick   {btick   any `        "%s" _string}
+      tdouble {tdouble any {\"\"\"} "%s" _string}
+      tsingle {tsingle any '''      "%s" _string}
+      tbtick  {tbtick  any ```      "%s" _string}
     }
 
     # Get the brackets
@@ -3203,8 +3203,12 @@ namespace eval ctext {
       set ranges $tranges
     }
 
-    if {[llength $ranges]} {
-      $win._t tag add $tag {*}$ranges
+    if {[set num [llength $ranges]]} {
+      if {($num % 2) == 1} {
+        $win._t tag add $tag {*}$ranges end
+      } else {
+        $win._t tag add $tag {*}$ranges
+      }
     }
 
   }
