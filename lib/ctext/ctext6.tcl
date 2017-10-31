@@ -2810,6 +2810,8 @@ namespace eval ctext {
         incr i
       }
 
+      puts "In setContextPatterns, tags: $tags"
+
       # Save the context data
       tsv::set contexts $win $tags
 
@@ -2849,18 +2851,18 @@ namespace eval ctext {
   proc setBrackets {win lang types {fg "green"} {bg ""}} {
 
     array set btag_types {
-      curly  {curly  left \{ %s curly  right \} $lang}
-      square {square left \[ %s square right \] $lang}
-      paren  {square left \( %s paren  right \) $lang}
-      angled {angled left <  %s angled right >  $lang}
+      curly  {curly  left \{ "%s" curly  right \} "%s"}
+      square {square left \[ "%s" square right \] "%s"}
+      paren  {square left \( "%s" paren  right \) "%s"}
+      angled {angled left <  "%s" angled right >  "%s"}
     }
     array set ctag_types {
-      double  {double  any \" %s}
-      single  {single  any \' %s}
-      btick   {btick   any ` %s}
-      tdouble {tdouble any \"\"\" %s}
-      tsingle {tsingle any ''' %s}
-      tbtick  {tbtick  any ``` %s}
+      double  {double  any \" "%s"}
+      single  {single  any \' "%s"}
+      btick   {btick   any ` "%s"}
+      tdouble {tdouble any \"\"\" "%s"}
+      tsingle {tsingle any ''' "%s"}
+      tbtick  {tbtick  any ``` "%s"}
     }
 
     # Get the brackets
@@ -2920,6 +2922,8 @@ namespace eval ctext {
     highlight $win [lindex $lineranges 0] end $ins $block
 
     event generate $win.t <<StringCommentChanged>>
+
+    return 0  ;# TBD
 
   }
 
@@ -3239,8 +3243,6 @@ namespace eval ctext {
     set tid       [thread::id]
     set namelist  [array get data $win,highlight,keyword,class,,*]
     set startlist [array get data $win,highlight,charstart,class,,*]
-
-    puts "Calling markers"
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
