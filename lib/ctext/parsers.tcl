@@ -202,21 +202,34 @@ namespace eval parsers {
 
   ######################################################################
   # Tag all of the comments, strings, and other contextual blocks.
-  proc contexts {txt str startrow ptags} {
+  proc contexts {tid txt str startrow ptags} {
 
     upvar $ptags tags
 
-    foreach {tag side pattern ctx} [tsv::get contexts $txt] {
+    catch {
+    set patterns [tsv::get contexts $txt]
+    log $tid "patterns: $patterns"
+
+    foreach {tag side pattern ctx} $patterns {
+       
+      log $tid "In contexts, tag: $tag, side: $side, pattern: $pattern, ctx: $ctx"
       foreach line [split $str \n] {
         set start 0
+        log $tid "  line: $line"
         while {[regexp -indices -start $start $pattern $line indices]} {
+          log $tid "    found match, indices: $indices"
           set endpos [expr [lindex $indices 1] + 1]
           lappend tags [list $tag $side [list $startrow [lindex $indices 0]] $ctx]
           set start $endpos
         }
+        log $tid "  here"
         incr startrow
       }
+      log $tid "  done with tag: $tag"
+
     }
+    } rc
+    log $tid "rc: $rc"
 
   }
 
@@ -265,24 +278,35 @@ namespace eval parsers {
   # Store all file markers in a model for fast processing.
   proc markers {tpool tid txt str insertpos} {
 
+    log $tid "In markers"
+
     lassign [split $insertpos .] srow scol
 
     set tags [list]
 
     # Find all marker characters in the inserted text
+    log $tid "HERE A"
     escapes  $txt $str $srow tags
-    contexts $txt $str $srow tags
+    log $tid "HERE B"
+    contexts $tid $txt $str $srow tags
+    log $tid "HERE C"
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags]} {
-      tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
+      log $tid "HERE D"
+      render_contexts $tid $txt $tags
+      # tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
     }
 
     # Add indentation and bracket markers to the tags list
+    log $tid "HERE E"
     indentation $txt $str $srow tags
+    log $tid "HERE F"
     brackets    $txt $str $srow tags
+    log $tid "HERE G"
 
     # Update the model
+    log $tid "Calling model update tags: [lsort -dictionary -index 2 $tags]"
     model::update $txt [lsort -dictionary -index 2 $tags]
 
   }
@@ -292,23 +316,34 @@ namespace eval parsers {
   # embedded language blocks, etc.)
   proc render_contexts {tid txt tags} {
 
+    log $tid "In render_contexts, tags: $tags"
+
+    catch {
     array set ranges {}
 
     # Create the context stack structure
     ::struct::stack context
 
+    context push ""
+    lassign {"" 0 0} ltype lrow lcol
+
     # Create the non-overlapping ranges for each of the context tags
     foreach tag [lsort -dictionary -index 2 $tags] {
       lassign $tag   type side index ctx
       lassign $index row col
+      log $tid "type: $type, side: $side, index: $index, ctx: $ctx"
       if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ($col - 1)))} {
+        log $tid "  here 1"
         set current [context peek]
+        log $tid "  current($current)"
         if {($current eq $ctx) && (($side eq "any") || ($side eq "left"))} {
           context push $type
           lappend ranges($type) $row.$col
+          log $tid "    push"
         } elseif {($current eq $type) && (($side eq "any") || ($side eq "right"))} {
           context pop
           lappend ranges($type) $row.$col
+          log $tid "    pop"
         }
       }
       lassign [list $type $row $col] ltype lrow lcol
@@ -316,11 +351,15 @@ namespace eval parsers {
 
     # Render the tags
     foreach tag [array names ranges] {
+      log $tid "Rendering tag: $tag, ranges: $ranges($tag)"
       render $tid $txt $tag $ranges($tag) 0
     }
 
     # Destroy the stack
     context destroy
+    } rc
+
+    puts "RC: $rc"
 
   }
 

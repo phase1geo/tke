@@ -246,14 +246,12 @@ namespace eval model {
 
   ######################################################################
   # Adjusts all of the model indices based on the inserted text position.
-  proc adjust_indices {startpos endpos start_index} {
+  proc adjust_indices {startpos endpos start_index last_index} {
 
     variable serial
 
-    set size [llength $serial]
-
     # If we are inserting text at the end, there's nothing left to do here
-    if {$start_index == $size} {
+    if {$start_index == $last_index} {
       return
     }
 
@@ -261,7 +259,7 @@ namespace eval model {
     lassign $endpos   erow ecol
 
     set i $start_index
-    while {($i < $size) && ([lindex $serial $i 2 0] <= $erow)} {
+    while {($i < $last_index) && ([lindex $serial $i 2 0] <= $erow)} {
       lset serial $i 2 1 [expr ([lindex $serial $i 2 1] - $scol) + $ecol]
       incr i
     }
@@ -269,7 +267,7 @@ namespace eval model {
     if {$srow != $erow} {
       set line_incr [expr $erow - $srow]
       set i         0
-      while {$i < $size} {
+      while {$i < $last_index} {
         lset serial $i 2 0 [expr [lindex $serial $i 2 0] + $line_incr]
         incr i
       }
@@ -314,13 +312,21 @@ namespace eval model {
     # Load the shared information
     load_serial $win
 
+    set last [llength $serial]
+
     foreach {startpos endpos} $ranges {
 
       # Find the node to start the insertion
-      set insert_index [find_serial_index $startpos]
+      set start_index [find_serial_index $startpos]
+      set end_index   [find_serial_index $endpos]
+
+      # Remove anything found between the two indices
+      set serial [lreplace $serial[set serial {}] $start_index $end_index]
 
       # Adjust the indices
-      adjust_indices $startpos $endpos $insert_index
+      adjust_indices $startpos $endpos $end_index $last
+
+      set last $start_index
 
     }
 
@@ -337,21 +343,22 @@ namespace eval model {
 
     load_serial $win
 
+    set last [llength $serial]
+
     foreach {startpos endpos} $ranges {
 
       # Calculate the indices in the serial list
       set start_index [find_serial_index $startpos]
       set end_index   [find_serial_index $endpos] 
 
+      # Remove items between indices
+      set serial [lreplace $serial[set serial {}] $start_index $end_index]
+
       # Adjust the serial list indices
-      adjust_indices $startpos $endpos $end_index
+      adjust_indices $startpos $endpos $end_index $last
 
-    }
+      set last $start_index
 
-    # Update the stored data
-    if {$start_index != $end_index} {
-      set serial [lreplace $serial $start_index $end_index]
-      make_tree $win
     }
 
     save_serial $win
@@ -360,11 +367,13 @@ namespace eval model {
 
   ######################################################################
   # Update the model with the replacement information.
-  proc replace {win ranges elements} {
+  proc replace {win ranges} {
 
     variable serial
 
     load_serial $win
+
+    set last [llength $serial]
 
     foreach {startpos endpos newendpos} $ranges {
 
@@ -372,15 +381,14 @@ namespace eval model {
       set start_index [find_serial_index $startpos]
       set end_index   [find_serial_index $endpos]
 
+      # Remove all elements between indices
+      set serial [lreplace $serial[set serial {}] $start_index $end_index]
+
       # Adjust the serial list indices
-      adjust_indices $startpos $newendpos $end_index
+      adjust_indices $startpos $newendpos $end_index $last
 
-    }
+      set last $start_index
 
-    # Adjust the serial list and rebuild the tree
-    if {[llength $elements] > 0} {
-      set serial [lreplace $serial $start_index $end_index {*}$elements]
-      make_tree $win
     }
 
     # Save the results of the replacement

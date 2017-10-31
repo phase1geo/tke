@@ -9,5 +9,5 @@ ctext::initialize .t
 
 ctext::addHighlightClass    .t keywords "red"
 ctext::addHighlightKeywords .t {hello trevor} class keywords
-ctext::setContextPatterns   .t bcomment comment "" {{/\*} {\*/}} "grey"
+ctext::setContextPatterns   .t bcomment comment "" {{{/\*} {\*/}}} "grey"
 ctext::setBrackets          .t "" {curly square paren double single} "green"
