@@ -38,9 +38,11 @@ namespace eval ctext {
 
     if {$tpool eq ""} {
       set tpool [tpool::create -minworkers $min -maxworkers $max -initcmd [format {
+        source [file join %s utils.tcl]
         source [file join %s parsers.tcl]
         source [file join %s model.tcl]
-      } $this_dir $this_dir]]
+        set utils::main_tid %s
+      } $this_dir $this_dir $this_dir [thread::id]]]
     }
 
   }
@@ -62,6 +64,7 @@ namespace eval ctext {
 
     variable data
     variable right_click
+    variable tpool
 
     # Make sure that we are initialized if we have not been already
     initialize
@@ -207,6 +210,7 @@ namespace eval ctext {
     tsv::set contexts $win [list]
     tsv::set brackets $win [list]
     tsv::set indents  $win [list]
+    tpool::post $tpool [list model::create $win]
 
     bind $win.t <Configure>           [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win]
@@ -2793,6 +2797,8 @@ namespace eval ctext {
   # list is empty, deletes the given context tags.
   proc setContextPatterns {win type tag lang patterns {fg "grey"} {bg ""}} {
 
+    variable data
+
     if {[llength $patterns] > 0} {
 
       # Get the context tags
@@ -2802,15 +2808,13 @@ namespace eval ctext {
       set i [llength $tags]
       foreach pattern $patterns {
         if {[llength $pattern] == 1} {
-          lappend tags $type:$i any [lindex $pattern 0] $lang
+          lappend tags $type:$i any   [lindex $pattern 0] $lang _$tag
         } else {
-          lappend tags $type:$i left  [lindex $pattern 0] $lang
-          lappend tags $type:$i right [lindex $pattern 1] $lang
+          lappend tags $type:$i left  [lindex $pattern 0] $lang _$tag
+          lappend tags $type:$i right [lindex $pattern 1] $lang _$tag
         }
         incr i
       }
-
-      puts "In setContextPatterns, tags: $tags"
 
       # Save the context data
       tsv::set contexts $win $tags
@@ -2821,7 +2825,7 @@ namespace eval ctext {
 
     } else {
 
-      catch { $win tag delete _tag }
+      catch { $win tag delete _$tag }
 
     }
 
@@ -2857,12 +2861,12 @@ namespace eval ctext {
       angled {angled left <  "%s" angled right >  "%s"}
     }
     array set ctag_types {
-      double  {double  any \" "%s"}
-      single  {single  any \' "%s"}
-      btick   {btick   any ` "%s"}
-      tdouble {tdouble any \"\"\" "%s"}
-      tsingle {tsingle any ''' "%s"}
-      tbtick  {tbtick  any ``` "%s"}
+      double  {double  any \"     "%s" _string}
+      single  {single  any \'     "%s" _string}
+      btick   {btick   any `      "%s" _string}
+      tdouble {tdouble any \"\"\" "%s" _string}
+      tsingle {tsingle any '''    "%s" _string}
+      tbtick  {tbtick  any ```    "%s" _string}
     }
 
     # Get the brackets
@@ -2875,7 +2879,7 @@ namespace eval ctext {
       } elseif {[info exists ctag_types($type)]} {
         lappend ctags {*}[format $ctag_types($type) $lang]
         $win._t tag configure _string -foreground $fg -background $bg
-        $win._t tag lower     sel
+        $win._t tag lower     _string sel
       }
     }
 
@@ -3186,6 +3190,8 @@ namespace eval ctext {
   ######################################################################
   # Renders the given tag with the specified ranges in the given widget.
   proc render {win tag ranges restricted} {
+
+    puts "In render, tag: $tag, ranges: $ranges"
 
     if {$restricted} {
       set tranges [list]

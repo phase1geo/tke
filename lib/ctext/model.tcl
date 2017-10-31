@@ -39,6 +39,8 @@ namespace eval model {
     # Create the tree
     ::struct::tree tree
 
+    utils::log "Saving serial, win: $win"
+
     # Save the serial list in the new shared memory
     save_serial $win
 
@@ -88,6 +90,8 @@ namespace eval model {
   proc save_serial {win} {
 
     variable serial
+
+    puts "Saving serial $win"
 
     # Save the serial list and tree to shared memory.
     tsv::set serial $win $serial
@@ -399,7 +403,7 @@ namespace eval model {
   ######################################################################
   # Updates the model, inserting the given parsed elements prior to rebuilding
   # the model tree.
-  proc update {win elements} {
+  proc update {tid win elements} {
 
     variable serial
 
