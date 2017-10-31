@@ -23,6 +23,8 @@
 #          namespace.  This code is completely executed inside of a thread.
 ######################################################################$0
 
+package require struct::stack
+
 namespace eval parsers {
 
   array set REs {
@@ -200,16 +202,16 @@ namespace eval parsers {
 
   ######################################################################
   # Tag all of the comments, strings, and other contextual blocks.
-  proc contexts {txt str startrow patterns ptags} {
+  proc contexts {txt str startrow ptags} {
 
     upvar $ptags tags
 
-    foreach {tag side pattern} $patterns {
+    foreach {tag side pattern ctx} [tsv::get contexts $txt] {
       foreach line [split $str \n] {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $tag $side [list $startrow [lindex $indices 0]]]
+          lappend tags [list $tag $side [list $startrow [lindex $indices 0]] $ctx]
           set start $endpos
         }
         incr startrow
@@ -220,50 +222,39 @@ namespace eval parsers {
 
   ######################################################################
   # Tag all of the indentation characters for quick indentation handling.
-  proc indentation {txt str startrow pattern type ptags} {
+  proc indentation {txt str startrow ptags} {
 
     upvar $ptags tags
 
-    if {$pattern eq ""} {
-      return
-    }
-
-    set side [expr {($type eq "indent") ? "left" : "right"}]
-
     # Parse the ranges
-    foreach line [split $str \n] {
-      set start 0
-      while {[regexp -indices -start $start $pattern $line indices]} {
-        set endpos [expr [lindex $indices 1] + 1]
-        lappend tags [list indent $side [list $startrow [lindex $indices 0]]]
-        set start $endpos
+    foreach {tag side pattern ctx} [tsv::get indents $txt] {
+      foreach line [split $str \n] {
+        set start 0
+        while {[regexp -indices -start $start $pattern $line indices]} {
+          set endpos [expr [lindex $indices 1] + 1]
+          lappend tags [list indent $side [list $startrow [lindex $indices 0]] $ctx]
+          set start $endpos
+        }
+        incr startrow
       }
-      incr startrow
     }
 
   }
 
   ######################################################################
   # Handles tagging brackets found within the text string.
-  proc brackets {txt str startrow bracketlist ptags} {
+  proc brackets {txt str startrow ptags} {
 
     upvar $ptags tags
 
-    variable REs
-    variable bracket_map
-
-    array set brackets $bracketlist
-
-    # Parse the string
-    foreach line [split $str \n] {
-      set start 0
-      while {[regexp -indices -start $start $REs(brackets) $line indices]} {
-        lassign $bracket_map([string index $line [lindex $indices 0]]) tag side
-        set endpos [expr [lindex $indices 1] + 1]
-        if {[info exists brackets($txt,config,matchChar,,$tag)]} {
+    foreach {tag side pattern ctx} [tsv::get brackets $txt] {
+      foreach line [split $str \n] {
+        set start 0
+        while {[regexp -indices -start $start $pattern $line indices]} {
+          set endpos [expr [lindex $indices 1] + 1]
           lappend tags [list $tag $side [list $startrow [lindex $indices 0]]]
+          set start $endpos
         }
-        set start $endpos
       }
       incr startrow
     }
@@ -272,30 +263,27 @@ namespace eval parsers {
 
   ######################################################################
   # Store all file markers in a model for fast processing.
-  proc markers {tid txt str insertpos bracketlist indentpattern unindentpattern contextpatterns} {
+  proc markers {tpool tid txt str insertpos} {
 
     lassign [split $insertpos .] srow scol
 
     set tags [list]
 
     # Find all marker characters in the inserted text
-    escapes     $txt $str $srow tags
-    contexts    $txt $str $srow $contextpatterns tags
+    escapes  $txt $str $srow tags
+    contexts $txt $str $srow tags
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags]} {
       tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
     }
 
-    indentation $txt $str $srow $indentpattern indent tags
-    indentation $txt $str $srow $unindentpattern unindent tags
-    brackets    $txt $str $srow $bracketlist tags
-
-    set lines  [split $str \n]
-    set endpos [list [expr $srow + ([llength $lines] - 1)] [expr $scol + [string length [lindex $lines end]]]]
+    # Add indentation and bracket markers to the tags list
+    indentation $txt $str $srow tags
+    brackets    $txt $str $srow tags
 
     # Update the model
-    model::insert $txt [list $srow 0] $endpos [lsort -dictionary -index 2 $tags]
+    model::update $txt [lsort -dictionary -index 2 $tags]
 
   }
 
@@ -304,11 +292,36 @@ namespace eval parsers {
   # embedded language blocks, etc.)
   proc render_contexts {tid txt tags} {
 
-    # TBD
+    array set ranges {}
 
-    render $tid $txt TAG $ranges 0
+    # Create the context stack structure
+    ::struct::stack context
+
+    # Create the non-overlapping ranges for each of the context tags
+    foreach tag [lsort -dictionary -index 2 $tags] {
+      lassign $tag   type side index ctx
+      lassign $index row col
+      if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ($col - 1)))} {
+        set current [context peek]
+        if {($current eq $ctx) && (($side eq "any") || ($side eq "left"))} {
+          context push $type
+          lappend ranges($type) $row.$col
+        } elseif {($current eq $type) && (($side eq "any") || ($side eq "right"))} {
+          context pop
+          lappend ranges($type) $row.$col
+        }
+      }
+      lassign [list $type $row $col] ltype lrow lcol
+    }
+
+    # Render the tags
+    foreach tag [array names ranges] {
+      render $tid $txt $tag $ranges($tag) 0
+    }
+
+    # Destroy the stack
+    context destroy
 
   }
 
 }
-

@@ -203,6 +203,11 @@ namespace eval ctext {
       $win.t tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     }
 
+    # Initialize shared memory
+    tsv::set contexts $win [list]
+    tsv::set brackets $win [list]
+    tsv::set indents  $win [list]
+
     bind $win.t <Configure>           [list ctext::linemapUpdate $win]
     bind $win.t <<CursorChanged>>     [list ctext::linemapUpdate $win]
     bind $win.l <Button-$right_click> [list ctext::linemapToggleMark $win %x %y]
@@ -630,21 +635,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  proc setCommentRE {win} {
-
-    variable data
-
-    set patterns [list]
-
-    foreach {tag pattern} $data($win,config,csl_patterns) {
-      lappend patterns $pattern
-    }
-
-    set data($win,config,csl_re) [join $patterns |]
-
-  }
-
-  ######################################################################
   proc inCommentStringHelper {win index pattern} {
 
     set names [$win tag names $index]
@@ -931,7 +921,7 @@ namespace eval ctext {
   ######################################################################
   # Adds an insertion to the undo buffer.  We also will combine insertion
   # elements, if possible, to make the undo buffer more efficient.
-  proc undo_insert {win insert_pos str_len cursor} {
+  proc undo_insert {win starts ends cursors} {
 
     variable data
 
@@ -939,14 +929,12 @@ namespace eval ctext {
       return
     }
 
-    set end_pos [$win index "$insert_pos+${str_len}c"]
-
     # Combine elements, if possible
     if {[llength $data($win,config,undo_hist)] > 0} {
       lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 hcursor sep
       if {$sep == 0} {
-        if {($cmd eq "d") && ($val2 == $insert_pos)} {
-          lset data($win,config,undo_hist) end 2 $end_pos
+        if {($cmd eq "d") && ($val2 eq $starts)} {
+          lset data($win,config,undo_hist) end 2 $ends
           set data($win,config,redo_hist) [list]
           return
         }
@@ -954,7 +942,7 @@ namespace eval ctext {
     }
 
     # Add to the undo history
-    lappend data($win,config,undo_hist) [list d $insert_pos $end_pos $cursor 0]
+    lappend data($win,config,undo_hist) [list d $starts $ends $cursors 0]
     incr data($win,config,undo_hist_size)
 
     # Clear the redo history
@@ -965,7 +953,7 @@ namespace eval ctext {
   ######################################################################
   # Adds an deletion to the undo buffer.  We also will combine deletion
   # elements, if possible, to make the undo buffer more efficient.
-  proc undo_delete {win start_pos end_pos} {
+  proc undo_delete {win starts ends} {
 
     variable data
 
@@ -973,29 +961,33 @@ namespace eval ctext {
       return
     }
 
-    set str [$win get $start_pos $end_pos]
+    foreach startpos $starts endpos $ends {
 
-    # Combine elements, if possible
-    if {[llength $data($win,config,undo_hist)] > 0} {
-      lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
-      if {$sep == 0} {
-        if {$cmd eq "i"} {
-          if {$val1 == $end_pos} {
-            lset data($win,config,undo_hist) end 1 $start_pos
-            lset data($win,config,undo_hist) end 2 "$str$val2"
-            set data($win,config,redo_hist) [list]
-            return
-          } elseif {$val1 == $start_pos} {
-            lset data($win,config,undo_hist) end 2 "$val2$str"
-            set data($win,config,redo_hist) [list]
+      set str [$win get $start_pos $end_pos]
+
+      # Combine elements, if possible
+      if {[llength $data($win,config,undo_hist)] > 0} {
+        lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
+        if {$sep == 0} {
+          if {$cmd eq "i"} {
+            if {$val1 == $end_pos} {
+              lset data($win,config,undo_hist) end 1 $start_pos
+              lset data($win,config,undo_hist) end 2 "$str$val2"
+              set data($win,config,redo_hist) [list]
+              return
+            } elseif {$val1 == $start_pos} {
+              lset data($win,config,undo_hist) end 2 "$val2$str"
+              set data($win,config,redo_hist) [list]
+              return
+            }
+          } elseif {($cmd eq "d") && ($val2 == $end_pos)} {
+            lset data($win,config,undo_hist) end 2 $start_pos
+            lset data($win,config,redo_hist) [list]
             return
           }
-        } elseif {($cmd eq "d") && ($val2 == $end_pos)} {
-          lset data($win,config,undo_hist) end 2 $start_pos
-          lset data($win,config,redo_hist) [list]
-          return
         }
       }
+
     }
 
     # Add to the undo history
@@ -1063,7 +1055,6 @@ namespace eval ctext {
             $win._t insert $val1 $val2
             append changed $val2
             set val2 [$win index "$val1+[string length $val2]c"]
-            comments_do_tag $win $val1 $val2 do_tags
             set_rmargin $win $val1 $val2
             lappend data($win,config,redo_hist) [list d $val1 $val2 $cursor $sep]
             set insert 1
@@ -1071,7 +1062,6 @@ namespace eval ctext {
           d {
             set str [$win get $val1 $val2]
             append changed $str
-            comments_chars_deleted $win $val1 $val2 do_tags
             $win._t delete $val1 $val2
             lappend data($win,config,redo_hist) [list i $val1 $str $cursor $sep]
           }
@@ -1091,7 +1081,7 @@ namespace eval ctext {
 
       # Perform the highlight
       if {[llength $ranges] > 0} {
-        if {[highlightAll $win $ranges $insert 0 0 $do_tags]} {
+        if {[highlightAll $win $ranges $insert 0 0]} {
           checkAllBrackets $win
         } else {
           checkAllBrackets $win $changed
@@ -1132,7 +1122,6 @@ namespace eval ctext {
 
       set i       0
       set insert  0
-      set do_tags [list]
       set ranges  [list]
       set changed ""
 
@@ -1145,7 +1134,6 @@ namespace eval ctext {
             $win._t insert $val1 $val2
             append changed $val2
             set val2 [$win index "$val1+[string length $val2]c"]
-            comments_do_tag $win.t $val1 $val2 do_tags
             set_rmargin $win $val1 $val2
             lappend data($win,config,undo_hist) [list d $val1 $val2 $cursor $sep]
             if {$cursor != $val2} {
@@ -1156,7 +1144,6 @@ namespace eval ctext {
           d {
             set str [$win get $val1 $val2]
             append changed $str
-            comments_chars_deleted $win.t $val1 $val2 do_tags
             $win._t delete $val1 $val2
             lappend data($win,config,undo_hist) [list i $val1 $str $cursor $sep]
             if {$cursor != $val1} {
@@ -1181,7 +1168,7 @@ namespace eval ctext {
 
       # Highlight the code
       if {[llength $ranges] > 0} {
-        if {[highlightAll $win $ranges $insert 0 0 $do_tags]} {
+        if {[highlightAll $win $ranges $insert 0 0]} {
           checkAllBrackets $win
         } else {
           checkAllBrackets $win $changed
@@ -1492,16 +1479,14 @@ namespace eval ctext {
     }
     set ranges   [list [$win._t index "$startPos linestart"] [$win._t index "$startPos lineend"]]
     set deldata  [$win._t get $startPos $endPos]
-    set do_tags  [list]
 
     undo_delete            $win $startPos $endPos
     handleDeleteAt0        $win $startPos $endPos
     linemapCheckOnDelete   $win $startPos $endPos
-    comments_chars_deleted $win $startPos $endPos do_tags
 
     $win._t delete $startPos $endPos
 
-    if {[highlightAll $win $ranges 0 1 $do_tags]} {
+    if {[highlightAll $win $ranges 0 1]} {
       checkAllBrackets $win
     } else {
       checkAllBrackets $win $deldata
@@ -1797,7 +1782,9 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Inserts text and performs highlighting on that text.
+  # Inserts text at the given cursor or at multicursors (if set) and
+  # performs highlighting on that text.  Additionally, updates the undo
+  # buffer.
   proc command_insert {win args} {
 
     variable data
@@ -1810,32 +1797,40 @@ namespace eval ctext {
 
     lassign $args insertPos content tags
 
-    set ranges [list]
-    set chars  [string length $content]
-    set tags   [list {*}$tags lmargin rmargin]
+    set ranges  [list]
+    set inserts [list]
+    set chars   [string length $content]
+    set tags    [list {*}$tags lmargin rmargin]
 
     # Insert the text
-    if {[set cursors [$win._t tag ranges mcursor]]} {
+    if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
       foreach {endPos startPos} [lreverse $cursors] {
         $win._t insert $startPos $content $tags
-        lappend ranges $startPos [$win._t index "$startPos+${chars}c"]
+        lappend inserts $startPos
+        lappend ranges  [$win._t index "$startPos linestart"] [$win._t index "$startPos+${chars}c lineend"]
       }
     } else {
-      set cursors [$win._t index insert]
+      set cursors   [$win._t index insert]
+      set insertPos [$win._t index $insertPos]
       $win._t insert $insertPos $content $tags
-      lappend [$win._t index $insertPos] [$win._t index "$insertPos+${chars}c"]
+      lappend ranges  [$win._t index "$insertPos linestart"] [$win._t index "$insertPos+${chars}c lineend"]
+      lappend inserts $insertPos
     }
 
-    tpool::post $tpool [list model::insert $win $ranges]
-    tpool::post $tpool [list ctext::undo_insert $win $ranges $chars $cursors]
+    lappend ids [tpool::post $tpool [list model::insert $win $ranges]]
+    lappend ids [tpool::post $tpool [list ctext::undo_insert $win $inserts $chars $cursors]]
+
+    while {[llength $ids]} {
+      tpool::wait $tpool $ids ids
+    }
 
     # Highlight text and bracket auditing
-    if {[highlightAll $win [list $lineStart $lineEnd] 1 1 $do_tags]} {
+    if {[highlightAll $win $ranges 1 1]} {
       checkAllBrackets $win
     } else {
       checkAllBrackets $win $content
     }
-    modified $win 1 [list insert [list $lineStart $lineEnd] $moddata]
+    modified $win 1 [list insert $ranges $moddata]
 
     event generate $win.t <<CursorChanged>>
 
@@ -1864,10 +1859,8 @@ namespace eval ctext {
     set datlen   [string length $dat]
     set deldata  [$win._t get $startPos $endPos]
     set cursor   [$win._t index insert]
-    set do_tags  [list]
 
     undo_delete            $win $startPos $endPos
-    comments_chars_deleted $win $startPos $endPos do_tags
     set tags [handleReplaceDeleteAt0 $win $startPos $endPos]
 
     # Perform the text replacement
@@ -1879,12 +1872,9 @@ namespace eval ctext {
     set lineStart [$win._t index "$startPos linestart"]
     set lineEnd   [$win._t index "$startPos+[expr $datlen + 1]c lineend"]
 
-    if {[llength $do_tags] == 0} {
-      comments_do_tag $win $startPos "$startPos+${datlen}c" do_tags
-    }
     set_rmargin $win $startPos "$startPos+${datlen}c"
 
-    set comstr [highlightAll $win [list $lineStart $lineEnd] 1 1 $do_tags]
+    set comstr [highlightAll $win [list $lineStart $lineEnd] 1 1]
     if {$comstr == 2} {
       checkAllBrackets $win
     } elseif {$comstr == 1} {
@@ -2799,166 +2789,97 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Clears all of the data storage used for syntax highlighting for
-  # comments, strings and languages.
-  proc clearCommentStringPatterns {win} {
-
-    variable data
-
-    set data($win,config,csl_patterns)  [list]
-    set data($win,config,csl_char_tags) [list]
-    set data($win,config,lc_char_tags)  [list]
-    set data($win,config,csl_tags)      [list]
-    set data($win,config,csl_array)     [list]
-    set data($win,config,csl_tag_pair)  [list]
-
-  }
-
-  ######################################################################
-  # Adds the given block comment regular expressions to the parser and
-  # configures block comment coloring to the given color.
-  proc setBlockCommentPatterns {win lang patterns {color "khaki"}} {
-
-    variable data
-
-    set start_patterns [list]
-    set end_patterns   [list]
-
-    foreach pattern $patterns {
-      lappend start_patterns [lindex $pattern 0]
-      lappend end_patterns   [lindex $pattern 1]
-    }
+  # Adds the given context patterns for parsing purposes.  If the patterns
+  # list is empty, deletes the given context tags.
+  proc setContextPatterns {win type tag lang patterns {fg "grey"} {bg ""}} {
 
     if {[llength $patterns] > 0} {
-      lappend data($win,config,csl_patterns) _cCommentStart:$lang [join $start_patterns |]
-      lappend data($win,config,csl_patterns) _cCommentEnd:$lang   [join $end_patterns   |]
-    }
 
-    array set tags [list _cCommentStart:${lang}0 1 _cCommentStart:${lang}1 1 _cCommentEnd:${lang}0 1 _cCommentEnd:${lang}1 1 _comstr1c0 1 _comstr1c1 1]
+      # Get the context tags
+      set tags [tsv::get contexts $win]
 
-    if {[llength $patterns] > 0} {
-      $win tag configure _comstr1c0 -foreground $color
-      $win tag configure _comstr1c1 -foreground $color
-      $win tag lower _comstr1c0 sel
-      $win tag lower _comstr1c1 sel
-      lappend data($win,config,csl_char_tags) _cCommentStart:$lang _cCommentEnd:$lang
-      lappend data($win,config,csl_tags)      _comstr1c0 _comstr1c1
-      lappend data($win,config,csl_array)     {*}[array get tags]
-      lappend data($win,config,csl_tag_pair)  _cCommentStart:$lang _comstr1c
+      # Add the tag patterns
+      set i [llength $tags]
+      foreach pattern $patterns {
+        if {[llength $pattern] == 1} {
+          lappend tags $type:$i any [lindex $pattern 0] $lang
+        } else {
+          lappend tags $type:$i left  [lindex $pattern 0] $lang
+          lappend tags $type:$i right [lindex $pattern 1] $lang
+        }
+        incr i
+      }
+
+      # Save the context data
+      tsv::set contexts $win $tags
+
+      # Handle the comment colorization
+      $win tag configure _$tag -foreground $fg -background $bg
+      $win tag lower     _$tag sel
+
     } else {
-      catch { $win tag delete {*}[array names tags] }
-    }
 
-    setCommentRE $win
+      catch { $win tag delete _tag }
+
+    }
 
   }
 
   ######################################################################
-  # Adds the given line comment regular expressions to the parser and
-  # configures line comment coloring to the given color.
-  proc setLineCommentPatterns {win lang patterns {color "khaki"}} {
+  # Adds the given indentation patterns for parsing purposes.
+  proc setIndentation {twin lang patterns} {
 
-    variable data
+    # Get the indentation tags
+    set tags [tsv::get indents $win]
 
-    if {[llength $patterns] > 0} {
-      lappend data($win,config,csl_patterns) _lCommentStart:$lang [join $patterns |]
-    }
-
-    array set tags [list _lCommentStart:${lang}0 1 _lCommentStart:${lang}1 1 _comstr1l 1]
-
-    if {[llength $patterns] > 0} {
-      $win tag configure _comstr1l -foreground $color
-      $win tag lower _comstr1l sel
-      lappend data($win,config,lc_char_tags) _lCommentStart:$lang
-      lappend data($win,config,csl_tags)     _comstr1l
-      lappend data($win,config,csl_array)    {*}[array get tags]
-    } else {
-      catch { $win tag delete {*}[array names tags] }
-    }
-
-    setCommentRE $win
-
-  }
-
-  ######################################################################
-  # Adds the given string regular expressions to the parser and
-  # configures string coloring to the given color.
-  proc setStringPatterns {win lang patterns {color "green"}} {
-
-    variable data
-
-    array set tags {}
-
+    set i [llength $tags]
     foreach pattern $patterns {
-      switch $pattern {
-        \"\"\"  {
-          lappend data($win,config,csl_patterns) "_DQuote:$lang" $pattern
-          array set tags [list _DQuote:${lang}0 1 _DQuote:${lang}1 1 _comstr0D0 1 _comstr0D1 1]
-        }
-        \"      {
-          lappend data($win,config,csl_patterns) "_dQuote:$lang" $pattern
-          array set tags [list _dQuote:${lang}0 1 _dQuote:${lang}1 1 _comstr0d0 1 _comstr0d1 1]
-        }
-        ```     {
-          lappend data($win,config,csl_patterns) "_BQuote:$lang" $pattern
-          array set tags [list _BQuote:${lang}0 1 _BQuote:${lang}1 1 _comstr0B0 1 _comstr0B1 1]
-        }
-        `       {
-          lappend data($win,config,csl_patterns) "_bQuote:$lang" $pattern
-          array set tags [list _bQuote:${lang}0 1 _bQuote:${lang}1 1 _comstr0b0 1 _comstr0b1 1]
-        }
-        '''     {
-          lappend data($win,config,csl_patterns) "_SQuote:$lang" $pattern
-          array set tags [list _SQuote:${lang}0 1 _SQuote:${lang}1 1 _comstr0S0 1 _comstr0S1 1]
-        }
-        default {
-          lappend data($win,config,csl_patterns) "_sQuote:$lang" $pattern
-          array set tags [list _sQuote:${lang}0 1 _sQuote:${lang}1 1 _comstr0s0 1 _comstr0s1 1]
-        }
+      lappend tags indent:$i left  [lindex $pattern 0] $lang
+      lappend tags indent:$i right [lindex $pattern 1] $lang
+      incr i
+    }
+
+    # Save the context data
+    tsv::set indents $win $tags
+
+  }
+ 
+  ######################################################################
+  # Adds the given brackets for parsing purposes.
+  proc setBrackets {win lang types {fg "green"} {bg ""}} {
+
+    array set btag_types {
+      curly  {curly  left \{ %s curly  right \} $lang}
+      square {square left \[ %s square right \] $lang}
+      paren  {square left \( %s paren  right \) $lang}
+      angled {angled left <  %s angled right >  $lang}
+    }
+    array set ctag_types {
+      double  {double  any \" %s}
+      single  {single  any \' %s}
+      btick   {btick   any ` %s}
+      tdouble {tdouble any \"\"\" %s}
+      tsingle {tsingle any ''' %s}
+      tbtick  {tbtick  any ``` %s}
+    }
+
+    # Get the brackets
+    set ctags [tsv::get contexts $win]
+    set btags [tsv::get brackets $win]
+
+    foreach type $types {
+      if {[info exists btag_types($type)]} {
+        lappend btags {*}[format $btag_types($type) $lang $lang]
+      } elseif {[info exists ctag_types($type)]} {
+        lappend ctags {*}[format $ctag_types($type) $lang]
+        $win._t tag configure _string -foreground $fg -background $bg
+        $win._t tag lower     sel
       }
     }
 
-    if {[llength $patterns] > 0} {
-      foreach tag [array names tags _comstr*] {
-        $win tag configure $tag -foreground $color
-        $win tag lower $tag sel
-      }
-      lappend data($win,config,csl_char_tags) _sQuote:$lang _dQuote:$lang _bQuote:$lang
-      lappend data($win,config,csl_tags)      {*}[array names tags _comstr*]
-      lappend data($win,config,csl_array)     {*}[array get tags]
-      lappend data($win,config,csl_tag_pair)  _sQuote:$lang _comstr0s _dQuote:$lang _comstr0d _bQuote:$lang _comstr0b
-    } else {
-      catch { $win tag delete {*}[array names tags] }
-    }
-
-    setCommentRE $win
-
-  }
-
-  ######################################################################
-  # Sets the given regular expression for determining the start and end
-  # positions for a given embedded language.  Also provides the background
-  # color to be used for the language syntax.
-  proc setEmbedLangPattern {win lang start_pattern end_pattern {color ""}} {
-
-    variable data
-
-    lappend data($win,config,csl_patterns) _LangStart:$lang $start_pattern _LangEnd:$lang $end_pattern
-    lappend data($win,config,langs) $lang
-
-    if {$color ne ""} {
-      $win tag configure _Lang:$lang
-      $win tag lower     _Lang:$lang
-      $win tag configure _Lang=$lang -background $color
-      $win tag lower     _Lang=$lang
-    }
-
-    lappend data($win,config,csl_char_tags) _LangStart:$lang _LangEnd:$lang
-    lappend data($win,config,csl_tags)      _Lang:$lang
-    lappend data($win,config,csl_array)     _LangStart:${lang}0 1 _LangStart:${lang}1 1 _LangEnd:${lang}0 1 _LangEnd:${lang}1 1 _Lang:$lang 1
-    lappend data($win,config,csl_tag_pair)  _LangStart:$lang _Lang=$lang
-
-    setCommentRE $win
+    # Save the brackets
+    tsv::set brackets $win $btags
+    tsv::set contexts $win $ctags
 
   }
 
@@ -2971,22 +2892,17 @@ namespace eval ctext {
   # list should be derived from the list of tags that were deleted that
   # would cause us to re-evaluate the comment parser.  This highlight
   # procedure can automatically highlight one or more ranges of text.
-  proc highlightAll {win lineranges ins block {do_tag ""}} {
+  proc highlightAll {win lineranges ins block} {
 
     variable data
     variable range_cache
 
-    array set csl_array $data($win,config,csl_array)
-
     # Delete all of the tags not associated with comments and strings that we created
     foreach tag [$win._t tag names] {
-      if {([string index $tag 0] eq "_") && ![info exists csl_array($tag)]} {
+      if {[string index $tag 0] eq "_"} {
         $win._t tag remove $tag {*}$lineranges
       }
     }
-
-    # Clear the caches
-    array unset range_cache $win,*
 
     # Group the ranges to remove as much regular expression text searching as possible
     set ranges    [list]
@@ -3001,36 +2917,9 @@ namespace eval ctext {
     }
     lappend ranges $laststart $lastend
 
-    # Tag escapes and prewhite characters
-    foreach {linestart lineend} $ranges {
-      escapes  $win $linestart $lineend
-      prewhite $win $linestart $lineend
-    }
+    highlight $win [lindex $lineranges 0] end $ins $block
 
-    # Tag comments and strings
-    set all [comments $win $ranges $do_tag]
-
-    # Update the language backgrounds for embedded languages
-    updateLangBackgrounds $win
-
-    if {$all == 2} {
-      foreach tag [$win._t tag names] {
-        if {([string index $tag 0] eq "_") && ($tag ne "_escape") && ![info exists csl_array($tag)]} {
-          $win._t tag remove $tag [lindex $lineranges 1] end
-        }
-      }
-      highlight $win [lindex $lineranges 0] end $ins $block
-    } else {
-      foreach {linestart lineend} $ranges {
-        highlight $win $linestart $lineend $ins $block
-      }
-    }
-
-    if {$all} {
-      event generate $win.t <<StringCommentChanged>>
-    }
-
-    return $all
+    event generate $win.t <<StringCommentChanged>>
 
   }
 
@@ -3047,262 +2936,6 @@ namespace eval ctext {
     }
 
     return $indices
-
-  }
-
-  ######################################################################
-  # Returns the list of comments/strings/language tags found in the given
-  # text range.  This should be called just prior to deleting the given
-  # text range.  The returned result should be passed to the "comments"
-  # procedure to help it determine if comment/string/language highlighting
-  # needs to be applied.
-  proc comments_chars_deleted {win start end pdo_tags} {
-
-    variable data
-
-    upvar $pdo_tags do_tags
-
-    set start_tags [$win tag names $start]
-    set end_tags   [$win tag names $end-1c]
-
-    foreach {tag dummy} $data($win,config,csl_array) {
-      if {[lsearch $start_tags $tag] != [lsearch $end_tags $tag]} {
-        lappend do_tags $tag
-        return
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Called after text has been inserted.  Adds a dummy tag to do_tags
-  # if the text range starts within a line comment and includes a newline.
-  proc comments_do_tag {win start end pdo_tags} {
-
-    upvar $pdo_tags do_tags
-
-    if {($do_tags eq "") && [inLineComment $win $start] && ([string first \n [$win get $start $end]] != -1)} {
-      lappend do_tags "stuff"
-    }
-
-  }
-
-  ######################################################################
-  # Performs comment, string and language parsing and highlighting.  The
-  # algorithm starts by identifying all syntax that starts/ends any of these
-  # syntax blocks.  If any syntax was found in this step (or our passed
-  # in set of tags is non-empty), we will re-apply highlighting.
-  #
-  # This method can be a bit time-consuming since we basically need to
-  # evaluate the entire file (or at least all code following the current
-  # text range).  Additionally, we can't just apply highlighting regardless
-  # of other syntax.  This would cause problems if we had code like:
-  #
-  # /* This is a " double quote */ set foobar "cool"
-  proc comments {win ranges do_tags} {
-
-    variable data
-
-    array set tag_changed [list]
-
-    foreach do_tag $do_tags {
-      set tag_changed($do_tag) 1
-    }
-
-    # First, tag all string/comment patterns found between start and end
-    foreach {tag pattern} $data($win,config,csl_patterns) {
-      foreach {start end} $ranges {
-        array set indices {0 {} 1 {}}
-        set i 0
-        foreach index [$win search -all -count lengths -regexp {*}$data($win,config,re_opts) -- $pattern $start $end] {
-          if {![isEscaped $win $index]} {
-            set end_index [$win index "$index+[lindex $lengths $i]c"]
-            if {([string index $pattern 0] eq "^") && ([string index $tag 1] ne "L")} {
-              set match [$win get $index $end_index]
-              set diff  [expr [string length $match] - [string length [string trimleft $match]]]
-              lappend indices([expr $i & 1]) [$win index "$index+${diff}c"] $end_index
-            } else {
-              lappend indices([expr $i & 1]) $index $end_index
-            }
-          }
-          incr i
-        }
-        foreach j {0 1} {
-          if {$indices($j) ne [getTagInRange $win $tag$j $start $end]} {
-            $win tag remove $tag$j $start $end
-            catch { $win tag add $tag$j {*}$indices($j) }
-            set tag_changed($tag) 1
-          }
-        }
-      }
-    }
-
-    # If we didn't find any comment/string characters that changed, no need to continue.
-    if {[array size tag_changed] == 0} { return 0 }
-
-    # Initialize tags
-    foreach tag $data($win,config,csl_tags) {
-      set tags($tag) [list]
-    }
-    set char_tags [list]
-
-    # Gather the list of comment ranges in the char_tags list
-    foreach i {0 1} {
-      foreach char_tag $data($win,config,lc_char_tags) {
-        set lang [lindex [split $char_tag :] 1]
-        foreach {char_start char_end} [$win tag ranges $char_tag$i] {
-          set lineend [$win index "$char_start lineend"]
-          lappend char_tags [list $char_start $char_end _lCommentStart:$lang] [list $lineend "$lineend+1c" _lCommentEnd:$lang]
-        }
-      }
-      foreach char_tag $data($win,config,csl_char_tags) {
-        foreach {char_start char_end} [$win tag ranges $char_tag$i] {
-          lappend char_tags [list $char_start $char_end $char_tag]
-        }
-      }
-    }
-
-    # Sort the char tags
-    set char_tags [lsort -dictionary -index 0 $char_tags]
-
-    # Create the tag lists
-    set curr_lang       ""
-    set curr_lang_start ""
-    set curr_char_tag   ""
-    set rb              0
-    array set tag_pairs $data($win,config,csl_tag_pair)
-    foreach char_info $char_tags {
-      lassign $char_info char_start char_end char_tag
-      if {($curr_char_tag eq "") || [string match "_*End:$curr_lang" $curr_char_tag] || ($char_tag eq "_LangEnd:$curr_lang")} {
-        if {[string range $char_tag 0 5] eq "_LangS"} {
-          set curr_lang       [lindex [split $char_tag :] 1]
-          set curr_lang_start $char_start
-          set curr_char_tag   ""
-        } elseif {$char_tag eq "_LangEnd:$curr_lang"} {
-          if {[info exists tag_pairs($curr_char_tag)]} {
-            lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start $char_start
-            set rb [expr $rb ^ 1]
-          }
-          if {$curr_lang_start ne ""} {
-            lappend tags(_Lang:$curr_lang) $curr_lang_start $char_end
-          }
-          set curr_lang       ""
-          set curr_lang_start ""
-          set curr_char_tag   ""
-        } elseif {[string match "*:$curr_lang" $char_tag]} {
-          set curr_char_tag   $char_tag
-          set curr_char_start $char_start
-        }
-      } elseif {$curr_char_tag eq "_lCommentStart:$curr_lang"} {
-        if {$char_tag eq "_lCommentEnd:$curr_lang"} {
-          lappend tags(_comstr1l) $curr_char_start $char_end
-          set curr_char_tag ""
-        }
-      } elseif {$curr_char_tag eq "_cCommentStart:$curr_lang"} {
-        if {$char_tag eq "_cCommentEnd:$curr_lang"} {
-          lappend tags(_comstr1c$rb) $curr_char_start $char_end
-          set curr_char_tag ""
-          set rb [expr $rb ^ 1]
-        }
-      } elseif {$curr_char_tag eq "_dQuote:$curr_lang"} {
-        if {$char_tag eq "_dQuote:$curr_lang"} {
-          lappend tags(_comstr0d$rb) $curr_char_start $char_end
-          set curr_char_tag ""
-          set rb [expr $rb ^ 1]
-        }
-      } elseif {$curr_char_tag eq "_sQuote:$curr_lang"} {
-        if {$char_tag eq "_sQuote:$curr_lang"} {
-          lappend tags(_comstr0s$rb) $curr_char_start $char_end
-          set curr_char_tag ""
-          set rb [expr $rb ^ 1]
-        }
-      } elseif {$curr_char_tag eq "_bQuote:$curr_lang"} {
-        if {$char_tag eq "_bQuote:$curr_lang"} {
-          lappend tags(_comstr0b$rb) $curr_char_start $char_end
-          set curr_char_tag ""
-          set rb [expr $rb ^ 1]
-        }
-      }
-    }
-    if {[info exists tag_pairs($curr_char_tag)]} {
-      lappend tags($tag_pairs($curr_char_tag)$rb) $curr_char_start end
-    }
-    if {$curr_lang ne ""} {
-      lappend tags(_Lang:$curr_lang) $curr_lang_start end
-    }
-
-    # Delete old, add new and re-raise tags
-    foreach tag [array names tags] {
-      $win tag remove $tag 1.0 end
-      if {[llength $tags($tag)] > 0} {
-        $win tag add   $tag {*}$tags($tag)
-        $win tag lower $tag sel
-      }
-    }
-
-    return [expr ([llength [array names tag_changed _Lang*:*]] > 0) ? 2 : 1]
-
-  }
-
-  ######################################################################
-  proc updateLangBackgrounds {win} {
-
-    variable data
-
-    foreach tag [lsearch -inline -all -glob $data($win,config,csl_tags) _Lang:*] {
-      set indices [list]
-      foreach {start end} [$win tag ranges $tag] {
-        lappend indices "$start+1l linestart" "$end linestart"
-      }
-      if {[llength $indices] > 0} {
-        $win tag add [string map {: =} $tag] {*}$indices
-      }
-    }
-
-  }
-
-  ######################################################################
-  proc setIndentation {twin lang indentations type} {
-
-    variable data
-
-    if {[llength $indentations] > 0} {
-      set data($twin,config,indentation,$lang,$type) [join $indentations |]
-    } else {
-      catch { unset data($twin,config,indentation,$lang,$type) }
-    }
-
-  }
-
-  ######################################################################
-  proc escapes {twin start end} {
-
-    variable data
-
-    if {$data($twin,config,-escapes)} {
-      foreach res [$twin search -all -- "\\" $start $end] {
-        if {[lsearch [$twin tag names $res-1c] _escape] == -1} {
-          $twin tag add _escape $res
-        }
-      }
-    }
-
-  }
-
-  ######################################################################
-  # This procedure tags all of the whitespace from the beginning of a line.  This
-  # must be called prior to invoking the indentation procedure.
-  proc prewhite {twin start end} {
-
-    # Add prewhite tags
-    set i       0
-    set indices [list]
-    foreach res [$twin search -regexp -all -count lengths -- {^[ \t]*\S} $start $end] {
-      lappend indices $res "$res+[lindex $lengths $i]c"
-      incr i
-    }
-
-    catch { $twin tag add _prewhite {*}$indices }
 
   }
 
@@ -3586,6 +3219,7 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Performs all of the syntax highlighting.
   proc highlight {win start end ins {block 1}} {
 
     variable data
@@ -3606,30 +3240,12 @@ namespace eval ctext {
     set namelist  [array get data $win,highlight,keyword,class,,*]
     set startlist [array get data $win,highlight,charstart,class,,*]
 
-    # TBD - This needs to be optimized
-    set patterns(brackets) [array get data $win,config,matchChar,,*]
-    set patterns(indent)   ""
-    set patterns(unindent) ""
-    foreach {key pattern} [array get data $win,config,indentation,,*] {
-      lassign [split $key ,] d0 d1 d2 lang type
-      set ipattern($type) $pattern
-    }
-    foreach {tag pattern} $data($win,config,csl_patterns) {
-    }
+    puts "Calling markers"
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
-      [list parsers::markers $tpool $tid $win $str $startrow $patterns(brackets) $ipattern(indent) $ipattern(unindent)] \
-  proc markers {tid txt str insertpos bracketlist indentpattern unindentpattern contextpatterns} {
+      [list parsers::markers $tpool $tid $win $str $startrow.0] \
     ]
-
-    # Perform indentation parsing
-    foreach {key pattern} [array get data $win,config,indentation,,*] {
-      lassign [split $key ,] d0 d1 d2 lang type
-      lappend jobids [tpool::post $tpool \
-        [list parsers::indentation $tid $win $str $startrow $pattern $type] \
-      ]
-    }
 
     # Perform keyword/startchars parsing
     lappend jobids [tpool::post $tpool \

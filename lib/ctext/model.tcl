@@ -204,6 +204,27 @@ namespace eval model {
   }
 
   ######################################################################
+  # Returns true if the character at the given index is escaped.
+  proc is_escaped {index} {
+
+    variable serial
+
+    lassign [split $index .] row col
+
+    # We can't escape the first character of a row
+    if {($col == 0) || ([set index [find_serial_index [list $row $col]] == 0)} {
+      return 0
+    }
+
+    # Get the previous character's information
+    lassign [lindex $serial [expr $index - 1]] type side prev_index
+
+    # Otherwise, if the previous character is an escape character
+    expr {($type eq "escape") && ($prev_index eq [list $row [expr $col - 1]])}
+
+  }
+
+  ######################################################################
   # Compares to index values.  Returns 1 if a is less than b; otherwise,
   # returns 0.
   proc is_less {a b} {
@@ -286,18 +307,22 @@ namespace eval model {
 
   ######################################################################
   # Inserts the given items into the tree.
-  proc insert {win startpos endpos} {
+  proc insert {win ranges} {
 
     variable serial 
 
     # Load the shared information
     load_serial $win
 
-    # Find the node to start the insertion
-    set insert_index [find_serial_index $startpos]
+    foreach {startpos endpos} $ranges {
 
-    # Adjust the indices
-    adjust_indices $startpos $endpos $insert_index
+      # Find the node to start the insertion
+      set insert_index [find_serial_index $startpos]
+
+      # Adjust the indices
+      adjust_indices $startpos $endpos $insert_index
+
+    }
 
     # Put the tree back into shared memory
     save_serial $win
@@ -306,18 +331,22 @@ namespace eval model {
 
   ######################################################################
   # Deletes the given text range and updates the model.
-  proc delete {win startpos endpos} {
+  proc delete {win ranges} {
 
     variable serial
 
     load_serial $win
 
-    # Calculate the indices in the serial list
-    set start_index [find_serial_index $startpos]
-    set end_index   [find_serial_index $endpos] 
+    foreach {startpos endpos} $ranges {
 
-    # Adjust the serial list indices
-    adjust_indices $startpos $endpos $end_index
+      # Calculate the indices in the serial list
+      set start_index [find_serial_index $startpos]
+      set end_index   [find_serial_index $endpos] 
+
+      # Adjust the serial list indices
+      adjust_indices $startpos $endpos $end_index
+
+    }
 
     # Update the stored data
     if {$start_index != $end_index} {
@@ -331,18 +360,22 @@ namespace eval model {
 
   ######################################################################
   # Update the model with the replacement information.
-  proc replace {win startpos endpos newendpos elements} {
+  proc replace {win ranges elements} {
 
     variable serial
 
     load_serial $win
 
-    # Calculate the indices in the serial list
-    set start_index [find_serial_index $startpos]
-    set end_index   [find_serial_index $endpos]
+    foreach {startpos endpos newendpos} $ranges {
 
-    # Adjust the serial list indices
-    adjust_indices $startpos $newendpos $end_index
+      # Calculate the indices in the serial list
+      set start_index [find_serial_index $startpos]
+      set end_index   [find_serial_index $endpos]
+
+      # Adjust the serial list indices
+      adjust_indices $startpos $newendpos $end_index
+
+    }
 
     # Adjust the serial list and rebuild the tree
     if {[llength $elements] > 0} {
