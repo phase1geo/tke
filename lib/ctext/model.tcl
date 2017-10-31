@@ -236,7 +236,7 @@ namespace eval model {
     lassign $a arow acol
     lassign $b brow bcol
 
-    expr {($arow < $brow) || (($arow == $brow) && ($acol < $bcol))}
+    expr {($arow < $brow) || (($arow == $brow) && ($acol < [lindex $bcol 0]))}
 
   }
 
@@ -313,6 +313,8 @@ namespace eval model {
 
     variable serial 
 
+    utils::log "In insert, ranges: $ranges"
+
     # Load the shared information
     load_serial $win
 
@@ -325,7 +327,9 @@ namespace eval model {
       set end_index   [find_serial_index $endpos]
 
       # Remove anything found between the two indices
-      set serial [lreplace $serial[set serial {}] $start_index $end_index]
+      if {$start_index != $end_index} {
+        set serial [lreplace $serial[set serial {}] $start_index $end_index]
+      }
 
       # Adjust the indices
       adjust_indices $startpos $endpos $end_index $last
@@ -356,7 +360,9 @@ namespace eval model {
       set end_index   [find_serial_index $endpos] 
 
       # Remove items between indices
-      set serial [lreplace $serial[set serial {}] $start_index $end_index]
+      if {$start_index != $end_index} {
+        set serial [lreplace $serial[set serial {}] $start_index $end_index]
+      }
 
       # Adjust the serial list indices
       adjust_indices $startpos $endpos $end_index $last
@@ -386,7 +392,9 @@ namespace eval model {
       set end_index   [find_serial_index $endpos]
 
       # Remove all elements between indices
-      set serial [lreplace $serial[set serial {}] $start_index $end_index]
+      if {$start_index != $end_index} {
+        set serial [lreplace $serial[set serial {}] $start_index $end_index]
+      }
 
       # Adjust the serial list indices
       adjust_indices $startpos $newendpos $end_index $last
@@ -407,6 +415,8 @@ namespace eval model {
 
     variable serial
 
+    utils::log "In model::update, win: $win, elements: $elements"
+
     # Load the serial list from shared memory
     load_serial $win
 
@@ -414,13 +424,12 @@ namespace eval model {
     if {[llength $elements] > 0} {
       set insert_index [find_serial_index [lindex $elements 0 2]]
       set serial       [linsert $serial[set $serial {}] $insert_index {*}$elements]
+      save_serial $win
     }
 
     # Rebuild the model tree
     make_tree $win
 
-    # Save the serial list to shared memory
-    save_serial $win
 
   }
 
