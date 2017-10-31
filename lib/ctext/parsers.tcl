@@ -43,14 +43,6 @@ namespace eval parsers {
   }
 
   ######################################################################
-  # Allows thread code to send log messages to standard output.
-  proc log {tid msg} {
-
-    thread::send -async $tid [list ctext::thread_log [thread::id] $msg]
-
-  }
-
-  ######################################################################
   # Renders the given tag with the specified ranges.
   proc render {tid txt tag ranges restricted} {
 
@@ -170,7 +162,7 @@ namespace eval parsers {
       while {[regexp -indices -start $start {\\} $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
         if {[lindex $tags end] ne $start} {
-          lappend tags [list escape none [list $startrow [lindex $indices 0]]]
+          lappend tags [list escape none [list $startrow [lindex $indices 0]] 1]
         }
         set start $endpos
       }
@@ -206,30 +198,22 @@ namespace eval parsers {
 
     upvar $ptags tags
 
-    catch {
     set patterns [tsv::get contexts $txt]
-    log $tid "patterns: $patterns"
 
-    foreach {tag side pattern ctx} $patterns {
+    foreach {type side pattern ctx tag} $patterns {
        
-      log $tid "In contexts, tag: $tag, side: $side, pattern: $pattern, ctx: $ctx"
+      set srow $startrow
       foreach line [split $str \n] {
         set start 0
-        log $tid "  line: $line"
         while {[regexp -indices -start $start $pattern $line indices]} {
-          log $tid "    found match, indices: $indices"
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $tag $side [list $startrow [lindex $indices 0]] $ctx]
+          lappend tags [list $type $side [list $srow [lindex $indices 0]] 1 $ctx $tag]
           set start $endpos
         }
-        log $tid "  here"
-        incr startrow
+        incr srow
       }
-      log $tid "  done with tag: $tag"
 
     }
-    } rc
-    log $tid "rc: $rc"
 
   }
 
@@ -241,14 +225,15 @@ namespace eval parsers {
 
     # Parse the ranges
     foreach {tag side pattern ctx} [tsv::get indents $txt] {
+      set srow $startrow
       foreach line [split $str \n] {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list indent $side [list $startrow [lindex $indices 0]] $ctx]
+          lappend tags [list indent $side [list $srow [lindex $indices 0]] 0 $ctx]
           set start $endpos
         }
-        incr startrow
+        incr srow
       }
     }
 
@@ -261,15 +246,16 @@ namespace eval parsers {
     upvar $ptags tags
 
     foreach {tag side pattern ctx} [tsv::get brackets $txt] {
+      set srow $startrow
       foreach line [split $str \n] {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $tag $side [list $startrow [lindex $indices 0]]]
+          lappend tags [list $tag $side [list $srow [lindex $indices 0]] 0 $ctx]
           set start $endpos
         }
+        incr srow
       }
-      incr startrow
     }
 
   }
@@ -278,36 +264,26 @@ namespace eval parsers {
   # Store all file markers in a model for fast processing.
   proc markers {tpool tid txt str insertpos} {
 
-    log $tid "In markers"
-
     lassign [split $insertpos .] srow scol
 
     set tags [list]
 
     # Find all marker characters in the inserted text
-    log $tid "HERE A"
     escapes  $txt $str $srow tags
-    log $tid "HERE B"
     contexts $tid $txt $str $srow tags
-    log $tid "HERE C"
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags]} {
-      log $tid "HERE D"
       render_contexts $tid $txt $tags
       # tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
     }
 
     # Add indentation and bracket markers to the tags list
-    log $tid "HERE E"
     indentation $txt $str $srow tags
-    log $tid "HERE F"
     brackets    $txt $str $srow tags
-    log $tid "HERE G"
 
     # Update the model
-    log $tid "Calling model update tags: [lsort -dictionary -index 2 $tags]"
-    model::update $txt [lsort -dictionary -index 2 $tags]
+    model::update $tid $txt [lsort -dictionary -index 2 $tags]
 
   }
 
@@ -316,10 +292,16 @@ namespace eval parsers {
   # embedded language blocks, etc.)
   proc render_contexts {tid txt tags} {
 
-    log $tid "In render_contexts, tags: $tags"
+    array set ranges {}
 
     catch {
-    array set ranges {}
+    utils::log "In render_contexts"
+
+    # Retrieve, merge and sort the context tags
+    set ctags [lsearch -inline -index 3 [tsv::get serial $txt] 1]
+    set tags  [lsort -dictionary -index 2 [list {*}$ctags {*}$tags]]
+
+    utils::log "tags: $tags"
 
     # Create the context stack structure
     ::struct::stack context
@@ -328,22 +310,17 @@ namespace eval parsers {
     lassign {"" 0 0} ltype lrow lcol
 
     # Create the non-overlapping ranges for each of the context tags
-    foreach tag [lsort -dictionary -index 2 $tags] {
-      lassign $tag   type side index ctx
+    foreach tag $tags {
+      lassign $tag   type side index dummy ctx tag
       lassign $index row col
-      log $tid "type: $type, side: $side, index: $index, ctx: $ctx"
       if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ($col - 1)))} {
-        log $tid "  here 1"
         set current [context peek]
-        log $tid "  current($current)"
         if {($current eq $ctx) && (($side eq "any") || ($side eq "left"))} {
           context push $type
-          lappend ranges($type) $row.$col
-          log $tid "    push"
+          lappend ranges($tag) $row.$col
         } elseif {($current eq $type) && (($side eq "any") || ($side eq "right"))} {
           context pop
-          lappend ranges($type) $row.$col
-          log $tid "    pop"
+          lappend ranges($tag) $row.$col
         }
       }
       lassign [list $type $row $col] ltype lrow lcol
@@ -351,15 +328,13 @@ namespace eval parsers {
 
     # Render the tags
     foreach tag [array names ranges] {
-      log $tid "Rendering tag: $tag, ranges: $ranges($tag)"
       render $tid $txt $tag $ranges($tag) 0
     }
 
     # Destroy the stack
     context destroy
     } rc
-
-    puts "RC: $rc"
+    utils::log "rc: $rc"
 
   }
 
