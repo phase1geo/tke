@@ -1406,6 +1406,7 @@ namespace eval ctext {
       }
     } else {
       lassign $args startPos endPos
+      puts "startPos: $startPos, endPos: $endPos"
       set cursors [$win._t index insert]
       if {$endPos eq ""} {
         lappend strs   [$win._t get $startPos]
@@ -3153,6 +3154,8 @@ namespace eval ctext {
 
     variable data
     variable tpool
+
+    puts "In highlight, ranges: $ranges"
 
     if {![winfo exists $win]} {
       return
