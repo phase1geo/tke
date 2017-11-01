@@ -273,20 +273,18 @@ namespace eval parsers {
     contexts $txt $str $srow tags
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
-    if {[llength $tags]} {
+    if {[llength $tags] || [tsv::get changed $txt]} {
+      tsv::set changed $txt 0
       render_contexts $tid $txt $tags
       # tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
     }
 
-    catch {
     # Add indentation and bracket markers to the tags list
     indentation $txt $str $srow tags
     brackets    $txt $str $srow tags
 
     # Update the model
     model::update $tid $txt [lsort -dictionary -index 2 $tags]
-    } rc
-    puts "markers rc: $rc"
 
   }
 
@@ -297,16 +295,12 @@ namespace eval parsers {
 
     array set ranges {}
 
-    catch {
-    utils::log "In render_contexts"
-
     # Retrieve, merge and sort the context tags
-    utils::log [tsv::get serial $txt]
     set ctags [lsearch -all -inline -index 3 -exact [tsv::get serial $txt] 1]
-    utils::log "ctags: $ctags"
+    utils::log "ctags: $ctags, tags: $tags"
     set tags  [lsort -dictionary -index 2 [list {*}$ctags {*}$tags]]
 
-    utils::log "tags: $tags"
+    utils::log "---------------------\n    tags: $tags"
 
     # Create the context stack structure
     ::struct::stack context
@@ -333,13 +327,11 @@ namespace eval parsers {
 
     # Render the tags
     foreach tag [array names ranges] {
-      render $tid $txt $tag $ranges($tag) 0
+      render $tid $txt $tag $ranges($tag) 1
     }
 
     # Destroy the stack
     context destroy
-    } rc
-    utils::log "render_contexts rc: $rc"
 
   }
 

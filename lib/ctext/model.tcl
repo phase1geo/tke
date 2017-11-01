@@ -39,13 +39,14 @@ namespace eval model {
     # Create the tree
     ::struct::tree tree
 
-    utils::log "Saving serial, win: $win"
-
     # Save the serial list in the new shared memory
     save_serial $win
 
     # Save the tree in the new shared memory
     save_tree $win
+
+    # Save changed status
+    tsv::set changed $win 0
 
   }
 
@@ -90,8 +91,6 @@ namespace eval model {
   proc save_serial {win} {
 
     variable serial
-
-    puts "Saving serial $win"
 
     # Save the serial list and tree to shared memory.
     tsv::set serial $win $serial
@@ -313,8 +312,6 @@ namespace eval model {
 
     variable serial 
 
-    utils::log "In insert, ranges: $ranges"
-
     # Load the shared information
     load_serial $win
 
@@ -326,13 +323,14 @@ namespace eval model {
       set start_index [find_serial_index $startpos]
       set end_index   [find_serial_index $endpos]
 
-      # Remove anything found between the two indices
-      if {$start_index != $end_index} {
-        set serial [lreplace $serial[set serial {}] $start_index $end_index]
-      }
-
       # Adjust the indices
       adjust_indices $startpos $endpos $end_index $last
+
+      # Remove anything found between the two indices
+      if {$start_index != $end_index} {
+        set serial [lreplace $serial[set serial {}] $start_index [expr $end_index - 1]]
+        tsv::set changed $win 1
+      }
 
       set last $start_index
 
@@ -359,13 +357,14 @@ namespace eval model {
       set start_index [find_serial_index $startpos]
       set end_index   [find_serial_index $endpos] 
 
-      # Remove items between indices
-      if {$start_index != $end_index} {
-        set serial [lreplace $serial[set serial {}] $start_index $end_index]
-      }
-
       # Adjust the serial list indices
       adjust_indices $startpos $endpos $end_index $last
+
+      # Remove items between indices
+      if {$start_index != $end_index} {
+        set serial [lreplace $serial[set serial {}] $start_index [expr $end_index - 1]]
+        tsv::set changed $win 1
+      }
 
       set last $start_index
 
@@ -391,13 +390,14 @@ namespace eval model {
       set start_index [find_serial_index $startpos]
       set end_index   [find_serial_index $endpos]
 
-      # Remove all elements between indices
-      if {$start_index != $end_index} {
-        set serial [lreplace $serial[set serial {}] $start_index $end_index]
-      }
-
       # Adjust the serial list indices
       adjust_indices $startpos $newendpos $end_index $last
+
+      # Remove all elements between indices
+      if {$start_index != $end_index} {
+        set serial [lreplace $serial[set serial {}] $start_index [expr $end_index - 1]]
+        tsv::set changed $win 1
+      }
 
       set last $start_index
 
@@ -414,8 +414,6 @@ namespace eval model {
   proc update {tid win elements} {
 
     variable serial
-
-    utils::log "In model::update, win: $win, elements: $elements"
 
     # Load the serial list from shared memory
     load_serial $win
@@ -493,10 +491,6 @@ namespace eval model {
         }
       }
     }
-
-    # puts "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
-    # puts "Inserted index: $index, type: $type"
-    # debug_show_tree
 
   }
 

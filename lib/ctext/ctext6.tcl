@@ -957,7 +957,7 @@ namespace eval ctext {
   ######################################################################
   # Adds an deletion to the undo buffer.  We also will combine deletion
   # elements, if possible, to make the undo buffer more efficient.
-  proc undo_delete {win starts ends} {
+  proc undo_delete {win starts ends strs cursors} {
 
     variable data
 
@@ -965,37 +965,31 @@ namespace eval ctext {
       return
     }
 
-    foreach startpos $starts endpos $ends {
-
-      set str [$win get $start_pos $end_pos]
-
-      # Combine elements, if possible
-      if {[llength $data($win,config,undo_hist)] > 0} {
-        lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
-        if {$sep == 0} {
-          if {$cmd eq "i"} {
-            if {$val1 == $end_pos} {
-              lset data($win,config,undo_hist) end 1 $start_pos
-              lset data($win,config,undo_hist) end 2 "$str$val2"
-              set data($win,config,redo_hist) [list]
-              return
-            } elseif {$val1 == $start_pos} {
-              lset data($win,config,undo_hist) end 2 "$val2$str"
-              set data($win,config,redo_hist) [list]
-              return
-            }
-          } elseif {($cmd eq "d") && ($val2 == $end_pos)} {
-            lset data($win,config,undo_hist) end 2 $start_pos
-            lset data($win,config,redo_hist) [list]
+    # Combine elements, if possible
+    if {[llength $data($win,config,undo_hist)] > 0} {
+      lassign [lindex $data($win,config,undo_hist) end] cmd val1 val2 cursor sep
+      if {$sep == 0} {
+        if {$cmd eq "i"} {
+          if {$val1 eq $ends} {
+            lset data($win,config,undo_hist) end 1 $starts
+            lset data($win,config,undo_hist) end 2 [lmap str $strs [format {$str%s} $val2]]
+            set data($win,config,redo_hist) [list]
+            return
+          } elseif {$val1 == $start_pos} {
+            lset data($win,config,undo_hist) end 2 [lmap str $strs [format {%s$str} $val2]]
+            set data($win,config,redo_hist) [list]
             return
           }
+        } elseif {($cmd eq "d") && ($val2 eq $ends)} {
+          lset data($win,config,undo_hist) end 2 $starts
+          lset data($win,config,redo_hist) [list]
+          return
         }
       }
-
     }
 
     # Add to the undo history
-    lappend data($win,config,undo_hist) [list i $start_pos $str [$win index insert] 0]
+    lappend data($win,config,undo_hist) [list i $starts $strs $cursors 0]
     incr data($win,config,undo_hist_size)
 
     # Clear the redo history
@@ -1214,83 +1208,6 @@ namespace eval ctext {
   }
 
   ######################################################################
-  # Move all gutter tags from the old column 0 of the given row to the new
-  # column 0 character.
-  proc handleInsertAt0 {win startpos datalen} {
-
-    if {[lindex [split $startpos .] 1] == 0} {
-      set endpos [$win index "$startpos+${datalen}c"]
-      foreach tag [getGutterTags $win $endpos] {
-        $win tag add $tag $startpos
-        $win tag remove $tag $endpos
-      }
-    }
-
-  }
-
-  ######################################################################
-  # Helper procedure for the handleDeleteAt0 procedure.
-  proc handleDeleteAt0Helper {win firstpos endpos} {
-
-    foreach tag [getGutterTags $win $firstpos] {
-      $win._t tag add $tag $endpos
-    }
-
-  }
-
-  ######################################################################
-  # Preserve gutter tags that will be deleted in column 0, moving them to
-  # what will be the new column 0 after the deletion takes place.
-  proc handleDeleteAt0 {win startpos endpos} {
-
-    lassign [split $startpos .] startrow startcol
-    lassign [split $endpos   .] endrow   endcol
-
-    if {$startrow == $endrow} {
-      if {$startcol == 0} {
-        handleDeleteAt0Helper $win $startrow.0 $endpos
-      }
-    } elseif {$endcol != 0} {
-      handleDeleteAt0Helper $win $endrow.0 $endpos
-    }
-
-  }
-
-  ######################################################################
-  # Called prior to the deletion of the text for a text replacement.
-  proc handleReplaceDeleteAt0 {win startpos endpos} {
-
-    lassign [split $startpos .] startrow startcol
-    lassign [split $endpos   .] endrow   endcol
-
-    if {$startrow == $endrow} {
-      if {$startcol == 0} {
-        return [list 0 [getGutterTags $win $startrow.0]]
-      }
-    } elseif {$endcol != 0} {
-      return [list 1 [getGutterTags $win $endrow.0]]
-    }
-
-    return [list 0 [list]]
-
-  }
-
-  ######################################################################
-  proc handleReplaceInsert {win startpos datalen tags} {
-
-    if {[lindex $tags 0]} {
-      set insertpos [$win._t index "$startpos+${datalen}c"]
-    } else {
-      set insertpos $startpos
-    }
-
-    foreach tag $tags {
-      $win._t tag add $tag $insertpos
-    }
-
-  }
-
-  ######################################################################
   # This procedure is the main command handler when the ctext widget is
   # used as a command.  This basically just calls the associated command
   # procedure and returns its result to the caller.
@@ -1466,34 +1383,54 @@ namespace eval ctext {
   }
 
   ######################################################################
+  # Deletes one or more ranges of text and performs syntax highlighting.
   proc command_delete {win args} {
 
     variable data
+    variable tpool
 
     set moddata [list]
     if {[lindex $args 0] eq "-moddata"} {
       set args [lassign $args dummy moddata]
     }
 
-    set startPos [$win._t index [lindex $args 0]]
-    if {[llength $args] == 1} {
-      set endPos [$win._t index $startPos+1c]
+    set ranges [list]
+
+    if {[set cursors [$win._t tag ranges mcursor]] ne ""} {
+      foreach {endPos startPos} [lreverse $cursors] {
+        lappend strs   [$win._t get $startPos $endPos]
+        lappend starts $startPos
+        lappend ends   $endPos
+        $win._t delete $startPos $endPos
+        lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$endPos lineend"]
+      }
     } else {
-      set endPos [$win._t index [lindex $args 1]]
+      lassign $args startPos endPos
+      set cursors [$win._t index insert]
+      if {$endPos eq ""} {
+        lappend strs   [$win._t get $startPos]
+        lappend starts [$win._t index $startPos]
+        lappend ends   [$win._t index "$startPos+1c"]
+        $win._t delete $startPos
+        lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$startPos lineend"]
+      } else {
+        lappend strs   [$win._t get $startPos $endPos]
+        lappend starts [$win._t index $startPos]
+        lappend ends   [$win._t index $endPos]
+        $win._t delete $startPos $endPos
+        lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$endPos lineend"]
+      }
     }
-    set ranges   [list [$win._t index "$startPos linestart"] [$win._t index "$startPos lineend"]]
-    set deldata  [$win._t get $startPos $endPos]
 
-    undo_delete            $win $startPos $endPos
-    handleDeleteAt0        $win $startPos $endPos
-    linemapCheckOnDelete   $win $startPos $endPos
+    lappend ids [tpool::post $tpool [list model::delete $win $ranges]]
+    lappend ids [tpool::post $tpool [list ctext::undo_delete $win $startPos $endPos $strs]]
 
-    $win._t delete $startPos $endPos
+    while {[llength $ids]} {
+      tpool::wait $tpool $ids ids
+    }
 
     if {[highlightAll $win $ranges 0 1]} {
       checkAllBrackets $win
-    } else {
-      checkAllBrackets $win $deldata
     }
     modified $win 1 [list delete $ranges $moddata]
 
@@ -1744,8 +1681,6 @@ namespace eval ctext {
     # Perform the text replacement
     $win._t replace $startPos $endPos $content $tags
 
-    handleReplaceInsert $win $startPos $datlen $gtags
-
     if {$opts(-undo)} {
       undo_insert $win $startPos $datlen $cursor
     }
@@ -1870,7 +1805,6 @@ namespace eval ctext {
     # Perform the text replacement
     $win._t replace {*}$args
 
-    handleReplaceInsert $win $startPos $datlen $tags
     undo_insert $win $startPos $datlen $cursor
 
     set lineStart [$win._t index "$startPos linestart"]
@@ -3189,18 +3123,12 @@ namespace eval ctext {
 
   ######################################################################
   # Renders the given tag with the specified ranges in the given widget.
-  proc render {win tag ranges restricted} {
+  proc render {win tag ranges clear_all} {
 
-    puts "In render, tag: $tag, ranges: $ranges"
+    puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
 
-    if {$restricted} {
-      set tranges [list]
-      foreach {startpos endpos} $ranges {
-        if {![isEscaped $win $startpos] && ![inCommentString $win $startpos]} {
-          lappend tranges $startpos $endpos
-        }
-      }
-      set ranges $tranges
+    if {$clear_all} {
+      $win._t tag remove $tag 1.0 end
     }
 
     if {[set num [llength $ranges]]} {
