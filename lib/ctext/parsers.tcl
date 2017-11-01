@@ -266,8 +266,6 @@ namespace eval parsers {
 
     lassign [split $insertpos .] srow scol
 
-    set tags [list]
-
     # Find all marker characters in the inserted text
     escapes  $txt $str $srow tags
     contexts $txt $str $srow tags
@@ -320,6 +318,8 @@ namespace eval parsers {
         } elseif {($current eq $type) && (($side eq "any") || ($side eq "right"))} {
           context pop
           lappend ranges($tag) $row.[expr [lindex $cols 1] + 1]
+        } elseif {![info exists ranges($tag)]} {
+          set ranges($tag) [list]
         }
       }
       lassign [list $type $row [lindex $cols 0]] ltype lrow lcol

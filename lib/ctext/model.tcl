@@ -258,8 +258,8 @@ namespace eval model {
       return
     }
 
-    lassign $startpos srow scol
-    lassign $endpos   erow ecol
+    lassign [split $startpos .] srow scol
+    lassign [split $endpos .]   erow ecol
 
     set i $start_index
     while {($i < $last_index) && ([lindex $serial $i 2 0] <= $erow)} {
