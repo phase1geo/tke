@@ -228,14 +228,18 @@ namespace eval model {
   }
 
   ######################################################################
-  # Compares to index values.  Returns 1 if a is less than b; otherwise,
-  # returns 0.
-  proc is_less {a b} {
+  # Compares two index values.  Returns -1 if a is less than b, 0 if a is
+  # within b, or 1 if a is greater than b.
+  proc compare {a b} {
 
     lassign $a arow acol
     lassign $b brow bcol
 
-    expr {($arow < $brow) || (($arow == $brow) && ($acol < [lindex $bcol 0]))}
+    if {$arow == $brow} {
+      return [expr {($acol < [lindex $bcol 0]) ? -1 : (($acol > [lindex $bcol 1]) ? 1 : 0)}]
+    } else {
+      return [expr {($arow < $brow) ? -1 : 1}]
+    }
 
   }
 
@@ -253,17 +257,31 @@ namespace eval model {
 
     variable serial
 
+    utils::log "In adjust_indices, startpos: $startpos, endpos: $endpos, start_index: $start_index, last_index: $last_index"
+
+    lassign $start_index si sin
+    lassign $last_index  li lin
+
     # If we are inserting text at the end, there's nothing left to do here
-    if {$start_index == $last_index} {
+    if {$si == $li} {
       return
     }
 
     lassign [split $startpos .] srow scol
     lassign [split $endpos .]   erow ecol
 
-    set i $start_index
+    if {$sin} {
+      if {$scol == [lindex $serial $si 2 1 0]} {
+        lset serial $si 2 1 0 $ecol
+      }
+      lset serial $si 2 1 1 [expr ([lindex $serial $i 2 1 1] - $scol) + $ecol]
+      incr si
+    }
+
+    set i $si
     while {($i < $last_index) && ([lindex $serial $i 2 0] <= $erow)} {
-      lset serial $i 2 1 [expr ([lindex $serial $i 2 1] - $scol) + $ecol]
+      lset serial $i 2 1 0 [expr ([lindex $serial $i 2 1 0] - $scol) + $ecol]
+      lset serial $i 2 1 1 [expr ([lindex $serial $i 2 1 1] - $scol) + $ecol]
       incr i
     }
 
@@ -286,22 +304,22 @@ namespace eval model {
 
     set len [llength $serial]
 
-    if {($len == 0) || [is_less $index [lindex $serial 0 2]]} {
-      return 0
-    } elseif {![is_less $index [lindex $serial end 2]]} {
-      return $len
+    if {($len == 0) || ([compare $index [lindex $serial 0 2]] == -1)} {
+      return [list 0 0]
+    } elseif {[compare $index [lindex $serial end 2]] == 1} {
+      return [list $len 0]
     } else {
       set start 0
       set end   $len
       while {($end - $start) > 1} {
         set mid [expr (($end - $start) / 2) + $start]
-        if {[is_less $index [lindex $serial $mid 2]]} {
-          set end $mid
-        } else {
-          set start $mid
+        switch [compare $index [lindex $serial $mid 2]] {
+          -1 { set end $mid }
+           0 { return [list $mid 1] }
+           1 { set start $mid }
         }
       }
-      return $end
+      return [list $end 0]
     }
 
   }
@@ -312,10 +330,12 @@ namespace eval model {
 
     variable serial 
 
+    catch {
+
     # Load the shared information
     load_serial $win
 
-    set last [llength $serial]
+    set last [list [llength $serial] 1]
 
     foreach {startpos endpos} $ranges {
 
@@ -327,10 +347,12 @@ namespace eval model {
       adjust_indices $startpos $endpos $end_index $last
 
       # Remove anything found between the two indices
-      if {$start_index != $end_index} {
-        set serial [lreplace $serial[set serial {}] $start_index [expr $end_index - 1]]
+      utils::log "In insert, startpos: $startpos, endpos: $endpos, start_index: $start_index, end_index: $end_index"
+      if {$start_index ne $end_index} {
+        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
         tsv::set changed $win 1
       }
+      utils::log "  changed: [tsv::get changed $win], serial: $serial"
 
       set last $start_index
 
@@ -338,6 +360,9 @@ namespace eval model {
 
     # Put the tree back into shared memory
     save_serial $win
+
+    } rc
+    utils::log "insert rc: $rc"
 
   }
 
@@ -349,7 +374,7 @@ namespace eval model {
 
     load_serial $win
 
-    set last [llength $serial]
+    set last [list [llength $serial] 1]
 
     foreach {startpos endpos} $ranges {
 
@@ -361,8 +386,8 @@ namespace eval model {
       adjust_indices $startpos $endpos $end_index $last
 
       # Remove items between indices
-      if {$start_index != $end_index} {
-        set serial [lreplace $serial[set serial {}] $start_index [expr $end_index - 1]]
+      if {$start_index ne $end_index} {
+        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
         tsv::set changed $win 1
       }
 
@@ -382,7 +407,7 @@ namespace eval model {
 
     load_serial $win
 
-    set last [llength $serial]
+    set last [list [llength $serial] 1]
 
     foreach {startpos endpos newendpos} $ranges {
 
@@ -394,8 +419,8 @@ namespace eval model {
       adjust_indices $startpos $newendpos $end_index $last
 
       # Remove all elements between indices
-      if {$start_index != $end_index} {
-        set serial [lreplace $serial[set serial {}] $start_index [expr $end_index - 1]]
+      if {$start_index ne $end_index} {
+        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
         tsv::set changed $win 1
       }
 
@@ -421,7 +446,7 @@ namespace eval model {
     # If we have something to insert into the serial list, do it now
     if {[llength $elements] > 0} {
       set insert_index [find_serial_index [lindex $elements 0 2]]
-      set serial       [linsert $serial[set $serial {}] $insert_index {*}$elements]
+      set serial       [linsert $serial[set $serial {}] [lindex $insert_index 0] {*}$elements]
       save_serial $win
     }
 
