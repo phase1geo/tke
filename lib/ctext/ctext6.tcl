@@ -2844,20 +2844,7 @@ namespace eval ctext {
       }
     }
 
-    # Group the ranges to remove as much regular expression text searching as possible
-    set ranges    [list]
-    set laststart [lindex $lineranges 0]
-    set lastend   [lindex $lineranges 1]
-    foreach {linestart lineend} [lrange $lineranges 2 end] {
-      if {[$win count -lines $lastend $linestart] > 10} {
-        lappend ranges $laststart $lastend
-        set laststart $linestart
-      }
-      set lastend $lineend
-    }
-    lappend ranges $laststart $lastend
-
-    highlight $win [lindex $lineranges 0] end $ins $block
+    highlight $win $lineranges $ins $block
 
     event generate $win.t <<StringCommentChanged>>
 
@@ -3162,7 +3149,7 @@ namespace eval ctext {
 
   ######################################################################
   # Performs all of the syntax highlighting.
-  proc highlight {win start end ins {block 1}} {
+  proc highlight {win ranges ins {block 1}} {
 
     variable data
     variable tpool
@@ -3174,6 +3161,9 @@ namespace eval ctext {
     if {!$data($win,config,-highlight)} {
       return
     }
+
+    # We need to handle multiple ranges here
+    lassign $ranges start end
 
     set jobids    [list]
     set startrow  [lindex [split [$win._t index $start] .] 0]
