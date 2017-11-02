@@ -161,7 +161,10 @@ namespace eval parsers {
       set start 0
       while {[regexp -indices -start $start {\\} $line indices]} {
         set endpos [expr [lindex $indices 1] + 1]
-        if {[lindex $tags end] ne $start} {
+        lassign [lindex $tags end] t d i
+        if {([lindex $i 0] == $startrow) && ([lindex $i 1 0] == ([lindex $indices 0] - 1))} {
+          set tags [lreplace $tags end end]
+        } else {
           lappend tags [list escape none [list $startrow $indices] 1]
         }
         set start $endpos

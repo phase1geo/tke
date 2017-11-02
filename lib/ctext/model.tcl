@@ -78,11 +78,16 @@ namespace eval model {
   # Loads the tree structure from memory.
   proc load_all {win} {
 
+    variable current
+
     # Load the serial list
-    load_serial
+    load_serial $win
 
     # Get the tree
     ::struct::tree tree deserialize [tsv::get tree $win]
+
+    # Initialize current
+    set current root
 
   }
 
@@ -257,6 +262,8 @@ namespace eval model {
 
     variable serial
 
+    utils::log "In adjust_indices, startpos: $startpos, endpos: $endpos, start_index: $start_index, last_index: $last_index"
+
     lassign $start_index si sin
     lassign $last_index  li lin
 
@@ -337,14 +344,17 @@ namespace eval model {
 
       # Find the node to start the insertion
       set start_index [find_serial_index $startpos]
+      set eol_index   [find_serial_index [expr $startpos + 1]]
       set end_index   [find_serial_index $endpos]
 
+      puts "insert startpos: $startpos, endpos: $endpos, end_index: $end_index, last: $last"
+
       # Adjust the indices
-      adjust_indices $startpos $endpos $end_index $last
+      adjust_indices $startpos $endpos $start_index $last
 
       # Remove anything found between the two indices
-      if {$start_index ne $end_index} {
-        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
+      if {$start_index ne $eol_index} {
+        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $eol_index 0] - 1]]
         tsv::set changed $win 1
       }
 
@@ -498,11 +508,13 @@ namespace eval model {
           }
         }
         any {
-          if {![tree keyexists $node right] && ([tree get $node type] eq $type)} {
-            tree set $node right $index
-            set current [tree parent $node]
+          if {[tree get $node type] eq $type} {
+            if {![tree keyexists $node right]} {
+              tree set $node right $index
+              set current [tree parent $node]
+            }
           } else {
-            set current [add_sibling_node $node left $index $type]
+            set current [add_child_node $node end left $index $type]
           }
         }
       }
