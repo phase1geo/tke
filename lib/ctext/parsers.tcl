@@ -264,9 +264,6 @@ namespace eval parsers {
   # Store all file markers in a model for fast processing.
   proc markers {tpool tid txt str insertpos} {
 
-    utils::log "In markers..."
-
-    catch {
     lassign [split $insertpos .] srow scol
 
     set tags [list]
@@ -274,10 +271,6 @@ namespace eval parsers {
     # Find all marker characters in the inserted text
     escapes  $txt $str $srow tags
     contexts $txt $str $srow tags
-
-    utils::log "In markers, tags: [llength $tags], changed: [tsv::get changed $txt]"
-    } rc
-    utils::log "markers rc: $rc"
 
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags] || [tsv::get changed $txt]} {
@@ -304,10 +297,7 @@ namespace eval parsers {
 
     # Retrieve, merge and sort the context tags
     set ctags [lsearch -all -inline -index 3 -exact [tsv::get serial $txt] 1]
-    utils::log "ctags: $ctags, tags: $tags"
     set tags  [lsort -dictionary -index 2 [list {*}$ctags {*}$tags]]
-
-    utils::log "---------------------\n    tags: $tags"
 
     # Create the context stack structure
     ::struct::stack context

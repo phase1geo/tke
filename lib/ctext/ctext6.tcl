@@ -1406,18 +1406,19 @@ namespace eval ctext {
       }
     } else {
       lassign $args startPos endPos
-      puts "startPos: $startPos, endPos: $endPos"
-      set cursors [$win._t index insert]
+      set cursors  [$win._t index insert]
+      set startPos [$win._t index $startPos]
       if {$endPos eq ""} {
         lappend strs   [$win._t get $startPos]
-        lappend starts [$win._t index $startPos]
+        lappend starts $startPos
         lappend ends   [$win._t index "$startPos+1c"]
         $win._t delete $startPos
         lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$startPos lineend"]
       } else {
+        set endPos [$win._t index $endPos]
         lappend strs   [$win._t get $startPos $endPos]
-        lappend starts [$win._t index $startPos]
-        lappend ends   [$win._t index $endPos]
+        lappend starts $startPos
+        lappend ends   $endPos
         $win._t delete $startPos $endPos
         lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$endPos lineend"]
       }
@@ -3154,8 +3155,6 @@ namespace eval ctext {
 
     variable data
     variable tpool
-
-    puts "In highlight, ranges: $ranges"
 
     if {![winfo exists $win]} {
       return
