@@ -1402,26 +1402,22 @@ namespace eval ctext {
         lappend starts $startPos
         lappend ends   $endPos
         $win._t delete $startPos $endPos
-        lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$endPos lineend"]
+        lappend ranges $startPos $endPos
       }
     } else {
       lassign $args startPos endPos
       set cursors  [$win._t index insert]
       set startPos [$win._t index $startPos]
       if {$endPos eq ""} {
-        lappend strs   [$win._t get $startPos]
-        lappend starts $startPos
-        lappend ends   [$win._t index "$startPos+1c"]
-        $win._t delete $startPos
-        lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$startPos lineend"]
+        set endPos [$win._t index "$startPos+1c"]
       } else {
         set endPos [$win._t index $endPos]
-        lappend strs   [$win._t get $startPos $endPos]
-        lappend starts $startPos
-        lappend ends   $endPos
-        $win._t delete $startPos $endPos
-        lappend ranges [$win._t index "$startPos linestart"] [$win._t index "$endPos lineend"]
       }
+      lappend strs   [$win._t get $startPos $endPos]
+      lappend starts $startPos
+      lappend ends   $endPos
+      $win._t delete $startPos $endPos
+      lappend ranges $startPos $endPos
     }
 
     lappend ids [tpool::post $tpool [list model::delete $win $ranges]]
@@ -1748,13 +1744,13 @@ namespace eval ctext {
       foreach {endPos startPos} [lreverse $cursors] {
         $win._t insert $startPos $content $tags
         lappend inserts $startPos
-        lappend ranges  [$win._t index "$startPos linestart"] [$win._t index "$startPos+${chars}c lineend"]
+        lappend ranges  $startPos [$win._t index "$startPos+${chars}c"]
       }
     } else {
       set cursors   [$win._t index insert]
       set insertPos [$win._t index $insertPos]
       $win._t insert $insertPos $content $tags
-      lappend ranges  [$win._t index "$insertPos linestart"] [$win._t index "$insertPos+${chars}c lineend"]
+      lappend ranges  $insertPos [$win._t index "$insertPos+${chars}c"]
       lappend inserts $insertPos
     }
 
@@ -1768,11 +1764,9 @@ namespace eval ctext {
     # Highlight text and bracket auditing
     if {[highlightAll $win $ranges 1 1]} {
       checkAllBrackets $win
-    } else {
-      checkAllBrackets $win $content
     }
+    
     modified $win 1 [list insert $ranges $moddata]
-
     event generate $win.t <<CursorChanged>>
 
   }
@@ -3168,15 +3162,17 @@ namespace eval ctext {
     lassign $ranges start end
 
     set jobids    [list]
-    set startrow  [lindex [split [$win._t index $start] .] 0]
-    set str       [$win._t get $start $end]
+    set linestart [$win._t index "$start linestart"]
+    set lineend   [$win._t index "$end lineend"]
+    set startrow  [lindex [split $linestart] .] 0]
+    set str       [$win._t get $linestart $lineend]
     set tid       [thread::id]
     set namelist  [array get data $win,highlight,keyword,class,,*]
     set startlist [array get data $win,highlight,charstart,class,,*]
 
     # Perform bracket parsing
     lappend jobids [tpool::post $tpool \
-      [list parsers::markers $tpool $tid $win $str $startrow.0] \
+      [list parsers::markers $tpool $tid $win $str $linestart $lineend] \
     ]
 
     # Perform keyword/startchars parsing

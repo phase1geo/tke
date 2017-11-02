@@ -265,10 +265,10 @@ namespace eval parsers {
 
   ######################################################################
   # Store all file markers in a model for fast processing.
-  proc markers {tpool tid txt str insertpos} {
+  proc markers {tpool tid txt str linestart lineend} {
 
-    lassign [split $insertpos .] srow scol
-
+    lassign [split $linestart .] srow scol
+    
     set tags [list]
 
     # Find all marker characters in the inserted text
@@ -287,7 +287,7 @@ namespace eval parsers {
     brackets    $txt $str $srow tags
 
     # Update the model
-    model::update $tid $txt [lsort -dictionary -index 2 $tags]
+    model::update $tid $txt $linestart $lineend [lsort -dictionary -index 2 $tags]
 
   }
 

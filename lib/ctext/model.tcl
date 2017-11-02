@@ -262,8 +262,6 @@ namespace eval model {
 
     variable serial
 
-    utils::log "In adjust_indices, startpos: $startpos, endpos: $endpos, start_index: $start_index, last_index: $last_index"
-
     lassign $start_index si sin
     lassign $last_index  li lin
 
@@ -284,7 +282,7 @@ namespace eval model {
     }
 
     set i $si
-    while {($i < $last_index) && ([lindex $serial $i 2 0] <= $erow)} {
+    while {($i < $li) && ([lindex $serial $i 2 0] <= $erow)} {
       lset serial $i 2 1 0 [expr ([lindex $serial $i 2 1 0] - $scol) + $ecol]
       lset serial $i 2 1 1 [expr ([lindex $serial $i 2 1 1] - $scol) + $ecol]
       incr i
@@ -293,7 +291,7 @@ namespace eval model {
     if {$srow != $erow} {
       set line_incr [expr $erow - $srow]
       set i         0
-      while {$i < $last_index} {
+      while {$i < $li} {
         lset serial $i 2 0 [expr [lindex $serial $i 2 0] + $line_incr]
         incr i
       }
@@ -303,12 +301,14 @@ namespace eval model {
 
   ######################################################################
   # Finds the index in the serial list to begin transforming the list.
+  # Index must be a valid text index in the form of row.col.
   proc find_serial_index {index} {
 
     variable serial
 
-    set len [llength $serial]
-
+    set len   [llength $serial]
+    set index [split $index .]
+    
     if {($len == 0) || ([compare $index [lindex $serial 0 2]] == -1)} {
       return [list 0 0]
     } elseif {[compare $index [lindex $serial end 2]] == 1} {
@@ -344,19 +344,10 @@ namespace eval model {
 
       # Find the node to start the insertion
       set start_index [find_serial_index $startpos]
-      set eol_index   [find_serial_index [expr $startpos + 1]]
       set end_index   [find_serial_index $endpos]
-
-      puts "insert startpos: $startpos, endpos: $endpos, end_index: $end_index, last: $last"
 
       # Adjust the indices
       adjust_indices $startpos $endpos $start_index $last
-
-      # Remove anything found between the two indices
-      if {$start_index ne $eol_index} {
-        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $eol_index 0] - 1]]
-        tsv::set changed $win 1
-      }
 
       set last $start_index
 
@@ -386,12 +377,6 @@ namespace eval model {
       # Adjust the serial list indices
       adjust_indices $startpos $endpos $end_index $last
 
-      # Remove items between indices
-      if {$start_index ne $end_index} {
-        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
-        tsv::set changed $win 1
-      }
-
       set last $start_index
 
     }
@@ -419,12 +404,6 @@ namespace eval model {
       # Adjust the serial list indices
       adjust_indices $startpos $newendpos $end_index $last
 
-      # Remove all elements between indices
-      if {$start_index ne $end_index} {
-        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
-        tsv::set changed $win 1
-      }
-
       set last $start_index
 
     }
@@ -437,17 +416,19 @@ namespace eval model {
   ######################################################################
   # Updates the model, inserting the given parsed elements prior to rebuilding
   # the model tree.
-  proc update {tid win elements} {
+  proc update {tid win linestart lineend elements} {
 
     variable serial
 
     # Load the serial list from shared memory
     load_serial $win
 
+    set start_index [find_serial_index $linestart]
+    set end_index   [find_serial_index $lineend]
+    
     # If we have something to insert into the serial list, do it now
-    if {[llength $elements] > 0} {
-      set insert_index [find_serial_index [lindex $elements 0 2]]
-      set serial       [linsert $serial[set $serial {}] [lindex $insert_index 0] {*}$elements]
+    if {($start_index ne $end_index) || ([llength $elements] > 0)} {
+      set serial [lreplace $serial[set $serial {}] [lindex $start_index 0] [lindex $end_index 0] {*}$elements]
       save_serial $win
     }
 
