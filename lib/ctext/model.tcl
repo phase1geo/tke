@@ -257,8 +257,6 @@ namespace eval model {
 
     variable serial
 
-    utils::log "In adjust_indices, startpos: $startpos, endpos: $endpos, start_index: $start_index, last_index: $last_index"
-
     lassign $start_index si sin
     lassign $last_index  li lin
 
@@ -330,8 +328,6 @@ namespace eval model {
 
     variable serial 
 
-    catch {
-
     # Load the shared information
     load_serial $win
 
@@ -347,12 +343,10 @@ namespace eval model {
       adjust_indices $startpos $endpos $end_index $last
 
       # Remove anything found between the two indices
-      utils::log "In insert, startpos: $startpos, endpos: $endpos, start_index: $start_index, end_index: $end_index"
       if {$start_index ne $end_index} {
         set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
         tsv::set changed $win 1
       }
-      utils::log "  changed: [tsv::get changed $win], serial: $serial"
 
       set last $start_index
 
@@ -360,9 +354,6 @@ namespace eval model {
 
     # Put the tree back into shared memory
     save_serial $win
-
-    } rc
-    utils::log "insert rc: $rc"
 
   }
 
