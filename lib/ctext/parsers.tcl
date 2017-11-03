@@ -297,9 +297,7 @@ namespace eval parsers {
   proc render_contexts {tid txt linestart lineend tags} {
 
     # Get the list of context tags to render
-    utils::log "render, tags: $tags"
     model::get_context_tags $txt $linestart $lineend tags
-    utils::log "linestart: $linestart, lineend: $lineend, tags: $tags"
 
     # Create the context stack structure
     ::struct::stack context
