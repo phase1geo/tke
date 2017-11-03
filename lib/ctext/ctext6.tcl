@@ -1765,7 +1765,7 @@ namespace eval ctext {
     if {[highlightAll $win $ranges 1 1]} {
       checkAllBrackets $win
     }
-    
+
     modified $win 1 [list insert $ranges $moddata]
     event generate $win.t <<CursorChanged>>
 
@@ -2779,7 +2779,7 @@ namespace eval ctext {
     tsv::set indents $win $tags
 
   }
- 
+
   ######################################################################
   # Adds the given brackets for parsing purposes.
   proc setBrackets {win lang types {fg "green"} {bg ""}} {
@@ -3164,7 +3164,7 @@ namespace eval ctext {
     set jobids    [list]
     set linestart [$win._t index "$start linestart"]
     set lineend   [$win._t index "$end lineend"]
-    set startrow  [lindex [split $linestart] .] 0]
+    set startrow  [lindex [split $linestart .] 0]
     set str       [$win._t get $linestart $lineend]
     set tid       [thread::id]
     set namelist  [array get data $win,highlight,keyword,class,,*]

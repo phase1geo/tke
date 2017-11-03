@@ -220,7 +220,7 @@ namespace eval model {
     lassign [split $index .] row col
 
     # We can't escape the first character of a row
-    if {($col == 0) || ([set index [find_serial_index [list $row $col]] == 0)} {
+    if {($col == 0) || ([set index [find_serial_index [list $row $col]]] == 0)} {
       return 0
     }
 
@@ -258,10 +258,11 @@ namespace eval model {
 
   ######################################################################
   # Adjusts all of the model indices based on the inserted text position.
-  proc adjust_indices {startpos endpos start_index last_index} {
+  proc adjust_indices {from_pos to_pos start_index last_index} {
 
     variable serial
 
+    catch {
     lassign $start_index si sin
     lassign $last_index  li lin
 
@@ -270,32 +271,37 @@ namespace eval model {
       return
     }
 
-    lassign [split $startpos .] srow scol
-    lassign [split $endpos .]   erow ecol
+    lassign [split $from_pos .] frow fcol
+    lassign [split $to_pos .]   trow tcol
+
+    set col_diff [expr $tcol - $fcol]
+    set row_diff [expr $trow - $frow]
 
     if {$sin} {
       if {$scol == [lindex $serial $si 2 1 0]} {
         lset serial $si 2 1 0 $ecol
       }
-      lset serial $si 2 1 1 [expr ([lindex $serial $i 2 1 1] - $scol) + $ecol]
+      lset serial $si 2 1 1 [expr [lindex $serial $i 2 1 1] + $col_diff]
       incr si
     }
 
     set i $si
-    while {($i < $li) && ([lindex $serial $i 2 0] <= $erow)} {
-      lset serial $i 2 1 0 [expr ([lindex $serial $i 2 1 0] - $scol) + $ecol]
-      lset serial $i 2 1 1 [expr ([lindex $serial $i 2 1 1] - $scol) + $ecol]
+    while {($i < $li) && ([lindex $serial $i 2 0] <= $trow)} {
+      lset serial $i 2 1 0 [expr [lindex $serial $i 2 1 0] + $col_diff]
+      lset serial $i 2 1 1 [expr [lindex $serial $i 2 1 1] + $col_diff]
       incr i
     }
 
-    if {$srow != $erow} {
-      set line_incr [expr $erow - $srow]
+    if {$row_diff} {
       set i         0
       while {$i < $li} {
-        lset serial $i 2 0 [expr [lindex $serial $i 2 0] + $line_incr]
+        lset serial $i 2 0 [expr [lindex $serial $i 2 0] + $row_diff]
         incr i
       }
     }
+    } rc
+    puts "adjust rc: $rc"
+    puts "serial: $serial"
 
   }
 
@@ -308,7 +314,7 @@ namespace eval model {
 
     set len   [llength $serial]
     set index [split $index .]
-    
+
     if {($len == 0) || ([compare $index [lindex $serial 0 2]] == -1)} {
       return [list 0 0]
     } elseif {[compare $index [lindex $serial end 2]] == 1} {
@@ -333,7 +339,7 @@ namespace eval model {
   # Inserts the given items into the tree.
   proc insert {win ranges} {
 
-    variable serial 
+    variable serial
 
     # Load the shared information
     load_serial $win
@@ -372,10 +378,10 @@ namespace eval model {
 
       # Calculate the indices in the serial list
       set start_index [find_serial_index $startpos]
-      set end_index   [find_serial_index $endpos] 
+      set end_index   [find_serial_index $endpos]
 
       # Adjust the serial list indices
-      adjust_indices $startpos $endpos $end_index $last
+      adjust_indices $endpos $startpos $end_index $last
 
       set last $start_index
 
@@ -414,6 +420,27 @@ namespace eval model {
   }
 
   ######################################################################
+  # Temporarily merge the current serial list with the tags
+  # so that we can figure out which contexts to serially highlight
+  proc get_context_tags {txt linestart lineend ptags} {
+
+    variable serial
+
+    upvar $ptags tags
+
+    load_serial $txt
+
+    set ctags       [lsearch -all -inline -index 3 -exact $serial 1]
+    set start_index [find_serial_index $linestart]
+    set end_index   [find_serial_index $lineend]
+
+    if {($start_index ne $end_index) || ([llength $tags] > 0)} {
+      set tags [lreplace $serial [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}[lsort -dictionary -index 2 $tags]]
+    }
+
+  }
+
+  ######################################################################
   # Updates the model, inserting the given parsed elements prior to rebuilding
   # the model tree.
   proc update {tid win linestart lineend elements} {
@@ -425,10 +452,12 @@ namespace eval model {
 
     set start_index [find_serial_index $linestart]
     set end_index   [find_serial_index $lineend]
-    
+
+    utils::log "update, start: $start_index, end: $end_index, linestart: $linestart, lineend: $lineend, elements: $elements"
+
     # If we have something to insert into the serial list, do it now
     if {($start_index ne $end_index) || ([llength $elements] > 0)} {
-      set serial [lreplace $serial[set $serial {}] [lindex $start_index 0] [lindex $end_index 0] {*}$elements]
+      set serial [lreplace $serial[set $serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}$elements]
       save_serial $win
     }
 

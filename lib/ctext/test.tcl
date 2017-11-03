@@ -14,10 +14,12 @@ ctext::setBrackets          .t "" {curly square paren double single} "green"
 
 source model.tcl
 
-proc show_tree {} {
+proc show_serial {} {
+  puts [tsv::get serial .t]
+}
 
+proc show_tree {} {
   model::load_all .t
   model::debug_show_tree
   model::destroy .t
-  
 }
