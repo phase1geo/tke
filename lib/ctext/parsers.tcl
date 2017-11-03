@@ -204,7 +204,7 @@ namespace eval parsers {
     set patterns [tsv::get contexts $txt]
 
     foreach {type side pattern ctx tag} $patterns {
-       
+
       set srow $startrow
       foreach line [split $str \n] {
         set start 0
@@ -268,7 +268,7 @@ namespace eval parsers {
   proc markers {tpool tid txt str linestart lineend} {
 
     lassign [split $linestart .] srow scol
-    
+
     set tags [list]
 
     # Find all marker characters in the inserted text
@@ -278,8 +278,8 @@ namespace eval parsers {
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags] || [tsv::get changed $txt]} {
       tsv::set changed $txt 0
-      render_contexts $tid $txt $tags
-      # tpool::post $tpool [list parsers::render_contexts $tid $txt $tags]
+      render_contexts $tid $txt $linestart $lineend $tags
+      # tpool::post $tpool [list parsers::render_contexts $tid $txt $linestart $lineend $tags]
     }
 
     # Add indentation and bracket markers to the tags list
@@ -294,13 +294,12 @@ namespace eval parsers {
   ######################################################################
   # Handles rendering any contexts that we have (i.e., strings, comments,
   # embedded language blocks, etc.)
-  proc render_contexts {tid txt tags} {
+  proc render_contexts {tid txt linestart lineend tags} {
 
-    array set ranges {}
-
-    # Retrieve, merge and sort the context tags
-    set ctags [lsearch -all -inline -index 3 -exact [tsv::get serial $txt] 1]
-    set tags  [lsort -dictionary -index 2 [list {*}$ctags {*}$tags]]
+    # Get the list of context tags to render
+    utils::log "render, tags: $tags"
+    model::get_context_tags $txt $linestart $lineend tags
+    utils::log "linestart: $linestart, lineend: $lineend, tags: $tags"
 
     # Create the context stack structure
     ::struct::stack context
@@ -309,6 +308,7 @@ namespace eval parsers {
     lassign {"" 0 0} ltype lrow lcol
 
     # Create the non-overlapping ranges for each of the context tags
+    array set ranges {}
     foreach tag $tags {
       lassign $tag   type side index dummy ctx tag
       lassign $index row cols
