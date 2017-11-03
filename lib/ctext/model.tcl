@@ -220,7 +220,7 @@ namespace eval model {
     lassign [split $index .] row col
 
     # We can't escape the first character of a row
-    if {($col == 0) || ([set index [find_serial_index [list $row $col]]] == 0)} {
+    if {($col == 0) || ([set index [find_serial_index serial [list $row $col]]] == 0)} {
       return 0
     }
 
@@ -262,7 +262,6 @@ namespace eval model {
 
     variable serial
 
-    catch {
     lassign $start_index si sin
     lassign $last_index  li lin
 
@@ -278,8 +277,8 @@ namespace eval model {
     set row_diff [expr $trow - $frow]
 
     if {$sin} {
-      if {$scol == [lindex $serial $si 2 1 0]} {
-        lset serial $si 2 1 0 $ecol
+      if {$fcol == [lindex $serial $si 2 1 0]} {
+        lset serial $si 2 1 0 $tcol
       }
       lset serial $si 2 1 1 [expr [lindex $serial $i 2 1 1] + $col_diff]
       incr si
@@ -299,18 +298,15 @@ namespace eval model {
         incr i
       }
     }
-    } rc
-    puts "adjust rc: $rc"
-    puts "serial: $serial"
 
   }
 
   ######################################################################
   # Finds the index in the serial list to begin transforming the list.
   # Index must be a valid text index in the form of row.col.
-  proc find_serial_index {index} {
+  proc find_serial_index {pserial index} {
 
-    variable serial
+    upvar $pserial serial
 
     set len   [llength $serial]
     set index [split $index .]
@@ -322,12 +318,13 @@ namespace eval model {
     } else {
       set start 0
       set end   $len
-      while {($end - $start) > 1} {
+      set mid   $end
+      while {($end - $start) > 0} {
         set mid [expr (($end - $start) / 2) + $start]
         switch [compare $index [lindex $serial $mid 2]] {
           -1 { set end $mid }
            0 { return [list $mid 1] }
-           1 { set start $mid }
+           1 { if {$start == $mid} { return [list $end 0] } else { set start $mid } }
         }
       }
       return [list $end 0]
@@ -349,8 +346,8 @@ namespace eval model {
     foreach {startpos endpos} $ranges {
 
       # Find the node to start the insertion
-      set start_index [find_serial_index $startpos]
-      set end_index   [find_serial_index $endpos]
+      set start_index [find_serial_index serial $startpos]
+      set end_index   [find_serial_index serial $endpos]
 
       # Adjust the indices
       adjust_indices $startpos $endpos $start_index $last
@@ -377,8 +374,8 @@ namespace eval model {
     foreach {startpos endpos} $ranges {
 
       # Calculate the indices in the serial list
-      set start_index [find_serial_index $startpos]
-      set end_index   [find_serial_index $endpos]
+      set start_index [find_serial_index serial $startpos]
+      set end_index   [find_serial_index serial $endpos]
 
       # Adjust the serial list indices
       adjust_indices $endpos $startpos $end_index $last
@@ -404,8 +401,8 @@ namespace eval model {
     foreach {startpos endpos newendpos} $ranges {
 
       # Calculate the indices in the serial list
-      set start_index [find_serial_index $startpos]
-      set end_index   [find_serial_index $endpos]
+      set start_index [find_serial_index serial $startpos]
+      set end_index   [find_serial_index serial $endpos]
 
       # Adjust the serial list indices
       adjust_indices $startpos $newendpos $end_index $last
@@ -431,11 +428,15 @@ namespace eval model {
     load_serial $txt
 
     set ctags       [lsearch -all -inline -index 3 -exact $serial 1]
-    set start_index [find_serial_index $linestart]
-    set end_index   [find_serial_index $lineend]
+    set start_index [find_serial_index ctags $linestart]
+    set end_index   [find_serial_index ctags $lineend]
 
-    if {($start_index ne $end_index) || ([llength $tags] > 0)} {
-      set tags [lreplace $serial [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}[lsort -dictionary -index 2 $tags]]
+    if {[llength $tags] > 0} {
+      if {$start_index ne $end_index} {
+        set tags [lreplace $ctags [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}[lsort -dictionary -index 2 $tags]]
+      } else {
+        set tags [linsert $ctags [lindex $start_index 0] {*}[lsort -dictionary -index 2 $tags]]
+      }
     }
 
   }
@@ -450,14 +451,16 @@ namespace eval model {
     # Load the serial list from shared memory
     load_serial $win
 
-    set start_index [find_serial_index $linestart]
-    set end_index   [find_serial_index $lineend]
-
-    utils::log "update, start: $start_index, end: $end_index, linestart: $linestart, lineend: $lineend, elements: $elements"
+    set start_index [find_serial_index serial $linestart]
+    set end_index   [find_serial_index serial $lineend]
 
     # If we have something to insert into the serial list, do it now
-    if {($start_index ne $end_index) || ([llength $elements] > 0)} {
-      set serial [lreplace $serial[set $serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}$elements]
+    if {[llength $elements] > 0} {
+      if {$start_index ne $end_index} {
+        set serial [lreplace $serial[set $serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}$elements]
+      } else {
+        set serial [linsert $serial[set $serial {}] [lindex $start_index 0] {*}$elements]
+      }
       save_serial $win
     }
 
