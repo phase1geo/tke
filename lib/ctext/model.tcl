@@ -119,7 +119,7 @@ namespace eval model {
 
     ::struct::tree tree deserialize [tsv::get tree $win]
 
-    puts -nonewline "$msg: [tree_string tree root [expr [string length $msg] + 2]]"
+    utils::log -nonewline "$msg: [tree_string tree root [expr [string length $msg] + 2]]"
 
     tree destroy
 
@@ -153,7 +153,7 @@ namespace eval model {
   # Displays the specified tree to standard output.
   proc debug_show_tree {{msg "Tree"}} {
 
-    puts -nonewline "$msg: [tree_string root [expr [string length $msg] + 2]]"
+    utils::log -nonewline "\n$msg: [tree_string root [expr [string length $msg] + 2]]"
 
   }
 
@@ -161,7 +161,7 @@ namespace eval model {
   # Displays the information for a single node.
   proc debug_show_node {tree node {msg "Node"}} {
 
-    puts "$msg: [node_string $node]"
+    utils::log "$msg: [node_string $node]"
 
   }
 
@@ -262,6 +262,8 @@ namespace eval model {
 
     variable serial
 
+    # utils::log "adjust, from_pos: $from_pos, to_pos: $to_pos, start: $start_index, last_index: $last_index"
+
     lassign $start_index si sin
     lassign $last_index  li lin
 
@@ -280,24 +282,25 @@ namespace eval model {
       if {$fcol == [lindex $serial $si 2 1 0]} {
         lset serial $si 2 1 0 $tcol
       }
-      lset serial $si 2 1 1 [expr [lindex $serial $i 2 1 1] + $col_diff]
+      lset serial $si 2 1 1 [expr [lindex $serial $si 2 1 1] + $col_diff]
       incr si
     }
 
     set i $si
-    while {($i < $li) && ([lindex $serial $i 2 0] <= $trow)} {
+    while {($i < $li) && ([lindex $serial $i 2 0] == $frow)} {
       lset serial $i 2 1 0 [expr [lindex $serial $i 2 1 0] + $col_diff]
       lset serial $i 2 1 1 [expr [lindex $serial $i 2 1 1] + $col_diff]
       incr i
     }
 
     if {$row_diff} {
-      set i         0
       while {$i < $li} {
         lset serial $i 2 0 [expr [lindex $serial $i 2 0] + $row_diff]
         incr i
       }
     }
+
+    # utils::log "serial: $serial"
 
   }
 
@@ -369,8 +372,11 @@ namespace eval model {
 
     load_serial $win
 
+    utils::log "In delete, ranges: $ranges"
+
     set last [list [llength $serial] 1]
 
+    catch {
     foreach {startpos endpos} $ranges {
 
       # Calculate the indices in the serial list
@@ -380,9 +386,18 @@ namespace eval model {
       # Adjust the serial list indices
       adjust_indices $endpos $startpos $end_index $last
 
+      utils::log "delete, start_index: $start_index, end_index: $end_index"
+
+      # Delete the range of items in the serial list
+      if {$start_index ne $end_index} {
+        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
+      }
+
       set last $start_index
 
     }
+    } rc
+    puts "delete rc: $rc"
 
     save_serial $win
 
@@ -393,6 +408,8 @@ namespace eval model {
   proc replace {win ranges} {
 
     variable serial
+
+    utils::log "In replace, ranges: $ranges"
 
     load_serial $win
 
@@ -406,6 +423,11 @@ namespace eval model {
 
       # Adjust the serial list indices
       adjust_indices $startpos $newendpos $end_index $last
+
+      # Delete the range of items in the serial list
+      if {$start_index ne $end_index} {
+        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
+      }
 
       set last $start_index
 
@@ -454,6 +476,11 @@ namespace eval model {
     set start_index [find_serial_index serial $linestart]
     set end_index   [find_serial_index serial $lineend]
 
+    utils::log "============================================="
+    utils::log "UPDATE:"
+    utils::log "linestart: $linestart, lineend: $lineend, start_index: $start_index, end_index: $end_index"
+    utils::log "elements: $elements"
+
     # If we have something to insert into the serial list, do it now
     if {[llength $elements] > 0} {
       if {$start_index ne $end_index} {
@@ -462,11 +489,14 @@ namespace eval model {
         set serial [linsert $serial[set $serial {}] [lindex $start_index 0] {*}$elements]
       }
       save_serial $win
+      make_tree $win
     }
 
-    # Rebuild the model tree
-    make_tree $win
+    utils::log "serial: $serial"
+    utils::log "---------------------------------------------"
 
+    # Rebuild the model tree
+    # TBD - make_tree $win
 
   }
 
@@ -489,7 +519,7 @@ namespace eval model {
       incr i
     }
 
-    # debug_show_tree
+    debug_show_tree
 
     save_tree $win
 
@@ -503,7 +533,15 @@ namespace eval model {
 
     # If the current node is root, add a new node as a chilid
     if {$node eq "root"} {
-      set current [add_child_node $node end $side $index $type]
+      switch $side {
+        left -
+        right {
+          set current [add_child_node $node end $side $index $type]
+        }
+        any {
+          set current [add_child_node $node end left $index $type]
+        }
+      }
 
     } else {
       switch $side {
