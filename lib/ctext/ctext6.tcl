@@ -1776,6 +1776,8 @@ namespace eval ctext {
 
     variable data
 
+    puts "In command_replace, args: $args"
+
     if {[llength $args] < 3} {
       return -code error "please use at least 3 arguments to $win replace"
     }
@@ -2746,6 +2748,8 @@ namespace eval ctext {
         incr i
       }
 
+      puts "tags: $tags"
+
       # Save the context data
       tsv::set contexts $win $tags
 
@@ -3098,9 +3102,13 @@ namespace eval ctext {
   ######################################################################
   # Helper procedure that allows us to generate debug messages from within
   # the threads.
-  proc thread_log {id msg} {
+  proc thread_log {id nl msg} {
 
-    puts "$id: $msg"
+    if {$nl} {
+      puts "$id: $msg"
+    } else {
+      puts -nonewline "$id: $msg"
+    }
 
   }
 

@@ -4,11 +4,19 @@ namespace eval utils {
 
   ######################################################################
   # Renders the given tag with the specified ranges.
-  proc log {msg} {
+  proc log {args} {
 
     variable main_tid
 
-    thread::send -async $main_tid [list ctext::thread_log [thread::id] $msg]
+    if {[lindex $args 0] eq "-nonewline"} {
+      set nl  0
+      set msg [lindex $args 1]
+    } else {
+    	set nl  1
+    	set msg [lindex $args 0]
+    }
+
+    thread::send -async $main_tid [list ctext::thread_log [thread::id] $nl $msg]
 
   }
 

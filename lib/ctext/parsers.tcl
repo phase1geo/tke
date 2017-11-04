@@ -202,21 +202,40 @@ namespace eval parsers {
     upvar $ptags tags
 
     set patterns [tsv::get contexts $txt]
+    set lines    [split $str \n]
+    set found    0
 
     foreach {type side pattern ctx tag} $patterns {
 
-      set srow $startrow
-      foreach line [split $str \n] {
+      # If the pattern is the EOL character, just get our indices from the left side
+      if {$pattern eq "\$"} {
+        if {$found > 0} {
+          foreach tag [lrange $tags end-[expr $found - 1] end] {
+            lassign $tag type side pos dummy ctx ttag
+            set row [lindex $pos 0]
+            set col [string length [lindex $lines [expr $row - 1]]]
+            lappend tags [list $type right [list $row [list $col $col]] 1 $ctx $ttag]
+          }
+        }
+        continue
+      }
+
+      set srow  $startrow
+      set found 0
+      foreach line $lines {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
           lappend tags [list $type $side [list $srow $indices] 1 $ctx $tag]
           set start $endpos
+          incr found
         }
         incr srow
       }
 
     }
+
+    utils::log "contexts: $tags"
 
   }
 
