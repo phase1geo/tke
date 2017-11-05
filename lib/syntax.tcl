@@ -40,9 +40,8 @@ namespace eval syntax {
     linewrap           0
     casesensitive      0
     delimiters         {}
-    indent             {}
-    unindent           {}
-    reindent           {}
+    indentation        {}
+    reindentation      {}
     icomment           {}
     lcomments          {}
     bcomments          {}
@@ -407,11 +406,9 @@ namespace eval syntax {
 
     # Clear the syntax highlighting for the widget
     if {$opts(-highlight)} {
-      ctext::clearHighlightClasses   $txt
-      ctext::setBlockCommentPatterns $txt {} {}
-      ctext::setLineCommentPatterns  $txt {} {}
-      ctext::setStringPatterns       $txt {} {}
-      ctext::setAutoMatchChars       $txt {} {}
+      ctext::clearHighlightClasses $txt
+      ctext::setContextPatterns    $txt {} comment {} {}
+      ctext::setAutoMatchChars     $txt {} {}
     }
 
     # Set default indent/unindent strings
@@ -469,12 +466,13 @@ namespace eval syntax {
 
         # Add the comments, strings and indentations
         ctext::clearCommentStringPatterns $txt
-        ctext::setBlockCommentPatterns $txt {} $lang_array(bcomments) $theme(comments)
-        ctext::setLineCommentPatterns  $txt {} $lang_array(lcomments) $theme(comments)
-        ctext::setStringPatterns       $txt {} $lang_array(strings)   $theme(strings)
-        ctext::setIndentation          $txt {} $lang_array(indent)   indent
-        ctext::setIndentation          $txt {} $lang_array(unindent) unindent
+        ctext::setContextPatterns $txt bcomment comment {} $lang_array(bcomments) $theme(comments)
+        ctext::setContextPatterns $txt lcomment comment {} $lang_array(lcomments) $theme(comments)
+        ctext::setContextPatterns $txt string   comment {} $lang_array(lcomments) $theme(comments)
+        ctext::setIndentation     $txt {} $lang_array(indentation)
+        ctext::setBrackets        $txt {} $lang_array(matchcharsallowed) $theme(strings)
 
+        if {0} {
         set reindentStarts [list]
         set reindents      [list]
         foreach reindent $lang_array(reindent) {
@@ -483,6 +481,7 @@ namespace eval syntax {
         }
         ctext::setIndentation $txt {} $reindentStarts reindentStart
         ctext::setIndentation $txt {} $reindents      reindent
+        }
 
         # Add the FIXME
         ctext::addHighlightClass $txt fixme $theme(miscellaneous1)
@@ -574,7 +573,7 @@ namespace eval syntax {
       set_language_section $txt precompile $lang_array(precompile) $language
 
       # Add the comments, strings and indentations
-      ctext::setBlockCommentPatterns $txt $language $lang_array(bcomments) $theme(comments)
+      ctext::setContextPatterns $txt $language $lang_array(bcomments) $theme(comments)
       ctext::setLineCommentPatterns  $txt $language $lang_array(lcomments) $theme(comments)
       ctext::setStringPatterns       $txt $language $lang_array(strings)   $theme(strings)
       ctext::setIndentation          $txt $language [list $embed_start {*}$lang_array(indent)]   indent
