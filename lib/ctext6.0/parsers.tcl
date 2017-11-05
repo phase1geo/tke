@@ -210,11 +210,13 @@ namespace eval parsers {
       # If the pattern is the EOL character, just get our indices from the left side
       if {$pattern eq "\$"} {
         if {$found > 0} {
+          set lrow 0
           foreach tag [lrange $tags end-[expr $found - 1] end] {
             lassign $tag type side pos dummy ctx ttag
-            set row [lindex $pos 0]
+            if {[set row [lindex $pos 0]] == $lrow} { continue }
             set col [string length [lindex $lines [expr $row - 1]]]
             lappend tags [list $type right [list $row [list $col $col]] 1 $ctx $ttag]
+            set lrow $row
           }
         }
         continue
@@ -234,8 +236,6 @@ namespace eval parsers {
       }
 
     }
-
-    utils::log "contexts: $tags"
 
   }
 
