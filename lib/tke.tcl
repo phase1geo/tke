@@ -54,7 +54,7 @@ proc tke_development {} {
 # Withdraw . to eliminate the "ghost" window
 wm withdraw .
 
-set auto_path [list [file join $tke_dir lib ctext] \
+set auto_path [list [file join $tke_dir lib ctext6.0] \
                     [file join $tke_dir lib tablelist5.18] \
                     [file join $tke_dir lib ptwidgets1.2] \
                     [file join $tke_dir lib specl] \
