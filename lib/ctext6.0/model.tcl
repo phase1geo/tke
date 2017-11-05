@@ -455,7 +455,7 @@ namespace eval model {
 
     if {[llength $tags] > 0} {
       if {$start_index ne $end_index} {
-        set tags [lreplace $ctags [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}[lsort -dictionary -index 2 $tags]]
+        set tags [lreplace $ctags [lindex $start_index 0] [expr ([lindex $end_index 0] + [lindex $end_index 1]) - 1] {*}[lsort -dictionary -index 2 $tags]]
       } else {
         set tags [linsert $ctags [lindex $start_index 0] {*}[lsort -dictionary -index 2 $tags]]
       }
@@ -484,7 +484,7 @@ namespace eval model {
     # If we have something to insert into the serial list, do it now
     if {[llength $elements] > 0} {
       if {$start_index ne $end_index} {
-        set serial [lreplace $serial[set $serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1] {*}$elements]
+        set serial [lreplace $serial[set $serial {}] [lindex $start_index 0] [expr ([lindex $end_index 0] + [lindex $end_index 1]) - 1] {*}$elements]
       } else {
         set serial [linsert $serial[set $serial {}] [lindex $start_index 0] {*}$elements]
       }
