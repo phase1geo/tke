@@ -372,11 +372,8 @@ namespace eval model {
 
     load_serial $win
 
-    utils::log "In delete, ranges: $ranges"
-
     set last [list [llength $serial] 1]
 
-    catch {
     foreach {startpos endpos} $ranges {
 
       # Calculate the indices in the serial list
@@ -386,8 +383,6 @@ namespace eval model {
       # Adjust the serial list indices
       adjust_indices $endpos $startpos $end_index $last
 
-      utils::log "delete, start_index: $start_index, end_index: $end_index"
-
       # Delete the range of items in the serial list
       if {$start_index ne $end_index} {
         set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
@@ -396,8 +391,6 @@ namespace eval model {
       set last $start_index
 
     }
-    } rc
-    puts "delete rc: $rc"
 
     save_serial $win
 
@@ -408,8 +401,6 @@ namespace eval model {
   proc replace {win ranges} {
 
     variable serial
-
-    utils::log "In replace, ranges: $ranges"
 
     load_serial $win
 
@@ -426,7 +417,7 @@ namespace eval model {
 
       # Delete the range of items in the serial list
       if {$start_index ne $end_index} {
-        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr [lindex $end_index 0] - 1]]
+        set serial [lreplace $serial[set serial {}] [lindex $start_index 0] [expr ([lindex $end_index 0] + [lindex $end_index 1]) - 1]]
       }
 
       set last $start_index
@@ -506,16 +497,18 @@ namespace eval model {
 
     variable serial
     variable current
+    variable lescape
 
     # Clear the tree
     ::struct::tree tree
 
     set current root
     set i       0
+    set lescape [list 0 0]
 
     foreach item $serial {
       lassign $item type side index
-      insert_position tree $current $side $i $type
+      insert_position tree $current $side $i $type $index
       incr i
     }
 
@@ -527,49 +520,104 @@ namespace eval model {
 
   ######################################################################
   # Inserts a character type into the tree.
-  proc insert_position {tree node side index type} {
+  proc insert_position {tree node side index type sindex} {
+
+    variable current
+    variable lescape
+
+    # Calculate the starting index and if it is escaped, skip the insertion
+    if {$lescape eq [set sindex [list [lindex $sindex 0] [lindex $sindex 1 0]]]} {
+      return
+    }
+
+    catch {
+    # If the current node is root, add a new node as a chilid
+    if {$node eq "root"} {
+      insert_root_$side $node $index $type $sindex
+    } else {
+      insert_$side $node $index $type $sindex
+    }
+    } rc
+    puts "insert rc: $rc"
+
+  }
+
+  ######################################################################
+  proc insert_root_left {node index type sindex} {
+
+    add_child_node $node end left $index $type
+
+  }
+
+  ######################################################################
+  proc insert_root_right {node index type sindex} {
 
     variable current
 
-    # If the current node is root, add a new node as a chilid
-    if {$node eq "root"} {
-      switch $side {
-        left -
-        right {
-          set current [add_child_node $node end $side $index $type]
-        }
-        any {
-          set current [add_child_node $node end left $index $type]
-        }
-      }
+    add_child_node $node end right $index $type
+    set current $node
 
-    } else {
-      switch $side {
-        left -
-        right {
-          if {[tree get $node type] eq $type} {
-            if {[tree keyexists $node $side]} {
-              set current [add_child_node $node end $side $index $type]
-            } else {
-              tree set $node $side $index
-              set current [tree parent $node]
-            }
-          } else {
-            set current [add_child_node $node end $side $index $type]
-          }
-        }
-        any {
-          if {[tree get $node type] eq $type} {
-            if {![tree keyexists $node right]} {
-              tree set $node right $index
-              set current [tree parent $node]
-            }
-          } else {
-            set current [add_child_node $node end left $index $type]
-          }
-        }
-      }
+  }
+
+  ######################################################################
+  proc insert_root_any {node index type sindex} {
+
+    add_child_node $node end left $index $type
+
+  }
+
+  ######################################################################
+  proc insert_root_none {node index type sindex} {
+
+    variable lescape
+
+    if {$type eq "escape"} {
+      lset sindex 1 [expr [lindex $sindex 1] + 1]
+      set lescape $sindex
     }
+
+  }
+
+  ######################################################################
+  proc insert_left {node index type sindex} {
+
+    add_child_node $node end left $index $type
+
+  }
+
+  ######################################################################
+  proc insert_right {node index type sindex} {
+
+    variable current
+
+    if {[tree get $node type] eq $type} {
+      tree set $node right $index
+      set current [tree parent $node]
+    } else {
+      add_child_node $node end right $index $type
+      set current $node
+    }
+
+  }
+
+  ######################################################################
+  proc insert_any {node index type sindex} {
+
+    variable current
+
+    if {[tree get $node type] eq $type} {
+      tree set $node right $index
+      set current [tree parent $node]
+    } else {
+      add_child_node $node end left $index $type
+    }
+
+  }
+
+  ######################################################################
+  proc insert_none {node index type sindex} {
+
+    insert_root_none $node $index $type $sindex
 
   }
 
@@ -577,14 +625,16 @@ namespace eval model {
   # Adds the given node contents to the parent node
   proc add_child_node {parent cindex side index type} {
 
-    set new [tree insert $parent $cindex]
+    variable current
+
+    set current [tree insert $parent $cindex]
 
     # Initialize the node
-    tree set $new $side  $index
-    tree set $new type   $type
-    tree set $new hidden 0
+    tree set $current $side  $index
+    tree set $current type   $type
+    tree set $current hidden 0
 
-    return $new
+    return $current
 
   }
 
