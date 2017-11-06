@@ -30,11 +30,8 @@ linewrap
 casesensitive
 {1}
 
-indent
-{\{}
-
-unindent
-{\}}
+indentation
+{{\{ \}}}
 
 reindent {}
 
@@ -42,13 +39,17 @@ icomment {{#}}
 
 lcomments {{^[ \t]*#}}
 
+bcomments {}
+
+nestedcomments {0}
+
 strings {}
 
 keywords
 {
   filepatterns vimsyntax reference embedded matchcharsallowed tabsallowed linewrap
-  casesensitive delimiters indent unindent reindent keywords symbols icomment
-  lcomments bcomments strings numbers punctuation precompile miscellaneous1
+  casesensitive delimiters indentation reindent keywords symbols icomment
+  lcomments embeddedcomments bcomments strings numbers punctuation precompile miscellaneous1
   miscellaneous2 miscellaneous3 highlighter meta readmeta advanced escapes formatting
 }
 
