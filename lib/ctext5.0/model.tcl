@@ -479,7 +479,8 @@ namespace eval model {
     utils::log "============================================="
     utils::log "UPDATE:"
     utils::log "linestart: $linestart, lineend: $lineend, start_index: $start_index, end_index: $end_index"
-    utils::log "elements: $elements"
+    utils::log "elements:  $elements"
+    utils::log "serial:    $serial"
 
     # If we have something to insert into the serial list, do it now
     if {[llength $elements] > 0} {

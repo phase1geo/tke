@@ -262,8 +262,6 @@ namespace eval model {
 
     variable serial
 
-    # utils::log "adjust, from_pos: $from_pos, to_pos: $to_pos, start: $start_index, last_index: $last_index"
-
     lassign $start_index si sin
     lassign $last_index  li lin
 
@@ -299,8 +297,6 @@ namespace eval model {
         incr i
       }
     }
-
-    # utils::log "serial: $serial"
 
   }
 
@@ -530,15 +526,12 @@ namespace eval model {
       return
     }
 
-    catch {
     # If the current node is root, add a new node as a chilid
     if {$node eq "root"} {
       insert_root_$side $node $index $type $sindex
     } else {
       insert_$side $node $index $type $sindex
     }
-    } rc
-    puts "insert rc: $rc"
 
   }
 
@@ -579,6 +572,7 @@ namespace eval model {
   }
 
   ######################################################################
+  # Inserts a new node in the tree as a child of the current node.
   proc insert_left {node index type sindex} {
 
     add_child_node $node end left $index $type
@@ -586,16 +580,34 @@ namespace eval model {
   }
 
   ######################################################################
+  # Inserts the current item to a right side of a node, creating a new
+  # node or finishing an existing node.
   proc insert_right {node index type sindex} {
 
     variable current
 
     if {[tree get $node type] eq $type} {
+
       tree set $node right $index
       set current [tree parent $node]
+
     } else {
+
+      # Check to see if the matching left already exists
+      set tnode $node
+      while {[set tnode [tree parent $tnode]] ne "root"} {
+        if {[tree get $tnode type] eq $type} {
+          tree set $tnode right $index
+          set current [tree parent $tnode]
+          return
+        }
+      }
+
+      # If we didn't find it going up, add the item below it but keep
+      # the current node the current node
       add_child_node $node end right $index $type
       set current $node
+
     }
 
   }
