@@ -205,27 +205,29 @@ namespace eval model {
     if {[tree keyexists $node left]}  { set left  [tree get $node left] }
     if {[tree keyexists $node right]} { set right [tree get $node right] }
 
-    return [format "(%s-%s {%s})%s" [position $left] [position $right] $type $curr]
+    return [format "(%s-%s {%s})%s" [tindex $left] [tindex $right] $type $curr]
 
   }
 
   ######################################################################
-  # Creates an index out of the given position.
-  proc index {pos} {
+  # Creates an model index out of the given text index.
+  proc tindex_to_sindex {pos} {
 
-    split $pos .
+    lassign [split $pos .] row col
+
+    return [list $row [list $col $col]]
 
   }
 
   ######################################################################
   # Returns the text widget position from the given tree index.
-  proc position {index {adjust 0}} {
+  proc nindex_to_tindex {nindex} {
 
-    if {$adjust != 0} {
-      lset index 1 [expr [lindex $index 1] + $adjust]
-    }
+    variable serial
 
-    join $index .
+    lassign [lindex $serial $nindex 2] row cols
+
+    return [list $row.[lindex $cols 0] $row.[expr [lindex $cols 1] + 1]]
 
   }
 
@@ -238,7 +240,7 @@ namespace eval model {
     lassign [split $index .] row col
 
     # We can't escape the first character of a row
-    if {($col == 0) || ([set index [find_serial_index serial [list $row $col]]] == 0)} {
+    if {($col == 0) || ([set index [find_serial_index serial $row.$col]] == 0)} {
       return 0
     }
 
@@ -705,7 +707,7 @@ namespace eval model {
       } else {
         set index [tree get $node right]
       }
-      lappend ranges [position $index] [position $index 1]
+      lappend ranges [tindex $index] [tindex $index 1]
     }
 
     # Destroy the tree
@@ -726,11 +728,29 @@ namespace eval model {
   ######################################################################
   # Finds the lowest level node that contains the given index.  This is
   # meant to be a helper function for a higher level function.
-  proc find_node {index {node root}} {
+  proc find_node_matching {node index size} {
 
     foreach child [tree children $node] {
-      if {![tree keyexists $child left] || [iless [tree get $child left] $index]} {
-        if {[tree keyexists $child right] && [iless $index [tree get $child right]]} {
+      if {[tree keyexists $child right] && ($index <= [tree get $child right])} {
+        if {$index == [tree get $child right]} {
+          return $child
+        } elseif {[tree keyexists $child left] && ($index == [tree get $child left])} {
+          return $child
+        } else {
+          return [find_node_matching $child $index $size]
+        }
+      }
+    }
+
+  }
+
+    } else {
+
+    foreach child [tree children $node] {
+      if {[tree keyexists $child right] && ([tree get $child right] >= $index)} {
+        if {[tree keyexists $child left] && ([tree get $child left] < $index)} {
+        }
+        if {[tree keyexists $child right] && [compare $index [tree get $child right]]} {
           return [find_node $index $child]
         }
       } elseif {[tree get $child left] eq $index} {
@@ -743,14 +763,31 @@ namespace eval model {
   }
 
   ######################################################################
+  # Finds the given node
+  proc find_node {tindex matches} {
+
+    variable serial
+
+    # Get the serial index to search for
+    lassign [find_serial_index serial $tindex] index matches
+
+    if {$matches} {
+      return [find_node_matching root $index [llength $serial]]
+    } else {
+      return [find_node_containing root $index]
+    }
+
+  }
+
+  ######################################################################
   # Returns the depth of the given node.
-  proc get_depth {win pos type} {
+  proc get_depth {win tindex type} {
 
     # Get the tree information
     load_all $win
 
     # Get the node that contains the given index
-    set depth [tree depth [find_match tree [index $pos] $type]]
+    set depth [tree depth [find_match [tindex_to_sindex $tindex] $type]]
 
     # Destroy the tree
     tree destroy
@@ -762,9 +799,12 @@ namespace eval model {
   ######################################################################
   # Returns the node that contains the given index and matches the given
   # type.  If no match was found, we will return the root node.
-  proc find_match {index type} {
+  proc find_match {tindex type} {
 
-    set node [find_node $index]
+    # First, find the location in the serial list
+    lassign [find_serial_index serial $tindex] nindex matches
+
+    set node [find_node $nindex]
 
     while {($node ne "root") && ([tree get $node type] ne $type)} {
       set node [tree parent $node]

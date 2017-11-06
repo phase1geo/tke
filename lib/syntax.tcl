@@ -45,6 +45,7 @@ namespace eval syntax {
     icomment           {}
     lcomments          {}
     bcomments          {}
+    nestedcomments     0
     strings            {}
     keywords           {}
     symbols            {}
