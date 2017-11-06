@@ -48,6 +48,9 @@ namespace eval model {
     # Save changed status
     tsv::set changed $win 0
 
+    # Save debug status
+    tsv::set debug $win 0
+
   }
 
   ######################################################################
@@ -68,9 +71,13 @@ namespace eval model {
   proc load_serial {win} {
 
     variable serial
+    variable debug
 
     # Get the serial list
     set serial [tsv::get serial $win]
+
+    # Get the debug setting
+    set debug [tsv::get debug $win]
 
   }
 
@@ -110,6 +117,17 @@ namespace eval model {
       tsv::set tree $win [tree serialize]
       tree destroy
     }
+
+  }
+
+  ######################################################################
+  # Sets the debug variable and save it for future purposes
+  proc set_debug {win value} {
+
+    variable debug
+
+    # Set and save the debug output level
+    tsv::set debug $win [set debug $value]
 
   }
 
@@ -456,6 +474,7 @@ namespace eval model {
   proc update {tid win linestart lineend elements} {
 
     variable serial
+    variable debug
 
     # Load the serial list from shared memory
     load_serial $win
@@ -463,10 +482,12 @@ namespace eval model {
     set start_index [find_serial_index serial $linestart]
     set end_index   [find_serial_index serial $lineend]
 
-    utils::log "============================================="
-    utils::log "UPDATE:"
-    utils::log "linestart: $linestart, lineend: $lineend, start_index: $start_index, end_index: $end_index"
-    utils::log "elements: $elements"
+    if {$debug} {
+      utils::log "============================================="
+      utils::log "UPDATE:"
+      utils::log "linestart: $linestart, lineend: $lineend, start_index: $start_index, end_index: $end_index"
+      utils::log "elements: $elements"
+    }
 
     # If we have something to insert into the serial list, do it now
     if {[llength $elements] > 0} {
@@ -479,11 +500,10 @@ namespace eval model {
       make_tree $win
     }
 
-    utils::log "serial: $serial"
-    utils::log "---------------------------------------------"
-
-    # Rebuild the model tree
-    # TBD - make_tree $win
+    if {$debug} {
+      utils::log "serial: $serial"
+      utils::log "---------------------------------------------"
+    }
 
   }
 
@@ -494,6 +514,7 @@ namespace eval model {
     variable serial
     variable current
     variable lescape
+    variable debug
 
     # Clear the tree
     ::struct::tree tree
@@ -508,7 +529,9 @@ namespace eval model {
       incr i
     }
 
-    debug_show_tree
+    if {$debug} {
+      debug_show_tree
+    }
 
     save_tree $win
 
@@ -529,7 +552,10 @@ namespace eval model {
     # If the current node is root, add a new node as a chilid
     if {$node eq "root"} {
       insert_root_$side $node $index $type $sindex
-    } else {
+
+    # Otherwise, add the position to the tree unless it is being placed within
+    # a comment/string.
+    } elseif {![tree get $node comstr] || ([tree get $node type] eq $type) || ($side eq "none")} {
       insert_$side $node $index $type $sindex
     }
 
@@ -645,6 +671,7 @@ namespace eval model {
     tree set $current $side  $index
     tree set $current type   $type
     tree set $current hidden 0
+    tree set $current comstr [expr [lsearch [list bcomment lcomment double single btick tdouble tsingle tbtick] [lindex [split $type :] 0]] != -1]
 
     return $current
 
