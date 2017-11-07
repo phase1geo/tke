@@ -17,7 +17,6 @@ ctext::initialize .t
 
 ctext::addHighlightClass    .t keywords "red"
 ctext::addHighlightKeywords .t {proc set variable puts for while if expr return namespace incr list lreplace lindex linsert lassign lset lappend string append foreach switch default break continue llength upvar uplevel after source file package event} class keywords
-ctext::addHighlightKeywords .t {proc set variable puts for while if expr return namespace incr list lreplace lindex linsert lassign lset lappend string append foreach switch default break continue llength upvar uplevel after source file package event} class keywords
 # ctext::setContextPatterns   .t bcomment comment "" {{{/\*} {\*/}}} "grey"
 ctext::setContextPatterns   .t lcomment comment "" {{{^\s*#} {$}} {{;#} {$}}} "grey"
 ctext::setBrackets          .t "" {curly square paren double} "green"
