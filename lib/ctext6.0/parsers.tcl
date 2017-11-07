@@ -165,7 +165,7 @@ namespace eval parsers {
         if {([lindex $i 0] == $startrow) && ([lindex $i 1 0] == ([lindex $indices 0] - 1))} {
           set tags [lreplace $tags end end]
         } else {
-          lappend tags [list escape none [list $startrow $indices] 1]
+          lappend tags [list escape none [list $startrow $indices] 1 {}]
         }
         set start $endpos
       }
@@ -215,7 +215,7 @@ namespace eval parsers {
             lassign $tag type side pos dummy ctx ttag
             if {[set row [lindex $pos 0]] == $lrow} { continue }
             set col [string length [lindex $lines [expr $row - 1]]]
-            lappend tags [list $type right [list $row [list $col $col]] 1 $ctx $ttag]
+            lappend tags [list $type right [list $row [list $col $col]] 1 {} $ctx $ttag]
             set lrow $row
           }
         }
@@ -228,7 +228,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $type $side [list $srow $indices] 1 $ctx $tag]
+          lappend tags [list $type $side [list $srow $indices] 1 {} $ctx $tag]
           set start $endpos
           incr found
         }
@@ -252,7 +252,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list indent $side [list $srow $indices] 0 $ctx]
+          lappend tags [list indent $side [list $srow $indices] 0 {} $ctx]
           set start $endpos
         }
         incr srow
@@ -273,7 +273,7 @@ namespace eval parsers {
         set start 0
         while {[regexp -indices -start $start $pattern $line indices]} {
           set endpos [expr [lindex $indices 1] + 1]
-          lappend tags [list $tag $side [list $srow $indices] 0 $ctx]
+          lappend tags [list $tag $side [list $srow $indices] 0 {} $ctx]
           set start $endpos
         }
         incr srow
@@ -327,7 +327,7 @@ namespace eval parsers {
     # Create the non-overlapping ranges for each of the context tags
     array set ranges {}
     foreach tag $tags {
-      lassign $tag   type side index dummy ctx tag
+      lassign $tag   type side index dummy1 dummy2 ctx tag
       lassign $index row cols
       if {($type ne "escape") && (($ltype ne "escape") || ($lrow != $row) || ($lcol != ([lindex $cols 0] - 1)))} {
         set current [context peek]

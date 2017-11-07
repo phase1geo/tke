@@ -527,7 +527,7 @@ namespace eval model {
 
     foreach item $serial {
       lassign $item type side index
-      insert_position tree $current $side $i $type $index
+      lset serial $i 4 [insert_position tree $current $side $i $type $index]
       incr i
     }
 
@@ -548,17 +548,17 @@ namespace eval model {
 
     # Calculate the starting index and if it is escaped, skip the insertion
     if {$lescape eq [set sindex [list [lindex $sindex 0] [lindex $sindex 1 0]]]} {
-      return
+      return ""
     }
 
     # If the current node is root, add a new node as a chilid
     if {$node eq "root"} {
-      insert_root_$side $node $index $type $sindex
+      return [insert_root_$side $node $index $type $sindex]
 
     # Otherwise, add the position to the tree unless it is being placed within
     # a comment/string.
     } elseif {![tree get $node comstr] || ([tree get $node type] eq $type) || ($side eq "none")} {
-      insert_$side $node $index $type $sindex
+      return [insert_$side $node $index $type $sindex]
     }
 
   }
@@ -566,7 +566,7 @@ namespace eval model {
   ######################################################################
   proc insert_root_left {node index type sindex} {
 
-    add_child_node $node end left $index $type
+    return [add_child_node $node end left $index $type]
 
   }
 
@@ -575,15 +575,17 @@ namespace eval model {
 
     variable current
 
-    add_child_node $node end right $index $type
+    set retval [add_child_node $node end right $index $type]
     set current $node
+
+    return $retval
 
   }
 
   ######################################################################
   proc insert_root_any {node index type sindex} {
 
-    add_child_node $node end left $index $type
+    return [add_child_node $node end left $index $type]
 
   }
 
@@ -597,13 +599,15 @@ namespace eval model {
       set lescape $sindex
     }
 
+    return ""
+
   }
 
   ######################################################################
   # Inserts a new node in the tree as a child of the current node.
   proc insert_left {node index type sindex} {
 
-    add_child_node $node end left $index $type
+    return [add_child_node $node end left $index $type]
 
   }
 
@@ -619,6 +623,8 @@ namespace eval model {
       tree set $node right $index
       set current [tree parent $node]
 
+      return $node
+
     } else {
 
       # Check to see if the matching left already exists
@@ -627,14 +633,16 @@ namespace eval model {
         if {[tree get $tnode type] eq $type} {
           tree set $tnode right $index
           set current [tree parent $tnode]
-          return
+          return $tnode
         }
       }
 
       # If we didn't find it going up, add the item below it but keep
       # the current node the current node
-      add_child_node $node end right $index $type
+      set retval [add_child_node $node end right $index $type]
       set current $node
+
+      return retval
 
     }
 
@@ -648,8 +656,9 @@ namespace eval model {
     if {[tree get $node type] eq $type} {
       tree set $node right $index
       set current [tree parent $node]
+      return $node
     } else {
-      add_child_node $node end left $index $type
+      return [add_child_node $node end left $index $type]
     }
 
   }
@@ -657,7 +666,7 @@ namespace eval model {
   ######################################################################
   proc insert_none {node index type sindex} {
 
-    insert_root_none $node $index $type $sindex
+    return [insert_root_none $node $index $type $sindex]
 
   }
 
@@ -726,43 +735,6 @@ namespace eval model {
   }
 
   ######################################################################
-  # Finds the lowest level node that contains the given index.  This is
-  # meant to be a helper function for a higher level function.
-  proc find_node_matching {node index size} {
-
-    foreach child [tree children $node] {
-      if {[tree keyexists $child right] && ($index <= [tree get $child right])} {
-        if {$index == [tree get $child right]} {
-          return $child
-        } elseif {[tree keyexists $child left] && ($index == [tree get $child left])} {
-          return $child
-        } else {
-          return [find_node_matching $child $index $size]
-        }
-      }
-    }
-
-  }
-
-    } else {
-
-    foreach child [tree children $node] {
-      if {[tree keyexists $child right] && ([tree get $child right] >= $index)} {
-        if {[tree keyexists $child left] && ([tree get $child left] < $index)} {
-        }
-        if {[tree keyexists $child right] && [compare $index [tree get $child right]]} {
-          return [find_node $index $child]
-        }
-      } elseif {[tree get $child left] eq $index} {
-        return $child
-      }
-    }
-
-    return $node
-
-  }
-
-  ######################################################################
   # Finds the given node
   proc find_node {tindex matches} {
 
@@ -771,8 +743,12 @@ namespace eval model {
     # Get the serial index to search for
     lassign [find_serial_index serial $tindex] index matches
 
+    if {[set node [lindex $serial $index 4]] eq ""} {
+      set node
+    }
+
     if {$matches} {
-      return [find_node_matching root $index [llength $serial]]
+      return $node
     } else {
       return [find_node_containing root $index]
     }
