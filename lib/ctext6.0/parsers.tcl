@@ -212,7 +212,7 @@ namespace eval parsers {
         if {$found > 0} {
           set lrow 0
           foreach tag [lrange $tags end-[expr $found - 1] end] {
-            lassign $tag type side pos dummy ctx ttag
+            lassign $tag type side pos dummy1 dummy2 ctx ttag
             if {[set row [lindex $pos 0]] == $lrow} { continue }
             set col [string length [lindex $lines [expr $row - 1]]]
             lappend tags [list $type right [list $row [list $col $col]] 1 {} $ctx $ttag]

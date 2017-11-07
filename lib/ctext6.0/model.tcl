@@ -153,7 +153,7 @@ namespace eval model {
       set str [string repeat { } [expr ([tree depth $node] * $width) + $prefix_len]]
     }
 
-    append str [format "%-${width}s" [node_string tree $node]]
+    append str [format "%-${width}s" [node_string $node]]
 
     if {[tree isleaf $node]} {
       append str "\n"
@@ -185,7 +185,7 @@ namespace eval model {
 
   ######################################################################
   # Returns a string version of the given node for display purposes.
-  proc node_string {tree node} {
+  proc node_string {node} {
 
     variable current
 
@@ -202,10 +202,10 @@ namespace eval model {
     set type  [tree get $node type]
     set curr  [expr {($node eq $current) ? "*" : ""}]
 
-    if {[tree keyexists $node left]}  { set left  [tree get $node left] }
-    if {[tree keyexists $node right]} { set right [tree get $node right] }
+    if {[tree keyexists $node left]}  { set left  [lindex [nindex_to_tindices [tree get $node left]] 0] }
+    if {[tree keyexists $node right]} { set right [lindex [nindex_to_tindices [tree get $node right]] 0] }
 
-    return [format "(%s-%s {%s})%s" [tindex $left] [tindex $right] $type $curr]
+    return [format "(%s-%s {%s})%s" $left $right $type $curr]
 
   }
 
@@ -533,10 +533,8 @@ namespace eval model {
       lassign $item type side index
       set node [insert_position tree $current $side $i $type $index]
       lset serial $i 4 $node
-      utils::log "i: $i, node: $node"
       incr i
     }
-    utils::log "serial: $serial"
 
     if {$debug} {
       debug_show_tree

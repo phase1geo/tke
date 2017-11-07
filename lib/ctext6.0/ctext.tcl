@@ -1079,11 +1079,7 @@ namespace eval ctext {
 
       # Perform the highlight
       if {[llength $ranges] > 0} {
-        if {[highlightAll $win $ranges $insert 0 0]} {
-          checkAllBrackets $win
-        } else {
-          checkAllBrackets $win $changed
-        }
+        highlightAll $win $ranges $insert 0 0
       }
 
       set data($win,config,undo_hist) [lreplace $data($win,config,undo_hist) end-[expr $i - 1] end]
@@ -1166,11 +1162,7 @@ namespace eval ctext {
 
       # Highlight the code
       if {[llength $ranges] > 0} {
-        if {[highlightAll $win $ranges $insert 0 0]} {
-          checkAllBrackets $win
-        } else {
-          checkAllBrackets $win $changed
-        }
+        highlightAll $win $ranges $insert 0 0
       }
 
       set data($win,config,redo_hist) [lreplace $data($win,config,redo_hist) end-[expr $i - 1] end]
@@ -1427,11 +1419,8 @@ namespace eval ctext {
       tpool::wait $tpool $ids ids
     }
 
-    if {[highlightAll $win $ranges 0 1]} {
-      checkAllBrackets $win
-    }
-    modified $win 1 [list delete $ranges $moddata]
-
+    highlightAll $win $ranges 0 1
+    modified     $win 1 [list delete $ranges $moddata]
     event generate $win.t <<CursorChanged>>
 
   }
@@ -1747,11 +1736,15 @@ namespace eval ctext {
         lappend ranges  $startPos [$win._t index "$startPos+${chars}c"]
       }
     } else {
-      set cursors   [$win._t index insert]
-      set insertPos [$win._t index $insertPos]
+      set cursors [$win._t index insert]
+      if {$insertPos eq "end"} {
+        set insPos [$win._t index $insertPos-1c]
+      } else {
+        set insPos [$win._t index $insertPos]
+      }
       $win._t insert $insertPos $content $tags
-      lappend ranges  $insertPos [$win._t index "$insertPos+${chars}c"]
-      lappend inserts $insertPos
+      lappend ranges  $insPos [$win._t index "$insPos+${chars}c"]
+      lappend inserts $insPos
     }
 
     lappend ids [tpool::post $tpool [list model::insert $win $ranges]]
@@ -1762,11 +1755,8 @@ namespace eval ctext {
     }
 
     # Highlight text and bracket auditing
-    if {[highlightAll $win $ranges 1 1]} {
-      checkAllBrackets $win
-    }
-
-    modified $win 1 [list insert $ranges $moddata]
+    highlightAll $win $ranges 1 1
+    modified     $win 1 [list insert $ranges $moddata]
     event generate $win.t <<CursorChanged>>
 
   }
@@ -1775,8 +1765,6 @@ namespace eval ctext {
   proc command_replace {win args} {
 
     variable data
-
-    puts "In command_replace, args: $args"
 
     if {[llength $args] < 3} {
       return -code error "please use at least 3 arguments to $win replace"
@@ -1810,16 +1798,8 @@ namespace eval ctext {
 
     set_rmargin $win $startPos "$startPos+${datlen}c"
 
-    set comstr [highlightAll $win [list $lineStart $lineEnd] 1 1]
-    if {$comstr == 2} {
-      checkAllBrackets $win
-    } elseif {$comstr == 1} {
-      checkAllBrackets $win [$win._t get $startPos $lineEnd]
-    } else {
-      checkAllBrackets $win "$deldata$dat"
-    }
-    modified $win 1 [list replace [list $startPos $endPos] $moddata]
-
+    highlightAll $win [list $lineStart $lineEnd] 1 1
+    modified     $win 1 [list replace [list $startPos $endPos] $moddata]
     event generate $win.t <<CursorChanged>>
 
   }
@@ -2787,7 +2767,7 @@ namespace eval ctext {
     array set btag_types {
       curly  {curly  left {\{} "%s" curly  right {\}} "%s"}
       square {square left {\[} "%s" square right {\]} "%s"}
-      paren  {square left {\(} "%s" paren  right {\)} "%s"}
+      paren  {paren  left {\(} "%s" paren  right {\)} "%s"}
       angled {angled left <    "%s" angled right >    "%s"}
     }
     array set ctag_types {
@@ -2843,8 +2823,6 @@ namespace eval ctext {
     highlight $win $lineranges $ins $block
 
     event generate $win.t <<StringCommentChanged>>
-
-    return 0  ;# TBD
 
   }
 
@@ -3112,7 +3090,7 @@ namespace eval ctext {
   # Renders the given tag with the specified ranges in the given widget.
   proc render {win tag ranges clear_all} {
 
-    puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
+    # puts "In render, tag: $tag, ranges: $ranges, clear_all: $clear_all"
 
     if {$clear_all} {
       $win._t tag remove $tag 1.0 end
