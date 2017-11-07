@@ -2,7 +2,7 @@ lappend auto_path [pwd]
 
 package require ctext 6.0
 
-pack [ctext .t -matchaudit 1 -xscrollcommand {.hb set} -yscrollcommand {.vb set}] -fill both -expand yes
+pack [ctext .t -matchaudit 1 -wrap none -xscrollcommand {.hb set} -yscrollcommand {.vb set}] -fill both -expand yes
 ttk::scrollbar .vb -orient vertical   -command {.t yview}
 ttk::scrollbar .hb -orient horizontal -command {.t xview}
 
@@ -22,6 +22,9 @@ ctext::setContextPatterns   .t lcomment comment "" {{{^\s*#} {$}} {{;#} {$}}} "g
 ctext::setBrackets          .t "" {curly square paren double} "green"
 
 source model.tcl
+source utils.tcl
+
+set utils::main_tid [thread::id]
 
 proc show_serial {} {
   puts [tsv::get serial .t]
