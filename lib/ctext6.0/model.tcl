@@ -221,7 +221,7 @@ namespace eval model {
 
   ######################################################################
   # Returns the text widget position from the given tree index.
-  proc nindex_to_tindex {nindex} {
+  proc nindex_to_tindices {nindex} {
 
     variable serial
 
@@ -483,6 +483,7 @@ namespace eval model {
 
     set start_index [find_serial_index serial $linestart]
     set end_index   [find_serial_index serial $lineend]
+    set updated     0
 
     if {$debug} {
       utils::log "============================================="
@@ -498,14 +499,17 @@ namespace eval model {
       } else {
         set serial [linsert $serial[set $serial {}] [lindex $start_index 0] {*}$elements]
       }
+      make_tree   $win
       save_serial $win
-      make_tree $win
+      set updated 1
     }
 
     if {$debug} {
       utils::log "serial: $serial"
       utils::log "---------------------------------------------"
     }
+    
+    return $updated
 
   }
 
@@ -527,9 +531,12 @@ namespace eval model {
 
     foreach item $serial {
       lassign $item type side index
-      lset serial $i 4 [insert_position tree $current $side $i $type $index]
+      set node [insert_position tree $current $side $i $type $index]
+      lset serial $i 4 $node
+      utils::log "i: $i, node: $node"
       incr i
     }
+    utils::log "serial: $serial"
 
     if {$debug} {
       debug_show_tree
@@ -642,7 +649,7 @@ namespace eval model {
       set retval [add_child_node $node end right $index $type]
       set current $node
 
-      return retval
+      return $retval
 
     }
 
@@ -705,6 +712,8 @@ namespace eval model {
   # Gets an index list of all nodes in the tree that are not matched.
   proc get_mismatched {win} {
 
+    variable serial
+    
     # Get the tree information
     load_all $win
 
@@ -712,11 +721,11 @@ namespace eval model {
     set ranges [list]
     foreach node [tree descendants root filter model::mismatched] {
       if {[tree keyexists $node left]} {
-        set index [tree get $node left]
+        set nindex [tree get $node left]
       } else {
-        set index [tree get $node right]
+        set nindex [tree get $node right]
       }
-      lappend ranges [tindex $index] [tindex $index 1]
+      lappend ranges {*}[nindex_to_tindices $nindex]
     }
 
     # Destroy the tree
@@ -735,35 +744,14 @@ namespace eval model {
   }
 
   ######################################################################
-  # Finds the given node
-  proc find_node {tindex matches} {
-
-    variable serial
-
-    # Get the serial index to search for
-    lassign [find_serial_index serial $tindex] index matches
-
-    if {[set node [lindex $serial $index 4]] eq ""} {
-      set node
-    }
-
-    if {$matches} {
-      return $node
-    } else {
-      return [find_node_containing root $index]
-    }
-
-  }
-
-  ######################################################################
   # Returns the depth of the given node.
-  proc get_depth {win tindex type} {
+  proc get_depth {win tindex {pattern *}} {
 
     # Get the tree information
     load_all $win
 
     # Get the node that contains the given index
-    set depth [tree depth [find_match [tindex_to_sindex $tindex] $type]]
+    set depth [tree depth [find_match $tindex $pattern]]
 
     # Destroy the tree
     tree destroy
@@ -775,18 +763,58 @@ namespace eval model {
   ######################################################################
   # Returns the node that contains the given index and matches the given
   # type.  If no match was found, we will return the root node.
-  proc find_match {tindex type} {
+  proc find_match {tindex pattern} {
 
-    # First, find the location in the serial list
-    lassign [find_serial_index serial $tindex] nindex matches
+    # Find the node that contains the text index
+    set node [find_node $tindex]
 
-    set node [find_node $nindex]
-
-    while {($node ne "root") && ([tree get $node type] ne $type)} {
+    # Search upwards in the tree looking for a node with a matching type
+    while {($node ne "root") && ![string match $pattern [tree get $node type]]} {
       set node [tree parent $node]
     }
 
     return $node
+
+  }
+
+  ######################################################################
+  # Finds the given node
+  proc find_node {tindex} {
+
+    variable serial
+
+    # Get the serial index to search for
+    lassign [find_serial_index serial $tindex] index matches
+    
+    # Get the node on the right
+    if {[set b [lindex $serial $index 4]] eq ""} {
+      if {[set i [lsearch -start $index -index 4 -not $serial ""]] == -1} {
+        return "root"
+      }
+      set b [lindex $serial $i 4]
+
+    # If the node is valid and we exactly match, return the node immediately
+    } elseif {$matches} {
+      return $b
+    }
+
+    # Find the closest on the left
+    set i [expr $index - 1]
+    while {($i >= 0) && ([lindex $serial $i 4] eq "")} {
+      incr i -1
+    }
+    if {$i == -1} {
+      return "root"
+    }
+    set a [lindex $serial $i 4]
+
+    if {($a eq $b) || ([tree parent $b] eq $a)} {
+      return $a
+    } elseif {[tree parent $a] eq $b} {
+      return $b
+    } else {
+      return [tree parent $a]
+    }
 
   }
 

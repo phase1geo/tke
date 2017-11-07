@@ -44,9 +44,9 @@ namespace eval parsers {
 
   ######################################################################
   # Renders the given tag with the specified ranges.
-  proc render {tid txt tag ranges restricted} {
+  proc render {tid txt tag ranges clear_all} {
 
-    thread::send -async $tid [list ctext::render $txt $tag $ranges $restricted]
+    thread::send -async $tid [list ctext::render $txt $tag $ranges $clear_all]
 
   }
 
@@ -306,7 +306,12 @@ namespace eval parsers {
     brackets    $txt $str $srow tags
 
     # Update the model
-    model::update $tid $txt $linestart $lineend [lsort -dictionary -index 2 $tags]
+    if {[model::update $tid $txt $linestart $lineend [lsort -dictionary -index 2 $tags]]} {
+    
+      # Highlight mismatching brackets
+      render $tid $txt missing [model::get_mismatched $txt] 1
+      
+    }
 
   }
 

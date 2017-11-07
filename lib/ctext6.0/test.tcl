@@ -2,7 +2,7 @@ lappend auto_path [pwd]
 
 package require ctext 6.0
 
-pack [ctext .t] -fill both -expand yes
+pack [ctext .t -matchaudit 1] -fill both -expand yes
 
 # Initialize the ctext widget
 ctext::initialize .t
