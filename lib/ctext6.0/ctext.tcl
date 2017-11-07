@@ -205,6 +205,9 @@ namespace eval ctext {
     if {$data($win,config,-matchchar)} {
       $win.t tag configure matchchar -foreground $data($win,config,-matchchar_fg) -background $data($win,config,-matchchar_bg)
     }
+    if {$data($win,config,-matchaudit)} {
+      $win.t tag configure missing -background $data($win,config,-matchaudit_bg)
+    }
 
     # Initialize shared memory
     tsv::set contexts $win [list]
@@ -612,24 +615,21 @@ namespace eval ctext {
 
     lappend argTable {0 false no} -matchaudit {
       set data($win,config,-matchaudit) 0
-      foreach type [list curly square paren angled] {
-        catch { $win tag remove missing:$type 1.0 end }
-      }
+      catch { $win tag remove missing 1.0 end }
       break
     }
 
     lappend argTable {1 true yes} -matchaudit {
       set data($win,config,-matchaudit) 1
-      checkAllBrackets $win
+      $win tag configure missing -background $data($win,config,-matchaudit_bg)
+      render $win missing [model::get_mismatched $win] 0
       break
     }
 
     lappend argTable {any} -matchaudit_bg {
       set data($win,config,-matchaudit_bg) $value
-      foreach type [list curly square paren angled] {
-        if {[lsearch [$win tag names] missing:$type] != -1} {
-          $win tag configure missing:$type -background $value
-        }
+      if {[lsearch [$win tag names] missing] != -1} {
+        $win tag configure missing -background $value
       }
       break
     }
@@ -2374,9 +2374,7 @@ namespace eval ctext {
     catch { array unset data $win,config,matchChar,$lang,* }
 
     # Remove the brackets
-    foreach type [list curly square paren angled] {
-      catch { $win._t tag delete missing:$type }
-    }
+    catch { $win._t tag delete missing }
 
     # Set the matchChars
     foreach matchChar $matchChars {
@@ -2384,11 +2382,7 @@ namespace eval ctext {
     }
 
     # Set the bracket auditing tags
-    foreach matchChar [list curly square paren angled] {
-      if {[info exists data($win,config,matchChar,$lang,$matchChar)]} {
-        $win._t tag configure missing:$matchChar -background $data($win,config,-matchaudit_bg)
-      }
-    }
+    $win._t tag configure missing -background $data($win,config,-matchaudit_bg)
 
   }
 
@@ -2585,6 +2579,8 @@ namespace eval ctext {
   proc checkAllBrackets {win {str ""}} {
 
     variable data
+
+    return
 
     # If the mismcatching char option is cleared, don't continue
     if {!$data($win,config,-matchaudit)} {
