@@ -2724,8 +2724,6 @@ namespace eval ctext {
         incr i
       }
 
-      puts "tags: $tags"
-
       # Save the context data
       tsv::set contexts $win $tags
 

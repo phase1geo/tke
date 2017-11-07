@@ -297,8 +297,8 @@ namespace eval parsers {
     # If we have any escapes or contexts found in the given string, re-render the contexts
     if {[llength $tags] || [tsv::get changed $txt]} {
       tsv::set changed $txt 0
-      render_contexts $tid $txt $linestart $lineend $tags
-      # tpool::post $tpool [list parsers::render_contexts $tid $txt $linestart $lineend $tags]
+      # render_contexts $tid $txt [tsv::get serial $txt] $linestart $lineend $tags
+      tpool::post $tpool [list parsers::render_contexts $tid $txt [tsv::get serial $txt] $linestart $lineend $tags]
     }
 
     # Add indentation and bracket markers to the tags list
@@ -318,10 +318,10 @@ namespace eval parsers {
   ######################################################################
   # Handles rendering any contexts that we have (i.e., strings, comments,
   # embedded language blocks, etc.)
-  proc render_contexts {tid txt linestart lineend tags} {
+  proc render_contexts {tid txt serial linestart lineend tags} {
 
     # Get the list of context tags to render
-    model::get_context_tags $txt $linestart $lineend tags
+    model::get_context_tags serial $linestart $lineend tags
 
     # Create the context stack structure
     ::struct::stack context

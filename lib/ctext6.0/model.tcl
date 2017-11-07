@@ -448,13 +448,10 @@ namespace eval model {
   ######################################################################
   # Temporarily merge the current serial list with the tags
   # so that we can figure out which contexts to serially highlight
-  proc get_context_tags {txt linestart lineend ptags} {
+  proc get_context_tags {pserial linestart lineend ptags} {
 
-    variable serial
-
-    upvar $ptags tags
-
-    load_serial $txt
+    upvar $pserial serial
+    upvar $ptags   tags
 
     set ctags       [lsearch -all -inline -index 3 -exact $serial 1]
     set start_index [find_serial_index ctags $linestart]
@@ -776,7 +773,8 @@ namespace eval model {
   }
 
   ######################################################################
-  # Finds the given node
+  # Finds the node in the tree which contains the given text widgets index.
+  # If the index is not within a node range, we will return the root node.
   proc find_node {tindex} {
 
     variable serial
