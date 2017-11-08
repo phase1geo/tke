@@ -286,9 +286,6 @@ namespace eval parsers {
   # Store all file markers in a model for fast processing.
   proc markers {tpool tid txt str linestart lineend} {
 
-    utils::log -nonewline "markers: "
-    utils::log [time {
-
     lassign [split $linestart .] srow scol
 
     set tags [list]
@@ -314,8 +311,6 @@ namespace eval parsers {
       render_mismatched $tid $txt
       
     }
-
-    }]
 
   }
 
